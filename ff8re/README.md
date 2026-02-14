@@ -70,6 +70,9 @@ python -m ff8re run ff8re/tests/tier1_layout/
 # Run a suite with before_each hooks
 python -m ff8re run ff8re/tests/suites/GF_BETWEEN_HOOKS_001.suite.yaml
 
+# Replay only failed-or-missing suite scenarios from prior evidence
+python -m ff8re run --replay --evidence-dir evidence ff8re/tests/suites/GF_BETWEEN_HOOKS_001.suite.yaml
+
 # Keep breakpoints after cleanup (for manual IDA debugging)
 python -m ff8re run --keep-breakpoints ff8re/tests/tier3_inject/GF_IFRIT_001.yaml
 
@@ -228,6 +231,22 @@ before_each:
 The `before_each` actions run before each hypothesis.
 Set `fields.resume_execution: true` on `wait` to force debugger resume during
 the wait window (useful to let combat state settle before next injection).
+
+When running suites, `before_each` hooks are logged to console but are not
+persisted as standalone evidence JSON files.
+
+### Replay mode for suites
+
+Use `--replay` with `--evidence-dir` to rerun only scenarios that previously:
+
+- produced `deterministic_result: FAIL`, or
+- have no prior evidence JSON (for aborted or missing runs).
+
+Example:
+
+```bash
+python -m ff8re run --replay --evidence-dir evidence ff8re/tests/suites/GF_BETWEEN_HOOKS_001.suite.yaml
+```
 
 ## Hypothesis catalog
 

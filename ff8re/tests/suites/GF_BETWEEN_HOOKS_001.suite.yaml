@@ -5,14 +5,21 @@ hypotheses:
   - "ff8re/tests/tier3_inject/GF_QUEZACOTL_001.yaml"
   - "ff8re/tests/tier3_inject/GF_SHIVA_001.yaml"
   - "ff8re/tests/tier3_inject/GF_IFRIT_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_LEVIATHAN_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_BROTHERS_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_ALEXANDER_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_BAHAMUT_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_TONBERRY_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_EDEN_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_CACTUAR_001.yaml"
 
 before_each:
   - action: set_enemy_hp_all_10000
     label: "reseed_enemy_hp"
     fields:
-      hp: 10000
+      hp: 1000000
   - action: wait
     label: "cooldown_between_hypotheses"
-    timeout_ms: 15000
+    timeout_ms: 30000
     fields:
       resume_execution: true

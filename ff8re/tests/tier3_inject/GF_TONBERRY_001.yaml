@@ -1,0 +1,248 @@
+# GF_TONBERRY_001: Inject a GF Tonberry command and validate damage hypothesis
+#
+# Tier 3 -- Active injection (write memory, observe effects).
+# Family: Atypical (low confidence static chain; tick/counter unresolved).
+#
+# Command injection values (HYPOTHESIZED):
+#   - command_id  = 0x03 for GF (confirmed globally)
+#   - command_arg = 0x4E for Tonberry (pattern: 0x40 + GF index 14)
+#   - target_mask = 0x8008 (confirmed for Ifrit; treated as shared GF default)
+#
+# Hypothesized raw pending entry bytes: 08 80 00 03 4E 00 00 01
+
+id: "GF_TONBERRY_001"
+title: "Inject GF Tonberry pending action and validate invocation chain"
+domain: "gf_invocation"
+confidence_target: "medium"
+
+references:
+  - "tech/battle/G-Force/domain_gf_090tonberry_invocation.md"
+  - "tech/battle/G-Force/domain_gf_batch_index.md"
+  - "tech/battle/G-Force/domain_gf_batch_inventory.json"
+  - "tech/domain_battle_command_menu.md"
+  - "ai-prompt/gf_hypothesis_from_documentation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  PENDING_STRIDE: 0x08
+  GF_CINEMATIC_TICK: 0x50B2A0
+  GF_CALLBACK_PTR: 0x21DFEC4
+
+  TONBERRY_ENTRY: 0x762360
+  TONBERRY_INIT: 0x8DC540
+
+  TONBERRY_EXTRA_PTR_A: 0x1D96AAC
+  TONBERRY_EXTRA_PTR_B: 0x1D99A50
+
+  PENDING_WRITE: 0x484D20
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION_SELECT: 0x485460
+  RESOLVE_SPECIAL: 0x485160
+
+  RESOLVE_AND_APPLY: 0x48FE20
+  COMPUTE_DAMAGE: 0x4922B0
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+  UPDATE_DAMAGE: 0x48EF80
+
+  GF_COMMAND_ID: 0x03
+  TONBERRY_GF_INDEX: 0x4E
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_slot
+    label: "target_slot3_before"
+    slot: 3
+  - action: snapshot_slot
+    label: "target_slot4_before"
+    slot: 4
+  - action: snapshot_slot
+    label: "target_slot5_before"
+    slot: 5
+  - action: snapshot_memory
+    label: "callback_ptr_before"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+  - action: set_breakpoint
+    address: "TONBERRY_ENTRY"
+    label: "bp_tonberry_entry"
+  - action: set_breakpoint
+    address: "TONBERRY_INIT"
+    label: "bp_tonberry_init"
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "ARBITRATION_SELECT"
+    label: "bp_arbitration"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x4E
+      active: 1
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+  - action: read_registers
+    label: "regs_at_transfer"
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until:
+      - "bp_gf_cinematic"
+      - "bp_tonberry_entry"
+      - "bp_tonberry_init"
+
+observe:
+  - action: snapshot_memory
+    label: "callback_ptr_at_cinematic_entry"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+  - action: delete_breakpoint
+    label: "bp_gf_cinematic"
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_entry"
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_init"
+  - action: snapshot_memory
+    label: "callback_ptr_during"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+  - action: snapshot_memory
+    label: "tonberry_extra_ptr_a"
+    address: "TONBERRY_EXTRA_PTR_A"
+    size: 4
+    type: u32
+  - action: snapshot_memory
+    label: "tonberry_extra_ptr_b"
+    address: "TONBERRY_EXTRA_PTR_B"
+    size: 4
+    type: u32
+  - action: delete_breakpoint
+    label: "bp_tonberry_entry"
+  - action: delete_breakpoint
+    label: "bp_tonberry_init"
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_and_apply"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_and_apply", "bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_damage"
+  - action: read_registers
+    label: "regs_at_damage"
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply"
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: check_breakpoint_hit
+    label: "bp_apply_damage"
+    expect: hit
+  - action: read_registers
+    label: "regs_at_apply_damage"
+  - action: read_stacktrace
+    label: "stacktrace_at_apply_damage"
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
+  - action: sync_to_battle_tick
+    label: "sync_post_damage"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "target_slot3_after"
+    slot: 3
+  - action: snapshot_slot
+    label: "target_slot4_after"
+    slot: 4
+  - action: snapshot_slot
+    label: "target_slot5_after"
+    slot: 5
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: any_of
+    label: "tonberry_invocation_marker"
+    checks:
+      - check: breakpoint_was_hit
+        label: "bp_tonberry_entry"
+      - check: breakpoint_was_hit
+        label: "bp_tonberry_init"
+      - check: breakpoint_was_hit
+        label: "bp_resolve_and_apply"
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+  - check: any_of
+    label: "any_enemy_hp_changed"
+    checks:
+      - check: value_changed
+        before: "target_slot3_before"
+        after: "target_slot3_after"
+      - check: value_changed
+        before: "target_slot4_before"
+        after: "target_slot4_after"
+      - check: value_changed
+        before: "target_slot5_before"
+        after: "target_slot5_after"
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze this GF Tonberry hypothesis evidence.
+
+  Hypothesis:
+  - Injecting command_id=0x03 with command_arg=0x4E routes through Tonberry's
+    atypical invocation path and eventually reaches shared damage application.
+  - Because tick/counter are unresolved in static docs, use entry/init and
+    damage-path evidence to evaluate confidence.
+
+  Evidence:
+  {evidence_json}
+
+  Determine:
+  1. Was pending action consumed?
+  2. Were Tonberry invocation markers observed (entry/init)?
+  3. Did the shared damage path fire and reach bp_apply_damage?
+  4. Did any enemy HP change?
+  5. Is command_arg=0x4E still plausible, or should manual capture be next?

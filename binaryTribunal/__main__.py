@@ -14,6 +14,7 @@ Or directly for engine-only tests (no domain actions):
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 from typing import Callable
@@ -48,6 +49,39 @@ def _resolve_test_path(raw: str, search_dirs: list[Path] | None = None) -> Path:
     return p  # return as-is; will fail in loader with a clear error
 
 
+def _load_latest_evidence_results(evidence_dir: Path) -> dict[str, str]:
+    """Load latest deterministic result by test_id from evidence JSON files."""
+    results: dict[str, str] = {}
+    newest_mtime: dict[str, float] = {}
+    if not evidence_dir.exists() or not evidence_dir.is_dir():
+        return results
+
+    for path in evidence_dir.glob("*.json"):
+        if not path.is_file():
+            continue
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+
+        test_id = raw.get("test_id")
+        result = raw.get("deterministic_result")
+        if not isinstance(test_id, str) or not test_id:
+            continue
+        if test_id.endswith("__before_each"):
+            continue
+        if not isinstance(result, str) or not result:
+            continue
+
+        mtime = path.stat().st_mtime
+        prev = newest_mtime.get(test_id, -1.0)
+        if mtime >= prev:
+            newest_mtime[test_id] = mtime
+            results[test_id] = result
+
+    return results
+
+
 def cmd_run(
     args: argparse.Namespace,
     *,
@@ -55,6 +89,15 @@ def cmd_run(
     search_dirs: list[Path] | None = None,
 ) -> int:
     """Run one or more hypothesis YAML files."""
+    replay_mode = bool(getattr(args, "replay", False))
+    evidence_dir = Path(args.evidence_dir) if args.evidence_dir else None
+    replay_index: dict[str, str] = {}
+    if replay_mode:
+        if evidence_dir is None:
+            print("ERROR: --replay requires --evidence-dir", file=sys.stderr)
+            return 1
+        replay_index = _load_latest_evidence_results(evidence_dir)
+
     mcp = McpClient(
         base_url=args.mcp_url,
         timeout=args.timeout,
@@ -78,8 +121,8 @@ def cmd_run(
             for hyp in load_hypotheses_from_dir(path):
                 plan.append({
                     "hypothesis": hyp,
-                    "between_steps": [],
-                    "between_constants": {},
+                    "before_steps": [],
+                    "before_constants": {},
                 })
         elif path.is_file():
             if is_suite_file(path):
@@ -93,6 +136,8 @@ def cmd_run(
                     print(f"ERROR: suite {path} has no hypotheses", file=sys.stderr)
                     return 1
 
+                suite_total = len(resolved)
+                suite_selected = 0
                 for i, hyp_path in enumerate(resolved):
                     if not hyp_path.exists() or not hyp_path.is_file():
                         print(
@@ -102,11 +147,24 @@ def cmd_run(
                         )
                         return 1
                     hyp = load_hypothesis(hyp_path)
+                    if replay_mode:
+                        prior = replay_index.get(hyp.id)
+                        # Replay failed runs and scenarios with absent evidence.
+                        if prior not in (None, "FAIL"):
+                            continue
+                    suite_selected += 1
                     plan.append({
                         "hypothesis": hyp,
                         "before_steps": suite.before_each,
                         "before_constants": suite.constants,
                     })
+                if replay_mode:
+                    suite_skipped = suite_total - suite_selected
+                    print(
+                        f"Replay filter [{path.name}]: "
+                        f"selected={suite_selected}, skipped={suite_skipped}, "
+                        "rule=(FAIL or missing evidence)"
+                    )
             else:
                 plan.append({
                     "hypothesis": load_hypothesis(path),
@@ -157,9 +215,6 @@ def cmd_run(
 
             for line in hook_evidence.raw_log:
                 print(line)
-            if args.evidence_dir:
-                hook_path = hook_evidence.write_json(args.evidence_dir)
-                print(f"  Hook evidence: {hook_path}")
             print()
 
         print(f"--- {hyp.id}: {hyp.title} ---")
@@ -227,10 +282,23 @@ def build_parser(
         "targets", nargs="+",
         help="YAML files or directories of YAML files to execute")
     run_parser.add_argument(
+        "--evidence-dir",
+        type=str,
+        default=argparse.SUPPRESS,
+        help=("Directory to write evidence JSON files. "
+              "Can be provided before or after 'run'."),
+    )
+    run_parser.add_argument(
         "--keep-breakpoints",
         action="store_true",
         help=("Do not delete breakpoints during cleanup phase. "
               "Useful for manual post-run debugging in IDA."),
+    )
+    run_parser.add_argument(
+        "--replay",
+        action="store_true",
+        help=("Replay only failed-or-missing suite hypotheses based on prior "
+              "evidence in --evidence-dir."),
     )
 
     return parser
