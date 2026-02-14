@@ -48,15 +48,18 @@
     "entry_name": "GF_185Shiva_InvokeSummonScript",
     "init_name": "GF_185Shiva_InvokeSummonScript",
     "init_addr": "0x5c0d50",
-    "tick_name": "au_re_BdlinkTask_5",
+    "tick_name": "GF_185Shiva_SequenceTick",
     "tick_addr": "0x5c7f50",
     "helper_names": [],
     "counter_increment_ea": "0x5c7f8b",
     "completion_ea": null,
     "family": "FamilyA",
     "confidence": "high",
-    "confidence_score": 90,
-    "notes": []
+    "confidence_score": 92,
+    "notes": [
+      "GF_SHIVA_001 PASS: pending transfer + cinematic + tick/counter + resolve/apply-damage confirmed.",
+      "command_arg=0x41 runtime-confirmed via injected_pending_readback and action globals."
+    ]
   },
   {
     "name": "191Doomtrain",
@@ -123,46 +126,52 @@
   {
     "name": "Quezacotl",
     "entry_addr": "0x6c3550",
-    "entry_name": "GF_Quezacotl_InvokeSummonScript",
-    "init_name": "GF_Quezacotl_InvokeSummonScript",
-    "init_addr": "0x6c3550",
-    "tick_name": null,
-    "tick_addr": null,
-    "helper_names": [],
-    "counter_increment_ea": null,
-    "completion_ea": null,
-    "family": "Atypical",
-    "confidence": "low",
-    "confidence_score": 45,
+    "entry_name": "GF_116Quezacotl_InvokeSummonScript",
+    "init_name": "GF_116Quezacotl_InitSummonContext",
+    "init_addr": "0x6c3640",
+    "tick_name": "GF_116Quezacotl_SequenceTaskDriver",
+    "tick_addr": "0x6c3760",
+    "helper_names": [
+      "GF_116Quezacotl_ChargeTimelineTask",
+      "GF_116Quezacotl_FrameTick"
+    ],
+    "counter_increment_ea": "0x6c3932",
+    "completion_ea": "0x6c3931",
+    "family": "FamilyA",
+    "confidence": "high",
+    "confidence_score": 96,
     "notes": [
-      "Tick function unresolved from entry."
+      "Live debugger stop was on GF_116Quezacotl_InvokeSummonScript; full static chain resolved through init/task-driver/charge timeline/frame tick.",
+      "Additional completion progression mapped at charge timeline (inc 0x6c51f2 / return2 0x6c51f0) and frame tick (inc 0x6c671d / return2 0x6c675d).",
+      "Key Quezacotl globals in 0x25216d8-0x25217ac region were renamed to GF_116Quezacotl_*."
     ]
   },
   {
     "name": "095Siren",
     "entry_addr": "0x739da0",
-    "entry_name": "MAG_095_SIREN_SUMMON_SILENT_VOICE",
-    "init_name": "sub_8DC540",
+    "entry_name": "GF_095Siren_InvokeSummonScript",
+    "init_name": "BdLinkTask_CreateAndInitContext",
     "init_addr": "0x8dc540",
-    "tick_name": null,
-    "tick_addr": null,
+    "tick_name": "GF_095Siren_SequenceTick",
+    "tick_addr": "0x739f40",
     "helper_names": [],
-    "counter_increment_ea": null,
-    "completion_ea": null,
+    "counter_increment_ea": "0x73a0a5",
+    "completion_ea": "0x73a0bd",
     "family": "Atypical",
-    "confidence": "medium",
-    "confidence_score": 76,
+    "confidence": "high",
+    "confidence_score": 95,
     "notes": [
-      "Tick function unresolved from entry.",
       "GF_SIREN_001 PASS: pending transfer + cinematic + resolve/apply damage confirmed.",
-      "Runtime effect confirmed on live target: Silence infliction and HP reduction."
+      "Runtime effect confirmed on live target: Silence infliction and HP reduction.",
+      "GF_SIREN_002 PASS: callback ptr verified (0x21DFEC4 == 0x739DA0), shared init hit (0x8DC540), counter inc hit 4x (0x73A0A5), completion return2 hit (0x73A0BD).",
+      "IDA rename applied: MAG_095_SIREN_SUMMON_SILENT_VOICE -> GF_095Siren_InvokeSummonScript; sub_739F40 -> GF_095Siren_SequenceTick."
     ]
   },
   {
     "name": "090Tonberry",
     "entry_addr": "0x762360",
     "entry_name": "MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE",
-    "init_name": "sub_8DC540",
+    "init_name": "BdLinkTask_CreateAndInitContext",
     "init_addr": "0x8dc540",
     "tick_name": null,
     "tick_addr": null,

@@ -28,6 +28,8 @@ class Evidence:
     # Collected data
     snapshots: dict[str, Any] = field(default_factory=dict)
     breakpoint_hits: dict[str, bool] = field(default_factory=dict)
+    breakpoint_hit_counts: dict[str, int] = field(default_factory=dict)
+    last_breakpoint_hit: str | None = None
     register_dumps: dict[str, dict[str, Any]] = field(default_factory=dict)
     stacktraces: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
 
@@ -74,6 +76,8 @@ class Evidence:
             "deterministic_result": self.deterministic_result,
             "snapshots": self.snapshots,
             "breakpoint_hits": self.breakpoint_hits,
+            "breakpoint_hit_counts": self.breakpoint_hit_counts,
+            "last_breakpoint_hit": self.last_breakpoint_hit,
             "register_dumps": _hex_registers(self.register_dumps),
             "stacktraces": self.stacktraces,
             "assertions": self.assertions,

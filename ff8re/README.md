@@ -143,7 +143,7 @@ cleanup:
 | `write_memory`          | Write a value to an arbitrary address                  |
 | `wait`                  | Sleep for `timeout_ms` milliseconds                    |
 | `continue_execution`    | Resume until one `wait_until` BP is hit or timeout     |
-| `check_breakpoint_hit`  | Log whether a labeled BP was hit                       |
+| `check_breakpoint_hit`  | Log whether a labeled BP was hit (can auto-delete)     |
 | `read_registers`        | Capture GP register state                              |
 | `read_stacktrace`       | Capture the call stack                                 |
 | `read_global`           | Read a typed value from an address                     |
@@ -356,3 +356,21 @@ python -m ff8re run --keep-breakpoints ff8re/tests/tier3_inject/GF_IFRIT_001.yam
 
 This preserves breakpoints created by the hypothesis so you can inspect and
 continue manually in IDA after the script ends.
+
+## Breakpoint hit counts + auto-delete
+
+Evidence now tracks:
+
+- `breakpoint_hit_counts[label]`: number of times a breakpoint was matched
+- `last_breakpoint_hit`: last label matched by the runner
+
+To avoid per-frame "frame-traps", `check_breakpoint_hit` supports optional fields:
+
+```yaml
+- action: check_breakpoint_hit
+  label: "bp_gf_cinematic"
+  expect: hit
+  fields:
+    delete_if_hit: true
+    min_hits: 1
+```

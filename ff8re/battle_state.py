@@ -53,8 +53,6 @@ STATUS2_HAS_MAGIC   = 0x40000000
 CMD_ATTACK  = 0x01
 CMD_MAGIC   = 0x02
 CMD_GF      = 0x03
-# CMD_DRAW  = 0x04   # TBD
-# CMD_ITEM  = 0x05   # TBD
 
 # ======================================================================
 # Confirmed GF kernel IDs (command_arg for CMD_GF)
@@ -349,6 +347,10 @@ class FF8BattleState:
             "COMMAND_TYPE_ID",
             "CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID",
             "CURRENT_SLOT_ID_TURN",
+            # Status payload resolved from kernel tables at resolve time.
+            # Useful for proving e.g. Siren -> Silence bit is actually in HIT_STATUS_1.
+            "HIT_STATUS_1",
+            "HIT_STATUS_2",
         ]
         result: dict[str, Any] = {}
         for name in names:

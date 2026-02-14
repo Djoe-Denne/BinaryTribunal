@@ -9,7 +9,7 @@ Deterministic reconstruction of Tonberry invocation behavior from evidence file 
 - Test: `GF_TONBERRY_001`
 - Deterministic result: `PASS`
 - Entry candidate: `MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE` (`0x762360`) - breakpoint armed but **not hit** in this run
-- Init candidate: `sub_8DC540` (`0x8DC540`) - breakpoint armed but **not hit** in this run
+- Init candidate: `BdLinkTask_CreateAndInitContext` (`0x8DC540`) - breakpoint armed but **not hit** in this run
 - Tick: unresolved in this session (`n/a`) - no Tonberry tick probe configured in test
 - Counter increment: unresolved in this session (`n/a`)
 - Family: `Atypical` (entry/init probes missed; shared damage path still confirmed)

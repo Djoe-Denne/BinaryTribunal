@@ -204,6 +204,7 @@ class HypothesisRunner:
         self.mcp.add_breakpoint(addr)
         self._bp_addrs[step.label] = addr
         evidence.breakpoint_hits[step.label] = False
+        evidence.breakpoint_hit_counts[step.label] = 0
         evidence.log(f"    BP set: {step.label} @ {hex(addr)}")
 
     def _do_delete_breakpoint(self, step: Step, constants: dict[str, int],
@@ -326,11 +327,32 @@ class HypothesisRunner:
                                  evidence: Evidence) -> None:
         label = step.label
         was_hit = evidence.breakpoint_hits.get(label, False)
+        hit_count = evidence.breakpoint_hit_counts.get(label, 0)
         expected = step.expect.lower() if step.expect else "hit"
         if expected == "hit":
-            evidence.log(f"    Check BP {label}: hit={was_hit} (expected=hit)")
+            evidence.log(
+                f"    Check BP {label}: hit={was_hit} hits={hit_count} (expected=hit)"
+            )
         else:
-            evidence.log(f"    Check BP {label}: hit={was_hit} (expected=not_hit)")
+            evidence.log(
+                f"    Check BP {label}: hit={was_hit} hits={hit_count} (expected=not_hit)"
+            )
+
+        # Optional: delete breakpoint immediately after it has served its purpose.
+        # This is critical for per-frame breakpoints (render/sequence ticks) to
+        # avoid "frame-trapping" the session.
+        delete_if_hit = bool(step.fields.get("delete_if_hit", False))
+        min_hits = int(step.fields.get("min_hits", 1) or 1)
+        if delete_if_hit and was_hit and hit_count >= min_hits:
+            addr = self._bp_addrs.get(label)
+            if addr is None:
+                addr = step.resolved_address(constants)
+            if addr:
+                self.mcp.delete_breakpoint(addr)
+                self._bp_addrs.pop(label, None)
+                evidence.log(
+                    f"    BP deleted (delete_if_hit, hits>={min_hits}): {label} @ {hex(addr)}"
+                )
 
     def _do_read_registers(self, step: Step, constants: dict[str, int],
                            evidence: Evidence) -> None:
@@ -569,6 +591,10 @@ class HypothesisRunner:
             # x86 INT3: EIP may be at the BP address itself or addr+1
             if eip == addr or eip == addr + 1 or eip == addr - 1:
                 evidence.breakpoint_hits[label] = True
+                evidence.breakpoint_hit_counts[label] = (
+                    evidence.breakpoint_hit_counts.get(label, 0) + 1
+                )
+                evidence.last_breakpoint_hit = label
                 evidence.log(f"    -> BP hit: {label} @ {hex(addr)} "
                              f"(EIP={hex(eip)})")
                 return label
