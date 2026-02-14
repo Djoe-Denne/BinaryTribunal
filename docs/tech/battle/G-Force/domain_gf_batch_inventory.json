@@ -18,6 +18,31 @@
     ]
   },
   {
+    "name": "200Pandemona",
+    "entry_addr": "0x6ed250",
+    "entry_name": "GF_200Pandemona_InvokeSummonScript",
+    "init_name": "GF_200Pandemona_InitSummonContext",
+    "init_addr": "0x6ed260",
+    "tick_name": "GF_200Pandemona_SequenceTick",
+    "tick_addr": "0x6ed350",
+    "helper_names": [
+      "GF_200Pandemona_SequenceTaskDriver",
+      "GF_200Pandemona_UpdateTargetCameraSpan",
+      "GF_200Pandemona_ClearRenderBatchFlagsA",
+      "GF_200Pandemona_ClearRenderBatchFlagsB"
+    ],
+    "counter_increment_ea": "0x6ed755",
+    "completion_ea": "0x6ed749",
+    "family": "FamilyA",
+    "confidence": "high",
+    "confidence_score": 95,
+    "notes": [
+      "Debug stop resolved via GF_CALLBACK_PTR (0x21DFEC4) value 0x6ed250; Pandemona entry/init/tick closure identified and renamed in IDA DB.",
+      "Task-driver progression confirmed in static analysis: increment 0x6f0622, completion 0x6f06c6.",
+      "Runtime evidence intentionally pending deterministic test execution (GF_PANDEMONA_001)."
+    ]
+  },
+  {
     "name": "185Shiva",
     "entry_addr": "0x5c0d50",
     "entry_name": "GF_185Shiva_InvokeSummonScript",
@@ -68,6 +93,31 @@
     "confidence_score": 90,
     "notes": [
       "Latest live tests reported unstable behavior (game enters bad state/crash-prone) when invoking Odin; controlled evidence capture pending."
+    ]
+  },
+  {
+    "name": "277Carbuncle",
+    "entry_addr": "0x680c50",
+    "entry_name": "GF_277Carbuncle_InvokeSummonScript",
+    "init_name": "GF_277Carbuncle_InitSummonContext",
+    "init_addr": "0x680c80",
+    "tick_name": "GF_277Carbuncle_SequenceTick",
+    "tick_addr": "0x680df0",
+    "helper_names": [
+      "GF_277Carbuncle_SequenceTaskDriver",
+      "GF_277Carbuncle_TargetAuraTaskTick",
+      "GF_277Carbuncle_ShimmerTaskTick",
+      "GF_277Carbuncle_FloatingSparkTaskTick"
+    ],
+    "counter_increment_ea": "0x6811c8",
+    "completion_ea": "0x6811be",
+    "family": "FamilyA",
+    "confidence": "high",
+    "confidence_score": 95,
+    "notes": [
+      "Debug stop landed in Carbuncle callback wrapper at 0x680c50; entry/init/tick/driver closure identified and renamed in IDA DB.",
+      "Secondary timeline counter/completion observed in driver: increment 0x681fb0, completion 0x681fc4.",
+      "Runtime evidence intentionally pending deterministic test execution (GF_CARBUNCLE_001)."
     ]
   },
   {

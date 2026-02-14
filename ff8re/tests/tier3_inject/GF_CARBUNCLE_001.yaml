@@ -1,0 +1,160 @@
+# GF_CARBUNCLE_001: Inject GF Carbuncle and validate party Reflect-style buffing
+
+id: "GF_CARBUNCLE_001"
+title: "Inject GF Carbuncle pending action and validate positive party status"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_277carbuncle_invocation.md"
+  - "tech/battle/G-Force/domain_gf_batch_inventory.json"
+  - "ai-prompt/gf_hypothesis_from_documentation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  GF_CINEMATIC_TICK: 0x50B2A0
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION_SELECT: 0x485460
+
+  CARBUNCLE_ENTRY: 0x680C50
+  CARBUNCLE_TICK: 0x680DF0
+  CARBUNCLE_COUNTER_INC: 0x6811C8
+  CARBUNCLE_DRIVER_COUNTER_INC: 0x681FB0
+
+  GF_COMMAND_ID: 0x03
+  CARBUNCLE_GF_INDEX: 0x46
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_slot
+    label: "ally0_before"
+    slot: 0
+  - action: snapshot_slot
+    label: "ally1_before"
+    slot: 1
+  - action: snapshot_slot
+    label: "ally2_before"
+    slot: 2
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+  - action: set_breakpoint
+    address: "CARBUNCLE_ENTRY"
+    label: "bp_carbuncle_entry"
+  - action: set_breakpoint
+    address: "CARBUNCLE_COUNTER_INC"
+    label: "bp_carbuncle_counter_inc"
+  - action: set_breakpoint
+    address: "CARBUNCLE_DRIVER_COUNTER_INC"
+    label: "bp_carbuncle_driver_counter_inc"
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "ARBITRATION_SELECT"
+    label: "bp_arbitration"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x46
+      active: 1
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+
+observe:
+  - action: continue_execution
+    timeout_ms: 60000
+    wait_until: ["bp_gf_cinematic", "bp_carbuncle_entry", "bp_carbuncle_counter_inc", "bp_carbuncle_driver_counter_inc"]
+  - action: delete_breakpoint
+    label: "bp_gf_cinematic"
+  - action: delete_breakpoint
+    label: "bp_carbuncle_entry"
+  - action: delete_breakpoint
+    label: "bp_carbuncle_counter_inc"
+  - action: delete_breakpoint
+    label: "bp_carbuncle_driver_counter_inc"
+  - action: sync_to_battle_tick
+    label: "sync_post_effect"
+    address: "ATB_TICK"
+    timeout_ms: 20000
+  - action: snapshot_slot
+    label: "ally0_after"
+    slot: 0
+  - action: snapshot_slot
+    label: "ally1_after"
+    slot: 1
+  - action: snapshot_slot
+    label: "ally2_after"
+    slot: 2
+
+assert:
+  - check: any_of
+    label: "at_least_one_sync_boundary_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "sync_atb"
+      - check: breakpoint_was_hit
+        label: "sync_post_effect"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: any_of
+    label: "carbuncle_reflect_added_any_ally"
+    checks:
+      - check: slot_status_any_added
+        before: "ally0_before"
+        after: "ally0_after"
+        fields:
+          statuses: ["Reflect"]
+      - check: slot_status_any_added
+        before: "ally1_before"
+        after: "ally1_after"
+        fields:
+          statuses: ["Reflect"]
+      - check: slot_status_any_added
+        before: "ally2_before"
+        after: "ally2_after"
+        fields:
+          statuses: ["Reflect"]
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze GF_CARBUNCLE_001 evidence.
+  Validate that command_arg=0x46 dispatches Carbuncle and applies Reflect to at least one ally.
+  Confirm:
+  1) pending transfer was hit,
+  2) Carbuncle invocation probes (entry/counter) were reached when available,
+  3) Reflect was added to at least one party slot (0-2).
+  Evidence:
+  {evidence_json}

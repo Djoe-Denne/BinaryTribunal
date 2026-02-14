@@ -1,0 +1,173 @@
+# GF_PANDEMONA_001: Inject GF Pandemona and validate enemy HP reduction
+
+id: "GF_PANDEMONA_001"
+title: "Inject GF Pandemona pending action and validate wind-style enemy damage"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_200pandemona_invocation.md"
+  - "tech/battle/G-Force/domain_gf_batch_inventory.json"
+  - "ai-prompt/gf_hypothesis_from_documentation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  GF_CINEMATIC_TICK: 0x50B2A0
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION_SELECT: 0x485460
+  RESOLVE_AND_APPLY: 0x48FE20
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+
+  PANDEMONA_ENTRY: 0x6ED250
+  PANDEMONA_TICK: 0x6ED350
+  PANDEMONA_COUNTER_INC: 0x6ED755
+  PANDEMONA_DRIVER_COUNTER_INC: 0x6F0622
+
+  GF_COMMAND_ID: 0x03
+  PANDEMONA_GF_INDEX: 0x48
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_slot
+    label: "enemy3_before"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_before"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_before"
+    slot: 5
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+  - action: set_breakpoint
+    address: "PANDEMONA_ENTRY"
+    label: "bp_pandemona_entry"
+  - action: set_breakpoint
+    address: "PANDEMONA_COUNTER_INC"
+    label: "bp_pandemona_counter_inc"
+  - action: set_breakpoint
+    address: "PANDEMONA_DRIVER_COUNTER_INC"
+    label: "bp_pandemona_driver_counter_inc"
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "ARBITRATION_SELECT"
+    label: "bp_arbitration"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x48
+      active: 1
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+
+observe:
+  - action: continue_execution
+    timeout_ms: 60000
+    wait_until: ["bp_gf_cinematic", "bp_pandemona_entry", "bp_pandemona_counter_inc", "bp_pandemona_driver_counter_inc"]
+  - action: delete_breakpoint
+    label: "bp_gf_cinematic"
+  - action: delete_breakpoint
+    label: "bp_pandemona_entry"
+  - action: delete_breakpoint
+    label: "bp_pandemona_counter_inc"
+  - action: delete_breakpoint
+    label: "bp_pandemona_driver_counter_inc"
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_and_apply"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_and_apply", "bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_damage"
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply"
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
+  - action: sync_to_battle_tick
+    label: "sync_post_damage"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "enemy3_after"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_after"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_after"
+    slot: 5
+
+assert:
+  - check: any_of
+    label: "at_least_one_sync_boundary_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "sync_atb"
+      - check: breakpoint_was_hit
+        label: "sync_post_damage"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+  - check: slot_hp_decreased_if_alive
+    before: "enemy3_before"
+    after: "enemy3_after"
+  - check: slot_hp_decreased_if_alive
+    before: "enemy4_before"
+    after: "enemy4_after"
+  - check: slot_hp_decreased_if_alive
+    before: "enemy5_before"
+    after: "enemy5_after"
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze GF_PANDEMONA_001 evidence.
+  Validate that command_arg=0x48 dispatches Pandemona and applies damage to live enemy slots.
+  Confirm:
+  1) pending transfer was hit,
+  2) damage pipeline reached bp_apply_damage,
+  3) every enemy slot that was alive before has lower HP after.
+  Evidence:
+  {evidence_json}
