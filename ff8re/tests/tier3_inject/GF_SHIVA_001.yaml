@@ -1,0 +1,530 @@
+# GF_SHIVA_001: Inject a GF Shiva command and validate the invocation chain
+#
+# Tier 3 — Active injection (write memory, observe effects).
+#
+# Validates the Shiva summon invocation chain from
+# tech/battle/G-Force/domain_gf_185shiva_invocation.md
+#
+# How to run:
+#   The game can be in ANY of these states:
+#     1. Running (in an active battle)
+#     2. Paused (debugger suspended at any point during battle)
+#     3. Paused at a breakpoint
+#   The framework handles synchronization automatically.
+#
+# What it does:
+#   1. Syncs to a known battle-tick boundary (BattleATB_TickAndReady)
+#   2. Snapshots current pending action buffer for later restoration
+#   3. Injects a GF Shiva command into the pending action buffer
+#   4. Arms breakpoints on the Shiva invocation chain
+#   5. Continues execution and observes each stage firing
+#   6. Restores the pending buffer and removes all breakpoints
+#
+# Command injection values (HYPOTHESIZED — not yet confirmed via BP capture):
+#   - command_id  = 0x03 for GF   (confirmed at BattlePendingAction_Write BP)
+#   - command_arg = 0x41 for Shiva (kernel GF ID, pattern: 0x40 + sequential_index)
+#   - target_mask = 0x8008         (GF targeting flags, confirmed for Ifrit)
+#
+# Derivation of command_arg = 0x41:
+#   - Ifrit (sequential GF index 2) has CONFIRMED command_arg = 0x42
+#   - Pattern: kernel GF ID = 0x40 + sequential_GF_index
+#   - Shiva is sequential GF index 1 → command_arg = 0x40 + 1 = 0x41
+#   - Corroborated by Doomtrain wiki MagicID table GF ordering
+#   - If this is WRONG, the game may cast a different spell/GF or crash.
+#     Fallback: capture real bytes via BP on BattlePendingAction_Write (0x484D20)
+#     during a manual Shiva summon.
+#
+# Source evidence (static analysis, high confidence):
+#   - Entry/Init function: GF_185Shiva_InvokeSummonScript (0x5c0d50)
+#   - Tick function: au_re_BdlinkTask_5 (0x5c7f50)
+#   - Counter increment site: 0x5c7f8b
+#   - Family: FamilyA (BDLink task system)
+#   - Batch inventory confidence: high (90)
+#
+# Hypothesized raw pending entry bytes: 08 80 00 03 41 00 00 01
+
+id: "GF_SHIVA_001"
+title: "Inject GF Shiva pending action and validate invocation chain"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_185shiva_invocation.md"
+  - "tech/battle/G-Force/domain_gf_batch_index.md"
+  - "tech/battle/G-Force/domain_gf_batch_inventory.json"
+  - "tech/domain_battle_command_menu.md"
+
+constants:
+  # Battle tick sync point
+  ATB_TICK: 0x4842B0              # BattleATB_TickAndReady (fires every frame)
+
+  # Pending action buffer
+  PENDING_BASE: 0x1D28D44
+  PENDING_STRIDE: 0x08
+
+  # GF cinematic dispatcher
+  GF_CINEMATIC_TICK: 0x50B2A0     # BattleActionSequence_Tick_GF_Cinematic
+
+  # Active GF callback pointer (global, read during cinematic dispatch)
+  GF_CALLBACK_PTR: 0x21DFEC4
+
+  # Shiva function addresses (from batch inventory, static analysis)
+  SHIVA_ENTRY:             0x5c0d50   # GF_185Shiva_InvokeSummonScript
+  SHIVA_TICK:              0x5c7f50   # au_re_BdlinkTask_5
+  SHIVA_COUNTER_INC:       0x5c7f8b   # counter increment inside tick
+
+  # Pipeline functions (to observe if command is processed differently)
+  PENDING_WRITE:           0x484D20   # BattlePendingAction_Write
+  PENDING_TRANSFER:        0x4847F0   # BattlePendingAction_TransferToExecQueue
+  ARBITRATION_SELECT:      0x485460   # BattleArbitration_SelectNextAction
+  RESOLVE_SPECIAL:         0x485160   # BattleAction_ResolveSpecialActionAndUpdateDamage
+
+  # Exploratory pointers from Shiva domain doc numeric conversions.
+  # Their role is UNCONFIRMED — included for informational capture only.
+  # May be Shiva-specific context globals analogous to Ifrit's
+  # IFRIT_SEQ_CTX_PTR (0x27973EC) and IFRIT_TASK_LIST_HEAD (0x2796E18).
+  SHIVA_EXTRA_PTR_A:       0x1D96AAC  # potential sequence context pointer
+  SHIVA_EXTRA_PTR_B:       0x1D99A50  # potential task list head
+
+  # Damage pipeline functions (shared, fire after any GF cinematic completes)
+  RESOLVE_AND_APPLY:       0x48FE20   # BattleAction_ResolveAndApplyDamage
+  COMPUTE_DAMAGE:          0x4922B0   # Damage_ComputeRawDeltaFromAttackType
+  APPLY_DAMAGE_OR_HEAL:    0x494410   # Battle_ApplyDamageOrHeal
+  UPDATE_DAMAGE:           0x48EF80   # Battle_UpdateDamage
+
+  # Command injection values (HYPOTHESIZED — see header comments)
+  GF_COMMAND_ID:           0x03       # GF command type (confirmed: 0x01=Attack, 0x02=Magic, 0x03=GF)
+  SHIVA_GF_INDEX:          0x41       # Shiva kernel GF ID (hypothesized: 0x40 + 1 = 65 decimal)
+  GF_TARGET_MASK:          0x8008     # GF targeting flags (confirmed for Ifrit, assumed shared)
+
+# =====================================================================
+# Phase 1: Setup — sync to battle tick, snapshot state, arm breakpoints
+# =====================================================================
+setup:
+  # 1a. Sync to a known battle-tick boundary.
+  #     This handles running/paused/BP-paused uniformly:
+  #     sets a temporary BP at ATB_TICK, continues, waits for hit, removes it.
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+
+  # 1b. Snapshot the pending action buffer BEFORE we modify it (for restore)
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24                          # 3 entries * 8 bytes
+    type: bytes
+
+  # 1c. Snapshot enemy slot HP for reference.
+  #     Enemy slot depends on the encounter — use scan_slots.py to verify.
+  #     Standard layout: party=0-2, enemies=3-6.
+  #     Snapshot multiple enemy slots for robustness.
+  - action: snapshot_slot
+    label: "target_slot3_before"
+    slot: 3
+
+  - action: snapshot_slot
+    label: "target_slot4_before"
+    slot: 4
+
+  - action: snapshot_slot
+    label: "target_slot5_before"
+    slot: 5
+
+  # 1d. Read callback pointer before injection (should be 0 or previous GF)
+  - action: snapshot_memory
+    label: "callback_ptr_before"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+
+  # 1e. Arm breakpoints on the Shiva invocation chain
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+
+  - action: set_breakpoint
+    address: "SHIVA_ENTRY"
+    label: "bp_shiva_entry"
+
+  - action: set_breakpoint
+    address: "SHIVA_TICK"
+    label: "bp_shiva_tick"
+
+  - action: set_breakpoint
+    address: "SHIVA_COUNTER_INC"
+    label: "bp_shiva_counter_inc"
+
+  # 1f. Arm a breakpoint on the pending->exec transfer to confirm our
+  #     injected command gets picked up by the pipeline
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+
+  # 1g. Arm a breakpoint on arbitration to see what happens to our command
+  - action: set_breakpoint
+    address: "ARBITRATION_SELECT"
+    label: "bp_arbitration"
+
+# =====================================================================
+# Phase 2: Act — inject the GF Shiva command
+# =====================================================================
+act:
+  # 2a. Write a GF Shiva command into pending action entry 0.
+  #     Values hypothesized from Ifrit pattern (see header comments).
+  #     Raw bytes: 08 80 00 03 41 00 00 01
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x41
+      active: 1
+
+  # 2b. Read back the pending action to verify our write
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+
+  # 2c. Continue — hit bp_pending_transfer to confirm consumption
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_transfer"
+
+  # 2d. Confirm the transfer function fired (command was consumed)
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+
+  - action: read_registers
+    label: "regs_at_transfer"
+
+  # 2e. CRITICAL: Remove the per-frame breakpoints so they stop
+  #     re-catching on every subsequent frame and let execution
+  #     flow deeper into the pipeline toward GF cinematic dispatch.
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+
+  # 2f. Continue — now only GF cinematic / Shiva BPs remain.
+  #     The game needs several frames to process the command through
+  #     arbitration and into the GF cinematic path.
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until:
+      - "bp_gf_cinematic"
+      - "bp_shiva_entry"
+      - "bp_shiva_tick"
+      - "bp_shiva_counter_inc"
+
+# =====================================================================
+# Phase 3: Observe — trace through the GF cinematic / Shiva chain
+# =====================================================================
+observe:
+  # 3a-pre. Capture the callback pointer at the EXACT moment the cinematic
+  #     dispatcher is entered (bp_gf_cinematic just fired, game paused at
+  #     0x50B2A0).  This value reflects what was in the global BEFORE this
+  #     frame's dispatch writes a new value — i.e. the previous GF's
+  #     leftover or the freshly-written Shiva pointer depending on how
+  #     far the dispatcher got before our BP fired.
+  #     This is OBSERVATIONAL — not asserted.
+  - action: snapshot_memory
+    label: "callback_ptr_at_cinematic_entry"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+
+  # 3a. Remove early BPs that served their routing purpose in step 2f.
+  - action: delete_breakpoint
+    label: "bp_gf_cinematic"
+
+  - action: delete_breakpoint
+    label: "bp_shiva_entry"
+
+  # 3b. Continue until Shiva's tick function fires.
+  #     At this point Shiva is fully initialized: the callback pointer
+  #     is guaranteed populated.
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until:
+      - "bp_shiva_tick"
+      - "bp_shiva_counter_inc"
+
+  - action: check_breakpoint_hit
+    label: "bp_shiva_tick"
+
+  # 3c. Read callback pointer while Shiva is ticking.
+  #     OBSERVATIONAL — not asserted.  This global (0x21DFEC4) is
+  #     persistent across GF invocations and its value depends on prior
+  #     battle state.  Compare callback_ptr_before, callback_ptr_at_cinematic_entry,
+  #     and callback_ptr_during in the evidence to understand the lifecycle.
+  - action: snapshot_memory
+    label: "callback_ptr_during"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+
+  # 3c-extra. Exploratory reads of unconfirmed Shiva pointers.
+  #     These are NOT asserted — they are informational snapshots to
+  #     discover whether these addresses hold Shiva context data.
+  - action: snapshot_memory
+    label: "shiva_extra_ptr_a"
+    address: "SHIVA_EXTRA_PTR_A"
+    size: 4
+    type: u32
+
+  - action: snapshot_memory
+    label: "shiva_extra_ptr_b"
+    address: "SHIVA_EXTRA_PTR_B"
+    size: 4
+    type: u32
+
+  # 3d. Remove tick BP, continue to the counter increment.
+  #     The counter increment is the deepest point in the chain —
+  #     proof that the per-frame sequence is advancing.
+  - action: delete_breakpoint
+    label: "bp_shiva_tick"
+
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until:
+      - "bp_shiva_counter_inc"
+
+  - action: check_breakpoint_hit
+    label: "bp_shiva_counter_inc"
+    expect: hit
+
+  - action: read_registers
+    label: "regs_at_counter_inc"
+
+  - action: read_stacktrace
+    label: "stacktrace_at_counter_inc"
+
+  # =================================================================
+  # 3f. Transition: invocation confirmed -> wait for damage pipeline.
+  #     The GF cinematic animation plays for many seconds (10-60s).
+  #     After it completes, the battle engine routes through
+  #     the shared damage resolution pipeline.
+  # =================================================================
+
+  # Remove the counter BP (already confirmed) and arm damage BPs.
+  - action: delete_breakpoint
+    label: "bp_shiva_counter_inc"
+
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_and_apply"
+
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+
+  # 3g. Continue execution — let the GF cinematic play out.
+  #     The damage pipeline fires AFTER the animation completes.
+  #     Long timeout because the cinematic is a full FMV sequence.
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until:
+      - "bp_resolve_and_apply"
+      - "bp_apply_damage"
+
+  # 3h. Once a damage BP fires, capture the resolution context.
+  #     read_action_globals gives us COMMAND_TYPE_ID, ATTACKER_SLOT_ID,
+  #     and CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID — confirming the
+  #     damage pipeline is processing OUR GF command, not some other action.
+  - action: read_action_globals
+    label: "action_globals_at_damage"
+
+  - action: read_registers
+    label: "regs_at_damage"
+
+  # 3i. Remove resolve BP, continue to actual HP application.
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply"
+
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until:
+      - "bp_apply_damage"
+
+  - action: check_breakpoint_hit
+    label: "bp_apply_damage"
+    expect: hit
+
+  - action: read_registers
+    label: "regs_at_apply_damage"
+
+  - action: read_stacktrace
+    label: "stacktrace_at_apply_damage"
+
+  # 3j. Remove the apply BP, let the damage write complete, then
+  #     re-sync to battle tick so we can safely read the post-damage HP.
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
+
+  - action: sync_to_battle_tick
+    label: "sync_post_damage"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+
+  # 3k. Snapshot the target enemy HP AFTER damage was applied.
+  #     Snapshot same slots as setup for before/after comparison.
+  - action: snapshot_slot
+    label: "target_slot3_after"
+    slot: 3
+
+  - action: snapshot_slot
+    label: "target_slot4_after"
+    slot: 4
+
+  - action: snapshot_slot
+    label: "target_slot5_after"
+    slot: 5
+
+# =====================================================================
+# Phase 4: Assert — deterministic pass/fail
+# =====================================================================
+assert:
+  # ---- Stage 1: Injection was consumed by the battle pipeline ----
+
+  # The sync step must have reached the battle tick boundary
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+
+  # The pending->exec transfer consumed our injected command
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+
+  # ---- Stage 2: GF cinematic dispatch routed to Shiva ----
+  # callback_ptr_before, callback_ptr_at_cinematic_entry, and
+  # callback_ptr_during are captured in observe for analysis but
+  # NOT asserted.  The global at 0x21DFEC4 is persistent across
+  # GF invocations and its value depends on prior battle state.
+  # The counter increment (bp_shiva_counter_inc) is the definitive
+  # proof that the Shiva-specific cinematic dispatch happened.
+
+  # ---- Stage 3: Shiva sequence is running ----
+
+  # NOTE: bp_shiva_tick (0x5c7f50) is NOT asserted for FamilyA GFs.
+  # BDLink task dispatchers may enter via indirect call, bypassing the
+  # function prologue. The counter increment at 0x5c7f8b (INSIDE the
+  # tick function) is the definitive proof that the tick is running.
+
+  # The counter increment proves the sequence is advancing frame-by-frame
+  - check: breakpoint_was_hit
+    label: "bp_shiva_counter_inc"
+
+  # ---- Stage 4: Exploratory pointers (NOT asserted) ----
+  # shiva_extra_ptr_a and shiva_extra_ptr_b are captured in observe
+  # but NOT checked here. Their values will be available in the
+  # evidence JSON for manual analysis to determine if they are
+  # Shiva-specific context pointers.
+
+  # ---- Stage 5: Damage pipeline executed after cinematic ----
+
+  # The damage application function was reached (HP delta applied)
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+
+  # ---- Stage 6: Target HP changed (damage was applied) ----
+
+  # At least one target enemy HP must change between before and after snapshots.
+  # This handles encounters where some enemy slots are already dead.
+  - check: any_of
+    label: "any_enemy_hp_changed"
+    checks:
+      - check: value_changed
+        before: "target_slot3_before"
+        after: "target_slot3_after"
+      - check: value_changed
+        before: "target_slot4_before"
+        after: "target_slot4_after"
+      - check: value_changed
+        before: "target_slot5_before"
+        after: "target_slot5_after"
+
+# =====================================================================
+# Phase 5: Cleanup — restore state, remove all breakpoints
+# =====================================================================
+cleanup:
+  # Restore the original pending action buffer from the setup snapshot
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+  # Only delete BPs that weren't already removed in act/observe.
+  # Deletion timeline:
+  #   act:     bp_pending_transfer, bp_arbitration
+  #   observe: bp_gf_cinematic, bp_shiva_entry, bp_shiva_tick,
+  #            bp_shiva_counter_inc, bp_resolve_and_apply, bp_apply_damage
+  # All BPs should be cleaned up by observe. This is a safety net.
+  # (No remaining BPs to delete if observe completed normally.)
+
+verdict_prompt: |
+  You are analyzing evidence from a reverse engineering hypothesis test on
+  FF8's GF (Guardian Force) invocation system, specifically the Shiva summon
+  (Diamond Dust, ice damage to all enemies).
+
+  Hypothesis: Injecting a pending action with command_id=0x03 (GF) and
+  command_arg=0x41 (Shiva kernel GF ID, hypothesized from pattern 0x40 +
+  sequential_index where Ifrit at index 2 = 0x42 is confirmed) with
+  target_mask=0x8008 causes the battle pipeline to:
+  1. Dispatch through BattleActionSequence_Tick_GF_Cinematic (0x50B2A0)
+  2. Set the callback pointer at 0x21DFEC4 to GF_185Shiva_InvokeSummonScript (0x5c0d50)
+  3. Drive the Shiva sequence tick via au_re_BdlinkTask_5 (0x5c7f50)
+     with counter increments at 0x5c7f8b
+  4. After the cinematic completes, resolve damage through
+     BattleAction_ResolveAndApplyDamage (0x48FE20)
+  5. Apply HP damage to the target via Battle_ApplyDamageOrHeal (0x494410)
+  6. Result in measurable HP decrease on the target enemy
+
+  IMPORTANT: command_arg=0x41 is NOT yet confirmed via breakpoint capture.
+  It is derived from the pattern: Ifrit (GF index 2) = 0x42, so Shiva
+  (GF index 1) = 0x41. If this test fails, the command_arg may be wrong
+  and a manual capture via BP on BattlePendingAction_Write (0x484D20)
+  during a real Shiva summon is needed.
+
+  Shiva is a FamilyA GF (uses BDLink task system), different from Ifrit
+  which is Atypical. The tick function au_re_BdlinkTask_5 is a generic
+  BDLink task dispatcher, not a named GF-specific function.
+
+  Hypothesized raw pending entry bytes: 08 80 00 03 41 00 00 01
+
+  Evidence collected:
+  {evidence_json}
+
+  Based on this evidence:
+  1. Did the injected pending action get consumed by the pipeline
+     (bp_pending_transfer hit)?
+  2. Did the GF cinematic dispatch fire? Compare callback_ptr_before,
+     callback_ptr_at_cinematic_entry, and callback_ptr_during — did the
+     value change?  Note: the global at 0x21DFEC4 is persistent and may
+     retain a value from a previous GF invocation.
+  3. If the Shiva chain did NOT fire, what DID happen? Which breakpoints
+     were hit, and what do the register/stacktrace values reveal about
+     how the injected command was interpreted? Was a different GF or
+     spell triggered instead?
+  4. If the chain fired: is the full entry -> tick -> counter sequence
+     confirmed?
+  5. Are the command_id and command_arg values correct, or does the
+     evidence suggest different values should be used?
+  6. After the cinematic completed, did the damage pipeline fire?
+     Was bp_resolve_and_apply or bp_apply_damage hit?
+  7. What do the action_globals_at_damage reveal? Is COMMAND_TYPE_ID
+     consistent with a GF action? Does CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID
+     match Shiva?
+  8. Did the target enemy HP change? Compare target_slot4_before and
+     target_slot4_after — was damage applied?
+  9. If damage was NOT applied, where did the pipeline stall? Did the
+     cinematic timeout? Did the damage BPs simply not fire?
+  10. What do the exploratory pointer reads (shiva_extra_ptr_a at 0x1D96AAC
+      and shiva_extra_ptr_b at 0x1D99A50) reveal? Are they non-zero during
+      the Shiva sequence, suggesting they are Shiva-specific context globals?
+  11. What follow-up hypotheses would you suggest?

@@ -1,0 +1,18 @@
+id: "GF_BETWEEN_HOOKS_001"
+title: "Run hypotheses with FF8 before_each hooks"
+
+hypotheses:
+  - "ff8re/tests/tier3_inject/GF_QUEZACOTL_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_SHIVA_001.yaml"
+  - "ff8re/tests/tier3_inject/GF_IFRIT_001.yaml"
+
+before_each:
+  - action: set_enemy_hp_all_10000
+    label: "reseed_enemy_hp"
+    fields:
+      hp: 10000
+  - action: wait
+    label: "cooldown_between_hypotheses"
+    timeout_ms: 15000
+    fields:
+      resume_execution: true

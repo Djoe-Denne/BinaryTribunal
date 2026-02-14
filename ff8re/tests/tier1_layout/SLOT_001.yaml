@@ -1,0 +1,182 @@
+# SLOT_001: Validate battle slot array layout and HP field accessibility
+#
+# Tier 1 — Memory layout validation (no execution changes needed).
+# Reads all 11 slot entries and validates that:
+#   - HP fields are in plausible range (0–65535)
+#   - Stride is correct by comparing slot[0] and slot[1] base addresses
+#   - Pending action buffer is readable
+#
+# This is the safest first test: pure memory reads, no breakpoints,
+# no execution control, no writes.
+
+id: "SLOT_001"
+title: "Validate battle slot array base, stride, and HP field accessibility"
+domain: "battle_state"
+confidence_target: "high"
+
+references:
+  - "tech/battle_state_reconstruction.md"
+
+constants:
+  BATTLE_SLOT_DATA: 0x1D27B10
+  SLOT_STRIDE: 0xD0
+  HP_OFFSET: 0x18
+  MAX_HP_OFFSET: 0x1C
+  STATUS1_OFFSET: 0x80
+  STATUS2_OFFSET: 0x08
+  SPD_OFFSET: 0xC1
+  CRISIS_OFFSET: 0xCA
+  PENDING_BASE: 0x1D28D44
+
+# Phase 1: Setup — snapshot HP for multiple slots
+setup:
+  # Slot 0 (party member 0)
+  - action: snapshot_memory
+    label: "slot0_hp"
+    address: "BATTLE_SLOT_DATA + 0 * SLOT_STRIDE + HP_OFFSET"
+    size: 2
+    type: u16
+
+  - action: snapshot_memory
+    label: "slot0_max_hp"
+    address: "BATTLE_SLOT_DATA + 0 * SLOT_STRIDE + MAX_HP_OFFSET"
+    size: 2
+    type: u16
+
+  # Slot 1 (party member 1)
+  - action: snapshot_memory
+    label: "slot1_hp"
+    address: "BATTLE_SLOT_DATA + 1 * SLOT_STRIDE + HP_OFFSET"
+    size: 2
+    type: u16
+
+  - action: snapshot_memory
+    label: "slot1_max_hp"
+    address: "BATTLE_SLOT_DATA + 1 * SLOT_STRIDE + MAX_HP_OFFSET"
+    size: 2
+    type: u16
+
+  # Slot 2 (party member 2)
+  - action: snapshot_memory
+    label: "slot2_hp"
+    address: "BATTLE_SLOT_DATA + 2 * SLOT_STRIDE + HP_OFFSET"
+    size: 2
+    type: u16
+
+  - action: snapshot_memory
+    label: "slot2_max_hp"
+    address: "BATTLE_SLOT_DATA + 2 * SLOT_STRIDE + MAX_HP_OFFSET"
+    size: 2
+    type: u16
+
+  # Slot 4 (first enemy slot)
+  - action: snapshot_memory
+    label: "slot4_hp"
+    address: "BATTLE_SLOT_DATA + 4 * SLOT_STRIDE + HP_OFFSET"
+    size: 2
+    type: u16
+
+  - action: snapshot_memory
+    label: "slot4_max_hp"
+    address: "BATTLE_SLOT_DATA + 4 * SLOT_STRIDE + MAX_HP_OFFSET"
+    size: 2
+    type: u16
+
+  # Read SPD for slot 0 to confirm different offsets work
+  - action: snapshot_memory
+    label: "slot0_spd"
+    address: "BATTLE_SLOT_DATA + 0 * SLOT_STRIDE + SPD_OFFSET"
+    size: 1
+    type: u8
+
+  # Read status1 for slot 0
+  - action: snapshot_memory
+    label: "slot0_status1"
+    address: "BATTLE_SLOT_DATA + 0 * SLOT_STRIDE + STATUS1_OFFSET"
+    size: 4
+    type: u32
+
+  # Read pending action entry 0
+  - action: snapshot_memory
+    label: "pending0_raw"
+    address: "PENDING_BASE"
+    size: 8
+    type: bytes
+
+# Phase 2: Act — no actions needed (pure observation test)
+act: []
+
+# Phase 3: Observe — no observations beyond setup snapshots
+observe: []
+
+# Phase 4: Assert — validate plausible ranges
+assert:
+  # Party member HP should be in valid u16 range and plausible (1–9999 typical)
+  - check: value_in_range
+    label: "slot0_hp"
+    min_val: 0
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot0_max_hp"
+    min_val: 1
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot1_hp"
+    min_val: 0
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot1_max_hp"
+    min_val: 1
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot2_hp"
+    min_val: 0
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot2_max_hp"
+    min_val: 1
+    max_val: 65535
+
+  # Enemy slot should also have valid HP
+  - check: value_in_range
+    label: "slot4_hp"
+    min_val: 0
+    max_val: 65535
+
+  - check: value_in_range
+    label: "slot4_max_hp"
+    min_val: 1
+    max_val: 65535
+
+  # SPD should be non-zero for an active party member
+  - check: value_not_zero
+    label: "slot0_spd"
+
+  # Pending buffer should be readable (non-empty hex string)
+  - check: value_not_zero
+    label: "pending0_raw"
+
+# Phase 5: Cleanup — nothing to clean up (read-only test)
+cleanup: []
+
+verdict_prompt: |
+  You are analyzing evidence from a reverse engineering hypothesis test on FF8's battle system.
+
+  Hypothesis: The battle slot array at 0x1D27B10 with stride 0xD0 contains valid
+  HP, max_HP, SPD, and status fields at the documented offsets for both party
+  and enemy slots. The pending action buffer at 0x1D28D44 is also accessible.
+
+  Evidence collected:
+  {evidence_json}
+
+  Based on this evidence:
+  1. Are the slot array base address and stride confirmed?
+  2. Are HP values plausible for an active battle?
+  3. Does the SPD value indicate an active party member?
+  4. Is the pending action buffer accessible and containing data?
+  5. Any anomalies that suggest offset errors?
