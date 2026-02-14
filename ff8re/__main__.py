@@ -24,6 +24,7 @@ from binaryTribunal.runner import HypothesisRunner
 from binaryTribunal.__main__ import build_parser, cmd_run as engine_cmd_run
 
 from .actions import register_ff8_actions
+from .assertions import register_ff8_assertions
 from .battle_state import FF8BattleState
 from .smoke import run_smoke_test
 
@@ -41,6 +42,7 @@ def _ff8_plugin_setup(runner: HypothesisRunner, mcp: McpClient) -> None:
     """Plugin callback: wire FF8 battle domain into the runner."""
     battle = FF8BattleState(mcp)
     register_ff8_actions(runner, battle)
+    register_ff8_assertions(runner)
 
 
 def cmd_smoke(args: argparse.Namespace) -> int:

@@ -33,3 +33,5 @@ Static reconstruction of 069Griever summon invocation chain and progression sema
 ## Notes
 
 - Tick function unresolved from entry.
+- Latest live runtime tests reported unstable behavior when forcing Griever invocation (game enters bad state / crash-prone).
+- Treat Griever as not safely injectable in current runner conditions until controlled crash-safe evidence is captured.

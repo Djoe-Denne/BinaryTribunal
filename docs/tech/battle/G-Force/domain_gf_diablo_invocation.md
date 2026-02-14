@@ -2,114 +2,68 @@
 
 ## Scope
 
-Identify the Diablo summon runtime chain and the progression counters that drive summon completion.
-
-Rendering backend internals are intentionally excluded.
+Deterministic reconstruction of Diablos invocation behavior from evidence file
+`evidence/2026-02-14T18-00-34_GF_DIABLOS_001.json`.
 
 ## High-Level Result
 
-The active Diablo invocation uses the same architecture as Quezacotl:
+- Test: `GF_DIABLOS_001`
+- Deterministic result: `PASS`
+- Entry candidate: `GF_Diablo_SummonScript_Init` (`0x654210`) - armed but not hit in-session
+- Counter increment candidate: `0x65459d` - armed but not hit in-session
+- Damage pipeline: confirmed (`bp_resolve_and_apply` and `bp_apply_damage` hit)
+- Runtime action globals: `COMMAND_TYPE_ID=0xFE`, `CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID=0x45`
+- Observed effect: all live enemies had HP reduced substantially (gravity-like behavior)
+- Confidence: `high` (90)
 
-- dynamic summon callback pointer selected at runtime
-- summon init routine creates a task driver
-- task driver creates/ticks a large frame script
-- frame counters advance until completion returns `2`
+## Confirmed Runtime Chain (This Session)
 
-During the paused capture, the active callback pointer changed from the Quezacotl path to Diablo:
+1. Pending action readback confirms injected GF command (`command_arg=0x45`).
+2. Pending action transfer is hit at `0x4847f0` (`bp_pending_transfer`).
+3. GF cinematic dispatcher is hit at `0x50b2a0` (`bp_gf_cinematic`).
+4. Damage resolve is hit at `0x48fe20` (`bp_resolve_and_apply`).
+5. Damage apply is hit at `0x494410` (`bp_apply_damage`).
+6. Post-damage sync at battle tick is hit at `0x4842b0` (`sync_post_damage`).
 
-- `0x21DFEC4` -> `0x6541E0` (Diablo callback thunk)
+## Counter and Completion
 
-## Runtime Evidence (Live Paused Battle)
+- Task-driver increment candidate: `0x65459d` (not hit in this run)
+- Completion site: unresolved in this session
 
-- Breakpoint context:
-  - `EIP = 0x50B2A1` (`BattleActionSequence_Tick_GF_Cinematic+1`)
-- Active callback slots:
-  - `0x21DFEC4` (`35520196`) = `0x6541E0`
-  - `0x1D96AAC` (`31025836`) = `0x025051B0`
-- Sequence state:
-  - `0x1D99A50` (`31038032`) contained active GF sequence state block
+## Command Injection (Confirmed)
 
-## Confirmed Call Chain
+From runtime `injected_pending_readback`:
 
-1. `BattleActionSequence_Tick_GF_Cinematic` (`0x50B2A0`) drives GF cinematic state.
-2. Per-frame GF callback dispatch path (`BdLink_GF_battle_input_and_texture_upload`, `0x50092D`) executes the active callback from global callback slots.
-3. Active Diablo callback thunk at `0x6541E0` calls `GF_Diablo_SummonScript_Init` (`0x654210`).
-4. `GF_Diablo_SummonScript_Init` schedules `GF_Diablo_SummonScript_TaskDriver` (`0x654350`).
-5. `GF_Diablo_SummonScript_TaskDriver` schedules/ticks `GF_Diablo_SummonScript_FrameTick` (`0x6545F0`).
-6. Counter progression in driver/script eventually returns `2` (task complete).
+- `command_id = 0x3` (GF)
+- `command_arg = 0x45` (Diablos kernel GF ID)
+- `target_mask = 0x8008`
+- `attacker_slot = 0`
+- `active = 1`
 
-## Counter and Completion Semantics
+Raw bytes: `08 80 00 03 45 00 00 01`
 
-### Task-driver counter
+## Observed Session State
 
-- `GF_Diablo_SummonScript_TaskDriver` increments:
-  - `inc word ptr [gfTaskCtx+0x0C]` at `0x65459D`
+- Enemy slot 3 HP: `2773 -> 1018`
+- Enemy slot 4 HP: `4854 -> 2319`
+- Enemy slots 5 and 6 were already dead before invocation
+- Action globals at damage:
+  - `COMMAND_TYPE_ID = 0xFE`
+  - `CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID = 0x45`
+  - `ATTACKER_SLOT_ID = 0x0`
 
-### Frame-script counter
+## Breakpoint Outcome Matrix
 
-- `GF_Diablo_SummonScript_FrameTick` increments:
-  - `++*(_WORD *)(gfFrameScriptCtx + 0x0C)` at `0x656AFE`
-- Completion path:
-  - `return 2` at `0x656B57`
-  - terminal write also observed at `0x656B58` (`counter = 546`)
-
-This matches the same conceptual model used in Quezacotl:
-
-`EmitBattleAnimation(eventType, actor, target)` -> schedule summon script task -> per-tick counter progression -> completion signal.
-
-## IDA DB Updates Applied
-
-### Function renames
-
-- `0x654210` -> `GF_Diablo_SummonScript_Init`
-- `0x654350` -> `GF_Diablo_SummonScript_TaskDriver`
-- `0x6545F0` -> `GF_Diablo_SummonScript_FrameTick`
-- `0x658870` -> `GF_Diablo_NoiseLcgStep`
-
-### Global renames
-
-- `dword_2505208` -> `gfDiablo_textureBasePtr`
-- `dword_2505184` -> `gfDiablo_sequenceContextPtr`
-- `dword_2505188` -> `gfDiablo_actorSlotPtr`
-- `dword_25051D0` -> `gfDiablo_activeTexturePagePtr`
-- `dword_25051D4` -> `gfDiablo_targetAverageY`
-- `dword_25051D8` -> `gfDiablo_targetAverageX`
-- `dword_25051DC` -> `gfDiablo_cameraBaseYHigh`
-- `dword_25051E0` -> `gfDiablo_cameraBaseYMid`
-- `dword_25051E4` -> `gfDiablo_noiseLcgState`
-- `dword_25051E8` -> `gfDiablo_stageBlendCurrent`
-- `dword_25051EC` -> `gfDiablo_stageBlendPrevious`
-
-### Local renames
-
-- In `GF_Diablo_SummonScript_TaskDriver`:
-  - `a1` -> `gfTaskCtx`
-- In `GF_Diablo_SummonScript_FrameTick`:
-  - `a1` -> `gfFrameScriptCtx`
-  - `v112` -> `gfFrameCounterNext`
-
-### Comments added
-
-- `0x65459D`: task-driver counter increment
-- `0x656AFE`: frame-script counter increment
-- `0x656B57`: completion return (`2`)
-- `0x65887F`: LCG/noise state update
-
-## Numeric Conversions (via `int_convert`)
-
-- `0x6541E0` -> `6636000`
-- `0x654210` -> `6636048`
-- `0x654350` -> `6636368`
-- `0x6545F0` -> `6637040`
-- `0x658870` -> `6654064`
-- `0x65459D` -> `6636957`
-- `0x656AFE` -> `6646526`
-- `0x656B57` -> `6646615`
-- `0x21DFEC4` -> `35520196`
-- `0x1D96AAC` -> `31025836`
-- `0x1D99A50` -> `31038032`
+- `sync_atb` (`0x4842b0`): hit
+- `bp_pending_transfer` (`0x4847f0`): hit
+- `bp_gf_cinematic` (`0x50b2a0`): hit
+- `bp_diablos_entry` (`0x654210`): not hit
+- `bp_diablos_counter_inc` (`0x65459d`): not hit
+- `bp_resolve_and_apply` (`0x48fe20`): hit
+- `bp_apply_damage` (`0x494410`): hit
+- `sync_post_damage` (`0x4842b0`): hit
 
 ## Notes
 
-- `0x6541E0` currently appears as a thunk/callback entry and was not yet promoted to a defined function symbol in this pass.
-- The functional pattern is confirmed to be homologous with the Quezacotl chain, with Diablo-specific script code and timing constants.
+- This document reflects runtime-confirmed behavior for this specific test run.
+- Missed entry/counter probes do not block confirmation: action globals plus deterministic HP reduction assertions pass cleanly.

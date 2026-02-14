@@ -1,0 +1,172 @@
+# GF_CERBERUS_001: Inject GF Cerberus and validate positive party statuses
+
+id: "GF_CERBERUS_001"
+title: "Inject GF Cerberus pending action and validate party buffs"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_203cerberus_invocation.md"
+  - "tech/battle/G-Force/domain_gf_batch_inventory.json"
+  - "ai-prompt/gf_hypothesis_from_documentation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  GF_CINEMATIC_TICK: 0x50B2A0
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION_SELECT: 0x485460
+  RESOLVE_AND_APPLY: 0x48FE20
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+
+  CERBERUS_ENTRY: 0xB0C1A0
+  CERBERUS_TICK: 0xB0C820
+  CERBERUS_COUNTER_INC: 0xB0C82A
+
+  GF_COMMAND_ID: 0x03
+  CERBERUS_GF_INDEX: 0x49
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_slot
+    label: "ally0_before"
+    slot: 0
+  - action: snapshot_slot
+    label: "ally1_before"
+    slot: 1
+  - action: snapshot_slot
+    label: "ally2_before"
+    slot: 2
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+  - action: set_breakpoint
+    address: "CERBERUS_ENTRY"
+    label: "bp_cerberus_entry"
+  - action: set_breakpoint
+    address: "CERBERUS_COUNTER_INC"
+    label: "bp_cerberus_counter_inc"
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "ARBITRATION_SELECT"
+    label: "bp_arbitration"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x49
+      active: 1
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+
+observe:
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_gf_cinematic", "bp_cerberus_entry", "bp_cerberus_counter_inc"]
+  - action: delete_breakpoint
+    label: "bp_gf_cinematic"
+  - action: delete_breakpoint
+    label: "bp_cerberus_entry"
+  - action: delete_breakpoint
+    label: "bp_cerberus_counter_inc"
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_and_apply"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_and_apply", "bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_damage"
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply"
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
+  - action: sync_to_battle_tick
+    label: "sync_post_damage"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "ally0_after"
+    slot: 0
+  - action: snapshot_slot
+    label: "ally1_after"
+    slot: 1
+  - action: snapshot_slot
+    label: "ally2_after"
+    slot: 2
+
+assert:
+  # Initial sync can miss if execution is resumed from an unrelated BP/context.
+  # Require at least one successful tick sync boundary in this run.
+  - check: any_of
+    label: "at_least_one_sync_boundary_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "sync_atb"
+      - check: breakpoint_was_hit
+        label: "sync_post_damage"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+  - check: any_of
+    label: "cerberus_positive_status_added_any_ally"
+    checks:
+      - check: slot_status_any_added
+        before: "ally0_before"
+        after: "ally0_after"
+        fields:
+          statuses: ["Double", "Triple", "Haste", "Protect", "Shell", "Reflect", "Aura"]
+      - check: slot_status_any_added
+        before: "ally1_before"
+        after: "ally1_after"
+        fields:
+          statuses: ["Double", "Triple", "Haste", "Protect", "Shell", "Reflect", "Aura"]
+      - check: slot_status_any_added
+        before: "ally2_before"
+        after: "ally2_after"
+        fields:
+          statuses: ["Double", "Triple", "Haste", "Protect", "Shell", "Reflect", "Aura"]
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze GF_CERBERUS_001 evidence.
+  Validate that command_arg=0x49 dispatches Cerberus and adds positive party statuses.
+  Focus on decoded status additions for ally slots 0-2.
+  Evidence:
+  {evidence_json}

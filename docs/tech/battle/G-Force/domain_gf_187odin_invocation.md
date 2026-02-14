@@ -34,4 +34,5 @@ Static reconstruction of 187Odin summon invocation chain and progression semanti
 
 ## Notes
 
-- No additional notes.
+- Latest live runtime tests reported unstable behavior when forcing Odin invocation (game enters bad state / crash-prone).
+- Keep this document as static reconstruction until a controlled evidence JSON run is captured.

@@ -14,7 +14,7 @@ import runpy
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parents[2]
-    target = repo_root / "RE" / "tech" / "battle" / "G-Force" / "tools" / "gf_batch_discovery.py"
+    target = repo_root / "tech" / "battle" / "G-Force" / "tools" / "gf_batch_discovery.py"
     runpy.run_path(str(target), run_name="__main__")
 
 
@@ -43,7 +43,7 @@ from urllib.request import Request, urlopen
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-TECH_DIR = REPO_ROOT / "RE" / "tech"
+TECH_DIR = REPO_ROOT / "tech"
 BATTLE_DIR = TECH_DIR / "battle"
 GF_DIR = BATTLE_DIR / "G-Force"
 TEST_DIR = GF_DIR / "test"

@@ -25,6 +25,7 @@ from .mcp_client import McpClient, McpToolError, McpTransportError
 # Type alias for action handler functions.
 # Signature: (step, constants, evidence) -> None
 ActionHandler = Callable[[Step, "dict[str, int]", Evidence], None]
+AssertHandler = Callable[[Step, Evidence], bool]
 
 
 class HypothesisRunner:
@@ -50,6 +51,9 @@ class HypothesisRunner:
 
         # Action registry — maps action name to handler callable
         self._actions: dict[str, ActionHandler] = {}
+        # Assertion registry — maps check name to handler callable.
+        # Handlers should record assertion results and return True if handled.
+        self._assertions: dict[str, AssertHandler] = {}
         self._register_builtin_actions()
 
     # ==================================================================
@@ -63,6 +67,16 @@ class HypothesisRunner:
         whenever a hypothesis step uses ``action: <name>``.
         """
         self._actions[name] = handler
+
+    def register_assertion(self, name: str, handler: AssertHandler) -> None:
+        """Register (or override) a custom assertion handler.
+
+        The handler receives ``(step, evidence)``, should emit one assertion via
+        ``evidence.add_assertion(...)`` and return True when it handled the
+        check. This enables domain plugins (e.g., game-specific runners) to
+        extend assertion semantics without modifying engine code.
+        """
+        self._assertions[name] = handler
 
     def _register_builtin_actions(self) -> None:
         """Register the generic debugger actions that ship with the engine."""
@@ -382,6 +396,11 @@ class HypothesisRunner:
     def _eval_assert(self, step: Step, evidence: Evidence) -> None:
         """Evaluate a deterministic assertion."""
         check = step.check or step.action
+        custom = self._assertions.get(check)
+        if custom is not None:
+            handled = custom(step, evidence)
+            if handled:
+                return
 
         match check:
             case "breakpoint_was_hit":

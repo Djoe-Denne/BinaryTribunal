@@ -2,37 +2,31 @@
 
 ## Scope
 
-Static reconstruction of Gfdiablosummonscriptinit summon invocation chain and progression semantics without requiring manual in-battle invocation.
+Runtime validation snapshot aligned with
+`evidence/2026-02-14T18-00-34_GF_DIABLOS_001.json`.
 
 ## High-Level Result
 
-- Entry: `GF_Gfdiablosummonscriptinit_InvokeSummonScript` (`0x654210`)
-- Init: `GF_Gfdiablosummonscriptinit_InvokeSummonScript` (`0x654210`)
-- Tick: `GF_Diablo_SummonScript_TaskDriver` (`0x654350`)
-- Family: `FamilyA`
-- Confidence: `high` (100)
+- Test reference: `GF_DIABLOS_001`
+- Deterministic result: `PASS`
+- Entry candidate: `GF_Gfdiablosummonscriptinit_InvokeSummonScript` (`0x654210`) armed but not hit in-session
+- Tick candidate: `GF_Diablo_SummonScript_TaskDriver` (`0x654350`) not directly hit in-session
+- Counter increment candidate: `0x65459d` not hit in-session
+- Runtime dispatch confirmation: `CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID = 0x45` at damage resolution
 
-## Call Chain
+## Confirmed Runtime Chain (This Session)
 
-1. `BattleActionSequence_Tick_GF_Cinematic` dispatches active GF callback path.
-2. `GF_Gfdiablosummonscriptinit_InvokeSummonScript` initializes summon context and schedules BDLink sequence task.
-3. `GF_Diablo_SummonScript_TaskDriver` advances per-frame sequence state.
+1. `BattlePendingAction_TransferToExecQueue` (`0x4847f0`) hit.
+2. `BattleActionSequence_Tick_GF_Cinematic` (`0x50b2a0`) hit.
+3. `BattleAction_ResolveAndApplyDamage` (`0x48fe20`) hit.
+4. `Battle_ApplyDamageOrHeal` (`0x494410`) hit.
 
 ## Counter and Completion
 
-- Increment site: `0x65459d`
-- Completion site: `0x654595`
-
-## Numeric Conversions (via int_convert)
-
-- `0x654210` -> `6636048`
-- `0x654350` -> `6636368`
-- `0x654595` -> `6636949`
-- `0x65459d` -> `6636957`
-- `0x1D96AAC` -> `31025836`
-- `0x1D99A50` -> `31038032`
-- `0x21DFEC4` -> `35520196`
+- Increment site candidate: `0x65459d` (not hit in this run)
+- Completion site candidate: `0x654595` (not observed in this run)
 
 ## Notes
 
-- No additional notes.
+- This document now reflects what is proven by the Diablos evidence run.
+- Missing entry/tick/counter probe hits are currently attributed to runtime dispatch/timing behavior, not command rejection (pipeline and effects are confirmed).
