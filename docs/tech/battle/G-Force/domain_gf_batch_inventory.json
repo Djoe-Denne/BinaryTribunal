@@ -291,15 +291,33 @@
     "init_addr": "0xb0c1a0",
     "tick_name": "GF_203Cerberus_SequenceTick",
     "tick_addr": "0xb0c820",
-    "helper_names": [],
+    "helper_names": [
+      "GF_203Cerberus_InitSequenceParams",
+      "GF_203Cerberus_ClearAnimCounter",
+      "GF_203Cerberus_ResolveSharedCtx",
+      "GF_203Cerberus_AllocFrameMemory",
+      "GF_203Cerberus_InitFullContext",
+      "GF_203Cerberus_DebugCameraControl",
+      "GF_203Cerberus_ClearRenderBuffer",
+      "GF_203Cerberus_ModelTransformTick",
+      "GF_203Cerberus_ModelRenderDispatch",
+      "GF_203Cerberus_InitAnimState",
+      "GF_203Cerberus_InitModelData",
+      "GF_203Cerberus_AdvanceSceneOrComplete",
+      "GF_203Cerberus_LoadModelSlotConfig",
+      "GF_203Cerberus_AnimScriptBackward",
+      "GF_203Cerberus_AnimScriptForward",
+      "GF_203Cerberus_SetFrameLimit"
+    ],
     "counter_increment_ea": "0xb0c82a",
     "completion_ea": "0xb0ca31",
     "family": "FamilyB",
-    "confidence": "medium",
-    "confidence_score": 82,
+    "confidence": "high",
+    "confidence_score": 95,
     "notes": [
       "GF_CERBERUS_001 PASS: pending transfer + cinematic + apply damage confirmed; entry/counter probes missed in-session.",
-      "Runtime effect confirmed: party receives Double + Triple statuses (status2 0x40000002 -> 0x40060002)."
+      "Runtime effect confirmed: party receives Double + Triple statuses (status2 0x40000002 -> 0x40060002).",
+      "Full static analysis (2026-02-15): 20 functions identified, 16 renamed, 17 globals renamed. Support GF (0 damage, Double+Triple). FamilyB script-driven animation. GF_CINEMATIC_SPECIAL_MODE=0 (status applied during pre-computation, not cinematic trigger)."
     ]
   },
   {
