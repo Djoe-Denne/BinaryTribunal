@@ -4,34 +4,77 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 
 ## Junctionable GFs
 
-| GF | cmd_arg | Entry | Init | Tick | Counter | Completion | Family | Confidence | Runtime |
-|----|---------|-------|------|------|---------|------------|--------|------------|---------|
-| Quezacotl | 0x40 | `0x6C3550` | `0x6C3640` | `0x6C3760` (driver) / `0x6C6660` (frame) | `0x6C3932` / `0x6C51F2` / `0x6C671D` | `0x6C3931` / `0x6C51F0` / `0x6C675D` | FamilyA | **96** (static) | Pending |
-| Shiva | 0x41 | `0x5C0D50` | (inline in entry) | `0x5C7F50` | `0x5C7F8B` | Unknown | FamilyA | **92** (static) | Pending |
-| Ifrit | 0x42 | `0xB25780` | `0xB257E0` | `0xB25DF0` | `0xB25DFA` | `0xB26004` | FamilyB | **100** | **PASS** (GF_IFRIT_001) |
-| Siren | 0x43 | `0x739DA0` | `0x8DC540` (shared) | `0x739F40` | Unknown | Unknown | SharedInit | **95** (static) | Pending |
-| Brothers | 0x44 | `0xAF4520` | (inline in entry) | `0xAF4B90` | `0xAF4B9A` | `0xAF4DA1` | Atypical | **75** | Tier-3 partial |
-| Diablos | 0x45 | `0x654210` | Unknown | `0x654350` (driver) | `0x65459D` | `0x654595` | Unknown | **90** | **PASS** (GF_DIABLOS_001) |
-| Carbuncle | 0x46 | `0x680C50` | `0x680C80` | `0x680DF0` | `0x6811C8` | `0x6811BE` | FamilyA | **95** (static) | Pending |
-| Leviathan | 0x47 | `0xB58080` | (inline in entry) | `0xB586F0` | `0xB586FA` | `0xB58901` | Atypical | **75** | Tier-3 partial |
-| Pandemona | 0x48 | `0x6ED250` | `0x6ED260` | `0x6ED350` | `0x6ED755` | `0x6ED749` | FamilyA | **95** | **PASS** (GF_PANDEMONA_001) |
-| Cerberus | 0x49 | `0xB0C1A0` | (inline in entry) | `0xB0C820` | `0xB0C82A` | `0xB0CA31` | FamilyB | **High** | **PASS** (GF_CERBERUS_001) |
-| Alexander | 0x4A | `0xAFFCA0` | (inline in entry) | `0xB00310` | `0xB0031A` | `0xB00521` | Atypical | **72** | Tier-3 partial |
-| Doomtrain | 0x4B | `0x63E730` | (inline in entry) | `0x6472C0` | `0x6472D1` | Unknown | FamilyA | **80** | Tier-3 partial |
-| Bahamut | 0x4C | `0xB189A0` | (inline in entry) | `0xB19010` | `0xB1901A` | `0xB19221` | Atypical | **72** | Tier-3 partial |
-| Cactuar | 0x4D | `0x5A8750` | (inline in entry) | `0x5AA3A0` | `0x5AA3B1` | Unknown | Atypical | **75** | Tier-3 partial |
-| Tonberry | 0x4E | `0x762360` | `0x8DC540` (shared) | `0x7624D0` | `0x7625F9` | `0x762611` | SharedInit | **95** | **PASS** (GF_TONBERRY_002) |
-| Eden | 0x4F | `0xAE2DD0` | (inline in entry) | `0xAE3470` | `0xAE347A` | `0xAE3681` | Atypical | **70** | Tier-3 partial |
+| GF | cmd_arg | effect_id | Entry | Init | Tick | Counter | Completion | Family | Confidence | Runtime |
+|----|---------|-----------|-------|------|------|---------|------------|--------|------------|---------|
+| Quezacotl | 0x40 | 116 | `0x6C3550` | `0x6C3640` | `0x6C3760` (driver) / `0x6C6660` (frame) | `0x6C3932` / `0x6C51F2` / `0x6C671D` | `0x6C3931` / `0x6C51F0` / `0x6C675D` | FamilyA | **96** (static) | Pending |
+| Shiva | 0x41 | 185 | `0x5C0D50` | (inline in entry) | `0x5C7F50` | `0x5C7F8B` | Unknown | FamilyA | **92** (static) | Pending |
+| Ifrit | 0x42 | 201 | `0xB25780` | `0xB257E0` | `0xB25DF0` | `0xB25DFA` | `0xB26004` | FamilyB | **100** | **PASS** (GF_IFRIT_001) |
+| Siren | 0x43 | 95 | `0x739DA0` | `0x8DC540` (shared) | `0x739F40` | Unknown | Unknown | SharedInit | **95** (static) | Pending |
+| Brothers | 0x44 | 205 | `0xAF4520` | (inline in entry) | `0xAF4B90` | `0xAF4B9A` | `0xAF4DA1` | Atypical | **75** | Tier-3 partial |
+| Diablos | 0x45 | 325 | `0x654210` | Unknown | `0x654350` (driver) | `0x65459D` | `0x654595` | Unknown | **90** | **PASS** (GF_DIABLOS_001) |
+| Carbuncle | 0x46 | 278 | `0x680C50` | `0x680C80` | `0x680DF0` | `0x6811C8` | `0x6811BE` | FamilyA | **95** (static) | Pending |
+| Leviathan | 0x47 | 6 | `0xB58080` | (inline in entry) | `0xB586F0` | `0xB586FA` | `0xB58901` | Atypical | **75** | Tier-3 partial |
+| Pandemona | 0x48 | 291 | `0x6ED250` | `0x6ED260` | `0x6ED350` | `0x6ED755` | `0x6ED749` | FamilyA | **95** | **PASS** (GF_PANDEMONA_001) |
+| Cerberus | 0x49 | 203 | `0xB0C1A0` | (inline in entry) | `0xB0C820` | `0xB0C82A` | `0xB0CA31` | FamilyB | **High** | **PASS** (GF_CERBERUS_001) |
+| Alexander | 0x4A | 204 | `0xAFFCA0` | (inline in entry) | `0xB00310` | `0xB0031A` | `0xB00521` | Atypical | **72** | Tier-3 partial |
+| Doomtrain | 0x4B | 191 | `0x63E730` | (inline in entry) | `0x6472C0` | `0x6472D1` | Unknown | FamilyA | **80** | Tier-3 partial |
+| Bahamut | 0x4C | 202 | `0xB189A0` | (inline in entry) | `0xB19010` | `0xB1901A` | `0xB19221` | Atypical | **72** | Tier-3 partial |
+| Cactuar | 0x4D | 199 | `0x5A8750` | (inline in entry) | `0x5AA3A0` | `0x5AA3B1` | Unknown | Atypical | **75** | Tier-3 partial |
+| Tonberry | 0x4E | 90 | `0x762360` | `0x8DC540` (shared) | `0x7624D0` | `0x7625F9` | `0x762611` | SharedInit | **95** | **PASS** (GF_TONBERRY_002) |
+| Eden | 0x4F | 206 | `0xAE2DD0` | (inline in entry) | `0xAE3470` | `0xAE347A` | `0xAE3681` | Atypical | **70** | Tier-3 partial |
+
+> **effect_id** is the index into `MagicList_Logic` (1-based). See [magic_effect_table.md](../reference/magic_effect_table.md) for the full dispatch architecture. Diablos has a thunk wrapper at `0x6541E0` in the table that forwards to the real entry at `0x654210`.
 
 ## Special / Non-Junctionable GFs
 
-| GF | Entry | Tick | Counter | Mechanism | Status |
-|----|-------|------|---------|-----------|--------|
-| Odin | `0x6472E0` | `0x64DD50` | `0x64DD61` | Auto-trigger (battle start, RNG check) | FamilyA, **crashes on injection** |
-| Griever | `0x62B3F0` | Unknown | Unknown | Boss-only, non-summonable | Unstable in tests |
-| Gilgamesh | Unknown | Unknown | Unknown | Replaces Odin disc 3+, uses `Tick_Special` | **Unmapped** |
-| Phoenix | Unknown | Unknown | Unknown | Auto on party wipe + Phoenix Pinion | **Unmapped** |
-| Chocobo/Boko | Unknown | Unknown | Unknown | Item command (0x04), PocketStation companion | **Unmapped** |
+| GF | effect_id | Entry | Tick | Counter | Mechanism | Status |
+|----|-----------|-------|------|---------|-----------|--------|
+| Odin | 187 | `0x6472E0` | `0x64DD50` | `0x64DD61` | Auto-trigger (init only, 12.5% RNG) | FamilyA, **crashes on injection** |
+| Griever | 69 | `0x6FE040` | Unknown | Unknown | Boss-only, non-summonable | Entry corrected (was `0x62B3F0`) |
+| Gilgamesh (Zantetsuken) | 329 | `0x58DB10` | Unknown | Unknown | Auto-trigger; replaces Odin disc 3+ | Via `Tick_Special`, cmd 0xF5 |
+| Gilgamesh (Masamune) | 330 | `0x58DCF0` | Unknown | Unknown | Gilgamesh variant 2 | Via `Tick_Special`, cmd 0xF5 |
+| Gilgamesh (Excalibur) | 328 | `0x58D930` | Unknown | Unknown | Gilgamesh variant 3 | Via `Tick_Special`, cmd 0xF5 |
+| Gilgamesh (Excalipoor) | 327 | `0x58D760` | Unknown | Unknown | Gilgamesh variant 4 (joke) | Via `Tick_Special`, cmd 0xF5 |
+| Phoenix | 140 | `0x6A6300` | Unknown | Unknown | Auto on party wipe + flag | Bit 2 of SG flag + 25% RNG |
+| ChocoFire | 97 | `0x729A60` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
+| ChocoFlare | 98 | `0x721860` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
+| ChocoMeteor | 99 | `0x717D30` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
+| ChocoBocle | 100 | `0x70D390` | Unknown | Unknown | Chocobo/Boko variant; SharedInit pattern | Entry mapped via table |
+
+> **Griever correction**: The previously listed entry `0x62B3F0` was a mid-function address inside `sub_62B1C0` (a rendering utility). The actual Griever summon cinematic entry is `MAG_069_GRIEVER_SUMMON` at `0x6FE040` (thunk to `0x6FE050`), confirmed by callees: `BdLinkTask`, `BS_Memset`, `Battle_PlayCameraAnimation`.
+>
+> **Gilgamesh** now confirmed present in `MagicList_Logic` with 4 variants (effect_ids 327–330). Dispatched via `BattleActionSequence_Tick_Special` (`0x50B830`) with command type `0xF5`. The variant is selected randomly when triggered.
+
+## Odin / Gilgamesh Auto-Trigger Details
+
+### SG_ODIN_ANGEL_GILGA_FLAG (0x1CFE97A)
+
+| Bit | Value | Meaning | Set by |
+|-----|-------|---------|--------|
+| 1 | 0x02 | Has Odin | `SETODIN` script opcode |
+| 3 | 0x08 | Has Gilgamesh | MonsterAI opcode 54 (clears bit 1 simultaneously) |
+
+### Odin (bit 1: 0x02)
+
+- **When**: Battle init only (`mode_3_subsubsubstep == 3`)
+- **Function**: `ZANTETSUKEN_sub_482DF0` (0x482E00)
+- **Gate**: All enemies must lack death immunity (Reflect stat < 200)
+- **RNG**: 32/255 ≈ 12.5% per battle
+- **Result**: `RELATED_ODIN_SUMMONED = 0` → effect_id 187 → `0x6472E0`
+
+### Gilgamesh (bit 3: 0x08)
+
+- **When**: Battle init (3.1%) OR per-frame tick (4.7% per tick, once per battle)
+- **Init function**: `related_odin_summ_probability` (0x4831F0)
+- **Tick function**: `domain::AngeloOdin_SpecialActionTick` (0x482F80)
+- **Variant selection**: `GetRandomInt() % 4` → values 7–10 (Zantetsuken/Masamune/Excalibur/Excalipoor)
+- **One-shot**: `byte_1D28E1D` flag prevents re-trigger within same battle
+
+### Story Transition (MonsterAI opcode 54)
+
+In the Seifer disc-3 boss battle, the AI script executes opcode 54, which clears bit 1 (Odin) and sets bit 3 (Gilgamesh). After this point, Odin can never trigger again and Gilgamesh takes over.
+
+See [magic_effect_table.md](../reference/magic_effect_table.md#odin--gilgamesh-auto-trigger-mechanism) for the full technical breakdown.
 
 ## Runtime Evidence Summary
 

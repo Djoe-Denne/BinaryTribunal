@@ -84,7 +84,19 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x486E70` | `domain::BattleTarget_SelectByStatusOrStat` | Target mask by status/stat filter |
 | `0x4860A0` | `howManyCharaNotDeadOrPetrify` | Party alive check |
 | `0x4860D0` | `howManyMonsterNotDeadOrPetrify` | Monster alive check |
-| `0x482F80` | `sub_482F80` | Special action gating (Angelo/Odin) |
+| `0x482F80` | `domain::AngeloOdin_SpecialActionTick` | Per-frame Angelo/Gilgamesh RNG trigger |
+
+## Odin / Gilgamesh / Angelo Auto-Trigger
+
+| Address | Name | Role |
+|---------|------|------|
+| `0x482E00` | `ZANTETSUKEN_sub_482DF0` | Battle-init Odin Zantetsuken (12.5% RNG, checks bit 1) |
+| `0x4831F0` | `related_odin_summ_probability` | Battle-init Gilgamesh trigger (3.1% RNG, checks bit 3) |
+| `0x482F80` | `domain::AngeloOdin_SpecialActionTick` | Per-frame Gilgamesh + Angelo trigger (4.7% RNG) |
+| `0x483270` | `sub_483270` | Phoenix auto-trigger (25% RNG, checks bit 2) |
+| `0x484720` | `ODIN_sub_484710` | Queue Odin/Gilgamesh/Angelo action into exec queue |
+| `0x486080` | `ODIN_sub_486070` | Find first active party slot (target for Odin action) |
+| `0x483400` | `sub_483400` | Build action context from variant + command type |
 
 ## Battle Init
 
@@ -134,7 +146,7 @@ Master reference for all known function and global addresses in FF8 battle.
 
 | Address | Name | Role |
 |---------|------|------|
-| `0x50AF20` | `BattleGF_LoadCallbackByMagicID` | Loads GF entry callback by magic ID |
+| `0x50AF20` | `BattleGF_LoadCallbackByMagicID` | Indexes `MagicList_Logic[effect_id - 1]` to load entry callback |
 | `0x56DCE0` | `BattleGF_InitBoostMinigame` | GF boost minigame init |
 | `0x56DD70` | `BattleGF_BoostMinigameTick` | GF boost minigame tick |
 | `0x8DC540` | `BdLinkTask_CreateAndInitContext` | Shared GF task constructor |
@@ -152,10 +164,18 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x1D287DC` | `CURRENT_ENCOUNTER_DATA_SCENE_OUT` | `FF8SceneOut` | Active encounter data |
 | `0x1D28344` | `BATTLE_DAMAGE_RESULT_BUFFER` | 24-byte records | Damage output buffer |
 | `0x21DFEC4` | `GF_CALLBACK_PTR` | `dword` | Active GF cinematic callback pointer |
+| `0xC81774` | `MagicList_Logic` | `int(*)(int)[400]` | Master effect logic dispatch table (see [magic_effect_table.md](magic_effect_table.md)) |
+| `0xC81DB8` | `MagicList_TextureLoad` | `void(*)(void)[400]` | Effect texture-loading callbacks |
 | `0x1CFF180` | `BATTLE_ATB_UI_MIRROR` | struct | UI mirror of ATB gauges |
 | `0x1D76718` | `BATTLE_MENU_PENDING_CMD_COUNT` | `dword` | Pending command count |
 | `0x1D76721` | `BATTLE_MENU_PENDING_CMD_BUFFER` | buffer | Pending command staging |
-| `0x1D99A50` | GF sequence state | `dword` | Active GF sequence state block |
+| `0x1CF4DC0` | `K_GF_JUNCTIONABLE` | `struct[16]` (132 B each) | Kernel GF data (section 14); +0x04 = `magicID` (effect_id, u16) |
+| `0x1CF7D28` | `K_NONJ_GF_ATTACK_NAME_OFFSET` | `struct[15]` (20 B each) | Non-junctionable GF attacks; +0x02 = `magicID` (effect_id, u16) |
+| `0x1CFE97A` | `SG_ODIN_ANGEL_GILGA_FLAG` | `uint8` | Bit 1=Odin, 2=Phoenix, 3=Gilgamesh, 4=(suppress Angelo), 5=Witch |
+| `0x1D28E14` | `RELATED_ODIN_SUMMONED` | `dword` | Active special-GF variant index (0=Odin, 7–10=Gilgamesh, 11–14=Angelo) |
+| `0x1D28E1D` | `byte_1D28E1D` | `uint8` | Gilgamesh one-shot flag (1 = already triggered this battle) |
+| `0x1D28DE4` | `word_1D28DE4` | `uint16` | Angelo/Odin cooldown timer (frames until next RNG check) |
+| `0x1D99A50` | `g_GfSequenceContextSharedB` | `dword` (ptr) | Ptr to active action context (+1: cmd_type, +4: cmd_arg, +6: effect_id) |
 
 ## Shared GF Cinematic Globals (reused across all GFs — one cinematic at a time)
 
