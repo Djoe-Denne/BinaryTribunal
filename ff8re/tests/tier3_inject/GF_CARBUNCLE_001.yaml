@@ -16,6 +16,8 @@ constants:
   GF_CINEMATIC_TICK: 0x50B2A0
   PENDING_TRANSFER: 0x4847F0
   ARBITRATION_SELECT: 0x485460
+  RESOLVE_AND_APPLY: 0x48FE20
+  APPLY_DAMAGE_OR_HEAL: 0x494410
 
   CARBUNCLE_ENTRY: 0x680C50
   CARBUNCLE_TICK: 0x680DF0
@@ -99,10 +101,28 @@ observe:
     label: "bp_carbuncle_counter_inc"
   - action: delete_breakpoint
     label: "bp_carbuncle_driver_counter_inc"
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_and_apply"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_and_apply", "bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_damage"
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply"
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
   - action: sync_to_battle_tick
-    label: "sync_post_effect"
+    label: "sync_post_damage"
     address: "ATB_TICK"
-    timeout_ms: 20000
+    timeout_ms: 15000
   - action: snapshot_slot
     label: "ally0_after"
     slot: 0
@@ -120,9 +140,11 @@ assert:
       - check: breakpoint_was_hit
         label: "sync_atb"
       - check: breakpoint_was_hit
-        label: "sync_post_effect"
+        label: "sync_post_damage"
   - check: breakpoint_was_hit
     label: "bp_pending_transfer"
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
   - check: any_of
     label: "carbuncle_reflect_added_any_ally"
     checks:
