@@ -1,3 +1,29 @@
+# Agent Instructions for re-ff8
+
+## IDA Pro MCP Tools
+
+This project has an IDA Pro MCP server configured (`ida-pro-mcp` in `~/.cursor/mcp.json`).
+All IDA tools are available as **`user-ida-pro-mcp-*`** prefixed tool calls. Use them directly.
+
+**Do NOT fall back to curl, HTTP requests, or Shell commands to reach IDA.** The tools work natively.
+
+Common examples:
+
+| Task | Tool call |
+|---|---|
+| Look up a function | `user-ida-pro-mcp-lookup_funcs` |
+| Decompile | `user-ida-pro-mcp-decompile` |
+| Call graph | `user-ida-pro-mcp-callgraph` |
+| Cross-references | `user-ida-pro-mcp-xrefs_to` |
+| Callees of a function | `user-ida-pro-mcp-callees` |
+| Rename functions/globals | `user-ida-pro-mcp-rename` |
+| List functions | `user-ida-pro-mcp-list_funcs` |
+| Execute Python in IDA | `user-ida-pro-mcp-py_eval` |
+
+The full API reference for parameters and return values is below.
+
+---
+
 ## MCP Resources
 
 **Resources** represent browsable state (read-only data) following MCP's philosophy.
