@@ -90,13 +90,18 @@ Master reference for all known function and global addresses in FF8 battle.
 
 | Address | Name | Role |
 |---------|------|------|
-| `0x482E00` | `ZANTETSUKEN_sub_482DF0` | Battle-init Odin Zantetsuken (12.5% RNG, checks bit 1) |
-| `0x4831F0` | `related_odin_summ_probability` | Battle-init Gilgamesh trigger (3.1% RNG, checks bit 3) |
-| `0x482F80` | `domain::AngeloOdin_SpecialActionTick` | Per-frame Gilgamesh + Angelo trigger (4.7% RNG) |
-| `0x483270` | `sub_483270` | Phoenix auto-trigger (25% RNG, checks bit 2) |
-| `0x484720` | `ODIN_sub_484710` | Queue Odin/Gilgamesh/Angelo action into exec queue |
-| `0x486080` | `ODIN_sub_486070` | Find first active party slot (target for Odin action) |
+| `0x482E00` | `Odin_BattleInit_ZantetsukenCheck` | Battle-init Odin Zantetsuken (12.5% RNG, checks bit 1) |
+| `0x4831F0` | `Gilgamesh_BattleInit_TriggerCheck` | Battle-init Gilgamesh trigger (3.1% RNG, checks bit 3) |
+| `0x482F80` | `domain::AngeloOdin_SpecialActionTick` | Per-frame Gilgamesh + Angelo auto-trigger cascade |
+| `0x483270` | `Phoenix_BattleFrame_TriggerCheck` | Phoenix party-wipe trigger (25.1% RNG, checks bit 2) |
+| `0x486450` | `BattleFrame_PartyWipeCheck` | Party-wipe detection; calls Phoenix trigger, else game-over |
+| `0x482E80` | `Angelo_TurnCounter_TriggerCheck` | Angelo Rush/Recover on Rinoa's turn (from pre_MonsterAI) |
+| `0x482F10` | `Angelo_DamageCounter_ReverseCheck` | Angelo Reverse when Rinoa takes enemy hit (from ApplyDamageOrHeal) |
+| `0x484720` | `SpecialGF_QueueActionToExecQueue` | Queue Odin/Gilgamesh/Angelo/Phoenix action into exec queue |
+| `0x486080` | `SpecialGF_FindFirstActivePartySlot` | Find first active party slot (attacker for special actions) |
 | `0x483400` | `sub_483400` | Build action context from variant + command type |
+| `0x4831C0` | `Angelo_QueueVariantAction` | Set RELATED_ODIN_SUMMONED + target + queue (action type 8) |
+| `0x487640` | `Battle_FindSlotByCharFileId` | Scan slots for com_file_id match (e.g. 4=Rinoa) |
 
 ## Battle Init
 
@@ -175,6 +180,11 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x1D28E14` | `RELATED_ODIN_SUMMONED` | `dword` | Active special-GF variant index (0=Odin, 7–10=Gilgamesh, 11–14=Angelo) |
 | `0x1D28E1D` | `byte_1D28E1D` | `uint8` | Gilgamesh one-shot flag (1 = already triggered this battle) |
 | `0x1D28DE4` | `word_1D28DE4` | `uint16` | Angelo/Odin cooldown timer (frames until next RNG check) |
+| `0x1D28DE6` | `word_1D28DE6` | `uint16` | Angelo target bitmask (stored when queuing Angelo action) |
+| `0x1CFE772` | `SG_ANGELO_COMPLETED` | `uint8` | Angelo ability flags (bit 0=Rush, 1=Recover, 2=Reverse, 3=Search) |
+| `0x1CFE773` | `SG_ANGELO_KNOWN` | `uint8` | Angelo known abilities bitmask |
+| `0x1CFE774` | `SG_ANGELO_POINTS` | `uint8` | Angelo training points |
+| `0x1CFF6E7` | `battle_result_byte_1CFF6E7` | `uint8` | Battle result flag (1=game-over initiated) |
 | `0x1D99A50` | `g_GfSequenceContextSharedB` | `dword` (ptr) | Ptr to active action context (+1: cmd_type, +4: cmd_arg, +6: effect_id) |
 
 ## Shared GF Cinematic Globals (reused across all GFs — one cinematic at a time)

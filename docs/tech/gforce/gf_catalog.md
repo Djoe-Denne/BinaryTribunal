@@ -35,7 +35,11 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 | Gilgamesh (Masamune) | 330 | `0x58DCF0` | Unknown | Unknown | Gilgamesh variant 2 | Via `Tick_Special`, cmd 0xF5 |
 | Gilgamesh (Excalibur) | 328 | `0x58D930` | Unknown | Unknown | Gilgamesh variant 3 | Via `Tick_Special`, cmd 0xF5 |
 | Gilgamesh (Excalipoor) | 327 | `0x58D760` | Unknown | Unknown | Gilgamesh variant 4 (joke) | Via `Tick_Special`, cmd 0xF5 |
-| Phoenix | 140 | `0x6A6300` | Unknown | Unknown | Auto on party wipe + flag | Bit 2 of SG flag + 25% RNG |
+| Phoenix | 140 | `0x6A6430` | Unknown | Unknown | Party-wipe auto-trigger (bit 2, 25.1% RNG) | See Phoenix details below |
+| Angelo Rush | 91 | via MagicList | Unknown | Unknown | Auto/counter (3 trigger paths) | See Angelo details below |
+| Angelo Recover | 93 | via MagicList | Unknown | Unknown | Auto/counter heal | See Angelo details below |
+| Angelo Reverse | 94 | via MagicList | Unknown | Unknown | Auto/counter revive | See Angelo details below |
+| Angelo Search | 92 | via MagicList | Unknown | Unknown | Auto item find | See Angelo details below |
 | ChocoFire | 97 | `0x729A60` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
 | ChocoFlare | 98 | `0x721860` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
 | ChocoMeteor | 99 | `0x717D30` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
@@ -75,6 +79,80 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 In the Seifer disc-3 boss battle, the AI script executes opcode 54, which clears bit 1 (Odin) and sets bit 3 (Gilgamesh). After this point, Odin can never trigger again and Gilgamesh takes over.
 
 See [magic_effect_table.md](../reference/magic_effect_table.md#odin--gilgamesh-auto-trigger-mechanism) for the full technical breakdown.
+
+## Phoenix Auto-Trigger Details
+
+### SG_ODIN_ANGEL_GILGA_FLAG bit 2 (0x04): Phoenix enabled
+
+Set permanently when Phoenix Pinion (item 0x1F) is used in battle. In `getText` at `0x48D2F8`:
+```c
+if (item_id == 0x1F)
+    SG_ODIN_ANGEL_GILGA_FLAG |= 0x04;
+```
+
+### Party-Wipe Interception: `sub_486450` (0x486450)
+
+Called every frame from battle loop. Scans all 3 party slots; if all dead/petrified, calls `Phoenix_BattleFrame_TriggerCheck`. If Phoenix fails, initiates game-over.
+
+### Trigger Function: `Phoenix_BattleFrame_TriggerCheck` (0x483270)
+
+- **Condition 1**: At least one enemy alive
+- **Condition 2**: At least one party member exists and is not petrified
+- **Condition 3**: `SG_ODIN_ANGEL_GILGA_FLAG & 0x04` (Phoenix flag set)
+- **Condition 4**: `COMBAT_SCENE_ID != 317`
+- **RNG**: `isRandomProbaNumDen255(64, 255)` → **64/255 ≈ 25.1%**
+- **Result**: `RELATED_ODIN_SUMMONED = 1` → effect_id 140
+
+Phoenix does NOT have a spontaneous per-frame trigger. It only fires on party wipe.
+
+### Cinematic Path
+
+Action type 7 → `pre_MonsterAI` case 7 → `getText(slot, 0xF5, 1, target)` → `K_NONJ_GF_ATTACK[1].magicID = 140` → `Tick_Special` → `BattleGF_LoadCallbackByMagicID(140)` → `MagicList_Logic[139]` = `0x6A6300` → entry fn `0x6A6430`.
+
+Revive (clear KO + restore HP) resolved through standard damage/status pipeline in `Battle_ApplyDamageOrHeal`.
+
+## Angelo Variant Details
+
+### Prerequisites
+
+- Rinoa must be in the party (`com_file_id == 4`)
+- Bit 4 (0x10) of `SG_ODIN_ANGEL_GILGA_FLAG` must NOT be set (suppresses Angelo)
+
+### Ability Flags: `SG_ANGELO_COMPLETED` (0x1CFE772)
+
+| Bit | Value | Ability | Set via script case |
+|-----|-------|---------|---------------------|
+| 0 | 0x01 | Angelo Rush | Default |
+| 1 | 0x02 | Angelo Recover | Case 20 |
+| 2 | 0x04 | Angelo Reverse | Case 21 |
+| 3 | 0x08 | Angelo Search | Case 22 |
+
+### Three Trigger Paths
+
+**Path 1 — Per-frame auto-trigger** (`AngeloOdin_SpecialActionTick`, 0x482F80):
+Priority cascade: Recover (8/255) → Reverse (8/255) → Rush-like (2/255) → Search (8/255).
+Queued via `SpecialGF_QueueActionToExecQueue(slot, 8, 0)`. Cooldown: `word_1D28DE4 = K_MISC.dead_timer`.
+
+**Path 2 — Turn counter** (`sub_482E80`, 0x482E80, called from `pre_MonsterAI`):
+When Rinoa takes a turn: Recover (16/255) or Rush (16/255). Calls `sub_483400` directly.
+
+**Path 3 — Damage counter** (`sub_482F10`, 0x482F10, called from `Battle_ApplyDamageOrHeal`):
+When enemy attacks Rinoa: Angelo Reverse (32/255 ≈ 12.5%).
+
+### Cinematic Path
+
+Action type 8 → `pre_MonsterAI` case 8 → `getText(slot, 0xF0, variant, target)` → `K_NONJ_GF_ATTACK[variant].magicID` → `Tick_Special` → `BattleGF_LoadCallbackByMagicID(effect_id)`.
+
+### Variant Index Mapping
+
+| Index | effect_id | Angelo Ability | Command type |
+|-------|-----------|----------------|-------------|
+| 11 | 91 | Angelo Rush | 0xF0 |
+| 12 | 93 | Angelo Recover | 0xF0 |
+| 13 | 94 | Angelo Reverse | 0xF0 |
+| 14 | 92 | Angelo Search | 0xF0 |
+
+See [magic_effect_table.md](../reference/magic_effect_table.md#angelo-variant-system) for the full technical breakdown.
 
 ## Runtime Evidence Summary
 
