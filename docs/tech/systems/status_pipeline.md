@@ -34,7 +34,7 @@ This gate applies to ALL statuses including beneficial ones. Whether support spe
 `BattleStatus_ApplyHitStatus` (`0x4914E0`) resolves `HIT_STATUS_1/2` against target state:
 
 - Calls `checkDoubleStatusApply` (`0x4918C8`) — mutual exclusion, double-apply prevention, opposing-status cancellation
-- Calls `RelatedToStatus1And2` (`0x48F160`) — bitwise clear/set on `status_1/status_2`, triggers per-bit side effects via `sub_483340`/`sub_483370`
+- Calls `RelatedToStatus1And2` (`0x48F160`) — bitwise clear/set on `status_1/status_2`, triggers per-bit side effects via `StatusTimer_MarkDisabledForBit`/`StatusTimer_IsDisabledForBit`
 
 Drain-free variant: `BattleStatus_ApplyHitStatus_NoDrain` (`0x492090`) — same logic, skips HP drain.
 
@@ -58,7 +58,7 @@ Drain-free variant: `BattleStatus_ApplyHitStatus_NoDrain` (`0x492090`) — same 
 | Battle init | `setMonsterInfoFromDatInfoSection` (`0x48BBD0`) | Monster innate statuses |
 | Battle init | `Battle_InitPartySlotStatusFromChar` (`0x48B5F0`) | Auto-Haste, Auto-Protect from abilities |
 | HP trigger | `Battle_ApplyDamageOrHeal` (`0x494410`) | KO bit on HP=0 |
-| Timer expiry | `sub_483470` | Timed status clear, Gradual Petrify → Petrify |
+| Timer expiry | `Status_TickAndExpire` | Timed status clear, Gradual Petrify → Petrify |
 | Direct write | `BattleAction_ResolveAndApplyDamage` | Eject, instant-death in specific branches |
 | GF cleanup | `BattleStatus_HandleSummonExit_TODO` (`0x48E620`) | Clears GF summoning bit |
 
@@ -66,7 +66,7 @@ Drain-free variant: `BattleStatus_ApplyHitStatus_NoDrain` (`0x492090`) — same 
 
 - Mutual exclusion rules in `checkDoubleStatusApply` (Haste/Slow, Sleep/Berserk pairs)
 - How `HIT_ATTACK_ENABLER` interacts with target SPR for status hit/miss probability
-- Per-bit side-effect semantics in `sub_483340`/`sub_483370` (ATB reset on Stop, animation state, timer init)
+- Per-bit side-effect semantics in `StatusTimer_MarkDisabledForBit`/`StatusTimer_IsDisabledForBit` (ATB reset on Stop, animation state, timer init)
 - Whether beneficial statuses bypass `CanApplyHitStatus`
 - Timed status duration initialization site
 

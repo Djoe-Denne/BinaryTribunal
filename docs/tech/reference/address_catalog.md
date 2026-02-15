@@ -25,7 +25,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x485160` | `domain::BattleAction_ResolveSpecialActionAndUpdateDamage` | Action resolve + damage bridge |
 | `0x485460` | `domain::BattleArbitration_SelectNextAction` | Exec queue arbitration |
 | `0x4856C8` | `domain::BattleAction_ExecuteCurrent` | Build action context from queue |
-| `0x483EB0` | `sub_483EB0` | Auto-command path (berserk, auto-AI) |
+| `0x483EB0` | `Battle_ProcessAutoCommand` | Auto-command path (berserk, auto-AI) |
 
 ## Damage Pipeline
 
@@ -51,8 +51,8 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x492090` | `domain::BattleStatus_ApplyHitStatus_NoDrain` | Drain-free variant |
 | `0x4918C8` | `checkDoubleStatusApply` | Mutual exclusion / double-apply check |
 | `0x48F160` | `RelatedToStatus1And2` | Bitwise status clear/set helper |
-| `0x483340` | `sub_483340` | Per-bit side effect helper A |
-| `0x483370` | `sub_483370` | Per-bit side effect helper B |
+| `0x483340` | `StatusTimer_MarkDisabledForBit` | Per-bit side effect — mark timer disabled |
+| `0x483370` | `StatusTimer_IsDisabledForBit` | Per-bit side effect — check timer disabled |
 | `0x493840` | `domain::BattleStatus_ApplyAndSyncSlot` | Authoritative write + mirror sync |
 | `0x493D80` | `domain::BattleAction_ResolveAndApplyStatusResult` | Post-action HP-threshold status |
 | `0x494360` | `computeStatusHP50Or25Percent` | HP ratio → status_1 threshold bits |
@@ -60,7 +60,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x47E250` | `domain::BattleStatus_EnqueueStatusCopyUpdate` | Mirror sync (deferred) |
 | `0x47E330` | `domain::BattleStatus_EnqueueStatusCopyUpdateEx` | Mirror sync (extended) |
 | `0x506B50` | `domain::BattleStatus_MaskWithSlotStatus2` | Defense junction masking |
-| `0x483470` | `sub_483470` | Timed status expiration |
+| `0x483470` | `Status_TickAndExpire` | Timed status expiration |
 | `0x493110` | `domain::BattleStatus_QueueActionIfStatusFlagged_TODO` | Status-gated queued action |
 
 ## Command Menu
@@ -99,7 +99,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x482F10` | `Angelo_DamageCounter_ReverseCheck` | Angelo Reverse when Rinoa takes enemy hit (from ApplyDamageOrHeal) |
 | `0x484720` | `SpecialGF_QueueActionToExecQueue` | Queue Odin/Gilgamesh/Angelo/Phoenix action into exec queue |
 | `0x486080` | `SpecialGF_FindFirstActivePartySlot` | Find first active party slot (attacker for special actions) |
-| `0x483400` | `sub_483400` | Build action context from variant + command type |
+| `0x483400` | `Battle_QueueDirectAction` | Build action context from variant + command type |
 | `0x4831C0` | `Angelo_QueueVariantAction` | Set RELATED_ODIN_SUMMONED + target + queue (action type 8) |
 | `0x487640` | `Battle_FindSlotByCharFileId` | Scan slots for com_file_id match (e.g. 4=Rinoa) |
 
@@ -120,7 +120,21 @@ Master reference for all known function and global addresses in FF8 battle.
 |---------|------|------|
 | `0x48FD20` | `Draw_ComputeStealCount` | Draw quantity formula |
 | `0x48D554` | getText draw flow | Draw command branching |
-| `0x486A10` | `sub_486A10` | Stock mutation (cap 100) |
+| `0x486A10` | `Battle_MutateMagicStock` | Add/remove magic stock (cap 100) |
+
+## Random Encounter System
+
+| Address | Name | Role |
+|---------|------|------|
+| `0x47CA90` | `Field_Encounter_RollAndSelectScene` | Field encounter tick: increment, check, select, trigger |
+| `0x541C80` | `WM_Encounter_RollAndSelectScene` | World map encounter tick (terrain-based) |
+| `0x54A7F0` | `World_Encounter_CheckAndTrigger` | World map encounter orchestrator |
+| `0x523294` | `SCRIPT_BATTLE` | Field script forced battle opcode |
+| `0x48AFD0` | `Battle_InitPreemptiveBackAttackStatus` | Preemptive/back-attack RNG resolution |
+| `0x48B260` | `Battle_CheckPartyAbilityForPreemptive` | Party ability check for preemptive modifier |
+| `0x52B3A0` | `Field_IsCutsceneActive` | Returns 1 if cutscene/event blocks encounters |
+| `0x486450` | `BattleFrame_PartyWipeCheck` | Party-wipe detection + Phoenix trigger |
+| `0x487640` | `Battle_FindSlotByCharFileId` | Scan slots for com_file_id match |
 
 ## Encounter / Scene
 
@@ -178,13 +192,39 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x1CF7D28` | `K_NONJ_GF_ATTACK_NAME_OFFSET` | `struct[15]` (20 B each) | Non-junctionable GF attacks; +0x02 = `magicID` (effect_id, u16) |
 | `0x1CFE97A` | `SG_ODIN_ANGEL_GILGA_FLAG` | `uint8` | Bit 1=Odin, 2=Phoenix, 3=Gilgamesh, 4=(suppress Angelo), 5=Witch |
 | `0x1D28E14` | `RELATED_ODIN_SUMMONED` | `dword` | Active special-GF variant index (0=Odin, 7–10=Gilgamesh, 11–14=Angelo) |
-| `0x1D28E1D` | `byte_1D28E1D` | `uint8` | Gilgamesh one-shot flag (1 = already triggered this battle) |
-| `0x1D28DE4` | `word_1D28DE4` | `uint16` | Angelo/Odin cooldown timer (frames until next RNG check) |
-| `0x1D28DE6` | `word_1D28DE6` | `uint16` | Angelo target bitmask (stored when queuing Angelo action) |
+| `0x1D28E1D` | `GILGAMESH_ONESHOT_FLAG` | `uint8` | Gilgamesh one-shot flag (1 = already triggered this battle) |
+| `0x1D28DE4` | `SG_AUTO_COOLDOWN_TIMER` | `uint16` | Angelo/Odin cooldown timer (frames until next RNG check) |
+| `0x1D28DE6` | `ANGELO_TARGET_BITMASK` | `uint16` | Angelo target bitmask (stored when queuing Angelo action) |
 | `0x1CFE772` | `SG_ANGELO_COMPLETED` | `uint8` | Angelo ability flags (bit 0=Rush, 1=Recover, 2=Reverse, 3=Search) |
 | `0x1CFE773` | `SG_ANGELO_KNOWN` | `uint8` | Angelo known abilities bitmask |
 | `0x1CFE774` | `SG_ANGELO_POINTS` | `uint8` | Angelo training points |
-| `0x1CFF6E7` | `battle_result_byte_1CFF6E7` | `uint8` | Battle result flag (1=game-over initiated) |
+| `0x1CFF6E7` | `BATTLE_GAMEOVER_FLAG` | `uint8` | Battle result flag (1=game-over initiated) |
+| `0x1CDC740` | `FIELD_ENC_METER` | `uint16` | Field encounter meter (fractional accumulator, overflows at 256) |
+| `0x1CDC74A` | `FIELD_DANGER_RATING` | `uint16` | Field danger rating (accumulated per step) |
+| `0x1CD2FB8` | `FIELD_STEP_COUNTER` | `uint8` | Field step counter (wraps at 256) |
+| `0x1CDC748` | `FIELD_CYCLE_BONUS` | `uint8` | Field cycle bonus (+13 every 256 steps) |
+| `0xB80A18` | `DANGER_LIMIT_TABLE` | `uint8[256]` | Danger Limit Table (field copy) |
+| `0xC75D20` | `Encounter_RandomRollArray` | `uint8[256]` | Danger Limit Table (world map copy, same data) |
+| `0x1CF3D48` | `FIELD_ENC_RATE_PTR` | `ptr→uint8` | Field encounter rate (from field map data) |
+| `0x1CF3D78` | `FIELD_FORMATION_TABLE_PTR` | `ptr→uint16[4]` | Field formation table (4 scene IDs) |
+| `0x1CDC6E0` | `FIELD_LAST_FORMATION_ID` | `uint16` | Last field encounter ID (anti-repeat) |
+| `0x1CDBFEC` | `TOTAL_ENCOUNTER` | `uint8` | Total encounter count |
+| `0x1CFF6D8` | `RARE_ITEM_ABILITY_IN_IT` | `uint8` | Ability flags (bit 0=Initiative, 2=Enc-Half, 3=Enc-None) |
+| `0x1CFF6E0` | `COMBAT_SCENE_ID` | `uint16` | Active battle scene ID |
+| `0x1CFF6E2` | `ENCOUTER_BATTLE_FLAG` | `uint8` | Battle flags (bit 5=preemptive, 6=back-attack, 7=suppress) |
+| `0x1D28E08` | `BACK_PREEMTIVE_INFO` | `uint8` | Battle start type (0=normal, 1=preemptive, 2=back-attack) |
+| `0x1CD2EF8` | `FIELD_ENC_TRIGGERED` | `uint8` | Set to 1 when encounter fires |
+| `0x1CDC74C` | `FIELD_ENC_DISABLED` | `uint8` | Encounter disable flag (1 = off) |
+| `0x1CE4868` | `FIELD_STATE_MODE` | `uint16` | Field state (2/3/4 = menu/transition) |
+| `0x2040A5C` | `WM_ENC_METER` | `uint16` | World map encounter meter |
+| `0x2040A5E` | `LOCOMOTION_METHOD` | `uint8` | World map movement accumulator |
+| `0x2040A60` | `WM_STEP_AND_BONUS` | `multi` | Byte 0: step counter, byte 1: bonus |
+| `0x2040A5F` | `WM_CYCLE_BONUS` | `uint8` | World map cycle bonus |
+| `0x20400A0` | `WM_LAST_FORMATION_ID` | `uint16` | Last world map encounter ID (anti-repeat) |
+| `0x20409E0` | `world_currentVehicle` | `uint8` | Current world map vehicle ID |
+| `0x2036B4C` | `WM_PENDING_MODULE_ID` | `uint8` | World map module transition (3 = battle) |
+| `0x2036B4E` | `WM_PENDING_SCENE_LO` | `uint8` | World map scene ID (low byte) |
+| `0x2036B4F` | `WM_PENDING_SCENE_HI` | `uint8` | World map scene ID (high byte) |
 | `0x1D99A50` | `g_GfSequenceContextSharedB` | `dword` (ptr) | Ptr to active action context (+1: cmd_type, +4: cmd_arg, +6: effect_id) |
 
 ## Shared GF Cinematic Globals (reused across all GFs — one cinematic at a time)

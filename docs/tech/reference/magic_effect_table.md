@@ -204,15 +204,15 @@ Odin only triggers once at battle start. There is no per-frame re-roll for Odin.
 1. Check `SG_ODIN_ANGEL_GILGA_FLAG & 0x08` (has Gilgamesh)
 2. RNG: `isRandomProbaNumDen255(8, 255)` → **8/255 ≈ 3.1%**
 3. Random variant: `GetRandomInt() % 4` → values 7–10 (Zantetsuken/Masamune/Excalibur/Excalipoor)
-4. Set `byte_1D28E1D = 1` (blocks per-frame trigger)
+4. Set `GILGAMESH_ONESHOT_FLAG = 1` (blocks per-frame trigger)
 
 **Per-frame function**: `domain::AngeloOdin_SpecialActionTick` (0x482F80), called during `mode_3_subsubsubstep == 4` every frame.
 
-1. Cooldown: if `word_1D28DE4 > 0`, decrement and return
-2. Check `SG_ODIN_ANGEL_GILGA_FLAG & 0x08` AND `!byte_1D28E1D`
+1. Cooldown: if `SG_AUTO_COOLDOWN_TIMER > 0`, decrement and return
+2. Check `SG_ODIN_ANGEL_GILGA_FLAG & 0x08` AND `!GILGAMESH_ONESHOT_FLAG`
 3. RNG: `isRandomProbaNumDen255(12, 255)` → **12/255 ≈ 4.7% per tick**
 4. Random variant: same 7–10 selection
-5. Set `byte_1D28E1D = 1` (one trigger per battle)
+5. Set `GILGAMESH_ONESHOT_FLAG = 1` (one trigger per battle)
 
 ### Odin → Gilgamesh Story Transition
 
@@ -225,7 +225,7 @@ SG_ODIN_ANGEL_GILGA_FLAG |= 0x08;  // set bit 3 (add Gilgamesh)
 ### Action Queue → Cinematic Path
 
 1. Action queued with action type 7 via `ODIN_sub_484710` (0x484720) into exec queue
-2. `pre_MonsterAI` (0x487640) case 7 picks it up, calls `sub_483400(slot, 0xF5, variant, target)`
+2. `pre_MonsterAI` (0x487640) case 7 picks it up, calls `Battle_QueueDirectAction(slot, 0xF5, variant, target)`
 3. `getText` (0x48D2F8) case 245 reads `K_NONJ_GF_ATTACK_NAME_OFFSET.magicID[variant*20]` → effect_id
 4. Action context built with `command_type=0xF5`, `cmd_arg=variant`, `effect_id=magicID`
 5. `BattleActionSequence_DispatchTick` sees 0xF5 → `BattleActionSequence_Tick_Special`
@@ -249,17 +249,17 @@ if (item_id == 0x1F)
 
 Once set, the flag persists in save data. Phoenix can auto-trigger in all subsequent battles.
 
-### Party-Wipe Detection: `sub_486450` (0x486450)
+### Party-Wipe Detection: `BattleFrame_PartyWipeCheck` (0x486450)
 
 Called every frame from the battle loop (`mode_3_subsubsubstep == 4`). Flow:
 
-1. If `battle_result_byte_1CFF6E7 != 0`, return (game-over already initiated)
+1. If `BATTLE_GAMEOVER_FLAG != 0`, return (game-over already initiated)
 2. If `BYTE1(ATTACKER_SLOT_ID_0) == 1`, return (action in progress)
 3. Scan party slots 0–2 for any alive + non-dead + non-petrified member
 4. If found → return (party not wiped)
 5. **All party dead**: call `Phoenix_BattleFrame_TriggerCheck` (0x483270)
 6. If Phoenix triggers → return (Phoenix will handle it)
-7. If Phoenix fails → **initiate game-over**: display "Annihilated", set `battle_result_byte_1CFF6E7 = 1`
+7. If Phoenix fails → **initiate game-over**: display "Annihilated", set `BATTLE_GAMEOVER_FLAG = 1`
 
 ### Trigger: `Phoenix_BattleFrame_TriggerCheck` (0x483270)
 
@@ -287,7 +287,7 @@ Angelo is Rinoa's autonomous combat companion with 4 variants: Rush (attack), Re
 
 ### Prerequisites
 
-- **Rinoa in party**: `sub_487640(4)` scans for `com_file_id == 4`
+- **Rinoa in party**: `Battle_FindSlotByCharFileId(4)` scans for `com_file_id == 4`
 - **Bit 4 (0x10) of `SG_ODIN_ANGEL_GILGA_FLAG` NOT set**: bit 4 suppresses all Angelo triggers
 
 ### Ability Flags: `SG_ANGELO_COMPLETED` (0x1CFE772)
@@ -312,18 +312,18 @@ Runs every frame during the main battle tick. After the Gilgamesh check, if Rino
 4. **Angelo Search** (bit 3, `SG_ANGELO_COMPLETED & 8`): Rinoa alive + no debuffs (`status_1 & 5 == 0`, `status_2 & 0x4009 == 0`). RNG: **8/255 ≈ 3.1%**. Target: Rinoa. Sets `RELATED_ODIN_SUMMONED = 14`.
 
 Queued via `SpecialGF_QueueActionToExecQueue(slot, 8, 0)` with action type **8**.
-Cooldown: `word_1D28DE4 = K_MISC.dead_timer` after each check cycle.
+Cooldown: `SG_AUTO_COOLDOWN_TIMER = K_MISC.dead_timer` after each check cycle.
 
-### Path 2: Turn Counter (`sub_482E80`, 0x482E80)
+### Path 2: Turn Counter (`Angelo_TurnCounter_TriggerCheck`, 0x482E80)
 
 Called from `pre_MonsterAI` when a party slot takes a turn. If the acting slot is Rinoa:
 
 1. **Angelo Recover** (bit 1): Ally has `HIBYTE(status_1) & 1` (HP critical). RNG: **16/255 ≈ 6.3%**. Target: ally. Command type `0xF0`.
-2. **Angelo Rush** (bit 0): No condition on allies. RNG: **16/255 ≈ 6.3%**. Target: enemy via `sub_486E50`. Command type `0xF0`.
+2. **Angelo Rush** (bit 0): No condition on allies. RNG: **16/255 ≈ 6.3%**. Target: enemy via `Battle_SlotIndexToBitmask`. Command type `0xF0`.
 
-Calls `sub_483400(slot, 0xF0, variant, target)` directly (bypasses exec queue).
+Calls `Battle_QueueDirectAction(slot, 0xF0, variant, target)` directly (bypasses exec queue).
 
-### Path 3: Damage Counter (`sub_482F10`, 0x482F10)
+### Path 3: Damage Counter (`Angelo_DamageCounter_ReverseCheck`, 0x482F10)
 
 Called from `Battle_ApplyDamageOrHeal` (0x494410) when damage is applied to a slot. Triggers Angelo Reverse as a defensive reaction:
 

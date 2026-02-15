@@ -12,7 +12,7 @@
 ## Scenarios
 
 1. **Player Attack**: Let ATB fill, select Attack, confirm target. Verify pending write on target confirm (not command highlight). Check `a2=attacker_slot`, `a3=command_id=0x01`.
-2. **Auto-command**: If Berserk is active, verify `sub_483EB0` path instead of menu enqueue.
+2. **Auto-command**: If Berserk is active, verify `Battle_ProcessAutoCommand` path instead of menu enqueue.
 3. **Enemy turn**: Let enemy act naturally; compare exec queue behavior vs player.
 
 ## Observations

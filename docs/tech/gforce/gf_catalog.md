@@ -72,7 +72,7 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 - **Init function**: `related_odin_summ_probability` (0x4831F0)
 - **Tick function**: `domain::AngeloOdin_SpecialActionTick` (0x482F80)
 - **Variant selection**: `GetRandomInt() % 4` → values 7–10 (Zantetsuken/Masamune/Excalibur/Excalipoor)
-- **One-shot**: `byte_1D28E1D` flag prevents re-trigger within same battle
+- **One-shot**: `GILGAMESH_ONESHOT_FLAG` prevents re-trigger within same battle
 
 ### Story Transition (MonsterAI opcode 54)
 
@@ -90,7 +90,7 @@ if (item_id == 0x1F)
     SG_ODIN_ANGEL_GILGA_FLAG |= 0x04;
 ```
 
-### Party-Wipe Interception: `sub_486450` (0x486450)
+### Party-Wipe Interception: `BattleFrame_PartyWipeCheck` (0x486450)
 
 Called every frame from battle loop. Scans all 3 party slots; if all dead/petrified, calls `Phoenix_BattleFrame_TriggerCheck`. If Phoenix fails, initiates game-over.
 
@@ -131,12 +131,12 @@ Revive (clear KO + restore HP) resolved through standard damage/status pipeline 
 
 **Path 1 — Per-frame auto-trigger** (`AngeloOdin_SpecialActionTick`, 0x482F80):
 Priority cascade: Recover (8/255) → Reverse (8/255) → Rush-like (2/255) → Search (8/255).
-Queued via `SpecialGF_QueueActionToExecQueue(slot, 8, 0)`. Cooldown: `word_1D28DE4 = K_MISC.dead_timer`.
+Queued via `SpecialGF_QueueActionToExecQueue(slot, 8, 0)`. Cooldown: `SG_AUTO_COOLDOWN_TIMER = K_MISC.dead_timer`.
 
-**Path 2 — Turn counter** (`sub_482E80`, 0x482E80, called from `pre_MonsterAI`):
-When Rinoa takes a turn: Recover (16/255) or Rush (16/255). Calls `sub_483400` directly.
+**Path 2 — Turn counter** (`Angelo_TurnCounter_TriggerCheck`, 0x482E80, called from `pre_MonsterAI`):
+When Rinoa takes a turn: Recover (16/255) or Rush (16/255). Calls `Battle_QueueDirectAction` directly.
 
-**Path 3 — Damage counter** (`sub_482F10`, 0x482F10, called from `Battle_ApplyDamageOrHeal`):
+**Path 3 — Damage counter** (`Angelo_DamageCounter_ReverseCheck`, 0x482F10, called from `Battle_ApplyDamageOrHeal`):
 When enemy attacks Rinoa: Angelo Reverse (32/255 ≈ 12.5%).
 
 ### Cinematic Path

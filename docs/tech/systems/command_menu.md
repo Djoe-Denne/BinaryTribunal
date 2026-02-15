@@ -43,6 +43,6 @@ Opens through `BattleSubmenu_OpenByCommandClass` (`0x4C7D00`) default branch.
 | Status | Effect on Menu | Mechanism |
 |--------|---------------|-----------|
 | **Stop** | Cannot reach ready state | ATB gating: `status_2 & 0x9` blocks transition |
-| **Berserk** | Auto-command (no menu) | ATB path: `status_1 & 0x20` → `sub_483EB0` |
+| **Berserk** | Auto-command (no menu) | ATB path: `status_1 & 0x20` → `Battle_ProcessAutoCommand` |
 | **Silence** | Uncertain at menu level | No top-level hide confirmed; likely downstream handling |
 | **Zombie** | Uncertain at menu level | Strong effect in curative logic, no menu removal found |

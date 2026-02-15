@@ -33,7 +33,7 @@ When `cur_atb >= max_atb`:
 
 - `cur_atb` clamped to `max_atb`
 - If `status_1 & 0x20` (Berserk) OR `status_2 & 0x2004000`:
-  - Auto-command path: `sub_483EB0(slot)` — creates a command automatically
+  - Auto-command path: `Battle_ProcessAutoCommand(slot)` — creates a command automatically
   - `flag_data |= 0x04` (auto-ready)
 - Else:
   - Normal menu path: `BattleUI_EnqueueCommand(slot, 17, 128, 0)` (`0x4AD620`)

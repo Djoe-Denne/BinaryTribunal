@@ -15,9 +15,9 @@
 
 ## Stock Mutation
 
-`sub_486A10` (`0x486A10`) adds one unit at a time to the magic stock for a given slot. Enforces a cap of 100 per magic slot; returns nonzero on failure/full.
+`Battle_MutateMagicStock` (`0x486A10`) adds one unit at a time to the magic stock for a given slot. Enforces a cap of 100 per magic slot; returns nonzero on failure/full.
 
 ## Open Questions
 
-- Is `sub_486A10` the sole stock mutation path across battle/menu/junction contexts?
+- Is `Battle_MutateMagicStock` the sole stock mutation path across battle/menu/junction contexts?
 - Draw→Stock in field likely reuses the same routine — needs confirmation.
