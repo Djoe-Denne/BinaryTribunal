@@ -39,7 +39,7 @@
     "notes": [
       "Debug stop resolved via GF_CALLBACK_PTR (0x21DFEC4) value 0x6ed250; Pandemona entry/init/tick closure identified and renamed in IDA DB.",
       "Task-driver progression confirmed in static analysis: increment 0x6f0622, completion 0x6f06c6.",
-      "Runtime evidence intentionally pending deterministic test execution (GF_PANDEMONA_001)."
+      "GF_PANDEMONA_001 PASS (2026-02-15): pending transfer hit, counter increment hit; action globals at resolve show COMMAND_TYPE_ID=0xFE and CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID=0x48; enemy HP decreased."
     ]
   },
   {
@@ -173,17 +173,20 @@
     "entry_name": "MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE",
     "init_name": "BdLinkTask_CreateAndInitContext",
     "init_addr": "0x8dc540",
-    "tick_name": null,
-    "tick_addr": null,
+    "tick_name": "GF_090Tonberry_SequenceTick",
+    "tick_addr": "0x7624D0",
     "helper_names": [],
-    "counter_increment_ea": null,
-    "completion_ea": null,
+    "counter_increment_ea": "0x7625F9",
+    "completion_ea": "0x762611",
     "family": "Atypical",
-    "confidence": "low",
-    "confidence_score": 55,
+    "confidence": "high",
+    "confidence_score": 95,
     "notes": [
-      "Tick function unresolved from entry.",
-      "GF_TONBERRY_001 PASS confirms pending transfer and shared damage path."
+      "GF_TONBERRY_001 PASS confirms pending transfer and shared damage path (pipeline-level evidence).",
+      "GF_TONBERRY_002 PASS runtime-confirms shared init (0x8DC540), counter increment (0x7625F9), and completion (0x762611) for Tonberry's BdLink task.",
+      "Tick is passed as arg2 to BdLinkTask_CreateAndInitContext(dword_259F088, sub_7624D0, 100, 0) inside the entry function; counter/completion probes prove sub_7624D0 is executing.",
+      "Note: action_globals capture at resolve in GF_TONBERRY_002 landed on bp_apply_damage first; use GF_TONBERRY_003 for strict resolve capture.",
+      "IDA rename pending: MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE -> GF_090Tonberry_InvokeSummonScript; sub_7624D0 -> GF_090Tonberry_SequenceTick; dword_259F088 -> GF_090Tonberry_ContextPtr."
     ]
   },
   {

@@ -9,7 +9,7 @@ Batch-discovered GF summon chains from static MCP/IDA analysis.
 | GF | Entry | Init | Tick | Family | Confidence |
 |---|---|---|---|---|---|
 | 006Leviathan | `GF_006Leviathan_InvokeSummonScript` | `GF_006Leviathan_InvokeSummonScript` | `isLeviathanFrame` | `Atypical` | `medium` (75) |
-| 090Tonberry | `MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE` | `BdLinkTask_CreateAndInitContext` | `n/a` | `Atypical` | `low` (55) |
+| 090Tonberry | `MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE` | `BdLinkTask_CreateAndInitContext` | `GF_090Tonberry_SequenceTick` | `Atypical` | `high` (95) |
 | 095Siren | `GF_095Siren_InvokeSummonScript` | `BdLinkTask_CreateAndInitContext` | `GF_095Siren_SequenceTick` | `Atypical` | `high` (95) |
 | 185Shiva | `GF_185Shiva_InvokeSummonScript` | `GF_185Shiva_InvokeSummonScript` | `GF_185Shiva_SequenceTick` | `FamilyA` | `high` (92) |
 | 187Odin | `GF_187Odin_InvokeSummonScript` | `GF_187Odin_InvokeSummonScript` | `au_re_BdlinkTask_36` | `FamilyA` | `high` (90) |
@@ -28,9 +28,10 @@ Batch-discovered GF summon chains from static MCP/IDA analysis.
 
 - Rows for Leviathan, Brothers, Alexander, Bahamut, Tonberry, Eden, and Cactuar were updated from Tier-3 runtime evidence runs on 2026-02-14.
 - Rows for Doomtrain, Cerberus, Diablos, and Siren were updated from Tier-3 runtime evidence runs on 2026-02-14 (`GF_DOOMTRAIN_001`, `GF_CERBERUS_001`, `GF_DIABLOS_001`, `GF_SIREN_001`, `GF_SIREN_002`).
-- Pandemona (`0x6ed250`) now has complete static chain identification and IDA rename coverage; runtime evidence capture is pending deterministic execution.
+- Pandemona (`0x6ed250`) runtime evidence is CONFIRMED by `GF_PANDEMONA_001` (2026-02-15): pending transfer hit, counter increment hit, `COMMAND_TYPE_ID=0xFE`, `CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID=0x48`, and enemy HP decreased.
 - Carbuncle (`0x680c50`) now has complete static chain identification and IDA rename coverage; runtime evidence capture is pending deterministic execution.
 - Quezacotl static chain is now expanded end-to-end (entry/init/task-driver/charge/frame-tick) with normalized `GF_116Quezacotl_*` naming and completion-site mapping.
 - Odin and Griever are currently flagged unstable in live runtime tests (game enters bad state / crash-prone), pending controlled repro evidence.
 - Medium confidence reflects deterministic PASS with one or more key invocation probes (typically entry/tick) still missing in-session.
+- Tonberry tick (`sub_7624D0` / `GF_090Tonberry_SequenceTick`), counter (`0x7625F9`), and completion (`0x762611`) are runtime-confirmed by `GF_TONBERRY_002` (2026-02-15).
 - Remaining rows retain static-analysis confidence until corresponding evidence runs are completed.

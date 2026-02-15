@@ -1,0 +1,264 @@
+# GF_TONBERRY_003: Runtime-confirm Tonberry + capture deterministic resolve globals
+#
+# Tier 3 -- Active injection (write memory, observe effects).
+#
+# This is a strict follow-up to GF_TONBERRY_002:
+# - GF_TONBERRY_002 PASS confirmed the invocation chain probes, but its first damage
+#   wait step used wait_until=[bp_resolve_damage, bp_apply_damage] and landed on
+#   bp_apply_damage first. That makes action_globals_at_resolve reflect a different
+#   action context (often Magic), not the GF resolve context.
+#
+# This version waits for resolve FIRST, then apply, so action globals are reproducible:
+# - At bp_resolve_damage (0x48FE20): COMMAND_TYPE_ID should be 0xFE, CMD_ID should be 0x4E.
+# - Then we wait for bp_apply_damage (0x494410).
+#
+# Injection bytes (pending entry 0): 08 80 00 03 4E 00 00 01
+
+id: "GF_TONBERRY_003"
+title: "Inject GF Tonberry and capture resolve/apply globals deterministically"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_090tonberry_invocation.md"
+  - "tech/battle/G-Force/note_shared_init_sub_8dc540.md"
+  - "ai-prompt/ai_investigation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  GF_CALLBACK_PTR: 0x21DFEC4
+
+  PENDING_TRANSFER: 0x4847F0
+  GF_CINEMATIC_TICK: 0x50B2A0
+
+  RESOLVE_AND_APPLY: 0x48FE20
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+
+  TONBERRY_ENTRY: 0x762360
+  SHARED_INIT: 0x8DC540
+
+  TONBERRY_COUNTER_INC_PRIMARY: 0x7625F9
+  TONBERRY_COMPLETION_RET2: 0x762611
+
+  GF_COMMAND_ID: 0x03
+  TONBERRY_GF_INDEX: 0x4E
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_enemy_hp_all_10000
+    label: "reseed_enemy_hp"
+    fields:
+      hp: 10000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+
+  - action: snapshot_slot
+    label: "enemy3_before"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_before"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_before"
+    slot: 5
+
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+
+  - action: set_breakpoint
+    address: "TONBERRY_COUNTER_INC_PRIMARY"
+    label: "bp_tonberry_counter_inc"
+  - action: set_breakpoint
+    address: "TONBERRY_COMPLETION_RET2"
+    label: "bp_tonberry_completion_ret2"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x4E
+      active: 1
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+observe:
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_gf_cinematic"]
+  - action: check_breakpoint_hit
+    label: "bp_gf_cinematic"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+  - action: set_breakpoint
+    address: "SHARED_INIT"
+    label: "bp_shared_init"
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_shared_init"]
+  - action: check_breakpoint_hit
+    label: "bp_shared_init"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+  - action: snapshot_memory
+    label: "callback_ptr_at_dispatch"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+
+  - action: continue_execution
+    timeout_ms: 20000
+    wait_until: ["bp_tonberry_counter_inc"]
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_counter_inc"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+  - action: continue_execution
+    timeout_ms: 60000
+    wait_until: ["bp_tonberry_completion_ret2"]
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_completion_ret2"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+  # Damage pipeline: strict resolve capture, then apply.
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_damage"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_damage"]
+  - action: check_breakpoint_hit
+    label: "bp_resolve_damage"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_action_globals
+    label: "action_globals_at_resolve"
+  - action: read_registers
+    label: "regs_at_resolve"
+  - action: read_stacktrace
+    label: "stacktrace_at_resolve"
+
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: check_breakpoint_hit
+    label: "bp_apply_damage"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_action_globals
+    label: "action_globals_at_apply"
+  - action: read_registers
+    label: "regs_at_apply_damage"
+  - action: read_stacktrace
+    label: "stacktrace_at_apply_damage"
+
+  - action: sync_to_battle_tick
+    label: "sync_post"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "enemy3_after"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_after"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_after"
+    slot: 5
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: breakpoint_was_hit
+    label: "bp_shared_init"
+  - check: value_equals
+    label: "callback_ptr_at_dispatch"
+    fields:
+      expected: 0x762360
+  - check: breakpoint_was_hit
+    label: "bp_tonberry_counter_inc"
+  - check: breakpoint_was_hit
+    label: "bp_tonberry_completion_ret2"
+  - check: breakpoint_was_hit
+    label: "bp_resolve_damage"
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+  - check: any_of
+    label: "any_enemy_hp_changed"
+    checks:
+      - check: value_changed
+        before: "enemy3_before"
+        after: "enemy3_after"
+      - check: value_changed
+        before: "enemy4_before"
+        after: "enemy4_after"
+      - check: value_changed
+        before: "enemy5_before"
+        after: "enemy5_after"
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze GF_TONBERRY_003 evidence.
+
+  Goals:
+  - Confirm dispatch identity (GF_CALLBACK_PTR == 0x762360).
+  - Confirm counter increment (0x7625F9) and completion (0x762611).
+  - Deterministically capture action globals at resolve:
+    - COMMAND_TYPE_ID should be 0xFE (254 = GF)
+    - CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID should be 0x4E (Tonberry)
+
+  Evidence:
+  {evidence_json}

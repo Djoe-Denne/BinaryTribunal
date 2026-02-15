@@ -61,6 +61,7 @@ CMD_GF      = 0x03
 
 GF_SHIVA    = 0x41   # 65 decimal, confirmed via runtime action_globals (COMMAND_TYPE_ID=0xFE)
 GF_IFRIT    = 0x42   # 66 decimal, confirmed via BP capture
+GF_PANDEMONA = 0x48  # 72 decimal, confirmed via GF_PANDEMONA_001 action_globals (COMMAND_TYPE_ID=0xFE)
 
 # ======================================================================
 # Confirmed GF target masks

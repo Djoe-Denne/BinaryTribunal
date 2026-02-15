@@ -1,0 +1,339 @@
+# GF_TONBERRY_002: Runtime-confirm Tonberry tick/counter/completion chain
+#
+# Tier 3 -- Active injection (write memory, observe effects).
+#
+# Goal vs GF_TONBERRY_001:
+# - Prove the shared task constructor `BdLinkTask_CreateAndInitContext` (0x8DC540) fires for Tonberry.
+# - Capture runtime evidence that Tonberry's tick is `sub_7624D0` (passed as arg2 to shared init).
+# - Capture Tonberry counter increment + completion semantics from inside the tick.
+# - Verify GF_CALLBACK_PTR == 0x762360 (Tonberry entry) during dispatch.
+# - Capture action globals at damage resolve (COMMAND_TYPE_ID should be 0xFE, CMD_ID should be 0x4E).
+#
+# Architecture: Atypical shared-init family (identical to Siren 002 pattern).
+# Static chain from note_shared_init_sub_8dc540.md:
+#   Entry (0x762360) -> BdLinkTask_CreateAndInitContext(dword_259F088, sub_7624D0, 100, 0)
+#   Tick: sub_7624D0 (0x7624D0)
+#   Counter inc primary: 0x7625F9  inc word ptr [ctx+0x24]
+#   Counter inc aux:     0x7625F5  inc word ptr [ctx+0x5C]
+#   Completion:          0x762611  mov eax, 2; retn
+#
+# Injection bytes (pending entry 0): 08 80 00 03 4E 00 00 01
+
+id: "GF_TONBERRY_002"
+title: "Inject GF Tonberry and identify tick/counter/completion"
+domain: "gf_invocation"
+confidence_target: "high"
+
+references:
+  - "tech/battle/G-Force/domain_gf_090tonberry_invocation.md"
+  - "tech/battle/G-Force/note_shared_init_sub_8dc540.md"
+  - "tech/domain_status_application_pipeline.md"
+  - "ai-prompt/ai_investigation.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+  GF_CALLBACK_PTR: 0x21DFEC4
+
+  PENDING_TRANSFER: 0x4847F0
+  GF_CINEMATIC_TICK: 0x50B2A0
+
+  RESOLVE_AND_APPLY: 0x48FE20
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+
+  TONBERRY_ENTRY: 0x762360
+  SHARED_INIT: 0x8DC540   # BdLinkTask_CreateAndInitContext (shared with Siren)
+  TONBERRY_TICK: 0x7624D0  # sub_7624D0, passed as arg2 to BdLinkTask_CreateAndInitContext
+
+  # Counter increments inside Tonberry tick (see note_shared_init_sub_8dc540.md)
+  TONBERRY_COUNTER_INC_AUX: 0x7625F5     # inc word ptr [ctx+0x5C]
+  TONBERRY_COUNTER_INC_PRIMARY: 0x7625F9  # inc word ptr [ctx+0x24] (primary frame counter)
+
+  # Completion path inside Tonberry tick
+  TONBERRY_COMPLETION_RET2: 0x762611  # mov eax, 2; retn
+
+  # Context buffer pointer (destination arg1 to BdLinkTask_CreateAndInitContext)
+  TONBERRY_CONTEXT_PTR: 0x259F088  # dword_259F088
+
+  GF_COMMAND_ID: 0x03
+  TONBERRY_GF_INDEX: 0x4E
+  GF_TARGET_MASK: 0x8008
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_enemy_hp_all_10000
+    label: "reseed_enemy_hp"
+    fields:
+      hp: 10000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "callback_ptr_before"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+
+  - action: snapshot_slot
+    label: "enemy3_before"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_before"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_before"
+    slot: 5
+
+  - action: set_breakpoint
+    address: "PENDING_TRANSFER"
+    label: "bp_pending_transfer"
+  - action: set_breakpoint
+    address: "GF_CINEMATIC_TICK"
+    label: "bp_gf_cinematic"
+
+  # Counter/completion probes (more reliable than entry/tick BPs for this family)
+  - action: set_breakpoint
+    address: "TONBERRY_COUNTER_INC_PRIMARY"
+    label: "bp_tonberry_counter_inc"
+  - action: set_breakpoint
+    address: "TONBERRY_COMPLETION_RET2"
+    label: "bp_tonberry_completion_ret2"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: 0x8008
+      attacker_slot: 0
+      command_id: 0x03
+      command_arg: 0x4E
+      active: 1
+  - action: read_pending_action
+    label: "injected_pending_readback"
+    slot: 0
+
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_pending_transfer"]
+  - action: check_breakpoint_hit
+    label: "bp_pending_transfer"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_registers
+    label: "regs_at_pending_transfer"
+
+observe:
+  # Wait for cinematic dispatch; delete per-frame BP immediately after.
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until:
+      - "bp_gf_cinematic"
+  - action: check_breakpoint_hit
+    label: "bp_gf_cinematic"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+
+  # Arm shared init BP, wait for it, auto-delete after first hit.
+  - action: set_breakpoint
+    address: "SHARED_INIT"
+    label: "bp_shared_init"
+  - action: continue_execution
+    timeout_ms: 15000
+    wait_until: ["bp_shared_init"]
+  - action: check_breakpoint_hit
+    label: "bp_shared_init"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_registers
+    label: "regs_at_shared_init"
+  - action: read_stacktrace
+    label: "stacktrace_at_shared_init"
+
+  # Deterministic proof of dispatch: callback pointer should point at Tonberry entry.
+  - action: snapshot_memory
+    label: "callback_ptr_at_first_probe"
+    address: "GF_CALLBACK_PTR"
+    size: 4
+    type: u32
+  - action: read_registers
+    label: "regs_at_first_probe"
+  - action: read_stacktrace
+    label: "stacktrace_at_first_probe"
+
+  # Read context buffer pointer to confirm it was populated by the shared init.
+  - action: snapshot_memory
+    label: "tonberry_context_ptr"
+    address: "TONBERRY_CONTEXT_PTR"
+    size: 4
+    type: u32
+
+  # Counter progression is the canonical "tick is running" marker for this chain.
+  - action: continue_execution
+    timeout_ms: 20000
+    wait_until: ["bp_tonberry_counter_inc"]
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_counter_inc"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_registers
+    label: "regs_at_tick_or_counter"
+  - action: read_stacktrace
+    label: "stacktrace_at_tick_or_counter"
+
+  # Completion evidence (return 2 from tick — signals sequence end to BdLink dispatcher)
+  - action: continue_execution
+    timeout_ms: 60000
+    wait_until: ["bp_tonberry_completion_ret2"]
+  - action: check_breakpoint_hit
+    label: "bp_tonberry_completion_ret2"
+    expect: hit
+    fields:
+      delete_if_hit: true
+      min_hits: 1
+  - action: read_registers
+    label: "regs_at_completion"
+  - action: read_stacktrace
+    label: "stacktrace_at_completion"
+
+  # Damage pipeline verification
+  - action: set_breakpoint
+    address: "RESOLVE_AND_APPLY"
+    label: "bp_resolve_damage"
+  - action: set_breakpoint
+    address: "APPLY_DAMAGE_OR_HEAL"
+    label: "bp_apply_damage"
+
+  - action: continue_execution
+    timeout_ms: 90000
+    wait_until: ["bp_resolve_damage", "bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_resolve"
+  - action: read_registers
+    label: "regs_at_resolve"
+
+  - action: continue_execution
+    timeout_ms: 30000
+    wait_until: ["bp_apply_damage"]
+  - action: read_action_globals
+    label: "action_globals_at_apply"
+
+  - action: delete_breakpoint
+    label: "bp_resolve_damage"
+  - action: delete_breakpoint
+    label: "bp_apply_damage"
+
+  - action: sync_to_battle_tick
+    label: "sync_post"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "enemy3_after"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_after"
+    slot: 4
+  - action: snapshot_slot
+    label: "enemy5_after"
+    slot: 5
+
+assert:
+  # Stage 1: Injection consumed
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+
+  # Stage 2: Shared init fired (proves entry routed through BdLinkTask_CreateAndInitContext)
+  - check: breakpoint_was_hit
+    label: "bp_shared_init"
+
+  # Stage 3: Dispatch identity (GF_CALLBACK_PTR must equal Tonberry entry)
+  - check: value_equals
+    label: "callback_ptr_at_first_probe"
+    fields:
+      expected: 0x762360
+
+  # Stage 4: Tick is running (counter increment inside sub_7624D0 was hit)
+  - check: breakpoint_was_hit
+    label: "bp_tonberry_counter_inc"
+
+  # Stage 5: Sequence completed (return 2 path was hit)
+  - check: breakpoint_was_hit
+    label: "bp_tonberry_completion_ret2"
+
+  # Stage 6: Damage pipeline executed
+  - check: breakpoint_was_hit
+    label: "bp_apply_damage"
+
+  # Stage 7: Enemy HP changed
+  - check: any_of
+    label: "any_enemy_hp_changed"
+    checks:
+      - check: value_changed
+        before: "enemy3_before"
+        after: "enemy3_after"
+      - check: value_changed
+        before: "enemy4_before"
+        after: "enemy4_after"
+      - check: value_changed
+        before: "enemy5_before"
+        after: "enemy5_after"
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+
+verdict_prompt: |
+  Analyze GF_TONBERRY_002 evidence.
+
+  Goals:
+  - Confirm dispatch (GF_CALLBACK_PTR == 0x762360, Tonberry entry).
+  - Confirm shared init (BdLinkTask_CreateAndInitContext at 0x8DC540) was hit.
+  - Confirm per-frame Tonberry tick progression (counter increment BP at 0x7625F9 hit).
+  - Confirm sequence completion (return 2 at 0x762611 hit).
+  - Report action_globals at resolve: COMMAND_TYPE_ID should be 0xFE (GF),
+    CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID should be 0x4E (Tonberry).
+  - Report enemy HP delta (Chef's Knife damage).
+
+  Static chain being validated (from note_shared_init_sub_8dc540.md):
+    Entry: MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE (0x762360)
+      -> BdLinkTask_CreateAndInitContext(dword_259F088, sub_7624D0, 100, 0)
+    Tick: sub_7624D0 (0x7624D0)
+    Counter inc: 0x7625F9 (primary, ctx+0x24)
+    Completion:  0x762611 (mov eax, 2; retn)
+
+  Evidence:
+  {evidence_json}
+
+  Determine:
+  1. Was pending action consumed? (bp_pending_transfer)
+  2. Was shared init BdLinkTask_CreateAndInitContext hit? (bp_shared_init)
+  3. Did GF_CALLBACK_PTR equal 0x762360 at dispatch? (callback_ptr_at_first_probe)
+  4. Was Tonberry's tick running? (bp_tonberry_counter_inc — definitive proof sub_7624D0 is the tick)
+  5. Did the sequence complete? (bp_tonberry_completion_ret2 — proves 0x762611 return-2 path)
+  6. Did the damage pipeline fire? (bp_apply_damage + action_globals)
+  7. Did any enemy HP change?
+  8. What are the action_globals values? (COMMAND_TYPE_ID, CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID)
+
+  If all 7 assertions pass:
+  - Promote confidence to HIGH.
+  - Rename sub_7624D0 -> GF_090Tonberry_SequenceTick.
+  - Rename MAG_090_TONBERRY_SUMMON_CHEFS_KNIFE -> GF_090Tonberry_InvokeSummonScript.
+  - Rename dword_259F088 -> GF_090Tonberry_ContextPtr.
+  - Confirm command_arg=0x4E for Tonberry.
