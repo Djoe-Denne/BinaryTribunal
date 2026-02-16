@@ -28,12 +28,14 @@ Reverse engineering documentation for Final Fantasy VIII's battle system (PC, 20
 | Document | Scope |
 |----------|-------|
 | `systems/battle_loop.md` | Main loop state machine, module dispatch, per-frame tick entry |
+| `systems/battle_init.md` | Complete init sequence: state machine, party/enemy slot setup, stat formulas, preemptive, ATB, battle end |
 | `systems/command_pipeline.md` | Input → PendingAction → ExecQueue → Resolve (full path) |
 | `systems/damage_pipeline.md` | `ResolveAndApplyDamage` → compute → apply → bookkeeping |
 | `systems/status_pipeline.md` | Status payload → gating → resolution → commit → sync |
 | `systems/atb_system.md` | ATB accumulation, readiness transitions, speed/status gates |
 | `systems/command_menu.md` | Command builder, availability gates, limit break crisis |
 | `systems/encounter_trigger.md` | Field/world encounter trigger → `COMBAT_SCENE_ID` → scene resolve |
+| `systems/enemy_ai_vm.md` | Enemy AI bytecode VM: 61-opcode interpreter, conditions, targeting, scripts |
 | `systems/draw_system.md` | Draw/Stock mechanics and quantity computation |
 | `systems/render_bridge.md` | Domain → Presentation bridge: task queue, sequence ticks, frame present |
 
