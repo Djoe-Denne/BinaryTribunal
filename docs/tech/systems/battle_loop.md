@@ -1,63 +1,86 @@
 # Battle Loop
 
-## State Machine
+## Ownership Hierarchy
 
-`main::FFBattleDirector_battleLoop` (`0x47CCB0`) is the battle module state machine. The per-frame battle tick executes when:
+The battle loop has two distinct owners:
 
-- `mode_StateGlobal == 3` (battle)
-- `mode3_subsub_step == 3`
+- `main::FFBattleModule` (`0x47CF60`) is the **whole-frame owner**. `FFBattleTransitionModule` (`0x559890`) installs it as the recurring module callback, separately from `FFBattleInitSystem` (`0x47CE10`) and `FFBattleExitSystem` (`0x47CEF0`). One call owns one battle frame.
+- `main::FFBattleDirector_battleLoop` (`0x47CCB0`) is the **domain director** called once from that frame owner while the battle is not paused. It owns battle initialization, the recurring domain tick, result detection, and cleanup.
+
+`main::FFModuleHandler_main_loop` starts at `0x4706B0`. Address `0x4709EC` is only an interior assignment site where that dispatcher stores `main::FFBattleModule` as a module callback.
+
+## Active State Guard
+
+The recurring director tick executes under the four-level state:
+
+- `mode_StateGlobal == 3`
+- `mode3_substep == 3`
+- `mode3_subsub_step == 1`
 - `mode_3_subsubsubstep == 4`
 
-## Per-Frame Tick Flow
+The older shorthand `mode3_subsub_step == 3` is incorrect: value `3` belongs to `mode3_substep`; the active subsub state is `1`.
 
-Within the active tick, the engine runs in this order:
+## Whole-Frame Order
 
-1. **Input/ATB**: `BattleUI_InputPollAndMenuState` (`0x4A8772`) polls input, calls `BattleATB_TickAndReady` (`0x4842B0`) to advance ATB gauges (see `systems/atb_system.md`).
+`main::FFBattleModule` runs, in order:
 
-2. **Pending → Exec**: `BattlePendingAction_TransferToExecQueue` (`0x4847F0`) transfers active pending actions into the execution queue (see `reference/pending_action.md`).
+1. Begin the graphics scene and prepare battle render buffers.
+2. Evaluate the battle pause request.
+3. If `mode_Battle_AnimationState == 3`, call `BattleUI_HudInputAndATBTick` (`0x4A84E0`) three times.
+4. If `!IS_BATTLE_PAUSED`, call `FFBattleDirector_battleLoop` once.
+5. If `mode_Battle_AnimationState == 3`, call `BattleUI_HudInputAndATBTick` once more and render cursor/menu state.
+6. Handle `exit_battle` module switching.
+7. Draw the battle frame, end the scene, and run window/present support.
+8. Pace the next frame through `UpdateRateRelated` (`0x4020F0`).
 
-3. **Arbitration**: `BattleArbitration_SelectNextAction` (`0x485460`) selects the next action from the exec queue. For monster slots, this calls into the Enemy AI VM (see `systems/enemy_ai_vm.md`).
+Input, command-menu readiness, and ATB therefore live in the frame/HUD layer, not at the beginning of the director's active block.
 
-4. **Resolution**: `BattleAction_ResolveSpecialActionAndUpdateDamage` (`0x485160`) resolves actions → damage pipeline (see `systems/damage_pipeline.md`).
+## Director Active-Tick Order
 
-5. **Presentation**: `BattleTaskQueue_Tick` (`0x500CC0`) dispatches queued presentation tasks (see `systems/render_bridge.md`).
+Within the active `subsubsubstep == 4` case, the director runs:
 
-## Initialization Phases
+1. Refresh enemy/Griever names and set the in-logic flag.
+2. Run the five battle-end checks.
+3. Update the escape held-input presentation latch.
+4. Transfer all pending entries to the execution queues.
+5. Enqueue enemy counter actions.
+6. Reset all three queue groups if an end result was latched.
+7. If no action is locked, arbitrate and synchronously resolve/commit the selected action.
+8. Tick statuses and Angelo/Odin when their gates permit.
+9. Process action and deferred callback chains.
+10. Pump battle-file callbacks, run `BdLink_GF_battle_input_and_texture_upload`, and update transition/message tails.
 
-Before the per-frame tick begins, battle init runs through `mode_StateGlobal == 3` substeps:
+Outcome HP/status is committed during selection/resolution. Multi-frame action sequences are presentation, although their completion and callback state can still gate later domain progress.
 
-1. Load `COMBAT_SCENE_ID` and scene.out data (128 bytes at offset `scene_id << 7`).
-2. Clear all 11 battle slots, parse party (junction stats, commands, auto-statuses), parse items.
-3. Async-load stage geometry (step 0 → callback → step 1).
-4. Init enemy slots from `.dat` data (level scaling, HP formula, stat curves, innate statuses).
-5. Determine preemptive / back-attack and override ATB accordingly.
-6. Async-load enemy textures (step 2 → callback → step 3).
-7. Pre-battle checks: Odin (12.5%), Gilgamesh (3.1%), dead timer, target visibility.
-8. Transition to active tick (step 4).
+## Initialization And Handoff
 
-See **[battle_init.md](battle_init.md)** for the complete state machine, formulas, and function addresses.
+Before the active tick, the director:
 
-## Mermaid Diagram
+1. Loads `COMBAT_SCENE_ID` and the `scene.out` record.
+2. Clears all 11 slots, parses party/items, and seeds battle RNG.
+3. Loads stage and enemy resources asynchronously.
+4. Initializes enemy data, ATB, positions, target masks, scripted summons, and dead timer.
+5. Writes `mode_3_subsubsubstep = 4` at `0x47D6F8`.
+
+That write is the post-init handoff. The same frame still calls `Battle_RunFileLoadingCallbacks` (`0x47D702`) and `BdLink_GF_battle_input_and_texture_upload` (`0x47D707`); the first recurring active block starts on the next director entry at `0x47D70F`.
+
+See **[battle_init.md](battle_init.md)** for the complete initialization state machine.
+
+## Replacement Boundaries
+
+- **Whole battle frame:** hook `main::FFBattleModule` at `0x47CF60`. This is the only seam that replaces pause, HUD/input/ATB, director dispatch, battle rendering, and frame pacing together.
+- **Domain only:** hook the director or its active case at `0x47D70F`. The surrounding HUD and frame-render work remains native.
+- **Post-native-init takeover:** allow the director to reach `3 / 3 / 1 / 4`, then transfer ownership. File callbacks, action/deferred callbacks, serialization latches, and cleanup must be preserved or faithfully replaced.
+
+The native return seam was confirmed live on 2026-07-12. A replacement can set up a native-compatible result and return control so the director reaches `mode3_subsub_step=2`; `Battle_EndCleanupAndTransition` then commits party/reward state, enters mode 5 for victory/escape, runs `FFBattleExitSystem`, and transfers to `BattleRewardMenu_MainLoop`. Transient pending/exec/latch bytes do not need a blanket zero: native battle init clears the state block before the next encounter.
 
 ```mermaid
 flowchart TD
-  battleLoop["FFBattleDirector_battleLoop"] --> inputPoll["BattleUI_InputPollAndMenuState"]
-  inputPoll --> atbTick["BattleATB_TickAndReady"]
-  inputPoll --> buildCmd["CommandMenu → PendingAction_Write"]
-  buildCmd --> pendingBuf["PENDING_ACTION_BUFFER"]
-  pendingBuf --> transfer["PendingAction_TransferToExecQueue"]
-  transfer --> execQueue["Exec Queue"]
-  execQueue --> arb["Arbitration_SelectNextAction"]
-  arb -->|monster slot| aiPrepare["EnemyAI_PrepareTurnAction"]
-  aiPrepare --> aiDispatch["EnemyAI_DispatchSection"]
-  aiDispatch --> aiVM["EnemyAI_VM_ExecuteScript\n(61-opcode bytecode VM)"]
-  arb --> resolve["ResolveSpecialActionAndUpdateDamage"]
-  resolve --> damage["ResolveAndApplyDamage"]
-  resolve --> updateDmg["Battle_UpdateDamage"]
-  damage -->|counter/death| aiDispatch
-  battleLoop --> taskQueue["BattleTaskQueue_Tick"]
-  taskQueue --> seqDispatch["ActionSequence_DispatchTick"]
-  seqDispatch --> tickGeneric["Tick_Generic"]
-  seqDispatch --> tickGF["Tick_GF_Cinematic"]
-  seqDispatch --> tickSpecial["Tick_Special"]
+  transition["FFBattleTransitionModule"] --> frameOwner["FFBattleModule 0x47CF60"]
+  frameOwner --> hudPre["HUD/Input/ATB x3"]
+  frameOwner --> director["FFBattleDirector 0x47CCB0"]
+  director --> domain["End checks → queues → arbitration → resolve"]
+  director --> callbacks["Action/file callbacks + BdLink"]
+  frameOwner --> hudPost["HUD/Input/ATB x1"]
+  frameOwner --> render["Battle draw → end scene → present support"]
 ```

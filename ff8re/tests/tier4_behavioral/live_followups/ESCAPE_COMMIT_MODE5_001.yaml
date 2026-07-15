@@ -1,0 +1,107 @@
+id: "ESCAPE_COMMIT_MODE5_001"
+title: "Trace escape commit semantics, mode-5 handoff, and blocked-run behavior"
+domain: "battle_lifecycle"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_escape_commit_and_mode5_semantics.md"
+  - "obsidian-docs/projects/re-ff8/concepts/escape-mechanics.md"
+  - "obsidian-docs/_staging/investigations/escape_mechanics.md"
+
+matrix:
+  - case: "escape_allowed"
+  - case: "cannot_escape"
+
+constants:
+  ATB_TICK: 0x4842B0
+  ESCAPE_POLL: 0x486130
+  ESCAPE_SUCCESS: 0x4862A0
+  ESCAPE_BEGIN_TRANSITION: 0x47DF60
+  END_CLEANUP: 0x4868C0
+  BATTLE_RESULT_CODE_ADDR: 0x1CFF6E7
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: read_result_globals
+    label: "result_before"
+  - action: set_breakpoint
+    label: "bp_escape_poll"
+    address: "ESCAPE_POLL"
+  - action: set_breakpoint
+    label: "bp_escape_success"
+    address: "ESCAPE_SUCCESS"
+  - action: set_breakpoint
+    label: "bp_escape_begin_transition"
+    address: "ESCAPE_BEGIN_TRANSITION"
+  - action: set_breakpoint
+    label: "bp_end_cleanup"
+    address: "END_CLEANUP"
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_escape_case"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_poll"
+      - "bp_escape_success"
+      - "bp_escape_begin_transition"
+      - "bp_end_cleanup"
+    message: |
+      Pour le cas courant, soit réussis une fuite, soit tente une fuite quand
+      l'état cannot-escape est actif. Maintiens/relâche l'entrée de fuite comme voulu.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "escape_trace"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_poll"
+      - "bp_escape_success"
+      - "bp_escape_begin_transition"
+      - "bp_end_cleanup"
+    max_hits: 4
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_phase_flags
+        label: "phase_flags"
+      - action: read_result_globals
+        label: "result_globals"
+  - action: read_result_globals
+    label: "result_after"
+  - action: read_global
+    label: "battle_result_code_final"
+    address: "BATTLE_RESULT_CODE_ADDR"
+    size: 1
+    type: u8
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_escape_poll"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_escape_poll"
+  - action: delete_breakpoint
+    label: "bp_escape_success"
+  - action: delete_breakpoint
+    label: "bp_escape_begin_transition"
+  - action: delete_breakpoint
+    label: "bp_end_cleanup"
+
+verdict_prompt: |
+  Analyze this escape-semantic capture.
+  Focus on:
+  1. The latch-to-success-or-failure sequence at the escape anchors.
+  2. Whether `BATTLE_RESULT_CODE`, `BATTLE_END_TYPE`, and phase flags changed.
+  3. Whether the trace looks like a mode-5 reward-handoff path or a blocked no-op.
+  4. Differences between the `escape_allowed` and `cannot_escape` cases.
+  Evidence:
+  {evidence_json}

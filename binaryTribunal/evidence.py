@@ -3,7 +3,8 @@ Evidence collection and JSON serialization.
 
 An Evidence object accumulates structured data produced during hypothesis
 execution: memory snapshots, breakpoint hit records, register dumps,
-stacktraces, assertion results, and a chronological raw log.
+stacktraces, assertion results, structured hit traces, samples, and
+a chronological raw log.
 """
 
 from __future__ import annotations
@@ -32,6 +33,8 @@ class Evidence:
     last_breakpoint_hit: str | None = None
     register_dumps: dict[str, dict[str, Any]] = field(default_factory=dict)
     stacktraces: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
+    hit_trace: list[dict[str, Any]] = field(default_factory=list)
+    samples: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
 
     # Assertion results
     assertions: list[dict[str, Any]] = field(default_factory=list)
@@ -62,6 +65,35 @@ class Evidence:
             "detail": detail,
         })
 
+    def add_hit_event(
+        self,
+        *,
+        label: str,
+        event_type: str,
+        eip: int | None = None,
+        source_addr: int | None = None,
+        captures: dict[str, Any] | None = None,
+        detail: str = "",
+        t_ms: int = 0,
+    ) -> dict[str, Any]:
+        """Append a structured breakpoint/watchpoint hit event."""
+        entry = {
+            "seq": len(self.hit_trace) + 1,
+            "label": label,
+            "event_type": event_type,
+            "eip": eip,
+            "source_addr": source_addr,
+            "t_ms": t_ms,
+            "captures": captures or {},
+            "detail": detail,
+        }
+        self.hit_trace.append(entry)
+        return entry
+
+    def add_sample(self, label: str, sample: dict[str, Any]) -> None:
+        """Append one sample to a named time series."""
+        self.samples.setdefault(label, []).append(sample)
+
     # ------------------------------------------------------------------
     # Serialization
     # ------------------------------------------------------------------
@@ -80,6 +112,8 @@ class Evidence:
             "last_breakpoint_hit": self.last_breakpoint_hit,
             "register_dumps": _hex_registers(self.register_dumps),
             "stacktraces": self.stacktraces,
+            "hit_trace": _hexify_hit_trace(self.hit_trace),
+            "samples": self.samples,
             "assertions": self.assertions,
             "raw_log": self.raw_log,
         }
@@ -112,4 +146,17 @@ def _hex_registers(dumps: dict[str, dict[str, Any]]) -> dict[str, dict[str, str]
                 result[label][name] = hex(val)
             else:
                 result[label][name] = str(val)
+    return result
+
+
+def _hexify_hit_trace(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Convert selected address-like fields in hit traces to hex strings."""
+    result: list[dict[str, Any]] = []
+    for item in items:
+        converted = dict(item)
+        for key in ("eip", "source_addr"):
+            value = converted.get(key)
+            if isinstance(value, int):
+                converted[key] = hex(value)
+        result.append(converted)
     return result

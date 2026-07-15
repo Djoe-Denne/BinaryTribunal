@@ -1,0 +1,204 @@
+id: "BATTLE_NATIVE_CLEANUP_HANDOFF_001"
+title: "Force a disposable victory and trace native cleanup into reward mode"
+domain: "battle_lifecycle"
+confidence_target: "high"
+
+references:
+  - "docs/tech/systems/battle_init.md"
+  - "docs/tech/investigation/battle_entry_hook.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-lifecycle.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+
+  ENEMY3_HP: 0x1D27D98
+  ENEMY3_STATUS1: 0x1D27E00
+  ENEMY4_HP: 0x1D27E68
+  ENEMY4_STATUS1: 0x1D27ED0
+
+  VICTORY_COMMIT: 0x486566
+  NATIVE_CLEANUP: 0x4868C0
+  MODE5_ENTRY: 0x47CDA6
+  BATTLE_EXIT_SYSTEM: 0x47CEF0
+  REWARD_LOOP: 0x4A2690
+
+  PENDING_BUFFER: 0x1D28D44
+  ACTION_LATCHES: 0x1D28DF8
+  MENU_PENDING_COUNT: 0x1D76718
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_unpaused"
+    address: "ATB_TICK"
+    timeout_ms: 120000
+  - action: snapshot_slot
+    label: "enemy3_before"
+    slot: 3
+  - action: snapshot_slot
+    label: "enemy4_before"
+    slot: 4
+  - action: read_result_globals
+    label: "result_before"
+  - action: set_breakpoint
+    label: "bp_victory_commit"
+    address: "VICTORY_COMMIT"
+  - action: set_breakpoint
+    label: "bp_native_cleanup"
+    address: "NATIVE_CLEANUP"
+  - action: set_breakpoint
+    label: "bp_mode5_entry"
+    address: "MODE5_ENTRY"
+
+act:
+  # Disposable battle: mark the two live enemy slots dead. The all-enemies-dead
+  # check then performs the normal victory result/reward setup.
+  - action: write_memory
+    address: "ENEMY3_HP"
+    type: u16
+    fields:
+      value: 0
+  - action: write_memory
+    address: "ENEMY3_STATUS1"
+    type: u32
+    fields:
+      value: 1
+  - action: write_memory
+    address: "ENEMY4_HP"
+    type: u16
+    fields:
+      value: 0
+  - action: write_memory
+    address: "ENEMY4_STATUS1"
+    type: u32
+    fields:
+      value: 1
+  - action: continue_execution
+    label: "wait_victory_commit"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_victory_commit"
+
+observe:
+  - action: read_result_globals
+    label: "result_at_victory_commit"
+  - action: read_phase_flags
+    label: "phase_at_victory_commit"
+  - action: snapshot_memory
+    label: "pending_at_victory_commit"
+    address: "PENDING_BUFFER"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "latches_at_victory_commit"
+    address: "ACTION_LATCHES"
+    size: 8
+    type: bytes
+  - action: delete_breakpoint
+    label: "bp_victory_commit"
+
+  - action: continue_execution
+    label: "wait_native_cleanup"
+    timeout_ms: 120000
+    wait_until:
+      - "bp_native_cleanup"
+  - action: read_result_globals
+    label: "result_before_cleanup"
+  - action: read_phase_flags
+    label: "phase_before_cleanup"
+  - action: read_exec_queue
+    label: "exec_before_cleanup"
+  - action: snapshot_memory
+    label: "pending_before_cleanup"
+    address: "PENDING_BUFFER"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "latches_before_cleanup"
+    address: "ACTION_LATCHES"
+    size: 8
+    type: bytes
+  - action: delete_breakpoint
+    label: "bp_native_cleanup"
+
+  - action: continue_execution
+    label: "wait_mode5"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_mode5_entry"
+  - action: read_result_globals
+    label: "result_after_cleanup"
+  - action: read_phase_flags
+    label: "phase_mode5"
+  - action: snapshot_memory
+    label: "pending_after_cleanup"
+    address: "PENDING_BUFFER"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "latches_after_cleanup"
+    address: "ACTION_LATCHES"
+    size: 8
+    type: bytes
+  - action: snapshot_memory
+    label: "menu_pending_after_cleanup"
+    address: "MENU_PENDING_COUNT"
+    size: 4
+    type: u32
+  - action: delete_breakpoint
+    label: "bp_mode5_entry"
+
+  - action: set_breakpoint
+    label: "bp_battle_exit_system"
+    address: "BATTLE_EXIT_SYSTEM"
+  - action: continue_execution
+    label: "wait_battle_exit"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_battle_exit_system"
+  - action: read_phase_flags
+    label: "phase_at_battle_exit"
+  - action: delete_breakpoint
+    label: "bp_battle_exit_system"
+
+  - action: set_breakpoint
+    label: "bp_reward_loop"
+    address: "REWARD_LOOP"
+  - action: continue_execution
+    label: "wait_reward_loop"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_reward_loop"
+  - action: read_phase_flags
+    label: "phase_at_reward_loop"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_unpaused"
+  - check: breakpoint_was_hit
+    label: "bp_victory_commit"
+  - check: breakpoint_was_hit
+    label: "bp_native_cleanup"
+  - check: breakpoint_was_hit
+    label: "bp_mode5_entry"
+  - check: breakpoint_was_hit
+    label: "bp_battle_exit_system"
+  - check: breakpoint_was_hit
+    label: "bp_reward_loop"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_victory_commit"
+  - action: delete_breakpoint
+    label: "bp_native_cleanup"
+  - action: delete_breakpoint
+    label: "bp_mode5_entry"
+  - action: delete_breakpoint
+    label: "bp_battle_exit_system"
+  - action: delete_breakpoint
+    label: "bp_reward_loop"
+
+verdict_prompt: |
+  Prove the native handback contract for a whole-frame replacement:
+  victory result commit, delayed cleanup, mode-5 reward transition, module
+  switch, FFBattleExitSystem, and reward-loop entry. Report which transient
+  pending/exec/latch fields remain nonzero at each boundary.

@@ -31,8 +31,25 @@ This is presentation-only and does not affect domain state.
 
 ## Frame Present
 
-Dispatched through `FramePresent_Dispatch` (`0x41DF14`) → backend vtable entry 4:
+Dispatched through `Render_FramePresent_Dispatch` (function start `0x41DF0C`, body `0x41DF14`) → backend vtable entry 4:
 - OpenGL: `RenderGL_Present` (`0x439CF3`) → `GL_FlushSwap_EndFrame` (`0x445137`) → `SwapBuffers`
 - DirectDraw: `RenderDDraw_Frame` (`0x43C761`) → `RenderDDraw_Present` (`0x40B50E`) → surface blt
 
-This build does NOT use D3D9. Present operations are OpenGL + SwapBuffers or DirectDraw surface blt.
+The analysed executable statically imports DirectDraw and OpenGL/WGL entry points and contains no direct D3D9 import or `Direct3DCreate9` string. However, the attached runtime process loaded `d3d9.dll`, `d3dx9_29.dll`, and the NVIDIA D3D9 user-mode driver. A compatibility or overlay layer may therefore translate the native DirectDraw/OpenGL path to D3D9. Module presence alone does not identify the active present path; DirectDraw `Flip/Blt`, OpenGL `SwapBuffers`, and D3D9 `Present/EndScene` must be traced together.
+
+## Takeover Classification (Live 2026-07-12)
+
+The native presentation path is replaceable as a unit:
+
+- `Battle_RunFileLoadingCallbacks` (`0x48D0C0`) is a per-frame thunk. The real worker (`0x482590`) only invokes a callback when `battle_file_callback_2[16]` contains an active slot; the actual indirect call is at `0x4825C8`.
+- Captured completion targets were presentation readiness only:
+  - `BattleFile_StoreCharacterLoadResult` (`0x508470`) stored the loaded-file result in `BATTLE_PRESENTATION_FILE_RESULT`;
+  - `GF_Ifrit_AssetLoadCompletion_ClearBusy` (`0xB2BB40`) cleared an Ifrit asset-loading busy byte.
+- Two live BdLink entry/return pairs left pending actions, action latches, party ATB, menu count, pause state, and action globals unchanged.
+- A clean player-command-menu window ran with an empty callback table. A callback completing while a menu was open belonged to the concurrent Ifrit asset sequence, not to the menu.
+
+Therefore:
+
+- preserve the file callback pump and BdLink while any native asset/effect presentation remains active;
+- omit/replace both when an external renderer owns all battle assets, sequences, camera, and uploads;
+- keep or reimplement HUD/input/ATB and the director's action/deferred callback chains separately, because those are authoritative.

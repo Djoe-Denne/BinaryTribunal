@@ -23,10 +23,12 @@ from .evidence import Evidence
 from .hypothesis import (
     HypothesisDefinition,
     Step,
+    expand_hypothesis,
     is_suite_file,
     load_hypothesis,
     load_hypothesis_suite,
     load_hypotheses_from_dir,
+    resolve_address,
 )
 from .mcp_client import McpClient
 from .runner import HypothesisRunner
@@ -82,6 +84,100 @@ def _load_latest_evidence_results(evidence_dir: Path) -> dict[str, str]:
     return results
 
 
+def _parse_param_value(text: str) -> int:
+    """Parse one KEY=VALUE override scalar."""
+    stripped = text.strip()
+    if stripped.lower().startswith("0x"):
+        return int(stripped, 16)
+    return int(stripped)
+
+
+def _parse_param_overrides(items: list[str] | None) -> dict[str, int]:
+    """Parse repeated KEY=VALUE command-line overrides."""
+    result: dict[str, int] = {}
+    for item in items or []:
+        if "=" not in item:
+            raise ValueError(f"Invalid --param value {item!r}; expected KEY=VALUE")
+        key, raw = item.split("=", 1)
+        key = key.strip()
+        if not key:
+            raise ValueError(f"Invalid --param value {item!r}; key is empty")
+        result[key] = _parse_param_value(raw)
+    return result
+
+
+def _apply_param_overrides(hypothesis: HypothesisDefinition, overrides: dict[str, int]) -> HypothesisDefinition:
+    """Mutate one concrete hypothesis with command-line constant overrides."""
+    if overrides:
+        hypothesis.constants.update(overrides)
+    return hypothesis
+
+
+def _load_execution_plan(
+    targets: list[str],
+    *,
+    search_dirs: list[Path] | None = None,
+    replay_mode: bool = False,
+    replay_index: dict[str, str] | None = None,
+    param_overrides: dict[str, int] | None = None,
+) -> list[dict[str, object]]:
+    """Resolve targets into a concrete execution plan."""
+    replay_index = replay_index or {}
+    param_overrides = param_overrides or {}
+    plan: list[dict[str, object]] = []
+    for target in targets:
+        path = _resolve_test_path(target, search_dirs)
+        if path.is_dir():
+            for hyp in load_hypotheses_from_dir(path):
+                plan.append(
+                    {
+                        "hypothesis": _apply_param_overrides(hyp, param_overrides),
+                        "before_steps": [],
+                        "before_constants": {},
+                    }
+                )
+        elif path.is_file():
+            if is_suite_file(path):
+                suite = load_hypothesis_suite(path)
+                suite_search_dirs = [path.parent, *(search_dirs or [])]
+                resolved = [_resolve_test_path(raw, suite_search_dirs) for raw in suite.hypotheses]
+                if len(resolved) == 0:
+                    raise ValueError(f"suite {path} has no hypotheses")
+
+                for i, hyp_path in enumerate(resolved):
+                    if not hyp_path.exists() or not hyp_path.is_file():
+                        raise FileNotFoundError(
+                            f"suite hypothesis not found: {hyp_path} "
+                            f"(from '{suite.hypotheses[i]}')"
+                        )
+                    expanded = expand_hypothesis(load_hypothesis(hyp_path))
+                    for hyp in expanded:
+                        _apply_param_overrides(hyp, param_overrides)
+                        if replay_mode:
+                            prior = replay_index.get(hyp.id)
+                            if prior not in (None, "FAIL"):
+                                continue
+                        plan.append(
+                            {
+                                "hypothesis": hyp,
+                                "before_steps": suite.before_each,
+                                "before_constants": {**suite.constants, **param_overrides},
+                            }
+                        )
+            else:
+                for hyp in expand_hypothesis(load_hypothesis(path)):
+                    plan.append(
+                        {
+                            "hypothesis": _apply_param_overrides(hyp, param_overrides),
+                            "before_steps": [],
+                            "before_constants": {},
+                        }
+                    )
+        else:
+            raise FileNotFoundError(f"{target} not found (tried {path})")
+    return plan
+
+
 def cmd_run(
     args: argparse.Namespace,
     *,
@@ -91,6 +187,11 @@ def cmd_run(
     """Run one or more hypothesis YAML files."""
     replay_mode = bool(getattr(args, "replay", False))
     evidence_dir = Path(args.evidence_dir) if args.evidence_dir else None
+    try:
+        param_overrides = _parse_param_overrides(getattr(args, "param", None))
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
     replay_index: dict[str, str] = {}
     if replay_mode:
         if evidence_dir is None:
@@ -112,68 +213,17 @@ def cmd_run(
     if plugin_setup is not None:
         plugin_setup(runner, mcp)
 
-    # Collect execution plan
-    # Each entry: hypothesis + optional before-each steps/constants to run before it.
-    plan: list[dict[str, object]] = []
-    for target in args.targets:
-        path = _resolve_test_path(target, search_dirs)
-        if path.is_dir():
-            for hyp in load_hypotheses_from_dir(path):
-                plan.append({
-                    "hypothesis": hyp,
-                    "before_steps": [],
-                    "before_constants": {},
-                })
-        elif path.is_file():
-            if is_suite_file(path):
-                suite = load_hypothesis_suite(path)
-                suite_search_dirs = [path.parent, *(search_dirs or [])]
-                resolved = [
-                    _resolve_test_path(raw, suite_search_dirs)
-                    for raw in suite.hypotheses
-                ]
-                if len(resolved) == 0:
-                    print(f"ERROR: suite {path} has no hypotheses", file=sys.stderr)
-                    return 1
-
-                suite_total = len(resolved)
-                suite_selected = 0
-                for i, hyp_path in enumerate(resolved):
-                    if not hyp_path.exists() or not hyp_path.is_file():
-                        print(
-                            f"ERROR: suite hypothesis not found: {hyp_path} "
-                            f"(from '{suite.hypotheses[i]}')",
-                            file=sys.stderr,
-                        )
-                        return 1
-                    hyp = load_hypothesis(hyp_path)
-                    if replay_mode:
-                        prior = replay_index.get(hyp.id)
-                        # Replay failed runs and scenarios with absent evidence.
-                        if prior not in (None, "FAIL"):
-                            continue
-                    suite_selected += 1
-                    plan.append({
-                        "hypothesis": hyp,
-                        "before_steps": suite.before_each,
-                        "before_constants": suite.constants,
-                    })
-                if replay_mode:
-                    suite_skipped = suite_total - suite_selected
-                    print(
-                        f"Replay filter [{path.name}]: "
-                        f"selected={suite_selected}, skipped={suite_skipped}, "
-                        "rule=(FAIL or missing evidence)"
-                    )
-            else:
-                plan.append({
-                    "hypothesis": load_hypothesis(path),
-                    "before_steps": [],
-                    "before_constants": {},
-                })
-        else:
-            print(f"ERROR: {target} not found (tried {path})", file=sys.stderr)
-            return 1
+    try:
+        plan = _load_execution_plan(
+            list(args.targets),
+            search_dirs=search_dirs,
+            replay_mode=replay_mode,
+            replay_index=replay_index,
+            param_overrides=param_overrides,
+        )
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
 
     if not plan:
         print("No hypothesis files found.", file=sys.stderr)
@@ -250,6 +300,157 @@ def cmd_run(
     return 0 if failed == 0 else 1
 
 
+def _validate_step(
+    step: Step,
+    *,
+    constants: dict[str, int],
+    phase: str,
+    known_actions: set[str],
+    known_assertions: set[str],
+    errors: list[str],
+    prefix: str,
+) -> None:
+    """Validate one step and its nested structures."""
+    if phase == "assert":
+        name = step.check or step.action
+        if name not in known_assertions:
+            errors.append(f"{prefix}: unknown assertion '{name}'")
+    else:
+        name = step.action or step.check
+        if name not in known_actions:
+            errors.append(f"{prefix}: unknown action '{name}'")
+
+    if step.address:
+        try:
+            step.resolved_address(constants)
+        except Exception as exc:
+            errors.append(f"{prefix}: invalid address expression {step.address!r}: {exc}")
+
+    for idx, region in enumerate(step.regions, start=1):
+        addr = region.get("address")
+        if addr:
+            try:
+                if isinstance(addr, str):
+                    resolve_address(addr, constants)
+            except Exception as exc:
+                errors.append(
+                    f"{prefix}: invalid region[{idx}] address {addr!r}: {exc}"
+                )
+
+    if name in {"continue_execution", "trace_breakpoint_hits"}:
+        if step.timeout_ms <= 0:
+            errors.append(f"{prefix}: {name} requires timeout_ms > 0")
+        if not step.wait_until:
+            errors.append(f"{prefix}: {name} requires non-empty wait_until")
+
+    if name == "sample_memory":
+        if step.timeout_ms <= 0:
+            errors.append(f"{prefix}: sample_memory requires timeout_ms > 0")
+        if not step.regions and not step.address:
+            errors.append(f"{prefix}: sample_memory requires regions or address")
+
+    if name in {"set_watchpoint", "delete_watchpoint"}:
+        size = int(step.size or step.fields.get("size", 1) or 1)
+        if size not in (1, 2, 4):
+            errors.append(f"{prefix}: watchpoint size must be 1, 2, or 4")
+
+    for idx, nested in enumerate(step.on_hit, start=1):
+        _validate_step(
+            nested,
+            constants=constants,
+            phase="capture",
+            known_actions=known_actions,
+            known_assertions=known_assertions,
+            errors=errors,
+            prefix=f"{prefix}.on_hit[{idx}]",
+        )
+
+    for idx, nested in enumerate(step.checks, start=1):
+        _validate_step(
+            nested,
+            constants=constants,
+            phase="assert",
+            known_actions=known_actions,
+            known_assertions=known_assertions,
+            errors=errors,
+            prefix=f"{prefix}.checks[{idx}]",
+        )
+
+
+def cmd_validate(
+    args: argparse.Namespace,
+    *,
+    plugin_setup: PluginSetup | None = None,
+    search_dirs: list[Path] | None = None,
+) -> int:
+    """Validate hypothesis files without requiring a live debugger session."""
+    try:
+        param_overrides = _parse_param_overrides(getattr(args, "param", None))
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+
+    runner = HypothesisRunner(McpClient())
+    if plugin_setup is not None:
+        plugin_setup(runner, runner.mcp)
+
+    try:
+        plan = _load_execution_plan(
+            list(args.targets),
+            search_dirs=search_dirs,
+            param_overrides=param_overrides,
+        )
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+
+    if not plan:
+        print("No hypothesis files found.", file=sys.stderr)
+        return 1
+
+    known_actions = set(runner.known_actions())
+    known_assertions = set(runner.known_assertions())
+    total_errors = 0
+
+    for entry in plan:
+        hyp = entry["hypothesis"]
+        assert isinstance(hyp, HypothesisDefinition)
+        errors: list[str] = []
+        phases = [
+            ("setup", hyp.setup),
+            ("act", hyp.act),
+            ("observe", hyp.observe),
+            ("assert", hyp.asserts),
+            ("cleanup", hyp.cleanup),
+        ]
+        for phase_name, steps in phases:
+            for idx, step in enumerate(steps, start=1):
+                _validate_step(
+                    step,
+                    constants=hyp.constants,
+                    phase=phase_name,
+                    known_actions=known_actions,
+                    known_assertions=known_assertions,
+                    errors=errors,
+                    prefix=f"{hyp.id}.{phase_name}[{idx}]",
+                )
+
+        if errors:
+            total_errors += len(errors)
+            print(f"[FAIL] {hyp.id}:")
+            for error in errors:
+                print(f"  - {error}")
+        else:
+            print(f"[PASS] {hyp.id}")
+
+    print("=" * 60)
+    print(
+        f"VALIDATION: {len(plan)} hypothesis/hypotheses, {total_errors} error(s)"
+    )
+    print("=" * 60)
+    return 0 if total_errors == 0 else 1
+
+
 def build_parser(
     prog: str = "binaryTribunal",
     description: str = "RE Hypothesis Runner",
@@ -300,6 +501,28 @@ def build_parser(
         help=("Replay only failed-or-missing suite hypotheses based on prior "
               "evidence in --evidence-dir."),
     )
+    run_parser.add_argument(
+        "--param",
+        action="append",
+        default=argparse.SUPPRESS,
+        help="Override a constant for all loaded hypotheses (KEY=VALUE).",
+    )
+
+    validate_parser = sub.add_parser(
+        "validate",
+        help="Validate hypothesis YAML files without connecting to a live target",
+    )
+    validate_parser.add_argument(
+        "targets",
+        nargs="+",
+        help="YAML files or directories of YAML files to validate",
+    )
+    validate_parser.add_argument(
+        "--param",
+        action="append",
+        default=argparse.SUPPRESS,
+        help="Override a constant for all loaded hypotheses (KEY=VALUE).",
+    )
 
     return parser
 
@@ -326,8 +549,9 @@ def main(
     args = parser.parse_args()
 
     if args.command == "run":
-        return cmd_run(args, plugin_setup=plugin_setup,
-                       search_dirs=search_dirs)
+        return cmd_run(args, plugin_setup=plugin_setup, search_dirs=search_dirs)
+    elif args.command == "validate":
+        return cmd_validate(args, plugin_setup=plugin_setup, search_dirs=search_dirs)
     else:
         parser.print_help()
         return 0

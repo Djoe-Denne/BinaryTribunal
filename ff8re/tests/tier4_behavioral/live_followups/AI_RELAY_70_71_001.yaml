@@ -1,0 +1,118 @@
+id: "AI_RELAY_70_71_001"
+title: "Trace live semantics for enemy AI relays 0x70 and 0x71"
+domain: "enemy_ai"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_ai_relay_70_71.md"
+  - "docs/tech/systems/enemy_ai_vm.md"
+  - "docs/tech/reference/address_catalog.md"
+
+matrix:
+  - case: "relay_70"
+  - case: "relay_71"
+
+constants:
+  ATB_TICK: 0x4842B0
+  AI_DISPATCH: 0x4877F0
+  AI_VM: 0x487DF0
+  ACTIVATE_TARGET_RELAY: 0x47E3F0
+  AI_CURRENT_SECTION_INDEX: 0x1D28E0C
+  AI_MULTI_HIT_COUNTER: 0x1D28E10
+  AI_PREPARE_SUMMON_FLAG: 0x1D28E18
+  AI_EXEC_QUEUE_OFFSET: 0x1D28DE8
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_breakpoint
+    label: "bp_ai_dispatch"
+    address: "AI_DISPATCH"
+  - action: set_breakpoint
+    label: "bp_ai_vm"
+    address: "AI_VM"
+  - action: set_breakpoint
+    label: "bp_activate_target_relay"
+    address: "ACTIVATE_TARGET_RELAY"
+
+# No injection / no manual play: enemy AI runs on its own each turn. With enemies
+# kept alive (HP reseed in the suite before_each), we simply let the battle run
+# until the AI VM / dispatch / relay-activation anchors fire and trace them.
+# NOTE: the relay_70 vs relay_71 distinction is opcode-specific and cannot be
+# forced from outside; the trace captures whatever AI behavior actually runs.
+act:
+  - action: continue_execution
+    label: "drive_to_ai_anchor"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_ai_dispatch"
+      - "bp_ai_vm"
+      - "bp_activate_target_relay"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "ai_relay_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_ai_dispatch"
+      - "bp_ai_vm"
+      - "bp_activate_target_relay"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_stack_args
+        label: "stack_args"
+        fields:
+          count: 4
+          word_size: 4
+      - action: read_stacktrace
+        label: "stacktrace"
+      - action: snapshot_memory
+        label: "ai_current_section_index"
+        address: "AI_CURRENT_SECTION_INDEX"
+        size: 1
+        type: u8
+      - action: snapshot_memory
+        label: "ai_multi_hit_counter"
+        address: "AI_MULTI_HIT_COUNTER"
+        size: 1
+        type: u8
+      - action: snapshot_memory
+        label: "ai_prepare_summon_flag"
+        address: "AI_PREPARE_SUMMON_FLAG"
+        size: 1
+        type: u8
+      - action: snapshot_memory
+        label: "ai_exec_queue_offset"
+        address: "AI_EXEC_QUEUE_OFFSET"
+        size: 1
+        type: u8
+      - action: read_exec_queue
+        label: "exec_queue"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_ai_vm"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_ai_dispatch"
+  - action: delete_breakpoint
+    label: "bp_ai_vm"
+  - action: delete_breakpoint
+    label: "bp_activate_target_relay"
+
+verdict_prompt: |
+  Analyze this enemy-AI relay capture.
+  Focus on:
+  1. The stack/register context at VM and relay activation boundaries.
+  2. Which section index and AI globals were active when the relay path fired.
+  3. Whether the downstream call chain differs between the two relay cases.
+  4. Any evidence that separates shared relay infrastructure from opcode-specific semantics.
+  Evidence:
+  {evidence_json}

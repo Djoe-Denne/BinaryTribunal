@@ -1,0 +1,104 @@
+id: "ESCAPE_COMMIT_001"
+title: "Trace the escape commit path and validate BATTLE_RESULT_CODE=2"
+domain: "battle_lifecycle"
+confidence_target: "medium"
+
+references:
+  - "docs/tech/systems/battle_init.md"
+  - "docs/tech/test/test_command_pipeline.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  ESCAPE_POLL: 0x486130
+  ESCAPE_SUCCESS: 0x4862A0
+  ESCAPE_BEGIN_TRANSITION: 0x47DF60
+  END_CLEANUP: 0x4868C0
+  BATTLE_RESULT_CODE_ADDR: 0x1CFF6E7
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_breakpoint
+    label: "bp_escape_poll"
+    address: "ESCAPE_POLL"
+  - action: set_breakpoint
+    label: "bp_escape_success"
+    address: "ESCAPE_SUCCESS"
+  - action: set_breakpoint
+    label: "bp_escape_begin_transition"
+    address: "ESCAPE_BEGIN_TRANSITION"
+  - action: set_breakpoint
+    label: "bp_end_cleanup"
+    address: "END_CLEANUP"
+  - action: read_result_globals
+    label: "result_before"
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_escape"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_poll"
+      - "bp_escape_success"
+      - "bp_escape_begin_transition"
+      - "bp_end_cleanup"
+    message: |
+      Tente une fuite réussie : maintiens Échap jusqu'à ce que la fuite
+      soit validée et que la transition de sortie soit engagée.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "escape_trace"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_poll"
+      - "bp_escape_success"
+      - "bp_escape_begin_transition"
+      - "bp_end_cleanup"
+    max_hits: 4
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_result_globals
+        label: "result"
+  - action: read_result_globals
+    label: "result_after"
+  - action: read_global
+    label: "battle_result_code_final"
+    address: "BATTLE_RESULT_CODE_ADDR"
+    size: 1
+    type: u8
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: hit_count_at_least
+    label: "bp_escape_success"
+    min_val: 1
+  - check: value_equals
+    label: "battle_result_code_final"
+    fields:
+      expected: 2
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_escape_poll"
+  - action: delete_breakpoint
+    label: "bp_escape_success"
+  - action: delete_breakpoint
+    label: "bp_escape_begin_transition"
+  - action: delete_breakpoint
+    label: "bp_end_cleanup"
+
+verdict_prompt: |
+  Analyze the escape trace.
+  Focus on:
+  1. The observed order of escape-related breakpoints.
+  2. Result globals before vs after the trace.
+  3. Whether the final battle result code confirms an escape (`2`).
+  Evidence:
+  {evidence_json}

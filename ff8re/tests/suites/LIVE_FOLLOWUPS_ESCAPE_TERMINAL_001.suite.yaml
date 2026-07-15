@@ -1,0 +1,25 @@
+id: "LIVE_FOLLOWUPS_ESCAPE_TERMINAL_001"
+title: "Terminal live followups for escape semantics"
+
+before_each:
+  - action: manual_checkpoint
+    label: "prepare_escape_case"
+    address: "0x4842B0"
+    timeout_ms: 15000
+    message: |
+      Entre dans un nouveau combat adapté au prochain cas d'évasion.
+      Pour `escape_allowed`, prends un combat normalement fuyable.
+      Pour `cannot_escape`, prends un combat ou un état où la fuite est bloquée.
+    fields:
+      resume_execution: true
+  - action: sync_to_battle_tick
+    label: "reseed_sync"
+    address: "0x4842B0"
+    timeout_ms: 15000
+  - action: set_enemy_hp_all_10000
+    label: "reseed_enemy_hp"
+    fields:
+      hp: 65535
+
+hypotheses:
+  - "ff8re/tests/tier4_behavioral/live_followups/ESCAPE_COMMIT_MODE5_001.yaml"

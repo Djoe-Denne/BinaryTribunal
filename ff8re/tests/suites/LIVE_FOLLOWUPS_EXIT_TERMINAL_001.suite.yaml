@@ -1,0 +1,18 @@
+id: "LIVE_FOLLOWUPS_EXIT_TERMINAL_001"
+title: "Terminal live followups for battle-ending path families"
+
+before_each:
+  - action: manual_checkpoint
+    label: "prepare_exit_case"
+    address: "0x4842B0"
+    timeout_ms: 15000
+    message: |
+      Entre dans un nouveau combat adapté au prochain cas terminal affiché
+      (victory, escape, party wipe, timer expiry, ou scripted end).
+      NB : pas de reseed HP ici (le cas `victory` exige justement de tuer les
+      ennemis) ; choisis un encounter dont la difficulté correspond au cas.
+    fields:
+      resume_execution: true
+
+hypotheses:
+  - "ff8re/tests/tier4_behavioral/live_followups/EXIT_PATH_STATE_RESET_MATRIX_001.yaml"

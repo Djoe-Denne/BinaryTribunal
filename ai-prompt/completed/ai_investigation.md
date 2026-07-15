@@ -86,6 +86,12 @@ Stage 4 — GF internal state initialized:
 
 ---
 
+## Battle Loop Clarification Prompts
+
+The broader battle-loop clarification backlog now lives in `ai_investigation_battle_loop_clarification_index.md`. Use that index when the next discovery pass is about targeting, elemental resolution, escape, GF charge absorption, Limit Breaks, status timers, camera, cleanup/reset, hook boundaries, exec queue layout, RNG, Draw/Item confirmation, status bit semantics, ATB auto-command masks, AI opcode semantics, GF assertion gaps, Draw stock mutation, terrain semantics, or rare hidden mechanics.
+
+---
+
 ## Prompt 01 — Quezacotl (0x40)
 
 > **Priority: HIGH** — worst coverage of any junctionable GF (1/10).

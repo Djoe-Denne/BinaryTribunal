@@ -1,0 +1,37 @@
+id: "LIVE_FOLLOWUPS_TODO_001"
+title: "Non-terminal live followups generated from ai-prompt/todo"
+
+before_each:
+  - action: manual_checkpoint
+    label: "prepare_next_live_case"
+    address: "0x4842B0"
+    timeout_ms: 15000
+    message: |
+      Reste en combat et garde une situation stable pour la prochaine hypothèse.
+      Évite de terminer le combat dans cette suite. Aucune action précise n'est requise ici :
+      il s'agit juste de se recaler proprement avant le prochain scénario.
+    fields:
+      resume_execution: true
+  - action: sync_to_battle_tick
+    label: "reseed_sync"
+    address: "0x4842B0"
+    timeout_ms: 15000
+  - action: set_enemy_hp_all_10000
+    label: "reseed_enemy_hp"
+    fields:
+      hp: 65535
+
+hypotheses:
+  - "ff8re/tests/tier4_behavioral/live_followups/BATTLE_LOOP_FOLLOWUPS_INDEX_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/PENDING_EXEC_AUTHENTIC_BYTES_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/EXEC_QUEUE_GROUP_SEMANTICS_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/RUNTIME_CALLBACK_MIX_MATRIX_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/CAMERA_CONTROL_WORD_DECODE_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/AI_RELAY_70_71_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/RNG_MIXED_RAND_CALLSITE_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/STATUS_180800_WRITER_PROOF_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/ANGEL_WING_TIMELINE_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/TARGETING_SLOT7_MASK_BITS_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/ELEMENTAL_HP_OUTCOME_MATRIX_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/GF_PAYLOAD_DUMP_001.yaml"
+  - "ff8re/tests/tier4_behavioral/live_followups/DOOM_SPECIAL_ACTION_FOLLOWTHROUGH_001.yaml"

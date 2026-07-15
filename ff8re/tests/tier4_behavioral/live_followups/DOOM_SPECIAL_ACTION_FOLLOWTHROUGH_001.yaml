@@ -1,0 +1,138 @@
+id: "DOOM_SPECIAL_ACTION_FOLLOWTHROUGH_001"
+title: "Trace Doom timer expiry into special action and terminal side effects"
+domain: "timed_status"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_doom_special_action_followthrough.md"
+  - "obsidian-docs/projects/re-ff8/concepts/timed-status-expiry.md"
+  - "docs/tech/reference/address_catalog.md"
+
+# Injection-driven (no manual play): seed the Doom timer to a low value on the
+# watched slot (and the Doom status bit) so the timer expires within a couple of
+# status ticks, then let the expiry chain run into the special action.
+#
+# CAVEAT: DOOM_STATUS2_BIT is a placeholder (the exact Doom status bit is not yet
+# confirmed). The timer offset IS known precisely, so seeding a low timer is the
+# primary trigger; tune DOOM_STATUS2_BIT if expiry does not route through the
+# special-action path.
+
+constants:
+  ATB_TICK: 0x4842B0
+  STATUS_TICK_AND_EXPIRE: 0x483470
+  RESOLVE_SPECIAL_AND_DAMAGE: 0x485160
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+  BATTLE_SLOT_DATA: 0x1D27B10
+  SLOT_STRIDE: 0xD0
+  TIMER_OFFSET: 0x54
+  TIMER_STRIDE: 0x02
+  DOOM_TIMER_INDEX: 10
+  STATUS2_OFFSET: 0x08
+  DOOM_STATUS2_BIT: 0x00000400   # placeholder Doom bit (TBD)
+  DOOM_TIMER_SEED: 0x0002        # expire within ~2 status ticks
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "slot_before"
+    slot: 3
+  - action: set_breakpoint
+    label: "bp_status_tick"
+    address: "STATUS_TICK_AND_EXPIRE"
+  - action: set_breakpoint
+    label: "bp_resolve_special_and_damage"
+    address: "RESOLVE_SPECIAL_AND_DAMAGE"
+  - action: set_breakpoint
+    label: "bp_apply_damage_or_heal"
+    address: "APPLY_DAMAGE_OR_HEAL"
+  - action: set_watchpoint
+    label: "wp_doom_timer"
+    address: "BATTLE_SLOT_DATA + 3 * SLOT_STRIDE + TIMER_OFFSET + DOOM_TIMER_INDEX * TIMER_STRIDE"
+    size: 2
+
+act:
+  - action: write_slot_status_bits
+    label: "inject_doom_status"
+    slot: 3
+    fields:
+      mask: "DOOM_STATUS2_BIT"
+      set: true
+  - action: write_memory
+    label: "seed_doom_timer"
+    address: "BATTLE_SLOT_DATA + 3 * SLOT_STRIDE + TIMER_OFFSET + DOOM_TIMER_INDEX * TIMER_STRIDE"
+    type: u16
+    fields:
+      value: "DOOM_TIMER_SEED"
+  - action: continue_execution
+    label: "drive_to_doom_anchor"
+    timeout_ms: 30000
+    wait_until:
+      - "wp_doom_timer"
+      - "bp_status_tick"
+      - "bp_resolve_special_and_damage"
+      - "bp_apply_damage_or_heal"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "doom_followthrough_trace"
+    timeout_ms: 30000
+    wait_until:
+      - "wp_doom_timer"
+      - "bp_status_tick"
+      - "bp_resolve_special_and_damage"
+      - "bp_apply_damage_or_heal"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: snapshot_memory
+        label: "doom_timer_word"
+        address: "BATTLE_SLOT_DATA + 3 * SLOT_STRIDE + TIMER_OFFSET + DOOM_TIMER_INDEX * TIMER_STRIDE"
+        size: 2
+        type: u16
+      - action: snapshot_slot
+        label: "slot_during"
+        slot: 3
+      - action: read_exec_queue
+        label: "exec_queue"
+  - action: snapshot_slot
+    label: "slot_after"
+    slot: 3
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: any_of
+    label: "doom_anchor_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "wp_doom_timer"
+      - check: breakpoint_was_hit
+        label: "bp_status_tick"
+      - check: breakpoint_was_hit
+        label: "bp_apply_damage_or_heal"
+
+cleanup:
+  - action: delete_watchpoint
+    label: "wp_doom_timer"
+  - action: delete_breakpoint
+    label: "bp_status_tick"
+  - action: delete_breakpoint
+    label: "bp_resolve_special_and_damage"
+  - action: delete_breakpoint
+    label: "bp_apply_damage_or_heal"
+
+verdict_prompt: |
+  Analyze this Doom-expiry followthrough capture.
+  Focus on:
+  1. The timer word changes leading into expiry.
+  2. Whether the terminal path routes through special-action resolve and HP apply.
+  3. The exec-queue or action-global evidence around the terminal effect.
+  4. The final slot HP/status state after the expiry chain.
+  Evidence:
+  {evidence_json}

@@ -1,5 +1,32 @@
 # Agent Instructions for re-ff8
 
+## Reverse Engineering Workflow
+
+**When reverse engineering a function or any other element, always push your findings back to IDA.** This ensures the IDB stays up-to-date and serves as the single source of truth.
+
+After analyzing code, use the appropriate tools to persist your discoveries:
+
+| Finding | Tool to use |
+|---|---|
+| Function/variable purpose | `user-ida-pro-mcp-set_comments` |
+| Better name for function | `user-ida-pro-mcp-rename` (key: `func`) |
+| Better name for global | `user-ida-pro-mcp-rename` (key: `data`) |
+| Better name for local var | `user-ida-pro-mcp-rename` (key: `local`) |
+| Better name for stack var | `user-ida-pro-mcp-rename` (key: `stack`) |
+| Type information | `user-ida-pro-mcp-set_type` |
+| New struct/enum definition | `user-ida-pro-mcp-declare_type` |
+| Stack variable declaration | `user-ida-pro-mcp-declare_stack` |
+
+**Example workflow:**
+1. Decompile the function with `decompile`
+2. Analyze the code and understand its purpose
+3. Rename the function with a descriptive name via `rename`
+4. Add a comment explaining what it does via `set_comments`
+5. Rename local/stack variables to meaningful names via `rename`
+6. Set proper types for parameters and variables via `set_type`
+
+---
+
 ## IDA Pro MCP Tools
 
 This project has an IDA Pro MCP server configured (`ida-pro-mcp` in `~/.cursor/mcp.json`).
@@ -162,45 +189,3 @@ http://127.0.0.1:13337/mcp?ext=dbg
 - **Consistent error handling**: All batch operations return `[{..., error: null|string}, ...]`
 - **Cursor-based pagination**: Search functions return `cursor: {next: offset}` or `{done: true}` (default limit: 1000, enforced max: 10000 to prevent token overflow)
 - **Performance**: Strings are cached with MD5-based invalidation to avoid repeated `build_strlist` calls in large projects
-
-## Comparison with other MCP servers
-
-There are a few IDA Pro MCP servers floating around, but I created my own for a few reasons:
-
-1. Installation should be fully automated.
-2. The architecture of other plugins make it difficult to add new functionality quickly (too much boilerplate of unnecessary dependencies).
-3. Learning new technologies is fun!
-
-If you want to check them out, here is a list (in the order I discovered them):
-
-- https://github.com/taida957789/ida-mcp-server-plugin (SSE protocol only, requires installing dependencies in IDAPython).
-- https://github.com/fdrechsler/mcp-server-idapro (MCP Server in TypeScript, excessive boilerplate required to add new functionality).
-- https://github.com/MxIris-Reverse-Engineering/ida-mcp-server (custom socket protocol, boilerplate).
-
-Feel free to open a PR to add your IDA Pro MCP server here.
-
-## Development
-
-Adding new features is a super easy and streamlined process. All you have to do is add a new `@tool` function to the modular API files in `src/ida_pro_mcp/ida_mcp/api_*.py` and your function will be available in the MCP server without any additional boilerplate! Below is a video where I add the `get_metadata` function in less than 2 minutes (including testing):
-
-https://github.com/user-attachments/assets/951de823-88ea-4235-adcb-9257e316ae64
-
-To test the MCP server itself:
-
-```sh
-npx -y @modelcontextprotocol/inspector
-```
-
-This will open a web interface at http://localhost:5173 and allow you to interact with the MCP tools for testing.
-
-For testing I create a symbolic link to the IDA plugin and then POST a JSON-RPC request directly to `http://localhost:13337/mcp`. After [enabling symbolic links](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) you can run the following command:
-
-```sh
-uv run ida-pro-mcp --install
-```
-
-Generate the changelog of direct commits to `main`:
-
-```sh
-git log --first-parent --no-merges 1.2.0..main "--pretty=- %s"
-```

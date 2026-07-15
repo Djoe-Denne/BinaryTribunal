@@ -1,0 +1,137 @@
+id: "STATUS_180800_WRITER_PROOF_001"
+title: "Prove live writers for the unresolved 0x180800 status-bit family"
+domain: "status_pipeline"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_status_180800_writer_proof.md"
+  - "obsidian-docs/_staging/investigations/status_bits_and_interactions.md"
+  - "docs/tech/test/test_status_pipeline.md"
+
+# Injection-driven (no manual play): inject a status-applying magic at the watched
+# slot so the GAME's status-apply path writes status_2 (the watchpoint then
+# captures the authentic writer PC).
+#
+# CAVEAT: STATUS_SPELL must be a magic that actually applies the targeted bit of
+# the 0x180800 family. Those spell ids are not yet confirmed (this test exists to
+# resolve them), so STATUS_SPELL is a placeholder per case — tune it until
+# wp_status2 / bp_apply_hit_status fire. bp_status_tick fires every tick and keeps
+# the test producing evidence even before the right spell id is found.
+
+matrix:
+  - case: "bit_0x00000800"
+    STATUS_SPELL: 0x02       # placeholder: spell applying bit 0x00000800 (TBD)
+  - case: "bit_0x00080000"
+    STATUS_SPELL: 0x02       # placeholder: spell applying bit 0x00080000 (TBD)
+  - case: "bit_0x00100000"
+    STATUS_SPELL: 0x02       # placeholder: spell applying bit 0x00100000 (TBD)
+
+constants:
+  ATB_TICK: 0x4842B0
+  APPLY_HIT_STATUS: 0x4914E0
+  APPLY_AND_SYNC_SLOT: 0x493840
+  STATUS_TICK: 0x483470
+  PENDING_TRANSFER: 0x4847F0
+  BATTLE_SLOT_DATA: 0x1D27B10
+  SLOT_STRIDE: 0xD0
+  STATUS2_OFFSET: 0x08
+  MAGIC_CMD_ID: 0x02
+  TARGET_MASK: 0x08          # enemy slot 3
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "slot_before"
+    slot: 3
+  - action: set_breakpoint
+    label: "bp_apply_hit_status"
+    address: "APPLY_HIT_STATUS"
+  - action: set_breakpoint
+    label: "bp_apply_and_sync_slot"
+    address: "APPLY_AND_SYNC_SLOT"
+  - action: set_breakpoint
+    label: "bp_status_tick"
+    address: "STATUS_TICK"
+  - action: set_watchpoint
+    label: "wp_status2"
+    address: "BATTLE_SLOT_DATA + 3 * SLOT_STRIDE + STATUS2_OFFSET"
+    size: 4
+
+act:
+  - action: write_pending_action
+    label: "inject_status_magic"
+    slot: 0
+    fields:
+      target_mask: "TARGET_MASK"
+      attacker_slot: 0
+      command_id: "MAGIC_CMD_ID"
+      command_arg: "STATUS_SPELL"
+      active: 1
+  - action: continue_execution
+    label: "drive_to_status_anchor"
+    timeout_ms: 15000
+    wait_until:
+      - "wp_status2"
+      - "bp_apply_hit_status"
+      - "bp_apply_and_sync_slot"
+      - "bp_status_tick"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "status_180800_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "wp_status2"
+      - "bp_apply_hit_status"
+      - "bp_apply_and_sync_slot"
+      - "bp_status_tick"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_stacktrace
+        label: "stacktrace"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: snapshot_slot
+        label: "slot_during"
+        slot: 3
+  - action: snapshot_slot
+    label: "slot_after"
+    slot: 3
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: any_of
+    label: "status_anchor_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "wp_status2"
+      - check: breakpoint_was_hit
+        label: "bp_apply_hit_status"
+      - check: breakpoint_was_hit
+        label: "bp_status_tick"
+
+cleanup:
+  - action: delete_watchpoint
+    label: "wp_status2"
+  - action: delete_breakpoint
+    label: "bp_apply_hit_status"
+  - action: delete_breakpoint
+    label: "bp_apply_and_sync_slot"
+  - action: delete_breakpoint
+    label: "bp_status_tick"
+
+verdict_prompt: |
+  Analyze this unresolved-status-bit trace.
+  Focus on:
+  1. The exact writer PC and stacktrace when `status_2` changed.
+  2. Whether the write happened in hit-status apply, sync, timer tick, or another path.
+  3. Which actual bits changed in the slot snapshot across the event.
+  4. Whether the current case narrows the label for one member of the `0x180800` family.
+  Evidence:
+  {evidence_json}

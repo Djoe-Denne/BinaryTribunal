@@ -18,6 +18,8 @@ cur_atb += base * K_MISC.atb_speed_multiplier * (spd + 30) / 100
 
 Where `spd` is `BATTLE_SLOT_DATA[slot].spd` at offset `+0xC1`.
 
+See also: `docs/tech/systems/battle_slot_data.md` for the full slot struct layout.
+
 ## Eligibility Gates
 
 A slot is processed only when:
@@ -32,7 +34,7 @@ A slot is processed only when:
 When `cur_atb >= max_atb`:
 
 - `cur_atb` clamped to `max_atb`
-- If `status_1 & 0x20` (Berserk) OR `status_2 & 0x2004000`:
+- If `status_1 & 0x20` (Berserk) OR `status_2 & 0x2004000` (mask identity TBD):
   - Auto-command path: `Battle_ProcessAutoCommand(slot)` — creates a command automatically
   - `flag_data |= 0x04` (auto-ready)
 - Else:

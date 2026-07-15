@@ -55,7 +55,7 @@ struct BattleContext {
   uint8_t mode3_substep;
   uint8_t mode3_subsub_step;
   uint8_t mode_3_subsubsubstep;
-  uint8_t battle_result_byte_mode_3_subsubsubcondition;
+  uint8_t mode_3_subsubsubcondition;
 
   // Action-resolution transient globals (hit context)
   uint8_t ATTACKER_SLOT_ID;
@@ -135,7 +135,7 @@ Live snapshot during active paused battle:
 - `mode3_substep = 3`
 - `mode3_subsub_step = 1`
 - `mode_3_subsubsubstep = 4` (main active battle tick path)
-- `battle_result_byte_mode_3_subsubsubcondition = 0xFF`
+- `mode_3_subsubsubcondition = 0xFF`
 
 Interpretation: battle-loop is in active runtime subphase where pending->arb->resolve/status ticks are exercised.
 

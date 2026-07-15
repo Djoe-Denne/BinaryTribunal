@@ -1,0 +1,123 @@
+id: "EXEC_QUEUE_GROUP_SEMANTICS_001"
+title: "Inject controlled commands and capture exec-queue group semantics"
+domain: "command_pipeline"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_exec_queue_group_semantics.md"
+  - "docs/tech/systems/command_pipeline.md"
+  - "obsidian-docs/_staging/investigations/exec_queue_layout_2026-06-09.md"
+
+# Injection-driven (no manual play): inject two mixed pending entries (a physical
+# action and a magic action by two different player slots) to generate exec-queue
+# traffic, then let the game transfer/arbitrate/commit them.
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION: 0x485460
+  EXEC_COMMIT: 0x485E90
+  EXEC_CLEAR: 0x485EC0
+  PHYS_CMD_ID: 0x01
+  MAGIC_CMD_ID: 0x02
+  MAGIC_ARG: 0x02         # Fira
+  ENEMY_MASK: 0x08        # enemy slot 3
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: read_exec_queue
+    label: "exec_before"
+  - action: set_breakpoint
+    label: "bp_pending_transfer"
+    address: "PENDING_TRANSFER"
+  - action: set_breakpoint
+    label: "bp_arbitration"
+    address: "ARBITRATION"
+  - action: set_breakpoint
+    label: "bp_exec_commit"
+    address: "EXEC_COMMIT"
+  - action: set_breakpoint
+    label: "bp_exec_clear"
+    address: "EXEC_CLEAR"
+
+act:
+  - action: write_pending_action
+    label: "inject_phys"
+    slot: 0
+    fields:
+      target_mask: "ENEMY_MASK"
+      attacker_slot: 0
+      command_id: "PHYS_CMD_ID"
+      command_arg: 0
+      active: 1
+  - action: write_pending_action
+    label: "inject_magic"
+    slot: 1
+    fields:
+      target_mask: "ENEMY_MASK"
+      attacker_slot: 1
+      command_id: "MAGIC_CMD_ID"
+      command_arg: "MAGIC_ARG"
+      active: 1
+  - action: continue_execution
+    label: "drive_to_queue_anchor"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_transfer"
+      - "bp_arbitration"
+      - "bp_exec_commit"
+      - "bp_exec_clear"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "exec_queue_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_transfer"
+      - "bp_arbitration"
+      - "bp_exec_commit"
+      - "bp_exec_clear"
+    max_hits: 4
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: read_exec_queue
+        label: "exec_queue"
+      - action: read_pending_action
+        label: "pending0"
+        slot: 0
+  - action: read_exec_queue
+    label: "exec_after"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_pending_transfer"
+  - check: breakpoint_was_hit
+    label: "bp_arbitration"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+  - action: delete_breakpoint
+    label: "bp_exec_commit"
+  - action: delete_breakpoint
+    label: "bp_exec_clear"
+
+verdict_prompt: |
+  Analyze this exec-queue group capture.
+  Focus on:
+  1. Which queue bytes/masks were populated before and after arbitration.
+  2. The observed order of transfer, arbitration, commit, and clear.
+  3. Whether the observed traffic suggests distinct queue-groups or subrecord families.
+  4. Any evidence of queue saturation, fallback, or packed-mask behavior.
+  Evidence:
+  {evidence_json}

@@ -9,11 +9,32 @@ on the generic :class:`binaryTribunal.runner.HypothesisRunner`.
 from __future__ import annotations
 
 from binaryTribunal.evidence import Evidence
-from binaryTribunal.hypothesis import Step
+from binaryTribunal.hypothesis import Step, resolve_address
 from binaryTribunal.mcp_client import McpClient, McpToolError, McpTransportError
 from binaryTribunal.runner import HypothesisRunner
 
 from .battle_state import FF8BattleState
+
+
+def _resolve_int_field(value: object, constants: dict[str, int], default: int = 0) -> int:
+    """Resolve a step-field value to an int, honoring named constants.
+
+    Accepts plain ints, hex/decimal strings, or constant-name expressions
+    (e.g. ``"CMD_ID"`` or ``"BASE + 4"``) so that matrix-injected per-case
+    constants can parametrize injection fields.
+    """
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return default
+        return resolve_address(stripped, constants)
+    return default
 
 
 def register_ff8_actions(
@@ -41,21 +62,42 @@ def register_ff8_actions(
     runner.register_action("snapshot_slot", do_snapshot_slot)
 
     # ------------------------------------------------------------------
+    # snapshot_all_slots
+    # ------------------------------------------------------------------
+    def do_snapshot_all_slots(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        del constants
+        snapshot = battle.snapshot_all_slots()
+        evidence.snapshots[step.label or "all_slots"] = snapshot
+        evidence.log(f"    Snapshot all slots [{step.label or 'all_slots'}]: {len(snapshot)} slot(s)")
+
+    runner.register_action("snapshot_all_slots", do_snapshot_all_slots)
+
+    # ------------------------------------------------------------------
     # write_pending_action
     # ------------------------------------------------------------------
     def do_write_pending_action(
         step: Step, constants: dict[str, int], evidence: Evidence,
     ) -> None:
         f = step.fields
-        battle.write_pending_action(
-            entry_index=step.slot,
-            target_mask=f.get("target_mask", 0),
-            attacker_slot=f.get("attacker_slot", 0),
-            command_id=f.get("command_id", 0),
-            command_arg=f.get("command_arg", 0),
-            active=f.get("active", 1),
+        resolved = {
+            "entry_index": step.slot,
+            "target_mask": _resolve_int_field(f.get("target_mask"), constants, 0),
+            "attacker_slot": _resolve_int_field(f.get("attacker_slot"), constants, 0),
+            "command_id": _resolve_int_field(f.get("command_id"), constants, 0),
+            "command_arg": _resolve_int_field(f.get("command_arg"), constants, 0),
+            "active": _resolve_int_field(f.get("active"), constants, 1),
+        }
+        battle.write_pending_action(**resolved)
+        readback = battle.read_pending_action(step.slot)
+        evidence.snapshots[step.label or "injected_pending"] = readback
+        evidence.log(
+            f"    Injected pending slot {resolved['entry_index']}: "
+            f"cmd_id={hex(resolved['command_id'])} arg={hex(resolved['command_arg'])} "
+            f"mask={hex(resolved['target_mask'])} attacker={resolved['attacker_slot']} "
+            f"-> readback {readback}"
         )
-        evidence.log(f"    Wrote pending action slot {step.slot}: {f}")
 
     runner.register_action("write_pending_action", do_write_pending_action)
 
@@ -96,6 +138,63 @@ def register_ff8_actions(
     runner.register_action("read_action_globals", do_read_action_globals)
 
     # ------------------------------------------------------------------
+    # read_exec_queue
+    # ------------------------------------------------------------------
+    def do_read_exec_queue(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        del constants
+        byte_count = int(step.fields.get("byte_count", 12) or 12)
+        mask_count = int(step.fields.get("mask_count", 6) or 6)
+        queue = battle.read_exec_queue_state(byte_count=byte_count, mask_count=mask_count)
+        evidence.snapshots[step.label] = queue
+        evidence.log(f"    Exec queue [{step.label}]: bytes={queue['bytes_hex']}")
+
+    runner.register_action("read_exec_queue", do_read_exec_queue)
+
+    # ------------------------------------------------------------------
+    # read_result_globals
+    # ------------------------------------------------------------------
+    def do_read_result_globals(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        del constants
+        result = battle.read_result_globals()
+        evidence.snapshots[step.label] = result
+        evidence.log(
+            f"    Result globals [{step.label}]: "
+            f"result={result.get('BATTLE_RESULT_CODE')} end_type={result.get('BATTLE_END_TYPE')}"
+        )
+
+    runner.register_action("read_result_globals", do_read_result_globals)
+
+    # ------------------------------------------------------------------
+    # read_elemental_globals
+    # ------------------------------------------------------------------
+    def do_read_elemental_globals(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        del constants
+        result = battle.read_elemental_globals()
+        evidence.snapshots[step.label] = result
+        evidence.log(f"    Elemental globals [{step.label}]: {result}")
+
+    runner.register_action("read_elemental_globals", do_read_elemental_globals)
+
+    # ------------------------------------------------------------------
+    # read_rng_state
+    # ------------------------------------------------------------------
+    def do_read_rng_state(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        del constants
+        result = battle.read_rng_state()
+        evidence.snapshots[step.label] = result
+        evidence.log(f"    RNG state [{step.label}]: {result}")
+
+    runner.register_action("read_rng_state", do_read_rng_state)
+
+    # ------------------------------------------------------------------
     # sync_to_battle_tick
     # ------------------------------------------------------------------
     def do_sync_to_battle_tick(
@@ -125,28 +224,24 @@ def register_ff8_actions(
         runner.mcp.add_breakpoint(sync_addr)
         runner._bp_addrs[sync_label] = sync_addr
         evidence.breakpoint_hits[sync_label] = False
+        evidence.breakpoint_hit_counts[sync_label] = 0
 
-        # Continue — works whether already paused or running
-        timeout_s = timeout_ms / 1000.0
+        # Continue until the sync BP is actually the stop reason.
         try:
-            runner.mcp.continue_exec(timeout=timeout_s)
-        except (McpTransportError, McpToolError) as exc:
-            evidence.log(f"    Sync continue error: {exc}")
-
-        # Check if we landed on the sync BP
-        try:
-            regs = runner.mcp.get_gpregs()
-            eip = runner.extract_eip(regs)
-            if eip is not None:
-                hit = (eip == sync_addr or eip == sync_addr + 1
-                       or eip == sync_addr - 1)
-                evidence.breakpoint_hits[sync_label] = hit
-                evidence.log(f"    Sync landed at EIP={hex(eip)}, "
-                             f"match={hit}")
-            else:
-                evidence.log("    Sync: could not determine EIP")
+            stop = runner._continue_until_labels([sync_label], timeout_ms, evidence)
+            if stop is None:
+                evidence.log("    Sync timeout waiting for battle tick")
+                raise RuntimeError(
+                    f"sync_to_battle_tick timed out waiting for {hex(sync_addr)}"
+                )
+            eip = stop.get("eip")
+            evidence.log(
+                f"    Sync landed at EIP={hex(eip) if isinstance(eip, int) else eip}, match=True"
+            )
+            evidence.breakpoint_hits[sync_label] = True
         except Exception as exc:
-            evidence.log(f"    Sync register read error: {exc}")
+            evidence.log(f"    Sync error: {exc}")
+            raise
 
         # Remove the sync BP so it doesn't keep firing
         try:
@@ -164,7 +259,13 @@ def register_ff8_actions(
     def do_set_enemy_hp_all_10000(
         step: Step, constants: dict[str, int], evidence: Evidence,
     ) -> None:
-        """Set current HP to 10,000 on live enemy slots."""
+        """Force live enemy slots to a high, durable HP pool.
+
+        Writes *both* max HP and current HP (max first so the engine cannot
+        clamp current back down). HP fields are u16, so the effective ceiling
+        is 0xFFFF (65535) regardless of the requested value -- enough to
+        survive a manual attack while a live scenario captures evidence.
+        """
         hp = int(step.fields.get("hp", 10000))
         hp = max(0, min(0xFFFF, hp))
         touched: list[int] = []
@@ -172,12 +273,16 @@ def register_ff8_actions(
 
         for slot_id in battle.iter_enemy_slots():
             if battle.is_enemy_slot_live(slot_id):
+                battle.write_max_hp(slot_id, hp)
                 battle.write_hp(slot_id, hp)
                 touched.append(slot_id)
             else:
                 skipped.append(slot_id)
 
-        readback = {slot_id: battle.read_hp(slot_id) for slot_id in touched}
+        readback = {
+            slot_id: {"hp": battle.read_hp(slot_id), "max_hp": battle.read_max_hp(slot_id)}
+            for slot_id in touched
+        }
         evidence.snapshots[step.label or "set_enemy_hp_all_10000"] = {
             "hp": hp,
             "touched_slots": touched,
@@ -185,7 +290,24 @@ def register_ff8_actions(
             "readback_hp": readback,
         }
         evidence.log(
-            f"    Set enemy HP={hp} for live slots={touched}; skipped={skipped}"
+            f"    Set enemy HP+maxHP={hp} for live slots={touched}; skipped={skipped}"
         )
 
     runner.register_action("set_enemy_hp_all_10000", do_set_enemy_hp_all_10000)
+
+    # ------------------------------------------------------------------
+    # write_slot_status_bits
+    # ------------------------------------------------------------------
+    def do_write_slot_status_bits(
+        step: Step, constants: dict[str, int], evidence: Evidence,
+    ) -> None:
+        mask = _resolve_int_field(step.fields.get("mask"), constants, 0)
+        set_bits = bool(step.fields.get("set", True))
+        result = battle.write_status2_bits(step.slot, mask, set_bits=set_bits)
+        evidence.snapshots[step.label or "write_slot_status_bits"] = result
+        evidence.log(
+            f"    Status2 write [{step.label or 'write_slot_status_bits'}]: "
+            f"slot={step.slot} mask={hex(mask)} set={set_bits}"
+        )
+
+    runner.register_action("write_slot_status_bits", do_write_slot_status_bits)

@@ -21,7 +21,11 @@ from pathlib import Path
 from binaryTribunal.evidence import Evidence
 from binaryTribunal.mcp_client import McpClient
 from binaryTribunal.runner import HypothesisRunner
-from binaryTribunal.__main__ import build_parser, cmd_run as engine_cmd_run
+from binaryTribunal.__main__ import (
+    build_parser,
+    cmd_run as engine_cmd_run,
+    cmd_validate as engine_cmd_validate,
+)
 
 from .actions import register_ff8_actions
 from .assertions import register_ff8_assertions
@@ -88,6 +92,12 @@ def main() -> int:
         return cmd_smoke(args)
     elif args.command == "run":
         return engine_cmd_run(
+            args,
+            plugin_setup=_ff8_plugin_setup,
+            search_dirs=_SEARCH_DIRS,
+        )
+    elif args.command == "validate":
+        return engine_cmd_validate(
             args,
             plugin_setup=_ff8_plugin_setup,
             search_dirs=_SEARCH_DIRS,

@@ -1,0 +1,173 @@
+id: "EXIT_PATH_STATE_RESET_MATRIX_001"
+title: "Capture transient-state reset behavior across battle exit families"
+domain: "battle_lifecycle"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_exit_path_state_reset_matrix.md"
+  - "obsidian-docs/_staging/investigations/battle_cleanup_and_reset.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-lifecycle.md"
+
+matrix:
+  - case: "victory"
+  - case: "escape"
+  - case: "party_wipe"
+  - case: "timer_expiry"
+  - case: "scripted_end"
+
+constants:
+  ATB_TICK: 0x4842B0
+  ESCAPE_SUCCESS: 0x4862A0
+  TIMER_EXPIRY: 0x486390
+  SCRIPTED_END: 0x4863F0
+  PARTY_WIPE: 0x486450
+  ALL_ENEMIES_DEAD: 0x486500
+  END_CLEANUP: 0x4868C0
+  PENDING_BUFFER: 0x1D28D44
+  MENU_PENDING_COUNT: 0x1D76718
+  MENU_PENDING_BUFFER: 0x1D76721
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "pending_before"
+    address: "PENDING_BUFFER"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "menu_pending_count_before"
+    address: "MENU_PENDING_COUNT"
+    size: 4
+    type: u32
+  - action: snapshot_memory
+    label: "menu_pending_buffer_before"
+    address: "MENU_PENDING_BUFFER"
+    size: 16
+    type: bytes
+  - action: read_exec_queue
+    label: "exec_before"
+  - action: read_result_globals
+    label: "result_before"
+  - action: set_breakpoint
+    label: "bp_escape_success"
+    address: "ESCAPE_SUCCESS"
+  - action: set_breakpoint
+    label: "bp_timer_expiry"
+    address: "TIMER_EXPIRY"
+  - action: set_breakpoint
+    label: "bp_scripted_end"
+    address: "SCRIPTED_END"
+  - action: set_breakpoint
+    label: "bp_party_wipe"
+    address: "PARTY_WIPE"
+  - action: set_breakpoint
+    label: "bp_all_enemies_dead"
+    address: "ALL_ENEMIES_DEAD"
+  - action: set_breakpoint
+    label: "bp_end_cleanup"
+    address: "END_CLEANUP"
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_exit_family"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_success"
+      - "bp_timer_expiry"
+      - "bp_scripted_end"
+      - "bp_party_wipe"
+      - "bp_all_enemies_dead"
+      - "bp_end_cleanup"
+    message: |
+      Déclenche la famille de sortie demandée par le titre
+      (victory, escape, party wipe, timer expiry, ou scripted end)
+      et laisse la transition se produire.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "exit_trace"
+    timeout_ms: 30000
+    wait_until:
+      - "bp_escape_success"
+      - "bp_timer_expiry"
+      - "bp_scripted_end"
+      - "bp_party_wipe"
+      - "bp_all_enemies_dead"
+      - "bp_end_cleanup"
+    max_hits: 4
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_result_globals
+        label: "result_globals"
+      - action: read_exec_queue
+        label: "exec_queue"
+      - action: snapshot_memory
+        label: "pending_buffer"
+        address: "PENDING_BUFFER"
+        size: 24
+        type: bytes
+      - action: snapshot_memory
+        label: "menu_pending_count"
+        address: "MENU_PENDING_COUNT"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "menu_pending_buffer"
+        address: "MENU_PENDING_BUFFER"
+        size: 16
+        type: bytes
+  - action: read_result_globals
+    label: "result_after"
+  - action: snapshot_memory
+    label: "pending_after"
+    address: "PENDING_BUFFER"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "menu_pending_count_after"
+    address: "MENU_PENDING_COUNT"
+    size: 4
+    type: u32
+  - action: snapshot_memory
+    label: "menu_pending_buffer_after"
+    address: "MENU_PENDING_BUFFER"
+    size: 16
+    type: bytes
+  - action: read_exec_queue
+    label: "exec_after"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_end_cleanup"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_escape_success"
+  - action: delete_breakpoint
+    label: "bp_timer_expiry"
+  - action: delete_breakpoint
+    label: "bp_scripted_end"
+  - action: delete_breakpoint
+    label: "bp_party_wipe"
+  - action: delete_breakpoint
+    label: "bp_all_enemies_dead"
+  - action: delete_breakpoint
+    label: "bp_end_cleanup"
+
+verdict_prompt: |
+  Analyze this exit-family reset capture.
+  Focus on:
+  1. Which result writer and cleanup anchors fired.
+  2. The final pending/exec/menu buffer state before vs after cleanup.
+  3. Which transient fields clearly reset and which appear to survive.
+  4. Any exit-family-specific behavior visible in the result globals.
+  Evidence:
+  {evidence_json}

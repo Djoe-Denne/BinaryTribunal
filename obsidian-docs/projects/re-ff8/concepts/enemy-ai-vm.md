@@ -1,0 +1,114 @@
+---
+title: Enemy AI VM
+category: concepts
+tags: [ff8, battle-system, reverse-engineering, concept]
+aliases: [monster AI bytecode, FF8 enemy scripts]
+sources:
+  - docs/tech/systems/enemy_ai_vm.md
+  - docs/tech/reference/address_catalog.md
+  - docs/tech/systems/battle_loop.md
+  - obsidian-docs/_staging/investigations/enemy_ai_opcode_semantics_2026-06-09.md
+summary: Enemy behavior is a `.dat` section 8 bytecode VM whose opcode set includes targeting, spawn, summon-prep, reward, and post-battle queue side effects.
+provenance:
+  extracted: 0.89
+  inferred: 0.07
+  ambiguous: 0.04
+created: 2026-06-02T16:37:00+02:00
+updated: 2026-06-14T15:00:00+02:00
+---
+
+# Enemy AI VM
+
+Enemy behavior is implemented as a bytecode interpreter over monster `.dat` section 8. Monster slots reach it from arbitration when their turn is selected, and damage application can call it again for counter and death scripts.
+
+## Call Chain
+
+```text
+BattleArbitration_SelectNextAction (0x485460)
+  -> EnemyAI_PrepareTurnAction (0x485610)
+    -> EnemyAI_DispatchSection (0x4877F0)
+      -> EnemyAI_VM_ExecuteScript (0x487DF0)
+```
+
+`Battle_ApplyDamageOrHeal` also dispatches section `2` counter scripts after damage and section `3` death scripts when HP reaches `0`.
+
+## Data Layout
+
+- `.dat` section `8` starts with offsets to the AI subsection, text offsets, and text subsection.
+- The AI subsection contains offsets to init, turn, counter, death, and pre-hit code.
+- The bytecode pointer for a subsection is `ai_subsection_base + offset[section_index]`.
+
+## Section Routing
+
+- Section `0` runs when a monster appears.
+- Section `1` runs on the monster's turn and increments turn count.
+- Section `2` handles counters, after death or petrify or berserk or sleep or stop gates.
+- Section `3` runs on death and can summon replacements, drop items, or trigger scripted exits.
+- Section `4` is pre-hit.
+- Sections `5-6` are fixed special actions.
+- Section `7` handles Odin or Gilgamesh special GF action.
+- Section `8` handles Angelo auto-action.
+
+For party slots below `3`, section `2` is reused for Counter, Cover, and Return Damage instead of monster scripts.
+
+## Interpreter Model
+
+- `EnemyAI_VM_ExecuteScript` (`0x487DF0`) is an 8.9 KB interpreter with a 61-case opcode switch (dispatch at `0x487EDC`, indexed `opcode-1`).
+- Opcode `0x00` stops execution; opcodes `0x01` through `0x3D` are valid. `0x0A`, `0x10`, `0x14`, `0x21` are pure NOPs; `0x0D` and `0x19` read+discard one operand.
+- The stream is **inline-parameter bytecode** consumed by a post-increment cursor; 16-bit fields are little-endian. Control flow is `0x23` (unconditional jump) and `0x02` (IF → conditional 16-bit skip).
+- **Entry guards:** the executing slot's monster "rank" is read from `BMI71_LOW_MED_HIGH_LEVEL_BIS`. If running the turn section (`AI_CURRENT_SECTION_INDEX==1`) while self is **Berserk**, the VM ignores the script and forces a plain Attack on a random non-dead party member from `AI_VM_FALLBACK_BYTECODE` (`0x1D2A21D`).
+- **Stop condition:** the VM returns either on `0x00` **or** when an action-emitting opcode (`0x06` EXECUTE, `0x0B/0x0C` ability use, `0x1B/0x1E/0x2A` specials) commits with a valid target (`BOOL_TARGET_CHOOSEN != 0`). A commit with no valid target advances the exec queue and keeps parsing.
+- **Commit tail** (`LABEL_375`): stores `target_mask` into the slot, folds the default-target mask from `K_MAGIC`/`K_ITEM`/`K_ENEMY_ATTACK`, then calls `BattleAction_GetText` + `BattleAction_ResolveTargetAndHitCount` and (for forced GF) the Odin/Gilgamesh follow-up via `BACK_PREEMTIVE_INFO_3`.
+- Attack-setup opcodes choose magic, monster abilities, drawn magic, or ability-table entries; targeting opcodes choose direct targets, masks, status/stat matches, random abilities, and special target codes; monster-management opcodes enter/remove monsters, set hidden/untargetable state, or trigger relay events.
+
+> **Full per-opcode reference** (operand widths, exact effect, RNG use, state read/write, action emission), the **IF (`0x02`) subject-selector table**, the **target-code table**, and the **AI state inventory** now live in the canonical reference [[projects/re-ff8/references/enemy-ai-opcodes]].
+
+## Corrected Opcode Notes
+
+The most valuable semantic corrections from the static staging batch are:
+
+- `0x31` is not a pure GF check. It grants the owned GF flag and appends the GF ID into a three-entry post-battle GF queue.
+- `0x32` sets `AI_PREPARE_SUMMON_FLAG`, which later acts as a summon-targeting override rather than a generic boolean marker.
+- `0x33` activates relay `0x70`, now confirmed as a **camera/presentation barrier** in the shared battle task queue (see [Relay Semantics](#relay-semantics-0x70-and-0x71)).
+- `0x34` spawns the first free enemy slot in `3..7`, runs the normal add or init or activate path, and fires relay `0x71` (deferred actor-ready activation callback).
+- `0x3A` clears `flag_data & 0x40` on a parameterized target slot and rebuilds target visibility. It is not a slot-info read helper.
+
+## Spawn And Targetability Families
+
+The spawn-oriented opcodes are now better understood as one family:
+
+- `0x34` first free enemy slot,
+- `0x3B` specific target slot,
+- `0x1F` spawn and activate,
+- `0x1B` GF-style summon variant with extra presentation setup.
+
+They converge on the same core add or init or activate choreography and then diverge only in slot choice or extra summon-presentation work.
+
+`flag_data & 0x40` is now also a clearer shared invariant:
+
+- `0x2F` clears it on self,
+- `0x30` sets it on self,
+- `0x3A` clears it on a parameterized slot.
+
+That makes it a shared AI-side untargetable or hidden bit rather than a one-off behavior.
+
+## Relay Semantics (0x70 and 0x71)
+
+The AI "relay" calls do not draw anything directly. `BattleEvent_ActivateTargetRelay` (`0x47E3F0`) forwards to `SomeListManipulation` (`0x500DF0`), which appends a node into the per-frame battle presentation task queue `battle_task_2_stru` (`0x1D96D68`): node `+2` = relay id, `+0` = sequence byte, `+4` = payload pointer. `BattleTaskQueue_Tick` (`0x500CC0`) then dispatches ids in `]100,120[` through `BattleTaskQueue_Dispatch` (`0x502380`) — the same `0x64..0x77` family that also drives action sequences (case `0x68` → `BattleActionSequence_DispatchTick`).
+
+- **Relay `0x70` (112)** → `au_re_BdLinkTask_1` (`0x5085D0`) → worker `sub_5085F0`: a **camera/presentation barrier**. It stalls while `byte_1D96A88`, `sub_508580(24,64)`, or `cameraRelated_pointerAnimColl` show the camera/summon presentation is busy, then marks itself done. Used by GF-style summon (`0x1B`), ACTIVATE_RELAY (`0x33`), and escape finalization. It means "wait for the camera/summon presentation to be free."
+- **Relay `0x71` (113)** → worker `sub_502F30` (`0x502F30`): a **deferred per-actor callback**. It waits until the actor at node `+8` (slot index) is animation-idle, then invokes the callback pointer stored at node `+4` with the slot index. Used by the monster-spawn (`0x34`) choreography to run the activation callback once the new model is ready.
+
+Both return dispatch code `8` (child task spawned, relay persists until the child writes `0xFF` to node `+1`). They are synchronization points in the presentation timeline, not visual effects in themselves.
+
+## Related Runtime State
+
+- AI locals are stored per slot inside [[projects/re-ff8/concepts/battle-state-model]].
+- AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
+- The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
+- Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
+
+## Open Questions
+
+- ~~Several opcodes still need exact semantics from interpreter structure~~ **Closed 2026-06-14 (static):** all 61 opcodes decoded (operands + effect + RNG + state R/W + action emission) in [[projects/re-ff8/references/enemy-ai-opcodes]]. Residual is *gameplay labelling* of the random-magic readers (`0x29/0x2E`) and a few IF subjects against a real monster-script corpus.^[ambiguous]
+- ~~Relay `0x70` and `0x71` semantics still need live observation~~ **Closed 2026-06-13 (static):** `0x70` = camera/presentation barrier, `0x71` = deferred actor-ready callback (see [Relay Semantics](#relay-semantics-0x70-and-0x71)).

@@ -1,0 +1,82 @@
+id: "STATUS_WRITER_001"
+title: "Capture the writer PC for one live status_2 mutation"
+domain: "status_pipeline"
+confidence_target: "medium"
+
+references:
+  - "docs/tech/test/test_status_pipeline.md"
+  - "docs/tech/reference/status_bits.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  BATTLE_SLOT_DATA: 0x1D27B10
+  SLOT_STRIDE: 0xD0
+  STATUS2_OFFSET: 0x08
+  WATCH_SLOT: 3
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "slot_before"
+    slot: 3
+  - action: set_watchpoint
+    label: "wp_status2"
+    address: "BATTLE_SLOT_DATA + WATCH_SLOT * SLOT_STRIDE + STATUS2_OFFSET"
+    size: 4
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_status_write"
+    timeout_ms: 15000
+    wait_until:
+      - "wp_status2"
+    message: |
+      Déclenche une écriture réelle dans status_2 du slot surveillé (slot 3) :
+      applique un statut temporel comme Sleep, Slow, Haste ou Stop à la cible concernée.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "status_writer_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "wp_status2"
+    max_hits: 1
+    on_hit:
+      - action: read_registers
+        label: "writer_regs"
+      - action: read_stacktrace
+        label: "writer_stack"
+      - action: snapshot_slot
+        label: "slot_after_hit"
+        slot: 3
+  - action: snapshot_slot
+    label: "slot_after"
+    slot: 3
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: hit_count_at_least
+    label: "wp_status2"
+    min_val: 1
+  - check: value_changed
+    before: "slot_before"
+    after: "slot_after"
+
+cleanup:
+  - action: delete_watchpoint
+    label: "wp_status2"
+
+verdict_prompt: |
+  Analyze the status writer trace.
+  Focus on:
+  1. The writer PC captured in hit_trace for `wp_status2`.
+  2. The stacktrace and registers at the write site.
+  3. The before/after slot snapshots and which status_2 bits changed.
+  Evidence:
+  {evidence_json}

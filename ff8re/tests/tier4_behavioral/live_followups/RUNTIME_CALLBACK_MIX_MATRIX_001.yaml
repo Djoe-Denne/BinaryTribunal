@@ -1,0 +1,180 @@
+id: "RUNTIME_CALLBACK_MIX_MATRIX_001"
+title: "Capture real battle-file callback lifetimes by command family"
+domain: "render_bridge"
+confidence_target: "high"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_runtime_callback_mix_matrix.md"
+  - "obsidian-docs/_staging/investigations/battle_hook_boundary.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-lifecycle.md"
+
+# Idle writes an inactive entry only. Attack, Magic/Fira, and GF/Ifrit use
+# already-confirmed pending-action bytes and run without manual menu timing.
+matrix:
+  - case: "idle_command_loop"
+    CMD_ACTIVE: 0
+    CMD_ID: 0x00
+    CMD_ARG: 0x00
+    TARGET_MASK: 0x0000
+  - case: "attack"
+    CMD_ACTIVE: 1
+    CMD_ID: 0x01
+    CMD_ARG: 0x00
+    TARGET_MASK: 0x0008
+  - case: "magic_fira"
+    CMD_ACTIVE: 1
+    CMD_ID: 0x02
+    CMD_ARG: 0x02
+    TARGET_MASK: 0x0008
+  - case: "gf_ifrit"
+    CMD_ACTIVE: 1
+    CMD_ID: 0x03
+    CMD_ARG: 0x42
+    TARGET_MASK: 0x8008
+
+constants:
+  FRAME_ROOT: 0x47CF60
+  ATB_TICK: 0x4842B0
+  PENDING_BASE: 0x1D28D44
+
+  # The thunk at 0x48D0C0 runs every active director frame and is not evidence
+  # that a callback exists. These probes target registration and real dispatch.
+  FILE_PRELOAD: 0x48D0A0
+  CALLBACK_INVOKE: 0x4825C8
+  COMPLETION_TARGET_INVOKE: 0x4828A2
+
+  CALLBACK_TABLE: 0x1D29638
+  CALLBACK_RECORDS: 0x1D29A08
+  CALLBACK_ACTIVE_COUNT: 0x1D29AD0
+  CALLBACK_CURRENT_SLOT: 0x1D2A200
+  GF_CALLBACK_PTR: 0x21DFEC4
+  ACTION_LATCHES: 0x1D28DF8
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_frame"
+    address: "ATB_TICK"
+    timeout_ms: 120000
+  - action: set_enemy_hp_all_10000
+    label: "stabilize_enemies"
+    fields:
+      hp: 10000
+  - action: snapshot_memory
+    label: "pending_buffer_backup"
+    address: "PENDING_BASE"
+    size: 24
+    type: bytes
+  - action: snapshot_memory
+    label: "callback_table_before"
+    address: "CALLBACK_TABLE"
+    size: 64
+    type: bytes
+  - action: set_breakpoint
+    label: "bp_frame_root"
+    address: "FRAME_ROOT"
+  - action: set_breakpoint
+    label: "bp_file_preload"
+    address: "FILE_PRELOAD"
+  - action: set_breakpoint
+    label: "bp_callback_invoke"
+    address: "CALLBACK_INVOKE"
+  - action: set_breakpoint
+    label: "bp_completion_target"
+    address: "COMPLETION_TARGET_INVOKE"
+
+act:
+  - action: write_pending_action
+    slot: 0
+    fields:
+      target_mask: "TARGET_MASK"
+      attacker_slot: 0
+      command_id: "CMD_ID"
+      command_arg: "CMD_ARG"
+      active: "CMD_ACTIVE"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "callback_lifetime_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_frame_root"
+      - "bp_file_preload"
+      - "bp_callback_invoke"
+      - "bp_completion_target"
+    max_hits: 30
+    on_hit:
+      - action: read_phase_flags
+        label: "phase"
+      - action: read_registers
+        label: "regs"
+      - action: snapshot_memory
+        label: "callback_table"
+        address: "CALLBACK_TABLE"
+        size: 64
+        type: bytes
+      - action: snapshot_memory
+        label: "callback_records"
+        address: "CALLBACK_RECORDS"
+        size: 192
+        type: bytes
+      - action: snapshot_memory
+        label: "callback_active_count"
+        address: "CALLBACK_ACTIVE_COUNT"
+        size: 2
+        type: u16
+      - action: snapshot_memory
+        label: "callback_current_slot"
+        address: "CALLBACK_CURRENT_SLOT"
+        size: 2
+        type: u16
+      - action: snapshot_memory
+        label: "gf_callback_ptr"
+        address: "GF_CALLBACK_PTR"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "action_latches"
+        address: "ACTION_LATCHES"
+        size: 8
+        type: bytes
+  - action: snapshot_memory
+    label: "callback_table_after"
+    address: "CALLBACK_TABLE"
+    size: 64
+    type: bytes
+  - action: read_phase_flags
+    label: "phase_after"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_frame"
+  - check: hit_count_at_least
+    label: "bp_frame_root"
+    min_val: 20
+
+cleanup:
+  - action: restore_snapshot
+    label: "restore_pending"
+    address: "PENDING_BASE"
+    fields:
+      source: "pending_buffer_backup"
+  - action: delete_breakpoint
+    label: "bp_frame_root"
+  - action: delete_breakpoint
+    label: "bp_file_preload"
+  - action: delete_breakpoint
+    label: "bp_callback_invoke"
+  - action: delete_breakpoint
+    label: "bp_completion_target"
+
+verdict_prompt: |
+  Compare idle, Attack, Magic/Fira, and GF/Ifrit callback lifetimes.
+  Treat 0x48D0C0 as a per-frame thunk, not as proof of an active callback.
+  Identify:
+  1. registrations at BattleFile_preLoad;
+  2. actual adapter invocations at 0x4825C8;
+  3. completion-target invocations at 0x4828A2;
+  4. callback table/record contents and lifetime;
+  5. whether the action-progression latches change independently of file loads.
+  Evidence:
+  {evidence_json}

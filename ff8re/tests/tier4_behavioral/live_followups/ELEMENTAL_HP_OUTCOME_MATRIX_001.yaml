@@ -1,0 +1,122 @@
+id: "ELEMENTAL_HP_OUTCOME_MATRIX_001"
+title: "Capture elemental metadata and HP outcomes across affinity classes"
+domain: "damage_pipeline"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_elemental_hp_outcome_matrix.md"
+  - "obsidian-docs/projects/re-ff8/concepts/elemental-resolution.md"
+  - "docs/tech/reference/address_catalog.md"
+
+# Injection-driven (no manual play): inject an elemental magic at the target slot
+# and capture the elemental metadata + HP outcome.
+#
+# CAVEAT: the affinity *outcome* (weak/neutral/resist/null/absorb) is a property
+# of the TARGET, not of the injected spell. To make a case deterministic, either
+# (a) target an enemy known to have that affinity to ELEM_SPELL's element, or
+# (b) inject the target's elemental-defense bytes (offset TBD). Per case ELEM_SPELL
+# defaults to Fira (fire, 0x02 confirmed); tune per element as IDs are confirmed.
+
+matrix:
+  - case: "weak"
+    ELEM_SPELL: 0x02
+  - case: "neutral"
+    ELEM_SPELL: 0x02
+  - case: "resist"
+    ELEM_SPELL: 0x02
+  - case: "null"
+    ELEM_SPELL: 0x02
+  - case: "absorb"
+    ELEM_SPELL: 0x02
+
+constants:
+  ATB_TICK: 0x4842B0
+  RESOLVE_AND_APPLY_DAMAGE: 0x48FE20
+  COMPUTE_RAW_DAMAGE: 0x4922B0
+  APPLY_DAMAGE_OR_HEAL: 0x494410
+  PENDING_TRANSFER: 0x4847F0
+  MAGIC_CMD_ID: 0x02
+  TARGET_MASK: 0x08        # enemy slot 3
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "target_before"
+    slot: 3
+  - action: set_breakpoint
+    label: "bp_resolve_and_apply_damage"
+    address: "RESOLVE_AND_APPLY_DAMAGE"
+  - action: set_breakpoint
+    label: "bp_compute_raw_damage"
+    address: "COMPUTE_RAW_DAMAGE"
+  - action: set_breakpoint
+    label: "bp_apply_damage_or_heal"
+    address: "APPLY_DAMAGE_OR_HEAL"
+
+act:
+  - action: write_pending_action
+    label: "inject_elemental_magic"
+    slot: 0
+    fields:
+      target_mask: "TARGET_MASK"
+      attacker_slot: 0
+      command_id: "MAGIC_CMD_ID"
+      command_arg: "ELEM_SPELL"
+      active: 1
+  - action: continue_execution
+    label: "drive_to_damage_anchor"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_resolve_and_apply_damage"
+      - "bp_compute_raw_damage"
+      - "bp_apply_damage_or_heal"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "elemental_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_resolve_and_apply_damage"
+      - "bp_compute_raw_damage"
+      - "bp_apply_damage_or_heal"
+    max_hits: 3
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: read_elemental_globals
+        label: "elemental_globals"
+      - action: snapshot_slot
+        label: "target_during"
+        slot: 3
+  - action: snapshot_slot
+    label: "target_after"
+    slot: 3
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_compute_raw_damage"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_resolve_and_apply_damage"
+  - action: delete_breakpoint
+    label: "bp_compute_raw_damage"
+  - action: delete_breakpoint
+    label: "bp_apply_damage_or_heal"
+
+verdict_prompt: |
+  Analyze this elemental-outcome capture.
+  Focus on:
+  1. The elemental metadata globals at resolve time.
+  2. The HP delta and target-slot state before vs after apply.
+  3. Whether the observed case matches weak, neutral, resist, null, or absorb behavior.
+  4. Any difference between metadata and final HP outcome that deserves follow-up.
+  Evidence:
+  {evidence_json}

@@ -1,0 +1,157 @@
+id: "BATTLE_LOOP_FOLLOWUPS_INDEX_001"
+title: "Capture a shared live baseline for the battle-loop follow-up pack"
+domain: "battle_lifecycle"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_battle_loop_followups_index.md"
+  - "docs/tech/systems/battle_loop.md"
+  - "docs/tech/reference/address_catalog.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_TRANSFER: 0x4847F0
+  ARBITRATION: 0x485460
+  RESOLVE_BRIDGE: 0x485160
+  FILE_CALLBACKS: 0x48D0C0
+  TASK_TICK: 0x500CC0
+  CAMERA_CONTROL_WORD: 0x1D97718
+  RNG_LANES: 0x1D2A228
+  RNG_ACTIVE: 0x1D2A230
+  MENU_PENDING_COUNT: 0x1D76718
+  PENDING_BUFFER: 0x1D28D44
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_breakpoint
+    label: "bp_pending_transfer"
+    address: "PENDING_TRANSFER"
+  - action: set_breakpoint
+    label: "bp_arbitration"
+    address: "ARBITRATION"
+  - action: set_breakpoint
+    label: "bp_resolve_bridge"
+    address: "RESOLVE_BRIDGE"
+  - action: set_breakpoint
+    label: "bp_file_callbacks"
+    address: "FILE_CALLBACKS"
+  - action: read_phase_flags
+    label: "phase_before"
+  - action: read_exec_queue
+    label: "exec_before"
+  - action: read_rng_state
+    label: "rng_before"
+
+act:
+  - action: manual_checkpoint
+    label: "baseline_trigger"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_transfer"
+      - "bp_arbitration"
+      - "bp_resolve_bridge"
+      - "bp_file_callbacks"
+    message: |
+      Laisse se produire un tick actif représentatif du combat :
+      confirme une action simple (attaque) ou laisse un ennemi agir une fois.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: sample_memory
+    label: "shared_state_window"
+    timeout_ms: 1200
+    interval_ms: 200
+    fields:
+      resume_execution: true
+      sync_address: "ATB_TICK"
+    regions:
+      - label: "camera_control_word"
+        address: "CAMERA_CONTROL_WORD"
+        size: 4
+        type: u32
+      - label: "rng_lanes"
+        address: "RNG_LANES"
+        size: 8
+        type: bytes
+      - label: "rng_active"
+        address: "RNG_ACTIVE"
+        size: 1
+        type: u8
+      - label: "menu_pending_count"
+        address: "MENU_PENDING_COUNT"
+        size: 4
+        type: u32
+      - label: "pending_buffer"
+        address: "PENDING_BUFFER"
+        size: 24
+        type: bytes
+  - action: trace_breakpoint_hits
+    label: "shared_anchor_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_transfer"
+      - "bp_arbitration"
+      - "bp_resolve_bridge"
+      - "bp_file_callbacks"
+    max_hits: 4
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_phase_flags
+        label: "phase"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: read_exec_queue
+        label: "exec_queue"
+      - action: read_rng_state
+        label: "rng_state"
+      - action: snapshot_memory
+        label: "camera_control_word"
+        address: "CAMERA_CONTROL_WORD"
+        size: 4
+        type: u32
+  - action: read_phase_flags
+    label: "phase_after"
+  - action: read_exec_queue
+    label: "exec_after"
+  - action: read_rng_state
+    label: "rng_after"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: any_of
+    label: "shared_anchor_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "bp_pending_transfer"
+      - check: breakpoint_was_hit
+        label: "bp_arbitration"
+      - check: breakpoint_was_hit
+        label: "bp_resolve_bridge"
+      - check: breakpoint_was_hit
+        label: "bp_file_callbacks"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+  - action: delete_breakpoint
+    label: "bp_arbitration"
+  - action: delete_breakpoint
+    label: "bp_resolve_bridge"
+  - action: delete_breakpoint
+    label: "bp_file_callbacks"
+
+verdict_prompt: |
+  Analyze this shared live baseline for the battle-loop follow-up pack.
+  Focus on:
+  1. Which shared anchors fired during the capture window.
+  2. The phase/result/queue/RNG state before vs after the window.
+  3. Whether the camera-control word or pending/exec buffers changed.
+  4. Which later follow-up hypotheses should be prioritized from this baseline.
+  Evidence:
+  {evidence_json}

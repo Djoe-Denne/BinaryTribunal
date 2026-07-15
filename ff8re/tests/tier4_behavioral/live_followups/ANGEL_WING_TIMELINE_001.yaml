@@ -1,0 +1,143 @@
+id: "ANGEL_WING_TIMELINE_001"
+title: "Capture Angel Wing set, sustain, and clear timeline"
+domain: "limit_breaks"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_angel_wing_timeline.md"
+  - "obsidian-docs/_staging/investigations/atb_auto_command_masks.md"
+  - "obsidian-docs/projects/re-ff8/concepts/limit-break-architecture.md"
+
+# Injection-driven (no manual play): set the Angel Wing status bit on Rinoa
+# (slot 2) directly, then let the battle run so the auto-command machinery
+# generates Angel Wing actions, and trace set/sustain/clear.
+#
+# CAVEAT: ANGEL_WING_STATUS2_BIT is a placeholder (the exact bit is not yet
+# confirmed). Tune it until bp_process_auto_command / wp_rinoa_status2 fire.
+
+constants:
+  ATB_TICK: 0x4842B0
+  PROCESS_AUTO_COMMAND: 0x483EB0
+  PREPARE_TURN_ACTION: 0x485610
+  APPLY_HIT_STATUS: 0x4914E0
+  BATTLE_SLOT_DATA: 0x1D27B10
+  SLOT_STRIDE: 0xD0
+  STATUS2_OFFSET: 0x08
+  FLAG_DATA_OFFSET: 0x7C
+  PENDING_BUFFER: 0x1D28D44
+  ANGEL_WING_STATUS2_BIT: 0x00200000   # placeholder Angel Wing bit (TBD)
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_slot
+    label: "rinoa_before"
+    slot: 2
+  - action: set_breakpoint
+    label: "bp_process_auto_command"
+    address: "PROCESS_AUTO_COMMAND"
+  - action: set_breakpoint
+    label: "bp_prepare_turn_action"
+    address: "PREPARE_TURN_ACTION"
+  - action: set_breakpoint
+    label: "bp_apply_hit_status"
+    address: "APPLY_HIT_STATUS"
+  - action: set_watchpoint
+    label: "wp_rinoa_status2"
+    address: "BATTLE_SLOT_DATA + 2 * SLOT_STRIDE + STATUS2_OFFSET"
+    size: 4
+
+act:
+  - action: write_slot_status_bits
+    label: "inject_angel_wing"
+    slot: 2
+    fields:
+      mask: "ANGEL_WING_STATUS2_BIT"
+      set: true
+  - action: continue_execution
+    label: "drive_to_angel_wing_anchor"
+    timeout_ms: 20000
+    wait_until:
+      - "wp_rinoa_status2"
+      - "bp_process_auto_command"
+      - "bp_prepare_turn_action"
+      - "bp_apply_hit_status"
+
+observe:
+  - action: sample_memory
+    label: "angel_wing_window"
+    timeout_ms: 2000
+    interval_ms: 200
+    fields:
+      resume_execution: true
+      sync_address: "ATB_TICK"
+    regions:
+      - label: "rinoa_status2"
+        address: "BATTLE_SLOT_DATA + 2 * SLOT_STRIDE + STATUS2_OFFSET"
+        size: 4
+        type: u32
+      - label: "rinoa_flag_data"
+        address: "BATTLE_SLOT_DATA + 2 * SLOT_STRIDE + FLAG_DATA_OFFSET"
+        size: 4
+        type: u32
+      - label: "pending_buffer"
+        address: "PENDING_BUFFER"
+        size: 24
+        type: bytes
+  - action: trace_breakpoint_hits
+    label: "angel_wing_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "wp_rinoa_status2"
+      - "bp_process_auto_command"
+      - "bp_prepare_turn_action"
+      - "bp_apply_hit_status"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: snapshot_slot
+        label: "rinoa_during"
+        slot: 2
+      - action: read_exec_queue
+        label: "exec_queue"
+  - action: snapshot_slot
+    label: "rinoa_after"
+    slot: 2
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: any_of
+    label: "angel_wing_anchor_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "wp_rinoa_status2"
+      - check: breakpoint_was_hit
+        label: "bp_process_auto_command"
+      - check: breakpoint_was_hit
+        label: "bp_prepare_turn_action"
+
+cleanup:
+  - action: delete_watchpoint
+    label: "wp_rinoa_status2"
+  - action: delete_breakpoint
+    label: "bp_process_auto_command"
+  - action: delete_breakpoint
+    label: "bp_prepare_turn_action"
+  - action: delete_breakpoint
+    label: "bp_apply_hit_status"
+
+verdict_prompt: |
+  Analyze this Angel Wing lifecycle capture.
+  Focus on:
+  1. The first observed set of the Angel Wing bit and the writer PC.
+  2. The relationship between `status_2`, `flag_data`, pending bytes, and auto-command routing.
+  3. Whether the sustain window shows repeated auto-generated actions.
+  4. Any evidence of the clear event or of unresolved ambiguity around it.
+  Evidence:
+  {evidence_json}

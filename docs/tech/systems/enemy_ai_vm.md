@@ -180,7 +180,7 @@ unsigned __int8 __usercall EnemyAI_VM_ExecuteScript@<al>(
 | 48 | `30` | SET_INVINCIBLE | 0 | Set flag 0x40 (make untargetable) |
 | 39 | `27` | MODIFY_FLAGS | 2 | Modify monster slot visibility/targeting flags |
 | 50 | `32` | SET_SUMMON_FLAG | 0 | Set `AI_PREPARE_SUMMON_FLAG` |
-| 51 | `33` | ACTIVATE_RELAY | 0 | Call `BattleEvent_ActivateTargetRelay` |
+| 51 | `33` | ACTIVATE_RELAY | 0 | `BattleEvent_ActivateTargetRelay(0x70,0x80,0)` → enqueues the **camera/presentation barrier** relay (see [Relay 0x70/0x71](#relay-0x70-and-0x71-presentation-tasks)) |
 | 49 | `31` | CHECK_GF | 1 | Check if party has specific GF (for stolen-GF logic) |
 
 ### Rewards / Special
@@ -365,6 +365,18 @@ From Qhimm community research, cross-referenced with `reference/status_bits.md`:
 | 0x21 | Double |
 | 0x22 | Triple |
 
+## Relay 0x70 and 0x71 (Presentation Tasks)
+
+The AI "relays" do not draw anything directly. `BattleEvent_ActivateTargetRelay` (`0x47E3F0`) forwards to `SomeListManipulation` (`0x500DF0`), which appends a node into the per-frame battle presentation task queue `battle_task_2_stru` (`0x1D96D68`): node `+2` = relay id, `+0` = monotonic sequence byte, `+4` = payload pointer, allocation group = `bitmask & 0xF0`. `BattleTaskQueue_Tick` (`0x500CC0`) dispatches ids in `]100,120[` (the `0x64..0x77` presentation family) through `BattleTaskQueue_Dispatch` (`0x502380`), an ASCII-literal switch where case `0x68` forwards to `BattleActionSequence_DispatchTick`.
+
+| Relay | Dispatch case | Handler | Meaning |
+|-------|---------------|---------|---------|
+| `0x70` (112) | `'p'` | `au_re_BdLinkTask_1` (`0x5085D0`) → `sub_5085F0` | **Camera/presentation barrier** — stalls while `byte_1D96A88` / `sub_508580(24,64)` / `cameraRelated_pointerAnimColl` show the camera/summon presentation is busy, then marks the node done. Fired by `0x1B` (GF spawn), `0x33` (ACTIVATE_RELAY), and escape finalization. |
+| `0x71` (113) | `'q'` | `sub_502F30` (`0x502F30`) | **Deferred per-actor callback** — waits until the actor at node `+8` is animation-idle (`sub_508540(actorState,26,64)`), then invokes the callback pointer at node `+4` with the slot index. Fired by `0x34` (ENTER_MONSTER) to run the activation callback once the new model is ready. |
+| `0x74` (116) | `'t'` | `sub_502F90` (`0x502F90`) | Escape exit presentation — run SFX `BdPlaySy(21,…)` + actor "run off-screen" reset. |
+
+Both `0x70`/`0x71` return dispatch code `8` (child task spawned; relay persists until the child writes `0xFF` to node `+1`). They are synchronization points in the presentation timeline, not effects in themselves. The relay-id window `]100,120[` is also swept/flushed by `SomeListManipulation(107, mask, …)`.
+
 ## Function Reference
 
 See `reference/address_catalog.md` for the complete address list. Key functions:
@@ -377,6 +389,9 @@ See `reference/address_catalog.md` for the complete address list. Key functions:
 | `0x48A680` | `domain::EnemyAI_CompareValues` | Comparison function (6 operators) |
 | `0x482C90` | `domain::EnemyAI_LookupAbilityByIndex` | Ability table lookup from section 7 |
 | `0x48A830` | `domain::EnemyAI_TargetHasStatus` | Status check for targeting conditions |
+| `0x47E3F0` | `domain::BattleEvent_ActivateTargetRelay` | Enqueue a presentation-relay task (→ `SomeListManipulation`) |
+| `0x500CC0` | `BattleTaskQueue_Tick` | Per-frame battle presentation task scheduler |
+| `0x502380` | `BattleTaskQueue_Dispatch` | Relay/presentation task dispatcher (`0x64..0x77`) |
 
 ## References
 

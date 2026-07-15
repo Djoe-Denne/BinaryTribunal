@@ -1,0 +1,151 @@
+id: "TAKEOVER_AUTHORITATIVE_COUPLING_001"
+title: "Separate HUD, director callbacks, and BdLink authoritative writes"
+domain: "battle_lifecycle"
+confidence_target: "high"
+
+references:
+  - "docs/tech/systems/battle_loop.md"
+  - "docs/tech/investigation/battle_entry_hook.md"
+  - "obsidian-docs/_staging/investigations/battle_hook_boundary.md"
+
+constants:
+  FRAME_ROOT: 0x47CF60
+  ATB_TICK: 0x4842B0
+  HUD_TICK: 0x4A84E0
+  ACTIVE_TICK_ENTRY: 0x47D70F
+  ACTION_CALLBACK_CHAIN: 0x482D50
+  DEFERRED_CALLBACKS: 0x482DC0
+  BDLINK_ENTRY: 0x500900
+  BDLINK_RETURN: 0x47D816
+
+  PENDING_BUFFER: 0x1D28D44
+  ACTION_LATCHES: 0x1D28DF8
+  PARTY0_CUR_ATB: 0x1D27B24
+  PARTY1_CUR_ATB: 0x1D27BF4
+  PARTY2_CUR_ATB: 0x1D27CC4
+  MENU_PENDING_COUNT: 0x1D76718
+  IS_BATTLE_PAUSED: 0x1D28DE9
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_unpaused"
+    address: "ATB_TICK"
+    timeout_ms: 120000
+  - action: set_breakpoint
+    label: "bp_frame_root"
+    address: "FRAME_ROOT"
+  - action: set_breakpoint
+    label: "bp_hud"
+    address: "HUD_TICK"
+  - action: set_breakpoint
+    label: "bp_active_tick"
+    address: "ACTIVE_TICK_ENTRY"
+  - action: set_breakpoint
+    label: "bp_action_callbacks"
+    address: "ACTION_CALLBACK_CHAIN"
+  - action: set_breakpoint
+    label: "bp_deferred_callbacks"
+    address: "DEFERRED_CALLBACKS"
+  - action: set_breakpoint
+    label: "bp_bdlink_entry"
+    address: "BDLINK_ENTRY"
+  - action: set_breakpoint
+    label: "bp_bdlink_return"
+    address: "BDLINK_RETURN"
+
+act:
+  - action: continue_execution
+    label: "align_frame_root"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_frame_root"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "coupling_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_frame_root"
+      - "bp_hud"
+      - "bp_active_tick"
+      - "bp_action_callbacks"
+      - "bp_deferred_callbacks"
+      - "bp_bdlink_entry"
+      - "bp_bdlink_return"
+    max_hits: 11
+    on_hit:
+      - action: snapshot_memory
+        label: "pending_buffer"
+        address: "PENDING_BUFFER"
+        size: 24
+        type: bytes
+      - action: snapshot_memory
+        label: "action_latches"
+        address: "ACTION_LATCHES"
+        size: 8
+        type: bytes
+      - action: snapshot_memory
+        label: "party0_cur_atb"
+        address: "PARTY0_CUR_ATB"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "party1_cur_atb"
+        address: "PARTY1_CUR_ATB"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "party2_cur_atb"
+        address: "PARTY2_CUR_ATB"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "menu_pending_count"
+        address: "MENU_PENDING_COUNT"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "is_battle_paused"
+        address: "IS_BATTLE_PAUSED"
+        size: 1
+        type: u8
+      - action: read_action_globals
+        label: "action_globals"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_unpaused"
+  - check: breakpoint_was_hit
+    label: "bp_hud"
+  - check: breakpoint_was_hit
+    label: "bp_active_tick"
+  - check: breakpoint_was_hit
+    label: "bp_action_callbacks"
+  - check: breakpoint_was_hit
+    label: "bp_deferred_callbacks"
+  - check: breakpoint_was_hit
+    label: "bp_bdlink_entry"
+  - check: breakpoint_was_hit
+    label: "bp_bdlink_return"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_frame_root"
+  - action: delete_breakpoint
+    label: "bp_hud"
+  - action: delete_breakpoint
+    label: "bp_active_tick"
+  - action: delete_breakpoint
+    label: "bp_action_callbacks"
+  - action: delete_breakpoint
+    label: "bp_deferred_callbacks"
+  - action: delete_breakpoint
+    label: "bp_bdlink_entry"
+  - action: delete_breakpoint
+    label: "bp_bdlink_return"
+
+verdict_prompt: |
+  Compare snapshots around HUD calls, director callback chains, and BdLink
+  entry/return. Classify changes as authoritative input/ATB, domain progression,
+  or presentation-only. In particular, report whether pending bytes, ATB,
+  action latches, or action globals change inside BdLink itself.

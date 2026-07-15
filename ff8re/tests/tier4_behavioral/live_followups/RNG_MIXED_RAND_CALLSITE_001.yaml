@@ -1,0 +1,120 @@
+id: "RNG_MIXED_RAND_CALLSITE_001"
+title: "Trace battle RNG state around the suspected mixed _rand helper"
+domain: "battle_rng"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_rng_mixed_rand_callsite.md"
+  - "obsidian-docs/_staging/investigations/battle_rng_storage.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-state-model.md"
+
+matrix:
+  - case: "battle_rng_only_path"
+  - case: "mixed_helper_candidate"
+
+constants:
+  ATB_TICK: 0x4842B0
+  BATTLE_GET_RANDOM: 0x48F020
+  BATTLE_SEED_RNG: 0x48F050
+  MIXED_HELPER: 0x493760
+  RNG_LANES: 0x1D2A228
+  RNG_ACTIVE: 0x1D2A230
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "rng_lanes_before"
+    address: "RNG_LANES"
+    size: 8
+    type: bytes
+  - action: snapshot_memory
+    label: "rng_active_before"
+    address: "RNG_ACTIVE"
+    size: 1
+    type: u8
+  - action: set_breakpoint
+    label: "bp_battle_get_random"
+    address: "BATTLE_GET_RANDOM"
+  - action: set_breakpoint
+    label: "bp_mixed_helper"
+    address: "MIXED_HELPER"
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_rng_case"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_battle_get_random"
+      - "bp_mixed_helper"
+    message: |
+      Déclenche le chemin aléatoire correspondant au cas courant :
+      un cas stable pour `battle_rng_only_path`, un cas soupçonné d'appeler
+      le helper mixte pour `mixed_helper_candidate`.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "rng_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_battle_get_random"
+      - "bp_mixed_helper"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_stacktrace
+        label: "stacktrace"
+      - action: read_rng_state
+        label: "rng_state"
+      - action: snapshot_memory
+        label: "rng_lanes"
+        address: "RNG_LANES"
+        size: 8
+        type: bytes
+      - action: snapshot_memory
+        label: "rng_active"
+        address: "RNG_ACTIVE"
+        size: 1
+        type: u8
+  - action: snapshot_memory
+    label: "rng_lanes_after"
+    address: "RNG_LANES"
+    size: 8
+    type: bytes
+  - action: snapshot_memory
+    label: "rng_active_after"
+    address: "RNG_ACTIVE"
+    size: 1
+    type: u8
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: any_of
+    label: "rng_anchor_hit"
+    checks:
+      - check: breakpoint_was_hit
+        label: "bp_battle_get_random"
+      - check: breakpoint_was_hit
+        label: "bp_mixed_helper"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_battle_get_random"
+  - action: delete_breakpoint
+    label: "bp_mixed_helper"
+
+verdict_prompt: |
+  Analyze this RNG trace.
+  Focus on:
+  1. Whether only `Battle_GetRandomInt` fired or whether the mixed helper also fired.
+  2. How the lane indexes and active lane changed around each stop.
+  3. Whether the trace supports a pure battle-RNG path or a mixed `_rand()` + battle-RNG path.
+  4. Differences between the baseline and mixed-helper cases.
+  Evidence:
+  {evidence_json}

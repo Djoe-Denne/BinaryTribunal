@@ -1,0 +1,132 @@
+id: "TARGETING_SLOT7_MASK_BITS_001"
+title: "Capture slot-7 random-target behavior and unresolved targeting-mask branches"
+domain: "targeting"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_targeting_slot7_and_mask_bits.md"
+  - "obsidian-docs/_staging/investigations/targeting_system_2026-06-09.md"
+  - "obsidian-docs/projects/re-ff8/concepts/targeting-system.md"
+
+# Injection-driven (no manual play): inject an attack with a per-case target mask
+# and capture how the target-resolution pipeline expands/redirects it.
+#
+# CAVEAT: 'cover_redirect' normally requires an ally with the Cover ability set
+# up; injection alone cannot establish that state, so that case mainly exercises
+# the redirect breakpoint path for whatever cover state currently exists. Tune
+# TARGET_MASK as slot-7 / random-target bits are confirmed.
+
+matrix:
+  - case: "random_target"
+    TARGET_MASK: 0x8008       # all-enemies fan-out (random-target candidate)
+  - case: "cover_redirect"
+    TARGET_MASK: 0x01         # single ally (slot 0) — exercise cover redirect
+
+constants:
+  ATB_TICK: 0x4842B0
+  RESOLVE_TARGET_AND_HITCOUNT: 0x48E830
+  COVER_REDIRECT: 0x48EB90
+  FINAL_TARGET_BUILD: 0x48EE50
+  FINAL_TARGET_FALLBACK: 0x48EEB0
+  STATUS_MASK_ELIGIBILITY: 0x48EDA0
+  PENDING_TRANSFER: 0x4847F0
+  PHYS_CMD_ID: 0x01
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: snapshot_all_slots
+    label: "slots_before"
+  - action: set_breakpoint
+    label: "bp_resolve_target_and_hitcount"
+    address: "RESOLVE_TARGET_AND_HITCOUNT"
+  - action: set_breakpoint
+    label: "bp_cover_redirect"
+    address: "COVER_REDIRECT"
+  - action: set_breakpoint
+    label: "bp_final_target_build"
+    address: "FINAL_TARGET_BUILD"
+  - action: set_breakpoint
+    label: "bp_final_target_fallback"
+    address: "FINAL_TARGET_FALLBACK"
+  - action: set_breakpoint
+    label: "bp_status_mask_eligibility"
+    address: "STATUS_MASK_ELIGIBILITY"
+
+act:
+  - action: write_pending_action
+    label: "inject_targeted_attack"
+    slot: 0
+    fields:
+      target_mask: "TARGET_MASK"
+      attacker_slot: 0
+      command_id: "PHYS_CMD_ID"
+      command_arg: 0
+      active: 1
+  - action: continue_execution
+    label: "drive_to_target_anchor"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_resolve_target_and_hitcount"
+      - "bp_cover_redirect"
+      - "bp_final_target_build"
+      - "bp_final_target_fallback"
+      - "bp_status_mask_eligibility"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "targeting_trace"
+    timeout_ms: 20000
+    wait_until:
+      - "bp_resolve_target_and_hitcount"
+      - "bp_cover_redirect"
+      - "bp_final_target_build"
+      - "bp_final_target_fallback"
+      - "bp_status_mask_eligibility"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_stack_args
+        label: "stack_args"
+        fields:
+          count: 4
+          word_size: 4
+      - action: read_action_globals
+        label: "action_globals"
+      - action: read_exec_queue
+        label: "exec_queue"
+      - action: snapshot_all_slots
+        label: "slots_during"
+  - action: snapshot_all_slots
+    label: "slots_after"
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_resolve_target_and_hitcount"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_resolve_target_and_hitcount"
+  - action: delete_breakpoint
+    label: "bp_cover_redirect"
+  - action: delete_breakpoint
+    label: "bp_final_target_build"
+  - action: delete_breakpoint
+    label: "bp_final_target_fallback"
+  - action: delete_breakpoint
+    label: "bp_status_mask_eligibility"
+
+verdict_prompt: |
+  Analyze this targeting capture.
+  Focus on:
+  1. The target-resolution helpers that actually fired for the case.
+  2. The command globals and exec queue state at target fan-out time.
+  3. Whether the trace supports a slot-7 random-target path, exclusion, remap, or Cover redirect.
+  4. Which unresolved targeting-mask bits still need a narrower probe.
+  Evidence:
+  {evidence_json}

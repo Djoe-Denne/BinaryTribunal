@@ -1,0 +1,88 @@
+id: "PENDING_BYTES_ATTACK_001"
+title: "Capture authentic pending and exec bytes for a natural Attack confirm"
+domain: "command_pipeline"
+confidence_target: "medium"
+
+references:
+  - "docs/tech/test/test_command_pipeline.md"
+  - "docs/tech/reference/pending_action.md"
+
+constants:
+  ATB_TICK: 0x4842B0
+  PENDING_WRITE: 0x484D20
+  PENDING_TRANSFER: 0x4847F0
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_breakpoint
+    label: "bp_pending_write"
+    address: "PENDING_WRITE"
+  - action: set_breakpoint
+    label: "bp_pending_transfer"
+    address: "PENDING_TRANSFER"
+
+act:
+  - action: manual_checkpoint
+    label: "natural_attack_confirm"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_write"
+      - "bp_pending_transfer"
+    message: |
+      Confirme exactement une attaque normale depuis le menu :
+      choisis Attack puis confirme une cible.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "attack_confirm_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_pending_write"
+      - "bp_pending_transfer"
+    max_hits: 2
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_stack_args
+        label: "stack_args"
+        fields:
+          count: 4
+          word_size: 4
+      - action: read_pending_action
+        label: "pending0"
+        slot: 0
+      - action: read_exec_queue
+        label: "exec_queue"
+        fields:
+          byte_count: 12
+          mask_count: 6
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: hit_count_at_least
+    label: "bp_pending_write"
+    min_val: 1
+  - check: hit_count_at_least
+    label: "bp_pending_transfer"
+    min_val: 1
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_pending_write"
+  - action: delete_breakpoint
+    label: "bp_pending_transfer"
+
+verdict_prompt: |
+  Analyze the trace for a natural Attack confirm.
+  Focus on:
+  1. Which breakpoint fired first (`BattlePendingAction_Write` vs `TransferToExecQueue`).
+  2. The raw pending/exec bytes captured in hit_trace.
+  3. The stack arguments and register context at each hit.
+  Evidence:
+  {evidence_json}

@@ -7,10 +7,15 @@ Master reference for all known function and global addresses in FF8 battle.
 | Address | Name | Role |
 |---------|------|------|
 | `0x4706B0` | `main::FFModuleHandler_main_loop` | Top-level module dispatcher |
+| `0x4709EC` | battle-module callback assignment site | Interior of `FFModuleHandler_main_loop`; not a function start |
 | `0x46FEE0` | `main::FFFieldModule_field_main_loop` | Field module loop |
 | `0x53F0F0` | `main::FFWorldModule_worldmap_main_loop` | World map loop |
+| `0x559890` | `FFBattleTransitionModule` | Installs battle init, exit, and recurring frame callbacks after transition |
+| `0x47CE10` | `FFBattleInitSystem` | Battle module init; clears module state, configures timing/resolution |
+| `0x47CEF0` | `FFBattleExitSystem` | Battle module exit; restores resolution and graphics state |
+| `0x47CF60` | `main::FFBattleModule` | Whole battle-frame owner: pause, HUD/ATB ×4, director, draw, module switch, pacing |
 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | Battle state machine + per-frame tick |
-| `0x47CF60` | `main::battle_cardgame_main_loop` | Triple Triad loop |
+| `0x4A2690` | `main::BattleRewardMenu_MainLoop` | Post-battle reward/level-up frame callback installed by `FFBattleModule` |
 | `0x4A22C0` | `main::menu_or_tuto_main_loop_1` | Menu/tutorial loop |
 | `0x52DA20` | `main::FFIntroModule_credits_main_loop` | Intro/credits loop |
 | `0x52DCF0` | `main::cdcheck_main_loop` | CD check loop |
@@ -350,7 +355,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x50B830` | `presentation::BattleActionSequence_Tick_Special` | Special sequences (e.g. Gilgamesh) |
 | `0x500900` | `BdLink_GF_battle_input_and_texture_upload` | Battle presentation feed |
 | `0x500FD0` | `BS_RenderRelated` | Render task chain |
-| `0x41DF14` | `presentation::FramePresent_Dispatch` | Backend present dispatch |
+| `0x41DF0C` (`0x41DF14` body) | `Render_FramePresent_Dispatch` | Backend present dispatch |
 | `0x439CF3` | `presentation::RenderGL_Present` | OpenGL present |
 | `0x445137` | `presentation::GL_FlushSwap_EndFrame` | GL flush/swap |
 | `0x43C761` | `presentation::RenderDDraw_Frame` | DirectDraw frame |

@@ -1,0 +1,120 @@
+id: "RUNTIME_CALLBACK_MENU_OPEN_001"
+title: "Verify battle-file callbacks while a player command menu stays open"
+domain: "render_bridge"
+confidence_target: "high"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_runtime_callback_mix_matrix.md"
+  - "docs/tech/investigation/battle_entry_hook.md"
+
+constants:
+  FRAME_ROOT: 0x47CF60
+  FILE_PRELOAD: 0x48D0A0
+  CALLBACK_INVOKE: 0x4825C8
+  COMPLETION_TARGET_INVOKE: 0x4828A2
+  CALLBACK_TABLE: 0x1D29638
+  CALLBACK_RECORDS: 0x1D29A08
+  CALLBACK_ACTIVE_COUNT: 0x1D29AD0
+  IS_BATTLE_PAUSED: 0x1D28DE9
+  MENU_PENDING_COUNT: 0x1D76718
+
+setup:
+  - action: snapshot_memory
+    label: "callback_table_before"
+    address: "CALLBACK_TABLE"
+    size: 64
+    type: bytes
+
+act:
+  # The operator opens a normal player command menu during this free-running
+  # window and leaves it open. No battle memory is modified.
+  - action: wait
+    label: "open_menu_window"
+    timeout_ms: 8000
+    fields:
+      resume_execution: true
+  - action: sync_to_battle_tick
+    label: "sync_menu_frame"
+    address: "FRAME_ROOT"
+    timeout_ms: 15000
+  - action: snapshot_memory
+    label: "menu_pending_count_before"
+    address: "MENU_PENDING_COUNT"
+    size: 4
+    type: u32
+  - action: set_breakpoint
+    label: "bp_frame_root"
+    address: "FRAME_ROOT"
+  - action: set_breakpoint
+    label: "bp_file_preload"
+    address: "FILE_PRELOAD"
+  - action: set_breakpoint
+    label: "bp_callback_invoke"
+    address: "CALLBACK_INVOKE"
+  - action: set_breakpoint
+    label: "bp_completion_target"
+    address: "COMPLETION_TARGET_INVOKE"
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "menu_callback_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_frame_root"
+      - "bp_file_preload"
+      - "bp_callback_invoke"
+      - "bp_completion_target"
+    max_hits: 20
+    on_hit:
+      - action: snapshot_memory
+        label: "callback_table"
+        address: "CALLBACK_TABLE"
+        size: 64
+        type: bytes
+      - action: snapshot_memory
+        label: "callback_records"
+        address: "CALLBACK_RECORDS"
+        size: 192
+        type: bytes
+      - action: snapshot_memory
+        label: "callback_active_count"
+        address: "CALLBACK_ACTIVE_COUNT"
+        size: 2
+        type: u16
+      - action: snapshot_memory
+        label: "is_battle_paused"
+        address: "IS_BATTLE_PAUSED"
+        size: 1
+        type: u8
+      - action: snapshot_memory
+        label: "menu_pending_count"
+        address: "MENU_PENDING_COUNT"
+        size: 4
+        type: u32
+  - action: snapshot_memory
+    label: "callback_table_after"
+    address: "CALLBACK_TABLE"
+    size: 64
+    type: bytes
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_menu_frame"
+  - check: hit_count_at_least
+    label: "bp_frame_root"
+    min_val: 18
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_frame_root"
+  - action: delete_breakpoint
+    label: "bp_file_preload"
+  - action: delete_breakpoint
+    label: "bp_callback_invoke"
+  - action: delete_breakpoint
+    label: "bp_completion_target"
+
+verdict_prompt: |
+  Verify whether keeping a normal player command menu open registers or runs
+  battle-file callbacks. Correlate callback state with the pause flag and menu
+  pending count, and distinguish menu/HUD authority from asset I/O.

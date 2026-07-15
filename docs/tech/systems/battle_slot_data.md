@@ -20,7 +20,8 @@ IDA has:
 - `FF8BattleMentalStatus` (`sizeof == 0x28`)
 
 Notes:
-- `elem_def` is modeled as `__int16[8]` at `+0x44`.
+- `elem_def` is modeled as `__int16[8]` at `+0x44` (order: Fire, Ice, Thunder, Earth, Poison, Wind, Water, Holy).
+  - Magic/GF element multiplier (confirmed live 2026-06-13 in `ComputeMagicAndGFDamage` `0x491AD0`): `damage = base * (900 - elem_def) / 100` (truncating). Scale: `700`→×2.0 (weak), `800`→×1.0, `850`→×0.5, `900`→×0 (null), `1000`→×−1.0 (absorb→heal). See `evidence/2026-06-13T17-20-00_ELEMENTAL_HP_OUTCOME_MATRIX_001.json`.
 - `mental_res` occupies `0x28` bytes at `+0x90` and is treated as **40 bytes** in code (see “Mental Resistances”).
 
 ## Struct Layout (Offsets)

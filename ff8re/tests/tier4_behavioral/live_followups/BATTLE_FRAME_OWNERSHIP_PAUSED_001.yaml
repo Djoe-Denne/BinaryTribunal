@@ -1,0 +1,156 @@
+id: "BATTLE_FRAME_OWNERSHIP_PAUSED_001"
+title: "Trace one native battle frame while the in-game pause gate is active"
+domain: "battle_lifecycle"
+confidence_target: "high"
+
+references:
+  - "docs/tech/systems/battle_loop.md"
+  - "docs/tech/investigation/battle_entry_hook.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-lifecycle.md"
+
+constants:
+  FRAME_ROOT: 0x47CF60
+  HUD_TICK: 0x4A84E0
+  DIRECTOR: 0x47CCB0
+  ACTIVE_TICK_ENTRY: 0x47D70F
+  FILE_CALLBACK_TAIL: 0x48D0C0
+  BDLINK: 0x500900
+  END_SCENE: 0x47D228
+  WINDOW_FRAME_SUPPORT: 0x47D23B
+  FRAME_PRESENT: 0x41DF14
+  IS_BATTLE_PAUSED: 0x1D28DE9
+
+setup:
+  - action: read_phase_flags
+    label: "phase_before"
+  - action: snapshot_memory
+    label: "paused_before"
+    address: "IS_BATTLE_PAUSED"
+    size: 1
+    type: u8
+  - action: set_breakpoint
+    label: "bp_frame_root"
+    address: "FRAME_ROOT"
+  - action: set_breakpoint
+    label: "bp_hud_tick"
+    address: "HUD_TICK"
+  - action: set_breakpoint
+    label: "bp_director"
+    address: "DIRECTOR"
+  - action: set_breakpoint
+    label: "bp_active_tick"
+    address: "ACTIVE_TICK_ENTRY"
+  - action: set_breakpoint
+    label: "bp_file_callback_tail"
+    address: "FILE_CALLBACK_TAIL"
+  - action: set_breakpoint
+    label: "bp_bdlink"
+    address: "BDLINK"
+  - action: set_breakpoint
+    label: "bp_end_scene"
+    address: "END_SCENE"
+  - action: set_breakpoint
+    label: "bp_window_frame_support"
+    address: "WINDOW_FRAME_SUPPORT"
+  - action: set_breakpoint
+    label: "bp_frame_present"
+    address: "FRAME_PRESENT"
+
+act:
+  - action: continue_execution
+    label: "align_frame_root"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_frame_root"
+  - action: read_stack_args
+    label: "frame_root_stack"
+    fields:
+      count: 2
+      word_size: 4
+
+observe:
+  - action: trace_breakpoint_hits
+    label: "paused_frame_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_frame_root"
+      - "bp_hud_tick"
+      - "bp_director"
+      - "bp_active_tick"
+      - "bp_file_callback_tail"
+      - "bp_bdlink"
+      - "bp_end_scene"
+      - "bp_window_frame_support"
+      - "bp_frame_present"
+    max_hits: 8
+    on_hit:
+      - action: read_phase_flags
+        label: "phase"
+      - action: snapshot_memory
+        label: "is_battle_paused"
+        address: "IS_BATTLE_PAUSED"
+        size: 1
+        type: u8
+      - action: read_registers
+        label: "regs"
+  - action: read_phase_flags
+    label: "phase_after"
+  - action: snapshot_memory
+    label: "paused_after"
+    address: "IS_BATTLE_PAUSED"
+    size: 1
+    type: u8
+
+assert:
+  - check: value_equals
+    label: "paused_before"
+    fields:
+      expected: 1
+  - check: value_equals
+    label: "paused_after"
+    fields:
+      expected: 1
+  - check: hit_count_at_least
+    label: "bp_frame_root"
+    min_val: 1
+  - check: hit_count_at_least
+    label: "bp_hud_tick"
+    min_val: 4
+  - check: breakpoint_not_hit
+    label: "bp_director"
+  - check: breakpoint_not_hit
+    label: "bp_active_tick"
+  - check: breakpoint_not_hit
+    label: "bp_file_callback_tail"
+  - check: breakpoint_not_hit
+    label: "bp_bdlink"
+  - check: breakpoint_was_hit
+    label: "bp_end_scene"
+  - check: breakpoint_was_hit
+    label: "bp_frame_present"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_frame_root"
+  - action: delete_breakpoint
+    label: "bp_hud_tick"
+  - action: delete_breakpoint
+    label: "bp_director"
+  - action: delete_breakpoint
+    label: "bp_active_tick"
+  - action: delete_breakpoint
+    label: "bp_file_callback_tail"
+  - action: delete_breakpoint
+    label: "bp_bdlink"
+  - action: delete_breakpoint
+    label: "bp_end_scene"
+  - action: delete_breakpoint
+    label: "bp_window_frame_support"
+  - action: delete_breakpoint
+    label: "bp_frame_present"
+
+verdict_prompt: |
+  Confirm that the battle frame owner continues to run while the in-game pause
+  gate suppresses the director, active-domain block, file-callback tail, and
+  BdLink. Verify the HUD and presentation order between consecutive frame-root
+  hits and report the frame callback's first stack argument.

@@ -174,10 +174,10 @@ Reads `F_CHAR_DATA` abilities dword (offset +400) and applies auto-statuses:
 
 | Ability Bit | Effect |
 |-------------|--------|
-| `0x1000` | `status_2 \|= 0x80` — Auto-Haste |
+| `0x1000` | `status_2 \|= 0x80` — Auto-Reflect |
 | `0x2000` | `status_2 \|= 0x40` — Auto-Shell |
 | `0x4000` | `status_2 \|= 0x20` — Auto-Protect |
-| `0x8000` | `status_2 \|= 0x02` — Auto-Reflect |
+| `0x8000` | `status_2 \|= 0x02` — Auto-Haste |
 | `0x10000` | ATB starts at MAX — Initiative |
 
 Then calls `Battle_InitATB_MaxAndReset` + `Battle_InitATB_RandomFromSpeed` (see [ATB Init](#atb-initialization)).

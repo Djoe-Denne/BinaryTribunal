@@ -1,0 +1,154 @@
+id: "CAMERA_CONTROL_WORD_DECODE_001"
+title: "Capture camera control-word transitions and action-family routing"
+domain: "render_bridge"
+confidence_target: "medium"
+
+references:
+  - "ai-prompt/todo/ai_investigation_live_camera_control_word_decode.md"
+  - "obsidian-docs/_staging/investigations/battle_camera.md"
+  - "obsidian-docs/projects/re-ff8/concepts/battle-camera-architecture.md"
+
+matrix:
+  - case: "attack"
+  - case: "magic"
+  - case: "gf"
+  - case: "special_or_limit"
+
+constants:
+  ATB_TICK: 0x4842B0
+  UPDATE_BATTLE_CAMERA: 0x504060
+  CAMERA_OPS: 0x5033E0
+  TASK_TICK: 0x500CC0
+  GF_TICK: 0x50B2A0
+  SPECIAL_TICK: 0x50B830
+  CAMERA_CONTROL_WORD: 0x1D97718
+  CAMERA_BLEND_WORD: 0x1D9771E
+  CAMERA_STRUCT_POINTER: 0x1D97798
+  CAMERA_WORLD_OUTPUT: 0xB8B7F0
+
+setup:
+  - action: sync_to_battle_tick
+    label: "sync_atb"
+    address: "ATB_TICK"
+    timeout_ms: 15000
+  - action: set_breakpoint
+    label: "bp_update_camera"
+    address: "UPDATE_BATTLE_CAMERA"
+  - action: set_breakpoint
+    label: "bp_camera_ops"
+    address: "CAMERA_OPS"
+  - action: set_breakpoint
+    label: "bp_task_tick"
+    address: "TASK_TICK"
+  - action: set_breakpoint
+    label: "bp_gf_tick"
+    address: "GF_TICK"
+  - action: set_breakpoint
+    label: "bp_special_tick"
+    address: "SPECIAL_TICK"
+
+act:
+  - action: manual_checkpoint
+    label: "trigger_camera_family"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_update_camera"
+      - "bp_camera_ops"
+      - "bp_task_tick"
+      - "bp_gf_tick"
+      - "bp_special_tick"
+    message: |
+      Déclenche une action de la famille indiquée par le titre
+      (Attack, Magic, GF, ou Special/Limit), jusqu'à la cinématique ou
+      le mouvement de caméra principal.
+    fields:
+      resume_execution: true
+
+observe:
+  - action: sample_memory
+    label: "camera_state_window"
+    timeout_ms: 1800
+    interval_ms: 200
+    fields:
+      resume_execution: true
+      sync_address: "ATB_TICK"
+    regions:
+      - label: "camera_control_word"
+        address: "CAMERA_CONTROL_WORD"
+        size: 4
+        type: u32
+      - label: "camera_blend_word"
+        address: "CAMERA_BLEND_WORD"
+        size: 2
+        type: u16
+      - label: "camera_struct_pointer"
+        address: "CAMERA_STRUCT_POINTER"
+        size: 4
+        type: u32
+      - label: "camera_world_output"
+        address: "CAMERA_WORLD_OUTPUT"
+        size: 16
+        type: bytes
+  - action: trace_breakpoint_hits
+    label: "camera_trace"
+    timeout_ms: 15000
+    wait_until:
+      - "bp_update_camera"
+      - "bp_camera_ops"
+      - "bp_task_tick"
+      - "bp_gf_tick"
+      - "bp_special_tick"
+    max_hits: 6
+    on_hit:
+      - action: read_registers
+        label: "regs"
+      - action: read_action_globals
+        label: "action_globals"
+      - action: snapshot_memory
+        label: "camera_control_word"
+        address: "CAMERA_CONTROL_WORD"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "camera_blend_word"
+        address: "CAMERA_BLEND_WORD"
+        size: 2
+        type: u16
+      - action: snapshot_memory
+        label: "camera_struct_pointer"
+        address: "CAMERA_STRUCT_POINTER"
+        size: 4
+        type: u32
+      - action: snapshot_memory
+        label: "camera_world_output"
+        address: "CAMERA_WORLD_OUTPUT"
+        size: 16
+        type: bytes
+
+assert:
+  - check: breakpoint_was_hit
+    label: "sync_atb"
+  - check: breakpoint_was_hit
+    label: "bp_update_camera"
+
+cleanup:
+  - action: delete_breakpoint
+    label: "bp_update_camera"
+  - action: delete_breakpoint
+    label: "bp_camera_ops"
+  - action: delete_breakpoint
+    label: "bp_task_tick"
+  - action: delete_breakpoint
+    label: "bp_gf_tick"
+  - action: delete_breakpoint
+    label: "bp_special_tick"
+
+verdict_prompt: |
+  Analyze this camera-routing capture.
+  Focus on:
+  1. The control-word and blend-word transitions across the sampled window.
+  2. Which routing anchors fired for this action family.
+  3. Whether the family appears to use generic, GF, or special-camera ownership.
+  4. Which control-word bits look stable, toggled, or family-specific.
+  Evidence:
+  {evidence_json}

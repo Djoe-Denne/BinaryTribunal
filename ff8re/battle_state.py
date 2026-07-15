@@ -92,9 +92,15 @@ class FF8BattleState:
     # Execution queue
     EXEC_QUEUE_BYTES    = 0x1D288E8
     EXEC_QUEUE_MASKS    = 0x1D288EE
+    AI_EXEC_QUEUE_OFFSET = 0x1D28DE8
 
     # Encounter data
     ENCOUNTER_DATA      = 0x1D287DC   # FF8SceneOut, size 0x80
+    BATTLE_RESULT_CODE  = 0x1CFF6E7
+    BATTLE_END_TYPE     = 0x1D28E01
+    BATTLE_DEAD_TIMER   = 0x1D28DE4
+    BATTLE_RNG_LANE_INDEXES = 0x1D2A228
+    BATTLE_RNG_ACTIVE_LANE  = 0x1D2A230
 
     # ATB UI mirror
     ATB_UI_MIRROR       = 0x1CFF180
@@ -156,6 +162,9 @@ class FF8BattleState:
 
     def read_max_hp(self, slot_id: int) -> int:
         return self.mcp.read_u16(self.slot_addr(slot_id, self.OFF_MAX_HP))
+
+    def write_max_hp(self, slot_id: int, hp: int) -> None:
+        self.mcp.write_u16(self.slot_addr(slot_id, self.OFF_MAX_HP), hp)
 
     def read_status1(self, slot_id: int) -> int:
         return self.mcp.read_u32(self.slot_addr(slot_id, self.OFF_STATUS1))
@@ -306,6 +315,19 @@ class FF8BattleState:
             masks.append(self.mcp.read_u16(self.EXEC_QUEUE_MASKS + i * 2))
         return masks
 
+    def read_exec_queue_state(self, byte_count: int = 12, mask_count: int = 6) -> dict[str, Any]:
+        """Return a structured snapshot of the execution queue state."""
+        raw_bytes = self.read_exec_queue_bytes(byte_count)
+        masks = self.read_exec_queue_masks(mask_count)
+        return {
+            "bytes_addr": hex(self.EXEC_QUEUE_BYTES),
+            "bytes_hex": raw_bytes.hex(),
+            "target_masks_addr": hex(self.EXEC_QUEUE_MASKS),
+            "target_masks": [hex(mask) for mask in masks],
+            "ai_exec_queue_offset_addr": hex(self.AI_EXEC_QUEUE_OFFSET),
+            "ai_exec_queue_offset": self.mcp.read_u8(self.AI_EXEC_QUEUE_OFFSET),
+        }
+
     # ==================================================================
     # Phase flags (battle loop state machine)
     # ==================================================================
@@ -313,29 +335,18 @@ class FF8BattleState:
     def read_phase_flags(self) -> dict[str, Any]:
         """Read the battle loop state machine global phase flags.
 
-        These are global variables whose addresses must be resolved
-        from the IDB.  We use the IDA MCP ``get_global_value`` tool
-        to read them by name.
+        These are live globals resolved from the IDB and then read through the
+        debugger memory API.
         """
-        names = [
-            "mode_StateGlobal",
-            "mode3_substep",
-            "mode3_subsub_step",
-            "mode_3_subsubsubstep",
-            "battle_result_byte_mode_3_subsubsubcondition",
-        ]
-        result: dict[str, Any] = {}
-        for name in names:
-            try:
-                val = self.mcp.tool("get_global_value", {"queries": [name]})
-                if isinstance(val, list) and val:
-                    row = val[0]
-                    result[name] = row.get("value", row)
-                else:
-                    result[name] = val
-            except Exception as exc:
-                result[name] = f"<error: {exc}>"
-        return result
+        return self._read_named_scalars(
+            {
+                "mode_StateGlobal": "u8",
+                "mode3_substep": "u8",
+                "mode3_subsub_step": "u8",
+                "mode_3_subsubsubstep": "u8",
+                "mode_3_subsubsubcondition": "u8",
+            }
+        )
 
     # ==================================================================
     # Transient action-resolution globals (read by name)
@@ -343,25 +354,95 @@ class FF8BattleState:
 
     def read_action_globals(self) -> dict[str, Any]:
         """Read the transient globals used during action resolution."""
-        names = [
-            "ATTACKER_SLOT_ID",
-            "COMMAND_TYPE_ID",
-            "CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID",
-            "CURRENT_SLOT_ID_TURN",
-            # Status payload resolved from kernel tables at resolve time.
-            # Useful for proving e.g. Siren -> Silence bit is actually in HIT_STATUS_1.
-            "HIT_STATUS_1",
-            "HIT_STATUS_2",
-        ]
+        return self._read_named_scalars(
+            {
+                "ATTACKER_SLOT_ID": "u8",
+                "COMMAND_TYPE_ID": "u8",
+                "CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID": "u16",
+                "CURRENT_SLOT_ID_TURN": "u8",
+                "HIT_STATUS_1": "u16",
+                "HIT_STATUS_2": "u32",
+            }
+        )
+
+    def read_result_globals(self) -> dict[str, Any]:
+        """Read the battle result/cleanup globals plus current phase flags."""
+        result = {
+            "BATTLE_RESULT_CODE": self.mcp.read_u8(self.BATTLE_RESULT_CODE),
+            "BATTLE_END_TYPE": self.mcp.read_u8(self.BATTLE_END_TYPE),
+            "BATTLE_DEAD_TIMER": self.mcp.read_u16(self.BATTLE_DEAD_TIMER),
+        }
+        result["phase_flags"] = self.read_phase_flags()
+        return result
+
+    def read_elemental_globals(self) -> dict[str, Any]:
+        """Read live elemental/damage metadata globals."""
+        return self._read_named_scalars(
+            {
+                "HIT_ELEMENT": "u8",
+                "HIT_ELEMENT_PERCENT": "u8",
+                "ATTACK_FLAG": "u8",
+                "DAMAGE_DEAL": "u16",
+            }
+        )
+
+    def read_rng_state(self) -> dict[str, Any]:
+        """Read live battle-RNG lane state from the documented global addresses."""
+        raw = self.mcp.read_bytes(self.BATTLE_RNG_LANE_INDEXES, 8)
+        indexes = list(raw)
+        return {
+            "BATTLE_RNG_LANE_INDEXES_ADDR": hex(self.BATTLE_RNG_LANE_INDEXES),
+            "BATTLE_RNG_ACTIVE_LANE_ADDR": hex(self.BATTLE_RNG_ACTIVE_LANE),
+            "BATTLE_RNG_LANE_INDEXES": indexes,
+            "BATTLE_RNG_ACTIVE_LANE": self.mcp.read_u8(self.BATTLE_RNG_ACTIVE_LANE),
+        }
+
+    def write_status2_bits(self, slot_id: int, mask: int, *, set_bits: bool = True) -> dict[str, Any]:
+        """Set or clear bits in a slot's live status_2 field."""
+        addr = self.slot_addr(slot_id, self.OFF_STATUS2)
+        before = self.read_status2(slot_id)
+        if set_bits:
+            after = before | mask
+        else:
+            after = before & ~mask
+        self.mcp.write_u32(addr, after)
+        return {
+            "slot_id": slot_id,
+            "address": hex(addr),
+            "mask": hex(mask),
+            "before": hex(before),
+            "after": hex(self.read_status2(slot_id)),
+        }
+
+    # ==================================================================
+    # Internal live-global helpers
+    # ==================================================================
+
+    def _read_named_scalars(self, spec: dict[str, str]) -> dict[str, Any]:
+        """Resolve named globals to addresses and read them live."""
         result: dict[str, Any] = {}
-        for name in names:
+        for name, ty in spec.items():
             try:
-                val = self.mcp.tool("get_global_value", {"queries": [name]})
-                if isinstance(val, list) and val:
-                    row = val[0]
-                    result[name] = row.get("value", row)
-                else:
-                    result[name] = val
+                addr = self.mcp.resolve_global_addr(name)
+                result[name] = self._read_scalar(addr, ty)
             except Exception as exc:
                 result[name] = f"<error: {exc}>"
         return result
+
+    def _read_scalar(self, addr: int, ty: str) -> int:
+        """Read one scalar value from debugger memory."""
+        match ty:
+            case "u8":
+                return self.mcp.read_u8(addr)
+            case "u16":
+                return self.mcp.read_u16(addr)
+            case "u32":
+                return self.mcp.read_u32(addr)
+            case "i8":
+                return self.mcp.read_i8(addr)
+            case "i16":
+                return self.mcp.read_i16(addr)
+            case "i32":
+                return self.mcp.read_i32(addr)
+            case _:
+                raise ValueError(f"Unsupported scalar type: {ty}")
