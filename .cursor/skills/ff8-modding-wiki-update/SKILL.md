@@ -12,6 +12,26 @@ description: >-
 
 Update `FF8ModdingWiki/FF8/TechnicalReference/` from discoveries in `docs/`, matching existing wiki layout and navigation. Do not invent wiki conventions—copy patterns from canonical pages listed below.
 
+## Contrat d'outillage du projet
+
+Ces règles sont spécifiques à `re-ff8` : elles complètent les instructions globales de Cursor sans les remplacer. Respecter les règles d'édition natives, les contrôles de sécurité et les autorisations applicables.
+
+Pour chaque tâche où cela est pertinent, utiliser les outils dans cet ordre :
+
+1. **Context Mode** — outil principal pour l'inventaire, la recherche multi-fichiers, l'analyse de sorties importantes et les requêtes de suivi. Conserver les données brutes dans son index ; ne pas utiliser de shell pour des sorties volumineuses.
+2. **QMD** — rechercher d'abord le savoir déjà distillé dans la collection `ff8-wiki`, avec un filtre de collection (`qmd query -c ff8-wiki ...` ou `qmd vsearch -c ff8-wiki ...`). Après une mise à jour substantielle du coffre `obsidian-docs`, exécuter `qmd update`, puis `qmd embed -c ff8-wiki` si les embeddings doivent être créés ou actualisés.
+3. **Wiki Obsidian / RTK** — utiliser les compétences de requête, de mise à jour et de validation du coffre lorsque la tâche porte sur des connaissances, des sources, des liens ou des notes de `obsidian-docs`. Préserver les pages existantes, leur frontmatter et leur historique sauf instruction explicite de les modifier.
+4. **MCP IDA Pro** — pour toute preuve de désassemblage, de décompilation, de symboles, de mémoire ou de débogage FF8, vérifier d'abord la disponibilité du serveur MCP IDA et employer ses outils plutôt que d'inventer une preuve ou de se fonder seulement sur une hypothèse.
+
+### Règle de blocage MCP IDA
+
+À chaque étape qui requiert IDA, si le serveur MCP IDA est absent, non authentifié, inaccessible ou renvoie une erreur d'autorisation/exécution :
+
+- arrêter immédiatement l'étape dépendante d'IDA ;
+- ne pas tenter de contournement, ni répéter l'appel sans nouvel élément ;
+- informer explicitement l'utilisateur que le MCP IDA est indisponible, avec le blocage observé et l'action nécessaire pour reprendre ;
+- ne reprendre qu'après le rétablissement du serveur ou une instruction explicite de poursuivre sans preuve IDA.
+
 ## Scope
 
 | Wiki area | Path | Primary `docs/` sources |

@@ -3,14 +3,14 @@ title: RE FF8
 category: project
 tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
-sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/]
-summary: Project overview for FF8 PC battle-system reverse engineering, including live-proven frame ownership, takeover boundaries, domain contracts, and presentation separation.
+sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader]
+summary: Project overview for FF8 PC battle-system reverse engineering, including live-proven frame ownership, takeover boundaries, and links to the injector and remaster implementation.
 provenance:
   extracted: 0.78
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-07-22T18:35:00+02:00
 ---
 
 # RE FF8
@@ -21,6 +21,14 @@ The wiki separates two layers:
 
 - Documentation pages capture FF8 domain knowledge: mechanics, lifecycle, memory layout, function roles, command flow, status behavior, GF architecture, and compact references.
 - Skills pages capture repeatable work: AI prompts, Python tooling, `ff8re` runner usage, YAML hypothesis tests, evidence conversion, and IDA MCP workflows.
+
+## Implementation Projects
+
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. Constrained P0, strict G03, Init/Exit ABI and one no-write G05 tick passed live. G06, all battle writes, BattleUI ownership and P1 remain open.
+- [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
+- [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
+- [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.
+- [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]] — Offline P0.6 runtime/evidence implementation and the remaining live-proof gates.
 
 ## Documentation
 
@@ -50,6 +58,7 @@ The wiki separates two layers:
 - [[projects/re-ff8/references/research-prompt-backlog]] — AI prompt backlog and completed investigation artifacts.
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO-reimplementation readiness scorecard and prioritized gap analysis for the battle loop.
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Live-proven whole-frame owner, takeover contract, presentation split, and native cleanup handback.
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational implementation roadmap with 32 gated groups and 240 small testable units.
 - [[projects/re-ff8/references/battle-formulas]] — Exact ISO arithmetic: damage/heal/hit/crit/status formulas, HP-commit stage, and initial-state derivation (party junction stats, enemy HP/rank/stat scaling, scripted-summon rolls).
 - [[projects/re-ff8/references/enemy-ai-opcodes]] — Full 61-opcode enemy-AI VM table + IF subject-selector table + target codes + AI state inventory.
 
@@ -64,6 +73,8 @@ The wiki separates two layers:
 
 ## Skills, Prompts, And Tools
 
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — In-process x86 migration architecture with fidelity profiles, lift strategies, ownership rules, and gated execution discipline.
+- [[projects/re-ff8/skills/ff8-live-validation-operations]] — Transversal Windows, IDA MCP, injection, candidate-hash and runtime-evidence rules for every future live batch.
 - [[projects/re-ff8/concepts/ff8re-hypothesis-runner]] — Repeatable `ff8re` runner workflow for IDA MCP validation.
 - [[projects/re-ff8/references/gf-runtime-test-matrix]] — YAML inventory and execution pattern for GF injection and slot-layout tests.
 - [[projects/re-ff8/references/gf-batch-discovery-tool]] — Python-assisted static discovery and IDA annotation workflow for GF chains.

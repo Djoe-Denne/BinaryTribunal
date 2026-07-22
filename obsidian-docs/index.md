@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-07-12T13:45:00+02:00*
+*This index is automatically maintained. Last updated: 2026-07-22T18:35:00+02:00*
 
 ## Concepts
 
@@ -33,6 +33,8 @@ title: Wiki Index
 
 ## Skills
 
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Comprehensive in-process x86 migration guide, tracking constrained G04/P0, the P0.6 no-write probe, strict carryover debt, and the FullISO fail-stop policy. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/ff8-live-validation-operations]] — General operational rules for all FF8 live batches: PowerShell, CMake, IDA MCP, candidate hashes, injection and runtime-derived verdicts. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for converting `ff8re` evidence JSON into runtime-confirmed GF docs. ( #ff8 #reverse-engineering #testing #skill)
@@ -41,9 +43,12 @@ title: Wiki Index
 - [[projects/re-ff8/references/gf-batch-discovery-tool]] — Skill for using the Python batch discovery and annotation tool for GF summon chain reconstruction. ( #ff8 #gforce #reverse-engineering #skill)
 - [[projects/re-ff8/skills/implementing-wicked-ff8-bridge]] — Procedural workflow for build locks, phased implementation, evidence gates, visual parity, rollback, and lifecycle safety. ( #ff8 #rendering #testing #skill)
 - [[projects/binary-tribunal/skills/running-binary-tribunal-hypotheses]] — Skill for running Binary Tribunal hypothesis files, directories, and suites while collecting deterministic evidence. ( #reverse-engineering #testing #skill)
+- [[projects/ffscriptloader/skills/hardening-x86-dll-injection]] — Procedure for target validation, typed remote bootstrap, idempotent module reuse, and quiescent detour rollback. ( #reverse-engineering #testing #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]] — P0.6 operating procedure for PowerShell/CMake, IDA MCP breakpoints, live evidence, candidate hashes and fail-stop recovery. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 
 ## References
 
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational roadmap of 32 dependency-ordered groups and 240 testable units, from closure/ABI through gameplay, presentation, and FullISO certification. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, damage/status, AI, encounters, presentation, GF, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
@@ -55,6 +60,9 @@ title: Wiki Index
 - [[projects/binary-tribunal/references/hypothesis-definition-schema]] — Reference for Binary Tribunal hypothesis YAML, suites, steps, constants, and address expressions. ( #reverse-engineering #testing #reference)
 - [[projects/binary-tribunal/references/ida-mcp-debugger-transport]] — Reference for Binary Tribunal's IDA MCP client and debugger endpoint helpers. ( #reverse-engineering #testing #reference)
 - [[projects/binary-tribunal/references/evidence-json-model]] — Reference for Binary Tribunal evidence JSON, deterministic result rules, and replay indexing. ( #reverse-engineering #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Successful no-debugger G00–G04 run, exact hook rollback, process survival, and remaining strict gate debt. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — P0.5 model evidence plus fresh-process Director pass-through validation; BattleUI and domain ownership remain fail-closed. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]] — P0.6 live proof of strict G03, Init/Exit ABI and one no-write G05 tick; G06 and P1 remain blocked. ( #ff8 #battle-system #testing #reference)
 
 ## Synthesis
 
@@ -64,3 +72,5 @@ title: Wiki Index
 
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
+- [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle reimplementation at the constrained G04/P0 checkpoint. ( #ff8 #battle-system #reverse-engineering #project)
