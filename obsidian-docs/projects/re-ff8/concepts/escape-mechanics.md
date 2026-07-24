@@ -7,13 +7,14 @@ sources:
   - obsidian-docs/_staging/investigations/escape_mechanics.md
   - docs/tech/systems/battle_init.md
   - docs/product/battle.md
-summary: Escape is a held-input state machine with a 60-frame roll cadence, shared battle RNG, and a dedicated exit transition path.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+summary: Escape is a held-input state machine sharing the ATB pulse and battle RNG; holding escape does not itself freeze party or enemy ATB.
 provenance:
-  extracted: 0.77
-  inferred: 0.14
-  ambiguous: 0.09
+  extracted: 0.82
+  inferred: 0.11
+  ambiguous: 0.07
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-06-13T18:00:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Escape Mechanics
@@ -30,6 +31,20 @@ Escape is not a queued battle command. The battle UI exposes it as a held-input 
   - `2` = escape transition already in progress.
 
 The exact physical button combination behind the input latch still needs live confirmation.^[ambiguous]
+
+### Escape does not freeze ATB
+
+The promoted P0.8-D capture observed
+`BATTLE_ESCAPE_INPUT_ACTIVE != 0`, `BATTLE_ATB_PROGRESSION_ACTIVE != 0`, no
+pause and no action-execution lock in the same native pulse. Its 11-slot ATB
+hash changed from `0x518644DB` to `0x177589DC`. Party gauges were already full,
+but the single enemy had just acted, so the changing all-slot hash confirms
+that hidden enemy ATB continued to refill while escape was held.
+
+An earlier diagnostic capture combined escape input with
+`BATTLE_ACTION_EXECUTION_ACTIVE != 0`; all slot hashes stayed equal. The freeze
+was caused by action execution, not escape. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
 
 ## Cannot-Escape Sources
 
@@ -101,6 +116,7 @@ The shared cleanup (HP/status persist + item-buffer merge) is byte-for-byte iden
 - [[projects/re-ff8/concepts/atb-and-command-menu]]
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/references/battle-address-catalog]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
 
 ## Runtime-Pending
 

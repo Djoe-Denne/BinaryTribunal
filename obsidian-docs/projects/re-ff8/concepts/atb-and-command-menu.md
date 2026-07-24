@@ -13,13 +13,15 @@ sources:
   - obsidian-docs/_staging/investigations/limit_breaks.md
   - obsidian-docs/_staging/investigations/escape_mechanics.md
   - IDA static decompile 2026-06-14 (BattleATB_TickAndReady 0x4842B0, BattleUI_HudInputAndATBTick 0x4A84E0)
-summary: ATB advances from speed and timed status, then splits into menu-ready or control-driven auto-command paths owned by the HUD task layer.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+summary: ATB and GF charge share four HUD pulses per battle frame; pause and action execution freeze them, while escape input does not.
 provenance:
-  extracted: 0.87
-  inferred: 0.09
-  ambiguous: 0.04
+  extracted: 0.91
+  inferred: 0.06
+  ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-14T12:30:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # ATB And Command Menu
@@ -28,14 +30,39 @@ ATB is ticked from the HUD task layer rather than from an isolated "domain-only"
 
 ## Tick Cadence & Iteration (2026-06-14)
 
-`BattleATB_TickAndReady` (`0x4842B0`) is called once per HUD frame from `BattleUI_HudInputAndATBTick` (`0x4A84E0`) **only when `!pre_isBattle_DirectorReady()`** — and `pre_isBattle_DirectorReady` (`0x47D8E0`) simply returns `IS_BATTLE_PAUSED`. So **ATB advances exactly one tick per unpaused frame; it freezes while the battle is paused** (menu-open pause, cinematic/action resolution). This is the cross-actor pacing mechanism: while one actor's action sequence runs (the director is "ready"/busy and the battle is paused), nobody's ATB moves.
+`BattleATB_TickAndReady` (`0x4842B0`) is called once **per HUD pulse** from `BattleUI_HudInputAndATBTick` (`0x4A84E0`) **only when `!pre_isBattle_DirectorReady()`** — and `pre_isBattle_DirectorReady` (`0x47D8E0`) simply returns `IS_BATTLE_PAUSED`. `FFBattleModule` emits four HUD calls (three pre-director, one post-director) per module frame. **P0.8-A live capture (2026-07-24) saw the ATB slot snapshot change at all four calls of each complete unpaused frame; the paused capture retained the four HUD calls but omitted ATB progression and changed neither ATB nor pending actions.** A visible ready-actor command menu does not itself assert `IS_BATTLE_PAUSED`.
 
-Inside the tick (after a further gate `AI_BATTLE_ACTIVE_FLAG && sub_4A9450() && !dword_1D27B00`), two passes run:
+Inside the tick, progression additionally requires
+`AI_BATTLE_ACTIVE_FLAG && sub_4A9450() && !BATTLE_ACTION_EXECUTION_ACTIVE`.
+`BATTLE_ACTION_EXECUTION_ACTIVE` is the 32-bit value at `0x1D27B00`; it is the
+actual action lock. The distinct byte at `0x1D28DEB`, previously mislabeled
+`BATTLE_ACTION_TAKING_PLACE`, is now
+`BATTLE_ATB_PROGRESSION_ACTIVE`: it records that the pulse admitted ATB/GF
+progression.
 
-1. **GF summon-charge timers** decrement first — per slot, unless `flag_data & 0x400`, by `2` (normal) / `3` (Haste) / `1` (Slow), clamped at 0 (the charge pool used by the absorb logic).
+When admitted, two passes run:
+
+1. **GF summon-charge timers** decrement first — per slot, unless `flag_data & 0x400`, by `2` (normal) / `3` (Haste) / `1` (Slow), clamped at 0 (the charge pool used by the absorb logic). The party timers at `F_CHAR_ACTIVE_SUMMON_CHARGE_TIMER` (`0x1CFF014`) are three sparse 16-bit fields at stride `0x1D0`.
 2. **Per-slot ATB**, iterated in **ascending slot order `0 → N`** (`cur_atb` pointer walks the slot stride to the `dword_1D280D4` end pointer), applying the increment + readiness routing below; party slots also mirror `cur_atb`/`max_atb` into `BATTLE_ATB_UI_MIRROR`.
 
 Finally, when `CAN_BATTLE_BE_PAUSED`, the same tick polls escape via `BattleEscape_PollInputAndRollChance` — so the flee roll shares the ATB cadence (see [[projects/re-ff8/concepts/escape-mechanics]]). The HUD callback also carries the escape-hold latch, incrementing `BATTLE_ESCAPE_HOLD_FRAMES` only while the director is not ready.
+
+## Live Gate Matrix (2026-07-24)
+
+The P0.8-D all-slot witness separated the gates that static naming had
+conflated:
+
+- a true pause freezes ATB and GF charge;
+- a nonzero action-execution lock freezes ATB and GF charge even without
+  treating escape input as the cause;
+- GF charge and slot ATB advance in the same admitted native pulse;
+- held escape input does **not** freeze ATB;
+- the ready-boundary capture predicted and observed one ready transition.
+
+During the promoted escape capture, party gauges were already full but the
+single enemy had just acted. The 11-slot hash changed, directly exposing hidden
+enemy ATB progression while escape was held. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
 
 ## ATB Tick
 
@@ -108,3 +135,6 @@ Escape lives beside the HUD and ATB path, not inside the normal command queue. T
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/concepts/limit-break-architecture]]
 - [[projects/re-ff8/concepts/escape-mechanics]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]

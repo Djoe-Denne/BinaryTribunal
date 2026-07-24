@@ -3,14 +3,17 @@ title: Battle Address Catalog
 category: references
 tags: [ff8, runtime-memory, reverse-engineering, reference]
 aliases: [FF8 battle addresses]
-sources: [docs/tech/reference/address_catalog.md]
+sources:
+  - docs/tech/reference/address_catalog.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/address-map/ff8_en_064d466b5fe2ba90/abi-ledger.yaml
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
 summary: Compact address reference for core battle loop, damage/status, AI, encounters, presentation, GF, and global memory anchors.
 provenance:
-  extracted: 0.96
-  inferred: 0.04
+  extracted: 0.97
+  inferred: 0.03
   ambiguous: 0.0
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Battle Address Catalog
@@ -93,9 +96,14 @@ Consumer contracts: [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]
 ## Global Memory Anchors
 
 - `0x1D27B10` — `BATTLE_SLOT_DATA`, 11 slots, stride `0xD0`.
+- `0x1D27B00` — `BATTLE_ACTION_EXECUTION_ACTIVE`, 32-bit action lock; nonzero freezes native ATB and GF charge.
+- `0x1D28DE9` — `IS_BATTLE_PAUSED`, native pause gate.
+- `0x1D28DEB` — `BATTLE_ATB_PROGRESSION_ACTIVE`, one-byte admitted-progression marker; formerly mislabeled `BATTLE_ACTION_TAKING_PLACE`.
 - `0x1D28D44` — `BATTLE_PENDING_ACTION_BUFFER`.
 - `0x1D288E8` — `BATTLE_EXEC_QUEUE_BYTES`.
 - `0x1D288EE` — `BATTLE_EXEC_QUEUE_TARGET_MASKS`.
+- `0x1CFF014` — `F_CHAR_ACTIVE_SUMMON_CHARGE_TIMER`, three sparse 16-bit party GF timers at stride `0x1D0`.
+- `0x1CFF180` — `BATTLE_ATB_UI_MIRROR`, party ATB max/current presentation pairs.
 - `0x1D287DC` — `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - `0x1D28344` — `BATTLE_DAMAGE_RESULT_BUFFER`.
 - `0xC81774` — `MagicList_Logic`.
@@ -113,5 +121,7 @@ Consumer contracts: [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]
 
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/battle-lifecycle]]
+- [[projects/re-ff8/concepts/atb-and-command-menu]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]

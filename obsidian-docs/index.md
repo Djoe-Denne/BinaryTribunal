@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-07-23T11:25:00+02:00*
+*This index is automatically maintained. Last updated: 2026-07-24T23:20:43+02:00*
 
 ## Concepts
 
@@ -13,11 +13,11 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
 - [[projects/re-ff8/concepts/command-action-pipeline]] — Input and AI actions through pending action entries, exec queues, arbitration, and resolution. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application, status gates, commit, and presentation event output. ( #ff8 #battle-system #runtime-memory #concept)
-- [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB tick formulas, readiness gates, auto-command path, and command-menu role. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/atb-and-command-menu]] — Four-pulse ATB/GF cadence, pause/action freeze gates, readiness split, and escape co-tick semantics. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded `target_mask` flags, eligibility layers, and shared target fan-out across player, AI, GF, and limit actions. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/elemental-resolution]] — `HIT_ELEMENT`, `HIT_ELEMENT_PERCENT`, and `elem_def[8]` rules for weakness, resistance, null, and absorb. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/timed-status-expiry]] — Timed `status_2` bank, seeding rules, decrement logic, and special expiry branches such as Doom and Gradual Petrify. ( #ff8 #battle-system #runtime-memory #concept)
-- [[projects/re-ff8/concepts/escape-mechanics]] — Held-input flee state, shared battle RNG cadence, cannot-escape gates, and escape transition handoff. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/escape-mechanics]] — Held-input flee state, shared RNG cadence, live proof that escape does not freeze hidden enemy ATB, and exit handoff. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/limit-break-architecture]] — Crisis-level gate, ordinary pending entry path, and per-character limit-family divergence. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
@@ -33,8 +33,8 @@ title: Wiki Index
 
 ## Skills
 
-- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Comprehensive in-process x86 migration guide, tracking constrained G04/P0, the P0.6 no-write probe, strict carryover debt, and the FullISO fail-stop policy. ( #ff8 #battle-system #reverse-engineering #testing #skill)
-- [[projects/re-ff8/skills/ff8-live-validation-operations]] — General operational rules for all FF8 live batches: PowerShell, CMake, IDA MCP, candidate hashes, injection and runtime-derived verdicts. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G05 closure and bounded P0.8 G06 ATB evidence, with complete G06/P1 still locked. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for x86 builds, bootstrap, automatic gate watches, runtime verdicts, safe shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for converting `ff8re` evidence JSON into runtime-confirmed GF docs. ( #ff8 #reverse-engineering #testing #skill)
@@ -49,7 +49,8 @@ title: Wiki Index
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational roadmap of 32 dependency-ordered groups and 240 testable units, from closure/ABI through gameplay, presentation, and FullISO certification. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational roadmap with G05 closed and P0.8 G06 cadence, bounded ATB pilot and semantic matrix complete; full G06 remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis updated with live ATB/GF cadence, action/pause freeze separation and escape progression semantics. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, damage/status, AI, encounters, presentation, GF, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
@@ -65,6 +66,9 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — P0.5 model evidence plus fresh-process Director pass-through validation; BattleUI and domain ownership remain fail-closed. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]] — P0.6 live proof of strict G03, Init/Exit ABI and one no-write G05 tick; G06 and P1 remain blocked. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation]] — P0.7 G05 scenario protocol, fixtures, evidence-v2 and runtime-derived negative verdicts, closed live on the final hash. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]] — Four-pulse BattleUI/ATB cadence and pause baseline later extended by the P0.8-C pilot and P0.8-D matrix. ( #ff8 #battle-system #testing #atb #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]] — Bounded four-pulse ATB takeover with guarded cur_atb/UI-mirror writes; input, GF, escape and readiness remain native. ( #ff8 #battle-system #testing #atb #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]] — Automated five-gate matrix for ready, action freeze, pause, GF charge and escape semantics with no FF8 writes. ( #ff8 #battle-system #testing #atb #reference)
 
 ## Synthesis
 
@@ -75,4 +79,4 @@ title: Wiki Index
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle reimplementation with P0.7 G05 live scenario closure on the final hash. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle migration with G05 closed and bounded P0.8 G06 ATB pilot plus semantic-matrix evidence. ( #ff8 #battle-system #reverse-engineering #project)

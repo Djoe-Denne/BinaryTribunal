@@ -18,13 +18,14 @@ sources:
   - IDA static decompile 2026-06-14 (HUD/ATB cadence + action-sequence dispatcher)
   - IDA static + live debugger 2026-06-15 (root state machine, frame pump FFBattleModule, BYTE1 serialization latch, commit-at-selection; combat-paused live reads)
   - IDA static + live debugger 2026-07-12 (module callback ownership, corrected four-level active guard, idle callback-table baseline)
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
 summary: Battle lifecycle from module state machine through scene loading, active tick, end checks, hook boundary, cleanup, and reward transition.
 provenance:
-  extracted: 0.89
-  inferred: 0.08
+  extracted: 0.90
+  inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Battle Lifecycle
@@ -58,13 +59,13 @@ updated: 2026-07-12T13:45:00+02:00
 Each director call (one per frame, see cadence below) runs this body in order:
 
 1. `BattleUI_RefreshEnemyAndGrieverNames()`; set `byte_1D280C3=1` (in-logic flag).
-2. **End checks** (only if `!dword_1D27B00`): scripted-end, party-wipe, timer-expiry, all-enemies-dead, escape-success. Any of these can latch `BYTE2(TARGET_SLOT_ID)` and write `BATTLE_RESULT_CODE`.
+2. **End checks** (only if `!BATTLE_ACTION_EXECUTION_ACTIVE` at `0x1D27B00`): scripted-end, party-wipe, timer-expiry, all-enemies-dead, escape-success. Any of these can latch `BYTE2(TARGET_SLOT_ID)` and write `BATTLE_RESULT_CODE`.
 3. Escape held-input latch → list-manip `108`/`109`.
 4. `BattlePendingAction_TransferToExecQueue` over every pending-action slot.
 5. `Battle_EnqueueEnemyCounterActions()`.
 6. If `BYTE2(TARGET_SLOT_ID)` (an end check latched): re-init the 3 action-queue groups (`1,2,0`).
 7. **If `!BYTE1(TARGET_SLOT_ID)`** (no action in progress): `BattleArbitration_SelectNextAction()` then `BattleAction_ResolveSpecialActionAndUpdateDamage()`. Monster slots route through [[projects/re-ff8/concepts/enemy-ai-vm]]; resolution is in [[projects/re-ff8/concepts/damage-status-pipeline]].
-8. **If `BATTLE_ACTION_TAKING_PLACE_ && !BYTE1(TARGET_SLOT_ID) && !dword_1D27B00 && !BATTLE_RESULT_CODE`**: `Status_TickAndExpire()` + `AngeloOdin_SpecialActionTick()`.
+8. **If `BATTLE_ATB_PROGRESSION_ACTIVE && !BYTE1(TARGET_SLOT_ID) && !BATTLE_ACTION_EXECUTION_ACTIVE && !BATTLE_RESULT_CODE`**: `Status_TickAndExpire()` + `AngeloOdin_SpecialActionTick()`.
 9. `Battle_ProcessActionCallbackChain()` + `Battle_ProcessDeferredCallbacks()`; clear `byte_1D280C3`.
 10. `Battle_RunFileLoadingCallbacks()` + `BdLink_GF_battle_input_and_texture_upload()`; decrement `BATTLE_TRANSITION_COUNTDOWN`; "cannot escape" message.
 
@@ -85,18 +86,24 @@ The battle frame pump is `FFBattleModule` (`0x47CF60`), installed as the recurri
 6. Module-switch on `exit_battle`; swirl/pause render.
 7. `if (pause_game_battle) IS_BATTLE_PAUSED=1` (commit pause for next frame); draw/flip; `is_sleeping = UpdateRateRelated()`.
 
-So `BattleUI_HudInputAndATBTick` is called **4× per frame** (3 pre + 1 post); ATB only actually advances on the calls where `!IS_BATTLE_PAUSED` (`pre_isBattle_DirectorReady` `0x47D8E0` just returns that flag). See [[projects/re-ff8/concepts/atb-and-command-menu]].
+So `BattleUI_HudInputAndATBTick` is called **4× per frame** (3 pre + 1 post); ATB only actually advances on the calls where `!IS_BATTLE_PAUSED` (`pre_isBattle_DirectorReady` `0x47D8E0` just returns that flag). **P0.8-A live capture (2026-07-24) confirms that all four calls mutate the ATB slot snapshot in an unpaused active window; they are four ATB pulses, not one deferred tick.** The paused capture has the same four calls but no ATB or pending-action mutation. See [[projects/re-ff8/concepts/atb-and-command-menu]] and [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]].
 
 ### Frame-time unit
 
-`UpdateRateRelated` (`0x4020F0`) is a software frame limiter: it diffs `timeGetTime`/QPC against a target interval `dbl_1A78BE8` and `Sleep()`s the remainder, or returns `1` (→ `is_sleeping`) to **frame-skip/catch-up** when behind. The live target interval read ≈ **64.5 ms ⇒ ~15 fps**, i.e. the classic PSX-era 15 Hz battle-logic cadence.^[inferred] The unit of "one logical frame" for ATB/timers/sequencing is therefore one director tick at ~15 fps, decoupled from render via the skip logic.
+`UpdateRateRelated` (`0x4020F0`) is a software frame limiter: it diffs `timeGetTime`/QPC against a target interval `dbl_1A78BE8` and `Sleep()`s the remainder, or returns `1` (→ `is_sleeping`) to **frame-skip/catch-up** when behind. The live target interval read ≈ **64.5 ms ⇒ ~15 fps**, i.e. the classic PSX-era `FFBattleModule`/director cadence.^[inferred] This is **not** the ATB pulse unit: an unpaused module frame emits four HUD/ATB pulses; an ownership implementation must model those pulses individually.
 
 ### Cross-actor serialization (the hand-off)
 
-Two independent gates serialize actors so only one action plays at a time:
+Three distinct latches must not be conflated:
 
 - **`BYTE1(TARGET_SLOT_ID)` (`0x1D28DFD`) — action-in-progress latch.** When `1`, the active tick skips **both** `BattleArbitration_SelectNextAction`/resolve **and** `Status_TickAndExpire`. Set by the **LOCK** stub (`0x4876D0`: `AI_BATTLE_ACTIVE_FLAG=0; ATTACKER+1=1; TARGET+1=1`) and directly by the enemy-AI VM when it yields to a multi-frame presentation (spawn/GF-summon/relay); cleared by the **UNLOCK** stub (`0x4876B0`: `AI_BATTLE_ACTIVE_FLAG=1; ATTACKER+1=0; TARGET+1=0`).
-- **`IS_BATTLE_PAUSED` — ATB/escape freeze.** While set (action resolving or menu open) ATB and the escape roll do not advance.
+- **`BATTLE_ACTION_EXECUTION_ACTIVE` (`0x1D27B00`, 32 bits) — action-execution lock.** P0.8-D proved that a nonzero value freezes both slot ATB and GF charge. It also gates active-loop end checks.
+- **`BATTLE_ATB_PROGRESSION_ACTIVE` (`0x1D28DEB`, one byte) — admitted-progression marker.** This was previously mislabeled `BATTLE_ACTION_TAKING_PLACE`; it records a native ATB/GF progression pulse and is not the action lock.
+- **`IS_BATTLE_PAUSED` — ATB/escape freeze.** While set, ATB and the escape roll do not advance. A ready actor's ordinary command menu is **not by itself** a pause gate; its visible presentation must not be conflated with this latch (live observation, 2026-07-24).
+
+See
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
+for the live action-freeze, pause and escape separation.
 
 An action's multi-frame presentation is driven by `BattleActionSequence_DispatchTick` (`0x50A790`), which switches on the sequence-state byte `g_GfSequenceContextSharedB+1` to a per-sequence handler — `BattleActionSequence_Tick_Generic` (`0x50A9A0`), `_Tick_GF_Cinematic` (`0x50B2A0`), `_Tick_Special` (`0x50B830`) — scheduled via the `BdLinkTask` presentation scheduler; sequence words `70`/`15` (Renzokuken / special) take dedicated branches. This layer is what the AI relays `0x70`/`0x71` gate on (camera-busy via `dword_1D97704 & 0x8000`, set by `BattleActionSequence_SelectGenericCameraAnimation`); the relay holds the next actor until the sequence + camera takeover complete. The per-sequence intro/active/hit/outro phase frame-counts are **pure presentation** (outcome already committed at step 7 above), so an ISO need not reproduce them frame-accurately.
 
@@ -206,3 +213,4 @@ The Wicked migration keeps this lifecycle native during rendering phases. Owners
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
 - [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]]
 - [[projects/re-ff8/references/research-prompt-backlog]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]

@@ -54,7 +54,7 @@ unblock `Battle_ActiveTickEntry`.
 - CTest passed **17/17**;
 - the Win32 DLL passed PE32/I386 validation;
 - final runtime candidate:
-  `c26933f3773633872d86d6299dc0a7c32ce2ed96377e11365bd3ce0ecb926e73`.
+  `8dfefeb99b2427b59b90cc594233d8ff1b325c34600057ffd335e2b6c3379178`.
 
 The collector treats `Faulted`, write violations and forbidden calls as an
 unconditional `FAIL`, even if a CLI assertion requests `pass`.

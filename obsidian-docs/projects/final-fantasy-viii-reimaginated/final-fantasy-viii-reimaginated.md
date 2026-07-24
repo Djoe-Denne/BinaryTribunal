@@ -12,17 +12,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/director-gateway-validation-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 battle migration with live strict G03, Init/Exit ABI and a
-  historical G05 one-tick probe; P0.7 G05 scenario closure is live-validated
-  on its final hash, while G06 and P1 remain locked.
+  In-process x86 FF8 battle migration with G05 closed and P0.8 G06 cadence,
+  bounded ATB ownership and semantic-matrix evidence; complete G06 remains open.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-07-23T12:10:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -33,8 +35,10 @@ Repository: [Djoe-Denne/FinalFantasy_VIII_Reimaginated](https://github.com/Djoe-
 
 ## Current checkpoint
 
-> [!success] G04/P0 foundation reached with declared constraints
-> G00–G04 offline suites and the cumulative live P0 run pass. The game remains authoritative: no Attack, ATB, AI, damage, status, presentation, initialization, or exit behavior is claimed as replaced.
+> [!success] P0 foundation and bounded domain increments validated
+> G00–G04 infrastructure and G05 strict closure pass. P0.8 adds a narrow ATB
+> pilot and a read-only semantic matrix; Attack, complete BattleUI/G06, AI,
+> damage, status, presentation, initialization and exit remain unowned.
 
 Completed foundations include:
 
@@ -68,11 +72,32 @@ Completed foundations include:
 > [[projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation]]
 > and [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
 
-P1 AttackSlice remains locked until G05–G09 pass with their required in-process evidence.
+> [!success] P0.8-A G06 cadence observation
+> Read-only runtime witnesses proved four native BattleUI/ATB pulses per
+> `FFBattleModule` frame: all four mutate ATB while active/unpaused, while
+> all four remain mutation-free at the pause gate. Native BattleUI ownership
+> and the empty P0 write allowlist remain intact. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]].
+
+> [!success] P0.8-C bounded ATB pilot
+> Four `BattleATB_TickAndReady` calls were suppressed and replaced with guarded
+> `cur_atb`/UI-mirror writes under strict preflight. This is not normalized
+> input, GF, escape, readiness or full BattleUI ownership. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]].
+
+> [!success] P0.8-D G06 semantic matrix
+> Automated ready, action-freeze, pause, GF-charge and escape gates passed on
+> one candidate hash with no FF8 write and validated envelopes. The matrix
+> separates progression, action and pause semantics but deliberately retains
+> one audited native handback. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
+
+P1 AttackSlice remains locked until complete G06 and G07–G09 pass their
+required in-process evidence.
 
 ## Operational snapshot — read this first
 
-The project currently has three distinct levels. They must not be conflated:
+The project currently has four distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -80,16 +105,19 @@ The project currently has three distinct levels. They must not be conflated:
    then return. These hooks are observation doors, not gameplay replacements.
 2. **Deterministic battle model — offline validated.** The DLL owns C++ models
    for RNG, phases, latches, `InputFrame`, ATB, GF charge, escape polling and
-   ready events. Tests feed synthetic state into those models; FF8 does not
-   use their outputs yet.
-3. **Gameplay ownership — deliberately disabled.** BattleUI still polls input
-   and advances native ATB. The Director owns native battle logic except for
-   the historical live one-tick probe and the sealed P0.7 laboratory
-   scenarios. G06 still returns `BAD_REQUEST`; no FF8 battle write is enabled.
+   ready events. Ordinary FF8 execution does not use their outputs; the
+   P0.8-C laboratory pilot is the sole bounded ATB exception.
+3. **Bounded ATB ownership pilot — live validated.** P0.8-C can replace four
+   ATB pulses under strict preflight and a tiny allowlist. It is an explicit
+   laboratory mode, not the ordinary runtime boundary.
+4. **Complete gameplay ownership — deliberately disabled.** Native BattleUI
+   still owns input, pending commands, GF charge, escape and readiness. P0.8-D
+   observes those gates but does not write them; native Director ownership also
+   remains outside sealed G05 scenarios.
 
-The practical mental model is: the project can currently **look through the
-windows of the train safely**, and has a simulator of the next systems to
-replace, but it has not yet taken the controls.
+The practical mental model is: the project can observe the train safely and
+has briefly taken one guarded ATB lever, but it has not taken the BattleUI or
+battle-loop controls.
 
 ## How live tests work
 
@@ -132,10 +160,17 @@ Only `runtime-x86/` may touch raw FF8 process memory. The canonical state never 
 captures the historical P0.6 workflow. P0.7 scenario selection, trace/RNG
 witnesses, handback and controlled-fault collection are specified in
 [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
+The reusable watch, frame-gate, bootstrap and shutdown lessons from P0.8 are in
+[[projects/re-ff8/skills/ff8-live-validation-operations]].
 
 ## Validated live boundary
 
-The default P0 bootstrap installs only a pass-through `FFBattleModule` frame seam. UI/Switch and the active-only Director gateway are opt-in development seams. The Director gateway preserves and forwards its ambient register context, then invokes the native trampoline. The versioned G05 probe is the sole live-validated no-write, one-call test exception; it does not expand the P0 ownership claim.
+The default P0 bootstrap installs only a pass-through `FFBattleModule` frame
+seam. UI/Switch, the active-only Director gateway, G05 scenarios, the G06
+observer and the P0.8-C pilot are opt-in development modes. The Director
+gateway preserves and forwards its ambient register context. G05 no-write
+scenarios and the bounded ATB pilot are laboratory exceptions; neither expands
+the default P0 ownership claim.
 
 Injection is performed outside battle, without an attached debugger. Once a battle reaches the proven active guard `03/03/01/04`, the suite imports and round-trips a snapshot, verifies zero write-guard violations, and shuts down from a safe state. The 16-byte target preimage is then restored exactly.
 
@@ -147,7 +182,11 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Prove the temporary BattleUI ownership window and ATB/escape cadence before enabling G06 host writes.
+- Replace normalized native input, pending-command writes, GF charge, escape
+  and ready routing before claiming complete G06/BattleUI ownership. P0.8-C
+  owns only ATB plus its UI mirror; P0.8-D supplies gate semantics, not writes.
+- Remove the temporary native handbacks from any future profile that claims the
+  corresponding battle-owned boundary.
 - Arbitrate the Draw `command_id` discrepancy (`0x06` in the current map versus `0x04` in old fixtures) before generating an enum.
 - Consolidate the current payload/injector/canary sequence into the roadmap’s manifest/suite-aware one-command runner.
 

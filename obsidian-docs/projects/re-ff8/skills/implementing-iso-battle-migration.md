@@ -27,13 +27,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/README.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
-summary: Full design and current execution status for replacing FF8 PC battle code in-process, with gated profiles and a validated constrained P0 harness.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+summary: Full design and execution status for in-process FF8 battle replacement, through G05 closure and the bounded P0.8 G06 ATB evidence increments.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-07-23T12:10:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -44,15 +46,20 @@ updated: 2026-07-23T12:10:00+02:00
 > [!warning] No whole-executable oracle
 > This guide does **not** prescribe a frame-by-frame native oracle or lockstep execution for now. Reverse engineering is driven by IDA static analysis, focused live probes, executable `ff8re` hypotheses, data corpus analysis, and deterministic tests for the new code. This makes `FullISO` an engineering target backed by accumulated proof, not a mathematical certification until a differential oracle is later added.
 
-## Current migration status — 2026-07-23
+## Current migration status — 2026-07-24
 
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
 
-**Migration position:** implementation has reached the G04/P0 foundation
-checkpoint, strict G03 live proof and a historical one-tick G05 probe. P0.7
-implements and live-validates the complete no-write G05 Director scenario
-protocol on its final hash. P1 is **not** unlocked; G06–G09 remain subsequent
+**Migration position:** G05 is strictly closed by P0.7.
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation|P0.8-A/B]]
+established the four-pulse G06 cadence and pause behavior,
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation|P0.8-C]]
+validated one bounded write-capable ATB pilot, and
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation|P0.8-D]]
+closed the five-scenario read-only semantic matrix. G06 itself remains open
+because normalized input, pending-command writes and complete BattleUI
+ownership are not replaced. P1 is **not** unlocked; G07–G09 remain subsequent
 work.
 
 The strict original roadmap still carries explicit G03/G04 debt:
@@ -63,14 +70,14 @@ The strict original roadmap still carries explicit G03/G04 debt:
 
 The completed checkpoint is therefore a safe, useful base for domain/application work, not a claim that every original G03/G04 checkbox or any battle behavior has been replaced.
 
-### P0.5 delivery state
+### P0.5–P0.8 delivery state
 
 **Finished and evidenced**
 
 - Offline: deterministic G05 primitives (integer helpers, battle RNG, phase
   guard, active-tick shell, latches and terminal stubs) and deterministic G06
   model code (logical input, ATB, GF charge, escape and ready events).
-- Offline: Reimaginated `ctest` passes 14/14; hardened FFScriptLoader baseline
+- Offline: Reimaginated `ctest` passes 18/18; hardened FFScriptLoader baseline
   passes 151/151.
 - Live: frame observation, state import, Switch descriptor observation,
   active-only Director pass-through, G04 state bridge, quiescent shutdown and
@@ -83,6 +90,12 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   capture, and a versioned G05 one-tick no-write probe passed. The G05
   evidence records equal observed-memory hashes, zero write/forbidden-call
   counts, success-path native handback and normal byte-exact shutdown.
+- Live P0.7: all eight positive pointer-free G05 scenarios and the
+  post-engagement negative fault close G05 on the final candidate hash.
+- Live P0.8: four native HUD/ATB pulses per module frame are characterized; a
+  four-pulse ATB-only pilot passed with guarded `cur_atb`/UI-mirror writes; and
+  ready, action-freeze, pause, GF-charge and escape gates passed the automated
+  read-only matrix with exact rollback.
 
 **Intentionally not finished**
 
@@ -90,14 +103,15 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   when the harness/runtime binary changes.
 - Init/Exit ABI is live-promoted for observation; no P1 wrapper is yet needed
   or installed.
-- G05 is live-promoted only as an explicit `one-tick v1` no-write probe.
-  Ordinary requests remain fail-closed; it does not complete G05 or unlock P1.
+- The `one-tick v1` probe is historical; P0.7 supersedes it with the complete
+  G05 v2 no-write scenario matrix.
 - P0.7 adds a v2 scenario wire contract, pointer-free fixtures, exact
   trace/latch/RNG evidence, bounded multi-tick handback and a post-engagement
   fault. The final DLL hash completes the live matrix; this does not unlock
   G06 or P1.
-- G06 ownership is disabled: BattleUI still owns live input/ATB/pending, and
-  the GF/escape model has no live host write boundary.
+- Complete G06 ownership is disabled. P0.8-C is a narrowly gated ATB-only
+  exception; native BattleUI still owns input, pending commands, GF charge,
+  escape and ready routing outside that pilot.
 - G07–G09 and G23 remain outside the implemented ownership boundary.
 
 For the detailed test chronology and the distinction between model tests and

@@ -18,13 +18,15 @@ sources:
   - C:/Users/djden/source/repos/FFScriptLoader/injector/src/injector.cpp
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
-summary: Dependency-ordered battle replacement roadmap with 32 gated groups, 240 units, a closed P0 no-write G05 gate, and later groups still fail-closed.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+summary: Dependency-ordered roadmap with G05 closed and bounded P0.8 G06 cadence, ATB-pilot and semantic-matrix evidence; complete G06 remains open.
 provenance:
-  extracted: 0.54
-  inferred: 0.43
+  extracted: 0.58
+  inferred: 0.39
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-07-23T12:10:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -32,8 +34,8 @@ updated: 2026-07-23T12:10:00+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!success] Current implementation checkpoint — 2026-07-18
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has reached a **constrained G04/P0 foundation checkpoint**. G00–G02 are complete. Most G03/G04 infrastructure is implemented and the cumulative G00–G04 live run passed, but the strict gates remain partially open where the original roadmap requires a proven Director/register gateway and complete module-transition ABI coverage. G05–G31 are not started; P1 is not unlocked.
+> [!success] Current implementation checkpoint — 2026-07-24
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05 with strict live evidence. P0.8 has characterized G06 cadence, validated a bounded ATB-only ownership pilot and closed the five-gate semantic observation matrix. Complete G06/BattleUI ownership is still open, so G07–G31 and P1 remain locked.
 
 Status notation in the foundation groups:
 
@@ -349,7 +351,18 @@ host writes remain denied.
 
 **Depends on:** G05.
 
-**Status 2026-07-21:** deterministic scripted-input, ATB, GF-charge, escape and ready-event fixtures are implemented offline. The strict gate remains open: no live BattleUI ownership handoff, write allowlist or cadence capture has been accepted, so the in-process suite fails closed rather than suppressing native HUD/ATB behavior.
+**Status 2026-07-24:** deterministic scripted-input, ATB, GF-charge,
+escape and ready-event fixtures pass offline.
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation|P0.8-A/B]]
+proved four native HUD/ATB calls per `FFBattleModule` frame and the pause gate.
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation|P0.8-C]]
+suppressed four `BattleATB_TickAndReady` calls in a bounded pilot and wrote
+only guarded `cur_atb` plus UI-mirror pairs.
+[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation|P0.8-D]]
+then passed automated ready-boundary, action-freeze, pause-gate, GF-charge and
+escape-input observations with zero FF8 write. The strict group gate remains
+open: normalized input, pending commands, GF/escape mutation and complete
+BattleUI ownership have not been switched.
 
 **Units**
 
@@ -364,9 +377,17 @@ host writes remain denied.
 
 **Test pack:** normal/Haste/Slow/Stop ATB, pause freeze, summon charge, held escape, blocked escape, and RNG cursor assertions.
 
-**Gate G06:** no frame advances ATB or pending state twice; scripted actors become ready deterministically.
+**Gate G06:** preserve the four native logical HUD/ATB pulses per module frame;
+no logical pulse may be advanced by both native and replacement, pending state
+must not be duplicated, and scripted actors must become ready deterministically.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G06 -Profile P0`; the suite temporarily switches BattleUI ownership and feeds normal/Haste/Slow/Stop, summon-charge, pause, held-escape, and blocked-escape scripts. It passes when each logical frame advances ATB/pending state exactly once, ready/escape events and RNG cursors are exact, and ownership returns cleanly at the boundary.
+**Injected in-game test:** Run `Invoke-IsoGroup -Group G06 -Profile P0`; the
+suite temporarily switches BattleUI ownership and feeds normal/Haste/Slow/Stop,
+summon-charge, pause, held-escape, and blocked-escape scripts. It passes when
+each logical pulse advances ATB/pending state exactly once, the four-pulse
+module cadence is preserved, ready/escape events and RNG cursors are exact,
+and ownership returns cleanly at the boundary. P0.8-C/D are prerequisite
+subsets, not this final test.
 
 ### G07 — Implement the command spine
 

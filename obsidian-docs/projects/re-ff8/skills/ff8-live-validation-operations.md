@@ -8,22 +8,25 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_live_canaries.py
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
-summary: Règles transversales pour tout batch FF8 live : build Win32, ABI sous IDA, détachement, injection sûre, hashes de candidats et verdicts dérivés du runtime.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa.jsonl
+summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
     type: implements
   - target: "[[projects/re-ff8/skills/battle-re-verification]]"
     type: related_to
 provenance:
-  extracted: 0.88
-  inferred: 0.10
+  extracted: 0.91
+  inferred: 0.07
   ambiguous: 0.02
 base_confidence: 0.83
 lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-07-23T11:25:00+02:00
+updated: 2026-07-24T23:20:43+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -55,6 +58,11 @@ la matrice G05 v2 est dans
 5. Supprimer tous les breakpoints et détacher IDA avant l’injection.
 6. Injecter uniquement depuis Open World/menu, après canari de préimage.
 
+Sur chaque nouveau processus FF8, invoquer d’abord `FF8Iso_Bootstrap` pour
+installer les seams d’observation, puis armer la suite. Une injection directe
+de payload de suite peut échouer avec `remote-bootstrap-failed (win32=1)` si le
+runtime n’a pas encore été initialisé.
+
 `ida_dbg.read_memory` n’est pas disponible dans le pont employé. Éviter aussi
 `read_dbg_memory`, qui requiert un buffer SWIG `void*`; `ida_bytes.get_bytes`
 est la lecture simple et fiable quand le débogueur est arrêté.
@@ -68,6 +76,27 @@ est la lecture simple et fiable quand le débogueur est arrêté.
 - Ne pas fusionner les résultats de deux hashes dans une même promotion.
 - Après `Faulted`, considérer ce runtime terminal même si le processus survit.
   Un nouvel essai utilise un processus FF8 neuf.
+
+## Watches automatiques pour les gates courts
+
+Les événements ATB, pause, GF, action et escape sont trop brefs pour dépendre
+d’un timing manuel. Armer un watch roulant avant l’action utilisateur, avec un
+budget compatible avec la durée réelle du scénario, puis laisser le runtime
+capturer automatiquement le premier gate typé.
+
+- Capturer état et hashes avant/après, drapeaux de gate, compteur de frames et
+  type de handback.
+- Choisir un hook qui existe encore pendant le gate. Une pause supprime
+  `BattleATB_TickAndReady`; son détecteur doit donc vivre sur `FFBattleModule`.
+- Pour une GF fréquemment interrompue par les ennemis, employer un budget long
+  (`18000` frames pour P0.8-D) et observer les trois timers sparse.
+- Si les ATB de la party sont déjà pleines pendant un test d’escape, comparer
+  les 11 slots afin que l’ATB ennemie cachée fournisse un témoin dynamique.
+- Une capture mêlant plusieurs causes n’est pas promotionnelle : par exemple,
+  escape plus action lock doit être rejouée en état idle pour isoler escape.
+
+Un signal utilisateur (« invocation lancée », « pause retirée », « fuite
+commencée ») sert à coordonner le scénario, jamais à décider le verdict.
 
 ## Autorité des preuves
 
@@ -89,9 +118,30 @@ handback Director, phase/latches, trace exacte et témoin RNG. Une campagne
 positive doit capturer le handback après le dernier tick replacement ; une
 faute G05 post-engagement est nécessairement une preuve négative.
 
+Pour P0.8, distinguer les handbacks ATB et frame, enregistrer les hashes ATB et
+timers GF avant/après, puis valider chaque enveloppe contre son schéma JSON.
+Le handback natif unique est une concession de preuve P0 ; il devient interdit
+dès qu’un profil revendique la frontière battle-owned correspondante.
+
+## Fin de campagne
+
+Après les scénarios, revenir hors combat, attendre l’état runtime `Ready`,
+appeler explicitement `FF8Iso_Shutdown`, puis vérifier :
+
+- préimage `FFBattleModule` restaurée byte-for-byte ;
+- aucun seam restant ;
+- processus FF8 toujours vivant ;
+- enveloppes JSON conformes au schéma ;
+- régression offline cumulative toujours verte.
+
+Ne jamais reconstruire par-dessus un DLL encore chargé. Si `LNK1168` survient,
+fermer FF8, reconstruire et recommencer avec le nouveau hash candidat.
+
 ## Related
 
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]]
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]]
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
