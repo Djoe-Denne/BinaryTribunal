@@ -7,6 +7,7 @@ sources:
   - agent:cursor-session P0.6 implementation and live-validation session (2026-07-22)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_live_canaries.py
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
 summary: Règles transversales pour tout batch FF8 live : build Win32, ABI sous IDA, détachement, injection sûre, hashes de candidats et verdicts dérivés du runtime.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
@@ -22,7 +23,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-07-22T18:35:00+02:00
+updated: 2026-07-23T11:25:00+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -30,7 +31,9 @@ updated: 2026-07-22T18:35:00+02:00
 Cette procédure s’applique à **tout** batch qui touche un processus
 `FF8_EN.exe` live : P0.7, G06 et les groupes futurs. Les détails historiques
 P0.6 sont dans
-[[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]].
+[[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]];
+la matrice G05 v2 est dans
+[[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
 
 ## Baseline Windows
 
@@ -81,8 +84,14 @@ Le verdict provient du runtime, pas d’un texte demandé au collecteur :
 Une assertion utilisateur `pass` est invalide si l’export runtime démontre
 `Faulted`, une écriture interdite ou un appel interdit.
 
+Pour P0.7, l’export doit aussi identifier le protocole/scénario, le budget et
+handback Director, phase/latches, trace exacte et témoin RNG. Une campagne
+positive doit capturer le handback après le dernier tick replacement ; une
+faute G05 post-engagement est nécessairement une preuve négative.
+
 ## Related
 
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]]
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]]
+- [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]]

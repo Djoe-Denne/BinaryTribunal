@@ -10,7 +10,7 @@ provenance:
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-22T18:35:00+02:00
+updated: 2026-07-23T11:25:00+02:00
 ---
 
 # RE FF8
@@ -24,11 +24,12 @@ The wiki separates two layers:
 
 ## Implementation Projects
 
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. Constrained P0, strict G03, Init/Exit ABI and one no-write G05 tick passed live. G06, all battle writes, BattleUI ownership and P1 remain open.
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. Strict G03, Init/Exit ABI, the historical G05 one-tick probe and the P0.7 G05 scenario matrix passed live. G06, all battle writes, BattleUI ownership and P1 remain open.
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]] — Offline P0.6 runtime/evidence implementation and the remaining live-proof gates.
+- [[projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation]] — P0.7 G05 scenario protocol, fixtures, evidence-v2 collector and final-hash live closure.
 
 ## Documentation
 

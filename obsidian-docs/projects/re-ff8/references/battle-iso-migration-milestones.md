@@ -17,13 +17,14 @@ sources:
   - ff8re/README.md
   - C:/Users/djden/source/repos/FFScriptLoader/injector/src/injector.cpp
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
-summary: Dependency-ordered battle replacement roadmap with 32 gated groups, 240 units, and an explicit 2026-07-18 checkpoint at the constrained G04/P0 foundation.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
+summary: Dependency-ordered battle replacement roadmap with 32 gated groups, 240 units, a closed P0 no-write G05 gate, and later groups still fail-closed.
 provenance:
   extracted: 0.54
   inferred: 0.43
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-07-22T15:20:00+02:00
+updated: 2026-07-23T12:10:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -304,7 +305,14 @@ the frame preimage exactly. This is not G05 domain ownership.
 
 **Depends on:** G04.
 
-**Status 2026-07-22:** deterministic core and offline fixtures are implemented for the documented integer helpers, battle RNG, phases, latches, logical frame and active-tick shell. P0.6 live-validated one versioned one-tick v1 no-write probe behind the proven Director gateway, with equal observed-memory hashes, evidence export and fail-stop after probe ownership. The full G05 gate remains open: the interior entry is `blocked-evidence`, and all host writes remain denied.
+**Status 2026-07-23:** deterministic core and offline fixtures are implemented
+for the documented integer helpers, battle RNG, phases, latches, logical frame
+and active-tick shell. P0.6 live-validated the historical one-tick no-write
+probe. P0.7 now passes offline with a v2 Director scenario protocol covering
+the complete fixture matrix, bounded handback, runtime-derived verdict and
+post-engagement fault. The final-hash **live** matrix now passes, closing the
+P0 no-write G05 gate. The interior entry remains `blocked-evidence`, and all
+host writes remain denied.
 
 **Units**
 
@@ -328,6 +336,12 @@ the frame preimage exactly. This is not G05 domain ownership.
 > first 13-step live trace correctly failed closed, then the corrected
 > 13/14-step deterministic acceptance passed. A fault after engagement is
 > fail-stop, never native fallback.
+
+> [!note] P0.7 strict closure candidate
+> The successor protocol uses pointer-free `BattleSession` / `BattleState`
+> overlays for 13/14-step, pause, latch, RNG, end-check and multi-tick cases;
+> it neither discovers native globals nor writes FF8. The hash-bound live
+> scenario artifacts and controlled fault are captured.
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G05 -Profile P0` with a fixed CRT seed and scripted active, paused, action-latched, and result-latched frames. It passes when tick order, phase transitions, integer results, RNG bytes/cursors, and latch transitions match fixtures while all unowned native ranges remain unchanged.
 

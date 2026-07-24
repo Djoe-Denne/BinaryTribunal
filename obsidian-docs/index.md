@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-07-22T18:35:00+02:00*
+*This index is automatically maintained. Last updated: 2026-07-23T11:25:00+02:00*
 
 ## Concepts
 
@@ -45,6 +45,7 @@ title: Wiki Index
 - [[projects/binary-tribunal/skills/running-binary-tribunal-hypotheses]] — Skill for running Binary Tribunal hypothesis files, directories, and suites while collecting deterministic evidence. ( #reverse-engineering #testing #skill)
 - [[projects/ffscriptloader/skills/hardening-x86-dll-injection]] — Procedure for target validation, typed remote bootstrap, idempotent module reuse, and quiescent detour rollback. ( #reverse-engineering #testing #skill)
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]] — P0.6 operating procedure for PowerShell/CMake, IDA MCP breakpoints, live evidence, candidate hashes and fail-stop recovery. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]] — Hash-bound P0.7 G05 scenario matrix for no-write Director fixtures, explicit handback and post-engagement fail-stop. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 
 ## References
 
@@ -63,6 +64,7 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Successful no-debugger G00–G04 run, exact hook rollback, process survival, and remaining strict gate debt. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — P0.5 model evidence plus fresh-process Director pass-through validation; BattleUI and domain ownership remain fail-closed. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]] — P0.6 live proof of strict G03, Init/Exit ABI and one no-write G05 tick; G06 and P1 remain blocked. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation]] — P0.7 G05 scenario protocol, fixtures, evidence-v2 and runtime-derived negative verdicts, closed live on the final hash. ( #ff8 #battle-system #testing #reference)
 
 ## Synthesis
 
@@ -73,4 +75,4 @@ title: Wiki Index
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle reimplementation at the constrained G04/P0 checkpoint. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle reimplementation with P0.7 G05 live scenario closure on the final hash. ( #ff8 #battle-system #reverse-engineering #project)

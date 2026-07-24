@@ -11,17 +11,18 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/director-gateway-validation-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 battle migration with live strict G03, Init/Exit ABI and
-  one no-write G05 tick validation; gameplay ownership remains disabled beyond
-  that laboratory probe.
+  In-process x86 battle migration with live strict G03, Init/Exit ABI and a
+  historical G05 one-tick probe; P0.7 G05 scenario closure is live-validated
+  on its final hash, while G06 and P1 remain locked.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-07-22T18:25:00+02:00
+updated: 2026-07-23T12:10:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -59,6 +60,14 @@ Completed foundations include:
 > locked. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation]].
 
+> [!success] P0.7 G05 strict live closure
+> The v2 scenario protocol, pointer-free fixture overlays, multi-tick
+> handback, post-engagement fault and runtime-derived verdict collector pass
+> on final hash `8dfefeb99b2427b59b90cc594233d8ff1b325c34600057ffd335e2b6c3379178`.
+> The positive matrix and negative fault are captured; G06/P1 remain locked. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation]]
+> and [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
+
 P1 AttackSlice remains locked until G05–G09 pass with their required in-process evidence.
 
 ## Operational snapshot — read this first
@@ -75,8 +84,8 @@ The project currently has three distinct levels. They must not be conflated:
    use their outputs yet.
 3. **Gameplay ownership — deliberately disabled.** BattleUI still polls input
    and advances native ATB. The Director owns native battle logic except for
-   the explicit, live-validated G05 one-tick v1 laboratory probe. G06 still
-   returns `BAD_REQUEST`; no FF8 battle write is enabled.
+   the historical live one-tick probe and the sealed P0.7 laboratory
+   scenarios. G06 still returns `BAD_REQUEST`; no FF8 battle write is enabled.
 
 The practical mental model is: the project can currently **look through the
 windows of the train safely**, and has a simulator of the next systems to
@@ -120,9 +129,9 @@ Only `runtime-x86/` may touch raw FF8 process memory. The canonical state never 
 ## Operational playbook
 
 [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]]
-captures the reusable P0.6 workflow: PowerShell/preset pitfalls, IDA MCP
-breakpoints, return-stack normalization, candidate DLL hashes, evidence
-collection and fail-stop handling.
+captures the historical P0.6 workflow. P0.7 scenario selection, trace/RNG
+witnesses, handback and controlled-fault collection are specified in
+[[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
 
 ## Validated live boundary
 

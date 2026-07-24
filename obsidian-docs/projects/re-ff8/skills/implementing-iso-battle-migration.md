@@ -26,13 +26,14 @@ sources:
   - C:/Users/djden/source/repos/FFScriptLoader/core_hook/src/hook/hook_manager.cpp
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/README.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
 summary: Full design and current execution status for replacing FF8 PC battle code in-process, with gated profiles and a validated constrained P0 harness.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-07-22T18:35:00+02:00
+updated: 2026-07-23T12:10:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -43,12 +44,16 @@ updated: 2026-07-22T18:35:00+02:00
 > [!warning] No whole-executable oracle
 > This guide does **not** prescribe a frame-by-frame native oracle or lockstep execution for now. Reverse engineering is driven by IDA static analysis, focused live probes, executable `ff8re` hypotheses, data corpus analysis, and deterministic tests for the new code. This makes `FullISO` an engineering target backed by accumulated proof, not a mathematical certification until a differential oracle is later added.
 
-## Current migration status — 2026-07-22
+## Current migration status — 2026-07-23
 
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
 
-**Migration position:** implementation has reached the G04/P0 foundation checkpoint, strict G03 live proof and one live no-write G05 tick. P1 is **not** unlocked; the next domain work remains G05 completion, followed by G06–G09 for the Attack slice.
+**Migration position:** implementation has reached the G04/P0 foundation
+checkpoint, strict G03 live proof and a historical one-tick G05 probe. P0.7
+implements and live-validates the complete no-write G05 Director scenario
+protocol on its final hash. P1 is **not** unlocked; G06–G09 remain subsequent
+work.
 
 The strict original roadmap still carries explicit G03/G04 debt:
 
@@ -87,6 +92,10 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   or installed.
 - G05 is live-promoted only as an explicit `one-tick v1` no-write probe.
   Ordinary requests remain fail-closed; it does not complete G05 or unlock P1.
+- P0.7 adds a v2 scenario wire contract, pointer-free fixtures, exact
+  trace/latch/RNG evidence, bounded multi-tick handback and a post-engagement
+  fault. The final DLL hash completes the live matrix; this does not unlock
+  G06 or P1.
 - G06 ownership is disabled: BattleUI still owns live input/ATB/pending, and
   the GF/escape model has no live host write boundary.
 - G07–G09 and G23 remain outside the implemented ownership boundary.
@@ -365,8 +374,10 @@ the next ownership boundary:
 
 The reusable procedure for every future live batch lives in
 [[projects/re-ff8/skills/ff8-live-validation-operations]]. Concrete P0.6
-examples and its candidate-specific evidence remain in
+examples and their candidate-specific evidence remain in
 [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]].
+The P0.7 strict G05 matrix lives in
+[[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]].
 
 ### 8.2 What the full frame actually owns
 
