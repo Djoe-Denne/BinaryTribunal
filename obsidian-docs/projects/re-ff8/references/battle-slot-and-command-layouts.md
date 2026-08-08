@@ -18,13 +18,14 @@ sources:
   - obsidian-docs/_staging/investigations/timed_status_expiry_2026-06-09.md
   - obsidian-docs/_staging/investigations/2026-06-09_prompt20_bulk_kernel_gf_id_confirmation.md
   - obsidian-docs/_staging/investigations/gf_charge_absorption.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/draw-command-id.md
 summary: Compact layout and ID reference for slots, timers, target masks, pending triplets, exec queue cells, status bits, command IDs, and GF kernel metadata.
 provenance:
   extracted: 0.88
   inferred: 0.07
   ambiguous: 0.05
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-09T19:00:00+02:00
+updated: 2026-08-08T16:40:00+02:00
 ---
 
 # Battle Slot And Command Layouts
@@ -182,7 +183,8 @@ Useful composite masks:
 - `0x02` — Magic
 - `0x03` — GF
 - `0x04` — Item
-- `0x06` — Draw
+- `0x06` — Draw candidate; conflicts with an older `0x04` fixture and remains
+  blocked until a live pending-write capture resolves the byte. ^[ambiguous]
 
 Resolver-time `COMMAND_TYPE_ID` values differ from pending `command_id`; GF resolve uses `0xFE`. Initial [[projects/re-ff8/concepts/limit-break-architecture]] selections still enter the ordinary pending-action path before later follow-up families diverge.
 

@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-07-24T23:20:43+02:00*
+*This index is automatically maintained. Last updated: 2026-08-08T16:40:00+02:00*
 
 ## Concepts
 
@@ -13,11 +13,11 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
 - [[projects/re-ff8/concepts/command-action-pipeline]] — Input and AI actions through pending action entries, exec queues, arbitration, and resolution. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application, status gates, commit, and presentation event output. ( #ff8 #battle-system #runtime-memory #concept)
-- [[projects/re-ff8/concepts/atb-and-command-menu]] — Four-pulse ATB/GF cadence, pause/action freeze gates, readiness split, and escape co-tick semantics. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded `target_mask` flags, eligibility layers, and shared target fan-out across player, AI, GF, and limit actions. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/elemental-resolution]] — `HIT_ELEMENT`, `HIT_ELEMENT_PERCENT`, and `elem_def[8]` rules for weakness, resistance, null, and absorb. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/timed-status-expiry]] — Timed `status_2` bank, seeding rules, decrement logic, and special expiry branches such as Doom and Gradual Petrify. ( #ff8 #battle-system #runtime-memory #concept)
-- [[projects/re-ff8/concepts/escape-mechanics]] — Held-input flee state, shared RNG cadence, live proof that escape does not freeze hidden enemy ATB, and exit handoff. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/escape-mechanics]] — Escape shares ATB/RNG cadence; P0.9 types held, blocked, roll and deferred requests, refusing unknown normal-encounter probabilities. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/limit-break-architecture]] — Crisis-level gate, ordinary pending entry path, and per-character limit-family divergence. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
@@ -49,7 +49,7 @@ title: Wiki Index
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational roadmap with G05 closed and P0.8 G06 cadence, bounded ATB pilot and semantic matrix complete; full G06 remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap with G05 and G06 closed; P0.9 v3 proves exclusive BattleUI ownership while native presentation remains NCOMP. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis updated with live ATB/GF cadence, action/pause freeze separation and escape progression semantics. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
@@ -69,6 +69,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]] — Four-pulse BattleUI/ATB cadence and pause baseline later extended by the P0.8-C pilot and P0.8-D matrix. ( #ff8 #battle-system #testing #atb #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]] — Bounded four-pulse ATB takeover with guarded cur_atb/UI-mirror writes; input, GF, escape and readiness remain native. ( #ff8 #battle-system #testing #atb #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]] — Automated five-gate matrix for ready, action freeze, pause, GF charge and escape semantics with no FF8 writes. ( #ff8 #battle-system #testing #atb #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] — P0.9 v3 closes G06 with exclusive BattleUI ownership, stable native NCOMP rendering, exact GF/ready/escape fixtures, and byte-exact rollback. ( #ff8 #battle-system #testing #atb #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical map from immutable runtime evidence to the compiled G00–G06 validation pages, including promoted PASS and retained negative findings. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
@@ -79,4 +81,4 @@ title: Wiki Index
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process FF8 battle migration with G05 closed and bounded P0.8 G06 ATB pilot plus semantic-matrix evidence. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process x86 FF8 battle migration with G05 and G06 closed; P0.9 v3 proves exclusive BattleUI ownership while native presentation remains NCOMP. ( #ff8 #battle-system #reverse-engineering #project)

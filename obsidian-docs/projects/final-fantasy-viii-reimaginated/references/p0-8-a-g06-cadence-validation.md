@@ -5,6 +5,7 @@ category: references
 tags: [ff8, battle-system, testing, reference, atb]
 aliases: [P0.8-A G06 cadence, G06 BattleUI cadence validation]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-watch-runtime.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-pause-watch-runtime.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-watch-runtime.json
@@ -25,7 +26,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-07-24T19:45:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-08T16:40:00+02:00
 ---
 
 # P0.8-A G06 Read-Only BattleUI Cadence Validation — 2026-07-24

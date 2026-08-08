@@ -13,6 +13,7 @@ sources:
   - obsidian-docs/_staging/investigations/targeting_system_2026-06-09.md
   - obsidian-docs/_staging/investigations/limit_breaks.md
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/draw-command-id.md
   - IDA static decompile 2026-06-14 (EnemyAI_DispatchSection, Battle_EnqueueSpecialAction, EnemyAI_PrepareTurnAction)
 summary: Player, AI, GF, Draw, Item, and Limit actions flow through slot-local pending triplets, grouped exec cells, arbitration, and shared target or damage resolution.
 provenance:
@@ -20,7 +21,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-14T12:00:00+02:00
+updated: 2026-08-08T16:40:00+02:00
 ---
 
 # Command Action Pipeline
@@ -67,13 +68,15 @@ See [[projects/re-ff8/concepts/targeting-system]] for the control-flag table and
 
 ## Command IDs And Resolver Types
 
-The corrected base command IDs are:
+The currently mapped base command IDs are:
 
 - `0x01` Attack
 - `0x02` Magic
 - `0x03` GF
 - `0x04` Item
-- `0x06` Draw
+- `0x06` Draw candidate; an older `0x04` fixture conflicts with this value, so
+  it must not become a generated enum before a live `BattlePendingAction_Write`
+  capture. ^[ambiguous]
 
 Draw keeps extra meaning in its auxiliary bytes:
 
@@ -96,7 +99,7 @@ Direct special or script work can reuse exec storage with `command_id = 0xFF`, i
 
 `BattlePendingAction_TransferToExecQueue` (`0x4847F0`) routes each pending record to a group by its `COMMAND_TYPE_ID`:
 
-- **Group 2** — default / direct actions: Attack, Magic (`0x02`), Item (`0x04`), Draw (`0x0D`), and the `default` fall-through.
+- **Group 2** — default / direct actions: Attack, Magic (`0x02`), Item (`0x04`), resolver-time Draw (`0x0D`), and the `default` fall-through. This discriminator is not proof of the pending menu `command_id`. ^[ambiguous]
 - **Group 1** — cinematic / special families: GF (`0xFE`), Selphie Slot (`0x10`), and the command-ability cluster (`0x05`, `0x0B`, `0x0E`, `0x0F`, `0x11`–`0x16`).
 - **Group 0** — *never filled by transfer*. It is written **only** by `Battle_EnqueueSpecialAction` (`0x484720`) for engine-injected GF/scripted specials (Odin Zantetsuken, Gilgamesh, Phoenix). Counters/death reactions do **not** go here (see *Forced Actions And Reactions* below).
 

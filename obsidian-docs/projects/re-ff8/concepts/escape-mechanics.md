@@ -8,13 +8,14 @@ sources:
   - docs/tech/systems/battle_init.md
   - docs/product/battle.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Escape is a held-input state machine sharing the ATB pulse and battle RNG; holding escape does not itself freeze party or enemy ATB.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+summary: Escape shares ATB/RNG cadence; P0.9 types held, blocked, roll and deferred requests, refusing unknown normal-encounter probabilities.
 provenance:
   extracted: 0.82
   inferred: 0.11
   ambiguous: 0.07
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-07-31T15:30:00+02:00
 ---
 
 # Escape Mechanics
@@ -73,6 +74,23 @@ This means a battle can become escapable or non-escapable after the initial hand
 
 The roll only fires when at least one party slot is status-eligible. This closes the earlier open item about which enemy metadata bits select the normal-battle thresholds; the residual is only the physical-record meaning of the `+254` enemy bits.
 
+### P0.9 typed request and fail-closed classifier
+
+The replacement core emits a typed `EscapeRequest`: blocked encounters produce
+`Blocked`; verified thresholds produce `Roll(numerator)`; and an unavailable
+probability classifier produces a deferred event without consuming RNG.
+
+The current canonical image exposes `BACK_PREEMPTIVE_INFO`, so values `1..4`
+are directly classifiable. It does not yet carry the normal-encounter enemy
+metadata needed for the default `16/64/128/255` split above. P0.9 therefore
+defers when that byte is `0` rather than inventing a numerator. A 60-pulse live
+ownership run observed one such deferred request and preserved the RNG cursor.
+This is implementation safety, not a correction to the native probability
+table.
+
+See
+[[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]].
+
 ## Success Finalization
 
 `BattleTick_CheckEscapeSuccess` (`0x4862A0`) does not immediately trust `BATTLE_ESCAPE_STATE == 1`. It requires `BATTLE_RESULT_CODE == 0`, no blocking queued action, and ≥1 status-eligible party slot, then:
@@ -117,6 +135,7 @@ The shared cleanup (HP/status persist + item-buffer merge) is byte-for-byte iden
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/references/battle-address-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]]
 
 ## Runtime-Pending
 

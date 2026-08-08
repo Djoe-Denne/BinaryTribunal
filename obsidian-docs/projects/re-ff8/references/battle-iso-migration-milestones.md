@@ -20,7 +20,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Dependency-ordered roadmap with G05 closed and bounded P0.8 G06 cadence, ATB-pilot and semantic-matrix evidence; complete G06 remains open.
+summary: Dependency-ordered roadmap with G05 and G06 closed; P0.9 v3 proves exclusive BattleUI ownership while native presentation remains sealed as NCOMP.
 provenance:
   extracted: 0.58
   inferred: 0.39
@@ -35,7 +35,7 @@ updated: 2026-07-24T23:20:43+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-07-24
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05 with strict live evidence. P0.8 has characterized G06 cadence, validated a bounded ATB-only ownership pilot and closed the five-gate semantic observation matrix. Complete G06/BattleUI ownership is still open, so G07–G31 and P1 remain locked.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05 and G06 with strict live evidence. P0.9 v3 proves exclusive BattleUI ownership, the complete GF/ready/escape fixture matrix, native NCOMP presentation, and byte-exact rollback. G07 is now the next migration gate; G08–G31 and P1 remain dependency-locked behind it.
 
 Status notation in the foundation groups:
 
@@ -351,7 +351,7 @@ host writes remain denied.
 
 **Depends on:** G05.
 
-**Status 2026-07-24:** deterministic scripted-input, ATB, GF-charge,
+**Status 2026-07-31:** deterministic scripted-input, ATB, GF-charge,
 escape and ready-event fixtures pass offline.
 [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation|P0.8-A/B]]
 proved four native HUD/ATB calls per `FFBattleModule` frame and the pause gate.
@@ -360,20 +360,29 @@ suppressed four `BattleATB_TickAndReady` calls in a bounded pilot and wrote
 only guarded `cur_atb` plus UI-mirror pairs.
 [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation|P0.8-D]]
 then passed automated ready-boundary, action-freeze, pause-gate, GF-charge and
-escape-input observations with zero FF8 write. The strict group gate remains
-open: normalized input, pending commands, GF/escape mutation and complete
-BattleUI ownership have not been switched.
+escape-input observations with zero FF8 write.
+[[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation|P0.9 v2]]
+now switches exclusive BattleUI domain ownership at a frame boundary. The final
+candidate completed 240 canonical pulses over 60 frames with 240 ATB ticks,
+typed readiness, unchanged G07 pending state, no native domain fallback and a
+byte-exact rollback. A proven `BattleUI_RenderHud` NCOMP wrapper runs once per
+module frame and repeated visual validation kept the HUD/gauges stable.
+The v3 closure matrix additionally proves GF `6→4`, auto/menu readiness `1/1`,
+blocked escape for 60 frames, one known poll with RNG cursor `4→5`, zero
+forbidden calls/write violations, and exact hook/HUD-phase restoration. **G06
+is closed** on DLL SHA-256
+`66c17d81b406e653444d85b52441ae2d24839805de43339eec3349dded6c5289`.
 
 **Units**
 
-- [ ] **U06.1 `InputFrame`:** normalize scripted or raw-host input with frame timestamps and held/released semantics.
-- [ ] **U06.2 BattleUI ownership switch:** prevent `BattleUI_HudInputAndATBTick` from also writing pending/ATB after this group takes ownership.
-- [ ] **U06.3 ATB initialization:** max ATB and random initial value.
-- [ ] **U06.4 ATB tick:** ascending slot order, Haste/Slow, incapacitation, readiness, and pause gates.
-- [ ] **U06.5 GF charge co-tick:** reproduce summon-charge timer cadence and status interaction.
-- [ ] **U06.6 Escape held latch:** preserve held input and cannot-escape state.
-- [ ] **U06.7 Escape poll:** 60-frame cadence, encounter gates, RNG draw, and typed escape request.
-- [ ] **U06.8 Ready event:** emit an actor-ready event without requiring the native menu.
+- [x] **U06.1 `InputFrame`:** normalize scripted or raw-host input with frame timestamps and held/released semantics.
+- [x] **U06.2 BattleUI ownership switch:** prevent `BattleUI_HudInputAndATBTick` from also writing pending/ATB after this group takes ownership.
+- [x] **U06.3 ATB initialization:** max ATB and random initial value.
+- [x] **U06.4 ATB tick:** ascending slot order, Haste/Slow, incapacitation, readiness, and pause gates.
+- [x] **U06.5 GF charge co-tick:** reproduce summon-charge timer cadence and status interaction.
+- [x] **U06.6 Escape held latch:** preserve held input and cannot-escape state.
+- [x] **U06.7 Escape poll:** 60-frame cadence, encounter gates, RNG draw, and typed escape request.
+- [x] **U06.8 Ready event:** emit an actor-ready event without requiring the native menu.
 
 **Test pack:** normal/Haste/Slow/Stop ATB, pause freeze, summon charge, held escape, blocked escape, and RNG cursor assertions.
 
@@ -381,7 +390,7 @@ BattleUI ownership have not been switched.
 no logical pulse may be advanced by both native and replacement, pending state
 must not be duplicated, and scripted actors must become ready deterministically.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G06 -Profile P0`; the
+**Injected in-game test:** Run `Invoke-IsoGroup -Group G06 -Profile P0.9`; the
 suite temporarily switches BattleUI ownership and feeds normal/Haste/Slow/Stop,
 summon-charge, pause, held-escape, and blocked-escape scripts. It passes when
 each logical pulse advances ATB/pending state exactly once, the four-pulse

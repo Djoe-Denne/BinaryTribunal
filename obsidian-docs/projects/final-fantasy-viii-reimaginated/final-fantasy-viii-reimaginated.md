@@ -15,16 +15,18 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05 closed and P0.8 G06 cadence,
-  bounded ATB ownership and semantic-matrix evidence; complete G06 remains open.
+  In-process x86 FF8 battle migration with G05 and G06 closed; P0.9 v3 proves
+  exclusive BattleUI ownership while retaining native presentation as NCOMP.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-08T16:40:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -35,10 +37,12 @@ Repository: [Djoe-Denne/FinalFantasy_VIII_Reimaginated](https://github.com/Djoe-
 
 ## Current checkpoint
 
-> [!success] P0 foundation and bounded domain increments validated
-> G00–G04 infrastructure and G05 strict closure pass. P0.8 adds a narrow ATB
-> pilot and a read-only semantic matrix; Attack, complete BattleUI/G06, AI,
-> damage, status, presentation, initialization and exit remain unowned.
+> [!success] P0 foundation and G06 ownership closed on P0.9 v3
+> G00–G04 infrastructure and G05 strict closure pass. P0.9 now owns normalized
+> input, ATB, GF co-tick, escape state and typed readiness under a bounded
+> BattleUI switch while retaining only a proven native HUD renderer as NCOMP.
+> The final closure matrix proves GF, readiness, blocked/known escape, exact RNG
+> movement, no forbidden fallback, and byte-exact shutdown restoration.
 
 Completed foundations include:
 
@@ -92,6 +96,16 @@ Completed foundations include:
 > one audited native handback. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
 
+> [!success] P0.9 G06 exclusive ownership and NCOMP
+> Final candidate `20624485…a7648cf4` completed 240 neutral pulses over 60
+> frames with 240 ATB ticks, one typed menu-ready event, 60 native presentation
+> calls, unchanged G07 pending state, zero fallback/violation and exact
+> rollback. A protocol-v1 visual failure exposed that suppressing the full HUD
+> callback also removed rendering; protocol v2 retains only the proven
+> `BattleUI_RenderHud` NCOMP wrapper, and two visual observations confirmed
+> stable HUD/gauges. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]].
+
 P1 AttackSlice remains locked until complete G06 and G07–G09 pass their
 required in-process evidence.
 
@@ -103,21 +117,21 @@ The project currently has four distinct levels. They must not be conflated:
    battle, the module-switch hook can observe callback installation, and the
    Director gateway can preserve its register image, call native FF8 logic,
    then return. These hooks are observation doors, not gameplay replacements.
-2. **Deterministic battle model — offline validated.** The DLL owns C++ models
+2. **Deterministic G06 model — offline validated.** The DLL owns C++ models
    for RNG, phases, latches, `InputFrame`, ATB, GF charge, escape polling and
-   ready events. Ordinary FF8 execution does not use their outputs; the
-   P0.8-C laboratory pilot is the sole bounded ATB exception.
-3. **Bounded ATB ownership pilot — live validated.** P0.8-C can replace four
-   ATB pulses under strict preflight and a tiny allowlist. It is an explicit
-   laboratory mode, not the ordinary runtime boundary.
-4. **Complete gameplay ownership — deliberately disabled.** Native BattleUI
-   still owns input, pending commands, GF charge, escape and readiness. P0.8-D
-   observes those gates but does not write them; native Director ownership also
-   remains outside sealed G05 scenarios.
+   typed ready events.
+3. **Exclusive P0.9 G06 ownership — live validated for neutral/NCOMP.** A
+   bounded BattleUI switch executes exactly four canonical pulses per module
+   frame, suppresses native domain logic, exports an explicit allowlist, and
+   retains the native renderer once per frame.
+4. **Complete G06 promotion — still gated.** The final hash needs ownership
+   witnesses for nonzero GF charge, typed auto-readiness, blocked escape and a
+   verified escape RNG draw. G07 pending commands, AI, damage/status and action
+   resolution remain deliberately unowned.
 
-The practical mental model is: the project can observe the train safely and
-has briefly taken one guarded ATB lever, but it has not taken the BattleUI or
-battle-loop controls.
+The practical mental model is: the project now takes the G06 BattleUI/ATB
+control surface without native domain fallback, but keeps G07 pending/action
+logic and the HUD renderer on explicitly separate sides of the boundary.
 
 ## How live tests work
 
@@ -182,11 +196,10 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Replace normalized native input, pending-command writes, GF charge, escape
-  and ready routing before claiming complete G06/BattleUI ownership. P0.8-C
-  owns only ATB plus its UI mirror; P0.8-D supplies gate semantics, not writes.
-- Remove the temporary native handbacks from any future profile that claims the
-  corresponding battle-owned boundary.
+- Begin G07 from the now-closed G06 boundary without claiming ownership of
+  command queues, pending transfer, action arbitration, or resolution early.
+- Keep `BattleUI_RenderHud` as the sole proven G06 native presentation
+  compatibility call; native HUD domain logic and ATB handback remain forbidden.
 - Arbitrate the Draw `command_id` discrepancy (`0x06` in the current map versus `0x04` in old fixtures) before generating an enum.
 - Consolidate the current payload/injector/canary sequence into the roadmap’s manifest/suite-aware one-command runner.
 
@@ -194,9 +207,9 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 
 ## Related
 
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/re-ff8/re-ff8]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
 - [[projects/ffscriptloader/skills/hardening-x86-dll-injection]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]]
-

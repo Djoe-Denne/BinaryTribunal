@@ -15,13 +15,14 @@ sources:
   - IDA static decompile 2026-06-14 (BattleATB_TickAndReady 0x4842B0, BattleUI_HudInputAndATBTick 0x4A84E0)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: ATB and GF charge share four HUD pulses per battle frame; pause and action execution freeze them, while escape input does not.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+summary: ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame.
 provenance:
   extracted: 0.91
   inferred: 0.06
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-07-31T15:30:00+02:00
 ---
 
 # ATB And Command Menu
@@ -63,6 +64,31 @@ During the promoted escape capture, party gauges were already full but the
 single enemy had just acted. The 11-slot hash changed, directly exposing hidden
 enemy ATB progression while escape was held. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
+
+## P0.9 Replacement Ownership (2026-07-31)
+
+P0.9 protocol v2 replaces the normalized input, ATB/GF co-tick, escape latch
+and typed readiness portion of `BattleUI_HudInputAndATBTick` without invoking
+the native domain callback or `BattleATB_TickAndReady`. Activation is queued
+from the remote control thread and occurs only after a fresh import at a
+complete `FFBattleModule` frame boundary.
+
+The final neutral ownership witness preserved the native four-pulse cadence:
+
+- `240/240` canonical HUD pulses over `60` module frames;
+- `240` admitted ATB ticks and one typed menu-ready event;
+- no native ATB hook attempt or HUD/ATB fallback;
+- unchanged G07 pending hash and zero write-guard/forbidden-call count.
+
+Suppressing the full native HUD callback initially made the HUD and gauges
+disappear for the entire ownership window. IDA localized rendering to its sole
+no-argument call at `0x4A8830` into `BattleUI_RenderHud` (`0x4A8870`).
+Protocol v2 invokes only that proven NCOMP renderer when the native menu-render
+gate is enabled. It produced exactly one presentation call per module frame
+(`60/60`), and repeated visual validation confirmed stable HUD/gauges.
+
+See
+[[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]].
 
 ## ATB Tick
 
@@ -138,3 +164,4 @@ Escape lives beside the HUD and ATB path, not inside the normal command queue. T
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]]

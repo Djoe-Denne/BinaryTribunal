@@ -13,6 +13,8 @@ relationships:
     type: related_to
   - target: "[[projects/re-ff8/skills/ff8-live-validation-operations]]"
     type: uses
+  - target: "[[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]]"
+    type: extended_by
 sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-d-g06-v2-ready-boundary.json
@@ -35,7 +37,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-24"
 tier: supporting
 created: 2026-07-24T23:20:43+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-07-31T15:30:00+02:00
 ---
 
 # P0.8-D G06 ATB Semantic Matrix Validation — 2026-07-24
@@ -115,3 +117,4 @@ fallback.
 - [[projects/re-ff8/concepts/atb-and-command-menu]]
 - [[projects/re-ff8/concepts/escape-mechanics]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]]
