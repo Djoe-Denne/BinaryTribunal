@@ -17,16 +17,18 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05 and G06 closed; P0.9 v3 proves
-  exclusive BattleUI ownership while retaining native presentation as NCOMP.
+  In-process x86 FF8 battle migration with G05–G07 closed; command ownership
+  preserves the audited native HUD, callback and BdLink presentation tail.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-08T16:40:00+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -37,12 +39,11 @@ Repository: [Djoe-Denne/FinalFantasy_VIII_Reimaginated](https://github.com/Djoe-
 
 ## Current checkpoint
 
-> [!success] P0 foundation and G06 ownership closed on P0.9 v3
-> G00–G04 infrastructure and G05 strict closure pass. P0.9 now owns normalized
-> input, ATB, GF co-tick, escape state and typed readiness under a bounded
-> BattleUI switch while retaining only a proven native HUD renderer as NCOMP.
-> The final closure matrix proves GF, readiness, blocked/known escape, exact RNG
-> movement, no forbidden fallback, and byte-exact shutdown restoration.
+> [!success] G05–G07 deterministic domain foundation closed
+> P0.9 v3 owns normalized input, ATB, GF co-tick, escape and readiness. G07
+> protocol v2 now owns pending triplets, grouped exec queues, arbitration and
+> one current-action latch lifecycle while retaining the audited native HUD,
+> file-callback and BdLink presentation tail. Both gates restore exactly.
 
 Completed foundations include:
 
@@ -106,7 +107,16 @@ Completed foundations include:
 > stable HUD/gauges. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]].
 
-P1 AttackSlice remains locked until complete G06 and G07–G09 pass their
+> [!success] G07 command-spine closure
+> Final candidate `868d74e…0fe64a` completed four replacement Director ticks,
+> sixteen G06 pulses and one exact current-action latch lifecycle with zero
+> native command writers, fallback, write violations or out-of-scope calls.
+> Protocol v2 corrected a visual blackout by retaining one native file-callback
+> pump and BdLink presentation pass per tick; the user confirmed continuous HUD
+> and 3D visibility. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]].
+
+P1 AttackSlice remains locked until G08 and G09 pass their
 required in-process evidence.
 
 ## Operational snapshot — read this first
@@ -120,18 +130,18 @@ The project currently has four distinct levels. They must not be conflated:
 2. **Deterministic G06 model — offline validated.** The DLL owns C++ models
    for RNG, phases, latches, `InputFrame`, ATB, GF charge, escape polling and
    typed ready events.
-3. **Exclusive P0.9 G06 ownership — live validated for neutral/NCOMP.** A
-   bounded BattleUI switch executes exactly four canonical pulses per module
-   frame, suppresses native domain logic, exports an explicit allowlist, and
-   retains the native renderer once per frame.
-4. **Complete G06 promotion — still gated.** The final hash needs ownership
-   witnesses for nonzero GF charge, typed auto-readiness, blocked escape and a
-   verified escape RNG draw. G07 pending commands, AI, damage/status and action
-   resolution remain deliberately unowned.
+3. **Complete P0.9 G06 ownership — live validated.** A bounded BattleUI switch
+   executes four canonical pulses per module frame and closes GF charge,
+   readiness, escape and RNG fixtures while retaining one native HUD render.
+4. **G07 command-spine ownership — live validated.** A bounded Director switch
+   owns pending, exec queues, arbitration and the action latch. The native
+   file-callback/BdLink presentation tail remains NCOMP and is checked against
+   the exact command-owned mirror after every tick.
 
-The practical mental model is: the project now takes the G06 BattleUI/ATB
-control surface without native domain fallback, but keeps G07 pending/action
-logic and the HUD renderer on explicitly separate sides of the boundary.
+The practical mental model is: G06 owns readiness cadence and G07 owns command
+selection. Target fan-out and Attack resolution remain separate future G08/G09
+boundaries, while native presentation stays a narrowly audited compatibility
+unit.
 
 ## How live tests work
 
@@ -180,8 +190,8 @@ The reusable watch, frame-gate, bootstrap and shutdown lessons from P0.8 are in
 ## Validated live boundary
 
 The default P0 bootstrap installs only a pass-through `FFBattleModule` frame
-seam. UI/Switch, the active-only Director gateway, G05 scenarios, the G06
-observer and the P0.8-C pilot are opt-in development modes. The Director
+seam. UI/Switch, the active-only Director gateway, G05 scenarios, G06
+ownership and G07 protocol v2 are opt-in development modes. The Director
 gateway preserves and forwards its ambient register context. G05 no-write
 scenarios and the bounded ATB pilot are laboratory exceptions; neither expands
 the default P0 ownership claim.
@@ -196,10 +206,11 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Begin G07 from the now-closed G06 boundary without claiming ownership of
-  command queues, pending transfer, action arbitration, or resolution early.
-- Keep `BattleUI_RenderHud` as the sole proven G06 native presentation
-  compatibility call; native HUD domain logic and ATB handback remain forbidden.
+- Implement G08 targeting without entering G09 resolution, damage/status or AI;
+  the G07 evidence counters keep those boundaries at zero.
+- Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
+  the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
+  domain logic, ATB handback and native command writers remain forbidden.
 - Arbitrate the Draw `command_id` discrepancy (`0x06` in the current map versus `0x04` in old fixtures) before generating an enum.
 - Consolidate the current payload/injector/canary sequence into the roadmap’s manifest/suite-aware one-command runner.
 

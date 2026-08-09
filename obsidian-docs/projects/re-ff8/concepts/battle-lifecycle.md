@@ -19,13 +19,14 @@ sources:
   - IDA static + live debugger 2026-06-15 (root state machine, frame pump FFBattleModule, BYTE1 serialization latch, commit-at-selection; combat-paused live reads)
   - IDA static + live debugger 2026-07-12 (module callback ownership, corrected four-level active guard, idle callback-table baseline)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Battle lifecycle from module state machine through scene loading, active tick, end checks, hook boundary, cleanup, and reward transition.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+summary: Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Battle Lifecycle
@@ -197,6 +198,15 @@ The 2026-07-12 callback/BdLink matrix separates those authoritative duties from 
 - HUD/input/ATB and the director's action/deferred callback chains remain authoritative.
 
 The file callback pump and BdLink may therefore be replaced together with the native presentation layer; they must remain only while native asset/effect tasks are still partially owned.
+
+G07 provides the first live ownership proof of that split. Four replacement
+Director ticks suppressed native pending/exec/arbitration/current-action logic
+but called `Battle_RunFileLoadingCallbacks` and the BdLink bridge exactly once
+per tick. A first candidate that skipped both produced a complete HUD-and-3D
+blackout despite correct command counters. Protocol v2 retained both calls,
+rechecked the exact command-owned byte ranges after each tail, and kept HUD/3D
+visible. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]].
 
 The Wicked migration keeps this lifecycle native during rendering phases. Ownership changes are battle-generation scoped, start only after the ready transition tail, and return to native before cleanup/rewards. See [[projects/re-ff8/concepts/external-battle-renderer-architecture]] and [[projects/re-ff8/references/wicked-ff8-migration-phases]].
 

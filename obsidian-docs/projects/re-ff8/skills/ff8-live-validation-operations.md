@@ -10,6 +10,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa.jsonl
 summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
 relationships:
@@ -26,7 +27,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -123,10 +124,21 @@ timers GF avant/après, puis valider chaque enveloppe contre son schéma JSON.
 Le handback natif unique est une concession de preuve P0 ; il devient interdit
 dès qu’un profil revendique la frontière battle-owned correspondante.
 
+Pour G07, une preuve machine verte ne suffit pas à valider la présentation
+NCOMP. Le premier run `4 ticks / 16 HUD` a restauré tous les octets mais a
+produit un écran entièrement noir pendant la fenêtre de remplacement. Le
+watch doit donc compter un pump `Battle_RunFileLoadingCallbacks` et un appel
+BdLink par tick, puis attendre l’observation opérateur du HUD et de la 3D avant
+le shutdown final. Une régression visuelle explicite transforme l’enveloppe en
+preuve négative, même si les compteurs mémoire passent.
+
 ## Fin de campagne
 
-Après les scénarios, revenir hors combat, attendre l’état runtime `Ready`,
-appeler explicitement `FF8Iso_Shutdown`, puis vérifier :
+Après les scénarios, attendre le rollback et le désarmement à la frontière de
+frame. Pour un scénario long, revenir hors combat et attendre `Ready`; pour un
+gate borné comme G07, un shutdown en combat est admis seulement après que les
+témoins confirment ownership désarmé et hashes restaurés. Appeler ensuite
+explicitement `FF8Iso_Shutdown`, puis vérifier :
 
 - préimage `FFBattleModule` restaurée byte-for-byte ;
 - aucun seam restant ;
@@ -145,3 +157,4 @@ fermer FF8, reconstruire et recommencer avec le nouveau hash candidat.
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]]

@@ -19,13 +19,14 @@ sources:
   - obsidian-docs/_staging/investigations/2026-06-09_prompt20_bulk_kernel_gf_id_confirmation.md
   - obsidian-docs/_staging/investigations/gf_charge_absorption.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/draw-command-id.md
-summary: Compact layout and ID reference for slots, timers, target masks, pending triplets, exec queue cells, status bits, command IDs, and GF kernel metadata.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+summary: Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure.
 provenance:
   extracted: 0.88
   inferred: 0.07
   ambiguous: 0.05
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-08T16:40:00+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Battle Slot And Command Layouts
@@ -115,6 +116,23 @@ The exec queue is a grouped linked structure, not just the bytes visible at the 
 `BATTLE_EXEC_QUEUE_BYTES` at `0x1D288E8` and `BATTLE_EXEC_QUEUE_TARGET_MASKS` at `0x1D288EE` are only aliases into the first cell of the first group.
 
 Direct special or script records reuse the same storage with `command_id = 0xFF` and interpret the `command_arg` word as a special or script section ID instead of a normal menu command.
+
+### Exact G07 owned footprint
+
+The live G07 bridge imports, owns and restores only:
+
+- links: `0x1D28864`, `0x1D28890`, `0x1D288BC`, `44` bytes each (`132`
+  total);
+- cells: `0x1D288E8`, `0x1D289F0`, `0x1D28AF8`, `264` bytes each (`792`
+  total);
+- newest heads: `0x1D28C00..0x1D28C02`;
+- pending triplets: `0x1D28D44..0x1D28D8B`, `72` bytes;
+- action-in-progress latch: `0x1D28DFD`, one byte.
+
+[[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation|Protocol v2]]
+live-validated exact before/restored hashes for every range. The selected
+`CurrentAction` remains a pointer-free DLL transient: queue consume/unlink
+precedes publication, and the host receives only the proven one-byte latch.
 
 ## Target Mask Control Flags
 

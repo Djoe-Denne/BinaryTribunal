@@ -20,13 +20,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Dependency-ordered roadmap with G05 and G06 closed; P0.9 v3 proves exclusive BattleUI ownership while native presentation remains sealed as NCOMP.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
+summary: Dependency roadmap with G05–G07 closed; command ownership now preserves the audited native presentation tail and unlocks G08 targeting.
 provenance:
   extracted: 0.58
   inferred: 0.39
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -34,8 +36,8 @@ updated: 2026-07-24T23:20:43+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!success] Current implementation checkpoint — 2026-07-24
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05 and G06 with strict live evidence. P0.9 v3 proves exclusive BattleUI ownership, the complete GF/ready/escape fixture matrix, native NCOMP presentation, and byte-exact rollback. G07 is now the next migration gate; G08–G31 and P1 remain dependency-locked behind it.
+> [!success] Current implementation checkpoint — 2026-08-09
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G07 with strict live evidence. G07 protocol v2 owns pending, grouped exec queues, arbitration and one current-action latch while retaining the audited native HUD/file-callback/BdLink presentation tail. G08 is now the next migration gate; G09–G31 and P1 remain dependency-locked.
 
 Status notation in the foundation groups:
 
@@ -402,17 +404,27 @@ subsets, not this final test.
 
 **Depends on:** G06.
 
+**Status 2026-08-09:** closed on
+[[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation|protocol v2 live evidence]].
+Four replacement Director ticks completed sixteen G06 pulses, exact fixture
+mask `0x00003fff`, one current-action latch lifecycle, zero native
+writer/fallback/out-of-scope calls, and byte-exact rollback. The first
+machine-green candidate was rejected because the HUD and 3D blacked out;
+protocol v2 now retains one file-callback pump and one BdLink
+task/camera/upload pass per tick, with exact command-range verification after
+each compatibility call.
+
 **Units**
 
-- [ ] **U07.1 `ActionRequest`:** attacker, command family/argument, target mask, auxiliaries, and source metadata.
-- [ ] **U07.2 Pending triplets:** three 24-byte blocks, 8-byte entries, active lifetime, replacement policy, and exact serialization.
-- [ ] **U07.3 Pending transfer:** clear active once and route records by command family.
-- [ ] **U07.4 Exec pools:** three groups, eleven cells, links, heads, two subrecords, and target masks.
-- [ ] **U07.5 Allocation fallback:** reproduce free-node selection and node-0 saturation behavior.
-- [ ] **U07.6 Group routing:** direct group 2, cinematic/special group 1, engine-forced group 0.
-- [ ] **U07.7 Arbitration:** group priority `0 → 1 → 2`, FIFO, incapacitation skips, and group-0 exemption.
-- [ ] **U07.8 Current action:** consume before resolve and build a pointer-free transient action context.
-- [ ] **U07.9 Action latch:** implement start, hold, completion, and double-arbitration prevention.
+- [x] **U07.1 `ActionRequest`:** attacker, command family/argument, target mask, auxiliaries, and source metadata.
+- [x] **U07.2 Pending triplets:** three 24-byte blocks, 8-byte entries, active lifetime, replacement policy, and exact serialization.
+- [x] **U07.3 Pending transfer:** clear active once and route records by command family.
+- [x] **U07.4 Exec pools:** three groups, eleven cells, links, heads, two subrecords, and target masks.
+- [x] **U07.5 Allocation fallback:** reproduce free-node selection and node-0 saturation behavior.
+- [x] **U07.6 Group routing:** direct group 2, cinematic/special group 1, engine-forced group 0.
+- [x] **U07.7 Arbitration:** group priority `0 → 1 → 2`, FIFO, incapacitation skips, and group-0 exemption.
+- [x] **U07.8 Current action:** consume before resolve and build a pointer-free transient action context.
+- [x] **U07.9 Action latch:** implement start, hold, completion, and double-arbitration prevention.
 
 **Test pack:** pending byte fixtures, queue saturation, routing matrix, FIFO/priority, status skip, forced-action exemption, and repeated transfer.
 

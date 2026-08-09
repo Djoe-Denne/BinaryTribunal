@@ -14,14 +14,16 @@ sources:
   - obsidian-docs/_staging/investigations/limit_breaks.md
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/draw-command-id.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - IDA static decompile 2026-06-14 (EnemyAI_DispatchSection, Battle_EnqueueSpecialAction, EnemyAI_PrepareTurnAction)
-summary: Player, AI, GF, Draw, Item, and Limit actions flow through slot-local pending triplets, grouped exec cells, arbitration, and shared target or damage resolution.
+summary: Actions flow through pending triplets, grouped exec queues, arbitration and one current-action latch; G07 now owns and restores that spine live.
 provenance:
   extracted: 0.89
   inferred: 0.08
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-08T16:40:00+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Command Action Pipeline
@@ -112,6 +114,31 @@ Group bases (44-byte link array + 1 head byte each): g0 `&stru_1D28864`/head `0x
 - The chosen exec cell is consumed and cleared before the later resolver or presentation work runs, so the queue is staging storage rather than a persistent "currently resolving action" record.
 
 See [[_staging/investigations/live_static_closure_2026-06-13]].
+
+## G07 Replacement Closure (2026-08-09)
+
+[[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation|G07 protocol v2]]
+now owns this pipeline for four bounded Director ticks. The live fixture proved:
+
+- dense pending replacement and one-time clear with idempotent repeated transfer;
+- routing into groups `0`, `1` and `2`, eleven-node FIFO links, newest heads,
+  two packed subrecords and node-0 saturation fallback;
+- priority/FIFO arbitration, status skips for groups `1/2`, and the group-0
+  exemption;
+- consume/unlink before one pointer-free current action is published;
+- exactly one latch start, hold and completion with zero double arbitration.
+
+The owned pending, links, heads and cells returned to their imported hashes,
+and the host action latch plus all five hooks were restored exactly. Target
+fan-out, action resolution, damage/status and AI remained out of scope with
+zero G08/G09/G17 calls. The next dependency is
+[[projects/re-ff8/concepts/targeting-system|G08 targeting]].
+
+The native Director body stays suppressed during ownership, but its proven
+presentation-only tail remains active: one battle-file callback pump and one
+BdLink task/camera/upload pass per replacement tick. The complete command-range
+mirror is checked immediately afterward, preventing either compatibility unit
+from becoming a hidden command writer.
 
 ## Forced Actions And Reactions (2026-06-14)
 

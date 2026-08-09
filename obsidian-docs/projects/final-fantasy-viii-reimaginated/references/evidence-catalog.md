@@ -18,6 +18,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/init-exit-abi-capture-2026-07-22.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-5-offline-validation-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
@@ -33,6 +34,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-7-final2-g05-endchecks.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-7-final2-g05-multi.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-cadence-runtime.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-watch-runtime.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-pause-watch-runtime.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-watch-runtime.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-pause-one-frame-runtime.json
@@ -43,7 +45,9 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-d-g06-v2-gf-charge.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-d-g06-v2-escape-input.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-closure-v3-final-live.json
-summary: Canonical map from immutable runtime evidence to the Obsidian validation pages for G00–G06, including promoted PASS envelopes and retained negative findings.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-ncomp-v2-live.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
+summary: Canonical map from immutable runtime evidence to the G00–G07 validation pages, including promoted PASS envelopes and retained negative findings.
 provenance:
   extracted: 0.95
   inferred: 0.03
@@ -52,7 +56,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-08T16:40:00+02:00
+updated: 2026-08-09T13:41:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -72,6 +76,7 @@ updated: 2026-08-08T16:40:00+02:00
 | G06 / P0.8-C | A bounded four-pulse pilot replaced native ATB calls with guarded `cur_atb` and UI-mirror writes, then restored the frame hook exactly. | [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]] |
 | G06 / P0.8-D | The five-scenario observation matrix established ready, action lock, pause, GF charge, and escape semantics without FF8 writes. | [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]] |
 | G06 / P0.9 v3 | Exclusive BattleUI ownership passed 240 pulses over 60 frames with GF `6→4`, ready `1/1`, blocked/known escape, RNG `4→5`, zero forbidden behavior, and byte-exact rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] |
+| G07 / protocol v2 | Four command-spine ticks proved pending/exec/arbitration/latch ownership, retained the callback/BdLink presentation tail, and restored every owned byte and hook preimage. | [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]] |
 
 ## Canonical Machine Evidence
 
@@ -79,6 +84,7 @@ updated: 2026-08-08T16:40:00+02:00
 - G06 cadence uses the promoted P0.8-A/B observation envelopes; the P0.8-C pilot has its own bounded ownership envelope.
 - G06 semantics use the five `p0-8-d-g06-v2-*` envelopes.
 - Final G06 closure is `p0-9-g06-closure-v3-final-live.json`, validated `PASS` on DLL SHA-256 `66c17d81b406e653444d85b52441ae2d24839805de43339eec3349dded6c5289`.
+- Final G07 closure is `p0-g07-command-spine-closure-v2-final-live.json`, validated `PASS` on DLL SHA-256 `868d74e6cf18ddcef26466e183cf329f89051084273012068a6a05e84e0fe64a`.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -86,6 +92,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 
 - Debugger-controlled suspension/resume ended in a WOW64 breakpoint exception after exact hook restoration; acceptance runs therefore use a detached debugger and non-invasive canaries.
 - Controlled G03 fault envelopes intentionally report `FAIL` while proving fail-stop rollback and process survival.
+- The first G07 four-tick candidate had green command counters but blacked out both HUD and 3D because suppressing the native Director also skipped the file-callback/BdLink presentation tail. Protocol v2 retains and audits that tail; the visual failure is diagnostic, not promotion evidence.
 - The Draw pending `command_id` remains unresolved: `0x06` conflicts with an older `0x04` fixture, and the resolver-time `0x0D` discriminator is a different semantic layer. A live `BattlePendingAction_Write` capture is still required. ^[ambiguous]
 
 ## Related
