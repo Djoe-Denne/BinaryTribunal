@@ -8,13 +8,21 @@ sources:
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
   - docs/tech/reference/pending_action.md
   - docs/tech/systems/damage_pipeline.md
-summary: Encoded `target_mask` values carry slot selection and control flags through player, AI, GF, and limit action resolution.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-rng-delta-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-attribution-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-revive-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-cover-redirect-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
+summary: Encoded target masks now feed a live-validated G08 TargetPlan with exact eligibility, ordering, redirect, multi-hit, and RNG behavior.
 provenance:
-  extracted: 0.82
-  inferred: 0.12
-  ambiguous: 0.06
+  extracted: 0.91
+  inferred: 0.06
+  ambiguous: 0.03
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-06-13T16:30:00+02:00
+updated: 2026-08-11T15:25:00+02:00
 ---
 
 # Targeting System
@@ -70,6 +78,50 @@ The important negative result is that `BATTLE_SLOT_DATA[slot].target_info_mask` 
 
 Double and Triple are also layered on top of the same core. They add extra passes through the fan-out logic rather than defining a separate target-selection subsystem.
 
+### Native Meteor and RNG Attribution
+
+A normal player confirmation wrote pending entry `attacker=2`, command `0x02`,
+Meteor argument `0x10`, and `target_mask=0xA007`. Native pre-G09 observation
+expanded it into ten ordered party targets. A later call-site trace corrected an
+important false attribution: one RNG draw before fan-out came from
+`BattleLimit_ComputeCrisisAndToggleAttackSlot` at call site `0x4942CC`, not
+from targeting. The target helper then made exactly ten party-mask calls and ten
+cursor advances for ten hits in that run.
+
+Enemy-target Meteor supplies the complementary retry case. Source mask `0xA018`
+normalizes to `0x2018`; the captured run consumed fourteen draws for ten hits
+because four draws selected dead monster slots. Random-family accounting must
+therefore be attributed per call site and candidate set, not inferred from a
+wide before/after RNG window.
+
+### Redirect, Repeat, Revive, and Angel Wing
+
+- Revive mask `0x4001` selects dead party slot 0 before G09; HP and status commit
+  remain resolver work.
+- Cover changes original mask `0x0001` to final mask `0x0002`. G08 consumes an
+  already-decided `RedirectIntent`; selecting the Cover trigger belongs to U17.
+- Double performs two serial one-hit fan-outs. Triple performs three serial
+  fan-outs and preserved the observed A-B-A sequence `0x0010, 0x0008, 0x0010`.
+- `BattleTarget_IsEligibleByStatusMask` rejects Angel Wing bit `0x02000000`.
+  Minimal staged observation excluded that slot from all ten Meteor targets,
+  proving target ineligibility rather than general damage immunity.
+
+## G08 Replacement Closure (2026-08-11)
+
+[[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation|G08 protocol v2]]
+captured an authentic player Meteor pending at the native writer seam and
+published exactly one pointer-free TargetPlan. The replacement normalized
+`0xA007 → 0x2007`, resolved final mask `0x0007`, emitted ordered slots
+`2, 1, 2, 2, 2, 0, 0, 2, 1, 1`, and consumed ten recorded RNG bytes from lane
+3 (`68 → 78`). One held observation consumed no additional RNG, one completion
+followed, and all G06/G07 host state and hook seams restored with witness flags
+`0x1ff`.
+
+This closes the target-plan boundary, not action resolution. G08 writes no
+damage, HP, status, event, or native target-history field, and makes no G09 or
+G17 call. Target provenance is transient in the plan; post-hit history and actor
+unlock remain [[projects/re-ff8/references/battle-iso-migration-milestones|G09]].
+
 ## Related
 
 - [[projects/re-ff8/concepts/command-action-pipeline]]
@@ -79,6 +131,10 @@ Double and Triple are also layered on top of the same core. They add extra passe
 
 ## Runtime-Pending
 
-- Capture raw exec-queue bytes after `BattlePendingAction_TransferToExecQueue` for menu, AI, and limit-family actions.
+- Capture raw exec-queue bytes for additional command families only when their
+  G07 routing is promoted; the bounded G08 target-plan gate itself is closed.
 - ~~Confirm the enemy-side slot-7 behavior on random-monster selection.~~ **Closed 2026-06-13**: random-monster selection is restricted to slots `{3,4,5,6}`; slot 7 only via explicit/AoE masks.
-- Confirm the exact live revive-path use of `0x4000` rather than relying only on static branch structure.^[ambiguous]
+- ~~Confirm the live revive-path use of `0x4000`.~~ **Closed 2026-08-09**:
+  `0x4001` selected dead party slot 0 at the pre-G09 boundary.
+- Capture the natural Angel Wing set/clear lifetime if later status ownership
+  requires it; G08 only proves strict-gate exclusion during a staged interval.

@@ -10,13 +10,14 @@ sources:
   - IDA static + live debugger 2026-06-15 (A6 init formulas; B2/B3 root state machine, frame pump, serialization latch — combat-paused live reads)
   - IDA static + live matrices 2026-07-12 (B5 frame owner, callback/BdLink responsibility split)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: ISO battle-loop gap analysis updated with live ATB/GF cadence, action/pause freeze separation and escape progression semantics.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+summary: ISO gap analysis with G08 target-plan ownership closed; physical resolution, status timing, AI integration, and terminal behavior remain.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-11T15:25:00+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -47,7 +48,7 @@ Everything else must be reproduced by the engine itself. So an ISO target needs,
 | Status-hit probability (`DoesMentalStatusHit`) | [[projects/re-ff8/references/battle-formulas]] | **Closed 2026-06-14** — exact probability arithmetic written out | No (solid) |
 | Status bit map (status_1 / status_2) | [[projects/re-ff8/references/battle-slot-and-command-layouts]] | Mostly mapped; a few bits + `timer[14/15]` open | Partial |
 | Timed-status expiry | [[projects/re-ff8/concepts/timed-status-expiry]] | Map good; **decrement cadence + Doom terminal open** | Partial |
-| Targeting fan-out | [[projects/re-ff8/concepts/targeting-system]] | Control-flag table good; slot-7 random + few mask bits open | Partial |
+| Targeting fan-out | [[projects/re-ff8/concepts/targeting-system]] | **G08 closed 2026-08-11** — normalization, eligibility, direct/group/random/revive/redirect/multi-hit fan-out and exact RNG accounting publish one transient TargetPlan | No for G08; G09 commit next |
 | Elemental resolution | [[projects/re-ff8/concepts/elemental-resolution]] | Magic path known; carrier/%-HP paths + element table partial | Partial |
 | Enemy AI VM | [[projects/re-ff8/concepts/enemy-ai-vm]], [[projects/re-ff8/references/enemy-ai-opcodes]] | **Closed 2026-06-14** — all 61 opcodes decoded (operands/effect/RNG/state/commit), IF subject + target tables, AI state inventory | No (solid) |
 | Battle init formulas | [[projects/re-ff8/references/battle-formulas]] | **CLOSED** — junction-stat, enemy HP/rank/stat scaling, initial-ATB, scripted-summon rolls all distilled | Yes (or bypass by reading init state) |
@@ -146,7 +147,7 @@ An ISO domain must reproduce the first two responsibilities. It does not need th
 
 From the Runtime-Pending sections across the wiki and [[projects/re-ff8/references/research-prompt-backlog]]:
 
-- **ISO-relevant (close eventually):** authentic pending/exec bytes per family; targeting slot-7 + mask bits; Doom terminal action; Angel Wing set/clear timing; timed-status decrement cadence; escape mode-5 commit; GF absorb pool (slots 8..10).
+- **ISO-relevant (close eventually):** authentic pending/exec bytes for unpromoted command families; Doom terminal action; natural Angel Wing set/clear timing; timed-status decrement cadence; escape mode-5 commit; GF absorb pool (slots 8..10). Slot-7 random selection, revive targeting and the bounded G08 target-plan boundary are closed.
 - **Not ISO-blocking for the core loop (de-prioritise):** Doomtrain/GF debuff payload masks; world-terrain surface labels; camera control bits (now closed); `K_GF_JUNCTIONABLE` raw 16-row dump (only needed for GF damage parity); `SG_CONFIG_FLAGS_SETTING` decode.
 
 ## Recommended closure order

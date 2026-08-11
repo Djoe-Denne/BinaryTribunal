@@ -80,7 +80,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x4BB910` | `domain::BattleCommandMenu_InitCommandSetAndLimitState` | Command set rebuild + LB check |
 | `0x4BC770` | `domain::BattleCommandMenu_OpenSelectedCommand` | Command selection handler |
 | `0x48CCE0` | `domain::BattleCommandMenu_PopulateSubcommandList` | Subcommand list population |
-| `0x4941F0` | `domain::BattleLimit_ComputeCrisisAndToggleAttackSlot` | Crisis level computation |
+| `0x4941F0` | `domain::BattleLimit_ComputeCrisisAndToggleAttackSlot` | Crisis level computation; consumes `Battle_GetRandomInt` at `0x4942CC` before G08 fan-out |
 | `0x4C7090` | `domain::BattleCommandTargetFlow_StateMachine` | Target selection state machine |
 | `0x4C7D00` | `presentation::BattleSubmenu_OpenByCommandClass` | Submenu dispatch |
 
@@ -161,7 +161,8 @@ Master reference for all known function and global addresses in FF8 battle.
 | `0x48AEB0` | `domain::BattleSlot_SetEnemyVisibility` | Set enemy slot visibility/hidden state |
 | `0x48C1C0` | `domain::BattleSlot_ApplyMonsterStatScaling` | Apply level-based stat curve scaling |
 | `0x48C5C0` | `domain::BattleSlot_ManageDeathState` | Handle death state cleanup on slot |
-| `0x48E830` | `domain::BattleAction_ResolveTargetAndHitCount` | Resolve target fan-out and hit count |
+| `0x48E830` | `domain::BattleAction_ResolveTargetAndHitCount` | Resolve target fan-out and hit count; constructs the ordered G08 plan before G09 |
+| `0x48EA93` | `BattleAction_ResolveTargetAndHitCount+0x263` | Internal pre-G09 call site; fan-out is already complete and this is not a standalone targeting entry |
 | `0x48EF50` | `domain::Battle_GetElementFlagged` | Get element flag from action data |
 | `0x48F020` | `domain::Battle_GetRandomInt` | Generate random integer (battle RNG) |
 | `0x493B60` | `domain::BattleState_ResetForEject` | Reset battle state on eject |

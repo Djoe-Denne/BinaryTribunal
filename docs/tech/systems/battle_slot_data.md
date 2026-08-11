@@ -128,6 +128,7 @@ See also: `docs/tech/systems/atb_system.md`.
 - `0x4941F0` `BattleLimit_ComputeCrisisAndToggleAttackSlot(slot)`
   - writes `BATTLE_SLOT_DATA[slot].crisis_level` at `+0xCA` (0..4)
   - toggles limit availability in command data
+  - consumes one `Battle_GetRandomInt` draw at `0x4942CC`; this pre-fan-out draw is outside G08 targeting ownership
 - Caller:
   - `0x4BB910` `BattleCommandMenu_InitCommandSetAndLimitState(...)`
 

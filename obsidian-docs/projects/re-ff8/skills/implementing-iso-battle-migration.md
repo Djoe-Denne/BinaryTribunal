@@ -29,13 +29,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Full design and execution status for in-process FF8 battle replacement, through G05 closure and the bounded P0.8 G06 ATB evidence increments.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+summary: Full design and execution status for in-process FF8 battle replacement through G08 target-plan closure, with G09 AttackSlice next.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-08-11T15:25:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -46,21 +47,19 @@ updated: 2026-07-24T23:20:43+02:00
 > [!warning] No whole-executable oracle
 > This guide does **not** prescribe a frame-by-frame native oracle or lockstep execution for now. Reverse engineering is driven by IDA static analysis, focused live probes, executable `ff8re` hypotheses, data corpus analysis, and deterministic tests for the new code. This makes `FullISO` an engineering target backed by accumulated proof, not a mathematical certification until a differential oracle is later added.
 
-## Current migration status — 2026-07-24
+## Current migration status — 2026-08-11
 
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
 
-**Migration position:** G05 is strictly closed by P0.7.
-[[projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation|P0.8-A/B]]
-established the four-pulse G06 cadence and pause behavior,
-[[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation|P0.8-C]]
-validated one bounded write-capable ATB pilot, and
-[[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation|P0.8-D]]
-closed the five-scenario read-only semantic matrix. G06 itself remains open
-because normalized input, pending-command writes and complete BattleUI
-ownership are not replaced. P1 is **not** unlocked; G07–G09 remain subsequent
-work.
+**Migration position:** G05–G08 are strictly closed by their promoted live
+envelopes. P0.9 owns G06 input/ATB/GF/escape/readiness at four pulses per frame;
+G07 owns pending/exec/arbitration/current-action lifecycle; and
+[[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation|G08 protocol v2]]
+turns an authentic player Meteor pending into one ordered, pointer-free
+TargetPlan with exact RNG accounting. G09 physical Attack resolution is next.
+P1 remains locked until G09 commits damage/event state and returns the action
+latch to idle without an original battle-domain call.
 
 The strict original roadmap still carries explicit G03/G04 debt:
 
@@ -96,6 +95,12 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   four-pulse ATB-only pilot passed with guarded `cur_atb`/UI-mirror writes; and
   ready, action-freeze, pause, GF-charge and escape gates passed the automated
   read-only matrix with exact rollback.
+- Live P0.9/G07: exclusive G06 cadence and command-spine ownership passed with
+  the audited HUD/file-callback/BdLink presentation compatibility tail and
+  byte-exact rollback.
+- Live G08: the pending-writer seam authenticated one player Meteor request;
+  replacement normalization, eligibility, ordered fan-out and ten RNG draws
+  published one held/completed TargetPlan with no G09/native-targeting call.
 
 **Intentionally not finished**
 
@@ -109,10 +114,9 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   trace/latch/RNG evidence, bounded multi-tick handback and a post-engagement
   fault. The final DLL hash completes the live matrix; this does not unlock
   G06 or P1.
-- Complete G06 ownership is disabled. P0.8-C is a narrowly gated ATB-only
-  exception; native BattleUI still owns input, pending commands, GF charge,
-  escape and ready routing outside that pilot.
-- G07–G09 and G23 remain outside the implemented ownership boundary.
+- G06, G07 and G08 ownership are bounded opt-in laboratory protocols; the
+  default P0 bootstrap remains pass-through and makes no general gameplay claim.
+- G09 and G23 remain outside the implemented ownership boundary.
 
 For the detailed test chronology and the distinction between model tests and
 live seams, see [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]].

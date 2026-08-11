@@ -22,13 +22,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
-summary: Dependency roadmap with G05–G07 closed; command ownership now preserves the audited native presentation tail and unlocks G08 targeting.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+summary: Dependency roadmap with G05–G08 closed; the replacement now publishes ordered target plans and unlocks G09 AttackSlice.
 provenance:
-  extracted: 0.58
-  inferred: 0.39
+  extracted: 0.61
+  inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-09T13:41:00+02:00
+updated: 2026-08-11T15:25:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -36,8 +37,8 @@ updated: 2026-08-09T13:41:00+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!success] Current implementation checkpoint — 2026-08-09
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G07 with strict live evidence. G07 protocol v2 owns pending, grouped exec queues, arbitration and one current-action latch while retaining the audited native HUD/file-callback/BdLink presentation tail. G08 is now the next migration gate; G09–G31 and P1 remain dependency-locked.
+> [!success] Current implementation checkpoint — 2026-08-11
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G08 with strict live evidence. G08 protocol v2 consumes an authentic G07 current action and publishes one ordered, pointer-free TargetPlan with exact RNG accounting while retaining the audited native presentation tail. G09 is now the next migration gate; G10–G31 and P1 remain dependency-locked.
 
 Status notation in the foundation groups:
 
@@ -436,21 +437,34 @@ each compatibility call.
 
 **Depends on:** G07.
 
+**Status 2026-08-11:** closed for the bounded target-plan boundary on
+[[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation|protocol v2 live evidence]].
+An authentic player Meteor pending produced one plan, one held observation and
+one completion: `0xA007 → 0x2007 → 0x0007`, ten ordered party targets, ten lane-3
+RNG draws (`68 → 78`), zero G09/G17/native-targeting calls and exact G06/G07
+rollback (`0x1ff`). Native pre-G09 captures separately cover direct, group,
+random retry, revive, Cover, Double/Triple and Angel Wing eligibility cases.
+
 **Units**
 
-- [ ] **U08.1 Mask normalization:** direct, self, ally, enemy, all, and reused-target forms.
-- [ ] **U08.2 Eligibility:** empty, hidden, dead, petrified, invincible, and family-specific eligibility.
-- [ ] **U08.3 Random selection:** consume battle RNG in recovered order and cover slot-7 edge behavior.
-- [ ] **U08.4 Multi-target expansion:** emit concrete targets in deterministic slot order.
-- [ ] **U08.5 Double/Triple and hit-count fan-out:** preserve source target versus concrete hit target.
-- [ ] **U08.6 Redirect application:** consume an already-selected Cover/revive redirect intent and compute the final target/mask/fan-out; trigger selection and reaction insertion belong to U17.3.
-- [ ] **U08.7 Target history:** maintain last attacker/last target fields required by AI and follow-ups.
+- [x] **U08.1 Mask normalization:** direct, self, ally, enemy, all, and reused-target forms.
+- [x] **U08.2 Eligibility:** empty, hidden, dead, petrified, invincible, and family-specific eligibility.
+- [x] **U08.3 Random selection:** consume battle RNG in recovered order and cover slot-7 edge behavior.
+- [x] **U08.4 Multi-target expansion:** emit concrete targets in deterministic slot order.
+- [x] **U08.5 Double/Triple and hit-count fan-out:** preserve source target versus concrete hit target.
+- [x] **U08.6 Redirect application:** consume an already-selected Cover/revive redirect intent and compute the final target/mask/fan-out; trigger selection and reaction insertion belong to U17.3.
+- [x] **U08.7 Target history:** preserve source/final target provenance in the transient TargetPlan. No host post-hit history writer has G08-proven timing; those commits remain G09.
 
 **Test pack:** every mask class, invalid targets, random cursors, group targeting, multi-hit, redirect, and revive cases.
 
 **Gate G08:** one shared target service serves player, AI, GF, Limit, and forced requests.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G08 -Profile P0` after seeding controlled slot visibility, death/status flags, target masks, and RNG state. It passes when every direct/group/random/revive/redirect/multi-hit case emits the expected ordered concrete targets and consumes exactly the expected RNG draws.
+**Injected in-game test:** Run `Invoke-IsoGroup -Group G08 -Profile P0` with the
+authenticated pending-write seam. The promoted case captures player-confirmed
+Meteor, hands it through G07, publishes/holds/completes one exact TargetPlan,
+forbids G09 and native targeting, then restores every owned byte and seam. The
+native semantic fixture set supplies the direct/group/random/revive/redirect/
+multi-hit eligibility baselines.
 
 ### G09 — Ship the physical Attack vertical slice
 

@@ -33,7 +33,7 @@ Opens through `BattleSubmenu_OpenByCommandClass` (`0x4C7D00`) default branch.
 
 `BattleLimit_ComputeCrisisAndToggleAttackSlot` (`0x4941F0`):
 
-- Formula includes: status-effect contribution, party-down contribution, HP ratio term (`-10 * multiplier * currentHP / maxHP`), RNG divisor (`GetRandomInt() + 160`)
+- Formula includes: status-effect contribution, party-down contribution, HP ratio term (`-10 * multiplier * currentHP / maxHP`), RNG divisor (`GetRandomInt() + 160`). The `call Battle_GetRandomInt` at `0x4942CC` returns to `0x4942D1`; a live Météore trace proves this draw precedes G08 random-party fan-out and is not targeting RNG.
 - Result clamped to `0..4` and written to `BATTLE_SLOT_DATA[slot].crisis_level` (`+0xCA`)
 - If crisis > 0: sets bit `0x04` on the attack command slot
 - Called from `BattleCommandMenu_InitCommandSetAndLimitState` — recalculated on menu rebuild, not just battle start

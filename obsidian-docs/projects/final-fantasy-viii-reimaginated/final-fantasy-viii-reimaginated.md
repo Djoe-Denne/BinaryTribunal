@@ -19,16 +19,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G07 closed; command ownership
-  preserves the audited native HUD, callback and BdLink presentation tail.
+  In-process x86 FF8 battle migration with G05–G08 closed; authentic commands
+  now reach ordered replacement TargetPlans while native presentation is audited.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-09T13:41:00+02:00
+updated: 2026-08-11T15:25:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -39,11 +40,13 @@ Repository: [Djoe-Denne/FinalFantasy_VIII_Reimaginated](https://github.com/Djoe-
 
 ## Current checkpoint
 
-> [!success] G05–G07 deterministic domain foundation closed
+> [!success] G05–G08 deterministic domain foundation closed
 > P0.9 v3 owns normalized input, ATB, GF co-tick, escape and readiness. G07
 > protocol v2 now owns pending triplets, grouped exec queues, arbitration and
 > one current-action latch lifecycle while retaining the audited native HUD,
-> file-callback and BdLink presentation tail. Both gates restore exactly.
+> file-callback and BdLink presentation tail. G08 protocol v2 turns an authentic
+> current action into one ordered pointer-free TargetPlan with exact RNG
+> accounting. All three gates restore exactly.
 
 Completed foundations include:
 
@@ -116,12 +119,18 @@ Completed foundations include:
 > and 3D visibility. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]].
 
-P1 AttackSlice remains locked until G08 and G09 pass their
-required in-process evidence.
+> [!success] G08 target-plan closure
+> Final candidate `01df0505…d6194` captured an authentic player-confirmed
+> Meteor pending, published/held/completed exactly one plan with ten ordered
+> targets and ten lane-3 RNG draws, made zero native-targeting, G09 or G17 call,
+> and restored G06/G07 ownership with flags `0x1ff`. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]].
+
+P1 AttackSlice remains locked until G09 passes its required in-process evidence.
 
 ## Operational snapshot — read this first
 
-The project currently has four distinct levels. They must not be conflated:
+The project currently has five distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -137,11 +146,14 @@ The project currently has four distinct levels. They must not be conflated:
    owns pending, exec queues, arbitration and the action latch. The native
    file-callback/BdLink presentation tail remains NCOMP and is checked against
    the exact command-owned mirror after every tick.
+5. **G08 TargetPlan ownership — live validated.** An authenticated pending-write
+   seam hands one real Meteor action into G07/G08; target normalization,
+   eligibility, ordered fan-out, redirect provenance and RNG stay DLL-owned,
+   while damage/status/HP/event commit remains absent.
 
-The practical mental model is: G06 owns readiness cadence and G07 owns command
-selection. Target fan-out and Attack resolution remain separate future G08/G09
-boundaries, while native presentation stays a narrowly audited compatibility
-unit.
+The practical mental model is: G06 owns readiness cadence, G07 owns command
+selection, and G08 owns target fan-out. Attack resolution is the next G09
+boundary, while native presentation stays a narrowly audited compatibility unit.
 
 ## How live tests work
 
@@ -191,7 +203,8 @@ The reusable watch, frame-gate, bootstrap and shutdown lessons from P0.8 are in
 
 The default P0 bootstrap installs only a pass-through `FFBattleModule` frame
 seam. UI/Switch, the active-only Director gateway, G05 scenarios, G06
-ownership and G07 protocol v2 are opt-in development modes. The Director
+ownership, G07 protocol v2 and the bounded G08 target-plan fixture are opt-in
+development modes. The Director
 gateway preserves and forwards its ambient register context. G05 no-write
 scenarios and the bounded ATB pilot are laboratory exceptions; neither expands
 the default P0 ownership claim.
@@ -206,8 +219,11 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Implement G08 targeting without entering G09 resolution, damage/status or AI;
-  the G07 evidence counters keep those boundaries at zero.
+- Implement G09 AttackSlice by consuming the immutable G08 TargetPlan through
+  hit/crit/damage/HP/event commit and returning the action latch to idle.
+- Mirror the G08 symbols already present in the implementation address map into
+  the ABI ledger; the evidence/contract validators pass, but that documentation
+  ledger is currently behind the implemented boundary.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.
