@@ -182,34 +182,51 @@ The frame that first writes `mode_3_subsubsubstep = 4` still runs the native fil
 
 ## 4. Target codebase and isolation rules
 
-Create a dedicated x86 codebase:
+The live remaster tree (not an aspirational `battle-iso/` rename) is:
 
 ```text
-battle-iso/
+FinalFantasy_VIII_Reimaginated/
   CMakeLists.txt
-  address-map/        # hash-bound symbols, globals, layouts, ABI records
+  address-map/        # hash-bound symbols, globals, layouts
+  contracts/          # launch/evidence C ABI
+  abi/                # POD mirrors and LegacyBattleImage
+  core/               # deterministic rules and canonical state
+  application/        # BattleSession orchestration G05–G09+
+  runtime-x86/        # host translation, codecs, TemporaryGxxNcompAdapter
   integration/
-    ffscriptloader/    # launch/bootstrap protocol and typed detour adapter
-  runtime-x86/        # callback replacement, detours, native service adapters
-  abi/                # POD mirrors, opaque handles, vtable/call wrappers
-  core/               # deterministic battle state, rules, RNG, AI, queues
-  data/               # scene.out, .dat, kernel, save, and archive readers
-  presentation/       # HUD, task queue, camera, assets, battle renderer
-  evidence/           # IDA inquiry definitions, corpus manifests, findings
-  fixtures/           # deterministic unit/replay fixtures from recovered facts
-  tests/              # layout, ABI, unit, corpus, in-process smoke tests
+    ffscriptloader/   # launch/bootstrap protocol and typed detour adapter
+  lift/               # integer/RNG lifts used by core
+  tests/              # offline contracts, codecs, in-process suites
+  tools/              # validate_contracts.py and evidence helpers
+  evidence/           # promoted live envelopes
 ```
 
-Enforce a one-way dependency graph:
+Enforce a one-way dependency graph. `ff8iso_runtime` is the infrastructure layer; do not invent `ff8iso_infrastructure`.
 
-- `core/` must not include Win32 headers, process addresses, graphics objects, or raw host pointers;
-- `presentation/` consumes semantic battle events and immutable snapshots from `core/`;
-- `runtime-x86/` alone may access original process globals and generic services;
-- `abi/` owns every packed legacy view and every call wrapper;
+```mermaid
+flowchart TB
+  core[ff8iso_core]
+  app[ff8iso_application]
+  abi[ff8iso_abi]
+  runtime[ff8iso_runtime]
+  dll[ff8_battle_iso]
+  core --> app
+  app --> runtime
+  abi --> runtime
+  runtime --> dll
+```
+
+- **core:** rules and canonical state only. Forbidden: `#include "ff8iso/abi/`, `abi::`, `find_symbol`, RVA, NCOMP opcodes, native pods, `import_legacy`.
+- **application:** orchestration. Accepts `core::BattleState` / semantic reports. May include `ff8iso/launch_contract.h` via `ff8iso_contracts`. Forbidden: `LegacyBattleImage`, codecs, host I/O, `find_symbol`, linking `ff8iso_abi`.
+- **abi:** POD / address-map only. Must not include `core/`.
+- **runtime:** unique host translator. Codecs (`legacy_state_codec`, `command_spine_codec`) and `TemporaryGxxNcompAdapter` (removal target U14.x).
+- `presentation/` in older notes is not a current CMake target; HUD NCOMP lives in runtime adapters until U14.6.
 - no `std::string`, STL container, exception, RTTI object, or C++ virtual class crosses an original-code boundary.
 
+`ff8iso_core` must not link `ff8iso_abi`. `ff8iso_runtime` links `ff8iso_application` **and** `ff8iso_abi`. `tools/validate_contracts.py` `validate_layer_boundary` scans every `core/` and `application/` source.
+
 > [!tip] Canonical state versus compatibility image
-> `core::BattleState` is the canonical state. Legacy-shaped globals are a compatibility image exposed only at documented native boundaries. Do not let arbitrary new code alias raw FF8 memory directly, or the replacement will inherit hidden lifetime and ownership bugs.
+> `core::BattleState` is the canonical state. Legacy-shaped globals are a compatibility image decoded/encoded only in runtime. Do not let `BattleSession` or core alias raw FF8 memory, or the replacement will inherit hidden lifetime and ownership bugs.
 
 ### 4.1 FFScriptLoader reuse boundary
 
@@ -432,10 +449,12 @@ The known original design is global-backed, not a single `BattleContext*`. The p
 
 - `core::BattleState`: canonical strongly typed state, stable ownership, no host pointers;
 - `abi::LegacyBattleImage`: packed mirrors of globals/slots only for host-visible boundaries;
+- `runtime::import_legacy` / `runtime::export_observable_fields` / `runtime::decode_command_spine`: codecs in `runtime-x86`, never in `core/`;
+- `application::BattleSession`: accepts `core::BattleState` / `core::CommandSpineState` already decoded. It must not take `LegacyBattleImage`;
 - `runtime::StateSynchronizer`: explicit one-way or two-way copy operations named by lifecycle boundary;
 - `runtime::PointerResolver`: converts only proven resource handles to host pointers, with generation/lifetime checks.
 
-At battle entry, create a canonical state from save, scene, encounter, kernel, and resource data. During battle, the replacement updates its own state. At explicit host boundaries, synchronize only the fields proven visible to generic host services. At exit, write the documented save/reward/module-handoff image before invoking the next non-battle module.
+At battle entry, create a canonical state from save, scene, encounter, kernel, and resource data. During battle, the replacement updates its own state. At explicit host boundaries, runtime decodes the host image, the session ticks canonical state, then runtime encodes only the fields proven visible to generic host services. At exit, write the documented save/reward/module-handoff image before invoking the next non-battle module.
 
 Do not use the original `BATTLE_SLOT_DATA` memory as an untyped mutable backdoor into the core. If it must remain exposed for a generic host consumer, rebuild the exact `0xD0 × 11` image from canonical state and validate every pointer field against the dependency ledger.
 
@@ -543,7 +562,7 @@ The authoritative tail includes `Battle_ProcessActionCallbackChain` (`0x482D50`)
 > [!warning] Draw command-ID correction
 > Current static evidence identifies Draw as `command_id = 0x06`; an older routing bullet in [[projects/re-ff8/concepts/command-action-pipeline]] still says `0x0D`. G13 fixtures and queue routing must use `0x06` and the stale wiki statement must be corrected before that page is treated as a generated-enum source.
 
-The original damage bridge calls `Battle_UpdateDamage` (`0x48EF80`) and writes one 24-byte event at `BATTLE_DAMAGE_RESULT_BUFFER + 24 * ATTACK_HIT_COUNT_1`, base `0x1D28344`. G09 recovered writer-proven fields and capacity 32 for Attack `0x01`; native `Battle_ApplyDamageOrHeal` remains forbidden. The domain now publishes a semantic damage event; `TemporaryG09NcompAdapter` (`runtime-x86`, removal target U14.6) is the only layer that packs the native 24-byte record and owns relays `0x68`/`0x70`, popup, latch, and `BATTLE_ACTION_EXECUTION_ACTIVE`. Live consume/idle is proven on the 2026-08-15 Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] and `docs/tech/systems/render_bridge.md`.
+The original damage bridge calls `Battle_UpdateDamage` (`0x48EF80`) and writes one 24-byte event at `BATTLE_DAMAGE_RESULT_BUFFER + 24 * ATTACK_HIT_COUNT_1`, base `0x1D28344`. G09 recovered writer-proven fields and capacity 32 for Attack `0x01`; native `Battle_ApplyDamageOrHeal` remains forbidden. The domain now publishes a semantic damage event. Every NCOMP opcode, HUD render, file-callback pump, BdLink, relay, popup, or latch write belongs in a `TemporaryGxxNcompAdapter` under `ff8iso::runtime::temporary_ncomp` (removal target U14.x). Do not grow an adapter with domain work, and do not invent a G08 adapter for symmetry: G08 has no NCOMP; `BattlePendingAction_Write` stays a runtime seam. G06 owns `BattleUI_RenderHud` / `BATTLE_UI_HUD_PHASE`; G07 owns `Battle_RunFileLoadingCallbacks` / `Battle_BdLinkPresentation`; G09 owns relays `0x68`/`0x70`, popup, latch, and `BATTLE_ACTION_EXECUTION_ACTIVE`. Live consume/idle is proven on the 2026-08-15 Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] and `docs/tech/systems/render_bridge.md`.
 
 ## 13. Presentation scheduler, callbacks, and task ownership
 
@@ -722,6 +741,7 @@ The project uses explicit profiles instead of one ambiguous “working” state:
 - P3 may use deterministic scripted input; playable command UI is a later group.
 - P4/P5 permit only proven generic `HOST` services such as VFS, audio, OS input/timing, graphics backend, and field/reward modules.
 - No profile may call an original battle helper from inside a component that profile claims as replaced.
+- G10+ work is semantic domain in `core/`, session orchestration in `application/`, and host translation in `runtime-x86`. Packing native bytes, RVA, or NCOMP into `core/` or `BattleSession` is not a valid shortcut.
 
 ### 18.3 Lift strategies
 
@@ -827,6 +847,8 @@ When a unit encounters an unproven ABI, offset, indirect target, allocator, or f
 
 The detailed units, fixtures, gates, profile ownership, and dependency graph live in [[projects/re-ff8/references/battle-iso-migration-milestones]].
 
+Stop the change if `#include "ff8iso/abi/` or `abi::` appears in `core/` or `application/`. Decode in runtime, then pass `BattleState`. Every new NCOMP symbol goes in a new or existing `TemporaryGxxNcompAdapter`; do not inline `find_symbol` in `runtime.cpp` for those names.
+
 ## 19. Mandatory test matrix
 
 The minimum test corpus includes:
@@ -847,6 +869,7 @@ The harness-specific pack also covers wrong bitness, unknown hash, expected-byte
 
 Stop implementation and return to research when:
 
+- a `#include "ff8iso/abi/` or `abi::` token would be required in `core/` or `application/` to make the unit compile;
 - a host pointer, offset, calling convention, vtable slot, or allocator pair is unproven;
 - a new object would be consumed or freed by original code without a completed façade contract;
 - a battle helper outside an explicitly profile-approved sealed `NCOMP` unit is required for forward progress;
@@ -880,6 +903,7 @@ The migration is complete only when:
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
 - [[projects/re-ff8/references/battle-loop-iso-readiness]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
+- `.agents/skills/implementing-iso-layer-boundary/SKILL.md` (G10+ layer law)
 - [[projects/re-ff8/concepts/battle-lifecycle]]
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]

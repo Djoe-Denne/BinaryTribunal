@@ -500,6 +500,9 @@ multi-hit eligibility baselines.
 
 **Depends on:** G09. **Not implemented.** Status/Cover/drain execution, Magic/Item/GF, reactions and rewards remain fail-closed.
 
+> [!important] Layer law for G10+
+> Implement each unit as **semantic domain** (`core/`) → **session** (`application/BattleSession`) → **runtime adapter/codec**. Do not treat “core/ + session” as an excuse to pack native pods, RVA, `find_symbol`, or NCOMP opcodes above `runtime-x86`. Include `ai-prompt/todo/_gate-layer-preamble.md` in every `g10-*-new-chat.md`. Codecs and `TemporaryGxxNcompAdapter` stay in runtime; never enlarge a temporary adapter with domain work.
+
 **Units**
 
 - [ ] **U10.1 Status payload:** bit order, status_1/status_2 distinctions, exclusions, and existing-bit behavior.
