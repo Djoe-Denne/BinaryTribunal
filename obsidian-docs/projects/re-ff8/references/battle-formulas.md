@@ -6,13 +6,14 @@ aliases: [damage formula, hit formula, crit formula, status formula, ISO formula
 sources:
   - IDA static decompile 2026-06-14 (Damage_ComputeRawDeltaFromAttackType 0x4922B0 and the full helper tree)
   - IDA static decompile 2026-06-14 (init formulas: Battle_CalculateJunctionStats 0x495960, computeMonsterHP 0x48C500, Odin/Gilgamesh init rolls)
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
 summary: Exact, ISO-grade arithmetic for the FF8 PC battle resolution — accuracy, crit, physical/magic/GF damage, %-HP and special-GF families, curative/revive, the unified elemental model, status-application probability, the HP-commit stage (incl. GF charge absorption and the counter/death AI dispatch), and the initial-state derivation (party junction stats, enemy HP/stat scaling, scripted-summon init rolls).
 provenance:
   extracted: 0.92
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T12:00:00+02:00
-updated: 2026-06-15T11:45:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Battle Formulas (Damage / Heal / Hit / Crit / Status)
@@ -23,9 +24,9 @@ Canonical arithmetic for a faithful (ISO) reimplementation. All recovered static
 
 - **RNG draw**: `rand8 = Battle_GetRandomInt() & 0xFF` (battle lane RNG; see [[projects/re-ff8/concepts/battle-state-model]]). `rand%N` below means `rand8 % N` unless noted.
 - **Variance spread**: `spread = rand8 % 33 + 240` → `240..272`; a final `/256` makes it ≈ `0.9375 .. 1.0625` (±~6 %).
-- **Slot stats** (`BATTLE_SLOT_DATA[slot]`, stride `0xD0` @ `0x1D27B10`): `str, vit, mag, spr, spd, eva, luck, level, current_hp, max_hp, elem_def[8], mental_res[], status_1, status_2`, crit byte `+0xC2`, `flag_data`.
+- **Slot stats** (`BATTLE_SLOT_DATA[slot]`, stride `0xD0` @ `0x1D27B10`): `str, vit, mag, spr, spd, eva, luck, level, current_hp, max_hp, elem_def[8], mental_res[], status_1, status_2`, luck/crit byte `+0xC2`, `flag_data`. Slot `+0xC2` is luck; `computeCrit` reads that same octet.
 - **Slots**: party `0..2`, enemies `3..7`, GF-reserved `8..10`.
-- **`HIT_TYPE_2` bits**: `1` = heal/restorative result, `4` = miss, crit/normal flags as noted.
+- **`HIT_TYPE_2` bits**: `0x1` = heal/restorative, `0x2` = crit, `0x4` = miss. The IDA enum `HIT_TYPE_NORMAL=0x1` is wrong. ^[inferred]
 
 ## Accuracy (hit / evade)
 
@@ -46,8 +47,9 @@ else:
 `computeCrit` (`0x492B30`):
 
 ```
-chance = RELATED_TO_CRIT_BONUS + attacker.crit_byte(+0xC2)         # 255*x/255 == x
-crit if chance > 0 and chance >= rand8     -> HIT_TYPE_2 |= CRIT, BOOL_ATTACK_CRITED = 1
+chance = RELATED_TO_CRIT_BONUS + attacker.luck(+0xC2)             # same octet as slot luck
+crit if chance > 0 and chance >= rand8     -> HIT_TYPE_2 |= 0x2, BOOL_ATTACK_CRITED = 1
+# computeCrit always draws RNG before the chance > 0 test
 ```
 
 Crit doubles physical damage in post-processing (below).

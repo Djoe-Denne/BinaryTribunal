@@ -19,6 +19,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/init-exit-abi-capture-2026-07-22.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-5-offline-validation-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
@@ -70,7 +71,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-11T15:25:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -92,6 +93,7 @@ updated: 2026-08-11T15:25:00+02:00
 | G06 / P0.9 v3 | Exclusive BattleUI ownership passed 240 pulses over 60 frames with GF `6→4`, ready `1/1`, blocked/known escape, RNG `4→5`, zero forbidden behavior, and byte-exact rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] |
 | G07 / protocol v2 | Four command-spine ticks proved pending/exec/arbitration/latch ownership, retained the callback/BdLink presentation tail, and restored every owned byte and hook preimage. | [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]] |
 | G08 / protocol v2 | One authentic Meteor pending produced an ordered ten-hit TargetPlan with exact RNG accounting, no G09/native targeting call, and exact G06/G07 rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] |
+| G09 / AttackSlice offline | Attack `0x01` is implemented fail-closed (STR 51, 24-byte event, named HP fields). Live promotion and P1 remain blocked; G10 is next and unimplemented. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
 
 ## Canonical Machine Evidence
 
@@ -101,6 +103,7 @@ updated: 2026-08-11T15:25:00+02:00
 - Final G06 closure is `p0-9-g06-closure-v3-final-live.json`, validated `PASS` on DLL SHA-256 `66c17d81b406e653444d85b52441ae2d24839805de43339eec3349dded6c5289`.
 - Final G07 closure is `p0-g07-command-spine-closure-v2-final-live.json`, validated `PASS` on DLL SHA-256 `868d74e6cf18ddcef26466e183cf329f89051084273012068a6a05e84e0fe64a`.
 - Final G08 closure is `p0-g08-live-pending-post-shutdown-2026-08-11.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `01df050581a4ff003b51df00d57e80e8ba45731baa6b91707466f51df74d6194`.
+- G09 has no promoted live envelope. Offline closure is `g09-attack-slice-offline-validation-2026-08-14.md` on DLL SHA-256 `749529899aacbcae6ef766ee4e2224c2d38450ddc1746512038022ed155af899`.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -112,11 +115,13 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - The first G08 pending-writer candidate entered `Faulted` before any Director tick or plan publication (`preflight_flags=0x177`) and restored without forbidden calls or write violations. It exposed a detour-preimage/idle-cell preflight error; the final candidate reaches `0x1ff` and `Detached`.
 - A broad party-Meteor RNG window showed twelve cursor advances for ten hits. A later call-site capture assigned one pre-fan-out draw to crisis computation and observed exactly ten targeting calls; the `+12` window is retained to prevent the disproved “two targeting retries” inference from returning.
 - The Draw pending `command_id` remains unresolved: `0x06` conflicts with an older `0x04` fixture, and the resolver-time `0x0D` discriminator is a different semantic layer. A live `BattlePendingAction_Write` capture is still required. ^[ambiguous]
+- G09 live promotion was not run on 2026-08-14: PID `31548` was field/menu with IDA attached and no Attack pending. P1 stays locked.
 
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]

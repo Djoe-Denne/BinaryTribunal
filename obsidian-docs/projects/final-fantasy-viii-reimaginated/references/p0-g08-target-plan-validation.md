@@ -24,7 +24,7 @@ provenance:
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-11T15:25:00+02:00
-updated: 2026-08-11T15:25:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # P0 G08 Target-Plan Closure — 2026-08-11
@@ -33,8 +33,9 @@ updated: 2026-08-11T15:25:00+02:00
 > G08 is closed for the bounded target-plan boundary. An authentic
 > player-confirmed Meteor pending crossed G07 into the replacement G08 service,
 > produced one pointer-free ordered plan, held without recalculation, completed
-> without G09, and restored the G06/G07 host state and seams. G09 is dependency-
-> unlocked but remains unimplemented; P1 AttackSlice is still locked.
+> without G09, and restored the G06/G07 host state and seams.
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
+> is implemented offline on Attack `0x01`; live promotion and P1 remain locked.
 
 ## Canonical Envelope
 
@@ -151,10 +152,11 @@ residue as idle rather than active.^[inferred]
 
 ## Consequence
 
-[[projects/re-ff8/references/battle-iso-migration-milestones|G09 AttackSlice]]
-is now the next gate. It must consume this TargetPlan, resolve one physical
-Attack through hit/crit/damage/HP/event commit, and return the action latch to
-idle without an original battle-domain call.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
+now consumes this TargetPlan offline for Attack `0x01`. Live Attack pending
+promotion and P1 remain fail-closed.
+[[projects/re-ff8/references/battle-iso-migration-milestones|G10]] is the next
+unimplemented gate.
 
 ## Related
 
@@ -164,3 +166,4 @@ idle without an original battle-domain call.
 - [[projects/re-ff8/concepts/targeting-system]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/concepts/battle-state-model]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]

@@ -17,13 +17,14 @@ sources:
   - obsidian-docs/_staging/investigations/gf_charge_absorption.md
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
   - IDA static decompile 2026-06-14 (full damage/heal/hit/crit/commit helper tree)
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
 summary: Damage and status resolution load metadata, fan out targets, compute raw deltas by family, apply status and timer logic, then commit HP or summon-charge side effects.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-14T12:00:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Damage And Status Pipeline
@@ -38,8 +39,8 @@ Damage resolution still has three broad stages: load metadata, compute raw delta
 - `BattleAction_ResolveAndApplyDamage` loads command-family metadata into globals such as `HIT_ELEMENT`, `HIT_ATTACK_ENABLER`, `HIT_STATUS_1`, `HIT_STATUS_2`, `HIT_ATTACK_HITPERCENT`, and `ATTACK_FLAG`.
 - `Damage_ComputeRawDeltaFromAttackType` dispatches to physical-like, magic or GF, curative, revive, and fixed or special branches.
 - late modifiers and capping happen back in `BattleAction_ResolveAndApplyDamage`, not inside every family helper.
-- `Battle_ApplyDamageOrHeal` commits already-computed magnitudes and performs HP or KO or drain or summon-charge side effects.
-- `Battle_UpdateDamage` writes 24-byte presentation records to `BATTLE_DAMAGE_RESULT_BUFFER`.
+- `Battle_ApplyDamageOrHeal` commits already-computed magnitudes and performs HP or KO or drain or summon-charge side effects. G09 must not call it: the replacement ports HP/KO/crisis/mirrors and emits G10/G17 intents without executing them. ^[inferred]
+- `Battle_UpdateDamage` writes 24-byte presentation records to `BATTLE_DAMAGE_RESULT_BUFFER` at `base + 24 * ATTACK_HIT_COUNT_1`. G09 recovered capacity 32 and writer-proven fields for Attack `0x01`. `HIT_TYPE_2` bits are heal=`0x1`, crit=`0x2`, miss=`0x4`.
 
 ## Target Fan-Out
 
@@ -147,6 +148,7 @@ The richer reaction/turn dispatch — counter (section 2 with the player Counter
 - [[projects/re-ff8/concepts/timed-status-expiry]]
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 
 ## Open Questions
 

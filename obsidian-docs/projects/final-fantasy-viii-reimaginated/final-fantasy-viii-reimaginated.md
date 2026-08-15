@@ -20,16 +20,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G08 closed; authentic commands
-  now reach ordered replacement TargetPlans while native presentation is audited.
+  In-process x86 FF8 battle migration with G05–G08 live-closed and G09 Attack
+  0x01 implemented offline; P1 stays locked until a live Attack envelope.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-11T15:25:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -126,7 +127,12 @@ Completed foundations include:
 > and restored G06/G07 ownership with flags `0x1ff`. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]].
 
-P1 AttackSlice remains locked until G09 passes its required in-process evidence.
+> [!warning] G09 AttackSlice — offline only
+> Attack `0x01` is implemented fail-closed (`ctest` 25/25, DLL
+> `74952989…af899`) and consumes the frozen G08 TargetPlan. Live promotion was
+> not run: the observed process was field/menu with IDA attached. P1 stays
+> locked. G10 is the next unimplemented gate. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 ## Operational snapshot — read this first
 
@@ -148,12 +154,15 @@ The project currently has five distinct levels. They must not be conflated:
    the exact command-owned mirror after every tick.
 5. **G08 TargetPlan ownership — live validated.** An authenticated pending-write
    seam hands one real Meteor action into G07/G08; target normalization,
-   eligibility, ordered fan-out, redirect provenance and RNG stay DLL-owned,
-   while damage/status/HP/event commit remains absent.
+   eligibility, ordered fan-out, redirect provenance and RNG stay DLL-owned.
+6. **G09 physical Attack — offline only.** The replacement consumes one direct
+   TargetPlan, commits HP and a 24-byte event, holds presentation, then unlocks.
+   Live Attack pending promotion has not passed; status application remains G10.
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
-selection, and G08 owns target fan-out. Attack resolution is the next G09
-boundary, while native presentation stays a narrowly audited compatibility unit.
+selection, G08 owns target fan-out, and G09 owns Attack `0x01` HP/event commit
+offline. Native presentation stays a narrowly audited compatibility unit. P1
+stays locked.
 
 ## How live tests work
 
@@ -219,11 +228,10 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Implement G09 AttackSlice by consuming the immutable G08 TargetPlan through
-  hit/crit/damage/HP/event commit and returning the action latch to idle.
-- Mirror the G08 symbols already present in the implementation address map into
-  the ABI ledger; the evidence/contract validators pass, but that documentation
-  ledger is currently behind the implemented boundary.
+- Promote G09 live: fresh `FF8_EN.exe`, IDA detached, one Attack `0x01` pending,
+  then inject suite G09. Until that envelope PASSes, P1 stays locked.
+- Implement G10 status application; Cover, drain/Charged, Magic/Item/GF,
+  reactions and rewards remain fail-closed.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.
@@ -240,3 +248,4 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
 - [[projects/ffscriptloader/skills/hardening-x86-dll-injection]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]

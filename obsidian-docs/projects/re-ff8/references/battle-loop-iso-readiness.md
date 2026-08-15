@@ -11,13 +11,13 @@ sources:
   - IDA static + live matrices 2026-07-12 (B5 frame owner, callback/BdLink responsibility split)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-summary: ISO gap analysis with G08 target-plan ownership closed; physical resolution, status timing, AI integration, and terminal behavior remain.
+summary: ISO gap analysis with G08 live-closed and G09 Attack 0x01 offline; live Attack pending, status timing, AI integration, and terminal behavior remain.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-08-11T15:25:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -48,7 +48,8 @@ Everything else must be reproduced by the engine itself. So an ISO target needs,
 | Status-hit probability (`DoesMentalStatusHit`) | [[projects/re-ff8/references/battle-formulas]] | **Closed 2026-06-14** — exact probability arithmetic written out | No (solid) |
 | Status bit map (status_1 / status_2) | [[projects/re-ff8/references/battle-slot-and-command-layouts]] | Mostly mapped; a few bits + `timer[14/15]` open | Partial |
 | Timed-status expiry | [[projects/re-ff8/concepts/timed-status-expiry]] | Map good; **decrement cadence + Doom terminal open** | Partial |
-| Targeting fan-out | [[projects/re-ff8/concepts/targeting-system]] | **G08 closed 2026-08-11** — normalization, eligibility, direct/group/random/revive/redirect/multi-hit fan-out and exact RNG accounting publish one transient TargetPlan | No for G08; G09 commit next |
+| Targeting fan-out | [[projects/re-ff8/concepts/targeting-system]] | **G08 closed 2026-08-11** — normalization, eligibility, direct/group/random/revive/redirect/multi-hit fan-out and exact RNG accounting publish one transient TargetPlan | No for G08 |
+| Physical Attack HP/event | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] | **G09 offline 2026-08-14** — Attack `0x01` STR 51, 24-byte event capacity 32, named HP fields; live pending and P1 still open | Yes for live Attack pending |
 | Elemental resolution | [[projects/re-ff8/concepts/elemental-resolution]] | Magic path known; carrier/%-HP paths + element table partial | Partial |
 | Enemy AI VM | [[projects/re-ff8/concepts/enemy-ai-vm]], [[projects/re-ff8/references/enemy-ai-opcodes]] | **Closed 2026-06-14** — all 61 opcodes decoded (operands/effect/RNG/state/commit), IF subject + target tables, AI state inventory | No (solid) |
 | Battle init formulas | [[projects/re-ff8/references/battle-formulas]] | **CLOSED** — junction-stat, enemy HP/rank/stat scaling, initial-ATB, scripted-summon rolls all distilled | Yes (or bypass by reading init state) |

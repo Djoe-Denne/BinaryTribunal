@@ -23,13 +23,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-summary: Dependency roadmap with G05–G08 closed; the replacement now publishes ordered target plans and unlocks G09 AttackSlice.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
+summary: Dependency roadmap with G05–G08 live-closed and G09 Attack 0x01 implemented offline; P1 stays locked and G10 is next unimplemented.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-11T15:25:00+02:00
+updated: 2026-08-14T15:00:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -37,8 +38,8 @@ updated: 2026-08-11T15:25:00+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!success] Current implementation checkpoint — 2026-08-11
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G08 with strict live evidence. G08 protocol v2 consumes an authentic G07 current action and publishes one ordered, pointer-free TargetPlan with exact RNG accounting while retaining the audited native presentation tail. G09 is now the next migration gate; G10–G31 and P1 remain dependency-locked.
+> [!warning] Current implementation checkpoint — 2026-08-14
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G08 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] implements Attack `0x01` offline (`ctest` 25/25) but has no promoted live envelope; P1 stays locked. G10 is the next unimplemented gate.
 
 Status notation in the foundation groups:
 
@@ -470,26 +471,34 @@ multi-hit eligibility baselines.
 
 **Depends on:** G08.
 
+> [!warning] Offline 2026-08-14 — live gate open
+> Units below are implemented fail-closed in `core/` + session and pass
+> `ctest --preset debug-x86` 25/25 on DLL
+> `749529899aacbcae6ef766ee4e2224c2d38450ddc1746512038022ed155af899`.
+> Cover, drain/Charged, non-zero status payload, Magic/Item/GF and G17 stay
+> refused. Live Attack pending was not captured; P1 remains locked. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
+
 **Units**
 
-- [ ] **U09.1 Attack metadata:** weapon/command row to typed `ActionProfile`.
-- [ ] **U09.2 Hit and evade:** auto-hit, accuracy, Blind, luck, and miss flags.
-- [ ] **U09.3 Critical roll:** bonus, slot crit byte, RNG ordering, and result flags.
-- [ ] **U09.4 Physical raw damage:** STR/VIT families and fixed-width arithmetic.
-- [ ] **U09.5 Physical post-processing:** Protect, multipliers, crit, Zombie, element carrier, drain, and sign flip.
-- [ ] **U09.6 HP commit:** clamp, KO, last-attacker data, crisis threshold, and status mirrors.
-- [ ] **U09.7 Damage event:** exact 24-byte result record, hit count, capacity, and write order.
-- [ ] **U09.8 In-process slice:** scripted Attack through ready → pending → queue → resolve → commit → unlock under the Director seam.
+- [x] **U09.1 Attack metadata:** Attack `0x01` from `K_WEAPON` via `CURRENT_WEAPON_ID` stride `0x1D0`; other families refused.
+- [x] **U09.2 Hit and evade:** auto-hit, accuracy, Blind, luck, and miss flags; unproven branches fail-closed.
+- [x] **U09.3 Critical roll:** bonus, luck at slot `+0xC2`, always-draw RNG, and `HIT_TYPE_2` crit=`0x2`.
+- [x] **U09.4 Physical raw damage:** STR mode-0 vector str=20/vit=10/power=20/rng=0 → **51**.
+- [x] **U09.5 Physical post-processing:** Protect/crit/Zombie/element subset; drain/Cover remain fail-closed.
+- [x] **U09.6 HP commit:** clamp, KO fixture, last-attacker, crisis, mirrors; `Battle_ApplyDamageOrHeal` forbidden; G10/G17 intents only.
+- [x] **U09.7 Damage event:** 24-byte record, capacity 32, one index, overflow and double-consume refused.
+- [x] **U09.8 In-process slice:** transactional G06–G09 Director path exists offline; live pending envelope is still required.
 
-**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack.
+**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack. Drain/absorb/Cover remain fixture-or-fail-closed until live.
 
-**Gate G09 / P1 AttackSlice:** one physical action path contains no original battle-domain call and returns safely to idle.
+**Gate G09 / P1 AttackSlice:** **not passed.** Live requires a fresh process, IDA detached, authentic Attack `0x01` pending, idle unlock, and zero original battle-domain call.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G09 -Profile P1`; the suite drives ready → pending → queue → Attack resolve → HP/event commit → unlock, with native presentation retained only as sealed `NCOMP`. It passes on exact hit/miss/crit/damage/KO fixtures, one valid 24-byte event, idle latch recovery, and zero original battle-domain call in the DLL audit.
+**Injected in-game test:** Run `Invoke-IsoGroup -Group G09 -Profile P1` only after a detached Attack pending exists. Do not inject while IDA is attached.
 
 ### G10 — Port status application, timers, and periodic actions
 
-**Depends on:** G09.
+**Depends on:** G09. **Not implemented.** Status/Cover/drain execution, Magic/Item/GF, reactions and rewards remain fail-closed.
 
 **Units**
 
@@ -987,6 +996,7 @@ Opaque lifted blocks remain isolated behind typed contracts from G02 onward. Rep
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/concepts/targeting-system]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/re-ff8/concepts/timed-status-expiry]]
 - [[projects/re-ff8/concepts/enemy-ai-vm]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
