@@ -6,13 +6,14 @@ aliases: [G09 AttackSlice, G09 physical attack, P0 G09]
 sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
 summary: G09 is live-promoted for Attack 0x01. One authentic Zell Attack produced a direct TargetPlan, HP/event commit, 0x70 idle unlock, and hook rollback. P1 AttackSlice is unlocked; G10 is next.
 provenance:
   extracted: 0.95
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-14T14:30:00+02:00
-updated: 2026-08-15T10:20:00+02:00
+updated: 2026-08-15T12:17:00+02:00
 ---
 
 # P0 G09 Physical AttackSlice — Live Closure — 2026-08-15
@@ -70,6 +71,29 @@ U09.1–U09.8 exist as pointer-free core plus a transactional G06–G09 session:
 one direct TargetPlan (zero targeting RNG), one HP/event commit, event hold,
 exactly-once acknowledge, named-field allowlist (no whole slot, no `HIT_*`
 cluster). Pre-commit restores byte-for-byte; post-commit retains accepted HP.
+
+## Diagnostic lessons retained from the live campaign
+
+The successful semantic commit was necessary but not sufficient for promotion.
+The campaign separated four independent failure families that initially looked
+similar on screen:
+
+- direct suite injection before `FF8Iso_Bootstrap` failed with
+  `remote-bootstrap-failed`; the reliable order is Open World canary,
+  bootstrap, then the versioned suite;
+- early black screens came from G06/G07 ownership faults after a valid G09
+  commit: host export during the Director window, post-rollback export, and
+  unhandled ATB drift each violated a different cadence or ownership invariant;
+- file callbacks plus BdLink kept HUD/3D alive but did not create the Attack
+  sequence, so a valid HP/event commit could still leave the actor in an idle
+  confirmation pose with no slash;
+- relay `0x68` becoming empty was not presentation-idle. The final handoff
+  requires relay `0x70` to observe actor, camera, and BdLink idle before unlock.
+
+The native weapon scripts place opcode `0xB2` at animation-specific impact
+times. A fixed-frame popup delay can therefore approximate presentation but
+cannot be declared byte- or frame-ISO; exact impact synchronization remains
+U14.6 rather than expanding G09 domain ownership.
 
 ## Temporary adapter / removal target U14.6
 

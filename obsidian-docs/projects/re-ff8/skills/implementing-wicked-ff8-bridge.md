@@ -12,13 +12,14 @@ sources:
   - projects/re-ff8/references/wicked-engine-integration-reference.md
   - projects/re-ff8/skills/battle-re-verification.md
   - ff8re/README.md
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
 summary: Procedural workflow for implementing each Wicked renderer migration phase with build locks, evidence gates, visual parity, rollback, and native lifecycle safety.
 provenance:
   extracted: 0.23
   inferred: 0.73
   ambiguous: 0.04
 created: 2026-07-12T13:45:00+02:00
-updated: 2026-08-15T11:49:00+02:00
+updated: 2026-08-15T12:17:00+02:00
 ---
 
 # Implementing The Wicked FF8 Render Bridge

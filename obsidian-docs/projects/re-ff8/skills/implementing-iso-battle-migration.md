@@ -32,13 +32,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
 summary: Full design and execution status through G09 live Attack 0x01 closure; P1 AttackSlice is unlocked and G10 is next.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-15T11:49:00+02:00
+updated: 2026-08-15T12:17:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration

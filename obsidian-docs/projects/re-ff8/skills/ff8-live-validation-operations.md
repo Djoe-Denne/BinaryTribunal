@@ -12,6 +12,9 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
 summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
@@ -27,7 +30,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-08-09T13:41:00+02:00
+updated: 2026-08-15T12:17:00+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -131,6 +134,30 @@ watch doit donc compter un pump `Battle_RunFileLoadingCallbacks` et un appel
 BdLink par tick, puis attendre l’observation opérateur du HUD et de la 3D avant
 le shutdown final. Une régression visuelle explicite transforme l’enveloppe en
 preuve négative, même si les compteurs mémoire passent.
+
+### G09 : trois horloges, une seule promotion
+
+Une commande live doit fermer trois horloges distinctes : cadence hôte
+(quatre HUD autour d’un Director), transaction domaine (plan, commit,
+événement exactement une fois) et présentation (acteur/caméra/BdLink revenus
+idle). Un `PASS` du calcul n’autorise pas la promotion si l’animation ne part
+pas ou si l’acteur reste verrouillé.
+
+- Capturer le premier invariant qui faute avant de corriger le symptôme noir.
+  Durant G09, export HP au mauvais moment, export après rollback et dérive ATB
+  ont produit des noirs visuellement identiques mais des causes différentes.
+- Ne jamais interpréter une file relay vide comme un idle complet. Relay
+  `0x68` lance la séquence; relay `0x70` constitue la barrière acteur, caméra et
+  BdLink avant unlock.
+- La consommation du pending doit emporter la consommation du tour (ATB et
+  ready bit), puis `BATTLE_ACTION_EXECUTION_ACTIVE` doit geler la progression
+  pendant la présentation, sans être posé avant la fin de la fenêtre G07.
+- Le popup natif est déclenché par opcode `0xB2` dans chaque script d’arme.
+  Un délai fixe ne prouve donc pas le timing ISO; accepter explicitement la
+  dette cosmétique ou la fermer dans l’adaptateur de présentation U14.6.
+- En faute post-engagement, rendre HUD/Director au natif seulement selon la
+  politique de handback auditée; ne pas conserver silencieusement des seams
+  ISO qui transforment un domaine déjà commité en écran noir terminal.
 
 ## Fin de campagne
 

@@ -3,14 +3,14 @@ title: RE FF8
 category: project
 tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
-sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader]
+sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl]
 summary: Project overview for FF8 PC battle-system reverse engineering, including live-proven frame ownership, takeover boundaries, and links to the injector and remaster implementation.
 provenance:
   extracted: 0.78
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T11:49:00+02:00
+updated: 2026-08-15T12:17:00+02:00
 ---
 
 # RE FF8
