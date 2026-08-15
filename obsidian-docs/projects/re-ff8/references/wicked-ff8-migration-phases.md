@@ -17,7 +17,7 @@ provenance:
   inferred: 0.68
   ambiguous: 0.05
 created: 2026-07-12T13:45:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-08-15T11:49:00+02:00
 ---
 
 # Wicked FF8 Progressive Migration Phases
@@ -32,7 +32,7 @@ Move battle presentation from native FF8 rendering to a prewarmed Wicked Engine 
 - keeping the game playable at every phase;
 - preserving a native or legacy fallback per object/effect;
 - measuring parity instead of relying on screenshots by eye;
-- separating rendering migration from battle-domain replacement;
+- separating rendering migration from battle-domain replacement (Wicked consumes semantic ISO events; it does not own `core/` or `TemporaryGxxNcompAdapter`);
 - enabling future semantic materials, lighting, animation, effects, and HUD.
 
 ## Known Starting Point

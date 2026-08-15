@@ -10,7 +10,7 @@ provenance:
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-23T11:25:00+02:00
+updated: 2026-08-15T11:49:00+02:00
 ---
 
 # RE FF8
@@ -74,7 +74,8 @@ The wiki separates two layers:
 
 ## Skills, Prompts, And Tools
 
-- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — In-process x86 migration architecture with fidelity profiles, lift strategies, ownership rules, and gated execution discipline.
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — In-process x86 migration architecture, one-way `core` → `application` → `runtime` layer law, fidelity profiles, and gated execution.
+- [[projects/re-ff8/skills/implementing-wicked-ff8-bridge]] — Procedural implementation, evidence, parity, rollback, and soak workflow. Consumes ISO semantic events; does not own battle-domain NCOMP.
 - [[projects/re-ff8/skills/ff8-live-validation-operations]] — Transversal Windows, IDA MCP, injection, candidate-hash and runtime-evidence rules for every future live batch.
 - [[projects/re-ff8/concepts/ff8re-hypothesis-runner]] — Repeatable `ff8re` runner workflow for IDA MCP validation.
 - [[projects/re-ff8/references/gf-runtime-test-matrix]] — YAML inventory and execution pattern for GF injection and slot-layout tests.

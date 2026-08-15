@@ -30,7 +30,7 @@ provenance:
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-15T10:20:00+02:00
+updated: 2026-08-15T11:49:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -56,7 +56,7 @@ Completed foundations include:
 - a stable exported C/POD launch ABI;
 - inert `DllMain`, explicit bootstrap/suite/shutdown exports, and structured evidence events;
 - transactional MinHook seams with quiescent rollback;
-- canonical pointer-free `core::BattleState` plus `abi::LegacyBattleImage`;
+- canonical pointer-free `core::BattleState`; `abi::LegacyBattleImage` exists only as a runtime codec, not as a `core/` or `BattleSession` type;
 - guarded host reads/writes, pointer validation, write allowlists, and call auditing;
 - manifest, closure, strategy, ownership, fallback, and evidence policies;
 - representative CLIFT and BLIFT fixtures;
@@ -164,6 +164,13 @@ selection, G08 owns target fan-out, and G09 owns Attack `0x01` HP/event commit.
 Native presentation stays a narrowly audited compatibility unit. P1 AttackSlice
 is the versioned G09 claim.
 
+> [!note] Post-G09 repo layering — 2026-08-15, offline
+> `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts
+> `core::BattleState` / `CommandSpineState`. G06 HUD, G07 file-callback/BdLink,
+> and G09 relays/popup/latch live in `TemporaryGxxNcompAdapter` (U14.6).
+> Historical live hashes are unchanged; this is not a re-promotion. See
+> [[projects/re-ff8/skills/implementing-iso-battle-migration]].
+
 ## How live tests work
 
 The injected DLL is loaded only from Open World or a menu, with IDA detached.
@@ -192,12 +199,12 @@ The project separates:
 - `abi/` — packed legacy mirrors, address maps, and compatibility images;
 - `core/` — deterministic host-independent battle state and future rules;
 - `application/` — battle session and use-case orchestration;
-- `runtime-x86/` — process memory, state synchronization, detours, lifecycle, and evidence;
+- `runtime-x86/` — host translation: codecs, `TemporaryGxxNcompAdapter`, process memory, detours, lifecycle, and evidence;
 - `integration/ffscriptloader/` — typed adapter over [[projects/ffscriptloader/ffscriptloader]];
 - `lift/` — strategy manifests and contained lifted representatives;
 - `tests/` and `evidence/` — offline contracts, in-process suites, and promotion artifacts.
 
-Only `runtime-x86/` may touch raw FF8 process memory. The canonical state never owns host pointers, and C++ STL/virtual types do not cross the game/DLL boundary.
+Only `runtime-x86/` may touch raw FF8 process memory, pack native pods, or call NCOMP helpers (`TemporaryGxxNcompAdapter`). `core/` and `application/` stay ABI-free. The canonical state never owns host pointers, and C++ STL/virtual types do not cross the game/DLL boundary.
 
 ## Operational playbook
 

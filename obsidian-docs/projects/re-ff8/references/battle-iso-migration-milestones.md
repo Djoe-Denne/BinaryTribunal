@@ -30,7 +30,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-15T10:20:00+02:00
+updated: 2026-08-15T11:49:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -40,6 +40,8 @@ updated: 2026-08-15T10:20:00+02:00
 
 > [!success] Current implementation checkpoint — 2026-08-15
 > The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G09 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. G10 is the next unimplemented gate.
+>
+> After that promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes; G10+ must follow the layer law below.
 
 Status notation in the foundation groups:
 
@@ -371,6 +373,8 @@ candidate completed 240 canonical pulses over 60 frames with 240 ATB ticks,
 typed readiness, unchanged G07 pending state, no native domain fallback and a
 byte-exact rollback. A proven `BattleUI_RenderHud` NCOMP wrapper runs once per
 module frame and repeated visual validation kept the HUD/gauges stable.
+The live-promoted wrapper now lives in `TemporaryG06NcompAdapter` (`runtime-x86`,
+removal target U14.6); that extract did not create a new live envelope.
 The v3 closure matrix additionally proves GF `6→4`, auto/menu readiness `1/1`,
 blocked escape for 60 frames, one known poll with RNG cursor `4→5`, zero
 forbidden calls/write violations, and exact hook/HUD-phase restoration. **G06
@@ -414,7 +418,9 @@ writer/fallback/out-of-scope calls, and byte-exact rollback. The first
 machine-green candidate was rejected because the HUD and 3D blacked out;
 protocol v2 now retains one file-callback pump and one BdLink
 task/camera/upload pass per tick, with exact command-range verification after
-each compatibility call.
+each compatibility call. Those two NCOMP calls now live in
+`TemporaryG07NcompAdapter` (`runtime-x86`, removal target U14.6); pending/exec
+codecs are `command_spine_codec`, not `core/`. The live envelope remains historical.
 
 **Units**
 
@@ -472,7 +478,9 @@ multi-hit eligibility baselines.
 **Depends on:** G08.
 
 > [!success] Live 2026-08-15 — P1 AttackSlice unlocked
-> Units below are implemented fail-closed in `core/` + session, pass
+> Units below are implemented fail-closed as semantic domain (`core/`),
+> session orchestration (`application/BattleSession`), and
+> `TemporaryG09NcompAdapter` in `runtime-x86`. They pass
 > `ctest --preset debug-x86` 25/25, and are live-promoted on DLL
 > `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
 > Cover, drain/Charged, non-zero status payload, Magic/Item/GF and G17 stay

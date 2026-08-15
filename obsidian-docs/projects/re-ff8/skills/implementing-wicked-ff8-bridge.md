@@ -4,6 +4,7 @@ category: skills
 tags: [ff8, rendering, testing, skill]
 aliases: [Wicked bridge implementation skill, FF8 renderer migration workflow]
 sources:
+  - projects/re-ff8/skills/implementing-iso-battle-migration.md
   - projects/re-ff8/references/wicked-ff8-migration-phases.md
   - projects/re-ff8/concepts/external-battle-renderer-architecture.md
   - projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model.md
@@ -17,7 +18,7 @@ provenance:
   inferred: 0.73
   ambiguous: 0.04
 created: 2026-07-12T13:45:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-08-15T11:49:00+02:00
 ---
 
 # Implementing The Wicked FF8 Render Bridge
@@ -63,14 +64,18 @@ If any item is unknown, the task is not implementation-ready.
 
 Read in this order:
 
-1. [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
-2. [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
-3. [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]]
-4. [[projects/re-ff8/references/wicked-ff8-migration-phases]]
-5. [[projects/re-ff8/references/legacy-ff8-render-pass-d3d12]]
-6. [[projects/re-ff8/references/wicked-engine-integration-reference]]
+1. [[projects/re-ff8/skills/implementing-iso-battle-migration]] — layer law for semantic domain vs runtime NCOMP
+2. [[projects/re-ff8/references/battle-loop-takeover-feasibility]]
+3. [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
+4. [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]]
+5. [[projects/re-ff8/references/wicked-ff8-migration-phases]]
+6. [[projects/re-ff8/references/legacy-ff8-render-pass-d3d12]]
+7. [[projects/re-ff8/references/wicked-engine-integration-reference]]
 
 Follow subsystem links for camera, GF/magic assets, lifecycle, and render bridge rather than duplicating their tables.
+
+> [!important] ISO domain is a separate ownership tree
+> Wicked consumes semantic battle objects, not native pods. The in-process replacement ([[projects/re-ff8/skills/implementing-iso-battle-migration]]) now enforces `core/` → `application/` → `runtime-x86`: codecs and `TemporaryGxxNcompAdapter` stay in runtime. Do not read `abi::LegacyBattleImage`, RVA, or NCOMP opcodes from `BattleSession`, and do not grow an ISO temporary adapter to carry renderer work. Wicked/x64 remains a later program; this skill does not unlock it.
 
 ## Select One Deliverable
 
