@@ -31,13 +31,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
-summary: Full design and execution status through G08 live TargetPlan closure and G09 Attack 0x01 offline; P1 stays locked and G10 is next.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+summary: Full design and execution status through G09 live Attack 0x01 closure; P1 AttackSlice is unlocked and G10 is next.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-14T15:00:00+02:00
+updated: 2026-08-15T10:20:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -48,21 +49,21 @@ updated: 2026-08-14T15:00:00+02:00
 > [!warning] No whole-executable oracle
 > This guide does **not** prescribe a frame-by-frame native oracle or lockstep execution for now. Reverse engineering is driven by IDA static analysis, focused live probes, executable `ff8re` hypotheses, data corpus analysis, and deterministic tests for the new code. This makes `FullISO` an engineering target backed by accumulated proof, not a mathematical certification until a differential oracle is later added.
 
-## Current migration status — 2026-08-14
+## Current migration status — 2026-08-15
 
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
 
-**Migration position:** G05–G08 are strictly closed by their promoted live
+**Migration position:** G05–G09 are strictly closed by their promoted live
 envelopes. P0.9 owns G06 input/ATB/GF/escape/readiness at four pulses per frame;
-G07 owns pending/exec/arbitration/current-action lifecycle; and
+G07 owns pending/exec/arbitration/current-action lifecycle;
 [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation|G08 protocol v2]]
 turns an authentic player Meteor pending into one ordered, pointer-free
-TargetPlan with exact RNG accounting.
+TargetPlan with exact RNG accounting; and
 [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-implements Attack `0x01` HP/event commit offline (`ctest` 25/25). Live Attack
-pending promotion has not passed, so P1 stays locked. G10 status application is
-the next unimplemented gate.
+live-promotes Attack `0x01` HP/event commit. P1 AttackSlice is unlocked as that
+versioned laboratory claim. G10 status application is the next unimplemented
+gate.
 
 The strict original roadmap still carries explicit G03/G04 debt:
 
@@ -104,8 +105,9 @@ The completed checkpoint is therefore a safe, useful base for domain/application
 - Live G08: the pending-writer seam authenticated one player Meteor request;
   replacement normalization, eligibility, ordered fan-out and ten RNG draws
   published one held/completed TargetPlan with no G09/native-targeting call.
-- Offline G09: Attack `0x01` metadata/hit/crit/STR-51/HP/event/unlock exist in
-  core plus a transactional session; live pending promotion has not passed.
+- Live G09: an authentic player Attack `0x01` pending produced one direct
+  TargetPlan, one HP/event commit, `0x70` idle unlock, and hook rollback.
+  P1 AttackSlice is unlocked.
 
 **Intentionally not finished**
 
@@ -119,11 +121,10 @@ The completed checkpoint is therefore a safe, useful base for domain/application
   trace/latch/RNG evidence, bounded multi-tick handback and a post-engagement
   fault. The final DLL hash completes the live matrix; this does not unlock
   G06 or P1.
-- G06, G07 and G08 ownership are bounded opt-in laboratory protocols; the
+- G06, G07, G08 and G09 ownership are bounded opt-in laboratory protocols; the
   default P0 bootstrap remains pass-through and makes no general gameplay claim.
-- G09 Attack `0x01` is implemented offline and fail-closed; live promotion and
-  P1 remain locked. G10 and G23 remain outside the implemented ownership
-  boundary.
+- G09 Attack `0x01` is live-promoted and unlocks P1 AttackSlice. G10 and G23
+  remain outside the implemented ownership boundary.
 
 For the detailed test chronology and the distinction between model tests and
 live seams, see [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]].
@@ -273,7 +274,7 @@ The existing `FF8BattleSlotData_s` pseudocode is a useful starting point, not a 
 > [!note] High-value layout anchors
 > Pending storage starts at `0x1D28D44` and contains three slot-local 24-byte blocks, each holding three 8-byte entries. Exec storage starts around `0x1D288E8` but belongs to a larger `3 groups × 11 cells × 24 bytes` layout; each cell has two packed subrecords and three target-mask words per subrecord. Group heads are `0x1D28C00..0x1D28C02` with empty sentinel `0xFF`. These are footprint constraints, not permission to expose raw queue memory to `core/`.
 
-`Battle_UpdateDamage` (`0x48EF80`) writes at `0x1D28344 + 24 * ATTACK_HIT_COUNT_1`. Writer-proven fields, capacity 32, and overflow fail-closed are recovered for G09 Attack `0x01`; live consume/idle still requires a detached Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
+`Battle_UpdateDamage` (`0x48EF80`) writes at `0x1D28344 + 24 * ATTACK_HIT_COUNT_1`. Writer-proven fields, capacity 32, and overflow fail-closed are recovered for G09 Attack `0x01`; live consume/idle is proven on the 2026-08-15 Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 > [!note] Director ABI: proven gateway, blocked interior entry
 > IDA renders `FFBattleDirector_battleLoop` as `void __thiscall(void*)`, but
@@ -542,7 +543,7 @@ The authoritative tail includes `Battle_ProcessActionCallbackChain` (`0x482D50`)
 > [!warning] Draw command-ID correction
 > Current static evidence identifies Draw as `command_id = 0x06`; an older routing bullet in [[projects/re-ff8/concepts/command-action-pipeline]] still says `0x0D`. G13 fixtures and queue routing must use `0x06` and the stale wiki statement must be corrected before that page is treated as a generated-enum source.
 
-The original damage bridge calls `Battle_UpdateDamage` (`0x48EF80`) and writes one 24-byte event at `BATTLE_DAMAGE_RESULT_BUFFER + 24 * ATTACK_HIT_COUNT_1`, base `0x1D28344`. G09 recovered writer-proven fields and capacity 32 for Attack `0x01`; native `Battle_ApplyDamageOrHeal` remains forbidden. Renderer consume/idle still needs a live Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] and `docs/tech/systems/render_bridge.md`.
+The original damage bridge calls `Battle_UpdateDamage` (`0x48EF80`) and writes one 24-byte event at `BATTLE_DAMAGE_RESULT_BUFFER + 24 * ATTACK_HIT_COUNT_1`, base `0x1D28344`. G09 recovered writer-proven fields and capacity 32 for Attack `0x01`; native `Battle_ApplyDamageOrHeal` remains forbidden. The domain now publishes a semantic damage event; `TemporaryG09NcompAdapter` (`runtime-x86`, removal target U14.6) is the only layer that packs the native 24-byte record and owns relays `0x68`/`0x70`, popup, latch, and `BATTLE_ACTION_EXECUTION_ACTIVE`. Live consume/idle is proven on the 2026-08-15 Attack envelope. See [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] and `docs/tech/systems/render_bridge.md`.
 
 ## 13. Presentation scheduler, callbacks, and task ownership
 
@@ -780,7 +781,7 @@ Do not equate `ff8re/tests/tier*` with these T-levels. Existing YAML tests suppl
 - **G06:** normalized input, ATB, summon charge, escape polling, BattleUI ownership switch;
 - **G07:** pending/exec pools, groups, allocation, arbitration, current action;
 - **G08:** target masks, eligibility, random choice, fan-out, redirects;
-- **G09:** physical Attack `0x01` HP/event slice offline; live pending still required for **P1**;
+- **G09:** physical Attack `0x01` HP/event slice live-promoted; **P1 AttackSlice** unlocked;
 - **G10:** status application, timers, expiration, Regen, Doom;
 - **G11:** Magic;
 - **G12:** Item;

@@ -20,17 +20,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G08 live-closed and G09 Attack
-  0x01 implemented offline; P1 stays locked until a live Attack envelope.
+  In-process x86 FF8 battle migration with G05–G09 live-closed. P1 AttackSlice
+  is the versioned G09 Attack 0x01 claim; G10 is next and unimplemented.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-14T15:00:00+02:00
+updated: 2026-08-15T10:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -127,16 +127,16 @@ Completed foundations include:
 > and restored G06/G07 ownership with flags `0x1ff`. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]].
 
-> [!warning] G09 AttackSlice — offline only
-> Attack `0x01` is implemented fail-closed (`ctest` 25/25, DLL
-> `74952989…af899`) and consumes the frozen G08 TargetPlan. Live promotion was
-> not run: the observed process was field/menu with IDA attached. P1 stays
-> locked. G10 is the next unimplemented gate. See
+> [!success] G09 AttackSlice — live promoted
+> Attack `0x01` is live-closed on DLL `c1d8163e…8e92f`. An authentic Zell Attack
+> pending produced one direct TargetPlan, one HP/event commit, `0x70` idle
+> unlock, and hook rollback. P1 AttackSlice is unlocked as this versioned
+> laboratory claim. G10 is the next unimplemented gate. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 ## Operational snapshot — read this first
 
-The project currently has five distinct levels. They must not be conflated:
+The project currently has six distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -155,14 +155,14 @@ The project currently has five distinct levels. They must not be conflated:
 5. **G08 TargetPlan ownership — live validated.** An authenticated pending-write
    seam hands one real Meteor action into G07/G08; target normalization,
    eligibility, ordered fan-out, redirect provenance and RNG stay DLL-owned.
-6. **G09 physical Attack — offline only.** The replacement consumes one direct
-   TargetPlan, commits HP and a 24-byte event, holds presentation, then unlocks.
-   Live Attack pending promotion has not passed; status application remains G10.
+6. **G09 physical Attack — live validated.** The replacement consumes one direct
+   TargetPlan, commits HP and a semantic event, holds presentation, then unlocks.
+   Status application remains G10.
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
-selection, G08 owns target fan-out, and G09 owns Attack `0x01` HP/event commit
-offline. Native presentation stays a narrowly audited compatibility unit. P1
-stays locked.
+selection, G08 owns target fan-out, and G09 owns Attack `0x01` HP/event commit.
+Native presentation stays a narrowly audited compatibility unit. P1 AttackSlice
+is the versioned G09 claim.
 
 ## How live tests work
 
@@ -228,8 +228,6 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Promote G09 live: fresh `FF8_EN.exe`, IDA detached, one Attack `0x01` pending,
-  then inject suite G09. Until that envelope PASSes, P1 stays locked.
 - Implement G10 status application; Cover, drain/Charged, Magic/Item/GF,
   reactions and rewards remain fail-closed.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain

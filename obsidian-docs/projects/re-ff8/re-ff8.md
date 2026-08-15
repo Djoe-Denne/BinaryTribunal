@@ -24,7 +24,7 @@ The wiki separates two layers:
 
 ## Implementation Projects
 
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. Strict G03, Init/Exit ABI, the historical G05 one-tick probe and the P0.7 G05 scenario matrix passed live. G06, all battle writes, BattleUI ownership and P1 remain open.
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G09 are live-closed; P1 AttackSlice is the versioned G09 Attack `0x01` claim. G10 remains open.
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.

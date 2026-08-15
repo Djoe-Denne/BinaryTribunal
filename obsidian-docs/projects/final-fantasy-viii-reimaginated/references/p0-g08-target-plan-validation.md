@@ -35,7 +35,7 @@ updated: 2026-08-14T15:00:00+02:00
 > produced one pointer-free ordered plan, held without recalculation, completed
 > without G09, and restored the G06/G07 host state and seams.
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-> is implemented offline on Attack `0x01`; live promotion and P1 remain locked.
+> is live-promoted for Attack `0x01`; P1 AttackSlice is unlocked.
 
 ## Canonical Envelope
 
@@ -153,8 +153,7 @@ residue as idle rather than active.^[inferred]
 ## Consequence
 
 [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-now consumes this TargetPlan offline for Attack `0x01`. Live Attack pending
-promotion and P1 remain fail-closed.
+now consumes this TargetPlan live for Attack `0x01`. P1 AttackSlice is unlocked.
 [[projects/re-ff8/references/battle-iso-migration-milestones|G10]] is the next
 unimplemented gate.
 

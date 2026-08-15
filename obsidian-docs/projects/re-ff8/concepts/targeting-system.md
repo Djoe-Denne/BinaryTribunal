@@ -16,13 +16,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
-summary: Encoded target masks feed a live G08 TargetPlan; G09 consumes one direct plan offline for Attack 0x01 HP/event commit.
+summary: Encoded target masks feed a live G08 TargetPlan; G09 consumes one direct plan live for Attack 0x01 HP/event commit.
 provenance:
   extracted: 0.91
   inferred: 0.06
   ambiguous: 0.03
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-08-14T15:00:00+02:00
+updated: 2026-08-15T10:20:00+02:00
 ---
 
 # Targeting System
@@ -120,7 +120,7 @@ followed, and all G06/G07 host state and hook seams restored with witness flags
 This closes the target-plan boundary, not live action resolution. G08 writes no
 damage, HP, status, event, or native target-history field.
 [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-consumes one direct TargetPlan offline for Attack `0x01` HP/event commit.
+consumes one direct TargetPlan live for Attack `0x01` HP/event commit.
 Status application remains [[projects/re-ff8/references/battle-iso-migration-milestones|G10]].
 
 ## Related

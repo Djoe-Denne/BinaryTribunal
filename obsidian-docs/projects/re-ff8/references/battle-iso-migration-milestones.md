@@ -23,14 +23,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
-summary: Dependency roadmap with G05–G08 live-closed and G09 Attack 0x01 implemented offline; P1 stays locked and G10 is next unimplemented.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+summary: Dependency roadmap with G05–G09 live-closed. P1 AttackSlice is unlocked; G10 is next unimplemented.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-14T15:00:00+02:00
+updated: 2026-08-15T10:20:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -38,8 +38,8 @@ updated: 2026-08-14T15:00:00+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!warning] Current implementation checkpoint — 2026-08-14
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G08 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] implements Attack `0x01` offline (`ctest` 25/25) but has no promoted live envelope; P1 stays locked. G10 is the next unimplemented gate.
+> [!success] Current implementation checkpoint — 2026-08-15
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G09 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. G10 is the next unimplemented gate.
 
 Status notation in the foundation groups:
 
@@ -471,12 +471,12 @@ multi-hit eligibility baselines.
 
 **Depends on:** G08.
 
-> [!warning] Offline 2026-08-14 — live gate open
-> Units below are implemented fail-closed in `core/` + session and pass
-> `ctest --preset debug-x86` 25/25 on DLL
-> `749529899aacbcae6ef766ee4e2224c2d38450ddc1746512038022ed155af899`.
+> [!success] Live 2026-08-15 — P1 AttackSlice unlocked
+> Units below are implemented fail-closed in `core/` + session, pass
+> `ctest --preset debug-x86` 25/25, and are live-promoted on DLL
+> `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
 > Cover, drain/Charged, non-zero status payload, Magic/Item/GF and G17 stay
-> refused. Live Attack pending was not captured; P1 remains locked. See
+> refused. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 **Units**
@@ -487,14 +487,14 @@ multi-hit eligibility baselines.
 - [x] **U09.4 Physical raw damage:** STR mode-0 vector str=20/vit=10/power=20/rng=0 → **51**.
 - [x] **U09.5 Physical post-processing:** Protect/crit/Zombie/element subset; drain/Cover remain fail-closed.
 - [x] **U09.6 HP commit:** clamp, KO fixture, last-attacker, crisis, mirrors; `Battle_ApplyDamageOrHeal` forbidden; G10/G17 intents only.
-- [x] **U09.7 Damage event:** 24-byte record, capacity 32, one index, overflow and double-consume refused.
-- [x] **U09.8 In-process slice:** transactional G06–G09 Director path exists offline; live pending envelope is still required.
+- [x] **U09.7 Damage event:** semantic domain event; native 24-byte record capacity 32 via temporary adapter; overflow and double-consume refused.
+- [x] **U09.8 In-process slice:** transactional G06–G09 Director path live-promoted on authentic Attack `0x01` pending.
 
-**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack. Drain/absorb/Cover remain fixture-or-fail-closed until live.
+**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack. Drain/Cover remain fail-closed until G10/U17. Absorb was observed live (heal at HP cap).
 
-**Gate G09 / P1 AttackSlice:** **not passed.** Live requires a fresh process, IDA detached, authentic Attack `0x01` pending, idle unlock, and zero original battle-domain call.
+**Gate G09 / P1 AttackSlice:** **passed.** Fresh process, IDA detached, authentic Attack `0x01` pending, idle unlock, zero original battle-domain call.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G09 -Profile P1` only after a detached Attack pending exists. Do not inject while IDA is attached.
+**Injected in-game test:** `Invoke-IsoGroup -Group G09` after a detached Attack pending exists. Do not inject while IDA is attached.
 
 ### G10 — Port status application, timers, and periodic actions
 
