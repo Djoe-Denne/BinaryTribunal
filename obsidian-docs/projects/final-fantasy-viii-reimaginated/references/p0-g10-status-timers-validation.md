@@ -8,13 +8,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-offline-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: G10 is live-promoted for Status-Atk Slow on Attack 0x01. Apply, named timers, mental RNG, and in-battle shutdown retain. HUD icon deferred U14.6. G11 Fire live candidate is unpromoted.
+summary: G10 is live-promoted for Status-Atk Slow on Attack 0x01. Apply, named timers, mental RNG, and in-battle shutdown retain. HUD icon deferred U14.6. G11 Fire v2 is live-promoted.
 provenance:
   extracted: 0.95
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-15T16:20:00+02:00
-updated: 2026-08-18T17:00:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # P0 G10 Status Timers — Live Closure — 2026-08-15
@@ -27,8 +27,8 @@ updated: 2026-08-18T17:00:00+02:00
 > P0.G10 laboratory protocol. Default P0 still does not replace Attack or
 > status without versioned opt-in. P2 remains blocked until G10–G20.
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Magic]]
-> has an unpromoted Fire live candidate. Session 1 is the G11 test campaign;
-> `[promotion.G11].satisfied` stays false.
+> live-promotes semantic Fire HP/event/stock. Session 1 is closed;
+> `[promotion.G11].satisfied = true`. Magic animation stays G14.
 
 ## Canonical Envelope
 
@@ -124,8 +124,8 @@ domain fail. ^[ambiguous]
 ## Next
 
 [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Magic]]
-is an unpromoted Fire live candidate (witness, suite, stock writer). It is
-**not** live-promoted. The G11 test campaign is
+live-promotes semantic Fire HP/event/stock under protocol v2. Magic
+animation remains G14. The closed campaign session is
 [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
 Drain/Charged, Cover, Item/Draw, G17 AI, rewards, Poison periodic HP,
 and status HUD NCOMP remain fail-closed or deferred. Regen/Doom intents are

@@ -24,20 +24,22 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G10 live-closed and a retained
-  G11 Fire live FAIL (presentation tail); promotion.G11 stays false.
+  In-process x86 FF8 battle migration with G05–G11 live-closed. G11 v2 owns
+  semantic Fire HP/event/stock; Magic animation deferred to G14.
 provenance:
-  extracted: 0.89
-  inferred: 0.08
+  extracted: 0.90
+  inferred: 0.07
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-18T17:05:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -141,7 +143,8 @@ Completed foundations include:
 > laboratory claim. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
 > now owns the Attack `0x01` status allowlist live.
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]]
-> has an unpromoted Fire live candidate; no PASS envelope yet. See
+> live-promotes semantic Fire HP/event/stock under protocol v2; Magic
+> animation is deferred to G14. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 > [!success] G10 status timers — live promoted
@@ -151,18 +154,18 @@ Completed foundations include:
 > icon is deferred U14.6. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]].
 
-> [!failure] G11 Magic — live Fire FAIL
-> Authenticated `K_MAGIC` feeds MagicSlice through G07–G10. Live v1 Fire on
-> PID `3704` / DLL `0977c9ec…` committed HP/stock then `Faulted` on the G07
-> presentation tail (black 3D, native exception).
-> `[promotion.G11].satisfied` stays false. See
+> [!success] G11 Magic — live Fire v2 promoted (semantic only)
+> Authenticated `K_MAGIC` feeds MagicSlice through G07–G10. Live v2 Fire on
+> PID `16960` / DLL `0b3c4bb9…` committed HP/event/stock with zero Magic
+> NCOMP and `Detached` shutdown. `[promotion.G11].satisfied = true`. Magic
+> animation stays G14. Historical v1 FAIL on PID `3704` is retained. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 > and
 > [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
 
 ## Operational snapshot — read this first
 
-The project currently has eight distinct levels. They must not be conflated:
+The project currently has nine distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -188,18 +191,19 @@ The project currently has eight distinct levels. They must not be conflated:
    hit-status allowlist, seeds named `int16` timers, ticks them under the
    Director gate, and retains committed Slow across shutdown. Drain, Cover,
    Poison periodic HP, and status HUD NCOMP stay fail-closed or deferred.
-8. **G11 Magic — live Fire FAIL, unpromoted.** MagicSlice plus runtime
-   witness exist. PID `3704` committed authentic Fire HP/stock then Faulted
-   on the G07 presentation tail. No PASS envelope;
-   `[promotion.G11].satisfied` stays false. Session 1 of
+8. **G11 Magic — live Fire v2 promoted, presentation deferred.** Semantic
+   Fire HP/event/stock is live-closed on PID `16960`. Magic animation,
+   sequence context, and native Magic NCOMP stay G14 U14.6/U14.7. Session 1
+   of
    [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
-   is the Fire live campaign.
+   is closed. Next gate is G12 Item.
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
-and G10 owns named status/timer application on that Attack. Native
-presentation stays a narrowly audited compatibility unit. P1 AttackSlice plus
-the G10 status slice are the versioned G09/G10 claims.
+G10 owns named status/timer application on that Attack, and G11 owns Fire
+stock/HP/event without Magic animation. Native presentation stays a narrowly
+audited compatibility unit. P1 AttackSlice plus the G10 status slice plus
+the G11 Fire semantic slice are the versioned G09/G10/G11 claims.
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
 > `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts

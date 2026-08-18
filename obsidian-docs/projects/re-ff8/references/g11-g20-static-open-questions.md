@@ -13,7 +13,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-18T17:10:00+02:00
+updated: 2026-08-18T19:07:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -208,12 +208,12 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - confidence: 0.85
 - affects: G14, G11 (negative live only)
 - claim: authentic Fire domain (pending `0x02`/`0x01`, HP, stock) is G11; Magic animation/sequence ABI is sealed NCOMP. Growing `TemporaryG09NcompAdapter::enqueue_magic` with a guessed 20-byte context then pumping the G07 file-callback/BdLink tail is half-ownership (U14.7) and Faulted PID 3704 on 2026-08-18.
-- evidence_for: G11 units U11.1–U11.8 are kernel/stock/formula/commit; G14 U14.6 is one owner for sequences+callbacks+BdLink+draw; adapter header says removal U14.6 and “do not grow with domain work”; envelope `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`, detail `G07 native presentation tail failed closed`, relays=2, presentation_ticks=0, native exception dialog); the hash-bound Cursor transcript records the operator sequence and the explicit decision to defer the mixed-ownership repair to G14.
+- evidence_for: G11 units U11.1–U11.8 are kernel/stock/formula/commit; G14 U14.6 is one owner for sequences+callbacks+BdLink+draw; adapter header says removal U14.6 and “do not grow with domain work”; envelope `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`); Cursor transcript SHA-256 `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e` records the v1 exception ordering, the G14 deferral, then the v2 operator sequence (fresh process, in-battle, no black screen, Irvine ATB full).
 - evidence_against: G09 promoted Attack only after `0x70` idle because Attack NCOMP was the G09 contract; G11 live suite copied that clock. That over-scopes G11 relative to the master plan.
-- missing_discriminator: native Magic `BATTLE_ACTION_SEQUENCE_CONTEXT` layout vs Attack; whether G11 can live-promote domain by **not** calling `enqueue_magic`.
-- next_static_probe: none for G11 formula/stock. G14: capture native Magic sequence bytes on vanilla Fire.
+- missing_discriminator: native Magic `BATTLE_ACTION_SEQUENCE_CONTEXT` layout vs Attack; ATB HUD consume after Magic (operator Irvine bar stayed full on v2 PASS).
+- next_static_probe: none for G11 formula/stock. G14: capture native Magic sequence bytes on vanilla Fire; G06/G14: ATB HUD consume after Magic.
 - eventual_live_probe: G14 U14.6 Magic sequence as part of the sealed adapter; U14.7 must reject replacement Magic contexts in native lists.
-- resolution: parked 2026-08-18. Not a G11 fix; not G25 (full scheduler replacement).
+- resolution: parked 2026-08-18. G11 v2 PASS on PID 16960 proved domain promotion by **not** calling `enqueue_magic` (`ncomp_calls=0`, `presentation_relay_calls=0`). Not a G11 fix; not G25. Irvine ATB HUD consume remains G06/G14.
 
 ### SQ-G15-001 — AI VM loop guard
 

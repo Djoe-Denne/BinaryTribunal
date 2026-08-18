@@ -9,6 +9,8 @@ sources:
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - projects/re-ff8/references/g11-g20-static-open-questions.md
   - projects/re-ff8/skills/ff8-live-validation-operations.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
@@ -16,28 +18,37 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/README.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
 summary: >-
-  Session 1 Fire on PID 3704 is FAIL: HP/stock committed, G07 presentation tail
-  Faulted with native exception. promotion.G11 stays false.
+  Session 1 Fire v2 PASS on PID 16960: HP/event/stock, zero Magic NCOMP.
+  ATB bar not resetting is G06/G14. promotion.G11 true.
 provenance:
-  extracted: 0.88
-  inferred: 0.09
-  ambiguous: 0.03
+  extracted: 0.92
+  inferred: 0.06
+  ambiguous: 0.02
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-18T17:10:00+02:00
-status: live-fail-unpromoted
+updated: 2026-08-18T19:07:00+02:00
+status: live-pass-promoted-v2
 ---
 
 # G11 Live Single-Cast Session Plan
 
-> [!failure] First live Fire is FAIL
-> PID `3704`, DLL `0977c9ec…12005140`, envelope
-> `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`,
-> `runtime_state=Faulted`). Authentic Fire committed HP/stock, then G07
-> presentation tail failed closed. Operator saw black 3D and
-> **An unknown exception has occurred.** That process is terminal.
-> `[promotion.G11].satisfied` stays false. Magic sequence NCOMP is
-> [[projects/re-ff8/references/g11-g20-static-open-questions|SQ-G14-002]],
-> not a G11 unit.
+> [!success] Session 1 Fire v2 is PASS
+> PID `16960`, DLL `0b3c4bb9…5df0aef1`, envelope
+> `p0-g11-magic-fire-v2-final-live-2026-08-18.json` (`verdict=PASS`,
+> `runtime_state=Detached`). Authentic Irvine Fire, no black screen, no
+> native exception. `[promotion.G11].satisfied = true`. Magic sequence NCOMP
+> stays [[projects/re-ff8/references/g11-g20-static-open-questions|SQ-G14-002]].
+
+> [!note] ATB HUD consume is not G11
+> Irvine's ATB bar staying full after Fire is expected under protocol v2:
+> G11 does not own Magic turn presentation or native ATB HUD consume. Park
+> that under G06 NCOMP / G14. Missing Fire animation is conforming.
+> Operator confirmation (fresh process, in-battle, no black screen, ATB full)
+> is bound to transcript SHA-256
+> `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e`.
+
+> [!failure] Historical v1 Fire is FAIL
+> PID `3704`, DLL `0977c9ec…12005140` committed HP/stock then Faulted the G07
+> presentation tail after guessed `enqueue_magic`. Keep as negative evidence.
 
 ## Objective
 
@@ -47,7 +58,7 @@ zero targeting RNG, one HP/event commit, one stock-quantity decrement,
 in-battle retain, and zero native Magic resolver/stock helper. Relay `0x70`
 idle and Magic action-sequence ABI are **U14.6**, not U11.
 
-The offline family matrix remains coverage, not the live v1 promotion claim.
+The offline family matrix remains coverage, not the live v2 promotion claim.
 
 ## Hash binding
 
@@ -56,34 +67,36 @@ The offline family matrix remains coverage, not the live v1 promotion claim.
 - English Steam `kernel.bin` SHA-256:
   `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
 - Fire fixture: id 1, `attackType` 2, power 18, element `0x01`, one hit.
-- Diagnostic Debug DLL SHA-256 (2026-08-18 16:19, PE32 I386):
-  `0977c9ec88f757f0e5022de9fbddc83f3e835b1624eed45825d5c66012005140`.
-  Live Fire on this hash is a **FAIL** envelope, not a PASS hash.
-- Earlier offline-only diagnostic `c933d662…fc68ff` is superseded as a
-  candidate binary.
+- Promoted Debug DLL SHA-256:
+  `0b3c4bb916629bcaabfa0e0037a3f918663bef792ee53a298e5b07155df0aef1`.
+- Suite `suite-G11-fire-v2.bin` SHA-256:
+  `8906cce333f18691622d1e676c45bdc22d506b631d7f9b0e069b6b02311d1845`.
+- Envelope SHA-256:
+  `7674c272269040ec2e031c03d2d576dccae31848d38c71250d9c467de7eec0f6`.
+- Historical FAIL DLL `0977c9ec…12005140` is not the promotion hash.
 
-Checked 2026-08-18: `validate_contracts.py` ok; `G11.magic-payload-wire` and
-`G11.magic-slice` pass.
+Checked 2026-08-18 after promotion: `validate_contracts.py` ok; CTest 29/29.
 
-## Live v1 contract
+## Live v2 contract
 
-From `tests/in-process/G11.suite.toml`, protocol `g11-magic-live-v1`,
+From `tests/in-process/G11.suite.toml`, protocol `g11-magic-live-v2`,
 scenario `magic-live-pending`, safe point
 `player-confirmed-fire-pending-exec-idle`:
 
 - pending-write seam captures Fire only (`Magic 0x02`, spell `0x01`,
-  entry index 0, party attacker 0–2, direct enemy mask);
+  party attacker 0–2, direct enemy mask);
 - caster battle stock quantity starts at two or more;
 - host writes: G06/G07/G08 named ranges plus enemy HP/status/last-attacker,
-  damage event, hit count, action-execution latch, and the selected stock
-  **id+quantity** pair (the three cache bytes stay native);
+  damage event, hit count, and the selected stock **id+quantity** pair
+  (cache bytes stay native; action-execution latch and sequence context
+  stay native/G14);
 - fail-closed: any other spell, targeting RNG, Reflect, Angel Wing, Silence,
-  Double/Triple, status payload, multi-hit, qty `< 2`, or lethal outcome.
+  Double/Triple, status payload, multi-hit, qty `< 2`, or lethal outcome;
+- **zero** Magic native presentation context, relays, or NCOMP.
 
 `TemporaryG09NcompAdapter::enqueue_magic` is a guessed Magic sequence write.
-Do not grow that Attack adapter to close G11. Park Magic NCOMP at U14.6
-(SQ-G14-002). G11 live may refuse `enqueue_magic` rather than half-own native
-lists. ^[extracted]
+Do not grow that Attack adapter to close G11. v2 live-promotes domain by
+refusing `enqueue_magic`. Park Magic NCOMP at U14.6 (SQ-G14-002). ^[extracted]
 
 ## Preflight inventory
 
@@ -91,32 +104,17 @@ lists. ^[extracted]
 | --- | --- |
 | `core` MagicSlice + `K_MAGIC` codec | present |
 | `BattleSession::tick_g11_resolve` / `tick_g11_hold` | present |
-| `FF8IsoG11MagicWitness` (176 bytes) + suite `G11` | present |
+| `FF8IsoG11MagicWitness` + suite `G11` v2 | present |
 | `capture_g11_live_pending_write` | present |
 | `import/export/restore_g11_magic_stock` + allowlist | present |
-| `[promotion.G11].satisfied` | **false** |
-| Live Fire envelope | absent |
+| `[promotion.G11].satisfied` | **true** (2026-08-18) |
+| Live Fire v2 envelope | `p0-g11-magic-fire-v2-final-live-2026-08-18.json` PASS |
 
-Contracts and G11 CTest passing authorize **preflight**, not promotion.
-The 2026-08-18 live Fire run is retained as negative presentation evidence.
-Retry only on a fresh process after NCOMP/tail work.
-
-## Setup
-
-- One fresh process, IDA detached, supported EXE and authenticated English
-  `kernel.bin`.
-- Stable battle with one party caster holding Fire qty ≥ 2 and one durable
-  enemy that will not die from one Fire.
-- Record save-side and battle-local 32-entry Magic stocks before any action.
-- Capture baseline `B0`: slots, stocks, RNG, ATB/ready, pending, exec queues,
-  current action, latches, events and presentation signals.
-- Arm only group `G11` after bootstrap.
-
-## Authentic Fire (the live v1 case)
+## Authentic Fire (the live v2 case)
 
 The operator confirms one ordinary Fire through the native UI. The runtime
-must capture the 8-byte pending record and own G07 → G08 → G11. It waits for
-relay `0x70`, then records the committed action.
+captures the 8-byte pending record and owns G07 → G08 → G11. It does **not**
+wait for Magic animation or `0x70` Magic sequence idle.
 
 Required assertions:
 
@@ -126,10 +124,15 @@ Required assertions:
 - exactly one spread RNG draw and no accuracy draw (SQ-G11-005 live check);
 - save-side stock unchanged mid-battle;
 - zero native Magic resolver/stock helper and zero forbidden writes;
-- visible HUD, 3D, animation/camera completion and idle latch;
+- HUD/3D remain up; Fire animation may be absent;
 - committed HP/event/stock retained across in-battle shutdown.
 
-## Offline family coverage (not live v1)
+## Operator observation — ATB
+
+A full ATB bar after Fire does **not** fail G11 v2. Record it as G06 HUD /
+G14 follow-up. Do not reopen `[promotion.G11]` for that HUD consume.
+
+## Offline family coverage (not live v2)
 
 Demi, Cure, Life/Full-Life, status-only, Shell/null/absorb Fire, Silence
 rejection and empty-stock rejection stay in offline `MagicSlice` tests.
@@ -140,27 +143,19 @@ They must not be mixed into this Fire envelope.
 Raw pending bytes, `K_MAGIC` row hash, stock before/after, RNG cursor and
 bytes, plan, HP/event, `FF8IsoG11MagicWitness`, call audit, write diff,
 cadence, barrier timestamps, hook preimages and shutdown retain flags.
+Presentation counters must stay zero on the promoted v2 envelope.
 
 ## Pass and shutdown
 
 Export one campaign envelope bound to the recorded DLL hash. Hook preimages
 must restore, FF8 must stay alive, and the Fire HP/stock commit must remain
-in battle RAM. That envelope is what may later set
-`[promotion.G11].satisfied`.
+in battle RAM. That envelope set `[promotion.G11].satisfied`.
 
 ## Exclusions
 
 Meteor, Dual/Triple, Reflect, Angel Wing, Scan, Full-cure, other spells,
-enemy-caster scaling, GF absorption, Zombie Life and lethal Fire remain
-fail-closed.
-
-## Operator actions
-
-1. Load the declared save and enter the requested battle.
-2. Confirm one Fire on the designated target when prompted.
-3. Confirm whether HUD, actor, animation, camera and 3D returned normally.
-4. Do not pause, issue another command, attach IDA or leave battle until the
-   collector reports safe shutdown.
+enemy-caster scaling, GF absorption, Zombie Life, lethal Fire, Magic
+animation, and native ATB HUD consume remain fail-closed or deferred.
 
 ## Related
 

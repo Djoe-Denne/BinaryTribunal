@@ -34,15 +34,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: Full design and execution status through G10 live Slow/status closure, plus an unpromoted G11 Fire live candidate.
+summary: Full design and execution status through G11 Fire v2 semantic live closure. Magic animation remains deferred to G14.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-18T17:05:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -68,9 +70,11 @@ TargetPlan with exact RNG accounting;
 live-promotes Attack `0x01` HP/event commit; and
 [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
 live-promotes the owned Slow status/timer slice. P1 AttackSlice plus the G10
-status slice are unlocked as those versioned laboratory claims. G11 Fire live
-on DLL `0977c9ec…` is a retained **FAIL** (domain commit, G07 presentation
-tail `Faulted`); `[promotion.G11].satisfied` stays false. See
+status slice are unlocked as those versioned laboratory claims.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]]
+live-promotes semantic Fire HP/event/stock on DLL `0b3c4bb9…`; Magic
+animation stays G14 U14.6/U14.7. Historical v1 FAIL on DLL `0977c9ec…` is
+retained as SQ-G14-002. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]].
 
 The strict original roadmap still carries explicit G03/G04 debt:

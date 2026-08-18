@@ -8,21 +8,23 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/core/src/magic_slice.cpp
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/kernel_magic_codec.cpp
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/offline/test_g11.cpp
-summary: Bounded G11 MagicSlice over authenticated K_MAGIC; Fire live FAIL retained, still unpromoted.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
+summary: Bounded G11 MagicSlice over authenticated K_MAGIC; Fire v2 live-promoted for HP/event/stock. Magic animation deferred G14.
 provenance:
-  extracted: 0.72
-  inferred: 0.20
-  ambiguous: 0.08
+  extracted: 0.78
+  inferred: 0.16
+  ambiguous: 0.06
 created: 2026-08-18T14:29:09+02:00
-updated: 2026-08-18T17:05:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # G11 Magic Bounded Offline Draft
 
-> [!warning] Not a live promotion
-> The original MagicSlice report did not own host memory. A later Fire live
-> runtime exists and recorded a **FAIL** envelope (G07 presentation tail).
-> `[promotion.G11].satisfied` stays false. See
+> [!success] Live Fire v2 is promoted; animation is not
+> MagicSlice plus protocol v2 live-promote semantic Fire HP/event/stock.
+> `[promotion.G11].satisfied = true`. Magic animation remains G14. Historical
+> v1 FAIL (G07 presentation tail) is retained. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]].
 
 ## Outcome
@@ -69,7 +71,7 @@ consumption, double-commit rejection, and event-buffer rollback.
 - Battle-init stock import and persistence.
 - Scan and special/unimplemented attack types.
 - Zombie revive damage semantics.
-- Runtime activation, host mutation, presentation, cleanup, and promotion.
+- Magic animation, sequence context, and native Magic NCOMP (G14).
 
 These are explicit error outcomes, not silent approximations. The detailed
 confidence and follow-up work remain in
@@ -88,14 +90,15 @@ G12 code remains blocked on the narrower late invalid-target race after a valid
 menu commit. This preserves the distinction between statically observed native
 ordering and an unproved rollback policy.
 
-## Promotion gap
+## Promotion
 
-The 2026-08-18 Fire live run is a retained **FAIL**: domain HP/stock
-committed, then `G07 native presentation tail failed closed` with a native
-exception. A later PASS envelope must still prove presentation ABI, `0x70`
-idle, hook restore and in-battle retain. Until then
-`[promotion.G11].satisfied` stays false and the milestone checkboxes in
-[[projects/re-ff8/references/battle-iso-migration-milestones]] remain open.
+Fire v2 is live-promoted 2026-08-18: semantic HP/event/stock on DLL
+`0b3c4bb9…`, envelope
+`p0-g11-magic-fire-v2-final-live-2026-08-18.json`.
+`[promotion.G11].satisfied = true`. Magic animation remains open in
+[[projects/re-ff8/references/battle-iso-migration-milestones]] as G14
+U14.6/U14.7. Other Magic families stay fail-closed. The v1 FAIL envelope is
+historical SQ-G14-002 evidence.
 
 ## Related
 

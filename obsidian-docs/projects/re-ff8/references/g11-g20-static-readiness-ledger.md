@@ -11,21 +11,21 @@ sources:
   - projects/re-ff8/concepts/command-action-pipeline.md
   - docs/tech/reference/battle_action_resolve.c
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated
-summary: Red-team-corrected static map for G11–G20 after G10 live Slow. Not a live promotion. G11 now has a bounded offline draft from an authenticated kernel; the normal Item writer is closed, while G12 late invalid-target rollback remains open.
+summary: Static G11–G20 map after G10. G11 Fire v2 later live-promoted semantic HP/event/stock; this page stays the static ledger. G12 late invalid-target rollback remains open.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-18T17:10:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
 
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
-> [!warning] Not a live promotion
-> No `Gxx.satisfied = true` claim. No `FF8_EN.exe` run. Authority is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` (image base `0x400000`, IDB `D:\Modding\ff8\retro-exe\FF8_EN.exe.i64`). Implementation HEAD at campaign start: `FinalFantasy_VIII_Reimaginated` `main` `f959679bd2536648acad57321ecbd276965ab9be`.
+> [!warning] This page is the static map, not the live G11 envelope
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Later the same day, [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. G12–G20 stay unpromoted here.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -35,7 +35,7 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 
 | Gate | Static status | Confidence | Units | Next |
 | --- | --- | ---: | --- | --- |
-| G11 Magic | `static-partial` + offline draft | 0.74 | Single-cast semantic path implemented; stock import and Dual/Triple incomplete | live witness later; keep unsupported branches fail-closed |
+| G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families and animation incomplete | G12 Item; Magic NCOMP is SQ-G14-002 |
 | G12 Item | `static-partial` | 0.70 | Metadata and normal menu consume mapped; late invalid-target policy incomplete | close SQ-G12-004 before transaction code |
 | G13 Draw | `static-partial` | 0.70 | U13.1–U13.6 mapped with live-required pending id | live `PendingCmd_QueueOrStore` command_id byte; mid-flight source death |
 | G14 callbacks | `static-partial` | 0.62 | U14.1–U14.7 ownership map | idle runtime; half-ownership live detector |

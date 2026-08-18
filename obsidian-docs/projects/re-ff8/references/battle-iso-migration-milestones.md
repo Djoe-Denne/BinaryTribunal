@@ -35,7 +35,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-18T17:10:00+02:00
+updated: 2026-08-18T18:55:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -44,7 +44,7 @@ updated: 2026-08-18T17:10:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-15
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G10 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. G11 now has a bounded [[projects/re-ff8/references/g11-magic-offline-draft|offline Magic draft]], but remains unpromoted. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] without live promotion (G11–G14 sections, G15 crosswalk, G16–G20 recognition). Implementation gate checkboxes below stay unchecked.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G11 with strict live evidence for the owned slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Fire HP/event/stock; Magic animation remains G14. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. Other Magic-family and G12–G20 implementation gate checkboxes below stay unchecked.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 

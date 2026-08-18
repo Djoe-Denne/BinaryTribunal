@@ -13,24 +13,27 @@ sources:
   - projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
 summary: >-
-  Session 1 Fire live FAIL on PID 3704: domain commit then G07 presentation
-  tail Faulted. promotion.G11 stays false; sessions 2–7 remain out of G11.
+  Session 1 Fire v2 PASS on PID 16960; promotion.G11 true. Magic animation
+  deferred G14. Sessions 2–7 are later gates; G12 Item is next.
 provenance:
-  extracted: 0.84
-  inferred: 0.12
-  ambiguous: 0.04
+  extracted: 0.88
+  inferred: 0.09
+  ambiguous: 0.03
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-18T16:55:00+02:00
-status: g11-live-fail-unpromoted
+updated: 2026-08-18T19:07:00+02:00
+status: g11-live-pass-v2
 ---
 
 # G11–G14 Live Session Campaign Index
 
-> [!warning] G11 test campaign is session 1 only
-> Until G11 is live-promoted, do not treat sessions 2–7 as G11 evidence.
-> Session 1 recorded a hash-bound **FAIL** Fire envelope (`g11-magic-live-v1`,
-> PID 3704, DLL `0977c9ec…`). `[promotion.G11].satisfied` stays false.
+> [!success] G11 session 1 is closed under protocol v2
+> Session 1 Fire v2 PASS (`g11-magic-live-v2`, PID 16960, DLL `0b3c4bb9…`).
+> `[promotion.G11].satisfied = true`. Sessions 2–7 remain later gates, not
+> extra G11 evidence. Historical v1 FAIL on PID 3704 stays diagnostic.
 
 > [!important] One session means one process
 > A session uses one fresh `FF8_EN.exe`, one immutable DLL hash, one bootstrap,
@@ -48,17 +51,17 @@ case. Timing races and deliberate ownership faults get dedicated processes.
 | G05–G10 live baseline | closed; do not re-promote as G11 |
 | Authenticated English `kernel.bin` | SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6` |
 | G11 CTest | `G11.magic-payload-wire` and `G11.magic-slice` pass |
-| Diagnostic Debug DLL | SHA-256 `0977c9ec…12005140`, PE32 I386; live Fire **FAIL** |
-| Live Fire 2026-08-18 | PID 3704 `Faulted`; HP/stock committed; G07 tail + native exception |
-| Live v1 scope | authentic Fire only (`0x02` / spell `0x01`) |
-| `[promotion.G11].satisfied` | false; Magic presentation ABI still blocking |
-| Sessions 2–7 | deferred until G11 live-promotes |
+| Promoted Debug DLL | SHA-256 `0b3c4bb9…5df0aef1`; live Fire v2 **PASS** |
+| Live Fire v2 2026-08-18 | PID 16960 `Detached`; HP/event/stock; zero Magic NCOMP |
+| Live v2 scope | authentic Fire only (`0x02` / spell `0x01`); no Magic animation |
+| `[promotion.G11].satisfied` | **true**; Magic presentation ABI deferred G14 |
+| Sessions 2–7 | later gates; G12 Item is next |
 
 ## Session order
 
 | Order | Session | Purpose | Role in G11 campaign |
 | ---: | --- | --- | --- |
-| 1 | [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan\|G11 Fire live v1]] | authentic Fire pending, stock, HP/event | **the G11 test campaign** |
+| 1 | [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan\|G11 Fire live v2]] | authentic Fire pending, stock, HP/event | **closed 2026-08-18** |
 | 2 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan\|G12 Item]] | normal Item storage and resolver cases | later gate; not G11 |
 | 3 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan\|G12 late target race]] | close SQ-G12-004 | later gate; not G11 |
 | 4 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan\|G13 Draw]] | authentic pending, Cast and Stock | later gate; not G11 |
@@ -84,9 +87,9 @@ Before every process:
 6. Refuse any stale evidence, unexpected loaded DLL, debugger attachment,
    non-idle inherited latch, or unclassified writer/call target.
 
-Session 1 live Fire on PID 3704 is terminal `Faulted`. Passing contracts and
-G11 CTest still does not set `[promotion.G11].satisfied`. The next Fire
-attempt needs a fresh `FF8_EN.exe` after presentation-tail work.
+Session 1 live Fire v2 on PID 16960 is `PASS` / `Detached`. Historical v1 on
+PID 3704 remains terminal `Faulted` and must not be reused. G12 starts on a
+fresh `FF8_EN.exe`; do not rebuild a loaded DLL.
 
 ## Per-case transaction
 

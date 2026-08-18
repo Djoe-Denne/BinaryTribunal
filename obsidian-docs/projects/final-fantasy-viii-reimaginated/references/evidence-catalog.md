@@ -66,10 +66,12 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
-summary: Canonical map from immutable runtime evidence to the G00–G11 validation pages, including promoted PASS envelopes, the G11 Fire live FAIL, and retained diagnostics.
+summary: Canonical map from immutable runtime evidence to the G00–G11 validation pages, including promoted PASS envelopes, G11 Fire v2 PASS, and the retained v1 FAIL.
 provenance:
   extracted: 0.95
   inferred: 0.03
@@ -78,7 +80,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-18T16:55:00+02:00
+updated: 2026-08-18T19:07:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -102,7 +104,7 @@ updated: 2026-08-18T16:55:00+02:00
 | G08 / protocol v2 | One authentic Meteor pending produced an ordered ten-hit TargetPlan with exact RNG accounting, no G09/native targeting call, and exact G06/G07 rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] |
 | G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
 | G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
-| G11 / Magic Fire FAIL | Authentic Fire on DLL `0977c9ec…12005140` committed HP/stock then `Faulted` on G07 presentation tail (native exception, black 3D). No PASS; `[promotion.G11].satisfied` false. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
+| G11 / Magic Fire v2 live | Semantic Fire on DLL `0b3c4bb9…5df0aef1`: authentic pending `0x02`/`0x01`, HP/event/stock, zero Magic NCOMP, hook rollback. `[promotion.G11].satisfied` true. Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
 
 ## Canonical Machine Evidence
 
@@ -114,7 +116,8 @@ updated: 2026-08-18T16:55:00+02:00
 - Final G08 closure is `p0-g08-live-pending-post-shutdown-2026-08-11.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `01df050581a4ff003b51df00d57e80e8ba45731baa6b91707466f51df74d6194`.
 - Final G09 closure is `p0-g09-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
 - Final G10 closure is `p0-g10-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
-- G11 Fire live FAIL is `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`, envelope SHA-256 `de9d1586cc78202394212cbe9cb8cb7c19cba967ce0e07cdd768d068762354db`) plus `g11-magic-live-fire-fail-2026-08-18.md` on DLL SHA-256 `0977c9ec88f757f0e5022de9fbddc83f3e835b1624eed45825d5c66012005140`. Kernel SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`. Earlier MagicSlice-only hash `c933d662…fc68ff` is superseded.
+- Final G11 Fire v2 closure is `p0-g11-magic-fire-v2-final-live-2026-08-18.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `0b3c4bb916629bcaabfa0e0037a3f918663bef792ee53a298e5b07155df0aef1`. Envelope SHA-256 `7674c272269040ec2e031c03d2d576dccae31848d38c71250d9c467de7eec0f6`. Report `g11-magic-live-validation-2026-08-18.md`. Kernel SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
+- Historical G11 Fire v1 FAIL is `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`, envelope SHA-256 `de9d1586cc78202394212cbe9cb8cb7c19cba967ce0e07cdd768d068762354db`) plus `g11-magic-live-fire-fail-2026-08-18.md` on DLL SHA-256 `0977c9ec88f757f0e5022de9fbddc83f3e835b1624eed45825d5c66012005140`. Earlier MagicSlice-only hash `c933d662…fc68ff` is superseded.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -129,7 +132,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - G09 live promotion was not run on 2026-08-14: PID `31548` was field/menu with IDA attached and no Attack pending. The 2026-08-15 detached envelope superseded that attempt.
 - The first G10 ISO Attack skipped Slow because the bit was already present after a native Gilgamesh hit. An operator `timer[2]=1` poke then let native expiry clear that contamination. Neither dump is the apply proof; the second Zell Attack after Slow was gone is the promotion hit.
 - Live Slow wrote native `status_2`/`timer[2]` but did not refresh the HUD icon. Icon list 117 stays U14.6 presentation debt, not a G10 domain fail. ^[ambiguous]
-- G11 live Fire on PID `3704` (2026-08-18) committed HP 60000→59908 and stock 10→9, then `Faulted` on `G07 native presentation tail failed closed`. Relays=2, presentation ticks=0, black 3D, FF8 **An unknown exception has occurred.** Domain commit is not promotion.
+- G11 live Fire v1 on PID `3704` (2026-08-18) committed HP 60000→59908 and stock 10→9, then `Faulted` on `G07 native presentation tail failed closed`. Relays=2, presentation ticks=0, black 3D, FF8 **An unknown exception has occurred.** Domain commit is not promotion. Superseded as a promotion claim by v2 PASS on PID `16960`.
+- G11 v2 operator ATB: Irvine's bar stayed full after Fire. Protocol v2 does not own native ATB HUD consume; park under G06 NCOMP / G14. Not a G11 promotion blocker. Operator sequence is hash-bound to Cursor transcript SHA-256 `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e`.
 
 ## Related
 
