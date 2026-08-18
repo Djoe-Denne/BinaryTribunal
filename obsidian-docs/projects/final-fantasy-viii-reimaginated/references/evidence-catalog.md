@@ -21,6 +21,9 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-offline-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/init-exit-abi-capture-2026-07-22.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-5-offline-validation-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
@@ -63,7 +66,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
-summary: Canonical map from immutable runtime evidence to the G00–G09 validation pages, including promoted PASS envelopes and retained diagnostics.
+summary: Canonical map from immutable runtime evidence to the G00–G10 validation pages, including promoted PASS envelopes and retained diagnostics.
 provenance:
   extracted: 0.95
   inferred: 0.03
@@ -72,7 +75,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-15T10:20:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -94,7 +97,8 @@ updated: 2026-08-15T10:20:00+02:00
 | G06 / P0.9 v3 | Exclusive BattleUI ownership passed 240 pulses over 60 frames with GF `6→4`, ready `1/1`, blocked/known escape, RNG `4→5`, zero forbidden behavior, and byte-exact rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] |
 | G07 / protocol v2 | Four command-spine ticks proved pending/exec/arbitration/latch ownership, retained the callback/BdLink presentation tail, and restored every owned byte and hook preimage. | [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]] |
 | G08 / protocol v2 | One authentic Meteor pending produced an ordered ten-hit TargetPlan with exact RNG accounting, no G09/native targeting call, and exact G06/G07 rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] |
-| G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked; G10 is next. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
+| G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
+| G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6; G11 Magic is next. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
 
 ## Canonical Machine Evidence
 
@@ -105,6 +109,7 @@ updated: 2026-08-15T10:20:00+02:00
 - Final G07 closure is `p0-g07-command-spine-closure-v2-final-live.json`, validated `PASS` on DLL SHA-256 `868d74e6cf18ddcef26466e183cf329f89051084273012068a6a05e84e0fe64a`.
 - Final G08 closure is `p0-g08-live-pending-post-shutdown-2026-08-11.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `01df050581a4ff003b51df00d57e80e8ba45731baa6b91707466f51df74d6194`.
 - Final G09 closure is `p0-g09-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
+- Final G10 closure is `p0-g10-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -117,12 +122,15 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - A broad party-Meteor RNG window showed twelve cursor advances for ten hits. A later call-site capture assigned one pre-fan-out draw to crisis computation and observed exactly ten targeting calls; the `+12` window is retained to prevent the disproved “two targeting retries” inference from returning.
 - The Draw pending `command_id` remains unresolved: `0x06` conflicts with an older `0x04` fixture, and the resolver-time `0x0D` discriminator is a different semantic layer. A live `BattlePendingAction_Write` capture is still required. ^[ambiguous]
 - G09 live promotion was not run on 2026-08-14: PID `31548` was field/menu with IDA attached and no Attack pending. The 2026-08-15 detached envelope superseded that attempt.
+- The first G10 ISO Attack skipped Slow because the bit was already present after a native Gilgamesh hit. An operator `timer[2]=1` poke then let native expiry clear that contamination. Neither dump is the apply proof; the second Zell Attack after Slow was gone is the promotion hit.
+- Live Slow wrote native `status_2`/`timer[2]` but did not refresh the HUD icon. Icon list 117 stays U14.6 presentation debt, not a G10 domain fail. ^[ambiguous]
 
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]

@@ -15,6 +15,9 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
 summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
@@ -30,7 +33,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -159,11 +162,25 @@ pas ou si l’acteur reste verrouillé.
   politique de handback auditée; ne pas conserver silencieusement des seams
   ISO qui transforment un domaine déjà commité en écran noir terminal.
 
+### G10 : Slow en RAM n’est pas l’icône HUD
+
+G10 réutilise les trois horloges G09, plus un dump RAM du bit et du timer
+avant/après apply. Un skip `apply_applied=0` avec bit déjà présent n’est pas
+un fail d’apply : c’est le contrat natif « existing bit, no RNG ». Un poke
+`timer[2]=1` pour forcer l’expiry native n’est pas la preuve d’apply.
+
+- Shutdown **in-battle** est admis pour G10 quand les cinq preimages de hooks
+  restaurent (`0x1ff`) et que Slow+timer restent en RAM.
+- L’absence d’icône Slow alors que `status_2=4` n’invalide pas le domaine.
+  List 117 / `TemporaryG10NcompAdapter` est une dette U14.6, pas un gate G10.
+- Pause gèle le tick timer : un timer mis à 1 n’expire pas tant que le combat
+  reste en pause.
+
 ## Fin de campagne
 
 Après les scénarios, attendre le rollback et le désarmement à la frontière de
 frame. Pour un scénario long, revenir hors combat et attendre `Ready`; pour un
-gate borné comme G07, un shutdown en combat est admis seulement après que les
+gate borné comme G07 ou G10, un shutdown en combat est admis seulement après que les
 témoins confirment ownership désarmé et hashes restaurés. Appeler ensuite
 explicitement `FF8Iso_Shutdown`, puis vérifier :
 

@@ -13,14 +13,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: ISO gap analysis through G09 live Attack 0x01 closure; status timing, additional command families, AI integration, lifecycle, and terminal behavior remain.
+summary: ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI integration, lifecycle, and terminal behavior remain.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -49,10 +51,11 @@ Everything else must be reproduced by the engine itself. So an ISO target needs,
 | Damage / heal arithmetic | [[projects/re-ff8/references/battle-formulas]] | **Closed 2026-06-14** — exact formulas distilled (physical/magic/GF/curative/revive/fixed) | No (solid) |
 | Hit / evade / crit math | [[projects/re-ff8/references/battle-formulas]] | **Closed 2026-06-14** — accuracy + crit arithmetic written out | No (solid) |
 | Status-hit probability (`DoesMentalStatusHit`) | [[projects/re-ff8/references/battle-formulas]] | **Closed 2026-06-14** — exact probability arithmetic written out | No (solid) |
-| Status bit map (status_1 / status_2) | [[projects/re-ff8/references/battle-slot-and-command-layouts]] | Mostly mapped; a few bits + `timer[14/15]` open | Partial |
-| Timed-status expiry | [[projects/re-ff8/concepts/timed-status-expiry]] | Map good; **decrement cadence + Doom terminal open** | Partial |
+| Status bit map (status_1 / status_2) | [[projects/re-ff8/references/battle-slot-and-command-layouts]] | Mapped; `timer[14/15]` opaque and not ticked | Partial remaining bits only |
+| Timed-status expiry | [[projects/re-ff8/concepts/timed-status-expiry]] | **G10 live-closed 2026-08-15** — Slow seed 1440, Director gate, cadence 2/3/1; Regen/Doom intents offline; HUD icon deferred U14.6 | No for owned Slow; yes for live Doom terminal bytes and Poison HP |
 | Targeting fan-out | [[projects/re-ff8/concepts/targeting-system]] | **G08 closed 2026-08-11** — normalization, eligibility, direct/group/random/revive/redirect/multi-hit fan-out and exact RNG accounting publish one transient TargetPlan | No for G08 |
-| Physical Attack HP/event | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] | **G09 live-closed 2026-08-15** — authentic Attack `0x01`, direct TargetPlan, hit/crit/variance, semantic HP/event commit, `0x68`/`0x70` presentation barrier, exact hook rollback | No for the bounded P1 AttackSlice; yes for statuses, Cover, drain and other command families |
+| Physical Attack HP/event | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] | **G09 live-closed 2026-08-15** — authentic Attack `0x01`, direct TargetPlan, hit/crit/variance, semantic HP/event commit, `0x68`/`0x70` presentation barrier, exact hook rollback | No for the bounded P1 AttackSlice; yes for Cover, drain and other command families |
+| Status application | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] | **G10 live-closed 2026-08-15** — Status-Atk Slow apply, named `int16` timers, mental RNG, in-battle retain | No for owned Slow allowlist; yes for Drain, Cover, Poison periodic, Magic |
 | Elemental resolution | [[projects/re-ff8/concepts/elemental-resolution]] | Magic path known; carrier/%-HP paths + element table partial | Partial |
 | Enemy AI VM | [[projects/re-ff8/concepts/enemy-ai-vm]], [[projects/re-ff8/references/enemy-ai-opcodes]] | **Closed 2026-06-14** — all 61 opcodes decoded (operands/effect/RNG/state/commit), IF subject + target tables, AI state inventory | No (solid) |
 | Battle init formulas | [[projects/re-ff8/references/battle-formulas]] | **CLOSED** — junction-stat, enemy HP/rank/stat scaling, initial-ATB, scripted-summon rolls all distilled | Yes (or bypass by reading init state) |

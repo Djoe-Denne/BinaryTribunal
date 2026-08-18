@@ -18,13 +18,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - IDA static decompile 2026-06-14 (EnemyAI_DispatchSection, Battle_EnqueueSpecialAction, EnemyAI_PrepareTurnAction)
-summary: G07 owns pending-to-current-action flow; G08 publishes a TargetPlan; G09 commits Attack 0x01 HP/event live and unlocks P1 AttackSlice.
+summary: G07 owns pending-to-current-action flow; G08 publishes a TargetPlan; G09 commits Attack 0x01 HP/event; G10 applies the owned status allowlist live.
 provenance:
   extracted: 0.89
   inferred: 0.08
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T10:20:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Command Action Pipeline
@@ -153,9 +153,10 @@ The exact plan preserved source mask `0xA007`, normalized it to `0x2007`,
 resolved final mask `0x0007`, and emitted ten ordered party slots with ten RNG
 draws. Native targeting, resolver, damage/status and AI calls remained zero.
 [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-now consumes that TargetPlan live for Attack `0x01` HP/event commit. Status
-application remains
-[[projects/re-ff8/references/battle-iso-migration-milestones|G10]].
+now consumes that TargetPlan live for Attack `0x01` HP/event commit.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+then applies the owned hit-status allowlist (live Slow) without calling
+native status helpers. Drain, Cover, Magic/Item/GF and G17 stay fail-closed.
 
 ## Forced Actions And Reactions (2026-06-14)
 

@@ -7,13 +7,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: G09 is live-promoted for Attack 0x01. One authentic Zell Attack produced a direct TargetPlan, HP/event commit, 0x70 idle unlock, and hook rollback. P1 AttackSlice is unlocked; G10 is next.
+summary: G09 is live-promoted for Attack 0x01. One authentic Zell Attack produced a direct TargetPlan, HP/event commit, 0x70 idle unlock, and hook rollback. P1 AttackSlice is unlocked; G10 status is live.
 provenance:
   extracted: 0.95
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-14T14:30:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # P0 G09 Physical AttackSlice — Live Closure — 2026-08-15
@@ -24,8 +24,8 @@ updated: 2026-08-15T12:17:00+02:00
 > service, committed one semantic HP/event, held presentation through the
 > `0x70` actor/camera/BdLink barrier, unlocked idle, and restored temporary
 > hooks. P1 AttackSlice is unlocked as this versioned laboratory claim.
-> [[projects/re-ff8/references/battle-iso-migration-milestones|G10]] is the next
-> unimplemented gate.
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+> now owns the Attack `0x01` status allowlist live. G11 Magic is next.
 
 ## Canonical Envelope
 
@@ -50,7 +50,8 @@ one plan/resolve/commit/event/unlock, three hit/crit/variance RNG draws on lane
 timing stays a known U14.6 cosmetic.
 
 STR/Protect/Berserk/miss remain byte-exact offline fixtures. Drain, Cover,
-status payloads, Magic/Item/GF and G17 stay fail-closed.
+Magic/Item/GF and G17 stay fail-closed. Owned status payloads moved to
+[[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]].
 
 ## Static reconstruction
 
@@ -103,8 +104,10 @@ popup, latch and `BATTLE_ACTION_EXECUTION_ACTIVE` belong to
 
 ## Next
 
-[[projects/re-ff8/references/battle-iso-migration-milestones|G10]] status
-application is **not implemented**.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+status application is live-promoted for the owned Slow allowlist.
+[[projects/re-ff8/references/battle-iso-migration-milestones|G11 Magic]] is
+**not implemented**.
 
 ## Related
 
@@ -112,4 +115,5 @@ application is **not implemented**.
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]]
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

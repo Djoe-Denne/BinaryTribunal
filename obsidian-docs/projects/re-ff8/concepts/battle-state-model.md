@@ -23,7 +23,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Battle State Model
@@ -45,7 +45,7 @@ The analyzed battle paths do not expose one contiguous heap-owned `BattleContext
 - `+0x10 max_atb`, `+0x14 cur_atb`, and `+0xC1 spd` feed [[projects/re-ff8/concepts/atb-and-command-menu]].
 - `+0x18 current_hp` and `+0x1C max_hp` are written by [[projects/re-ff8/concepts/damage-status-pipeline]].
 - `+0x44 elem_def[8]` and `+0x90 mental_res[...]` carry resistance data.
-- `+0x54 timer[16]` hosts the timed-status bank documented in [[projects/re-ff8/concepts/timed-status-expiry]].
+- `+0x54 timer[16]` hosts the timed-status bank documented in [[projects/re-ff8/concepts/timed-status-expiry]]. Storage is `int16_t[16]`, sentinel `-1111`. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-seeded Slow `timer[2]=1440`.
 - `+0x84 target_info_mask` is currently best understood as auxiliary action or summon state, not as the authoritative target selector.
 
 During active GF charge absorption, current evidence says `target_info_mask` also mirrors the live absorb pool seeded from persistent GF HP state. Direct redirection into slots `8..10` remains unconfirmed.^[ambiguous]

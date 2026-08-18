@@ -32,14 +32,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: Full design and execution status through G09 live Attack 0x01 closure; P1 AttackSlice is unlocked and G10 is next.
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
+summary: Full design and execution status through G10 live Slow/status closure; P1 AttackSlice plus status slice unlocked and G11 Magic is next.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -55,16 +58,18 @@ updated: 2026-08-15T12:17:00+02:00
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
 
-**Migration position:** G05–G09 are strictly closed by their promoted live
+**Migration position:** G05–G10 are strictly closed by their promoted live
 envelopes. P0.9 owns G06 input/ATB/GF/escape/readiness at four pulses per frame;
 G07 owns pending/exec/arbitration/current-action lifecycle;
 [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation|G08 protocol v2]]
 turns an authentic player Meteor pending into one ordered, pointer-free
-TargetPlan with exact RNG accounting; and
+TargetPlan with exact RNG accounting;
 [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]]
-live-promotes Attack `0x01` HP/event commit. P1 AttackSlice is unlocked as that
-versioned laboratory claim. G10 status application is the next unimplemented
-gate.
+live-promotes Attack `0x01` HP/event commit; and
+[[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+live-promotes the owned Slow status/timer slice. P1 AttackSlice plus the G10
+status slice are unlocked as those versioned laboratory claims. G11 Magic is
+the next unimplemented gate.
 
 The strict original roadmap still carries explicit G03/G04 debt:
 

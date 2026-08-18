@@ -10,7 +10,7 @@ provenance:
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # RE FF8
@@ -24,7 +24,7 @@ The wiki separates two layers:
 
 ## Implementation Projects
 
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G09 are live-closed; P1 AttackSlice is the versioned G09 Attack `0x01` claim. G10 remains open.
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G10 are live-closed; P1 claims AttackSlice plus the G10 status slice. G11 Magic is next.
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.

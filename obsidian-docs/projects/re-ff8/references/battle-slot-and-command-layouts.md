@@ -26,7 +26,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.05
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-09T13:41:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Battle Slot And Command Layouts
@@ -46,7 +46,7 @@ High-signal fields:
 - `+0x10 max_atb`, `+0x14 cur_atb`
 - `+0x18 current_hp`, `+0x1C max_hp`
 - `+0x44 elem_def[8]`
-- `+0x54 timer[16]`
+- `+0x54 timer[16]` as `int16_t[16]`, sentinel `-1111`
 - `+0x7C flag_data`, `+0x7E immunity_flag_data`
 - `+0x80 status_1`, `+0x82 status_1_copy`
 - `+0x84 target_info_mask`

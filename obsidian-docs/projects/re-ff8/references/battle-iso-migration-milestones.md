@@ -24,14 +24,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: Dependency roadmap with G05–G09 live-closed. P1 AttackSlice is unlocked; G10 is next unimplemented.
+summary: Dependency roadmap with G05–G10 live-closed. P1 AttackSlice plus the G10 status slice are unlocked; G11 Magic is next.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -40,9 +42,9 @@ updated: 2026-08-15T12:17:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-15
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G09 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. G10 is the next unimplemented gate.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G10 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. G11 Magic is the next unimplemented gate.
 >
-> After that promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes; G10+ must follow the layer law below.
+> After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
 Status notation in the foundation groups:
 
@@ -484,8 +486,8 @@ multi-hit eligibility baselines.
 > `TemporaryG09NcompAdapter` in `runtime-x86`. They pass
 > `ctest --preset debug-x86` 25/25, and are live-promoted on DLL
 > `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
-> Cover, drain/Charged, non-zero status payload, Magic/Item/GF and G17 stay
-> refused. See
+> Cover, drain/Charged, Magic/Item/GF and G17 stay refused. Owned status
+> payloads moved to G10. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
 
 **Units**
@@ -499,7 +501,7 @@ multi-hit eligibility baselines.
 - [x] **U09.7 Damage event:** semantic domain event; native 24-byte record capacity 32 via temporary adapter; overflow and double-consume refused.
 - [x] **U09.8 In-process slice:** transactional G06–G09 Director path live-promoted on authentic Attack `0x01` pending.
 
-**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack. Drain/Cover remain fail-closed until G10/U17. Absorb was observed live (heal at HP cap).
+**Test pack:** hit, miss, crit, Protect, weak, null, absorb, drain, KO, full buffer, and repeated Attack. Drain remains fail-closed (G10 refused `HIT_STATUS_2&0x8000`). Cover remains fail-closed until U17. Absorb was observed live (heal at HP cap).
 
 **Gate G09 / P1 AttackSlice:** **passed.** Fresh process, IDA detached, authentic Attack `0x01` pending, idle unlock, zero original battle-domain call.
 
@@ -507,27 +509,39 @@ multi-hit eligibility baselines.
 
 ### G10 — Port status application, timers, and periodic actions
 
-**Depends on:** G09. **Not implemented.** Status/Cover/drain execution, Magic/Item/GF, reactions and rewards remain fail-closed.
+**Depends on:** G09.
 
-> [!important] Layer law for G10+
-> Implement each unit as **semantic domain** (`core/`) → **session** (`application/BattleSession`) → **runtime adapter/codec**. Do not treat “core/ + session” as an excuse to pack native pods, RVA, `find_symbol`, or NCOMP opcodes above `runtime-x86`. Include `ai-prompt/todo/_gate-layer-preamble.md` in every `g10-*-new-chat.md`. Codecs and `TemporaryGxxNcompAdapter` stay in runtime; never enlarge a temporary adapter with domain work.
+> [!success] Live 2026-08-15 — P1 status slice unlocked
+> Units below are implemented fail-closed as semantic domain (`core/`),
+> session orchestration (`application/BattleSession`), and named timer
+> codecs in `runtime-x86`. They pass `ctest --preset debug-x86` 27/27, and
+> are live-promoted on DLL
+> `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
+> Live proof is Status-Atk Slow on Attack `0x01` (`status_2` 0→4, seed 1440,
+> one mental RNG, in-battle retain). Drain, Poison periodic HP, Cover,
+> Magic/Item/GF and G17 stay refused. Status HUD icon list 117 is deferred
+> U14.6. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]].
+
+> [!important] Layer law for G11+
+> Implement each unit as **semantic domain** (`core/`) → **session** (`application/BattleSession`) → **runtime adapter/codec**. Do not treat “core/ + session” as an excuse to pack native pods, RVA, `find_symbol`, or NCOMP opcodes above `runtime-x86`. Include `ai-prompt/todo/_gate-layer-preamble.md` in every `g11-*-new-chat.md`. Codecs and `TemporaryGxxNcompAdapter` stay in runtime; never enlarge a temporary adapter with domain work. Do not fold status HUD into `TemporaryG09NcompAdapter`.
 
 **Units**
 
-- [ ] **U10.1 Status payload:** bit order, status_1/status_2 distinctions, exclusions, and existing-bit behavior.
-- [ ] **U10.2 Status probability:** mental resistance, immunity threshold, attacker/defender terms, RNG, and auto-pass cases.
-- [ ] **U10.3 Timer initialization:** kernel-misc duration, disabled bits, and timer slots.
-- [ ] **U10.4 Timer cadence:** close the decrement cadence and `timer[14/15]` before implementation.
-- [ ] **U10.5 Expiration side effects:** clear/update ordering and status mirrors.
-- [ ] **U10.6 Regen:** periodic action scheduling, heal profile, and group-0 integration.
-- [ ] **U10.7 Doom:** terminal action timing, forced-action record, KO, and cleanup interaction.
-- [ ] **U10.8 KO/revive status interactions:** Death, Petrify, Zombie, Eject, and resurrection gates.
+- [x] **U10.1 Status payload:** bit order, status_1/status_2 distinctions, exclusions, and existing-bit skip (live: first Attack skipped Slow already present).
+- [x] **U10.2 Status probability:** mental resistance, immunity threshold, attacker/defender terms, RNG, and auto-pass cases; live Slow drew one mental RNG.
+- [x] **U10.3 Timer initialization:** kernel-misc duration, disabled bits, named `int16_t[16]` at `+0x54`, sentinel `-1111`; live Slow seed 1440.
+- [x] **U10.4 Timer cadence:** Director gate `0x47D7F1`, cadence 2/Haste 3/Slow 1; `timer[14/15]` opaque and not ticked.
+- [x] **U10.5 Expiration side effects:** clear/update ordering and status mirrors; live native expiry after a diagnostic `timer[2]=1` poke is not the apply proof.
+- [x] **U10.6 Regen:** group-0 special 6 intent offline; this Slow live payload did not enqueue (`regen_enqueues=0`).
+- [x] **U10.7 Doom:** group-0 special 5 intent offline; this Slow live payload did not enqueue (`doom_enqueues=0`).
+- [x] **U10.8 KO/revive status interactions:** Death, Petrify, Zombie, Eject, and resurrection gates fail-closed offline.
 
-**Test pack:** application chances, immunity, timed expiry, Regen ticks, Doom terminal, conflicting statuses, and fixed RNG cursors.
+**Test pack:** application chances, immunity, timed expiry, Regen ticks, Doom terminal, conflicting statuses, and fixed RNG cursors. Poison periodic HP stays fail-closed.
 
-**Gate G10:** every status path claimed by P1/P2 has an explicit timer or no-timer contract.
+**Gate G10:** **passed** for the P1 owned allowlist. Every claimed status path has an explicit timer or no-timer contract. P2 remains `blocked_until = ["G10..G20"]`.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G10 -Profile P1` for status success/failure, immunity, conflicting bits, timer expiry, Regen, Doom, KO/revive, and fixed-RNG cases. It passes when status banks, timers, periodic/terminal queued actions, HP effects, RNG cursors, and final latches are exact with no native status helper call.
+**Injected in-game test:** `Invoke-IsoGroup -Group G10` after a detached Attack pending with Status-Atk exists. Do not inject while IDA is attached. Shutdown in battle is admitted when hooks restore and Slow is retained.
 
 ### G11 — Port Magic
 

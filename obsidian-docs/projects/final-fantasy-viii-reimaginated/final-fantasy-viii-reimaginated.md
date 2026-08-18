@@ -21,17 +21,20 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G09 live-closed. P1 AttackSlice
-  is the versioned G09 Attack 0x01 claim; G10 is next and unimplemented.
+  In-process x86 FF8 battle migration with G05–G10 live-closed. P1 claims
+  AttackSlice plus the G10 status slice; G11 Magic is next.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-15T12:17:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -132,12 +135,20 @@ Completed foundations include:
 > Attack `0x01` is live-closed on DLL `c1d8163e…8e92f`. An authentic Zell Attack
 > pending produced one direct TargetPlan, one HP/event commit, `0x70` idle
 > unlock, and hook rollback. P1 AttackSlice is unlocked as this versioned
-> laboratory claim. G10 is the next unimplemented gate. See
+> laboratory claim. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+> now owns the Attack `0x01` status allowlist live. G11 Magic is next. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]].
+
+> [!success] G10 status timers — live promoted
+> Status-Atk Slow on Attack `0x01` is live-closed on DLL `d71d4853…35843a2`.
+> One authentic Zell Attack applied `status_2` 0→4, seeded `timer[2]` at 1440,
+> drew one mental RNG, and retained Slow across in-battle shutdown. The HUD
+> icon is deferred U14.6. G11 Magic is next. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]].
 
 ## Operational snapshot — read this first
 
-The project currently has six distinct levels. They must not be conflated:
+The project currently has seven distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -158,12 +169,17 @@ The project currently has six distinct levels. They must not be conflated:
    eligibility, ordered fan-out, redirect provenance and RNG stay DLL-owned.
 6. **G09 physical Attack — live validated.** The replacement consumes one direct
    TargetPlan, commits HP and a semantic event, holds presentation, then unlocks.
-   Status application remains G10.
+   Status application is live G10 for the owned Slow allowlist.
+7. **G10 status/timers — live validated.** The replacement applies the owned
+   hit-status allowlist, seeds named `int16` timers, ticks them under the
+   Director gate, and retains committed Slow across shutdown. Drain, Cover,
+   Poison periodic HP, and status HUD NCOMP stay fail-closed or deferred.
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
-selection, G08 owns target fan-out, and G09 owns Attack `0x01` HP/event commit.
-Native presentation stays a narrowly audited compatibility unit. P1 AttackSlice
-is the versioned G09 claim.
+selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
+and G10 owns named status/timer application on that Attack. Native
+presentation stays a narrowly audited compatibility unit. P1 AttackSlice plus
+the G10 status slice are the versioned G09/G10 claims.
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
 > `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts

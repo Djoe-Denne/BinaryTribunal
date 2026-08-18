@@ -7,13 +7,15 @@ sources:
   - obsidian-docs/_staging/investigations/timed_status_expiry_2026-06-09.md
   - docs/tech/systems/battle_slot_data.md
   - docs/tech/systems/battle_loop.md
-summary: The first 14 `timer[]` entries form a timed `status_2` bank seeded by hit-status application and consumed by a dedicated expiry tick.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+summary: Timed status_2 bank uses int16 timers, Director-gated cadence, and G10 live Slow seed 1440. timer[14/15] are opaque and not ticked.
 provenance:
-  extracted: 0.82
-  inferred: 0.10
-  ambiguous: 0.08
+  extracted: 0.90
+  inferred: 0.07
+  ambiguous: 0.03
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-06-13T18:00:00+02:00
+updated: 2026-08-15T16:20:00+02:00
 ---
 
 # Timed Status Expiry
@@ -41,11 +43,18 @@ The confirmed timed bank is:
 | `12` | Gradual Petrify |
 | `13` | Float |
 
-`timer[14]` and `timer[15]` exist in the slot layout but are still outside the confirmed timed-status helper family.^[ambiguous]
+`timer[14]` and `timer[15]` exist in the slot layout. G10 closed them as
+opaque storage: helpers clamp the index `< 14` and the Director tick does
+not decrement them.
+
+[[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
+live-promoted Status-Atk Slow: `timer[2]` seeded 1440
+(`trunc16((120*(2+1))<<2)` at battle speed 2) and counted down under Slow
+cadence 1 (1440→1009 before shutdown, 791 after hook restore).
 
 ## Storage And Seeding
 
-- Slot storage is `BATTLE_SLOT_DATA[slot].timer[16]` at `+0x54`.
+- Slot storage is `BATTLE_SLOT_DATA[slot].timer[16]` at `+0x54` as `int16_t[16]`.
 - Disabled timers use the sentinel `-1111`.
 - The only confirmed seeding path is successful `status_2` application through `DoesMentalStatusHit`.
 - The seed formula is:
@@ -58,7 +67,8 @@ This leads to the most important merge-safe rule: timer-capable status bits only
 
 ## Tick Logic
 
-The active-loop timer tick:
+The active-loop timer tick is gated at Director `0x47D7F1` (ATB progressing,
+no action latch, no execution-active, no result code):
 
 1. skips dead or petrified slots,
 2. scans the first 14 timer entries,
@@ -101,10 +111,12 @@ Because the Doom node lives in group 0, a doomed unit that is asleep or stopped 
 
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
 - [[projects/re-ff8/concepts/battle-state-model]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 
 ## Runtime-Pending
 
-- Confirm exact live timer durations from real `K_MISC` values rather than static formula shape alone.
+- Confirm exact live timer durations from more `K_MISC` statuses than Slow 120.
 - Doom special action `5` enqueue→resolve chain is now static (see [Doom Enqueue Chain](#doom-enqueue-chain)); the only residual is the **byte-level terminal command** produced by `BattleAction_GetText` for type 5 — whether it sets the Death status bit directly or applies lethal HP through `Battle_ApplyDamageOrHeal`. Needs one live Doom-expiry trace.^[ambiguous]
-- Confirm live cadence in rendered frames rather than only call-site placement inside the active loop.^[ambiguous]
+- Regen/Doom group-0 intents are offline-proven in G10; the Slow live payload did not enqueue them.
+- Status HUD icon refresh (list 117) is deferred U14.6 presentation, not a timer-domain gap. ^[ambiguous]
