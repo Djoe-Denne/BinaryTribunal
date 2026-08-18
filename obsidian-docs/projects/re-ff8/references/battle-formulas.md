@@ -6,14 +6,16 @@ aliases: [damage formula, hit formula, crit formula, status formula, ISO formula
 sources:
   - IDA static decompile 2026-06-14 (Damage_ComputeRawDeltaFromAttackType 0x4922B0 and the full helper tree)
   - IDA static decompile 2026-06-14 (init formulas: Battle_CalculateJunctionStats 0x495960, computeMonsterHP 0x48C500, Odin/Gilgamesh init rolls)
+  - IDA static decompile 2026-08-18 (G11 Magic dispatcher vs UNMISSABLE, Life Med Data predicate)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
+  - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
 summary: Exact, ISO-grade arithmetic for the FF8 PC battle resolution — accuracy, crit, physical/magic/GF damage, %-HP and special-GF families, curative/revive, the unified elemental model, status-application probability, the HP-commit stage (incl. GF charge absorption and the counter/death AI dispatch), and the initial-state derivation (party junction stats, enemy HP/stat scaling, scripted-summon init rolls).
 provenance:
   extracted: 0.92
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T12:00:00+02:00
-updated: 2026-08-14T15:00:00+02:00
+updated: 2026-08-18T10:15:00+02:00
 ---
 
 # Battle Formulas (Damage / Heal / Hit / Crit / Status)
@@ -112,7 +114,7 @@ dmg = spread
     / 256
 ```
 
-Shared post (in order): Shell (`ATTACK_FLAG & 3 == 1`) `>>=1`; `status_2 & 0x80000` `>>=1`; elemental `dmg = dmg*(900-elem_def)/100`; drain; then the magic miss-gates: Float-vs-Earth, KO, invincible, and **magic accuracy** `level % HIT_ATTACK_HITPERCENT` (`!=0` → miss) for the `MAGIC_DAMAGE` subtype.
+Shared post (in order): Shell (`ATTACK_FLAG & 3 == 1`) `>>=1`; `status_2 & 0x80000` `>>=1`; elemental `dmg = dmg*(900-elem_def)/100`; drain; then the magic miss-gates: Float-vs-Earth, KO, invincible. **Ordinary Magic** (`ATTACK_TYPE_MAGIC_ATTACK`) dispatches `GF_MAGIC_DAMAGE_TYPE_MAGIC_UNMISSABLE` and does **not** roll `level % HIT_ATTACK_HITPERCENT`. That accuracy gate is only `ATTACK_TYPE_LV_ATTACK` / `MAGIC_DAMAGE`. Resolver Magic/Draw/Slot metadata does not load `HIT_ATTACK_HITPERCENT` from `K_MAGIC` (it stays `0xFF`). See [[projects/re-ff8/references/g11-g20-static-open-questions#SQ-G11-005]]. ^[extracted]
 
 ## %-HP and special-GF families
 
@@ -142,7 +144,8 @@ type 14 curative item: 50 * power            (Med Data ability ×2 for party, AT
 type 15 Angelo recover: power * target.max_hp / 16
 status payload rolled separately via HIT_ATTACK_ENABLER (% 100)
 
-# GetReviveHP (0x491940):  revive HP = max_hp/8   (Med Data + item/mug + party -> max_hp/4); Zombie target -> holy-like damage instead
+# GetReviveHP (0x491940):  revive HP = max_hp/8; Med Data + party + (COMMAND_ITEM or COMMAND_MUG|ATTACK) -> max_hp/4.
+#   Magic Life does not take Med Data. Zombie target -> holy-like unmissable magic damage instead.
 # computeResurrection (0x4935A0): Full-Life; returns -100000 sentinel -> caller sets target to max_hp; BATTLE_SEAL & LOCKED_RESURRECTION blocks; Zombie -> holy damage
 ```
 

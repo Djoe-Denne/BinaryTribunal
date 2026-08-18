@@ -47,7 +47,7 @@ See [[projects/re-ff8/references/gf-asset-loading-and-authoring]] for the full f
 - `MagicList_Logic[effect_id - 1]` (`0xC81774`) provides the cinematic logic/entry callback.
 - `MagicList_TextureLoad[effect_id - 1]` (`0xC81DB8`) is the **parallel** table holding the `*_FL` file loader for the same effect.
 
-The table base, stride, and indexing rule are now structurally firm even though a fresh raw 16-row dump from the current static session was blocked.
+The table base, stride, and indexing rule are structurally firm. The English Steam `kernel.bin` has now also been extracted offline and hash-bound; see [[projects/re-ff8/references/kernel-bin-authenticated-tables]]. This authenticates the 16-row section without requiring a live memory dump.
 
 ## Asset Loading And Data Files
 
@@ -116,3 +116,4 @@ The renderer track preserves this native entry/tick/task contract first and iden
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]]
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — G18 gameplay-domain recognition (charge/Boost/absorb remain live-required)

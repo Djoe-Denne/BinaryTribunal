@@ -11,12 +11,12 @@ provenance:
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T15:00:00+02:00
-updated: 2026-06-14T15:00:00+02:00
+updated: 2026-08-18T12:00:00+02:00
 ---
 
 # Enemy AI VM — Opcode / Subject / Target Reference
 
-Canonical opcode reference for a faithful (ISO) reimplementation of FF8 enemy behaviour. Recovered statically from the IDB on 2026-06-14; the interpreter is `EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 61-case dispatch at `0x487EDC`). Companion to the narrative page [[projects/re-ff8/concepts/enemy-ai-vm]] and to [[projects/re-ff8/references/battle-loop-iso-readiness]] (item A5).
+Canonical opcode reference for a faithful (ISO) reimplementation of FF8 enemy behaviour. Recovered statically from the IDB on 2026-06-14; the interpreter is `EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 61-case dispatch at `0x487EDC`). Companion to the narrative page [[projects/re-ff8/concepts/enemy-ai-vm]] and to [[projects/re-ff8/references/battle-loop-iso-readiness]] (item A5). G15 unit crosswalk: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
 
 ## Interpreter model
 

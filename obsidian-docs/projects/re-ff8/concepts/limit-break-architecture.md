@@ -111,7 +111,7 @@ The initial Limit confirm is ordinary, but the later action is often not:
 - [[projects/re-ff8/concepts/atb-and-command-menu]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
-- [[projects/re-ff8/references/battle-slot-and-command-layouts]]
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — G20 inventory of six families and SQ-G20-001 authentic-record gap.
 
 ## Runtime-Pending
 

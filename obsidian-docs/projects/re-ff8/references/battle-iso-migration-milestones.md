@@ -26,14 +26,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: Dependency roadmap with G05–G10 live-closed. P1 AttackSlice plus the G10 status slice are unlocked; G11 Magic is next.
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
+summary: Dependency roadmap with G05–G10 live-closed. P1 AttackSlice plus the G10 status slice are unlocked. G11 Magic live Fire FAIL retained, not promoted.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-18T17:10:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -42,7 +44,7 @@ updated: 2026-08-15T16:20:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-15
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G10 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. G11 Magic is the next unimplemented gate.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G10 with strict live evidence. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. G11 now has a bounded [[projects/re-ff8/references/g11-magic-offline-draft|offline Magic draft]], but remains unpromoted. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] without live promotion (G11–G14 sections, G15 crosswalk, G16–G20 recognition). Implementation gate checkboxes below stay unchecked.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
@@ -564,6 +566,17 @@ multi-hit eligibility baselines.
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G11 -Profile P1` for offensive, percentage, status-only, Cure, Life/Full-Life, Shell, miss, null, absorb, and unavailable-stock cases. It passes when stock transactions, target/result state, formulas, event order, and RNG consumption match fixtures and the call audit contains no native Magic-domain resolver.
 
+> [!note] Static checkpoint 2026-08-18
+> U11.1–U11.8 are mapped but red-team confidence is **0.74**, not 0.88. The authenticated Steam kernel closes the 57-row reader and spell-family matrix. A bounded single-cast offline draft now covers Fire/Demi/status/Cure/Life/Full-Life with seeded battle-local stock through G07/G08; battle-init import, Dual/Triple, Reflect, Angel Wing and special attack types remain fail-closed. Checkboxes stay open until live G11. Open questions: [[projects/re-ff8/references/g11-g20-static-open-questions]].
+
+> [!warning] Magic animation is not U11
+> Live Fire 2026-08-18 committed HP/stock then `Faulted` after
+> `TemporaryG09NcompAdapter::enqueue_magic` posted Attack-shaped relays into
+> the native sequence list. That is half-owned presentation, not a Magic
+> formula/stock unit. Do not reverse-engineer Magic action-context/animation
+> ABI as G11. Park it at **U14.6** / **U14.7**. G25 is the wrong window.
+> See [[projects/re-ff8/references/g11-g20-static-open-questions]].
+
 ### G12 — Port Item
 
 **Depends on:** G11.
@@ -581,6 +594,9 @@ multi-hit eligibility baselines.
 **Test pack:** Potion-like, Phoenix Down-like, damaging/status item, unavailable item, invalid target, and repeated use.
 
 **Gate G12:** Item has independent storage semantics while sharing resolver infrastructure.
+
+> [!warning] Static partial closure 2026-08-18
+> The previous `target_mask & 0x4000` claim remains refuted: that test is actor Confuse. The actual normal writer is the submenu state machine, which flushes pending then directly decrements EQUAL by reservation counts. Cancellation and KO-at-flush refund are mapped; the late invalid-target race in SQ-G12-004 remains open, so U12.7 implementation still stays fail-closed.
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G12 -Profile P1` for Potion-like, revive, damaging/status, invalid-target, unavailable, rollback, and repeated-use cases. It passes when battle inventory/equal-item state commits exactly once, rejected actions consume nothing, outcomes use the shared resolver, and no native Item-domain helper is reached.
 
@@ -601,7 +617,7 @@ multi-hit eligibility baselines.
 
 **Gate G13:** all direct group-2 families have deterministic fixtures and no family-native fallback.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G13 -Profile P1` with authentic Draw `command_id = 0x06` records for resisted/successful Cast and Stock, full stock, and source death. It passes when quantity/RNG, `aux_5`/`aux_6`, stock caps, Magic handoff, result events, and the complete direct-family routing matrix match fixtures without native Draw fallback.
+**Injected in-game test:** Run `Invoke-IsoGroup -Group G13 -Profile P1` after capturing an authentic Draw pending record; `0x06` remains a candidate, not a precondition. Cover resisted/successful Cast and Stock, full stock, and source death. It passes when the captured pending byte, quantity/RNG, `aux_5`/`aux_6`, stock caps, Magic handoff, result events, and the complete direct-family routing matrix match fixtures without native Draw fallback.
 
 ### G14 — Own domain callbacks and a minimal barrier scheduler
 
@@ -614,7 +630,7 @@ multi-hit eligibility baselines.
 - [ ] **U14.3 Typed barrier API:** action, actor-ready, camera/summon, and escape barriers.
 - [ ] **U14.4 Minimal deterministic scheduler:** immediate or scripted completion for headless/domain tests.
 - [ ] **U14.5 Relays `0x70`, `0x71`, `0x74`:** payload, child-task state, completion marker, and action-latch interaction.
-- [ ] **U14.6 Sealed native-presentation adapter:** if P1–P3 use `NCOMP`, keep file callbacks, BdLink, sequences, camera, effects, and draw as one owner; expose typed read-only `PresentationSignals` for camera-busy, actor-idle, file/effect busy, and task completion, and never pass replacement task contexts into native lists.
+- [ ] **U14.6 Sealed native-presentation adapter:** if P1–P3 use `NCOMP`, keep file callbacks, BdLink, sequences, camera, effects, and draw as one owner; expose typed read-only `PresentationSignals` for camera-busy, actor-idle, file/effect busy, and task completion, and never pass replacement task contexts into native lists. **Includes Magic action-sequence context** (live 2026-08-18 Fire: guessed `enqueue_magic` + G07 tail → native exception). Do not grow `TemporaryG09NcompAdapter` for Magic.
 - [ ] **U14.7 Half-ownership detector:** reject mixed task contexts, allocators, or busy flags across native/replacement owners.
 
 **Test pack:** callback order, deferred unlink, barrier wait/complete/cancel, relay payloads, native `PresentationSignals` transitions, and ownership violation tests.

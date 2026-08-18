@@ -18,13 +18,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - IDA static decompile 2026-06-14 (EnemyAI_DispatchSection, Battle_EnqueueSpecialAction, EnemyAI_PrepareTurnAction)
-summary: G07 owns pending-to-current-action flow; G08 publishes a TargetPlan; G09 commits Attack 0x01 HP/event; G10 applies the owned status allowlist live.
+  - IDA static decompile 2026-08-18 (G11 Magic GetText fail + PrepareTurnAction stock consume)
+  - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
+summary: G07 owns pending-to-current-action flow; G08 TargetPlan; G09 Attack 0x01; G10 Slow allowlist. G11 Magic consume in PrepareTurn. G12 Item EQUAL buffer. G13 Draw pending writer is QueueOrStore; resolver Draw is 6 not 0x0D.
 provenance:
   extracted: 0.89
   inferred: 0.08
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-18T12:00:00+02:00
 ---
 
 # Command Action Pipeline
@@ -77,9 +79,7 @@ The currently mapped base command IDs are:
 - `0x02` Magic
 - `0x03` GF
 - `0x04` Item
-- `0x06` Draw candidate; an older `0x04` fixture conflicts with this value, so
-  it must not become a generated enum before a live `BattlePendingAction_Write`
-  capture. ^[ambiguous]
+- `0x06` Draw **candidate** for the pending menu byte (SQ-G13-001). An older `0x04` fixture collides with Item. Resolver-time Draw is `COMMAND_TYPE_ID == 6`. Resolver `0x0D` (13) is the Item variant with `case 4`, **not** Draw. ^[ambiguous]
 
 Draw keeps extra meaning in its auxiliary bytes:
 
@@ -88,6 +88,30 @@ Draw keeps extra meaning in its auxiliary bytes:
 - `aux_6` carries the source monster slot
 
 At resolve time, `COMMAND_TYPE_ID` can differ from the original menu `command_id`; GF resolve still uses `0xFE`.
+
+## Magic stock transaction (static 2026-08-18)
+
+`command_id` `0x02` is group-2 like Attack. Stock is **not** owned by the damage resolver:
+
+1. `BattleAction_GetText` (`0x48D200`) fails closed on missing battle-local id (party) or Silence (`status_1 & 0x10`), setting `BOOL_LAST_COMMAND_FAILED`.
+2. `EnemyAI_PrepareTurnAction` (`0x485610`) calls `BattleMagic_MutateStock` (`0x486A10`, remove) once per accepted Magic action unless Angel Wing. Dual/Triple extra launches share that consume; ability-bit names in Hex-Rays are unverified ([[projects/re-ff8/references/g11-g20-static-open-questions#SQ-G11-001]]).
+3. `Battle_CopyMagicStocksToSave` runs only from `Battle_CommitPartyHPAndMagicToSave` on cleanup paths — no persistent write mid-battle.
+
+See [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
+
+## Item inventory transaction (static 2026-08-18)
+
+Item stock is `EQUAL_ITEM_*`, never `F_CHARACTER_MAGIC_DATA`:
+
+1. `BS_ParseItems` (`0x48C6E0`) imports `SG_ITEM` rows with `id != 0 && id < 0x21` (`ITEM_TENT`).
+2. Normal player selection reserves quantities in `byte_1D76904`. State 15 of `BattleSubmenu_StateMachine` flushes pending actions first, then directly writes `qty := max(0, qty-reserved)` and clears ids whose quantity reaches zero (`0x4FE6D6`–`0x4FE719`).
+3. FindByCondition case 4 can also remove one item, but its unique PrepareTurn call is an auto/Confuse path gated by actor `status_2 & 0x4000`, not by `target_mask`.
+4. If the actor is KO during `BattlePendingAction_Write`, Item `0x04` is not enqueued: its id is stashed at slot `+0xB8`, then refunded by `BattleItem_RefundStashedItems`. The later invalid-target race remains SQ-G12-004.
+5. Cleanup `Battle_EndCleanupAndTransition` merges EQUAL into SG even on escape.
+
+## Draw pending writer (static 2026-08-18)
+
+Draw confirm does **not** use the default pending writer. `BattleDrawMenu_Open` (`0x4ADD10`) stores the menu-row command byte at `dword_1D768D8+2`; unique `PendingCmd_QueueOrStore` (`0x484FD0`) writes the 8-byte record including `aux_5` 9/10 and `aux_6` source slot. See [[projects/re-ff8/concepts/draw-magic-and-render-bridge]].
 
 ## Special And Limit Families
 
@@ -100,10 +124,10 @@ Direct special or script work can reuse exec storage with `command_id = 0xFF`, i
 
 ## Group Routing (confirmed 2026-06-13)
 
-`BattlePendingAction_TransferToExecQueue` (`0x4847F0`) routes each pending record to a group by its `COMMAND_TYPE_ID`:
+`BattlePendingAction_TransferToExecQueue` (`0x4847F0`) routes each pending record by the stored **pending `command_id`**. Resolver-time `COMMAND_TYPE_ID` may be rewritten later and must not be substituted here:
 
-- **Group 2** — default / direct actions: Attack, Magic (`0x02`), Item (`0x04`), resolver-time Draw (`0x0D`), and the `default` fall-through. This discriminator is not proof of the pending menu `command_id`. ^[ambiguous]
-- **Group 1** — cinematic / special families: GF (`0xFE`), Selphie Slot (`0x10`), and the command-ability cluster (`0x05`, `0x0B`, `0x0E`, `0x0F`, `0x11`–`0x16`).
+- **Group 2** — default / direct records, including Attack `0x01`, Magic `0x02`, pending GF `0x03`, Item `0x04`, candidate Draw `0x06`, and all other default values. Item variant `0x0D` also routes here.
+- **Group 1** — stored IDs `0xFE`, `0x10`, and the command-ability cluster (`0x05`, `0x0B`, `0x0E`, `0x0F`, `0x11`–`0x16`). GF uses `0x03` while pending and only later reaches resolver state `0xFE`; therefore ordinary player GF pending does not prove a group-1 transfer.
 - **Group 0** — *never filled by transfer*. It is written **only** by `Battle_EnqueueSpecialAction` (`0x484720`) for engine-injected GF/scripted specials (Odin Zantetsuken, Gilgamesh, Phoenix). Counters/death reactions do **not** go here (see *Forced Actions And Reactions* below).
 
 Group bases (44-byte link array + 1 head byte each): g0 `&stru_1D28864`/head `0x1D28C00`, g1 `&stru_1D28890`/head `0x1D28C01`, g2 `&stru_1D288BC`/head `0x1D28C02`. The empty-head sentinel is `0xFF` (live-confirmed: all three heads `0xFF` in an idle paused battle). `BattleExecQueue_AllocNode` (`0x482BD0`) treats a node as free when `prev_index == 0 && next_index == 0`, and on group saturation (>11 live cells) falls back to node 0, rewiring it as the new head.

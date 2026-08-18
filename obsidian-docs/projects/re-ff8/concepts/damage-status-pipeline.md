@@ -20,13 +20,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - IDA static decompile 2026-08-18 (G11 K_MAGIC load, UNMISSABLE vs LV_ATTACK, Magic stock consume)
+  - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
 summary: Damage and status resolution load metadata, fan out targets, compute raw deltas, then G09 HP/event and G10 owned status/timer apply without Battle_ApplyDamageOrHeal.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-18T10:15:00+02:00
 ---
 
 # Damage And Status Pipeline
@@ -38,7 +40,7 @@ Damage resolution still has three broad stages: load metadata, compute raw delta
 
 ## Damage Stages
 
-- `BattleAction_ResolveAndApplyDamage` loads command-family metadata into globals such as `HIT_ELEMENT`, `HIT_ATTACK_ENABLER`, `HIT_STATUS_1`, `HIT_STATUS_2`, `HIT_ATTACK_HITPERCENT`, and `ATTACK_FLAG`.
+- `BattleAction_ResolveAndApplyDamage` loads command-family metadata into globals such as `HIT_ELEMENT`, `HIT_ATTACK_ENABLER`, `HIT_STATUS_1`, `HIT_STATUS_2`, `HIT_ATTACK_HITPERCENT`, and `ATTACK_FLAG`. Magic/Draw/Slot/`247` read those fields from `K_MAGIC[action_id]` except `HIT_ATTACK_HITPERCENT`, which stays `0xFF`. Item cmd `{4,13}` **does** load `HIT_ATTACK_HITPERCENT` from `K_ITEM.attackParam`. See [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
 - `Damage_ComputeRawDeltaFromAttackType` dispatches to physical-like, magic or GF, curative, revive, and fixed or special branches.
 - late modifiers and capping happen back in `BattleAction_ResolveAndApplyDamage`, not inside every family helper.
 - `Battle_ApplyDamageOrHeal` commits already-computed magnitudes and performs HP or KO or drain or summon-charge side effects. G09/G10 must not call it: the replacement ports HP/KO/crisis/mirrors and applies the owned status allowlist itself. Drain, Cover, Poison periodic HP and G17 stay fail-closed. ^[inferred]
@@ -74,7 +76,7 @@ Direct physical damage also clears the `Sleep | Confuse` pair before the rest of
 
 ### Magic And GF
 
-Magic raw (`ComputeMagicAndGFDamage` `0x491AD0`): `spread * power * ((265 - spr)*(power + attacker.mag)/4/256)/256 / 256`, halved when the caster is an enemy (slot ≥ 3). GF damage folds in `GF_LEVEL`, `GF_BOOST`, and the summon MAG bonus (full form in [[projects/re-ff8/references/battle-formulas]]). Both share the SPR-side core plus the elemental multiplier documented in [[projects/re-ff8/concepts/elemental-resolution]].
+Magic raw (`ComputeMagicAndGFDamage` `0x491AD0`): `spread * power * ((265 - spr)*(power + attacker.mag)/4/256)/256 / 256`, halved when the caster is an enemy (slot ≥ 3). Ordinary Magic command rows dispatch **unmissable** MAG/SPR; the `level % HITPERCENT` gate is `ATTACK_TYPE_LV_ATTACK` only. GF damage folds in `GF_LEVEL`, `GF_BOOST`, and the summon MAG bonus (full form in [[projects/re-ff8/references/battle-formulas]]). Both share the SPR-side core plus the elemental multiplier documented in [[projects/re-ff8/concepts/elemental-resolution]].
 
 Confirmed `ATTACK_FLAG` meanings that materially affect this family are:
 
@@ -92,7 +94,7 @@ Curative magic and curative item or GF families have their own helpers. They sti
 - invert on Zombie,
 - reuse some miss gates from the offensive magic path.
 
-Exact magnitudes: curative magic `power * spread * ((power + caster.mag)/2)/256` (`computeCurativeMagic` `0x493280`); curative item `50 * power` with Med Data ×2, White Wind `caster.max_hp − caster.current_hp`, Angelo recover `power * target.max_hp/16` (`computeCurativeGFMagicItem` `0x493450`); revive HP `max_hp/8` (Med Data → `max_hp/4`, `GetReviveHP` `0x491940`); Full-Life via `computeResurrection` (`0x4935A0`). Revive-on-Zombie does not follow normal revive semantics; it routes back into offensive holy-like damage logic (`ComputeMagicAndGFDamage`, unmissable) instead.
+Exact magnitudes: curative magic `power * spread * ((power + caster.mag)/2)/256` (`computeCurativeMagic` `0x493280`); curative item `50 * power` with Med Data ×2, White Wind `caster.max_hp − caster.current_hp`, Angelo recover `power * target.max_hp/16` (`computeCurativeGFMagicItem` `0x493450`); revive HP `max_hp/8` (`GetReviveHP` `0x491940`) with Med Data → `max_hp/4` **only** for Item/Mug party casters, not Magic Life; Full-Life via `computeResurrection` (`0x4935A0`). Revive-on-Zombie does not follow normal revive semantics; it routes back into offensive holy-like damage logic (`ComputeMagicAndGFDamage`, unmissable) instead.
 
 ## Status Application
 

@@ -4,15 +4,15 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-15T16:20:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-18T17:00:00+02:00*
 
 ## Concepts
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
-- [[projects/re-ff8/concepts/command-action-pipeline]] — G07 owns pending-to-current-action flow, G08 publishes a TargetPlan, G09 live-commits Attack 0x01 HP/event, and G10 applies the owned status allowlist. ( #ff8 #battle-system #runtime-memory #concept)
-- [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers without Battle_ApplyDamageOrHeal. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/command-action-pipeline]] — G07 pending-to-current-action; G11 Magic consume; G12 EQUAL items; G13 Draw QueueOrStore; resolver Draw is 6 not 0x0D. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded masks feed the live G08 TargetPlan boundary; G09 consumes one direct plan in the promoted Attack 0x01 slice. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/elemental-resolution]] — `HIT_ELEMENT`, `HIT_ELEMENT_PERCENT`, and `elem_def[8]` rules for weakness, resistance, null, and absorb. ( #ff8 #battle-system #runtime-memory #concept)
@@ -22,7 +22,7 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode sections, dispatch, interpreter model, and runtime state. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw/stock mutation, MagicList effect dispatch, and domain-to-presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw resolve id 6, steal-count formula, Cast/Stock aux bytes, MagicList presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] — GF command IDs, kernel IDs, effect IDs, MagicList callbacks, shared cinematic globals, and special triggers. ( #ff8 #gforce #battle-system #concept)
 - [[projects/re-ff8/concepts/gforce-catalog-and-families]] — GF catalog, structural families, runtime evidence, and Cerberus/Ifrit findings. ( #ff8 #gforce #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]] — Target FF8 x86 bridge and prewarmed Wicked x64 renderer architecture with IPC, composition, ownership, and fallback. ( #ff8 #battle-system #rendering #concept)
@@ -33,7 +33,7 @@ title: Wiki Index
 
 ## Skills
 
-- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G10 live Slow/status closure, layer law, P1 AttackSlice plus status slice, and G11 Magic next. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G10 live Slow/status closure and the unpromoted G11 Fire live candidate. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for bootstrap, three-clock command validation, runtime verdicts, presentation barriers, safe shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
@@ -46,13 +46,26 @@ title: Wiki Index
 - [[projects/ffscriptloader/skills/hardening-x86-dll-injection]] — Procedure for target validation, typed remote bootstrap, idempotent module reuse, and quiescent detour rollback. ( #reverse-engineering #testing #skill)
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook]] — P0.6 operating procedure for PowerShell/CMake, IDA MCP breakpoints, live evidence, candidate hashes and fail-stop recovery. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook]] — Hash-bound P0.7 G05 scenario matrix for no-write Director fixtures, explicit handback and post-engagement fail-stop. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]] — Seven-process G11–G14 grouping; session 1 is the unpromoted Fire live candidate. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]] — Session 1 Fire is a retained live FAIL: HP/stock committed, then guessed Magic presentation context faulted; repair deferred to G14. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]] — Later-gate G12 Item EQUAL matrix, out of the G11 test campaign; cannot promote G12 without the late-target race. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan]] — Later-gate SQ-G12-004 race, out of the G11 test campaign; separates cancel, KO-at-write refund and post-commit target invalidation. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan]] — Later-gate G13 observe-then-arm Draw plan; pending 0x06 stays a candidate. Out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g13-live-source-death-session-plan]] — Later-gate SQ-G13-002 race, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g14-live-barrier-session-plan]] — Later-gate positive G14 callback and relay 0x70/71/74 plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap with G05–G10 live-closed, P1 AttackSlice plus status slice unlocked, and G11 Magic next. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap with G05–G10 live-closed; G11 Fire domain reached host commit but its mixed Magic presentation debt is deferred to G14. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled static map G11–G20 after G10. Not a live promotion. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register, including SQ-G14-002 for the Magic action-sequence NCOMP exposed by the G11 Fire FAIL. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Hash-bound Steam `kernel.bin` extraction with exact Magic/Item section bounds and family matrices. ( #ff8 #battle-system #reverse-engineering #reference)
+- [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire live runtime exists and remains unpromoted. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, damage/status, AI, encounters, presentation, GF, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure. ( #ff8 #runtime-memory #battle-system #reference)
 - [[projects/re-ff8/references/research-prompt-backlog]] — AI prompt backlog and completed battle init/slot investigation artifacts. ( #ff8 #reverse-engineering #battle-system #reference)
@@ -74,7 +87,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] — G08 v2 closes target-plan ownership for an authentic Meteor pending: exact ten-hit RNG fan-out, no G09/native targeting call, and rollback `0x1ff`. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] — G09 live-promotes authentic Attack 0x01 through direct targeting, semantic HP/event commit, 0x70 idle barrier and exact rollback; P1 AttackSlice unlocked. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] — G10 live-promotes Status-Atk Slow on Attack 0x01: apply, named timers, mental RNG, in-battle retain; HUD icon deferred U14.6. ( #ff8 #battle-system #testing #runtime-memory #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical map from immutable runtime evidence to the G00–G10 validation pages, including promoted PASS envelopes and retained diagnostics. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] — G11 Fire live FAIL on authenticated K_MAGIC: domain HP/stock committed, presentation Faulted; no PASS and no promotion. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical map from immutable runtime evidence to the G00–G11 validation pages, including promoted PASS envelopes and the unpromoted G11 Fire candidate. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
@@ -85,4 +99,4 @@ title: Wiki Index
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process x86 FF8 battle migration with G05–G10 live-closed, P1 AttackSlice plus status slice unlocked, and G11 Magic next. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process x86 FF8 battle migration with G05–G10 live-closed; G11 Fire live candidate is implemented and unpromoted. ( #ff8 #battle-system #reverse-engineering #project)

@@ -26,7 +26,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-09T13:41:00+02:00
+updated: 2026-08-18T12:00:00+02:00
 ---
 
 # Battle Lifecycle
@@ -207,6 +207,20 @@ blackout despite correct command counters. Protocol v2 retained both calls,
 rechecked the exact command-owned byte ranges after each tail, and kept HUD/3D
 visible. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]].
+
+## G14 ownership map (static 2026-08-18)
+
+Not a live promotion. Topology only; idle cadence stays SQ-G14-001. Full table: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G14.
+
+| Concern | Owner | Must not |
+| --- | --- | --- |
+| HUD / action / deferred domain callbacks | domain (G07) | run native HUD concurrently with replacement ATB |
+| File callbacks, BdLink, sequences, camera, effects, draw | one NCOMP owner (U14.6) | insert replacement task contexts into native lists |
+| Relays `0x70`/`0x71`/`0x74` | `BattleTaskQueue_Dispatch` `'p'`/`'q'`/`'t'` | treat workers as an idle runtime |
+| Action latch `BYTE1(TARGET_SLOT_ID)` | LOCK/UNLOCK stubs | conflate with pause or result latch |
+| Result latch `BYTE2(TARGET_SLOT_ID)` | end checks | same as `0x74` completion |
+
+Workers renamed in IDB: `BattleTask_CameraBarrier70_Worker` `0x5085F0`, `BattleTask_ActorReadyRelay71_Worker` `0x502F30`, `BattleTask_EscapeRelay74_Worker` `0x502F90`.
 
 The Wicked migration keeps this lifecycle native during rendering phases. Ownership changes are battle-generation scoped, start only after the ready transition tail, and return to native before cleanup/rewards. See [[projects/re-ff8/concepts/external-battle-renderer-architecture]] and [[projects/re-ff8/references/wicked-ff8-migration-phases]].
 

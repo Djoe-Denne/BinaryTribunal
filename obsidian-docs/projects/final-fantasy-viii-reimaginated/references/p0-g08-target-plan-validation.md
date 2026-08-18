@@ -24,7 +24,7 @@ provenance:
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-11T15:25:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-18T17:00:00+02:00
 ---
 
 # P0 G08 Target-Plan Closure — 2026-08-11
@@ -156,7 +156,8 @@ residue as idle rather than active.^[inferred]
 now consumes this TargetPlan live for Attack `0x01`. P1 AttackSlice is unlocked.
 [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]]
 is live-closed for the owned Slow allowlist.
-[[projects/re-ff8/references/battle-iso-migration-milestones|G11 Magic]] is next.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Magic]]
+has an unpromoted Fire live candidate; no PASS envelope yet.
 
 ## Related
 

@@ -92,7 +92,7 @@ The renderer bridge uses a narrower pointer-free projection of this context and 
 
 ## Open Questions
 
-- ~~The meaning of queue group `1` versus `2` is still only partially named.~~ **Closed 2026-06-13**: group 2 = direct actions (Attack/Magic/Item/Draw/default), group 1 = cinematic/special families (GF, Selphie Slot, command-ability cluster), group 0 = engine-injected forced actions. See [[projects/re-ff8/concepts/command-action-pipeline]].
+- ~~The meaning of queue group `1` versus `2` is still only partially named.~~ **Corrected 2026-08-18**: transfer switches on the stored pending `command_id`, not the later resolver family. Group 2 includes the default fall-through, therefore ordinary pending GF `0x03`; group 1 includes stored `0xFE`, Slot `0x10`, and the explicit command-ability cases. Group 0 remains engine-injected forced actions. See [[projects/re-ff8/concepts/command-action-pipeline]].
 - Slot bytes `+0xB8/+0xB9` are confirmed transient IDs flushed during cleanup, but their exact domain meaning is still open.^[ambiguous]
 - ~~One damage helper still mixes CRT `_rand()` with battle-local RNG~~ / ~~no CRT `rand()` exists in the binary~~ **Corrected 2026-06-14**: per-draw randomness is entirely battle-local lane RNG, but the CRT LCG `rand` (`0x55CBD2`) *does* exist and supplies the once-per-battle seed byte via `FFBattleDirector_battleLoop`. In-battle replay needs the 9 RNG-state bytes; cross-run needs CRT `holdrand` at battle entry.
 - The live synchronization story between summon absorb state, `target_info_mask`, and per-GF HP persistence still needs runtime proof.^[ambiguous]

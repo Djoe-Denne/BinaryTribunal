@@ -10,7 +10,7 @@ provenance:
   inferred: 0.18
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-18T12:00:00+02:00
 ---
 
 # RE FF8
@@ -24,7 +24,7 @@ The wiki separates two layers:
 
 ## Implementation Projects
 
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G10 are live-closed; P1 claims AttackSlice plus the G10 status slice. G11 Magic is next.
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G10 are live-closed; P1 claims AttackSlice plus the G10 status slice. G11 now has a bounded offline Magic draft, not a live promotion. A static G11–G20 map exists in the ledger.
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.
@@ -36,6 +36,9 @@ The wiki separates two layers:
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of combat mechanics and technical documentation.
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Scene load, battle init, active tick, and battle-end transition.
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context, slot array, pending actions, and runtime state cluster.
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Static G11–G20 campaign ledger after G10. Not a live promotion.
+- [[projects/re-ff8/references/g11-magic-offline-draft]] — Authenticated, bounded G11 implementation through G07–G10; 28/28 offline and deliberately unpromoted.
+- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register (Dual/Triple consume, Item mask, Draw pending id).
 - [[projects/re-ff8/concepts/command-action-pipeline]] — Input and AI commands through pending actions, exec queue, arbitration, and resolution.
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Damage, healing, status payloads, status gates, and HP side effects.
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB accumulation, readiness, and command-menu availability.

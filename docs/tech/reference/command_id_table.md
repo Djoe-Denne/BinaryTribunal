@@ -7,8 +7,8 @@
 | `0x01` | Attack | BP capture: player Attack confirm, a3=1 |
 | `0x02` | Magic | Injection: cmd_id=0x02 + cmd_arg=0x02 cast "Fira" |
 | `0x03` | GF | BP capture: player GF Ifrit confirm, a3=3 |
-| `0x04` | Draw | Inferred from menu path (TBD runtime) |
-| `0x05` | Item | Inferred from menu path (TBD runtime) |
+| `0x04` | Item | Resolver cmd 4/13; `K_ITEM`. **Supersedes** the old "Draw" row. |
+| `0x06` | Draw (pending candidate) | Resolver `COMMAND_TYPE_ID==6`. Pending byte is the Draw menu-row (SQ-G13-001). **Supersedes** the old `0x04` Draw / `0x05` Item table. |
 
 ## GF command_arg Values (Kernel GF IDs)
 

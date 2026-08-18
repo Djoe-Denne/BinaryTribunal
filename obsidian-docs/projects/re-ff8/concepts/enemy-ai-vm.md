@@ -14,7 +14,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-14T15:00:00+02:00
+updated: 2026-08-18T12:00:00+02:00
 ---
 
 # Enemy AI VM
@@ -107,6 +107,7 @@ Both return dispatch code `8` (child task spawned, relay persists until the chil
 - AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
 - Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
+- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 action/spawn/reward opcodes are recognition-only there.
 
 ## Open Questions
 
