@@ -1,0 +1,148 @@
+---
+title: P0 G12 Item — Live Potion Anchor, Unpromoted — 2026-08-19
+category: references
+tags: [ff8, battle-system, testing, reverse-engineering, reference]
+aliases: [G12 Item Potion, P0 G12, G12 Potion live anchor]
+sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-offline-draft-2026-08-18.md
+  - projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan.md
+  - projects/re-ff8/references/g11-g20-static-open-questions.md
+summary: >-
+  G12 Potion live PASS on hold-fix DLL 6885212b; restore 0x1ff. Gate unpromoted.
+  Pulse-3 FAIL retained. Late death is product policy.
+provenance:
+  extracted: 0.92
+  inferred: 0.05
+  ambiguous: 0.03
+created: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
+---
+
+# P0 G12 Item — Live Potion Anchor, Unpromoted — 2026-08-19
+
+> [!warning] G12 is not promoted
+> The authentic Potion cycle passed. `[promotion.G12].satisfied` stays
+> **false**. Phoenix Down, damage/status, inventory bounds, persistence, and
+> the rest of the Item matrix remain open. Do not infer gate closure from this
+> envelope.
+
+> [!success] Potion live anchor — 2026-08-19
+> PID `43880` on DLL `6885212b…120e4790`, protocol `item-live-pending`,
+> envelope `p0-g12-holdfix-potion-post-shutdown-2026-08-19.json`
+> (`verdict=PASS`, `runtime_state=Detached`, restore `0x1ff`). Irvine slot 2
+> Potion on self committed HP 8320→8520, EQUAL 30→30, zero Item NCOMP, and
+> hook rollback. See
+> [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]].
+
+## Live Potion PASS — 2026-08-19
+
+Canonical envelope SHA-256
+`48304f42ae135a690db11367d91b206f5d961aef3bfe4db5625e501601edef07`
+(`p0-g12-holdfix-potion-post-shutdown-2026-08-19.json`). Report:
+`g12-item-live-potion-holdfix-2026-08-19.md`. `negative_runtime_evidence` is
+empty.
+
+- EXE SHA-256
+  `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`;
+- hold-fix DLL SHA-256
+  `6885212b469e43c5b49537b5f122e4773ef4fe3a565a3277e750361c120e4790`;
+- Open World bootstrap, in-battle shutdown, PID `43880`;
+- pending `0400020401000001` (`command_id=0x04`, `command_arg=0x01`);
+- item 1 Potion, attacker 2, target 2, family 0, `attack_type=4`, power 4;
+- kernel row hash `0x0ead905f`; authenticated Potion bytes match the offline
+  draft;
+- HP 8320→8520 (+200); event heal byte 200; `late_target_class=0`;
+- EQUAL hash unchanged, quantity 30→30, `second_decrement=0`,
+  `consume_origin=1` (menu already committed);
+- Magic hash unchanged; SG hash witness-only; stash `[0,0]`;
+- two RNG draws (79, 210); `ncomp_calls=0`, `resolver_calls=0`,
+  `presentation_relay_calls=0`, `presentation_deferred_to_g14=1`;
+- `domain_hold_ticks=5`, `domain_completion_calls=1`, latch completion 1;
+- Director 8/8, HUD 32/32, G06 pulses 32; `restore_flags=0x000001ff`;
+- `write_guard_violations=0`, `forbidden_calls=0`; FF8 alive.
+
+A BattleActive pre-shutdown probe on the same DLL
+(`p0-g12-holdfix-potion-pre-shutdown-probe-2026-08-19.json`, SHA-256
+`0e0c8b9344fb8beac96d80e2b4655c42d39f78742c5df61b3d9e7f6cddcdbd8d`,
+`verdict=FAIL`, restore `0x17f`) is incomplete shutdown, not a domain fail.
+It stays in the implementation repository and is not a promotion envelope.
+
+## What G12 owns on this anchor
+
+Authentic Item `0x04` / Potion `0x01` pending after native submenu EQUAL
+decrement, one direct G08 plan with zero targeting RNG, curative HP/event
+commit, Magic-stock isolation, bounded hold without a second EQUAL write, and
+hook rollback. Host writes remain named party HP/status/event. Presentation
+is deferred to G14.
+
+## What this envelope does not close
+
+Phoenix Down, damage/status items, quantity `1→0` id-clear, Med Data,
+Zombie inversion, Tent/`id>=33`, SG persistence, Dual/Triple, enemy targets,
+and `[promotion.G12].satisfied = true`. SQ-G12-003 (`K_ITEM+0x15`) stays
+open. SQ-G12-002 still needs a damaging-item ATTACK_FLAG witness.
+
+## Product late-death policy
+
+SQ-G12-004 is
+[[projects/re-ff8/references/g11-g20-static-open-questions#SQ-G12-004 — late Item rejection after menu commit|resolved-product-decision]],
+not a live-discovery gate:
+
+- actor death after menu commit → cancel, restore one EQUAL unit, no event;
+- living actor + dead other party recipient on Curative/FullCure → retarget
+  to the actor and consume once;
+- both dead → cancel, no consume.
+
+Petrify and other unsupported late states remain fail-closed
+(`LateInvalidTargetUnproven`). Native late-target behavior is not claimed.
+The archived
+[[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan|late-target session]]
+must not be scheduled.
+
+## Historical pulse-3 FAIL — 2026-08-19
+
+Envelope SHA-256
+`b198bd0954f8f3ee47d5d105be0885d49465b0e98feed861528f6f8c81f14294`
+(`p0-g12-live-potion-irvine-commit-fault-2026-08-19.json`). Report:
+`g12-item-live-potion-fault-2026-08-19.md`. DLL
+`b1c17223c185f347c8415fe32c62bb5373dbe021d0109f84580ffa3320f12d4e`.
+PID `33340`, `verdict=FAIL`, `runtime_state=Faulted`,
+`negative_runtime_evidence=["runtime entered Faulted"]`.
+
+Domain Potion committed HP 8503→8703 and EQUAL 20→20, then HUD pulse 3/32
+faulted `G06 pulse resync detected host-owned drift`. Director ticks 1/8,
+latch never completed, restore flags `0x3f`. A same-hash retry (PID `43628`,
+pending `0400010401000001`) reproduced the pulse-3 fault without a second
+native command. Neither envelope is promotion evidence. The hold-fix PASS
+supersedes them as the live Potion candidate.
+
+The later offline-draft hash `b1c17223…` is the unfixed candidate. Do not mix
+it with hold-fix `6885212b…` or with G11 Fire v2 `0b3c4bb9…`.
+
+## Historical offline draft — 2026-08-18
+
+`g12-item-offline-draft-2026-08-18.md` remains the source for EQUAL vs Magic
+isolation, menu-commit origin, and fail-closed arming. Its banner records that
+the live Potion protocol had not yet run and that SQ-G12-004 was still
+`live-required`. Both claims are superseded by the 2026-08-19 PASS envelope
+and the product death policy.
+
+## Fail-closed
+
+Any command other than authentic Potion `0x04`/`0x01`; High Potion; enemy
+targets; random/multi-hit plans; native Item resolver after engagement;
+second EQUAL decrement; Magic or SG writes mid-battle; Item NCOMP; inferring
+`PASS` from the pre-shutdown probe or from a later uncaptured rebuild DLL.
+
+## Related
+
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]]
+- [[projects/re-ff8/references/g11-g20-static-open-questions]]
+- [[projects/re-ff8/concepts/command-action-pipeline]]

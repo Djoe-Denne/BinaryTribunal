@@ -28,18 +28,23 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-offline-draft-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G11 live-closed. G11 v2 owns
-  semantic Fire HP/event/stock; Magic animation deferred to G14.
+  In-process x86 FF8 battle migration with G05–G11 live-closed. G12 has a Potion
+  live anchor; the Item gate stays unpromoted. Magic animation deferred to G14.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -163,9 +168,16 @@ Completed foundations include:
 > and
 > [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
 
+> [!note] G12 Item — Potion live anchor, gate unpromoted
+> Authentic Irvine Potion on PID `43880` / hold-fix DLL `6885212b…` committed
+> HP +200 with EQUAL unchanged, zero Item NCOMP, and restore `0x1ff`.
+> `[promotion.G12].satisfied` stays **false**. Pulse-3 FAIL on DLL `b1c17223…`
+> is retained. Late Potion death is a product-defined offline rule. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+
 ## Operational snapshot — read this first
 
-The project currently has nine distinct levels. They must not be conflated:
+The project currently has ten distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -196,14 +208,20 @@ The project currently has nine distinct levels. They must not be conflated:
    sequence context, and native Magic NCOMP stay G14 U14.6/U14.7. Session 1
    of
    [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
-   is closed. Next gate is G12 Item.
+   is closed.
+9. **G12 Item — Potion live anchor, unpromoted.** Semantic Potion HP/event
+   on PID `43880` is captured with exact rollback. The broader Item matrix
+   and `[promotion.G12].satisfied` remain open. See
+   [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
-G10 owns named status/timer application on that Attack, and G11 owns Fire
-stock/HP/event without Magic animation. Native presentation stays a narrowly
+G10 owns named status/timer application on that Attack, G11 owns Fire
+stock/HP/event without Magic animation, and G12 owns a Potion EQUAL/HP
+anchor without Item animation. Native presentation stays a narrowly
 audited compatibility unit. P1 AttackSlice plus the G10 status slice plus
-the G11 Fire semantic slice are the versioned G09/G10/G11 claims.
+the G11 Fire semantic slice are the versioned G09/G10/G11 claims; G12 is
+not yet a versioned promotion.
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
 > `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts
@@ -276,9 +294,9 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Live-close the G11 Fire candidate via
-  [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]];
-  native Magic presentation ABI, Dual/Triple, Reflect, Angel Wing, Item/GF,
+- Complete the G12 Item matrix after the Potion live anchor via
+  [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]];
+  native Magic/Item presentation ABI, Dual/Triple, Reflect, Angel Wing, GF,
   reactions and rewards remain fail-closed.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
@@ -292,6 +310,7 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/re-ff8/re-ff8]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

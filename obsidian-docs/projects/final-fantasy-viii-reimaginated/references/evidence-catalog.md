@@ -71,7 +71,12 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
-summary: Canonical map from immutable runtime evidence to the G00–G11 validation pages, including promoted PASS envelopes, G11 Fire v2 PASS, and the retained v1 FAIL.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-offline-draft-2026-08-18.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
+summary: Canonical map from immutable runtime evidence to the G00–G12 pages, including G11 Fire v2 PASS, the G12 Potion live anchor, and retained FAIL envelopes.
 provenance:
   extracted: 0.95
   inferred: 0.03
@@ -80,7 +85,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-18T19:07:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -105,6 +110,7 @@ updated: 2026-08-18T19:07:00+02:00
 | G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
 | G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
 | G11 / Magic Fire v2 live | Semantic Fire on DLL `0b3c4bb9…5df0aef1`: authentic pending `0x02`/`0x01`, HP/event/stock, zero Magic NCOMP, hook rollback. `[promotion.G11].satisfied` true. Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
+| G12 / Item Potion live anchor | Authentic Potion on hold-fix DLL `6885212b…120e4790`: pending `0x04`/`0x01`, HP +200, EQUAL unchanged, zero Item NCOMP, restore `0x1ff`. `[promotion.G12].satisfied` stays false. | [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] |
 
 ## Canonical Machine Evidence
 
@@ -118,6 +124,8 @@ updated: 2026-08-18T19:07:00+02:00
 - Final G10 closure is `p0-g10-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
 - Final G11 Fire v2 closure is `p0-g11-magic-fire-v2-final-live-2026-08-18.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `0b3c4bb916629bcaabfa0e0037a3f918663bef792ee53a298e5b07155df0aef1`. Envelope SHA-256 `7674c272269040ec2e031c03d2d576dccae31848d38c71250d9c467de7eec0f6`. Report `g11-magic-live-validation-2026-08-18.md`. Kernel SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
 - Historical G11 Fire v1 FAIL is `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`, envelope SHA-256 `de9d1586cc78202394212cbe9cb8cb7c19cba967ce0e07cdd768d068762354db`) plus `g11-magic-live-fire-fail-2026-08-18.md` on DLL SHA-256 `0977c9ec88f757f0e5022de9fbddc83f3e835b1624eed45825d5c66012005140`. Earlier MagicSlice-only hash `c933d662…fc68ff` is superseded.
+- Canonical G12 Potion live anchor is `p0-g12-holdfix-potion-post-shutdown-2026-08-19.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and hold-fix DLL SHA-256 `6885212b469e43c5b49537b5f122e4773ef4fe3a565a3277e750361c120e4790`. Envelope SHA-256 `48304f42ae135a690db11367d91b206f5d961aef3bfe4db5625e501601edef07`. Report `g12-item-live-potion-holdfix-2026-08-19.md`. This is not G12 promotion.
+- Historical G12 Potion pulse-3 FAIL is `p0-g12-live-potion-irvine-commit-fault-2026-08-19.json` (`verdict=FAIL`, envelope SHA-256 `b198bd0954f8f3ee47d5d105be0885d49465b0e98feed861528f6f8c81f14294`) plus `g12-item-live-potion-fault-2026-08-19.md` on DLL SHA-256 `b1c17223c185f347c8415fe32c62bb5373dbe021d0109f84580ffa3320f12d4e`.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -134,6 +142,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - Live Slow wrote native `status_2`/`timer[2]` but did not refresh the HUD icon. Icon list 117 stays U14.6 presentation debt, not a G10 domain fail. ^[ambiguous]
 - G11 live Fire v1 on PID `3704` (2026-08-18) committed HP 60000→59908 and stock 10→9, then `Faulted` on `G07 native presentation tail failed closed`. Relays=2, presentation ticks=0, black 3D, FF8 **An unknown exception has occurred.** Domain commit is not promotion. Superseded as a promotion claim by v2 PASS on PID `16960`.
 - G11 v2 operator ATB: Irvine's bar stayed full after Fire. Protocol v2 does not own native ATB HUD consume; park under G06 NCOMP / G14. Not a G11 promotion blocker. Operator sequence is hash-bound to Cursor transcript SHA-256 `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e`.
+- G12 Potion on DLL `b1c17223…` committed HP then `Faulted` at HUD pulse 3/32 (`G06 pulse resync detected host-owned drift`). Restore flags `0x3f`. The same-hash retry and the later BattleActive pre-shutdown probe stay in the implementation repository. Hold-fix PASS superseded the pulse-3 FAIL as the live Potion candidate, not as G12 promotion.
 
 ## Related
 
@@ -142,6 +151,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]

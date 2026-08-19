@@ -152,16 +152,16 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 
 ### SQ-G12-004 — late Item rejection after menu commit
 
-- status: open
-- confidence: 0.78
+- status: resolved-product-decision
+- confidence: 1.00
 - affects: G12, G07
-- claim: cancellation before state 15 is never-subtracted; after the menu flush/decrement boundary, an Item that cannot enter pending because the actor is KO is stashed at slot `+0xB8` and later refunded through `BattleItem_RefundStashedItems`. The policy for every later invalid-target race remains unclosed.
+- claim: cancellation before state 15 is never-subtracted. For the replacement Potion policy after menu commit, actor death cancels without consumption; if another party recipient dies while the actor lives, Potion retargets to the actor and consumes once; actor-plus-recipient death cancels without consumption.
 - evidence_for: `BattlePendingAction_Write` checks attacker Death before writing pending; command `0x04` stores `command_arg` at `magic_to_blow_away` instead. The menu then decrements EQUAL. `BattleItem_RefundStashedItems` (`0x485EC0`) adds both `+0xB8/+0xB9` ids back and clears them; callers cover battle end, eject/status reset, and rewrite cleanup.
-- evidence_against: ordinary valid Item GetText does not recheck EQUAL and does not write the stash; a target becoming invalid after the menu boundary may therefore be a consumed miss rather than a refund.
-- missing_discriminator: exact late target-invalid policy after a valid pending record has already been committed.
-- next_static_probe: trace invalid-target returns from Item resolver through action completion and verify whether any writer populates `+0xB8/+0xB9` for that case.
-- eventual_live_probe: use the last Potion, invalidate the target only after confirm, and compare EQUAL plus stash before/after completion.
-- resolution: cancellation and KO-at-flush are statically closed; late invalid-target race remains open.
+- evidence_against: native late-target behavior was not established; it is no longer authoritative for the replacement contract.
+- missing_discriminator: none for the product-defined Potion death policy. Petrify and non-curative late-target behavior remain outside this decision.
+- next_static_probe: none.
+- eventual_live_probe: none required; use deterministic offline domain fixtures.
+- resolution: closed by product decision on 2026-08-19. Self-target actor death and actor-plus-recipient death refund/cancel; another dead party recipient retargets to the living actor.
 
 ### SQ-G13-001 — command_id pending Draw authentique
 

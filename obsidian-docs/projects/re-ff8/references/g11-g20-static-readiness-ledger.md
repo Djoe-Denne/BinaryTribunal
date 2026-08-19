@@ -11,21 +11,23 @@ sources:
   - projects/re-ff8/concepts/command-action-pipeline.md
   - docs/tech/reference/battle_action_resolve.c
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated
-summary: Static G11–G20 map after G10. G11 Fire v2 later live-promoted semantic HP/event/stock; this page stays the static ledger. G12 late invalid-target rollback remains open.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+summary: Static G11–G20 map after G10. G11 Fire v2 live-promoted; G12 Potion live-anchored and unpromoted, with product-defined late death.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
 
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
-> [!warning] This page is the static map, not the live G11 envelope
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Later the same day, [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. G12–G20 stay unpromoted here.
+> [!warning] This page is the static map, not a live promotion ledger
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12 Potion]] is a live anchor only. G12–G20 stay unpromoted here.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -36,7 +38,7 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | Gate | Static status | Confidence | Units | Next |
 | --- | --- | ---: | --- | --- |
 | G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families and animation incomplete | G12 Item; Magic NCOMP is SQ-G14-002 |
-| G12 Item | `static-partial` | 0.70 | Metadata and normal menu consume mapped; late invalid-target policy incomplete | close SQ-G12-004 before transaction code |
+| G12 Item | `static-partial` + Potion live anchor | 0.82 | Metadata/menu consume mapped; Potion death policy product-defined offline | complete revive, damage/status and inventory matrix |
 | G13 Draw | `static-partial` | 0.70 | U13.1–U13.6 mapped with live-required pending id | live `PendingCmd_QueueOrStore` command_id byte; mid-flight source death |
 | G14 callbacks | `static-partial` | 0.62 | U14.1–U14.7 ownership map | idle runtime; half-ownership live detector |
 | G15 AI control | `static-strong` | 0.78 | U15.1–U15.7 crosswalk | corpus `.dat` coverage report |
@@ -355,7 +357,7 @@ Resolver cmd `{4,13}` loads statuses and HITPERCENT from `K_ITEM`, then the G09/
 
 Normal player confirmation is now statically ordered: the submenu validates/reserves selections, appends them, flushes pending actions, then directly subtracts the per-entry reservation counter from EQUAL quantities and clears zero-quantity ids. Cancellation before the flush/decrement boundary only unwinds reservation counters. This direct writer explains why `AdjustCount(remove=1)` has no normal UI xref.
 
-If the actor is already KO at `BattlePendingAction_Write`, command `0x04` writes no pending record but stashes the item id at slot `+0xB8`; cleanup later adds it back through `BattleItem_RefundStashedItems`. The still-open SQ-G12-004 is narrower: determine whether a target that becomes invalid **after** a valid pending commit consumes the Item as a miss or populates a refund stash.
+If the actor is already KO at `BattlePendingAction_Write`, command `0x04` writes no pending record but stashes the item id at slot `+0xB8`; cleanup later adds it back through `BattleItem_RefundStashedItems`. SQ-G12-004 is closed for replacement Potion behavior by product decision: actor death cancels without consumption; another dead party recipient retargets to the living actor; actor-plus-recipient death cancels. Native late-target behavior is not claimed.
 
 ### Item fixtures (design)
 
@@ -367,9 +369,9 @@ If the actor is already KO at `BattlePendingAction_Write`, command `0x04` writes
 
 ### G12 next
 
-1. Dump `CHARA_ABILITY_MED_DATA` numeric (used as `&2`).
-2. Prove every player Item mask has `0x4000` from `K_ITEM.targetInfo`.
-3. Offline `kernel.bin` Item `attackType` matrix.
+1. Complete the live Item matrix from the Potion `I1` anchor (Phoenix Down, damage/status, quantity `1→0`, persistence).
+2. Keep petrify and non-curative late-target states fail-closed unless separately specified.
+3. Do not set `[promotion.G12].satisfied` from the Potion envelope alone.
 
 ## G13 — Draw
 
@@ -622,7 +624,7 @@ Confidence 0.40 `mapped`. Names of functions are not certified state machines.
 
 1. Draw pending `command_id` 8-byte record (SQ-G13-001).
 2. Dual/Triple Magic consume counts (SQ-G11-001).
-3. Late invalid-target Item consume/refund after a valid menu commit (SQ-G12-004); the writer itself is resolved.
+3. Potion late-death policy is product-defined and offline-tested (SQ-G12-004); native late-target behavior is not claimed. Broader Item matrix still live-required.
 4. Draw source death after the GetText-time KO check (SQ-G13-002).
 5. Barrier idle cadence `0x70`/`0x71`/`0x74`.
 6. Cover trigger timing (U17.3).

@@ -8,38 +8,37 @@ sources:
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - projects/re-ff8/skills/ff8-live-validation-operations.md
 summary: >-
-  Later-gate SQ-G12-004 race, out of the G11 test campaign. Separates pre-flush
-  cancel, KO-at-write refund and target invalidation after a valid Item pending.
+  Archived SQ-G12-004 discovery plan. The 2026-08-19 product decision defines
+  actor-death cancellation and dead-recipient Potion retargeting offline.
 provenance:
   extracted: 0.68
   inferred: 0.26
   ambiguous: 0.06
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-18T16:55:00+02:00
-status: blocked-instrumentation
+updated: 2026-08-19T17:32:00+02:00
+status: superseded-product-decision
 ---
 
-# G12 Late Invalid-Target Race Session Plan
+# G12 Late Invalid-Target Race Session Plan (archived)
 
-> [!warning] Out of the G11 test campaign
-> Do not run this process as G11 evidence. It is the second G12 process and
-> requires G11 already live-promoted plus the normal Item session contract.
+> [!success] Superseded by product decision — 2026-08-19
+> Do not run this live race. The replacement contract is explicit:
+> - if the actor dies, including a self-target or actor-plus-recipient death,
+>   cancel and consume no Potion;
+> - if another party recipient dies while the actor remains alive, retarget
+>   Potion to the actor and consume it exactly once.
+>
+> Offline domain fixtures are authoritative for this rule. This page preserves
+> the retired discovery protocol for historical context only.
 
-> [!danger] Do not use manual timing
-> The invalidation must be injected by a one-shot typed watch at an exact
-> boundary. A human trying to KO a target “quickly enough” cannot produce
-> promotion evidence.
+## Archived objective
 
-## Objective
+The original objective was to discover the native policy after normal UI had
+flushed a valid Item pending and directly decremented EQUAL. That discovery is
+no longer a promotion requirement because the replacement behavior is now a
+product specification.
 
-Close SQ-G12-004: after normal UI has flushed a valid Item pending and directly
-decremented EQUAL, determine whether a target that becomes invalid before
-resolve yields a consumed miss, a stash/refund, or another native policy.
-
-Cancellation before state 15 and actor-KO at `BattlePendingAction_Write` are
-already statically closed. Only the post-commit target race remains open.
-
-## Setup
+## Archived setup
 
 - Fresh process, disposable save, last Potion (`qty=1`) and a controllable
   party target.
@@ -48,7 +47,7 @@ already statically closed. Only the post-commit target race remains open.
   RNG, SG inventory and all writers in the allowlist.
 - Arm three mutually exclusive one-shot scenarios before UI confirmation.
 
-## Scenario order
+## Archived scenario order
 
 | Case | Injection boundary | Expected role |
 | --- | --- | --- |
@@ -60,7 +59,7 @@ The race case must run last. The watcher records exact frame, return address,
 pending bytes and writer order, then invalidates only the target. No other
 action, enemy turn, status tick or RNG user may intervene.
 
-## Required observations
+## Archived required observations
 
 - EQUAL and SG quantities at reservation, flush, invalidation, completion and
   cleanup;
@@ -70,30 +69,28 @@ action, enemy turn, status tick or RNG user may intervene.
 - RNG delta, which should be attributed even if the result is a miss;
 - presentation completion and final Item availability.
 
-## Verdict table
+## Archived verdict table
 
-The session resolves the question only if the target-race outcome is unique
-and repeated once from an exact restored `R0` baseline. Record one of:
+The retired session would have resolved the question only if the target-race
+outcome were unique and repeated once from an exact restored `R0` baseline:
 
 - `consumed-miss`: EQUAL remains zero, stash stays empty;
 - `refunded`: a proven stash/add path returns quantity one;
 - `rejected-before-commit`: evidence shows the assumed boundary was wrong;
 - `unresolved`: any competing writer, timing drift or mixed action occurred.
 
-Do not bake the observed policy into G12 until both repetitions match and the
-writer/call audit is complete.
+This former evidence requirement is superseded by the product decision above.
 
-## Cleanup
+## Archived cleanup
 
 After the race, return outside battle, verify inventory/readback and shutdown.
 If the target-race path faults the replacement or leaves presentation busy,
 stop immediately; do not run a fourth case in that process.
 
-## Operator actions
+## Operator actions (retired)
 
-Confirm or cancel the Potion only when prompted. All KO/invalidation timing is
-automated. Do not select another command or allow an enemy action between the
-armed boundary and evidence export.
+None. Do not schedule this process. Verify the product rule through the G12
+offline domain suite.
 
 ## Related
 

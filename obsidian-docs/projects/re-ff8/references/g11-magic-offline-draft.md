@@ -16,7 +16,7 @@ provenance:
   inferred: 0.16
   ambiguous: 0.06
 created: 2026-08-18T14:29:09+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # G11 Magic Bounded Offline Draft
@@ -80,15 +80,16 @@ confidence and follow-up work remain in
 
 ## G12 finding
 
-The normal player Item writer is now statically identified: submenu state 14
+The normal player Item writer is statically identified: submenu state 14
 reserves/appends; state 15 flushes pending actions and directly decrements the
 battle-local EQUAL quantity. The known `AdjustCount(remove=1)` caller belongs
 to Confuse/automatic selection. A KO during pending write uses a stashed-item
 refund helper.
 
-G12 code remains blocked on the narrower late invalid-target race after a valid
-menu commit. This preserves the distinction between statically observed native
-ordering and an unproved rollback policy.
+G12 now has a live Potion anchor on hold-fix DLL `6885212b…` with exact
+rollback; `[promotion.G12].satisfied` stays false. SQ-G12-004 is a
+product-defined offline death policy rather than a live-discovery race. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 ## Promotion
 
@@ -106,4 +107,5 @@ historical SQ-G14-002 evidence.
 - [[projects/re-ff8/references/battle-formulas]]
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]]

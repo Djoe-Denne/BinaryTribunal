@@ -35,7 +35,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -44,7 +44,7 @@ updated: 2026-08-18T18:55:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-15
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G11 with strict live evidence for the owned slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Fire HP/event/stock; Magic animation remains G14. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. Other Magic-family and G12–G20 implementation gate checkboxes below stay unchecked.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G11 with strict live evidence for the owned slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Fire HP/event/stock; Magic animation remains G14. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] has a Potion live PASS that does not promote the Item gate. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. Other Magic-family and G12–G20 implementation gate checkboxes below stay unchecked.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
@@ -595,8 +595,15 @@ multi-hit eligibility baselines.
 
 **Gate G12:** Item has independent storage semantics while sharing resolver infrastructure.
 
-> [!warning] Static partial closure 2026-08-18
-> The previous `target_mask & 0x4000` claim remains refuted: that test is actor Confuse. The actual normal writer is the submenu state machine, which flushes pending then directly decrements EQUAL by reservation counts. Cancellation and KO-at-flush refund are mapped; the late invalid-target race in SQ-G12-004 remains open, so U12.7 implementation still stays fail-closed.
+> [!info] Consumption policy update 2026-08-19
+> The previous `target_mask & 0x4000` claim remains refuted: that test is actor Confuse. The actual normal writer is the submenu state machine, which flushes pending then directly decrements EQUAL by reservation counts. Cancellation and KO-at-flush refund are mapped.
+> SQ-G12-004 is closed as a product decision rather than a native-discovery
+> gate: actor death cancels without consumption, another dead party recipient
+> retargets Potion to the living actor, and actor-plus-recipient death cancels.
+> Deterministic offline fixtures replace the retired live race.
+> Authentic Potion live PASS on hold-fix DLL `6885212b…` is the current Item
+> anchor; `[promotion.G12].satisfied` stays false. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G12 -Profile P1` for Potion-like, revive, damaging/status, invalid-target, unavailable, rollback, and repeated-use cases. It passes when battle inventory/equal-item state commits exactly once, rejected actions consume nothing, outcomes use the shared resolver, and no native Item-domain helper is reached.
 

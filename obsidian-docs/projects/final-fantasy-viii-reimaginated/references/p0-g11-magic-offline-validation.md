@@ -23,7 +23,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-08-18T16:55:00+02:00
-updated: 2026-08-18T19:07:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # P0 G11 Magic — Live Fire v2 Semantic Promotion — 2026-08-18
@@ -144,8 +144,9 @@ v2 proved domain promotion by **not** calling `enqueue_magic`.
 
 Session 1 of
 [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
-is closed under v2. Sessions 2–7 are later gates. Next milestone is **G12
-Item**. SQ-G11-003 (battle-init import) and SQ-G11-005 (UNMISSABLE RNG) were
+is closed under v2. Sessions 2–7 are later gates. G12 Potion live evidence is
+in [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+SQ-G11-003 (battle-init import) and SQ-G11-005 (UNMISSABLE RNG) were
 live-checked on this Fire envelope (one spread draw, zero accuracy draw).
 
 ## Fail-closed
@@ -159,5 +160,6 @@ spells, Magic animation, and ATB HUD consume.
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/re-ff8/references/g11-magic-offline-draft]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

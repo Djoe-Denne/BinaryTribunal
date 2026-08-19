@@ -19,14 +19,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
   - IDA static decompile 2026-06-14 (EnemyAI_DispatchSection, Battle_EnqueueSpecialAction, EnemyAI_PrepareTurnAction)
   - IDA static decompile 2026-08-18 (G11 Magic GetText fail + PrepareTurnAction stock consume)
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-summary: G07 owns pending-to-current-action flow; G08 TargetPlan; G09 Attack 0x01; G10 Slow allowlist. G11 Magic consume in PrepareTurn. G12 Item EQUAL buffer. G13 Draw pending writer is QueueOrStore; resolver Draw is 6 not 0x0D.
+summary: G07 pending-to-current; G08 TargetPlan; G09 Attack; G10 Slow; G11 Fire consume; G12 Potion EQUAL/HP anchor; G13 Draw QueueOrStore.
 provenance:
   extracted: 0.89
   inferred: 0.08
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T12:00:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # Command Action Pipeline
@@ -99,15 +101,18 @@ At resolve time, `COMMAND_TYPE_ID` can differ from the original menu `command_id
 
 See [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
 
-## Item inventory transaction (static 2026-08-18)
+## Item inventory transaction (static 2026-08-18, live Potion 2026-08-19)
 
 Item stock is `EQUAL_ITEM_*`, never `F_CHARACTER_MAGIC_DATA`:
 
 1. `BS_ParseItems` (`0x48C6E0`) imports `SG_ITEM` rows with `id != 0 && id < 0x21` (`ITEM_TENT`).
 2. Normal player selection reserves quantities in `byte_1D76904`. State 15 of `BattleSubmenu_StateMachine` flushes pending actions first, then directly writes `qty := max(0, qty-reserved)` and clears ids whose quantity reaches zero (`0x4FE6D6`–`0x4FE719`).
 3. FindByCondition case 4 can also remove one item, but its unique PrepareTurn call is an auto/Confuse path gated by actor `status_2 & 0x4000`, not by `target_mask`.
-4. If the actor is KO during `BattlePendingAction_Write`, Item `0x04` is not enqueued: its id is stashed at slot `+0xB8`, then refunded by `BattleItem_RefundStashedItems`. The later invalid-target race remains SQ-G12-004.
-5. Cleanup `Battle_EndCleanupAndTransition` merges EQUAL into SG even on escape.
+4. If the actor is KO during `BattlePendingAction_Write`, Item `0x04` is not enqueued: its id is stashed at slot `+0xB8`, then refunded by `BattleItem_RefundStashedItems`.
+5. Replacement Potion death policy is product-defined: actor death cancels without consumption; another dead party recipient retargets to the living actor and consumes once; actor-plus-recipient death cancels.
+6. Cleanup `Battle_EndCleanupAndTransition` merges EQUAL into SG even on escape.
+
+Live Potion on PID `43880` / DLL `6885212b…` confirmed menu-commit origin, HP +200, EQUAL quantity unchanged by ISO, and zero Item NCOMP. That envelope does not promote G12. See [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 ## Draw pending writer (static 2026-08-18)
 
@@ -225,3 +230,4 @@ All section-5–8 specials enter through the normal `BattlePendingAction_SetupCo
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]

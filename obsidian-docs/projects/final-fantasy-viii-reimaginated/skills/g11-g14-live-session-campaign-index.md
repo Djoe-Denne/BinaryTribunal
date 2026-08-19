@@ -16,15 +16,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
 summary: >-
   Session 1 Fire v2 PASS on PID 16960; promotion.G11 true. Magic animation
-  deferred G14. Sessions 2–7 are later gates; G12 Item is next.
+  deferred G14. G12 Potion live PASS on PID 43880; promotion.G12 false.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-18T19:07:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 status: g11-live-pass-v2
 ---
 
@@ -55,21 +59,22 @@ case. Timing races and deliberate ownership faults get dedicated processes.
 | Live Fire v2 2026-08-18 | PID 16960 `Detached`; HP/event/stock; zero Magic NCOMP |
 | Live v2 scope | authentic Fire only (`0x02` / spell `0x01`); no Magic animation |
 | `[promotion.G11].satisfied` | **true**; Magic presentation ABI deferred G14 |
-| Sessions 2–7 | later gates; G12 Item is next |
+| G12 | Potion anchor passed; late-target live race retired; broader matrix open |
 
 ## Session order
 
 | Order | Session | Purpose | Role in G11 campaign |
 | ---: | --- | --- | --- |
 | 1 | [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan\|G11 Fire live v2]] | authentic Fire pending, stock, HP/event | **closed 2026-08-18** |
-| 2 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan\|G12 Item]] | normal Item storage and resolver cases | later gate; not G11 |
-| 3 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan\|G12 late target race]] | close SQ-G12-004 | later gate; not G11 |
+| 2 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan\|G12 Item]] | Potion anchor passed; broader Item matrix remains | later gate; not G11 |
+| 3 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan\|G12 late target race]] | retired by product-defined offline policy | **cancelled** |
 | 4 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan\|G13 Draw]] | authentic pending, Cast and Stock | later gate; not G11 |
 | 5 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-source-death-session-plan\|G13 source-death race]] | close SQ-G13-002 | later gate; not G11 |
 | 6 | [[projects/final-fantasy-viii-reimaginated/skills/g14-live-barrier-session-plan\|G14 barriers]] | callbacks and relays `0x70/71/74` | later gate; not G11 |
 | 7 | [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan\|G14 ownership fault]] | prove mixed ownership is terminal | later gate; not G11 |
 
-G12 cannot promote before sessions 2 and 3 both pass. G13 cannot promote
+G12 no longer requires session 3; promotion depends on completing the broader
+session-2 Item matrix plus offline death-policy fixtures. G13 cannot promote
 before sessions 4 and 5 both pass. G14 requires both the positive and negative
 sessions. A later milestone may reuse the same binary hash, but never the same
 process for two promotion gates.
@@ -137,6 +142,7 @@ would recreate the ambiguous multi-caller RNG problem.
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]
 - [[projects/re-ff8/references/g11-magic-offline-draft]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

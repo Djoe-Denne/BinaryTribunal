@@ -36,15 +36,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: Full design and execution status through G11 Fire v2 semantic live closure. Magic animation remains deferred to G14.
+summary: Full design and execution status through G11 Fire v2 live closure and the unpromoted G12 Potion live anchor. Magic animation remains G14.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-19T17:55:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -55,7 +57,7 @@ updated: 2026-08-18T18:55:00+02:00
 > [!warning] No whole-executable oracle
 > This guide does **not** prescribe a frame-by-frame native oracle or lockstep execution for now. Reverse engineering is driven by IDA static analysis, focused live probes, executable `ff8re` hypotheses, data corpus analysis, and deterministic tests for the new code. This makes `FullISO` an engineering target backed by accumulated proof, not a mathematical certification until a differential oracle is later added.
 
-## Current migration status — 2026-08-18
+## Current migration status — 2026-08-19
 
 > [!success] Constrained P0 checkpoint validated
 > [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|Final Fantasy VIII Reimaginated]] now contains the x86 build, hash-bound address map, C ABI, reversible `FFBattleModule` observation seam, canonical/legacy state bridge, write guard, call audit, and G00–G04 suites. The final no-debugger run passed 12/12 project tests and 151/151 [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] tests, imported a live `03/03/01/04` post-init snapshot, performed no P0-owned battle write, restored the 16-byte frame preimage exactly, and left `FF8_EN.exe` running after shutdown. See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]].
@@ -76,6 +78,10 @@ live-promotes semantic Fire HP/event/stock on DLL `0b3c4bb9…`; Magic
 animation stays G14 U14.6/U14.7. Historical v1 FAIL on DLL `0977c9ec…` is
 retained as SQ-G14-002. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]].
+[[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]]
+has an authentic Potion live PASS on hold-fix DLL `6885212b…` with restore
+`0x1ff`; `[promotion.G12].satisfied` stays false while the broader Item
+matrix remains open.
 
 The strict original roadmap still carries explicit G03/G04 debt:
 

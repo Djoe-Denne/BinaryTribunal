@@ -9,25 +9,29 @@ sources:
   - projects/re-ff8/references/kernel-bin-authenticated-tables.md
   - projects/re-ff8/skills/ff8-live-validation-operations.md
   - projects/re-ff8/concepts/command-action-pipeline.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
 summary: >-
-  Later-gate G12 plan, out of the G11 test campaign. Normal EQUAL decrement is
-  submenu 14/15; this process cannot promote G12 without the late-target race.
+  G12 Item matrix after the live Potion anchor. Normal EQUAL decrement is
+  submenu 14/15; late Potion death behavior is product-defined and tested offline.
 provenance:
   extracted: 0.72
   inferred: 0.23
   ambiguous: 0.05
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-18T16:55:00+02:00
-status: blocked-implementation
+updated: 2026-08-19T17:55:00+02:00
+status: live-anchor-pass-broader-matrix-open
 ---
 
 # G12 Live Item Session Plan
 
-> [!warning] Out of the G11 test campaign
-> Do not run this process as G11 evidence. It requires a live-promoted G11
-> baseline. This session cannot promote G12 by itself. The dedicated
+> [!success] Potion anchor closed — 2026-08-19
+> PID `43880`, hold-fix DLL `6885212b…`, envelope
+> `p0-g12-holdfix-potion-post-shutdown-2026-08-19.json` (`PASS`, restore
+> `0x1ff`). Director 8/8, HUD 32/32, HP 8320→8520, EQUAL 30→30. The dedicated
 > [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan|late-target session]]
-> must also close SQ-G12-004.
+> is retired: death behavior is a product-defined offline domain rule. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 ## Objective
 
@@ -87,8 +91,10 @@ do not save to disk. Record result path and final SG/EQUAL hashes.
 
 ## Exclusion
 
-Actor KO at pending write may be retained as a known refund control, but target
-invalidation after a valid pending commit belongs only to the race session.
+Late Potion death is not a live-discovery case. Actor death cancels without
+consumption; death of another party recipient retargets to the living actor;
+actor-plus-recipient death cancels. Petrify and non-curative late-target
+states remain fail-closed unless separately specified.
 
 ## Operator actions
 
@@ -99,6 +105,7 @@ invalidation after a valid pending commit belongs only to the race session.
 
 ## Related
 
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]]
 - [[projects/re-ff8/concepts/command-action-pipeline#Item inventory transaction (static 2026-08-18)]]
