@@ -4,6 +4,7 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G12 Item Potion, P0 G12, G12 Potion live anchor]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
@@ -12,23 +13,23 @@ sources:
   - projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan.md
   - projects/re-ff8/references/g11-g20-static-open-questions.md
 summary: >-
-  G12 Potion live PASS on hold-fix DLL 6885212b; restore 0x1ff. Gate unpromoted.
-  Pulse-3 FAIL retained. Late death is product policy.
+  Potion remains a live anchor; all 32 battle Items are offline-complete or
+  typed special intents. G12 stays unpromoted and pulse-3 FAIL is retained.
 provenance:
-  extracted: 0.92
-  inferred: 0.05
-  ambiguous: 0.03
+  extracted: 0.94
+  inferred: 0.04
+  ambiguous: 0.02
 created: 2026-08-19T17:55:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # P0 G12 Item — Live Potion Anchor, Unpromoted — 2026-08-19
 
 > [!warning] G12 is not promoted
-> The authentic Potion cycle passed. `[promotion.G12].satisfied` stays
-> **false**. Phoenix Down, damage/status, inventory bounds, persistence, and
-> the rest of the Item matrix remain open. Do not infer gate closure from this
-> envelope.
+> The authentic Potion cycle passed and the complete Item family now has an
+> offline implementation candidate. `[promotion.G12].satisfied` stays
+> **false**: the representative live matrix, presentation and special-action
+> execution remain unpromoted. Do not infer gate closure from either source.
 
 > [!success] Potion live anchor — 2026-08-19
 > PID `43880` on DLL `6885212b…120e4790`, protocol `item-live-pending`,
@@ -81,10 +82,12 @@ is deferred to G14.
 
 ## What this envelope does not close
 
-Phoenix Down, damage/status items, quantity `1→0` id-clear, Med Data,
-Zombie inversion, Tent/`id>=33`, SG persistence, Dual/Triple, enemy targets,
-and `[promotion.G12].satisfied = true`. SQ-G12-003 (`K_ITEM+0x15`) stays
-open. SQ-G12-002 still needs a damaging-item ATTACK_FLAG witness.
+The Potion envelope alone does not close Phoenix Down, damage/status Items,
+quantity `1→0` id-clear, Med Data, Zombie inversion, special intents,
+inventory persistence, enemy targets, or `[promotion.G12].satisfied = true`.
+Those direct families are now covered offline where the report says so, but
+still need the grouped representative live campaign. SQ-G12-002 still needs a
+damaging-item ATTACK_FLAG witness before live-family promotion.
 
 ## Product late-death policy
 
@@ -131,12 +134,30 @@ the live Potion protocol had not yet run and that SQ-G12-004 was still
 `live-required`. Both claims are superseded by the 2026-08-19 PASS envelope
 and the product death policy.
 
-## Fail-closed
+## Complete Item family — offline candidate — 2026-08-19
 
-Any command other than authentic Potion `0x04`/`0x01`; High Potion; enemy
-targets; random/multi-hit plans; native Item resolver after engagement;
-second EQUAL decrement; Magic or SG writes mid-battle; Item NCOMP; inferring
-`PASS` from the pre-shutdown probe or from a later uncaptured rebuild DLL.
+`g11-g12-offline-family-completion-2026-08-19.md` binds all 32 battle Items
+from the authenticated kernel. Rows 1–29 resolve directly and rows 30–32 emit
+typed Boko, Phoenix and Moomba intentions for the canonical special-action
+engine; they are never reduced to a generic unsupported result.
+
+The action transaction covers single/group cures, row-mask purges, X-Potion,
+Elixir/Megalixir, Phoenix Down/Mega Phoenix with Med Data, guaranteed
+Hero/Holy War Trial behavior for this executable, and offensive/status Magic
+stones without touching Magic stock. One Item decision is made per action;
+pre-execution actor death or battle end refunds, while miss, Petrify,
+immunity, status failure or an already-started no-target failure consumes.
+Group actions continue after an individual miss.
+
+Curative Items preserve the extracted Invincible asymmetry and remain
+applicable; Magic and offensive/status Items do not. Normal HP caps at 9999.
+
+## Live boundary and remaining non-claims
+
+The live G12 protocol still accepts only authentic Potion `0x04`/`0x01`.
+The offline family does not claim Item animation/camera, Scan display,
+Boko/Phoenix/Moomba downstream execution, new ABI/RVA/NCOMP, a wider host
+write range, SG persistence, or complete-family live promotion.
 
 ## Related
 

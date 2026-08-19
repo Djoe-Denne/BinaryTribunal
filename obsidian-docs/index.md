@@ -4,14 +4,14 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-19T17:55:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-19T20:46:35+02:00*
 
 ## Concepts
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
-- [[projects/re-ff8/concepts/command-action-pipeline]] — G07 pending-to-current; G08 TargetPlan; G09 Attack; G10 Slow; G11 Fire consume; G12 Potion EQUAL/HP anchor; G13 Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G10 command core; complete offline Magic/Item transactions; Fire promoted, Potion anchored; G13 Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded masks feed the live G08 TargetPlan boundary; G09 consumes one direct plan in the promoted Attack 0x01 slice. ( #ff8 #battle-system #runtime-memory #concept)
@@ -64,7 +64,7 @@ title: Wiki Index
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G12 Potion has a live anchor and product-defined late-death semantics, while its broader matrix remains. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G12-004 is resolved by product decision while SQ-G14-002 tracks Magic presentation NCOMP. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Hash-bound Steam `kernel.bin` extraction with exact Magic/Item section bounds and family matrices. ( #ff8 #battle-system #reverse-engineering #reference)
+- [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 Potion is live-anchored and unpromoted. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, damage/status, AI, encounters, presentation, GF, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure. ( #ff8 #runtime-memory #battle-system #reference)
@@ -87,9 +87,9 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] — G08 v2 closes target-plan ownership for an authentic Meteor pending: exact ten-hit RNG fan-out, no G09/native targeting call, and rollback `0x1ff`. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] — G09 live-promotes authentic Attack 0x01 through direct targeting, semantic HP/event commit, 0x70 idle barrier and exact rollback; P1 AttackSlice unlocked. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] — G10 live-promotes Status-Atk Slow on Attack 0x01: apply, named timers, mental RNG, in-battle retain; HUD icon deferred U14.6. ( #ff8 #battle-system #testing #runtime-memory #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] — G11 Fire v2 live PASS on authenticated K_MAGIC: semantic HP/event/stock; Magic animation deferred G14; v1 FAIL retained. ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] — G12 Potion live PASS on hold-fix DLL 6885212b with restore 0x1ff; gate unpromoted; pulse-3 FAIL retained; late death is product policy. ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical map from immutable runtime evidence to the G00–G12 pages, including G11 Fire v2 PASS, the G12 Potion live anchor, and retained FAIL envelopes. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] — Fire v2 remains live-promoted; all 57 Magic rows are offline-complete but live-unpromoted; presentation remains G14. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] — Potion remains a live anchor; all 32 battle Items are offline-complete or typed intents; G12 stays unpromoted. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G12 evidence map: Fire promoted, Potion anchored, complete Magic/Item families offline-only, diagnostic FAILs retained. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
@@ -100,4 +100,4 @@ title: Wiki Index
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — In-process x86 FF8 battle migration with G05–G11 live-closed; G12 Potion live-anchored and unpromoted; Magic animation deferred G14. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — G05–G11 live-closed; G12 Potion anchored; Magic/Item families offline-complete but live-unpromoted; presentation remains G14. ( #ff8 #battle-system #reverse-engineering #project)

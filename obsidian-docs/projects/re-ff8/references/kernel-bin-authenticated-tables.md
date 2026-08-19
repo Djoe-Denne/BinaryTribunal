@@ -1,21 +1,22 @@
 ---
 title: Authenticated kernel.bin Magic and Item Tables
 category: references
-tags: [ff8, battle-system, reverse-engineering, kernel, evidence, reference]
+tags: [ff8, battle-system, reverse-engineering, testing, reference]
 aliases: [Authenticated K_MAGIC, Authenticated K_ITEM, G11 kernel matrix]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fs
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fi
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fl
   - D:/Modding/ff8/FF8GameData/fs/fsmanager.py
   - D:/Modding/ff8/FF8GameData/Resources/json/kernel_bin_data.json
-summary: Hash-bound offline extraction of the shipped English Steam kernel Magic and battle Item sections used to close the G11 row count and spell-family matrix.
+summary: Authenticated Magic/Item tables plus exhaustive offline implementation coverage; complete-family live validation remains unpromoted.
 provenance:
-  extracted: 0.97
-  inferred: 0.02
+  extracted: 0.96
+  inferred: 0.03
   ambiguous: 0.01
 created: 2026-08-18T14:00:13+02:00
-updated: 2026-08-18T14:00:13+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # Authenticated kernel.bin Magic and Item Tables
@@ -88,4 +89,22 @@ The authenticated target-info bytes also disprove the former G12 consume theory 
 
 ## Implementation boundary
 
-This evidence is enough to build a bounds-checked semantic reader and deterministic single-cast G11 fixtures. It does not prove battle-init stock import, Dual/Triple consumption, normal player Item removal, or any live ownership/cadence claim. See [[projects/re-ff8/references/g11-g20-static-open-questions]] and [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
+The 2026-08-19 complete-family candidate binds this resource to a
+machine-validated partition: Magic row 0 is a sentinel and rows 1–56 all have
+resolved effect profiles; Item row 0 is a sentinel, rows 1–29 resolve directly
+and rows 30–32 emit typed special-action intentions. Deterministic tests cover
+the action-level resource, target, RNG and rollback transaction.
+
+This is exhaustive **offline implementation coverage**, not a new extraction
+or live promotion. Fire id 1 remains the only live-promoted Magic row; Potion
+id 1 remains the unpromoted G12 live anchor. It does not prove native
+presentation, special-intent execution, persistence, or the grouped live
+family campaign. See [[projects/re-ff8/references/g11-g20-static-open-questions]]
+and [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
+
+## Related
+
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]

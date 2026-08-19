@@ -33,18 +33,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  In-process x86 FF8 battle migration with G05–G11 live-closed. G12 has a Potion
-  live anchor; the Item gate stays unpromoted. Magic animation deferred to G14.
+  G05–G11 are live-closed and G12 has a Potion anchor. Magic and Item families
+  are offline-complete but live-unpromoted; presentation remains G14.
 provenance:
-  extracted: 0.90
+  extracted: 0.91
   inferred: 0.07
-  ambiguous: 0.03
+  ambiguous: 0.02
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -175,6 +176,17 @@ Completed foundations include:
 > is retained. Late Potion death is a product-defined offline rule. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
+> [!note] G11/G12 complete-family candidate — offline only
+> The authenticated 57-row Magic table and 32 battle Items now have exhaustive
+> offline dispatch: every non-sentinel row resolves directly or emits a typed
+> Boko/Phoenix/Moomba intention. Action transactions cover targets, per-impact
+> RNG, resources and rollback. This does not widen either live protocol: Fire
+> remains the only promoted Magic row and Potion remains the unpromoted Item
+> anchor. See
+> [[projects/re-ff8/references/kernel-bin-authenticated-tables]],
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+> and [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+
 ## Operational snapshot — read this first
 
 The project currently has ten distinct levels. They must not be conflated:
@@ -203,24 +215,26 @@ The project currently has ten distinct levels. They must not be conflated:
    hit-status allowlist, seeds named `int16` timers, ticks them under the
    Director gate, and retains committed Slow across shutdown. Drain, Cover,
    Poison periodic HP, and status HUD NCOMP stay fail-closed or deferred.
-8. **G11 Magic — live Fire v2 promoted, presentation deferred.** Semantic
-   Fire HP/event/stock is live-closed on PID `16960`. Magic animation,
+8. **G11 Magic — Fire live-promoted; full family offline-complete.** Semantic
+   Fire HP/event/stock is live-closed on PID `16960`; all authenticated Magic
+   rows now have deterministic offline transactions. Magic animation,
    sequence context, and native Magic NCOMP stay G14 U14.6/U14.7. Session 1
    of
    [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
    is closed.
-9. **G12 Item — Potion live anchor, unpromoted.** Semantic Potion HP/event
-   on PID `43880` is captured with exact rollback. The broader Item matrix
-   and `[promotion.G12].satisfied` remain open. See
+9. **G12 Item — Potion live anchor; full family offline-complete.** Semantic
+   Potion HP/event on PID `43880` is captured with exact rollback. All 32
+   battle Items resolve or emit a typed special intention offline, but the
+   representative live matrix and `[promotion.G12].satisfied` remain open. See
    [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
-G10 owns named status/timer application on that Attack, G11 owns Fire
-stock/HP/event without Magic animation, and G12 owns a Potion EQUAL/HP
-anchor without Item animation. Native presentation stays a narrowly
-audited compatibility unit. P1 AttackSlice plus the G10 status slice plus
-the G11 Fire semantic slice are the versioned G09/G10/G11 claims; G12 is
+G10 owns named status/timer application on that Attack, G11 owns live Fire
+and a complete offline Magic transaction, and G12 owns a Potion EQUAL/HP
+anchor plus a complete offline Item transaction. Native presentation stays a
+narrowly audited compatibility unit. P1 AttackSlice plus the G10 status slice
+plus the G11 Fire semantic slice are the versioned G09/G10/G11 claims; G12 is
 not yet a versioned promotion.
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
@@ -294,10 +308,10 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Complete the G12 Item matrix after the Potion live anchor via
-  [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]];
-  native Magic/Item presentation ABI, Dual/Triple, Reflect, Angel Wing, GF,
-  reactions and rewards remain fail-closed.
+- Run the grouped representative Magic/Item live campaign after the exhaustive
+  offline family candidate; keep `[promotion.G12].satisfied=false` until it
+  passes. Native Magic/Item presentation ABI, special-intent execution, Angel
+  Wing, GF, reactions and rewards remain fail-closed or later-gate work.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.

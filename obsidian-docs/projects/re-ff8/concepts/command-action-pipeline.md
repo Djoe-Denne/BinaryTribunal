@@ -21,14 +21,15 @@ sources:
   - IDA static decompile 2026-08-18 (G11 Magic GetText fail + PrepareTurnAction stock consume)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-summary: G07 pending-to-current; G08 TargetPlan; G09 Attack; G10 Slow; G11 Fire consume; G12 Potion EQUAL/HP anchor; G13 Draw QueueOrStore.
+summary: G07–G10 command core; complete offline Magic/Item action transactions; Fire live-promoted, Potion live-anchored; G13 Draw QueueOrStore.
 provenance:
-  extracted: 0.89
-  inferred: 0.08
+  extracted: 0.90
+  inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # Command Action Pipeline
@@ -113,6 +114,26 @@ Item stock is `EQUAL_ITEM_*`, never `F_CHARACTER_MAGIC_DATA`:
 6. Cleanup `Battle_EndCleanupAndTransition` merges EQUAL into SG even on escape.
 
 Live Potion on PID `43880` / DLL `6885212b…` confirmed menu-commit origin, HP +200, EQUAL quantity unchanged by ISO, and zero Item NCOMP. That envelope does not promote G12. See [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+
+## Complete offline Magic/Item transactions — 2026-08-19
+
+The complete-family candidate adds an action transaction above the existing
+unit-effect resolvers. It owns one resource decision per launch, ordered
+target/impact traversal, fresh effect RNG per admitted target or impact,
+late direct-target redirection, semantic events, and exact action-wide
+rollback before commit. Once execution starts, miss, immunity, Petrify,
+status failure or a no-target failure consumes; actor death or battle end
+before execution refunds. Group actions continue past an individual miss.
+
+All authenticated Magic and battle Item rows now yield either a resolved
+effect or a typed special-action intention. Meteor, Double/Triple, Scan,
+Drain, Life/Full-life, purges, group Items, Magic stones and Med Data have
+deterministic fixtures. Boko, Phoenix and Moomba execution stays in the
+downstream special-action engine. This is an offline implementation claim:
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire]]
+is the only promoted Magic row and
+[[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12 Potion]]
+remains an unpromoted live anchor.
 
 ## Draw pending writer (static 2026-08-18)
 
@@ -225,6 +246,8 @@ All section-5–8 specials enter through the normal `BattlePendingAction_SetupCo
 
 ## Related
 
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/targeting-system]]
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]

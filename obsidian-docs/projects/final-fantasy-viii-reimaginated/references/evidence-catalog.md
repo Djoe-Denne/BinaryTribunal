@@ -4,6 +4,7 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [battle ISO evidence catalog, FF8 Reimaginated evidence]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/debugger-resume-crash-2026-07-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/director-gateway-p0-5-2026-07-21.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/draw-command-id.md
@@ -76,16 +77,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
-summary: Canonical map from immutable runtime evidence to the G00–G12 pages, including G11 Fire v2 PASS, the G12 Potion live anchor, and retained FAIL envelopes.
+summary: Canonical G00–G12 evidence map: G11 Fire promoted, G12 Potion anchored, complete Magic/Item families offline-only, diagnostic FAILs retained.
 provenance:
-  extracted: 0.95
+  extracted: 0.96
   inferred: 0.03
-  ambiguous: 0.02
+  ambiguous: 0.01
 lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -111,6 +112,22 @@ updated: 2026-08-19T17:55:00+02:00
 | G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
 | G11 / Magic Fire v2 live | Semantic Fire on DLL `0b3c4bb9…5df0aef1`: authentic pending `0x02`/`0x01`, HP/event/stock, zero Magic NCOMP, hook rollback. `[promotion.G11].satisfied` true. Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
 | G12 / Item Potion live anchor | Authentic Potion on hold-fix DLL `6885212b…120e4790`: pending `0x04`/`0x01`, HP +200, EQUAL unchanged, zero Item NCOMP, restore `0x1ff`. `[promotion.G12].satisfied` stays false. | [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] |
+
+## Offline Family-Completion Candidate
+
+Report `g11-g12-offline-family-completion-2026-08-19.md` (SHA-256
+`bc418a1763f8d5c614471a85a357beb1ac3f28a6e5b0f52e8ca63b4ff35393e4`)
+binds the authenticated kernel SHA-256
+`e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
+The machine partition reports Magic row 0 plus 56 resolved rows, and Item row
+0 plus 29 direct rows and three typed special intentions. Contracts pass, the
+DLL is PE32/I386, CTest passes 34/34, and the report records no live-protocol,
+ABI, RVA, NCOMP or promotion widening.
+
+This source is canonical for **offline implementation coverage only**. Fire id
+1 remains the only promoted Magic row; Potion id 1 remains the unpromoted G12
+live anchor. Representative direct-family live validation and downstream
+Boko/Phoenix/Moomba execution remain outstanding.
 
 ## Canonical Machine Evidence
 

@@ -4,6 +4,7 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G11 Magic offline, P0 G11, G11 test campaign baseline, G11 Fire live candidate]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
@@ -16,14 +17,14 @@ sources:
   - projects/re-ff8/references/kernel-bin-authenticated-tables.md
   - projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan.md
 summary: >-
-  G11 v2 live-promotes semantic Fire HP/event/stock. Magic animation stays G14.
-  v1 FAIL retained. Irvine ATB HUD consume is out of G11.
+  Fire v2 remains live-promoted; all 57 Magic rows are offline-complete but
+  live-unpromoted. Presentation remains G14 and v1 FAIL is retained.
 provenance:
-  extracted: 0.93
-  inferred: 0.05
+  extracted: 0.94
+  inferred: 0.04
   ambiguous: 0.02
 created: 2026-08-18T16:55:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-19T20:46:35+02:00
 ---
 
 # P0 G11 Magic — Live Fire v2 Semantic Promotion — 2026-08-18
@@ -36,6 +37,14 @@ updated: 2026-08-19T17:55:00+02:00
 > and hook rollback. `[promotion.G11].satisfied = true`. Magic animation,
 > sequence context, and native Magic NCOMP remain G14 U14.6/U14.7. See
 > [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
+
+> [!note] Complete Magic family — offline candidate only
+> Report `g11-g12-offline-family-completion-2026-08-19.md` binds the
+> authenticated `kernel.bin` and the machine partition
+> `manifests/g11-g12-offline-coverage.toml`. Row 0 is the sentinel and all 56
+> non-sentinel Magic rows now resolve through a typed action transaction.
+> This adds no live protocol, ABI, RVA, NCOMP or promotion claim: Fire id 1
+> remains the only live-promoted Magic row.
 
 > [!note] Irvine ATB bar stayed full
 > The operator saw no Fire animation and Irvine's ATB did not visually reset.
@@ -122,10 +131,18 @@ See [[projects/re-ff8/references/kernel-bin-authenticated-tables]] and
 | application | G07 current action → G08 target plan → G11 resolve |
 | runtime live v2 | Fire pending capture, stock id/qty host write, G09-style HP/event; **no** Magic presentation relays |
 
-Offline fixtures still cover Fire vs Shell/null/absorb, Demi, Cure/Zombie,
-Life/Full-Life, status reuse, Silence, empty stock, consume-once,
-double-commit rejection and event-buffer rollback. Live v2 promotes **Fire
-only**, not those other families.
+The complete-family transaction now covers damage, cure, percentage, status
+apply/clear, Life/Full-life, Drain, Scan, Full-cure, Meteor and Double/Triple.
+It makes one resource decision per launch, orders targets by slot, draws fresh
+effect RNG per target or impact, redirects late direct targets, and rolls back
+the full action on an internal precommit fault. Meteor preselects ten targets
+and stops when the next scheduled target is already dead; Zombie revival uses
+Death-on-Zombie; Scan publishes semantic data without presentation.
+
+Fixtures bind all 57 authenticated rows and the transaction matrix, including
+Expendx2-1 `0x20`, Expendx3-1 `0x40`, consumed miss/immunity/status failure,
+pre-execution refund and group continuation. Live v2 still promotes **Fire
+only**, not the complete offline family.
 
 ## Historical v1 FAIL — 2026-08-18
 
@@ -149,11 +166,13 @@ in [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]
 SQ-G11-003 (battle-init import) and SQ-G11-005 (UNMISSABLE RNG) were
 live-checked on this Fire envelope (one spread draw, zero accuracy draw).
 
-## Fail-closed
+## Live boundary and remaining non-claims
 
-Dual/Triple, Meteor/multi-hit, Reflect, Angel Wing, Scan, Full-cure, GF
-absorption, enemy-caster scaling, Zombie Life damage, lethal Fire, other
-spells, Magic animation, and ATB HUD consume.
+The narrow live G11 protocol continues to reject every spell except Fire id 1.
+The complete offline family does not claim Magic animation, camera, Scan
+display, native sequence ownership, Angel Wing, GF execution, a wider host
+write range, or final representative-family live validation. ATB HUD consume
+also remains outside G11.
 
 ## Related
 
