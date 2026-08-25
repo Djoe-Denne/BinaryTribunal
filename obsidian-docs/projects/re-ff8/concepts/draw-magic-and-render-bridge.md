@@ -14,13 +14,16 @@ sources:
   - obsidian-docs/_staging/investigations/battle_camera.md
   - IDA live callback/BdLink matrices 2026-07-12
   - IDA static 2026-08-18 (Draw_ComputeStealCount 0x48FD20, PendingCmd_QueueOrStore, BattleDrawMenu_Open)
-summary: Draw is command family 6 at resolve time, writes pending via QueueOrStore with aux_5 9/10, and mutates battle-local Magic stock only on Stock.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+summary: Draw resolves as family 6, writes QueueOrStore aux_5 9/10, and is live-promoted for Cast/Stock. Pending 0x06 stays a runtime byte.
 provenance:
   extracted: 0.88
   inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T12:00:00+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # Draw Magic And Render Bridge
@@ -33,7 +36,7 @@ Three identifier layers must stay separate. See [[projects/re-ff8/references/g11
 
 | Layer | Draw |
 | --- | --- |
-| Pending `command_id` | menu-row byte via `BattleDrawMenu_Open` → `PendingCmd_QueueOrStore` (candidate `0x06`, live-required) |
+| Pending `command_id` | menu-row byte via `BattleDrawMenu_Open` → `PendingCmd_QueueOrStore` (live byte `0x06`, not a `core/` enum) |
 | Resolver `COMMAND_TYPE_ID` | **6** |
 | `aux_5` / `aux_6` | 9 Cast / 10 Stock; source monster slot |
 
@@ -49,7 +52,7 @@ clamp 0..9
 - Cast (`aux_5=9`): Magic-family resolve then `dmg * (rand8+10)/150`. No Magic consume.
 - Stock (`aux_5=10`): damage 0; GetText loops `BattleMagic_MutateStock` add.
 
-Default `BattlePendingAction_Write` zeros aux bytes; Draw must not use it. Resolver `0x0D` is Item, not Draw.
+Default `BattlePendingAction_Write` zeros aux bytes; Draw must not use it. Resolver `0x0D` is Item, not Draw. Packed layout is `[mask_lo, mask_hi, attacker, id, arg, aux_5, aux_6, ready]`. Official live replacements on PID 22956 promoted G13 Cast/Stock; presentation remains G14. See [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
 ## Battle-Local Versus Persistent Stock
 
@@ -112,6 +115,9 @@ The PC build still presents through OpenGL or DirectDraw-side paths rather than 
 
 ## Related
 
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
+- [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
 - [[projects/re-ff8/concepts/battle-camera-architecture]]
 - [[projects/re-ff8/concepts/damage-status-pipeline]]

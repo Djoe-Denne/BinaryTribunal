@@ -35,13 +35,15 @@ sources:
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
-summary: Dependency roadmap through G11, with a complete representative G12 live campaign and formal G12 promotion review still pending.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+summary: Dependency roadmap through G13. G12 is live-promoted-semantic; G13 is live-promoted Cast/Stock. Presentation remains G14.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-25T14:33:48+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -50,7 +52,7 @@ updated: 2026-08-25T14:33:48+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-25
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G11 with strict live evidence for the owned slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Magic behavior; animation remains G14. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] now has representative live anchors for direct healing, group revive, typed Phoenix/Boko delegation, and typed Moomba delegation. The campaign is complete, but `[promotion.G12].satisfied` remains false pending an explicit promotion review. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. G12–G20 gate checkboxes below stay unchecked until their formal review.
+> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G13 for the owned semantic slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Magic behavior; animation remains G14. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock; pending `0x06` stays a runtime byte. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. G14–G20 gate checkboxes below stay unchecked.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
@@ -611,8 +613,8 @@ multi-hit eligibility baselines.
 > group revive. Phoenix Pinion and Gysahl Greens prove typed Phoenix/Boko intents,
 > while Friendship proves typed Moomba delegation in a final detached envelope.
 > Two retained negative probes exposed and closed host-refresh state loss and the
-> inherited two-survivor fixture gate. This representative live campaign is
-> complete, but `[promotion.G12].satisfied` stays false pending explicit review. See
+> inherited two-survivor fixture gate. The 2026-08-25 review sets
+> `[promotion.G12].satisfied`. Item animation remains G14. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G12 -Profile P1` for Potion-like, revive, damaging/status, invalid-target, unavailable, rollback, and repeated-use cases. It passes when battle inventory/equal-item state commits exactly once, rejected actions consume nothing, outcomes use the shared resolver, and no native Item-domain helper is reached.
@@ -634,7 +636,14 @@ multi-hit eligibility baselines.
 
 **Gate G13:** all direct group-2 families have deterministic fixtures and no family-native fallback.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G13 -Profile P1` after capturing an authentic Draw pending record; `0x06` remains a candidate, not a precondition. Cover resisted/successful Cast and Stock, full stock, and source death. It passes when the captured pending byte, quantity/RNG, `aux_5`/`aux_6`, stock caps, Magic handoff, result events, and the complete direct-family routing matrix match fixtures without native Draw fallback.
+> [!success] G13 live promotion — 2026-08-25
+> Official Stock then Cast replacements on PID 22956 / DLL `f47c0481…` are
+> collector `PASS`. `[promotion.G13].satisfied = true`. Pending `0x06` stays a
+> runtime byte, not a `core/` enum. SQ-G13-002 is static-capped. Draw
+> presentation remains G14. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
+
+**Injected in-game test:** Scenario 2 may arm from the pinned QueueOrStore contract; native observation is optional. `0x06` remains a runtime discriminator, not a `core/` enum. Cover resisted/successful Cast and Stock, full stock, and source death offline. It passes when the pending byte, quantity/RNG, `aux_5`/`aux_6`, stock caps, Magic handoff, result events, and the complete direct-family routing matrix match fixtures without native Draw fallback.
 
 ### G14 — Own domain callbacks and a minimal barrier scheduler
 

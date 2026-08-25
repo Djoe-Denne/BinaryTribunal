@@ -17,13 +17,20 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
-summary: Static G11–G20 map with live addenda. G11 is promoted; G12 representative Item campaign is complete and awaits formal promotion review.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-review-and-phase-b-design-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-confirm-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-b1-arm-authorized-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+summary: Static G11–G20 map with live addenda. G11–G13 are live-promoted. G12 is semantic Item; G13 is Draw Cast/Stock. SQ-G13-002 is capped; presentation is G14.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-25T14:27:37+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -31,7 +38,7 @@ updated: 2026-08-25T14:27:37+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] now has representative direct, delegated, group-revive and typed-special live anchors, but formal promotion is still pending. G12–G20 stay unpromoted in this static ledger.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. G14–G20 stay unpromoted in this static ledger.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -42,8 +49,8 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | Gate | Static status | Confidence | Units | Next |
 | --- | --- | ---: | --- | --- |
 | G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families and animation incomplete | G12 Item; Magic NCOMP is SQ-G14-002 |
-| G12 Item | `static-partial` + representative live matrix | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | explicit promotion review; no additional gameplay batch required |
-| G13 Draw | `static-partial` | 0.70 | U13.1–U13.6 mapped with live-required pending id | live `PendingCmd_QueueOrStore` command_id byte; mid-flight source death |
+| G12 Item | `static-partial` + semantic live promotion | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | presentation G14; no additional gameplay batch required |
+| G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | G14 presentation; no global pending `0x06` enum |
 | G14 callbacks | `static-partial` | 0.62 | U14.1–U14.7 ownership map | idle runtime; half-ownership live detector |
 | G15 AI control | `static-strong` | 0.78 | U15.1–U15.7 crosswalk | corpus `.dat` coverage report |
 | G16 AI actions | `mapped` | 0.55 | U16.1–U16.8 recognition | spawn/remove + corpus |
@@ -396,7 +403,7 @@ Three identifier layers (do not collapse):
 
 | Layer | Where | Draw value |
 | --- | --- | --- |
-| Pending `command_id` | `PendingCmd_QueueOrStore` a2 = menu row byte | **live-required** (candidate `0x06`, SQ-G13-001) |
+| Pending `command_id` | `PendingCmd_QueueOrStore` a2 = menu row byte | **three-PID live `0x06`** (SQ-G13-001; still not a `core/` enum) |
 | Resolver `COMMAND_TYPE_ID` | `BattleAction_ResolveAndApplyDamage` | **6** (with Magic/Slot/247 metadata) |
 | Aux discriminator | `aux_5` | **9 Cast / 10 Stock**; `aux_6` = source slot |
 
@@ -444,9 +451,9 @@ Resolver cmd 6 and `EQUAL_GAME_OVER_RELATED == 9`: load Magic `attackFlags`/`ani
 
 ### U13.6 Family matrix — `mapped` (0.70)
 
-Same exec/pending queue as Attack/Magic/Item. Draw uses **direct** `PendingCmd_QueueOrStore`, not the default `BattlePendingAction_Write` (which zeros aux_5/aux_6). QueueOrStore's KO stash special-cases only `command_id==4` (Item refund). GetText already fails Draw when the source is KO; only death after that check remains live-required (SQ-G13-002).
+Same exec/pending queue as Attack/Magic/Item. Draw uses **direct** `PendingCmd_QueueOrStore`, not the default `BattlePendingAction_Write` (which zeros aux_5/aux_6). QueueOrStore's KO stash special-cases only `command_id==4` (Item refund). GetText already fails Draw when the source is KO. Death after that check is `static-closed-with-cap` (SQ-G13-002, 2026-08-25): Stock commits inside GetText; Cast does not re-validate the source.
 
-Live-required: authentic pending `command_id` byte; source-death qty/event; GF Draw `id>=0x40`.
+Live replacements captured on PID 22956: Stock (`aux_5=10`, `0→9`) then Cast (`aux_5=9`, HP `1710→1155`, stock unchanged). G13 is live-promoted 2026-08-25. Cast `0x06` remains a validated runtime byte, not a `core/` enum. Remaining: G14 presentation. GF Draw `id>=0x40` remains later. Session 5 is not required.
 
 ### Draw fixtures (design)
 
@@ -457,7 +464,7 @@ Live-required: authentic pending `command_id` byte; source-death qty/event; GF D
 
 ### G13 next
 
-Live pause after Draw confirm; dump 8-byte pending. Static: find junction command-row table that supplies `BattleDrawMenu_Open` arg_4.
+Protocol v3 permits scenario 2 to arm directly from the pinned static contract. Cast and Stock replacements are collector-PASS and G13 is live-promoted. Scenario 1 observation is optional and must resolve a named uncertainty; it is not a prerequisite. Optional static: junction command-row table that supplies `BattleDrawMenu_Open` arg_4. G14 owns Draw animation.
 
 ## G14 — Callbacks and barriers
 
@@ -626,14 +633,14 @@ Confidence 0.40 `mapped`. Names of functions are not certified state machines.
 
 ## Campaign residues (live-required list)
 
-1. Draw pending `command_id` 8-byte record (SQ-G13-001).
+1. Draw Cast/Stock replacements are collector-PASS and G13 is live-promoted (SQ-G13-001). Pending `0x06` remains a runtime byte, not a global enum. Presentation is G14.
 2. Dual/Triple Magic consume counts (SQ-G11-001).
 3. Potion late-death policy is product-defined and offline-tested (SQ-G12-004); native late-target behavior is not claimed. Broader Item matrix still live-required.
-4. Draw source death after the GetText-time KO check (SQ-G13-002).
+4. Draw source death after GetText is **static-closed-with-cap** (SQ-G13-002); not a live residue.
 5. Barrier idle cadence `0x70`/`0x71`/`0x74`.
 6. Cover trigger timing (U17.3).
 7. GF charge cancel/Boost.
 8. Limit input windows (G20.2–G20.4, G20.6).
 9. Card/Devour/Mug reward commit (U19.4).
 
-No `Gxx.satisfied` and no live promotion. A bounded G11 single-cast offline draft was added after this investigation; it is not evidence for Dual/Triple, native stock import, Reflect, Angel Wing, or live equivalence.
+G11–G13 now have live `Gxx.satisfied` addenda on their compiled validation pages. A bounded G11 single-cast offline draft is still not evidence for Dual/Triple, native stock import, Reflect, Angel Wing, or live equivalence.

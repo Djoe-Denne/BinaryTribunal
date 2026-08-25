@@ -35,16 +35,23 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-review-and-phase-b-design-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-confirm-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-b1-arm-authorized-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
 summary: >-
-  G11 is closed. G12 representative Item paths now pass live or semantically;
-  formal promotion review remains and presentation stays deferred.
+  G11 is closed. G12 is live-promoted-semantic. G13 is live-promoted for
+  Cast/Stock replacement. Session 5 remains cancelled. G14 remains later.
 provenance:
-  extracted: 0.92
-  inferred: 0.06
+  extracted: 0.93
+  inferred: 0.05
   ambiguous: 0.02
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-25T14:27:37+02:00
-status: g11-closed-g12-representative-pass-promotion-review
+updated: 2026-08-25T21:45:00+02:00
+status: g11-closed-g12-semantic-promoted-g13-live-promoted
 ---
 
 # G11–G14 Live Session Campaign Index
@@ -74,7 +81,8 @@ case. Timing races and deliberate ownership faults get dedicated processes.
 | Live Fire v2 2026-08-18 | PID 16960 `Detached`; HP/event/stock; zero Magic NCOMP |
 | Live v2 scope | authentic Fire only (`0x02` / spell `0x01`); no Magic animation |
 | `[promotion.G11].satisfied` | **true**; Magic presentation ABI deferred G14 |
-| G12 | Potion, Meteor Stone, Mega Phoenix and Friendship clean PASS; Phoenix Pinion/Gysahl semantic PASS; formal promotion review pending |
+| G12 | **`[promotion.G12].satisfied = true`** (semantic, 2026-08-25); Potion/Meteor Stone/Mega Phoenix/Friendship Detached PASS; Pinion/Gysahl typed-intent observations |
+| G13 next | live-promoted 2026-08-25; Draw presentation remains G14; session 5 cancelled |
 | Representative matrix 2026-08-23–25 | Meteor/Meteor Stone/Mega Phoenix/Friendship clean PASS; Double, Triple, Scan, Life, Silence, Phoenix Pinion and Gysahl semantic observations |
 | HP coherence retry 2026-08-25 | Life `0→1249→1449` and Full Life `0→9999` persisted through native actions; both HP authorities equal; final `PASS` / `Detached` |
 | Blocking debt | **resolved**; presentation-only prone models remain G14 |
@@ -106,19 +114,20 @@ native Potion/Attack actions, then restored all hooks with mask `0x1ff`.
 | Order | Session | Purpose | Role in G11 campaign |
 | ---: | --- | --- | --- |
 | 1 | [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan\|G11 Fire live v2]] | authentic Fire pending, stock, HP/event | **closed 2026-08-18** |
-| 2 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan\|G12 Item]] | direct, delegated, group-revive and typed-special representatives captured | campaign complete; formal promotion review pending |
+| 2 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan\|G12 Item]] | direct, delegated, group-revive and typed-special representatives captured | **semantic-promoted 2026-08-25** |
 | 3 | [[projects/final-fantasy-viii-reimaginated/skills/g12-live-late-invalid-target-session-plan\|G12 late target race]] | retired by product-defined offline policy | **cancelled** |
-| 4 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan\|G13 Draw]] | authentic pending, Cast and Stock | later gate; not G11 |
-| 5 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-source-death-session-plan\|G13 source-death race]] | close SQ-G13-002 | later gate; not G11 |
+| 4 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan\|G13 Draw]] | Direct validated Cast/Stock replacement | **live-promoted 2026-08-25**; not G11 |
+| 5 | [[projects/final-fantasy-viii-reimaginated/skills/g13-live-source-death-session-plan\|G13 source-death race]] | SQ-G13-002 snapshot-at-GetText | **cancelled** (static-closed-with-cap) |
 | 6 | [[projects/final-fantasy-viii-reimaginated/skills/g14-live-barrier-session-plan\|G14 barriers]] | callbacks and relays `0x70/71/74` | later gate; not G11 |
 | 7 | [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan\|G14 ownership fault]] | prove mixed ownership is terminal | later gate; not G11 |
 
-G12 no longer requires session 3, and the broader session-2 representative
-matrix is complete. Promotion now depends on an explicit gate review rather
-than another gameplay batch. G13 cannot promote before sessions 4 and 5 both
-pass. G14 requires both the positive and negative sessions. A later milestone
-may reuse the same binary hash, but never the same process for two promotion
-gates.
+G12 no longer requires session 3; the representative matrix is complete and
+the 2026-08-25 review set `[promotion.G12].satisfied`. G13 session 5 is
+cancelled the same way. G13 cannot promote from direct-arm state alone:
+both QueueOrStore replacements are collector-PASS and G13 is live-promoted.
+Native observation is diagnostic, not mandatory. Draw presentation remains G14. G14 still requires both the
+positive and negative sessions. A later milestone may reuse the same
+binary hash, but never the same process for two promotion gates.
 
 ## Common preflight
 
@@ -193,6 +202,7 @@ execution and Boko/Phoenix/Moomba presentation are deliberately not claimed.
 
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]
 - [[projects/re-ff8/references/g11-magic-offline-draft]]

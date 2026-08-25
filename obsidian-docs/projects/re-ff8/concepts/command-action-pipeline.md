@@ -27,14 +27,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-life-coherent-save-ko-repro-runtime-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-hp-coherence-live-validation-2026-08-25.json
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-review-and-phase-b-design-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-summary: G07–G10 core; Magic/Item transactions are offline-complete; G11 Life/Full Life now keep both native HP authorities coherent through handback.
+summary: G07–G10 core; Magic/Item offline-complete; G11–G13 live-promoted. Draw pending 0x06 is a runtime byte; Cast does not consume stock.
 provenance:
   extracted: 0.93
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-25T11:27:06+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # Command Action Pipeline
@@ -87,7 +92,7 @@ The currently mapped base command IDs are:
 - `0x02` Magic
 - `0x03` GF
 - `0x04` Item
-- `0x06` Draw **candidate** for the pending menu byte (SQ-G13-001). An older `0x04` fixture collides with Item. Resolver-time Draw is `COMMAND_TYPE_ID == 6`. Resolver `0x0D` (13) is the Item variant with `case 4`, **not** Draw. ^[ambiguous]
+- `0x06` Draw pending menu byte, live-validated on multiple PIDs including official Cast/Stock PID 22956 (SQ-G13-001). Still not a `core/` enum. An older `0x04` fixture collides with Item. Resolver-time Draw is `COMMAND_TYPE_ID == 6`. Resolver `0x0D` (13) is the Item variant with `case 4`, **not** Draw. ^[extracted]
 
 Draw keeps extra meaning in its auxiliary bytes:
 
@@ -118,7 +123,7 @@ Item stock is `EQUAL_ITEM_*`, never `F_CHARACTER_MAGIC_DATA`:
 5. Replacement Potion death policy is product-defined: actor death cancels without consumption; another dead party recipient retargets to the living actor and consumes once; actor-plus-recipient death cancels.
 6. Cleanup `Battle_EndCleanupAndTransition` merges EQUAL into SG even on escape.
 
-Live Potion on PID `43880` / DLL `6885212b…` confirmed menu-commit origin, HP +200, EQUAL quantity unchanged by ISO, and zero Item NCOMP. That envelope does not promote G12. See [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+Live Potion on PID `43880` / DLL `6885212b…` confirmed menu-commit origin, HP +200, EQUAL quantity unchanged by ISO, and zero Item NCOMP. The 2026-08-25 review promotes G12 as `live-promoted-semantic`. See [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 ## Complete offline Magic/Item transactions — 2026-08-19
 
@@ -136,9 +141,9 @@ Drain, Life/Full-life, purges, group Items, Magic stones and Med Data have
 deterministic fixtures. Boko, Phoenix and Moomba execution stays in the
 downstream special-action engine. This is an offline implementation claim:
 [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire]]
-is the only promoted Magic row and
-[[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12 Potion]]
-remains an unpromoted live anchor.
+is the only promoted Magic row.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]]
+is live-promoted-semantic; it still does not claim all 32 Item rows live.
 
 ## Native HP handback after semantic commit — resolved 2026-08-25
 
@@ -169,9 +174,11 @@ zero forbidden calls or write violations. The model remaining prone until a
 native presentation action belongs to G14. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]].
 
-## Draw pending writer (static 2026-08-18)
+## Draw pending writer (static 2026-08-18, live-promoted 2026-08-25)
 
-Draw confirm does **not** use the default pending writer. `BattleDrawMenu_Open` (`0x4ADD10`) stores the menu-row command byte at `dword_1D768D8+2`; unique `PendingCmd_QueueOrStore` (`0x484FD0`) writes the 8-byte record including `aux_5` 9/10 and `aux_6` source slot. See [[projects/re-ff8/concepts/draw-magic-and-render-bridge]].
+Draw confirm does **not** use the default pending writer. `BattleDrawMenu_Open` (`0x4ADD10`) stores the menu-row command byte at `dword_1D768D8+2`; unique `PendingCmd_QueueOrStore` (`0x484FD0`) writes the 8-byte record `[mask_lo, mask_hi, attacker, command_id, arg, aux_5, aux_6, ready]`. Byte 5 is Cast/Stock mode (`9`/`10`); byte 6 is the source slot.
+
+Live PID 42248 Fire Plus Cast packed `08 00 02 06 02 09 03 01` with independent menu row `0x06` and caller RVA `0x000AF064`. Official replacements on PID 22956 reused that shape for Stock (`…0a…`) then Cast (`…09…`) and set `[promotion.G13].satisfied`. Do not encode `kDrawCommandId = 0x06` in `core/`. See [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] and [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
 ## Special And Limit Families
 
@@ -186,7 +193,7 @@ Direct special or script work can reuse exec storage with `command_id = 0xFF`, i
 
 `BattlePendingAction_TransferToExecQueue` (`0x4847F0`) routes each pending record by the stored **pending `command_id`**. Resolver-time `COMMAND_TYPE_ID` may be rewritten later and must not be substituted here:
 
-- **Group 2** — default / direct records, including Attack `0x01`, Magic `0x02`, pending GF `0x03`, Item `0x04`, candidate Draw `0x06`, and all other default values. Item variant `0x0D` also routes here.
+- **Group 2** — default / direct records, including Attack `0x01`, Magic `0x02`, pending GF `0x03`, Item `0x04`, PID-bound Draw `0x06`, and all other default values. Item variant `0x0D` also routes here.
 - **Group 1** — stored IDs `0xFE`, `0x10`, and the command-ability cluster (`0x05`, `0x0B`, `0x0E`, `0x0F`, `0x11`–`0x16`). GF uses `0x03` while pending and only later reaches resolver state `0xFE`; therefore ordinary player GF pending does not prove a group-1 transfer.
 - **Group 0** — *never filled by transfer*. It is written **only** by `Battle_EnqueueSpecialAction` (`0x484720`) for engine-injected GF/scripted specials (Odin Zantetsuken, Gilgamesh, Phoenix). Counters/death reactions do **not** go here (see *Forced Actions And Reactions* below).
 
@@ -288,4 +295,5 @@ All section-5–8 specials enter through the normal `BattlePendingAction_SetupCo
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]

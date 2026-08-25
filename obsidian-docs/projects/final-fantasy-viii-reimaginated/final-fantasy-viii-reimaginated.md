@@ -48,19 +48,23 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v1-stall-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  G05–G11 are closed. G12 now has direct, delegated, group-revive and typed
-  special live anchors; formal promotion review and presentation remain.
+  G05–G13 are closed for owned semantic slices. G12 is live-promoted-semantic;
+  G13 is Draw Cast/Stock. Presentation remains G14.
 provenance:
   extracted: 0.93
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-25T14:27:37+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -191,21 +195,26 @@ Completed foundations include:
 > `Detached`, restored `0x1ff`, and reported zero forbidden calls or write
 > violations. Prone models and animations remain G14 presentation work.
 
-> [!note] G12 Item — representative live matrix complete, promotion review pending
-> Clean envelopes now cover Potion, Meteor Stone, Mega Phoenix group revive and
+> [!success] G12 Item — live-promoted-semantic — 2026-08-25
+> Clean envelopes cover Potion, Meteor Stone, Mega Phoenix group revive and
 > Friendship/Moomba intent. Phoenix Pinion/Phoenix and Gysahl/Boko have passing
-> semantic assertions in `BattleActive` probes. No second decrement, Item NCOMP
-> or forbidden domain call appears. `[promotion.G12].satisfied` stays **false**
-> until an explicit review; downstream summon presentation is not claimed. See
+> semantic assertions in `BattleActive` probes. `[promotion.G12].satisfied`
+> is **true**. Item animation and downstream summon execution remain G14. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+
+> [!success] G13 Draw — live-promoted Cast/Stock — 2026-08-25
+> PID 22956 / DLL `f47c0481…` produced official Stock then Cast collector
+> `PASS` envelopes. Pending `0x06` stays a runtime byte. Presentation remains
+> G14. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
 > [!note] G11/G12 complete-family candidate — offline only
 > The authenticated 57-row Magic table and 32 battle Items now have exhaustive
 > offline dispatch: every non-sentinel row resolves directly or emits a typed
 > Boko/Phoenix/Moomba intention. Action transactions cover targets, per-impact
 > RNG, resources and rollback. This does not widen either live protocol: Fire
-> remains the only promoted Magic row and Potion remains the unpromoted Item
-> anchor. See
+> remains the only promoted Magic row. G12 is live-promoted-semantic without
+> claiming all 32 Item rows live. See
 > [[projects/re-ff8/references/kernel-bin-authenticated-tables]],
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 > and [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
@@ -227,7 +236,7 @@ through native Attack, and both HP authorities remained equal. See
 
 ## Operational snapshot — read this first
 
-The project currently has ten distinct levels. They must not be conflated:
+The project currently has eleven distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -262,22 +271,26 @@ The project currently has ten distinct levels. They must not be conflated:
    G14 U14.6/U14.7. Session 1 of
    [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
    is closed.
-9. **G12 Item — representative live matrix complete; promotion review pending.**
-   Clean Potion, Meteor Stone, Mega Phoenix and Friendship envelopes cover the
-   direct, delegated, group and typed-special spines. Phoenix Pinion and Gysahl
-   add semantic intent witnesses. All 32 battle Items resolve or emit a typed
-   special intention offline; `[promotion.G12].satisfied` remains unchanged. See
+9. **G12 Item — live-promoted-semantic.** Clean Potion, Meteor Stone, Mega
+   Phoenix and Friendship envelopes cover the direct, delegated, group and
+   typed-special spines. Phoenix Pinion and Gysahl add semantic intent
+   witnesses. All 32 battle Items resolve or emit a typed special intention
+   offline. See
    [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+10. **G13 Draw — live-promoted Cast/Stock.** Official replacements on PID
+    22956 committed Stock `0→9` then Cast HP `1710→1155` without consuming
+    stock. Pending `0x06` is a runtime byte. See
+    [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
 G10 owns named status/timer application on that Attack, G11 owns live Fire
-and a complete offline Magic transaction, and G12 owns representative direct,
-delegated, group-revive and typed-special anchors plus a complete offline Item
-transaction. Native presentation stays a
+and a complete offline Magic transaction, G12 owns representative Item
+spines plus a complete offline Item transaction, and G13 owns live Draw
+Cast/Stock. Native presentation stays a
 narrowly audited compatibility unit. P1 AttackSlice plus the G10 status slice
-plus the G11 Fire semantic slice are the versioned G09/G10/G11 claims; G12 is
-not yet a versioned promotion.
+plus the G11 Fire semantic slice plus G12/G13 semantic promotions are the
+versioned G09–G13 claims.
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
 > `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts
@@ -350,14 +363,13 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Review formal G12 promotion against the now-complete representative Item
-  campaign; do not infer the manifest change from wiki ingestion. Native
-  Magic/Item presentation ABI, downstream special-intent execution, Angel Wing,
-  GF, reactions and rewards remain fail-closed or later-gate work.
+- Native Magic/Item/Draw presentation ABI, downstream special-intent execution,
+  Angel Wing, GF, reactions and rewards remain fail-closed or later-gate work.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.
-- Arbitrate the Draw `command_id` discrepancy (`0x06` in the current map versus `0x04` in old fixtures) before generating an enum.
+- Draw pending `0x06` is a validated runtime discriminator, not a `core/` enum.
+  Do not generate `kDrawCommandId` from the old `0x04` fixture.
 - Consolidate the current payload/injector/canary sequence into the roadmap’s manifest/suite-aware one-command runner.
 
 These are fail-closed boundaries. None is hidden behind native fallback within a claimed replacement profile.

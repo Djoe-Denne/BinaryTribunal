@@ -1,5 +1,5 @@
 ---
-title: P0 G12 Item — Representative Live Anchors, Unpromoted — 2026-08-19–25
+title: P0 G12 Item — Semantic Live Promotion — 2026-08-19–25
 category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G12 Item Potion, P0 G12, G12 Potion live anchor]
@@ -18,28 +18,30 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v1-stall-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan.md
   - projects/re-ff8/references/g11-g20-static-open-questions.md
 summary: >-
-  Potion, Meteor Stone, Mega Phoenix and Friendship are clean anchors; Phoenix
-  Pinion and Gysahl intents pass semantically. Formal G12 promotion remains pending.
+  G12 is live-promoted-semantic: Potion, Meteor Stone, Mega Phoenix and
+  Friendship are detached PASS; Pinion/Gysahl stay semantic. Animation is G14.
 provenance:
   extracted: 0.95
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-19T17:55:00+02:00
-updated: 2026-08-25T14:27:37+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
-# P0 G12 Item — Representative Live Anchors, Unpromoted — 2026-08-19–25
+# P0 G12 Item — Semantic Live Promotion — 2026-08-19–25
 
-> [!warning] G12 is not promoted
-> The authentic Item campaign now spans direct cure, Magic-stone delegation,
-> group revive and all three typed special-intent kinds. This ingestion does
-> not edit `[promotion.G12].satisfied`, which stays **false** until an explicit
-> promotion review. Do not turn deferred animation or downstream summon
-> execution into a claim that all 32 Item rows ran live.
+> [!success] G12 is live-promoted-semantic — 2026-08-25
+> Review `g12-item-live-promotion-2026-08-25.md` sets
+> `[promotion.G12].satisfied = true`. Direct Potion, delegated Meteor Stone,
+> group-revive Mega Phoenix and typed Friendship/Moomba are detached `PASS`.
+> Phoenix Pinion and Gysahl remain `BattleActive` typed-intent observations.
+> Item animation and Boko/Phoenix/Moomba execution stay G14 / downstream.
+> This does not claim all 32 Item rows ran live.
 
 > [!success] Potion live anchor — 2026-08-19
 > PID `43880` on DLL `6885212b…120e4790`, protocol `item-live-pending`,
@@ -223,14 +225,14 @@ Potion, Meteor Stone, Mega Phoenix, Gysahl Greens, Phoenix Pinion and
 Friendship. The offline family still does not claim that all 32 rows ran live,
 nor Item animation/camera, Scan display, Boko/Phoenix/Moomba downstream
 execution, new ABI/RVA/NCOMP, a wider host write range or SG persistence.
-Formal promotion remains a separate review rather than an inference from this
-ingestion.
+The 2026-08-25 review promotes that semantic boundary only.
 
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

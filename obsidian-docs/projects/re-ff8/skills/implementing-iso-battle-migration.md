@@ -40,13 +40,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: Full design and execution status through G11 Fire v2 live closure and the unpromoted G12 Potion live anchor. Magic animation remains G14.
+summary: Full design and execution status through G13 Draw Cast/Stock live promotion. G12 is semantic Item. Magic/Draw animation remains G14.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration

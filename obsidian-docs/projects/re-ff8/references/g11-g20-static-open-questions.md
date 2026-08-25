@@ -7,13 +7,16 @@ sources:
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - IDA IDB FF8_EN.exe.i64
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
-summary: Stable SQ-Gxx identifiers for static G11–G20 gaps. Magic animation NCOMP is SQ-G14-002, not a G11 unit.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+summary: SQ-Gxx register. SQ-G13-001 is live-promoted; SQ-G13-002 is capped. Magic animation NCOMP is SQ-G14-002.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-18T19:07:00+02:00
+updated: 2026-08-25T21:45:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -165,29 +168,29 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 
 ### SQ-G13-001 — command_id pending Draw authentique
 
-- status: live-required
-- confidence: 0.55
+- status: live-promoted
+- confidence: 0.88
 - affects: G11, G13
-- claim: pending Draw `command_id` is the selected junction **menu row byte**, stored by `BattleDrawMenu_Open` (`0x4ADD10`) at `dword_1D768D8+2`, then written by unique `PendingCmd_QueueOrStore` (`0x484FD0`). Candidate value `0x06`. Older injected `0x04` collides with Item. Resolver-time Draw is `COMMAND_TYPE_ID==6` with `aux_5` 9 Cast / 10 Stock. `mov eax,6` at `0x4ADF4E` is UI state, not pending id. Resolver `0x0D` is Item, not Draw.
-- evidence_for: OpenSelectedCommand case 3 passes `v6=*command_row` as arg_4; QueueOrStore layout matches 8-byte pending; resolver case 6.
-- evidence_against: historical `0x04` Draw artefacts; `docs/tech/reference/command_id_table.md` stale pending table; no live 8-byte dump.
-- missing_discriminator: live pending record after Draw confirm, or a static command-set table proving the Draw row byte is 6.
-- next_static_probe: kernel/command-set table that fills the menu row `*v2` for Draw.
-- eventual_live_probe: pause after Draw confirm, dump 8-byte pending (command_id, arg, aux_5, aux_6).
-- resolution:
+- claim: pending Draw `command_id` is the selected junction **menu row byte**, stored by `BattleDrawMenu_Open` (`0x4ADD10`) at `dword_1D768D8+2`, then written by unique `PendingCmd_QueueOrStore` (`0x484FD0`). Resolver-time Draw is `COMMAND_TYPE_ID==6` with `aux_5` 9 Cast / 10 Stock. `mov eax,6` at `0x4ADF4E` is UI state, not pending id. Resolver `0x0D` is Item, not Draw. The live byte `0x06` is a **per-process discriminator**, not a `core/` enum.
+- evidence_for: OpenSelectedCommand case 3 passes `v6=*command_row` as arg_4; QueueOrStore layout matches 8-byte pending; resolver case 6. Live PID 42248 Fire Plus Cast 2026-08-25: packed `08 00 02 06 02 09 03 01`, envelope SHA-256 `69310a5bd0bad1093bffeda27d2bddd427622e0a7d93ea74f0462f8a20c23c81`. PID 46956 B0 confirm: same shape, envelope `06a9d42312e9e8a6ff9aebd495a50f2af2130dc9ffa15bbda1e0547c5cbd72de`. PID 31700 B1 re-observe: hook-time `08 00 02 06 02 09 03 01`, menu `+2=0x06`, caller `0x000AF064`, then scenario 2 `arm_authorized=1`; observe envelope `bc00a0376d76d0a9520087cec2eead7db3156d232311916c2cf97948296813ac`, armed `c50c442fe9791db570e06f450b218f054c804cd0c2859e5d74130bebcf890c3b`.
+- evidence_against: historical `0x04` Draw artefacts; stale pending table. Three Cast PIDs still do not canonize a global enum. Arm state alone is not QueueOrStore replacement.
+- missing_discriminator: none for G13 domain ownership. Exact hex remains session-variable.
+- next_static_probe: none required for the writer mapping.
+- eventual_live_probe: none for the two default replacements. Do not encode `kDrawCommandId = 0x06` in `core/`.
+- resolution: 2026-08-25 G13 live-promoted. Writer identity, arm gate, Stock (`08 00 02 06 02 0a 03 01`) and Cast (`08 00 02 06 02 09 03 01`) replacements are collector-PASS on PID 22956. Draw presentation remains G14.
 
 ### SQ-G13-002 — Draw source death
 
-- status: live-required-mid-flight
-- confidence: 0.62
+- status: static-closed-with-cap
+- confidence: 0.84
 - affects: G13
-- claim: QueueOrStore KO stash (`status_1&1` and `command_id==4`) is Item refund, not Draw. Draw source death behavior is not that writer.
-- evidence_for: `0x484FD0` special-cases only `a2==4`.
-- evidence_against: GetText Draw explicitly fails if the source slot has `status_1 & 1`; that closes death before/at GetText.
-- missing_discriminator: Cast/Stock when source dies after GetText but before resolve/commit.
-- next_static_probe: none; the remaining timing is runtime-dependent.
-- eventual_live_probe: kill the Draw target before confirm vs after.
-- resolution: partially closed 2026-08-18. GetText-time source KO fails statically; only mid-flight death remains live-required.
+- claim: QueueOrStore KO stash (`status_1&1` and `command_id==4`) is Item refund, not Draw. Draw source death is decided in `BattleAction_GetText` (`0x48D200`) case `COMMAND_DRAW`, not that writer.
+- evidence_for: `0x484FD0` special-cases only `a2==4`. GetText fails if source `status_1 & 1` or caster Silence `status_1 & 0x10`. Stock `MutateStock(add)` runs in the same GetText invocation after that check. Resolver case 6 (`0x48FE20`) scales Cast Magic or zeros Stock damage and does not re-test source death.
+- evidence_against: a mid-function patch between the GetText KO check and steal/stock commit is still injectable; presentation cancel after accept is G14, not a Draw domain gate.
+- missing_discriminator: none for the domain policy. Intra-function injection remains optional diagnostic.
+- next_static_probe: none.
+- eventual_live_probe: none required for G13. Do not orchestrate session 5.
+- resolution: closed 2026-08-25 as snapshot-at-GetText. Pre-GetText source KO / Silence fails. After accept, Stock is already committed in GetText; Cast is Magic handoff without source re-validation. The dedicated race plan is superseded. Same pattern as SQ-G12-004 (offline/static policy, no live race).
 
 ### SQ-G14-001 — barrier idle cadence
 

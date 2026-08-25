@@ -17,16 +17,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v1-stall-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
 summary: >-
-  G12 representative Item campaign covers direct, delegated, group-revive and
-  typed-special spines; formal promotion review remains.
+  G12 is live-promoted-semantic. Direct, delegated, group-revive and
+  typed-special spines are captured; animation remains G14.
 provenance:
   extracted: 0.90
   inferred: 0.08
   ambiguous: 0.02
 created: 2026-08-18T15:09:16+02:00
-updated: 2026-08-25T14:27:37+02:00
-status: representative-live-campaign-complete-promotion-review
+updated: 2026-08-25T21:45:00+02:00
+status: live-promoted-semantic
 ---
 
 # G12 Live Item Session Plan
@@ -42,8 +43,8 @@ status: representative-live-campaign-complete-promotion-review
 > [!success] Representative campaign complete — 2026-08-25
 > Potion, Meteor Stone, Mega Phoenix and Friendship have clean post-shutdown
 > anchors. Phoenix Pinion and Gysahl Greens have passing typed-intent assertions
-> in active-session probes. `[promotion.G12].satisfied` is unchanged pending an
-> explicit review; do not schedule the entire historical matrix again first.
+> in active-session probes. `[promotion.G12].satisfied = true` (2026-08-25).
+> Do not schedule the entire historical matrix again first.
 
 ## Objective
 
