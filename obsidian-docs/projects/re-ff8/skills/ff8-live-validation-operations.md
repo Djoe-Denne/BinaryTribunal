@@ -18,6 +18,8 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+  - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
 summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
@@ -33,7 +35,7 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-25T14:27:37+02:00
 ---
 
 # FF8 Live Validation Operations
@@ -189,6 +191,16 @@ explicitement `FF8Iso_Shutdown`, puis vérifier :
 - processus FF8 toujours vivant ;
 - enveloppes JSON conformes au schéma ;
 - régression offline cumulative toujours verte.
+
+Un retour injecteur `remote-bootstrap-failed (win32=6)` peut représenter le
+statut runtime `FF8ISO_STATUS_BUSY`, et non un handle Windows invalide. Vérifier
+d'abord que les seams sont encore installés. Si le runtime indique un callback
+de combat actif, ne pas relancer à l'aveugle : faire franchir exactement une
+frontière de frame, remettre le jeu en pause, recapturer un canari stable, puis
+autoriser une seule nouvelle tentative. Un second `BUSY`, un autre statut ou
+une restauration partielle impose l'arrêt. La campagne Friendship a suivi cette
+procédure et produit ensuite un `PASS` / `Detached` avec les cinq préimages
+restaurées.
 
 Ne jamais reconstruire par-dessus un DLL encore chargé. Si `LNK1168` survient,
 fermer FF8, reconstruire et recommencer avec le nouveau hash candidat.

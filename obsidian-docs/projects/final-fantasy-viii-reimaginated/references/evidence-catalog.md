@@ -77,16 +77,30 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
-summary: Canonical G00–G12 evidence map: G11 Fire promoted, G12 Potion anchored, complete Magic/Item families offline-only, diagnostic FAILs retained.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-meteor-live-run4-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-meteor-stone-live-run1-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-double-xpendx2-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-triple-xpendx3-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-scan-semantic-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-life-coherent-save-ko-repro-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-silence-after-life-native-authority-probe-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-hp-coherence-live-validation-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-mega-phoenix-v2-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v1-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v1-stall-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+summary: Canonical G00–G12 map: G11 is closed; G12 now spans direct, delegated, group-revive and typed-special live anchors, with promotion review pending.
 provenance:
-  extracted: 0.96
-  inferred: 0.03
+  extracted: 0.97
+  inferred: 0.02
   ambiguous: 0.01
 lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-19T20:46:35+02:00
+updated: 2026-08-25T14:27:37+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -111,7 +125,8 @@ updated: 2026-08-19T20:46:35+02:00
 | G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
 | G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
 | G11 / Magic Fire v2 live | Semantic Fire on DLL `0b3c4bb9…5df0aef1`: authentic pending `0x02`/`0x01`, HP/event/stock, zero Magic NCOMP, hook rollback. `[promotion.G11].satisfied` true. Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
-| G12 / Item Potion live anchor | Authentic Potion on hold-fix DLL `6885212b…120e4790`: pending `0x04`/`0x01`, HP +200, EQUAL unchanged, zero Item NCOMP, restore `0x1ff`. `[promotion.G12].satisfied` stays false. | [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] |
+| G11 / healing-revive coherence | Life and Full Life mirror both native HP authorities and persist through native Potion/Attack on DLL `edcb0c5e…c5136d`; final `PASS` / `Detached`, restore `0x1ff`, zero violations. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] |
+| G12 / representative Item anchors | Potion, Meteor Stone, Mega Phoenix and Friendship have clean `PASS` envelopes; Phoenix Pinion and Gysahl typed intents pass semantically. Formal `[promotion.G12]` review remains. | [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -125,9 +140,34 @@ DLL is PE32/I386, CTest passes 34/34, and the report records no live-protocol,
 ABI, RVA, NCOMP or promotion widening.
 
 This source is canonical for **offline implementation coverage only**. Fire id
-1 remains the only promoted Magic row; Potion id 1 remains the unpromoted G12
-live anchor. Representative direct-family live validation and downstream
-Boko/Phoenix/Moomba execution remain outstanding.
+1 remains the promoted Magic row. G12 now has representative live anchors for
+direct cure, Magic-stone delegation, group revive and all three typed special
+intent kinds; it still does not claim all 32 rows live or downstream
+Boko/Phoenix/Moomba execution. Formal promotion remains a separate review.
+
+## Representative Live Campaign — 2026-08-23–25
+
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
+now selects five clean post-shutdown anchors. Meteor spell 16 and Meteor Stone
+item 28 each emit ten ordered effects/events. The Life/Full Life envelope closes
+dual-HP handback. Mega Phoenix revives two party slots in one group action, and
+Friendship emits one typed Moomba intent. Every clean envelope ends `Detached`
+with zero write violations or forbidden calls.
+
+Five uniquely diagnostic matrix captures are also cataloged for their named
+G11 semantic assertions: Double/Xpendx2-1, Triple/Xpendx3-1, Scan, Life and
+Silence. Their overall verdict remains `FAIL` because they were exported while
+`BattleActive` before hook cleanup. They are observations, not promotion PASS.
+Life exposed an unsynchronized secondary native HP authority. The later
+canonical HP-coherence envelope closes it: Life survives native Potion, Full
+Life survives native Attack, both HP views remain equal, and shutdown is clean.
+
+Phoenix Pinion and Gysahl Greens add two `BattleActive` semantic witnesses for
+typed Phoenix and Boko intents; they are not cleanup PASS. Their preceding
+diagnostic failures exposed, respectively, application-only state loss across
+host refresh and an over-conservative two-survivor fixture gate. The clean
+Friendship envelope validates the bounded one-survivor authenticated-pending
+rule and typed Moomba path. ^[inferred]
 
 ## Canonical Machine Evidence
 
@@ -140,8 +180,12 @@ Boko/Phoenix/Moomba execution remain outstanding.
 - Final G09 closure is `p0-g09-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
 - Final G10 closure is `p0-g10-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
 - Final G11 Fire v2 closure is `p0-g11-magic-fire-v2-final-live-2026-08-18.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `0b3c4bb916629bcaabfa0e0037a3f918663bef792ee53a298e5b07155df0aef1`. Envelope SHA-256 `7674c272269040ec2e031c03d2d576dccae31848d38c71250d9c467de7eec0f6`. Report `g11-magic-live-validation-2026-08-18.md`. Kernel SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
+- G11 HP-coherence closure is `p0-g11-hp-coherence-live-validation-2026-08-25.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `edcb0c5ed12d7efb4379a05d6ac71a20f67a3dbf66b744c2f432262b12c5136d`. Envelope SHA-256 `de274e3c1c8bb7b338ca579f66351b3ab6e4559e8b920f2330a72d4f044e0ea6`; runtime `Detached`, restore `0x1ff`, zero write violations and forbidden calls.
 - Historical G11 Fire v1 FAIL is `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`, envelope SHA-256 `de9d1586cc78202394212cbe9cb8cb7c19cba967ce0e07cdd768d068762354db`) plus `g11-magic-live-fire-fail-2026-08-18.md` on DLL SHA-256 `0977c9ec88f757f0e5022de9fbddc83f3e835b1624eed45825d5c66012005140`. Earlier MagicSlice-only hash `c933d662…fc68ff` is superseded.
 - Canonical G12 Potion live anchor is `p0-g12-holdfix-potion-post-shutdown-2026-08-19.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and hold-fix DLL SHA-256 `6885212b469e43c5b49537b5f122e4773ef4fe3a565a3277e750361c120e4790`. Envelope SHA-256 `48304f42ae135a690db11367d91b206f5d961aef3bfe4db5625e501601edef07`. Report `g12-item-live-potion-holdfix-2026-08-19.md`. This is not G12 promotion.
+- Canonical G12 Mega Phoenix group-revive anchor is `p0-g12-mega-phoenix-v2-final-live-2026-08-25.json`, `PASS` / `Detached` on DLL SHA-256 `455f3c485d443aeb58e3f6df57568914d302253172d84067a8f89ef2a0de6cf0`. Envelope SHA-256 `4ca08438bc58ea58d389deeb939fead086098ac680c54e5e5203528a4899c816`; two dead party slots revive `0→1249`, menu consumption is observed once, and all cleanup assertions pass.
+- Canonical G12 Friendship typed-intent anchor is `p0-g12-friendship-v1-final-live-2026-08-25.json`, `PASS` / `Detached` on DLL SHA-256 `26d04c3540e3789fc47559b13b4678767feac6e4c6c894248073555cbf6445ce`. Envelope SHA-256 `2f5aec6febf814cc3a6a44b4730e4efd4e174236bd81de5602548f8953a1c558`; one Moomba intent (`special_id=15`), no second decrement, NCOMP or forbidden call, and all hook preimages restore.
+- G12 Phoenix Pinion v2 (`8e902a4e…edd2b`) and Gysahl Greens v2 (`5d50f983…f965`) retain only their passing semantic assertions: typed Phoenix/Boko intents, native menu commit and no second decrement. Both overall envelopes remain `FAIL` / `BattleActive`, so they are not promotion-grade cleanup.
 - Historical G12 Potion pulse-3 FAIL is `p0-g12-live-potion-irvine-commit-fault-2026-08-19.json` (`verdict=FAIL`, envelope SHA-256 `b198bd0954f8f3ee47d5d105be0885d49465b0e98feed861528f6f8c81f14294`) plus `g12-item-live-potion-fault-2026-08-19.md` on DLL SHA-256 `b1c17223c185f347c8415fe32c62bb5373dbe021d0109f84580ffa3320f12d4e`.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
@@ -160,6 +204,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - G11 live Fire v1 on PID `3704` (2026-08-18) committed HP 60000→59908 and stock 10→9, then `Faulted` on `G07 native presentation tail failed closed`. Relays=2, presentation ticks=0, black 3D, FF8 **An unknown exception has occurred.** Domain commit is not promotion. Superseded as a promotion claim by v2 PASS on PID `16960`.
 - G11 v2 operator ATB: Irvine's bar stayed full after Fire. Protocol v2 does not own native ATB HUD consume; park under G06 NCOMP / G14. Not a G11 promotion blocker. Operator sequence is hash-bound to Cursor transcript SHA-256 `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e`.
 - G12 Potion on DLL `b1c17223…` committed HP then `Faulted` at HUD pulse 3/32 (`G06 pulse resync detected host-owned drift`). Restore flags `0x3f`. The same-hash retry and the later BattleActive pre-shutdown probe stay in the implementation repository. Hold-fix PASS superseded the pulse-3 FAIL as the live Potion candidate, not as G12 promotion.
+- Phoenix Pinion v1 (`d7755302…ebf9`) created the expected typed Phoenix intent but entered `Faulted` after host refresh. The application session now preserves its resource transaction and special-intent queue across that refresh; v2 passes semantically. ^[inferred]
+- Gysahl Greens v1 (`02c64fb2…1eea`) captured pending `088000041e000001` but executed zero G12 calls because a generic two-survivor fixture gate rejected the one-survivor state. The corrected gate admits only a fully authenticated pending whose captured actor is the sole eligible party member; Gysahl v2 and canonical Friendship validate the bounded rule.
 
 ## Related
 
@@ -169,6 +215,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - [[projects/re-ff8/skills/ff8-live-validation-operations]]

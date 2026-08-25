@@ -34,18 +34,33 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-fault-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-live-potion-irvine-commit-fault-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-meteor-live-run4-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-meteor-stone-live-run1-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-double-xpendx2-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-triple-xpendx3-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-scan-semantic-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-life-coherent-save-ko-repro-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-silence-after-life-native-authority-probe-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-hp-coherence-live-validation-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-mega-phoenix-v2-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v1-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v1-stall-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+  - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  G05–G11 are live-closed and G12 has a Potion anchor. Magic and Item families
-  are offline-complete but live-unpromoted; presentation remains G14.
+  G05–G11 are closed. G12 now has direct, delegated, group-revive and typed
+  special live anchors; formal promotion review and presentation remain.
 provenance:
-  extracted: 0.91
-  inferred: 0.07
+  extracted: 0.93
+  inferred: 0.05
   ambiguous: 0.02
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-19T20:46:35+02:00
+updated: 2026-08-25T14:27:37+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -169,11 +184,19 @@ Completed foundations include:
 > and
 > [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
 
-> [!note] G12 Item — Potion live anchor, gate unpromoted
-> Authentic Irvine Potion on PID `43880` / hold-fix DLL `6885212b…` committed
-> HP +200 with EQUAL unchanged, zero Item NCOMP, and restore `0x1ff`.
-> `[promotion.G12].satisfied` stays **false**. Pulse-3 FAIL on DLL `b1c17223…`
-> is retained. Late Potion death is a product-defined offline rule. See
+> [!success] G11 healing/revive coherence — live PASS
+> The corrected DLL `edcb0c5e…c5136d` keeps party HP coherent in
+> `BATTLE_SLOT_DATA` and `F_CHAR_DATA`. Life survived a native Potion and Full
+> Life survived a native Attack. Final envelope `de274e3c…4e0ea6` ended
+> `Detached`, restored `0x1ff`, and reported zero forbidden calls or write
+> violations. Prone models and animations remain G14 presentation work.
+
+> [!note] G12 Item — representative live matrix complete, promotion review pending
+> Clean envelopes now cover Potion, Meteor Stone, Mega Phoenix group revive and
+> Friendship/Moomba intent. Phoenix Pinion/Phoenix and Gysahl/Boko have passing
+> semantic assertions in `BattleActive` probes. No second decrement, Item NCOMP
+> or forbidden domain call appears. `[promotion.G12].satisfied` stays **false**
+> until an explicit review; downstream summon presentation is not claimed. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 > [!note] G11/G12 complete-family candidate — offline only
@@ -186,6 +209,21 @@ Completed foundations include:
 > [[projects/re-ff8/references/kernel-bin-authenticated-tables]],
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 > and [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
+
+## Representative G11/G12 campaign — 2026-08-23–25
+
+The grouped live campaign added clean post-shutdown anchors for G11 Meteor,
+G12 Meteor Stone, Mega Phoenix and Friendship. Stride-corrected active-session
+captures also observed Double/Xpendx2-1, Triple/Xpendx3-1, Scan, Life, Silence,
+Phoenix Pinion and Gysahl semantics, but these envelopes are not promotion PASS
+when cleanup was not captured.
+
+Life exposed a blocking coherence defect for the healing/revive family: the
+ISO commit updated native battle-slot HP, but a later handback rebuilt from
+stale `F_CHAR_DATA` HP. A corrected fresh-process campaign closed it: Life
+`0→1249→1449` persisted through native Potion, Full Life `0→9999` persisted
+through native Attack, and both HP authorities remained equal. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]].
 
 ## Operational snapshot — read this first
 
@@ -217,22 +255,26 @@ The project currently has ten distinct levels. They must not be conflated:
    Poison periodic HP, and status HUD NCOMP stay fail-closed or deferred.
 8. **G11 Magic — Fire live-promoted; full family offline-complete.** Semantic
    Fire HP/event/stock is live-closed on PID `16960`; all authenticated Magic
-   rows now have deterministic offline transactions. Magic animation,
-   sequence context, and native Magic NCOMP stay G14 U14.6/U14.7. Session 1
-   of
+   rows now have deterministic offline transactions. Clean Meteor and
+   Life/Full Life anchors close multi-hit and native HP handback; susceptible
+   live Silence and clean Double/Triple/Scan reruns are optional evidence
+   widening. Magic animation, sequence context, and native Magic NCOMP stay
+   G14 U14.6/U14.7. Session 1 of
    [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
    is closed.
-9. **G12 Item — Potion live anchor; full family offline-complete.** Semantic
-   Potion HP/event on PID `43880` is captured with exact rollback. All 32
-   battle Items resolve or emit a typed special intention offline, but the
-   representative live matrix and `[promotion.G12].satisfied` remain open. See
+9. **G12 Item — representative live matrix complete; promotion review pending.**
+   Clean Potion, Meteor Stone, Mega Phoenix and Friendship envelopes cover the
+   direct, delegated, group and typed-special spines. Phoenix Pinion and Gysahl
+   add semantic intent witnesses. All 32 battle Items resolve or emit a typed
+   special intention offline; `[promotion.G12].satisfied` remains unchanged. See
    [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]].
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
 G10 owns named status/timer application on that Attack, G11 owns live Fire
-and a complete offline Magic transaction, and G12 owns a Potion EQUAL/HP
-anchor plus a complete offline Item transaction. Native presentation stays a
+and a complete offline Magic transaction, and G12 owns representative direct,
+delegated, group-revive and typed-special anchors plus a complete offline Item
+transaction. Native presentation stays a
 narrowly audited compatibility unit. P1 AttackSlice plus the G10 status slice
 plus the G11 Fire semantic slice are the versioned G09/G10/G11 claims; G12 is
 not yet a versioned promotion.
@@ -308,10 +350,10 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Complete live Init/Exit register and stack capture plus the P1 wrapper set required by strict G04.
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
-- Run the grouped representative Magic/Item live campaign after the exhaustive
-  offline family candidate; keep `[promotion.G12].satisfied=false` until it
-  passes. Native Magic/Item presentation ABI, special-intent execution, Angel
-  Wing, GF, reactions and rewards remain fail-closed or later-gate work.
+- Review formal G12 promotion against the now-complete representative Item
+  campaign; do not infer the manifest change from wiki ingestion. Native
+  Magic/Item presentation ABI, downstream special-intent execution, Angel Wing,
+  GF, reactions and rewards remain fail-closed or later-gate work.
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.
@@ -325,6 +367,7 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/re-ff8/re-ff8]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

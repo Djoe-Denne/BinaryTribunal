@@ -13,13 +13,17 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
-summary: Static G11–G20 map after G10. G11 Fire v2 live-promoted; G12 Potion live-anchored and unpromoted, with product-defined late death.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-mega-phoenix-v2-final-live-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-phoenix-pinion-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-gysahl-greens-v2-pre-shutdown-probe-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
+summary: Static G11–G20 map with live addenda. G11 is promoted; G12 representative Item campaign is complete and awaits formal promotion review.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-19T17:55:00+02:00
+updated: 2026-08-25T14:27:37+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -27,7 +31,7 @@ updated: 2026-08-19T17:55:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12 Potion]] is a live anchor only. G12–G20 stay unpromoted here.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] now has representative direct, delegated, group-revive and typed-special live anchors, but formal promotion is still pending. G12–G20 stay unpromoted in this static ledger.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -38,7 +42,7 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | Gate | Static status | Confidence | Units | Next |
 | --- | --- | ---: | --- | --- |
 | G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families and animation incomplete | G12 Item; Magic NCOMP is SQ-G14-002 |
-| G12 Item | `static-partial` + Potion live anchor | 0.82 | Metadata/menu consume mapped; Potion death policy product-defined offline | complete revive, damage/status and inventory matrix |
+| G12 Item | `static-partial` + representative live matrix | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | explicit promotion review; no additional gameplay batch required |
 | G13 Draw | `static-partial` | 0.70 | U13.1–U13.6 mapped with live-required pending id | live `PendingCmd_QueueOrStore` command_id byte; mid-flight source death |
 | G14 callbacks | `static-partial` | 0.62 | U14.1–U14.7 ownership map | idle runtime; half-ownership live detector |
 | G15 AI control | `static-strong` | 0.78 | U15.1–U15.7 crosswalk | corpus `.dat` coverage report |

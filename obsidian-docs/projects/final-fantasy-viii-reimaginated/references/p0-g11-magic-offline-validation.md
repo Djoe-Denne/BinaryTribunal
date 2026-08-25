@@ -10,6 +10,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-fire-fail-2026-08-18.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-live-fire-exception-2026-08-18.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-meteor-live-run4-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-double-xpendx2-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-triple-xpendx3-stride-fix-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-scan-semantic-runtime-2026-08-24.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-life-coherent-save-ko-repro-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-silence-after-life-native-authority-probe-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-hp-coherence-live-validation-2026-08-25.json
+  - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G11.suite.toml
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/README.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
@@ -17,14 +25,14 @@ sources:
   - projects/re-ff8/references/kernel-bin-authenticated-tables.md
   - projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan.md
 summary: >-
-  Fire v2 remains live-promoted; all 57 Magic rows are offline-complete but
-  live-unpromoted. Presentation remains G14 and v1 FAIL is retained.
+  G11 is closed: Fire promotion, Meteor multi-hit, and Life/Full Life dual-HP
+  coherence are clean live anchors; all 57 rows remain covered offline.
 provenance:
-  extracted: 0.94
-  inferred: 0.04
-  ambiguous: 0.02
+  extracted: 0.96
+  inferred: 0.03
+  ambiguous: 0.01
 created: 2026-08-18T16:55:00+02:00
-updated: 2026-08-19T20:46:35+02:00
+updated: 2026-08-25T11:27:06+02:00
 ---
 
 # P0 G11 Magic — Live Fire v2 Semantic Promotion — 2026-08-18
@@ -37,6 +45,13 @@ updated: 2026-08-19T20:46:35+02:00
 > and hook rollback. `[promotion.G11].satisfied = true`. Magic animation,
 > sequence context, and native Magic NCOMP remain G14 U14.6/U14.7. See
 > [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]].
+
+> [!success] Healing/revive coherence closed — 2026-08-25
+> DLL `edcb0c5e…c5136d` mirrored the exact party HP word in both
+> `BATTLE_SLOT_DATA` and `F_CHAR_DATA`. Life persisted through a native Potion;
+> Full Life persisted through a native Attack. The final envelope
+> `de274e3c…4e0ea6` is `PASS` / `Detached`, restore `0x1ff`, with zero write
+> violations or forbidden calls. Prone models remain G14 presentation debt.
 
 > [!note] Complete Magic family — offline candidate only
 > Report `g11-g12-offline-family-completion-2026-08-19.md` binds the
@@ -166,13 +181,48 @@ in [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]
 SQ-G11-003 (battle-init import) and SQ-G11-005 (UNMISSABLE RNG) were
 live-checked on this Fire envelope (one spread draw, zero accuracy draw).
 
+## Representative campaign update — 2026-08-23–25
+
+Meteor spell 16 now has a clean post-shutdown `PASS` on DLL
+`c19117f0…ed01`: HP `40000→37056`, stock `100→99`, ten effects/events,
+ten target-plan RNG draws, zero violations, `Detached`, restore `0x1ff`.
+This is representative multi-impact evidence, not a 57-row live promotion.
+
+Stride-corrected active-session captures also show:
+
+- Double + Xpendx2-1: two effects/events and stock `100→99`;
+- Triple + Xpendx3-1: three effects/events and stock `100→99`;
+- Scan: semantic result with unchanged target HP and stock `100→99`;
+- Life: immediate native battle-slot HP `0→1249`, Death cleared, stock
+  `100→99`;
+- Silence: execution and consumption, but no effective status change on the
+  selected enemy.
+
+These five historical envelopes remain overall `FAIL` because they end
+`BattleActive` before cleanup. The Life capture exposed a real handback defect:
+a later native rebuild restored HP from stale `F_CHAR_DATA`, then two native
+heals produced exactly `0+100+95=195`.
+
+The corrected adapter now mirrors the exact party `F_CHAR_DATA.current_hp` word
+with the battle slot, including Drain-source healing and rollback. A fresh
+single-survivor campaign proved Life `0→1249→1449` through a native Potion and
+Full Life `0→9999` through a later native Attack. The final runtime ended
+`Detached`, restored all hooks and reported zero violations. This closes the
+known G11 healing/revive coherence debt. Full details are in
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]].
+
 ## Live boundary and remaining non-claims
 
-The narrow live G11 protocol continues to reject every spell except Fire id 1.
-The complete offline family does not claim Magic animation, camera, Scan
-display, native sequence ownership, Angel Wing, GF execution, a wider host
-write range, or final representative-family live validation. ATB HUD consume
-also remains outside G11.
+Fire v2 remains the formal promotion anchor. Bounded matrix protocols add clean
+Meteor and Life/Full Life evidence plus diagnostic Double/Triple, Scan and
+Silence observations; they do not claim exhaustive 57-row live execution.
+Silence consumed correctly on a live target with zero status RNG, consistent
+with the explicit immunity branch; susceptible application is proven offline
+against authentic `K_MAGIC[41]` but not separately live-observed.
+
+The complete family still does not claim Magic animation, camera, Scan display,
+native sequence ownership, Angel Wing/GF presentation, or a wider host write
+range. Those presentation responsibilities remain G14, not G11 blockers.
 
 ## Related
 
@@ -180,5 +230,6 @@ also remains outside G11.
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/re-ff8/references/g11-magic-offline-draft]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

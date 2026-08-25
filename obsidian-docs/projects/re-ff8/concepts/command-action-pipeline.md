@@ -22,14 +22,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-potion-holdfix-2026-08-19.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-meteor-live-run4-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-meteor-stone-live-run1-2026-08-23.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-matrix-life-coherent-save-ko-repro-runtime-2026-08-25.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-hp-coherence-live-validation-2026-08-25.json
+  - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-summary: G07–G10 command core; complete offline Magic/Item action transactions; Fire live-promoted, Potion live-anchored; G13 Draw QueueOrStore.
+summary: G07–G10 core; Magic/Item transactions are offline-complete; G11 Life/Full Life now keep both native HP authorities coherent through handback.
 provenance:
-  extracted: 0.90
-  inferred: 0.07
-  ambiguous: 0.03
+  extracted: 0.93
+  inferred: 0.05
+  ambiguous: 0.02
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-19T20:46:35+02:00
+updated: 2026-08-25T11:27:06+02:00
 ---
 
 # Command Action Pipeline
@@ -134,6 +139,35 @@ downstream special-action engine. This is an offline implementation claim:
 is the only promoted Magic row and
 [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12 Potion]]
 remains an unpromoted live anchor.
+
+## Native HP handback after semantic commit — resolved 2026-08-25
+
+The Life matrix capture proves the replacement resolver can write a coherent
+immediate battle result: Irvine slot 2 changed HP `0→1249`, Death cleared and
+Magic stock fell `100→99`. A direct process read confirmed that state in
+`BATTLE_SLOT_DATA`.
+
+A later native transition nevertheless returned displayed HP to zero. Two
+native absorbed Poison attacks then produced exactly 195 HP (`100+95`), and a
+read-only probe found 195 in both `BATTLE_SLOT_DATA` and `F_CHAR_DATA`. Static
+IDA explains the second authority: `setBattleSlotData` (`0x48B310`) imports
+current HP from `F_CHAR_DATA`, while `Battle_CommitPartyHPAndMagicToSave`
+(`0x48B8B0`) is the native party HP/Magic commit/rebuild boundary.
+
+The runtime adapter now performs that bounded atomic handoff: party-target HP
+commits and Drain-source healing mirror the exact two-byte
+`F_CHAR_DATA.current_hp` word with the battle-slot value, and capture/rollback
+restore both authorities. Core and application remain free of RVA, ABI POD and
+host-memory logic. The single-survivor activation exception is restricted to
+authenticated Life/Full Life pending commands; ordinary actions retain the
+two-survivor guard. ^[extracted]
+
+The sequential acceptance run proved Life `0→1249→1449` through a native
+Potion and Full Life `0→9999` through a later native Attack. Both structures
+remained equal; final shutdown was `Detached`, restored `0x1ff`, and reported
+zero forbidden calls or write violations. The model remaining prone until a
+native presentation action belongs to G14. See
+[[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]].
 
 ## Draw pending writer (static 2026-08-18)
 
@@ -254,3 +288,4 @@ All section-5–8 specials enter through the normal `BattlePendingAction_SetupCo
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
