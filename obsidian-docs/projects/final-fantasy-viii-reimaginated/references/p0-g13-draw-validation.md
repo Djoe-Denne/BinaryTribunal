@@ -20,13 +20,13 @@ sources:
   - projects/re-ff8/references/g11-g20-static-open-questions.md
 summary: >-
   G13 is live-promoted: PID 22956 Cast+Stock collector-PASS on DLL f47c0481;
-  pending 0x06 stays a runtime byte; presentation remains G14.
+  pending 0x06 stays a runtime byte; presentation is G14 live-promoted.
 provenance:
   extracted: 0.96
   inferred: 0.03
   ambiguous: 0.01
 created: 2026-08-25T21:45:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # P0 G13 Draw — Live Cast/Stock Promotion — 2026-08-25
@@ -37,7 +37,7 @@ updated: 2026-08-25T21:45:00+02:00
 > report collector `verdict=PASS`, assertion `g13-draw-replacement=pass`,
 > `negative_runtime_evidence=[]`, zero write violations and zero forbidden
 > calls. `[promotion.G13].satisfied = true` (2026-08-25). Draw/Magic animation
-> remains G14. Pending `command_id=0x06` stays a validated runtime byte, not a
+> is G14 live-promoted. Pending `command_id=0x06` stays a validated runtime byte, not a
 > `core/` enum. See
 > [[projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan]].
 
@@ -112,7 +112,7 @@ Do not encode `kDrawCommandId = 0x06` in `core/`.
 - G12 dependency: `[promotion.G12].satisfied` was already true; G13 uses Magic
   stock, not EQUAL.
 - SQ-G13-002 remains `static-closed-with-cap`; session 5 is not required.
-- Presentation, animation, camera and Draw HUD: deferred G14.
+- Presentation, animation, camera and Draw HUD: G14 live-promoted.
 
 ## Retained diagnostic failures (not promotion)
 

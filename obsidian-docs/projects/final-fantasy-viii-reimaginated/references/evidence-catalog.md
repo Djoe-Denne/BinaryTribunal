@@ -103,7 +103,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-cast-replacement-retry3-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
-summary: Canonical G00–G13 map. G11–G13 are live-promoted; G12 is semantic Item; G13 is Draw Cast/Stock. Presentation remains G14.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-offline-validation-2026-08-26.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-observe-session-o-2026-08-26.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-positive-session-p-2026-08-26.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-half-ownership-session-n-2026-08-26.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g14-positive-post-escape-2026-08-26.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g14-half-ownership-fault-2026-08-26.json
+summary: Canonical G00–G14 map. G11–G14 are live-promoted; G12 is semantic Item; G13 is Draw; G14 is sealed presentation. 0x71 spawn cadence is G16.
 provenance:
   extracted: 0.97
   inferred: 0.02
@@ -112,7 +119,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -204,6 +211,8 @@ rule and typed Moomba path. ^[inferred]
 - G13 observe discriminator is `p0-g13-draw-observe-fire-plus-live-2026-08-25.json`, `PASS` on PID 42248 / DLL `ea8e1c0d…dc053f04`, envelope SHA-256 `69310a5bd0bad1093bffeda27d2bddd427622e0a7d93ea74f0462f8a20c23c81`. Packed `0800020602090301`, menu row `0x06`, `arm_authorized=0`. Not a promotion envelope.
 - Final G13 Stock replacement is `p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json`, collector `PASS` on PID 22956 / DLL SHA-256 `f47c04812fe6df2bdb5f14fd09f733d6e8662d96668beea20dc55894b8924ada`. Envelope SHA-256 `b500f21fc3b063aad0cee8e128f1c2d669f790b82cc28f2249d8d4186e81df3b`. Pending `08000206020a0301`, stock `0→9`, HP unchanged. Runtime `BattleActive`.
 - Final G13 Cast replacement is `p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json`, collector `PASS` on the same PID/DLL. Envelope SHA-256 `6acfa788ab65014c843cd155030355ecabba235d7fb2c7ac0cb741e9f36fe921`. Pending `0800020602090301`, HP `1710→1155`, stock `9→9`. Review `g13-draw-live-promotion-2026-08-25.md` sets `[promotion.G13].satisfied`.
+- Canonical G14 positive envelope is `p0-g14-positive-post-escape-2026-08-26.json`, collector `PASS` on PID 38744 / DLL SHA-256 `363d91cf8a4107c41fa5cbc2f8eb692dcf834765fa88790832aea3ca2c814471`. Envelope SHA-256 `098c52fcc6823eb094d2c932d6a35ac261a4e54f06f0cda3e5e2591b22766f90`. Sticky `phase=221` (`0x70`/`0x74`/Magic). Shutdown restored the frame preimage.
+- Canonical G14 negative envelope is `p0-g14-half-ownership-fault-2026-08-26.json`, collector `FAIL` / external `FAIL_EXPECTED` on PID 4556 / same DLL. Envelope SHA-256 `a4ed7ba370c9ab214a3fe3f264d841a26ec515a5b9b31a3e86e8ed78e3839e6d`. Review `g14-presentation-live-promotion-2026-08-26.md` sets `[promotion.G14].satisfied`. `0x71` was not walked live.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -234,6 +243,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

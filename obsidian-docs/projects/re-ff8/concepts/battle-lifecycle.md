@@ -20,13 +20,14 @@ sources:
   - IDA static + live debugger 2026-07-12 (module callback ownership, corrected four-level active guard, idle callback-table baseline)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
-summary: Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+summary: Battle lifecycle through init, active tick and cleanup, including G07 domain ownership and the G14 sealed presentation owner.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T12:00:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # Battle Lifecycle
@@ -208,9 +209,12 @@ rechecked the exact command-owned byte ranges after each tail, and kept HUD/3D
 visible. See
 [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]].
 
-## G14 ownership map (static 2026-08-18)
+## G14 ownership map (live-promoted 2026-08-26)
 
-Not a live promotion. Topology only; idle cadence stays SQ-G14-001. Full table: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G14.
+Typed barriers and the sealed native owner are live-promoted.
+[[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]].
+`0x70`/`0x74` were walked live; `0x71` is `confirmed-static` (spawn cadence G16).
+Full table: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G14.
 
 | Concern | Owner | Must not |
 | --- | --- | --- |

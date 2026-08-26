@@ -10,13 +10,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
-summary: SQ-Gxx register. SQ-G13-001 is live-promoted; SQ-G13-002 is capped. Magic animation NCOMP is SQ-G14-002.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+summary: SQ-Gxx register. SQ-G13-001 is live-promoted; SQ-G13-002 is capped. SQ-G14-001/002 are closed; 0x71 spawn cadence is G16.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -194,29 +195,29 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 
 ### SQ-G14-001 — barrier idle cadence
 
-- status: live-required
-- confidence: 0.40
-- affects: G14, G09
+- status: closed-2026-08-26
+- confidence: 0.88
+- affects: G14, G09, G16
 - claim: topology of relays `0x70/0x71/0x74` is static-strong; frame-accurate idle/busy is not.
-- evidence_for: Dispatch cases `'p'/'q'/'t'`; G09 live used `0x70` idle as a presentation signal.
-- evidence_against: worker stalls call `sub_508580` with different immediates; counts are presentation.
-- missing_discriminator: scripted PresentationSignals vs native busy bytes.
-- next_static_probe: none required for topology.
-- eventual_live_probe: G14 injected relays against native signals (campaign forbids live now).
-- resolution:
+- evidence_for: Dispatch cases `'p'/'q'/'t'`; Session P walked `0x70` and `0x74` live (`phase=221`); G09 used `0x70` as a presentation signal.
+- evidence_against: worker stalls call `sub_508580` with different immediates; counts are presentation. Fire never `push 71h`.
+- missing_discriminator: none for G14 typed barriers. Native `0x71` list duration during spawn is G16.
+- next_static_probe: none.
+- eventual_live_probe: optional G16 spawn (Ifrit 094 / `ENTER_MONSTER`) if a live `0x71` node is wanted.
+- resolution: closed 2026-08-26. `0x70`/`0x74` live on Session P. `0x71` reclassified `confirmed-static` from `0x502F30` plus six AI enqueue sites (`0x1F`/`0x34`/`0x3B`/`0x1B`/`0x35`). Same persist machine as `0x70` (`return 8` until `node+1=0xFF`). Do not claim a live `0x71` walk.
 
 ### SQ-G14-002 — Magic action-sequence NCOMP (not G11)
 
-- status: deferred-to-G14
-- confidence: 0.85
+- status: closed-2026-08-26
+- confidence: 0.90
 - affects: G14, G11 (negative live only)
 - claim: authentic Fire domain (pending `0x02`/`0x01`, HP, stock) is G11; Magic animation/sequence ABI is sealed NCOMP. Growing `TemporaryG09NcompAdapter::enqueue_magic` with a guessed 20-byte context then pumping the G07 file-callback/BdLink tail is half-ownership (U14.7) and Faulted PID 3704 on 2026-08-18.
-- evidence_for: G11 units U11.1–U11.8 are kernel/stock/formula/commit; G14 U14.6 is one owner for sequences+callbacks+BdLink+draw; adapter header says removal U14.6 and “do not grow with domain work”; envelope `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`); Cursor transcript SHA-256 `39b25ea76f3d6a1a31317384c5856f0b54015d12baaa12e353496b0dc917b90e` records the v1 exception ordering, the G14 deferral, then the v2 operator sequence (fresh process, in-battle, no black screen, Irvine ATB full).
+- evidence_for: G11 units U11.1–U11.8 are kernel/stock/formula/commit; G14 U14.6 is one owner for sequences+callbacks+BdLink+draw; adapter header says removal U14.6 and “do not grow with domain work”; envelope `p0-g11-live-fire-exception-2026-08-18.json` (`verdict=FAIL`); Session O/P native Fire bytes `02 02 0b ff…`, `sequence_kind=2`, ATB hash change on P.
 - evidence_against: G09 promoted Attack only after `0x70` idle because Attack NCOMP was the G09 contract; G11 live suite copied that clock. That over-scopes G11 relative to the master plan.
-- missing_discriminator: native Magic `BATTLE_ACTION_SEQUENCE_CONTEXT` layout vs Attack; ATB HUD consume after Magic (operator Irvine bar stayed full on v2 PASS).
-- next_static_probe: none for G11 formula/stock. G14: capture native Magic sequence bytes on vanilla Fire; G06/G14: ATB HUD consume after Magic.
-- eventual_live_probe: G14 U14.6 Magic sequence as part of the sealed adapter; U14.7 must reject replacement Magic contexts in native lists.
-- resolution: parked 2026-08-18. G11 v2 PASS on PID 16960 proved domain promotion by **not** calling `enqueue_magic` (`ncomp_calls=0`, `presentation_relay_calls=0`). Not a G11 fix; not G25. Irvine ATB HUD consume remains G06/G14.
+- missing_discriminator: none for G14. Item/Draw share the same 20-byte writer family (types 4/6).
+- next_static_probe: none.
+- eventual_live_probe: none required. `enqueue_magic` stays forbidden.
+- resolution: closed 2026-08-26 on Session O (PID 27344) and Session P (PID 38744). Codec maps byte `[1]=2` to Magic. Historical v1 FAIL stays negative evidence. Irvine ATB HUD consume remains G06, not a G14 reopen.
 
 ### SQ-G15-001 — AI VM loop guard
 

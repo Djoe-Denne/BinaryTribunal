@@ -57,12 +57,12 @@ title: Wiki Index
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G13; G12 semantic Item and G13 Draw Cast/Stock are live-promoted; presentation deferred to G14. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G14; G12–G14 are live-promoted; `0x71` spawn cadence is G16. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
-- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G13 are live-promoted; G14–G20 remain later. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G13-001 is live-promoted, SQ-G13-002 is capped, SQ-G14-002 tracks presentation NCOMP. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G14 are live-promoted; G15–G20 remain later. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G13 and SQ-G14-001/002 are closed; `0x71` spawn cadence is G16. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
@@ -89,7 +89,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] — G10 live-promotes Status-Atk Slow on Attack 0x01: apply, named timers, mental RNG, in-battle retain; HUD icon deferred U14.6. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] — G11 is closed: Fire and Meteor are live anchors, while clean Life/Full Life captures validate dual-HP handback; Double, Triple, Scan and Silence retain representative coverage. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] — G12 is live-promoted-semantic: Potion, Meteor Stone, Mega Phoenix and Friendship are detached PASS; Pinion/Gysahl stay semantic. ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] — G13 is live-promoted: PID 22956 Cast+Stock collector-PASS; pending 0x06 stays a runtime byte; presentation remains G14. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] — G13 is live-promoted: PID 22956 Cast+Stock collector-PASS; pending 0x06 stays a runtime byte; presentation is G14. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]] — G14 live-promoted: P PASS/Detached and N FAIL_EXPECTED on DLL 363d91cf; 0x70/0x74 live; 0x71 spawn cadence is G16. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G13 map: G11–G13 are live-promoted; G12 is semantic Item; G13 is Draw Cast/Stock. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 

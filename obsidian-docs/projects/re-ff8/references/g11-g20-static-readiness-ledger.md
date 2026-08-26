@@ -24,13 +24,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
-summary: Static G11–G20 map with live addenda. G11–G13 are live-promoted. G12 is semantic Item; G13 is Draw Cast/Stock. SQ-G13-002 is capped; presentation is G14.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+summary: Static G11–G20 map with live addenda. G11–G14 are live-promoted. G12 is semantic Item; G13 is Draw Cast/Stock; G14 is sealed presentation. 0x71 spawn cadence is G16.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -38,7 +39,7 @@ updated: 2026-08-25T21:45:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. G14–G20 stay unpromoted in this static ledger.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. G15–G20 stay later.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -48,10 +49,10 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 
 | Gate | Static status | Confidence | Units | Next |
 | --- | --- | ---: | --- | --- |
-| G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families and animation incomplete | G12 Item; Magic NCOMP is SQ-G14-002 |
-| G12 Item | `static-partial` + semantic live promotion | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | presentation G14; no additional gameplay batch required |
-| G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | G14 presentation; no global pending `0x06` enum |
-| G14 callbacks | `static-partial` | 0.62 | U14.1–U14.7 ownership map | idle runtime; half-ownership live detector |
+| G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families incomplete | G12 Item; Magic sequence is G14 |
+| G12 Item | `static-partial` + semantic live promotion | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | no additional gameplay batch required |
+| G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | no global pending `0x06` enum |
+| G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | G15 AI; G16 spawn cadence |
 | G15 AI control | `static-strong` | 0.78 | U15.1–U15.7 crosswalk | corpus `.dat` coverage report |
 | G16 AI actions | `mapped` | 0.55 | U16.1–U16.8 recognition | spawn/remove + corpus |
 | G17 reactions | `mapped` | 0.50 | U17.1–U17.8 recognition | Cover timing live |
@@ -504,23 +505,21 @@ return 15 = done this tick
 
 | Unit | Owner | Read | Write/clear | Status |
 | --- | --- | --- | --- | --- |
-| U14.1 action callbacks | **domain** (GetText, ability, GF-finalize) | slot/command globals | current-action, text | `static-partial` 0.70 |
-| U14.2 deferred nodes | **presentation scheduler** (`battle_task_2_stru`) | node +1/+2/+4/+8 | alloc via BdLinkTask; unlink when +1=0xFF | `static-partial` 0.65 |
-| U14.3 typed barriers | replacement API (future) | PresentationSignals | must not call native Dispatch | `mapped` 0.60 |
-| U14.4 headless scheduler | replacement only | scripted complete | immediate complete for tests | `mapped` 0.55 — not in EXE |
-| U14.5 relays 0x70/71/74 | presentation task queue | camera busy, actor idle | node +1 completion | `static-strong` 0.80 topology; **lifetime live-required** |
-| U14.6 NCOMP adapter | file callbacks + BdLink + sequences + camera + effects + draw = **one** owner | typed read-only signals | never insert replacement contexts into native lists | `static-partial` 0.72 (G07/G09 live split) |
-| U14.7 half-ownership detector | replacement tests | mixed node/allocator/busy | reject | `mapped` 0.50 — test harness, not native |
+| U14.1 action callbacks | **domain** (GetText, ability, GF-finalize) | slot/command globals | current-action, text | `live-promoted` 0.88 |
+| U14.2 deferred nodes | **presentation scheduler** | node +1/+2/+4/+8 | alloc via BdLinkTask; unlink when +1=0xFF | `live-promoted` 0.88 |
+| U14.3 typed barriers | replacement API | PresentationSignals | must not call native Dispatch | `live-promoted` 0.88 |
+| U14.4 headless scheduler | replacement only | scripted complete | immediate complete for tests | `live-promoted` 0.85 — not in EXE |
+| U14.5 relays 0x70/71/74 | presentation task queue | camera busy, actor idle | node +1 completion | `live-promoted` 0.88; `0x71` static |
+| U14.6 NCOMP adapter | file callbacks + BdLink + sequences + camera + effects + draw = **one** owner | typed read-only signals | never insert replacement contexts into native lists | `live-promoted` 0.88 |
+| U14.7 half-ownership detector | replacement tests | mixed node/allocator/busy | reject | `live-promoted` 0.90 — Session N |
 
 HUD/action callbacks stay domain. File/BdLink stay NCOMP. G10 status HUD icon list 117 is already deferred U14.6.
 
-Live-required: idle vs busy cadence of `0x70`; actor-idle predicate of `0x71`; escape `0x74` vs result latch `BYTE2(TARGET_SLOT_ID)`; no mixed native/replacement node ever observed (cannot be proved statically).
+Closed 2026-08-26: `0x70`/`0x74` live on Session P; `0x71` idle predicate is `confirmed-static`; Session N rejected a replacement pointer before mutation. Spawn-time `0x71` list duration is G16.
 
 ### G14 next
 
-1. Typed `PresentationSignals` struct from the busy bytes above, without claiming frame counts.
-2. Detector fixtures: replacement pointer in `battle_task_2_stru`; dual allocator.
-3. **SQ-G14-002:** Magic action-sequence context belongs here (U14.6), not in G11. Live Fire 2026-08-18 `enqueue_magic` is the half-ownership example.
+Promoted. Residual: optional live `0x71` walk on a spawn fight (G16). Do not rebuild the promoted DLL `363d91cf…` for the sampler busy-bit note.
 
 ## G15 — AI control crosswalk
 

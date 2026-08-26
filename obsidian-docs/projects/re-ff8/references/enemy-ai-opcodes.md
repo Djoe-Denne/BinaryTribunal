@@ -11,7 +11,7 @@ provenance:
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T15:00:00+02:00
-updated: 2026-08-18T12:00:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # Enemy AI VM — Opcode / Subject / Target Reference
@@ -103,8 +103,8 @@ Key facts for ISO:
 | `0x30` | HIDE_SELF | – | `flag_data|=0x40`; rebuild target visibility (untargetable) | – | no | `0x489DE6` |
 | `0x31` | GIVE_GF | gf_id(1) | `GF_SetOwnedFlag(gf_id)`; append `gf_id` to `POST_BATTLE_GF_ID_QUEUE` | – | no | `0x489E0E` |
 | `0x32` | SET_PREPARE_SUMMON | – | `AI_PREPARE_SUMMON_FLAG=1` (summon-targeting override) | – | no | `0x489E43` |
-| `0x33` | ACTIVATE_RELAY_70 | – | relay `0x70` (camera/presentation barrier) | – | no | `0x487F50` |
-| `0x34` | SPAWN_MONSTER | id(1) | spawn into first free enemy slot (3–7); relay `0x71` init; `SetTargetableCallback` | – | no | `0x489E4F` |
+| `0x33` | ACTIVATE_RELAY_70 | – | relay `0x70` (camera/presentation barrier) | – | no | `0x489E4F` |
+| `0x34` | SPAWN_MONSTER | id(1) | spawn into first free enemy slot (3–7); relay `0x71` init; `SetTargetableCallback` | – | no | `0x487F50` |
 | `0x35` | ENTER_ANIM_TARGET | code(1) | relay `0x71` enter-anim with slot (`0xD1`→global attacker) | – | no | `0x489E65` |
 | `0x36` | SET_ODIN_FLAG | – | `SG_ODIN_ANGEL_GILGA_FLAG = (&0xF5)|8` | – | no | `0x489E91` |
 | `0x37` | GIVE_CARD | card_id(1) | `BATTLE_CARD_DROP[NB_CARD_OBTAINED++] = card_id` | – | no | `0x489EA8` |

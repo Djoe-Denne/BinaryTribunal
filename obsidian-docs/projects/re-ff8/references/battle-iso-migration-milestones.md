@@ -43,7 +43,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-26T21:15:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -640,7 +640,7 @@ multi-hit eligibility baselines.
 > Official Stock then Cast replacements on PID 22956 / DLL `f47c0481…` are
 > collector `PASS`. `[promotion.G13].satisfied = true`. Pending `0x06` stays a
 > runtime byte, not a `core/` enum. SQ-G13-002 is static-capped. Draw
-> presentation remains G14. See
+> presentation is G14 live-promoted. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
 **Injected in-game test:** Scenario 2 may arm from the pinned QueueOrStore contract; native observation is optional. `0x06` remains a runtime discriminator, not a `core/` enum. Cover resisted/successful Cast and Stock, full stock, and source death offline. It passes when the pending byte, quantity/RNG, `aux_5`/`aux_6`, stock caps, Magic handoff, result events, and the complete direct-family routing matrix match fixtures without native Draw fallback.
@@ -651,19 +651,25 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U14.1 Action callback chain:** AI/text/ability/GF-finalize domain progression.
-- [ ] **U14.2 Deferred callbacks:** node ownership, unlink timing, cancellation, and retained contexts.
-- [ ] **U14.3 Typed barrier API:** action, actor-ready, camera/summon, and escape barriers.
-- [ ] **U14.4 Minimal deterministic scheduler:** immediate or scripted completion for headless/domain tests.
-- [ ] **U14.5 Relays `0x70`, `0x71`, `0x74`:** payload, child-task state, completion marker, and action-latch interaction.
-- [ ] **U14.6 Sealed native-presentation adapter:** if P1–P3 use `NCOMP`, keep file callbacks, BdLink, sequences, camera, effects, and draw as one owner; expose typed read-only `PresentationSignals` for camera-busy, actor-idle, file/effect busy, and task completion, and never pass replacement task contexts into native lists. **Includes Magic action-sequence context** (live 2026-08-18 Fire: guessed `enqueue_magic` + G07 tail → native exception). Do not grow `TemporaryG09NcompAdapter` for Magic.
-- [ ] **U14.7 Half-ownership detector:** reject mixed task contexts, allocators, or busy flags across native/replacement owners.
+- [x] **U14.1 Action callback chain:** AI/text/ability/GF-finalize domain progression.
+- [x] **U14.2 Deferred callbacks:** node ownership, unlink timing, cancellation, and retained contexts.
+- [x] **U14.3 Typed barrier API:** action, actor-ready, camera/summon, and escape barriers.
+- [x] **U14.4 Minimal deterministic scheduler:** immediate or scripted completion for headless/domain tests.
+- [x] **U14.5 Relays `0x70`, `0x71`, `0x74`:** payload, child-task state, completion marker, and action-latch interaction. `0x70`/`0x74` live; `0x71` confirmed-static (spawn cadence G16).
+- [x] **U14.6 Sealed native-presentation adapter:** if P1–P3 use `NCOMP`, keep file callbacks, BdLink, sequences, camera, effects, and draw as one owner; expose typed read-only `PresentationSignals` for camera-busy, actor-idle, file/effect busy, and task completion, and never pass replacement task contexts into native lists. **Includes Magic action-sequence context** (live 2026-08-18 Fire: guessed `enqueue_magic` + G07 tail → native exception). Do not grow `TemporaryG09NcompAdapter` for Magic.
+- [x] **U14.7 Half-ownership detector:** reject mixed task contexts, allocators, or busy flags across native/replacement owners.
 
 **Test pack:** callback order, deferred unlink, barrier wait/complete/cancel, relay payloads, native `PresentationSignals` transitions, and ownership violation tests.
 
 **Gate G14:** later AI/GF code can request a barrier without directly invoking a native task function.
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G14 -Profile P1` to execute callback chains, deferred unlink, cancellation, and relays `0x70`, `0x71`, and `0x74` against scripted/native `PresentationSignals`. It passes when callback order and barrier wait/complete transitions are exact and the half-ownership detector observes no replacement pointer, allocator, or task context entering native lists.
+
+> [!success] G14 live-promoted 2026-08-26
+> Session P `PASS`/`Detached` and Session N `FAIL_EXPECTED` on DLL
+> `363d91cf…`. `[promotion.G14].satisfied = true`. `0x71` spawn cadence is
+> G16. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]].
 
 ## 8. AI and Advanced Gameplay Groups
 
