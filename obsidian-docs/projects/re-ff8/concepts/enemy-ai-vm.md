@@ -8,13 +8,15 @@ sources:
   - docs/tech/reference/address_catalog.md
   - docs/tech/systems/battle_loop.md
   - obsidian-docs/_staging/investigations/enemy_ai_opcode_semantics_2026-06-09.md
-summary: Enemy behavior is a `.dat` section 8 bytecode VM whose opcode set includes targeting, spawn, summon-prep, reward, and post-battle queue side effects.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
+summary: Enemy `.dat` section 8 VM. G15 live-promotes a read-only Init/Turn shadow; action emission stays G16.
 provenance:
-  extracted: 0.89
-  inferred: 0.07
+  extracted: 0.90
+  inferred: 0.06
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T12:00:00+02:00
+updated: 2026-08-27T13:50:00+02:00
 ---
 
 # Enemy AI VM
@@ -34,9 +36,11 @@ BattleArbitration_SelectNextAction (0x485460)
 
 ## Data Layout
 
+- The monster `.dat` file header is `u32 count` followed by `count` section offsets. Battle script / AI is file offset `[7]`.
 - `.dat` section `8` starts with offsets to the AI subsection, text offsets, and text subsection.
-- The AI subsection contains offsets to init, turn, counter, death, and pre-hit code.
+- The AI subsection contains start pointers to init, turn, counter, death, and pre-hit code. Native execution runs from that start until `STOP`, not a sliced end.
 - The bytecode pointer for a subsection is `ai_subsection_base + offset[section_index]`.
+- G15 implements a read-only Init/Turn shadow of this layout. It is live-promoted on paused `c0m044` (2026-08-27). Live section 8 is `*monster_ai_section` (`0x487823`). Action emission stays G16. See [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]].
 
 ## Section Routing
 

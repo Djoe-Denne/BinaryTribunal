@@ -25,13 +25,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
-summary: Static G11–G20 map with live addenda. G11–G14 are live-promoted. G12 is semantic Item; G13 is Draw Cast/Stock; G14 is sealed presentation. 0x71 spawn cadence is G16.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
+summary: Static G11–G20 map with live addenda. G11–G15 are live-promoted. G15 is Init/Turn shadow only. Action emission and 0x71 spawn cadence are G16.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T13:50:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -39,7 +40,7 @@ updated: 2026-08-26T21:15:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. G15–G20 stay later.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. G16–G20 stay later.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -53,7 +54,7 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | G12 Item | `static-partial` + semantic live promotion | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | no additional gameplay batch required |
 | G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | no global pending `0x06` enum |
 | G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | G15 AI; G16 spawn cadence |
-| G15 AI control | `static-strong` | 0.78 | U15.1–U15.7 crosswalk | corpus `.dat` coverage report |
+| G15 AI control | `live-promoted` | 0.90 | U15.1–U15.7 + paused `c0m044` Init/Turn shadow | G16 action emission |
 | G16 AI actions | `mapped` | 0.55 | U16.1–U16.8 recognition | spawn/remove + corpus |
 | G17 reactions | `mapped` | 0.50 | U17.1–U17.8 recognition | Cover timing live |
 | G18 GF gameplay | `mapped` | 0.55 | U18.1–U18.8 recognition | charge lifetime live; distinguish pending/resolve routing |
@@ -541,11 +542,11 @@ Call chain: `BattleArbitration_SelectNextAction` `0x485460` → `PrepareTurnActi
 
 Malformed/bounds: unknown op (switch default); jump off blob; section offset past end; `BOOL_TARGET_CHOOSEN==0` after EXECUTE; reserved `0x0D`/`0x19` consume one byte.
 
-Loop protection: **not** a native counter; infinite JUMP is a live/soak concern (SQ-G15-001).
+Loop protection: **not** a native counter; SQ-G15-001 is `static-closed-by-corpus` (max decoded 253, no livelock_risk).
 
 ### G15 next
 
-Corpus `.dat` coverage report (U16.8) without launching FF8. Offline file parse only.
+Promoted. Residual: G16 action emission, spawn, text, inventory, and the G14 `0x71` cadence. Live section 8 is `*monster_ai_section` (`0x487823`).
 
 ## G16 — AI actions (recognition)
 

@@ -110,7 +110,11 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g14-positive-post-escape-2026-08-26.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g14-half-ownership-fault-2026-08-26.json
-summary: Canonical G00–G14 map. G11–G14 are live-promoted; G12 is semantic Item; G13 is Draw; G14 is sealed presentation. 0x71 spawn cadence is G16.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-shutdown-2026-08-27.json
+summary: Canonical G00–G15 map. G11–G15 are live-promoted. Action emission and 0x71 spawn cadence are G16.
 provenance:
   extracted: 0.97
   inferred: 0.02
@@ -119,7 +123,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T13:50:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -147,6 +151,8 @@ updated: 2026-08-26T21:15:00+02:00
 | G11 / healing-revive coherence | Life and Full Life mirror both native HP authorities and persist through native Potion/Attack on DLL `edcb0c5e…c5136d`; final `PASS` / `Detached`, restore `0x1ff`, zero violations. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] |
 | G12 / semantic Item live | Potion, Meteor Stone, Mega Phoenix and Friendship are detached `PASS` anchors; Pinion/Gysahl typed intents stay semantic. `[promotion.G12].satisfied` true (2026-08-25). Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] |
 | G13 / Draw Cast+Stock live | Official Stock then Cast replacements on PID 22956 / DLL `f47c0481…` are collector `PASS`. Pending `0x06` stays a runtime byte. `[promotion.G13].satisfied` true (2026-08-25). Presentation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] |
+| G14 / sealed presentation live | Session P `PASS`/`Detached` and Session N `FAIL_EXPECTED` on DLL `363d91cf…`. `0x70`/`0x74` live; `0x71` confirmed-static. `[promotion.G14].satisfied` true (2026-08-26). | [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]] |
+| G15 / AI control live | Paused `c0m044` Init `STOP` / Turn `UseAbility` shadow on DLL `fcc8365e…`. Zero native AI VM calls, `PASS`/`Detached`. `[promotion.G15].satisfied` true (2026-08-27). Action emission G16. | [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -244,6 +250,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
