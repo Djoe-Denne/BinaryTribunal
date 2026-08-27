@@ -20,7 +20,7 @@ provenance:
   inferred: 0.04
   ambiguous: 0.02
 created: 2026-08-27T13:30:00+02:00
-updated: 2026-08-27T15:15:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # P1 G15 Enemy AI Control — Live-Promoted — 2026-08-27
@@ -86,7 +86,8 @@ Scenario 2 is reserved for a named A/B discriminant. No Session O ran.
 
 Action emission is live-promoted. See
 [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]].
-The G14 `0x71` spawn cadence remains `confirmed-static`. `dat_sha32` was
+The G14 `0x71` cadence remains `confirmed-static`. Host insert is a
+campaign residual, not a G16 reopen. `dat_sha32` was
 0 live because the DAT file base was not resolved; `section_sha32`
 identifies the loaded script.
 

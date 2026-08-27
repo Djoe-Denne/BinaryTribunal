@@ -39,7 +39,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-27T19:50:00+02:00
 ---
 
 # Command Action Pipeline
@@ -265,7 +265,7 @@ Counters, death scripts, and auto-abilities are **run as AI sub-sections**, not 
 | --- | --- |
 | 0 | INIT (on appear) |
 | 1 | TURN (enemy's turn; increments turn counter) |
-| 2 | COUNTER (player Counter/Cover/Return-Damage/Angelo; monster counter script) |
+| 2 | COUNTER (player Counter/auto-recover/Angelo; monster counter script). Cover is **not** this branch. |
 | 3 | DEATH (monster death script; party → `Angelo_SetupAutoCommand`) |
 | 4 | ON-HIT / pre-hit reaction (runs `ai_subsection[4]`) |
 | 5 / 6 | special: queue fixed attack `(246,0x2B)` / basic attack `(0,4)` |
@@ -279,11 +279,13 @@ Dispatch sources (only three callers):
 
 ### Player counter abilities (section 2, party branch)
 
-- `CHARA_ABILITIES & 4` = **Counter** → `BattlePendingAction_SetupCommand(slot, 1, 0, 1 << last_attacker)` (counter the last attacker).
-- `com_file_id == 4` (Rinoa) → `Angelo_CheckAutoCounter`.
-- `CHARA_ABILITIES & 0x40000` = auto-recover ability → chooses a curative ability/item by HP-loss thresholds (`≤200` none, `≤1000` ability, `>1000` item search) via `EnemyAI_UseCurativeAbility` / `EnemyAI_CheckCurativeAbilityAvailable`.
+- `CHARA_ABILITIES & 4` = **Counter** → command 1 / argument 0 / mask `1 << last_attacker`. G17 publishes that as an ordinary G07 `ActionRequest`, not a second group-0 node.
+- `com_file_id == 4` (Rinoa) → Angelo auto/counter variants (command 240). Resolve stays G18.7.
+- `CHARA_ABILITIES & 0x40000` = auto-recover → quantity `max_hp-current_hp`; `≤200` none, `201–1000` item 1, `>1000` item 3 else `1,2,4,5,9`. Helpers `0x487D80` / `0x487DB0` are specified, not called.
 
-All section-5–8 specials enter through the normal `BattlePendingAction_SetupCommand` → exec-queue commit path, **not** group 0.
+**Cover is not section 2.** `BattleAction_SelectCoverRedirect` `0x48EB90` (xref `0x48E8E1`) runs during G08, before G09. SQ-G17-001 is closed. Return Damage is bit `0x8`; follow-up stays fail-closed (SQ-G17-005).
+
+Native section-5–8 specials historically go through `SetupCommand`. G17 treats 5–8 as synthetic routes and stages group 0 for engine specials; it does not invent a ninth `.dat` blob. Party Counter is live-promoted: [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 ## Related
 
@@ -296,4 +298,5 @@ All section-5–8 specials enter through the normal `BattlePendingAction_SetupCo
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]

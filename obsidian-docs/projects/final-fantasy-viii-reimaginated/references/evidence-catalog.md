@@ -119,7 +119,12 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-corpus-apply-2026-08-27.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-suite-r2-2026-08-27.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-shutdown-r2-2026-08-27.json
-summary: Canonical G00–G16 map. G11–G16 are live-promoted. Host 0x71 insert and G17 reactions remain later.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-shutdown-2026-08-27.json
+summary: Canonical G00–G17 map. G11–G17 are live-promoted. G17 claim is party Counter only.
 provenance:
   extracted: 0.97
   inferred: 0.02
@@ -128,7 +133,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-27T17:30:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -158,7 +163,8 @@ updated: 2026-08-27T17:30:00+02:00
 | G13 / Draw Cast+Stock live | Official Stock then Cast replacements on PID 22956 / DLL `f47c0481…` are collector `PASS`. Pending `0x06` stays a runtime byte. `[promotion.G13].satisfied` true (2026-08-25). Presentation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] |
 | G14 / sealed presentation live | Session P `PASS`/`Detached` and Session N `FAIL_EXPECTED` on DLL `363d91cf…`. `0x70`/`0x74` live; `0x71` confirmed-static. `[promotion.G14].satisfied` true (2026-08-26). | [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]] |
 | G15 / AI control live | Paused `c0m044` Init `STOP` / Turn `UseAbility` shadow on DLL `fcc8365e…`. Zero native AI VM calls, `PASS`/`Detached`. `[promotion.G15].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] |
-| G16 / AI actions | Live-promoted UseAbility pending emit on DLL `92419780…` / PID 40964. Host `0x71` insert stays later. | [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] |
+| G16 / AI actions | Live-promoted UseAbility pending emit on DLL `92419780…` / PID 40964. Host `0x71` insert is campaign residual, not a G16 reopen. | [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] |
+| G17 / reactions | Live-promoted party Counter on DLL `6326950a…` / PID 25280. Cover/Regen/Return stay later. `[promotion.G17].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -258,6 +264,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

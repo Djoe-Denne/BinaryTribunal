@@ -22,7 +22,7 @@ provenance:
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-27T18:30:00+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -130,7 +130,7 @@ The full initial-state arithmetic is now distilled into [[projects/re-ff8/refere
 These are not in any page's Runtime-Pending list, yet they block ISO behaviour.
 
 ### B1. Forced-action injection into exec **group 0** — *CLOSED 2026-06-14*
-Resolved. **Two distinct channels** (previously conflated): (1) **group 0 is written only by `Battle_EnqueueSpecialAction` `0x484720`** for engine specials (Odin/Gilgamesh/Phoenix); (2) **counters, Cover, Return Damage, Angelo, and death scripts are AI-dispatched** via `EnemyAI_DispatchSection` (`0x4877F0`) sub-sections — `Battle_ApplyDamageOrHeal` fires section `4` (on-hit) on every hit, and `EnemyAI_PrepareTurnAction` (`0x48567F`) fires the turn/counter/death/special sections. Player Counter (`CHARA_ABILITIES & 4`), auto-recover (`& 0x40000`), and Angelo (`com_file_id == 4`) live in section 2. Distilled into [[projects/re-ff8/concepts/command-action-pipeline]] (*Forced Actions And Reactions*). Residual: the section-selection logic inside `EnemyAI_PrepareTurnAction` and Cover target-redirect timing.^[ambiguous]
+Resolved. **Two distinct channels** (previously conflated): (1) **group 0 is written only by `Battle_EnqueueSpecialAction` `0x484720`** for engine specials and the deferred Counter/Death callbacks (ids 2/3); (2) **monster OnHit is section 4** from `Battle_ApplyDamageOrHeal`, then sections 2/3 run when staged. Player Counter (`CHARA_ABILITIES & 4`), auto-recover (`& 0x40000`), and Angelo (`com_file_id == 4`) live in section 2. **Cover is not section 2** — `BattleAction_SelectCoverRedirect` `0x48EB90` is pre-G09 (SQ-G17-001 closed). Distilled into [[projects/re-ff8/concepts/command-action-pipeline]] (*Forced Actions And Reactions*). G17 party Counter is live-promoted: [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 ### B2. Cross-frame action sequencing & pacing — *CLOSED 2026-06-15*
 Resolved (live-confirmed). The pacing is **not** in the presentation layer: `BattleAction_ResolveSpecialActionAndUpdateDamage` (`0x485160`) → `BattleAction_ResolveAndApplyDamage` (`0x48FE20`) **computes and commits HP/status synchronously at the selection frame** (`Damage_ComputeRawDeltaFromAttackType` + `Battle_ApplyDamageOrHeal`); the multi-frame `BattleActionSequence_DispatchTick` (`0x50A790`) sequence is cosmetic. Cross-actor serialization combines the **`BYTE1(TARGET_SLOT_ID)` action-in-progress latch** (`0x1D28DFD`, LOCK `0x4876D0` / UNLOCK `0x4876B0`, also set by the AI VM on yield), the separate **`BATTLE_ACTION_EXECUTION_ACTIVE`** lock that freezes ATB/GF, the true pause latch, and the camera busy gate (`dword_1D97704 & 0x8000`) polled by relays `0x70`/`0x71`. Distilled into [[projects/re-ff8/concepts/battle-lifecycle]] (*Active Tick Flow* + *Cross-actor serialization*). Residual (presentation-only): per-sequence intro/active/hit/outro frame counts.

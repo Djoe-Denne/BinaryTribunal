@@ -146,7 +146,7 @@ Confiance: +0.30 bytes/branches, +0.20 xrefs, +0.15 types/bounds, +0.15 table/2e
 | CA-G14-004 | U14.1/6 | LOCK/UNLOCK = action latch `TARGET_SLOT_ID+1`; distinct result latch | battle-lifecycle G14 | `0x4876D0` lock flag=0 latches=1; `0x4876B0` unlock flag=1 latches=0. Noms historiques `sub_497270` faux pour l'EA unlock. | RAW_IDB | confirmed-static | 0.70→0.72 | Ne pas fusionner avec `0x74`. |
 | CA-G15-001 | U15.3 | VM stop = opcode 0 ou commit ciblé; pas de cap d'itération | SQ-G15-001, opcodes | Loop `0x487EBA`: `op=*esi++; test al; jz return`. JUMP `0x23` int16 signé. Switch 61 cases `op-1`. | RAW_IDB, OLDER_DOC | confirmed-static | 0.70→0.82 | Livelock = corpus/soak, pas un compteur natif. |
 | CA-G16-001 | U16.4 | Spawn/remove codeables depuis les seuls noms d'opcodes | G16 table 0.62 | Reconnaissance. Pas de walker free-slot audité ici. | SAME_CAMPAIGN_DOC, OLDER_DOC | out-of-scope-recognition | 0.62→0.55 | Ne pas implémenter spawn. |
-| CA-G17-001 | U17.3 | Cover trigger timing = G17, fail-closed G09 | SQ-G17-001 | `ApplyDamageOrHeal` teste `CHARA_ABILITIES&8` si `attacker>=3` — Return/Cover **ability**, pas l'ordre hit vs HP. | RAW_IDB, LIVE_PRIOR | live-required | 0.45→0.40 | U08.6 redirect ≠ trigger. |
+| CA-G17-001 | U17.3 | Cover trigger timing = G08 selector `0x48EB90` pre-G09 | SQ-G17-001 | CFG + capture G08 `g08-native-cover-redirect-pre-g09-2026-08-09.json`. Section 2 party n'est pas Cover. | RAW_IDB, LIVE_PRIOR | confirmed-static+live-prior | 0.40→0.90 | Session O fermée. |
 | CA-G18-001 | U18.2 | GF pending `0x03`, resolver `0xFE`, **group 1** | G18 U18.2 | Transfer: `0x03` default **g2**; `0xFE` **g1**. GetText commente une réécriture vers `0xFE` **après** transfer. | RAW_IDB, LIVE_PRIOR | refuted (group au transfer) | 0.78→0.55 | Overclaim routing. |
 | CA-G18-002 | U18.4 | Dégâts GF dans `ComputeMagicAndGFDamage` (Boost, level mods) | U18.4 | Cases GF_DAMAGE présents avec `GF_BOOST`/`GF_LEVEL`. Multiplicateur live. | RAW_IDB | confirmed-static-with-cap | 0.65→0.62 | Plafond cadence/Boost. |
 | CA-G19-001 | U19.1 | Table resolver IDs = contrat d'implémentation G19 | G19 0.48 | Inventaire du switch `0x48FE20`. Card/Devour dans case 0. Pas de handlers row-level. | RAW_IDB | out-of-scope-recognition | 0.48→0.48 | SQ-G19-001 reste. |
@@ -259,10 +259,10 @@ Confiance: +0.30 bytes/branches, +0.20 xrefs, +0.15 types/bounds, +0.15 table/2e
 
 ### SQ-G17-001 Cover trigger timing
 
-- Actuel `live-required` 0.35. **Recommandé: inchangé.**
-- `CHARA_ABILITIES&8` vu dans ApplyDamage (attaquant ennemi) ≠ ordre Cover vs HP.
-- Pourquoi live: multi-hit + HP snapshots.
-- Bloque? G09 déjà fail-closed. Pas G11.
+- Actuel `confirmed-static+live-prior` 0.90. **Fermé 2026-08-27.**
+- Selector `0x48EB90` xref `0x48E8E1` avant G09. Capture G08 existante.
+- Session O non ouverte. Return Damage follow-up = SQ-G17-005 fail-closed.
+- Bloque? Non pour l'offline G17. Session P = Counter, pas Cover.
 
 ### SQ-G19-001 Card/Devour/Mug
 

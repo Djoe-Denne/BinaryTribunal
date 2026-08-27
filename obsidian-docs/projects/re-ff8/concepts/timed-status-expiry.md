@@ -15,7 +15,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-08-15T16:20:00+02:00
+updated: 2026-08-27T18:30:00+02:00
 ---
 
 # Timed Status Expiry
@@ -81,7 +81,7 @@ The subsystem is slot-wide rather than party-only, so the structure applies to e
 
 ## Special Expiry Cases
 
-- Regen triggers periodic special-action work while the timer is still running: timer index `4` (`status_2 & 0x10`) calls `Battle_EnqueueSpecialAction(slot, 6, 0)` on its cadence, i.e. **special action 6 = the Regen periodic tick**.
+- Regen triggers periodic special-action work while the timer is still running: timer index `4` (`status_2 & 0x10`) calls `Battle_EnqueueSpecialAction(slot, 6, 0)` on its cadence, i.e. **special action 6 = the Regen periodic tick**. G17 keeps that single G10 enqueue and does not invent a heal magnitude (SQ-G17-006 fail-closed).
 - Protect, Shell, and Reflect use dedicated text branches at timeout, then fall back to normal bit clear and sync.
 - Doom queues a dedicated special action instead of inlining the terminal effect in the timer routine itself (see [Doom Enqueue Chain](#doom-enqueue-chain)).
 - Gradual Petrify explicitly promotes `Petrifying -> Petrify` before the normal mirror-sync path.
@@ -90,7 +90,7 @@ The subsystem is slot-wide rather than party-only, so the structure applies to e
 
 Doom is timer index `10` (`status_2 & 0x400`). At expiry, `Status_TickAndExpire` (`0x483470`) takes the `v5 & 0x400` branch (callsite `0x4836E7`):
 
-1. `Battle_EnqueueSpecialAction(slot, 5, 0)` — enqueues **special action type 5** as a node in the **group-0 forced exec queue** (`stru_1D28864`): node `+0` = slot, `+1` = `0xFF`, `+4` (word) = `5`.
+1. `Battle_EnqueueSpecialAction(slot, 5, 0)` — enqueues **special action type 5** as a node in the **group-0 forced exec queue** (`stru_1D28864`): node `+0` = slot, `+1` = `0xFF`, `+4` (word) = `5`. G17 reports `UnresolvedPeriodicMagnitude` instead of inventing HP/Death bytes.
 2. `status_2 &= ~0x400` — clears the Doom bit. Unlike the generic expiry branch, Doom prints no text and does not recompute crisis/death inline; it purely fires the death action.
 
 The node then resolves through the standard forced-action path:

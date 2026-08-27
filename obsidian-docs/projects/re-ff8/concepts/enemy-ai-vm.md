@@ -12,13 +12,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-summary: Enemy `.dat` section 8 VM. G15 is the live Init/Turn shadow; G16 live-promotes UseAbility ActionRequest emit.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+summary: Enemy `.dat` section 8 VM. G15–G17 live; G17 party Counter reuses OnHit then G07 emit.
 provenance:
   extracted: 0.90
   inferred: 0.06
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T17:30:00+02:00
+updated: 2026-08-27T19:50:00+02:00
 ---
 
 # Enemy AI VM
@@ -34,7 +37,11 @@ BattleArbitration_SelectNextAction (0x485460)
       -> EnemyAI_VM_ExecuteScript (0x487DF0)
 ```
 
-`Battle_ApplyDamageOrHeal` also dispatches section `2` counter scripts after damage and section `3` death scripts when HP reaches `0`.
+`Battle_ApplyDamageOrHeal` dispatches **section 4 (OnHit)** on the enemy
+survive (`flag_data&0x10`) and KO (`flag_data&0x20`, not Eject) branches,
+and writes `target_reaction_type` 2 or 3. Callbacks later stage those
+types into group 0; `EnemyAI_PrepareTurnAction` then runs sections 2/3.
+The historical “ApplyDamage dispatches section 2/3” sentence is false.
 
 ## Data Layout
 
@@ -44,6 +51,7 @@ BattleArbitration_SelectNextAction (0x485460)
 - The bytecode pointer for a subsection is `ai_subsection_base + offset[section_index]`.
 - G15 implements a read-only Init/Turn shadow of this layout. It is live-promoted on paused `c0m044` (2026-08-27). Live section 8 is `*monster_ai_section` (`0x487823`). See [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]].
 - G16 applies those deferred intents on a transactional copy and publishes a G07 `ActionRequest` into host pending. Ability rows come from `*monster_info_section` (380 bytes, `+0x34`, stride 4). Live-promoted 2026-08-27 on paused `c0m044` (DLL `92419780…`, PID 40964). See [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]].
+- G17 reuses that VM/apply path for OnHit (section 4) and staged Counter/Death (sections 2/3). Routes 5–8 are synthetic. Cover is not a section-2 party branch. Party Counter is live-promoted 2026-08-27. See [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 ## Section Routing
 
@@ -56,7 +64,10 @@ BattleArbitration_SelectNextAction (0x485460)
 - Section `7` handles Odin or Gilgamesh special GF action.
 - Section `8` handles Angelo auto-action.
 
-For party slots below `3`, section `2` is reused for Counter, Cover, and Return Damage instead of monster scripts.
+For party slots below `3`, section `2` is the Counter / Angelo /
+auto-recover branch. Cover is selected earlier by
+`BattleAction_SelectCoverRedirect` (`0x48EB90`) during G08, not here.
+Return Damage is a distinct ApplyDamage accumulator (`CHARA_ABILITIES&8`).
 
 ## Interpreter Model
 
@@ -114,7 +125,7 @@ Both return dispatch code `8` (child task spawned, relay persists until the chil
 - AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
 - Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
-- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert stays later.
+- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert is a campaign residual, not a G16 reopen.
 
 ## Open Questions
 

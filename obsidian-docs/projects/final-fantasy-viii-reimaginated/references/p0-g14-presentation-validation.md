@@ -16,13 +16,13 @@ sources:
   - projects/re-ff8/references/g11-g20-static-open-questions.md
 summary: >-
   G14 live-promoted: P PASS/Detached and N FAIL_EXPECTED on DLL 363d91cf;
-  0x70/0x74 live; 0x71 confirmed-static, spawn cadence deferred to G16.
+  0x70/0x74 live; 0x71 confirmed-static; host insert is later residual, not G16.
 provenance:
   extracted: 0.94
   inferred: 0.04
   ambiguous: 0.02
 created: 2026-08-26T21:15:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # P0 G14 Presentation — Live Promotion — 2026-08-26
@@ -37,8 +37,8 @@ updated: 2026-08-26T21:15:00+02:00
 
 > [!warning] `0x71` was not walked live
 > Fire never enqueues `'q'`. The worker `0x502F30` and the six `push 71h`
-> sites are `confirmed-static`. Spawn-time list cadence is a G16 residual,
-> not a G14 reopen.
+> sites are `confirmed-static`. Host `0x71` insert is a campaign residual.
+> It reopens neither G14 nor G16.
 
 ## Canonical live envelopes — 2026-08-26
 
@@ -83,7 +83,7 @@ sampler walks sentinel→link→node.
 
 - Live `0x71` spawn walk.
 - Graphic backend replacement.
-- G15 AI, G16 spawn/remove, G17 GF, Limits, rewards.
+- G15 AI, G16 spawn/remove on the canonical copy (done), G18 GF, Limits, rewards.
 - Sampler `BattleSlot.flag_data&2` equals the native `0x71` busy word.
 
 ## Related

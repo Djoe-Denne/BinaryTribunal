@@ -28,13 +28,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-summary: Static G11–G20 map with live addenda. G11–G16 are live-promoted. Host 0x71 insert and G17 reactions remain later.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+summary: Static G11–G20 map with live addenda. G11–G17 are live-promoted. G17 claim is party Counter only.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-27T17:30:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -42,7 +43,7 @@ updated: 2026-08-27T17:30:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. G17–G20 stay later.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation|G17]] is live-promoted for party Counter. G18–G20 stay later.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -55,10 +56,10 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | G11 Magic | `static-partial` + Fire v2 live | 0.86 | Semantic Fire HP/event/stock live; other families incomplete | G12 Item; Magic sequence is G14 |
 | G12 Item | `static-partial` + semantic live promotion | 0.90 | Direct, delegated, group-revive and three typed-special kinds anchored; all 32 rows offline | no additional gameplay batch required |
 | G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | no global pending `0x06` enum |
-| G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | G15 AI; G16 spawn cadence |
+| G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | optional `0x71` walk later, not G16 |
 | G15 AI control | `live-promoted` | 0.90 | U15.1–U15.7 + paused `c0m044` Init/Turn shadow | G16 action emission |
-| G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` / G17 |
-| G17 reactions | `mapped` | 0.50 | U17.1–U17.8 recognition | Cover timing live |
+| G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` / G18 |
+| G17 reactions | `live-promoted` | 0.88 | U17.1–U17.8 + paused party Counter pending emit | Cover/Regen live; G18 |
 | G18 GF gameplay | `mapped` | 0.55 | U18.1–U18.8 recognition | charge lifetime live; distinguish pending/resolve routing |
 | G19 commands | `mapped` | 0.48 | U19.1 inventory | per-command handlers |
 | G20 Limits | `mapped` | 0.40 | U20 inventory | six family state machines |
@@ -518,11 +519,11 @@ return 15 = done this tick
 
 HUD/action callbacks stay domain. File/BdLink stay NCOMP. G10 status HUD icon list 117 is already deferred U14.6.
 
-Closed 2026-08-26: `0x70`/`0x74` live on Session P; `0x71` idle predicate is `confirmed-static`; Session N rejected a replacement pointer before mutation. Spawn-time `0x71` list duration is G16.
+Closed 2026-08-26: `0x70`/`0x74` live on Session P; `0x71` idle predicate is `confirmed-static`; Session N rejected a replacement pointer before mutation. Host `0x71` insert is a campaign residual, not a G16 reopen.
 
 ### G14 next
 
-Promoted. Residual: optional live `0x71` walk on a spawn fight (G16). Do not rebuild the promoted DLL `363d91cf…` for the sampler busy-bit note.
+Promoted. Residual: optional live `0x71` walk on a spawn fight, only if a named duration A/B is written. That walk does not reopen G14 or G16. Do not rebuild the promoted DLL `363d91cf…` for the sampler busy-bit note.
 
 ## G15 — AI control crosswalk
 
@@ -554,7 +555,7 @@ Promoted. Residual: none for the Init/Turn shadow. Live section 8 is `*monster_a
 
 | Unit | Opcodes / roots | Status | Next probe |
 | --- | --- | --- | --- |
-| U16.1 ability prep | `0x0C` row `16*difficulty+idx`; `0x03`/`0x07` prep; `0x09` hit anim | `confirmed-offline` | live `c0m044` idx0 `{8,14,2}` |
+| U16.1 ability prep | `0x0C` row `16*difficulty+idx`; `0x03`/`0x07` prep; `0x09` hit anim | `confirmed-offline` | live row 32 `{8,14,2}` corroborated |
 | U16.2 emission | `0x06` EXECUTE, `0x0B` rand%3/`253`, `0x1E`, `0x2A` → `ActionRequest` | `live-promoted` UseAbility | pending-only G07 host write |
 | U16.3 mutations | heal/escape/ATB/status/stat%/res/`0x3C`/hide | `confirmed-offline` | hide stays G08-eligible |
 | U16.4 lifecycle | walker 3..7; `0x1F`/`0x34`/`0x3B`; die/leave/hidden | `confirmed-static` walker | no host `0x71` |
@@ -565,20 +566,20 @@ Promoted. Residual: none for the Init/Turn shadow. Live section 8 is `*monster_a
 
 Confidence 0.90 `live-promoted`. See [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]. SQ-G16-001/003 closed; SQ-G16-002 walker `confirmed-static`. `[promotion.G16].satisfied` is true on DLL `92419780…` / PID 40964.
 
-## G17 — Reactions (recognition)
+## G17 — Reactions (live-promoted Counter)
 
 | Unit | Roots | Status | Live-required |
 | --- | --- | --- | --- |
-| U17.1 on-hit/death | ApplyDamage section 4 every hit; death section 3; last-attacker fields | `mapped` 0.58 | per-hit order vs multi-hit |
-| U17.2 player Counter | `CHARA_ABILITIES & 4`; PrepareTurn section 2; last-attacker target | `mapped` 0.55 | incapacitation skip vs group 0 |
-| U17.3 Cover/Return | U08.6 applies redirect; **trigger** is G17 | `mapped` 0.45 | **timing** vs damage commit |
-| U17.4 auto-recover | `CHARA_ABILITIES & 0x40000`; HP≤200 none, ≤1000 ability, else item | `mapped` 0.60 | which EQUAL item picked |
-| U17.5 group 0 | `Battle_EnqueueSpecialAction` `0x484720` only | `static-strong` 0.80 (G10/G07) | — |
-| U17.6 Odin/Gilga/Phoenix | VM section 7; `SG_ODIN_ANGEL_GILGA_FLAG`; init rolls U22.7 | `mapped` 0.50 | runtime vs init split |
-| U17.7 Angelo | `com_file_id==4`; section 8; `K_RINOA_LIMIT_PART_2` | `mapped` 0.48 | cooldown counters |
-| U17.8 Regen/Doom | G10 periodic/terminal → EnqueueSpecialAction type 5 | `static-partial` 0.70 | Doom KO bytes already noted runtime-pending historically |
+| U17.1 on-hit/death | ApplyDamage section 4; type 2/3; staged group 0 ids 2/3 | `live-promoted` 0.88 | no extra OnHit live claim |
+| U17.2 player Counter | `CHARA_ABILITIES & 4`; ordinary G07 request; no second group-0 | `live-promoted` 0.90 | none for Counter emit |
+| U17.3 Cover/Return | Cover = G08 `0x48EB90` (SQ-G17-001 closed); Return fail-closed | `confirmed-static+live-prior` 0.90 | SQ-G17-005 follow-up |
+| U17.4 auto-recover | `max-current`; 200/1000; items 3→1,2,4,5,9 | `confirmed-offline` 0.90 | none |
+| U17.5 group 0 | writer `0x484720`; priority 0→1→2; exemption group 0 | `confirmed-offline` 0.88 | none |
+| U17.6 Odin/Gilga/Phoenix | runtime gates only; init U22.7; resolve U18.7 | `confirmed-offline` 0.82 | no GF session |
+| U17.7 Angelo | `com_file_id==4`; variants 11/12/13 | `confirmed-offline` 0.80 | no Angelo live |
+| U17.8 Regen/Doom | existing G10 enqueue once; magnitude fail-closed | `confirmed-offline` 0.86 | SQ-G17-006 |
 
-Cover remains fail-closed in G09. Drain fail-closed. Do not reopen G10 Slow claims.
+Cover timing is closed. Drain stays fail-closed. Do not reopen G10 Slow claims. See [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]. `[promotion.G17].satisfied` is true on DLL `6326950a…` / PID 25280. The live claim is party Counter only.
 
 ## G18 — GF gameplay (recognition)
 
@@ -640,7 +641,7 @@ Confidence 0.40 `mapped`. Names of functions are not certified state machines.
 3. Potion late-death policy is product-defined and offline-tested (SQ-G12-004); native late-target behavior is not claimed. Broader Item matrix still live-required.
 4. Draw source death after GetText is **static-closed-with-cap** (SQ-G13-002); not a live residue.
 5. Barrier idle cadence `0x70`/`0x71`/`0x74`.
-6. Cover trigger timing (U17.3).
+6. Cover trigger timing is closed (SQ-G17-001). G17 party Counter is live-promoted. Remaining G17 live is Cover/Regen/Return only.
 7. GF charge cancel/Boost.
 8. Limit input windows (G20.2–G20.4, G20.6).
 9. Card/Devour/Mug reward commit (U19.4).

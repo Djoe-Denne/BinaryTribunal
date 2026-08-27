@@ -45,7 +45,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-27T14:40:00+02:00
+updated: 2026-08-27T19:50:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -657,7 +657,7 @@ multi-hit eligibility baselines.
 - [x] **U14.2 Deferred callbacks:** node ownership, unlink timing, cancellation, and retained contexts.
 - [x] **U14.3 Typed barrier API:** action, actor-ready, camera/summon, and escape barriers.
 - [x] **U14.4 Minimal deterministic scheduler:** immediate or scripted completion for headless/domain tests.
-- [x] **U14.5 Relays `0x70`, `0x71`, `0x74`:** payload, child-task state, completion marker, and action-latch interaction. `0x70`/`0x74` live; `0x71` confirmed-static (spawn cadence G16).
+- [x] **U14.5 Relays `0x70`, `0x71`, `0x74`:** payload, child-task state, completion marker, and action-latch interaction. `0x70`/`0x74` live; `0x71` confirmed-static (host insert is campaign residual, not G16).
 - [x] **U14.6 Sealed native-presentation adapter:** if P1–P3 use `NCOMP`, keep file callbacks, BdLink, sequences, camera, effects, and draw as one owner; expose typed read-only `PresentationSignals` for camera-busy, actor-idle, file/effect busy, and task completion, and never pass replacement task contexts into native lists. **Includes Magic action-sequence context** (live 2026-08-18 Fire: guessed `enqueue_magic` + G07 tail → native exception). Do not grow `TemporaryG09NcompAdapter` for Magic.
 - [x] **U14.7 Half-ownership detector:** reject mixed task contexts, allocators, or busy flags across native/replacement owners.
 
@@ -669,8 +669,8 @@ multi-hit eligibility baselines.
 
 > [!success] G14 live-promoted 2026-08-26
 > Session P `PASS`/`Detached` and Session N `FAIL_EXPECTED` on DLL
-> `363d91cf…`. `[promotion.G14].satisfied = true`. `0x71` spawn cadence is
-> G16. See
+> `363d91cf…`. `[promotion.G14].satisfied = true`. Host `0x71` insert is
+> a campaign residual, not a G16 reopen. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]].
 
 ## 8. AI and Advanced Gameplay Groups
@@ -722,16 +722,20 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U17.1 On-hit/death reaction:** last-attacker fields, reaction type, section dispatch, and per-hit ordering.
-- [ ] **U17.2 Player Counter:** ability gate, last-attacker target, pending insertion, and incapacitation.
-- [ ] **U17.3 Cover/Return Damage decision:** close the section-2 trigger timing, decide whether Cover/Return Damage fires, update the accumulator, and emit a redirect/follow-up intent; final target application belongs to U08.6.
-- [ ] **U17.4 Auto-recover:** HP thresholds, ability/item availability, target, and resource consumption.
-- [ ] **U17.5 Engine-special group 0:** action types, priority, and incapacitation exemption.
-- [ ] **U17.6 Runtime Odin/Gilgamesh/Phoenix scheduling:** consume initialized story/timer state, perform recurring/runtime gates, RNG, variant choice, and Phoenix wipe interception; one-shot battle-init rolls belong to U22.7 and action-profile resolution belongs to U18.7.
-- [ ] **U17.7 Angelo:** auto, turn-counter, damage-counter, cooldown, and variants.
-- [ ] **U17.8 Regen/Doom integration:** connect G10 periodic/terminal actions to arbitration and callbacks.
+- [x] **U17.1 On-hit/death reaction:** last-attacker fields, reaction type 2/3, section 4 then staged 2/3. Offline 2026-08-27.
+- [x] **U17.2 Player Counter:** ability gate, last-attacker target, ordinary G07 request, incapacitation. Live Session P 2026-08-27 (PID 25280).
+- [x] **U17.3 Cover/Return Damage decision:** Cover is G08 `0x48EB90` (SQ-G17-001 closed). Return follow-up fail-closed (SQ-G17-005).
+- [x] **U17.4 Auto-recover:** `max-current`, thresholds 200/1000, items 3→1,2,4,5,9, rollback. Offline 2026-08-27.
+- [x] **U17.5 Engine-special group 0:** ids 2/3/5/6/7/8, priority 0→1→2, incapacitation exemption. Offline 2026-08-27.
+- [x] **U17.6 Runtime Odin/Gilgamesh/Phoenix scheduling:** runtime gates only; init rolls U22.7; resolve U18.7. Offline 2026-08-27.
+- [x] **U17.7 Angelo:** auto/turn/damage variants 11/12/13. Offline 2026-08-27.
+- [x] **U17.8 Regen/Doom integration:** existing G10 enqueue once; magnitude fail-closed (SQ-G17-006). Offline 2026-08-27.
 
 **Test pack:** hit-survive, KO reaction, Counter, Cover, Return Damage, auto-recover, each special family, and queue priority.
+
+> [!success] G17 live-promoted Counter 2026-08-27
+> Session P collector `PASS` then `Detached` on DLL `6326950a…` / PID 25280.
+> Cover, Regen, and Return Damage live stay later.
 
 **Gate G17:** all non-menu action channels are distinguished and use no native battle dispatcher.
 

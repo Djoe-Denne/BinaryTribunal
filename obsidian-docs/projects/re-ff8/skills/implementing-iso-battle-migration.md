@@ -40,7 +40,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: Full design and execution status through G14 sealed presentation live promotion. G12 is semantic Item. G13 is Draw Cast/Stock. 0x71 spawn cadence is G16.
+summary: Full design and execution status through G17 party Counter. G12 is semantic Item. G13 is Draw Cast/Stock. 0x71 host insert is campaign residual, not G16.
 provenance:
   extracted: 0.76
   inferred: 0.21

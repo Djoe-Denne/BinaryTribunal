@@ -213,7 +213,7 @@ visible. See
 
 Typed barriers and the sealed native owner are live-promoted.
 [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]].
-`0x70`/`0x74` were walked live; `0x71` is `confirmed-static` (spawn cadence G16).
+`0x70`/`0x74` were walked live; `0x71` is `confirmed-static` (host insert later, not G16).
 Full table: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G14.
 
 | Concern | Owner | Must not |

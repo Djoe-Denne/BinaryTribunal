@@ -15,13 +15,13 @@ sources:
   - projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation.md
 summary: >-
   G16 live-promoted: paused c0m044 UseAbility published a G07 pending
-  ActionRequest, native consume showed damage, Detached cleanup.
+  ActionRequest. Native consume is operator-only. Detached cleanup.
 provenance:
   extracted: 0.94
   inferred: 0.04
   ambiguous: 0.02
 created: 2026-08-27T14:40:00+02:00
-updated: 2026-08-27T17:30:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # P1 G16 Enemy AI Actions — Live-Promoted
@@ -49,9 +49,9 @@ frame bytes `83ec1c53568b74242833db399ea80b00`. The Odin/Gilgamesh lab
 guard stayed armed. First `FF8Iso_Shutdown` was `BUSY`; one frame
 boundary then one retry reached `Detached`. Process **40964** lived.
 
-Operator HUD/3D/actors stayed normal. After the frame-boundary unpause,
-the published request was consumed natively: the enemy attacked and
-damage numbers displayed.
+Operator report only: HUD/3D/actors stayed normal. After the
+frame-boundary unpause, native G07 consumed the pending request and
+damage numbers displayed. That observation is not the live claim.
 
 Canonical envelopes: `2080b5c6…` (post-suite) and `2edb4805…`
 (post-shutdown).
@@ -80,7 +80,8 @@ owner: [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-v
   (same lesson as G15 `*monster_ai_section`). Table is 380 bytes.
   Abilities live at `+0x34`, stride 4, index `16*difficulty+idx`. Named
   `EnemyAI_LookupAbilityByIndex` (`0x482C90`) is not the lookup; the
-  real load is inline at `0x4897F9`.
+  real load is inline at `0x4897F9`. Session P r2 imported the live
+  table. No further probe.
 - **SQ-G16-002** `confirmed-static`: walker slots **3..7**, occupied =
   `flag_data & 1`. No Session S. Host `0x71` insertion stays out.
 - **SQ-G16-003** closed offline: MAGIC/ITEM fold via default-target bits;
@@ -120,12 +121,15 @@ G14 DLL `363d91cf…` and G15 DLL `fcc8365e…` plus envelopes
 
 ## Still later
 
-G17 reactions, G18 GF gameplay, persist savemap, and host spawn list
-insertion. `0x71` cadence remains `confirmed-static`.
+G17 party Counter is live-promoted. G18 GF gameplay and persist savemap
+remain later. Host `0x71` insert is a campaign residual, not a G16
+reopen. `0x71` cadence remains `confirmed-static`. Cover/Regen live
+stay later.
 
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]]
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

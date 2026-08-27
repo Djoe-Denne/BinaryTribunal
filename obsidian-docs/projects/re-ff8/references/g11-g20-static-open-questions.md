@@ -13,13 +13,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-summary: SQ-Gxx register. SQ-G15-001 is corpus-closed. SQ-G16-001/003 are closed; SQ-G16-002 walker is confirmed-static. 0x71 host insert stays later.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+summary: SQ-Gxx register. SQ-G17-001 Cover timing is closed. Session P Counter is live-promoted.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-27T14:40:00+02:00
+updated: 2026-08-27T20:20:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -203,9 +204,9 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - claim: topology of relays `0x70/0x71/0x74` is static-strong; frame-accurate idle/busy is not.
 - evidence_for: Dispatch cases `'p'/'q'/'t'`; Session P walked `0x70` and `0x74` live (`phase=221`); G09 used `0x70` as a presentation signal.
 - evidence_against: worker stalls call `sub_508580` with different immediates; counts are presentation. Fire never `push 71h`.
-- missing_discriminator: none for G14 typed barriers. Native `0x71` list duration during spawn is G16.
+- missing_discriminator: none. Host `0x71` insert is a campaign residual, not a G16 gate.
 - next_static_probe: none.
-- eventual_live_probe: optional G16 spawn (Ifrit 094 / `ENTER_MONSTER`) if a live `0x71` node is wanted.
+- eventual_live_probe: optional spawn only if a named `0x71` duration A/B is written. Not required to keep G14 or G16 promoted.
 - resolution: closed 2026-08-26. `0x70`/`0x74` live on Session P. `0x71` reclassified `confirmed-static` from `0x502F30` plus six AI enqueue sites (`0x1F`/`0x34`/`0x3B`/`0x1B`/`0x35`). Same persist machine as `0x70` (`return 8` until `node+1=0xFF`). Do not claim a live `0x71` walk.
 
 ### SQ-G14-002 — Magic action-sequence NCOMP (not G11)
@@ -244,8 +245,8 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - evidence_against: named `EnemyAI_LookupAbilityByIndex` `0x482C90` inserts text tasks and is not the lookup.
 - missing_discriminator: none.
 - next_static_probe: none.
-- eventual_live_probe: Session P import of live `*monster_info_section`.
-- resolution: closed 2026-08-27. Codec rejects wrong size/stride.
+- eventual_live_probe: done. Session P r2 imported live `*monster_info_section` (PID 40964).
+- resolution: closed 2026-08-27. Codec rejects wrong size/stride. Live import confirmed on r2.
 
 ### SQ-G16-002 — free-slot walker vs host 0x71
 
@@ -258,7 +259,7 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - missing_discriminator: none for promotion of UseAbility emit.
 - next_static_probe: none.
 - eventual_live_probe: optional spawn fight only if a named `0x71` duration discriminant is written.
-- resolution: walker closed offline. Session S stays closed. Host `0x71` insertion remains later.
+- resolution: walker closed offline. Session S stays closed. Host `0x71` insertion is a campaign residual and does not reopen G16.
 
 ### SQ-G16-003 — LABEL_375 target fold
 
@@ -275,16 +276,56 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 
 ### SQ-G17-001 — Cover trigger timing
 
-- status: live-required
-- confidence: 0.35
+- status: confirmed-static+live-prior
+- confidence: 0.90
 - affects: G08, G17
-- claim: U08.6 applies an already-selected redirect; whether Cover fires is G17 and not closed statically.
-- evidence_for: milestones split; G09 Cover fail-closed.
-- evidence_against: none that closes timing.
-- missing_discriminator: on-hit section 2 vs post-HP-commit order.
-- next_static_probe: ApplyDamageOrHeal Cover call vs section 2 dispatch order.
-- eventual_live_probe: Cover proc with HP snapshots.
-- resolution:
+- claim: Cover is selected in `BattleAction_SelectCoverRedirect` `0x48EB90` during G08, before G09 apply. U08.6 only applies that redirect.
+- evidence_for: CFG of `0x48EB90` (unique xref `0x48E8E1`); capture `g08-native-cover-redirect-pre-g09-2026-08-09.json`.
+- evidence_against: ApplyDamage does not select Cover; party section 2 does not either.
+- missing_discriminator: none for Cover timing.
+- next_static_probe: none.
+- eventual_live_probe: none. Session O stays closed. Session P Counter is live-promoted. Return Damage follow-up is SQ-G17-005.
+- resolution: closed 2026-08-27. See `C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md`.
+
+### SQ-G17-002 — CHARA_ABILITIES width
+
+- status: confirmed-offline
+- confidence: 0.92
+- affects: G11, G17
+- claim: storage is `u32[3]`, stride `0x1D0`, span `0x3A4`. G17 bits are Counter `0x4`, Return `0x8`, Cover `0x10`, AutoRecover `0x40000`. G11 keeps the low-byte reader.
+- resolution: closed 2026-08-27. No live required.
+
+### SQ-G17-003 — auto-recover quantity
+
+- status: confirmed-offline
+- confidence: 0.90
+- affects: G17
+- claim: quantity is `max_hp-current_hp`; thresholds 200/1000; items `3→1,2,4,5,9`; Item command 4 self; EQUAL decrement; helpers specified not called.
+- resolution: closed 2026-08-27. Rollback covered by `test_g17`.
+
+### SQ-G17-004 — synthetic 5–8 vs G18
+
+- status: recognition
+- confidence: 0.70
+- affects: G17, G18
+- claim: G17 owns trigger/schedule only. Init rolls are U22.7. Payload resolve is U18.7. No ninth `.dat` blob.
+- resolution: no GF/Angelo live session until a named A/B exists.
+
+### SQ-G17-005 — Return Damage follow-up
+
+- status: fail-closed
+- confidence: 0.80
+- affects: G17
+- claim: bit `0x8` accumulates; provenance blocks bounce. Follow-up command is not resolved in G17.
+- resolution: `ReturnDamageFollowUpUnresolved`. No Session O.
+
+### SQ-G17-006 — periodic magnitude
+
+- status: fail-closed
+- confidence: 0.85
+- affects: G10, G17
+- claim: Regen/Doom keep the existing G10 enqueue. G17 does not invent `max_hp/16` or HP=0.
+- resolution: `UnresolvedPeriodicMagnitude`. No Session S.
 
 ### SQ-G19-001 — Card/Devour/Mug row semantics
 

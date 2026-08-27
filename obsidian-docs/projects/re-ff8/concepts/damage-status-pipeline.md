@@ -28,7 +28,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T10:15:00+02:00
+updated: 2026-08-27T18:30:00+02:00
 ---
 
 # Damage And Status Pipeline
@@ -142,7 +142,7 @@ Monster reactions are AI-dispatched from inside `Battle_ApplyDamageOrHeal`, **no
 - **KO** (enemy target): rewards (`computeCardDrop`, `ComputeProbabilityGetItemMug`, `ComputeGFLevelAndApAfterKill`, `NumKills++`); set `target_reaction_type = 3`, gated by `flag_data & 0x20` and not EJECT.
 - **party KO**: `Angelo_DamageCounter_ReverseCheck` (Angelo Reverse), `NumKOs++`.
 
-The richer reaction/turn dispatch — counter (section 2 with the player Counter/Cover/Return-Damage/Angelo logic), death (section 3), and specials (sections 5–8) — is driven by `EnemyAI_PrepareTurnAction`. Exec group 0 carries only engine specials (Odin/Gilgamesh/Phoenix). Full model in [[projects/re-ff8/concepts/command-action-pipeline]].
+The richer reaction/turn dispatch — counter (section 2: player Counter / auto-recover / Angelo, plus monster counter script), death (section 3), and synthetic specials (5–8) — is staged after section 4. Cover is selected in G08 (`0x48EB90`), not in party section 2. Exec group 0 carries engine specials (Odin/Gilgamesh/Phoenix) and the deferred 2/3 callbacks. Full model in [[projects/re-ff8/concepts/command-action-pipeline]]. Offline G17: [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 ## Related
 
