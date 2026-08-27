@@ -12,15 +12,16 @@ sources:
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/references/enemy-ai-opcodes.md
   - projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation.md
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
 summary: >-
-  G15 live-promoted: paused c0m044 Init STOP then Turn UseAbility shadow, zero
-  native AI VM calls, Detached cleanup. Action emission stays G16.
+  G15 live-promoted: paused c0m044 Init/Turn shadow. native_ai_vm_calls
+  stays 0 until an optional EnemyAI_VM hook exists.
 provenance:
-  extracted: 0.94
-  inferred: 0.04
+  extracted: 0.92
+  inferred: 0.06
   ambiguous: 0.02
 created: 2026-08-27T13:30:00+02:00
-updated: 2026-08-27T20:20:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # P1 G15 Enemy AI Control — Live-Promoted — 2026-08-27
@@ -62,8 +63,13 @@ presentation owner: [[projects/final-fantasy-viii-reimaginated/references/p0-g14
 - `core/` owns widths, IF/JUMP, subjects, targets, variables, and stop reasons.
 - `application::run_enemy_ai_control` copies world/RNG and restores on cancel.
 - Runtime `dat_section8_codec` is the only file-layout reader.
-- `Runtime::run_g15_ai_control_suite` is a one-shot P1 suite: `BattleActive` +
+- `Runtime::run_g15_ai_control_suite` lives in `g15_ai_control.cpp` after the
+  2026-08-27 laboratory split. One-shot P1 suite: `BattleActive` +
   `IS_BATTLE_PAUSED`, Init then Turn, witness, disarm. No G15 NCOMP adapter.
+  `native_ai_vm_calls` is measured, not stamped. It stays 0 until an optional
+  `EnemyAI_VM_ExecuteScript` hook exists; that leftover is operator-owned.
+  See [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
+  and [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
 
 The monster DAT header is `u32 count` then `count` section offsets. Battle
 script / AI is file offset `[7]`. Live section 8 is `*monster_ai_section`,
@@ -95,4 +101,6 @@ identifies the loaded script.
 
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

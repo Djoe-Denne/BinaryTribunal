@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-27T17:30:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-27T21:30:00+02:00*
 
 ## Concepts
 
@@ -21,7 +21,8 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/limit-break-architecture]] — Crisis-level gate, ordinary pending entry path, and per-character limit-family divergence. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15–G17 live; G17 party Counter reuses OnHit then G07 emit. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15–G17 live; optional EnemyAI_VM hook leftover. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] — Six-cluster map of ff8iso_runtime; unique Runtime; NCOMP only G06/G07/G09. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw resolve id 6, QueueOrStore aux 9/10, live-promoted Cast/Stock, MagicList presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] — GF command IDs, kernel IDs, effect IDs, MagicList callbacks, shared cinematic globals, and special triggers. ( #ff8 #gforce #battle-system #concept)
 - [[projects/re-ff8/concepts/gforce-catalog-and-families]] — GF catalog, structural families, runtime evidence, and Cerberus/Ifrit findings. ( #ff8 #gforce #reverse-engineering #concept)
@@ -33,7 +34,8 @@ title: Wiki Index
 
 ## Skills
 
-- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G13 Draw Cast/Stock live promotion; Magic/Draw animation deferred to G14. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G17 party Counter; runtime laboratories place units inside ff8iso_runtime. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]] — Where kernel, cadence, seams, labs, codecs, and NCOMP live inside ff8iso_runtime. ( #ff8 #battle-system #testing #skill)
 - [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for bootstrap, runtime verdicts, presentation barriers, callback-BUSY frame-boundary retry, safe shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
@@ -91,19 +93,22 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] — G12 is live-promoted-semantic: Potion, Meteor Stone, Mega Phoenix and Friendship are detached PASS; Pinion/Gysahl stay semantic. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] — G13 is live-promoted: PID 22956 Cast+Stock collector-PASS; pending 0x06 stays a runtime byte; presentation is G14. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]] — G14 live-promoted: P PASS/Detached and N FAIL_EXPECTED on DLL 363d91cf; 0x70/0x74 live; 0x71 confirmed-static, host insert later (not G16). ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] — G15 live-promoted: paused c0m044 Init/Turn read-only shadow, zero native AI VM calls, Detached cleanup. ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] — G16 live-promoted: paused c0m044 UseAbility pending emit, Detached cleanup. Native consume is operator-only. ( #ff8 #battle-system #testing #reverse-engineering #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] — G17 live-promoted: paused party Counter pending emit, native consume, Detached cleanup. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] — G15 live-promoted: paused c0m044 Init/Turn shadow; native_ai_vm_calls stays 0 until an optional VM hook. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] — G16 live-promoted: UseAbility pending emit; suite restore_ok means preimage armed, not in-suite restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] — G17 live-promoted party Counter; measured VM counters; shared G16 pending restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G17 map: G11–G17 live-promoted; G17 claim is party Counter. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G17 map; live JSON tracked; root suite bins purged; G17 is party Counter. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
 ## Journal
 
+- [[journal/2026-08-27]] — Session: G14–G17 red team, measured restore_ok/VM counters, runtime laboratory split. ( #ff8 #battle-system #testing #reference)
+
 ## Projects
 
-- [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. ( #ff8 #reverse-engineering #battle-system #project)
+- [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. Remaster G14–G17 live; runtime laboratories split. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)
 - [[projects/ffscriptloader/ffscriptloader]] — Hardened Win32/x86 injection foundation used by the battle remaster. ( #reverse-engineering #testing #project)
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — G05–G13 are closed for owned semantic slices; G12 is live-promoted-semantic; G13 is Draw Cast/Stock. ( #ff8 #battle-system #reverse-engineering #project)
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — G05–G17 live-promoted; G17 is party Counter only; runtime split into six laboratories. ( #ff8 #battle-system #reverse-engineering #project)

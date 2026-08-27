@@ -55,16 +55,17 @@ sources:
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  G05–G13 are closed for owned semantic slices. G12 is live-promoted-semantic;
-  G13 is Draw Cast/Stock. Presentation remains G14.
+  G05–G17 live-promoted. G17 is party Counter only. Runtime split into
+  six laboratories; no Session P recapture.
 provenance:
-  extracted: 0.93
-  inferred: 0.05
+  extracted: 0.90
+  inferred: 0.08
   ambiguous: 0.02
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -208,6 +209,19 @@ Completed foundations include:
 > G14. See
 > [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
 
+> [!success] G14–G17 live-promoted — 2026-08-26/27
+> G14 sealed presentation on DLL `363d91cf…`. G15 paused `c0m044` control
+> shadow on `fcc8365e…`. G16 UseAbility pending emit on `92419780…`. G17
+> party Counter on `6326950a…`. Cover/Regen/Return stay later. Historical
+> envelopes stay historical after the same-day witness and runtime-split
+> fixes. See
+> [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]],
+> [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]],
+> [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]],
+> [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]],
+> and
+> [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
+
 > [!note] G11/G12 complete-family candidate — offline only
 > The authenticated 57-row Magic table and 32 battle Items now have exhaustive
 > offline dispatch: every non-sentinel row resolves directly or emits a typed
@@ -236,7 +250,7 @@ through native Attack, and both HP authorities remained equal. See
 
 ## Operational snapshot — read this first
 
-The project currently has eleven distinct levels. They must not be conflated:
+The project currently has fourteen distinct levels. They must not be conflated:
 
 1. **Live pass-through harness — validated.** The frame hook can observe a
    battle, the module-switch hook can observe callback installation, and the
@@ -281,16 +295,31 @@ The project currently has eleven distinct levels. They must not be conflated:
     22956 committed Stock `0→9` then Cast HP `1710→1155` without consuming
     stock. Pending `0x06` is a runtime byte. See
     [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]].
+11. **G14 sealed presentation — live validated.** Session P `PASS`/`Detached`
+    and Session N `FAIL_EXPECTED` on DLL `363d91cf…`. Relays `0x70`/`0x74`
+    live; `0x71` confirmed-static. See
+    [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]].
+12. **G15 AI control — live validated.** Paused `c0m044` Init `STOP` / Turn
+    `UseAbility` shadow on DLL `fcc8365e…`. Zero native AI VM calls until
+    an optional `EnemyAI_VM_ExecuteScript` hook exists. See
+    [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]].
+13. **G16 AI actions — live validated.** UseAbility pending emit on DLL
+    `92419780…`. Native consume is operator-only. Suite `restore_ok` means
+    the pending preimage is armed, not an in-suite rollback. See
+    [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]].
+14. **G17 reactions — live party Counter.** Paused Counter emit on DLL
+    `6326950a…`. Cover is G08 `0x48EB90`. Regen/Return stay later. See
+    [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 The practical mental model is: G06 owns readiness cadence, G07 owns command
 selection, G08 owns target fan-out, G09 owns Attack `0x01` HP/event commit,
 G10 owns named status/timer application on that Attack, G11 owns live Fire
 and a complete offline Magic transaction, G12 owns representative Item
-spines plus a complete offline Item transaction, and G13 owns live Draw
-Cast/Stock. Native presentation stays a
-narrowly audited compatibility unit. P1 AttackSlice plus the G10 status slice
-plus the G11 Fire semantic slice plus G12/G13 semantic promotions are the
-versioned G09–G13 claims.
+spines plus a complete offline Item transaction, G13 owns live Draw
+Cast/Stock, G14 owns the sealed presentation barrier, G15 owns AI control
+shadow, G16 owns AI pending emit, and G17 owns party Counter emit.
+Physical runtime TUs are laboratories, not new gates:
+[[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]].
 
 > [!note] Post-G09 repo layering — 2026-08-15, offline
 > `ff8iso_core` no longer links `ff8iso_abi`. `BattleSession` accepts
@@ -327,7 +356,7 @@ The project separates:
 - `abi/` — packed legacy mirrors, address maps, and compatibility images;
 - `core/` — deterministic host-independent battle state and future rules;
 - `application/` — battle session and use-case orchestration;
-- `runtime-x86/` — host translation: codecs, `TemporaryGxxNcompAdapter`, process memory, detours, lifecycle, and evidence;
+- `runtime-x86/` — host translation split into six laboratory clusters (kernel, cadence, command seams, commit labs, G14, P1 AI): codecs, `TemporaryG06/G07/G09NcompAdapter` only, process memory, detours, lifecycle, and evidence; see [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]];
 - `integration/ffscriptloader/` — typed adapter over [[projects/ffscriptloader/ffscriptloader]];
 - `lift/` — strategy manifests and contained lifted representatives;
 - `tests/` and `evidence/` — offline contracts, in-process suites, and promotion artifacts.
@@ -364,7 +393,10 @@ See [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]
 - Maintain the G03/G05 regression artifacts when the DLL code changes; the
   recorded strict G03 and G05 candidates have distinct hashes.
 - Native Magic/Item/Draw presentation ABI, downstream special-intent execution,
-  Angel Wing, GF, reactions and rewards remain fail-closed or later-gate work.
+  Angel Wing, GF, Cover/Regen/Return Damage, and rewards remain fail-closed or
+  later-gate work. G17 party Counter is live; do not recapture Session P after
+  a runtime TU move. See
+  [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
 - Keep `BattleUI_RenderHud` as the proven G06 HUD compatibility call and retain
   the G07 file-callback/BdLink tail as one audited presentation unit; native HUD
   domain logic, ATB handback and native command writers remain forbidden.
@@ -376,6 +408,12 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 
 ## Related
 
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
+- [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]

@@ -124,22 +124,27 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-suite-2026-08-27.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-shutdown-2026-08-27.json
-summary: Canonical G00–G17 map. G11–G17 are live-promoted. G17 claim is party Counter only.
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
+summary: >-
+  Canonical G00–G17 map. Live JSON is tracked; root suite bins are
+  purged. G17 claim is party Counter only.
 provenance:
-  extracted: 0.97
-  inferred: 0.02
+  extracted: 0.96
+  inferred: 0.03
   ambiguous: 0.01
 lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-27T20:20:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
 
 > [!info] Source boundary
 > The implementation repository keeps the immutable Markdown reports and machine-readable envelopes. This page is their compiled map inside Obsidian; it does not replace or rewrite the raw evidence.
+>
+> After the 2026-08-27 red team, `evidence/battle-iso/*.json` is tracked in git (including G14–G17 canonical envelopes). Root `bootstrap-*.bin` / `suite-*.bin` are generated payloads and stay out of git. See [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
 
 ## Promoted Validation Chain
 
@@ -265,6 +270,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

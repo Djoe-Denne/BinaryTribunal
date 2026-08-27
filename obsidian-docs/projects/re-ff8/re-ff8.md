@@ -3,14 +3,16 @@ title: RE FF8
 category: project
 tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
-sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl]
-summary: Project overview for FF8 PC battle-system reverse engineering, including live-proven frame ownership, takeover boundaries, and links to the injector and remaster implementation.
+sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl]
+summary: >-
+  FF8 PC battle RE overview. Remaster G14–G17 live; runtime laboratories
+  split; injector and ISO layer law linked.
 provenance:
-  extracted: 0.78
-  inferred: 0.18
+  extracted: 0.76
+  inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # RE FF8
@@ -24,7 +26,7 @@ The wiki separates two layers:
 
 ## Implementation Projects
 
-- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G11 are live-closed; P1 claims AttackSlice plus the G10 status slice plus G11 Fire semantic. Magic animation is deferred to G14. A static G11–G20 map exists in the ledger.
+- [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G17 are live-promoted. G17 claim is party Counter only. Runtime is six laboratory clusters, not a second Runtime service. See [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] and [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]] — Promoted offline/live evidence for G00–G04, exact detour rollback, and process survival.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation]] — Offline P0.5 evidence, suite contracts and retained live blockers for G03–G06.
@@ -78,6 +80,7 @@ The wiki separates two layers:
 ## Skills, Prompts, And Tools
 
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]] — In-process x86 migration architecture, one-way `core` → `application` → `runtime` layer law, fidelity profiles, and gated execution.
+- [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]] — Where kernel, cadence, seams, labs, codecs, and NCOMP live inside `ff8iso_runtime`.
 - [[projects/re-ff8/skills/implementing-wicked-ff8-bridge]] — Procedural implementation, evidence, parity, rollback, and soak workflow. Consumes ISO semantic events; does not own battle-domain NCOMP.
 - [[projects/re-ff8/skills/ff8-live-validation-operations]] — Transversal Windows, IDA MCP, injection, candidate-hash and runtime-evidence rules for every future live batch.
 - [[projects/re-ff8/concepts/ff8re-hypothesis-runner]] — Repeatable `ff8re` runner workflow for IDA MCP validation.

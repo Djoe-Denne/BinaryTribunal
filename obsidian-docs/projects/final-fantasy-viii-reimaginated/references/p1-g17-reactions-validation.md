@@ -13,15 +13,16 @@ sources:
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/concepts/command-action-pipeline.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation.md
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
 summary: >-
-  G17 live-promoted: paused party Counter published command 1 / arg 0 /
-  mask 0x10, native consume killed the foe, Detached cleanup.
+  G17 live-promoted party Counter. native_reaction_vm_calls is measured.
+  Shared G16 pending restore. No Session P recapture.
 provenance:
-  extracted: 0.94
-  inferred: 0.04
+  extracted: 0.90
+  inferred: 0.08
   ambiguous: 0.02
 created: 2026-08-27T18:30:00+02:00
-updated: 2026-08-27T19:50:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # P1 G17 Reactions — Live-Promoted
@@ -42,8 +43,14 @@ before mutation, then publishes an ordinary G07 `ActionRequest`. Session P
 used a paused party with Counter junctioned. Slot **0**,
 `last_attacker=4`, command `1` / argument `0` / mask `0x10`.
 `pending_writes=1`. `forced_enqueues=0`. `native_reaction_vm_calls`,
-`forbidden_calls`, and `write_guard_violations` stayed 0. The source
-Turn counts as `native_source_action_calls=1` only. Memory hashes
+`forbidden_calls`, and `write_guard_violations` stayed 0. After the
+2026-08-27 red-team fix those VM counters are **measured**, not stamped.
+The suite lives in `g17_reactions.cpp`. G17 reuses G16's pending
+preimage; do not invent a second restore buffer. A runtime TU move is
+not a Session P recapture. The source
+Turn counts as `native_source_action_calls=1` only.
+See [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+and [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]. Memory hashes
 `0x162afd0a` → `0x4ab17ade` (named pending delta). HP stayed
 `9652/9652`. Shutdown restored the pending preimage (`restore_ok=1`)
 and the frame bytes `83ec1c53568b74242833db399ea80b00`. The
@@ -108,6 +115,8 @@ Cover/Regen, and Return Damage follow-up. `0x71` cadence remains
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]

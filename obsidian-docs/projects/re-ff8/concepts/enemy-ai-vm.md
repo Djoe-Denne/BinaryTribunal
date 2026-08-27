@@ -15,13 +15,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
-summary: Enemy `.dat` section 8 VM. G15–G17 live; G17 party Counter reuses OnHit then G07 emit.
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
+summary: >-
+  Enemy `.dat` section 8 VM. G15–G17 live. Optional EnemyAI_VM hook
+  leftover; native_ai_vm_calls stays 0 until hooked.
 provenance:
-  extracted: 0.90
-  inferred: 0.06
+  extracted: 0.88
+  inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T19:50:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # Enemy AI VM
@@ -125,9 +128,10 @@ Both return dispatch code `8` (child task spawned, relay persists until the chil
 - AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
 - Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
-- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert is a campaign residual, not a G16 reopen.
+- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert is a campaign residual, not a G16 reopen. Runtime suites live in `g15_ai_control.cpp` / `g16_ai_actions.cpp` / `g17_reactions.cpp`: [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]].
 
 ## Open Questions
 
 - ~~Several opcodes still need exact semantics from interpreter structure~~ **Closed 2026-06-14 (static):** all 61 opcodes decoded (operands + effect + RNG + state R/W + action emission) in [[projects/re-ff8/references/enemy-ai-opcodes]]. Residual is *gameplay labelling* of the random-magic readers (`0x29/0x2E`) and a few IF subjects against a real monster-script corpus.^[ambiguous]
 - ~~Relay `0x70` and `0x71` semantics still need live observation~~ **Closed 2026-06-13 (static):** `0x70` = camera/presentation barrier, `0x71` = deferred actor-ready callback (see [Relay Semantics](#relay-semantics-0x70-and-0x71)).
+- Hook `EnemyAI_VM_ExecuteScript` remains an operator leftover. `native_ai_vm_calls` is measured and stays 0 until that hook exists. Not a G15 reopen. See [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].

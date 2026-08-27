@@ -40,13 +40,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-holdfix-potion-post-shutdown-2026-08-19.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
-summary: Full design and execution status through G17 party Counter. G12 is semantic Item. G13 is Draw Cast/Stock. 0x71 host insert is campaign residual, not G16.
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
+summary: >-
+  Design through G17 party Counter. Runtime laboratories place kernel,
+  cadence, seams, and labs inside ff8iso_runtime.
 provenance:
   extracted: 0.76
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -242,6 +245,12 @@ flowchart TB
 - no `std::string`, STL container, exception, RTTI object, or C++ virtual class crosses an original-code boundary.
 
 `ff8iso_core` must not link `ff8iso_abi`. `ff8iso_runtime` links `ff8iso_application` **and** `ff8iso_abi`. `tools/validate_contracts.py` `validate_layer_boundary` scans every `core/` and `application/` source.
+
+Where a unit lives **inside** `ff8iso_runtime` is
+[[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]].
+`class Runtime` stays one process singleton. NCOMP remains
+`TemporaryG06/G07/G09` only. Cluster map:
+[[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]].
 
 > [!tip] Canonical state versus compatibility image
 > `core::BattleState` is the canonical state. Legacy-shaped globals are a compatibility image decoded/encoded only in runtime. Do not let `BattleSession` or core alias raw FF8 memory, or the replacement will inherit hidden lifetime and ownership bugs.
@@ -865,7 +874,7 @@ When a unit encounters an unproven ABI, offset, indirect target, allocator, or f
 
 The detailed units, fixtures, gates, profile ownership, and dependency graph live in [[projects/re-ff8/references/battle-iso-migration-milestones]].
 
-Stop the change if `#include "ff8iso/abi/` or `abi::` appears in `core/` or `application/`. Decode in runtime, then pass `BattleState`. Every new NCOMP symbol goes in a new or existing `TemporaryGxxNcompAdapter`; do not inline `find_symbol` in `runtime.cpp` for those names.
+Stop the change if `#include "ff8iso/abi/` or `abi::` appears in `core/` or `application/`. Decode in runtime, then pass `BattleState`. Every new NCOMP symbol goes in `TemporaryG06/G07/G09NcompAdapter`; do not inline `find_symbol` in kernel `runtime.cpp` for those names. Suite bodies live in the gate TU, not in the sealed presentation adapter.
 
 ## 19. Mandatory test matrix
 
@@ -922,6 +931,9 @@ The migration is complete only when:
 - [[projects/re-ff8/references/battle-loop-iso-readiness]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]
 - `.agents/skills/implementing-iso-layer-boundary/SKILL.md` (G10+ layer law)
+- [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]]
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
 - [[projects/re-ff8/concepts/battle-lifecycle]]
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]

@@ -13,15 +13,16 @@ sources:
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/references/enemy-ai-opcodes.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation.md
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
 summary: >-
-  G16 live-promoted: paused c0m044 UseAbility published a G07 pending
-  ActionRequest. Native consume is operator-only. Detached cleanup.
+  G16 live-promoted: UseAbility pending emit. Suite restore_ok means
+  preimage armed. No in-suite restore after native consume.
 provenance:
-  extracted: 0.94
-  inferred: 0.04
+  extracted: 0.92
+  inferred: 0.06
   ambiguous: 0.02
 created: 2026-08-27T14:40:00+02:00
-updated: 2026-08-27T20:20:00+02:00
+updated: 2026-08-27T21:30:00+02:00
 ---
 
 # P1 G16 Enemy AI Actions — Live-Promoted
@@ -45,8 +46,14 @@ row 32). `pending_writes=1` and `host_write_allowlist_count=1`.
 `native_ai_vm_calls`, `forbidden_calls`, and `write_guard_violations`
 stayed 0. Memory hashes `0xa2ad5d1d` → `0x1f47a017` (named pending
 delta). Shutdown restored the pending preimage (`restore_ok=1`) and the
-frame bytes `83ec1c53568b74242833db399ea80b00`. The Odin/Gilgamesh lab
-guard stayed armed. First `FF8Iso_Shutdown` was `BUSY`; one frame
+frame bytes `83ec1c53568b74242833db399ea80b00`. After the 2026-08-27
+witness fix, suite `restore_ok` means the preimage is **armed**, not
+that native consume was rolled back in-suite. Do not add an in-suite
+pending restore after emit-then-native-consume. G17 shares
+`g16_pending_preimage_` and one `restore_g16_pending_preimage`. The
+Odin/Gilgamesh lab
+guard stayed armed. See
+[[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]. First `FF8Iso_Shutdown` was `BUSY`; one frame
 boundary then one retry reached `Detached`. Process **40964** lived.
 
 Operator report only: HUD/3D/actors stayed normal. After the
@@ -130,6 +137,8 @@ stay later.
 
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]]
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]
 - [[projects/re-ff8/references/g11-g20-static-open-questions]]
