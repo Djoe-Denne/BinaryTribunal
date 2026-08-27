@@ -26,13 +26,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
-summary: Static G11–G20 map with live addenda. G11–G15 are live-promoted. G15 is Init/Turn shadow only. Action emission and 0x71 spawn cadence are G16.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+summary: Static G11–G20 map with live addenda. G11–G16 are live-promoted. Host 0x71 insert and G17 reactions remain later.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-27T13:50:00+02:00
+updated: 2026-08-27T17:30:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -40,7 +42,7 @@ updated: 2026-08-27T13:50:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. G16–G20 stay later.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. G17–G20 stay later.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -55,7 +57,7 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | no global pending `0x06` enum |
 | G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | G15 AI; G16 spawn cadence |
 | G15 AI control | `live-promoted` | 0.90 | U15.1–U15.7 + paused `c0m044` Init/Turn shadow | G16 action emission |
-| G16 AI actions | `mapped` | 0.55 | U16.1–U16.8 recognition | spawn/remove + corpus |
+| G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` / G17 |
 | G17 reactions | `mapped` | 0.50 | U17.1–U17.8 recognition | Cover timing live |
 | G18 GF gameplay | `mapped` | 0.55 | U18.1–U18.8 recognition | charge lifetime live; distinguish pending/resolve routing |
 | G19 commands | `mapped` | 0.48 | U19.1 inventory | per-command handlers |
@@ -546,22 +548,22 @@ Loop protection: **not** a native counter; SQ-G15-001 is `static-closed-by-corpu
 
 ### G15 next
 
-Promoted. Residual: G16 action emission, spawn, text, inventory, and the G14 `0x71` cadence. Live section 8 is `*monster_ai_section` (`0x487823`).
+Promoted. Residual: none for the Init/Turn shadow. Live section 8 is `*monster_ai_section` (`0x487823`).
 
-## G16 — AI actions (recognition)
+## G16 — AI actions (live-promoted)
 
-| Unit | Opcodes / roots | Risk | Next probe |
+| Unit | Opcodes / roots | Status | Next probe |
 | --- | --- | --- | --- |
-| U16.1 ability prep | `0x03` SET_MAGIC, `0x07` SET_MONSTER_ATTACK, `0x0C` USE_ABILITY (`16*difficulty+idx`), `0x09` hit anim | difficulty row vs shipped `.dat` | dump one Ifrit ability table |
-| U16.2 emission | `0x06` EXECUTE, `0x0B` random-3, `0x1E` chocobo, `0x2A` CAST_READ_MAGIC → GetText+Resolve | empty target fallthrough | fixture EXECUTE with mask 0 |
-| U16.3 mutations | `0x16` full heal, `0x17` escape flag, `0x24` ATB reset, `0x27` auto-status, `0x28` stat %, `0x2D` res field, `0x3C` HP delta, `0x2F/0x30/0x3A` hide/show | `flag_data&0x40` untargetable shared with G08 | hide then target scan |
-| U16.4 lifecycle | `0x1F`/`0x34`/`0x3B` spawn, `0x08` die, `0x1D` leave, `0x2C` remove hidden | slot 3..7 free-list | spawn when 5 enemies live |
-| U16.5 text | `0x01`/`0x18` wait, `0x1A`/`0x22` attack text, `0x1C`/`0x20` frames, `0x25` scan | presentation intent vs domain | treat as NCOMP request |
-| U16.6 rewards | `0x37` card, `0x38` item, `0x31` give GF+queue, `0x36` Odin flag, `0x3D` Omega, `0x39` scripted end | persist vs battle-local | card drop vs SG |
-| U16.7 relays | `0x33`/`0x1B` → `0x70`; spawn → `0x71` | G14 lifetime | do not call Dispatch from domain |
-| U16.8 corpus | shipped monster scripts | **not run this campaign** | offline opcode histogram |
+| U16.1 ability prep | `0x0C` row `16*difficulty+idx`; `0x03`/`0x07` prep; `0x09` hit anim | `confirmed-offline` | live `c0m044` idx0 `{8,14,2}` |
+| U16.2 emission | `0x06` EXECUTE, `0x0B` rand%3/`253`, `0x1E`, `0x2A` → `ActionRequest` | `live-promoted` UseAbility | pending-only G07 host write |
+| U16.3 mutations | heal/escape/ATB/status/stat%/res/`0x3C`/hide | `confirmed-offline` | hide stays G08-eligible |
+| U16.4 lifecycle | walker 3..7; `0x1F`/`0x34`/`0x3B`; die/leave/hidden | `confirmed-static` walker | no host `0x71` |
+| U16.5 text | `0x01`/`0x18`/`0x1A`/`0x22`/`0x1C`/`0x20`/`0x25` G14 intents | `confirmed-offline` | no GetText |
+| U16.6 rewards | card/item local; GF/Odin/Omega/end fail-closed | `confirmed-offline` | no savemap |
+| U16.7 relays | `0x33` camera; `0x1B` intents only | `confirmed-offline` | G18 GF engine |
+| U16.8 corpus | 200/200 Init+Turn apply, livelock 0 | `confirmed-offline` | no soak |
 
-Confidence 0.62 `mapped`. Do not code spawn/remove without the free-slot walker.
+Confidence 0.90 `live-promoted`. See [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]. SQ-G16-001/003 closed; SQ-G16-002 walker `confirmed-static`. `[promotion.G16].satisfied` is true on DLL `92419780…` / PID 40964.
 
 ## G17 — Reactions (recognition)
 

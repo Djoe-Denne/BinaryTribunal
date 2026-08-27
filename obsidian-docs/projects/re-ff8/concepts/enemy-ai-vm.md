@@ -10,13 +10,15 @@ sources:
   - obsidian-docs/_staging/investigations/enemy_ai_opcode_semantics_2026-06-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
-summary: Enemy `.dat` section 8 VM. G15 live-promotes a read-only Init/Turn shadow; action emission stays G16.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+summary: Enemy `.dat` section 8 VM. G15 is the live Init/Turn shadow; G16 live-promotes UseAbility ActionRequest emit.
 provenance:
   extracted: 0.90
   inferred: 0.06
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T13:50:00+02:00
+updated: 2026-08-27T17:30:00+02:00
 ---
 
 # Enemy AI VM
@@ -40,7 +42,8 @@ BattleArbitration_SelectNextAction (0x485460)
 - `.dat` section `8` starts with offsets to the AI subsection, text offsets, and text subsection.
 - The AI subsection contains start pointers to init, turn, counter, death, and pre-hit code. Native execution runs from that start until `STOP`, not a sliced end.
 - The bytecode pointer for a subsection is `ai_subsection_base + offset[section_index]`.
-- G15 implements a read-only Init/Turn shadow of this layout. It is live-promoted on paused `c0m044` (2026-08-27). Live section 8 is `*monster_ai_section` (`0x487823`). Action emission stays G16. See [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]].
+- G15 implements a read-only Init/Turn shadow of this layout. It is live-promoted on paused `c0m044` (2026-08-27). Live section 8 is `*monster_ai_section` (`0x487823`). See [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]].
+- G16 applies those deferred intents on a transactional copy and publishes a G07 `ActionRequest` into host pending. Ability rows come from `*monster_info_section` (380 bytes, `+0x34`, stride 4). Live-promoted 2026-08-27 on paused `c0m044` (DLL `92419780…`, PID 40964). See [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]].
 
 ## Section Routing
 
@@ -111,7 +114,7 @@ Both return dispatch code `8` (child task spawned, relay persists until the chil
 - AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
 - Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
-- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 action/spawn/reward opcodes are recognition-only there.
+- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert stays later.
 
 ## Open Questions
 

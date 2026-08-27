@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-27T13:50:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-27T17:30:00+02:00*
 
 ## Concepts
 
@@ -21,7 +21,7 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/limit-break-architecture]] — Crisis-level gate, ordinary pending entry path, and per-character limit-family divergence. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode sections, dispatch, interpreter model, and runtime state. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15 live shadow; G16 UseAbility pending emit live-promoted. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw resolve id 6, QueueOrStore aux 9/10, live-promoted Cast/Stock, MagicList presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] — GF command IDs, kernel IDs, effect IDs, MagicList callbacks, shared cinematic globals, and special triggers. ( #ff8 #gforce #battle-system #concept)
 - [[projects/re-ff8/concepts/gforce-catalog-and-families]] — GF catalog, structural families, runtime evidence, and Cerberus/Ifrit findings. ( #ff8 #gforce #reverse-engineering #concept)
@@ -57,12 +57,12 @@ title: Wiki Index
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G14; G12–G14 are live-promoted; `0x71` spawn cadence is G16. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G16; G12–G16 are live-promoted; host 0x71 insert stays later. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
-- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G15 are live-promoted; G16–G20 remain later. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G13 and SQ-G14-001/002 are closed; `0x71` spawn cadence is G16. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G16 are live-promoted; host 0x71 insert stays later. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G15-001 and SQ-G16-001/003 are closed; walker is confirmed-static. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
@@ -92,8 +92,9 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]] — G13 is live-promoted: PID 22956 Cast+Stock collector-PASS; pending 0x06 stays a runtime byte; presentation is G14. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation]] — G14 live-promoted: P PASS/Detached and N FAIL_EXPECTED on DLL 363d91cf; 0x70/0x74 live; 0x71 spawn cadence is G16. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] — G15 live-promoted: paused c0m044 Init/Turn read-only shadow, zero native AI VM calls, Detached cleanup. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] — G16 live-promoted: paused c0m044 UseAbility pending emit, native consume, Detached cleanup. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G15 map: G11–G15 are live-promoted. Action emission and 0x71 remain G16. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G16 map: G11–G16 are live-promoted; host 0x71 insert stays later. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 

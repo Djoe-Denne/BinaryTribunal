@@ -20,7 +20,7 @@ provenance:
   inferred: 0.04
   ambiguous: 0.02
 created: 2026-08-27T13:30:00+02:00
-updated: 2026-08-27T13:50:00+02:00
+updated: 2026-08-27T15:15:00+02:00
 ---
 
 # P1 G15 Enemy AI Control — Live-Promoted — 2026-08-27
@@ -82,11 +82,13 @@ Schema 19 snapshot is 2808 bytes. The 256-byte G15 witness sits at
 `[2520:2776]`. Public command: `Invoke-IsoGroup -Group G15 -Profile P1`.
 Scenario 2 is reserved for a named A/B discriminant. No Session O ran.
 
-## Still G16
+## G16 follow-on
 
-Action emission, spawn, text, inventory mutations, and the G14 `0x71` spawn
-cadence remain G16. `dat_sha32` was 0 live because the DAT file base was
-not resolved; `section_sha32` identifies the loaded script.
+Action emission is live-promoted. See
+[[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]].
+The G14 `0x71` spawn cadence remains `confirmed-static`. `dat_sha32` was
+0 live because the DAT file base was not resolved; `section_sha32`
+identifies the loaded script.
 
 ## Related
 

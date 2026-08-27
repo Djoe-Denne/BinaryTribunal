@@ -11,13 +11,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
-summary: SQ-Gxx register. SQ-G13-001 is live-promoted; SQ-G13-002 is capped. SQ-G14-001/002 are closed; 0x71 spawn cadence is G16.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+summary: SQ-Gxx register. SQ-G15-001 is corpus-closed. SQ-G16-001/003 are closed; SQ-G16-002 walker is confirmed-static. 0x71 host insert stays later.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T14:40:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -221,16 +223,55 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 
 ### SQ-G15-001 — AI VM loop guard
 
-- status: open
-- confidence: 0.70
-- affects: G15
+- status: static-closed-by-corpus
+- confidence: 0.88
+- affects: G15, G16
 - claim: native VM has no iteration cap; STOP or successful action-commit are the only exits. Infinite JUMP is possible in malformed scripts.
-- evidence_for: opcode page interpreter model.
-- evidence_against: shipped `.dat` may be well-formed.
-- missing_discriminator: corpus scan for backward JUMP without a bound.
-- next_static_probe: U16.8 opcode histogram + jump-offset sign counts.
-- eventual_live_probe: soak only if a shipped script can livelock.
-- resolution:
+- evidence_for: opcode page interpreter model; replacement safety budget 4096.
+- evidence_against: shipped `.dat` parse 200/200; backward JUMP count 12; max decoded 253; G16 apply livelock 0.
+- missing_discriminator: none for shipped files.
+- next_static_probe: none.
+- eventual_live_probe: soak only if a new shipped script can livelock.
+- resolution: closed 2026-08-27. G15 corpus + G16 Init/Turn apply report zero new livelock. No live soak.
+
+### SQ-G16-001 — monster_info_section ability table
+
+- status: closed-2026-08-27
+- confidence: 0.92
+- affects: G16
+- claim: slot `monster_info_section` is a pointer-to-pointer; the table is 380 bytes; abilities start at `+0x34`, stride 4, index `16*difficulty+idx`.
+- evidence_for: IDA inline load at `0x4897F9`; G13/G15 `*monster_ai_section` pattern; hashed `c0m044`/`c0m012` 380-byte fixtures.
+- evidence_against: named `EnemyAI_LookupAbilityByIndex` `0x482C90` inserts text tasks and is not the lookup.
+- missing_discriminator: none.
+- next_static_probe: none.
+- eventual_live_probe: Session P import of live `*monster_info_section`.
+- resolution: closed 2026-08-27. Codec rejects wrong size/stride.
+
+### SQ-G16-002 — free-slot walker vs host 0x71
+
+- status: confirmed-static
+- confidence: 0.86
+- affects: G16, G14
+- claim: first free enemy slot is 3..7 where `!(flag_data & 1)`. `0x3B` with nonzero slot replaces; slot 0 walks. No free slot rejects. Native `0x71` list insert is not required to emit or spawn on the canonical copy.
+- evidence_for: IDA spawn family; occupancy fixtures 0/1/5; six `0x71` enqueue sites already `confirmed-static` under SQ-G14-001.
+- evidence_against: none that forces a live `0x71` duration A/B.
+- missing_discriminator: none for promotion of UseAbility emit.
+- next_static_probe: none.
+- eventual_live_probe: optional spawn fight only if a named `0x71` duration discriminant is written.
+- resolution: walker closed offline. Session S stays closed. Host `0x71` insertion remains later.
+
+### SQ-G16-003 — LABEL_375 target fold
+
+- status: closed-2026-08-27
+- confidence: 0.90
+- affects: G16
+- claim: MAGIC/ITEM fold `defaultTarget`/`targetInfo` bit0→`0x4000`, bit1→`0x2000`. Other commands read `K_ENEMY_ATTACK` (RVA `0x018F5600`, stride 20, flags +8); bit `0x80` ORs `0x4000`.
+- evidence_for: IDA LABEL_375; `test_g16` fold `0x4008`.
+- evidence_against: none.
+- missing_discriminator: none.
+- next_static_probe: none.
+- eventual_live_probe: none required for emit.
+- resolution: closed offline. Kernel row codec is typed.
 
 ### SQ-G17-001 — Cover trigger timing
 

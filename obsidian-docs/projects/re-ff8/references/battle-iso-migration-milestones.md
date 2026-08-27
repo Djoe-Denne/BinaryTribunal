@@ -37,13 +37,15 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
 summary: Dependency roadmap through G13. G12 is live-promoted-semantic; G13 is live-promoted Cast/Stock. Presentation remains G14.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-08-27T14:40:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -699,14 +701,14 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U16.1 Ability preparation:** Magic, monster ability, indexed ability, difficulty row, and hit animation.
-- [ ] **U16.2 Action emission:** convert `EXECUTE_ACTION` into `ActionRequest` and common queue routing.
-- [ ] **U16.3 Stat/status mutations:** HP, flags, defenses, invincibility, saved HP, and escape enable.
-- [ ] **U16.4 Monster lifecycle:** enter, enter-at-slot, activate, remove, self-destruct, and free-slot behavior.
-- [ ] **U16.5 Text requests:** display, wait, post-attack, scan, and parameterized text as presentation intents.
-- [ ] **U16.6 Reward/story mutations:** item/card drops, Odin→Gilgamesh, proof flags, and persistent-effect intent.
-- [ ] **U16.7 Relay requests:** spawn/camera/actor-ready barriers through G14.
-- [ ] **U16.8 Corpus run:** execute every shipped monster script and record opcode/branch coverage.
+- [x] **U16.1 Ability preparation:** Magic, monster ability, indexed ability, difficulty row, and hit animation. Offline 2026-08-27.
+- [x] **U16.2 Action emission:** convert `EXECUTE_ACTION` into `ActionRequest` and common queue routing. Live-promoted 2026-08-27 (`c0m044` UseAbility).
+- [x] **U16.3 Stat/status mutations:** HP, flags, defenses, invincibility, saved HP, and escape enable. Offline.
+- [x] **U16.4 Monster lifecycle:** enter, enter-at-slot, activate, remove, self-destruct, and free-slot behavior. Canonical walker only; no host `0x71`.
+- [x] **U16.5 Text requests:** display, wait, post-attack, scan, and parameterized text as presentation intents. Offline.
+- [x] **U16.6 Reward/story mutations:** item/card drops, Odin→Gilgamesh, proof flags, and persistent-effect intent. Battle-local; persist fail-closed.
+- [x] **U16.7 Relay requests:** spawn/camera/actor-ready barriers through G14. Intents only.
+- [x] **U16.8 Corpus run:** execute every shipped monster script and record opcode/branch coverage. 200/200 apply, livelock 0.
 
 **Test pack:** one real monster per behavior class, malformed script cases, deterministic RNG, spawn/remove, reward, and relay completion.
 
