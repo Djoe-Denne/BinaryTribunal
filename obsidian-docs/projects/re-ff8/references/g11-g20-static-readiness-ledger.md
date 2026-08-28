@@ -35,7 +35,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-offensive-post-suite-2026-08-28.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-post-shutdown-2026-08-28.json
-summary: Static G11–G20 map with live addenda. G11–G19 are live-promoted. G20 stays later.
+summary: Static G11–G20 map with live addenda. G11–G20 are live-promoted on P1. P2 stays blocked.
 provenance:
   extracted: 0.78
   inferred: 0.14
@@ -49,7 +49,7 @@ updated: 2026-08-28T14:40:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation|G17]] is live-promoted for party Counter. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted for Quezacotl host HP plus charge seed/restore. [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted for Recover plus Card refuse. G20 stays later.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation|G17]] is live-promoted for party Counter. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted for Quezacotl host HP plus charge seed/restore. [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted for Recover plus Card refuse. [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20]] is live-promoted for crisis `+0xCA` plus Duel refuse. P2 stays blocked.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -67,8 +67,8 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` |
 | G17 reactions | `live-promoted` | 0.88 | U17.1–U17.8 + paused party Counter pending emit | Cover/Regen live |
 | G18 GF gameplay | `live-promoted` | 0.88 | U18.1–U18.8 + paused Ifrit Quezacotl HP 1068→782; domain now has seed/Boko/Phoenix revive/cancel | persist / cinematic / Zantetsuken HP=0 |
-| G19 commands | `live-promoted` | 0.82 | Recover 9652→9999 + Card refuse on PID 51944 | Card/Devour/Mug persist; MiniMog; Limits |
-| G20 Limits | `mapped` | 0.40 | U20 inventory | six family state machines |
+| G19 commands | `live-promoted` | 0.82 | Recover 9652→9999 + Card refuse on PID 51944 | Card/Devour/Mug persist; MiniMog |
+| G20 Limits | `live-promoted` | 0.72 | Crisis `+0xCA` 0→0 + Duel refuse on PID 63104 | Blue Magic live; windows; SQ-G20-001 records |
 
 Retroactive corrections this campaign:
 
@@ -653,7 +653,7 @@ U19.1–U19.3/U19.5/U19.6 are offline; Session P live-promoted Recover + Card re
 | U20.7 | Rinoa Angelo + Angel Wing `status_2 0x02000000` Magix `*5` no consume | set/clear timing |
 | U20.8 | authentic pending/current bytes per family | **live-required** |
 
-Confidence 0.40 `mapped`. Names of functions are not certified state machines.
+Session P 2026-08-28 live-promoted crisis `+0xCA` write + Duel refuse (`live-promoted` 0.72). U20.1 live write proven (value 0 this encounter, ~0.80). U20.3 live refuse (~0.55). U20.5 still offline (~0.75). U20.2 windows / U20.4 input / U20.6 reroll / U20.8 records stay SQ. See [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]]. Names of functions are not certified state machines.
 
 ## Campaign residues (live-required list)
 

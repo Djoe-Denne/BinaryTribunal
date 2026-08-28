@@ -41,7 +41,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
   - ai-prompt/todo/g19-command-abilities-new-chat.md
-summary: Dependency roadmap through G20. G14–G19 live-promoted. G20 stays later.
+summary: Dependency roadmap through G20. G14–G20 live-promoted on P1. P2 stays blocked.
 provenance:
   extracted: 0.61
   inferred: 0.36
@@ -56,7 +56,7 @@ updated: 2026-08-28T14:50:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-28
-> The remaster has live-promoted G05–G19 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. G20 stays later.
+> The remaster has live-promoted G05–G20 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20]] is live-promoted on P1 (crisis `+0xCA` 0→0 + Duel refuse, PID 63104). Blue Magic / windows / records stay later. P2 stays blocked.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
@@ -789,20 +789,20 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U20.1 Common crisis path:** crisis computation, menu availability, ordinary initial pending entry, and shared cleanup.
-- [ ] **U20.2 Squall:** trigger windows, auto mode, slash hits, weapon finishers, target masks, and command `0xF9`.
-- [ ] **U20.3 Zell:** opener, Duel input sequence, follow-up records, timeout, and completion.
-- [ ] **U20.4 Irvine:** ammunition, Shot timing/input, hit loop, timeout, and post-shot callback.
-- [ ] **U20.5 Quistis:** Blue Magic selection, crisis-indexed parameter rows, and resolver profiles.
-- [ ] **U20.6 Selphie:** Slot pools, reroll weighting closure, selected Magic path, and resource semantics.
-- [ ] **U20.7 Rinoa:** manual Angelo family, Angel Wing set/clear timing, auto-Magic rewrite, fallback Attack, and ×5 modifier.
-- [ ] **U20.8 Authentic records:** capture or statically close pending/current-action bytes for each family.
+- [x] **U20.1 Common crisis path:** menu formula `0x4941F0` + clamp `0..4` on `+0xCA`. Overlay bit `0x04` is not a G20 HUD write. Live host write 0→0 on PID 63104.
+- [x] **U20.2 Squall (table only):** 24-byte finishers + weapon mask + explicit `0xF9` G09 reuse. Windows and crisis→finisher stay `LimitWindowUnsupported`.
+- [x] **U20.3 Zell (decode + refuse):** `K_DUEL` 10×32 decoded; apply is `LimitInputUnsupported`.
+- [x] **U20.4 Irvine (decode + refuse):** `K_SHOT` 8×24 decoded; 14/237/238 are `LimitInputUnsupported`.
+- [x] **U20.5 Quistis (offline):** index `spell*4+crisis-1` + G11 reuse. Live needs a prepared `crisis_level`.
+- [x] **U20.6 Selphie (reroll refuse):** Slot 16 is `LimitRerollUnsupported`.
+- [x] **U20.7 Rinoa (encode):** Angel Wing bit `0x02000000`; Combine type 2 reuses G11; other rows fail-closed. Consume/clear stay SQ.
+- [ ] **U20.8 Authentic records:** live-required; record scenario dumps pending digest with zero ISO writes.
 
-**Test pack:** low/high crisis, cancel/timeout, one complete action per character, Angel Wing repeated turns, and all follow-up cleanup.
+**Test pack (this batch):** crisis compute, Blue Magic spell 0, Duel refuse, optional pending record. Not six characters. Not P2.
 
-**Gate G20 / P2 GameplayDomain:** all claimed gameplay-domain routes work from imported post-init state with deterministic input and no original battle-domain call.
+**Gate G20 (this batch):** claimed routes only — crisis write plus a typed Duel refuse — under **P1**. The milestone P2 sentence (six Limits, zero native domain call) is **not** this batch.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G20 -Profile P2 -TimeoutMs 180000` with low/high crisis, cancel/timeout, and one complete Squall, Zell, Irvine, Quistis, Selphie, and Rinoa route. It passes when authentic records, input windows, follow-ups, stock/ammo, Angel Wing state, RNG, and cleanup are exact and the P2 audit reports zero original battle-domain call.
+**Injected in-game test:** `make_suite_payload.py --group G20 --profile P1` then `FF8Iso_RunInProcessSuite`. `Invoke-IsoGroup` is obsolete.
 
 ## 9. Autonomous BaseLoop Groups
 

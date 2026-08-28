@@ -47,7 +47,7 @@ a persist or Limit path.
 | 4 / 13 / 244 | G12 | `OwnedByOtherGate` | G12 |
 | 6 | G13 | `OwnedByOtherGate` | G13 |
 | 8 / 236 | G16 | `OwnedByOtherGate` | G16 |
-| 14–22 / `0xF9` | G20 | `OwnedByOtherGate` | later |
+| 14–22 / `0xF9` | G20 | `OwnedByOtherGate` | [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20 live]] |
 | 23 | G19 | Defend `status_2 \|= MagicHalf` | offline |
 | 24 | G19 | Mad Rush via G10 (enabler 255) | offline |
 | 25 | G19 | Treatment `clear_hit_status` | offline |

@@ -154,9 +154,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-state-post-suite-2026-08-28.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-post-shutdown-2026-08-28.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/e1211149-fe0b-4c88-b765-6658c2b3ce42/e1211149-fe0b-4c88-b765-6658c2b3ce42.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-crisis-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-post-shutdown-2026-08-28.json
 summary: >-
-  Canonical G00–G19 map. Live JSON is tracked; root suite bins are
-  purged. G19 is live-promoted.
+  Canonical G00–G20 map. Live JSON is tracked; root suite bins are
+  purged. G19 and G20 are live-promoted. P2 stays blocked.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -201,6 +206,7 @@ updated: 2026-08-28T16:15:00+02:00
 | G17 / reactions | Live-promoted party Counter on DLL `6326950a…` / PID 25280. Cover/Regen/Return stay later. `[promotion.G17].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] |
 | G18 / GF gameplay | Live-promoted Quezacotl 1068→782 on PID 35064 / DLL `34204e43…`. PID 58056 / DLL `b6db8a89…` added Boost, persist write+restore, Cerberus, Odin. Repeat FAIL is fixture KO. `[promotion.G18].satisfied` true. 2026-08-28 static pass closed SQ-G18-001/003/004/005. Domain now has seed/Boko/Phoenix revive/cancel. | [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] |
 | G19 / command abilities | Live-promoted Recover 9652→9999 plus Card refuse on PID 51944 / DLL `ec7c5bc3…`. `[promotion.G19].satisfied` true. SQ-G19-001 persist stays open. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
+| G20 / Limit families | Live-promoted crisis `+0xCA` 0→0 plus Duel refuse on PID 63104 / DLL `38040660…`. `[promotion.G20].satisfied` true. SQ-G20-001 records stay open. P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -303,6 +309,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
 - [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]

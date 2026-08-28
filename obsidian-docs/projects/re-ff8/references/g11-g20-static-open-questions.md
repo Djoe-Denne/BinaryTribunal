@@ -470,4 +470,4 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - missing_discriminator: pending/current dumps per family.
 - next_static_probe: writers of `COMMAND_TYPE_ID` for Duel/Shot/Blue Magic.
 - eventual_live_probe: U20.8 captures.
-- resolution:
+- resolution: 2026-08-28 Session P proved crisis `+0xCA` write and Duel refuse; authentic pending/current bytes per family remain open.
