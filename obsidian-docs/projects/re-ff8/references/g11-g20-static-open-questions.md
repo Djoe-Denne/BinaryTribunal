@@ -14,13 +14,18 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
-summary: SQ-Gxx register. SQ-G17-001 Cover timing is closed. Session P Counter is live-promoted.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+summary: SQ-Gxx register. G19 offline-draft. SQ-G19-001 persist still open.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-27T20:20:00+02:00
+updated: 2026-08-28T14:40:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -327,18 +332,132 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - claim: Regen/Doom keep the existing G10 enqueue. G17 does not invent `max_hp/16` or HP=0.
 - resolution: `UnresolvedPeriodicMagnitude`. No Session S.
 
-### SQ-G19-001 — Card/Devour/Mug row semantics
+### SQ-G18-001 — Boko level to NONJ row
+
+- status: static-closed
+- confidence: 0.92
+- affects: G18
+- claim: there is no battle `level → row` map. GetText item 30
+  (`attackType 0x0E`) rewrites to command `0xF4` and sets
+  `magic_id = BokoAttack + 2` when `FlagInfo & 1` and not `& 2`.
+  `Level` is `GF_LEVEL` for MAG/SPR only (`BYTE1(dword_1D28E20)=1`).
+  NONJ rows 2–5 stay type 11, magics 97–100, powers 40/60/80/100.
+- evidence_for: GetText `0x48D298`; struct `SG_CHOCOBO_WORLD_DATA`
+  `+0x00/+0x01/+0x2D`; resolver `0x490A37`. `BokoAttack` writers are
+  debug (`0x47EEF0`) and new-game init (`0x482ADC` = 3).
+- evidence_against: none in battle. Chocobo World waza learning is
+  field, not G18.
+- missing_discriminator: none for the battle row pick.
+- next_static_probe: none.
+- eventual_live_probe: none required to own the row. Optional Gysahl
+  witness only.
+- resolution: closed 2026-08-28. Read `BokoAttack`; drop invented
+  `boko_row_valid`. See `g18-gf-gameplay-static-debts-2026-08-28.md`.
+
+### SQ-G18-002 — Odin Zantetsuken instant-kill
+
+- status: fail-closed
+- confidence: 0.78
+- affects: G18
+- claim: kernel Odin (and Gilgamesh row 10) is MAG/SPR power 0 + Vit0
+  (`HIT_STATUS_2 0x00010000`, enabler 254). Section 7 queues only
+  command 245 / `RELATED`. No second action, no `specialGFDamage`
+  instant-kill, no Death write. Vit0 zeroes VIT for later physicals.
+  MAG_167 / GF_187 are presentation.
+- evidence_for: NONJ dump; `EnemyAI_DispatchSection` case 7 else
+  branch; live Odin copy damage 0 on PID 26252 / 58056.
+- evidence_against: player-facing “instant kill” still happens in
+  the cinematic. That HP=0 writer is not in the battle resolve.
+- missing_discriminator: BdLink task that zeros enemy HP, if any.
+- next_static_probe: optional MAG_167/187 task walk (P2).
+- eventual_live_probe: none for the G18 domain payload.
+- resolution: consume as MAG/SPR + Vit0. Do not treat Vit0 as Death.
+
+### SQ-G18-003 — Phoenix party revive
+
+- status: static-closed
+- confidence: 0.90
+- affects: G18
+- claim: NONJ row 1 remains MAG/SPR fire 30. Party revive is a second
+  `SetupCommand(slot, 0, 8, 0xC007)` from section 7 when
+  `RELATED_ODIN_SUMMONED == 1`. GetText default keeps magic 8;
+  resolver command 0 / magic 8 calls `GetReviveHP` (`max_hp/8`).
+  Auto trigger is `Battle_PhoenixAutoReviveCheck` `0x483270`.
+- evidence_for: `0x487C75` dual queue; `def_48D37A` `0x48E345`;
+  jumptable `0x49045B` case 8; IDA comment `Phoenix Pinion: 0` on
+  `COMMAND_TYPE_ID`.
+- evidence_against: item 31 is command 244 + `K_ITEM.magicID`, not
+  this dual queue. Angelo Reverse (NONJ 13, type 5) is a different
+  revive.
+- missing_discriminator: none for the wipe auto-revive writer.
+- next_static_probe: none.
+- eventual_live_probe: optional Session O witness only.
+- resolution: closed 2026-08-28. Writer is `GetReviveHP` via
+  command 0 / arg 8 / mask `0xC007`.
+
+### SQ-G18-004 — native charge-timer seed
+
+- status: static-closed
+- confidence: 0.90
+- affects: G18
+- claim: GetText command 3 at `0x48D8C4` writes
+  `F_CHAR+0x14/+0x16 = 4 * compat * (SG_BATTLE_SPEED_SETTING+1) / 35`.
+  Compat is `u16` at `0x1CFE0D8 + 2*(gf_arg + 76*chara_id)`. ATB
+  `0x4842B0` decrements 2/3/1. `ResolveAndApplyStatusResult` seeds
+  summon HP only.
+- evidence_for: disasm `0x48D8FC..0x48D973`; magic `0xEA0EA0EB`;
+  named timer xrefs are decrement/read only.
+- evidence_against: ISO seed 0→12 on PID 35064 is not this formula.
+- missing_discriminator: one live `(speed, compat, timer)` triple.
+- next_static_probe: none.
+- eventual_live_probe: optional observe-only witness. Not required
+  to own the writer.
+- resolution: closed 2026-08-28. Live is a numeric witness only.
+
+### SQ-G18-005 — Death/Petrify cancel mechanism
+
+- status: static-closed
+- confidence: 0.88
+- affects: G18
+- claim: `BattleStatus_ApplyAndSyncSlot` `0x493840` clears
+  `status_2` high bit and `flag_data 0x400` when summoning and
+  (summon HP 0 or Death|Petrify|Darkness|Silence or Eject|Confusion).
+  It does not write the charge timer to 0. FinalizeSummonExit only
+  enqueues the GF attack while still summoning and `timer == 0`.
+- evidence_for: decompile `0x493854..0x4938D4`; timer xrefs are
+  ATB / Finalize / absorb only.
+- evidence_against: ISO `timer=0` is a replacement approximation.
+- missing_discriminator: none for the native cancel writer.
+- next_static_probe: none.
+- eventual_live_probe: none required.
+- resolution: closed 2026-08-28. Native cancel is clear-summon-bit,
+  not a timer store. Darkness and Silence also cancel.
+
+### SQ-G18-006 — persist / F_CHAR writeback
+
+- status: iso-write-restore-proven
+- confidence: 0.86
+- affects: G18
+- claim: `target_info_mask`, `F_CHAR+0x18`, `SG_ARRAY_GF_DATA.HP/KO`,
+  and `SG_GF_CURRENT_HP_` were allowlisted-written then restored on
+  PID **58056**. Quezacotl persist stayed 300/KO 0 after detach.
+  Native `BattleGF_FinalizeSummonExit` remains forbidden.
+- evidence_for: `g18-absorption-persist` and `g18-exhaust-ko` PASS on
+  DLL `b6db8a89…`.
+- resolution: ISO laboratory write+restore closed. Native exit path later.
+
+### SQ-G19-001 — Card/Devour/Mug persist writers
 
 - status: open
-- confidence: 0.40
+- confidence: 0.62
 - affects: G19
-- claim: reward-affecting commands are visible in the resolver switch but not inventoried row-by-row.
-- evidence_for: case 0 devour/card comments; `K_DEVOUR`.
-- evidence_against: no U19.4 transaction map this campaign.
-- missing_discriminator: per-command handler table.
-- next_static_probe: enumerate `K_BATTLE_COMMAND_ABILITY` xrefs.
-- eventual_live_probe: one Card, one Mug, one Devour.
-- resolution:
+- claim: Card 29, Devour 7, and Mug 12 decode from kernel rows (types 17/19; Devour HP `qty * max_hp / 16`) but their persist writers are not in the domain.
+- evidence_for: `K_BATTLE_COMMAND_ABILITY` rows 9–10 and `K_DEVOUR` 16×12 decode in `test_g19`; resolve returns `RewardPersistUnsupported`.
+- evidence_against: no `getMugObjectIdAndQuantity` / `Devour_ApplyPermanentStatBonuses` / `computeCardCommandDrop` port.
+- missing_discriminator: host item/card/stat persist transaction.
+- next_static_probe: those three persist helpers and their save-side writes.
+- eventual_live_probe: one Card, one Mug, one Devour after the writers are owned.
+- resolution: rows inventoried 2026-08-28; persist stays fail-closed.
 
 ### SQ-G20-001 — Limit authentic records
 

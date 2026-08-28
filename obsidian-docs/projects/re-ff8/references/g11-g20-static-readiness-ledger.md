@@ -29,13 +29,19 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
-summary: Static G11–G20 map with live addenda. G11–G17 are live-promoted. G17 claim is party Counter only.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-offensive-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-post-shutdown-2026-08-28.json
+summary: Static G11–G20 map with live addenda. G11–G18 are live-promoted. G19 is offline-draft.
 provenance:
   extracted: 0.78
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-27T20:20:00+02:00
+updated: 2026-08-28T14:40:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -43,7 +49,7 @@ updated: 2026-08-27T20:20:00+02:00
 Campaign ledger for the static-only investigation after [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10 live Slow]]. Companion: [[projects/re-ff8/references/g11-g20-static-open-questions]].
 
 > [!warning] This page is the static map, not a live promotion ledger
-> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation|G17]] is live-promoted for party Counter. G18–G20 stay later.
+> Authority for addresses is the IDB for EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11 Fire v2]] set `[promotion.G11].satisfied`. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock. [[projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation|G14]] is live-promoted. [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation|G15]] is live-promoted for the Init/Turn shadow. [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation|G16]] is live-promoted for UseAbility pending emit. [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation|G17]] is live-promoted for party Counter. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted for Quezacotl host HP plus charge seed/restore. [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is offline-draft. G20 stays later.
 
 Baseline tooling: RTK `0.42.4` with `preToolUse`/Shell hook; QMD collection `ff8-wiki`; Context Mode available; IDA MCP `user-ida-pro-mcp`.
 
@@ -58,10 +64,10 @@ Status vocabulary: `mapped` | `static-strong` | `static-partial` | `live-require
 | G13 Draw | `live-promoted` | 0.92 | U13.1–U13.6 mapped; SQ-G13-002 capped; Cast and Stock collector-PASS | no global pending `0x06` enum |
 | G14 callbacks | `live-promoted` | 0.88 | U14.1–U14.7 implemented; `0x70`/`0x74` live; `0x71` confirmed-static | optional `0x71` walk later, not G16 |
 | G15 AI control | `live-promoted` | 0.90 | U15.1–U15.7 + paused `c0m044` Init/Turn shadow | G16 action emission |
-| G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` / G18 |
-| G17 reactions | `live-promoted` | 0.88 | U17.1–U17.8 + paused party Counter pending emit | Cover/Regen live; G18 |
-| G18 GF gameplay | `mapped` | 0.55 | U18.1–U18.8 recognition | charge lifetime live; distinguish pending/resolve routing |
-| G19 commands | `mapped` | 0.48 | U19.1 inventory | per-command handlers |
+| G16 AI actions | `live-promoted` | 0.90 | U16.1–U16.8 + paused `c0m044` UseAbility pending emit | host `0x71` |
+| G17 reactions | `live-promoted` | 0.88 | U17.1–U17.8 + paused party Counter pending emit | Cover/Regen live |
+| G18 GF gameplay | `live-promoted` | 0.88 | U18.1–U18.8 + paused Ifrit Quezacotl HP 1068→782; domain now has seed/Boko/Phoenix revive/cancel | persist / cinematic / Zantetsuken HP=0 |
+| G19 commands | `static-partial` | 0.72 | U19.1 inventory + proven handlers offline | Card/Devour/Mug persist; MiniMog; Limits |
 | G20 Limits | `mapped` | 0.40 | U20 inventory | six family state machines |
 
 Retroactive corrections this campaign:
@@ -581,20 +587,35 @@ Confidence 0.90 `live-promoted`. See [[projects/final-fantasy-viii-reimaginated/
 
 Cover timing is closed. Drain stays fail-closed. Do not reopen G10 Slow claims. See [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]. `[promotion.G17].satisfied` is true on DLL `6326950a…` / PID 25280. The live claim is party Counter only.
 
-## G18 — GF gameplay (recognition)
+## G18 — GF gameplay (live-promoted)
+
+Authenticated dump: `tests/fixtures/g18/` from `kernel.bin`
+`e378fb8f…`. Junctionable `0xF78..0x17B8` SHA `cb3d7e55…`. NONJ
+`0x3EE0..0x4020` SHA `b9bb6c13…`. Live paused Ifrit PID **35064** /
+DLL `34204e43…` committed Quezacotl host HP 1068→782 then restored
+the frame preimage. PID **58056** / DLL `b6db8a89…` added Boost 200
+(777→195), absorb/exhaust persist write+restore, Cerberus
+`status_2=0x00060000`, and Odin consume. `[promotion.G18].satisfied`
+is true. The 2026-08-27 copy-resolve on PID 26252 remains diagnostic.
+See
+[[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]].
 
 | Unit | Roots | Status | Live-required |
 | --- | --- | --- | --- |
-| U18.1 metadata | `K_GF_JUNCTIONABLE` `0x1CF4DC0`; `gf_index = command_arg-0x40`; `magicID` 1-based effect | `static-strong` 0.80 | 16-row dump from kernel.bin |
-| U18.2 routing | pending `command_id=0x03` transfers through default group 2; later resolver state uses `0xFE`, whose raw transfer case would be group 1 | `static-partial` 0.55 | capture rewrite boundary if ownership needs it |
-| U18.3 charge | G06 live cadence exists; Haste/Slow share ATB pulses | `mapped` 0.50 | cancel/lifetime |
-| U18.4 damage | `ComputeMagicAndGFDamage`; Boost; Shell; element | `static-partial` 0.65 | Boost multiplier live |
-| U18.5 absorb | `Battle_ApplyDamageOrHeal` summon-charge pool | `mapped` 0.55 | pool depletion / KO |
-| U18.6 support | status-only GF payload, no HP | `mapped` 0.55 | Carbuncle-like fixture |
-| U18.7 special profiles | Odin/Phoenix/Gilgamesh/Angelo **resolve** only (triggers = G17) | `mapped` 0.50 | payload vs cinematic |
-| U18.8 presentation | `BattleGF_LoadCallbackByMagicID` `0x50AF20`; MagicList; BdLink; relay `0x70` | `static-partial` 0.62 | completion vs domain |
+| U18.1 metadata | 16/16 + 16/16 decoded; `K_GF_JUNCTIONABLE` `0x1CF4DC0`; `K_NONJ_GF` `0x1CF7D28` | `confirmed-offline` 0.88 | none |
+| U18.2 routing | pending `0x03` → group 2; raw `0xFE` would be group 1; rewrite after transfer | `confirmed-offline` 0.70 | rewrite boundary live ≤0.75 |
+| U18.3 charge | GetText `0x48D8C4` seeds `4*compat*(speed+1)/35`; ATB 3/2/1 | `static-closed` 0.90 | optional `(speed,compat,timer)` witness |
+| U18.4 damage | MAG/SPR 709; Quezacotl live 291 / Boost 200 = 582; Ifrit 1068→777→195 | `confirmed-offline` + live host HP/Boost 0.90 | repeat on a living target |
+| U18.5 absorb | `target_info_mask` pool 40→15 then restore; exhaust KO then restore | `confirmed-offline` + live persist 0.86 | native exit writer |
+| U18.6 support | Cerberus Double+Triple live `status_2=0x00060000` on party 0–1 | `confirmed-offline` + live Cerberus 0.84 | Carbuncle/Siren live |
+| U18.7 special profiles | 245 + NONJ; Phoenix adds command 0/arg 8/`0xC007` → `GetReviveHP`; Odin is Vit0 only | `static-closed` revive 0.90; Zantetsuken HP=0 still fail-closed 0.78 | cinematic instant-kill only |
+| U18.8 presentation | CameraSummon/Action/ActorReady intents only; sealed G14 adapter | `confirmed-offline` 0.68 | actor/camera/BdLink idle ≤0.80 |
 
-Do not call native GF cinematic from a future ISO contract; emit presentation intents (U14.6).
+Do not call native GF cinematic; emit presentation intents (U14.6).
+SQ-G18-001/003/004/005 static-closed 2026-08-28
+(`g18-gf-gameplay-static-debts-2026-08-28.md`). SQ-G18-002 stays
+MAG/SPR+Vit0; instant-kill HP=0 is not in the resolve. SQ-G18-006
+ISO persist write+restore is live; native exit later.
 
 ## G19 — Command inventory (recognition)
 
@@ -609,15 +630,15 @@ Resolver `COMMAND_TYPE_ID` table (from `0x48FE20` + `docs/tech/reference/command
 | 6 | Draw | `K_MAGIC` + aux 9/10 | G13 |
 | 8, 236 | Enemy attack | `K_ENEMY_ATTACK` | G16 |
 | 16 | Slot | `K_MAGIC` | G20.6 |
-| 7, 23–27, 29–34, 38 | Command ability | `K_BATTLE_COMMAND_ABILITY` | U19.2 **unmapped rows** |
+| 7, 23–27, 29–34, 38 | Command ability | `K_BATTLE_COMMAND_ABILITY` | U19.2 rows decoded; 23–27/30 implemented; 7/29/31–34/38 fail-closed |
 | 17–18, 20–22 | Temp char | `K_TEMP_CHAR` | G20 adjacent |
-| 0 | fail/kamikaze/card-fail variants | special | U19.3/U19.4 |
+| 0 | fail/kamikaze/card-fail variants | special | U19.3 args 2/4/5/6/7/8/9; arg 10 refuse |
 | `0xF9` | Renzokuken hits | `K_RENZOKUKEN_FINISHER` | G20.2 |
 | `0xFF` | script/special section | exec reuse | G17 |
 
 Pending menu IDs that are **not** the resolver byte: GF pending `0x03` vs resolve `0xFE`. Draw pending ≠ resolver aux.
 
-U19.1 = this table (`mapped` 0.48). U19.2–U19.6 not walked command-by-command this campaign. Card/Devour/Mug sit in resolver case 0 / devour tables — treat as **unsupported until row-level** (SQ-G19-001).
+U19.1–U19.3 are offline (`static-partial` 0.72). 12 ability rows and 16 Devour rows decode from authenticated `kernel.bin`. Card/Devour/Mug persist writers stay refused (SQ-G19-001). See [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]].
 
 ## G20 — Limit families (inventory)
 
@@ -642,8 +663,8 @@ Confidence 0.40 `mapped`. Names of functions are not certified state machines.
 4. Draw source death after GetText is **static-closed-with-cap** (SQ-G13-002); not a live residue.
 5. Barrier idle cadence `0x70`/`0x71`/`0x74`.
 6. Cover trigger timing is closed (SQ-G17-001). G17 party Counter is live-promoted. Remaining G17 live is Cover/Regen/Return only.
-7. GF charge cancel/Boost.
+7. GF cinematic idle (U18.8). Charge seed writer is static-closed (SQ-G18-004). ISO persist write+restore is live (SQ-G18-006). Zantetsuken HP=0 stays presentation (SQ-G18-002).
 8. Limit input windows (G20.2–G20.4, G20.6).
-9. Card/Devour/Mug reward commit (U19.4).
+9. Card/Devour/Mug reward persist writers (SQ-G19-001). Rows are decoded; commit stays refused.
 
 G11–G13 now have live `Gxx.satisfied` addenda on their compiled validation pages. A bounded G11 single-cast offline draft is still not evidence for Dual/Triple, native stock import, Reflect, Angel Wing, or live equivalence.

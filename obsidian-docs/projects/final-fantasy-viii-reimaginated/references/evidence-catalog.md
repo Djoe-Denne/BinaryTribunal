@@ -124,10 +124,34 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-suite-2026-08-27.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-shutdown-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-closure-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-offensive-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-absorption-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-support-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-special-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-post-shutdown-2026-08-27.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-offensive-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-host-absorption-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-offensive-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-boost-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-absorption-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-exhaust-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-support-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-special-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g18-completion-repeat-post-suite-2026-08-28.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/4d601300-f2f2-459f-b643-f415407be7e0/4d601300-f2f2-459f-b643-f415407be7e0.jsonl
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
 summary: >-
-  Canonical G00–G17 map. Live JSON is tracked; root suite bins are
-  purged. G17 claim is party Counter only.
+  Canonical G00–G19 map. Live JSON is tracked; root suite bins are
+  purged. G19 is offline-draft.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -136,7 +160,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-08-28T14:40:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -170,6 +194,8 @@ updated: 2026-08-27T21:30:00+02:00
 | G15 / AI control live | Paused `c0m044` Init `STOP` / Turn `UseAbility` shadow on DLL `fcc8365e…`. Zero native AI VM calls, `PASS`/`Detached`. `[promotion.G15].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] |
 | G16 / AI actions | Live-promoted UseAbility pending emit on DLL `92419780…` / PID 40964. Host `0x71` insert is campaign residual, not a G16 reopen. | [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] |
 | G17 / reactions | Live-promoted party Counter on DLL `6326950a…` / PID 25280. Cover/Regen/Return stay later. `[promotion.G17].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] |
+| G18 / GF gameplay | Live-promoted Quezacotl 1068→782 on PID 35064 / DLL `34204e43…`. PID 58056 / DLL `b6db8a89…` added Boost, persist write+restore, Cerberus, Odin. Repeat FAIL is fixture KO. `[promotion.G18].satisfied` true. 2026-08-28 static pass closed SQ-G18-001/003/004/005. Domain now has seed/Boko/Phoenix revive/cancel. | [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] |
+| G19 / command abilities | Offline-draft. 39+12+16 kernel rows decode. Defend/Treatment/Recover/Revive/Mad Rush/Doom and command-0 proven args. Card/Devour/Mug persist refused. No live campaign. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -270,6 +296,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
 - [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]

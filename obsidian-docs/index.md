@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-27T21:30:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-28T14:40:00+02:00*
 
 ## Concepts
 
@@ -63,8 +63,8 @@ title: Wiki Index
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
-- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G17 live-promoted; G17 claim is party Counter. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; SQ-G17-001 Cover timing is closed; Session P Counter is live-promoted. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G18 live-promoted. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; G18 host-commit pack live; SQ-G18-002/004 stay named. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
@@ -96,15 +96,18 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation]] — G15 live-promoted: paused c0m044 Init/Turn shadow; native_ai_vm_calls stays 0 until an optional VM hook. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] — G16 live-promoted: UseAbility pending emit; suite restore_ok means preimage armed, not in-suite restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] — G17 live-promoted party Counter; measured VM counters; shared G16 pending restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] — G18 live-promoted; PID 35064 Quezacotl 1068→782; PID 58056 Boost/persist/Cerberus/Odin. ( #ff8 #battle-system #gforce #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] — G19 offline-draft: command inventory plus proven handlers; Card/Devour/Mug persist refused. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G17 map; live JSON tracked; root suite bins purged; G17 is party Counter. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G19 map; live JSON tracked; G19 offline-draft. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
 ## Journal
 
-- [[journal/2026-08-27]] — Session: G14–G17 red team, measured restore_ok/VM counters, runtime laboratory split. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-28]] — Session: G18 promotion, PID 58056 host-commit pack, then G19 offline-draft. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-27]] — Session: G14–G17 red team, runtime laboratories, G18 live copy-resolve. ( #ff8 #battle-system #testing #reference)
 
 ## Projects
 
