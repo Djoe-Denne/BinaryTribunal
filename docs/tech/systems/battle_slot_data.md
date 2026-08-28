@@ -28,7 +28,7 @@ Notes:
 
 High-signal fields and their offsets (full field list lives in IDA as `FF8BattleSlotData_s`):
 
-- `+0x00` `monster_info_section` (enemy only): pointer to `.dat` info section (`ff8_battle_monster_info **`)
+- `+0x00` `monster_info_section` (enemy only): pointer-to-pointer to `.dat` section 6 (`ff8_battle_monster_info **`, 380 B). Native write: `sub_507120` `0x50724C`.
 - `+0x04` `monster_ai_section` (enemy only): pointer to AI bytecode (`DWORD **`)
 - `+0x08` `status_2` (DWORD): battle status flags (Haste/Slow/Protect/Shell/Reflect/…)
 - `+0x0C` `status_2_copy` (DWORD): presentation mirror

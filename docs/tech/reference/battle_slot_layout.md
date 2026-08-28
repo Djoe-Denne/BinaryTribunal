@@ -22,7 +22,7 @@ Full layout is documented in `docs/tech/systems/battle_slot_data.md`. This page 
 
 | Offset | Size | Field | Notes / Primary writers |
 |--------|------|-------|--------------------------|
-| `+0x00` | 4 | `monster_info_section` | Enemy-only pointer (`0x48BBD0`) |
+| `+0x00` | 4 | `monster_info_section` | Enemy-only `**` to `.dat` section 6 (`0x50724C`, reader `0x48BBD0`) |
 | `+0x04` | 4 | `monster_ai_section` | Enemy-only pointer (AI VM) |
 | `+0x08` | 4 | `status_2` | Authoritative status_2 (`0x493840`) |
 | `+0x0C` | 4 | `status_2_copy` | Mirror (`0x47E2D0`) |

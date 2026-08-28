@@ -38,6 +38,8 @@ transactions, ownership and confidence mapped before implementation.
   uncertainty register into Obsidian, recompiles `ff8-wiki` periodically, and
   explicitly supports retroactive correction when later xrefs invalidate an
   earlier interpretation.
+- `g21-battle-data-readers-new-chat.md` — implement G21 bounded readers under
+  P1 after G20 live promotion. Does not open P2 or start G22.
 
 The historical live pack remains for the residuals that the marathon labels
 `live-required`; it is not part of the autonomous run.

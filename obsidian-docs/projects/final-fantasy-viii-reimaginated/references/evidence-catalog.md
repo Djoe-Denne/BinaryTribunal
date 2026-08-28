@@ -159,9 +159,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-live-promotion-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-crisis-post-suite-2026-08-28.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-describe-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-post-shutdown-2026-08-28.json
 summary: >-
-  Canonical G00–G20 map. Live JSON is tracked; root suite bins are
-  purged. G19 and G20 are live-promoted. P2 stays blocked.
+  Canonical G00–G21 map. Live JSON is tracked; root suite bins are
+  purged. G19, G20, and G21 are live-promoted. P2 stays blocked.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -170,7 +175,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-28T16:15:00+02:00
+updated: 2026-08-28T18:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -207,6 +212,7 @@ updated: 2026-08-28T16:15:00+02:00
 | G18 / GF gameplay | Live-promoted Quezacotl 1068→782 on PID 35064 / DLL `34204e43…`. PID 58056 / DLL `b6db8a89…` added Boost, persist write+restore, Cerberus, Odin. Repeat FAIL is fixture KO. `[promotion.G18].satisfied` true. 2026-08-28 static pass closed SQ-G18-001/003/004/005. Domain now has seed/Boko/Phoenix revive/cancel. | [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] |
 | G19 / command abilities | Live-promoted Recover 9652→9999 plus Card refuse on PID 51944 / DLL `ec7c5bc3…`. `[promotion.G19].satisfied` true. SQ-G19-001 persist stays open. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
 | G20 / Limit families | Live-promoted crisis `+0xCA` 0→0 plus Duel refuse on PID 63104 / DLL `38040660…`. `[promotion.G20].satisfied` true. SQ-G20-001 records stay open. P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] |
+| G21 / battle-data readers | Live-promoted file-backed describe plus bounds refuse on PID 23764 / DLL `decf543d…`. `[promotion.G21].satisfied` true. SQ-G21-001/002/003 stay open. G22 and P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] |
 
 ## Offline Family-Completion Candidate
 

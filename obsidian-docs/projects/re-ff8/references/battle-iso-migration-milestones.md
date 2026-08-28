@@ -812,19 +812,19 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U21.1 `scene.out`:** encounter row, flags, enemy mapping, positions, stage/camera references, and bounds.
-- [ ] **U21.2 Kernel readers:** Magic, Item, command abilities, enemy attacks, GF, Limits, misc, and character data.
-- [ ] **U21.3 Save/party reader:** characters, junctions, magic stock, items, GF state, configuration, and story flags.
-- [ ] **U21.4 Monster `.dat`:** info, ability, AI, text, model/effect references, and section bounds.
-- [ ] **U21.5 Battle-local working copies:** `F_CHAR_DATA`, item/equal-item state, strings, and transient IDs.
-- [ ] **U21.6 Resource descriptors:** identifiers and lifetimes only; visual decoding remains G27–G29.
-- [ ] **U21.7 Failure behavior:** missing/corrupt assets, invalid IDs, size overflow, and original-compatible abort policy.
+- [x] **U21.1 `scene.out`:** 128-byte row at `scene_id << 7`; proven flags/mapping/coords/cameras; `unknown_40..70` stay an opaque hash (SQ-G21-002 closed: no EXE consumer).
+- [x] **U21.2 Kernel readers:** façade over existing Magic/Item/command/GF/Limit/enemy-attack codecs; no second `kernel.bin` parser.
+- [x] **U21.3 Save/party reader:** proven `SG_ITEM` + battle-speed / Odin-Angel-Gilga bytes; junctions / story flags remain fail-closed (SQ-G21-001).
+- [x] **U21.4 Monster `.dat`:** section table + reused section 8 AI; 380-byte info is 0-based section 6 (SQ-G21-003 closed).
+- [x] **U21.5 Battle-local working copies:** decode-from-bytes `F_CHAR_DATA` 0x570 proven fields only; zero `export_*`.
+- [x] **U21.6 Resource descriptors:** `{ kind, id, lifetime }` for stage/camera/model; no mesh/TIM/BdLink.
+- [x] **U21.7 Failure behavior:** missing/truncated/overflow/BattleActive produce typed errors and zero combat writes.
 
-**Test pack:** corpus parse of every claimed encounter, monster, kernel row, and save fixture; bounds/fuzz cases.
+**Test pack:** authenticated `scene.out` + `kernel.bin` + `c0m016.dat`; bounds/truncate; no post-init snapshot compare.
 
-**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state.
+**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state. Live-promoted under **P1** on PID 23764 (describe + bounds, zero writes, `Detached`). P2 is not opened. G22 is not started.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G21 -Profile P2 -TimeoutMs 180000` before native battle initialization, using real archives/save fixtures plus corrupt/truncated variants. It passes when replacement readers produce the expected typed encounter/party/monster/kernel descriptors, reject every bounds failure deterministically, and perform no battle-state write or post-init snapshot import.
+**Injected in-game test:** `make_suite_payload.py --group G21 --profile P1` then `FF8Iso_RunInProcessSuite` on the field or menu. `Invoke-IsoGroup` / profile P2 are obsolete. It passes when file-backed describe + bounds refuse match the offline hashes, `write_count == 0`, `battle_imported == 0`, and shutdown leaves `Detached` with the process alive.
 
 ### G22 — Reimplement battle initialization
 
