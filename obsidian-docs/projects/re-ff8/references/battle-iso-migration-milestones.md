@@ -41,13 +41,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
   - ai-prompt/todo/g19-command-abilities-new-chat.md
-summary: Dependency roadmap through G20. G14–G20 live-promoted on P1. P2 stays blocked.
+summary: Dependency roadmap through G21. G14–G21 live-promoted on P1. P2 stays blocked.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-28T14:50:00+02:00
+updated: 2026-08-28T19:00:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -56,7 +56,7 @@ updated: 2026-08-28T14:50:00+02:00
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
 > [!success] Current implementation checkpoint — 2026-08-28
-> The remaster has live-promoted G05–G20 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20]] is live-promoted on P1 (crisis `+0xCA` 0→0 + Duel refuse, PID 63104). Blue Magic / windows / records stay later. P2 stays blocked.
+> The remaster has live-promoted G05–G21 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20]] is live-promoted on P1 (crisis `+0xCA` 0→0 + Duel refuse, PID 63104). Blue Magic / windows / records stay later. [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation|G21]] is live-promoted (file-backed describe + bounds). P2 is **unlocked after G20** on paper and **stays blocked** until a fail-closed live re-proof (nonzero `memory_hash`, crisis ≠ 0→0, field-id not skipped). Historical envelopes are not rewritten.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 

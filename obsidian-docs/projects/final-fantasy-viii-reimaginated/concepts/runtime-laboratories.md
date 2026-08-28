@@ -10,13 +10,14 @@ sources:
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
   Six-cluster map of ff8iso_runtime: kernel, cadence, seams, commit labs,
-  G14, P1 AI. Unique Runtime; NCOMP only G06/G07/G09.
+  G14, P1 AI/GF/commands/limits/battle-data. Unique Runtime; NCOMP only
+  G06/G07/G09.
 provenance:
   extracted: 0.88
   inferred: 0.10
   ambiguous: 0.02
 created: 2026-08-27T21:30:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-08-28T19:00:00+02:00
 ---
 
 # Runtime laboratories
@@ -43,7 +44,7 @@ cadence         → runtime_cadence_hooks.cpp, runtime_g06.cpp, runtime_g07.cpp
 command seams   → runtime_command_seams.cpp
 commit labs     → runtime_g08.cpp … runtime_g13.cpp
 presentation    → runtime_g14.cpp + SealedNativePresentationAdapter
-P1 AI/reactions → g15_ai_control.cpp, g16_ai_actions.cpp, g17_reactions.cpp
+P1 AI/reactions/GF → g15_ai_control.cpp … g21_battle_data.cpp
 ```
 
 | Cluster | Owns | Forbidden |
@@ -53,18 +54,24 @@ P1 AI/reactions → g15_ai_control.cpp, g16_ai_actions.cpp, g17_reactions.cpp
 | **command seams** | `PendingAction_Write`, `QueueOrStore`, `EnqueueSpecialAction` trampolines + `capture_*` | HP/stock commit, a G08 NCOMP adapter |
 | **commit labs** | `Runtime::run_g08`…`run_g13` arm + witness | Native cadence replacement |
 | **presentation** | G14 suite glue (`sample_g14`, `reset_g14`) | Growing the sealed adapter with suite logic |
-| **P1 labs** | G15/G16/G17 import, witness fill, `run_gXX_suite`, G17 intercept | A second pending writer |
+| **P1 labs** | G15–G21 import, measured witness fill, `run_gXX_suite`, G17 intercept | A second pending writer; stamped `armed`/`native_*` |
 
 G10–G12 thin-wrap `run_g09_attack_suite`. Shared helpers and hook
 externs live in `runtime-x86/src/runtime_internal.hpp`. Do not grow a
 second anonymous copy in a new TU. ^[inferred]
 
+G18–G21 share `g18_through_g21_suite_active()` and
+`sealed_or_foreign_suite_active()`. File-save offsets live in
+`runtime-x86/include/ff8iso/runtime/save_layout.hpp`, not in
+`core/battle_data.hpp`.
+
 ## Shared restore
 
 G16 and G17 share `g16_pending_preimage_` and one
 `restore_g16_pending_preimage`. Kernel shutdown calls each cluster's
-`restore_*`. Suite `restore_ok` means the preimage is armed, not that
-native consume was rolled back in-suite. Do not add an in-suite pending
+`restore_*`. Suite `restore_ok` on G16/G17 means the preimage is armed, not that
+native consume was rolled back in-suite. G18–G21 measure `restore_ok` from
+host hash / write count. Do not add an in-suite pending
 restore after emit-then-native-consume. See
 [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]]
 and

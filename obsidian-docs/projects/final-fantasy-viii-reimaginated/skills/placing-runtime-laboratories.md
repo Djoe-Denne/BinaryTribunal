@@ -56,7 +56,7 @@ services. Do not rename the layer `ff8iso_infrastructure`. Cluster map:
 - Command seams: `runtime-x86/src/runtime_command_seams.cpp`
 - G08–G13 labs: `runtime-x86/src/runtime_g08.cpp` … `runtime_g13.cpp`
 - G14 suite: `runtime-x86/src/runtime_g14.cpp`
-- G15–G17: `g15_ai_control.cpp`, `g16_ai_actions.cpp`, `g17_reactions.cpp`
+- G15–G21: `g15_ai_control.cpp` … `g21_battle_data.cpp`
 - Sealed presentation owner: `sealed_native_presentation_adapter.cpp`
 - Shared host: `state_synchronizer`, `write_guard`, `host_memory`, `call_audit`
 - Shared helpers / hook externs: `runtime-x86/src/runtime_internal.hpp`
