@@ -19,7 +19,7 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
-summary: SQ-Gxx register. G19 offline-draft. SQ-G19-001 persist still open.
+summary: SQ-Gxx register. G19 live-promoted. SQ-G19-001 persist still open.
 provenance:
   extracted: 0.70
   inferred: 0.20
@@ -455,8 +455,8 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - evidence_for: `K_BATTLE_COMMAND_ABILITY` rows 9–10 and `K_DEVOUR` 16×12 decode in `test_g19`; resolve returns `RewardPersistUnsupported`.
 - evidence_against: no `getMugObjectIdAndQuantity` / `Devour_ApplyPermanentStatBonuses` / `computeCardCommandDrop` port.
 - missing_discriminator: host item/card/stat persist transaction.
-- next_static_probe: those three persist helpers and their save-side writes.
-- eventual_live_probe: one Card, one Mug, one Devour after the writers are owned.
+- next_static_probe: closed 2026-08-28. CFG is open: Mug (`0x4867C0`) uses RNG + DAT and mutates inventory in the resolver; Devour (`0x492220`) calls `increaseCharaStatBy1` + `sub_495F50`; Card (`0x48FBA0`) writes `END_BATTLE_CARD_OBTAINED` from GetText.
+- eventual_live_probe: one Card, one Mug, one Devour after the writers are owned. Live Session P proves refuse, not persist.
 - resolution: rows inventoried 2026-08-28; persist stays fail-closed.
 
 ### SQ-G20-001 — Limit authentic records

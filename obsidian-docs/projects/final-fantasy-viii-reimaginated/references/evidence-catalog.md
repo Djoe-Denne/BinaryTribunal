@@ -149,9 +149,14 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/4d601300-f2f2-459f-b643-f415407be7e0/4d601300-f2f2-459f-b643-f415407be7e0.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-state-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-post-shutdown-2026-08-28.json
+  - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/e1211149-fe0b-4c88-b765-6658c2b3ce42/e1211149-fe0b-4c88-b765-6658c2b3ce42.jsonl
 summary: >-
   Canonical G00–G19 map. Live JSON is tracked; root suite bins are
-  purged. G19 is offline-draft.
+  purged. G19 is live-promoted.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -160,7 +165,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-28T14:40:00+02:00
+updated: 2026-08-28T16:15:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -195,7 +200,7 @@ updated: 2026-08-28T14:40:00+02:00
 | G16 / AI actions | Live-promoted UseAbility pending emit on DLL `92419780…` / PID 40964. Host `0x71` insert is campaign residual, not a G16 reopen. | [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] |
 | G17 / reactions | Live-promoted party Counter on DLL `6326950a…` / PID 25280. Cover/Regen/Return stay later. `[promotion.G17].satisfied` true (2026-08-27). | [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] |
 | G18 / GF gameplay | Live-promoted Quezacotl 1068→782 on PID 35064 / DLL `34204e43…`. PID 58056 / DLL `b6db8a89…` added Boost, persist write+restore, Cerberus, Odin. Repeat FAIL is fixture KO. `[promotion.G18].satisfied` true. 2026-08-28 static pass closed SQ-G18-001/003/004/005. Domain now has seed/Boko/Phoenix revive/cancel. | [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] |
-| G19 / command abilities | Offline-draft. 39+12+16 kernel rows decode. Defend/Treatment/Recover/Revive/Mad Rush/Doom and command-0 proven args. Card/Devour/Mug persist refused. No live campaign. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
+| G19 / command abilities | Live-promoted Recover 9652→9999 plus Card refuse on PID 51944 / DLL `ec7c5bc3…`. `[promotion.G19].satisfied` true. SQ-G19-001 persist stays open. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
 
 ## Offline Family-Completion Candidate
 

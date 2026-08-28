@@ -39,13 +39,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-summary: Dependency roadmap through G13. G12 is live-promoted-semantic; G13 is live-promoted Cast/Stock. Presentation remains G14.
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - ai-prompt/todo/g19-command-abilities-new-chat.md
+summary: Dependency roadmap through G20. G14–G19 live-promoted. G20 stays later.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-27T19:50:00+02:00
+updated: 2026-08-28T14:50:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -53,8 +55,8 @@ updated: 2026-08-27T19:50:00+02:00
 > [!important] Purpose
 > This page is the executable roadmap for [[projects/re-ff8/skills/implementing-iso-battle-migration]]. It separates architecture from scheduling. A group is a milestone; a unit is the smallest reviewable implementation increment. A group is complete only when every unit and the group gate pass.
 
-> [!success] Current implementation checkpoint — 2026-08-25
-> The [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated|remaster implementation]] has closed G05–G13 for the owned semantic slices. [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation|G09]] live-promotes Attack `0x01` and unlocks P1 AttackSlice. [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation|G10]] live-promotes the owned Slow status/timer slice. [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation|G11]] live-promotes semantic Magic behavior; animation remains G14. [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation|G12]] is live-promoted-semantic. [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation|G13]] is live-promoted for Cast/Stock; pending `0x06` stays a runtime byte. A 2026-08-18 static campaign mapped G11–G20 in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]]. G14–G20 gate checkboxes below stay unchecked.
+> [!success] Current implementation checkpoint — 2026-08-28
+> The remaster has live-promoted G05–G19 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. G20 stays later.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
 
@@ -747,14 +749,14 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U18.1 GF metadata:** `K_GF_JUNCTIONABLE`, non-junctionable GF rows, effect ID, level/power modifiers, and status payload.
-- [ ] **U18.2 Summon command routing:** pending/group-1/current-action semantics.
-- [ ] **U18.3 Charge timer:** summon start, Haste/Slow cadence, cancellation, and actor state.
-- [ ] **U18.4 GF damage:** MAG/SPR family, level/power modifiers, Boost, elements, and special fixed/% families.
-- [ ] **U18.5 Charge absorption:** `target_info_mask` pool, HP interaction, depletion, KO counter, and persistence.
-- [ ] **U18.6 Support GF:** status-only payload and no-damage completion.
-- [ ] **U18.7 Special GF resolver profiles:** consume special `ActionRequest` records emitted by G17 and resolve Odin/Phoenix/Gilgamesh/Angelo gameplay payloads; this unit owns neither trigger rolls nor scheduling.
-- [ ] **U18.8 Presentation intent:** emit effect, camera ownership, audio, and completion barriers without requiring native GF logic.
+- [x] **U18.1 GF metadata:** `K_GF_JUNCTIONABLE`, non-junctionable GF rows, effect ID, level/power modifiers, and status payload.
+- [x] **U18.2 Summon command routing:** pending `0x03` group 2; resolve `0xFE`. Not a raw group-1 pending.
+- [x] **U18.3 Charge timer:** start, Haste/Slow, cancel (Death/Petrify/Darkness/Silence/Eject/Confuse). Native seed formula in domain; lab still plants 12.
+- [x] **U18.4 GF damage:** MAG/SPR, Boost, elements, fixed/% families.
+- [x] **U18.5 Charge absorption:** `target_info_mask` pool, depletion, KO, ISO persist write+restore.
+- [x] **U18.6 Support GF:** Cerberus Double+Triple live; other supports offline.
+- [x] **U18.7 Special GF resolver profiles:** consume G17 copies; Phoenix `GetReviveHP`; Zantetsuken stays Vit0, no HP=0.
+- [x] **U18.8 Presentation intent:** CameraSummon/Action/ActorReady only; no native `FinalizeSummonExit`.
 
 **Test pack:** offensive GF, support GF, charge damage/absorption, Boost boundaries, fixed special GF, cancellation, and repeated summon.
 
@@ -768,18 +770,18 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U19.1 Command inventory:** enumerate every group-1/group-2 command ID and assign a handler or explicit unsupported state.
-- [ ] **U19.2 Table-driven abilities:** load `K_BATTLE_COMMAND_ABILITY` and route ordinary damage/status abilities.
-- [ ] **U19.3 State-only commands:** implement no-damage defense/recovery/utility contracts from recovered evidence.
-- [ ] **U19.4 Reward-affecting commands:** Card, Devour, Mug/steal, and kill-reward suppression/commit semantics.
-- [ ] **U19.5 Targeting exceptions:** command-specific target and eligibility rules.
-- [ ] **U19.6 Coverage fixture:** one deterministic scenario per supported command row.
+- [x] **U19.1 Command inventory:** 256 resolver IDs classified; no silent default. Offline 2026-08-28.
+- [x] **U19.2 Table-driven abilities:** 39 command + 12 ability rows decode; proven families routed; Absorb/Lv/Kamikaze fail-closed.
+- [x] **U19.3 State-only commands:** Defend, Treatment, Recover, Revive, Mad Rush (Berserk+Haste/Protect, enabler 255), Doom + command-0 args 2/4/5/6/7/8/9.
+- [ ] **U19.4 Reward-affecting commands:** Card/Devour/Mug rows decode; persist writers refused after IDA CFG audit (SQ-G19-001). Not a silent fall-through.
+- [x] **U19.5 Targeting exceptions:** Revive misses living; Recover/Treatment miss death/Petrify; `target_info` is a G08 plan constraint, not a second walker.
+- [x] **U19.6 Coverage fixture:** `test_g19` matrix 256/12/16 + command-0 + named refuses; payload `G19.command-abilities-payload-wire`. Live Session P still open.
 
-**Test pack:** command-ID coverage report, damage/status command, state-only command, reward mutation, invalid target, and unsupported command refusal.
+**Test pack:** command-ID coverage report, state-only command, command-0 `GetReviveHP`, reward *refusal*, invalid target, unsupported command.
 
-**Gate G19:** no supported command enters a default fall-through with unknown semantics.
+**Gate G19:** no supported command enters a default fall-through with unknown semantics. Offline matrix plus Session P Recover/Card-refuse meet this. Persist writers stay refused.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G19 -Profile P1`; the suite dispatches every declared command row, including damage/status, state-only, Card, Devour, Mug/steal, invalid-target, and explicitly unsupported cases. It passes on full command-ID coverage, exact reward/persistence intents, and explicit refusal instead of any unknown/default native path.
+**Injected in-game test:** Done 2026-08-28 on PID **51944**. Bootstrap / `FF8Iso_RunInProcessSuite` / shutdown. Recover 9652→9999, Card refuse 0 writes, `Detached`, frame preimage restored. See [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]].
 
 ### G20 — Port every Limit family
 

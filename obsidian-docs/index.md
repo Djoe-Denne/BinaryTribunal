@@ -97,16 +97,16 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation]] — G16 live-promoted: UseAbility pending emit; suite restore_ok means preimage armed, not in-suite restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]] — G17 live-promoted party Counter; measured VM counters; shared G16 pending restore. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] — G18 live-promoted; PID 35064 Quezacotl 1068→782; PID 58056 Boost/persist/Cerberus/Odin. ( #ff8 #battle-system #gforce #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] — G19 offline-draft: command inventory plus proven handlers; Card/Devour/Mug persist refused. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] — G19 live-promoted: Recover 9652→9999 plus Card refuse on PID 51944. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G19 map; live JSON tracked; G19 offline-draft. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G19 map; live JSON tracked; G19 live-promoted. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
 ## Journal
 
-- [[journal/2026-08-28]] — Session: G18 promotion, PID 58056 host-commit pack, then G19 offline-draft. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-28]] — Session: G18 promotion, then G19 Recover/Card-refuse live promotion. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-27]] — Session: G14–G17 red team, runtime laboratories, G18 live copy-resolve. ( #ff8 #battle-system #testing #reference)
 
 ## Projects
