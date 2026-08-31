@@ -136,7 +136,9 @@ Four functions run in sequence for each party slot:
 
 #### a. `ParseBattleCharacter(charId, slotId)` — `0x495530`
 
-Copies save-game data (`SG_ARRAY_CHARA_DATA`) to intermediate `F_CHAR_DATA`:
+Copies save-game data (`SG_ARRAY_CHARA_DATA`, stride 152) to intermediate
+`F_CHAR_DATA`. Steam `.ff8`: LZS payload, classic savemap at decompressed
+`+0x180`, array at savemap `+0x490` (file `+0x610`):
 
 - `ModelID`, `CurrentHP`, `Experience`, `AltModel`, `WeaponID`
 - Level calculated from XP via `getCharaXP_sub_496240` / `getCharaXP_sub_4961D0`
@@ -295,15 +297,17 @@ The `level_code` byte in scene data selects the algorithm:
 | Code | Algorithm | Function |
 |------|-----------|----------|
 | 0–100 | Literal level | (inline) |
-| 101–200 | `GetPartyAverageLevelWithOffset(code)` | `0x48C140` |
-| 201–250 | `GetPartyAverageLevelWithRandomness` + (code − 200) | (inline) |
-| 251 | Party avg capped at 65 + random 0–3 | `0x48C020` |
+| 101–200 | `min(code−100, avg ± avg/5)` clamp `[1,100]` | `0x48C140` |
+| 201–250 | `GetPartyAverageLevelWithRandomness` + (code − 200), then cap 100 | (inline) |
+| 251 | `avg ± (rng&3)` clamp `[1,65]` | `0x48C020` |
 | 252 | Random 1–100 | (inline) |
-| 253 | Constrained team-level average | `0x48C0A0` |
+| 253 | `rng % jittered_avg` (0→1), cap 100 | `0x48C0A0` |
 | 254 | Exact party average (no randomness) | `0x48B2E0` |
-| 255 | Party avg ± 20% (most common) | `0x48BFA0` |
+| 255 | Party avg ± `avg/5` (most common) | `0x48BFA0` |
 
-**GetPartyAverageLevelWithRandomness** (`0x48BFA0`): average of active party member levels, then 50% chance to add or subtract `avg/5`. Clamped to `[1, 100]`.
+**GetPartyAverageLevelWithRandomness** (`0x48BFA0`): average of party slots whose `com_file_id != 0xFF`, then 50% chance to add or subtract `avg/5`. Clamped to `[1, 100]`.
+
+2026-08-30 IDB recut: [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]].
 
 ### Innate Monster Statuses
 
@@ -355,12 +359,14 @@ See also [atb_system.md](atb_system.md) for per-frame ATB accumulation after ini
 1. If `ENCOUTER_BATTLE_FLAG < 0` → **Normal** (result 0).
 2. If `BATTLE_FORCE_PREEMPTIVE` flag set → forced preemptive.
 3. If `BATTLE_FORCE_BACK_ATTACK` flag set → forced back attack.
-4. Otherwise, RNG-based:
-   - Check `Battle_CheckPreemptiveImmunity` (`0x48B260`): if all alive enemies have immunity flag → +20 bonus.
-   - Roll = `Battle_GetRandomInt()` + immunity bonus.
-   - If party has `RARE_ITEM_ABILITY` bit 0 → roll −20.
-   - If any enemy has `always_back_attack` flag → force preemptive.
-   - `Battle_MapPreemptiveResultToType` (`0x48B2A0`): roll < 20 → preemptive, 20–235 → normal, ≥ 236 → back attack.
+4. Otherwise, RNG-based (2026-08-30 IDB):
+   - `ENCOUTER_BATTLE_FLAG` bit `0x80` already forced type 0 (signed `< 0`).
+   - Bits `0x20` / `0x40` force type 1 / 2. IDB `FORCE_PREEMPTIVE`/`BACK` names disagree with the ATB table — cite bits.
+   - Base +20 if every enemy is Death or `flag_byte_2` bit 0; plus `Battle_CheckPreemptiveImmunity(2, −20)`.
+   - Roll = that + `Battle_GetRandomInt()` (8-bit).
+   - If `RARE_ITEM_ABILITY_IN_IT` bit 0 → roll −20; also demotes a back result (`v5==2`) to normal.
+   - `flag_byte_2` bit 4 (`AlwaysBack` name) **blocks preemptive** (`v5==0` → 1). It does **not** force back.
+   - `v5`: `<20` preemptive pair, `20–235` normal, `≥236` back pair. Map: 1→type 0; 0→3 or 4; 2→1 or 2.
 
 ### `BACK_PREEMTIVE_INFO` Values
 
@@ -394,7 +400,7 @@ Final checks before the active tick begins:
 | 1 | — | `CAN_BATTLE_BE_PAUSED = 1` | Enable pause menu |
 | 2 | `0x485FF0` | `Battle_BuildTargetVisibilityMasks` | Build party/enemy targeting bitmasks |
 | 3 | — | Clear pending action buffer | Zero 20-byte buffer |
-| 4 | `0x47D8A0` | `Battle_EnqueueInitialPartyActions` | Enqueue actions for party members with initial-action flags |
+| 4 | `0x47D8A0` | `Battle_EnqueueInitialPartyActions` | Slots 0–6: enqueue `special_id=0` group 0 iff `flag 0x01 && 0x10 && !0x80`. Party init writes `0x8801` (no `0x10`). DAT writes `0x11`. Loaded `0x80` blocks. Not Attack. |
 | 5 | — | `AI_BATTLE_ACTIVE_FLAG = 1` | Enable AI processing |
 | 6 | `0x482E00` | `Odin_BattleInit_ZantetsukenCheck` | 32/255 (12.5%) if `SG_ODIN_ANGEL_GILGA_FLAG` bit 1 set AND all alive enemies have death resistance < 200 |
 | 7 | `0x4831F0` | `Gilgamesh_BattleInit_TriggerCheck` | 8/255 (3.1%) if Gilgamesh flag set. Random selects attack variant 0–3 |

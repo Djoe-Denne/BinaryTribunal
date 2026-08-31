@@ -6,6 +6,7 @@ aliases: [damage formula, hit formula, crit formula, status formula, ISO formula
 sources:
   - IDA static decompile 2026-06-14 (Damage_ComputeRawDeltaFromAttackType 0x4922B0 and the full helper tree)
   - IDA static decompile 2026-06-14 (init formulas: Battle_CalculateJunctionStats 0x495960, computeMonsterHP 0x48C500, Odin/Gilgamesh init rolls)
+  - IDA static decompile 2026-08-30 (G22 catchup: CharacterData 152, K_MISC.dead_timer +0x0F=200, enqueue 0x10, ordinary start roll)
   - IDA static decompile 2026-08-18 (G11 Magic dispatcher vs UNMISSABLE, Life Med Data predicate)
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
@@ -15,7 +16,7 @@ provenance:
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T12:00:00+02:00
-updated: 2026-08-18T10:15:00+02:00
+updated: 2026-08-31T17:00:00+02:00
 ---
 
 # Battle Formulas (Damage / Heal / Hit / Crit / Status)
@@ -254,7 +255,10 @@ return (t != 0) and (t >= Battle_GetRandomInt())     # rand in 0..255
        <- GetCharacter_* helpers ; Auto-Reflect bit set when char abilities & 0x60000
 ```
 
-`slotPct[*]` are per-slot percentage bytes in `F_CHAR_DATA` (normally `100`; a scale hook).
+`slotPct[*]` start at **100** and add `K_JUNCTION_ABILITY[id].byte[+6]` when
+ability id is in `[0x27,0x3A)` and `byte[+5]==stat_index` (HP = 0). Kernel
+section file `0x40e0`, stride 8, count `0x53`. `K_MAGIC.hpJunctionValue` is
+octet `+0x17`. Authenticated kernel `e378fb8f…`.
 
 **Character HP** `GetCharacterHP(lvl, char)` (`0x496310`) — curve in `K_CHARACTER` (per `ModelID`, words), junction bonus in `K_MAGIC`:
 
@@ -326,6 +330,8 @@ if owns Gilgamesh:
 
 The recurring in-battle Angelo/Odin/Gilgamesh re-roll (`AngeloOdin_SpecialActionTick` `0x482F80`) is gated by `BATTLE_DEAD_TIMER` counting down from `K_MISC.dead_timer` (`Battle_InitDeadTimer` `0x482F70`); on expiry it re-rolls Gilgamesh `12/255` and the Angelo variants (`8/255`, `2/255`) per `SG_ANGELO_COMPLETED` bits. The `level >= 200` Odin guard means Odin never auto-appears against high-level bosses.
 
+**Octet (2026-08-30):** `K_MISC.dead_timer` is `FF8KernelMisc+0x0F`. Host `0x1CF8B14`. Authenticated kernel `e378fb8f…` file `0x4CDB` = **200**. `BATTLE_DEAD_TIMER` `0x1D28DE4` is that byte zero-extended to uint16. Disk character record used by these formulas is `CharacterData` stride **152** at `SG_ARRAY_CHARA_DATA` `0x1CFE0E8`; Steam file offset is savemap `+0x490` (decomp `+0x610`) — layouts in [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]].
+
 ## Function map
 
 | Function | Addr | Role |
@@ -372,3 +378,4 @@ The recurring in-battle Angelo/Odin/Gilgamesh re-roll (`AngeloOdin_SpecialAction
 - [[projects/re-ff8/concepts/elemental-resolution]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/re-ff8/references/battle-loop-iso-readiness]]
+- [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]]

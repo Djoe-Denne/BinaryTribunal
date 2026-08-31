@@ -258,6 +258,28 @@ Remaining live-only breadth:
 3. determine whether `0x4876B0` / `0x4876D0` participate in the other common end-event chains, ^[ambiguous]
 4. validate the exact semantics of slot bytes `+0xB8/+0xB9` across all cleanup paths.
 
+## 2026-08-31 Capstone recut (G23 knowledge, no ISO core)
+
+EXE Steam 2013 SHA-256 `064d466b…6589570`. Aucun `core/` G23. Voir
+`ai-prompt/todo/g22-g23-extract-reports/vague-B0.md` … `vague-B3.md`.
+
+| EA | Fait |
+| --- | --- |
+| `0x494D40` | XP cap `0xEA60` @ `0x1CFF574` ; ennemi `monster_info+0x102` ; GF AP `0x1CFF520` |
+| `0x494AF0` | AP `+0x100` ; bounce 1 / cap 60000 ; table `0x1CFDCE4` |
+| `0x486650` / `0x4867C0` | Mug + Rare `0x1CFF6D8` + rank `0x1D28E89` |
+| `0x48FBA0` | Card command drop ; call `0x534840` ; `+0xF9/+0xFA` |
+| `0x492220` | Devour bits `0x1CF8A5E` → `0x495F90` |
+| `0x4868C0` | Cleanup : party `0x1CFE74C`, `CharacterData` `0x1CFE0E8` stride 152, EQUAL `0x1D28E78` |
+| `0x48B8B0` | Writeback halfword HP ; OR `SG_KNOWN_MAGIC` `0x1CFE95C` |
+| `0x486CD0` | Stocks `+0x10`, junction `+0x5C`, 32 paires |
+| `0x4865C0` | **`BATTLE_RESULT_CODE = 5`** @ `0x1CFF6E7` (plus ambiguous) |
+| `0x4A6680` / `0x4A2690` / `0x47CEF0` | Mode 5 / reward menu / exit = UI, pas formules |
+| `0x483270` | Phoenix : flag bit 4, scène `0x13D` (317) |
+
+`+0xB8/+0xB9` apparaissent comme writers **init** dans `0x48C500`, pas comme
+pending-items de fin de combat. Byte-exact save / escape commit = live-only.
+
 ## Related
 
 - [[projects/re-ff8/concepts/battle-lifecycle]]

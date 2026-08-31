@@ -47,7 +47,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-28T19:00:00+02:00
+updated: 2026-08-31T17:00:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -822,7 +822,7 @@ multi-hit eligibility baselines.
 
 **Test pack:** authenticated `scene.out` + `kernel.bin` + `c0m016.dat`; bounds/truncate; no post-init snapshot compare.
 
-**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state. Live-promoted under **P1** on PID 23764 (describe + bounds, zero writes, `Detached`). P2 is not opened. G22 is not started.
+**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state. Live-promoted under **P1** on PID 23764 (describe + bounds, zero writes, `Detached`). P2 is not opened. G22 has a later constrained live anchor, but remains open as a separate gate.
 
 **Injected in-game test:** `make_suite_payload.py --group G21 --profile P1` then `FF8Iso_RunInProcessSuite` on the field or menu. `Invoke-IsoGroup` / profile P2 are obsolete. It passes when file-backed describe + bounds refuse match the offline hashes, `write_count == 0`, `battle_imported == 0`, and shutdown leaves `Detached` with the process alive.
 
@@ -832,20 +832,22 @@ multi-hit eligibility baselines.
 
 **Units**
 
-- [ ] **U22.1 Clear/reset:** slots, queues, phases, timers, latches, result buffers, and generation IDs.
-- [ ] **U22.2 Party derivation:** level/XP, HP/stats, junction bonuses, magic, abilities, statuses, and equipment.
-- [ ] **U22.3 Enemy derivation:** level, rank, HP/stat curves, defenses, resistances, flags, draw list, and AI pointers/handles.
-- [ ] **U22.4 Initial ATB:** normal random values, preemptive/back-attack, initiative, and encounter overrides.
-- [ ] **U22.5 RNG initialization:** cross-run seed source and one-shot battle seeding.
-- [ ] **U22.6 Initial scripts/state:** AI Init, visibility/target masks, pause/escape gates, and action callbacks.
-- [ ] **U22.7 Auto-special initialization:** own only one-shot Odin/Gilgamesh battle-init rolls plus dead-timer/story-flag initialization; runtime scheduling belongs to U17.6.
-- [ ] **U22.8 Ready transition:** reproduce init phase order; after writing `mode_3_subsubsubstep = 4`, complete the same-frame `Battle_RunFileLoadingCallbacks` and `BdLink_GF_battle_input_and_texture_upload` compatibility tail before the first replacement active tick.
+- [ ] **U22.1 Clear/reset:** the canonical `BattleState` is reset completely offline before slot defaults are applied; v15 live-proved the three-group G07 queue-reset export (SQ-G22-004). Remaining named refusals stay open.
+- [ ] **U22.2 Party derivation:** offline 2026-08-31 derives `max_hp` / JFlag / auto-status / crisis. 8 junction stats + 16 GF battle still skip.
+- [ ] **U22.3 Enemy derivation:** Buel section-6 + Draw 8/42 closed; `c0mNNN` path and `level_code` 101–255 stay skip.
+- [ ] **U22.4 Initial ATB:** ordinary roll + immunity + Rare −20 applied offline; host battle-speed from `SG_BATTLE_SPEED_SETTING`.
+- [x] **U22.5 RNG initialization:** suite seed plus one-shot battle seeding.
+- [ ] **U22.6 Initial scripts/state:** AI-active/pause and a subset of masks exist; v15 invoked the mechanical enqueue detour with zero native helper calls, but eligible/enqueued masks stayed 0. AI Init and eligibility policy stay SQ-G22-008.
+- [ ] **U22.7 Auto-special initialization:** Odin/Gilga + dead-timer octet + story flag decode offline. Fresh live proof still required. Runtime scheduling stays U17.6.
+- [ ] **U22.8 Ready transition:** the runtime writes `MODE3_SUBSUBSUB_STEP = 4`. v15 L22-A observed one file-callback plus one BdLink G07 pump; L22-C matched `restore_hash == preimage_hash == 0x0f608238`. `refused_mask=509` and the remaining T22/L22 pack keep the unit open.
 
-**Test pack:** party configurations, enemy levels, preemptive/back attack, initial statuses, scripted summon rolls, and repeated init.
+**Required test pack:** party configurations, enemy IDs and levels, preemptive/back/ordinary start rolls, initial statuses, scripted summon rolls, dirty-state reset, partial-read/write refusal, and repeated full-state init. The current pack covers one Buel level-20 fixture, forced preemptive/back cases, limited HP hashes, v15 L22-A/B/C, and one already-ready refusal. Promotion still needs a **new** DLL + L22 pack. Offline predicts `refused_mask == 32` (`InitialEnqueue`). Do not require `== 0` without the `special_id=0` consumer.
 
-**Gate G22:** supported battles start from save+encounter data without importing a post-init native snapshot.
+**Gate G22:** **open**. PID 38256 / DLL `d901a8c2…` is the current constrained **P1 live anchor**, not a promotion: L22-A/B/C collector `PASS`, SQ-G22-004 live-proven, one operator Attack, and `Detached` restore `0x0f608238`. U22.2–U22.4 and U22.6–U22.8 remain incomplete. `[promotion.G22].satisfied` remains false. P2 is not opened. G23 is not started.
 
-**Injected in-game test:** Run `Invoke-IsoGroup -Group G22 -Profile P2 -TimeoutMs 180000` from a native field handoff using fixed save/encounter seeds for ordinary, preemptive, and back-attack cases. It passes when replacement init reaches its ready contract, party/enemy/ATB/RNG/special state matches fixtures, the same-frame compatibility tail is respected, and repeated init never imports native post-init battle memory.
+**Current injected anchor:** protocol-v3 schema-27 `make_suite_payload.py --group G22 --profile P1` on DLL `d901a8c2…` / bootstrap flags `0xc7`. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 are diagnostic only.
+
+**Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) ; SQ-G22-006 `c0m` path ; SQ-G22-008 `special_id=0` consumer (`InitialEnqueue=32`). Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15. `[promotion.G22].satisfied` false.
 
 ### G23 — Reimplement end detection, cleanup, and handoff
 

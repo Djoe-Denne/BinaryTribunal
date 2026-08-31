@@ -14,13 +14,13 @@ sources:
   - projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation.md
 summary: >-
   G21 live-promoted. File-backed describe on PID 23764 plus bounds
-  refuse. Schema 25. P2 not opened. G22 not started.
+  refuse. Schema 25. P2 not opened. G22 v15 constrained anchor remains unsatisfied.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-08-28T17:40:00+02:00
-updated: 2026-08-28T18:45:00+02:00
+updated: 2026-08-30T20:15:00+02:00
 ---
 
 # P1 G21 Battle Data Readers — Live Promotion
@@ -30,10 +30,12 @@ updated: 2026-08-28T18:45:00+02:00
 > after PID **23764** / DLL `decf543d…`. Describe assembled scene 0
 > from files with zero writes. Bounds refused `scene_id` 1024.
 > First shutdown reached `Detached` and restored the frame preimage.
-> P2 stays blocked. G22 is not started.
+> P2 stays blocked. G22 later gained a separate constrained v3 P1 live
+> anchor on PID 38256; `[promotion.G22].satisfied` remains false.
 
 > [!warning] Unproven layouts stay refused
-> SQ-G21-001 save junctions / story flags remain fail-closed.
+> SQ-G21-001 disk `CharacterData` map is closed; junction *apply*
+> at init stays fail-closed (SQ-G22-005).
 > SQ-G21-002 (`unknown_40..70` unnamed hash) and SQ-G21-003
 > (`.dat` section 6 = 380-byte info) are closed. SQ-G20-001 is
 > unchanged.

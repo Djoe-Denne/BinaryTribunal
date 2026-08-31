@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-28T14:40:00+02:00*
+*This index is automatically maintained. Last updated: 2026-08-31T17:00:00+02:00*
 
 ## Concepts
 
@@ -64,6 +64,7 @@ title: Wiki Index
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Compiled G11–G20 map; G11–G18 live-promoted. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]] — G22 static catchup: enqueue bits, CharacterData 152 at savemap+0x490, K_MISC+0x0F=200, ordinary start roll. G23 not started. ( #ff8 #battle-system #runtime-memory #reverse-engineering #reference)
 - [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register; G18 host-commit pack live; SQ-G18-002/004 stay named. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
@@ -100,15 +101,19 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] — G19 live-promoted: Recover 9652→9999 plus Card refuse on PID 51944. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] — G20 live-promoted: crisis +0xCA 0→0 plus Duel refuse on PID 63104. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] — G21 live-promoted: file-backed describe plus bounds refuse on PID 23764. Schema 25. P2 not opened. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] — G22 constrained v3 live anchor on PID 38256: L22-A/B/C PASS, SQ-G22-004 live-proven; `refused_mask=509` keeps promotion false. Schema 27. P2 not opened. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G20 map; live JSON tracked; G19 and G20 live-promoted. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G22 map; live JSON tracked; G19–G21 promoted, G22 v3 constrained and open; P2 blocked. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
 ## Journal
 
-- [[journal/2026-08-28]] — Session: G18–G21 live promotion. G21 file-backed describe on PID 23764. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-31]] — Session: extract max avant G23 ; Junction/HP/Draw/roll offline ; `refused_mask=32` ; satisfied false. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-30]] — Session: G22 live v11–v15 then static catchup; Steam CharacterData file offset closed. Promotion false. G23 not started. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-29]] — Session: G22 ordinary live anchor plus refuse-active and Detached; promotion claim retracted after audit. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-08-28]] — Session: G18–G21 live promotion, then G22 offline-draft. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-27]] — Session: G14–G17 red team, runtime laboratories, G18 live copy-resolve. ( #ff8 #battle-system #testing #reference)
 
 ## Projects

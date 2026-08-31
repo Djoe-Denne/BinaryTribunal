@@ -164,9 +164,25 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-live-promotion-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-describe-post-suite-2026-08-28.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-08-29.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-constrained-anchor-test-pack-2026-08-29.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-2026-08-29.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-ordinary-post-suite-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-post-shutdown-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v11-ordinary-post-suite-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v12-ordinary-post-instant-win-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v13-ordinary-playable-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-ordinary-visible-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-refuse-active-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-post-shutdown-2026-08-29.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-ordinary-visible-2026-08-30.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-refuse-active-2026-08-30.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-post-shutdown-2026-08-30.json
 summary: >-
-  Canonical G00–G21 map. Live JSON is tracked; root suite bins are
-  purged. G19, G20, and G21 are live-promoted. P2 stays blocked.
+  Canonical G00–G22 map. Live JSON is tracked; root suite bins are
+  purged. G19–G21 are live-promoted; G22 has a strengthened v3
+  constrained live anchor and remains unsatisfied. P2 stays blocked.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -175,7 +191,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-28T18:20:00+02:00
+updated: 2026-08-30T20:15:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -212,7 +228,8 @@ updated: 2026-08-28T18:20:00+02:00
 | G18 / GF gameplay | Live-promoted Quezacotl 1068→782 on PID 35064 / DLL `34204e43…`. PID 58056 / DLL `b6db8a89…` added Boost, persist write+restore, Cerberus, Odin. Repeat FAIL is fixture KO. `[promotion.G18].satisfied` true. 2026-08-28 static pass closed SQ-G18-001/003/004/005. Domain now has seed/Boko/Phoenix revive/cancel. | [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]] |
 | G19 / command abilities | Live-promoted Recover 9652→9999 plus Card refuse on PID 51944 / DLL `ec7c5bc3…`. `[promotion.G19].satisfied` true. SQ-G19-001 persist stays open. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
 | G20 / Limit families | Live-promoted crisis `+0xCA` 0→0 plus Duel refuse on PID 63104 / DLL `38040660…`. `[promotion.G20].satisfied` true. SQ-G20-001 records stay open. P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] |
-| G21 / battle-data readers | Live-promoted file-backed describe plus bounds refuse on PID 23764 / DLL `decf543d…`. `[promotion.G21].satisfied` true. SQ-G21-001/002/003 stay open. G22 and P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] |
+| G21 / battle-data readers | Live-promoted file-backed describe plus bounds refuse on PID 23764 / DLL `decf543d…`. `[promotion.G21].satisfied` true. SQ-G21-001 disk map closed; junction apply stays SQ-G22-005. | [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] |
+| G22 / battle init | Current constrained v3 anchor is PID 38256 / DLL `d901a8c2…` / schema 27. L22-A/B/C collector `PASS`; SQ-G22-004 live-proven (queue reset 3/7/1/0 writes 9/9 plus enqueue detour 1/0). `refused_mask=509` keeps promotion false. Cursor v11 AV, v12 instant-win, and v13 no-Attack are retained negatives. Historical v1 PID 29808 / v14 PID 53180 stay hash-bound. P2 not opened. G23 not started. | [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -274,11 +291,15 @@ rule and typed Moomba path. ^[inferred]
 - Canonical G12 Friendship typed-intent anchor is `p0-g12-friendship-v1-final-live-2026-08-25.json`, `PASS` / `Detached` on DLL SHA-256 `26d04c3540e3789fc47559b13b4678767feac6e4c6c894248073555cbf6445ce`. Envelope SHA-256 `2f5aec6febf814cc3a6a44b4730e4efd4e174236bd81de5602548f8953a1c558`; one Moomba intent (`special_id=15`), no second decrement, NCOMP or forbidden call, and all hook preimages restore.
 - G12 Phoenix Pinion v2 (`8e902a4e…edd2b`) and Gysahl Greens v2 (`5d50f983…f965`) retain only their passing semantic assertions: typed Phoenix/Boko intents, native menu commit and no second decrement. Both overall envelopes remain `FAIL` / `BattleActive`, so they are not promotion-grade cleanup.
 - Historical G12 Potion pulse-3 FAIL is `p0-g12-live-potion-irvine-commit-fault-2026-08-19.json` (`verdict=FAIL`, envelope SHA-256 `b198bd0954f8f3ee47d5d105be0885d49465b0e98feed861528f6f8c81f14294`) plus `g12-item-live-potion-fault-2026-08-19.md` on DLL SHA-256 `b1c17223c185f347c8415fe32c62bb5373dbe021d0109f84580ffa3320f12d4e`.
+- G22 v11 ordinary `p1-g22-v11-ordinary-post-suite-2026-08-29.json` is collector `PASS` with `last_callback_seh=3221225477` and an operator black screen. Not promotion evidence.
+- G22 v12 ordinary `p1-g22-v12-ordinary-post-instant-win-2026-08-29.json` is collector `PASS` / Ready with scene `0` and an operator instant victory. Not promotion evidence.
+- G22 v13 ordinary `p1-g22-v13-ordinary-playable-2026-08-29.json` is collector `PASS` on scene 512 with G07 pumps; the party could not Attack because native case-3 enqueue was skipped. Not promotion evidence.
 - G13 observe discriminator is `p0-g13-draw-observe-fire-plus-live-2026-08-25.json`, `PASS` on PID 42248 / DLL `ea8e1c0d…dc053f04`, envelope SHA-256 `69310a5bd0bad1093bffeda27d2bddd427622e0a7d93ea74f0462f8a20c23c81`. Packed `0800020602090301`, menu row `0x06`, `arm_authorized=0`. Not a promotion envelope.
 - Final G13 Stock replacement is `p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json`, collector `PASS` on PID 22956 / DLL SHA-256 `f47c04812fe6df2bdb5f14fd09f733d6e8662d96668beea20dc55894b8924ada`. Envelope SHA-256 `b500f21fc3b063aad0cee8e128f1c2d669f790b82cc28f2249d8d4186e81df3b`. Pending `08000206020a0301`, stock `0→9`, HP unchanged. Runtime `BattleActive`.
 - Final G13 Cast replacement is `p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json`, collector `PASS` on the same PID/DLL. Envelope SHA-256 `6acfa788ab65014c843cd155030355ecabba235d7fb2c7ac0cb741e9f36fe921`. Pending `0800020602090301`, HP `1710→1155`, stock `9→9`. Review `g13-draw-live-promotion-2026-08-25.md` sets `[promotion.G13].satisfied`.
 - Canonical G14 positive envelope is `p0-g14-positive-post-escape-2026-08-26.json`, collector `PASS` on PID 38744 / DLL SHA-256 `363d91cf8a4107c41fa5cbc2f8eb692dcf834765fa88790832aea3ca2c814471`. Envelope SHA-256 `098c52fcc6823eb094d2c932d6a35ac261a4e54f06f0cda3e5e2591b22766f90`. Sticky `phase=221` (`0x70`/`0x74`/Magic). Shutdown restored the frame preimage.
 - Canonical G14 negative envelope is `p0-g14-half-ownership-fault-2026-08-26.json`, collector `FAIL` / external `FAIL_EXPECTED` on PID 4556 / same DLL. Envelope SHA-256 `a4ed7ba370c9ab214a3fe3f264d841a26ec515a5b9b31a3e86e8ed78e3839e6d`. Review `g14-presentation-live-promotion-2026-08-26.md` sets `[promotion.G14].satisfied`. `0x71` was not walked live.
+- Current G22 constrained v3 envelopes are `p1-g22-v15-ordinary-visible-2026-08-30.json`, `p1-g22-v15-refuse-active-2026-08-30.json`, and `p1-g22-v15-post-shutdown-2026-08-30.json` on PID 38256 / DLL SHA-256 `d901a8c2be8c4a43a0cb764b41b668a464b0f3f210ec5bbf0282b5432d93545e` / EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Schema 27, protocol v3. Collector `PASS` on L22-A/B/C. SQ-G22-004 live-proven. `[promotion.G22].satisfied` remains false.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 
@@ -316,6 +337,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
 - [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
