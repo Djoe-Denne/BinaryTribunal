@@ -22,7 +22,7 @@ provenance:
   inferred: 0.06
   ambiguous: 0.04
 created: 2026-08-30T19:00:00+02:00
-updated: 2026-08-31T17:00:00+02:00
+updated: 2026-08-31T18:15:00+02:00
 ---
 
 # G22 static catchup — init layouts (2026-08-30)
@@ -255,7 +255,15 @@ Offline G22 triplet + limits + config : `refused_mask=32` (`InitialEnqueue`).
 
 ## Named skips
 
+Category 3 (no later gate — decode, apply, or seal before P3; G23 will
+not close these). Full rows:
+[[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
+
 - `special_id=0` exec semantics (not Attack; table `0x484C00` not line-closed)
+- 8 junction stats (`GetCharacterStat` `0x496440`) + 16 GF battle (`0x495EC0`) — extracted, not applied
+
+Category 2 (later chapter: G23, or the first non-Buel encounter).
+
 - (closed 2026-08-31) Steam party-slot triple — savemap `+0xAF4`, not `+0x1F4`
 - `D:\Modding\ff8\kernel.bin` (hash ≠ fixture)
 - Visibility enum name `TARGETABLE` vs exclude-`0x40` test

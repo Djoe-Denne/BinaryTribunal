@@ -35,7 +35,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.06
 created: 2026-08-28T20:40:00+02:00
-updated: 2026-08-31T17:00:00+02:00
+updated: 2026-08-31T18:15:00+02:00
 ---
 
 # P1 G22 Battle Init — Constrained Live Anchor
@@ -152,6 +152,13 @@ Historical v1/v2 envelopes do not prove the v3 seams.
 | U22.7 auto-special | dead-timer octet closed (`K_MISC+0x0F` = 200). Odin/Gilga flag bits proven. Live proof still open |
 | U22.8 ready transition | v15 L22-A observed file-callback+BdLink G07 pumps; L22-C matched restore/preimage `0x0f608238`; `refused_mask=509` keeps the unit open |
 
+> [!warning] Category 3 — no later gate
+> SQ-G22-008 `special_id=0` / bit `InitialEnqueue`, and SQ-G22-005
+> remainder (8 junction stats + 16 GF), have **no later gate**. G23 will
+> not close them. Decode, apply, or seal in writing before claiming init
+> ownership (P3). Rows:
+> [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
+
 ## Fail-closed / SQ
 
 | Item | Status |
@@ -161,10 +168,10 @@ Historical v1/v2 envelopes do not prove the v3 seams.
 | SQ-G22-002 draw list | **closed offline** (Buel 8/42 ; tier `+0xF4/+0xF5`) |
 | SQ-G22-003 `K_MISC` dead-timer | **closed** (`+0x0F`, fixture 200) |
 | SQ-G22-004 command-spine reset / host export | **live-proven** on v15 L22-A/B/C |
-| SQ-G22-005 party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | HP/JFlag/auto-status/crisis **offline closed** ; 8 stats + GF battle skip |
-| SQ-G22-006 per-enemy DAT selection and multi-enemy resource mapping | `0x48BA10` n’ouvre pas `c0mNNN` ; skip path |
+| SQ-G22-005 party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | HP/JFlag/auto-status/crisis **offline closed**. 8 stats + GF battle: **category 3** (apply before P3) |
+| SQ-G22-006 per-enemy DAT selection and multi-enemy resource mapping | `0x48BA10` n’ouvre pas `c0mNNN` ; category 2 (first non-Buel) |
 | SQ-G22-007 ordinary start roll, immunity adjustment, Rare Item penalty | **applied** |
-| SQ-G22-008 AI Init, initial enqueue policy, complete visibility/escape gates | enqueue policy closed; escape still later; `special_id=0` skip |
+| SQ-G22-008 AI Init, initial enqueue policy, complete visibility/escape gates | enqueue policy closed; `special_id=0` **category 3** (decode or seal before P3); escape stays G23 |
 | SQ-G22-009 fresh v3 rollback + direct G07 tail | v15 JSON shows G07 pumps and matching restore hashes; the offline-validation file still lists this SQ open `^[ambiguous]` |
 | SQ-G20-001 Limit dumps | unchanged, stays G20 |
 

@@ -19,13 +19,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
-summary: SQ-Gxx register. G19 live-promoted. SQ-G19-001 persist still open.
+summary: >-
+  SQ-Gxx register. G19 live-promoted. SQ-G19-001 persist still open.
+  G22 category-3 holes (no later gate) recorded 2026-08-31.
 provenance:
   extracted: 0.70
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-28T14:40:00+02:00
+updated: 2026-08-31T18:15:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -471,3 +473,58 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - next_static_probe: writers of `COMMAND_TYPE_ID` for Duel/Shot/Blue Magic.
 - eventual_live_probe: U20.8 captures.
 - resolution: 2026-08-28 Session P proved crisis `+0xCA` write and Duel refuse; authentic pending/current bytes per family remain open.
+
+## G22 — no later gate (category 3)
+
+Rule recorded 2026-08-31: a named G22 hole is forbidden to say only
+"later". It must name a **close date** (decode, apply, or written
+product seal) **before claiming init ownership (P3 / G23 as a loop)**.
+G23 does not close these rows. Companion status table:
+[[projects/re-ff8/references/g11-g20-static-readiness-ledger#G22 — Battle init (constrained live anchor, gate open)]].
+
+Escape, `c0m` / helpers 101–255, BMI, and dead-timer **host write** are
+**not** this section. They have a later chapter (G23 or the first
+non-Buel encounter).
+
+### SQ-G22-005 — 8 junction stats + 16 GF battle apply
+
+- status: open / apply-only (category 3)
+- confidence: 0.88
+- affects: G22 U22.2
+- claim: `GetCharacterStat` (`0x496440`) and `Battle_FinalizePartySetup`
+  (`0x495EC0`, 16 GF) are extracted. HP / JFlag / auto-status / crisis
+  are already applied. The eight junction stats and in-battle GF block
+  were skipped on purpose, not because a later gate owns them.
+- evidence_for: [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]];
+  APPLY-A1 applied HP path only.
+- evidence_against: none for discovery. Remaining work is wiring.
+- missing_discriminator: none.
+- next_static_probe: none. Apply session, or the first fixture whose
+  junctioned stat / GF block is wrong.
+- eventual_live_probe: not required to *know* the formulas; live only
+  after apply if those bytes enter the G22 allowlist.
+- resolution: **close before P3**, or the first failing junctioned
+  fixture — whichever comes first. Not G23. Not "later".
+
+### SQ-G22-008 — `special_id=0` consumer / `InitialEnqueue`
+
+- status: open / fail-closed (category 3)
+- confidence: 0.70
+- affects: G22 U22.6; offline `refused_mask` bit 32
+- claim: writer is known (group 0, command `0xFF`, `+4` = `special_id`).
+  Exec is `jmp [ecx*4 + 0x484C00]`. Id 0 is **not** line-closed. Ordinary
+  native start is already empty spine (masks 0/0) when party lacks
+  `0x10`. Inventing Attack or a no-op to drop bit 32 is forbidden.
+- evidence_for: catchup + A6; ordinary `0x8801` without `0x10`; loaded
+  enemy `0x80` blocks.
+- evidence_against: table not walked row-by-row for `ecx=0`.
+- missing_discriminator: callee of index 0 in `0x484C00`.
+- next_static_probe: one IDA pass on that slot. If it still does not
+  decode without invention, **seal in writing**: for certified ordinary
+  content, empty queue matches native; we do not claim ownership of the
+  id-0 jump. Reopen only when an encounter needs id 0 for real.
+- eventual_live_probe: do not require `refused_mask == 0` until the
+  consumer is applied or the seal is written.
+- resolution: **must be decoded or sealed before claiming init
+  ownership (P3)**. G23 (end/cleanup) will not close this. Escape
+  gates inside the same SQ id stay G23 (category 2).

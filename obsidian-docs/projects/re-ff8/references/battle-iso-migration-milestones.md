@@ -47,7 +47,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-31T17:00:00+02:00
+updated: 2026-08-31T18:15:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -847,7 +847,7 @@ multi-hit eligibility baselines.
 
 **Current injected anchor:** protocol-v3 schema-27 `make_suite_payload.py --group G22 --profile P1` on DLL `d901a8c2…` / bootstrap flags `0xc7`. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 are diagnostic only.
 
-**Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) ; SQ-G22-006 `c0m` path ; SQ-G22-008 `special_id=0` consumer (`InitialEnqueue=32`). Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15. `[promotion.G22].satisfied` false.
+**Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) and SQ-G22-006 `c0m` path are category 2 (first non-Buel). SQ-G22-008 `special_id=0` and SQ-G22-005 remainder (8 stats + 16 GF) are **category 3**: no later gate; decode, apply, or seal before P3 — G23 will not close them. Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15. `[promotion.G22].satisfied` false. See [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
 
 ### G23 — Reimplement end detection, cleanup, and handoff
 

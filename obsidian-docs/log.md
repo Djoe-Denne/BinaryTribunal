@@ -4,6 +4,7 @@ title: Wiki Log
 
 # Wiki Log
 
+- [2026-08-31T18:15:00+02:00] WIKI_UPDATE project=re-ff8 pages_updated=5 pages_created=0 source_cwd=C:/Users/djden/source/repos/retro-eng/re-ff8 note="G22 category-3 holes sealed in register: SQ-G22-008 special_id=0 and SQ-G22-005 8-stats/16-GF; close or write-seal before P3; G23 will not close them"
 - [2026-08-31T17:00:00+02:00] WIKI_UPDATE project=re-ff8 pages_updated=6 pages_created=1 source_cwd=C:/Users/djden/source/repos/retro-eng/re-ff8 note="G22 extract-avant-G23: mask offline 32; Junction/HP/Draw/roll applied; G23 core not started; satisfied false"
 - [2026-08-30T20:15:00+02:00] WIKI_UPDATE project=re-ff8 pages_updated=6 pages_created=0 source_cwd=C:/Users/djden/source/repos/retro-eng/re-ff8 note="Steam slot1_save02 CharacterData[8] at savemap+0x490; decode_sg_chara_dump fixture; G23 not started; no live"
 - [2026-08-30T19:00:00+02:00] WIKI_UPDATE project=re-ff8 pages_updated=4 pages_created=1 source_cwd=C:/Users/djden/source/repos/retro-eng/re-ff8 note="G22 static catchup IDB: enqueue policy, CharacterData 152, K_MISC.dead_timer +0x0F=200, ordinary roll; G23 not started; no live"
