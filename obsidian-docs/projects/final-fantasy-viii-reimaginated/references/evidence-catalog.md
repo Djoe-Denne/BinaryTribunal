@@ -179,10 +179,16 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-ordinary-visible-2026-08-30.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-refuse-active-2026-08-30.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-post-shutdown-2026-08-30.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-ordinary-visible-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-refuse-active-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-post-shutdown-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-ordinary-visible-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-refuse-active-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-post-shutdown-2026-08-31.json
 summary: >-
   Canonical G00–G22 map. Live JSON is tracked; root suite bins are
-  purged. G19–G21 are live-promoted; G22 has a strengthened v3
-  constrained live anchor and remains unsatisfied. P2 stays blocked.
+  purged. G19–G21 are live-promoted; G22 v17 is the constrained
+  live anchor and remains unsatisfied. P2 stays blocked.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -191,7 +197,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-08-30T20:15:00+02:00
+updated: 2026-08-31T18:40:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -229,7 +235,7 @@ updated: 2026-08-30T20:15:00+02:00
 | G19 / command abilities | Live-promoted Recover 9652→9999 plus Card refuse on PID 51944 / DLL `ec7c5bc3…`. `[promotion.G19].satisfied` true. SQ-G19-001 persist stays open. | [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] |
 | G20 / Limit families | Live-promoted crisis `+0xCA` 0→0 plus Duel refuse on PID 63104 / DLL `38040660…`. `[promotion.G20].satisfied` true. SQ-G20-001 records stay open. P2 not opened. | [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] |
 | G21 / battle-data readers | Live-promoted file-backed describe plus bounds refuse on PID 23764 / DLL `decf543d…`. `[promotion.G21].satisfied` true. SQ-G21-001 disk map closed; junction apply stays SQ-G22-005. | [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] |
-| G22 / battle init | Current constrained v3 anchor is PID 38256 / DLL `d901a8c2…` / schema 27. L22-A/B/C collector `PASS`; SQ-G22-004 live-proven (queue reset 3/7/1/0 writes 9/9 plus enqueue detour 1/0). `refused_mask=509` keeps promotion false. Cursor v11 AV, v12 instant-win, and v13 no-Attack are retained negatives. Historical v1 PID 29808 / v14 PID 53180 stay hash-bound. P2 not opened. G23 not started. | [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] |
+| G22 / battle init | Current constrained v3 anchor is PID 29160 / DLL `8fba4387…` / schema 27 (v17). L22-A/B/C collector `PASS`; SQ-G22-004 live-proven (queue reset 3/7/1/0 writes 9/9 plus enqueue detour 1/0). `refused_mask=32` (`InitialEnqueue`) keeps promotion false. v16 PID 43988 / v15 PID 38256 stay hash-bound. Cursor v11 AV, v12 instant-win, and v13 no-Attack are retained negatives. P2 not opened. G23 not started. | [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] |
 
 ## Offline Family-Completion Candidate
 
@@ -299,7 +305,7 @@ rule and typed Moomba path. ^[inferred]
 - Final G13 Cast replacement is `p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json`, collector `PASS` on the same PID/DLL. Envelope SHA-256 `6acfa788ab65014c843cd155030355ecabba235d7fb2c7ac0cb741e9f36fe921`. Pending `0800020602090301`, HP `1710→1155`, stock `9→9`. Review `g13-draw-live-promotion-2026-08-25.md` sets `[promotion.G13].satisfied`.
 - Canonical G14 positive envelope is `p0-g14-positive-post-escape-2026-08-26.json`, collector `PASS` on PID 38744 / DLL SHA-256 `363d91cf8a4107c41fa5cbc2f8eb692dcf834765fa88790832aea3ca2c814471`. Envelope SHA-256 `098c52fcc6823eb094d2c932d6a35ac261a4e54f06f0cda3e5e2591b22766f90`. Sticky `phase=221` (`0x70`/`0x74`/Magic). Shutdown restored the frame preimage.
 - Canonical G14 negative envelope is `p0-g14-half-ownership-fault-2026-08-26.json`, collector `FAIL` / external `FAIL_EXPECTED` on PID 4556 / same DLL. Envelope SHA-256 `a4ed7ba370c9ab214a3fe3f264d841a26ec515a5b9b31a3e86e8ed78e3839e6d`. Review `g14-presentation-live-promotion-2026-08-26.md` sets `[promotion.G14].satisfied`. `0x71` was not walked live.
-- Current G22 constrained v3 envelopes are `p1-g22-v15-ordinary-visible-2026-08-30.json`, `p1-g22-v15-refuse-active-2026-08-30.json`, and `p1-g22-v15-post-shutdown-2026-08-30.json` on PID 38256 / DLL SHA-256 `d901a8c2be8c4a43a0cb764b41b668a464b0f3f210ec5bbf0282b5432d93545e` / EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Schema 27, protocol v3. Collector `PASS` on L22-A/B/C. SQ-G22-004 live-proven. `[promotion.G22].satisfied` remains false.
+- Current G22 constrained v3 envelopes are `p1-g22-v17-ordinary-visible-2026-08-31.json`, `p1-g22-v17-refuse-active-2026-08-31.json`, and `p1-g22-v17-post-shutdown-2026-08-31.json` on PID 29160 / DLL SHA-256 `8fba438709acf40a18a7caecd048db52b970cb95c6a71385f404b4830fa27b94` / EXE SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Schema 27, protocol v3. Collector `PASS` on L22-A/B/C. `refused_mask=32`. SQ-G22-004 live-proven. `[promotion.G22].satisfied` remains false. v16 (`5d5f5c61…`) and v15 (`d901a8c2…`) stay hash-bound previous candidates.
 
 Intermediate and diagnostic JSON envelopes remain in the implementation repository. Only promoted or uniquely diagnostic artifacts are compiled here to prevent obsolete attempts from dominating search results. ^[inferred]
 

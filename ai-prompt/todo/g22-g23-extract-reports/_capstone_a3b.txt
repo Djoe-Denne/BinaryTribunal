@@ -1,0 +1,1230 @@
+
+===== 48BA10_setAllMonsterInfo ea=0x48ba10 off=571920 =====
+  0x48ba3f: test cl, cl
+  0x48ba41: je 0x48bb74
+  0x48ba5a: call 0x48bbd0
+  0x48ba78: cmp esi, eax
+  0x48ba7a: jge 0x48ba80
+  0x48ba7e: jmp 0x48ba90
+  0x48ba8a: cmp esi, edx
+  0x48ba9f: lea edx, [edx + edx*4]
+  0x48baa5: lea edx, [edx + edx*4]
+  0x48baa8: lea edx, [ebx + edx*4]
+  0x48bab2: lea edx, [edx + edx*4]
+  0x48bab5: lea ecx, [ecx + ecx*4]
+  0x48bab8: lea ecx, [ecx + ecx*4]
+  0x48babb: lea ecx, [eax + ecx*4]
+  0x48babe: imul eax, esi
+  0x48bac1: imul ecx, esi
+  0x48bac4: imul eax, esi
+  0x48bac7: lea ebx, [ecx + edx*2]
+  0x48bad1: imul ecx
+  0x48baeb: cmp eax, ecx
+  0x48baed: jge 0x48baf5
+  0x48bafa: call 0x48c1c0
+  0x48bb11: call 0x47d9c0
+  0x48bb19: test eax, eax
+  0x48bb1b: je 0x48bb26
+  0x48bb2f: call 0x47d9c0
+  0x48bb37: test eax, eax
+  0x48bb39: je 0x48bb44
+  0x48bb4e: call 0x47d9c0
+  0x48bb56: test eax, eax
+  0x48bb58: je 0x48bb62
+  0x48bb76: cmp ebx, -1
+  0x48bb81: jg 0x48ba39
+  IMM 0xc:3, 0x47d9c0:3, 0x3:2, 0x8:2, 0x7:1, 0x1d28f5e:1, 0x1d27e3c:1, 0x48bb74:1, 0x48bbd0:1, 0x48ba80:1, 0x48ba90:1, 0x66666667:1, 0x1f:1, 0x48baf5:1, 0x48c1c0:1, 0xff:1, 0x48bb26:1, 0x2:1, 0x48bb44:1, 0x40:1, 0x48bb62:1, 0x80:1, 0x47:1, 0xd0:1
+  MEM mov dword ptr [esp + 0x10], esi
+  MEM mov dword ptr [esp + 0x14], eax
+  MEM mov dword ptr [esp + 0x18], ebx
+  MEM mov cl, byte ptr [eax + 0x1d2885c]
+  MEM mov cl, byte ptr [eax + 0x1d28814]
+  MEM mov dl, byte ptr [eax + 0x1d28854]
+  MEM mov eax, dword ptr [edi - 0xbc]
+  MEM mov al, byte ptr [ecx + 0xf4]
+  MEM mov dl, byte ptr [ecx + 0xf5]
+  MEM mov dl, byte ptr [ecx + 0x1b]
+  MEM mov bl, byte ptr [ecx + 0x19]
+  MEM mov al, byte ptr [ecx + 0x18]
+  MEM mov bl, byte ptr [ecx + 0x1a]
+  MEM mov dword ptr [edi - 0xa0], eax
+  MEM mov ecx, dword ptr [edi - 0xa4]
+  MEM mov dword ptr [edi - 0xa4], eax
+  MEM mov esi, dword ptr [esp + 0x10]
+  MEM mov ecx, dword ptr [0x1d287e0]
+  MEM mov ebx, dword ptr [esp + 0x1c]
+  MEM mov edx, dword ptr [edi - 0x40]
+
+===== 48BBD0_setMonsterInfo ea=0x48bbd0 off=572368 =====
+  0x48bbd7: lea ecx, [eax + eax*2]
+  0x48bbe1: lea esi, [eax + ecx*4]
+  0x48bbea: lea ecx, [eax + eax*8]
+  0x48bbfa: cmp ebp, 0x64
+  0x48bc03: jg 0x48bc0c
+  0x48bc07: jmp 0x48bca4
+  0x48bc0c: cmp ebp, 0xff
+  0x48bc12: jne 0x48bc1e
+  0x48bc14: call 0x48bfa0
+  0x48bc19: jmp 0x48bca4
+  0x48bc1e: cmp ebp, 0xfe
+  0x48bc24: jne 0x48bc2d
+  0x48bc26: call 0x48b2e0
+  0x48bc2b: jmp 0x48bca4
+  0x48bc2d: cmp ebp, 0xfd
+  0x48bc33: jne 0x48bc3c
+  0x48bc35: call 0x48c0a0
+  0x48bc3a: jmp 0x48bca4
+  0x48bc3c: cmp ebp, 0xfc
+  0x48bc42: jne 0x48bc5b
+  0x48bc44: call 0x48f020
+  0x48bc59: jmp 0x48bca4
+  0x48bc5b: cmp ebp, 0xfb
+  0x48bc61: jne 0x48bc6a
+  0x48bc63: call 0x48c020
+  0x48bc68: jmp 0x48bca4
+  0x48bc6a: cmp ebp, 0xc8
+  0x48bc70: jle 0x48bc88
+  0x48bc72: cmp ebp, 0xfa
+  0x48bc78: jg 0x48bc88
+  0x48bc7a: call 0x48bfa0
+  0x48bc7f: lea eax, [eax + ebp - 0xc8]
+  0x48bc86: jmp 0x48bca4
+  0x48bc88: cmp ebp, 0x64
+  0x48bc8b: jle 0x48bca0
+  0x48bc8d: cmp ebp, 0xc8
+  0x48bc93: jg 0x48bca0
+  0x48bc96: call 0x48c140
+  0x48bc9e: jmp 0x48bca4
+  0x48bca4: cmp eax, 0x64
+  0x48bca7: jle 0x48bcae
+  0x48bcc4: test al, 0x10
+  0x48bcca: je 0x48bcdb
+  0x48bcdb: test al, 8
+  0x48bcdd: je 0x48bcee
+  0x48bcee: test byte ptr [edi + 0xfe], 0x40
+  0x48bcf5: je 0x48bd09
+  0x48bd19: cmp byte ptr [ecx + eax], bl
+  0x48bd1c: je 0x48bd2d
+  0x48bd40: lea edx, [edx + edx*4]
+  0x48bd4c: lea ebp, [edx + edx*4]
+  0x48bd54: lea edx, [edx + ebp*4]
+  0x48bd57: lea ebp, [edx + edx*4]
+  0x48bd5f: lea edx, [edx + edx*4]
+  0x48bd62: lea edx, [edx + edx*4]
+  0x48bd65: lea edx, [eax + edx*4]
+  0x48bd68: imul eax, ecx
+  0x48bd6b: imul eax, ecx
+  0x48bd6e: imul edx, ecx
+  0x48bd78: lea ebp, [edx + ebp*2]
+  0x48bd7b: imul ecx
+  0x48bd89: lea ecx, [esi + 0x1d27b54]
+  0x48bdbd: movzx dx, byte ptr [edi + eax + 0x160]
+  0x48bdc9: lea edx, [edx + edx*4]
+  0x48bdd3: cmp eax, 8
+  0x48bdd6: jl 0x48bdbd
+  0x48bdda: cmp ecx, 0x18
+  0x48bddd: ja 0x48be75
+  0x48bdeb: jmp dword ptr [eax*4 + 0x48bf44]
+  0x48bdfb: jmp 0x48be7a
+  0x48be05: jmp 0x48be7a
+  0x48be0f: jmp 0x48be7a
+  0x48be19: jmp 0x48be7a
+  0x48be23: jmp 0x48be7a
+  0x48be2d: jmp 0x48be7a
+  0x48be37: jmp 0x48be7a
+  0x48be41: jmp 0x48be7a
+  0x48be4b: jmp 0x48be7a
+  IMM 0x48be7a:9, 0x48bca4:8, 0x64:6, 0x4:2, 0x3:2, 0xff:2, 0x48bfa0:2, 0xc8:2, 0x48bc88:2, 0x48bca0:2, 0x20:2, 0x8:2, 0x48bc0c:1, 0x48bc1e:1, 0xfe:1, 0x48bc2d:1, 0x48b2e0:1, 0xfd:1, 0x48bc3c:1, 0x48c0a0:1, 0xfc:1, 0x48bc5b:1, 0x48f020:1
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov ebp, dword ptr [esp + 0x14]
+  MEM mov edx, dword ptr [esi + 0x1d27b10]
+  MEM mov byte ptr [ecx + 0x1d28f28], bl
+  MEM lea eax, [eax + ebp - 0xc8]
+  MEM mov eax, dword ptr [esp + 0x14]
+  MEM mov byte ptr [esi + 0x1d27bcc], al
+  MEM mov dword ptr [esi + 0x1d27b8c], 0x11
+  MEM mov al, byte ptr [edi + 0xf7]
+  MEM mov byte ptr [esp + 0x18], al
+  MEM mov edx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], edx
+  MEM mov eax, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], eax
+  MEM test byte ptr [edi + 0xfe], 0x40
+  MEM mov ecx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], ecx
+  MEM mov edx, dword ptr [esi + 0x1d27b14]
+  MEM mov eax, dword ptr [ecx + 4]
+  MEM mov ecx, dword ptr [eax + 0xc]
+
+===== 48C500_computeMonsterHP ea=0x48c500 off=574720 =====
+  0x48c507: lea eax, [edi + edi*2]
+  0x48c50a: lea ecx, [edi + eax*4]
+  0x48c51e: lea ebp, [ecx + 0x1d27b10]
+  0x48c530: cmp esi, edx
+  0x48c532: jge 0x48c538
+  0x48c536: jmp 0x48c548
+  0x48c542: cmp esi, edx
+  0x48c548: lea edx, [edi + edi*8]
+  0x48c566: lea edx, [edx + edx*4]
+  0x48c569: lea edx, [edx + edx*4]
+  0x48c56c: lea edx, [ebx + edx*4]
+  0x48c576: lea edx, [edx + edx*4]
+  0x48c579: lea ecx, [ecx + ecx*4]
+  0x48c57c: lea ecx, [ecx + ecx*4]
+  0x48c57f: lea ecx, [eax + ecx*4]
+  0x48c582: imul eax, esi
+  0x48c585: imul ecx, esi
+  0x48c588: imul eax, esi
+  0x48c58b: lea ebx, [ecx + edx*2]
+  0x48c595: imul ecx
+  0x48c5aa: cmp eax, ecx
+  0x48c5ac: jge 0x48c5b1
+  0x48c5b2: call 0x48c1c0
+  0x48c5bd: ret 
+  0x48c5c5: lea ecx, [eax + eax*2]
+  0x48c5c8: lea eax, [eax + ecx*4]
+  0x48c606: lea edi, [eax + 0x54]
+  0x48c616: ret 
+  IMM 0x4:3, 0x3:2, 0x48c538:1, 0x48c548:1, 0x66666667:1, 0x1f:1, 0x48c5b1:1, 0x48c1c0:1, 0x1d27b10:1, 0xff:1, 0x8:1, 0xfba9fba9:1
+  MEM mov edi, dword ptr [esp + 0x10]
+  MEM mov edx, dword ptr [ecx + 0x1d27b10]
+  MEM mov al, byte ptr [ecx + 0x1d27bcc]
+  MEM lea ebp, [ecx + 0x1d27b10]
+  MEM mov dl, byte ptr [ecx + 0xf4]
+  MEM mov dl, byte ptr [ecx + 0xf5]
+  MEM mov bl, byte ptr [ecx + 0x19]
+  MEM mov byte ptr [edx + 0x1d28e89], al
+  MEM mov dl, byte ptr [ecx + 0x1b]
+  MEM mov al, byte ptr [ecx + 0x18]
+  MEM mov bl, byte ptr [ecx + 0x1a]
+  MEM mov dword ptr [ebp + 0x1c], eax
+  MEM mov ecx, dword ptr [ebp + 0x18]
+  MEM mov dword ptr [ebp + 0x18], eax
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov byte ptr [eax + 0xbb], 0xff
+  MEM mov dword ptr [eax + 0x7c], ecx
+  MEM or byte ptr [eax + 0x80], 1
+  MEM mov byte ptr [eax + 0xb9], cl
+  MEM mov byte ptr [eax + 0xb8], cl
+
+===== 48C7A0_InitDrawSpell ea=0x48c7a0 off=575392 =====
+  0x48c7b7: test byte ptr [eax + 0x7c], 1
+  0x48c7bb: je 0x48c876
+  0x48c7c5: lea esi, [ebp - 0x45]
+  0x48c7d5: lea ecx, [edi + edx*4]
+  0x48c7e3: cmp eax, 0x40
+  0x48c7e6: jge 0x48c846
+  0x48c7f3: cmp eax, ebx
+  0x48c7f5: je 0x48c83b
+  0x48c800: jns 0x48c807
+  0x48c819: test dword ptr [eax*4 + 0x1cfe95c], ecx
+  0x48c820: je 0x48c82f
+  0x48c82d: jmp 0x48c865
+  0x48c839: jmp 0x48c865
+  0x48c83b: cmp dword ptr [esp + 0x10], ebx
+  0x48c83f: jne 0x48c82a
+  0x48c844: jmp 0x48c865
+  0x48c846: lea ecx, [eax - 0x40]
+  0x48c853: test byte ptr [edx*4 + 0x1cfdcb9], 1
+  0x48c85b: jne 0x48c862
+  0x48c860: jmp 0x48c865
+  0x48c869: cmp edi, 4
+  0x48c86c: jl 0x48c7ce
+  0x48c87e: cmp eax, 0x1d280c0
+  0x48c887: jl 0x48c7b7
+  0x48c894: ret 
+  0x48c8a4: lea ecx, [eax - 3]
+  0x48c8a7: lea eax, [ecx + ecx*8]
+  0x48c8c1: jne 0x48c8ba
+  0x48c8c3: ret 
+  0x48c8d9: lea ecx, [eax*8]
+  0x48c8e4: lea esi, [eax + ecx*4]
+  0x48c8f1: call 0x48c920
+  IMM 0x4:6, 0x48c865:4, 0xc:2, 0x8:2, 0x1d27d80:1, 0x1d28f5e:1, 0x48c876:1, 0x40:1, 0x48c846:1, 0x48c83b:1, 0x8000001f:1, 0x48c807:1, 0xffffffe0:1, 0x1f:1, 0x5:1, 0x48c82f:1, 0xf7:1, 0x48c82a:1, 0x48c862:1, 0x48c7ce:1, 0xd0:1, 0x47:1
+  MEM mov dword ptr [esp + 0x14], eax
+  MEM test byte ptr [eax + 0x7c], 1
+  MEM lea esi, [ebp - 0x45]
+  MEM mov dword ptr [esp + 0x18], ecx
+  MEM mov edx, dword ptr [esp + 0x18]
+  MEM mov al, byte ptr [edx + ecx*2 + 0x104]
+  MEM mov byte ptr [esi - 1], al
+  MEM mov byte ptr [esi + 1], bl
+  MEM mov al, byte ptr [esi - 1]
+  MEM test dword ptr [eax*4 + 0x1cfe95c], ecx
+  MEM mov dword ptr [esp + 0x10], 1
+  MEM mov dword ptr [esp + 0x10], ebx
+  MEM cmp dword ptr [esp + 0x10], ebx
+  MEM lea ecx, [eax - 0x40]
+  MEM mov byte ptr [esi + 1], bl
+  MEM test byte ptr [edx*4 + 0x1cfdcb9], 1
+  MEM mov byte ptr [esi - 1], al
+  MEM mov byte ptr [esi - 1], bl
+  MEM mov eax, dword ptr [esp + 0x14]
+  MEM mov dword ptr [esp + 0x14], eax
+
+===== 48AD60_SceneOutInitEnemy ea=0x48ad60 off=568672 =====
+  0x48ad68: lea edx, [esi + ecx*4]
+  0x48ad6e: lea eax, [edx + 0x1d27b8c]
+  0x48ad85: call 0x47d9c0
+  0x48ad8d: test eax, eax
+  0x48ad8f: je 0x48ada7
+  0x48ad91: lea eax, [esi + esi*2]
+  0x48ad94: lea ecx, [esi + eax*4]
+  0x48ad9a: lea eax, [ecx + 0x1d27b8c]
+  0x48adb0: call 0x47d9c0
+  0x48adb8: test eax, eax
+  0x48adba: je 0x48add2
+  0x48adbc: lea ecx, [esi + esi*2]
+  0x48adbf: lea edx, [esi + ecx*4]
+  0x48adc5: lea eax, [edx + 0x1d27b8c]
+  0x48add3: call 0x48c8a0
+  0x48add8: call 0x48c7a0
+  0x48addd: call 0x4adcf0
+  0x48ade4: call 0x47d9e0
+  0x48adef: ret 
+  0x48adf5: lea ecx, [eax + eax*2]
+  0x48adf8: lea esi, [eax + ecx*4]
+  0x48ae0d: call 0x485ff0
+  0x48ae1a: ret 
+  0x48ae25: lea ecx, [eax + eax*2]
+  0x48ae28: lea esi, [eax + ecx*4]
+  0x48ae3d: call 0x485ff0
+  0x48ae58: ret 
+  IMM 0x4:5, 0x40:3, 0x47d9c0:2, 0x8:2, 0x485ff0:2, 0x76:1, 0x2:1, 0x48ada7:1, 0x48add2:1, 0x80:1, 0x48c8a0:1, 0x48c7a0:1, 0x4adcf0:1, 0x47d9e0:1, 0xc:1, 0xfe:1
+  MEM sbb byte ptr [ebp - 0x72e98b40], al
+  MEM lea eax, [edx + 0x1d27b8c]
+  MEM mov dl, byte ptr [0x1d287e2]
+  MEM lea eax, [ecx + 0x1d27b8c]
+  MEM mov al, byte ptr [0x1d287e1]
+  MEM lea eax, [edx + 0x1d27b8c]
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov edx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], edx
+  MEM or byte ptr [esi + 0x1d27b90], 1
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov edx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], edx
+  MEM or byte ptr [esi + 0x1d27b90], 1
+  MEM mov eax, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], eax
+
+===== 484720_EnqueueSpecial ea=0x484720 off=542496 =====
+  0x484729: test eax, eax
+  0x48472b: je 0x48474d
+  0x484739: call 0x482bd0
+  0x48473e: lea eax, [eax + eax*2]
+  0x484744: lea eax, [eax*8 + 0x1d28af8]
+  0x48474b: jmp 0x48477b
+  0x48474d: lea ecx, [ebx + ebx*2]
+  0x48475c: lea edx, [ebx + ecx*4]
+  0x484769: call 0x482bd0
+  0x48476e: lea eax, [eax + eax*2]
+  0x484774: lea eax, [eax*8 + 0x1d288e8]
+  0x4847a1: ret 
+  0x4847be: test ah, 2
+  0x4847c1: je 0x4847d7
+  0x4847c8: call 0x484720
+  0x4847de: cmp esi, 0x1d2813c
+  0x4847e4: jl 0x4847bc
+  0x4847e8: ret 
+  0x484807: jmp 0x48480b
+  0x48480f: test al, al
+  0x484811: je 0x484bf7
+  0x484825: cmp eax, 0xfe
+  0x48482a: ja 0x484afd
+  0x484838: jmp dword ptr [ecx*4 + 0x484c00]
+  0x48483f: cmp esi, edi
+  0x484841: jne 0x4848cd
+  0x484853: call 0x482bd0
+  IMM 0xb:3, 0x482bd0:3, 0xc:3, 0x2:3, 0x1d28c02:2, 0x1d288bc:2, 0x48474d:1, 0x48477b:1, 0x1d28c00:1, 0x1d28864:1, 0x4:1, 0xff:1, 0x3:1, 0x1d27dfc:1, 0x4847d7:1, 0x484720:1, 0xfd:1, 0xd0:1, 0x1d2813c:1, 0x4847bc:1, 0x8:1, 0x48480b:1
+  MEM mov eax, dword ptr [esp + 0xc]
+  MEM mov ebx, dword ptr [esp + 8]
+  MEM lea eax, [eax*8 + 0x1d28af8]
+  MEM mov byte ptr [edx + 0x1d27bd7], 0
+  MEM lea eax, [eax*8 + 0x1d288e8]
+  MEM mov cx, word ptr [esp + 0xc]
+  MEM mov byte ptr [eax + 1], 0xff
+  MEM mov word ptr [eax + 4], cx
+  MEM mov byte ptr [eax + 2], 0
+  MEM mov word ptr [eax + 0xa], 0
+  MEM mov word ptr [eax + 8], 0
+  MEM mov word ptr [eax + 6], 0
+  MEM mov ebx, dword ptr [esp + 0x10]
+  MEM mov dword ptr [esp + 0x10], 2
+  MEM mov al, byte ptr [ebx + esi*8 + 7]
+  MEM mov dword ptr [esp + 0x1c], edi
+  MEM mov al, byte ptr [ebx + esi*8 + 3]
+  MEM mov dword ptr [esp + 0x14], edi
+  MEM mov cl, byte ptr [eax + 0x484c1c]
+  MEM jmp dword ptr [ecx*4 + 0x484c00]
+
+===== 485FF0_VisibilityMasks ea=0x485ff0 off=548848 =====
+  0x486001: test byte ptr [eax + 0x1d27b8c], dl
+  0x486007: je 0x486022
+  0x486009: test byte ptr [eax + 0x1d27b8c], bl
+  0x48600f: jne 0x486022
+  0x486011: cmp eax, 0x270
+  0x486016: jge 0x486020
+  0x486018: test byte ptr [eax + 0x1d27b90], dl
+  0x48601e: jne 0x486022
+  0x486027: cmp eax, 0xffffff30
+  0x48602c: jg 0x485fff
+  0x48603e: test byte ptr [eax + 0x1d27b8c], dl
+  0x486044: je 0x48605f
+  0x486046: test byte ptr [eax + 0x1d27b8c], bl
+  0x48604c: jne 0x48605f
+  0x48604e: cmp eax, 0x270
+  0x486053: jl 0x48605d
+  0x486055: test byte ptr [eax + 0x1d27b90], dl
+  0x48605b: jne 0x48605f
+  0x486064: cmp eax, 0xffffff30
+  0x486069: jg 0x48603c
+  0x486073: ret 
+  0x486087: test byte ptr [ecx], 1
+  0x48608a: jne 0x48609b
+  0x486093: cmp ecx, 0x1d27dfc
+  0x486099: jl 0x486087
+  0x48609b: ret 
+  0x4860a9: test byte ptr [ecx - 4], dl
+  0x4860ac: je 0x4860b3
+  0x4860ae: test byte ptr [ecx], 5
+  0x4860b1: je 0x4860c7
+  0x4860ba: cmp ecx, 0x1d27e00
+  0x4860c0: jl 0x4860a9
+  0x4860c7: ret 
+  0x4860da: test byte ptr [ecx], 5
+  0x4860dd: je 0x4860f3
+  0x4860e6: cmp ecx, 0x1d28140
+  0x4860ec: jl 0x4860da
+  0x4860f3: ret 
+  0x48610c: cmp byte ptr [ecx], dl
+  0x48610e: jne 0x48611b
+  0x486110: cmp byte ptr [eax - 3], dl
+  0x486113: jne 0x48611b
+  0x486115: cmp word ptr [eax], 3
+  0x486119: je 0x48612b
+  0x486121: cmp eax, 0x1d289f4
+  0x486126: jl 0x48610c
+  0x48612a: ret 
+  0x48612d: ret 
+  IMM 0xd0:5, 0x486022:3, 0x48605f:3, 0xff:3, 0x4e0:2, 0x270:2, 0xffffff30:2, 0x5:2, 0x1d27e00:2, 0x3:2, 0x48611b:2, 0x40:1, 0x486020:1, 0x485fff:1, 0x48605d:1, 0x48603c:1, 0x1d27b8c:1, 0x48609b:1, 0x1d27dfc:1, 0x486087:1, 0x1d27b90:1, 0x4860b3:1, 0x4860c7:1
+  MEM test byte ptr [eax + 0x1d27b8c], dl
+  MEM test byte ptr [eax + 0x1d27b8c], bl
+  MEM test byte ptr [eax + 0x1d27b90], dl
+  MEM mov word ptr [0x1cff570], cx
+  MEM test byte ptr [eax + 0x1d27b8c], dl
+  MEM test byte ptr [eax + 0x1d27b8c], bl
+  MEM test byte ptr [eax + 0x1d27b90], dl
+  MEM mov word ptr [0x1cff572], cx
+  MEM test byte ptr [ecx - 4], dl
+  MEM cmp byte ptr [eax - 3], dl
+
+===== 48C6E0_ParseItems ea=0x48c6e0 off=575200 =====
+  0x48c6ef: cmp eax, 0x1d28f18
+  0x48c6f4: jl 0x48c6e5
+  0x48c700: test eax, eax
+  0x48c702: je 0x48c721
+  0x48c704: cmp eax, 0x21
+  0x48c707: jge 0x48c721
+  0x48c724: cmp edx, 0x1cfe929
+  0x48c72a: jl 0x48c6fb
+  0x48c72c: jmp 0x48c670
+  0x48c749: lea ecx, [edi + edi*4]
+  0x48c74c: lea eax, [edi + 0x1d28c00]
+  0x48c753: lea edx, [edi + ecx*2]
+  0x48c756: lea eax, [edx*4 + 0x1d28864]
+  0x48c75e: call 0x482ba0
+  0x48c76c: call 0x4846e0
+  0x48c775: cmp esi, 0xb
+  0x48c778: jl 0x48c76a
+  0x48c78a: cmp eax, 0x1d28d9b
+  0x48c78f: jl 0x48c77f
+  0x48c794: ret 
+  0x48c7b7: test byte ptr [eax + 0x7c], 1
+  0x48c7bb: je 0x48c876
+  0x48c7c5: lea esi, [ebp - 0x45]
+  0x48c7d5: lea ecx, [edi + edx*4]
+  IMM 0x48c721:2, 0xb:2, 0xc:2, 0x1d28e78:1, 0x5:1, 0x1d28f18:1, 0x48c6e5:1, 0x1cfe79d:1, 0x21:1, 0x2:1, 0x1cfe929:1, 0x48c6fb:1, 0x48c670:1, 0x482ba0:1, 0x4846e0:1, 0x8:1, 0x48c76a:1, 0x1d28d53:1, 0x18:1, 0x1d28d9b:1, 0x48c77f:1, 0x1d27d80:1, 0x1d28f5e:1
+  MEM mov byte ptr [eax + 1], 0
+  MEM mov al, byte ptr [edx - 1]
+  MEM mov cl, byte ptr [eax + 0x1cfe77b]
+  MEM mov byte ptr [ecx + ecx*4 + 0x1d28e78], al
+  MEM mov byte ptr [ecx + ecx*4 + 0x1d28e79], al
+  MEM mov edi, dword ptr [esp + 0x10]
+  MEM lea eax, [edi + 0x1d28c00]
+  MEM lea eax, [edx*4 + 0x1d28864]
+  MEM mov byte ptr [eax + 8], bl
+  MEM mov byte ptr [eax - 8], bl
+  MEM mov dword ptr [esp + 0x14], eax
+  MEM test byte ptr [eax + 0x7c], 1
+  MEM lea esi, [ebp - 0x45]
+  MEM mov dword ptr [esp + 0x18], ecx
+  MEM mov edx, dword ptr [esp + 0x18]
+
+===== 48B5F0_InitPartySlotStatus ea=0x48b5f0 off=570864 =====
+  0x48b5f7: lea eax, [ebp*8]
+  0x48b5fe: lea ecx, [ebp + ebp*2]
+  0x48b604: lea esi, [ebp + ecx*4]
+  0x48b608: lea ebx, [ebp + eax*4]
+  0x48b61e: cmp al, 0xff
+  0x48b620: jne 0x48b636
+  0x48b635: ret 
+  0x48b65e: lea eax, [eax + eax*2]
+  0x48b661: test byte ptr [eax*4 + 0x1cf740b], cl
+  0x48b668: je 0x48b679
+  0x48b681: lea eax, [eax + eax*8]
+  0x48b684: test byte ptr [eax*4 + 0x1cf75ef], cl
+  0x48b68b: je 0x48b69c
+  0x48b6a4: test ah, 0x10
+  0x48b6ad: je 0x48b6b9
+  0x48b6b9: test ah, 0x40
+  0x48b6bc: je 0x48b6c5
+  0x48b6c5: test ah, 0x20
+  0x48b6c8: je 0x48b6d1
+  0x48b6d1: test ah, 0x80
+  0x48b6d4: je 0x48b6e4
+  0x48b703: lea edi, [esi + 0x1d27b34]
+  IMM 0x4:2, 0x10:2, 0x80:2, 0x40:2, 0x20:2, 0x1cff000:1, 0xff:1, 0x48b636:1, 0x8801:1, 0x48b679:1, 0x48b69c:1, 0x48b6b9:1, 0x48b6c5:1, 0x48b6d1:1, 0x48b6e4:1, 0x2:1, 0x8:1
+  MEM mov ebp, dword ptr [esp + 0xc]
+  MEM mov al, byte ptr [ebx + 0x1c3]
+  MEM mov dword ptr [esi + 0x1d27b8c], 0
+  MEM mov byte ptr [esi + 0x1d27bcb], al
+  MEM mov dx, word ptr [ebx + 0x1b2]
+  MEM mov byte ptr [esi + 0x1d27bcb], al
+  MEM mov word ptr [esi + 0x1d27b90], dx
+  MEM mov dword ptr [esi + 0x1d27b8c], 0x8801
+  MEM mov al, byte ptr [ebx + 0x1ba]
+  MEM test byte ptr [eax*4 + 0x1cf740b], cl
+  MEM mov edx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], edx
+  MEM mov al, byte ptr [esi + 0x1d27bcb]
+  MEM test byte ptr [eax*4 + 0x1cf75ef], cl
+  MEM mov ecx, dword ptr [esi + 0x1d27b8c]
+  MEM mov dword ptr [esi + 0x1d27b8c], ecx
+  MEM mov eax, dword ptr [ebx + 0x190]
+  MEM mov dword ptr [esi + 0x1d27b18], ecx
+  MEM mov dword ptr [esi + 0x1d27b18], 0x80
+  MEM or dword ptr [esi + 0x1d27b18], 0x20
+
+===== 494D40_DistributeXpAp ea=0x494d40 off=609600 =====
+  0x494d4c: test byte ptr [edi + 0x64], 1
+  0x494d50: jne 0x494de3
+  0x494d5b: cmp word ptr [eax + 0x102], 0
+  0x494d63: je 0x494dab
+  0x494d6c: je 0x494dab
+  0x494d7f: call 0x48b2e0
+  0x494d8e: imul eax, esi
+  0x494d91: lea eax, [eax + eax*4]
+  0x494da0: imul eax, edx
+  0x494da6: test bp, bp
+  0x494da9: jne 0x494daf
+  0x494dad: jmp 0x494dc6
+  0x494daf: cmp eax, 1
+  0x494db2: jge 0x494dbb
+  0x494db9: jmp 0x494dc6
+  0x494dbb: cmp ax, 0xea60
+  0x494dbf: jbe 0x494dc6
+  0x494dd7: cmp ax, 0xea60
+  0x494ddb: ja 0x494de3
+  0x494de9: cmp edi, 0x1d280dc
+  0x494def: jl 0x494d4c
+  0x494e09: test byte ptr [eax], 5
+  0x494e0c: jne 0x494e13
+  0x494e11: jmp 0x494e1e
+  0x494e26: cmp eax, 0x1d27e00
+  0x494e2b: jl 0x494e09
+  0x494e45: test byte ptr [ebp - 4], 1
+  0x494e49: je 0x494ee8
+  0x494e53: test al, 1
+  0x494e55: je 0x494e5f
+  0x494e57: test al, 4
+  0x494e59: jne 0x494ee8
+  0x494e70: lea ebx, [eax + eax*8]
+  0x494e73: lea eax, [eax + ebx*2]
+  0x494e82: test bx, bx
+  0x494e85: je 0x494e8c
+  0x494e8f: cmp ecx, 0x10
+  0x494e92: jl 0x494e7e
+  0x494e94: test esi, esi
+  0x494e96: je 0x494ee8
+  0x494ea6: test esi, esi
+  0x494ea8: jle 0x494ee8
+  0x494eb7: cmp word ptr [ebx*4 + 0x1cfdcba], 0
+  0x494ec0: je 0x494ed9
+  0x494ed7: jmp 0x494ee3
+  0x494ee4: cmp edx, esi
+  0x494ee6: jl 0x494eaa
+  0x494eef: cmp ebp, 0x1d27e00
+  0x494ef5: jl 0x494e45
+  0x494f03: test al, 8
+  0x494f06: je 0x494f0d
+  0x494f08: call 0x48cff0
+  0x494f10: ret 
+  0x494f20: ret 
+  0x494f30: ret 
+  IMM 0xea60:4, 0x494ee8:4, 0x494dc6:3, 0xd0:3, 0x18:2, 0x494de3:2, 0x494dab:2, 0xffff:2, 0x1d27b90:2, 0x1d27e00:2, 0x4:2, 0x1d27d9c:1, 0x48b2e0:1, 0x494daf:1, 0x494dbb:1, 0x1d280dc:1, 0x494d4c:1, 0x1cff574:1, 0x5:1, 0x494e13:1, 0x494e1e:1, 0x2:1
+  MEM test byte ptr [edi + 0x64], 1
+  MEM mov eax, dword ptr [edi - 0x1c]
+  MEM cmp word ptr [eax + 0x102], 0
+  MEM mov edx, dword ptr [edi - 4]
+  MEM mov bp, word ptr [eax + 0x102]
+  MEM mov al, byte ptr [edi + 0xa0]
+  MEM mov esi, dword ptr [edi - 4]
+  MEM mov ecx, dword ptr [0x1cff574]
+  MEM mov word ptr [0x1cff574], 0xea60
+  MEM mov word ptr [0x1cff574], ax
+  MEM mov edx, dword ptr [0x1cff574]
+  MEM mov dword ptr [esp + 0x10], edx
+  MEM mov word ptr [ecx + 6], 0
+  MEM mov edx, dword ptr [0x1cff5c0]
+  MEM mov dword ptr [esp + 0x14], edx
+  MEM mov word ptr [0x1cff5c0], di
+  MEM test byte ptr [ebp - 4], 1
+  MEM mov al, byte ptr [edi + 0x1cfe74c]
+  MEM mov ax, word ptr [eax*8 + 0x1cfe140]
+  MEM mov byte ptr [esp + esi + 0x18], cl
+
+===== 494AF0_ComputeGFLevelAp ea=0x494af0 off=609008 =====
+  0x494afc: cmp eax, 0xfe
+  0x494b01: jne 0x494ba5
+  0x494b07: lea eax, [edi + edi*2]
+  0x494b0e: lea eax, [edi + eax*4]
+  0x494b37: lea edx, [ecx + ecx*2]
+  0x494b3a: imul eax, esi
+  0x494b44: lea eax, [eax + eax*4]
+  0x494b4c: test bp, bp
+  0x494b4f: jne 0x494b55
+  0x494b53: jmp 0x494b6c
+  0x494b55: cmp eax, 1
+  0x494b58: jge 0x494b61
+  0x494b5f: jmp 0x494b6c
+  0x494b61: cmp ax, 0xea60
+  0x494b65: jbe 0x494b6c
+  0x494b74: cmp ax, 0xea60
+  0x494b78: jbe 0x494b7f
+  0x494b99: lea eax, [eax*4 + 0x1cfdce4]
+  0x494ba0: jmp 0x494c70
+  0x494ba5: test eax, eax
+  0x494ba7: je 0x494c5e
+  0x494bad: cmp eax, 0xf5
+  0x494bb2: je 0x494c5e
+  0x494bb8: cmp eax, 0x1d
+  0x494bbb: je 0x494d19
+  0x494bc1: cmp eax, 7
+  0x494bc4: je 0x494c5e
+  0x494bca: cmp eax, 0xf6
+  0x494bcf: je 0x494c5e
+  0x494bd5: lea ecx, [edi + edi*2]
+  0x494bda: lea eax, [edi + ecx*4]
+  0x494c05: imul eax, esi
+  0x494c08: lea edx, [ecx + ecx*2]
+  0x494c0b: lea eax, [eax + eax*4]
+  0x494c0e: lea edx, [ecx + edx*4]
+  0x494c1f: test bp, bp
+  0x494c22: jne 0x494c28
+  0x494c26: jmp 0x494c3f
+  0x494c28: cmp eax, 1
+  0x494c2b: jge 0x494c34
+  0x494c32: jmp 0x494c3f
+  0x494c34: cmp ax, 0xea60
+  0x494c38: jbe 0x494c3f
+  0x494c47: cmp ax, 0xea60
+  0x494c4b: jbe 0x494c52
+  IMM 0xea60:7, 0x4:4, 0x494c5e:4, 0x494b6c:3, 0x494c3f:3, 0xffff:2, 0xfe:1, 0x494ba5:1, 0x494b55:1, 0x494b61:1, 0x494b7f:1, 0x494c70:1, 0xf5:1, 0x1d:1, 0x494d19:1, 0x7:1, 0xf6:1, 0x494c28:1, 0x494c34:1, 0x494c52:1
+  MEM mov eax, dword ptr [esp + 0xc]
+  MEM mov edi, dword ptr [esp + 0x18]
+  MEM mov ecx, dword ptr [eax + 0x1d27b10]
+  MEM mov dl, byte ptr [eax + 0x1d27bcc]
+  MEM mov bp, word ptr [ecx + 0x100]
+  MEM mov ecx, dword ptr [esp + 0x20]
+  MEM mov bl, byte ptr [edx*4 + 0x1cff320]
+  MEM add ax, word ptr [ecx*2 + 0x1cff520]
+  MEM mov word ptr [ecx*2 + 0x1cff520], ax
+  MEM inc word ptr [eax*4 + 0x1cfdce4]
+  MEM lea eax, [eax*4 + 0x1cfdce4]
+  MEM mov edx, dword ptr [eax + 0x1d27b10]
+  MEM mov bp, word ptr [ecx + 0x100]
+  MEM mov cl, byte ptr [eax + 0x1d27bcc]
+  MEM mov ecx, dword ptr [esp + 0x14]
+  MEM mov bl, byte ptr [edx + 0x1d27bcc]
+  MEM add ax, word ptr [ecx*2 + 0x1cff57a]
+
+===== 486650_MugProb ea=0x486650 off=550480 =====
+  0x486657: lea eax, [esi + esi*2]
+  0x48665a: lea eax, [esi + eax*4]
+  0x486666: test ch, 8
+  0x486669: jne 0x486746
+  0x48667f: call 0x48f020
+  0x486689: cmp eax, ebx
+  0x48668b: jg 0x486746
+  0x486691: cmp byte ptr [0x1d28dfa], 0x18
+  0x486698: jae 0x486746
+  0x48669e: call 0x48f020
+  0x4866ae: test cl, 2
+  0x4866b1: je 0x4866dd
+  0x4866b3: cmp eax, 0x80
+  0x4866b8: jge 0x4866be
+  0x4866bc: jmp 0x486705
+  0x4866be: cmp eax, 0xf2
+  0x4866c3: jge 0x4866cc
+  0x4866ca: jmp 0x486705
+  0x4866ce: cmp eax, 0x105
+  0x4866db: jmp 0x486705
+  0x4866dd: cmp eax, 0xb2
+  0x4866e2: jge 0x4866e8
+  0x4866e6: jmp 0x486705
+  0x4866e8: cmp eax, 0xe5
+  0x4866ed: jge 0x4866f6
+  0x4866f4: jmp 0x486705
+  0x4866f8: cmp eax, 0xf4
+  0x486705: lea edx, [esi + esi*8]
+  0x48671b: lea ecx, [eax + ecx*4]
+  0x486749: ret 
+  IMM 0x486705:5, 0x486746:3, 0x2:3, 0x48f020:2, 0xff:2, 0x4:1, 0x8:1, 0x18:1, 0x4866dd:1, 0x80:1, 0x4866be:1, 0xf2:1, 0x4866cc:1, 0x105:1, 0xb2:1, 0x4866e8:1, 0xe5:1, 0x4866f6:1, 0xf4:1, 0x3:1
+  MEM mov esi, dword ptr [esp + 0xc]
+  MEM mov ecx, dword ptr [eax + 0x1d27b8c]
+  MEM mov ecx, dword ptr [eax + 0x1d27b10]
+  MEM mov bl, byte ptr [edi + 0x14d]
+  MEM cmp byte ptr [0x1d28dfa], 0x18
+  MEM mov cl, byte ptr [0x1cff6d8]
+  MEM mov cl, byte ptr [edx + 0x1d28e89]
+  MEM mov dl, byte ptr [0x1d28dfa]
+  MEM mov bl, byte ptr [edi + ecx*2 + 0x134]
+  MEM mov cl, byte ptr [edi + ecx*2 + 0x135]
+  MEM mov byte ptr [eax + 0x1cff5e0], bl
+  MEM mov byte ptr [eax + 0x1cff5e1], cl
+  MEM mov byte ptr [0x1d28dfa], dl
+
+===== 4867C0_MugQty ea=0x4867c0 off=550848 =====
+  0x4867c7: lea eax, [esi + esi*2]
+  0x4867ca: lea ecx, [esi + eax*4]
+  0x4867e2: test edi, edi
+  0x4867e4: je 0x4868ad
+  0x4867ea: call 0x48f020
+  0x486802: cmp ecx, eax
+  0x486804: jg 0x4868a7
+  0x48680a: call 0x48f020
+  0x48681a: test cl, 2
+  0x48681d: je 0x486849
+  0x48681f: cmp eax, 0x80
+  0x486824: jge 0x48682a
+  0x486828: jmp 0x486871
+  0x48682a: cmp eax, 0xf2
+  0x48682f: jge 0x486838
+  0x486836: jmp 0x486871
+  0x48683a: cmp eax, 0x105
+  0x486847: jmp 0x486871
+  0x486849: cmp eax, 0xb2
+  0x48684e: jge 0x486854
+  0x486852: jmp 0x486871
+  0x486854: cmp eax, 0xe5
+  0x486859: jge 0x486862
+  0x486860: jmp 0x486871
+  0x486864: cmp eax, 0xf4
+  0x486871: lea edx, [esi + esi*8]
+  0x486883: lea eax, [eax + ecx*4]
+  0x4868a6: ret 
+  0x4868ac: ret 
+  0x4868b5: ret 
+  IMM 0x486871:5, 0x2:4, 0x48f020:2, 0xff:2, 0x4:1, 0x4868ad:1, 0x4868a7:1, 0x486849:1, 0x80:1, 0x48682a:1, 0xf2:1, 0x486838:1, 0x105:1, 0xb2:1, 0x486854:1, 0xe5:1, 0x486862:1, 0xf4:1, 0x3:1
+  MEM mov esi, dword ptr [esp + 0xc]
+  MEM mov edx, dword ptr [ecx + 0x1d27b10]
+  MEM mov al, byte ptr [ebp + 0x14c]
+  MEM mov eax, dword ptr [esp + 0x1c]
+  MEM mov cl, byte ptr [0x1cff6d8]
+  MEM mov cl, byte ptr [edx + 0x1d28e89]
+  MEM mov ecx, dword ptr [esp + 0xc]
+  MEM mov dl, byte ptr [ebp + eax*2 + 0x11c]
+  MEM mov dl, byte ptr [ebp + eax*2 + 0x11d]
+  MEM mov eax, dword ptr [esp + 0x10]
+
+===== 492220_DevourBonus ea=0x492220 off=598560 =====
+  0x492227: lea esi, [eax + eax*2]
+  0x492237: test bl, 1
+  0x49223a: je 0x492247
+  0x49223f: call 0x495f90
+  0x492247: test bl, 2
+  0x49224a: je 0x492257
+  0x49224f: call 0x495f90
+  0x492257: test bl, 4
+  0x49225a: je 0x492267
+  0x49225f: call 0x495f90
+  0x492267: test bl, 8
+  0x49226a: je 0x492277
+  0x49226f: call 0x495f90
+  0x492277: test bl, 0x10
+  0x49227a: je 0x492287
+  0x49227f: call 0x495f90
+  0x492287: test bl, 0x20
+  0x49228a: je 0x492297
+  0x49228f: call 0x495f90
+  0x4922a1: call 0x495f50
+  0x4922ac: ret 
+  0x4922b8: test al, 3
+  0x4922c0: jne 0x4922d2
+  0x4922ca: call 0x48f140
+  0x4922d7: cmp eax, 0x24
+  0x4922da: ja 0x4925d0
+  0x4922e0: jmp dword ptr [eax*4 + 0x492a24]
+  0x4922f2: call 0x48f480
+  0x4922fc: jmp 0x4925d2
+  0x492301: test dword ptr [0x1d2a234], 0x4000000
+  0x49230b: jne 0x492333
+  0x49230d: lea edx, [esi + esi*2]
+  0x492310: lea eax, [esi + edx*4]
+  0x492316: test byte ptr [eax + 0x1d27b90], 4
+  0x49231d: jne 0x4925d0
+  0x492323: test dword ptr [eax + 0x1d27b18], 0x180800
+  0x49232d: jne 0x4925d0
+  0x492339: call 0x492b00
+  IMM 0x8:8, 0x495f90:6, 0x4:4, 0x2:3, 0x4925d0:3, 0x3:2, 0x10:2, 0xc:2, 0x492247:1, 0x492257:1, 0x492267:1, 0x492277:1, 0x492287:1, 0x20:1, 0x492297:1, 0x5:1, 0x495f50:1, 0x4922d2:1, 0x4001:1, 0x48f140:1, 0x24:1, 0x48f480:1
+  MEM mov eax, dword ptr [esp + 8]
+  MEM mov edi, dword ptr [esp + 0x10]
+  MEM mov bl, byte ptr [esi + 0x1cf8a5e]
+  MEM mov al, byte ptr [esi + 0x1cf8a5f]
+  MEM mov al, byte ptr [0x1d28e0e]
+  MEM mov esi, dword ptr [esp + 0x20]
+  MEM mov eax, dword ptr [esp + 0x1c]
+  MEM jmp dword ptr [eax*4 + 0x492a24]
+  MEM mov eax, dword ptr [esp + 0x2c]
+  MEM mov ecx, dword ptr [esp + 0x24]
+  MEM test dword ptr [0x1d2a234], 0x4000000
+  MEM test byte ptr [eax + 0x1d27b90], 4
+  MEM test dword ptr [eax + 0x1d27b18], 0x180800
+  MEM mov edi, dword ptr [esp + 0x24]
+
+===== 48FBA0_CardCommandDrop ea=0x48fba0 off=588704 =====
+  0x48fba6: lea ecx, [eax + eax*2]
+  0x48fba9: lea ecx, [eax + ecx*4]
+  0x48fbb7: cmp byte ptr [edi + 0xf9], 0xff
+  0x48fbbe: jne 0x48fbce
+  0x48fbc0: cmp byte ptr [edi + 0xfa], 0xff
+  0x48fbc7: jne 0x48fbce
+  0x48fbcd: ret 
+  0x48fbf5: imul ecx
+  0x48fc05: call 0x48f020
+  0x48fc0f: test esi, esi
+  0x48fc11: je 0x48fc49
+  0x48fc13: cmp esi, eax
+  0x48fc15: jb 0x48fc49
+  0x48fc17: call 0x48f020
+  0x48fc1c: cmp al, 0x10
+  0x48fc1e: jae 0x48fc28
+  0x48fc26: jmp 0x48fc2e
+  0x48fc38: call 0x534840
+  0x48fc40: test eax, eax
+  0x48fc42: je 0x48fc50
+  0x48fc48: ret 
+  0x48fc57: ret 
+  0x48fc64: lea ecx, [eax + eax*2]
+  0x48fc67: lea edx, [eax + ecx*4]
+  0x48fc73: lea edx, [eax + eax*8]
+  0x48fc88: je 0x48fca4
+  0x48fc8b: je 0x48fc9a
+  0x48fc8e: jne 0x48fcae
+  0x48fc98: jmp 0x48fcb2
+  0x48fca2: jmp 0x48fcb2
+  0x48fcac: jmp 0x48fcb2
+  0x48fcb2: cmp eax, 0xff
+  0x48fcb7: jne 0x48fcc3
+  IMM 0xff:5, 0x4:3, 0x48fcb2:3, 0x48fbce:2, 0x8:2, 0x48f020:2, 0x48fc49:2, 0x100:1, 0x80808081:1, 0x7:1, 0x1f:1, 0x10:1, 0x48fc28:1, 0x48fc2e:1, 0x534840:1, 0x48fc50:1, 0x3:1, 0x48fca4:1, 0x48fc9a:1, 0x48fcae:1, 0x48fcc3:1
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov edx, dword ptr [ecx + 0x1d27b10]
+  MEM cmp byte ptr [edi + 0xf9], 0xff
+  MEM cmp byte ptr [edi + 0xfa], 0xff
+  MEM mov edx, dword ptr [ecx + 0x1d27b28]
+  MEM idiv dword ptr [ecx + 0x1d27b2c]
+  MEM mov al, byte ptr [edi + 0xfa]
+  MEM mov al, byte ptr [edi + 0xf9]
+  MEM mov byte ptr [0x1d28e15], al
+  MEM mov byte ptr [0x1d28e15], 0xff
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov ecx, dword ptr [edx + 0x1d27b10]
+  MEM mov al, byte ptr [edx + 0x1d28e89]
+  MEM mov al, byte ptr [ecx + 0xfd]
+  MEM mov al, byte ptr [ecx + 0xfc]
+  MEM mov al, byte ptr [ecx + 0xfb]
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov byte ptr [0x1d28e26], 0
+
+===== 4868C0_EndCleanup ea=0x4868c0 off=551104 =====
+  0x4868d2: cmp byte ptr [esi + 0x3b], bl
+  0x4868d5: je 0x486912
+  0x4868e0: lea ecx, [eax + eax*8]
+  0x4868e3: lea edx, [eax + ecx*2]
+  0x4868ef: lea eax, [edx*8 + 0x1cfe0e8]
+  0x486903: call 0x485ec0
+  0x48691f: cmp esi, 0x1d27e00
+  0x486925: jl 0x4868d2
+  0x486934: test edx, edx
+  0x486936: je 0x486972
+  0x486943: cmp ecx, edx
+  0x486945: je 0x48696f
+  0x48694b: cmp esi, 0xc6
+  0x486951: jl 0x48693f
+  0x48695a: cmp byte ptr [eax], 0
+  0x48695d: je 0x48696d
+  0x486963: cmp ecx, 0xc6
+  0x486969: jl 0x48695a
+  0x48696b: jmp 0x486972
+  0x486975: cmp edi, 0x1d28f18
+  0x48697b: jl 0x48692c
+  0x486985: cmp eax, 4
+  0x486988: ja 0x4869dc
+  0x48698a: jmp dword ptr [eax*4 + 0x4869f4]
+  0x4869a1: jmp 0x4869dc
+  0x4869ca: jmp 0x4869dc
+  0x4869dc: call 0x46b440
+  0x4869ea: call 0x4a92f0
+  0x4869f3: ret 
+  0x4869f5: imul ecx, dword ptr [eax], 0x486991
+  0x4869fd: imul ecx, dword ptr [eax], 0x4869a3
+  0x486a17: test ecx, ecx
+  0x486a1a: jne 0x486a23
+  0x486a22: ret 
+  0x486a27: test eax, eax
+  0x486a29: jne 0x486ac7
+  0x486a35: lea esi, [edx*8]
+  0x486a3e: lea esi, [edx + esi*4]
+  0x486a44: lea ebp, [esi + 0x1cff082]
+  0x486a4c: jmp 0x486a52
+  0x486a56: cmp ebx, ecx
+  0x486a58: je 0x486a7f
+  0x486a5e: cmp eax, 0x20
+  0x486a61: jl 0x486a4e
+  0x486a67: cmp byte ptr [ecx], 0
+  0x486a6a: je 0x486a9a
+  0x486a70: cmp eax, 0x20
+  0x486a73: jl 0x486a67
+  0x486a7e: ret 
+  0x486a7f: lea ecx, [esi + eax*4]
+  0x486a82: lea ecx, [eax + ecx + 0x1cff083]
+  0x486a8b: cmp al, 0x64
+  0x486a8d: jge 0x486a75
+  0x486a99: ret 
+  0x486a9a: lea ecx, [esi + eax*4]
+  0x486ab8: call 0x4954b0
+  0x486ac6: ret 
+  0x486acd: lea esi, [edx*8]
+  0x486ad6: lea esi, [edx + esi*4]
+  0x486adc: lea edi, [esi + 0x1cff082]
+  0x486ae6: cmp ebx, ecx
+  0x486ae8: je 0x486afd
+  0x486aee: cmp eax, 0x20
+  0x486af1: jl 0x486ae2
+  0x486afc: ret 
+  0x486afd: lea ecx, [esi + eax*4]
+  0x486b08: test cl, cl
+  0x486b0a: je 0x486b2a
+  0x486b14: jne 0x486a1c
+  0x486b22: call 0x4954b0
+  0x486b33: ret 
+  IMM 0x4:6, 0x5:6, 0xff:3, 0x4869dc:3, 0x20:3, 0x486972:2, 0x1cfe79c:2, 0x2:2, 0xc6:2, 0x64:2, 0x4954b0:2, 0x1cff1b2:1, 0x1d27b90:1, 0x486912:1, 0xffdf:1, 0x485ec0:1, 0xd0:1, 0x1d0:1, 0x1d27e00:1, 0x4868d2:1, 0x1d28e78:1, 0x48696f:1, 0x48693f:1
+  MEM cmp byte ptr [esi + 0x3b], bl
+  MEM mov al, byte ptr [edi + 0x1cfe74c]
+  MEM mov cx, word ptr [esi - 0x68]
+  MEM lea eax, [edx*8 + 0x1cfe0e8]
+  MEM mov word ptr [eax + 0x96], cx
+  MEM movsx ebx, byte ptr [edi + 1]
+  MEM mov byte ptr [eax + 1], bl
+  MEM mov al, byte ptr [0x1cff6e7]
+  MEM jmp dword ptr [eax*4 + 0x4869f4]
+  MEM inc word ptr [0x1cfe93a]
+  MEM mov word ptr [0x1cd8fc6], 5
+  MEM mov dl, byte ptr [0x1d287dd]
+  MEM mov ebx, dword ptr [0x1cfe934]
+  MEM mov dword ptr [0x1cfe934], ebx
+  MEM mov word ptr [0x1cd8fc6], dx
+  MEM inc word ptr [0x1cfe938]
+  MEM mov word ptr [0x1cd8fc6], 0x64
+  MEM mov word ptr [0x1cdbfe0], 0
+  MEM shr dword ptr [ecx + 0x48], cl
+  MEM add byte ptr [eax - 0x6f6f6f70], dl
+
+===== 48B8B0_CommitHPMagic ea=0x48b8b0 off=571568 =====
+  0x48b8b8: cmp byte ptr [eax + 0xa3], 0xff
+  0x48b8bf: je 0x48b8da
+  0x48b8c9: lea esi, [ecx + ecx*8]
+  0x48b8cc: lea ecx, [ecx + esi*2]
+  0x48b8e0: cmp eax, 0x1d27d98
+  0x48b8e5: jl 0x48b8b8
+  0x48b8e9: call 0x486cd0
+  0x48b8f8: cmp eax, 0xff
+  0x48b8fd: je 0x48b948
+  0x48b8ff: lea edx, [eax + eax*8]
+  0x48b907: lea eax, [eax + edx*2]
+  0x48b90a: lea esi, [eax*8 + 0x1cfe0f8]
+  0x48b915: test eax, eax
+  0x48b917: je 0x48b942
+  0x48b919: lea ecx, [eax - 1]
+  0x48b92d: jns 0x48b934
+  0x48b946: jne 0x48b911
+  0x48b949: cmp ebp, 3
+  0x48b94c: jl 0x48b8f0
+  0x48b94e: call 0x48c7a0
+  0x48b953: call 0x4adcf0
+  0x48b95e: test al, al
+  0x48b961: je 0x48b96f
+  0x48b963: call 0x4adcd0
+  0x48b97b: call 0x495960
+  0x48b981: call 0x48b310
+  0x48b98a: cmp esi, 3
+  0x48b98d: jl 0x48b971
+  0x48b990: ret 
+  0x48b9a4: lea ecx, [eax*8]
+  0x48b9ad: lea edx, [eax + ecx*4]
+  0x48b9bd: lea eax, [eax + eax*2]
+  0x48b9c9: ret 
+  0x48b9d4: lea ecx, [eax*8]
+  0x48b9dd: lea edx, [eax + ecx*4]
+  0x48b9eb: ret 
+  IMM 0xff:2, 0x3:2, 0x4:2, 0x1d27b28:1, 0x48b8da:1, 0xd0:1, 0x1d27d98:1, 0x48b8b8:1, 0x486cd0:1, 0x48b948:1, 0x20:1, 0x48b942:1, 0x1f:1, 0x5:1, 0x8000001f:1, 0x48b934:1, 0xffffffe0:1, 0x2:1, 0x48b911:1, 0x48b8f0:1, 0x48c7a0:1, 0x4adcf0:1, 0x48b96f:1
+  MEM cmp byte ptr [eax + 0xa3], 0xff
+  MEM mov cl, byte ptr [edx + 0x1cfe74c]
+  MEM mov word ptr [ecx*8 + 0x1cfe0e8], si
+  MEM mov al, byte ptr [ebp + 0x1cfe74c]
+  MEM lea esi, [eax*8 + 0x1cfe0f8]
+  MEM lea ecx, [eax - 1]
+  MEM or dword ptr [eax*4 + 0x1cfe95c], edx
+  MEM mov al, byte ptr [0x1d28e18]
+  MEM mov byte ptr [0x1d28e18], 0
+  MEM mov al, byte ptr [esi + 0x1cfe74c]
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov al, byte ptr [edx + 0x1cff1ba]
+  MEM mov cl, byte ptr [eax*4 + 0x1cf7409]
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov al, byte ptr [edx + 0x1cff1b9]
+
+===== 486CD0_CopyMagicStocks ea=0x486cd0 off=552144 =====
+  0x486cf4: cmp byte ptr [eax], 0xff
+  0x486cf7: je 0x486d5a
+  0x486d0a: lea ecx, [eax + eax*8]
+  0x486d0d: lea eax, [eax + ecx*2]
+  0x486d10: lea edi, [eax*8 + 0x1cfe0e8]
+  0x486d19: lea ecx, [edi + 0x11]
+  0x486d2e: jne 0x486d1c
+  0x486d30: lea ebp, [edi + 0x5c]
+  0x486d3b: lea ecx, [edi + 0x10]
+  0x486d3e: cmp dl, byte ptr [ecx]
+  0x486d40: je 0x486d4f
+  0x486d46: cmp eax, 0x20
+  0x486d49: jl 0x486d3e
+  0x486d51: cmp ebx, 0x14
+  0x486d54: jl 0x486d37
+  0x486d6f: cmp edx, 0x1cff5f3
+  0x486d81: jl 0x486cf0
+  0x486d8e: ret 
+  0x486da0: ret 
+  0x486dbb: ret 
+  0x486dc0: call 0x4860a0
+  0x486dc5: cmp eax, 0xff
+  0x486dca: jne 0x486dd0
+  0x486dcf: ret 
+  IMM 0xc:2, 0xff:2, 0x20:2, 0x2:2, 0x1cff083:1, 0x1d27bcb:1, 0x486d5a:1, 0x5:1, 0x486d1c:1, 0x486d4f:1, 0x486d3e:1, 0x14:1, 0x486d37:1, 0x1d0:1, 0xd0:1, 0x1cff5f3:1, 0x486cf0:1, 0x8:1, 0x1d28d98:1, 0x4860a0:1, 0x486dd0:1
+  MEM mov dword ptr [esp + 0x10], 0
+  MEM mov dword ptr [esp + 0x14], 0x1d27bcb
+  MEM mov dword ptr [esp + 0x18], edx
+  MEM mov eax, dword ptr [esp + 0x14]
+  MEM mov ecx, dword ptr [esp + 0x10]
+  MEM mov al, byte ptr [ecx + 0x1cfe74c]
+  MEM lea edi, [eax*8 + 0x1cfe0e8]
+  MEM lea ecx, [edi + 0x11]
+  MEM mov dl, byte ptr [eax - 1]
+  MEM mov byte ptr [ecx - 1], dl
+  MEM mov dl, byte ptr [eax - 5]
+  MEM lea ebp, [edi + 0x5c]
+  MEM lea ecx, [edi + 0x10]
+  MEM mov edx, dword ptr [esp + 0x18]
+  MEM mov edi, dword ptr [esp + 0x10]
+  MEM mov esi, dword ptr [esp + 0x14]
+  MEM mov dword ptr [esp + 0x10], edi
+  MEM mov dword ptr [esp + 0x14], esi
+  MEM mov dword ptr [esp + 0x18], edx
+  MEM mov ecx, dword ptr [esp + 4]
+
+===== 4A6680_Mode5Lvl ea=0x4a6680 off=681600 =====
+  0x4a668d: call 0x403e00
+  0x4a66a4: lea ecx, [eax + 0x40000]
+  0x4a66bd: call 0x45c250
+  0x4a66d4: call 0x45c250
+  0x4a66eb: call 0x45c2a0
+  0x4a6709: call 0x45c2a0
+  0x4a6730: cmp ecx, 0x1d6bc88
+  0x4a673a: jl 0x4a6716
+  0x4a674e: lea ecx, [eax + 0x14]
+  0x4a6751: lea edx, [eax + 0x7c]
+  0x4a6777: lea eax, [esi + 0x62]
+  IMM 0x180:4, 0x14:3, 0x45c250:2, 0x200:2, 0x45c2a0:2, 0xc8:1, 0x403e00:1, 0xe0:1, 0x44000:1, 0x40:1, 0x1d6bc80:1, 0x4:1, 0x8:1, 0x1d6bc88:1, 0x4a6716:1, 0x20:1
+  MEM mov eax, dword ptr [0xb86d30]
+  MEM lea ecx, [eax + 0x40000]
+  MEM mov dword ptr [0x1d6bc80], ecx
+  MEM mov dword ptr [0x1d6bc84], eax
+  MEM mov eax, dword ptr [0x1d6bc84]
+  MEM mov ecx, dword ptr [0x1d6bc84]
+  MEM mov edx, dword ptr [0x1d6bc80]
+  MEM mov byte ptr [eax + 0x2c], 1
+  MEM mov byte ptr [eax + 0x2d], 0
+  MEM mov byte ptr [eax + 0x2e], 0
+  MEM mov byte ptr [eax + 0x2f], 0
+  MEM add word ptr [eax + 0xa], 8
+  MEM mov word ptr [eax + 0xe], bx
+  MEM mov eax, dword ptr [0x1d6bc84]
+  MEM mov word ptr [esi + 0x20], di
+  MEM mov dword ptr [0x1d6bc64], eax
+  MEM mov word ptr [esi + 0x22], di
+  MEM lea ecx, [eax + 0x14]
+  MEM lea edx, [eax + 0x7c]
+  MEM mov dword ptr [0x1cdbfd8], ecx
+
+===== 4A2690_RewardMenu ea=0x4a2690 off=665232 =====
+  0x4a26a9: call 0x45b2e0
+  0x4a26ae: test eax, eax
+  0x4a26b0: jne 0x4a2878
+  0x4a26bb: lea edx, [esp + 4]
+  0x4a26d5: call 0x41e168
+  0x4a26e1: call 0x41dfba
+  0x4a26e9: call 0x41e972
+  0x4a26f1: test eax, eax
+  0x4a26f3: je 0x4a27ec
+  0x4a26fa: call 0x43fbe8
+  0x4a2700: call 0x409b42
+  0x4a2706: call 0x409b08
+  IMM 0x1c:1, 0x45b2e0:1, 0x4a2878:1, 0x3f800000:1, 0x41e168:1, 0x41dfba:1, 0x41e972:1, 0x20:1, 0x4a27ec:1, 0x43fbe8:1, 0x409b42:1, 0x409b08:1
+  MEM mov eax, dword ptr [0x1d2bb90]
+  MEM mov ecx, dword ptr [0x1d2bb94]
+  MEM mov dword ptr [0x1d2bb88], eax
+  MEM mov dword ptr [0x1d2bb8c], ecx
+  MEM mov esi, dword ptr [esp + 0x24]
+  MEM lea edx, [esp + 4]
+  MEM mov dword ptr [esp + 0x14], eax
+  MEM mov dword ptr [esp + 0x10], eax
+  MEM mov dword ptr [esp + 0xc], eax
+  MEM mov dword ptr [esp + 0x18], 0x3f800000
+
+===== 47CEF0_BattleExit ea=0x47cef0 off=511728 =====
+  0x47cef1: call 0x56ba90
+  0x47cf28: call 0x45b4c0
+  0x47cf3e: call 0x45b580
+  0x47cf43: call 0x4647a0
+  0x47cf49: ret 
+  0x47cf5a: ret 
+  IMM 0x56ba90:1, 0x45b4c0:1, 0x10:1, 0x45b580:1, 0x4647a0:1, 0x1c:1
+  MEM mov esi, dword ptr [0x1a78bd0]
+  MEM mov edx, dword ptr [0x1a78bcc]
+  MEM mov ecx, dword ptr [0x1a77e7c]
+  MEM mov eax, dword ptr [0x1a77e78]
+  MEM mov dword ptr [0x1a7764c], eax
+  MEM mov dword ptr [0x1a77648], ecx
+  MEM mov dword ptr [0x1a77654], edx
+  MEM mov dword ptr [0x1a77650], esi
+  MEM mov eax, dword ptr [esp + 0x18]
+  MEM mov dword ptr [eax + 0xb88], 1
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov dword ptr [0x1cff6f4], eax
+  MEM mov esi, dword ptr [esp + 0x28]
+
+===== 4865C0_ResultCode ea=0x4865c0 off=550336 =====
+  0x4865c2: call 0x45c310
+  0x4865d8: jmp 0x46c040
+  0x4865e0: call 0x48f020
+  0x4865f0: test cl, 2
+  0x4865f3: je 0x48661c
+  0x4865f5: cmp eax, 0x80
+  0x4865fa: jge 0x4865ff
+  0x4865fe: ret 
+  0x4865ff: cmp eax, 0xf2
+  0x486604: jge 0x48660c
+  0x48660b: ret 
+  0x48660e: cmp eax, 0x105
+  0x48661b: ret 
+  0x48661c: cmp eax, 0xb2
+  0x486621: jge 0x486626
+  0x486625: ret 
+  0x486626: cmp eax, 0xe5
+  0x48662b: jge 0x486633
+  0x486632: ret 
+  0x486635: cmp eax, 0xf4
+  IMM 0x2:3, 0x45c310:1, 0x4:1, 0x5:1, 0x46c040:1, 0x48f020:1, 0xff:1, 0x48661c:1, 0x80:1, 0x4865ff:1, 0xf2:1, 0x48660c:1, 0x105:1, 0xb2:1, 0x486626:1, 0xe5:1, 0x486633:1, 0xf4:1
+  MEM mov byte ptr [0x1cff6e7], 5
+  MEM mov byte ptr [0x1d27b0c], 0
+  MEM mov cl, byte ptr [0x1cff6d8]
+
+===== 483270_Phoenix ea=0x483270 off=537200 =====
+  0x483270: call 0x4860d0
+  0x483275: cmp eax, 0xff
+  0x48327a: je 0x483298
+  0x483281: test byte ptr [eax - 4], 1
+  0x483285: je 0x48328c
+  0x483287: test byte ptr [eax], 4
+  0x48328a: je 0x48329b
+  0x483291: cmp eax, 0x1d27e00
+  0x483296: jl 0x483281
+  0x48329a: ret 
+  0x48329b: test byte ptr [0x1cfe97a], 4
+  0x4832a2: je 0x483298
+  0x4832a4: cmp word ptr [0x1cff6e0], 0x13d
+  0x4832ad: je 0x483298
+  0x4832b6: call 0x48f0f0
+  0x4832be: test eax, eax
+  0x4832c0: je 0x483298
+  0x4832cd: call 0x486080
+  0x4832d3: call 0x484720
+  0x4832e0: ret 
+  0x4832f6: cmp ecx, 1
+  0x4832f9: je 0x483303
+  0x4832fe: cmp eax, 0x20
+  0x483301: jl 0x4832f6
+  0x483303: cmp eax, 0xe
+  0x483306: jge 0x483336
+  0x483308: movzx cx, byte ptr [0x1cfe738]
+  0x483310: movzx dx, byte ptr [eax + 0x1cf8b14]
+  0x48331a: imul edx, ecx
+  0x483324: lea esi, [ecx + ecx*2]
+  0x483327: lea ecx, [ecx + esi*4]
+  0x48332b: lea eax, [eax + ecx*8]
+  0x483336: ret 
+  0x483346: cmp ecx, 1
+  0x483349: je 0x483353
+  0x48334e: cmp eax, 0x20
+  0x483351: jl 0x483346
+  0x483353: cmp eax, 0xe
+  0x483356: jge 0x48336f
+  0x48335c: lea edx, [ecx + ecx*2]
+  0x48335f: lea ecx, [ecx + edx*4]
+  0x483362: lea edx, [eax + ecx*8]
+  0x48336f: ret 
+  0x483376: cmp ecx, 1
+  0x483379: je 0x483383
+  0x48337e: cmp eax, 0x20
+  0x483381: jl 0x483376
+  0x483383: cmp eax, 0xe
+  0x483386: jge 0x4833a7
+  0x48338c: lea edx, [ecx + ecx*2]
+  0x48338f: lea ecx, [ecx + edx*4]
+  0x483392: lea edx, [eax + ecx*8]
+  0x483395: cmp word ptr [edx*2 + 0x1d27b64], 0xfba9
+  0x48339f: jne 0x4833a7
+  0x4833a6: ret 
+  0x4833a9: ret 
+  0x4833b5: call 0x48e830
+  0x4833c2: test al, al
+  0x4833c4: jne 0x4833ff
+  0x4833c8: call 0x47e080
+  IMM 0x483298:4, 0x4:3, 0x20:3, 0xe:3, 0xff:2, 0xfba9:2, 0x4833a7:2, 0x4860d0:1, 0x1d27b90:1, 0x48328c:1, 0x48329b:1, 0xd0:1, 0x1d27e00:1, 0x483281:1, 0x13d:1, 0x40:1, 0x48f0f0:1, 0x8:1, 0x7:1, 0x486080:1, 0x484720:1, 0xc:1
+  MEM test byte ptr [eax - 4], 1
+  MEM test byte ptr [0x1cfe97a], 4
+  MEM cmp word ptr [0x1cff6e0], 0x13d
+  MEM mov byte ptr [0x1d28e14], 1
+  MEM mov ecx, dword ptr [esp + 8]
+  MEM movzx cx, byte ptr [0x1cfe738]
+  MEM movzx dx, byte ptr [eax + 0x1cf8b14]
+  MEM mov ecx, dword ptr [esp + 8]
+  MEM mov word ptr [eax*2 + 0x1d27b64], dx
+  MEM mov ecx, dword ptr [esp + 8]
+  MEM mov ecx, dword ptr [esp + 4]
+  MEM mov word ptr [edx*2 + 0x1d27b64], 0xfba9
+  MEM mov ecx, dword ptr [esp + 8]
+  MEM mov ecx, dword ptr [esp + 4]
+  MEM cmp word ptr [edx*2 + 0x1d27b64], 0xfba9
+  MEM mov eax, dword ptr [esp + 4]
+  MEM mov al, byte ptr [0x1d27b0e]

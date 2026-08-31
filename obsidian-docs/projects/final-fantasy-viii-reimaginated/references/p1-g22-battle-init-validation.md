@@ -8,6 +8,9 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-constrained-anchor-test-pack-2026-08-29.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-08-29.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-ordinary-visible-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-refuse-active-2026-08-31.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-post-shutdown-2026-08-31.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-ordinary-visible-2026-08-31.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-refuse-active-2026-08-31.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-post-shutdown-2026-08-31.json
@@ -28,21 +31,21 @@ sources:
   - projects/final-fantasy-viii-reimaginated/references/evidence-catalog.md
   - projects/final-fantasy-viii-reimaginated/references/g16-g22-red-team-2026-08-28.md
 summary: >-
-  G22 constrained v3 live anchor on PID 43988 / DLL 5d5f5c61… (v16):
-  L22-A/B/C PASS, refused_mask 373. Promotion remains false. P2 and G23 stay closed.
+  G22 constrained v3 live anchor on PID 29160 / DLL 8fba4387… (v17):
+  L22-A/B/C PASS, refused_mask 32. Promotion remains false. P2 and G23 stay closed.
 provenance:
-  extracted: 0.86
-  inferred: 0.08
-  ambiguous: 0.06
+  extracted: 0.90
+  inferred: 0.06
+  ambiguous: 0.04
 created: 2026-08-28T20:40:00+02:00
-updated: 2026-08-31T18:15:00+02:00
+updated: 2026-08-31T18:40:00+02:00
 ---
 
 # P1 G22 Battle Init — Constrained Live Anchor
 
 > [!warning] Constrained live anchor, not a promotion
-> Current candidate: PID **43988** / DLL `5d5f5c61…` / protocol **v3** /
-> schema **27**. L22-A/B/C collector `PASS`, `refused_mask=373`.
+> Current candidate: PID **29160** / DLL `8fba4387…` / protocol **v3** /
+> schema **27**. L22-A/B/C collector `PASS`, `refused_mask=32`.
 > `[P1.G22] = constrained-live-anchor` and
 > `[promotion.G22].satisfied = false`. P2 is not opened. G23 is not started.
 
@@ -51,7 +54,28 @@ updated: 2026-08-31T18:15:00+02:00
 > black screen or an instant victory. Do not promote from filename, mtime,
 > or collector verdict alone.
 
-## Current candidate — v16 / 2026-08-31
+## Current candidate — v17 / 2026-08-31
+
+EXE SHA-256
+`064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
+DLL SHA-256
+`8fba438709acf40a18a7caecd048db52b970cb95c6a71385f404b4830fa27b94`.
+Bootstrap flags `0xc7`. RelWithDebInfo PE32. PID **29160**.
+`negative_runtime_evidence` is empty on the three retained envelopes.
+Do not merge this hash with v16 `5d5f5c61…` or v15 `d901a8c2…`.
+
+| Boundary | Envelope SHA-256 | JSON facts |
+| --- | --- | --- |
+| L22-A ordinary | `6131cf15762ce2ee07f1a6f07148ef36ea906e753ba6369c8e14c278953e68dd` | `PASS` / BattleActive; scene **514**; `ready=1`; writes **21/21**; preimage mask **487/487**; G07 file-callback **1** + BdLink **1**; SEH **0**; queue-reset intercepts **3**, group mask **7**, replacement/native **1/0**, writes **9/9**; enqueue replacement/native **1/0**; `native_helper_calls=0`; `imported_post_init=0`; `refused_mask=32` |
+| L22-B refuse-active | `cf00334055ab7c583e058715153bfee1e25c1fb08fc8d54a8a0378c38c9662a7` | `PASS` / BattleActive; `error=8`; writes **0/0**; memory hash `0x1d35c68e` unchanged |
+| L22-C shutdown | `9d60d1d69ff8eff65ded6a00dd2eb7fd69f3b20393af4994676b6e16675a9333` | `PASS` / Detached; `restore_hash == preimage_hash == 0x45ce9b22`; five G22 hook preimages restored; SEH **0**; process alive |
+
+The operator saw a playable ordinary fight and fled after L22-B. No Attack
+this session. Residual **32** is `InitialEnqueue` only (SQ-G22-008).
+`refused_mask == 0` stays a promotion gate. Enqueue masks stayed **0/0**.
+`[promotion.G22].satisfied` stays false.
+
+## Previous candidate — v16 / 2026-08-31
 
 EXE SHA-256
 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
@@ -59,7 +83,7 @@ DLL SHA-256
 `5d5f5c61d39fcbfe99854624db8b6afe251f7ee02d04d17d5d60341de3fabc77`.
 Bootstrap flags `0xc7`. RelWithDebInfo PE32. PID **43988**.
 `negative_runtime_evidence` is empty on the three retained envelopes.
-Do not merge this hash with v15 `d901a8c2…`.
+Do not merge this hash with v17 `8fba4387…` or v15 `d901a8c2…`.
 
 | Boundary | Envelope SHA-256 | JSON facts |
 | --- | --- | --- |
@@ -67,9 +91,9 @@ Do not merge this hash with v15 `d901a8c2…`.
 | L22-B refuse-active | `deed9925813369bac88226e876728765ee19be94b64690992dfc6ef90f2b9a22` | `PASS` / BattleActive; `error=8`; writes **0/0**; memory hash `0xa0731382` unchanged |
 | L22-C shutdown | `d27794dfa109aa439a48cf1e993c0bce8c022fd2941f1862016e756d59dd6420` | `PASS` / Detached; `restore_hash == preimage_hash == 0xe8e55ae3`; five G22 hook preimages restored; SEH **0**; process alive |
 
-The operator completed one normal Attack after L22-A. Residual **373** drops
-`PartyDerivation` (session 2 triplet). `refused_mask == 0` stays a promotion
-gate. Enqueue masks stayed **0/0**. `[promotion.G22].satisfied` stays false.
+The operator completed one normal Attack after L22-A. Residual **373**
+predates the 2026-08-31 offline apply (Draw/HP/roll/story). Enqueue
+masks stayed **0/0**. `[promotion.G22].satisfied` stays false.
 
 ## Previous candidate — v15 / 2026-08-30
 
@@ -143,14 +167,14 @@ Historical v1/v2 envelopes do not prove the v3 seams.
 
 | Unit | Current status |
 | --- | --- |
-| U22.1 clear/reset | canonical reset complete offline; three-group G07 queue reset live on v15 (SQ-G22-004) |
-| U22.2 party | RAM + Steam file offset closed (`savemap+0x490`); `decode_sg_chara_dump` offline. Junction apply still refused (SQ-G22-005) |
+| U22.1 clear/reset | canonical reset complete offline; three-group G07 queue reset live on v15 and re-observed on v17 (SQ-G22-004) |
+| U22.2 party | RAM + Steam file offset closed (`savemap+0x490`); HP/JFlag/auto-status/crisis applied offline 2026-08-31. 8 stats + 16 GF stay SQ-G22-005 category 3 |
 | U22.3 enemy | partial: one Buel DAT/level fixture; helpers 101–255 revalidated; per-enemy DAT file pick open |
 | U22.4 ATB/start type | ordinary roll/immunity/Rare Item **table closed** 2026-08-30; authentic party SPD still from junction |
 | U22.5 RNG | implemented offline with injected suite seed and one-shot battle seed |
 | U22.6 initial scripts/state | enqueue **policy** closed: masks 0 are native ordinary (party has no `0x10`). `special_id=0` consumer still skip. Escape gates later |
 | U22.7 auto-special | dead-timer octet closed (`K_MISC+0x0F` = 200). Odin/Gilga flag bits proven. Live proof still open |
-| U22.8 ready transition | v15 L22-A observed file-callback+BdLink G07 pumps; L22-C matched restore/preimage `0x0f608238`; `refused_mask=509` keeps the unit open |
+| U22.8 ready transition | v17 L22-A observed file-callback+BdLink G07 pumps; L22-C matched restore/preimage `0x45ce9b22`; `refused_mask=32` keeps the unit open |
 
 > [!warning] Category 3 — no later gate
 > SQ-G22-008 `special_id=0` / bit `InitialEnqueue`, and SQ-G22-005
@@ -167,20 +191,20 @@ Historical v1/v2 envelopes do not prove the v3 seams.
 | SQ-G22-001 level codes 101–255 | helpers revalidated; DAT file pick stays SQ-G22-006 |
 | SQ-G22-002 draw list | **closed offline** (Buel 8/42 ; tier `+0xF4/+0xF5`) |
 | SQ-G22-003 `K_MISC` dead-timer | **closed** (`+0x0F`, fixture 200) |
-| SQ-G22-004 command-spine reset / host export | **live-proven** on v15 L22-A/B/C |
+| SQ-G22-004 command-spine reset / host export | **live-proven** on v15 and re-observed on v17 L22-A/B/C |
 | SQ-G22-005 party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | HP/JFlag/auto-status/crisis **offline closed**. 8 stats + GF battle: **category 3** (apply before P3) |
 | SQ-G22-006 per-enemy DAT selection and multi-enemy resource mapping | `0x48BA10` n’ouvre pas `c0mNNN` ; category 2 (first non-Buel) |
 | SQ-G22-007 ordinary start roll, immunity adjustment, Rare Item penalty | **applied** |
 | SQ-G22-008 AI Init, initial enqueue policy, complete visibility/escape gates | enqueue policy closed; `special_id=0` **category 3** (decode or seal before P3); escape stays G23 |
-| SQ-G22-009 fresh v3 rollback + direct G07 tail | v15 JSON shows G07 pumps and matching restore hashes; the offline-validation file still lists this SQ open `^[ambiguous]` |
+| SQ-G22-009 fresh v3 rollback + direct G07 tail | v17 re-observed G07 pumps and restore `0x45ce9b22`; offline-validation file still lists this SQ open `^[ambiguous]` |
 | SQ-G20-001 Limit dumps | unchanged, stays G20 |
 
 The required packs remain T22-01..T22-05 and L22-A/B/C in
-`evidence/g22-constrained-anchor-test-pack-2026-08-29.md`. Promotion
-review still needs a **new** DLL and L22-A/B/C. Offline 2026-08-31 predicts
-`refused_mask == 32` (`InitialEnqueue`). Do **not** require `== 0` without
-the `special_id=0` consumer. `[promotion.G22].satisfied` stays false until
-the parent chat flips it. A collector `PASS` alone is not enough.
+`evidence/g22-constrained-anchor-test-pack-2026-08-29.md`. The v17 card
+closed L22-A/B/C on DLL `8fba4387…` with `refused_mask == 32`
+(`InitialEnqueue`). Do **not** require `== 0` without the `special_id=0`
+consumer. `[promotion.G22].satisfied` stays false. A collector `PASS`
+alone is not enough.
 
 See [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]],
 [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]],

@@ -41,7 +41,7 @@ provenance:
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-31T18:15:00+02:00
+updated: 2026-08-31T18:40:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -663,20 +663,21 @@ Session P 2026-08-28 live-promoted crisis `+0xCA` write + Duel refuse (`live-pro
 | SQ-G22-001 | enemy level_code 101–255 party-avg helpers | **helpers revalidated** 2026-08-30; per-enemy DAT file pick stays SQ-G22-006 |
 | SQ-G22-002 | draw list / `SG_KNOWN_MAGIC` | **closed offline** (tier `+0xF4/+0xF5`, table `+0x104`, Buel 8/42, OR bit `id-1`) |
 | SQ-G22-003 | dead-timer from `K_MISC` | **closed**: `+0x0F`, fixture byte 200 at file `0x4CDB` |
-| SQ-G22-004 | command-spine reset / host export | **live-proven** on v15 L22-A/B/C (2026-08-30) |
+| SQ-G22-004 | command-spine reset / host export | **live-proven** on v15; re-observed on v17 L22-A/B/C (2026-08-31) |
 | SQ-G22-005 | party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | **HP/JFlag/auto-status/crisis offline closed**. Remainder (**8 stats + 16 GF**) is category 3: apply before P3, not G23 |
 | SQ-G22-006 | per-enemy DAT selection and multi-enemy resource mapping | open — category 2 (first non-Buel encounter) |
 | SQ-G22-007 | ordinary preemptive/back roll, immunity adjustment, Rare Item penalty | **applied** 2026-08-31 (immunity + Rare −20 + map 128/255) |
 | SQ-G22-008 | AI Init arming, initial enqueue, complete visibility/escape gates | **enqueue policy closed**. `special_id=0` consumer is category 3 (decode or seal before P3; G23 will not close it). Escape gates stay G23 |
-| SQ-G22-009 | fresh protocol-v3 rollback and direct G07-tail observation | v15 L22-A/C observed G07 pumps and matching restore `0x0f608238`; offline-validation file still lists open |
+| SQ-G22-009 | fresh protocol-v3 rollback and direct G07-tail observation | v17 L22-A/C re-observed G07 pumps and restore `0x45ce9b22`; offline-validation file still lists open |
 | SQ-G20-001 | Limit / Renzokuken dumps | open, stays G20 |
 
-The current constrained live anchor is PID **38256** / DLL `d901a8c2…` /
+The current constrained live anchor is PID **29160** / DLL `8fba4387…` /
 protocol v3 / schema 27. L22-A/B/C collector `PASS`. SQ-G22-004 is
-live-proven. Ordinary `refused_mask=509` still includes SQ-G22-008
-policy, so `[promotion.G22].satisfied` stays false. Historical v1 PID
-29808 and v14 PID 53180 remain hash-bound. Cursor v11–v13 are
-diagnostics, not candidates. P2 stays blocked. G23 is not started.
+live-proven. Ordinary `refused_mask=32` is SQ-G22-008 `InitialEnqueue`,
+so `[promotion.G22].satisfied` stays false. v16 `5d5f5c61…` and v15
+`d901a8c2…` stay hash-bound. Historical v1 PID 29808 and v14 PID 53180
+remain hash-bound. Cursor v11–v13 are diagnostics, not candidates. P2
+stays blocked. G23 is not started.
 > [!warning] Category 3 — no later gate
 > Recorded 2026-08-31. Two G22 remainders have **no later chapter**:
 > SQ-G22-008 `special_id=0` / `InitialEnqueue`, and SQ-G22-005

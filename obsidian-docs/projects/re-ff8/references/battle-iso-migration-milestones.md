@@ -47,7 +47,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-31T18:15:00+02:00
+updated: 2026-08-31T18:40:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -839,13 +839,13 @@ multi-hit eligibility baselines.
 - [x] **U22.5 RNG initialization:** suite seed plus one-shot battle seeding.
 - [ ] **U22.6 Initial scripts/state:** AI-active/pause and a subset of masks exist; v15 invoked the mechanical enqueue detour with zero native helper calls, but eligible/enqueued masks stayed 0. AI Init and eligibility policy stay SQ-G22-008.
 - [ ] **U22.7 Auto-special initialization:** Odin/Gilga + dead-timer octet + story flag decode offline. Fresh live proof still required. Runtime scheduling stays U17.6.
-- [ ] **U22.8 Ready transition:** the runtime writes `MODE3_SUBSUBSUB_STEP = 4`. v15 L22-A observed one file-callback plus one BdLink G07 pump; L22-C matched `restore_hash == preimage_hash == 0x0f608238`. `refused_mask=509` and the remaining T22/L22 pack keep the unit open.
+- [ ] **U22.8 Ready transition:** the runtime writes `MODE3_SUBSUBSUB_STEP = 4`. v17 L22-A observed one file-callback plus one BdLink G07 pump; L22-C matched `restore_hash == preimage_hash == 0x45ce9b22`. `refused_mask=32` and the remaining T22 pack keep the unit open.
 
-**Required test pack:** party configurations, enemy IDs and levels, preemptive/back/ordinary start rolls, initial statuses, scripted summon rolls, dirty-state reset, partial-read/write refusal, and repeated full-state init. The current pack covers one Buel level-20 fixture, forced preemptive/back cases, limited HP hashes, v15 L22-A/B/C, and one already-ready refusal. Promotion still needs a **new** DLL + L22 pack. Offline predicts `refused_mask == 32` (`InitialEnqueue`). Do not require `== 0` without the `special_id=0` consumer.
+**Required test pack:** party configurations, enemy IDs and levels, preemptive/back/ordinary start rolls, initial statuses, scripted summon rolls, dirty-state reset, partial-read/write refusal, and repeated full-state init. The current pack covers one Buel level-20 fixture, forced preemptive/back cases, limited HP hashes, v17 L22-A/B/C, and one already-ready refusal. Offline and live v17 both report `refused_mask == 32` (`InitialEnqueue`). Do not require `== 0` without the `special_id=0` consumer.
 
-**Gate G22:** **open**. PID 38256 / DLL `d901a8c2…` is the current constrained **P1 live anchor**, not a promotion: L22-A/B/C collector `PASS`, SQ-G22-004 live-proven, one operator Attack, and `Detached` restore `0x0f608238`. U22.2–U22.4 and U22.6–U22.8 remain incomplete. `[promotion.G22].satisfied` remains false. P2 is not opened. G23 is not started.
+**Gate G22:** **open**. PID 29160 / DLL `8fba4387…` is the current constrained **P1 live anchor**, not a promotion: L22-A/B/C collector `PASS`, SQ-G22-004 live-proven, playable ordinary then flee, and `Detached` restore `0x45ce9b22`. U22.2–U22.4 and U22.6–U22.8 remain incomplete. `[promotion.G22].satisfied` remains false. P2 is not opened. G23 is not started.
 
-**Current injected anchor:** protocol-v3 schema-27 `make_suite_payload.py --group G22 --profile P1` on DLL `d901a8c2…` / bootstrap flags `0xc7`. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 are diagnostic only.
+**Current injected anchor:** protocol-v3 schema-27 `make_suite_payload.py --group G22 --profile P1` on DLL `8fba4387…` / bootstrap flags `0xc7`. v16 `5d5f5c61…` and v15 `d901a8c2…` stay hash-bound. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 are diagnostic only.
 
 **Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) and SQ-G22-006 `c0m` path are category 2 (first non-Buel). SQ-G22-008 `special_id=0` and SQ-G22-005 remainder (8 stats + 16 GF) are **category 3**: no later gate; decode, apply, or seal before P3 — G23 will not close them. Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15. `[promotion.G22].satisfied` false. See [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
 
