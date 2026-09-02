@@ -41,7 +41,7 @@ provenance:
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-31T18:40:00+02:00
+updated: 2026-09-02T19:20:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -655,7 +655,7 @@ U19.1–U19.3/U19.5/U19.6 are offline; Session P live-promoted Recover + Card re
 
 Session P 2026-08-28 live-promoted crisis `+0xCA` write + Duel refuse (`live-promoted` 0.72). U20.1 live write proven (value 0 this encounter, ~0.80). U20.3 live refuse (~0.55). U20.5 still offline (~0.75). U20.2 windows / U20.4 input / U20.6 reroll / U20.8 records stay SQ. See [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]]. Names of functions are not certified state machines.
 
-## G22 — Battle init (constrained live anchor, gate open)
+## G22 — Battle init (live-promoted, G23 authorized)
 
 | SQ | Scope | Status |
 | --- | --- | --- |
@@ -664,26 +664,31 @@ Session P 2026-08-28 live-promoted crisis `+0xCA` write + Duel refuse (`live-pro
 | SQ-G22-002 | draw list / `SG_KNOWN_MAGIC` | **closed offline** (tier `+0xF4/+0xF5`, table `+0x104`, Buel 8/42, OR bit `id-1`) |
 | SQ-G22-003 | dead-timer from `K_MISC` | **closed**: `+0x0F`, fixture byte 200 at file `0x4CDB` |
 | SQ-G22-004 | command-spine reset / host export | **live-proven** on v15; re-observed on v17 L22-A/B/C (2026-08-31) |
-| SQ-G22-005 | party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | **HP/JFlag/auto-status/crisis offline closed**. Remainder (**8 stats + 16 GF**) is category 3: apply before P3, not G23 |
+| SQ-G22-005 | party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | **HP/JFlag/auto-status/crisis offline closed**. The 8 stats + 16 GF records are **write-sealed / unowned** by the v5 allowlist test (2026-09-02), not G23 |
 | SQ-G22-006 | per-enemy DAT selection and multi-enemy resource mapping | open — category 2 (first non-Buel encounter) |
 | SQ-G22-007 | ordinary preemptive/back roll, immunity adjustment, Rare Item penalty | **applied** 2026-08-31 (immunity + Rare −20 + map 128/255) |
-| SQ-G22-008 | AI Init arming, initial enqueue, complete visibility/escape gates | **enqueue policy closed**. `special_id=0` consumer is category 3 (decode or seal before P3; G23 will not close it). Escape gates stay G23 |
-| SQ-G22-009 | fresh protocol-v3 rollback and direct G07-tail observation | v17 L22-A/C re-observed G07 pumps and restore `0x45ce9b22`; offline-validation file still lists open |
+| SQ-G22-008 | AI Init arming, initial enqueue, complete visibility/escape gates | **live-promoted on v19**: masks `0x08`/`0x18`, `enqueued==eligible`, `refused_mask=0`. Escape gates stay G23 |
+| SQ-G22-009 | fresh protocol-v5 rollback and direct G07-tail observation | **closed live** on v19: G07 1/1, restore exact, `Detached` on two processes |
 | SQ-G20-001 | Limit / Renzokuken dumps | open, stays G20 |
 
-The current constrained live anchor is PID **29160** / DLL `8fba4387…` /
-protocol v3 / schema 27. L22-A/B/C collector `PASS`. SQ-G22-004 is
-live-proven. Ordinary `refused_mask=32` is SQ-G22-008 `InitialEnqueue`,
-so `[promotion.G22].satisfied` stays false. v16 `5d5f5c61…` and v15
-`d901a8c2…` stay hash-bound. Historical v1 PID 29808 and v14 PID 53180
-remain hash-bound. Cursor v11–v13 are diagnostics, not candidates. P2
-stays blocked. G23 is not started.
-> [!warning] Category 3 — no later gate
-> Recorded 2026-08-31. Two G22 remainders have **no later chapter**:
-> SQ-G22-008 `special_id=0` / `InitialEnqueue`, and SQ-G22-005
-> 8 stats + 16 GF apply. They must be decoded, applied, or **sealed in
-> writing** before claiming init ownership (P3). "Later" is not a close
-> date. Full rows: [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
+The current live-promoted candidate is protocol-v5 / v19 / DLL `7f07f900…`
+on EXE `064d466b…`. PID **26456** proved ordinary plus shutdown; PID
+**22744** proved ordinary, already-ready refusal, and shutdown. All five
+canonical envelopes are `PASS` with `refused_mask=0`, empty negative lists,
+exact restore, and `Detached`. `[promotion.G22].satisfied` is true. v17
+`8fba4387…` stays the previous constrained v3 anchor (`refused_mask=32`).
+v16 `5d5f5c61…` and v15 `d901a8c2…` stay hash-bound. Historical v1 PID
+29808 and v14 PID 53180 remain hash-bound. Cursor v11–v13 are diagnostics.
+v18 `e25094f2…` is the retained protocol-v4 FAIL (`eligible_mask=0x08`,
+exact physical restore, logical `Faulted`). P2 stays blocked. G23 is
+authorized, not claimed.
+> [!success] Category 3 — written seals plus v19 live
+> Updated 2026-09-02. SQ-G22-008 now uses the pure seven-slot predicate and
+> canonical non-zero `special_id=0` group-0 mechanics in protocol v5; the later
+> presentation consumer remains outside ownership. SQ-G22-005's 8 stats and 16
+> GF records stay excluded and unowned. Both seals were asserted offline, then
+> confirmed live on v19 (`refused_mask=0`, G07 1/1, `Detached`). Full rows:
+> [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
 
 See [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]]
 and [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]].

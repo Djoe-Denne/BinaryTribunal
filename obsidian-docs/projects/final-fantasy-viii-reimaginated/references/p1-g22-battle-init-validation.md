@@ -1,11 +1,23 @@
 ---
-title: P1 G22 Battle Init — Constrained Live Anchor
+title: P1 G22 Battle Init — Live Promotion
 category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G22 battle init, P1 G22, run_init_encounter]
 sources:
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-v5-2026-09-02.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-shutdown-2026-09-02.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-refuse-active-2026-09-02.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-shutdown-2026-09-02.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-2026-08-29.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-constrained-anchor-test-pack-2026-08-29.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-01.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v4-live-waiver-2026-09-01.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-02.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v5-live-waiver-2026-09-02.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-shutdown-2026-09-02.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-08-29.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-draft-2026-08-28.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-ordinary-visible-2026-08-31.json
@@ -31,30 +43,86 @@ sources:
   - projects/final-fantasy-viii-reimaginated/references/evidence-catalog.md
   - projects/final-fantasy-viii-reimaginated/references/g16-g22-red-team-2026-08-28.md
 summary: >-
-  G22 constrained v3 live anchor on PID 29160 / DLL 8fba4387… (v17):
-  L22-A/B/C PASS, refused_mask 32. Promotion remains false. P2 and G23 stay closed.
+  G22 live-promoted on v19 protocol-v5. Two fresh processes, masks
+  0x08/0x18, refused_mask=0, exact Detached restore. P2 not opened.
+  G23 authorized to start.
 provenance:
   extracted: 0.90
   inferred: 0.06
   ambiguous: 0.04
 created: 2026-08-28T20:40:00+02:00
-updated: 2026-08-31T18:40:00+02:00
+updated: 2026-09-02T19:20:00+02:00
 ---
 
-# P1 G22 Battle Init — Constrained Live Anchor
+# P1 G22 Battle Init — Live Promotion
 
-> [!warning] Constrained live anchor, not a promotion
-> Current candidate: PID **29160** / DLL `8fba4387…` / protocol **v3** /
-> schema **27**. L22-A/B/C collector `PASS`, `refused_mask=32`.
-> `[P1.G22] = constrained-live-anchor` and
-> `[promotion.G22].satisfied = false`. P2 is not opened. G23 is not started.
+> [!success] Live-promoted on v19 / protocol v5 / 2026-09-02
+> Two fresh processes (PID **26456**, **22744**) / DLL `7f07f900…` /
+> schema **27**. `refused_mask=0`. Exact Detached restore
+> (`0xe093592b`, `0xb1c50946`). `[P1.G22] = live-promoted` and
+> `[promotion.G22].satisfied = true`. P2 is not opened. G23 may start.
 
 > [!failure] A collector PASS is not playability
 > Cursor v11 and v12 exported collector `PASS` while the operator saw a
 > black screen or an instant victory. Do not promote from filename, mtime,
 > or collector verdict alone.
 
-## Current candidate — v17 / 2026-08-31
+## Current live promotion — v19 / protocol v5 / 2026-09-02
+
+DLL SHA-256
+`7f07f9000e01559096cb6199225c124e753d795cb009224169272061cb2a7cae`.
+EXE SHA-256
+`064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
+The RelWithDebInfo DLL is verified PE32/I386; both Debug and RelWithDebInfo
+CTest suites pass **55/55**, and the contract validator passes.
+
+Protocol v5 replaces the disproved zero-mask-only boundary with the exact
+native seven-slot predicate. It enqueues canonical `special_id=0`, `group=0`
+records for every eligible party or enemy slot, exports the complete G07
+ownership set through zero writes for mask zero or exactly nine guarded and
+read-back writes for a non-zero mask, and makes successful post-fault cleanup
+end only in `Detached`.
+
+| Boundary | Envelope SHA-256 | JSON facts |
+| --- | --- | --- |
+| P1 L22-A ordinary | `8eb2ed8f0b5dd1431fe6aab2d17dda81c7d20063bdc5f2ff2f30bed0d66e380b` | `PASS` / BattleActive; scene **514**; `ready=1`; writes **21**; mask **0x08/0x08**; G07 file+BdLink **1/1**; `refused_mask=0`; PID **26456** |
+| P1 L22-C shutdown | `ae9ad05a87b7cd0b3b0871835a08996ad0ceedb78c4fa93bbfe8172ebcef403f` | `PASS` / Detached; `restore_hash == preimage_hash == 0xe093592b` |
+| P2 L22-A ordinary | `bf84e858b215f2dba9811a851f854f500c8e4a7e4877fd59bab74f6497edf81e` | `PASS` / BattleActive; scene **512**; `ready=1`; writes **21**; mask **0x18/0x18**; `refused_mask=0`; PID **22744** |
+| P2 L22-B refuse-active | `ca74e266a5b662383a3f012d484373b68a5a0e72098726cc35e80a5a14ab546e` | `PASS` / BattleActive; `error=8`; writes **0/0** |
+| P2 L22-C shutdown | `e381379b60a9543fe2fb8c00b9515af1b40b06e583cb9c84a999c2df15e008ac` | `PASS` / Detached; `restore_hash == preimage_hash == 0xb1c50946` |
+
+Process 1 completed one normal Attack (weak enemy one-shot). Process 2
+proved already-ready refusal without writes. Authority:
+`evidence/g22-battle-init-live-promotion-v5-2026-09-02.md`.
+`[promotion.G22].satisfied = true`. P2 stays closed. G23 may start.
+
+## Latest failed candidate — v18 / 2026-09-02
+
+EXE SHA-256
+`064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
+DLL SHA-256
+`e25094f298335958711ae5aafc70ce6157de447af0bbef85169e74cf83a332f3`.
+Protocol **v4**, schema **27**, PID **27528**.
+
+L22-A reached a playable ready battle but correctly returned `FAIL`: native
+slots 0–6 produced `enqueue_detour_eligible_mask=0x08`. The v4 guard suppressed
+the unowned path with enqueue writes **0/0**, native calls **0**, guard/readback
+failures **0**, then entered `Faulted`. This disproves the assumed ordinary
+zero-mask boundary; no promotion or refuse-active claim was retained.
+
+After the operator returned to the field, shutdown restored every G22/G07 hook
+preimage, `restore_ok=rolled_back=1`, and
+`restore_hash=preimage_hash=0x07748cc4`; FF8 remained alive. The shutdown
+envelope still failed because logical runtime state stayed `Faulted` instead of
+`Detached`.
+
+Protocol v5 remediation now derives the exact seven-slot mask in pure core
+code, enqueues native-identical group-0 direct-special records with
+`special_id=0` for eligible party **or enemy** slots, and permits only the
+cleanup transition `Faulted -> Detached` after successful restoration. Fresh
+L22-A/B/C evidence is required.
+
+## Previous constrained anchor — v17 / 2026-08-31
 
 EXE SHA-256
 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
@@ -159,28 +227,31 @@ and Detached remain valid for that process. The session's
 ## Offline remediation (unchanged authority)
 
 Complete canonical `BattleState` reset, named write allowlist, Odin
-Death-resistance byte, and protocol v2/v3 preimage/write/readback/restore
-machinery pass offline. CTest **55/55** on the v15 preparation addendum.
-Historical v1/v2 envelopes do not prove the v3 seams.
+Death-resistance byte, and protocol v2/v3/v4/v5 preimage/write/readback/restore
+machinery pass offline. CTest **55/55** Debug on the 2026-09-02 protocol-v5
+candidate. Historical v1/v2/v3/v4 envelopes do not prove the v5 seven-slot
+enqueue seam.
 
 ## U22 status
 
 | Unit | Current status |
 | --- | --- |
 | U22.1 clear/reset | canonical reset complete offline; three-group G07 queue reset live on v15 and re-observed on v17 (SQ-G22-004) |
-| U22.2 party | RAM + Steam file offset closed (`savemap+0x490`); HP/JFlag/auto-status/crisis applied offline 2026-08-31. 8 stats + 16 GF stay SQ-G22-005 category 3 |
+| U22.2 party | RAM + Steam file offset closed (`savemap+0x490`); HP/JFlag/auto-status/crisis applied offline 2026-08-31. The 8 stats + 16 GF records are explicitly write-sealed and unowned in the 2026-09-01 v4 candidate |
 | U22.3 enemy | partial: one Buel DAT/level fixture; helpers 101–255 revalidated; per-enemy DAT file pick open |
 | U22.4 ATB/start type | ordinary roll/immunity/Rare Item **table closed** 2026-08-30; authentic party SPD still from junction |
 | U22.5 RNG | implemented offline with injected suite seed and one-shot battle seed |
-| U22.6 initial scripts/state | enqueue **policy** closed: masks 0 are native ordinary (party has no `0x10`). `special_id=0` consumer still skip. Escape gates later |
+| U22.6 initial scripts/state | v5 mirrors native slots 0–6 in pure core and mechanically enqueues direct `special_id=0`, group 0 for each eligible party/enemy slot. Live v19 proved masks `0x08` then `0x18`. Escape gates stay G23 |
 | U22.7 auto-special | dead-timer octet closed (`K_MISC+0x0F` = 200). Odin/Gilga flag bits proven. Live proof still open |
-| U22.8 ready transition | v17 L22-A observed file-callback+BdLink G07 pumps; L22-C matched restore/preimage `0x45ce9b22`; `refused_mask=32` keeps the unit open |
+| U22.8 ready transition | **live-promoted** on v19: exact seven-slot enqueue, G07 tail 1/1, restore, Detached, two fresh processes |
 
-> [!warning] Category 3 — no later gate
-> SQ-G22-008 `special_id=0` / bit `InitialEnqueue`, and SQ-G22-005
-> remainder (8 junction stats + 16 GF), have **no later gate**. G23 will
-> not close them. Decode, apply, or seal in writing before claiming init
-> ownership (P3). Rows:
+> [!success] Category 3 — written terminal seals (updated 2026-09-02)
+> SQ-G22-008 is closed offline in protocol v5 by the native seven-slot
+> predicate plus exact group-0 direct-special queue mechanics. The v18 live
+> discriminator `0x08` is now an explicit enemy-slot test case; it is never
+> reinterpreted as Attack. SQ-G22-005's 8 junction stats and 16 GF
+> records are excluded from the G22 allowlist and explicitly not owned. G23
+> will not close or silently expand either boundary. Rows:
 > [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
 
 ## Fail-closed / SQ
@@ -192,19 +263,21 @@ Historical v1/v2 envelopes do not prove the v3 seams.
 | SQ-G22-002 draw list | **closed offline** (Buel 8/42 ; tier `+0xF4/+0xF5`) |
 | SQ-G22-003 `K_MISC` dead-timer | **closed** (`+0x0F`, fixture 200) |
 | SQ-G22-004 command-spine reset / host export | **live-proven** on v15 and re-observed on v17 L22-A/B/C |
-| SQ-G22-005 party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | HP/JFlag/auto-status/crisis **offline closed**. 8 stats + GF battle: **category 3** (apply before P3) |
+| SQ-G22-005 party level/max-HP/stats/resistances/auto-status/GF/crisis catalog | HP/JFlag/auto-status/crisis **offline closed**. 8 stats + 16 GF battle records **write-sealed / unowned** by test and allowlist (2026-09-01) |
 | SQ-G22-006 per-enemy DAT selection and multi-enemy resource mapping | `0x48BA10` n’ouvre pas `c0mNNN` ; category 2 (first non-Buel) |
 | SQ-G22-007 ordinary start roll, immunity adjustment, Rare Item penalty | **applied** |
-| SQ-G22-008 AI Init, initial enqueue policy, complete visibility/escape gates | enqueue policy closed; `special_id=0` **category 3** (decode or seal before P3); escape stays G23 |
-| SQ-G22-009 fresh v3 rollback + direct G07 tail | v17 re-observed G07 pumps and restore `0x45ce9b22`; offline-validation file still lists this SQ open `^[ambiguous]` |
+| SQ-G22-008 AI Init, initial enqueue policy, complete visibility/escape gates | **live-promoted on v19**: masks `0x08`/`0x18`, `enqueued==eligible`, `refused_mask=0`. Escape stays G23 |
+| SQ-G22-009 fresh v5 rollback + direct G07 tail | **closed live** on v19: G07 1/1, restore exact, `Detached` on two processes |
 | SQ-G20-001 Limit dumps | unchanged, stays G20 |
 
 The required packs remain T22-01..T22-05 and L22-A/B/C in
 `evidence/g22-constrained-anchor-test-pack-2026-08-29.md`. The v17 card
 closed L22-A/B/C on DLL `8fba4387…` with `refused_mask == 32`
-(`InitialEnqueue`). Do **not** require `== 0` without the `special_id=0`
-consumer. `[promotion.G22].satisfied` stays false. A collector `PASS`
-alone is not enough.
+(`InitialEnqueue`) under historical protocol v3. Protocol v4 then failed on the
+real enemy-slot mask `0x08`. Protocol v5 on v19 proved `refused_mask == 0`,
+`enqueued_mask == eligible_mask`, count `popcount(mask)`, and exactly nine
+G07 writes on the non-zero path. `[promotion.G22].satisfied = true`.
+A collector `PASS` alone is still not enough for later gates.
 
 See [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]],
 [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]],

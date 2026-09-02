@@ -27,7 +27,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-08-31T18:15:00+02:00
+updated: 2026-09-02T19:20:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -480,7 +480,7 @@ Rule recorded 2026-08-31: a named G22 hole is forbidden to say only
 "later". It must name a **close date** (decode, apply, or written
 product seal) **before claiming init ownership (P3 / G23 as a loop)**.
 G23 does not close these rows. Companion status table:
-[[projects/re-ff8/references/g11-g20-static-readiness-ledger#G22 — Battle init (constrained live anchor, gate open)]].
+[[projects/re-ff8/references/g11-g20-static-readiness-ledger#G22 — Battle init (live-promoted, G23 authorized)]].
 
 Escape, `c0m` / helpers 101–255, BMI, and dead-timer **host write** are
 **not** this section. They have a later chapter (G23 or the first
@@ -488,7 +488,7 @@ non-Buel encounter).
 
 ### SQ-G22-005 — 8 junction stats + 16 GF battle apply
 
-- status: open / apply-only (category 3)
+- status: resolved by written product seal (2026-09-01)
 - confidence: 0.88
 - affects: G22 U22.2
 - claim: `GetCharacterStat` (`0x496440`) and `Battle_FinalizePartySetup`
@@ -497,34 +497,40 @@ non-Buel encounter).
   were skipped on purpose, not because a later gate owns them.
 - evidence_for: [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]];
   APPLY-A1 applied HP path only.
-- evidence_against: none for discovery. Remaining work is wiring.
+- evidence_against: G22's party write allowlist contains only `current_hp` and
+  `attack_sequence_id`; it excludes all eight stat bytes and the GF block.
 - missing_discriminator: none.
-- next_static_probe: none. Apply session, or the first fixture whose
-  junctioned stat / GF block is wrong.
+- next_static_probe: none while the product seal holds. Reopen before adding
+  any of those bytes to the G22 allowlist.
 - eventual_live_probe: not required to *know* the formulas; live only
   after apply if those bytes enter the G22 allowlist.
-- resolution: **close before P3**, or the first failing junctioned
-  fixture — whichever comes first. Not G23. Not "later".
+- resolution: **write-sealed 2026-09-01**. G22 does not overwrite or claim
+  the eight party stat bytes or 16 five-byte GF records. The offline test
+  asserts both exclusions. Not G23. Not "later".
 
 ### SQ-G22-008 — `special_id=0` consumer / `InitialEnqueue`
 
-- status: open / fail-closed (category 3)
-- confidence: 0.70
-- affects: G22 U22.6; offline `refused_mask` bit 32
+- status: live-promoted on v19 protocol-v5 (2026-09-02)
+- confidence: 0.92
+- affects: G22 U22.6; protocol-v5 ordinary `refused_mask` must clear bit 32
 - claim: writer is known (group 0, command `0xFF`, `+4` = `special_id`).
-  Exec is `jmp [ecx*4 + 0x484C00]`. Id 0 is **not** line-closed. Ordinary
-  native start is already empty spine (masks 0/0) when party lacks
-  `0x10`. Inventing Attack or a no-op to drop bit 32 is forbidden.
-- evidence_for: catchup + A6; ordinary `0x8801` without `0x10`; loaded
-  enemy `0x80` blocks.
+  Exec is `jmp [ecx*4 + 0x484C00]`. Id 0 is **not** reinterpreted. Protocol v5
+  reads typed `flag_data`, derives the native slots 0–6 predicate in pure core,
+  and writes the same direct-special/group-0 record for every eligible party or
+  enemy slot. Inventing Attack remains forbidden.
+- evidence_for: catchup + A6; native predicate `(flags&1)&&(flags&0x10)&&!(flags&0x80)`;
+  v18 live ordinary produced enemy-slot mask `0x08`; v5 core/codec tests cover
+  masks `0x48`, zero, and the slot-7 exclusion.
 - evidence_against: table not walked row-by-row for `ecx=0`.
-- missing_discriminator: callee of index 0 in `0x484C00`.
-- next_static_probe: one IDA pass on that slot. If it still does not
-  decode without invention, **seal in writing**: for certified ordinary
-  content, empty queue matches native; we do not claim ownership of the
-  id-0 jump. Reopen only when an encounter needs id 0 for real.
-- eventual_live_probe: do not require `refused_mask == 0` until the
-  consumer is applied or the seal is written.
-- resolution: **must be decoded or sealed before claiming init
-  ownership (P3)**. G23 (end/cleanup) will not close this. Escape
-  gates inside the same SQ id stay G23 (category 2).
+- missing_discriminator: none for the G22 write boundary; the later presentation
+  consumer remains explicitly outside ownership because the raw special identity is preserved.
+- next_static_probe: none for G22. Walk index 0 only before replacing its later
+  presentation consumer.
+- eventual_live_probe: require protocol v5 `refused_mask == 0`, eligible mask
+  within `0x7f`, exact enqueued mask/popcount, zero-or-nine G07 writes, exact
+  G07 tail, restore, and Detached.
+- resolution: **live-promoted 2026-09-02 on v19**. Two fresh processes
+  proved masks `0x08` then `0x18`, `enqueued==eligible`, `refused_mask=0`,
+  G07 1/1, exact Detached restore. G23 cannot reinterpret special 0 or
+  silently inherit its presentation consumer. Escape gates stay G23
+  (category 2).

@@ -47,7 +47,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-08-31T18:40:00+02:00
+updated: 2026-09-02T19:20:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -822,7 +822,7 @@ multi-hit eligibility baselines.
 
 **Test pack:** authenticated `scene.out` + `kernel.bin` + `c0m016.dat`; bounds/truncate; no post-init snapshot compare.
 
-**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state. Live-promoted under **P1** on PID 23764 (describe + bounds, zero writes, `Detached`). P2 is not opened. G22 has a later constrained live anchor, but remains open as a separate gate.
+**Gate G21:** a supported encounter can be described without reading an already-initialized native battle state. Live-promoted under **P1** on PID 23764 (describe + bounds, zero writes, `Detached`). P2 is not opened. G22 later live-promoted on v19 protocol-v5 as its own gate.
 
 **Injected in-game test:** `make_suite_payload.py --group G21 --profile P1` then `FF8Iso_RunInProcessSuite` on the field or menu. `Invoke-IsoGroup` / profile P2 are obsolete. It passes when file-backed describe + bounds refuse match the offline hashes, `write_count == 0`, `battle_imported == 0`, and shutdown leaves `Detached` with the process alive.
 
@@ -837,17 +837,17 @@ multi-hit eligibility baselines.
 - [ ] **U22.3 Enemy derivation:** Buel section-6 + Draw 8/42 closed; `c0mNNN` path and `level_code` 101–255 stay skip.
 - [ ] **U22.4 Initial ATB:** ordinary roll + immunity + Rare −20 applied offline; host battle-speed from `SG_BATTLE_SPEED_SETTING`.
 - [x] **U22.5 RNG initialization:** suite seed plus one-shot battle seeding.
-- [ ] **U22.6 Initial scripts/state:** AI-active/pause and a subset of masks exist; v15 invoked the mechanical enqueue detour with zero native helper calls, but eligible/enqueued masks stayed 0. AI Init and eligibility policy stay SQ-G22-008.
-- [ ] **U22.7 Auto-special initialization:** Odin/Gilga + dead-timer octet + story flag decode offline. Fresh live proof still required. Runtime scheduling stays U17.6.
-- [ ] **U22.8 Ready transition:** the runtime writes `MODE3_SUBSUBSUB_STEP = 4`. v17 L22-A observed one file-callback plus one BdLink G07 pump; L22-C matched `restore_hash == preimage_hash == 0x45ce9b22`. `refused_mask=32` and the remaining T22 pack keep the unit open.
+- [x] **U22.6 Initial scripts/state:** protocol-v5 live-promoted the exact seven-slot enqueue. v19 observed `eligible`/`enqueued` `0x08` then `0x18`, `refused_mask=0`, nine verified writes on the non-zero path, and zero writes for already-ready. The later presentation consumer of `special_id=0` stays outside G22.
+- [ ] **U22.7 Auto-special initialization:** Odin/Gilga + dead-timer octet + story flag decode offline. Runtime scheduling stays U17.6.
+- [x] **U22.8 Ready transition:** v19 L22-A observed G07 `file/BdLink = 1/1` and a playable ordinary start (operator Attack on PID 26456). Both shutdowns restored exact hook bytes and ended `Detached` (`0xe093592b` / `0xb1c50946`).
 
-**Required test pack:** party configurations, enemy IDs and levels, preemptive/back/ordinary start rolls, initial statuses, scripted summon rolls, dirty-state reset, partial-read/write refusal, and repeated full-state init. The current pack covers one Buel level-20 fixture, forced preemptive/back cases, limited HP hashes, v17 L22-A/B/C, and one already-ready refusal. Offline and live v17 both report `refused_mask == 32` (`InitialEnqueue`). Do not require `== 0` without the `special_id=0` consumer.
+**Required test pack:** party configurations, enemy IDs and levels, preemptive/back/ordinary start rolls, initial statuses, scripted summon rolls, dirty-state reset, partial-read/write refusal, and repeated full-state init. The current pack covers one Buel level-20 fixture, forced preemptive/back cases, limited HP hashes, v19 two-process L22-A/B/C, and one already-ready refusal. Live v19 reports `refused_mask == 0`.
 
-**Gate G22:** **open**. PID 29160 / DLL `8fba4387…` is the current constrained **P1 live anchor**, not a promotion: L22-A/B/C collector `PASS`, SQ-G22-004 live-proven, playable ordinary then flee, and `Detached` restore `0x45ce9b22`. U22.2–U22.4 and U22.6–U22.8 remain incomplete. `[promotion.G22].satisfied` remains false. P2 is not opened. G23 is not started.
+**Gate G22:** **live-promoted** on protocol-v5 / candidate v19 / DLL `7f07f900…` (2026-09-02). PID 26456 proved ordinary plus shutdown; PID 22744 proved ordinary, already-ready refusal, and shutdown. `[promotion.G22].satisfied` is true. U22.2–U22.4 and U22.7 keep sealed or later residuals. P2 is not opened. G23 is authorized, not claimed.
 
-**Current injected anchor:** protocol-v3 schema-27 `make_suite_payload.py --group G22 --profile P1` on DLL `8fba4387…` / bootstrap flags `0xc7`. v16 `5d5f5c61…` and v15 `d901a8c2…` stay hash-bound. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 are diagnostic only.
+**Current injected promotion:** protocol-v5 `make_suite_payload.py --group G22 --profile P1` on DLL `7f07f900…` / bootstrap flags `0xc7`. Previous constrained v17 `8fba4387…` and v16/v15 stay hash-bound. Historical v1 PID 29808 and v14 PID 53180 stay hash-bound. Cursor v11–v13 and v18 protocol-v4 `Faulted` are diagnostic only.
 
-**Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) and SQ-G22-006 `c0m` path are category 2 (first non-Buel). SQ-G22-008 `special_id=0` and SQ-G22-005 remainder (8 stats + 16 GF) are **category 3**: no later gate; decode, apply, or seal before P3 — G23 will not close them. Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15. `[promotion.G22].satisfied` false. See [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
+**Open residuals:** SQ-G22-001 helpers 101–255 (avg vide) and SQ-G22-006 `c0m` path are category 2 (first non-Buel). SQ-G22-008 later `special_id=0` consumer and SQ-G22-005 remainder (8 stats + 16 GF) stay **category 3** seals: G23 will not close them. Draw/HP/roll/story **offline closed** 2026-08-31. SQ-G22-004 live-proven v15 and re-observed on v19. See [[projects/re-ff8/references/g11-g20-static-open-questions#G22 — no later gate (category 3)]].
 
 ### G23 — Reimplement end detection, cleanup, and handoff
 

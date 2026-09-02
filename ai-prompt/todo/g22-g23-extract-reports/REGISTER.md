@@ -12,6 +12,14 @@ G07–G21 : ne pas rouvrir. Candidat live historique v16
 Offline 2026-08-31 : triplet + limits + config → `refused_mask=32`
 (`InitialEnqueue` seulement).
 
+Live v18 / 2026-09-02 : protocol v4 a rencontré le discriminateur réel
+enemy-slot `eligible_mask=0x08`, a refusé sans write/appel natif puis a faulté.
+Restauration physique exacte, mais état logique resté `Faulted`, donc **FAIL**.
+
+Live v19 / 2026-09-02 : protocol v5 `7f07f900…` promu. Deux processus
+neufs, masques `0x08` puis `0x18`, `refused_mask=0`, refus actif 0/0,
+restore exact (`0xe093592b` / `0xb1c50946`), `Detached`. P-SAT tranché.
+
 ## Déjà fermé (sessions 1–3 / catchup — ne pas redécouvrir)
 
 | id | item | statut | preuve |
@@ -31,10 +39,10 @@ Offline 2026-08-31 : triplet + limits + config → `refused_mask=32`
 | A1-KJUNC | `K_JUNCTION_ABILITY` `0x40e0` / stride 8 / JFlag `+5` | `appliqué` | A1 | count `0x53` |
 | A1-CALC | `Battle_CalculateJunctionStats` `0x495960` | `prouvé` | A1 | HP path appliqué ; 8 stats → A1-GSTAT |
 | A1-GHP | `GetCharacterHP` `0x496310` | `appliqué` | A1 | |
-| A1-GSTAT | `GetCharacterStat` `0x496440` | `prouvé` | A1 | wiki ; pas d’apply 8 stats |
+| A1-GSTAT | `GetCharacterStat` `0x496440` | `scellé-écriture` | A1 | 8 stats hors allowlist G22 ; non revendiquées (2026-09-01) |
 | A1-PARSE | `ParseBattleCharacter` `0x495530` → `F_CHAR` | `prouvé` | A1 | JFlag `+0x190` ; overlay HP/arme |
 | A1-RARE | Rare Item `0x4E–0x52` → `0x1CFF6D8` | `appliqué` | A1 | bit0 = −20 roll |
-| A1-FIN16 | `Battle_FinalizePartySetup` `0x495EC0` 16 GF | `prouvé` | A1 | pas d’apply GF battle |
+| A1-FIN16 | `Battle_FinalizePartySetup` `0x495EC0` 16 GF | `scellé-écriture` | A1 | bloc `F_CHAR+0x122` hors allowlist ; non revendiqué |
 | A1-CRISISHP | Crisis `max_hp` réel | `appliqué` | A1 | + `options.limits` |
 | A1-EXISTS | `Exists` `+0x94` bits | `prouvé` | A1 | octet lu ; bits non nommés (skip apply) |
 | A1-WPN | `getWeaponID` + Laguna dream | `prouvé` | A1 | arme save ; dream skip nommé |
@@ -51,7 +59,7 @@ Offline 2026-08-31 : triplet + limits + config → `refused_mask=32`
 | A5-BMI | BMI +64..69 | `prouvé` | A5 | Buel SPD=0 ; skip apply |
 | A5-SO80 | `SceneOut` bit `0x80` | `appliqué` | A5 | `loaded_enemies` ; pas `0x40` |
 | A6-CONS0 | Consommateur `special_id=0` | `prouvé` | A6 | table `0x484C00` non ligne-à-ligne |
-| A6-BIT | `InitialEnqueue` fail-closed | `prouvé` | A6 | interdit inventer Attack |
+| A6-BIT | `InitialEnqueue` seven-slot v5 | `appliqué` | A6 | prédicat pur slots 0–6 ; live v19 masques `0x08`/`0x18` ; special 0 groupe 0 exact |
 | A7-VIS | `0x485FF0` masks | `prouvé` | A7 | skip `0x40` enum |
 | A7-ITEMS | `BS_ParseItems` EQUAL | `prouvé` | A7 | skip write G22 allowlist |
 | A8-DEADH | `BATTLE_DEAD_TIMER` host write | `prouvé` | A8 | skip nommé : ne pas écrire |
@@ -93,11 +101,11 @@ Offline 2026-08-31 : triplet + limits + config → `refused_mask=32`
 | L-ESC | Escape : `DistributeXpAp` commit vs no-op | `live-only` | déjà ambiguous en staging |
 | L-DELTA | Save deltas byte-exact post-handoff | `live-only` | |
 | L-PHXW | Phoenix wipe authentique | `live-only` | |
-| L-PROMO | Carte live promo G22 | `live-only` | **prédit mask 32** ; pas `==0` ; nouvelle DLL |
+| L-PROMO | Carte live promo G22 v5 | `prouvé` | v19 deux processus : masques `0x08`/`0x18`, special 0 groupe 0, writes 9/9, G07 1/1, refus actif 0/0, restore Detached |
 
 ## Apply / parent
 
 | id | item | statut | note |
 | --- | --- | --- | --- |
-| P-SAT | `[promotion.G22].satisfied` | `ouvert` | **parent seulement** — recommander false |
-| P-G23 | Démarrer implémentation G23 `core/` | `G23-impl` | interdit tant que P-SAT n’est pas tranché |
+| P-SAT | `[promotion.G22].satisfied` | `appliqué` | **parent** — `true` le 2026-09-02 ; v19 `evidence/g22-battle-init-live-promotion-v5-2026-09-02.md` |
+| P-G23 | Démarrer implémentation G23 `core/` | `G23-impl` | ouvert — latch first-wins U23.1–U23.6 hors-ligne ; persist/handoff/live encore ouverts |
