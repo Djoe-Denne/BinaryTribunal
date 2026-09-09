@@ -183,7 +183,7 @@ Si le reranker CUDA échoue : `qmd search` ou
 Le workspace Context Mode est la racine `re-ff8`. Pour le code :
 
 1. active Serena sur
-   `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated` ;
+   `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated` ;
 2. utilise l’index GrepAI **de ce repo** seulement ;
 3. si Ollama/GrepAI est indisponible, utilise le fallback exact
    `rg` / Serena, sans réutiliser l’index `re-ff8` ;
@@ -227,7 +227,7 @@ HEAD cf5cbb911a08904be4a3656d054c7fc7e35e2e9b
 Implémentation :
 
 ```text
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated
 HEAD 90cd4e009ebda6010602d3c9a774242e6035c091
 ```
 

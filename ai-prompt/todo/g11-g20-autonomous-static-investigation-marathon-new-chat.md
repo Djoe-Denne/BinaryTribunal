@@ -81,7 +81,7 @@ exigée par cette mission n’est plus garantie.
 Context Mode sert uniquement à comprimer les gros outputs du dépôt cible.
 Teste `ctx_doctor`, puis un `ctx_execute_file` minimal sur :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\README.md`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\README.md`
 
 S’il fonctionne, emploie-le pour les gros fichiers, recherches groupées et
 sorties de corpus. S’il échoue mais que les outils natifs peuvent lire les
@@ -105,7 +105,7 @@ statique n’a plus son autorité principale.
 
 Implémentation à inspecter, sans chantier de production :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Vault, recherches antérieures et prompts :
 

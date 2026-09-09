@@ -27,7 +27,7 @@ Ne dépense pas de contexte à chercher ces outils dans le dépôt :
    mcp__context_mode__ctx_doctor ; dans Cursor, appelle ctx_doctor sur le
    serveur context-mode. Teste ensuite la racine avec ctx_execute_file sur le
    README.md absolu de
-   C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated en n’affichant
+   C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated en n’affichant
    que son premier titre. Si les deux passent, utilise ctx_execute_file pour
    filtrer un gros fichier, ctx_batch_execute pour grouper commandes et
    recherches, puis ctx_search pour rappeler seulement les passages utiles.
@@ -50,7 +50,7 @@ découverte d’outillage pendant le batch.
 
 Lis intégralement avant de coder :
 
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\.agents\skills\implementing-iso-layer-boundary\SKILL.md
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\.agents\skills\implementing-iso-layer-boundary\SKILL.md
 
 et le rappel :
 
@@ -82,7 +82,7 @@ Cette loi est un résultat livré par G09, pas une préférence à rediscuter.
 
 Travaille principalement dans :
 
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated
 
 Sources de recherche et vault Obsidian :
 
@@ -126,7 +126,7 @@ P2 à lui seul : P2 reste bloqué jusqu’à G10..G20.
 - Candidat G09 final DLL SHA-256 :
   c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f.
 - Preuve canonique :
-  C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g09-live-boundary-post-shutdown-2026-08-15.json
+  C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g09-live-boundary-post-shutdown-2026-08-15.json
 - SHA-256 de l’enveloppe :
   9e508dccda3cb8239fa1cbd4881d83cba3b2b7d61393a080d9a86b9efe441144.
 - G09 protocol v2 a consommé un pending authentique

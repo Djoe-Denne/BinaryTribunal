@@ -11,7 +11,7 @@ lira les rapports et **prendra la décision** (promouvoir / encore
 une session / G23). Toi, tu livres un rapport, pas une promotion.
 
 Repos : docs `C:\Users\djden\source\repos\retro-eng\re-ff8`,
-code `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`.
+code `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`.
 
 Lis avant de coder : `.agents/skills/implementing-iso-layer-boundary/SKILL.md`.
 Session 3 seulement : `.agents/skills/ff8-live-necessity-filter/SKILL.md`.

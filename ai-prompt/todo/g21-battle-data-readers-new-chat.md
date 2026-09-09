@@ -168,7 +168,7 @@ C:\Users\djden\source\repos\retro-eng\re-ff8
 Implémentation :
 
 ```text
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated
 ```
 
 Injecteur :

@@ -17,7 +17,7 @@ Read this **before** planning or executing a live action on `FF8_EN.exe`.
 The filter reduces operator cost. It does not shrink the promotion
 contract.
 
-Implementation repo: `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+Implementation repo: `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Companion ops skill (how to inject, capture, shutdown):
 `obsidian-docs/projects/re-ff8/skills/ff8-live-validation-operations.md`

@@ -119,7 +119,7 @@ Vault :
 
 Implémentation, lecture seule :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Transcript de la campagne :
 

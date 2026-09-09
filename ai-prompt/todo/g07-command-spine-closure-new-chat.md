@@ -2,7 +2,7 @@
 
 Travaille principalement dans :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Sources de recherche et vault Obsidian :
 
@@ -43,7 +43,7 @@ doivent pas être activés.
 - Décision de clôture G06 : DLL SHA-256
   `66c17d81b406e653444d85b52441ae2d24839805de43339eec3349dded6c5289`.
 - Preuve finale :
-  `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-9-g06-closure-v3-final-live.json`.
+  `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-9-g06-closure-v3-final-live.json`.
 - G06 conserve exactement quatre pulses logiques ATB par frame de
   `FFBattleModule`, avec pause/action locks, GF, ready, escape et RNG validés.
 - `BattleUI_RenderHud` reste la seule unité native de présentation scellée

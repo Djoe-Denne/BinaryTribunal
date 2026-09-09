@@ -3,7 +3,7 @@
 **Exécuté 2026-08-15.** Les fuites de couche G00–G09 sont fermées.
 
 Dépôt d’implémentation :
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Compte rendu :
 `docs/post-g09-repo-layer-migration.md`

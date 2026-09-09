@@ -40,14 +40,18 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g23-live-necessity-waiver-2026-09-03.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-shutdown-2026-09-03.json
   - ai-prompt/todo/g19-command-abilities-new-chat.md
-summary: Dependency roadmap through G21. G14–G21 live-promoted on P1. P2 stays blocked.
+summary: >-
+  Roadmap through G23. G14–G22 live-promoted on P1. G23 v1 smoke
+  closed without promotion. P2 stays blocked.
 provenance:
   extracted: 0.61
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-09-02T19:20:00+02:00
+updated: 2026-09-09T09:20:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -59,6 +63,12 @@ updated: 2026-09-02T19:20:00+02:00
 > The remaster has live-promoted G05–G21 for their owned slices. [[projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation|G18]] is live-promoted (Quezacotl host HP + charge restore). [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation|G19]] is live-promoted (Recover 9652→9999 + Card refuse, PID 51944). Persist rewards stay SQ-G19-001. [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation|G20]] is live-promoted on P1 (crisis `+0xCA` 0→0 + Duel refuse, PID 63104). Blue Magic / windows / records stay later. [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation|G21]] is live-promoted (file-backed describe + bounds). P2 is **unlocked after G20** on paper and **stays blocked** until a fail-closed live re-proof (nonzero `memory_hash`, crisis ≠ 0→0, field-id not skipped). Historical envelopes are not rewritten.
 >
 > After the G09 promotion, the repo was re-layered offline: `core/` is ABI-free, `BattleSession` takes canonical state, and G06/G07/G09 NCOMP live in `TemporaryGxxNcompAdapter`. That does not re-promote live envelopes. G11+ must follow the layer law below. Status HUD icon list 117 is deferred `TemporaryG10NcompAdapter` (U14.6), not domain.
+>
+> [!success] G22 live-promoted — 2026-09-02
+> Protocol-v5 / v19 on PIDs 26456 and 22744 / DLL `7f07f900…`. `[promotion.G22].satisfied` is true. See [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]].
+>
+> [!warning] G23 protocol-v1 smoke — 2026-09-03
+> PID 49024 / DLL `ed35cb36…` closed L23-A/B/C collector `PASS` with `Detached`. `[promotion.G23].satisfied` stays false. Host families L-FAM5 / L-PHXW / L-DELTA / SQ-G23-005 remain set aside. See [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]].
 
 Status notation in the foundation groups:
 
@@ -852,6 +862,8 @@ multi-hit eligibility baselines.
 ### G23 — Reimplement end detection, cleanup, and handoff
 
 **Depends on:** G22.
+
+**Current smoke (not promotion):** protocol-v1 on PID 49024 / DLL `ed35cb36…` (2026-09-03) proved L23-A scripted-end, L23-B refuse-result5, and L23-C `Detached` restore with zero writes and zero native end helpers. `[promotion.G23].satisfied` stays false. Offline U23.1–U23.9 tests are SET-ASIDE-VERIFIED; live host latch/persist/handoff still require a later protocol. See [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]].
 
 **Units**
 

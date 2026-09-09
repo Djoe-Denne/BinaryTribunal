@@ -45,13 +45,13 @@ sources:
 summary: >-
   G22 live-promoted on v19 protocol-v5. Two fresh processes, masks
   0x08/0x18, refused_mask=0, exact Detached restore. P2 not opened.
-  G23 authorized to start.
+  G23 v1 smoke closed without promotion.
 provenance:
   extracted: 0.90
   inferred: 0.06
   ambiguous: 0.04
 created: 2026-08-28T20:40:00+02:00
-updated: 2026-09-02T19:20:00+02:00
+updated: 2026-09-09T09:20:00+02:00
 ---
 
 # P1 G22 Battle Init — Live Promotion
@@ -60,7 +60,7 @@ updated: 2026-09-02T19:20:00+02:00
 > Two fresh processes (PID **26456**, **22744**) / DLL `7f07f900…` /
 > schema **27**. `refused_mask=0`. Exact Detached restore
 > (`0xe093592b`, `0xb1c50946`). `[P1.G22] = live-promoted` and
-> `[promotion.G22].satisfied = true`. P2 is not opened. G23 may start.
+> `[promotion.G22].satisfied = true`. P2 is not opened. G23 protocol-v1 smoke later closed without promotion.
 
 > [!failure] A collector PASS is not playability
 > Cursor v11 and v12 exported collector `PASS` while the operator saw a
@@ -94,7 +94,9 @@ end only in `Detached`.
 Process 1 completed one normal Attack (weak enemy one-shot). Process 2
 proved already-ready refusal without writes. Authority:
 `evidence/g22-battle-init-live-promotion-v5-2026-09-02.md`.
-`[promotion.G22].satisfied = true`. P2 stays closed. G23 may start.
+`[promotion.G22].satisfied = true`. P2 stays closed. G23 protocol-v1
+smoke later closed without promotion; see
+[[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]].
 
 ## Latest failed candidate — v18 / 2026-09-02
 
@@ -281,6 +283,7 @@ A collector `PASS` alone is still not enough for later gates.
 
 See [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]],
 [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]],
+[[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]],
 [[projects/final-fantasy-viii-reimaginated/references/g16-g22-red-team-2026-08-28]],
 [[projects/re-ff8/references/g22-init-static-layouts-2026-08-30]],
 and [[projects/re-ff8/references/battle-iso-migration-milestones]].

@@ -13,7 +13,7 @@ description: >-
 Read this before any G10+ unit, any snapshot/codec change, or any native
 call. The G09 pattern is now the law for every delivered gate.
 
-Implementation repo: `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+Implementation repo: `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 ## Layer law
 

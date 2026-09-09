@@ -64,7 +64,7 @@ Ne dépense pas de contexte à chercher ces outils dans le dépôt :
 3. **Context Mode sert à comprimer les gros outputs du dépôt cible, pas à
    interroger le wiki.** Appelle `ctx_doctor` sur le serveur context-mode du
    projet, puis teste `ctx_execute_file` sur le `README.md` absolu de
-   `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated` en n’affichant
+   `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated` en n’affichant
    que son premier titre. Ensuite : `ctx_batch_execute` / `ctx_execute` pour
    dériver, `ctx_search` pour rappeler. Le vault `re-ff8` passe par QMD.
    `ctx_execute_file` refuse les chemins hors `re-ff8` : pour Reimaginated,
@@ -84,7 +84,7 @@ besoin, puis ne refais plus la découverte d’outillage.
 
 Lis intégralement avant tout patch :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\.agents\skills\implementing-iso-layer-boundary\SKILL.md`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\.agents\skills\implementing-iso-layer-boundary\SKILL.md`
 
 et le rappel :
 
@@ -106,7 +106,7 @@ Copie aussi le préambule `_gate-layer-preamble.md` : pas d’ABI / `find_symbol
 
 Travaille principalement dans :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Sources et vault :
 
@@ -133,7 +133,7 @@ reste `static-closed-with-cap`. Session 5 interdite.
 
 Autorité de design :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\evidence\g13-draw-observe-review-and-phase-b-design-2026-08-25.md`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\evidence\g13-draw-observe-review-and-phase-b-design-2026-08-25.md`
 
 ## Hors scope — ne pas faire
 

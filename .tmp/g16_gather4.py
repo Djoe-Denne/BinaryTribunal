@@ -1,6 +1,6 @@
 from pathlib import Path
 
-ROOT = Path(r"C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated")
+ROOT = Path(r"C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated")
 
 
 def around(rel, needles, before=5, after=18):

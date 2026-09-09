@@ -58,14 +58,14 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
-  G05–G17 live-promoted. G17 is party Counter only. Runtime split into
-  six laboratories; no Session P recapture.
+  G05–G22 live-promoted on owned slices. G23 protocol-v1 smoke closed
+  without promotion. Six runtime laboratories; P2 stays blocked.
 provenance:
   extracted: 0.90
   inferred: 0.08
   ambiguous: 0.02
 created: 2026-07-18T17:48:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-09-09T09:20:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated
@@ -75,6 +75,16 @@ Final Fantasy VIII Reimaginated is the implementation project for the full in-pr
 Repository: [Djoe-Denne/FinalFantasy_VIII_Reimaginated](https://github.com/Djoe-Denne/FinalFantasy_VIII_Reimaginated). The P0.5 baseline was commit `89a2928` (`init`); generated build and live-evidence artifacts remain intentionally untracked.
 
 ## Current checkpoint
+
+> [!success] G22 live-promoted — 2026-09-02
+> Protocol-v5 / v19 on PIDs 26456 and 22744. `[promotion.G22].satisfied`
+> is true. See
+> [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]].
+
+> [!warning] G23 protocol-v1 smoke — 2026-09-03
+> PID 49024 closed L23-A/B/C collector `PASS` with `Detached`.
+> `[promotion.G23].satisfied` stays false. See
+> [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]].
 
 > [!success] G05–G08 deterministic domain foundation closed
 > P0.9 v3 owns normalized input, ATB, GF co-tick, escape and readiness. G07
@@ -418,6 +428,8 @@ These are fail-closed boundaries. None is hidden behind native fallback within a
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
 - [[projects/re-ff8/re-ff8]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

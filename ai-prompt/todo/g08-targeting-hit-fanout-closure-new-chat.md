@@ -2,7 +2,7 @@
 
 Travaille principalement dans :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Sources de recherche et vault Obsidian :
 
@@ -81,7 +81,7 @@ activé.
 - Candidat G07 final DLL SHA-256 :
   `868d74e6cf18ddcef26466e183cf329f89051084273012068a6a05e84e0fe64a`.
 - Preuve canonique :
-  `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g07-command-spine-closure-v2-final-live.json`.
+  `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g07-command-spine-closure-v2-final-live.json`.
 - G07 protocol v2/schema 10 a passé quatre Director ticks et seize pulses HUD,
   avec exactement une current action, un start/hold/completion du latch, zéro
   double arbitration et rollback exact.

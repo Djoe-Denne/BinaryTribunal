@@ -101,15 +101,17 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation]] — G19 live-promoted: Recover 9652→9999 plus Card refuse on PID 51944. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation]] — G20 live-promoted: crisis +0xCA 0→0 plus Duel refuse on PID 63104. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation]] — G21 live-promoted: file-backed describe plus bounds refuse on PID 23764. Schema 25. P2 not opened. ( #ff8 #battle-system #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] — G22 live-promoted on v19 protocol-v5: PIDs 26456/22744, DLL `7f07f900…`, `refused_mask=0`, exact `Detached` restore. P2 not opened. G23 authorized. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation]] — G22 live-promoted on v19 protocol-v5: PIDs 26456/22744, DLL `7f07f900…`, `refused_mask=0`, exact `Detached` restore. P2 not opened. ( #ff8 #battle-system #testing #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]] — G23 protocol-v1 smoke on PID 49024 / DLL `ed35cb36…`: L23-A/B/C collector PASS, empty allowlist, Detached. promotion.G23 false. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G22 map; live JSON tracked; G19–G22 promoted, G23 authorized; P2 blocked. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G23 map; G19–G22 promoted; G23 v1 smoke not promoted; P2 blocked. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 
 ## Journal
 
+- [[journal/2026-09-03]] — Session: G23 protocol-v1 smoke PID 49024 L23-A/B/C collector PASS; Detached; promotion.G23 false. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-09-02]] — Session: G22 v19 protocol-v5 live-promoted; PIDs 26456/22744; `refused_mask=0`; P-SAT closed; G23 authorized. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-31]] — Session: extract + live v17 PID 29160 ; L22-A/B/C PASS ; `refused_mask=32` ; satisfied false. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-30]] — Session: G22 live v11–v15 then static catchup; Steam CharacterData file offset closed. Promotion false. G23 not started. ( #ff8 #battle-system #testing #reference)

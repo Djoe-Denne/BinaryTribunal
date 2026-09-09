@@ -69,8 +69,9 @@ restore exact (`0xe093592b` / `0xb1c50946`), `Detached`. P-SAT tranché.
 
 | id | item | statut | vague | note |
 | --- | --- | --- | --- | --- |
-| B0-LAY | Layouts XP/AP/EQUAL/result | `prouvé` | B0 | `0x1CFF574/520/6E7`, `0x1D28E78` |
+| B0-LAY | Layouts XP/AP/EQUAL/result | `prouvé` | B0 | **corrigé 2026-09-02** : `XP_EARNED` `0x1CFF574`, `XP_EARNED_EXTRA` `0x1CFF57A`, `RELATED_TO_XP` `0x1CFF520` (kills GF, pas AP), `BCI_GF_XP_EARNED` `0x1CFF580`, `BCI_GF_XP_EARNED_EXTRA` `0x1CFF5A0`, `BCI_GF_AP_EARNED` `0x1CFF5C0`, result `0x1CFF6E7`, EQUAL `0x1D28E78` |
 | B0-DIST | `DistributeXpAp` `0x494D40` | `prouvé` | B0 | cap 60000 ; wiki |
+| B0-CALL | `DistributeXpAp` callers | `prouvé` | B0 | victoire `0x486500` et escape `0x4862A0` ; pas cleanup |
 | B0-GFAP | `ComputeGFLevelAndApAfterKill` `0x494AF0` | `prouvé` | B0 | |
 | B0-MUGP | `ComputeProbabilityGetItemMug` `0x486650` | `prouvé` | B0 | |
 | B0-CARD | `computeCardDrop` EA | `prouvé` | B0 | command drop = `0x48FBA0` ; autre EA live-only |
@@ -78,16 +79,19 @@ restore exact (`0xe093592b` / `0xb1c50946`), `Detached`. P-SAT tranché.
 | B0-DEV | `Devour_ApplyPermanentStatBonuses` `0x492220` | `prouvé` | B0 | |
 | B0-CCMD | `computeCardCommandDrop` `0x48FBA0` | `prouvé` | B0 | call `0x534840` |
 | B1-CLEAN | `Battle_EndCleanupAndTransition` `0x4868C0` | `prouvé` | B1 | party `+0xAF4` ; CD `0x1CFE0E8` |
-| B1-HPMC | `Battle_CommitPartyHPAndMagicToSave` `0x48B8B0` | `prouvé` | B1 | halfword HP |
+| B1-HPMC | `Battle_CommitPartyHPAndMagicToSave` `0x48B8B0` | `prouvé` | B1 | halfword HP ; **appelé depuis StageGroup0Reactions A/B/C**, pas depuis cleanup |
 | B1-MAG | `Battle_CopyMagicStocksToSave` `0x486CD0` | `prouvé` | B1 | `+0x10/+0x5C` |
-| B1-GFP | GF persist fin de combat | `prouvé` | B1 | `0x1CFF082` + `0x4954B0` |
-| B1-WRIT | Card/Devour/Mug + `sub_534840` | `prouvé` | B1 | spec ; writers live-only byte-exact |
-| B1-VCNT | victory / escaped / unused | `prouvé` | B1 | staging increments ; offsets SG = `L-DELTA` |
-| B1-B8 | Slots `+0xB8/+0xB9` | `prouvé` | B1 | writers **init** `0x48C500` ; pas writeback fin |
+| B1-GFP | GF persist fin de combat | `prouvé` | B1 | **corrigé 2026-09-02** : `0x1CFF082` = `F_CHARACTER_MAGIC_DATA` ; `0x4954B0` = `Battle_BuildMagicJunctionList`. XP/AP GF = `BCI_GF_XP_EARNED` `0x1CFF580` / `BCI_GF_AP_EARNED` `0x1CFF5C0`. Level-up GF = menu mode 5, pas cleanup |
+| B1-WRIT | Card/Devour/Mug + `sub_534840` | `prouvé` | B1 | **formule Card `0x534840` extraite 2026-09-02** : id 0-76 `|=0x80` puis ++ si qty<100 sinon -1 ; id 77+ bitfield `0x1CFEFA6` + stock=`0xF0` (rare encore unowned). Devour `0x492220` = bits STR..LCK + MaxHP. Mug/drops = RNG mid-battle. Byte-exact live encore requis |
+| B1-VCNT | victory / escaped / unused | `appliqué` | B1 | `SG_BATTLE_VICTORY_COUNT` `0x1CFE934` ; `SG_UNUSED_IN_FIELD_1` `0x1CFE938` ; `SG_BATTLE_ESCAPED` `0x1CFE93A` |
+| B1-B8 | Slots `+0xB8/+0xB9` | `appliqué` | B1 | init `0x48C500` ; **writeback fin** via `BattleItem_RefundStashedItems` `0x485EC0` → `AdjustCount(id,0)` puis zéro |
+| B1-ITEMR | `ITEM_RELATED` `0x1CFF5E0` / `BATTLE_CARD_DROP` `0x1CFF610` | `prouvé` | U23.7 | 24 paires drop + 8 cards `0xFF` ; flush UI mode 5 `0x4A6680`, pas le cleanup |
+| B1-M5XP | Apply XP perso `0x496CB0` / GF `0x496F30` | `prouvé` | U23.7 | menu `0x4A3EE0` / mode 5 ; **pas** cleanup. `0x496F30` mute `SG_ARRAY_GF_DATA.Experience` |
+| B1-FLAG | `NO_EXP_SCREEN` vs encounter `& 2` | `prouvé` | U23.7 | cleanup mode : `SCENE_OUT.battle_flags & 0x10` → 100 sinon 5. Victoire end-type 1 : `ENCOUTER_BATTLE_FLAG & 0x02`. Ce ne sont pas le même bit |
 | B2-M5 | `0x4A6680` mode 5 | `prouvé` | B2 | UI/heap |
 | B2-MENU | `0x4A2690` reward menu | `prouvé` | B2 | présentation |
 | B2-EXIT | `0x47CEF0` | `prouvé` | B2 | |
-| B2-DIR5 | Director case 5 | `G23-impl` | B2 | pas de core |
+| B2-DIR5 | Director case 5 | `prouvé` | U23.8 | case 5 = `0x4A6680` puis anim=4, mode=100. Exit module : anim==4 → reward menu (`0x4A2280`/`0x4A22A0`/`0x4A2690`) sinon field handler (`0x470690`/`0x4706A0`/`0x4706B0`). GameOver partage le field handler. Callback RVA hors core |
 | B2-RC5 | `0x4865C0` result 5 | `prouvé` | B2 | `[0x1CFF6E7]=5` |
 | B3-PHX | Phoenix `0x483270` scène 317 | `prouvé` | B3 | bit 4 + `0x13D` |
 | B3-SCR | Writers scripted-end hors `0x39` | `live-only` | B3 | |
@@ -97,9 +101,9 @@ restore exact (`0xe093592b` / `0xb1c50946`), `Detached`. P-SAT tranché.
 
 | id | item | statut | note |
 | --- | --- | --- | --- |
-| L-FAM5 | Matrice 5 familles terminales + battles répétées (U23.9) | `live-only` | pas extractible en IDB seul |
-| L-ESC | Escape : `DistributeXpAp` commit vs no-op | `live-only` | déjà ambiguous en staging |
-| L-DELTA | Save deltas byte-exact post-handoff | `live-only` | |
+| L-FAM5 | Matrice 5 familles terminales + battles répétées (U23.9) | `live-only` | offline U23.9 : 5 familles + Phoenix + init G22 réel ; byte-exact live encore requis |
+| L-ESC | Escape : `DistributeXpAp` commit vs no-op | `prouvé` | `CheckEscapeSuccess` `0x4862A0` appelle `0x494D40` après result=2 ; mêmes formules que la victoire |
+| L-DELTA | Save deltas byte-exact post-handoff | `live-only` | compteurs SG extraits ; byte-exact live encore requis |
 | L-PHXW | Phoenix wipe authentique | `live-only` | |
 | L-PROMO | Carte live promo G22 v5 | `prouvé` | v19 deux processus : masques `0x08`/`0x18`, special 0 groupe 0, writes 9/9, G07 1/1, refus actif 0/0, restore Detached |
 
@@ -108,4 +112,4 @@ restore exact (`0xe093592b` / `0xb1c50946`), `Detached`. P-SAT tranché.
 | id | item | statut | note |
 | --- | --- | --- | --- |
 | P-SAT | `[promotion.G22].satisfied` | `appliqué` | **parent** — `true` le 2026-09-02 ; v19 `evidence/g22-battle-init-live-promotion-v5-2026-09-02.md` |
-| P-G23 | Démarrer implémentation G23 `core/` | `G23-impl` | ouvert — latch first-wins U23.1–U23.6 hors-ligne ; persist/handoff/live encore ouverts |
+| P-G23 | Démarrer implémentation G23 `core/` | `G23-impl` | fumée v1 live PID 49024 / DLL `ed35cb36…` L23-A/B/C PASS ; L-FAM5 / L-DELTA / L-PHXW / handoff hôte encore ouverts ; `[promotion.G23]` false |

@@ -16,7 +16,7 @@ sources:
 summary: >-
   IDB-proven G22 init octets: enqueue bits, CharacterData stride 152,
   K_MISC.dead_timer +0x0F = 200, ordinary start roll, Draw/SG_KNOWN_MAGIC.
-  Steam CharacterData[8] at savemap+0x490. G23 not started. No live.
+  Steam CharacterData[8] at savemap+0x490. G23 v1 smoke is separate.
 provenance:
   extracted: 0.90
   inferred: 0.06

@@ -16,7 +16,7 @@ ne doit être utilisé que si une incertitude concrète est nommée avant l'acti
 ## Artefacts préparés
 
 Racine :
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 - DLL x86 RelWithDebInfo :
   `build\relwithdebinfo-x86\bin\RelWithDebInfo\ff8_battle_iso.dll`
@@ -64,7 +64,7 @@ reste `false` jusqu'à revue G14 / `restore_flags`.
 Exécuter depuis la racine Reimaginated :
 
 ```powershell
-$repo = "C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated"
+$repo = "C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated"
 $injector = "C:\Users\djden\source\repos\FFScriptLoader\build\bin\RelWithDebInfo\app_injector.exe"
 $injectorDir = Split-Path $injector
 $dll = "$repo\build\relwithdebinfo-x86\bin\RelWithDebInfo\ff8_battle_iso.dll"

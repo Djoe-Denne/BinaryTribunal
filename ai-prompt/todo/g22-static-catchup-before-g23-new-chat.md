@@ -198,7 +198,7 @@ puis continue sur une autre ligne de la file.
 
 ```text
 Docs / ce prompt     C:\Users\djden\source\repos\retro-eng\re-ff8
-Implémentation       C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated
+Implémentation       C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated
 IDB                  D:\Modding\ff8\retro-exe\FF8_EN.exe.i64
 Outils modding       D:\Modding\ff8
 ```
@@ -278,8 +278,8 @@ docs/tech/systems/battle_init.md
 obsidian-docs/projects/re-ff8/references/battle-formulas.md
 obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation.md
 obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\runtime-x86\src\save_party_codec.cpp
-C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\core\src\battle_init.cpp
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\runtime-x86\src\save_party_codec.cpp
+C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\core\src\battle_init.cpp
 ```
 
 ## Rapport de fin (obligatoire)

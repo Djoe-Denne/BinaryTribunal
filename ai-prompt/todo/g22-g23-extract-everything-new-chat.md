@@ -23,7 +23,7 @@ un rapport + tu mets à jour **une** ligne du registre, pas une
 promotion.
 
 Repos : docs `C:\Users\djden\source\repos\retro-eng\re-ff8`,
-code `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`.
+code `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`.
 
 Lis avant toute action :
 `.agents/skills/implementing-iso-layer-boundary/SKILL.md`.

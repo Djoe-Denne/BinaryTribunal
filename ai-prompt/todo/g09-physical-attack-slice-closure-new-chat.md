@@ -25,7 +25,7 @@ Ne dépense pas de contexte à chercher ces outils dans le dépôt :
    interroger le wiki.** Appelle d'abord le MCP
    `mcp__context_mode__ctx_doctor` (outil `ctx_doctor` dans Cursor), puis teste
    la racine en appelant `ctx_execute_file` sur le `README.md` absolu de
-   `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated` et en
+   `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated` et en
    n'affichant que son premier titre. Si les deux passent, emploie ensuite
    `ctx_execute_file` pour filtrer un gros fichier,
    `ctx_batch_execute` pour grouper plusieurs commandes avec leurs requêtes et
@@ -43,7 +43,7 @@ prouves. Ne refais pas la découverte d'outillage plus tard dans le batch.
 
 Travaille principalement dans :
 
-`C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated`
+`C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated`
 
 Sources de recherche et vault Obsidian :
 
@@ -109,7 +109,7 @@ dans G09 parce que le helper natif de commit les mélange.
 - Candidat G08 final DLL SHA-256 :
   `01df050581a4ff003b51df00d57e80e8ba45731baa6b91707466f51df74d6194`.
 - Preuve canonique G08 :
-  `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g08-live-pending-post-shutdown-2026-08-11.json`.
+  `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\evidence\battle-iso\p0-g08-live-pending-post-shutdown-2026-08-11.json`.
 - SHA-256 de cette enveloppe :
   `35993960479f7c3e156d6f9fec2738414e9c3d5f0589fd36cce02e257bef9505`.
 - G08 protocol v2/scenario 2 a capturé le pending authentique

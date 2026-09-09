@@ -131,11 +131,11 @@ Source death after GetText reste exclu. La présentation Draw est G14.
 
 - G11 live-promoted and G12 semantically promoted; one caster with free Magic stock capacity.
 - Suite facultative scenario `draw-observe-pending` :
-  `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\suite-G13-observe.bin`
+  `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\suite-G13-observe.bin`
   (64 bytes, flags `0x2000`, reserved protocol/scenario `3,1`).
 - Suite directe `g13-draw-direct-v3`, scenario
   `FF8ISO_G13_DRAW_LIVE_PENDING`, reserved protocol/scenario `3,2` :
-  `C:\Users\djden\source\repos\FinalFantasy_VIII_Reimaginated\suite-G13-live.bin`.
+  `C:\Users\djden\source\repos\retro-eng\FinalFantasy_VIII_Reimaginated\suite-G13-live.bin`.
 - Monster with a known drawable offensive spell and stable tier/resistance.
 - Capture baseline `D0`: raw monster draw table/tier, caster/monster stats,
   `K_MAGIC` row, battle Magic stock, RNG, queues, current action and latches.
