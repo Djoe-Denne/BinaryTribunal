@@ -202,9 +202,13 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-scripted-end-2026-09-03.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-refuse-result5-2026-09-03.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-shutdown-2026-09-03.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/sessions/.g09-attack-live-2026-09-09-164428.artifacts/post-shutdown-cleanup.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/sessions/.g09-synthetic-2026-09-09-170434.artifacts/post-shutdown-cleanup.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/sessions/.g09-synthetic-2026-09-09-165254.artifacts/post-busy-diagnostic.json
 summary: >-
-  Canonical G00–G23 map. G19–G22 live-promoted. G23 v1 smoke is
-  collector PASS only; promotion.G23 false. P2 stays blocked.
+  G00–G23 catalog. G19–G22 promoted. G23 smoke not promoted.
+  2026-09-09 G09 automation is rehearsal/non-regression; G09 unchanged.
 provenance:
   extracted: 0.96
   inferred: 0.03
@@ -213,7 +217,7 @@ lifecycle: evergreen
 lifecycle_changed: "2026-08-08"
 tier: supporting
 created: 2026-08-08T16:40:00+02:00
-updated: 2026-09-09T09:20:00+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # Final Fantasy VIII Reimaginated Evidence Catalog
@@ -237,7 +241,7 @@ updated: 2026-09-09T09:20:00+02:00
 | G06 / P0.9 v3 | Exclusive BattleUI ownership passed 240 pulses over 60 frames with GF `6→4`, ready `1/1`, blocked/known escape, RNG `4→5`, zero forbidden behavior, and byte-exact rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] |
 | G07 / protocol v2 | Four command-spine ticks proved pending/exec/arbitration/latch ownership, retained the callback/BdLink presentation tail, and restored every owned byte and hook preimage. | [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]] |
 | G08 / protocol v2 | One authentic Meteor pending produced an ordered ten-hit TargetPlan with exact RNG accounting, no G09/native targeting call, and exact G06/G07 rollback. | [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] |
-| G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] |
+| G09 / AttackSlice live | Attack `0x01` is live-promoted: one authentic Zell Attack, direct TargetPlan, HP/event commit, `0x70` idle unlock, hook rollback. P1 AttackSlice unlocked. The 2026-09-09 automation rerun is non-regression plus rehearsal and does not re-promote. | [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] / [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]] |
 | G10 / status timers live | Status-Atk Slow on Attack `0x01` is live-promoted: apply `status_2` 0→4, `timer[2]` seed 1440, one mental RNG, in-battle shutdown retain. HUD icon deferred U14.6. | [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] |
 | G11 / Magic Fire v2 live | Semantic Fire on DLL `0b3c4bb9…5df0aef1`: authentic pending `0x02`/`0x01`, HP/event/stock, zero Magic NCOMP, hook rollback. `[promotion.G11].satisfied` true. Animation deferred G14. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] |
 | G11 / healing-revive coherence | Life and Full Life mirror both native HP authorities and persist through native Potion/Attack on DLL `edcb0c5e…c5136d`; final `PASS` / `Detached`, restore `0x1ff`, zero violations. | [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] |
@@ -305,6 +309,7 @@ rule and typed Moomba path. ^[inferred]
 - Final G07 closure is `p0-g07-command-spine-closure-v2-final-live.json`, validated `PASS` on DLL SHA-256 `868d74e6cf18ddcef26466e183cf329f89051084273012068a6a05e84e0fe64a`.
 - Final G08 closure is `p0-g08-live-pending-post-shutdown-2026-08-11.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `01df050581a4ff003b51df00d57e80e8ba45731baa6b91707466f51df74d6194`.
 - Final G09 closure is `p0-g09-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `c1d8163e940102181a0be059208848dba0173d979f6a2a917ad347f49802e92f`.
+- G09 automation MVP 2026-09-09 is **not** that closure. T2 non-regression is `battle-iso/sessions/.g09-attack-live-2026-09-09-164428.artifacts/post-shutdown-cleanup.json` on PID 42920 / DLL `a11e10cb…` (`envelope_class=promotion-eligible`, NativeMenu `0xBB643`). T3 rehearsal is `.../.g09-synthetic-2026-09-09-170434.artifacts/post-shutdown-cleanup.json` on PID 14028 / DLL `bf74d155…` (`envelope_class=rehearsal`). Ledger `g09-automation-mvp-live-validation-2026-09-09.md`. `[promotion.G09].satisfied` stays the 2026-08-15 claim.
 - Final G10 closure is `p0-g10-live-boundary-post-shutdown-2026-08-15.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `d71d48537019ab66bcc97c02f2cee0dfd0d6fcb1aa7d93873ac19496535843a2`.
 - Final G11 Fire v2 closure is `p0-g11-magic-fire-v2-final-live-2026-08-18.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `0b3c4bb916629bcaabfa0e0037a3f918663bef792ee53a298e5b07155df0aef1`. Envelope SHA-256 `7674c272269040ec2e031c03d2d576dccae31848d38c71250d9c467de7eec0f6`. Report `g11-magic-live-validation-2026-08-18.md`. Kernel SHA-256 `e378fb8f198ede3dae858f0ded6670f9ba423aa79abfff7237e701dfc7f9e7f6`.
 - G11 HP-coherence closure is `p0-g11-hp-coherence-live-validation-2026-08-25.json`, validated `PASS` on executable SHA-256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570` and DLL SHA-256 `edcb0c5ed12d7efb4379a05d6ac71a20f67a3dbf66b744c2f432262b12c5136d`. Envelope SHA-256 `de274e3c1c8bb7b338ca579f66351b3ab6e4559e8b920f2330a72d4f044e0ea6`; runtime `Detached`, restore `0x1ff`, zero write violations and forbidden calls.
@@ -337,6 +342,7 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - Draw pending `command_id` `0x06` is a validated runtime discriminator from QueueOrStore plus the independent menu-row byte. Older `0x04` artefacts collide with Item. Resolver-time Draw remains `COMMAND_TYPE_ID==6`. Do not encode `kDrawCommandId = 0x06` in `core/`. The live capture requirement is closed; the byte is not a global enum. ^[extracted]
 - G13 preflight inverted QueueOrStore `aux_5`/`aux_6` (PID 49568), then treated `monster_amount=0` as an absent spell, then rejected a Stock multi-add export that compared the last iteration to the preimage. Those FAIL envelopes stay in the implementation repository. The promoted DLL is `f47c0481…`.
 - G09 live promotion was not run on 2026-08-14: PID `31548` was field/menu with IDA attached and no Attack pending. The 2026-08-15 detached envelope superseded that attempt.
+- G09 synthetic PID 28716 (2026-09-09) passed the Attack slice then failed cleanup: two shutdown `BUSY`, `active_callbacks=2`, `restore_flags=0x17f`. Envelope `battle-iso/sessions/.g09-synthetic-2026-09-09-165254.artifacts/post-busy-diagnostic.json`. Not promotion evidence.
 - The first G10 ISO Attack skipped Slow because the bit was already present after a native Gilgamesh hit. An operator `timer[2]=1` poke then let native expiry clear that contamination. Neither dump is the apply proof; the second Zell Attack after Slow was gone is the promotion hit.
 - Live Slow wrote native `status_2`/`timer[2]` but did not refresh the HUD icon. Icon list 117 stays U14.6 presentation debt, not a G10 domain fail. ^[ambiguous]
 - G11 live Fire v1 on PID `3704` (2026-08-18) committed HP 60000→59908 and stock 10→9, then `Faulted` on `G07 native presentation tail failed closed`. Relays=2, presentation ticks=0, black 3D, FF8 **An unknown exception has occurred.** Domain commit is not promotion. Superseded as a promotion claim by v2 PASS on PID `16960`.
@@ -351,6 +357,8 @@ Intermediate and diagnostic JSON envelopes remain in the implementation reposito
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]
+- [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]

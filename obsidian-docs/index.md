@@ -4,14 +4,14 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-08-31T18:40:00+02:00*
+*This index is automatically maintained. Last updated: 2026-09-09T19:50:00+02:00*
 
 ## Concepts
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
-- [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G10 command core; complete offline Magic/Item transactions; G11–G13 live-promoted; Draw pending 0x06 is a runtime byte. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G13 command core; pending buffer is 9×8 bytes; NativeMenu Write RVAs differ from Auto and Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded masks feed the live G08 TargetPlan boundary; G09 consumes one direct plan in the promoted Attack 0x01 slice. ( #ff8 #battle-system #runtime-memory #concept)
@@ -22,7 +22,7 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15–G17 live; optional EnemyAI_VM hook leftover. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] — Six-cluster map of ff8iso_runtime; unique Runtime; NCOMP only G06/G07/G09. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] — Six-cluster map of ff8iso_runtime; unique Runtime; NCOMP only G06/G07/G09; shutdown closes hook admission before restore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw resolve id 6, QueueOrStore aux 9/10, live-promoted Cast/Stock, MagicList presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] — GF command IDs, kernel IDs, effect IDs, MagicList callbacks, shared cinematic globals, and special triggers. ( #ff8 #gforce #battle-system #concept)
 - [[projects/re-ff8/concepts/gforce-catalog-and-families]] — GF catalog, structural families, runtime evidence, and Cerberus/Ifrit findings. ( #ff8 #gforce #reverse-engineering #concept)
@@ -36,7 +36,8 @@ title: Wiki Index
 
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G17 party Counter; runtime laboratories place units inside ff8iso_runtime. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]] — Where kernel, cadence, seams, labs, codecs, and NCOMP live inside ff8iso_runtime. ( #ff8 #battle-system #testing #skill)
-- [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for bootstrap, runtime verdicts, presentation barriers, callback-BUSY frame-boundary retry, safe shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for bootstrap, runtime verdicts, presentation barriers, callback-BUSY frame-boundary retry, gated shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
+- [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]] — live_session.py profiles g13-direct, g09-attack-live, g09-synthetic; preflight, one BUSY retry, human Attack vs automated synthetic. ( #ff8 #battle-system #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for converting `ff8re` evidence JSON into runtime-confirmed GF docs. ( #ff8 #reverse-engineering #testing #skill)
@@ -59,7 +60,7 @@ title: Wiki Index
 
 ## References
 
-- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G17; G12–G17 are live-promoted; G17 claim is party Counter. ( #ff8 #battle-system #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G23; G09 2026-09-09 automation is rehearsal/non-regression, not a re-promotion. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]] — GF data files, loader/arena chain, parallel logic/loader tables, cinematic dispatch, handler contract, and a from-scratch authoring checklist. ( #ff8 #gforce #battle-system #reference)
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Static and live proof of the centralized whole-frame takeover seam, responsibility contract, and native cleanup handback. ( #ff8 #battle-system #reverse-engineering #reference)
@@ -69,7 +70,7 @@ title: Wiki Index
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, damage/status, AI, encounters, presentation, GF, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
+- [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, pending 9×8 buffer, NativeMenu Write RVAs, Draw QueueOrStore, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure. ( #ff8 #runtime-memory #battle-system #reference)
 - [[projects/re-ff8/references/research-prompt-backlog]] — AI prompt backlog and completed battle init/slot investigation artifacts. ( #ff8 #reverse-engineering #battle-system #reference)
 - [[projects/re-ff8/references/wicked-engine-integration-reference]] — Pinned Wicked application, render path, ECS, D3D12, prewarming, packaging, and external-host integration reference. ( #ff8 #battle-system #rendering #reference)
@@ -88,7 +89,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation]] — P0.9 v3 closes G06 with exclusive BattleUI ownership, stable native NCOMP rendering, exact GF/ready/escape fixtures, and byte-exact rollback. ( #ff8 #battle-system #testing #atb #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]] — G07 v2 closes pending, grouped exec queues, arbitration and the action latch with visible native presentation and byte-exact rollback. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation]] — G08 v2 closes target-plan ownership for an authentic Meteor pending: exact ten-hit RNG fan-out, no G09/native targeting call, and rollback `0x1ff`. ( #ff8 #battle-system #testing #runtime-memory #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] — G09 live-promotes authentic Attack 0x01 through direct targeting, semantic HP/event commit, 0x70 idle barrier and exact rollback; P1 AttackSlice unlocked. ( #ff8 #battle-system #testing #runtime-memory #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]] — G09 live-promotes authentic Attack 0x01 (2026-08-15); 2026-09-09 automation is non-regression plus rehearsal, not a re-promotion. ( #ff8 #battle-system #testing #runtime-memory #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]] — T2 NativeMenu PID 42920 plus T3 synthetic rehearsal PID 14028; PID 28716 BUSY is negative cleanup evidence; promotion.G09 unchanged. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]] — G10 live-promotes Status-Atk Slow on Attack 0x01: apply, named timers, mental RNG, in-battle retain; HUD icon deferred U14.6. ( #ff8 #battle-system #testing #runtime-memory #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]] — G11 is closed: Fire and Meteor are live anchors, while clean Life/Full Life captures validate dual-HP handback; Double, Triple, Scan and Silence retain representative coverage. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]] — G12 is live-promoted-semantic: Potion, Meteor Stone, Mega Phoenix and Friendship are detached PASS; Pinion/Gysahl stay semantic. ( #ff8 #battle-system #testing #reverse-engineering #reference)
@@ -105,7 +107,7 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]] — G23 protocol-v1 smoke on PID 49024 / DLL `ed35cb36…`: L23-A/B/C collector PASS, empty allowlist, Detached. promotion.G23 false. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]] — Red team: C++ layers OK; witnesses were stamped then measured; operator leftovers remain. ( #ff8 #battle-system #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
-- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G23 map; G19–G22 promoted; G23 v1 smoke not promoted; P2 blocked. ( #ff8 #battle-system #testing #reverse-engineering #reference)
+- [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G23 map; G19–G22 promoted; G23 v1 smoke not promoted; 2026-09-09 G09 automation is rehearsal/non-regression. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
 ## Synthesis
 

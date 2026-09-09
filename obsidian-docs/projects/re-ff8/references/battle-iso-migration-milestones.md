@@ -37,6 +37,7 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
@@ -51,7 +52,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-09-09T09:20:00+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -69,6 +70,9 @@ updated: 2026-09-09T09:20:00+02:00
 >
 > [!warning] G23 protocol-v1 smoke — 2026-09-03
 > PID 49024 / DLL `ed35cb36…` closed L23-A/B/C collector `PASS` with `Detached`. `[promotion.G23].satisfied` stays false. Host families L-FAM5 / L-PHXW / L-DELTA / SQ-G23-005 remain set aside. See [[projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation]].
+>
+> [!success] Automatisation G09 MVP close — 2026-09-09
+> La tranche 2 a authentifié une Attack menu sur le PID 42920 / DLL `a11e10cb…` (`NativeMenu`, caller RVA `0x000bb643`, `Detached`, restore `0x1ff`). Après correction de la quiescence shutdown, la tranche 3 a clos le rehearsal synthétique sur le PID 14028 / DLL `bf74d155…` : provenance `Synthetic`, un transfert effectif, HP `40000→35480`, cadence HUD/3D confirmée, collector `PASS`, shutdown direct, callbacks 0, `Detached` et restore `0x1ff`. L'enveloppe reste `rehearsal` et ne modifie pas `[promotion.G09].satisfied`. PID 28716 reste la preuve négative BUSY (`restore_flags=0x17f`). Voir [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]] et [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]].
 
 Status notation in the foundation groups:
 
@@ -158,6 +162,7 @@ No unit may be marked done only because it compiles.
 
 > [!warning] Implemented primitives; target orchestration still pending
 > The hardened [[projects/ffscriptloader/ffscriptloader|FFScriptLoader]] now provides non-interactive `validate`/self-test commands, architecture and PE validation, explicit bootstrap export/payload, bounded timeouts, and loaded-module reuse. The exact manifest/suite/evidence-aware `validate` and `test` syntax below is still the target consolidated interface. The 2026-07-18 P0 run used `make_bootstrap_payload.py`, `make_suite_payload.py`, the injector, `capture_live_canaries.py`, and the runtime evidence buffer directly.
+> La syntaxe cible `Invoke-IsoGroup`, jamais livrée, est remplacée par `tools/live_session.py` pour les sessions prises en charge.
 
 Each group owns offline tests named `Gxx.*` and one versioned suite at `battle-iso/tests/in-process/Gxx.suite.toml`. A suite declares setup, safe injection point, scripted or manual actions, assertions, timeout, cleanup, and whether cases require a fresh FF8 process. `validate` checks the suite, DLL machine type, executable manifest, profile/group compatibility, and required symbols without touching the target. `test` loads `ff8_battle_iso.dll`, calls the exported bootstrap and test entry point, waits for completion, retrieves evidence, runs cleanup, and returns nonzero on any failed assertion or incomplete rollback.
 
@@ -529,7 +534,7 @@ multi-hit eligibility baselines.
 
 **Gate G09 / P1 AttackSlice:** **passed.** Fresh process, IDA detached, authentic Attack `0x01` pending, idle unlock, zero original battle-domain call.
 
-**Injected in-game test:** `Invoke-IsoGroup -Group G09` after a detached Attack pending exists. Do not inject while IDA is attached.
+**Injected in-game test:** `python tools/live_session.py --profile g09-attack-live` after a detached Attack pending exists, or `--profile g09-synthetic --g09-synthetic-attack SLOT MASK` with no operator command. Do not inject while IDA is attached. Historical name: `Invoke-IsoGroup -Group G09`.
 
 ### G10 — Port status application, timers, and periodic actions
 

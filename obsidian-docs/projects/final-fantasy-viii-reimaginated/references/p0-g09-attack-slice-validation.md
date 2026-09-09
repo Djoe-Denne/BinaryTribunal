@@ -7,13 +7,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g09-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
-summary: G09 is live-promoted for Attack 0x01. One authentic Zell Attack produced a direct TargetPlan, HP/event commit, 0x70 idle unlock, and hook rollback. P1 AttackSlice is unlocked; G10 status is live.
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
+summary: G09 is live-promoted for Attack 0x01 (2026-08-15). The 2026-09-09 automation rerun is non-regression plus rehearsal; it does not re-promote.
 provenance:
   extracted: 0.95
   inferred: 0.03
   ambiguous: 0.02
 created: 2026-08-14T14:30:00+02:00
-updated: 2026-08-18T18:55:00+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # P0 G09 Physical AttackSlice — Live Closure — 2026-08-15
@@ -99,6 +100,16 @@ times. A fixed-frame popup delay can therefore approximate presentation but
 cannot be declared byte- or frame-ISO; exact impact synchronization remains
 U14.6 rather than expanding G09 domain ownership.
 
+## Automation MVP addendum — 2026-09-09
+
+The 2026-08-15 promotion decision above is unchanged. A later automation
+campaign re-observed authentic NativeMenu Attack on PID 42920
+(`caller_rva=0x000bb643`, provenance 2) and closed a synthetic Attack
+rehearsal on PID 14028 (`envelope_class=rehearsal`). Neither run updates
+`[promotion.G09].satisfied` or replaces DLL `c1d8163e…`. See
+[[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]
+and [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]].
+
 ## Temporary adapter / removal target U14.6
 
 The domain event is semantic. Native 24-byte encoding, relays `0x68`/`0x70`,
@@ -123,4 +134,6 @@ animation remains G14. The closed campaign session is
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation]]
 - [[projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan]]
+- [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]
+- [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]]
 - [[projects/re-ff8/references/battle-iso-migration-milestones]]

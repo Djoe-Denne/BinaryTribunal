@@ -8,16 +8,16 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/.agents/skills/placing-runtime-laboratories/SKILL.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
 summary: >-
-  Six-cluster map of ff8iso_runtime: kernel, cadence, seams, commit labs,
-  G14, P1 AI/GF/commands/limits/battle-data. Unique Runtime; NCOMP only
-  G06/G07/G09.
+  Six-cluster map of ff8iso_runtime. Unique Runtime; NCOMP only
+  G06/G07/G09. Shutdown closes hook admission before restore.
 provenance:
   extracted: 0.88
   inferred: 0.10
   ambiguous: 0.02
 created: 2026-08-27T21:30:00+02:00
-updated: 2026-08-28T19:00:00+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # Runtime laboratories
@@ -67,6 +67,15 @@ G18–G21 share `g18_through_g21_suite_active()` and
 
 ## Shared restore
 
+Kernel shutdown (2026-09-09) closes a callback-entry gate in the detour
+transaction before recovery, waits up to five seconds for already-admitted
+callbacks while the runtime mutex is released, restores owned ranges, then
+removes hooks. Hook bodies denied by the gate return without entering
+runtime or a native trampoline. Timeout reopens the gate and retains typed
+`BUSY`. PID 28716 (`active_callbacks=2`, `restore_flags=0x17f`) is the
+negative witness; PID 14028 then detached with `0x1ff`. See
+[[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]].
+
 G16 and G17 share `g16_pending_preimage_` and one
 `restore_g16_pending_preimage`. Kernel shutdown calls each cluster's
 `restore_*`. Suite `restore_ok` on G16/G17 means the preimage is armed, not that
@@ -100,4 +109,5 @@ G17 `6326950a…`. No Session P recapture is required after a TU move.
 - [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]]
 - [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]]
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]]
+- [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]]
 - [[projects/re-ff8/concepts/enemy-ai-vm]]

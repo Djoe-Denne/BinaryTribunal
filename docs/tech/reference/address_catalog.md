@@ -343,6 +343,8 @@ Master reference for all known function and global addresses in FF8 battle.
 |---------|------|------|
 | `0x4A8772` | `presentation::BattleUI_InputPollAndMenuState` | Input poll + menu state |
 | `0x4AD620` | `presentation::BattleUI_EnqueueCommand` | Enqueue UI command event |
+| `0x4ADDB0` | `presentation::BattleDrawMenu_StateMachine` | Draw-specific menu; calls `PendingCmd_QueueOrStore`, not the ordinary pending writer |
+| `0x4BB610` | `domain::BattleCommandMenu_FlushPendingActions` | Flush staged ordinary menu commands through `BattlePendingAction_Write` |
 
 ## Presentation / Render
 
@@ -378,7 +380,7 @@ Master reference for all known function and global addresses in FF8 battle.
 | Address | Name | Type | Description |
 |---------|------|------|-------------|
 | `0x1D27B10` | `BATTLE_SLOT_DATA` | `FF8BattleSlotData_s[11]` | Actor slot array (stride 0xD0) |
-| `0x1D28D44` | `BATTLE_PENDING_ACTION_BUFFER` | `battle_pending_action_entry[3]` | Pending action entries |
+| `0x1D28D44` | `BATTLE_PENDING_ACTION_BUFFER` | `battle_pending_action_entry[3][3]` (`0x48` bytes) | Three slot-local blocks of three pending entries |
 | `0x1D288E8` | `BATTLE_EXEC_QUEUE_BYTES` | `uint8_t[]` | Exec queue byte lanes |
 | `0x1D288EE` | `BATTLE_EXEC_QUEUE_TARGET_MASKS` | `uint16_t[]` | Exec queue target masks |
 | `0x1D287DC` | `CURRENT_ENCOUNTER_DATA_SCENE_OUT` | `FF8SceneOut` | Active encounter data |

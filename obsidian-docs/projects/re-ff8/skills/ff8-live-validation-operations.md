@@ -20,7 +20,9 @@ sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g12-friendship-v1-final-live-2026-08-25.json
   - C:/Users/djden/.codex/sessions/2026/08/08/rollout-2026-08-08T17-52-00-019fe212-f36b-7f23-bcf2-0d7d8ecc9ac1.jsonl
-summary: Règles transversales des tests FF8 live : build x86, bootstrap, watches automatiques, preuves runtime, shutdown sûr et rollback exact.
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/live_session.py
+summary: Règles live FF8 : live_session.py pour G09/G13, bootstrap, verdicts runtime, barrière 0x70, retry BUSY unique, shutdown gated et rollback exact.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"
     type: implements
@@ -35,10 +37,16 @@ lifecycle: draft
 lifecycle_changed: "2026-07-22T18:35:00+02:00"
 tier: supporting
 created: 2026-07-22T18:35:00+02:00
-updated: 2026-08-25T14:27:37+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # FF8 Live Validation Operations
+
+`tools/live_session.py` is the scripted operator for G09 Attack live,
+G09 synthetic rehearsal, and G13 direct replacement. See
+[[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]].
+PowerShell `Invoke-IsoGroup` remains the historical injector name in older
+playbooks.
 
 Cette procédure s’applique à **tout** batch qui touche un processus
 `FF8_EN.exe` live : P0.7, G06 et les groupes futurs. Les détails historiques
@@ -202,6 +210,14 @@ une restauration partielle impose l'arrêt. La campagne Friendship a suivi cette
 procédure et produit ensuite un `PASS` / `Detached` avec les cinq préimages
 restaurées.
 
+Depuis 2026-09-09 le shutdown kernel ferme d'abord l'admission des hooks
+(detour transaction), attend jusqu'à cinq secondes que les callbacks déjà
+admis sortent pendant que le mutex runtime est relâché, restaure les plages
+possédées, puis retire les hooks. PID 28716 (`restore_flags=0x17f`,
+`active_callbacks=2`) est la preuve négative de l'ancienne course. PID 14028
+ensuite `Detached` / `0x1ff` sur le premier shutdown. Détail :
+[[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]].
+
 Ne jamais reconstruire par-dessus un DLL encore chargé. Si `LNK1168` survient,
 fermer FF8, reconstruire et recommencer avec le nouveau hash candidat.
 
@@ -214,3 +230,5 @@ fermer FF8, reconstruire et recommencer avec le nouveau hash candidat.
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation]]
+- [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]]
+- [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]

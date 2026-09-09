@@ -33,13 +33,14 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
-summary: G07–G10 core; Magic/Item offline-complete; G11–G13 live-promoted. Draw pending 0x06 is a runtime byte; Cast does not consume stock.
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
+summary: G07–G13 command core. Pending buffer is 9×8 bytes. NativeMenu Write RVAs differ from Auto and from Draw QueueOrStore.
 provenance:
   extracted: 0.93
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T19:50:00+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # Command Action Pipeline
@@ -49,20 +50,22 @@ The command path is Input or AI -> PendingAction -> ExecQueue -> Arbitration -> 
 ## Pipeline Stages
 
 - `BattleUI_InputPollAndMenuState` polls input and menu state; on target confirmation, the menu calls `BattlePendingAction_Write`.
-- `BattlePendingAction_Write` writes one 8-byte entry into the relevant slot-local pending triplet.
+- `BattlePendingAction_Write` writes one 8-byte entry into the relevant slot-local pending block (three entries per actor block).
 - `BattlePendingAction_TransferToExecQueue` copies active pending records into grouped exec cells, then clears the pending `active` byte.
 - `BattleArbitration_SelectNextAction` scans queue groups in order and stages one action into transient globals.
 - `BattleAction_ResolveSpecialActionAndUpdateDamage` enters [[projects/re-ff8/concepts/damage-status-pipeline]] and writes damage or presentation events.
 
 ## Pending And Exec Storage
 
-The active loop touches three pending blocks:
+`BATTLE_PENDING_ACTION_BUFFER` / `g_BattlePendingActionSlot0` at
+`0x1D28D44` is **9 entries × 8 bytes = 72 (`0x48`)**: three slot-local
+blocks of three entries at `0x1D28D44`, `0x1D28D5C`, and `0x1D28D74`.
+The older “three pending entries” or “three 8-byte records for the whole
+buffer” labels are wrong. The 2026-09-09 IDB types the symbol
+`battle_pending_action_entry[9]`. ISO canary and G07 allowlist cover the
+full `0x48`.
 
-- `0x1D28D44`
-- `0x1D28D5C`
-- `0x1D28D74`
-
-Each block is `24` bytes and contains three 8-byte pending entries. On the exec side, actions land in:
+On the exec side, actions land in:
 
 - `3` queue groups,
 - `11` linked cells per group,
@@ -71,6 +74,32 @@ Each block is `24` bytes and contains three 8-byte pending entries. On the exec 
 - `3` target-mask words per subrecord.
 
 `BATTLE_EXEC_QUEUE_BYTES` and `BATTLE_EXEC_QUEUE_TARGET_MASKS` are only aliases into the first exec cell, not the whole queue.
+
+## NativeMenu vs Auto vs Draw writers (2026-09-09)
+
+`domain::BattlePendingAction_Write` (`0x484D20`) classifies callers from
+`_ReturnAddress()`. ISO `kPendingWriteMenuCallerRvas` is NativeMenu only:
+
+| Call VA | Return VA | Return RVA | Path |
+| --- | --- | --- | --- |
+| `0x4BB5DC` | `0x4BB5E1` | `0xBB5E1` | NativeMenu (orphan call site) |
+| `0x4BB63E` | `0x4BB643` | `0xBB643` | `BattleCommandMenu_FlushPendingActions` |
+| `0x4BB69F` | `0x4BB6A4` | `0xBB6A4` | NativeMenu (orphan call site) |
+| `0x4BC492` | `0x4BC497` | `0xBC497` | `BattleCommandMenu_MainState` |
+
+Live automation PID 42920 hit return RVA `0xBB643` with
+`pending_provenance=2`. `Battle_ProcessAutoCommand` writes through
+`0x483EE5` / return `0x483EEA` (`0x83EEA`): NativeAuto, **not** in the
+menu set. G11/G12 refuse capture if that Auto site writes.
+
+Draw does **not** call `0x484D20`. `BattleDrawMenu_StateMachine`
+(`0x4ADDB0`) queues via `PendingCmd_QueueOrStore` (`0x484FD0`) at
+`0x4AF05F` (return `0xAF064`). See the Draw pending writer section.
+
+Runtime provenance observed live: `2` = NativeMenu, `1` = synthetic
+rehearsal (`caller_rva=0`). Do not treat a synthetic rehearsal envelope
+as a G09 re-promotion
+([[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]).
 
 ## Shared Target Contract
 
@@ -296,6 +325,8 @@ Native section-5–8 specials historically go through `SetupCommand`. G17 treats
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 - [[projects/re-ff8/skills/battle-re-verification]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
+- [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]
+- [[projects/re-ff8/references/battle-address-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]

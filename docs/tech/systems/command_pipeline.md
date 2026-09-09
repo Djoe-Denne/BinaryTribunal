@@ -4,9 +4,28 @@ Full path: Input → PendingAction → ExecQueue → Resolve.
 
 ## Stage 1: Input / Command Builder
 
-`BattleUI_InputPollAndMenuState` (`0x4A8772`) polls UI input. On command confirmation, the menu state machine (`sub_4ADDB0`) calls `BattlePendingAction_Write` (`0x484D20`) to write a pending action record into `BATTLE_PENDING_ACTION_BUFFER` at `0x1D28D44`.
+`BattleUI_InputPollAndMenuState` (`0x4A8772`) polls UI input. Ordinary
+Attack/Magic/Item/Limit selections are staged in
+`BATTLE_MENU_PENDING_CMD_BUFFER`, then menu flush paths call
+`BattlePendingAction_Write` (`0x484D20`) to publish records into
+`BATTLE_PENDING_ACTION_BUFFER` at `0x1D28D44`.
 
 The write happens on **target confirmation**, not on command highlight.
+
+Static xrefs in the supported `FF8_EN.exe` (image base `0x400000`) identify
+five calls:
+
+| Caller | Call VA | Return RVA | Classification |
+|--------|---------|------------|----------------|
+| `Battle_ProcessAutoCommand` (`0x483EB0`) | `0x483EE5` | `0x00083EEA` | Native auto-command; not menu provenance |
+| Unnamed dense-prefix menu flush (`0x4BB5A0`) | `0x4BB5DC` | `0x000BB5E1` | Native menu |
+| `BattleCommandMenu_FlushPendingActions` (`0x4BB610`) | `0x4BB63E` | `0x000BB643` | Native menu |
+| Unnamed replacement menu flush (`0x4BB670`) | `0x4BB69F` | `0x000BB6A4` | Native menu |
+| `BattleCommandMenu_MainState` (`0x4BB9E0`, case 12) | `0x4BC492` | `0x000BC497` | Native menu |
+
+`sub_4ADDB0` is the Draw menu state machine. It calls
+`PendingCmd_QueueOrStore` (`0x484FD0`) at `0x4AF05F` (return RVA
+`0x000AF064`), not `BattlePendingAction_Write`.
 
 For the command menu builder internals, see `systems/command_menu.md`.
 

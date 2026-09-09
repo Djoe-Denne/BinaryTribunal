@@ -84,7 +84,8 @@ class FF8BattleState:
     ENEMY_SLOT_START    = 3
     ENEMY_SLOT_END      = 7  # exclusive; enemy slots are typically 3..6
 
-    # Pending action buffer: battle_pending_action_entry[3], stride 0x08
+    # This debugger helper samples the first slot-local block (3 entries).
+    # Native storage is 3 blocks x 3 entries = 9 entries / 0x48 bytes total.
     PENDING_BASE        = 0x1D28D44
     PENDING_STRIDE      = 0x08
     PENDING_COUNT       = 3

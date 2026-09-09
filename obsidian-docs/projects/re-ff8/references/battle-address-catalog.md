@@ -7,13 +7,14 @@ sources:
   - docs/tech/reference/address_catalog.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/address-map/ff8_en_064d466b5fe2ba90/abi-ledger.yaml
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-summary: Compact address reference for core battle loop, damage/status, AI, encounters, presentation, GF, and global memory anchors.
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
+summary: Compact address reference for battle loop, pending 9×8 buffer, NativeMenu Write RVAs, Draw QueueOrStore, damage/status, AI, and globals.
 provenance:
   extracted: 0.97
   inferred: 0.03
   ambiguous: 0.0
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-24T23:20:43+02:00
+updated: 2026-09-09T19:50:00+02:00
 ---
 
 # Battle Address Catalog
@@ -31,7 +32,8 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 - `0x4A2690` — `main::BattleRewardMenu_MainLoop`, post-victory reward frame callback reached after `FFBattleExitSystem`.
 - `0x4842B0` — `domain::BattleATB_TickAndReady`, ATB accumulation and readiness.
 - `0x4847F0` — `domain::BattlePendingAction_TransferToExecQueue`, pending-to-exec transfer.
-- `0x484D20` — `domain::BattlePendingAction_Write`, pending action record write.
+- `0x484D20` — `domain::BattlePendingAction_Write`, pending action record write. NativeMenu return RVAs: `0xBB5E1`, `0xBB643` (`BattleCommandMenu_FlushPendingActions`, live PID 42920), `0xBB6A4`, `0xBC497`. AutoCommand return `0x483EEA` is **not** NativeMenu.
+- `0x484FD0` — `domain::PendingCmd_QueueOrStore`. Draw Cast/Stock writer; live return RVA `0xAF064` (`0x4AF05F` call from `BattleDrawMenu_StateMachine` `0x4ADDB0`). Does not call `0x484D20`.
 - `0x485160` — `domain::BattleAction_ResolveSpecialActionAndUpdateDamage`, action resolve bridge.
 - `0x485460` — `domain::BattleArbitration_SelectNextAction`, exec queue arbitration.
 
@@ -99,7 +101,7 @@ Consumer contracts: [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]
 - `0x1D27B00` — `BATTLE_ACTION_EXECUTION_ACTIVE`, 32-bit action lock; nonzero freezes native ATB and GF charge.
 - `0x1D28DE9` — `IS_BATTLE_PAUSED`, native pause gate.
 - `0x1D28DEB` — `BATTLE_ATB_PROGRESSION_ACTIVE`, one-byte admitted-progression marker; formerly mislabeled `BATTLE_ACTION_TAKING_PLACE`.
-- `0x1D28D44` — `BATTLE_PENDING_ACTION_BUFFER`.
+- `0x1D28D44` — `BATTLE_PENDING_ACTION_BUFFER` / `g_BattlePendingActionSlot0`, **9 × 8 = 72 (`0x48`)** entries; blocks at `+0`, `+0x18`, `+0x30`. IDA type `battle_pending_action_entry[9]` (2026-09-09).
 - `0x1D288E8` — `BATTLE_EXEC_QUEUE_BYTES`.
 - `0x1D288EE` — `BATTLE_EXEC_QUEUE_TARGET_MASKS`.
 - `0x1CFF014` — `F_CHAR_ACTIVE_SUMMON_CHARGE_TIMER`, three sparse 16-bit party GF timers at stride `0x1D0`.
@@ -124,4 +126,5 @@ Consumer contracts: [[projects/re-ff8/concepts/ff8-wicked-bridge-semantic-model]
 - [[projects/re-ff8/concepts/atb-and-command-menu]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
+- [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]

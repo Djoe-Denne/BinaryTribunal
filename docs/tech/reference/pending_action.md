@@ -2,7 +2,10 @@
 
 ## `battle_pending_action_entry` (size 0x08)
 
-Buffer base: `BATTLE_PENDING_ACTION_BUFFER` at `0x1D28D44`. Three entries, stride 0x08.
+Buffer base: `BATTLE_PENDING_ACTION_BUFFER` at `0x1D28D44`. The native
+footprint is three slot-local blocks of three entries each: **9 entries,
+72 bytes (`0x48`) total**, stride `0x08`. The active battle tick transfers
+blocks beginning at `0x1D28D44`, `0x1D28D5C`, and `0x1D28D74`.
 
 | Offset | Size | Field | Description |
 |--------|------|-------|-------------|
@@ -17,6 +20,19 @@ Buffer base: `BATTLE_PENDING_ACTION_BUFFER` at `0x1D28D44`. Three entries, strid
 ## Write API
 
 `domain::BattlePendingAction_Write` at `0x484D20` writes a pending action record. Parameters: `(entry_index, attacker_slot, command_id, command_arg, target_mask)`.
+
+Static caller classification for the supported image:
+
+| Return RVA | Provenance | Path |
+|------------|------------|------|
+| `0x00083EEA` | Native auto-command | `Battle_ProcessAutoCommand` |
+| `0x000BB5E1` | Native menu | unnamed dense-prefix menu flush |
+| `0x000BB643` | Native menu | `BattleCommandMenu_FlushPendingActions` |
+| `0x000BB6A4` | Native menu | unnamed replacement menu flush |
+| `0x000BC497` | Native menu | `BattleCommandMenu_MainState`, case 12 |
+
+Draw uses the sibling `PendingCmd_QueueOrStore` writer and therefore does not
+appear in this table.
 
 ## Injection Protocol (IDA MCP)
 
