@@ -16,7 +16,7 @@ provenance:
   inferred: 0.13
   ambiguous: 0.02
 created: 2026-09-11T21:45:00+02:00
-updated: 2026-09-11T21:45:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Static Reverse Triplet Protocol
@@ -88,13 +88,13 @@ E3c precedent: resolver table **170 ACCEPT / 38 KEEP / 4 PARENT_CHECK** plus
 - Hex-Rays lies (`0x507080` hides `sub ebx,0x1000`; `0x50633D` has constant
   `ecx=0x8000`; false rel32 clones on wrappers): always confirm at `disasm`.
 - `lookup_funcs` sometimes echoes the address or fails without namespace
-  (`main::FFBattleModule`, `domain::BattleAction_GetText`): query by VA.
+  (`main::FFBattleModule`, `domain::BattleAction_BuildPayload`): query by VA.
 - `xrefs_to` misses LEAs; `find_bytes` has false negatives.
 - Rename batches can partially succeed: handle errors one by one, check
   collisions first (`lookup_funcs`).
 - Ledger indegree = BFS `direct_call|tail` sites (≠ IDA `XrefsTo` ≠ unique
   callers). Clone shape = CFG/mnemonics, never raw bytes (relocation-aware
-  hash). `0x48D200` stays `domain::BattleAction_GetText`.
+  hash). `0x48D200` is `domain::BattleAction_BuildPayload` (published alias GetText).
 
 ## Related
 

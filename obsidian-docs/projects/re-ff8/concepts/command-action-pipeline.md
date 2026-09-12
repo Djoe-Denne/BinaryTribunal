@@ -40,7 +40,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-09T19:50:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Command Action Pipeline
@@ -135,7 +135,7 @@ At resolve time, `COMMAND_TYPE_ID` can differ from the original menu `command_id
 
 `command_id` `0x02` is group-2 like Attack. Stock is **not** owned by the damage resolver:
 
-1. `BattleAction_GetText` (`0x48D200`) fails closed on missing battle-local id (party) or Silence (`status_1 & 0x10`), setting `BOOL_LAST_COMMAND_FAILED`.
+1. `BattleAction_BuildPayload` (`0x48D200`, published alias `BattleAction_GetText`) fails closed on missing battle-local id (party) or Silence (`status_1 & 0x10`), setting `BOOL_LAST_COMMAND_FAILED`.
 2. `EnemyAI_PrepareTurnAction` (`0x485610`) calls `BattleMagic_MutateStock` (`0x486A10`, remove) once per accepted Magic action unless Angel Wing. Dual/Triple extra launches share that consume; ability-bit names in Hex-Rays are unverified ([[projects/re-ff8/references/g11-g20-static-open-questions#SQ-G11-001]]).
 3. `Battle_CopyMagicStocksToSave` runs only from `Battle_CommitPartyHPAndMagicToSave` on cleanup paths — no persistent write mid-battle.
 
@@ -316,6 +316,12 @@ Dispatch sources (only three callers):
 
 Native section-5–8 specials historically go through `SetupCommand`. G17 treats 5–8 as synthetic routes and stages group 0 for engine specials; it does not invent a ninth `.dat` blob. Party Counter is live-promoted: [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
+## Draw and submenu state machines (ISO 2026-09-12)
+
+- `BattleDrawMenu_StateMachine` (`0x4ADDB0`, 1408 instr): 44 cases. Cast/Stock enqueue is `PendingCmd_QueueOrStore` (`0x484FD0`), never `BattlePendingAction_Write`. Draw case 6 keeps EAX entier; target mask `0xFF7F`.
+- `BattleSubmenu_StateMachine` (`0x4FDD90`, 1369 instr): states 0–26. Item state 15 is the reserved-qty flush described above.
+- Field Magie / Refine are **not** this pipeline: `MenuMagic_StateMachine` (`0x4F02F0`) and `MenuRefine_StateMachine` (`0x4D7410`). See [[projects/re-ff8/references/chunk-iso-function-catalog]].
+
 ## Related
 
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
@@ -327,6 +333,7 @@ Native section-5–8 specials historically go through `SetupCommand`. G17 treats
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/g09-automation-mvp-validation]]
 - [[projects/re-ff8/references/battle-address-catalog]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation]]
 - [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]]

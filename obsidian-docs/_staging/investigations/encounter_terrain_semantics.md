@@ -17,7 +17,7 @@ sources:
   - IDA: 0x542DBB Wmset_ParseSections
   - IDA: 0x553910 wm_GetRegionNumber
   - IDA: 0x54FDA0 sub_54FDA0
-  - IDA: 0x550070 sub_550070
+  - IDA: 0x550070 World_DispatchVehicleTerrainEffects (former sub_550070)
 provenance:
   method: static-ida
   runtime_validation: blocked
@@ -44,7 +44,7 @@ This staging note refines [[projects/re-ff8/concepts/encounter-to-battle-handoff
 - Therefore `27` and `28` are **hard world-map random-encounter suppressors**, not just low-rate terrains.
 - `27` and `28` are **not duplicates everywhere**:
   - in `sub_54FDA0`, terrain `28` halves a vehicle-only movement meter, while `27` doubles it together with terrain `8`;
-  - in `sub_550070`, both `27` and `28` suppress the generic vehicle dust/effect branch.
+  - in `World_DispatchVehicleTerrainEffects` (`0x550070`, former `sub_550070`), both `27` and `28` suppress the generic vehicle dust/effect branch.
 - The safest current wording is therefore:
   - `27` and `28` share the same *encounter* semantics,
   - but they are still distinct *surface* IDs outside encounter logic.
@@ -114,7 +114,7 @@ This staging note refines [[projects/re-ff8/concepts/encounter-to-battle-handoff
 - `sub_54FDA0` proves `27` and `28` split on a terrain-sensitive movement meter for vehicle IDs `32` or `34..40`:
   - `28` -> half gain,
   - `27` and `8` -> double gain.
-- `sub_550070` proves both `27` and `28` suppress the generic vehicle dust/effect branch for vehicle IDs `32..40/132`.
+- `World_DispatchVehicleTerrainEffects` (`0x550070`, former `sub_550070`) proves both `27` and `28` suppress the generic vehicle dust/effect branch for vehicle IDs `32..40/132`. Live name: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 - Together, these two helpers show that `27/28` are deliberate surface classes, not dead values or duplicate aliases.
 
 ## Merge Guidance

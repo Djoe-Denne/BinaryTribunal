@@ -31,12 +31,12 @@ This investigation resolves the main open question left in [[projects/re-ff8/con
 ## Confirmed Conclusions
 
 - `domain::BattleMagic_MutateStock` (`0x486A10`) is a battle-local stock writer over `F_CHAR_DATA`, not the shared authoritative writer for menu/junction/save stock.
-- Draw->Stock for normal magic (`magic_id < 0x40`) adds directly through `domain::BattleMagic_MutateStock(..., remove_flag = 0)` inside `domain::BattleAction_GetText`.
+- Draw->Stock for normal magic (`magic_id < 0x40`) adds directly through `domain::BattleMagic_MutateStock(..., remove_flag = 0)` inside `domain::BattleAction_BuildPayload` (`0x48D200`, published alias GetText).
 - Successful in-battle player Magic consumption removes stock through `domain::BattleMagic_MutateStock(..., remove_flag = 1)` inside `domain::EnemyAI_PrepareTurnAction`, after the action is accepted and resolved.
 - Enemy AI has a second battle-only removal path: `domain::EnemyAI_VM_ExecuteScript` arms `byte_1D28E11/12/13` for magic blow-away behavior, and `domain::BattleAction_ResolveAndApplyStatusResult` then loops `domain::BattleMagic_MutateStock(..., remove_flag = 1)` for the selected spell and quantity.
 - Out-of-battle durable stock mutation uses `SG_ARRAY_CHARA_DATA[].Magic`, not `F_CHAR_DATA`.
 - Field/script add flows use `Field_AddOneMagicToCharacterStock` (`0x47EE00`), including `SCRIPT_ADDMAGIC` and `SCRIPT_DRAWPOINT`.
-- Out-of-battle menu magic use decrements stock directly inside the large main menu state machine at `0x4F02F0`, then prunes zero slots and rebuilds derived junction state.
+- Out-of-battle menu magic use decrements stock directly inside `MenuMagic_StateMachine` (`0x4F02F0`, former `not_used_sub_4F02F0`), then prunes zero slots and rebuilds derived junction state.
 - Junction/edit flows have both helper-based writers (`MenuMagic_AddStockAndRefresh`, `MenuMagic_RemoveStockAndRefresh`) and direct slot rewrites in the large junction state machine plus `Junction_SwapMagicEntriesBetweenCharacters`.
 - Therefore `domain::BattleMagic_MutateStock` is only battle-local; the authoritative persistent writers are the `SG_ARRAY_CHARA_DATA[].Magic` mutation helpers and direct junction state-machine writes.
 
@@ -93,8 +93,8 @@ This investigation resolves the main open question left in [[projects/re-ff8/con
 | Scripted add magic | `SCRIPT_ADDMAGIC` | `Field_AddOneMagicToCharacterStock` | `SG_ARRAY_CHARA_DATA[].Magic` | Adds one unit per loop iteration; caps at `100`; creates a new slot when needed. |
 | Draw point / field draw source | `SCRIPT_DRAWPOINT` and `World_Interaction_Draw_SubQuest` | `Field_CanAddOneMagicToCharacterStock` + `Field_AddOneMagicToCharacterStock` | `SG_ARRAY_CHARA_DATA[].Magic` | Uses a precheck before the per-unit add loop. |
 | Out-of-battle Use Magic | `0x4F02F0` main menu state machine, case block around pseudocode lines `1244..1312` | direct `--SG_ARRAY_CHARA_DATA[].Magic[slot].amount` | `SG_ARRAY_CHARA_DATA[].Magic` | Applies the field effect first, then decrements by `1` only on success; clears `id` on zero and rebuilds derived state. |
-| Menu conversion/add | `0x4D7410` conversion/refine state machine | `MenuMagic_AddStockAndRefresh` | `SG_ARRAY_CHARA_DATA[].Magic` | Helper-based add path; exact front-end label depends on menu mode.^[ambiguous] |
-| Menu conversion/remove | `0x4D7410` conversion/refine state machine | `MenuMagic_RemoveStockAndRefresh` | `SG_ARRAY_CHARA_DATA[].Magic` | Helper-based remove path; zero clears junction refs automatically. Exact front-end label depends on menu mode.^[ambiguous] |
+| Menu conversion/add | `MenuRefine_StateMachine` (`0x4D7410`) | `MenuMagic_AddStockAndRefresh` | `SG_ARRAY_CHARA_DATA[].Magic` | Helper-based add path; exact front-end label depends on menu mode.^[ambiguous] |
+| Menu conversion/remove | `MenuRefine_StateMachine` (`0x4D7410`) | `MenuMagic_RemoveStockAndRefresh` | `SG_ARRAY_CHARA_DATA[].Magic` | Helper-based remove path; zero clears junction refs automatically. Exact front-end label depends on menu mode.^[ambiguous] |
 
 ### Junction / Exchange Durable Writers
 

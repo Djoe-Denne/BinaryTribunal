@@ -22,7 +22,7 @@ provenance:
   inferred: 0.06
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-31T15:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # ATB And Command Menu
@@ -154,6 +154,10 @@ Angel Wing is special because it shares the ATB auto-ready gate with Confuse, bu
 ## Escape Input
 
 Escape lives beside the HUD and ATB path, not inside the normal command queue. The battle UI maintains a held-input latch and hold-frame counter that feed the flee roll system documented in [[projects/re-ff8/concepts/escape-mechanics]].
+
+## HUD submenu and Draw machines (ISO 2026-09-12)
+
+Battle HUD command extras are not ATB: `BattleSubmenu_StateMachine` (`0x4FDD90`, states 0–26) and `BattleDrawMenu_StateMachine` (`0x4ADDB0`, 44 cases). Field Magie / Refine (`MenuMagic_StateMachine` `0x4F02F0`, `MenuRefine_StateMachine` `0x4D7410`) are out of the battle loop. Catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 
 ## Related
 

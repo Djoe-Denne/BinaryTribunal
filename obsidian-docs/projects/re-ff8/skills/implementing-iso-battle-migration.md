@@ -49,7 +49,7 @@ provenance:
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -649,7 +649,7 @@ The observed process also loaded D3D9-related modules, which may be a compatibil
 
 ### 14.3 Geometry and render-state recovery
 
-`RenderGeometry` (`0x5099D0`) is a decoded boundary, not a ready-made public API. It iterates enabled mesh segments, invokes `ParseVertices` (`0x50F900`) and `ParsePolygons` (`0x50FDF0`), and mutates a parser/render context. Reconstruct:
+`RenderGeometry` (`0x5099D0`) is a decoded boundary, not a ready-made public API. It iterates enabled mesh segments, invokes `ParseVertices` (`0x50F900`) and `ParsePolygons` (`0x50FDF0`), and mutates a parser/render context. The GF/magic brother `ParsePolygons_GfMagic` (`0x5106E0`) is not called from here. Live names and ISO listings: [[projects/re-ff8/references/chunk-iso-function-catalog]]. Reconstruct:
 
 - each input pointer, segment table, enabled mask, and count;
 - parser context field layout, cursor ownership, vertex format, polygon format, primitive topology, and alignment;

@@ -11,12 +11,12 @@ provenance:
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-06-14T15:00:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Enemy AI VM — Opcode / Subject / Target Reference
 
-Canonical opcode reference for a faithful (ISO) reimplementation of FF8 enemy behaviour. Recovered statically from the IDB on 2026-06-14; the interpreter is `EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 61-case dispatch at `0x487EDC`). Companion to the narrative page [[projects/re-ff8/concepts/enemy-ai-vm]] and to [[projects/re-ff8/references/battle-loop-iso-readiness]] (item A5). G15 unit crosswalk: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
+Canonical opcode reference for a faithful (ISO) reimplementation of FF8 enemy behaviour. Recovered statically from the IDB on 2026-06-14; the interpreter is `EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 2447 instr ISO 2026-09-12, 61-case dispatch at `0x487EDC`, `__cdecl` 4 args). Companion to the narrative page [[projects/re-ff8/concepts/enemy-ai-vm]], the chunk catalog [[projects/re-ff8/references/chunk-iso-function-catalog]], and [[projects/re-ff8/references/battle-loop-iso-readiness]] (item A5). G15 unit crosswalk: [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
 
 ## Interpreter model
 
@@ -32,7 +32,7 @@ loop parseNextOpcode:                                     # label 0x487EBA = als
   switch(op): ... (see table)                             # operands read inline via byte_ptr++
 commit (LABEL_375):                                       # reached by EXECUTE/USE opcodes
   store target_mask into slot; fold default-target mask from K_MAGIC/K_ITEM/K_ENEMY_ATTACK
-  BattleAction_GetText(...); BattleAction_ResolveTargetAndHitCount(mask)
+  BattleAction_BuildPayload(...); /* alias GetText */ BattleAction_ResolveTargetAndHitCount(mask)
   if BOOL_TARGET_CHOOSEN: return                          # action committed -> VM stops
   else: SetPhaseFlag 5/6; AdvanceExecQueueSlot; (Odin/Gilgamesh follow-up if BACK_PREEMTIVE_INFO_3);
         EnemyAI_SyncAIVarsToSlot(slot); goto parseNextOpcode
@@ -187,7 +187,7 @@ What the VM can observe and mutate (the determinism surface for ISO):
 - AI memory: local vars (`0x0E/0x12`), global vars (`0x0F/0x13`), item slots (`0x11/0x15`).
 - Battle globals: escape flag `ENCOUTER_BATTLE_FLAG` (`0x17`), `AI_PREPARE_SUMMON_FLAG` (`0x1B/0x32`), `BATTLE_SCRIPTED_END_PENDING` (`0x39`), `SG_ODIN_ANGEL_GILGA_FLAG` (`0x36`).
 - Rewards: GF queue `POST_BATTLE_GF_ID_QUEUE` (`0x31`), card `BATTLE_CARD_DROP` (`0x37`), item drop `ITEM_RELATED` (`0x38`), Proof of Omega (`0x3D`).
-- Action emission: `command_type`/`section`/`target_mask`/`scratch` → `BattleAction_GetText` + `BattleAction_ResolveTargetAndHitCount` at commit.
+- Action emission: `command_type`/`section`/`target_mask`/`scratch` → `BattleAction_BuildPayload` (alias GetText) + `BattleAction_ResolveTargetAndHitCount` at commit.
 
 ## Helper functions
 

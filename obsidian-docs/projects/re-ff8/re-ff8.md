@@ -12,7 +12,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-11T21:45:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # RE FF8
@@ -80,6 +80,7 @@ The wiki separates two layers:
 - [[projects/re-ff8/references/battle-iso-migration-milestones]] — Operational implementation roadmap with 32 gated groups and 240 small testable units.
 - [[projects/re-ff8/references/battle-formulas]] — Exact ISO arithmetic: damage/heal/hit/crit/status formulas, HP-commit stage, and initial-state derivation (party junction stats, enemy HP/rank/stat scaling, scripted-summon rolls).
 - [[projects/re-ff8/references/enemy-ai-opcodes]] — Full 61-opcode enemy-AI VM table + IF subject-selector table + target codes + AI state inventory.
+- [[projects/re-ff8/references/chunk-iso-function-catalog]] — Fourteen chunk-C ISO decompiles: live IDA names, aliases (GetText→BuildPayload), callers, and L3 exclusions.
 
 ## External Battle Renderer (Wicked)
 

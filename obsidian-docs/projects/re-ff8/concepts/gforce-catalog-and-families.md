@@ -27,7 +27,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-11T19:10:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # G-Force Catalog And Families
@@ -59,7 +59,7 @@ Retired: entry-level "FamilyA multi-task" (Pandemona was a wrapper; Shiva/Doomtr
 Support or status GFs should be validated by durable status deltas on the correct side of battle state, not by enemy HP loss:
 
 - Cerberus -> ally `Double` and `Triple`
-- Carbuncle -> ally `Reflect`
+- Carbuncle -> ally `Reflect`. Runtime tick: `GF_277Carbuncle_SequenceTaskDriver` (`0x681630`). DispatchTick cmd_arg 70 still Generic.
 - Siren -> enemy `Silence`
 - Doomtrain -> enemy debuff payload, full bitmask now runtime-confirmed (see below)
 
@@ -99,6 +99,7 @@ The executable YAML matrix under `ff8re/tests/tier3_inject` still covers the jun
 ## Related
 
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]
 - [[projects/re-ff8/references/gf-asset-loading-and-authoring]]
 - [[projects/re-ff8/references/gf-runtime-test-matrix]]
 - [[projects/re-ff8/references/gf-batch-discovery-tool]]

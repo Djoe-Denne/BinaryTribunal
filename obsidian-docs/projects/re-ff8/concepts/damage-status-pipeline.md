@@ -30,7 +30,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-10T14:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Damage And Status Pipeline
@@ -42,7 +42,7 @@ Damage resolution still has three broad stages: load metadata, compute raw delta
 
 ## Damage Stages
 
-- `BattleAction_ResolveAndApplyDamage` loads command-family metadata into globals such as `HIT_ELEMENT`, `HIT_ATTACK_ENABLER`, `HIT_STATUS_1`, `HIT_STATUS_2`, `HIT_ATTACK_HITPERCENT`, and `ATTACK_FLAG`. Magic/Draw/Slot/`247` read those fields from `K_MAGIC[action_id]` except `HIT_ATTACK_HITPERCENT`, which stays `0xFF`. Item cmd `{4,13}` **does** load `HIT_ATTACK_HITPERCENT` from `K_ITEM.attackParam`. See [[projects/re-ff8/references/g11-g20-static-readiness-ledger]].
+- `BattleAction_ResolveAndApplyDamage` (`0x48FE20`, 1308 instr, ISO 2026-09-12) loads command-family metadata into globals such as `HIT_ELEMENT`, `HIT_ATTACK_ENABLER`, `HIT_STATUS_1`, `HIT_STATUS_2`, `HIT_ATTACK_HITPERCENT`, and `ATTACK_FLAG`. Magic/Draw/Slot/`247` read those fields from `K_MAGIC[action_id]` except `HIT_ATTACK_HITPERCENT`, which stays `0xFF`. Item cmd `{4,13}` **does** load `HIT_ATTACK_HITPERCENT` from `K_ITEM.attackParam`. See [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] and [[projects/re-ff8/references/chunk-iso-function-catalog]].
 - `Damage_ComputeRawDeltaFromAttackType` dispatches to physical-like, magic or GF, curative, revive, and fixed or special branches.
 - late modifiers and capping happen back in `BattleAction_ResolveAndApplyDamage`, not inside every family helper.
 - `Battle_ApplyDamageOrHeal` commits already-computed magnitudes and performs HP or KO or drain or summon-charge side effects. G09/G10 must not call it: the replacement ports HP/KO/crisis/mirrors and applies the owned status allowlist itself. Drain, Cover, Poison periodic HP and G17 stay fail-closed. ^[inferred]
@@ -157,6 +157,7 @@ The richer reaction/turn dispatch — counter (section 2: player Counter / auto-
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation]]
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation]]
 
 ## Open Questions

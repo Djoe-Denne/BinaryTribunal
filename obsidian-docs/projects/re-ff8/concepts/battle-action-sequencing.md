@@ -14,19 +14,19 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-11T18:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Battle Action Sequencing
 
 Presentation sequencing for one resolved action. Domain resolution commits first (`0x48FE20` → `0x494410`); task opcode `'h'` (`0x68`) then carries a 20-byte payload from `0x1D280C4` (stride 20) into `BattleActionSequence_DispatchTick` (`0x50A790`), which latches it via `BattleActionSequence_PreparePayloadContext` (`0x50BF90`) and **registers** (never directly calls) one of eleven `Tick_*` workers through `au_re_BdLinkTask`. `BdLinkTask_Pump` (`0x508420`) runs `node+8` and unlinks on return bit 2.
 
-## Payload Layout (GetText-built)
+## Payload Layout (BuildPayload / GetText alias)
 
 | Off | Field | Role |
 | --- | --- | --- |
 | `+0` u8 | attacker slot | `0x1D972C0 + 0x9C*slot` |
-| `+1` u8 | route byte | **sole** DispatchTick selector; a GetText snapshot, not the pending command id nor live `COMMAND_TYPE_ID` (`0x1D27AD9`) |
+| `+1` u8 | route byte | **sole** DispatchTick selector; a `BattleAction_BuildPayload` snapshot (wiki alias GetText), not the pending command id nor live `COMMAND_TYPE_ID` (`0x1D27AD9`) |
 | `+2` u8 | anim id | `0x505C00`; forced `0x0B` on the 15/70 path |
 | `+3` u8 | camera byte | explicit camera (bit `0x80`) for route `0x08` |
 | `+4` u16 | cmd_arg | `0xFFFF` / 15 / 70 / Gilgamesh 7–10 |
@@ -38,7 +38,7 @@ Presentation sequencing for one resolved action. Domain resolution commits first
 
 Event records stride `0x18`: slot, reaction, flags (`0x04` visibility, `0x40` death, `0x10/0x20/0x30` BdLink reaction), status1/`+6` popup amount/status2, paired slot at `+0xC` (`0xFF` = none).
 
-Production (`GetText @ 0x48D200`, 1280 insns): anim switch-1 (party table / `0xEC–0xFE` remap / caller-passed) + command switch-2 (29 handlers, Attack cmd 1 → default) with rewrites (item→`0xF4`, fail→`0`); LABEL_182 `@ 0x48E34B` freezes `payload[+1]==COMMAND_TYPE_ID` plus `+0/+2/+3/+4/+6/+8/+0xC` from 12 call sites; `+0x10/+0x11` come from Resolve/PrepareTurn, never GetText; cmd 3 (GF charge) returns 1 with no snapshot; capacity 32 slots, no observed bound.
+Production (`BattleAction_BuildPayload` @ `0x48D200`, published alias GetText, 1280 insns, ISO 2026-09-12): anim switch-1 (party table / `0xEC–0xFE` remap / caller-passed) + command switch-2 (29 handlers, Attack cmd 1 → default) with rewrites (item→`0xF4`, fail→`0`); LABEL_182 `@ 0x48E34B` freezes `payload[+1]==COMMAND_TYPE_ID` plus `+0/+2/+3/+4/+6/+8/+0xC` from 12 call sites; `+0x10/+0x11` come from Resolve/PrepareTurn, never BuildPayload; cmd 3 (GF charge) returns 1 with no snapshot; capacity 32 slots, no observed bound. Catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 
 ## Dispatch Routes (`payload[1]`)
 
@@ -78,3 +78,4 @@ Opcodes `<0x80` of `BattleEffectScript_Interpreter` share one handler: clip=opco
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]]
 - [[projects/re-ff8/references/battle-address-catalog]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]

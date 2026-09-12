@@ -10,18 +10,18 @@ sources:
   - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
-summary: Compact address reference for the battle loop, action buffers, damage/status, AI, globals, and E3c mechanical hubs.
+summary: Compact address reference for the battle loop, action buffers, damage/status, AI, globals, E3c mechanical hubs, and the 2026-09-12 chunk-ISO names.
 provenance:
   extracted: 0.97
   inferred: 0.03
   ambiguous: 0.0
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-11T21:09:26+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Battle Address Catalog
 
-This is a compact lookup distilled from the raw address catalog. Use the source document for the full table.
+This is a compact lookup distilled from the raw address catalog. Use the source document for the full table. Live names and ISO status for the fourteen chunk-C decompiles: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 
 ## Core Battle Loop
 
@@ -36,6 +36,8 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 - `0x4847F0` — `domain::BattlePendingAction_TransferToExecQueue`, pending-to-exec transfer.
 - `0x484D20` — `domain::BattlePendingAction_Write`, pending action record write. NativeMenu return RVAs: `0xBB5E1`, `0xBB643` (`BattleCommandMenu_FlushPendingActions`, live PID 42920), `0xBB6A4`, `0xBC497`. AutoCommand return `0x483EEA` is **not** NativeMenu.
 - `0x484FD0` — `domain::PendingCmd_QueueOrStore`. Draw Cast/Stock writer; live return RVA `0xAF064` (`0x4AF05F` call from `BattleDrawMenu_StateMachine` `0x4ADDB0`). Does not call `0x484D20`.
+- `0x4ADDB0` — `BattleDrawMenu_StateMachine` (44 cases, ISO 2026-09-12; unique QueueOrStore caller).
+- `0x4FDD90` — `BattleSubmenu_StateMachine` (states 0–26).
 - `0x485160` — `domain::BattleAction_ResolveSpecialActionAndUpdateDamage`, action resolve bridge.
 - `0x485460` — `domain::BattleArbitration_SelectNextAction`, exec queue arbitration.
 
@@ -51,7 +53,7 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 
 ## Enemy AI
 
-- `0x487DF0` — `domain::EnemyAI_VM_ExecuteScript`.
+- `0x487DF0` — `domain::EnemyAI_VM_ExecuteScript` (`unsigned __int8 __cdecl`, 4 args, 2447 instr, ISO 2026-09-12; Hex-Rays `__usercall @<ebp>` is a lie).
 - `0x4877F0` — `domain::EnemyAI_DispatchSection`.
 - `0x485610` — `domain::EnemyAI_PrepareTurnAction`.
 - `0x48A204` — `AI_CONDITION_TEST_TYPE_MAP`.
@@ -60,6 +62,7 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 
 - `0x47CA90` — `Field_Encounter_RollAndSelectScene`.
 - `0x541C80` — `WM_Encounter_RollAndSelectScene`.
+- `0x550070` — `World_DispatchVehicleTerrainEffects` (world-map vehicle/terrain FX; former `sub_550070`; not battle loop).
 - `0x523294` — `SCRIPT_BATTLE`.
 - `0x48D0E0` — `domain::ReadSceneOutForEncounter`.
 - `0x48B7E0` — `domain::ParseBattleParty`.
@@ -76,7 +79,8 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 - `0x50BD00` / `0x50BD80` — Physical no-events / with-events (by group count; latter applies via `0x50A670`).
 - `0x50B0C0` / `0x50B190` / `0x50BB00` / `0x50BC20` / `0x50BDC0` / `0x50BEE0` — F7 / DefaultOrFC / ParamBZero / ParamAFFFF / F1 / EDEE (F7·F1·EDEE reuse sticky C4).
 - `0x50AF20` — `BattleGF_LoadCallbackByMagicID` (`Magic_GetIDLoad`: five callers; Generic/DefaultOrFC/GF/Special→C4, AFFFF→C0).
-- `0x48D200` — `domain::BattleAction_GetText` (builds the 20 o payload; LABEL_182 freezes `+1==CTI`; cmd 3 returns 1 without snapshot).
+- `0x48D200` — `domain::BattleAction_BuildPayload` (published alias `BattleAction_GetText`; 20-byte payload; LABEL_182 freezes `+1==CTI`; cmd 3 returns 1 without snapshot).
+- `0x681630` — `GF_277Carbuncle_SequenceTaskDriver` (Carbuncle BdLink tick; cmd_arg 70 still routes Generic).
 - `0x485F00` — `BattleEvent_EnqueueActionPresentation` (ex-misnomer; enqueues `h` task, advances nothing).
 - `0x509520` — `BattleAnimation_StartActorAndWeaponClip` (clip starter for opcodes `<0x80`).
 - `0x1D280C1` — `ACTION_EVENT_GROUP_INDEX` (ex-`ATTACK_HIT_COUNT_1`); `0xB8150C` — `g_GetText_PartyAnimByCommand`.
@@ -122,7 +126,11 @@ This is a compact lookup distilled from the raw address catalog. Use the source 
 - `0x4178D7` — `Gfx_WalkDrawList`.
 - `0x503520` — `BattleCamera_StartTrack` (2-node BdLink alloc, then 2-record scan).
 - `0x509930` — `BattleCamera_ReturnBlendTick` (aux 16×44 list; returns 0, then 2).
-- `0x50E510` — `BS_DispatchStageById` (163 stages → workers).
+- `0x50E510` — `BS_DispatchStageById` (163 stages → workers; unsigned 0..162).
+- `0x50FDF0` — `ParsePolygons` (FT3/FT4→OT; unique caller `RenderGeometry` `0x5099D0`).
+- `0x5106E0` — `ParsePolygons_GfMagic` (former `sub_5106E0`; MAG_234 FamilyB, not `RenderGeometry`).
+- `0x4F02F0` — `MenuMagic_StateMachine` (field Magie/Junction; former `not_used_sub_4F02F0`).
+- `0x4D7410` — `MenuRefine_StateMachine` (field Refine; GF persist stride 152).
 - `0x507080` — `BattleModel_DispatchLoaderByActorId` (bodies/Edea/monsters/weapons/Zell-Kiros).
 - `0x5073D0` — `BattleModel_AllocateResourceRecord` (`0x34` record alloc, 6 loader callers).
 - `0x507BF0` — `BattleModel_LoadPartyWeapon` (standard `D0W*` weapon; ex-`Battle_LoadWeaponry`).
@@ -249,6 +257,7 @@ Lot E3c covers all 212 NIS nodes in the indegree 5–19 band: **174 renamed/comm
 
 ## Related
 
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]
 - [[projects/re-ff8/concepts/battle-state-model]]
 - [[projects/re-ff8/concepts/battle-lifecycle]]
 - [[projects/re-ff8/concepts/atb-and-command-menu]]

@@ -41,7 +41,7 @@ provenance:
   inferred: 0.14
   ambiguous: 0.08
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-09-02T19:20:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # G11–G20 Static Readiness Ledger
@@ -93,7 +93,7 @@ Retroactive corrections this campaign:
 | `CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID` | `0x1D27AF4` | `uint16` action index into `K_MAGIC` |
 | `COMMAND_TYPE_ID` | resolver switch | Magic `2`, Draw `6`, Slot `16`, variant `247` share the Magic metadata load |
 | `F_CHARACTER_MAGIC_DATA` | `0x1CFF082` | battle-local stock, 32×5 bytes per party slot, actor stride `464` |
-| `BattleAction_GetText` | `0x48D200` | availability, Silence fail, `hitCount` / compat pointer |
+| `BattleAction_BuildPayload` (published alias `BattleAction_GetText`) | `0x48D200` | availability, Silence fail, `hitCount` / compat pointer |
 | `EnemyAI_PrepareTurnAction` | `0x485610` | Dual/Triple launch loop **and** Magic stock consume |
 | `BattleMagic_MutateStock` | `0x486A10` | add/remove battle-local qty |
 | `BattleAction_ResolveAndApplyDamage` | `0x48FE20` | kernel load + `Damage_ComputeRawDeltaFromAttackType` |
@@ -106,7 +106,7 @@ Retroactive corrections this campaign:
 | `Battle_CommitPartyHPAndMagicToSave` | `0x48B8B0` | HP + magic persist; callers `0x47DDA0`, `0x47DE70`, `0x47E120` (cleanup/victory paths) |
 | `Battle_BuildMagicJunctionList` | `0x4954B0` | cache `attackFlags&0x80`, drawable, `defaultTarget`, `unknown1` |
 
-Reduced call graph:
+Reduced call graph (`GetText` below is the published G11 name of `BattleAction_BuildPayload`):
 
 ```
 GetText(COMMAND_MAGIC)

@@ -27,7 +27,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.10
 created: 2026-08-18T10:15:00+02:00
-updated: 2026-09-02T19:20:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # G11–G20 Static Open Questions
@@ -195,7 +195,7 @@ Register for the static campaign. Do not delete resolved rows. Companion: [[proj
 - status: static-closed-with-cap
 - confidence: 0.84
 - affects: G13
-- claim: QueueOrStore KO stash (`status_1&1` and `command_id==4`) is Item refund, not Draw. Draw source death is decided in `BattleAction_GetText` (`0x48D200`) case `COMMAND_DRAW`, not that writer.
+- claim: QueueOrStore KO stash (`status_1&1` and `command_id==4`) is Item refund, not Draw. Draw source death is decided in `BattleAction_BuildPayload` (`0x48D200`, published alias `BattleAction_GetText`) case `COMMAND_DRAW`, not that writer.
 - evidence_for: `0x484FD0` special-cases only `a2==4`. GetText fails if source `status_1 & 1` or caster Silence `status_1 & 0x10`. Stock `MutateStock(add)` runs in the same GetText invocation after that check. Resolver case 6 (`0x48FE20`) scales Cast Magic or zeros Stock damage and does not re-test source death.
 - evidence_against: a mid-function patch between the GetText KO check and steal/stock commit is still injectable; presentation cancel after accept is G14, not a Draw domain gate.
 - missing_discriminator: none for the domain policy. Intra-function injection remains optional diagnostic.

@@ -13,7 +13,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-11T21:09:26+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -75,6 +75,12 @@ Lot E3b (2026-09-11): 38/44 NIS indeg 20–49 renames + 2 Widget refinements (`B
 
 Lot E3c (2026-09-11): all 212 NIS hubs in the indegree 5–19 band covered, with **174 renames/comments and 38 KEEP**. Render-adjacent names include `Gfx_SetPrimBlendMode`, `Gpu_PackOtTag1_DrawOffsetE5`, `Gpu_PackOtTag1_TexpageE1`, six AVSZ3 OT emitters, `Gte_MVMVA`, and corrected Q12 axes (`0x56D020` RotY, `0x56D090` RotZ, `0x6CF070` inverted-sign RotZ, `0x6F29D0` scaled RotY). DSound offsets were corrected to Lock `+0x2C`, SetVolume `+0x3C`, SetFrequency `+0x44`, Unlock `+0x4C`; `0x46A0A0` is Stop, not Play. Ledger SHA `4bfb1496…`, 7514 nodes, NIS **5392**; L2, Magic and C0M registries are untouched.
 
+## Mesh polygon parsers (ISO 2026-09-12)
+
+`RenderGeometry` (`0x5099D0`) iterates enabled mesh segments, then `ParseVertices` (`0x50F900`) and `ParsePolygons` (`0x50FDF0`, 634 instr, four FT3/FT4→OT passes). Signature `int __cdecl(void *ctx, void *ot_base, int ot_shift, void *packet)`. Hex-Rays `u16**` on the context is a lie.
+
+The GF/magic brother is `ParsePolygons_GfMagic` (`0x5106E0`, 743 instr, former `sub_5106E0`). Unique caller is `sub_A49EE0` @ `0xA4A00C` (MAG_234 FamilyB), **not** `RenderGeometry`. The NIS indegree-0 root `0x5106E0` in [[projects/re-ff8/references/battle-static-call-graph]] is this function. Catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
+
 ## HUD Slots And Swirl
 
 HUD registry `g_BattleUI_WidgetSlots` `0x1D76628`: nine `0x14` records. `BattleUI_RegisterWidgetSlot` (`0x4B9AD0`) writes `+00` update, `+08` draw, `+0xC` aux, `+10/+11/+12` state — **never `+04`**. Discriminant = slot index + `+0x10..+0x13` callbacks. 32 registrar calls use slots 1–8; slot 0 has no static producer. Slots 2 (17 calls) and 6 (9 calls, incl. GF Boost `0x56DD70` update / `0x56E130` draw) are multiplexed with NULL teardowns. Helpers: `BattleUI_SetWidget_11hFF_12_1` `0x4B9C00`, `BattleUI_ClampWidgetSlotsDown` `0x4B9C40`, `BattleUI_SetWidgetSlotFlags` `0x4B9B90`. `0x1D766F0` is a flags QWORD (overlap + bit `0x20`), **not** a tenth callback. Submenu BSS fnptrs (lot E1, not IAT): `0x1D768D0` (8 calls), `g_BattleSubmenu_CharaSlotPtr` `0x1D768D4` (ex-`CHARA_ID?`, writer `0x4C7D3F`), `0x1D768D8` (1 call).
@@ -87,3 +93,4 @@ Battle swirl (two machines sharing alloc/capture): entry = `FFBattleTransitionMo
 - [[projects/re-ff8/concepts/battle-lifecycle]]
 - [[projects/re-ff8/concepts/battle-camera-architecture]]
 - [[projects/re-ff8/references/battle-address-catalog]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]

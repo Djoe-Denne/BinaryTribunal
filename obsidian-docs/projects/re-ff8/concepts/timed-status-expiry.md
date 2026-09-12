@@ -15,7 +15,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-09T19:00:00+02:00
-updated: 2026-08-27T18:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Timed Status Expiry
@@ -98,7 +98,7 @@ The node then resolves through the standard forced-action path:
 ```text
 Battle_EnqueueSpecialAction (0x484720)
   -> BattleArbitration_SelectNextAction (0x485460)   // group-0 is exempt from the attacker-incapacitation skip
-    -> EnemyAI_PrepareTurnAction (0x485610) / BattleAction_GetText
+    -> EnemyAI_PrepareTurnAction (0x485610) / BattleAction_BuildPayload (alias GetText)
     -> BattleExecQueue_ConsumeCurrentSlot (0x4845A0)
     -> BattleAction_ResolveSpecialActionAndUpdateDamage (0x485160)
        -> BattleAction_ResolveAndApplyDamage -> Battle_UpdateDamage
@@ -117,6 +117,6 @@ Because the Doom node lives in group 0, a doomed unit that is asleep or stopped 
 ## Runtime-Pending
 
 - Confirm exact live timer durations from more `K_MISC` statuses than Slow 120.
-- Doom special action `5` enqueue→resolve chain is now static (see [Doom Enqueue Chain](#doom-enqueue-chain)); the only residual is the **byte-level terminal command** produced by `BattleAction_GetText` for type 5 — whether it sets the Death status bit directly or applies lethal HP through `Battle_ApplyDamageOrHeal`. Needs one live Doom-expiry trace.^[ambiguous]
+- Doom special action `5` enqueue→resolve chain is now static (see [Doom Enqueue Chain](#doom-enqueue-chain)); the only residual is the **byte-level terminal command** produced by `BattleAction_BuildPayload` (alias GetText, `0x48D200`) for type 5 — whether it sets the Death status bit directly or applies lethal HP through `Battle_ApplyDamageOrHeal`. Needs one live Doom-expiry trace.^[ambiguous]
 - Regen/Doom group-0 intents are offline-proven in G10; the Slow live payload did not enqueue them.
 - Status HUD icon refresh (list 117) is deferred U14.6 presentation, not a timer-domain gap. ^[ambiguous]

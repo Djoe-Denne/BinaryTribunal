@@ -23,7 +23,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-25T21:45:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Draw Magic And Render Bridge
@@ -36,7 +36,7 @@ Three identifier layers must stay separate. See [[projects/re-ff8/references/g11
 
 | Layer | Draw |
 | --- | --- |
-| Pending `command_id` | menu-row byte via `BattleDrawMenu_Open` → `PendingCmd_QueueOrStore` (live byte `0x06`, not a `core/` enum) |
+| Pending `command_id` | menu-row byte via `BattleDrawMenu_Open` → `PendingCmd_QueueOrStore` (live byte `0x06`, not a `core/` enum). The Cast/Stock UI is `BattleDrawMenu_StateMachine` (`0x4ADDB0`, 44 cases, ISO 2026-09-12). |
 | Resolver `COMMAND_TYPE_ID` | **6** |
 | `aux_5` / `aux_6` | 9 Cast / 10 Stock; source monster slot |
 
@@ -123,3 +123,4 @@ The PC build still presents through OpenGL or DirectDraw-side paths rather than 
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]]
 - [[projects/re-ff8/references/legacy-ff8-render-pass-d3d12]]
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]

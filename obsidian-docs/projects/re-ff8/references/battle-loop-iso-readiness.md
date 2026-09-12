@@ -24,7 +24,7 @@ provenance:
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-09-11T21:09:26+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -120,7 +120,7 @@ Not documented anywhere. The physical accuracy + evade + critical-hit math live 
 `BattleATB_TickAndReady` (`0x4842B0`) is called once **per HUD pulse** from `BattleUI_HudInputAndATBTick` (`0x4A84E0`) **only when `!IS_BATTLE_PAUSED`**. The battle pump emits four HUD calls (three pre-director, one post-director) per module frame; P0.8-A established that every unpaused call can mutate ATB while paused calls do not enter ATB progression. It iterates slots **ascending 0→N**; two passes (GF summon-charge timers `2/3/1` by Haste/Slow, then per-slot ATB with the documented formula + readiness routing); polls escape at tail. P0.8-D further proved that `BATTLE_ACTION_EXECUTION_ACTIVE` (`0x1D27B00`) freezes both passes, whereas escape input does not; `BATTLE_ATB_PROGRESSION_ACTIVE` (`0x1D28DEB`) is an admitted-progression marker, not the action lock. Distilled into [[projects/re-ff8/concepts/atb-and-command-menu]], [[projects/re-ff8/concepts/battle-lifecycle]] and [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]].
 
 ### A5. Enemy AI VM opcode semantics — *CLOSED 2026-06-14*
-All 61 opcodes of `EnemyAI_VM_ExecuteScript` (`0x487DF0`) decoded statically: operand widths, exact effect, RNG use, state read/write, and action emission; plus the IF (`0x02`) subject-selector table (HP%/status/random/level/var/last-attacker/…), the target-code table (`0xC8..0xE3` + com_file_id scan), and the AI-readable/writable state inventory. Distilled into the canonical reference [[projects/re-ff8/references/enemy-ai-opcodes]] and summarised in [[projects/re-ff8/concepts/enemy-ai-vm]]. **Residual (non-blocking):** gameplay labelling of the random-magic readers (`0x29/0x2E`) and a few IF subjects against a real monster-script corpus.
+All 61 opcodes of `EnemyAI_VM_ExecuteScript` (`0x487DF0`) decoded statically: operand widths, exact effect, RNG use, state read/write, and action emission; plus the IF (`0x02`) subject-selector table (HP%/status/random/level/var/last-attacker/…), the target-code table (`0xC8..0xE3` + com_file_id scan), and the AI-readable/writable state inventory. Distilled into the canonical reference [[projects/re-ff8/references/enemy-ai-opcodes]] and summarised in [[projects/re-ff8/concepts/enemy-ai-vm]]. ISO C listing pushed 2026-09-12 (`__cdecl` 4 args, 2447 instr); see [[projects/re-ff8/references/chunk-iso-function-catalog]]. **Residual (non-blocking):** gameplay labelling of the random-magic readers (`0x29/0x2E`) and a few IF subjects against a real monster-script corpus.
 
 ### A6. Init formulas — *CLOSED 2026-06-15*
 The full initial-state arithmetic is now distilled into [[projects/re-ff8/references/battle-formulas]] (*Initial state derivation*):

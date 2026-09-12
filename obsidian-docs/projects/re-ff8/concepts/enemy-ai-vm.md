@@ -24,7 +24,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Enemy AI VM
@@ -74,12 +74,13 @@ Return Damage is a distinct ApplyDamage accumulator (`CHARA_ABILITIES&8`).
 
 ## Interpreter Model
 
-- `EnemyAI_VM_ExecuteScript` (`0x487DF0`) is an 8.9 KB interpreter with a 61-case opcode switch (dispatch at `0x487EDC`, indexed `opcode-1`).
+- `EnemyAI_VM_ExecuteScript` (`0x487DF0`) is an 8.9 KB interpreter (2447 instr, ISO 2026-09-12) with a 61-case opcode switch (dispatch at `0x487EDC`, indexed `opcode-1`). Live type is `unsigned __int8 __cdecl` with **four** arguments; Hex-Rays `__usercall @<ebp>` is a lie. Catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 - Opcode `0x00` stops execution; opcodes `0x01` through `0x3D` are valid. `0x0A`, `0x10`, `0x14`, `0x21` are pure NOPs; `0x0D` and `0x19` read+discard one operand.
 - The stream is **inline-parameter bytecode** consumed by a post-increment cursor; 16-bit fields are little-endian. Control flow is `0x23` (unconditional jump) and `0x02` (IF → conditional 16-bit skip).
 - **Entry guards:** the executing slot's monster "rank" is read from `BMI71_LOW_MED_HIGH_LEVEL_BIS`. If running the turn section (`AI_CURRENT_SECTION_INDEX==1`) while self is **Berserk**, the VM ignores the script and forces a plain Attack on a random non-dead party member from `AI_VM_FALLBACK_BYTECODE` (`0x1D2A21D`).
 - **Stop condition:** the VM returns either on `0x00` **or** when an action-emitting opcode (`0x06` EXECUTE, `0x0B/0x0C` ability use, `0x1B/0x1E/0x2A` specials) commits with a valid target (`BOOL_TARGET_CHOOSEN != 0`). A commit with no valid target advances the exec queue and keeps parsing.
-- **Commit tail** (`LABEL_375`): stores `target_mask` into the slot, folds the default-target mask from `K_MAGIC`/`K_ITEM`/`K_ENEMY_ATTACK`, then calls `BattleAction_GetText` + `BattleAction_ResolveTargetAndHitCount` and (for forced GF) the Odin/Gilgamesh follow-up via `BACK_PREEMTIVE_INFO_3`.
+- **Commit tail** (`LABEL_375`): stores `target_mask` into the slot, folds the default-target mask from `K_MAGIC`/`K_ITEM`/`K_ENEMY_ATTACK`, then calls `BattleAction_BuildPayload` (alias GetText) + `BattleAction_ResolveTargetAndHitCount` and (for forced GF) the Odin/Gilgamesh follow-up via `BACK_PREEMTIVE_INFO_3`.
+- **Named leftovers after ISO listing:** gameplay labelling of random-magic readers `0x29`/`0x2E`, IF subjects vs a real monster-script corpus, memcpy width on `0x25`, and `LOCAL_VAR` vs global var. These are naming/corpus gaps, not listing divergences.
 - Attack-setup opcodes choose magic, monster abilities, drawn magic, or ability-table entries; targeting opcodes choose direct targets, masks, status/stat matches, random abilities, and special target codes; monster-management opcodes enter/remove monsters, set hidden/untargetable state, or trigger relay events.
 
 > **Full per-opcode reference** (operand widths, exact effect, RNG use, state read/write, action emission), the **IF (`0x02`) subject-selector table**, the **target-code table**, and the **AI state inventory** now live in the canonical reference [[projects/re-ff8/references/enemy-ai-opcodes]].
@@ -128,7 +129,7 @@ Both return dispatch code `8` (child task spawned, relay persists until the chil
 - AI globals are shared from encounter/state memory near `CURRENT_ENCOUNTER_DATA_SCENE_OUT`.
 - The VM feeds [[projects/re-ff8/concepts/command-action-pipeline]] by preparing command type and ability or spell IDs for monster execution.
 - Several corrected AI behaviors also touch [[projects/re-ff8/concepts/escape-mechanics]] and post-battle reward or GF acquisition state.
-- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. G16 apply/emit is live-promoted; host `0x71` insert is a campaign residual, not a G16 reopen. Runtime suites live in `g15_ai_control.cpp` / `g16_ai_actions.cpp` / `g17_reactions.cpp`: [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]].
+- G15 unit crosswalk (parser/context/stop/vars/subjects/compare/selectors) lives in [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] G15. Do not re-decompile the 61 opcodes; this page plus [[projects/re-ff8/references/enemy-ai-opcodes]] remain the authority. ISO listing 2026-09-12: [[projects/re-ff8/references/chunk-iso-function-catalog]]. G16 apply/emit is live-promoted; host `0x71` insert is a campaign residual, not a G16 reopen. Runtime suites live in `g15_ai_control.cpp` / `g16_ai_actions.cpp` / `g17_reactions.cpp`: [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]].
 
 ## Open Questions
 

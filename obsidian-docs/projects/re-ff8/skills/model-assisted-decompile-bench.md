@@ -15,7 +15,7 @@ provenance:
   inferred: 0.16
   ambiguous: 0.02
 created: 2026-09-11T21:45:00+02:00
-updated: 2026-09-11T21:45:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Model-Assisted Decompile Bench
@@ -27,11 +27,11 @@ IDB or the wiki.
 
 ## Golden Eval Target
 
-`domain::EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 61-opcode dispatch
+`domain::EnemyAI_VM_ExecuteScript` (`0x487DF0`, ~8.9 KB, 2447 instr ISO 2026-09-12, `__cdecl` 4 args, 61-opcode dispatch
 at `0x487EDC`) is the reference-oracle target: mechanics known at 100%,
 gameplay labels at ~98% (residual: `0x29`/`0x2E` exact skill names, IF
 subjects `0x10`/`0x11`/`0x14` per-script usage). Score mechanics, not nicknames.
-Gold table: [[projects/re-ff8/references/enemy-ai-opcodes]].
+Gold table: [[projects/re-ff8/references/enemy-ai-opcodes]]. Chunk catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 
 ## Input Format Wins
 

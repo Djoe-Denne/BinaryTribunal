@@ -24,7 +24,7 @@ provenance:
   inferred: 0.09
   ambiguous: 0.05
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-10T19:15:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # G-Force Cinematic Architecture
@@ -37,7 +37,7 @@ GF invocation still crosses the normal battle command path, kernel metadata, pre
 2. The action enters the exec queue through [[projects/re-ff8/concepts/command-action-pipeline]].
 3. `BattleActionSequence_DispatchTick` routes the latched `payload[1]` route byte to one of eleven workers; GF cinematic routes are `0x26`/`0xF4`/`0xFE` (except `cmd_arg` 15/70 → Generic). Full table: [[projects/re-ff8/concepts/battle-action-sequencing]].
 4. The sequence calls `Magic_GetIDLoad` (`BattleGF_LoadCallbackByMagicID`, `0x50AF20`) which **loads the GF's data files** via `MagicList_TextureLoad[effect_id-1]` *and* returns the entry callback from `MagicList_Logic[effect_id-1]` (five worker callers; GF writes slot C4, AFFFF writes C0; F7/F1/ED/EE reuse sticky C4).
-5. Active GF callback logic and optional boost work run through the cinematic state machine.
+5. Active GF callback logic and optional boost work run through the cinematic state machine. Carbuncle’s BdLink tick is `GF_277Carbuncle_SequenceTaskDriver` (`0x681630`, 670 instr, ISO 2026-09-12). DispatchTick still routes cmd_arg **70** to Generic, not `Tick_GF_Cinematic`. Catalog: [[projects/re-ff8/references/chunk-iso-function-catalog]].
 6. Cleanup can later feed back into ordinary [[projects/re-ff8/concepts/damage-status-pipeline]] or summon-exit behavior.
 
 See [[projects/re-ff8/references/gf-asset-loading-and-authoring]] for the full file/loader/handler contract and a from-scratch authoring checklist.
@@ -121,3 +121,4 @@ The renderer track preserves this native entry/tick/task contract first and iden
 - [[projects/re-ff8/concepts/damage-status-pipeline]]
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — G18 gameplay-domain recognition (charge/Boost/absorb remain live-required)
+- [[projects/re-ff8/references/chunk-iso-function-catalog]]

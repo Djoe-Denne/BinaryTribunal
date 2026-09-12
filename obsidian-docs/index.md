@@ -4,14 +4,14 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-11T21:45:00+02:00*
+*This index is automatically maintained. Last updated: 2026-09-12T13:50:00+02:00*
 
 ## Concepts
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
-- [[projects/re-ff8/concepts/battle-action-sequencing]] — Eleven DispatchTick workers, 20-byte payload, MagicList callback slots, and the impact-time domain seam. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/battle-action-sequencing]] — Eleven DispatchTick workers, 20-byte payload from BuildPayload (alias GetText), MagicList callback slots, and the impact-time domain seam. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G13 command core; pending buffer is 9×8 bytes; NativeMenu Write RVAs differ from Auto and Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
@@ -22,7 +22,7 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/limit-break-architecture]] — Crisis-level gate, ordinary pending entry path, and per-character limit-family divergence. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/battle-camera-architecture]] — Presentation-side camera state, action-family routing, and replacement-boundary obligations. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/encounter-to-battle-handoff]] — Field/world encounter meters, formation selection, battle transition, and preemptive handoff. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15–G17 live; optional EnemyAI_VM hook leftover. ( #ff8 #battle-system #reverse-engineering #concept)
+- [[projects/re-ff8/concepts/enemy-ai-vm]] — Monster `.dat` AI bytecode; G15–G17 live; ISO listing 2026-09-12 cdecl 4 args; optional EnemyAI_VM hook leftover. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] — Six-cluster map of ff8iso_runtime; unique Runtime; NCOMP only G06/G07/G09; shutdown closes hook admission before restore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]] — Draw resolve id 6, QueueOrStore aux 9/10, live-promoted Cast/Stock, MagicList presentation bridge. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] — GF command IDs, kernel IDs, effect IDs, MagicList callbacks, shared cinematic globals, and special triggers. ( #ff8 #gforce #battle-system #concept)
@@ -73,7 +73,8 @@ title: Wiki Index
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/battle-address-catalog]] — Compact battle address lookup including action buffers, globals, and E3c mechanical hubs. ( #ff8 #runtime-memory #reverse-engineering #reference)
+- [[projects/re-ff8/references/battle-address-catalog]] — Compact battle address lookup including action buffers, globals, E3c mechanical hubs, and 2026-09-12 chunk-ISO names. ( #ff8 #runtime-memory #reverse-engineering #reference)
+- [[projects/re-ff8/references/chunk-iso-function-catalog]] — Fourteen chunk-C ISO decompiles: live IDA names, GetText→BuildPayload alias, callers, and L3 menu/world exclusions. ( #ff8 #battle-system #reverse-engineering #rendering #reference)
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure. ( #ff8 #runtime-memory #battle-system #reference)
 - [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] — Frame-owned render path, OT/GPU chain, 66-slot driver matrix, and E3c Q12/DSound corrections. ( #ff8 #battle-system #rendering #reference)
 - [[projects/re-ff8/references/c0m-monster-archives]] — C0M corpus, 11-section layout, loader dispatch, and the C0M127 overlay. ( #ff8 #battle-system #runtime-memory #reference)

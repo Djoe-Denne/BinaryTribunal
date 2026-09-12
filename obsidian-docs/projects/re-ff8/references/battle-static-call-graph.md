@@ -15,7 +15,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-11T21:45:00+02:00
+updated: 2026-09-12T13:50:00+02:00
 ---
 
 # Battle Static Call Graph
@@ -104,7 +104,7 @@ for the Battle Loop only, from battle entry to battle exit.
   corpora hold ~90% structural closure; hub semantics ~95% (E3a 57 + E3b 38
   + E3c 174 renames, 0 collisions).
 - NIS remainder 5392 = indeg ≥5: **68** (arbitrated KEEP) + indeg 1–4: 3742
-  + indeg 0: 1582 + 3 NIS roots (`0x5088A0`, `0x5106E0`, `0x62C820`).
+  + indeg 0: 1582 + 3 NIS roots (`0x5088A0`, `0x5106E0` = `ParsePolygons_GfMagic`, `0x62C820`).
   Per-lot KEEP counts (E3a 27 + E3b 6 + E3c 38 = 71) do not reconcile with
   the 68 indeg≥5 hubs — count kept as stated, not silently merged. ^[ambiguous]
 - IDB moved to IDA 9.3 (`FF8_EN.exe - 9.3.i64`); single save per apply via
