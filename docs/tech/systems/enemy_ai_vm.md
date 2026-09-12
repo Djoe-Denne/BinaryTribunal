@@ -226,7 +226,7 @@ Mapped via lookup table at `0x48A204` (228 bytes) to 22 handler groups:
 | 5 | `05` | ENEMY_STATUS | Enemy (party) status flag check |
 | 6 | `06` | ALIVE_PARTY | Count of alive party members |
 | 7 | `07` | ALIVE_MONSTER | Count of alive monsters |
-| 8 | `08` | (unknown) | — |
+| 8 | `08` | ID_PRESENT_RAW | `com_file_id` present in any slot, dead/inactive included (R0 @ `0x489106`, `jpt_4887D6[8]`) |
 | 9 | `09` | CHAR_PRESENT | Specific character present and alive |
 | 10 | `0A` | COUNTER_INFO | Counter-attack sub-tests (see below) |
 | 14 | `0E` | DIFFICULTY | Difficulty level (0=low, 1=med, 2=high) |

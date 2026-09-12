@@ -22,12 +22,13 @@ Source table per command type: see `reference/command_id_table.md`.
 
 ### 2. Application Gating
 
-`BattleStatus_CanApplyHitStatus` (`0x492AC0`) — pure predicate, returns 0 (blocked) if:
+`BattleStatus_CanApplyHitStatus` (`0x492AC0`) — pure predicate, returns 1 (blocked), 0 (allowed):
 
+- Bypass first: `HIT_STATUS_2 & 0x04000000` → allowed (`test`/`jnz` @ `0x492AC0`, R0). Bit cleared on entry of `ApplyHitStatus` (`and 0xFBFFFFFF` @ `0x4914E8`).
 - `status_1 & 0x04` (Petrify) — petrified targets cannot receive ANY status
 - `status_2 & 0x180800` (Invulnerability flags)
 
-This gate applies to ALL statuses including beneficial ones. Whether support spells bypass it via a separate path is unconfirmed.
+R0: caller `0x49264A` skips on nonzero (1 = blocked). Single xref — not a universal gate in front of `ApplyHitStatus`. Which kernel rows set the bypass bit is open.
 
 ### 3. Hit-Status Resolution
 
@@ -67,7 +68,7 @@ Drain-free variant: `BattleStatus_ApplyHitStatus_NoDrain` (`0x492090`) — same 
 - Mutual exclusion rules in `checkDoubleStatusApply` (Haste/Slow, Sleep/Berserk pairs)
 - How `HIT_ATTACK_ENABLER` interacts with target SPR for status hit/miss probability
 - Per-bit side-effect semantics in `StatusTimer_MarkDisabledForBit`/`StatusTimer_IsDisabledForBit` (ATB reset on Stop, animation state, timer init)
-- Whether beneficial statuses bypass `CanApplyHitStatus`
+- Which kernel rows set the `HIT_STATUS_2 & 0x04000000` bypass bit (mechanism closed R0, producers open)
 - Timed status duration initialization site
 
 For complete status bit assignments, see `reference/status_bits.md`.

@@ -444,7 +444,7 @@ Five per-frame checks run during the active tick (subsubsubstep 4):
 `Battle_EndCleanupAndTransition` (`0x4868C0`):
 
 1. Save party HP and status back to save-game data.
-2. Clear `STATUS2` bit 0x20 (remove battle-only status flags).
+2. Clear `status_1` bit `0x20` (Berserk, `and word [esi], 0xFFDF` @ `0x4868EA`, R0 — not STATUS2).
 3. Return stolen/obtained items to inventory.
 4. Increment counters: `SG_BATTLE_VICTORY_COUNT` (victory), `SG_BATTLE_ESCAPED` (escape), or `SG_UNUSED_IN_FIELD_1` (wipe/timer).
 5. Set `mode_StateGlobal` → 5 (level-up screen) or 100 (exit to field).
@@ -474,7 +474,7 @@ xp = (maxHP − currentHP) × (5 × baseXP × monsterLevel / partyAvgLevel − b
 | Address | Name | Type | Description |
 |---------|------|------|-------------|
 | `0x1CFF6E0` | `COMBAT_SCENE_ID` | `u16` | Scene ID for current battle |
-| `0x1CFF6E2` | `ENCOUTER_BATTLE_FLAG` | `u16` | Battle flags bitmask |
+| `0x1CFF6E2` | `ENCOUTER_BATTLE_FLAG` | `uint8` | Battle flags bitmask (R0: byte access `A0`/`A8` @ `0x48AFD0`, no word access found) |
 | `0x1CFF6E7` | `BATTLE_RESULT_CODE` | `u8` | Battle outcome (0–4, see above) |
 | `0x1D28E08` | `BACK_PREEMTIVE_INFO` | `u8` | Battle start type (0=normal, 1–2=back, 3–4=preemptive) |
 | `0x1D28DE4` | `BATTLE_DEAD_TIMER` | `u16` | Dead timer countdown (from `K_MISC.dead_timer`) |

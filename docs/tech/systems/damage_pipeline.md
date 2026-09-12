@@ -57,7 +57,8 @@ If the action carries a status payload (`HIT_STATUS_1`/`HIT_STATUS_2` are non-ze
 
 `Battle_UpdateDamage` (`0x48EF80`) writes a 24-byte damage event record to `BATTLE_DAMAGE_RESULT_BUFFER` at `0x1D28344 + 24 * ATTACK_HIT_COUNT_1`. This feeds the presentation layer.
 
-## Open Questions
+## Open Questions (R0 2026-09-12: miss/drain/Reflect/Shell closed, rest open)
 
-- Exact formula inside `ComputeMagicAndGFDamage` (stat contributions, elemental multipliers).
-- How `ATTACK_FLAG` and `HIT_TYPE_2` modify damage in edge cases (miss, drain, etc.).
+- Full `COMMAND_TYPE_ID` switch in `0x48FE20` (~255 commands, 2nd switch `ATTACK_FLAG` reloads) and ~18 magic subtypes in `0x491AD0`.
+- Exact elemental constants in `ComputeMagicAndGFDamage` (`(0x384−elem_def)`, `/100` vs `/256`) — recompute from magic constants.
+- Closed R0: case-0 magic skeleton (`spread*(power*((0x109−spr)*(power+mag)/4)/256)/256`, halved if attacker slot ≥ 3, Shell `sar`), miss (`HIT_TYPE_2 |= 4`), drain (bit `0x8000` → `LINKED_TO_DRAIN`), Reflect (`ATTACK_FLAG & 0x10` + `status_2 & 0x80`), HP commit + KO @ `0x4946BC`/`0x494803`.

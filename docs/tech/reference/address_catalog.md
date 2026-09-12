@@ -703,8 +703,8 @@ restent au nombre de 174.
 | `0x1CDBFEC` | `TOTAL_ENCOUNTER` | `uint8` | Total encounter count |
 | `0x1CFF6D8` | `RARE_ITEM_ABILITY_IN_IT` | `uint8` | Ability flags (bit 0=Initiative, 2=Enc-Half, 3=Enc-None) |
 | `0x1CFF6E0` | `COMBAT_SCENE_ID` | `uint16` | Active battle scene ID |
-| `0x1CFF6E2` | `ENCOUTER_BATTLE_FLAG` | `uint8` | Battle flags (bit 5=preemptive, 6=back-attack, 7=suppress) |
-| `0x1D28E08` | `BACK_PREEMTIVE_INFO` | `uint8` | Battle start type (0=normal, 1=preemptive, 2=back-attack) |
+| `0x1CFF6E2` | `ENCOUTER_BATTLE_FLAG` | `uint8` | Battle flags (bit 5→type 1 back A, 6→type 2 back B, 7→type 0 suppress, R0) |
+| `0x1D28E08` | `BACK_PREEMTIVE_INFO` | `uint8` | Battle start type (0=normal, 1–2=back A/B, 3–4=preemptive A/B, R0) |
 | `0x1CD2EF8` | `FIELD_ENC_TRIGGERED` | `uint8` | Set to 1 when encounter fires |
 | `0x1CDC74C` | `FIELD_ENC_DISABLED` | `uint8` | Encounter disable flag (1 = off) |
 | `0x1CE4868` | `FIELD_STATE_MODE` | `uint16` | Field state (2/3/4 = menu/transition) |

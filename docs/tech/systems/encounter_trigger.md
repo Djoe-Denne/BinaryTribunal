@@ -274,9 +274,9 @@ Called during battle initialization after scene data is loaded.
 
 | Bit | Value | Effect |
 |-----|-------|--------|
-| 7 | 0x80 | Suppress preemptive/back-attack (always normal) |
-| 5 | 0x20 | Force preemptive |
-| 6 | 0x40 | Force back attack |
+| 7 | 0x80 | Suppress (always normal, type 0) |
+| 5 | 0x20 | Force type 1 (back A) — R0: NOT preemptive |
+| 6 | 0x40 | Force type 2 (back B) — R0 |
 | 2 | 0x04 | Enable battle countdown timer |
 | 1 | 0x02 | Suppress battle music (clear = play music) |
 | 0 | 0x01 | Set RELATED_CANT_ESCAPE (can't run) |
@@ -319,10 +319,15 @@ if ((RARE_ITEM_ABILITY_IN_IT & 0x01) && outcome == BACK_ATTACK)
 | Value | Outcome | Party Position | Enemy Status |
 |-------|---------|---------------|--------------|
 | 0 | Normal | Normal positions | — |
-| 1 | Preemptive | Forward positions | — |
-| 2 | Back Attack | Normal | Party gets back-attack status |
-| 3 | Pincer | — | — |
-| 4 | Side Attack | — | Enemy gets back-attack status |
+| 1 | Back A | — | Party ATB 0 (sauf Initiative), enemy full |
+| 2 | Back B | — | idem + party `status_2 |= 0x800000` |
+| 3 | Preemptive A | Forward positions | Party full, enemy 0 |
+| 4 | Preemptive B | Forward positions | idem + enemies `status_2 |= 0x800000` |
+
+R0 (2026-09-12, tranché au PE) : pincer/side non attestés ; mapping
+prouvé `0` normal, `1–2` back, `3–4` preempt (writer `0x48B093`,
+mapper `0x48B2A0`, ATB `jpt_48B144`, display `0x48AEF0`, escape
+`0x48617C`). Voir `r0-arbitrage.md` §3.
 
 ---
 
@@ -369,7 +374,7 @@ if ((RARE_ITEM_ABILITY_IN_IT & 0x01) && outcome == BACK_ATTACK)
 | `0x2036B4C` | `WM_PENDING_MODULE_ID` | uint8 | World map module transition (3 = battle) |
 | `0x2036B4E` | `WM_PENDING_SCENE_LO` | uint8 | World map scene ID (low byte) |
 | `0x2036B4F` | `WM_PENDING_SCENE_HI` | uint8 | World map scene ID (high byte) |
-| `0x1D28E08` | `BACK_PREEMTIVE_INFO` | uint8 | Battle start type (0=normal, 1=preemptive, 2=back attack) |
+| `0x1D28E08` | `BACK_PREEMTIVE_INFO` | uint8 | Battle start type (0=normal, 1–2=back A/B, 3–4=preemptive A/B, R0) |
 
 ## Function Address Summary
 
