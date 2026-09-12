@@ -24,7 +24,7 @@ Complete state machine and initialization flow from scene load to the first acti
 |---------|-------------|
 | 0 | Reset countdowns to 0, transition to 1 |
 | 1 | Match `COMBAT_SCENE_ID` against `battle_mode_related` list, transition to 2 |
-| 2 | `Battle_LoadOverlayModule` (`0x47E410`) — loads battle overlay, transitions to 3 |
+| 2 | `ClearRecordArray16` (`0x47E410`) clears the 16-byte records between `btitle_ovl_DestPointer` and `off_B6D074`, then transitions to 3. Overlay loading belongs to global mode 4. |
 | 3 | **Open Stage** — main init, active tick, cleanup (see Level 3 below) |
 
 ### Level 3: `mode3_subsub_step` (within substep 3)
@@ -50,7 +50,7 @@ flowchart TD
     subgraph substep0["subsub_step 0 — Init Block"]
         scene["ReadSceneOutForEncounter<br/>(load 128-byte scene.out)"]
         flags["Merge battle flags"]
-        clear["BattleSlot_ClearAllSlots"]
+        clear["BattleSlot_ClearSevenRecords"]
         party["ParseBattleParty<br/>(junction stats, commands, auto-status)"]
         items["BS_ParseItems"]
     end
@@ -111,7 +111,7 @@ Executed once at battle start, in this order:
 | 13 | `0x48D020` | `Battle_ResetXPAndItemRewards` | Zero all XP/Gil/Item/Card accumulators |
 | 14 | `0x48C740` ×3 | `Battle_InitActionQueueGroup(1)`, `(2)`, `(0)` | Init action queues for party melee, party ranged, enemies |
 | 15 | — | `BattleSlot_SetEnemyVisibility` | Set which of 8 enemy slots are active from scene data |
-| 16 | `0x48C620` | `BattleSlot_ClearAllSlots` | Clear all 11 battle slots (status = dead, hp = 0) |
+| 16 | `0x48C620` | `BattleSlot_ClearSevenRecords` | Clear exactly seven `0xD0` records (status = dead, hp = 0); this loop does not establish the total logical slot count |
 | 17 | `0x48B7E0` | `ParseBattleParty` | **Master party init** (see [Party Init](#party-initialization) below) |
 | 18 | — | `BS_ParseItems` | Parse inventory items for battle |
 | 19 | `0x48D1F0` | `Battle_ResetAttackHitCount` | Reset hit counter |

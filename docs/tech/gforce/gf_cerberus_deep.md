@@ -128,7 +128,7 @@ Since `gfPower = 0`, `powerMod = 0`, `levelMod = 0`, and `element = 0`, the dama
 | Address | Name | Size | Role |
 |---------|------|------|------|
 | `0xB0C260` | `GF_203Cerberus_ResolveSharedCtx` | 0x8A | Resolves shared GF pointers from Cerberus data tables |
-| `0xB0C2F0` | `GF_203Cerberus_AllocFrameMemory` | 0x10 | Allocates frame memory (calls `sub_5082D0(384)`) |
+| `0xB0C2F0` | `GF_203Cerberus_AllocFrameMemory` | 0x10 | Calls `BattleScratch_Unwind(384)` — **unwind** of the scratch bump (not an alloc). Pair: `bs_modulo` `0x5082B0` (misnomer bump-alloc, hors lot E3a) |
 | `0xB0CA40` | `GF_203Cerberus_DebugCameraControl` | 0xDD | Debug camera: D-pad input modifies camera position/rotation |
 
 ### Resource Loader (1 function, already named)
@@ -146,7 +146,7 @@ Since `gfPower = 0`, `powerMod = 0`, `levelMod = 0`, and `element = 0`, the dama
 | `0x56CD50` | `BattleGF_InitCameraFromGlobals` | Shared camera position init |
 | `0x56CD00` | `Call_Bs_parseCamera2` | Camera parsing/update |
 | `0x45D530` | `BS_Debug_UnknownFloatOperations` | Debug float operations |
-| `0x5082D0` | `sub_5082D0` | Frame memory allocation (reduces memory pool counter) |
+| `0x5082D0` | `BattleScratch_Unwind` | Unwind bump of `dword_1D999C4` (inverse of `bs_modulo` `0x5082B0`). The old « Frame memory allocation » claim is false. |
 | `0xB65150` | `xorEAX_6` | No-op stub (returns 0) |
 
 **Total functions identified: 20** (2 core + 7 init/setup + 3 animation script + 4 model/render + 3 utility + 1 resource loader)
@@ -230,7 +230,7 @@ Cerberus uses the FamilyB single-task pattern:
 
 2. **No secondary task list**: Unlike FamilyA (Doomtrain), there is no driver delegation. The tick function IS the driver.
 
-3. **Context resolution**: Every tick starts with `GF_203Cerberus_ResolveSharedCtx()` which calls `bs_modulo(384)` to get the task's context block, then resolves the shared global pointers from Cerberus's fixed configuration data.
+3. **Context resolution**: Every tick starts with `GF_203Cerberus_ResolveSharedCtx()` which calls `bs_modulo(384)` (`0x5082B0`, bump-alloc misnomer, hors lot E3a) to get the task's context block, then resolves the shared global pointers from Cerberus's fixed configuration data. The inverse unwind is `BattleScratch_Unwind` `0x5082D0` (not an allocator).
 
 ### Script-Based Animation System
 

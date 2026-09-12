@@ -17,10 +17,16 @@ int __cdecl BattleGF_LoadCallbackByMagicID(int magicID, int (__cdecl **a2)(int))
 {
     int idx = magicID - 1;                    // 1-based → 0-based
     if (idx < 0 || idx >= 400) { error; idx = 0; }
-    MagicList_TextureLoad[idx]();             // load textures
+    if (!MagicList_Logic[idx]) { error; idx = 0; }
+    if (MagicList_TextureLoad[idx])
+        MagicList_TextureLoad[idx]();         // null loader is valid
     *a2 = MagicList_Logic[idx];              // write entry fn to caller
 }
 ```
+
+The resolver does not invoke the Logic callback. It writes that pointer through
+the out-parameter after resetting the shared arena. Invalid IDs and null Logic
+entries both fall back to slot 0.
 
 The `magicID` parameter is an **effect_id** (1-based), NOT a kernel GF ID or cmd_arg. The caller `BattleActionSequence_Tick_GF_Cinematic` (0x50B2A0) reads it from the action context:
 
@@ -36,7 +42,8 @@ The full path from GF selection to cinematic playback:
 
 1. Player selects GF summon (cmd_arg 0x40-0x4F identifies the GF in kernel data)
 2. Battle system builds action context, writing the **effect_id** to context offset +6
-3. `BattleActionSequence_DispatchTick` routes to `Tick_GF_Cinematic` (command types 0x26, 0xF4, 0xFE)
+3. `BattleActionSequence_DispatchTick` routes to `Tick_GF_Cinematic` from the
+   sequence-type byte `payload[1]` (`0x26`, `0xF4`, `0xFE`)
 4. State 1 calls `BattleGF_LoadCallbackByMagicID(effect_id, &g_GfActiveCallbackPtr)`
 5. Function indexes `MagicList_Logic[effect_id - 1]` and writes the GF entry callback
 6. State 3 invokes `g_GfActiveCallbackPtr(ctx)` to start the GF cinematic
@@ -51,15 +58,15 @@ All 16 junctionable GFs confirmed present. Effect_ids are non-contiguous.
 
 | cmd_arg | GF | effect_id | Index | Table Ptr | Entry Fn | Type |
 |---------|----|-----------|-------|-----------|----------|------|
-| 0x40 | Quezacotl | 116 | 115 | `0x6C3550` | `0x6C3550` | direct |
+| 0x40 | Quezacotl | 116 | 115 | `0x6C3550` | `0x6C3640` | wrapper disp+0xE6 |
 | 0x41 | Shiva | 185 | 184 | `0x5C0D50` | `0x5C0D50` | direct |
 | 0x42 | Ifrit | 201 | 200 | `0xB25780` | `0xB25780` | direct |
 | 0x43 | Siren | 95 | 94 | `0x739DA0` | `0x739DA0` | direct |
 | 0x44 | Brothers | 205 | 204 | `0xAF4520` | `0xAF4520` | direct |
-| 0x45 | Diablos | 325 | 324 | `0x6541E0` | `0x654210` | thunk |
-| 0x46 | Carbuncle | 278 | 277 | `0x680C50` | `0x680C50` | direct |
+| 0x45 | Diablos | 325 | 324 | `0x6541E0` | `0x654210` | wrapper disp+0x26 |
+| 0x46 | Carbuncle | 278 | 277 | `0x680C50` | `0x680C80` | wrapper disp+0x26 |
 | 0x47 | Leviathan | 6 | 5 | `0xB58080` | `0xB58080` | direct |
-| 0x48 | Pandemona | 291 | 290 | `0x6ED250` | `0x6ED250` | direct |
+| 0x48 | Pandemona | 291 | 290 | `0x6ED250` | `0x6ED260` | wrapper disp+0x06 |
 | 0x49 | Cerberus | 203 | 202 | `0xB0C1A0` | `0xB0C1A0` | direct |
 | 0x4A | Alexander | 204 | 203 | `0xAFFCA0` | `0xAFFCA0` | direct |
 | 0x4B | Doomtrain | 191 | 190 | `0x63E730` | `0x63E730` | direct |
@@ -68,14 +75,14 @@ All 16 junctionable GFs confirmed present. Effect_ids are non-contiguous.
 | 0x4E | Tonberry | 90 | 89 | `0x762360` | `0x762360` | direct |
 | 0x4F | Eden | 206 | 205 | `0xAE2DD0` | `0xAE2DD0` | direct |
 
-**Diablos thunk**: The table entry at index 324 is a 5-instruction wrapper at `0x6541E0` that forwards to the real entry at `0x654210`. The texture loader at the same index loads `mag324.tim`.
+**Wrappers 14 octets (pas des thunks IDA, `FUNC_THUNK=0`)** : Diablos `0x6541E0` → init `0x654210` (`entry+0x30`, disp+0x26) est byte-identique à Carbuncle `0x680C50` → `0x680C80` ; Quezacotl `0x6C3550` → `0x6C3640` (disp+0xE6, sandwich) ; Pandemona `0x6ED250` → `0x6ED260` (`entry+0x10`, disp+0x06). Les 111 wrappers partagent le gabarit `mov/push/call rel32/add/ret` mais résolvent 111 inits distincts : hash ≠ équivalence. La texture Diablos charge `mag324.tim`.
 
 ### Special / Non-Junctionable GFs
 
 | effect_id | GF/Effect | Table Ptr | Entry Fn | Notes |
 |-----------|-----------|-----------|----------|-------|
-| 69 | Griever Summon | `0x6FE040` | `0x6FE050` (thunk) | Boss cinematic; calls BdLinkTask, BS_Memset |
-| 140 | Phoenix (Rebirth Flame) | `0x6A6300` | `0x6A6430` (thunk) | Auto-trigger on party wipe + Phoenix Pinion |
+| 69 | Griever Summon | `0x6FE040` | `0x6FE050` (wrapper disp+0x06) | Boss cinematic; calls BdLinkTask, BS_Memset |
+| 140 | Phoenix (Rebirth Flame) | `0x6A6300` | `0x6A6430` (wrapper disp+0x126 sandwich) | Auto-trigger on party wipe + Phoenix Pinion |
 | 187 | Odin | `0x6472E0` | `0x6472E0` | Auto-trigger (battle start RNG) |
 | 97 | ChocoFire | `0x729A60` | — | Chocobo/Boko variant |
 | 98 | ChocoFlare | `0x721860` | — | Chocobo/Boko variant |
@@ -106,12 +113,14 @@ Gilgamesh has 4 attack variants, all present in `MagicList_Logic`. They are disp
 | Offset | Size | Field | Description |
 |--------|------|-------|-------------|
 | +0 | 1 | attacker_slot | Attacker slot index |
-| +1 | 1 | command_type | Command type (0xFE = GF summon, 0x26 = magic, 0xF4 = GF special, etc.) |
+| +1 | 1 | sequence_type | Presentation-sequence routing byte (`0xFE`, `0x26`, `0xF4`, etc.); do not infer the domain command ID from this field alone |
 | +2 | 1 | anim_state | Animation state byte |
 | +4 | 2 | cmd_arg | Ability / GF kernel ID (u16) |
 | +6 | 2 | effect_id | Effect ID indexing into MagicList_Logic (u16, 1-based) |
-| +12 | 4 | damage_ctx_ptr | Damage context pointer |
-| +16 | 1 | flags | Additional flags byte |
+| +8 | 4 | event_records | First array of 24-byte result/presentation records |
+| +12 | 4 | secondary_context | Action-family context |
+| +16 | 1 | event_count | Number of records in the first group; also selects the two physical routes |
+| +17 | 1 | group_count_minus_1 | Additional groups use a 20-byte descriptor stride |
 
 ## effect_id Source (Resolved)
 
@@ -350,3 +359,52 @@ Angelo uses **command type 0xF0** (240) which shares the getText case 240/245 co
 | 12 | 93 | Angelo Recover |
 | 13 | 94 | Angelo Reverse |
 | 14 | 92 | Angelo Search |
+
+## Wave3 Static Arbitration (2026-09-10, PE+IDB)
+
+Recensement confirmé : 343 Logic non nuls + 57 nuls (slots 223–224, 345–399), 343 TextureLoad non nuls sur le même masque, 686 cibles distinctes, 0 alias, 0 `FUNC_THUNK`, 0 départ invalide. Groupes byte-identiques 94 (disp+0x26) + 14 (disp+0x06) côté Logic, 17 `ret` côté TextureLoad ; relocation-aware : seul le groupe des 17 `ret`. Aucune des 686 entries ne contient de `call`/`jmp` indirect.
+
+### 5 routes Logic (343, mutuellement exclusives)
+
+| Route | n | Signature d’entry |
+|---|---:|---|
+| SharedInit | 82 | `BdLinkTask_CreateAndInitContext @ 0x8DC540`, 82 ticks uniques |
+| FamilyB | 58 | `xorEAX_6` + `BdLinkTask_Register` + `BS_Memset(...,16,1)`, taille `0x5D` (Cerberus `0x62`) |
+| Wrapper → init | 111 | 14 octets `mov/push/call rel32/add/ret`, disp `0x26` (94) / `0x06` (14) / sandwich 230-294-198 (115, 139, 273) |
+| BdLink inline | 84 | `BdLinkTask_Register` sans xor ni SharedInit (Fire, Shiva, Cactuar dual-task, Doomtrain, Odin, Gilgamesh…) |
+| Shot Irvine | 8 | 40 octets, slots 187,191–197, BdLink dans l’enfant `sub_5BE370` |
+
+SharedInit n’est pas une famille GF (Cure, Double, items, Angelo, slot 345…). FamilyB n’est pas « GF jonctionnable » (7 GF + Meteor, Elvoret Death 18, Hell’s Judgement 75, Ultimecia death 77, Adel 211, Terra Break 219, 228–270, 331…). Les 58 FamilyB sont distinctes, en bijection avec les 58 paires `magN_b.00/.01`.
+
+### Taxonomie TextureLoad (343)
+
+1 appel → 265 (dont Phoenix étendu, voir ci-dessous), 2 appels → 58 (FamilyB), 0 appel `0x571B80` → 18 (17 `ret` + Cactuar alt), 3 appels → 1 (Tonberry slot 89 : `mag089_0/1/2.tim`), 5 appels → 1 (Devour slot 61 : `mag061_0us/1/2/3.tim` + `mag061.tim`). Total 265+58+17+1+1+1 = 343 ; les 268 loaders TIM = 265+Tonberry+Devour+Cactuar. Un FL `ret` n’implique pas l’absence de textures (packs `mag000-049`, `mag096-099`, `mag140-158-159-258-331-332`, `mag326-329`, `mag013-073-344`, `mag333`… chargés par un autre slot).
+
+Exceptions : Cactuar slot 198 via `Magic_LoadTexture_IO_GetsFile_DefaultArgs @ 0x5718E0` (push 0,0,0) ; Phoenix slot 139 : 1×IO + 2×`TextureOFF` + 2×`Magic_ArenaSize_1MiB @ 0x571B60` (=`0x100000`) + store `MAG_140_PHOENIX_FL_Callback @ 0x6A6360` vers `dword_1DCD6E8` ; slot 225 charge `mag296.tim`, pas `mag225`.
+
+### Identité par fichier, pas par préfixe `MAG_NNN`
+
+`MAG_NNN` Logic est souvent désaligné ; foi au slot 0-based, à l’effect_id 1-based, à la VA et au littéral `mag*` du loader :
+
+* Angelo 91–94 (slots 90–93) : Rush `mag090` / Search `mag091` / Recover `mag092` / Reverse `mag093` — les 4 noms Logic actuels sont faux (commentaires IDB posés, renommages différés cause collisions en cascade avec slots 8, 13, 84, 85).
+* Gilgamesh 327 (slot 326) : `MAG_327_GILGAMESH_EXCALIPOOR` ; 328–330 = `MAG_328_GILGAMESH_EXCALIBUR` / `MAG_329_GILGAMESH_ZANTETSUKEN` / `MAG_330_GILGAMESH_MASAMUNE` (Vague B), pack `mag326-329.tim`, 2 workers partagés `sub_596B70`/`sub_592300`. **Id 330 = Masamune**, distinct de MAG_331_* (slot 330 FamilyB).
+* Angel Wing = id 96 (slot 95, `mag095.tim`), Moogle = id 84 (slot 83, `mag083.tim`) — les 2 noms Tex `_FL` croisés corrigés. Angelo Logic 91–94 **reportés** (collisions slots 8/13/84/85, wave kernel-data).
+* Pandemona = id 291 (slot 290, wrapper G14 `0x6ED250`, FL `ret`) → `GF_291Pandemona_InvokeSummonScript` + init `GF_291Pandemona_InitSummonContext @ 0x6ED260` (Vague B, ex-`GF_200*`).
+* Diablos = id 325 (slot 324, wrapper G93 standard) → `GF_325Diablos_InvokeSummonScript` + init `GF_325Diablos_InitSummonContext @ 0x654210` (Vague B, ex-nom auto-brouillé).
+* Shot Irvine décalé d’un cran Logic vs Tex ; Mighty Guard 73/78 via packs `mag072-077` / `mag013-073-344` ; Griever Death id 8 et Angelo Search id 9 à réconcilier de même.
+* Alexander tick `0xB00310` vs Meteor tick `0xA8FF00` : même taille `0x215`, SHA distincts (`be9bc791…` vs `0af51636…`) — le commentaire « byte-for-byte » est faux. Table `dword_187281C` = Alexander seulement (`0xB06E00`) ; Meteor appelle `sub_A95CD0`.
+
+### Vague B (2026-09-10) — FamilyB tables + noms L1
+
+Quatre tables MAG_331 **sans recouvrement fonctionnel** (identité d’octets `stream[0x81]==object-IP[0]` réelle mais index pratiqués disjoints) :
+
+| Table | VA | Index | Largeur | Sites |
+|---|---|---|---|---|
+| OBJ0 | `0x1852708` | `[obj+0x18]` | 13 utiles (NULL 2/12) | 23 |
+| PARTICULE | `0x1852894` | low-byte | ~96 (queue partagée 215=96+119) | 2 (`0x8E3BB7/0x8E3BDC`) |
+| STREAM16 | `0x1852A98` | `s16&0x1FF` | ~236 / 328-alloc / 512-arch | 4 (passes ±) |
+| DRAW | `0x18528F4` | `[obj+0x1C]` | séparée | draw pass |
+
+Convention **`MAG_<effect_id>`** : les symboles PH9 `MAG_330_*` (SequenceTick/Magic00Init/Magic01Init/BindDispatch) sont **mal indexés** (slot 330 = id 331). Id 330 = Gilgamesh Masamune. Stubs stream 33/43/49 (`Op33_SeqPtrBind`/`Op43_PlaySE`/`Op49_SubmitTIM`, alias Op162/172/178 — **≠** STREAM16 idx 178 = `Op178_SetSeqCtxA2 @ 0x8E55E0`). `Op6_QueueChunk @ 0x8E54A0` sans re-bornage : lecture `[0,127]` (`&0x7F` @ `0x8E5552`) ; `&0x3F` @ `0x8E5593` = preload file-id. A2 mutable. Bind Alexander créé `0xB07830`. Ticks créés : Eden `0xAE3470`, MAG_262 `0x950060`, MAG_299 `0x66FD70`.
+
+Bootstrap : premier IP **positif**. `0x27973B8` = pointeur slot, mot = `[ptr+0x4A]`, 58 writers. Chunk lecture `[0,127]`, A2 mutable (`Op178_SetSeqCtxA2`) ; défaut A2=0. `mag.00+0x0C` clos via `sub_B657E0` ; `+8` ouvert. `.01+0x74` layout-dépendant. 17 FL `ret` : 15 TIM EXE, 2 zéro TIM (68, 343). Reports : Angelo/Moogle, `0x1852750`, producteur IP négatif, walker corpus.

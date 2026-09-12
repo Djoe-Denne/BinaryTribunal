@@ -164,7 +164,8 @@ These are reset in `main::FFBattleDirector_battleLoop` battle init, not in the g
 - camera reset,
 - reward accumulator reset,
 - action-queue-group init,
-- full `BattleSlot_ClearAllSlots()` over all `11` slots,
+- `BattleSlot_ClearSevenRecords()` over exactly seven `0xD0` records; this
+  routine does not establish the total logical slot count,
 - `CAN_BATTLE_BE_PAUSED = 1` when entering active tick substep `3`,
 - `AI_BATTLE_ACTIVE_FLAG = 1` when entering active tick substep `3`.
 

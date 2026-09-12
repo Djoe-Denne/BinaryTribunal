@@ -4,13 +4,14 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-09T19:50:00+02:00*
+*This index is automatically maintained. Last updated: 2026-09-11T21:45:00+02:00*
 
 ## Concepts
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
+- [[projects/re-ff8/concepts/battle-action-sequencing]] — Eleven DispatchTick workers, 20-byte payload, MagicList callback slots, and the impact-time domain seam. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G13 command core; pending buffer is 9×8 bytes; NativeMenu Write RVAs differ from Auto and Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
@@ -40,6 +41,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/live-session-runner]] — live_session.py profiles g13-direct, g09-attack-live, g09-synthetic; preflight, one BUSY retry, human Attack vs automated synthetic. ( #ff8 #battle-system #testing #skill)
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows for validating FF8 battle hypotheses. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for turning GF documentation into Tier 3 injection hypotheses. ( #ff8 #gforce #testing #skill)
+- [[projects/re-ff8/skills/static-reverse-triplet-protocol]] — Multi-agent static RE method: Grok triplets read-only, parent arbitration, Spark Max resolver, single IDA batch. ( #ff8 #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/model-assisted-decompile-bench]] — Measured decompiler-model bench, golden eval target, GLM effort rules, glm-decompile MCP, IDA diff-push. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for converting `ff8re` evidence JSON into runtime-confirmed GF docs. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/concepts/ff8re-hypothesis-runner]] — Skill for using the `ff8re` runner to execute deterministic IDA MCP hypotheses and collect structured evidence. ( #ff8 #reverse-engineering #testing #skill)
 - [[projects/re-ff8/references/gf-runtime-test-matrix]] — Skill for using the YAML inventory that drives slot layout and Tier 3 GF injection hypotheses. ( #ff8 #gforce #testing #skill)
@@ -70,8 +73,11 @@ title: Wiki Index
 - [[projects/re-ff8/references/g11-g20-static-uncertainty-red-team-audit]] — Independent red-team audit of the 2026-08-18 G11–G20 static campaign; accept-as-draft. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/kernel-bin-authenticated-tables]] — Authenticated Magic/Item tables plus exhaustive offline implementation coverage; full-family live validation remains open. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Bounded pointer-free MagicSlice over authenticated `K_MAGIC`; Fire v2 live-promotes HP/event/stock; G12 is live-promoted-semantic. ( #ff8 #battle-system #reverse-engineering #testing #reference)
-- [[projects/re-ff8/references/battle-address-catalog]] — Compact address lookup for battle loop, pending 9×8 buffer, NativeMenu Write RVAs, Draw QueueOrStore, and globals. ( #ff8 #runtime-memory #reverse-engineering #reference)
+- [[projects/re-ff8/references/battle-address-catalog]] — Compact battle address lookup including action buffers, globals, and E3c mechanical hubs. ( #ff8 #runtime-memory #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Compact slot, pending, exec, latch, timer, target-mask, status, command-ID and GF metadata reference with G07 live layout closure. ( #ff8 #runtime-memory #battle-system #reference)
+- [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] — Frame-owned render path, OT/GPU chain, 66-slot driver matrix, and E3c Q12/DSound corrections. ( #ff8 #battle-system #rendering #reference)
+- [[projects/re-ff8/references/c0m-monster-archives]] — C0M corpus, 11-section layout, loader dispatch, and the C0M127 overlay. ( #ff8 #battle-system #runtime-memory #reference)
+- [[projects/re-ff8/references/battle-static-call-graph]] — Layered graph (7514 nodes, NIS 5392), BdLink census, E1+E2 registry, and E3c 174/38 hub closure. ( #ff8 #battle-system #reverse-engineering #reference)
 - [[projects/re-ff8/references/research-prompt-backlog]] — AI prompt backlog and completed battle init/slot investigation artifacts. ( #ff8 #reverse-engineering #battle-system #reference)
 - [[projects/re-ff8/references/wicked-engine-integration-reference]] — Pinned Wicked application, render path, ECS, D3D12, prewarming, packaging, and external-host integration reference. ( #ff8 #battle-system #rendering #reference)
 - [[projects/re-ff8/references/legacy-ff8-render-pass-d3d12]] — Fidelity-first D3D12 draw-packet replay pass, GPU resource model, parity harness, and semantic fallback specification. ( #ff8 #battle-system #rendering #reference)

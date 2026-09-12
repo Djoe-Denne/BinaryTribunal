@@ -16,13 +16,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl
+  - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
+  - docs/tech/investigation/battle-static-discovery/closure-audit.md
 summary: ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI integration, lifecycle, and terminal behavior remain.
 provenance:
   extracted: 0.88
   inferred: 0.09
   ambiguous: 0.03
 created: 2026-06-14T11:10:00+02:00
-updated: 2026-08-27T18:30:00+02:00
+updated: 2026-09-11T21:09:26+02:00
 ---
 
 # Battle Loop ISO Reimplementation — Readiness & Gaps
@@ -61,8 +63,12 @@ Everything else must be reproduced by the engine itself. So an ISO target needs,
 | Battle init formulas | [[projects/re-ff8/references/battle-formulas]] | **CLOSED** — junction-stat, enemy HP/rank/stat scaling, initial-ATB, scripted-summon rolls all distilled | Yes (or bypass by reading init state) |
 | Limits (Renzokuken etc.) | [[projects/re-ff8/concepts/limit-break-architecture]], [[projects/re-ff8/concepts/renzokuken]] | Entry + finisher tables good; trigger-window state machine + crisis weighting open | Partial |
 | GF cinematic / charge absorption | [[projects/re-ff8/concepts/gforce-cinematic-architecture]] | **Absorb pool confirmed 2026-06-14** = `target_info_mask` (slots 8..10 unused) | No (solid) |
-| Camera | [[projects/re-ff8/concepts/battle-camera-architecture]] | **Closed** (takeover writer + blend driver resolved) | No (presentation-only) |
-| Escape | [[projects/re-ff8/concepts/escape-mechanics]] | Roll cadence + gates known; mode-5 commit open | Partial |
+| Camera | [[projects/re-ff8/concepts/battle-camera-architecture]] | **Closed** engine 32 + attested C0M 22 (margin 10); BYTE2 writer unique `=1`, `{2,3}` dead-or-live (live watch); C0M collection = H6 base. Bounded-open: global `.x`/`mag*` layouts | No (presentation-only) |
+| Render backend matrix | [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] | **Closed static 2026-09-10 + Vague C** — 66 slots, RS→GL mapping, blend slot 33, list-16 dead; bounded holes: scanlines 490 DWORD, blend case 3 | No (presentation-only) |
+| Magic/effect registry | [[projects/re-ff8/references/gf-asset-loading-and-authoring]] | **Closed static 2026-09-10 + Vague B** — 343+343 slots, 5 Logic routes, 4 MAG_331 tables, `MAG_<effect_id>` L1 names; Angelo/Moogle + `0x1852750` still reported | No for presentation; gameplay payloads stay per-gate |
+| Monster archives | [[projects/re-ff8/references/c0m-monster-archives]] | **Closed static 2026-09-10** — 144 wired + 56 filler, H1–H11 consumers, C0M127 overlay | No (presentation + AI/info consumers known) |
+| Static call graph | [[projects/re-ff8/references/battle-static-call-graph]] | Layered ledger (L0/L1/L2/L3); 1771 BdLink edges; lots E1+E2 L2 registry 493 sites (82/116/27/263 LOT2/5, 0 PENDING); E3c 212 hubs covered (174 rename/comment, 38 KEEP), NIS **5392**, SHA `4bfb1496…` | Partial (callback typing; L2 sites classified) |
+| Escape | [[projects/re-ff8/concepts/escape-mechanics]] | Roll cadence + gates known; `Battle_Mode5_PackRewards` packaging closed static (`AnimationState=4` outside body) | Partial (ISO persist) |
 | RNG determinism | [[projects/re-ff8/concepts/battle-state-model]] | **Closed 2026-06-14** — single fixed lane, seed = CRT `rand()` once at start | No (solid) |
 
 ## Class A — recoverable now (static distillation, no live session)
@@ -133,7 +139,19 @@ These are not in any page's Runtime-Pending list, yet they block ISO behaviour.
 Resolved. **Two distinct channels** (previously conflated): (1) **group 0 is written only by `Battle_EnqueueSpecialAction` `0x484720`** for engine specials and the deferred Counter/Death callbacks (ids 2/3); (2) **monster OnHit is section 4** from `Battle_ApplyDamageOrHeal`, then sections 2/3 run when staged. Player Counter (`CHARA_ABILITIES & 4`), auto-recover (`& 0x40000`), and Angelo (`com_file_id == 4`) live in section 2. **Cover is not section 2** — `BattleAction_SelectCoverRedirect` `0x48EB90` is pre-G09 (SQ-G17-001 closed). Distilled into [[projects/re-ff8/concepts/command-action-pipeline]] (*Forced Actions And Reactions*). G17 party Counter is live-promoted: [[projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation]].
 
 ### B2. Cross-frame action sequencing & pacing — *CLOSED 2026-06-15*
-Resolved (live-confirmed). The pacing is **not** in the presentation layer: `BattleAction_ResolveSpecialActionAndUpdateDamage` (`0x485160`) → `BattleAction_ResolveAndApplyDamage` (`0x48FE20`) **computes and commits HP/status synchronously at the selection frame** (`Damage_ComputeRawDeltaFromAttackType` + `Battle_ApplyDamageOrHeal`); the multi-frame `BattleActionSequence_DispatchTick` (`0x50A790`) sequence is cosmetic. Cross-actor serialization combines the **`BYTE1(TARGET_SLOT_ID)` action-in-progress latch** (`0x1D28DFD`, LOCK `0x4876D0` / UNLOCK `0x4876B0`, also set by the AI VM on yield), the separate **`BATTLE_ACTION_EXECUTION_ACTIVE`** lock that freezes ATB/GF, the true pause latch, and the camera busy gate (`dword_1D97704 & 0x8000`) polled by relays `0x70`/`0x71`. Distilled into [[projects/re-ff8/concepts/battle-lifecycle]] (*Active Tick Flow* + *Cross-actor serialization*). Residual (presentation-only): per-sequence intro/active/hit/outro frame counts.
+Resolved for serialization and the bounded G09 slice, but the earlier conclusion
+that the entire multi-frame sequence is cosmetic was too broad.
+`BattleAction_ResolveSpecialActionAndUpdateDamage` (`0x485160`) →
+`BattleAction_ResolveAndApplyDamage` (`0x48FE20`) can compute and commit an
+outcome synchronously at selection. Independently, the physical-with-events
+worker registered by `BattleActionSequence_DispatchTick` follows
+`0x50BD80 → 0x50A670 → 0x506BA0 → 0x506690 → 0x493D80` and reaches
+authoritative HP/status application before `BattlePresentation_SpawnDamagePopup`
+(`0x5068B0`). The no-events worker `0x50BD00` does not take that path.
+Therefore presentation callbacks are not uniformly side-effect-free; ownership
+must be decided per route and event family.
+
+Cross-actor serialization still combines the **`BYTE1(TARGET_SLOT_ID)` action-in-progress latch** (`0x1D28DFD`, LOCK `0x4876D0` / UNLOCK `0x4876B0`, also set by the AI VM on yield), the separate **`BATTLE_ACTION_EXECUTION_ACTIVE`** lock that freezes ATB/GF, the true pause latch, and the camera busy gate (`dword_1D97704 & 0x8000`) polled by relays `0x70`/`0x71`. Distilled into [[projects/re-ff8/concepts/battle-lifecycle]] (*Active Tick Flow* + *Cross-actor serialization*). Wave3 extension: eleven registered workers (not three), `payload[1]` route table with default predicates, `cmd_arg`/`effect_id` at `+4/+6`, five `Magic_GetIDLoad` callers with sticky-C4 follow-ups (F7/F1/ED/EE), and effect-script apply opcodes `0xAA/0xB2/0xB7` — see [[projects/re-ff8/concepts/battle-action-sequencing]]. Residual: per-sequence intro/active/hit/outro frame counts and route-by-route ownership of result application.
 
 ### B3. Frame-time / cadence model — *CLOSED 2026-06-15*
 Resolved. One frame = one call to the battle pump `FFBattleModule` (`0x47CF60`, driven by `FFModuleHandler_main_loop`); per frame `BattleUI_HudInputAndATBTick` runs **×4** (3 pre + 1 post, ATB advances at each unpaused pulse) and `FFBattleDirector_battleLoop` runs **×1** (only when `!IS_BATTLE_PAUSED`). Live P0.8-A evidence confirmed four ATB-mutating pulses in complete unpaused frames and zero mutations across four paused pulses. Frame time is set by the software limiter `UpdateRateRelated` (`0x4020F0`, `timeGetTime`/QPC vs target `dbl_1A78BE8` ≈ **64.5 ms ⇒ ~15 fps**, with frame-skip catch-up via `is_sleeping`). Distilled into [[projects/re-ff8/concepts/battle-lifecycle]] (*Per-Frame Cadence*).

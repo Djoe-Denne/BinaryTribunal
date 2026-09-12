@@ -17,8 +17,9 @@ The domain writes results and enqueues tasks; the presentation layer consumes th
 | `Tick_Generic` | `0x50A9A0` | Magic, items, scan, most commands |
 | `Tick_GF_Cinematic` | `0x50B2A0` | GF summon sequences (all junctionable GFs) |
 | `Tick_Special` | `0x50B830` | Special sequences (e.g., Gilgamesh) |
+| + 8 more workers | `0x50BD00`/`0x50BD80`/`0x50B0C0`/`0x50B190`/`0x50BB00`/`0x50BC20`/`0x50BDC0`/`0x50BEE0` | Physical ±events, F7, Default/FC, ParamBZero, ParamAFFFF, F1, EDEE |
 
-These routines orchestrate camera, animation, and UI sequencing. They do NOT compute damage or status.
+Eleven workers, not three (see `battle_loop_render_pipeline_entrypoints.md` §3 Vague 7 for the `payload[1]` routes). They are **not** uniformly cosmetic: `PhysicalWithEvents`, GF mode-3, `ParamBZero`-no-anim, and script opcodes `0xAA/0xB2/0xB7` apply authoritative result records via `BattleAction_ApplyEventGroup0` (`0x50A670`) → `BattleAction_ApplyEventRecords` (`0x506BA0`) → `0x506690` → `0x493D80` before the popup. Ownership must be classified per route. F7/F1/ED/EE call the sticky C4 slot (`0x21DFEC4`) with no local MagicList load.
 
 ## Battle Render Chain
 
@@ -27,13 +28,14 @@ FFBattleDirector_battleLoop → BdLink_GF_battle_input_and_texture_upload (0x500
 → BS_RenderRelated (0x500FD0) → RenderGeometry (0x5099D0)
 ```
 
-This is presentation-only and does not affect domain state.
+This chain is **conceptual**: `BS_RenderRelated` is not a direct BdLink callee — stage/magic workers registered as BdLink callbacks build the packets, submitters walk the lists, and the backend present runs outside `FFBattleModule`. And per the workers above, action presentation is not uniformly side-effect-free at impact time.
 
 ## Frame Present
 
 Dispatched through `Render_FramePresent_Dispatch` (function start `0x41DF0C`, body `0x41DF14`) → backend vtable entry 4:
 - OpenGL: `RenderGL_Present` (`0x439CF3`) → `GL_FlushSwap_EndFrame` (`0x445137`) → `SwapBuffers`
 - DirectDraw: `RenderDDraw_Frame` (`0x43C761`) → `RenderDDraw_Present` (`0x40B50E`) → surface blt
+- DirectDrawAlt: `RenderDDraw_Present` (`0x40B50E`) directly → Flip or back→front Blt
 
 The analysed executable statically imports DirectDraw and OpenGL/WGL entry points and contains no direct D3D9 import or `Direct3DCreate9` string. However, the attached runtime process loaded `d3d9.dll`, `d3dx9_29.dll`, and the NVIDIA D3D9 user-mode driver. A compatibility or overlay layer may therefore translate the native DirectDraw/OpenGL path to D3D9. Module presence alone does not identify the active present path; DirectDraw `Flip/Blt`, OpenGL `SwapBuffers`, and D3D9 `Present/EndScene` must be traced together.
 

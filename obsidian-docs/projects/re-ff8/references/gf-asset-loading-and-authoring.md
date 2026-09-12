@@ -18,14 +18,18 @@ sources:
   - IDB: MAG_223_METEOR 0xA8F890 / MAG_223_METEOR_SequenceTick 0xA8FF00
   - docs/tech/gforce/gf_families.md
   - docs/tech/gforce/gf_catalog.md
+  - docs/tech/reference/magic_effect_table.md
+  - docs/tech/gforce/gf_asset_loading.md
+  - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
+  - docs/tech/investigation/battle-static-discovery/corpus-audit.md
   - ai-prompt/completed/ai_investigation_live_gf_payload_dump.md
-summary: End-to-end map of how a Guardian Force summon is loaded and presented in battle — data files, the two parallel registration tables, the loader/arena chain, the cinematic dispatch state machine, the per-GF handler contract (shared byte-for-byte with magic), shared context structs, and a checklist to author a brand-new GF from scratch (battle side).
+summary: End-to-end map of how a Guardian Force summon is loaded and presented in battle — data files, the two parallel registration tables, the loader/arena chain, the cinematic dispatch state machine, the per-GF handler contract (shared template with magic), shared context structs, and a checklist to author a brand-new GF from scratch (battle side).
 provenance:
   extracted: 0.86
   inferred: 0.1
   ambiguous: 0.04
 created: 2026-06-15T17:00:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-09-11T08:50:00+02:00
 ---
 
 # GF Asset Loading And Authoring Guide
@@ -38,7 +42,7 @@ This page answers a single question end-to-end: **what does it take to make a br
 
 A GF summon is **data + code**, not one or the other:
 
-- **Data**: a pair of files `mag<N>_b.00` and `mag<N>_b.01` under `\FF8\Data\Magic\` hold the summon's model/geometry/texture (`.00`) and its animation/effect data (`.01`).
+- **Data**: FamilyB effects use a pair of files `mag<N>_b.00` and `mag<N>_b.01` under `\FF8\Data\Magic\` holding the summon's model/geometry/texture (`.00`) and its animation/effect data (`.01`); other effects use single `.tim` files, shared packs, or no files at all (see loader taxonomy below).
 - **Code**: a small per-GF **loader** pulls those files into memory, and a per-GF **entry + tick** drive the cinematic frame by frame using a shared scene/animation engine.
 
 Nothing about the *animation itself* is hard-coded — the bytes live in the files; the handler functions are an interpreter/player over those bytes.
@@ -64,7 +68,7 @@ The valid range is `effect_id-1 < 400`; out-of-range logs `read_effect: illegal 
 
 ## The loader chain
 
-`Magic_GetIDLoad(magicID, &out_cb)` (`0x50AF20`, IDA name `BattleGF_LoadCallbackByMagicID`) is the single resolver shared by `Tick_Generic`, `Tick_GF_Cinematic`, and `Tick_Special`:
+`Magic_GetIDLoad(magicID, &out_cb)` (`0x50AF20`, IDA name `BattleGF_LoadCallbackByMagicID`) is the single resolver with **five** worker callers: `Tick_Generic` (`0x50AA94`), `Tick_DefaultOrFC` (`0x50B1D4`), `Tick_GF_Cinematic` (`0x50B3AC`), `Tick_Special` (`0x50B91E`) — all writing slot C4 (`0x21DFEC4`) — plus `Tick_DefaultParamAFFFF` (`0x50BC56`) writing slot C0. F7/F1/ED/EE call sticky C4 with no local load.
 
 ```c
 int Magic_GetIDLoad(int magicID, int (**out_cb)(int)) {
@@ -74,11 +78,11 @@ int Magic_GetIDLoad(int magicID, int (**out_cb)(int)) {
     if (MagicList_TextureLoad[idx])        // <-- LOAD the effect files
         MagicList_TextureLoad[idx]();
     *out_cb = MagicList_Logic[idx];        // <-- return the entry callback
-    return Magic_TextureOFF_ToEAX1();
+    return Magic_GetFileArena(); // ex-Magic_TextureOFF_ToEAX1 @ 0x571B50: returns &arena, not 1
 }
 ```
 
-Each `*_FL` loader just pulls its two files:
+FamilyB `*_FL` loaders pull their two files (the only "exactly two files" case):
 
 ```c
 int MAG_204_ALEXANDER..._FL() {            // 0xAFFC7F
@@ -86,6 +90,8 @@ int MAG_204_ALEXANDER..._FL() {            // 0xAFFC7F
     dword_2796DA0 = IO_GetFile_MAGIC("mag203_b.01");   // animation/effect
 }
 ```
+
+Full loader census over 343 non-null slots: 265 single-`IO_GetFile_MAGIC` (incl. extended Phoenix), 58 pairs (FamilyB bijection), 17 `ret` no-ops (15 TIM embedded in the EXE, 2 zero-TIM slots 68/343 — a sibling pack is **not** consumed by the `ret` FL), Tonberry 3-TIM, Devour 5-TIM, Cactuar alt-loader `0x5718E0`.
 
 `IO_GetFile_MAGIC(name)` (`0x571B80`) → `davAoyLoadMagicDataPlusBuffer` (`0x571900`, src `C:\FF8\Battle\aoy\jp\dav_aoy.cpp`):
 
@@ -100,15 +106,15 @@ The returned pointers are stored in per-GF globals (Alexander `dword_2796DA4/DA0
 
 ## File naming and format
 
-- **Naming rule**: the data files are `mag<effect_id-1>_b.00` and `mag<effect_id-1>_b.01` (the *0-based* index, not the effect id). Alexander (204) → `mag203_b.*`; Cerberus (203) → `mag202_b.*`.
-- **`.00` — model container**: starts with a multi-section header: `u32 section_count`, then `section_count+1` `u32` offsets (last = total size). Observed for `mag203_b.00`: count `4`, offsets `0x18, 0x2C8, 0xCE80, 0xDC14, 0xDC14` (total `0xDC14` = 56340 B). Sections hold skeleton/geometry/texture data (consumed by `BS_CopyGeometry` and `Magic_ReadAlternativeTexture`). ^[inferred: section roles inferred from consumers + header shape]
-- **`.01` — animation/effect data**: the per-frame scene/animation stream the tick interprets (keyframes + scene opcodes). ^[inferred]
+- **Naming rule (FamilyB only)**: the data files are `mag<slot>_b.00` and `mag<slot>_b.01` (the *0-based* slot, not the effect id). Alexander (id 204/slot 203) → `mag203_b.*`; Cerberus (id 203/slot 202) → `mag202_b.*`. Other slots use `mag<slot>.tim`, shared packs (`mag000-049`, `mag096-099`, `mag326-329`, `mag333`…), or a foreign slot's TIM (slot 225 → `mag296.tim`).
+- **`.00` — model container**: fixed DWORD header, **not** a C0M-style count+offsets (`[0]=0`, `[5]=0x30`, `[1]==[7]`; `mag203_b.00` is 73444 bytes, not `0xDC14`). File-relative pointers: `+0x04/+0x10/+0x18` scene binds (`MAG_331_Magic00Init`), `+0x14` TIM/alt table, `+0x20` camera resource, `+0x24` effect table. `+0x0C` read by `sub_B657E0` (closed); `+8` has no isolated FamilyB reader (open). No `BS_CopyGeometry` on mag.00. ^[extracted: Vague B]
+- **`.01` — animation/effect data**: **four tables**, none of them `BattleEffectScript_Interpreter @ 0x504BB0` (actor/C0M-H5 VM via `0x50DB40` — link refuted). MAG_331 (slot 330 = effect_id 331; PH9 `MAG_330_*` misindexed): OBJ0 `0x1852708` (13 useful, `[obj+0x18]`), PARTICULE `0x1852894` (low-byte, ~96), STREAM16 `0x1852A98` (`s16&0x1FF`), DRAW `0x18528F4` (`[obj+0x1C]`). Local 8-case bind (`[ptr+0x4A]>>12`). Bootstrap first IP **positive**. Chunk opcode 6: read `[0,127]` (`&0x7F`); `&0x3F` is preload file-id only. A2 **mutable** via `Op178_SetSeqCtxA2` (`0x8E55E0`, STREAM16 idx 178, 58 FamilyB clones); default A2=0. `.01+0x74` is layout-dependent `seqCtx+0x74`, not a header field. Stream ops 33/43/49 = `Op33_SeqPtrBind` / `Op43_PlaySE` / `Op49_SubmitTIM` (PH9 aliases Op162/172/178 ≠ STREAM16 178). Objects stride 256; shared stream cursor. ^[extracted: Vague B+D]
 
-The currently-executing effect points the **shared scratch pointers** `Magic_b_00` (`0x2798A68`) and `Magic_b_01` (`0x2798A6C`) at its own two files in its entry; the playback code reads model/anim through those shared pointers.
+The currently-executing effect latches its files into the indexed table `g_MagicFileChunkTable` (`0x2798A68`): `[0]`=`.00`, `[1]`=`.01` (a.k.a. `Magic_b_01`), indexed beyond — FamilyB `0x8Exxx–0xBxxxxx` only. The 1 MiB arena is heap-untracked; only the heap path (Cactuar `0x5718E0`) uses the alloc table.
 
 ## Cinematic dispatch state machine
 
-`BattleActionSequence_Tick_GF_Cinematic` (`0x50B2A0`) is a 10-state machine; the substep is a byte at `actionSeqCtx + 13`. The GF descriptor it reads is `g_GfSequenceContextSharedB` (`0x1D99A50`): `+1` = `COMMAND_TYPE_ID` (`0xFE` for GF), `+2` = slot, `+4` = u16 boost/attacker param, `+6` = `effect_id`.
+`BattleActionSequence_Tick_GF_Cinematic` (`0x50B2A0`) is a 10-state machine; the substep is a byte at `actionSeqCtx + 13`. The GF descriptor it reads is `g_GfSequenceContextSharedB` (`0x1D99A50`): `+0` attacker slot, `+1` = route byte (`0xFE` for the GF cinematic route — a GetText snapshot, not the pending/domain command id), `+2` = anim id, `+4` = cmd_arg u16, `+6` = `effect_id`.
 
 | State | Action |
 |-------|--------|
@@ -119,21 +125,21 @@ The currently-executing effect points the **shared scratch pointers** `Magic_b_0
 | 4–8 | drive/poll the BdLink subtask list (`au_re_BdlinkTask_0`), more camera/geometry/sound setup |
 | 9 | clear presentation flag `0x10`; `dword_1D99A64=0`; **return 2** (cinematic complete) |
 
-Damage/status are **not** computed here — that happens later in `BattleAction_ResolveAndApplyDamage` (`0x48FE20`) via the kernel payload (see below and [[projects/re-ff8/concepts/gforce-catalog-and-families]]).
+Damage/status are **not** computed here — that happens at resolve in `BattleAction_ResolveAndApplyDamage` (`0x48FE20`) → HP commit `0x494410` via the kernel payload (see below and [[projects/re-ff8/concepts/gforce-catalog-and-families]]). Exception: GF mode-3 reaches the impact apply chain `0x50A670 → 0x506690 → 0x493D80` (status sync, mug/blow-away, GF absorb — not the slot-HP rewrite), so the cinematic is not uniformly side-effect-free.
 
 ## Magic vs GF: same engine, different wrapper
 
 A common question: *is the animation handled by the same state machine for spells and GFs?* The precise answer has three layers.
 
-**Routing** — `BattleActionSequence_DispatchTick` (`0x50A790`) switches on `COMMAND_TYPE_ID` (`g_GfSequenceContextSharedB+1`) and schedules **one of several** `Tick_*` state machines via `BdLinkTask`:
+**Routing** — `BattleActionSequence_DispatchTick` (`0x50A790`) switches on the latched route byte `payload[1]` (`g_GfSequenceContextSharedB+1`) and registers **one of eleven** `Tick_*` workers via `BdLinkTask` (full table: [[projects/re-ff8/concepts/battle-action-sequencing]]):
 
-| Command type | Tick | Used for |
+| Route byte | Tick | Used for |
 |--------------|------|----------|
-| `0x00` | `sub_50BD00` / `sub_50BD80` | physical attacks |
-| `0x26` / `0xF4` / `0xFE` | **`Tick_GF_Cinematic`** (`0x50B2A0`) | GF summons (unless param `+4` is 70/15 → falls to Generic) |
+| `0x00` | `Tick_PhysicalNoEvents` / `Tick_PhysicalWithEvents` | fail/Kamikaze/Pinion-fail by group count (not domain Attack) |
+| `0x26` / `0xF4` / `0xFE` | **`Tick_GF_Cinematic`** (`0x50B2A0`) | MiniMog/Chocobo/GF cinematics (unless param `+4` is 15/70 → falls to Generic) |
 | `0xEC` / `0xF5` | `Tick_Special` (`0x50B830`) | Odin / Gilgamesh special path |
-| `0xED`/`0xEE`/`0xF1`/`0xF7`/`0xFC` | dedicated subs | item/draw/escape/etc. presentation |
-| default (magic) | **`Tick_Generic`** (`0x50A9A0`) | spells and most generic actions |
+| `0xED`/`0xEE`/`0xF1`/`0xF7`/`0xFC` | dedicated workers | follow-ups (sticky C4), FC direct |
+| default (magic, Attack 1, Renzokuken, Angelo `0xF0`) | **`Tick_Generic`** (`0x50A9A0`) + Default* | spells and most generic actions |
 
 So the **dispatch state machine is NOT the same function** for magic vs GF — they are siblings selected by command type.
 
@@ -152,7 +158,7 @@ _DWORD *MAG_223_METEOR(int a1) {
 }
 ```
 
-The **per-frame tick** is the same story. `MAG_223_METEOR_SequenceTick` (`0xA8FF00`) is **byte-for-byte the same template** as `GF_204Alexander_SequenceTick` (`0xB00310`) — same counter/parity, the same camera view-matrix mirror block, the same `ctx+136 = ctx+132 + ctx+140*parity` interpolation, the **same 3 scene passes** when not paused (`sub_A9AC00 → sub_A90220 → sub_A9B020`, mirroring Alexander's `sub_B0BBA0 → sub_B00630 → sub_B0BFC0`), the same `Call_Bs_parseCamera2`, and the **same completion return** `((~SequenceStatePtr[10])>>14)&2`. A *spell* even drives the `g_GfCinematic_*` context globals — confirming those globals are the shared **effect**-animation context, not GF-only. The only per-effect differences are the addresses of those sub-routines (each reads its own `.01` stream) and the animation period (`au_re_bs_modulo_41` for Meteor vs `_50` for Alexander).
+The **per-frame tick** shares the FamilyB template. `MAG_223_METEOR_SequenceTick` (`0xA8FF00`, SHA `0af51636…`) and `GF_204Alexander_SequenceTick` (`0xB00310`, SHA `be9bc791…`) have the same size `0x215`, counter/parity, camera view-matrix mirror block, `ctx+136` interpolation, **3 scene passes** and completion return — same gabarit, **not** byte-identical (the old "byte-for-byte" claim is false). Meteor calls `sub_A95CD0`, never the Alexander-only table `dword_187281C`. A *spell* even drives the `g_GfCinematic_*` context globals — confirming those globals are the shared **effect**-animation context, not GF-only. The only per-effect differences are the addresses of those sub-routines (each reads its own `.01` stream) and the animation period (`au_re_bs_modulo_41` for Meteor vs `_50` for Alexander).
 
 The shared `Magic_b_00/01` scratch, the `BdLinkTask` scheduling, the per-frame scene/keyframe passes, and the `g_GfCinematic_*` context globals are the **one common animation engine** used by both. What differs:
 
@@ -172,7 +178,7 @@ Bottom line: **the file layer and presentation *wrapper* differ; the animation *
 
 The entry callback (called once at state 3) must do three things:
 
-1. **Bind the loaded files** into the shared scratch (`Magic_b_00/01`) from its own file-pointer globals.
+1. **Bind the loaded files** into the chunk table (`g_MagicFileChunkTable[0/1]`) from its own file-pointer globals.
 2. **Initialise the summon context** (`InitSummonContext`): seed the active sequence/render/slot context.
 3. **Register the per-frame tick** with `BdLinkTask(ctx, SequenceTick)` (`0x508360`) and return the context.
 
@@ -213,11 +219,15 @@ The fixed order of work each frame (`GF_204Alexander_SequenceTick` `0xB00310`):
 
 `ctx+53` is the global-pause mirror (`battle_to_update_flags_dword_1D96A9C & 1`): when the battle is paused, the passes are skipped but the camera matrix is still mirrored, so the summon freezes cleanly. This is the FamilyB shape; FamilyA GFs add a secondary task driver for longer timelines.
 
-### Structural families (how the tick is shaped)
+### Structural families (wave3: five Logic buckets over 343 entries)
 
-- **FamilyA — multi-task**: entry → init → tick → secondary task driver (long timelines). Exemplars: Pandemona, Doomtrain, Shiva, Odin.
-- **FamilyB — single-task, script-driven**: the tick *is* the driver; per-frame it runs animation scripts (backward / transform / forward passes) and a scene system whose `AdvanceSceneOrComplete` opcode steps sub-animations. Exemplars: Cerberus, Brothers, Leviathan, **Alexander**, Bahamut, Eden.
-- **SharedInit**: entry is mostly memsets + `BdLinkTask_CreateAndInitContext(ctx, tick_fn, size, parent)` where the tick is passed as a function pointer. Exemplars: Siren, Tonberry.
+- **Wrapper → init (111)**: 14-byte entries resolving 111 distinct inits (Diablos/Carbuncle G93, Pandemona/Thunder G14, Quezacotl/Phoenix/slot-273 sandwich).
+- **FamilyB — single-task, script-driven (58)**: the tick *is* the driver; per-frame animation scripts (backward / transform / forward passes) and a scene system whose `AdvanceSceneOrComplete` opcode steps sub-animations. Exemplars: Cerberus, Brothers, Leviathan, **Alexander**, Bahamut, Eden, Meteor.
+- **SharedInit (82)**: entry is mostly memsets + `BdLinkTask_CreateAndInitContext(ctx, tick_fn, size, parent)` with 82 unique ticks. Exemplars: Cure, Siren, Tonberry, Angel Wing, slot 345.
+- **BdLink inline / dual-task (84)**: Fire, Shiva, Cactuar, Doomtrain, Odin, Gilgamesh.
+- **Irvine Shot (8)**: 40-byte entries, BdLink in the child.
+
+Retired: entry-level "FamilyA" and "Atypical" (see [[projects/re-ff8/concepts/gforce-catalog-and-families]]).
 
 See [[projects/re-ff8/concepts/gforce-catalog-and-families]] for the family roster.
 
@@ -229,11 +239,11 @@ These carry the `g_GfCinematic_*` prefix in the IDB (originally `gfIfrit_*` afte
 |--------|------|------|
 | `g_GfCinematic_SequenceCtxPtr` | `0x27973EC` | active summon sequence context (counter, flags, scene math, args) |
 | `g_GfCinematic_RenderCtxPtr` | `0x27973BC` | active render/model context |
-| `g_GfCinematic_RuntimeSlotPtr` | `0x27973B8` | runtime/battle-slot link |
+| `g_GfCinematic_RuntimeSlotPtr` | `0x27973B8` | pointer to runtime/battle slot; opcode word = `[ptr+0x4A]`, 58 writers |
 | `g_GfCinematic_SequenceStatePtr` | `0x27973C0` | scene/anim state; `+10` WORD bit15 = completion flag |
 | `g_GfCinematic_OffsetStack` | `0x2797624` | active GF stack frame |
-| `g_GfActiveCallbackPtr` (`GF_CALLBACK_PTR`) | `0x21DFEC4` | the currently-resolved entry callback |
-| `g_GfSequenceContextSharedB` | `0x1D99A50` | dispatch descriptor (`+1` cmd type, `+4` param, `+6` effect_id) |
+| `g_GfActiveCallbackPtr` (`GF_CALLBACK_PTR`) | `0x21DFEC4` | the currently-resolved entry callback (slot C4; C0 is AFFFF's slot, C8 the GF/Special backup) |
+| `g_GfSequenceContextSharedB` | `0x1D99A50` | dispatch descriptor (`+0` slot, `+1` route, `+4` cmd_arg, `+6` effect_id) |
 
 See [[projects/re-ff8/concepts/gforce-cinematic-architecture]] and `docs/tech/gforce/gf_shared_infra.md` for the rename history.
 
@@ -248,9 +258,9 @@ The summon is wired to gameplay through the kernel, independent of the cinematic
 
 ## Create a new GF from scratch (battle side) — checklist
 
-1. **Pick an `effect_id`** (1-based, `< 400`) and its 0-based index `N = effect_id - 1`.
-2. **Author the data files** `mag<N>_b.00` (model container: section header + geometry/texture sections) and `mag<N>_b.01` (animation/scene stream), placed in `\FF8\Data\Magic\` (or the battle archive).
-3. **Write the `_FL` loader**: two `IO_GetFile_MAGIC("mag<N>_b.00/.01")` calls storing the arena pointers into a fresh pair of per-GF globals.
+1. **Pick an `effect_id`** (1-based, `< 400`) and its 0-based slot `N = effect_id - 1`. Identity rule: the `mag*` literal in the loader and the slot number are authoritative; `MAG_NNN` Logic prefixes are frequently misaligned (Angelo 91–94, Gilgamesh 327, Angel Wing/Moogle Tex swap, Pandemona `GF_200`→`GF_291`).
+2. **Author the data files** — FamilyB route: `mag<N>_b.00` (model container: section header + geometry/texture sections) and `mag<N>_b.01` (animation/scene stream), placed in `\FF8\Data\Magic\` (or the battle archive). Other routes: single/packed `.tim`, multi-TIM, or `ret` no-op (15 TIM EXE / 2 zero-TIM; sibling pack is not consumed by the `ret` FL).
+3. **Write the `_FL` loader**: FamilyB = two `IO_GetFile_MAGIC("mag<N>_b.00/.01")` calls storing the arena pointers into a fresh pair of per-GF globals; other routes per the loader census above (Cactuar pattern: `Magic_LoadTexture_IO_GetsFile_DefaultArgs`).
 4. **Register it**: `MagicList_TextureLoad[N] = your_FL`; `MagicList_Logic[N] = your_entry`.
 5. **Write the entry**: bind files into `Magic_b_00/01`, init the sequence context, `BdLinkTask(ctx, your_tick)`, return ctx. (Or use `BdLinkTask_CreateAndInitContext` for SharedInit style.)
 6. **Write the tick**: per frame, drive the scene/animation passes from the `.01` stream, feed the camera view-matrix globals into the render context, and return `0`/`2` via the completion convention.

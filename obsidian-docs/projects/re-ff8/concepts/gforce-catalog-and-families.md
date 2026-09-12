@@ -17,6 +17,8 @@ sources:
   - ai-prompt/completed/ai_investigation_live_gf_payload_dump.md
   - obsidian-docs/_staging/investigations/gf_chain_completion_and_support_assertions.md
   - obsidian-docs/_staging/investigations/2026-06-09_prompt20_bulk_kernel_gf_id_confirmation.md
+  - docs/tech/reference/magic_effect_table.md
+  - docs/tech/investigation/battle-static-discovery/corpus-audit.md
   - evidence/2026-06-15T16-24-56_GF_CERBERUS_001.json
   - evidence/2026-06-15T16-26-28_GF_ALEXANDER_001.json
 summary: Known GF summon entries are cataloged by command arg, effect ID, structural family, chain completeness, plus a runtime-confirmed payload dump for Alexander, Cerberus, and Doomtrain.
@@ -25,7 +27,7 @@ provenance:
   inferred: 0.08
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-06-15T16:35:00+02:00
+updated: 2026-09-11T19:10:00+02:00
 ---
 
 # G-Force Catalog And Families
@@ -35,23 +37,22 @@ The GF catalog still consolidates summon chains by command arg, effect ID, and s
 ## Junctionable GF Highlights
 
 - Ifrit remains `cmd_arg 0x42`, effect ID `201`, FamilyB, and strong runtime-confirmed evidence.
-- Diablos remains `cmd_arg 0x45`, effect ID `325`, with runtime confirmation.
-- Pandemona remains `cmd_arg 0x48`, effect ID `291`, with prior confirmation.
-- Cerberus remains `cmd_arg 0x49`, effect ID `203`, and a strong support-GF exemplar.
+- Diablos remains `cmd_arg 0x45`, effect ID `325` (`GF_325Diablos_InitSummonContext` `0x654210`).
+- Pandemona remains `cmd_arg 0x48`, effect ID `291` (`GF_291Pandemona_*`, init `0x6ED260`).
+- Cerberus remains `cmd_arg 0x49`, effect ID `203`, and a strong support-GF exemplar. `GF_203Cerberus_AllocFrameMemory` (`0xB0C2F0`) calls `BattleScratch_Unwind` (`0x5082D0`), the **unwind** of the scratch bump — not an allocator. The matching bump-alloc is `bs_modulo` `0x5082B0` (misnomer, not renamed in E3a).
 - Tonberry remains SharedInit.
 
 The core junctionable mapping `0x40..0x4F` is now structurally stable, even though the current static session still could not regenerate a fresh raw 16-row payload dump directly from the kernel table bytes.
 
-## Structural Families
+## Structural Families (wave3: five Logic buckets over 343 entries)
 
-- FamilyA is the multi-task wrapper style: entry plus init plus wrapper tick plus secondary task driver.
-- FamilyB is the single-task script-driven style: one tick owns the whole sequence and returns completion directly.
-- SharedInit entries route through `BdLinkTask_CreateAndInitContext(...)`.
+- **Wrapper → init (111)**: 14-byte `mov/push/call rel32/add/ret`, disp `+0x26` (94) / `+0x06` (14) / sandwich (Quezacotl, Phoenix, slot 273). Byte-identical ≠ equivalent; `FUNC_THUNK = 0` everywhere. Diablos 325 is a standard G93 wrapper; Pandemona 291 a G14 wrapper with `ret` FL.
+- **FamilyB single-task script-driven (58)**: distinct `0x5D` functions (Cerberus alone `0x62`), in bijection with the 58 `magN_b.00/.01` pairs. Not "junctionable GF": 7 GFs + Meteor, Elvoret Death, Hell's Judgement, Adel, Terra Break, slots 228–270, 331 (`MAG_331_FAMILYB`). Vague B named the remaining 116 Logic entries 225–344 (`MAG_<effect_id>_…`); convention `MAG_<effect_id>` (slot 330 = id 331, not Gilgamesh Masamune id 330). Gilgamesh 328–330 = Excalibur/Zantetsuken/Masamune. Reports: Angelo/Moogle kernel-data, `0x1852750`.
+- **SharedInit (82)**: `BdLinkTask_CreateAndInitContext` with 82 unique ticks. Not GF-only: Cure, Double, items, Angelo, Choco, slot 345…
+- **BdLink inline / dual-task (84)**: Fire, Shiva, Cactuar, Doomtrain, Odin, Gilgamesh 327–330 (shared workers + `mag326-329.tim` pack).
+- **Irvine Shot (8)**: 40-byte entries, slots 187/191–197, BdLink in the child.
 
-The most useful family reclassifications are:
-
-- Doomtrain and Cactuar now have confirmed secondary task-driver links, so their wrapper structure is no longer a loose guess.
-- Brothers, Alexander, Bahamut, and Eden now match the same FamilyB completion pattern strongly enough that they should not stay parked as "atypical" placeholders.
+Retired: entry-level "FamilyA multi-task" (Pandemona was a wrapper; Shiva/Doomtrain/Odin are dual-task inline) and "Atypical" (Brothers/Leviathan/Alexander/Bahamut/Eden are FamilyB; Cactuar is dual-task with alt loader `0x5718E0`). Alexander tick vs Meteor tick share the FamilyB template at size `0x215` but have distinct SHAs — the old "byte-for-byte" claim is false; `dword_187281C` is Alexander-only, Meteor calls `sub_A95CD0`.
 
 ## Support And Status Validation
 

@@ -22,13 +22,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - IDA static decompile 2026-08-18 (G11 K_MAGIC load, UNMISSABLE vs LV_ATTACK, Magic stock consume)
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
+  - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
+  - docs/tech/investigation/battle-static-discovery/closure-audit.md
 summary: Damage and status resolution load metadata, fan out targets, compute raw deltas, then G09 HP/event and G10 owned status/timer apply without Battle_ApplyDamageOrHeal.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T18:30:00+02:00
+updated: 2026-09-10T14:30:00+02:00
 ---
 
 # Damage And Status Pipeline
@@ -128,7 +130,9 @@ The timer bank is no longer just an open note on the slot layout:
 
 ## HP Commit And Summon Charge
 
-`Battle_ApplyDamageOrHeal` (`0x494410`) is the authoritative HP-commit stage: heal = `min(hp+dmg, max)`, damage = `max(hp−dmg, 0)`. GF summon-charge absorption happens here, not in the earlier formula layer.
+`Battle_ApplyDamageOrHeal` (`0x494410`) is the authoritative HP-commit stage: heal = `min(hp+dmg, max)`, damage = `max(hp−dmg, 0)`. GF summon-charge absorption happens here, not in the earlier formula layer. It runs at **resolve time**, synchronously with arbitration — before any presentation worker runs.
+
+Wave3 boundary: the impact-time chain `0x506690 → BattleAction_ResolveAndApplyStatusResult` (`0x493D80`) is a *second* domain touchpoint reached from presentation workers (Physical-with-events, GF mode-3, ParamBZero-no-anim, effect-script opcodes `0xAA/0xB2/0xB7`). It syncs persistent `F_CHAR_DATA` HP, status, crisis, mug/blow-away and GF absorb — but does **not** rewrite the enemy slot's `current_hp` (that commit already happened at `0x494410`). Popup `0x5068B0` runs last and never mutates HP. Full sequencing: [[projects/re-ff8/concepts/battle-action-sequencing]].
 
 **Confirmed 2026-06-14:** the active absorb pool *is* the summoner party slot's `target_info_mask`. When a party slot (`<3`) is mid-summon (`status_2` high bit) with an active `F_CHAR_ACTIVE_SUMMON_CHARGE_TIMER` and a non-"normal" hit, damage is subtracted from `target_info_mask` instead of `current_hp`; when that pool reaches 0 the summoned GF's `NumberOfKOs` increments. Slots `8..10` are *not* used as the live absorb sink.
 

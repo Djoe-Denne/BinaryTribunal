@@ -21,13 +21,15 @@ sources:
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
   - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+  - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
+  - docs/tech/investigation/battle-static-discovery/closure-audit.md
 summary: Battle lifecycle through init, active tick and cleanup, including G07 domain ownership and the G14 sealed presentation owner.
 provenance:
   extracted: 0.90
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-26T21:15:00+02:00
+updated: 2026-09-10T14:30:00+02:00
 ---
 
 # Battle Lifecycle
@@ -37,7 +39,7 @@ updated: 2026-08-26T21:15:00+02:00
 ## Initialization Flow
 
 - `mode_StateGlobal` value `3` owns battle init, active tick, and cleanup; value `5` owns reward or post-battle packaging; value `100` exits to field or world map.
-- Init loads `COMBAT_SCENE_ID`, reads the `scene.out` entry, merges encounter flags, clears all 11 battle slots, initializes action queues, parses party data, parses items, and sets enemy slot visibility.
+- Init loads `COMBAT_SCENE_ID`, reads the `scene.out` entry, merges encounter flags, runs `BattleSlot_ClearSevenRecords` (`0x48C620`), initializes action queues, parses party data, parses items, and sets enemy slot visibility. That clear loop has exactly seven `0xD0` iterations; it is not the proof for the separate 11-slot logical model.
 - Party initialization copies save data into `F_CHAR_DATA`, calculates junction stats, applies auto-status abilities, initializes ATB, copies stats into [[projects/re-ff8/concepts/battle-state-model]], and finalizes GF battle data.
 - Enemy initialization fills visible enemy slots from `.dat` sections, chooses levels, applies HP or stat scaling, assigns innate statuses, and initializes draw spell visibility.
 - The last pre-active branch also builds target visibility, enqueues initial party actions, runs Odin or Gilgamesh init checks, and initializes the dead timer.
@@ -73,6 +75,8 @@ Each director call (one per frame, see cadence below) runs this body in order:
 
 > [!important] Outcome is committed at selection, not at the hit-frame
 > `BattleAction_ResolveSpecialActionAndUpdateDamage` (`0x485160`) → `BattleAction_ResolveAndApplyDamage` (`0x48FE20`) calls **both** `Damage_ComputeRawDeltaFromAttackType` (compute) **and** `Battle_ApplyDamageOrHeal` (HP commit) synchronously, in the same frame as `BattleArbitration_SelectNextAction`. The multi-frame action sequence that follows is pure presentation and does **not** affect HP/status. An ISO reimplementation can therefore compute + commit the whole outcome at selection time and treat the animation as cosmetic.
+>
+> Wave3 correction: the second half above is too broad. The slot-HP commit is indeed `0x494410` at resolve time, but the impact-time chain `0x50BD80 → 0x50A670 → 0x506BA0 → 0x506690 → 0x493D80` still applies authoritative state (persistent `F_CHAR_DATA` HP, status sync, crisis, mug/blow-away, GF absorb) before the popup. Skipping the native `'h'` sequence is only safe if the replacement replicates that apply step. See [[projects/re-ff8/concepts/battle-action-sequencing]].
 
 ## Per-Frame Cadence & Action Sequencing (CLOSED 2026-06-15)
 
@@ -107,7 +111,7 @@ See
 [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
 for the live action-freeze, pause and escape separation.
 
-An action's multi-frame presentation is driven by `BattleActionSequence_DispatchTick` (`0x50A790`), which switches on the sequence-state byte `g_GfSequenceContextSharedB+1` to a per-sequence handler — `BattleActionSequence_Tick_Generic` (`0x50A9A0`), `_Tick_GF_Cinematic` (`0x50B2A0`), `_Tick_Special` (`0x50B830`) — scheduled via the `BdLinkTask` presentation scheduler; sequence words `70`/`15` (Renzokuken / special) take dedicated branches. This layer is what the AI relays `0x70`/`0x71` gate on (camera-busy via `dword_1D97704 & 0x8000`, set by `BattleActionSequence_SelectGenericCameraAnimation`); the relay holds the next actor until the sequence + camera takeover complete. The per-sequence intro/active/hit/outro phase frame-counts are **pure presentation** (outcome already committed at step 7 above), so an ISO need not reproduce them frame-accurately.
+An action's multi-frame presentation is driven by `BattleActionSequence_DispatchTick` (`0x50A790`), which latches the 20-byte payload via `BattleActionSequence_PreparePayloadContext` (`0x50BF90`) and switches on the route byte `payload[1]` (`g_GfSequenceContextSharedB+1`, a GetText snapshot — not the pending command id) to one of **eleven** workers — `Tick_Generic` (`0x50A9A0`), `_Tick_GF_Cinematic` (`0x50B2A0`), `_Tick_Special` (`0x50B830`), Physical pair, F7, DefaultOrFC, ParamBZero, ParamAFFFF, F1, EDEE — scheduled via the `BdLinkTask` presentation scheduler (never called directly); `paramA` values 15/70 force the Generic route with `payload[2]=0x0B`, while Renzokuken launch/hit/finisher (`0xFA/0xFB/0xF9`) take the default path. Full route table: [[projects/re-ff8/concepts/battle-action-sequencing]]. This layer is what the AI relays `0x70`/`0x71` gate on (camera-busy via `dword_1D97704 & 0x8000`, set by `BattleActionSequence_SelectGenericCameraAnimation`); the relay holds the next actor until the sequence + camera takeover complete. The per-sequence intro/active/hit/outro phase frame-counts are presentation, but the impact-time apply step above means an ISO must replicate result application per route, not merely skip the animation.
 
 ## End Detection
 
@@ -236,6 +240,7 @@ The Wicked migration keeps this lifecycle native during rendering phases. Owners
 
 ## Related
 
+- [[projects/re-ff8/concepts/battle-action-sequencing]]
 - [[projects/re-ff8/concepts/escape-mechanics]]
 - [[projects/re-ff8/concepts/battle-camera-architecture]]
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]]

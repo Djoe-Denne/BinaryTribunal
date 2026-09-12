@@ -39,7 +39,7 @@ Heure réelle de début d'audit (système): `2026-08-18T13:29:14+02:00` (`Get-Da
 | RTK | `rtk=pass` — `0.42.4`, hook `preToolUse` → `rtk hook cursor` (matcher Shell) présent dans `%USERPROFILE%\.cursor\hooks.json`. Non répété ensuite. |
 | QMD | CLI `qmd 2.5.2`, collection `ff8-wiki` (97 fichiers au début d'audit). **Pas de serveur MCP QMD** dans Cursor; fallback CLI uniquement. `qmd=pending` jusqu'au checkpoint ci-dessous. |
 | Context Mode | `tooling_degraded=context-mode` pour l'inventaire PowerShell (le sandbox a exécuté bash). Contour: Shell natif + `py_eval` IDA. |
-| IDA MCP | `user-ida-pro-mcp` prêt. Image base `0x400000`. Hash EXE **identique** au ledger. Hex-Rays OK. Lookup par nom `domain::` fonctionne; les adresses restent la racine. |
+| IDA MCP | `project-0-re-ff8-ida-pro-mcp` (ancien `user-ida-pro-mcp`) prêt. Image base `0x400000`. Hash EXE **identique** au ledger. Hex-Rays OK. Lookup par nom `domain::` fonctionne; les adresses restent la racine. |
 
 ### Baseline implémentation
 

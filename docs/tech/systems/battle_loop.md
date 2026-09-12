@@ -50,14 +50,19 @@ Within the active `subsubsubstep == 4` case, the director runs:
 9. Process action and deferred callback chains.
 10. Pump battle-file callbacks, run `BdLink_GF_battle_input_and_texture_upload`, and update transition/message tails.
 
-Outcome HP/status is committed during selection/resolution. Multi-frame action sequences are presentation, although their completion and callback state can still gate later domain progress.
+Some outcomes are committed during selection/resolution, but multi-frame
+sequences are not uniformly cosmetic. The physical-with-events path reaches
+`0x506690 → 0x493D80` and applies authoritative result records before spawning
+the popup; ownership must therefore be classified per route.
 
 ## Initialization And Handoff
 
 Before the active tick, the director:
 
 1. Loads `COMBAT_SCENE_ID` and the `scene.out` record.
-2. Clears all 11 slots, parses party/items, and seeds battle RNG.
+2. Runs `BattleSlot_ClearSevenRecords`, parses party/items, and seeds battle
+   RNG. This clear loop has seven `0xD0` iterations and is not the proof for
+   the separate 11-slot logical model.
 3. Loads stage and enemy resources asynchronously.
 4. Initializes enemy data, ATB, positions, target masks, scripted summons, and dead timer.
 5. Writes `mode_3_subsubsubstep = 4` at `0x47D6F8`.

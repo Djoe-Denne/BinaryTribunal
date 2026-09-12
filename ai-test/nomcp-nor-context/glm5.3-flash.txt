@@ -1,0 +1,898 @@
+Chat 5
+
+USER (2026-09-11 12:54:48)
+
+
+```
+unsigned __int8 __usercall@<al>(unsigned int p_ai_subsection_init_code@<ebp>, unsigned int p_monster_slot_id, unsigned __int8 *p_ai_current_subcode, int p_text_subsection, int p_text_offset_section)
+sub     esp, 64h; Enemy AI VM interpreter. 61-opcode bytecode (0x01..0x3D; 0x00=STOP). Inline little-endian operands; ctrl flow = 0x23 JUMP / 0x02 IF. Berserk(sec1) -> forced Attack via AI_VM_FALLBACK_BYTECODE. Commit tail @0x48983D. Full table: wiki references/enemy-ai-opcodes.
+push    ebx
+mov     ebx, [esp+68h+p_monster_slot_id]
+xor     ecx, ecx; Logical Exclusive OR
+push    ebp
+lea     eax, [ebx+ebx*8]; Load Effective Address
+lea     edx, [ebx+ebx*2]; Load Effective Address
+shl     eax, 3; Shift Logical Left
+sub     eax, ebx; Integer Subtraction
+push    esi
+push    edi
+xor     esi, esi; Logical Exclusive OR
+mov     cl, BMI71_LOW_MED_HIGH_LEVEL_BIS[eax]
+lea     eax, [ebx+edx*4]; Load Effective Address
+shl     eax, 4; Shift Logical Left
+mov     [esp+74h+monster_difficulty], ecx
+mov     byte ptr [esp+74h+ai_scratch_var], 0
+mov     ecx, dword ptr BATTLE_SLOT_DATA.monster_info_section[eax]; G16 SQ-G16-001: slot.monster_info_section is a pointer-to-pointer. ecx=field, edi=[ecx]=380-byte ff8_battle_monster_info base. Same deref as G13 Draw. Do not treat the slot field as the table.
+mov     byte ptr [esp+74h+has_text_pending], 0
+mov     byte ptr [esp+74h+command_type], 0
+mov     [esp+74h+p_monster_slot_id], esi
+mov     edi, [ecx]; G16: first_ability = *monster_info_section (one deref). Ability rows at base+0x34, stride 4, index=16*difficulty+idx. Row: typeID, animscript, id.
+mov     cl, byte ptr AI_CURRENT_SECTION_INDEX
+cmp     cl, 1; Compare Two Operands
+mov     [esp+74h+first_ability], edi
+mov     byte ptr [esp+74h+enter_alt_target_param_2], 0
+mov     [esp+74h+section_position], esi
+jnz     short loc_487EB6; Jump if Not Zero (ZF=0)
+test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 20h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+jz      short loc_487EB6; Jump if Zero (ZF=1)
+call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure
+cmp     eax, 0FFh; Compare Two Operands
+jnz     short loc_487E75; Jump if Not Zero (ZF=0)
+mov     [esp+74h+p_monster_slot_id], esi
+mov     [esp+74h+opcode_param_1], 0
+mov     esi, offset AI_VM_FALLBACK_BYTECODE
+jmp     loc_489804; Jump
+call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+and     eax, 0FFh; Logical AND
+mov     ecx, 3
+cdq; EAX -> EDX:EAX (with sign)
+idiv    ecx; Signed Divide
+lea     eax, [edx+edx*2]; Load Effective Address
+lea     ecx, [edx+eax*4]; Load Effective Address
+shl     ecx, 4; Shift Logical Left
+test    byte ptr BATTLE_SLOT_DATA.status_1[ecx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+jnz     short loc_487E75; Jump if Not Zero (ZF=0)
+mov     eax, 1
+mov     cx, dx
+shl     eax, cl; Shift Logical Left
+mov     [esp+74h+opcode_param_1], 0
+mov     esi, offset AI_VM_FALLBACK_BYTECODE
+mov     [esp+74h+p_monster_slot_id], eax
+jmp     loc_489804; Jump
+mov     esi, [esp+74h+p_ai_current_subcode]
+mov     al, [esi]; AI VM parse-loop top (also NOP target for op 0x0A/0x10/0x14/0x21): op=*ptr++; if op==0 return.
+inc     esi; Increment by 1
+test    al, al; Logical Compare
+mov     [esp+74h+op_id], al
+jz      loc_48A0AD; Jump if Zero (ZF=1)
+mov     edx, dword ptr [esp+74h+op_id]
+mov     edi, 0FFh
+and     edx, edi; Logical AND
+lea     eax, [edx-1]; switch 61 cases
+cmp     eax, 3Ch; Compare Two Operands
+ja      short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+jmp     ds:jpt_487EDC[eax*4]; AI VM opcode dispatch (switch op_id; jumptable @0x48A0B8, indexed op-1).
+lea     eax, [ebx+ebx*2]; AI VM op 0x24 RESET_ATB_SELF: cur_atb = max_atb (make self ready)
+lea     eax, [ebx+eax*4]; Load Effective Address
+shl     eax, 4; Shift Logical Left
+add     eax, offset BATTLE_SLOT_DATA; Add
+mov     ecx, [eax+10h]
+mov     [eax+14h], ecx
+jmp     short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+mov     al, [esi]; AI VM op 0x1C SET_TEXT_FRAMES_30: word_1D28C4C[] = 30*n(1) (text wait frames)
+push    offset domain__EnemyAI_AbilityLookupCallback
+movzx   ax, al; Move with Zero-Extend
+inc     esi; Increment by 1
+lea     eax, [eax+eax*2]; Load Effective Address
+lea     edi, [eax+eax*4]; Load Effective Address
+shl     edi, 1; Shift Logical Left
+call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+movsx   edx, ax; Move with Sign-Extend
+add     esp, 4; Add
+shl     edx, 4; Shift Logical Left
+mov     word_1D28C4C[edx], di
+jmp     short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+mov     al, [esi]; AI VM op 0x20 SET_TEXT_FRAMES_15: word_1D28C4C[] = 15*n(1) (text wait frames, half of op 0x1C)
+push    offset domain__EnemyAI_AbilityLookupCallback
+movzx   ax, al; Move with Zero-Extend
+inc     esi; Increment by 1
+lea     eax, [eax+eax*2]; Load Effective Address
+lea     edi, [eax+eax*4]; Load Effective Address
+call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+movsx   eax, ax; Move with Sign-Extend
+add     esp, 4; Add
+shl     eax, 4; Shift Logical Left
+mov     word_1D28C4C[eax], di
+jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+mov     cl, [esi]; AI VM op 0x34 SPAWN_MONSTER: spawn id(1) into first free enemy slot 3..7; relay 0x71 init; SetTargetableCallback
+inc     esi; Increment by 1
+mov     [esp+74h+op_param_2], cl
+mov     eax, dword ptr [esp+74h+op_param_2]
+and     eax, edi; Logical AND
+mov     [esp+74h+encounter_slot_to_enable], eax
+mov     AI_BATTLE_ACTIVE_FLAG, 0
+mov     byte ptr ATTACKER_SLOT_ID_0+1, 1
+mov     byte ptr TARGET_SLOT_ID+1, 1
+mov     ecx, 3
+mov     eax, (offset BATTLE_SLOT_DATA.flag_data+270h)
+test    byte ptr [eax], 1; 
+
+[... 107,982 characters omitted from UI display; full prompt is still stored/sent ...]
+
+le de la fonction et de sa boucle principale ;
+comment le flux d’instructions est lu et avancé ;
+le mécanisme exact de dispatch ;
+la largeur et l’interprétation des opérandes ;
+les lectures et écritures d’état ;
+les branchements et leur sémantique ;
+les usages du RNG ;
+les cas qui provoquent un effet externe ou “commit” une action ;
+les conditions de sortie, suspension ou reprise ;
+les subtilités signed/unsigned, bitmasks, pointeurs et conversions ;
+les endroits où Hex-Rays risque de masquer la logique réelle.
+
+Pour chaque opcode ou famille d’opcodes que tu peux identifier, donne :
+
+opcode | taille opérande | effet | lectures | écritures | contrôle de flux | RNG | commit/action | confiance
+
+Ne force pas une interprétation si elle n’est pas démontrée.
+
+Classe chaque conclusion en :
+
+FACT — directement démontré par le code
+STRONG INFERENCE — fortement soutenu par plusieurs indices
+SPECULATION — hypothèse restant à vérifier
+
+Si plusieurs cas du switch partagent une logique commune, regroupe-les lorsque c’est pertinent, mais conserve les différences comportementales exactes.
+
+Termine par :
+
+une description de l’architecture de l’interpréteur ;
+une table récapitulative des opcodes/familles que tu as réussi à reconstruire ;
+les ambiguïtés restantes ;
+les endroits précis qu’il faudrait examiner dans l’assembleur, les callers ou les callees pour les lever ;
+un pseudo-C/C++ fidèle au comportement original pour la boucle d’interprétation et le dispatch, sans tentative de modernisation.
+
+IDASSIST (2026-09-11 13:01:08)
+# Analyse de `domain::EnemyAI_VM_ExecuteScript` @ 0x487DF0
+
+## 1. Structure générale (FACT)
+
+La fonction est un **interpréteur de bytecode à un accumulateur d'état local, boucle unique, dispatch par jump table**. Ce n'est PAS une machine à états au sens classique : c'est un interpréteur linéaire avec un seul point de sortie normal (opcode 0x00) et un point de sortie early-return (`BOOL_TARGET_CHOOSEN`).
+
+```
+Prologue (0x487DF0)
+  ├─ slot_id (ebx) ← arg stack
+  ├─ monster_difficulty ← BMI71_LOW_MED_HIGH_LEVEL_BIS[slot*71]   (table 71 octets/monstre)
+  ├─ slot_base = BATTLE_SLOT_DATA + slot*0xD0                     (stride 208 = 0xD0)
+  ├─ first_ability = *(slot->monster_info_section)                (déréférencement POINTEUR-DE-POINTEUR)
+  ├─ init état local : target_mask=0, command_type=0, section_position=0,
+  │   has_text_pending=0, ai_scratch_var=0, enter_alt_target_param_2=0
+  └─ SI AI_CURRENT_SECTION_INDEX==1 ET slot->status_1 & 0x20 (Berserk):
+       └─ cible = party aléatoire vivante (re-roll si morte), esi=AI_VM_FALLBACK_BYTECODE,
+          param=0, JMP 0x489804  → exécute le bytecode de fallback (attaque forcée)
+Boucle (top @ ~0x487ED0)  ← voir §2
+Dispatch (jpt_487EDC, 61 entrées)
+Handlers 0x01..0x3D
+Commit tail LABEL_375 @ 0x48983D
+Épilogue (pop edi/esi/ebp/ebx, add esp,64h, retn)
+```
+
+**FACT — stride des slots** : tous les accès slot utilisent `slot*13<<4` ou `slot*13*4<<4` → **208 = 0xD0 octets par slot**, 8 slots (0–2 = groupe, 3–7 = ennemis, confirmé par la boucle de comptage du test 17 qui scanne `status_1` jusqu'à `base+0x270` = slot 3).
+
+**FACT — `first_ability` est un double déréférencement** : `mov ecx, BATTLE_SLOT_DATA.monster_info_section[eax]` puis `mov edi, [ecx]`. Le champ du slot est un pointeur vers un pointeur ; `edi` = base de la structure monstre (~380 octets). Les lignes d'abilité sont à `base+0x34`, stride 4, indexées par `16*difficulty + idx` (typeID @+0x34, animscript @+0x35, id word @+0x36). Tout handler qui lit `[edi+eax*4+34h]` utilise ce schéma.
+
+## 2. Boucle principale et avance du flux (FACT)
+
+```asm
+top:
+  mov esi, [esp+74h+p_ai_current_subcode]   ; rechargement DU POINTYPEUR depuis la pile
+  mov al, [esi]
+  inc esi                                    ; esi pointe DÉJÀ sur l'octet suivant
+  test al, al
+  mov [esp+74h+op_id], al
+  jz  exit                                   ; 0x00 = STOP
+  mov edi, 0FFh                              ; edi = masque 0xFF rétabli À CHAQUE itération
+  mov edx, eax
+  and edx, edi
+  lea eax, [edx-1]
+  cmp eax, 3Ch
+  ja  top                                    ; op>0x3D → NOP silencieux (aucun operand consommé!)
+  jmp ds:jpt_487EDC[eax*4]                   ; dispatch indexé op-1
+```
+
+Points essentiels :
+
+1. **Le PC est `esi`**, rechargé depuis `[esp+74h+p_ai_current_subcode]` au top de chaque itération. Les handlers avancent `esi` octet par octet (`inc esi` / `add esi, n`) et la valeur finale d'`esi` est implicitement l'état du flux — mais **le stockage retour en pile n'est visible que sur certains chemins** (voir §9, suspension).
+2. **Opcode 0x00 = terminaison** (`jz loc_48A0AD` → épilogue direct).
+3. **Opcodes 0x0A, 0x10, 0x14, 0x21 = NOP sans opérande** : la jump table les renvoie vers `def_487EDC` (le top). Ils consomment **zéro octet**.
+4. **Opcode invalide (>0x3D) = NOP silencieux** : `ja top` — aucun operand consommé, aucune erreur. C'est un détail important : un script corrompu ne crashe pas, il dérive.
+5. **`edi = 0xFF` est un invariant de boucle** : c'est le masque `&0xFF` utilisé par tous les handlers (`and eax, edi`). Hex-Rays le perdra constamment.
+
+## 3. Mécanisme de dispatch (FACT)
+
+- **Jump table simple** `jpt_487EDC` @ 0x48A0B8, indexée `op-1`, 61 entrées (0x01..0x3D).
+- **Dispatch secondaire pour 0x02** : table d'octets `byte_48A204` (index = subject 0..0xE3) → index de handler → `jpt_4887D6`. Puis pour certains subjects, **troisième niveau** : `byte_48A308` (param 0..0xCB) → `jpt_4887FB`, et `byte_48A4A4`/`byte_48A4E8`/`byte_48A52C`/`byte_48A588` (subject 0xC8..0xE3) → `jpt_488B83`/`jpt_488D0E`/`jpt_488F22`/`jpt_489535`.
+- Les sujets **0xC8–0xE3** (200–227) forment une famille compacte : 200=self, 203=last_attacker_slot_id, 220–227=BATTLE_LOCAL_VAR[0..7], 201/202=groupes, 204–219=invalide→lhs=0.
+
+## 4. Opérandes : largeur et interprétation (FACT)
+
+Toutes les opérandes sont **inline, little-endian, immédiates** (pas de registres VM) :
+
+| Forme | Lecture | Exemples |
+|---|---|---|
+| byte | `mov al,[esi]; inc esi` | 0x03, 0x04, 0x07, 0x09, 0x1C, 0x20, 0x25, 0x31, 0x37, 0x38, 0x35 |
+| byte ×2 | deux lectures successives | 0x0E, 0x0F, 0x11, 0x12, 0x13, 0x15, 0x27, 0x28 |
+| word LE | `movzx lo,[esi]; movzx hi,[esi+1]; shl hi,8; or/add` | 0x23 (saut), valeur de 0x02, delta de 0x3C, val de 0x2D |
+| byte + word LE | — | 0x2D (idx, val16), 0x3C (delta16) |
+| 7 bytes | subject(1) param(1) cmp(1) value(2LE) jump(2LE) | 0x02 |
+| byte ×3 | — | 0x0B (3 idx), 0x26 (4 bytes: p1,p2,p3,+1) |
+
+**Interprétation des word** : les valeurs 16 bits sont assemblées non-signées puis, pour les sauts uniquement, **re-sign-étendues** (`test ah,80h; or eax,0FFFF0000h`). Les comparaisons 16 bits (`if_right_condition_final`) restent **non-signées** (`and 0FFFFh`, `cmp`/`ja`/`jb`).
+
+**Conversion clé** : l'opérande **0xCB (203)** dans 0x0E/0x12 est un **sentinel** remplacé par `slot->last_attacker_slot_id`. C'est une indirection "dernier attaquant" dans l'opérande valeur, pas dans le subject.
+
+## 5. Lectures/écritures d'état (récapitulatif FACT)
+
+| Zone | Adresse | Format |
+|---|---|---|
+| Slots de bataille | `BATTLE_SLOT_DATA + slot*0xD0` | status_1(+0x?), status_2, flag_data, current_hp(+0x18), max? (+0x1C), atb_cur(+0x14), atb_max(+0x10), last_attacker_* (5 champs byte), number_turn, com_file_id, magic_to_blow_away, target_info_mask |
+| Vars locales IA | `BATTLE_LOCAL_VAR + slot*0xD0 + idx*4` | dword ×52/slot |
+| Vars globales | `BATTLE_BATTLE_VAR + idx*4` | dword |
+| Items | `SG_ITEM_ID_AND_QUANTITY+0x60 + idx*4` | dword |
+| Résistances | `BATTLE_SLOT_DATA.elem_def + slot*0xD0 + idx*2` | **u16** |
+| Scan | `BMI_SCAN_BUFFER + 71*(slot-3)` | 71 octets/ennemi (24 copiés) |
+| Texte | `dword_1D28C44 + idx*16` | +0=id/résultat, +4=texte post-action, +8=param, +8(word @1D28C4C)=frames |
+
+## 6. Branchements (FACT)
+
+**Un seul opcode de branchement conditionnel (0x02) et un inconditionnel (0x23)**, tous deux **relatifs à `esi`** (position juste après l'instruction), **signed 16-bit**.
+
+Sémantique 0x02 : `if (compare(lhs, rhs, cmp_op) == FALSE) esi += (int16)jump;`
+- Table des opérateurs : **0 = ==, 1 = <, 2 = >, 3 = !=, 4 = <=, 5 = >=** (validé par `EnemyAI_CompareValues` et les tails `jz/jb/ja/jnz/jbe/jnb → continue`).
+- Subject > 0xE3 → condition traitée comme "continue" (pas de saut).
+- Cas particulier élément (subject → last_attacker_attack_element) : `==` teste `mask & (1<<value)`, `!=` teste bit clair, **tout autre cmp_op → toujours "faux" → saut inconditionnel**.
+
+## 7. RNG (FACT + STRONG INFERENCE)
+
+**Un seul primitive** : `domain__Battle_GetRandomInt` — commente elle-même : lit `RANDOM_NUMBER_LIST` au curseur `BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]`, incrémente le curseur. Retour 32-bit, toujours masqué `&0xFF` avant usage.
+
+Usages directs :
+1. **Berserk prologue** : `GetRandomInt() & 0xFF`, `% 3` via `cdq/idiv` → slot party 0–2, re-roll si `status_1 & 1` (mort).
+2. **0x0B** : `GetRandomInt() & 0xFF % 3` → index parmi 3 abilities.
+3. **0x04 target 0xC9/0xCA/0xCF** : idem modulo, avec re-roll si mort (0xC9 : `%3` signé ; 0xCA/0xCF : `and 80000003h` + branche signe + `or FFFFFFFFCh; inc; add 3` — **idiv signé inline équivalent à `%4+3` ou `%5+3`**).
+
+**STRONG INFERENCE** : `EnemyAI_SelectRandomMagicFromPlayer` / `SelectRandomMagicFromStock` (0x29/0x2E) utilisent la même primitive en interne (le nom "Random" + le pattern du module), mais ce n'est pas démontré dans ce dump.
+
+**Piège signé** : `cdq/idiv` = division **signée**. Pour `%3` avec EAL≥0x80, le résultat reste 0..2 car EAX est masqué 0xFF d'abord (donc positif). Mais pour 0xCA/0xCF le masque `80000003h` + correction est le pattern `%4`/`%5` signé — cohérent car EAX reste positif après `&0xFF`.
+
+## 8. Commits / effets externes (FACT)
+
+Trois mécanismes distincts :
+
+### A. Commit LABEL_375 @ 0x48983D (le "vrai" lancement d'action)
+Atteint depuis **0x06** (section_position≠0) et **0x0C** (setup direct) :
+```
+1. Fold du masque cible par défaut :
+   command_type==2 → K_MAGIC.defaultTarget[16*section+…] → ComputeMaskFromDefaultTarget
+   command_type==4 → K_ITEM.targetInfo[16*section+…]         → idem
+   sinon            → si K_ENEMY_ATTACK.attackFlags[20*section+…] & 0x80 → mask |= 0x4000
+2. BattleAction_GetText(slot, cmd, section, param, target, mask, anim)
+3. BattleAction_ResolveTargetAndHitCount(&mask)
+4. SI BOOL_TARGET_CHOOSEN → RETURN immédiat (suspension, pas de phase 5)
+5. SetPhaseFlag(5) ; EnqueueActionPresentation(ATTACK_HIT_COUNT-1)
+   ACTION_EVENT_GROUP_INDEX[20*ATTACK_HIT_COUNT]=0
+6. SI BACK_PREEMTIVE_INFO_3 != 0 → contre-attaque Odin/Gilgamesh imbriquée :
+   ResetExecState, GetText(cmd=0xF7, arg=byte_1D28DCD, param=byte_1D28DCE),
+   ResolveTargetAndHitCount, phase 5, enqueue, phase 6, reset flags,
+   SyncAIVarsToSlot(slot)
+7. Retour au top de boucle (le script continue après l'action!)
+```
+
+### B. Relays d'événements (effets immédiats, pas de commit d'action)
+`BattleEvent_ActivateTargetRelay(event_id, 0x80, callback)` écrit le paramètre dans `[eax]` au retour :
+- **0x70** : barrière caméra/présentation (0x1B, 0x33)
+- **0x71** : init/entrance ennemi (0x34, 0x3B, 0x1F, 0x1B, 0x35) — callback `SceneOut_InitEnemySlot` ou `EnemyAI_MonsterEnterAnimation`
+- **0x69** : leave (0x1D) + `BattleState_ResetForEject`
+- **0x6A** : die (0x08) + `status_1 |= 1` + `ResetForEject`
+
+### C. Écritures directes globales
+- `AI_BATTLE_ACTIVE_FLAG = 0` (0x34, 0x3B, 0x1F)
+- `AI_PREPARE_SUMMON_FLAG = 1` (0x1B, 0x32)
+- `ENCOUTER_BATTLE_FLAG |= / &= ~1` (0x17)
+- `BATTLE_SCRIPTED_END_PENDING = 1` (0x39)
+- `SG_ODIN_ANGEL_GILGA_FLAG = (old & 0xFD) | 8` (0x36)
+- `NB_CARD_OBTAINED++`, `BATTLE_CARD_DROP[n] = id` (0x37)
+- `ITEM_RELATED[n*2] = id`, `ITEM_RELATED_0[n*2] = 1`, compteur `ATTACKER_SLOT_ID_0+2` (0x38)
+- `Savegame_GiveProofOfOmega(127)` (0x3D)
+- `GF_SetOwnedFlag(id)` + file `POST_BATTLE_GF_ID_QUEUE` (0x31)
+- `BATTLE_LOCAL_VAR`, `BATTLE_BATTLE_VAR`, items, `elem_def`, `BMI_SCAN_BUFFER`, `BMI_MONSTER_STAT_PERCENT` + `ApplyMonsterStatScaling` (0x28)
+
+## 9. Sortie / suspension / reprise (FACT)
+
+| Condition | Effet |
+|---|---|
+| opcode 0x00 | `jz loc_48A0AD` → épilogue, retour normal |
+| `BOOL_TARGET_CHOOSEN` après ResolveTargetAndHitCount (LABEL_375) | **return immédiat** — l'action attend une sélection de cible externe ; le VM re-exécutera le script plus tard (le PC n'est pas avancé past le commit car on retourne sans re-boucler) |
+| Berserk + section 1 | remplace le bytecode par `AI_VM_FALLBACK_BYTECODE` avant la 1ère instruction |
+| 0x34/0x3B/0x1F slot plein | `p_ai_current_subcode = 0xFF` (edi) → **ManageDeathState(0xFF)** puis AddMonsterToRAM(0xFF,…) — no-op sécurisé, le script continue |
+| 0x06 avec section_position==0 | retour au top (l'action préparée par 0x03/0x07 attend son 0x06) |
+
+## 10. Subtilités signed/unsigned / pointeurs (FACT)
+
+1. `and eax, edi` avec **edi=0xFF rétabli à chaque itération** — Hex-Rays va souvent le matérrialiser comme variable `v_N` et perdre la trace.
+2. `cdq/idiv` = division signée ; `and 80000003h` + correction = modulo signé inline.
+3. Les word d'opérande sont **assemblés non-signé** puis **sign-étendus uniquement pour 0x23 et le saut de 0x02**.
+4. `monster_info_section` est un **pointeur de pointeur** — Hex-Rays générera `*(DWORD**)` ou perdra un niveau.
+5. `elem_def[edx*2]` : l'index est déjà multiplié par 104 (`slot*13*8`) → `edx*2` donne le byte offset `slot*208 + idx*2`. Hex-Rays va afficher `elem_def` comme tableau d'u16 avec un index bizarre.
+6. Le scan "premier slot libre" utilise `jl` vers `BATTLE_SLOT7_FLAG_DATA` : le **dernier slot testé est celui dont l'adresse est strictement inférieure** au label. Si le label pointe sur le slot 7, le slot 7 n'est jamais testé (spawn 3..6). À vérifier par l'adresse réelle du label.
+7. `movsx edx, ax` après `LookupAbilityByIndex` : le résultat est signé ; un retour négatif produirait un index négatif dans `dword_1D28C44[idx*16]` — non gardé.
+
+## 11. Pièges Hex-Rays
+
+- `edi = 0xFF` réutilisé comme masque → Hex-Rays va le renommer en variable locale et dupliquer.
+- Le **fall-through 0x0C → 0x06** : Hex-Rays va dupliquer le bloc de commit ou créer un `goto`.
+- Le **fall-through 0x0D → 0x19** (deux NOP avec consommation d'1 byte) : Hex-Rays va fusionner en un seul case.
+- Le **jump `jmp loc_48813E`** de 0x3B vers l'intérieur du handler 0x1F : Hex-Rays va dupliquer tout le bloc ou créer un label bizarre.
+- Les `push`/`add esp` déséquilibrés (`add esp, 1Ch` pour 7 args = 28 bytes ✓, mais `add esp, 14h` après DisplayText+DisplayMessageAndWait = 20 bytes pour 5+1 args → **DisplayText est stdcall** ou un arg passe en registre).
+- Les tables de dispatch secondaires (`byte_48A204`, `byte_48A308`, etc.) seront inlinées en switch géant.
+
+---
+
+# 12. Table des opcodes reconstruits
+
+| Op | Nom (fonctionnel) | Opérandes | Effet | Lectures | Écritures | Flux | RNG | Commit | Confiance |
+|----|----|----|----|----|----|----|----|----|----|
+| 0x00 | STOP | 0 | return | — | — | **exit** | — | — | FACT |
+| 0x01 | SHOW_TEXT_WAIT | id(1) | affiche texte + wait | p_text_offset_section[id], p_text_subsection | — | continue | — | — | FACT |
+| 0x02 | IF | subj(1) param(1) cmp(1) value(2LE) jump(2LE) | saut signé si condition fausse | slot fields, BATTLE_LOCAL_VAR, BATTLE_BATTLE_VAR, items, COMBAT_SCENE_ID, SG_ODIN_ANGEL_GILGA_FLAG, SG_COUNTDOWN, BMI_MONSTER1_DRAW_SPELL_ID1 | — | **branch** | via subj 2 | — | FACT |
+| 0x03 | SET_MAGIC | spell_id(1) | command_type=2, section=spell_id | — | command_type, section_position | continue | — | non (prépare) | FACT |
+| 0x04 | CHOOSE_TARGET | code(1) | target_mask = f(code) | status_1, com_file_id, last_attacker_slot_id, ATTACKER_SLOT_ID_0+3, BATTLE_SLOT_DATA.elem_def[+0x2C] | p_monster_slot_id (local) | continue | 0xC9/0xCA/0xCF | — | FACT |
+| 0x05 | SET_SCRATCH | val(1) | ai_scratch_var = val | — | ai_scratch_var | continue | — | — | FACT |
+| 0x06 | EXECUTE | 0 | si section_position≠0 → **commit LABEL_375** | command_type, section_position, K_MAGIC/K_ITEM/K_ENEMY_ATTACK, BACK_PREEMTIVE_INFO_3 | payload action, phase 5/6, ATTACK_HIT_COUNT | **return si BOOL_TARGET_CHOOSEN** | — | **OUI** | FACT |
+| 0x07 | SET_MONSTER_ATTACK | ability_id(1) | command_type=8, section=ability_id | — | command_type, section_position | continue | — | non | FACT |
+| 0x08 | DIE_SELF | 0 | relay 0x6A, status_1\|=1, ResetForEject | — | status_1 | continue | — | eject | FACT |
+| 0x09 | SET_HIT_ANIM | anim(1) | HIT_TYPE_TARGET_ANIMATION_TO_PLAY = anim | — | global | continue | — | — | FACT |
+| 0x0A | NOP | 0 | — | — | — | continue | — | — | FACT |
+| 0x0B | USE_RANDOM_ABILITY_3 | idx(3) | rand%3 → pick, 0xFD=skip, lookup → setup puis commit | first_ability[16*diff+idx] | command_type, section_position, ai_scratch_var | continue | **OUI** | via fall-through 0x06 | FACT |
+| 0x0C | USE_ABILITY | idx(1) | lookup ability table → setup → **fall-through 0x06** | first_ability[16*diff+idx] | command_type, section_position, ai_scratch_var | continue | — | **OUI** | FACT |
+| 0x0D | NOP_1B | 1 | consomme 1 octet | — | — | continue | — | — | FACT |
+| 0x0E | SET_LOCAL_VAR | idx(1) val(1) | LOCAL[slot][idx]=val ; 0xCB→last_attacker | last_attacker_slot_id | BATTLE_LOCAL_VAR | continue | — | — | FACT |
+| 0x0F | SET_BATTLE_VAR | idx(1) val(1) | BATTLE_BATTLE_VAR[idx]=val | — | BATTLE_BATTLE_VAR | continue | — | — | FACT |
+| 0x10 | NOP | 0 | — | — | — | continue | — | — | FACT |
+| 0x11 | SET_ITEM_SLOT | idx(1) val(1) | items[+0x60][idx]=val | — | item array | continue | — | — | FACT |
+| 0x12 | ADD_LOCAL_VAR | idx(1) val(1) | LOCAL[slot][idx]+=val ; 0xCB→last_attacker | last_attacker_slot_id | BATTLE_LOCAL_VAR | continue | — | — | FACT |
+| 0x13 | ADD_BATTLE_VAR | idx(1) val(1) | BATTLE_BATTLE_VAR[idx]+=val | — | BATTLE_BATTLE_VAR | continue | — | — | FACT |
+| 0x14 | NOP | 0 | — | — | — | continue | — | — | FACT |
+| 0x15 | ADD_ITEM_SLOT | idx(1) val(1) | items[+0x60][idx]+=val | — | item array | continue | — | — | FACT |
+| 0x16 | FULL_HEAL_SELF | 0 | current_hp = max_hp | [slot+0x1C] | [slot+0x18] | continue | — | — | FACT |
+| 0x17 | SET_ESCAPE_FLAG | on(1) | ENCOUTER_BATTLE_FLAG bit0 = on | — | ENCOUTER_BATTLE_FLAG | continue | — | — | FACT |
+| 0x18 | SHOW_TEXT_WAIT2 | id(1) | texte + wait (délai = speed*8+8) | SG_BATTLE_MESSAGE_SPEED_SETTING, p_text_offset_section | — | continue | — | — | FACT |
+| 0x19 | NOP_1B | 1 | consomme 1 octet | — | — | continue | — | — | FACT |
+| 0x1A | SET_ATTACK_TEXT | id(1) | texte post-action → dword_1D28C44[idx*16+4] | p_text_offset_section, p_text_subsection | dword_1D28C44 row | continue | — | — | FACT |
+| 0x1B | GF_SUMMON_PRESENT | slot(1) p2(1) | relay 0x70 + 0x71 enter, AI_PREPARE_SUMMON_FLAG=1, commit inline, phase 5/6 | — | AI_PREPARE_SUMMON_FLAG, command_type=0, section=3, payload | continue | — | **OUI (inline)** | FACT |
+| 0x1C | SET_TEXT_FRAMES_30 | n(1) | word_1D28C4C[idx*16] = 30*n | — | dword_1D28C44 row+8 | continue | — | — | FACT |
+| 0x1D | ENEMY_LEAVE | code(1) | relay 0x69, ResetForEject | — | — | continue | — | eject | FACT |
+| 0x1E | CHOCOBO_ACTION | code(1) | command_type=0xFC, section=1 → jmp commit | — | command_type, section_position, enter_alt_target_param_2 | → commit | — | **OUI** | FACT |
+| 0x1F | ENTER_MONSTER | id(1) | spawn premier slot libre, relay 0x71 ×2 (init + enter anim), phase 6 | flag_data bit0 | slots, AI_BATTLE_ACTIVE_FLAG | continue | — | spawn | FACT |
+| 0x20 | SET_TEXT_FRAMES_15 | n(1) | word_1D28C4C[idx*16] = 15*n | — | dword_1D28C44 row+8 | continue | — | — | FACT |
+| 0x21 | NOP | 0 | — | — | — | continue | — | — | FACT |
+| 0x22 | SET_ATTACK_TEXT_PARAM | id(1) param(1) | comme 0x1A + dword_1D28C44[idx*16+8]=param | p_text_offset_section | dword_1D28C44 row | continue | — | — | FACT |
+| 0x23 | JUMP | offset(2LE signé) | esi += offset | — | — | **branch** | — | — | FACT |
+| 0x24 | RESET_ATB_SELF | 0 | atb_cur = atb_max | [slot+0x10] | [slot+0x14] | continue | — | — | FACT |
+| 0x25 | SCAN_STORE | id(1) | 0xFF→clear byte 0 ; sinon memcpy 24B → BMI_SCAN_BUFFER[71*(slot-3)] | p_text_offset_section | BMI_SCAN_BUFFER | continue | — | — | FACT |
+| 0x26 | TARGET_BY_STATUS_STAT | p1(1) p2(1) p3(1) +1 | target_mask = SelectByStatusOrStat(...) | — | p_monster_slot_id | continue | — | — | FACT |
+| 0x27 | SET_AUTO_STATUS_SELF | status(1) on(1) | status_1 ou status_2 bit = on | — | status_1/status_2 | continue | — | — | FACT |
+| 0x28 | SET_MONSTER_STAT_PCT | stat(1) pct(1) | BMI_MONSTER_STAT_PERCENT[71*(slot-1)+stat]=pct + rescale | — | BMI_MONSTER_STAT_PERCENT, stats | continue | — | — | FACT |
+| 0x29 | READ_PLAYER_MAGIC_A | 0 | pick magic depuis stock du joueur (via element flags), magic_to_blow_away, texte | target_info_mask, stock | magic_to_blow_away, byte_1D28E11/12/13 | continue | via callee | — | FACT (RNG callee: STRONG INF) |
+| 0x2A | CAST_READ_MAGIC | 0 | command_type=2, spell=magic_to_blow_away, mask via GetTargetMaskFromMask, scratch=0x0B → commit | magic_to_blow_away | command_type, section_position, ai_scratch_var, target_mask | → commit | — | **OUI** | FACT |
+| 0x2C | REMOVE_SELF_HIDDEN | 0 | ResetForEject, flag\|=0x40, rebuild visibilité, status_1\|=1, flag&=~1 | — | flag_data, status_1 | continue | — | — | FACT |
+| 0x2D | SET_RES_FIELD | idx(1) val(2LE) | u16 @ slot_base + 2*idx = val | — | elem_def | continue | — | — | FACT |
+| 0x2E | READ_PLAYER_MAGIC_B | 0 | comme 0x29 + SelectRandomMagicFromStock + texte différent | target_info_mask, stock | magic_to_blow_away, byte_1D28E1x | continue | via callee | — | FACT |
+| 0x2F | SHOW_SELF | 0 | flag&=~0x40, rebuild visibilité | — | flag_data | continue | — | — | FACT |
+| 0x30 | HIDE_SELF | 0 | flag\|=0x40, rebuild visibilité | — | flag_data | continue | — | — | FACT |
+| 0x31 | GIVE_GF | gf_id(1) | GF_SetOwnedFlag + queue post-battle | — | SG_ARRAY_GF_DATA, POST_BATTLE_GF_ID_QUEUE | continue | — | — | FACT |
+| 0x32 | SET_PREPARE_SUMMON | 0 | AI_PREPARE_SUMMON_FLAG=1 | — | AI_PREPARE_SUMMON_FLAG | continue | — | — | FACT |
+| 0x33 | ACTIVATE_RELAY_70 | 0 | relay 0x70 (barrière) | — | — | continue | — | — | FACT |
+| 0x34 | SPAWN_MONSTER | id(1) | premier slot libre 3..6/7, ManageDeathState, AddMonsterToRAM, relay 0x71 init, unlock latch | flag_data bit0 | slots, AI_BATTLE_ACTIVE_FLAG | continue | — | spawn | FACT |
+| 0x35 | ENTER_ANIM_TARGET | code(1) | relay 0x71 + MonsterEnterAnimation ; 0xD1 → ATTACKER_SLOT_ID_0+3 | ATTACKER_SLOT_ID_0+3 | — | continue | — | — | FACT |
+| 0x36 | SET_ODIN_FLAG | 0 | SG_ODIN_ANGEL_GILGA_FLAG = (old & 0xFD) \| 8 | — | SG_ODIN_ANGEL_GILGA_FLAG | continue | — | — | FACT |
+| 0x37 | GIVE_CARD | card_id(1) | BATTLE_CARD_DROP[NB_CARD_OBTAINED++] = id | — | BATTLE_CARD_DROP, NB_CARD_OBTAINED | continue | — | — | FACT |
+| 0x38 | GIVE_ITEM | item_id(1) | ITEM_RELATED[n*2]=id, ITEM_RELATED_0[n*2]=1, n++ | — | ITEM_RELATED, compteur | continue | — | — | FACT |
+| 0x39 | SET_SCRIPTED_END | 0 | BATTLE_SCRIPTED_END_PENDING=1 | — | BATTLE_SCRIPTED_END_PENDING | continue | — | — | FACT |
+| 0x3A | SHOW_SLOT | slot(1) | flag&=~0x40 sur ce slot, rebuild visibilité | — | flag_data | continue | — | — | FACT |
+| 0x3B | SPAWN_TO_SLOT | id(1) slot(1) | slot≠0 → ce slot, sinon premier libre ; puis **jmp dans le tail 0x1F** (enter anim + phase 6) | flag_data bit0 | slots, AI_BATTLE_ACTIVE_FLAG | continue | — | spawn | FACT |
+| 0x3C | MOD_HP_SELF | delta(2LE signé) | current_hp += delta | — | [slot+0x18] | continue | — | — | FACT |
+| 0x3D | GIVE_PROOF_OMEGA | 0 | Savegame_GiveProofOfOmega(127) | — | savegame | continue | — | — | FACT |
+
+**Familles regroupées** :
+- **Vars** : 0x0E/0x12 (local), 0x0F/0x13 (battle), 0x11/0x15 (items) — même pattern SET/ADD.
+- **Texte** : 0x01/0x18 (wait immédiat), 0x1A/0x22 (différé post-action), 0x1C/0x20 (frames par ability).
+- **Spawn** : 0x34 (simple), 0x1F (auto + enter), 0x3B (slot explicite + enter).
+- **Visibilité** : 0x2C/0x2F/0x30/0x3A.
+- **NOP** : 0x0A, 0x10, 0x14, 0x21 (0 bytes) ; 0x0D, 0x19 (1 byte).
+
+---
+
+# 13. Architecture de l'interpréteur
+
+C'est un **interpréteur à bytecode inline, à thread unique, avec commit d'action en queue et suspension implicite par early-return**. Le "PC" vit dans `esi` + une ombre en pile (`[esp+74h+p_ai_current_subcode]`). Le VM ne gère pas de pile d'exécution, pas d'appel, pas de boucle native — toute la logique de contrôle est dans le script via 0x02/0x23. Le modèle de données est un **état de bataille global partagé** (slots, vars, items) que le VM lit/écrit directement, sans couche d'abstraction. Le "commit" est le seul point de synchronisation avec le moteur de bataille (payload + phase flags + presentation queue) ; tout le reste est soit de la manipulation d'état pur, soit du relay d'événement asynchrone.
+
+Le design "Berserk → fallback bytecode" en prologue est un **hijack du flux avant la première instruction** : le VM est réorienté vers un bytecode système (`AI_VM_FALLBACK_BYTECODE`) qui contient vraisemblablement une séquence d'attaque minimale, sans que le script du monstre ne s'exécute du tout.
+
+---
+
+# 14. Ambiguïtés restantes
+
+| # | Ambiguïté | Où regarder |
+|---|---|---|
+| 1 | Borne exacte du scan "premier slot libre" (3..6 ou 3..7) — `jl` strict vers `BATTLE_SLOT7_FLAG_DATA` | Adresse réelle de `BATTLE_SLOT7_FLAG_DATA` vs `BATTLE_SLOT_DATA+7*0xD0+flag_off` |
+| 2 | Sens exact de `word_1D28C4C[idx*16] = 30*n` — index = valeur de retour de `LookupAbilityByIndex`, pas `n` directement | Désassembler `domain__EnemyAI_LookupAbilityByIndex` et les 3 callbacks |
+| 3 | Convention d'appel de `BattleScript_DisplayText` (stdcall vs cdecl, nb d'args réel) | Pattern `push`/`add esp` dans tous les call sites |
+| 4 | Signification fonctionnelle de `target_info_mask` lu par 0x29/0x2E (masque du dernier attaquant ? du target courant ?) | Écrire dans ce champ depuis le moteur de dégâts (G09) |
+| 5 | Contenu de `AI_VM_FALLBACK_BYTECODE` | Dump des octets à l'adresse du symbole |
+| 6 | Sémantique exacte des subjects 0xC8-0xE3 non triviaux (201, 202, 204-219) — les tables `byte_48A4A4`/`byte_48A4E8`/`byte_48A52C`/`byte_48A588` mappent vers des handlers communs mais la valeur lhs pour 201/202 n'est pas visible dans ce dump | Lire les octets aux adresses des tables |
+| 7 | Le champ exact `[slot+0x10]` / `[slot+0x14]` (atb max/cur) et `[slot+0x18]`/`[slot+0x1C]` (hp cur/max) — les offsets sont cohérents mais le nommage IDA n'est pas vérifié | Croiser avec le code de dégâts (G09) qui écrit +0x18 |
+| 8 | `byte_1D28E11/12/13` (0x29/0x2E) — rôle exact des 3 octets globaux | Chercher les autres références croisées |
+| 9 | Ce que fait `EnemyAI_GetSubjectValue_A/B/C/D` (quatre variantes distinctes) | Désassembler chacune |
+| 10 | La contre-attaque Odin/Gilgamesh dans LABEL_375 : condition exacte (`BACK_PREEMPTIVE_INFO_3`), et d'où vient `byte_1D28DCD`/`byte_1D28DCE` | Chercher les écrivains de `BACK_PREEMPTIVE_INFO_3` |
+
+---
+
+# 15. Pseudo-C fidèle
+
+```c
+// Fidèle au comportement observable. Les noms suivent le dump IDA.
+// Conventions : slot_id = ebx (0..7), 0-2 = groupe, 3-7 = ennemis.
+// Stride slot = 0xD0 (208). edi = 0xFF rétabli à chaque itération = masque byte.
+
+#define SLOT_BASE(slot)   (BATTLE_SLOT_DATA + (slot) * 0xD0)
+#define LOCAL_VAR(slot,i) (*(int*)(BATTLE_LOCAL_VAR + (slot)*0xD0 + (i)*4))
+#define BATTLE_VAR(i)     (*(int*)(BATTLE_BATTLE_VAR + (i)*4))
+#define ITEM_QTY(i)       (*(int*)(SG_ITEM_ID_AND_QUANTITY + 0x60 + (i)*4))
+
+uint8_t EnemyAI_VM_ExecuteScript(
+    /* ebp */ uint32_t p_ai_subsection_init_code,   // non lu dans ce dump
+    uint32_t p_monster_slot_id,                      // slot_id
+    uint8_t *p_ai_current_subcode,                   // PC initial
+    int p_text_subsection,
+    int p_text_offset_section)                       // table de words (offsets)
+{
+    uint8_t  stack[0x64];                            // cadre de 0x64 bytes
+    uint32_t slot_id       = p_monster_slot_id;
+    uint32_t target_mask   = 0;                      // [esp+74h+p_monster_slot_id]
+    uint8_t  command_type  = 0;
+    uint16_t section_position = 0;
+    uint8_t  ai_scratch_var = 0;
+    uint8_t  has_text_pending = 0;
+    uint8_t  enter_alt_target_param_2 = 0;
+    uint8_t  monster_difficulty = BMI71_LOW_MED_HIGH_LEVEL_BIS[slot_id * 71];
+    uint8_t *first_ability = *(uint8_t***)SLOT_BASE(slot_id)->monster_info_section; // double déréf.
+    uint8_t *pc = p_ai_current_subcode;
+
+    // --- Prologue Berserk (section 1 uniquement) ---
+    if (AI_CURRENT_SECTION_INDEX == 1 && (SLOT_BASE(slot_id)->status_1 & 0x20)) {
+        int cnt = EnemyAI_CountAlivePartyMembers();
+        if (cnt == 0xFF) {
+            target_mask = 0;
+        } else {
+            int s;
+            do {
+                s = Battle_GetRandomInt() & 0xFF;
+                s = s % 3;                              // idiv signé, EAX positif
+            } while (SLOT_BASE(s)->status_1 & 1);       // re-roll si mort
+            target_mask = 1u << s;
+        }
+        pc = AI_VM_FALLBACK_BYTECODE;
+        goto commit_tail;                               // 0x489804 → stocke pc, exécute
+    }
+
+    // --- Boucle principale ---
+    for (;;) {
+        uint8_t op = *pc++;
+        if (op == 0x00) return 0;                       // STOP
+        uint32_t mask = 0xFF;                           // edi
+
+        switch (op) {
+        case 0x24: { // RESET_ATB_SELF
+            auto *s = SLOT_BASE(slot_id);
+            s->atb_cur = s->atb_max;                    // +0x14 = +0x10
+            break;
+        }
+        case 0x1C: { // SET_TEXT_FRAMES_30
+            uint8_t n = *pc++;
+            int idx = EnemyAI_LookupAbilityByIndex(n, EnemyAI_AbilityLookupCallback);
+            *(uint16_t*)((char*)dword_1D28C44 + idx*16 + 8) = 30 * n;
+            break;
+        }
+        case 0x20: { // SET_TEXT_FRAMES_15
+            uint8_t n = *pc++;
+            int idx = EnemyAI_LookupAbilityByIndex(n, EnemyAI_AbilityLookupCallback);
+            *(uint16_t*)((char*)dword_1D28C44 + idx*16 + 8) = 15 * n;
+            break;
+        }
+        case 0x34: { // SPAWN_MONSTER
+            uint8_t id = *pc++;
+            int slot = find_first_free_enemy_slot();    // 3..(6|7), flag bit0 == 0
+            spawn_common(slot, id);
+            // relay 0x71 + SceneOut_InitEnemySlot, unlock latch, PAS de phase 6
+            break;
+        }
+        case 0x3B: { // SPAWN_TO_SLOT
+            uint8_t id = *pc++;
+            uint8_t slot_arg = *pc++;
+            int slot = slot_arg ? slot_arg : find_first_free_enemy_slot();
+            spawn_common(slot, id);
+            goto enter_anim_tail;                       // partage le tail de 0x1F
+        }
+        case 0x1F: { // ENTER_MONSTER
+            uint8_t id = *pc++;
+            int slot = find_first_free_enemy_slot();
+            spawn_common(slot, id);
+        enter_anim_tail:
+            // relay 0x71 + MonsterEnterAnimation (param = slot)
+            BattleEvent_SetTargetableCallback(BattleAction_UnlockActionLatch);
+            BattleState_SetPhaseFlag(6);
+            break;
+        }
+        case 0x1B: { // GF_SUMMON_PRESENT
+            uint8_t p1 = *pc++;  p1 += 3;
+            uint8_t p2 = *pc++;
+            BattleEvent_ActivateTargetRelay(0x70, 0x80, 0);
+            uint32_t m = 1u << p1;
+            AI_PREPARE_SUMMON_FLAG = 1;
+            command_type = 0; section_position = 3; ai_scratch_var = 0;
+            BattleAction_GetText(slot_id, 0, 3, p1, p2, m, 0);
+            BattleAction_ResolveTargetAndHitCount(&m);
+            BattleState_SetPhaseFlag(5);
+            BattleEvent_EnqueueActionPresentation(ATTACK_HIT_COUNT - 1);
+            ACTION_EVENT_GROUP_INDEX[20*ATTACK_HIT_COUNT] = 0;
+            BattleEvent_ActivateTargetRelay(0x71, 0x80, EnemyAI_MonsterEnterAnimation); // [eax]=p1
+            BattleState_SetPhaseFlag(6);
+            break;
+        }
+        case 0x2E: case 0x29: { // READ_PLAYER_MAGIC_B / A
+            uint8_t list[...]; 
+            uint16_t m = SLOT_BASE(slot_id)->target_info_mask;
+            Battle_GetElementFlagged(m, list);
+            uint8_t magic = EnemyAI_SelectRandomMagicFromPlayer(list[0] & 0xFF, 0);
+            SLOT_BASE(slot_id)->magic_to_blow_away = magic;
+            if (magic != 0xFF) {
+                if (op == 0x2E) {
+                    uint8_t m2 = EnemyAI_SelectRandomMagicFromStock(magic, SLOT_BASE(slot_id)->magic_to_blow_away);
+                    byte_1D28E13 = m2;
+                    // texte misc 0x75 + GetMagicName + GetCharacterName
+                } else {
+                    byte_1D28E13 = 1;
+                    // texte misc 0x76 + GetMagicName + FormatNumber(qté) + misc 0x13
+                }
+                byte_1D28E11 = 2; byte_1D28E12 = magic;
+                BattleEvent_DisplayMessageAndWait(BattleText_Print(...));
+            }
+            break;
+        }
+        case 0x1A: { // SET_ATTACK_TEXT
+            uint8_t id = *pc++;
+            uint16_t off = ((uint16_t*)p_text_offset_section)[id];
+            int resolved = (off == 0xFFFF) ? RELATED_TO_AI_TEXT_SECTION_DEFAULT
+                                           : off + p_text_subsection;
+            int idx = EnemyAI_LookupAbilityByIndex(resolved, EnemyAI_TextAfterAttackCallback);
+            uint32_t *row = (uint32_t*)((char*)dword_1D28C44 + idx*16);
+            row[1] = BattleScript_DisplayText(resolved, ...);
+            break;
+        }
+        case 0x22: { // SET_ATTACK_TEXT_PARAM
+            uint8_t id = *pc++; uint8_t param = *pc++;
+            uint16_t off = ((uint16_t*)p_text_offset_section)[id];
+            int resolved = (off == 0xFFFF) ? RELATED_TO_AI_TEXT_SECTION_DEFAULT
+                                           : off + p_text_subsection;
+            int idx = EnemyAI_LookupAbilityByIndex(resolved, EnemyAI_TextWithParamCallback);
+            uint32_t *row = (uint32_t*)((char*)dword_1D28C44 + idx*16);
+            row[1] = BattleScript_DisplayText(resolved, ...);
+            row[2] = param;
+            break;
+        }
+        case 0x18: { // SHOW_TEXT_WAIT2
+            uint8_t id = *pc++;
+            uint16_t off = ((uint16_t*)p_text_offset_section)[id];
+            int resolved = (off == 0xFFFF) ? RELATED_TO_AI_TEXT_SECTION_DEFAULT
+                                           : off + p_text_subsection;
+            uint32_t spd = SG_BATTLE_MESSAGE_SPEED_SETTING;
+            int h = BattleScript_DisplayText(resolved, 8*spd+8, 1, 0x80, 0);
+            BattleEvent_DisplayMessageAndWait(h);
+            break;
+        }
+        case 0x01: { // SHOW_TEXT_WAIT
+            uint8_t id = *pc++;
+            uint16_t off = ((uint16_t*)p_text_offset_section)[id];
+            int resolved = (off == 0xFFFF) ? RELATED_TO_AI_TEXT_SECTION_DEFAULT
+                                           : off + p_text_subsection;
+            int h = BattleScript_DisplayText(resolved, 0x1E, 3, 0x80, 0);
+            BattleEvent_DisplayMessageAndWait(h);
+            break;
+        }
+        case 0x25: { // SCAN_STORE
+            uint8_t id = *pc++;
+            if (id == 0xFF) {
+                BMI_SCAN_BUFFER[71*(slot_id-3)] = 0;
+            } else {
+                uint16_t off = ((uint16_t*)p_text_offset_section)[id];
+                int src = (off == 0xFFFF) ? RELATED_TO_AI_TEXT_SECTION_DEFAULT
+                                          : off + p_text_subsection;
+                memcpy(BMI_SCAN_BUFFER + 71*(slot_id-3), (void*)src, 0x18);
+            }
+            break;
+        }
+        case 0x0E: { // SET_LOCAL_VAR
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            if (val == 0xCB) val = SLOT_BASE(slot_id)->last_attacker_slot_id;
+            LOCAL_VAR(slot_id, idx) = val;
+            break;
+        }
+        case 0x0F: { // SET_BATTLE_VAR
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            BATTLE_VAR(idx) = val;
+            break;
+        }
+        case 0x11: { // SET_ITEM_SLOT
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            ITEM_QTY(idx) = val;
+            break;
+        }
+        case 0x12: { // ADD_LOCAL_VAR
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            if (val == 0xCB) val = SLOT_BASE(slot_id)->last_attacker_slot_id;
+            LOCAL_VAR(slot_id, idx) += val;
+            break;
+        }
+        case 0x13: { // ADD_BATTLE_VAR
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            BATTLE_VAR(idx) += val;
+            break;
+        }
+        case 0x15: { // ADD_ITEM_SLOT
+            uint8_t idx = *pc++; uint8_t val = *pc++;
+            ITEM_QTY(idx) += val;
+            break;
+        }
+        case 0x2D: { // SET_RES_FIELD
+            uint8_t idx = *pc++;
+            uint16_t val = pc[0] | (pc[1] << 8); pc += 2;
+            *(uint16_t*)(SLOT_BASE(slot_id) + 2*idx) = val;   // elem_def
+            break;
+        }
+        case 0x02: { // IF
+            uint8_t subject = *pc++;
+            uint8_t param   = *pc++;
+            uint8_t cmp_op  = *pc++;
+            uint16_t value  = pc[0] | (pc[1] << 8); pc += 2;
+            uint16_t jump   = pc[0] | (pc[1] << 8); pc += 2;
+            if (subject > 0xE3) break;                        // ignore
+            int lhs = resolve_subject_lhs(subject, param, slot_id, value);
+            // lhs dépend de la table byte_48A204 → handler → byte_48A308/48A4A4/…
+            int rhs = value;
+            bool cond;
+            switch (cmp_op) {
+            case 0: cond = (lhs == rhs); break;
+            case 1: cond = (lhs <  rhs); break;
+            case 2: cond = (lhs >  rhs); break;
+            case 3: cond = (lhs != rhs); break;
+            case 4: cond = (lhs <= rhs); break;
+            case 5: cond = (lhs >= rhs); break;
+            }
+            if (!cond) pc += (int16_t)jump;                   // sign-extend
+            break;
+        }
+        case 0x23: { // JUMP
+            uint16_t off = pc[0] | (pc[1] << 8); pc += 2;
+            pc += (int16_t)off;
+            break;
+        }
+        case 0x0C: { // USE_ABILITY
+            uint8_t idx = *pc++;
+            uint8_t *row = first_ability + 4*(16*monster_difficulty + idx) + 0x34;
+            command_type     = row[0];
+            section_position = *(uint16_t*)(row+2);
+            ai_scratch_var   = row[1];
+            /* fall-through */
+        }
+        case 0x06: { // EXECUTE
+            if (section_position == 0) break;
+        commit_tail: ;
+            uint32_t m = target_mask;
+            if (command_type == 2)
+                m |= BattleTarget_ComputeMaskFromDefaultTarget(
+                        K_MAGIC.defaultTarget[16*section_position + ...]);
+            else if (command_type == 4)
+                m |= BattleTarget_ComputeMaskFromDefaultTarget(
+                        K_ITEM.targetInfo[16*section_position + ...]);
+            else if (K_ENEMY_ATTACK.attackFlags[20*section_position + ...] & 0x80)
+                m |= 0x4000;
+            target_mask = m;
+            BattleAction_GetText(slot_id, command_type, section_position,
+                                 enter_alt_target_param_2, target_mask, m, ai_scratch_var);
+            BattleAction_ResolveTargetAndHitCount(&m);
+            if (BOOL_TARGET_CHOOSEN) return 0;                // suspension
+            BattleState_SetPhaseFlag(5);
+            BattleEvent_EnqueueActionPresentation(ATTACK_HIT_COUNT - 1);
+            ACTION_EVENT_GROUP_INDEX[20*ATTACK_HIT_COUNT] = 0;
+            if (BACK_PREEMTIVE_INFO_3 != 0) {
+                // contre Odjin/Gilgamesh : cmd 0xF7, arg=byte_1D28DCD, param=byte_1D28DCE
+                EnemyAI_ResetExecState(byte_1D28DCE, ...);
+                BattleAction_GetText(slot_id, 0xF7, byte_1D28DCD, 0, 0, m2, 0);
+                BattleAction_ResolveTargetAndHitCount(&m2);
+                BattleState_SetPhaseFlag(5);
+                BattleEvent_EnqueueActionPresentation(ATTACK_HIT_COUNT - 1);
+                BattleState_SetPhaseFlag(6);
+                BACK_PREEMTIVE_INFO_3 = 0; byte_1D28E0D = 0;
+                BattleState_SetPhaseFlag(6);
+                EnemyAI_SyncAIVarsToSlot(slot_id);
+            }
+            break;
+        }
+        case 0x0D: case 0x19: // NOP 1-byte
+            pc += 1; break;
+        case 0x0A: case 0x10: case 0x14: case 0x21: // NOP 0-byte
+            break;
+        case 0x16: { // FULL_HEAL_SELF
+            auto *s = SLOT_BASE(slot_id);
+            s->current_hp = s->max_hp;                     // +0x18 = +0x1C
+            break;
+        }
+        case 0x17: { // SET_ESCAPE_FLAG
+            uint8_t on = *pc++;
+            if (on == 1) ENCOUTER_BATTLE_FLAG |= 1;
+            else         ENCOUTER_BATTLE_FLAG &= ~1;
+            break;
+        }
+        case 0x27: { // SET_AUTO_STATUS_SELF
+            uint8_t st = *pc++; uint8_t on = *pc++;
+            auto *s = SLOT_BASE(slot_id);
+            if (st < 16) {
+                if (on == 1) s->status_1 |=  (1u << st);
+                else         s->status_1 &= ~(1u << st);
+            } else {
+                if (on == 1) s->status_2 |=  (1u << (st-16));
+                else         s->status_2 &= ~(1u << (st-16));
+            }
+            break;
+        }
+        case 0x28: { // SET_MONSTER_STAT_PCT
+            uint8_t stat = *pc++; uint8_t pct = *pc++;
+            BMI_MONSTER_STAT_PERCENT[71*(slot_id-1) + stat] = pct;
+            BattleSlot_ApplyMonsterStatScaling(slot_id);
+            break;
+        }
+        case 0x09: { // SET_HIT_ANIM
+            HIT_TYPE_TARGET_ANIMATION_TO_PLAY = *pc++;
+            break;
+        }
+        case 0x05: { // SET_SCRATCH
+            ai_scratch_var = *pc++;
+            break;
+        }
+        case 0x1E: { // CHOCOBO_ACTION
+            uint8_t code = *pc++;
+            command_type = 0xFC; section_position = 1;
+            enter_alt_target_param_2 = code;
+            goto commit_tail;
+        }
+        case 0x2A: { // CAST_READ_MAGIC
+            command_type = 2;
+            section_position = SLOT_BASE(slot_id)->magic_to_blow_away;
+            target_mask = EnemyAI_GetTargetMaskFromMask(section_position);
+            ai_scratch_var = 0x0B;
+            goto commit_tail;
+        }
+        case 0x26: { // TARGET_BY_STATUS_STAT
+            uint8_t p1 = *pc++; uint8_t p2 = *pc++; uint8_t p3 = *pc++; pc++;
+            target_mask = BattleTarget_SelectByStatusOrStat(p1, p2, p3, pc[-1]);
+            break;
+        }
+        case 0x04: { // CHOOSE_TARGET
+            uint8_t code = *pc++;
+            switch (code) {
+            case 0xC8: target_mask = 1u << slot_id; break;
+            case 0xC9: { int s; do { s = rnd()%3; } while (dead(s)); target_mask = 1u<<s; break; }
+            case 0xCA: { int s; do { s = rnd()%4+3; } while (dead(s)); target_mask = 1u<<s; break; }
+            case 0xCB: target_mask = 1u << SLOT_BASE(slot_id)->last_attacker_slot_id; break;
+            case 0xCC: target_mask = 0x8007; break;
+            case 0xCD: target_mask = 0x80F8; break;
+            case 0xCE: target_mask = 0x80FF; break;
+            case 0xCF: { /* rnd parmi ennemis vivants != self */ break; }
+            case 0xD0: target_mask = 0xA007; break;
+            case 0xD1: target_mask = 1u << (ATTACKER_SLOT_ID_0 >> 24); break;
+            default:
+                if (code >= 0xDC && code <= 0xE3)  // 220-227
+                    target_mask = 1u << LOCAL_VAR(slot_id, code-220);
+                else if (code >= 0xC8 && code <= 0xE3) { /* scan com_file_id */ }
+                break;
+            }
+            break;
+        }
+        case 0x1D: { // ENEMY_LEAVE
+            uint8_t code = *pc++;
+            uint8_t s = (code == 0xC8) ? slot_id : code + 3;
+            BattleEvent_ActivateTargetRelay(0x69, 0x80, 0); // [eax]=s
+            BattleState_ResetForEject(slot_id);
+            break;
+        }
+        case 0x08: { // DIE_SELF
+            BattleEvent_ActivateTargetRelay(0x6A, 0x80, 0); // [eax]=slot_id
+            SLOT_BASE(slot_id)->status_1 |= 1;
+            BattleState_ResetForEject(slot_id);
+            break;
+        }
+        case 0x2C: { // REMOVE_SELF_HIDDEN
+            BattleState_ResetForEject(slot_id);
+            SLOT_BASE(slot_id)->flag_data |= 0x40;
+            Battle_BuildTargetVisibilityMasks();
+            SLOT_BASE(slot_id)->status_1 |= 1;
+            SLOT_BASE(slot_id)->flag_data &= ~1u;
+            break;
+        }
+        case 0x2F: case 0x3A: { // SHOW_SELF / SHOW_SLOT
+            int s = (op == 0x2F) ? slot_id : *pc++;
+            SLOT_BASE(s)->flag_data &= ~0x40;
+            BattleEvent_SetTargetableCallback(Battle_BuildTargetVisibilityMasks);
+            break;
+        }
+        case 0x30: { // HIDE_SELF
+            SLOT_BASE(slot_id)->flag_data |= 0x40;
+            BattleEvent_SetTargetableCallback(Battle_BuildTargetVisibilityMasks);
+            break;
+        }
+        case 0x31: { // GIVE_GF
+            uint8_t gf = *pc++;
+            GF_SetOwnedFlag(gf);
+            POST_BATTLE_GF_ID_QUEUE[POST_BATTLE_GF_ID_QUEUE_COUNT++] = gf;
+            break;
+        }
+        case 0x32: AI_PREPARE_SUMMON_FLAG = 1; break;
+        case 0x33: BattleEvent_ActivateTargetRelay(0x70, 0x80, 0); break;
+        case 0x35: { // ENTER_ANIM_TARGET
+            uint8_t code = *pc++;
+            uint8_t s = (code == 0xD1) ? (ATTACKER_SLOT_ID_0 >> 24) : code;
+            BattleEvent_ActivateTargetRelay(0x71, 0x80, EnemyAI_MonsterEnterAnimation);
+            // [eax] = s
+            break;
+        }
+        case 0x36: SG_ODIN_ANGEL_GILGA_FLAG = (SG_ODIN_ANGEL_GILGA_FLAG & 0xFD) | 8; break;
+        case 0x37: { // GIVE_CARD
+            uint8_t id = *pc++;
+            BATTLE_CARD_DROP[NB_CARD_OBTAINED++] = id;
+            break;
+        }
+        case 0x38: { // GIVE_ITEM
+            uint8_t id = *pc++;
+            int n = ATTACKER_SLOT_ID_0_byte2;
+            ITEM_RELATED[n*2] = id;
+            ITEM_RELATED_0[n*2] = 1;
+            ATTACKER_SLOT_ID_0_byte2 = n + 1;
+            break;
+        }
+        case 0x39: BATTLE_SCRIPTED_END_PENDING = 1; break;
+        case 0x3C: { // MOD_HP_SELF
+            int16_t delta = pc[0] | (pc[1] << 8); pc += 2;
+            SLOT_BASE(slot_id)->current_hp += delta;
+            break;
+        }
+        case 0x3D: Savegame_GiveProofOfOmega(0x7F); break;
+        case 0x0B: { // USE_RANDOM_ABILITY_3
+            uint8_t a = pc[0], b = pc[1], c = pc[2]; pc += 3;
+            int k = (Battle_GetRandomInt() & 0xFF) % 3;
+            uint8_t pick = (k==0)?a:(k==1)?b:c;
+            if (pick == 0xFD) break;
+            uint8_t *row = first_ability + 4*(16*monster_difficulty + pick) + 0x34;
+            command_type = row[0];
+            section_position = *(uint16_t*)(row+2);
+            ai_scratch_var = row[1];
+            goto commit_tail;
+        }
+        default: break;   // op > 0x3D : NOP, aucun operand
+        }
+    }
+}
+```
+
+**Note finale** : le pseudo-C ci-dessus ne modernise pas — il préserve les fall-through (0x0C→0x06, 0x3B→tail 0x1F), le goto `commit_tail`, l'ordre exact des arguments de `GetText` tels que poussés, et le fait que `target_mask` est à la fois une variable locale réinitialisée à chaque itération implicite (via `mov [esp+74h+p_monster_slot_id], esi/edi`) et un paramètre de sortie des handlers 0x04/0x26. Hex-Rays générera quelque chose de nettement plus confus à cause des `edi=0xFF`, des jumps croisés entre handlers, et des tables de dispatch à trois niveaux.

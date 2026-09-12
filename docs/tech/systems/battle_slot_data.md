@@ -4,7 +4,10 @@ FF8 battle logic revolves around a fixed array of per-slot structs at `BATTLE_SL
 
 - Base: `0x1D27B10`
 - Stride / sizeof(slot): `0xD0` (208 bytes)
-- Slots: 11 total
+- Slots: 11 in the logical battle model used by domain code and live probes.
+  The current IDB type is `FF8BattleSlotData_s[11]`, but the surrounding BSS
+  must not be inferred as one uninterrupted `0x8F0` byte array solely from
+  that type.
 - Index meaning:
   - 0-2: party
   - 3-7: enemies (scene may define up to 8 positions, but typically 5 active)
@@ -53,8 +56,10 @@ High-signal fields and their offsets (full field list lives in IDA as `FF8Battle
 
 ### Party slots (0-2)
 
-- `0x48C620` `BattleSlot_ClearAllSlots`
-  - clears all 11 slots to a known baseline; sets death bit; wipes timers with sentinel patterns.
+- `0x48C620` `BattleSlot_ClearSevenRecords`
+  - executes exactly seven iterations at stride `0xD0`; sets the death bit and
+    wipes timers with sentinel patterns. It does not, by itself, prove or
+    disprove the separate 11-slot logical model.
 - `0x48B5F0` `Battle_InitPartySlotStatusFromChar(slot)`
   - sets `com_file_id`, initial `status_1`, base `flag_data`, auto-status bits in `status_2`, initializes ATB, and sets `mental_res` baseline to 100.
 - `0x48B310` `setBattleSlotData(slot)`

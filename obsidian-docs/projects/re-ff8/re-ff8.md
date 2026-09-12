@@ -12,12 +12,21 @@ provenance:
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-08-27T21:30:00+02:00
+updated: 2026-09-11T21:45:00+02:00
 ---
 
 # RE FF8
 
 This project documents the Final Fantasy VIII PC 2000 battle system from product-level mechanics down to reverse-engineered functions, globals, structs, prompts, executable hypotheses, and tooling.
+
+## Battle Static Discovery → Rewrite (2026-09-11)
+
+The graphic static-discovery plan is closed in its perimeter (7514-node proof
+net, 269 hub renames, L2 registry `55bc0b13…` with 0 PENDING) and replaced by
+the R0–R4 rewrite plan (`HANDOFF_rewrite-plan.md`): rewrite perimeter is
+L0/L1/L2, L3 abandoned, external backends relinked, model viewer first. See
+[[projects/re-ff8/references/battle-static-call-graph]] (*Rewrite Perimeter*)
+and the working method [[projects/re-ff8/skills/static-reverse-triplet-protocol]].
 
 The wiki separates two layers:
 
@@ -38,6 +47,7 @@ The wiki separates two layers:
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of combat mechanics and technical documentation.
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Scene load, battle init, active tick, and battle-end transition.
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context, slot array, pending actions, and runtime state cluster.
+- [[projects/re-ff8/concepts/battle-action-sequencing]] — Eleven DispatchTick workers, 20-byte payload, MagicList callback slots, and the impact-time domain seam.
 - [[projects/re-ff8/references/g11-g20-static-readiness-ledger]] — Static G11–G20 campaign ledger after G10. Not a live promotion.
 - [[projects/re-ff8/references/g11-magic-offline-draft]] — Authenticated, bounded G11 implementation through G07–G10; Fire v2 live-promoted for HP/event/stock; Magic animation deferred G14.
 - [[projects/re-ff8/references/g11-g20-static-open-questions]] — SQ-Gxx register (Dual/Triple consume, Item mask, Draw pending id).
@@ -61,6 +71,9 @@ The wiki separates two layers:
 
 - [[projects/re-ff8/references/battle-address-catalog]] — Consolidated high-signal addresses and global memory anchors.
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] — Slot struct, status bits, command IDs, pending actions, and kernel tables.
+- [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] — Frame-owned render path, OT→draw-lists→GPU chain, and the 66-slot driver matrix.
+- [[projects/re-ff8/references/c0m-monster-archives]] — C0M corpus, 11-section layout, loader dispatch, and the C0M127 overlay.
+- [[projects/re-ff8/references/battle-static-call-graph]] — Layered static graph, BdLink census, lot-E1 493-site L2 registry, and IDB-vs-PE patches.
 - [[projects/re-ff8/references/research-prompt-backlog]] — AI prompt backlog and completed investigation artifacts.
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO-reimplementation readiness scorecard and prioritized gap analysis for the battle loop.
 - [[projects/re-ff8/references/battle-loop-takeover-feasibility]] — Live-proven whole-frame owner, takeover contract, presentation split, and native cleanup handback.
@@ -89,6 +102,8 @@ The wiki separates two layers:
 - [[projects/re-ff8/skills/battle-re-verification]] — Breakpoint, memory watch, and injection workflows used to validate claims.
 - [[projects/re-ff8/skills/gf-hypothesis-authoring]] — Procedure for authoring Tier 3 GF injection hypotheses.
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for turning evidence JSON into runtime-confirmed domain docs.
+- [[projects/re-ff8/skills/static-reverse-triplet-protocol]] — Multi-agent static RE method: Grok triplets read-only, parent arbitration, Spark Max resolver, single IDA batch.
+- [[projects/re-ff8/skills/model-assisted-decompile-bench]] — Measured decompiler-model bench, golden eval target, GLM effort rules, glm-decompile MCP, IDA diff-push.
 
 ## Open Questions
 

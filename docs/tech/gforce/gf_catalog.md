@@ -6,24 +6,24 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 
 | GF | cmd_arg | effect_id | Entry | Init | Tick | Counter | Completion | Family | Confidence | Runtime |
 |----|---------|-----------|-------|------|------|---------|------------|--------|------------|---------|
-| Quezacotl | 0x40 | 116 | `0x6C3550` | `0x6C3640` | `0x6C3760` (driver) / `0x6C6660` (frame) | `0x6C3932` / `0x6C51F2` / `0x6C671D` | `0x6C3931` / `0x6C51F0` / `0x6C675D` | FamilyA | **96** (static) | Pending |
-| Shiva | 0x41 | 185 | `0x5C0D50` | (inline in entry) | `0x5C7F50` | `0x5C7F8B` | Unknown | FamilyA | **92** (static) | Pending |
+| Quezacotl | 0x40 | 116 | `0x6C3550` | `0x6C3640` | `0x6C3760` (driver) / `0x6C6660` (frame) | `0x6C3932` / `0x6C51F2` / `0x6C671D` | `0x6C3931` / `0x6C51F0` / `0x6C675D` | Wrapper sandwich | **96** (static) | Pending |
+| Shiva | 0x41 | 185 | `0x5C0D50` | (inline in entry) | `0x5C7F50` | `0x5C7F8B` | Unknown | BdLink inline dual-task | **92** (static) | Pending |
 | Ifrit | 0x42 | 201 | `0xB25780` | `0xB257E0` | `0xB25DF0` | `0xB25DFA` | `0xB26004` | FamilyB | **100** | **PASS** (GF_IFRIT_001) |
 | Siren | 0x43 | 95 | `0x739DA0` | `0x8DC540` (shared) | `0x739F40` | Unknown | Unknown | SharedInit | **95** (static) | Pending |
-| Brothers | 0x44 | 205 | `0xAF4520` | (inline in entry) | `0xAF4B90` | `0xAF4B9A` | `0xAF4DA1` | Atypical | **75** | Tier-3 partial |
-| Diablos | 0x45 | 325 | `0x654210` | Unknown | `0x654350` (driver) | `0x65459D` | `0x654595` | Unknown | **90** | **PASS** (GF_DIABLOS_001) |
-| Carbuncle | 0x46 | 278 | `0x680C50` | `0x680C80` | `0x680DF0` | `0x6811C8` | `0x6811BE` | FamilyA | **95** (static) | Pending |
-| Leviathan | 0x47 | 6 | `0xB58080` | (inline in entry) | `0xB586F0` | `0xB586FA` | `0xB58901` | Atypical | **75** | Tier-3 partial |
-| Pandemona | 0x48 | 291 | `0x6ED250` | `0x6ED260` | `0x6ED350` | `0x6ED755` | `0x6ED749` | FamilyA | **95** | **PASS** (GF_PANDEMONA_001) |
+| Brothers | 0x44 | 205 | `0xAF4520` | (inline in entry) | `0xAF4B90` | `0xAF4B9A` | `0xAF4DA1` | FamilyB | **75** | Tier-3 partial |
+| Diablos | 0x45 | 325 | `0x6541E0` | `0x654210` | `0x654350` (driver) | `0x65459D` | `0x654595` | Wrapper G93 | **90** | **PASS** (GF_DIABLOS_001) |
+| Carbuncle | 0x46 | 278 | `0x680C50` | `0x680C80` | `0x680DF0` | `0x6811C8` | `0x6811BE` | Wrapper G93 | **95** (static) | Pending |
+| Leviathan | 0x47 | 6 | `0xB58080` | (inline in entry) | `0xB586F0` | `0xB586FA` | `0xB58901` | FamilyB | **75** | Tier-3 partial |
+| Pandemona | 0x48 | 291 | `0x6ED250` | `0x6ED260` | `0x6ED350` | `0x6ED755` | `0x6ED749` | Wrapper G14, FL ret | **95** | **PASS** (GF_PANDEMONA_001) |
 | Cerberus | 0x49 | 203 | `0xB0C1A0` | (inline in entry) | `0xB0C820` | `0xB0C82A` | `0xB0CA31` | FamilyB | **High** | **PASS** (GF_CERBERUS_001) |
-| Alexander | 0x4A | 204 | `0xAFFCA0` | (inline in entry) | `0xB00310` | `0xB0031A` | `0xB00521` | Atypical | **72** | Tier-3 partial |
-| Doomtrain | 0x4B | 191 | `0x63E730` | (inline in entry) | `0x6472C0` | `0x6472D1` | Unknown | FamilyA | **80** | Tier-3 partial |
-| Bahamut | 0x4C | 202 | `0xB189A0` | (inline in entry) | `0xB19010` | `0xB1901A` | `0xB19221` | Atypical | **72** | Tier-3 partial |
-| Cactuar | 0x4D | 199 | `0x5A8750` | (inline in entry) | `0x5AA3A0` | `0x5AA3B1` | Unknown | Atypical | **75** | Tier-3 partial |
+| Alexander | 0x4A | 204 | `0xAFFCA0` | (inline in entry) | `0xB00310` | `0xB0031A` | `0xB00521` | FamilyB | **72** | Tier-3 partial |
+| Doomtrain | 0x4B | 191 | `0x63E730` | (inline in entry) | `0x6472C0` | `0x6472D1` | Unknown | BdLink inline dual-task, FL ret | **80** | Tier-3 partial |
+| Bahamut | 0x4C | 202 | `0xB189A0` | (inline in entry) | `0xB19010` | `0xB1901A` | `0xB19221` | FamilyB | **72** | Tier-3 partial |
+| Cactuar | 0x4D | 199 | `0x5A8750` | (inline in entry) | `0x5AA3A0` | `0x5AA3B1` | Unknown | BdLink inline dual-task, FL alt 0x5718E0 | **75** | Tier-3 partial |
 | Tonberry | 0x4E | 90 | `0x762360` | `0x8DC540` (shared) | `0x7624D0` | `0x7625F9` | `0x762611` | SharedInit | **95** | **PASS** (GF_TONBERRY_002) |
-| Eden | 0x4F | 206 | `0xAE2DD0` | (inline in entry) | `0xAE3470` | `0xAE347A` | `0xAE3681` | Atypical | **70** | Tier-3 partial |
+| Eden | 0x4F | 206 | `0xAE2DD0` | (inline in entry) | `0xAE3470` | `0xAE347A` | `0xAE3681` | FamilyB | **70** | Tier-3 partial |
 
-> **effect_id** is the index into `MagicList_Logic` (1-based). See [magic_effect_table.md](../reference/magic_effect_table.md) for the full dispatch architecture. Diablos has a thunk wrapper at `0x6541E0` in the table that forwards to the real entry at `0x654210`.
+> **effect_id** is the index into `MagicList_Logic` (1-based). See [magic_effect_table.md](../reference/magic_effect_table.md) for the full dispatch architecture. Wrappers 14o (`FUNC_THUNK=0`) : Diablos table `0x6541E0` → init `0x654210` (disp+0x26, byte-identique à Carbuncle) ; Pandemona/Quezacotl idem (G14/sandwich). Plus d’« Atypical » au niveau entry (Wave3).
 
 ## Special / Non-Junctionable GFs
 
@@ -45,7 +45,7 @@ Master table of all known GF summon chains. Replaces individual per-GF documents
 | ChocoMeteor | 99 | `0x717D30` | Unknown | Unknown | Chocobo/Boko variant | Entry mapped via table |
 | ChocoBocle | 100 | `0x70D390` | Unknown | Unknown | Chocobo/Boko variant; SharedInit pattern | Entry mapped via table |
 
-> **Griever correction**: The previously listed entry `0x62B3F0` was a mid-function address inside `sub_62B1C0` (a rendering utility). The actual Griever summon cinematic entry is `MAG_069_GRIEVER_SUMMON` at `0x6FE040` (thunk to `0x6FE050`), confirmed by callees: `BdLinkTask`, `BS_Memset`, `Battle_PlayCameraAnimation`.
+> **Griever correction**: The previously listed entry `0x62B3F0` was a mid-function address inside `sub_62B1C0` (a rendering utility). The actual Griever summon cinematic entry is `MAG_069_GRIEVER_SUMMON` at `0x6FE040` (thunk to `0x6FE050`), confirmed by callees: `BdLinkTask`, `BS_Memset`, `BattleCamera_BindResource` (old `Battle_PlayCameraAnimation`; binding only).
 >
 > **Gilgamesh** now confirmed present in `MagicList_Logic` with 4 variants (effect_ids 327–330). Dispatched via `BattleActionSequence_Tick_Special` (`0x50B830`) with command type `0xF5`. The variant is selected randomly when triggered.
 
@@ -173,7 +173,7 @@ See [magic_effect_table.md](../reference/magic_effect_table.md#angelo-variant-sy
 | Ifrit | `0x2796E18 – 0x2796E4C` | `GF_100Ifrit_*` |
 | *(shared)* | `0x27973B8 – 0x2797624` | `g_GfCinematic_*` |
 | Quezacotl | `0x25216D8 – 0x25217AC` | `GF_116Quezacotl_*` |
-| Pandemona | `0x2556258 – 0x25562F4` | `GF_200Pandemona_*` |
+| Pandemona | `0x2556258 – 0x25562F4` | `GF_291Pandemona_*` |
 | Cerberus | `0x2796DA8 – 0x2798219` | `GF_203Cerberus_*` |
 
 ## Quezacotl Extended Chain (5-Level Task Architecture)

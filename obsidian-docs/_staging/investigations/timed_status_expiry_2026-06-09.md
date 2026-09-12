@@ -54,7 +54,9 @@ This staging note tightens the open timer story around [[projects/re-ff8/concept
 - Slot storage is still `BATTLE_SLOT_DATA[slot].timer[16]` at `slot + 0x54`.
 - The timed-status routines treat each entry as a signed 16-bit counter.
 - Disabled or absent timers use the sentinel `-1111` / `0xFBA9`.
-- `BattleSlot_ClearAllSlots` and `BattleSlot_ManageDeathState` both fill the timer region with the sentinel pattern, so newly cleared or dead slots start with no active timed statuses.
+- `BattleSlot_ClearSevenRecords` and `BattleSlot_ManageDeathState` both fill the
+  timer region with the sentinel pattern. The former covers exactly seven
+  `0xD0` records; the latter applies to the slot whose death state is managed.
 
 The sentinel does more than mean "not counting down". `RelatedToStatus1And2` checks `StatusTimer_IsDisabledForBit` before clearing a `status_2` bit through the generic status-clear helper. When the corresponding timer slot is already disabled, the helper strips that bit from the clear mask instead of removing it. In practice, disabled timer slots act as persistence guards for direct-write statuses.
 
