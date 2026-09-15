@@ -25,7 +25,7 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corps, pas le nom.
 
 - **SKIP_L3 conservé** : wrappers backend PC (`RenderGL_*`, `RenderDDraw*`, `GfxDriver_*`, `presentation::RenderBackend_Construct_*`, `gl*`, `Gfx_InitializeSelectedBackend` / `LoadExternalBackendFactory` / `BindDrawListBackendCallbacks`), CRT/debug, thunks, `UpdateRateRelated`.
-- **File Grok maintenant** (ont un `decomp/`) : `0x499EA0` `Gfx_SubmitViewportLists`.
+- **File Grok maintenant** (ont un `decomp/`) : — (lot GPU clos ; retour à la file battle `0x47CEF0`).
 - **SKIP_NODECOMP** (internes Square, file dès que decomp existe) : draw-list/TIM/TPage/CLUT + `Gfx_SetRenderState` / `Gfx_ShadowSetRenderState*` (ASM live 2026-09-15 : écriture `*(engine+0xA84)[type]=value`, **pas** un thin wrap `gl*`/`IDirect3D*` — DDraw identique au GL).
 
 `Gpu_*` / `Ot_Emit*` / `ParsePolygons` : déjà SKIP_NODECOMP ou SKIP_CHUNK — les traiter après C réconcilié.
@@ -291,7 +291,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | CERTAIN | oui | oui | non | oui | 1+V 2026-09-15 : CERTAIN, nom confirme (V=CORRIGE mineur), push IDB ; 3 walks fixes sans garde + 6 test/jz, RS(2,0/1) scopés |
 | `0x498B50` | `Read_ff8input_cfg` | 123 | LIKELY | oui | — | non | oui | push seul |
 | `0x498CB0` | `Create_ff8input_cfg` | 206 | LIKELY | oui | — | non | oui | push seul |
-| `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | LIKELY | oui | oui | non | oui | interne Square (viewport lists) + decomp ; file Grok après lot battle |
+| `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | CERTAIN | oui | oui | non | oui | 1+V 2026-09-15 : CERTAIN, nom confirme (V=ACCEPTE), push IDB ; file jobs viewport stride 0x14, reset compteur inconditionnel |
 | `0x4A0C00` | `MenuSprite_DrawCallback` | 46 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x4A0C80` | `sub_4A0C80` | 11 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x4A2690` | `main::BattleRewardMenu_MainLoop` | 127 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
