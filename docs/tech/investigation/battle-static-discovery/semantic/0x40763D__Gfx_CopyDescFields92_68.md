@@ -4,13 +4,13 @@
 - Nom catalogue: confirme
 - Mode: 1+P
 - A==V: n/a (1+P)
-- Push IDB: non (MCP IDA absent au close)
+- Push IDB: oui (`[semantic-triple 2026-09-15]`, append, save_database=True)
 - Preuves:
   - Feuille 16 instr ; 2 xrefs (`TIMrelated_0`, `sub_414A40`)
   - `src+0x5C` → `dest+0xC4` ; `src+0x44` → `dest+0xC8`
   - `src+0x44` = blend TIM, pas GF Exists
   - Nom 92/68 = offsets source ; Hex-Rays index DWORD
-- Notes parent: §5.6 vert sur dump live du pack (disasm / xrefs / callees, même session). MCP `ida-pro-mcp` down au close → pas d’append `[semantic-triple]` / `save_database`. Occupancy absente. LIKELY → CERTAIN. Relancer IDA pour pousser le tag.
+- Notes parent: §5.6 vert sur dump live du pack (disasm / xrefs / callees, même session). Occupancy absente. LIKELY → CERTAIN. Tag IDA poussé 2026-09-15 après réparation MCP.
 
 ## Analyse réconciliée
 
