@@ -10,25 +10,35 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 9 (8 doc + 1 pilote) | name_only_known+A==B+push, ou wrapper trivial ≤5/≤10 wiki+A==B |
-| LIKELY | 285 | decomp poussé (wiki ± A==B) |
+| CERTAIN | 10 (8 doc + 2 triple Grok) | name_only_known+A==B+push, wrapper trivial, ou R=CERTAIN poussé |
+| LIKELY | 289 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
-| SKIP_L3 | 43 | vendor/gfx/crt/thunk |
+| SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 139 | pas de C réconcilié |
+| SKIP_NODECOMP | 152 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
-File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **220**.
+File Grok (LIKELY+UNCERTAIN+CONFLICT) : **297**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **219**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
+
+## Reclassement vendor vs graphismes internes (2026-09-15)
+
+Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corps, pas le nom.
+
+- **SKIP_L3 conservé** : wrappers backend PC (`RenderGL_*`, `RenderDDraw*`, `GfxDriver_*`, `presentation::RenderBackend_Construct_*`, `gl*`, `Gfx_InitializeSelectedBackend` / `LoadExternalBackendFactory` / `BindDrawListBackendCallbacks`), CRT/debug, thunks, `UpdateRateRelated`.
+- **File Grok maintenant** (ont un `decomp/`) : `0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0` `Gfx_SubmitDisplayLists`, `0x499EA0` `Gfx_SubmitViewportLists`.
+- **SKIP_NODECOMP** (internes Square, file dès que decomp existe) : draw-list/TIM/TPage/CLUT + `Gfx_SetRenderState` / `Gfx_ShadowSetRenderState*` (ASM live 2026-09-15 : écriture `*(engine+0xA84)[type]=value`, **pas** un thin wrap `gl*`/`IDirect3D*` — DDraw identique au GL).
+
+`Gpu_*` / `Ot_Emit*` / `ParsePolygons` : déjà SKIP_NODECOMP ou SKIP_CHUNK — les traiter après C réconcilié.
 
 ## Premier lot Grok (tête de file bataille, ordre adresse)
 
 > Pilote 2026-09-15 : le n°1 (`0x47CA90`) est FAIT (R=CERTAIN, push IDB).
-> Prochaine tête de file : `0x47CCB0`.
+> n°2 (`0x47CCB0`) FAIT (R=CERTAIN, push IDB). Prochaine tête : `0x47CE10`.
 
 | # | EA | Nom | Instr | Classe | Pourquoi |
 |---|---|---|---:|---|---|
 | 1 | `0x47CA90` | `Field_Encounter_RollAndSelectScene` | 115 | LIKELY | wiki + push (A≠B) |
-| 2 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | LIKELY | wiki + push (A≠B) |
+| 2 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
 | 3 | `0x47CE10` | `FFBattleInitSystem` | 56 | LIKELY | wiki + push (A≠B) |
 | 4 | `0x47CEF0` | `FFBattleExitSystem` | 22 | LIKELY | wiki + push (A≠B) |
 | 5 | `0x47CF60` | `main::FFBattleModule` | 209 | LIKELY | wiki + push (A≠B) |
@@ -40,19 +50,19 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 | `0x401000` | `GetSingletonAddress` | 3 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x4020F0` | `UpdateRateRelated` | 103 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x403D99` | `OutputDebugString_1` | 33 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x40702F` | `Gfx_InitDrawListDesc` | 34 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x4070B0` | `Gfx_SetDescFilterMode` | 9 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x407162` | `Gfx_SetPrimBlendMode` | 86 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x407586` | `Gfx_SetTIMDescFlags` | 60 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x4076B6` | `TIMrelated_0` | 112 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
+| `0x40702F` | `Gfx_InitDrawListDesc` | 34 | LIKELY | oui | — | — | — | interne Square (draw list) + decomp 2026-09-15 ; file Grok après lot battle |
+| `0x4070B0` | `Gfx_SetDescFilterMode` | 9 | LIKELY | oui | — | — | — | interne Square (filtre desc) + decomp 2026-09-15 ; file Grok après lot battle |
+| `0x407162` | `Gfx_SetPrimBlendMode` | 86 | SKIP_NODECOMP | — | oui | — | — | interne Square (blend prim OT/TIM) ; file dès que decomp |
+| `0x407586` | `Gfx_SetTIMDescFlags` | 60 | SKIP_NODECOMP | — | — | — | — | interne Square (flags TIM) ; file dès que decomp |
+| `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | LIKELY | oui | — | — | — | interne Square (copie desc) + decomp 2026-09-15 ; file Grok après lot battle |
+| `0x4076B6` | `TIMrelated_0` | 112 | SKIP_NODECOMP | — | — | — | — | interne Square (pipeline TIM) ; file dès que decomp |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x4178D7` | `Gfx_WalkDrawList` | 65 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x419D8F` | `TextureRelated2` | 34 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
+| `0x4178D7` | `Gfx_WalkDrawList` | 65 | SKIP_NODECOMP | — | oui | — | — | interne Square (marche OT/draw list) ; file dès que decomp |
+| `0x419D8F` | `TextureRelated2` | 34 | SKIP_NODECOMP | — | — | — | — | interne Square (textures jeu) ; file dès que decomp |
 | `0x41DF0C` | `Render_FramePresent_Dispatch` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x41E650` | `Gfx_SetRenderState` | 28 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
+| `0x41E650` | `Gfx_SetRenderState` | 28 | SKIP_NODECOMP | — | oui | — | — | interne (dispatch shadow+commit vtable, pas IAT gl*) ; file dès que decomp |
 | `0x41E752` | `GfxDriver_SetBlendMode` | 18 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x41E7A5` | `GfxDriver_Slot34_EmptyHook` | 19 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x41E803` | `sub_41E803` | 29 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -62,9 +72,9 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 | `0x4252B0` | `presentation::RenderBackend_Construct_OpenGL` | 115 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x425540` | `presentation::RenderBackend_Construct_DDraw` | 115 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x4257D0` | `presentation::RenderBackend_Construct_DDrawAlt` | 125 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x438599` | `Gfx_ShadowSetRenderState` | 15 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
+| `0x438599` | `Gfx_ShadowSetRenderState` | 15 | SKIP_NODECOMP | — | oui | — | — | interne : *(engine+0xA84)[type]=value, pas d'appel GL ; file dès que decomp |
 | `0x438682` | `RenderGL_CommitRenderState` | 464 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x43B50C` | `Gfx_ShadowSetRenderState_DDraw` | 15 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
+| `0x43B50C` | `Gfx_ShadowSetRenderState_DDraw` | 15 | SKIP_NODECOMP | — | — | — | — | interne : même shadow que GL, pas d'appel DDraw GPU ; file dès que decomp |
 | `0x43E24A` | `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4` | 89 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x43E356` | `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4_VB` | 161 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x440FF0` | `RenderDDrawAlt_SetRenderState` | 404 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
@@ -91,11 +101,11 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 | `0x460810` | `Thunk_460860_4BE012` | 4 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x460840` | `Thunk_460860_480012` | 4 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x460860` | `Gte_MVMVA` | 177 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x463FC0` | `Gfx_TPageDescribePixelFormat` | 126 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x464DB0` | `Gfx_UploadCLUTSlot` | 147 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
+| `0x463FC0` | `Gfx_TPageDescribePixelFormat` | 126 | SKIP_NODECOMP | — | — | — | — | interne Square (TPage PS1) ; file dès que decomp |
+| `0x464DB0` | `Gfx_UploadCLUTSlot` | 147 | SKIP_NODECOMP | — | oui | — | — | interne Square (CLUT) ; file dès que decomp |
+| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | SKIP_NODECOMP | — | oui | — | — | interne Square (pages texture) ; file dès que decomp |
+| `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | SKIP_NODECOMP | — | oui | — | — | interne Square (listes TPage) ; file dès que decomp |
+| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | SKIP_NODECOMP | — | oui | — | — | interne Square (sélection TPage/draw list) ; file dès que decomp |
 | `0x4675C0` | `TexStaging_BlitRows` | 195 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x4677D0` | `TexStaging_BlitCLUTAlpha` | 196 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x467D10` | `Input_ProcessInput` | 334 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -109,7 +119,7 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 | `0x46FA10` | `MusicPerformance_IsSegmentPlaying` | 17 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x4706B0` | `main::FFModuleHandler_main_loop` | 570 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x47CA90` | `Field_Encounter_RollAndSelectScene` | 115 | CERTAIN | oui | oui | non (A!=B) | oui | PILOTE triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
-| `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | LIKELY | oui | oui | non (A | oui | wiki + push (A≠B) |
+| `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | oui | oui | non (A!=B) | oui | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
 | `0x47CE10` | `FFBattleInitSystem` | 56 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x47CEF0` | `FFBattleExitSystem` | 22 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x47CF50` | `BattleSwirl_ArmOneShot` | 4 | CERTAIN | oui | oui | non (sémantique identiqu | oui | trivial ≤5 (4) + push |
@@ -278,10 +288,10 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 | `0x4968A0` | `domain::GetCharacterEva` | 53 | LIKELY | oui | — | non | oui | push seul |
 | `0x496CB0` | `RelatedToCharaXPComputeLvlUp?` | 194 | LIKELY | oui | — | non | oui | push seul |
 | `0x496F30` | `sub_496F30` | 74 | LIKELY | oui | — | non | oui | push seul |
-| `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | SKIP_L3 | oui | oui | non | oui | vendor/gfx/crt/thunk |
+| `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | LIKELY | oui | oui | non | oui | interne Square (draw lists) + decomp ; file Grok après lot battle |
 | `0x498B50` | `Read_ff8input_cfg` | 123 | LIKELY | oui | — | non | oui | push seul |
 | `0x498CB0` | `Create_ff8input_cfg` | 206 | LIKELY | oui | — | non | oui | push seul |
-| `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | SKIP_L3 | oui | oui | non | oui | vendor/gfx/crt/thunk |
+| `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | LIKELY | oui | oui | non | oui | interne Square (viewport lists) + decomp ; file Grok après lot battle |
 | `0x4A0C00` | `MenuSprite_DrawCallback` | 46 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x4A0C80` | `sub_4A0C80` | 11 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x4A2690` | `main::BattleRewardMenu_MainLoop` | 127 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
