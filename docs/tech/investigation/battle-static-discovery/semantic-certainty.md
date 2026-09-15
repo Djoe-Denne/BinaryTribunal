@@ -10,13 +10,13 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 11 (8 doc + 3 triple Grok) | name_only_known+A==B+push, wrapper trivial, ou R=CERTAIN poussé |
+| CERTAIN | 12 (8 doc + 3 triple Grok + 1 GPU 1+P) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
 | LIKELY | 288 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 152 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 151 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **296**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -85,7 +85,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4467B6` | `RenderGL_DrawElements_PosColorTex_Imm` | 220 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x45B2E0` | `IsWindowNOTActive` | 14 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x45C0F0` | `Gpu_PackDrawEnvPacket` | 109 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x45C7A0` | `OtNode24_PoolAllocLink` | 59 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x45C7A0` | `OtNode24_PoolAllocLink` | 59 | CERTAIN | oui | oui | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; decomp GLM |
 | `0x45C8E0` | `OtNode24_PoolAllocLink_Code1` | 34 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x45C9B0` | `Gpu_PackOtTag1_DrawOffsetE5` | 15 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x45CA50` | `Gpu_PackOtTag1_TexpageE1` | 20 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
