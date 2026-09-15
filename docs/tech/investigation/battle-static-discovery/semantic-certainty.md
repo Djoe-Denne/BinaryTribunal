@@ -10,13 +10,13 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 17 (8 doc + 3 triple Grok + 4 GPU 1+P + 1 GPU 2+1 + 1 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
+| CERTAIN | 18 (8 doc + 3 triple Grok + 5 GPU 1+P + 1 GPU 2+1 + 1 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
 | LIKELY | 288 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 146 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 145 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **296**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -53,7 +53,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x40702F` | `Gfx_InitDrawListDesc` | 34 | LIKELY | oui | — | — | — | interne Square (draw list) + decomp 2026-09-15 ; file Grok après lot battle |
 | `0x4070B0` | `Gfx_SetDescFilterMode` | 9 | LIKELY | oui | — | — | — | interne Square (filtre desc) + decomp 2026-09-15 ; file Grok après lot battle |
 | `0x407162` | `Gfx_SetPrimBlendMode` | 86 | SKIP_NODECOMP | — | oui | — | — | interne Square (blend prim OT/TIM) ; file dès que decomp |
-| `0x407586` | `Gfx_SetTIMDescFlags` | 60 | SKIP_NODECOMP | — | — | — | — | interne Square (flags TIM) ; file dès que decomp |
+| `0x407586` | `Gfx_SetTIMDescFlags` | 60 | CERTAIN | oui | — | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; flags TIM +8/+0xC ; blend interne |
 | `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | LIKELY | oui | — | — | — | interne Square (copie desc) + decomp 2026-09-15 ; file Grok après lot battle |
 | `0x4076B6` | `TIMrelated_0` | 112 | SKIP_NODECOMP | — | — | — | — | interne Square (pipeline TIM) ; file dès que decomp |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
