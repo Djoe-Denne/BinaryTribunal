@@ -10,15 +10,15 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 10 (8 doc + 2 triple Grok) | name_only_known+A==B+push, wrapper trivial, ou R=CERTAIN poussé |
-| LIKELY | 289 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| CERTAIN | 11 (8 doc + 3 triple Grok) | name_only_known+A==B+push, wrapper trivial, ou R=CERTAIN poussé |
+| LIKELY | 288 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
 | SKIP_NODECOMP | 152 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
-File Grok (LIKELY+UNCERTAIN+CONFLICT) : **297**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **219**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
+File Grok (LIKELY+UNCERTAIN+CONFLICT) : **296**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
 ## Reclassement vendor vs graphismes internes (2026-09-15)
 
@@ -33,13 +33,13 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 ## Premier lot Grok (tête de file bataille, ordre adresse)
 
 > Pilote 2026-09-15 : le n°1 (`0x47CA90`) est FAIT (R=CERTAIN, push IDB).
-> n°2 (`0x47CCB0`) FAIT (R=CERTAIN, push IDB). Prochaine tête : `0x47CE10`.
+> n°2 (`0x47CCB0`) FAIT (R=CERTAIN, push IDB). n°3 (`0x47CE10`) FAIT (R=CERTAIN, push IDB). Prochaine tête : `0x47CEF0`.
 
 | # | EA | Nom | Instr | Classe | Pourquoi |
 |---|---|---|---:|---|---|
 | 1 | `0x47CA90` | `Field_Encounter_RollAndSelectScene` | 115 | LIKELY | wiki + push (A≠B) |
 | 2 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
-| 3 | `0x47CE10` | `FFBattleInitSystem` | 56 | LIKELY | wiki + push (A≠B) |
+| 3 | `0x47CE10` | `FFBattleInitSystem` | 56 | CERTAIN | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
 | 4 | `0x47CEF0` | `FFBattleExitSystem` | 22 | LIKELY | wiki + push (A≠B) |
 | 5 | `0x47CF60` | `main::FFBattleModule` | 209 | LIKELY | wiki + push (A≠B) |
 
@@ -120,7 +120,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4706B0` | `main::FFModuleHandler_main_loop` | 570 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x47CA90` | `Field_Encounter_RollAndSelectScene` | 115 | CERTAIN | oui | oui | non (A!=B) | oui | PILOTE triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | oui | oui | non (A!=B) | oui | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
-| `0x47CE10` | `FFBattleInitSystem` | 56 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x47CE10` | `FFBattleInitSystem` | 56 | CERTAIN | oui | oui | non | oui | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |
 | `0x47CEF0` | `FFBattleExitSystem` | 22 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x47CF50` | `BattleSwirl_ArmOneShot` | 4 | CERTAIN | oui | oui | non (sémantique identiqu | oui | trivial ≤5 (4) + push |
 | `0x47CF60` | `main::FFBattleModule` | 209 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
