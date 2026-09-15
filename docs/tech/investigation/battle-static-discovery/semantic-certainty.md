@@ -25,7 +25,7 @@ File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`
 Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corps, pas le nom.
 
 - **SKIP_L3 conservé** : wrappers backend PC (`RenderGL_*`, `RenderDDraw*`, `GfxDriver_*`, `presentation::RenderBackend_Construct_*`, `gl*`, `Gfx_InitializeSelectedBackend` / `LoadExternalBackendFactory` / `BindDrawListBackendCallbacks`), CRT/debug, thunks, `UpdateRateRelated`.
-- **File Grok maintenant** (ont un `decomp/`) : `0x4980C0` `Gfx_SubmitDisplayLists`, `0x499EA0` `Gfx_SubmitViewportLists`.
+- **File Grok maintenant** (ont un `decomp/`) : `0x499EA0` `Gfx_SubmitViewportLists`.
 - **SKIP_NODECOMP** (internes Square, file dès que decomp existe) : draw-list/TIM/TPage/CLUT + `Gfx_SetRenderState` / `Gfx_ShadowSetRenderState*` (ASM live 2026-09-15 : écriture `*(engine+0xA84)[type]=value`, **pas** un thin wrap `gl*`/`IDirect3D*` — DDraw identique au GL).
 
 `Gpu_*` / `Ot_Emit*` / `ParsePolygons` : déjà SKIP_NODECOMP ou SKIP_CHUNK — les traiter après C réconcilié.
@@ -288,7 +288,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4968A0` | `domain::GetCharacterEva` | 53 | LIKELY | oui | — | non | oui | push seul |
 | `0x496CB0` | `RelatedToCharaXPComputeLvlUp?` | 194 | LIKELY | oui | — | non | oui | push seul |
 | `0x496F30` | `sub_496F30` | 74 | LIKELY | oui | — | non | oui | push seul |
-| `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | LIKELY | oui | oui | non | oui | interne Square (draw lists) + decomp ; file Grok après lot battle |
+| `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | CERTAIN | oui | oui | non | oui | 1+V 2026-09-15 : CERTAIN, nom confirme (V=CORRIGE mineur), push IDB ; 3 walks fixes sans garde + 6 test/jz, RS(2,0/1) scopés |
 | `0x498B50` | `Read_ff8input_cfg` | 123 | LIKELY | oui | — | non | oui | push seul |
 | `0x498CB0` | `Create_ff8input_cfg` | 206 | LIKELY | oui | — | non | oui | push seul |
 | `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | LIKELY | oui | oui | non | oui | interne Square (viewport lists) + decomp ; file Grok après lot battle |
