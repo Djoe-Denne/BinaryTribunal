@@ -10,22 +10,22 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 22 (8 doc + 3 triple Grok + 7 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
-| LIKELY | 286 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| CERTAIN | 23 (8 doc + 3 triple Grok + 8 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
+| LIKELY | 285 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
 | SKIP_NODECOMP | 143 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
-File Grok (LIKELY+UNCERTAIN+CONFLICT) : **294**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
+File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
 ## Reclassement vendor vs graphismes internes (2026-09-15)
 
 Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corps, pas le nom.
 
 - **SKIP_L3 conservé** : wrappers backend PC (`RenderGL_*`, `RenderDDraw*`, `GfxDriver_*`, `presentation::RenderBackend_Construct_*`, `gl*`, `Gfx_InitializeSelectedBackend` / `LoadExternalBackendFactory` / `BindDrawListBackendCallbacks`), CRT/debug, thunks, `UpdateRateRelated`.
-- **File Grok maintenant** (ont un `decomp/`) : `0x40763D`, `0x4980C0` `Gfx_SubmitDisplayLists`, `0x499EA0` `Gfx_SubmitViewportLists`.
+- **File Grok maintenant** (ont un `decomp/`) : `0x4980C0` `Gfx_SubmitDisplayLists`, `0x499EA0` `Gfx_SubmitViewportLists`.
 - **SKIP_NODECOMP** (internes Square, file dès que decomp existe) : draw-list/TIM/TPage/CLUT + `Gfx_SetRenderState` / `Gfx_ShadowSetRenderState*` (ASM live 2026-09-15 : écriture `*(engine+0xA84)[type]=value`, **pas** un thin wrap `gl*`/`IDirect3D*` — DDraw identique au GL).
 
 `Gpu_*` / `Ot_Emit*` / `ParsePolygons` : déjà SKIP_NODECOMP ou SKIP_CHUNK — les traiter après C réconcilié.
@@ -54,7 +54,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4070B0` | `Gfx_SetDescFilterMode` | 9 | CERTAIN | oui | — | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; setter desc+20h |
 | `0x407162` | `Gfx_SetPrimBlendMode` | 86 | CERTAIN | oui | oui | non | oui | 1+V 2026-09-15 : CERTAIN, nom confirme, V=CORRIGE (lookup hors corps), push IDB |
 | `0x407586` | `Gfx_SetTIMDescFlags` | 60 | CERTAIN | oui | — | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; flags TIM +8/+0xC ; blend interne |
-| `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | LIKELY | oui | — | — | — | interne Square (copie desc) + decomp 2026-09-15 ; file Grok après lot battle |
+| `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | CERTAIN | oui | — | non | non | 1+P 2026-09-15 : CERTAIN, nom confirme ; IDB non poussé (MCP IDA down) |
 | `0x4076B6` | `TIMrelated_0` | 112 | CERTAIN | oui | — | non | oui | 2+1 2026-09-15 : CERTAIN, nom trop large (`Gfx_CreateTIMDescFromFileOrCache`), push IDB ; file-ou-cache `desc+28h` |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
