@@ -10,13 +10,13 @@
 
 | Classe | Nombre | Règle |
 |---|---:|---|
-| CERTAIN | 15 (8 doc + 3 triple Grok + 4 GPU 1+P) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
+| CERTAIN | 16 (8 doc + 3 triple Grok + 4 GPU 1+P + 1 GPU 2+1) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
 | LIKELY | 288 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 148 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 147 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **296**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x40702F`, `0x4070B0`, `0x40763D`, `0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -89,7 +89,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x45C8E0` | `OtNode24_PoolAllocLink_Code1` | 34 | CERTAIN | oui | oui | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; decomp GLM |
 | `0x45C9B0` | `Gpu_PackOtTag1_DrawOffsetE5` | 15 | CERTAIN | oui | oui | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; VIT leurre = OT len=1 |
 | `0x45CA50` | `Gpu_PackOtTag1_TexpageE1` | 20 | CERTAIN | oui | oui | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; GP0 E1 + tag-1 ; VIT leurre |
-| `0x45D610` | `Gpu_DrawOTagCurrent` | 5 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x45D610` | `Gpu_DrawOTagCurrent` | 5 | CERTAIN | oui | oui | non | oui | 2+1 2026-09-15 : CERTAIN, nom trop large (`Gpu_DrawOTagThunk`), push IDB |
 | `0x45DCA0` | `Gte_LZCS` | 23 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x45E5C0` | `Gte_AVSZ3` | 15 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x45E610` | `Gte_AVSZ4` | 18 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
