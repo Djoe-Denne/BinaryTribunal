@@ -1,5 +1,14 @@
+# MCP — miroir de .cursor/mcp.json pour Codex.
+# Serena passe par le runtime 1MCP partagé (serena-proxy.ps1) et GrepAI
+# utilise l'index du dossier parent retro-eng, commun aux deux projets
+# voisins (re-ff8 et FinalFantasy_VIII_Reimaginated).
+
 [mcp_servers.serena]
 command = 'powershell.exe'
-args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", 'C:\Users\djden\.config\1mcp\serena-proxy.ps1', "-ProjectPath", 'C:\Users\djden\source\repos\retro-eng\re-ff8']
-cwd = 'C:\Users\djden\source\repos\retro-eng\re-ff8'
+args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", 'C:\Users\djden\.config\1mcp\serena-proxy.ps1', "-ProjectPath", 'C:\Users\djden\source\repos\retro-eng']
+cwd = 'C:\Users\djden\source\repos\retro-eng'
 startup_timeout_sec = 90
+
+[mcp_servers.grepai]
+command = 'C:\Users\djden\AppData\Local\Programs\grepai\grepai.exe'
+args = ["mcp-serve", 'C:\Users\djden\source\repos\retro-eng']

@@ -52,7 +52,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-09-09T19:50:00+02:00
+updated: 2026-09-15T17:52:25+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -146,6 +146,34 @@ Each unit record must define:
 - current confidence and open blockers.
 
 No unit may be marked done only because it compiles.
+
+### 3.1 Mandatory source inspection and incremental presentation (G24–G31)
+
+Before implementing a G24–G31 unit, inspect the existing decompilations of the functions that own its behavior and the adjacent callers, callees, or writers needed to establish its boundary. A QMD result or a documentation summary alone does not satisfy this requirement. Scope the inspection to the unit's questions; do not reread the entire corpus or request another decompilation before checking the existing artifacts.
+
+Record this inspection in the unit's existing dossier:
+
+1. Resolve each relevant name/address through the address catalog, QMD, and the static registries. Check `tools/_tmp_wave_review/reports.json`, `tools/_tmp_wave_review/glm_triple/<va>/`, and the complementary `tools/_tmp_semantic_triple/<va>/` bundles. These local artifacts may be gitignored; their absence in a checkout is not proof that a function has never been decompiled.
+2. Read the available `c_reconciled.c` and `reconcile_notes.md`, or the corresponding existing decompiler export, together with `meta.json` and the relevant `asm_clean.asm`/`asm.asm`/`dump_bytes.txt` evidence. Inspect caller/callee exports or indirect-call registries when the unit depends on those relationships. Record exact source paths and the addresses/ranges actually inspected.
+3. Reuse already verified ledger entries. Reconcile new, ambiguous, or contradictory ABI, layout, arithmetic, ownership, callback, lifetime, and format claims against source bytes/disassembly and xref or writer/reader evidence. Generated C and recovered names are review aids; they do not establish a contract by themselves.
+4. For each implementation decision, record the proven inputs/outputs and side effects, the evidence reference, any `Inferred`/`Ambiguous` assumption, and the remaining unresolved edges. Preserve build/address-map provenance. If evidence is unavailable, mark that question `uncovered` and follow the existing `blocked-evidence` rule for the affected unit; do not silently invent an ABI, lifetime, completion event, or format boundary.
+
+Build the presentation pipeline incrementally through the existing groups. Each group contributes a bounded, reproducible input/output slice to a reusable presentation test harness. Captured inputs and versioned synthetic fixtures must be distinguished: synthetic fixtures test an implementation or hypothesis, but cannot prove that the original executable behaves that way. Keep raw provenance beside normalized data. Records crossing a replay or backend boundary must use explicit identities, lifetimes, and source-space conventions rather than transient native pointers.
+
+| Group | Required contribution to the incremental pipeline |
+| --- | --- |
+| G24 | Separate menu/input/targeting behavior from HUD presentation data and primitives; preserve focus, repeat, and pause semantics. |
+| G25 | Establish task/callback ordering, presentation events, busy/completion conditions, and the boundary between authoritative writes and visual work. |
+| G26 | Supply camera samples and view/projection data with explicit coordinate conventions, pause behavior, and camera-RNG dependencies. |
+| G27 | Supply resource identities, readiness, generations, and geometry/TIM/palette/texture allocation, upload, invalidation, and release behavior. |
+| G28 | Supply the supported asset/effect families, decoded data, timeline events, and their contributions to presentation; preserve explicit unsupported cases. |
+| G29 | Connect the preceding slices to renderer-neutral legacy draw packets, ordering, render states, source-space conversion, and the generic graphics adapter. |
+| G30 | Integrate the owned frame lifecycle, composition, cadence, cleanup, and begin/end/present calls under the existing ownership gates. |
+| G31 | Certify the supported content matrix and its semantic, draw-command, and frame-output evidence with declared visual tolerances and provenance. |
+
+A reusable harness and a generic backend adapter may be developed ahead of G29 using recorded or synthetic inputs. This preparation does not claim completion of downstream groups and does not take ownership from the sealed native in-game presentation unit. Keep backend-specific types and calls behind the graphics adapter; do not require a complete modern scene model before the legacy path can work. A later group consumes only proven, frozen contracts from earlier groups, while unresolved experiments remain isolated from production dependencies.
+
+Provisional visual approximations must be named, localized, and covered by a comparison that can expose the deviation. An unknown packet, resource, or effect must remain explicit, with unsupported handling or an actually available fallback; silently dropping it does not establish coverage. Passing the offline harness never substitutes for a group's required live evidence or promotion gate. Include the scoped inspection record, slice inputs/outputs, assertions, and remaining blockers in every G24–G31 handoff.
 
 ## 4. Test Levels
 
@@ -1005,6 +1033,8 @@ multi-hit eligibility baselines.
 - [ ] **U29.7 Backend provenance:** prove the active DirectDraw/OpenGL/compatibility path for the certified environment.
 - [ ] **U29.8 Generic graphics adapter:** submit replacement packets without `BS_RenderRelated` or `RenderGeometry`.
 - [ ] **U29.9 Draw-command fixtures:** compare semantic command streams before pixel-level validation.
+
+Here, the semantic command stream is the renderer-neutral legacy draw contract (such as `LegacyDrawPacket`), not a requirement to reconstruct every object as a modern engine scene. Modern-object promotion can reuse the source data and provenance when the corresponding family contract is established.
 
 **Test pack:** representative stages/actors/effects, every state combination, clipping, ordering, resize/backend transitions, and device failure.
 

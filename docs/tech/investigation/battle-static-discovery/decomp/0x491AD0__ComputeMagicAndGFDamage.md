@@ -8,9 +8,9 @@
 - A==B: non
 - Push IDB: oui
 - SetType: int __cdecl ComputeMagicAndGFDamage(int p_attacker_slot_id, int p_target_slot_id, int p_AttackPower, int p_gf_magic_type_damage)
-- Notes parent: stride slot 0xD0; occupancy 1+2 / F_CHAR 0x1D0 absents (ASM contraire: flag_data DWORD +0x7C bits 0x4000/0x10000). +0x44 = elem_def WORD[8]. GetRandomInt AL then AND 0xFF, %33+0xF0. Switch UNSIGNED ja 17, byte_492078, jpt 9 dwords. setcc absent. ja vs jg: ja switch. 66: elem_def, status_1 attacker, cmp cmd 0x49. Pas de Hex-Rays. Pas de struct packee.
+- Notes parent: stride slot 0xD0; occupancy 1+2 / F_CHAR 0x1D0 absents (ASM contraire: flag_data DWORD +0x7C bits 0x4000/0x10000). +0x44 = elem_def WORD[8]. GetRandomInt AL then AND 0xFF, %33+0xF0. Switch UNSIGNED ja 17, byte_492078, jpt 9 dwords. setcc absent. ja vs jg: ja switch. 66: elem_def, status_1 attacker, cmp cmd 0x49. Pas de Hex-Rays. Pas de struct packée.
 
-## C reconcilie
+## C réconcilié
 
 ```c
 /* ComputeMagicAndGFDamage @ 0x491AD0

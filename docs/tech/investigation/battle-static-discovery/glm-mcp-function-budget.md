@@ -7,7 +7,7 @@ Un appel `glm_decompile_asm` = **une fonction entière**. Seuils du skill
 `glm-decompile` :
 
 - **high** : &lt; 200 instructions ASM (effort `high`)
-- **low** : 200–600 instructions (effort `low`, encore un seul appel)
+- **high** : 200–600 instructions (effort `high`, encore un seul appel)
 - **chunk** : &gt; 600 instructions — **pas traitable en un appel** ; il faut
   découper par région
 
@@ -19,9 +19,9 @@ des fonctions : ils ne figurent pas ici.
 | Ensemble | Nombre |
 |---|---:|
 | Fonctions wiki (EA = start IDA) | 498 |
-| Traitable en un appel (high + low) | 484 |
+| Traitable en un appel (high + high) | 484 |
 | dont high (&lt;200) | 426 |
-| dont low (200–600) | 58 |
+| dont high (200–600) | 58 |
 | Hors un appel (chunk &gt;600) | 14 |
 | Déjà dans la vague `tools/_tmp_wave_review/` | 48 |
 
@@ -64,7 +64,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x4076B6` | `TIMrelated_0` | 112 | high | — |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | high | — |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | high | — |
-| `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | low | — |
+| `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | high | — |
 | `0x4178D7` | `Gfx_WalkDrawList` | 65 | high | — |
 | `0x419D8F` | `TextureRelated2` | 34 | high | — |
 | `0x41DF0C` | `Render_FramePresent_Dispatch` | 19 | high | — |
@@ -79,16 +79,16 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x425540` | `presentation::RenderBackend_Construct_DDraw` | 115 | high | — |
 | `0x4257D0` | `presentation::RenderBackend_Construct_DDrawAlt` | 125 | high | — |
 | `0x438599` | `Gfx_ShadowSetRenderState` | 15 | high | — |
-| `0x438682` | `RenderGL_CommitRenderState` | 464 | low | — |
+| `0x438682` | `RenderGL_CommitRenderState` | 464 | high | — |
 | `0x43B50C` | `Gfx_ShadowSetRenderState_DDraw` | 15 | high | — |
 | `0x43E24A` | `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4` | 89 | high | — |
 | `0x43E356` | `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4_VB` | 161 | high | — |
-| `0x440FF0` | `RenderDDrawAlt_SetRenderState` | 404 | low | — |
+| `0x440FF0` | `RenderDDrawAlt_SetRenderState` | 404 | high | — |
 | `0x444BA8` | `glDisable_CullFace` | 6 | high | — |
 | `0x445DE9` | `RenderGL_DrawElements_PosColor` | 174 | high | — |
 | `0x446000` | `RenderGL_DrawElements_PosColor_Imm` | 192 | high | — |
 | `0x44655F` | `RenderGL_DrawElements_PosColorTex` | 196 | high | — |
-| `0x4467B6` | `RenderGL_DrawElements_PosColorTex_Imm` | 220 | low | — |
+| `0x4467B6` | `RenderGL_DrawElements_PosColorTex_Imm` | 220 | high | — |
 | `0x45B2E0` | `IsWindowNOTActive` | 14 | high | — |
 | `0x45C0F0` | `Gpu_PackDrawEnvPacket` | 109 | high | — |
 | `0x45C7A0` | `OtNode24_PoolAllocLink` | 59 | high | — |
@@ -109,12 +109,12 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x460860` | `Gte_MVMVA` | 177 | high | — |
 | `0x463FC0` | `Gfx_TPageDescribePixelFormat` | 126 | high | — |
 | `0x464DB0` | `Gfx_UploadCLUTSlot` | 147 | high | — |
-| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | low | — |
-| `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | low | — |
-| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | low | — |
+| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | high | — |
+| `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | high | — |
+| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | high | — |
 | `0x4675C0` | `TexStaging_BlitRows` | 195 | high | — |
 | `0x4677D0` | `TexStaging_BlitCLUTAlpha` | 196 | high | — |
-| `0x467D10` | `Input_ProcessInput` | 334 | low | — |
+| `0x467D10` | `Input_ProcessInput` | 334 | high | — |
 | `0x4685F0` | `get_key_state` | 16 | high | — |
 | `0x46A0A0` | `DSound_StopChannel_1CD0B00` | 50 | high | — |
 | `0x46DEB0` | `DSoundBuffer_Lock_I2C` | 67 | high | — |
@@ -123,13 +123,13 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x46E2A0` | `DSoundBuffer_Unlock_I4C_Dup` | 22 | high | — |
 | `0x46E320` | `DSoundBuffer_SetFrequency_Unchecked_I44` | 18 | high | — |
 | `0x46FA10` | `MusicPerformance_IsSegmentPlaying` | 17 | high | — |
-| `0x4706B0` | `main::FFModuleHandler_main_loop` | 570 | low | — |
+| `0x4706B0` | `main::FFModuleHandler_main_loop` | 570 | high | — |
 | `0x47CA90` | `Field_Encounter_RollAndSelectScene` | 115 | high | — |
-| `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | low | — |
+| `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | high | — |
 | `0x47CE10` | `FFBattleInitSystem` | 56 | high | — |
 | `0x47CEF0` | `FFBattleExitSystem` | 22 | high | — |
 | `0x47CF50` | `BattleSwirl_ArmOneShot` | 4 | high | — |
-| `0x47CF60` | `main::FFBattleModule` | 209 | low | — |
+| `0x47CF60` | `main::FFBattleModule` | 209 | high | — |
 | `0x47D890` | `BattleUI_EnterHudMode` | 2 | high | — |
 | `0x47D8A0` | `domain::Battle_EnqueueInitialPartyActions` | 22 | high | — |
 | `0x47D8E0` | `pre_isBattle_DirectorReady` | 3 | high | — |
@@ -143,7 +143,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x47E5F0` | `getRenzokukenFinisherText` | 11 | high | — |
 | `0x47ED90` | `Field_CanAddOneMagicToCharacterStock` | 48 | high | — |
 | `0x47EE00` | `Field_AddOneMagicToCharacterStock` | 75 | high | — |
-| `0x47EEF0` | `Battle_HiddenDebug` | 261 | low | — |
+| `0x47EEF0` | `Battle_HiddenDebug` | 261 | high | — |
 | `0x482560` | `Battle_FileCallbacks_Reset` | 13 | high | — |
 | `0x482590` | `battle_run_battle_file_callback_2_sub_482590` | 27 | high | — |
 | `0x482870` | `Battle_FileLoadCountdownTickAndDispatch` | 17 | high | — |
@@ -160,25 +160,25 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x4832F0` | `domain::StatusTimer_InitForBitFromKernelMisc` | 23 | high | — |
 | `0x483340` | `domain::StatusTimer_DisableForBit` | 16 | high | — |
 | `0x483370` | `domain::StatusTimer_IsDisabledForBit` | 20 | high | — |
-| `0x483470` | `domain::Status_TickAndExpire` | 237 | low | — |
+| `0x483470` | `domain::Status_TickAndExpire` | 237 | high | — |
 | `0x483790` | `domain::EnemyAI_SelectRandomMagicFromStock` | 28 | high | oui |
 | `0x4837E0` | `domain::EnemyAI_SelectRandomMagicFromPlayer` | 43 | high | oui |
 | `0x483860` | `domain::BattleTarget_ComputeMaskFromDefaultTarget` | 9 | high | oui |
 | `0x483880` | `domain::BattleTarget_GetMaskFromInfoField` | 18 | high | oui |
 | `0x4838C0` | `domain::EnemyAI_GetTargetMaskFromMask` | 45 | high | oui |
-| `0x483940` | `domain::BattleTarget_FindByCondition` | 245 | low | — |
+| `0x483940` | `domain::BattleTarget_FindByCondition` | 245 | high | — |
 | `0x483D60` | `domain::BattleLimitAngelWing_SelectAutoCast` | 109 | high | — |
 | `0x4842B0` | `domain::BattleATB_TickAndReady` | 142 | high | — |
 | `0x484490` | `domain::Battle_InitATB_MaxAndReset` | 15 | high | oui |
 | `0x4844D0` | `domain::Battle_InitATB_RandomFromSpeed` | 35 | high | oui |
 | `0x4845A0` | `domain::BattleExecQueue_ConsumeCurrentSlot` | 33 | high | — |
 | `0x484720` | `domain::Battle_EnqueueSpecialAction` | 34 | high | oui |
-| `0x4847F0` | `domain::BattlePendingAction_TransferToExecQueue` | 285 | low | oui |
+| `0x4847F0` | `domain::BattlePendingAction_TransferToExecQueue` | 285 | high | oui |
 | `0x484D20` | `domain::BattlePendingAction_Write` | 177 | high | oui |
 | `0x484FD0` | `domain::PendingCmd_QueueOrStore` | 26 | high | — |
 | `0x485160` | `domain::BattleAction_ResolveSpecialActionAndUpdateDamage` | 42 | high | — |
 | `0x485460` | `domain::BattleArbitration_SelectNextAction` | 124 | high | — |
-| `0x485610` | `domain::EnemyAI_PrepareTurnAction` | 565 | low | — |
+| `0x485610` | `domain::EnemyAI_PrepareTurnAction` | 565 | high | — |
 | `0x485EC0` | `domain::BattleItem_RefundStashedItems` | 23 | high | oui |
 | `0x485F00` | `BattleEvent_EnqueueActionPresentation` | 22 | high | oui |
 | `0x485FF0` | `domain::Battle_BuildTargetVisibilityMasks` | 37 | high | oui |
@@ -197,12 +197,12 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x486CD0` | `domain::Battle_CopyMagicStocksToSave` | 63 | high | oui |
 | `0x486DC0` | `domain::BattleTarget_GetRandomPartyMask` | 19 | high | oui |
 | `0x486E00` | `domain::BattleTarget_GetRandomMonsterMask` | 22 | high | oui |
-| `0x486E70` | `BattleTarget_SelectByStatusOrStat` | 393 | low | — |
+| `0x486E70` | `BattleTarget_SelectByStatusOrStat` | 393 | high | — |
 | `0x487590` | `domain::EnemyAI_GetTargetMemberCount` | 42 | high | oui |
 | `0x487670` | `domain::EnemyAI_MonsterEnterAnimation` | 23 | high | oui |
 | `0x4876D0` | `BattleAction_LockActionLatch` | 5 | high | — |
 | `0x4877B0` | `domain::BattleTarget_IsEligibleByStatus` | 15 | high | — |
-| `0x4877F0` | `domain::EnemyAI_DispatchSection` | 459 | low | — |
+| `0x4877F0` | `domain::EnemyAI_DispatchSection` | 459 | high | — |
 | `0x487D80` | `domain::EnemyAI_CheckCurativeAbilityAvailable` | 13 | high | oui |
 | `0x487DB0` | `domain::EnemyAI_UseCurativeAbility` | 23 | high | oui |
 | `0x48A640` | `domain::EnemyAI_GetSubjectValue_A` | 20 | high | oui |
@@ -211,7 +211,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x48A770` | `EnemyAI_GetSubjectValue_C` | 17 | high | oui |
 | `0x48A7A0` | `domain::EnemyAI_GetSubjectValue_D` | 47 | high | oui |
 | `0x48A830` | `domain::EnemyAI_TargetHasStatus` | 85 | high | — |
-| `0x48A900` | `domain::BattleStatus_CheckTargetHasStatus` | 289 | low | — |
+| `0x48A900` | `domain::BattleStatus_CheckTargetHasStatus` | 289 | high | — |
 | `0x48AD10` | `domain::SceneOut_InitEnemySlot` | 77 | high | — |
 | `0x48AFD0` | `domain::Battle_InitPreemptiveBackAttackStatus` | 116 | high | — |
 | `0x48B160` | `domain::Battle_SetATBForPreemptiveGroup` | 42 | high | — |
@@ -221,7 +221,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x48B7E0` | `domain::ParseBattleParty` | 67 | high | — |
 | `0x48B8B0` | `domain::Battle_CommitPartyHPAndMagicToSave` | 74 | high | oui |
 | `0x48BA10` | `domain::setAllMonsterInfoFromDatSection` | 145 | high | — |
-| `0x48BBD0` | `domain::setMonsterInfoFromDatInfoSection` | 243 | low | — |
+| `0x48BBD0` | `domain::setMonsterInfoFromDatInfoSection` | 243 | high | — |
 | `0x48BFA0` | `domain::GetPartyAverageLevelWithRandomness` | 48 | high | — |
 | `0x48C020` | `domain::GetPartyAverageLevelCapped65PlusRandom` | 47 | high | — |
 | `0x48C0A0` | `domain::GetPartyAverageLevelConstrainedTeam` | 54 | high | — |
@@ -238,7 +238,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x48D0E0` | `domain::ReadSceneOutForEncounter` | 46 | high | — |
 | `0x48D1A0` | `RelatedToShotIrvineLimit` | 22 | high | — |
 | `0x48E620` | `domain::BattleGF_FinalizeSummonExit` | 145 | high | — |
-| `0x48E830` | `domain::BattleAction_ResolveTargetAndHitCount` | 222 | low | oui |
+| `0x48E830` | `domain::BattleAction_ResolveTargetAndHitCount` | 222 | high | oui |
 | `0x48EB90` | `BattleAction_SelectCoverRedirect` | 144 | high | — |
 | `0x48EDA0` | `domain::BattleTarget_IsEligibleByStatusMask` | 12 | high | — |
 | `0x48EF50` | `Battle_GetElementFlagged` | 23 | high | — |
@@ -250,59 +250,59 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x48F270` | `domain::BattleLimitRenzokuken_SetFinisherAndComputeTargetMask` | 23 | high | — |
 | `0x48F350` | `domain::BattleAction_ResolveRenzokukenFinisherHits` | 52 | high | — |
 | `0x48F480` | `ContainPhysicalDamageFormula` | 115 | high | — |
-| `0x48F600` | `HpModifierComputationForPhysical` | 287 | low | — |
+| `0x48F600` | `HpModifierComputationForPhysical` | 287 | high | — |
 | `0x48F9F0` | `domain::DoesMentalStatusHit` | 136 | high | — |
 | `0x48FBA0` | `computeCardCommandDrop` | 64 | high | — |
 | `0x48FC60` | `computeDevour` | 38 | high | — |
 | `0x48FD20` | `domain::Draw_ComputeStealCount` | 83 | high | — |
-| `0x4914E0` | `domain::BattleStatus_ApplyHitStatus` | 252 | low | — |
+| `0x4914E0` | `domain::BattleStatus_ApplyHitStatus` | 252 | high | — |
 | `0x491940` | `GetReviveHP` | 116 | high | — |
-| `0x491AD0` | `domain::ComputeMagicAndGFDamage` | 412 | low | — |
+| `0x491AD0` | `domain::ComputeMagicAndGFDamage` | 412 | high | — |
 | `0x492220` | `domain::Devour_ApplyPermanentStatBonuses` | 54 | high | — |
-| `0x4922B0` | `domain::Damage_ComputeRawDeltaFromAttackType` | 588 | low | — |
+| `0x4922B0` | `domain::Damage_ComputeRawDeltaFromAttackType` | 588 | high | — |
 | `0x492AC0` | `domain::BattleStatus_CanApplyHitStatus` | 14 | high | — |
 | `0x492B00` | `ShouldSkipPhysicalHitCheck` | 12 | high | — |
 | `0x492B30` | `computeCrit` | 36 | high | — |
 | `0x492BA0` | `IsTargetHit_HitPercentComputed` | 48 | high | — |
 | `0x492C40` | `ComputeWithDamageSTRFormula` | 167 | high | — |
-| `0x492E10` | `computeAttackPhysical` | 216 | low | — |
+| `0x492E10` | `computeAttackPhysical` | 216 | high | — |
 | `0x493110` | `domain::Battle_QueueReflectedActionIfNeeded` | 43 | high | — |
 | `0x4931C0` | `specialGFDamage` | 45 | high | — |
 | `0x493280` | `domain::computeCurativeMagic` | 139 | high | — |
 | `0x493450` | `computeCurativeGFMagicItem` | 106 | high | — |
 | `0x4935A0` | `computeResurrection` | 49 | high | — |
 | `0x493840` | `domain::BattleStatus_ApplyAndSyncSlot` | 190 | high | oui |
-| `0x493D80` | `domain::BattleAction_ResolveAndApplyStatusResult` | 281 | low | — |
+| `0x493D80` | `domain::BattleAction_ResolveAndApplyStatusResult` | 281 | high | — |
 | `0x4941F0` | `domain::BattleLimit_ComputeCrisisAndToggleAttackSlot` | 118 | high | — |
-| `0x494410` | `domain::Battle_ApplyDamageOrHeal` | 397 | low | — |
+| `0x494410` | `domain::Battle_ApplyDamageOrHeal` | 397 | high | — |
 | `0x494AF0` | `ComputeGFLevelAndApAfterKill` | 166 | high | — |
 | `0x494D40` | `domain::BattleEnd_DistributeXpAp` | 137 | high | — |
 | `0x495070` | `getAddressJunctionableGfAttackNameByCommandArg` | 12 | high | — |
 | `0x4954B0` | `domain::Battle_BuildMagicJunctionList` | 44 | high | oui |
-| `0x495530` | `domain::ParseBattleCharacter` | 269 | low | — |
-| `0x495960` | `domain::Battle_CalculateJunctionStats` | 333 | low | oui |
+| `0x495530` | `domain::ParseBattleCharacter` | 269 | high | — |
+| `0x495960` | `domain::Battle_CalculateJunctionStats` | 333 | high | oui |
 | `0x495D80` | `domain::BattleGF_RecomputeBattleData` | 101 | high | oui |
 | `0x495EC0` | `domain::Battle_FinalizePartySetup` | 16 | high | oui |
 | `0x495F90` | `increaseCharaStatBy1` | 65 | high | — |
 | `0x496310` | `domain::GetCharacterHP` | 68 | high | — |
 | `0x4963E0` | `getWeaponID` | 31 | high | — |
-| `0x496440` | `domain::GetCharacterStat` | 272 | low | — |
+| `0x496440` | `domain::GetCharacterStat` | 272 | high | — |
 | `0x4967C0` | `domain::GetCharacterHit` | 78 | high | — |
 | `0x4968A0` | `domain::GetCharacterEva` | 53 | high | — |
 | `0x496CB0` | `RelatedToCharaXPComputeLvlUp?` | 194 | high | — |
 | `0x496F30` | `sub_496F30` | 74 | high | — |
 | `0x4980C0` | `Gfx_SubmitDisplayLists` | 78 | high | — |
 | `0x498B50` | `Read_ff8input_cfg` | 123 | high | — |
-| `0x498CB0` | `Create_ff8input_cfg` | 206 | low | — |
+| `0x498CB0` | `Create_ff8input_cfg` | 206 | high | — |
 | `0x499EA0` | `Gfx_SubmitViewportLists` | 106 | high | — |
 | `0x4A0C00` | `MenuSprite_DrawCallback` | 46 | high | — |
 | `0x4A0C80` | `sub_4A0C80` | 11 | high | — |
 | `0x4A2690` | `main::BattleRewardMenu_MainLoop` | 127 | high | — |
-| `0x4A2F80` | `BattleUI_DispatchCmdKey_80to8F` | 206 | low | — |
-| `0x4A6680` | `Battle_Mode5_PackRewards` | 476 | low | — |
+| `0x4A2F80` | `BattleUI_DispatchCmdKey_80to8F` | 206 | high | — |
+| `0x4A6680` | `Battle_Mode5_PackRewards` | 476 | high | — |
 | `0x4A76F0` | `BattleUI_EmitDrawEnvPackets` | 56 | high | — |
-| `0x4A84E0` | `BattleUI_HudInputAndATBTick` | 258 | low | — |
-| `0x4A8870` | `BattleUI_RenderHud` | 256 | low | — |
+| `0x4A84E0` | `BattleUI_HudInputAndATBTick` | 258 | high | — |
+| `0x4A8870` | `BattleUI_RenderHud` | 256 | high | — |
 | `0x4A8C10` | `BattleUI_WriteGp0Codes_E1E5` | 16 | high | — |
 | `0x4A8F10` | `BattleUI_PlaceWidget_3D8` | 95 | high | — |
 | `0x4A94D0` | `BattleUI_InitHudAndWidgetRegistry` | 172 | high | — |
@@ -316,7 +316,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x4BA1B0` | `j_Thunk_BattleGeom_SetCurrentBoneMatrix_1D97778` | 1 | high | — |
 | `0x4BB610` | `domain::BattleCommandMenu_FlushPendingActions` | 35 | high | — |
 | `0x4BB910` | `domain::BattleCommandMenu_InitCommandSetAndLimitState` | 48 | high | — |
-| `0x4BC770` | `domain::BattleCommandMenu_OpenSelectedCommand` | 240 | low | — |
+| `0x4BC770` | `domain::BattleCommandMenu_OpenSelectedCommand` | 240 | high | — |
 | `0x4BE790` | `MenuMagic_PruneZeroStockAndJunctionRefs` | 79 | high | — |
 | `0x4BFCF0` | `MenuMagic_RebuildPartyDerivedState` | 17 | high | — |
 | `0x4C2C70` | `MenuMagic_AddStockRaw` | 74 | high | — |
@@ -327,10 +327,10 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x4F5FA0` | `Junction_TransferAllMagicFromSourceToTarget` | 53 | high | — |
 | `0x4F6030` | `sub_4F6030` | 87 | high | — |
 | `0x4F6140` | `sub_4F6140` | 161 | high | — |
-| `0x4F6300` | `Junction_SwapMagicEntriesBetweenCharacters` | 252 | low | — |
+| `0x4F6300` | `Junction_SwapMagicEntriesBetweenCharacters` | 252 | high | — |
 | `0x500520` | `BattleCamera_ResetDefaultView` | 22 | high | — |
 | `0x500870` | `BS_CameraRelated_battle_reset` | 32 | high | — |
-| `0x500900` | `BdLink_GF_battle_input_and_texture_upload` | 206 | low | — |
+| `0x500900` | `BdLink_GF_battle_input_and_texture_upload` | 206 | high | — |
 | `0x5009B0` | `BattleTaskQueue_DispatchIds1to14` | 72 | high | — |
 | `0x500C00` | `BattleTaskQueue_Init` | 42 | high | — |
 | `0x500CC0` | `BattleTaskQueue_Tick` | 87 | high | — |
@@ -343,14 +343,14 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x501C60` | `BS_SetAKAOHeader` | 9 | high | — |
 | `0x5020A0` | `Camera_WorldXZMidpoint_Masked` | 71 | high | — |
 | `0x502170` | `BattleGeom_ResolveBoneIndexAndPose` | 81 | high | — |
-| `0x502380` | `BattleTaskQueue_Dispatch` | 243 | low | — |
+| `0x502380` | `BattleTaskQueue_Dispatch` | 243 | high | — |
 | `0x502F30` | `domain::BattleTask_ActorReadyRelay71_Worker` | 32 | high | — |
 | `0x502F90` | `domain::BattleTask_EscapeRelay74_Worker` | 55 | high | — |
 | `0x503040` | `BS_StageMusicAndActorInit` | 116 | high | — |
 | `0x5033E0` | `BattleCamera_BuildViewAndConsumeDeltas` | 67 | high | — |
 | `0x503520` | `BattleCamera_StartTrack` | 52 | high | — |
-| `0x5035E0` | `BS_CameraAnim_Tick` | 434 | low | — |
-| `0x503C70` | `BattleCamera_DecodeNextSegment` | 259 | low | — |
+| `0x5035E0` | `BS_CameraAnim_Tick` | 434 | high | — |
+| `0x503C70` | `BattleCamera_DecodeNextSegment` | 259 | high | — |
 | `0x504060` | `updateBattleCamera` | 86 | high | — |
 | `0x5041E0` | `InitCameraStruct` | 29 | high | — |
 | `0x505C00` | `BattlePresentation_StartActorAnimation` | 42 | high | — |
@@ -368,7 +368,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x506CF0` | `sub_506CF0` | 71 | high | — |
 | `0x507010` | `BattleAnim_ReserveBonePoseScratch` | 13 | high | — |
 | `0x507080` | `BattleModel_DispatchLoaderByActorId` | 47 | high | — |
-| `0x507120` | `BattleModel_LoadMonster` | 241 | low | — |
+| `0x507120` | `BattleModel_LoadMonster` | 241 | high | — |
 | `0x5073D0` | `BattleModel_AllocateResourceRecord` | 14 | high | — |
 | `0x507400` | `BattleModel_AllocateTexturePagesAndPatchTPage` | 107 | high | — |
 | `0x507550` | `BattleMesh_RemapPrimitiveTPageBits` | 159 | high | — |
@@ -385,9 +385,9 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x5085D0` | `au_re_BdLinkTask_1` | 8 | high | — |
 | `0x5085F0` | `domain::BattleTask_CameraBarrier70_Worker` | 19 | high | — |
 | `0x508630` | `BdLinkTask_Spawn_508660` | 12 | high | — |
-| `0x5088A0` | `sub_5088A0` | 277 | low | — |
-| `0x508C90` | `BattleSkeleton_BuildHierarchicalFK` | 227 | low | — |
-| `0x508F90` | `Battle_ReadAnimation` | 284 | low | — |
+| `0x5088A0` | `sub_5088A0` | 277 | high | — |
+| `0x508C90` | `BattleSkeleton_BuildHierarchicalFK` | 227 | high | — |
+| `0x508F90` | `Battle_ReadAnimation` | 284 | high | — |
 | `0x509440` | `BattleAnimation_StartClip` | 49 | high | — |
 | `0x509520` | `BattleAnimation_StartActorAndWeaponClip` | 59 | high | — |
 | `0x5095F0` | `Camera_ClearTakeover_Set1E_1000` | 4 | high | — |
@@ -402,14 +402,14 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x50A6C0` | `BattleAction_ApplyEventRecordB7` | 5 | high | — |
 | `0x50A730` | `Camera_OrTakeover80_ClearFlags` | 3 | high | — |
 | `0x50A790` | `BattleActionSequence_DispatchTick` | 63 | high | — |
-| `0x50A9A0` | `BattleActionSequence_Tick_Generic` | 297 | low | — |
+| `0x50A9A0` | `BattleActionSequence_Tick_Generic` | 297 | high | — |
 | `0x50AE80` | `BattleActionSequence_WaitBusy` | 26 | high | — |
 | `0x50AED0` | `BattleActionSequence_ReleaseCamera` | 16 | high | — |
 | `0x50AF20` | `BattleGF_LoadCallbackByMagicID` | 38 | high | — |
 | `0x50AFC0` | `BattleActionSequence_SetupContext` | 54 | high | — |
 | `0x50B0C0` | `BattleActionSequence_Tick_F7` | 61 | high | — |
 | `0x50B190` | `BattleActionSequence_Tick_DefaultOrFC` | 76 | high | — |
-| `0x50B2A0` | `BattleActionSequence_Tick_GF_Cinematic` | 400 | low | — |
+| `0x50B2A0` | `BattleActionSequence_Tick_GF_Cinematic` | 400 | high | — |
 | `0x50B830` | `BattleActionSequence_Tick_Special` | 195 | high | — |
 | `0x50BB00` | `BattleActionSequence_Tick_DefaultParamBZero` | 84 | high | — |
 | `0x50BC20` | `BattleActionSequence_Tick_DefaultParamAFFFF` | 66 | high | — |
@@ -422,9 +422,9 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x50C860` | `BattleModel_ScrollH4SlotV` | 79 | high | — |
 | `0x50C950` | `BattleModel_AdvanceH4Frame` | 68 | high | — |
 | `0x50D060` | `sub_50D060` | 117 | high | — |
-| `0x50DB40` | `BattleScript_EvalUntilYield` | 271 | low | — |
+| `0x50DB40` | `BattleScript_EvalUntilYield` | 271 | high | — |
 | `0x50E300` | `Stage137_CameraSwayTick` | 38 | high | — |
-| `0x50F900` | `ParseVertices` | 297 | low | — |
+| `0x50F900` | `ParseVertices` | 297 | high | — |
 | `0x534110` | `BattleFile_InitState_1DCD6EC` | 14 | high | — |
 | `0x534270` | `BattleFile_TryPreload_1DCD6EC` | 23 | high | — |
 | `0x534840` | `sub_534840` | 40 | high | — |
@@ -447,19 +447,19 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x56D530` | `BattleSwirl_Resample256` | 66 | high | — |
 | `0x56D5F0` | `BattleSwirl_SubmitOverlayQuad` | 95 | high | — |
 | `0x56DCE0` | `pre_computeGFBoost?` | 32 | high | — |
-| `0x56DD70` | `BattleUI_GFBoost_Update` | 265 | low | — |
+| `0x56DD70` | `BattleUI_GFBoost_Update` | 265 | high | — |
 | `0x56E130` | `sub_56E130` | 114 | high | — |
 | `0x5718E0` | `Magic_LoadTexture_IO_GetsFile_DefaultArgs` | 8 | high | — |
-| `0x571900` | `Magic_LoadTexture_IO_GetsFile` | 219 | low | — |
+| `0x571900` | `Magic_LoadTexture_IO_GetsFile` | 219 | high | — |
 | `0x571B50` | `Magic_GetFileArena` | 2 | high | — |
 | `0x571B60` | `Magic_ArenaSize_1MiB` | 2 | high | — |
 | `0x571B70` | `GetPtr_209FAB8` | 2 | high | — |
 | `0x571B80` | `IO_GetFile_MAGIC` | 19 | high | — |
 | `0x585360` | `sub_585360` | 38 | high | — |
-| `0x5857D0` | `BdLinkCallback_5857D0` | 315 | low | — |
+| `0x5857D0` | `BdLinkCallback_5857D0` | 315 | high | — |
 | `0x595AA0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44` | 56 | high | — |
-| `0x5A5890` | `BdLinkCallback_5A5890` | 277 | low | — |
-| `0x5A6D20` | `BdLinkCallback_5A6D20` | 247 | low | — |
+| `0x5A5890` | `BdLinkCallback_5A5890` | 277 | high | — |
+| `0x5A6D20` | `BdLinkCallback_5A6D20` | 247 | high | — |
 | `0x5A8750` | `GF_199Cactuar_InvokeSummonScript` | 124 | high | — |
 | `0x5A8940` | `GF_199Cactuar_SequenceTaskDriver` | 118 | high | — |
 | `0x5AA3A0` | `GF_199Cactuar_SequenceTick` | 10 | high | — |
@@ -477,7 +477,7 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x61DE70` | `_HITS::MAG_141_RENZOKUKEN(void)` | 61 | high | — |
 | `0x62C820` | `sub_62C820` | 53 | high | — |
 | `0x63E730` | `GF_191Doomtrain_InvokeSummonScript` | 140 | high | — |
-| `0x63F2D0` | `GF_191Doomtrain_SequenceTaskDriver` | 340 | low | — |
+| `0x63F2D0` | `GF_191Doomtrain_SequenceTaskDriver` | 340 | high | — |
 | `0x6472C0` | `GF_191Doomtrain_SequenceTick` | 10 | high | — |
 | `0x649740` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C_Dup` | 60 | high | — |
 | `0x6541E0` | `GF_325Diablos_InvokeSummonScript` | 5 | high | — |
@@ -486,9 +486,9 @@ Tri par adresse. Colonne « Vague » = déjà dans `_tmp_wave_review/`.
 | `0x657DF0` | `Camera_BlendLookAtAndWorldXZ_Gte` | 41 | high | — |
 | `0x658890` | `GF_Diablo_FindFreeSlot30` | 64 | high | — |
 | `0x664CD0` | `BdLinkTask_Register_664D20` | 26 | high | — |
-| `0x66FD70` | `MAG_299_SequenceTick` | 245 | low | — |
+| `0x66FD70` | `MAG_299_SequenceTick` | 245 | high | — |
 | `0x680C50` | `GF_277Carbuncle_InvokeSummonScript` | 5 | high | — |
-| `0x680DF0` | `GF_277Carbuncle_SequenceTick` | 255 | low | — |
+| `0x680DF0` | `GF_277Carbuncle_SequenceTick` | 255 | high | — |
 | `0x681270` | `sub_681270` | 33 | high | — |
 | `0x683D10` | `Camera_OrbitWorldAroundLookAt_Q12` | 51 | high | — |
 | `0x687300` | `LcgRand15_Mul125Add14_2508284` | 7 | high | — |

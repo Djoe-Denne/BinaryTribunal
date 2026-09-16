@@ -49,7 +49,7 @@ provenance:
   inferred: 0.21
   ambiguous: 0.03
 created: 2026-07-16T12:30:00+02:00
-updated: 2026-09-12T13:50:00+02:00
+updated: 2026-09-15T17:52:25+02:00
 ---
 
 # Implementing a Full ISO FF8 Battle Migration
@@ -722,6 +722,10 @@ Use IDA MCP, `ff8re`, and corpus inspection to turn unknowns into implementation
 5. convert the finding into an ABI-ledger entry, a typed declaration, and a focused automated test;
 6. update the canonical wiki page with extracted versus inferred confidence;
 7. do not promote the finding to a production dependency until the test passes.
+
+For G24–G31, apply the mandatory source-inspection and incremental-presentation contract in [[projects/re-ff8/references/battle-iso-migration-milestones]] section 3.1 before implementing each unit. Inspect its relevant existing decompilation bundles and reconciliation notes; a wiki/QMD summary alone is insufficient. Reuse verified evidence and check the underlying disassembly/static context for new or disputed claims. Record the exact inspected artifacts, contract decisions, assumptions, and unresolved edges in the unit dossier; do not trigger a new decompilation campaign before checking the existing corpus.
+
+Develop each group's presentation contribution in the reusable harness described there. An early offline backend prototype is allowed, but does not promote G29 or replace the sealed native in-game presentation path. Preserve the distinction between recorded evidence and synthetic fixtures, and between passing offline checks and satisfying the existing live ownership gates. Publish the validated slice and remaining blockers at handoff so the next milestone extends the same pipeline.
 
 Useful existing probes include the active/paused frame ownership tests, callback coupling test, cleanup handoff test, pending/exec tests, GF tests, and the exit-followup suite under `ff8re/tests/`.
 
