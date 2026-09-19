@@ -442,17 +442,19 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x550070` | `sub_550070` | 1118 | SKIP_CHUNK | — | — | — | — | >600 instr |
 | `0x553910` | `wm_GetRegionNumber` | 28 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x559890` | `FFBattleTransitionModule` | 41 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x559AF0` | `NormalTransition_Phase1` | 130 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (1+V) ; Phase1 prouvé par dispatch runner |
+| `0x559F30` | `BossTransition_Phase` | 150 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (1+V) ; sin(π·t), rampe 64+190·t, scale 1.0+0.5·t |
 | `0x55CBD2` | `_rand` | 9 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x56BBF0` | `Vec3S32_CrossQ12` | 37 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x56C090` | `Mat3S16_MulQ12_Copy5` | 116 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x56CD50` | `CameraBasis_CopyDefaultAndApplyEulerS16` | 31 | LIKELY | oui | — | non | oui | push seul |
 | `0x56D020` | `Mat3S16_MulByRotY_Q12` | 31 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x56D090` | `Mat3S16_MulByRotZ_Q12` | 32 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x56D1D0` | `start_battle_swirl_sub_56D1D0` | 41 | UNCERTAIN | oui | — | non | non (tag glm | pas de push / vérif manquante |
-| `0x56D240` | `BattleSwirl_AllocCaptureResources` | 97 | LIKELY | oui | — | non | oui | push seul |
-| `0x56D390` | `BattleSwirl_CaptureFrame` | 139 | UNCERTAIN | oui | — | non | non (skip ta | pas de push / vérif manquante |
-| `0x56D530` | `BattleSwirl_Resample256` | 66 | LIKELY | oui | — | non | oui | push seul |
-| `0x56D5F0` | `BattleSwirl_SubmitOverlayQuad` | 95 | LIKELY | oui | — | non | oui | push seul |
+| `0x56D1D0` | `start_battle_swirl_sub_56D1D0` | 41 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19, append sur glm ; one-shot latch 0x1CFF6F4 prouvé |
+| `0x56D240` | `BattleSwirl_AllocCaptureResources` | 97 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 ; arena 0x20000 (1 arg size_t), dest=0x209AEC8 |
+| `0x56D390` | `BattleSwirl_CaptureFrame` | 139 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-19 ; proto 4 args correct, noyau CERTAIN, HRESULT 0=succès |
+| `0x56D530` | `BattleSwirl_Resample256` | 66 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; pack 2 texels/dword 16bpp |
+| `0x56D5F0` | `BattleSwirl_SubmitOverlayQuad` | 95 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; arg5=z XYZRHW, arg6=0x55FFFFFF |
 | `0x56DCE0` | `pre_computeGFBoost?` | 32 | LIKELY | oui | — | non | oui | push seul |
 | `0x56DD70` | `BattleUI_GFBoost_Update` | 265 | LIKELY | oui | — | non | oui | push seul |
 | `0x56E130` | `sub_56E130` | 114 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -500,9 +502,12 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x681630` | `GF_277Carbuncle_SequenceTaskDriver` | 670 | SKIP_CHUNK | — | oui | — | — | >600 instr |
 | `0x683D10` | `Camera_OrbitWorldAroundLookAt_Q12` | 51 | LIKELY | oui | — | non | oui | push seul |
 | `0x687300` | `LcgRand15_Mul125Add14_2508284` | 7 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x6A45E0` | `sub_6A45E0` | 132 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; dispatcher 8 handlers mag FX |
 | `0x6A6360` | `MAG_140_PHOENIX_FL_Callback` | 72 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x6A79B0` | `MagFx_RenderComposedFK_Alloc4C` | 53 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; tête réelle 0x6A79B0 (catalogue 0x6A7A20 = EA médiane) ; 7 callers GF |
 | `0x6B1D60` | `sub_6B1D60` | 33 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x6C7CF0` | `LcgRand15_Mul125Add14_GF116` | 7 | LIKELY | oui | — | non | oui | push seul |
+| `0x6CBF90` | `sub_6CBF90` | 1328 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; callback BdLinkTask (MagicFx_MultiPhase_TickAndApplyResult), chaîne MagicList_Logic MAG_112_UNK6 |
 | `0x6CF070` | `Mat3S16_MakeRotZ_NegSin_Q12` | 25 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x6D2EE0` | `sub_6D2EE0` | 33 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x6D9510` | `Mat3S16_MakeRotY_Q12` | 24 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
