@@ -441,8 +441,18 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x54FDA0` | `sub_54FDA0` | 165 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x550070` | `sub_550070` | 1118 | SKIP_CHUNK | — | — | — | — | >600 instr |
 | `0x553910` | `wm_GetRegionNumber` | 28 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
-| `0x559890` | `FFBattleTransitionModule` | 41 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x559530` | `FFBattleTransitionInitSystem` | 87 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; triade module desc[2] |
+| `0x559750` | `battleswirl_generatescanlinesBuffer` | 56 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; midpoint displacement int[490] |
+| `0x5597F0` | `BattleTransition_CaptureBoss` | 11 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; thunk EnsureAndCapture |
+| `0x559820` | `FFBattleTransitionExitSystem` | 14 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; desc[3] exit, latch +0xB88 |
+| `0x559860` | `BattleTransition_CleanupNormal` | 7 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; dtor spr_sys sub_416C1E |
+| `0x559890` | `FFBattleTransitionModule` | 41 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) appendé sur glm ; ABI descripteur close |
+| `0x559910` | `BattleTransition_RunNormal` | 89 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; bornes 70/72 gardées dans le runner |
+| `0x559A10` | `time_related_deltaTimeMaybe2` | 19 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; nom mensonger = frame pacer 33 ms |
+| `0x559A40` | `renderer_related` | 50 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; setup viewport + clear, chaque frame t>70 |
 | `0x559AF0` | `NormalTransition_Phase1` | 130 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (1+V) ; Phase1 prouvé par dispatch runner |
+| `0x559C70` | `NormalTransition_Phase2` | 138 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; voile scanlines, constantes réelles |
+| `0x559E40` | `BattleTransition_RunBoss` | 82 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; bornes 80/82, alpha t/80 (dump IEEE) |
 | `0x559F30` | `BossTransition_Phase` | 150 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (1+V) ; sin(π·t), rampe 64+190·t, scale 1.0+0.5·t |
 | `0x55CBD2` | `_rand` | 9 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x56BBF0` | `Vec3S32_CrossQ12` | 37 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -455,6 +465,8 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x56D390` | `BattleSwirl_CaptureFrame` | 139 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-19 ; proto 4 args correct, noyau CERTAIN, HRESULT 0=succès |
 | `0x56D530` | `BattleSwirl_Resample256` | 66 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; pack 2 texels/dword 16bpp |
 | `0x56D5F0` | `BattleSwirl_SubmitOverlayQuad` | 95 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; arg5=z XYZRHW, arg6=0x55FFFFFF |
+| `0x56D720` | `BattleSwirl_EnsureAndCapture` | 17 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; gate handle + pass-through capture |
+| `0x56D770` | `BattleSwirl_ReleaseResources` | 22 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; pool garbagemem 0x467220 + dtor spr_sys |
 | `0x56DCE0` | `pre_computeGFBoost?` | 32 | LIKELY | oui | — | non | oui | push seul |
 | `0x56DD70` | `BattleUI_GFBoost_Update` | 265 | LIKELY | oui | — | non | oui | push seul |
 | `0x56E130` | `sub_56E130` | 114 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
