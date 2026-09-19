@@ -514,6 +514,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x681630` | `GF_277Carbuncle_SequenceTaskDriver` | 670 | SKIP_CHUNK | — | oui | — | — | >600 instr |
 | `0x683D10` | `Camera_OrbitWorldAroundLookAt_Q12` | 51 | LIKELY | oui | — | non | oui | push seul |
 | `0x687300` | `LcgRand15_Mul125Add14_2508284` | 7 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x6A1660` | `sub_6A1660` | 1192 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; timeline BdLinkTask magie ID 212 (MAG_212_UNK8), MAG_212_Timeline_Tick |
 | `0x6A45E0` | `sub_6A45E0` | 132 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; dispatcher 8 handlers mag FX |
 | `0x6A6360` | `MAG_140_PHOENIX_FL_Callback` | 72 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x6A79B0` | `MagFx_RenderComposedFK_Alloc4C` | 53 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; tête réelle 0x6A79B0 (catalogue 0x6A7A20 = EA médiane) ; 7 callers GF |
