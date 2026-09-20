@@ -563,3 +563,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0xB19010` | `GF_202Bahamut_SequenceTick` | 120 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xB2BA10` | `GF_Ifrit_AssetChunkLoader` | 79 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xB2BB40` | `GF_Ifrit_AssetLoadCompletion_ClearBusy` | 2 | CERTAIN | oui | oui | non | oui | trivial ≤5 (2) + push |
+| `0x69E5E0` | `sub_69E5E0` | 100 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; batch records 0x14 -> noeuds OT 0x1C, trio GteState x3 |
