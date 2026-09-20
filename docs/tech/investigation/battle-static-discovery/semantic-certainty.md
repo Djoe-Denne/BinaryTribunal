@@ -463,6 +463,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x56D1D0` | `start_battle_swirl_sub_56D1D0` | 41 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19, append sur glm ; one-shot latch 0x1CFF6F4 prouvé |
 | `0x56D240` | `BattleSwirl_AllocCaptureResources` | 97 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 ; arena 0x20000 (1 arg size_t), dest=0x209AEC8 |
 | `0x56D390` | `BattleSwirl_CaptureFrame` | 139 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-19 ; proto 4 args correct, noyau CERTAIN, HRESULT 0=succès |
+| `0x56FE10` | `BdLinkCallback_56FE10` | 526 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; chemin de vol 64 pts stride 8 (word_209D7C0), aim camera dword_1D97778 sous bone15, phases Y -128/-512/+85, trail 5 pts OT +0x44, retour EAX 0/2 ssi compteur >0x1E, hold = ret 0 sans increment |
 | `0x56D530` | `BattleSwirl_Resample256` | 66 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; pack 2 texels/dword 16bpp |
 | `0x56D5F0` | `BattleSwirl_SubmitOverlayQuad` | 95 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; arg5=z XYZRHW, arg6=0x55FFFFFF |
 | `0x56D720` | `BattleSwirl_EnsureAndCapture` | 17 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 (2+1) ; gate handle + pass-through capture |
@@ -498,6 +499,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x61DE70` | `_HITS::MAG_141_RENZOKUKEN(void)` | 61 | LIKELY | oui | — | non | oui | push seul |
 | `0x62C820` | `sub_62C820` | 53 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x63E730` | `GF_191Doomtrain_InvokeSummonScript` | 140 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x63E960` | `BdLinkTask_Register_63E9C0` | 32 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; spawn tick cam script GF sub_63E9C0, miroir X dword_24FBE78 = -1 ssi rand()%a4==1 sinon +1 (corrige polarite A), ecrit seul ce global |
 | `0x63F2D0` | `GF_191Doomtrain_SequenceTaskDriver` | 340 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x6472C0` | `GF_191Doomtrain_SequenceTick` | 10 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x649740` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C_Dup` | 60 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -506,8 +508,12 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6545B0` | `GF_Diablo_ClearTex_4C6B` | 12 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x657DF0` | `Camera_BlendLookAtAndWorldXZ_Gte` | 41 | LIKELY | oui | — | non | oui | push seul |
 | `0x658890` | `GF_Diablo_FindFreeSlot30` | 64 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x659960` | `BdLinkTask_Tick_GfDiabloPacketStream` | 43 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; tick packet stream GF Diablo (gfDiablo_textureBasePtr+0xD94), sub_701970 4 args, writeback g_BattlePacketCursor, ret 2 si step 0, sinon +0x18 sur ctx+0E gate 2505180==0 |
+| `0x65E4B0` | `BdLinkTask_RegisterAndBindEntry_25053C0` | 22 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; jumeau 65F250, cb sub_65F2B0 list 25053C0 table 25053AC, node+0C = *(*(table+64)) + arg0*0x30 + 0x10, retour node |
+| `0x65F250` | `BdLinkTask_RegisterAndBindEntry_2505438` | 22 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; jumeau 65E4B0, cb sub_65F2B0 list 2505438 table 2505424, node+0C = *(*(table+64)) + arg0*0x30 + 0x10, retour node |
 | `0x664CD0` | `BdLinkTask_Register_664D20` | 26 | LIKELY | oui | — | non | oui | push seul |
 | `0x66FD70` | `MAG_299_SequenceTick` | 245 | LIKELY | oui | — | non | oui | push seul |
+| `0x6804B0` | `BdLinkTask_Register_680520` | 34 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; spawn tick interp camera terrain sub_680520 (Field_readCa/Camera_ReadVariables_Space/GTE/LCG) list fixe 25080C0, node +0C..0F mode/shifts SAR 12/7, +10/+14=*a2, template 8x{80h,0}, ret 1 |
 | `0x680C50` | `GF_277Carbuncle_InvokeSummonScript` | 5 | CERTAIN | oui | oui | non | oui | trivial ≤5 (5) + push |
 | `0x680DF0` | `GF_277Carbuncle_SequenceTick` | 255 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x681270` | `sub_681270` | 33 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -603,3 +609,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A30F0` | `MagFx_AnimStep_ComposeCameraAndSubmitOT` | 99 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; tick camera FX, matrices Q12, amortissement neg+sar, OT +0x44, retour 0/2 |
 | `0x6A3220` | `BattleFx_DirPair_SinCosScale_Build` | 36 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; bloc direction sin/cos Q12 scale 20 o, 3 callers mag FX |
 | `0x6A3280` | `MagFx_Call_32A0_WithTable_1184174` | 6 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; forwarding unk_1184174+arg vers sub_6A32A0, table handlers ticker |
+| `0x6A32A0` | `MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg` | 94 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; tick FX ctx-arg sœur 30F0 sans amortissement, compose camera + OT +0x44, retour 0/2 |
