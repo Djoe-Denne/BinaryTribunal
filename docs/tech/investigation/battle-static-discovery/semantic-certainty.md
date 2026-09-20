@@ -570,3 +570,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x69E940` | `MAG_Scratch58_InvokeWorker` | 14 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; scratch frame 0x58 bs_modulo/Unwind, store arg +0, worker sub_69E970, pre-call sub_69E9A0 |
 | `0x69E970` | `SeqCtx_BindStream_AndChainPumps` | 15 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; rebind ctx stream +4/+0x20, chainage pumps 6A9DF0/6A60D0, caller unique sub_69E940 |
 | `0x69EAC0` | `MAG_213_STORM_BREATH_Thunk` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; thunk vers sub_69EAF0, entree dispatch magie 213 (0xC81AC4) |
+| `0x69E9A0` | `Vec2Batch_ApproxSqrtNormalize_PackXY10_Mag` | 92 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; batch norm vec2 LZCS+LUT1/LUT2, pack 10/10/12 bits, retour 0, do-while sans garde |
