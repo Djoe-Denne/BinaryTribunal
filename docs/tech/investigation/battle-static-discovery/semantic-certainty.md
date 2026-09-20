@@ -617,3 +617,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A3630` | `Battle_MagicFX_Type1_MotionTick_Task` | 93 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; motion tick FX type 1, rotX*dirY Q12, integre pos/delta/angle, OT +0x44, retour 0/2 |
 | `0x6A3750` | `MagFx_ParticleStepper_EmitOT44` | 53 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; stepper particule, deltas x4, packet 0xB4 OT +0x44, retour 0/2 |
 | `0x6A3800` | `MAG_Stepper_EmitScratchPacket_OT44` | 56 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; stepper packet 0xB4 OT +0x44, compteur +17h, pas -(w/4) sar |
+| `0x6A38B0` | `MagFX_Step_PosVel_PushOtNodeB4` | 56 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; stepper pos/vel x4, node 0xB4 head 11823C8, OT +0x44, retour 0/2 |
