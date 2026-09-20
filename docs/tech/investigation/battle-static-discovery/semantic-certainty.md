@@ -597,3 +597,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A12B0` | `Battle_MagicFx212_RenderSkelRotXScaledFrame` | 285 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; rendu effet 212 rotX+scale, squelette optionnel, packets E3/E4/E5, 4 noeuds OT, retour dernier node |
 | `0x6A2760` | `MagFX_Stepper_RenderScaledLayers_ToOT44` | 147 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; stepper rendu couches scalelees, 3x SetWord3Stride6 + MVMVA, sub_6A2940 OT +0x44, retour AL |
 | `0x6A2940` | `MagFX_EffectScript_StepGroups_EmitOtPacket` | 111 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; interpreteur flux script par groupes, tables +5/+32, sub_68AAE0 OT, retour residuel |
+| `0x6A2A90` | `MagFX_ProjectVertexStream_ToSxyClipRecords` | 81 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; parseur vertex stream GTE projet+clip, records 8 o, retour a2/-1 |
