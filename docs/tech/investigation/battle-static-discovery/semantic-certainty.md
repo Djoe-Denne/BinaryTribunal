@@ -595,3 +595,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A1230` | `IndexLut_FillFF_AssignKeys` | 28 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; LUT 0x85 fill FF 128 o + assign cles vararg, nom IDA confirme |
 | `0x6A1280` | `MagFx_Stage1_SnapshotPresentationActorWords` | 10 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; snapshot words acteurs stride 0x9C vers 25102A0, sentinelle 1D97704 |
 | `0x6A12B0` | `Battle_MagicFx212_RenderSkelRotXScaledFrame` | 285 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; rendu effet 212 rotX+scale, squelette optionnel, packets E3/E4/E5, 4 noeuds OT, retour dernier node |
+| `0x6A2760` | `MagFX_Stepper_RenderScaledLayers_ToOT44` | 147 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; stepper rendu couches scalelees, 3x SetWord3Stride6 + MVMVA, sub_6A2940 OT +0x44, retour AL |
