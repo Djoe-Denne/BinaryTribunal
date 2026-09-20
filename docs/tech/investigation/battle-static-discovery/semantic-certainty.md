@@ -591,3 +591,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A0D20` | `MAG_212_Entry_Thunk` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; thunk entree magie 212 vers sub_6A0D50, table 0xC81AC0 |
 | `0x6A0D30` | `MAG_212_UNK8_FL` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; loader mag211.tim, cache dword_25101F8, table 0xC81DB8 |
 | `0x6A0D50` | `MAG_212_EffectEntry_InitCtxAndRegisterTick` | 31 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; setup effet 212, table 156*id, Register stepper sub_6A0DC0, retour &2510238 |
+| `0x6A0DC0` | `MAG_212_Effect_Tick_Stepper` | 304 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; stepper effet 212 multi-stages, ticker 6A1660, 3 listes pump, IndexLut 5 args, retour AL 0/2 |
