@@ -583,3 +583,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A01B0` | `MagFx_QuadBatch_GteClip_OtEmit2Tris` | 419 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; passe 2 quad batch GTE clip OT 2 tris, sortie 0x4C, retour curseur |
 | `0x6A06C0` | `Mag213_SkelPoseChains_Build_Scratch38` | 58 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; build chaines pose skelettale scratch 0x38, FK sub_6CE880, caller stepper 213 |
 | `0x6A0760` | `MAG213_CameraFxTick_RegisterComposeAdvanceRot` | 110 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; tache camera 30 frames, scaling /12+0x1000, rebond deltas, OT +0x44, retour 0/2 |
+| `0x6A08D0` | `MagFX_HelixRise_TaskStep` | 113 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; wobble helicoidale, trig Q12 neg-avant-sar, matrice m8=0x1000, OT +0x44, retour 0/2 borne 0x1000 |
