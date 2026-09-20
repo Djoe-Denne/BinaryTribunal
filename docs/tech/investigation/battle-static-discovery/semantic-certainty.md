@@ -575,3 +575,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x69EAF0` | `MAG_213_PresentSetup_InitCtx_LinkTask_BindCamera` | 33 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; setup magie 213, TIM cache, table stride 0x9C, stepper sub_69EB70, bind camera, retour &25101D8 |
 | `0x69EE80` | `MagFx_SumS16Runs_TwoSources_Scratch38` | 33 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; somme runs s16 2 sources scratch 0x38, callers stepper 213 + tache enfant |
 | `0x69EB70` | `Magic213_BdLinkMaster_Step` | 242 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; stepper maitre 213, init phase 1, 4 pools, tri selection descendant, /40 magic 66666667h, AL=2 detach |
+| `0x69EEE0` | `Bitmask_SumS16_Runs` | 49 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; somme runs s16 bitmask, walkers mag FX (69EE80/6CE5B0/6EA8C0) |
