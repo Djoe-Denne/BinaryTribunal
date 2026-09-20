@@ -613,3 +613,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A33C0` | `MagFx_Call_32A0_WithTable_11843DC` | 6 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; forwarding unk_11843DC+arg vers sub_6A32A0, table handlers ticker |
 | `0x6A33E0` | `MagFx_Call_32A0_WithTable_1184694` | 6 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; forwarding unk_1184694+arg vers sub_6A32A0, table handlers ticker |
 | `0x6A3400` | `MagFx_SpawnRadialParticles_TaskRegistered` | 83 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; spawn particules radiales, 2 Register listes, alpha/rand, retour a1-1 |
+| `0x6A3510` | `Battle_MagicFX_Type1_SpawnTimedTask` | 84 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; spawn tache type 1 cap 0x20, thunk 56CB50 5 args, deltas 2510278+148/14C, retour dernier rand |
