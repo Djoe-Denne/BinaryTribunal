@@ -565,3 +565,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0xB2BB40` | `GF_Ifrit_AssetLoadCompletion_ClearBusy` | 2 | CERTAIN | oui | oui | non | oui | trivial ≤5 (2) + push |
 | `0x69E5E0` | `sub_69E5E0` | 100 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; batch records 0x14 -> noeuds OT 0x1C, trio GteState x3 |
 | `0x69E700` | `Ot_EmitQuad_GTE_FromStream` | 119 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; emit noeuds OT quad 0x24 (tag 0x0800000/0x3A), records 0x18 idx u16 *4, GTE x4 StorePtr/sub_45F270/GetToPtr |
+| `0x69E860` | `Camera_Project2Pts_ExpandScreenAABB` | 73 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; proj 2 pts entite via chaine camera, expand AABB ecran +-54*(size+0x100)/z idiv signe, retour EAX=EBX OR flags |
