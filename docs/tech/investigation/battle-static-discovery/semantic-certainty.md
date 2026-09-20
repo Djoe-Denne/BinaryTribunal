@@ -578,3 +578,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x69EEE0` | `Bitmask_SumS16_Runs` | 49 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; somme runs s16 bitmask, walkers mag FX (69EE80/6CE5B0/6EA8C0) |
 | `0x69EF60` | `Mag213_BdLinkTask_FxStepper` | 837 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; stepper effet 213, 76 pas, 6 familles taches, apply results, retour 0/2 |
 | `0x69FB30` | `MagFX_Step_PrepCamMatrixDrawEntry` | 151 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; paquet rendu 0x58 scratch, matrice camera, OT +0x44 prio 2, dword_2510194 |
+| `0x69FD00` | `Mag213_BuildCtx_CursorInit_TwoPass` | 31 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; init curseurs build ctx + deux passes 69FD50/6A01B0, caller stepper 213 |
