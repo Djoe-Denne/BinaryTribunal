@@ -610,3 +610,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A3220` | `BattleFx_DirPair_SinCosScale_Build` | 36 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; bloc direction sin/cos Q12 scale 20 o, 3 callers mag FX |
 | `0x6A3280` | `MagFx_Call_32A0_WithTable_1184174` | 6 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; forwarding unk_1184174+arg vers sub_6A32A0, table handlers ticker |
 | `0x6A32A0` | `MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg` | 94 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; tick FX ctx-arg sœur 30F0 sans amortissement, compose camera + OT +0x44, retour 0/2 |
+| `0x6A33C0` | `MagFx_Call_32A0_WithTable_11843DC` | 6 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; forwarding unk_11843DC+arg vers sub_6A32A0, table handlers ticker |
