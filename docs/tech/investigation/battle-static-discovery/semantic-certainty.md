@@ -623,3 +623,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A3960` | `MagFx_SpawnRandParamTasks` | 67 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; spawn 1+N taches rand-param sur 2510208, retour AL arg24 |
 | `0x6A3A30` | `MagFx_ComposeBoneMat_GteWord3Out` | 39 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; compose matrice os + MVMVA, copie Word3 vers arg1 |
 | `0x6A3AB0` | `MAG_207_MAELSTROM_Thunk` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; thunk entree magie 207 vers sub_6A3AE0, table 0xC81AAC |
+| `0x6A3AC0` | `MAG_207_MAELSTROM_FL` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; loader mag206.tim, cache dword_25102C4, table 0xC81DB8 |
