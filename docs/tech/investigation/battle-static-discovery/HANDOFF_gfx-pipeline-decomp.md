@@ -8,18 +8,20 @@
 ## 0. CHECKPOINT COURANT — 2026-09-20 (prime sur tout le reste du document)
 
 Session 2026-09-20 close : **48 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A30C0,
-blocs A+B+C complets). **File restante = bloc D : 20 EA** (0x6A3AB0 → 0x6A5DB0, §0.2).
-IDB sauvée en fin de session (save_final.py). Packs déjà générés pour le bloc D : AUCUN
-(générer via pack_semantic.py au restart). Aucune voix en vol à l'arrêt.
+blocs A+B+C complets). **File restante = bloc D : 17 EA** (0x6A3960 → 0x6A5DB0, §0.2).
+IDB sauvée en fin de session (save_final.py). Packs du bloc D : GÉNÉRÉS le 2026-09-21
+(17/17, sizes relevées). Aucune voix en vol à l'arrêt.
 
-Reste à traiter (ordre §0.2, 20 EA) :
+Reste à traiter (ordre §0.2, 17 EA — classification de taille au pack du 2026-09-21) :
 ```
-0x6a3ab0(MAG_207_MAELSTROM) 0x6a3ac0(MAG_207_FL) 0x6a3ae0 0x6a3d90(1103 o) 0x6a41e0(1010 o)
-0x6a4710(1168 o) 0x6a4ba0(1408 o) 0x6a5120(1316 o) 0x6a5650 0x6a5700 0x6a5950 0x6a5ad0 0x6a5c90
-0x6a5db0
+0x6a3960(67,stub) 0x6a3a30(39,stub) 0x6a3ab0(5,MAG_207_MAELSTROM,stub) 0x6a3ac0(5,MAG_207_FL,stub)
+0x6a3ae0(41,stub) 0x6a3b70(161) 0x6a3d90(319) 0x6a41e0(295) 0x6a4710(380) 0x6a4ba0(450)
+0x6a5120(424) 0x6a5650(48,stub) 0x6a5700(171) 0x6a5950(135) 0x6a5ad0(156) 0x6a5c90(100)
+0x6a5db0(119)
 ```
 NB : 0x6A3AB0/0x6A3AC0 (MAG_207) suivent le gabarit stub MAG_xxx (cf. 0x6A0D20/0x6A0D30 fermés) ;
-gros blocs >900 o : 0x6A4BA0, 0x6A5120, 0x6A4710, 0x6A3D90, 0x6A41E0 (analyse PAR BLOCS imposée).
+gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A5120 (1316 o),
+0x6A4710 (1168 o), 0x6A3D90 (1103 o), 0x6A41E0 (1010 o).
 
 ### 0.1 Méthode consolidée de session 2026-09-20 (à réappliquer telle quelle)
 
