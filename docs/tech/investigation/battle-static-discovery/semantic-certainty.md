@@ -621,3 +621,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A2F60` | `MagFX_Model_RenderMeshChainFK` | 117 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-20 (2+1) ; rendu modele FX chain FK, OT -0xBC/+0x44, scratch 0x5C, retour Unwind |
 | `0x6A30C0` | `MagicFx_Wrapper_Invoke2F60_AndSetStateBit04` | 9 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P stub) ; wrapper rendu 2F60 + bit etat 0x04, caller ticker |
 | `0x6A3960` | `MagFx_SpawnRandParamTasks` | 67 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; spawn 1+N taches rand-param sur 2510208, retour AL arg24 |
+| `0x6A3A30` | `MagFx_ComposeBoneMat_GteWord3Out` | 39 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; compose matrice os + MVMVA, copie Word3 vers arg1 |
