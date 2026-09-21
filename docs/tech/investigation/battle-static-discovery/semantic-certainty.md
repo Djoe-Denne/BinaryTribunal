@@ -626,3 +626,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A3AC0` | `MAG_207_MAELSTROM_FL` | 5 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; loader mag206.tim, cache dword_25102C4, table 0xC81DB8 |
 | `0x6A3AE0` | `BattleMagic_M207_Maelstrom_SetupTask` | 41 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-21 (1+P stub) ; setup MAELSTROM 207, blob 0x7740 o, table 156*id, Register sub_6A3B70, retour &2517A48 |
 | `0x6A3B70` | `BattleMagic_M207_Maelstrom_Stepper` | 161 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-21 (2+1) ; stepper Maelstrom 3 phases, armement one-shot, centroide party, Orthonormalize cam, retour 0/2 |
+| `0x6A3D90` | `BattleMagic_M207_Maelstrom_SubTaskTick` | 319 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-21 (2+1) ; sub-task Maelstrom phases SE/effet/camera-shake/particules/impact+spawn, retour 0/2 unlink |
