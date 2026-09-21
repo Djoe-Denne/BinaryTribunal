@@ -5,23 +5,25 @@
 > Mission : décompiler et sémantifier un **maximum de fonctions** du pipeline de rendu
 > graphique de la Battle Room de FF8 (FF8_EN.exe PC x86, base 0x400000).
 
-## 0. CHECKPOINT COURANT — 2026-09-20 (prime sur tout le reste du document)
+## 0. CHECKPOINT COURANT — 2026-09-21 (prime sur tout le reste du document)
 
-Session 2026-09-20 close : **48 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A30C0,
-blocs A+B+C complets). **File restante = bloc D : 17 EA** (0x6A3960 → 0x6A5DB0, §0.2).
-IDB sauvée en fin de session (save_final.py). Packs du bloc D : GÉNÉRÉS le 2026-09-21
-(17/17, sizes relevées). Aucune voix en vol à l'arrêt.
+Sessions 2026-09-20/21 closes : **58 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A3D90,
+blocs A+B+C complets + bloc D partiel). **File restante = bloc D suite : 10 EA**
+(0x6A41E0 → 0x6A5DB0, §0.2). IDB sauvée en fin de session (save_now.py, vérifié : commentaires
+0x6A3B70 + 0x6A3D90 persistés). Packs du bloc D : GÉNÉRÉS le 2026-09-21 (17/17, sizes relevées),
+**6 packs déjà consommés** (3960/3a30/3ab0/3ac0/3ae0/3b70 → fermés), **11 packs restants** :
+0x6a41e0, 0x6a4710, 0x6a4ba0, 0x6a5120, 0x6a5650, 0x6a5700, 0x6a5950, 0x6a5ad0, 0x6a5c90,
+0x6a5db0 (sizes : 295, 380, 450, 48, 171, 135, 156, 100, 119 instr). Aucune voix en vol à l'arrêt.
 
-Reste à traiter (ordre §0.2, 17 EA — classification de taille au pack du 2026-09-21) :
+Reste à traiter (ordre §0.2, 10 EA) :
 ```
-0x6a3960(67,stub) 0x6a3a30(39,stub) 0x6a3ab0(5,MAG_207_MAELSTROM,stub) 0x6a3ac0(5,MAG_207_FL,stub)
-0x6a3ae0(41,stub) 0x6a3b70(161) 0x6a3d90(319) 0x6a41e0(295) 0x6a4710(380) 0x6a4ba0(450)
-0x6a5120(424) 0x6a5650(48,stub) 0x6a5700(171) 0x6a5950(135) 0x6a5ad0(156) 0x6a5c90(100)
-0x6a5db0(119)
+0x6a41e0(295) 0x6a4710(380) 0x6a4ba0(450) 0x6a5120(424) 0x6a5650(48,stub)
+0x6a5700(171) 0x6a5950(135) 0x6a5ad0(156) 0x6a5c90(100) 0x6a5db0(119)
 ```
-NB : 0x6A3AB0/0x6A3AC0 (MAG_207) suivent le gabarit stub MAG_xxx (cf. 0x6A0D20/0x6A0D30 fermés) ;
-gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A5120 (1316 o),
-0x6A4710 (1168 o), 0x6A3D90 (1103 o), 0x6A41E0 (1010 o).
+NB : gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A5120 (1316 o),
+0x6A4710 (1168 o), 0x6A41E0 (1010 o). 0x6A41E0 est EN COURS (c_a.c + semantic_a.md livrés
+à l'arrêt, c_b/sem_b/C-R/R manquants). 0x6A3B70/0x6A3D90 (le sous-système Maelstrom) fermés :
+0x6A3AB0 thunk → 0x6A3AE0 setup → 0x6A3B70 stepper → 0x6A3D90 sous-task (gabarit 0x6A0DC0).
 
 ### 0.1 Méthode consolidée de session 2026-09-20 (à réappliquer telle quelle)
 
@@ -143,21 +145,21 @@ CRT, thunks, nullsub, non-graphique (battle logic, AI, GF gameplay, son).
 Règle de classement : **le corps, pas le nom** — le préfixe Gfx_* est trop large ; les graphismes
 internes Square SKIP_NODECOMP sont promus dès qu'un decomp est produit.
 
-## 3. État au 2026-09-20 (fin de session)
+## 3. État au 2026-09-21 (arrêt propre)
 
-- Session 2026-09-20 : **48/68 EA du lot 6 fermés** (0x69E420 → 0x6A30C0). Bilan de verdicts :
-  25 CERTAIN / 22 LIKELY / 1 LIKELY consolidé (compte précis dans semantic-certainty.md,
-  tag `semantic-triple 2026-09-20`). Chaîne MAG_212 entièrement fermée et cohérente
-  (thunk 0x6A0D20 → loader 0x6A0D30 → setup 0x6A0D50 → stepper 0x6A0DC0 → ticker 0x6A1660 ;
-  FL cache dword_25101F8 ; table effets 0x1D972C0 stride 0x9C).
-- Livrables decomp/ : ≈517 (≈469 + 48 nouveaux). Catalogue : decomp-function-catalog.md
-  (+48 lignes, palier high/low, verdicts). Ledger : semantic-certainty.md (+48 lignes 9 colonnes).
-- IDB : 48 commentaires `[semantic-triple 2026-09-20]` append-only + save_database après chaque
-  push + save final (save_final.py). Aucun rename, aucun SetType, aucun patch.
-- Outillage session : finish_cell.py (chaîne de clôture idempotente), probe_xrefs.py /
-  probe_970.py (sondes read-only), save_final.py, rpc_read.py (lecture seule, inchangé).
-- Commits de session : 47 `decomp(battle): <EA> <nom>` + 1 driver (opérateur) — voir git log.
-- Reste : **20 EA mag FX (bloc D, §0.2)** + lots suivants du §6.
+- Sessions 2026-09-20/21 : **58/68 EA du lot 6 fermés** (0x69E420 → 0x6A3D90). Bilan global :
+  30 CERTAIN / 28 LIKELY (détail dans semantic-certainty.md, tags `semantic-triple 2026-09-20/21`).
+  Sous-systèmes complets : MAG_212 (thunk 0x6A0D20 → loader 0x6A0D30 → setup 0x6A0D50 → stepper
+  0x6A0DC0 → ticker 0x6A1660 → tâche enfant 0x69EF60) ; MAG_207 Maelstrom (thunk 0x6A3AB0 → loader
+  0x6A3AC0 → setup 0x6A3AE0 → stepper 0x6A3B70 → sous-task 0x6A3D90) ; famille 0x6A1xxx-0x6A2xxx
+  (utilitaires particle/render) ; helpers GTE (0x6A3220 sin/cos Q12, 0x6A2A90 project vertex).
+- Livrables decomp/ : ≈527 (≈469 + 58 nouveaux). Catalogue : decomp-function-catalog.md
+  (+58 lignes). Ledger : semantic-certainty.md (+58 lignes 9 colonnes).
+- IDB : 58 commentaires `[semantic-triple 2026-09-20/21]` append-only + save_database après chaque
+  push + save final vérifié (save_now.py, 2 commentaires confirmés présents post-restart IDA).
+- Outillage session : finish_cell.py (chaîne de clôture idempotente, parseur IDBCOMMENT universel),
+  probe_xrefs.py / probe_970.py (sondes read-only), save_now.py / save_final.py, rpc_read.py.
+- Reste : **10 EA mag FX (§0.2, cf. §0)** + lots suivants du §6. 0x6A41E0 en cours (c_a+sem_a OK).
 
 ## 4. Outillage
 
