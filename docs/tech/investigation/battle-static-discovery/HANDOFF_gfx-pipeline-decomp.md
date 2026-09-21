@@ -7,21 +7,20 @@
 
 ## 0. CHECKPOINT COURANT — 2026-09-21 (prime sur tout le reste du document)
 
-Sessions 2026-09-20/21 closes : **58 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A3D90,
-blocs A+B+C complets + bloc D partiel). **File restante = bloc D suite : 10 EA**
+Sessions 2026-09-20/21 closes : **62 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A3D90,
+blocs A+B+C complets + bloc D partiel). **File restante = bloc D suite : 6 EA (0x6a5ad0/5c90/5db0 — 0x6a41e0/4710/4ba0/5120/5650/5700/5950 FAITS)**
 (0x6A41E0 → 0x6A5DB0, §0.2). IDB sauvée en fin de session (save_now.py, vérifié : commentaires
 0x6A3B70 + 0x6A3D90 persistés). Packs du bloc D : GÉNÉRÉS le 2026-09-21 (17/17, sizes relevées),
 **6 packs déjà consommés** (3960/3a30/3ab0/3ac0/3ae0/3b70 → fermés), **11 packs restants** :
-0x6a41e0, 0x6a4710, 0x6a4ba0, 0x6a5120, 0x6a5650, 0x6a5700, 0x6a5950, 0x6a5ad0, 0x6a5c90,
-0x6a5db0 (sizes : 295, 380, 450, 48, 171, 135, 156, 100, 119 instr). Aucune voix en vol à l'arrêt.
+0x6a5ad0, 0x6a5c90, 0x6a5db0. Aucune voix en vol à l'arrêt.
 
 Reste à traiter (ordre §0.2, 10 EA) :
 ```
-0x6a41e0(295) 0x6a4710(380) 0x6a4ba0(450) 0x6a5120(424) 0x6a5650(48,stub)
+0x6a5ad0(156) 0x6a5c90(100) 0x6a5db0(119)
 0x6a5700(171) 0x6a5950(135) 0x6a5ad0(156) 0x6a5c90(100) 0x6a5db0(119)
 ```
 NB : gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A5120 (1316 o),
-0x6A4710 (1168 o), 0x6A41E0 (1010 o). 0x6A41E0 est EN COURS (c_a.c + semantic_a.md livrés
+0x6A4710 (1168 o), 0x6A41E0 (1010 o). 0x6A5AD0 est EN COURS (c_a.c + semantic_a.md livrés
 à l'arrêt, c_b/sem_b/C-R/R manquants). 0x6A3B70/0x6A3D90 (le sous-système Maelstrom) fermés :
 0x6A3AB0 thunk → 0x6A3AE0 setup → 0x6A3B70 stepper → 0x6A3D90 sous-task (gabarit 0x6A0DC0).
 
