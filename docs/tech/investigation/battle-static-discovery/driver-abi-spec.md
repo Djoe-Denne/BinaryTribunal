@@ -187,8 +187,10 @@ present `0x41DF0C` (engine loop, jamais FFBattleModule).
 
 ## 9. Ouverts (live, hors decomp)
 
-- Quelle voie possède le present réel : DDRAW Flip/Blt natif vs GDI32.SwapBuffers vs couche D3D9
-  (d3d9.dll/d3dx9_29/NVIDIA chargés à runtime, absents de l'IAT). Voir `driver-provenance.md`.
+- Voie du present réel : **tranchée au niveau module par la session P0 2026-09-21** (`driver-provenance.md`)
+  : le present passe par slot 4 vers **AF3DN.P (shim DotEmu)** `0x5F7B1BF0`, qui installe sa factory
+  en `engine+0xBD0` — la table statique des ctors n'est pas celle du runtime. Reste ouvert :
+  l'ordre per-frame natif/D3D9 (nécessite un bp dans AF3DN.P ou un hook vtable d3d9 — campagne suivante).
 - Sémantique fine des blocs à sous-condition du bind (types 4/6/12/14/17 et 5/7/13/15) : mécanisme figé,
   branches internes à dériver si un driver réel doit les implémenter au-delà du passthrough.
 
