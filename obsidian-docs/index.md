@@ -4,9 +4,11 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-22T11:19:32+02:00*
+*This index is automatically maintained. Last updated: 2026-09-22T11:33:40+02:0002:00*
 
 ## Concepts
+- [[projects/AIForAll/concepts/iam-idp-connect]] — >-. ( #concept #project #testing)
+- [[concepts/opencode-setup-skills-mcp]] — Infra OpenCode V2 durable du projet — agents/skills portés depuis Codex/Cursor, default_agent=orchestrator (mode all), MCP context-mode/RTK/QMD/serena-1MCP/ida-pro-mcp, priorités providers glm-5.3-flash. ( #concept #reverse-engineering #testing)
 - [[projects/AIForAll/concepts/p4-core-operator-tranches]] — >-. ( #concept #project #testing)
 - [[projects/AIForAll/concepts/lazaret-p3-implementation]] — >-. ( #concept #project #testing)
 - [[projects/AIForAll/concepts/review-briefings-anti-rediscovery]] — >-. ( #skill #concept #testing)
@@ -69,6 +71,7 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
+- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] — Campagne décomp gfx via OpenCode (09-19→09-22) — lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/AIForAll/references/apparatus-adr-chronicle-2026-09]] — >-. ( #concept #project #testing)
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — Verdicts A/V/R du 2026-09-17 sur le pipeline graphique Battle Room (0x45C870, 0x45D080, 0x416D82, 0x461800, 0x461A90...), lots 1-4 clos, checkpoint 0x559AF0. ( #ff8 #rendering #reverse-engineering #reference)
 

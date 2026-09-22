@@ -12,7 +12,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-22T10:45:00+02:00
+updated: 2026-09-22T12:05:00+02:00
 ---
 
 # RE FF8
@@ -45,6 +45,18 @@ swirl/Mag-FX families are recorded in
 `docs/tech/investigation/battle-static-discovery/HANDOFF_gfx-pipeline-decomp.md`.
 Verdicts and V-review corrections are distilled in
 [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]].
+
+## GFX Decomp Campaign Closed (2026-09-19 → 22)
+
+The campaign resumed through OpenCode orchestrator sessions (setup in
+[[concepts/opencode-setup-skills-mcp]]): lot 5 closed (transitions/swirl),
+Mag-FX lot 6 complete **68/68** (34 CERTAIN / 34 LIKELY, triple GLM 2+1 with
+cell-as-contract after a aborted rotating-sub-orchestrator run), BdLink lot 10
+closed (6 functions), trailing census settled at 108 functions pending
+classification, and live driver-provenance lot 12/+1 (native `.text` excluded
+as the `engine+0xA74` writer; AF3DN.P identified as a full DotEmu D3D9
+renderer). Incidents, verdicts and open tails are distilled in
+[[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]].
 
 ## Implementation Projects
 
@@ -96,6 +108,7 @@ Verdicts and V-review corrections are distilled in
 - [[projects/re-ff8/references/chunk-iso-function-catalog]] — Fourteen chunk-C ISO decompiles: live IDA names, aliases (GetText→BuildPayload), callers, and L3 exclusions.
 - [[projects/re-ff8/references/semantic-triple-pipeline]] — Triple GLM / semantic-triple protocol, IDB append-only invariants, certainty ledger over the 498 wiki functions.
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — 2026-09-17 A/V/R verdicts on the graphic pipeline and the campaign checkpoint.
+- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] — 2026-09-19→22 campaign closure via OpenCode: mag FX 68/68, BdLink lot 10, census, driver-provenance live track.
 
 ## External Battle Renderer (Wicked)
 

@@ -22,7 +22,7 @@ provenance:
   inferred: 0.06
   ambiguous: 0.02
 created: 2026-09-22T10:30:00+02:00
-updated: 2026-09-22T10:30:00+02:00
+updated: 2026-09-22T12:05:00+02:00
 ---
 
 # Semantic Pipeline Sessions 2026-09-17
@@ -81,6 +81,7 @@ Le pool de 5 prévu pour le lot 5 attribuait une fonction par worker avec rôles
 
 ## Liens
 
+- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] — suite de la campagne (sessions OpenCode) : lot 5, lot 6 mag FX 68/68, lot 10, census traîne, lot 12 live.
 - [[projects/re-ff8/references/semantic-triple-pipeline]] — protocole, invariants IDB, ledger de certitude.
 - [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] — chaîne OT→draw-lists→GPU que ces fonctions composent.
 - [[projects/re-ff8/references/decomp-function-catalog]] — index des livrables decomp/.
