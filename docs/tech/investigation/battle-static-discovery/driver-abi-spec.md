@@ -193,6 +193,10 @@ present `0x41DF0C` (engine loop, jamais FFBattleModule).
   l'ordre per-frame natif/D3D9 (nécessite un bp dans AF3DN.P ou un hook vtable d3d9 — campagne suivante).
 - Sémantique fine des blocs à sous-condition du bind (types 4/6/12/14/17 et 5/7/13/15) : mécanisme figé,
   branches internes à dériver si un driver réel doit les implémenter au-delà du passthrough.
+- **Runtime provenance (live 2026-09-21/22)** : le driver actif est maintenu par un écrivain périodique
+  externe (~7.5 Hz) qui réécrit `engine+0xA74` (alternance observée vers une valeur fausse `0x1A4B98`,
+  cause d'un crash reproduit) — **remplacer le driver en runtime est instable** ; la voie launcher-safe
+  (config avant boot graphics) est la seule recommandée. Voir `driver-provenance.md` (fenêtre 2).
 
 ## Réfs
 
