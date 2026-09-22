@@ -94,6 +94,42 @@ PID 21816, restore byte-exact vérifié, process vivant au detach).
 Lot +1 proposé : watchpoint+stack propre (identifie l'écrivain), bp vtable d3d9 Present (idx 17) pour
 le compte per-frame, fenêtre battle-transition optionnelle (uniquement si l'écrivain reste inconnu).
 
+### Lot +1 — 2026-09-22 (fenêtres A/B — ingéré par l'opérateur)
+
+Evidence : `evidence/2026-09-22T01-00-00_BACKEND_PROVENANCE_LOT1_002.json` (hash en tête), ingestion
+faite par l'opérateur. Faits fermés réutilisables :
+- Écrivain `engine+0xA74` : **absent du .text natif** (scan complet `0x401000–0xB69000`, zéro
+  `mov [reg+0xA74]`) ; suspects = loader DotEmu embedded (section `.bind` VA `0x27C2000`, raw 676 Ko
+  compressé) ou shim Windows (apphelp/AcLayers).
+- **FF8_EN.exe embarque `.dotemu` VA `0x27C1000`** (496 B = strings `dotemuCreateFileA`/`dotemuReg*`
+  seuls) + `.bind` (676 Ko) : le loader DotEmu est embedded dans le binaire.
+- **AF3DN.P n'est pas une translation** : renderer D3D9 complet HLSL (strings `shaders\vert.hlsl` /
+  `pixel.hlsl`, tables MODE_BATTLE/SWIRL/WORLDMAP) — DotEmu a réimplémenté le renderer.
+- Device d3d9 : non localisable par scan mémoire plat (fenêtre 2 + heapscan plat = 0 refs) ;
+  122 holders d3d9 runtime-patchés dans FF8 .text (les thunks DotEmu) = piste lot +3.
+
+### Lot +2 — 2026-09-22 : incident + faits fermés (fenêtre B statique)
+
+Evidence : `evidence/2026-09-22T02-00-00_BACKEND_PROVENANCE_LOT2_003.json` (hash en tête).
+
+- **Incident (escalade)** : tentative watchpoint **HW via `py_eval`** (`suspend_process` +
+  `dbg_continue`) → **deadlock du serveur IDA-MCP** (timeouts > 10 min), jeu suspendu
+  (`Responding:False`), detach non complété, DR registers possiblement armés → crash d'IDA → restart
+  IDA + re-attach process neuf (PID 21680, boot 13:46). **Contrainte tooling pour la suite :
+  watchpoint HW via `py_eval` = interdit** (deadlock serveur avéré) ; capture synchronisée = 100% bp
+  software, ou HW breakpoint posé par l'opérateur dans le GUI IDA (stack visible dans l'UI, pas de
+  serveur HTTP impliqué).
+- **Fenêtre B statique fermée** : **zéro** `call [reg+disp]` COM vtable dans le .text d'AF3DN.P pour
+  Present (idx 17 = +0x44) / EndScene (+0xA8) et voisins → le present n'est pas un appel COM direct
+  côté AF3DN.P : il passe par les **thunks IAT runtime DotEmu** (`call [0x10027044]`, `[0x10027098]`,
+  `[0x10027228]`, `[0x10027278]` — table d'imports patchée par le loader `.bind` embedded).
+- Écrivain `engine+0xA74` : toujours non identifié (4 voies bloquées par le deadlock) ; re-statique
+  confirmée : **zéro** `mov [reg+0xA74]` dans le .text natif 0x401000–0xB69000. Suspect n°1 : loader
+  `.bind` (676 Ko compressé embedded) ou shim Windows.
+- Lot +3 : mapping statique de la table d'imports AF3DN.P (Capstone sur disque, sans debugger) +
+  les 122 holders runtime-patchés FF8 .text → compte per-frame via bp software sur le site résolu ;
+  écrivain = HW breakpoint GUI opérateur.
+
 ### Procédure set runtime backend=2 (documentée, non exécutée — lecture seule)
 
 Préconditions vérifiées : global engine ptr `0x1A79D88` stable ; dispatch present = `call [eax+10h]`
