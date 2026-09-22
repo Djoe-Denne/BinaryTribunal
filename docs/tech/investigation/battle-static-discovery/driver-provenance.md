@@ -170,6 +170,27 @@ copie Steam hash-bound ✓) : engine `0x9294D60`, factory shim `+0xBD0=0x6CA152C
   la factory shim) ni la recommandation launcher-safe : le risque du set runtime reste le re-Init
   mid-game, et le champ reste gouverné par le chemin boot DotEmu.
 
+### Lot +5 — 2026-09-22 : synthèse finale P0 (closure)
+
+- **`sub_5699AA` décompilé (main loop)** : `v15 = FFGetBufferAddress()` appelé **une seule fois avant
+  la boucle** (`if (!v15) v15 = app_log_();` fallback relink, puis `FFSetBufferAddress(v15)`), et
+  `Render_FramePresent_Dispatch(v15)` @`0x569C6B` est appelé **avec `v15`, fixe pour toute la session**.
+- Conclusion en chaîne : arg_0 fixe + `*(engine+0xA74)` stable (CE + échantillonnage 309 kHz) ⇒
+  `EAX` au dispatch devrait être le driver à **tous** les hits. Les valeurs `EAX=0x1A4B98` lues au bp
+  sont donc des **readbacks de registres faux** (même mécanisme que le readback `EIP` stale du lot +2 :
+  les registres lus après un événement debugger provenaient d'un autre thread/context).
+- **Le crash du 2026-09-21** : réel (WER, process mort) mais **survenu pendant l'instrumentation**
+  (bp + readbacks + detach en course) — sa cause exacte reste **INCONCLUSIVE** : course réelle du shim
+  DotEmu possible, artefact debugger tout aussi possible. À reprendre un jour uniquement avec un
+  outillage à readbacks fiables (debugger externe type WinDbg, ou le mode debug de Cheat Engine).
+- **Bilan P0** (question n°1 du doc renderer, ferme la campagne) :
+  1. Voie du present : **AF3DN.P (renderer D3D9 réimplémenté par DotEmu) via slot 4** —
+     `Render_FramePresent_Dispatch 0x41DF32` → `[driver+0x10]` → présent AF3DN.P, 4/4 boots.
+  2. Chemin d'activation : **launcher-safe** (config 36B posée avant boot graphics `0x401890`) —
+     la factory shim installée en `engine+0xBD0` est la signature du boot DotEmu (4/4).
+  3. Le champ `engine+0xA74` est **stable** en jeu ; pas d'écrivain CPU (CE + 309 kHz).
+  4. Hors périmètre natif (anatomie du shim) : compte per-frame D3D9 exact, cause de crash exacte.
+
 ### Procédure set runtime backend=2 (documentée, non exécutée — lecture seule)
 
 Préconditions vérifiées : global engine ptr `0x1A79D88` stable ; dispatch present = `call [eax+10h]`
