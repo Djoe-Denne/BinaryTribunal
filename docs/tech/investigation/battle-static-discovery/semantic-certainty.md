@@ -635,3 +635,4 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A5700` | `BattleFX_Magic_ProjectVertsEmitDualOTPkts` | 171 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-21 (2+1) ; builder Maelstrom, projection GTE sommets, 2 packets OT dual, retour residuel |
 | `0x6A5950` | `MagFx_StreamEmitBatch_OtNode24_Code1` | 135 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-21 (2+1) ; sous-builder Maelstrom, emit quad 0x20 Code1 gated, retour 0/FFFFFFFF |
 | `0x6A5AD0` | `MagFx_BuildQuadNodes_Tag2E` | 156 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-22 (2+1) ; builder Maelstrom quads 0x28 tag 2E gated, retour curseur file |
+| `0x6A5C90` | `MagFx_EmitStream_Code32_Gte_Ot` | 100 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-22 (2+1) ; sous-builder Maelstrom tris 0x1C code 32 gated, retour 0/FFFFFFFF (caller ignore) |
