@@ -149,6 +149,27 @@ boot 13:46 — 3e boot, valeurs re-calculées : engine `0x6D94D60`, AF3DN.P base
   un défaut de la build DotEmu (double-writer sur `engine+0xA74`), pas un artefact de notre instrumentation.
 - État final : detach OK, 0 bp, preimage==postimage, process vivant.
 
+### Lot +4 — 2026-09-22 : VERDICT-B — pas d'écrivain du champ, alternance = argument du dispatch
+
+Evidence : capture Cheat Engine (opérateur, "Find what writes" sur `engine+0xA74` → **zéro hit**) +
+échantillonnage read-only `ReadProcessMemory` **1 236 139 lectures @ ~309 kHz sur 4 s** : le champ est
+resté **constamment** `0x6D82770` (0 alternance, 0 erreur de lecture). Le jeu (PID 4348, boot 4,
+copie Steam hash-bound ✓) : engine `0x9294D60`, factory shim `+0xBD0=0x6CA152C0` (≠0, **4/4 boots**).
+
+- **Les "hits watchpoint" des fenêtres 2/+1 étaient des artefacts de l'API debug IDA** (events
+  backlog, readback EIP stale — le lot +2 l'avait noté) : il n'y a **pas d'écrivain périodique** du
+  champ pendant le jeu.
+- **L'alternance `0x1A4B98` au dispatch vient de l'argument `arg_0`** : le dispatch est parfois appelé
+  avec un objet ≠ engine principal → `GetBufApp(arg_0) = *(arg_0+0xA74) = 0x1A4B98` (une valeur sans
+  rapport avec un driver, région basse Wow64) → `call [0x1A4BA8]` = crash. Le crash du 2026-09-21 =
+  **appel du dispatch avec le mauvais objet**, pas une course double-writer.
+- Tranchage restant (pur statique, sans jeu) : `FFGetBufferAddress` (retourné dans `var_AC34` du main
+  loop `sub_5699AA`) — retourne-t-il parfois un objet secondaire ? BP software avec capture `arg_0`
+  possible si la statique est ambiguë.
+- Ce verdict **ne change pas** la conclusion provenance (present = AF3DN.P via slot 4, 4/4 boots pour
+  la factory shim) ni la recommandation launcher-safe : le risque du set runtime reste le re-Init
+  mid-game, et le champ reste gouverné par le chemin boot DotEmu.
+
 ### Procédure set runtime backend=2 (documentée, non exécutée — lecture seule)
 
 Préconditions vérifiées : global engine ptr `0x1A79D88` stable ; dispatch present = `call [eax+10h]`

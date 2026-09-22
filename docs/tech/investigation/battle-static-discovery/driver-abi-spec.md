@@ -193,10 +193,14 @@ present `0x41DF0C` (engine loop, jamais FFBattleModule).
   l'ordre per-frame natif/D3D9 (nécessite un bp dans AF3DN.P ou un hook vtable d3d9 — campagne suivante).
 - Sémantique fine des blocs à sous-condition du bind (types 4/6/12/14/17 et 5/7/13/15) : mécanisme figé,
   branches internes à dériver si un driver réel doit les implémenter au-delà du passthrough.
-- **Runtime provenance (live 2026-09-21/22)** : le driver actif est maintenu par un écrivain périodique
-  externe (~7.5 Hz) qui réécrit `engine+0xA74` (alternance observée vers une valeur fausse `0x1A4B98`,
-  cause d'un crash reproduit) — **remplacer le driver en runtime est instable** ; la voie launcher-safe
-  (config avant boot graphics) est la seule recommandée. Voir `driver-provenance.md` (fenêtre 2).
+- **Runtime provenance (live 2026-09-21/22)** : le present passe par slot 4 vers **AF3DN.P (shim
+  DotEmu)** — la factory shim est installée en boot (4/4 boots). **Lot +4 (lot +4 verdict)** : le champ
+  `engine+0xA74` n'est **pas réécrit** pendant le jeu (Cheat Engine + échantillonnage 309 kHz : champ
+  stable) ; les "hits watchpoint" étaient des artefacts d'instrumentation. L'alternance vers
+  `0x1A4B98` vient de l'**argument du dispatch** (appel avec un objet ≠ engine principal) — le crash
+  du 2026-09-21 = appel avec le mauvais objet, pas une course double-writer. **Remplacer le driver en
+  runtime reste déconseillé** (re-Init mid-game, double present) ; la voie launcher-safe (config avant
+  boot graphics) est la seule recommandée. Voir `driver-provenance.md` (lots +1 à +4).
 
 ## Réfs
 
