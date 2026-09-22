@@ -130,6 +130,25 @@ Evidence : `evidence/2026-09-22T02-00-00_BACKEND_PROVENANCE_LOT2_003.json` (hash
   les 122 holders runtime-patchés FF8 .text → compte per-frame via bp software sur le site résolu ;
   écrivain = HW breakpoint GUI opérateur.
 
+### Lot +3 — 2026-09-22 (statique thunks + alternance 3/3)
+
+Evidence : `evidence/2026-09-22T04-00-00_BACKEND_PROVENANCE_LOT3_004.json` (hash en tête). PID 21680,
+boot 13:46 — 3e boot, valeurs re-calculées : engine `0x6D94D60`, AF3DN.P base fresh `0x6C9A0000`,
+`+0xBD0=0x6CA152C0` (factory shim ≠ 0, **3/3 boots** — signature stable du boot DotEmu).
+
+- **Fenêtre A statique** : les 4 thunks du slot 4 présent d'AF3DN.P résolus via pefile —
+  `0x10027044`=ReleaseSemaphore, `0x10027098`=GetCurrentProcess, `0x10027228`=_ftime64,
+  `0x10027278`=GetForegroundWindow — **aucun n'est d3d9** : le call COM Present n'est pas visible dans
+  le fragment slot4 ; il passe par les helpers internes AF3DN.P (`0x12A0`/`0xF870`/`0x23298`) ou par le
+  loader `.bind` compressé. Le compte per-frame D3D9 reste ouvert (lot +4 : bp sur les candidats
+  runtime-patchés les plus forts, ex. `0x70c28100`/`0x70c18101`).
+- **Alternance 3/3 boots reproduite** (8 hits bornés, 3 s) : hits alternés EAX=`0x1A4B98`/slots NULL
+  aux positions 1 et 4, driver correct ailleurs — sans crash live cette fois (gate `+0xB88` non armé au
+  moment des alternances, probablement). La **race** : l'écrivain périodique (~11-14 Hz) bascule le
+  champ pendant que le dispatcher lit/appelle — le crash du 2026-09-21 = cette course alignée. C'est
+  un défaut de la build DotEmu (double-writer sur `engine+0xA74`), pas un artefact de notre instrumentation.
+- État final : detach OK, 0 bp, preimage==postimage, process vivant.
+
 ### Procédure set runtime backend=2 (documentée, non exécutée — lecture seule)
 
 Préconditions vérifiées : global engine ptr `0x1A79D88` stable ; dispatch present = `call [eax+10h]`
