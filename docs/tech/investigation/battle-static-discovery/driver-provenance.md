@@ -191,6 +191,35 @@ copie Steam hash-bound ✓) : engine `0x9294D60`, factory shim `+0xBD0=0x6CA152C
   3. Le champ `engine+0xA74` est **stable** en jeu ; pas d'écrivain CPU (CE + 309 kHz).
   4. Hors périmètre natif (anatomie du shim) : compte per-frame D3D9 exact, cause de crash exacte.
 
+### Lot +6 — 2026-09-22 : REQUALIFICATION — le "shim" analysé = FFNx installé sur la copie opérateur
+
+Cross-ref externe (`ffnx-driver-reference.md`, livrable agent — repo FFNX `b341cf13`) + preuve disque
+sur la copie opérateur Steam : **`AF3DN.P` (209 920 B) + `FFNx.toml` + `FFNx.log` + `FFNx.pdb` (129 Mo)
++ `shaders/FFNx.*.frag/vert`** présents à côté de `FF8_EN.exe` — FFNx est installé (install février 2026,
+`renderer_backend = 4` = Direct3D12).
+
+- **Toute la chaîne live "AF3DN.P" des lots P0 = FFNx**, pas un shim DotEmu : le renderer HLSL D3D9
+  constaté au lot +1 = les shaders FFNx ; l'alternance/crash du 21/09 = comportement de l'installation
+  FFNx de l'opérateur, pas du backend natif vanilla.
+- FFNx active son driver par **usurpation du module** (`eax.dll` FF8 2000/Remastered, `AF3DN.P`
+  Steam 2013) puis `ffnx_inject_driver` écrit `current_gfx_driver=2` + `create_gfx_driver=factory`
+  directement dans l'engine (`src/common.cpp:3706-3712`) — laissant **le chemin type 2 natif du jeu
+  s'exécuter** : mécanisme équivalent à notre spec §7, sans la config 36B.
+- **Cross-validation de sources** : FFNx et Aali exportent tous deux `new_dll_graphics_driver(void*)`
+  (FFNx `src/common.cpp:3097` + `misc/FFNx.def:37` ; Aali `src/common.c:1861`) ; la struct
+  `ff8_gfx_driver` de FFNx = **66 DWORDs** (`src/ff8.h:946–1011`, état inline +0x24/+0x28) — conforme
+  à notre build DotEmu, alors que la table Aali (Eidos 1.2) fait 0x100 ; slots 43–64 nommés
+  (flat/smooth/textured/paletted × 2D/3D/lines), slot 33 = blend 0–4, slot 29 = RS bitmask, 40/41 =
+  pile de scenes. **EAs croisés identiques** (`0x41E070`, `0x45D610`, `0x465CE0`) → les sources FFNx
+  correspondent à notre binaire.
+- Divergences restantes (slots 16/34/37/5/6) : statut « à trancher au decomp », aucune transposée
+  aveuglement.
+- **Bilan P0 requalifié** : la provenance native du jeu (métadonnées : chemin type 2 natif, contrat
+  ABI) reste fermée et confirmée par deux implémentations publiques indépendantes. La voie du present
+  **dans la copie opérateur** = FFNx D3D12 via ce chemin type 2. Les mesures "backend" des lots P0
+  portent sur l'installation FFNx de l'opérateur, pas sur le backend natif vanilla — le backend natif
+  du jeu (sans mod) reste non mesuré (DDrawAlt/DDraw/GL selon registre).
+
 ### Procédure set runtime backend=2 (documentée, non exécutée — lecture seule)
 
 Préconditions vérifiées : global engine ptr `0x1A79D88` stable ; dispatch present = `call [eax+10h]`
