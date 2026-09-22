@@ -47,6 +47,18 @@ The prior 1765 `callback_candidate` edges were verified as true slot-correct pos
 
 Six first-pass false positives came from **code defined as data** (`0x5857D0`, `0x5A5890`, `0x5A6D20`, `0x5FFFE0`, `0x606DB0`): promoting them flips the heuristic to true positives.
 
+### Lot 10 closures (2026-09-20) and queue contract
+
+Closed with reconciled deliverables in `docs/tech/investigation/battle-static-discovery/decomp/` (lot 10, post-mag FX): `0x56FE10` (2+1 LIKELY — fly-path FX + trail + camera aim, 64-pt path `word_209D7C0` stride 8, return EAX 0/2 when counter >0x1E, hold = ret 0 on `battle_to_update_flags` bit0), `0x6804B0` (1+P CERTAIN — spawns field-camera interp tick `sub_680520` on fixed list `25080C0`), `0x63E960` (1+P CERTAIN — spawns GF camera-script tick `sub_63E9C0`, sole writer of X-mirror sign `dword_24FBE78`: -1 iff rand()%n==1 else +1), twins `0x65F250`/`0x65E4B0` (1+P CERTAIN — register `sub_65F2B0` on lists `2505438`/`25053C0`, bind `node+0xC` = `*(*(table+0x64)) + arg*0x30 + 0x10`, return node, no NULL guard), `0x659960` (1+P CERTAIN — GF-Diablo packet-stream tick through `sub_701970`, in/out `g_BattlePacketCursor`, detach when step returns 0, `ctx+0xE += 0x18` while gate `2505180==0`).
+
+Queue contract as proven by the delivered set (Register `0x508360` / Pump `0x508420` / DispatchIds1to14 `0x5009B0` + callbacks above):
+
+- **Order**: registrars prepend/append task nodes on per-subsystem list heads; callbacks are invoked strictly per-Pump pass at `0x508434` (`node+8`), root dispatch by task ID 1..14 via `BattleTaskQueue_DispatchIds1to14`.
+- **Busy/completion**: a callback returns 0 = still busy (stays queued), 2 = done (Pump unlinks via bit 2 of AL). Progress guards: pause bit (`battle_to_update_flags` bit0) returns 0 with zero progress; `0x659960` advances `ctx+0xE` only while its gate is clear.
+- **Drain condition**: a list is drained when every Pump invocation returns 0 tasks or all callbacks detached; spawner wrappers (`0x6804B0`, `0x63E960`, twins) re-seed tasks per effect/GF sequence, so steady-state drain is per-sequence, not global.
+
+Residual (out of Lot 10 named scope): the long tail of per-spell `au_re_BdLinkTask_N` wrappers (~140 funcs, 0x5xxxxx–0x66xxxx) remains family-sampled, not individually closed.
+
 ## Indirect Calls
 
 The **481** call-site figure in older prose is stale. The ledger has **485 `call` + 8 `jmp` = 493** unique no-ref sites. Lots E1+E2 wrote `battle-indirect-registry.json` (schema **1.1.0**, SHA `55bc0b13ae82694302eb26853924d095ccea4721c36a6f445f49a748b5a68de9`): **82 IAT** (76 `FF 15` + 6 `jmp` `acmStream*` thunks) + **116 DRAW** (58 tables × 2, including Alexander `0x187281C` and Meteor `0x186C170`; eax/ecx tables `0x18570A0/0x1874D6C/0x1876B90/0x18776C0` are DRAW, not particle) + **27 HUD/draw/file** + **263 LOT2** (**0 `PENDING_LOT2`**) + **5 GHOST** (`ghost_not_indirect`). The former "2 jmp stubs" were prologues at `0x403D99`/`0x45B2E0`. `FF 15` to BSS `0x21DFEC4` is not IAT.

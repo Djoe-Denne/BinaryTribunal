@@ -4,9 +4,16 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-12T13:50:00+02:00*
+*This index is automatically maintained. Last updated: 2026-09-22T11:19:32+02:00*
 
 ## Concepts
+- [[projects/AIForAll/concepts/p4-core-operator-tranches]] — >-. ( #concept #project #testing)
+- [[projects/AIForAll/concepts/lazaret-p3-implementation]] — >-. ( #concept #project #testing)
+- [[projects/AIForAll/concepts/review-briefings-anti-rediscovery]] — >-. ( #skill #concept #testing)
+- [[projects/AIForAll/concepts/adr-status-discipline]] — >-. ( #concept #project)
+- [[concepts/mcp-tool-availability]] — Diagnostic durable des MCP locaux : syndrome schema-visible/unsupported-call (blocage client, pas serveur), 1MCP tags, serena/ida-pro-mcp config, GrepAI watch, arrets silencieux. ( #reverse-engineering #concept #testing)
+- [[concepts/9router-model-routing]] — Routage modele via 9Router (combo OCG/Z.AI/Fireworks), compatibilite champ thinking, reasoning effort verifie dans la DB sqlite, patch traducteur OCG 0.5.81, conventions de sauvegarde. ( #reverse-engineering #concept #testing)
+- [[concepts/codex-agent-orchestration]] — Mecanique d'orchestration multi-agents Codex : definitions toml/md, spawn_agent/wait_agent/send_input, pools paralleles par defaut 5, roles nommes, modes de defaillance observes. ( #reverse-engineering #concept #testing)
 
 - [[projects/re-ff8/concepts/battle-system-map]] — High-level map of FF8 battle mechanics and documentation areas. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
@@ -62,6 +69,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
+- [[projects/AIForAll/references/apparatus-adr-chronicle-2026-09]] — >-. ( #concept #project #testing)
+- [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — Verdicts A/V/R du 2026-09-17 sur le pipeline graphique Battle Room (0x45C870, 0x45D080, 0x416D82, 0x461800, 0x461A90...), lots 1-4 clos, checkpoint 0x559AF0. ( #ff8 #rendering #reverse-engineering #reference)
 
 - [[projects/re-ff8/references/battle-iso-migration-milestones]] — Dependency roadmap through G23; G09 2026-09-09 automation is rehearsal/non-regression, not a re-promotion. ( #ff8 #battle-system #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/battle-loop-iso-readiness]] — ISO gap analysis through G10 live Slow/status closure; Magic/Item/GF, Cover/Drain, AI, lifecycle, and terminal behavior remain. ( #ff8 #battle-system #reverse-engineering #reference)
@@ -116,6 +125,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign]] — Five clean campaign envelopes plus typed Phoenix/Boko observations close the representative G12 live matrix without claiming presentation. ( #ff8 #battle-system #runtime-memory #testing #reference)
 - [[projects/final-fantasy-viii-reimaginated/references/evidence-catalog]] — Canonical G00–G23 map; G19–G22 promoted; G23 v1 smoke not promoted; 2026-09-09 G09 automation is rehearsal/non-regression. ( #ff8 #battle-system #testing #reverse-engineering #reference)
 
+- [[projects/re-ff8/references/semantic-triple-pipeline]] — Methode decompilation/semantification : dual-gen GLM reconcilie, modes 1+P/1+V/2+1, push IDB append-only, ledger 498 fonctions. ( #ff8 #reverse-engineering #evidence-processing #reference)
+- [[projects/re-ff8/references/decomp-function-catalog]] — Index des 437 livrables de decompilation par famille (EA, nom, palier, certitude jointe du ledger). ( #ff8 #battle-system #reverse-engineering #reference)
 ## Synthesis
 
 ## Journal
@@ -129,6 +140,7 @@ title: Wiki Index
 - [[journal/2026-08-27]] — Session: G14–G17 red team, runtime laboratories, G18 live copy-resolve. ( #ff8 #battle-system #testing #reference)
 
 ## Projects
+- [[projects/AIForAll/AIForAll]] — >-. ( #project #testing)
 
 - [[projects/re-ff8/re-ff8]] — Project overview for FF8 PC battle-system reverse engineering. Remaster G14–G17 live; runtime laboratories split. ( #ff8 #reverse-engineering #battle-system #project)
 - [[projects/binary-tribunal/binary-tribunal]] — Separate project overview for the generic Binary Tribunal reverse-engineering hypothesis runner. ( #reverse-engineering #testing #project)

@@ -12,7 +12,7 @@ provenance:
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-12T13:50:00+02:00
+updated: 2026-09-22T10:45:00+02:00
 ---
 
 # RE FF8
@@ -32,6 +32,19 @@ The wiki separates two layers:
 
 - Documentation pages capture FF8 domain knowledge: mechanics, lifecycle, memory layout, function roles, command flow, status behavior, GF architecture, and compact references.
 - Skills pages capture repeatable work: AI prompts, Python tooling, `ff8re` runner usage, YAML hypothesis tests, evidence conversion, and IDA MCP workflows.
+
+## Graphic Decompilation Campaign (2026-09-17)
+
+The semantic-triple protocol was applied to the battle-room graphic pipeline:
+lots 1–4 closed (13 functions committed, including `0x416D82 Gfx_CreateDrawList`,
+`0x417464 Gfx_ReserveDrawListEntries`, `0x4617F0 Gpu_EmitPolyFT3`,
+`0x461A90 Gpu_EmitPolyFT4`, and the draw-list pass begin/flush/end trio),
+lot 5 engaged, checkpoint at `0x559AF0 NormalTransition_Phase1`. Resumption
+order, exclusions (`0x559240` is world/input/render) and the untagged
+swirl/Mag-FX families are recorded in
+`docs/tech/investigation/battle-static-discovery/HANDOFF_gfx-pipeline-decomp.md`.
+Verdicts and V-review corrections are distilled in
+[[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]].
 
 ## Implementation Projects
 
@@ -81,6 +94,8 @@ The wiki separates two layers:
 - [[projects/re-ff8/references/battle-formulas]] — Exact ISO arithmetic: damage/heal/hit/crit/status formulas, HP-commit stage, and initial-state derivation (party junction stats, enemy HP/rank/stat scaling, scripted-summon rolls).
 - [[projects/re-ff8/references/enemy-ai-opcodes]] — Full 61-opcode enemy-AI VM table + IF subject-selector table + target codes + AI state inventory.
 - [[projects/re-ff8/references/chunk-iso-function-catalog]] — Fourteen chunk-C ISO decompiles: live IDA names, aliases (GetText→BuildPayload), callers, and L3 exclusions.
+- [[projects/re-ff8/references/semantic-triple-pipeline]] — Triple GLM / semantic-triple protocol, IDB append-only invariants, certainty ledger over the 498 wiki functions.
+- [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — 2026-09-17 A/V/R verdicts on the graphic pipeline and the campaign checkpoint.
 
 ## External Battle Renderer (Wicked)
 

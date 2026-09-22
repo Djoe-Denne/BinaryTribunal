@@ -9,6 +9,7 @@ sources:
   - projects/re-ff8/concepts/draw-magic-and-render-bridge.md
   - projects/re-ff8/concepts/battle-camera-architecture.md
   - docs/tech/systems/render_bridge.md
+  - docs/tech/investigation/battle-static-discovery/PROMPT_semantic-triple-continue-2.md
   - https://github.com/turanszkij/WickedEngine
   - https://github.com/turanszkij/WickedEngine/blob/master/Content/Documentation/WickedEngine-Documentation.md
 summary: Target architecture for a warm Wicked Engine x64 renderer connected to FF8 x86 through a reversible bridge and progressively replacing native battle presentation.
@@ -17,7 +18,7 @@ provenance:
   inferred: 0.54
   ambiguous: 0.04
 created: 2026-07-12T13:45:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-09-17T12:00:00+02:00
 ---
 
 # External Battle Renderer Architecture
@@ -415,3 +416,5 @@ renderer-migration/
 - [[projects/re-ff8/skills/implementing-wicked-ff8-bridge]]
 - [[projects/re-ff8/concepts/battle-lifecycle]]
 - [[projects/re-ff8/concepts/draw-magic-and-render-bridge]]
+- [[projects/re-ff8/references/semantic-triple-pipeline]] — campagne de semantification en cours, perimetre pipeline graphique (OT, draw-list, TIM/TPage, mesh ISO, mag FX).
+- [[projects/re-ff8/references/decomp-function-catalog]] — index des 437 livrables de decompilation (familles rendu, GPU/OT, GTE).

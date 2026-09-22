@@ -10,7 +10,7 @@ provenance:
   inferred: 0.18
   ambiguous: 0.0
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-07-12T13:45:00+02:00
+updated: 2026-09-17T12:00:00+02:00
 ---
 
 # Battle System Map
@@ -31,6 +31,8 @@ FF8 battle documentation is split into product mechanics, technical references, 
 - [[projects/re-ff8/references/battle-slot-and-command-layouts]] anchors per-slot struct offsets, status bits, command IDs, and pending-action bytes.
 - [[projects/re-ff8/skills/battle-re-verification]] describes how the project validates hypotheses with breakpoints, memory reads, and injection tests.
 - [[projects/re-ff8/references/wicked-ff8-migration-phases]] and [[projects/re-ff8/skills/implementing-wicked-ff8-bridge]] define the future rendering implementation gates.
+- [[projects/re-ff8/references/decomp-function-catalog]] indexe les 437 decompilations reconcilees par famille (EA, nom, palier, certitude).
+- [[projects/re-ff8/references/semantic-triple-pipeline]] decrit la methode triple GLM + semantic triple qui produit ces livrables.
 
 ## Open Questions
 
