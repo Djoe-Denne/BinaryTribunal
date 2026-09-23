@@ -48,6 +48,8 @@
 #define GFXPT_EA_SHUTDOWN        0x409670ul
 /* presentation__RenderBackend_Construct_OpenGL — ctor natif appelé ici (1 arg __cdecl). */
 #define GFXPT_EA_CTOR_OPENGL     0x4252B0ul
+
+#define GFXPT_EA_CHECKREGISTRY   0x401890ul /* boot v2 : point d'ancrage pre-dispatch */
 /* GetBufApp_0xA74 — référence (spec §4) ; non appelé par ce .c. */
 #define GFXPT_EA_GETBUFAPP       0x4098EEul
 
@@ -67,6 +69,7 @@ typedef void* (__cdecl *GFXPT_PFN_BackendCtor)(void* engine);
 #pragma comment(linker, "/EXPORT:new_dll_graphics_driver=_new_dll_graphics_driver")
 #pragma comment(linker, "/EXPORT:Passthrough_ReplayCaptured=_Passthrough_ReplayCaptured")
 #pragma comment(linker, "/EXPORT:Passthrough_SetReplayLive=_Passthrough_SetReplayLive")
+#pragma comment(linker, "/EXPORT:Passthrough_InstallBootHook=_Passthrough_InstallBootHook")
 #pragma comment(linker, "/EXPORT:Passthrough_CaptureCount=_Passthrough_CaptureCount")
 
 /* ===========================================================================
@@ -78,6 +81,7 @@ static void*          g_proxy;          /* objet proxy 0x108 retourné à l'engi
 static int            g_nativeAlive;    /* slot 1 l'a uninit ? */
 static int            g_replayLive;     /* 0 = dry-run (défaut Mode A) */
 static unsigned long  g_seq;            /* compteur global d'appels loggés */
+static HMODULE        g_hinstDLL;       /* module de cette DLL (fallback CSV) */
 static FILE*          g_logFile;        /* CSV lazy */
 static char           g_logPath[MAX_PATH];
 static int            g_logDisabled;    /* env absent ou fopen KO → ODS seul */
@@ -147,13 +151,29 @@ static void GFXPT_LogOpen(void)
     if (!g_logPath[0])
     {
         n = GetEnvironmentVariableA("FF8_PASSTHROUGH_LOG", env, (DWORD)sizeof(env));
-        if (n == 0 || n >= (DWORD)sizeof(env))
+        if (n > 0 && n < (DWORD)sizeof(env))
         {
-            /* Pas de chemin : CSV désactivé, seul OutputDebugStringA reste actif. */
-            g_logDisabled = 1;
-            return;
+            lstrcpynA(g_logPath, env, (int)sizeof(g_logPath));
         }
-        lstrcpynA(g_logPath, env, (int)sizeof(g_logPath));
+        else
+        {
+            /* v2 : défaut = à côté de la DLL (dossier du jeu en mode AF3DN.P). */
+            char* slash;
+            DWORD m = GetModuleFileNameA(g_hinstDLL, g_logPath,
+                                         (DWORD)sizeof(g_logPath));
+            if (m == 0 || m >= (DWORD)sizeof(g_logPath) - 16)
+            {
+                /* Pas de chemin possible : CSV désactivé, ODS seul. */
+                g_logDisabled = 1;
+                return;
+            }
+            slash = g_logPath + m;
+            while (slash > g_logPath && slash[-1] != '\\' && slash[-1] != '/')
+                --slash;
+            *slash = 0;
+            lstrcpynA(slash, "gfx_passthrough.csv",
+                      (int)(sizeof(g_logPath) - (size_t)(slash - g_logPath)));
+        }
     }
     g_logFile = fopen(g_logPath, "a");
     if (!g_logFile)
@@ -676,17 +696,151 @@ void* __cdecl new_dll_graphics_driver(void* engine)
 }
 
 /* ===========================================================================
- * DllMain — RIEN à part un flag (contrainte shutdown 0x409670/FreeLibrary).
+ * Boot hook v2 — armement du chemin type 2 au premier CheckRegistry.
+ *
+ * Faits (2026-09-23) :
+ *  - Le loader DotEmu charge AF3DN.P (= cette DLL) avant le boot graphics
+ *    mais n'appelle AUCUN export : le chemin type 2 natif exige que
+ *    engine+0xBA8 (current_gfx_driver) = 2 et engine+0xBD0
+ *    (create_gfx_driver) = factory soient armés avant 0x40942E
+ *    (mécanisme FFNx : ffnx-driver-reference.md §1.2, provenance lot +6).
+ *  - Point d'ancrage : CheckRegistry 0x401890, __cdecl(engine), appelé
+ *    juste avant Gfx_InitializeSelectedBackend (call @0x401905) ; le decomp
+ *    0x401890 prouve qu'il ne touche jamais +0xBA8/+0xBD0 (registry son,
+ *    mutex, dispatch uniquement) → écriture pre-call sans course.
+ *  - Preimage 5 bytes sur 064d466b… : 83 EC 38 56 57
+ *    (sub esp,38h / push esi / push edi — déplaçables, pas de RIP-relative).
+ *  - Détour posé dans DllMain (pattern FFNx replace_function au
+ *    DLL_PROCESS_ATTACH : VirtualProtect + memcpy uniquement).
+ *  - Preimage divergente → refus, AUCUNE écriture (build non cible).
+ * =========================================================================== */
+
+static const BYTE GFXPT_BootPreimage[5] = { 0x83u, 0xECu, 0x38u, 0x56u, 0x57u };
+static void* volatile g_bootTrampoline;   /* preimage + jmp retour (16 bytes) */
+static volatile LONG g_bootArmed;         /* champs écrits ? (idempotent) */
+static volatile LONG g_bootHookInstalled; /* E9 déjà posé ? */
+
+static void GFXPT_BootArm(void* engine)
+{
+    char buf[96];
+
+    if (!engine)
+        return;
+    if (InterlockedCompareExchange(&g_bootArmed, 1, 0) != 0)
+        return;                             /* déjà armé (idempotent) */
+
+    *((volatile DWORD*)engine + (0xBA8u / 4)) = 2;                    /* current_gfx_driver = 2 */
+    *((volatile DWORD*)engine + (0xBD0u / 4)) = (DWORD)&new_dll_graphics_driver;
+
+    GFXPT_LogOpen();
+    if (g_logFile)
+    {
+        fprintf(g_logFile, "#boot,armed,engine=0x%p,factory=0x%p\n",
+                engine, (const void*)&new_dll_graphics_driver);
+        fflush(g_logFile);
+    }
+    sprintf(buf, "gfx_passthrough: boot armed engine=0x%p\n", engine);
+    GFXPT_ODS(buf);
+}
+
+__declspec(naked) static void GFXPT_CheckRegistryDetour(void)
+{
+    __asm
+    {
+        pushad
+        pushfd
+        mov  eax, [esp + 0x24]             /* arg0 = engine (pushad 32 + pushfd 4) */
+        push eax
+        call GFXPT_BootArm
+        add  esp, 4
+        popfd
+        popad
+        jmp  dword ptr [g_bootTrampoline]
+    }
+}
+
+int __cdecl Passthrough_InstallBootHook(void* reserved)
+{
+    BYTE*  target;
+    BYTE*  tramp;
+    BYTE*  detour;
+    DWORD  oldProtect;
+    DWORD  rel32;
+
+    (void)reserved;
+
+    if (InterlockedCompareExchange(&g_bootHookInstalled, 1, 0) != 0)
+        return 1;                           /* déjà installé */
+
+    if (!g_hostModule)
+        g_hostModule = GetModuleHandleA(NULL);
+    if (!g_hostModule)
+        return 0;
+
+    target = (BYTE*)GFXPT_HostEA(GFXPT_EA_CHECKREGISTRY);
+    if (memcmp(target, GFXPT_BootPreimage, sizeof(GFXPT_BootPreimage)) != 0)
+    {
+        /* Build non cible (hash-bound) : refus, aucune écriture. */
+        GFXPT_ODS("gfx_passthrough: CheckRegistry preimage inattendue, hook refuse\n");
+        InterlockedExchange(&g_bootHookInstalled, 0);
+        return 0;
+    }
+
+    tramp = (BYTE*)VirtualAlloc(NULL, 16, MEM_COMMIT | MEM_RESERVE,
+                                PAGE_EXECUTE_READWRITE);
+    if (!tramp)
+        return 0;
+    memcpy(tramp, GFXPT_BootPreimage, sizeof(GFXPT_BootPreimage));
+    tramp[5] = 0xE9;
+    rel32 = (DWORD)((target + 5) - (tramp + 10));
+    *(DWORD*)(tramp + 6) = rel32;
+    g_bootTrampoline = tramp;
+
+    detour = (BYTE*)&GFXPT_CheckRegistryDetour;
+    if (!VirtualProtect(target, 5, PAGE_EXECUTE_READWRITE, &oldProtect))
+    {
+        VirtualFree(tramp, 0, MEM_RELEASE);
+        g_bootTrampoline = 0;
+        return 0;
+    }
+    rel32 = (DWORD)(detour - (target + 5));
+    target[0] = 0xE9;
+    *(DWORD*)(target + 1) = rel32;
+    VirtualProtect(target, 5, oldProtect, &oldProtect);
+    FlushInstructionCache(GetCurrentProcess(), target, 5);
+
+    GFXPT_ODS("gfx_passthrough: boot hook installe sur CheckRegistry 0x401890\n");
+    return 1;
+}
+
+/* ===========================================================================
+ * DllMain — flag + boot hook v2 (VirtualProtect/memcpy uniquement, pattern
+ * FFNx replace_function au DLL_PROCESS_ATTACH ; aucun chargement de lib).
+ * Contrainte shutdown 0x409670/FreeLibrary inchangée.
  * =========================================================================== */
 static int g_dllAttached = 0;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-    (void)hinstDLL;
+    char disableFlag[8];
+
     (void)lpvReserved;
     if (fdwReason == DLL_PROCESS_ATTACH)
+    {
         g_dllAttached = 1;
+        g_hinstDLL = hinstDLL;
+        /* Boot hook v2 actif par défaut (mode AF3DN.P). FF8_PASSTHROUGH_BOOTHOOK=0
+           pour l'inertie (tests hors run live). */
+        if (GetEnvironmentVariableA("FF8_PASSTHROUGH_BOOTHOOK", disableFlag,
+                                    (DWORD)sizeof(disableFlag)) == 0
+            || disableFlag[0] != '0')
+        {
+            Passthrough_InstallBootHook(0);
+        }
+    }
     else if (fdwReason == DLL_PROCESS_DETACH)
-        g_dllAttached = 0;                  /* aucun travail dans DllMain */
+    {
+        g_dllAttached = 0;
+    }
     return TRUE;
 }

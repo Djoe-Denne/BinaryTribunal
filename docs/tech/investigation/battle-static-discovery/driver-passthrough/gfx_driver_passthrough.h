@@ -215,6 +215,12 @@ void __cdecl Passthrough_SetReplayLive(int enable);
 
 unsigned long __cdecl Passthrough_CaptureCount(void);
 
+/* v2 — pose le détour boot sur CheckRegistry (0x401890) : le premier appel
+ * arme engine+0xBA8=2 / engine+0xBD0=factory avant le dispatch type 2.
+ * Posé automatiquement par DllMain (mode AF3DN.P) ; export conservé pour
+ * une future voie injecteur. Retour : 1 posé/déjà posé, 0 refus (preimage). */
+int __cdecl Passthrough_InstallBootHook(void* reserved);
+
 #ifdef __cplusplus
 }
 #endif
