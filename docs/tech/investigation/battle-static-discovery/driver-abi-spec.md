@@ -76,49 +76,50 @@ La DLL factory retourne un objet équivalent. **Ce n'est pas une vtable pure** :
 ## 5. Table des slots (offsets, EA par backend, wrapper engine)
 
 Signatures : `int __cdecl fn(engine, ...)` sauf mention. Slots 43–64 : voir §6.
+Colonnes **Aali**/**FFNx** = noms des champs de `struct ff8_gfx_driver` (Aali `src/ff8.h:640–705`, table 0x100 ; FFNx `src/ff8.h:946–1011`, table 0x108 — cf. `aali-gamedriver-reference.md` §3, `ffnx-driver-reference.md` §2.1–2.2) : noms externes = candidats de sémantique, jamais des preuves ; slots sans nom externe marqués `—`.
 
-| Slot | Off | GL | DDraw | Alt | Wrapper engine (EA) | Rôle |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 | +0x000 | 0x437B3D | 0x43ABDC | 0x40C40C | call [eax] @0x409572 (dans 0x40942E) | Init(engine) |
-| 1 | +0x004 | 0x437B1D | 0x43A57B | 0x40DB27 | call [edx+4] @0x4096F2 (fn 0x409670) | Uninit/shutdown |
-| 2 | +0x008 | 0x437BD1 | 0x40DEDC | 0x40DEDC | call [edx+8] @0x41DED4 (fn 0x41DEB0) | DirectX_7 (2/3 partagent) |
-| 3 | +0x00C | 0x437C06 | 0x40E157 | 0x40E157 | fn 0x41DEB0 | DirectX_8 |
-| 4 | +0x010 | 0x439CF3 | 0x43C761 | 0x40B50E | Render_FramePresent_Dispatch 0x41DF0C | Present, gated `*(engine+0xB88) != 0` |
-| 5 | +0x014 | 0x437D0B | 0x43ADE3 | 0x426900 | isGetDrawBuf2 @0x41DFC2 | prep buffer |
-| 6 | +0x018 | 0x437CF4 | 0x43B136 | 0x426ACD | sub_41DF96 | support frame |
-| 7 | +0x01C | 0x437C10 | 0x43B14D | 0x426AE4 | gfx_driver_set_viewport_sub_41E070 | viewport |
-| 8 | +0x020 | 0x437D95 | 0x43B1AC | 0x426C31 | isGetDrawBuf @0x41E170 | clear-color + inline state writer |
-| 9–14 | +0x24..+0x38 | — état inline, pas des fnptrs (voir §4) | | | isGetDrawBuf | clear-color vec4 +0x28–0x34 |
-| 15 | +0x3C | NULL | NULL | NULL | — | inerte |
-| 16 | +0x40 | 0x43B1EF | 0x43B1EF | 0x41ECBE | — | audio-adjacent (partagé) |
-| 17 | +0x44 | 0x43B21E | 0x43B21E | 0x41ED04 | — | |
-| 18 | +0x48 | 0x439018 | 0x43B274 | 0x41296A | Thunk_BufApp_Off72 @0x41E628 | |
-| 19 | +0x4C | 0x437DCB | 0x43B314 | 0x420097 | fn 0x419E89 @0x419EA5 | |
-| 20 | +0x50 | 0x4381F8 | 0x43B319 | 0x420917 | — | |
-| 21 | +0x54 | — | — | 0x420143 | fn 0x41B06B @0x41B15D | Alt-only |
-| 22 | +0x58 | — | — | 0x4203B2 | fn 0x419F38 @0x419F38 | Alt-only (Release/eviction famille) |
-| 23 | +0x5C | — | — | 0x420476 | fn 0x419F80 @0x419F80 | Alt-only |
-| 24 | +0x60 | — | — | 0x436864 | fn 0x417D84 @0x417E1A | Alt-only |
-| 25 | +0x64 | 0x438E62 | 0x43BCC0 | 0x4365FF | fn 0x407EB4 @0x4082C2 ; fn 0x41EA06 @0x41EA18 | |
-| 26 | +0x68 | 0x438F2D | 0x43BCCA | 0x4367A8 | fn 0x41E9C4 @0x41E9D6 | |
-| 27 | +0x6C | 0x438525 | 0x43B4FA | 0x4427CF | fn 0x4187F7 @0x4187FF | |
-| 28 | +0x70 | 0x43BD50 | 0x43BD50 | 0x4307C3 | fn 0x41EA71 @0x41EA83 | |
-| 29 | +0x74 | 0x438599 | 0x43B50C | 0x440FF0 | Gfx_SetRenderState @0x41E658 | RS types 0–25, shadow `*(engine+2692)[type]` |
-| 30 | +0x78 | 0x438682 | 0x43B57F | 0x41F99A | fn 0x41E77D @0x41E785 | CommitRenderState, bits `1<<type` |
-| 31 | +0x7C | 0x4385BF | 0x43B532 | 0x441560 | fns @0x41E69F/0x41E6D3/0x41E707 | |
-| 32 | +0x80 | 0x4385D4 | 0x43B547 | 0x441581 | fn 0x41E727 @0x41E72F | |
-| 33 | +0x84 | 0x43864C | 0x43B55C | 0x44162E | GfxDriver_SetBlendMode @0x41E75A | blend 0–4 (case 3 sans wrapper site) |
-| 34 | +0x88 | NULL | NULL | NULL | GfxDriver_Slot34_EmptyHook @0x41E7AD | hook optionnel, NULL-guarded |
-| 35 | +0x8C | 0x439367 | 0x43BD7D | 0x4422FD | fn 0x41E7D8 @0x41E7E0 | (swap buffers via SelectTarget) |
-| 36 | +0x90 | 0x439C2D | 0x43C693 | 0x4425C4 | fn 0x41E803 @0x41E80B | override → fallback slot 35 |
-| 37 | +0x94 | NULL | NULL | NULL | — | libre |
-| 38 | +0x98 | 0x438CC9 | 0x43BAD8 | 0x44233F | fn @0x41E924 | |
-| 39 | +0x9C | 0x438CE7 | 0x43BAF6 | 0x44235D | GfxDriver_SelectRenderTarget 0x41E947 | SelectTarget (pas end-scene) |
-| 40 | +0xA0 | 0x438D7F | 0x43BB88 | 0x442409 | GfxDriver_BeginScene 0x41E972 | BeginScene |
-| 41 | +0xA4 | 0x438E44 | 0x43BC46 | 0x44250E | GfxDriver_LeaveScene 0x41E99D | Leave (flag-clear/unlock/EndScene Alt) |
-| 42 | +0xA8 | 0x439000 | 0x43BD65 | 0x43F96E | — | |
-| 43–64 | +0xAC..+0x100 | 0x4370A6…0x437866 | 0x43CB55…0x43DEC6 | 0x43DF00…0x43E540 | via GfxDrawList +0x9C/+0xA0 | draw-list setup/walk (§6) |
-| 65 | +0x104 | — | — | 0x42172A | fn 0x4097A0 @0x4097A8 | Alt-only, consumer engine-level |
+| Slot | Off | Aali | FFNx | GL | DDraw | Alt | Wrapper engine (EA) | Rôle |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | +0x000 | `init` | `init` | 0x437B3D | 0x43ABDC | 0x40C40C | call [eax] @0x409572 (dans 0x40942E) | Init(engine) |
+| 1 | +0x004 | `cleanup` | `cleanup` | 0x437B1D | 0x43A57B | 0x40DB27 | call [edx+4] @0x4096F2 (fn 0x409670) | Uninit/shutdown |
+| 2 | +0x008 | `lock` | `lock` | 0x437BD1 | 0x40DEDC | 0x40DEDC | call [edx+8] @0x41DED4 (fn 0x41DEB0) | DirectX_7 (2/3 partagent) |
+| 3 | +0x00C | `unlock` | `unlock` | 0x437C06 | 0x40E157 | 0x40E157 | fn 0x41DEB0 | DirectX_8 |
+| 4 | +0x010 | `flip` | `flip` | 0x439CF3 | 0x43C761 | 0x40B50E | Render_FramePresent_Dispatch 0x41DF0C | Present, gated `*(engine+0xB88) != 0` |
+| 5 | +0x014 | `clear` | `clear` | 0x437D0B | 0x43ADE3 | 0x426900 | isGetDrawBuf2 @0x41DFC2 | prep buffer |
+| 6 | +0x018 | `clear_all` | `clear_all` | 0x437CF4 | 0x43B136 | 0x426ACD | sub_41DF96 | support frame |
+| 7 | +0x01C | `setviewport` | `setviewport` | 0x437C10 | 0x43B14D | 0x426AE4 | gfx_driver_set_viewport_sub_41E070 | viewport |
+| 8 | +0x020 | `setbg` | `setbg` | 0x437D95 | 0x43B1AC | 0x426C31 | isGetDrawBuf @0x41E170 | clear-color + inline state writer |
+| 9–14 | +0x24..+0x38 | `field_24`, `field_28` (bgra_color), `field_38` | `field_24`, `field_28` (bgra_color), `field_38` | — état inline, pas des fnptrs (voir §4) | | | isGetDrawBuf | clear-color vec4 +0x28–0x34 |
+| 15 | +0x3C | `field_3C` | `field_3C` | NULL | NULL | NULL | — | inerte |
+| 16 | +0x40 | `prepare_polygon_set` | `prepare_polygon_set` | 0x43B1EF | 0x43B1EF | 0x41ECBE | — | audio-adjacent (partagé) |
+| 17 | +0x44 | `load_group` | `load_group` | 0x43B21E | 0x43B21E | 0x41ED04 | — | |
+| 18 | +0x48 | `setmatrix` | `setmatrix` | 0x439018 | 0x43B274 | 0x41296A | Thunk_BufApp_Off72 @0x41E628 | |
+| 19 | +0x4C | `unload_texture` | `unload_texture` | 0x437DCB | 0x43B314 | 0x420097 | fn 0x419E89 @0x419EA5 | |
+| 20 | +0x50 | `load_texture` | `load_texture` | 0x4381F8 | 0x43B319 | 0x420917 | — | |
+| 21 | +0x54 | `field_54` | `field_54` | — | — | 0x420143 | fn 0x41B06B @0x41B15D | Alt-only |
+| 22 | +0x58 | `field_58` | `field_58` | — | — | 0x4203B2 | fn 0x419F38 @0x419F38 | Alt-only (Release/eviction famille) |
+| 23 | +0x5C | `field_5C` | `field_5C` | — | — | 0x420476 | fn 0x419F80 @0x419F80 | Alt-only |
+| 24 | +0x60 | `field_60` | `field_60` | — | — | 0x436864 | fn 0x417D84 @0x417E1A | Alt-only |
+| 25 | +0x64 | `palette_changed` | `palette_changed` | 0x438E62 | 0x43BCC0 | 0x4365FF | fn 0x407EB4 @0x4082C2 ; fn 0x41EA06 @0x41EA18 | |
+| 26 | +0x68 | `write_palette` | `write_palette` | 0x438F2D | 0x43BCCA | 0x4367A8 | fn 0x41E9C4 @0x41E9D6 | |
+| 27 | +0x6C | `blendmode` | `blendmode` | 0x438525 | 0x43B4FA | 0x4427CF | fn 0x4187F7 @0x4187FF | |
+| 28 | +0x70 | `light_polygon_set` | `light_polygon_set` | 0x43BD50 | 0x43BD50 | 0x4307C3 | fn 0x41EA71 @0x41EA83 | |
+| 29 | +0x74 | `field_64` | `field_64` | 0x438599 | 0x43B50C | 0x440FF0 | Gfx_SetRenderState @0x41E658 | RS types 0–25, shadow `*(engine+2692)[type]` |
+| 30 | +0x78 | `setrenderstate` | `setrenderstate` | 0x438682 | 0x43B57F | 0x41F99A | fn 0x41E77D @0x41E785 | CommitRenderState, bits `1<<type` |
+| 31 | +0x7C | `_setrenderstate` | `_setrenderstate` | 0x4385BF | 0x43B532 | 0x441560 | fns @0x41E69F/0x41E6D3/0x41E707 | |
+| 32 | +0x80 | `__setrenderstate` | `__setrenderstate` | 0x4385D4 | 0x43B547 | 0x441581 | fn 0x41E727 @0x41E72F | |
+| 33 | +0x84 | `field_74` | `field_74` | 0x43864C | 0x43B55C | 0x44162E | GfxDriver_SetBlendMode @0x41E75A | blend 0–4 (case 3 sans wrapper site) |
+| 34 | +0x88 | `field_78` | `field_78` | NULL | NULL | NULL | GfxDriver_Slot34_EmptyHook @0x41E7AD | hook optionnel, NULL-guarded |
+| 35 | +0x8C | `draw_deferred` | `field__84` | 0x439367 | 0x43BD7D | 0x4422FD | fn 0x41E7D8 @0x41E7E0 | (swap buffers via SelectTarget) |
+| 36 | +0x90 | `field_80` | `field_88` | 0x439C2D | 0x43C693 | 0x4425C4 | fn 0x41E803 @0x41E80B | override → fallback slot 35 |
+| 37 | +0x94 | `field_84` | `draw_deferred` | NULL | NULL | NULL | — | libre |
+| 38 | +0x98 | `begin_scene` | `field_80` | 0x438CC9 | 0x43BAD8 | 0x44233F | fn @0x41E924 | |
+| 39 | +0x9C | `end_scene` | `field_84` | 0x438CE7 | 0x43BAF6 | 0x44235D | GfxDriver_SelectRenderTarget 0x41E947 | SelectTarget (pas end-scene) |
+| 40 | +0xA0 | `field_90` | `begin_scene` | 0x438D7F | 0x43BB88 | 0x442409 | GfxDriver_BeginScene 0x41E972 | BeginScene |
+| 41 | +0xA4 | `setrenderstate_flat2D` | `end_scene` | 0x438E44 | 0x43BC46 | 0x44250E | GfxDriver_LeaveScene 0x41E99D | Leave (flag-clear/unlock/EndScene Alt) |
+| 42 | +0xA8 | `setrenderstate_smooth2D` | `field_90` | 0x439000 | 0x43BD65 | 0x43F96E | — | |
+| 43–64 | +0xAC..+0x100 | `setrenderstate_textured2D`, `setrenderstate_paletted2D`, `_setrenderstate_paletted2D`, `draw_flat2D`, `draw_smooth2D`, `draw_textured2D`, `draw_paletted2D`, `setrenderstate_flat3D`, `_smooth3D`, `setrenderstate_textured3D`, `setrenderstate_paletted3D`, `_setrenderstate_paletted3D`, `draw_flat3D`, `draw_smooth3D`, `draw_textured3D`, `draw_paletted3D`, `setrenderstate_flatlines`, `_smoothlines`, `draw_flatlines`, `draw_smoothlines`, `field_EC` (slots 43–63 ; pas de 64) | `setrenderstate_flat2D`, `setrenderstate_smooth2D`, `setrenderstate_textured2D`, `setrenderstate_paletted2D`, `_setrenderstate_paletted2D`, `draw_flat2D`, `draw_smooth2D`, `draw_textured2D`, `draw_paletted2D`, `setrenderstate_flat3D`, `setrenderstate_smooth3D`, `setrenderstate_textured3D`, `setrenderstate_paletted3D`, `_setrenderstate_paletted3D`, `draw_flat3D`, `draw_smooth3D`, `draw_textured3D`, `draw_paletted3D`, `setrenderstate_flatlines`, `setrenderstate_smoothlines`, `draw_flatlines`, `draw_smoothlines` (43–64) | 0x4370A6…0x437866 | 0x43CB55…0x43DEC6 | 0x43DF00…0x43E540 | via GfxDrawList +0x9C/+0xA0 | draw-list setup/walk (§6) |
+| 65 | +0x104 | — (absent) | `field_EC` | — | — | 0x42172A | fn 0x4097A0 @0x4097A8 | Alt-only, consumer engine-level |
 
 Sources des tables : écritures immédiates extraites des ctors 0x4252B0 / 0x425540 / 0x4257D0
 (sonde py_eval 2026-09-20 : 52 / 52 / 57 fnptrs) ; wrappers : scan `XrefsTo(GetBufApp_0xA74)` +
