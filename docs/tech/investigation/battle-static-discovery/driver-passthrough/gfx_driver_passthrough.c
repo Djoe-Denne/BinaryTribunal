@@ -48,6 +48,7 @@
 #define GFXPT_EA_SHUTDOWN        0x409670ul
 /* presentation__RenderBackend_Construct_OpenGL — ctor natif appelé ici (1 arg __cdecl). */
 #define GFXPT_EA_CTOR_OPENGL     0x4252B0ul
+#define GFXPT_EA_CTOR_DDRAWALT   0x4257D0ul /* case 0 vanilla (build DotEmu 064d466b) */
 
 #define GFXPT_EA_CHECKREGISTRY   0x401890ul /* boot v2 : point d'ancrage pre-dispatch */
 /* GetBufApp_0xA74 — référence (spec §4) ; non appelé par ce .c. */
@@ -662,11 +663,31 @@ void* __cdecl new_dll_graphics_driver(void* engine)
     if (!g_hostModule)
         return 0;
 
-    ctor = (GFXPT_PFN_BackendCtor)GFXPT_HostEA(GFXPT_EA_CTOR_OPENGL);
-    native = ctor(engine);
+    GFXPT_LogOpen();                    /* CSV créé dès l'entrée factory (trace même si ctor KO) */
+
+    {
+        /* Backend natif du proxy : le case vanilla de cette build est DDrawAlt
+           (engine+0xBA8=0 → case 0, ctor 0x4257D0). Le ctor OpenGL 0x4252B0
+           (case 3) échoue en live sur le port DotEmu (crash 2026-09-23 18:05 :
+           present 0x41DF32, AV sur driver nul — journal WER). FF8_PASSTHROUGH_NATIVE=gl
+           pour l'ancien comportement. */
+        char nativeSel[8];
+        unsigned long ctorEA = GFXPT_EA_CTOR_DDRAWALT;
+        if (GetEnvironmentVariableA("FF8_PASSTHROUGH_NATIVE", nativeSel,
+                                    (DWORD)sizeof(nativeSel)) > 0
+            && nativeSel[0] == 'g')
+            ctorEA = GFXPT_EA_CTOR_OPENGL;
+        ctor = (GFXPT_PFN_BackendCtor)GFXPT_HostEA(ctorEA);
+        native = ctor(engine);
+    }
     if (!native)
     {
-        GFXPT_ODS("gfx_passthrough: ctor OpenGL natif 0x4252B0 a echoue\n");
+        GFXPT_ODS("gfx_passthrough: ctor backend natif a echoue\n");
+        if (g_logFile)
+        {
+            fprintf(g_logFile, "#factory,ctor_failed\n");
+            fflush(g_logFile);
+        }
         return 0;
     }
     g_native = native;
