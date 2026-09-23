@@ -5,24 +5,23 @@
 > Mission : décompiler et sémantifier un **maximum de fonctions** du pipeline de rendu
 > graphique de la Battle Room de FF8 (FF8_EN.exe PC x86, base 0x400000).
 
-## 0. CHECKPOINT COURANT — 2026-09-21 (prime sur tout le reste du document)
+## 0. CHECKPOINT COURANT — 2026-09-23 (prime sur tout le reste du document)
 
-Sessions 2026-09-20/21 closes : **62 / 68 EA du lot 6 fermés** (§0.2 : 0x69E420 → 0x6A3D90,
-blocs A+B+C complets + bloc D partiel). **File restante = bloc D suite : 6 EA (0x6a5ad0/5c90/5db0 — 0x6a41e0/4710/4ba0/5120/5650/5700/5950 FAITS)**
-(0x6A41E0 → 0x6A5DB0, §0.2). IDB sauvée en fin de session (save_now.py, vérifié : commentaires
-0x6A3B70 + 0x6A3D90 persistés). Packs du bloc D : GÉNÉRÉS le 2026-09-21 (17/17, sizes relevées),
-**6 packs déjà consommés** (3960/3a30/3ab0/3ac0/3ae0/3b70 → fermés), **11 packs restants** :
-0x6a5ad0, 0x6a5c90, 0x6a5db0. Aucune voix en vol à l'arrêt.
+**LOT 6 MAG FX : 68/68 — FERMÉ.** La file §0.2 est épuisée : 68 EA closes, sémantifiées,
+poussées IDB (`[semantic-triple 2026-09-20/21/22]` + save_database par push + save final) et
+committées. Verdicts : 34 CERTAIN / 34 LIKELY (détail semantic-certainty.md ; catalogue +68
+lignes, ledger +68 lignes 9 colonnes). Chaînes complètes : MAG_212 (0x6A0D20 → 0x6A1660 →
+0x69EF60), MAG_207 Maelstrom (0x6A3AB0 → 0x6A3D90 + émetteurs 0x32/0x3A + builder quads 0x2E),
+émetteurs GTE/OT 0x6A4710/4BA0/5120/5650/5700/5950/5AD0/5C90/5DB0, famille 0x6A1xxx–0x6A3xxx.
 
-Reste à traiter (ordre §0.2, 10 EA) :
-```
-0x6a5ad0(156) 0x6a5c90(100) 0x6a5db0(119)
-0x6a5700(171) 0x6a5950(135) 0x6a5ad0(156) 0x6a5c90(100) 0x6a5db0(119)
-```
-NB : gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A5120 (1316 o),
-0x6A4710 (1168 o), 0x6A41E0 (1010 o). 0x6A5AD0 est EN COURS (c_a.c + semantic_a.md livrés
-à l'arrêt, c_b/sem_b/C-R/R manquants). 0x6A3B70/0x6A3D90 (le sous-système Maelstrom) fermés :
-0x6A3AB0 thunk → 0x6A3AE0 setup → 0x6A3B70 stepper → 0x6A3D90 sous-task (gabarit 0x6A0DC0).
+Vérifié au disque 2026-09-23 : 72/72 EA réelles du §0.2 avec livrable decomp/ ; ledger et
+catalogue complets (seules absences au scan : artefact de parse `0x010000`<=`0x01000000` et la
+mention historique `0x6A7A20`, EA corrigée vers 0x6A79B0 fermée — rien à faire).
+
+Suites (hors lot 6) :
+- Lots 8/9/10-bis/11 → HANDOFF_lots-8-9-10bis-11.md (raisonnement adapté par taille).
+- Drop test AF3DN.P (lot 12-ter, live) → PROMPT_af3dn-drop-test.md.
+- 0x6DA980 MagFx_IndexPackedNodeTree LIKELY — ne pas retoucher.
 
 ### 0.1 Méthode consolidée de session 2026-09-20 (à réappliquer telle quelle)
 
@@ -49,7 +48,7 @@ NB : gros blocs >900 o (analyse PAR BLOCS imposée) : 0x6A4BA0 (1408 o), 0x6A512
   (4) names IDA VIT_0_STATUS_MASK leurre pour imm32 0x01000000 ; (5) do-while sans garde,
   sar vs shr, movsx vs movzx : re-dériver de l'ASM toujours.
 
-### 0.2 Lot 6 — file intégrale mag FX (20 EA restantes, dans l'ordre)
+### 0.2 Lot 6 — file intégrale mag FX (ÉPUISÉE — 68/68 fermés ; liste conservée pour audit)
 
 ```
 0x69e420 0x69e5e0 0x69e700 0x69e860 0x69e940 0x69e970 0x69e9a0 0x69eac0(MAG_213_STORM_BREATH)
@@ -144,8 +143,10 @@ CRT, thunks, nullsub, non-graphique (battle logic, AI, GF gameplay, son).
 Règle de classement : **le corps, pas le nom** — le préfixe Gfx_* est trop large ; les graphismes
 internes Square SKIP_NODECOMP sont promus dès qu'un decomp est produit.
 
-## 3. État au 2026-09-21 (arrêt propre)
+## 3. État (final lot 6 : 2026-09-23)
 
+- **2026-09-23 — LOT 6 FERMÉ : 68/68 EA, 34 CERTAIN / 34 LIKELY. Livrables decomp/ ≈545,
+  catalogue +68, ledger +68.** Les lignes ci-dessous sont l'historique des arrêts intermédiaires.
 - Sessions 2026-09-20/21 : **58/68 EA du lot 6 fermés** (0x69E420 → 0x6A3D90). Bilan global :
   30 CERTAIN / 28 LIKELY (détail dans semantic-certainty.md, tags `semantic-triple 2026-09-20/21`).
   Sous-systèmes complets : MAG_212 (thunk 0x6A0D20 → loader 0x6A0D30 → setup 0x6A0D50 → stepper
@@ -200,7 +201,7 @@ internes Square SKIP_NODECOMP sont promus dès qu'un decomp est produit.
 - **Lot 5 — transitions/swirl (CLOS 2026-09-19, 13 fonctions)** : 0x559530, 0x559690, 0x559750,
   0x5597F0, 0x559820, 0x559860, 0x559890, 0x559910, 0x559A10, 0x559A40, 0x559AF0, 0x559C70,
   0x559E40, 0x559F30, 0x56D1D0–0x56D770. `0x559240` **exclu** : frame world/input/render.
-- **Lot 6 — mag FX (EN COURS)** : 0x6CBF90 ✓, 0x6A79B0 ✓ (catalogue 0x6A7A20), 0x6A45E0 ✓,
+- **Lot 6 — mag FX (FERMÉ — 68/68, 2026-09-23)** : 0x6CBF90 ✓, 0x6A79B0 ✓ (catalogue 0x6A7A20), 0x6A45E0 ✓,
   0x6A1660 ✓ (MAG_212_Timeline_Tick), intégralité 0x69E4xx–0x6A5DB0 (§0.2) ;
   0x6DA980 MagFx_IndexPackedNodeTree LIKELY — ne pas retoucher.
 
