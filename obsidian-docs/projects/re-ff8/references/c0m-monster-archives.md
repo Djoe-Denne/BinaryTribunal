@@ -7,6 +7,7 @@ sources:
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
   - docs/tech/investigation/battle-static-discovery/c0m-registry.json
+  - docs/tech/investigation/battle-static-discovery/battle-model-tools-discovery.md
   - docs/tech/reference/address_catalog.md
 summary: Byte-exact C0M corpus (144 wired payloads plus 56 filler aliases), 11-section layout with IDA consumers, and the actor-id loader dispatch.
 provenance:
@@ -14,7 +15,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.02
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-11T08:50:00+02:00
+updated: 2026-09-25T13:35:00+02:00
 ---
 
 # C0M Monster Archives
@@ -69,3 +70,11 @@ Dominant layout: only H4 empty (85 files). Skinning is rigid (one bone per batch
 - [[projects/re-ff8/concepts/enemy-ai-vm]]
 - [[projects/re-ff8/concepts/battle-camera-architecture]]
 - [[projects/re-ff8/references/battle-address-catalog]]
+
+## Lot 14 delta (probe byte-exact 2026-09-25)
+
+- FI index != BattleFilesArray: c0m000..143 live aux FI 234..373 (exceptions c0m015/051/095/096 -> FI 4/5/6/7) ; c0m144..199 (fillers) -> FI 374..429. FI 166 = a0stg095.x. Proven 200/200 sha256 by tools/battle-model-probe.
+- FL = 853 CRLF lines (not NUL-separated); FI = 853 x 12 B {size, offset, flag}; LZS window 4096 zero-filled, initial cursor 4096-18.
+- s1 bone tail +10..+47 non-zero for some monsters (preserved verbatim); s1 header layout per HobbitDur: s16 scale XYZ @+8/+10/+12.
+- s2 trailing u32 = first object's vertex count only (c0m090: 1376 vs 1490 walked) — global indices across objects.
+- Full detail: [[battle-model-tools-and-format]] + tools/battle-model-probe/README.md.

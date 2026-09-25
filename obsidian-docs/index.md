@@ -72,6 +72,7 @@ title: Wiki Index
 
 ## References
 - [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] - Campagne live lot 12-ter : drop test AF3DN.P v6.1 (forwards PE + wrap au present 0x41DF0C), 9 650 frames, draw lists 43-64, PASS critères 1-4 + contrôle vanilla. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/battle-model-tools-and-format]] - Lot 14 statique : cartographie outils (Ifrit Python GPL-3.0 source primaire), format c0m/DAT valide probe byte-exact 200/200, archive FI/FL/FS (853 entrees), pont asset-vers-runtime vers DIP FVF1C4. ( #ff8 #battle-system #rendering #reference)
 - [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] - Campagne décomp gfx via OpenCode (09-19→09-22) - lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/AIForAll/references/apparatus-adr-chronicle-2026-09]] — >-. ( #concept #project #testing)
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — Verdicts A/V/R du 2026-09-17 sur le pipeline graphique Battle Room (0x45C870, 0x45D080, 0x416D82, 0x461800, 0x461A90...), lots 1-4 clos, checkpoint 0x559AF0. ( #ff8 #rendering #reverse-engineering #reference)
