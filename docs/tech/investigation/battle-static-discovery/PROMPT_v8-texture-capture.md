@@ -60,15 +60,27 @@
 ## 2. Run live (protocole rodé — launcher/observateur/exit)
 
 - Purge `.bin`/`.log` du répertoire jeu → launcher prêt → observateur armé → Play.
-- **Menu** ~10 s → sidecar → dump menu. **Bataille** → sidecar → baseline.
-- **Fireaga** : signal au cast → dump pendant l'effet. Quelques attaques → ~1 min → **sortie propre**.
+- **Scénario multi-scènes** (une fenêtre de dump par trigger, signal opérateur entre chaque) :
+  1. **Menu** ~10 s → dump (sanité UI, peu de textures — référence v7) ;
+  2. **Field** (déplacement dans une zone field à décor riche — architecture,PNJ) → signal « en field » → dump : pages décor + tuiles de sol ;
+  3. **Open world** (terrain/ciel/eau, UV à grande échelle) → signal « en world » → dump : test du page-wrap et des textures dynamiques (nuages, eau) ;
+  4. **Bataille** → signal à l'entrée → baseline ;
+  5. **Fireaga** : signal au cast → dump pendant l'effet (explosion texturée = le mieux pour valider blend/palette) ;
+  6. Quelques attaques → ~1 min de bataille → **sortie propre**.
+- **Références opérateur** : à CHAQUE signal, l'opérateur prend une **capture d'écran du jeu** (Steam F12 ou PrintScreen) à l'instant du trigger — les PNG décodés seront comparés côte à côte avec ces références (critère 2).
 - Déploiement : **hasher le DLL déployé après copie** (leçon drift) + observateur logge le module.
+- Les dump `field`/`world` peuvent révéler des **slots/list types non couverts par la closure
+  bataille** : les capturer quand même (tout 43–64 est wrappé) et documenter le delta — c'est de
+  l'evidence pour étendre la closure, pas un échec du lot.
 
 ## 3. Critères PASS
 
 1. PNG menu **texturé** : éléments identifiables avec leurs textures (vs fill plat v7) — l'œil
    de l'opérateur reste la validation finale.
-2. PNG bataille/Fireaga texturés : silhouettes + textures conformes à ce que le jeu affichait.
+2. **Comparaison côte à côte** : pour chaque scène (field, open world, bataille, Fireaga), le PNG
+   décodé est mis côte à côte avec la capture d'écran opérateur prise au même instant — les
+   textures, positions et silhouettes doivent être **conformes** (différences admises : v1
+   point-sampling, blend simplifié opaque, HUD/BG non reproduits si non wrappés par le dump).
 3. Parser strict : 0 resync, 0 implausible, build-id cohérent dans tous les records.
 4. 0 AV, 0 WER.
 5. Perf : dédup efficace (pages uniques/frame raisonnable), ring jamais saturé, pas de stutter.
@@ -87,13 +99,20 @@
   avancent (le `.log` du flush doit compter les pages).
 - **PNG illisible** : la source = le decomp/l'IDB (walker `0x4178D7`, consumer `0x43E24A`,
   select `0x465CE0`, VB `0x43E356`). Ne pas improviser.
+- **Field/open world : slots ou types de listes inconnus** (listes non bataille) : tout 43–64 est
+  wrappé — si les pages texture ne suivent pas, c'est la closure texture à étendre aux types de
+  listes field/world (documenter les slots mesurés + leurs descripteurs, escalade si ambigu).
+- **Fenêtres appends croisés** : purge `.bin`/`.log` avant CHAQUE trigger (leçon `mixed_append`) ;
+  le collector déplace les artefacts après chaque fenêtre.
 
 ## 5. Livrables
 
-- DLL v8 (`AF3DN.P`) + dumps binaires (ND07 + TX07) + décodeur v2 + PNG texturés menu/bataille/Fireaga
-  + rapport PASS/FAIL (critères ci-dessus) + hashes + commit code.
+- DLL v8 (`AF3DN.P`) + dumps binaires (ND07 + TX07, par scène) + décodeur v2 + **PNG texturés par
+  scène** (menu/field/world/bataille/Fireaga) + **paires de comparaison** (PNG décodé vs capture
+  opérateur) + rapport PASS/FAIL (critères ci-dessus) + hashes + commit code.
 - Mise à jour `README.md` passthrough (§9 textures) + `driver-abi-spec.md` (§6.2 : contrats texture
-  confirmés par le live, deltas éventuels vs IDB) + build-id documenté.
+  confirmés par le live — y compris les delta field/world si de nouveaux slots/types mesurés)
+  + build-id documenté.
 - Ingest evidence + wiki-scribe en clôture (comme lot 13).
 
 ## Interdits
