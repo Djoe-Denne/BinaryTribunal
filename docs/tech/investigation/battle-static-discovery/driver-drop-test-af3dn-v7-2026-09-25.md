@@ -44,9 +44,13 @@ ne peut pas les produire — caps vérifiées au disasm). La re-vérification 18
 
 Correctifs : (1) `fopen(binPath, "ab")` — mode binaire, build v7.1 `F7A9B39B…E4F` ; (2) build
 propre gardes-intactes `53464B47…8960` déjà déployé. Le décodeur absorbe les dumps historiques
-(resync + realign-tail + reconstruction idx quad-strip). **À la prochaine boot : dump menu doit
-parser strictement (0 resync).** Durcissement optionnel documenté : capture avant le forward
-natif (fige node+0x08/0x14/0x2C contre le scratch post-walk).
+(resync + realign-tail + reconstruction idx quad-strip).
+
+**Re-vérification (20:09, boot v7.1 `F7A9B39B`) : STRICT PASS — 0 resync events.** Dump menu 16
+frames (seq 765–780) : fichier = 70 080 o = 16×4 380 déclarés exactement, 160 records, 0 fail,
+80 kind2 / 0 implausible, bbox écran identique, PNG menu conforme. Chaîne sidecar→arm→capture→
+flush binaire→parser strict fermée sur image réelle. Artéfact : `captures\strict_final.bin`
+(SHA256 `20AB295E16FB4946FB58B7891A9AC48B80D9BFD54F9FA52F2E87FDF7500F7756`, PNGs `png_strict\`).
 
 ## Livrables & hashes
 
