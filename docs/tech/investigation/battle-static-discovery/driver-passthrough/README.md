@@ -110,14 +110,13 @@ Format CSV (une ligne par slot appelé) : `seq,slot,arg0,arg1,arg2,arg3,ret` (`%
 - **Aucune suppression du present natif** : le slot 4 forwarde le present GL natif
   (`RenderGL_Present 0x439CF3` → `SwapBuffers` GDI32). La DLL ne remplace aucun rendu,
   n'injecte aucun contenu, ne supprime aucune frame : elle est transparente.
-- **Pas de backend alternatif** : tout le rendu reste natif OpenGL ; le proxy ne fait que
-  observer + forwarder.
+- **Pas de backend alternatif** : tout le rendu reste natif ; le proxy ne fait qu'
+  observer + forwarder. Backend natif réel de la build DotEmu Steam = **DDrawAlt
+  (case 0, ctor 0x4257D0)** — le ctor OpenGL 0x4252B0 (case 3) échoue en live sur
+  ce port (run 2026-09-23 18:05).
 - **Slots no-op obligatoires** (return 0, log seulement) :
-  - slot 20 : aucun wrapper engine au spec §5 → signature non dérivable. Le GL natif a
-    0x4381F8 à ce slot : si un chemin live l'appelle via un wrapper non listé, le forward
-    est manquant (risque visuel, à qualifier en live).
   - slot 21 : wrapper engine `0x41B06B` partiellement analysé (call indirect non résolu) ;
-    Alt-only → inatteignable sous proxy GL (slot natif toujours NULL).
+    Alt-only → atteignable sous proxy DDrawAlt (slot natif non-null) mais non exercé au menu.
 - **Slot 42** : hors plage 18–41 et absent de la liste « =0 » → choix conservateur :
   copie transparente du fnptr natif `0x439000` (comportement préservé, non loggé).
 - **Slots 15/34/36/37 = 0** (miroir des ctors natifs) : 36 est un override que le wrapper

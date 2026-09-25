@@ -50,7 +50,9 @@
 #define GFXPT_EA_CTOR_OPENGL     0x4252B0ul
 #define GFXPT_EA_CTOR_DDRAWALT   0x4257D0ul /* case 0 vanilla (build DotEmu 064d466b) */
 
-#define GFXPT_EA_CHECKREGISTRY   0x401890ul /* boot v2 : point d'ancrage pre-dispatch */
+#define GFXPT_EA_CHECKREGISTRY   0x401890ul /* v2-v5.5 : retiré du live en v6 */
+#define GFXPT_EA_ODSTRACE        0x403D99ul /* boot v5.2 : OutputDebugString_1 (traceur du jeu) */
+#define GFXPT_EA_PRESENTDISPATCH 0x41DF0Cul /* boot v6 : present dispatch (point de consommation du driver) */
 /* GetBufApp_0xA74 — référence (spec §4) ; non appelé par ce .c. */
 #define GFXPT_EA_GETBUFAPP       0x4098EEul
 
@@ -71,6 +73,26 @@ typedef void* (__cdecl *GFXPT_PFN_BackendCtor)(void* engine);
 #pragma comment(linker, "/EXPORT:Passthrough_ReplayCaptured=_Passthrough_ReplayCaptured")
 #pragma comment(linker, "/EXPORT:Passthrough_SetReplayLive=_Passthrough_SetReplayLive")
 #pragma comment(linker, "/EXPORT:Passthrough_InstallBootHook=_Passthrough_InstallBootHook")
+
+/* ---------------------------------------------------------------------------
+ * v4 — forwards PE vers le shim DotEmu original (dotemu_orig.dll).
+ *
+ * FF8_EN.exe importe STATIQUEMENT 9 fonctions dotemu* depuis le module
+ * "AF3DN.P" (dumpbin /imports, table d'imports) : sans ces exports, le
+ * loader Windows aborte le process au chargement ("point d'entrée
+ * introuvable"), avant tout DllMain. Les forwards PE (résolus par le
+ * loader vers dotemu_orig.dll, copie renommée de l'AF3DN.P DotEmu 2014)
+ * rendent notre DLL drop-in compatible, sans un seul octet de code.
+ * ------------------------------------------------------------------------- */
+#pragma comment(linker, "/EXPORT:dotemuCreateFileA=dotemu_orig.dotemuCreateFileA")
+#pragma comment(linker, "/EXPORT:dotemuDeleteFileA=dotemu_orig.dotemuDeleteFileA")
+#pragma comment(linker, "/EXPORT:dotemuGetDriveTypeA=dotemu_orig.dotemuGetDriveTypeA")
+#pragma comment(linker, "/EXPORT:dotemuRegCloseKey=dotemu_orig.dotemuRegCloseKey")
+#pragma comment(linker, "/EXPORT:dotemuRegDeleteValueA=dotemu_orig.dotemuRegDeleteValueA")
+#pragma comment(linker, "/EXPORT:dotemuRegFlushKey=dotemu_orig.dotemuRegFlushKey")
+#pragma comment(linker, "/EXPORT:dotemuRegOpenKeyExA=dotemu_orig.dotemuRegOpenKeyExA")
+#pragma comment(linker, "/EXPORT:dotemuRegQueryValueExA=dotemu_orig.dotemuRegQueryValueExA")
+#pragma comment(linker, "/EXPORT:dotemuRegSetValueExA=dotemu_orig.dotemuRegSetValueExA")
 #pragma comment(linker, "/EXPORT:Passthrough_CaptureCount=_Passthrough_CaptureCount")
 
 /* ===========================================================================
@@ -84,6 +106,9 @@ static int            g_replayLive;     /* 0 = dry-run (défaut Mode A) */
 static unsigned long  g_seq;            /* compteur global d'appels loggés */
 static HMODULE        g_hinstDLL;       /* module de cette DLL (fallback CSV) */
 static FILE*          g_logFile;        /* CSV lazy */
+static const BYTE     GFXPT_PresentPreimage[8] = { 0x55u, 0x8Bu, 0xECu, 0x51u,
+                                                   0x8Bu, 0x45u, 0x08u, 0x50u };
+static void* volatile g_pdTrampoline;   /* v6 : trampoline du present dispatch */
 static char           g_logPath[MAX_PATH];
 static int            g_logDisabled;    /* env absent ou fopen KO → ODS seul */
 
@@ -145,44 +170,65 @@ static void GFXPT_ODS(const char* msg)
 static void GFXPT_LogOpen(void)
 {
     char env[MAX_PATH];
-    DWORD n;
+    char cand[MAX_PATH];
+    char tmp[MAX_PATH];
+    DWORD n, m;
+    char* slash;
 
     if (g_logDisabled || g_logFile)
         return;
-    if (!g_logPath[0])
+
+    /* Candidat 1 : FF8_PASSTHROUGH_LOG (prioritaire, sinon refus définitif). */
+    n = GetEnvironmentVariableA("FF8_PASSTHROUGH_LOG", env, (DWORD)sizeof(env));
+    if (n > 0 && n < (DWORD)sizeof(env))
     {
-        n = GetEnvironmentVariableA("FF8_PASSTHROUGH_LOG", env, (DWORD)sizeof(env));
-        if (n > 0 && n < (DWORD)sizeof(env))
+        lstrcpynA(g_logPath, env, (int)sizeof(g_logPath));
+        g_logFile = fopen(g_logPath, "a");
+        if (!g_logFile)
         {
-            lstrcpynA(g_logPath, env, (int)sizeof(g_logPath));
+            g_logDisabled = 1;
+            return;
         }
-        else
+        goto opened;
+    }
+
+    /* Candidat 2 : à côté de la DLL (dossier du jeu — Program Files peut être
+     * read-only pour le processus : fopen peut échouer silencieusement). */
+    m = GetModuleFileNameA(g_hinstDLL, cand, (DWORD)sizeof(cand));
+    if (m > 0 && m < (DWORD)sizeof(cand) - 20)
+    {
+        slash = cand + m;
+        while (slash > cand && slash[-1] != '\\' && slash[-1] != '/')
+            --slash;
+        *slash = 0;
+        lstrcpynA(slash, "gfx_passthrough.csv",
+                  (int)(sizeof(cand) - (size_t)(slash - cand)));
+        g_logFile = fopen(cand, "a");
+        if (g_logFile)
         {
-            /* v2 : défaut = à côté de la DLL (dossier du jeu en mode AF3DN.P). */
-            char* slash;
-            DWORD m = GetModuleFileNameA(g_hinstDLL, g_logPath,
-                                         (DWORD)sizeof(g_logPath));
-            if (m == 0 || m >= (DWORD)sizeof(g_logPath) - 16)
-            {
-                /* Pas de chemin possible : CSV désactivé, ODS seul. */
-                g_logDisabled = 1;
-                return;
-            }
-            slash = g_logPath + m;
-            while (slash > g_logPath && slash[-1] != '\\' && slash[-1] != '/')
-                --slash;
-            *slash = 0;
-            lstrcpynA(slash, "gfx_passthrough.csv",
-                      (int)(sizeof(g_logPath) - (size_t)(slash - g_logPath)));
+            lstrcpynA(g_logPath, cand, (int)sizeof(g_logPath));
+            goto opened;
         }
     }
-    g_logFile = fopen(g_logPath, "a");
-    if (!g_logFile)
+
+    /* Candidat 3 : %TEMP% (toujours inscriptible — v3.2 diagnostic). */
+    if (GetTempPathA((DWORD)sizeof(tmp), tmp) > 0)
     {
-        g_logDisabled = 1;
-        return;
+        lstrcpynA(g_logPath, tmp, (int)sizeof(g_logPath));
+        slash = g_logPath + lstrlenA(g_logPath);
+        lstrcpynA(slash, "gfx_passthrough.csv",
+                  (int)(sizeof(g_logPath) - (size_t)(slash - g_logPath)));
+        g_logFile = fopen(g_logPath, "a");
+        if (g_logFile)
+            goto opened;
     }
+
+    g_logDisabled = 1;
+    return;
+
+opened:
     fprintf(g_logFile, "seq,slot,arg0,arg1,arg2,arg3,ret\n");
+    fprintf(g_logFile, "#csv,%s\n", g_logPath);
     fflush(g_logFile);
 }
 
@@ -525,7 +571,13 @@ static void GFXPT_FillProxy(void)
     /* slots 18–33 */
     slots[18] = (void*)Proxy_Slot18;
     slots[19] = (void*)Proxy_Slot19;
-    slots[20] = (void*)Proxy_Slot20;          /* no-op log (signature non dérivable) */
+    /* slot 20 : v6.1 — copie du fnptr natif DDrawAlt (sub_420917). Le no-op
+     * ret 0 tuait le jeu en live (run 25/09 : mort immédiate après 2 appels
+     * slot 20, dernière trace CSV). Transparence totale = pas de log ce slot. */
+    if (nat[20])
+        slots[20] = nat[20];
+    else
+        slots[20] = (void*)Proxy_Slot20;      /* dégradé : natif absent (ne doit pas arriver) */
     slots[21] = (void*)Proxy_Slot21;          /* Alt-only no-op log */
     slots[22] = (void*)Proxy_Slot22;          /* Alt-only forward-guard */
     slots[23] = (void*)Proxy_Slot23;          /* Alt-only forward-guard */
@@ -741,97 +793,191 @@ static void* volatile g_bootTrampoline;   /* preimage + jmp retour (16 bytes) */
 static volatile LONG g_bootArmed;         /* champs écrits ? (idempotent) */
 static volatile LONG g_bootHookInstalled; /* E9 déjà posé ? */
 
-static void GFXPT_BootArm(void* engine)
+/* v6 — PresentWrapC : appelé par le detour du present dispatch (0x41DF0C),
+ * PAR FRAME. Au premier appel post-init, le driver natif est installé en
+ * engine+0xA74 (case 0 DDrawAlt, boot 100 % natif — prouvé v5.5 :
+ * #checkreg,ret=1,sel=0). On l'entoure alors du proxy (capture Mode A) ;
+ * le present original tourne ensuite via le proxy → tous les slots,
+ * draw lists comprises, passent par nos wrappers. Idempotent et léger
+ * (un test non-nul par frame après le wrap). */
+static volatile LONG g_presentWrapped;
+
+static void GFXPT_PresentWrapC(void* engine)
 {
-    char buf[96];
+    void* native;
+    void* mem;
 
     if (!engine)
         return;
-    if (InterlockedCompareExchange(&g_bootArmed, 1, 0) != 0)
-        return;                             /* déjà armé (idempotent) */
+    if (g_proxy)
+        return;                             /* déjà wrappé (fast path par frame) */
 
-    *((volatile DWORD*)engine + (0xBA8u / 4)) = 2;                    /* current_gfx_driver = 2 */
-    *((volatile DWORD*)engine + (0xBD0u / 4)) = (DWORD)&new_dll_graphics_driver;
+    native = *(void**)((DWORD*)engine + (0xA74u / 4));
+    if (!native)
+        return;                             /* backend pas encore construit */
 
+    g_native = native;
+    g_nativeAlive = 1;
+    mem = VirtualAlloc(NULL, (SIZE_T)GFXPT_DRIVER_OBJ_BYTES,
+                       MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (!mem)
+        return;
+    g_proxy = mem;                          /* zero-fill (état inline 9–14) */
+    GFXPT_FillProxy();
+    *(void**)((DWORD*)engine + (0xA74u / 4)) = g_proxy;
     GFXPT_LogOpen();
     if (g_logFile)
     {
-        fprintf(g_logFile, "#boot,armed,engine=0x%p,factory=0x%p\n",
-                engine, (const void*)&new_dll_graphics_driver);
+        fprintf(g_logFile, "#wrapped_at_present,native=0x%p,proxy=0x%p\n",
+                native, g_proxy);
         fflush(g_logFile);
     }
-    sprintf(buf, "gfx_passthrough: boot armed engine=0x%p\n", engine);
-    GFXPT_ODS(buf);
+    GFXPT_ODS("gfx_passthrough: driver natif wrappe au present dispatch\n");
 }
 
-__declspec(naked) static void GFXPT_CheckRegistryDetour(void)
+__declspec(naked) static void GFXPT_PresentDetour(void)
 {
     __asm
     {
         pushad
         pushfd
-        mov  eax, [esp + 0x24]             /* arg0 = engine (pushad 32 + pushfd 4) */
+        mov  eax, [esp + 0x28]             /* arg0 = engine : ret(4) + pushad(32) + pushfd(4) */
         push eax
-        call GFXPT_BootArm
+        call GFXPT_PresentWrapC             /* wrap idempotent (fast path) */
         add  esp, 4
         popfd
         popad
-        jmp  dword ptr [g_bootTrampoline]
+        jmp  dword ptr [g_pdTrampoline]     /* corps original du present dispatch */
     }
 }
 
-int __cdecl Passthrough_InstallBootHook(void* reserved)
+/* v5.3 — pose un detour E9 générique. preimageLen doit couvrir des
+ * instructions COMPLÈTES ; si la preimage contient un call rel32 (E8) à
+ * callRel32At (offset), son rel32 est recalculé dans le trampoline. */
+static int GFXPT_PlaceHook(unsigned long ea, const BYTE* preimage, int preimageLen,
+                           int callRel32At, void* detour, void* volatile* trampolineOut)
 {
     BYTE*  target;
     BYTE*  tramp;
-    BYTE*  detour;
+    int    trampSize = preimageLen + 5;
     DWORD  oldProtect;
     DWORD  rel32;
 
-    (void)reserved;
-
-    if (InterlockedCompareExchange(&g_bootHookInstalled, 1, 0) != 0)
-        return 1;                           /* déjà installé */
+    if (*trampolineOut)
+        return 1;                           /* déjà posé */
 
     if (!g_hostModule)
         g_hostModule = GetModuleHandleA(NULL);
     if (!g_hostModule)
         return 0;
 
-    target = (BYTE*)GFXPT_HostEA(GFXPT_EA_CHECKREGISTRY);
-    if (memcmp(target, GFXPT_BootPreimage, sizeof(GFXPT_BootPreimage)) != 0)
-    {
-        /* Build non cible (hash-bound) : refus, aucune écriture. */
-        GFXPT_ODS("gfx_passthrough: CheckRegistry preimage inattendue, hook refuse\n");
-        InterlockedExchange(&g_bootHookInstalled, 0);
-        return 0;
-    }
+    target = (BYTE*)GFXPT_HostEA(ea);
+    if (memcmp(target, preimage, (size_t)preimageLen) != 0)
+        return 0;                           /* build non cible : refus */
 
-    tramp = (BYTE*)VirtualAlloc(NULL, 16, MEM_COMMIT | MEM_RESERVE,
+    tramp = (BYTE*)VirtualAlloc(NULL, (SIZE_T)trampSize, MEM_COMMIT | MEM_RESERVE,
                                 PAGE_EXECUTE_READWRITE);
     if (!tramp)
         return 0;
-    memcpy(tramp, GFXPT_BootPreimage, sizeof(GFXPT_BootPreimage));
-    tramp[5] = 0xE9;
-    rel32 = (DWORD)((target + 5) - (tramp + 10));
-    *(DWORD*)(tramp + 6) = rel32;
-    g_bootTrampoline = tramp;
+    memcpy(tramp, preimage, (size_t)preimageLen);
+    if (callRel32At >= 0 && preimage[callRel32At] == 0xE8)
+    {
+        /* call déplacé : recalcule le rel32 (absolu conservé). */
+        DWORD oldTarget = ea + (unsigned long)(callRel32At + 5)
+                        + *(const DWORD*)(preimage + callRel32At + 1);
+        *(DWORD*)(tramp + callRel32At + 1) = oldTarget - (DWORD)(tramp + callRel32At + 5);
+    }
+    tramp[preimageLen] = 0xE9;
+    *(DWORD*)(tramp + preimageLen + 1) = (DWORD)(ea + preimageLen) - (DWORD)(tramp + preimageLen + 5);
+    *trampolineOut = tramp;
 
-    detour = (BYTE*)&GFXPT_CheckRegistryDetour;
-    if (!VirtualProtect(target, 5, PAGE_EXECUTE_READWRITE, &oldProtect))
+    if (!VirtualProtect(target, (SIZE_T)preimageLen, PAGE_EXECUTE_READWRITE, &oldProtect))
     {
         VirtualFree(tramp, 0, MEM_RELEASE);
-        g_bootTrampoline = 0;
+        *trampolineOut = 0;
         return 0;
     }
-    rel32 = (DWORD)(detour - (target + 5));
+    rel32 = (DWORD)((BYTE*)detour - (target + 5));
     target[0] = 0xE9;
     *(DWORD*)(target + 1) = rel32;
-    VirtualProtect(target, 5, oldProtect, &oldProtect);
-    FlushInstructionCache(GetCurrentProcess(), target, 5);
-
-    GFXPT_ODS("gfx_passthrough: boot hook installe sur CheckRegistry 0x401890\n");
+    VirtualProtect(target, (SIZE_T)preimageLen, oldProtect, &oldProtect);
+    FlushInstructionCache(GetCurrentProcess(), target, (SIZE_T)preimageLen);
     return 1;
+}
+
+/* v5.2 — traceur : le jeu logue son boot via OutputDebugString_1 ; on capture
+ * la séquence dans le CSV (cap 400 lignes anti-spam). */
+static const BYTE GFXPT_ODSPreimage[9]  = { 0x55u, 0x8Bu, 0xECu, 0x51u, 0xE8u,
+                                            0xA8u, 0x62u, 0x00u, 0x00u };
+/* v6 — preimage du present dispatch : push ebp / mov ebp,esp / push ecx /
+ * mov eax,[ebp+8] / push eax — 8 bytes d'instructions complètes, aucun rel32. */
+static void* volatile g_odsTrampoline;
+static volatile LONG  g_odsCount;
+
+static void GFXPT_ODSTrace(char* msg)
+{
+    char clean[160];
+    int  i, j;
+
+    if (!g_logFile || !msg)
+        return;
+    if (InterlockedCompareExchange(&g_odsCount, 0, 0) >= 400)
+        return;
+    InterlockedIncrement(&g_odsCount);
+
+    for (i = 0, j = 0; msg[i] && j < (int)sizeof(clean) - 1; ++i)
+    {
+        char ch = msg[i];
+        if (ch == ',' || ch == '\r' || ch == '\n')
+            ch = ' ';
+        clean[j++] = ch;
+    }
+    clean[j] = 0;
+    fprintf(g_logFile, "#ods,%s\n", clean);
+    fflush(g_logFile);
+}
+
+__declspec(naked) static void GFXPT_ODSDetour(void)
+{
+    __asm
+    {
+        pushad
+        pushfd
+        mov  eax, [esp + 0x28]             /* arg0 = char* msg */
+        push eax
+        call GFXPT_ODSTrace
+        add  esp, 4
+        popfd
+        popad
+        jmp  dword ptr [g_odsTrampoline]
+    }
+}
+
+int __cdecl Passthrough_InstallBootHook(void* reserved)
+{
+    static volatile LONG g_hookLogged;
+    int r1, r2;
+
+    (void)reserved;
+
+    /* v6 — plus aucun hook sur CheckRegistry (le boot natif doit rester
+     * intact) : le wrap se pose au present dispatch, point de consommation
+     * du driver, appelé par frame. */
+    r1 = GFXPT_PlaceHook(GFXPT_EA_PRESENTDISPATCH, GFXPT_PresentPreimage, 8, -1,
+                         (void*)&GFXPT_PresentDetour, &g_pdTrampoline);
+    r2 = GFXPT_PlaceHook(GFXPT_EA_ODSTRACE, GFXPT_ODSPreimage, 9, 4,
+                         (void*)&GFXPT_ODSDetour, &g_odsTrampoline);
+
+    if (r1 && InterlockedCompareExchange(&g_hookLogged, 1, 0) == 0)
+    {
+        GFXPT_LogOpen();
+        if (g_logFile)
+        {
+            fprintf(g_logFile, "#hook,present=%d,ods=%d\n", r1, r2);
+            fflush(g_logFile);
+        }
+    }
+    return (r1 && r2) ? 1 : 0;
 }
 
 /* ===========================================================================
@@ -840,6 +986,22 @@ int __cdecl Passthrough_InstallBootHook(void* reserved)
  * Contrainte shutdown 0x409670/FreeLibrary inchangée.
  * =========================================================================== */
 static int g_dllAttached = 0;
+
+/* v5.4 — interrupteur par fichier sidecar (manipulable sans env ni rebuild). */
+static int GFXPT_SideFileExists(const char* name)
+{
+    char path[MAX_PATH];
+    char* slash;
+    DWORD m = GetModuleFileNameA(g_hinstDLL, path, (DWORD)sizeof(path));
+    if (m == 0 || m >= (DWORD)sizeof(path) - 48)
+        return 0;
+    slash = path + m;
+    while (slash > path && slash[-1] != '\\' && slash[-1] != '/')
+        --slash;
+    *slash = 0;
+    lstrcpynA(slash, name, (int)(sizeof(path) - (size_t)(slash - path)));
+    return GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES;
+}
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -850,9 +1012,20 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
     {
         g_dllAttached = 1;
         g_hinstDLL = hinstDLL;
+        /* Trace de chargement : CSV créé DÈS DllMain (diagnostic drop test). */
+        GFXPT_LogOpen();
+        if (g_logFile)
+        {
+            fprintf(g_logFile, "#dll_loaded\n");
+            fflush(g_logFile);
+        }
         /* Boot hook v2 actif par défaut (mode AF3DN.P). FF8_PASSTHROUGH_BOOTHOOK=0
-           pour l'inertie (tests hors run live). */
-        if (GetEnvironmentVariableA("FF8_PASSTHROUGH_BOOTHOOK", disableFlag,
+           ou le fichier sidecar gfx_passthrough.nohook désactivent (contrôle). */
+        if (GFXPT_SideFileExists("gfx_passthrough.nohook"))
+        {
+            GFXPT_ODS("gfx_passthrough: nohook file present, hooks disabled\n");
+        }
+        else if (GetEnvironmentVariableA("FF8_PASSTHROUGH_BOOTHOOK", disableFlag,
                                     (DWORD)sizeof(disableFlag)) == 0
             || disableFlag[0] != '0')
         {

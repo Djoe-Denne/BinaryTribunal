@@ -171,6 +171,23 @@ present `0x41DF0C` (engine loop, jamais FFBattleModule).
 4. Shutdown : fn 0x409670 appelle slot 1 puis `FreeLibrary(*(engine+0xBCC))` — la DLL doit rester
    chargeable/déchargeable proprement (pas de travail dans DllMain).
 
+### 7.5 Activation réelle (drop test lot 12-ter, live 2026-09-25 — `driver-drop-test-af3dn-2026-09-25.md`)
+
+La voie « lanceur » ci-dessus n'a pas été le véhicule retenu. Le mécanisme démontré en live :
+
+1. `AF3DN.P` est une **dépendance statique** de `FF8_EN.exe` (imports `dotemu*`, 8 noms) — un
+   drop-in doit forwarder ces exports (forwards PE vers `dotemu_orig.dll`, copie renommée de
+   l'original DotEmu).
+2. Le boot natif prend **case 0 (DDrawAlt)** : `engine+0xBA8 = 0` (v5.5 live : `sel=0, ret=1`) ;
+   `DD_init` exige le bit 0 de `engine+0xBBC` (=3 posé par le case 0).
+3. `engine+0xBD0 = 0x6CA652C0` est posé par le boot DotEmu lui-même (signature lot +4 confirmée
+   avec `dotemu_orig.dll` en place).
+4. Le wrap capture se pose au **present dispatch (`0x41DF0C`)** — point de consommation du
+   driver, appelé par frame : preimage 8 bytes (`55 8B EC 51 8B 45 08 50`), wrap idempotent de
+   `engine+0xA74` au premier appel. Résultat : 9 650 frames + draw lists 43–64 capturées
+   (slot 51 ×494 942, slot 47 ×237 943…), rendu natif préservé.
+5. **Slot 20 fatal en no-op** : copie du fnptr natif obligatoire (run v6 : mort après 2 appels).
+
 ## 8. Contrats notables à respecter (déjà fermés, rappels)
 
 - RS slot 29 : types 0–25, **pas de table d'enum** ; GL/DD = shadow `*(engine+2692)[type]` seule

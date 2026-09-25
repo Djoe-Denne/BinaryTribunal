@@ -231,7 +231,28 @@ de l'evidence window1. **Risque HIGH** : re-Init backend en plein openworld (gat
 l'init → double present) — et la fenêtre 2 ajoute : l'écrivain périodique réécrirait le champ de toute
 façon → **la voie launcher-safe (config avant boot graphics `0x401890`) est la seule recommandée**.
 
+### Lot +7 — 2026-09-25 : DROP TEST AF3DN.P LIVE — capture Mode A réussie (v6.1)
+
+Rapport : `driver-drop-test-af3dn-2026-09-25.md`. Protocole launcher + observateur externe.
+
+- **AF3DN.P = dépendance statique** de FF8_EN.exe : 8 imports `dotemu*` (dumpbin /imports).
+  L'original DotEmu (209 920 B, PE 2014, PDB `ff8_d3d_D4E`) exporte 18 noms — drop-in
+  impossible sans forwards PE vers `dotemu_orig.dll` (copie renommée de l'original).
+- **Correctifs live** : ctor OpenGL 0x4252B0 échoue sur ce port (case 3) ; backend réel =
+  **DDrawAlt (case 0, ctor 0x4257D0)** ; DD_init exige BBC bit 0 (=3) ; detour arg0 =
+  `[esp+0x28]` (ret+pushad+pushfd) ; **slot 20 no-op = fatal** (mort après 2 appels) →
+  copie natif sub_420917.
+- **Wrap retenu** : au present dispatch (`0x41DF0C`), appelé par frame — CheckRegistry
+  inviolée (le detour sur CheckRegistry tuait le boot post-init, run v5). Capture :
+  9 650 frames, **draw lists 43–64** (slot 51 ×494 942, 47 ×237 943, 44 ×20 034, 49 ×28 626,
+  45 ×8 236, 63/61 ×200, 64/62 ×50), RS slot 29 ×845 054. CSV 99,2 Mo
+  (`tools/_tmp_af3dn_drop/gfx_passthrough_v6.1_campaign.csv`,
+  SHA256 `EB5FDCA3…BC23826`).
+- Hashes : DLL `EE3D30B9…60EE5` ; exe `064D466B…` (inchangé) ; `dotemu_orig.dll`
+  `539558E4…` (= manifest Steam). Vanilla pur (contrôle A/B) : sain après re-dl Steam.
+
 ## Réfs
+
 
 - `driver-abi-spec.md` (contrat slots + present gate `engine+0xB88`)
 - obsidian : [[projects/re-ff8/concepts/external-battle-renderer-architecture]] (§ Runtime Backend Provenance),
