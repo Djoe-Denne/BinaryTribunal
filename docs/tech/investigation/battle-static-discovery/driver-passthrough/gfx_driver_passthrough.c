@@ -1,10 +1,12 @@
 /* ===========================================================================
  * gfx_driver_passthrough.c — prototype DLL « observer Mode A » (lot 12, re-ff8)
+ * Version v7 (AF3DN.P) : extension du passthrough v6.1 avec dump mémoire des
+ * draw lists au vol.
  *
  * Rôle : factory type-2 `new_dll_graphics_driver` + proxy complet de l'objet
- * driver (66 DWORDs, 0x108). Le driver natif OpenGL (ctor 0x4252B0) est créé
- * par la factory et gardé en static (g_native) — il n'est JAMAIS retourné à
- * l'engine. L'objet proxy porte :
+ * driver (66 DWORDs, 0x108). Le driver natif (ctor 0x4257D0 DDrawAlt case 0
+ * vanilla ; 0x4252B0 OpenGL case 3) est créé par la factory et gardé en static
+ * (g_native) — il n'est JAMAIS retourné à l'engine. L'objet proxy porte :
  *   - des wrappers __cdecl (log CSV + forward vers le slot équivalent de
  *     g_native si non-nul, sinon return 0) pour slots 0–8, 18–33, 35, 38–41,
  *     43–64, 65 ;
@@ -19,6 +21,21 @@
  * Capture/replay draw-list : slots 43–64 capturés (copie 24 octets/node,
  * pointer-free) ; Passthrough_ReplayCaptured ré-émet via les slots natifs
  * (dry-run par défaut). Replay différée complète = Mode B/C.
+ *
+ * v7 — dump mémoire (nouveau, additif, CSV v6.1 inchangé) :
+ *   - Armement : sidecar `gfx_passthrough.dump` à côté de la DLL, vérifié
+ *     UNIQUEMENT au present dispatch (stat cheap) ; présent → capture des 16
+ *     prochains frames (seq..seq+15) puis suppression du sidecar.
+ *   - Capture : dans chaque wrapper 43–64, si la fenêtre est armée pour le
+ *     seq courant, le node visité est copié dans un ring RAM BSS 64 Mo selon
+ *     la table de closure slot→géométrie (voir le bloc « v7 — dump mémoire »
+ *     ci-dessous, provenance : ctor 0x4257D0 + decomp 0x43E24A/0x43E356 +
+ *     bytes live du PE 064d466b). Aucune IO dans le detour draw ; SEH sur
+ *     chaque copie ; gardes vcount≤4096, icount≤16384, node≤256 Ko,
+ *     4096 records/frame.
+ *   - Flush : au present dispatch, ring non vide → append binaire vers
+ *     `gfx_passthrough_dump.bin` + ligne dans `gfx_passthrough_dump.log`
+ *     (à côté de la DLL), puis ring vidé. Ouvert/fermé en append.
  *
  * Shutdown natif : fn 0x409670 appelle slot 1 puis FreeLibrary(engine+0xBCC) ;
  * DllMain ne fait RIEN à part un flag.
@@ -313,6 +330,385 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
 }
 
 /* ===========================================================================
+ * v7 — dump mémoire des draw lists au vol (contrat binaire avec le décodeur)
+ *
+ * FORMAT D'ENREGISTREMENT (PINÉ — respecter à l'octet près) : little-endian,
+ * enregistrements auto-descriptifs, alignés 4 octets. Par node capturé :
+ *
+ *   u32 magic 'ND07' (0x3730444E)
+ *   u32 slot          // 43..64
+ *   u32 seq           // compteur de frames, incrémenté au present dispatch
+ *   u32 ctx           // arg_0 tel quel
+ *   u32 node_addr     // adresse live du node (debug)
+ *   u32 geom_kind     // 0=none, 1=poly_packet, 2=fvf_verts+indices
+ *   u32 fails         // nb d'échecs SEH pour ce node (blocs idx/fvf mis à 0)
+ *   u32 payload_size  // octets APRÈS ce champ (= node[24] + payload)
+ *   u8  node[24]      // copie brute du node
+ *   payload selon geom_kind :
+ *     1: u32 prim (3=FT3, 4=FT4) ; u8 packet[40] (copie brute 32 ou 40 o,
+ *        complété à 0) — AUCUN slot DDrawAlt n'émet ce kind (réservé) ;
+ *     2: u32 vcount ; u32 icount ; u16 idx[icount] ; u16 pad[(icount&1)]
+ *        (rembourrage alignement 4, zéros) ; u8 fvf[vcount*32].
+ *
+ * Taille record = 32 (en-tête) + payload_size. Un bloc idx/fvf illisible est
+ * mis à zéro et compte un `fails` (le décodeur ignore le bloc si fails>0).
+ *
+ * TABLE DE CLOSURE slot → géométrie (provenance : ctor DDrawAlt 0x4257D0,
+ * bind 0x41619A, decomp 0x43E24A/0x43E356, et bytes live du PE 064d466b
+ * (SHA256 064D466B…9570) désassemblés hors-ligne pour les impls sans decomp ;
+ * AUCUN offset inventé) :
+ *
+ *   Slots walking « direct » (descriptor = arg node) — vcount@node+0x0C,
+ *   verts@node+0x14, icount@node+0x18, indices@node+0x20 :
+ *     48, 49, 50 → 0x43E24A (RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4,
+ *                  TRIANGLELIST 4, FVF 0x1C4)
+ *     57, 58, 59 → 0x43E5E9 (TRIANGLELIST 4, FVF 0x1E2)
+ *     63, 64     → 0x43E540 (LINELIST 2, FVF 0x1C4)
+ *   Slots walking « VB batch » — remaining(@node+0x08, s32 groupes), verts
+ *   base@node+0x14, indices@node+0x20, ids stream@node+0x28, geom=*(node+0x2C),
+ *   vcount = *(s32*)(geom+0x3C) × remaining, icount = *(s32*)(geom+0x40) ×
+ *   remaining (groupes de même id ; stride vertex 32 = shl 5) :
+ *     51         → 0x43E356 (RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4_VB)
+ *     60         → 0x43E692 (FVF 0x1E2 — push @0x43E7C5 — stride 32 identique,
+ *                  shl 5 @0x43E79A ; capture kind2 inchangée)
+ *   NB ids (preuve live PE 064d466b, disasm 2026-09-25) : le stream ids est
+ *   consommé U8 PAR GROUPE par le walk natif (mov cl,[eax] @0x43E419 / 0x43E725,
+ *   ids+=1 par groupe) ; il n'existe AUCUN champ u16 natif entre le blob idx et
+ *   le blob fvf, et les blobs sont des pointeurs indépendants (node+0x14/+0x20/
+ *   +0x28). Le payload kind2 ci-dessus est donc complet tel quel.
+ *   ANOMALIE CONNUE (dump campagne 2026-09-25 13:50, seq 9720..9735) : les 32
+ *   records multigroupes slot 51 du fichier produits ce jour-là font 2 octets
+ *   de plus que payload_size (grille fvf décalée de +2, préfixe hors contrat
+ *   `22 00`/`36 00`, queue de dernier vertex dépassant la fin déclarée) : ils
+ *   proviennent d'une IMAGE DÉPLOYÉE ANTÉRIEURE (build supprimé depuis, copie
+ *   [verts-2, verts-2+vcount*32+2) avec curseur need+2) — PAS du présent code
+ *   (preuve : .text du rebuild identique + harnais GFXPT_DumpNode = delta 1324
+ *   pour remaining=9/perV=4/perI=6). Un décodeur lisant CE fichier historique
+ *   doit resynchroniser sur 'ND07' ; les dumps futurs du build courant sont
+ *   conformes au contrat ci-dessus.
+ *   Slots setup — le node N'EST JAMAIS lu (prouvé bytes live : lecture de
+ *   ctx+0x30/ctx+0x38 uniquement, forward natif slots 31/32 ; 46/52–56 lisent
+ *   node+0x2C→geom+0x80/0xA4/0xA8/0xAC = état/matériau, pas de géométrie) :
+ *     43, 44 → 0x43DF00 ; 45 → 0x43DF2A ; 46 → 0x43DF54 ; 47 → 0x43DFA6 ;
+ *     52, 53 → 0x43DFD0 ; 54 → 0x43E059 ; 55 → 0x43E0E2 ; 56 → 0x43E197 ;
+ *     61, 62 → 0x43E220  → geom_kind = 0 (node 24 o seul).
+ * =========================================================================== */
+#define GFXPT_VERSION_TEXT          "v7"
+#define GFXPT_DUMP_MAGIC            0x3730444Eul        /* 'ND07' */
+#define GFXPT_DUMP_RING_BYTES       (64ul * 1024ul * 1024ul)   /* BSS, 64 Mo */
+#define GFXPT_DUMP_MAX_FRAME        4096ul              /* records max / frame */
+#define GFXPT_DUMP_MAX_NODE_BYTES   (256ul * 1024ul)    /* garde payload node */
+#define GFXPT_DUMP_FRAMES           16ul                /* frames par armement */
+#define GFXPT_DUMP_VCOUNT_MAX       4096ul
+#define GFXPT_DUMP_ICOUNT_MAX       16384ul
+
+/* En-tête 32 octets, 8 x u32 LE, sans padding (MSVC x86). */
+typedef struct GFXPT_DumpHdr {
+    unsigned long magic;
+    unsigned long slot;
+    unsigned long seq;
+    unsigned long ctx;
+    unsigned long nodeAddr;
+    unsigned long geomKind;
+    unsigned long fails;
+    unsigned long payloadSize;   /* octets après ce champ (node[24] + payload) */
+} GFXPT_DumpHdr;
+
+static unsigned char g_dumpRing[GFXPT_DUMP_RING_BYTES];  /* BSS zéro-rempli */
+static unsigned long g_dumpWrite;       /* curseur d'écriture absolu (octets) */
+static unsigned long g_dumpCommit;      /* curseur flushé (octets) */
+static unsigned long g_dumpRecords;     /* global : records écrits */
+static unsigned long g_dumpBytes;       /* global : octets écrits (ring) */
+static unsigned long g_dumpRingDrops;   /* global : records perdus (ring plein) */
+static unsigned long g_dumpSehFails;    /* global : échecs SEH de copie */
+static unsigned long g_dumpGuardSkips;  /* global : records refusés par garde */
+static unsigned long g_frameSeq;        /* compteur de frames (present dispatch) */
+static unsigned long g_capEndSeq;       /* 0 = désarmé ; sinon dernière seq capturée */
+static unsigned long g_frameRecords;    /* per-frame : records écrits */
+static unsigned long g_frameFails;      /* per-frame : échecs SEH */
+static unsigned long g_frameDrops;      /* per-frame : ring plein */
+static unsigned long g_frameGuardSkips; /* per-frame : gardes */
+static int            g_frameOverflow;  /* cap 4096 records atteint ce frame */
+
+/* Copie générique défendue (le detour draw ne doit JAMAIS faire tomber le jeu). */
+static int GFXPT_CopyBytes(void* dst, const void* src, unsigned long n)
+{
+    int ok = 0;
+    __try
+    {
+        memcpy(dst, src, (size_t)n);
+        ok = 1;
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {
+        ok = 0;
+    }
+    return ok;
+}
+
+/* Chemin d'un fichier sidecar à côté de la DLL (même mécanisme que le CSV). */
+static int GFXPT_BuildSidePath(const char* name, char* out)
+{
+    char path[MAX_PATH];
+    char* slash;
+    DWORD m;
+
+    m = GetModuleFileNameA(g_hinstDLL, path, (DWORD)sizeof(path));
+    if (m == 0 || m >= (DWORD)sizeof(path) - 64)
+        return 0;
+    slash = path + m;
+    while (slash > path && slash[-1] != '\\' && slash[-1] != '/')
+        --slash;
+    *slash = 0;
+    if ((size_t)lstrlenA(name) + 1 > (sizeof(path) - (size_t)(slash - path)))
+        return 0;
+    lstrcpynA(slash, name, (int)(sizeof(path) - (size_t)(slash - path)));
+    lstrcpynA(out, path, (int)sizeof(path));
+    return 1;
+}
+
+/* ---------------------------------------------------------------------------
+ * Capture d'un node au vol (appelé depuis chaque wrapper 43–64, synchrone,
+ * APRÈS le forward natif — même ordre que la capture v6.1). Écriture ring
+ * seule : AUCUNE IO disque ici.
+ * ------------------------------------------------------------------------- */
+static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
+{
+    unsigned char        nodeCopy[GFXPT_NODE_BYTES];
+    unsigned long        geomKind = 0;
+    unsigned long        vcount = 0;
+    unsigned long        icount = 0;
+    const unsigned char* verts = 0;
+    const unsigned char* idx = 0;
+    unsigned long        remaining = 0;
+    unsigned long        geomPtr = 0;
+    unsigned long        perV = 0;
+    unsigned long        perI = 0;
+    unsigned long        idxBytes;
+    unsigned long        idxPad;
+    unsigned long        payload;
+    unsigned long        need;
+    unsigned long        fails;
+    GFXPT_DumpHdr        hdr;
+    unsigned char*       p;
+
+    if (g_capEndSeq == 0 || g_frameSeq > g_capEndSeq || g_frameOverflow)
+        return;                             /* hors fenêtre ou frame saturé */
+    if (g_frameRecords >= GFXPT_DUMP_MAX_FRAME)
+    {
+        g_frameOverflow = 1;                /* stop capture du frame */
+        return;
+    }
+    if (!node)
+        return;                             /* garde : node non nul */
+
+    if (!GFXPT_CopyBytes(nodeCopy, node, (unsigned long)GFXPT_NODE_BYTES))
+    {
+        g_dumpSehFails++;                   /* node illisible : pas d'ancrage */
+        return;
+    }
+
+    /* Closure slot → classe géométrique (table prouvée en tête de bloc). */
+    switch (slot)
+    {
+    case 48: case 49: case 50:              /* 0x43E24A (tri FVF 0x1C4) */
+    case 57: case 58: case 59:              /* 0x43E5E9 (tri FVF 0x1E2) */
+    case 63: case 64:                       /* 0x43E540 (linelist FVF 0x1C4) */
+        geomKind = 2;
+        if (!GFXPT_ReadU32((const char*)node + 0x0C, &vcount) ||
+            !GFXPT_ReadU32((const char*)node + 0x18, &icount) ||
+            !GFXPT_ReadU32((const char*)node + 0x14, (unsigned long*)&verts) ||
+            !GFXPT_ReadU32((const char*)node + 0x20, (unsigned long*)&idx))
+        {
+            g_dumpSehFails++;
+            return;                         /* closure illisible : skip record */
+        }
+        break;
+    case 51:                                /* 0x43E356 (VB batch) */
+    case 60:                                /* 0x43E692 (VB batch) */
+        geomKind = 2;
+        if (!GFXPT_ReadU32((const char*)node + 0x08, &remaining) ||
+            !GFXPT_ReadU32((const char*)node + 0x2C, &geomPtr) ||
+            !GFXPT_ReadU32((const char*)node + 0x14, (unsigned long*)&verts) ||
+            !GFXPT_ReadU32((const char*)node + 0x20, (unsigned long*)&idx))
+        {
+            g_dumpSehFails++;
+            return;
+        }
+        if (geomPtr)
+        {
+            (void)GFXPT_ReadU32((const void*)(geomPtr + 0x3C), &perV);
+            (void)GFXPT_ReadU32((const void*)(geomPtr + 0x40), &perI);
+        }
+        /* remaining = s32 côté natif ; négatif → énorme non-signé → garde. */
+        if (remaining > 0 && perV > 0 && remaining <= GFXPT_DUMP_VCOUNT_MAX / perV)
+            vcount = perV * remaining;
+        if (remaining > 0 && perI > 0 && remaining <= GFXPT_DUMP_ICOUNT_MAX / perI)
+            icount = perI * remaining;
+        break;
+    default:
+        geomKind = 0;                       /* setups : node jamais lu (prouvé) */
+        break;
+    }
+
+    if (geomKind == 2)
+    {
+        if (vcount == 0 && icount == 0)
+            return;                         /* rien à dessiner */
+        if (vcount > GFXPT_DUMP_VCOUNT_MAX || icount > GFXPT_DUMP_ICOUNT_MAX)
+        {
+            g_dumpGuardSkips++;
+            g_frameGuardSkips++;
+            return;
+        }
+    }
+
+    idxBytes = icount * 2ul;
+    idxPad = (idxBytes & 3ul) ? (4ul - (idxBytes & 3ul)) : 0ul;
+    payload = (geomKind == 2)
+            ? (8ul + idxBytes + idxPad + (vcount * 32ul))
+            : 0ul;
+    need = (unsigned long)sizeof(hdr) + (unsigned long)GFXPT_NODE_BYTES + payload;
+    if (need > GFXPT_DUMP_MAX_NODE_BYTES)   /* garde 256 Ko (défensive) */
+    {
+        g_dumpGuardSkips++;
+        g_frameGuardSkips++;
+        return;
+    }
+    if (need > GFXPT_DUMP_RING_BYTES - (g_dumpWrite - g_dumpCommit))
+    {
+        g_dumpRingDrops++;                  /* ring plein : dégradation silencieuse */
+        g_frameDrops++;
+        return;
+    }
+
+    hdr.magic = GFXPT_DUMP_MAGIC;
+    hdr.slot = (unsigned long)slot;
+    hdr.seq = g_frameSeq;
+    hdr.ctx = (unsigned long)ctx;
+    hdr.nodeAddr = (unsigned long)node;
+    hdr.geomKind = geomKind;
+    hdr.fails = 0;
+    hdr.payloadSize = (unsigned long)GFXPT_NODE_BYTES + payload;
+
+    p = &g_dumpRing[g_dumpWrite];
+    memcpy(p, &hdr, sizeof(hdr));
+    memcpy(p + sizeof(hdr), nodeCopy, (size_t)GFXPT_NODE_BYTES);
+    p += sizeof(hdr) + GFXPT_NODE_BYTES;
+    fails = 0;
+    if (geomKind == 2)
+    {
+        memcpy(p, &vcount, 4ul);
+        memcpy(p + 4ul, &icount, 4ul);
+        p += 8ul;
+        if (idxBytes)
+        {
+            if (GFXPT_CopyBytes(p, idx, idxBytes))
+            {
+                if (idxPad)
+                    memset(p + idxBytes, 0, (size_t)idxPad);
+            }
+            else
+            {
+                memset(p, 0, (size_t)(idxBytes + idxPad));
+                fails++;
+            }
+        }
+        else if (idxPad)
+        {
+            memset(p, 0, (size_t)idxPad);
+        }
+        p += idxBytes + idxPad;
+        if (vcount)
+        {
+            if (!GFXPT_CopyBytes(p, verts, vcount * 32ul))
+            {
+                memset(p, 0, (size_t)(vcount * 32ul));
+                fails++;
+            }
+        }
+        p += vcount * 32ul;
+        if (fails)
+        {
+            ((GFXPT_DumpHdr*)(void*)&g_dumpRing[g_dumpWrite])->fails = fails;
+            g_dumpSehFails += fails;
+            g_frameFails += fails;
+        }
+    }
+    g_dumpWrite += need;
+    g_dumpRecords++;
+    g_dumpBytes += need;
+    g_frameRecords++;
+}
+
+/* ---------------------------------------------------------------------------
+ * Pulse present dispatch : seq++, flush ring → disque, reset compteurs frame,
+ * contrôle sidecar d'armement. SEUL point d'IO disque du dump v7.
+ * ------------------------------------------------------------------------- */
+static void GFXPT_DumpFlushAtPresent(void)
+{
+    char         binPath[MAX_PATH];
+    char         logPath[MAX_PATH];
+    FILE*        f;
+    FILE*        l;
+    unsigned long pending;
+    unsigned long drainedSeq;
+
+    pending = g_dumpWrite - g_dumpCommit;
+    if (pending == 0)
+        return;
+    drainedSeq = g_frameSeq - 1;            /* seq des records flushés */
+    if (!GFXPT_BuildSidePath("gfx_passthrough_dump.bin", binPath))
+        return;                             /* ring conservé (drops visibles) */
+    f = fopen(binPath, "a");
+    if (!f)
+        return;                             /* jamais bloqué : réessai au prochain present */
+    fwrite(&g_dumpRing[g_dumpCommit], 1, (size_t)pending, f);
+    fclose(f);
+    if (GFXPT_BuildSidePath("gfx_passthrough_dump.log", logPath))
+    {
+        l = fopen(logPath, "a");
+        if (l)
+        {
+            fprintf(l, "frame,seq=%lu,records=%lu,fails=%lu,drops=%lu,guards=%lu,overflow=%d,bytes=%lu\n",
+                    drainedSeq, g_frameRecords, g_frameFails, g_frameDrops,
+                    g_frameGuardSkips, g_frameOverflow, pending);
+            fclose(l);
+        }
+    }
+    g_dumpCommit = 0;                       /* ring vidé (jamais de wrap) */
+    g_dumpWrite = 0;
+}
+
+static void GFXPT_DumpArmAtPresent(void)
+{
+    char path[MAX_PATH];
+    char buf[96];
+
+    if (!GFXPT_BuildSidePath("gfx_passthrough.dump", path))
+        return;
+    if (GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES)
+        return;
+    g_capEndSeq = g_frameSeq + (GFXPT_DUMP_FRAMES - 1);   /* seq courant..+15 */
+    DeleteFileA(path);
+    sprintf(buf, "gfx_passthrough %s: dump arme frames %lu..%lu\n",
+            GFXPT_VERSION_TEXT, g_frameSeq, g_capEndSeq);
+    GFXPT_ODS(buf);
+}
+
+static void GFXPT_DumpFramePulse(void)
+{
+    g_frameSeq++;
+    GFXPT_DumpFlushAtPresent();
+    g_frameRecords = 0;
+    g_frameFails = 0;
+    g_frameDrops = 0;
+    g_frameGuardSkips = 0;
+    g_frameOverflow = 0;
+    GFXPT_DumpArmAtPresent();
+}
+
+/* ===========================================================================
  * Wrappers de slots — pattern unique :
  *     fnptr natif ; ret = p ? p(args...) : 0 ; log(slot, args..., ret).
  * Le forward reprend EXACTEMENT la pile d'args reçue du wrapper engine
@@ -394,7 +790,7 @@ static int __cdecl NAME(void* a0, void* a1, void* a2, void* a3,               \
     return r;                                                                 \
 }
 
-/* draw-list (slots 43–64) : log + capture + forward */
+/* draw-list (slots 43–64) : log + capture + forward (+ dump v7 si armé) */
 #define GFXPT_WRAP_LIST(NAME, SLOT)                                           \
 static int __cdecl NAME(void* ctx, void* node, void* arg)                     \
 {                                                                             \
@@ -402,6 +798,7 @@ static int __cdecl NAME(void* ctx, void* node, void* arg)                     \
     int r = p ? p(ctx, node, arg) : 0;                                        \
     GFXPT_LogCall((unsigned)(SLOT), ctx, node, arg, 0, r);                    \
     GFXPT_CaptureCall((unsigned)(SLOT), ctx, node, arg);                      \
+    GFXPT_DumpNode((unsigned)(SLOT), ctx, node);                              \
     return r;                                                                 \
 }
 
@@ -809,6 +1206,11 @@ static void GFXPT_PresentWrapC(void* engine)
 
     if (!engine)
         return;
+
+    /* v7 — pulsation par frame : seq++, flush ring dump, contrôle sidecar.
+     * DOIT tourner à chaque frame, avant le fast-path du wrap. */
+    GFXPT_DumpFramePulse();
+
     if (g_proxy)
         return;                             /* déjà wrappé (fast path par frame) */
 
@@ -832,7 +1234,8 @@ static void GFXPT_PresentWrapC(void* engine)
                 native, g_proxy);
         fflush(g_logFile);
     }
-    GFXPT_ODS("gfx_passthrough: driver natif wrappe au present dispatch\n");
+    GFXPT_ODS("gfx_passthrough " GFXPT_VERSION_TEXT
+              ": driver natif wrappe au present dispatch\n");
 }
 
 __declspec(naked) static void GFXPT_PresentDetour(void)

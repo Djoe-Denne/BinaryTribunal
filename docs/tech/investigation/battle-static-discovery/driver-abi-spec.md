@@ -161,6 +161,20 @@ Chaîne frame (référence fermée, battle-render-pipeline-entrypoints.md) :
 → Gfx_SubmitTexturePageLists 0x465930 → Gfx_WalkDrawList 0x4178D7` ; viewport `0x499EA0` ;
 present `0x41DF0C` (engine loop, jamais FFBattleModule).
 
+### 6.1 Confirmations live (lot 13, dump v7 2026-09-25 — `driver-drop-test-af3dn-v7-2026-09-25.md`)
+
+Captures mémoire par node (slots 43–64 wrappés, appelés **par node** en `(ctx, node, cookie)`
+— le node est l'**arg_1**) confirmées en bataille/menu :
+
+- OT node 24 o, chaîne `next` à node+0 : **confirmé live** (ordre de capture = ordre de draw, PNG reconstruits).
+- Vertex GPU 32 o FVF `0x1C4` XYZRHW screen-space : **confirmé live** (bbox écran 640×480, rasterisation directe plausible).
+- Slot 51/60 = walk « VB batch » `0x43E356`/`0x43E692` : remaining@node+0x08, verts@node+0x14,
+  idx@node+0x20, **ids stream u8/groupe @node+0x28** (consommé par le natif, pas de writeback du node :
+  curseurs locaux), geom=*(node+0x2C), vcount=*(geom+0x3C)×rem, icount=*(geom+0x40)×rem —
+  plus tirages DrawIndexedPrimitive par run d'ids égaux, couverture mémoire = batch complet.
+- Slots 43–47/52–56/61–62 (setup) : node jamais lu (prouvé disasm : lecture ctx+0x30/0x38 only).
+- Slots 48–50/57–59/63–64 (walk direct) : vcount@node+0x0C, verts@+0x14, icount@+0x18, idx@+0x20 (FVF 0x1E2 pour 57–59).
+
 ## 7. Activation du type 2 (contrainte lanceur)
 
 1. La factory n'est jamais appelée nativement → le lanceur appelle lui-même

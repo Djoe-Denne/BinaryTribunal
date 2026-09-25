@@ -180,3 +180,53 @@ cleanup `add esp,N` sur le site d'appel indirect) :
 - `../driver-abi-spec.md` — contrat slots (source de vérité).
 - `../driver-provenance.md` — provenance du present (IAT, matrice backend).
 - `../../decomp/0x409805__*.md`, `../../decomp/0x40942E__*.md` — triples init.
+
+## 8. v7 — Dump mémoire des draw lists (lot 13, 2026-09-25)
+
+### 8.1 Principe
+
+- Extension additive de v6.1 : chaque wrapper slot 43–64 capture **au vol** le node visité
+  (appelé **par node** par `Gfx_WalkDrawList 0x4178D7`, ordre = ordre de draw exact). Copie
+  SEH bornée dans un ring RAM 64 Mo ; **aucune IO dans le detour draw**.
+- **Sidecar** `gfx_passthrough.dump` à côté de la DLL (même mécanisme `GetModuleFileNameA`
+  que le CSV), contrôlé **au present dispatch uniquement** : présent → arme les 16
+  prochains frames (`seq..seq+15`), auto-suppression, flush append vers
+  `gfx_passthrough_dump.bin` + ligne par frame dans `gfx_passthrough_dump.log`.
+- Gardes : node non nul, `vcount ≤ 4096`, `icount ≤ 16384`, record ≤ 256 Ko,
+  4096 records/frame, ring 64 Mo (BSS demand-zero). CSV v6.1 inchangé. Slot 20 fnptr natif intact.
+
+### 8.2 Format binaire (contrat piné, contrat v7 du `.c` §332+)
+
+Enregistrements auto-descriptifs LE, pas d'en-tête global : `u32 magic 'ND07'; u32 slot;
+u32 seq; u32 ctx; u32 node_addr; u32 geom_kind (0/1/2); u32 fails; u32 payload_size
+(= octets après ce champ : node[24] + payload); u8 node[24]; payload : kind2 = u32 vcount;
+u32 icount; u16 idx[icount]; u16 pad[icount&1]; u8 fvf[vcount*32]`. Record total = 32 + payload_size.
+
+### 8.3 Closure node→géométrie (IDB + capstone, hash PE `064D466B…9570`)
+
+| Slots | Impl | Lecture |
+|---|---|---|
+| 48/49/50 | `0x43E24A` | direct : vcount@+0x0C, verts@+0x14, icount@+0x18, idx@+0x20 (TRIANGLELIST, FVF 0x1C4) |
+| 51/60 | `0x43E356`/`0x43E692` | VB batch : remaining@+0x08, verts@+0x14, idx@+0x20, ids@+0x28 (u8/groupe), geom=+0x2C, vcount=*(geom+0x3C)×rem, icount=*(geom+0x40)×rem |
+| 57/58/59 | `0x43E5E9` | direct (FVF 0x1E2) |
+| 63/64 | `0x43E540` | direct (LINELIST) |
+| 43–47, 52–56, 61/62 | setup | node jamais lu → geom_kind 0 |
+
+Slots 43–64 sont appelés `(ctx, node, cookie)` ; le node est **l'arg_1**. Le natif 51/60
+avance ses curseurs en registres locaux (pas de writeback du node, vérifié disasm).
+
+### 8.4 Décodeur offline
+
+`tools\_tmp_af3dn_drop\decode\` — `ff8dump.py info|render`, `selftest.py` (PASS 28/28),
+`raster.py` (rasteriseur software, zéro API graphique). PNG painter-order, fill plat
+DIFFUSE, alpha<8 skippé, `--wire`. CSV `2.13 Go` (41,1 M appels) hors git : hash
+`1EAB485F0E0139565545334A278CA8B056CA3A3F44EBCADE3FB4B33433F8E2C9`.
+
+### 8.5 Anomalie campagne 25/09 (image bootée bugée)
+
+L'image en exécution pendant la campagne sous-comptait `payload_size` de **2 o pour les
+records slot 51 multigroupes** (`remaining>1`) + générait des records hors gardes en
+bataille — cause : build déployé ≠ build courant (drift de build, cf. rapport
+`../driver-drop-test-af3dn-v7-2026-09-25.md`). Le décodeur absorbe (resync + realign
+tail + reconstruction idx quad-strip). Le build propre `53464B47…` est déployé au boot
+suivant : **un dump de re-vérification menu doit parser strictement (0 resync)**.
