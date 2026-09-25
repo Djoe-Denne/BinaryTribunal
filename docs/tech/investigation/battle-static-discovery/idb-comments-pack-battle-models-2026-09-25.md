@@ -1,9 +1,10 @@
 # Pack commentaires IDB — battle models lot 14 (2026-09-25)
 
-> **Statut : PRÊT À APPLIQUER — non appliqué.** `ida-pro-mcp` n'était pas branché
-> dans la session de découverte (catalog code-mode : qmd/serena/browser/1MCP
-> seulement). Le push IDB reste réservé au parent — appliquer ce pack à la
-> prochaine session avec l'IDA branché.
+> **Statut : APPLIQUÉ — 2026-09-25.** 24/24 EA poussés via `py_eval`
+> (`set_func_cmt`, append, tag check runtime) + `idc.save_database` : 22 HIGH
+> SET + 2 MEDIUM SET (`0x5093F0`, `0x505E30`), DB SAVED. Vérification
+> post-push : tags présents, comments existants préservés (0x507080 = 83
+> lignes, 0x508F90 = 175, 0x505E30 = 34). Aucun rename/SetType/patch.
 >
 > Procédure (règles projet) :
 > 1. Pour chaque EA ci-dessous : lire le commentaire de fonction courant
