@@ -15,7 +15,7 @@ provenance:
   inferred: 0.1
   ambiguous: 0.35
 created: 2026-09-22T18:40:00+02:00
-updated: 2026-09-25T12:00:00+02:00
+updated: 2026-09-25T14:10:00+02:00
 ---
 
 # External Graphics Driver Sources
@@ -72,3 +72,12 @@ la campagne. Verdict complet : [[projects/re-ff8/references/driver-drop-test-af3
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]] — l'architecture cible
 - [[projects/re-ff8/references/battle-render-pipeline-entrypoints]] — la matrice driver native
 - [[projects/re-ff8/references/decomp-function-catalog]] — index des livrables
+
+## Lot 14 (2026-09-25): native draw slots 43-64 wired
+
+
+Ctor DDrawAlt 0x4257D0 (decomp committed) wires the draw-list walk fns: obj[0xC0/0xC4/0xC8] = RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4 (0x43E24A, x3) and obj[0xCC] = _VB variant (0x43E356, stride shl 5 = 32 B). Slots 43/44 share setup sub_43DF00; 45/46/47 = sub_43DF2A/43DF54/43DFA6; 52/53 = sub_43DFD0; 57/58/59 = sub_43E5E9; 61/62 = sub_43E220; 63/64 = sub_43E540; 65 = sub_42172A (Alt-only).
+Draw-list type -> setup/walk slot binding (driver-abi-spec 6): types 0/8->43/48, 2/10->44/49 (textured 2D), 1/9->52/57 (flat 3D), 3/11->53/58 (textured 3D), 18->61/63 and 19->62/64 (lines), 5/7/13/15 -> setup-only 55, 4/6/12/14/17 -> inline state [ctx+0xB8].
+Golden trace (lot 12-ter, 1.98 M lines): slot 29 x845054 (SetRenderState, +0x74), slot 51 x494942 = FVF1C4_VB (real battle workhorse), 47 x237943, 49 x28626, 45 x8236, 44 x20034, lines 63/61 x200 + 64/62 x50, present x9650.
+Confidence: HIGH (ctor decomp + golden CSV + spec 6).
+

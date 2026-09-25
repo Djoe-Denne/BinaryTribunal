@@ -52,7 +52,7 @@ provenance:
   inferred: 0.36
   ambiguous: 0.03
 created: 2026-07-16T13:11:00+02:00
-updated: 2026-09-15T17:52:25+02:00
+updated: 2026-09-25T14:10:00+02:00
 ---
 
 # Battle ISO Migration — Testable Unit Groups
@@ -1144,3 +1144,11 @@ Opaque lifted blocks remain isolated behind typed contracts from G02 onward. Rep
 - [[projects/re-ff8/concepts/limit-break-architecture]]
 - [[projects/re-ff8/concepts/escape-mechanics]]
 - [[projects/re-ff8/skills/battle-re-verification]]
+
+## U29.4/U29.5 progress input (lot 14, 2026-09-25)
+
+
+U29.4 (geometry parser) and U29.5 (vertex decode) have a **validated reference implementation**: tools/battle-model-probe (Python stdlib + Pillow) — FI/FL/FS + LZS extraction with 200/200 sha256 anchors against c0m-registry.json, sections 1/2/3/11 parsed, textured GLB + TIM PNG exports validated (JSON strict parse, accessors bounded, skin + inverseBindMatrices, 28 anims @15 fps on c0m090).
+Primary spec source: HobbitDur/FF8UltimateEditor FF8GameData/monsterdata.py (GPL-3.0, byte-exact round-trip upstream) — reuse its conventions instead of re-deriving; cross-validated by MaKiPL/ff8_blender. Key validated facts for the parser: disk order X,Z,Y (three s16, /2048); face Tri 16 B (a-depth-bias nibble, UV order C,A,B, tpage & 0xFE00 = hidden); animation bitstream LSB-first continuous ({3,6,9,16} positions, {3,6,8,12} rotations, deltas accumulated, scale raw+1024 absolute); UV (u & 0xFF)/128.
+Recommendation: promote the probe into the U29.4 reader (no Blender dependency); keep FVF 0x1C4 runtime decode aligned with lot 13 dump. Note: LZS port makes extract_lzs.py GPL-3.0-derived — fine for this research repo.
+

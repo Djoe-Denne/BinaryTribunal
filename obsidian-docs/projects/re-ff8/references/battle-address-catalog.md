@@ -16,7 +16,7 @@ provenance:
   inferred: 0.03
   ambiguous: 0.0
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-12T13:50:00+02:00
+updated: 2026-09-25T14:20:00+02:00
 ---
 
 # Battle Address Catalog
@@ -265,3 +265,27 @@ Lot E3c covers all 212 NIS nodes in the indegree 5–19 band: **174 renamed/comm
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]]
 - [[projects/re-ff8/concepts/command-action-pipeline]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation]]
+
+## Lot 14 additions (2026-09-25, probe byte-exact 200/200)
+
+
+## Lot 14 additions (2026-09-25, probe byte-exact 200/200)
+
+Loader family (fiabilité HIGH — registre c0m proof_notes + probe):
+- `0x507120` - BattleModel_LoadMonster (c0m 11 sections, H1-H9 copy + H11+H2 to 0x507400).
+- `0x5077B0` - bodies loader (D0C*, 7 sections, TIM H6).
+- `0x5079B0` - Edea body loader (D7C016, 10 sections).
+- `0x507E20` - Zell/Kiros inline loader (5-section files, **H1 = mesh**, no 0x507010).
+- `0x507F80` - C0M127 derived loader (2-section overlay, reuses live type-3 record of actor 142).
+- `0x507400` - BattleModel_AllocateTexturePagesAndPatchTPage (H11+H2 TIM path).
+Post-load (registre, fiabilité HIGH):
+- `0x508C90` - BattleSkeleton_BuildHierarchicalFK (s1 skeleton).
+- `0x507010` - BattleAnim_ReserveBonePoseScratch.
+- `0x508F90` - Battle_ReadAnimation (s3 bitstream; 3103 anims decode 0 mismatch — registre).
+- `0x507550` - BattleMesh_RemapPrimitiveTPageBits (s2 TPage patch).
+- `0x48BBD0` - setMonsterInfoFromDatInfoSection (H7 info).
+- `0x501C60` - BS_SetAKAOHeader (global reset, no direct C0M consumer).
+- `0x505F00` / `0x506190` / `0x5064F0` - camera collection H6 consumers (tracks 22/23 only on c0m101).
+Note: the registry proof_notes cite `GetTextureEOF 0x505E30` — that address is now `BattleTimQueue_EnqueueType1` (renamed after the registry was generated); treat the registry name as historical, not current (fiabilité: naming MEDIUM, address HIGH).
+Full detail: [[battle-model-tools-and-format]] + [[c0m-monster-archives]].
+

@@ -15,7 +15,7 @@ provenance:
   inferred: 0.07
   ambiguous: 0.03
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-12T13:50:00+02:00
+updated: 2026-09-25T14:10:00+02:00
 ---
 
 # Battle Static Call Graph
@@ -121,3 +121,12 @@ for the Battle Loop only, from battle entry to battle exit.
   the 68 indeg≥5 hubs — count kept as stated, not silently merged. ^[ambiguous]
 - IDB moved to IDA 9.3 (`FF8_EN.exe - 9.3.i64`); single save per apply via
   `idc.save_database(idc.get_idb_path())`.
+
+## Lot 14 (2026-09-25): asset-side edges, probe-confirmed
+
+
+Confirmed edges (fiabilité HIGH — registre c0m proof_notes + probe byte-exact 200/200 + decomp): 0x507080 BattleModel_DispatchLoaderByActorId -> 0x507120 (monsters), 0x5077B0 (bodies D0C*, 7 sections TIM H6), 0x5079B0 (Edea body D7C016, 10 sections), 0x507BF0 (weapons D0W*, 8 sections TIM H7), 0x507E20 (Zell/Kiros inline 5-section, H1 = mesh), 0x507F80 (C0M127 derived overlay). Monster TIM: 0x507400 BattleModel_AllocateTexturePagesAndPatchTPage (H11+H2), GetTextureEOF 0x505E30.
+Post-load: 0x508C90 BattleSkeleton_BuildHierarchicalFK (s1), 0x507010 BattleAnim_ReserveBonePoseScratch, 0x508F90 anim reader (s3), 0x507550 BattleMesh_RemapPrimitiveTPageBits (s2 TPage patch), 0x50C780/0x50C860/0x50C950 BattleModel_ApplyH4UvSlot (s4 via opcodes 0x80/0x9B/0x9F/0xBD/0xBE from 0x504BB0), 0x48BBD0 setMonsterInfoFromDatInfoSection (H7), 0x4877F0/0x487DF0 EnemyAI (H8).
+Camera collection H6 consumers (confirmed): 0x505F00 (null-guard), 0x506190, 0x5064F0 (tracks 22/23 only on c0m101), record +0x2C.
+MEDIUM confidence (naming conflict unresolved, lot semantique pending): 0x5093F0 Battle__ReadBoneScale — registry cites it, but committed decomp of the neighboring 0x508F90 labels the address au_re_bitReader.
+

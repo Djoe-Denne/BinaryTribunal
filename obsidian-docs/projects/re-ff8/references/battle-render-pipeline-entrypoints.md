@@ -13,7 +13,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-25T12:00:00+02:00
+updated: 2026-09-25T14:10:00+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -94,3 +94,14 @@ Battle swirl (two machines sharing alloc/capture): entry = `FFBattleTransitionMo
 - [[projects/re-ff8/concepts/battle-camera-architecture]]
 - [[projects/re-ff8/references/battle-address-catalog]]
 - [[projects/re-ff8/references/chunk-iso-function-catalog]]
+
+## Lot 14 (2026-09-25): asset->runtime bridge, byte-exact
+
+
+The full asset->runtime chain is now **byte-exact proven** by the [[projects/re-ff8/references/battle-model-tools-and-format|battle-model-tools-and-format]] probe (200/200 payloads sha256-matched against [[projects/re-ff8/references/c0m-monster-archives]]):
+
+attle.fs (FI/FL/FS + LZS, 853 entries) -> loader dispatch 0x507080 -> monster loader 0x507120 -> sections s1/s3 (0x508F90 anim reader; 0x508C90 skeleton FK; scratch 0x507010) -> s2 geometry (RenderGeometry 0x5099D0 -> ParseVertices 0x50F900 -> ParsePolygons 0x50FDF0 -> Gpu_EmitPolyFT3/FT4 0x4617F0/0x461A90, OT nodes 24 B) -> GTE-emulated T&L CPU (Gte_MVMVA 0x460860, AVSZ3/4 0x45E5C0/0x45E610, NCLIP 0x45EE10) -> float XYZRHW screen-space (FVF 0x1C4 arrives already transformed) -> Gpu_DrawOTagCurrent 0x45D610 -> Gfx_SelectTexturePageDrawList 0x465CE0 -> Gfx_SubmitDisplayLists 0x4980C0 -> Gfx_SubmitTexturePageLists 0x465930 -> Gfx_WalkDrawList 0x4178D7 -> DDrawAlt slots 48-51 (RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4 0x43E24A x3 + _VB 0x43E356, ctor-proven).
+
+New (not previously documented here): s4 dynamic-UV slot table (37/143 present, 16-324 B) consumed by model-animation opcodes 0x80/0x9B/0x9F/0xBD/0xBE driven from 0x504BB0 (BattleModel_ApplyH4UvSlot 0x50C780 + sisters 0x50C860/0x50C950); TIM upload path 0x507400 -> Gfx_UploadCLUTSlot 0x464DB0 / Gfx_AllocTexturePageSlot 0x464F70 with full 16-bit CLUT word (no low-byte aliasing, c0m121 pitfall); golden-trace slot semantics: slot 51 (+0xCC) = FVF1C4_VB x494 942 = the real battle draw workhorse (ctor 0x4257D0 proven); hypothesis (unproven, lot 13 to settle): walkers sub_43E5E9 (slots 57/58) emit draws into slots 48-51.
+Confidence: HIGH (registry-disque + decomp + probe).
+
