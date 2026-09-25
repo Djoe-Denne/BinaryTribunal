@@ -314,7 +314,21 @@ def _fmt_rng(r, ka, kb):
             f"{kb}[{r[kb][0]:.3f} .. {r[kb][1]:.3f}]")
 
 
+def _strict_gate(args, warnings) -> int:
+    """--strict: resync/chain-break events mean the writer bug is back -> exit 3."""
+    bad = [w for w in warnings if 'resync@' in w or 'chain-break@' in w]
+    if bad:
+        print(f'STRICT FAIL: {len(bad)} resync event(s), first: {bad[0]}', file=sys.stderr)
+        return 3
+    print('STRICT PASS: 0 resync events')
+    return 0
+
+
 def cmd_info(args, records, warnings) -> int:
+    if args.strict:
+        rc = _strict_gate(args, warnings)
+        if rc:
+            return rc
     frames = group_by_seq(records)
     glob = stats(records)
     per_frame = [{'seq': seq, **stats(rs)} for seq, rs in frames.items()]
@@ -396,6 +410,10 @@ def render_frame(records, width, height, wire=False, scale=1.0, packet_layout='p
 
 
 def cmd_render(args, records, warnings) -> int:
+    if args.strict:
+        rc = _strict_gate(args, warnings)
+        if rc:
+            return rc
     for w in warnings:
         print(f'warning: {w}', file=sys.stderr)
     items = list(group_by_seq(records).items())
@@ -425,6 +443,9 @@ def build_parser():
     p_info = sub.add_parser('info', help='per-frame and global stats')
     p_info.add_argument('dump')
     p_info.add_argument('--json', action='store_true', help='machine-readable output')
+    p_info.add_argument('--strict', action='store_true',
+                        help='fail (exit 3) if any resync/chain-break event is needed '
+                             '(expected: clean dumps from the fixed writer)')
     p_rend = sub.add_parser('render', help='software-raster each frame to PNG (painter order, flat fill)')
     p_rend.add_argument('dump')
     p_rend.add_argument('--out', required=True, help='output directory for frame_XXXXXX.png')
@@ -437,6 +458,8 @@ def build_parser():
     p_rend.add_argument('--packet-layout', choices=sorted(PACKET_LAYOUTS), default='packed',
                         help='kind1 coord layout (LOW-CONFIDENCE): packed = contiguous xy pairs @8/12/16; '
                              'psxq = Psy-Q POLY_FT3/FT4 stride-8 @8/16/24')
+    p_rend.add_argument('--strict', action='store_true',
+                        help='fail (exit 3) if any resync/chain-break event is needed')
     return ap
 
 
