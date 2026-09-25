@@ -15,7 +15,7 @@ provenance:
   inferred: 0.1
   ambiguous: 0.35
 created: 2026-09-22T18:40:00+02:00
-updated: 2026-09-25T14:10:00+02:00
+updated: 2026-09-25T20:30:00+02:00
 ---
 
 # External Graphics Driver Sources
@@ -67,6 +67,9 @@ la campagne. Verdict complet : [[projects/re-ff8/references/driver-drop-test-af3
 ## Related
 
 - [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] — le drop test live lot 12-ter (2026-09-25).
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — le dump draw lists v7 + décodage PNG (lot 13) : closure node→géométrie confirmée live.
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot13]] — preuves binaires hash-bound du lot 13.
+- [[projects/re-ff8/concepts/battle-backend-roadmap]] — la suite (propositions 1–5).
 - [[docs/tech/investigation/battle-static-discovery/driver-abi-spec.md|driver-abi-spec]] — la spec ABI (lot 12)
 - [[docs/tech/investigation/battle-static-discovery/driver-provenance.md|driver-provenance]] — campagne live P0 (lots 1–6)
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]] — l'architecture cible

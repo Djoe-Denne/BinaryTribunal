@@ -13,7 +13,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-25T14:10:00+02:00
+updated: 2026-09-25T20:30:00+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -49,6 +49,8 @@ BdLink tail → Gpu_DrawOTagCurrent 0x45D610 → DrawOTag → FT3/FT4 primitives
 Byte-exact structures: `GfxDrawList` `0xEC` (`+24` ctx, `+52` generation, `+88` stamp, `+148` head, `+156` setup, `+160` walk); OT node 24 bytes; battle OT 4386 buckets (`0x4488` bytes, two buffers stride `0x9B88`); `POLY_FT3` 32 / `POLY_FT4` 40 bytes; GPU vertex 32 bytes (`xyzw`, RGBA, `uv`).
 
 `Gfx_BindDrawListBackendCallbacks` (`0x41619A`, sole caller `Gfx_CreateDrawList`) is the unique writer of list `+156/+160`, mapping list types 0–19 onto driver slots 43–64. Type 16 stays null (jpt case 16 = default; 0/67 `CreateDrawList`; Walk skipped if `*(list+156)==0`). Distinguish **RS-16** (`glDepthMask`, exists) from **list-16** (dead). Do not confuse `drawlist[39]/[40]` (`+156/+160`) with driver slots 39/40.
+
+Live closure (lot 13, 2026-09-25, see [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] and driver-abi-spec §6.1): per-node capture at the walk confirms the consumer fields — direct walkers 48/49/50 → `0x43E24A` (vcount `node+0x0C`, verts `+0x14`, icount `+0x18`, idx `+0x20`, FVF `0x1C4`), VB batch 51/60 → `0x43E356`/`0x43E692` (remaining `+0x08`, per-group u8 id stream `+0x28`, geom `+0x2C`, vcount/icount from `geom+0x3C/0x40 × remaining`, **no writeback to the node**), direct walkers 57/58/59 FVF `0x1E2`, 63/64 linelists, setups 43–47/52–56/61–62 never read the node.
 
 ## Driver Matrix (66 DWORDs, `calloc(1, 0x108)`)
 

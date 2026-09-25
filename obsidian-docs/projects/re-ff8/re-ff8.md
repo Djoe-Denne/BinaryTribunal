@@ -6,13 +6,15 @@ aliases: [FF8 reverse engineering, re-ff8]
 sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl]
 summary: >-
   FF8 PC battle RE overview. Remaster G14–G17 live; runtime laboratories
-  split; injector and ISO layer law linked.
+  split; injector and ISO layer law linked. AF3DN.P live track: drop test
+  (lot 12-ter), per-node draw-list dumps + offline decode (lot 13), roadmap
+  to textures v8.
 provenance:
   extracted: 0.76
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-22T12:05:00+02:00
+updated: 2026-09-25T20:30:00+02:00
 ---
 
 # RE FF8
@@ -57,6 +59,21 @@ classification, and live driver-provenance lot 12/+1 (native `.text` excluded
 as the `engine+0xA74` writer; AF3DN.P identified as a full DotEmu D3D9
 renderer). Incidents, verdicts and open tails are distilled in
 [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]].
+
+## AF3DN.P Live Track — Draw-List Dumps (2026-09-25)
+
+The live driver track continued after the drop test (lot 12-ter): lot 13
+shipped AF3DN.P v7, which captures the draw lists **per node at the present
+dispatch** (`Gfx_WalkDrawList 0x4178D7` calls slots 43–64 per node, capture
+order = exact draw order), plus an offline ND07 decoder software rasterizer
+that restored recognizable PNGs (menu / battle / Fireaga). The root cause of
+the "+2 bytes" was closed (text-mode `fopen` CRLF expansion; binary fix v7.1
+re-verified STRICT PASS). Node→geometry closure is live-confirmed in
+[[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] and the
+continuation plan (textures v8 → modern replay backend → semantic closure →
+harden v7.2) is tracked in
+[[projects/re-ff8/concepts/battle-backend-roadmap]].
+
 
 ## Implementation Projects
 
@@ -109,6 +126,10 @@ renderer). Incidents, verdicts and open tails are distilled in
 - [[projects/re-ff8/references/semantic-triple-pipeline]] — Triple GLM / semantic-triple protocol, IDB append-only invariants, certainty ledger over the 498 wiki functions.
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — 2026-09-17 A/V/R verdicts on the graphic pipeline and the campaign checkpoint.
 - [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] — 2026-09-19→22 campaign closure via OpenCode: mag FX 68/68, BdLink lot 10, census, driver-provenance live track.
+- [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] — lot 12-ter drop test: AF3DN.P drop-in loads via native mechanism, present-dispatch wrap, 9 650 frames PASS.
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — lot 13: per-node ND07 dumps + offline decoding, PNG PASS, +2 root cause closed, v7.1 STRICT PASS.
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot13]] — hash-bound catalog of the lot 13 captures, PNGs, and DLLs.
+- [[projects/re-ff8/concepts/battle-backend-roadmap]] — continuation propositions 1–5 (v8 textures, replay backend, semantic formalization, v7.2 hardening, housekeeping).
 
 ## External Battle Renderer (Wicked)
 

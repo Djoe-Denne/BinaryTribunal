@@ -7,6 +7,7 @@ title: Wiki Index
 *This index is automatically maintained. Last updated: 2026-09-25T12:00:00+02:00*
 
 ## Concepts
+- [[projects/re-ff8/concepts/battle-backend-roadmap]] — Roadmap continuation lot 14+ issue du lot 13 : v8 textures (prochain lot), replay backend moderne, formalisation sémantique 0x43E356/0x43E692, durcissement v7.2, housekeeping wiki — états + critères PASS. ( #ff8 #rendering #reverse-engineering #concept)
 - [[projects/AIForAll/concepts/iam-idp-connect]] — >-. ( #concept #project #testing)
 - [[concepts/opencode-setup-skills-mcp]] — Infra OpenCode V2 durable du projet — agents/skills portés depuis Codex/Cursor, default_agent=orchestrator (mode all), MCP context-mode/RTK/QMD/serena-1MCP/ida-pro-mcp, priorités providers glm-5.3-flash. ( #concept #reverse-engineering #testing)
 - [[projects/AIForAll/concepts/p4-core-operator-tranches]] — >-. ( #concept #project #testing)
@@ -71,6 +72,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — Lot 13 live : dump draw lists par node ND07 (slots 43-64 wrappés, painter's algorithm), closure node→géométrie (0x43E24A direct, 0x43E356/0x43E692 VB batch), PNG menu/bataille/Fireaga, cause racine +2 (fopen mode texte CRLF) fermée, v7.1 STRICT PASS. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot13]] — Catalogue evidence hash-bound lot 13 : copies binaires dans _raw, CSV 2,13 Go et DLLs hash-bound, PNGs catalogués. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] - Campagne live lot 12-ter : drop test AF3DN.P v6.1 (forwards PE + wrap au present 0x41DF0C), 9 650 frames, draw lists 43-64, PASS critères 1-4 + contrôle vanilla. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-model-tools-and-format]] - Lot 14 statique : cartographie outils (Ifrit Python GPL-3.0 source primaire), format c0m/DAT valide probe byte-exact 200/200, archive FI/FL/FS (853 entrees), pont asset-vers-runtime vers DIP FVF1C4. ( #ff8 #battle-system #rendering #reference)
 - [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] - Campagne décomp gfx via OpenCode (09-19→09-22) - lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
