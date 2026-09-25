@@ -660,7 +660,9 @@ static void GFXPT_DumpFlushAtPresent(void)
     drainedSeq = g_frameSeq - 1;            /* seq des records flushés */
     if (!GFXPT_BuildSidePath("gfx_passthrough_dump.bin", binPath))
         return;                             /* ring conservé (drops visibles) */
-    f = fopen(binPath, "a");
+    f = fopen(binPath, "ab");   /* mode BINAIRE : fopen "a" (texte) étend chaque 0x0A
+                                   des données en 0D 0A sur disque (+2 o par record
+                                   contenant un LF — bug de la campagne 25/09, lot 13) */
     if (!f)
         return;                             /* jamais bloqué : réessai au prochain present */
     fwrite(&g_dumpRing[g_dumpCommit], 1, (size_t)pending, f);

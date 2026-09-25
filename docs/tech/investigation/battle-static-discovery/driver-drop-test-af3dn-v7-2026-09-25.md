@@ -27,19 +27,26 @@ Déploiement drop-in : inchangé vs v6.1 (`AF3DN.P` + `dotemu_orig.dll`, forward
 
 ## Anomalie (writer de l'image déployée) — qualifiée, contournée, corrigée
 
-- Symptôme : records slot 51 multigroupes (`remaining>1`) avec **+2 o non déclarés** (fvf blob copié
-  `[verts-2, verts-2+vc*32+2)` d'après bytes réels, préfixe u16 = `last_idx+1` du stream ids),
-  et en bataille des records **hors gardes** (vc 19482/ic 29184 avec fails=0) que le build
-  courant refuse. Le `.log` du writer (bytes déclarés 4380/frame) diverge du fichier (4384/frame).
-- Cause racine : **drift de build** — l'image bootée ≠ l'état final de la source ; le build
-  courant (audit disasm : `shl edi,5`, psize/advance même variable, gardes intactes) ne
-  reproduit pas l'incident. NB : l'assertion « .text du rebuild identique à l'image déployée »
-  de l'audit intermédiaire est **circulaire** (le fichier `2E417A66` a été écrasé avant la
-  comparaison) ; la preuve retenue est empirique (gards contournées + split log/fichier dans les captures).
-- Contournement : décodeur resync + realign tail + reconstruction idx quad-strip
-  (`tools\_tmp_af3dn_drop\decode\ff8dump.py`, selftest PASS, 4 fichiers historiques parsés).
-- Correctif : build propre `53464B47…` déployé (jeu mort, hash vérifié). **À faire à la
-  prochaine boot : dump menu de re-vérification — chaîne strictement valide attendue (0 resync).**
+**Cause racine (fermée, preuves harnais + RPM live) : le flush du dump utilisait `fopen(binPath, "a")` —
+mode TEXTE — qui étend chaque `0x0A` des données en `0D 0A` sur disque (+2 o par record contenant
+un LF).** Preuves : ReadProcessMemory du jeu en cours (anneau RAM = contrat exact, magic suivant à
++1324, zéro préfixe) vs le même record dans `reverify.bin` = 1326/1326 octets identiques avec les
+2 LF expansés ; reproduction in vitro (0 LF → +0, 8 LF → +8) ; harnais sur le DLL déployé :
+`g_dumpWrite` +1324 conforme, sentinelles non copiées. Les mots idx « corrompus » (capture
+post-walk `0x43E356`, scratch natif) contenaient les LF → corrélation « remaining>1 ⇒ +2 » (les
+records monogroupes ont un idx propre). Le « préfixe u16 `22 00` » = le dernier mot idx (34)
+poussé hors zone par les insertions — aucun champ natif intercalé (disasm `0x43E356` confirmé).
+
+Deuxième anomalie, distincte : les records bataille hors gardes (vc 19482/ic 29184, fails=0)
+viennent de l'**image bootée 13:47** (build drift confirmé pour les gardes ; l'image actuelle
+ne peut pas les produire — caps vérifiées au disasm). La re-vérification 18:38 sur l'image
+`53464B47` ne montre que vc 36/56/4 ✓.
+
+Correctifs : (1) `fopen(binPath, "ab")` — mode binaire, build v7.1 `F7A9B39B…E4F` ; (2) build
+propre gardes-intactes `53464B47…8960` déjà déployé. Le décodeur absorbe les dumps historiques
+(resync + realign-tail + reconstruction idx quad-strip). **À la prochaine boot : dump menu doit
+parser strictement (0 resync).** Durcissement optionnel documenté : capture avant le forward
+natif (fige node+0x08/0x14/0x2C contre le scratch post-walk).
 
 ## Livrables & hashes
 

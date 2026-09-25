@@ -222,11 +222,14 @@ avance ses curseurs en registres locaux (pas de writeback du node, vérifié dis
 DIFFUSE, alpha<8 skippé, `--wire`. CSV `2.13 Go` (41,1 M appels) hors git : hash
 `1EAB485F0E0139565545334A278CA8B056CA3A3F44EBCADE3FB4B33433F8E2C9`.
 
-### 8.5 Anomalie campagne 25/09 (image bootée bugée)
+### 8.5 Anomalie campagne 25/09 (fermée — cause racine = flush mode texte)
 
-L'image en exécution pendant la campagne sous-comptait `payload_size` de **2 o pour les
-records slot 51 multigroupes** (`remaining>1`) + générait des records hors gardes en
-bataille — cause : build déployé ≠ build courant (drift de build, cf. rapport
-`../driver-drop-test-af3dn-v7-2026-09-25.md`). Le décodeur absorbe (resync + realign
-tail + reconstruction idx quad-strip). Le build propre `53464B47…` est déployé au boot
-suivant : **un dump de re-vérification menu doit parser strictement (0 resync)**.
+Le dump `.bin` de la campagne sous-comptait `payload_size` de **2 o par record contenant un
+octet `0x0A`** : `fopen(binPath, "a")` = mode TEXTE (CRLF expansion). Preuves : ReadProcessMemory
+du jeu en cours (anneau RAM contrat exact) vs le même record sur disque (LF expansés) ;
+reproduction in vitro ; harnais sur le DLL déployé (g_dumpWrite conforme). Correctif :
+`fopen(binPath, "ab")` (v7.1 `F7A9B39B…E4F`). Le décodeur absorbe les 4 dumps historiques
+(resync + realign tail + reconstruction idx quad-strip) ; **les dumps futurs passent `--strict`**
+(resync = échec bloquant). Les records bataille hors gardes (vc 19482) venaient de l'image
+bootée 13:47 (build drift gardes, image morte) — l'image `53464B47`+ ne peut pas les produire.
+Détails : `decode\_audit\DumpNode_decomp_reconcile.md`.
