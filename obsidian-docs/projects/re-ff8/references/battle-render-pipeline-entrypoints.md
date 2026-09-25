@@ -13,7 +13,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-12T13:50:00+02:00
+updated: 2026-09-25T12:00:00+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -34,7 +34,7 @@ Statically closed frame path for FF8 PC battle rendering (`FF8_EN.exe` `064d466b
 | Viewport lists | `Gfx_SubmitViewportLists` (`0x499EA0`) | per-viewport submit, then restore main viewport |
 | Leave | `GfxDriver_LeaveScene` (`0x41E99D`, slot 41) | unlock / clear latch only, **not** present |
 
-Present is `Render_FramePresent_Dispatch` (`0x41DF0C`, slot 4), called by the engine loop — never by `FFBattleModule`. GL present → `SwapBuffers`; DDraw frame → lock/blt/unlock then present; DDrawAlt → present directly.
+Present is `Render_FramePresent_Dispatch` (`0x41DF0C`, slot 4), called by the engine loop — never by `FFBattleModule`. GL present → `SwapBuffers`; DDraw frame → lock/blt/unlock then present; DDrawAlt → present directly. Live drop test lot 12-ter (2026-09-25): this same dispatch served as the exclusive **wrap point** — driver proxy installed on first present, 9 650 frames forwarded at native fidelity while scheduling stayed untouched → [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]].
 
 ## OT To GPU Chain
 

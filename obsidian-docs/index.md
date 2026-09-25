@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-22T11:33:40+02:0002:00*
+*This index is automatically maintained. Last updated: 2026-09-25T12:00:00+02:00*
 
 ## Concepts
 - [[projects/AIForAll/concepts/iam-idp-connect]] — >-. ( #concept #project #testing)
@@ -71,7 +71,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
-- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] — Campagne décomp gfx via OpenCode (09-19→09-22) — lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] - Campagne live lot 12-ter : drop test AF3DN.P v6.1 (forwards PE + wrap au present 0x41DF0C), 9 650 frames, draw lists 43-64, PASS critères 1-4 + contrôle vanilla. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] - Campagne décomp gfx via OpenCode (09-19→09-22) - lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/AIForAll/references/apparatus-adr-chronicle-2026-09]] — >-. ( #concept #project #testing)
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — Verdicts A/V/R du 2026-09-17 sur le pipeline graphique Battle Room (0x45C870, 0x45D080, 0x416D82, 0x461800, 0x461A90...), lots 1-4 clos, checkpoint 0x559AF0. ( #ff8 #rendering #reverse-engineering #reference)
 
@@ -134,7 +135,8 @@ title: Wiki Index
 
 ## Journal
 
-- [[journal/2026-09-03]] — Session: G23 protocol-v1 smoke PID 49024 L23-A/B/C collector PASS; Detached; promotion.G23 false. ( #ff8 #battle-system #testing #reference)
+- [[journal/2026-09-25]] - Session: drop test AF3DN.P lot 12-ter LIVE — boucle v2→v6.1, contrôles A/B/C, campagne §2 complète (2 Fireaga), 9 650 frames forwardées. ( #ff8 #rendering #testing #reference)
+- [[journal/2026-09-03]] - Session: G23 protocol-v1 smoke PID 49024 L23-A/B/C collector PASS; Detached; promotion.G23 false. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-09-02]] — Session: G22 v19 protocol-v5 live-promoted; PIDs 26456/22744; `refused_mask=0`; P-SAT closed; G23 authorized. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-31]] — Session: extract + live v17 PID 29160 ; L22-A/B/C PASS ; `refused_mask=32` ; satisfied false. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-30]] — Session: G22 live v11–v15 then static catchup; Steam CharacterData file offset closed. Promotion false. G23 not started. ( #ff8 #battle-system #testing #reference)

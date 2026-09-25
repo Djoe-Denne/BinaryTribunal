@@ -18,7 +18,7 @@ provenance:
   inferred: 0.54
   ambiguous: 0.04
 created: 2026-07-12T13:45:00+02:00
-updated: 2026-09-17T12:00:00+02:00
+updated: 2026-09-25T12:00:00+02:00
 ---
 
 # External Battle Renderer Architecture
@@ -349,9 +349,9 @@ Phase P0 must trace:
 
 Both an upstream native call and a downstream translated D3D9 present may fire in the same frame.
 
-## Native Fallback And Failure Policy
+Update (lot 12-ter, live 2026-09-25): the live-observed capture point is the **wrap of the present dispatch `0x41DF0C`** — a driver proxy installed on the first present and reused per frame. This is the live equivalent of the post-init window defined above; the factory/config path remains the documented architecture (spec §7). See [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] — 9 650 native-fidelity frames, draw lists 43–64 and render-state slot 29 (845 054 calls) captured in observation mode only.
 
-Fallback is a required product feature, not debug scaffolding.
+## Native Fallback And Failure Policy
 
 Trigger native fallback on:
 

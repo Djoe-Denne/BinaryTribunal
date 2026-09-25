@@ -1031,6 +1031,7 @@ multi-hit eligibility baselines.
 - [ ] **U29.5 Vertex/polygon decode:** formats, topology, UV/color, clipping, and primitive ordering.
 - [ ] **U29.6 Render state:** blend, alpha test, depth, cull, texture page, palette, viewport, and projection.
 - [ ] **U29.7 Backend provenance:** prove the active DirectDraw/OpenGL/compatibility path for the certified environment.
+  - **Proven live 2026-09-25 (lot 12-ter, [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]]):** active path = **DirectDraw/Alt, case 0** (ctor `0x4257D0`); dispatch selector `engine+0xBA8=0` (never written), `#checkreg,ret=1,sel=0`, present gate `engine+0xB88=1`. The OpenGL ctor `0x4252B0` (case 3) **fails live** on the DotEmu Steam port — do not build the adapter against it.
 - [ ] **U29.8 Generic graphics adapter:** submit replacement packets without `BS_RenderRelated` or `RenderGeometry`.
 - [ ] **U29.9 Draw-command fixtures:** compare semantic command streams before pixel-level validation.
 
@@ -1039,6 +1040,12 @@ Here, the semantic command stream is the renderer-neutral legacy draw contract (
 **Test pack:** representative stages/actors/effects, every state combination, clipping, ordering, resize/backend transitions, and device failure.
 
 **Gate G29:** a supported battle frame is constructed solely from replacement-owned presentation state and generic backend calls.
+
+**Live-proven adapter contract (lot 12-ter, 2026-09-25 — see [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]]):**
+- Adapter vehicle = the native **0x108 driver object** consumed at the **present dispatch `0x41DF0C`** (gate `engine+0xB88`; getter `GetBufApp_0xA74` reads `engine+0xA74` pure). Wrap pattern proven live: 9 650 frames, 0 AV, idempotent first-frame wrap.
+- Loading vehicle = **AF3DN.P drop-in**: the exe statically imports 8 `dotemu*` names from this module — forward them (PE forwards) to `dotemu_orig.dll` (renamed original DotEmu shim, 209 920 B, SHA256 `539558E4…`).
+- **Golden rule:** never stub an unowned slot — copy the native fnptr. Slot 20 no-op (`ret 0`) killed the run after 2 calls (CSV-chronologized).
+- Measured load profile (99.2 MB golden CSV, SHA256 `EB5FDCA3…`): slot 29 ×845 054, slot 51 ×494 942, slot 47 ×237 943, slot 39 ×102 159, draw lists 43–64 active — perf budget and fixture reference for U29.8/U29.9.
 
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G29 -Profile P3 -TimeoutMs 300000` on representative stages, actors, effects, render-state combinations, clipping/order cases, resize/backend transitions, and device failure. It passes when semantic draw-command streams match calibrated fixtures and the call audit reaches only the approved generic backend adapter—never native `BS_RenderRelated` or `RenderGeometry`.
 
@@ -1063,6 +1070,8 @@ Here, the semantic command stream is the renderer-neutral legacy draw contract (
 
 **Gate G30 / P4 FrameOwned:** no original battle callback or battle subsystem executes; declared visual parity gaps remain explicit.
 
+**Live-proven frame cadence anchors (lot 12-ter, 2026-09-25):** the per-frame graphics heartbeat is the **present dispatch `0x41DF0C`** (gate `engine+0xB88`, driver via `GetBufApp_0xA74` = `engine+0xA74` pure — asm-verified). Frame ownership (U30.5) inserts here; exit path = slot 1 then `FreeLibrary(engine+0xBCC)` via `0x409670` — **qualify live** that a wrapped driver survives full shutdown (not yet exercised).
+
 **Injected in-game test:** Run `Invoke-IsoGroup -Group G30 -Profile P4 -TimeoutMs 300000` across Init, active/paused frames, focus loss, catch-up/skip, every terminal switch, controlled fault, and repeated battles. It passes when replacement Init/Frame/Exit ordering and cadence are exact, safe fault/teardown succeeds, and runtime auditing records zero original battle callback or battle-subsystem execution.
 
 ## 11. Certification Group
@@ -1079,6 +1088,7 @@ Here, the semantic command stream is the renderer-neutral legacy draw contract (
 - [ ] **U31.4 Development-path removal:** no trampoline, rollback-to-native, debug bypass, or unsupported fallback in certification.
 - [ ] **U31.5 Semantic parity:** state, queues, RNG, callbacks, result, save, and handoff fixtures pass.
 - [ ] **U31.6 Presentation parity:** task order, camera, draw command stream, audio events, and calibrated frame output pass for the certified matrix.
+  - **Reference fixture (lot 12-ter):** golden capture `tools/_tmp_af3dn_drop/gfx_passthrough_v6.1_campaign.csv` (99 201 211 B, SHA256 `EB5FDCA3D48F7A50F107433307CDFC25E77A4CF2DC3CE0796A4CD3AF1BC23826`) — 1 977 816 lines: slot 29 ×845 054, slot 51 ×494 942, slot 47 ×237 943, slot 39 ×102 159, present ×9 650 (menu→field→battle→2× Fireaga→clean exit). Draw-command stream parity for the certified matrix replays against this sequence.
 - [ ] **U31.7 Failure/soak:** pool exhaustion, bad asset, backend loss, focus changes, repeated battles, and long scenario runs.
 - [ ] **U31.8 Reproducible evidence:** publish hashes, compiler flags, address map, ABI/port manifests, fixtures, content matrix, and all known limitations.
 - [ ] **U31.9 Uncertainty gate:** no unresolved **known** uncertainty affects any route claimed by the certified matrix.

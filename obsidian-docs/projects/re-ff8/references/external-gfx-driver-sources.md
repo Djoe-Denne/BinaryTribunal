@@ -15,7 +15,7 @@ provenance:
   inferred: 0.1
   ambiguous: 0.35
 created: 2026-09-22T18:40:00+02:00
-updated: 2026-09-23T10:30:00+02:00
+updated: 2026-09-25T12:00:00+02:00
 ---
 
 # External Graphics Driver Sources
@@ -54,8 +54,19 @@ La copie Steam de l'opérateur a **FFNx installé** (`AF3DN.P`, `FFNx.toml` `ren
 
 16, 34, 37, 5, 6 — divergences entre Aali/FFNx et notre binaire, statut « à trancher » (aucune transposée aveuglement).
 
+## Drop-in natif sans factory (lot 12-ter)
+
+Le mécanisme d'**usurpation de module** ci-dessus (FFNx) et le drop test live de 2026-09-25
+diffèrent du chemin factory : un drop-in réel de `AF3DN.P` exige des **forwards PE** (dépendance
+statique 8 imports `dotemu*` de `FF8_EN.exe`, original exporte 18 noms sans
+`new_dll_graphics_driver`) et un **wrap post-init au present dispatch** — la voie launcher-safe
+(config 36B / factory type-2) a été documentée (spec §7-1/§7-2) mais n'a pas été le véhicule de
+la campagne. Verdict complet : [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] —
+9 650 frames, draw lists 43–64 capturées en mode observation.
+
 ## Related
 
+- [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] — le drop test live lot 12-ter (2026-09-25).
 - [[docs/tech/investigation/battle-static-discovery/driver-abi-spec.md|driver-abi-spec]] — la spec ABI (lot 12)
 - [[docs/tech/investigation/battle-static-discovery/driver-provenance.md|driver-provenance]] — campagne live P0 (lots 1–6)
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]] — l'architecture cible
