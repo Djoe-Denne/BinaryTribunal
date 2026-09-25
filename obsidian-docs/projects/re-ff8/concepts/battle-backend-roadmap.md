@@ -116,3 +116,20 @@ Elle est **continue dans le wiki** : mise Ã  jour Ã  chaque nouveau lot.
   cible que la roadmap fait avancer pas Ã  pas.
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] â€” le protocole
   de triples utilisÃ© par la proposition 3.
+
+## Outillage (créé le 2026-09-25 — suite directe du lot 13)
+
+**État : créés.** Issus des patterns répétitifs de la session lot 13 et du minage des campagnes
+live passées (P0.7–G23, drop tests, provenance, lot 13 — playbook consolidé 15 étapes / 10 leçons) :
+
+- **Agent live-campaign-runner** (.opencode/agents/live-campaign-runner.md) — orchestration
+  complète : necessity filter ? writer-verify gate ? déploiement+hash ? observateur ? triggers
+  sidecar ? collecte ? décodeur ? rapport PASS/FAIL. Playbook + intangibles + triage A/B/C intégrés.
+- **Skill f8-dump-writer-verify** (.agents/skills/ff8-dump-writer-verify/) — gate post-build/
+  déploiement : exports, fopen binaire (leçon CRLF), harnais sentinelles RVAs auto-dérivées
+  (scripts/verify_writer.ps1 + template driver-passthrough/harness_probe_template.c),
+  build-id, hash déployé == build. Aurait attrapé les 2 incidents du lot 13 avant le run.
+- **	ools/af3dn-runner/ff8_watch.ps1** — observateur paramétré (spawn/attach/trigger/collect/purge)
+  remplaçant watch3/4/5 ad-hoc ; purge intégrée + hash déployé + collecte hashée.
+- **(à faire)** skill lot-prompt-drafting (générer PROMPT_lotN depuis cette page + dernier rapport
+  + leçons) ; skill inary-stream-recovery (patterns parser auto-réparateur) ; template session-dossier.
