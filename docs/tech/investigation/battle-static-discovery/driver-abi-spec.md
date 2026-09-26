@@ -211,6 +211,41 @@ n'applique AUCUN reclacul UV : il calcule `pixel = int(U·W)`, `row = int(V·H)`
   Au detour 43–64, le CLUT de la page capturée est le ptr vivant à `dword_1CA89A8` au moment du present
   (biais "capture au 1er hit du frame" documenté).
 
+### 6.3 Fermetures lot 15 (offline 2026-09-26 — LUT, caméra, ciel, walk-direct)
+
+**A. Ordre des canaux du CLUT brut TR08 — FERMÉ (canari couleur) :** `bytes 0,1,2 = R,G,B` est
+CORRECT (u32 LE = `STP«24 | B«16 | G«8 | R`). Preuve : effet central battle13 rendu ORANGE en
+(a) RGB vs BLEU en (b) BGR — la réf opérateur montre le curseur jaune et le lot 14 a validé
+« effet orange » (`captures/lot14/battle13/LOT15_effect_AB.png`). La métrique terrain mean|d|
+est bruitée par le framing et ne doit PAS servir de canari. Aucun changement décodeur.
+
+**B. Cadrage caméra — FERMÉ (artefact de comparaison) :** les coords FVF sont déjà en screen-space
+final (bbox 0..640 mesurée) ; le jeu rend 640×480 → upscale ×1,25 = 800×600 (Steam). Le décalage
+perçu venait (i) du resize NEAREST 800→640 du side-by-side et (ii) de la comparaison de MOMENTS
+différents — la fenêtre armée = 16 frames strictement identiques (bataille en pause), la réf
+opérateur étant prise hors fenêtre. Protocole : screenshot F12 PENDANT la fenêtre armée ;
+comparaison en 800×600 upscale (`LOT15_upscale_pair.png`).
+
+**C. Ciel/fond battle — FERMÉ comme chemin NON-wrappé (hypothèse (c)) :** le fond est composé
+dans la VRAM émulée `0x1B47818` (GP0 0x02 fill `0x4623A0` — gardes `cmp dx,280h`/`cmp si,0F0h`,
+`rep stosd` stride 0x800 ; 0x80 MoveImage ; sprites 0x64–0x7F) → RT1 → présenté par un chemin
+qui ne déclenche AUCUN slot 43–64. Les deux passes dispatch convergent vers `Gfx_WalkDrawList`
+(`0x460D26 jmp Gfx_SubmitTexturePageLists`, `0x460CB6 call Gfx_WalkDrawList`) — un poly ciel
+passant par là serait capturé, il ne l'est jamais. Clear battle = vec4 {0,0,0,1} NOIR
+(`0x47CF8D..0x47CFA5`), le slot 8 n'est pas le ciel. Détail + ancres v11 :
+`driver-passthrough/CLOSURE_sky-path.md`. Piste capture future : dump du buffer VRAM complet
+`0x1B47818` (1 Mio, même empreinte que le miroir TX07) — non codé (zéro offset inventé).
+
+**D. Chaîne texture walk-direct (slots 48/49/50) — FERMÉE statiquement, sonde live requise
+avant codage :** `node → W = *(node+0x38) → D = *(W+0x14) → M = *(D+0xA0) →
+E = &(*[M+0x40])[idx*0x48] → texobj = *(E+0x38)` (créé via `call [vt+0x50]` @0x422056, stocké
+@0x422065). `*(texinfo+0x10)` ne participe PAS (d'où texobj=0 sur les records slot 49 v10.3).
+Anchres : `0x43e0f6 mov edx,[ecx+38h]` → `0x43e12c call sub_407EB4` ; `0x407ee8 mov edx,[ecx+14h]`,
+`0x407efb mov ecx,[eax+0A0h]`, `0x407fba imul eax,48h`, `0x407fc0 mov edx,[ecx+40h]` ;
+`[T+0xD8] = *(E+0x30)` pixels @0x422040-0x422048. UNPROVEN (live only) : valeur runtime
+E+0x38 vs E+0x3C sur une frame slot-49. Détail + protocole sonde :
+`driver-passthrough/CLOSURE_walkdirect-texture-chain.md`.
+
 ## 7. Activation du type 2 (contrainte lanceur)
 
 1. La factory n'est jamais appelée nativement → le lanceur appelle lui-même

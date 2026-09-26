@@ -409,3 +409,25 @@ clutBuf@T+0x60 (u32/couleur, byte3 = STP), pixels@T+0xD8 (1 o/texel),
 palMgr = \*(v11+0xA0) → palCount = *(palMgr+12).
 Le footer ND08.texobj = T ; le sous-palette du groupe g = raw_clut + 4*entries*ids[g].
 Résultat : terrain de bataille rendu en VRAIE texture (voir CAMPAIGN_lot14 §5.2).
+
+## 12. Lot 15 — fermetures offline (2026-09-26)
+
+Détails complets : `driver-abi-spec.md` §6.3, `CLOSURE_sky-path.md`, `CLOSURE_walkdirect-texture-chain.md`.
+
+1. **LUT fermée** : ordre `bytes 0,1,2 = R,G,B` confirmé par canari couleur (effet battle13
+   ORANGE en RGB vs BLEU en BGR ; `../captures` `battle13/LOT15_effect_AB.png`). Zéro changement
+   décodeur — la LUT « résiduelle » du lot 14 était un faux problème (le miroir alpha-stagé est
+   déjà contourné par le raw_clut TR08).
+2. **Caméra fermée** : coords screen-space finales ; 640×480 → ×1,25 (Steam) ; le décalage
+   perçu = resize NEAREST du side-by-side + comparaison de moments différents (fenêtre armée =
+   16 frames identiques en pause). Protocole : F12 PENDANT la fenêtre. Preuves :
+   `LOT15_upscale_pair.png`, `LOT15_final_rgb_up800.png`.
+3. **Ciel fermé (c)** : composé dans la VRAM émulée `0x1B47818` (GP0 fill `0x4623A0`,
+   MoveImage, sprites) → RT1 → présenté sans aucun slot 43–64 ; les passes dispatch convergent
+   vers `Gfx_WalkDrawList` donc un poly ciel serait capturé. Clear = noir. Piste v11+ : dump
+   du buffer `0x1B47818` (1 Mio).
+4. **Walk-direct fermé statiquement** : `node → +0x38 → +0x14 → +0xA0 → [M+0x40][idx*0x48]
+   → texobj = *(E+0x38)` (`0x422056`/`0x422065`) ; `*(texinfo+0x10)` hors jeu. Sonde
+   ReadProcessMemory live OBLIGATOIRE avant de coder le footer v11 (E+0x38 vs E+0x3C).
+5. **Blend v2** : blend 50 % des tris `8 ≤ alpha < 250` implémenté dans les rendus A/B
+   (382 tris/frame battle13) — neutre sur terrain statique, à juger sur fireaga (v11).
