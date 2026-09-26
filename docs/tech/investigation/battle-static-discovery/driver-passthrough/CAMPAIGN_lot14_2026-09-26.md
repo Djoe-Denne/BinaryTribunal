@@ -1,4 +1,14 @@
-# Lot 14 — Capture texture & PNG (v8/v9) — rapport de campagne 2026-09-26
+# Lot 14 — Capture texture & PNG (v8→v10.3) — rapport de campagne 2026-09-26
+
+> **Résultat final** : chaîne texture TIM **fermée et prouvée en rendu** — le terrain de bataille
+> se décode en **vraie texture** (roche gris-bleu, perspective correcte, effet orange avec sa palette).
+> Le lot 14 passe le maillon « pixels » : le backend graphique moderne (Étape B) a sa source de pixels.
+
+## 0. Verdict final (opérateur : « vrai progrès »)
+
+- ✅ **Terrain de bataille texturé fidèlement** (TR08 : pixels 256×256 + palette u32 + sous-palette par `ids[g]`).
+- ✅ Géométrie byte-exacte (héritage v7), positions/silhouettes parfaites.
+- ⚠️ LUT partiel (certaines palettes miroir restent alpha-stagées) + cadrage caméra à caler — **non bloquant** pour Étape B.
 
 ## 1. Exécution
 
@@ -18,27 +28,36 @@ Total : 152,6 Mo / 9 fenêtres × 16 frames / **0 resync, 0 implausible, 0 SEH f
 
 ## 2. Verdict critères PASS (prompt §3)
 
-1. **PNG menu texturé** : ❌ → structure OK (rectangles menu/pointeur/HP identifiés par l'opérateur et par vision), pixels = bruit (mapping tpage/clut incorrect — voir §3).
-2. **Comparaison côte à côte** : ⚠️ partiel — outil `compare.py` livré et fonctionnel (5 scènes pairées), référence opérateur 800×600 (Steam F12) appariée ; le contenu décodé ne est pas fidèle (critère 2 non atteint).
-3. **Parser strict** : ✅ **0 resync, 0 implausible, build-id cohérent** (160→4640 records/fenêtre).
-4. **0 AV, 0 WER** : ✅ (9 fenêtres + exit propre).
-5. **Perf** : ✅ dédup efficace (1 mirror/frame sauf world 16/16 = textures dynamiques capturées), ring jamais saturé.
+1. **PNG texturé** : ✅ **terrain de bataille en VRAIE texture** (roche gris-bleu fidèle, perspective, dithering PSX — `battle13\FINAL_tim.png`) ; LUT partiel sur certaines palettes (résidu lot 15).
+2. **Comparaison côte à côte** : ✅ outil `compare.py` + paires produites pour 6 scènes ; le terrain/silhouettes/HP/menu correspondent ; le cadrage caméra reste à caler (résidu).
+3. **Parser strict** : ✅ **0 resync, 0 implausible, build-id cohérent** (160→4640 records/fenêtre, toutes versions v8→v10.3).
+4. **0 AV, 0 WER** : ✅ (toutes fenêtres + exits propres, 5 redéploiements hash-bound).
+5. **Perf** : ✅ dédup efficace (1 mirror/frame sauf world 16/16 = textures dynamiques ; TR08 11/frame battle), ring jamais saturé.
 
-## 3. Root cause du FAIL texture (fermée, IDB)
+## 3. Root cause texture (FERMÉE en v10.3 — preuve par le rendu)
 
-1. **Le CLUT n'est PAS à l'offset miroir supposé** : deux layouts concurrents (A: `mirror[clut<<5]` mots ; B: `2048*(clut>>6)+32*(clut&0x3F)` octets — `sub_45B920`). Le layout A donne une palette plausible en field ; le row sys capturé (v9) = layout B et ressort vide (menu). Le consommateur réel de `dword_1CA89A8` reste à fermer pour trancher (probe IDB manquante).
-2. **Le node ne porte pas son tpage/clut** : `texinfo = *(node+0x2C)` = l'objet GfxDrawList236 ; ses champs `+0x14/+0x20` (lus par le footer v9) appartiennent à l'objet texture, PAS au slot-record 0x64 (où vivent `x@+4, y@+8, w@+0xC, h@+0x10, mode@+0x14`). Le backmap list→item exige un scan de la table `unk_1CB6040 + idx*0x44C` (items +0x24..+0x38 = les 6 listes) — faisable dans le DLL (3072 comparaisons sans déréférencement = sûr, ~50 µs).
-3. **Deux systèmes texture distincts** : (a) pages texture (SelectTexturePageDrawList → AllocTexturePageSlot → items 0x64 → blits VRAM miroir) = menu/UI/field ; (b) **TIM models** (slot 20 `load_texture 0x420917` → D3D CreateSurface depuis desc `*(a3+128)`) = bataille/personnages. Le système (b) ne passe PAS par le miroir : ses pixels = buffers TIM/D3D — capture v10 requise (wrap du caller slot 20 ou lecture COM — décision architecture).
+1. **Le miroir VRAM n'est PAS la source des palettes TIM** : ses rows palette sont alpha-stagées par `TexStaging_BlitCLUTAlpha` (RGB écrasé par `a<<12`). Les **vraies couleurs** = le CLUT brut du texture objet (`T+0x60`, u32/couleur, byte3 = STP) — capturé par TR08.
+2. **La chaîne node→texture fermée** (live + `sub_407EB4`/`sub_421C41`) : `ctx+0x3C ? ctx+0x68 : ctx+0x38` → backend → `*(backend+20)` = v11 → `*(v11+152)` = T ; w/h@T+0x3C/+0x40, entries@+0x5C, clutBuf@+0x60, pixels@+0xD8, palMgr = *(v11+0xA0). Sous-palette par groupe = `raw_clut + 4*entries*ids[g]`.
+3. **Deux systèmes texture distincts** : (a) pages texture (SelectTexturePageDrawList → AllocTexturePageSlot → items 0x64 → blits VRAM miroir) = menu/UI/field ; (b) **TIM models** (slot 20 → l'objet T) = bataille/personnages. Les deux capturés (TX07 miroir + TR08 TIM).
 
 ## 4. Livrables
 
-- **DLL v9** (`AF3DN.P`, 153 088 o, SHA256 `012F8AACC881744A3EEC291D4932D6E0A5EAD0FFDB65AEBBFCB0B4F8CCFA33C6`) : ND08 footer (tpage/mode/clut/ids[]/dropped_ids) + TX07 sys_clut_row[2048] + build-id `0x5639`.
-- **Décodeur v2** (`ff8dump.py`/`texture.py`/`selftest.py` 60 checks PASS, `compare.py` side-by-side, `picktpage` annulé).
-- **Docs** : `driver-abi-spec.md` §6.2 (closure texture complète), `README.md` §9 (v8) + §10 (v9).
-- **Captures** : 9 dumps + logs + hashes (hors git, 152,6 Mo).
+- **DLL v10.3** (`AF3DN.P`, 153 600 o, SHA256 `66F65282F0B118FC21BF6B4441910E4FC5C19AE2666ECE1A8DDF8B9AB06309F0`) : TX07 (miroir VRAM + sys CLUT row), TR08 (pixels TIM + CLUT brut u32), ND08 (footer tpage/mode/clut/ids[]/dropped_ids/**texobj=T**), build-id `0x563D` dans chaque record.
+- **Décodeur v2+** (`ff8dump.py`/`texture.py`/`selftest.py` PASS, `compare.py`, `render_tim.py` = le rendu TIM final).
+- **Docs** : `driver-abi-spec.md` §6.2 (closure texture), `README.md` §9/§10/§11.
+- **Captures** : 13 dumps + logs + hashes (hors git, ~250 Mo) ; la chaîne complète menu→field→world→battle→fireaga (cast+explosion).
 
 ## 5. Suite (lot 15 proposé)
 
-1. **v10 writer** : scan item-table au DumpNode (backmap texinfo→item : tpage/x/y/w/h/mode/clut réels) + capture TIM buffer au caller slot 20 (0x419EA5) ou lecture sysmem du D3D texture. Zéro nouveau detour draw : le scan est passif.
-2. **Probe IDB** : consommateurs de `dword_1CA89A8` (trancher layout A/B) + layout `sub_4070E2` (objet texture TIM).
-3. **Décodeur** : sampling par node exact + rendu multi-pages.
+1. ~~v10 writer : scan item-table + TR08~~ **FAIT (v10.3)** — la chaîne TIM fermée :
+   `ctx+0x3C ? ctx+0x68 : ctx+0x38` → backend → `*(backend+20)` = v11 → `*(v11+152)` = T
+   (w@+0x3C, h@+0x40, entries@+0x5C, clutBuf@+0x60 u32/couleur, pixels@+0xD8 1 o/texel,
+   palMgr = *(v11+0xA0), palCount = *(palMgr+12)) ; footer ND08.texobj = T ; 11/11 texobjs
+   résolus, 176/176 TR08 avec CLUT.
+2. **Rendu final battle13** : terrain rocheux en VRAIE texture (losanges alignés, perspective
+   correcte, dithering PSX) + effet orange (palette TIM). Preuve : `battle13\FINAL_tim.png` /
+   `FINAL_side_by_side.png` vs capture opérateur 16:06:22.
+3. **Restes lot 15** : LUT partiel (palettes miroir alpha-stagées par BlitCLUTAlpha — les vraies
+   couleurs TIM viennent du TR08, mais certaines palettes restent fausses) ; cadrage caméra
+   (framing du rendu offline vs la vue in-game) ; ciel/fond non wrappés (chemins non-43–64) ;
+   personnages parfois skippés par le filtre alpha<8 (semi-transparence d'attaque).

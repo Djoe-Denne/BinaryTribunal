@@ -335,3 +335,77 @@ v7 `0x43E419`/`0x43E725`), `&unk_1B47818 + 2048*(clut>>6)` (`sub_45B920`,
 decomp 0x464DB0 — cf. `driver-abi-spec.md` §6.2-C). Champs BSS :
 dword_1CB602C / dword_1CA89A8/1CA89B8 / dword_B7DB44 inchangés (v8).
 
+## 11. v10 — TR08 (textures TIM bataille)
+
+### 11.1 Principe
+
+Nouveau record **`'TR08'` (0x38305254)** = **ressource texture TIM bataille**,
+**UN par texobj unique PAR FRAME**, émis au **premier node walk texturé qui le
+référence, AVANT le ND08 de ce node** — même point d'émission que TX07 (tête de
+`GFXPT_DumpNode`, slots 48–50/57–59/63–64 + 51/60 ; ordre flux :
+TX07 → TR08 → ND07/ND08). Le **texobj `T` = `*(texinfo+0x10)`**
+(`texinfo = *(node+0x2C)`) — la **VALEUR du pointeur** (le même champ déjà posé
+en `page_probe` TX07) sert de clé de dédup (table per-frame `g_resSeen[64]`,
+reset au pulse à côté de `g_frameTxEmitted`) ET de clé de match avec le footer
+ND08 (§11.3). Cap **≤ 32 TR08/frame** (log `,tr=N`) ; ring-space style TX07
+(drop + 1 ODS par fenêtre d'armement). Ne participe pas à l'ordre painter ND08
+(mapping décode-side `footer.texobj ↔ TR08.texobj`).
+
+### 11.2 Format TR08 (contrat piné)
+
+Chaîne IDB (`sub_407EB4` → `sub_4221E6` → `sub_421C41`) : `palMgr M = *(T+0xA0)`
+(`M[3]` = `T+0xAC` = `*(u32*)(M+12)` = nombre de palettes) ; le **CLUT brut** est
+un tableau **u32 PAR COULEUR, toutes les sous-palettes consécutives** (palette
+`i` commence à `raw + 4*entries*i`) ; les pixels sont **1 o/texel** (`w*h` à
+`T+0xD8`). Adressage palette moteur : palette `i`, couleur `j` =
+`raw[4*(entries*i + j)..+4]` — **l'octet 3 de chaque u32 = bit de transparence
+PSX (STP)**.
+
+| Champ | Source |
+| --- | --- |
+| `u32 base` | `magic 'TR08' (0x38305254); u32 build (0x563A); u32 seq; u32 texobj (VALEUR T)` |
+| `u32 w` / `u32 h` | `*(T+0x3C)` / `*(T+0x40)` |
+| `u32 pal_entries` | `*(T+0x5C)` (256 pour 8bpp, 16 pour 4bpp) |
+| `u32 pal_count` | `*(u32*)(M+12)`, `M = *(T+0xA0)` — **cap 32** (saturé) |
+| `u32 pixel_size` | `w*h` — **cap 65536** (256×256) |
+| `u32 clut_size` | `pal_count*pal_entries*4` — **cap 32768** |
+| `u8 pixels[pixel_size]` | copie SEH de `*(T+0xD8)` (1 o/texel) |
+| `u8 raw_clut[clut_size]` | copie SEH de `*(T+0x60)` (u32/couleur, BRUT) |
+
+En-tête 10 × u32 = **40 o** ; **record total = 40 + pixel_size + clut_size ≤
+98 344 o (0x18028)** ⊂ `GFXPT_DUMP_MAX_NODE_BYTES` (0x100C80, inchangé — le
+record max effectif du flux reste TX07 0x100820). Échec SEH d'**UNE** des
+copies (pixels OU CLUT) → **aucun record du tout** (règle « la valeur seule »,
+style TX ; `g_txSehFails++`), le texobj étant marqué vu avant la copie (style
+`g_frameTxEmitted` : pas de retentative). Lectures de chaîne/`T` illisibles →
+tentative suivante (texobj non marqué) ; `pal_count` illisible (`palMgr`
+lisible) → 0 (`clut_size` 0, pixels seuls) ; `w*h` > 65536 ou `clut_size` >
+32768 → skip garde (`guards=N` du log flush).
+
+### 11.3 ND08 : footer + `texobj`
+
+Le footer ND08 (kind2) gagne **UN u32 APPEND après `dropped_ids`** :
+`u32 texobj = *(texinfo+0x10)` (la VALEUR `T` ; 0 si la lecture échoue —
+non-fatal, style `page_probe`). Magic **`'ND08'` inchangé**, build **0x563A**
+(le décodeur distingue v9/v10 par le build id déjà parsé) ; tous les champs v9
+gardent leur offset. Footer v10 = **24 o de champs u32**
+(tpage/mode/clut/id_count/dropped_ids/texobj) + ⌈id_count/4⌉·4 o d'ids →
+record ND08 max = **164 188 o (0x2815C)** ⊂ cap.
+
+### 11.4 Provenance (aucun offset inventé)
+
+`T+0x3C/+0x40/+0x5C/+0x60/+0xA0/+0xAC/+0xD8` — chaîne texture battle TIM
+`sub_407EB4` → `sub_4221E6` → `sub_421C41` (IDB, ground truth close 2026-09-26) ;
+`*(T+0xA0)+12` = pal_count ; le CLUT brut est u32/couleur (palette `i` à
+`raw + 4*entries*i`, octet 3 = PSX STP) ; pixels 1 o/texel à `T+0xD8` ;
+`texinfo+0x10` = champ `page_probe` déjà prouvé v8 (TX07).
+### 11.1 Correction v10.3 (chaîne TIM confirmée live)
+
+\*(texinfo+0x10)\ = le BACKEND (pas les données). La vraie chaîne (prouvée par sonde
+ReadProcessMemory live + rendu final) :
+\ackend = ctx[0x3C] ? ctx[0x68] : ctx[0x38]\ → \11 = *(backend+20)\ →
+\T = *(v11+152)\ = l'objet DONNÉES : w@T+0x3C, h@T+0x40, entries@T+0x5C,
+clutBuf@T+0x60 (u32/couleur, byte3 = STP), pixels@T+0xD8 (1 o/texel),
+palMgr = \*(v11+0xA0) → palCount = *(palMgr+12).
+Le footer ND08.texobj = T ; le sous-palette du groupe g = raw_clut + 4*entries*ids[g].
+Résultat : terrain de bataille rendu en VRAIE texture (voir CAMPAIGN_lot14 §5.2).

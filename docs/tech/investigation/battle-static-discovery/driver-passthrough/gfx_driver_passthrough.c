@@ -57,6 +57,19 @@
  *   2048*((clut&0x7FFF)>>6) (unk_1B47818 = base statique littérale —
  *   HostEA EST l'adresse de la table) — record passe à 0x100820.
  *
+ * v10 additifs — ressource texture TIM bataille (TR08, per-texobj) :
+ *   (1) NOUVEAU record UN par texobj unique PAR FRAME (dédup par VALEUR du
+ *   pointeur T — table per-frame g_resSeen[64], reset au pulse), émis au
+ *   PREMIER node walk texturé qui le référence, AVANT le ND08 de ce node
+ *   (même point d'émission que TX07) : hdr 10 x u32 (magic 'TR08'
+ *   0x38305254, build 0x563A, seq, texobj, w, h, pal_entries, pal_count
+ *   cap 32, pixel_size cap 65536, clut_size cap 32768) + pixels (1 o/texel,
+ *   *(T+0xD8)) + raw_clut (u32/couleur, *(T+0x60)) — record max 0x18028 ;
+ *   échec SEH d'une copie → aucun record (règle TX) ; cap 32/frame (log
+ *   `tr=N`) ;
+ *   (2) ND08 : footer +1 u32 APPEND (texobj = *(texinfo+0x10)) — magic
+ *   inchangé, le décodeur distingue v9/v10 par le BUILD id.
+ *
  * Shutdown natif : fn 0x409670 appelle slot 1 puis FreeLibrary(engine+0xBCC) ;
  * DllMain ne fait RIEN à part un flag.
  *
@@ -546,8 +559,77 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
  * seule exige la row système — l'échantillonnage garde le miroir). Ring :
  * 64 MiB / 0x100820 = 63 records TX co-résidents max ; TX reste 1 par frame
  * armé — aucune pression (ND08 : ≤4096 records × ~200 B médian, fits).
+ * ---------------------------------------------------------------------------
+ * v10 — FORMAT TR08 (PINÉ — respecter à l'octet près) : ressource texture TIM
+ * bataille, UN record par TEXOBJ unique PAR FRAME (dédup par VALEUR du
+ * pointeur T — table per-frame g_resSeen[64]/g_resCount, reset au pulse à
+ * côté de g_frameTxEmitted), émis au PREMIER node walk texturé qui le
+ * référence, AVANT le record ND08 de CE node (même point d'émission que
+ * TX07 — tête de GFXPT_DumpNode, slots walk 48–50/57–59/63–64 direct +
+ * 51/60 VB batch). Ordre flux du frame : TX07 → TR08 → ND07/ND08 ; TR08 ne
+ * participe pas plus que TX07 à l'ordre painter (mapping décode-side :
+ * footer ND08.texobj ↔ TR08.texobj, sur la VALEUR du pointeur).
+ *
+ * GROUND TRUTH IDB (chaîne sub_407EB4 → sub_4221E6 → sub_421C41 ; T EST la
+ * valeur page_probe de TX07, i.e. *(texinfo+0x10) avec texinfo =
+ * *(node+0x2C)) :
+ *   T+0x3C = w ; T+0x40 = h
+ *   T+0x5C = entries/palette (256 pour 8bpp, 16 pour 4bpp)
+ *   T+0xA0 = palMgr M — M[3] = T+0xAC = *(u32*)(M+12) = nb de palettes
+ *   T+0x60 = ptr CLUT BRUT (u32 PAR COULEUR, TOUTES les sous-palettes
+ *            consécutives : palette i commence à raw + 4*entries*i)
+ *   T+0xD8 = ptr PIXELS (1 o PAR TEXEL : w*h o)
+ * Adressage palette du MÊME moteur : palette i, couleur j =
+ * raw[4*(entries*i + j)..+4] — l'octet 3 de chaque u32 = bit de
+ * transparence PSX (STP). AUCUNE résolution de palette côté DLL :
+ * raw_clut = copie BRUTE (u32/couleur, toutes les sous-palettes du texobj).
+ *
+ * u32 magic 'TR08' (0x38305254)
+ * u32 build       // GFXPT_BUILD_ID (v10 = 0x563A) — 2e u32
+ * u32 seq         // g_frameSeq (même compteur ND08/TX07)
+ * u32 texobj      // VALEUR de T (clé de dédup + clé footer ND08)
+ * u32 w           // *(T+0x3C)
+ * u32 h           // *(T+0x40)
+ * u32 pal_entries // *(T+0x5C)
+ * u32 pal_count   // *(u32*)(*(T+0xA0)+12) — cap 32 (saturé, sans bit d'overflow)
+ * u32 pixel_size  // w*h — cap 65536
+ * u32 clut_size   // pal_count*pal_entries*4 — cap 32768
+ * u8  pixels[pixel_size]   // copie SEH de *(T+0xD8) — 1 o/texel
+ * u8  raw_clut[clut_size]  // copie SEH de *(T+0x60) — u32/couleur
+ *
+ * Record total = 40 + pixel_size + clut_size ≤ 40 + 65536 + 32768 =
+ * 98 344 o (0x18028) ⊂ GFXPT_DUMP_MAX_NODE_BYTES (0x100C80 — inchangé ;
+ * le record max EFFECTIF du flux reste TX07 0x100820, marge 0x460). Ring
+ * espace vérifié comme TX07 : plein → drop (g_trRingDrops/g_frameTrDrops)
+ * + 1 ODS par fenêtre d'armement (g_trRingWarned) — le record ND08 du node
+ * référent passe. Cap 32 records TR08/frame (compteur g_frameTrRecs, flush
+ * log `,tr=%lu`). Échec SEH d'UNE des copies (pixels OU CLUT) → AUCUN
+ * octet écrit, g_dumpWrite jamais avancé, g_txSehFails++ (règle « pixel =
+ * la valeur seule », style TX) — le texobj est marqué vu AVANT la copie
+ * (style g_frameTxEmitted : un multi-node ne retente pas). Lectures de
+ * chaîne/champs illisibles (texinfo, T, w/h/entries/palMgr, ptr pixels/
+ * CLUT quand requis) → pas de tentative ce node, texobj NON marqué (le
+ * node référent suivant retente) ; pal_count illisible (palMgr lisible) →
+ * 0 (clut_size 0, pixels seuls — non-fatal). w*h > 65536 ou clut_size >
+ * 32768 o → skip garde (g_dumpGuardSkips/g_frameGuardSkips). Le detour
+ * draw ne fait JAMAIS tomber le jeu.
+ * ---------------------------------------------------------------------------
+ * v10 patch — ND08 : footer texture APPEND d'UN u32 APRÈS dropped_ids :
+ *   u32 texobj       // *(texinfo+0x10) — la VALEUR T — SEH, 0 si fail
+ *                    // (non-fatal, diagnostic — style page_probe TX07 ;
+ *                    // clé de mapping décode-side avec le TR08 du texobj)
+ * Tous les champs v9 gardent leur offset ; hdr 9 x u32 inchangé ; magic
+ * 'ND08' INCHANGÉ — le décodeur distingue v9/v10 par le BUILD id (0x5639/
+ * 0x563A) qu'il parse déjà. Fails inchangés : stream ids illisible →
+ * id_count=0, dropped_ids=0, hdr.fails++ ; texobj illisible → champ 0 NON
+ * fatal. Footer v10 = 24 o de champs u32 (6 x u32 : tpage|mode|clut|
+ * id_count|dropped_ids|texobj) + ids[id_count] (pad align u32) →
+ * payload_size v10 = 24 (node) + (8 + idx + pad + fvf) + (16 +
+ * ceil4(id_count) + 4 + 4). Record ND08 max recomputé = 36 + 24 + (8 + idx
+ * 32768 + fvf 131072) + footer 280 = 164 188 o (0x2815C) ⊂
+ * GFXPT_DUMP_MAX_NODE_BYTES (0x100C80) — le pin reste inchangé.
  * =========================================================================== */
-#define GFXPT_VERSION_TEXT          "v9"
+#define GFXPT_VERSION_TEXT          "v10.1"
 #define GFXPT_DUMP_MAGIC            0x3730444Eul        /* 'ND07' (restauré : utilisé par
                                  * le chemin ND07 — kind 0/1 — hdr.magic
                                  * @GFXPT_DumpNode) : le chemin kind2 passe
@@ -555,13 +637,16 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
 /* v9 — magic ND08 : TOUT record geom_kind==2 (footer texture appended).
  * ASCII LE « ND08 » = 4E 44 30 38 → 0x3830444E (famille 'ND07'). */
 #define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
-#define GFXPT_BUILD_ID              0x5639ul    /* build-id u32 dans CHAQUE
+#define GFXPT_BUILD_ID              0x563Dul    /* build-id u32 dans CHAQUE
                                                  * record (ND07/ND08 champ 9,
-                                                 * TX07 2e u32) — v9 : bump
+                                                 * TX07/TR08 2e u32) — v9 : bump
                                                  * 0x5638 → 0x5639 (leçon lot
                                                  * 13 « déployé ≠ cru
-                                                 * déployé ») */
+                                                 * déployé ») ; v10 : bump 0x5639 → 0x563A */
 #define GFXPT_DUMP_MAGIC_TX         0x37305458ul        /* 'TX07' */
+/* v10 — magic TR08 (ressource texture TIM bataille, UN record par texobj
+ * unique par frame — voir le contrat « v10 — FORMAT TR08 »). */
+#define GFXPT_DUMP_MAGIC_TR         0x38305254ul        /* 'TR08' */
 #define GFXPT_DUMP_RING_BYTES       (64ul * 1024ul * 1024ul)   /* BSS, 64 Mo */
 #define GFXPT_DUMP_MAX_FRAME        4096ul              /* records max / frame */
 #define GFXPT_DUMP_MAX_NODE_BYTES   0x100C80ul          /* garde payload node/TX — v9 :
@@ -573,7 +658,11 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
                                  * exact. ND08 : record max recomputé =
                                  * 36 + 24 + (8 + idx 32768 + fvf 131072)
                                  * + footer 276 = 164 184 o (0x28158) ⊂ cap
-                                 * — aucun rehaussement ND requis. */
+                                 * — aucun rehaussement ND requis. v10 :
+                                 * TR08 = 98 344 o (0x18028) et ND08 =
+                                 * 164 188 o (0x2815C, footer +1 u32
+                                 * texobj) ⊂ cap inchangé — record max
+                                 * effectif du flux = TX07 0x100820. */
 #define GFXPT_DUMP_FRAMES           16ul                /* frames par armement */
 #define GFXPT_DUMP_VCOUNT_MAX       4096ul
 #define GFXPT_DUMP_ICOUNT_MAX       16384ul
@@ -621,6 +710,35 @@ typedef struct GFXPT_Tx07Hdr {
                                      + GFXPT_DUMP_TX_VRAM_BYTES \
                                      + GFXPT_DUMP_TX_SYSROW_BYTES)
 
+/* v10 — TR08 : caps de record. hdr 10 x u32 = 40 o + pixels w*h (cap
+ * 65536 = 256 x 256) + CLUT brut pal_count x pal_entries x 4 (pal_count
+ * cap 32 → cap 32768 = 32 x 256 x 4) — record max =
+ * 40 + 65536 + 32768 = 98 344 o (0x18028) ⊂ GFXPT_DUMP_MAX_NODE_BYTES
+ * (0x100C80, inchangé — TX07 0x100820 reste le max effectif). */
+#define GFXPT_DUMP_TR_PIXEL_MAX     65536ul     /* cap pixel_size (w*h) */
+#define GFXPT_TR_PAL_COUNT_MAX      32ul        /* cap pal_count */
+#define GFXPT_DUMP_TR_CLUT_MAX      32768ul     /* cap clut_size */
+#define GFXPT_TR_MAX_FRAME          32ul        /* records TR08 max / frame */
+#define GFXPT_RES_SEEN_MAX          64ul        /* entrées dédup texobj per-frame */
+
+/* v10 — en-tête TR08 (40 o, 10 x u32 LE, sans padding MSVC x86) : build en
+ * 2e u32 (comme TX07) ; les buffers pixels/CLUT sont APRÈS le hdr dans le
+ * ring (payload, pas champs d'en-tête). Adressage palette du MÊME moteur :
+ * palette i, couleur j = raw + 4*(entries*i + j) ; l'octet 3 de chaque u32
+ * = bit de transparence PSX (STP). */
+typedef struct GFXPT_Tr08Hdr {
+    unsigned long magic;         /* 'TR08' */
+    unsigned long build;         /* GFXPT_BUILD_ID (v10 = 0x563A) */
+    unsigned long seq;           /* g_frameSeq au node référent */
+    unsigned long texobj;        /* VALEUR de T = *(texinfo+0x10) (clé dédup + footer ND08) */
+    unsigned long w;             /* *(T+0x3C) */
+    unsigned long h;             /* *(T+0x40) */
+    unsigned long pal_entries;   /* *(T+0x5C) (256 pour 8bpp, 16 pour 4bpp) */
+    unsigned long pal_count;     /* *(u32*)(M+12), M = *(T+0xA0) — cap 32 */
+    unsigned long pixel_size;    /* w*h (cap 65536) */
+    unsigned long clut_size;     /* pal_count*pal_entries*4 (cap 32768) */
+} GFXPT_Tr08Hdr;
+
 static unsigned char g_dumpRing[GFXPT_DUMP_RING_BYTES];  /* BSS zéro-rempli */
 static unsigned long g_dumpWrite;       /* curseur d'écriture absolu (octets) */
 static unsigned long g_dumpCommit;      /* curseur flushé (octets) */
@@ -645,6 +763,14 @@ static unsigned long  g_txRingDrops;    /* global : records TX07 perdus (ring pl
 static unsigned long  g_txSehFails;     /* global : échecs SEH du chemin texture */
 static int            g_txRingWarned;   /* ODS ring plein : 1 par fenêtre d'armement max */
 static int            g_txSysWarned;    /* v9 : ODS sys_clut_row illisible — 1 par fenêtre max */
+
+/* v10 — BSS TR08 (ressource texture TIM bataille ; zéro-rempli) */
+static unsigned long  g_resSeen[GFXPT_RES_SEEN_MAX]; /* per-frame : VALEURS T déjà émises (dédup TR08) */
+static unsigned       g_resCount;       /* per-frame : nb d'entrées g_resSeen */
+static unsigned long  g_frameTrRecs;    /* per-frame : records TR08 écrits (log tr=N) */
+static unsigned long  g_frameTrDrops;   /* per-frame : ring plein pour TR08 */
+static unsigned long  g_trRingDrops;    /* global : records TR08 perdus (ring plein) */
+static int            g_trRingWarned;   /* ODS ring plein TR08 : 1 par fenêtre max */
 
 /* Copie générique défendue (le detour draw ne doit JAMAIS faire tomber le jeu). */
 static int GFXPT_CopyBytes(void* dst, const void* src, unsigned long n)
@@ -696,6 +822,7 @@ static void GFXPT_TxEmit(unsigned long seq, const void* node)
     unsigned char*       p;
     unsigned char*       sysRow;                /* v9 : dest de sys_clut_row */
     unsigned long        holder = 0;
+    unsigned long        v11 = 0;
     unsigned long        pageProbe = 0;
     unsigned long        clutNow = 0;
     unsigned long        vramBase = 0;
@@ -813,6 +940,211 @@ static void GFXPT_TxEmit(unsigned long seq, const void* node)
     g_frameTxRecs++;
 }
 
+/* ---------------------------------------------------------------------------
+ * v10 — émission du record TR08 (ressource texture TIM bataille) : UN record
+ * par texobj unique PAR FRAME (dédup par VALEUR du pointeur T — table
+ * per-frame g_resSeen[64]/g_resCount, reset au pulse), sur le PREMIER node
+ * walk texturé qui le référence, AVANT le ND08 de CE node. Appelé à la TÊTE
+ * de GFXPT_DumpNode juste après GFXPT_TxEmit pour les slots walk texturés
+ * (48–50/57–59/63–64 : texinfo = *(node+0x2C) ; 51/60 VB : geom =
+ * *(node+0x2C) — mêmes offsets +0x2C puis +0x10 ; T = *(texinfo+0x10) EST la
+ * valeur page_probe de TX07). Deref/lectures/copies TOUTES SEH-défendues.
+ *
+ * Ground truth (chaîne IDB sub_407EB4 → sub_4221E6 → sub_421C41) : w/h =
+ * *(T+0x3C/+0x40) ; entries/palette = *(T+0x5C) (256 pour 8bpp, 16 pour
+ * 4bpp) ; palMgr M = *(T+0xA0) — pal_count = *(u32*)(M+12) = M[3] à T+0xAC,
+ * cap 32 ; CLUT BRUT = *(T+0x60), u32 PAR COULEUR, TOUTES les sous-palettes
+ * consécutives (palette i à raw + 4*entries*i ; l'octet 3 de chaque u32 =
+ * bit de transparence PSX STP) ; pixels = *(T+0xD8), 1 o/texel (w*h).
+ *
+ * Échecs : lecture de chaîne (texinfo/T) ou champ T illisible → pas de
+ * tentative ce node (texobj NON marqué — le prochain node référent
+ * retente) ; pal_count illisible (palMgr lisible) → 0 (clut_size 0, pixels
+ * seuls, non-fatal) ; garde taille (w*h > 65536 o ou clut > 32768 o) →
+ * skip compté g_dumpGuardSkips/g_frameGuardSkips (non marqué) ; ring
+ * plein → drop g_trRingDrops/g_frameTrDrops + 1 ODS par fenêtre
+ * (g_trRingWarned) ; échec SEH d'UNE des copies (pixels OU CLUT) → AUCUN
+ * record du tout (règle « pixel = la valeur seule », style TX),
+ * g_txSehFails++ — texobj marqué vu AVANT la copie (style
+ * g_frameTxEmitted : pas de seconde tentative). Cap 32 records TR08/frame
+ * (g_frameTrRecs). Le detour draw ne fait JAMAIS tomber le jeu. Ring BSS
+ * partagé ND/TX/TR (g_dumpRing/g_dumpWrite/g_dumpCommit) — aucune IO
+ * disque. AUCUNE résolution de palette côté DLL (raw_clut copié BRUT).
+ * ------------------------------------------------------------------------- */
+static void GFXPT_TrEmit(unsigned long seq, const void* node, const void* ctx)
+{
+    GFXPT_Tr08Hdr        hdr;
+    unsigned char*       p;
+    unsigned long        holder = 0;
+    unsigned long        v11 = 0;
+    unsigned long        texObj = 0;
+    unsigned long        w = 0;
+    unsigned long        h = 0;
+    unsigned long        palEntries = 0;
+    unsigned long        palMgr = 0;
+    unsigned long        palCount = 0;
+    unsigned long        pixelBuf = 0;
+    unsigned long        clutBuf = 0;
+    unsigned long        pixelSize;
+    unsigned long        clutSize;
+    unsigned long        need;
+    unsigned             i;
+
+    if (!node)
+        return;
+
+    /* v10.1 — chaîne TIM (live-probe 26/09 + decomp sub_407EB4/sub_421C41) :
+     * backend = ctx[0x3C] ? ctx[0x68] : ctx[0x38] (override du walk 0x4178D7) ;
+     * v11 = *(backend+20) ; T = *(v11+152) = l'OBJET DONNÉES texture. La clé
+     * de dédup ET la clé du footer ND08 = T (VALEUR). Échec | 0 → pas de
+     * TR08 ce node (T non marqué : retry au référent suivant). */
+    {
+        unsigned long override38 = 0;
+        unsigned long backend = 0;
+        if (!GFXPT_ReadU32((const char*)ctx + 0x3C, &override38))
+            return;
+        if (override38 != 0) {
+            if (!GFXPT_ReadU32((const char*)ctx + 0x68, &backend) || backend == 0)
+                return;
+        } else {
+            if (!GFXPT_ReadU32((const char*)ctx + 0x38, &backend) || backend == 0)
+                return;
+        }
+        if (!GFXPT_ReadU32((const void*)(backend + 20), &v11) || v11 == 0)
+            return;
+        if (!GFXPT_ReadU32((const void*)(v11 + 152), &texObj) || texObj == 0)
+            return;
+        (void)holder;
+    }
+
+    /* Dédup par frame par texobj (UN record par texobj unique). */
+    for (i = 0; i < g_resCount; ++i)
+    {
+        if (g_resSeen[i] == texObj)
+            return;
+    }
+
+    /* Cap 32 records TR08 par frame (au-delà : skip silencieux). */
+    if (g_frameTrRecs >= GFXPT_TR_MAX_FRAME)
+        return;
+
+    /* Champs T (ground truth ci-dessus). Échec SEH (ou valeur nulle pour
+     * w/h/entries/palMgr) → pas de tentative (texobj non marqué). */
+    if (!GFXPT_ReadU32((const void*)(texObj + 0x3C), &w) || w == 0)
+        return;
+    if (!GFXPT_ReadU32((const void*)(texObj + 0x40), &h) || h == 0)
+        return;
+    if (!GFXPT_ReadU32((const void*)(texObj + 0x5C), &palEntries) ||
+        palEntries == 0)
+        return;
+    if (!GFXPT_ReadU32((const void*)(v11 + 0xA0), &palMgr) || palMgr == 0)
+        return;
+
+    /* pal_count = *(u32*)(M+12) (= T+0xAC) — cap 32 (saturé, style
+     * id_count) ; illisible (palMgr lisible) → 0 (clut_size 0, pixels
+     * seuls — non-fatal). */
+    (void)GFXPT_ReadU32((const void*)(palMgr + 0xC), &palCount);
+    if (palCount > GFXPT_TR_PAL_COUNT_MAX)
+        palCount = GFXPT_TR_PAL_COUNT_MAX;
+
+    /* pixel_size = w*h — cap 65536 ; dépassement → skip (garde). La
+     * division évite tout débordement u32 du produit. */
+    if (w > GFXPT_DUMP_TR_PIXEL_MAX / h)
+    {
+        g_dumpGuardSkips++;
+        g_frameGuardSkips++;
+        return;
+    }
+    pixelSize = w * h;
+
+    /* clut_size = pal_count * pal_entries * 4 — cap 32768 (= 32 × 256 × 4) ;
+     * garantit need = 40 + pixel + clut ≤ 98 344 o (0x18028) par construction. */
+    clutSize = 0;
+    if (palCount != 0)
+    {
+        if (palEntries > GFXPT_DUMP_TR_CLUT_MAX / (4ul * palCount))
+        {
+            g_dumpGuardSkips++;
+            g_frameGuardSkips++;
+            return;
+        }
+        clutSize = palCount * palEntries * 4ul;
+    }
+
+    /* Buffers à copier : pixels *(T+0xD8), CLUT brut *(T+0x60) — ptrs
+     * requis (non nuls) à hauteur des tailles. */
+    if (!GFXPT_ReadU32((const void*)(texObj + 0xD8), &pixelBuf) ||
+        (pixelSize != 0 && pixelBuf == 0))
+        return;
+    if (clutSize != 0)
+    {
+        if (!GFXPT_ReadU32((const void*)(texObj + 0x60), &clutBuf) ||
+            clutBuf == 0)
+            return;
+    }
+
+    /* Marqué vu AVANT les copies (style g_frameTxEmitted : ni ring-drop ni
+     * copie SEH ratée ne retentent ce frame). */
+    if (g_resCount >= GFXPT_RES_SEEN_MAX)
+        return;                             /* table pleine (cap 32 < 64 : inatteignable) */
+    g_resSeen[g_resCount++] = texObj;
+
+    need = (unsigned long)sizeof(hdr) + pixelSize + clutSize;
+
+    /* Ring-space style TX07 : plein → drop + 1 ODS par fenêtre d'armement
+     * (le ND08 du node référent passe). */
+    if (need > GFXPT_DUMP_RING_BYTES - (g_dumpWrite - g_dumpCommit))
+    {
+        g_trRingDrops++;
+        g_frameTrDrops++;
+        if (!g_trRingWarned)
+        {
+            g_trRingWarned = 1;
+            GFXPT_ODS("gfx_passthrough " GFXPT_VERSION_TEXT
+                      ": ring 64 Mo plein pour TR08, ressource texture droppe\n");
+        }
+        return;
+    }
+
+    /* Copie pixels (1 o/texel) SEH-défendue directement dans le ring —
+     * échec → AUCUN octet écrit ni g_dumpWrite avancé (règle TX « pixel =
+     * la valeur seule » — no record at all). */
+    p = &g_dumpRing[g_dumpWrite];
+    if (!GFXPT_CopyBytes(p + sizeof(hdr), (const void*)pixelBuf, pixelSize))
+    {
+        g_txSehFails++;
+        return;
+    }
+
+    /* Copie CLUT BRUT (u32 PAR COULEUR, toutes sous-palettes consécutives)
+     * — échec → AUCUN record du tout. */
+    if (clutSize &&
+        !GFXPT_CopyBytes(p + sizeof(hdr) + pixelSize, (const void*)clutBuf,
+                         clutSize))
+    {
+        g_txSehFails++;
+        return;
+    }
+
+    hdr.magic = GFXPT_DUMP_MAGIC_TR;
+    hdr.build = GFXPT_BUILD_ID;
+    hdr.seq = seq;                          /* g_frameSeq au node référent */
+    hdr.texobj = texObj;                    /* VALEUR T — clé footer ND08 */
+    hdr.w = w;
+    hdr.h = h;
+    hdr.pal_entries = palEntries;
+    hdr.pal_count = palCount;
+    hdr.pixel_size = pixelSize;
+    hdr.clut_size = clutSize;
+    memcpy(p, &hdr, sizeof(hdr));
+
+    g_dumpWrite += need;
+    g_dumpRecords++;
+    g_dumpBytes += need;
+    g_frameRecords++;
+    g_frameTrRecs++;
+}
+
 /* Chemin d'un fichier sidecar à côté de la DLL (même mécanisme que le CSV). */
 static int GFXPT_BuildSidePath(const char* name, char* out)
 {
@@ -850,6 +1182,9 @@ static int GFXPT_BuildSidePath(const char* name, char* out)
  * v9 — footer ND08 (kind2 only) : footer texture APPEND au payload (voir le
  * contrat « v9 patch » ci-dessus) ; la sélection du magic ND07/ND08 se fait
  * sur geom_kind, l'émission TX07 n'est pas modifiée.
+ * v10 — TR08 (ressource texture par texobj) au MÊME point d'émission que
+ * TX07 (appel GFXPT_TrEmit juste après GFXPT_TxEmit — dédup g_resSeen) ;
+ * footer ND08 étendu du champ texobj (voir contrat « v10 patch »).
  * ------------------------------------------------------------------------- */
 static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
 {
@@ -878,6 +1213,7 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     unsigned long        droppedIds = 0;        /* v9 footer : gcount si >255 sinon 0 */
     unsigned long        idsPtr = 0;            /* v9 footer : *(u8**)(node+0x28) */
     unsigned long        idsFailed = 0;         /* v9 footer : 1 = stream illisible */
+    unsigned long        texObj = 0;            /* v10 footer : *(texinfo+0x10) */
     unsigned long        idsPad;
     unsigned long        footerBytes;
     unsigned char        idsStage[256];         /* v9 : copie SEH unique du stream */
@@ -896,7 +1232,10 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
      * node walk texturé de la frame), émis AVANT la copie du node (ordre :
      * window guard → TX emit → node copy). L'émission est pour slots walk
      * texturés SEULEMENT (§6.2-A) ; dédup par pulse intégré à
-     * GFXPT_TxEmit, ring-drop isolé (node non affecté). */
+     * GFXPT_TxEmit, ring-drop isolé (node non affecté).
+     * v10 — TR08 : ressource texture TIM (UN record par texobj unique par
+     * frame, dédup g_resSeen) au MÊME point d'émission, juste après le
+     * TX emit — ordre flux : TX07 → TR08 → ND07/ND08. */
     switch (slot)
     {
     case 48: case 49: case 50:
@@ -904,6 +1243,7 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     case 57: case 58: case 59: case 60:
     case 63: case 64:
         GFXPT_TxEmit(g_frameSeq, node);
+        GFXPT_TrEmit(g_frameSeq, node, ctx);
         break;
     default:
         break;
@@ -998,10 +1338,12 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     idxBytes = icount * 2ul;
     idxPad = (idxBytes & 3ul) ? (4ul - (idxBytes & 3ul)) : 0ul;
     /* v9 — footer ND08 (kind2 only) : 4 x u32 (tpage/mode/clut/id_count) +
-     * ids[id_count] (pad align u32) + dropped_ids u32 toujours présent. */
+     * ids[id_count] (pad align u32) + dropped_ids u32 toujours présent.
+     * v10 : +1 u32 texobj APPEND en fin — 6 x u32 always-present (24 o)
+     * + ids. */
     idsPad = (idCount & 3ul) ? (4ul - (idCount & 3ul)) : 0ul;
     footerBytes = (geomKind == 2)
-                ? (16ul + idCount + idsPad + 4ul)
+                ? (16ul + idCount + idsPad + 4ul + 4ul)
                 : 0ul;
     payload = (geomKind == 2)
             ? (8ul + idxBytes + idxPad + (vcount * 32ul) + footerBytes)
@@ -1029,6 +1371,27 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
         {
             (void)GFXPT_ReadU32((const void*)(texinfoPtr + 0x20), &tpage);
             (void)GFXPT_ReadU32((const void*)(texinfoPtr + 0x14), &tmode);
+        }
+        if (ctx != 0)
+        {
+            /* v10.3 — footer texobj = T via la CHAÎNE ctx (la même que
+             * GFXPT_TrEmit : backend = ctx[0x3C] ? ctx[0x68] : ctx[0x38] ;
+             * v11 = *(backend+20) ; T = *(v11+152)) — *(texinfo+0x10) pointait
+             * le mauvais objet (le backend, pas les données). */
+            unsigned long bkw = 0;
+            unsigned long ovl = 0;
+            unsigned long v11f = 0;
+            if (GFXPT_ReadU32((const char*)ctx + 0x3C, &ovl) && ovl != 0)
+            {
+                if (GFXPT_ReadU32((const char*)ctx + 0x68, &bkw) && bkw != 0)
+                    if (GFXPT_ReadU32((const void*)(bkw + 20), &v11f) && v11f != 0)
+                        (void)GFXPT_ReadU32((const void*)(v11f + 152), &texObj);
+            }
+            else if (GFXPT_ReadU32((const char*)ctx + 0x38, &bkw) && bkw != 0)
+            {
+                if (GFXPT_ReadU32((const void*)(bkw + 20), &v11f) && v11f != 0)
+                    (void)GFXPT_ReadU32((const void*)(v11f + 152), &texObj);
+            }
         }
         if (ctx)
         {
@@ -1090,9 +1453,10 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
             g_dumpSehFails += fails;
             g_frameFails += fails;
         }
-        /* v9 — footer ND08 APPEND : tpage|mode|clut|id_count|ids[+pad]|
-         * dropped_ids. Slots directs : id_count=0 → ids absents (pad 0),
-         * footer 20 o (dropped_ids=0). {51,60} : idsStage déjà copié. */
+        /* v10 — footer ND08 APPEND : tpage|mode|clut|id_count|ids[+pad]|
+         * dropped_ids|texobj. Slots directs : id_count=0 → ids absents
+         * (pad 0), footer 24 o (dropped_ids=0, texobj=0 si chaîne
+         * illisible). {51,60} : idsStage déjà copié. */
         memcpy(p, &tpage, 4ul);
         memcpy(p + 4ul, &tmode, 4ul);
         memcpy(p + 8ul, &clut, 4ul);
@@ -1104,6 +1468,10 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
             memset(p + idCount, 0, (size_t)idsPad);
         p += idCount + idsPad;
         memcpy(p, &droppedIds, 4ul);
+        p += 4ul;
+        /* v10 — texobj APPEND après dropped_ids (6e u32 always-present du
+         * footer ; le décodeur distingue v9/v10 par le BUILD id). */
+        memcpy(p, &texObj, 4ul);
         p += 4ul;
         if (idsFailed)
         {
@@ -1149,9 +1517,10 @@ static void GFXPT_DumpFlushAtPresent(void)
         l = fopen(logPath, "a");
         if (l)
         {
-            fprintf(l, "frame,seq=%lu,records=%lu,fails=%lu,drops=%lu,guards=%lu,overflow=%d,bytes=%lu,tx=%lu\n",
+            fprintf(l, "frame,seq=%lu,records=%lu,fails=%lu,drops=%lu,guards=%lu,overflow=%d,bytes=%lu,tx=%lu,tr=%lu\n",
                     drainedSeq, g_frameRecords, g_frameFails, g_frameDrops,
-                    g_frameGuardSkips, g_frameOverflow, pending, g_frameTxRecs);
+                    g_frameGuardSkips, g_frameOverflow, pending, g_frameTxRecs,
+                    g_frameTrRecs);
             fclose(l);
         }
     }
@@ -1171,6 +1540,7 @@ static void GFXPT_DumpArmAtPresent(void)
     g_capEndSeq = g_frameSeq + (GFXPT_DUMP_FRAMES - 1);   /* seq courant..+15 */
     g_txRingWarned = 0;         /* v8 : 1 ODS « ring plein TX » par fenêtre max */
     g_txSysWarned = 0;          /* v9 : 1 ODS « sys CLUT row illisible » par fenêtre max */
+    g_trRingWarned = 0;         /* v10 : 1 ODS « ring plein TR08 » par fenêtre max */
     DeleteFileA(path);
     sprintf(buf, "gfx_passthrough %s: dump arme frames %lu..%lu (+TX07 miroir VRAM, 1/frame)\n",
             GFXPT_VERSION_TEXT, g_frameSeq, g_capEndSeq);
@@ -1191,6 +1561,11 @@ static void GFXPT_DumpFramePulse(void)
     g_frameTxRecs = 0;
     g_frameTxEmitted = 0;
     g_frameTxDrops = 0;
+    /* v10 — reset TR08 intra-frame : dédup texobj (table per-frame) +
+     * compteurs log `tr=N`. */
+    g_frameTrRecs = 0;
+    g_frameTrDrops = 0;
+    g_resCount = 0;
     GFXPT_DumpArmAtPresent();
 }
 
