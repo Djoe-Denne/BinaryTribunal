@@ -233,3 +233,105 @@ reproduction in vitro ; harnais sur le DLL déployé (g_dumpWrite conforme). Cor
 (resync = échec bloquant). Les records bataille hors gardes (vc 19482) venaient de l'image
 bootée 13:47 (build drift gardes, image morte) — l'image `53464B47`+ ne peut pas les produire.
 Détails : `decode\_audit\DumpNode_decomp_reconcile.md`.
+
+## 9. v8 — Capture texture (lot 14) : TX07 miroir VRAM
+
+### 9.1 Principe
+
+Extension additive du dump v7 : en plus des records ND07 (draw nodes), chaque frame armé
+émis **UN record TX07 = snapshot du miroir VRAM complet** (1024×512 u16 = 0x100000 o),
+émis au premier node walk texturé de la frame (slots 48–50/57–59/63–64 direct,
+51/60 VB, dédup par pulse). Le miroir contient **toutes les pages texture ET tous les
+CLUTs** (fenêtre CLUT VRAM à `clut_word << 5` u16, cf. `sub_45B920` = ptr + id CLUT).
+
+### 9.2 Format TX07 (contrat piné)
+
+`u32 magic 'TX07' (0x37305458); u32 build (0x5638); u32 seq; u32 clut_now (dword_1CA89B8);
+u32 vram_base (ptr dword_1CB602C); u32 sys_clut_base (0x1B47818); u32 m_B7DB44 (flag RGB555
+swap); u32 page_probe (*(texinfo+0x10) du premier node texturé — diagnostic décodeur);
+u8 vram[0x100000]` — record total 0x100020. ND07 : l'en-tête gagne un 9e u32 `build`
+(0x5638) à l'offset 0x20 (contrat v7 36 o). TX07 n'entre pas dans l'ordre painter.
+
+### 9.3 Closure texture (idb, decomp — provenance lot 14)
+
+Chaîne : `texinfo = *(node+0x2C)` (= `geom` pour 51/60), `page = *(texinfo+0x10)` (record
+`sub_4223B8` +0x2C), guard natif `*(page+0x14)`. Bias UV appliqué **au vol** par
+`sub_409C6E` (U@+0x18, V@+0x1C, stride FVF 0x1C4) → les UV dumpés sont post-bias, le
+décodeur calcule directement pixel. Layout VRAM : page_x = (tpage&0xF)«6, page_y = ((tpage»4)&1)«8,
+vramOff = (page_y+y)«10 + page_x + (x » (2−mode)) — 4bpp (mode 0) / 8bpp (1) / RGB555 (2),
+pitch 0x800 B/row, page = 256×256 texels. Détail complet : `driver-abi-spec.md` §6.2.
+
+### 9.4 Décodeur v2
+
+`ff8dump.py` : lit ND07 (36 o + build) et TX07 (0x100020), sampling texture point
+(`--texture`, `--tpage`, `--texmode` 0/1/2 — 4bpp/8bpp/16bpp RGB555), CLUT lu du miroir
+à `(clut_now & 0x7FFF) << 5` u16, modulate DIFFUSE α<8 skip, selftest étendu (60 checks).
+v8 dump only (v7 = historique, le parseur refus clean avec hint).
+
+## 10. v9 — ids texture par node (ND08) + ligne CLUT système (TX07)
+
+### 10.1 ND08 : footer texture des records kind2 (lot 15)
+
+**Ce que l'analyse noise-render a établi** : « tpage/mode/clut vivent AU-DELÀ de la
+copie 24 o du node » — la capture v7 copie le node pointer-free (24 o) et n'a NI la
+chaîne texture (texinfo `*(node+0x2C)` → tpage/mode) NI l'identité de palette du
+record slot (`*(u16*)(ctx+0x448)`, lecture WORD 66h-prefixed). Sans ça, le grain
+16 couleurs (chaque groupe d'id plaque SA sous-palette) est indéchiffrable. v9
+APPOSE donc un **footer texture aux records geom_kind==2 uniquement**, par
+extension additive du payload piné v7/v8 (aucun champ reculé, aucun rewrite) :
+
+- **Magic** : tout record kind2 passe au magic **`'ND08'` (0x3830444E, ASCII LE)** ;
+  kind 0/1 restent `'ND07'` — rejet décodeur propre (kind2 à magic ND07 =
+  anomalie historique 25/09, resync). Hdr inchangé : 9 × u32, **build 0x5639**.
+- **`payload_size` = 24 (node) + (8 + idx + pad + fvf) + footer**, footer =
+  **16 + ⌈id_count/4⌉·4 + 4** : u32 tpage, u32 mode, u32 clut, u32 id_count,
+  u8 ids[id_count] (pad u32), u32 dropped_ids (toujours présent, en fin).
+
+| Champ | Source | Slots |
+| --- | --- | --- |
+| `u32 tpage` | `*(u32*)(texinfo+0x20)` — SEH, 0 si fail | tous kind2 |
+| `u32 mode` | `*(u32*)(texinfo+0x14)` (0=4bpp, 1=8bpp, 2=16bpp) — SEH, 0 si fail | tous kind2 |
+| `u32 clut` | `*(u16*)(ctx+0x448)` — SEH dword, masqué `& 0xFFFF` | tous kind2 |
+| `u32 id_count` | 0 (ids absents) / `min(remaining, 255)` (cap, sans bit d'overflow) | directs / 51·60 |
+| `u8 ids[id_count]` | stream d'ids TEL QUE CONSOMMÉ par le walk natif (`ids = *(u8**)(node+0x28)`, 1 octet PAR GROUPE (`0x43E419`/`0x43E725`), remaining = `*(s32*)(node+0x08)`) — copie SEH UNIQUE ≤ 256 o, pad zéro | 51·60 |
+| `u32 dropped_ids` | gcount si gcount > 255, sinon 0 | tous kind2 |
+
+`texinfo` : dedicate SEH read de `*(node+0x2C)` dans DumpNode pour les slots
+directs (48/49/50/57/58/59/63/64 — indépendant du holder TX) ; pour 51/60,
+texinfo = geom = `*(node+0x2C)` (déjà lu pour perV/perI). **« 16-color grain »
+= sous-palette par id groupe** : la row CLUT système (2048 o) porte 64
+sous-CLUT de 32 o = 16 couleurs (`sub_45B920`), le stream d'ids sélectionne la
+sous-palette de chaque groupe. Échec du stream ids → **id_count=0 +
+`hdr.fails++`** (bloc mis à zéro, style idx/fvf) ; échecs tpage/mode/clut
+→ champ 0 NON fatal (style `page_probe` TX07).
+Budget ND08 max recomputé : 36 + 24 + (8 + idx 32 768 + fvf 131 072) +
+footer 276 = **164 184 o (0x28158)** ⊂ `GFXPT_DUMP_MAX_NODE_BYTES`.
+
+### 10.2 TX07 : payload + `sys_clut_row[2048]` (record 0x100820)
+
+`GFXPT_Tx07Hdr` : **8 × u32 INCHANGÉS** (la row est du payload, pas un champ
+d'en-tête — l'en-tête PINÉ v8 reste byte-exact). Le payload devient
+`u8 vram[0x100000]; u8 sys_clut_row[2048];` → record **0x100820**
+(+0x800 sur v8 0x100020). `sys_clut_row` = copie de
+**`&unk_1B47818 + 2048 * ((clut_now & 0x7FFF) >> 6)`** — `unk_1B47818` est une
+**base statique littérale** : `GFXPT_HostEA(GFXPT_EA_SYS_CLUT)` (0x1B47818)
+**EST** l'adresse réelle de la table, et la fenêtre CLUT d'un id vit dans la
+row `clut>>6` (`sub_45B920` : base + 2048*(clut>>6) + 32*(clut&0x3F), le
+terme 32*(clut&0x3F) pointe DANS la row copiée). Échec SEH de la copie →
+2048 o à zéro + `g_txSehFails++` (non-fatal, record émis ; **1 ODS par
+fenêtre max**, `g_txSysWarned`). Le **miroir VRAM reste copié à l'identique**
+(source pixels valide ; sa grille d'échantillonnage n'a besoin de la CLUT
+système que pour la **résolution de palette**, pas la lecture pixel).
+Garde : `GFXPT_DUMP_MAX_NODE_BYTES` recalé **0x100C80** (record TX07
+0x100820 + marge 0x460, marge v8 conservée ; ND08 max 164 184 o ⊂ cap).
+Ring 64 MiB : 0x100820/record → **63 records TX co-résidents max** ; TX
+reste 1/frame — aucune pression ; ND08 ≤ 4096 records × ~200 B médian, fits.
+
+### 10.3 Provenance (aucun offset inventé)
+
+Offsets non dérivés du v8 : `texinfo+0x14` (mode), `texinfo+0x20` (tpage),
+`ctx+0x448` (clut WORD), `node+0x28` (ids, déjà prouvé par l'analyse NB ids
+v7 `0x43E419`/`0x43E725`), `&unk_1B47818 + 2048*(clut>>6)` (`sub_45B920`,
+decomp 0x464DB0 — cf. `driver-abi-spec.md` §6.2-C). Champs BSS :
+dword_1CB602C / dword_1CA89A8/1CA89B8 / dword_B7DB44 inchangés (v8).
+

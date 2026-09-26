@@ -1,7 +1,7 @@
 /* ===========================================================================
  * gfx_driver_passthrough.c — prototype DLL « observer Mode A » (lot 12, re-ff8)
- * Version v7 (AF3DN.P) : extension du passthrough v6.1 avec dump mémoire des
- * draw lists au vol.
+ * Version v8 (AF3DN.P) — extension du dump v7 avec capture du miroir VRAM
+ * (TX07) ; passthrough v6.1 avec dump mémoire des draw lists au vol.
  *
  * Rôle : factory type-2 `new_dll_graphics_driver` + proxy complet de l'objet
  * driver (66 DWORDs, 0x108). Le driver natif (ctor 0x4257D0 DDrawAlt case 0
@@ -36,6 +36,26 @@
  *   - Flush : au present dispatch, ring non vide → append binaire vers
  *     `gfx_passthrough_dump.bin` + ligne dans `gfx_passthrough_dump.log`
  *     (à côté de la DLL), puis ring vidé. Ouvert/fermé en append.
+ *
+ * v8 additifs — capture du miroir VRAM (TX07, frame-level) : extension
+ *   additive du dump v7 (fermeture de la chaîne texture du spec
+ *   driver-abi-spec.md §6.2, lot 14) ; le bloc « v8 — dump mémoire (TX07) »
+ *   ci-dessous (enregistrements : hdr 32 o + miroir VRAM complet 0x100000 o
+ *   = 0x100020 o ; émission UNE fois par frame armé — dédup par pulse,
+ *   premier node walk texturé, à la tête de GFXPT_DumpNode pour les slots
+ *   walk 48–50/57–59/63–64/51/60 ; additif log `tx=N`) — purement
+ *   additif : aucun chemin engine natif n'est modifié (blits VRAM, closure).
+ *
+ * v9 additifs — ids texture par node (ND08) + ligne CLUT système (TX07) :
+ *   (1) footer texture APPEND au payload des records geom_kind==2 — magic
+ *   'ND07' → 'ND08', build 0x5639 : tpage/mode (texinfo = *(node+0x2C)),
+ *   clut = *(u16*)(ctx+0x448), id_count + ids = stream u8-par-groupe
+ *   {51,60} tel que consommé par le walk natif (cap 255, dropped_ids u32).
+ *   Analyse noise-render : tpage/mode/clut vivent AU-DELÀ de la copie 24 o
+ *   du node ; le grain 16 couleurs = sous-palette par groupe d'id ;
+ *   (2) TX07 : payload + sys_clut_row[2048] = copie de &unk_1B47818 +
+ *   2048*((clut&0x7FFF)>>6) (unk_1B47818 = base statique littérale —
+ *   HostEA EST l'adresse de la table) — record passe à 0x100820.
  *
  * Shutdown natif : fn 0x409670 appelle slot 1 puis FreeLibrary(engine+0xBCC) ;
  * DllMain ne fait RIEN à part un flag.
@@ -72,6 +92,32 @@
 #define GFXPT_EA_PRESENTDISPATCH 0x41DF0Cul /* boot v6 : present dispatch (point de consommation du driver) */
 /* GetBufApp_0xA74 — référence (spec §4) ; non appelé par ce .c. */
 #define GFXPT_EA_GETBUFAPP       0x4098EEul
+
+/* v8 — EAs BSS engine, chaines texture (SPEC §6.2 uniquement — no offset
+ * invented) : base VRAM mmap (page pixel addr formula C, dword_1CB602C),
+ * dword_1CA89A8 = live CLUT PTR (256 x u16; written word_1CA89B8 = clut &
+ * 0x7FFF + (int)&unk_1B47818 + 2048*(clut>>6) + 32*(clut&0x3F) by
+ * sub_45B920 — SPEC §6.2-C), dword_1CA89E8 = luma-shift base (alpha mode),
+ * dword_B7DB44 = mode-2 RGB555-path flag stored by
+ * Gfx_AllocTexturePageSlot (decomp 0x464F70: dword_B7DB44 =
+ * (*(int*)(hit+0x44) == 0x7E0), within mode==2 arm only) and read by
+ * TexStaging_BlitRows 0x4675C0 mode-2 PATH (decomp 0x4675C0). */
+#define GFXPT_EA_VRAM_BASE       0x1CB602Cul /* dword_1CB602C (pointeur base VRAM, formule pixel §6.2-C) */
+#define GFXPT_EA_VRAM_CLUT_LIVE  0x1CA89A8ul /* dword_1CA89A8 (live CLUT u16[256] non.rotated) */
+#define GFXPT_EA_VRAM_CLUT_LUTB  0x1B47818ul /* unk_1B47818 (CLUT staging base, sub_45B920) */
+#define GFXPT_EA_VRAM_LUMA       0x1CA89E8ul /* dword_1CA89E8 (luma-shift base, alpha mode) */
+#define GFXPT_EA_M_B7DB44        0xB7DB44ul  /* dword_B7DB44 (flag, TexStaging_BlitRows path.2) */
+/* v8 TX07 frame-level : word_1CA89B8 = id CLUT vivant (sub_45B920 : le u16
+ * vit dans ce dword, word + 0x7FFF) — lecture SEH du dword CONTENANT, copie
+ * BRUT dans le hdr TX07, mask & 0x7FFF appliqué décode-side. La base table
+ * système CLUT reste GFXPT_EA_VRAM_CLUT_LUTB (0x1B47818, sub_45B920 :
+ * base + 2048*(clut>>6) + 32*(clut&0x3F)). */
+#define GFXPT_EA_CLUT_ID         0x1CA89B8ul /* word_1CA89B8 (id CLUT vivant — dword contenant lu SEH) */
+/* v9 — alias documentaire : la table CLUT système EST unk_1B47818 (static
+ * array, base LITTÉRALE) — la row copiée dans TX07 = HostEA(GFXPT_EA_SYS_CLUT)
+ * + 2048*((clut_now & 0x7FFF) >> 6) (sub_45B920 : la fenêtre CLUT d'un id
+ * vit dans la row `clut>>6`, 64 sous-CLUT × 32 o). */
+#define GFXPT_EA_SYS_CLUT        GFXPT_EA_VRAM_CLUT_LUTB /* 0x1B47818 (unk_1B47818) */
 
 #define GFXPT_DRIVER_OBJ_BYTES   0x108ul   /* 66 DWORDs */
 
@@ -343,6 +389,10 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
  *   u32 geom_kind     // 0=none, 1=poly_packet, 2=fvf_verts+indices
  *   u32 fails         // nb d'échecs SEH pour ce node (blocs idx/fvf mis à 0)
  *   u32 payload_size  // octets APRÈS ce champ (= node[24] + payload)
+ *   u32 build         // v8 : GFXPT_BUILD_ID (0x5638) — 9e u32 (offset 0x20),
+ *                     // APPEND après payload_size (en-tête 32 → 36 o) ;
+ *                     // lesson lot 13 « déployé ≠ cru déployé » ; le
+ *                     // décodeur v2 s'attend à un en-tête ND07 de 36 octets
  *   u8  node[24]      // copie brute du node
  *   payload selon geom_kind :
  *     1: u32 prim (3=FT3, 4=FT4) ; u8 packet[40] (copie brute 32 ou 40 o,
@@ -350,8 +400,10 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
  *     2: u32 vcount ; u32 icount ; u16 idx[icount] ; u16 pad[(icount&1)]
  *        (rembourrage alignement 4, zéros) ; u8 fvf[vcount*32].
  *
- * Taille record = 32 (en-tête) + payload_size. Un bloc idx/fvf illisible est
- * mis à zéro et compte un `fails` (le décodeur ignore le bloc si fails>0).
+ * Taille record = 36 (en-tête, 9 x u32 — v8 ; 32 o en v7) + payload_size.
+ * Le build-id est présent dans CHAQUE record (v8) ; un bloc idx/fvf
+ * illisible est mis à zéro et compte un `fails` (le décodeur ignore le
+ * bloc si fails>0).
  *
  * TABLE DE CLOSURE slot → géométrie (provenance : ctor DDrawAlt 0x4257D0,
  * bind 0x41619A, decomp 0x43E24A/0x43E356, et bytes live du PE 064d466b
@@ -392,17 +444,143 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
  *     43, 44 → 0x43DF00 ; 45 → 0x43DF2A ; 46 → 0x43DF54 ; 47 → 0x43DFA6 ;
  *     52, 53 → 0x43DFD0 ; 54 → 0x43E059 ; 55 → 0x43E0E2 ; 56 → 0x43E197 ;
  *     61, 62 → 0x43E220  → geom_kind = 0 (node 24 o seul).
+ *
+ * ---------------------------------------------------------------------------
+ * v8 — FORMAT TX07 (PINÉ — respecter à l'octet près) : little-endian, aligné
+ * 4, émis UNE fois par frame armé (dédup par pulse — flag per-frame
+ * g_frameTxEmitted), sur le PREMIER node walk texturé de la fenêtre armée,
+ * à la TÊTE de GFXPT_DumpNode pour les slots walk texturés (48–50/57–59/
+ * 63–64 direct, 51/60 VB batch — chaîne §6.2 : texinfo|geom = *(node+0x2C)
+ * puis page = *(texinfo+0x10)), AVANT le record ND07 du node référent.
+ * TX07 ne participe PAS à l'ordre painter ND07 (mapping page↔node décodé-
+ * side sur l'adresse).
+ *
+ * Pourquoi FRAME-LEVEL : le miroir VRAM est adressé u16-par-mot avec pitch
+ * 0x800 mots/row (vramOff = (page_y + y) << 10 + page_x + (x >> (2 - mode)),
+ * pixel .u16 à base + 2*vramOff, base = dword_1CB602C — decomp 0x464F70
+ * (TexStaging_BlitRows call @0x465235), 0x464DB0 (Gfx_UploadCLUTSlot),
+ * 0x4653E0 (isUpdateVRAMOrSomething), 0x4675C0 (TexStaging_BlitRows : dest
+ * pitch 0x800/row ; row start 0x200 pour 4bpp, 0x400 pour 8bpp, 1024 u16
+ * pour 16bpp)). Une page (256×256 texels) occupe les rows
+ * [pageY..pageY+256) à stride 2048 o — une copie contiguë lue depuis un
+ * page pointer donnerait une bande diagonale, pas la page. Le miroir
+ * COMPLET (1024 u16/row × 512 rows = 0x100000 o) contient TOUTES les pages
+ * ET toutes les CLUTs (fenêtres CLUT dans le même miroir : clut_src =
+ * base + (clut_word << 5)) — UN snapshot par frame armé ; le décodage
+ * expérimental PNG-side itère OFFLINE sur le miroir entier (aucune
+ * géométrie de page côté DLL).
+ *
+ * u32 magic 'TX07' (0x37305458)
+ * u32 build       // GFXPT_BUILD_ID — 2e u32
+ * u32 seq         // g_frameSeq (même compteur ND07)
+ * u32 clut_now    // dword_1CA89B8 : id CLUT vivant (sub_45B920 — word +
+ *                 // 0x7FFF ; dword contenant copié BRUT, mask & 0x7FFF
+ *                 // appliqué décode-side)
+ * u32 vram_base   // dword_1CB602C : pointeur miroir VRAM (u16-par-mot,
+ *                 // pitch 0x800)
+ * u32 sys_clut_base // 0x1B47818 : base table système CLUT (sub_45B920 :
+ *                 // base + 2048*(clut>>6) + 32*(clut&0x3F))
+ * u32 m_B7DB44    // flag RGB555 swap (TexStaging_BlitRows mode 2 path)
+ * u32 page_probe  // *(texinfo+0x10) du PREMIER node walk texturé du frame
+ *                 // (diagnostic décodé-side)
+ * u8  vram[0x100000] // miroir VRAM COMPLET : 1024 u16/row × 512 rows
+ *                 // (pixel u16 à vram[2*off])
+ *
+ * Record size = 32 + 0x100000 = 0x100020 (cap garde :
+ * GFXPT_DUMP_MAX_NODE_BYTES = 0x100480). Échec vram_base (SEH/0) → PAS de
+ * record du tout (le miroir = la valeur seule) ; échec copie miroir (SEH)
+ * → rien écrit, g_dumpWrite jamais avancé. Échecs clut_now/m_B7DB44 →
+ * champ 0 + fails comptés g_txSehFails (non-fatal, record quand même émis)
+ * ; échec page_probe → 0, non-fatal (diagnostic, sans compteur). L'en-tête
+ * TX07 PINÉ 8 x u32 n'a PAS de champ fails.
+ * ---------------------------------------------------------------------------
+ * v9 patch — (a) ND08 : footer texture des records geom_kind==2 SEULEMENT.
+ * La copie node 24 o (pointer-free) ne touche NI la chaîne texture NI le
+ * CLUT du slot : tpage/mode vivent dans texinfo AU-DELÀ du node
+ * (texinfo = *(node+0x2C) ; tpage = *(texinfo+0x20) ; mode = *(texinfo+
+ * 0x14), 0=4bpp 1=8bpp 2=16bpp) et clut = *(u16*)(ctx+0x448) (lecture WORD
+ * 66h-prefixed du champ CLUT du record slot ; SEH dword + mask 0xFFFF).
+ * MAILLAGE ids (analyse noise-render) : le grain 16 couleurs = sous-palette
+ * par id groupe — le walk natif 51/60 consomme le stream ids u8 PAR GROUPE
+ * (node+0x28) et chaque groupe prend SA sous-CLUT (sub_45B920 : row =
+ * base + 2048*(clut>>6), 32 o de sous-CLUT 16 couleurs dans la row) ;
+ * sans le stream, l'assignation sous-palette↔grain est perdue. Extension
+ * ADDITIVE du payload piné v7/v8 ci-dessus (tous les champs du payload v8
+ * gardent leur offset) — footer APPEND après (vcount|icount|idx|pad|
+ * fvf) :
+ *   u32 tpage        // *(u32*)(texinfo+0x20) — SEH, 0 si fail (diagnostic)
+ *   u32 mode         // *(u32*)(texinfo+0x14) — SEH, 0 si fail (diagnostic)
+ *   u32 clut         // *(u16*)(ctx+0x448) — SEH dword, mask & 0xFFFF appliqué
+ *   u32 id_count     // 0 pour slots directs {48,49,50,57,58,59,63,64} ;
+ *                    // min(remaining,255) pour {51,60} (ids ABSENTS sinon)
+ *   u8 ids[id_count] // (51/60) stream TEL QUE CONSOMMÉ par le walk natif :
+ *                    // 1 octet PAR GROUPE lu dans *(u8**)(node+0x28) —
+ *                    // copie SEH UNIQUE ≤ 256 o (pas de read par groupe) ;
+ *                    // pad zéro jusqu'au prochain u32
+ *   u32 dropped_ids  // TOUJOURS présent en fin de footer (align u32) :
+ *                    // gcount si gcount>255, sinon 0 (id_count est saturé
+ *                    // à 255 — pas de bit d'overflow)
+ * payload_size v9 = 24 (node) + (8 + idx + pad + fvf) + (16 + ceil4(id_count)
+ * + 4). Header magic : 'ND08' (0x3830444E — ASCII LE « ND08 », famille
+ * 'ND07' 0x3730444E) pour TOUT record geom_kind==2 ; kind 0/1 gardent
+ * 'ND07' ; hdr inchangé (9 x u32), build 0x5639 (v8 = 0x5638). Footer
+ * fails : stream ids illisible (pointeur node+0x28 ou copie SEH) →
+ * id_count=0, dropped_ids=0, hdr.fails++ (style « bloc mis à zéro +
+ * fails ») ; tpage/mode/clut illisibles → champ 0 NON fatal (diagnostic,
+ * style page_probe TX07) ; le record de budget ND08 max recomputé =
+ * 36 + 24 + (8 + idx 32768 + fvf 131072) + footer 276 = 164 184 o (0x28158)
+ * ⊂ GFXPT_DUMP_MAX_NODE_BYTES (0x100C80, calé sur le record TX07 v9).
+ * ---------------------------------------------------------------------------
+ * v9 patch — (b) TX07 : payload étendu u8 sys_clut_row[2048] APPEND après le
+ * miroir VRAM → record 32 + 0x100000 + 0x800 = 0x100820 o (hdr TX07 PINÉ 8 x
+ * u32 INCHANGÉ — sys_clut_row est du PAYLOAD, pas un champ d'en-tête).
+ * sys_clut_row = copie SEH de la row CLUT système du clut_now du frame :
+ *   src = HostEA(GFXPT_EA_SYS_CLUT) + 2048 * ((clut_now & 0x7FFF) >> 6)
+ * (unk_1B47818 = base statique LITTÉRALE — donc HostEA(0x1B47818) EST
+ * l'adresse réelle de la table ; sub_45B920 : la fenêtre CLUT d'un id vit
+ * dans la row `clut>>6`, cf. formule base + 2048*(clut>>6) + 32*(clut&0x3F)
+ * où 32*(clut&0x3F) pointe DANS la row copiée). Échec SEH de la copie →
+ * 2048 o à zéro + fails comptés g_txSehFails (non-fatal, record émis ; 1
+ * ODS par fenêtre d'armement max — g_txSysWarned). Le miroir VRAM reste
+ * copié À L'IDENTIQUE (source pixels inchangée ; la résolution de palette
+ * seule exige la row système — l'échantillonnage garde le miroir). Ring :
+ * 64 MiB / 0x100820 = 63 records TX co-résidents max ; TX reste 1 par frame
+ * armé — aucune pression (ND08 : ≤4096 records × ~200 B médian, fits).
  * =========================================================================== */
-#define GFXPT_VERSION_TEXT          "v7"
-#define GFXPT_DUMP_MAGIC            0x3730444Eul        /* 'ND07' */
+#define GFXPT_VERSION_TEXT          "v9"
+#define GFXPT_DUMP_MAGIC            0x3730444Eul        /* 'ND07' (restauré : utilisé par
+                                 * le chemin ND07 — kind 0/1 — hdr.magic
+                                 * @GFXPT_DumpNode) : le chemin kind2 passe
+                                 * au magic ND08 ci-dessous */
+/* v9 — magic ND08 : TOUT record geom_kind==2 (footer texture appended).
+ * ASCII LE « ND08 » = 4E 44 30 38 → 0x3830444E (famille 'ND07'). */
+#define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
+#define GFXPT_BUILD_ID              0x5639ul    /* build-id u32 dans CHAQUE
+                                                 * record (ND07/ND08 champ 9,
+                                                 * TX07 2e u32) — v9 : bump
+                                                 * 0x5638 → 0x5639 (leçon lot
+                                                 * 13 « déployé ≠ cru
+                                                 * déployé ») */
+#define GFXPT_DUMP_MAGIC_TX         0x37305458ul        /* 'TX07' */
 #define GFXPT_DUMP_RING_BYTES       (64ul * 1024ul * 1024ul)   /* BSS, 64 Mo */
 #define GFXPT_DUMP_MAX_FRAME        4096ul              /* records max / frame */
-#define GFXPT_DUMP_MAX_NODE_BYTES   (256ul * 1024ul)    /* garde payload node */
+#define GFXPT_DUMP_MAX_NODE_BYTES   0x100C80ul          /* garde payload node/TX — v9 :
+                                 * recalcul précis : le record TX07 passe à
+                                 * 0x100820 o (hdr 32 + miroir VRAM 0x100000
+                                 * + sys_clut_row 0x800) qui DÉPASSE le pin
+                                 * v8 0x100480 → pin = 0x100820 + marge
+                                 * 0x460 (marge v8 conservée) = 0x100C80
+                                 * exact. ND08 : record max recomputé =
+                                 * 36 + 24 + (8 + idx 32768 + fvf 131072)
+                                 * + footer 276 = 164 184 o (0x28158) ⊂ cap
+                                 * — aucun rehaussement ND requis. */
 #define GFXPT_DUMP_FRAMES           16ul                /* frames par armement */
 #define GFXPT_DUMP_VCOUNT_MAX       4096ul
 #define GFXPT_DUMP_ICOUNT_MAX       16384ul
 
-/* En-tête 32 octets, 8 x u32 LE, sans padding (MSVC x86). */
+/* En-tête 36 octets (v8 — 9 x u32 LE : le 9e champ est le build-id), sans
+ * padding (MSVC x86) — en v7 c'était 8 x u32 = 32 o ; le build-id est le
+ * 9e u32, APPEND après payload_size (AUCUNE relocation des 8 champs v7). */
 typedef struct GFXPT_DumpHdr {
     unsigned long magic;
     unsigned long slot;
@@ -411,8 +589,37 @@ typedef struct GFXPT_DumpHdr {
     unsigned long nodeAddr;
     unsigned long geomKind;
     unsigned long fails;
-    unsigned long payloadSize;   /* octets après ce champ (node[24] + payload) */
+    unsigned long payloadSize;   /* octets après ce champ (node[24] + payload ;
+                                 * v9 : payload kind2 inclut le footer ND08) */
+    unsigned long build;         /* v8 : GFXPT_BUILD_ID (offset 0x20) */
 } GFXPT_DumpHdr;
+
+/* v8 — en-tête TX07 (32 o, 8 x u32 LE, sans padding MSVC x86) : build en
+ * 2e u32 ; géométrie page (w/h/mode/tpage) dérivée décode-side sur
+ * l'adresse — AUCUNE géométrie copiée côté DLL. v9 : 8 x u32 INCHANGÉS —
+ * la ligne CLUT système est du PAYLOAD (u8 sys_clut_row[2048] après le
+ * miroir), pas un champ d'en-tête. */
+typedef struct GFXPT_Tx07Hdr {
+    unsigned long magic;
+    unsigned long build;
+    unsigned long seq;
+    unsigned long clut_now;     /* dword_1CA89B8 BRUT (mask & 0x7FFF décode-side) */
+    unsigned long vram_base;    /* dword_1CB602C (ptr miroir VRAM, u16/word, pitch 0x800) */
+    unsigned long sys_clut_base; /* GFXPT_EA_VRAM_CLUT_LUTB 0x1B47818 (base système, sub_45B920) */
+    unsigned long m_B7DB44;
+    unsigned long page_probe;   /* *(texinfo+0x10) du 1er node walk texturé du frame */
+} GFXPT_Tx07Hdr;
+
+#define GFXPT_DUMP_TX_VRAM_BYTES    0x100000ul  /* miroir VRAM complet 1024x512 u16 */
+/* v9 — ligne CLUT système copiée en payload TX07 (2048 o = 64 sous-CLUT ×
+ * 32 o ; row choisie par (clut_now & 0x7FFF) >> 6). */
+#define GFXPT_DUMP_TX_SYSROW_BYTES  0x800ul
+/* Record TX07 = hdr 32 + miroir VRAM 0x100000 + sys_clut_row 0x800 =
+ * 0x100820 o (v8 : 0x100020 sans la row) ; cap piné recalé :
+ * GFXPT_DUMP_MAX_NODE_BYTES = 0x100C80 o = record TX07 + marge 0x460. */
+#define GFXPT_DUMP_TX_REC_BYTES     ((unsigned long)sizeof(GFXPT_Tx07Hdr) \
+                                     + GFXPT_DUMP_TX_VRAM_BYTES \
+                                     + GFXPT_DUMP_TX_SYSROW_BYTES)
 
 static unsigned char g_dumpRing[GFXPT_DUMP_RING_BYTES];  /* BSS zéro-rempli */
 static unsigned long g_dumpWrite;       /* curseur d'écriture absolu (octets) */
@@ -430,6 +637,15 @@ static unsigned long g_frameDrops;      /* per-frame : ring plein */
 static unsigned long g_frameGuardSkips; /* per-frame : gardes */
 static int            g_frameOverflow;  /* cap 4096 records atteint ce frame */
 
+/* v8 — BSS TX07 (capture frame-level du miroir VRAM, spec §6.2 ; zéro-rempli) */
+static unsigned long  g_frameTxRecs;    /* per-frame : records TX07 écrits (log tx=N, 0..1) */
+static int            g_frameTxEmitted; /* per-frame : 1 = TX07 déjà émis ce frame (dédup pulse) */
+static unsigned long  g_frameTxDrops;   /* per-frame : ring plein pour TX07 */
+static unsigned long  g_txRingDrops;    /* global : records TX07 perdus (ring plein) */
+static unsigned long  g_txSehFails;     /* global : échecs SEH du chemin texture */
+static int            g_txRingWarned;   /* ODS ring plein : 1 par fenêtre d'armement max */
+static int            g_txSysWarned;    /* v9 : ODS sys_clut_row illisible — 1 par fenêtre max */
+
 /* Copie générique défendue (le detour draw ne doit JAMAIS faire tomber le jeu). */
 static int GFXPT_CopyBytes(void* dst, const void* src, unsigned long n)
 {
@@ -444,6 +660,157 @@ static int GFXPT_CopyBytes(void* dst, const void* src, unsigned long n)
         ok = 0;
     }
     return ok;
+}
+
+/* ---------------------------------------------------------------------------
+ * v8 — émission du record TX07 : snapshot FRAME-LEVEL du miroir VRAM. Émis
+ * UNE fois par frame armé (dédup par pulse — flag per-frame
+ * g_frameTxEmitted), sur le PREMIER node walk texturé de la fenêtre.
+ * Appelé à la TÊTE de GFXPT_DumpNode pour les slots walk texturés
+ * (48–50/57–59/63–64 : texinfo = *(node+0x2C), page = *(texinfo+0x10) ;
+ * 51/60 VB batch : geom = *(node+0x2C), page = *(geom+0x10) — mêmes offsets
+ * +0x2C puis +0x10 — spec driver-abi-spec.md §6.2-A, decomp
+ * 0x43E24A/0x43E356/0x43E692). Deref/lectures/copies TOUTES SEH-défendues
+ * (comme v7). Le detour draw ne fait JAMAIS tomber le jeu : tout échec →
+ * counters + skip silencieux. Ring BSS partagé avec ND07
+ * (g_dumpRing/g_dumpWrite/g_dumpCommit) — aucune IO disque.
+ *
+ * Miroir VRAM : base = dword_1CB602C (valeur pointeur, lu SEH) ; espace
+ * u16, pitch 0x800 mots/row (decomp 0x464F70 @0x465235, 0x464DB0, 0x4653E0,
+ * 0x4675C0). Le miroir ENTIER = 1024 u16/row × 512 rows = 0x100000 o et
+ * contient TOUTES les pages ET toutes les CLUTs (décode/itération
+ * PNG-side OFFLINE sur le miroir complet). vram_base 0/illisible → PAS de
+ * record du tout (le miroir = la seule valeur ; g_txSehFails++, flag NON
+ * posé — le node walk texturé suivant du frame retente). Copie miroir
+ * échouée (SEH) → RIEN écrit, g_dumpWrite jamais avancé (g_txSehFails++).
+ * g_frameTxEmitted est posé AVANT la copie : un multi-node frame n'émet
+ * JAMAIS deux fois. clut_now = dword contenant word_1CA89B8, copié BRUT
+ * (mask & 0x7FFF appliqué décode-side) ; échec → 0 + fails (non-fatal).
+ * m_B7DB44 : échec → 0 + fails (non-fatal). page_probe = *(texinfo+0x10)
+ * : échec → 0, non-fatal (diagnostic pur). AUCUNE résolution de
+ * CLUT/page géométrie côté DLL (contrat §2-2).
+ * ------------------------------------------------------------------------- */
+static void GFXPT_TxEmit(unsigned long seq, const void* node)
+{
+    GFXPT_Tx07Hdr        hdr;
+    unsigned char*       p;
+    unsigned char*       sysRow;                /* v9 : dest de sys_clut_row */
+    unsigned long        holder = 0;
+    unsigned long        pageProbe = 0;
+    unsigned long        clutNow = 0;
+    unsigned long        vramBase = 0;
+    unsigned long        m_B7DB44 = 0;
+    unsigned long        fails = 0;
+    unsigned long        need = GFXPT_DUMP_TX_REC_BYTES;
+
+    if (!node)
+        return;
+
+    /* Dédup frame : UNE émission TX07 par frame armé (flag per-frame). */
+    if (g_frameTxEmitted)
+        return;
+
+    /* page_probe : *(texinfo+0x10), texinfo = *(node+0x2C) — champ
+     * purement diagnostic décode-side ; échec SEH → 0, non-fatal. */
+    if (GFXPT_ReadU32((const char*)node + 0x2C, &holder) && holder != 0)
+        (void)GFXPT_ReadU32((const void*)(holder + 0x10), &pageProbe);
+
+    /* clut_now : dword contenant word_1CA89B8 (id CLUT vivant, sub_45B920 :
+     * word + 0x7FFF), copié BRUT — mask & 0x7FFF appliqué décode-side.
+     * Échec → 0 + fails (non-fatal, record quand même émis). */
+    if (!GFXPT_ReadU32((const void*)GFXPT_HostEA(GFXPT_EA_CLUT_ID), &clutNow))
+    {
+        clutNow = 0;
+        fails++;
+    }
+
+    /* Base miroir VRAM : dword_1CB602C (valeur pointeur). 0/illisible →
+     * PAS de record du tout (miroir = la seule valeur) ; flag non posé :
+     * le node walk texturé suivant du frame retente. */
+    if (!GFXPT_ReadU32((const void*)GFXPT_HostEA(GFXPT_EA_VRAM_BASE), &vramBase) ||
+        vramBase == 0)
+    {
+        g_txSehFails++;
+        return;
+    }
+
+    /* Flag RGB555 : lecture SEH du BSS dword_B7DB44 (calibre le chemin
+     * décodeur mode-2 de BlitRows ; stocké par AllocTexturePageSlot
+     * 0x465117-0x465135 — decomp 0x464F70 : dword_B7DB44 =
+     * (*(int*)(hit + 0x44) == 0x7E0), armé mode==2 uniquement). */
+    if (!GFXPT_ReadU32((const void*)GFXPT_HostEA(GFXPT_EA_M_B7DB44), &m_B7DB44))
+    {
+        m_B7DB44 = 0;
+        fails++;
+    }
+
+    /* Flag posé AVANT la copie : un frame multi-node n'émet jamais deux
+     * fois (la base miroir est la même pour tout le frame). */
+    g_frameTxEmitted = 1;
+
+    if (need > GFXPT_DUMP_RING_BYTES - (g_dumpWrite - g_dumpCommit))
+    {
+        g_txRingDrops++;                    /* ring plein : TX seul (le record ND07 du node référent passe) */
+        g_frameTxDrops++;
+        if (!g_txRingWarned)
+        {
+            g_txRingWarned = 1;             /* 1 ODS par fenêtre d'armement : pas de spam par frame */
+            GFXPT_ODS("gfx_passthrough " GFXPT_VERSION_TEXT
+                      ": ring 64 Mo plein pour TX07, snapshot miroir VRAM droppe\n");
+        }
+        return;
+    }
+
+    /* Copie du miroir VRAM ENTIER (0x100000 o) SEH-défendue directement
+     * dans le ring. Échec SEH → retour sans rien écrire ni avancer
+     * g_dumpWrite ; le record ND07 du node référent reste dans son flux. */
+    p = &g_dumpRing[g_dumpWrite];
+    if (!GFXPT_CopyBytes(p + sizeof(hdr), (const void*)vramBase,
+                         GFXPT_DUMP_TX_VRAM_BYTES))
+    {
+        g_txSehFails++;                     /* rien écrit (le miroir = la seule valeur) */
+        return;                             /* pas de TX07 du tout */
+    }
+
+    /* v9 — sys_clut_row[2048] : row CLUT système du clut_now du frame —
+     * src = HostEA(GFXPT_EA_SYS_CLUT) + 2048*((clut_now & 0x7FFF) >> 6)
+     * (unk_1B47818 = base statique LITTÉRALE ; sub_45B920 : fenêtre CLUT
+     * dans la row `clut>>6`, 64 sous-CLUT × 32 o — le grain 16 couleurs =
+     * sous-palette par groupe d'id). Échec SEH → 2048 o à zéro + fails
+     * (non-fatal, record émis) ; 1 ODS par fenêtre d'armement max. */
+    sysRow = p + sizeof(hdr) + GFXPT_DUMP_TX_VRAM_BYTES;
+    if (!GFXPT_CopyBytes(sysRow,
+                         (const void*)((unsigned long)GFXPT_HostEA(GFXPT_EA_SYS_CLUT)
+                                       + 0x800ul * ((clutNow & 0x7FFFul) >> 6)),
+                         GFXPT_DUMP_TX_SYSROW_BYTES))
+    {
+        memset(sysRow, 0, (size_t)GFXPT_DUMP_TX_SYSROW_BYTES);
+        fails++;
+        if (!g_txSysWarned)
+        {
+            g_txSysWarned = 1;
+            GFXPT_ODS("gfx_passthrough " GFXPT_VERSION_TEXT
+                      ": sys CLUT row illisible, sys_clut_row a zero (tx)\n");
+        }
+    }
+
+    hdr.magic = GFXPT_DUMP_MAGIC_TX;
+    hdr.build = GFXPT_BUILD_ID;
+    hdr.seq = seq;                          /* g_frameSeq au node référent */
+    hdr.clut_now = clutNow;                 /* brut ; & 0x7FFF appliqué décode-side */
+    hdr.vram_base = vramBase;               /* ptr miroir VRAM (dword_1CB602C) */
+    hdr.sys_clut_base = GFXPT_EA_VRAM_CLUT_LUTB;    /* constante : base système CLUT */
+    hdr.m_B7DB44 = m_B7DB44;
+    hdr.page_probe = pageProbe;             /* diagnostic ; 0 si chaîne illisible */
+    memcpy(p, &hdr, sizeof(hdr));
+
+    if (fails)
+        g_txSehFails += fails;
+    g_dumpWrite += need;
+    g_dumpRecords++;
+    g_dumpBytes += need;
+    g_frameRecords++;
+    g_frameTxRecs++;
 }
 
 /* Chemin d'un fichier sidecar à côté de la DLL (même mécanisme que le CSV). */
@@ -471,6 +838,18 @@ static int GFXPT_BuildSidePath(const char* name, char* out)
  * Capture d'un node au vol (appelé depuis chaque wrapper 43–64, synchrone,
  * APRÈS le forward natif — même ordre que la capture v6.1). Écriture ring
  * seule : AUCUNE IO disque ici.
+ *
+ * v8 — TX07 frame-level : pour les slots walk texturés (48–50/57–59/63–64
+ * direct, 51/60 VB batch), le snapshot miroir VRAM (TX07) est émis UNE fois
+ * par frame armé (dédup par pulse — g_frameTxEmitted) AVANT la copie du
+ * node, sur le PREMIER node walk texturé de la frame, TOUTE de suite après
+ * les guards de fenêtre et le guard node. L'émission TX est indépendante
+ * du sort du record node (skips/gardes node) : le mapping décodeur se fait
+ * par ADRESSE, pas par position de flux (voir le contrat TX07 au-dessus de
+ * GFXPT_DumpHdr).
+ * v9 — footer ND08 (kind2 only) : footer texture APPEND au payload (voir le
+ * contrat « v9 patch » ci-dessus) ; la sélection du magic ND07/ND08 se fait
+ * sur geom_kind, l'émission TX07 n'est pas modifiée.
  * ------------------------------------------------------------------------- */
 static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
 {
@@ -491,6 +870,17 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     unsigned long        fails;
     GFXPT_DumpHdr        hdr;
     unsigned char*       p;
+    unsigned long        texinfoPtr = 0;        /* v9 footer : texinfo = *(node+0x2C) */
+    unsigned long        tpage = 0;             /* v9 footer : *(texinfo+0x20) */
+    unsigned long        tmode = 0;             /* v9 footer : *(texinfo+0x14) */
+    unsigned long        clut = 0;              /* v9 footer : *(u16*)(ctx+0x448) */
+    unsigned long        idCount = 0;           /* v9 footer : min(remaining,255) */
+    unsigned long        droppedIds = 0;        /* v9 footer : gcount si >255 sinon 0 */
+    unsigned long        idsPtr = 0;            /* v9 footer : *(u8**)(node+0x28) */
+    unsigned long        idsFailed = 0;         /* v9 footer : 1 = stream illisible */
+    unsigned long        idsPad;
+    unsigned long        footerBytes;
+    unsigned char        idsStage[256];         /* v9 : copie SEH unique du stream */
 
     if (g_capEndSeq == 0 || g_frameSeq > g_capEndSeq || g_frameOverflow)
         return;                             /* hors fenêtre ou frame saturé */
@@ -501,6 +891,23 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     }
     if (!node)
         return;                             /* garde : node non nul */
+
+    /* v8 — TX07 frame-level : miroir VRAM une fois par frame armé (premier
+     * node walk texturé de la frame), émis AVANT la copie du node (ordre :
+     * window guard → TX emit → node copy). L'émission est pour slots walk
+     * texturés SEULEMENT (§6.2-A) ; dédup par pulse intégré à
+     * GFXPT_TxEmit, ring-drop isolé (node non affecté). */
+    switch (slot)
+    {
+    case 48: case 49: case 50:
+    case 51:
+    case 57: case 58: case 59: case 60:
+    case 63: case 64:
+        GFXPT_TxEmit(g_frameSeq, node);
+        break;
+    default:
+        break;
+    }
 
     if (!GFXPT_CopyBytes(nodeCopy, node, (unsigned long)GFXPT_NODE_BYTES))
     {
@@ -523,6 +930,9 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
             g_dumpSehFails++;
             return;                         /* closure illisible : skip record */
         }
+        /* v9 — footer ND08 : lecture texinfo DÉDIÉE (indépendante du holder
+         * de GFXPT_TxEmit) ; échec → 0 (tpage/mode restent 0, diagnostic). */
+        (void)GFXPT_ReadU32((const char*)node + 0x2C, &texinfoPtr);
         break;
     case 51:                                /* 0x43E356 (VB batch) */
     case 60:                                /* 0x43E692 (VB batch) */
@@ -534,6 +944,28 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
         {
             g_dumpSehFails++;
             return;
+        }
+        /* v9 — footer ND08 : texinfo|geom du node (déjà lu) + stream d'ids
+         * tel que consommé par le walk natif : ids = *(node+0x28), 1 octet
+         * PAR GROUPE (0x43E419/0x43E725), remaining = *(s32*)(node+0x08).
+         * Copie SEH UNIQUE (≤ 256 o, 255 émis max) — AUCUN read par groupe.
+         * Échec (pointeur SEH fail, 0, ou copie SEH) → id_count=0,
+         * dropped_ids=0, compté dans hdr.fails (bloc mis à zéro, style
+         * idx/fvf). */
+        texinfoPtr = geomPtr;
+        if (remaining > 0)
+        {
+            idCount = (remaining > 255ul) ? 255ul : remaining;
+            if (remaining > 255ul)
+                droppedIds = remaining;     /* cap : gcount est dans dropped_ids */
+            if (!GFXPT_ReadU32((const char*)node + 0x28, &idsPtr) || idsPtr == 0 ||
+                !GFXPT_CopyBytes(idsStage, (const void*)idsPtr,
+                                 (remaining > 255ul) ? 256ul : idCount))
+            {
+                idCount = 0;
+                droppedIds = 0;
+                idsFailed = 1;
+            }
         }
         if (geomPtr)
         {
@@ -565,11 +997,17 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
 
     idxBytes = icount * 2ul;
     idxPad = (idxBytes & 3ul) ? (4ul - (idxBytes & 3ul)) : 0ul;
+    /* v9 — footer ND08 (kind2 only) : 4 x u32 (tpage/mode/clut/id_count) +
+     * ids[id_count] (pad align u32) + dropped_ids u32 toujours présent. */
+    idsPad = (idCount & 3ul) ? (4ul - (idCount & 3ul)) : 0ul;
+    footerBytes = (geomKind == 2)
+                ? (16ul + idCount + idsPad + 4ul)
+                : 0ul;
     payload = (geomKind == 2)
-            ? (8ul + idxBytes + idxPad + (vcount * 32ul))
+            ? (8ul + idxBytes + idxPad + (vcount * 32ul) + footerBytes)
             : 0ul;
     need = (unsigned long)sizeof(hdr) + (unsigned long)GFXPT_NODE_BYTES + payload;
-    if (need > GFXPT_DUMP_MAX_NODE_BYTES)   /* garde 256 Ko (défensive) */
+    if (need > GFXPT_DUMP_MAX_NODE_BYTES)   /* garde (v9 : 0x100C80 — voir define) */
     {
         g_dumpGuardSkips++;
         g_frameGuardSkips++;
@@ -582,7 +1020,24 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
         return;
     }
 
-    hdr.magic = GFXPT_DUMP_MAGIC;
+    /* v9 — inputs du footer ND08 lus ICI (après gardes/ring — un drop ring
+     * ne paie pas les lectures) ; échecs SEH → 0, non-fatal (diagnostic,
+     * style page_probe TX07). */
+    if (geomKind == 2)
+    {
+        if (texinfoPtr != 0)
+        {
+            (void)GFXPT_ReadU32((const void*)(texinfoPtr + 0x20), &tpage);
+            (void)GFXPT_ReadU32((const void*)(texinfoPtr + 0x14), &tmode);
+        }
+        if (ctx)
+        {
+            (void)GFXPT_ReadU32((const char*)ctx + 0x448, &clut);
+        }
+        clut &= 0xFFFFul;                   /* champ WORD (66h-prefixed) du record slot */
+    }
+
+    hdr.magic = (geomKind == 2) ? GFXPT_DUMP_MAGIC_ND08 : GFXPT_DUMP_MAGIC;
     hdr.slot = (unsigned long)slot;
     hdr.seq = g_frameSeq;
     hdr.ctx = (unsigned long)ctx;
@@ -590,6 +1045,7 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     hdr.geomKind = geomKind;
     hdr.fails = 0;
     hdr.payloadSize = (unsigned long)GFXPT_NODE_BYTES + payload;
+    hdr.build = GFXPT_BUILD_ID;             /* v8 : 9e u32 (offset 0x20), « déployé ≠ cru » */
 
     p = &g_dumpRing[g_dumpWrite];
     memcpy(p, &hdr, sizeof(hdr));
@@ -634,6 +1090,27 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
             g_dumpSehFails += fails;
             g_frameFails += fails;
         }
+        /* v9 — footer ND08 APPEND : tpage|mode|clut|id_count|ids[+pad]|
+         * dropped_ids. Slots directs : id_count=0 → ids absents (pad 0),
+         * footer 20 o (dropped_ids=0). {51,60} : idsStage déjà copié. */
+        memcpy(p, &tpage, 4ul);
+        memcpy(p + 4ul, &tmode, 4ul);
+        memcpy(p + 8ul, &clut, 4ul);
+        memcpy(p + 12ul, &idCount, 4ul);
+        p += 16ul;
+        if (idCount)
+            memcpy(p, idsStage, (size_t)idCount);
+        if (idsPad)
+            memset(p + idCount, 0, (size_t)idsPad);
+        p += idCount + idsPad;
+        memcpy(p, &droppedIds, 4ul);
+        p += 4ul;
+        if (idsFailed)
+        {
+            ((GFXPT_DumpHdr*)(void*)&g_dumpRing[g_dumpWrite])->fails += 1;
+            g_dumpSehFails++;
+            g_frameFails++;
+        }
     }
     g_dumpWrite += need;
     g_dumpRecords++;
@@ -672,9 +1149,9 @@ static void GFXPT_DumpFlushAtPresent(void)
         l = fopen(logPath, "a");
         if (l)
         {
-            fprintf(l, "frame,seq=%lu,records=%lu,fails=%lu,drops=%lu,guards=%lu,overflow=%d,bytes=%lu\n",
+            fprintf(l, "frame,seq=%lu,records=%lu,fails=%lu,drops=%lu,guards=%lu,overflow=%d,bytes=%lu,tx=%lu\n",
                     drainedSeq, g_frameRecords, g_frameFails, g_frameDrops,
-                    g_frameGuardSkips, g_frameOverflow, pending);
+                    g_frameGuardSkips, g_frameOverflow, pending, g_frameTxRecs);
             fclose(l);
         }
     }
@@ -692,8 +1169,10 @@ static void GFXPT_DumpArmAtPresent(void)
     if (GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES)
         return;
     g_capEndSeq = g_frameSeq + (GFXPT_DUMP_FRAMES - 1);   /* seq courant..+15 */
+    g_txRingWarned = 0;         /* v8 : 1 ODS « ring plein TX » par fenêtre max */
+    g_txSysWarned = 0;          /* v9 : 1 ODS « sys CLUT row illisible » par fenêtre max */
     DeleteFileA(path);
-    sprintf(buf, "gfx_passthrough %s: dump arme frames %lu..%lu\n",
+    sprintf(buf, "gfx_passthrough %s: dump arme frames %lu..%lu (+TX07 miroir VRAM, 1/frame)\n",
             GFXPT_VERSION_TEXT, g_frameSeq, g_capEndSeq);
     GFXPT_ODS(buf);
 }
@@ -707,6 +1186,11 @@ static void GFXPT_DumpFramePulse(void)
     g_frameDrops = 0;
     g_frameGuardSkips = 0;
     g_frameOverflow = 0;
+    /* v8 — reset TX intra-frame : flag d'émission TX07 (dédup par pulse) +
+     * compteurs log `tx=N`. */
+    g_frameTxRecs = 0;
+    g_frameTxEmitted = 0;
+    g_frameTxDrops = 0;
     GFXPT_DumpArmAtPresent();
 }
 

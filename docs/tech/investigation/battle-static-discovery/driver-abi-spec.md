@@ -175,6 +175,42 @@ Captures mémoire par node (slots 43–64 wrappés, appelés **par node** en `(c
 - Slots 43–47/52–56/61–62 (setup) : node jamais lu (prouvé disasm : lecture ctx+0x30/0x38 only).
 - Slots 48–50/57–59/63–64 (walk direct) : vcount@node+0x0C, verts@+0x14, icount@+0x18, idx@+0x20 (FVF 0x1E2 pour 57–59).
 
+### 6.2 Chaîne texture confirmée (lot 14, closure IDB) 
+
+> Nous n'apportons AUCUNE invention : chaque chemin ci-dessous est dérivé de decomp/idb live.
+
+**A. Node → texinfo → page (principal, arcs 0x43E24A × Strides) :**
+
+| Slot(s) | Walk EA | Chemin | Guard / Bias | Format page |
+| ---  | --- | --- | --- | --- |
+| 48, 49, 50 | 0x43E24A (FVF 0x1C4) | `texinfo = *(node+0x2C)` ; `page = *(texinfo+0x10)` | `*(page+0x14) ≠ 0` | 32×f32 stride |
+| 57, 58, 59 | 0x43E5E9 (FVF 0x1E2) | idem | idem | idem |
+| 63, 64 | 0x43E540 (LINELIST) | idem | idem | idem |
+| 51 | 0x43E356 (VB batch) | `geom = *(node+0x2C)` ; `page = *(geom+0x10)` | `*(page+0x14)` ; même bias Cornell+0x28/0x2C × [engine+0xBF8/0xBFC] | geom+0x3C (vcount/entry), geom+0x40 (icount/entry) |
+| 60 | 0x43E692 (FVF 0x1E2) | idem | idem | idem |
+
+**B. Bias UV : `sub_409C6E` (0x409C6E, int __cdecl(f32 u_add, f32 v_add, int n, void* verts)) :**
+applique `v[i].u += u_add` / `v[i].v += v_add` à chaque vertex FVF 0x1C4 / stride 32, AVANT le draw COM.
+Le *dump* (copie mémoire par le detour) n'observe DONC QUE l'état **post-bias** — le décodeur v2
+n'applique AUCUN reclacul UV : il calcule `pixel = int(U·W)`, `row = int(V·H)` sur les UV dumpés.
+
+**C. Layout des pages VRAM (allocation via `Gfx_AllocTexturePageSlot 0x464F70` / `Gfx_TPageDescribePixelFormat 0x463FC0`) :**
+
+- Slots réels (slot-record 0x64) : `x@(sl+4)`, `y@(sl+8)`, `w@(sl+0xC)`, `h@(sl+0x10)`, `mode@(sl+0x14)` (0=4bpp, 1=8bpp, 2=16bpp RGB555), `tpage@(sl+0x20)`, `pool@(sl+0x54)`, `pixel_buffer@(sl+0x58)` (alloué par `Gfx_Psx2Lookup_OrPoolAlloc_B7E018(layout[2] × layout[1])`), list_ptr@(sl+0x24/+0x28/+0x2C/+0x34/+0x38/…) (types 6 / 0xE).
+- Matrice : `layout[0]=w`, `layout[1]=h`, `layout[2]=pitch_bytes` (= `w×2` si mode 2, sinon `w`), `pitch@desc+0x44`.
+- VRAM mmap : `dword_1CB602C` (ptr) ; adresse d'un pixel = `*(u16*)(1CB602C + 2×(row×0x800) + 2×(page_x_plus_ + (x >> (2 - mode))))` où `page_x=(tpage&0xF)«6`, `page_y=((tpage»4)&1)«8`, `vramOff = (page_y + y)«10 + page_x + (x » (2-mode))`, pitch bytes = 0x800 (1024 u16 / row → 1024×512 ×16bpp).
+- CLUT : `clut_src = dword_1CB602C VALUE + (clut_word « 5)` (u16-par-entry), `clut_before` via `sub_45B920(clut)` écrit `word_1CA89B8 = clut & 0x7FFF` et `dword_1CA89A8 = (int)&unk_1B47818 + 2048*(clut»6) + 32*(clut&0x3F)`. `dword_1CA89A8` est LE ptr CLUT vivant (256 entrées u16). ` TexStaging_BlitCLUTAlpha` écrit un masque `a«12` alpha-only dans la VRAM à `dword_1CA89A8`-line, UNE fonctionnalité PSX→PC (mode luma = `cl[(r+g+b)»(1CA89E8+3)] clamp 15`).
+- `TexStaging_BlitRows 0x4675C0` : 3 modes (0=4bpp nibble-unpack, 1=8bpp rep-mov, 2=RGB555 swap) — LE décodeur v2 lit les 3 forms. Per-row bytes du buffer : `w/2` (4bpp), `w` (8bpp), `w×2` (16bpp).
+- Blit output layout (allocTexturePageSlot@0x465235 et isUpdateVRAMOrSomething@0x4653E0) : dest eax = `dword_1CB602C + vramOff × 2`, pitch 0x800 bytes (1024 u16 / row).
+
+**D. Invérifiés explicitement (ne pas inventer — capture node-only + escalade) :**
+- Le flag `*(page+0x14)` n'est PAS une stride TIM : le dump n'inclut PAS d'interprétation de TIM ; il
+  laisse une capture brute (mode, w, h, tpage, arg_24 en u32) et la VRAM.
+- Le champ « clut » run$countl : le CLUT réel n'est PAS un champ du node. La chaîne SelectTexturePageDrawList
+  porte le CLUT via `*arg_C = idx×2 + (var_204==2 && dword_1CA8A00==0 ? 1:0)` — résolu à l'émission.
+  Au detour 43–64, le CLUT de la page capturée est le ptr vivant à `dword_1CA89A8` au moment du present
+  (biais "capture au 1er hit du frame" documenté).
+
 ## 7. Activation du type 2 (contrainte lanceur)
 
 1. La factory n'est jamais appelée nativement → le lanceur appelle lui-même
