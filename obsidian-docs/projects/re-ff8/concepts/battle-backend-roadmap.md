@@ -8,18 +8,18 @@ sources:
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot14_2026-09-26.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot15_2026-09-26.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CLOSURE_walkdirect-bind.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/AUDIT_completude.md
   - docs/tech/investigation/battle-static-discovery/driver-abi-spec.md
 summary: >-
-  Roadmap continuation lot 14+ issue du lot 13 : v8 textures FAIT (lot 14,
-  v10.3, chaîne TIM fermée + rendu true-texture), replay backend moderne
-  (Étape B), formalisation sémantique des VB batch, durcissement v7.2
-  (absorbé v10.x), housekeeping wiki — états d'avancement et critères PASS.
+  Roadmap continuation lot 14+ issue du lot 13 : v8 textures FAIT (lot 14, v10.3,
+  chaîne TIM fermée + rendu true-texture), lot 15 ferme LUT/caméra/ciel/walk-direct,
+  lot 16 ferme la complétude géométrie H1 — états + critères PASS.
 provenance:
   extracted: 0.85
   inferred: 0.12
   ambiguous: 0.03
 created: 2026-09-25T20:30:00+02:00
-updated: 2026-09-27T11:30:00+02:00
+updated: 2026-09-27T14:25:00+02:00
 ---
 
 # Battle Backend Roadmap — propositions 1–5
@@ -71,6 +71,28 @@ Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
   exhaustif des triangles de la frame vs réf) AVANT tout nouveau codage
   writer ; puis mapping tpage/clut par record avec anchors fiables (pas de
   scoring seul).
+
+## Proposition 1b — Lot 16/17 (2026-09-27, offline battle13 v10.3) : complétude H1
+
+**État : FAIT (offline, zéro capture)** | Preuve :
+[[projects/re-ff8/references/driver-drop-test-af3dn-v11-lot16-completude-2026-09-27]]
+
+- **Géométrie fermée (H1)** : persos/monstre = records slot-51 VB, jamais les
+  directs (coverage maps par slot) — 3 colonnes x≈322-340/357-403/456-501 +
+  monstre 62-328×228-396.
+- **Mapping texobj↔entité validé opérateur** (04BE60/04CE70=monstre, 04DE70=Zell,
+  04EEC0=Squall, 04FEE0=Irvine, 043E10/045870=fontes pal5 HP dorées,
+  046730/046BC0=UI, 049E20/04AE40=terrain) + bibliothèque 11 texobj ré-émise BGR.
+- **BGR deux niveaux** (TIM CLUT PSX `STP|B5|G5|R5` vs buffer PC BGRA) ; palettes
+  ACTIVES du monstre = bandes CLUT système miroir VRAM 0x1DA0-0x1E02 (hits or 87 %),
+  PAS le CLUT TIM T+0x60.
+- **Fausse piste swizzle écartée** (TIM linéaire ; swizzle = FMV/MDEC) ;
+  `sub_507400` = alloc VRAM + patch TPage/CLUT (closure IDB lot 17).
+- **UV battle** : ordre physique C,A+B par face + table PC 2013 `n/256`
+  (0→1/256, 255→254/256) relevée (FFNx PR #852 Myst6re) — décodeur 2 modes.
+- **Restant lot 17 (IDB puis v12)** : mapping UV final, table ids[g]→bande CLUT,
+  writer bandes système, layout T+0xD8, couche modulation, ciel à composer ;
+  v12 = `pal_idx` + `clut_sys_id` + D3D states (zéro offset inventé).
 
 
 
@@ -130,6 +152,9 @@ Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
 
 ## Related
 
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v11-lot16-completude-2026-09-27]] —
+  le lot 16/17 (offline) qui ferme la complétude géométrie H1 + BGR + palettes CLUT
+  système + UV 2013, et ouvre le lot 17 IDB/v12.
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v11-2026-09-27]] — le
   lot 15 qui ferme les résidus LUT/caméra/ciel + walk-direct bind (héritage
   device) et ouvre l'audit de complétude v12.
