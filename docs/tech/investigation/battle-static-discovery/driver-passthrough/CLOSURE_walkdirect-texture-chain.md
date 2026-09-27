@@ -267,3 +267,49 @@ laboratoire de la chaÃ®ne wrapper. Le remÃ¨de ND08/ND07-M est dÃ©jÃ  un trait d'
 **ND08 suffit** : rien d'autre que ces 4 u32 (16 octets de plus, 0x28 au total), le
 writer DDrawAlt peut rattacher le texobj d'un slot 49 exactement comme le 51/60 le fait
 dÃ©jÃ  via `*(texinfo+0x10)` â€” la chaÃ®ne idoine pour le direct Ã©tant `*(E+0x3C)` (sonde Â§8).
+
+## 10. Corrections live (26-27/09) + design v11 final — SUPERSÈDE l'étiquetage §1-§9
+
+La sonde live du 26/09 soir (pid 23184, bataille pause, dump STRICT PASS
+`9993D34B…300D6`) a révélé un étiquetage croisé dans ce document :
+
+1. **Le node est `arg_4` (2e arg), pas `arg_0`.** Disasm : `0x43e0e6 mov eax,[ebp+arg_0]`
+   ? gate `cmp [eax+30h],0` @0x43e0e9 porte sur **ctx** (arg_0) ; `0x43e10c-0x43e111`
+   `mov edx,[ebp+arg_4]; mov eax,[edx+2Ch]` ? **texinfo = *(node+0x2C)** est sur arg_4.
+   La chaîne de texture part donc de **ctx**, pas du node :
+   `W(=matdesc) = *(ctx+0x38)` [@0x43e0f3-f6] ? `texobj = *(W+0x14)` [@0x4415a7 dans
+   sub_441581 ; @0x41F011 `a2[5]` dans sub_41EF7A] ? `T = *(texobj+152)` [@0x41F038
+   `texobj[38]` ; w/h lus @0x4202C1/0x4202D3 dans sub_42022C].
+2. **Unification** : c'est EXACTEMENT la chaîne backend prouvée live au lot 14
+   (`backend = ctx[0x3C] ? ctx[0x68] : ctx[0x38] ; v11 = *(backend+20) ; T = *(v11+152)`)
+   — le sous-chemin direct emprunte `ctx+0x38` inconditionnellement. `T` partage donc
+   l'espace de valeurs des clés TR08 (ND08.texobj des records 51/60).
+3. **`*(texinfo+0x10)` est TRANSITOIRE** (champ « wrapper du dernier rendeur », pas
+   l'objet T) : preuve croisée — même texinfo statique `0x1A5228CC` dans deux sessions
+   à ctx différents (0x09018DA0 / 0x06D48DA0) ; post-hoc en pause on y lit le W du
+   rendu PAUSE (0x6d48e30 = ctx_pause+0x90), alors que le writer v10.3 a capturé 0 à
+   T_draw. Toute sonde post-hoc de ce champ est faussée par le rendu pause.
+4. **Live vérifié** : gate `*(ctx+0x30) = 1` (chemin ENGAGÉ ?) ; `W = *(ctx+0x38) =
+   ctx+0x90` ? ; `*(W+0x14) = 0` post-hoc (état transitoire, cf. 3) ; `sub_41EF7A`
+   appelé avec enable=0 ? pas de re-bind depuis ce chemin ? les draws 48/49/50
+   héritent de la texture D3D courante, dont l'upload/bind passe par slot 25
+   (`sub_4365FF` posé `[eax+0x64]` au ctor DDrawAlt @0x42589c) ? `sub_41ED69` ?
+   `sub_42022C` (upload, w/h) / `sub_41EF3C` (`call [device+0x98]` = SetTexture,
+   vtable index 38 du device D3D9).
+
+### Design v11 (footer ND08 + 2 u32, build-id 0x563E)
+
+Pour les slots 48/49/50 uniquement, lu AU VOL dans le detour (à T_draw, SEH,
+0 si fail, non-fatal) :
+
+```c
+/* u32 texobj_wd = *(u32*)( *(u32*)(ctx + 0x38) + 0x14 );   EA: 0x43e0f3-f6, 0x4415a7 */
+/* u32 T_wd      = *(u32*)( texobj_wd + 152 );              EA: 0x41F038, 0x4202C1   */
+/* append ND08 footer: u32 texobj_wd; u32 T_wd;  (apres texobj v10) */
+```
+
+Le décodeur mappe `footer.T_wd ? TR08.texobj` (même espace de valeurs que la chaîne
+VB). Aucun offset inventé : chaque maillon est EA-cité ci-dessus et les liens statiques
+ctx/W sont vérifiés live. La capture in-detour EST la sonde de la valeur transitoire
+(inobservable post-hoc, cf. 3) : T_wd=0 dans la capture v11 signera « pas de texture
+attachée à T_draw » et bloquera toute interprétation ultérieure.

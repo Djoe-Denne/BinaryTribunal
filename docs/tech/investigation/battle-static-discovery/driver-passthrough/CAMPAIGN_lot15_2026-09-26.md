@@ -32,12 +32,45 @@
 3. **Parser strict** : âœ… battle13/battle14 (0x563D) 0 resync ; LUT inchangÃ©e.
 4. **0 AV / 0 WER** : âœ… phase offline (aucun run).
 
-## 4. Phase live â€” protocole (Ã  venir)
+## 4. Phase live â€” exÃ©cutÃ©e 26-27/09 (Ã©tapes 1-2) + pivot v11
 
-1. DÃ©ployer v10.3, boot, entrer en bataille, **pause**, trigger dump (16 frames).
-2. ExÃ©cuter `_probe_lot15_walkdirect.py <dump.bin>` **pendant** la bataille â†’ verdict E+0x38/E+0x3C.
-3. Si sonde OK : v11 = footer ND08 + `u32 texobj_wd` (valeur candidate, SEH-guard, 0 si fail),
-   build-id `0x563E` ; gate `ff8-dump-writer-verify` ; captures bataille idle (+ fireaga pour le
-   blend, field/world si piste ciel-pages) ; screenshot F12 PENDANT les fenÃªtres armÃ©es.
-4. DÃ©codeur v3 : mapping `slot49.texobj_wd â†” TR08` + rendu persos/monstre.
-5. Rapport PASS/FAIL + ingest evidence + wiki `BattleTextures.md`.
+1. **Ã‰tape 1 PASS** : v10.3 dÃ©ployÃ©e (hash `66F65282â€¦` âœ“), boot watcher-armÃ© pid 23184,
+   trigger 16 frames en pause, dump `captures/lot15/battle_probe/gfx_passthrough_dump.bin`
+   (38 852 064 B, SHA256 `9993D34BD8BF2DE629B3C30A125225A6D2139F9698FED23C7F3F60F0795300D6`),
+   STRICT PASS (0 resync, build 0x563D, 2384 records). Screenshot F12 manquÃ© (fenÃªtre trop
+   courte vs dance GO/ARMED â€” Ã  refaire en rafale Ã  l'Ã©tape 3).
+2. **Ã‰tape 2 (sonde)** : v1 UNPROVEN (`*(node+0x38)` = petits entiers) â†’ **correction
+   d'Ã©tiquetage IDB** : la chaÃ®ne part de `ctx` (arg_0), le node est `arg_4` (voir
+   CLOSURE Â§10). Sonde v2 : gate `*(ctx+0x30)=1` âœ“, `W=ctx+0x90` âœ“, `*(W+0x14)=0`
+   post-hoc â†’ **transitoire** (preuve croisÃ©e : `texinfo+0x10` Ã©crasÃ© par le rendu pause,
+   mÃªme texinfo statique `0x1A5228CC` sur deux sessions Ã  ctx diffÃ©rents).
+3. **Verdict** : la valeur Ã  T_draw est inobservable post-hoc â€” la capture in-detour v11
+   EST la sonde. Design final (CLOSURE Â§10) : footer ND08 + `u32 texobj_wd` + `u32 T_wd`
+   (chaÃ®ne `*(ctx+0x38) â†’ +0x14 â†’ +152`, tous EA-prouvÃ©s, mÃªme espace de valeurs que les
+   clÃ©s TR08), build-id `0x563E`. Ã‰tape 3 soumise Ã  l'opÃ©rateur.
+
+## 5. Étape 3 live (27/09) — v11 déployée, hypothèse réfutée proprement, architecture fermée
+
+- v11 (`292D40CD…A1978`, build `0x563E`) : gate PASS (exports 14/14, fopen binaire, gardes,
+  branche vérifiée au disasm ; harnais dévié, layout inchangé). Capture `battle_v11` :
+  STRICT PASS 0x563E, 2 576 records, 16 frames, hash `A2082F5E…7065C`.
+- **Résultat** : 48/48 records slot 49 texobj=0 à T_draw — la chaîne matdesc est vide au
+  draw. COMBINÉ à l'IDB : l'impl réel des slot 48/49/50 = `RenderDDrawAlt_
+  DrawIndexedPrimitive_FVF1C4` @0x43E24A (ctor +0xC0/+0xC4/+0xC8) — **aucun bind, aucun
+  accès matdesc** (sub_43E0E2 = slot 55, étiquette antérieure décalée). `matdesc+0x14`
+  est structurellement mort côté Alt pour les ctx directs ; les draws directs héritent de
+  l'état device (CLOSURE_walkdirect-bind.md).
+- **Réfutations offline** (sans nouvelle capture) : héritage painter-order (dernier T VB)
+  ? monstre var=0, réfuté ; footer tpage/mode/clut des directs = champs par défaut
+  (texinfo direct ne les peuple pas).
+- **DÉCOUVERTE CLÉ (planche VRAM `LOT15_vram_pages.png`)** : le miroir TX07 contient TOUT
+  — tpages 10-12 visages persos, 13 monstre, 14-15 atlas sprites, **16-17 ciel nuageux**,
+  18-20 rochers, 27-29 effets, 30 flammes. Les textures manquantes sont CAPTURÉES ; il ne
+  manque que le mapping (tpage, clut) par record slot-49 — **résoluble offline** (recherche
+  bornée 32 pages × palettes miroir, scoring cohérence), sans nouvelle fenêtre live.
+
+### État critères PASS lot 15
+1. Persos+monstre texturés : architecture fermée, mapping offline restant (v12 décodeur).
+2. Ciel : fermé (chemin non-wrappé EA `0x4623A0`) + texture ciel présente au miroir (16-17).
+3. Parser strict : ? v11 0x563E, 0 resync.
+4. 0 AV / 0 WER : ? (2 sessions live, exits propres).

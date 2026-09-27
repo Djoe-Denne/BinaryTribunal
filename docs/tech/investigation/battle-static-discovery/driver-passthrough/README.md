@@ -431,3 +431,10 @@ Détails complets : `driver-abi-spec.md` §6.3, `CLOSURE_sky-path.md`, `CLOSURE_
    ReadProcessMemory live OBLIGATOIRE avant de coder le footer v11 (E+0x38 vs E+0x3C).
 5. **Blend v2** : blend 50 % des tris `8 ≤ alpha < 250` implémenté dans les rendus A/B
    (382 tris/frame battle13) — neutre sur terrain statique, à juger sur fireaga (v11).
+6. **Live 26-27/09 + architecture walk-direct fermée** : v11 (`0x563E`, branche matdesc
+   directe slots 48/49/50) déployée et capturée (STRICT PASS) — chaîne matdesc vide à
+   T_draw (48/48). Verdict IDB : l'impl slot 48/49/50 = DrawIndexedPrimitive pur
+   (@0x43E24A), héritage d'état device ; la vraie percée = **le miroir TX07 contient les
+   textures persos/monstre/ciel** (planche `battle_v11/LOT15_vram_pages.png`) — le
+   décodage fidèle complet devient un problème offline de mapping (tpage, clut) par
+   record. Détails : `CAMPAIGN_lot15` §5, `CLOSURE_walkdirect-bind.md`.

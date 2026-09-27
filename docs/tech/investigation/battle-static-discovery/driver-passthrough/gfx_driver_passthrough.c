@@ -637,12 +637,16 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
 /* v9 — magic ND08 : TOUT record geom_kind==2 (footer texture appended).
  * ASCII LE « ND08 » = 4E 44 30 38 → 0x3830444E (famille 'ND07'). */
 #define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
-#define GFXPT_BUILD_ID              0x563Dul    /* build-id u32 dans CHAQUE
+#define GFXPT_BUILD_ID              0x563Eul    /* build-id u32 dans CHAQUE
                                                  * record (ND07/ND08 champ 9,
                                                  * TX07/TR08 2e u32) — v9 : bump
                                                  * 0x5638 → 0x5639 (leçon lot
                                                  * 13 « déployé ≠ cru
-                                                 * déployé ») ; v10 : bump 0x5639 → 0x563A */
+                                                 * déployé ») ; v10 : bump 0x5639 → 0x563A ;
+                                                 * v11 : bump 0x563D → 0x563E (slots
+                                                 * directs 48/49/50 : chaîne matdesc
+                                                 * ctx+0x38 inconditionnelle — CLOSURE
+                                                 * walkdirect-texture-chain §10) */
 #define GFXPT_DUMP_MAGIC_TX         0x37305458ul        /* 'TX07' */
 /* v10 — magic TR08 (ressource texture TIM bataille, UN record par texobj
  * unique par frame — voir le contrat « v10 — FORMAT TR08 »). */
@@ -1378,10 +1382,27 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
              * GFXPT_TrEmit : backend = ctx[0x3C] ? ctx[0x68] : ctx[0x38] ;
              * v11 = *(backend+20) ; T = *(v11+152)) — *(texinfo+0x10) pointait
              * le mauvais objet (le backend, pas les données). */
+            /* v11 — slots DIRECTS 48/49/50 : sub_43E0E2 lit matdesc =
+             * *(ctx+0x38) INCONDITIONNELLEMENT (@0x43e0f3-f6) — le branchement
+             * ctx+0x3C est le backend des VB batch (51/60) et dead-end pour
+             * les directs (sonde live 26/09 : texobj=0 sur tous les records
+             * slot 49). Chaîne : texobj = *(matdesc+0x14) [@0x4415a7,
+             * @0x41F011] ; T = *(texobj+152) [@0x41F038, w/h @0x4202C1/
+             * 0x4202D3]. Même espace de valeurs que les clés TR08. La capture
+             * in-detour EST la sonde du champ transitoire (post-hoc faussé
+             * par le rendu pause — CLOSURE walkdirect §10). */
             unsigned long bkw = 0;
             unsigned long ovl = 0;
             unsigned long v11f = 0;
-            if (GFXPT_ReadU32((const char*)ctx + 0x3C, &ovl) && ovl != 0)
+            if (slot == 48 || slot == 49 || slot == 50)
+            {
+                if (GFXPT_ReadU32((const char*)ctx + 0x38, &bkw) && bkw != 0)
+                {
+                    if (GFXPT_ReadU32((const void*)(bkw + 20), &v11f) && v11f != 0)
+                        (void)GFXPT_ReadU32((const void*)(v11f + 152), &texObj);
+                }
+            }
+            else if (GFXPT_ReadU32((const char*)ctx + 0x3C, &ovl) && ovl != 0)
             {
                 if (GFXPT_ReadU32((const char*)ctx + 0x68, &bkw) && bkw != 0)
                     if (GFXPT_ReadU32((const void*)(bkw + 20), &v11f) && v11f != 0)
