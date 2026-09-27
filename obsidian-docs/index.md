@@ -4,7 +4,7 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-09-25T12:00:00+02:00*
+*This index is automatically maintained. Last updated: 2026-09-27T19:05:00+02:00*
 
 ## Concepts
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]] — Lot 14 live : capture textures AF3DN.P v8→v10.3 (TX07 miroir VRAM, ND08 footer texture, TR08 pixels TIM+CLUT brut u32), chaîne TIM fermée (backend→v11→T), terrain de bataille rendu en VRAIE texture (battle13 FINAL_tim), STRICT PASS 13/13. ( #ff8 #rendering #reverse-engineering #reference)
@@ -73,6 +73,8 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
+- [[projects/re-ff8/references/driver-replay-fidele-battle13-lot17-2026-09-27]] — Lot 17 offline : replay fidèle battle13 (monstre ocre/vert-turquoise + 3 persos corrects) via raster v3 (poids arête AB↔C corrigé), bindings palettes cache PC↔miroir mesurés 256 couleurs (ids[] footer = index locaux du cache PC, PAS slots 2g), UV f32 bit-à-bit, bande acteur 2×512 B stride 0x800 ; W=256 candidat cohérent, W=128 mal placé ; CORRECTED /255 indisponible (UV u8 + packet absents). ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot17]] — Catalogue evidence hash-bound lot 17 : 11 fichiers cache lot17_v3 copies byte-exact dans _raw (replay final, candidats fenêtre, bandes CLUT, manifest), originals hashés manifest ; battle13.bin non re-copié. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v11-lot16-completude-2026-09-27]] — Lot 16/17 offline : compluteur géométrie fermée H1 (persos+monstre = records slot-51 VB), mapping texobj↔entité validé opérateur, BGR double-niveau, palettes actives = bandes CLUT système miroir VRAM 0x1DA0-0x1E02, UV C,A+B + table PC 2013 ; restant lot 17 IDB/v12. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot16]] — Catalogue evidence hash-bound lot 16/17 : 101 copies PNG byte-exact dans _raw (coverage maps, palettes, LOT17 UV, bibliothèque textures BGR 11 texobj), originals hashés manifest ; .bin non re-copiés. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — Lot 13 live : dump draw lists par node ND07 (slots 43-64 wrappés, painter's algorithm), closure node→géométrie (0x43E24A direct, 0x43E356/0x43E692 VB batch), PNG menu/bataille/Fireaga, cause racine +2 (fopen mode texte CRLF) fermée, v7.1 STRICT PASS. ( #ff8 #rendering #reverse-engineering #reference)

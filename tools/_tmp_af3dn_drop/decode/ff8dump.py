@@ -81,6 +81,7 @@ TX_HDR = struct.Struct('<8I')    # magic, build, seq, clut_now, vram_base, sys_c
 TX_VRAM_BYTES = 0x100000         # full VRAM mirror: 1024 u16/row x 512 rows
 BUILD_ID = 0x563E                # GFXPT_BUILD_ID (v11: direct slots 48/49/50 matdesc chain; v10.3=0x563D, v10=0x563A, v9=0x5639, v8=0x5638)
 BUILD_ID_V8 = 0x5638             # v8 layout: kind-2 without the texture footer, TX07 w/o sys_clut_row
+SUPPORTED_REPLAY_BUILDS = frozenset((0x563D, 0x563E))  # v10.3/v11: same captured layout
 TX_SYSROW_BYTES = 2048 if BUILD_ID >= 0x5639 else 0   # v9: + sys_clut_row (2 KiB)
 TX_REC_BYTES = TX_HDR.size + TX_VRAM_BYTES + TX_SYSROW_BYTES   # 0x100020 (v8) / 0x100820 (v9)
 NODE_SIZE = 24                   # OT node (driver-abi-spec.md section 8)
@@ -165,15 +166,15 @@ class TexResRecord:
         return struct.unpack_from(f'<{n}I', self.raw_clut, off)
 
 
-def _cand_tr_ok(off: int, data: bytes, n: int) -> bool:
+def _cand_tr_ok(off: int, data: bytes, n: int, expected_build: int = BUILD_ID) -> bool:
     """Structural plausibility of a TR08 record start (v10 texture resource)."""
     if off + 40 > n:
         return False
     m2, b2 = struct.unpack_from('<2I', data, off)
-    return m2 == MAGIC_TR and b2 == BUILD_ID
+    return m2 == MAGIC_TR and b2 == expected_build
 
 
-def _cand_tx_ok(off: int, data: bytes, n: int) -> bool:
+def _cand_tx_ok(off: int, data: bytes, n: int, expected_build: int = BUILD_ID) -> bool:
     """Structural plausibility of a TX07 record start at `off` (used by the ND07
     resync scan, so a TX07 record that directly follows a skewed ND07 record is
     found as an anchor instead of being chain-broken). TX07 only exists in the
@@ -181,16 +182,20 @@ def _cand_tx_ok(off: int, data: bytes, n: int) -> bool:
     if off + TX_HDR.size > n:
         return False
     m2, b2 = struct.unpack_from('<2I', data, off)
-    return m2 == MAGIC_TX and b2 == BUILD_ID
+    return m2 == MAGIC_TX and b2 == expected_build
 
 
-def parse_dump(data: bytes):
+def parse_dump(data: bytes, *, expected_build: int = BUILD_ID):
     """Parse the whole record stream. Raises DumpError on bad magic or truncation.
 
-    Returns (records, warnings, tx_records): ND07 painter records (draw
-    order), TX07 mirror records (frame-level, keyed on seq), and non-fatal
-    warnings (build mismatches included).
+    Returns (records, warnings, tx_records, tr_records). The caller must opt in
+    explicitly to a supported historical build; globals and capture bytes stay
+    unchanged. Both supported builds include TX07's 2048-byte system CLUT row.
+    Build mismatches remain warnings for the existing diagnostic reader and
+    are rejected by strict replay callers.
     """
+    if expected_build not in SUPPORTED_REPLAY_BUILDS:
+        raise DumpError(f'unsupported replay build 0x{expected_build:X}', 0)
     records, tx_records, tr_records, warnings = [], [], [], []
     pos, n = 0, len(data)
     MAGIC_BYTES = struct.pack('<I', MAGIC_ND)
@@ -206,8 +211,8 @@ def parse_dump(data: bytes):
             if n - pos < 40:
                 raise DumpError(f'truncated TR08 header (need 40 bytes, have {n - pos})', pos)
             _m, bld, s2, tobj, tw, th, pent, pcnt, psz, csz = struct.unpack_from('<10I', data, pos)
-            if bld != BUILD_ID:
-                warnings.append(f'tr@{base}: build 0x{bld:X} != 0x{BUILD_ID:X}')
+            if bld != expected_build:
+                warnings.append(f'tr@{base}: build 0x{bld:X} != 0x{expected_build:X}')
             psz_c = min(psz, 65536)
             csz_c = min(csz, 32768)
             if n - pos < 40 + psz_c + csz_c:
@@ -226,8 +231,8 @@ def parse_dump(data: bytes):
                 raise DumpError(f'truncated TX07 record (need {TX_REC_BYTES} bytes, have {n - pos})', pos)
             _magic, build, seq, clut_now, vram_base, sys_clut_base, m_b7, page_probe = \
                 TX_HDR.unpack_from(data, pos)
-            if build != BUILD_ID:
-                warnings.append(f'tx@{base}: build 0x{build:X} != 0x{BUILD_ID:X} (expected)')
+            if build != expected_build:
+                warnings.append(f'tx@{base}: build 0x{build:X} != 0x{expected_build:X} (expected)')
             tx_records.append(TexRecord(base, build, seq, clut_now, vram_base,
                                         sys_clut_base, m_b7, page_probe,
                                         bytes(data[pos + TX_HDR.size:pos + TX_HDR.size + TX_VRAM_BYTES]),
@@ -241,9 +246,9 @@ def parse_dump(data: bytes):
         if magic != MAGIC_ND and magic != MAGIC_ND8:
             raise DumpError(f"bad magic 0x{magic:08X} (expected 0x{MAGIC_ND:08X} 'ND07', "
                             f"0x{MAGIC_ND8:08X} 'ND08' or 0x{MAGIC_TX:08X} 'TX07')", pos)
-        if build != BUILD_ID:
-            warnings.append(f'record@{base}: build 0x{build:X} != 0x{BUILD_ID:X} '
-                            f'(v8 expects GFXPT_BUILD_ID 0x{BUILD_ID:X})')
+        if build != expected_build:
+            warnings.append(f'record@{base}: build 0x{build:X} != 0x{expected_build:X} '
+                            f'(expected GFXPT_BUILD_ID 0x{expected_build:X})')
         pos += HDR.size
         if psize < NODE_SIZE:
             raise DumpError(f'payload_size {psize} < node size {NODE_SIZE}', pos)
@@ -265,7 +270,7 @@ def parse_dump(data: bytes):
                 vc2, ic2 = struct.unpack_from('<2I', data, off + HDR.size + NODE_SIZE)
                 if vc2 > 4096 or ic2 > 16384:
                     return False
-            if b2 != BUILD_ID:
+            if b2 != expected_build:
                 return False
             return True
 
@@ -279,7 +284,7 @@ def parse_dump(data: bytes):
                     if w4 == MAGIC_BYTES and _cand_ok(probe):
                         found = probe
                         break
-                    if w4 == TX_BYTES and _cand_tx_ok(probe, data, n):
+                    if w4 == TX_BYTES and _cand_tx_ok(probe, data, n, expected_build):
                         found = probe
                         break
                 if found < 0:
@@ -290,10 +295,10 @@ def parse_dump(data: bytes):
                         if w4 == MAGIC_BYTES and _cand_ok(probe):
                             found = probe
                             break
-                        if w4 == TX_BYTES and _cand_tx_ok(probe, data, n):
+                        if w4 == TX_BYTES and _cand_tx_ok(probe, data, n, expected_build):
                             found = probe
                             break
-                        if w4 == TR_BYTES and _cand_tr_ok(probe, data, n):
+                        if w4 == TR_BYTES and _cand_tr_ok(probe, data, n, expected_build):
                             found = probe
                             break
             if found < 0:
@@ -302,11 +307,11 @@ def parse_dump(data: bytes):
                     skew = actual_end - declared_end
                 else:
                     hint = ''
-                    if base == 0 and build != BUILD_ID:
+                    if base == 0 and build != expected_build:
                         # forward-compat note for v7-era (32-byte header) files:
                         # v8's 9th u32 (offset 0x20) carries the build-id there.
                         hint = (f' (v7-era dump? v2 expects the v8 36-byte ND07 header '
-                                f'with build=0x{BUILD_ID:X} at offset 0x20; got '
+                                f'with build=0x{expected_build:X} at offset 0x20; got '
                                 f'0x{build:X}; v2 decodes v8 dumps only)')
                     raise DumpError(f'truncated record (declared {psize} bytes after header, '
                                     f'have {n - node_start}){hint}', node_start)
@@ -360,7 +365,7 @@ def parse_dump(data: bytes):
             footer_at = None
             if magic == MAGIC_ND8:
                 footer_at = fvf_start + rec.vcount * VERT.size
-            elif build == BUILD_ID and len(payload) > need + 16:
+            elif build == expected_build and len(payload) > need + 16:
                 # lenient v9: plain ND07 magic with extra bytes = v9 footer anyway
                 footer_at = fvf_start + rec.vcount * VERT.size
             if footer_at is not None and len(payload) >= footer_at + 16:
@@ -398,13 +403,13 @@ def parse_dump(data: bytes):
     return records, warnings, tx_records, tr_records
 
 
-def _cand_tx_ok(off: int, data: bytes, n: int) -> bool:
+def _cand_tx_ok(off: int, data: bytes, n: int, expected_build: int = BUILD_ID) -> bool:
     """Structural plausibility of a TX07 record start (build-checked: TX07 only
     exists in v8 era, so a build match is safe for resync anchoring)."""
     if off + TX_HDR.size > n:
         return False
     m2, b2 = struct.unpack_from('<2I', data, off)
-    return m2 == MAGIC_TX and b2 == BUILD_ID
+    return m2 == MAGIC_TX and b2 == expected_build
 
 
 # --------------------------------------------------------------------------- geometry access
@@ -459,7 +464,7 @@ def group_by_seq(records):
     return frames
 
 
-def stats(records):
+def stats(records, *, expected_build: int = BUILD_ID):
     kinds = Counter(r.geom_kind for r in records)
     slots = Counter(r.slot for r in records)
     builds = Counter(f'0x{r.build:X}' for r in records)
@@ -495,7 +500,7 @@ def stats(records):
         'records_with_fails': sum(1 for r in records if r.fails),
         'slot_counts': {str(s): c for s, c in sorted(slots.items())},
         'build_ids': {k: c for k, c in sorted(builds.items())},
-        'build_mismatches': sum(1 for r in records if r.build != BUILD_ID),
+        'build_mismatches': sum(1 for r in records if r.build != expected_build),
         'vcount_total': vtot,
         'icount_total': itot,
         'tris_kind2': tris2,
@@ -514,13 +519,13 @@ def _fmt_rng(r, ka, kb):
             f"{kb}[{r[kb][0]:.3f} .. {r[kb][1]:.3f}]")
 
 
-def _strict_gate(args, warnings, records) -> int:
+def _strict_gate(args, warnings, records, *, expected_build: int = BUILD_ID) -> int:
     """--strict: resync/chain-break events or ND07 build-id mismatches -> exit 3."""
     bad = [w for w in warnings if 'resync@' in w or 'chain-break@' in w]
     if bad:
         print(f'STRICT FAIL: {len(bad)} resync event(s), first: {bad[0]}', file=sys.stderr)
         return 3
-    mism = [r for r in records if r.build != BUILD_ID]
+    mism = [r for r in records if r.build != expected_build]
     if mism:
         print(f'STRICT FAIL: build-id mismatch in {len(mism)} record(s), first at offset '
               f'{mism[0].offset} (0x{mism[0].offset:x})', file=sys.stderr)

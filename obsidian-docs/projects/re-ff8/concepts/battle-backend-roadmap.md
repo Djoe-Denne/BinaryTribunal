@@ -1,5 +1,5 @@
 ---
-title: "Battle Backend Roadmap — propositions 1–5 (lot 13 → lot 14 FAIT ; lot 15 fait clos LUT/temps/ciel/walk-direct)"
+title: "Battle Backend Roadmap — propositions 1–5 (lot 13 → lot 14 FAIT ; lot 15 clos LUT/temps/ciel/walk-direct ; lot 16 complétude H1 ; lot 17 replay fidèle)"
 category: concepts
 tags: [ff8, rendering, reverse-engineering, project]
 aliases: [battle backend roadmap, roadmap lot 14, propositions 1-5, next lots]
@@ -19,7 +19,7 @@ provenance:
   inferred: 0.12
   ambiguous: 0.03
 created: 2026-09-25T20:30:00+02:00
-updated: 2026-09-27T14:25:00+02:00
+updated: 2026-09-27T19:05:00+02:00
 ---
 
 # Battle Backend Roadmap — propositions 1–5
@@ -93,6 +93,30 @@ Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
 - **Restant lot 17 (IDB puis v12)** : mapping UV final, table ids[g]→bande CLUT,
   writer bandes système, layout T+0xD8, couche modulation, ciel à composer ;
   v12 = `pal_idx` + `clut_sys_id` + D3D states (zéro offset inventé).
+
+## Proposition 1c — Lot 17 (2026-09-27, offline battle13 v10.3) : replay fidèle des entités
+
+**État : FAIT (offline, replay)** | Preuve :
+[[projects/re-ff8/references/driver-replay-fidele-battle13-lot17-2026-09-27]]
+
+- **Replay fidèle** : le replay offline des entités battle13 rend le monstre
+  ocre/vert-turquoise (ailes ocre) et les 3 personnages corrects ; stries
+  fortement réduites (`battle13_vs_reference.png`, copies `_raw` hash-bound :
+  [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot17]]).
+- **Correction raster v3** : le bug du lot précédent (poids arête AB multiplié
+  par l'UV du sommet A au lieu de C) est corrigé ; association barycentrique
+  correcte + RHW perspective ; 1 ID footer par primitive (tri=1, quad=2).
+- **Bindings palettes mesurés** (pas de devine ids) : correspondance 256 couleurs
+  5 bits BGRA32↔PSX555, 13 bindings, 208 rapprochements/16 frames, 0 échec.
+- **Correction majeure ids[]** : index locaux du cache PC — PAS les slots
+  staging `2g` (DE70 id0→row225, EEC0 id0→226, FEE0 id0→228, BE60 id0→231,
+  CE70 id0→232) ; la loi de staging `y=0xE0+2g` reste valide.
+- **W=128 FAUX pour battle13** : candidat W=256 visuellement cohérent,
+  W=128 mal placé — le packet actif reste UNPROVEN.
+- **CORRECTED /255 indisponible** sur cette capture (UV u8 + packet fenêtre
+  absents) : implémentée sur triangle synthétique distinct.
+- **Restant (lot 18/v12)** : capture UV u8 + packet fenêtre, writers runtime
+  bandes CLUT, backend actif, ciel à composer (hérité).
 
 
 
