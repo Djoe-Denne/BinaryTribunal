@@ -173,3 +173,136 @@ Recherches opérateur (FFNx PR #852 Myst6re 2025, FF8UltimateEditor, docs battle
   vert/turquoise battle + la couche finale modulate. Lot 17 = pure IDB puis v12.
 - La demande utilisateur reste prioritaire en session : ne PAS spawn de v12 sans une
   liste d'EA validée (règle « zéro offset inventé »).
+
+## 12. INGEST session complète — découvertures, trous, questions ouvertes
+
+> Document de référence consolidé demandé par l'opérateur (2026-09-27). Dépendances :
+> `CAMPAIGN_lot15_2026-09-26.md`, `CAMPAIGN lot 14`, `AUDIT_completude.md` §1-11,
+> `CLOSURE_*.md`, commits `be9890f`, `d72e959`, `8ba42b6`, `aaf5e34`.
+
+### 12.1 Découvertures (toutes prouvées, classées par confiance)
+
+**Architecturales (fortes, IDB-prouvées + live)** :
+1. Le ciel/fond battle est composé dans la VRAM émulée `0x1B47818` par des primitives
+   VRAM (GP0 0x02 fill `0x4623A0` avec gardes 640×480, 0x80 MoveImage, sprites 0x64-0x7F)
+   → RT1 → présenté SANS aucun slot driver 43-64. Les deux passes dispatch convergent
+   vers `Gfx_WalkDrawList` (`0x460D26` jmp SubmitTexturePageLists, `0x460CB6` call) —
+   un poly ciel serait donc capturé ; il ne l'est jamais. Clear battle = noir.
+2. Slots driver 48/49/50 = impl réel `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4`
+   @0x43E24A (ctor DDrawAlt 0x4257D0, +0xC0/+0xC4/+0xC8) — **aucun bind, aucun accès
+   matdesc**. Les draws directs héritent de l'état D3D courant. `sub_43E0E2` = slot 55
+   (piège d'étiquette, trap documenté).
+3. Le champ `matdesc+0x14` (texobj) est structurellement mort côté Alt pour les ctx
+   directs — prouvé live (48/48 records slot 49 texobj=0 avec v11 in-detour).
+4. slots 43-47 : slot 44/43 = setups géom; slot 46/47 = `sub_441581(matdesc, cookie)`
+   (commit RS), le 46 ajoute la palette-resolve `sub_407EB4`.
+5. Chaîne bind des entités = setup 46/47 → `sub_407EB4` → slot 25 `sub_4365FF` →
+   `sub_41ED69` → upload `sub_42022C` / bind `sub_41EF3C` → `SetTexture` via
+   `call [deviceVT+0x98]` (vtable idx 38 D3D9).
+6. Le miroir TX07 (1 Mio/frame) contient TOUTES les textures battle (persos tpages
+   10-15, ciel 16-17, terrain 18-20, effets 27-30) — capturées depuis le lot 14.
+
+**Mappings & textures (merci opérateur)** :
+7. Mapping texobj↔entité battle13 **fermé par contrôle opérateur** :
+   04BE60/04CE70=monstre ; 04DE70=Zell ; 04EEC0=Squall ; 04FEE0=Irvine ;
+   043E10/045870=fontes (pal5 = HP bars dorées de la réf ✓) ; 046730/046BC0=UI ;
+   049E20/04AE40=terrain rocheux.
+8. **Ordre canaux palette entités = BGR** (à deux niveaux) :
+   (a) TIM CLUT PSX 16 bits = `STP | B5 | G5 | R5` (bits 0-4 = R par convention PSX) ;
+   (b) buffer PC 32 bits = **BGRA** (B=byte0, G=1, R=2, A=3) ; (c) selon la
+   lecture palette-système, le champ-fort (bits 10-14) donne des **couleurs chaudes**
+   (convention « BGR » de lecture swap utilisée = correcte empiriquement).
+9. **Palettes ACTIVES du monstre = bandes CLUT système du miroir VRAM**
+   (région cid 0x1DA0-0x1E02, hits « or » 87 %) — pas le CLUT du timbuffer T+0x60 ;
+   les couleurs finalement justes pour la famille (beige-tan-or) sont ces bandes.
+10. **Toutes les textures battle = TIM PSX standard LINÉAIRE** (pas de swizzle 8×8,
+    fausse piste écartée par recherche opérateur), `sub_507400` = routine PC
+    « allocation VRAM + patch TPage/CLUT » (identity à épingler IDB lot 17).
+11. Le `c0m*.dat`/`dXc*.dat` = fichiers battle : TIM + par face UV u8 + CLUT PSX +
+    TPage PSX, **UV physiquement rangées C,A,B** (≠ A,B,C naïf — cause des lames).
+12. **Table mapping PC 2013** : `mapping[n] = n/256`, avec `0 → 1/256` et `255 → 254/256`
+    ; FFNx corrige en `/255` (PR #852 Myst6re). Décodeur = 2 modes.
+13. La géométrie des persos/monstre est dans les records **slot-51 VB batch**, jamais
+    dans les directs — audit H1 confirmé. Monstre : 21 records tierra (62..328,
+    228..396) ; 3 colonnes de persos à x≈322-340 (Zell), x≈357-403 (Squall),
+    x≈456-501 (Irvine).
+14. Coverage maps disponibles par slot (constat visuel : seulement la zone entité
+    jamais couverte par d’autres chaînes).
+15. `ids[]` footer ND08 : entités utilisent uniquement 0/2/4, jamais beyond (1290
+    groupes) ; p05+ = vides (capacité non utilisée).
+
+**Livrable op automatique (validation opérateur)** : dossier complet
+`lot16_texture_library\` ré-émis en BGR (`tex_*.png` 11 × 2 + `ALLPAL_*.png` ×5),
+(**un seul point noir** ALLPAL_04BE60.png regénéré jaugé BGR/validate
+opérateur), **toutes ces pièces sont hors git (captures convention)**.
+
+### 12.2 Trous (ce qui NOUS manque encore, restent à épingler)
+
+1. **Mapping UV intégralement correct (LE gap visuel)** : les UA-fragments en lame
+   + quadris = signature d’un mauvais mapping UV. Suspects repérés mais non fermés :
+   (a) ordre physique UV C,A,B vs l’ordre natif A,B,C déjà implémenté en FVF post-bias
+   — question : qui est le vrai source afin que le décodeur puisse re-produire le
+   binding physique exact ? (b) offset de TPage PSX (les UVs sont-ils porte-page?) ;
+   (c) impossible à deviner offline — IDB : `sub_507400` – closure en cours (doubled
+   pour lot 17).
+2. **La relation `ids[g]` ↔ bande CLUT système** : pour un groupe donné (ids ∈ {0,2,4}),
+   comment la base CLUT (région 0x1DA0-0x1E02 pour le monstre) se détermine-t-elle ?
+   Un mapping `base + id*stride` n’a pas encore été fermé (essais stride 0x10/0x20/0x40
+   partiels, pas décisifs). Côté idéal = LOT16 explanations uniquement.
+3. **Le writer des bandes de CLUT système pour les entités battle** (chaîne
+   TexStaging_* / BlitCLUT* / équivalent) — non trouvé en IDB uniquement via la
+   fermeture `sub_507400` en cours).
+4. **Le layout final buffer TIM pixels du moteur** (`T+0xD8`) : bytes per ordre ?
+   padding/mots ? (milliaire lu par `sub_42022C` de la chaîne upload, à décoder —
+   le buffer 8bpp est confirmé structuration mais l’ordre exact (linear vs swizzled
+   row-blocks) reste à citer depuis le code)
+5. **Couche modulation finale** : le « doré » / « teinté lumière » a été suspecté d’être
+   un modulate D3D — mais le monstre cuivré était un artefact de test, pas la mécanique
+   du moteur. La couche de couleurnever.texture s’applique-t-elle par vertex diffuse ou
+   par state ? (à trancher par une v12 capture si offline insuffisant.)
+6. **Le ciel** : composé via GP0 fill + sprites (chemin non-wrappé) — SA texture nuage
+   (tpages 16-17) n’a pas été composée au final offline ; pas bloquant, lot 17 bonus.
+7. La capture live de la texture membra (état avec l’effecteur) reste à tester : les
+   dumps lot 14+15 (mintBattle13) sont des frames FULLY IDENTIQUES (16 images
+   gelées/pause) vs le monstre de la REF different pose/angle. Une pose ALTERNATIVE en
+   live (state après quelques atk) peut néanmoins confirmer les textures dynamiques
+   (palettes PUIS la géométrie).
+
+### 12.3 Questions à trancher / prochaines actions (lot 17)
+
+1. **fermer la closure TIM→VRAM→TPage** (sub_507400, en cours) — prioritaire :
+   mapping UV dépend de cette chaîne.
+2. Trouver le write des bandes CLUT système pour les entités : path TexStaging*
+   / writer lié à sub_407EB4 ou à l’événement d’upload use-case. Une capture v12
+   `u32 clut_sys_id` (le footage système exact) serait directement le champ client.
+3. Épingle le **layout de buffer pixels TIM @T+0xD8** (l’ordre exact des texels :
+   banné linear vs tl. mots 16 bits — le `sub_42022C` montere la lecture réelle).
+4. Décider : décodeur en mode **BGR TIM** (bits0-4=R) ou en lecture swap (current
+   LOT17)? Les deux offrent des couleurs proches pour les textures entités尔时 des
+   palettes système appliquées — mais **l’ordre physique du buffer PSX est bien
+   standard** (bits 0-4 = R) selon les doc externes ; à valider par l’EA d’upload
+   MMX MMio à la fois stall (sub_507400).
+5. Bonus : composer le CIEL en offline (tpages 16-17) → donnera un premier
+   PNG battle13 complet AVEC le fond.
+6. V12 capture (prérequis) : `u32 pal_idx` + `u32 clut_sys_id` (la bande système au
+   T_draw) + la capture des D3D states/layer de texture au draw (re-pr : real source
+   de la modulation exacte, banque landscape ‘palette système’ ; err `0x006A D8`).
+7. Refactor de la bibliothèque en BGR : un **canari conclusif** à expérimenter
+   (grille les 32 × 32 con vs navidad de palette) ; valider par rapport au rendu.
+
+### 12.4 Livrables documentés (produits de la session)
+
+- **Commits** : `be9890f` (offline lot 15 : closures LUT/caméra/ciel, decomp ×6),
+  `d72e959` (lot 15 live : v11 + closures walk-direct 3 fichiers + v12 candidat),
+  `8ba42b6` (lot 16 audit: géométrie fermée H1 + bibliothèque + modulate écart),
+  `aaf5e34` (lot 16 post : BGR double-niveau + bandes CLUT système + UV C-A-B).
+- **Visuels** (`captures/lot14, lot15, lot16/`, hors git) : coverage maps, planches
+  palettes, grille de 288 rendus, bibliothèque BGR, paires vs repères, essais
+  erfolgreich lot 17 (uv-rot, strides, per-record).
+- **Docs** : `AUDIT_completude.md` §1-12 (cette femme), `CLOSURE_sky-path.md`,
+  `CLOSURE_walkdirect-texture-chain.md`, `CLOSURE_walkdirect-cookie-chain.md`,
+  `CLOSURE_walkdirect-bind.md`, `CAMPAIGN_lot15_2026-09-26.md`,
+  `driver-abi-spec.md` §6.3, `README.md` §12, `PROMPT_lot16-completude-geometrie.md`.
+- **Script tools** : `ff8dump.py` (0x563E), `_probe_lot15_walkdirect.py`,
+  `lot15_ab.py`, test scripts de session (birds du lot16/17 inline).
+
