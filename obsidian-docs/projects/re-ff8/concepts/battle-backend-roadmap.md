@@ -1,54 +1,78 @@
 ---
-title: "Battle Backend Roadmap — propositions 1–5 (lot 13 → lot 14+)"
+title: "Battle Backend Roadmap — propositions 1–5 (lot 13 → lot 14 FAIT ; lot 15 fait clos LUT/temps/ciel/walk-direct)"
 category: concepts
 tags: [ff8, rendering, reverse-engineering, project]
 aliases: [battle backend roadmap, roadmap lot 14, propositions 1-5, next lots]
 sources:
   - docs/tech/investigation/battle-static-discovery/notes-lot13-session-2026-09-25.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot14_2026-09-26.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot15_2026-09-26.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CLOSURE_walkdirect-bind.md
+  - docs/tech/investigation/battle-static-discovery/driver-abi-spec.md
 summary: >-
-  Roadmap continuation lot 14+ issue du lot 13 : v8 textures, replay backend
-  moderne, formalisation sémantique des VB batch, durcissement v7.2, housekeeping
-  wiki — avec état d'avancement et critères PASS par proposition.
+  Roadmap continuation lot 14+ issue du lot 13 : v8 textures FAIT (lot 14,
+  v10.3, chaîne TIM fermée + rendu true-texture), replay backend moderne
+  (Étape B), formalisation sémantique des VB batch, durcissement v7.2
+  (absorbé v10.x), housekeeping wiki — états d'avancement et critères PASS.
 provenance:
   extracted: 0.85
   inferred: 0.12
   ambiguous: 0.03
 created: 2026-09-25T20:30:00+02:00
-updated: 2026-09-25T20:30:00+02:00
+updated: 2026-09-27T11:30:00+02:00
 ---
 
 # Battle Backend Roadmap — propositions 1–5
 
 > Source : dossier de session lot 13 §6 (`notes-lot13-session-2026-09-25.md`,
-> commits `2c6d9e9…bca0d94`). Cette page est la **page d'entrée pour la suite des
+> commits `2c6d9e9…bca0d94`) **mis à jour lot 14** (`CAMPAIGN_lot14_2026-09-26.md`,
+> build `0x563D`). Cette page est la **page d'entrée pour la suite des
 > lots** : chaque proposition reste ici avec son état et ses critères PASS.
-> Contexte : [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]].
+> Contexte : [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]]
+> (lot 13) et [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]]
+> (lot 14).
 
 Cette roadmap continue la travaux lot 13 (dump draw lists + décodage PNG).
 Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
 
-## Proposition 1 — v8 : capture textures (RECOMMANDÉ, prochain lot)
+## Proposition 1 — v8 : capture textures (FAIT — lot 14, v10.3)
 
-**État : à faire** | **Prompt dédié** : `PROMPT_v8-texture-capture.md` (à écrire)
+**État : FAIT (lot 14, 2026-09-26, build `0x563D`)** | Preuve :
+[[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]]
 
 - **Motivation** : le layer manquant. La géométrie est prouvée (lot 13) ; les
   textures restent le trou dans le ground truth.
-- **Chemin explicite** : closure node+0x2C → geom+0x10/+0x28 → page texture →
-  VRAM/CLUT (ground truth IDB : `0x465CE0` `Gfx_SelectTexturePageDrawList`,
-  `0x43E24A` texinfo, `0x43E356`).
-- **DLL v8** : copie SEH page (≤128×256 4/8bpp ≈ 32 Ko) + CLUT (≤ 256 entrées),
-  dédup par adresse intra-frame, record texture auto-descriptif `TX07` + build-id.
-- **Décodeur v2** : point sampling + palette → PNG pixel-fidèle.
-- **Critères PASS** :
-  1. Record `TX07` capture pour chaque page texture référenceée par les records
-     kind2 d'une frame menu ET d'une frame bataille ;
-  2. PNG décodé (point sampling + palette) reconnaissable vs le rendu natif ;
-  3. 0 AV / 0 WER, dictée vcount/icount entier (memo caps SEH).
-  4. Macros du lot 13 : fichier = somme des tailles déclarées exactement (mode
-     strict parser) et 0 resync event.
-- **Critère d'entrée** : ouvrir un prompt dédié `PROMPT_v8-texture-capture.md`.
+- **Résultat** : ND08 footer texture (tpage/mode/clut/ids[]/**texobj**) + TX07
+  miroir VRAM + sys CLUT row + **TR08 pixels TIM & CLUT brut u32** ; chaîne
+  node→texinfo→page VRAM fermée IDB + sonde live (`sub_407EB4`→`sub_4221E6`→
+  `sub_421C41`, backend→v11→T) ; terrain de bataille rendu en VRAIE texture
+  (`battle13/FINAL_tim.png`).
+- **Critères PASS** : tous vérifiés (TX/TR sur menu+bataille ; PNG pixel-fidèle
+  vs natif ; 0 AV/0 WER, vcount/icount entiers ; STRICT 0 resync 13/13).
 
-## Proposition 2 — Étape B : replay backend moderne
+## Proposition 1a — Lot 15 (2026-09-27, v10.3→v11 0x563E) : fermetures lot 14
+
+**État : FAIT (lot 15)** | Preuve :
+[[projects/re-ff8/references/driver-drop-test-af3dn-v11-2026-09-27]]
+
+- Résidus lot 14 fermés : LUT complet (canari R/G/B, `LOT15_effect_AB.png`),
+  cadrage caméra (artefact ×1.25 + moment), ciel (chemin NON-wrappé, EA
+  `0x4623A0`, VRAM `0x1B47818` → RT1 → présentation sans slot 43–64).
+- **Walk-direct réfuté live proprement** : 48/48 records slot 49 `texobj=0` à
+  T_draw (v11 in-detour, `A2082F5E…065C`) ; impl réel slot 48/49/50 =
+  `DrawIndexedPrimitive pur` @0x43E24A héritage device — `matdesc+0x14`
+  structurellement mort côté Alt (CLOSURE_walkdirect-bind).
+- **Découverte** : miroir TX07 contient TOUT (persos tpages 10-12, monstre 13,
+  **ciel 16-17**, rochers 18-20, effets 27-29) — ne manque que le mapping
+  (tpage, clut) par record slot-49.
+- **Revue visuelle honnête (§6)** : monstre = fragment seul ; barres HP et
+  curseur = interprétations RETIRÉES ; 3 personnages ABSENTS du rendu.
+- **Prochaine étape (v12)** : AUDIT DE COMPLÉTUDE offline (inventaire
+  exhaustif des triangles de la frame vs réf) AVANT tout nouveau codage
+  writer ; puis mapping tpage/clut par record avec anchors fiables (pas de
+  scoring seul).
+
+
 
 **État : à faire**
 
@@ -106,6 +130,11 @@ Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
 
 ## Related
 
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v11-2026-09-27]] — le
+  lot 15 qui ferme les résidus LUT/caméra/ciel + walk-direct bind (héritage
+  device) et ouvre l'audit de complétude v12.
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]] — le lot
+  14 (raise du lot 13) qui clôture la proposition 1.
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — le lot 13
   dont cette roadmap est issue.
 - [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] — lot 12-ter,
@@ -117,19 +146,19 @@ Elle est **continue dans le wiki** : mise à jour à chaque nouveau lot.
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — le protocole
   de triples utilisé par la proposition 3.
 
-## Outillage (cr�� le 2026-09-25 � suite directe du lot 13)
+## Outillage (créé le 2026-09-25 — suite directe du lot 13)
 
-**�tat : cr��s.** Issus des patterns r�p�titifs de la session lot 13 et du minage des campagnes
-live pass�es (P0.7�G23, drop tests, provenance, lot 13 � playbook consolid� 15 �tapes / 10 le�ons) :
+**État : créés.** Issus des patterns répétitifs de la session lot 13 et du minage des campagnes
+live passées (P0.7–G23, drop tests, provenance, lot 13 — playbook consolidé 15 étapes / 10 leçons) :
 
-- **Agent live-campaign-runner** (.opencode/agents/live-campaign-runner.md) � orchestration
-  compl�te : necessity filter ? writer-verify gate ? d�ploiement+hash ? observateur ? triggers
-  sidecar ? collecte ? d�codeur ? rapport PASS/FAIL. Playbook + intangibles + triage A/B/C int�gr�s.
-- **Skill f8-dump-writer-verify** (.agents/skills/ff8-dump-writer-verify/) � gate post-build/
-  d�ploiement : exports, fopen binaire (le�on CRLF), harnais sentinelles RVAs auto-d�riv�es
+- **Agent live-campaign-runner** (.opencode/agents/live-campaign-runner.md) — orchestration
+  complète : necessity filter ? writer-verify gate ? déploiement+hash ? observateur ? triggers
+  sidecar ? collecte ? décodeur ? rapport PASS/FAIL. Playbook + intangibles + triage A/B/C intégrés.
+- **Skill f8-dump-writer-verify** (.agents/skills/ff8-dump-writer-verify/) — gate post-build/
+  déploiement : exports, fopen binaire (leçon CRLF), harnais sentinelles RVAs auto-dérivées
   (scripts/verify_writer.ps1 + template driver-passthrough/harness_probe_template.c),
-  build-id, hash d�ploy� == build. Aurait attrap� les 2 incidents du lot 13 avant le run.
-- **	ools/af3dn-runner/ff8_watch.ps1** � observateur param�tr� (spawn/attach/trigger/collect/purge)
-  rempla�ant watch3/4/5 ad-hoc ; purge int�gr�e + hash d�ploy� + collecte hash�e.
-- **(� faire)** skill lot-prompt-drafting (g�n�rer PROMPT_lotN depuis cette page + dernier rapport
-  + le�ons) ; skill inary-stream-recovery (patterns parser auto-r�parateur) ; template session-dossier.
+  build-id, hash déployé == build. Aurait attrapé les 2 incidents du lot 13 avant le run.
+- **	ools/af3dn-runner/ff8_watch.ps1** — observateur paramétré (spawn/attach/trigger/collect/purge)
+  remplaçant watch3/4/5 ad-hoc ; purge intégrée + hash déployé + collecte hashée.
+- **(à faire)** skill lot-prompt-drafting (générer PROMPT_lotN depuis cette page + dernier rapport
+  + leçons) ; skill inary-stream-recovery (patterns parser auto-réparateur) ; template session-dossier.

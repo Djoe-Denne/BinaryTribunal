@@ -7,7 +7,8 @@ title: Wiki Index
 *This index is automatically maintained. Last updated: 2026-09-25T12:00:00+02:00*
 
 ## Concepts
-- [[projects/re-ff8/concepts/battle-backend-roadmap]] — Roadmap continuation lot 14+ issue du lot 13 : v8 textures (prochain lot), replay backend moderne, formalisation sémantique 0x43E356/0x43E692, durcissement v7.2, housekeeping wiki — états + critères PASS. ( #ff8 #rendering #reverse-engineering #concept)
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]] — Lot 14 live : capture textures AF3DN.P v8→v10.3 (TX07 miroir VRAM, ND08 footer texture, TR08 pixels TIM+CLUT brut u32), chaîne TIM fermée (backend→v11→T), terrain de bataille rendu en VRAIE texture (battle13 FINAL_tim), STRICT PASS 13/13. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/concepts/battle-backend-roadmap]] — Roadmap continuation lot 14+ issue du lot 13 : v8 textures FAIT (lot 14, v10.3 + rendu true-texture), replay backend moderne (prochain lot), formalisation sémantique 0x43E356/0x43E692, durcissement v7.2, housekeeping wiki — états + critères PASS. ( #ff8 #rendering #reverse-engineering #concept)
 - [[projects/AIForAll/concepts/iam-idp-connect]] — >-. ( #concept #project #testing)
 - [[concepts/opencode-setup-skills-mcp]] — Infra OpenCode V2 durable du projet — agents/skills portés depuis Codex/Cursor, default_agent=orchestrator (mode all), MCP context-mode/RTK/QMD/serena-1MCP/ida-pro-mcp, priorités providers glm-5.3-flash. ( #concept #reverse-engineering #testing)
 - [[projects/AIForAll/concepts/p4-core-operator-tranches]] — >-. ( #concept #project #testing)
@@ -22,7 +23,7 @@ title: Wiki Index
 - [[projects/re-ff8/concepts/battle-lifecycle]] — Battle lifecycle through init, active tick and cleanup, including G07 domain ownership with the native callback/BdLink presentation tail retained. ( #ff8 #battle-system #reverse-engineering #concept)
 - [[projects/re-ff8/concepts/battle-state-model]] — Global-backed battle context made of slots, scene data, queues, flags, and transient action globals. ( #ff8 #runtime-memory #battle-system #concept)
 - [[projects/re-ff8/concepts/battle-action-sequencing]] — Eleven DispatchTick workers, 20-byte payload from BuildPayload (alias GetText), MagicList callback slots, and the impact-time domain seam. ( #ff8 #battle-system #reverse-engineering #concept)
-- [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G13 command core; pending buffer is 9×8 bytes; NativeMenu Write RVAs differ from Auto and Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
+- [[projects/re-ff8/concepts/command-action-pipeline]] — G07–G13 command core; pending buffer is 9Ã—8 bytes; NativeMenu Write RVAs differ from Auto and Draw QueueOrStore. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/damage-status-pipeline]] — Kernel metadata, raw damage, HP application; G09 ports HP/event and G10 applies owned status/timers; G11 Magic loads `K_MAGIC` without `HIT_ATTACK_HITPERCENT`. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/atb-and-command-menu]] — ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame. ( #ff8 #battle-system #runtime-memory #concept)
 - [[projects/re-ff8/concepts/targeting-system]] — Encoded masks feed the live G08 TargetPlan boundary; G09 consumes one direct plan in the promoted Attack 0x01 slice. ( #ff8 #battle-system #runtime-memory #concept)
@@ -73,10 +74,13 @@ title: Wiki Index
 
 ## References
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] — Lot 13 live : dump draw lists par node ND07 (slots 43-64 wrappés, painter's algorithm), closure node→géométrie (0x43E24A direct, 0x43E356/0x43E692 VB batch), PNG menu/bataille/Fireaga, cause racine +2 (fopen mode texte CRLF) fermée, v7.1 STRICT PASS. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot14]] — Catalogue evidence hash-bound lot 14 : copies PNG/Renders dans _raw, .bin 250 Mo hash-bound sur place, builds v9→v10.3 (0x563D). ( #ff8 #rendering #testing #reference)
+- [[projects/re-ff8/references/driver-drop-test-af3dn-v11-2026-09-27]] — Lot 15 : v10.3 ferme LUT (R,G,B) + caméra (×1.25) + ciel (chemin non-wrappé EA 0x4623A0) ; v11 (0x563E) réfute live le bind walk-direct (48/48 texobj=0, matdesc+0x14 mort côté Alt, héritage device @0x43E24A) ; miroir TX07 contient tout (persos/monstre/ciel 16-17) ; revue visuelle honnête §6 ; restant = audit de complétude géométrie (v12). ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot15]] — Catalogue evidence hash-bound lot 15 : 2 dumps STRICT sur place (probe v10.3 38 852 064 B 9993D34B…, v11 38 973 876 B A2082F5E…), 11 copies PNG/log/_raw hash-bound, builds v10.3 (0x563D) + v11 (0x563E 292D40CD…). ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot13]] — Catalogue evidence hash-bound lot 13 : copies binaires dans _raw, CSV 2,13 Go et DLLs hash-bound, PNGs catalogués. ( #ff8 #rendering #testing #reference)
-- [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] - Campagne live lot 12-ter : drop test AF3DN.P v6.1 (forwards PE + wrap au present 0x41DF0C), 9 650 frames, draw lists 43-64, PASS critères 1-4 + contrôle vanilla. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/driver-drop-test-af3dn-2026-09-25]] - Campagne live lot 12-ter : drop test AF3DN.P v6.1 (forwards PE + wrap au present 0x41DF0C), 9 650 frames, draw lists 43-64, PASS critÃƒÂ¨res 1-4 + contrÃƒÂ´le vanilla. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/re-ff8/references/battle-model-tools-and-format]] - Lot 14 statique : cartographie outils (Ifrit Python GPL-3.0 source primaire), format c0m/DAT valide probe byte-exact 200/200, archive FI/FL/FS (853 entrees), pont asset-vers-runtime vers DIP FVF1C4. ( #ff8 #battle-system #rendering #reference)
-- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] - Campagne décomp gfx via OpenCode (09-19→09-22) - lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traîne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
+- [[projects/re-ff8/references/gfx-decomp-campaign-2026-09-19-22]] - Campagne dÃƒÂ©comp gfx via OpenCode (09-19→–09-22) - lot 5 clos, lot 6 Magic FX complet 68/68, lot 10 BdLink 6 fonctions, census traÃƒÂ®ne 108, lot 12 live provenance, incidents et reprises. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/AIForAll/references/apparatus-adr-chronicle-2026-09]] — >-. ( #concept #project #testing)
 - [[projects/re-ff8/references/semantic-pipeline-sessions-2026-09]] — Verdicts A/V/R du 2026-09-17 sur le pipeline graphique Battle Room (0x45C870, 0x45D080, 0x416D82, 0x461800, 0x461A90...), lots 1-4 clos, checkpoint 0x559AF0. ( #ff8 #rendering #reverse-engineering #reference)
 
@@ -139,7 +143,7 @@ title: Wiki Index
 
 ## Journal
 
-- [[journal/2026-09-25]] - Session: drop test AF3DN.P lot 12-ter LIVE — boucle v2→v6.1, contrôles A/B/C, campagne §2 complète (2 Fireaga), 9 650 frames forwardées. ( #ff8 #rendering #testing #reference)
+- [[journal/2026-09-25]] - Session: drop test AF3DN.P lot 12-ter LIVE — boucle v2→v6.1, contrôles A/B/C, campagne Â§2 complète (2 Fireaga), 9 650 frames forwardées. ( #ff8 #rendering #testing #reference)
 - [[journal/2026-09-03]] - Session: G23 protocol-v1 smoke PID 49024 L23-A/B/C collector PASS; Detached; promotion.G23 false. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-09-02]] — Session: G22 v19 protocol-v5 live-promoted; PIDs 26456/22744; `refused_mask=0`; P-SAT closed; G23 authorized. ( #ff8 #battle-system #testing #reference)
 - [[journal/2026-08-31]] — Session: extract + live v17 PID 29160 ; L22-A/B/C PASS ; `refused_mask=32` ; satisfied false. ( #ff8 #battle-system #testing #reference)

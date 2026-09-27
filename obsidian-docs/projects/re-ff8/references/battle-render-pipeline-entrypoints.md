@@ -6,6 +6,8 @@ aliases: [frame pipeline, draw-list submit, render backend matrix]
 sources:
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot15_2026-09-26.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CLOSURE_walkdirect-bind.md
   - docs/tech/reference/address_catalog.md
 summary: Frame-owned render path from FFBattleModule through OT, texture-page lists and draw-lists to the 66-slot GL/DDraw/DDrawAlt driver matrix.
 provenance:
@@ -13,7 +15,7 @@ provenance:
   inferred: 0.05
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-25T20:30:00+02:00
+updated: 2026-09-27T11:30:00+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -51,6 +53,10 @@ Byte-exact structures: `GfxDrawList` `0xEC` (`+24` ctx, `+52` generation, `+88` 
 `Gfx_BindDrawListBackendCallbacks` (`0x41619A`, sole caller `Gfx_CreateDrawList`) is the unique writer of list `+156/+160`, mapping list types 0–19 onto driver slots 43–64. Type 16 stays null (jpt case 16 = default; 0/67 `CreateDrawList`; Walk skipped if `*(list+156)==0`). Distinguish **RS-16** (`glDepthMask`, exists) from **list-16** (dead). Do not confuse `drawlist[39]/[40]` (`+156/+160`) with driver slots 39/40.
 
 Live closure (lot 13, 2026-09-25, see [[projects/re-ff8/references/driver-drop-test-af3dn-v7-2026-09-25]] and driver-abi-spec §6.1): per-node capture at the walk confirms the consumer fields — direct walkers 48/49/50 → `0x43E24A` (vcount `node+0x0C`, verts `+0x14`, icount `+0x18`, idx `+0x20`, FVF `0x1C4`), VB batch 51/60 → `0x43E356`/`0x43E692` (remaining `+0x08`, per-group u8 id stream `+0x28`, geom `+0x2C`, vcount/icount from `geom+0x3C/0x40 × remaining`, **no writeback to the node**), direct walkers 57/58/59 FVF `0x1E2`, 63/64 linelists, setups 43–47/52–56/61–62 never read the node.
+
+Texture closure (lot 14, 2026-09-26, see [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]] and driver-abi-spec §6.2): the node→texinfo→page path is closed live + IDB — battle TIM models resolve through `backend = ctx+0x3C ? ctx+0x68 : ctx+0x38` → `*(backend+20)` = v11 → `*(v11+152)` = object T (`w@+0x3C`, `h@+0x40`, `entries@+0x5C`, raw CLUT u32/color `@+0x60`, pixels 1 B/texel `@+0xD8`, `palMgr=*(v11+0xA0)`); the battle terrain decodes as true texture (roche gris-bleu, dithering PSX — proof render `battle13/FINAL_tim.png`).
+
+Lot 15 closures (2026-09-27, see [[projects/re-ff8/references/driver-drop-test-af3dn-v11-2026-09-27]] and driver-abi-spec §6.3): (i) **sky/fond** is composited in emulated VRAM `0x1B47818` (GP0 `0x02` fill `0x4623A0`, `0x80` MoveImage, sprites `0x64–0x7F`) → RT1 and presented through a path that triggers **no driver slot 43–64**; both dispatch passes converge into `Gfx_WalkDrawList` (`0x460D26`, `0x460CB6`), so a sky poly would have been captured — it never was; battle clear is black `{0,0,0,1}` (`0x47CF8D..0x47CFA5`). (ii) **walk-direct bind**: slots 48/49/50 impl is `RenderDDrawAlt_DrawIndexedPrimitive_FVF1C4` @`0x43E24A` with zero texture bind — `*(matdesc+0x14)` is structurally dead on the Alt side for direct ctx (48/48 live records `texobj=0` at T_draw, v11 `0x563E`); direct draws inherit device texture state from the slot-25 setup chain (`sub_407EB4` → `sub_41ED69` → `sub_41EF3C` SetTexture `call [deviceVT+0x98]` @`0x41EF5D`). v12 recommendation: hook SetTexture to capture the device texobj at T_draw, not the matdesc field.
 
 ## Driver Matrix (66 DWORDs, `calloc(1, 0x108)`)
 

@@ -74,3 +74,22 @@
 2. Ciel : fermé (chemin non-wrappé EA `0x4623A0`) + texture ciel présente au miroir (16-17).
 3. Parser strict : ? v11 0x563E, 0 resync.
 4. 0 AV / 0 WER : ? (2 sessions live, exits propres).
+
+## 6. Revue visuelle finale (27/09, honnête — remplace les lectures optimistes)
+
+Composite `battle13/LOT15_composite.png` (terrain + records slot-49) vs réf opérateur :
+
+| Élément | Verdict factuel |
+| --- | --- |
+| Terrain | ? texturé, angles quasi superposables (moments proches) |
+| Monstre | ?? FRAGMENT seul : 1 grande ovale dorée plate bas-gauche (position ˜ 1 partie du monstre) + 3 petits ovales centraux **sans correspondance** dans la réf ; le corps détaillé de la réf (écailles, ailes nervurées) est absent du rendu |
+| « Barres de HP » | ? interprétation retirée : 2 bandes rayées multicolores à une position évoquant les HP bars, mais contenu = bruit (recherche auto par variance, pas la vraie palette) |
+| « Curseur » | ? interprétation retirée : petit losange multicolore sans correspondance claire |
+| 3 personnages | ? absents du rendu, nulle part |
+
+**Leçons** : (1) la recherche auto (tpage, clut) par variance/« doré » trouve des palettes
+plausibles mais NON identifiables — sans `ids` par groupe ni ancre visuelle fiable, le
+scoring seul ne prouve rien ; (2) la complétude de la GÉOMÉTRIE capturée est en question
+(le corps du monstre et les persos n'apparaissent pas — soit absents des records, soit non
+identifiés parmi les 108 VB/frame) ; (3) prochain lot = AUDIT DE COMPLÉTUDE offline
+(inventaire exhaustif des triangles de la frame vs réf) AVANT tout nouveau codage writer.
