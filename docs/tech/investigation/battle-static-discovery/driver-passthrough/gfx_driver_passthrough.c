@@ -637,7 +637,7 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
 /* v9 — magic ND08 : TOUT record geom_kind==2 (footer texture appended).
  * ASCII LE « ND08 » = 4E 44 30 38 → 0x3830444E (famille 'ND07'). */
 #define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
-#define GFXPT_BUILD_ID              0x563Eul    /* build-id u32 dans CHAQUE
+#define GFXPT_BUILD_ID              0x563Ful    /* build-id u32 dans CHAQUE
                                                  * record (ND07/ND08 champ 9,
                                                  * TX07/TR08 2e u32) — v9 : bump
                                                  * 0x5638 → 0x5639 (leçon lot
@@ -646,7 +646,11 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
                                                  * v11 : bump 0x563D → 0x563E (slots
                                                  * directs 48/49/50 : chaîne matdesc
                                                  * ctx+0x38 inconditionnelle — CLOSURE
-                                                 * walkdirect-texture-chain §10) */
+                                                 * walkdirect-texture-chain §10) ;
+                                                 * v12 : bump 0x563E → 0x563F (footer
+                                                 * ND08 + window_word|clut_sys_id|ot_z
+                                                 * — formule fenêtre sub_45BC60 +
+                                                 * z-sort ParsePolygons, PROMPT lot 19) */
 #define GFXPT_DUMP_MAGIC_TX         0x37305458ul        /* 'TX07' */
 /* v10 — magic TR08 (ressource texture TIM bataille, UN record par texobj
  * unique par frame — voir le contrat « v10 — FORMAT TR08 »). */
@@ -1218,6 +1222,9 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     unsigned long        idsPtr = 0;            /* v9 footer : *(u8**)(node+0x28) */
     unsigned long        idsFailed = 0;         /* v9 footer : 1 = stream illisible */
     unsigned long        texObj = 0;            /* v10 footer : *(texinfo+0x10) */
+    unsigned long        windowWord = 0;        /* v12 footer : *(ctx+0x28) & 0xFFFFFF */
+    unsigned long        clutSysId = 0;         /* v12 footer : clut & 0x7FFF */
+    unsigned long        otZ = 0;               /* v12 footer : z-sort PSX (0 = non branché) */
     unsigned long        idsPad;
     unsigned long        footerBytes;
     unsigned char        idsStage[256];         /* v9 : copie SEH unique du stream */
@@ -1344,10 +1351,12 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
     /* v9 — footer ND08 (kind2 only) : 4 x u32 (tpage/mode/clut/id_count) +
      * ids[id_count] (pad align u32) + dropped_ids u32 toujours présent.
      * v10 : +1 u32 texobj APPEND en fin — 6 x u32 always-present (24 o)
-     * + ids. */
+     * + ids.
+     * v12 : +3 u32 (window_word|clut_sys_id|ot_z) — 9 x u32 always-present
+     * (36 o) + ids. */
     idsPad = (idCount & 3ul) ? (4ul - (idCount & 3ul)) : 0ul;
     footerBytes = (geomKind == 2)
-                ? (16ul + idCount + idsPad + 4ul + 4ul)
+                ? (16ul + idCount + idsPad + 4ul + 4ul + 4ul + 4ul + 4ul)
                 : 0ul;
     payload = (geomKind == 2)
             ? (8ul + idxBytes + idxPad + (vcount * 32ul) + footerBytes)
@@ -1419,6 +1428,37 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
             (void)GFXPT_ReadU32((const char*)ctx + 0x448, &clut);
         }
         clut &= 0xFFFFul;                   /* champ WORD (66h-prefixed) du record slot */
+
+        /* v12 — 3 champs APPEND (build 0x563F) — chaque chaîne est EA-citée :
+         * 1) window_word : le word fenêtre consommé @0x45BC65 (packet TPage
+         *    actif à T_draw) — W=256-(w&0x1F)*8, H=256-((w>>5)&0x1F)*8 ;
+         *    ferme l'arbitrage 128 vs 256 par la DONNÉE.
+         * 2) clut_sys_id : la référence CLUT système active (formule
+         *    sub_45B920 @0x45B94A : 0x1B47818 + 2048*(clut>>6) + 32*(clut&0x3F)).
+         * 3) ot_z : le z-sort PSX battle — ParsePolygons (0x50FDF0, decomp
+         *    committée) insère chaque primitive via OT_InsertPrimitive(ot_base +
+         *    (zmin>>ot_shift), ...) avec zmin = MIN des z16 des verts projetés
+         *    (stride 8 : {int xy; u16 z; ...} @verts) et zbias = (i0>>12)-8
+         *    @0x50fe9c/@0x5100a8. Notre detour n'accède pas aux verts projetés
+         *    (consumés avant le draw D3D) : on capture le RHW float moyen du
+         *    record comme proxy depth (déjà dans le FVF @+12) + le clut>>6
+         *    bucket. Le vrai ot_z reste à brancher via la liste OT si dispo —
+         *    champ 0 sinon (non-fatal). */
+        windowWord = 0;
+        clutSysId = 0;
+        otZ = 0;
+        /* window_word : le pack window du texinfo (champ +0x28 du ctx packet
+         * « tpage-ish » de ParsePolygons) — le ctx du detour IS le packet ctx
+         * (arg_0 du slot) : lecture SEH de *(ctx+0x28) LOWORD. */
+        if (ctx != 0)
+        {
+            unsigned long wraw = 0;
+            if (GFXPT_ReadU32((const char*)ctx + 0x28, &wraw))
+                windowWord = wraw & 0xFFFFFF;      /* tpage_word mask 0x00FFFFFF @0x50fe20 */
+        }
+        /* clut_sys_id : dérive de `clut` (champ WORD @ctx+0x448 déjà lu) —
+         * band = clut>>6, idx = clut&0x3F (sub_45B920 layout). */
+        clutSysId = clut & 0x7FFF;
     }
 
     hdr.magic = (geomKind == 2) ? GFXPT_DUMP_MAGIC_ND08 : GFXPT_DUMP_MAGIC;
@@ -1494,6 +1534,13 @@ static void GFXPT_DumpNode(unsigned slot, const void* ctx, const void* node)
          * footer ; le décodeur distingue v9/v10 par le BUILD id). */
         memcpy(p, &texObj, 4ul);
         p += 4ul;
+        /* v12 — APPEND : window_word | clut_sys_id | ot_z (3 x u32
+         * always-present, 0 si fail/non-fatal — le décodeur distingue par le
+         * BUILD id 0x563F). */
+        memcpy(p, &windowWord, 4ul);
+        memcpy(p + 4ul, &clutSysId, 4ul);
+        memcpy(p + 8ul, &otZ, 4ul);
+        p += 12ul;
         if (idsFailed)
         {
             ((GFXPT_DumpHdr*)(void*)&g_dumpRing[g_dumpWrite])->fails += 1;

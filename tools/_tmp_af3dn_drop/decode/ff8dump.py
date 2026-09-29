@@ -81,7 +81,7 @@ TX_HDR = struct.Struct('<8I')    # magic, build, seq, clut_now, vram_base, sys_c
 TX_VRAM_BYTES = 0x100000         # full VRAM mirror: 1024 u16/row x 512 rows
 BUILD_ID = 0x563E                # GFXPT_BUILD_ID (v11: direct slots 48/49/50 matdesc chain; v10.3=0x563D, v10=0x563A, v9=0x5639, v8=0x5638)
 BUILD_ID_V8 = 0x5638             # v8 layout: kind-2 without the texture footer, TX07 w/o sys_clut_row
-SUPPORTED_REPLAY_BUILDS = frozenset((0x563D, 0x563E))  # v10.3/v11: same captured layout
+SUPPORTED_REPLAY_BUILDS = frozenset((0x563D, 0x563E, 0x563F))  # v10.3/v11/v12: 0x563F adds footer window_word|clut_sys_id|ot_z
 TX_SYSROW_BYTES = 2048 if BUILD_ID >= 0x5639 else 0   # v9: + sys_clut_row (2 KiB)
 TX_REC_BYTES = TX_HDR.size + TX_VRAM_BYTES + TX_SYSROW_BYTES   # 0x100020 (v8) / 0x100820 (v9)
 NODE_SIZE = 24                   # OT node (driver-abi-spec.md section 8)
@@ -382,6 +382,13 @@ def parse_dump(data: bytes, *, expected_build: int = BUILD_ID):
                 if len(payload) >= drop_off + 8:
                     rec.texobj = struct.unpack_from('<I', payload, drop_off + 4)[0]
                 need = drop_off + 8          # footer counted into the expected size
+                # v12: window_word | clut_sys_id | ot_z appended after texobj
+                # (build 0x563F only — 3 x u32 always-present)
+                rec.window_word = rec.clut_sys_id = rec.ot_z = 0
+                if build >= 0x563F and len(payload) >= drop_off + 20:
+                    rec.window_word, rec.clut_sys_id, rec.ot_z = \
+                        struct.unpack_from('<3I', payload, drop_off + 8)
+                    need = drop_off + 20
             # Post-consumption capture: the native walk (0x43E356 VB batch) rewrites part
             # of its index buffer as scratch before the detour copies it. When the
             # record matches the quad-strip shape (vcount = G*4, icount = G*6) and raw
