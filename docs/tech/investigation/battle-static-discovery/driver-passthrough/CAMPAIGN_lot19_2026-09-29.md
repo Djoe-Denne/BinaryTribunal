@@ -56,9 +56,39 @@ Déployée hash après copie = MATCH ✓.
   (terrain base + entités overlay non-blk, approximation acceptable).
 - **Blend STP** : toujours à tester (382 tris alpha battle13).
 
-## 5. Livrables
+## 6. Réserves opérateur sur le replay plein-cadre (29/09 — à corriger lot 20)
 
-- `gfx_driver_passthrough.c` v12 (0x563F) + DLL buildée gate PASS
+Le composite `LOT19_replay.png` (ciel+terrain, entités absentes) a les défauts suivants
+validés par l'opérateur :
+
+1. **Ciel triangulaire** : les nuages apparaissent en triangles/losanges mal alignés
+   (discontinuités UV aux arêtes de triangles) — signature d'un mauvais layout UV sur
+   les tris du ciel (probablement les records texobj 05AF00 (0,256) = la texture ciel
+   plaquée avec un layout erroné, comme les lames des entités au lot 16).
+2. **Terrain idem** : les losanges du sable sont visibles/désalignés vs la réf (même
+   classe de défaut UV, famille terrain).
+3. **La montagne manquante** : la réf montre une **falaise gris-blanc entre le ciel et
+   le terrain** — absente du DEC (zone noire) : c'est probablement une des 4 textures
+   « dynamiques » sans match miroir (055790/055BC0/0563E0/056A80), celle de la falaise.
+
+Le renderer lot17 (Buel + 3 persos, `lot17renderer\battle13_exact_candidate_W256_H256.png`)
+reste **correct et validé** — ces réserves touchent le **composite plein écran** (le ciel
+et le terrain), pas le chemin entités.
+
+**Hypothèse unificatrice** : les tris du ciel/terrain/montagne utilisent les UV u8
+d'origine + un packet window que le dump f32 ne capture pas — le replay f32 « passe
+au travers » du window mapping, d'où les discontinuités sur les grandes surfaces
+plaquées (les entités, elles, ont des UV petits/intérieurs qui survivent au passage).
+La v13 devrait capturer **le window_word réellement consommé** (pas au ctx+0x28 mais
+l'adresse exacte du packet @0x45BC65) et le u8 source par primitive si possible.
+
+## 7. Livrables
+
+- `gfx_driver_passthrough.c` v12 (0x563F) + DLL buildée gate PASS + déployée live hash-MATCH
 - `ff8dump.py` : `SUPPORTED_REPLAY_BUILDS` +0x563F, parse `window_word|clut_sys_id|ot_z`
-- Capture `battle_v12` (STRICT PASS 0x563F)
+- Capture `battle_v12` (STRICT PASS 0x563F, 16 frames × 166 records, screenshots rafale)
 - Verdicts : window_word absent (W=256), clut_sys_id mesuré par record
+- **Replay Buel fidèle via renderer lot17 généralisé** :
+  `battle_v12\lot17renderer\battle13_exact_candidate_W256_H256.png` — le chemin marche
+  pour tout combat v12 sans réglage manuel (§6 : réserves sur le composite plein-cadre,
+  pas sur le chemin entités)
