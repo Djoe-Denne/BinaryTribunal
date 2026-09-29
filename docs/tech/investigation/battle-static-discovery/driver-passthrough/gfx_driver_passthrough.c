@@ -637,7 +637,7 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
 /* v9 — magic ND08 : TOUT record geom_kind==2 (footer texture appended).
  * ASCII LE « ND08 » = 4E 44 30 38 → 0x3830444E (famille 'ND07'). */
 #define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
-#define GFXPT_BUILD_ID              0x563Ful    /* build-id u32 dans CHAQUE
+#define GFXPT_BUILD_ID              0x5640ul    /* build-id u32 dans CHAQUE
                                                  * record (ND07/ND08 champ 9,
                                                  * TX07/TR08 2e u32) — v9 : bump
                                                  * 0x5638 → 0x5639 (leçon lot
@@ -650,7 +650,9 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
                                                  * v12 : bump 0x563E → 0x563F (footer
                                                  * ND08 + window_word|clut_sys_id|ot_z
                                                  * — formule fenêtre sub_45BC60 +
-                                                 * z-sort ParsePolygons, PROMPT lot 19) */
+                                                 * z-sort ParsePolygons, PROMPT lot 19)  ;
+ * v13 : bump 0x563F → 0x5640 (TX07 payload + TEXWIN 8 o : origin_xy/wh —
+ * globals dword_1CA8870/word_1CA8874/word_1CA8876 — PROMPT lot 20) */
 #define GFXPT_DUMP_MAGIC_TX         0x37305458ul        /* 'TX07' */
 /* v10 — magic TR08 (ressource texture TIM bataille, UN record par texobj
  * unique par frame — voir le contrat « v10 — FORMAT TR08 »). */
@@ -706,6 +708,19 @@ typedef struct GFXPT_Tx07Hdr {
     unsigned long m_B7DB44;
     unsigned long page_probe;   /* *(texinfo+0x10) du 1er node walk texturé du frame */
 } GFXPT_Tx07Hdr;
+
+/* v13 - TEXWIN : scales de fenetre texture resolus par sub_45BC60 dans des
+ * globals statiques : dword_1CA8870 (HIWORD=x0, LOWORD=y0), word_1CA8874 (W),
+ * word_1CA8876 (H ; 0 -> 256). Lisibles au detour present (BSS absolu, SEH) -
+ * 8 o APPEND au payload TX07 (build 0x5640) : fenetre GLOBALE au frame. */
+typedef struct GFXPT_Tx07Win {
+    unsigned long origin_xy;
+    unsigned long wh;
+} GFXPT_Tx07Win;
+#define GFXPT_EA_WINDOW_XY      0x1CA8870ul
+#define GFXPT_EA_WIN_W          0x1CA8874ul
+#define GFXPT_EA_WIN_H          0x1CA8876ul
+#define GFXPT_DUMP_TX_WIN_BYTES 8ul
 
 #define GFXPT_DUMP_TX_VRAM_BYTES    0x100000ul  /* miroir VRAM complet 1024x512 u16 */
 /* v9 — ligne CLUT système copiée en payload TX07 (2048 o = 64 sous-CLUT ×
@@ -836,7 +851,7 @@ static void GFXPT_TxEmit(unsigned long seq, const void* node)
     unsigned long        vramBase = 0;
     unsigned long        m_B7DB44 = 0;
     unsigned long        fails = 0;
-    unsigned long        need = GFXPT_DUMP_TX_REC_BYTES;
+    unsigned long        need = GFXPT_DUMP_TX_REC_BYTES + GFXPT_DUMP_TX_WIN_BYTES; /* v13 : + TEXWIN 8 o */
 
     if (!node)
         return;
@@ -927,6 +942,18 @@ static void GFXPT_TxEmit(unsigned long seq, const void* node)
             GFXPT_ODS("gfx_passthrough " GFXPT_VERSION_TEXT
                       ": sys CLUT row illisible, sys_clut_row a zero (tx)\n");
         }
+    }
+
+    /* v13 - TEXWIN : scales resolus de la fenetre texture (sub_45BC60),
+     * globals BSS absolus dword_1CA8870 / word_1CA8874 / word_1CA8876 ;
+     * echec SEH -> 0 (non-fatal, decodeur fallback LUT /256). */
+    {
+        GFXPT_Tx07Win        win;
+        win.origin_xy = 0;
+        win.wh = 0;
+        (void)GFXPT_ReadU32((const void*)GFXPT_HostEA(GFXPT_EA_WINDOW_XY), &win.origin_xy);
+        (void)GFXPT_ReadU32((const void*)GFXPT_HostEA(GFXPT_EA_WIN_W), &win.wh);
+        memcpy(sysRow + GFXPT_DUMP_TX_SYSROW_BYTES, &win, GFXPT_DUMP_TX_WIN_BYTES);
     }
 
     hdr.magic = GFXPT_DUMP_MAGIC_TX;

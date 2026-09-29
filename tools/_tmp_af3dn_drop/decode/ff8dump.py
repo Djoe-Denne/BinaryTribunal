@@ -81,9 +81,10 @@ TX_HDR = struct.Struct('<8I')    # magic, build, seq, clut_now, vram_base, sys_c
 TX_VRAM_BYTES = 0x100000         # full VRAM mirror: 1024 u16/row x 512 rows
 BUILD_ID = 0x563E                # GFXPT_BUILD_ID (v11: direct slots 48/49/50 matdesc chain; v10.3=0x563D, v10=0x563A, v9=0x5639, v8=0x5638)
 BUILD_ID_V8 = 0x5638             # v8 layout: kind-2 without the texture footer, TX07 w/o sys_clut_row
-SUPPORTED_REPLAY_BUILDS = frozenset((0x563D, 0x563E, 0x563F))  # v10.3/v11/v12: 0x563F adds footer window_word|clut_sys_id|ot_z
+SUPPORTED_REPLAY_BUILDS = frozenset((0x563D, 0x563E, 0x563F, 0x5640))  # v10.3/v11/v12/v13: 0x563F adds ND08 footer window_word|clut_sys_id|ot_z ; 0x5640 adds TX07 TEXWIN 8o (origin_xy/wh)
 TX_SYSROW_BYTES = 2048 if BUILD_ID >= 0x5639 else 0   # v9: + sys_clut_row (2 KiB)
-TX_REC_BYTES = TX_HDR.size + TX_VRAM_BYTES + TX_SYSROW_BYTES   # 0x100020 (v8) / 0x100820 (v9)
+TX_WIN_BYTES = 8 if BUILD_ID >= 0x5640 else 0            # v13: + TEXWIN (origin_xy/wh)
+TX_REC_BYTES = TX_HDR.size + TX_VRAM_BYTES + TX_SYSROW_BYTES + TX_WIN_BYTES   # 0x100020 (v8) / 0x100820 (v9) / 0x100828 (v13)
 NODE_SIZE = 24                   # OT node (driver-abi-spec.md section 8)
 VERT = struct.Struct('<4f2I2f')  # FVF 0x1C4: X,Y,Z,RHW; DIFFUSE; SPECULAR; U,V (32 bytes)
 SLOT_MIN, SLOT_MAX = 43, 64
