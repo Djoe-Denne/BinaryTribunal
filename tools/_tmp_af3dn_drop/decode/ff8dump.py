@@ -197,6 +197,10 @@ def parse_dump(data: bytes, *, expected_build: int = BUILD_ID):
     """
     if expected_build not in SUPPORTED_REPLAY_BUILDS:
         raise DumpError(f'unsupported replay build 0x{expected_build:X}', 0)
+    # v13: TX07 record size depends on the requested build (TEXWIN 8o appended >= 0x5640)
+    tx_rec_bytes = (TX_HDR.size + TX_VRAM_BYTES
+                    + (2048 if expected_build >= 0x5639 else 0)
+                    + (8 if expected_build >= 0x5640 else 0))
     records, tx_records, tr_records, warnings = [], [], [], []
     pos, n = 0, len(data)
     MAGIC_BYTES = struct.pack('<I', MAGIC_ND)
@@ -228,8 +232,8 @@ def parse_dump(data: bytes, *, expected_build: int = BUILD_ID):
             # v8 frame mirror: fixed size, no resync machinery, no fails field.
             if n - pos < TX_HDR.size:
                 raise DumpError(f'truncated TX07 header (need {TX_HDR.size} bytes, have {n - pos})', pos)
-            if n - pos < TX_REC_BYTES:
-                raise DumpError(f'truncated TX07 record (need {TX_REC_BYTES} bytes, have {n - pos})', pos)
+            if n - pos < tx_rec_bytes:
+                raise DumpError(f'truncated TX07 record (need {tx_rec_bytes} bytes, have {n - pos})', pos)
             _magic, build, seq, clut_now, vram_base, sys_clut_base, m_b7, page_probe = \
                 TX_HDR.unpack_from(data, pos)
             if build != expected_build:
@@ -237,8 +241,8 @@ def parse_dump(data: bytes, *, expected_build: int = BUILD_ID):
             tx_records.append(TexRecord(base, build, seq, clut_now, vram_base,
                                         sys_clut_base, m_b7, page_probe,
                                         bytes(data[pos + TX_HDR.size:pos + TX_HDR.size + TX_VRAM_BYTES]),
-                                        bytes(data[pos + TX_HDR.size + TX_VRAM_BYTES:pos + TX_REC_BYTES])))
-            pos += TX_REC_BYTES
+                                        bytes(data[pos + TX_HDR.size + TX_VRAM_BYTES:pos + tx_rec_bytes])))
+            pos += tx_rec_bytes
             continue
 
         if n - pos < HDR.size:
