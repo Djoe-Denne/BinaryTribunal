@@ -8,14 +8,18 @@ sources:
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot15_2026-09-26.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CLOSURE_walkdirect-bind.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/DOSSIER_lot23_stage0_depth.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/stage0_static_evidence.json
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/rs_static_evidence.json
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/depth_static_mapping.json
   - docs/tech/reference/address_catalog.md
 summary: Frame-owned render path from FFBattleModule through OT, texture-page lists and draw-lists to the 66-slot GL/DDraw/DDrawAlt driver matrix.
 provenance:
-  extracted: 0.94
-  inferred: 0.05
+  extracted: 0.93
+  inferred: 0.06
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-09-27T11:30:00+02:00
+updated: 2026-10-03T12:42:18+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -112,4 +116,14 @@ The full asset->runtime chain is now **byte-exact proven** by the [[projects/re-
 
 New (not previously documented here): s4 dynamic-UV slot table (37/143 present, 16-324 B) consumed by model-animation opcodes 0x80/0x9B/0x9F/0xBD/0xBE driven from 0x504BB0 (BattleModel_ApplyH4UvSlot 0x50C780 + sisters 0x50C860/0x50C950); TIM upload path 0x507400 -> Gfx_UploadCLUTSlot 0x464DB0 / Gfx_AllocTexturePageSlot 0x464F70 with full 16-bit CLUT word (no low-byte aliasing, c0m121 pitfall); golden-trace slot semantics: slot 51 (+0xCC) = FVF1C4_VB x494 942 = the real battle draw workhorse (ctor 0x4257D0 proven); hypothesis (unproven, lot 13 to settle): walkers sub_43E5E9 (slots 57/58) emit draws into slots 48-51.
 Confidence: HIGH (registry-disque + decomp + probe).
+
+## Lot 23 (2026-10-03): stage0 bind/unbind + depth mapping statique (offline, no hook)
+
+Static-only closure from [[projects/re-ff8/references/af3dn-lot23-offline-validation-2026-10-03|lot 23 offline validation]] — native read-only IDA, IDB bytes = on-disk EXE (`064d466b…`, base `0x400000`), **no anchor installed**, candidate `0x5641` keeps `stage0_valid=false`.
+
+**SetTexture wrapper (`sub_41EF3C`) — erratum and ABI.** Lot 22 §5's "RVA `0x41EF3C`" was a VA; the real RVA is **`0x1EF3C`** (file offset coincidentally equal in this PE — do not generalize). Two cdecl stack args pushed right-to-left by all three callers in `sub_41ED69` (`0x41ED8B`, `0x41EF0E`, `0x41EF20`): device then texobj, `add esp,8`; prologue saves EBP, epilogue `pop ebp; retn` (no `ret 8`). `device==0` exits early at `0x41EF78` with **no device call** — that path is not an unbind and yields no HRESULT. `texobj!=0` reads `*(texobj+0x0C)` then calls `[deviceVT+0x98]` (SetTexture) at **`0x41EF5D`**; `texobj==0` makes the **second** call at **`0x41EF72`** with texture 0 — observing only `0x41EF5D` loses unbinds. Callers do not test EAX; any future observer must preserve EAX/stack/flags/FPU-SIMD. 15-byte entry preimage contains two **external** `jz rel8` (targets `0x41EF78`/`0x41EF65`), so raw trampoline copy is forbidden and the E8-rel32-only relocator is insufficient; the two 6-byte call sites (`FF 90 98 00 00 00`) are the alternative passive anchor — compared, **not chosen**. Static interior xref scan (`anchor_interior_xrefs.json`) found no external code refs into the three ranges; it does not close indirect branches or runtime control flow.
+
+**Depth (slot 29 Alt, `RenderDDrawAlt_SetRenderState` `0x440FF0`)**: raw type 15 → bool `raw!=0` to device state **7** (ZENABLE) at `0x441356`, then value **4** to state **23** (ZFUNC = D3DCMP_LESSEQUAL per SDK `d3dtypes.h`) at `0x441364/0x441371`; raw type 16 → bool to state **14** (ZWRITEENABLE) at `0x441393`. SDK layout confirms IDirect3DDevice3 `SetRenderState` vtable `+0x58`, `SetTexture` `+0x98` (`depth_static_mapping.json`, header hashes pinned). Documentation-only: raw RS `0..25` and blend `0..4` stay raw in codec and readers, no depth/STP aliases, no replay policy enabled. Still missing for promotion: effective state at T_draw, context/device association, HRESULT witness, Z range/clear/target, full alpha pipeline, exact stage0 binding at T_draw.
+
+Trust hazards carried from the native harness (writer side): silent ST09 loss at the 1024/frame cap (`broken`/`drops` stay 0), ring-drop `broken=1` sticky, kind2/kind6 commit events prove neither native-gate passage nor device success. See [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot23|catalog lot 23]] for hash-bound receipts. Confidence: HIGH for static addresses/ABI (bytes verified), LOW for anything runtime (live NOT AUTHORIZED).
 
