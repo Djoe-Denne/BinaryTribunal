@@ -1,0 +1,43 @@
+{
+  "schema": "lot24-validation-receipt-v1",
+  "date": "2026-10-03",
+  "scope": "offline build-only candidate v15 0x5642; no deployment, no live",
+  "candidate": {
+    "build_id": "0x5642",
+    "version_text": "v15-lot24",
+    "sha256": "ba8d2d4e1c4f91d7461b61f67144d5e84319122c22f38de6ffb78085ed42f32c",
+    "built_in": "docs/tech/investigation/battle-static-discovery/driver-passthrough/lot24 (canonical build dir)",
+    "deployed": false,
+    "writer_rebuilt": false,
+    "hook_installed_in_game": false
+  },
+  "build_id_proof": "0x5642 free: repo-wide grep 2026-10-03 — only our own docs ('non réservé') + one timestamp; known builds 0x5638..0x5641 (ff8dump.py SUPPORTED + writer history)",
+  "validations": [
+    {"suite": "candidate build (cl x86 /MT /LD)", "actual_exit": 0, "warnings": 0},
+    {"suite": "test_lot24_contract.py (v15 strict reader + v14 regression + cross-rejections)", "tests": 31, "actual_exit": 0, "skips": 0},
+    {"suite": "test_gate_writer_lot24.py (pure gate preconditions/PE regressions)", "tests": 22, "actual_exit": 0, "skips": 0},
+    {"suite": "harness_lot24 native (via gate)", "assertions": 648, "failures": 0, "actual_exit": 0},
+    {"suite": "gate PIN mode", "status": "PINNED", "actual_exit": 0, "evidence": "lot24/candidate_pin.json"},
+    {"suite": "gate STRICT mode (--expect-sha)", "status": "BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED", "actual_exit": 0, "evidence": "lot24/gate_strict.json"},
+    {"suite": "full sweep tools/af3dn_state (env fixtures set)", "tests": 235, "actual_exit": 0, "skips": 0}
+  ],
+  "harness_counts_declared_and_verified": {
+    "roundtrip.bin": {"nd": 2, "st": 3, "tx": 1, "tr": 1},
+    "cap_saturation.bin": {"nd": 2, "st": 1025, "tx": 0, "tr": 0},
+    "ring_drop.bin": {"nd": 1, "st": 1, "tx": 0, "tr": 0},
+    "stage0.bin": {"nd": 2, "st": 6, "tx": 0, "tr": 0},
+    "hook_negative.bin": {"nd": 4, "st": 6, "tx": 0, "tr": 0}
+  },
+  "verdicts": {
+    "reproducibility": "offline build-only verified (pin + strict rerun); clean committed checkout not claimed",
+    "contract": "structural/roundtrip verified; state->draw coupling BLOCKED (certain unknowns)",
+    "instrumentation": "stub functionally proven in synthetic host (hr propagation, canaries, esp balanced, restore byte-exact, fail-closed); runtime/install safety NOT closed",
+    "UI_fidelity": "PARTIAL/BLOCKED",
+    "live": "NOT AUTHORIZED"
+  },
+  "residual_gaps": [
+    "device==0 early-return path not covered by option B anchor (no call, no HRESULT by construction)",
+    "native D3D HRESULT inside [deviceVT+0x98] remains a certain unknown (stub captures the WRAPPER-level return only)",
+    "installer execution in the real process requires the future live card (LIVE_NECESSITY_lot23.md gate still NOT OPEN)"
+  ]
+}
