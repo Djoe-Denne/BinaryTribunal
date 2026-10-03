@@ -1,0 +1,59 @@
+{
+  "failed_attempts": [
+    {
+      "scope": "initial_harness_wrong_decimal_offset",
+      "gate_exit": 1,
+      "status": "BUILD_ONLY_NOT_VERIFIED",
+      "error": "harness_lot23 exit 1 != 0",
+      "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot23-writer-fym2idaf",
+      "source_changed_after": "harness backend decimal20 offset corrected to0x14",
+      "logs": {
+        "compile_log.txt": {
+          "sha256": "1aff9b4effa7ce8b9d7a330e6cc357d635a0aa7787948d90a62416f6d20d30ac",
+          "selected": []
+        },
+        "harness_log.txt": {
+          "sha256": "0c20540e16e4aae4bf4822064a0dbedd21b2fc5c2eaed520ecb33e9c9be898f6",
+          "selected": [
+            "checks=429 fails=63 exit=1"
+          ]
+        }
+      },
+      "harness_source_sha256": "e04d319353a9379fb0c299a84a8279d58093088ffa41731a9bf5662b4740c377"
+    },
+    {
+      "scope": "later_compile_include_failure",
+      "gate_exit": 1,
+      "status": "BUILD_ONLY_NOT_VERIFIED",
+      "error": "harness compile exit 2 != 0",
+      "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot23-writer-72wvv9ev",
+      "source_changed_after": "none; vcvars inspected and standalone command rerun",
+      "logs": {
+        "compile_log.txt": {
+          "sha256": "937b405914ff0410517cf82515aa5f61f66817167ce6cbabb246d6ddbc2a10a2",
+          "selected": [
+            "harness_lot23.c(30): fatal error C1083: Impossible d'ouvrir le fichier include\u00a0: 'windows.h'\u00a0: No such file or directory"
+          ]
+        }
+      },
+      "harness_source_sha256": "18427578f542ceb02b51a5949a2a50e1906fe8472cec493c0b2ff4860a216b57"
+    },
+    {
+      "scope": "batched_all_tests_export",
+      "actual_process_exit": 1,
+      "tests": 182,
+      "errors": 3,
+      "error_kind": "MemoryError",
+      "log_sha256": "692c41bf15b97bc9b7648839d93b362079682549d845815f8fc402721b083c2b",
+      "source_changed_after": false,
+      "resolution": "same sources, standalone command passed 182/0 skip/exit0; not treated as valid parser rejections"
+    }
+  ],
+  "final_receipts": [
+    "writer_build_only.json",
+    "writer_build_only_export.json",
+    "all_tests_export.json",
+    "native_execution_checks.json"
+  ],
+  "live": "NOT AUTHORIZED"
+}

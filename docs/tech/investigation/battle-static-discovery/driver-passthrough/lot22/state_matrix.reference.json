@@ -1,0 +1,419 @@
+{
+  "TR08": 192,
+  "TX07": 16,
+  "ab_reasons": [
+    "blend_mode_raw missing per draw",
+    "depth_enable/write/compare unproven",
+    "stage0_binding missing (slot 49)",
+    "target_token missing per draw"
+  ],
+  "ab_status": "BLOCKED_BY_MISSING_STATE",
+  "build": "0x5640",
+  "dump_sha256": "24acea32dc6dc3a25c78460be9d919d3e6ecd9fc64d2aaf630d1cf3bd2264c46",
+  "frame_7105": {
+    "diffuse_alpha_buckets": {
+      "alpha127": 764,
+      "alpha128": 16,
+      "alpha255": 6914
+    },
+    "records": 157,
+    "rhw": {
+      "eq1": 780,
+      "lt1": 6914
+    },
+    "slot49_draws": [
+      {
+        "distinct_diffuse_alpha": [
+          255
+        ],
+        "icount": 96,
+        "mode": 0,
+        "offset": 22000132,
+        "seq": 7105,
+        "texobj": 0,
+        "tpage": 0,
+        "tris": 32,
+        "vcount": 96
+      },
+      {
+        "distinct_diffuse_alpha": [
+          255
+        ],
+        "icount": 6,
+        "mode": 0,
+        "offset": 22003560,
+        "seq": 7105,
+        "texobj": 0,
+        "tpage": 0,
+        "tris": 2,
+        "vcount": 6
+      },
+      {
+        "distinct_diffuse_alpha": [
+          128
+        ],
+        "icount": 24,
+        "mode": 0,
+        "offset": 22009568,
+        "seq": 7105,
+        "texobj": 0,
+        "tpage": 0,
+        "tris": 8,
+        "vcount": 16
+      }
+    ]
+  },
+  "frames": 16,
+  "matrix": {
+    "alpha_pipeline": {
+      "coverage": "texture-stage state, alpha-test, color-write mask, factors/op NOT captured; prim desc +0x44/+0x5C (Gfx_SetPrimBlendMode 0x407162) not in dump",
+      "measured": "diffuse/palette partials; blend candidate source-over alpha127",
+      "provenance": "MissingEvidence",
+      "rule": "a raw blend mode alone is insufficient"
+    },
+    "depth": {
+      "coverage": "backend 0x440FF0 writes device RS immediately (no shadow table); no proven depth_enable/write/compare alias; Z convention/range/clear/target unproven",
+      "measured": "RHW per vertex (perspective)",
+      "provenance": "MissingEvidence",
+      "rule": "no invented defaults; depth policy refused in A/B"
+    },
+    "diffuse_alpha": {
+      "coverage": "complete per vertex",
+      "measured": "per-vertex FVF DIFFUSE alpha (ARGB byte 3)",
+      "provenance": "Measured",
+      "rule": "never derive blend mode from alpha alone"
+    },
+    "order": {
+      "coverage": "layer policy fond->acteurs->UI is a replay candidate; OT global is out of objective",
+      "measured": "host submission order intra-list",
+      "provenance": "DerivedFromMeasured",
+      "rule": "test depth before any OT reconstruction"
+    },
+    "render_state_raw_0_25": {
+      "coverage": "proxy slot 29 surface proven (0x41E650 jl/jge gate 0..25, 48 rel callers); no per-draw snapshot in v13",
+      "measured": null,
+      "provenance": "MissingEvidence",
+      "rule": "keep raw type+value + valid mask; no semantic alias"
+    },
+    "render_target": {
+      "coverage": "slot 39 surface proven (0x41E947, 19 rel callers; backend +0x9C writes engine+0xA68) but no per-draw token in v13",
+      "measured": null,
+      "provenance": "MissingEvidence",
+      "rule": "token runtime opaque, never static EA"
+    },
+    "slot33_blend": {
+      "coverage": "proxy slot 33 surface proven (0x41E752 -> [driver+0x84]) but no value per draw in v13",
+      "measured": null,
+      "provenance": "MissingEvidence",
+      "rule": "shadow only if all transition paths covered"
+    },
+    "slot49": {
+      "coverage": "stage0 inherited bind not observable via proxy slots (sub_407EB4 chain inside setup forwards)",
+      "measured": "texobj=0 captured on all slot-49 records",
+      "provenance": "MissingEvidence(stage0_binding)",
+      "rule": "MissingEvidence until observed; no fallback texture"
+    },
+    "texture_regular": {
+      "coverage": "regular draw-list textures closed (lots 14-21)",
+      "measured": "ND08.texobj <-> TR08 (kind2 51/60); footer tpage/mode/clut",
+      "provenance": "Measured",
+      "rule": "keep ND08 identity and device identity separate"
+    }
+  },
+  "nd08_fields_present": [
+    "slot",
+    "seq",
+    "ctx",
+    "node_addr",
+    "geom_kind",
+    "fails",
+    "vcount",
+    "icount",
+    "fvf",
+    "tpage",
+    "mode",
+    "clut",
+    "id_count",
+    "ids",
+    "dropped_ids",
+    "texobj",
+    "window_word",
+    "clut_sys_id",
+    "ot_z"
+  ],
+  "records": 2512,
+  "schema": "lot22-state-diagnostic-v1",
+  "slot_distribution": {
+    "44": {
+      "diffuse_alpha_buckets": {},
+      "footers_present": [],
+      "kind0": 48,
+      "kind2": 0,
+      "records": 48,
+      "rhw_eq1_vertices": 0,
+      "rhw_lt1_vertices": 0,
+      "texobj_values": [],
+      "textured_kind2": 0,
+      "triangles": 0,
+      "untextured_kind2": 0,
+      "vertices": 0
+    },
+    "47": {
+      "diffuse_alpha_buckets": {},
+      "footers_present": [],
+      "kind0": 720,
+      "kind2": 0,
+      "records": 720,
+      "rhw_eq1_vertices": 0,
+      "rhw_lt1_vertices": 0,
+      "texobj_values": [],
+      "textured_kind2": 0,
+      "triangles": 0,
+      "untextured_kind2": 0,
+      "vertices": 0
+    },
+    "49": {
+      "diffuse_alpha_buckets": {
+        "alpha128": 256,
+        "alpha255": 1632
+      },
+      "footers_present": [
+        "clut",
+        "clut_sys_id"
+      ],
+      "kind0": 0,
+      "kind2": 48,
+      "records": 48,
+      "rhw_eq1_vertices": 256,
+      "rhw_lt1_vertices": 1632,
+      "texobj_values": [
+        "0x0"
+      ],
+      "textured_kind2": 0,
+      "triangles": 672,
+      "untextured_kind2": 48,
+      "vertices": 1888
+    },
+    "51": {
+      "diffuse_alpha_buckets": {
+        "alpha127": 12212,
+        "alpha255": 108992
+      },
+      "footers_present": [
+        "clut",
+        "clut_sys_id",
+        "texobj"
+      ],
+      "kind0": 0,
+      "kind2": 1696,
+      "records": 1696,
+      "rhw_eq1_vertices": 12212,
+      "rhw_lt1_vertices": 108992,
+      "texobj_values": [
+        "0x6D65790",
+        "0x6D65BC0",
+        "0x6D663E0",
+        "0x6D66A80",
+        "0x6D68E40",
+        "0x6D69E20",
+        "0x6D6AF00",
+        "0x6D6BE70",
+        "0x6D6CE60",
+        "0x6D6DDF0",
+        "0x6D6EDD0",
+        "0x6D6FD80"
+      ],
+      "textured_kind2": 0,
+      "triangles": 46042,
+      "untextured_kind2": 1696,
+      "vertices": 121204
+    }
+  },
+  "state_fields_absent_in_v13": [
+    "render_state_raw_0_25",
+    "blend_mode_raw",
+    "depth_enable_write_compare",
+    "target_token",
+    "stage0_token",
+    "state_epoch"
+  ],
+  "state_fields_absent_proof": "structural: the v13 ND08 footer is 9 x u32 (tpage|mode|clut|id_count|dropped_ids|texobj|window_word|clut_sys_id|ot_z) \u2014 no blend/depth/RS/stage0/state_epoch field exists in the contract",
+  "txwin": [
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7097,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7098,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7099,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7100,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7101,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7102,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7103,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7104,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7105,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7106,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7107,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7108,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7109,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7110,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7111,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    },
+    {
+      "h_derived_sub45BC60": 256,
+      "h_raw": 0,
+      "origin_xy": 0,
+      "seq": 7112,
+      "w_derived_sub45BC60": 256,
+      "w_raw": 0,
+      "wh": 0,
+      "x0": 0,
+      "y0": 0
+    }
+  ]
+}

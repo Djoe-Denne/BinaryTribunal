@@ -1,0 +1,185 @@
+{
+  "source": "native ida-pro-mcp, static IDB/file only; no debugger memory",
+  "input_file": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "file_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "imagebase": "0x400000",
+  "ida_ea": "0x41ef3c",
+  "rva": "0x1ef3c",
+  "file_offset": "0x1ef3c",
+  "size": 62,
+  "bytes": "558bec837d0c007433837d0800741a8b45088b480c516a008b550c8b028b4d0c51ff9098000000eb136a006a008b550c8b028b4d0c51ff90980000005dc3",
+  "database_matches_file": true,
+  "instructions": [
+    {
+      "ea": "0x41ef3c",
+      "size": 1,
+      "bytes": "55",
+      "asm": "push    ebp"
+    },
+    {
+      "ea": "0x41ef3d",
+      "size": 2,
+      "bytes": "8bec",
+      "asm": "mov     ebp, esp"
+    },
+    {
+      "ea": "0x41ef3f",
+      "size": 4,
+      "bytes": "837d0c00",
+      "asm": "cmp     [ebp+arg_4], 0; Compare Two Operands"
+    },
+    {
+      "ea": "0x41ef43",
+      "size": 2,
+      "bytes": "7433",
+      "asm": "jz      short loc_41EF78; Jump if Zero (ZF=1)"
+    },
+    {
+      "ea": "0x41ef45",
+      "size": 4,
+      "bytes": "837d0800",
+      "asm": "cmp     [ebp+arg_0], 0; Compare Two Operands"
+    },
+    {
+      "ea": "0x41ef49",
+      "size": 2,
+      "bytes": "741a",
+      "asm": "jz      short loc_41EF65; Jump if Zero (ZF=1)"
+    },
+    {
+      "ea": "0x41ef4b",
+      "size": 3,
+      "bytes": "8b4508",
+      "asm": "mov     eax, [ebp+arg_0]"
+    },
+    {
+      "ea": "0x41ef4e",
+      "size": 3,
+      "bytes": "8b480c",
+      "asm": "mov     ecx, [eax+0Ch]"
+    },
+    {
+      "ea": "0x41ef51",
+      "size": 1,
+      "bytes": "51",
+      "asm": "push    ecx"
+    },
+    {
+      "ea": "0x41ef52",
+      "size": 2,
+      "bytes": "6a00",
+      "asm": "push    0"
+    },
+    {
+      "ea": "0x41ef54",
+      "size": 3,
+      "bytes": "8b550c",
+      "asm": "mov     edx, [ebp+arg_4]"
+    },
+    {
+      "ea": "0x41ef57",
+      "size": 2,
+      "bytes": "8b02",
+      "asm": "mov     eax, [edx]"
+    },
+    {
+      "ea": "0x41ef59",
+      "size": 3,
+      "bytes": "8b4d0c",
+      "asm": "mov     ecx, [ebp+arg_4]"
+    },
+    {
+      "ea": "0x41ef5c",
+      "size": 1,
+      "bytes": "51",
+      "asm": "push    ecx"
+    },
+    {
+      "ea": "0x41ef5d",
+      "size": 6,
+      "bytes": "ff9098000000",
+      "asm": "call    dword ptr [eax+98h]; Indirect Call Near Procedure"
+    },
+    {
+      "ea": "0x41ef63",
+      "size": 2,
+      "bytes": "eb13",
+      "asm": "jmp     short loc_41EF78; Jump"
+    },
+    {
+      "ea": "0x41ef65",
+      "size": 2,
+      "bytes": "6a00",
+      "asm": "push    0"
+    },
+    {
+      "ea": "0x41ef67",
+      "size": 2,
+      "bytes": "6a00",
+      "asm": "push    0"
+    },
+    {
+      "ea": "0x41ef69",
+      "size": 3,
+      "bytes": "8b550c",
+      "asm": "mov     edx, [ebp+arg_4]"
+    },
+    {
+      "ea": "0x41ef6c",
+      "size": 2,
+      "bytes": "8b02",
+      "asm": "mov     eax, [edx]"
+    },
+    {
+      "ea": "0x41ef6e",
+      "size": 3,
+      "bytes": "8b4d0c",
+      "asm": "mov     ecx, [ebp+arg_4]"
+    },
+    {
+      "ea": "0x41ef71",
+      "size": 1,
+      "bytes": "51",
+      "asm": "push    ecx"
+    },
+    {
+      "ea": "0x41ef72",
+      "size": 6,
+      "bytes": "ff9098000000",
+      "asm": "call    dword ptr [eax+98h]; Indirect Call Near Procedure"
+    },
+    {
+      "ea": "0x41ef78",
+      "size": 1,
+      "bytes": "5d",
+      "asm": "pop     ebp"
+    },
+    {
+      "ea": "0x41ef79",
+      "size": 1,
+      "bytes": "c3",
+      "asm": "retn; Return Near from Procedure"
+    }
+  ],
+  "callers": [
+    {
+      "site": "0x41ed8b",
+      "code": true,
+      "function": "0x41ed69",
+      "following": "add     esp, 8; Add"
+    },
+    {
+      "site": "0x41ef0e",
+      "code": true,
+      "function": "0x41ed69",
+      "following": "add     esp, 8; Add"
+    },
+    {
+      "site": "0x41ef20",
+      "code": true,
+      "function": "0x41ed69",
+      "following": "add     esp, 8; Add"
+    }
+  ]
+}

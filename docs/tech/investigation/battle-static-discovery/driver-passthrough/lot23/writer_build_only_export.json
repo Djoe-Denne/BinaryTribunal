@@ -1,0 +1,211 @@
+{
+  "binary_proofs": {
+    "DumpNode": {
+      "bytes": "81ec8c010000",
+      "rva": "0x2160"
+    },
+    "StEmit": {
+      "bytes": "a1f45f0514",
+      "rva": "0x2080"
+    },
+    "binary_fopen_mode": {
+      "bytes": "616200",
+      "reference_sites": [
+        "0x2ADE",
+        "0x2CD4",
+        "0x4F14"
+      ],
+      "rva": "0x231A8"
+    },
+    "build_id_immediates": 4,
+    "build_site_ND08": {
+      "bytes": "c7462041560000",
+      "rva": "0x2865"
+    },
+    "build_site_ST09": {
+      "bytes": "c782dc5f051041560000",
+      "rva": "0x20fb"
+    },
+    "build_site_TR08": {
+      "bytes": "c7450441560000",
+      "rva": "0x1b5b"
+    },
+    "build_site_TX07": {
+      "bytes": "c787dc5f051041560000",
+      "rva": "0x1f45"
+    },
+    "g_host": {
+      "ctor_bytes": "a3983e0210",
+      "ctor_rva": "0x105b",
+      "derived_rva": "0x23e98",
+      "token_va": "0x10023e98"
+    },
+    "icount": {
+      "bytes": "81fa00400000",
+      "rva": "0x24f9"
+    },
+    "payload_cap": {
+      "bytes": "81f9800c1000",
+      "rva": "0x265d"
+    },
+    "payload_guard": "0x100C80; count-derived total ND08 max 0x28170",
+    "vcount": {
+      "bytes": "81f900100000",
+      "rva": "0x24ed"
+    }
+  },
+  "candidate_path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot22\\gfx_driver_passthrough.dll",
+  "candidate_sha256": "3ab7f5c45855f1de59c5d80481ebb2e1ac17e1e2eba4d71a6ddce9951b9d9a01",
+  "candidate_unchanged": true,
+  "captures": {
+    "cap_saturation.bin": {
+      "bytes": 33432,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 1025,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "draw2_flags": 1,
+      "max_events_one_frame": 1024,
+      "persistent_reasons": [
+        "cap_ambiguity"
+      ],
+      "sha256": "8d98046b439c032444866f601f576e2d84bdcc8d8c914f513ebdf825f2e3884b"
+    },
+    "ring_drop.bin": {
+      "bytes": 348,
+      "counts": {
+        "nd_records": 1,
+        "st_records": 1,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "incomplete_draw_ordinal": 0,
+      "incomplete_flags": 5,
+      "persistent_reasons": [
+        "epoch_gap",
+        "writer_incomplete"
+      ],
+      "sha256": "a67160775ff052bf285f3a111a22b4d60d6c60037aa7f57ae6cd91c336060645"
+    },
+    "roundtrip.bin": {
+      "bytes": 1051512,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 3,
+        "tr_records": 1,
+        "tx_records": 1
+      },
+      "footer_epochs": [
+        2,
+        3
+      ],
+      "per_draw_unattributed_rs5": [
+        {
+          "epoch": 1,
+          "offset": 0,
+          "seq": 1000,
+          "status": "observed",
+          "value": 0
+        },
+        {
+          "epoch": 3,
+          "offset": 1051164,
+          "seq": 1000,
+          "status": "observed",
+          "value": 7
+        }
+      ],
+      "rs_raw_last_two": [
+        0,
+        7
+      ],
+      "sha256": "6a38b3a4124db3b7b7dae0a5df79b9209fe968e03a245a620e826298c514b89f"
+    }
+  },
+  "contract": "BLOCKED_BY_KNOWN_GAPS",
+  "deployed": false,
+  "exit_code": 0,
+  "export_checks": {
+    "forwarded_to": {
+      "dotemuCreateFileA": "dotemu_orig.dotemuCreateFileA",
+      "dotemuDeleteFileA": "dotemu_orig.dotemuDeleteFileA",
+      "dotemuGetDriveTypeA": "dotemu_orig.dotemuGetDriveTypeA",
+      "dotemuRegCloseKey": "dotemu_orig.dotemuRegCloseKey",
+      "dotemuRegDeleteValueA": "dotemu_orig.dotemuRegDeleteValueA",
+      "dotemuRegFlushKey": "dotemu_orig.dotemuRegFlushKey",
+      "dotemuRegOpenKeyExA": "dotemu_orig.dotemuRegOpenKeyExA",
+      "dotemuRegQueryValueExA": "dotemu_orig.dotemuRegQueryValueExA",
+      "dotemuRegSetValueExA": "dotemu_orig.dotemuRegSetValueExA"
+    },
+    "names_observed": [
+      "Passthrough_CaptureCount",
+      "Passthrough_InstallBootHook",
+      "Passthrough_ReplayCaptured",
+      "Passthrough_SetReplayLive",
+      "dotemuCreateFileA",
+      "dotemuDeleteFileA",
+      "dotemuGetDriveTypeA",
+      "dotemuRegCloseKey",
+      "dotemuRegDeleteValueA",
+      "dotemuRegFlushKey",
+      "dotemuRegOpenKeyExA",
+      "dotemuRegQueryValueExA",
+      "dotemuRegSetValueExA",
+      "new_dll_graphics_driver"
+    ]
+  },
+  "fidelity": "PARTIAL/BLOCKED",
+  "harness": {
+    "compile_exit": 0,
+    "exe_sha256": "0f3ee8258cee68e45aa4a79b47e9ae526ef2cdf025bd8a4f5b69c28703309a0b",
+    "harness_exit": 0,
+    "logs": [
+      "compile_log.txt",
+      "harness_log.txt"
+    ],
+    "source_sha256": "18427578f542ceb02b51a5949a2a50e1906fe8472cec493c0b2ff4860a216b57"
+  },
+  "hook_suppression": {
+    "FF8_PASSTHROUGH_BOOTHOOK": "0",
+    "harness_sets_env_before_LoadLibrary": true,
+    "sidecar": "gfx_passthrough.nohook",
+    "sidecar_sha256": "01a135207a6ae5c1a831d3f7a8c2345d304ebfd6cb16a88238e979553de62dfd",
+    "source_DllMain_guard_lines": "2641-2650"
+  },
+  "known_gaps": [
+    "event_context_identity",
+    "stage0_binding",
+    "applied_state"
+  ],
+  "live": "NOT AUTHORIZED",
+  "reader_source_hashes": {
+    "analyze_lot22_state.py": "547347a2f1300e399a4e4ddff8be4cfb023c44ea9bee0863f70795944da92ce5",
+    "ff8dump.py": "e8d1e357805d6d7045b46f9807f1e5af0d10dd9c4ae81dc808a027efd6d3e98c",
+    "gate_writer_lot23.py": "d579a9d006175a5337bad39beec684130f055c5109f9c09c6fcae472f32469d9",
+    "lot17_texture_window.py": "4d784bd43b760e394d75491a153b64250112ae4148ddd1bf1883e3095937a902",
+    "lot23_contract.py": "3104df5d0227ad6e049496ce33e8f11aea6e7fa9cd125673f76474514aef6412",
+    "raster.py": "327c2663296db359f883e88eea4a43ce22f74fbf6a0f48a7ca43eb2e26b1a954",
+    "render_lot17.py": "0eb63c416637ecda3ba93c4357be149f74c002af6d931c2f3cf6ffe3eb3a94bc",
+    "texture.py": "8e6bbf5778defaf994180250637987516bc82fa63344ddfbd0bc8b190d747d0e"
+  },
+  "receipt_version": "lot23-gate-1",
+  "source_audit": {
+    "dump_path_literal": "gfx_passthrough_dump.bin",
+    "fopen_ab_var": "binPath",
+    "fopen_text_a_vars": [
+      "g_logPath",
+      "cand",
+      "g_logPath",
+      "logPath"
+    ]
+  },
+  "source_lot22": {
+    "c_sha256": "508ab14b54d43d90913172738fc2d4d3725f330ef092e356ae0b43d95292ebd0",
+    "h_sha256": "01dd5c43af3c40bc2a1ad56fc36d7e5263332d8bffa9e92a882a932a02a8c819"
+  },
+  "status": "BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED",
+  "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot23-writer-encn23yz",
+  "writer_rebuilt": false
+}

@@ -1,0 +1,102 @@
+{
+  "scope": "offline on-disk DLL; no LoadLibrary or writer rebuild",
+  "candidate_sha256": "3ab7f5c45855f1de59c5d80481ebb2e1ac17e1e2eba4d71a6ddce9951b9d9a01",
+  "imagebase": "0x10000000",
+  "commands": {
+    "DISASM": {
+      "actual_process_exit": 0,
+      "output_sha256": "b64b16d6da6266f34995efa51c1d502141075f73e6dcf6e52e1685b9a5ef8396",
+      "lines": 39350
+    },
+    "EXPORTS": {
+      "actual_process_exit": 0,
+      "output_sha256": "d22a8889bbf27e0273ede36a0451239f4bf8ed0bfcb5d8ce1b6ac474fc59adef",
+      "lines": 38
+    }
+  },
+  "build_id_sites": [
+    "10001B5B: C7 45 04 41 56 00  mov         dword ptr [ebp+4],5641h",
+    "10001F45: C7 87 DC 5F 05 10  mov         dword ptr [edi+10055FDCh],5641h",
+    "100020FB: C7 82 DC 5F 05 10  mov         dword ptr [edx+10055FDCh],5641h",
+    "10002865: C7 46 20 41 56 00  mov         dword ptr [esi+20h],5641h"
+  ],
+  "st_emit_control_flow": [
+    "10002080: A1 F4 5F 05 14     mov         eax,dword ptr ds:[14055FF4h]",
+    "10002085: 85 C0              test        eax,eax",
+    "10002087: 0F 84 CD 00 00 00  je          1000215A",
+    "1000208D: 57                 push        edi",
+    "1000208E: 8B 3D F0 5F 05 14  mov         edi,dword ptr ds:[14055FF0h]",
+    "10002094: 3B F8              cmp         edi,eax",
+    "10002096: 0F 87 BD 00 00 00  ja          10002159",
+    "1000209C: 83 3D 08 60 05 14  cmp         dword ptr ds:[14056008h],0",
+    "100020A3: 0F 85 B0 00 00 00  jne         10002159",
+    "100020A9: 56                 push        esi",
+    "100020AA: 8B 35 48 61 05 14  mov         esi,dword ptr ds:[14056148h]",
+    "100020B0: 81 FE 00 04 00 00  cmp         esi,400h",
+    "100020B6: 0F 83 9C 00 00 00  jae         10002158",
+    "100020BC: A1 D8 5F 05 14     mov         eax,dword ptr ds:[14055FD8h]",
+    "100020C1: 8B 15 D4 5F 05 10  mov         edx,dword ptr ds:[10055FD4h]",
+    "100020C7: 2B C2              sub         eax,edx",
+    "100020C9: 05 00 00 00 04     add         eax,4000000h",
+    "100020CE: 83 F8 20           cmp         eax,20h",
+    "100020D1: 73 13              jae         100020E6",
+    "100020D3: FF 05 40 61 05 14  inc         dword ptr ds:[14056140h]",
+    "100020D9: 5E                 pop         esi",
+    "100020DA: C7 05 44 61 05 14  mov         dword ptr ds:[14056144h],1",
+    "100020E4: 5F                 pop         edi",
+    "100020E5: C3                 ret",
+    "100020E6: 8B 0D 3C 61 05 14  mov         ecx,dword ptr ds:[1405613Ch]",
+    "100020EC: 8B 44 24 0C        mov         eax,dword ptr [esp+0Ch]",
+    "100020F0: 41                 inc         ecx",
+    "100020F1: C7 82 D8 5F 05 10  mov         dword ptr [edx+10055FD8h],39305453h",
+    "100020FB: C7 82 DC 5F 05 10  mov         dword ptr [edx+10055FDCh],5641h",
+    "10002105: 89 BA E0 5F 05 10  mov         dword ptr [edx+10055FE0h],edi",
+    "1000210B: 89 8A E4 5F 05 10  mov         dword ptr [edx+10055FE4h],ecx",
+    "10002111: 89 82 E8 5F 05 10  mov         dword ptr [edx+10055FE8h],eax",
+    "10002117: 8B 44 24 10        mov         eax,dword ptr [esp+10h]",
+    "1000211B: 89 82 EC 5F 05 10  mov         dword ptr [edx+10055FECh],eax",
+    "10002121: 8B 44 24 14        mov         eax,dword ptr [esp+14h]",
+    "10002125: 89 82 F0 5F 05 10  mov         dword ptr [edx+10055FF0h],eax",
+    "1000212B: 8B 44 24 18        mov         eax,dword ptr [esp+18h]",
+    "1000212F: 89 82 F4 5F 05 10  mov         dword ptr [edx+10055FF4h],eax",
+    "10002135: 83 C2 20           add         edx,20h",
+    "10002138: FF 05 DC 5F 05 14  inc         dword ptr ds:[14055FDCh]",
+    "1000213E: 83 05 E0 5F 05 14  add         dword ptr ds:[14055FE0h],20h",
+    "10002145: 46                 inc         esi",
+    "10002146: 89 15 D4 5F 05 10  mov         dword ptr ds:[10055FD4h],edx",
+    "1000214C: 89 0D 3C 61 05 14  mov         dword ptr ds:[1405613Ch],ecx",
+    "10002152: 89 35 48 61 05 14  mov         dword ptr ds:[14056148h],esi",
+    "10002158: 5E                 pop         esi",
+    "10002159: 5F                 pop         edi",
+    "1000215A: C3                 ret"
+  ],
+  "exports": [
+    "1    0 00001340 Passthrough_CaptureCount",
+    "2    1 00001350 Passthrough_InstallBootHook",
+    "3    2 000011B0 Passthrough_ReplayCaptured",
+    "4    3 00001330 Passthrough_SetReplayLive",
+    "5    4          dotemuCreateFileA (forwarded to dotemu_orig.dotemuCreateFileA)",
+    "6    5          dotemuDeleteFileA (forwarded to dotemu_orig.dotemuDeleteFileA)",
+    "7    6          dotemuGetDriveTypeA (forwarded to dotemu_orig.dotemuGetDriveTypeA)",
+    "8    7          dotemuRegCloseKey (forwarded to dotemu_orig.dotemuRegCloseKey)",
+    "9    8          dotemuRegDeleteValueA (forwarded to dotemu_orig.dotemuRegDeleteValueA)",
+    "10    9          dotemuRegFlushKey (forwarded to dotemu_orig.dotemuRegFlushKey)",
+    "11    A          dotemuRegOpenKeyExA (forwarded to dotemu_orig.dotemuRegOpenKeyExA)",
+    "12    B          dotemuRegQueryValueExA (forwarded to dotemu_orig.dotemuRegQueryValueExA)",
+    "13    C          dotemuRegSetValueExA (forwarded to dotemu_orig.dotemuRegSetValueExA)",
+    "14    D 00001010 new_dll_graphics_driver"
+  ],
+  "candidate_unchanged": true,
+  "dumpnode_guard_instructions": [
+    "10002227: 3D 00 10 00 00     cmp         eax,1000h",
+    "100024ED: 81 F9 00 10 00 00  cmp         ecx,1000h",
+    "100024F9: 81 FA 00 40 00 00  cmp         edx,4000h",
+    "1000265D: 81 F9 80 0C 10 00  cmp         ecx,100C80h"
+  ],
+  "historical_guard_erratum": {
+    "40000h_in_DumpNode": false,
+    "actual_payload_cap": "0x100C80",
+    "max_valid_ND08_total_bytes": "0x28170",
+    "note": "CAMPAIGN_lot22 guard 40000h statement is not evidenced for this DumpNode; unrelated CRT references are not writer proof"
+  }
+}

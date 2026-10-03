@@ -1,0 +1,94 @@
+{
+  "scope": "documentation-only static mapping; no reader alias or replay policy enabled",
+  "exe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "headers": [
+    {
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\d3dtypes.h",
+      "sha256": "cc696006ec4e103ea4abb7a2d89ea70bc999157a55095ce462b382bd77b6d8f6",
+      "excerpts": [
+        {
+          "line": 1054,
+          "text": "D3DCMP_LESSEQUAL           = 4,"
+        },
+        {
+          "line": 1208,
+          "text": "D3DRENDERSTATE_ZENABLE            = 7,    /* D3DZBUFFERTYPE (or TRUE/FALSE for legacy) */"
+        },
+        {
+          "line": 1212,
+          "text": "D3DRENDERSTATE_ZWRITEENABLE       = 14,   /* TRUE to enable z writes */"
+        },
+        {
+          "line": 1218,
+          "text": "D3DRENDERSTATE_ZFUNC              = 23,   /* D3DCMPFUNC */"
+        },
+        {
+          "line": 1369,
+          "text": "#define D3DRENDERSTATE_ZENABLE                  (D3DRENDERSTATETYPE)7"
+        },
+        {
+          "line": 1373,
+          "text": "#define D3DRENDERSTATE_ZWRITEENABLE             (D3DRENDERSTATETYPE)14"
+        },
+        {
+          "line": 1379,
+          "text": "#define D3DRENDERSTATE_ZFUNC                    (D3DRENDERSTATETYPE)23"
+        }
+      ]
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\d3d.h",
+      "sha256": "84f8dae461136bd7cbcb37df522f1fb6f1b74b60e0c8cd2f9becf0c948f0db01",
+      "excerpts": [
+        {
+          "line": 594,
+          "text": "DECLARE_INTERFACE_(IDirect3DDevice3, IUnknown)"
+        },
+        {
+          "line": 621,
+          "text": "STDMETHOD(SetRenderState)(THIS_ D3DRENDERSTATETYPE,DWORD) PURE;"
+        },
+        {
+          "line": 637,
+          "text": "STDMETHOD(SetTexture)(THIS_ DWORD,LPDIRECT3DTEXTURE2) PURE;"
+        }
+      ]
+    }
+  ],
+  "raw_mapping": {
+    "15": {
+      "states": [
+        7,
+        23
+      ],
+      "value_7": "raw != 0 ? 1 : 0",
+      "value_23": 4,
+      "calls": [
+        "0x441361",
+        "0x441371"
+      ]
+    },
+    "16": {
+      "states": [
+        14
+      ],
+      "value_14": "raw != 0 ? 1 : 0",
+      "calls": [
+        "0x44139E"
+      ]
+    }
+  },
+  "replay_enabled": false,
+  "missing": [
+    "effective state at T_draw",
+    "context/device association",
+    "HRESULT application witness",
+    "Z convention/range/clear/target",
+    "complete alpha pipeline",
+    "stage0 binding at T_draw"
+  ],
+  "device3_method_offsets": {
+    "SetRenderState": "0x58",
+    "SetTexture": "0x98"
+  }
+}

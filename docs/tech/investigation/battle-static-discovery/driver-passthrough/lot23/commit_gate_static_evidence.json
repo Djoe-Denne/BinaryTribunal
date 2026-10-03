@@ -1,0 +1,114 @@
+[
+  {
+    "addr": "0x441560",
+    "asm": {
+      "name": "sub_441560",
+      "start_ea": "0x441560",
+      "lines": "sub_441560 (.text @ 0x441560):\n441560  push    ebp\n441561  mov     ebp, esp\n441563  mov     eax, [ebp+arg_4]\n441566  cmp     dword ptr [eax+0AC4h], 0; Compare Two Operands\n44156d  jz      short loc_44157F; Jump if Zero (ZF=1)\n44156f  mov     ecx, [ebp+arg_4]\n441572  push    ecx\n441573  mov     edx, [ebp+arg_0]\n441576  push    edx\n441577  call    sub_41F99A; Call Procedure\n44157c  add     esp, 8; Add\n44157f  pop     ebp\n441580  retn; Return Near from Procedure",
+      "stack_frame": [
+        {
+          "name": "__saved_registers",
+          "offset": "0x0",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "__return_address",
+          "offset": "0x4",
+          "size": "0x4",
+          "type": "_UNKNOWN *"
+        },
+        {
+          "name": "arg_0",
+          "offset": "0x8",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "arg_4",
+          "offset": "0xc",
+          "size": "0x4",
+          "type": "_DWORD"
+        }
+      ],
+      "return_type": "int",
+      "arguments": [
+        {
+          "name": "arg0",
+          "type": "int"
+        },
+        {
+          "name": "arg1",
+          "type": "int"
+        }
+      ]
+    },
+    "instruction_count": 13,
+    "total_instructions": 13,
+    "cursor": {
+      "done": true
+    }
+  },
+  {
+    "addr": "0x441581",
+    "asm": {
+      "name": "sub_441581",
+      "start_ea": "0x441581",
+      "lines": "sub_441581 (.text @ 0x441581):\n441581  push    ebp\n441582  mov     ebp, esp\n441584  sub     esp, 8; Integer Subtraction\n441587  mov     eax, [ebp+arg_4]\n44158a  cmp     dword ptr [eax+0AC4h], 0; Compare Two Operands\n441591  jz      loc_44162A; Jump if Zero (ZF=1)\n441597  cmp     [ebp+arg_0], 0; Compare Two Operands\n44159b  jz      loc_44162A; Jump if Zero (ZF=1)\n4415a1  mov     ecx, [ebp+arg_0]\n4415a4  mov     edx, [ecx+14h]\n4415a7  mov     [ebp+var_4], edx\n4415aa  cmp     [ebp+var_4], 0; Compare Two Operands\n4415ae  jz      short loc_44162A; Jump if Zero (ZF=1)\n4415b0  mov     eax, [ebp+var_4]\n4415b3  cmp     dword ptr [eax+8], 0; Compare Two Operands\n4415b7  jz      short loc_441618; Jump if Zero (ZF=1)\n4415b9  mov     ecx, [ebp+var_4]\n4415bc  mov     edx, [ecx+8]\n4415bf  mov     eax, [ebp+var_4]\n4415c2  mov     ecx, [eax+8]\n4415c5  mov     eax, [ecx]\n4415c7  push    edx\n4415c8  call    dword ptr [eax+60h]; Indirect Call Near Procedure\n4415cb  mov     [ebp+var_8], eax\n4415ce  cmp     [ebp+var_8], 887601C2h; Compare Two Operands\n4415d5  jnz     short loc_441606; Jump if Not Zero (ZF=0)\n4415d7  mov     ecx, [ebp+var_4]\n4415da  push    ecx\n4415db  call    sub_421604; Call Procedure\n4415e0  add     esp, 4; Add\n4415e3  mov     edx, [ebp+arg_0]\n4415e6  mov     [edx+14h], eax\n4415e9  mov     eax, [ebp+arg_0]\n4415ec  cmp     dword ptr [eax+14h], 0; Compare Two Operands\n4415f0  jnz     short loc_4415F4; Jump if Not Zero (ZF=0)\n4415f2  jmp     short loc_441604; Jump\n4415f4  mov     ecx, [ebp+arg_4]\n4415f7  push    ecx\n4415f8  mov     edx, [ebp+arg_0]\n4415fb  push    edx\n4415fc  call    sub_41F99A; Call Procedure\n441601  add     esp, 8; Add\n441604  jmp     short loc_441616; Jump\n441606  mov     eax, [ebp+arg_4]\n441609  push    eax\n44160a  mov     ecx, [ebp+arg_0]\n44160d  push    ecx\n44160e  call    sub_41F99A; Call Procedure\n441613  add     esp, 8; Add\n441616  jmp     short loc_44162A; Jump\n441618  mov     edx, [ebp+arg_4]\n44161b  push    edx\n44161c  mov     eax, [ebp+arg_0]\n44161f  push    eax\n441620  push    0\n441622  call    sub_41EF7A; Call Procedure\n441627  add     esp, 0Ch; Add\n44162a  mov     esp, ebp\n44162c  pop     ebp\n44162d  retn; Return Near from Procedure",
+      "stack_frame": [
+        {
+          "name": "var_8",
+          "offset": "0x0",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "var_4",
+          "offset": "0x4",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "__saved_registers",
+          "offset": "0x8",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "__return_address",
+          "offset": "0xc",
+          "size": "0x4",
+          "type": "_UNKNOWN *"
+        },
+        {
+          "name": "arg_0",
+          "offset": "0x10",
+          "size": "0x4",
+          "type": "_DWORD"
+        },
+        {
+          "name": "arg_4",
+          "offset": "0x14",
+          "size": "0x4",
+          "type": "_DWORD"
+        }
+      ],
+      "return_type": "int",
+      "arguments": [
+        {
+          "name": "arg0",
+          "type": "int"
+        },
+        {
+          "name": "arg1",
+          "type": "int"
+        }
+      ]
+    },
+    "instruction_count": 60,
+    "total_instructions": 60,
+    "cursor": {
+      "done": true
+    }
+  }
+]

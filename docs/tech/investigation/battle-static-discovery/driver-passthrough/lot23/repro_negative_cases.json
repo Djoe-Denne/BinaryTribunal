@@ -1,0 +1,56 @@
+{
+  "cases": [
+    {
+      "case": "wrong_external_hash",
+      "actual_exit": 2,
+      "receipt": {
+        "statut": "BASELINE_HASH_MISMATCH",
+        "exit_code": 2,
+        "error": "BASELINE_HASH_MISMATCH",
+        "detail": "BASELINE_HASH_MISMATCH(v13): C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot23-final-clean-export-gmiwk8dm\\wrong.bin: expected 24acea32dc6dc3a25c78460be9d919d3e6ecd9fc64d2aaf630d1cf3bd2264c46, got 80e188fe88c5474c9c4a380cae4c96611ea9fa9b7e586c8080e54a9a7774608e"
+      }
+    },
+    {
+      "case": "tampered_package_manifest",
+      "actual_exit": 2,
+      "receipt": {
+        "statut": "PACKAGE_HASH_MISMATCH",
+        "exit_code": 2,
+        "error": "PACKAGE_HASH_MISMATCH",
+        "detail": "package file: PACKAGE_HASH_MISMATCH tools/af3dn_state/analyze_lot22_state.py: expected 0000000000000000000000000000000000000000000000000000000000000000, got 547347a2f1300e399a4e4ddff8be4cfb023c44ea9bee0863f70795944da92ce5"
+      }
+    },
+    {
+      "case": "empty_package_manifest",
+      "actual_exit": 2,
+      "receipt": {
+        "statut": "PACKAGE_HASH_MISMATCH",
+        "exit_code": 2,
+        "error": "PACKAGE_HASH_MISMATCH",
+        "detail": "manifest package_files incomplete or duplicated"
+      }
+    },
+    {
+      "case": "unsafe_manifest_path",
+      "actual_exit": 2,
+      "receipt": {
+        "statut": "PACKAGE_HASH_MISMATCH",
+        "exit_code": 2,
+        "error": "PACKAGE_HASH_MISMATCH",
+        "detail": "package file: non-repository path ..\\outside"
+      }
+    },
+    {
+      "case": "existing_receipt_not_overwritten",
+      "actual_exit": 1,
+      "receipt": {
+        "statut": "FAIL",
+        "exit_code": 1,
+        "error": "FAIL",
+        "detail": "--receipt refuses to overwrite an existing file (no oracle overwrite): C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot23-final-clean-export-gmiwk8dm\\existing_receipt.json"
+      }
+    }
+  ],
+  "tampering_scope": "isolated export only; manifest restored byte-exact",
+  "manifest_sha256": "c8bf70da9193fb09ebffd06569dd95bec474902a3827d8cde78ab2ee634bf277"
+}
