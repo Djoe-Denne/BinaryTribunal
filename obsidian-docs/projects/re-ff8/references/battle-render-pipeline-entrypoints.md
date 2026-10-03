@@ -9,17 +9,19 @@ sources:
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot15_2026-09-26.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/CLOSURE_walkdirect-bind.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/DOSSIER_lot23_stage0_depth.md
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot24_2026-10-03.md
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/stage0_static_evidence.json
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/rs_static_evidence.json
   - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot23/depth_static_mapping.json
+  - docs/tech/investigation/battle-static-discovery/driver-passthrough/lot24/validation_receipt.json
   - docs/tech/reference/address_catalog.md
 summary: Frame-owned render path from FFBattleModule through OT, texture-page lists and draw-lists to the 66-slot GL/DDraw/DDrawAlt driver matrix.
 provenance:
-  extracted: 0.93
-  inferred: 0.06
+  extracted: 0.92
+  inferred: 0.07
   ambiguous: 0.01
 created: 2026-09-10T14:30:00+02:00
-updated: 2026-10-03T12:42:18+02:00
+updated: 2026-10-03T17:27:25+02:00
 ---
 
 # Battle Render Pipeline Entrypoints
@@ -125,5 +127,12 @@ Static-only closure from [[projects/re-ff8/references/af3dn-lot23-offline-valida
 
 **Depth (slot 29 Alt, `RenderDDrawAlt_SetRenderState` `0x440FF0`)**: raw type 15 → bool `raw!=0` to device state **7** (ZENABLE) at `0x441356`, then value **4** to state **23** (ZFUNC = D3DCMP_LESSEQUAL per SDK `d3dtypes.h`) at `0x441364/0x441371`; raw type 16 → bool to state **14** (ZWRITEENABLE) at `0x441393`. SDK layout confirms IDirect3DDevice3 `SetRenderState` vtable `+0x58`, `SetTexture` `+0x98` (`depth_static_mapping.json`, header hashes pinned). Documentation-only: raw RS `0..25` and blend `0..4` stay raw in codec and readers, no depth/STP aliases, no replay policy enabled. Still missing for promotion: effective state at T_draw, context/device association, HRESULT witness, Z range/clear/target, full alpha pipeline, exact stage0 binding at T_draw.
 
-Trust hazards carried from the native harness (writer side): silent ST09 loss at the 1024/frame cap (`broken`/`drops` stay 0), ring-drop `broken=1` sticky, kind2/kind6 commit events prove neither native-gate passage nor device success. See [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot23|catalog lot 23]] for hash-bound receipts. Confidence: HIGH for static addresses/ABI (bytes verified), LOW for anything runtime (live NOT AUTHORIZED).
+## Lot 24 (2026-10-03): stage0 hook PRÉPARÉ (candidat v15 0x5642, offline build-only)
+
+The v15 candidate ([[projects/re-ff8/references/af3dn-lot24-candidat-0x5642-2026-10-03|lot 24 candidate page]], build-id **proven free**) turns the SetTexture-observation recommendation into a **built, pinned, gate-verified instrument** — still **NOT DEPLOYED, no game hook installed**:
+
+- **Stub** (`Passthrough_Stage0Stub`, naked, exported): entered via the patched `E8 rel32` at either site — `[S]=site+5`, args `[S+4..C]` (device/stage/texture); pushad→logger kind8→popad→exact 3-arg replication (`[esp+16]` after each push)→`call [eax+98h]`→pushad→logger kind9 (raw HRESULT + writer cache)→popad→**`ret 12` — the stub REPLACES the stdcall callee** (the dual ret12/ret16 epilogue was the s0b AV root cause; breakdown in the campaign log). EAX=HRESULT propagated, non-volatiles/esp preserved.
+- **Installer exported fail-closed**: preimage memcmp, RWX, `E8 rel32`+`90` (bounds-checked), icache flush, protection restored, preimages + ret VAs saved; armed **iff both sites ok**, else partial restore + `g_stage0Broken` (bit1=0, degraded dumping). `Passthrough_RestoreStage0Hooks` = byte-exact. **DllMain NOT wired** — explicit installation only.
+- **Codec v15**: ST09 **40 B** (+ctx_token/device_token), kinds **8/9** (type 0 = unknown site), kind2/6 aux = raw native return, ND08 footer **68 B** (+stage0 triple, st_emitted, st_lost), flags bit1 STAGE0_VALID / bit3 ST_LOSS; in-window ST losses are now explicit (`broken`+`drops`+`lost`+bit3), off-window stays silently refused (v14); ND08 max `0x28188` ⊂ `0x100C80` unchanged.
+- **Proof**: harness 648 assertions/0 fail (stub functional: fake vtable hr `0x1234`, canaries, esp balanced; restore byte-exact; fail-closed; cap/ring); reader 31/31 (requested/applied-witness semantics, `st_loss_frame` sticky, v14 regression); gate PIN→**PINNED** then STRICT→**`BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED`**; sweep 235 OK. Verdicts: contract structural verified / state→draw **BLOCKED**; install/runtime **NOT CLOSED**; UI **PARTIAL/BLOCKED**; **live NOT AUTHORIZED**. Confidence: HIGH (bytes+functional synthetic), unchanged for runtime claims.
 
