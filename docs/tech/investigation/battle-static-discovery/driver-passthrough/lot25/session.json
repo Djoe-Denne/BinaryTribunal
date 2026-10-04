@@ -1,0 +1,107 @@
+{
+  "schema": "lot25-live-session-v1",
+  "date": "2026-10-04",
+  "candidate": {
+    "build": "0x5642",
+    "sha256": "ba8d2d4e1c4f91d7461b61f67144d5e84319122c22f38de6ffb78085ed42f32c"
+  },
+  "deployment": "lot25/deployment.json",
+  "capture": {
+    "frames": 16,
+    "seq": "7610..7625",
+    "per_frame": {
+      "records": 170,
+      "fails": 0,
+      "drops": 0,
+      "guards": 0,
+      "overflow": 0,
+      "st": 214,
+      "tx": 1,
+      "tr": 12
+    }
+  },
+  "dump_sha256": "7584cd1d5bafa8ec0b434a9903f68786e190c007f732b5c0977901df189af6ce",
+  "session_artifacts": [
+    {
+      "file": "gfx_passthrough_dump.bin",
+      "sha256": "7584cd1d5bafa8ec0b434a9903f68786e190c007f732b5c0977901df189af6ce",
+      "bytes": 39183844
+    },
+    {
+      "file": "gfx_passthrough_dump.log",
+      "sha256": "0296746e78b8b6c0f41add72b1e0f0c120fe31a6222c0bbfa94b255b7fcc56fd",
+      "bytes": 1536
+    },
+    {
+      "file": "gfx_passthrough.csv",
+      "sha256": "81c8191d8745ad970d1b3893ba4f51d1d4b1abcfa0bd8fa0575edba6d29b7755",
+      "bytes": 508995940
+    }
+  ],
+  "parse": {
+    "build_set": [
+      "0x5642"
+    ],
+    "draws": 2512,
+    "events": {
+      "kind1": 2272,
+      "kind3": 96,
+      "kind4": 224,
+      "kind6": 768,
+      "kind7": 64
+    },
+    "kind8_9": 0,
+    "distinct_ctx": 22,
+    "rs_raw_values": [
+      0,
+      1,
+      5,
+      112
+    ],
+    "rs_types": [
+      2,
+      11,
+      14,
+      16,
+      24,
+      25
+    ],
+    "blend_observed": [
+      [
+        33,
+        1
+      ],
+      [
+        33,
+        4
+      ]
+    ],
+    "epochs": "1..3424",
+    "bit1": 0,
+    "bit3": 0,
+    "incomplete_bit2": 0,
+    "contract_rejections": 0,
+    "global_incomplete": true,
+    "note": "incomplete=True = fail-closed lecteur (stage0 absent, W25-04) — PAS une perte"
+  },
+  "restore": {
+    "deployed_after_session": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "note": "REBUILT v13 depuis la source committée bd4cc14 (build-id 0x5640) — les octets originaux 6af89971… n ont pas été préservés avant l écrasement (défaut de protocole, consigné). MSVC non déterministe (PDB path/timestamp) => byte-exact impossible. Restauration FONCTIONNELLE (même source, même build-id)."
+  },
+  "deviations": [
+    "combat aléatoire au lieu de battle13 (couplage état→draw agnostique du combat; battle13 = référence visuelle hors lignes LIVE-REQUIRED)",
+    "restore non byte-exact (voir restore.note)"
+  ],
+  "witnesses": {
+    "armed": "sidecar consommé par le writer",
+    "battle_continued": true,
+    "operator_quit": "normal",
+    "process_crash": false
+  },
+  "verdicts": {
+    "pass1_state_to_draw": "PROVEN LIVE (RS/blend raw par draw + ctx association)",
+    "stage0_token": "PASS 2 (W25-04, v16 requis)",
+    "ui_fidelity": "PARTIAL/BLOCKED",
+    "live_status": "session unique consommée — toute nouvelle session live = nouvelle carte"
+  }
+}
