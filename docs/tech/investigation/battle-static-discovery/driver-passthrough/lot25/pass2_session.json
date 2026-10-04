@@ -1,0 +1,29 @@
+{
+  "schema": "lot25-pass2-session-v1",
+  "date": "2026-10-04",
+  "candidate": {"build": "0x5643", "version": "v16-lot25", "sha256": "ecc1f8eba08855feecc8627b0ec16a8c302b10dde1d51a74e56756e80e610abf"},
+  "delta_vs_v15": "DllMain: SideFileExists(gfx_passthrough.stage0) -> Passthrough_InstallStage0Hooks (statiquement prouvé: un seul call site, ODS armé/refusé)",
+  "capture": {"frames": 16, "seq": "3556..3571", "per_frame": {"records": 183, "fails": 0, "drops": 0, "st": 223, "tx": 1, "tr": 12}, "dump_sha256": "35228f93d9480147"},
+  "result": "NEGATIVE — pass 2 stage0 non prouvé",
+  "observations": {
+    "kind8": 0, "kind9": 0, "footers_bit1": "0/2720",
+    "kinds_present": {"kind1": 2368, "kind3": 96, "kind4": 224, "kind6": 816, "kind7": 64},
+    "draws": 2720, "epochs_ok": true, "contract_rejections": 0
+  },
+  "interpretation": "L'auto-install DllMain n'a pas produit d'events stage0 dans le processus réel (soit sidecar check ko, soit install refusée runtime, soit patch ok mais stub jamais atteint — indiscernable sans trace in-process). La différence +9 st/frame vs pass 1 = variance de combat (battle différente), pas des kind8/9.",
+  "card_rule_applied": "bit1=0 => preuve négative, session void (LIVE_CARD_lot25pass2)",
+  "restore": {
+    "source": "archive pré-déploiement (leçon pass 1 appliquée)",
+    "sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "byte_exact": true,
+    "stage0_sidecar_removed": true,
+    "game_dir_cleaned": true,
+    "note": "CSV pass 2 (1.17 Go, traces d'appels) supprimé sans archive — le contenu essentiel (état) est dans le dump; consigné honnêtement"
+  },
+  "next": [
+    "v17: trace CSV du résultat InstallStage0Hooks (retour + errno) — diagnostic décisif en 1 session",
+    "OU déplacer l'install au pulse Present (pattern DumpArmAtPresent prouvé live) derrière le même sidecar",
+    "nouvelle carte + autorisation pour pass 2 bis"
+  ],
+  "verdicts": {"pass2_stage0": "NOT PROVEN (negative)", "pass1_state_to_draw": "PROVEN (session précédente)", "ui_fidelity": "PARTIAL/BLOCKED", "live": "cette session consommée — nouvelle autorisation requise"}
+}

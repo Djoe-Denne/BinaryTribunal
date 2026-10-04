@@ -24,6 +24,7 @@ import struct
 import ff8dump
 
 BUILD = 0x5642
+BUILD_V16 = 0x5643                   # v16-lot25 : meme format, auto-install stage0
 MAGIC_ST = 0x39305453              # 'ST09', unchanged since v14
 ST_HDR = struct.Struct('<10I')     # magic, build, seq, epoch, kind, type,
 #                                  value, aux, ctx_token, device_token
@@ -58,13 +59,13 @@ def _require(condition, reason, offset):
         raise ContractError(f'{reason} at {offset}')
 
 
-def _validate_event(event):
+def _validate_event(event, build=BUILD):
     off = event['offset']
     for field in ('build', 'seq', 'epoch', 'kind', 'type', 'value', 'aux',
                   'ctx_token', 'device_token'):
         _require(type(event.get(field)) is int and 0 <= event[field] <= 0xFFFFFFFF,
                  f'invalid ST09 u32 {field}', off)
-    _require(event['build'] == BUILD, 'ST09 build mismatch', off)
+    _require(event['build'] == build, 'ST09 build mismatch', off)
     _require(event['epoch'] > 0, 'ST09 epoch zero is reserved', off)
     kind, typ, value, device = (event[k] for k in ('kind', 'type', 'value',
                                                    'device_token'))
@@ -90,7 +91,7 @@ def _validate_flags(flags, offset):
     _require(not flags & ~KNOWN_FLAGS, 'ND08 unknown flags', offset)
 
 
-def _prevalidate(data):
+def _prevalidate(data, expected_build=BUILD):
     """Check declared bounds before any footer or state interpretation."""
     _require(bool(data), 'empty capture', 0)
     pos, n = 0, len(data)
@@ -105,7 +106,7 @@ def _prevalidate(data):
             _require(n - pos >= ST_HDR.size, 'truncated ST09 record', pos)
             event = dict(zip(ST_FIELDS, ST_HDR.unpack_from(data, pos)))
             event['offset'] = pos
-            _validate_event(event)
+            _validate_event(event, expected_build)
             _require(event['epoch'] > previous_epoch,
                      'duplicate or decreasing event epoch', pos)
             previous_epoch = event['epoch']
@@ -117,7 +118,7 @@ def _prevalidate(data):
         elif magic == ff8dump.MAGIC_TX:
             _require(n - pos >= ff8dump.TX_HDR.size, 'truncated TX07 header', pos)
             fields = ff8dump.TX_HDR.unpack_from(data, pos)
-            _require(fields[1] == BUILD, 'TX07 build mismatch', pos)
+            _require(fields[1] == expected_build, 'TX07 build mismatch', pos)
             _require(n - pos >= TX_BYTES, 'truncated TX07 payload', pos)
             size, seq, family = TX_BYTES, fields[2], 'TX07'
             textures.append({'offset': pos, 'build': fields[1], 'seq': seq,
@@ -127,7 +128,7 @@ def _prevalidate(data):
         elif magic == ff8dump.MAGIC_TR:
             _require(n - pos >= 40, 'truncated TR08 header', pos)
             fields = struct.unpack_from('<10I', data, pos)
-            _require(fields[1] == BUILD, 'TR08 build mismatch', pos)
+            _require(fields[1] == expected_build, 'TR08 build mismatch', pos)
             psz, csz = fields[8:10]
             _require(psz <= 65536 and csz <= 32768, 'TR08 count caps exceeded', pos)
             size, seq, family = 40 + psz + csz, fields[2], 'TR08'
@@ -140,7 +141,7 @@ def _prevalidate(data):
         elif magic in (ff8dump.MAGIC_ND, ff8dump.MAGIC_ND8):
             _require(n - pos >= ND_HDR.size, 'truncated ND header', pos)
             _, slot, seq, ctx, _, kind, fails, psize, build = ND_HDR.unpack_from(data, pos)
-            _require(build == BUILD, 'ND build mismatch', pos)
+            _require(build == expected_build, 'ND build mismatch', pos)
             _require(ff8dump.SLOT_MIN <= slot <= ff8dump.SLOT_MAX,
                      'ND slot outside captured range', pos)
             _require(kind in (0, 1, 2), 'unknown ND kind', pos)
@@ -210,11 +211,12 @@ def _prevalidate(data):
     return records, contexts, textures, resources, events, draws
 
 
-def parse_strict(data: bytes) -> dict:
-    records, contexts, textures, resources, events, draws = _prevalidate(data)
+def parse_strict(data: bytes, build: int = BUILD) -> dict:
+    _require(build in (BUILD, BUILD_V16), 'unsupported build', 0)
+    records, contexts, textures, resources, events, draws = _prevalidate(data, build)
     for draw in draws:
         draw['ctx'] = contexts[draw['offset']]
-    return {'build': BUILD, 'events': events, 'draws': draws,
+    return {'build': build, 'events': events, 'draws': draws,
             'frames': sorted({draw['seq'] for draw in draws}),
             'records': records, 'tx_metadata': textures,
             'tr_metadata': resources, 'st_records': len(events),
@@ -311,13 +313,19 @@ def _stage0_binding(draw, prefix_events, epoch):
 
 
 def _validate_replay_input(parsed):
-    """Replay is public: do not trust a hand-edited parsed dictionary."""
+    """Replay is public: do not trust a hand-edited parsed dictionary.
+    v16: un seul build uniforme requis (0x5642 ou 0x5643, meme format)."""
     events = sorted(parsed['events'], key=lambda item: item['offset'])
     draws = sorted(parsed['draws'], key=lambda item: item['offset'])
     offsets, ordinals, counts = set(), set(), Counter()
     previous_epoch = 0
+    builds = ({e.get('build') for e in events} |
+              {d.get('build') for d in draws})
+    _require(len(builds) == 1 and builds <= {BUILD, BUILD_V16},
+             'mixed or unknown builds in parsed dict', 0)
+    rbuild = builds.pop()
     for event in events:
-        _validate_event(event)
+        _validate_event(event, rbuild)
         _require(event['epoch'] > previous_epoch,
                  'duplicate or decreasing event epoch', event['offset'])
         previous_epoch = event['epoch']
@@ -335,7 +343,7 @@ def _validate_replay_input(parsed):
                       'stage0_hr', 'st_emitted', 'st_lost'):
             _require(type(draw.get(field)) is int and 0 <= draw[field] <= 0xFFFFFFFF,
                      f'invalid ND u32 {field}', draw['offset'])
-        _require(draw['build'] == BUILD and draw['kind'] in (0, 1, 2),
+        _require(draw['kind'] in (0, 1, 2),
                  'invalid ND replay record', draw['offset'])
         _require(draw['fails'] == 0, 'ND failed read', draw['offset'])
         if draw['kind'] == 2:
