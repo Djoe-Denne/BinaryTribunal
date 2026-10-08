@@ -51,4 +51,7 @@ Anomalies du lot : 4 livrables dups générés avec NUL/mojibake (PowerShell) �
 | J4 0x8E55E0 | 2+1 solo réduit | CERTAIN | Op178_SetSeqCtxA2 | CONFLICT→tranché | seqCtx+0xA2 = [IP+2], IP+=4 (≠ alias SubmitTIM 0x8E0420) |
 | J5 0xB0C170 | 2+1 solo réduit | CERTAIN | MAG_203_CERBERUS_FL | CONFLICT→tranché | loader IO_GetFile_MAGIC("mag202_b.00"/".01") → dword_2796DDC/DD8, pas d'effet FL |
 
-- Fin d'exécution propre (limits d'une exécution) : lots A complet + J 4/5 + journaux synced. Next : J3 0x5A6D20, puis lots B→C→D, E parallèle, G/H/I, F, K.
+- **STOP demandé (racine/utilisateur) 2026-10-08** : aucun lot en cours au moment de l'ordre (frontière : journal). Lot A **clos 15/15**, lot J **4/5 clos** (J3 0x5A6D20 DEFERRED, pack prêt, header IDB non posé). 19+2 commits session (A: f3484ba→604c92d ; J: 1454690→07c9979 ; docs a7d6c33/c2ecf61/7ac0858). **Rien en attente de commit de la session** ; ce commit du journal est le dernier. IDB : tous pushes du jour taggés `[semantic-triple 2026-10-08]` + `idc.save_database` après chaque push (dernier save OK). Erreur spawn verbatim conservée ci-dessous pour rapport racine :
+  > `{"error":{"type":"tool.execution","message":"Subagent depth limit reached (1). Increase \"experimental.subagent_depth\" to allow nested subagents."},"content":[]}`
+  Next run : J3 0x5A6D20 → B → C → D (découpages régionaux) → E (parallèle) → G/H/I → F → K.
+- Fin de session (STOP appliqué).
