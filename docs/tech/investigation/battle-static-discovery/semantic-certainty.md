@@ -73,7 +73,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x41E650` | `Gfx_SetRenderState` | 28 | SKIP_NODECOMP | — | oui | — | — | interne (dispatch shadow+commit vtable, pas IAT gl*) ; file dès que decomp |
 | `0x41E752` | `GfxDriver_SetBlendMode` | 18 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x41E7A5` | `GfxDriver_Slot34_EmptyHook` | 19 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
-| `0x41E803` | `sub_41E803` | 29 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x41E803` | `sub_41E803` | 29 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; slot36 sinon35, cdecl deux mots/EAX transmis ; nom auto non descriptif ; §5.6 + save true |
 | `0x41E947` | `GfxDriver_SelectRenderTarget` | 18 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x41E972` | `GfxDriver_BeginScene` | 18 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x41E99D` | `GfxDriver_LeaveScene` | 16 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |

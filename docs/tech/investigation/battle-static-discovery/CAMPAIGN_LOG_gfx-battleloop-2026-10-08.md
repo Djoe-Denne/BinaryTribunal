@@ -88,5 +88,7 @@ Anomalies du lot : 4 livrables dups générés avec NUL/mojibake (PowerShell) �
 | EA | mode | confiance | nom | A==V | une phrase |
 |---|---|---|---|---|---|
 | B7 0x407914 | 1+V + C dual-context Sol | CERTAIN | Gfx_AllocRenderStateShadow | oui, ACCEPTE | Bloc shadow neuf 0x154, masque 19/26, deux tables DWORD ; échecs auxiliaires non propagés. |
+| B8 0x41E803 | 1+V Sol | CERTAIN mécanique | sub_41E803 | oui, ACCEPTE | Dispatch slot36 sinon35 ; deux arguments, EAX transmis, cibles inconnues. |
 
 - B7 : couverture parent native 108 instructions / 9 blocs / 393 octets, 9 calls / 5 destinations, caller publication +0xA84, cleanups, signedness et EAX vérifiés (§5.6). Push `set_func_cmt` append-only `[semantic-triple 2026-10-08]`, tag relu ; **save_database=true** après le push. C-A et C-B Sol indépendants + réconciliation ASM puis A/V ; pas de compilation/runtime/PE revendiqué. Livrables semantic + decomp ciblés, ledger ajouté.
+- B8 : 29 instructions / 4 blocs / 77 octets, getter 4098EE, caller 416045 et nettoyage 8 octets ; ZF=1 choisit fallback, indices 0x90/4=36 et 0x8C/4=35, EAX entier transmis (§5.6 parent live). C existant vérifié, non régénéré. Push append-only tag relu ; **save_database=true** après le push. Nom automatique non descriptif, proposition `Driver_DispatchSlot36OrFallback35` markdown seulement.
