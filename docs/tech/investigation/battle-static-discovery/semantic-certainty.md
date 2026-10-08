@@ -1,5 +1,12 @@
 # Ledger de certitude sémantique — 498 fonctions wiki
 
+> **Synchronisation IDB du 2026-10-07 :** [APPLIED / VERIFIED / SAVED](IDB_SYNC_2026-10-07.md).
+> 41 noms de fonctions matérialisés (dont 37 identités CERTAIN déjà commentées),
+> 8 globales, 7 prototypes, `GfxBatch30` et compléments `GfxDrawList236` ;
+> 68 blocs de commentaire ajoutés. Les classes de certitude ci-dessous ne sont
+> pas promues par cette synchronisation. Reçus, préimages et tri du reliquat
+> disponibles dans `idb-sync-2026-10-07/`.
+
 > Phase 0 parent (2026-09-15). Barème strict : seules les fonctions
 > « absolument sûres » sautent le triple Grok. Les autres vont en file Grok.
 > Sources : budget wiki, `decomp/` (A==B, push, notes parent),
@@ -479,30 +486,30 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x571B80` | `IO_GetFile_MAGIC` | 19 | LIKELY | oui | — | non | oui | push seul |
 | `0x585360` | `sub_585360` | 38 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x5857D0` | `BdLinkCallback_5857D0` | 315 | LIKELY | oui | — | non | oui | push seul |
-| `0x595AA0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44` | 56 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x595AA0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44` | 56 | LIKELY | — | — | — | — | pas de C réconcilié |
 | `0x5A5890` | `BdLinkCallback_5A5890` | 277 | LIKELY | oui | — | non | oui | push seul |
 | `0x5A6D20` | `BdLinkCallback_5A6D20` | 247 | CONFLICT | oui | — | non | oui | divergence notée parent |
 | `0x5A8750` | `GF_199Cactuar_InvokeSummonScript` | 124 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5A8940` | `GF_199Cactuar_SequenceTaskDriver` | 118 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5AA3A0` | `GF_199Cactuar_SequenceTick` | 10 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x5BD460` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup` | 56 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
-| `0x5E48A0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C` | 60 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x5BD460` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup` | 56 | CERTAIN | — | — | — | — | pas de C réconcilié |
+| `0x5E48A0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C` | 60 | LIKELY | — | — | — | — | pas de C réconcilié |
 | `0x5E9470` | `MAG_165_LION_HEART` | 120 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x5EF910` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup2` | 56 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x5EF910` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup2` | 56 | CERTAIN | — | — | — | — | pas de C réconcilié |
 | `0x5F5B80` | `MAG_163_ROUGH_DIVIDE` | 67 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5FD100` | `MAG_161_RENZOKUKEN_VS_ELNOYLE_ELVORET` | 71 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5FF080` | `MAG_160_RENZOKUKEN__4_HITS` | 61 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5FFFE0` | `BdLinkCallback_5FFFE0` | 93 | LIKELY | oui | — | non | oui | push seul |
 | `0x600BC0` | `MAG_159_RENZOKUKEN_VS_XATM092` | 61 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x606DB0` | `BdLinkCallback_606DB0` | 191 | LIKELY | oui | — | non | oui | push seul |
-| `0x60A290` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup3` | 56 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x60A290` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup3` | 56 | CERTAIN | — | — | — | — | pas de C réconcilié |
 | `0x61DE70` | `_HITS::MAG_141_RENZOKUKEN(void)` | 61 | LIKELY | oui | — | non | oui | push seul |
 | `0x62C820` | `sub_62C820` | 53 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x63E730` | `GF_191Doomtrain_InvokeSummonScript` | 140 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x63E960` | `BdLinkTask_Register_63E9C0` | 32 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-20 (1+P) ; spawn tick cam script GF sub_63E9C0, miroir X dword_24FBE78 = -1 ssi rand()%a4==1 sinon +1 (corrige polarite A), ecrit seul ce global |
 | `0x63F2D0` | `GF_191Doomtrain_SequenceTaskDriver` | 340 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x6472C0` | `GF_191Doomtrain_SequenceTick` | 10 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x649740` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C_Dup` | 60 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x649740` | `Ot_EmitPrim_Code24_AVSZ3_FromObj2C_Dup` | 60 | CERTAIN | — | — | — | — | pas de C réconcilié |
 | `0x6541E0` | `GF_325Diablos_InvokeSummonScript` | 5 | CERTAIN | oui | oui | non | oui | trivial ≤5 (5) + push |
 | `0x654210` | `GF_325Diablos_InitSummonContext` | 93 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x6545B0` | `GF_Diablo_ClearTex_4C6B` | 12 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
@@ -540,7 +547,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x701200` | `FillDwords` | 12 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x701220` | `Mat3S16_MakeRotX_Q12` | 29 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x7012C0` | `Mat3S16_MakeRotZ_Q12` | 29 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
-| `0x7040B0` | `Ot_EmitPolyF4_320x216` | 37 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x7040B0` | `Ot_EmitPolyF4_320x216` | 37 | CERTAIN | — | oui | — | — | pas de C réconcilié |
 | `0x739DA0` | `GF_095Siren_InvokeSummonScript` | 106 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x739F40` | `GF_095Siren_SequenceTick` | 91 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x8DC530` | `DecByte_Obj18_Plus28` | 6 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
@@ -637,3 +644,25 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x6A5AD0` | `MagFx_BuildQuadNodes_Tag2E` | 156 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-22 (2+1) ; builder Maelstrom quads 0x28 tag 2E gated, retour curseur file |
 | `0x6A5C90` | `Ot_EmitTri_GTE_FromStream_Nodes1C` | 100 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-22 (2+1) ; sous-builder Maelstrom tris 0x1C code 32 gated, retour 0/FFFFFFFF (caller ignore) |
 | `0x6A5DB0` | `MagFx_EmitStream_Code3A_Gte_Ot` | 119 | LIKELY | oui | oui | non | oui | semantic-triple 2026-09-22 (2+1) ; sous-builder Maelstrom quad 0x24 code 3A, 4 passes GTE, retour 0/FFFFFFFF |
+
+## Lot A — campagne gfx-battleloop (2026-10-08) — ajout parent
+
+EAsabsents de la table 498 graf GPU traités en solo le 2026-10-08 (spawn subagents indisponible :
+subagent depth limit ex. session). Pipeline 1+V/1+P réduit = dérivation parent + §5.6 live IDB.
+Les V réelles pourront être relancées lors d'une session multi-agents (déclasse éventuel LIKELY→CERTAIN).
+Motifs de détail LIKELY restants : formule slot OT [obj+3Ch/40h/50h] (emitters), LUT 1CA9EB0/1CB603C (FT3/FT4),
+roles sub_4610C0/461000/461220/461460, record sub_45D050 (+0x8/C/18/24), mode 1B4780C==2.
+
+| EA | Nom | Instr | Classe | push | note |
+|---|---|---:|---|---|---|
+| `0x45D080` | `Gpu_DrawOTag` | 160 | CERTAIN | oui | 1+V (A+V hérités 09-17 réconciliés + §5.6 live) ; drain OT PSX, buffer pool, dispatch 2 tables |
+| `0x45D310` | `Gpu_DrawOTagWithDispatchTable` | 144 | CERTAIN | oui | 1+V solo + decomp réconcilié (Hex-Rays live) ; jumelle paramétrée 0x45D080 |
+| `0x45CEE0` | `sub_45CEE0` | 95 | CERTAIN | oui | 1+P solo + decomp ; walker debug/overlay mono-table B7DC18, 5 callers B65xxx |
+| `0x4617F0` | `Gpu_EmitPolyFT3` | 150 | CERTAIN (struct) | oui | 1+V solo ; dispatch idx 36/37+38/39 @B7CF08/B7D308 ; LUT 1CA9EB0 à caler (LIKELY détail) |
+| `0x461A90` | `Gpu_EmitPolyFT4` | 243 | CERTAIN (struct) | oui | 1+V solo ; idx 44/45+46/47 ; shrink UV quad dégénéré ; >200 esc. 2+1 différée |
+| `0x460F20` | `Gpu_EmitPolyF3` | 58 | CERTAIN (struct) | oui | 1+V solo ; idx 32/33+34/35 ; slots stride 0x20 |
+| `0x45C870` | `OT_InsertPrimitive` | 37 | CERTAIN | oui | 1+P (A 09-17 + §5.6 live) ; nom dérivé OtNode24_AllocHeadInsert (rename IDB non appliqué) |
+| `0x510680` | `Poly_BackfaceTest2D` | 35 | CERTAIN | oui | 1+P solo + decomp ; cross((p1-p0),(p1-p2)) pivot p1, bool AL |
+
+Commits lot A du 2026-10-08 : f3484ba, 458e6de, 5d51ea0, b23bb47, 2187a0e, 4d4c5d0/399ceea/251e6a4/0e322fc (+fix c64461e/40b6ea6/689d7a3/aeefe77), 4cde294, 5777d53, bbee158, 8b598d2, 5180ea1, 604c92d.
+Notes encodage : 4 livrables dups ont été réécrits (NUL/mojibake) en commits « docs(battle): fix » ; HP à surveiller au lot B.
