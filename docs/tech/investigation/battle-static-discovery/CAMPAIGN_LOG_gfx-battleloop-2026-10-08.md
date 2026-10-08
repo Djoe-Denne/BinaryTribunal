@@ -107,5 +107,7 @@ Anomalies du lot : 4 livrables dups générés avec NUL/mojibake (PowerShell) �
 | EA | mode | confiance | nom | A==V | une phrase |
 |---|---|---|---|---|---|
 | C7 0x4675C0 | 1+V Sol | CERTAIN | TexStaging_BlitRows | oui, ACCEPTE | VRAM→staging : dépaquetage compact, copie inline, conversion 555/565 ; autres modes no-op. |
+| C3 0x41AC34 | 1+V + C dual-context Sol | LIKELY | TextureRelated | oui, ACCEPTE | Charge/partage texture, cache TIM optionnel ; sortie erreur/métadonnées/données de 12 octets. |
 
 - C7 : §5.6 parent native 195/32, aucun CALL, quatre retours EAX, xrefs CODE465235/46544D et cleanups1Ch ; modes/signedness/strides octets vérifiés. C existant conservé, commentaires corrigés (quatre retours, 555/565) sans modification du corps, domaines C hors invariants non certifiés. Push append-only tag relu, **save_database=true** après ce push. Pas de runtime/PE/compilation revendiqué.
+- C3 : C-A/C-B Sol indépendants, réconciliation ASM, A/V ACCEPTE LIKELY. Parent live confirme155/22, 11calls/9cibles, deux callers4076FC/4153F7 cleanup0Ch, sortie troisDWORD EAX=out, storesBYTE, helper TIM cmp10h et compteur signedjg. Effet cache/fichier établi, reloadNULL en génération n'ajoute pas d'erreur ; risques pointeurs/formatage/ownership ouverts. Push append-only, tag relu ; **save_database=true** après ce push. Aucun build/runtime/PE revendiqué.

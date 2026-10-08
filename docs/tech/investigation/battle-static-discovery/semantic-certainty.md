@@ -70,6 +70,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x416D82` | `Gfx_CreateDrawList` | 429 | LIKELY | oui | oui | non | oui | B2 landmark41730A ; A historique/B strict/R post-B Sol ; CWD pas CLUT, défaut non initialisé ; §5.6 ; tag hérité SKIP/save true |
 | `0x4178D7` | `Gfx_WalkDrawList` | 65 | SKIP_NODECOMP | — | oui | — | — | interne Square (marche OT/draw list) ; file dès que decomp |
 | `0x419D8F` | `TextureRelated2` | 34 | SKIP_NODECOMP | — | — | — | — | interne Square (textures jeu) ; file dès que decomp |
+| `0x41AC34` | `TextureRelated` | 155 | LIKELY | oui | — | — | oui | Sol 1+V ACCEPTE ; C-A/C-B indépendants réconciliés ; cache TIM optionnel, sortie12/EAXptr ; §5.6/push/save true |
 | `0x41DF0C` | `Render_FramePresent_Dispatch` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x41E650` | `Gfx_SetRenderState` | 28 | SKIP_NODECOMP | — | oui | — | — | interne (dispatch shadow+commit vtable, pas IAT gl*) ; file dès que decomp |
 | `0x41E752` | `GfxDriver_SetBlendMode` | 18 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
