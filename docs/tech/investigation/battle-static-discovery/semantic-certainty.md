@@ -66,7 +66,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x407914` | `Gfx_AllocRenderStateShadow` | 108 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; C-A/C-B indépendants réconciliés ASM ; masque 0x0385FF7D, tables DWORD ; §5.6 parent + save true |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
-| `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
+| `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | LIKELY | oui | oui | non | oui | R final Sol après V et B strict ; mécanique établie, modes ouverts ; §5.6 parent ; tag hérité SKIP, save true |
 | `0x4178D7` | `Gfx_WalkDrawList` | 65 | SKIP_NODECOMP | — | oui | — | — | interne Square (marche OT/draw list) ; file dès que decomp |
 | `0x419D8F` | `TextureRelated2` | 34 | SKIP_NODECOMP | — | — | — | — | interne Square (textures jeu) ; file dès que decomp |
 | `0x41DF0C` | `Render_FramePresent_Dispatch` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
