@@ -63,6 +63,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x407586` | `Gfx_SetTIMDescFlags` | 60 | CERTAIN | oui | — | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; flags TIM +8/+0xC ; blend interne |
 | `0x40763D` | `Gfx_CopyDescFields92_68` | 16 | CERTAIN | oui | — | non | oui | 1+P 2026-09-15 : CERTAIN, nom confirme, push IDB ; src+5Ch/+44h → dest+C4h/+C8h |
 | `0x4076B6` | `TIMrelated_0` | 112 | CERTAIN | oui | — | non | oui | 2+1 2026-09-15 : CERTAIN, nom trop large (`Gfx_CreateTIMDescFromFileOrCache`), push IDB ; file-ou-cache `desc+28h` |
+| `0x407914` | `Gfx_AllocRenderStateShadow` | 108 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; C-A/C-B indépendants réconciliés ASM ; masque 0x0385FF7D, tables DWORD ; §5.6 parent + save true |
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
