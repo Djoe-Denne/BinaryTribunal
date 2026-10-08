@@ -67,6 +67,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x40942E` | `Gfx_InitializeSelectedBackend` | 151 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x409805` | `Gfx_LoadExternalBackendFactory` | 53 | SKIP_L3 | — | oui | — | — | vendor/gfx/crt/thunk |
 | `0x41619A` | `Gfx_BindDrawListBackendCallbacks` | 327 | LIKELY | oui | oui | non | oui | R final Sol après V et B strict ; mécanique établie, modes ouverts ; §5.6 parent ; tag hérité SKIP, save true |
+| `0x416D82` | `Gfx_CreateDrawList` | 429 | LIKELY | oui | oui | non | oui | B2 landmark41730A ; A historique/B strict/R post-B Sol ; CWD pas CLUT, défaut non initialisé ; §5.6 ; tag hérité SKIP/save true |
 | `0x4178D7` | `Gfx_WalkDrawList` | 65 | SKIP_NODECOMP | — | oui | — | — | interne Square (marche OT/draw list) ; file dès que decomp |
 | `0x419D8F` | `TextureRelated2` | 34 | SKIP_NODECOMP | — | — | — | — | interne Square (textures jeu) ; file dès que decomp |
 | `0x41DF0C` | `Render_FramePresent_Dispatch` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
