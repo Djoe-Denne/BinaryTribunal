@@ -273,7 +273,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x493110` | `domain::Battle_QueueReflectedActionIfNeeded` | 43 | LIKELY | oui | — | non | oui | push seul |
 | `0x4931C0` | `specialGFDamage` | 45 | LIKELY | oui | — | non | oui | push seul |
 | `0x493280` | `domain::computeCurativeMagic` | 139 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x493450` | `computeCurativeGFMagicItem` | 106 | CONFLICT | oui | — | non | oui | divergence notée parent |
+| `0x493450` | `computeCurativeGFMagicItem` | 106 | CERTAIN | oui | — | oui | oui | CONFLICT tranché ASM 2026-10-08 (solo parent) : so/types 9/14/15 + Med Data + Zombie |
 | `0x4935A0` | `computeResurrection` | 49 | LIKELY | oui | — | non | oui | push seul |
 | `0x493840` | `domain::BattleStatus_ApplyAndSyncSlot` | 190 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x493D80` | `domain::BattleAction_ResolveAndApplyStatusResult` | 281 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
@@ -388,7 +388,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x507F80` | `BattleModel_LoadMonsterDerivedFrom142` | 105 | LIKELY | oui | — | non | oui | push seul |
 | `0x5082B0` | `bs_modulo` | 8 | LIKELY | oui | — | non | oui | push seul |
 | `0x5082D0` | `BattleScratch_Unwind` | 7 | LIKELY | oui | oui | oui | oui | wiki + A==B + push |
-| `0x508360` | `BdLinkTask_Register` | 37 | CONFLICT | oui | — | non | oui | divergence notée parent |
+| `0x508360` | `BdLinkTask_Register` | 37 | CERTAIN | oui | — | oui | oui | CONFLICT tranché ASM 2026-10-08 : alloc + append queue BdLinkTask (debug FAIL si alloc nulle) |
 | `0x508420` | `BdLinkTask_Pump` | 36 | LIKELY | oui | — | non | oui | push seul |
 | `0x508470` | `BattleFile_StoreCharacterLoadResult` | 3 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5085D0` | `au_re_BdLinkTask_1` | 8 | LIKELY | oui | — | non | oui | push seul |
@@ -557,7 +557,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x8E4EE0` | `Op33_SeqPtrBind` | 63 | LIKELY | oui | — | non | oui | push seul |
 | `0x8E51E0` | `MAG_331_BindDispatch` | 124 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x8E54A0` | `Op6_QueueChunk` | 79 | LIKELY | oui | — | non | oui | push seul |
-| `0x8E55E0` | `Op178_SetSeqCtxA2` | 8 | CONFLICT | oui | — | non | oui | divergence notée parent |
+| `0x8E55E0` | `Op178_SetSeqCtxA2` | 8 | CERTAIN | oui | — | oui | oui | CONFLICT tranché ASM 2026-10-08 : seqCtx+0xA2=[IP+2], IP+=4 (≠ alias SubmitTIM 0x8E0420) |
 | `0x950060` | `MAG_262_FAMILYB_SequenceTick` | 120 | LIKELY | oui | — | non | oui | push seul |
 | `0xA8F890` | `MAG_223_METEOR` | 24 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xA8FF00` | `MAG_223_METEOR_SequenceTick` | 120 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
@@ -570,7 +570,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0xAFFCA0` | `GF_204Alexander_InvokeSummonScript` | 24 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xB00310` | `GF_204Alexander_SequenceTick` | 120 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xB07830` | `GF_204Alexander_BindDispatch` | 124 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0xB0C170` | `MAG_203_CERBERUS_SUMMON_COUNTER_ROCKETS_FL` | 8 | CONFLICT | oui | — | non | oui | divergence notée parent |
+| `0xB0C170` | `MAG_203_CERBERUS_FL` | 8 | CERTAIN | oui | — | oui | oui | CONFLICT tranché ASM 2026-10-08 : loader mag202_b.00/.01 -> dword_2796DDC/DD8, pas d'effet FL |
 | `0xB0C1A0` | `GF_203Cerberus_InvokeSummonScript` | 25 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0xB0C2F0` | `sub_B0C2F0` | 5 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0xB19010` | `GF_202Bahamut_SequenceTick` | 120 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
@@ -666,3 +666,12 @@ roles sub_4610C0/461000/461220/461460, record sub_45D050 (+0x8/C/18/24), mode 1B
 
 Commits lot A du 2026-10-08 : f3484ba, 458e6de, 5d51ea0, b23bb47, 2187a0e, 4d4c5d0/399ceea/251e6a4/0e322fc (+fix c64461e/40b6ea6/689d7a3/aeefe77), 4cde294, 5777d53, bbee158, 8b598d2, 5180ea1, 604c92d.
 Notes encodage : 4 livrables dups ont été réécrits (NUL/mojibake) en commits « docs(battle): fix » ; HP à surveiller au lot B.
+
+### Lot J — tranchage CONFLICT (2026-10-08, après lot A)
+
+4/5 CONFLICT tranchés contre l'ASM (solo parent, 2+1 réduit faute de spawn) :
+`0x493450` → CERTAIN (soins types 9/14/15, Med Data x2, Zombie neg, enabler gate) ;
+`0x508360` → CERTAIN (alloc BdLinkTask + append queue) ;
+`0x8E55E0` → CERTAIN (Op178 = seqCtx+0xA2=[IP+2], ≠ alias SubmitTIM) ;
+`0xB0C170` → CERTAIN (loader mag202_b, pas d'effet FL).
+Restant **CONFLICT** : `0x5A6D20` `BdLinkCallback_5A6D20` (247 instr.) — header SET (solo) pas encore fait ; le contexte budgétaire session a été arbitré (noté SKIPPED/deferred dans CAMPAIGN_LOG).
