@@ -55,3 +55,11 @@ Anomalies du lot : 4 livrables dups générés avec NUL/mojibake (PowerShell) �
   > `{"error":{"type":"tool.execution","message":"Subagent depth limit reached (1). Increase \"experimental.subagent_depth\" to allow nested subagents."},"content":[]}`
   Next run : J3 0x5A6D20 → B → C → D (découpages régionaux) → E (parallèle) → G/H/I → F → K.
 - Fin de session (STOP appliqué).
+
+## RESTART multi-agents (2026-10-08 — session 2)
+
+- `experimental.subagent_depth: 2` ajouté à `opencode.jsonc` (propriété validée) ; test spawn orchestrator→worker : **SPAWN_OK**.
+- Session 2 lancée en exécution **multi-agents obligatoire** (décompileur → A → V/R via sous-agents, jamais solo pour les sémantiques). Condition d'arrêt stricte : premier refus de subagent (depth/permission/outil inconnu) → commit propre + erreur verbatim + rapport, sans bascule solo.
+- File : J3 0x5A6D20 (pack pr prêt avec C réconcilié dual-gen) → Lot B → Lot C → Lot D (découpage régional D2/D5) → Lot E → G/H/I → F → K.
+- Lancement vague 1 (5 instances) : A-J3 (semantic-analyste-sol) ∥ B-aveugle-J3 (semantic-analyste-astra) [2+1, 247 instr + CONFLICT] + packs decompileur B2 0x41730A, B3 0x41619A, B9 0x465930.
+- **Session 2 INTERROMPUE** : `Upstream request failed: Insufficient account funds` — provider `opencode-go` à sec (le spawn depth était déjà réglé ; les tests providers confirment `zai-coding-plan` OK et `openai` OK). Correctif : frontmatter model des 10 agents GLM (orchestrator, decompileur, semantic-analyste, semantic-reviewer, semantic-reconciler, mechanical-worker, evidence-curator, wiki-scribe, live-campaign-runner, live-validator) basculé `opencode-go/glm-5.3-flash` → **`zai-coding-plan/glm-5.3-flash`** (premier repli documenté de la spec decompileur). Session 3 relancée avec condition d'arrêt stricte inchangée.
