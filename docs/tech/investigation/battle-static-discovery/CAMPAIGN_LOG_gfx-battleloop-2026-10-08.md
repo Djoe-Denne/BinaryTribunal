@@ -101,3 +101,11 @@ Anomalies du lot : 4 livrables dups générés avec NUL/mojibake (PowerShell) �
 - B10 : R final après B strict et V ; parent live confirme 288/57, six calls, quatre xrefs CODE, nettoyage wrapper18h, CLUT DWORD/WORD, strides1100/100/1136, garde d2 distincte de b2, *arg_C sans garde, count0 publie puis teste+24. EAX normal+2C, compagnon+24, bit1+34+4v+8b commun à deux banques. CERTAIN statique, sécurité d'initialisation ouverte. **SKIP_EXISTING_TAG**, **save_database=true** ; commentaires hérités non corrigés. C : commentaires et shifts modulo32 corrigés, corps de sélection conforme conservé.
 - B2 : B strict Sol frais puis R actualisé après ce B ; nom catalogue confirmé contre la proposition descriptive du B, LIKELY global. Parent live : identité41730A→416D82, 429/65, 27calls/16cibles, 67CODE/0DATA, ABI cinq mots/cleanup20 et40 groupé, setnle signé/ja unsigned, strides4/1/matrice64/zone236/pooldynamique, EAX ptr/NULL sur chemins contrôlés. Helper42F0F6 gère CWD via API réellement présentes, pas CLUT. C historique corrigé sans inventer de gardes, alias17→12factory et mêmes cibles binder12/17. **SKIP_EXISTING_TAG**, **save_database=true** ; commentaires hérités inchangés, écart docs/IDB documenté.
 - Lot B : six fonctions finalisées en reprise (B2/B3/B7/B8/B9/B10), quatre semantic déjà committés conservés (B1/B4/B5/B6), aucun doublon 41730A créé. **Livrables B disponibles 10/10 ; synchronisation corrective des quatre gros commentaires IDB non effectuée**, car tags du jour déjà présents. Pas de clôture « parfaitement synchronisée » revendiquée. File C engagée : C1/C3 C-A/C-B indépendants + réconciliation, C6 A CONFLICT/V escalade, C7 A/V ACCEPTE.
+
+### Rapport C — fonctions finalisées en reprise Sol-only
+
+| EA | mode | confiance | nom | A==V | une phrase |
+|---|---|---|---|---|---|
+| C7 0x4675C0 | 1+V Sol | CERTAIN | TexStaging_BlitRows | oui, ACCEPTE | VRAM→staging : dépaquetage compact, copie inline, conversion 555/565 ; autres modes no-op. |
+
+- C7 : §5.6 parent native 195/32, aucun CALL, quatre retours EAX, xrefs CODE465235/46544D et cleanups1Ch ; modes/signedness/strides octets vérifiés. C existant conservé, commentaires corrigés (quatre retours, 555/565) sans modification du corps, domaines C hors invariants non certifiés. Push append-only tag relu, **save_database=true** après ce push. Pas de runtime/PE/compilation revendiqué.

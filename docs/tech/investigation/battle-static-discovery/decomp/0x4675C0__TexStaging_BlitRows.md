@@ -15,12 +15,16 @@
 ```c
 /* TexStaging_BlitRows @ 0x4675C0
  * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.
- * 195 instr, size 0x20F, end 0x4677CF. cdecl 7 args, saved ebx/ebp/esi/edi, retn C3 x5.
- * No callees. Callers Gfx_AllocTexturePageSlot @ 0x465235 and
- * isUpdateVRAMOrSomething @ 0x46544D (both add esp,1Ch).
- * arg_18: 1=rep movsd/movsb rows, 0=4bpp nibble unpack, 2=RGB555 swap, else no-op.
+ * 195 instr, size 0x20F, end 0x4677CF. cdecl 7 args, saved ebx/ebp/esi/edi, retn C3 x4.
+ * No callees. Callers Gfx_AllocTexturePageSlot @ 0x464F70 (call @ 0x465235) and
+ * isUpdateVRAMOrSomething @ 0x4653B0 (call @ 0x46544D; both add esp,1Ch).
+ * arg_18: 1=rep movsd/movsb rows, 0=4bpp nibble unpack, 2=555/565 conversion, else no-op.
  * jle (0F 8E) SIGNED on mode1/mode0 height and on dword_B7DB44. Mode2 height is jz.
  * cdq/sub/sar = signed /2 toward 0. Mode0 never reads arg_C (dest packed).
+ * Dimensions are not bounded or validated here; caller-wide numeric safety is unproven.
+ * Signed C arithmetic, pointer ranges, alignment and aliasing are not proven valid for
+ * all inputs: ASM counters/addresses wrap modulo 2^32; negative mode2 height is not rejected.
+ * This C preserves the algorithm, not a defined-C equivalence for every invalid input.
  * +44h / occupancy 1+2 / TEST AL,2 / OT 07 / code 24 / TIM 0x10 / gfx_driver: ABSENT.
  */
 
