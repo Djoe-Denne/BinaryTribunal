@@ -2,13 +2,15 @@
 
 - Instr (live): 288
 - Palier: high
-- GLM A: fence_found=true finish_reason=stop reasoning_tokens=11118
-- GLM B: fence_found=true finish_reason=stop reasoning_tokens=15672
-- GLM C: fence_found=true finish_reason=stop reasoning_tokens=15448
+- GLM A (historique): fence_found=true finish_reason=stop reasoning_tokens=11118
+- GLM B (historique): fence_found=true finish_reason=stop reasoning_tokens=15672
+- GLM C (historique): fence_found=true finish_reason=stop reasoning_tokens=15448
 - A==B: non
-- Push IDB: oui
-- SetType: int __cdecl Gfx_SelectTexturePageDrawList(unsigned int, unsigned int, __int16, _DWORD *, _DWORD *, _DWORD *)
+- Mode de revue: A historique + V Sol + B aveugle strict + R final Sol ; aucune diversité de modèles revendiquée.
+- §5.6 / Push IDB: en attente du parent ; le statut/tag hérité n'est pas une preuve de clôture. Cette revue n'écrit pas l'IDB.
+- Type IDA (lecture, pas de SetType): int __cdecl Gfx_SelectTexturePageDrawList(unsigned int, unsigned int, __int16, _DWORD *, _DWORD *, _DWORD *)
 - Notes parent: and al,0FDh puis cmp eax 64h/74h/7Ch (pas &0xFD). jl/jle/jge signes, pas ja. WORD 66 [ctx+448h] CLUT. Table pleine skip +24h et floats. UploadCLUTSlot alloc+(arg_4&60h)==40h seulement. *arg_C sans NULL, saute si var_20C==2. Occupancy/OT07/code24/TIM 0x10/GF Exists/+0x9C absents. ctx*0x44C slot*0x64 alt*0x470.
+- R final: `tools/_tmp_semantic_triple/0x465ce0/semantic_r_sol.md` ; ASM live + octets recontrôlés, SHA-256 identique au R. count==0 avec clé non nulle publie slot 1 puis teste +24h, sans création locale ; initialisation antérieure inconnue. Corps de sélection déjà conforme, pas réécrit.
 
 ## C réconcilié
 
@@ -17,8 +19,16 @@
  * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.
  * 288 instr, size 0x3AC, end 0x46608C. cdecl, retn C3, no EBP frame (EBP scratch).
  * sub esp,210h / add esp,210h on every retn (locals, not callee cleanup).
- * EAX: 0 if var_20C==3, or slot+24h==0; else a GfxDrawList* from slot+24h/+2Ch/+34h
- *   or a cached dword_1CB6030 / 1CCFD44 / 1CCFD50 entry.
+ * EBX/EBP/ESI/EDI saved. Six DWORD argument slots; IDA annotates CLUT as __int16,
+ *   but 465CE6 reads a DWORD, masks to 15 useful bits; 465EA1 compares a WORD.
+ * Call cleanup add esp: sprintf 14h, lookup 8, add 0Ch, alloc 28h,
+ *   companion constructor 0Ch, transfer 10h (cdecl, pushes right-to-left).
+ * EAX (all 32 bits): zero on d==3 or failure of a reached +24h guard;
+ *   otherwise caches or slot[0x2C+4*v] (code bit1 clear),
+ *   slot[0x34+4*v+8*b] (bit1 set), possibly zero themselves.
+ * +24h supplies arg_10, not the final return; special/saturation paths bypass
+ *   the +24h guard. Final selection is common to normal and special tables.
+ * arg_14 separately receives slot[0x34+4*v] if supplied.
  * ctx stride 0x44C at unk_1CB6040; slot records +4 stride 0x64; alt table 0x470.
  * [ctx+448h] WORD CLUT (66-prefix). NOT GF Exists. NOT occupancy 1+2. NOT +444h buffer.
  * jcc: jl/jle/jge/jz/jnz only. No ja/jg. No setcc. No jpt.
@@ -54,7 +64,7 @@ extern char aNull_1[];
 int __cdecl Gfx_SelectTexturePageDrawList(
     unsigned int arg_0,
     unsigned int arg_4,
-    unsigned short arg_8,
+    unsigned int arg_8, /* DWORD ABI slot; original source type not established */
     unsigned int *arg_C,
     unsigned int *arg_10,
     unsigned int *arg_14)
@@ -128,7 +138,7 @@ main_path:
         do {
             if (*(unsigned int *)(slot + 0x58) != 0
                 && *(unsigned int *)(slot + 0x20) == dword_1CA8848) {
-                bit = 1u << ebp_i; /* mov eax,1; mov ecx,ebp; shl eax,cl */
+                bit = 1u << ((unsigned)ebp_i & 31u); /* 465E42 shl eax,cl: x86 modulo 32 */
                 *(unsigned int *)(ctx + 0x324) |= bit;
                 if ((arg_4 & 0x60u) == 0x40u) { /* and ecx,60h; cmp cl,40h */
                     *(unsigned int *)(ctx + 0x328) |= bit;
@@ -143,7 +153,7 @@ main_path:
 
     /* loc_465E7E: mov eax,[esi]; cmp ebp,eax */
     if (ebp_i != count) {
-        /* count==0: ebp=1, edi still ctx+0x68, no bitset */
+        /* count==0: slot 1, no local creation/bitset; publish then test +24h */
         goto copy_floats;
     }
 
@@ -161,7 +171,7 @@ main_path:
             (int)ebx,
             (int)dword_1CA8848,
             0);
-        bit = 1u << ebp_i; /* ebp still = old count */
+        bit = 1u << ((unsigned)ebp_i & 31u); /* 465F77 shl eax,cl; ebp = old count */
         *(unsigned int *)(ctx + 0x324) |= bit;
         if ((arg_4 & 0x60u) == 0x40u) {
             *(unsigned int *)(ctx + 0x328) |= bit;
@@ -185,7 +195,7 @@ check_list: /* loc_465FD5 */
 
 clut_lookup: /* loc_465E98 */
     if (var_20C == 2)
-        goto output; /* jz loc_466029: skip helpers AND *arg_C */
+        goto output; /* 465E9B jz loc_466029: d==2 skips helpers AND *arg_C */
 
     if ((unsigned short)clut == 0) { /* 66 83 bc ... cmp word arg_8,0 */
         _sprintf(Buffer, aSsigpuTxSelect, aNull_1, 0, 0);
@@ -194,7 +204,7 @@ clut_lookup: /* loc_465E98 */
     var_208 = clut & 0xFFFFu;
     idx = sub_466090(ctx, var_208);
     if (idx < 0) { /* test ebx / jge (0F 8D signed) */
-        mask = 0x10u << (var_20C * 4u); /* 0x10/0x100/0x1000 — NOT TIM stride */
+        mask = 0x10u << (var_20C * 4u); /* colour count 0x10/0x100 only; d==2 bypasses this block */
         idx = sub_4660D0(ctx, var_208, mask);
         if (idx < 0)
             idx = 0;
@@ -202,7 +212,8 @@ clut_lookup: /* loc_465E98 */
             sub_466190(ctx, var_208, idx, (int)mask);
     }
 
-    /* loc_465FFD: arg_C not NULL-tested */
+    /* 465FFD/466002 jnz 466014 tests b, not d. Encoded CLUT index,
+     * stored at 466027 without NULL guard, only when this block is reached. */
     *arg_C = (unsigned int)idx * 2u
         + ((var_204 == 2u && dword_1CA8A00 == 0) ? 1u : 0u);
 

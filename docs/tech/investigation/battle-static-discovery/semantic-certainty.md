@@ -113,7 +113,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x464DB0` | `Gfx_UploadCLUTSlot` | 147 | SKIP_NODECOMP | — | oui | — | — | interne Square (CLUT) ; file dès que decomp |
 | `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | SKIP_NODECOMP | — | oui | — | — | interne Square (pages texture) ; file dès que decomp |
 | `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; count vivant, 7 fonctions/14 sites, gates distinctes ; §5.6 ; tag hérité SKIP/save true |
-| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | SKIP_NODECOMP | — | oui | — | — | interne Square (sélection TPage/draw list) ; file dès que decomp |
+| `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; toutes familles EAX/out séparées, count0 garde réelle ; §5.6 ; tag hérité SKIP/save true |
 | `0x4675C0` | `TexStaging_BlitRows` | 195 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x4677D0` | `TexStaging_BlitCLUTAlpha` | 196 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x467D10` | `Input_ProcessInput` | 334 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
