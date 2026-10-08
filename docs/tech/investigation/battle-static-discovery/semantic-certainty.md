@@ -117,7 +117,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; count vivant, 7 fonctions/14 sites, gates distinctes ; §5.6 ; tag hérité SKIP/save true |
 | `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; toutes familles EAX/out séparées, count0 garde réelle ; §5.6 ; tag hérité SKIP/save true |
 | `0x4675C0` | `TexStaging_BlitRows` | 195 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; modes0 compact/1 copie/2 555-565 ; quatre EAX résiduels ; §5.6/push/save true |
-| `0x4677D0` | `TexStaging_BlitCLUTAlpha` | 196 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x4677D0` | `TexStaging_BlitCLUTAlpha` | 196 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; nom trop large, alpha4 depuis somme555 ; shift modulo32/ordreCLUT corrigés ; §5.6/push/save true |
 | `0x467D10` | `Input_ProcessInput` | 334 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x4685F0` | `get_key_state` | 16 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x46A0A0` | `DSound_StopChannel_1CD0B00` | 50 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
