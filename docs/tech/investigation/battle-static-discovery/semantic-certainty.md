@@ -488,7 +488,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x5857D0` | `BdLinkCallback_5857D0` | 315 | LIKELY | oui | — | non | oui | push seul |
 | `0x595AA0` | `Ot_EmitPrim_Code24_AVSZ3_FromObj44` | 56 | LIKELY | — | — | — | — | pas de C réconcilié |
 | `0x5A5890` | `BdLinkCallback_5A5890` | 277 | LIKELY | oui | — | non | oui | push seul |
-| `0x5A6D20` | `BdLinkCallback_5A6D20` | 247 | CONFLICT | oui | — | non | oui | divergence notée parent |
+| `0x5A6D20` | `BdLinkCallback_5A6D20` | 247 | LIKELY | oui | — | non | oui | 2+1 R session 3: tranché, retour 2 prouvé (test al,2 @50843A), nom confirmé |
 | `0x5A8750` | `GF_199Cactuar_InvokeSummonScript` | 124 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5A8940` | `GF_199Cactuar_SequenceTaskDriver` | 118 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5AA3A0` | `GF_199Cactuar_SequenceTick` | 10 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
@@ -674,4 +674,4 @@ Notes encodage : 4 livrables dups ont été réécrits (NUL/mojibake) en commits
 `0x508360` → CERTAIN (alloc BdLinkTask + append queue) ;
 `0x8E55E0` → CERTAIN (Op178 = seqCtx+0xA2=[IP+2], ≠ alias SubmitTIM) ;
 `0xB0C170` → CERTAIN (loader mag202_b, pas d'effet FL).
-Restant **CONFLICT** : `0x5A6D20` `BdLinkCallback_5A6D20` (247 instr.) — header SET (solo) pas encore fait ; le contexte budgétaire session a été arbitré (noté SKIPPED/deferred dans CAMPAIGN_LOG).
+Restant **CONFLICT** : `0x5A6D20` `BdLinkCallback_5A6D20` (247 instr.) — **CLOS session 3** (2+1 multi-agents : A sol + B astra 15:02 session 2, R session 3) → **LIKELY tranché** : callback BdLink séquence présentation magie acteur, retour 2 = retrait prouvé (`test al,2` @50843A), nom confirmé. Livrable `semantic/0x5A6D20__BdLinkCallback_5A6D20.md`, push IDB tag `[semantic-triple 2026-10-08]` + save.
