@@ -113,7 +113,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x460860` | `Gte_MVMVA` | 177 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x463FC0` | `Gfx_TPageDescribePixelFormat` | 126 | SKIP_NODECOMP | — | — | — | — | interne Square (TPage PS1) ; file dès que decomp |
 | `0x464DB0` | `Gfx_UploadCLUTSlot` | 147 | SKIP_NODECOMP | — | oui | — | — | interne Square (CLUT) ; file dès que decomp |
-| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | SKIP_NODECOMP | — | oui | — | — | interne Square (pages texture) ; file dès que decomp |
+| `0x464F70` | `Gfx_AllocTexturePageSlot` | 294 | LIKELY | oui | oui | non | oui | 2+1 sémantique historique ; récupération Flash/Sol C+R 2026-10-09, trois EAX/cache/reloads corrigés ; §5.6 parent ; append correction multiligne/save true/readback exact ; backend non fourni |
 | `0x465930` | `Gfx_SubmitTexturePageLists` | 300 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; count vivant, 7 fonctions/14 sites, gates distinctes ; §5.6 ; tag hérité SKIP/save true |
 | `0x465CE0` | `Gfx_SelectTexturePageDrawList` | 288 | CERTAIN | oui | oui | non | oui | R final Sol après V/B strict ; toutes familles EAX/out séparées, count0 garde réelle ; §5.6 ; tag hérité SKIP/save true |
 | `0x4675C0` | `TexStaging_BlitRows` | 195 | CERTAIN | oui | oui | — | oui | Sol 1+V ACCEPTE ; modes0 compact/1 copie/2 555-565 ; quatre EAX résiduels ; §5.6/push/save true |
