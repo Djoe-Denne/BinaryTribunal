@@ -152,3 +152,9 @@ Représentants à traiter : stage008, stage016, stage030, stage044, stage045, st
 
 Cadence : lots de 5 en série, commit git par fonction close, rapport de lot `EA | mode | confiance | nom | A==V`.
 Pièges à reciter aux workers : noms menteurs, `Battle_GetRandomInt` retour AL seul, bit 0x40 inversé selon accesseur, strides Hex-Rays faux (F_CHAR 0x1D0, slot 0xD0), occupancy exec 1+2, familles clones (1-2 représentants en complet, reste par diff ASM).
+
+## Avenant local 2026-10-09 — pilote adaptatif autorisé, non global
+
+Voir [protocole pilote](PILOT_adaptive-decomp-semantic-2026-10-09.md) et [registre](PILOT_adaptive-decomp-semantic-2026-10-09.registry.json). L'historique ci-dessus n'est pas réécrit : pour les six EA P1–P6 seulement, une génération Flash high + review C ASM exhaustive Sol high remplace la dual-gen systématique, sémantique 1+V séparée ; >200 seul ne déclenche plus B/R. Tous les autres triggers, §5.6 parent et régions >600/couverture totale restent obligatoires. Trois contrôles B supplémentaires pré-spécifiés (un/bin), coûts séparés. Aucun SetType/rename/patch/runtime ni changement global de modèles.
+
+Priorités reprise : état sessions C6/C10 via API read-only et récupération de leurs drafts (les finals tardifs sont déjà consignés), C11 pack neutre hors métriques, réparations J3 reloads et A8/A10 SAR-CL sur ASM + review indépendante avant promotion des nouvelles clôtures. Ne pas refaire C1/C9. SETUP limité aux documents : aucun lancement worker ni push IDB. Six sources nouvelles vérifiées sans decomp/semantic, deux par bin natif ; pas de fabrication/remplacement selon résultats, pas d'obligation de six clos pour un premier checkpoint.
