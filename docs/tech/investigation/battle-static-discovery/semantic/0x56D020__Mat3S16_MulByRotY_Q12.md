@@ -33,3 +33,7 @@
 - return: MOV EAX,ESI at56D07C after last helper; current ESI is second argument under verified normal preserving/private-frame contract. Full32 carrier, not source prototype.
 - name: Mat3/RotY/Q12 business identity NOT_CONFIRMED; two same-argument scalar calls and nine WORD/frame+update/return give numeric role.
 - extra: ADD ESP,16 at56D079 cleans two earlier scalar args plus two final args; not four args of final callee. GPR/helper/backend/private-frame and20-byte support are conditional, not runtime/ISO evidence.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x56D020__Mat3S16_MulByRotY_Q12.md) : 685 octets, SHA-256 `d2b7f979283a54d4919cec0afa70dadcf31f4f57669aab037cc872fd4d4b2192`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.

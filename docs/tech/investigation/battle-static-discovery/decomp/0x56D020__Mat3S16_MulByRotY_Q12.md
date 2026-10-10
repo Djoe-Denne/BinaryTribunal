@@ -101,3 +101,23 @@ __int16 *__cdecl Mat3S16_MulByRotY_Q12(int angle, __int16 *dest)
 }
 ```
 ````
+
+## Conservation byte-exacte du C — erratum de sérialisation Git
+
+Le premier fence C est un **rendu**, normalisé LF dans Git par les attributs existants `text:auto/eol:lf` ; il ne constitue pas le carrier byte-exact. Le carrier Base64 ci-dessous est la source canonique exacte, incluant CRLF et fin de fichier, et supersède les mentions antérieures de byte-exactitude du fence rendu. Après décodage : **685 octets**, SHA-256 `d2b7f979283a54d4919cec0afa70dadcf31f4f57669aab037cc872fd4d4b2192`, identique au C accepté gelé `tools/_tmp_semantic_triple/0x56d020/native-2026-10-10/N56D020_reuse_review/c_reviewed_final.c`. Aucun C, algorithme, confiance ou gate native changé. Cette réparation de publication ne compte pas comme une nouvelle clôture et ne requiert pas de nouveau push IDB.
+
+```base64
+LyogRXhpc3RpbmcgQyByZXVzZWQgdmVyYmF0aW0gZXhjZXB0IHdoaXRlbGlzdGVkIGlkZW50aWZp
+ZXJzL2NvbW1lbnRzLiBOdW1lcmljIHJvb3QgMHg1NkQwMjAuIE5vIGFjY2VwdGFuY2UgdmVyZGlj
+dC4gKi8NCg0KdW5zaWduZWQgaW50IF9fY2RlY2wgc3ViXzU2RDEwMChpbnQgdjApOw0KdW5zaWdu
+ZWQgaW50IF9fY2RlY2wgc3ViXzU2RDEzMChpbnQgdjApOw0KX19pbnQxNiAqX19jZGVjbCBzdWJf
+NTZDMjcwKGludCBzcmNfbWF0LCBfX2ludDE2ICp2MSk7DQoNCl9faW50MTYgKl9fY2RlY2wgc3Vi
+XzU2RDAyMChpbnQgdjAsIF9faW50MTYgKnYxKQ0Kew0KICAgIF9faW50MTYgdjJbOV07DQogICAg
+dW5zaWduZWQgaW50IHYzOw0KICAgIHVuc2lnbmVkIGludCB2NDsNCg0KICAgIHYzID0gc3ViXzU2
+RDEwMCh2MCk7DQogICAgdjQgPSBzdWJfNTZEMTMwKHYwKTsNCg0KICAgIHYyWzBdID0gKF9faW50
+MTYpdjM7DQogICAgdjJbMV0gPSAwOw0KICAgIHYyWzJdID0gKF9faW50MTYpdjQ7DQogICAgdjJb
+M10gPSAwOw0KICAgIHYyWzRdID0gMHgxMDAwOw0KICAgIHYyWzVdID0gMDsNCiAgICB2Mls2XSA9
+IChfX2ludDE2KSgwdSAtIHY0KTsNCiAgICB2Mls3XSA9IDA7DQogICAgdjJbOF0gPSAoX19pbnQx
+Nil2MzsNCg0KICAgIHN1Yl81NkMyNzAoKGludCl2MiwgdjEpOw0KICAgIHJldHVybiB2MTsNCn0N
+Cg==
+```
