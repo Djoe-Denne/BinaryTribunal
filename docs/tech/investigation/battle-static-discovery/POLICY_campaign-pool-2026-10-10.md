@@ -130,3 +130,30 @@ l'adaptatif hors six sans autorisation ; futur canon reste inchangé.
 plafond 1+11, graphes/gates/isolation/overrides/fallback borné, digests connus,
 gels P1, slots et absence de campagne lancée. Les essais sont copies en mémoire,
 ne délèguent rien, ne modifient pas la queue ni l'IDB et ne programment rien.
+
+## Receipt runtime Ensemble — 2026-10-10
+
+La garde IDA actuelle a passé input/IDB/SHA, puis une équipe native a été créée
+et six sessions fraîches demandées séquentiellement, sans worktree ni git worker.
+Les six ont immédiatement `API outcome=failed`, aucun résultat/assistant ni
+token observé. Les overrides demandés `provider/model#high` sont effectivement
+stockés comme `model.id` contenant **littéralement `#high`**, `variant=default`.
+C'est un échec vérifié du **contrat de représentation des modèles** ; le payload
+d'erreur sous-jacent est inconnu. Ne pas inventer ModelNotFound, quota/fonds/OOM,
+panne provider ou régression IDA. Pas d'exécution correcte high établie.
+
+Le pool est `blocked_ensemble_model_reference`, six tâches failed et descendants
+bloqués ; deux gates parent structurellement READY ne sont pas exécutées après
+l'arrêt global. P3 remplacement Sol demandé/créé mais contrat modèle échoué,
+pas un C primaire Sol réussi. Six demandes de shutdown non-forcé envoyées,
+état API terminal failed/0 tokens confirmé ; confirmation de shutdown des membres
+non reçue. Aucun merge/cleanup/purge, aucune nouvelle boucle de lancement ni
+changement silencieux de modèle/harness ; les records de l'équipe sont conservés.
+
+**Désormais vérifier le Model.Ref de la première session et de chaque dispatch
+avant d'étendre le pool** : `providerID` exact, `id` sans `#high`, `variant=high`.
+Le validateur rejette des slots running dont ce contrat n'est pas prouvé ; les
+receipts failed restent des diagnostics, pas des travaux complétés. La correction
+de l'interface Ensemble ou l'autorisation explicite d'un autre harness précède
+toute reprise ; ne pas supprimer high pour contourner le problème. Les nouveaux
+tests de référence sont offline, sans réparer le plugin/service/configuration.

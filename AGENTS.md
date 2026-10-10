@@ -19,6 +19,10 @@ la source de vérité ; aucune promotion sur la seule prose d'un worker.
   conservée. Pas de fallback solo. Un défaut C de review suit le protocole de fix.
 - Les slots sont recyclés, **pas les contextes aveugles** : A, V, B et auteurs C
   indépendants sont disjoints. Pas de reprise d'une session enfant étrangère.
+- Vérifier le `Model.Ref` natif de chaque session créée avant d'étendre le pool :
+  ID sans suffixe `#high`, champ `variant=high`. Une chaîne d'override ne prouve
+  pas que le harness l'a interprétée ; jamais accepter `variant=default`
+  silencieusement ni changer de harness sans autorisation en cas d'incompatibilité.
 - §5.6, écritures IDB, sauvegarde/readback et commits restent réservés au
   superviseur et sérialisés. Les workers ne modifient ni IDB, ni git, ni registre.
 - Ce setup ne lance aucune campagne. Activation seulement sur GO long du parent.

@@ -24,6 +24,15 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def model_ref_matches(requested, actual):
+    """Explicit high syntax is not a literal native model ID."""
+    reference, _, variant = requested.partition("#")
+    provider, _, model = reference.partition("/")
+    return bool(actual and actual.get("providerID") == provider
+                and actual.get("id") == model
+                and actual.get("variant") == variant)
+
+
 def ready_tasks(pool, actor="worker"):
     tasks = {t["id"]: t for t in pool["tasks"]}
     return sorted(
@@ -136,6 +145,8 @@ def validate(pool, verify_files=True):
         t = tasks[s["task_id"]]
         require(t["actor"] == "worker" and t["status"] == "running", "slot/task mismatch")
         require(s["inputs_digest"] and s["model"] in {FLASH, SOL}, "unbound dispatch")
+        require(model_ref_matches(s["model"], s.get("model_actual")),
+                "actual native model/variant contract not proved")
         require(s["role"] == t["role"], "slot role mismatch")
         grouped.setdefault(t["ea"], []).append(t["role"])
     for roles in grouped.values():
@@ -208,6 +219,12 @@ def self_test(pool):
     require("P3_C_review" in [t["id"] for t in ready_tasks(sample)],
             "next role must become ready without a batch barrier")
     require("P3_A" not in [t["id"] for t in ready_tasks(sample)], "dependency bypass")
+    checks += 1
+    require(model_ref_matches(SOL, {"providerID": "openai", "id": "gpt-6.1-sol",
+                                    "variant": "high"}), "valid high reference rejected")
+    checks += 1
+    require(not model_ref_matches(SOL, {"providerID": "openai", "id": "gpt-6.1-sol#high",
+                                        "variant": "default"}), "literal high suffix accepted")
     checks += 1
     return checks
 
