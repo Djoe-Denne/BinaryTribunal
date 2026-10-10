@@ -18,12 +18,12 @@
 | Classe | Nombre | Règle |
 |---|---:|---|
 | CERTAIN | 23 (8 doc + 3 triple Grok + 8 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
-| LIKELY | 294 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| LIKELY | 295 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 134 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 133 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -425,7 +425,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x50B2A0` | `BattleActionSequence_Tick_GF_Cinematic` | 400 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x50B830` | `BattleActionSequence_Tick_Special` | 195 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x50BB00` | `BattleActionSequence_Tick_DefaultParamBZero` | 84 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
-| `0x50BC20` | `BattleActionSequence_Tick_DefaultParamAFFFF` | 66 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
+| `0x50BC20` | `BattleActionSequence_Tick_DefaultParamAFFFF` | 66 | LIKELY | oui (C32 conditionnel) | — | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x50BD00` | `BattleActionSequence_Tick_PhysicalNoEvents` | 48 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x50BD80` | `BattleActionSequence_Tick_PhysicalWithEvents` | 27 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x50BDC0` | `BattleActionSequence_Tick_F1` | 81 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |

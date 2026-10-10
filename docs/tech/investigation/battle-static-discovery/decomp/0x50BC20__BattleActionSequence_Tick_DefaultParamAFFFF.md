@@ -1,3 +1,113 @@
+# BattleActionSequence_Tick_DefaultParamAFFFF @ 0x50BC20 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `7b651d08f5f8022f19afc76ba972bf95df1fad26fa716345bc095d3fe39ac958`, 66 EA / 206 octets ; [sémantique](../semantic/0x50BC20__BattleActionSequence_Tick_DefaultParamAFFFF.md).
+- C exact SHA-256 `e27d1051670a2a016bb1036d2d8a36f0083ceb5ca46bb64897084f1813d2dbb8` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 2119 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+int sub_50A750(void);  
+int __cdecl sub_50AF20(int magicID, int (__cdecl **out_cb)(int));  
+unsigned char *sub_50AFC0(void);  
+int __cdecl sub_50AE80(void);  
+int *sub_50AED0(void);  
+
+extern unsigned char *ptr_1D99A50;  
+extern int (__cdecl *fnptr_21DFEC0)(int);  
+extern int dword_1D999C8;  
+extern unsigned char byte_1D96A90;  
+extern unsigned int dword_1D97718;  
+extern unsigned char byte_1D99A78;  
+extern unsigned int dword_1D97728;  
+extern int *ptr_1D96AAC;  
+extern unsigned int dword_1D96A9C;  
+extern unsigned int dword_1D99A64;  
+
+int __cdecl sub_50BC20(int arg_0)
+{
+    unsigned char *esi;
+    unsigned char *edi;
+    unsigned char cl;
+    unsigned char al;
+    unsigned int eax;
+
+    esi = (unsigned char *)arg_0;
+    cl = esi[0x0D];  
+    edi = *(unsigned char **)(esi + 0x10);  
+    eax = cl;  
+    if (eax > 3u)  
+        goto def_50BC38;
+
+    switch (eax) {
+    case 0:  
+        sub_50A750();
+        sub_50AF20(
+            *(unsigned short *)(ptr_1D99A50 + 6),  
+            &fnptr_21DFEC0);
+        al = esi[0x0D];  
+        ++al;  
+        esi[0x0D] = al;  
+        goto def_50BC38;  
+
+    case 1:  
+        if ((int)dword_1D999C8 < 0)  
+            goto def_50BC38;
+        ++cl;  
+        esi[0x0D] = cl;  
+        return 0;  
+
+    case 2:  
+        if (byte_1D96A90 > 0u)  
+            goto def_50BC38;
+        if (*(unsigned char *)&dword_1D97718 != 0)  
+            goto def_50BC38;
+        sub_50AFC0();  
+        *(unsigned short *)&dword_1D97728 = 0xFFFFu;  
+        eax = (unsigned int)fnptr_21DFEC0((int)&byte_1D99A78);  
+        ptr_1D96AAC = (int *)eax;  
+        al = esi[0x0D];  
+        ++al;
+        esi[0x0D] = al;
+        return 0;  
+
+    case 3:  
+        if (sub_50AE80() != 0)
+            goto def_50BC38;
+        sub_50AED0();
+        eax = dword_1D96A9C;
+        edi[1] = 0xFFu;  
+        eax = (eax & 0xFFFFFF00u) | ((unsigned char)eax & 0xEFu);  
+        dword_1D96A9C = eax;  
+        dword_1D99A64 = 0;  
+        return 2;  
+    }
+
+def_50BC38:
+    return 0;  
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `ccc76154f82d22850e43243630b30ef7c805db5b16779f6876da4c5169764a22` ; copie gelée `tools/_tmp_semantic_triple/0x50bc20/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleActionSequence_Tick_DefaultParamAFFFF @ 0x50BC20
 
 - Instr (live): 66
@@ -106,3 +216,4 @@ def_50BC38:
     return 0; /* 5F 33 C0 5E C3 */
 }
 ```
+````
