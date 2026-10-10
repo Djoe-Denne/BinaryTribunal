@@ -249,7 +249,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x48EDA0` | `domain::BattleTarget_IsEligibleByStatusMask` | 12 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x48EF50` | `Battle_GetElementFlagged` | 23 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x48EF80` | `domain::Battle_UpdateDamage` | 36 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x48F020` | `domain::Battle_GetRandomInt` | 10 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x48F020` | `domain::Battle_GetRandomInt` | 10 | LIKELY | [C](decomp/0x48F020__domain__Battle_GetRandomInt.md) | oui | A==V (1+V) | oui 2026-10-10 | EAX byte zéro-étendu, curseur puis table ancien byte ; C corrigé exact, gate parent statique borné, pas équivalence runtime ; [sémantique](semantic/0x48F020__domain__Battle_GetRandomInt.md) |
 | `0x48F050` | `domain::Battle_SeedRNG` | 24 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x48F0F0` | `isRandomProbaNumDen255` | 20 | LIKELY | oui | — | non | oui | push seul |
 | `0x48F120` | `domain::Battle_GetRandom1ToMax` | 7 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
