@@ -12,7 +12,7 @@ POOL = DIRECTORY / "CAMPAIGN_POOL_2026-10-10.json"
 FLASH = "zai-coding-plan/glm-5.3-flash#high"
 SOL = "openai/gpt-6.1-sol#high"
 STATUSES = {"ready", "running", "failed", "fallback", "completed", "blocked"}
-FLASH_ROLES = {"pack_C_A", "neutral_repair", "propagation", "C_fix"}
+FLASH_ROLES = {"pack_C_A", "neutral_repair", "propagation", "C_fix", "neutral_pack_reuse"}
 
 
 def require(condition, message):
@@ -112,8 +112,22 @@ def validate(pool, verify_files=True):
                     and c["accepted_RE_results"] == 0, "native canary receipt mismatch")
     tasks = {t["id"]: t for t in pool["tasks"]}
     require(len(tasks) == len(pool["tasks"]), "duplicate task IDs")
-    require(set(pool["sources"]) == {f"P{i}" for i in range(1, 7)}, "six-case scope")
-    require({k for k, s in pool["sources"].items() if s["control"]}
+    pilot_cases = {f"P{i}" for i in range(1, 7)}
+    require(pilot_cases <= set(pool["sources"]), "six-case pilot preserved")
+    extras = {k:s for k,s in pool["sources"].items() if k not in pilot_cases}
+    if extras:
+        scheduler = pool.get("sustained_scheduler", {})
+        require(scheduler.get("sustained_target") == 12
+                and scheduler.get("required_workers") == 11
+                and scheduler.get("minimum_ready_backlog", 0) >= 4,
+                "full PLAN frontier requires sustained utilization steering")
+        require(set(scheduler["adaptive_cases_only"]) == pilot_cases,
+                "adaptive cannot extend outside frozen pilot")
+        require(all(s.get("authorized_PLAN") and s.get("adaptive") is False for s in extras.values()),
+                "outside-pilot source must be canonical and PLAN-authorized")
+        families=[s["family"] for s in extras.values()]
+        require(len(families)==len(set(families)), "duplicate active PLAN family representatives")
+    require({k for k, s in pool["sources"].items() if s.get("control")}
             == {"P1", "P3", "P5"}, "frozen control cohort")
     visiting, visited = set(), set()
 
@@ -139,13 +153,18 @@ def validate(pool, verify_files=True):
                     "unfinished dependency for " + t["id"])
             if t["role"] == "semantic_A":
                 require(all(tasks[d].get("C_final_accepted", True)
-                            for d in t["depends_on"] if tasks[d]["role"] == "C_review"),
+                            for d in t["depends_on"] if tasks[d]["role"] in {"C_review", "canonical_C_reuse_review", "canonical_C_reuse_provenance_review", "canonical_C_reconcile", "parent_canonical_reuse_acceptance"}),
                         "semantic A cannot consume a CORRIGE C review")
         if t["actor"] == "worker":
             expected = FLASH if t["role"] in FLASH_ROLES else SOL
             if t.get("dispatch_attempt_kind") == "sol_fallback":
                 require(t.get("primary_model") == FLASH and t["model"] == SOL,
-                        "explicit fallback model mismatch")
+                         "explicit fallback model mismatch")
+            elif t.get("dispatch_attempt_kind") == "sol_provider_capacity":
+                evidence=t.get("capacity_override_evidence",{})
+                require(expected==FLASH and t.get("primary_model")==FLASH and t["model"]==SOL
+                        and evidence.get("incidents") and evidence.get("same_role_and_inputs"),
+                        "provider capacity substitution must be explicit evidenced same Flash role")
             else:
                 require(t["model"] == expected, "explicit primary model mismatch")
             require(t["fresh_session"], "independent context required in this setup")
@@ -302,6 +321,26 @@ def self_test(pool):
         checks += 1
     else:
         raise AssertionError("critical restart drain accepted new dispatch")
+    if pool.get("sustained_scheduler"):
+        frontier = copy.deepcopy(pool)
+        for task in frontier["tasks"]:
+            if task["case"] in {"P3","P4","P6"} and task["actor"]=="worker" and task["status"]!="completed":
+                task["status"]="blocked"
+                task["dispatch_block_reason"]="test_pilot_branch_waits_not_global_gate"
+        outside = [t for t in ready_tasks(frontier) if t["case"].startswith("N")]
+        require(len(outside)>=frontier["sustained_scheduler"]["minimum_ready_backlog"],
+                "outside-pilot READY branches must refill while pilot branches wait")
+        require(all(t.get("adaptive") is False and t.get("dispatch_manifest") and t.get("inputs_digest") for t in outside),
+                "ready reserve must be real manifested canonical work, not reserved slots")
+        checks += 1
+        broken=copy.deepcopy(pool)
+        next(s for k,s in broken["sources"].items() if k.startswith("N"))["adaptive"]=True
+        try:
+            validate(broken,verify_files=False)
+        except ValueError:
+            checks+=1
+        else:
+            raise AssertionError("adaptive expanded silently outside six pilots")
     if pool.get("native_migration_2026_10_10"):
         rejects(lambda p: p["native_migration_2026_10_10"]["self_model_actual"].update(variant="default"))
         rejects(lambda p: p["native_migration_2026_10_10"]["canaries"][0]["model_actual"].update(id="glm-5.3-flash#high"))

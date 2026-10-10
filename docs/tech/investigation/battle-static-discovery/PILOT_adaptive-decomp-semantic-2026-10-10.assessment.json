@@ -1,0 +1,3339 @@
+{
+  "schema_version": 1,
+  "method": {
+    "dedup_key": "session_id",
+    "selection": "newest timestamped counter-bearing revision; native/queue tie-break; conflicts exposed",
+    "null": "unobserved, never imputed zero",
+    "zero": "retained only if receipt explicitly observes zero",
+    "no_tariffs_no_API_no_polling": true,
+    "token_categories_disjoint": false,
+    "time": "sum session updated-created, overlapping sessions and tool/admin wait included; NOT campaign wall time or reasoning time",
+    "supervisor": "campaign-wide supervisor usage excluded; no pilot-only attributable counter present",
+    "source_precedence": "frozen queue task states over older registry checkpoint; expose mismatch; no native RE verification"
+  },
+  "counts": {
+    "pilot_unique_sessions": 58,
+    "native_owned_receipt_sessions": 45,
+    "pre_migration_pilot_reference_sessions": 13,
+    "sessions_without_any_counter": 5,
+    "native_counter_references": 125,
+    "native_distinct_counter_snapshots": 46,
+    "queue_closures": 6,
+    "planned_EA": 6,
+    "families": 6,
+    "technical_valid_high_Sol_fallbacks": 3,
+    "capacity_overrides_not_fallbacks": 3,
+    "native_C_correction_iterations": 4,
+    "harness_attempts_no_valid_execution": 1,
+    "legacy_ensemble_sessions_excluded": 6,
+    "native_tasks_with_explicit_generic_admin_exception": 7,
+    "owned_worker_sessions_with_explicit_generic_admin_exception": 6,
+    "parent_C_review_routing_errors": 1,
+    "parent_blindness_briefing_incident_records": 2,
+    "native_primary_pack_strict_blind_incident_cases": 0,
+    "ZAI_failed_sessions_full_queue": 4,
+    "ZAI_failed_sessions_pilot": 1,
+    "ZAI_failed_sessions_CANON_excluded": 3
+  },
+  "closed_cases_recorded_in_queue": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6"
+  ],
+  "totals_all_pilot_observed": {
+    "sessions": 58,
+    "fields": {
+      "input": 4009300,
+      "output": 949649,
+      "reasoning": 547488,
+      "cache_read": 45395328,
+      "cache_write": 0
+    },
+    "missing_fields": {
+      "input": 5,
+      "output": 5,
+      "reasoning": 5,
+      "cache_read": 5,
+      "cache_write": 12
+    },
+    "observed_cost_values": {
+      "unspecified": {
+        "sum": 0,
+        "sessions_observed": 53
+      }
+    },
+    "elapsed_updated_minus_created_seconds": 35391.573,
+    "elapsed_sessions_observed": 53
+  },
+  "totals_native_owned_receipts": {
+    "sessions": 45,
+    "fields": {
+      "input": 3490260,
+      "output": 816589,
+      "reasoning": 474494,
+      "cache_read": 37879680,
+      "cache_write": 0
+    },
+    "missing_fields": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    },
+    "observed_cost_values": {
+      "unspecified": {
+        "sum": 0,
+        "sessions_observed": 45
+      }
+    },
+    "elapsed_updated_minus_created_seconds": 30843.269,
+    "elapsed_sessions_observed": 45
+  },
+  "totals_pre_migration_pilot_references": {
+    "sessions": 13,
+    "fields": {
+      "input": 519040,
+      "output": 133060,
+      "reasoning": 72994,
+      "cache_read": 7515648,
+      "cache_write": 0
+    },
+    "missing_fields": {
+      "input": 5,
+      "output": 5,
+      "reasoning": 5,
+      "cache_read": 5,
+      "cache_write": 12
+    },
+    "observed_cost_values": {
+      "unspecified": {
+        "sum": 0,
+        "sessions_observed": 8
+      }
+    },
+    "elapsed_updated_minus_created_seconds": 4548.304,
+    "elapsed_sessions_observed": 8
+  },
+  "by_usage_group": {
+    "production": {
+      "sessions": 46,
+      "fields": {
+        "input": 3078723,
+        "output": 708149,
+        "reasoning": 496552,
+        "cache_read": 34188544,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 3,
+        "output": 3,
+        "reasoning": 3,
+        "cache_read": 3,
+        "cache_write": 9
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 43
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 27780.618,
+      "elapsed_sessions_observed": 43
+    },
+    "mandatory_control": {
+      "sessions": 10,
+      "fields": {
+        "input": 798352,
+        "output": 207143,
+        "reasoning": 46956,
+        "cache_read": 9812736,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 2,
+        "output": 2,
+        "reasoning": 2,
+        "cache_read": 2,
+        "cache_write": 3
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 8
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 6729.531,
+      "elapsed_sessions_observed": 8
+    },
+    "procedural_escalation": {
+      "sessions": 2,
+      "fields": {
+        "input": 132225,
+        "output": 34357,
+        "reasoning": 3980,
+        "cache_read": 1394048,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 2
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 881.424,
+      "elapsed_sessions_observed": 2
+    }
+  },
+  "by_native_usage_group": {
+    "production": {
+      "sessions": 36,
+      "fields": {
+        "input": 2612803,
+        "output": 592991,
+        "reasoning": 429600,
+        "cache_read": 27436160,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 36
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 23773.341,
+      "elapsed_sessions_observed": 36
+    },
+    "mandatory_control": {
+      "sessions": 7,
+      "fields": {
+        "input": 745232,
+        "output": 189241,
+        "reasoning": 40914,
+        "cache_read": 9049472,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 7
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 6188.504,
+      "elapsed_sessions_observed": 7
+    },
+    "procedural_escalation": {
+      "sessions": 2,
+      "fields": {
+        "input": 132225,
+        "output": 34357,
+        "reasoning": 3980,
+        "cache_read": 1394048,
+        "cache_write": 0
+      },
+      "missing_fields": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "observed_cost_values": {
+        "unspecified": {
+          "sum": 0,
+          "sessions_observed": 2
+        }
+      },
+      "elapsed_updated_minus_created_seconds": 881.424,
+      "elapsed_sessions_observed": 2
+    }
+  },
+  "denominators": {
+    "EA_planned": 6,
+    "EA_recorded_closed": 6,
+    "family_planned": 6,
+    "family_recorded_closed": 6,
+    "size_bins": {
+      "81-200": {
+        "cases": [
+          "P3",
+          "P4"
+        ],
+        "closed": [
+          "P3",
+          "P4"
+        ]
+      },
+      "<=80": {
+        "cases": [
+          "P1",
+          "P2"
+        ],
+        "closed": [
+          "P1",
+          "P2"
+        ]
+      },
+      ">200": {
+        "cases": [
+          "P5",
+          "P6"
+        ],
+        "closed": [
+          "P5",
+          "P6"
+        ]
+      }
+    },
+    "mandatory_control_cases": [
+      "P1",
+      "P3",
+      "P5"
+    ],
+    "strict_blind_denominator_certified": null
+  },
+  "controls": {
+    "P1": {
+      "mandatory": true,
+      "R_status": "completed",
+      "B_material_novel_vs_both_baselines": 0,
+      "basis": "parent_recorded_R_adjudication_not_independent_artifact_read",
+      "parent_evidence_exact": "Revision2 deep6functions241insns1016bytes14inputs21nativehashes;8/8freeze unchanged;materialBnovelvsBOTH C-reviews+A/V=0;descriptivepermutation/flags only;S-36/S-8 x87qualifications Ronly;parentnativehashcheck6functions;LIKELYnumerical/UNCERTAINmetier,notboneconfirmation",
+      "queue_task_pointer": "/tasks/6",
+      "R_session_id": "ses_edae6ef48ffe6219GwEE189AGq",
+      "R_artifact_hash_index": {
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/actual_read_manifest.json": "c05bf58ca02a1981228f1927ca38d76017839f6502511e2a934f31a951672a4d",
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/adjudication.json": "359024e99eb222d26471db75d74d1d9caa0c1c753374f3b9b563dae09312b39c",
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/control_adjudication_r.md": "6a1a5bf5c51ec2947b3a417c20dc85a15649ce8b1d2a2b98fc25619832e9f030",
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/input_manifest.json": "fca40715541965a55ab56c165d9aafc17b15e2c81217cbac8597e37a818fe082",
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/native_regions.json": "7fe565083064251cb464a7504e155f4e5d4449c594d7ebf5faed47cd0e5fa4da",
+        "tools/_tmp_semantic_triple/0x509b30/native-2026-10-10/P1_R/revision2/semantic_r.md": "1da4746a132254889ce2f06ae9c1b05fe01ab339bda1fc3e33dc6936d0480ecf"
+      },
+      "freeze": {
+        "historical_record": {
+          "c_gen_a_sha256": "ac540c26890197c3bd7ab275b0ad5fe8106f7e4d1687d54cc9a0f980cbddfd32",
+          "c_review_input_sha256": "ac540c26890197c3bd7ab275b0ad5fe8106f7e4d1687d54cc9a0f980cbddfd32",
+          "c_review_conclusion_sha256": "6bc5849492f4d8b83d19ac45342815700e0e00fc5d11c1dcf381c1c1b5fea276",
+          "c_re_review_2_sha256": "11c40cff8b8e2c6ea154cc3419030766ec25d1d80e2ea6f51a672d4d1094cddc",
+          "c_final_re_review_sha256": "29249b06d5329968a0e7654e02b94396c1f7fef66551a7997c03c8867d9522c0",
+          "c_reviewed_sha256": "5b6895601f08e3a943e823027e731d2340c7346a6aaff25abecb4b186f68f708",
+          "semantic_a_sha256": "4229c9b20f33425bc9d8040de95a81a1b3b87ca31f72182f13916aa360e1d90a",
+          "semantic_v_sha256": "2900608f38fa2491a9bc93071690f93e58797f54cc6458ecfbec461d746b4e47",
+          "pre_escalation_candidate_sha256": "198b2f6de599147541f7f3bc952fbfb463ddfd68663e18ee24e011b3575c70fb",
+          "pre_escalation_conclusion_sha256": "4ab17091b24878847042d52c24627df089b0ae6d960bb693de72d31540f1ad4d",
+          "frozen_before_b_utc": "2026-10-09T19:31:13.845238+00:00"
+        },
+        "queue_path": null,
+        "queue_sha256": null
+      },
+      "common_error_count": null,
+      "R_false_alarm_count": null,
+      "gaps": [
+        "Per-domain novelty, shared-error and false-alarm counts not independently observable from allowlisted receipts",
+        "Freeze/R referenced artifacts not read or rehashed in this bookkeeping task"
+      ]
+    },
+    "P3": {
+      "mandatory": true,
+      "R_status": "completed",
+      "B_material_novel_vs_both_baselines": 0,
+      "basis": "parent_recorded_R_adjudication_not_independent_artifact_read",
+      "parent_evidence_exact": "R MAINTIEN20hashes8freeze intact155insns32blocks50edges7calls5RETclasses;BmaterialnovelvsBOTH=0;2Ronlyqualified LEAopaqueRET/privateL14 validframe no Bcredit;numericLIKELY businessunknown;parentnativeprobe sourcecallsstrides/xref confirmed",
+      "queue_task_pointer": "/tasks/28",
+      "R_session_id": "ses_edaad17adffeVzUxiDs5K2AiK8",
+      "R_artifact_hash_index": {
+        "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_R/actual_read_manifest.json": "9b09fe6047599fa6145854b5bc5f482514709983275698a6e1d23ca772271f64",
+        "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_R/adjudication.json": "5a8230a932227a2e44cf7df287a798cb28f98ffb9b3511cb6dc07d734858b622",
+        "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_R/control_adjudication_r.md": "3f0b1cd7e8b69686f98891ec17581986ce9d8a3b5ba0bcbacdd186533d155b8b",
+        "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_R/input_manifest.json": "354e9280c68229264dda8282d7936933ced2521e0c55300d8334a824cf801046",
+        "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_R/semantic_r.md": "37c2821f715ea7fa7f8fa11e7d2a8c0dc1ed2b409b09b2db5e9e8cc34735c851"
+      },
+      "freeze": {
+        "historical_record": null,
+        "queue_path": "tools/_tmp_semantic_triple/0x464bd0/native-2026-10-10/P3_freeze/freeze_before_controls.json",
+        "queue_sha256": "809f7bfb231407a2cc36882b428a4ccdc14f28189173bdeac58d828c5010f5e0"
+      },
+      "common_error_count": null,
+      "R_false_alarm_count": null,
+      "gaps": [
+        "Per-domain novelty, shared-error and false-alarm counts not independently observable from allowlisted receipts",
+        "Freeze/R referenced artifacts not read or rehashed in this bookkeeping task"
+      ]
+    },
+    "P5": {
+      "mandatory": true,
+      "R_status": "completed",
+      "B_material_novel_vs_both_baselines": 0,
+      "basis": "parent_recorded_R_adjudication_not_independent_artifact_read",
+      "parent_evidence_exact": "Parent allmanifesthashes unchanged+actualsourceop_t proofs verified; MAINTIEN numericLIKELY0newBOTH; original proceduralV and inherited adminexceptions preserved; nativecontext includes explicitly different paddingblock convention, no runtime proof.",
+      "queue_task_pointer": "/tasks/49",
+      "R_session_id": "ses_eda5b2501ffe4fRUKpFLXkXPfB",
+      "R_artifact_hash_index": {
+        "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_R/actual_read_manifest.json": "6761634104bad436bc43f0aeb96753bb9fe0304b4fdfff9a44dc2bd9c50017ce",
+        "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_R/adjudication.json": "2439e4b1d4fb5913d698a77f217d6c3dd65b52a11b231690773094909c7ac73e",
+        "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_R/control_adjudication_r.md": "bb797abc973e0cfe1109c01a98e0fb1f902859cd0fe91aa8a08c18869e3f62c7",
+        "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_R/input_manifest.json": "e9e9a4f7ec365c6f6e5e63bec7d770660bd20ea54082cca6df824746382e5a54",
+        "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_R/semantic_r.md": "1db10cf30e4a1ca423ffcd0f76eea0c3dcf63938873a52f610588ace1b6a7a17"
+      },
+      "freeze": {
+        "historical_record": null,
+        "queue_path": "tools/_tmp_semantic_triple/0x4653b0/native-2026-10-10/P5_freeze/freeze_before_controls.json",
+        "queue_sha256": "c1accca551737c62885abf87dab2d6852d0c22b4b7c87651cde74588c20b7043"
+      },
+      "common_error_count": null,
+      "R_false_alarm_count": null,
+      "gaps": [
+        "Per-domain novelty, shared-error and false-alarm counts not independently observable from allowlisted receipts",
+        "Freeze/R referenced artifacts not read or rehashed in this bookkeeping task"
+      ]
+    }
+  },
+  "procedural_escalation": {
+    "cases": [
+      "P5",
+      "P6"
+    ],
+    "P6_exact_queue_record": {
+      "freeze_path": "tools/_tmp_semantic_triple/0x4847f0/native-2026-10-10/freeze_before_procedural_escalation.json",
+      "freeze_sha256": "4d9a168fe95ffd2ae0d5279a88c0816353a7d685dadeb69aaba04b81696ada0a",
+      "reason": "profile vs user pilot no material trigger; preserve verdict, satisfy fresh B+R, no mandatory C-B outside cohort",
+      "material_A_V_disagreement": false,
+      "V_numeric_verdict": "ACCEPTE",
+      "B_read_audit_required_before_R": true,
+      "tables_and_caller_native_parent_corroboration_required": true
+    },
+    "P6_B_is_not_mandatory_control": true,
+    "material_semantic_disagreement_count": 0,
+    "material_disagreement_case_coverage": 6,
+    "material_disagreement_evidence_by_case": {
+      "P1": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "separate_Sol_A_completed_V_completed_CORRIGE_fact_alias_source_not_store_source_content_unmutated_no_role_name_confidence_disagreement",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      },
+      "P2": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "V ACCEPTE numericLIKELY;independent4files41bytes10instructions;A==V;no C defect in boundedprojection;noB/Rtrigger;postfreezecontext gathered separately",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      },
+      "P3": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "ACCEPTE A==V numericalLIKELY155insns32blocks50edges;noinvariantgap;EAXallpaths/conditionalclear/reloads/cdecl7calls derived independently;mandatorycontrols stillrequired",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      },
+      "P4": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "ACCEPTE A==V numericalLIKELY116/1166fullEAXreturnsstride46432x5mode/signed8cap100..127/indexDWORDpush-order;aliasstackcounterexample excludedconditionaldomainnotproven;no substroleconfidence disagreementBtrigger,metierunknown",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      },
+      "P5": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "V ESCALADE_2+1 exclusivelyprofileprocedural >200 conflict withpilotuserderogation;notrewriteworkerverdict,proofacceptedNOTACCEPTEvote;A==VnumericalLIKELY0substantivegap,BA8nonpointerresidualclarification retained;mandatoryP5blindC-B/semB+R alreadypreassigned will satisfycontrolandproceduralescalationwithoutextraBrepeat",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      },
+      "P6": {
+        "recorded_material_disagreement_count": 0,
+        "evidence_exact": "OriginalESCALADE_2+1proceduralonly>200profile preserved;numericACCEPTE A==VLIKELY0materialgap,286heads1040bytes/22calls3fullEAXretclasses;caller/LUTfullindependentcorroborationlimitedin5filepack,needsparentnativegate notfabricatedblindproof;freshB+Rscheduletohonorverdict",
+        "basis": "parent-recorded bounded V result / P1 original registry, not new RE review"
+      }
+    },
+    "material_disagreement_note": "P5/P6 V parent records explicitly say numeric A==V / zero substantive gap; do not count size/profile escalation as material disagreement; no complete per-case analytic denominator inferred"
+  },
+  "technical_fallbacks": [
+    {
+      "task_id": "P3_pack",
+      "attempt_exact": {
+        "kind": "sol_fallback",
+        "model": "openai/gpt-6.1-sol#high",
+        "session_id": "ses_edae65dedffefn0ieTEcPCZog6",
+        "status": "returned_unaccepted",
+        "inputs_digest": "b02e8cdb18fc4e54046ce63ada7c9c0237ab1b33eea5fe48bfa6c9b57dccfa51",
+        "actual_valid_high_model_execution_observed": true,
+        "model_actual": {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "budget_receipt_reconciled_after_return_not_predispatch_claim": true
+      }
+    },
+    {
+      "task_id": "P4_C_fix_1",
+      "attempt_exact": {
+        "kind": "sol_fallback",
+        "model": "openai/gpt-6.1-sol#high",
+        "session_id": "ses_edaa3ceb3ffe7jo83R2vEBPK2L",
+        "status": "completed",
+        "inputs_digest": "074b1635364fd45c8df58e4d24cbb3f28abd48b3742597710fd4e5b380d59969",
+        "actual_valid_high_model_execution_observed": true,
+        "model_actual": {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        }
+      }
+    },
+    {
+      "task_id": "P6_C_fix_2",
+      "attempt_exact": {
+        "kind": "sol_fallback",
+        "model": "openai/gpt-6.1-sol#high",
+        "session_id": "ses_eda8df182ffe6bdV211mhdbSVv",
+        "status": "completed",
+        "inputs_digest": "278e4b98fa07525fcf8429787b408a7822d444d68427fce3c00880d485323d78",
+        "actual_valid_high_model_execution_observed": true,
+        "model_actual": {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        }
+      }
+    }
+  ],
+  "capacity_overrides": [
+    {
+      "task_id": "P4_propagate",
+      "session_id": "ses_eda629f8cffeJcb6xQ64fOzkdp",
+      "evidence": {
+        "explicit_user_rule": "one-provider saturation permits Sol replace Flash roles, never Flash replace Sol reviews",
+        "incidents": [
+          "N45EE10_pack",
+          "N45F930_pack",
+          "N460860_pack",
+          "P6_C_fix_2"
+        ],
+        "reason": "ExplicituserSolcapacityFlashpropagationrole after4ZAIratelimitreceipts;mechanicalfrozenfinalsrole sameinputs noFlashprimaryexecution orfallbackconsumed;allnativeproof parentcompleted,no workerwriteIDB/git",
+        "same_role_and_inputs": true,
+        "no_failed_primary_execution_or_consumed_fallback_in_this_task": true
+      }
+    },
+    {
+      "task_id": "P5_propagate",
+      "session_id": "ses_eda3e2c61ffeAQcfTw7A75Z01E",
+      "evidence": {
+        "explicit_user_rule": "one-provider saturation permits Sol replace Flash roles, never Flash replace Sol reviews",
+        "incidents": [
+          "N45EE10_pack",
+          "N45F930_pack",
+          "N460860_pack",
+          "P6_C_fix_2"
+        ],
+        "reason": "Explicituser12continuous SolcapacityFlashmechanicalpropagationrole frozenC/8gels+R/parentnativePASS context;fourZAIratelimitfailure receipts,noFlashprimaryexecution orfallbackconsume",
+        "same_role_and_inputs": true,
+        "no_failed_primary_execution_or_consumed_fallback_in_this_task": true
+      }
+    },
+    {
+      "task_id": "P6_propagate",
+      "session_id": "ses_eda3db818ffeX53MiteAUKhPn1",
+      "evidence": {
+        "explicit_user_rule": "one-provider saturation permits Sol replace Flash roles, never Flash replace Sol reviews",
+        "incidents": [
+          "N45EE10_pack",
+          "N45F930_pack",
+          "N460860_pack",
+          "P6_C_fix_2"
+        ],
+        "reason": "Explicituser12continuous SolcapacityFlashmechanicalpropagationrole frozenC/8gels+R/parentnativePASS context;fourZAIratelimitfailure receipts,noFlashprimaryexecution orfallbackconsume",
+        "same_role_and_inputs": true,
+        "no_failed_primary_execution_or_consumed_fallback_in_this_task": true
+      }
+    }
+  ],
+  "harness_attempts": [
+    {
+      "task_id": "P3_pack",
+      "attempt_exact": {
+        "kind": "harness_contract_failure",
+        "original_kind": "sol_fallback",
+        "model": "openai/gpt-6.1-sol#high",
+        "session_id": "ses_edb07aaebffeZjcIHZ8aE5N6p0",
+        "status": "failed",
+        "inputs_digest": null,
+        "fresh_owned_session_required": true,
+        "actual_valid_high_model_execution_observed": false,
+        "counts_against_execution_budget": false,
+        "receipt_ref": "ensemble_run_2026_10_10.receipts.P3_pack"
+      }
+    }
+  ],
+  "correction_iterations": [
+    {
+      "task_id": "P4_C_fix_1",
+      "status": "completed",
+      "re_review": "P4_C_re_review_1",
+      "re_review_status": "completed"
+    },
+    {
+      "task_id": "P6_C_fix_1",
+      "status": "completed",
+      "re_review": "P6_C_re_review_1",
+      "re_review_status": "completed"
+    },
+    {
+      "task_id": "P5_C_fix_1",
+      "status": "completed",
+      "re_review": "P5_C_re_review_1",
+      "re_review_status": "completed"
+    },
+    {
+      "task_id": "P6_C_fix_2",
+      "status": "completed",
+      "re_review": "P6_C_re_review_2",
+      "re_review_status": "completed"
+    }
+  ],
+  "administrative_and_briefing_incident_counts": {
+    "unit": "explicit task/case/incident records, not repeated scalar mentions or analytical votes; bounded observed counts",
+    "generic_admin_exception_tasks": [
+      {
+        "task_id": "P3_C_review",
+        "session_id": "ses_edad833c8ffe3un1ldP0FQJ3q0",
+        "parent_evidence_exact": "decompileur correct C role ACCEPTE155instructions32blocks50edges7calls;Cfinal byteidenticalb68e7c53ab224fabbd2ec2a69291ccf8db48a96820e3163851127d2debe13b6b;5/5 hashes;AGENT generic admin exception declared, no semantic hints;earlier V-only routing refusal before reads not provider failure"
+      },
+      {
+        "task_id": "P3_C_B",
+        "session_id": "ses_edab8d21dffeFF4uFJXfvkbryk",
+        "parent_evidence_exact": "UsableindependentC155/155 anchors465bytes32blocks50edges;actualAPI21messages useridle ModelRefSolhigh,no forbiddenrequests/ctx_search;AGENTgeneric exception and involuntarygenericcompile-timeout fragmentdeclared;numeric isolationobserved NOTperfectinfrastructureblindcertificate;Rcomparisonpending"
+      },
+      {
+        "task_id": "P3_sem_B",
+        "session_id": "ses_edab87ed7ffeOXujZd6qWp6nI2",
+        "parent_evidence_exact": "Returned descriptiveLIKELY155insns32regions21branches;actualAPI13messages user-idle ModelRefSolhigh;numericmanifest4inputs only plusAGENT administrativeexception declared;strict full inheritedcontext claim NOTaccepted;8/8productionfreeze unchanged;comparisonnovelty deferredR"
+      },
+      {
+        "task_id": "P3_audit",
+        "session_id": null,
+        "parent_evidence_exact": "BothnativeAPIrequests audited semB13msgs CB21 user-idle;ModelRefSolhigh;4numericfile inputsfreeze beforecontrols,8/8freezehashes unchanged,no targetC/A/V/review/names/comments readobserved;AGENTgeneral and CBgenericContextMode fragmentexception, no unconditionalstrictcontextclaim"
+      },
+      {
+        "task_id": "P5_C_B",
+        "session_id": "ses_eda7077ffffeWV16Iu4x1JgzBl",
+        "parent_evidence_exact": "ParentnativeAPIactualread requests allinspected ownedhighplain/inputhash4unchanged;P5_CB26messages21tools/P5semB16messages13tools/P6B16messages13tools;no forbiddenproducerC/A/V requests observed,AGENTgenericexception/inheritedadminno wholecontextcertificate;P6ownctxnewlineerrorcorrected notexternalhint;299instructionedgesnotblockCFG,RmustadjudicatevsBOTHfreeze novelty"
+      },
+      {
+        "task_id": "P5_sem_B",
+        "session_id": "ses_eda7039e9ffeNdfnyv30ARo4Oy",
+        "parent_evidence_exact": "ParentnativeAPIactualread requests allinspected ownedhighplain/inputhash4unchanged;P5_CB26messages21tools/P5semB16messages13tools/P6B16messages13tools;no forbiddenproducerC/A/V requests observed,AGENTgenericexception/inheritedadminno wholecontextcertificate;P6ownctxnewlineerrorcorrected notexternalhint;299instructionedgesnotblockCFG,RmustadjudicatevsBOTHfreeze novelty"
+      },
+      {
+        "task_id": "P6_B_proc",
+        "session_id": "ses_eda698742ffegmi2xVNHcDNU2d",
+        "parent_evidence_exact": "ParentnativeAPIactualread requests allinspected ownedhighplain/inputhash4unchanged;P5_CB26messages21tools/P5semB16messages13tools/P6B16messages13tools;no forbiddenproducerC/A/V requests observed,AGENTgenericexception/inheritedadminno wholecontextcertificate;P6ownctxnewlineerrorcorrected notexternalhint;299instructionedgesnotblockCFG,RmustadjudicatevsBOTHfreeze novelty"
+      }
+    ],
+    "parent_routing_errors": [
+      {
+        "task_id": "P3_C_review",
+        "parent_evidence_exact": "decompileur correct C role ACCEPTE155instructions32blocks50edges7calls;Cfinal byteidenticalb68e7c53ab224fabbd2ec2a69291ccf8db48a96820e3163851127d2debe13b6b;5/5 hashes;AGENT generic admin exception declared, no semantic hints;earlier V-only routing refusal before reads not provider failure",
+        "native_session_ids": [
+          "ses_edada6469ffeOTqrtWCo5jmri1",
+          "ses_edad833c8ffe3un1ldP0FQJ3q0"
+        ]
+      }
+    ],
+    "parent_blindness_briefing_incidents": [
+      {
+        "case": "P1",
+        "incident_exact": {
+          "origin": "parent_brief_allowed_protocol_sections_1_to_5_containing_named_cohort",
+          "effect": "primary_C_author_not_blind_do_not_claim_legacy_label_independence",
+          "cohort_replaced": false,
+          "primary_regenerated": false,
+          "blind_denominator_excluded": true
+        }
+      },
+      {
+        "case": "P1",
+        "incident_exact": {
+          "origin": "parent_sem_A_brief_camera_matrix_hints_native_returns_4_7_and_actual_C_text_post_freeze_contrary_to_planned_blindness",
+          "effect": "semantic_A_not_absolutely_blind_record_honestly_no_absolute_blind_claim",
+          "absolute_blind_claimed": false
+        }
+      }
+    ],
+    "native_primary_pack_strict_blind_incidents": {},
+    "inherited_context_complete_certificate": false
+  },
+  "issues": [],
+  "missing_or_provisional": [
+    {
+      "session_id": "ses_eda5ac8b1ffeCeualzvXefz9R5",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "semantic_R"
+      ],
+      "usage_coverage": "observed_all_fields",
+      "latest_receipt_status": "returned_unaccepted",
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eda5b2501ffe4fRUKpFLXkXPfB",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "usage_coverage": "observed_all_fields",
+      "latest_receipt_status": "returned_unaccepted",
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_edada6469ffeOTqrtWCo5jmri1",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "usage_coverage": "observed_all_fields",
+      "latest_receipt_status": "returned_unaccepted",
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddcd7cf7ffeRMSvoH2OiqzOoK",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "usage_coverage": "missing",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddcfab21ffemQVBcJU9EKYNOC",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "usage_coverage": "missing",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddd744acffeB4aEB5qbIS4p6l",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "P2_final_C_review"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddd990adffewKXYbop8brzMkB",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "P1_semantic_B",
+        "semantic_b"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddd9d363ffeJS0bAuKFwYX6xA",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_gen_b"
+      ],
+      "usage_coverage": "missing",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_edde1acbaffefd9NUGT4749gsJ",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "c_review"
+      ],
+      "usage_coverage": "missing",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_edde4f00affebkIslaK5z63WXs",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "semantic_v"
+      ],
+      "usage_coverage": "missing",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddea1256ffeIsm1Vt3m3BABXi",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "semantic_a"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_eddee5f14ffeqRxbac3XOtJWrb",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "pack_and_c_gen_a"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": true,
+      "latest_metadata_newer_than_counter": null
+    },
+    {
+      "session_id": "ses_eddeef971ffew12jZhYn6CGUgd",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_re_review_3"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_ede00baf7ffeO34lJnv69pJm2R",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_re_review_2"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_ede0a96bcffe6ppWIP96URpWwI",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_review"
+      ],
+      "usage_coverage": "partial",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": false,
+      "latest_metadata_newer_than_counter": false
+    },
+    {
+      "session_id": "ses_ede1f3275ffes6VYl42VlOwHwv",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "pack_and_c_gen_a"
+      ],
+      "usage_coverage": "observed_all_fields",
+      "latest_receipt_status": null,
+      "counter_timestamp_unobserved": true,
+      "latest_metadata_newer_than_counter": null
+    }
+  ],
+  "limits": [
+    "Six selected EAs only; no adaptive extension or adoption verdict beyond pilot",
+    "Observed cumulative usage cannot establish tariffs or counterfactual 2+1 savings",
+    "Zero B novelty in three small mandatory controls does not prove absence of errors",
+    "Metadata/parent adjudication is not independent ASM, final artifact, IDB or runtime validation",
+    "Historical metadata, CANON outside pilot, setup/canary/measurement and unallocated supervisor excluded"
+  ],
+  "parent_observation_utc": "2026-10-10T13:27:44.500401+00:00",
+  "parent_judgment": "Six bounded static closures complete; observed usage measured with historical missing counters, not complete-price/counterfactual evidence.",
+  "parent_measurement_correction": {
+    "finding": "Original worker algorithm admitted historical P6-labelled bind event for its own administrative session after that event gained a receipt. Its frozen result preceded that receipt. Parent excludes this session globally by task role/session, regardless of inherited case label, preserving baseline script/result unchanged.",
+    "explicit_excluded_session_ids": [
+      "ses_eda379dbeffefy0zNBV4Elpb5p"
+    ],
+    "measurement_worker_role": "pilot_usage_audit",
+    "original_worker_script_sha256": "47b3bc3770fbfe1abf5eaa1b09bc82b2640177ab641876762971170061066f11",
+    "parent_driver_sha256": "3fad5b73842b0efddb3550e6214011159c99babbe7916bb64625bca33c5576af",
+    "no_network_API_calls": true
+  },
+  "parent_original_frozen_audit_sha256": "2341535a168f33546bd59d76e696f3618faa96d34d9faf0ce9cb9b3818076734",
+  "parent_input_hashes": {
+    "parent_actual_inputs": [
+      {
+        "path": "docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json",
+        "sha256": "663134f6384248bc89747c8b1a0cdd2d78ae8ef663d947e3476d30b03cd133f8"
+      },
+      {
+        "path": "docs/tech/investigation/battle-static-discovery/PILOT_adaptive-decomp-semantic-2026-10-09.registry.json",
+        "sha256": "468b52721d9dc8676f6734deccc2b0090ddf304f8f776f07c45897b7c9e2997b"
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "session_id": "ses_eda3db818ffeX53MiteAUKhPn1",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P6_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 57938,
+        "output": 23901,
+        "reasoning": 893,
+        "cache_read": 665728,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/58/native_receipts/0",
+        "updated_ms": 1791635339399,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 487.468
+    },
+    {
+      "session_id": "ses_eda3e2c61ffeAQcfTw7A75Z01E",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P5_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 63670,
+        "output": 10230,
+        "reasoning": 1264,
+        "cache_read": 359424,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/50/native_receipts/0",
+        "updated_ms": 1791635094520,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 272.369
+    },
+    {
+      "session_id": "ses_eda5ac8b1ffeCeualzvXefz9R5",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "semantic_R"
+      ],
+      "task_ids": [
+        "P6_R_proc"
+      ],
+      "group": "procedural_escalation",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 86813,
+        "output": 18968,
+        "reasoning": 1379,
+        "cache_read": 907776,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/181/native_receipts/0",
+        "updated_ms": 1791633414255,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 467.144
+    },
+    {
+      "session_id": "ses_eda5b2501ffe4fRUKpFLXkXPfB",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "task_ids": [
+        "P5_R"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 126476,
+        "output": 25077,
+        "reasoning": 5589,
+        "cache_read": 1203200,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/49/native_receipts/0",
+        "updated_ms": 1791633660424,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 736.923
+    },
+    {
+      "session_id": "ses_eda629f8cffeJcb6xQ64fOzkdp",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P4_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 24719,
+        "output": 6522,
+        "reasoning": 1170,
+        "cache_read": 260992,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/37/native_receipts/0",
+        "updated_ms": 1791632628327,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 194.972
+    },
+    {
+      "session_id": "ses_eda698742ffegmi2xVNHcDNU2d",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "semantic_B"
+      ],
+      "task_ids": [
+        "P6_B_proc"
+      ],
+      "group": "procedural_escalation",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 45412,
+        "output": 15389,
+        "reasoning": 2601,
+        "cache_read": 486272,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/180/native_receipts/0",
+        "updated_ms": 1791632395121,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 414.28
+    },
+    {
+      "session_id": "ses_eda6fe9c1ffeo98qBtwpCPSzUq",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "semantic_V"
+      ],
+      "task_ids": [
+        "P6_V"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 66863,
+        "output": 9921,
+        "reasoning": 2989,
+        "cache_read": 770816,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/57/native_receipts/0",
+        "updated_ms": 1791631894402,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 332.006
+    },
+    {
+      "session_id": "ses_eda7039e9ffeNdfnyv30ARo4Oy",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "control_semantic_B"
+      ],
+      "task_ids": [
+        "P5_sem_B"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 69405,
+        "output": 22944,
+        "reasoning": 5839,
+        "cache_read": 646528,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/47/native_receipts/0",
+        "updated_ms": 1791632196366,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 654.494
+    },
+    {
+      "session_id": "ses_eda7077ffffeWV16Iu4x1JgzBl",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "control_C_B"
+      ],
+      "task_ids": [
+        "P5_C_B"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 71232,
+        "output": 27834,
+        "reasoning": 5941,
+        "cache_read": 1085696,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/46/native_receipts/0",
+        "updated_ms": 1791632284827,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 758.793
+    },
+    {
+      "session_id": "ses_eda80f4ecffe07369N0cfF0ndt",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "semantic_A"
+      ],
+      "task_ids": [
+        "P6_A"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 73930,
+        "output": 19660,
+        "reasoning": 3262,
+        "cache_read": 814464,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/56/native_receipts/0",
+        "updated_ms": 1791631436183,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 990.697
+    },
+    {
+      "session_id": "ses_eda840684ffevKDZQNS2EZZ7gw",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "semantic_V"
+      ],
+      "task_ids": [
+        "P5_V"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 60905,
+        "output": 9295,
+        "reasoning": 3728,
+        "cache_read": 801664,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/44/native_receipts/0",
+        "updated_ms": 1791630593207,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 2,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 348.851
+    },
+    {
+      "session_id": "ses_eda88c5c0ffeErhORBDUHfjTK0",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P6_C_re_review_2"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 90242,
+        "output": 15504,
+        "reasoning": 2407,
+        "cache_read": 1224192,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/146/native_receipts/0",
+        "updated_ms": 1791630366032,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 432.799
+    },
+    {
+      "session_id": "ses_eda8ca160ffem5L3mkN5UpnSyH",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "semantic_V"
+      ],
+      "task_ids": [
+        "P4_V"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 50904,
+        "output": 8650,
+        "reasoning": 1528,
+        "cache_read": 546176,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/36/native_receipts/0",
+        "updated_ms": 1791629946814,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 266.429
+    },
+    {
+      "session_id": "ses_eda8df182ffe6bdV211mhdbSVv",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P6_C_fix_2"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 45289,
+        "output": 10684,
+        "reasoning": 1236,
+        "cache_read": 463104,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/145/native_receipts/1",
+        "updated_ms": 1791629856870,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 262.533
+    },
+    {
+      "session_id": "ses_eda8ecb64ffebLvrphjuEIWYiV",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "semantic_A"
+      ],
+      "task_ids": [
+        "P5_A"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 64421,
+        "output": 20601,
+        "reasoning": 4769,
+        "cache_read": 787328,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/43/native_receipts/0",
+        "updated_ms": 1791630165252,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 626.7
+    },
+    {
+      "session_id": "ses_eda9049b7ffeSf5J4sgHJoYW1B",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P6_C_fix_2"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high",
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/145/native_receipts/0",
+        "updated_ms": 1791629529682,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "failed",
+      "elapsed_updated_minus_created_seconds": 88.996
+    },
+    {
+      "session_id": "ses_eda930867ffel1mNhhPQeEQiVy",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "semantic_A"
+      ],
+      "task_ids": [
+        "P4_A"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 59248,
+        "output": 14686,
+        "reasoning": 1765,
+        "cache_read": 485376,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/35/native_receipts/0",
+        "updated_ms": 1791629654917,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 394.119
+    },
+    {
+      "session_id": "ses_eda9a260fffex0g9HIsGADL3F6",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P6_C_re_review_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 72097,
+        "output": 20238,
+        "reasoning": 3944,
+        "cache_read": 1040512,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/65/native_receipts/0",
+        "updated_ms": 1791629394425,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 599.967
+    },
+    {
+      "session_id": "ses_eda9b8b09ffeSoADT94bKvlqv6",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P5_C_re_review_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 101960,
+        "output": 26710,
+        "reasoning": 5859,
+        "cache_read": 1330944,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/67/native_receipts/0",
+        "updated_ms": 1791629478678,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 775.586
+    },
+    {
+      "session_id": "ses_eda9bff24ffePNseuN6wm463zh",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P4_C_re_review_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 62836,
+        "output": 16678,
+        "reasoning": 2361,
+        "cache_read": 543488,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/63/native_receipts/0",
+        "updated_ms": 1791629131496,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 458.145
+    },
+    {
+      "session_id": "ses_eda9e27e2ffeYiUIaFfU6kpKfB",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P3_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 95216,
+        "output": 13625,
+        "reasoning": 23307,
+        "cache_read": 903936,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/29/native_receipts/0",
+        "updated_ms": 1791629180904,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 649.021
+    },
+    {
+      "session_id": "ses_edaa3ceb3ffe7jo83R2vEBPK2L",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P4_C_fix_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 82553,
+        "output": 14449,
+        "reasoning": 1758,
+        "cache_read": 837888,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/62/native_receipts/1",
+        "updated_ms": 1791628549619,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 388.16
+    },
+    {
+      "session_id": "ses_edaad17adffeVzUxiDs5K2AiK8",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "task_ids": [
+        "P3_R"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 205560,
+        "output": 25530,
+        "reasoning": 2740,
+        "cache_read": 1408512,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/28/native_receipts/0",
+        "updated_ms": 1791628363618,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 810.659
+    },
+    {
+      "session_id": "ses_edaafd45dffe7lvwnJ7Q7Vzs3X",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P5_C_fix_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 80608,
+        "output": 22893,
+        "reasoning": 25314,
+        "cache_read": 1046656,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/66/native_receipts/0",
+        "updated_ms": 1791628558354,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 1184.791
+    },
+    {
+      "session_id": "ses_edab08c14ffeMWi42dZ4pxGND7",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P6_C_fix_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 97886,
+        "output": 20911,
+        "reasoning": 33682,
+        "cache_read": 815360,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/64/native_receipts/0",
+        "updated_ms": 1791628711425,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 1384.88
+    },
+    {
+      "session_id": "ses_edab1f658ffedBFockaxvB8NPT",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "C_fix"
+      ],
+      "task_ids": [
+        "P4_C_fix_1"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high",
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 97518,
+        "output": 12974,
+        "reasoning": 20409,
+        "cache_read": 743552,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/62/native_receipts/0",
+        "updated_ms": 1791627846635,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "failed",
+      "elapsed_updated_minus_created_seconds": 612.838
+    },
+    {
+      "session_id": "ses_edab73e21ffeF9Gpo8NIsIVrXm",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P1_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 110400,
+        "output": 17355,
+        "reasoning": 21493,
+        "cache_read": 1833600,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/7/native_receipts/0",
+        "updated_ms": 1791627643605,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 755.85
+    },
+    {
+      "session_id": "ses_edab87ed7ffeOXujZd6qWp6nI2",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "control_semantic_B"
+      ],
+      "task_ids": [
+        "P3_sem_B"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 52054,
+        "output": 16503,
+        "reasoning": 1958,
+        "cache_read": 430208,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/26/native_receipts/0",
+        "updated_ms": 1791627248023,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 442.38
+    },
+    {
+      "session_id": "ses_edab8d21dffeFF4uFJXfvkbryk",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "control_C_B"
+      ],
+      "task_ids": [
+        "P3_C_B"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 60139,
+        "output": 22900,
+        "reasoning": 5131,
+        "cache_read": 816640,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/25/native_receipts/0",
+        "updated_ms": 1791627470080,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 685.727
+    },
+    {
+      "session_id": "ses_edabd18b0ffeL0VqtL4PDsgvVs",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P5_C_review"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 98638,
+        "output": 24360,
+        "reasoning": 6606,
+        "cache_read": 891520,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/42/native_receipts/0",
+        "updated_ms": 1791627302190,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 798.072
+    },
+    {
+      "session_id": "ses_edabdd540ffetLxfP0V5DZxItm",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P6_C_review"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 76155,
+        "output": 21200,
+        "reasoning": 6597,
+        "cache_read": 1104384,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/55/native_receipts/0",
+        "updated_ms": 1791627201357,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 745.514
+    },
+    {
+      "session_id": "ses_edabe2510ffetB2mwLllmg008i",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P4_C_review"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 81832,
+        "output": 22281,
+        "reasoning": 5139,
+        "cache_read": 722688,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/34/native_receipts/0",
+        "updated_ms": 1791627147461,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 712.042
+    },
+    {
+      "session_id": "ses_edabe734cffe0gjLlceNteiOk2",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "semantic_V"
+      ],
+      "task_ids": [
+        "P3_V"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 55918,
+        "output": 9417,
+        "reasoning": 2277,
+        "cache_read": 488192,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/23/native_receipts/0",
+        "updated_ms": 1791626721810,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 306.426
+    },
+    {
+      "session_id": "ses_edaceca6fffebzi7yWzVkZlkQL",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "semantic_A"
+      ],
+      "task_ids": [
+        "P3_A"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 55640,
+        "output": 14692,
+        "reasoning": 2272,
+        "cache_read": 350592,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/22/native_receipts/0",
+        "updated_ms": 1791625758349,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 413.848
+    },
+    {
+      "session_id": "ses_edad2a304ffegeTeuKgdISqsoN",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "propagation"
+      ],
+      "task_ids": [
+        "P2_propagate"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 78743,
+        "output": 14478,
+        "reasoning": 22587,
+        "cache_read": 523648,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/16/native_receipts/0",
+        "updated_ms": 1791625821532,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 729.079
+    },
+    {
+      "session_id": "ses_edad833c8ffe3un1ldP0FQJ3q0",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P3_C_review"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 63822,
+        "output": 14835,
+        "reasoning": 4162,
+        "cache_read": 720768,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/21/native_receipts/1",
+        "updated_ms": 1791625238003,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 510.289
+    },
+    {
+      "session_id": "ses_edad89f8fffeEY1Rr9NWFkpKY5",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "semantic_V"
+      ],
+      "task_ids": [
+        "P2_V"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 26422,
+        "output": 3897,
+        "reasoning": 729,
+        "cache_read": 97792,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/15/native_receipts/0",
+        "updated_ms": 1791624829427,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 129.313
+    },
+    {
+      "session_id": "ses_edada6469ffeOTqrtWCo5jmri1",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "C_review"
+      ],
+      "task_ids": [
+        "P3_C_review"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 17091,
+        "output": 69,
+        "reasoning": 288,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/21/native_receipts/0",
+        "updated_ms": 1791624598645,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 14.454
+    },
+    {
+      "session_id": "ses_edadcc0ffffe3QqNcMPsnrm6eQ",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "semantic_A"
+      ],
+      "task_ids": [
+        "P2_A"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 26586,
+        "output": 5232,
+        "reasoning": 493,
+        "cache_read": 76032,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/14/native_receipts/0",
+        "updated_ms": 1791624575221,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 145.812
+    },
+    {
+      "session_id": "ses_edae595d4ffef7aa8l1YTF2w0V",
+      "cases": [
+        "P6"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "task_ids": [
+        "P6_pack"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 164869,
+        "output": 48331,
+        "reasoning": 65589,
+        "cache_read": 2114944,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/54/native_receipts/0",
+        "updated_ms": 1791626233180,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 2382.528
+    },
+    {
+      "session_id": "ses_edae5d1a6ffehMaYnL23QaIfMt",
+      "cases": [
+        "P5"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "task_ids": [
+        "P5_pack"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 148828,
+        "output": 42888,
+        "reasoning": 77148,
+        "cache_read": 1734720,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/41/native_receipts/0",
+        "updated_ms": 1791626396856,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 2561.517
+    },
+    {
+      "session_id": "ses_edae6103affesj7LSQ51SJSKsg",
+      "cases": [
+        "P4"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "task_ids": [
+        "P4_pack"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 159302,
+        "output": 31782,
+        "reasoning": 56040,
+        "cache_read": 1421696,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/33/native_receipts/0",
+        "updated_ms": 1791625650040,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 1830.721
+    },
+    {
+      "session_id": "ses_edae65dedffefn0ieTEcPCZog6",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "task_ids": [
+        "P3_pack"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 58031,
+        "output": 15275,
+        "reasoning": 6477,
+        "cache_read": 493696,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/20/native_receipts/0",
+        "updated_ms": 1791624392427,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 592.985
+    },
+    {
+      "session_id": "ses_edae6b0cfffen9Sck246HPne51",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "neutral_repair"
+      ],
+      "task_ids": [
+        "P2_neutral_v2"
+      ],
+      "group": "production",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "high"
+        },
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 41723,
+        "output": 8767,
+        "reasoning": 10058,
+        "cache_read": 420288,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/12/native_receipts/0",
+        "updated_ms": 1791624171809,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 3,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 393.564
+    },
+    {
+      "session_id": "ses_edae6ef48ffe6219GwEE189AGq",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "task_ids": [
+        "P1_R"
+      ],
+      "group": "mandatory_control",
+      "execution_stratum": "native_owned_receipt",
+      "models_observed": [
+        {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "high"
+        },
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 160366,
+        "output": 48453,
+        "reasoning": 13716,
+        "cache_read": 3458688,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "queue",
+        "pointer": "/tasks/6/native_receipts/1",
+        "updated_ms": 1791625861749,
+        "kind": "native_tokens"
+      },
+      "counter_reference_count": 4,
+      "distinct_counter_snapshots": 2,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": "succeeded",
+      "elapsed_updated_minus_created_seconds": 2099.528
+    },
+    {
+      "session_id": "ses_eddcd7cf7ffeRMSvoH2OiqzOoK",
+      "cases": [
+        "P3"
+      ],
+      "roles": [
+        "pack_C_A"
+      ],
+      "task_ids": [
+        "P3_pack"
+      ],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": null,
+        "output": null,
+        "reasoning": null,
+        "cache_read": null,
+        "cache_write": null
+      },
+      "selected_counter": null,
+      "counter_reference_count": 0,
+      "distinct_counter_snapshots": 0,
+      "conflicts": [],
+      "usage_coverage": "missing",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": null
+    },
+    {
+      "session_id": "ses_eddcfab21ffemQVBcJU9EKYNOC",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "control_R"
+      ],
+      "task_ids": [],
+      "group": "mandatory_control",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [],
+      "usage": {
+        "input": null,
+        "output": null,
+        "reasoning": null,
+        "cache_read": null,
+        "cache_write": null
+      },
+      "selected_counter": null,
+      "counter_reference_count": 0,
+      "distinct_counter_snapshots": 0,
+      "conflicts": [],
+      "usage_coverage": "missing",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": null
+    },
+    {
+      "session_id": "ses_eddd744acffeB4aEB5qbIS4p6l",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "P2_final_C_review"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 63203,
+        "output": 21404,
+        "reasoning": 6346,
+        "cache_read": 830592,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/technical_stop_checkpoint/completed_API_roles/0",
+        "updated_ms": 1791575079405,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 622.164
+    },
+    {
+      "session_id": "ses_eddd990adffewKXYbop8brzMkB",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "P1_semantic_B",
+        "semantic_b"
+      ],
+      "task_ids": [],
+      "group": "mandatory_control",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 53120,
+        "output": 17902,
+        "reasoning": 6042,
+        "cache_read": 763264,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/technical_stop_checkpoint/completed_API_roles/1",
+        "updated_ms": 1791574847739,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 541.027
+    },
+    {
+      "session_id": "ses_eddd9d363ffeJS0bAuKFwYX6xA",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_gen_b"
+      ],
+      "task_ids": [],
+      "group": "mandatory_control",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": null,
+        "output": null,
+        "reasoning": null,
+        "cache_read": null,
+        "cache_write": null
+      },
+      "selected_counter": null,
+      "counter_reference_count": 0,
+      "distinct_counter_snapshots": 0,
+      "conflicts": [],
+      "usage_coverage": "missing",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": null
+    },
+    {
+      "session_id": "ses_edde1acbaffefd9NUGT4749gsJ",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "c_review"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": null,
+        "output": null,
+        "reasoning": null,
+        "cache_read": null,
+        "cache_write": null
+      },
+      "selected_counter": null,
+      "counter_reference_count": 0,
+      "distinct_counter_snapshots": 0,
+      "conflicts": [],
+      "usage_coverage": "missing",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": null
+    },
+    {
+      "session_id": "ses_edde4f00affebkIslaK5z63WXs",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "semantic_v"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": null,
+        "output": null,
+        "reasoning": null,
+        "cache_read": null,
+        "cache_write": null
+      },
+      "selected_counter": null,
+      "counter_reference_count": 0,
+      "distinct_counter_snapshots": 0,
+      "conflicts": [],
+      "usage_coverage": "missing",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": null
+    },
+    {
+      "session_id": "ses_eddea1256ffeIsm1Vt3m3BABXi",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "semantic_a"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 40269,
+        "output": 9410,
+        "reasoning": 2232,
+        "cache_read": 525312,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/later_role_events/0",
+        "updated_ms": 1791573523082,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 298.14
+    },
+    {
+      "session_id": "ses_eddee5f14ffeqRxbac3XOtJWrb",
+      "cases": [
+        "P2"
+      ],
+      "roles": [
+        "pack_and_c_gen_a"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 112502,
+        "output": 17506,
+        "reasoning": 21461,
+        "cache_read": 1177728,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/cohort/1/usage_observed/production/0",
+        "updated_ms": null,
+        "kind": "flat_observed_usage"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 784.838
+    },
+    {
+      "session_id": "ses_eddeef971ffew12jZhYn6CGUgd",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_re_review_3"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 39719,
+        "output": 9390,
+        "reasoning": 1852,
+        "cache_read": 551808,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/continuation_roles_after_first_checkpoint/2",
+        "updated_ms": 1791573191787,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 288.143
+    },
+    {
+      "session_id": "ses_ede00baf7ffeO34lJnv69pJm2R",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_re_review_2"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 48552,
+        "output": 14332,
+        "reasoning": 4504,
+        "cache_read": 624256,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/continuation_roles_after_first_checkpoint/1",
+        "updated_ms": 1791572186357,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 446.369
+    },
+    {
+      "session_id": "ses_ede0a96bcffe6ppWIP96URpWwI",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "c_review"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "openai/gpt-6.1-sol#high"
+      ],
+      "usage": {
+        "input": 60713,
+        "output": 15775,
+        "reasoning": 4545,
+        "cache_read": 804736,
+        "cache_write": null
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/continuation_roles_after_first_checkpoint/0",
+        "updated_ms": 1791571584568,
+        "kind": "usage_observed"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "partial",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 490.656
+    },
+    {
+      "session_id": "ses_ede1f3275ffes6VYl42VlOwHwv",
+      "cases": [
+        "P1"
+      ],
+      "roles": [
+        "pack_and_c_gen_a"
+      ],
+      "task_ids": [],
+      "group": "production",
+      "execution_stratum": "pre_migration_pilot_reference",
+      "models_observed": [
+        "zai-coding-plan/glm-5.3-flash#high"
+      ],
+      "usage": {
+        "input": 100962,
+        "output": 27341,
+        "reasoning": 26012,
+        "cache_read": 2237952,
+        "cache_write": 0
+      },
+      "selected_counter": {
+        "source": "registry",
+        "pointer": "/cohort/0/usage_observed/production/0",
+        "updated_ms": null,
+        "kind": "flat_observed_usage"
+      },
+      "counter_reference_count": 1,
+      "distinct_counter_snapshots": 1,
+      "conflicts": [],
+      "usage_coverage": "observed_all_fields",
+      "latest_api_outcome": null,
+      "elapsed_updated_minus_created_seconds": 1076.967
+    }
+  ],
+  "current_native_readback_proof_sha256": "fa0704f1d00cde0083acd2f525a37f4af53c46f7337567b8b2e08d0dcb44618f",
+  "phase_closures": [
+    {
+      "case": "P1",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "5679fb845c1c07da63f4cc5d75827fedf4e26cf7",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x509B30__BattleGeom_SetCurrentBoneMatrix.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x509B30__BattleGeom_SetCurrentBoneMatrix.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x509B30__BattleGeom_SetCurrentBoneMatrix.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x509B30__BattleGeom_SetCurrentBoneMatrix.md",
+        "semantic_file_sha256": "0aab8847f9f078e31a2daaff8b14e923aba163ee3d41fd16d8a7cf5987fef0e2",
+        "decomp_file_sha256": "662867ecfbc8966ff4810263f023ff303dd7d97be68efb2711236d64c80e13dd",
+        "embedded_c_sha256": "5b6895601f08e3a943e823027e731d2340c7346a6aaff25abecb4b186f68f708",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "6b7b20097012087723f0b510c96d6006d5bdf3c58ca42b8a69d3f684f822dedb"
+    },
+    {
+      "case": "P2",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "83f5e947a5403e7e3f32bda705be3ebe245961f4",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x48F020__domain__Battle_GetRandomInt.md",
+          "docs/tech/investigation/battle-static-discovery/semantic-certainty.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x48F020__domain__Battle_GetRandomInt.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x48F020__domain__Battle_GetRandomInt.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x48F020__domain__Battle_GetRandomInt.md",
+        "semantic_file_sha256": "1d70edf578d61d718cb48f89205957b117a2c40f5e60266ac450ea9118a4e997",
+        "decomp_file_sha256": "3fa57f1216525f4b236be10191b210cbb1eb142c5a3480ddfed3628e2011c12c",
+        "embedded_c_sha256": "31db377a982f9b409e4d1546e7be5c84110f2c34722ec5c6fb229276951e911a",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "51835485b4af2a9807e2c38fa14ddce75f27ae8d8fba5ef1f8ef498ae5f5df18"
+    },
+    {
+      "case": "P3",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "f2244170bcdf5b696d1fef41e55c101a8eb02bc4",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x464BD0__World_loadTextureVRAM_updateAnim.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x464BD0__World_loadTextureVRAM_updateAnim.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x464BD0__World_loadTextureVRAM_updateAnim.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x464BD0__World_loadTextureVRAM_updateAnim.md",
+        "semantic_file_sha256": "03390f91882e5cfe640aaa5463b22277982a97fe917016e337f592c551d2ac2f",
+        "decomp_file_sha256": "88ed70f35ff9e0dc1b9bbc7fb92abd5bd17dc760aa649eccacb682df4434ef97",
+        "embedded_c_sha256": "b68e7c53ab224fabbd2ec2a69291ccf8db48a96820e3163851127d2debe13b6b",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "5928092b91ca7cb0a56e5679bb38c9bc6fa9d74d541082476da4342c7ec572b0"
+    },
+    {
+      "case": "P4",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "ea66a79a0f95868f1cc687a1e055386ef11d4b52",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x486A10__BattleMagic_MutateStock.md",
+          "docs/tech/investigation/battle-static-discovery/semantic-certainty.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x486A10__BattleMagic_MutateStock.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x486A10__BattleMagic_MutateStock.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x486A10__BattleMagic_MutateStock.md",
+        "semantic_file_sha256": "2e27aa3dd8ec00432d8e2ec4984a8f328d091758d9be1698acff3b28e702f1a9",
+        "decomp_file_sha256": "a8f0b5cc84470245dc3cfc8126cbbd4ef1265587f6ec8a89dcb80932a3dc7454",
+        "embedded_c_sha256": "c553def5d9814560123b862d577cb368daf899f1581ebdd59429a576b4566432",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "52a87fb124d7805c9097969795d35311d3d724175ef31cb8935756e4eafc3516"
+    },
+    {
+      "case": "P5",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "b810e0ef76b0663ab4cfcd5ae19602a84fa42e56",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x4653B0__isUpdateVRAMOrSomething.md",
+          "docs/tech/investigation/battle-static-discovery/semantic-certainty.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x4653B0__isUpdateVRAMOrSomething.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x4653B0__isUpdateVRAMOrSomething.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x4653B0__isUpdateVRAMOrSomething.md",
+        "semantic_file_sha256": "2f44c8f5350b26f37ddeb7d27c43edb56d50d4d3dfc470e94635e39da93f281a",
+        "decomp_file_sha256": "3f460eb34164eb9f7da374ab2753a1b865b47b393e38a674068ab2fb9c7012ac",
+        "embedded_c_sha256": "660e88a0661ddb42d876013491f07fe7341d642a835599440c538af4b253c0fa",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "0b4d6eade8197258a5e8fd5cb8cbd1e2197aadeb75189798032f64cf4618a956"
+    },
+    {
+      "case": "P6",
+      "status": "closed_LIKELY_bounded_static",
+      "commit": {
+        "sha": "416ae252a7e27e461183be64c43c2c3fec92c129",
+        "paths": [
+          "docs/tech/investigation/battle-static-discovery/decomp/0x4847F0__BattlePendingAction_TransferToExecQueue.md",
+          "docs/tech/investigation/battle-static-discovery/semantic-certainty.md",
+          "docs/tech/investigation/battle-static-discovery/semantic/0x4847F0__BattlePendingAction_TransferToExecQueue.md"
+        ]
+      },
+      "final": {
+        "semantic_file": "docs/tech/investigation/battle-static-discovery/semantic/0x4847F0__BattlePendingAction_TransferToExecQueue.md",
+        "decomp_file": "docs/tech/investigation/battle-static-discovery/decomp/0x4847F0__BattlePendingAction_TransferToExecQueue.md",
+        "semantic_file_sha256": "0982cb07ec2366c49bf094b3eff6d5d0335c8cc8d3142504e22fa5d049191f42",
+        "decomp_file_sha256": "29963adc4cf7d6d95db23cd338e547dbbb5cf77d260eab13c6394d195895b2e7",
+        "embedded_c_sha256": "1a876b16f6731c12ecc21096886dac646f1e76abd81bbaf082ee7ebc9a413f88",
+        "confidence": "LIKELY NUMERIC",
+        "name_verdict": "numeric role established, catalogue business identity not fully certified",
+        "a_equals_v": true,
+        "runtime_equivalence_claimed": false
+      },
+      "IDBreadback": "9681f44f004615680b7cbe6f735f6bfc2650402ef908994b91719f6c7b116bd0"
+    }
+  ],
+  "no_pricing_inference": "Token fields overlap; never sum input/output/reasoning/cache categories as disjoint. Observed native cost 0 with unspecified currency/provider billing is not free-price or tariff proof. Elapsed session sums are parallel cumulative spans, not campaign wall time or operator cost."
+}

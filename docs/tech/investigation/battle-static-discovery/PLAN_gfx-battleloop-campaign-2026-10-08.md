@@ -161,6 +161,15 @@ Priorités reprise : état sessions C6/C10 via API read-only et récupération d
 
 ## Avenant pool 2026-10-10 — capacité 12 TOTAL
 
+### Steering utilisation continue (instruction explicite ultérieure)
+
+Cible12 actifs utiles =1superviseur+11workers, réserveREADY≥4. Toute la
+campagne ci-dessus fournit la frontière, sans attendre les six pilotes ;
+adaptatif toujours limitéP1–P6, canon et réutilisation C existants ailleurs.
+La largeur « maximum » historique est supersédée par cette cible soutenue,
+sans inventer travail/agents/épuisement/surcharge. Contraintesnative/high,
+indépendance/gels/gates/commits/absenceSetType demeurent applicables.
+
 [Politique](POLICY_campaign-pool-2026-10-10.md), [queue/slots](CAMPAIGN_POOL_2026-10-10.json) et PILOT §9 sont effectifs : un superviseur + onze workers maximum, dispatch continu dès slot libre et tâche READY, pas de barrière batch. Override Flash high explicite par pack/C primaire, Sol high par rôle review/sémantique/contrôle ; une seule reprise Sol high par échec Flash, jamais de fallback solo ni boucle. Fresh sessions pour indépendance/aveuglement, remplacements possédés des anciennes sessions interrompues maintenant autorisés ; P3 fallback Sol réservé.
 
 Histoire des plafonds/arrêts ci-dessus conservée mais supersédée. C6/C10/C11/A8/A10 clos ne sont pas régénérés ; J3 natif/all-path reload gate puis IDB/commit restent prioritaires avant promotions pilote. P2 neutral-v1 faux sur EAX hauts est conservé et exclu des inputs A futurs ; réparation v2 puis gate parent avant A. Setup borné queue/règles/validator seulement, pas de lancement pendant ce setup. Cap de largeur = politique vérifiable, aucun runtime hardlimit/config setting non documenté prétendu. Après pilote/bilan, suite canon éventuelle sans extension adaptative automatique.

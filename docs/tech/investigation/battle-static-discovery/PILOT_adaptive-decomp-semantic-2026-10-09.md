@@ -166,3 +166,28 @@ repriseGO inchangé. P4fixFlashfailed `uv_spawn` → une replacementSolhighfresh
 effective, inputsdigests identiques, parcellesfailedconservées ; paspannequota prouvée.
 Quatreworkersen cours P3R/P4fixSol/P5fix/P6fix, aucun nouveau rôleavantleursgates.
 La reprise ne recommence pas P1/P2/J3 et ne réouvre pas les budgetsSolconsommés.
+
+
+## Bilan mesuré final du pilote — 2026-10-10
+
+**Clôture : six EA sur six**, toutes LIKELY NUMERIC, gates ASM natives parent et readbacks IDB exacts, six commits ciblés : P1 `5679fb8`, P2 `83f5e94`, P3 `f224417`, P4 `ea66a79`, P5 `b810e0e`, P6 `416ae25`. Les six hashes natifs et commentaires IDB ont été relus ensemble après clôture ; aucune campagne runtime/debugger, aucun rename/SetType/byte-patch. La confiance est bornée au mécanisme numérique et au domaine documenté, pas une certification métier/ABI/ISO/backend.
+
+### Mesure observée et limites
+
+58 sessions pilote dédupliquées par sessionID : **45 receipts natifs** et **13 références antérieures à la migration** ; cinq sessions historiques sans compteurs observés. Les révisions d’un même compteur sont remplacées, jamais sommées. Le superviseur non attribuable, canary/setup, six anciennes sessions Ensemble et CANON hors pilote sont exclus. Le worker de mesure lui-même est exclu explicitement, même si un ancien événement le portait administrativement sous P6 ; ce bug de classification a été corrigé par le parent sans effacer le résultat provisoire.
+
+Receipts natifs : input **3 490 260**, output **816 589**, reasoning **474 494**, cache-read **37 879 680**. Ensemble des champs observés pilote, historiques compris : input **4 009 300**, output **949 649**, reasoning **547 488**, cache-read **45 395 328**. **Ces champs ne sont pas disjoints** : ne pas les additionner. Des coûts API observés zéro sans devise ne prouvent ni gratuité ni tarif ; les durées cumulées de sessions parallèles ne sont ni durée murale ni coût opérateur.
+
+Trois remplacements techniques Sol high valides, **trois overrides de capacité distincts**, quatre itérations de correction C natives : catégories conservées, pas fusionnées. Quatre échecs de limite de requêtes ZAI dans la file complète : **un P6 pilote, trois CANON exclus** ; l’échec `uv_spawn` du pilote appartient à **P4**. L’échec Sol `N500900_C_fix_1` ultérieur est CANON, conservé séparément et ne prouve pas une surcharge simultanée des providers.
+
+### Contrôles, cécité et conclusion
+
+Les cohortes obligatoires **P1/P3/P5** ont toutes retourné puis été adjudiquées : R MAINTIEN ; **zéro nouveauté matérielle B identifiée contre BOTH** C-final/C-review gelés et A/V gelés. Confirmations et inspections nouvelles ne sont pas des découvertes. P6 B/R satisfait une escalade V **procédurale >200**, pas une quatrième cohorte C-B ; les verdicts V originaux restent conservés. Zéro découverte sur trois contrôles ne prouve pas une absence d’erreurs.
+
+Les auteurs primaires exposés aux labels/noms ne sont **pas strict-blind**. Les contrôles numériques frais ont des audits des requêtes API réelles, avec exceptions administratives génériques explicites ; pas de certificat de cécité du contexte entier. Les compteurs d’incidents enregistrés mesurent des records, jamais une preuve d’absence de contamination. Les réserves d’authentification API des auteurs historiques restent UNVALIDATED.
+
+P5 : C `void` est **effects-only**, exclut retour EAX natif entier et pile physique ; `BA8=2` peut laisser un EAX scalaire. Les 299 arêtes décrivent des successeurs instructionnels, contre 45 blocs/76 arêtes de blocs natives. P6 : le slot caller `[S+4]` reste mutable ; trois classes EAX ; dispatch C vérifié pour **256/256 valeurs** contre les tables natives. IDA compte 20 blocs accessibles/31 arêtes internes plus RET, tandis que le rapport 21 inclut le padding inaccessible non-code `484BFF` ; 286 heads décodables, 285 accessibles.
+
+**Décision : pas d’adoption adaptative générale, pas d’extension automatique au-delà de P1–P6.** L’expérience mesure la correction conditionnelle, les contrôles et le coût observé, mais ne mesure aucun gain causal/counterfactuel contre le canon 2+1. La campagne PLAN continue avec C réconcilié existant + reviews fraîches ; sans C, deux auteurs indépendants puis C_R restent obligatoires.
+
+Données et unités reproductibles : [`PILOT_adaptive-decomp-semantic-2026-10-10.assessment.json`](PILOT_adaptive-decomp-semantic-2026-10-10.assessment.json), registry et DAG. Audit provisoire, freezes, receipts, driver et preuve des six readbacks restent sous `tools/_tmp_semantic_triple/pilot_measurement_20261010/` (hors git). Aucun montant, zéro inventé ou réception live fabriquée.

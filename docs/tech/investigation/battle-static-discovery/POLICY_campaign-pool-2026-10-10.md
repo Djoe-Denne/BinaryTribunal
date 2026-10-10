@@ -1,5 +1,25 @@
 # Pool continu — avenant utilisateur 2026-10-10
 
+## Steering utilisation continue explicite — supersède le plafond seulement
+
+`.tmp/campaign-utilization-steering-2026-10-10.json` : **sustained_target=12,
+required_workers=11**, superviseur actif utile + onze travailleurs effectifs.
+La phrase historique « onze est un plafond » ci-dessous est supersédée.
+Pas de barrière pilote : toute la campagne du PLAN est autorisée à alimenter
+les slots par tâches indépendantes nécessaires ; réserve READY minimale4.
+Rendu d'abord, battle loop ensuite. Anti-doublon EA/famille/fichier, C existants
+réutilisés ; hors six pilotes canon dual-C/réconciliation si C manquant, pas
+adoption adaptative générale. Conserver les gels et les contextes indépendants.
+Sous-effectif : épuisement réel ou surcharge simultanée ZAI ET OpenAI seulement
+avec preuves. Sinon déclarer le déficit/obstacle exact, ne pas le justifier par
+une branche bloquée, un provider unique, un quota supposé, slots réservés ou
+agents dormants. Callback/échec isolé → receipt → slotlibre → READY immédiatement.
+IDA temporairement absent : continuer offline utile, pas de promotion/push sans
+native. Écriture IDB/§5.6/commits restent parent seuls sérialisés ; overrideshigh
+effectifs, fallback Flashtech→Sol unique et harness natif restent inchangés.
+Les états historiques de setup, plafonds, arrêt restart sont préservés ci-dessous
+et dans les receipts ; ils ne contredisent pas l'instruction nouvelle.
+
 ## Autorité, capacité, activation
 
 Demande utilisateur : 12 agents TOTAL, fallback d'un agent Flash échoué vers Sol
