@@ -34,3 +34,7 @@
 - return: Full EAX0 on waits/out-of-range,2 on final phase; callback fullEAX stored before phase reloaded. Not AL return.
 - name: DefaultParamA_FFFF business identity NOT_CONFIRMED; four-phase dispatch and ordered WORD/callback/final captures give numeric role.
 - extra: LastDWORD capture1D96A9C precedes BYTE[EDI+1] write; maskONLYAL preserveshigh24. Root0CODE/1DATA; source ECXhigh24/nativeGPR ABI conditional.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x50BC20__BattleActionSequence_Tick_DefaultParamAFFFF.md) : 2119 octets, SHA-256 `e27d1051670a2a016bb1036d2d8a36f0083ceb5ca46bb64897084f1813d2dbb8`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
