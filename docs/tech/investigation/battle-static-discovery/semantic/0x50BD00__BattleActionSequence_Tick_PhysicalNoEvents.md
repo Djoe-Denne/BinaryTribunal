@@ -34,3 +34,7 @@
 - return: Full EAX0/2 or s-2 for initial3..255={1..253}; not bool or only{0,2}.
 - name: PhysicalNoEvents business identity NOT_CONFIRMED; Byte0Ddispatch and mask800000 clear+orderedcalls give numeric role.
 - extra: Root0CODE/1DATA. InitialCload10-beforeD inverseorder tolerated only stable ordinaryRAM/noMMIO/concurrency; preservationofGPR/privateframe/backend unproved.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x50BD00__BattleActionSequence_Tick_PhysicalNoEvents.md) : 1257 octets, SHA-256 `413b70bc1cad0aef4b41590f7054776d1bf9a59dc78379ca5ef02c8a02624c43`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
