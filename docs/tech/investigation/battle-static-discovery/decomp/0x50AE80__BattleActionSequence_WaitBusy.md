@@ -1,3 +1,60 @@
+# BattleActionSequence_WaitBusy @ 0x50AE80 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `1cae8aac570d0787a803e460e27e56773207d8e5be0a9d4be050a2b6885c72ef`, 26 EA / 70 octets ; [sémantique](../semantic/0x50AE80__BattleActionSequence_WaitBusy.md).
+- C exact SHA-256 `73ab4fcd3d9d92c043e8f280f0d27c067b0f590591d0aead78169c2306670917` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 1565 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+                                           
+                                                                          
+                                                                        
+                                                                 
+                                                                                 
+                                                                            
+                                                                               
+                                                                     
+                                                  
+   
+
+extern unsigned char g_01D972C0[];                             
+extern int *g_01D96AAC;                
+extern unsigned int g_01D97718;                                          
+extern int __cdecl sub_501190(void);                                             
+
+int __cdecl sub_50AE80(void)
+{
+    unsigned char *v0;                                     
+    int v1;
+
+    v0 = g_01D972C0 + 0x68;
+    do {
+        if ((v0[-0x68] & 2) != 0) {                    
+            if (*(unsigned int *)(v0 - 4) != *(unsigned int *)v0)
+                return 1;                 
+        }
+        v0 += 0x9C;                  
+    } while ((int)v0 < (int)0x1D9776C);                                  
+
+    if (g_01D96AAC)
+        return 1;
+    if ((unsigned char)g_01D97718)
+        return 1;                             
+    v1 = sub_501190();
+    if (v1)
+        return 1;
+    return v1;                       
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `cc37d3c8646e8c64c35c336a03e97e85d1e8881df093d421b3cf9b36604c3268` ; copie gelée `tools/_tmp_semantic_triple/0x50ae80/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleActionSequence_WaitBusy @ 0x50AE80
 
 - Instr (live): 26
@@ -53,3 +110,4 @@ int __cdecl BattleActionSequence_WaitBusy(void)
     return eax; /* idle: leftover 0 */
 }
 ```
+````
