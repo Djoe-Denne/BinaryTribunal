@@ -18,12 +18,12 @@
 | Classe | Nombre | Règle |
 |---|---:|---|
 | CERTAIN | 23 (8 doc + 3 triple Grok + 8 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
-| LIKELY | 291 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| LIKELY | 292 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 137 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 136 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -200,7 +200,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x486A10` | `domain::BattleMagic_MutateStock` | 116 | LIKELY | [C](decomp/0x486A10__BattleMagic_MutateStock.md) | oui (documentaire) | A==V (1+V) | oui 2026-10-10 | C corrigé byte-exact/re-review indépendante ; 32×5/pas464, JGE AL signé100..127, EAX32=0/1/255 ; gate ASM/readback parent bornés, identité métier/alias/ABI/runtime non certifiés ; [sémantique](semantic/0x486A10__BattleMagic_MutateStock.md) |
 | `0x486B40` | `domain::BattleEqualItemBuffer_AdjustCount` | 69 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x486CD0` | `domain::Battle_CopyMagicStocksToSave` | 63 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x486DC0` | `domain::BattleTarget_GetRandomPartyMask` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x486DC0` | `domain::BattleTarget_GetRandomPartyMask` | 19 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x486E00` | `domain::BattleTarget_GetRandomMonsterMask` | 22 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x486E70` | `BattleTarget_SelectByStatusOrStat` | 393 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x487590` | `domain::EnemyAI_GetTargetMemberCount` | 42 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
