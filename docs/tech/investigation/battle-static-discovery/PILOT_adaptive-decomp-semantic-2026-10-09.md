@@ -102,3 +102,36 @@ Chaque slot libéré prend immédiatement un travail READY autorisé, sans atten
 Setup foreground uniquement : queue 62 tâches, six workers READY + deux opérations superviseur READY, onze slots workers BLOCKED jusqu'au GO long du parent. P2 A bloqué sur neutral-v2/gate : v1 contient encore des commentaires EAX hauts=idx faux ; aucun v1/C accepté modifié. Digests des inputs réels et huit gels P1 revalidés. `python tools/validate_campaign_pool.py --self-test` : neuf tests offline PASS, aucun dispatch/IDB write/action d'alimentation. L'adaptatif demeure local aux six ; aucun résultat pilote supplémentaire accepté ni extension globale.
 
 Receipt runtime suivant : garde native input/IDB/SHA réussie, équipe Ensemble `ff8-pilot-20261010` créée, six sessions effectivement créées mais **six outcomes API failed, zéro token/résultat**, overrides stockés `id=...#high`, `variant=default`. Voir policy « Receipt runtime Ensemble » et queue `ensemble_run_2026_10_10` pour IDs/digests réels. Ce snapshot supersède l'ancienne absence native comme état courant, pas les mesures antérieures. Arrêt global **modèle/harness**, aucune panne provider/IDA inférée, aucun résultat/promotion pilote ajouté. Vérifier le Model.Ref natif avant toute extension future du pool, ne pas accepter high silencieusement perdu ; réparation interface ou alternative harness à autoriser, sans boucle ni fallback solo.
+
+## 10. Migration native autorisée / setup canary — 2026-10-10
+
+Réponse utilisateur explicite « oui » au harness **natif OpenCode**, sans perdre
+12 total, Flash→Sol et high effectif. Superviseur neuf slot0
+`ses_edaf43c0cffeAOikFDjgKGcu9H` ; délégation `functions.subagent` seulement,
+aucune équipe Ensemble nouvelle ni reprise d'enfant étranger. Un diagnostic API
+des six anciens workers confirme failed/idle/0tokens : aucun slot occupé, pas
+d'attente infinie de deuxième ack terminal, aucun force/purge/cleanup.
+
+API V2 live confirme le superviseur Sol et **deux canaries** Flash/Sol : `id`
+sans `#high`, `variant=high`, providers exacts. Les deux enfants frais ont le bon
+parentID, outcome succeeded, finale `NATIVE_HIGH_CANARY_OK`, zéro outil/fichier.
+IDs/Model.Ref/messages/usage observé sont dans `native_migration_2026_10_10`
+de la queue. Ce sont des probes du transport, ni reconstruction C ni contrôle
+RE ni fallback déclenché. Refaire le readback du modèle de chaque session avant
+expansion ; le succès de deux probes ne prouve pas la concurrence onze.
+
+Six tâches requeue READY ; deux opérations parent READY ; onze slots libres
+mais gate fermée. P3 demande Sol Ensemble invalide pré-exécution est conservée
+comme échec harness, **pas consommation d'une exécution high** : une seule vraie
+tentative Sol high reste réservée pour remplacer son ancien Flash interrompu.
+Adjudication administrative limitée à cette migration, pas règle de retry Sol.
+Les drafts/gels/neutral-v1/C accepté sont intacts ; P2 A attend neutral-v2 puis
+guard, J3 all-path gate/push/commit pending avant promotion. `--self-test` :
+**15 checks offline PASS**, hashes et 8/8 gels P1 exacts. IDA actuel input/IDB/
+SHA vérifié lecture seule ; pas de pack/gate §5.6/écriture/save/promotion.
+
+État **awaiting_background_GO**, dispatch_GO=false : attendre CONTINUATION
+background explicite du parent dans cette session, ne pas recycler l'ancien GO.
+Fractions 0/6, C2/6, AV1/6, contrôle1/3 retourné/0/3 adjudiqué et 38 clos
+historiques inchangés ; adaptatif strictement six EA. Aucun global/profil/provider/
+MCP/DB/service modifié, aucune action d'alimentation ou réarmement.

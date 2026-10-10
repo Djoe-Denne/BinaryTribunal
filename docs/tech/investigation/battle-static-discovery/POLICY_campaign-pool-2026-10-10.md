@@ -157,3 +157,57 @@ receipts failed restent des diagnostics, pas des travaux complétés. La correct
 de l'interface Ensemble ou l'autorisation explicite d'un autre harness précède
 toute reprise ; ne pas supprimer high pour contourner le problème. Les nouveaux
 tests de référence sont offline, sans réparer le plugin/service/configuration.
+
+## Migration native autorisée et canaries — 2026-10-10T09:05:13.104Z
+
+L'utilisateur a explicitement répondu « oui » au retour au harness **natif
+OpenCode**, avec 12 total, fallback Flash→Sol et vérification effective high.
+Superviseur frais unique slot0 : `ses_edaf43c0cffeAOikFDjgKGcu9H`, remplace
+`ses_edb526e53ffe58rQKvbPeclTqv` terminé. `functions.subagent` seulement ;
+aucun team_create/team_spawn nouveau, aucune reprise/reparent d'enfants étrangers.
+
+Diagnostic unique de quiescence : team_status indique que la nouvelle session
+n'est pas dans une équipe ; API native des six IDs historiques confirme
+`outcome=failed`, `time.idle` présent et tous champs tokens=0, timestamps
+inchangés depuis le checkpoint. Aucun calculleur/writer actif observé : slots
+libres sans attendre une seconde confirmation de shutdown terminal. Records,
+IDs, messages, digests et drafts sont conservés ; ni force/purge/merge/DB reset.
+
+Guide API V2 consulté et `/openapi.json` live via le CLI authentifié fourni avec
+Desktop (`resources/opencode-cli.exe`) : `Model.Ref` a `providerID`, `id`,
+`variant`. GET `/api/session/{sessionID}` retourne ces champs dans `data.model` ;
+GET `/api/session/{sessionID}/message` corrobore modèle/message/tokens/finale.
+Le superviseur est réellement `{providerID:openai,id:gpt-6.1-sol,variant:high}`.
+Deux appels natifs foreground bornés, lecture seule sans outils/fichiers/git/IDA :
+- Flash `ses_edaf2a405ffeHrArD1aj2xiDFY` : ID `glm-5.3-flash`, provider
+  `zai-coding-plan`, variant **high**, outcome succeeded, finale
+  `NATIVE_HIGH_CANARY_OK`, tokens input17060/output8/reasoning66/cache0.
+- Sol `ses_edaf25b79ffecfI6g5pN2KtDPw` : ID `gpt-6.1-sol`, provider `openai`,
+  variant **high**, outcome succeeded, même finale, input16165/output10/
+  reasoning0/cache0. Ce probe teste le transport Sol, **pas un fallback déclenché**.
+Les deux parentID sont le nouveau superviseur ; snapshots de fichiers vides.
+La chaîne d'override `#high` est donc décodée par ce harness, pas prise seule pour
+preuve. Lire le Model.Ref de **chaque** future session avant toute extension ;
+mismatch → checkpoint bloquant, sans retry provider ni variante default.
+
+Adjudication administrative du budget : les six échecs Ensemble sont des
+**demandes invalides de harness avant exécution high**, pas des échecs analytiques
+ni des pannes Flash/Sol établies. Leur historique failed reste immuable dans les
+receipts/events. Les six tâches sont requeue READY dans le nouveau transport,
+sans descendants acceptés. Pour P3, la demande Sol invalide est conservée avec
+`original_kind=sol_fallback`, classée `harness_contract_failure` et exclue du
+budget d'exécution ; **une seule exécution Sol high fraîche reste réservée** en
+remplacement du Flash historique interrompu sans pack. Cette décision est propre
+à la migration autorisée, pas un droit général de répéter un rôle Sol échoué.
+Inputs numériques identiques ; digest du prompt historique complet toujours
+inconnu, nouvelle révision possédée et manifest gelé avant tout travail.
+
+Garde IDA native actuelle lecture seule réussie : input Steam FF8_EN.exe,
+IDB `D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64`, PE SHA256
+`064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`.
+Pas de pack, §5.6, promotion, écriture/save IDB ou action d'alimentation.
+Queue **awaiting_background_GO**, `dispatch_GO=false`, six workers READY,
+deux tâches parent READY, zéro worker occupé après les deux canaries terminés.
+L'ancien GO long ne déclenche pas cette phase : attendre CONTINUATION background
+explicite. Plafond 1+11, aveuglement frais, gates J3/P2, gels 8/8 P1, fractions
+pilote et limite adaptative six EA inchangés. Config/profiles/defaults/MCP intacts.

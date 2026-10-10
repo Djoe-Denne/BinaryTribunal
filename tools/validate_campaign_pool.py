@@ -85,6 +85,30 @@ def validate(pool, verify_files=True):
     require(pool["fallback"]["max_sol_fallback_attempts_per_task"] == 1,
             "exactly one Sol replacement maximum")
     require(not pool["fallback"]["solo_fallback"], "solo fallback forbidden")
+    migration = pool.get("native_migration_2026_10_10")
+    if migration:
+        require(migration["transport"] == "functions.subagent", "native transport required")
+        require(slots[0]["session_id"] == migration["new_supervisor_session_id"],
+                "current supervisor binding")
+        require(model_ref_matches(SOL, migration["self_model_actual"])
+                and slots[0].get("model_actual") == migration["self_model_actual"],
+                "supervisor high contract not proved")
+        old = migration["old_Ensemble_quiescence"]
+        require(old["native_API_sessions_checked"] == 6 and old["all_outcomes_failed"]
+                and old["all_time_idle_present"] and old["all_token_fields_zero"]
+                and old["workers_computing_observed"] == 0, "old writers not quiescent")
+        canaries = migration["canaries"]
+        require(len(canaries) == 2 and {c["model"] for c in canaries} == {FLASH, SOL},
+                "bounded native probes required")
+        for c in canaries:
+            require(c["parent_id"] == slots[0]["session_id"]
+                    and model_ref_matches(c["model"], c["model_actual"])
+                    and c["assistant_model_matches_session"]
+                    and c["outcome"] == "succeeded"
+                    and c["result"] == "NATIVE_HIGH_CANARY_OK"
+                    and c["time_idle_ms"] and c["tokens"]["output"] > 0
+                    and c["tool_calls"] == 0 and not c["snapshot_files"]
+                    and c["accepted_RE_results"] == 0, "native canary receipt mismatch")
     tasks = {t["id"]: t for t in pool["tasks"]}
     require(len(tasks) == len(pool["tasks"]), "duplicate task IDs")
     require(set(pool["sources"]) == {f"P{i}" for i in range(1, 7)}, "six-case scope")
@@ -134,6 +158,16 @@ def validate(pool, verify_files=True):
             require(any(old.get("kind") == "primary" and old.get("model") == FLASH
                         and old.get("status") == "failed" for old in attempts),
                     "fallback without Flash failed receipt")
+        for a in attempts:
+            if a.get("kind") == "harness_contract_failure":
+                receipt = pool["ensemble_run_2026_10_10"]["receipts"].get(t["id"], {})
+                require(migration and t["id"] == "P3_pack"
+                        and a["session_id"] == receipt.get("session_id")
+                        and receipt.get("API_outcome") == "failed"
+                        and not model_ref_matches(a["model"], receipt.get("model_actual"))
+                        and a.get("counts_against_execution_budget") is False
+                        and a.get("original_kind") == "sol_fallback",
+                        "only recorded pre-execution migration failure is exempt")
     active = [s for s in slots[1:] if s["status"] == "running"]
     sessions = [s["session_id"] for s in active]
     require(len(active) <= 11 and len(set(sessions)) == len(sessions), "active pool cap/isolation")
@@ -156,7 +190,7 @@ def validate(pool, verify_files=True):
         require({"timestamp_utc", "task_id", "ea", "role", "depends_on", "status",
                  "slot_id", "session_id", "model", "inputs_digest"} <= event.keys(),
                 "incomplete event record")
-    if pool["activation"] == "awaiting_parent_long_GO" or pool["activation"].startswith("blocked_"):
+    if pool["activation"] in {"awaiting_parent_long_GO", "awaiting_background_GO"} or pool["activation"].startswith("blocked_"):
         require(not active and not pool["guards"]["dispatch_GO"], "global gate must prevent dispatch")
         require(not any(t["status"] in {"running", "fallback"} for t in tasks.values()),
                 "globally blocked pool contains a live task")
@@ -226,6 +260,12 @@ def self_test(pool):
     require(not model_ref_matches(SOL, {"providerID": "openai", "id": "gpt-6.1-sol#high",
                                         "variant": "default"}), "literal high suffix accepted")
     checks += 1
+    if pool.get("native_migration_2026_10_10"):
+        rejects(lambda p: p["native_migration_2026_10_10"]["self_model_actual"].update(variant="default"))
+        rejects(lambda p: p["native_migration_2026_10_10"]["canaries"][0]["model_actual"].update(id="glm-5.3-flash#high"))
+        rejects(lambda p: p["native_migration_2026_10_10"]["old_Ensemble_quiescence"].update(workers_computing_observed=1))
+        rejects(lambda p: (p.update(activation="awaiting_background_GO"),
+                           p["guards"].update(dispatch_GO=True)))
     return checks
 
 

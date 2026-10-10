@@ -23,6 +23,14 @@ la source de vérité ; aucune promotion sur la seule prose d'un worker.
   ID sans suffixe `#high`, champ `variant=high`. Une chaîne d'override ne prouve
   pas que le harness l'a interprétée ; jamais accepter `variant=default`
   silencieusement ni changer de harness sans autorisation en cas d'incompatibilité.
+- Migration explicitement autorisée le 2026-10-10 : délégation par
+  `functions.subagent` natif seulement, aucune nouvelle équipe Ensemble.
+  Les six anciennes sessions Ensemble failed/idle sont historiques, sans slot
+  occupé ; leurs receipts restent conservés. Override `provider/model#high`
+  à l'appel, readback API `Model.Ref={providerID,id,variant:high}` obligatoire,
+  ID sans suffixe, y compris pour le superviseur. Le canary ne vaut pas clôture RE.
+  Setup validé reste `awaiting_background_GO`, dispatch interdit avant la
+  CONTINUATION background explicite du parent ; aucun changement global/config.
 - §5.6, écritures IDB, sauvegarde/readback et commits restent réservés au
   superviseur et sérialisés. Les workers ne modifient ni IDB, ni git, ni registre.
 - Ce setup ne lance aucune campagne. Activation seulement sur GO long du parent.
