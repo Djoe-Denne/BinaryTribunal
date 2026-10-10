@@ -32,3 +32,7 @@
 - polarity: No Jcc/setcc; signed WORD via MOVSX, low32 IMUL then LOGICAL SHR12, not SAR.
 - return: Computed full EAX after SHR12 stored twice, remains through C3; no AL-only result.
 - name: Gte/ISA identity NOT_CONFIRMED; numeric sum3U16 timesS16/SHR12 and two stores prove only provisional role.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x45E5C0__Gte_AVSZ3.md) : 695 octets, SHA-256 `b4afbd6cc0e4b3454d294f284b1636fb5be827644048e4e1013e8cfc27327aa0`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
