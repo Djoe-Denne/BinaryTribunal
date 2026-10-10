@@ -1,3 +1,61 @@
+# Gte_LZCS @ 0x45DCA0 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `8211d02a3ce8c9ce0da1ca6540d4d48bdd75d2f2c0c3599ebf9f6cb9b5f169a6`, 23 EA / 72 octets ; [sémantique](../semantic/0x45DCA0__Gte_LZCS.md).
+- C exact SHA-256 `32881f6790ec4b65cbf9e616e64b6cb1b0ad89db70bade5cff10e0fec3003ddb` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 1039 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+/* Neutral reuse copy of an existing reconciled C deliverable.
+ * Source file identity withheld from this pack copy; source fence hash is
+ * recorded in reuse_provenance.json. Sanitation: names mapped and comments
+ * replaced; executable structure unchanged. Ground truth for behavior is the
+ * live numeric ASM pack (asm.txt / bytes.json), not this C.
+ */
+
+extern unsigned int VAR_1CA8A88; /* 0x1CA8A88 */
+extern int VAR_1CA8A8C;          /* 0x1CA8A8C */
+
+int __cdecl FUNC_45DCA0(int arg_0)
+{
+    unsigned int src;
+    int count;
+    unsigned int cur;
+
+    src = (unsigned int)arg_0;
+    count = 0;
+    cur = src;
+
+    if ((src & 0x80000000u) == 0u) {
+        while (count < 32) {
+            cur <<= 1;
+            count++;
+            if ((cur & 0x80000000u) != 0u)
+                break;
+        }
+    } else {
+        while (count < 32) {
+            cur <<= 1;
+            count++;
+            if ((cur & 0x80000000u) == 0u)
+                break;
+        }
+    }
+
+    VAR_1CA8A88 = src;
+    VAR_1CA8A8C = count;
+    return count;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `783a4cb0e65f4d52792a94c7e66c07206c2b22a7c941691723a7f2317c65450e` ; copie gelée `tools/_tmp_semantic_triple/0x45dca0/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # Gte_LZCS @ 0x45DCA0
 
 - Instr (live): 23
@@ -58,3 +116,4 @@ int __cdecl Gte_LZCS(int arg_0)
     return count;
 }
 ```
+````
