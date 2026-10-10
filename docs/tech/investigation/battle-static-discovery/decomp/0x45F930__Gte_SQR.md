@@ -1,3 +1,85 @@
+# Gte_SQR @ 0x45F930 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `affb5edf73e77e77ad2a72b7ec5ff163a2fdccb1d8422fe5a3c08262c0572dfa`, 36 EA / 176 octets ; [sémantique](../semantic/0x45F930__Gte_SQR.md).
+- C exact SHA-256 `4b77300cbc269a6570fe49ba040ff734c74f31091bde710dd70e8d566c61d83a` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 2122 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+                     
+                                                                          
+                                                                                     
+                                                                           
+                                                                          
+                                                                                 
+                                                                            
+                                                                                  
+                                                     
+                                                                                          
+                                                       
+                                                           
+   
+
+extern unsigned int mem_01CA8A34;
+extern unsigned int mem_01CA8A38;
+extern unsigned int mem_01CA8A3C;
+extern unsigned int mem_01CA8A74;
+extern unsigned int mem_01CA8A78;
+extern unsigned int mem_01CA8A7C;
+extern unsigned int mem_01CA92F8;
+
+unsigned int __cdecl sub_0045F930(void)
+{
+    int v0;
+    int v1;
+    int v2;
+    unsigned int v3;
+
+    v0 = (int)(short)mem_01CA8A34;
+    v1 = (int)(short)mem_01CA8A38;
+    v0 = v0 * v0;
+    v2 = (int)(short)mem_01CA8A3C;
+    v1 = v1 * v1;
+    v2 = v2 * v2;
+
+    mem_01CA92F8 = 0;
+    mem_01CA8A74 = (unsigned int)v0;
+    mem_01CA8A78 = (unsigned int)v1;
+    mem_01CA8A7C = (unsigned int)v2;
+
+    if ((unsigned int)v0 > 0x7FFFu) {
+        v0 = (~(v0 >> 31)) & 0x7FFF;
+        mem_01CA92F8 = 0x81000000u;
+    }
+    mem_01CA8A34 = (unsigned int)v0;
+
+    if ((unsigned int)v1 > 0x7FFFu) {
+        v3 = mem_01CA92F8;
+        v1 = (~(v1 >> 31)) & 0x7FFF;
+        v3 |= 0x80800000u;
+        mem_01CA92F8 = v3;
+    }
+    mem_01CA8A38 = (unsigned int)v1;
+
+    if ((unsigned int)v2 > 0x7FFFu) {
+        v3 = mem_01CA92F8;
+        v2 = (~(v2 >> 31)) & 0x7FFF;
+        v3 |= 0x400000u;
+        mem_01CA92F8 = v3;
+    }
+    mem_01CA8A3C = (unsigned int)v2;
+    return (unsigned int)v2;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `953e765164e603e53e608a90557530fa29e5581fa06a5a960f284803ad10ca20` ; copie gelée `tools/_tmp_semantic_triple/0x45f930/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # Gte_SQR @ 0x45F930
 
 - Instr (live): 36
@@ -78,3 +160,4 @@ unsigned int __cdecl Gte_SQR(void)
     return (unsigned int)sq3;
 }
 ```
+````

@@ -18,12 +18,12 @@
 | Classe | Nombre | Règle |
 |---|---:|---|
 | CERTAIN | 23 (8 doc + 3 triple Grok + 8 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
-| LIKELY | 289 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| LIKELY | 290 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 139 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 138 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -107,7 +107,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x45E9D0` | `sub_45E9D0` | 109 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x45EBF0` | `sub_45EBF0` | 116 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié |
 | `0x45EE10` | `Gte_NCLIP` | 36 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
-| `0x45F930` | `Gte_SQR` | 36 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x45F930` | `Gte_SQR` | 36 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x460810` | `Thunk_460860_4BE012` | 4 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x460840` | `Thunk_460860_480012` | 4 | SKIP_L3 | — | — | — | — | vendor/gfx/crt/thunk |
 | `0x460860` | `Gte_MVMVA` | 177 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
