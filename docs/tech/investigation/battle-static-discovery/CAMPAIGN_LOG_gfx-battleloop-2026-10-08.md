@@ -411,3 +411,71 @@ Le validateur passe **20 tests offline**, DAG **355 tâches**, activation
 `running_native`, GO inchangé, réserve quatre. Gates ASM, append/save/readback
 et git toujours parent seuls, sériels. Aucun élargissement adaptatif après
 le bilan six EA ; recharger chaque callback depuis la file canonique.
+
+### Callbacks, garde documentaire et nouvelle recharge — 2026-10-10T13:59:13Z
+
+- `486DC0` : deux auteurs C indépendants puis R ont produit une correction ;
+  une **nouvelle review indépendante** accepte le C `431f10fad…` dans son
+  domaine documentaire explicite. A/V frais concordent LIKELY NUMERIC,
+  retour normal entier `{0,1,2,4}` ; aucune promotion native/ABI/runtime ou
+  attribution RNG/métier. §5.6/publication/IDB restent à faire.
+- `56BBF0` : A/V acceptés, gate ASM parent **37 EA/90 octets**, 30 CALL
+  entrants/18 racines ; dernier résultat EAX entier, produits/SUB modulo32
+  puis SAR12. À `8EBA48`, cleanup `0x14` regroupe trois args puis deux args
+  d'un autre appel, pas cinq args de la racine. **Publication bloquante** :
+  le fence historique à overflow signé doit être remplacé par le C accepté
+  `13cfc1cdd…` avant tout append IDB ou commit de fonction. Aucun push fait.
+- Reviews de projections : `460860` et `45E9D0` STRUCTURAL_ACCEPTE,
+  `56C090` CORRIGE documentaire, `506690` CORRIGE contrat d'entrées cachées.
+  **Backend BLOCKED/UNIMPLEMENTED** pour les quatre ; la réception des
+  livrables n'accepte aucun C canonique ni aucune équivalence compilée.
+- Reviews canon C : `50B2A0`, `50BF90`, `50BB00`, `502380` CORRIGE
+  (recharges, captures, transport DWORD, shift masqué). `50B190` ESCALADE
+  sur ECX vers `50AFC0`. Avis et drafts conservés ; pas de patch deviné,
+  pas de remplacement d'un défaut ABI par une hypothèse de transparence.
+- Incident `50B0C0` : les **octets du manifeste d'origine** sont reconstruits
+  avec le format Windows CRLF et authentifiés au digest pré-dispatch
+  `c7d52c38…`, dans un **nouveau chemin**. Le manifeste modifié par le
+  worker reste intact à son chemin d'origine, incident et receipts conservés.
+  Source/C brut inchangés ; admission du pack uniquement à une nouvelle
+  review indépendante, jamais acceptation depuis le gel modifié.
+- `50AE80` : binding documentaire minimal SHA source → commit/blob,
+  différence limitée CRLF/LF explicitement vérifiée. Review fraîche lancée ;
+  aucune authentification API historique inventée. `50BD00` : extraits
+  historiques ContextMode automatiquement retournés au pack NONBLIND,
+  exposition déclarée ; absence d'usage non certifiée. Review numérique
+  suivante dans un contexte neuf, sans recherche ContextMode globale.
+- Frontière : `50D300`, `501190`, `5083C0` **sans C**, chacun sous canon
+  deux auteurs indépendants/C_R obligatoire. `508360` déjà publié : skip.
+  `5023D0` est un site interne à `502380`, pas une nouvelle racine à traiter.
+  Réserve alimentée par boundaries de scratch, wrapper BdLink et animation
+  du rendu, gardées nativement ; aucune extension de l'adaptatif.
+
+Readback natif à **13:59:13Z : 11 workers utiles + superviseur**, `Model.Ref`
+simple avec `variant=high` pour chacun ; **5 READY réels** :
+`N5082B0_pack`, `N5082D0_pack`, `N500DD0_pack`, `N508F90_pack`,
+`N509440_pack`. **416 tâches DAG ; 20 tests offline PASS**. Instantané,
+non garantie d'occupation future. Des remplacements atomiques Windows ont
+échoué transitoirement (WinError5) ; ancienne queue préservée, `.pending`
+conservés, réémission sérielle limitée réussie. Aucun loop de polling/sleep,
+changement global, action d'alimentation, Ensemble ou push remote.
+
+Actualisation **14:04:33Z** : 12 agents utiles actifs vérifiés (11 workers),
+**5 READY**, **436 tâches DAG / 20 tests PASS**. A numériques frais de
+`50BC20/50BD00/50BD80/50AE80` lancés après reviews C indépendantes et admission
+parent des hashes/source git ; acceptation documentaire conditionnelle
+seulement, auteur API historique UNVALIDATED. `501190` pack/C_A complet
+2 EA/6 octets, aucun argument consommé, R32→EAX ; C_B aveugle frais lancé,
+C_R toujours obligatoire. `5083C0/50D300` poursuivent leurs packs primaires
+canon sans C ; `5082B0/5082D0` packs de réemploi indépendants. La réserve
+stage/BdLink est réelle, guardée, non adaptative ; `5095B0/5099C0` sans C
+conservent aussi le canon deux auteurs/C_R. Avis CORRIGE supplémentaires
+`50B0C0/50BEE0` conservés (alias, BYTE, ordre, ECX/pile opaque), pas de
+correctif implicite ni de preuve de transparence native. Aucun nouveau
+commit de fonction ou push IDB pendant cette recharge.
+
+Callback `50B830` : CORRIGE conservé (latch ARG0 physique, ECX, accès WORD,
+contrat frame/callback), aucune réparation devinée. Slot immédiatement
+réaffecté au pack du wrapper canonique `500DD0`. Readback API **14:05:20Z** :
+toujours **11 workers + superviseur**, **4 READY**
+(`N508F90_pack/N509440_pack/N5095B0_pack/N5099C0_pack`), 20 tests PASS.
