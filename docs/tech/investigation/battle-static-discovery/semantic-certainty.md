@@ -401,7 +401,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x5088A0` | `sub_5088A0` | 277 | LIKELY | oui | — | non | oui | push seul |
 | `0x508C90` | `BattleSkeleton_BuildHierarchicalFK` | 227 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x508F90` | `Battle_ReadAnimation` | 284 | LIKELY | oui | — | non | oui | push seul |
-| `0x509440` | `BattleAnimation_StartClip` | 49 | LIKELY | oui | — | non | oui | push seul |
+| `0x509440` | `BattleAnimation_StartClip` | 49 | LIKELY | oui (C32 conditionnel) | — | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x509520` | `BattleAnimation_StartActorAndWeaponClip` | 59 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5095F0` | `Camera_ClearTakeover_Set1E_1000` | 4 | LIKELY | oui | — | oui | oui | push seul |
 | `0x509610` | `BS_CameraSettingInit2` | 11 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |

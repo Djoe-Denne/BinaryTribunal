@@ -1,3 +1,87 @@
+# BattleAnimation_StartClip @ 0x509440 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `ac8c66c1d0e4ab33ac18d3a8d5fb92cf8e8d0f396fcc11593e5ce622708520d7`, 49 EA / 131 octets ; [sémantique](../semantic/0x509440__BattleAnimation_StartClip.md).
+- C exact SHA-256 `96a7fc1c52eccc596762eed28a2a2c0f1c42afacf26bbc293ab1f741c9e1fb56` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 1439 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+
+
+typedef struct t_0
+{
+    unsigned char n_0;
+    unsigned char n_1;
+    __int16 n_2;
+    unsigned __int16 n_3;
+    unsigned char n_4;
+    unsigned char n_5;
+} t_0;
+
+int __cdecl sub_508f90(int, unsigned char *);
+
+int __cdecl sub_509440(
+    void *a_0,
+    t_0 *a_1,
+    __int16 n_0)
+{
+    unsigned char *v_0;
+    unsigned char *v_1;
+    unsigned int v_2;
+    unsigned char n_1;
+    unsigned char n_5;
+    unsigned char *v_3;
+    int v_4;
+    unsigned char *v_5;
+
+    a_1->n_0 = (unsigned char)n_0;
+    v_0 = *(unsigned char **)((char *)a_0 + 4);
+    a_1->n_4 = 0;
+    v_1 = *(unsigned char **)(v_0 + 8);
+    a_1->n_2 = 1;
+    a_1->n_3 = 0;
+
+    v_2 = *(unsigned int *)(v_1 + (int)n_0 * 4 + 4);
+    n_5 = *(unsigned char *)(v_1 + v_2);
+
+    n_1 = (unsigned char)(a_1->n_1 & 0xF3u);
+    a_1->n_5 = n_5;
+    a_1->n_1 = n_1;
+    if (n_1 & 1u)
+    {
+        n_5 = (unsigned char)((n_5 << 1) - 1);
+        a_1->n_5 = n_5;
+    }
+
+    v_3 = *(unsigned char **)v_0;
+    v_4 = (int)v_3[0];
+    *(unsigned __int16 *)(v_3 + 8) = 0;
+    *(unsigned __int16 *)(v_3 + 0x0A) = 0;
+    *(unsigned __int16 *)(v_3 + 0x0C) = 0;
+    if (v_4 > 0)
+    {
+        v_5 = v_3 + 0x16;
+        do
+        {
+            *(unsigned __int16 *)(v_5 + 2) = 0;
+            *(unsigned __int16 *)(v_5 + 0) = 0;
+            *(unsigned __int16 *)(v_5 - 2) = 0;
+            v_5 += 0x30;
+        } while (--v_4 != 0);
+    }
+
+    return sub_508f90((int)a_0, (unsigned char *)a_1);
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `6ea125245bde2c9008d5b2c108389fca4bf752c5ea91d65182cf414f8407ad2a` ; copie gelée `tools/_tmp_semantic_triple/0x509440/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleAnimation_StartClip @ 0x509440
 
 - Instr (live): 49
@@ -86,3 +170,4 @@ int __cdecl BattleAnimation_StartClip(
     return Battle_ReadAnimation((int)model_context, (unsigned char *)state); /* 50 57 E8; 83C408 */
 }
 ```
+````
