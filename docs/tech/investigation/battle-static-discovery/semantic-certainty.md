@@ -407,7 +407,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x509610` | `BS_CameraSettingInit2` | 11 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x509930` | `BattleCamera_ReturnBlendTick` | 23 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x5099A0` | `BattleCamera_BindResource` | 5 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x5099D0` | `RenderGeometry` | 118 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x5099D0` | `RenderGeometry` | 118 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x509C10` | `BattleAction_ClassFromScriptBits` | 34 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x509C80` | `BattleAction_TickScript_IfByte4lt10` | 30 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x50A670` | `BattleAction_ApplyEventGroup0` | 9 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
