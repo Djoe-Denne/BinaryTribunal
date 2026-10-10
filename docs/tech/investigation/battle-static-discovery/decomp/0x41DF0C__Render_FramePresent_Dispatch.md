@@ -1,3 +1,32 @@
+# Render_FramePresent_Dispatch @ 0x41DF0C — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `314cbeb3174b5d5fb68747b37fe8b672308acff94f2a074dd3364ae38dd1d973`, 19 EA / 48 octets ; [sémantique](../semantic/0x41DF0C__Render_FramePresent_Dispatch.md).
+- C exact SHA-256 `546e523a8e3ff9738509b58ea696927c9b7d300c3cd97945901de2e24377cc17` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+int __cdecl sub_41DF0C(_DWORD *a1)
+{
+    _DWORD *local_4;
+    int eax;
+
+    local_4 = (_DWORD *)sub_4098EE(a1);
+    eax = (int)local_4;
+    if (a1[0xB88 / 4] != 0) {
+        eax = ((int (__cdecl *)(_DWORD *))local_4[0x10 / 4])(a1);
+    }
+    return eax;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `ee3a35a7b40b84ddee3efb42e94e1dcf7b73c1b96a442b905deb1bb63eb0c595` ; copie gelée `tools/_tmp_semantic_triple/0x41df0c/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # Render_FramePresent_Dispatch @ 0x41DF0C
 
 - Instr (live): 19
@@ -36,3 +65,4 @@ int __cdecl Render_FramePresent_Dispatch(_DWORD *engine)
     return eax;                         /* loc_41DF38: no extra EAX write */
 }
 ```
+````
