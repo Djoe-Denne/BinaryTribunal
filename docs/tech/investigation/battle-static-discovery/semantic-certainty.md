@@ -178,7 +178,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x4844D0` | `domain::Battle_InitATB_RandomFromSpeed` | 35 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x4845A0` | `domain::BattleExecQueue_ConsumeCurrentSlot` | 33 | LIKELY | oui | — | non | oui | push seul |
 | `0x484720` | `domain::Battle_EnqueueSpecialAction` | 34 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x4847F0` | `domain::BattlePendingAction_TransferToExecQueue` | 285 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x4847F0` | `domain::BattlePendingAction_TransferToExecQueue` | 286 | LIKELY | [C](decomp/0x4847F0__BattlePendingAction_TransferToExecQueue.md) | oui (statique) | A==V, B/R proc. MAINTIEN | oui 2026-10-10 | 285 accessibles + padding ; trois EAX32/slot caller mutable/strides208-464/256 dispatch ; gate/readback bornés, métier/ABI/runtime non certifiés ; [sémantique](semantic/0x4847F0__BattlePendingAction_TransferToExecQueue.md) |
 | `0x484D20` | `domain::BattlePendingAction_Write` | 177 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x484FD0` | `domain::PendingCmd_QueueOrStore` | 26 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x485160` | `domain::BattleAction_ResolveSpecialActionAndUpdateDamage` | 42 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
