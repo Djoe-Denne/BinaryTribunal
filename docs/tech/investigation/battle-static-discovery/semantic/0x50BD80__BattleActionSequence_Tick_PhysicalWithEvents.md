@@ -34,3 +34,7 @@
 - return: Full EAXs-1 for initial2..255={1..254};0iffirsthelpernonzero;2 aftercommoncall/store. No bool prototype.
 - name: PhysicalWithEvents business identity NOT_CONFIRMED; Byte0Dselection plus2CALLandBYTEFFstore prove numeric role.
 - extra: Root0CODE/1DATA. NativeEDI current afterhelpers: capturedaddress only ifpreserved. Cinitialloadordering stableRAMconditional; no every-access trace/native backend certificate.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x50BD80__BattleActionSequence_Tick_PhysicalWithEvents.md) : 1556 octets, SHA-256 `e958b22a54e72e7b8a5b273c93e93c79efc2f5cdff6f4c54200aa9eff0734312`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
