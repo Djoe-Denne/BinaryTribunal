@@ -38,6 +38,7 @@ def ready_tasks(pool, actor="worker"):
     return sorted(
         (t for t in tasks.values()
          if t["actor"] == actor and t["status"] in {"ready", "blocked"}
+         and not t.get("dispatch_block_reason")
          and all(tasks[d]["status"] == "completed" for d in t["depends_on"])),
         key=lambda t: (t.get("priority", 100), t["id"]),
     )
@@ -231,7 +232,8 @@ def self_test(pool):
     rejects(lambda p: p["capacity"].update(worker_slots=12))
     rejects(lambda p: p["slots"].append(dict(p["slots"][-1], id=12)))
     rejects(lambda p: p["fallback"].update(max_sol_fallback_attempts_per_task=2))
-    rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P2_A").update(status="ready"))
+    rejects(lambda p: (next(t for t in p["tasks"] if t["id"] == "P2_neutral_guard").update(status="blocked"),
+                       next(t for t in p["tasks"] if t["id"] == "P2_A").update(status="ready")))
     rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P4_pack").update(model=SOL))
     rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P3_pack").update(depends_on=["P3_A"]))
     failed = dict(next(t for t in pool["tasks"] if t["id"] == "P4_pack"),
@@ -250,9 +252,17 @@ def self_test(pool):
         raise AssertionError("repeat fallback accepted")
     sample = copy.deepcopy(pool)
     next(t for t in sample["tasks"] if t["id"] == "P3_pack")["status"] = "completed"
+    review = next(t for t in sample["tasks"] if t["id"] == "P3_C_review")
+    review.update(status="blocked")
+    review.pop("dispatch_block_reason", None)
+    next(t for t in sample["tasks"] if t["id"] == "P3_A")["status"] = "blocked"
     require("P3_C_review" in [t["id"] for t in ready_tasks(sample)],
             "next role must become ready without a batch barrier")
     require("P3_A" not in [t["id"] for t in ready_tasks(sample)], "dependency bypass")
+    checks += 1
+    review["dispatch_block_reason"] = "await_parent_acceptance_of_returned_artifacts"
+    require("P3_C_review" not in [t["id"] for t in ready_tasks(sample)],
+            "returned-but-unaccepted role must not be dispatched twice")
     checks += 1
     require(model_ref_matches(SOL, {"providerID": "openai", "id": "gpt-6.1-sol",
                                     "variant": "high"}), "valid high reference rejected")

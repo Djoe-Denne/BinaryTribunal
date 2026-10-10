@@ -135,3 +135,20 @@ background explicite du parent dans cette session, ne pas recycler l'ancien GO.
 Fractions 0/6, C2/6, AV1/6, contrôle1/3 retourné/0/3 adjudiqué et 38 clos
 historiques inchangés ; adaptatif strictement six EA. Aucun global/profil/provider/
 MCP/DB/service modifié, aucune action d'alimentation ou réarmement.
+
+## Activation native réelle — checkpoint intermédiaire 2026-10-10
+
+Le GO CONTINUATION background explicite supersède uniquement la gate setup
+ci-dessus : queue `running_native`, Model.Ref high réel parsession, callbacks
+continus dans1+11. J3 avenant clos `31102de` (pas nouvelle fonction).
+P2 premierclos LIKELY1+V `83f5e94`, C exact + §5.6 parent + IDBsave/readback.
+P1 contrôles adjudiqués rev2 sans défaut matériel inéditB contre BOTHgels,
+R-only aliases/x87 séparés, métierbone reste inconnu ; propagation pending.
+P3 C/A/V acceptés etgelés avant contrôlesfresh C-B/sémB en cours ; fallback
+réelSol réservé consommé1/1, ancienséchecsEnsemble pas des exécutionsprovider.
+P4/P5/P6 C-review pending ; leurprimaire **non strictblind** (expositionIDA
+avantneutralisation conservée, pas effacée par nettoyagedesfichiers).
+Fractions intermédiaires **1/6,C3/6,AV3/6,contrôles1/3 adjudiqués**,baseline38.
+Sixworkers actifs, pas disponibilitéfake11 ; prochaineéligibilité déclenche
+dispatchsansbatch. `--self-test`16checksPASS dont garde retournonaccepté.
+Ce checkpoint ne vaut ni finpilote ni équivalenceISO/compiled/native/runtime.
