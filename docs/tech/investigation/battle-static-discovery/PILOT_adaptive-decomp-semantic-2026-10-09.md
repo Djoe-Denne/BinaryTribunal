@@ -90,3 +90,13 @@ Rapports : fractions séparées **par EA ET par famille**, par bin et statut pro
 ## 8. Handoff SETUP → CONTINUATION
 
 Session superviseur `ses_ede295648ffe946nUdUdHFevqT`. SETUP : six sources/métadonnées lues statiquement, registre/avenants seulement, aucun worker/API ancienne session/IDB write. La continuation inspecte d'abord l'état read-only C6/C10, puis suit §6. Aucun diagnostic infra large. Si arrêt technique, conserver checkpoint drafts/usage/statuts exacts et retourner au parent ; ne pas changer de stratégie silencieusement.
+
+## 9. Avenant capacité/fallback/recyclage — 2026-10-10
+
+Dernière autorisation utilisateur : **12 agents TOTAL = 1 superviseur + 11 slots workers**, non 12 workers. Le [pool continu](POLICY_campaign-pool-2026-10-10.md) et la [queue réelle](CAMPAIGN_POOL_2026-10-10.json) supersèdent les anciens plafonds 3/5/batch et l'arrêt systématique sur échec Flash/ownership ; les snapshots historiques restent inchangés.
+
+Une tâche Flash échouée techniquement/refusée/incomplète inutilisable reçoit une seule tentative fraîche Sol high, même rôle/inputs conservés ; provenance/partiels et usage séparés. P3 ancien Flash interrompu sans pack/C final a son remplacement Sol **réservé non lancé**. Les sessions enfants étrangères ne sont pas reprises ; remplacements possédés autorisés. Pas de nouvelle boucle/fallback solo. Sol global indisponible, IDA nécessaire absent ou OOM critique → checkpoint sûr.
+
+Chaque slot libéré prend immédiatement un travail READY autorisé, sans attendre un batch ; contextes aveugles/reviews indépendantes restent frais et disjoints. §5.6/IDB/git parent sérialisés, J3 gate/push/commit avant nouvelles promotions. La largeur 11 est une politique vérifiée, **pas un setting runtime inventé** ; depth2/permissions V2 existants confirmés, config locale inchangée.
+
+Setup foreground uniquement : queue 62 tâches, six workers READY + deux opérations superviseur READY, onze slots workers BLOCKED jusqu'au GO long du parent. P2 A bloqué sur neutral-v2/gate : v1 contient encore des commentaires EAX hauts=idx faux ; aucun v1/C accepté modifié. Digests des inputs réels et huit gels P1 revalidés. `python tools/validate_campaign_pool.py --self-test` : neuf tests offline PASS, aucun dispatch/IDB write/action d'alimentation. L'adaptatif demeure local aux six ; aucun résultat pilote supplémentaire accepté ni extension globale.

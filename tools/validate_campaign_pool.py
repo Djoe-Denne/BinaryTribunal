@@ -1,0 +1,231 @@
+"""Offline pool-policy checks; never spawns, writes state, or calls IDA/API."""
+
+import argparse
+import copy
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DIRECTORY = ROOT / "docs/tech/investigation/battle-static-discovery"
+POOL = DIRECTORY / "CAMPAIGN_POOL_2026-10-10.json"
+FLASH = "zai-coding-plan/glm-5.3-flash#high"
+SOL = "openai/gpt-6.1-sol#high"
+STATUSES = {"ready", "running", "failed", "fallback", "completed", "blocked"}
+FLASH_ROLES = {"pack_C_A", "neutral_repair", "propagation"}
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def ready_tasks(pool, actor="worker"):
+    tasks = {t["id"]: t for t in pool["tasks"]}
+    return sorted(
+        (t for t in tasks.values()
+         if t["actor"] == actor and t["status"] in {"ready", "blocked"}
+         and all(tasks[d]["status"] == "completed" for d in t["depends_on"])),
+        key=lambda t: (t.get("priority", 100), t["id"]),
+    )
+
+
+def task_input_digest(pool, task):
+    """Administrative input snapshot, not a substitute for a dispatch read manifest."""
+    payload = {"source": pool["sources"].get(task["case"]), "files": {}}
+    for key in task.get("inputs", []):
+        item = pool["input_snapshots"][key]
+        payload["files"][key] = {"path": item["path"], "sha256": item["sha256"]}
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return digest(encoded)
+
+
+def fallback_attempt(task):
+    """Plan one fresh Sol replacement, retaining failed attempts; no mutation."""
+    require(task["model"] == FLASH, "fallback only for a Flash primary")
+    require(task["status"] == "failed", "task must have a real failed receipt")
+    attempts = task.get("attempts", [])
+    require(not any(a.get("kind") == "sol_fallback" for a in attempts),
+            "Sol fallback already consumed")
+    require(attempts and attempts[-1]["model"] == FLASH
+            and attempts[-1]["status"] == "failed", "missing Flash failure provenance")
+    require(task.get("inputs_digest"), "missing frozen inputs digest")
+    result = copy.deepcopy(task)
+    result["status"] = "fallback"
+    result["attempts"].append({
+        "kind": "sol_fallback", "model": SOL, "status": "ready",
+        "session_id": None, "inputs_digest": task["inputs_digest"],
+        "fresh_owned_session_required": True,
+    })
+    return result
+
+
+def validate(pool, verify_files=True):
+    cap = pool["capacity"]
+    require((cap["campaign_agents_total"], cap["supervisors"], cap["worker_slots"])
+            == (12, 1, 11), "capacity must be exactly 1+11")
+    require(not cap["runtime_hardlimit_proved"], "policy is not a proven runtime limit")
+    slots = pool["slots"]
+    require([s["id"] for s in slots] == list(range(12)), "slot IDs must be 0..11")
+    require(slots[0]["kind"] == "supervisor"
+            and all(s["kind"] == "worker" for s in slots[1:]), "slot ownership")
+    require(pool["fallback"]["max_sol_fallback_attempts_per_task"] == 1,
+            "exactly one Sol replacement maximum")
+    require(not pool["fallback"]["solo_fallback"], "solo fallback forbidden")
+    tasks = {t["id"]: t for t in pool["tasks"]}
+    require(len(tasks) == len(pool["tasks"]), "duplicate task IDs")
+    require(set(pool["sources"]) == {f"P{i}" for i in range(1, 7)}, "six-case scope")
+    require({k for k, s in pool["sources"].items() if s["control"]}
+            == {"P1", "P3", "P5"}, "frozen control cohort")
+    visiting, visited = set(), set()
+
+    def visit(key):
+        require(key in tasks, "missing dependency " + key)
+        require(key not in visiting, "dependency cycle")
+        if key in visited:
+            return
+        visiting.add(key)
+        for dep in tasks[key]["depends_on"]:
+            visit(dep)
+        visiting.remove(key)
+        visited.add(key)
+
+    for t in tasks.values():
+        visit(t["id"])
+        require(t["status"] in STATUSES, "invalid task status")
+        require(t["case"] in {*pool["sources"], "J3"}, "out-of-scope task")
+        if t["case"] != "J3":
+            require(t["ea"] == pool["sources"][t["case"]]["ea"], "EA mismatch")
+        if t["status"] in {"ready", "running", "fallback", "completed"}:
+            require(all(tasks[d]["status"] == "completed" for d in t["depends_on"]),
+                    "unfinished dependency for " + t["id"])
+        if t["actor"] == "worker":
+            expected = FLASH if t["role"] in FLASH_ROLES else SOL
+            if t.get("dispatch_attempt_kind") == "sol_fallback":
+                require(t.get("primary_model") == FLASH and t["model"] == SOL,
+                        "explicit fallback model mismatch")
+            else:
+                require(t["model"] == expected, "explicit primary model mismatch")
+            require(t["fresh_session"], "independent context required in this setup")
+        for key in t.get("inputs", []):
+            require(key in pool["input_snapshots"], "missing input snapshot")
+        if t["role"] == "parent_native_gate" and t["case"] != "J3":
+            require("J3_commit" in t["depends_on"], "J3 must close before promotion")
+        attempts = t.get("attempts", [])
+        replacements = [a for a in attempts if a.get("kind") == "sol_fallback"]
+        require(len(replacements) <= 1, "multiple Sol fallbacks")
+        for a in replacements:
+            require(t.get("primary_model", t["model"]) == FLASH and a["model"] == SOL,
+                    "fallback provenance")
+            require(a["inputs_digest"] == t.get("inputs_digest"), "fallback inputs drift")
+            require(any(old.get("kind") == "primary" and old.get("model") == FLASH
+                        and old.get("status") == "failed" for old in attempts),
+                    "fallback without Flash failed receipt")
+    active = [s for s in slots[1:] if s["status"] == "running"]
+    sessions = [s["session_id"] for s in active]
+    require(len(active) <= 11 and len(set(sessions)) == len(sessions), "active pool cap/isolation")
+    require(not active or all(sessions), "real session IDs required")
+    require(len({s["task_id"] for s in active}) == len(active), "duplicate active task")
+    grouped = {}
+    for s in active:
+        require(s["task_id"] in tasks, "slot task missing")
+        t = tasks[s["task_id"]]
+        require(t["actor"] == "worker" and t["status"] == "running", "slot/task mismatch")
+        require(s["inputs_digest"] and s["model"] in {FLASH, SOL}, "unbound dispatch")
+        require(s["role"] == t["role"], "slot role mismatch")
+        grouped.setdefault(t["ea"], []).append(t["role"])
+    for roles in grouped.values():
+        require(len(roles) == 1 or sorted(roles) == ["control_C_B", "control_semantic_B"],
+                "concurrent EA writers except disjoint blind controls")
+    for event in pool["events"]:
+        require({"timestamp_utc", "task_id", "ea", "role", "depends_on", "status",
+                 "slot_id", "session_id", "model", "inputs_digest"} <= event.keys(),
+                "incomplete event record")
+    if pool["activation"] == "awaiting_parent_long_GO":
+        require(not active and not pool["guards"]["dispatch_GO"], "setup must not dispatch")
+        require(not any(t["status"] in {"running", "fallback"} for t in tasks.values()),
+                "setup contains a live task")
+    if verify_files:
+        config = ROOT / pool["config"]["local_file"]
+        require(digest(config.read_bytes()) == pool["config"]["sha256"], "local config drift")
+        require(json.loads(config.read_text(encoding="utf-8"))["experimental"]["subagent_depth"] == 2,
+                "existing depth guard changed")
+        for key, item in pool["input_snapshots"].items():
+            path = ROOT / item["path"]
+            require(path.is_file() and digest(path.read_bytes()) == item["sha256"],
+                    "input drift: " + key)
+            if item.get("check_freeze_members"):
+                freeze = json.loads(path.read_text(encoding="utf-8"))
+                for name, expected in freeze["freeze_files"].items():
+                    require(digest((path.parent / name).read_bytes()) == expected,
+                            "freeze member drift: " + name)
+        for key, expected in pool.get("ready_input_digests", {}).items():
+            require(key in tasks and task_input_digest(pool, tasks[key]) == expected,
+                    "administrative inputs digest drift: " + key)
+    return tasks
+
+
+def self_test(pool):
+    checks = 0
+
+    def rejects(edit):
+        nonlocal checks
+        specimen = copy.deepcopy(pool)
+        edit(specimen)
+        try:
+            validate(specimen, verify_files=False)
+        except ValueError:
+            checks += 1
+        else:
+            raise AssertionError("invalid specimen accepted")
+
+    rejects(lambda p: p["capacity"].update(worker_slots=12))
+    rejects(lambda p: p["slots"].append(dict(p["slots"][-1], id=12)))
+    rejects(lambda p: p["fallback"].update(max_sol_fallback_attempts_per_task=2))
+    rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P2_A").update(status="ready"))
+    rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P4_pack").update(model=SOL))
+    rejects(lambda p: next(t for t in p["tasks"] if t["id"] == "P3_pack").update(depends_on=["P3_A"]))
+    failed = dict(next(t for t in pool["tasks"] if t["id"] == "P4_pack"),
+                  status="failed", inputs_digest="a" * 64,
+                  attempts=[{"model": FLASH, "status": "failed", "kind": "primary"}])
+    original = copy.deepcopy(failed)
+    fallback = fallback_attempt(failed)
+    require(failed == original and fallback["role"] == failed["role"], "fallback mutation/role drift")
+    require(fallback["attempts"][-1]["model"] == SOL, "fallback model")
+    checks += 1
+    try:
+        fallback_attempt(dict(fallback, status="failed"))
+    except ValueError:
+        checks += 1
+    else:
+        raise AssertionError("repeat fallback accepted")
+    sample = copy.deepcopy(pool)
+    next(t for t in sample["tasks"] if t["id"] == "P3_pack")["status"] = "completed"
+    require("P3_C_review" in [t["id"] for t in ready_tasks(sample)],
+            "next role must become ready without a batch barrier")
+    require("P3_A" not in [t["id"] for t in ready_tasks(sample)], "dependency bypass")
+    checks += 1
+    return checks
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args()
+    pool = json.loads(POOL.read_text(encoding="utf-8"))
+    validate(pool)
+    ready = ready_tasks(pool)
+    print(f"PASS: 12 total / 11 workers; {len(pool['tasks'])} DAG tasks; "
+          f"{len(ready)} worker-ready; {len(ready_tasks(pool, 'supervisor'))} supervisor-ready")
+    print("READY:", ", ".join(t["id"] for t in ready))
+    print("Dispatch disabled pending parent GO; no runtime concurrency/load test.")
+    if args.self_test:
+        print(f"PASS: {self_test(pool)} offline policy tests; no state writes or worker calls")
+
+
+if __name__ == "__main__":
+    main()
