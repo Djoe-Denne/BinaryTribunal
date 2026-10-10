@@ -349,7 +349,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x500DD0` | `au_re_BdLinkTask` | 7 | LIKELY | oui | — | non | oui | push seul |
 | `0x500DF0` | `SomeListManipulation` | 55 | LIKELY | oui | — | non | oui | push seul |
 | `0x500F70` | `BS_CameraInit` | 14 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x500FD0` | `BS_RenderRelated` | 112 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
+| `0x500FD0` | `BS_RenderRelated` | 112 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x501A20` | `BS_MusicSetupCopyAndRegister` | 18 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x501A70` | `BS_MusicCommitStagedAKAO` | 49 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x501C60` | `BS_SetAKAOHeader` | 9 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
