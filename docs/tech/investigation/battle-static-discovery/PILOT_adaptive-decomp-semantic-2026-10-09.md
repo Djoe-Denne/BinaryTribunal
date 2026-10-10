@@ -152,3 +152,17 @@ Fractions intermédiaires **1/6,C3/6,AV3/6,contrôles1/3 adjudiqués**,baseline3
 Sixworkers actifs, pas disponibilitéfake11 ; prochaineéligibilité déclenche
 dispatchsansbatch. `--self-test`16checksPASS dont garde retournonaccepté.
 Ce checkpoint ne vaut ni finpilote ni équivalenceISO/compiled/native/runtime.
+
+### Checkpoint reprise serveur / P1 deuxième clos
+
+P1 `5679fb8` est maintenant clos numériquement LIKELY, métierbone UNCERTAIN,
+gels8/8 préservés et IDBsave/readback exact ; nouveauxclos **2/6** (P1,P2).
+P3 contrôles retournés, R fresh pending ; exceptionsgénériquesAGENT/fragment
+ContextMode C-B consignées, pas certificatstrictcontexteabsolu.
+P4/P5/P6 reviewsCORRIGE → fixes ciblés → re-review obligatoire (DAG68).
+Restart a imposé une fermeturetemporaire dispatch avecdrain3sessions nonterminales,
+pas fakeidle/cancel. IDAnatif réapparu : guardsource/IDB/commentsrevalidéreadonly,
+repriseGO inchangé. P4fixFlashfailed `uv_spawn` → une replacementSolhighfresh
+effective, inputsdigests identiques, parcellesfailedconservées ; paspannequota prouvée.
+Quatreworkersen cours P3R/P4fixSol/P5fix/P6fix, aucun nouveau rôleavantleursgates.
+La reprise ne recommence pas P1/P2/J3 et ne réouvre pas les budgetsSolconsommés.

@@ -12,7 +12,7 @@ POOL = DIRECTORY / "CAMPAIGN_POOL_2026-10-10.json"
 FLASH = "zai-coding-plan/glm-5.3-flash#high"
 SOL = "openai/gpt-6.1-sol#high"
 STATUSES = {"ready", "running", "failed", "fallback", "completed", "blocked"}
-FLASH_ROLES = {"pack_C_A", "neutral_repair", "propagation"}
+FLASH_ROLES = {"pack_C_A", "neutral_repair", "propagation", "C_fix"}
 
 
 def require(condition, message):
@@ -137,6 +137,10 @@ def validate(pool, verify_files=True):
         if t["status"] in {"ready", "running", "fallback", "completed"}:
             require(all(tasks[d]["status"] == "completed" for d in t["depends_on"]),
                     "unfinished dependency for " + t["id"])
+            if t["role"] == "semantic_A":
+                require(all(tasks[d].get("C_final_accepted", True)
+                            for d in t["depends_on"] if tasks[d]["role"] == "C_review"),
+                        "semantic A cannot consume a CORRIGE C review")
         if t["actor"] == "worker":
             expected = FLASH if t["role"] in FLASH_ROLES else SOL
             if t.get("dispatch_attempt_kind") == "sol_fallback":
@@ -192,9 +196,19 @@ def validate(pool, verify_files=True):
                  "slot_id", "session_id", "model", "inputs_digest"} <= event.keys(),
                 "incomplete event record")
     if pool["activation"] in {"awaiting_parent_long_GO", "awaiting_background_GO"} or pool["activation"].startswith("blocked_"):
-        require(not active and not pool["guards"]["dispatch_GO"], "global gate must prevent dispatch")
-        require(not any(t["status"] in {"running", "fallback"} for t in tasks.values()),
-                "globally blocked pool contains a live task")
+        require(not pool["guards"]["dispatch_GO"], "global gate must prevent new dispatch")
+        drain = pool.get("global_stop_drain")
+        if drain and pool["activation"] == "blocked_native_ida_mcp_absent_after_restart":
+            require(set(drain["nonterminal_owned_session_ids"]) == set(sessions),
+                    "restart drain must retain all actual nonterminal session slots")
+            require(drain["dispatch_closed_before_fallback_or_new_roles"]
+                    and drain["no_cancel_force_foreign_resume_or_harness_change"],
+                    "restart stop must not silently cancel or redispatch")
+            require(not any(t["status"] == "fallback" for t in tasks.values()),
+                    "critical restart gate precedes fallback dispatch")
+        else:
+            require(not active and not any(t["status"] in {"running", "fallback"} for t in tasks.values()),
+                    "globally blocked pool contains an unaccounted live task")
     if verify_files:
         config = ROOT / pool["config"]["local_file"]
         require(digest(config.read_bytes()) == pool["config"]["sha256"], "local config drift")
@@ -270,6 +284,24 @@ def self_test(pool):
     require(not model_ref_matches(SOL, {"providerID": "openai", "id": "gpt-6.1-sol#high",
                                         "variant": "default"}), "literal high suffix accepted")
     checks += 1
+    drain_sample = copy.deepcopy(pool)
+    drain_sample["activation"] = "blocked_native_ida_mcp_absent_after_restart"
+    drain_sample["guards"]["dispatch_GO"] = False
+    drain_sample["global_stop_drain"] = {
+        "nonterminal_owned_session_ids": [s["session_id"] for s in drain_sample["slots"][1:]
+                                         if s["status"] == "running"],
+        "dispatch_closed_before_fallback_or_new_roles": True,
+        "no_cancel_force_foreign_resume_or_harness_change": True,
+    }
+    validate(drain_sample, verify_files=False)
+    checks += 1
+    drain_sample["guards"]["dispatch_GO"] = True
+    try:
+        validate(drain_sample, verify_files=False)
+    except ValueError:
+        checks += 1
+    else:
+        raise AssertionError("critical restart drain accepted new dispatch")
     if pool.get("native_migration_2026_10_10"):
         rejects(lambda p: p["native_migration_2026_10_10"]["self_model_actual"].update(variant="default"))
         rejects(lambda p: p["native_migration_2026_10_10"]["canaries"][0]["model_actual"].update(id="glm-5.3-flash#high"))
