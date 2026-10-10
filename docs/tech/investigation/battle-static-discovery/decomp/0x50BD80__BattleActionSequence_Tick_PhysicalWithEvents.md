@@ -1,3 +1,62 @@
+# BattleActionSequence_Tick_PhysicalWithEvents @ 0x50BD80 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `da0f110cde2538f1ae831394a32bb852bdcedbdad13f8814e27569c0e0adec91`, 27 EA / 59 octets ; [sémantique](../semantic/0x50BD80__BattleActionSequence_Tick_PhysicalWithEvents.md).
+- C exact SHA-256 `e958b22a54e72e7b8a5b273c93e93c79efc2f5cdff6f4c54200aa9eff0734312` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 1556 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+                                                          
+                                                                          
+                                                                           
+                                                                                  
+                                                                                                   
+                                              
+                                                                     
+                                                 
+   
+
+int sub_50AE20(void);                       
+int __cdecl sub_50A670(void);                                  
+
+int __cdecl sub_50BD80(int a0)
+{
+    unsigned char *esi;
+    unsigned char *edi;
+    unsigned int eax;
+
+    esi = (unsigned char *)a0;
+    eax = 0;
+    edi = *(unsigned char **)(esi + 0x10);
+    eax = esi[0x0D];                      
+
+    if (eax == 0)                                  
+        goto loc_50BD99;
+    eax -= 1;         
+    if (eax == 0)                       
+        goto loc_50BDAA;
+    return (int)eax;                                         
+
+loc_50BD99:                 
+    if (sub_50AE20() != 0)                                                    
+        return 0;
+    ++esi[0x0D];                                                   
+
+loc_50BDAA:                                              
+    sub_50A670();
+    edi[1] = 0xFF;                  
+    return 2;                                                    
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `4050fdfb333f4c9db71fa2ffe81efd9cf6122a4ef870a1a0affd4340dad25111` ; copie gelée `tools/_tmp_semantic_triple/0x50bd80/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleActionSequence_Tick_PhysicalWithEvents @ 0x50BD80
 
 - Instr (live): 27
@@ -55,3 +114,4 @@ loc_50BDAA: /* phase == 1, or fallthrough from phase 0 */
     return 2; /* B8 02; phase not incremented on phase-1 entry */
 }
 ```
+````
