@@ -196,7 +196,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x486650` | `ComputeProbabilityGetItemMug` | 72 | LIKELY | oui | — | non | oui | push seul |
 | `0x4867C0` | `getMugObjectIdAndQuantity` | 83 | LIKELY | oui | — | non | oui | push seul |
 | `0x4868C0` | `domain::Battle_EndCleanupAndTransition` | 90 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
-| `0x486A10` | `domain::BattleMagic_MutateStock` | 116 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x486A10` | `domain::BattleMagic_MutateStock` | 116 | LIKELY | [C](decomp/0x486A10__BattleMagic_MutateStock.md) | oui (documentaire) | A==V (1+V) | oui 2026-10-10 | C corrigé byte-exact/re-review indépendante ; 32×5/pas464, JGE AL signé100..127, EAX32=0/1/255 ; gate ASM/readback parent bornés, identité métier/alias/ABI/runtime non certifiés ; [sémantique](semantic/0x486A10__BattleMagic_MutateStock.md) |
 | `0x486B40` | `domain::BattleEqualItemBuffer_AdjustCount` | 69 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x486CD0` | `domain::Battle_CopyMagicStocksToSave` | 63 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x486DC0` | `domain::BattleTarget_GetRandomPartyMask` | 19 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
