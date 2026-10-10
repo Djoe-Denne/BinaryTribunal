@@ -346,7 +346,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x5009B0` | `BattleTaskQueue_DispatchIds1to14` | 72 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x500C00` | `BattleTaskQueue_Init` | 42 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x500CC0` | `BattleTaskQueue_Tick` | 87 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
-| `0x500DD0` | `au_re_BdLinkTask` | 7 | LIKELY | oui | — | non | oui | push seul |
+| `0x500DD0` | `au_re_BdLinkTask` | 7 | LIKELY | oui (C32 conditionnel) | — | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x500DF0` | `SomeListManipulation` | 55 | LIKELY | oui | — | non | oui | push seul |
 | `0x500F70` | `BS_CameraInit` | 14 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x500FD0` | `BS_RenderRelated` | 112 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |

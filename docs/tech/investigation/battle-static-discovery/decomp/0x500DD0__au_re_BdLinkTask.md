@@ -1,3 +1,43 @@
+# au_re_BdLinkTask @ 0x500DD0 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `23247984be526e3e36c9492b6a022aabc2ca074decc3fc78e8d3b9fac328b228`, 7 EA / 23 octets ; [sémantique](../semantic/0x500DD0__au_re_BdLinkTask.md).
+- C exact SHA-256 `e67f41355b0cfb1548b2c6be0a1c4f18e4a1505cf913ab4f8a2058802e359662` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 865 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+/* 0x500DD0: existing named source, identifier/comment neutralization ONLY.
+ * Live numeric pack: 7 instructions, 23 bytes, [0x500DD0,0x500DE7).
+ * Reused declarations are historical C, not a newly inferred prototype.
+ * Entry DWORD [esp+4]; push input, push 0x01D96D78; direct call 0x508360;
+ * add esp,8; MOV BYTE [full returned EAX+0x0D],0; RET. No NULL test.
+ * 0x508360 is an opaque backend, not invocation of the input value.
+ * Stable ordinary RAM/private frame/C32/backend conditions apply.
+ * No C quality acceptance, fix, regeneration or compiled runtime proof.
+ */
+
+extern unsigned int g_01D96D78[4]; /* historical extent, native binding 0x01D96D78 */
+
+extern int __cdecl sub_508360(int arg0, int arg1);
+
+int __cdecl sub_500DD0(int arg1)
+{
+    int v0;
+
+    v0 = sub_508360((int)&g_01D96D78, arg1);
+    *(unsigned char *)(v0 + 0x0D) = 0;
+    return v0;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `f27639b289a641e0a0824d6340bf09a5b144bd107abfb966d3132e307bf2b910` ; copie gelée `tools/_tmp_semantic_triple/0x500dd0/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # au_re_BdLinkTask @ 0x500DD0
 
 - Instr (live): 7
@@ -37,3 +77,4 @@ int __cdecl au_re_BdLinkTask(int callback)
     return node;
 }
 ```
+````
