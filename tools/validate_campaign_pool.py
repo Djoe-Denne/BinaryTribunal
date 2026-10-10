@@ -145,10 +145,10 @@ def validate(pool, verify_files=True):
         require({"timestamp_utc", "task_id", "ea", "role", "depends_on", "status",
                  "slot_id", "session_id", "model", "inputs_digest"} <= event.keys(),
                 "incomplete event record")
-    if pool["activation"] == "awaiting_parent_long_GO":
-        require(not active and not pool["guards"]["dispatch_GO"], "setup must not dispatch")
+    if pool["activation"] == "awaiting_parent_long_GO" or pool["activation"].startswith("blocked_"):
+        require(not active and not pool["guards"]["dispatch_GO"], "global gate must prevent dispatch")
         require(not any(t["status"] in {"running", "fallback"} for t in tasks.values()),
-                "setup contains a live task")
+                "globally blocked pool contains a live task")
     if verify_files:
         config = ROOT / pool["config"]["local_file"]
         require(digest(config.read_bytes()) == pool["config"]["sha256"], "local config drift")
@@ -222,7 +222,8 @@ def main():
     print(f"PASS: 12 total / 11 workers; {len(pool['tasks'])} DAG tasks; "
           f"{len(ready)} worker-ready; {len(ready_tasks(pool, 'supervisor'))} supervisor-ready")
     print("READY:", ", ".join(t["id"] for t in ready))
-    print("Dispatch disabled pending parent GO; no runtime concurrency/load test.")
+    print(f"Activation: {pool['activation']}; dispatch_GO={pool['guards']['dispatch_GO']}; "
+          "no runtime concurrency/load test.")
     if args.self_test:
         print(f"PASS: {self_test(pool)} offline policy tests; no state writes or worker calls")
 

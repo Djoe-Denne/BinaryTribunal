@@ -199,7 +199,8 @@
     {"date": "2026-10-09", "kind": "continuation", "decision": "API_confirmed_C6_C10_succeeded_finals_then_two_historical_parent_validated_closures_three_disjoint_background_workers", "evidence": ["msg_121d4310c001jFfMd65dffDx8S", "msg_121d1b4b0001a3cE5KJk8vN9CG", "4ede512", "523d5d2"]},
     {"date": "2026-10-09", "kind": "worker_complete_and_review_dispatch", "decision": "new_Flash_J3_fix_succeeded_no_infra_incident_then_independent_Sol_reviews_J3_A8_A10_max_five_concurrent_pending", "evidence": ["msg_121ed45f5001cgjzvt4BIbBV2D", "ses_ede11615dffekBgKKYkM6BWA0s", "ses_ede1120fcffekl6TWvcH0QEszB", "ses_ede10f6b3ffeUOjOfOarPy8L9I"], "stability_scope": "one_new_completed_Flash_task_and_functional_native_API_not_general_OOM_resolution"},
     {"date": "2026-10-10", "kind": "resume_gate_and_existing_session_recovery", "decision": "native_restored_identity_hash_confirmed_existing_workers_interrupted_drafts_recovered_then_stop_on_cross_session_resume_refusal_no_duplicate", "evidence": ["resume_checkpoint_2026_10_10", "msg_12238c7dd001wrBoWTPjhS7Iwt", "msg_1223b0c79001KQBFrtM3k8Hozo"], "new_pilot_closures": 0},
-    {"date": "2026-10-10", "kind": "user_pool_capacity_setup", "decision": "12_total_1_supervisor_11_workers_continuous_ready_queue_one_Sol_fallback_for_Flash_failure_fresh_owned_replacements_authorized_no_campaign_dispatch", "evidence": ["pool_setup_2026_10_10", "POLICY_campaign-pool-2026-10-10.md", "CAMPAIGN_POOL_2026-10-10.json"], "new_pilot_closures": 0}
+    {"date": "2026-10-10", "kind": "user_pool_capacity_setup", "decision": "12_total_1_supervisor_11_workers_continuous_ready_queue_one_Sol_fallback_for_Flash_failure_fresh_owned_replacements_authorized_no_campaign_dispatch", "evidence": ["pool_setup_2026_10_10", "POLICY_campaign-pool-2026-10-10.md", "CAMPAIGN_POOL_2026-10-10.json"], "new_pilot_closures": 0},
+    {"date": "2026-10-10", "kind": "long_GO_native_catalogue_gate_stop", "decision": "GO_received_one_native_discovery_empty_global_gate_blocked_before_worker_or_fallback_no_network_failure_inference", "evidence": ["pool_native_stop_2026_10_10", "CAMPAIGN_POOL_2026-10-10.json"], "new_pilot_closures": 0}
   ],
   "resume_checkpoint_2026_10_10": {
     "date": "2026-10-10",
@@ -269,5 +270,37 @@
     "power_actions_or_rearm": false,
     "pilot_fractions_unchanged": {"closures": "0/6", "C_final_reviews": "2/6", "production_AV": "1/6", "control_pairs_returned": "1/3", "control_pairs_adjudicated": "0/3"},
     "global_adaptive_adoption_authorized": false
+  },
+  "pool_native_stop_2026_10_10": {
+    "observed_at_utc": "2026-10-10T07:51:42.164Z",
+    "baseline_commit": "e34fbf166667bf8948c2372bc39dc548b24039fb",
+    "long_GO_authorized": true,
+    "activation": "blocked_native_tools_not_exposed",
+    "native_discovery": {"namespace": "ida-pro-mcp", "query": "py_eval", "items": [], "remaining": 0, "attempt_count": 1},
+    "context_mode_available_and_used": true,
+    "current_native_input_IDB_or_hash_verified": false,
+    "last_known_native_good_is_not_current_gate": true,
+    "network_or_IDA_service_failure_or_provider_failure_proved": false,
+    "first_checkpoint_patch_aborted": "Interaction cancelled because the location shut down",
+    "aborted_patch_changes_present_on_readback": false,
+    "campaign_agents_cap": 12,
+    "worker_slots_cap": 11,
+    "workers_running": 0,
+    "new_worker_calls_or_completions": 0,
+    "new_Sol_fallback_calls": 0,
+    "P3_Flash_to_Sol_replacement": "reserved_not_dispatched",
+    "queue_tasks": 62,
+    "worker_ready_tasks_preserved": ["P1_R", "P2_neutral_v2", "P3_pack", "P4_pack", "P5_pack", "P6_pack"],
+    "supervisor_ready_tasks_preserved": ["J3_gate", "P1_audit"],
+    "fractions": {"closures": "0/6", "C_final_reviews": "2/6", "production_AV": "1/6", "control_pairs_returned": "1/3", "control_pairs_adjudicated": "0/3", "B_novelty_fraction": null},
+    "J3_parent_gate_push_commit": "pending",
+    "new_native_function_gates_IDB_appends_saves_or_readbacks": 0,
+    "new_function_commits": [],
+    "power_action_or_rearm": false,
+    "automatic_MCP_service_DB_or_plugin_repair": false,
+    "Ensemble_tools_later_exposed_no_team_created_or_spawned": true,
+    "unrelated_dirty_entries_preserved": 269,
+    "index_empty_at_inventory": true,
+    "next_action": "restore_native_ida-pro-mcp_catalogue_exposure_then_current_identity_hash_guard_before_dispatch_no_service_restart_inferred"
   }
 }
