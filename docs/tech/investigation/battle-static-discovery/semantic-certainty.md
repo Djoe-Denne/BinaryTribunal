@@ -18,12 +18,12 @@
 | Classe | Nombre | Règle |
 |---|---:|---|
 | CERTAIN | 23 (8 doc + 3 triple Grok + 8 GPU 1+P + 2 GPU 2+1 + 2 GPU 1+V) | name_only_known+A==B+push, wrapper trivial, ou R/1+P=CERTAIN poussé |
-| LIKELY | 290 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
+| LIKELY | 291 | decomp poussé (wiki ± A==B) ; +Gfx internes Square dès que decomp |
 | UNCERTAIN | 3 | decomp UNCERTAIN ou sans push |
 | CONFLICT | 5 | divergence notée parent |
 | SKIP_L3 | 25 | vendor PC seulement (GL/DDraw/D3D IAT, CRT, thunk, backend construct) |
 | SKIP_CHUNK | 14 | >600 instr. |
-| SKIP_NODECOMP | 138 | pas de C réconcilié ; y compris graphismes Square sans decomp |
+| SKIP_NODECOMP | 137 | pas de C réconcilié ; y compris graphismes Square sans decomp |
 
 File Grok (LIKELY+UNCERTAIN+CONFLICT) : **293**, dont filtre bataille `0x47xxxx`–`0x51Bxxx` : **218**. Gfx internes avec decomp (`0x4980C0`, `0x499EA0`) : **après** le lot battle en cours, ordre d'adresse.
 
@@ -469,7 +469,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x56BBF0` | `Vec3S32_CrossQ12` | 37 | LIKELY | oui (C32 conditionnel) | — | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x56C090` | `Mat3S16_MulQ12_Copy5` | 116 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x56CD50` | `CameraBasis_CopyDefaultAndApplyEulerS16` | 31 | LIKELY | oui | — | non | oui | push seul |
-| `0x56D020` | `Mat3S16_MulByRotY_Q12` | 31 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
+| `0x56D020` | `Mat3S16_MulByRotY_Q12` | 31 | LIKELY | oui (C32 conditionnel) | oui | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x56D090` | `Mat3S16_MulByRotZ_Q12` | 32 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |
 | `0x56D1D0` | `start_battle_swirl_sub_56D1D0` | 41 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19, append sur glm ; one-shot latch 0x1CFF6F4 prouvé |
 | `0x56D240` | `BattleSwirl_AllocCaptureResources` | 97 | CERTAIN | oui | oui | non | oui | semantic-triple 2026-09-19 ; arena 0x20000 (1 arg size_t), dest=0x209AEC8 |

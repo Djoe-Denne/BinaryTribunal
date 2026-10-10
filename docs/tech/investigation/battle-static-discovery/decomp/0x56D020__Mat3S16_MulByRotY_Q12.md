@@ -1,3 +1,49 @@
+# Mat3S16_MulByRotY_Q12 @ 0x56D020 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `ba67697e856fbc862d2e99c01b408e1caefcd575d7abdbfef79726803946bd23`, 31 EA / 100 octets ; [sémantique](../semantic/0x56D020__Mat3S16_MulByRotY_Q12.md).
+- C exact SHA-256 `d2b7f979283a54d4919cec0afa70dadcf31f4f57669aab037cc872fd4d4b2192` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 685 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+/* Existing C reused verbatim except whitelisted identifiers/comments. Numeric root 0x56D020. No acceptance verdict. */
+
+unsigned int __cdecl sub_56D100(int v0);
+unsigned int __cdecl sub_56D130(int v0);
+__int16 *__cdecl sub_56C270(int src_mat, __int16 *v1);
+
+__int16 *__cdecl sub_56D020(int v0, __int16 *v1)
+{
+    __int16 v2[9];
+    unsigned int v3;
+    unsigned int v4;
+
+    v3 = sub_56D100(v0);
+    v4 = sub_56D130(v0);
+
+    v2[0] = (__int16)v3;
+    v2[1] = 0;
+    v2[2] = (__int16)v4;
+    v2[3] = 0;
+    v2[4] = 0x1000;
+    v2[5] = 0;
+    v2[6] = (__int16)(0u - v4);
+    v2[7] = 0;
+    v2[8] = (__int16)v3;
+
+    sub_56C270((int)v2, v1);
+    return v1;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `478ca94f1ff76a300751f1b189ea8ab281926d7694b99a33fc572a1b3379c962` ; copie gelée `tools/_tmp_semantic_triple/0x56d020/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # Mat3S16_MulByRotY_Q12 @ 0x56D020
 
 - Instr (live): 31
@@ -54,3 +100,4 @@ __int16 *__cdecl Mat3S16_MulByRotY_Q12(int angle, __int16 *dest)
     return dest;
 }
 ```
+````
