@@ -390,7 +390,7 @@ Correction du classifier Phase 0 (préfixe `Gfx_*` trop large). Règle = le corp
 | `0x507BF0` | `BattleModel_LoadPartyWeapon` | 191 | LIKELY | oui | oui | non | oui | wiki + push (A≠B) |
 | `0x507E20` | `BattleModel_LoadWeaponInlineZellKiros` | 125 | LIKELY | oui | — | non | oui | push seul |
 | `0x507F80` | `BattleModel_LoadMonsterDerivedFrom142` | 105 | LIKELY | oui | — | non | oui | push seul |
-| `0x5082B0` | `bs_modulo` | 8 | LIKELY | oui | — | non | oui | push seul |
+| `0x5082B0` | `bs_modulo` | 8 | LIKELY | oui (C32 conditionnel) | — | 1+V A=V NUMERIC | oui | drain 2026-10-10 : gate ASM parent, source/C exacts, append/SAVE/readback ; métier/ABI/backend non certifiés |
 | `0x5082D0` | `BattleScratch_Unwind` | 7 | LIKELY | oui | oui | oui | oui | wiki + A==B + push |
 | `0x508360` | `BdLinkTask_Register` | 37 | CERTAIN | oui | — | oui | oui | CONFLICT tranché ASM 2026-10-08 : alloc + append queue BdLinkTask (debug FAIL si alloc nulle) |
 | `0x508420` | `BdLinkTask_Pump` | 36 | LIKELY | oui | — | non | oui | push seul |
