@@ -388,3 +388,26 @@ Callback suivant : P3pack `ses_eddcd7cf7ffeRMSvoH2OiqzOoK` **cancelled**, même 
 Bilan observé dédupliqué 58 sessions/45 receipts natifs/13 références historiques, cinq compteurs absents. Worker de mesure exclu indépendamment des labels historiques ; résultat provisoire conservé, bug de classement corrigé. Aucun tarif/counterfactuel démontré. Registry clôturé6/6 ; assessment publié, adaptation toujours limitée six EA. Canon continue ; auteurs API historiques UNVALIDATED, cécité administrative bornée, runtime/ABI/backend jamais certifiés.
 
 Infra locale : trois open(EINVAL) Windows de la queue ont laissé des écritures échouées sans corruption observée ; helper parent passe à fichier complet puis remplacement atomique, pas changement global. Une erreur Sol `N500900_C_fix_1` `uv_spawn` CANON est conservée, pas quota/surcharge simultanée prouvée. `N50B0C0_pack` a modifié son manifeste gelé : receipt conservé, admission bloquée en attente d’audit parent, pas promotion ou fallback silencieux. Les reviews corrigent les reloads/signatures/largeurs ; les projections x87 non implémentées restent BLOCKED, pas backend achevé.
+
+### Rechargement canonique vérifié — 2026-10-10T13:34:57Z
+
+Readback API natif ponctuel : **12 agents utiles actifs = superviseur + 11 workers**,
+onze EA/familles/fichiers disjoints ; **quatre READY réels** en réserve
+(`N50BC20_pack`, `N50BD00_pack`, `N50BD80_pack`, `N50BEE0_pack`). Tous les
+`Model.Ref` lus comportent ID simple `gpt-6.1-sol` et `variant=high` ; les rôles
+Flash primaires substitués restent des overrides de capacité explicites,
+pas des fallbacks techniques supplémentaires. Aucun Ensemble nouveau ou
+changement de harness/configuration globale. Ceci est un instantané vérifié,
+pas une garantie d’occupation future ni un benchmark de concurrence runtime.
+
+Dispatch : reviews canon C de `50B2A0/50B190/50BF90`, packs existants
+`502380/50B830/50BB00/50BDC0`, review indépendante du C corrigé par R de
+`486DC0`, trois reviews **structurelles de projections seulement**
+`460860/56C090/45E9D0`. Ces trois dernières ne ferment ni le gate C canonique
+ni les obligations de backend x87/RAM32 non implémentées. Les anciens avis
+BLOCKED/CORRIGE et les deux auteurs indépendants de `486DC0` sont préservés.
+
+Le validateur passe **20 tests offline**, DAG **355 tâches**, activation
+`running_native`, GO inchangé, réserve quatre. Gates ASM, append/save/readback
+et git toujours parent seuls, sériels. Aucun élargissement adaptatif après
+le bilan six EA ; recharger chaque callback depuis la file canonique.
