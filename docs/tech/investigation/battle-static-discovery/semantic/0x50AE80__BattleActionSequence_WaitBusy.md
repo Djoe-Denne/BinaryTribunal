@@ -32,3 +32,7 @@
 - return: All normal exits full EAX0 or1, not bool prototype nor AL-only result.
 - name: WaitBusy mÃ©tier NOT_CONFIRMED; masked-pair inequality and ordered three nonzero gates prove numeric role.
 - extra: Helper no pushed argument does not prove(void). EightCODEcallers exact; document SHAâ†’commit/blob onlyCRLF/LF, historicalauthorAPIUNVALIDATED.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x50AE80__BattleActionSequence_WaitBusy.md) : 1565 octets, SHA-256 `73ab4fcd3d9d92c043e8f280f0d27c067b0f590591d0aead78169c2306670917`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
