@@ -1,3 +1,140 @@
+# BattleActionSequence_DispatchTick @ 0x50A790 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `908d89fd2bb77e65cf66d630e71cc787b02d5a1e13562407e63ab8406d8d257b`, 63 EA / 232 octets ; [sémantique](../semantic/0x50A790__BattleActionSequence_DispatchTick.md).
+- C exact SHA-256 `fa39dd9c0472d98389a59ba6aeb62726d5a72bee52a52dc8d5fad6d03d392cc5` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 4202 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+                                               
+                                                                          
+                                                                              
+                                                              
+                                                                                
+                                                                                                  
+                                                                                         
+                                         
+                                                                                       
+                                                                       
+                                                                                 
+                                                                       
+   
+
+char __cdecl sub_50bf90(int v_00);                                         
+int __cdecl sub_500dd0(int v_01);                                      
+
+int __cdecl sub_50bd80(int);               
+int __cdecl sub_50bd00(int);                 
+int __cdecl sub_50b2a0(int);                     
+int __cdecl sub_50a9a0(int);                          
+int __cdecl sub_50b830(int);                          
+int __cdecl sub_50b0c0(int);                               
+int __cdecl sub_50bdc0(int);                               
+int __cdecl sub_50bee0(int);                             
+int __cdecl sub_50bb00(int);                
+int __cdecl sub_50b190(int);                      
+int __cdecl sub_50bc20(int);                
+
+extern unsigned char *g_01d99a50;                
+extern unsigned int g_01d96a9c;                
+
+int __cdecl sub_50a790(int v_02)
+{
+    unsigned char *v_03;
+    unsigned int v_04;
+    unsigned short v_05;
+    int v_06;
+    int v_07;
+
+    sub_50bf90(*(int *)(v_02 + 4));
+    v_03 = g_01d99a50;                                  
+    v_04 = v_03[1];                           
+
+    if (v_04 > 0xFEu)                                  
+        goto label_00;
+
+                                                                  
+    switch (v_04) {
+    case 0:                          
+        if (v_03[0x10] != 0)                           
+            v_06 = (int)sub_50bd80;
+        else
+            v_06 = (int)sub_50bd00;
+        goto label_03;
+
+    case 38:                          
+    case 244:
+    case 254:
+        v_05 = *(unsigned short *)(v_03 + 4);                  
+        if (v_05 == 0x46 || v_05 == 0x0F)                   
+            goto label_01;
+        v_06 = (int)sub_50b2a0;
+        goto label_03;
+
+    case 236:                          
+    case 245:
+        v_06 = (int)sub_50b830;
+        goto label_03;
+
+    case 247:                          
+        v_06 = (int)sub_50b0c0;
+        goto label_03;
+
+    case 241:                          
+        v_06 = (int)sub_50bdc0;
+        goto label_03;
+
+    case 237:                          
+    case 238:
+        v_06 = (int)sub_50bee0;
+        goto label_03;
+
+    case 28:                          
+        g_01d96a9c |= 0x10000000u;                            
+                                          
+
+    default:
+    label_00:
+        if (*(unsigned short *)(v_03 + 4) == 0xFFFFu) {                        
+            v_06 = (int)sub_50bc20;
+            goto label_03;
+        }
+        if (*(unsigned short *)(v_03 + 6) == 0) {                                     
+            v_06 = (int)sub_50bb00;
+            goto label_03;
+        }
+                        
+        if (v_03[2] != 0)                                          
+            goto label_02;
+        v_06 = (int)sub_50b190;
+        goto label_03;
+
+    case 252:                                                   
+        v_06 = (int)sub_50b190;
+        goto label_03;
+    }
+
+label_01:
+    v_03[2] = 0x0B;                  
+    g_01d96a9c |= 0x40000000u;                               
+label_02:
+    v_06 = (int)sub_50a9a0;
+label_03:
+    v_07 = sub_500dd0(v_06);                      
+    *(unsigned char *)(v_07 + 0x0D) = 0;                                           
+    *(int *)(v_07 + 0x10) = v_02;                     
+    return 8;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `96951475d0c0f9d5ad9f0b1e96edfce625d0649b96d51703c0d245ab9de92763` ; copie gelée `tools/_tmp_semantic_triple/0x50a790/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleActionSequence_DispatchTick @ 0x50A790
 
 - Instr (live): 63
@@ -133,3 +270,4 @@ loc_50A861:
     return 8;
 }
 ```
+````
