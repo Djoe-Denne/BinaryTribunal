@@ -1,3 +1,85 @@
+# BattleActionSequence_Tick_PhysicalNoEvents @ 0x50BD00 — C descriptif relu (drain)
+
+- Confiance : LIKELY NUMERIC ; rôle métier/type/prototype/ABI non certifiés.
+- Parent gate native : `f4a33b347c24fb502248cf9cee28a641b774dfb263c5ccbd270e9c6d923f3cd4`, 48 EA / 127 octets ; [sémantique](../semantic/0x50BD00__BattleActionSequence_Tick_PhysicalNoEvents.md).
+- C exact SHA-256 `413b70bc1cad0aef4b41590f7054776d1bf9a59dc78379ca5ef02c8a02624c43` ; ce C conditionnel est descriptif, pas certification compilateur/runtime.
+- Payload C : exactement 1257 octets après ouverture de fence ; le LF séparateur Markdown éventuel avant fermeture est hors payload, pas normalisation du fichier C accepté.
+- Aucun rename/SetType/patch ; les anciennes mentions Push/SetType ci-dessous sont **historiques**, pas opérations du drain.
+
+## C réconcilié / indépendant relu — payload exact
+
+```c
+
+
+int sub_50AE00(void); 
+void __cdecl sub_505C00(int v_0, int animId); 
+
+extern int dword_1D99A40; 
+extern unsigned char *dword_1D99A50; 
+
+int __cdecl sub_50BD00(int arg_0)
+{
+    unsigned char *esi;
+    unsigned char *edi;
+    unsigned int eax;
+    unsigned int ecx;
+    int v_0;
+    unsigned char *v_1;
+
+    esi = (unsigned char *)arg_0;
+    eax = 0;
+    edi = *(unsigned char **)(esi + 0x10);
+    eax = esi[0x0D]; 
+
+    if (eax == 0) 
+        goto loc_50BD2E;
+    eax -= 1; 
+    if (eax == 0) 
+        goto loc_50BD3A;
+    eax -= 1; 
+    if (eax != 0) 
+        goto loc_50BD7C;
+
+    
+    if (sub_50AE00() != 0)
+        goto loc_50BD7A;
+    edi[1] = 0xFF; 
+    return 2; 
+
+loc_50BD2E: 
+    if (sub_50AE00() != 0)
+        goto loc_50BD7A;
+    ++esi[0x0D]; 
+
+loc_50BD3A: 
+    v_0 = dword_1D99A40; 
+    v_1 = dword_1D99A50; 
+    ecx = *(unsigned int *)(v_0 + 8); 
+    ecx &= 0xFF7FFFFFu; 
+    *(unsigned int *)(v_0 + 8) = ecx; 
+    ecx = 0;
+    ecx = v_1[2]; 
+    sub_505C00(v_0, (int)ecx); 
+    v_1 = dword_1D99A50; 
+    if (v_1[2] == 0x0A) 
+        goto loc_50BD77;
+    edi[1] = 0xFF; 
+    return 2; 
+
+loc_50BD77:
+    ++esi[0x0D]; 
+loc_50BD7A:
+    eax = 0; 
+loc_50BD7C:
+    return (int)eax;
+}
+```
+
+## Source documentaire antérieure, préservée
+
+Préimage SHA-256 `c6a425cd57f61fa9214db6a860226a6488e5151cc9db43dc72236b57e1aa5bf3` ; copie gelée `tools/_tmp_semantic_triple/0x50bd00/native-2026-10-10/parent_named_source_prepublication.md`. La clôture numérique ci-dessus supersède les anciens votes/code/claims sans les effacer.
+
+````text
 # BattleActionSequence_Tick_PhysicalNoEvents @ 0x50BD00
 
 - Instr (live): 48
@@ -87,3 +169,4 @@ loc_50BD7C:
     return (int)eax;
 }
 ```
+````
