@@ -33,3 +33,7 @@
 - polarity: Three unsigned JBE against32767 skip clipping; squares of signed16 fit0..2^30. Masks81000000/80800000/00400000 retained.
 - return: Full EAX last raw/clamped square,0..32767 on normal return, not flag-mask return.
 - name: Gte/SQR identity NOT_CONFIRMED; three signed16 IMUL squares plus clipping/flag banks prove numeric role.
+
+### Erratum de sérialisation Git — C inchangé
+
+La source C byte-exacte est conservée dans le carrier Base64 du [decomp](../decomp/0x45F930__Gte_SQR.md) : 2122 octets, SHA-256 `4b77300cbc269a6570fe49ba040ff734c74f31091bde710dd70e8d566c61d83a`. Le fence C rendu peut être normalisé LF par Git ; la présente correction supersède sa qualification antérieure de byte-exactitude. Source, algorithme, confiance, gate ASM, append/save/readback inchangés. Réparation documentaire ≠ nouvelle clôture ; aucun nouveau push IDB.
