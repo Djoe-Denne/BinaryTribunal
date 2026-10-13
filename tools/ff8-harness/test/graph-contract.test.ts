@@ -425,8 +425,8 @@ describe("graph contract fixtures", () => {
     const db = new Database(":memory:");
     db.exec("CREATE TABLE probe(value TEXT)");
     const insert = db.query("INSERT INTO probe(value) VALUES (?)");
-    const chars = db.query("SELECT length(value) AS n FROM probe");
-    const bytes = db.query("SELECT length(cast(value AS BLOB)) AS n FROM probe");
+    const chars = db.query<{ n: number }, []>("SELECT length(value) AS n FROM probe");
+    const bytes = db.query<{ n: number }, []>("SELECT length(cast(value AS BLOB)) AS n FROM probe");
     for (const text of [name, description, "café"]) {
       db.exec("DELETE FROM probe");
       insert.run(text);
