@@ -1,0 +1,22 @@
+{
+  "description": "Configuration fragments only; replace each placeholder with an operator-vetted exact native inventory ID/resource. No server-wide or global installation is performed.",
+  "runtime": {
+    "mission": {
+      "rePolicy": {
+        "version": 1,
+        "workKind": "decompilation",
+        "reconcilerSharing": true,
+        "idaReadBindings": [
+          { "operation": "disasm", "tool": "REPLACE_WITH_VETTED_REGISTERED_DISASM_ID", "accesses": [{ "action": "REPLACE_WITH_ACTUAL_MCP_DISASM_ACTION_ID", "resource": "*" }] }
+        ]
+      }
+    },
+    "execution": { "outputMode": "json-schema-strict", "admissionMode": "native-boundary-witness", "allowedTools": ["read", "execute"] }
+  },
+  "configuredPrincipalFragment": {
+    "bulletin": true,
+    "nativeToolBindings": [
+      { "tool": "REPLACE_WITH_VETTED_REGISTERED_DISASM_ID", "accesses": [{ "action": "REPLACE_WITH_ACTUAL_MCP_DISASM_ACTION_ID", "resource": "*" }] }
+    ]
+  }
+}
