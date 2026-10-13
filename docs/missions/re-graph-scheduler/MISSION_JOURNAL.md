@@ -1,5 +1,25 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Correction catalogue et changement providers — 2026-10-13
+
+### Relance effective corrigée — 2026-10-13
+
+- Dernier steering utilisateur : Z AI près de sa limite tokens → ordre providers persisté revision 3 **Cursor > OpenAI > Z AI**, aucune nouvelle admission Z AI ; préférence Grok Cursor / Sol OpenAI, Astra dernier recours (`openai/gpt-6-astra` actif confirmé, variantes low/medium/high/xhigh/max). Sessions Z AI déjà en cours conservées jusqu'à rendu ou limite explicite, puis handoff sûr des fichiers/tentatives vers route autorisée.
+
+- Ordres `force` aux anciennes sessions toujours suivis de 0 running. Diagnostic read-only via Context Mode sur plugin installé : `parseModelId` ne scinde pas `#variant` ; mise à jour `team_message` remet `model_variant` à NULL. Erreur d'appel du lead, pas preuve de saturation provider.
+- Inspection des anciens worktrees : aucun fichier d'implémentation modifié/ajouté ; seul L2 porte le transfert des gels. Shutdown des cinq sessions + libération des claims, worktrees/provenance préservés, aucun nettoyage/destruction/merge artificiel.
+- Spawns fresh un par un `l2-graph-r2`, `l3-cluster-r2`, `l5-planner-r2`, `l6-persist-r2`, `l7-qa-r2` sur mêmes tâches, modèles/variantes séparés. Readback natif **vérifié avant extension du pool** via SDK public `Service.discover/headers` + `OpenCode.session.get` : cinq Model.Ref conformes (`id` sans suffixe). Receipts dans `RESTART_RECEIPT_20261013.json`.
+- L2-r2 : 98 gels et manifeste recopiés depuis ancien worktree ; **99 fichiers, 0 mismatch SHA256**, digest manifeste inchangé `78da510e…32fd4f`.
+- L5-r2 a réellement travaillé puis escaladé un manque du contrat : Prerequisite v1 ne représente pas identité/révision artefact ni version de dispense. Adaptation additive approuvée par lead : PlannerPolicy/PlannerResult versionnés avec requirementById/dispensationById, sidecar canonique/hashé/immuable, readiness/dispatch fail-closed si absent/incohérent, sérialisation centrale L8. Réactivation `force:true` (le plugin avait pris son arbitrage pour une complétion) sans modifier son Model.Ref.
+- Dernier contrôle avant arbitrage L5 : **4 running + L5 idle en attente de décision** ; quatre routes en exécution utile, zéro ancien worker actif. Reprise L5 ordonnée après décision, activité finale à contrôler.
+- Autorisation utilisateur supplémentaire : si une limite est atteinte sur un modèle, basculer vers un autre autorisé sans redemander à chaque limite ; préserver essais/travail et ne pas attribuer un mauvais model ID à un quota.
+- Contrôle final après arbitrage : **5 running, 0 starting** ; L2/L3/L5/L6/L7-r2 tous `working`, cinq claims in_progress, L4 pending. L6 exports EventLog/UnitLeaseStore/GraphStore approuvés ; types GraphSnapshot/FunctionNode/etc. owner unique L2 `src/graph.ts`, projection locale PlannerGraphInput L5 compatible contrat autorisée en attendant intégration L8 (pas nouvelle identité). Aucun changement global/plugin/service.
+
+- Directive courante : GLM **Flash max uniquement** ; Cursor **Grok 4.7/4.6 uniquement** ; OpenAI Sol autorisé. Interrogations ciblées du catalogue : `openai/gpt-6.1-sol` actif (high disponible), `cursor/grok-4.7` actif (`Grok 4.7 High` disponible), `cursor/grok-4.6` actif, `zai-coding-plan/glm-5.3-flash` actif (max disponible). Anciennes déclarations d'absence d'OpenAI/Sol corrigées : catalogue par défaut paginé, pas absence du provider.
+- Ordre persisté revision 2 : Z AI > Cursor > OpenAI. Classification effectivement désactivée (`mode: off`, réponse « use manual scores »).
+- Modèles demandés et messages de reprise délivrés aux sessions possédées, sans nouvelle session : L2/L7 Z AI Flash max ; L3 Cursor Grok 4.7 High ; L5/L6 OpenAI GPT-6.1 Sol high. Réponses : « Message sent » ; vérification du Model.Ref effectif encore requise, pas confondue avec livraison.
+- Diagnostic ponctuel : 0 running, 5 idle (15–17 min), aucun rapport non lu. Reprise demandée sur nouveaux providers ; activité future à constater, pas supposée.
+
 Journal tenu par le lead. Ordre chronologique, entrées courtes, preuves par hash/ID natif. Pas de transcripts, pas de secrets.
 
 ## 2026-10-13

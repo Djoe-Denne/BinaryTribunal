@@ -1,5 +1,24 @@
 # GO_ACTIVATION — mission `re-graph-scheduler-20261013`
 
+## Politique courante — avenant utilisateur 2026-10-13 (supersède les routes précédentes)
+
+**Dernier steering utilisateur : budget Z AI bientôt épuisé.** Ordre persisté **revision 3 : Cursor > OpenAI > Z AI**. Plus de nouvelle admission Z AI dans la continuation ; préférer Cursor Grok 4.7/4.6 et OpenAI Sol. `openai/gpt-6-astra` actif confirmé au catalogue (low/medium/high/xhigh/max), admissible **en dernier recours**. Les deux sessions Z AI déjà actives peuvent terminer ; limite atteinte → préserver leur travail et basculer vers une route autorisée, sans supposer leur arrêt ni dupliquer les writers.
+
+- GLM : **Flash uniquement**, variante **max** obligatoire ; pas de GLM highspeed ni de GLM non-Flash.
+- Cursor : **Grok 4.7 ou 4.6 uniquement** ; aucune route Sol/Composer/Opus sur Cursor.
+- OpenAI : `openai/gpt-6.1-sol` confirmé au catalogue ciblé (variantes low/medium/high/xhigh/max). Astra reste dernier recours, non admis par défaut.
+- Catalogue : les anciennes affirmations d'absence d'OpenAI/Sol étaient erronées (page par défaut limitée à 20 résultats). Rechercher désormais par provider/modèle, puis vérifier `total`/`next`.
+- Ordre providers persisté revision 2 : `zai-coding-plan > cursor > openai > unlisted` ; les choix explicites du lead priment. Classification désactivée explicitement (`mode: off`) : scores manuels du lead, aucun classifieur automatique.
+- Changement demandé pour les sessions existantes : L2/L7 → `zai-coding-plan/glm-5.3-flash#max` ; L3 → `cursor/grok-4.7#Grok 4.7 High` ; L5/L6 → `openai/gpt-6.1-sol#high`. Messages et demandes de reprise délivrés ; accusé de livraison ≠ preuve de Model.Ref natif. Aucune validation de variante proclamée sur un simple accusé.
+- Diagnostic à ce changement : cinq sessions idle, zéro worker running, tâches L2/L3/L5/L6/L7 in_progress ; ne pas compter ces sessions comme parallélisme utile.
+
+### Relance corrigée et autorisation de replis (supersède les limites/readbacks précédents)
+
+- Erreur lead démontrée par le code du plugin installé : `team_message` n'interprète pas `#variant` ; `parseModelId` garde tout le suffixe dans `modelID`, et cette mise à jour remet `model_variant` à NULL. Ses accusés précédents ne prouvaient donc aucune variante native valide.
+- Les cinq anciennes sessions ont été arrêtées par le lead (aucune implémentation produite selon status git ; anciens worktrees et gels préservés). Les mêmes tâches ont été réclamées par cinq sessions fresh `*-r2`, avec paramètres `model` et `variant` **séparés** à `team_spawn`.
+- Modèles natifs effectivement relus sur chaque session via client public authentifié OpenCode : Flash max Z AI pour L2/L7, Cursor Grok 4.7 High pour L3, OpenAI GPT-6.1 Sol high pour L5/L6. Preuve : `RESTART_RECEIPT_20261013.json`. Cette méthode résout le manque de readback déclaré précédemment ; aucune lecture d'`ensemble.db`.
+- Autorisation utilisateur : toute limite atteinte sur un modèle permet de passer à un autre modèle autorisé. Conserver la provenance et les tentatives, ne pas dupliquer une exécution encore active ; ne pas confondre auth/entrée/schéma/mauvais identifiant avec quota. Aucun GLM non-Flash, aucun GLM hors max, aucun Cursor hors Grok 4.7/4.6 ; Sol sur OpenAI autorisé ; Astra dernier recours.
+
 **Statut** : GO développement (2026-10-13, utilisateur : « commité et pushed. clean state, go »).
 **Portée du GO** : mission de développement re-graph-scheduler UNIQUEMENT. Ce GO ne lance aucune campagne scientifique autonome, aucun live, aucun writer DLL, aucune migration run01/battle-static-discovery, aucune publication IDB.
 
