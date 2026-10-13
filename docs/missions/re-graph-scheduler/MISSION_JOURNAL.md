@@ -4,6 +4,9 @@
 
 ### Relance effective corrigée — 2026-10-13
 
+- Rendu L6 final reçu. Slot recyclé revue indépendante read-only **L6-RV** task `task_mv6xt1p7_0030_wg3h0k`, `l6-review` profil plan/fresh/worktree false, Cursor Grok 4.7 High (référence native relue, session `ses_ec9c14912ffeimQ8egFrHmLRtp`). Gel de quatre fichiers hashes recalculés et fixés ; aucune auto-acceptation auteur.
+- Gates L6 parent reproduits : typecheck exit0, **27 propres/143 expect**, suite **358 pass/1skip/0fail (359 tests/17 fichiers)**, exit0. Review code parent a ensuite reproduit **interop L5→L6 bloquant** : addUnit refuse famille réellement produite par planMission avec caller A/B attendant R callee (`graph-store.ts:197`, exigence waits vides trop forte). Gel L6 conservé sans édition pendant reviewer indépendant. État **NON ACCEPTÉ**, preuves/hashes/gates/scénario : `L6_PARENT_PRELIMINARY.md` ; correction + tests croisés requis après revue.
+
 - L5 gelé par parent dans branche `73211b8` (trois fichiers lot + correctif test L1 parent déjà présent main), worktree propre, shutdown puis `team_merge`. Hashes main après merge conformes aux trois empreintes corrigées ; **main typecheck exit0, suite373/1skip/0fail (374 tests/17 fichiers, exit0)**. Intégration modulaire L5 acceptée offline ; aucun central câblé, L8/L9 toujours gates séparées.
 
 - Rendu L5 final reçu ; slot immédiatement recyclé vers **L4 `l4-semantic`**, task `task_mv6towq2_0008_m3s5ul`, fresh, Cursor `grok-4.7` variante `Grok 4.7 High`, c70/r60. Session `ses_ec9cd49a6ffeyT32DGbYPzqFnq`, Model.Ref natif relu conforme, aucun nouvel usage Z AI.
