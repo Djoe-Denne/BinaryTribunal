@@ -1,0 +1,13 @@
+# MISSION_JOURNAL — re-graph-scheduler-20261013
+
+Journal tenu par le lead. Ordre chronologique, entrées courtes, preuves par hash/ID natif. Pas de transcripts, pas de secrets.
+
+## 2026-10-13
+
+- **GO** utilisateur (« commité et pushed. clean state, go »). Constat lead : le commit utilisateur `de326bc` couvre ORDRE_MISSION.md (883 lignes) uniquement ; harnais + missions = 636 fichiers untracked (40,73 Mo, aucun >2 Mo, `*.db`/`node_modules` gitignorés) → baseline committée par le lead : `aaa3358` (harnais, 64 fichiers) puis `5406c9a` (corpus run01 + mission docs, 572 fichiers). 392 entrées sales restantes = travail utilisateur hors mission, non touchées.
+- **L0** : 2 explorations read-only parallèles (subagents natifs `explore`, sessions `ses_eca344a8effeC6BvPFu6T98npS` / `ses_eca344a84ffeoXK7AauN5UAG3C`) — synthèses dans GO_ACTIVATION §2. IDA vérifié vivant via py_eval (IDB `FF8_EN.exe - 9.3.i64`). Campagne battle-static-discovery : DRAINED/STOP_DISPATCH (aucune collision). 54 worktrees run01 historiques préservés.
+- **Équipe** : `team_create re-graph-scheduler` (lead = session courante). Scheduling manuel (auto_dispatch/auto_scale = false). Classification jev initialement bloquée (pas de helperModel) → débloquée par override lead : helperModel `opencode-go/glm-5.3-flash` (« protocole jev frozen, scores [0,1], fallbacks 0 »).
+- **Tableau** : tâches L1–L10 créées avec dépendances réelles (IDs dans GO_ACTIVATION §3). Incident mineur : le premier batch `team_tasks_add` a échoué sur l'extraction d'ID (le retour est une chaîne, pas un objet) — corrigé par regex + ajouts un-par-un ; board vérifié, aucune tâche dupliquée. Jev a classifié les 10 tâches (complexity=1 partout, risk 0.41–1.0) — scores demotés consultatifs par l'avenant suivant.
+- **Avenant utilisateur (priorité maximale)** : classification des tâches + sélection des modèles = **propre intelligence du lead** ; Astra = dernier recours ; Grok/Sol/GLM Flash = très bons modèles. Catalogue spawn vérifié : grok-4.7 (low/medium/high/xhigh, $2/$6), glm-5.3-flash (low/high/max, $0.15/$0.5), glm-5.3 (low/high/max, $1.4/$4.4), gpt-6-luna ($0.1/$0.5) — actifs ; **Sol et Astra absents du catalogue spawn** (pont public harnais uniquement). Implémentation : scores `complexity`/`risk` du lead aux ajouts/spawns futurs (classification not_required, zéro appel classifieur) + modèle explicite à chaque spawn ; protocole jev frozen inchangé (aucun besoin opérationnel). Détail : GO_ACTIVATION §5.
+- **Décision L1 (jugement lead)** : modèle `opencode-go/grok-4.7` variant `high` — lot fondateur, erreurs propagées à L2–L7, précision de conception prioritaire sur le coût. Remplacement (1 max) : glm-5.3 high → glm-5.3-flash high.
+- **Dispatch L1** : en cours (entrée complétée au readback).
