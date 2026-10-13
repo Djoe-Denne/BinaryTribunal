@@ -4,6 +4,10 @@
 
 **Dernier steering utilisateur : budget Z AI bientôt épuisé.** Ordre persisté **revision 3 : Cursor > OpenAI > Z AI**. Plus de nouvelle admission Z AI dans la continuation ; préférer Cursor Grok 4.7/4.6 et OpenAI Sol. `openai/gpt-6-astra` actif confirmé au catalogue (low/medium/high/xhigh/max), admissible **en dernier recours**. Les deux sessions Z AI déjà actives peuvent terminer ; limite atteinte → préserver leur travail et basculer vers une route autorisée, sans supposer leur arrêt ni dupliquer les writers.
 
+**État constaté après steering** : quota Z AI effectivement épuisé (provider.quota / HTTP429 / code1310, preuves natives dans `QUOTA_HANDOFF_20261013.json`). Sessions L2/L7-r2 arrêtées et sources préservées ; continuations L2/L7-r3 sur OpenAI Sol high, Model.Ref/location vérifiés, transferts hashés et plans approuvés. Plafond partagé Ensemble **5 workers** désormais persisté et appliqué ; cinq sessions actives au dernier contrôle, aucune sur Z AI.
+
+**L6-FIX** : autorisation parent limitée aux mêmes quatre fichiers own pour défauts admission/CAS/publication fenced/interop, enveloppe Admission complète ≤ allocation unitaire et attestation parent durable niveau2. API/table own additive v4 si nécessaire (migration additive/reopen, metadata harness v1 intacte), aucun schéma L1/central/config/IDB modifié. Nouvelle re-review obligatoire avant intégration ; détails `L6_REVIEW_DECISIONS.md`.
+
 - GLM : **Flash uniquement**, variante **max** obligatoire ; pas de GLM highspeed ni de GLM non-Flash.
 - Cursor : **Grok 4.7 ou 4.6 uniquement** ; aucune route Sol/Composer/Opus sur Cursor.
 - OpenAI : `openai/gpt-6.1-sol` confirmé au catalogue ciblé (variantes low/medium/high/xhigh/max). Astra reste dernier recours, non admis par défaut.
