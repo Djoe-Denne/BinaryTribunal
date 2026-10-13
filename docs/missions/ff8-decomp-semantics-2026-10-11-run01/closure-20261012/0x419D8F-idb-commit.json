@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-12T17:37:07.059360+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x419D8F",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "TextureRelated2",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "4df8e7d5ea38ed9e5cfa15f43d1ad77d7bfefbe945a975a1b4c51d7925750756",
+  "before_sha256": "1842e6f82a5c954eb9cf5bac1d8ef775083d9dfe294368b94a21edaf82d831b6",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nWith arguments (desc, object, key), a zero object or key returns EAX=0 without the helper calls. Otherwise copies DWORD [desc+0x64] to [object+0x2C], calls 0x419410(desc,object,key), then 0x419CBE(desc,object,first_result). Both call groups clean 12 stack bytes. Full machine EAX is the second helper result. Desc itself has no null guard. Texture ownership/refcount/upload behavior inside either helper is not established by this body.\nLive ASM anchors: 0x419d9c, 0x419da2, 0x419dae, 0x419dc0, 0x419dd7, 0x419de2. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x419D8F.json.",
+  "anchors": [
+    {
+      "ea": "0x419d9c",
+      "hex": "837d0c00",
+      "text": "cmp     [ebp+tex], 0"
+    },
+    {
+      "ea": "0x419da2",
+      "hex": "837d1000",
+      "text": "cmp     [ebp+upload_key], 0"
+    },
+    {
+      "ea": "0x419dae",
+      "hex": "8b5164",
+      "text": "mov     edx, [ecx+64h]"
+    },
+    {
+      "ea": "0x419dc0",
+      "hex": "e84bf6ffff",
+      "text": "call    Texture_FindTexture"
+    },
+    {
+      "ea": "0x419dd7",
+      "hex": "e8e2feffff",
+      "text": "call    Texture_UploadRefcountOrReuse"
+    },
+    {
+      "ea": "0x419de2",
+      "hex": "8b45f8",
+      "text": "mov     eax, [ebp+var_8]"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "ad8403b72357a2bd632833ba5198656dd819509fee526e15306e46e8dc953f01",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x419D8F-idb-before.json"
+}

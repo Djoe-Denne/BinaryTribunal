@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:19.283109+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x463FC0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gfx_TPageDescribePixelFormat",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "b6833d6ef79581b9c9fcdc9256cff360d885b8a9a0f3c638161a4aca94780a15",
+  "before": "[glm-triple 2026-09-15]\n/* Gfx_TPageDescribePixelFormat @ 0x463FC0\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 126 instr, size 0x196, end 0x464156. cdecl 5 args, saved ebx/ebp/esi/edi, retn C3 x2.\n * Unique caller Gfx_AllocTexturePageSlot @ 0x4650B7.\n * arg_8==2: 16 bpp RGB555, FillBitfieldLayout(10h,7C00h,3E0h,1Fh,0,layout),\n *   pitch = width<<1, skip CLUT fields and arg_0+444h copy.\n * arg_8!=2: paletted, FillBitfieldLayout(8,7C00h,3E0h,1Fh,8000h,layout),\n *   pitch = width; arg_8==1 stores 10h/100h/2000h else 80h/10h/1000h then +444h copy.\n * jge (7D) SIGNED vs 2. imul 0F AF signed pitch*height. All stores DWORD, no 66.\n * desc+44h = pitch (edi+8), NOT GF Exists. arg_0+444h is a different field.\n * Occupancy 1+2 / TEST AL,2 / slot 0xD0 / F_CHAR 0x1D0 / OT tag 07 / code 24: ABSENT.\n * dword_1CCFD80/84 are DWORD BSS flags, not gfx_driver slots, not occupancy.\n */\n\nint __cdecl Graphics_FillBitfieldLayout(int, int, int, int, int, int *);\nunsigned char *__cdecl Gfx_Psx2Lookup_OrPoolAlloc_B7E018(unsigned int);\n\nextern int dword_1CCFD80;\nextern int dword_1CCFD84;\n\nint __cdecl Gfx_TPageDescribePixelFormat(int arg_0, int arg_4, int arg_8, int arg_C, int arg_10)\n{\n    int *desc;\n    int *layout;\n    int *p;\n    int n;\n    int flag80;\n    int flag84;\n    int mode;\n    int slot;\n    unsigned char *pool;\n\n    desc = *(int **)(arg_4 + 0x54);\n    flag80 = dword_1CCFD80;\n    p = desc;\n    n = 0x3C;\n    while (n--)\n        *p++ = 0;\n    flag84 = dword_1CCFD84;\n    layout = (int *)((char *)desc + 0x3C);\n    mode = arg_8;\n\n    if (flag84 == 0)\n        desc[2] = 1;\n    else if (mode >= 2 || flag80 != 0)\n        desc[2] = 0;\n    else\n        desc[2] = 1;\n\n    desc[3] = 0;\n    desc[5] = 4;\n    desc[6] = 8;\n\n    if (flag84 != 0 && (mode == 2 || flag80 != 0))\n        desc[7] = 1;\n    else\n        desc[7] = 0;\n\n    desc[8] = 8;\n    desc[9] = 8;\n    desc[10] = 0x20;\n    *(int *)((char *)desc + 0xE8) = 0;\n    *(int *)((char *)desc + 0xEC) = 0;\n    layout[0] = arg_C;\n    layout[1] = arg_10;\n\n    if (mode == 2) {\n        desc[1] = 0;\n        desc[14] = 0x10;\n        desc[7] = 0;\n        Graphics_FillBitfieldLayout(0x10, 0x7C00, 0x3E0, 0x1F, 0, layout);\n        layout[2] = layout[0] << 1;\n    } else {\n        desc[1] = 1;\n        *(int *)((char *)desc + 0xBC) = 0;\n        desc[14] = 8;\n        Graphics_FillBitfieldLayout(8, 0x7C00, 0x3E0, 0x1F, 0x8000, layout);\n        layout[2] = layout[0];\n        layout[4] = 1;\n        layout[5] = 8;\n        layout[6] = 1;\n        if (mode == 1) {\n            desc[12] = 0x10;\n            desc[13] = 0x100;\n            layout[8] = 0x100;\n            layout[7] = 0x2000;\n        } else {\n            desc[12] = 0x80;\n            desc[13] = 0x10;\n            layout[8] = 0x10;\n            layout[7] = 0x1000;\n        }\n        layout[9] = *(int *)(arg_0 + 0x444);\n    }\n\n    slot = arg_4;\n    if (*(int *)(slot + 0x58) == 0) {\n        pool = Gfx_Psx2Lookup_OrPoolAlloc_B7E018((unsigned int)(layout[2] * layout[1]));\n        *(int *)(slot + 0x58) = (int)pool;\n        if (pool == 0)\n            return -1;\n    }\n    *(int *)((char *)desc + 0xD8) = *(int *)(slot + 0x58);\n    return 0;\n}\n[semantic-triple 2026-09-15] Init descripteur pixel format TPage (slot+0x54, 0xF0 octets, rep stosd ecx=3Ch) selon mode arg_8: 2=16bpp RGB555 (masks 0x7C00/0x3E0/0x1F via Graphics_FillBitfieldLayout 6 args, pitch shl ecx,1 @0x46408D), 1=CLUT8 256 (0x100 entries, 0x2000), 0=CLUT4 16 (0x10, 0x1000); paletted: STP 0x8000 push, staging ctx+0x444 copie layout+0x24 @0x46411B. Pas de branche 32bpp (4 cmp arg_8 seulement). Globals dword_1CCFD80/84 = capability flags (writers Gfx_InitTexturePageDrawLists 0x46428A/0x4642B2 depuis caps vcall [driver+0xC]). Puis alloc pixel buffer slot+0x58 (imul pitch*height @0x46412A) via pool Gfx_Psx2Lookup_OrPoolAlloc_B7E018 @0x467160 tailles {0x20000,0x10000,0x4000,0x8000}, bind desc+0xD8 @0x46414A, retour 0 / -1 (or eax,0FFFFFFFFh @0x464141, ignore par caller 0x4650BC). Caller unique Gfx_AllocTexturePageSlot 0x4650B7. CERTAIN, confirme (proposition trop etroit: Gfx_TPage_InitPixelFormatAndAllocBuffer). 1+V ACCEPTE.",
+  "before_sha256": "6f98e4fe61678d4c9730160b01ccc79f5868a606cf86cfe17ac7d89c201c7d94",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nConfigures the record captured from argument 2's +0x54 pointer. Entry REP STOSD starts there with EAX=0 and ECX=0x3C (240 bytes for normal DF=0 execution). Format branches call 0x4188E2 with 24-byte cleanup. Later reloads the slot pointer, keeps an existing nonzero slot+0x58 or calls 0x467160 with one stack argument and 4-byte cleanup. A zero acquisition result returns full EAX=0xFFFFFFFF; otherwise publishes the slot+0x58 value into the original record+0xD8 and returns EAX=0. This does not prove fresh allocation, ownership/lifetime, helper side effects or public format-enum meanings.\nLive ASM anchors: 0x463fc7, 0x463fd1, 0x463fda, 0x464122, 0x46412f, 0x464141, 0x46414a, 0x464152. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x463FC0.json.",
+  "anchors": [
+    {
+      "ea": "0x463fc7",
+      "hex": "8b7054",
+      "text": "mov     esi, [eax+54h]"
+    },
+    {
+      "ea": "0x463fd1",
+      "hex": "b93c000000",
+      "text": "mov     ecx, 3Ch"
+    },
+    {
+      "ea": "0x463fda",
+      "hex": "f3ab",
+      "text": "rep stosd"
+    },
+    {
+      "ea": "0x464122",
+      "hex": "396b58",
+      "text": "cmp     [ebx+58h], ebp"
+    },
+    {
+      "ea": "0x46412f",
+      "hex": "e82c300000",
+      "text": "call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018"
+    },
+    {
+      "ea": "0x464141",
+      "hex": "83c8ff",
+      "text": "or      eax, 0FFFFFFFFh"
+    },
+    {
+      "ea": "0x46414a",
+      "hex": "8986d8000000",
+      "text": "mov     [esi+0D8h], eax"
+    },
+    {
+      "ea": "0x464152",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:38:27.060445+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x47CF60",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "main::FFBattleModule",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "509d07a1f179bc74ac3187645a84f14df00cd4853da5077abaeac57b69f392f7",
+  "before": "[glm-triple 2026-09-13]\n/* FFBattleModule @ 0x47CF60\n * Ground truth = live ASM (asm_clean.asm), not Hex-Rays.\n * 209 instr. cdecl int(int game_object). Whole-frame battle owner.\n * One call == one rendered frame.\n */\n\nextern int            Render_X_Axis;\nextern int            Render_Y_Axis;\nextern int            Render_width;\nextern int            Render_Height;\nextern int            dummy4_39;\nextern int            dword_1D2A288;\nextern unsigned char  CAN_BATTLE_BE_PAUSED;       /* mov al / cmp al, bl */\nextern int            pause_game_battle;          /* dword */\nextern int            is_sleeping;                /* dword */\nextern int            mode_Battle_AnimationState;\nextern unsigned char  IS_BATTLE_PAUSED;           /* mov bl / mov al / mov 1 */\nextern unsigned char  g_BattleFramePingPongIndex; /* xor eax,eax; mov al */\nextern int            exit_battle;\nextern int            battle_swirl_dword_1CFF6F4;\nextern int            movie_dword_B6D970;\nextern double         timer_volume_change_related_dbl_1A788B8;\n\nextern int  SetResolution(int x, int y, int w, int h); /* add esp 0x10 */\nextern void isGetDrawBuf(void *desc, int game_object);\nextern void isGetDrawBuf2(int a, int b, int c, int game_object);\nextern int  GfxDriver_BeginScene(int a1, int game_object); /* add esp 8 */\nextern void sub_416B9A(int a);\nextern void sub_424BF9(int a);\nextern void Gfx_CopyRenderTuningDefaults(void);\nextern void sub_499A40(void);\nextern void Render_ESI_A60h_unused(int game_object);\nextern void render_ESIA78h(int game_object);\nextern void render_ESI348(int game_object);\nextern void sub_409B25(int game_object);\nextern void ___setargv_2(void);\nextern int  battle_pause_related_sub_4A71D0(void);\nextern void Gpu_EnableOTagHostPass(void);\nextern void GameTime_Tick2191_SG(void);\nextern void BattleUI_SetHudDrawTarget(void *draw_env); /* add esp 4 */\nextern void isBattle_HUDupdate(void);\nextern void BattleUI_HudInputAndATBTick(void);\nextern int  IsWindowNOTActive(void);\nextern int  GfxDriver_LeaveScene(int game_object); /* add esp 4; EAX leftover */\nextern void battle_sub_5003A0(void);\nextern void sub_45B590(void);\nextern void FFBattleDirector_battleLoop(void); /* 0 args @ 0x47D113 */\nextern void Battle_cursor_battle_win_and_pause_menu_render_related(void);\nextern void FFSwitchModule_set_game_loop(void *desc, int game_object); /* add esp 8 */\nextern void start_battle_swirl_sub_56D1D0(int x, int y, int w, int h,\n                                          unsigned int z, int swirl_is_2); /* add esp 0x18 */\nextern void nullsub_35(void); /* call only */\nextern void Gpu_DrawOTagCurrent(int ot_head); /* add esp 4 */\nextern void Gfx_SubmitDisplayLists(void);\nextern void Gfx_SubmitTexturePageLists(void);\nextern void GfxDriver_SelectRenderTarget(int a1, int game_object); /* add esp 8 */\nextern void Gfx_SubmitViewportLists(void);\nextern void common_set_dword_1B477F4_to_zero_sub_45B450(void);\nextern void reset_dword_209CEEC_input_related_sub_56D9C0(void);\nextern int  UpdateRateRelated(void);\nextern int  music_sfx_volume_changes_loop_sub_46BB10(int frames); /* add esp 4 */\nextern int  __ftol(double); /* CRT, call only \u2014 do not decompile */\n\nextern void menu_init_sub_4A2280(void);\nextern void menu_exit_sub_4A22A0(void);\nextern void BattleRewardMenu_MainLoop(void);\nextern void main_init_sub_470690(void);\nextern void main_exit_sub_4706A0(void);\nextern void FFModuleHandler_main_loop(void);\n\nint __cdecl FFBattleModule(int game_object)\n{\n    int desc[7]; /* var_1C .. var_4 : 0x1C-byte module/draw-buf block */\n    char *g = (char *)game_object;\n    int swirl;\n    int vol;\n\n    /* ebx := 0 for the whole function */\n\n    if (*(int *)(g + 0xBA8) == 0)\n        SetResolution(0, 0, 0x280, 0x1E0); /* push 1E0,280,ebx,ebx; add esp 0x10 */\n\n    desc[0] = 0;          /* var_1C */\n    desc[1] = 0;          /* var_18 */\n    desc[2] = 0;          /* var_14 */\n    desc[3] = 0x3F800000; /* var_10 = 1.0f */\n    isGetDrawBuf(desc, game_object);\n    isGetDrawBuf2(1, 1, 1, game_object); /* combined add esp 0x18 */\n\n    if (*(int *)(g + 0xBA8) == 0)\n        SetResolution(Render_X_Axis, Render_Y_Axis, Render_width, Render_Height);\n\n    if (GfxDriver_BeginScene(0, game_object) == 0)\n        goto loc_47D243; /* no LeaveScene, still run frame tail */\n\n    sub_416B9A(dummy4_39);\n    sub_424BF9(dword_1D2A288);\n    Gfx_CopyRenderTuningDefaults();\n    sub_499A40();\n    Render_ESI_A60h_unused(game_object);\n    render_ESIA78h(game_object);\n    render_ESI348(game_object);\n    sub_409B25(game_object); /* 6 pushes with the two 1-arg calls; add esp 0x18 */\n    ___setargv_2();\n\n    /* jz loc_47D0D3 if CAN==0 (no call) or related()==0 */\n    if (CAN_BATTLE_BE_PAUSED != 0 && battle_pause_related_sub_4A71D0() != 0) {\n        pause_game_battle = 1;\n        is_sleeping = 0;\n        goto loc_47D067; /* fallthrough in ASM; skips loc_47D0D3 */\n    }\n\n    /* loc_47D0D3 */\n    IS_BATTLE_PAUSED = 0; /* byte = bl */\n    if (pause_game_battle != 0)\n        battle_sub_5003A0();\n    pause_game_battle = 0; /* 0x47D0EC dword = ebx; A/B/C dropped this */\n    if (is_sleeping == 0)\n        goto loc_47D067;\n    *(int *)(g + 0xB88) = 0;\n    sub_45B590(); /* dword_B7CC24 = 0; sleeping / focus-loss only */\n    goto loc_47D076; /* skips Gpu_EnableOTagHostPass */\n\nloc_47D067:\n    *(int *)(g + 0xB88) = 1; /* dword */\n    Gpu_EnableOTagHostPass(); /* dword_B7CC24 = 1, every non-sleeping battle frame */\n\nloc_47D076:\n    GameTime_Tick2191_SG();\n    GameTime_Tick2191_SG();\n    GameTime_Tick2191_SG();\n    GameTime_Tick2191_SG();\n\n    if (mode_Battle_AnimationState == 3) {\n        BattleUI_SetHudDrawTarget((void *)0); /* ebx; ticks skip RenderHud */\n        isBattle_HUDupdate();\n        BattleUI_HudInputAndATBTick();\n        isBattle_HUDupdate();\n        BattleUI_HudInputAndATBTick();\n        isBattle_HUDupdate();\n        BattleUI_HudInputAndATBTick();\n    }\n\n    if (IsWindowNOTActive() != 0)\n        return GfxDriver_LeaveScene(game_object); /* EAX leftover; no tail */\n\n    /* loc_47D10A: jnz skip if IS_BATTLE_PAUSED != 0 */\n    if (IS_BATTLE_PAUSED == 0)\n        FFBattleDirector_battleLoop();\n\n    if (mode_Battle_AnimationState == 3) {\n        unsigned int idx = (unsigned char)g_BattleFramePingPongIndex;\n        /* lea ecx,[eax+eax*2]; shl ecx,3; sub ecx,eax \u2192 *23; *4 \u2192 *92 */\n        BattleUI_SetHudDrawTarget((void *)(0x1D969C8 + idx * 92));\n        isBattle_HUDupdate();\n        BattleUI_HudInputAndATBTick();\n        Battle_cursor_battle_win_and_pause_menu_render_related();\n    }\n\n    if (exit_battle != 0) {\n        if (mode_Battle_AnimationState == 4) {\n            desc[2] = (int)menu_init_sub_4A2280;      /* var_14 */\n            desc[3] = (int)menu_exit_sub_4A22A0;      /* var_10 */\n            desc[4] = (int)BattleRewardMenu_MainLoop; /* var_C */\n        } else {\n            /* not a jump table: any state != 4 */\n            desc[2] = (int)main_init_sub_470690;\n            desc[3] = (int)main_exit_sub_4706A0;\n            desc[4] = (int)FFModuleHandler_main_loop;\n        }\n        desc[5] = 0; /* var_8 */\n        desc[6] = 0; /* var_4 */\n        FFSwitchModule_set_game_loop(desc, game_object);\n    }\n\n    /* jnz loc_47D1FA if IS_BATTLE_PAUSED != 0 */\n    if (IS_BATTLE_PAUSED != 0) {\n        Gpu_DrawOTagCurrent(-1); /* ot_head = 0xFFFFFFFF */\n    } else {\n        if (battle_swirl_dword_1CFF6F4 != 0) {\n            swirl = battle_swirl_dword_1CFF6F4; /* eax before width overwrite */\n            start_battle_swirl_sub_56D1D0(\n                Render_X_Axis, Render_Y_Axis, Render_width, Render_Height,\n                0x3AC49BA6, /* Z; color 0x55FFFFFF lives in the callee */\n                swirl == 2); /* setz cl after cmp eax, 2 */\n            battle_swirl_dword_1CFF6F4 = 0;\n        }\n        nullsub_35(); /* call only; unpaused path always, even if swirl==0 */\n    }\n\n    /* 0x47D204: latch for next frame's director gate; does not clear if 0 */\n    if (pause_game_battle != 0)\n        IS_BATTLE_PAUSED = 1; /* byte */\n\n    if (is_sleeping == 0) {\n        Gfx_SubmitDisplayLists();\n        Gfx_SubmitTexturePageLists();\n        GfxDriver_SelectRenderTarget(1, game_object);\n        Gfx_SubmitViewportLists();\n    }\n    common_set_dword_1B477F4_to_zero_sub_45B450();\n    GfxDriver_LeaveScene(game_object);\n\nloc_47D243:\n    reset_dword_209CEEC_input_related_sub_56D9C0();\n\n    if (movie_dword_B6D970 != 0 && pause_game_battle == 0)\n        is_sleeping = UpdateRateRelated();\n    else\n        is_sleeping = 0;\n\n    /* fld timer_volume_change_related_dbl_1A788B8 ; call __ftol ; push eax */\n    vol = __ftol(timer_volume_change_related_dbl_1A788B8);\n    return music_sfx_volume_changes_loop_sub_46BB10(vol);\n}",
+  "before_sha256": "943dfd9792e4bad6d4b105a8168d74d83aa462e7c3db056595805f2aae065928",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nMulti-service orchestration, not just the 0x47CCB0 call. That call at 0x47D113 is skipped when the tested pause byte is nonzero. A separate path builds alternative callback triplets and passes a local descriptor plus the game-object pointer to 0x409A57 (8-byte cleanup). The early exit after 0x41E99D leaves its machine EAX; ordinary final exit leaves EAX from 0x46BD10, so no uniform success Boolean is constructed. The last callee's historical symbol contains 46BB10, but the native CALL at 0x47D277 targets 0x46BD10. Incoming references at 0x4709EC and 0x5598DD are DATA callback registrations, not direct code calls. Frame/battle/helper business identities remain contextual, not proved by the labels alone.\nLive ASM anchors: 0x47d0c2, 0x47d0c5, 0x47d111, 0x47d113, 0x47d162, 0x47d1a2, 0x47d23b, 0x47d277. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x47CF60.json.",
+  "anchors": [
+    {
+      "ea": "0x47d0c2",
+      "hex": "7446",
+      "text": "jz      short loc_47D10A"
+    },
+    {
+      "ea": "0x47d0c5",
+      "hex": "e8d318faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d111",
+      "hex": "7505",
+      "text": "jnz     short loc_47D118"
+    },
+    {
+      "ea": "0x47d113",
+      "hex": "e898fbffff",
+      "text": "call    main__FFBattleDirector_battleLoop"
+    },
+    {
+      "ea": "0x47d162",
+      "hex": "c744241080224a00",
+      "text": "mov     [esp+24h+var_14], offset menu_init_sub_4A2280"
+    },
+    {
+      "ea": "0x47d1a2",
+      "hex": "e8b0c8f8ff",
+      "text": "call    FFSwitchModule_set_game_loop"
+    },
+    {
+      "ea": "0x47d23b",
+      "hex": "e85d17faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d277",
+      "hex": "e894eafeff",
+      "text": "call    music_sfx_volume_changes_loop_sub_46BB10"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

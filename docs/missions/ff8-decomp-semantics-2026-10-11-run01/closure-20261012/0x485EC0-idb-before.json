@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-12T17:38:33.644886+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x485EC0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "domain::BattleItem_RefundStashedItems",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "345f0c2665d84925a3c50ce2f76e64266d88d8c9c59084bd53c395fa38eb2911",
+  "before": "[wave 2026-09-12 reconstructed-C]\n/* domain::BattleItem_RefundStashedItems  0x485EC0  __cdecl\n * Rembourse jusqu'\u00e0 2 ids stash\u00e9s (slot +0xB8/+0xB9) via\n * BattleEqualItemBuffer_AdjustCount(id, 0) puis clear. Retour leftover AL. */\n\ntypedef struct FF8BattleSlotData_s {\n    unsigned char _pad_00[0xB8];\n    unsigned char item_stash[2]; /* +0xB8 / +0xB9 */\n    unsigned char _rest[0xD0 - 0xBA];\n} FF8BattleSlotData_s;\n\nextern FF8BattleSlotData_s BATTLE_SLOT_DATA[];\n\nint __cdecl BattleEqualItemBuffer_AdjustCount(int id, int remove_one);\n\nchar __cdecl BattleItem_RefundStashedItems(int slot_id)\n{\n    int i;\n    unsigned char *stash;\n    unsigned char result;\n\n    stash = BATTLE_SLOT_DATA[slot_id].item_stash;\n    i = 0;\n    do {\n        result = stash[i];\n        if (result != 0) {\n            result = (unsigned char)BattleEqualItemBuffer_AdjustCount(\n                (unsigned char)stash[i], 0);\n            stash[i] = 0;\n        }\n        ++i;\n    } while (i < 2);\n    return (char)result;\n}",
+  "before_sha256": "42c0c832c7c7e6638fd8972464d9779c51ec3084b855d9269d36ea7821ffb121",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nComputes record stride (i+4*(3*i))*16 = 208 = 0xD0, then processes two consecutive stored bytes in order. Each nonzero byte is zero-extended and passed to 0x486B40 as argument 1 with argument 2 equal to zero; cleanup is 8 bytes. Only after that call returns does the routine clear that byte. Zero bytes cause neither a call nor a clear. EAX is residual register state, not a validated item-count result. Refund/inventory ownership and callee behavior remain unproved by this local loop.\nLive ASM anchors: 0x485ec8, 0x485ece, 0x485ed7, 0x485edc, 0x485ee6, 0x485eee, 0x485ef3. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x485EC0.json.",
+  "anchors": [
+    {
+      "ea": "0x485ec8",
+      "hex": "8d0c40",
+      "text": "lea     ecx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x485ece",
+      "hex": "c1e204",
+      "text": "shl     edx, 4"
+    },
+    {
+      "ea": "0x485ed7",
+      "hex": "8a0437",
+      "text": "mov     al, [edi+esi]"
+    },
+    {
+      "ea": "0x485edc",
+      "hex": "7414",
+      "text": "jz      short loc_485EF2"
+    },
+    {
+      "ea": "0x485ee6",
+      "hex": "e8550c0000",
+      "text": "call    domain__BattleEqualItemBuffer_AdjustCount"
+    },
+    {
+      "ea": "0x485eee",
+      "hex": "c6043700",
+      "text": "mov     byte ptr [edi+esi], 0"
+    },
+    {
+      "ea": "0x485ef3",
+      "hex": "83fe02",
+      "text": "cmp     esi, 2"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

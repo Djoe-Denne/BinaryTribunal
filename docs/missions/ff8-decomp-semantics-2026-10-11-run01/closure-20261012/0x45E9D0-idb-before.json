@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:07.824879+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x45E9D0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "sub_45E9D0",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "e7411e13cc8f744afae5360ca5ac80c2b6f74136cf5df8d6dbbfca33ee44ddec",
+  "before": "[glm-triple 2026-09-15]\n/* sub_45E9D0 @ 0x45E9D0\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 109 instr, size 0x219, end 0x45EBE9. cdecl, 0 args, retn C3, no EBP.\n * sub esp,8 / add esp,8 = local double, not cdecl cleanup. 0 CALL.\n * RGB FIFO DWORD 1CA8A64->1CA8A60, 1CA8A68->1CA8A64; CODE byte_1CA8A2B -> +3.\n * Scale = MOVSX word 1CA8A30 * flt_B695F8 (1/4096). Not IR0.\n * MAC = x87 FILD * scale + CONST_4.503601774854144e15 (2^52+2^31 @ 0xB693D8)\n * then low DWORD + 0x80000000 (ADD / LEA). Stores 1CA8A74/78/7C BEFORE IR clamps.\n * IR clamps: cmp / jge (7D) / jle (7E) SIGNED vs 0xFFFF8000 / 0x7FFF. DWORD stores.\n * IR1 FLAG = 0x81000000 assign; IR2 OR 0x80800000; IR3 OR 0x400000 (no bit31).\n * RGB: cmp / jbe (76) UNSIGNED vs 0xFF, then SAR 31 + NOT. BYTE stores +0/+1/+2.\n * EAX leftover (G SAR/NOT or FLAG|0x80000). No ja/jg, no setcc, no jump table.\n * TEST AL,2 / occupancy 1+2 / +44h / 0xD0 / 0x1D0 / OT tag 07 / code 24: ABSENT.\n */\n\nextern unsigned int dword_1CA8A60;\nextern unsigned int dword_1CA8A64;\nextern unsigned int dword_1CA8A68;\nextern unsigned int dword_1CA8A30;\nextern unsigned int dword_1CA8A34;\nextern unsigned int dword_1CA8A38;\nextern unsigned int dword_1CA8A3C;\nextern unsigned int dword_1CA8A74;\nextern unsigned int dword_1CA8A78;\nextern unsigned int dword_1CA8A7C;\nextern unsigned int dword_1CA92F8;\nextern unsigned char byte_1CA8A2B;\nextern float flt_B695F8; /* 0xB695F8 bytes 00 00 80 39 = 1/4096 */\nextern double CONST_4_503601774854144e15; /* 0xB693D8 = 2^52+2^31 */\n\nint __cdecl sub_45E9D0(void)\n{\n    union {\n        double d;\n        unsigned int u[2];\n    } var_8;\n    double scale;\n    int mac1;\n    int mac2;\n    int mac3;\n    int ret;\n    unsigned char *rgb;\n\n    dword_1CA8A60 = dword_1CA8A64;\n    dword_1CA8A64 = dword_1CA8A68;\n\n    scale = (double)*(short *)&dword_1CA8A30 * (double)flt_B695F8;\n    rgb = (unsigned char *)&dword_1CA8A68;\n    rgb[3] = byte_1CA8A2B;\n    dword_1CA92F8 = 0;\n\n    var_8.d = (double)*(short *)&dword_1CA8A34 * scale + CONST_4_503601774854144e15;\n    mac1 = (int)(var_8.u[0] + 0x80000000u);\n    dword_1CA8A74 = (unsigned int)mac1;\n\n    var_8.d = (double)*(short *)&dword_1CA8A38 * scale + CONST_4_503601774854144e15;\n    mac2 = (int)(var_8.u[0] + 0x80000000u);\n    dword_1CA8A78 = (unsigned int)mac2;\n\n    var_8.d = (double)*(short *)&dword_1CA8A3C * scale + CONST_4_503601774854144e15;\n    mac3 = (int)(var_8.u[0] + 0x80000000u);\n    dword_1CA8A7C = (unsigned int)mac3;\n\n    if (mac1 < -32768) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = 0xFFFF8000u;\n    } else if (mac1 > 32767) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = 0x7FFFu;\n    } else {\n        dword_1CA8A34 = (unsigned int)mac1;\n    }\n\n    if (mac2 < -32768) {\n        dword_1CA92F8 |= 0x80800000u;\n        dword_1CA8A38 = 0xFFFF8000u;\n    } else if (mac2 > 32767) {\n        dword_1CA92F8 |= 0x80800000u;\n        dword_1CA8A38 = 0x7FFFu;\n    } else {\n        dword_1CA8A38 = (unsigned int)mac2;\n    }\n\n    if (mac3 < -32768) {\n        dword_1CA92F8 |= 0x400000u;\n        dword_1CA8A3C = 0xFFFF8000u;\n    } else if (mac3 > 32767) {\n        dword_1CA92F8 |= 0x400000u;\n        dword_1CA8A3C = 0x7FFFu;\n    } else {\n        dword_1CA8A3C = (unsigned int)mac3;\n    }\n\n    if ((unsigned int)mac1 > 0xFFu) {\n        dword_1CA92F8 |= 0x200000u;\n        mac1 = (mac1 < 0) ? 0 : ~0;\n    }\n    rgb[0] = (unsigned char)mac1;\n\n    ret = mac2;\n    if ((unsigned int)mac2 > 0xFFu) {\n        dword_1CA92F8 |= 0x100000u;\n        ret = (mac2 < 0) ? 0 : ~0;\n    }\n    rgb[1] = (unsigned char)ret;\n\n    if ((unsigned int)mac3 > 0xFFu) {\n        dword_1CA92F8 |= 0x80000u;\n        ret = (int)dword_1CA92F8;\n        mac3 = (mac3 < 0) ? 0 : ~0;\n    }\n    rgb[2] = (unsigned char)mac3;\n\n    return ret;\n}",
+  "before_sha256": "815a14747ea2847645719a0558e495e7cb9a440b986286674632c7e2fa60074e",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLeaf global-state operation. Shifts DWORD history 0x1CA8A64->60 and 68->64, and copies byte 0x1CA8A2B into 0x1CA8A6B. Uses signed low-WORD inputs and x87 products; extracts integer bit patterns through floating stores and addition of 0x80000000. OVERWRITES raw DWORDs 0x1CA8A74/78/7C, unlike the accumulating sibling 0x45EBF0. Signed JGE/JLE clamps write DWORD images in [-32768,32767] at 0x1CA8A34/38/3C; separate unsigned byte-range checks populate bytes 0x1CA8A68/69/6A and status bits. Do not replace FSTP bit extraction with FISTP, a C cast or a presumed Q12 shift. Exact FP-environment behavior and source-level return meaning remain unpromoted.\nLive ASM anchors: 0x45e9de, 0x45e9e9, 0x45ea32, 0x45ea48, 0x45ea9c, 0x45eab4, 0x45eb80, 0x45ebdf. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x45E9D0.json.",
+  "anchors": [
+    {
+      "ea": "0x45e9de",
+      "hex": "a3608aca01",
+      "text": "mov     dword_1CA8A60, eax"
+    },
+    {
+      "ea": "0x45e9e9",
+      "hex": "0fbf05308aca01",
+      "text": "movsx   eax, word ptr dword_1CA8A30"
+    },
+    {
+      "ea": "0x45ea32",
+      "hex": "dd5c2400",
+      "text": "fstp    [esp+8+var_8]"
+    },
+    {
+      "ea": "0x45ea48",
+      "hex": "8915748aca01",
+      "text": "mov     dword_1CA8A74, edx"
+    },
+    {
+      "ea": "0x45ea9c",
+      "hex": "7d16",
+      "text": "jge     short loc_45EAB4"
+    },
+    {
+      "ea": "0x45eab4",
+      "hex": "81faff7f0000",
+      "text": "cmp     edx, 7FFFh"
+    },
+    {
+      "ea": "0x45eb80",
+      "hex": "7617",
+      "text": "jbe     short loc_45EB99"
+    },
+    {
+      "ea": "0x45ebdf",
+      "hex": "880d6a8aca01",
+      "text": "mov     byte ptr dword_1CA8A68+2, cl"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:38:33.991266+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x495D80",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "domain::BattleGF_RecomputeBattleData",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "3af68f012496e95345b9b3c4e02e6d585697647bfd696f5d6493ea1214e2f051",
+  "before": "[wave 2026-09-12 reconstructed-C]\n/* __cdecl. Exists n\u2019est pas test\u00e9 ici. */\nshort BattleGF_RecomputeBattleData(int gf_id)\n{\n    /* IDA: SG_GF_CURRENT_HP? @ 0x1CFF618 stride 12 ; pas SG_GF_CURRENT_HP_ @ 0x1CFF318 */\n    unsigned char *bat = (unsigned char *)0x1CFF618 + 12 * gf_id;\n    unsigned char *save = (unsigned char *)&SG_ARRAY_GF_DATA[gf_id];\n    unsigned int *bits = (unsigned int *)(save + 0x1C);\n    char *krow = (char *)&K_CHARA_ABILITY[0] + 0x36; /* 0x1CF812E */\n    int dword_i, bit_i, hp;\n    unsigned int mask;\n    char *p;\n    char stat;\n\n    bat[0x0B] = 0;\n    bat[0x09] = 0;\n    bat[0x0A] = 100;\n    bat[0x08] = (unsigned char)sub_4960C0(*(int *)(save + 0x0C), gf_id);\n    *(int *)(bat + 4) = *(int *)(save + 0x0C);\n\n    for (dword_i = 0; dword_i < 2; dword_i++) {\n        mask = bits[dword_i];\n        p = krow;\n        krow += 0x100;\n        for (bit_i = 0; bit_i < 32; bit_i++) {\n            if ((mask & 1) != 0\n                && p >= (char *)&K_GF_ABILITY[0].stat_to_increase\n                && p < (char *)&K_MENU_ABILITY[0].start_offset) {\n                bat[0x0B] |= (unsigned char)p[-1];\n                stat = p[0];\n                if (stat == 0)\n                    bat[0x09] += (unsigned char)p[1];\n                if (stat == 1)\n                    bat[0x0A] += (unsigned char)p[1];\n            }\n            mask >>= 1;\n            p += 8;\n        }\n    }\n\n    hp = ((int)(short)sub_496120((int)bat[0x08], gf_id) * (int)bat[0x0A]) / 100;\n    if (hp > 9999)\n        hp = 9999;\n    *(short *)(bat + 2) = (short)hp;\n    if ((int)(short)hp < (int)*(unsigned short *)(save + 0x12))\n        *(short *)(save + 0x12) = (short)hp;\n    *(short *)bat = *(short *)(save + 0x12);\n    if (*(short *)bat < (short)(*(short *)(bat + 2) >> 2))\n        bat[0x0B] |= 0x80u;\n    return *(short *)bat;\n}",
+  "before_sha256": "d74c19eb0e3cabb5a44fa63020f0f7f469e1d69e25ebc600197490b22e08aaa3",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nRecord strides are 68 bytes for P=0x1CFDCA8+68*id and 12 for R=0x1CFF618+12*id. Initializes R+9=0, R+10=100, R+11=0; keeps AL from 0x4960C0 at R+8 and copies P+0x0C to R+4. Scans two 32-bit masks (2x32 iterations), advancing table records by 8, with BYTE additions wrapping modulo 256. Uses signed AX from 0x496120 times the unsigned byte coefficient; signed IMUL-high/SAR/correction implements the scaling, with only a signed upper cap of 9999, not a lower clamp. Narrowed signed DX is compared with the zero-extended saved WORD; a later signed 16-bit quarter comparison may OR R+11 with 0x80. Machine EAX finally combines P's high 16 bits with the saved WORD loaded into AX. Helper internals and universal HP monotonicity remain uncertain.\nLive ASM anchors: 0x495d8b, 0x495da3, 0x495dbc, 0x495e24, 0x495e49, 0x495e61, 0x495e8b, 0x495e9e. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x495D80.json.",
+  "anchors": [
+    {
+      "ea": "0x495d8b",
+      "hex": "c1e004",
+      "text": "shl     eax, 4"
+    },
+    {
+      "ea": "0x495da3",
+      "hex": "8d348d18f6cf01",
+      "text": "lea     esi, ds:1CFF618h[ecx*4]"
+    },
+    {
+      "ea": "0x495dbc",
+      "hex": "e8ff020000",
+      "text": "call    sub_4960C0"
+    },
+    {
+      "ea": "0x495e24",
+      "hex": "d1ea",
+      "text": "shr     edx, 1"
+    },
+    {
+      "ea": "0x495e49",
+      "hex": "e8d2020000",
+      "text": "call    sub_496120"
+    },
+    {
+      "ea": "0x495e61",
+      "hex": "f7e9",
+      "text": "imul    ecx"
+    },
+    {
+      "ea": "0x495e8b",
+      "hex": "3bf9",
+      "text": "cmp     edi, ecx"
+    },
+    {
+      "ea": "0x495e9e",
+      "hex": "66c1fa02",
+      "text": "sar     dx, 2"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

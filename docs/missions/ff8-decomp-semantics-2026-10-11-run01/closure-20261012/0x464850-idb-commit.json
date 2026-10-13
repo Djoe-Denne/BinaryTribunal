@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:26.306039+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x464850",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "tex_vram_rectangle",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "047e56948580f65bdb97b1ba94f4bdf42fb4ac32a27d62d9a5d2c1c8a32f882c",
+  "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nUnconditionally calls 0x467550 with four incoming DWORDs plus 0x1CB6040 (20-byte caller cleanup). Projects axes by signed division /64 and /256, truncating toward zero via CDQ/bias/SAR. Inclusive signed-bound loops use tile i=x+16*y. First scan writes -1 into three banks at 0x1CB636C+1100*i+k*0x8980, k=0..2. Under two nonzero gates it zeros 0x100 DWORDs at 0x1CAD28C+1136*i (DF=0). Second scan clears x bit0 before indexing, and writes -1 at 0x1CBECEC+1100*i. Derived strides are 1100=0x44C and 1136=0x470, not guessed record sizes. Helper effects, safe caller bounds and cache/VRAM business types remain uncertain.\nLive ASM anchors: 0x46486d, 0x464878, 0x4648a3, 0x4648df, 0x4648f4, 0x464922, 0x46496d, 0x464980. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x464850.json.",
+  "anchors": [
+    {
+      "ea": "0x46486d",
+      "hex": "e8de2c0000",
+      "text": "call    sub_467550"
+    },
+    {
+      "ea": "0x464878",
+      "hex": "83e23f",
+      "text": "and     edx, 3Fh"
+    },
+    {
+      "ea": "0x4648a3",
+      "hex": "c1f908",
+      "text": "sar     ecx, 8"
+    },
+    {
+      "ea": "0x4648df",
+      "hex": "8d0c48",
+      "text": "lea     ecx, [eax+ecx*2]"
+    },
+    {
+      "ea": "0x4648f4",
+      "hex": "c701ffffffff",
+      "text": "mov     dword ptr [ecx], 0FFFFFFFFh"
+    },
+    {
+      "ea": "0x464922",
+      "hex": "b900010000",
+      "text": "mov     ecx, 100h"
+    },
+    {
+      "ea": "0x46496d",
+      "hex": "24fe",
+      "text": "and     al, 0FEh"
+    },
+    {
+      "ea": "0x464980",
+      "hex": "c70485ececcb01ffffffff",
+      "text": "mov     dword_1CBECEC[eax*4], 0FFFFFFFFh"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "b9ca9b31d3a91ecebfe78bc60d510c8ab7b23cd5e8156491f0511e31a021d75a",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x464850-idb-before.json"
+}

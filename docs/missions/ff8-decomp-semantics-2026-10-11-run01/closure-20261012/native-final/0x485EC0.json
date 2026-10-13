@@ -1,0 +1,174 @@
+{
+  "at": "2026-10-12T17:25:54.839618+00:00",
+  "ea": "0x485EC0",
+  "group": "g07",
+  "name": "domain::BattleItem_RefundStashedItems",
+  "packet_sha256": "50a28e8cec513ad24cf73574d698fa89d1877ea254fe333b0b6d761db3c711af",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g07\\0x485EC0\\semantic_r.md",
+  "candidate_sha256": "5362bc54ade84bf5f01f6a0070614360e48a6f3b514c72ded69f063aed6f6afc",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x485ec0",
+      "hi": "0x485efb",
+      "sha256": "6e9adc63d8ec74a291fd7e9632cc25252c2d429e37ad8781fd2dd3fc7add957d",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x485ec0",
+      "hex": "8b442404",
+      "text": "mov     eax, [esp+p_slot_id]"
+    },
+    {
+      "ea": "0x485ec4",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x485ec5",
+      "hex": "33f6",
+      "text": "xor     esi, esi"
+    },
+    {
+      "ea": "0x485ec7",
+      "hex": "57",
+      "text": "push    edi"
+    },
+    {
+      "ea": "0x485ec8",
+      "hex": "8d0c40",
+      "text": "lea     ecx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x485ecb",
+      "hex": "8d1488",
+      "text": "lea     edx, [eax+ecx*4]"
+    },
+    {
+      "ea": "0x485ece",
+      "hex": "c1e204",
+      "text": "shl     edx, 4"
+    },
+    {
+      "ea": "0x485ed1",
+      "hex": "8dbac87bd201",
+      "text": "lea     edi, BATTLE_SLOT_DATA.magic_to_blow_away[edx]"
+    },
+    {
+      "ea": "0x485ed7",
+      "hex": "8a0437",
+      "text": "mov     al, [edi+esi]"
+    },
+    {
+      "ea": "0x485eda",
+      "hex": "84c0",
+      "text": "test    al, al"
+    },
+    {
+      "ea": "0x485edc",
+      "hex": "7414",
+      "text": "jz      short loc_485EF2"
+    },
+    {
+      "ea": "0x485ede",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x485ee3",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x485ee5",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x485ee6",
+      "hex": "e8550c0000",
+      "text": "call    domain__BattleEqualItemBuffer_AdjustCount"
+    },
+    {
+      "ea": "0x485eeb",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x485eee",
+      "hex": "c6043700",
+      "text": "mov     byte ptr [edi+esi], 0"
+    },
+    {
+      "ea": "0x485ef2",
+      "hex": "46",
+      "text": "inc     esi"
+    },
+    {
+      "ea": "0x485ef3",
+      "hex": "83fe02",
+      "text": "cmp     esi, 2"
+    },
+    {
+      "ea": "0x485ef6",
+      "hex": "7cdf",
+      "text": "jl      short loc_485ED7"
+    },
+    {
+      "ea": "0x485ef8",
+      "hex": "5f",
+      "text": "pop     edi"
+    },
+    {
+      "ea": "0x485ef9",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x485efa",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x485ee6",
+      "operand": "domain__BattleEqualItemBuffer_AdjustCount",
+      "operand_type": 7,
+      "operand_value": "0x486b40",
+      "code_targets": [
+        "0x486b40"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x485835",
+      "type": 17,
+      "code": true,
+      "function": "0x485610"
+    },
+    {
+      "from": "0x486903",
+      "type": 17,
+      "code": true,
+      "function": "0x4868c0"
+    },
+    {
+      "from": "0x486cb7",
+      "type": 17,
+      "code": true,
+      "function": "0x486c70"
+    },
+    {
+      "from": "0x493a84",
+      "type": 17,
+      "code": true,
+      "function": "0x493840"
+    }
+  ],
+  "existing_today_tag": false
+}

@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-12T17:37:15.901907+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x701220",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Mat3S16_MakeRotX_Q12",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "ee9662c62af7ba3d79479f2589cde7882325b70ac46fd6e5d35204c10e55664a",
+  "before": "[glm-triple 2026-09-15]\n/* Mat3S16_MakeRotX_Q12 @ 0x701220\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 29 instr, size 0x4c, end 0x70126c. cdecl, 2 args, retn C3. Saves EBX ESI EDI.\n * Rx Q12 3x3 s16: m00=0x1000, m11=m22=cos, m12=sin, m21=-sin.\n * Five DWORD zeros (incl. +10h past 18-byte matrix) then five WORD 66 stores.\n * add esp,8 after Sin+Cos. EAX leftover = Fixed_Cos4096_Q12.\n * Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44 absent.\n * No domain::.\n */\n\nunsigned int __cdecl Fixed_Sin4096_Q12(int);\nunsigned int __cdecl Fixed_Cos4096_Q12(int);\n\nunsigned int __cdecl Mat3S16_MakeRotX_Q12(__int16 arg_0, int arg_4)\n{\n    int angle;\n    int sinv;\n    unsigned int cosv;\n    int neg_sin;\n    _DWORD *d;\n    _WORD *m;\n\n    m = (_WORD *)arg_4; /* esi = arg_4 */\n    d = (_DWORD *)arg_4; /* ecx = esi */\n    angle = (int)arg_0; /* movsx edi, word arg_0 */\n\n    d[0] = 0; /* [ecx+00h] DWORD 89 01  m00,m01 */\n    d[1] = 0; /* [ecx+04h] DWORD 89 41 04  m02,m10 */\n    d[2] = 0; /* [ecx+08h] DWORD 89 41 08  m11,m12 */\n    d[3] = 0; /* [ecx+0Ch] DWORD 89 41 0C  m20,m21 */\n    d[4] = 0; /* [ecx+10h] DWORD 89 41 10  m22 + 2 bytes past matrix */\n\n    sinv = (int)Fixed_Sin4096_Q12(angle); /* ebx = eax */\n    cosv = Fixed_Cos4096_Q12(angle); /* eax kept until ret; add esp,8 */\n    neg_sin = -sinv; /* F7 DA neg edx 32-bit copy; ebx stays +sin */\n\n    m[0] = 0x1000; /* [esi] WORD imm 66 C7 06 00 10  m00 Q12 1.0 */\n    m[4] = (_WORD)cosv; /* [esi+8] AX m11 = cos */\n    m[7] = (_WORD)neg_sin; /* [esi+0Eh] DX m21 = -sin */\n    m[5] = (_WORD)sinv; /* [esi+0Ah] BX m12 = +sin */\n    m[8] = (_WORD)cosv; /* [esi+10h] AX m22 = cos */\n    return cosv;\n}",
+  "before_sha256": "bd7cf8bd79f5c45b8d85c0f6d20b29896fd5622828dfd1b12bc42b465c9a44ad",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nCaptures argument 1 as signed low WORD, clears five DWORDs (20 bytes) at argument 2, and calls 0x56D130 then 0x56D100 with that same captured signed value; delayed stack cleanup is 8 bytes. If s/c denote low WORDs of the first/second returns, stores WORDs dst+0=0x1000, +8=c, +0xA=s, +0xE=-s modulo 2^16, +0x10=c. Other bytes remain from the zero fill. Full EAX on return is still the second helper's full return, not necessarily a zero-extended coefficient. Helper trig accuracy and coordinate conventions are not established here.\nLive ASM anchors: 0x70122b, 0x701230, 0x70123f, 0x701247, 0x70124e, 0x701253, 0x701264. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x701220.json.",
+  "anchors": [
+    {
+      "ea": "0x70122b",
+      "hex": "0fbf7c2410",
+      "text": "movsx   edi, [esp+0Ch+arg_0]"
+    },
+    {
+      "ea": "0x701230",
+      "hex": "8901",
+      "text": "mov     [ecx], eax"
+    },
+    {
+      "ea": "0x70123f",
+      "hex": "e8ecbee6ff",
+      "text": "call    Fixed_Sin4096_Q12"
+    },
+    {
+      "ea": "0x701247",
+      "hex": "e8b4bee6ff",
+      "text": "call    Fixed_Cos4096_Q12"
+    },
+    {
+      "ea": "0x70124e",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x701253",
+      "hex": "66c7060010",
+      "text": "mov     word ptr [esi], 1000h"
+    },
+    {
+      "ea": "0x701264",
+      "hex": "66894610",
+      "text": "mov     [esi+10h], ax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

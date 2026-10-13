@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:10.627875+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x56C090",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Mat3S16_MulQ12_Copy5",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "f8f854354456c39596bebc84b97cac83a7d09c0db02ed4275701cce54351cb46",
+  "before_sha256": "8eea49d77abdd644b555c3a2b5640c3cff4bf312b7ce3aa90135d87b36672f03",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nReads signed WORD coefficients, performs x87 three-term row/column products, and stages three WORDs on each of three iterations with 6-byte row strides. There are no helper calls. Results are obtained from bits of floating stores, not an integer multiply/SHR or saturating conversion. Copies FIVE DWORDs (20 bytes) from its local staging area to argument 3 and leaves that destination pointer in full EAX. Only nine result WORDs (18 bytes) were generated; the final two copied stack bytes are not initialized as output coefficients by this routine. A destination of only 18 writable bytes is insufficient. Exact Q12/trigonometric/hardware equivalence and the meaning of those two stack bytes are not asserted.\nLive ASM anchors: 0x56c09d, 0x56c11e, 0x56c137, 0x56c15d, 0x56c196, 0x56c1de, 0x56c1ec, 0x56c215. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x56C090.json.",
+  "anchors": [
+    {
+      "ea": "0x56c09d",
+      "hex": "0fbf480c",
+      "text": "movsx   ecx, word ptr [eax+0Ch]"
+    },
+    {
+      "ea": "0x56c11e",
+      "hex": "ba03000000",
+      "text": "mov     edx, 3"
+    },
+    {
+      "ea": "0x56c137",
+      "hex": "83c006",
+      "text": "add     eax, 6"
+    },
+    {
+      "ea": "0x56c15d",
+      "hex": "83c106",
+      "text": "add     ecx, 6"
+    },
+    {
+      "ea": "0x56c196",
+      "hex": "668970f6",
+      "text": "mov     [eax-0Ah], si"
+    },
+    {
+      "ea": "0x56c1de",
+      "hex": "668970fa",
+      "text": "mov     [eax-6], si"
+    },
+    {
+      "ea": "0x56c1ec",
+      "hex": "8b4510",
+      "text": "mov     eax, [ebp+arg_8]"
+    },
+    {
+      "ea": "0x56c215",
+      "hex": "895010",
+      "text": "mov     [eax+10h], edx"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "6cb0329f2fbf2aba14fd78fb123544e4aa0002ee5ae613e9071910a4a094e178",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x56C090-idb-before.json"
+}

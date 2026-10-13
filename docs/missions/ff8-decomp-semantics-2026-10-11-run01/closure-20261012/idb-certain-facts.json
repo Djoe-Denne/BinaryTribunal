@@ -1,0 +1,134 @@
+{
+  "scope": "Supervisor-checked local mechanical facts only. Not full C acceptance, not proof of business names, no prototype/rename changes.",
+  "facts": [
+    {
+      "ea": "0x419D8F",
+      "anchors": ["0x419d9c", "0x419da2", "0x419dae", "0x419dc0", "0x419dd7", "0x419de2"],
+      "direct_callees": ["0x419410", "0x419cbe"],
+      "text": "With arguments (desc, object, key), a zero object or key returns EAX=0 without the helper calls. Otherwise copies DWORD [desc+0x64] to [object+0x2C], calls 0x419410(desc,object,key), then 0x419CBE(desc,object,first_result). Both call groups clean 12 stack bytes. Full machine EAX is the second helper result. Desc itself has no null guard. Texture ownership/refcount/upload behavior inside either helper is not established by this body."
+    },
+    {
+      "ea": "0x45E610",
+      "anchors": ["0x45e621", "0x45e642", "0x45e64b", "0x45e655", "0x45e658", "0x45e660"],
+      "direct_callees": [],
+      "text": "Sums the unsigned low WORDs at 0x1CA8A50/54/58/5C, multiplies by the signed WORD at 0x1CA92F4 using the low 32-bit IMUL result, then applies logical SHR 12, not SAR. Clears DWORD 0x1CA92F8 and stores the same full EAX at 0x1CA8A2C and 0x1CA8A70. No clamp, helper call or overflow flag synthesis occurs. Exact GTE hardware equivalence is not asserted."
+    },
+    {
+      "ea": "0x45E9D0",
+      "anchors": ["0x45e9de", "0x45e9e9", "0x45ea32", "0x45ea48", "0x45ea9c", "0x45eab4", "0x45eb80", "0x45ebdf"],
+      "direct_callees": [],
+      "text": "Leaf global-state operation. Shifts DWORD history 0x1CA8A64->60 and 68->64, and copies byte 0x1CA8A2B into 0x1CA8A6B. Uses signed low-WORD inputs and x87 products; extracts integer bit patterns through floating stores and addition of 0x80000000. OVERWRITES raw DWORDs 0x1CA8A74/78/7C, unlike the accumulating sibling 0x45EBF0. Signed JGE/JLE clamps write DWORD images in [-32768,32767] at 0x1CA8A34/38/3C; separate unsigned byte-range checks populate bytes 0x1CA8A68/69/6A and status bits. Do not replace FSTP bit extraction with FISTP, a C cast or a presumed Q12 shift. Exact FP-environment behavior and source-level return meaning remain unpromoted."
+    },
+    {
+      "ea": "0x45EBF0",
+      "anchors": ["0x45ebfe", "0x45ec40", "0x45ec5e", "0x45ec74", "0x45ec95", "0x45ecc3", "0x45ed08", "0x45ee03"],
+      "direct_callees": [],
+      "text": "Leaf global-state operation with the same two-DWORD history shift and auxiliary byte insertion as 0x45E9D0. Unlike that sibling, reads the old raw DWORDs 0x1CA8A74/78/7C and adds them modulo 2^32 AFTER x87 floating-store bit extraction (LEA old+extracted+0x80000000); writes the new raw values back before signed s16 clamping. Clamp results at 0x1CA8A34/38/3C are DWORD stores. Packed bytes 0x1CA8A68/69/6A have separate unsigned 0..255 checks. This is not floating accumulation of the old DWORDs, FISTP conversion or a proved hardware opcode implementation. Return-register residues and detailed FP environment are not promoted to a source prototype."
+    },
+    {
+      "ea": "0x56C090",
+      "anchors": ["0x56c09d", "0x56c11e", "0x56c137", "0x56c15d", "0x56c196", "0x56c1de", "0x56c1ec", "0x56c215"],
+      "direct_callees": [],
+      "text": "Reads signed WORD coefficients, performs x87 three-term row/column products, and stages three WORDs on each of three iterations with 6-byte row strides. There are no helper calls. Results are obtained from bits of floating stores, not an integer multiply/SHR or saturating conversion. Copies FIVE DWORDs (20 bytes) from its local staging area to argument 3 and leaves that destination pointer in full EAX. Only nine result WORDs (18 bytes) were generated; the final two copied stack bytes are not initialized as output coefficients by this routine. A destination of only 18 writable bytes is insufficient. Exact Q12/trigonometric/hardware equivalence and the meaning of those two stack bytes are not asserted."
+    },
+    {
+      "ea": "0x701220",
+      "anchors": ["0x70122b", "0x701230", "0x70123f", "0x701247", "0x70124e", "0x701253", "0x701264"],
+      "direct_callees": ["0x56d130", "0x56d100"],
+      "text": "Captures argument 1 as signed low WORD, clears five DWORDs (20 bytes) at argument 2, and calls 0x56D130 then 0x56D100 with that same captured signed value; delayed stack cleanup is 8 bytes. If s/c denote low WORDs of the first/second returns, stores WORDs dst+0=0x1000, +8=c, +0xA=s, +0xE=-s modulo 2^16, +0x10=c. Other bytes remain from the zero fill. Full EAX on return is still the second helper's full return, not necessarily a zero-extended coefficient. Helper trig accuracy and coordinate conventions are not established here."
+    },
+    {
+      "ea": "0x7012C0",
+      "anchors": ["0x7012cb", "0x7012d0", "0x7012df", "0x7012e7", "0x7012ee", "0x7012f3", "0x701302"],
+      "direct_callees": ["0x56d130", "0x56d100"],
+      "text": "Captures argument 1 as signed low WORD, clears five DWORDs (20 bytes) at argument 2, and calls 0x56D130 then 0x56D100 with the captured signed value; delayed stack cleanup is 8 bytes. With low-WORD returns s/c, stores WORDs dst+0=c, +2=s, +6=-s modulo 2^16, +8=c, +0x10=0x1000. Full EAX remains the second helper's full return. Exact sine/cosine contracts, handedness and source return intention are not proved by these writes."
+    },
+    {
+      "ea": "0x45E670",
+      "anchors": ["0x45e673", "0x45e688", "0x45e6c3", "0x45e6e8", "0x45e71b", "0x45e733", "0x45e7c6", "0x45e802"],
+      "direct_callees": [],
+      "text": "Reads signed low WORDs from 0x1CA8A34/38/3C, shifts each by 12 before signed FILD, and clears status DWORD 0x1CA92F8. Forms three cyclic differences of x87 products using global floating coefficients; floating-store/low-DWORD extraction plus 0x80000000 yields raw outputs. Signed comparisons clamp the feedback DWORDs at 0x1CA8A34/38/3C to [-32768,32767]. The third-channel saturation ORs 0x00400000 and does not itself force bit31. No helper call. Do not equate the bias/store sequence to a portable integer cast or assert hardware GTE equivalence."
+    },
+    {
+      "ea": "0x460860",
+      "anchors": ["0x46086e", "0x460876", "0x46087e", "0x4608f9", "0x4609ef", "0x460a00", "0x460a30", "0x460ab1"],
+      "direct_callees": [],
+      "text": "One command DWORD selects addend/coefficient banks by bit slices [14:13]/[18:17], each with 32-byte stride, and an input vector by [16:15]: selector 3 reads signed low WORD feedback at 0x1CA8A34/38/3C, others select 8-byte input records. Bit19 enables extra x87 scaling. After the x87 transform and bit extraction, addend selector 3 bypasses integer addends; other selectors add three DWORDs with 32-bit wrap before clamping. Raw outputs are 0x1CA8A74/78/7C; signed s16 clamps write DWORDs at 0x1CA8A34/38/3C. Saturation masks are 0x81000000, 0x80800000, 0x00400000, so third-only saturation does not force bit31. Machine EAX is raw third output when it does not saturate, otherwise status. Exact hardware equivalence and source prototype remain unpromoted."
+    },
+    {
+      "ea": "0x463FC0",
+      "anchors": ["0x463fc7", "0x463fd1", "0x463fda", "0x464122", "0x46412f", "0x464141", "0x46414a", "0x464152"],
+      "direct_callees": ["0x4188e2", "0x467160"],
+      "text": "Configures the record captured from argument 2's +0x54 pointer. Entry REP STOSD starts there with EAX=0 and ECX=0x3C (240 bytes for normal DF=0 execution). Format branches call 0x4188E2 with 24-byte cleanup. Later reloads the slot pointer, keeps an existing nonzero slot+0x58 or calls 0x467160 with one stack argument and 4-byte cleanup. A zero acquisition result returns full EAX=0xFFFFFFFF; otherwise publishes the slot+0x58 value into the original record+0xD8 and returns EAX=0. This does not prove fresh allocation, ownership/lifetime, helper side effects or public format-enum meanings."
+    },
+    {
+      "ea": "0x464DB0",
+      "anchors": ["0x464dc0", "0x464dc5", "0x464e1b", "0x464eb3", "0x464ebb", "0x464eea", "0x464f45", "0x464f62"],
+      "direct_callees": ["0x416d82", "0x467160", "0x4677d0"],
+      "text": "Lazy two-result construction is guarded ONLY by slot DWORD +0x44. If it is already nonzero, returns without repairing/validating +0x48. The two mode paths each call 0x416D82 twice and publish full EAX results to +0x44 and +0x48, without a nonzero test of the first factory result before the second call. One mode has an earlier acquisition-zero exit and invokes 0x4677D0 before the factories. Stack cleanup is grouped, not evidence of equal arities for all helpers. Normal final EAX is the second result; early-existing EAX is +0x44, not a uniform Boolean. No hardware palette upload or ownership guarantee is established by the local body."
+    },
+    {
+      "ea": "0x464850",
+      "anchors": ["0x46486d", "0x464878", "0x4648a3", "0x4648df", "0x4648f4", "0x464922", "0x46496d", "0x464980"],
+      "direct_callees": ["0x467550"],
+      "text": "Unconditionally calls 0x467550 with four incoming DWORDs plus 0x1CB6040 (20-byte caller cleanup). Projects axes by signed division /64 and /256, truncating toward zero via CDQ/bias/SAR. Inclusive signed-bound loops use tile i=x+16*y. First scan writes -1 into three banks at 0x1CB636C+1100*i+k*0x8980, k=0..2. Under two nonzero gates it zeros 0x100 DWORDs at 0x1CAD28C+1136*i (DF=0). Second scan clears x bit0 before indexing, and writes -1 at 0x1CBECEC+1100*i. Derived strides are 1100=0x44C and 1136=0x470, not guessed record sizes. Helper effects, safe caller bounds and cache/VRAM business types remain uncertain."
+    },
+    {
+      "ea": "0x47CF60",
+      "anchors": ["0x47d0c2", "0x47d0c5", "0x47d111", "0x47d113", "0x47d162", "0x47d1a2", "0x47d23b", "0x47d277"],
+      "direct_callees": ["0x47ccb0", "0x409a57", "0x41e99d", "0x46bd10"],
+      "caller_xrefs": [{"from":"0x4709ec","code":false},{"from":"0x5598dd","code":false}],
+      "text": "Multi-service orchestration, not just the 0x47CCB0 call. That call at 0x47D113 is skipped when the tested pause byte is nonzero. A separate path builds alternative callback triplets and passes a local descriptor plus the game-object pointer to 0x409A57 (8-byte cleanup). The early exit after 0x41E99D leaves its machine EAX; ordinary final exit leaves EAX from 0x46BD10, so no uniform success Boolean is constructed. The last callee's historical symbol contains 46BB10, but the native CALL at 0x47D277 targets 0x46BD10. Incoming references at 0x4709EC and 0x5598DD are DATA callback registrations, not direct code calls. Frame/battle/helper business identities remain contextual, not proved by the labels alone."
+    },
+    {
+      "ea": "0x500900",
+      "anchors": ["0x50090b", "0x500923", "0x500928", "0x50093a", "0x500942", "0x5007b0", "0x5007fd", "0x500812"],
+      "direct_callees": ["0x508420"],
+      "text": "Calls 0x508420 for five unconditional global heads and a sixth nonzero-guarded head. Stores AL from the third and fifth service call sites, but tests full EAX to clear the conditional head. Final preparation lives in an earlier-address function chunk: the low byte of the index loaded at 0x5007B0 selects packet strides 0x24000 or 0x1C000 from the two bases; cursor/end differ by the selected stride. Full machine return EAX is 0x1D8E058+0x4488*i modulo 2^32, also stored as the final table base at 0x500819. Here 0x4488=17544; no helper call follows the final index load. Exclusive GF/input/upload business purpose is not established."
+    },
+    {
+      "ea": "0x485FF0",
+      "anchors": ["0x485ff3", "0x486001", "0x486011", "0x486022", "0x48602e", "0x48604e", "0x486064", "0x48606b"],
+      "direct_callees": [],
+      "text": "Builds two WORD masks by scanning seven records in descending offsets 0x4E0,0x410,...,0 with stride 0xD0=208. Both require flag bit0 set and bit6 clear. First mask additionally rejects status bit0 only for offsets below 0x270 (indices 0..2); second applies that status test only for offsets at/above 0x270 (indices 3..6). Shift-before-OR maps record index i to mask bit i. Loops are signed JG against -0xD0, and full EAX exits as 0xFFFFFF30. No helper calls; eligibility masks do not establish visibility/allocation business semantics by themselves."
+    },
+    {
+      "ea": "0x485EC0",
+      "anchors": ["0x485ec8", "0x485ece", "0x485ed7", "0x485edc", "0x485ee6", "0x485eee", "0x485ef3"],
+      "direct_callees": ["0x486b40"],
+      "text": "Computes record stride (i+4*(3*i))*16 = 208 = 0xD0, then processes two consecutive stored bytes in order. Each nonzero byte is zero-extended and passed to 0x486B40 as argument 1 with argument 2 equal to zero; cleanup is 8 bytes. Only after that call returns does the routine clear that byte. Zero bytes cause neither a call nor a clear. EAX is residual register state, not a validated item-count result. Refund/inventory ownership and callee behavior remain unproved by this local loop."
+    },
+    {
+      "ea": "0x495D80",
+      "anchors": ["0x495d8b", "0x495da3", "0x495dbc", "0x495e24", "0x495e49", "0x495e61", "0x495e8b", "0x495e9e"],
+      "direct_callees": ["0x4960c0", "0x496120"],
+      "text": "Record strides are 68 bytes for P=0x1CFDCA8+68*id and 12 for R=0x1CFF618+12*id. Initializes R+9=0, R+10=100, R+11=0; keeps AL from 0x4960C0 at R+8 and copies P+0x0C to R+4. Scans two 32-bit masks (2x32 iterations), advancing table records by 8, with BYTE additions wrapping modulo 256. Uses signed AX from 0x496120 times the unsigned byte coefficient; signed IMUL-high/SAR/correction implements the scaling, with only a signed upper cap of 9999, not a lower clamp. Narrowed signed DX is compared with the zero-extended saved WORD; a later signed 16-bit quarter comparison may OR R+11 with 0x80. Machine EAX finally combines P's high 16 bits with the saved WORD loaded into AX. Helper internals and universal HP monotonicity remain uncertain."
+    },
+    {
+      "ea": "0x5083C0",
+      "anchors": ["0x5083c7", "0x5083cb", "0x5083d1", "0x5083d3", "0x5083d8", "0x5083e1", "0x5083e3"],
+      "direct_callees": [],
+      "text": "Read-only first-match scan: pointer at descriptor+8, signed WORD count at +0x0E, signed WORD stride at +0x0C. Returns full EAX pointer to the first record whose first byte has bit0 clear. Nonpositive count or exhaustion returns zero. The stride is re-read for each rejected record; negative stride is not ruled out. Signed JLE/JL control the count, and no record is marked/claimed. No calls. Allocation, GF/task ownership or occupancy meaning of bit0 is not established."
+    },
+    {
+      "ea": "0x50BF90",
+      "anchors": ["0x50bfcb", "0x50bfd3", "0x50bfed", "0x50c00f", "0x50c034", "0x50c04d", "0x50c05b", "0x50c078"],
+      "direct_callees": [],
+      "text": "Latches descriptor/global fields and derives actor pointer 0x1D972C0+156*descriptor_byte0 (156=0x9C). Outer count is unsigned byte at descriptor+0x11 plus one (1..256), descriptor stride 20; each descriptor supplies a byte count and pointer to 24-byte records. Aggregates a 16-bit mask using x86-masked variable shifts, another WORD mask for records with byte+3 bit3, and a byte flag when byte+2 has both 0x30 bits set. WORD clears preserve upper DWORD halves. Conditional selector globals are not universally reset: e.g. the first-record byte destination is unchanged when the first count is zero. No calls; detailed battle/GF ownership is not inferred from existing labels."
+    },
+    {
+      "ea": "0x4868C0",
+      "anchors": ["0x48697d", "0x486984", "0x486988", "0x48698a", "0x486991", "0x4869a3", "0x4869cc", "0x4869d3"],
+      "direct_callees": [],
+      "native_tables": [{"base":"0x4869F4","size":20,"sha256":"eb34ae32d9265a121193b5677eba16a6adea53fb9a98b09446dc2695b138c722"}],
+      "text": "Verified local result dispatch: zero-extends the result byte, subtracts one, then unsigned JA against 4 rejects values outside 1..5. Native five-DWORD table at 0x4869F4 maps result values 1/2/3/4/5 to 0x4869CC/0x486991/0x4869CC/0x4869A3/0x4869D3. Results 1 and 3 increment the field at 0x1CFE938 and fall through to mode 100; result 2 increments 0x1CFE93A and sets mode 5. Result 5 directly sets mode 100 at 0x1CD8FC6. The table bytes match the authenticated PE, SHA256 eb34ae32d9265a121193b5677eba16a6adea53fb9a98b09446dc2695b138c722. This certifies this local dispatch, not the earlier record-copying work or the business meaning of result codes."
+    },
+    {
+      "ea": "0x50E510",
+      "anchors": ["0x50e510", "0x50e516", "0x50e51e", "0x50e524", "0x50e52a", "0x50e531", "0x50e536", "0x50ee1a"],
+      "direct_callees": [],
+      "native_tables": [{"base":"0x50EE1C","size":652,"sha256":"61ba449f67a8dab7b273a85d004bcdd3edcbdfaae340d3229b5c2d2c73b89cb5","entry_base":"0x50E531","entry_stride":14,"count":163,"verify_forwarding_stubs":true}],
+      "text": "Dispatches on the low byte of a global selector; unsigned JA against 162 rejects larger values. EAX is zeroed before the test; the out-of-range target is the RET at 0x50EE1A, so this path returns zero without a helper call. All 163 native table DWORDs at [0x50EE1C,0x50F0A8) are verified: entry[i]=0x50E531+14*i for i=0..162. Each 14-byte stub loads the incoming stack argument, pushes it, directly calls its native target, cleans exactly 4 bytes and returns that target's machine EAX. Stub/callee bytes and table match the PE. This proves selector-to-stub dispatch and forwarding, not the semantics of the 163 destination routines or a business stage identity inferred from names."
+    }
+  ]
+}

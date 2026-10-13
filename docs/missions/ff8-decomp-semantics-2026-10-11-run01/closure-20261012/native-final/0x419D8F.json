@@ -1,0 +1,226 @@
+{
+  "at": "2026-10-12T17:25:54.185283+00:00",
+  "ea": "0x419D8F",
+  "group": "g01",
+  "name": "TextureRelated2",
+  "packet_sha256": "bf1ee669cd27c5fdeba32939d67727ddcef4bbb63153d0703d2e8de20d6d326a",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g01\\0x419D8F\\semantic_r.md",
+  "candidate_sha256": "631a6fa95e8152cb3fd62a5e9141e250e61235a8fc458ad69495742415c41c8b",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x419d8f",
+      "hi": "0x419de9",
+      "sha256": "b7fd8149843d6e17f60d1aa669599254f93356ef1179b5eb18ed9df5874ee74c",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x419d8f",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x419d90",
+      "hex": "8bec",
+      "text": "mov     ebp, esp"
+    },
+    {
+      "ea": "0x419d92",
+      "hex": "83ec08",
+      "text": "sub     esp, 8"
+    },
+    {
+      "ea": "0x419d95",
+      "hex": "c745f800000000",
+      "text": "mov     [ebp+var_8], 0"
+    },
+    {
+      "ea": "0x419d9c",
+      "hex": "837d0c00",
+      "text": "cmp     [ebp+tex], 0"
+    },
+    {
+      "ea": "0x419da0",
+      "hex": "7440",
+      "text": "jz      short loc_419DE2"
+    },
+    {
+      "ea": "0x419da2",
+      "hex": "837d1000",
+      "text": "cmp     [ebp+upload_key], 0"
+    },
+    {
+      "ea": "0x419da6",
+      "hex": "743a",
+      "text": "jz      short loc_419DE2"
+    },
+    {
+      "ea": "0x419da8",
+      "hex": "8b450c",
+      "text": "mov     eax, [ebp+tex]"
+    },
+    {
+      "ea": "0x419dab",
+      "hex": "8b4d08",
+      "text": "mov     ecx, [ebp+desc]"
+    },
+    {
+      "ea": "0x419dae",
+      "hex": "8b5164",
+      "text": "mov     edx, [ecx+64h]"
+    },
+    {
+      "ea": "0x419db1",
+      "hex": "89502c",
+      "text": "mov     [eax+2Ch], edx"
+    },
+    {
+      "ea": "0x419db4",
+      "hex": "8b4510",
+      "text": "mov     eax, [ebp+upload_key]"
+    },
+    {
+      "ea": "0x419db7",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x419db8",
+      "hex": "8b4d0c",
+      "text": "mov     ecx, [ebp+tex]"
+    },
+    {
+      "ea": "0x419dbb",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x419dbc",
+      "hex": "8b5508",
+      "text": "mov     edx, [ebp+desc]"
+    },
+    {
+      "ea": "0x419dbf",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x419dc0",
+      "hex": "e84bf6ffff",
+      "text": "call    Texture_FindTexture"
+    },
+    {
+      "ea": "0x419dc5",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x419dc8",
+      "hex": "8945fc",
+      "text": "mov     [ebp+var_4], eax"
+    },
+    {
+      "ea": "0x419dcb",
+      "hex": "8b45fc",
+      "text": "mov     eax, [ebp+var_4]"
+    },
+    {
+      "ea": "0x419dce",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x419dcf",
+      "hex": "8b4d0c",
+      "text": "mov     ecx, [ebp+tex]"
+    },
+    {
+      "ea": "0x419dd2",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x419dd3",
+      "hex": "8b5508",
+      "text": "mov     edx, [ebp+desc]"
+    },
+    {
+      "ea": "0x419dd6",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x419dd7",
+      "hex": "e8e2feffff",
+      "text": "call    Texture_UploadRefcountOrReuse"
+    },
+    {
+      "ea": "0x419ddc",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x419ddf",
+      "hex": "8945f8",
+      "text": "mov     [ebp+var_8], eax"
+    },
+    {
+      "ea": "0x419de2",
+      "hex": "8b45f8",
+      "text": "mov     eax, [ebp+var_8]"
+    },
+    {
+      "ea": "0x419de5",
+      "hex": "8be5",
+      "text": "mov     esp, ebp"
+    },
+    {
+      "ea": "0x419de7",
+      "hex": "5d",
+      "text": "pop     ebp"
+    },
+    {
+      "ea": "0x419de8",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x419dc0",
+      "operand": "Texture_FindTexture",
+      "operand_type": 7,
+      "operand_value": "0x419410",
+      "code_targets": [
+        "0x419410"
+      ]
+    },
+    {
+      "site": "0x419dd7",
+      "operand": "Texture_UploadRefcountOrReuse",
+      "operand_type": 7,
+      "operand_value": "0x419cbe",
+      "code_targets": [
+        "0x419cbe"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x407797",
+      "type": 17,
+      "code": true,
+      "function": "0x4076b6"
+    },
+    {
+      "from": "0x414ad1",
+      "type": 17,
+      "code": true,
+      "function": "0x414a40"
+    }
+  ],
+  "existing_today_tag": false
+}

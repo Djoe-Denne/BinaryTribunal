@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:38:34.817360+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x50BF90",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "BattleActionSequence_PreparePayloadContext",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "c70c08aec80d33e6800de6f232dd95596e142cc6c2dc5573299724c7174cf60c",
+  "before_sha256": "36dbad324286a6b861f0549e75e43011c70f8d3a6d0304f0ad5dadedaebfa233",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLatches descriptor/global fields and derives actor pointer 0x1D972C0+156*descriptor_byte0 (156=0x9C). Outer count is unsigned byte at descriptor+0x11 plus one (1..256), descriptor stride 20; each descriptor supplies a byte count and pointer to 24-byte records. Aggregates a 16-bit mask using x86-masked variable shifts, another WORD mask for records with byte+3 bit3, and a byte flag when byte+2 has both 0x30 bits set. WORD clears preserve upper DWORD halves. Conditional selector globals are not universally reset: e.g. the first-record byte destination is unchanged when the first count is zero. No calls; detailed battle/GF ownership is not inferred from existing labels.\nLive ASM anchors: 0x50bfcb, 0x50bfd3, 0x50bfed, 0x50c00f, 0x50c034, 0x50c04d, 0x50c05b, 0x50c078. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x50BF90.json.",
+  "anchors": [
+    {
+      "ea": "0x50bfcb",
+      "hex": "8d1480",
+      "text": "lea     edx, [eax+eax*4]"
+    },
+    {
+      "ea": "0x50bfd3",
+      "hex": "8d0495c072d901",
+      "text": "lea     eax, ds:1D972C0h[edx*4]"
+    },
+    {
+      "ea": "0x50bfed",
+      "hex": "40",
+      "text": "inc     eax"
+    },
+    {
+      "ea": "0x50c00f",
+      "hex": "d3e0",
+      "text": "shl     eax, cl"
+    },
+    {
+      "ea": "0x50c034",
+      "hex": "660905909ad901",
+      "text": "or      word ptr dword_1D99A90, ax"
+    },
+    {
+      "ea": "0x50c04d",
+      "hex": "83c218",
+      "text": "add     edx, 18h"
+    },
+    {
+      "ea": "0x50c05b",
+      "hex": "83c314",
+      "text": "add     ebx, 14h"
+    },
+    {
+      "ea": "0x50c078",
+      "hex": "740a",
+      "text": "jz      short loc_50C084"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "dee62bb2e22980702cd3a848a2a9c63dc4a17ac31d62e29701b17cd8f56de87a",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x50BF90-idb-before.json"
+}

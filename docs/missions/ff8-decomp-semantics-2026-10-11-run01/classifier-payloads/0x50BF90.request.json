@@ -1,0 +1,119 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g27 / run01 / read-only; no reconstructed target C, semantic verdict, edits, IDB/Git/ledger/live or delegation. Claimed task_mv424nwv_000s_21y4jj. CONTRACT read; group ownership verified.\n; \n; SOURCE INVENTORY (absolute paths; abbreviations below refer to these exact files):\n; N = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\.tmp\\\\ff8-decomp-semantics-20261011-r01\\\\native\\\\0x50BF90.json\n; G = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\native-groups.json\n; A = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\tools\\\\_tmp_semantic_triple\\\\0x50bf90\\\\native-2026-10-10\\\\N50BF90_pack\\\\neutral\\\\frame_abi.txt\n; X = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\tools\\\\_tmp_semantic_triple\\\\0x50bf90\\\\native-2026-10-10\\\\N50BF90_pack\\\\neutral\\\\graph.json\n; R = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\systems\\\\render_action_sequences.md\n; E = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle_loop_render_pipeline_entrypoints.md\n; H = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\CAMPAIGN_DRAIN_FINAL_2026-10-10.md\n; Contract = C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\CONTRACT.md\n; Knowledge retrieval: QMD CLI search PreparePayloadContext -c ff8-wiki and get qmd://ff8-wiki/projects/re-ff8/concepts/battle-action-sequencing.md (#33591e). Returned lifecycle #d81dd3 and catalog #d14802 too. QMD knowledge is secondary, not native proof. GrepAI first, no workspace, common retro-eng root: returned R/E and neighboring 0x506690 documentation; no independently validated rewrite implementation identified. No target historical C read.\n; \n; FREEZE / COVERAGE:\n; G:214–217 owns only 0x50BF90. N:5–9 identifies 32-bit FF8_EN.exe, SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, exported 2026-10-11T16:38:25.140966+00:00. N:13–15 is [0x50BF90,0x50C090), 256 raw bytes; independently computed SHA256 87e46f3c9d4a4887e644b74372ba88c60db247c499b5e2f347a81e654aa14921 equals A:3–4 historical native capture hash. All 81 instructions inspected from N:18 with comments stripped. N:19–130 contains 15 CFG blocks; N:131–140 one incoming code xref 0x50A799, function 0x50A790, type17; code_targets empty, instruction_count81. Root contains no call or indirect branch. Native label/comments excluded as evidence of purpose.\n; \n; ABI / REGISTER / STACK FACTS (N:18 instruction addresses; matching A line provenance):\n; • Let S=entry ESP. 50BF90 reserves 8 bytes; saves EBP/ESI at 50BF93/94; 50BF95 reads DWORD [S+4] into ESI. 50BFB9 writes BYTE [S-4], not a DWORD. Conditional 50BFF2/3 saves EBX/EDI; 50BFF7 overwrites DWORD [S+4] with an outer counter. 50C023 stores DWORD [S-8]=1. Crucially 50C053 reloads DWORD [S-4] into ECX, NOT memory [ESI]; only its low byte had been explicitly initialized. 50C057/5F reload/update argument home slot [S+4]. Matching A:6–21,71.\n; • EBP zeroed at 50BF99, BP used for 16-bit accumulation. Conditional save/restore paths paired 50C065/6D. 50C084/8B restore ESI/EBP; add esp,8 then C3 at 50C08F. Caller-side cleanup, not ret4. No prototype inferred from label/type metadata.\n; • Captured native caller window X.windows anchor 0x50A799 corroborates A:23–32: 50A795 loads DWORD [ESI+4], 50A798 pushes it, 50A799 calls root; 50A79E replaces whole EAX with DWORD [0x1D99A50], 50A7A5 add esp,4. Thus single pushed stack argument, caller cleanup, and immediate caller does not consume root return register. Historical caller window is a native-byte capture, not newly exported run01 full caller ASM.\n; • AL final definition at 50C06E or conditional 50C07D. No final MOVZX. Normal completed outer counter reaches EAX=0 at 50C05E; ordinary tail inherits that zero upper part. Keep arbitrary aliasing caveat, not an unconditional C return-type conclusion (A:79–90).\n; \n; NUMERIC MEMORY / STRUCTURE FACTS (N:18, raw bytes N:15; A:51–77):\n; • 50BF9B DWORD [0x1D99A50]=ESI occurs before subsequent argument-memory reads. 50BFA1 WORD [0x1D99A5C]=0. 50BFA8 reads DWORD [ESI+8]; 50BFAB reads BYTE [ESI]; 50BFAD stores previously captured DWORD at [0x1D99A60]. 50BFBD WORD [0x1D99A90]=0; 50BFC4 BYTE [0x1D99A6D]=0. Do not widen these stores because labels say dword.\n; • 50BFCB/CE/D1/D3 computes 0x1D972C0+0x9C*zero_extended_BYTE([ESI]); 50BFDD stores DWORD to [0x1D99A40]. This is numeric stride/base evidence, not a capacity check. DWORD [ESI+0xC] read at 50BFDA, stored to [0x1D99A74] at 50BFE7. Stores can alias caller memory; preserve captured-read order.\n; • BYTE [ESI+0x11] zero-extended at 50BFE2/E4 then incremented at 50BFED gives initial count 1..256. Signed jle 50BFF0 remains in native CFG even though initial comparison to EBP=0 cannot satisfy it under the shown register definitions. No input count guard.\n; • EBX starts ESI+0x10 (50BFF4), increases 0x14 at 50C05B. Per nonzero BYTE [EBX] (zero-extended at 50BFFB/FD), DWORD [EBX-8] is reloaded into EDX at 50C003. EDX steps 0x18 at 50C04D. Distinguish 0x14 outer-record stride from 0x18 inner-record stride.\n; • BYTE [EDX] -> CL (50C008); EAX=1 then SHL EAX,CL (50C00A/0F, hardware count masked31); OR BP,AX at 50C011 retains only low16. Not a range-checked slot shift.\n; • BYTE [EDX+3] -> AL; test bit8 at 50C017. If set: SHR AL,6 (50C020), BYTE [0x1D99A84]=AL (50C027), shift DWORD1 by that byte then OR WORD [0x1D99A90],AX (50C034). [0x1D99A84] has no unconditional reset in root; if no qualifying record its prior value persists.\n; • BYTE [EDX+2] is masked0x30 and compared0x30 at 50C03B–44; only equal case ORs BYTE [0x1D99A6D],2 at 50C046. WORD [0x1D99A5C]=BP stored at 50C066.\n; • Tail re-reads BYTE [ESI+0x10] (50C06E), stores BYTE [0x1D99A5A] always (50C073). Nonzero case re-reads DWORD [ESI+8] (50C07A), then BYTE [EDX] (50C07D) and stores BYTE [0x1D99A48] (50C07F); zero case leaves [0x1D99A48] unchanged. 50C085 stores CL to BYTE [0x1D99A56]. Do not substitute cached [0x1D99A60] for tail pointer read. CL restoration derives from saved initial byte if a nonempty inner iteration ran; empty groups do not change CL.\n; \n; SURROUNDING FACTS / LIMITS:\n; • A:34–40 gives native call windows chain 500D29→502380→5023D1→50A790→50A799→50BF90, not full surrounding bodies. X.TRUNCATED=true, depth_boundary at 0x500CC0 with 1 omitted data reference. Do not claim exhaustive caller graph beyond freeze.\n; • R:46–62 documents payload base0x1D280C4, 20-byte stride, fields +0/+1/+2/+3/+4/+6/+8/+C, producer instructions 48D20E/48D228/48E34B/48E3AC and event base0x1D28344; these neighboring instruction claims were NOT independently re-exported here. Root itself corroborates accesses +0,+8,+C,+10,+11 and strides only. Field-purpose names remain documentary context.\n; • E:264–269 distinguishes logical slot table0x1D27B10 stride0xD0 from presentation actor table0x1D972C0 stride0x9C; reported seven actors is NOT enforced by root. R:11–20 caller registration vs direct tick calls is documentary context, with argument/call bytes separately verified from X.\n; • Historical contradictory claim: E:293 says route0 means fail/not Attack; R:41–44 explicitly refutes that dispatch interpretation and distinguishes possible producer rewrite. Do not propagate either as root semantics. R:60–62 leaves +10/+11 writers open PC-24, whereas E:311 attributes them more broadly; writer identity not proved by this discovery.\n; • H:58 reports historical CORRIGE and still-missing ABI/GPR/RAM/bindings. This is historical status, not present acceptance. No inherited C/verdict or semantic purpose promoted. Fresh frame/group/global types, storage extents, full writers/readers, runtime alias policy, and capacity validity remain unproved. Labels such as result_event and g_GfSequenceContextSharedB are identifiers only.\n; TARGET ASM COMPLETE\n0050BF90: sub     esp, 8; Préambule du dispatch de séquence: latch le payload, l'acteur base+0x9C*slot, les groupes d'événements et les masques de cibles. Les records d'événement ont un stride de 0x18.\n0050BF93: push    ebp\n0050BF94: push    esi\n0050BF95: mov     esi, [esp+10h+arg_0]\n0050BF99: xor     ebp, ebp; Logical Exclusive OR\n0050BF9B: mov     g_GfSequenceContextSharedB, esi; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050BFA1: mov     word ptr dword_1D99A5C, bp\n0050BFA8: mov     eax, [esi+8]\n0050BFAB: mov     cl, [esi]\n0050BFAD: mov     result_event, eax\n0050BFB2: mov     eax, ecx\n0050BFB4: and     eax, 0FFh; Logical AND\n0050BFB9: mov     byte ptr [esp+10h+var_4], cl\n0050BFBD: mov     word ptr dword_1D99A90, bp\n0050BFC4: mov     byte ptr dword_1D99A6C+1, 0\n0050BFCB: lea     edx, [eax+eax*4]; Load Effective Address\n0050BFCE: shl     edx, 3; Shift Logical Left\n0050BFD1: sub     edx, eax; Integer Subtraction\n0050BFD3: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address\n0050BFDA: mov     edx, [esi+0Ch]\n0050BFDD: mov     dword_1D99A40, eax\n0050BFE2: xor     eax, eax; Logical Exclusive OR\n0050BFE4: mov     al, [esi+11h]\n0050BFE7: mov     dword_1D99A74, edx\n0050BFED: inc     eax; Increment by 1\n0050BFEE: cmp     eax, ebp; Compare Two Operands\n0050BFF0: jle     short loc_50C06E; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050BFF2: push    ebx\n0050BFF3: push    edi\n0050BFF4: lea     ebx, [esi+10h]; Load Effective Address\n0050BFF7: mov     [esp+18h+arg_0], eax\n0050BFFB: xor     eax, eax; Logical Exclusive OR\n0050BFFD: mov     al, [ebx]\n0050BFFF: test    eax, eax; Logical Compare\n0050C001: jle     short loc_50C057; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050C003: mov     edx, [ebx-8]\n0050C006: mov     edi, eax\n0050C008: mov     cl, [edx]\n0050C00A: mov     eax, 1\n0050C00F: shl     eax, cl; Shift Logical Left\n0050C011: or      bp, ax; Logical Inclusive OR\n0050C014: mov     al, [edx+3]\n0050C017: test    al, 8; Logical Compare\n0050C019: jz      short loc_50C03B; Jump if Zero (ZF=1)\n0050C01B: mov     ecx, 1\n0050C020: shr     al, 6; Shift Logical Right\n0050C023: mov     [esp+18h+var_8], ecx\n0050C027: mov     byte ptr dword_1D99A84, al\n0050C02C: mov     cl, al\n0050C02E: mov     eax, [esp+18h+var_8]\n0050C032: shl     eax, cl; Shift Logical Left\n0050C034: or      word ptr dword_1D99A90, ax; Logical Inclusive OR\n0050C03B: mov     cl, [edx+2]\n0050C03E: and     cl, 30h; Logical AND\n0050C041: cmp     cl, 30h ; '0'; Compare Two Operands\n0050C044: jnz     short loc_50C04D; Jump if Not Zero (ZF=0)\n0050C046: or      byte ptr dword_1D99A6C+1, 2; Logical Inclusive OR\n0050C04D: add     edx, 18h; Add\n0050C050: dec     edi; Decrement by 1\n0050C051: jnz     short loc_50C008; Jump if Not Zero (ZF=0)\n0050C053: mov     ecx, [esp+18h+var_4]\n0050C057: mov     eax, [esp+18h+arg_0]\n0050C05B: add     ebx, 14h; Add\n0050C05E: dec     eax; Decrement by 1\n0050C05F: mov     [esp+18h+arg_0], eax\n0050C063: jnz     short loc_50BFFB; Jump if Not Zero (ZF=0)\n0050C065: pop     edi\n0050C066: mov     word ptr dword_1D99A5C, bp\n0050C06D: pop     ebx\n0050C06E: mov     al, [esi+10h]\n0050C071: test    al, al; Logical Compare\n0050C073: mov     byte_1D99A5A, al\n0050C078: jz      short loc_50C084; Jump if Zero (ZF=1)\n0050C07A: mov     edx, [esi+8]\n0050C07D: mov     al, [edx]\n0050C07F: mov     byte_1D99A48, al\n0050C084: pop     esi\n0050C085: mov     byte_1D99A56, cl\n0050C08B: pop     ebp\n0050C08C: add     esp, 8; Add\n0050C08F: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x50bf90",
+        "end": "0x50bff2",
+        "successors": [
+          "0x50bff2",
+          "0x50c06e"
+        ]
+      },
+      {
+        "start": "0x50bff2",
+        "end": "0x50bffb",
+        "successors": [
+          "0x50bffb"
+        ]
+      },
+      {
+        "start": "0x50bffb",
+        "end": "0x50c003",
+        "successors": [
+          "0x50c003",
+          "0x50c057"
+        ]
+      },
+      {
+        "start": "0x50c003",
+        "end": "0x50c008",
+        "successors": [
+          "0x50c008"
+        ]
+      },
+      {
+        "start": "0x50c008",
+        "end": "0x50c01b",
+        "successors": [
+          "0x50c01b",
+          "0x50c03b"
+        ]
+      },
+      {
+        "start": "0x50c01b",
+        "end": "0x50c03b",
+        "successors": [
+          "0x50c03b"
+        ]
+      },
+      {
+        "start": "0x50c03b",
+        "end": "0x50c046",
+        "successors": [
+          "0x50c046",
+          "0x50c04d"
+        ]
+      },
+      {
+        "start": "0x50c046",
+        "end": "0x50c04d",
+        "successors": [
+          "0x50c04d"
+        ]
+      },
+      {
+        "start": "0x50c04d",
+        "end": "0x50c053",
+        "successors": [
+          "0x50c008",
+          "0x50c053"
+        ]
+      },
+      {
+        "start": "0x50c053",
+        "end": "0x50c057",
+        "successors": [
+          "0x50c057"
+        ]
+      },
+      {
+        "start": "0x50c057",
+        "end": "0x50c065",
+        "successors": [
+          "0x50bffb",
+          "0x50c065"
+        ]
+      },
+      {
+        "start": "0x50c065",
+        "end": "0x50c06e",
+        "successors": [
+          "0x50c06e"
+        ]
+      },
+      {
+        "start": "0x50c06e",
+        "end": "0x50c07a",
+        "successors": [
+          "0x50c07a",
+          "0x50c084"
+        ]
+      },
+      {
+        "start": "0x50c07a",
+        "end": "0x50c084",
+        "successors": [
+          "0x50c084"
+        ]
+      },
+      {
+        "start": "0x50c084",
+        "end": "0x50c090",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 15
+  }
+}

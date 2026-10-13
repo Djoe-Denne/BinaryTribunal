@@ -1,0 +1,255 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION — run01 / g17 / discover-g17. Claimed task_mv424nwl_000j_ozakl1. Read-only; no IDA/live/Git/ledger/file edits/delegation. Shared factual context for independent producer forks, not production or approval.\n; \n; AUTHORITY / PRIMARY INVENTORY\n; Contract: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:11,16–21,38–40. Ownership: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:133–140.\n; Primary sources (N1–N6; assembly always JSON line 18, chunk bytes lines 12–16, CFG line 19):\n; N1 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x502380.json\n; N2 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x505C00.json\n; N3 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x509C80.json\n; N4 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50B2A0.json\n; N5 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x506690.json\n; N6 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50B830.json\n; All identify 32-bit FF8_EN.exe; input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570; exported_utc 2026-10-11T16:38:25.140966+00:00 (metadata lines 4–10). Names, parameter labels and semicolon comments are historical annotations, not purpose evidence. Direct E8 targets below were checked against raw relative-displacement bytes.\n; EA / instructions / half-open chunk / CFG blocks / incoming xrefs:\n; 502380 /243/[502380,502628)/36/1; 505C00 /42/[505C00,505C6E)/13/204; 509C80 /30/[509C80,509CC3)/6/8; 50B2A0 /400/[50B2A0,50B7E6)/57/1; 506690 /154/[506690,506853)/28/281; 50B830 /195/[50B830,50BADF)/41/1.\n; Xref-section lines N1:267,N2:116,N3:62,N4:447,N5:229,N6:330. N1 incoming call 500D29 from 500CC0. N4/N6 incoming references 50A7F1/50A812 from 50A790 are iscode=false/type=1: address references, NOT direct invocation evidence. N3 has eight direct xrefs, including B3AA3B with no containing function.\n; \n; SHARED NATIVE ABI / STORAGE\n; Entries consume stack arguments and use plain RET, not RET n. Call sites explicitly clean DWORD argument slots: caller-cleanup observations, not authenticated C prototypes. N2 consumes two arguments; others one. Do not assume meaningful EAX-return contracts for N2/N3 from labels.\n; Actor arithmetic computes 1D972C0 + 0x9C*index: N1 @5023DD–5023F3, N5 @506696–5066A4/506811–506827, N4 @50B647–50B664. N1 reads signed WORD indices; N5 uses zeroed EAX then BYTE; N4 masks 0xFF. Actor fields touched include WORD +0, BYTE +2/+4/+8/+61, DWORD +8, pointers +74/+84/+8C. Do NOT conflate with domain-slot array 1D27B10/stride 0xD0: C:/Users/djden/source/repos/retro-eng/re-ff8/ff8re/battle_state.py:80–83,110–120. Sibling rewrite SlotState is abstract, not a packed presentation ABI: C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/core/include/ff8iso/core/battle_state.hpp:85–132.\n; N4/N6 loops base 1D972C0 to 1D97494 span three 0x9C records. N1 loops base+8 to 1D9749C (same three). Neighbor 50AED0 loops to 1D97704, seven strides. Different loop bounds do not prove one universal array size.\n; Byte-verified globals: actor pointer 1D99A40; descriptor pointer 1D99A50; event cursor 1D99A60; callback slot 21DFEC4; backup 21DFEC8; callback-return store 1D96AAC; signed-tested file-result DWORD 1D99C8; control word 1D97704; flags DWORD 1D96A9C; marker DWORD 1D99A64; callback argument address 1D99A78. A50 is pointer storage, distinct from pointed descriptor bytes.\n; \n; PER-EA OBSERVATIONS (instruction citations use N#:18)\n; N1 502380: @502387–50239A reads WORD [input+2], sign-extends, adds FFFFFF9A (minus 0x66), unsigned-compares 0x11, indirect-jumps through absolute table 502628. Native table-bound test covers 0x66..0x77, not proof of historical “0x64..0x77” wording. @5023A6/50240A/50254A/50256E call 500DD0; stores put input at returned-node+10, sometimes zero BYTE node+0D, explicitly EAX=8. Several other arms set EAX=0xF. @5023D1 calls 50A790(input). @502453/5024B1 call 505C00; @5025AB/502617 call 509C80. @502582–5025A5 reloads input+4 into ESI, reads DWORD [ESI+0C], MOV AX,[ESI+82], then PUSH EAX: preserve partial-register/full-DWORD argument provenance; do not silently zero-extend from guessed prototypes. @5025DC–5025F8 shifts DWORD 1 by CL from input+0A (x86 count masking); @502606 reads BYTE +0B. @5024EC bytes 81 0E 00 00 00 01 prove immediate 0x01000000 despite IDA “VIT…” mask label.\n; N2 505C00: @505C01 tests full second-argument DWORD; @505C0E tests actor BYTE +8 mask 0x18; @505C14 tests BH mask 0x10; @505C1F clears it (0x1000 in EBX). @505C19 tests actor DWORD +8C. @505C26 pushes callback literal 505C70; @505C2B calls 506C10, checks EAX, writes actor to node+0C and BL to node+15. @505C44–505C5C traverses actor+8C until null or back to original actor; on BYTE actor+0 bit 2, masks WORD [actor+74 pointer +2C] with FFBF. With null +8C, @505C63 calls 505BC0(actor, full EBX). Blanket byte truncation or invented BOOL return is unsupported.\n; N3 509C80: @509C85–89 unsigned-compares actor BYTE +4 with 0x10. @509C8C calls 509C10; @509C91 fetches actor+74. If BYTE pointed-state+3 is nonzero, @509CA1–AB reads BYTE +0, SUB EDX,EAX; NEG EDX; SBB DL,DL; AND EDX,EAX; stores DL to +3. Preserve exact carry/partial-register sequence, not prose simplification. Other path compares zero-extended state BYTE +0 with EAX and calls 505CB0(actor,EAX) @509CB9 only on inequality. Neither helper has a run01 native packet.\n; N5 506690: @50669A indexes actor by input BYTE +0; @5066AB calls 493D80(input) BEFORE later local actor gates. @5066BC conditionally calls 50E510(3) when actor BYTE +4==0x8C. Gates use actor flag bits 2/0x10, input WORD +4/DWORD +8, actor BYTE +8 mask 0x1A and WORD state+2C mask 0x140. @5066FD/506741 call 506B50(actor, WORD-derived DWORD, input+8 DWORD). @506729 calls 508360 with list 1D986A8 and callback 506860, then writes BL to returned node+0C. @506797/506841 call 509C80. @5067FF calls 5068B0(input). @506804–506847 tests input BYTE +0C against 0xFF; when unequal, indexes another actor by that byte, reads WORD input+10/DWORD input+14, calls 50A070,506620 with zero-extended BYTE +0D,509C80, then 5068B0(input+0C). Accesses fit two 12-byte-shaped portions within a 0x18 record; purposes unassigned. Flags DWORD 1D96A9C bit 10000000 is tested @50679F and cleared @5067C6.\n; N4/N6: node BYTE +0D is unsigned-bounded by 9 /7 (@50B2B4/@50B84A); tables 50B7E8/50BAE0. Both read node+10 as another pointer. Both call 508580 then 501190 initially, 50AFC0 for setup, 50AF20(descriptor WORD +6,address 21DFEC4), and use 50AED0/50AE80. Labels do not authenticate helper purpose.\n; N4 @50B4AA–50B4C5 loads callback from 21DFEC4, backs up to 21DFEC8, pushes 1D99A78, CALL EAX @50B4B9, stores return to 1D96AAC, then RELOADS descriptor pointer 1D99A50. @50B4C8–DE tests descriptor BYTE +1==0xFE, passes zero-extended WORD +4/global BYTE 1D28DF7 as DWORD arguments to 56DCE0. N6 analogous callback @50B9A1/return-store @50B9A3. N4 @50B790–50B7BE conditionally calls 50A670 when BYTE 1D99A81==3; historical “presentation-only/no state effects” comments are not proof. N4 @50B677–69A and N6 @50BA8A–94 OR AH,0x10 into helper EAX then push full EAX to 505C00. Actor/descriptor reloads after helpers are real native operations, not interchangeable with captured pointers. Final arms write BYTE pointed-object+1=0xFF, clear flags bit 0x10/marker 1D99A64, set EAX=2 (@50B7C3–E5 /50BAB8–DE).\n; \n; SURROUNDING NATIVE SOURCES\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50BF90.json:18 @50BF9B–50BFE7 stores input pointer to 1D99A50,input+8 to cursor 1D99A60,base+0x9C*input[0] to 1D99A40,input+0C to 1D99A74. @50C04D advances event cursor 0x18; @50C05B group cursor 0x14. Native loops support strides independently of wiki.\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50AF20.json:18 @50AF2E–37 decrements effect argument/signed-checks [0,0x190); @50AF49 reads table C81774,@50AF88 reads C81DB8/optionally CALL EAX; @50AFAE writes selected logic pointer through second argument. Establishes table-backed callback path, not current runtime target.\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50A690.json:18 @50A697–A0 advances global 1D99A60 by 0x18 BEFORE calling 506690(old cursor); @50A6A5 reloads after helper. Also inspected frozen 505BC0,50A670,50A6C0,50AED0,50AFC0,506C10 in that native directory.\n; \n; KNOWLEDGE / UNCERTAINTIES\n; GrepAI first, common root retro-eng including sibling code; QMD CLI for knowledge. ff8-wiki has 188 docs, updated 4 days ago: not run01 validation. Historical QMD sources: C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/concepts/battle-action-sequencing.md:22–36 describes registration/payload; C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/gf-asset-loading-and-authoring.md:117–128 describes roles and notes impact-chain exception. Treat purpose descriptions as background, not independent verdicts. Historical target decomp headers only (no C bodies read) say A!=B and Push IDB=oui; not run01 validation.\n; Raw tables 502628,50B7E8,50BAE0 are OUTSIDE exported chunks. CFG successors/IDA case comments do not replace raw selector-to-arm bytes. Missing run01 neighbor packets include 50A790,509C10,505CB0,50AE80,50B810,493D80,5068B0: precise ABI/purpose/side effects unresolved. Indirect callback targets, invalid indices, ring integrity, aliasing across helpers/runtime ordering are unsettled. No semantic classification, reconstructed target C, promotion or completeness verdict.\n; TARGET ASM COMPLETE\n00502380: push    ebx; Dispatches a single battle task by opcode (a1+2). Handles task family 0x64..0x77 and forwards presentation tasks to BattleActionSequence_DispatchTick (opcode 'h').\n00502381: push    esi\n00502382: mov     esi, [esp+8+ctx]\n00502386: push    edi\n00502387: mov     cx, [esi+2]\n0050238B: movsx   eax, cx; Move with Sign-Extend\n0050238E: add     eax, 0FFFFFF9Ah; switch 18 cases\n00502391: cmp     eax, 11h; Compare Two Operands\n00502394: ja      def_50239A; jumptable 0050239A default case, case 107\n0050239A: jmp     ds:jpt_50239A[eax*4]; Relay dispatch: 'p'=0x70 camera barrier BdLinkTask_1; 'q'=0x71 actor-ready sub_502F30; 't'=0x74 escape worker sub_502F90. Return 8 = child spawned until node+1=0xFF.\n005023A1: push    offset sub_502670; jumptable 0050239A case 102\n005023A6: call    au_re_BdLinkTask; Call Procedure\n005023AB: add     esp, 4; Add\n005023AE: mov     [eax+10h], esi\n005023B1: mov     byte ptr [eax+0Dh], 0\n005023B5: mov     eax, 8\n005023BA: pop     edi\n005023BB: pop     esi\n005023BC: pop     ebx\n005023BD: retn; Return Near from Procedure\n005023BE: push    esi; jumptable 0050239A case 103\n005023BF: call    sub_5027D0; Call Procedure\n005023C4: add     esp, 4; Add\n005023C7: mov     eax, 0Fh\n005023CC: pop     edi\n005023CD: pop     esi\n005023CE: pop     ebx\n005023CF: retn; Return Near from Procedure\n005023D0: push    esi; jumptable 0050239A case 104\n005023D1: call    BattleActionSequence_DispatchTick; Appelle d'abord BattleActionSequence_PreparePayloadContext(payload), puis route sur payload[1] via double indirection du latch 0x1D99A50.\n005023D6: add     esp, 4; Add\n005023D9: pop     edi\n005023DA: pop     esi\n005023DB: pop     ebx\n005023DC: retn; Return Near from Procedure\n005023DD: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 105\n005023E1: lea     ecx, [eax+eax*4]; Load Effective Address\n005023E4: shl     ecx, 3; Shift Logical Left\n005023E7: sub     ecx, eax; Integer Subtraction\n005023E9: mov     ax, word ptr g_BattlePresentationActors[ecx*4]\n005023F1: test    al, 2; Logical Compare\n005023F3: lea     ecx, ds:1D972C0h[ecx*4]; Load Effective Address\n005023FA: jz      def_50239A; jumptable 0050239A default case, case 107\n00502400: or      al, 10h; Logical Inclusive OR\n00502402: push    offset sub_502ED0; callback\n00502407: mov     [ecx], ax\n0050240A: call    au_re_BdLinkTask; Call Procedure\n0050240F: add     esp, 4; Add\n00502412: mov     [eax+10h], esi\n00502415: mov     byte ptr [eax+0Dh], 0\n00502419: mov     eax, 8\n0050241E: pop     edi\n0050241F: pop     esi\n00502420: pop     ebx\n00502421: retn; Return Near from Procedure\n00502422: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 106\n00502426: push    0\n00502428: lea     edx, [eax+eax*4]; Load Effective Address\n0050242B: shl     edx, 3; Shift Logical Left\n0050242E: sub     edx, eax; Integer Subtraction\n00502430: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address\n00502437: push    eax\n00502438: call    sub_509CD0; Call Procedure\n0050243D: movsx   eax, word ptr [esi+8]; Move with Sign-Extend\n00502441: push    3; animId\n00502443: lea     ecx, [eax+eax*4]; Load Effective Address\n00502446: shl     ecx, 3; Shift Logical Left\n00502449: sub     ecx, eax; Integer Subtraction\n0050244B: lea     edx, ds:1D972C0h[ecx*4]; Load Effective Address\n00502452: push    edx; actor\n00502453: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n00502458: add     esp, 10h; Add\n0050245B: mov     eax, 0Fh\n00502460: pop     edi\n00502461: pop     esi\n00502462: pop     ebx\n00502463: retn; Return Near from Procedure\n00502464: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 110\n00502468: push    1\n0050246A: push    17h\n0050246C: push    eax\n0050246D: call    sub_503190; Call Procedure\n00502472: add     esp, 0Ch; Add\n00502475: mov     eax, 0Fh\n0050247A: pop     edi\n0050247B: pop     esi\n0050247C: pop     ebx\n0050247D: retn; Return Near from Procedure\n0050247E: movsx   ecx, word ptr [esi+8]; jumptable 0050239A case 114\n00502482: push    0\n00502484: push    17h\n00502486: push    ecx\n00502487: call    sub_503190; Call Procedure\n0050248C: add     esp, 0Ch; Add\n0050248F: mov     eax, 0Fh\n00502494: pop     edi\n00502495: pop     esi\n00502496: pop     ebx\n00502497: retn; Return Near from Procedure\n00502498: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 111\n0050249C: movsx   edx, word ptr [esi+0Ah]; Move with Sign-Extend\n005024A0: lea     ecx, [eax+eax*4]; Load Effective Address\n005024A3: push    edx; animId\n005024A4: shl     ecx, 3; Shift Logical Left\n005024A7: sub     ecx, eax; Integer Subtraction\n005024A9: lea     edx, ds:1D972C0h[ecx*4]; Load Effective Address\n005024B0: push    edx; actor\n005024B1: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n005024B6: add     esp, 8; Add\n005024B9: mov     eax, 0Fh\n005024BE: pop     edi\n005024BF: pop     esi\n005024C0: pop     ebx\n005024C1: retn; Return Near from Procedure\n005024C2: push    esi; jumptable 0050239A case 112\n005024C3: call    au_re_BdLinkTask_1; Call Procedure\n005024C8: add     esp, 4; Add\n005024CB: pop     edi\n005024CC: pop     esi\n005024CD: pop     ebx\n005024CE: retn; Return Near from Procedure\n005024CF: xor     edi, edi; jumptable 0050239A case 108\n005024D1: mov     esi, offset dword_1D972C8\n005024D6: mov     bl, 2\n005024D8: test    [esi-8], bl; Logical Compare\n005024DB: jz      short loc_5024EC; Jump if Zero (ZF=1)\n005024DD: push    1\n005024DF: push    18h\n005024E1: push    edi\n005024E2: call    sub_503190; Call Procedure\n005024E7: add     esp, 0Ch; Add\n005024EA: jmp     short loc_5024F2; Jump\n005024EC: or      dword ptr [esi], offset VIT_0_STATUS_MASK?; Logical Inclusive OR\n005024F2: add     esi, 9Ch; Add\n005024F8: inc     edi; Increment by 1\n005024F9: cmp     esi, offset dword_1D9749C; Compare Two Operands\n005024FF: jl      short loc_5024D8; Jump if Less (SF!=OF)\n00502501: pop     edi\n00502502: pop     esi\n00502503: mov     eax, 0Fh\n00502508: pop     ebx\n00502509: retn; Return Near from Procedure\n0050250A: xor     edi, edi; jumptable 0050239A case 109\n0050250C: mov     esi, offset dword_1D972C8\n00502511: mov     bl, 2\n00502513: test    [esi-8], bl; Logical Compare\n00502516: jz      short loc_502527; Jump if Zero (ZF=1)\n00502518: push    0\n0050251A: push    18h\n0050251C: push    edi\n0050251D: call    sub_503190; Call Procedure\n00502522: add     esp, 0Ch; Add\n00502525: jmp     short loc_50252D; Jump\n00502527: and     dword ptr [esi], 0FEFFFFFFh; Logical AND\n0050252D: add     esi, 9Ch; Add\n00502533: inc     edi; Increment by 1\n00502534: cmp     esi, offset dword_1D9749C; Compare Two Operands\n0050253A: jl      short loc_502513; Jump if Less (SF!=OF)\n0050253C: pop     edi\n0050253D: pop     esi\n0050253E: mov     eax, 0Fh\n00502543: pop     ebx\n00502544: retn; Return Near from Procedure\n00502545: push    offset domain__BattleTask_EscapeRelay74_Worker; jumptable 0050239A case 116\n0050254A: call    au_re_BdLinkTask; Call Procedure\n0050254F: add     esp, 4; Add\n00502552: mov     [eax+10h], esi\n00502555: mov     byte ptr [eax+0Dh], 0\n00502559: mov     eax, 8\n0050255E: pop     edi\n0050255F: pop     esi\n00502560: pop     ebx\n00502561: retn; Return Near from Procedure\n00502562: push    offset domain__BattleTask_ActorReadyRelay71_Worker; jumptable 0050239A case 113\n00502567: jmp     short loc_50256E; Jump\n00502569: push    offset BS_StageMusicAndActorInit; jumptable 0050239A case 115\n0050256E: call    au_re_BdLinkTask; Call Procedure\n00502573: add     esp, 4; Add\n00502576: mov     [eax+10h], esi\n00502579: mov     eax, 8\n0050257E: pop     edi\n0050257F: pop     esi\n00502580: pop     ebx\n00502581: retn; Return Near from Procedure\n00502582: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 117\n00502586: mov     esi, [esi+4]\n00502589: lea     ecx, [eax+eax*4]; Load Effective Address\n0050258C: mov     edx, [esi+0Ch]\n0050258F: shl     ecx, 3; Shift Logical Left\n00502592: sub     ecx, eax; Integer Subtraction\n00502594: mov     ax, [esi+82h]\n0050259B: push    edx\n0050259C: push    eax\n0050259D: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address\n005025A4: push    edi\n005025A5: call    sub_50A070; Call Procedure\n005025AA: push    edi; actor\n005025AB: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync\n005025B0: add     esp, 10h; Add\n005025B3: mov     eax, 0Fh\n005025B8: pop     edi\n005025B9: pop     esi\n005025BA: pop     ebx\n005025BB: retn; Return Near from Procedure\n005025BC: movsx   eax, word ptr [esi+8]; jumptable 0050239A cases 118,119\n005025C0: lea     edx, [eax+eax*4]; Load Effective Address\n005025C3: shl     edx, 3; Shift Logical Left\n005025C6: sub     edx, eax; Integer Subtraction\n005025C8: cmp     cx, 76h ; 'v'; Compare Two Operands\n005025CC: mov     edi, dword_1D972C8[edx*4]\n005025D3: lea     ebx, ds:1D972C0h[edx*4]; Load Effective Address\n005025DA: jnz     short loc_5025EB; Jump if Not Zero (ZF=0)\n005025DC: mov     cl, [esi+0Ah]\n005025DF: mov     eax, 1\n005025E4: shl     eax, cl; Shift Logical Left\n005025E6: push    0\n005025E8: push    eax\n005025E9: jmp     short loc_5025F8; Jump\n005025EB: mov     cl, [esi+0Ah]\n005025EE: mov     edx, 1\n005025F3: shl     edx, cl; Shift Logical Left\n005025F5: push    edx\n005025F6: push    0\n005025F8: call    sub_509BA0; Call Procedure\n005025FD: mov     ecx, eax\n005025FF: add     esp, 8; Add\n00502602: not     ecx; One's Complement Negation\n00502604: and     edi, ecx; Logical AND\n00502606: mov     cl, [esi+0Bh]\n00502609: test    cl, cl; Logical Compare\n0050260B: jz      short loc_50260F; Jump if Zero (ZF=1)\n0050260D: or      edi, eax; Logical Inclusive OR\n0050260F: push    edi\n00502610: push    ebx\n00502611: call    sub_509CD0; Call Procedure\n00502616: push    ebx; actor\n00502617: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync\n0050261C: add     esp, 0Ch; Add\n0050261F: pop     edi; jumptable 0050239A default case, case 107\n00502620: pop     esi\n00502621: mov     eax, 0Fh\n00502626: pop     ebx\n00502627: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x502380",
+        "end": "0x50239a",
+        "successors": [
+          "0x50239a",
+          "0x50261f"
+        ]
+      },
+      {
+        "start": "0x50239a",
+        "end": "0x5023a1",
+        "successors": [
+          "0x5023a1",
+          "0x5023be",
+          "0x5023d0",
+          "0x5023dd",
+          "0x502422",
+          "0x502464",
+          "0x50247e",
+          "0x502498",
+          "0x5024c2",
+          "0x5024cf",
+          "0x50250a",
+          "0x502545",
+          "0x502562",
+          "0x502569",
+          "0x502582",
+          "0x5025bc",
+          "0x50261f"
+        ]
+      },
+      {
+        "start": "0x5023a1",
+        "end": "0x5023be",
+        "successors": []
+      },
+      {
+        "start": "0x5023be",
+        "end": "0x5023d0",
+        "successors": []
+      },
+      {
+        "start": "0x5023d0",
+        "end": "0x5023dd",
+        "successors": []
+      },
+      {
+        "start": "0x5023dd",
+        "end": "0x502400",
+        "successors": [
+          "0x502400",
+          "0x50261f"
+        ]
+      },
+      {
+        "start": "0x502400",
+        "end": "0x502422",
+        "successors": []
+      },
+      {
+        "start": "0x502422",
+        "end": "0x502464",
+        "successors": []
+      },
+      {
+        "start": "0x502464",
+        "end": "0x50247e",
+        "successors": []
+      },
+      {
+        "start": "0x50247e",
+        "end": "0x502498",
+        "successors": []
+      },
+      {
+        "start": "0x502498",
+        "end": "0x5024c2",
+        "successors": []
+      },
+      {
+        "start": "0x5024c2",
+        "end": "0x5024cf",
+        "successors": []
+      },
+      {
+        "start": "0x5024cf",
+        "end": "0x5024d8",
+        "successors": [
+          "0x5024d8"
+        ]
+      },
+      {
+        "start": "0x5024d8",
+        "end": "0x5024dd",
+        "successors": [
+          "0x5024dd",
+          "0x5024ec"
+        ]
+      },
+      {
+        "start": "0x5024dd",
+        "end": "0x5024ec",
+        "successors": [
+          "0x5024f2"
+        ]
+      },
+      {
+        "start": "0x5024ec",
+        "end": "0x5024f2",
+        "successors": [
+          "0x5024f2"
+        ]
+      },
+      {
+        "start": "0x5024f2",
+        "end": "0x502501",
+        "successors": [
+          "0x5024d8",
+          "0x502501"
+        ]
+      },
+      {
+        "start": "0x502501",
+        "end": "0x50250a",
+        "successors": []
+      },
+      {
+        "start": "0x50250a",
+        "end": "0x502513",
+        "successors": [
+          "0x502513"
+        ]
+      },
+      {
+        "start": "0x502513",
+        "end": "0x502518",
+        "successors": [
+          "0x502518",
+          "0x502527"
+        ]
+      },
+      {
+        "start": "0x502518",
+        "end": "0x502527",
+        "successors": [
+          "0x50252d"
+        ]
+      },
+      {
+        "start": "0x502527",
+        "end": "0x50252d",
+        "successors": [
+          "0x50252d"
+        ]
+      },
+      {
+        "start": "0x50252d",
+        "end": "0x50253c",
+        "successors": [
+          "0x502513",
+          "0x50253c"
+        ]
+      },
+      {
+        "start": "0x50253c",
+        "end": "0x502545",
+        "successors": []
+      },
+      {
+        "start": "0x502545",
+        "end": "0x502562",
+        "successors": []
+      },
+      {
+        "start": "0x502562",
+        "end": "0x502569",
+        "successors": [
+          "0x50256e"
+        ]
+      },
+      {
+        "start": "0x502569",
+        "end": "0x50256e",
+        "successors": [
+          "0x50256e"
+        ]
+      },
+      {
+        "start": "0x50256e",
+        "end": "0x502582",
+        "successors": []
+      },
+      {
+        "start": "0x502582",
+        "end": "0x5025bc",
+        "successors": []
+      },
+      {
+        "start": "0x5025bc",
+        "end": "0x5025dc",
+        "successors": [
+          "0x5025dc",
+          "0x5025eb"
+        ]
+      },
+      {
+        "start": "0x5025dc",
+        "end": "0x5025eb",
+        "successors": [
+          "0x5025f8"
+        ]
+      },
+      {
+        "start": "0x5025eb",
+        "end": "0x5025f8",
+        "successors": [
+          "0x5025f8"
+        ]
+      },
+      {
+        "start": "0x5025f8",
+        "end": "0x50260d",
+        "successors": [
+          "0x50260d",
+          "0x50260f"
+        ]
+      },
+      {
+        "start": "0x50260d",
+        "end": "0x50260f",
+        "successors": [
+          "0x50260f"
+        ]
+      },
+      {
+        "start": "0x50260f",
+        "end": "0x50261f",
+        "successors": [
+          "0x50261f"
+        ]
+      },
+      {
+        "start": "0x50261f",
+        "end": "0x502628",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 36
+  }
+}

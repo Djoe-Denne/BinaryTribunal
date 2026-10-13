@@ -1,0 +1,38 @@
+COMMON_COMPACTION g06 — 0x464850 tex_vram_rectangle (factual, provenance-cited)
+
+== FROZEN NATIVE PACKET ==
+Source: .tmp/ff8-decomp-semantics-20261011-r01/native/0x464850.json (sha256 72f5e85aeda3168bd1cd97ff40d4407399a0fbbdd3d5589f58031f5fc9e7b087; IDB FF8_EN.exe - 9.3.i64, input sha256 064d466b..., exported 2026-10-11T16:38:25Z; 32-bit).
+- Single chunk [0x464850,0x464997), 119 insns, 20 blocks (native-groups.json:580-587; ledger battle-graph-ledger.json:280024-280037 status "named_not_semantically_audited").
+- Sole code target: call sub_467550 @0x46486D; 5 args pushed (ebp,ebx,esi,edi @0x464869-6C + push offset dword_1CB6040 @0x464864); caller-side add esp,0x14 @0x464874 (cdecl, 5 args).
+- ABI of 0x464850: 4 cdecl args, inclusive bounds (x, y, x+w-1, y+h-1) — proven by validated callers (decomp/0x45BD30__copyblockToVRAM.md:33,114; decomp/0x45BDD0__moveVramRectToVram.md:64-69,116). ebx/ebp/esi/edi saved; no meaningful return (callers ignore helper result; EAX=1 set by callers after return).
+- Coordinate math (packet asm): arg0/arg2 rounded (cdq; and 0x3F; add) then sar 6 => signed /64; arg1/arg3 (and 0xFF; add) then sar 8 => /256 (0x464872-0x4648AC). Signed zone compares jg/jle @0x4648BD/0x464938/0x464954.
+- Write effects (hex-verified + validated): loop @0x4648F4 mov dword [ecx],0xFFFFFFFF, stride add 0x8980, 3 iterations (mov edx,3); target lea ecx,[idx*4+0x1CB636C] (0x8980 = 0x44C*0x20 arithmetic identity). Optional block gated by [0x1CCFD90]!=0 (0x464903 region) computing idx*0x470, second gate [0x1CAD28C+8 (0x1CAD294)]!=0, then mov ecx,0x100; lea edi,[edx+0x1CAD28C]; rep stosd (0x400 bytes cleared per selected slot row). Final mov dword [eax*4+0x1CBECEC],0xFFFFFFFF; ret via pops.
+- xrefs_to: exactly 6, all code type 17: 0x45B6D8(fn 0x45B660), 0x45BAB8(0x45BA60), 0x45BC10(0x45BB00), 0x45BDBA(0x45BD30), 0x45BE5D(0x45BDD0), 0x45BFA7(0x45BEE0). Matches address_catalog.md:469 ("Rectangle VRAM complet (6 xrefs)") and graph native-groups.json:2649-2661.
+
+== VALIDATED SEMANTIC FACTS (prior campaign, parent-gated) ==
+- Role: DIRTY/INVALIDATION marker on texture-page tables, NOT a blit and NOT a proven GPU upload (3 votes; render_textures_tim.md:223-230). Catalog names copyblock/moveVramRect "trop large"; "VRAM" is LIKELY, unproven by name (semantic/0x45BD30.md:10-11; semantic/0x45BDD0.md:5,21).
+- Callee 0x467550: [0x467550,0x4675B7), non_investigated_static (ledger:280206-280219). render_textures_tim.md:224-225 (3 votes): overlap-clears ([eax-0x10C]=0 over 0x40 slots stride 0x44C on intersect). semantic/0x45BD30.md:28 conservatively states "cible réelle 0x467550 à 0x46486D, cinq arguments nettoyés à 0x464874, rôle inconnu".
+- Caller 0x45BD30 copyblockToVRAM (validated C9-V-R-SOL 2026-10-09, §5.6 OK): copies u16 rect to CPU buffer 0x1B47818 (base+2*(1024*y+x), stride 0x800), then notifies inclusive bounds via 0x464850 @0x45BDBA, add esp,0x10; height 0 still notifies (semantic/0x45BD30.md:9-28).
+- Caller 0x45BDD0 moveVramRectToVram (validated 2026-10-09): 16-bit-word rect copy within same 0x1B47818 base, rep movsd/movsb, dirty on DESTINATION inclusive bounds @0x45BE5D; ABI (rect, dst_x, dst_y) cdecl per caller 0x505DAD/0x505DB2 (semantic/0x45BDD0.md:11-17).
+- Caller 0x45B660 sub_45B660 [0x45B660,0x45B6E6), non_investigated: calls 0x45B6F0 @0x45B697 then 0x464850 @0x45B6D8 (ledger:5416-5427); invoked from BdLink_GF_battle_input_and_texture_upload 0x500900 with (__int16*)(0x1D969C8+(pp^1)*0x5C) frame ping-pong, under flags&4, followed by Gpu_DrawOTagCurrent (decomp/0x500900__BdLink_GF_battle_input_and_texture_upload.md:43,145-148).
+- Callers 0x45BA60/0x45BB00: per CLOSURE_sky-path.md:20,50,56, 0x45BB00 is target of g_GpuPrimDispatchOpaque[0x80] handler 0x462E80 (GP0 MoveImage VRAM->VRAM, backdrop tile composition), "thunks E1-E7 -> famille 0x45BAxx-0x45BC60" — so 2 of 6 xrefs sit on the GP0-MoveImage path (that doc's verdict (c)).
+- Caller 0x45BEE0 isDravingOverlayImage [0x45BEE0,0x45BFB8), named_not_semantically_audited: calls 0x464220 @0x45BEEE then 0x464850 @0x45BFA7 (ledger:5446-5457).
+- Pipeline placement (validated): upload chain ring 32x16B -> BattleTimQueue_FlushToVram 0x505D20 case 0 -> copyblockToVRAM -> mirror 0x1B47818 + tex_vram_rectangle dirty (0x505D47 / 0x45BD61-DBA) (CLOSURE_tim-vram-tpage.md:125). Battle CLUT refs encode (y<<6)|(x>>4) via sub_45B920 (same doc:127).
+- Shared data context: 0x1CB6040 = TPage context table base, ctx stride 0x44C (semantic/0x464DB0.md:15; semantic/0x465CE0.md:16 "P=1CB6040+0x44C*(32*d+p)", alt table S=1CAD228+0x470*p; 0x1CAD28C = 0x1CAD228+0x64 arithmetic identity). 0x1CB636C = 0x1CB6040+0x32C; fields +0x324/328/32C also tested by World_loadTextureVRAM_updateAnim 0x464BD0 (render_textures_tim.md:240-243). 0x1CCFD90 gate also used by Gfx_SelectTexturePageDrawList.
+- Address-order neighbours (ledger): 0x4647A0 Gfx_DestroyTexturePageSlots [..,0x464804) precedes; next function after is 0x464BD0 World_loadTextureVRAM_updateAnim, then 0x464DB0 Gfx_UploadCLUTSlot / 0x464F70 Gfx_AllocTexturePageSlot / 0x4653B0 isUpdateVRAMOrSomething / 0x465720 (g05, owned by discover-g05).
+- Mission history: C12 0x464850 status N (never engaged prior) (missions/ff8-decomp-semantics-2026-10-11.md:148; PLAN_gfx...:79).
+
+== UNCERTAIN / OPEN (do not promote) ==
+1. Tile-grid orientation: asm maps args0/2 -> /64 and args1/3 -> /256; render_textures_tim.md:226 phrases "x:(x+0xFF)/256, y:(y+0x3F)/64" — naming swap unresolved; exact seeds 64x256 vs GPU pages open (PC-10).
+2. Meaning of end-queue past 0x464950 open (PC-08).
+3. 0x467550 role: "inconnu" (semantic) vs overlap-clear detail (render, 3 votes) — both preserved, not reconciled here.
+4. Second gate [0x1CAD294]!=0 inside the rep-stosd block comes from my hex decode of the packet; the validated doc names only the [0x1CCFD90] gate — flagged for author forks to verify.
+5. "VRAM mirror" identity and buffer capacity remain LIKELY interpretations; height-512 clamp absent (PC-07).
+6. Xref counts elsewhere in docs (38 xrefs = copyblockToVRAM; 9 xrefs = moveVramRectToVram) concern callers, not this EA; packet's 6 is authoritative for 0x464850.
+
+== TOOL/INFRA NOTES ==
+- GrepAI: list_workspaces returned [] (no applicable index) -> native grep used per policy. QMD query tool call failed (MCP error); knowledge base unavailable this run — all knowledge facts are repo-doc sourced. No files modified; no IDB/Git/ledger/live actions.
+
+== SOURCE INVENTORY ==
+.tmp/ff8-decomp-semantics-20261011-r01/native/0x464850.json; docs/missions/ff8-decomp-semantics-2026-10-11-run01/{native-groups.json:49-53,580-587,2649-2661, CONTRACT.md}; docs/missions/ff8-decomp-semantics-2026-10-11.md:142-152; docs/tech/systems/render_textures_tim.md:188-243; docs/tech/reference/address_catalog.md:469; docs/tech/investigation/battle-static-discovery/: semantic/{0x45BD30,0x45BDD0,0x45BE70,0x464DB0:15,0x465CE0:16}.md; decomp/{0x45BD30,0x45BDD0,0x500900:43,145-148,0x509E00:72}.md; driver-passthrough/{CLOSURE_tim-vram-tpage.md:125-128, CLOSURE_sky-path.md:20,50,56}; battle-graph-ledger.json:5416-5457,278364-278452,280024-280037,280206-280219.
+Native packet + frozen docs preserved intact for independent C/semantic author forks. STOP.

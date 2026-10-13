@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:07.824879+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x45E9D0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "sub_45E9D0",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "e7411e13cc8f744afae5360ca5ac80c2b6f74136cf5df8d6dbbfca33ee44ddec",
+  "before_sha256": "815a14747ea2847645719a0558e495e7cb9a440b986286674632c7e2fa60074e",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLeaf global-state operation. Shifts DWORD history 0x1CA8A64->60 and 68->64, and copies byte 0x1CA8A2B into 0x1CA8A6B. Uses signed low-WORD inputs and x87 products; extracts integer bit patterns through floating stores and addition of 0x80000000. OVERWRITES raw DWORDs 0x1CA8A74/78/7C, unlike the accumulating sibling 0x45EBF0. Signed JGE/JLE clamps write DWORD images in [-32768,32767] at 0x1CA8A34/38/3C; separate unsigned byte-range checks populate bytes 0x1CA8A68/69/6A and status bits. Do not replace FSTP bit extraction with FISTP, a C cast or a presumed Q12 shift. Exact FP-environment behavior and source-level return meaning remain unpromoted.\nLive ASM anchors: 0x45e9de, 0x45e9e9, 0x45ea32, 0x45ea48, 0x45ea9c, 0x45eab4, 0x45eb80, 0x45ebdf. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x45E9D0.json.",
+  "anchors": [
+    {
+      "ea": "0x45e9de",
+      "hex": "a3608aca01",
+      "text": "mov     dword_1CA8A60, eax"
+    },
+    {
+      "ea": "0x45e9e9",
+      "hex": "0fbf05308aca01",
+      "text": "movsx   eax, word ptr dword_1CA8A30"
+    },
+    {
+      "ea": "0x45ea32",
+      "hex": "dd5c2400",
+      "text": "fstp    [esp+8+var_8]"
+    },
+    {
+      "ea": "0x45ea48",
+      "hex": "8915748aca01",
+      "text": "mov     dword_1CA8A74, edx"
+    },
+    {
+      "ea": "0x45ea9c",
+      "hex": "7d16",
+      "text": "jge     short loc_45EAB4"
+    },
+    {
+      "ea": "0x45eab4",
+      "hex": "81faff7f0000",
+      "text": "cmp     edx, 7FFFh"
+    },
+    {
+      "ea": "0x45eb80",
+      "hex": "7617",
+      "text": "jbe     short loc_45EB99"
+    },
+    {
+      "ea": "0x45ebdf",
+      "hex": "880d6a8aca01",
+      "text": "mov     byte ptr dword_1CA8A68+2, cl"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "88e9522a0fff33285ff973646455333a715119daf0571c9e928275a9f754a5ca",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x45E9D0-idb-before.json"
+}

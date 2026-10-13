@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:17.198663+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x460860",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gte_MVMVA",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "8f25a0dc50457d11a48bb5525244b3a8bc49f23af3f61f9735d2c0c3454f1806",
+  "before": "[glm-triple 2026-09-15]\n/* Gte_MVMVA @ 0x460860\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 177 instr, size 0x28E, end exclusive 0x460AEE. cdecl, 1 int arg, retn C3 x3.\n * sub esp,8 / add esp,8 at each retn (QWORD scratch). Leaf: no CALL.\n * cmd SAR bits: cv=(>>13)&3, mx=(>>17)&3, v=(>>15)&3; TEST EDI,80000h = sf.\n * Matrix: s16 3x3 at xyz1 + (mx<<5). TR: DWORD[3] at world_CameraWorldSpaceX+(cv<<5).\n * Vector: v==3 IR word movsx 34/38/3C else Vn stride 8 at 1CA8A10/12/14.\n * sf: fmul dbl_B69600 (2^-12). Dot via FPU + CONST 2^52+2^51 @ 0xB693D8 + add 80000000h.\n * MAC DWORD 74/78/7C; cv!=3 adds TR then restamp. Sat DWORD 34/38/3C.\n * FLAG 1CA92F8: MOV 0; MAC1 MOV 81000000h; MAC2 OR 80800000h; MAC3 OR 400000h.\n * cmp / jge (7D) / jle (7E) SIGNED vs 0FFFF8000h and 7FFFh. No ja/jbe/jg.\n * EAX leftover = MAC3 if in s16 range, else FLAG after OR 400000h.\n * Occupancy 1+2 / TEST AL,2 / +44h / 0xD0 / 0x1D0 / OT 07/24: ABSENT.\n */\n\nextern int xyz1[];\nextern int world_CameraWorldSpaceX[];\nextern double dbl_B69600;\nextern int dword_1CA8A10;\nextern int dword_1CA8A14;\nextern int dword_1CA8A34;\nextern int dword_1CA8A38;\nextern int dword_1CA8A3C;\nextern int dword_1CA8A74;\nextern int dword_1CA8A78;\nextern int dword_1CA8A7C;\nextern unsigned int dword_1CA92F8;\n\nint __cdecl Gte_MVMVA(int cmd)\n{\n    int cv;\n    int mx;\n    int v;\n    short *m;\n    int *tr;\n    double vx;\n    double vy;\n    double vz;\n    int mac1;\n    int mac2;\n    int mac3;\n\n    cv = (cmd >> 13) & 3;\n    mx = (cmd >> 17) & 3;\n    v = (cmd >> 15) & 3;\n\n    m = (short *)((char *)xyz1 + (mx << 5));\n    tr = (int *)((char *)world_CameraWorldSpaceX + (cv << 5));\n\n    if (v == 3) {\n        vx = (double)(short)dword_1CA8A34;\n        vy = (double)(short)dword_1CA8A38;\n        vz = (double)(short)dword_1CA8A3C;\n    } else {\n        vx = (double)*(short *)((char *)&dword_1CA8A10 + (v << 3));\n        vy = (double)*(short *)((char *)&dword_1CA8A10 + (v << 3) + 2);\n        vz = (double)*(short *)((char *)&dword_1CA8A14 + (v << 3));\n    }\n\n    if (cmd & 0x80000) {\n        vx *= dbl_B69600;\n        vy *= dbl_B69600;\n        vz *= dbl_B69600;\n    }\n\n    /* fadd CONST_4.503601774854144e15 @ 0xB693D8; fstp qword; add 80000000h */\n    mac1 = (int)((double)m[2] * vz + (double)m[1] * vy + (double)m[0] * vx);\n    mac2 = (int)((double)m[5] * vz + (double)m[4] * vy + (double)m[3] * vx);\n    mac3 = (int)((double)m[8] * vz + (double)m[7] * vy + (double)m[6] * vx);\n\n    dword_1CA8A74 = mac1;\n    dword_1CA8A78 = mac2;\n    dword_1CA8A7C = mac3;\n\n    if (cv != 3) {\n        mac1 += tr[0];\n        mac2 += tr[1];\n        mac3 += tr[2];\n        dword_1CA8A74 = mac1;\n        dword_1CA8A78 = mac2;\n        dword_1CA8A7C = mac3;\n    }\n\n    dword_1CA92F8 = 0;\n\n    if (mac1 < -0x8000) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = (int)0xFFFF8000;\n    } else if (mac1 > 0x7FFF) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = 0x7FFF;\n    } else {\n        dword_1CA8A34 = mac1;\n    }\n\n    if (mac2 < -0x8000) {\n        dword_1CA8A38 = (int)0xFFFF8000;\n        dword_1CA92F8 |= 0x80800000u;\n    } else if (mac2 > 0x7FFF) {\n        dword_1CA8A38 = 0x7FFF;\n        dword_1CA92F8 |= 0x80800000u;\n    } else {\n        dword_1CA8A38 = mac2;\n    }\n\n    if (mac3 < -0x8000) {\n        dword_1CA8A3C = (int)0xFFFF8000;\n        dword_1CA92F8 |= 0x400000u;\n        return (int)dword_1CA92F8;\n    }\n    if (mac3 > 0x7FFF) {\n        dword_1CA8A3C = 0x7FFF;\n        dword_1CA92F8 |= 0x400000u;\n        return (int)dword_1CA92F8;\n    }\n\n    dword_1CA8A3C = mac3;\n    return mac3;\n}",
+  "before_sha256": "4e071b5c5320640f5d88ca514c54d6638091d15c3e7169de35e19c50d0617b82",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nOne command DWORD selects addend/coefficient banks by bit slices [14:13]/[18:17], each with 32-byte stride, and an input vector by [16:15]: selector 3 reads signed low WORD feedback at 0x1CA8A34/38/3C, others select 8-byte input records. Bit19 enables extra x87 scaling. After the x87 transform and bit extraction, addend selector 3 bypasses integer addends; other selectors add three DWORDs with 32-bit wrap before clamping. Raw outputs are 0x1CA8A74/78/7C; signed s16 clamps write DWORDs at 0x1CA8A34/38/3C. Saturation masks are 0x81000000, 0x80800000, 0x00400000, so third-only saturation does not force bit31. Machine EAX is raw third output when it does not saturate, otherwise status. Exact hardware equivalence and source prototype remain unpromoted.\nLive ASM anchors: 0x46086e, 0x460876, 0x46087e, 0x4608f9, 0x4609ef, 0x460a00, 0x460a30, 0x460ab1. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x460860.json.",
+  "anchors": [
+    {
+      "ea": "0x46086e",
+      "hex": "c1f90d",
+      "text": "sar     ecx, 0Dh"
+    },
+    {
+      "ea": "0x460876",
+      "hex": "c1f811",
+      "text": "sar     eax, 11h"
+    },
+    {
+      "ea": "0x46087e",
+      "hex": "c1fa0f",
+      "text": "sar     edx, 0Fh"
+    },
+    {
+      "ea": "0x4608f9",
+      "hex": "f7c700000800",
+      "text": "test    edi, 80000h"
+    },
+    {
+      "ea": "0x4609ef",
+      "hex": "83f903",
+      "text": "cmp     ecx, 3"
+    },
+    {
+      "ea": "0x460a00",
+      "hex": "03d1",
+      "text": "add     edx, ecx"
+    },
+    {
+      "ea": "0x460a30",
+      "hex": "7d12",
+      "text": "jge     short loc_460A44"
+    },
+    {
+      "ea": "0x460ab1",
+      "hex": "0d00004000",
+      "text": "or      eax, 400000h"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:41:35.375007+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x50E510",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "BS_DispatchStageById",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "63046aa988fa55edfdbaca734b8daee28f975b19580f83d96d5b6341f4e20936",
+  "before_sha256": "b5af3ce25408fc0beed9e22d22fffb548e807049c008285014004c964755a8a2",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nDispatches on the low byte of a global selector; unsigned JA against 162 rejects larger values. EAX is zeroed before the test; the out-of-range target is the RET at 0x50EE1A, so this path returns zero without a helper call. All 163 native table DWORDs at [0x50EE1C,0x50F0A8) are verified: entry[i]=0x50E531+14*i for i=0..162. Each 14-byte stub loads the incoming stack argument, pushes it, directly calls its native target, cleans exactly 4 bytes and returns that target's machine EAX. Stub/callee bytes and table match the PE. This proves selector-to-stub dispatch and forwarding, not the semantics of the 163 destination routines or a business stage identity inferred from names.\nLive ASM anchors: 0x50e510, 0x50e516, 0x50e51e, 0x50e524, 0x50e52a, 0x50e531, 0x50e536, 0x50ee1a. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x50E510.json.",
+  "anchors": [
+    {
+      "ea": "0x50e510",
+      "hex": "8b0d9089d901",
+      "text": "mov     ecx, BattleStageNumber"
+    },
+    {
+      "ea": "0x50e516",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x50e51e",
+      "hex": "81f9a2000000",
+      "text": "cmp     ecx, 0A2h"
+    },
+    {
+      "ea": "0x50e524",
+      "hex": "0f87f0080000",
+      "text": "ja      def_50E52A"
+    },
+    {
+      "ea": "0x50e52a",
+      "hex": "ff248d1cee5000",
+      "text": "jmp     ds:jpt_50E52A[ecx*4]"
+    },
+    {
+      "ea": "0x50e531",
+      "hex": "8b442404",
+      "text": "mov     eax, [esp+arg_0]"
+    },
+    {
+      "ea": "0x50e536",
+      "hex": "e8b5ca0000",
+      "text": "call    BS_Stage000"
+    },
+    {
+      "ea": "0x50ee1a",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "f28894d279df2e0eae4eaad6e0c030d91e9724b00584df7ea3ae894a266dd3e6",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x50E510-idb-before.json"
+}

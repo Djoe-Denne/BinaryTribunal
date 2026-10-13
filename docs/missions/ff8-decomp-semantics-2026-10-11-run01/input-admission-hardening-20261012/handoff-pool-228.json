@@ -1,0 +1,128 @@
+{
+  "at": "2026-10-12T17:07:27.583Z",
+  "task": "task_mv44sib0_00bu_gjr7xw",
+  "session": "ses_ecf06b36dffeMgC8tcmpH9YUTI",
+  "context": {
+    "decision": {
+      "mode": "fresh",
+      "reason": "Contrat run01 §Contexte 6 : réconciliation dans une nouvelle session, seulement après les dépendances A+B et remise de leurs livrables gelés. Aucun recyclage de contexte auteur.",
+      "worktree": false
+    },
+    "revision": 1,
+    "error": null,
+    "state": "ready"
+  },
+  "model": {
+    "id": "gpt-6-astra",
+    "providerID": "openai",
+    "variant": "xhigh"
+  },
+  "expected": {
+    "id": "openai/gpt-6-astra",
+    "provider": "openai",
+    "reasoningEffort": "xhigh",
+    "intelligenceScore": 52,
+    "averageCostPerTask": 2.31,
+    "benchmarkCostPerTask": 2.31,
+    "accessMode": "unknown",
+    "available": true,
+    "reserve": true
+  },
+  "manifestSha256": "db0841dadb54fcd2ad1f321de108591e103afe94edd46c6cc067e580dcf38661",
+  "checks": [
+    {
+      "file": "c_a.md",
+      "sha256": "25e0535f61e6e6d88c696a53458c9574458bf016d731c79cce9567176f5756bf",
+      "bytes": 19709
+    },
+    {
+      "file": "c_b.md",
+      "sha256": "36f87065374c6500de251f791bdb209c05c9aa555f0a168460df1b2b95b33988",
+      "bytes": 16759
+    },
+    {
+      "file": "0x506690.json",
+      "sha256": "a06164a315f2bbd28ca6608c24aeacb164898dd4b1565e7cb495a84e9acbe6e6",
+      "bytes": 42638
+    },
+    {
+      "file": "common-compaction.md",
+      "sha256": "f785a0931af7bb175c494b885cc51feab037139d05521e1686d110f79a2e671c",
+      "bytes": 9987
+    },
+    {
+      "file": "native-manifest.json",
+      "sha256": "f4e352725018a99049fd60ab8275f969a756c2b640ddc43058a729d0579c4c68",
+      "bytes": 1816
+    },
+    {
+      "file": "native-asm-001.txt",
+      "sha256": "3aa7fabd699f38d92b179c4fc5329a79fd1729234d36d7766c19957c3b3cc053",
+      "bytes": 1490
+    },
+    {
+      "file": "native-asm-002.txt",
+      "sha256": "dd9b96a9ed139fafcf9c36e78272aa404b87a27544b10473710f98ecbed6e153",
+      "bytes": 1129
+    },
+    {
+      "file": "native-asm-003.txt",
+      "sha256": "ed30ec384e8816e6da924b5a24985387d02817e9593dbab5ef2d06889d056954",
+      "bytes": 1037
+    },
+    {
+      "file": "native-asm-004.txt",
+      "sha256": "28901f544b5896325e692be76d76047f751002f2ec0812f22861ed3e5a4f649b",
+      "bytes": 1030
+    },
+    {
+      "file": "native-asm-005.txt",
+      "sha256": "ab681cad73c09ae2be603f42a773a140691c1631d90ac0c03a2969a9739e8822",
+      "bytes": 1221
+    },
+    {
+      "file": "native-asm-006.txt",
+      "sha256": "465b00e4a779e4e8f413a40593de1530bedcc82fbd2b96e596e40a40f2bd7a64",
+      "bytes": 1227
+    },
+    {
+      "file": "native-asm-007.txt",
+      "sha256": "bc1dddb87fd9960c5a8e0e39f3b014ebebd5eea0bf292421ffa8f7fa8fe9ffe2",
+      "bytes": 109
+    },
+    {
+      "file": "native-bytes-001.txt",
+      "sha256": "8deeb2f3a336360159718b858f229fa27fd63aebc4f984b7debd58c66ad09e93",
+      "bytes": 1097
+    },
+    {
+      "file": "native-metadata.json",
+      "sha256": "04af2f3cea0fbf37a3576fc9b3b159052ba275b1bc34312e7bbf67490b630e75",
+      "bytes": 34225
+    }
+  ],
+  "latestMessage": {
+    "id": "msg_mv5h6bio_0033_v0ms96",
+    "fromName": "pool-228",
+    "toName": "lead",
+    "content": "Blocage task_mv44sib0_00bu_gjr7xw (C R g17/0x506690) avant analyse : le chemin présumé inputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690 est absent ; lecture de inputs/ et du CONTRACT refusée. Merci de fournir le chemin exact de projection R autorisée, gel natif + A/B indépendants et manifest/hashes/provenance. Context Mode absent du catalogue (namespace vide) : merci de confirmer les lectures bornées via read dans cette projection, sans shell/API/index. Je n’ai consulté aucun verdict antérieur ni modifié de fichier.",
+    "delivered": true,
+    "read": false,
+    "timeCreated": 1791823041744
+  },
+  "nativeTail": [
+    {
+      "id": "msg_130f9bcee001UNhaPMigU0lyZo",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_130f9d64d0010vXBz2U67Fyk3Q",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_130f9f2fb001d8D0rHIXkvht8G",
+      "type": "idle"
+    }
+  ],
+  "text": "[INPUT-ADMISSION-HARDENING-v1] GO reprise même tâche task_mv44sib0_00bu_gjr7xw, rôle C R 0x506690, membre pool-228, session ses_ecf06b36dffeMgC8tcmpH9YUTI. Répertoire C:/Users/djden/source/repos/retro-eng/re-ff8.\nAdmission native vérifiée: attendu persisté openai/gpt-6-astra / xhigh, observé openai/gpt-6-astra / xhigh, override=0, provider+ID+variante PASS. Avenant run01 2026-10-12: anciennes mentions Sol high/Astra high/Pool25 non opposables, pas de recalcul contre la politique courante.\nVotre contexte R reste fresh sans fork, révision 1. A/B sont des sessions distinctes héritant uniquement de l'explorateur factuel, NON du lead ou d'un auteur. CONTRAT run01, Contexte et classification point5 (ligne53), autorisation utilisateur explicite: «Productions C et sémantique en parallèle, forks indépendants depuis la même session explorateur gelée ... Pas d'héritage des productions des frères ni du lead». Cette disposition de mission précise le défaut fresh du guide général; ne pas falsifier/effacer les champs fork du manifeste.\nAuteur A: ses_ecf0f28c4ffefcGSgSV8OqMDDF; source explorateur ses_ed41fc6c0ffeWZh5hkKIUXKy89; frontière exclusive msg_12be1cd49001BowbZIVfuXq4cy; candidat SHA256 25e0535f61e6e6d88c696a53458c9574458bf016d731c79cce9567176f5756bf. Indépendance et dépôts vérifiés par le parent, pas de validation sémantique implicite.\nAuteur B: ses_ecf0ef4b6ffeylUDkiCf8ikcJF; source explorateur ses_ed41fc6c0ffeWZh5hkKIUXKy89; frontière exclusive msg_12be1cd49001BowbZIVfuXq4cy; candidat SHA256 36f87065374c6500de251f791bdb209c05c9aa555f0a168460df1b2b95b33988. Indépendance et dépôts vérifiés par le parent, pas de validation sémantique implicite.\nProjection R autorisée gelée: manifeste SHA256 db0841dadb54fcd2ad1f321de108591e103afe94edd46c6cc067e580dcf38661; 14 fichiers taille+hash vérifiés. Noms native-* sont copies verbatim, correspondance source dans manifeste extérieur. Pas de lecture directe des outputs A/B.\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/manifest.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/c_a.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/c_b.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/0x506690.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/common-compaction.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-manifest.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-002.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-003.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-004.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-005.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-006.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-asm-007.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-bytes-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g17/0x506690/C/native-metadata.json\nUtiliser read précis, sans listing; tranches de 100 lignes pour gros fichiers connus. Profil read inputs/* vérifié. CONTRACT/.tmp non autorisés: contrat utile fourni ici. Ni shell/API/index ni outil de contournement; si donnée/outil indispensable réellement absent, blocage précis.\nLivrable: matrice des divergences A/B citant ASM/bytes, arbitrage sans moyenne, C complet avec couverture, ABI/largeurs/signedness/retours, corrections ou UNCERTAIN/CONFLICT documenté. Même accord A=B doit être confronté aux opcodes.\nSeule sortie C:/Users/djden/source/repos/retro-eng/re-ff8/outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/c_r.md. Pas autre volet/outputs/ledger/histoire/IDB/git/live/délégation. Hashes attestés parent, pas recalcul worker prétendu. Dépôt ≠ promotion. Signaler puis compléter uniquement la tâche assignée."
+}

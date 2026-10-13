@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:38:34.817360+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x50BF90",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "BattleActionSequence_PreparePayloadContext",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "c70c08aec80d33e6800de6f232dd95596e142cc6c2dc5573299724c7174cf60c",
+  "before": "[glm-triple 2026-09-15]\n/* BattleActionSequence_PreparePayloadContext @ 0x50BF90\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 81 instr, size 0x100, end 0x50C090. cdecl, 1 arg, retn C3. FRAME 8.\n * No callees. add esp,8 is epilogue only.\n * Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44 absent.\n * Actor stride 0x9C present. Event stride 0x18. Group walk +0x14.\n * jle SIGNED (7E) at 50BFF0 and 50C001. No ja/jg/setcc/jpt.\n */\n\nextern unsigned char *g_GfSequenceContextSharedB; /* 0x1D99A50 DWORD ptr */\nextern unsigned int dword_1D99A40;               /* presentation actor */\nextern unsigned char byte_1D99A48;               /* first event slot; BYTE store */\nextern unsigned char byte_1D99A56;               /* attacker slot; BYTE CL */\nextern unsigned char byte_1D99A5A;               /* payload[0x10]; BYTE */\nextern unsigned int dword_1D99A5C;               /* WORD target mask (66) */\nextern unsigned int result_event;                /* 0x1D99A60 DWORD [payload+8] */\nextern unsigned int dword_1D99A6C;               /* BYTE at +1 */\nextern unsigned int dword_1D99A74;               /* DWORD [payload+0xC] */\nextern unsigned int dword_1D99A84;               /* BYTE flags>>6 */\nextern unsigned int dword_1D99A90;               /* WORD extra mask (66) */\n\nchar __cdecl BattleActionSequence_PreparePayloadContext(int a1)\n{\n    unsigned char *payload;   /* esi */\n    unsigned short bpMask;    /* BP; WORD OR of 1<<event[0] */\n    unsigned char attacker;   /* CL / var_4 BYTE */\n    unsigned char *grp;       /* ebx; starts payload+0x10, += 0x14 */\n    unsigned char *evt;       /* edx; += 0x18 */\n    unsigned int slot;\n    int outerLeft;            /* [esp+arg_0] reused */\n    unsigned int evtLeft;     /* edi */\n    unsigned char al;\n\n    payload = (unsigned char *)a1;\n    bpMask = 0; /* xor ebp, ebp */\n\n    g_GfSequenceContextSharedB = payload;\n    *(unsigned short *)&dword_1D99A5C = 0; /* 66 */\n\n    result_event = *(unsigned int *)(payload + 8);\n    attacker = payload[0]; /* mov cl,[esi]; BYTE var_4 */\n    slot = attacker;       /* and eax, 0FFh */\n\n    *(unsigned short *)&dword_1D99A90 = 0; /* 66 */\n    *((unsigned char *)&dword_1D99A6C + 1) = 0;\n\n    /* lea edx,[eax+eax*4]; shl edx,3; sub edx,eax; lea eax,1D972C0h[edx*4] */\n    dword_1D99A40 = 0x1D972C0 + slot * 0x9C;\n\n    dword_1D99A74 = *(unsigned int *)(payload + 0xC);\n\n    outerLeft = (int)((unsigned char)payload[0x11] + 1); /* xor eax,eax; mov al; inc */\n    if (outerLeft <= 0) /* 50BFF0 jle SIGNED vs ebp=0; skip ebx/edi */\n        goto loc_50C06E;\n\n    grp = payload + 0x10;\n    do {\n        evtLeft = (unsigned char)grp[0]; /* xor eax,eax; mov al,[ebx] */\n        if ((int)evtLeft <= 0) /* 50C001 jle SIGNED */\n            goto loc_50C057;\n\n        evt = *(unsigned char **)(grp - 8); /* DWORD [ebx-8] */\n        do {\n            /* shl eax,cl then 66 OR BP,AX \u2014 x86 SHL masks CL to 5 bits */\n            bpMask |= (unsigned short)(1u << (evt[0] & 31));\n\n            if (evt[3] & 8) { /* test al,8 / jz loc_50C03B */\n                unsigned char shift = (unsigned char)(evt[3] >> 6); /* shr al,6 */\n                *(unsigned char *)&dword_1D99A84 = shift;\n                *(unsigned short *)&dword_1D99A90 |= (unsigned short)(1u << shift);\n            }\n\n            if ((evt[2] & 0x30) == 0x30) /* and cl,30h; cmp 30h; jnz */\n                *((unsigned char *)&dword_1D99A6C + 1) |= 2;\n\n            evt += 0x18;\n        } while (--evtLeft); /* dec edi; jnz loc_50C008 */\n\n        /* 50C053 mov ecx,[var_4] \u2014 CL := saved payload[0] (only CL used later) */\n        attacker = payload[0];\n\n    loc_50C057:\n        grp += 0x14;\n    } while (--outerLeft); /* dec eax; jnz loc_50BFFB */\n\n    *(unsigned short *)&dword_1D99A5C = bpMask; /* 66 after pop edi */\n\nloc_50C06E:\n    al = payload[0x10];\n    byte_1D99A5A = al; /* always, even if 0 */\n    if (al != 0) { /* jz loc_50C084 */\n        al = *(unsigned char *)(*(unsigned int *)(payload + 8)); /* [esi+8], not result_event alias */\n        byte_1D99A48 = al;\n    }\n    byte_1D99A56 = attacker; /* CL = payload[0] on every path */\n    return (char)al; /* leftover AL; DispatchTick overwrites EAX from SharedB */\n}",
+  "before_sha256": "36dbad324286a6b861f0549e75e43011c70f8d3a6d0304f0ad5dadedaebfa233",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLatches descriptor/global fields and derives actor pointer 0x1D972C0+156*descriptor_byte0 (156=0x9C). Outer count is unsigned byte at descriptor+0x11 plus one (1..256), descriptor stride 20; each descriptor supplies a byte count and pointer to 24-byte records. Aggregates a 16-bit mask using x86-masked variable shifts, another WORD mask for records with byte+3 bit3, and a byte flag when byte+2 has both 0x30 bits set. WORD clears preserve upper DWORD halves. Conditional selector globals are not universally reset: e.g. the first-record byte destination is unchanged when the first count is zero. No calls; detailed battle/GF ownership is not inferred from existing labels.\nLive ASM anchors: 0x50bfcb, 0x50bfd3, 0x50bfed, 0x50c00f, 0x50c034, 0x50c04d, 0x50c05b, 0x50c078. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x50BF90.json.",
+  "anchors": [
+    {
+      "ea": "0x50bfcb",
+      "hex": "8d1480",
+      "text": "lea     edx, [eax+eax*4]"
+    },
+    {
+      "ea": "0x50bfd3",
+      "hex": "8d0495c072d901",
+      "text": "lea     eax, ds:1D972C0h[edx*4]"
+    },
+    {
+      "ea": "0x50bfed",
+      "hex": "40",
+      "text": "inc     eax"
+    },
+    {
+      "ea": "0x50c00f",
+      "hex": "d3e0",
+      "text": "shl     eax, cl"
+    },
+    {
+      "ea": "0x50c034",
+      "hex": "660905909ad901",
+      "text": "or      word ptr dword_1D99A90, ax"
+    },
+    {
+      "ea": "0x50c04d",
+      "hex": "83c218",
+      "text": "add     edx, 18h"
+    },
+    {
+      "ea": "0x50c05b",
+      "hex": "83c314",
+      "text": "add     ebx, 14h"
+    },
+    {
+      "ea": "0x50c078",
+      "hex": "740a",
+      "text": "jz      short loc_50C084"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

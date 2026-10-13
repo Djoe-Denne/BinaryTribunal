@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:25.915100+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x464DB0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gfx_UploadCLUTSlot",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "a227f1027d6e8c3afa333c916f614bac683bcbdac41460861a10a83254f3ed04",
+  "before": "[glm-triple 2026-09-15]\n/* Gfx_UploadCLUTSlot @ 0x464DB0\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 147 instr, size 0x1BF, end 0x464F6F. cdecl, retn C3, no EBP frame (EBP scratch on blit path).\n * EAX: [slot+0x44] if already set; 0 on 0xF0 alloc fail; else 2nd Gfx_CreateDrawList ([slot+0x48]).\n * [slot+0x44]/[+0x48] = draw-lists type 6 / 0xE. NOT GF Exists. NOT occupancy.\n * [pool+0x44] = field on 0xF0 Psx2 object. gfx_driver [ebx+0xA50] / dword_1CCFD88 != occupancy.\n * TPage: SAR 4 &1 <<8 (Y), (tpage&0xF)<<6 (X). CLUT: 66 mov ax [src+0x448], ((w>>6)<<6)+(w&0x3F)<<5 + 1CB602C.\n * dest LEA [eax+ecx*2]; row push 0x800. SAR edx,cl (d3fa) on [slot+4], cl=2-[slot+14h].\n * add esp: 4 / 40h / 18h / 88h / 8 / 2Ch / 88h. jcc = jz/jnz only. No ja/jg, setcc, jpt.\n * TEST AL,2 / OT 07 / code 24 / 0xD0 / 0x1D0 / TIM 0x10: ABSENT.\n */\n\nextern int __cdecl FFGetBufferAddress(void);\nextern unsigned char *__cdecl Gfx_Psx2Lookup_OrPoolAlloc_B7E018(unsigned int nbytes);\nextern void __cdecl Gfx_InitDrawListDesc(int filter, void *desc);\nextern int __cdecl sub_464160(unsigned int *slot);\nextern int __cdecl TexStaging_BlitCLUTAlpha(void *dest, int pitch, unsigned int a3,\n    unsigned int pool_plus_44, unsigned int a5, unsigned int a6, unsigned int a7, void *clut_src);\nextern float *__cdecl Gfx_CreateDrawList(int a1, int type, void *desc, int a4, void *driver_field);\nextern int __cdecl Gfx_GetNested_Plus10_14(int list);\n\nextern unsigned int dword_1CCFD88; /* 0x1CCFD88 full-path gate */\nextern unsigned int dword_1CB602C; /* 0x1CB602C VRAM/pixel base */\nextern unsigned int dword_1CA8A00; /* 0x1CA8A00 degraded filter 2 vs 0 */\n\nvoid *__cdecl Gfx_UploadCLUTSlot(unsigned int *slot, int tpage, int src)\n{\n    unsigned char desc[0x84];\n    unsigned char *drv;\n    unsigned char *pool;\n    unsigned int tpage_y;\n    unsigned int tpage_x;\n    unsigned int clut_word;\n    unsigned int clut_src;\n    unsigned int dest;\n    int shift_x;\n    float *list6;\n    float *listE;\n\n    if (slot[0x44 / 4] != 0)\n        return (void *)slot[0x44 / 4];\n\n    drv = (unsigned char *)FFGetBufferAddress();\n\n    if (dword_1CCFD88 == 0)\n        goto degraded;\n\n    slot[0x60 / 4] = 0;\n    tpage_y = ((unsigned int)(tpage >> 4) & 1u) << 8; /* c1f804 SAR 4; and 1; shl 8 */\n    tpage_x = ((unsigned int)tpage & 0xFu) << 6;\n\n    if (slot[0x5C / 4] == 0) {\n        pool = Gfx_Psx2Lookup_OrPoolAlloc_B7E018(0xF0u);\n        slot[0x5C / 4] = (unsigned int)pool;\n        if (pool == 0)\n            return 0;\n    } else {\n        pool = (unsigned char *)slot[0x5C / 4];\n    }\n\n    Gfx_InitDrawListDesc(0, desc);\n    sub_464160(slot);\n\n    clut_word = *(unsigned short *)(src + 0x448); /* 33C0; 66 8B 82 48 04 00 00 */\n    clut_src = dword_1CB602C\n        + (((((clut_word >> 6) << 6) + (clut_word & 0x3Fu)) << 5));\n\n    *(unsigned int *)(desc + 0x28) = (unsigned int)pool;\n\n    shift_x = (int)slot[0x4 / 4] >> (2 - (int)slot[0x14 / 4]); /* d3fa SAR */\n    dest = dword_1CB602C\n        + (unsigned int)(2 * (((slot[0x8 / 4] + tpage_y) << 10) + tpage_x + (unsigned int)shift_x));\n\n    TexStaging_BlitCLUTAlpha(\n        (void *)dest,\n        0x800,\n        slot[0x60 / 4],\n        *(unsigned int *)(pool + 0x44),\n        slot[0x0C / 4],\n        slot[0x10 / 4],\n        slot[0x14 / 4],\n        (void *)clut_src);\n\n    list6 = Gfx_CreateDrawList(1, 6, desc, 0, *(void **)(drv + 0xA50));\n    slot[0x44 / 4] = (unsigned int)list6;\n    *(unsigned int *)(desc + 0x2C) = 1;\n    *(unsigned int *)(desc + 0x30) = (unsigned int)Gfx_GetNested_Plus10_14((int)list6);\n    listE = Gfx_CreateDrawList(1, 0xE, desc, 0, *(void **)(drv + 0xA50));\n    slot[0x48 / 4] = (unsigned int)listE;\n    return (void *)listE;\n\ndegraded:\n    Gfx_InitDrawListDesc(dword_1CA8A00 != 0 ? 2 : 0, desc);\n    *(unsigned int *)(desc + 0x2C) = 1;\n    *(unsigned int *)(desc + 0x30) = (unsigned int)Gfx_GetNested_Plus10_14((int)slot[0x24 / 4]);\n    slot[0x44 / 4] = (unsigned int)Gfx_CreateDrawList(1, 6, desc, 0, *(void **)(drv + 0xA50));\n    slot[0x48 / 4] = (unsigned int)Gfx_CreateDrawList(1, 0xE, desc, 0, *(void **)(drv + 0xA50));\n    return (void *)slot[0x48 / 4];\n}\n[semantic-triple 2026-09-15] cdecl (slot, tpage_idx, ctx_tpage stride 0x44C) depuis World_loadTextureVRAM_updateAnim 0x464CCC et Gfx_SelectTexturePageDrawList 0x465FAF (add esp,0Ch). Early-return si slot+0x44 deja ecrit (test/jnz @0x464DC5). Full path (gate dword_1CCFD88, writer unique 0x4643ED = probe Texture_FindTexture CLUT 4bpp OK): bake MASQUE ALPHA 4-bit via TexStaging_BlitCLUTAlpha 8 args (@0x464E9C): pour chaque pixel lookup CLUT ([ebx+eax*2] @0x467823), luminance clamp 0Fh (cmp eax,0Fh; jle @0x467840) puis shl eax,0Ch @0x46784A -> buffer slot+0x60 (surface ARGB4444 masques 0xF000/0xF00/0xF0/0xF, pool 0xF0 slot+0x5C via sub_464160), bits 0-11=0. PAS 15bpp+alpha. Source staging dword_1CB602C + 2*((slot+8+Y)<<10 + X + slot+4>>(2-mode)), pitch 0x800; TPAGE decode standard (bit4->Y 0|256 shl 8, bits0-3->X*64 shl 6). Puis draw-lists: type 6 -> slot+0x44 (CreateDrawList @0x464EB3/0x464EBB), type 0xE -> slot+0x48 (@0x464EE2/0x464EEA), desc stack 0x84 (+0x28 pool, +0x2C 1, +0x30 nested). Path degrade (@0x464E",
+  "before_sha256": "9efe6d50877d31918829d96b90ba85482e757acabedd31d806b3b812846855d8",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLazy two-result construction is guarded ONLY by slot DWORD +0x44. If it is already nonzero, returns without repairing/validating +0x48. The two mode paths each call 0x416D82 twice and publish full EAX results to +0x44 and +0x48, without a nonzero test of the first factory result before the second call. One mode has an earlier acquisition-zero exit and invokes 0x4677D0 before the factories. Stack cleanup is grouped, not evidence of equal arities for all helpers. Normal final EAX is the second result; early-existing EAX is +0x44, not a uniform Boolean. No hardware palette upload or ownership guarantee is established by the local body.\nLive ASM anchors: 0x464dc0, 0x464dc5, 0x464e1b, 0x464eb3, 0x464ebb, 0x464eea, 0x464f45, 0x464f62. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x464DB0.json.",
+  "anchors": [
+    {
+      "ea": "0x464dc0",
+      "hex": "8b4644",
+      "text": "mov     eax, [esi+44h]"
+    },
+    {
+      "ea": "0x464dc5",
+      "hex": "0f859a010000",
+      "text": "jnz     loc_464F65"
+    },
+    {
+      "ea": "0x464e1b",
+      "hex": "0f8444010000",
+      "text": "jz      loc_464F65"
+    },
+    {
+      "ea": "0x464eb3",
+      "hex": "e8ca1efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464ebb",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464eea",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    },
+    {
+      "ea": "0x464f45",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464f62",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "at": "2026-10-12T17:04:51.318Z",
+  "task": "task_mv44seh0_00b1_dezhco",
+  "session": "ses_ecf08488affe6V9zlY1H2kZmZa",
+  "context": {
+    "decision": {
+      "mode": "fresh",
+      "reason": "Contrat run01 §Contexte 6 : réconciliation dans une nouvelle session, seulement après les dépendances A+B et remise de leurs livrables gelés. Aucun recyclage de contexte auteur.",
+      "worktree": false
+    },
+    "revision": 1,
+    "error": null,
+    "state": "ready"
+  },
+  "model": {
+    "id": "gpt-6-astra",
+    "providerID": "openai",
+    "variant": "medium"
+  },
+  "expected": {
+    "id": "openai/gpt-6-astra",
+    "provider": "openai",
+    "reasoningEffort": "medium",
+    "intelligenceScore": 50,
+    "averageCostPerTask": 1.54,
+    "benchmarkCostPerTask": 1.54,
+    "accessMode": "unknown",
+    "available": true,
+    "reserve": true
+  },
+  "manifestSha256": "a45db34e16de02e41baa83ddc77d657aba52ee17f3a897a34243b13969d89a11",
+  "checks": [
+    {
+      "file": "semantic_a.md",
+      "sha256": "88641248048b11d5eac0b3c477260c52f5763edc76d6d989d002173d7e7c02c8",
+      "bytes": 7994
+    },
+    {
+      "file": "semantic_b.md",
+      "sha256": "3231852b435a48ce6604b960a7cbe40c170237293220803a157ecd21cb8718dc",
+      "bytes": 7670
+    },
+    {
+      "file": "0x495D80.json",
+      "sha256": "862f2ad69328e5f7b6edf55f2758945567bbedec39d64efd8db945c141c4ad7b",
+      "bytes": 8046
+    },
+    {
+      "file": "common-compaction.md",
+      "sha256": "1972f7b1c746b0faf2526a5bbd825130cf653de28074b5ba617852d5661d6c0c",
+      "bytes": 9140
+    },
+    {
+      "file": "native-manifest.json",
+      "sha256": "c2520220af2cc07e2ca51a5a377911ccc29dbaa7f98f088cc6b99f82fdbc6244",
+      "bytes": 1509
+    },
+    {
+      "file": "native-asm-001.txt",
+      "sha256": "773ffb2ba4649e3f9d33173e76481e5d39e4d89c1410986fbf9a37e7c49fcf45",
+      "bytes": 949
+    },
+    {
+      "file": "native-asm-002.txt",
+      "sha256": "1b3b908af8e4b52266c666c35521de7167a31e136ebad6319be536d55007a5ff",
+      "bytes": 1133
+    },
+    {
+      "file": "native-asm-003.txt",
+      "sha256": "83c75da44c1b72ee998c0da1ce9ca428ede6510372a82d6c945cfe47cf78abdc",
+      "bytes": 978
+    },
+    {
+      "file": "native-asm-004.txt",
+      "sha256": "86a64798922ac4f395715af7cf83327663b2574c1e4b047a9719111efdf3eb9d",
+      "bytes": 1021
+    },
+    {
+      "file": "native-asm-005.txt",
+      "sha256": "027ce8667295491cf523600535b500e5f25e9eabda2f6fc58ba3ee55614467fb",
+      "bytes": 43
+    },
+    {
+      "file": "native-bytes-001.txt",
+      "sha256": "2e2b92596dd58da96afc4387bd2f5c752709fb95738ed5d217018cf9fbb03de5",
+      "bytes": 744
+    },
+    {
+      "file": "native-metadata.json",
+      "sha256": "09c5623085a78f78eadfd3e1f3eef327860fd91a85215a298f284b1907b51fbe",
+      "bytes": 3093
+    }
+  ],
+  "latestMessage": {
+    "id": "msg_mv5hn0w5_0042_yfd86m",
+    "fromName": "pool-219",
+    "toName": "lead",
+    "content": "Blocage précis après lecture du manifest canonique : authors[A].fork et authors[B].fork déclarent tous deux sessionID ses_ed41fcf7cffekHHwWY7knEV8Af, boundary before msg_12be1d66c001P4gg9iFLmtfOLt (lignes 24–30 et 64–70). Ceci contredit le contrat fresh sans fork/checkpoint du lead/autre auteur (§3.2) malgré votre attestation d’indépendance. Je ne peux qualifier les candidats d’indépendants en ignorant cette provenance. Merci de clarifier l’origine de ce fork commun et de fournir l’autorisation contractuelle applicable ou de corriger le manifest si ce champ est erroné, avec nouveau hash. Aucun autre input candidat lu, aucune sortie écrite.",
+    "delivered": true,
+    "read": false,
+    "timeCreated": 1791823821125
+  },
+  "nativeTail": [
+    {
+      "id": "msg_13105941a001GmrLYyx2P7OW0E",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_13105ba9b001yQ9bgYWi381QcZ",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_13105c3b5001n3OyjpVgVCoQKa",
+      "type": "idle"
+    }
+  ],
+  "text": "[INPUT-ADMISSION-HARDENING-v1] GO reprise même tâche task_mv44seh0_00b1_dezhco, rôle semantic R 0x495D80, membre pool-219, session ses_ecf08488affe6V9zlY1H2kZmZa. Répertoire C:/Users/djden/source/repos/retro-eng/re-ff8.\nAdmission native vérifiée: attendu persisté openai/gpt-6-astra / medium, observé openai/gpt-6-astra / medium, override=0, provider+ID+variante PASS. Avenant run01 2026-10-12: anciennes mentions Sol high/Astra high/Pool25 non opposables, pas de recalcul contre la politique courante.\nVotre contexte R reste fresh sans fork, révision 1. A/B sont des sessions distinctes héritant uniquement de l'explorateur factuel, NON du lead ou d'un auteur. CONTRAT run01, Contexte et classification point5 (ligne53), autorisation utilisateur explicite: «Productions C et sémantique en parallèle, forks indépendants depuis la même session explorateur gelée ... Pas d'héritage des productions des frères ni du lead». Cette disposition de mission précise le défaut fresh du guide général; ne pas falsifier/effacer les champs fork du manifeste.\nAuteur A: ses_ecf11a0c3ffeKBQwT4tZ0KmUjp; source explorateur ses_ed41fcf7cffekHHwWY7knEV8Af; frontière exclusive msg_12be1d66c001P4gg9iFLmtfOLt; candidat SHA256 88641248048b11d5eac0b3c477260c52f5763edc76d6d989d002173d7e7c02c8. Indépendance et dépôts vérifiés par le parent, pas de validation sémantique implicite.\nAuteur B: ses_ecf11a03cffeQbe3RBmc6kq57i; source explorateur ses_ed41fcf7cffekHHwWY7knEV8Af; frontière exclusive msg_12be1d66c001P4gg9iFLmtfOLt; candidat SHA256 3231852b435a48ce6604b960a7cbe40c170237293220803a157ecd21cb8718dc. Indépendance et dépôts vérifiés par le parent, pas de validation sémantique implicite.\nProjection R autorisée gelée: manifeste SHA256 a45db34e16de02e41baa83ddc77d657aba52ee17f3a897a34243b13969d89a11; 12 fichiers taille+hash vérifiés. Noms native-* sont copies verbatim, correspondance source dans manifeste extérieur. Pas de lecture directe des outputs A/B.\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/manifest.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/semantic_a.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/semantic_b.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/0x495D80.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/common-compaction.md\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-manifest.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-asm-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-asm-002.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-asm-003.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-asm-004.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-asm-005.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-bytes-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/reconciliation/g14/0x495D80/semantic/native-metadata.json\nUtiliser read précis, sans listing; tranches de 100 lignes pour gros fichiers connus. Profil read inputs/* vérifié. CONTRACT/.tmp non autorisés: contrat utile fourni ici. Ni shell/API/index ni outil de contournement; si donnée/outil indispensable réellement absent, blocage précis.\nLivrable: matrice des divergences A/B citant ASM/bytes, arbitrage sans moyenne, rôle/entrées/sorties/effets, confiance/nom et 3–8 preuves, corrections ou UNCERTAIN/CONFLICT documenté. Même accord A=B doit être confronté aux opcodes.\nSeule sortie C:/Users/djden/source/repos/retro-eng/re-ff8/outputs/ff8-decomp-semantics-20261011-r01/production/g14/0x495D80/semantic_r.md. Pas autre volet/outputs/ledger/histoire/IDB/git/live/délégation. Hashes attestés parent, pas recalcul worker prétendu. Dépôt ≠ promotion. Signaler puis compléter uniquement la tâche assignée."
+}

@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:38:27.457548+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x500900",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "BdLink_GF_battle_input_and_texture_upload",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "a4ed01e3677cb055029989a295e3e5e100ede046620a10115a008549adc7838f",
+  "before_sha256": "a49ab99c49503f98373982ec8ae61dd0b17fc41edc4622750854c9c933475359",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nCalls 0x508420 for five unconditional global heads and a sixth nonzero-guarded head. Stores AL from the third and fifth service call sites, but tests full EAX to clear the conditional head. Final preparation lives in an earlier-address function chunk: the low byte of the index loaded at 0x5007B0 selects packet strides 0x24000 or 0x1C000 from the two bases; cursor/end differ by the selected stride. Full machine return EAX is 0x1D8E058+0x4488*i modulo 2^32, also stored as the final table base at 0x500819. Here 0x4488=17544; no helper call follows the final index load. Exclusive GF/input/upload business purpose is not established.\nLive ASM anchors: 0x50090b, 0x500923, 0x500928, 0x50093a, 0x500942, 0x5007b0, 0x5007fd, 0x500812. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x500900.json.",
+  "anchors": [
+    {
+      "ea": "0x50090b",
+      "hex": "e8107b0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500923",
+      "hex": "e8f87a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500928",
+      "hex": "a2906ad901",
+      "text": "mov     byte_1D96A90, al"
+    },
+    {
+      "ea": "0x50093a",
+      "hex": "e8e17a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500942",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x5007b0",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5007fd",
+      "hex": "890da869d901",
+      "text": "mov     g_BattlePacketEnd, ecx"
+    },
+    {
+      "ea": "0x500812",
+      "hex": "8d04d558e0d801",
+      "text": "lea     eax, ds:1D8E058h[edx*8]"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "589ea53d4ee4634bc110d6dca4f2d0850f5a740942b3e9a7b5b1c4cd24243c0a",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x500900-idb-before.json"
+}

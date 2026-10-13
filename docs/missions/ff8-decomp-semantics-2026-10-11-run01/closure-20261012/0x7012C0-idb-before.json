@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-12T17:37:16.332013+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x7012C0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Mat3S16_MakeRotZ_Q12",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "ae407e1cb4077fe56219f4fc5abe42062e1583258958388b20a33113705ec023",
+  "before": "[glm-triple 2026-09-15]\n/* Mat3S16_MakeRotZ_Q12 @ 0x7012C0\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes.\n * 29 instr, size 0x4C, end 0x70130C. cdecl. retn C3.\n * Callees: Fixed_Sin4096_Q12(int), Fixed_Cos4096_Q12(int); one add esp,8.\n * 5 DWORD zeros (no 66) then 5 WORD stores (prefix 66). EAX leftover = cosine Q12.\n * Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44: absent.\n * No ja/jg. No setcc. No jump table. Distinct from 0x6CF070 (standard Rz m01=-sin).\n */\n\nextern unsigned int __cdecl Fixed_Sin4096_Q12(int);\nextern unsigned int __cdecl Fixed_Cos4096_Q12(int);\n\nunsigned int __cdecl Mat3S16_MakeRotZ_Q12(__int16 angle, _WORD *out_m)\n{\n    _DWORD *dw;\n    int s;\n    int c;\n\n    dw = (_DWORD *)out_m;\n    dw[0] = 0; /* [ecx+0]  DWORD, covers m00/m01 */\n    dw[1] = 0; /* [ecx+4]  DWORD, covers m02/m10 */\n    dw[2] = 0; /* [ecx+8]  DWORD, covers m11/m12 */\n    dw[3] = 0; /* [ecx+0Ch] DWORD, covers m20/m21 */\n    dw[4] = 0; /* [ecx+10h] DWORD: m22 + 2 bytes past 18-byte matrix */\n\n    s = (int)Fixed_Sin4096_Q12((int)angle);\n    c = (int)Fixed_Cos4096_Q12((int)angle);\n\n    out_m[0] = (_WORD)c;    /* [esi+0]   m00 = cos */\n    out_m[3] = (_WORD)(-s); /* [esi+6]   m10 = -sin (NEG EDX then DX) */\n    out_m[1] = (_WORD)s;   /* [esi+2]   m01 = +sin */\n    out_m[4] = (_WORD)c;    /* [esi+8]   m11 = cos */\n    out_m[8] = 0x1000;      /* [esi+10h] m22 = 1.0 Q12 */\n\n    return (unsigned int)c;\n}",
+  "before_sha256": "3fadebdcdf8fd4d893e30dced6def3bd8f608f21f59e6f7436d8523903ba09e8",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nCaptures argument 1 as signed low WORD, clears five DWORDs (20 bytes) at argument 2, and calls 0x56D130 then 0x56D100 with the captured signed value; delayed stack cleanup is 8 bytes. With low-WORD returns s/c, stores WORDs dst+0=c, +2=s, +6=-s modulo 2^16, +8=c, +0x10=0x1000. Full EAX remains the second helper's full return. Exact sine/cosine contracts, handedness and source return intention are not proved by these writes.\nLive ASM anchors: 0x7012cb, 0x7012d0, 0x7012df, 0x7012e7, 0x7012ee, 0x7012f3, 0x701302. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x7012C0.json.",
+  "anchors": [
+    {
+      "ea": "0x7012cb",
+      "hex": "0fbf7c2410",
+      "text": "movsx   edi, [esp+0Ch+arg_0]"
+    },
+    {
+      "ea": "0x7012d0",
+      "hex": "8901",
+      "text": "mov     [ecx], eax"
+    },
+    {
+      "ea": "0x7012df",
+      "hex": "e84cbee6ff",
+      "text": "call    Fixed_Sin4096_Q12"
+    },
+    {
+      "ea": "0x7012e7",
+      "hex": "e814bee6ff",
+      "text": "call    Fixed_Cos4096_Q12"
+    },
+    {
+      "ea": "0x7012ee",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x7012f3",
+      "hex": "668906",
+      "text": "mov     [esi], ax"
+    },
+    {
+      "ea": "0x701302",
+      "hex": "66c746100010",
+      "text": "mov     word ptr [esi+10h], 1000h"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:08.200214+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x45EBF0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "sub_45EBF0",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "acab7f2787de194139cd45f47f3270560c9e0001129c71736086065ca5aa6699",
+  "before_sha256": "353b16d4a44e14c10ef34453eb238e6d1e7f7d2484a153ac557f04d789edf4b5",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLeaf global-state operation with the same two-DWORD history shift and auxiliary byte insertion as 0x45E9D0. Unlike that sibling, reads the old raw DWORDs 0x1CA8A74/78/7C and adds them modulo 2^32 AFTER x87 floating-store bit extraction (LEA old+extracted+0x80000000); writes the new raw values back before signed s16 clamping. Clamp results at 0x1CA8A34/38/3C are DWORD stores. Packed bytes 0x1CA8A68/69/6A have separate unsigned 0..255 checks. This is not floating accumulation of the old DWORDs, FISTP conversion or a proved hardware opcode implementation. Return-register residues and detailed FP environment are not promoted to a source prototype.\nLive ASM anchors: 0x45ebfe, 0x45ec40, 0x45ec5e, 0x45ec74, 0x45ec95, 0x45ecc3, 0x45ed08, 0x45ee03. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x45EBF0.json.",
+  "anchors": [
+    {
+      "ea": "0x45ebfe",
+      "hex": "a3608aca01",
+      "text": "mov     dword_1CA8A60, eax"
+    },
+    {
+      "ea": "0x45ec40",
+      "hex": "a1748aca01",
+      "text": "mov     eax, dword_1CA8A74"
+    },
+    {
+      "ea": "0x45ec5e",
+      "hex": "dd5c2404",
+      "text": "fstp    [esp+0Ch+var_8]"
+    },
+    {
+      "ea": "0x45ec74",
+      "hex": "8d841000000080",
+      "text": "lea     eax, [eax+edx+80000000h]"
+    },
+    {
+      "ea": "0x45ec95",
+      "hex": "8d941100000080",
+      "text": "lea     edx, [ecx+edx+80000000h]"
+    },
+    {
+      "ea": "0x45ecc3",
+      "hex": "8d8c0e00000080",
+      "text": "lea     ecx, [esi+ecx+80000000h]"
+    },
+    {
+      "ea": "0x45ed08",
+      "hex": "81fa0080ffff",
+      "text": "cmp     edx, 0FFFF8000h"
+    },
+    {
+      "ea": "0x45ee03",
+      "hex": "880d6a8aca01",
+      "text": "mov     byte ptr dword_1CA8A68+2, cl"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "41c8ebec3c6180ea9280880d1bf8944cfcc83b4d3de7e832e0945f051ca3720b",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x45EBF0-idb-before.json"
+}

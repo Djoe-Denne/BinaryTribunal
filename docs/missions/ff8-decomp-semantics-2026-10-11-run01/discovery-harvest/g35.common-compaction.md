@@ -1,0 +1,53 @@
+COMMON_COMPACTION g35 — EA 0x687300 (mission run01, team ff8-decomp-semantics-20261011-r01). Group: g35 = {0x687300} solo (native-groups.json:277-282). No target C, no semantic verdict.
+
+== A. VALIDATED NATIVE FACTS (primary evidence: .tmp/ff8-decomp-semantics-20261011-r01/native/0x687300.json, sha256 a87b5fc14f5ea6561e154a688dd9d2706a412047ed383555bf2b55d74e828f6e per native-groups.json:730; IDB FF8_EN.exe - 9.3.i64, 32-bit, input sha256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, exported 2026-10-11T16:38:25Z) ==
+
+A1. Shape: 7 instructions, 1 block, chunk 0x687300–0x68731A (26 bytes = 0x1A), no successors, code_targets=[], zero outgoing calls (native-groups.json:3711-3712 "out":[]). Leaf function.
+
+A2. Bytes/chunk hex (line 15): a184825002 8d0480 8d0480 8d44800e 25ff7f0000 a384825002 c3 — byte-for-byte consistent with disassembly below; sizes 5+3+3+4+5+5+1=26=0x1A.
+
+A3. Instruction stream (assembly, lines 18-19 of packet):
+- 0x687300: mov eax, dword_2508284   (A1 84 82 50 02 → load DWORD at VA 0x02508284)
+- 0x687305: lea eax, [eax+eax*4]    (8D 04 80 → x*5)
+- 0x687308: lea eax, [eax+eax*4]    (8D 04 80 → x*25)
+- 0x68730B: lea eax, [eax+eax*4+0Eh] (8D 44 80 0E → x*125+14)
+- 0x68730F: and eax, 7FFFh           (25 FF 7F 00 00)
+- 0x687314: mov dword_2508284, eax   (A3 84 82 50 02 → store back to 0x02508284)
+- 0x687319: retn                     (C3)
+
+A4. Instruction-level derivations (arithmetic only, from A2/A3): state update seed' = (125*seed + 14) mod 2^15, global DWORD at VA 0x02508284 is sole read AND write operand; return value in EAX = new seed, range [0,32767]. No stack frame, no other register/memory operand touched.
+
+A5. Xrefs (packet lines 26-159): 22 xrefs_to, all type 17 (near call), iscode=true, from exactly 2 functions:
+- 0x687150: 8 call sites @ 0x6871B9, 0x6871C1, 0x6871CA, 0x6871DA, 0x68720F, 0x687221, 0x687234, 0x68724E
+- 0x687470: 14 call sites @ 0x68749C, 0x687581, 0x6875E2, 0x6875F6, 0x687611, 0x687623, 0x6876DE, 0x68775B, 0x687856, 0x6878EC, 0x6878FF, 0x687912, 0x687925, 0x687A11
+Cross-checked: native-groups.json:3711-3717 lists callers [0x687150, 0x687470]. Neither caller is among the 98 exported native packets (verified by directory listing of .tmp/ff8-decomp-semantics-20261011-r01/native/ — 98 files, no 0x687150.json/0x687470.json).
+
+A6. Label "LcgRand15_Mul125Add14_2508284" is name_label_only (packet line 3) — NOT evidence of purpose; the label's descriptive content matches A3/A4 mechanically (constant 125, addend 14, mod 0x7FFF, seed id 2508284), but purpose remains unproven.
+
+== B. VALIDATED DOC CONTEXT (path:line; doc-level claims, not instruction provenance) ==
+- docs/tech/reference/address_catalog.md:582 — row "0x687300 | LcgRand15_Mul125Add14_2508284 | même LCG ; seed dword_2508284" (grouped with a sibling LCG entry just above).
+- obsidian-docs/projects/re-ff8/references/battle-address-catalog.md:224 — "0x6C7CF0 / 0x687300 — LCG x*125+14 & 7FFF on GF_116Quezacotl_RngSeed / dword_2508284" (asserts a paired LCG at 0x6C7CF0 sharing the constant triple; doc claim only).
+- obsidian-docs/projects/re-ff8/references/decomp-function-catalog.md:269 — "0x687300 | LcgRand15_Mul125Add14_2508284 | high | SKIP_NODECOMP".
+- docs/missions/ff8-decomp-semantics-2026-10-11.md:179 — brief row "E20 0x687300 LcgRand15_2508284 H"; same row in .tmp/remaining-functions-inventory-2026-10-11.md:102.
+- docs/tech/investigation/battle-static-discovery/glm-mcp-function-budget.md:494 — "0x687300 | 7 | high | —" (7 instr confirmed = A1).
+- docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:688 — Lot E3b (hubs NIS indeg 20–49) mentions "LCG×2 (GF_116Quezacotl_RngSeed / dword_2508284)"; docs/tech/investigation/battle-static-discovery/closure-audit.md:362 same pairing.
+- battle-graph-ledger.json:174444-174780 — 22 call edges with target_va 0x687300, consistent with A5's 22 xrefs.
+
+== C. HISTORICAL, UNVALIDATED CONCLUSIONS (separate per contract; do not promote) ==
+- docs/tech/investigation/battle-static-discovery/decomp/0x687300__LcgRand15_Mul125Add14_2508284.md (whole file) — prior "[glm-triple 2026-09-15]" C sketch and claims: IDA type "int __cdecl f(void)", cdecl 0 args, "retn C3 not retn N", "Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44: absent", "no CRT _rand (0x343FD), no 69069 camera LCG". Same comment text mirrored in idb-sync-2026-10-07/post_state.json:6587-6598, final_post_state.json:6587-6598, baseline.json:100418-100429, audit_snapshot.json:5253-5256. Parts of it (bytes, lea*3, AND) are independently re-validated here by A2/A3; the rest (calling convention, occupancy/GF slots) is unverified by this pass.
+- docs/tech/investigation/battle-static-discovery/semantic-certainty.md:533 — row "0x687300 | 7 | SKIP_NODECOMP | — | — | — | — | pas de C réconcilié" (historical decision, no reconciled C exists).
+- Doc-level naming "GF_116Quezacotl_RngSeed" for the paired seed (B above): the "_116Quezacotl" suffix is a historical semantic association (GF #116), not established by any native packet in this run.
+- Derived math (not evidence): constants (m=2^15, a=125≡1 mod 4, c=14 odd) satisfy Hull–Dobell ⇒ full period 32768 IF initial seed coprime structure irrelevant here — this is arithmetic reasoning, offered as analysis only.
+
+== D. UNCERTAINTIES / GAPS ==
+1. dword_2508284 (VA 0x02508284): packet lists only xrefs to the FUNCTION, not data xrefs to the GLOBAL; initializer/writers other than 0x687300 unknown. Readers of the seed elsewhere (the consumers that must exist, since 0x687150/0x687470 call 22×) not yet evidenced.
+2. Callers 0x687150 (8 calls) and 0x687470 (14 calls) not exported → their purpose, layout, and why 22 separate call sites cluster there remain unknown; no ASM available in-run.
+3. Sibling LCG 0x6C7CF0 named in docs (B) is NOT in the 98-EA export; unverified natively this run.
+4. Runtime capture CSVs reference raw values 687300 and 2508284 (e.g., tools/_tmp_af3dn_drop/gfx_passthrough_v6.1_campaign.csv:687305 "687300,29,...", captures/csv_reverify.csv:2508289 "2508284,39,...") — schema/units of these captures unverified; flagged as leads only, not evidence.
+5. Return-width/convention: EAX clearly returns new seed (A3/A4), but caller-side handling unobserved.
+
+== E. SOURCE INVENTORY ==
+Primary: .tmp/ff8-decomp-semantics-20261011-r01/native/0x687300.json (all A facts); docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:277-282, 723-731, 3711-3717; CONTRACT.md read in full.
+Docs: address_catalog.md:582; battle-address-catalog.md:224; decomp-function-catalog.md:269; semantic-certainty.md:533; glm-mcp-function-budget.md:494; battle_loop_render_pipeline_entrypoints.md:688; closure-audit.md:362; decomp/0x687300__LcgRand15_Mul125Add14_2508284.md; idb-sync-2026-10-07/{post_state,final_post_state,baseline,audit_snapshot}.json (mirrored comment); battle-graph-ledger.json:174444-174780; ff8-decomp-semantics-2026-10-11.md:179; .tmp/remaining-functions-inventory-2026-10-11.md:102.
+Leads (unverified): tools/_tmp_af3dn_drop runtime CSVs (values 687300/2508284).
+GrepAI/QMD were not reached before report deadline; all facts above are native-packet+grep validated with path:line provenance. No edits/IDB/Git/ledger/live/delegation performed. Producer forks can start from A1–A6 without re-reading the packet.

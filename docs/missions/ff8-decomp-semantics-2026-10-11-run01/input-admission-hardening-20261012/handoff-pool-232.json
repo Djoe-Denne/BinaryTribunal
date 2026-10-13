@@ -1,0 +1,107 @@
+{
+  "at": "2026-10-12T17:10:07.681Z",
+  "task": "task_mv44sk74_00cg_42n10e",
+  "session": "ses_ecf052f36ffe1YZZyvAnyo8kgO",
+  "model": {
+    "id": "grok-4.7",
+    "providerID": "cursor",
+    "variant": "Grok 4.7 High"
+  },
+  "expected": {
+    "id": "cursor/grok-4.7",
+    "provider": "cursor",
+    "reasoningEffort": "Grok 4.7 High",
+    "intelligenceScore": 46,
+    "averageCostPerTask": 0.313,
+    "available": true,
+    "cursorBenchCostPerTask": 4.69,
+    "level": "complexe",
+    "usage": "agentique_cursor",
+    "benchmarkCostPerTask": 2.73,
+    "accessMode": "subsidized",
+    "amortizedCostPerTask": 0.182
+  },
+  "context": {
+    "decision": {
+      "mode": "fork",
+      "reason": "Auteur indépendant g21/0x508540. Décision parent CLASSIFICATION_ACCEPTED_NATIVE du 2026-10-11T17:58:04.539308+00:00, ledger mission ; source/frontière natives revérifiées. Fork frère de l'explorateur factuel, jamais du classificateur, du lead ou de l'autre auteur.",
+      "from": "ses_ed41fba20ffexCPkkuwhhXozTE",
+      "worktree": false
+    },
+    "revision": 2,
+    "error": null,
+    "state": "ready"
+  },
+  "checks": {
+    "ok": true,
+    "group": "g21",
+    "ea": "0x508540",
+    "manifestPath": "inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/manifest.json",
+    "manifest_sha256": "cf8372fe471b369ccfc291baa6bb70f44a919741e8d3e62e385e85398afe1cad",
+    "checks": [
+      {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.json",
+        "expected": "a6f4b030c04283a9013f249b947d0f57a2340a543f132445026e53522ea44e92",
+        "actual": "a6f4b030c04283a9013f249b947d0f57a2340a543f132445026e53522ea44e92",
+        "actualBytes": 2837,
+        "ok": true
+      },
+      {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g21/common-compaction.md",
+        "expected": "a634833fced6523e37c5512a9e2e48c0ed780a2772bd740033d7b1a527cd5ce9",
+        "actual": "a634833fced6523e37c5512a9e2e48c0ed780a2772bd740033d7b1a527cd5ce9",
+        "actualBytes": 5691,
+        "ok": true
+      },
+      {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/asm-001.txt",
+        "expected": "9e4f653e74722fc1064594e8f234c089320327bf8e9090d94e7528f16c42da14",
+        "bytes": 863,
+        "actual": "9e4f653e74722fc1064594e8f234c089320327bf8e9090d94e7528f16c42da14",
+        "actualBytes": 863,
+        "ok": true
+      },
+      {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/bytes-001.txt",
+        "expected": "425db27628157ac37a2ff848bba23cb45ad1c21427c4545117b5821a7c3ec2f9",
+        "bytes": 132,
+        "actual": "425db27628157ac37a2ff848bba23cb45ad1c21427c4545117b5821a7c3ec2f9",
+        "actualBytes": 132,
+        "ok": true
+      },
+      {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/metadata.json",
+        "expected": "5af40872f928b657910ebc11324d849b1157e0f9e4f270fff88c9853cf0073fd",
+        "bytes": 1734,
+        "actual": "5af40872f928b657910ebc11324d849b1157e0f9e4f270fff88c9853cf0073fd",
+        "actualBytes": 1734,
+        "ok": true
+      }
+    ]
+  },
+  "originalNativeSha256": "a6f4b030c04283a9013f249b947d0f57a2340a543f132445026e53522ea44e92",
+  "latestMessage": {
+    "id": "msg_mv5hgl3x_003m_6021ty",
+    "fromName": "pool-232",
+    "toName": "lead",
+    "content": "<task-result>\n<status>failed</status>\n<summary>Blocked: cannot read frozen native 0x508540, so no faithful c_b.md was written.</summary>\n<details>\nTask task_mv44sk74_00cg_42n10e (PRODUCE C B g21/0x508540). Output path not written: outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/c_b.md.\n\nBlocker: opencode read returns {\"type\":\"permission.rejected\",\"message\":\"Permission denied: read\"} for both docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and .tmp/ff8-decomp-semantics-20261011-r01/native/0x508540.json (relative and absolute). A same-call approval retry was rejected the same way. No filesystem tool exists inside the code runtime. Delegation, peer reads, other-volet reads, and history reads were not used.\n\nInherited projection from ses_ed41fba20ffexCPkkuwhhXozTE keeps only the explorer recap, not an instruction listing. Recap facts, not promoted to C:\n- EA 0x508540 is the g21 body described as a 3-arg predicate with a guard/access chain at struct offsets +0x00, +0x05, +0x08, and +0x74 then +0x2C.\n- Callers named in that recap: 0x502F30, 0x5044B0, 0x508580, 0x50ADE0, 0x50BD00, 0x50BD80.\n- Same-reader neighbour notes, not used as this body: 0x50AE00 passes mask 0x40; 0x50AE20 walks 7 records of 0x9C from 0x1D972C0 through 0x1D97704 and passes mask 0x140, with bit source dword_1D99A90 / dword_1D99A5C.\n\nNot in the projection, so not assumed: jcc polarity, whether +0x2C is data, an argument, or a callee, the indirect target address, stack vs register ABI, ret imm, and whether the mask is tested in this body.\n\nNeed either read permission on the frozen native JSON (and the run01 C-format section of CONTRACT.md) or those instruction bytes injected into this fork. I did not mark the task complete.\n</details>\n</task-result>",
+    "delivered": true,
+    "read": false,
+    "timeCreated": 1791823520733
+  },
+  "nativeTail": [
+    {
+      "id": "msg_131001764001U39fDpXrC3542l",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_1310125200015YaiLvMGeSfPtk",
+      "type": "assistant"
+    },
+    {
+      "id": "msg_131013790001iWfeTKpPVdVxDy",
+      "type": "idle"
+    }
+  ],
+  "text": "[INPUT-ADMISSION-HARDENING-v1] Reprise bornée de votre tâche existante, pas une nouvelle admission.\nIdentité: pool-232; ses_ecf052f36ffe1YZZyvAnyo8kgO; task_mv44sk74_00cg_42n10e; PRODUCE C B g21/0x508540. Profil re-decompile-ensemble; répertoire C:/Users/djden/source/repos/retro-eng/re-ff8.\nRègle actuelle run01 (avenant utilisateur 2026-10-12): Model.Ref comparé à model_routing.selected persisté au départ, non aux mentions historiques Sol high/Astra high/Pool25. Preuve parent native et snapshot SQLite lecture seule: attendu cursor/grok-4.7 variante Grok 4.7 High; observé cursor/grok-4.7 variante Grok 4.7 High; override=0; égalité provider+ID+variante PASS. Aucun changement de routage/modèle.\nContexte enregistré inchangé: fork, révision 2, source ses_ed41fba20ffexCPkkuwhhXozTE, fork factuel complet approuvé. Prefixe natif retenu 15 messages: égalité vérifiée. CONTRAT run01 §Contexte point5: forks indépendants depuis le même explorateur factuel explicitement autorisés; ce n'est ni le lead ni un auteur frère. Pas de remplacement fresh.\nEntrée vérifiée parent: complete verbatim assembly splitlines and complete chunk bytes; no correction/filter/truncation. 20 lignes ASM; manifeste SHA256 cf8372fe471b369ccfc291baa6bb70f44a919741e8d3e62e385e85398afe1cad; original SHA256 a6f4b030c04283a9013f249b947d0f57a2340a543f132445026e53522ea44e92, identique au gel natif historique; compaction SHA256 a634833fced6523e37c5512a9e2e48c0ed780a2772bd740033d7b1a527cd5ce9. Tous fichiers/taille/hashes vérifiés, version inchangée. Les hashes sont attestés parent: ne pas prétendre les avoir recalculés.\n\nLecture précise autorisée (profil effectif read inputs/*). Utiliser read, sans listing, chaque fichier explicitement; metadata en tranches de 100 lignes si nécessaire, ASM/bytes en petits fichiers connus. CONTRACT.md et .tmp sont refusés, pas ces copies inputs. Ne plus les ouvrir ni demander de listing. Aucun contournement shell/API/index; outil absent distinct d'un chemin erroné.\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/manifest.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/asm-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/bytes-001.txt\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.readable/metadata.json\nC:/Users/djden/source/repos/retro-eng/re-ff8/inputs/ff8-decomp-semantics-20261011-r01/g21/common-compaction.md\nLivrable C complet: identité/provenance; prototype/ABI observés; code; couverture des blocs/chunks; largeurs/signedness/wrap/shift; AL/AX/EAX; args cdecl droite→gauche; effets/retours; preuves ASM et limites. Ne pas inventer de callee/type/métier.\nSeule écriture: C:/Users/djden/source/repos/retro-eng/re-ff8/outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/c_b.md. A/B aveugles: aucune lecture pair/autre volet/output tiers/ledger/histoire. Pas IDB/git/registre/live/délégation. Donnée native réellement absente ou lecture précise refusée: signaler fichier+erreur sans inventer ni répéter le même essai. Dépôt ≠ validation/promotion. À la fin, signaler dépôt et terminer seulement cette tâche. Ce message contient tout le contrat nécessaire, ne pas attendre CONTRACT.md."
+}

@@ -1,0 +1,475 @@
+{
+  "data": [
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_1",
+      "time": {
+        "created": 1791737409974
+      },
+      "type": "agent-switched",
+      "agent": "explore"
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_2",
+      "time": {
+        "created": 1791737409979
+      },
+      "type": "model-switched",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      }
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_6",
+      "time": {
+        "created": 1791737410018
+      },
+      "text": "You are \"discover-g01\", a teammate in team \"ff8-decomp-semantics-20261011-r01\".\nYour agent type is \"explore\".\nOther teammates: discover-g11-zai, discover-g05, discover-g24, discover-g02\n\nTools available to you:\n- team_message: send a message to the lead or another teammate\n- team_broadcast: send a message to all team members\n- team_tasks_list: view the shared team task board\n\nCollaboration:\n- Check team_tasks_list to see what other teammates are working on.\n- If you need information another teammate has, message them directly via team_message.\n- If you discover something relevant to another teammate's task, share it with them.\n- Use team_broadcast for updates that affect the whole team.\n- Keep peer messages focused and actionable — coordinate, don't chat.\n\nWhen you finish your task:\nUse team_handoff to change your own agent in this same session when needed. Use team_results, team_status and team_view for inspection.\n1. Send ONE message to the lead using team_message with this format:\n<task-result>\n<status>completed or failed</status>\n<summary>One-line summary of what you did</summary>\n<details>Full findings or changes made</details>\n</task-result>\n2. STOP. Do not send follow-up confirmations, status updates, or 'standing by' messages.\n\nIf you are blocked:\n- Send ONE message to the lead via team_message describing the specific blocker.\n- Do NOT attempt workarounds or make assumptions. Wait for the lead's response.\n\nYour plain text output is NOT visible to the team. You MUST use team_message to communicate.\n\nYour task:\nRead-only factual discovery g01 for mission run01. Claim task_mv424nw6_0006_bgm0j7 if pending. Read docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and native-groups.json to get your owned EAs; read .tmp/ff8-decomp-semantics-20261011-r01/native/<EA>.json for each. Gather maximum relevant validated neighbourhood facts, ABI/structures/globals/code-data xrefs; GrepAI first for code and QMD CLI for knowledge, source root retro-eng. Cite path:line and native instruction addresses. No target reconstruction C or semantic verdict, no unvalidated historical conclusions promoted. No file edits, IDB/Git/ledger/live/delegation. Return ONE team_message COMMON_COMPACTION factual synthesis with provenance, uncertainties/source inventory; preserve native history for independent author forks; STOP after reporting.",
+      "type": "user"
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_7",
+      "time": {
+        "created": 1791737410040,
+        "streamed": 1791737413702,
+        "completed": 1791737414122
+      },
+      "type": "assistant",
+      "agent": "explore",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      },
+      "content": [
+        {
+          "type": "tool",
+          "id": "call_7f2b0145e8044eea879473ba3b4c5128",
+          "name": "execute",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe4690a881919755052ec7d432ba"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "code": "return {tasks:await tools.team_tasks_list(),catalog:search({query:'grepai_search initial_instructions query ctx_execute',limit:6})};"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"tasks\": \"[in_progress] DISCOVERY g11: 0x484490, 0x4844D0. Read frozen native facts and validated surrounding documentation; produce common factual compaction/provenance, no target C/verdict. Mission run01. (task_mv41sods_0001_dmo9oy) → discover-g11-zai [high] @explore [complexity:20 risk:20]\\n[in_progress] DISCOVERY g02: 0x45E610,0x45E9D0,0x45EBF0,0x56C090,0x701220,0x7012C0. Common factual compaction/provenance from frozen ASM and surrounding documentation only; no target C/verdict. (task_mv41sodw_0002_dmdzvn) → discover-g02 [high] @explore [complexity:55 risk:55]\\n[in_progress] DISCOVERY g05: 0x463FC0,0x464DB0,0x465720. Read frozen native facts and surrounding validated documentation; common factual compaction/provenance, no target C/verdict. (task_mv41sodx_0003_oz4937) → discover-g05 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g24: 0x50A9A0,0x50AED0,0x50AFC0,0x50BB00,0x50B0C0,0x50B190. Read frozen native facts and surrounding validated documentation; common factual compaction/provenance, no target C/verdict. (task_mv41sodz_0004_meyiiw) → discover-g24 [high] @explore [complexity:65 risk:60]\\n[pending] DISCOVERY g01: 0x419D8F. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw6_0006_bgm0j7) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g03: 0x45E670. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw7_0007_c4bdzi) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g04: 0x460860. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw8_0008_natqik) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g06: 0x464850. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw9_0009_d535ut) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g07: 0x47CF60,0x500900,0x485FF0,0x493840,0x485EC0,0x4868C0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwa_000a_k3yfi5) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g08: 0x47DDA0,0x484720,0x47DE70,0x47E120,0x482BD0,0x487DF0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwa_000b_s5lpld) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g09: 0x47DF60. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwb_000c_mzzwt0) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g10: 0x47E3F0,0x485F00,0x48D200,0x486E00,0x48FE20,0x495EC0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwc_000d_p73m0s) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g12: 0x484D20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwd_000e_h8e7nv) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g13: 0x48F050. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwe_000f_cd3wk3) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g14: 0x4954B0,0x495960,0x495D80. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwf_000g_z26eqm) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g15: 0x4ADDB0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwj_000h_wcl3px) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g16: 0x500EA0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwk_000i_17h4pr) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g17: 0x502380,0x505C00,0x509C80,0x50B2A0,0x506690,0x50B830. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwl_000j_ozakl1) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g18: 0x504BB0,0x50C950,0x50C780,0x50D300,0x506C10,0x50A670. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwm_000k_q4kvep) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g19: 0x505BC0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwo_000l_7mgsql) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g20: 0x5083C0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwo_000m_sh49jx) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g21: 0x508540,0x50AE00,0x50AE20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwq_000n_sk2y4p) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g22: 0x508F90,0x5095B0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwr_000o_1xn466) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g23: 0x50A690,0x50A6C0,0x50E510. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nws_000p_0o9fn3) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g25: 0x50AF20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwt_000q_575pc8) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g26: 0x50BDC0,0x50BEE0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwu_000r_0hjsxz) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g27: 0x50BF90. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwv_000s_21y4jj) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g28: 0x50C860. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nww_000t_hby3wg) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g29: 0x50DB40. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwx_000u_6pd08l) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g30: 0x50F900,0x50FDF0,0x5106E0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwy_000v_wl9kqw) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g31: 0x511EB0,0x511EF0,0x5163A0,0x5177C0,0x517EE0,0x519620. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwz_000w_lo6n7e) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g32: 0x5156D0,0x515730,0x517B40,0x5180C0,0x518290,0x518440. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx1_000x_gumfnt) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g33: 0x51A2A0,0x51A9A0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx2_000y_ssbffp) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g34: 0x56D090,0x6D9510,0x6CF070,0x6ED1E0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx3_000z_61egf0) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g35: 0x687300. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx4_0010_3y25gb) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g36: 0x6F29D0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx5_0011_vccpmd) [high] @explore [complexity:50 risk:50]\",\n  \"catalog\": {\n    \"items\": [\n      {\n        \"path\": \"tools[\\\"context-mode\\\"].ctx_batch_execute\",\n        \"description\": \"Run multiple commands in ONE call. Every command's output is auto-indexed into the knowledge base; if you also pass `queries`, the matching sections come back in the same round trip so a follow-up search call is not needed.\\n\\nConcurrency parallelizes the FETCH phase (run-the-commands). The DERIVATION phase — turning raw output into an answer — still belongs in code: add a processing command that consumes the indexed output and prints only the answer, so the raw bytes never enter your conversation (Think-in-Code, same principle as the sandbox tool).\\n\\nWHEN:\\n  - You have 3+ related commands you would otherwise run sequentially (multi-issue lookups, git log + git diff + git blame, multi-file reads, multi-region cloud queries)\\n  - You want to gather AND query in one round trip — pass `queries` so the matching sections come back inline\\n  - You want to parallelize I/O-bound work — pass `concurrency` 2-8 (network calls, gh CLI, cloud APIs, multi-repo git reads)\\n  - The combined output is large enough that piping it through ctx_search later would itself be expensive — let auto-index + inline queries do both in one shot\\n\\nWHEN NOT:\\n  - Single command with no follow-up query — run it in the sandbox tool directly\\n  - CPU-bound or stateful commands — keep concurrency at 1 (npm test, build, lint, port-binding servers, lock-file holders, anything that races on the same resource)\\n\\nRETURNS:\\n  Auto-indexed section list per command label, plus top matches per query (when `queries` is passed). Raw output is NOT echoed in full — only the matched windows. Concurrency>1 switches each command to its own per-command timeout (no shared budget); concurrency=1 preserves the legacy shared-budget cascading-skip-on-timeout path. Use 4-8 for I/O-bound batches; keep at 1 for CPU work or shared-state commands; lower the value when target hosts enforce per-IP rate limits.\\n\\nEXAMPLE: ctx_batch_execute(\\n  commands: [\\n    {label: \\\"issue 1\\\", command: \\\"gh issue view 1\\\"},\\n    {label: \\\"issue 2\\\", command: \\\"gh issue view 2\\\"},\\n    {label: \\\"summarize\\\", command: \\\"echo done\\\"}\\n  ],\\n  queries: [\\\"root cause\\\", \\\"proposed fix\\\"],\\n  concurrency: 2\\n)\",\n        \"signature\": \"tools[\\\"context-mode\\\"].ctx_batch_execute({\\n  /**\\n   * Commands to execute as a batch. Output is labeled with the section header. Default order is sequential; pass concurrency>1 to run in parallel (output stays in input order).\\n   * @minItems 1\\n   */\\n  commands: Array<{\\n      /** Section header for this command's output (e.g., 'README', 'Package.json', 'Source Tree') */\\n      label: string,\\n      /** Shell command to execute */\\n      command: string,\\n    }>,\\n  /**\\n   * Search queries to extract information from indexed output. Use 5-8 comprehensive queries. Each returns top 5 matching sections with full content. This is your ONLY chance — put ALL your questions here. No follow-up calls needed.\\n   * @minItems 1\\n   */\\n  queries: Array<string>,\\n  /**\\n   * Max execution time in ms. When omitted, no server-side timer fires — the MCP host's RPC timeout governs. With concurrency=1, the value (when set) is a shared budget across commands; with concurrency>1, it is applied per-command.\\n   */\\n  timeout?: number,\\n  /**\\n   * Max commands to run in parallel (1-8, default: 1). Use 4-8 for I/O-bound batches (network, gh, curl, multi-repo git reads). Keep at 1 for CPU-bound (npm test, build, lint) or stateful commands (ports, locks). >1 switches to per-command timeouts (no shared budget) and individual `(timed out)` blocks instead of cascading skip.\\n   * @default 1 @integer @minimum 1 @maximum 8\\n   */\\n  concurrency?: number,\\n  /** Optional working directory for all shell commands in this batch. */\\n  cwd?: string,\\n  /**\\n   * Scope for `queries` (default: `batch`). `batch` searches ONLY the chunks produced by this batch's commands — useful when you want answers about the just-fetched output. `global` searches the entire persistent index (same scope as ctx_search) — useful when you want the batch commands to enrich context and the queries to also surface related prior knowledge in one round trip.\\n   * @default \\\"batch\\\"\\n   */\\n  query_scope?: \\\"batch\\\" | \\\"global\\\",\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools[\\\"context-mode\\\"].ctx_execute\",\n        \"description\": \"Run code in a sandboxed subprocess. (Bun detected — JS/TS runs 3-5x faster) Languages: javascript, shell, typescript, python, rust.\\n\\nThink-in-Code — the core philosophy: the bytes your code processes never enter your conversation memory; only what you console.log() does. Reading a 700 KB log directly means 700 KB of your remaining reasoning capacity gets spent on raw bytes. Running code over that same log in this sandbox and printing a 3 KB summary leaves you with 697 KB of capacity for the actual work.\\n\\nConcrete shape — analyze 47 source files without reading any of them:\\n  ctx_execute(language: \\\"javascript\\\", code: `\\n    const fs = require('fs');\\n    const files = fs.readdirSync('src').filter(f => f.endsWith('.ts'));\\n    files.forEach(f => {\\n      const lines = fs.readFileSync('src/'+f,'utf8').split('\\\\\\\\n').length;\\n      console.log(f + ': ' + lines + ' lines');\\n    });\\n  `)\\n  // 47 files analyzed, 15,314 LoC summarized — output ~3.6 KB instead of 47 Read() calls = ~700 KB.\\n\\nWHEN:\\n  - You intend to derive an answer FROM data (filter, count, aggregate, parse, compare, transform) — do the derivation in code and print only the answer\\n  - Output shape or size cannot be predicted before execution (recursive finds, repo-wide greps, list endpoints, query results, log scans)\\n  - You would otherwise read raw output and then mentally compute — that compute belongs here, in code, where its inputs stay out of your conversation\\n  - You need to keep a long-running process alive (dev server, watcher, daemon) — pass `background: true` to detach on timeout instead of killing the process\\n  - The output may legitimately be large but you only want recall-by-topic later — pass an `intent` string; outputs over ~5KB are auto-indexed into the knowledge base and only the section titles + previews come back, retrievable via ctx_search\\n\\nWHEN NOT:\\n  - Single observational command whose entire short output you intend to consume verbatim (whoami, pwd, git status on a clean tree) — Bash is simpler\\n  - File mutations (Edit/Write) or navigation (cd/ls) — Bash is the right surface\\n  - You already know the output is one short fixed line and you want to read it as-is\\n\\nRETURNS:\\n  Only what your code prints. Wrap risky calls in try/catch — uncaught errors go to stderr and may leak more than intended. When `intent` is set and output exceeds the auto-index threshold, the response carries searchable section titles + previews instead of the raw stdout; use ctx_search(queries: [...]) to drill into specific sections.\\n\\nEXAMPLE: ctx_execute(language: \\\"javascript\\\", code: \\\"const out = require('child_process').execSync('npm test', {encoding:'utf8', stdio:['ignore','pipe','pipe']}); console.log(out.split('\\\\\\\\n').filter(l => /(FAIL|✗|×|Error:|Tests +.*(failed|passed))/i.test(l)).slice(0, 60).join('\\\\\\\\n'))\\\")\\nEXAMPLE: ctx_execute(language: \\\"javascript\\\", code: \\\"const out = require('child_process').execSync('gh issue list --json number,title --limit 100', {encoding:'utf8'}); const hooks = JSON.parse(out).filter(i => /hook|routing/i.test(i.title)); console.log(`${hooks.length} hook-related issues`)\\\")\",\n        \"signature\": \"tools[\\\"context-mode\\\"].ctx_execute({\\n  /** Runtime language */\\n  language: \\\"javascript\\\" | \\\"typescript\\\" | \\\"python\\\" | \\\"shell\\\" | \\\"ruby\\\" | \\\"go\\\" | \\\"rust\\\" | \\\"php\\\" | \\\"perl\\\" | \\\"r\\\" | \\\"elixir\\\" | \\\"csharp\\\",\\n  /**\\n   * Source code to execute. Use console.log (JS/TS), print (Python/Ruby/Perl/R), echo (Shell), echo (PHP), fmt.Println (Go), IO.puts (Elixir), or Console.WriteLine (C#) to output a summary to context.\\n   */\\n  code: string,\\n  /**\\n   * Max execution time in ms. When omitted, no server-side timer fires — the MCP host's RPC timeout governs (which is the right layer for this policy). Pass an explicit value for long-running builds (Gradle/Maven/SBT).\\n   */\\n  timeout?: number,\\n  /**\\n   * Keep process running after timeout (for servers/daemons). Returns partial output without killing the process. IMPORTANT: Do NOT add setTimeout/self-close timers in background scripts — the process must stay alive until the timeout detaches it. For server+fetch patterns, prefer putting both server and fetch in ONE ctx_execute call instead of using background.\\n   * @default false\\n   */\\n  background?: boolean,\\n  /**\\n   * Optional working directory for shell commands. Non-shell languages still execute from their sandbox temp directory.\\n   */\\n  cwd?: string,\\n  /**\\n   * What you're looking for in the output. When provided and output is large (>5KB), indexes output into knowledge base and returns section titles + previews — not full content. Use ctx_search(queries: [...]) to retrieve specific sections. Example: 'failing tests', 'HTTP 500 errors'.\\n   *\\n   * TIP: Use specific technical terms, not just concepts. Check 'Searchable terms' in the response for available vocabulary.\\n   */\\n  intent?: string,\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools[\\\"context-mode\\\"].ctx_search\",\n        \"description\": \"Search a unified knowledge base with a multi-strategy ranking pipeline. Two parallel matchers run on every query: a Porter-stemming matcher (\\\"caching\\\" finds \\\"cached\\\", \\\"caches\\\", \\\"cach\\\") and a trigram-substring matcher (\\\"useEff\\\" finds \\\"useEffect\\\"). Their ranked lists are merged via Reciprocal Rank Fusion, so a document that ranks well in both surfaces above one that wins only on a single strategy. Multi-term queries get an additional proximity-rerank pass that boosts passages where the query terms appear close together. Typos are corrected via Levenshtein distance and re-searched. Result snippets are window-extracted around the matched terms, not blindly truncated.\\n\\nThe knowledge base is unified: queries reach indexed content you stored (ctx_index, ctx_fetch_and_index, ctx_batch_execute output) AND auto-captured session memory written by hooks (decisions, errors, blockers, plans, user prompts, rejected approaches, tool failures, compaction guides — 26 event categories). File-backed sources carry a content hash and auto-flag staleness when the source file changes.\\n\\nWHEN:\\n  - You want to recall something that exists in storage (recently indexed content, prior session events, auto-memory) instead of re-reading raw sources\\n  - You have multiple related questions about the same body of knowledge — batch every question into one call (the ranking pipeline runs per-query but the round-trip cost is paid once)\\n  - You want to scope the query to one labelled source (pass `source` — partial match is fine)\\n  - You want a chronological view across current session + prior sessions + persistent auto-memory (pass `sort: \\\"timeline\\\"` — the default `relevance` mode only ranks within the current session)\\n  - You want to filter ranked results by content shape (pass `contentType: \\\"code\\\"` to surface implementation snippets or `contentType: \\\"prose\\\"` to surface explanations)\\n\\nWHEN NOT:\\n  - The data you want to query has never been stored in the knowledge base AND no session memory has accumulated around it — capture first (run a gather-and-index call), then come back here to query\\n  - You have one ad-hoc question against data that is not in the knowledge base — answer it inline by running code in the sandbox tool; one round-trip instead of capture-then-query\\n\\nRETURNS:\\n  Per-query ranked sections with window-extracted snippets. Use 2-4 specific technical terms per query. Common session-memory source labels: `decision` (user corrections / preferences), `error` and `error-resolution` (past failures + their fixes), `blocker`, `plan`, `user-prompt`, `rejected-approach`, `compaction` (post-compact session guide). See ctx_stats for live category counts. Each response carries a throttle counter (call #N/M in the rolling time window); results taper toward the soft cap and calls block after the hard cap. Tune via CONTEXT_MODE_SEARCH_WINDOW_MS, CONTEXT_MODE_SEARCH_MAX_RESULTS_AFTER, CONTEXT_MODE_SEARCH_BLOCK_AFTER.\\n\\nEXAMPLE: ctx_search(queries: [\\\"root cause\\\", \\\"proposed fix\\\", \\\"test coverage\\\"], source: \\\"issue-#683\\\")\\nEXAMPLE: ctx_search(queries: [\\\"what did we decide about caching\\\"], source: \\\"decision\\\", sort: \\\"timeline\\\")\\nEXAMPLE: ctx_search(queries: [\\\"useEffect cleanup pattern\\\"], source: \\\"react-docs\\\", contentType: \\\"code\\\", limit: 5)\\nEXAMPLE: ctx_search(queries: [\\\"last user prompt\\\", \\\"active skills\\\", \\\"open blockers\\\"], sort: \\\"timeline\\\")\",\n        \"signature\": \"tools[\\\"context-mode\\\"].ctx_search({\\n  /** Array of search queries. Batch ALL questions in one call. */\\n  queries?: Array<string>,\\n  /** Results per query (default: 3). @default 3 */\\n  limit?: number,\\n  /** Filter to a specific indexed source (partial match). */\\n  source?: string,\\n  /** Filter results by content type: 'code' or 'prose'. */\\n  contentType?: \\\"code\\\" | \\\"prose\\\",\\n  /**\\n   * Sort mode. 'relevance' (default): BM25 ranked, current session only. 'timeline': chronological across current session, prior sessions, and auto-memory.\\n   * @default \\\"relevance\\\"\\n   */\\n  sort?: \\\"relevance\\\" | \\\"timeline\\\",\\n  /**\\n   * Project scope. Default (omit): this session's project — auto-resolved from the host adapter. 'global': span every project in the shared store (cross-project recall). <absolute-path>: scope to that specific project directory.\\n   */\\n  project?: string,\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools[\\\"context-mode\\\"].ctx_execute_file\",\n        \"description\": \"Read a file into a sandboxed FILE_CONTENT variable and run code over it. Only what you console.log() enters your conversation — the file bytes stay in the sandbox.\\n\\nThink-in-Code applied to file-level analysis: Reading the whole file means every byte enters your conversation memory and costs reasoning capacity for the rest of the session. Running code over it here lets you keep the raw bytes out and only the derived answer in. Same principle as ctx_execute, scoped to one named file via the FILE_CONTENT variable.\\n\\nWHEN:\\n  - You want to KNOW SOMETHING ABOUT a file (line count, matches of a pattern, parsed structure, statistical aggregate) without needing to SEE all of it\\n  - The file is structured (CSV, JSON, log, code) and a code-level derivation is cheaper than reading verbatim\\n  - The file is large enough that reading the full content would burn meaningful conversation memory you need for the actual work\\n  - The derivation may itself produce a large output you want recall-by-topic on later — pass an `intent` string; outputs over ~5KB are auto-indexed and only matching sections come back, retrievable via ctx_search\\n\\nWHEN NOT:\\n  - You intend to EDIT the file — use Read so the subsequent Edit can match the exact text\\n  - You only need one specific line and you know its offset — Read with offset/limit is the simplest path\\n  - The file is small AND you will consume all of it for understanding/editing — Read directly\\n\\nRETURNS:\\n  Only what your code prints. The FILE_CONTENT variable holds the raw bytes inside the sandbox; nothing else leaves. When `intent` is set and output exceeds the auto-index threshold, the response carries searchable section titles + previews instead of the raw stdout.\\n\\nEXAMPLE: ctx_execute_file(path: \\\"huge.log\\\", language: \\\"javascript\\\", code: \\\"const errs = FILE_CONTENT.split('\\\\\\\\n').filter(l => /ERROR|FATAL/.test(l)); console.log(`${errs.length} error lines`); console.log(errs.slice(-5).join('\\\\\\\\n'))\\\")\\nEXAMPLE: ctx_execute_file(path: \\\"data.csv\\\", language: \\\"javascript\\\", code: \\\"const rows = FILE_CONTENT.split('\\\\\\\\n'); console.log(`rows: ${rows.length - 1}, header: ${rows[0]}`)\\\")\",\n        \"signature\": \"tools[\\\"context-mode\\\"].ctx_execute_file({\\n  /** Absolute file path or relative to project root */\\n  path: string,\\n  /** Runtime language */\\n  language: \\\"javascript\\\" | \\\"typescript\\\" | \\\"python\\\" | \\\"shell\\\" | \\\"ruby\\\" | \\\"go\\\" | \\\"rust\\\" | \\\"php\\\" | \\\"perl\\\" | \\\"r\\\" | \\\"elixir\\\" | \\\"csharp\\\",\\n  /**\\n   * Code to process FILE_CONTENT (file_content in Elixir). Print summary via console.log/print/echo/IO.puts/Console.WriteLine.\\n   */\\n  code: string,\\n  /** Max execution time in ms. When omitted, no server-side timer fires — the MCP host's RPC timeout governs. */\\n  timeout?: number,\\n  /**\\n   * What you're looking for in the output. When provided and output is large (>5KB), returns only matching sections via BM25 search instead of truncated output.\\n   */\\n  intent?: string,\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools[\\\"context-mode\\\"].ctx_index\",\n        \"description\": \"Store content in a searchable knowledge base (BM25 over FTS5). Splits markdown by headings, keeps code blocks intact, and persists the raw chunks. The full content stays in storage — retrieve any section on-demand via ctx_search; nothing is summarized or truncated.\\n\\nWHEN:\\n  - Documentation from Context7, Skills, or MCP tools (API docs, framework guides, code examples)\\n  - API references (endpoint details, parameter specs, response schemas)\\n  - MCP tools/list output (exact tool signatures and descriptions)\\n  - Skill prompts and instructions that are too large to keep verbatim in conversation\\n  - README files, migration guides, changelog entries\\n  - Any content with code examples you may need to reference precisely later\\n\\nWHEN NOT:\\n  - Log files, test output, CSV, or build output — use ctx_execute_file, which processes in-sandbox without persisting bytes\\n  - Single-use ephemeral content you will not query later — keep it inline if it fits, or ctx_execute_file it\\n\\nRETURNS:\\n  Indexing metadata: chunk counts (total, code-bearing), source label, and the exact ctx_search call shape to query the indexed content. Raw content is NOT echoed back — it lives in storage, retrievable via ctx_search(source: \\\"<label>\\\"). When `path` is provided, a content hash is stored so ctx_search results auto-flag staleness on future calls.\\n\\nEXAMPLE: ctx_index(content: \\\"# React useEffect\\\\n\\\\nThe Effect Hook lets you ...\\\", source: \\\"react-useeffect-docs\\\")\\nEXAMPLE: ctx_index(path: \\\"/path/to/large-spec.md\\\", source: \\\"openapi-v2-spec\\\")\",\n        \"signature\": \"tools[\\\"context-mode\\\"].ctx_index({\\n  /** Raw text/markdown to index. Provide this OR path, not both. */\\n  content?: string,\\n  /**\\n   * File OR directory path to read and index (content never enters context). Provide this OR content. Directory paths trigger a bounded recursive walk (#687).\\n   */\\n  path?: string,\\n  /** Label for the indexed content (e.g., 'Context7: React useEffect', 'Skill: frontend-design') */\\n  source?: string,\\n  /** Directory-only: glob patterns to include (default: all matching extensions). */\\n  include?: Array<string>,\\n  /**\\n   * Directory-only: glob patterns to exclude. Merged with defaults (node_modules, .git, dist, build, .next, coverage, .venv, __pycache__, .DS_Store).\\n   */\\n  exclude?: Array<string>,\\n  /** Directory-only: max recursion depth from root (default: 5). @integer @minimum 0 */\\n  maxDepth?: number,\\n  /** Directory-only: hard cap on files indexed (default: 200) — FTS5 blow-up guard. @integer @minimum 1 */\\n  maxFiles?: number,\\n  /**\\n   * Directory-only: allowed file extensions (default: .md .mdx .txt .json .yaml .yml .ts .tsx .js .jsx .py .rs .go .sh).\\n   */\\n  extensions?: Array<string>,\\n  /** Directory-only: apply nearest .gitignore (default: true). */\\n  respectGitignore?: boolean,\\n  /** Directory-only: follow directory symlinks (default: false — cycle hazard + escape risk). */\\n  followSymlinks?: boolean,\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools.grepai.grepai_1mcp_grepai_rpg_search\",\n        \"description\": \"Search RPG nodes using Jaccard-based semantic matching with scope and kind filtering.\",\n        \"signature\": \"tools.grepai.grepai_1mcp_grepai_rpg_search({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Comma-separated node kinds to filter: area, category, subcategory, file, symbol, chunk (default: symbol) */\\n  kinds?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /** Natural language or feature query to search for */\\n  query: string,\\n  /** Area/category path to narrow search (e.g., 'cli', 'rpg/query') */\\n  scope?: string,\\n}): Promise<unknown>\"\n      }\n    ],\n    \"remaining\": 28,\n    \"next\": {\n      \"offset\": 6\n    }\n  }\n}"
+              }
+            ],
+            "metadata": {
+              "toolCalls": [
+                {
+                  "tool": "team_tasks_list",
+                  "status": "completed"
+                },
+                {
+                  "tool": "search",
+                  "status": "completed",
+                  "input": {
+                    "query": "grepai_search initial_instructions query ctx_execute",
+                    "limit": 6
+                  }
+                }
+              ],
+              "truncated": false
+            }
+          },
+          "time": {
+            "created": 1791737412972,
+            "ran": 1791737413651,
+            "completed": 1791737413748
+          }
+        }
+      ],
+      "snapshot": {
+        "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "files": []
+      },
+      "finish": "tool-calls",
+      "providerState": {
+        "responseId": "resp_04f9d4c58e160c0d016acbbe44b4008191815bd008185f12d5",
+        "serviceTier": "default"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 8898,
+        "output": 47,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      }
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_14",
+      "time": {
+        "created": 1791737414160,
+        "streamed": 1791737416714,
+        "completed": 1791737417002
+      },
+      "type": "assistant",
+      "agent": "explore",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      },
+      "content": [
+        {
+          "type": "tool",
+          "id": "call_eccf81c40f79409e8a4808a003bc84c3",
+          "name": "execute",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe497de881919bd5ecd3fd152203"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "code": "await tools.team_claim({task_id:'task_mv424nw6_0006_bgm0j7'}); return search({query:'grepai_search',limit:1});"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"items\": [\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_rpg_search\",\n      \"description\": \"Search RPG nodes using Jaccard-based semantic matching with scope and kind filtering.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_rpg_search({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Comma-separated node kinds to filter: area, category, subcategory, file, symbol, chunk (default: symbol) */\\n  kinds?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /** Natural language or feature query to search for */\\n  query: string,\\n  /** Area/category path to narrow search (e.g., 'cli', 'rpg/query') */\\n  scope?: string,\\n}): Promise<unknown>\"\n    }\n  ],\n  \"remaining\": 27,\n  \"next\": {\n    \"offset\": 1\n  }\n}"
+              }
+            ],
+            "metadata": {
+              "toolCalls": [
+                {
+                  "tool": "team_claim",
+                  "status": "completed",
+                  "input": {
+                    "task_id": "task_mv424nw6_0006_bgm0j7"
+                  }
+                },
+                {
+                  "tool": "search",
+                  "status": "completed",
+                  "input": {
+                    "query": "grepai_search",
+                    "limit": 1
+                  }
+                }
+              ],
+              "truncated": false
+            }
+          },
+          "time": {
+            "created": 1791737415756,
+            "ran": 1791737416662,
+            "completed": 1791737416691
+          }
+        }
+      ],
+      "snapshot": {
+        "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "files": []
+      },
+      "finish": "tool-calls",
+      "providerState": {
+        "responseId": "resp_04f9d4c58e160c0d016acbbe486ad8819199ff275e6f0ee923",
+        "serviceTier": "default"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 8555,
+        "output": 52,
+        "reasoning": 0,
+        "cache": {
+          "read": 8704,
+          "write": 0
+        }
+      }
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_21",
+      "time": {
+        "created": 1791737417031,
+        "streamed": 1791737421141,
+        "completed": 1791737421319
+      },
+      "type": "assistant",
+      "agent": "explore",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      },
+      "content": [
+        {
+          "type": "tool",
+          "id": "call_2795c72e0c6e412f92a9217e142ead1e",
+          "name": "read",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe4cab008191913cd543ed407a37"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md",
+              "limit": 200
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md, lines 1-40\n1: # FF8 decomp/semantics — run01\n2: \n3: GO utilisateur reçu le 2026-10-11 dans la session superviseur.\n4: \n5: ## Périmètre et autorité\n6: \n7: - 98 EA du brief `../ff8-decomp-semantics-2026-10-11.md`, sections 1–2 uniquement.\n8: - Extension de 151 EA exclue ; aucun live. Historique DRAINED / STOP_DISPATCH inchangé.\n9: - Nouvelle équipe `ff8-decomp-semantics-20261011-r01`, nouveaux IDs et ledger append-only `ledger.jsonl`.\n10: - Aucun plafond de coût ou concurrence utilisateur ; maximiser les admissions utiles, sans doublon ni saut de dépendance. Saturation attestée : route temporairement indisponible, cause/Retry-After/cooldown tracés ; autres routes maintenues.\n11: - Superviseur seul : ledger, classification, validation ASM §5.6, IDB/save/readback et Git sérialisés. Workers : pas de mutation IDB/Git/registre/live, pas de délégation.\n12: - Travail utilisateur préexistant préservé ; aucun commit global opportuniste.\n13: \n14: ## Contexte et classification obligatoires\n15: \n16: 1. Export natif factuel, regroupement par graphe d'appels IDA ; chaque EA appartient à un groupe unique.\n17: 2. Explorateur lecteur par groupe, contexte de découverte sans reconstruction/verdict cible.\n18: 3. Une compaction factuelle commune gelée/versionnée/hashée par groupe.\n19: 4. Pour chaque EA : `classify_x86` reçoit son ASM complet et cette compaction commune. Archiver le payload exact avant appel et la réponse native complète à réception, sans enrichissement a posteriori. Exception utilisateur explicite après GO : entrée dépassant les limites de Classify → évaluation par `openai/gpt-6-luna-fast`, variante `medium`, même ASM complet + compaction, prompt/scoring/réponse exacts archivés avec `classifier_kind=luna_oversize` ; ne jamais présenter cette évaluation comme une sortie native Classify. Aucun tronquage. Autres erreurs ou capture manquante : bloquer cette EA, continuer les autres.\n20: 5. Productions C et sémantique en parallèle, forks indépendants depuis la même session explorateur gelée, explicitement autorisés par l'utilisateur. Pas d'héritage des productions des frères ni du lead. Slots recyclables, auteurs C nouveaux par fonction/production.\n21: 6. Réconciliation distincte après dépôt A+B ; contrôle final croisé C/sémantique par le superviseur.\n22: \n23: ## Routage initial conservateur v1\n24: \n25: Les seuils sont des décisions opérationnelles du superviseur après GO, non une calibration démontrée.\n26: \n27: - Simple : complexité ≤25, risque ≤20, ≤80 instructions natives ; aucune ambiguïté ABI/arithmétique, contrôle indirect non résolu, contexte incomplet ou contradiction. Un auteur par volet + validation parent. Tout obstacle entraîne 2+1.\n28: - Moyen : hors simple, complexité ≤65 et risque ≤50, sans trigger structurel majeur ; 2+1 par volet.\n29: - Complexe/haut risque : autres cas, >200 instructions, contrôle indirect non résolu ou conflit ; 2+1 par volet.\n30: - Classification obligatoire et consultative : ne dispense jamais des contrôles natifs ; motifs de surclassement tracés.\n31: - Catalogue partagé `C:/Users/djden/.config/opencode/ensemble.json`, snapshot exact local sans override global. Modèles/variantes découverts, `Model.Ref` effectif vérifié à chaque création. Écarts de variantes bloqués ou mapping explicite tracé, jamais default silencieux.\n32: - Lecture : route gratuite vérifiée si suffisante, sinon Luna medium/GLM high. C simple : MiMo Flash/Luna ; C moyen : GLM max et Luna medium indépendants ; C complexe : Astra high et Opus high indépendants. Sémantique : Sol medium/high selon risque, seconde production indépendante si 2+1 ; R high, escalade motivée possible. Alternatives du catalogue admissibles selon disponibilité et risque, justification obligatoire.\n33: - Refus/auth/entrée/erreur C ne sont pas assimilés à saturation. Reprise événementielle bornée ; aucune boucle de polling ni action d'alimentation/service/configuration globale.\n34: - Instruction utilisateur après GO : `0x487DF0` (2447 instructions, ASM natif 140198 caractères) → sessions GLM 5.3 Flash dédiées, `zai-coding-plan/glm-5.3-flash`, `max`, 2+1 par volet. L'annonce utilisateur de contexte 1M n'est pas une mesure de capacité effective ; vérifier admission et couverture complète, sans réduire le gel. Le routage Luna oversize concerne l'évaluation, pas cette production.\n35: \n36: ## Activation et clôture\n37: \n38: Vérifier accès IDA, 98 EA uniques, extension 151 distinctes et disjointe, catalogue, communication, Model.Ref, capture Classify et fork avant élargissement aux producteurs. Un blocage de production n'interdit pas une découverte indépendante utile.\n39: \n40: Clôture par EA seulement après couverture native complète, preuves C/sémantiques, §5.6 et traces de validation ; défaut non résolu reste UNCERTAIN/CONFLICT, jamais promotion sur prose seule."
+              }
+            ],
+            "metadata": {
+              "truncated": false
+            }
+          },
+          "time": {
+            "created": 1791737421038,
+            "ran": 1791737421043,
+            "completed": 1791737421127
+          }
+        },
+        {
+          "type": "tool",
+          "id": "call_8c0017c060e949f49951d87df0deb5d1",
+          "name": "read",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe4eb0e08191ab71fc9c37a46185"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json",
+              "limit": 80
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-80\n1: {\n2:   \"native\": {\n3:     \"idb\": \"D:\\\\Modding\\\\ff8\\\\retro-exe\\\\FF8_EN.exe - 9.3.i64\",\n4:     \"input\": \"C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\FINAL FANTASY VIII\\\\FF8_EN.exe\",\n5:     \"bits\": 32,\n6:     \"input_sha256\": \"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\",\n7:     \"exported_utc\": \"2026-10-11T16:38:25.140966+00:00\"\n8:   },\n9:   \"algorithm\": \"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\",\n10:   \"groups\": [\n11:     {\n12:       \"id\": \"g01\",\n13:       \"eas\": [\n14:         \"0x419D8F\"\n15:       ]\n16:     },\n17:     {\n18:       \"id\": \"g02\",\n19:       \"eas\": [\n20:         \"0x45E610\",\n21:         \"0x45E9D0\",\n22:         \"0x45EBF0\",\n23:         \"0x56C090\",\n24:         \"0x701220\",\n25:         \"0x7012C0\"\n26:       ]\n27:     },\n28:     {\n29:       \"id\": \"g03\",\n30:       \"eas\": [\n31:         \"0x45E670\"\n32:       ]\n33:     },\n34:     {\n35:       \"id\": \"g04\",\n36:       \"eas\": [\n37:         \"0x460860\"\n38:       ]\n39:     },\n40:     {\n41:       \"id\": \"g05\",\n42:       \"eas\": [\n43:         \"0x463FC0\",\n44:         \"0x464DB0\",\n45:         \"0x465720\"\n46:       ]\n47:     },\n48:     {\n49:       \"id\": \"g06\",\n50:       \"eas\": [\n51:         \"0x464850\"\n52:       ]\n53:     },\n54:     {\n55:       \"id\": \"g07\",\n56:       \"eas\": [\n57:         \"0x47CF60\",\n58:         \"0x500900\",\n59:         \"0x485FF0\",\n60:         \"0x493840\",\n61:         \"0x485EC0\",\n62:         \"0x4868C0\"\n63:       ]\n64:     },\n65:     {\n66:       \"id\": \"g08\",\n67:       \"eas\": [\n68:         \"0x47DDA0\",\n69:         \"0x484720\",\n70:         \"0x47DE70\",\n71:         \"0x47E120\",\n72:         \"0x482BD0\",\n73:         \"0x487DF0\"\n74:       ]\n75:     },\n76:     {\n77:       \"id\": \"g09\",\n78:       \"eas\": [\n79:         \"0x47DF60\"\n80:       ]\n[Output truncated. Continue reading with offset: 81]"
+              }
+            ],
+            "metadata": {
+              "truncated": true
+            }
+          },
+          "time": {
+            "created": 1791737421047,
+            "ran": 1791737421072,
+            "completed": 1791737421133
+          }
+        },
+        {
+          "type": "tool",
+          "id": "call_de34bd584f1b449986ce7ac36bcf265e",
+          "name": "read",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe4eb0e08191800644a8e149fcc3"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "path": "AGENT.md",
+              "limit": 170
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Read file AGENT.md, lines 1-170\n1: # Agent Instructions for re-ff8\n2: \n3: ## Reverse Engineering Workflow\n4: \n5: **When reverse engineering a function or any other element, always push your findings back to IDA.** This ensures the IDB stays up-to-date and serves as the single source of truth.\n6: \n7: After analyzing code, use the appropriate tools to persist your discoveries:\n8: \n9: | Finding | Tool to use |\n10: |---|---|\n11: | Function/variable purpose | `user-ida-pro-mcp-set_comments` |\n12: | Better name for function | `user-ida-pro-mcp-rename` (key: `func`) |\n13: | Better name for global | `user-ida-pro-mcp-rename` (key: `data`) |\n14: | Better name for local var | `user-ida-pro-mcp-rename` (key: `local`) |\n15: | Better name for stack var | `user-ida-pro-mcp-rename` (key: `stack`) |\n16: | Type information | `user-ida-pro-mcp-set_type` |\n17: | New struct/enum definition | `user-ida-pro-mcp-declare_type` |\n18: | Stack variable declaration | `user-ida-pro-mcp-declare_stack` |\n19: \n20: **Example workflow:**\n21: 1. Decompile the function with `decompile`\n22: 2. Analyze the code and understand its purpose\n23: 3. Rename the function with a descriptive name via `rename`\n24: 4. Add a comment explaining what it does via `set_comments`\n25: 5. Rename local/stack variables to meaningful names via `rename`\n26: 6. Set proper types for parameters and variables via `set_type`\n27: \n28: ---\n29: \n30: ## IDA Pro MCP Tools\n31: \n32: This project has an IDA Pro MCP server configured (`ida-pro-mcp` in `~/.cursor/mcp.json`).\n33: All IDA tools are available as **`user-ida-pro-mcp-*`** prefixed tool calls. Use them directly.\n34: \n35: **Do NOT fall back to curl, HTTP requests, or Shell commands to reach IDA.** The tools work natively.\n36: \n37: Common examples:\n38: \n39: | Task | Tool call |\n40: |---|---|\n41: | Look up a function | `user-ida-pro-mcp-lookup_funcs` |\n42: | Decompile | `user-ida-pro-mcp-decompile` |\n43: | Call graph | `user-ida-pro-mcp-callgraph` |\n44: | Cross-references | `user-ida-pro-mcp-xrefs_to` |\n45: | Callees of a function | `user-ida-pro-mcp-callees` |\n46: | Rename functions/globals | `user-ida-pro-mcp-rename` |\n47: | List functions | `user-ida-pro-mcp-list_funcs` |\n48: | Execute Python in IDA | `user-ida-pro-mcp-py_eval` |\n49: \n50: The full API reference for parameters and return values is below.\n51: \n52: ---\n53: \n54: ## MCP Resources\n55: \n56: **Resources** represent browsable state (read-only data) following MCP's philosophy.\n57: \n58: **Core IDB State:**\n59: - `ida://idb/metadata` - IDB file info (path, arch, base, size, hashes)\n60: - `ida://idb/segments` - Memory segments with permissions\n61: - `ida://idb/entrypoints` - Entry points (main, TLS callbacks, etc.)\n62: \n63: **UI State:**\n64: - `ida://cursor` - Current cursor position and function\n65: - `ida://selection` - Current selection range\n66: \n67: **Type Information:**\n68: - `ida://types` - All local types\n69: - `ida://structs` - All structures/unions\n70: - `ida://struct/{name}` - Structure definition with fields\n71: \n72: **Lookups:**\n73: - `ida://import/{name}` - Import details by name\n74: - `ida://export/{name}` - Export details by name\n75: - `ida://xrefs/from/{addr}` - Cross-references from address\n76: \n77: ## Core Functions\n78: \n79: - `lookup_funcs(queries)`: Get function(s) by address or name (auto-detects, accepts list or comma-separated string).\n80: - `int_convert(inputs)`: Convert numbers to different formats (decimal, hex, bytes, ASCII, binary).\n81: - `list_funcs(queries)`: List functions (paginated, filtered).\n82: - `list_globals(queries)`: List global variables (paginated, filtered).\n83: - `imports(offset, count)`: List all imported symbols with module names (paginated).\n84: - `decompile(addr)`: Decompile function at the given address.\n85: - `disasm(addr)`: Disassemble function with full details (arguments, stack frame, etc).\n86: - `xrefs_to(addrs)`: Get all cross-references to address(es).\n87: - `xrefs_to_field(queries)`: Get cross-references to specific struct field(s).\n88: - `callees(addrs)`: Get functions called by function(s) at address(es).\n89: \n90: ## Modification Operations\n91: \n92: - `set_comments(items)`: Set comments at address(es) in both disassembly and decompiler views.\n93: - `patch_asm(items)`: Patch assembly instructions at address(es).\n94: - `declare_type(decls)`: Declare C type(s) in the local type library.\n95: \n96: ## Memory Reading Operations\n97: \n98: - `get_bytes(addrs)`: Read raw bytes at address(es).\n99: - `get_int(queries)`: Read integer values using ty (i8/u64/i16le/i16be/etc).\n100: - `get_string(addrs)`: Read null-terminated string(s).\n101: - `get_global_value(queries)`: Read global variable value(s) by address or name (auto-detects, compile-time values).\n102: \n103: ## Stack Frame Operations\n104: \n105: - `stack_frame(addrs)`: Get stack frame variables for function(s).\n106: - `declare_stack(items)`: Create stack variable(s) at specified offset(s).\n107: - `delete_stack(items)`: Delete stack variable(s) by name.\n108: \n109: ## Structure Operations\n110: \n111: - `read_struct(queries)`: Read structure field values at specific address(es).\n112: - `search_structs(filter)`: Search structures by name pattern.\n113: \n114: ## Debugger Operations (Extension)\n115: \n116: Debugger tools are hidden by default. Enable with `?ext=dbg` query parameter:\n117: \n118: ```\n119: http://127.0.0.1:13337/mcp?ext=dbg\n120: ```\n121: \n122: **Control:**\n123: - `dbg_start()`: Start debugger process.\n124: - `dbg_exit()`: Exit debugger process.\n125: - `dbg_continue()`: Continue execution.\n126: - `dbg_run_to(addr)`: Run to address.\n127: - `dbg_step_into()`: Step into instruction.\n128: - `dbg_step_over()`: Step over instruction.\n129: \n130: **Breakpoints:**\n131: - `dbg_bps()`: List all breakpoints.\n132: - `dbg_add_bp(addrs)`: Add breakpoint(s).\n133: - `dbg_delete_bp(addrs)`: Delete breakpoint(s).\n134: - `dbg_toggle_bp(items)`: Enable/disable breakpoint(s).\n135: \n136: **Registers:**\n137: - `dbg_regs()`: All registers, current thread.\n138: - `dbg_regs_all()`: All registers, all threads.\n139: - `dbg_regs_remote(tids)`: All registers, specific thread(s).\n140: - `dbg_gpregs()`: GP registers, current thread.\n141: - `dbg_gpregs_remote(tids)`: GP registers, specific thread(s).\n142: - `dbg_regs_named(names)`: Named registers, current thread.\n143: - `dbg_regs_named_remote(tid, names)`: Named registers, specific thread.\n144: \n145: **Stack & Memory:**\n146: - `dbg_stacktrace()`: Call stack with module/symbol info.\n147: - `dbg_read(regions)`: Read memory from debugged process.\n148: - `dbg_write(regions)`: Write memory to debugged process.\n149: \n150: ## Advanced Analysis Operations\n151: \n152: - `py_eval(code)`: Execute arbitrary Python code in IDA context (returns dict with result/stdout/stderr, supports Jupyter-style evaluation).\n153: - `analyze_funcs(addrs)`: Comprehensive function analysis (decompilation, assembly, xrefs, callees, callers, strings, constants, basic blocks).\n154: \n155: ## Pattern Matching & Search\n156: \n157: - `find_regex(queries)`: Search strings with case-insensitive regex (paginated).\n158: - `find_bytes(patterns, limit=1000, offset=0)`: Find byte pattern(s) in binary (e.g., \"48 8B ?? ??\"). Max limit: 10000.\n159: - `find_insns(sequences, limit=1000, offset=0)`: Find instruction sequence(s) in code. Max limit: 10000.\n160: - `find(type, targets, limit=1000, offset=0)`: Advanced search (immediate values, strings, data/code references). Max limit: 10000.\n161: \n162: ## Control Flow Analysis\n163: \n164: - `basic_blocks(addrs)`: Get basic blocks with successors and predecessors.\n165: \n166: ## Type Operations\n167: \n168: - `set_type(edits)`: Apply type(s) to functions, globals, locals, or stack variables.\n169: - `infer_types(addrs)`: Infer types at address(es) using Hex-Rays or heuristics.\n170: \n[Output truncated. Continue reading with offset: 171]"
+              }
+            ],
+            "metadata": {
+              "truncated": true
+            }
+          },
+          "time": {
+            "created": 1791737421076,
+            "ran": 1791737421087,
+            "completed": 1791737421104
+          }
+        }
+      ],
+      "snapshot": {
+        "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "files": []
+      },
+      "finish": "tool-calls",
+      "providerState": {
+        "responseId": "resp_04f9d4c58e160c0d016acbbe4b258c8191ba31bb9748c2d2ca",
+        "serviceTier": "default"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 413,
+        "output": 119,
+        "reasoning": 0,
+        "cache": {
+          "read": 17152,
+          "write": 0
+        }
+      }
+    },
+    {
+      "id": "msg_12c1e4022001dKqBN1W1bFGRWm_36",
+      "time": {
+        "created": 1791737421358,
+        "streamed": 1791737426827,
+        "completed": 1791737427050
+      },
+      "type": "assistant",
+      "agent": "explore",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      },
+      "content": [
+        {
+          "type": "tool",
+          "id": "call_78b485f8c8bb4ce4a92d44edf1e4aea1",
+          "name": "execute",
+          "executed": false,
+          "providerState": {
+            "itemId": "fc_04f9d4c58e160c0d016acbbe50dc148191bf6122728806fd52"
+          },
+          "state": {
+            "status": "completed",
+            "input": {
+              "code": "return {grep:search({namespace:'grepai',query:'semantic',limit:2}),serena:search({namespace:'serena',query:'initial_instructions',limit:1}),native:await tools['context-mode'].ctx_execute({language:'javascript',code:\"const fs=require('fs'); const p='C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x419D8F.json';const t=fs.readFileSync(p,'utf8');console.log(p); console.log(t.split('\\\\n').map((l,i)=>(i+1)+': '+l).join('\\\\n'));\",intent:'g01 native frozen instructions ABI xrefs metadata'})};"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"grep\": {\n    \"items\": [\n      {\n        \"path\": \"tools.grepai.grepai_1mcp_grepai_rpg_search\",\n        \"description\": \"Search RPG nodes using Jaccard-based semantic matching with scope and kind filtering.\",\n        \"signature\": \"tools.grepai.grepai_1mcp_grepai_rpg_search({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Comma-separated node kinds to filter: area, category, subcategory, file, symbol, chunk (default: symbol) */\\n  kinds?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /** Natural language or feature query to search for */\\n  query: string,\\n  /** Area/category path to narrow search (e.g., 'cli', 'rpg/query') */\\n  scope?: string,\\n}): Promise<unknown>\"\n      },\n      {\n        \"path\": \"tools.grepai.grepai_1mcp_grepai_search\",\n        \"description\": \"Semantic code search. Search your codebase using natural language queries. Returns the most relevant code chunks with file paths, line numbers, and similarity scores.\\n\\nExamples:\\n- workspace-only mode: workspace='acme', path='src/'\\n- workspace + projects mode: workspace='acme', projects='backend,shared', path='api/'\",\n        \"signature\": \"tools.grepai.grepai_1mcp_grepai_search({\\n  /** Return minimal output without content (default: false) */\\n  compact?: boolean,\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /**\\n   * Path prefix to filter results. When projects is set, path is relative to each selected project root (not workspace root). Examples: workspace-only path='src/' and workspace+projects path='MM32/src' or 'api/'.\\n   */\\n  path?: string,\\n  /** Comma-separated list of project names to search within workspace (requires workspace) */\\n  projects?: string,\\n  /** Natural language search query (e.g., 'user authentication flow', 'error handling middleware') */\\n  query: string,\\n  /**\\n   * Absolute project root path. When provided, the server will load configuration/index from this path (overrides server startup project). Optional.\\n   */\\n  root?: string,\\n  /** Workspace name for cross-project search (optional) */\\n  workspace?: string,\\n}): Promise<unknown>\"\n      }\n    ],\n    \"remaining\": 1,\n    \"next\": {\n      \"offset\": 2\n    }\n  },\n  \"serena\": {\n    \"items\": [\n      {\n        \"path\": \"tools.serena.serena_1mcp_initial_instructions\",\n        \"description\": \"Provides the 'Serena Instructions Manual', which contains essential information on how to use the Serena toolbox.\\nIMPORTANT: If you have not yet read the manual, call this tool immediately after you are given your task by the user,\\nas it will critically inform you!.\",\n        \"signature\": \"tools.serena.serena_1mcp_initial_instructions(): Promise<{\\n  result: string,\\n}>\"\n      }\n    ],\n    \"remaining\": 1,\n    \"next\": {\n      \"offset\": 1\n    }\n  },\n  \"native\": \"```javascript\\nconst fs=require('fs'); const p='C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x419D8F.json';const t=fs.readFileSync(p,'utf8');console.log(p); console.log(t.split('\\\\n').map((l,i)=>(i+1)+': '+l).join('\\\\n'));\\n```\\n\\nC:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x419D8F.json\\n1: {\\n2:   \\\"ea\\\": \\\"0x419D8F\\\",\\n3:   \\\"name_label_only\\\": \\\"TextureRelated2\\\",\\n4:   \\\"native\\\": {\\n5:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n6:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n7:     \\\"bits\\\": 32,\\n8:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n9:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n10:   },\\n11:   \\\"chunks\\\": [\\n12:     {\\n13:       \\\"start\\\": \\\"0x419d8f\\\",\\n14:       \\\"end\\\": \\\"0x419de9\\\",\\n15:       \\\"hex\\\": \\\"558bec83ec08c745f800000000837d0c007440837d1000743a8b450c8b4d088b516489502c8b4510508b4d0c518b550852e84bf6ffff83c40c8945fc8b45fc508b4d0c518b550852e8e2feffff83c40c8945f88b45f88be55dc3\\\"\\n16:     }\\n17:   ],\\n18:   \\\"assembly\\\": \\\"00419D8F: push    ebp\\\\n00419D90: mov     ebp, esp\\\\n00419D92: sub     esp, 8; Integer Subtraction\\\\n00419D95: mov     [ebp+var_8], 0\\\\n00419D9C: cmp     [ebp+tex], 0; Compare Two Operands\\\\n00419DA0: jz      short loc_419DE2; Jump if Zero (ZF=1)\\\\n00419DA2: cmp     [ebp+upload_key], 0; Compare Two Operands\\\\n00419DA6: jz      short loc_419DE2; Jump if Zero (ZF=1)\\\\n00419DA8: mov     eax, [ebp+tex]\\\\n00419DAB: mov     ecx, [ebp+desc]\\\\n00419DAE: mov     edx, [ecx+64h]\\\\n00419DB1: mov     [eax+2Ch], edx\\\\n00419DB4: mov     eax, [ebp+upload_key]\\\\n00419DB7: push    eax\\\\n00419DB8: mov     ecx, [ebp+tex]\\\\n00419DBB: push    ecx\\\\n00419DBC: mov     edx, [ebp+desc]\\\\n00419DBF: push    edx\\\\n00419DC0: call    Texture_FindTexture; Call Procedure\\\\n00419DC5: add     esp, 0Ch; Add\\\\n00419DC8: mov     [ebp+var_4], eax\\\\n00419DCB: mov     eax, [ebp+var_4]\\\\n00419DCE: push    eax\\\\n00419DCF: mov     ecx, [ebp+tex]\\\\n00419DD2: push    ecx\\\\n00419DD3: mov     edx, [ebp+desc]\\\\n00419DD6: push    edx\\\\n00419DD7: call    Texture_UploadRefcountOrReuse; cache resolve +0x18 refcount; slot +0x50 upload on 0->1, handle +0x1C\\\\n00419DDC: add     esp, 0Ch; Add\\\\n00419DDF: mov     [ebp+var_8], eax\\\\n00419DE2: mov     eax, [ebp+var_8]\\\\n00419DE5: mov     esp, ebp\\\\n00419DE7: pop     ebp\\\\n00419DE8: retn; Return Near from Procedure\\\",\\n19:   \\\"cfg\\\": [\\n20:     {\\n21:       \\\"start\\\": \\\"0x419d8f\\\",\\n22:       \\\"end\\\": \\\"0x419da2\\\",\\n23:       \\\"successors\\\": [\\n24:         \\\"0x419da2\\\",\\n25:         \\\"0x419de2\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"start\\\": \\\"0x419da2\\\",\\n30:       \\\"end\\\": \\\"0x419da8\\\",\\n31:       \\\"successors\\\": [\\n32:         \\\"0x419da8\\\",\\n33:         \\\"0x419de2\\\"\\n34:       ]\\n35:     },\\n36:     {\\n37:       \\\"start\\\": \\\"0x419da8\\\",\\n38:       \\\"end\\\": \\\"0x419de2\\\",\\n39:       \\\"successors\\\": [\\n40:         \\\"0x419de2\\\"\\n41:       ]\\n42:     },\\n43:     {\\n44:       \\\"start\\\": \\\"0x419de2\\\",\\n45:       \\\"end\\\": \\\"0x419de9\\\",\\n46:       \\\"successors\\\": []\\n47:     }\\n48:   ],\\n49:   \\\"xrefs_to\\\": [\\n50:     {\\n51:       \\\"from\\\": \\\"0x407797\\\",\\n52:       \\\"type\\\": 17,\\n53:       \\\"iscode\\\": true,\\n54:       \\\"function\\\": \\\"0x4076b6\\\"\\n55:     },\\n56:     {\\n57:       \\\"from\\\": \\\"0x414ad1\\\",\\n58:       \\\"type\\\": 17,\\n59:       \\\"iscode\\\": true,\\n60:       \\\"function\\\": \\\"0x414a40\\\"\\n61:     }\\n62:   ],\\n63:   \\\"code_targets\\\": [\\n64:     \\\"0x419410\\\",\\n65:     \\\"0x419cbe\\\"\\n66:   ],\\n67:   \\\"instruction_count\\\": 34\\n68: }\\n\"\n}"
+              }
+            ],
+            "metadata": {
+              "toolCalls": [
+                {
+                  "tool": "search",
+                  "status": "completed",
+                  "input": {
+                    "query": "semantic",
+                    "namespace": "grepai",
+                    "limit": 2
+                  }
+                },
+                {
+                  "tool": "search",
+                  "status": "completed",
+                  "input": {
+                    "query": "initial_instructions",
+                    "namespace": "serena",
+                    "limit": 1
+                  }
+                },
+                {
+                  "tool": "context-mode.ctx_execute",
+                  "status": "completed",
+                  "input": {
+                    "language": "javascript",
+                    "code": "const fs=require('fs'); const p='C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x419D8F.json';const t=fs.readFileSync(p,'utf8');console.log(p); console.log(t.split('\\n').map((l,i)=>(i+1)+': '+l).join('\\n'));",
+                    "intent": "g01 native frozen instructions ABI xrefs metadata"
+                  }
+                }
+              ],
+              "truncated": false
+            }
+          },
+          "time": {
+            "created": 1791737423127,
+            "ran": 1791737426790,
+            "completed": 1791737426877
+          }
+        }
+      ],
+      "snapshot": {
+        "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+        "files": []
+      },
+      "finish": "tool-calls",
+      "providerState": {
+        "responseId": "resp_04f9d4c58e160c0d016acbbe4f8c24819186ac9c119d5bd2d1",
+        "serviceTier": "default"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 4559,
+        "output": 179,
+        "reasoning": 0,
+        "cache": {
+          "read": 17408,
+          "write": 0
+        }
+      }
+    },
+    {
+      "id": "msg_12c1e4038001Gj4UtMErzuoydc",
+      "time": {
+        "created": 1791741542456
+      },
+      "type": "agent-switched",
+      "agent": "re-decompile-ensemble",
+      "previous": "explore"
+    },
+    {
+      "id": "msg_12c1e4048001f6519clYT0yJY7",
+      "time": {
+        "created": 1791741542472
+      },
+      "type": "model-switched",
+      "model": {
+        "id": "claude-opus-5-5",
+        "providerID": "opencode",
+        "variant": "high"
+      },
+      "previous": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "medium"
+      }
+    },
+    {
+      "id": "msg_12c1e4076001JVtFJkBdMwp9jE",
+      "metadata": {
+        "notice": "instructions",
+        "instructionSources": [
+          "core/codemode",
+          "core/mcp-guidance",
+          "core/skill-guidance"
+        ]
+      },
+      "time": {
+        "created": 1791741542518
+      },
+      "type": "system",
+      "text": "The Code Mode tool catalog has changed. This catalog supersedes the previous Code Mode tool catalog.\n\n# Code Mode\n\nUse the `execute` tool to call the tools listed below. They cannot be called directly. They only work inside code you pass to `execute`.\n\nThe catalog is complete. Do not guess tool names.\n\n## Available tools\n\n- team_broadcast (1 tool)\n  - tools.team_broadcast({\n  /** Message content (max 10KB) */\n  text: string,\n}): Promise<string | null> // Send a message to all teammates and the lead (excluding yourself).\n- team_claim (1 tool)\n  - tools.team_claim({\n  /** ID of the task to claim */\n  task_id: string,\n}): Promise<string | null> // Claim a pending task from the shared task list. Only unclaimed, unblocked tasks can be claimed.\n- team_handoff (1 tool)\n  - tools.team_handoff({\n  /** Native target agent name */\n  agent: string,\n}): Promise<string | null> // V2: switch your own team session to another agent for subsequent provider turns, retaining its history, identity, tas...\n- team_message (1 tool)\n  - tools.team_message({\n  /** Recipient name ('lead' or teammate name) */\n  to: string,\n  /** Message content (max 10KB). Optional only when 'model' is provided. */\n  text?: string,\n  /** Approve a teammate's plan (only when recipient has plan_approval='pending'). @default false */\n  approve?: boolean,\n  /** Reject a teammate's plan with reason (only when recipient has plan_approval='pending') */\n  reject?: string,\n  /** Lead only. Re-activate a teammate who already reported task completion. @default false */\n  force?: boolean,\n  /** Lead only: update the recipient teammate's model in-place, in 'provider/model' format. */\n  model?: string,\n  /** Frozen mission classification defaults/explicit overrides */\n  classification?: {\n    mode?: \"off\" | \"auto\" | \"jev\" | \"general\" | \"x86\",\n    /** Explicit helper model in provider/model format; no model is chosen implicitly */\n    helperModel?: string,\n    /** Native reasoning variant for the helper model */\n    helperVariant?: string,\n    /** Exact classifier tool ID; empty means discover the known JEV contract */\n    toolId?: string,\n    /** @integer @minimum 1 */\n    timeoutMs?: number,\n    missionMode?: \"supervised\" | \"long_run\",\n    /** Explicit model for embedded general classification; never activated automatically */\n    generalModel?: string,\n    /** Reasoning variant for the general classifier */\n    generalVariant?: string,\n    /** In auto mode, prefer the discovered x86 tool for explicit x86 tasks */\n    specialized?: boolean,\n    /** Exact specialized tool ID; empty discovers the known classify_x86 contract */\n    x86ToolId?: string,\n    /** @maxItems 8 */\n    fallbacks?: Array<{\n        method: \"jev\" | \"general\",\n        /** Explicitly authorized classifier/helper model */\n        model: string,\n        /** Reasoning variant */\n        variant?: string,\n        /** Exact JEV tool ID */\n        toolId?: string,\n      }>,\n    limits?: {\n      /** @integer @minimum 0 */\n      retries?: number,\n      /** @integer @minimum 0 */\n      retryDelayMs?: number,\n      /** @integer @minimum 1 */\n      maxAttempts?: number,\n      /** @integer @minimum 1 */\n      maxCalls?: number,\n      /** @integer @minimum 1 */\n      maxDurationMs?: number,\n      /** @integer @minimum 1 */\n      maxInputBytes?: number,\n      /** @integer @minimum 1 */\n      concurrency?: number,\n      /** @integer @minimum 1 */\n      circuitThreshold?: number,\n      /** @integer @minimum 1 */\n      circuitCooldownMs?: number,\n      /** @integer @minimum 0 */\n      maxCircuitRechecks?: number,\n    },\n  },\n}): Promise<string | null> // Send a message to a specific teammate or to the lead. Use 'lead' to message the team lead. Lead only: pass 'model' (p...\n- team_results (1 tool)\n  - tools.team_results({\n  /** Filter messages by sender name (optional, returns all if omitted) */\n  from?: string,\n}): Promise<string | null> // Retrieve full message content from teammates. Returns unread messages and marks them as read. Use this after receivin...\n- team_status (1 tool)\n  - tools.team_status(): Promise<string | null> // View team members with their current status, agent type, and session IDs. Use this to check who is working, idle, or ...\n- team_tasks_add (1 tool)\n  - tools.team_tasks_add({\n  /** Tasks to add */\n  tasks: Array<{\n      /** Task description */\n      content: string,\n      /** Task priority. @default \"medium\" */\n      priority?: \"high\" | \"medium\" | \"low\",\n      /** Task IDs this depends on */\n      depends_on?: Array<string>,\n      /** Agent type affinity for auto-dispatch (e.g. build). Omit for any member. */\n      agent?: string,\n      /** Task complexity for deterministic model routing. @integer @minimum 0 @maximum 100 */\n      complexity?: number,\n      /** Task risk for model routing only (not review policy). @integer @minimum 0 @maximum 100 */\n      risk?: number,\n      /** Explicit task kind supplied to the fixed classification protocol */\n      task_type?: string,\n      /** Task-specific classification data, treated as data rather than instructions */\n      classification_input?: {},\n    }>,\n}): Promise<string | null> // Add tasks to the shared team task board so teammates can see what work is available and claim it.\n- team_tasks_complete (1 tool)\n  - tools.team_tasks_complete({\n  /** ID of the task to mark complete */\n  task_id: string,\n}): Promise<string | null> // Mark a task as completed on the shared board. This unblocks any tasks that depend on it.\n- team_tasks_list (1 tool)\n  - tools.team_tasks_list(): Promise<string | null> // View the shared team task board. Use this to check task status, not to wait for teammates. Teammates will message you...\n- team_view (1 tool)\n  - tools.team_view({\n  /** Teammate name to view */\n  member: string,\n  /** Switch the user's client to this session. Only when the user explicitly asked. @default false */\n  navigate?: boolean,\n}): Promise<string | null> // Resolve a teammate's session so the user can inspect it. Default reports the session ID + status without switching. n...\n\nMCP server instructions are no longer available.\n\nSkills provide specialized instructions and workflows for specific tasks.\nUse the skill tool to load a skill when a task matches its description.\nThe user may also invoke a skill directly. When that happens, its instructions appear in the conversation as a <skill_content> block, the same shape the skill tool returns. A skill that is already present this way does not need to be invoked again.\n<available_skills>\n  <skill>\n    <id>opencode-ensemble</id>\n    <name>opencode-ensemble</name>\n    <description>Use when coordinating multiple coding agents, delegating independent software work, managing OpenCode Ensemble teams, choosing teammate profiles or models, reusing native session history, handing a session to another agent, or reviewing teammate output. Also use to decide whether a team is worthwhile. Project installation and agent-file adaptation use ensemble-project-setup.</description>\n  </skill>\n</available_skills>",
+      "description": "Instructions updated: core/codemode, core/mcp-guidance, core/skill-guidance"
+    },
+    {
+      "id": "msg_12c1e404e00118eDLkD2mNMhQL",
+      "metadata": {
+        "ensemble.spawn": "team_mv41qy6o_0000_vbge32/c-b-419d8f/ses_ed3e1bfdeffe0wXFBZZ8olIYRE"
+      },
+      "time": {
+        "created": 1791741542524
+      },
+      "text": "You are \"c-b-419d8f\", a teammate in team \"ff8-decomp-semantics-20261011-r01\".\nYour agent type is \"re-decompile-ensemble\".\n[Ensemble task ses_ed3e1bfdeffe0wXFBZZ8olIYRE]\nYou inherited the source session's projected research/history. This message defines your new identity and task; historical teammate roles and instructions belong to the source, not to you.\nOther teammates: discover-g16-recovery, discover-g18-recovery, discover-g26-recovery, discover-g31-recovery, c-a-419d8f, discover-g11-zai, discover-g02, discover-g05, discover-g24, discover-g01, discover-g03, discover-g04, discover-g06, discover-g07, discover-g08, discover-g09, discover-g10, discover-g12, discover-g13, discover-g14, discover-g15, discover-g16, discover-g17, discover-g18, discover-g19, discover-g20, discover-g21, discover-g22, discover-g23, discover-g25, discover-g26, discover-g27, discover-g28, discover-g29, discover-g30, discover-g31, discover-g32, discover-g33, discover-g34, discover-g35, discover-g36, classify-g11, classify-g02, classify-g05, classify-g01, classify-g03, classify-g04, classify-g06, classify-g07, classify-g08, classify-g09, classify-g10, classify-g14, classify-g15, classify-g17, classify-g19, classify-g20, classify-g21, classify-g22, classify-g23, classify-g24, classify-g25, classify-g27, classify-g28, classify-g29, classify-g30, classify-g32, classify-g33, classify-g34, classify-g35, classify-g36, c-a-g27, sem-a-g27, sem-b-g27, c-b-g27, sem-r-50bf90, c-r-50bf90, admit-s1, admit-s2, admit-s3, c-a-460860, c-b-460860, sem-a-460860, sem-b-460860, discover-g12-recovery, discover-g13-recovery\n\nTools available to you:\n- team_message: send a message to the lead or another teammate\n- team_broadcast: send a message to all team members\n- team_tasks_list: view the shared team task board\n- team_tasks_add: add tasks to the shared board\n- team_tasks_complete: mark a task complete on the shared board\n- team_claim: claim a pending task from the shared board\n\nCollaboration:\n- Check team_tasks_list to see what other teammates are working on.\n- If you need information another teammate has, message them directly via team_message.\n- If you discover something relevant to another teammate's task, share it with them.\n- Use team_broadcast for updates that affect the whole team.\n- Keep peer messages focused and actionable — coordinate, don't chat.\n\nWhen you finish your task:\nUse team_handoff to change your own agent in this same session when needed. Use team_results, team_status and team_view for inspection.\n1. If you claimed a task, mark it complete using team_tasks_complete.\n2. Send ONE message to the lead using team_message with this format:\n<task-result>\n<status>completed or failed</status>\n<summary>One-line summary of what you did</summary>\n<details>Full findings or changes made</details>\n</task-result>\n3. STOP. Do not send follow-up confirmations, status updates, or 'standing by' messages.\n\nIf you are blocked:\n- Send ONE message to the lead via team_message describing the specific blocker.\n- Do NOT attempt workarounds or make assumptions. Wait for the lead's response.\n\nYour plain text output is NOT visible to the team. You MUST use team_message to communicate.\n\nYour task:\nIndependent C B, function 0x419D8F ONLY (2+1). Inherit SAME factual reader native boundary, never classifier/author. Read ONLY inputs/ff8-decomp-semantics-20261011-r01/g01/common-compaction.md and 0x419D8F.readable/manifest.json + ALL verbatim ASM/byte slices + metadata.json; native 0x419D8F.json remains authority. Each line/chunk must be covered, no truncation. C: faithful complete C, every block, exact widths/order/alias, x86 wrap/shift/partial-reg and cdecl pushed right-to-left; no invented library calls/guards. Semantic: role/contract/effects, justified confidence/name, 3–8 ASM/xref proofs and ≥2 name proofs, explicit unknowns. Signed/unsigned branches, numeric strides, AL/AX/EAX and x87 environment exact; labels/comments are hypotheses not proofs. Write ONLY outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/c_b.md. No rediscovery/index/IDA/score/history or other outputs, IDB/Git/ledger/registry/config/live/délégation/API changes. Report coverage/risks/file then complete task and STOP. If output hash unavailable, parent computes; no closure stall. Short bounded reads permitted; no unperformed compile/test claims.\n\nYou have been assigned task task_mv44nhpq_005d_hkxkbl. Mark it complete when done.",
+      "type": "user"
+    }
+  ],
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xMmMxZTQwMjIwMDFkS3FCTjFXMWJGR1JXbV8xIiwib3JkZXIiOiJhc2MiLCJkaXJlY3Rpb24iOiJwcmV2aW91cyJ9",
+    "next": "eyJpZCI6Im1zZ18xMmMxZTQwNGUwMDExOGVETGtEMm1OTWhRTCIsIm9yZGVyIjoiYXNjIiwiZGlyZWN0aW9uIjoibmV4dCJ9"
+  }
+}

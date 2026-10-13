@@ -1,0 +1,1380 @@
+{
+  "at": "2026-10-12T17:25:54.783134+00:00",
+  "ea": "0x500900",
+  "group": "g07",
+  "name": "BdLink_GF_battle_input_and_texture_upload",
+  "packet_sha256": "0c68458ed2dd63fc4969914f650dfd11176145e5b11dda0e4ce2d917cff21590",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g07\\0x500900\\semantic_r.md",
+  "candidate_sha256": "5870b236634ed6d488a207cb71ce5e1273ece5cbd230dce252b86a9aff06810f",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x500900",
+      "hi": "0x5009a1",
+      "sha256": "b88a6d781de140cd8da94a8fcd8f81639642bb010c1d05813d4758a1e9ae65db",
+      "match": true
+    },
+    {
+      "lo": "0x5005a0",
+      "hi": "0x50081f",
+      "sha256": "82936824824ac61d4b67ae2331ce9f4b40921fffa5237f806195731d68af74ed",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x500900",
+      "hex": "e8cbc7f8ff",
+      "text": "call    nullsub_6"
+    },
+    {
+      "ea": "0x500905",
+      "hex": "a1a46ad901",
+      "text": "mov     eax, list_head"
+    },
+    {
+      "ea": "0x50090a",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x50090b",
+      "hex": "e8107b0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500910",
+      "hex": "8b0d8c6ad901",
+      "text": "mov     ecx, battle_tasks_init_dword_1D96A8C"
+    },
+    {
+      "ea": "0x500916",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x500917",
+      "hex": "e8047b0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x50091c",
+      "hex": "8b15a06ad901",
+      "text": "mov     edx, battle_tasks_init_dword_1D96AA0"
+    },
+    {
+      "ea": "0x500922",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x500923",
+      "hex": "e8f87a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500928",
+      "hex": "a2906ad901",
+      "text": "mov     byte_1D96A90, al"
+    },
+    {
+      "ea": "0x50092d",
+      "hex": "a1ac6ad901",
+      "text": "mov     eax, g_GfSequenceContextCandidateA"
+    },
+    {
+      "ea": "0x500932",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x500935",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x500937",
+      "hex": "7412",
+      "text": "jz      short loc_50094B"
+    },
+    {
+      "ea": "0x500939",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x50093a",
+      "hex": "e8e17a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x50093f",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x500942",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x500944",
+      "hex": "7505",
+      "text": "jnz     short loc_50094B"
+    },
+    {
+      "ea": "0x500946",
+      "hex": "a3ac6ad901",
+      "text": "mov     g_GfSequenceContextCandidateA, eax"
+    },
+    {
+      "ea": "0x50094b",
+      "hex": "a1a86ad901",
+      "text": "mov     eax, battle_tasks_init_dword_1D96AA8"
+    },
+    {
+      "ea": "0x500950",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x500951",
+      "hex": "e8ca7a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500956",
+      "hex": "a2886ad901",
+      "text": "mov     byte_1D96A88, al"
+    },
+    {
+      "ea": "0x50095b",
+      "hex": "e8c0160000",
+      "text": "call    sub_502020"
+    },
+    {
+      "ea": "0x500960",
+      "hex": "e82ba7fbff",
+      "text": "call    sub_4BB090"
+    },
+    {
+      "ea": "0x500965",
+      "hex": "e866c7f8ff",
+      "text": "call    nullsub_6"
+    },
+    {
+      "ea": "0x50096a",
+      "hex": "8b0d946ad901",
+      "text": "mov     ecx, battle_tasks_init_dword_1D96A94"
+    },
+    {
+      "ea": "0x500970",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x500971",
+      "hex": "e8aa7a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500976",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x500979",
+      "hex": "e852c7f8ff",
+      "text": "call    nullsub_6"
+    },
+    {
+      "ea": "0x50097e",
+      "hex": "e8ad620000",
+      "text": "call    BdLinkTask_PumpStageList"
+    },
+    {
+      "ea": "0x500983",
+      "hex": "e848c7f8ff",
+      "text": "call    nullsub_6"
+    },
+    {
+      "ea": "0x500988",
+      "hex": "e8d3360000",
+      "text": "call    updateBattleCamera"
+    },
+    {
+      "ea": "0x50098d",
+      "hex": "e89e640000",
+      "text": "call    sub_506E30"
+    },
+    {
+      "ea": "0x500992",
+      "hex": "e8492a0000",
+      "text": "call    BattleCamera_BuildViewAndConsumeDeltas"
+    },
+    {
+      "ea": "0x500997",
+      "hex": "e884160000",
+      "text": "call    sub_502020"
+    },
+    {
+      "ea": "0x50099c",
+      "hex": "e9fffbffff",
+      "text": "jmp     loc_5005A0"
+    },
+    {
+      "ea": "0x5005a0",
+      "hex": "f6059c6ad90104",
+      "text": "test    byte ptr battle_to_update_flags_dword_1D96A9C, 4"
+    },
+    {
+      "ea": "0x5005a7",
+      "hex": "0f84b1000000",
+      "text": "jz      loc_50065E"
+    },
+    {
+      "ea": "0x5005ad",
+      "hex": "a1e4a3b800",
+      "text": "mov     eax, dword_B8A3E4"
+    },
+    {
+      "ea": "0x5005b2",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x5005b3",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5005b8",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x5005bd",
+      "hex": "83f001",
+      "text": "xor     eax, 1"
+    },
+    {
+      "ea": "0x5005c0",
+      "hex": "8d0c40",
+      "text": "lea     ecx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x5005c3",
+      "hex": "c1e103",
+      "text": "shl     ecx, 3"
+    },
+    {
+      "ea": "0x5005c6",
+      "hex": "2bc8",
+      "text": "sub     ecx, eax"
+    },
+    {
+      "ea": "0x5005c8",
+      "hex": "a14ce0d801",
+      "text": "mov     eax, g_BattleOTBase"
+    },
+    {
+      "ea": "0x5005cd",
+      "hex": "83c008",
+      "text": "add     eax, 8"
+    },
+    {
+      "ea": "0x5005d0",
+      "hex": "8d148dc869d901",
+      "text": "lea     edx, ds:1D969C8h[ecx*4]"
+    },
+    {
+      "ea": "0x5005d7",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x5005d8",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x5005d9",
+      "hex": "e8828bfaff",
+      "text": "call    sub_4A9160"
+    },
+    {
+      "ea": "0x5005de",
+      "hex": "a09c6ad901",
+      "text": "mov     al, byte ptr battle_to_update_flags_dword_1D96A9C"
+    },
+    {
+      "ea": "0x5005e3",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x5005e6",
+      "hex": "a804",
+      "text": "test    al, 4"
+    },
+    {
+      "ea": "0x5005e8",
+      "hex": "7474",
+      "text": "jz      short loc_50065E"
+    },
+    {
+      "ea": "0x5005ea",
+      "hex": "8b0d806ad901",
+      "text": "mov     ecx, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5005f0",
+      "hex": "81e1ff000000",
+      "text": "and     ecx, 0FFh"
+    },
+    {
+      "ea": "0x5005f6",
+      "hex": "8bc1",
+      "text": "mov     eax, ecx"
+    },
+    {
+      "ea": "0x5005f8",
+      "hex": "8d1449",
+      "text": "lea     edx, [ecx+ecx*2]"
+    },
+    {
+      "ea": "0x5005fb",
+      "hex": "83f001",
+      "text": "xor     eax, 1"
+    },
+    {
+      "ea": "0x5005fe",
+      "hex": "c1e203",
+      "text": "shl     edx, 3"
+    },
+    {
+      "ea": "0x500601",
+      "hex": "2bd1",
+      "text": "sub     edx, ecx"
+    },
+    {
+      "ea": "0x500603",
+      "hex": "8d0c95c869d901",
+      "text": "lea     ecx, ds:1D969C8h[edx*4]"
+    },
+    {
+      "ea": "0x50060a",
+      "hex": "8d1440",
+      "text": "lea     edx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x50060d",
+      "hex": "c1e203",
+      "text": "shl     edx, 3"
+    },
+    {
+      "ea": "0x500610",
+      "hex": "2bd0",
+      "text": "sub     edx, eax"
+    },
+    {
+      "ea": "0x500612",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x500613",
+      "hex": "8d0c95c869d901",
+      "text": "lea     ecx, ds:1D969C8h[edx*4]"
+    },
+    {
+      "ea": "0x50061a",
+      "hex": "8d1480",
+      "text": "lea     edx, [eax+eax*4]"
+    },
+    {
+      "ea": "0x50061d",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x50061e",
+      "hex": "8b0de4a3b800",
+      "text": "mov     ecx, dword_B8A3E4"
+    },
+    {
+      "ea": "0x500624",
+      "hex": "8d04958069d901",
+      "text": "lea     eax, ds:1D96980h[edx*4]"
+    },
+    {
+      "ea": "0x50062b",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x50062c",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x50062d",
+      "hex": "e8ee8bfaff",
+      "text": "call    sub_4A9220"
+    },
+    {
+      "ea": "0x500632",
+      "hex": "a03ae0d801",
+      "text": "mov     al, byte_1D8E03A"
+    },
+    {
+      "ea": "0x500637",
+      "hex": "83c410",
+      "text": "add     esp, 10h"
+    },
+    {
+      "ea": "0x50063a",
+      "hex": "84c0",
+      "text": "test    al, al"
+    },
+    {
+      "ea": "0x50063c",
+      "hex": "7420",
+      "text": "jz      short loc_50065E"
+    },
+    {
+      "ea": "0x50063e",
+      "hex": "3c10",
+      "text": "cmp     al, 10h"
+    },
+    {
+      "ea": "0x500640",
+      "hex": "7609",
+      "text": "jbe     short loc_50064B"
+    },
+    {
+      "ea": "0x500642",
+      "hex": "04f0",
+      "text": "add     al, 0F0h"
+    },
+    {
+      "ea": "0x500644",
+      "hex": "a23ae0d801",
+      "text": "mov     byte_1D8E03A, al"
+    },
+    {
+      "ea": "0x500649",
+      "hex": "eb13",
+      "text": "jmp     short loc_50065E"
+    },
+    {
+      "ea": "0x50064b",
+      "hex": "83e001",
+      "text": "and     eax, 1"
+    },
+    {
+      "ea": "0x50064e",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x50064f",
+      "hex": "e8bcbcf5ff",
+      "text": "call    nullsub_4_used"
+    },
+    {
+      "ea": "0x500654",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x500657",
+      "hex": "c6053ae0d80100",
+      "text": "mov     byte_1D8E03A, 0"
+    },
+    {
+      "ea": "0x50065e",
+      "hex": "e8fd140000",
+      "text": "call    sub_501B60"
+    },
+    {
+      "ea": "0x500663",
+      "hex": "e8c80b0000",
+      "text": "call    sub_501230"
+    },
+    {
+      "ea": "0x500668",
+      "hex": "f6059c6ad90108",
+      "text": "test    byte ptr battle_to_update_flags_dword_1D96A9C, 8"
+    },
+    {
+      "ea": "0x50066f",
+      "hex": "741e",
+      "text": "jz      short loc_50068F"
+    },
+    {
+      "ea": "0x500671",
+      "hex": "e8aa560000",
+      "text": "call    BattleTimQueue_FlushToVram"
+    },
+    {
+      "ea": "0x500676",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x500678",
+      "hex": "6840e0d801",
+      "text": "push    offset unk_1D8E040"
+    },
+    {
+      "ea": "0x50067d",
+      "hex": "e86ec3f5ff",
+      "text": "call    sub_45C9F0"
+    },
+    {
+      "ea": "0x500682",
+      "hex": "6840e0d801",
+      "text": "push    offset unk_1D8E040"
+    },
+    {
+      "ea": "0x500687",
+      "hex": "e894bcf5ff",
+      "text": "call    nullsub_5_used"
+    },
+    {
+      "ea": "0x50068c",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x50068f",
+      "hex": "f6059c6ad90104",
+      "text": "test    byte ptr battle_to_update_flags_dword_1D96A9C, 4"
+    },
+    {
+      "ea": "0x500696",
+      "hex": "0f84b1000000",
+      "text": "jz      loc_50074D"
+    },
+    {
+      "ea": "0x50069c",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5006a1",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x5006a6",
+      "hex": "83f001",
+      "text": "xor     eax, 1"
+    },
+    {
+      "ea": "0x5006a9",
+      "hex": "8d1440",
+      "text": "lea     edx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x5006ac",
+      "hex": "c1e203",
+      "text": "shl     edx, 3"
+    },
+    {
+      "ea": "0x5006af",
+      "hex": "2bd0",
+      "text": "sub     edx, eax"
+    },
+    {
+      "ea": "0x5006b1",
+      "hex": "8d0495c869d901",
+      "text": "lea     eax, ds:1D969C8h[edx*4]"
+    },
+    {
+      "ea": "0x5006b8",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x5006b9",
+      "hex": "e8a2aff5ff",
+      "text": "call    sub_45B660"
+    },
+    {
+      "ea": "0x5006be",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5006c3",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x5006c8",
+      "hex": "8bc8",
+      "text": "mov     ecx, eax"
+    },
+    {
+      "ea": "0x5006ca",
+      "hex": "c1e104",
+      "text": "shl     ecx, 4"
+    },
+    {
+      "ea": "0x5006cd",
+      "hex": "03c8",
+      "text": "add     ecx, eax"
+    },
+    {
+      "ea": "0x5006cf",
+      "hex": "8d14c8",
+      "text": "lea     edx, [eax+ecx*8]"
+    },
+    {
+      "ea": "0x5006d2",
+      "hex": "c1e204",
+      "text": "shl     edx, 4"
+    },
+    {
+      "ea": "0x5006d5",
+      "hex": "03d0",
+      "text": "add     edx, eax"
+    },
+    {
+      "ea": "0x5006d7",
+      "hex": "8d04d5dc24d901",
+      "text": "lea     eax, ds:1D924DCh[edx*8]"
+    },
+    {
+      "ea": "0x5006de",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x5006df",
+      "hex": "e82ccff5ff",
+      "text": "call    Gpu_DrawOTagCurrent"
+    },
+    {
+      "ea": "0x5006e4",
+      "hex": "0fbf0d38e0d801",
+      "text": "movsx   ecx, word_1D8E038"
+    },
+    {
+      "ea": "0x5006eb",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x5006ec",
+      "hex": "e80fc60600",
+      "text": "call    Call_Bs_parseCamera2"
+    },
+    {
+      "ea": "0x5006f1",
+      "hex": "0fbf153ee0d801",
+      "text": "movsx   edx, word_1D8E03E"
+    },
+    {
+      "ea": "0x5006f8",
+      "hex": "0fbf053ce0d801",
+      "text": "movsx   eax, word_1D8E03C"
+    },
+    {
+      "ea": "0x5006ff",
+      "hex": "83c26c",
+      "text": "add     edx, 6Ch"
+    },
+    {
+      "ea": "0x500702",
+      "hex": "05a0000000",
+      "text": "add     eax, 0A0h"
+    },
+    {
+      "ea": "0x500707",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x500708",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x500709",
+      "hex": "e8d2c50600",
+      "text": "call    Call_Bs_ParseCamera"
+    },
+    {
+      "ea": "0x50070e",
+      "hex": "0fbf0d38e0d801",
+      "text": "movsx   ecx, word_1D8E038"
+    },
+    {
+      "ea": "0x500715",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x500716",
+      "hex": "e8e5c50600",
+      "text": "call    Call_Bs_parseCamera2"
+    },
+    {
+      "ea": "0x50071b",
+      "hex": "0fbf153ee0d801",
+      "text": "movsx   edx, word_1D8E03E"
+    },
+    {
+      "ea": "0x500722",
+      "hex": "0fbf053ce0d801",
+      "text": "movsx   eax, word_1D8E03C"
+    },
+    {
+      "ea": "0x500729",
+      "hex": "83c26c",
+      "text": "add     edx, 6Ch"
+    },
+    {
+      "ea": "0x50072c",
+      "hex": "05a0000000",
+      "text": "add     eax, 0A0h"
+    },
+    {
+      "ea": "0x500731",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x500732",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x500733",
+      "hex": "e8a8c50600",
+      "text": "call    Call_Bs_ParseCamera"
+    },
+    {
+      "ea": "0x500738",
+      "hex": "83c420",
+      "text": "add     esp, 20h"
+    },
+    {
+      "ea": "0x50073b",
+      "hex": "66c7053ee0d8010000",
+      "text": "mov     word_1D8E03E, 0"
+    },
+    {
+      "ea": "0x500744",
+      "hex": "66c7053ce0d8010000",
+      "text": "mov     word_1D8E03C, 0"
+    },
+    {
+      "ea": "0x50074d",
+      "hex": "a134f8cf01",
+      "text": "mov     eax, pause_game_battle"
+    },
+    {
+      "ea": "0x500752",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x500754",
+      "hex": "7553",
+      "text": "jnz     short loc_5007A9"
+    },
+    {
+      "ea": "0x500756",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x50075b",
+      "hex": "6aff",
+      "text": "push    0FFFFFFFFh"
+    },
+    {
+      "ea": "0x50075d",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x500762",
+      "hex": "681e110000",
+      "text": "push    111Eh"
+    },
+    {
+      "ea": "0x500767",
+      "hex": "8bc8",
+      "text": "mov     ecx, eax"
+    },
+    {
+      "ea": "0x500769",
+      "hex": "681e100000",
+      "text": "push    101Eh"
+    },
+    {
+      "ea": "0x50076e",
+      "hex": "c1e104",
+      "text": "shl     ecx, 4"
+    },
+    {
+      "ea": "0x500771",
+      "hex": "03c8",
+      "text": "add     ecx, eax"
+    },
+    {
+      "ea": "0x500773",
+      "hex": "681a100000",
+      "text": "push    101Ah"
+    },
+    {
+      "ea": "0x500778",
+      "hex": "6819100000",
+      "text": "push    1019h"
+    },
+    {
+      "ea": "0x50077d",
+      "hex": "6811100000",
+      "text": "push    1011h"
+    },
+    {
+      "ea": "0x500782",
+      "hex": "8d14c8",
+      "text": "lea     edx, [eax+ecx*8]"
+    },
+    {
+      "ea": "0x500785",
+      "hex": "6a11",
+      "text": "push    11h"
+    },
+    {
+      "ea": "0x500787",
+      "hex": "c1e204",
+      "text": "shl     edx, 4"
+    },
+    {
+      "ea": "0x50078a",
+      "hex": "6a09",
+      "text": "push    9"
+    },
+    {
+      "ea": "0x50078c",
+      "hex": "03d0",
+      "text": "add     edx, eax"
+    },
+    {
+      "ea": "0x50078e",
+      "hex": "6a05",
+      "text": "push    5"
+    },
+    {
+      "ea": "0x500790",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x500792",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x500794",
+      "hex": "8d04d558e0d801",
+      "text": "lea     eax, ds:1D8E058h[edx*8]"
+    },
+    {
+      "ea": "0x50079b",
+      "hex": "6822110000",
+      "text": "push    1122h"
+    },
+    {
+      "ea": "0x5007a0",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x5007a1",
+      "hex": "e8aacdf5ff",
+      "text": "call    sub_45D550"
+    },
+    {
+      "ea": "0x5007a6",
+      "hex": "83c434",
+      "text": "add     esp, 34h"
+    },
+    {
+      "ea": "0x5007a9",
+      "hex": "f6059c6ad90180",
+      "text": "test    byte ptr battle_to_update_flags_dword_1D96A9C, 80h"
+    },
+    {
+      "ea": "0x5007b0",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5007b5",
+      "hex": "7421",
+      "text": "jz      short loc_5007D8"
+    },
+    {
+      "ea": "0x5007b7",
+      "hex": "8b1594d0b600",
+      "text": "mov     edx, off_B6D094"
+    },
+    {
+      "ea": "0x5007bd",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x5007c2",
+      "hex": "8d0cc0",
+      "text": "lea     ecx, [eax+eax*8]"
+    },
+    {
+      "ea": "0x5007c5",
+      "hex": "c1e10e",
+      "text": "shl     ecx, 0Eh"
+    },
+    {
+      "ea": "0x5007c8",
+      "hex": "03ca",
+      "text": "add     ecx, edx"
+    },
+    {
+      "ea": "0x5007ca",
+      "hex": "890d54e0d801",
+      "text": "mov     g_BattlePacketCursor, ecx"
+    },
+    {
+      "ea": "0x5007d0",
+      "hex": "81c100400200",
+      "text": "add     ecx, 24000h"
+    },
+    {
+      "ea": "0x5007d6",
+      "hex": "eb25",
+      "text": "jmp     short loc_5007FD"
+    },
+    {
+      "ea": "0x5007d8",
+      "hex": "8b1570d0b600",
+      "text": "mov     edx, off_B6D070"
+    },
+    {
+      "ea": "0x5007de",
+      "hex": "25ff000000",
+      "text": "and     eax, 0FFh"
+    },
+    {
+      "ea": "0x5007e3",
+      "hex": "8d0cc500000000",
+      "text": "lea     ecx, ds:0[eax*8]"
+    },
+    {
+      "ea": "0x5007ea",
+      "hex": "2bc8",
+      "text": "sub     ecx, eax"
+    },
+    {
+      "ea": "0x5007ec",
+      "hex": "c1e10e",
+      "text": "shl     ecx, 0Eh"
+    },
+    {
+      "ea": "0x5007ef",
+      "hex": "03ca",
+      "text": "add     ecx, edx"
+    },
+    {
+      "ea": "0x5007f1",
+      "hex": "890d54e0d801",
+      "text": "mov     g_BattlePacketCursor, ecx"
+    },
+    {
+      "ea": "0x5007f7",
+      "hex": "81c100c00100",
+      "text": "add     ecx, 1C000h"
+    },
+    {
+      "ea": "0x5007fd",
+      "hex": "890da869d901",
+      "text": "mov     g_BattlePacketEnd, ecx"
+    },
+    {
+      "ea": "0x500803",
+      "hex": "8bc8",
+      "text": "mov     ecx, eax"
+    },
+    {
+      "ea": "0x500805",
+      "hex": "c1e104",
+      "text": "shl     ecx, 4"
+    },
+    {
+      "ea": "0x500808",
+      "hex": "03c8",
+      "text": "add     ecx, eax"
+    },
+    {
+      "ea": "0x50080a",
+      "hex": "8d14c8",
+      "text": "lea     edx, [eax+ecx*8]"
+    },
+    {
+      "ea": "0x50080d",
+      "hex": "c1e204",
+      "text": "shl     edx, 4"
+    },
+    {
+      "ea": "0x500810",
+      "hex": "03d0",
+      "text": "add     edx, eax"
+    },
+    {
+      "ea": "0x500812",
+      "hex": "8d04d558e0d801",
+      "text": "lea     eax, ds:1D8E058h[edx*8]"
+    },
+    {
+      "ea": "0x500819",
+      "hex": "a34ce0d801",
+      "text": "mov     g_BattleOTBase, eax"
+    },
+    {
+      "ea": "0x50081e",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x500900",
+      "operand": "nullsub_6",
+      "operand_type": 7,
+      "operand_value": "0x48d0d0",
+      "code_targets": [
+        "0x48d0d0"
+      ]
+    },
+    {
+      "site": "0x50090b",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x500917",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x500923",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x50093a",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x500951",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x50095b",
+      "operand": "sub_502020",
+      "operand_type": 7,
+      "operand_value": "0x502020",
+      "code_targets": [
+        "0x502020"
+      ]
+    },
+    {
+      "site": "0x500960",
+      "operand": "sub_4BB090",
+      "operand_type": 7,
+      "operand_value": "0x4bb090",
+      "code_targets": [
+        "0x4bb090"
+      ]
+    },
+    {
+      "site": "0x500965",
+      "operand": "nullsub_6",
+      "operand_type": 7,
+      "operand_value": "0x48d0d0",
+      "code_targets": [
+        "0x48d0d0"
+      ]
+    },
+    {
+      "site": "0x500971",
+      "operand": "BdLinkTask_Pump",
+      "operand_type": 7,
+      "operand_value": "0x508420",
+      "code_targets": [
+        "0x508420"
+      ]
+    },
+    {
+      "site": "0x500979",
+      "operand": "nullsub_6",
+      "operand_type": 7,
+      "operand_value": "0x48d0d0",
+      "code_targets": [
+        "0x48d0d0"
+      ]
+    },
+    {
+      "site": "0x50097e",
+      "operand": "BdLinkTask_PumpStageList",
+      "operand_type": 7,
+      "operand_value": "0x506c30",
+      "code_targets": [
+        "0x506c30"
+      ]
+    },
+    {
+      "site": "0x500983",
+      "operand": "nullsub_6",
+      "operand_type": 7,
+      "operand_value": "0x48d0d0",
+      "code_targets": [
+        "0x48d0d0"
+      ]
+    },
+    {
+      "site": "0x500988",
+      "operand": "updateBattleCamera",
+      "operand_type": 7,
+      "operand_value": "0x504060",
+      "code_targets": [
+        "0x504060"
+      ]
+    },
+    {
+      "site": "0x50098d",
+      "operand": "sub_506E30",
+      "operand_type": 7,
+      "operand_value": "0x506e30",
+      "code_targets": [
+        "0x506e30"
+      ]
+    },
+    {
+      "site": "0x500992",
+      "operand": "BattleCamera_BuildViewAndConsumeDeltas",
+      "operand_type": 7,
+      "operand_value": "0x5033e0",
+      "code_targets": [
+        "0x5033e0"
+      ]
+    },
+    {
+      "site": "0x500997",
+      "operand": "sub_502020",
+      "operand_type": 7,
+      "operand_value": "0x502020",
+      "code_targets": [
+        "0x502020"
+      ]
+    },
+    {
+      "site": "0x5005d9",
+      "operand": "sub_4A9160",
+      "operand_type": 7,
+      "operand_value": "0x4a9160",
+      "code_targets": [
+        "0x4a9160"
+      ]
+    },
+    {
+      "site": "0x50062d",
+      "operand": "sub_4A9220",
+      "operand_type": 7,
+      "operand_value": "0x4a9220",
+      "code_targets": [
+        "0x4a9220"
+      ]
+    },
+    {
+      "site": "0x50064f",
+      "operand": "nullsub_4_used",
+      "operand_type": 7,
+      "operand_value": "0x45c310",
+      "code_targets": [
+        "0x45c310"
+      ]
+    },
+    {
+      "site": "0x50065e",
+      "operand": "sub_501B60",
+      "operand_type": 7,
+      "operand_value": "0x501b60",
+      "code_targets": [
+        "0x501b60"
+      ]
+    },
+    {
+      "site": "0x500663",
+      "operand": "sub_501230",
+      "operand_type": 7,
+      "operand_value": "0x501230",
+      "code_targets": [
+        "0x501230"
+      ]
+    },
+    {
+      "site": "0x500671",
+      "operand": "BattleTimQueue_FlushToVram",
+      "operand_type": 7,
+      "operand_value": "0x505d20",
+      "code_targets": [
+        "0x505d20"
+      ]
+    },
+    {
+      "site": "0x50067d",
+      "operand": "sub_45C9F0",
+      "operand_type": 7,
+      "operand_value": "0x45c9f0",
+      "code_targets": [
+        "0x45c9f0"
+      ]
+    },
+    {
+      "site": "0x500687",
+      "operand": "nullsub_5_used",
+      "operand_type": 7,
+      "operand_value": "0x45c320",
+      "code_targets": [
+        "0x45c320"
+      ]
+    },
+    {
+      "site": "0x5006b9",
+      "operand": "sub_45B660",
+      "operand_type": 7,
+      "operand_value": "0x45b660",
+      "code_targets": [
+        "0x45b660"
+      ]
+    },
+    {
+      "site": "0x5006df",
+      "operand": "Gpu_DrawOTagCurrent",
+      "operand_type": 7,
+      "operand_value": "0x45d610",
+      "code_targets": [
+        "0x45d610"
+      ]
+    },
+    {
+      "site": "0x5006ec",
+      "operand": "Call_Bs_parseCamera2",
+      "operand_type": 7,
+      "operand_value": "0x56cd00",
+      "code_targets": [
+        "0x56cd00"
+      ]
+    },
+    {
+      "site": "0x500709",
+      "operand": "Call_Bs_ParseCamera",
+      "operand_type": 7,
+      "operand_value": "0x56cce0",
+      "code_targets": [
+        "0x56cce0"
+      ]
+    },
+    {
+      "site": "0x500716",
+      "operand": "Call_Bs_parseCamera2",
+      "operand_type": 7,
+      "operand_value": "0x56cd00",
+      "code_targets": [
+        "0x56cd00"
+      ]
+    },
+    {
+      "site": "0x500733",
+      "operand": "Call_Bs_ParseCamera",
+      "operand_type": 7,
+      "operand_value": "0x56cce0",
+      "code_targets": [
+        "0x56cce0"
+      ]
+    },
+    {
+      "site": "0x5007a1",
+      "operand": "sub_45D550",
+      "operand_type": 7,
+      "operand_value": "0x45d550",
+      "code_targets": [
+        "0x45d550"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d63d",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d6c5",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d707",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d811",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d905",
+      "type": 19,
+      "code": true,
+      "function": "0x47d900"
+    }
+  ],
+  "existing_today_tag": false
+}

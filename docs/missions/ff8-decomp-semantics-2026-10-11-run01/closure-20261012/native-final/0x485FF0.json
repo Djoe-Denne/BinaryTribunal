@@ -1,0 +1,288 @@
+{
+  "at": "2026-10-12T17:25:54.818829+00:00",
+  "ea": "0x485FF0",
+  "group": "g07",
+  "name": "domain::Battle_BuildTargetVisibilityMasks",
+  "packet_sha256": "cda0002d86ac4ddd92e07c4113dc843be7e9918846d93248d7039944999ac590",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g07\\0x485FF0\\semantic_r.md",
+  "candidate_sha256": "d0b87f49cfb432823add4ba999997a892a185bc3cd83a82b381273912e9b2db7",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x485ff0",
+      "hi": "0x486074",
+      "sha256": "82ab62556faac51301de8ff9cc4c62e7dcc4dbe7da9c75e086311a1a73bcb547",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x485ff0",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x485ff1",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x485ff3",
+      "hex": "b8e0040000",
+      "text": "mov     eax, 4E0h"
+    },
+    {
+      "ea": "0x485ff8",
+      "hex": "ba01000000",
+      "text": "mov     edx, 1"
+    },
+    {
+      "ea": "0x485ffd",
+      "hex": "b340",
+      "text": "mov     bl, 40h"
+    },
+    {
+      "ea": "0x485fff",
+      "hex": "d1e1",
+      "text": "shl     ecx, 1"
+    },
+    {
+      "ea": "0x486001",
+      "hex": "84908c7bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl"
+    },
+    {
+      "ea": "0x486007",
+      "hex": "7419",
+      "text": "jz      short loc_486022"
+    },
+    {
+      "ea": "0x486009",
+      "hex": "84988c7bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl"
+    },
+    {
+      "ea": "0x48600f",
+      "hex": "7511",
+      "text": "jnz     short loc_486022"
+    },
+    {
+      "ea": "0x486011",
+      "hex": "3d70020000",
+      "text": "cmp     eax, 270h"
+    },
+    {
+      "ea": "0x486016",
+      "hex": "7d08",
+      "text": "jge     short loc_486020"
+    },
+    {
+      "ea": "0x486018",
+      "hex": "8490907bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl"
+    },
+    {
+      "ea": "0x48601e",
+      "hex": "7502",
+      "text": "jnz     short loc_486022"
+    },
+    {
+      "ea": "0x486020",
+      "hex": "0bca",
+      "text": "or      ecx, edx"
+    },
+    {
+      "ea": "0x486022",
+      "hex": "2dd0000000",
+      "text": "sub     eax, 0D0h"
+    },
+    {
+      "ea": "0x486027",
+      "hex": "3d30ffffff",
+      "text": "cmp     eax, 0FFFFFF30h"
+    },
+    {
+      "ea": "0x48602c",
+      "hex": "7fd1",
+      "text": "jg      short loc_485FFF"
+    },
+    {
+      "ea": "0x48602e",
+      "hex": "66890d70f5cf01",
+      "text": "mov     BATTLE_VISIBILITY_MASK_A, cx"
+    },
+    {
+      "ea": "0x486035",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x486037",
+      "hex": "b8e0040000",
+      "text": "mov     eax, 4E0h"
+    },
+    {
+      "ea": "0x48603c",
+      "hex": "d1e1",
+      "text": "shl     ecx, 1"
+    },
+    {
+      "ea": "0x48603e",
+      "hex": "84908c7bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl"
+    },
+    {
+      "ea": "0x486044",
+      "hex": "7419",
+      "text": "jz      short loc_48605F"
+    },
+    {
+      "ea": "0x486046",
+      "hex": "84988c7bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl"
+    },
+    {
+      "ea": "0x48604c",
+      "hex": "7511",
+      "text": "jnz     short loc_48605F"
+    },
+    {
+      "ea": "0x48604e",
+      "hex": "3d70020000",
+      "text": "cmp     eax, 270h"
+    },
+    {
+      "ea": "0x486053",
+      "hex": "7c08",
+      "text": "jl      short loc_48605D"
+    },
+    {
+      "ea": "0x486055",
+      "hex": "8490907bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl"
+    },
+    {
+      "ea": "0x48605b",
+      "hex": "7502",
+      "text": "jnz     short loc_48605F"
+    },
+    {
+      "ea": "0x48605d",
+      "hex": "0bca",
+      "text": "or      ecx, edx"
+    },
+    {
+      "ea": "0x48605f",
+      "hex": "2dd0000000",
+      "text": "sub     eax, 0D0h"
+    },
+    {
+      "ea": "0x486064",
+      "hex": "3d30ffffff",
+      "text": "cmp     eax, 0FFFFFF30h"
+    },
+    {
+      "ea": "0x486069",
+      "hex": "7fd1",
+      "text": "jg      short loc_48603C"
+    },
+    {
+      "ea": "0x48606b",
+      "hex": "66890d72f5cf01",
+      "text": "mov     BATTLE_VISIBILITY_MASK_B, cx"
+    },
+    {
+      "ea": "0x486072",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x486073",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [],
+  "xrefs_to": [
+    {
+      "from": "0x47d6d4",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x48769a",
+      "type": 17,
+      "code": true,
+      "function": "0x487670"
+    },
+    {
+      "from": "0x489d9e",
+      "type": 17,
+      "code": true,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x48ae0d",
+      "type": 17,
+      "code": true,
+      "function": "0x48adf0"
+    },
+    {
+      "from": "0x48ae3d",
+      "type": 17,
+      "code": true,
+      "function": "0x48ae20"
+    },
+    {
+      "from": "0x493a23",
+      "type": 17,
+      "code": true,
+      "function": "0x493840"
+    },
+    {
+      "from": "0x493c07",
+      "type": 17,
+      "code": true,
+      "function": null
+    },
+    {
+      "from": "0x493f64",
+      "type": 17,
+      "code": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x494042",
+      "type": 17,
+      "code": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x497270",
+      "type": 17,
+      "code": true,
+      "function": "0x497270"
+    },
+    {
+      "from": "0x489dd4",
+      "type": 1,
+      "code": false,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x489dfc",
+      "type": 1,
+      "code": false,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x489f1e",
+      "type": 1,
+      "code": false,
+      "function": "0x487df0"
+    }
+  ],
+  "existing_today_tag": false
+}

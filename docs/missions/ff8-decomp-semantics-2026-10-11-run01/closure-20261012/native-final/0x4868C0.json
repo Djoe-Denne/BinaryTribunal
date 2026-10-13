@@ -1,0 +1,509 @@
+{
+  "at": "2026-10-12T17:39:24.825977+00:00",
+  "ea": "0x4868C0",
+  "group": "g07",
+  "name": "domain::Battle_EndCleanupAndTransition",
+  "packet_sha256": "bb4e83a4a9db291ee331f1ee5a7cc16c766b37c54fd76ea9a4c44bfdf0721f28",
+  "candidate": null,
+  "candidate_sha256": null,
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x4868c0",
+      "hi": "0x4869f4",
+      "sha256": "10aff1368d23d0d0003b99fd4abe4e294014ee99343712b67f57269c9dcd47f8",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x4868c0",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x4868c1",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x4868c2",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x4868c3",
+      "hex": "57",
+      "text": "push    edi"
+    },
+    {
+      "ea": "0x4868c4",
+      "hex": "33ff",
+      "text": "xor     edi, edi"
+    },
+    {
+      "ea": "0x4868c6",
+      "hex": "bdb2f1cf01",
+      "text": "mov     ebp, offset word_1CFF1B2"
+    },
+    {
+      "ea": "0x4868cb",
+      "hex": "be907bd201",
+      "text": "mov     esi, offset BATTLE_SLOT_DATA.status_1"
+    },
+    {
+      "ea": "0x4868d0",
+      "hex": "b3ff",
+      "text": "mov     bl, 0FFh"
+    },
+    {
+      "ea": "0x4868d2",
+      "hex": "385e3b",
+      "text": "cmp     [esi+3Bh], bl"
+    },
+    {
+      "ea": "0x4868d5",
+      "hex": "743b",
+      "text": "jz      short loc_486912"
+    },
+    {
+      "ea": "0x4868d7",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x4868d9",
+      "hex": "57",
+      "text": "push    edi"
+    },
+    {
+      "ea": "0x4868da",
+      "hex": "8a874ce7cf01",
+      "text": "mov     al, byte ptr SG_PARTY_BATTLE[edi]"
+    },
+    {
+      "ea": "0x4868e0",
+      "hex": "8d0cc0",
+      "text": "lea     ecx, [eax+eax*8]"
+    },
+    {
+      "ea": "0x4868e3",
+      "hex": "8d1448",
+      "text": "lea     edx, [eax+ecx*2]"
+    },
+    {
+      "ea": "0x4868e6",
+      "hex": "668b4e98",
+      "text": "mov     cx, [esi-68h]"
+    },
+    {
+      "ea": "0x4868ea",
+      "hex": "668126dfff",
+      "text": "and     word ptr [esi], 0FFDFh"
+    },
+    {
+      "ea": "0x4868ef",
+      "hex": "8d04d5e8e0cf01",
+      "text": "lea     eax, ds:1CFE0E8h[edx*8]"
+    },
+    {
+      "ea": "0x4868f6",
+      "hex": "668908",
+      "text": "mov     [eax], cx"
+    },
+    {
+      "ea": "0x4868f9",
+      "hex": "668b0e",
+      "text": "mov     cx, [esi]"
+    },
+    {
+      "ea": "0x4868fc",
+      "hex": "66898896000000",
+      "text": "mov     [eax+96h], cx"
+    },
+    {
+      "ea": "0x486903",
+      "hex": "e8b8f5ffff",
+      "text": "call    domain__BattleItem_RefundStashedItems"
+    },
+    {
+      "ea": "0x486908",
+      "hex": "668b16",
+      "text": "mov     dx, [esi]"
+    },
+    {
+      "ea": "0x48690b",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x48690e",
+      "hex": "66895500",
+      "text": "mov     [ebp+0], dx"
+    },
+    {
+      "ea": "0x486912",
+      "hex": "81c6d0000000",
+      "text": "add     esi, 0D0h"
+    },
+    {
+      "ea": "0x486918",
+      "hex": "47",
+      "text": "inc     edi"
+    },
+    {
+      "ea": "0x486919",
+      "hex": "81c5d0010000",
+      "text": "add     ebp, 1D0h"
+    },
+    {
+      "ea": "0x48691f",
+      "hex": "81fe007ed201",
+      "text": "cmp     esi, (offset BATTLE_SLOT_DATA.status_1+270h)"
+    },
+    {
+      "ea": "0x486925",
+      "hex": "7cab",
+      "text": "jl      short loc_4868D2"
+    },
+    {
+      "ea": "0x486927",
+      "hex": "bf788ed201",
+      "text": "mov     edi, offset EQUAL_ITEM_ID"
+    },
+    {
+      "ea": "0x48692c",
+      "hex": "0fbe5f01",
+      "text": "movsx   ebx, byte ptr [edi+1]"
+    },
+    {
+      "ea": "0x486930",
+      "hex": "33d2",
+      "text": "xor     edx, edx"
+    },
+    {
+      "ea": "0x486932",
+      "hex": "8a17",
+      "text": "mov     dl, [edi]"
+    },
+    {
+      "ea": "0x486934",
+      "hex": "85d2",
+      "text": "test    edx, edx"
+    },
+    {
+      "ea": "0x486936",
+      "hex": "743a",
+      "text": "jz      short loc_486972"
+    },
+    {
+      "ea": "0x486938",
+      "hex": "b89ce7cf01",
+      "text": "mov     eax, offset SG_ITEM_ID_AND_QUANTITY"
+    },
+    {
+      "ea": "0x48693d",
+      "hex": "33f6",
+      "text": "xor     esi, esi"
+    },
+    {
+      "ea": "0x48693f",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x486941",
+      "hex": "8a08",
+      "text": "mov     cl, [eax]"
+    },
+    {
+      "ea": "0x486943",
+      "hex": "3bca",
+      "text": "cmp     ecx, edx"
+    },
+    {
+      "ea": "0x486945",
+      "hex": "7428",
+      "text": "jz      short loc_48696F"
+    },
+    {
+      "ea": "0x486947",
+      "hex": "83c002",
+      "text": "add     eax, 2"
+    },
+    {
+      "ea": "0x48694a",
+      "hex": "46",
+      "text": "inc     esi"
+    },
+    {
+      "ea": "0x48694b",
+      "hex": "81fec6000000",
+      "text": "cmp     esi, 0C6h"
+    },
+    {
+      "ea": "0x486951",
+      "hex": "7cec",
+      "text": "jl      short loc_48693F"
+    },
+    {
+      "ea": "0x486953",
+      "hex": "b89ce7cf01",
+      "text": "mov     eax, offset SG_ITEM_ID_AND_QUANTITY"
+    },
+    {
+      "ea": "0x486958",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x48695a",
+      "hex": "803800",
+      "text": "cmp     byte ptr [eax], 0"
+    },
+    {
+      "ea": "0x48695d",
+      "hex": "740e",
+      "text": "jz      short loc_48696D"
+    },
+    {
+      "ea": "0x48695f",
+      "hex": "83c002",
+      "text": "add     eax, 2"
+    },
+    {
+      "ea": "0x486962",
+      "hex": "41",
+      "text": "inc     ecx"
+    },
+    {
+      "ea": "0x486963",
+      "hex": "81f9c6000000",
+      "text": "cmp     ecx, 0C6h"
+    },
+    {
+      "ea": "0x486969",
+      "hex": "7cef",
+      "text": "jl      short loc_48695A"
+    },
+    {
+      "ea": "0x48696b",
+      "hex": "eb05",
+      "text": "jmp     short loc_486972"
+    },
+    {
+      "ea": "0x48696d",
+      "hex": "8810",
+      "text": "mov     [eax], dl"
+    },
+    {
+      "ea": "0x48696f",
+      "hex": "885801",
+      "text": "mov     [eax+1], bl"
+    },
+    {
+      "ea": "0x486972",
+      "hex": "83c705",
+      "text": "add     edi, 5"
+    },
+    {
+      "ea": "0x486975",
+      "hex": "81ff188fd201",
+      "text": "cmp     edi, offset BMI_MONSTER1_DRAW_SPELL_ID1"
+    },
+    {
+      "ea": "0x48697b",
+      "hex": "7caf",
+      "text": "jl      short loc_48692C"
+    },
+    {
+      "ea": "0x48697d",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x48697f",
+      "hex": "a0e7f6cf01",
+      "text": "mov     al, BATTLE_RESULT_CODE"
+    },
+    {
+      "ea": "0x486984",
+      "hex": "48",
+      "text": "dec     eax"
+    },
+    {
+      "ea": "0x486985",
+      "hex": "83f804",
+      "text": "cmp     eax, 4"
+    },
+    {
+      "ea": "0x486988",
+      "hex": "7752",
+      "text": "ja      short def_48698A"
+    },
+    {
+      "ea": "0x48698a",
+      "hex": "ff2485f4694800",
+      "text": "jmp     ds:jpt_48698A[eax*4]"
+    },
+    {
+      "ea": "0x486991",
+      "hex": "66ff053ae9cf01",
+      "text": "inc     SG_BATTLE_ESCAPED"
+    },
+    {
+      "ea": "0x486998",
+      "hex": "66c705c68fcd010500",
+      "text": "mov     mode_StateGlobal, 5"
+    },
+    {
+      "ea": "0x4869a1",
+      "hex": "eb39",
+      "text": "jmp     short def_48698A"
+    },
+    {
+      "ea": "0x4869a3",
+      "hex": "8a15dd87d201",
+      "text": "mov     dl, CURRENT_ENCOUNTER_DATA_SCENE_OUT.battle_flags"
+    },
+    {
+      "ea": "0x4869a9",
+      "hex": "8b1d34e9cf01",
+      "text": "mov     ebx, SG_BATTLE_VICTORY_COUNT"
+    },
+    {
+      "ea": "0x4869af",
+      "hex": "80e210",
+      "text": "and     dl, 10h"
+    },
+    {
+      "ea": "0x4869b2",
+      "hex": "43",
+      "text": "inc     ebx"
+    },
+    {
+      "ea": "0x4869b3",
+      "hex": "f6da",
+      "text": "neg     dl"
+    },
+    {
+      "ea": "0x4869b5",
+      "hex": "1bd2",
+      "text": "sbb     edx, edx"
+    },
+    {
+      "ea": "0x4869b7",
+      "hex": "891d34e9cf01",
+      "text": "mov     SG_BATTLE_VICTORY_COUNT, ebx"
+    },
+    {
+      "ea": "0x4869bd",
+      "hex": "83e25f",
+      "text": "and     edx, 5Fh"
+    },
+    {
+      "ea": "0x4869c0",
+      "hex": "83c205",
+      "text": "add     edx, 5"
+    },
+    {
+      "ea": "0x4869c3",
+      "hex": "668915c68fcd01",
+      "text": "mov     mode_StateGlobal, dx"
+    },
+    {
+      "ea": "0x4869ca",
+      "hex": "eb10",
+      "text": "jmp     short def_48698A"
+    },
+    {
+      "ea": "0x4869cc",
+      "hex": "66ff0538e9cf01",
+      "text": "inc     SG_UNUSED_IN_FIELD_1"
+    },
+    {
+      "ea": "0x4869d3",
+      "hex": "66c705c68fcd016400",
+      "text": "mov     mode_StateGlobal, 64h"
+    },
+    {
+      "ea": "0x4869dc",
+      "hex": "e85f4afeff",
+      "text": "call    InitializeSound_CAL_sfx_stop_all2"
+    },
+    {
+      "ea": "0x4869e1",
+      "hex": "66c705e0bfcd010000",
+      "text": "mov     mode_Battle_AnimationState, 0"
+    },
+    {
+      "ea": "0x4869ea",
+      "hex": "e801290200",
+      "text": "call    battle_vibrate_init_sub_4A92F0"
+    },
+    {
+      "ea": "0x4869ef",
+      "hex": "5f",
+      "text": "pop     edi"
+    },
+    {
+      "ea": "0x4869f0",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x4869f1",
+      "hex": "5d",
+      "text": "pop     ebp"
+    },
+    {
+      "ea": "0x4869f2",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x4869f3",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x486903",
+      "operand": "domain__BattleItem_RefundStashedItems",
+      "operand_type": 7,
+      "operand_value": "0x485ec0",
+      "code_targets": [
+        "0x485ec0"
+      ]
+    },
+    {
+      "site": "0x4869dc",
+      "operand": "InitializeSound_CAL_sfx_stop_all2",
+      "operand_type": 7,
+      "operand_value": "0x46b440",
+      "code_targets": [
+        "0x46b440"
+      ]
+    },
+    {
+      "site": "0x4869ea",
+      "operand": "battle_vibrate_init_sub_4A92F0",
+      "operand_type": 7,
+      "operand_value": "0x4a92f0",
+      "code_targets": [
+        "0x4a92f0"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d4af",
+      "type": 17,
+      "code": true,
+      "function": "0x47ccb0"
+    }
+  ],
+  "existing_today_tag": false
+}

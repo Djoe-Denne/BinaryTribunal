@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:16.700066+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x45E670",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gte_Cross3Float_SatS16",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "9341e7b01c938db70b0c7f53db14505fe091f97b57bed47281a7d73e3cb3d834",
+  "before": "[glm-triple 2026-09-15]\n/* Gte_Cross3Float_SatS16 @ 0x45E670\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 92 instr, size 0x1AA, end 0x45E81A. cdecl, 0 args, retn C3 x3, no EBP, leaf.\n * sub esp,8; add esp,8 at each retn (QWORD scratch). No CALL.\n * IR: 0F BF word movsx dword_1CA8A34/38/3C, SHL 0Ch, FILD.\n * MAC = GTE OP with D=(Cam_xyz1_x, Cam_xyz2_y, Cam_xyz3_z) floats, (int) via\n * fadd CONST_4.503601774854144e15 @ 0xB693D8 + add 80000000h.\n * DWORD stores 1CA8A74/78/7C then sat DWORD back to 34/38/3C.\n * FLAG 1CA92F8: MOV 81000000h (MAC1), OR 80800000h (MAC2), OR 400000h (MAC3).\n * cmp / jge (7D) / jle (7E) SIGNED vs 0FFFF8000h and 7FFFh. No ja/jg. No 66.\n * Occupancy 1+2 / TEST AL,2 / +44h / 0xD0 / 0x1D0 / OT tag 07 / code 24: ABSENT.\n */\n\nextern int dword_1CA8A34; /* 0x1CA8A34 */\nextern int dword_1CA8A38; /* 0x1CA8A38 */\nextern int dword_1CA8A3C; /* 0x1CA8A3C */\nextern int dword_1CA8A74; /* 0x1CA8A74 */\nextern int dword_1CA8A78; /* 0x1CA8A78 */\nextern int dword_1CA8A7C; /* 0x1CA8A7C */\nextern unsigned int dword_1CA92F8; /* 0x1CA92F8 FLAG */\nextern float Cam_xyz1_x_float; /* 0x1CA923C */\nextern float Cam_xyz2_y_float; /* 0x1CA9244 */\nextern float Cam_xyz3_z_float; /* 0x1CA924C */\n\nsigned int __cdecl Gte_Cross3Float_SatS16(void)\n{\n    int ir1;\n    int ir2;\n    int ir3;\n    int mac1;\n    int mac2;\n    int mac3;\n    int ret;\n\n    ir1 = (int)(short)dword_1CA8A34 << 12;\n    ir2 = (int)(short)dword_1CA8A38 << 12;\n    ir3 = (int)(short)dword_1CA8A3C << 12;\n\n    dword_1CA92F8 = 0;\n\n    mac1 = (int)(Cam_xyz2_y_float * (float)ir3 - Cam_xyz3_z_float * (float)ir2);\n    dword_1CA8A74 = mac1;\n\n    mac2 = (int)(Cam_xyz3_z_float * (float)ir1 - Cam_xyz1_x_float * (float)ir3);\n    dword_1CA8A78 = mac2;\n\n    mac3 = (int)(Cam_xyz1_x_float * (float)ir2 - Cam_xyz2_y_float * (float)ir1);\n    dword_1CA8A7C = mac3;\n\n    /* EAX leftover starts as mac1; MAC1 sat does not reload EAX (C7 05 FLAG). */\n    ret = mac1;\n\n    if (mac1 < -0x8000) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = (int)0xFFFF8000;\n    } else if (mac1 > 0x7FFF) {\n        dword_1CA92F8 = 0x81000000u;\n        dword_1CA8A34 = 0x7FFF;\n    } else {\n        dword_1CA8A34 = mac1;\n    }\n\n    if (mac2 < -0x8000) {\n        dword_1CA8A38 = (int)0xFFFF8000;\n        dword_1CA92F8 |= 0x80800000u;\n        ret = (int)dword_1CA92F8;\n    } else if (mac2 > 0x7FFF) {\n        dword_1CA8A38 = 0x7FFF;\n        dword_1CA92F8 |= 0x80800000u;\n        ret = (int)dword_1CA92F8;\n    } else {\n        dword_1CA8A38 = mac2;\n    }\n\n    if (mac3 < -0x8000) {\n        dword_1CA8A3C = (int)0xFFFF8000;\n        dword_1CA92F8 |= 0x400000u;\n        ret = (int)dword_1CA92F8;\n    } else if (mac3 > 0x7FFF) {\n        dword_1CA8A3C = 0x7FFF;\n        dword_1CA92F8 |= 0x400000u;\n        ret = (int)dword_1CA92F8;\n    } else {\n        dword_1CA8A3C = mac3;\n    }\n\n    return ret;\n}",
+  "before_sha256": "806d223f3c7e8b0a8415a54ffa5ed62122444a6ec6b78f95a9d06b613edd02c5",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nReads signed low WORDs from 0x1CA8A34/38/3C, shifts each by 12 before signed FILD, and clears status DWORD 0x1CA92F8. Forms three cyclic differences of x87 products using global floating coefficients; floating-store/low-DWORD extraction plus 0x80000000 yields raw outputs. Signed comparisons clamp the feedback DWORDs at 0x1CA8A34/38/3C to [-32768,32767]. The third-channel saturation ORs 0x00400000 and does not itself force bit31. No helper call. Do not equate the bias/store sequence to a portable integer cast or assert hardware GTE equivalence.\nLive ASM anchors: 0x45e673, 0x45e688, 0x45e6c3, 0x45e6e8, 0x45e71b, 0x45e733, 0x45e7c6, 0x45e802. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x45E670.json.",
+  "anchors": [
+    {
+      "ea": "0x45e673",
+      "hex": "0fbf05348aca01",
+      "text": "movsx   eax, word ptr dword_1CA8A34"
+    },
+    {
+      "ea": "0x45e688",
+      "hex": "c1e00c",
+      "text": "shl     eax, 0Ch"
+    },
+    {
+      "ea": "0x45e6c3",
+      "hex": "dee9",
+      "text": "fsubp   st(1), st"
+    },
+    {
+      "ea": "0x45e6e8",
+      "hex": "dee9",
+      "text": "fsubp   st(1), st"
+    },
+    {
+      "ea": "0x45e71b",
+      "hex": "dee9",
+      "text": "fsubp   st(1), st"
+    },
+    {
+      "ea": "0x45e733",
+      "hex": "3d0080ffff",
+      "text": "cmp     eax, 0FFFF8000h"
+    },
+    {
+      "ea": "0x45e7c6",
+      "hex": "81fa0080ffff",
+      "text": "cmp     edx, 0FFFF8000h"
+    },
+    {
+      "ea": "0x45e802",
+      "hex": "0d00004000",
+      "text": "or      eax, 400000h"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

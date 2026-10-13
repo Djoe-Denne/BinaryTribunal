@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:17.198663+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x460860",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gte_MVMVA",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "8f25a0dc50457d11a48bb5525244b3a8bc49f23af3f61f9735d2c0c3454f1806",
+  "before_sha256": "4e071b5c5320640f5d88ca514c54d6638091d15c3e7169de35e19c50d0617b82",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nOne command DWORD selects addend/coefficient banks by bit slices [14:13]/[18:17], each with 32-byte stride, and an input vector by [16:15]: selector 3 reads signed low WORD feedback at 0x1CA8A34/38/3C, others select 8-byte input records. Bit19 enables extra x87 scaling. After the x87 transform and bit extraction, addend selector 3 bypasses integer addends; other selectors add three DWORDs with 32-bit wrap before clamping. Raw outputs are 0x1CA8A74/78/7C; signed s16 clamps write DWORDs at 0x1CA8A34/38/3C. Saturation masks are 0x81000000, 0x80800000, 0x00400000, so third-only saturation does not force bit31. Machine EAX is raw third output when it does not saturate, otherwise status. Exact hardware equivalence and source prototype remain unpromoted.\nLive ASM anchors: 0x46086e, 0x460876, 0x46087e, 0x4608f9, 0x4609ef, 0x460a00, 0x460a30, 0x460ab1. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x460860.json.",
+  "anchors": [
+    {
+      "ea": "0x46086e",
+      "hex": "c1f90d",
+      "text": "sar     ecx, 0Dh"
+    },
+    {
+      "ea": "0x460876",
+      "hex": "c1f811",
+      "text": "sar     eax, 11h"
+    },
+    {
+      "ea": "0x46087e",
+      "hex": "c1fa0f",
+      "text": "sar     edx, 0Fh"
+    },
+    {
+      "ea": "0x4608f9",
+      "hex": "f7c700000800",
+      "text": "test    edi, 80000h"
+    },
+    {
+      "ea": "0x4609ef",
+      "hex": "83f903",
+      "text": "cmp     ecx, 3"
+    },
+    {
+      "ea": "0x460a00",
+      "hex": "03d1",
+      "text": "add     edx, ecx"
+    },
+    {
+      "ea": "0x460a30",
+      "hex": "7d12",
+      "text": "jge     short loc_460A44"
+    },
+    {
+      "ea": "0x460ab1",
+      "hex": "0d00004000",
+      "text": "or      eax, 400000h"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "e3052e135a7930c6020ea7e0b07a3f1779398610d3fd3b577d2467989bb776c4",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x460860-idb-before.json"
+}

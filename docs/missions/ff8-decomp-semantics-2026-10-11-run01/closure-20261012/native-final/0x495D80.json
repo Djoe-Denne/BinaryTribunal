@@ -1,0 +1,567 @@
+{
+  "at": "2026-10-12T17:25:54.867534+00:00",
+  "ea": "0x495D80",
+  "group": "g14",
+  "name": "domain::BattleGF_RecomputeBattleData",
+  "packet_sha256": "862f2ad69328e5f7b6edf55f2758945567bbedec39d64efd8db945c141c4ad7b",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g14\\0x495D80\\semantic_r.md",
+  "candidate_sha256": "774dfeb96a5beb670f5ddb4a77421c2ef6a9db0065740b5c1c51a8b2f819fcd1",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x495d80",
+      "hi": "0x495eb3",
+      "sha256": "f9ea83959c1e6beb765c201f08b657da175553b74a536084e47d7bf4d5321d13",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x495d80",
+      "hex": "83ec0c",
+      "text": "sub     esp, 0Ch"
+    },
+    {
+      "ea": "0x495d83",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x495d84",
+      "hex": "8b5c2414",
+      "text": "mov     ebx, [esp+10h+gf_id]"
+    },
+    {
+      "ea": "0x495d88",
+      "hex": "8bc3",
+      "text": "mov     eax, ebx"
+    },
+    {
+      "ea": "0x495d8a",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x495d8b",
+      "hex": "c1e004",
+      "text": "shl     eax, 4"
+    },
+    {
+      "ea": "0x495d8e",
+      "hex": "03c3",
+      "text": "add     eax, ebx"
+    },
+    {
+      "ea": "0x495d90",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x495d91",
+      "hex": "8d0c5b",
+      "text": "lea     ecx, [ebx+ebx*2]"
+    },
+    {
+      "ea": "0x495d94",
+      "hex": "57",
+      "text": "push    edi"
+    },
+    {
+      "ea": "0x495d95",
+      "hex": "8b1485b4dccf01",
+      "text": "mov     edx, SG_ARRAY_GF_DATA.Experience[eax*4]"
+    },
+    {
+      "ea": "0x495d9c",
+      "hex": "8d3c85a8dccf01",
+      "text": "lea     edi, ds:1CFDCA8h[eax*4]"
+    },
+    {
+      "ea": "0x495da3",
+      "hex": "8d348d18f6cf01",
+      "text": "lea     esi, ds:1CFF618h[ecx*4]"
+    },
+    {
+      "ea": "0x495daa",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x495dab",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x495dac",
+      "hex": "897c2420",
+      "text": "mov     [esp+24h+var_4], edi"
+    },
+    {
+      "ea": "0x495db0",
+      "hex": "c6460b00",
+      "text": "mov     byte ptr [esi+0Bh], 0"
+    },
+    {
+      "ea": "0x495db4",
+      "hex": "c6460900",
+      "text": "mov     byte ptr [esi+9], 0"
+    },
+    {
+      "ea": "0x495db8",
+      "hex": "c6460a64",
+      "text": "mov     byte ptr [esi+0Ah], 64h"
+    },
+    {
+      "ea": "0x495dbc",
+      "hex": "e8ff020000",
+      "text": "call    sub_4960C0"
+    },
+    {
+      "ea": "0x495dc1",
+      "hex": "884608",
+      "text": "mov     [esi+8], al"
+    },
+    {
+      "ea": "0x495dc4",
+      "hex": "8b470c",
+      "text": "mov     eax, [edi+0Ch]"
+    },
+    {
+      "ea": "0x495dc7",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x495dca",
+      "hex": "83c71c",
+      "text": "add     edi, 1Ch"
+    },
+    {
+      "ea": "0x495dcd",
+      "hex": "894604",
+      "text": "mov     [esi+4], eax"
+    },
+    {
+      "ea": "0x495dd0",
+      "hex": "bd2e81cf01",
+      "text": "mov     ebp, (offset K_CHARA_ABILITY.Flags+31h)"
+    },
+    {
+      "ea": "0x495dd5",
+      "hex": "897c2410",
+      "text": "mov     [esp+1Ch+var_C], edi"
+    },
+    {
+      "ea": "0x495dd9",
+      "hex": "c744241402000000",
+      "text": "mov     [esp+1Ch+var_8], 2"
+    },
+    {
+      "ea": "0x495de1",
+      "hex": "8b17",
+      "text": "mov     edx, [edi]"
+    },
+    {
+      "ea": "0x495de3",
+      "hex": "8bc5",
+      "text": "mov     eax, ebp"
+    },
+    {
+      "ea": "0x495de5",
+      "hex": "bf20000000",
+      "text": "mov     edi, 20h"
+    },
+    {
+      "ea": "0x495dea",
+      "hex": "81c500010000",
+      "text": "add     ebp, 100h"
+    },
+    {
+      "ea": "0x495df0",
+      "hex": "f6c201",
+      "text": "test    dl, 1"
+    },
+    {
+      "ea": "0x495df3",
+      "hex": "742f",
+      "text": "jz      short loc_495E24"
+    },
+    {
+      "ea": "0x495df5",
+      "hex": "3dc681cf01",
+      "text": "cmp     eax, offset K_GF_ABILITY.stat_to_increase"
+    },
+    {
+      "ea": "0x495dfa",
+      "hex": "7c28",
+      "text": "jl      short loc_495E24"
+    },
+    {
+      "ea": "0x495dfc",
+      "hex": "3d0e82cf01",
+      "text": "cmp     eax, offset K_MENU_ABILITY.start_offset"
+    },
+    {
+      "ea": "0x495e01",
+      "hex": "7d21",
+      "text": "jge     short loc_495E24"
+    },
+    {
+      "ea": "0x495e03",
+      "hex": "8a48ff",
+      "text": "mov     cl, [eax-1]"
+    },
+    {
+      "ea": "0x495e06",
+      "hex": "084e0b",
+      "text": "or      [esi+0Bh], cl"
+    },
+    {
+      "ea": "0x495e09",
+      "hex": "8a08",
+      "text": "mov     cl, [eax]"
+    },
+    {
+      "ea": "0x495e0b",
+      "hex": "84c9",
+      "text": "test    cl, cl"
+    },
+    {
+      "ea": "0x495e0d",
+      "hex": "750a",
+      "text": "jnz     short loc_495E19"
+    },
+    {
+      "ea": "0x495e0f",
+      "hex": "8a5801",
+      "text": "mov     bl, [eax+1]"
+    },
+    {
+      "ea": "0x495e12",
+      "hex": "005e09",
+      "text": "add     [esi+9], bl"
+    },
+    {
+      "ea": "0x495e15",
+      "hex": "8b5c2420",
+      "text": "mov     ebx, [esp+1Ch+gf_id]"
+    },
+    {
+      "ea": "0x495e19",
+      "hex": "80f901",
+      "text": "cmp     cl, 1"
+    },
+    {
+      "ea": "0x495e1c",
+      "hex": "7506",
+      "text": "jnz     short loc_495E24"
+    },
+    {
+      "ea": "0x495e1e",
+      "hex": "8a4801",
+      "text": "mov     cl, [eax+1]"
+    },
+    {
+      "ea": "0x495e21",
+      "hex": "004e0a",
+      "text": "add     [esi+0Ah], cl"
+    },
+    {
+      "ea": "0x495e24",
+      "hex": "d1ea",
+      "text": "shr     edx, 1"
+    },
+    {
+      "ea": "0x495e26",
+      "hex": "83c008",
+      "text": "add     eax, 8"
+    },
+    {
+      "ea": "0x495e29",
+      "hex": "4f",
+      "text": "dec     edi"
+    },
+    {
+      "ea": "0x495e2a",
+      "hex": "75c4",
+      "text": "jnz     short loc_495DF0"
+    },
+    {
+      "ea": "0x495e2c",
+      "hex": "8b7c2410",
+      "text": "mov     edi, [esp+1Ch+var_C]"
+    },
+    {
+      "ea": "0x495e30",
+      "hex": "8b442414",
+      "text": "mov     eax, [esp+1Ch+var_8]"
+    },
+    {
+      "ea": "0x495e34",
+      "hex": "83c704",
+      "text": "add     edi, 4"
+    },
+    {
+      "ea": "0x495e37",
+      "hex": "48",
+      "text": "dec     eax"
+    },
+    {
+      "ea": "0x495e38",
+      "hex": "897c2410",
+      "text": "mov     [esp+1Ch+var_C], edi"
+    },
+    {
+      "ea": "0x495e3c",
+      "hex": "89442414",
+      "text": "mov     [esp+1Ch+var_8], eax"
+    },
+    {
+      "ea": "0x495e40",
+      "hex": "759f",
+      "text": "jnz     short loc_495DE1"
+    },
+    {
+      "ea": "0x495e42",
+      "hex": "33d2",
+      "text": "xor     edx, edx"
+    },
+    {
+      "ea": "0x495e44",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x495e45",
+      "hex": "8a5608",
+      "text": "mov     dl, [esi+8]"
+    },
+    {
+      "ea": "0x495e48",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x495e49",
+      "hex": "e8d2020000",
+      "text": "call    sub_496120"
+    },
+    {
+      "ea": "0x495e4e",
+      "hex": "0fbfc8",
+      "text": "movsx   ecx, ax"
+    },
+    {
+      "ea": "0x495e51",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x495e53",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x495e56",
+      "hex": "8a460a",
+      "text": "mov     al, [esi+0Ah]"
+    },
+    {
+      "ea": "0x495e59",
+      "hex": "0fafc8",
+      "text": "imul    ecx, eax"
+    },
+    {
+      "ea": "0x495e5c",
+      "hex": "b81f85eb51",
+      "text": "mov     eax, 51EB851Fh"
+    },
+    {
+      "ea": "0x495e61",
+      "hex": "f7e9",
+      "text": "imul    ecx"
+    },
+    {
+      "ea": "0x495e63",
+      "hex": "c1fa05",
+      "text": "sar     edx, 5"
+    },
+    {
+      "ea": "0x495e66",
+      "hex": "8bca",
+      "text": "mov     ecx, edx"
+    },
+    {
+      "ea": "0x495e68",
+      "hex": "c1e91f",
+      "text": "shr     ecx, 1Fh"
+    },
+    {
+      "ea": "0x495e6b",
+      "hex": "03d1",
+      "text": "add     edx, ecx"
+    },
+    {
+      "ea": "0x495e6d",
+      "hex": "81fa0f270000",
+      "text": "cmp     edx, 270Fh"
+    },
+    {
+      "ea": "0x495e73",
+      "hex": "7e05",
+      "text": "jle     short loc_495E7A"
+    },
+    {
+      "ea": "0x495e75",
+      "hex": "ba0f270000",
+      "text": "mov     edx, 270Fh"
+    },
+    {
+      "ea": "0x495e7a",
+      "hex": "8b442418",
+      "text": "mov     eax, [esp+1Ch+var_4]"
+    },
+    {
+      "ea": "0x495e7e",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x495e80",
+      "hex": "0fbffa",
+      "text": "movsx   edi, dx"
+    },
+    {
+      "ea": "0x495e83",
+      "hex": "668b4812",
+      "text": "mov     cx, [eax+12h]"
+    },
+    {
+      "ea": "0x495e87",
+      "hex": "66895602",
+      "text": "mov     [esi+2], dx"
+    },
+    {
+      "ea": "0x495e8b",
+      "hex": "3bf9",
+      "text": "cmp     edi, ecx"
+    },
+    {
+      "ea": "0x495e8d",
+      "hex": "7d04",
+      "text": "jge     short loc_495E93"
+    },
+    {
+      "ea": "0x495e8f",
+      "hex": "66895012",
+      "text": "mov     [eax+12h], dx"
+    },
+    {
+      "ea": "0x495e93",
+      "hex": "668b4012",
+      "text": "mov     ax, [eax+12h]"
+    },
+    {
+      "ea": "0x495e97",
+      "hex": "668906",
+      "text": "mov     [esi], ax"
+    },
+    {
+      "ea": "0x495e9a",
+      "hex": "668b5602",
+      "text": "mov     dx, [esi+2]"
+    },
+    {
+      "ea": "0x495e9e",
+      "hex": "66c1fa02",
+      "text": "sar     dx, 2"
+    },
+    {
+      "ea": "0x495ea2",
+      "hex": "663bc2",
+      "text": "cmp     ax, dx"
+    },
+    {
+      "ea": "0x495ea5",
+      "hex": "7d04",
+      "text": "jge     short loc_495EAB"
+    },
+    {
+      "ea": "0x495ea7",
+      "hex": "804e0b80",
+      "text": "or      byte ptr [esi+0Bh], 80h"
+    },
+    {
+      "ea": "0x495eab",
+      "hex": "5f",
+      "text": "pop     edi"
+    },
+    {
+      "ea": "0x495eac",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x495ead",
+      "hex": "5d",
+      "text": "pop     ebp"
+    },
+    {
+      "ea": "0x495eae",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x495eaf",
+      "hex": "83c40c",
+      "text": "add     esp, 0Ch"
+    },
+    {
+      "ea": "0x495eb2",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x495dbc",
+      "operand": "sub_4960C0",
+      "operand_type": 7,
+      "operand_value": "0x4960c0",
+      "code_targets": [
+        "0x4960c0"
+      ]
+    },
+    {
+      "site": "0x495e49",
+      "operand": "sub_496120",
+      "operand_type": 7,
+      "operand_value": "0x496120",
+      "code_targets": [
+        "0x496120"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x493e24",
+      "type": 17,
+      "code": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x495ecf",
+      "type": 17,
+      "code": true,
+      "function": "0x495ec0"
+    },
+    {
+      "from": "0x495f2f",
+      "type": 17,
+      "code": true,
+      "function": "0x495ef0"
+    }
+  ],
+  "existing_today_tag": false
+}

@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-12T17:37:15.901907+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x701220",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Mat3S16_MakeRotX_Q12",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "ee9662c62af7ba3d79479f2589cde7882325b70ac46fd6e5d35204c10e55664a",
+  "before_sha256": "bd7cf8bd79f5c45b8d85c0f6d20b29896fd5622828dfd1b12bc42b465c9a44ad",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nCaptures argument 1 as signed low WORD, clears five DWORDs (20 bytes) at argument 2, and calls 0x56D130 then 0x56D100 with that same captured signed value; delayed stack cleanup is 8 bytes. If s/c denote low WORDs of the first/second returns, stores WORDs dst+0=0x1000, +8=c, +0xA=s, +0xE=-s modulo 2^16, +0x10=c. Other bytes remain from the zero fill. Full EAX on return is still the second helper's full return, not necessarily a zero-extended coefficient. Helper trig accuracy and coordinate conventions are not established here.\nLive ASM anchors: 0x70122b, 0x701230, 0x70123f, 0x701247, 0x70124e, 0x701253, 0x701264. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x701220.json.",
+  "anchors": [
+    {
+      "ea": "0x70122b",
+      "hex": "0fbf7c2410",
+      "text": "movsx   edi, [esp+0Ch+arg_0]"
+    },
+    {
+      "ea": "0x701230",
+      "hex": "8901",
+      "text": "mov     [ecx], eax"
+    },
+    {
+      "ea": "0x70123f",
+      "hex": "e8ecbee6ff",
+      "text": "call    Fixed_Sin4096_Q12"
+    },
+    {
+      "ea": "0x701247",
+      "hex": "e8b4bee6ff",
+      "text": "call    Fixed_Cos4096_Q12"
+    },
+    {
+      "ea": "0x70124e",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x701253",
+      "hex": "66c7060010",
+      "text": "mov     word ptr [esi], 1000h"
+    },
+    {
+      "ea": "0x701264",
+      "hex": "66894610",
+      "text": "mov     [esi+10h], ax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "31437fcb4bf337cbdb5fe7308ea67cfcf5e51fbab7a739af5cc2affef9d165a3",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x701220-idb-before.json"
+}

@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:37:10.627875+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x56C090",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Mat3S16_MulQ12_Copy5",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "f8f854354456c39596bebc84b97cac83a7d09c0db02ed4275701cce54351cb46",
+  "before": "[glm-triple 2026-09-15]\n/* Mat3S16_MulQ12_Copy5 @ 0x56C090\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 116 instr, size 0x18c, end 0x56C21C. cdecl, 3 args, retn C3. Saves ebp/esi.\n * and esp,0FFFFFFF8h ; sub esp,44h. 0 CALL. Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44 absent.\n * Loop: mov edx,3 ; loc_56C12F ; dec edx ; jnz (ZF). 9 WORD stores then 5 DWORD copy-out.\n */\n\nextern float flt_B695F8; /* 0xB695F8 item_size=4 hex 00008039 = 1/4096 */\nextern double CONST_4_503601774854144e15; /* 0xB693D8 item_size=8 = 2^52+2^51 ; IDA name CONST_4.503601774854144e15 */\n\n_DWORD *__cdecl Mat3S16_MulQ12_Copy5(int arg_0, __int16 *arg_4, _DWORD *arg_8)\n{\n    __int16 *vec; /* ecx: arg_0+4, then [ecx-4],[ecx-2],[ecx] */\n    __int16 *outp; /* eax: lea var_1C, add 6, WORD [eax-0Ah]/[eax-8]/[eax-6] */\n    _DWORD dst[5]; /* var_20..var_10 ; loop writes 18 bytes, last 2 of dst[4] untouched */\n    float m00, m10, m20; /* fild M[+0], M[+6], M[+0Ch] ; stay on ST across loop */\n    float m01, m11, m21; /* fstp dword var_38/34/30 = M[+2], M[+8], M[+0Eh] */\n    float m02, m12, m22; /* fstp dword var_2C/28/24 = M[+4], M[+0Ah], M[+10h] */\n    float s0, s1, s2;\n    union { double d; unsigned short w[4]; } conv;\n    int n; /* edx */\n\n    m00 = (float)arg_4[0];\n    m10 = (float)arg_4[3];\n    m20 = (float)arg_4[6];\n    m01 = (float)arg_4[1];\n    m11 = (float)arg_4[4];\n    m21 = (float)arg_4[7];\n    m02 = (float)arg_4[2];\n    m12 = (float)arg_4[5];\n    m22 = (float)arg_4[8];\n\n    vec = (__int16 *)arg_0 + 2; /* 56c10f add ecx, 4 */\n    outp = (__int16 *)dst + 2; /* 56c11a lea eax, [esp+48h+var_1C] */\n    n = 3; /* 56c11e mov edx, 3 */\n\n    do {\n        /* loc_56C12F */\n        s0 = (float)vec[-2] * flt_B695F8; /* movsx [ecx-4] ; fild ; fmul dword */\n        s1 = (float)vec[-1] * flt_B695F8; /* [ecx-2] */\n        s2 = (float)vec[0] * flt_B695F8;  /* [ecx] */\n        vec += 3; /* add ecx, 6 */\n        outp += 3; /* add eax, 6 */\n        --n; /* dec edx ; ZF tested by jnz at 56c1e6 */\n\n        /* acc0 = M[+0]*s0 + M[+6]*s1 + M[+0Ch]*s2 ; fadd qword magic ; fstp qword ; mov si, word */\n        conv.d = (double)(m00 * s0 + m10 * s1 + m20 * s2) + CONST_4_503601774854144e15;\n        outp[-5] = (__int16)conv.w[0]; /* [eax-0Ah] 66 89 */\n\n        /* acc1 = M[+2]*s0 + M[+8]*s1 + M[+0Eh]*s2 */\n        conv.d = (double)(m01 * s0 + m11 * s1 + m21 * s2) + CONST_4_503601774854144e15;\n        outp[-4] = (__int16)conv.w[0]; /* [eax-8] */\n\n        /* acc2 = M[+4]*s0 + M[+0Ah]*s1 + M[+10h]*s2 */\n        conv.d = (double)(m02 * s0 + m12 * s1 + m22 * s2) + CONST_4_503601774854144e15;\n        outp[-3] = (__int16)conv.w[0]; /* [eax-6] */\n        /* fstp st x3 drops s2,s1,s0 ; m00/m10/m20 stay until copy-out fstp st */\n    } while (n != 0); /* jnz loc_56C12F */\n\n    arg_8[0] = dst[0];\n    arg_8[1] = dst[1];\n    arg_8[2] = dst[2];\n    arg_8[3] = dst[3];\n    arg_8[4] = dst[4];\n    /* 56c1ec mov eax, [ebp+arg_8] ; 5 DWORD 89 stores ; fstp st x3 leftover matrix col */\n    return arg_8;\n}",
+  "before_sha256": "8eea49d77abdd644b555c3a2b5640c3cff4bf312b7ce3aa90135d87b36672f03",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nReads signed WORD coefficients, performs x87 three-term row/column products, and stages three WORDs on each of three iterations with 6-byte row strides. There are no helper calls. Results are obtained from bits of floating stores, not an integer multiply/SHR or saturating conversion. Copies FIVE DWORDs (20 bytes) from its local staging area to argument 3 and leaves that destination pointer in full EAX. Only nine result WORDs (18 bytes) were generated; the final two copied stack bytes are not initialized as output coefficients by this routine. A destination of only 18 writable bytes is insufficient. Exact Q12/trigonometric/hardware equivalence and the meaning of those two stack bytes are not asserted.\nLive ASM anchors: 0x56c09d, 0x56c11e, 0x56c137, 0x56c15d, 0x56c196, 0x56c1de, 0x56c1ec, 0x56c215. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x56C090.json.",
+  "anchors": [
+    {
+      "ea": "0x56c09d",
+      "hex": "0fbf480c",
+      "text": "movsx   ecx, word ptr [eax+0Ch]"
+    },
+    {
+      "ea": "0x56c11e",
+      "hex": "ba03000000",
+      "text": "mov     edx, 3"
+    },
+    {
+      "ea": "0x56c137",
+      "hex": "83c006",
+      "text": "add     eax, 6"
+    },
+    {
+      "ea": "0x56c15d",
+      "hex": "83c106",
+      "text": "add     ecx, 6"
+    },
+    {
+      "ea": "0x56c196",
+      "hex": "668970f6",
+      "text": "mov     [eax-0Ah], si"
+    },
+    {
+      "ea": "0x56c1de",
+      "hex": "668970fa",
+      "text": "mov     [eax-6], si"
+    },
+    {
+      "ea": "0x56c1ec",
+      "hex": "8b4510",
+      "text": "mov     eax, [ebp+arg_8]"
+    },
+    {
+      "ea": "0x56c215",
+      "hex": "895010",
+      "text": "mov     [eax+10h], edx"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

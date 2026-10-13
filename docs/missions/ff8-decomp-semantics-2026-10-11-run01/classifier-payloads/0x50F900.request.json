@@ -1,0 +1,251 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g30 / run01 / discovery-only / 2026-10-11.\n; Owned: 0x50F900,0x50FDF0,0x5106E0; claimed task_mv424nwy_000v_wl9kqw. No edits/IDB/Git/ledger/live/delegation or producer-artifact inheritance. Labels are lookup aids, never purpose evidence. Reusable for independent forks; no reconstruction/verdict.\n; \n; SOURCE MAP (aliases resolve to absolute paths; references include file-line and instruction EA):\n; M=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json\n; N1=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50F900.json\n; N2=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50FDF0.json\n; N3=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x5106E0.json\n; A=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x5099d0/native-2026-10-10/N5099D0_pack/neutral/asm.txt\n; B=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x510680/asm.asm\n; C=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x45c870/asm.asm\n; D=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_animation.md\n; E=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x509B30__BattleGeom_SetCurrentBoneMatrix.md\n; F=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/battle-model-probe/parse_c0m.py\n; G=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x5099D0__RenderGeometry.md\n; H=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/closure-audit.md\n; Q=C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/battle-render-pipeline-entrypoints.md\n; Read C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:11,16-21,41 and AGENT.md. GrepAI first/common root retro-eng located F/rendering docs. QMD CLI searches ParseVertices/ParsePolygons in ff8-wiki located Q:94-96 and format/catalog references; prose used as leads, not native proof. Exact sibling rewrite helper/global search had no matches, not proof no equivalent implementation exists.\n; \n; IDENTITY / NATIVE PROVENANCE\n; M:231-237 owns g30; M:598-613,625-631 inventories:\n; N1 297 instructions/33 blocks, [50F900,50FD3E), SHA256 5682a10eabc8838c39e3ee92b22f86f8e62c9abfa0290882f19bde6c944999ef.\n; N2 634/72, [50FDF0,51067C), SHA256 4e66001ce60c975ed8dccd727ffa4c52a5fc5712a61c965df597b5da226a4eb5.\n; N3 743/144, [5106E0,511082), SHA256 8348832713482d58ab168586214c47a76b509cd94f1ec7b033bbdff012f7311c.\n; All hashes independently recomputed and match. N*:5-9: 32-bit FF8_EN.exe, input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, export 2026-10-11T16:38:25.140966+00:00. ASM is one JSON line :18; instruction EA disambiguates. Raw instruction bytes :15 checked for argument/global addresses.\n; N1:263-271 sole exported code xref 509A9D/function5099D0, no calls. N2:563-577 sole xref509B02/function5099D0. N3:1107-1121 sole xrefA4A00C/functionA49EE0, NOT5099D0. N2/N3 exact code targets45C870,45D7A0,45D7C0,45F270,510680; no indirect CALL in their ASM. Xrefs are snapshot facts, not runtime completeness.\n; \n; SURROUNDING CALLER / ABI\n; A:50-74 /509A62..509AAA: loads context+4 DWORD into output cursor home; consumes signed WORD count/index from source; CALL509B30 @509A8D, then pushes two local-cell addresses and context @509A9A/9B/9C; CALL50F900 @509A9D. ADD ESP,16 @509AA6 includes deferred 4-byte arg of509B30 plus 12 for50F900, NOT four args to50F900. Its EAX is overwritten by reloaded source home @509AA2.\n; A:75-106 /509AAC..509B0E: align source ADD3/AND AL,FCh; four sequential WORD reads stored context+8/+A/+C/+E @509ABF/ACD/ADB/AE9; four-byte skip without read; store context+0 DWORD @509AF9. Four pushes to50FDF0 @509B02: context, OT base, shift, current packet; cleanup16 @509B0B and returned EAX saved to packet home @509B0E. A:44,48-49: SHL EDX,CL against context+20 mask, hardware count masking; no count<=32 contract.\n; N1:18 /50F909 bytes8B4508,50F930 8B550C,50F936 8B4510 prove EBP+8/+C/+10 inputs. Dereferences latter two pointer cells; writes them back @50FB83/85 or50FD33/35. Zero WORD count @50F952 branches directly to restores @50FD37 without stores; later MOVSX WORD/JLE count handling differs. Plain RET, EBP frame, ESP aligned8, EBX/ESI/EDI preserved; source return type unproved.\n; N2/N3:18 stack inputs, plain RET, EBX/EBP/ESI/EDI restored, allocations28h/34h. N3 initial context bytes8B4C2438 after SUB ESP,34h; fourth arg bytes8B442450 @5106F9 after three pushes. Both return reloaded DWORD[1D99C18] @51066F/511075. Observed ABI does not certify original business types.\n; \n; RECORDS/GLOBALS: DIRECT NATIVE FACTS\n; N2:18 /50FE06/0F loads context+0 DWORD source/context+4 DWORD indexed base; WORD counters+8/+A/+C/+E @50FE37,510056,5102CC,510477. N3 initial same DWORD fields @510711/717 and four WORD counters. Context+1C/+28 DWORD loads; +24 sign-extended WORD for conditional tests but reread DWORD for helper input (N2 51038D/A8,51055E/57F; N3 510BF6/C0A,510E61/75). Preserve mixed widths, not guessed struct types.\n; N1:18 /50F90F..91B: signed WORD context+14/+16/+18/+1A scaled SHL3/LEA*8. Count WORD @50F945; entry signed WORD reads offsets0/2/4 @50FA19/23/32 and50FBAD/B7/C6; source advances6 @50FA4F/50FBD5. Two DWORD output writes, stride8 @50FB62/68/6B and50FD12/18/1B. N2/N3 index base+index*8; first index maskFFF; high nibble SHR12/SUB8 in N2. Do NOT infer all later indices mask12 bits from tool F.\n; Both write/reload DWORD globals1D99C18 and1D99C1C (N2 @50FDFD/50FE26 bytesA3189CD901/A31C9CD901; N3 @510708/72E). No reentrancy/thread-safety/alias-exclusion contract.\n; N2 four source advances10h/14h/14h/18h @51002A/2B7/462/65C; emitted destination advances20h/28h/20h/28h @510019/2A2/44A/64B. N3 source @5108FC/B48/D93/511062, destination @5108EB/B37/D7E/51104D. Tags07000000/09000000 and codes24000000/2C000000 are different fields.\n; N2 tests OR-combined second DWORDs with60000h and AND-combined with3F00000h (50FE9F/AF). N3 reads byte+6, OR/tests6 (5107A2..7B9), separately signed-halfword comparisons and bits1/2/4/8. Do not transplant N2 guards. N3 upper second-coordinate comparisons @510C62/C66 (and later) use SAME var_8 upper bound as first-coordinate tests; initial bounds read context+14/+16/+18 @5106EA/EE/FD, not presumed+1A height.\n; \n; FLOAT / GLOBAL NUMERICAL DEPENDENCIES\n; N1:15/18 bytes: FILD DWORD1CA9290/94/98 @50F958/97D/99A; DWORD1CA92E4 @50F95E then AND FFFF/SHR1; MOVSX WORD1CA92DE/E2 @50F972/98F. FLD m32 bank1CA9234/38/3C,1CA9240/44/48,1CA924C/50/54. FMUL m32 B693E4/B693E0; FADD m64 B693D8 @50FAB2 (DC05D893B600). Labels8,1/8,large rounding constant are NOT freshly verified data values: packet has no global data bytes/control-word contract.\n; E:52-55,68-70 documents parent-gated writer chain509B30→56BAE0/56BB30, eight DWORD bank writes1CA927C..9298 and nine signed-WORD→float conversions to1CA9234..9254; 'bone' explicitly UNCERTAIN. Surrounding gate evidence, not g30 business meaning.\n; \n; CALLEES VALIDATED AGAINST SAVED ASM\n; B:2-36 /510680..6D1: three stack DWORD args; low/high halves sign-extended SHL/SAR; IMUL32×2 then SUB @5106BD/C0/C3; MOV EAX,0/SETS AL @5106C6/CE; RET. SETS observes SF of wrapped native subtraction, NOT unrestricted signed-area math; CW/CCW unproved. Both targets push3/cleanup12. N2 calls50FED4,51011B,361,527; N3 calls5107CD,9C9,BD6,E41.\n; C:2-38 /45C870: unsigned cursor-base>=60000h @45C877/7D/83 early returns without writes; six stack args. Args3..6→node+4/+8/+C/+10; arg2 packet ptr→+0; old-head metadata+14 WORD0/+16 BYTE high head; patch packet low24 XOR/AND FFFFFF/XOR; update head/cursor+18h. EAX return cursor not node @45C8CF/D5. Targets push6/cleanup24 and reload packet global. Node18h is NOT packet20h/28h.\n; N2:18 /5103A0..3D3,510571..5AD; N3 /510C00..C2B,510E6B..E9B: two two-arg calls45D7C0 with indices6/8, zero-additional-stack-arg call45F270, two-arg call45D7A0 with index16h/destination local; combined cleanup24. Comments identify indexed GTE table, but helper bodies not freshly retrieved: historical purpose comments only;45F270 opaque (H:327 'DPCS non vérifié').\n; \n; CODE/HISTORICAL CAUTIONS AND OPEN QUESTIONS\n; F:117-141 implements mesh offsets, WORD batch id/count, signed6-byte triples, whole-block-list alignment, four WORD face counts+skipped DWORD; F:143-188 consumes16/20/20/24-byte records. Corroborates extents, NOT native specification: unsigned counts, masks ALL indices, axis/UV/viewer remapping and GLB assumptions (F:31-38,57-59).\n; D:118-137 supports6-byte source/8-byte output and packet sizes but leaves PC-07 field layout/PC-08 shading unresolved. G:3-7,31-42 limits caller C to conditional numeric projection, not original prototypes/runtime. Q:94-96 calls A49EE0 MAG_234 FamilyB; only numeric xref freshly proven. Historical HANDOFF_gfx-pipeline-decomp.md:220 gives5108A0 for GF function; authoritative g30 address5106E0 supersedes that lead.\n; Uncertainties: named structures/ownership/buffer bounds; helper effects and aliases; source return types; x87 precision/control/exceptions and constant data; GF family purpose and shared upper-bound rationale; runtime reachability; equivalence to tooling coordinates/UVs. No target verdict/promotion.\n; TARGET ASM COMPLETE\n0050F900: push    ebp\n0050F901: mov     ebp, esp\n0050F903: and     esp, 0FFFFFFF8h; Logical AND\n0050F906: sub     esp, 54h; Integer Subtraction\n0050F909: mov     eax, [ebp+ctx]\n0050F90C: push    ebx\n0050F90D: push    esi\n0050F90E: push    edi\n0050F90F: movsx   esi, word ptr [eax+14h]; Move with Sign-Extend\n0050F913: movsx   ecx, word ptr [eax+18h]; Move with Sign-Extend\n0050F917: movsx   ebx, word ptr [eax+16h]; Move with Sign-Extend\n0050F91B: movsx   eax, word ptr [eax+1Ah]; Move with Sign-Extend\n0050F91F: shl     esi, 3; Shift Logical Left\n0050F922: shl     ebx, 3; Shift Logical Left\n0050F925: lea     edx, [esi+ecx*8]; Load Effective Address\n0050F928: mov     [esp+60h+var_14], esi\n0050F92C: mov     [esp+60h+var_1C], edx\n0050F930: mov     edx, [ebp+verts]\n0050F933: lea     ecx, [ebx+eax*8]; Load Effective Address\n0050F936: mov     eax, [ebp+outPacked]\n0050F939: mov     edx, [edx]\n0050F93B: mov     dword ptr [esp+60h+var_10], ebx\n0050F93F: mov     edi, [eax]\n0050F941: mov     [esp+60h+var_18], ecx\n0050F945: mov     ax, [edx]\n0050F948: add     edx, 2; Add\n0050F94B: test    ax, ax; Logical Compare\n0050F94E: mov     [esp+60h+var_48], eax\n0050F952: jz      loc_50FD37; Jump if Zero (ZF=1)\n0050F958: fild    world_CameraWorldSpaceX; Load Integer\n0050F95E: mov     eax, World_CameraZoom\n0050F963: and     eax, 0FFFFh; Logical AND\n0050F968: fmul    ds:CONST_8_0; Multiply Real\n0050F96E: mov     [esp+60h+var_20], eax\n0050F972: movsx   ecx, word_1CA92DE; Move with Sign-Extend\n0050F979: fstp    [esp+60h+var_3C]; Store Real and Pop\n0050F97D: fild    World_CameraWorldSpaceY; Load Integer\n0050F983: shr     eax, 1; Shift Logical Right\n0050F985: mov     [esp+60h+var_24], eax\n0050F989: fmul    ds:CONST_8_0; Multiply Real\n0050F98F: movsx   eax, World_CameraWorldLookAtZ; Move with Sign-Extend\n0050F996: fstp    [esp+60h+var_38]; Store Real and Pop\n0050F99A: fild    World_CameraWorldSpaceZ; Load Integer\n0050F9A0: shl     ecx, 3; Shift Logical Left\n0050F9A3: shl     eax, 3; Shift Logical Left\n0050F9A6: fstp    [esp+60h+var_28]; Store Real and Pop\n0050F9AA: fild    [esp+60h+var_20]; Load Integer\n0050F9AE: test    esi, esi; Logical Compare\n0050F9B0: mov     [esp+60h+var_40], ecx\n0050F9B4: mov     [esp+60h+var_44], eax\n0050F9B8: fstp    [esp+60h+var_20]; Store Real and Pop\n0050F9BC: fld     Cam_xyz3_x_float; Load Real\n0050F9C2: fmul    ds:CONST_0_125; Multiply Real\n0050F9C8: fstp    [esp+60h+var_2C]; Store Real and Pop\n0050F9CC: fld     Cam_xyz3_y_float; Load Real\n0050F9D2: fmul    ds:CONST_0_125; Multiply Real\n0050F9D8: fstp    [esp+60h+var_30]; Store Real and Pop\n0050F9DC: fld     Cam_xyz3_z_float; Load Real\n0050F9E2: fmul    ds:CONST_0_125; Multiply Real\n0050F9E8: fstp    [esp+60h+var_34]; Store Real and Pop\n0050F9EC: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)\n0050F9F2: test    ebx, ebx; Logical Compare\n0050F9F4: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)\n0050F9FA: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend\n0050F9FF: test    esi, esi; Logical Compare\n0050FA01: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FA07: mov     [esp+60h+var_48], esi\n0050FA0B: jmp     short loc_50FA19; Jump\n0050FA0D: mov     eax, [esp+60h+var_44]\n0050FA11: mov     ecx, [esp+60h+var_40]\n0050FA15: mov     edx, [esp+60h+var_4C]\n0050FA19: movsx   esi, word ptr [edx]; Move with Sign-Extend\n0050FA1C: shl     esi, 3; Shift Logical Left\n0050FA1F: mov     [esp+60h+var_4C], esi\n0050FA23: movsx   esi, word ptr [edx+2]; Move with Sign-Extend\n0050FA27: fild    [esp+60h+var_4C]; Load Integer\n0050FA2B: shl     esi, 3; Shift Logical Left\n0050FA2E: mov     [esp+60h+var_4C], esi\n0050FA32: movsx   esi, word ptr [edx+4]; Move with Sign-Extend\n0050FA36: fild    [esp+60h+var_4C]; Load Integer\n0050FA3A: shl     esi, 3; Shift Logical Left\n0050FA3D: mov     [esp+60h+var_4C], esi\n0050FA41: mov     esi, [esp+60h+var_24]\n0050FA45: fild    [esp+60h+var_4C]; Load Integer\n0050FA49: fld     Cam_xyz1_z_float; Load Real\n0050FA4F: add     edx, 6; Add\n0050FA52: fmul    st, st(1); Multiply Real\n0050FA54: fld     Cam_xyz1_y_float; Load Real\n0050FA5A: fmul    st, st(3); Multiply Real\n0050FA5C: mov     [esp+60h+var_4C], edx\n0050FA60: faddp   st(1), st; Add Real and Pop\n0050FA62: fld     Cam_xyz1_x_float; Load Real\n0050FA68: fmul    st, st(4); Multiply Real\n0050FA6A: faddp   st(1), st; Add Real and Pop\n0050FA6C: fadd    [esp+60h+var_3C]; Add Real\n0050FA70: fstp    [esp+60h+var_54]; Store Real and Pop\n0050FA74: fld     Cam_xyz2_z_float; Load Real\n0050FA7A: fmul    st, st(1); Multiply Real\n0050FA7C: fld     Cam_xyz2_y_float; Load Real\n0050FA82: fmul    st, st(3); Multiply Real\n0050FA84: faddp   st(1), st; Add Real and Pop\n0050FA86: fld     Cam_xyz2_x_float; Load Real\n0050FA8C: fmul    st, st(4); Multiply Real\n0050FA8E: faddp   st(1), st; Add Real and Pop\n0050FA90: fadd    [esp+60h+var_38]; Add Real\n0050FA94: fstp    [esp+60h+var_50]; Store Real and Pop\n0050FA98: fmul    [esp+60h+var_34]; Multiply Real\n0050FA9C: fxch    st(1); Exchange Registers\n0050FA9E: fmul    [esp+60h+var_30]; Multiply Real\n0050FAA2: faddp   st(1), st; Add Real and Pop\n0050FAA4: fxch    st(1); Exchange Registers\n0050FAA6: fmul    [esp+60h+var_2C]; Multiply Real\n0050FAAA: faddp   st(1), st; Add Real and Pop\n0050FAAC: fadd    [esp+60h+var_28]; Add Real\n0050FAB0: fld     st; Load Real\n0050FAB2: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAB8: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FABC: mov     edx, dword ptr [esp+60h+var_10]\n0050FAC0: add     edx, 80000000h; Add\n0050FAC6: cmp     edx, esi; Compare Two Operands\n0050FAC8: jg      short loc_50FAFD; Jump if Greater (ZF=0 & SF=OF)\n0050FACA: fstp    st; Store Real and Pop\n0050FACC: fld     [esp+60h+var_54]; Load Real\n0050FAD0: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAD6: mov     esi, 20000h\n0050FADB: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FADF: fld     [esp+60h+var_50]; Load Real\n0050FAE3: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAE9: mov     ebx, dword ptr [esp+60h+var_10]\n0050FAED: lea     ecx, [ecx+ebx*2]; Load Effective Address\n0050FAF0: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FAF4: mov     ebx, dword ptr [esp+60h+var_10]\n0050FAF8: lea     eax, [eax+ebx*2]; Load Effective Address\n0050FAFB: jmp     short loc_50FB37; Jump\n0050FAFD: fdivr   [esp+60h+var_20]; Divide Real Reversed\n0050FB01: xor     esi, esi; Logical Exclusive OR\n0050FB03: fld     st; Load Real\n0050FB05: fmul    [esp+60h+var_54]; Multiply Real\n0050FB09: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FB0F: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FB13: mov     ebx, dword ptr [esp+60h+var_10]\n0050FB17: fmul    [esp+60h+var_50]; Multiply Real\n0050FB1B: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address\n0050FB22: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FB28: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FB2C: mov     ebx, dword ptr [esp+60h+var_10]\n0050FB30: lea     eax, [ebx+eax+80000000h]; Load Effective Address\n0050FB37: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands\n0050FB3B: jbe     short loc_50FB43; Jump if Below or Equal (CF=1 | ZF=1)\n0050FB3D: or      esi, offset VIT_0_STATUS_MASK?; Logical Inclusive OR\n0050FB43: cmp     eax, [esp+60h+var_18]; Compare Two Operands\n0050FB47: jbe     short loc_50FB4F; Jump if Below or Equal (CF=1 | ZF=1)\n0050FB49: or      esi, offset unk_2000000; Logical Inclusive OR\n0050FB4F: shl     eax, 10h; Shift Logical Left\n0050FB52: and     ecx, 0FFFFh; Logical AND\n0050FB58: and     edx, 0FFFFh; Logical AND\n0050FB5E: or      eax, ecx; Logical Inclusive OR\n0050FB60: or      edx, esi; Logical Inclusive OR\n0050FB62: mov     [edi], eax\n0050FB64: mov     eax, [esp+60h+var_48]\n0050FB68: mov     [edi+4], edx\n0050FB6B: add     edi, 8; Add\n0050FB6E: dec     eax; Decrement by 1\n0050FB6F: mov     [esp+60h+var_48], eax\n0050FB73: jnz     loc_50FA0D; Jump if Not Zero (ZF=0)\n0050FB79: mov     eax, [ebp+verts]\n0050FB7C: mov     ecx, [ebp+outPacked]\n0050FB7F: mov     edx, [esp+60h+var_4C]\n0050FB83: mov     [eax], edx\n0050FB85: mov     [ecx], edi\n0050FB87: pop     edi\n0050FB88: pop     esi\n0050FB89: pop     ebx\n0050FB8A: mov     esp, ebp\n0050FB8C: pop     ebp\n0050FB8D: retn; Return Near from Procedure\n0050FB8E: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend\n0050FB93: test    esi, esi; Logical Compare\n0050FB95: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FB9B: mov     [esp+60h+var_48], esi\n0050FB9F: jmp     short loc_50FBAD; Jump\n0050FBA1: mov     eax, [esp+60h+var_44]\n0050FBA5: mov     ecx, [esp+60h+var_40]\n0050FBA9: mov     edx, [esp+60h+var_4C]\n0050FBAD: movsx   esi, word ptr [edx]; Move with Sign-Extend\n0050FBB0: shl     esi, 3; Shift Logical Left\n0050FBB3: mov     [esp+60h+var_4C], esi\n0050FBB7: movsx   esi, word ptr [edx+2]; Move with Sign-Extend\n0050FBBB: fild    [esp+60h+var_4C]; Load Integer\n0050FBBF: shl     esi, 3; Shift Logical Left\n0050FBC2: mov     [esp+60h+var_4C], esi\n0050FBC6: movsx   esi, word ptr [edx+4]; Move with Sign-Extend\n0050FBCA: fild    [esp+60h+var_4C]; Load Integer\n0050FBCE: shl     esi, 3; Shift Logical Left\n0050FBD1: mov     [esp+60h+var_4C], esi\n0050FBD5: add     edx, 6; Add\n0050FBD8: fild    [esp+60h+var_4C]; Load Integer\n0050FBDC: fld     Cam_xyz1_z_float; Load Real\n0050FBE2: mov     [esp+60h+var_4C], edx\n0050FBE6: fmul    st, st(1); Multiply Real\n0050FBE8: fld     Cam_xyz1_y_float; Load Real\n0050FBEE: fmul    st, st(3); Multiply Real\n0050FBF0: faddp   st(1), st; Add Real and Pop\n0050FBF2: fld     Cam_xyz1_x_float; Load Real\n0050FBF8: fmul    st, st(4); Multiply Real\n0050FBFA: faddp   st(1), st; Add Real and Pop\n0050FBFC: fadd    [esp+60h+var_3C]; Add Real\n0050FC00: fstp    [esp+60h+var_54]; Store Real and Pop\n0050FC04: fld     Cam_xyz2_z_float; Load Real\n0050FC0A: fmul    st, st(1); Multiply Real\n0050FC0C: fld     Cam_xyz2_y_float; Load Real\n0050FC12: fmul    st, st(3); Multiply Real\n0050FC14: faddp   st(1), st; Add Real and Pop\n0050FC16: fld     Cam_xyz2_x_float; Load Real\n0050FC1C: fmul    st, st(4); Multiply Real\n0050FC1E: faddp   st(1), st; Add Real and Pop\n0050FC20: fadd    [esp+60h+var_38]; Add Real\n0050FC24: fstp    [esp+60h+var_50]; Store Real and Pop\n0050FC28: fmul    [esp+60h+var_34]; Multiply Real\n0050FC2C: fxch    st(1); Exchange Registers\n0050FC2E: fmul    [esp+60h+var_30]; Multiply Real\n0050FC32: faddp   st(1), st; Add Real and Pop\n0050FC34: fxch    st(1); Exchange Registers\n0050FC36: fmul    [esp+60h+var_2C]; Multiply Real\n0050FC3A: faddp   st(1), st; Add Real and Pop\n0050FC3C: fadd    [esp+60h+var_28]; Add Real\n0050FC40: fld     st; Load Real\n0050FC42: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC48: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC4C: mov     edx, dword ptr [esp+60h+var_8]\n0050FC50: lea     esi, [edx+80000000h]; Load Effective Address\n0050FC56: mov     edx, [esp+60h+var_24]\n0050FC5A: cmp     esi, edx; Compare Two Operands\n0050FC5C: jg      short loc_50FC91; Jump if Greater (ZF=0 & SF=OF)\n0050FC5E: fstp    st; Store Real and Pop\n0050FC60: fld     [esp+60h+var_54]; Load Real\n0050FC64: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC6A: mov     edx, 20000h\n0050FC6F: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC73: fld     [esp+60h+var_50]; Load Real\n0050FC77: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC7D: mov     ebx, dword ptr [esp+60h+var_8]\n0050FC81: lea     ecx, [ecx+ebx*2]; Load Effective Address\n0050FC84: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC88: mov     ebx, dword ptr [esp+60h+var_8]\n0050FC8C: lea     eax, [eax+ebx*2]; Load Effective Address\n0050FC8F: jmp     short loc_50FCCB; Jump\n0050FC91: fdivr   [esp+60h+var_20]; Divide Real Reversed\n0050FC95: xor     edx, edx; Logical Exclusive OR\n0050FC97: fld     st; Load Real\n0050FC99: fmul    [esp+60h+var_54]; Multiply Real\n0050FC9D: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FCA3: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FCA7: mov     ebx, dword ptr [esp+60h+var_8]\n0050FCAB: fmul    [esp+60h+var_50]; Multiply Real\n0050FCAF: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address\n0050FCB6: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FCBC: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FCC0: mov     ebx, dword ptr [esp+60h+var_8]\n0050FCC4: lea     eax, [ebx+eax+80000000h]; Load Effective Address\n0050FCCB: cmp     ecx, [esp+60h+var_14]; Compare Two Operands\n0050FCCF: jge     short loc_50FCD9; Jump if Greater or Equal (SF=OF)\n0050FCD1: or      edx, offset unk_1100000; Logical Inclusive OR\n0050FCD7: jmp     short loc_50FCE5; Jump\n0050FCD9: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands\n0050FCDD: jle     short loc_50FCE5; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FCDF: or      edx, offset unk_1200000; Logical Inclusive OR\n0050FCE5: cmp     eax, dword ptr [esp+60h+var_10]; Compare Two Operands\n0050FCE9: jge     short loc_50FCF3; Jump if Greater or Equal (SF=OF)\n0050FCEB: or      edx, offset unk_2400000; Logical Inclusive OR\n0050FCF1: jmp     short loc_50FCFF; Jump\n0050FCF3: cmp     eax, [esp+60h+var_18]; Compare Two Operands\n0050FCF7: jle     short loc_50FCFF; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FCF9: or      edx, offset dword_2800000; Logical Inclusive OR\n0050FCFF: shl     eax, 10h; Shift Logical Left\n0050FD02: and     ecx, 0FFFFh; Logical AND\n0050FD08: and     esi, 0FFFFh; Logical AND\n0050FD0E: or      eax, ecx; Logical Inclusive OR\n0050FD10: or      esi, edx; Logical Inclusive OR\n0050FD12: mov     [edi], eax\n0050FD14: mov     eax, [esp+60h+var_48]\n0050FD18: mov     [edi+4], esi\n0050FD1B: add     edi, 8; Add\n0050FD1E: dec     eax; Decrement by 1\n0050FD1F: mov     [esp+60h+var_48], eax\n0050FD23: jnz     loc_50FBA1; Jump if Not Zero (ZF=0)\n0050FD29: mov     edx, [esp+60h+var_4C]\n0050FD2D: mov     eax, [ebp+verts]\n0050FD30: mov     ecx, [ebp+outPacked]\n0050FD33: mov     [eax], edx\n0050FD35: mov     [ecx], edi\n0050FD37: pop     edi\n0050FD38: pop     esi\n0050FD39: pop     ebx\n0050FD3A: mov     esp, ebp\n0050FD3C: pop     ebp\n0050FD3D: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x50f900",
+        "end": "0x50f958",
+        "successors": [
+          "0x50f958",
+          "0x50fd37"
+        ]
+      },
+      {
+        "start": "0x50f958",
+        "end": "0x50f9f2",
+        "successors": [
+          "0x50f9f2",
+          "0x50fb8e"
+        ]
+      },
+      {
+        "start": "0x50f9f2",
+        "end": "0x50f9fa",
+        "successors": [
+          "0x50f9fa",
+          "0x50fb8e"
+        ]
+      },
+      {
+        "start": "0x50f9fa",
+        "end": "0x50fa07",
+        "successors": [
+          "0x50fa07",
+          "0x50fd2d"
+        ]
+      },
+      {
+        "start": "0x50fa07",
+        "end": "0x50fa0d",
+        "successors": [
+          "0x50fa19"
+        ]
+      },
+      {
+        "start": "0x50fa0d",
+        "end": "0x50fa19",
+        "successors": [
+          "0x50fa19"
+        ]
+      },
+      {
+        "start": "0x50fa19",
+        "end": "0x50faca",
+        "successors": [
+          "0x50faca",
+          "0x50fafd"
+        ]
+      },
+      {
+        "start": "0x50faca",
+        "end": "0x50fafd",
+        "successors": [
+          "0x50fb37"
+        ]
+      },
+      {
+        "start": "0x50fafd",
+        "end": "0x50fb37",
+        "successors": [
+          "0x50fb37"
+        ]
+      },
+      {
+        "start": "0x50fb37",
+        "end": "0x50fb3d",
+        "successors": [
+          "0x50fb3d",
+          "0x50fb43"
+        ]
+      },
+      {
+        "start": "0x50fb3d",
+        "end": "0x50fb43",
+        "successors": [
+          "0x50fb43"
+        ]
+      },
+      {
+        "start": "0x50fb43",
+        "end": "0x50fb49",
+        "successors": [
+          "0x50fb49",
+          "0x50fb4f"
+        ]
+      },
+      {
+        "start": "0x50fb49",
+        "end": "0x50fb4f",
+        "successors": [
+          "0x50fb4f"
+        ]
+      },
+      {
+        "start": "0x50fb4f",
+        "end": "0x50fb79",
+        "successors": [
+          "0x50fa0d",
+          "0x50fb79"
+        ]
+      },
+      {
+        "start": "0x50fb79",
+        "end": "0x50fb8e",
+        "successors": []
+      },
+      {
+        "start": "0x50fb8e",
+        "end": "0x50fb9b",
+        "successors": [
+          "0x50fb9b",
+          "0x50fd2d"
+        ]
+      },
+      {
+        "start": "0x50fb9b",
+        "end": "0x50fba1",
+        "successors": [
+          "0x50fbad"
+        ]
+      },
+      {
+        "start": "0x50fba1",
+        "end": "0x50fbad",
+        "successors": [
+          "0x50fbad"
+        ]
+      },
+      {
+        "start": "0x50fbad",
+        "end": "0x50fc5e",
+        "successors": [
+          "0x50fc5e",
+          "0x50fc91"
+        ]
+      },
+      {
+        "start": "0x50fc5e",
+        "end": "0x50fc91",
+        "successors": [
+          "0x50fccb"
+        ]
+      },
+      {
+        "start": "0x50fc91",
+        "end": "0x50fccb",
+        "successors": [
+          "0x50fccb"
+        ]
+      },
+      {
+        "start": "0x50fccb",
+        "end": "0x50fcd1",
+        "successors": [
+          "0x50fcd1",
+          "0x50fcd9"
+        ]
+      },
+      {
+        "start": "0x50fcd1",
+        "end": "0x50fcd9",
+        "successors": [
+          "0x50fce5"
+        ]
+      },
+      {
+        "start": "0x50fcd9",
+        "end": "0x50fcdf",
+        "successors": [
+          "0x50fcdf",
+          "0x50fce5"
+        ]
+      },
+      {
+        "start": "0x50fcdf",
+        "end": "0x50fce5",
+        "successors": [
+          "0x50fce5"
+        ]
+      },
+      {
+        "start": "0x50fce5",
+        "end": "0x50fceb",
+        "successors": [
+          "0x50fceb",
+          "0x50fcf3"
+        ]
+      },
+      {
+        "start": "0x50fceb",
+        "end": "0x50fcf3",
+        "successors": [
+          "0x50fcff"
+        ]
+      },
+      {
+        "start": "0x50fcf3",
+        "end": "0x50fcf9",
+        "successors": [
+          "0x50fcf9",
+          "0x50fcff"
+        ]
+      },
+      {
+        "start": "0x50fcf9",
+        "end": "0x50fcff",
+        "successors": [
+          "0x50fcff"
+        ]
+      },
+      {
+        "start": "0x50fcff",
+        "end": "0x50fd29",
+        "successors": [
+          "0x50fba1",
+          "0x50fd29"
+        ]
+      },
+      {
+        "start": "0x50fd29",
+        "end": "0x50fd2d",
+        "successors": [
+          "0x50fd2d"
+        ]
+      },
+      {
+        "start": "0x50fd2d",
+        "end": "0x50fd37",
+        "successors": [
+          "0x50fd37"
+        ]
+      },
+      {
+        "start": "0x50fd37",
+        "end": "0x50fd3e",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 33
+  }
+}

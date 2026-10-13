@@ -1,0 +1,881 @@
+{
+  "at": "2026-10-12T17:25:54.640935+00:00",
+  "ea": "0x464DB0",
+  "group": "g05",
+  "name": "Gfx_UploadCLUTSlot",
+  "packet_sha256": "9c59075630146d8ae274a6bcb36ffc91b884316984555a9375ec86eba9ab5c9d",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g05\\0x464DB0\\semantic_r.md",
+  "candidate_sha256": "a422612d7695485d56d36140fa4a3e2ea596f89b24270001baa6b910ddcd3c6c",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x464db0",
+      "hi": "0x464f6f",
+      "sha256": "ad14d3a302a94eac7198ad19f8df23cba62d45b30da46261c9c67cc887b90b1d",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x464db0",
+      "hex": "81ec88000000",
+      "text": "sub     esp, 88h"
+    },
+    {
+      "ea": "0x464db6",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x464db7",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x464db8",
+      "hex": "8bb42494000000",
+      "text": "mov     esi, [esp+90h+arg_0]"
+    },
+    {
+      "ea": "0x464dbf",
+      "hex": "57",
+      "text": "push    edi"
+    },
+    {
+      "ea": "0x464dc0",
+      "hex": "8b4644",
+      "text": "mov     eax, [esi+44h]"
+    },
+    {
+      "ea": "0x464dc3",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x464dc5",
+      "hex": "0f859a010000",
+      "text": "jnz     loc_464F65"
+    },
+    {
+      "ea": "0x464dcb",
+      "hex": "e87a52faff",
+      "text": "call    FFGetBufferAddress"
+    },
+    {
+      "ea": "0x464dd0",
+      "hex": "8bd8",
+      "text": "mov     ebx, eax"
+    },
+    {
+      "ea": "0x464dd2",
+      "hex": "a188fdcc01",
+      "text": "mov     eax, dword_1CCFD88"
+    },
+    {
+      "ea": "0x464dd7",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x464dd9",
+      "hex": "0f8419010000",
+      "text": "jz      loc_464EF8"
+    },
+    {
+      "ea": "0x464ddf",
+      "hex": "8b84249c000000",
+      "text": "mov     eax, [esp+94h+arg_4]"
+    },
+    {
+      "ea": "0x464de6",
+      "hex": "c7466000000000",
+      "text": "mov     dword ptr [esi+60h], 0"
+    },
+    {
+      "ea": "0x464ded",
+      "hex": "8bf8",
+      "text": "mov     edi, eax"
+    },
+    {
+      "ea": "0x464def",
+      "hex": "c1f804",
+      "text": "sar     eax, 4"
+    },
+    {
+      "ea": "0x464df2",
+      "hex": "83e001",
+      "text": "and     eax, 1"
+    },
+    {
+      "ea": "0x464df5",
+      "hex": "83e70f",
+      "text": "and     edi, 0Fh"
+    },
+    {
+      "ea": "0x464df8",
+      "hex": "c1e008",
+      "text": "shl     eax, 8"
+    },
+    {
+      "ea": "0x464dfb",
+      "hex": "8944240c",
+      "text": "mov     [esp+94h+var_88], eax"
+    },
+    {
+      "ea": "0x464dff",
+      "hex": "8b465c",
+      "text": "mov     eax, [esi+5Ch]"
+    },
+    {
+      "ea": "0x464e02",
+      "hex": "c1e706",
+      "text": "shl     edi, 6"
+    },
+    {
+      "ea": "0x464e05",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x464e07",
+      "hex": "7518",
+      "text": "jnz     short loc_464E21"
+    },
+    {
+      "ea": "0x464e09",
+      "hex": "68f0000000",
+      "text": "push    0F0h"
+    },
+    {
+      "ea": "0x464e0e",
+      "hex": "e84d230000",
+      "text": "call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018"
+    },
+    {
+      "ea": "0x464e13",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x464e16",
+      "hex": "89465c",
+      "text": "mov     [esi+5Ch], eax"
+    },
+    {
+      "ea": "0x464e19",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x464e1b",
+      "hex": "0f8444010000",
+      "text": "jz      loc_464F65"
+    },
+    {
+      "ea": "0x464e21",
+      "hex": "8d442410",
+      "text": "lea     eax, [esp+94h+desc]"
+    },
+    {
+      "ea": "0x464e25",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x464e26",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464e27",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464e29",
+      "hex": "e80122faff",
+      "text": "call    Gfx_InitDrawListDesc"
+    },
+    {
+      "ea": "0x464e2e",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x464e2f",
+      "hex": "e82cf3ffff",
+      "text": "call    sub_464160"
+    },
+    {
+      "ea": "0x464e34",
+      "hex": "8b9424b0000000",
+      "text": "mov     edx, [esp+0A4h+arg_8]"
+    },
+    {
+      "ea": "0x464e3b",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x464e3d",
+      "hex": "8b4e5c",
+      "text": "mov     ecx, [esi+5Ch]"
+    },
+    {
+      "ea": "0x464e40",
+      "hex": "668b8248040000",
+      "text": "mov     ax, [edx+448h]"
+    },
+    {
+      "ea": "0x464e47",
+      "hex": "8b5614",
+      "text": "mov     edx, [esi+14h]"
+    },
+    {
+      "ea": "0x464e4a",
+      "hex": "8be8",
+      "text": "mov     ebp, eax"
+    },
+    {
+      "ea": "0x464e4c",
+      "hex": "83e03f",
+      "text": "and     eax, 3Fh"
+    },
+    {
+      "ea": "0x464e4f",
+      "hex": "c1ed06",
+      "text": "shr     ebp, 6"
+    },
+    {
+      "ea": "0x464e52",
+      "hex": "c1e506",
+      "text": "shl     ebp, 6"
+    },
+    {
+      "ea": "0x464e55",
+      "hex": "03e8",
+      "text": "add     ebp, eax"
+    },
+    {
+      "ea": "0x464e57",
+      "hex": "a12c60cb01",
+      "text": "mov     eax, dword_1CB602C"
+    },
+    {
+      "ea": "0x464e5c",
+      "hex": "c1e505",
+      "text": "shl     ebp, 5"
+    },
+    {
+      "ea": "0x464e5f",
+      "hex": "03e8",
+      "text": "add     ebp, eax"
+    },
+    {
+      "ea": "0x464e61",
+      "hex": "894c2448",
+      "text": "mov     [esp+0A4h+var_5C], ecx"
+    },
+    {
+      "ea": "0x464e65",
+      "hex": "8b4944",
+      "text": "mov     ecx, [ecx+44h]"
+    },
+    {
+      "ea": "0x464e68",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x464e69",
+      "hex": "8b6e10",
+      "text": "mov     ebp, [esi+10h]"
+    },
+    {
+      "ea": "0x464e6c",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x464e6d",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x464e6e",
+      "hex": "8b6e0c",
+      "text": "mov     ebp, [esi+0Ch]"
+    },
+    {
+      "ea": "0x464e71",
+      "hex": "55",
+      "text": "push    ebp"
+    },
+    {
+      "ea": "0x464e72",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464e73",
+      "hex": "8b4e60",
+      "text": "mov     ecx, [esi+60h]"
+    },
+    {
+      "ea": "0x464e76",
+      "hex": "8b6c2430",
+      "text": "mov     ebp, [esp+0B8h+var_88]"
+    },
+    {
+      "ea": "0x464e7a",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464e7b",
+      "hex": "b902000000",
+      "text": "mov     ecx, 2"
+    },
+    {
+      "ea": "0x464e80",
+      "hex": "2bca",
+      "text": "sub     ecx, edx"
+    },
+    {
+      "ea": "0x464e82",
+      "hex": "8b5604",
+      "text": "mov     edx, [esi+4]"
+    },
+    {
+      "ea": "0x464e85",
+      "hex": "d3fa",
+      "text": "sar     edx, cl"
+    },
+    {
+      "ea": "0x464e87",
+      "hex": "8b4e08",
+      "text": "mov     ecx, [esi+8]"
+    },
+    {
+      "ea": "0x464e8a",
+      "hex": "6800080000",
+      "text": "push    800h"
+    },
+    {
+      "ea": "0x464e8f",
+      "hex": "03cd",
+      "text": "add     ecx, ebp"
+    },
+    {
+      "ea": "0x464e91",
+      "hex": "c1e10a",
+      "text": "shl     ecx, 0Ah"
+    },
+    {
+      "ea": "0x464e94",
+      "hex": "03fa",
+      "text": "add     edi, edx"
+    },
+    {
+      "ea": "0x464e96",
+      "hex": "03cf",
+      "text": "add     ecx, edi"
+    },
+    {
+      "ea": "0x464e98",
+      "hex": "8d1448",
+      "text": "lea     edx, [eax+ecx*2]"
+    },
+    {
+      "ea": "0x464e9b",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x464e9c",
+      "hex": "e82f290000",
+      "text": "call    TexStaging_BlitCLUTAlpha"
+    },
+    {
+      "ea": "0x464ea1",
+      "hex": "8b83500a0000",
+      "text": "mov     eax, [ebx+0A50h]"
+    },
+    {
+      "ea": "0x464ea7",
+      "hex": "8d4c2440",
+      "text": "lea     ecx, [esp+0C4h+desc]"
+    },
+    {
+      "ea": "0x464eab",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464eac",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464eae",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464eaf",
+      "hex": "6a06",
+      "text": "push    6"
+    },
+    {
+      "ea": "0x464eb1",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x464eb3",
+      "hex": "e8ca1efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464eb8",
+      "hex": "83c440",
+      "text": "add     esp, 40h"
+    },
+    {
+      "ea": "0x464ebb",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464ebe",
+      "hex": "c744244001000000",
+      "text": "mov     [esp+98h+var_58], 1"
+    },
+    {
+      "ea": "0x464ec6",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464ec7",
+      "hex": "e8da30fbff",
+      "text": "call    Gfx_GetNested_Plus10_14"
+    },
+    {
+      "ea": "0x464ecc",
+      "hex": "89442448",
+      "text": "mov     [esp+9Ch+var_54], eax"
+    },
+    {
+      "ea": "0x464ed0",
+      "hex": "8b93500a0000",
+      "text": "mov     edx, [ebx+0A50h]"
+    },
+    {
+      "ea": "0x464ed6",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x464ed7",
+      "hex": "8d44241c",
+      "text": "lea     eax, [esp+0A0h+desc]"
+    },
+    {
+      "ea": "0x464edb",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464edd",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464ede",
+      "hex": "6a0e",
+      "text": "push    0Eh"
+    },
+    {
+      "ea": "0x464ee0",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x464ee2",
+      "hex": "e89b1efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464ee7",
+      "hex": "83c418",
+      "text": "add     esp, 18h"
+    },
+    {
+      "ea": "0x464eea",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    },
+    {
+      "ea": "0x464eed",
+      "hex": "5d",
+      "text": "pop     ebp"
+    },
+    {
+      "ea": "0x464eee",
+      "hex": "5f",
+      "text": "pop     edi"
+    },
+    {
+      "ea": "0x464eef",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x464ef0",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x464ef1",
+      "hex": "81c488000000",
+      "text": "add     esp, 88h"
+    },
+    {
+      "ea": "0x464ef7",
+      "hex": "c3",
+      "text": "retn"
+    },
+    {
+      "ea": "0x464ef8",
+      "hex": "a1008aca01",
+      "text": "mov     eax, dword_1CA8A00"
+    },
+    {
+      "ea": "0x464efd",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x464eff",
+      "hex": "7409",
+      "text": "jz      short loc_464F0A"
+    },
+    {
+      "ea": "0x464f01",
+      "hex": "8d4c2410",
+      "text": "lea     ecx, [esp+94h+desc]"
+    },
+    {
+      "ea": "0x464f05",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464f06",
+      "hex": "6a02",
+      "text": "push    2"
+    },
+    {
+      "ea": "0x464f08",
+      "hex": "eb07",
+      "text": "jmp     short loc_464F11"
+    },
+    {
+      "ea": "0x464f0a",
+      "hex": "8d542410",
+      "text": "lea     edx, [esp+94h+desc]"
+    },
+    {
+      "ea": "0x464f0e",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x464f0f",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464f11",
+      "hex": "e81921faff",
+      "text": "call    Gfx_InitDrawListDesc"
+    },
+    {
+      "ea": "0x464f16",
+      "hex": "8b4624",
+      "text": "mov     eax, [esi+24h]"
+    },
+    {
+      "ea": "0x464f19",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x464f1c",
+      "hex": "c744243c01000000",
+      "text": "mov     [esp+94h+var_58], 1"
+    },
+    {
+      "ea": "0x464f24",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464f25",
+      "hex": "e87c30fbff",
+      "text": "call    Gfx_GetNested_Plus10_14"
+    },
+    {
+      "ea": "0x464f2a",
+      "hex": "89442444",
+      "text": "mov     [esp+98h+var_54], eax"
+    },
+    {
+      "ea": "0x464f2e",
+      "hex": "8b8b500a0000",
+      "text": "mov     ecx, [ebx+0A50h]"
+    },
+    {
+      "ea": "0x464f34",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464f35",
+      "hex": "8d542418",
+      "text": "lea     edx, [esp+9Ch+desc]"
+    },
+    {
+      "ea": "0x464f39",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464f3b",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x464f3c",
+      "hex": "6a06",
+      "text": "push    6"
+    },
+    {
+      "ea": "0x464f3e",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x464f40",
+      "hex": "e83d1efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464f45",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464f48",
+      "hex": "8b83500a0000",
+      "text": "mov     eax, [ebx+0A50h]"
+    },
+    {
+      "ea": "0x464f4e",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x464f4f",
+      "hex": "8d4c242c",
+      "text": "lea     ecx, [esp+0B0h+desc]"
+    },
+    {
+      "ea": "0x464f53",
+      "hex": "6a00",
+      "text": "push    0"
+    },
+    {
+      "ea": "0x464f55",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x464f56",
+      "hex": "6a0e",
+      "text": "push    0Eh"
+    },
+    {
+      "ea": "0x464f58",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x464f5a",
+      "hex": "e8231efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464f5f",
+      "hex": "83c42c",
+      "text": "add     esp, 2Ch"
+    },
+    {
+      "ea": "0x464f62",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    },
+    {
+      "ea": "0x464f65",
+      "hex": "5f",
+      "text": "pop     edi"
+    },
+    {
+      "ea": "0x464f66",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x464f67",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x464f68",
+      "hex": "81c488000000",
+      "text": "add     esp, 88h"
+    },
+    {
+      "ea": "0x464f6e",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x464dcb",
+      "operand": "FFGetBufferAddress",
+      "operand_type": 7,
+      "operand_value": "0x40a04a",
+      "code_targets": [
+        "0x40a04a"
+      ]
+    },
+    {
+      "site": "0x464e0e",
+      "operand": "Gfx_Psx2Lookup_OrPoolAlloc_B7E018",
+      "operand_type": 7,
+      "operand_value": "0x467160",
+      "code_targets": [
+        "0x467160"
+      ]
+    },
+    {
+      "site": "0x464e29",
+      "operand": "Gfx_InitDrawListDesc",
+      "operand_type": 7,
+      "operand_value": "0x40702f",
+      "code_targets": [
+        "0x40702f"
+      ]
+    },
+    {
+      "site": "0x464e2f",
+      "operand": "sub_464160",
+      "operand_type": 7,
+      "operand_value": "0x464160",
+      "code_targets": [
+        "0x464160"
+      ]
+    },
+    {
+      "site": "0x464e9c",
+      "operand": "TexStaging_BlitCLUTAlpha",
+      "operand_type": 7,
+      "operand_value": "0x4677d0",
+      "code_targets": [
+        "0x4677d0"
+      ]
+    },
+    {
+      "site": "0x464eb3",
+      "operand": "Gfx_CreateDrawList",
+      "operand_type": 7,
+      "operand_value": "0x416d82",
+      "code_targets": [
+        "0x416d82"
+      ]
+    },
+    {
+      "site": "0x464ec7",
+      "operand": "Gfx_GetNested_Plus10_14",
+      "operand_type": 7,
+      "operand_value": "0x417fa6",
+      "code_targets": [
+        "0x417fa6"
+      ]
+    },
+    {
+      "site": "0x464ee2",
+      "operand": "Gfx_CreateDrawList",
+      "operand_type": 7,
+      "operand_value": "0x416d82",
+      "code_targets": [
+        "0x416d82"
+      ]
+    },
+    {
+      "site": "0x464f11",
+      "operand": "Gfx_InitDrawListDesc",
+      "operand_type": 7,
+      "operand_value": "0x40702f",
+      "code_targets": [
+        "0x40702f"
+      ]
+    },
+    {
+      "site": "0x464f25",
+      "operand": "Gfx_GetNested_Plus10_14",
+      "operand_type": 7,
+      "operand_value": "0x417fa6",
+      "code_targets": [
+        "0x417fa6"
+      ]
+    },
+    {
+      "site": "0x464f40",
+      "operand": "Gfx_CreateDrawList",
+      "operand_type": 7,
+      "operand_value": "0x416d82",
+      "code_targets": [
+        "0x416d82"
+      ]
+    },
+    {
+      "site": "0x464f5a",
+      "operand": "Gfx_CreateDrawList",
+      "operand_type": 7,
+      "operand_value": "0x416d82",
+      "code_targets": [
+        "0x416d82"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x464ccc",
+      "type": 17,
+      "code": true,
+      "function": "0x464bd0"
+    },
+    {
+      "from": "0x465faf",
+      "type": 17,
+      "code": true,
+      "function": "0x465ce0"
+    }
+  ],
+  "existing_today_tag": false
+}

@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-12T17:37:07.458091+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x45E610",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gte_AVSZ4",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "d2df7c6eb56563083f18a6198978e185e66968bb1dd2333fd68de70f5bea91f9",
+  "before": "[glm-triple 2026-09-15]\n/* Gte_AVSZ4 @ 0x45E610\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 18 instr, size 0x56, end exclusive 0x45E666. cdecl leaf, 0 args, retn C3.\n * EAX return = (\u03a34 low16 * movsx(word_1CA92F4)) SHR 12. Stores same EAX to 1CA8A2C then 1CA8A70.\n * Four DWORD loads AND 0xFFFF: 1CA8A5C, 1CA8A58, 1CA8A54, 1CA8A50 (AVSZ3 omits 1CA8A50).\n * Scale is word_1CA92F4 (movsx), NOT word_1CA92F0 (AVSZ3). FLAG dword_1CA92F8 = 0 before imul.\n * imul signed then SHR 0Ch (C1 E8 0C), not SAR (C1 F8). C must shift unsigned after the product.\n * Occupancy 1+2 / tag 07 / code 24 / TEST AL,2 / +44h GF Exists / 0xD0 / 0x1D0 ABSENT.\n * Distinct from Gte_AVSZ3 @ 0x45E5C0. Not an OT emitter.\n */\nextern unsigned int dword_1CA8A5C;\nextern unsigned int dword_1CA8A58;\nextern unsigned int dword_1CA8A54;\nextern unsigned int dword_1CA8A50;\nextern __int16 word_1CA92F4;\nextern unsigned int dword_1CA92F8;\nextern unsigned int dword_1CA8A2C;\nextern unsigned int dword_1CA8A70;\n\nunsigned int __cdecl Gte_AVSZ4()\n{\n    unsigned int sum;\n    unsigned int product;\n\n    sum = dword_1CA8A5C & 0xFFFFu;\n    sum += dword_1CA8A58 & 0xFFFFu;\n    sum += dword_1CA8A54 & 0xFFFFu;\n    sum += dword_1CA8A50 & 0xFFFFu;\n\n    dword_1CA92F8 = 0;\n\n    product = (unsigned int)((int)sum * (int)word_1CA92F4);\n    sum = product >> 12;\n\n    dword_1CA8A2C = sum;\n    dword_1CA8A70 = sum;\n    return sum;\n}",
+  "before_sha256": "9eea423677f2c5603c4ac25d18cb816675bb7963de793dc9021b971371f15e03",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nSums the unsigned low WORDs at 0x1CA8A50/54/58/5C, multiplies by the signed WORD at 0x1CA92F4 using the low 32-bit IMUL result, then applies logical SHR 12, not SAR. Clears DWORD 0x1CA92F8 and stores the same full EAX at 0x1CA8A2C and 0x1CA8A70. No clamp, helper call or overflow flag synthesis occurs. Exact GTE hardware equivalence is not asserted.\nLive ASM anchors: 0x45e621, 0x45e642, 0x45e64b, 0x45e655, 0x45e658, 0x45e660. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x45E610.json.",
+  "anchors": [
+    {
+      "ea": "0x45e621",
+      "hex": "25ffff0000",
+      "text": "and     eax, 0FFFFh"
+    },
+    {
+      "ea": "0x45e642",
+      "hex": "0fbf15f492ca01",
+      "text": "movsx   edx, word_1CA92F4"
+    },
+    {
+      "ea": "0x45e64b",
+      "hex": "c705f892ca0100000000",
+      "text": "mov     dword_1CA92F8, 0"
+    },
+    {
+      "ea": "0x45e655",
+      "hex": "0fafc2",
+      "text": "imul    eax, edx"
+    },
+    {
+      "ea": "0x45e658",
+      "hex": "c1e80c",
+      "text": "shr     eax, 0Ch"
+    },
+    {
+      "ea": "0x45e660",
+      "hex": "a3708aca01",
+      "text": "mov     dword_1CA8A70, eax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

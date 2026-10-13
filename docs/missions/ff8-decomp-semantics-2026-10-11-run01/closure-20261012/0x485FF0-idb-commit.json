@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:38:27.847253+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x485FF0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "domain::Battle_BuildTargetVisibilityMasks",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "933e54763774f2068d7f302265c74f333a36597b22d0c3391eee887501af6f34",
+  "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nBuilds two WORD masks by scanning seven records in descending offsets 0x4E0,0x410,...,0 with stride 0xD0=208. Both require flag bit0 set and bit6 clear. First mask additionally rejects status bit0 only for offsets below 0x270 (indices 0..2); second applies that status test only for offsets at/above 0x270 (indices 3..6). Shift-before-OR maps record index i to mask bit i. Loops are signed JG against -0xD0, and full EAX exits as 0xFFFFFF30. No helper calls; eligibility masks do not establish visibility/allocation business semantics by themselves.\nLive ASM anchors: 0x485ff3, 0x486001, 0x486011, 0x486022, 0x48602e, 0x48604e, 0x486064, 0x48606b. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x485FF0.json.",
+  "anchors": [
+    {
+      "ea": "0x485ff3",
+      "hex": "b8e0040000",
+      "text": "mov     eax, 4E0h"
+    },
+    {
+      "ea": "0x486001",
+      "hex": "84908c7bd201",
+      "text": "test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl"
+    },
+    {
+      "ea": "0x486011",
+      "hex": "3d70020000",
+      "text": "cmp     eax, 270h"
+    },
+    {
+      "ea": "0x486022",
+      "hex": "2dd0000000",
+      "text": "sub     eax, 0D0h"
+    },
+    {
+      "ea": "0x48602e",
+      "hex": "66890d70f5cf01",
+      "text": "mov     BATTLE_VISIBILITY_MASK_A, cx"
+    },
+    {
+      "ea": "0x48604e",
+      "hex": "3d70020000",
+      "text": "cmp     eax, 270h"
+    },
+    {
+      "ea": "0x486064",
+      "hex": "3d30ffffff",
+      "text": "cmp     eax, 0FFFFFF30h"
+    },
+    {
+      "ea": "0x48606b",
+      "hex": "66890d72f5cf01",
+      "text": "mov     BATTLE_VISIBILITY_MASK_B, cx"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "94c4e62c09e53a93783945ebbee176467bec068fde5c2794baafd358ca2d3920",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x485FF0-idb-before.json"
+}

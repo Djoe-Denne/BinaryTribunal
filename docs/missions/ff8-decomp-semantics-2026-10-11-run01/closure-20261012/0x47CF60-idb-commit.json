@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:38:27.060445+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x47CF60",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "main::FFBattleModule",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "509d07a1f179bc74ac3187645a84f14df00cd4853da5077abaeac57b69f392f7",
+  "before_sha256": "943dfd9792e4bad6d4b105a8168d74d83aa462e7c3db056595805f2aae065928",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nMulti-service orchestration, not just the 0x47CCB0 call. That call at 0x47D113 is skipped when the tested pause byte is nonzero. A separate path builds alternative callback triplets and passes a local descriptor plus the game-object pointer to 0x409A57 (8-byte cleanup). The early exit after 0x41E99D leaves its machine EAX; ordinary final exit leaves EAX from 0x46BD10, so no uniform success Boolean is constructed. The last callee's historical symbol contains 46BB10, but the native CALL at 0x47D277 targets 0x46BD10. Incoming references at 0x4709EC and 0x5598DD are DATA callback registrations, not direct code calls. Frame/battle/helper business identities remain contextual, not proved by the labels alone.\nLive ASM anchors: 0x47d0c2, 0x47d0c5, 0x47d111, 0x47d113, 0x47d162, 0x47d1a2, 0x47d23b, 0x47d277. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x47CF60.json.",
+  "anchors": [
+    {
+      "ea": "0x47d0c2",
+      "hex": "7446",
+      "text": "jz      short loc_47D10A"
+    },
+    {
+      "ea": "0x47d0c5",
+      "hex": "e8d318faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d111",
+      "hex": "7505",
+      "text": "jnz     short loc_47D118"
+    },
+    {
+      "ea": "0x47d113",
+      "hex": "e898fbffff",
+      "text": "call    main__FFBattleDirector_battleLoop"
+    },
+    {
+      "ea": "0x47d162",
+      "hex": "c744241080224a00",
+      "text": "mov     [esp+24h+var_14], offset menu_init_sub_4A2280"
+    },
+    {
+      "ea": "0x47d1a2",
+      "hex": "e8b0c8f8ff",
+      "text": "call    FFSwitchModule_set_game_loop"
+    },
+    {
+      "ea": "0x47d23b",
+      "hex": "e85d17faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d277",
+      "hex": "e894eafeff",
+      "text": "call    music_sfx_volume_changes_loop_sub_46BB10"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "2c9e6ad369c7307e09e779278fe47a64aeca08a749859ef032e8e592e67ccee0",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x47CF60-idb-before.json"
+}

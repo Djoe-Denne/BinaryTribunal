@@ -1,0 +1,1008 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g23 / run01. Task task_mv424nws_000p_0o9fn3 claimed/completed. Read-only: no edits/IDB/Git/ledger/live/delegation. GrepAI first without workspace; QMD CLI for knowledge; Context Mode for processing; common root retro-eng. No sibling producer content consumed.\n; \n; SOURCE INVENTORY (IDs below resolve to these absolute path:line sources):\n; K: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:14-21,39-41. AGENT.md also read.\n; G: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:182-187.\n; N1: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50A690.json:4-18,26-43.\n; N2: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50A6C0.json:4-18,26-37.\n; N3: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50E510.json:4-18 (identity/raw bytes/ASM),19-1019(CFG),1020-1051(xrefs),1052-1217(targets/count).\n; N4: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x504BB0.json:18.\n; N5: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x506690.json:18.\n; N6: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50BF90.json:18.\n; N7: C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50A670.json:18.\n; E: C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/FF8_EN.exe (static file bytes).\n; D1: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_stages.md:3-5,15-32,39-75.\n; D2: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_action_sequences.md:104-119.\n; D3: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/semantic-certainty.md:414-415,440.\n; D4: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:231-232.\n; W1: C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/concepts/battle-action-sequencing.md:24-39 (qmd get #33591e).\n; R1: C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md:72-83.\n; \n; IDENTITY:\n; N1/N2/N3:4-9 identify 32-bit input, IDB D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64, exported2026-10-11T16:38:25.140966+00:00. Input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570. Independent read-only E hash EXACTLY matches; E size22,124,216, PE machine0x14C/imagebase0x400000.\n; Packet SHA256: N1=6454ea00a9a491fb2b36e4936a77fd0d93e1fc47100cfd70e2b1e2f4ad55e5e3; N2=3cc7424a0ccbf79e66b0d943aa43a2fea7c7475c2bc8b9a145d023578c546ca8; N3=ac4d3766e12f8727d8a7d0bd71951c6fadc56fe3300fccc42bf8fa1c99adb871.\n; Labels/inline old commentary are not purpose evidence.\n; \n; NATIVE TARGET FACTS:\n; •50A690: [50A690,50A6B6),0x26 bytes/11 instructions/one CFG block. Raw A1 operand identifies DWORD global1D99A60 (label result_event). @50A695 copies original load into ECX; @50A697 adds0x18 to EAX; @50A69A pushes original ECX; @50A69B writes incremented word to global BEFORE @50A6A0 CALL506690. @50A6A5 RELOADS global after call; @50A6AA addsESP,4; @50A6AD reads one byte from reloaded address toCL; @50A6AF writes byte1D99A48; @50A6B5 RET. No local frame/argument/bounds/null test. EAX at RET is reloaded global word (register fact, not C return type). Preserve call/write/reload ordering; no assumption callee preserves global. [N1:15,18]\n; •50A6C0: [50A6C0,50A6CD),0x0D bytes/5 instructions/one CFG block. DWORD load1D99A60; PUSH EAX@50A6C5; CALL506690@50A6C6; POP ECX@50A6CB; RET@50A6CC. No direct cursor increment/store or byte1D99A48 store locally. POP has an ECX effect, not just abstract cleanup. EAX not overwritten after call; declared return type unknown. Both wrappers plainRET and locally clean their one pushed callee word. [N2:15,18]\n; •50E510: [50E510,50EE1B),0x90B bytes/821 instructions/166 CFG blocks. @50E510 reads DWORD1D98990 (label BattleStageNumber); @50E516 zeroesEAX; @50E518 masksECX,0xFF; @50E51E compares0xA2; unsignedJA@50E524 ->50EE1A plainRET; JMP@50E52A uses absolute table50EE1C, scale4. Higher24 global bits do not affect selector; out-of-range path makes no target call or stack argument read, leaves zeroEAX. [N3:15,18]\n; •163 case stubs at50E531+14*i(i0..162): load[ESP+4] into rotatingEAX/ECX/EDX, push same32-bit word, one directCALL, addESP,4, RET. No second argument or ECX object argument established. NoEAX overwrite after target call. Arg pointerness/signedness and return type not established by forwarding. Raw decoding verified ALL163 E8 calls followed by83 C4 04 C3; 163 distinct rel32 targets exactly equal exported code_targets. Counts MOV164; XOR/AND/CMP/JA/JMP1 each; PUSH/CALL/ADD/RET163 each. [N3:15,18,1052-1217]\n; \n; SUPPLEMENTAL RAW TABLE VALIDATION:\n; Packet chunk excludes table; independently read E only AFTER full hash match. PE .text RVA/raw0x1000,size0x768000. VA50EE1C -> file offset10EE1C. ALL163 little-endian DWORDs /652 bytes satisfy entry[i]=50E531+14*i; first50E531,last50EE0D. E file range[0x10EE1C,0x10F0A8) SHA256=61ba449f67a8dab7b273a85d004bcdd3edcbdfaae340d3229b5c2d2c73b89cb5. Indirect destinations completely covered for selector0..162 in this same-hash static input. No evidence artifact written: parent may freeze these bytes separately.\n; Rel32 spots: case0 CALL50E536->51AFF0;37->518A80;44->518370;45->5181C0;46->517FF0;91 CALL50EA30->515870;92 CALL50EA3E->515620;137 CALL50ECB4->50DF10;142->512500;147->511DB0;162 CALL50EE12->511090. Do not replace direct wrapper targets with historical worker addresses.\n; \n; XREFS / SURROUNDINGS:\n; N1: caller504E29 in504BB0 and56FCA0 in56F9C0. N2:504E43 in504BB0. N3:50566F in504BB0;5066BC in506690;506D44/506D5F in506CF0;506DFD in506DE0. Exported type17/code refs, not exhaustive runtime-call proof.\n; N4@504BE7..504BF9 masks opcode8bits/subtracts0x80/bounds0x3F/switches. Native case178/0xB2 site504E29 calls50A690; case183/0xB7 site504E43 calls50A6C0. @505668..505676 zeroesEAX, loads one byte through word[ESI], pushes zero-extended value, calls50E510@50566F. N4 native instruction_count1088; do not inherit historical1021.\n; N6@50BFA8/50BFAD reads DWORDdescriptor+8 and stores1D99A60; @50C07A..50C07F reads descriptor+8 then byte0 and stores1D99A48 on guarded path. N7@50A677 loads byte descriptor+0x10 into zeroedECX; @50A67A loads DWORDdescriptor+8; pushes count then pointer, calls506BA0. These corroborate two descriptor offsets, not whole wiki layout.\n; N4@505149..505156 zero-extends1D99A48 and computes1D972C0+156*byte. N5@50669A..5066A4 separately uses incoming record byte0 for same address. @506692 loads incoming stack word asESI pointer; @506699 pushes it; @5066AB calls493D80. @5066B0 loads actor byte+4, compares0x8C@5066B6; only equal branch pushes literal3 and calls50E510@5066BC.\n; N5 record accesses: u8+0@50669A;u8+1@506789; byte tests+2@506749,+3@5067AB;u16+4@5066D7;u32+8@5066F0/506736/50677E; second region u8+0xC@506804,u8+0xD@506836,u16+0x10@506822,u32+0x14@506816. Compatible with two12-byte regions within observed24-byte stride; purposes not assigned. Tail popsEDI/ESI/EBX, plainRET506852.\n; \n; HISTORICAL / NOT NEWLY CERTIFIED:\n; D1 records September parent spot-checks, wrapper/worker split, mode2 registration/init family,156 common0xA7 wrappers and exceptions; only dispatch bytes/table freshly checked here, not all wrapper internals/CFG equivalence. D2:104-114 explicitly says one-vote/flagged size findings, bodiesPC-25; :116-119 opcode mapping independently corroborated above. D3 lists wrappers SKIP_NODECOMP and50E510 SKIP_CHUNK(>600), not reconciledC completion. W1:28-39 proposes payload/event meanings; descriptor+8/+0x10 and access widths corroborated, broader domain/status/popup meanings NOT revalidated. R1 is historical rewrite ownership/timing warning, not target ABI proof. D4 old name BS_GetCameraOffsetMain is historical only.\n; \n; UNCERTAINTIES / FORK GUARDS:\n; No target C/prototype/business verdict. Do not invent length/null validity from0x18 add, callee global preservation, source signedness or return type. Keep50A690 post-call reload and50A6C0 POP register effect. Table is checked against exact input but supplemental to frozen packet; archive separately if gate requires. Full contexts506CF0/506DE0/56F9C0 unavailable in owned export corpus. Full stage-wrapper internals/event-purpose labels remain uncertified here. A factual peer request to discover-g17 was sent, unanswered at report preparation; every result above independently sourced.\n; TARGET ASM COMPLETE\n0050E510: mov     ecx, BattleStageNumber\n0050E516: xor     eax, eax; Logical Exclusive OR\n0050E518: and     ecx, 0FFh; Logical AND\n0050E51E: cmp     ecx, 0A2h; switch 163 cases\n0050E524: ja      def_50E52A; jumptable 0050E52A default case\n0050E52A: jmp     ds:jpt_50E52A[ecx*4]; switch jump\n0050E531: mov     eax, [esp+arg_0]; jumptable 0050E52A case 0\n0050E535: push    eax\n0050E536: call    BS_Stage000; Call Procedure\n0050E53B: add     esp, 4; Add\n0050E53E: retn; Return Near from Procedure\n0050E53F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 1\n0050E543: push    ecx\n0050E544: call    BS_Stage001; Call Procedure\n0050E549: add     esp, 4; Add\n0050E54C: retn; Return Near from Procedure\n0050E54D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 2\n0050E551: push    edx\n0050E552: call    BS_Stage002; Call Procedure\n0050E557: add     esp, 4; Add\n0050E55A: retn; Return Near from Procedure\n0050E55B: mov     eax, [esp+arg_0]; jumptable 0050E52A case 3\n0050E55F: push    eax\n0050E560: call    BS_Stage003; Call Procedure\n0050E565: add     esp, 4; Add\n0050E568: retn; Return Near from Procedure\n0050E569: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 4\n0050E56D: push    ecx\n0050E56E: call    BS_Stage004; Call Procedure\n0050E573: add     esp, 4; Add\n0050E576: retn; Return Near from Procedure\n0050E577: mov     edx, [esp+arg_0]; jumptable 0050E52A case 5\n0050E57B: push    edx\n0050E57C: call    BS_Stage005; Call Procedure\n0050E581: add     esp, 4; Add\n0050E584: retn; Return Near from Procedure\n0050E585: mov     eax, [esp+arg_0]; jumptable 0050E52A case 6\n0050E589: push    eax\n0050E58A: call    BS_Stage006; Call Procedure\n0050E58F: add     esp, 4; Add\n0050E592: retn; Return Near from Procedure\n0050E593: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 7\n0050E597: push    ecx\n0050E598: call    BS_Stage007; Call Procedure\n0050E59D: add     esp, 4; Add\n0050E5A0: retn; Return Near from Procedure\n0050E5A1: mov     edx, [esp+arg_0]; jumptable 0050E52A case 8\n0050E5A5: push    edx\n0050E5A6: call    BS_Stage008; Call Procedure\n0050E5AB: add     esp, 4; Add\n0050E5AE: retn; Return Near from Procedure\n0050E5AF: mov     eax, [esp+arg_0]; jumptable 0050E52A case 9\n0050E5B3: push    eax\n0050E5B4: call    BS_Stage009; Call Procedure\n0050E5B9: add     esp, 4; Add\n0050E5BC: retn; Return Near from Procedure\n0050E5BD: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 10\n0050E5C1: push    ecx\n0050E5C2: call    BS_Stage010; Call Procedure\n0050E5C7: add     esp, 4; Add\n0050E5CA: retn; Return Near from Procedure\n0050E5CB: mov     edx, [esp+arg_0]; jumptable 0050E52A case 11\n0050E5CF: push    edx\n0050E5D0: call    BS_Stage011; Call Procedure\n0050E5D5: add     esp, 4; Add\n0050E5D8: retn; Return Near from Procedure\n0050E5D9: mov     eax, [esp+arg_0]; jumptable 0050E52A case 12\n0050E5DD: push    eax\n0050E5DE: call    BS_Stage012; Call Procedure\n0050E5E3: add     esp, 4; Add\n0050E5E6: retn; Return Near from Procedure\n0050E5E7: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 13\n0050E5EB: push    ecx\n0050E5EC: call    BS_Stage013; Call Procedure\n0050E5F1: add     esp, 4; Add\n0050E5F4: retn; Return Near from Procedure\n0050E5F5: mov     edx, [esp+arg_0]; jumptable 0050E52A case 14\n0050E5F9: push    edx\n0050E5FA: call    BS_Stage014; Call Procedure\n0050E5FF: add     esp, 4; Add\n0050E602: retn; Return Near from Procedure\n0050E603: mov     eax, [esp+arg_0]; jumptable 0050E52A case 15\n0050E607: push    eax\n0050E608: call    BS_Stage015; Call Procedure\n0050E60D: add     esp, 4; Add\n0050E610: retn; Return Near from Procedure\n0050E611: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 16\n0050E615: push    ecx\n0050E616: call    BS_Stage016; Call Procedure\n0050E61B: add     esp, 4; Add\n0050E61E: retn; Return Near from Procedure\n0050E61F: mov     edx, [esp+arg_0]; jumptable 0050E52A case 17\n0050E623: push    edx\n0050E624: call    BS_Stage017; Call Procedure\n0050E629: add     esp, 4; Add\n0050E62C: retn; Return Near from Procedure\n0050E62D: mov     eax, [esp+arg_0]; jumptable 0050E52A case 18\n0050E631: push    eax\n0050E632: call    BS_Stage018; Call Procedure\n0050E637: add     esp, 4; Add\n0050E63A: retn; Return Near from Procedure\n0050E63B: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 19\n0050E63F: push    ecx\n0050E640: call    BS_Stage019; Call Procedure\n0050E645: add     esp, 4; Add\n0050E648: retn; Return Near from Procedure\n0050E649: mov     edx, [esp+arg_0]; jumptable 0050E52A case 20\n0050E64D: push    edx\n0050E64E: call    BS_Stage020; Call Procedure\n0050E653: add     esp, 4; Add\n0050E656: retn; Return Near from Procedure\n0050E657: mov     eax, [esp+arg_0]; jumptable 0050E52A case 21\n0050E65B: push    eax\n0050E65C: call    BS_Stage021; Call Procedure\n0050E661: add     esp, 4; Add\n0050E664: retn; Return Near from Procedure\n0050E665: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 22\n0050E669: push    ecx\n0050E66A: call    BS_Stage022; Call Procedure\n0050E66F: add     esp, 4; Add\n0050E672: retn; Return Near from Procedure\n0050E673: mov     edx, [esp+arg_0]; jumptable 0050E52A case 23\n0050E677: push    edx\n0050E678: call    BS_Stage023; Call Procedure\n0050E67D: add     esp, 4; Add\n0050E680: retn; Return Near from Procedure\n0050E681: mov     eax, [esp+arg_0]; jumptable 0050E52A case 24\n0050E685: push    eax\n0050E686: call    BS_Stage024; Call Procedure\n0050E68B: add     esp, 4; Add\n0050E68E: retn; Return Near from Procedure\n0050E68F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 25\n0050E693: push    ecx\n0050E694: call    BS_Stage025; Call Procedure\n0050E699: add     esp, 4; Add\n0050E69C: retn; Return Near from Procedure\n0050E69D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 26\n0050E6A1: push    edx\n0050E6A2: call    BS_Stage026; Call Procedure\n0050E6A7: add     esp, 4; Add\n0050E6AA: retn; Return Near from Procedure\n0050E6AB: mov     eax, [esp+arg_0]; jumptable 0050E52A case 27\n0050E6AF: push    eax\n0050E6B0: call    BS_Stage027; Call Procedure\n0050E6B5: add     esp, 4; Add\n0050E6B8: retn; Return Near from Procedure\n0050E6B9: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 28\n0050E6BD: push    ecx\n0050E6BE: call    BS_Stage028; Call Procedure\n0050E6C3: add     esp, 4; Add\n0050E6C6: retn; Return Near from Procedure\n0050E6C7: mov     edx, [esp+arg_0]; jumptable 0050E52A case 29\n0050E6CB: push    edx\n0050E6CC: call    BS_Stage029; Call Procedure\n0050E6D1: add     esp, 4; Add\n0050E6D4: retn; Return Near from Procedure\n0050E6D5: mov     eax, [esp+arg_0]; jumptable 0050E52A case 30\n0050E6D9: push    eax\n0050E6DA: call    BS_Stage030; Call Procedure\n0050E6DF: add     esp, 4; Add\n0050E6E2: retn; Return Near from Procedure\n0050E6E3: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 31\n0050E6E7: push    ecx\n0050E6E8: call    BS_Stage031; Call Procedure\n0050E6ED: add     esp, 4; Add\n0050E6F0: retn; Return Near from Procedure\n0050E6F1: mov     edx, [esp+arg_0]; jumptable 0050E52A case 32\n0050E6F5: push    edx\n0050E6F6: call    BS_Stage032; Call Procedure\n0050E6FB: add     esp, 4; Add\n0050E6FE: retn; Return Near from Procedure\n0050E6FF: mov     eax, [esp+arg_0]; jumptable 0050E52A case 33\n0050E703: push    eax\n0050E704: call    BS_Stage033; Call Procedure\n0050E709: add     esp, 4; Add\n0050E70C: retn; Return Near from Procedure\n0050E70D: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 34\n0050E711: push    ecx\n0050E712: call    BS_Stage034; Call Procedure\n0050E717: add     esp, 4; Add\n0050E71A: retn; Return Near from Procedure\n0050E71B: mov     edx, [esp+arg_0]; jumptable 0050E52A case 35\n0050E71F: push    edx\n0050E720: call    BS_Stage035; Call Procedure\n0050E725: add     esp, 4; Add\n0050E728: retn; Return Near from Procedure\n0050E729: mov     eax, [esp+arg_0]; jumptable 0050E52A case 36\n0050E72D: push    eax\n0050E72E: call    BS_Stage036; Call Procedure\n0050E733: add     esp, 4; Add\n0050E736: retn; Return Near from Procedure\n0050E737: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 37\n0050E73B: push    ecx\n0050E73C: call    BS_Stage037; Call Procedure\n0050E741: add     esp, 4; Add\n0050E744: retn; Return Near from Procedure\n0050E745: mov     edx, [esp+arg_0]; jumptable 0050E52A case 38\n0050E749: push    edx\n0050E74A: call    BS_Stage038; Call Procedure\n0050E74F: add     esp, 4; Add\n0050E752: retn; Return Near from Procedure\n0050E753: mov     eax, [esp+arg_0]; jumptable 0050E52A case 39\n0050E757: push    eax\n0050E758: call    BS_Stage039; Call Procedure\n0050E75D: add     esp, 4; Add\n0050E760: retn; Return Near from Procedure\n0050E761: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 40\n0050E765: push    ecx\n0050E766: call    BS_Stage040; Call Procedure\n0050E76B: add     esp, 4; Add\n0050E76E: retn; Return Near from Procedure\n0050E76F: mov     edx, [esp+arg_0]; jumptable 0050E52A case 41\n0050E773: push    edx\n0050E774: call    BS_Stage041; Call Procedure\n0050E779: add     esp, 4; Add\n0050E77C: retn; Return Near from Procedure\n0050E77D: mov     eax, [esp+arg_0]; jumptable 0050E52A case 42\n0050E781: push    eax\n0050E782: call    BS_Stage042; Call Procedure\n0050E787: add     esp, 4; Add\n0050E78A: retn; Return Near from Procedure\n0050E78B: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 43\n0050E78F: push    ecx\n0050E790: call    BS_Stage043; Call Procedure\n0050E795: add     esp, 4; Add\n0050E798: retn; Return Near from Procedure\n0050E799: mov     edx, [esp+arg_0]; jumptable 0050E52A case 44\n0050E79D: push    edx\n0050E79E: call    BS_Stage044; Call Procedure\n0050E7A3: add     esp, 4; Add\n0050E7A6: retn; Return Near from Procedure\n0050E7A7: mov     eax, [esp+arg_0]; jumptable 0050E52A case 45\n0050E7AB: push    eax\n0050E7AC: call    BS_Stage045; Call Procedure\n0050E7B1: add     esp, 4; Add\n0050E7B4: retn; Return Near from Procedure\n0050E7B5: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 46\n0050E7B9: push    ecx\n0050E7BA: call    BS_Stage046; Call Procedure\n0050E7BF: add     esp, 4; Add\n0050E7C2: retn; Return Near from Procedure\n0050E7C3: mov     edx, [esp+arg_0]; jumptable 0050E52A case 47\n0050E7C7: push    edx\n0050E7C8: call    BS_Stage047; Call Procedure\n0050E7CD: add     esp, 4; Add\n0050E7D0: retn; Return Near from Procedure\n0050E7D1: mov     eax, [esp+arg_0]; jumptable 0050E52A case 48\n0050E7D5: push    eax\n0050E7D6: call    BS_Stage048; Call Procedure\n0050E7DB: add     esp, 4; Add\n0050E7DE: retn; Return Near from Procedure\n0050E7DF: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 49\n0050E7E3: push    ecx\n0050E7E4: call    BS_Stage049; Call Procedure\n0050E7E9: add     esp, 4; Add\n0050E7EC: retn; Return Near from Procedure\n0050E7ED: mov     edx, [esp+arg_0]; jumptable 0050E52A case 50\n0050E7F1: push    edx\n0050E7F2: call    BS_Stage050; Call Procedure\n0050E7F7: add     esp, 4; Add\n0050E7FA: retn; Return Near from Procedure\n0050E7FB: mov     eax, [esp+arg_0]; jumptable 0050E52A case 51\n0050E7FF: push    eax\n0050E800: call    BS_Stage051; Call Procedure\n0050E805: add     esp, 4; Add\n0050E808: retn; Return Near from Procedure\n0050E809: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 52\n0050E80D: push    ecx\n0050E80E: call    BS_Stage052; Call Procedure\n0050E813: add     esp, 4; Add\n0050E816: retn; Return Near from Procedure\n0050E817: mov     edx, [esp+arg_0]; jumptable 0050E52A case 53\n0050E81B: push    edx\n0050E81C: call    BS_Stage053; Call Procedure\n0050E821: add     esp, 4; Add\n0050E824: retn; Return Near from Procedure\n0050E825: mov     eax, [esp+arg_0]; jumptable 0050E52A case 54\n0050E829: push    eax\n0050E82A: call    BS_Stage054; Call Procedure\n0050E82F: add     esp, 4; Add\n0050E832: retn; Return Near from Procedure\n0050E833: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 55\n0050E837: push    ecx\n0050E838: call    BS_Stage055; Call Procedure\n0050E83D: add     esp, 4; Add\n0050E840: retn; Return Near from Procedure\n0050E841: mov     edx, [esp+arg_0]; jumptable 0050E52A case 56\n0050E845: push    edx\n0050E846: call    BS_Stage056; Call Procedure\n0050E84B: add     esp, 4; Add\n0050E84E: retn; Return Near from Procedure\n0050E84F: mov     eax, [esp+arg_0]; jumptable 0050E52A case 57\n0050E853: push    eax\n0050E854: call    BS_Stage057; Call Procedure\n0050E859: add     esp, 4; Add\n0050E85C: retn; Return Near from Procedure\n0050E85D: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 58\n0050E861: push    ecx\n0050E862: call    BS_Stage058; Call Procedure\n0050E867: add     esp, 4; Add\n0050E86A: retn; Return Near from Procedure\n0050E86B: mov     edx, [esp+arg_0]; jumptable 0050E52A case 59\n0050E86F: push    edx\n0050E870: call    BS_Stage059; Call Procedure\n0050E875: add     esp, 4; Add\n0050E878: retn; Return Near from Procedure\n0050E879: mov     eax, [esp+arg_0]; jumptable 0050E52A case 60\n0050E87D: push    eax\n0050E87E: call    BS_Stage060; Call Procedure\n0050E883: add     esp, 4; Add\n0050E886: retn; Return Near from Procedure\n0050E887: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 61\n0050E88B: push    ecx\n0050E88C: call    BS_Stage061; Call Procedure\n0050E891: add     esp, 4; Add\n0050E894: retn; Return Near from Procedure\n0050E895: mov     edx, [esp+arg_0]; jumptable 0050E52A case 62\n0050E899: push    edx\n0050E89A: call    BS_Stage062; Call Procedure\n0050E89F: add     esp, 4; Add\n0050E8A2: retn; Return Near from Procedure\n0050E8A3: mov     eax, [esp+arg_0]; jumptable 0050E52A case 63\n0050E8A7: push    eax\n0050E8A8: call    BS_Stage063; Call Procedure\n0050E8AD: add     esp, 4; Add\n0050E8B0: retn; Return Near from Procedure\n0050E8B1: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 64\n0050E8B5: push    ecx\n0050E8B6: call    BS_Stage064; Call Procedure\n0050E8BB: add     esp, 4; Add\n0050E8BE: retn; Return Near from Procedure\n0050E8BF: mov     edx, [esp+arg_0]; jumptable 0050E52A case 65\n0050E8C3: push    edx\n0050E8C4: call    BS_Stage065; Call Procedure\n0050E8C9: add     esp, 4; Add\n0050E8CC: retn; Return Near from Procedure\n0050E8CD: mov     eax, [esp+arg_0]; jumptable 0050E52A case 66\n0050E8D1: push    eax\n0050E8D2: call    BS_Stage066; Call Procedure\n0050E8D7: add     esp, 4; Add\n0050E8DA: retn; Return Near from Procedure\n0050E8DB: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 67\n0050E8DF: push    ecx\n0050E8E0: call    BS_Stage067; Call Procedure\n0050E8E5: add     esp, 4; Add\n0050E8E8: retn; Return Near from Procedure\n0050E8E9: mov     edx, [esp+arg_0]; jumptable 0050E52A case 68\n0050E8ED: push    edx\n0050E8EE: call    BS_Stage068; Call Procedure\n0050E8F3: add     esp, 4; Add\n0050E8F6: retn; Return Near from Procedure\n0050E8F7: mov     eax, [esp+arg_0]; jumptable 0050E52A case 69\n0050E8FB: push    eax\n0050E8FC: call    BS_Stage069; Call Procedure\n0050E901: add     esp, 4; Add\n0050E904: retn; Return Near from Procedure\n0050E905: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 70\n0050E909: push    ecx\n0050E90A: call    BS_Stage070; Call Procedure\n0050E90F: add     esp, 4; Add\n0050E912: retn; Return Near from Procedure\n0050E913: mov     edx, [esp+arg_0]; jumptable 0050E52A case 71\n0050E917: push    edx\n0050E918: call    BS_Stage071; Call Procedure\n0050E91D: add     esp, 4; Add\n0050E920: retn; Return Near from Procedure\n0050E921: mov     eax, [esp+arg_0]; jumptable 0050E52A case 72\n0050E925: push    eax\n0050E926: call    BS_Stage072; Call Procedure\n0050E92B: add     esp, 4; Add\n0050E92E: retn; Return Near from Procedure\n0050E92F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 73\n0050E933: push    ecx\n0050E934: call    BS_Stage073; Call Procedure\n0050E939: add     esp, 4; Add\n0050E93C: retn; Return Near from Procedure\n0050E93D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 74\n0050E941: push    edx\n0050E942: call    BS_Stage074; Call Procedure\n0050E947: add     esp, 4; Add\n0050E94A: retn; Return Near from Procedure\n0050E94B: mov     eax, [esp+arg_0]; jumptable 0050E52A case 75\n0050E94F: push    eax\n0050E950: call    BS_Stage075; Call Procedure\n0050E955: add     esp, 4; Add\n0050E958: retn; Return Near from Procedure\n0050E959: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 76\n0050E95D: push    ecx\n0050E95E: call    BS_Stage076; Call Procedure\n0050E963: add     esp, 4; Add\n0050E966: retn; Return Near from Procedure\n0050E967: mov     edx, [esp+arg_0]; jumptable 0050E52A case 77\n0050E96B: push    edx\n0050E96C: call    BS_Stage077; Call Procedure\n0050E971: add     esp, 4; Add\n0050E974: retn; Return Near from Procedure\n0050E975: mov     eax, [esp+arg_0]; jumptable 0050E52A case 78\n0050E979: push    eax\n0050E97A: call    BS_Stage078; Call Procedure\n0050E97F: add     esp, 4; Add\n0050E982: retn; Return Near from Procedure\n0050E983: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 79\n0050E987: push    ecx\n0050E988: call    BS_Stage079; Call Procedure\n0050E98D: add     esp, 4; Add\n0050E990: retn; Return Near from Procedure\n0050E991: mov     edx, [esp+arg_0]; jumptable 0050E52A case 80\n0050E995: push    edx\n0050E996: call    BS_Stage080; Call Procedure\n0050E99B: add     esp, 4; Add\n0050E99E: retn; Return Near from Procedure\n0050E99F: mov     eax, [esp+arg_0]; jumptable 0050E52A case 81\n0050E9A3: push    eax\n0050E9A4: call    BS_Stage081; Call Procedure\n0050E9A9: add     esp, 4; Add\n0050E9AC: retn; Return Near from Procedure\n0050E9AD: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 82\n0050E9B1: push    ecx\n0050E9B2: call    BS_Stage082; Call Procedure\n0050E9B7: add     esp, 4; Add\n0050E9BA: retn; Return Near from Procedure\n0050E9BB: mov     edx, [esp+arg_0]; jumptable 0050E52A case 83\n0050E9BF: push    edx\n0050E9C0: call    BS_Stage083; Call Procedure\n0050E9C5: add     esp, 4; Add\n0050E9C8: retn; Return Near from Procedure\n0050E9C9: mov     eax, [esp+arg_0]; jumptable 0050E52A case 84\n0050E9CD: push    eax\n0050E9CE: call    BS_Stage084; Call Procedure\n0050E9D3: add     esp, 4; Add\n0050E9D6: retn; Return Near from Procedure\n0050E9D7: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 85\n0050E9DB: push    ecx\n0050E9DC: call    BS_Stage085; Call Procedure\n0050E9E1: add     esp, 4; Add\n0050E9E4: retn; Return Near from Procedure\n0050E9E5: mov     edx, [esp+arg_0]; jumptable 0050E52A case 86\n0050E9E9: push    edx\n0050E9EA: call    BS_Stage086; Call Procedure\n0050E9EF: add     esp, 4; Add\n0050E9F2: retn; Return Near from Procedure\n0050E9F3: mov     eax, [esp+arg_0]; jumptable 0050E52A case 87\n0050E9F7: push    eax\n0050E9F8: call    BS_Stage087; Call Procedure\n0050E9FD: add     esp, 4; Add\n0050EA00: retn; Return Near from Procedure\n0050EA01: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 88\n0050EA05: push    ecx\n0050EA06: call    BS_Stage088; Call Procedure\n0050EA0B: add     esp, 4; Add\n0050EA0E: retn; Return Near from Procedure\n0050EA0F: mov     edx, [esp+arg_0]; jumptable 0050E52A case 89\n0050EA13: push    edx\n0050EA14: call    BS_Stage089; Call Procedure\n0050EA19: add     esp, 4; Add\n0050EA1C: retn; Return Near from Procedure\n0050EA1D: mov     eax, [esp+arg_0]; jumptable 0050E52A case 90\n0050EA21: push    eax\n0050EA22: call    BS_Stage090; Call Procedure\n0050EA27: add     esp, 4; Add\n0050EA2A: retn; Return Near from Procedure\n0050EA2B: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 91\n0050EA2F: push    ecx\n0050EA30: call    BS_Stage091; Call Procedure\n0050EA35: add     esp, 4; Add\n0050EA38: retn; Return Near from Procedure\n0050EA39: mov     edx, [esp+arg_0]; jumptable 0050E52A case 92\n0050EA3D: push    edx\n0050EA3E: call    BS_Stage092; Call Procedure\n0050EA43: add     esp, 4; Add\n0050EA46: retn; Return Near from Procedure\n0050EA47: mov     eax, [esp+arg_0]; jumptable 0050E52A case 93\n0050EA4B: push    eax\n0050EA4C: call    BS_Stage093; Call Procedure\n0050EA51: add     esp, 4; Add\n0050EA54: retn; Return Near from Procedure\n0050EA55: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 94\n0050EA59: push    ecx\n0050EA5A: call    BS_Stage094; Call Procedure\n0050EA5F: add     esp, 4; Add\n0050EA62: retn; Return Near from Procedure\n0050EA63: mov     edx, [esp+arg_0]; jumptable 0050E52A case 95\n0050EA67: push    edx\n0050EA68: call    BS_Stage095; Call Procedure\n0050EA6D: add     esp, 4; Add\n0050EA70: retn; Return Near from Procedure\n0050EA71: mov     eax, [esp+arg_0]; jumptable 0050E52A case 96\n0050EA75: push    eax\n0050EA76: call    BS_Stage096; Call Procedure\n0050EA7B: add     esp, 4; Add\n0050EA7E: retn; Return Near from Procedure\n0050EA7F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 97\n0050EA83: push    ecx\n0050EA84: call    BS_Stage097; Call Procedure\n0050EA89: add     esp, 4; Add\n0050EA8C: retn; Return Near from Procedure\n0050EA8D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 98\n0050EA91: push    edx\n0050EA92: call    BS_Stage098; Call Procedure\n0050EA97: add     esp, 4; Add\n0050EA9A: retn; Return Near from Procedure\n0050EA9B: mov     eax, [esp+arg_0]; jumptable 0050E52A case 99\n0050EA9F: push    eax\n0050EAA0: call    BS_Stage099; Call Procedure\n0050EAA5: add     esp, 4; Add\n0050EAA8: retn; Return Near from Procedure\n0050EAA9: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 100\n0050EAAD: push    ecx\n0050EAAE: call    BS_Stage100; Call Procedure\n0050EAB3: add     esp, 4; Add\n0050EAB6: retn; Return Near from Procedure\n0050EAB7: mov     edx, [esp+arg_0]; jumptable 0050E52A case 101\n0050EABB: push    edx\n0050EABC: call    BS_Stage101; Call Procedure\n0050EAC1: add     esp, 4; Add\n0050EAC4: retn; Return Near from Procedure\n0050EAC5: mov     eax, [esp+arg_0]; jumptable 0050E52A case 102\n0050EAC9: push    eax\n0050EACA: call    BS_Stage102; Call Procedure\n0050EACF: add     esp, 4; Add\n0050EAD2: retn; Return Near from Procedure\n0050EAD3: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 103\n0050EAD7: push    ecx\n0050EAD8: call    BS_Stage103; Call Procedure\n0050EADD: add     esp, 4; Add\n0050EAE0: retn; Return Near from Procedure\n0050EAE1: mov     edx, [esp+arg_0]; jumptable 0050E52A case 104\n0050EAE5: push    edx\n0050EAE6: call    BS_Stage104; Call Procedure\n0050EAEB: add     esp, 4; Add\n0050EAEE: retn; Return Near from Procedure\n0050EAEF: mov     eax, [esp+arg_0]; jumptable 0050E52A case 105\n0050EAF3: push    eax\n0050EAF4: call    BS_Stage105; Call Procedure\n0050EAF9: add     esp, 4; Add\n0050EAFC: retn; Return Near from Procedure\n0050EAFD: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 106\n0050EB01: push    ecx\n0050EB02: call    BS_Stage106; Call Procedure\n0050EB07: add     esp, 4; Add\n0050EB0A: retn; Return Near from Procedure\n0050EB0B: mov     edx, [esp+arg_0]; jumptable 0050E52A case 107\n0050EB0F: push    edx\n0050EB10: call    BS_Stage107; Call Procedure\n0050EB15: add     esp, 4; Add\n0050EB18: retn; Return Near from Procedure\n0050EB19: mov     eax, [esp+arg_0]; jumptable 0050E52A case 108\n0050EB1D: push    eax\n0050EB1E: call    BS_Stage108; Call Procedure\n0050EB23: add     esp, 4; Add\n0050EB26: retn; Return Near from Procedure\n0050EB27: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 109\n0050EB2B: push    ecx\n0050EB2C: call    BS_Stage109; Call Procedure\n0050EB31: add     esp, 4; Add\n0050EB34: retn; Return Near from Procedure\n0050EB35: mov     edx, [esp+arg_0]; jumptable 0050E52A case 110\n0050EB39: push    edx\n0050EB3A: call    BS_Stage110; Call Procedure\n0050EB3F: add     esp, 4; Add\n0050EB42: retn; Return Near from Procedure\n0050EB43: mov     eax, [esp+arg_0]; jumptable 0050E52A case 111\n0050EB47: push    eax\n0050EB48: call    BS_Stage111; Call Procedure\n0050EB4D: add     esp, 4; Add\n0050EB50: retn; Return Near from Procedure\n0050EB51: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 112\n0050EB55: push    ecx\n0050EB56: call    BS_Stage112; Call Procedure\n0050EB5B: add     esp, 4; Add\n0050EB5E: retn; Return Near from Procedure\n0050EB5F: mov     edx, [esp+arg_0]; jumptable 0050E52A case 113\n0050EB63: push    edx\n0050EB64: call    BS_Stage113; Call Procedure\n0050EB69: add     esp, 4; Add\n0050EB6C: retn; Return Near from Procedure\n0050EB6D: mov     eax, [esp+arg_0]; jumptable 0050E52A case 114\n0050EB71: push    eax\n0050EB72: call    BS_Stage114; Call Procedure\n0050EB77: add     esp, 4; Add\n0050EB7A: retn; Return Near from Procedure\n0050EB7B: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 115\n0050EB7F: push    ecx\n0050EB80: call    BS_Stage115; Call Procedure\n0050EB85: add     esp, 4; Add\n0050EB88: retn; Return Near from Procedure\n0050EB89: mov     edx, [esp+arg_0]; jumptable 0050E52A case 116\n0050EB8D: push    edx\n0050EB8E: call    BS_Stage116; Call Procedure\n0050EB93: add     esp, 4; Add\n0050EB96: retn; Return Near from Procedure\n0050EB97: mov     eax, [esp+arg_0]; jumptable 0050E52A case 117\n0050EB9B: push    eax\n0050EB9C: call    BS_Stage117; Call Procedure\n0050EBA1: add     esp, 4; Add\n0050EBA4: retn; Return Near from Procedure\n0050EBA5: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 118\n0050EBA9: push    ecx\n0050EBAA: call    BS_Stage118; Call Procedure\n0050EBAF: add     esp, 4; Add\n0050EBB2: retn; Return Near from Procedure\n0050EBB3: mov     edx, [esp+arg_0]; jumptable 0050E52A case 119\n0050EBB7: push    edx\n0050EBB8: call    BS_Stage119; Call Procedure\n0050EBBD: add     esp, 4; Add\n0050EBC0: retn; Return Near from Procedure\n0050EBC1: mov     eax, [esp+arg_0]; jumptable 0050E52A case 120\n0050EBC5: push    eax\n0050EBC6: call    BS_Stage120; Call Procedure\n0050EBCB: add     esp, 4; Add\n0050EBCE: retn; Return Near from Procedure\n0050EBCF: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 121\n0050EBD3: push    ecx\n0050EBD4: call    BS_Stage121; Call Procedure\n0050EBD9: add     esp, 4; Add\n0050EBDC: retn; Return Near from Procedure\n0050EBDD: mov     edx, [esp+arg_0]; jumptable 0050E52A case 122\n0050EBE1: push    edx\n0050EBE2: call    BS_Stage122; Call Procedure\n0050EBE7: add     esp, 4; Add\n0050EBEA: retn; Return Near from Procedure\n0050EBEB: mov     eax, [esp+arg_0]; jumptable 0050E52A case 123\n0050EBEF: push    eax\n0050EBF0: call    BS_Stage123; Call Procedure\n0050EBF5: add     esp, 4; Add\n0050EBF8: retn; Return Near from Procedure\n0050EBF9: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 124\n0050EBFD: push    ecx\n0050EBFE: call    BS_Stage124; Call Procedure\n0050EC03: add     esp, 4; Add\n0050EC06: retn; Return Near from Procedure\n0050EC07: mov     edx, [esp+arg_0]; jumptable 0050E52A case 125\n0050EC0B: push    edx\n0050EC0C: call    BS_Stage125; Call Procedure\n0050EC11: add     esp, 4; Add\n0050EC14: retn; Return Near from Procedure\n0050EC15: mov     eax, [esp+arg_0]; jumptable 0050E52A case 126\n0050EC19: push    eax\n0050EC1A: call    BS_Stage126; Call Procedure\n0050EC1F: add     esp, 4; Add\n0050EC22: retn; Return Near from Procedure\n0050EC23: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 127\n0050EC27: push    ecx\n0050EC28: call    BS_Stage127; Call Procedure\n0050EC2D: add     esp, 4; Add\n0050EC30: retn; Return Near from Procedure\n0050EC31: mov     edx, [esp+arg_0]; jumptable 0050E52A case 128\n0050EC35: push    edx\n0050EC36: call    BS_Stage128; Call Procedure\n0050EC3B: add     esp, 4; Add\n0050EC3E: retn; Return Near from Procedure\n0050EC3F: mov     eax, [esp+arg_0]; jumptable 0050E52A case 129\n0050EC43: push    eax\n0050EC44: call    BS_Stage129; Call Procedure\n0050EC49: add     esp, 4; Add\n0050EC4C: retn; Return Near from Procedure\n0050EC4D: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 130\n0050EC51: push    ecx\n0050EC52: call    BS_Stage130; Call Procedure\n0050EC57: add     esp, 4; Add\n0050EC5A: retn; Return Near from Procedure\n0050EC5B: mov     edx, [esp+arg_0]; jumptable 0050E52A case 131\n0050EC5F: push    edx\n0050EC60: call    BS_Stage131; Call Procedure\n0050EC65: add     esp, 4; Add\n0050EC68: retn; Return Near from Procedure\n0050EC69: mov     eax, [esp+arg_0]; jumptable 0050E52A case 132\n0050EC6D: push    eax\n0050EC6E: call    BS_Stage132; Call Procedure\n0050EC73: add     esp, 4; Add\n0050EC76: retn; Return Near from Procedure\n0050EC77: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 133\n0050EC7B: push    ecx\n0050EC7C: call    BS_Stage133; Call Procedure\n0050EC81: add     esp, 4; Add\n0050EC84: retn; Return Near from Procedure\n0050EC85: mov     edx, [esp+arg_0]; jumptable 0050E52A case 134\n0050EC89: push    edx\n0050EC8A: call    BS_Stage134; Call Procedure\n0050EC8F: add     esp, 4; Add\n0050EC92: retn; Return Near from Procedure\n0050EC93: mov     eax, [esp+arg_0]; jumptable 0050E52A case 135\n0050EC97: push    eax\n0050EC98: call    BS_Stage135; Call Procedure\n0050EC9D: add     esp, 4; Add\n0050ECA0: retn; Return Near from Procedure\n0050ECA1: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 136\n0050ECA5: push    ecx\n0050ECA6: call    BS_Stage136; Call Procedure\n0050ECAB: add     esp, 4; Add\n0050ECAE: retn; Return Near from Procedure\n0050ECAF: mov     edx, [esp+arg_0]; jumptable 0050E52A case 137\n0050ECB3: push    edx\n0050ECB4: call    BS_Stage137; Call Procedure\n0050ECB9: add     esp, 4; Add\n0050ECBC: retn; Return Near from Procedure\n0050ECBD: mov     eax, [esp+arg_0]; jumptable 0050E52A case 138\n0050ECC1: push    eax\n0050ECC2: call    BS_Stage138; Call Procedure\n0050ECC7: add     esp, 4; Add\n0050ECCA: retn; Return Near from Procedure\n0050ECCB: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 139\n0050ECCF: push    ecx\n0050ECD0: call    BS_Stage139; Call Procedure\n0050ECD5: add     esp, 4; Add\n0050ECD8: retn; Return Near from Procedure\n0050ECD9: mov     edx, [esp+arg_0]; jumptable 0050E52A case 140\n0050ECDD: push    edx\n0050ECDE: call    BS_Stage140; Call Procedure\n0050ECE3: add     esp, 4; Add\n0050ECE6: retn; Return Near from Procedure\n0050ECE7: mov     eax, [esp+arg_0]; jumptable 0050E52A case 141\n0050ECEB: push    eax\n0050ECEC: call    BS_Stage141; Call Procedure\n0050ECF1: add     esp, 4; Add\n0050ECF4: retn; Return Near from Procedure\n0050ECF5: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 142\n0050ECF9: push    ecx\n0050ECFA: call    BS_Stage142; Call Procedure\n0050ECFF: add     esp, 4; Add\n0050ED02: retn; Return Near from Procedure\n0050ED03: mov     edx, [esp+arg_0]; jumptable 0050E52A case 143\n0050ED07: push    edx\n0050ED08: call    BS_Stage143; Call Procedure\n0050ED0D: add     esp, 4; Add\n0050ED10: retn; Return Near from Procedure\n0050ED11: mov     eax, [esp+arg_0]; jumptable 0050E52A case 144\n0050ED15: push    eax\n0050ED16: call    BS_Stage144; Call Procedure\n0050ED1B: add     esp, 4; Add\n0050ED1E: retn; Return Near from Procedure\n0050ED1F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 145\n0050ED23: push    ecx\n0050ED24: call    BS_Stage145; Call Procedure\n0050ED29: add     esp, 4; Add\n0050ED2C: retn; Return Near from Procedure\n0050ED2D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 146\n0050ED31: push    edx\n0050ED32: call    BS_Stage146; Call Procedure\n0050ED37: add     esp, 4; Add\n0050ED3A: retn; Return Near from Procedure\n0050ED3B: mov     eax, [esp+arg_0]; jumptable 0050E52A case 147\n0050ED3F: push    eax\n0050ED40: call    BS_Stage147; Call Procedure\n0050ED45: add     esp, 4; Add\n0050ED48: retn; Return Near from Procedure\n0050ED49: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 148\n0050ED4D: push    ecx\n0050ED4E: call    BS_Stage148; Call Procedure\n0050ED53: add     esp, 4; Add\n0050ED56: retn; Return Near from Procedure\n0050ED57: mov     edx, [esp+arg_0]; jumptable 0050E52A case 149\n0050ED5B: push    edx\n0050ED5C: call    BS_Stage149; Call Procedure\n0050ED61: add     esp, 4; Add\n0050ED64: retn; Return Near from Procedure\n0050ED65: mov     eax, [esp+arg_0]; jumptable 0050E52A case 150\n0050ED69: push    eax\n0050ED6A: call    BS_Stage150; Call Procedure\n0050ED6F: add     esp, 4; Add\n0050ED72: retn; Return Near from Procedure\n0050ED73: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 151\n0050ED77: push    ecx\n0050ED78: call    BS_Stage151; Call Procedure\n0050ED7D: add     esp, 4; Add\n0050ED80: retn; Return Near from Procedure\n0050ED81: mov     edx, [esp+arg_0]; jumptable 0050E52A case 152\n0050ED85: push    edx\n0050ED86: call    BS_Stage152; Call Procedure\n0050ED8B: add     esp, 4; Add\n0050ED8E: retn; Return Near from Procedure\n0050ED8F: mov     eax, [esp+arg_0]; jumptable 0050E52A case 153\n0050ED93: push    eax\n0050ED94: call    BS_Stage153; Call Procedure\n0050ED99: add     esp, 4; Add\n0050ED9C: retn; Return Near from Procedure\n0050ED9D: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 154\n0050EDA1: push    ecx\n0050EDA2: call    BS_Stage154; Call Procedure\n0050EDA7: add     esp, 4; Add\n0050EDAA: retn; Return Near from Procedure\n0050EDAB: mov     edx, [esp+arg_0]; jumptable 0050E52A case 155\n0050EDAF: push    edx\n0050EDB0: call    BS_Stage155; Call Procedure\n0050EDB5: add     esp, 4; Add\n0050EDB8: retn; Return Near from Procedure\n0050EDB9: mov     eax, [esp+arg_0]; jumptable 0050E52A case 156\n0050EDBD: push    eax\n0050EDBE: call    BS_Stage156; Call Procedure\n0050EDC3: add     esp, 4; Add\n0050EDC6: retn; Return Near from Procedure\n0050EDC7: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 157\n0050EDCB: push    ecx\n0050EDCC: call    BS_Stage157; Call Procedure\n0050EDD1: add     esp, 4; Add\n0050EDD4: retn; Return Near from Procedure\n0050EDD5: mov     edx, [esp+arg_0]; jumptable 0050E52A case 158\n0050EDD9: push    edx\n0050EDDA: call    BS_Stage158; Call Procedure\n0050EDDF: add     esp, 4; Add\n0050EDE2: retn; Return Near from Procedure\n0050EDE3: mov     eax, [esp+arg_0]; jumptable 0050E52A case 159\n0050EDE7: push    eax\n0050EDE8: call    BS_Stage159; Call Procedure\n0050EDED: add     esp, 4; Add\n0050EDF0: retn; Return Near from Procedure\n0050EDF1: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 160\n0050EDF5: push    ecx\n0050EDF6: call    BS_Stage160; Call Procedure\n0050EDFB: add     esp, 4; Add\n0050EDFE: retn; Return Near from Procedure\n0050EDFF: mov     edx, [esp+arg_0]; jumptable 0050E52A case 161\n0050EE03: push    edx\n0050EE04: call    BS_Stage161; Call Procedure\n0050EE09: add     esp, 4; Add\n0050EE0C: retn; Return Near from Procedure\n0050EE0D: mov     eax, [esp+arg_0]; jumptable 0050E52A case 162\n0050EE11: push    eax\n0050EE12: call    BS_Stage162; Call Procedure\n0050EE17: add     esp, 4; Add\n0050EE1A: retn; jumptable 0050E52A default case",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x50e510",
+        "end": "0x50e52a",
+        "successors": [
+          "0x50e52a",
+          "0x50ee1a"
+        ]
+      },
+      {
+        "start": "0x50e52a",
+        "end": "0x50e531",
+        "successors": [
+          "0x50e531",
+          "0x50e53f",
+          "0x50e54d",
+          "0x50e55b",
+          "0x50e569",
+          "0x50e577",
+          "0x50e585",
+          "0x50e593",
+          "0x50e5a1",
+          "0x50e5af",
+          "0x50e5bd",
+          "0x50e5cb",
+          "0x50e5d9",
+          "0x50e5e7",
+          "0x50e5f5",
+          "0x50e603",
+          "0x50e611",
+          "0x50e61f",
+          "0x50e62d",
+          "0x50e63b",
+          "0x50e649",
+          "0x50e657",
+          "0x50e665",
+          "0x50e673",
+          "0x50e681",
+          "0x50e68f",
+          "0x50e69d",
+          "0x50e6ab",
+          "0x50e6b9",
+          "0x50e6c7",
+          "0x50e6d5",
+          "0x50e6e3",
+          "0x50e6f1",
+          "0x50e6ff",
+          "0x50e70d",
+          "0x50e71b",
+          "0x50e729",
+          "0x50e737",
+          "0x50e745",
+          "0x50e753",
+          "0x50e761",
+          "0x50e76f",
+          "0x50e77d",
+          "0x50e78b",
+          "0x50e799",
+          "0x50e7a7",
+          "0x50e7b5",
+          "0x50e7c3",
+          "0x50e7d1",
+          "0x50e7df",
+          "0x50e7ed",
+          "0x50e7fb",
+          "0x50e809",
+          "0x50e817",
+          "0x50e825",
+          "0x50e833",
+          "0x50e841",
+          "0x50e84f",
+          "0x50e85d",
+          "0x50e86b",
+          "0x50e879",
+          "0x50e887",
+          "0x50e895",
+          "0x50e8a3",
+          "0x50e8b1",
+          "0x50e8bf",
+          "0x50e8cd",
+          "0x50e8db",
+          "0x50e8e9",
+          "0x50e8f7",
+          "0x50e905",
+          "0x50e913",
+          "0x50e921",
+          "0x50e92f",
+          "0x50e93d",
+          "0x50e94b",
+          "0x50e959",
+          "0x50e967",
+          "0x50e975",
+          "0x50e983",
+          "0x50e991",
+          "0x50e99f",
+          "0x50e9ad",
+          "0x50e9bb",
+          "0x50e9c9",
+          "0x50e9d7",
+          "0x50e9e5",
+          "0x50e9f3",
+          "0x50ea01",
+          "0x50ea0f",
+          "0x50ea1d",
+          "0x50ea2b",
+          "0x50ea39",
+          "0x50ea47",
+          "0x50ea55",
+          "0x50ea63",
+          "0x50ea71",
+          "0x50ea7f",
+          "0x50ea8d",
+          "0x50ea9b",
+          "0x50eaa9",
+          "0x50eab7",
+          "0x50eac5",
+          "0x50ead3",
+          "0x50eae1",
+          "0x50eaef",
+          "0x50eafd",
+          "0x50eb0b",
+          "0x50eb19",
+          "0x50eb27",
+          "0x50eb35",
+          "0x50eb43",
+          "0x50eb51",
+          "0x50eb5f",
+          "0x50eb6d",
+          "0x50eb7b",
+          "0x50eb89",
+          "0x50eb97",
+          "0x50eba5",
+          "0x50ebb3",
+          "0x50ebc1",
+          "0x50ebcf",
+          "0x50ebdd",
+          "0x50ebeb",
+          "0x50ebf9",
+          "0x50ec07",
+          "0x50ec15",
+          "0x50ec23",
+          "0x50ec31",
+          "0x50ec3f",
+          "0x50ec4d",
+          "0x50ec5b",
+          "0x50ec69",
+          "0x50ec77",
+          "0x50ec85",
+          "0x50ec93",
+          "0x50eca1",
+          "0x50ecaf",
+          "0x50ecbd",
+          "0x50eccb",
+          "0x50ecd9",
+          "0x50ece7",
+          "0x50ecf5",
+          "0x50ed03",
+          "0x50ed11",
+          "0x50ed1f",
+          "0x50ed2d",
+          "0x50ed3b",
+          "0x50ed49",
+          "0x50ed57",
+          "0x50ed65",
+          "0x50ed73",
+          "0x50ed81",
+          "0x50ed8f",
+          "0x50ed9d",
+          "0x50edab",
+          "0x50edb9",
+          "0x50edc7",
+          "0x50edd5",
+          "0x50ede3",
+          "0x50edf1",
+          "0x50edff",
+          "0x50ee0d"
+        ]
+      },
+      {
+        "start": "0x50e531",
+        "end": "0x50e53f",
+        "successors": []
+      },
+      {
+        "start": "0x50e53f",
+        "end": "0x50e54d",
+        "successors": []
+      },
+      {
+        "start": "0x50e54d",
+        "end": "0x50e55b",
+        "successors": []
+      },
+      {
+        "start": "0x50e55b",
+        "end": "0x50e569",
+        "successors": []
+      },
+      {
+        "start": "0x50e569",
+        "end": "0x50e577",
+        "successors": []
+      },
+      {
+        "start": "0x50e577",
+        "end": "0x50e585",
+        "successors": []
+      },
+      {
+        "start": "0x50e585",
+        "end": "0x50e593",
+        "successors": []
+      },
+      {
+        "start": "0x50e593",
+        "end": "0x50e5a1",
+        "successors": []
+      },
+      {
+        "start": "0x50e5a1",
+        "end": "0x50e5af",
+        "successors": []
+      },
+      {
+        "start": "0x50e5af",
+        "end": "0x50e5bd",
+        "successors": []
+      },
+      {
+        "start": "0x50e5bd",
+        "end": "0x50e5cb",
+        "successors": []
+      },
+      {
+        "start": "0x50e5cb",
+        "end": "0x50e5d9",
+        "successors": []
+      },
+      {
+        "start": "0x50e5d9",
+        "end": "0x50e5e7",
+        "successors": []
+      },
+      {
+        "start": "0x50e5e7",
+        "end": "0x50e5f5",
+        "successors": []
+      },
+      {
+        "start": "0x50e5f5",
+        "end": "0x50e603",
+        "successors": []
+      },
+      {
+        "start": "0x50e603",
+        "end": "0x50e611",
+        "successors": []
+      },
+      {
+        "start": "0x50e611",
+        "end": "0x50e61f",
+        "successors": []
+      },
+      {
+        "start": "0x50e61f",
+        "end": "0x50e62d",
+        "successors": []
+      },
+      {
+        "start": "0x50e62d",
+        "end": "0x50e63b",
+        "successors": []
+      },
+      {
+        "start": "0x50e63b",
+        "end": "0x50e649",
+        "successors": []
+      },
+      {
+        "start": "0x50e649",
+        "end": "0x50e657",
+        "successors": []
+      },
+      {
+        "start": "0x50e657",
+        "end": "0x50e665",
+        "successors": []
+      },
+      {
+        "start": "0x50e665",
+        "end": "0x50e673",
+        "successors": []
+      },
+      {
+        "start": "0x50e673",
+        "end": "0x50e681",
+        "successors": []
+      },
+      {
+        "start": "0x50e681",
+        "end": "0x50e68f",
+        "successors": []
+      },
+      {
+        "start": "0x50e68f",
+        "end": "0x50e69d",
+        "successors": []
+      },
+      {
+        "start": "0x50e69d",
+        "end": "0x50e6ab",
+        "successors": []
+      },
+      {
+        "start": "0x50e6ab",
+        "end": "0x50e6b9",
+        "successors": []
+      },
+      {
+        "start": "0x50e6b9",
+        "end": "0x50e6c7",
+        "successors": []
+      },
+      {
+        "start": "0x50e6c7",
+        "end": "0x50e6d5",
+        "successors": []
+      },
+      {
+        "start": "0x50e6d5",
+        "end": "0x50e6e3",
+        "successors": []
+      },
+      {
+        "start": "0x50e6e3",
+        "end": "0x50e6f1",
+        "successors": []
+      },
+      {
+        "start": "0x50e6f1",
+        "end": "0x50e6ff",
+        "successors": []
+      },
+      {
+        "start": "0x50e6ff",
+        "end": "0x50e70d",
+        "successors": []
+      },
+      {
+        "start": "0x50e70d",
+        "end": "0x50e71b",
+        "successors": []
+      },
+      {
+        "start": "0x50e71b",
+        "end": "0x50e729",
+        "successors": []
+      },
+      {
+        "start": "0x50e729",
+        "end": "0x50e737",
+        "successors": []
+      },
+      {
+        "start": "0x50e737",
+        "end": "0x50e745",
+        "successors": []
+      },
+      {
+        "start": "0x50e745",
+        "end": "0x50e753",
+        "successors": []
+      },
+      {
+        "start": "0x50e753",
+        "end": "0x50e761",
+        "successors": []
+      },
+      {
+        "start": "0x50e761",
+        "end": "0x50e76f",
+        "successors": []
+      },
+      {
+        "start": "0x50e76f",
+        "end": "0x50e77d",
+        "successors": []
+      },
+      {
+        "start": "0x50e77d",
+        "end": "0x50e78b",
+        "successors": []
+      },
+      {
+        "start": "0x50e78b",
+        "end": "0x50e799",
+        "successors": []
+      },
+      {
+        "start": "0x50e799",
+        "end": "0x50e7a7",
+        "successors": []
+      },
+      {
+        "start": "0x50e7a7",
+        "end": "0x50e7b5",
+        "successors": []
+      },
+      {
+        "start": "0x50e7b5",
+        "end": "0x50e7c3",
+        "successors": []
+      },
+      {
+        "start": "0x50e7c3",
+        "end": "0x50e7d1",
+        "successors": []
+      },
+      {
+        "start": "0x50e7d1",
+        "end": "0x50e7df",
+        "successors": []
+      },
+      {
+        "start": "0x50e7df",
+        "end": "0x50e7ed",
+        "successors": []
+      },
+      {
+        "start": "0x50e7ed",
+        "end": "0x50e7fb",
+        "successors": []
+      },
+      {
+        "start": "0x50e7fb",
+        "end": "0x50e809",
+        "successors": []
+      },
+      {
+        "start": "0x50e809",
+        "end": "0x50e817",
+        "successors": []
+      },
+      {
+        "start": "0x50e817",
+        "end": "0x50e825",
+        "successors": []
+      },
+      {
+        "start": "0x50e825",
+        "end": "0x50e833",
+        "successors": []
+      },
+      {
+        "start": "0x50e833",
+        "end": "0x50e841",
+        "successors": []
+      },
+      {
+        "start": "0x50e841",
+        "end": "0x50e84f",
+        "successors": []
+      },
+      {
+        "start": "0x50e84f",
+        "end": "0x50e85d",
+        "successors": []
+      },
+      {
+        "start": "0x50e85d",
+        "end": "0x50e86b",
+        "successors": []
+      },
+      {
+        "start": "0x50e86b",
+        "end": "0x50e879",
+        "successors": []
+      },
+      {
+        "start": "0x50e879",
+        "end": "0x50e887",
+        "successors": []
+      },
+      {
+        "start": "0x50e887",
+        "end": "0x50e895",
+        "successors": []
+      },
+      {
+        "start": "0x50e895",
+        "end": "0x50e8a3",
+        "successors": []
+      },
+      {
+        "start": "0x50e8a3",
+        "end": "0x50e8b1",
+        "successors": []
+      },
+      {
+        "start": "0x50e8b1",
+        "end": "0x50e8bf",
+        "successors": []
+      },
+      {
+        "start": "0x50e8bf",
+        "end": "0x50e8cd",
+        "successors": []
+      },
+      {
+        "start": "0x50e8cd",
+        "end": "0x50e8db",
+        "successors": []
+      },
+      {
+        "start": "0x50e8db",
+        "end": "0x50e8e9",
+        "successors": []
+      },
+      {
+        "start": "0x50e8e9",
+        "end": "0x50e8f7",
+        "successors": []
+      },
+      {
+        "start": "0x50e8f7",
+        "end": "0x50e905",
+        "successors": []
+      },
+      {
+        "start": "0x50e905",
+        "end": "0x50e913",
+        "successors": []
+      },
+      {
+        "start": "0x50e913",
+        "end": "0x50e921",
+        "successors": []
+      },
+      {
+        "start": "0x50e921",
+        "end": "0x50e92f",
+        "successors": []
+      },
+      {
+        "start": "0x50e92f",
+        "end": "0x50e93d",
+        "successors": []
+      },
+      {
+        "start": "0x50e93d",
+        "end": "0x50e94b",
+        "successors": []
+      },
+      {
+        "start": "0x50e94b",
+        "end": "0x50e959",
+        "successors": []
+      },
+      {
+        "start": "0x50e959",
+        "end": "0x50e967",
+        "successors": []
+      },
+      {
+        "start": "0x50e967",
+        "end": "0x50e975",
+        "successors": []
+      },
+      {
+        "start": "0x50e975",
+        "end": "0x50e983",
+        "successors": []
+      },
+      {
+        "start": "0x50e983",
+        "end": "0x50e991",
+        "successors": []
+      },
+      {
+        "start": "0x50e991",
+        "end": "0x50e99f",
+        "successors": []
+      },
+      {
+        "start": "0x50e99f",
+        "end": "0x50e9ad",
+        "successors": []
+      },
+      {
+        "start": "0x50e9ad",
+        "end": "0x50e9bb",
+        "successors": []
+      },
+      {
+        "start": "0x50e9bb",
+        "end": "0x50e9c9",
+        "successors": []
+      },
+      {
+        "start": "0x50e9c9",
+        "end": "0x50e9d7",
+        "successors": []
+      },
+      {
+        "start": "0x50e9d7",
+        "end": "0x50e9e5",
+        "successors": []
+      },
+      {
+        "start": "0x50e9e5",
+        "end": "0x50e9f3",
+        "successors": []
+      },
+      {
+        "start": "0x50e9f3",
+        "end": "0x50ea01",
+        "successors": []
+      },
+      {
+        "start": "0x50ea01",
+        "end": "0x50ea0f",
+        "successors": []
+      },
+      {
+        "start": "0x50ea0f",
+        "end": "0x50ea1d",
+        "successors": []
+      },
+      {
+        "start": "0x50ea1d",
+        "end": "0x50ea2b",
+        "successors": []
+      },
+      {
+        "start": "0x50ea2b",
+        "end": "0x50ea39",
+        "successors": []
+      },
+      {
+        "start": "0x50ea39",
+        "end": "0x50ea47",
+        "successors": []
+      },
+      {
+        "start": "0x50ea47",
+        "end": "0x50ea55",
+        "successors": []
+      },
+      {
+        "start": "0x50ea55",
+        "end": "0x50ea63",
+        "successors": []
+      },
+      {
+        "start": "0x50ea63",
+        "end": "0x50ea71",
+        "successors": []
+      },
+      {
+        "start": "0x50ea71",
+        "end": "0x50ea7f",
+        "successors": []
+      },
+      {
+        "start": "0x50ea7f",
+        "end": "0x50ea8d",
+        "successors": []
+      },
+      {
+        "start": "0x50ea8d",
+        "end": "0x50ea9b",
+        "successors": []
+      },
+      {
+        "start": "0x50ea9b",
+        "end": "0x50eaa9",
+        "successors": []
+      },
+      {
+        "start": "0x50eaa9",
+        "end": "0x50eab7",
+        "successors": []
+      },
+      {
+        "start": "0x50eab7",
+        "end": "0x50eac5",
+        "successors": []
+      },
+      {
+        "start": "0x50eac5",
+        "end": "0x50ead3",
+        "successors": []
+      },
+      {
+        "start": "0x50ead3",
+        "end": "0x50eae1",
+        "successors": []
+      },
+      {
+        "start": "0x50eae1",
+        "end": "0x50eaef",
+        "successors": []
+      },
+      {
+        "start": "0x50eaef",
+        "end": "0x50eafd",
+        "successors": []
+      },
+      {
+        "start": "0x50eafd",
+        "end": "0x50eb0b",
+        "successors": []
+      },
+      {
+        "start": "0x50eb0b",
+        "end": "0x50eb19",
+        "successors": []
+      },
+      {
+        "start": "0x50eb19",
+        "end": "0x50eb27",
+        "successors": []
+      },
+      {
+        "start": "0x50eb27",
+        "end": "0x50eb35",
+        "successors": []
+      },
+      {
+        "start": "0x50eb35",
+        "end": "0x50eb43",
+        "successors": []
+      },
+      {
+        "start": "0x50eb43",
+        "end": "0x50eb51",
+        "successors": []
+      },
+      {
+        "start": "0x50eb51",
+        "end": "0x50eb5f",
+        "successors": []
+      },
+      {
+        "start": "0x50eb5f",
+        "end": "0x50eb6d",
+        "successors": []
+      },
+      {
+        "start": "0x50eb6d",
+        "end": "0x50eb7b",
+        "successors": []
+      },
+      {
+        "start": "0x50eb7b",
+        "end": "0x50eb89",
+        "successors": []
+      },
+      {
+        "start": "0x50eb89",
+        "end": "0x50eb97",
+        "successors": []
+      },
+      {
+        "start": "0x50eb97",
+        "end": "0x50eba5",
+        "successors": []
+      },
+      {
+        "start": "0x50eba5",
+        "end": "0x50ebb3",
+        "successors": []
+      },
+      {
+        "start": "0x50ebb3",
+        "end": "0x50ebc1",
+        "successors": []
+      },
+      {
+        "start": "0x50ebc1",
+        "end": "0x50ebcf",
+        "successors": []
+      },
+      {
+        "start": "0x50ebcf",
+        "end": "0x50ebdd",
+        "successors": []
+      },
+      {
+        "start": "0x50ebdd",
+        "end": "0x50ebeb",
+        "successors": []
+      },
+      {
+        "start": "0x50ebeb",
+        "end": "0x50ebf9",
+        "successors": []
+      },
+      {
+        "start": "0x50ebf9",
+        "end": "0x50ec07",
+        "successors": []
+      },
+      {
+        "start": "0x50ec07",
+        "end": "0x50ec15",
+        "successors": []
+      },
+      {
+        "start": "0x50ec15",
+        "end": "0x50ec23",
+        "successors": []
+      },
+      {
+        "start": "0x50ec23",
+        "end": "0x50ec31",
+        "successors": []
+      },
+      {
+        "start": "0x50ec31",
+        "end": "0x50ec3f",
+        "successors": []
+      },
+      {
+        "start": "0x50ec3f",
+        "end": "0x50ec4d",
+        "successors": []
+      },
+      {
+        "start": "0x50ec4d",
+        "end": "0x50ec5b",
+        "successors": []
+      },
+      {
+        "start": "0x50ec5b",
+        "end": "0x50ec69",
+        "successors": []
+      },
+      {
+        "start": "0x50ec69",
+        "end": "0x50ec77",
+        "successors": []
+      },
+      {
+        "start": "0x50ec77",
+        "end": "0x50ec85",
+        "successors": []
+      },
+      {
+        "start": "0x50ec85",
+        "end": "0x50ec93",
+        "successors": []
+      },
+      {
+        "start": "0x50ec93",
+        "end": "0x50eca1",
+        "successors": []
+      },
+      {
+        "start": "0x50eca1",
+        "end": "0x50ecaf",
+        "successors": []
+      },
+      {
+        "start": "0x50ecaf",
+        "end": "0x50ecbd",
+        "successors": []
+      },
+      {
+        "start": "0x50ecbd",
+        "end": "0x50eccb",
+        "successors": []
+      },
+      {
+        "start": "0x50eccb",
+        "end": "0x50ecd9",
+        "successors": []
+      },
+      {
+        "start": "0x50ecd9",
+        "end": "0x50ece7",
+        "successors": []
+      },
+      {
+        "start": "0x50ece7",
+        "end": "0x50ecf5",
+        "successors": []
+      },
+      {
+        "start": "0x50ecf5",
+        "end": "0x50ed03",
+        "successors": []
+      },
+      {
+        "start": "0x50ed03",
+        "end": "0x50ed11",
+        "successors": []
+      },
+      {
+        "start": "0x50ed11",
+        "end": "0x50ed1f",
+        "successors": []
+      },
+      {
+        "start": "0x50ed1f",
+        "end": "0x50ed2d",
+        "successors": []
+      },
+      {
+        "start": "0x50ed2d",
+        "end": "0x50ed3b",
+        "successors": []
+      },
+      {
+        "start": "0x50ed3b",
+        "end": "0x50ed49",
+        "successors": []
+      },
+      {
+        "start": "0x50ed49",
+        "end": "0x50ed57",
+        "successors": []
+      },
+      {
+        "start": "0x50ed57",
+        "end": "0x50ed65",
+        "successors": []
+      },
+      {
+        "start": "0x50ed65",
+        "end": "0x50ed73",
+        "successors": []
+      },
+      {
+        "start": "0x50ed73",
+        "end": "0x50ed81",
+        "successors": []
+      },
+      {
+        "start": "0x50ed81",
+        "end": "0x50ed8f",
+        "successors": []
+      },
+      {
+        "start": "0x50ed8f",
+        "end": "0x50ed9d",
+        "successors": []
+      },
+      {
+        "start": "0x50ed9d",
+        "end": "0x50edab",
+        "successors": []
+      },
+      {
+        "start": "0x50edab",
+        "end": "0x50edb9",
+        "successors": []
+      },
+      {
+        "start": "0x50edb9",
+        "end": "0x50edc7",
+        "successors": []
+      },
+      {
+        "start": "0x50edc7",
+        "end": "0x50edd5",
+        "successors": []
+      },
+      {
+        "start": "0x50edd5",
+        "end": "0x50ede3",
+        "successors": []
+      },
+      {
+        "start": "0x50ede3",
+        "end": "0x50edf1",
+        "successors": []
+      },
+      {
+        "start": "0x50edf1",
+        "end": "0x50edff",
+        "successors": []
+      },
+      {
+        "start": "0x50edff",
+        "end": "0x50ee0d",
+        "successors": []
+      },
+      {
+        "start": "0x50ee0d",
+        "end": "0x50ee1a",
+        "successors": [
+          "0x50ee1a"
+        ]
+      },
+      {
+        "start": "0x50ee1a",
+        "end": "0x50ee1b",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 166
+  }
+}

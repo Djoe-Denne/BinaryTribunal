@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-12T17:37:25.915100+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x464DB0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "Gfx_UploadCLUTSlot",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "a227f1027d6e8c3afa333c916f614bac683bcbdac41460861a10a83254f3ed04",
+  "before_sha256": "9efe6d50877d31918829d96b90ba85482e757acabedd31d806b3b812846855d8",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nLazy two-result construction is guarded ONLY by slot DWORD +0x44. If it is already nonzero, returns without repairing/validating +0x48. The two mode paths each call 0x416D82 twice and publish full EAX results to +0x44 and +0x48, without a nonzero test of the first factory result before the second call. One mode has an earlier acquisition-zero exit and invokes 0x4677D0 before the factories. Stack cleanup is grouped, not evidence of equal arities for all helpers. Normal final EAX is the second result; early-existing EAX is +0x44, not a uniform Boolean. No hardware palette upload or ownership guarantee is established by the local body.\nLive ASM anchors: 0x464dc0, 0x464dc5, 0x464e1b, 0x464eb3, 0x464ebb, 0x464eea, 0x464f45, 0x464f62. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x464DB0.json.",
+  "anchors": [
+    {
+      "ea": "0x464dc0",
+      "hex": "8b4644",
+      "text": "mov     eax, [esi+44h]"
+    },
+    {
+      "ea": "0x464dc5",
+      "hex": "0f859a010000",
+      "text": "jnz     loc_464F65"
+    },
+    {
+      "ea": "0x464e1b",
+      "hex": "0f8444010000",
+      "text": "jz      loc_464F65"
+    },
+    {
+      "ea": "0x464eb3",
+      "hex": "e8ca1efbff",
+      "text": "call    Gfx_CreateDrawList"
+    },
+    {
+      "ea": "0x464ebb",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464eea",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    },
+    {
+      "ea": "0x464f45",
+      "hex": "894644",
+      "text": "mov     [esi+44h], eax"
+    },
+    {
+      "ea": "0x464f62",
+      "hex": "894648",
+      "text": "mov     [esi+48h], eax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  },
+  "status": "COMMITTED_SAVED_READBACK_OK",
+  "save_result": "True",
+  "after_sha256": "a79cb26f11f338a37b446d61acc3ee6140a7cd87a0c99170509b551146a2de89",
+  "before_receipt": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\closure-20261012\\0x464DB0-idb-before.json"
+}

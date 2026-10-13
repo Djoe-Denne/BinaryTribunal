@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:41:35.009093+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x4868C0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "domain::Battle_EndCleanupAndTransition",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "e1f664f5d32c2d6aab9c2974c817729ebe43bc20f8de4ec71287b17be479aea5",
+  "before": "",
+  "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nVerified local result dispatch: zero-extends the result byte, subtracts one, then unsigned JA against 4 rejects values outside 1..5. Native five-DWORD table at 0x4869F4 maps result values 1/2/3/4/5 to 0x4869CC/0x486991/0x4869CC/0x4869A3/0x4869D3. Results 1 and 3 increment the field at 0x1CFE938 and fall through to mode 100; result 2 increments 0x1CFE93A and sets mode 5. Result 5 directly sets mode 100 at 0x1CD8FC6. The table bytes match the authenticated PE, SHA256 eb34ae32d9265a121193b5677eba16a6adea53fb9a98b09446dc2695b138c722. This certifies this local dispatch, not the earlier record-copying work or the business meaning of result codes.\nLive ASM anchors: 0x48697d, 0x486984, 0x486988, 0x48698a, 0x486991, 0x4869a3, 0x4869cc, 0x4869d3. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x4868C0.json.",
+  "anchors": [
+    {
+      "ea": "0x48697d",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x486984",
+      "hex": "48",
+      "text": "dec     eax"
+    },
+    {
+      "ea": "0x486988",
+      "hex": "7752",
+      "text": "ja      short def_48698A"
+    },
+    {
+      "ea": "0x48698a",
+      "hex": "ff2485f4694800",
+      "text": "jmp     ds:jpt_48698A[eax*4]"
+    },
+    {
+      "ea": "0x486991",
+      "hex": "66ff053ae9cf01",
+      "text": "inc     SG_BATTLE_ESCAPED"
+    },
+    {
+      "ea": "0x4869a3",
+      "hex": "8a15dd87d201",
+      "text": "mov     dl, CURRENT_ENCOUNTER_DATA_SCENE_OUT.battle_flags"
+    },
+    {
+      "ea": "0x4869cc",
+      "hex": "66ff0538e9cf01",
+      "text": "inc     SG_UNUSED_IN_FIELD_1"
+    },
+    {
+      "ea": "0x4869d3",
+      "hex": "66c705c68fcd016400",
+      "text": "mov     mode_StateGlobal, 64h"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

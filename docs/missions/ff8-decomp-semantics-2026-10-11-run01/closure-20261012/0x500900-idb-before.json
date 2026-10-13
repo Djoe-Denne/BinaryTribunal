@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-12T17:38:27.457548+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x500900",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "BdLink_GF_battle_input_and_texture_upload",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "a4ed01e3677cb055029989a295e3e5e100ede046620a10115a008549adc7838f",
+  "before": "[glm-triple 2026-09-13]\n/* BdLink_GF_battle_input_and_texture_upload @ 0x500900\n * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\n * 206 instr, two chunks: head 0x500900-0x5009A1 then jmp loc_5005A0;\n * tail 0x5005A0-0x50081F retn. IDA type int(). No domain::.\n * Pingpong = g_BattleFramePingPongIndex & 0xFF; xor 1 for the other slot.\n * Strides: *0x5C (23*4) at 0x1D969C8, *0x14 (5*4) at 0x1D96980,\n * *0x4488 at 0x1D924DC / 0x1D8E058; packet windows 0x24000 / 0x1C000.\n * Occupancy / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44 / GetRandomInt unused.\n * jbe UNSIGNED vs 0x10. WORD 66 C7 05 on word_1D8E03C/03E. BYTE AL stores.\n */\n\nvoid nullsub_6(void);\nint __cdecl BdLinkTask_Pump(int *list_head);\nint *sub_502020(void);\nint sub_4BB090(void);\nint BdLinkTask_PumpStageList(void);\n__int16 updateBattleCamera(void);\nint sub_506E30(void);\nint BattleCamera_BuildViewAndConsumeDeltas(void);\nint __cdecl sub_4A9160(int a1, int a2, int a3);\nint __cdecl sub_4A9220(int a1, int a2, int a3, void *a4);\nvoid __cdecl nullsub_4_used(int a1);\nchar sub_501B60(void);\nunsigned int sub_501230(void);\nint BattleTimQueue_FlushToVram(void);\nunsigned int *__cdecl sub_45C9F0(unsigned int *p, int a2);\nvoid __cdecl nullsub_5_used(void *p);\nint *__cdecl sub_45B660(__int16 *a1);\nint __cdecl Gpu_DrawOTagCurrent(unsigned int ot_head);\nint __cdecl Call_Bs_parseCamera2(int a1);\nint __cdecl Call_Bs_ParseCamera(int a1, int a2);\nint __cdecl sub_45D550(int a1, int a2, int a3, int a4, int a5, int a6,\n                       int a7, int a8, int a9, int a10, int a11, int a12,\n                       int a13);\n\nextern int *list_head; /* 0x1D96AA4 */\nextern int *battle_tasks_init_dword_1D96A8C;\nextern int *battle_tasks_init_dword_1D96A94;\nextern int *battle_tasks_init_dword_1D96AA0;\nextern int *battle_tasks_init_dword_1D96AA8;\nextern int *g_GfSequenceContextCandidateA; /* 0x1D96AAC */\nextern unsigned char byte_1D96A90;\nextern unsigned char byte_1D96A88;\nextern unsigned int battle_to_update_flags_dword_1D96A9C;\nextern unsigned int g_BattleFramePingPongIndex; /* 0x1D96A80 */\nextern unsigned int g_BattleOTBase; /* 0x1D8E04C */\nextern unsigned int dword_B8A3E4;\nextern unsigned char byte_1D8E03A;\nextern __int16 word_1D8E038;\nextern __int16 word_1D8E03C;\nextern __int16 word_1D8E03E;\nextern unsigned char unk_1D8E040[];\nextern unsigned int pause_game_battle; /* 0x1CFF834 */\nextern unsigned int g_BattlePacketCursor; /* 0x1D8E054 */\nextern unsigned int g_BattlePacketEnd; /* 0x1D969A8 */\nextern unsigned int off_B6D094;\nextern unsigned int off_B6D070;\n\nint __cdecl BdLink_GF_battle_input_and_texture_upload(void)\n{\n    unsigned int pp;\n    unsigned char al;\n    unsigned int cursor;\n\n    /* ---- head 0x500900: pump lists, camera tick, then jmp tail ---- */\n    nullsub_6();\n\n    BdLinkTask_Pump(list_head);\n    BdLinkTask_Pump(battle_tasks_init_dword_1D96A8C);\n    byte_1D96A90 = (unsigned char)BdLinkTask_Pump(battle_tasks_init_dword_1D96AA0);\n    /* add esp,0Ch after mov eax,g_GfSequenceContextCandidateA; EAX kept */\n\n    if (g_GfSequenceContextCandidateA != 0) {\n        if (BdLinkTask_Pump(g_GfSequenceContextCandidateA) == 0)\n            g_GfSequenceContextCandidateA = 0;\n    }\n\n    byte_1D96A88 = (unsigned char)BdLinkTask_Pump(battle_tasks_init_dword_1D96AA8);\n\n    sub_502020();\n    sub_4BB090();\n    nullsub_6();\n    BdLinkTask_Pump(battle_tasks_init_dword_1D96A94);\n    /* add esp,8 = Pump(AA8) + Pump(A94) */\n    nullsub_6();\n    BdLinkTask_PumpStageList();\n    nullsub_6();\n    updateBattleCamera();\n    sub_506E30();\n    BattleCamera_BuildViewAndConsumeDeltas();\n    sub_502020();\n\n    /* ---- tail 0x5005A0: flags 4 / 8 / 0x80, ping-pong OT/camera/packets ---- */\n\n    if (*(unsigned char *)&battle_to_update_flags_dword_1D96A9C & 4) {\n        pp = g_BattleFramePingPongIndex & 0xFFu;\n        sub_4A9160(\n            (int)(g_BattleOTBase + 8),\n            (int)(0x1D969C8 + (pp ^ 1) * 0x5C),\n            (int)dword_B8A3E4);\n        /* mov al, flags; add esp,0Ch; test al,4 */\n        if (*(unsigned char *)&battle_to_update_flags_dword_1D96A9C & 4) {\n            sub_4A9220(\n                (int)dword_B8A3E4,\n                (int)(0x1D96980 + (pp ^ 1) * 0x14),\n                (int)(0x1D969C8 + (pp ^ 1) * 0x5C),\n                (void *)(0x1D969C8 + pp * 0x5C));\n            al = byte_1D8E03A;\n            if (al != 0) {\n                if (al > 0x10) { /* cmp al,10h ; jbe UNSIGNED */\n                    byte_1D8E03A = (unsigned char)(al + 0xF0);\n                } else {\n                    nullsub_4_used((int)(al & 1));\n                    byte_1D8E03A = 0;\n                }\n            }\n        }\n    }\n\n    sub_501B60();\n    sub_501230();\n\n    if (*(unsigned char *)&battle_to_update_flags_dword_1D96A9C & 8) {\n        BattleTimQueue_FlushToVram();\n        sub_45C9F0((unsigned int *)unk_1D8E040, 1);\n        nullsub_5_used(unk_1D8E040);\n        /* add esp,0Ch = 1 + two pointers */\n    }\n\n    if (*(unsigned char *)&battle_to_update_flags_dword_1D96A9C & 4) {\n        pp = g_BattleFramePingPongIndex & 0xFFu;\n        sub_45B660((__int16 *)(0x1D969C8 + (pp ^ 1) * 0x5C));\n        Gpu_DrawOTagCurrent(0x1D924DC + pp * 0x4488);\n        Call_Bs_parseCamera2((int)word_1D8E038);\n        Call_Bs_ParseCamera((int)word_1D8E03C + 0xA0,\n                            (int)word_1D8E03E + 0x6C);\n        Call_Bs_parseCamera2((int)word_1D8E038);\n        Call_Bs_ParseCamera((int)word_1D8E03C + 0xA0,\n                            (int)word_1D8E03E + 0x6C);\n        /* add esp,20h = 1+1+1+2+1+2 */\n        word_1D8E03E = 0; /* 66 C7 05 */\n        word_1D8E03C = 0;\n    }\n\n    if (pause_game_battle == 0) {\n        pp = g_BattleFramePingPongIndex & 0xFFu;\n        sub_45D550(\n            (int)(0x1D8E058 + pp * 0x4488),\n            0x1122, 0, 1, 5, 9, 0x11,\n            0x1011, 0x1019, 0x101A, 0x101E, 0x111E,\n            (int)0xFFFFFFFF);\n        /* add esp,34h \u2014 13 dwords; IDA proto (int,int,int) is incomplete */\n    }\n\n    pp = g_BattleFramePingPongIndex & 0xFFu;\n    if (*(unsigned char *)&battle_to_update_flags_dword_1D96A9C & 0x80) {\n        cursor = off_B6D094 + pp * 0x24000;\n        g_BattlePacketCursor = cursor;\n        cursor += 0x24000;\n    } else {\n        cursor = off_B6D070 + pp * 0x1C000;\n        g_BattlePacketCursor = cursor;\n        cursor += 0x1C000;\n    }\n    g_BattlePacketEnd = cursor;\n\n    g_BattleOTBase = 0x1D8E058 + pp * 0x4488;\n    return (int)g_BattleOTBase;\n}",
+  "before_sha256": "a49ab99c49503f98373982ec8ae61dd0b17fc41edc4622750854c9c933475359",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nCalls 0x508420 for five unconditional global heads and a sixth nonzero-guarded head. Stores AL from the third and fifth service call sites, but tests full EAX to clear the conditional head. Final preparation lives in an earlier-address function chunk: the low byte of the index loaded at 0x5007B0 selects packet strides 0x24000 or 0x1C000 from the two bases; cursor/end differ by the selected stride. Full machine return EAX is 0x1D8E058+0x4488*i modulo 2^32, also stored as the final table base at 0x500819. Here 0x4488=17544; no helper call follows the final index load. Exclusive GF/input/upload business purpose is not established.\nLive ASM anchors: 0x50090b, 0x500923, 0x500928, 0x50093a, 0x500942, 0x5007b0, 0x5007fd, 0x500812. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x500900.json.",
+  "anchors": [
+    {
+      "ea": "0x50090b",
+      "hex": "e8107b0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500923",
+      "hex": "e8f87a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500928",
+      "hex": "a2906ad901",
+      "text": "mov     byte_1D96A90, al"
+    },
+    {
+      "ea": "0x50093a",
+      "hex": "e8e17a0000",
+      "text": "call    BdLinkTask_Pump"
+    },
+    {
+      "ea": "0x500942",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x5007b0",
+      "hex": "a1806ad901",
+      "text": "mov     eax, g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x5007fd",
+      "hex": "890da869d901",
+      "text": "mov     g_BattlePacketEnd, ecx"
+    },
+    {
+      "ea": "0x500812",
+      "hex": "8d04d558e0d801",
+      "text": "lea     eax, ds:1D8E058h[edx*8]"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}

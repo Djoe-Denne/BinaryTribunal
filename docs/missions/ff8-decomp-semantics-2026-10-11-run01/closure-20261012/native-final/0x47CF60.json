@@ -1,0 +1,1533 @@
+{
+  "at": "2026-10-12T17:25:54.728107+00:00",
+  "ea": "0x47CF60",
+  "group": "g07",
+  "name": "main::FFBattleModule",
+  "packet_sha256": "a502d16b154e08a955a468279c04dda5c926c4260a8b231a45a2bc2d45289fb2",
+  "candidate": "outputs\\ff8-decomp-semantics-20261011-r01\\production\\g07\\0x47CF60\\semantic_r.md",
+  "candidate_sha256": "815397cb8dd95e553ff92f853926df7f76692120371ecc06548d93be0ea623ac",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "native_frozen_pe_equal": true,
+  "chunks": [
+    {
+      "lo": "0x47cf60",
+      "hi": "0x47d285",
+      "sha256": "eea3917d515ea278d3996ee7135f4935966511dd1190bc1780bf9dedbb6558d1",
+      "match": true
+    }
+  ],
+  "asm": [
+    {
+      "ea": "0x47cf60",
+      "hex": "83ec1c",
+      "text": "sub     esp, 1Ch"
+    },
+    {
+      "ea": "0x47cf63",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x47cf64",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47cf65",
+      "hex": "8b742428",
+      "text": "mov     esi, [esp+24h+game_object]"
+    },
+    {
+      "ea": "0x47cf69",
+      "hex": "33db",
+      "text": "xor     ebx, ebx"
+    },
+    {
+      "ea": "0x47cf6b",
+      "hex": "399ea80b0000",
+      "text": "cmp     [esi+0BA8h], ebx"
+    },
+    {
+      "ea": "0x47cf71",
+      "hex": "7514",
+      "text": "jnz     short loc_47CF87"
+    },
+    {
+      "ea": "0x47cf73",
+      "hex": "68e0010000",
+      "text": "push    1E0h"
+    },
+    {
+      "ea": "0x47cf78",
+      "hex": "6880020000",
+      "text": "push    280h"
+    },
+    {
+      "ea": "0x47cf7d",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x47cf7e",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x47cf7f",
+      "hex": "e83ce5fdff",
+      "text": "call    SetResolution"
+    },
+    {
+      "ea": "0x47cf84",
+      "hex": "83c410",
+      "text": "add     esp, 10h"
+    },
+    {
+      "ea": "0x47cf87",
+      "hex": "8d442408",
+      "text": "lea     eax, [esp+24h+var_1C]"
+    },
+    {
+      "ea": "0x47cf8b",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47cf8c",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47cf8d",
+      "hex": "c744241800000000",
+      "text": "mov     [esp+2Ch+var_14], 0"
+    },
+    {
+      "ea": "0x47cf95",
+      "hex": "c744241400000000",
+      "text": "mov     [esp+2Ch+var_18], 0"
+    },
+    {
+      "ea": "0x47cf9d",
+      "hex": "c744241000000000",
+      "text": "mov     [esp+2Ch+var_1C], 0"
+    },
+    {
+      "ea": "0x47cfa5",
+      "hex": "c744241c0000803f",
+      "text": "mov     [esp+2Ch+var_10], 3F800000h"
+    },
+    {
+      "ea": "0x47cfad",
+      "hex": "e8b611faff",
+      "text": "call    isGetDrawBuf"
+    },
+    {
+      "ea": "0x47cfb2",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47cfb3",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x47cfb5",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x47cfb7",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x47cfb9",
+      "hex": "e8fc0ffaff",
+      "text": "call    isGetDrawBuf2"
+    },
+    {
+      "ea": "0x47cfbe",
+      "hex": "8b86a80b0000",
+      "text": "mov     eax, [esi+0BA8h]"
+    },
+    {
+      "ea": "0x47cfc4",
+      "hex": "83c418",
+      "text": "add     esp, 18h"
+    },
+    {
+      "ea": "0x47cfc7",
+      "hex": "3bc3",
+      "text": "cmp     eax, ebx"
+    },
+    {
+      "ea": "0x47cfc9",
+      "hex": "7523",
+      "text": "jnz     short loc_47CFEE"
+    },
+    {
+      "ea": "0x47cfcb",
+      "hex": "8b0d5076a701",
+      "text": "mov     ecx, Render_Height"
+    },
+    {
+      "ea": "0x47cfd1",
+      "hex": "8b155476a701",
+      "text": "mov     edx, Render_width"
+    },
+    {
+      "ea": "0x47cfd7",
+      "hex": "a14876a701",
+      "text": "mov     eax, Render_Y_Axis"
+    },
+    {
+      "ea": "0x47cfdc",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x47cfdd",
+      "hex": "8b0d4c76a701",
+      "text": "mov     ecx, Render_X_Axis"
+    },
+    {
+      "ea": "0x47cfe3",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x47cfe4",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47cfe5",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x47cfe6",
+      "hex": "e8d5e4fdff",
+      "text": "call    SetResolution"
+    },
+    {
+      "ea": "0x47cfeb",
+      "hex": "83c410",
+      "text": "add     esp, 10h"
+    },
+    {
+      "ea": "0x47cfee",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47cfef",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x47cff0",
+      "hex": "e87d19faff",
+      "text": "call    GfxDriver_BeginScene"
+    },
+    {
+      "ea": "0x47cff5",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x47cff8",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x47cffa",
+      "hex": "0f8443020000",
+      "text": "jz      loc_47D243"
+    },
+    {
+      "ea": "0x47d000",
+      "hex": "8b1584a2d201",
+      "text": "mov     edx, dummy4_39"
+    },
+    {
+      "ea": "0x47d006",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x47d007",
+      "hex": "e88e9bf9ff",
+      "text": "call    sub_416B9A"
+    },
+    {
+      "ea": "0x47d00c",
+      "hex": "a188a2d201",
+      "text": "mov     eax, dword_1D2A288"
+    },
+    {
+      "ea": "0x47d011",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47d012",
+      "hex": "e8e27bfaff",
+      "text": "call    sub_424BF9"
+    },
+    {
+      "ea": "0x47d017",
+      "hex": "e804e10100",
+      "text": "call    Gfx_CopyRenderTuningDefaults"
+    },
+    {
+      "ea": "0x47d01c",
+      "hex": "e81fca0100",
+      "text": "call    sub_499A40"
+    },
+    {
+      "ea": "0x47d021",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d022",
+      "hex": "e8c12bfcff",
+      "text": "call    Render_ESI_A60h_unused"
+    },
+    {
+      "ea": "0x47d027",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d028",
+      "hex": "e815cbf8ff",
+      "text": "call    render_ESIA78h"
+    },
+    {
+      "ea": "0x47d02d",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d02e",
+      "hex": "e8d5caf8ff",
+      "text": "call    render_ESI348"
+    },
+    {
+      "ea": "0x47d033",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d034",
+      "hex": "e8eccaf8ff",
+      "text": "call    sub_409B25"
+    },
+    {
+      "ea": "0x47d039",
+      "hex": "83c418",
+      "text": "add     esp, 18h"
+    },
+    {
+      "ea": "0x47d03c",
+      "hex": "e8ffe90e00",
+      "text": "call    ___setargv_2"
+    },
+    {
+      "ea": "0x47d041",
+      "hex": "a0ea8dd201",
+      "text": "mov     al, CAN_BATTLE_BE_PAUSED"
+    },
+    {
+      "ea": "0x47d046",
+      "hex": "3ac3",
+      "text": "cmp     al, bl"
+    },
+    {
+      "ea": "0x47d048",
+      "hex": "0f8485000000",
+      "text": "jz      loc_47D0D3"
+    },
+    {
+      "ea": "0x47d04e",
+      "hex": "e87da10200",
+      "text": "call    battle_pause_related_sub_4A71D0"
+    },
+    {
+      "ea": "0x47d053",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x47d055",
+      "hex": "747c",
+      "text": "jz      short loc_47D0D3"
+    },
+    {
+      "ea": "0x47d057",
+      "hex": "c70534f8cf0101000000",
+      "text": "mov     pause_game_battle, 1"
+    },
+    {
+      "ea": "0x47d061",
+      "hex": "891d44f8cf01",
+      "text": "mov     is_sleeping, ebx"
+    },
+    {
+      "ea": "0x47d067",
+      "hex": "c786880b000001000000",
+      "text": "mov     dword ptr [esi+0B88h], 1"
+    },
+    {
+      "ea": "0x47d071",
+      "hex": "e80ae5fdff",
+      "text": "call    Gpu_EnableOTagHostPass"
+    },
+    {
+      "ea": "0x47d076",
+      "hex": "e83531ffff",
+      "text": "call    GameTime_Tick2191_SG"
+    },
+    {
+      "ea": "0x47d07b",
+      "hex": "e83031ffff",
+      "text": "call    GameTime_Tick2191_SG"
+    },
+    {
+      "ea": "0x47d080",
+      "hex": "e82b31ffff",
+      "text": "call    GameTime_Tick2191_SG"
+    },
+    {
+      "ea": "0x47d085",
+      "hex": "e82631ffff",
+      "text": "call    GameTime_Tick2191_SG"
+    },
+    {
+      "ea": "0x47d08a",
+      "hex": "66833de0bfcd0103",
+      "text": "cmp     mode_Battle_AnimationState, 3"
+    },
+    {
+      "ea": "0x47d092",
+      "hex": "7527",
+      "text": "jnz     short loc_47D0BB"
+    },
+    {
+      "ea": "0x47d094",
+      "hex": "53",
+      "text": "push    ebx"
+    },
+    {
+      "ea": "0x47d095",
+      "hex": "e846a60200",
+      "text": "call    BattleUI_SetHudDrawTarget"
+    },
+    {
+      "ea": "0x47d09a",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d09d",
+      "hex": "e88ebd0200",
+      "text": "call    isBattle_HUDupdate"
+    },
+    {
+      "ea": "0x47d0a2",
+      "hex": "e839b40200",
+      "text": "call    BattleUI_HudInputAndATBTick"
+    },
+    {
+      "ea": "0x47d0a7",
+      "hex": "e884bd0200",
+      "text": "call    isBattle_HUDupdate"
+    },
+    {
+      "ea": "0x47d0ac",
+      "hex": "e82fb40200",
+      "text": "call    BattleUI_HudInputAndATBTick"
+    },
+    {
+      "ea": "0x47d0b1",
+      "hex": "e87abd0200",
+      "text": "call    isBattle_HUDupdate"
+    },
+    {
+      "ea": "0x47d0b6",
+      "hex": "e825b40200",
+      "text": "call    BattleUI_HudInputAndATBTick"
+    },
+    {
+      "ea": "0x47d0bb",
+      "hex": "e820e2fdff",
+      "text": "call    IsWindowNOTActive"
+    },
+    {
+      "ea": "0x47d0c0",
+      "hex": "85c0",
+      "text": "test    eax, eax"
+    },
+    {
+      "ea": "0x47d0c2",
+      "hex": "7446",
+      "text": "jz      short loc_47D10A"
+    },
+    {
+      "ea": "0x47d0c4",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d0c5",
+      "hex": "e8d318faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d0ca",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d0cd",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x47d0ce",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x47d0cf",
+      "hex": "83c41c",
+      "text": "add     esp, 1Ch"
+    },
+    {
+      "ea": "0x47d0d2",
+      "hex": "c3",
+      "text": "retn"
+    },
+    {
+      "ea": "0x47d0d3",
+      "hex": "881de98dd201",
+      "text": "mov     IS_BATTLE_PAUSED, bl"
+    },
+    {
+      "ea": "0x47d0d9",
+      "hex": "a134f8cf01",
+      "text": "mov     eax, pause_game_battle"
+    },
+    {
+      "ea": "0x47d0de",
+      "hex": "3bc3",
+      "text": "cmp     eax, ebx"
+    },
+    {
+      "ea": "0x47d0e0",
+      "hex": "7405",
+      "text": "jz      short loc_47D0E7"
+    },
+    {
+      "ea": "0x47d0e2",
+      "hex": "e8b9320800",
+      "text": "call    battle_sub_5003A0"
+    },
+    {
+      "ea": "0x47d0e7",
+      "hex": "a144f8cf01",
+      "text": "mov     eax, is_sleeping"
+    },
+    {
+      "ea": "0x47d0ec",
+      "hex": "891d34f8cf01",
+      "text": "mov     pause_game_battle, ebx"
+    },
+    {
+      "ea": "0x47d0f2",
+      "hex": "3bc3",
+      "text": "cmp     eax, ebx"
+    },
+    {
+      "ea": "0x47d0f4",
+      "hex": "0f846dffffff",
+      "text": "jz      loc_47D067"
+    },
+    {
+      "ea": "0x47d0fa",
+      "hex": "899e880b0000",
+      "text": "mov     [esi+0B88h], ebx"
+    },
+    {
+      "ea": "0x47d100",
+      "hex": "e88be4fdff",
+      "text": "call    sub_45B590"
+    },
+    {
+      "ea": "0x47d105",
+      "hex": "e96cffffff",
+      "text": "jmp     loc_47D076"
+    },
+    {
+      "ea": "0x47d10a",
+      "hex": "a0e98dd201",
+      "text": "mov     al, IS_BATTLE_PAUSED"
+    },
+    {
+      "ea": "0x47d10f",
+      "hex": "3ac3",
+      "text": "cmp     al, bl"
+    },
+    {
+      "ea": "0x47d111",
+      "hex": "7505",
+      "text": "jnz     short loc_47D118"
+    },
+    {
+      "ea": "0x47d113",
+      "hex": "e898fbffff",
+      "text": "call    main__FFBattleDirector_battleLoop"
+    },
+    {
+      "ea": "0x47d118",
+      "hex": "66833de0bfcd0103",
+      "text": "cmp     mode_Battle_AnimationState, 3"
+    },
+    {
+      "ea": "0x47d120",
+      "hex": "752e",
+      "text": "jnz     short loc_47D150"
+    },
+    {
+      "ea": "0x47d122",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    },
+    {
+      "ea": "0x47d124",
+      "hex": "a0806ad901",
+      "text": "mov     al, byte ptr g_BattleFramePingPongIndex"
+    },
+    {
+      "ea": "0x47d129",
+      "hex": "8d0c40",
+      "text": "lea     ecx, [eax+eax*2]"
+    },
+    {
+      "ea": "0x47d12c",
+      "hex": "c1e103",
+      "text": "shl     ecx, 3"
+    },
+    {
+      "ea": "0x47d12f",
+      "hex": "2bc8",
+      "text": "sub     ecx, eax"
+    },
+    {
+      "ea": "0x47d131",
+      "hex": "8d148dc869d901",
+      "text": "lea     edx, ds:1D969C8h[ecx*4]"
+    },
+    {
+      "ea": "0x47d138",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x47d139",
+      "hex": "e8a2a50200",
+      "text": "call    BattleUI_SetHudDrawTarget"
+    },
+    {
+      "ea": "0x47d13e",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d141",
+      "hex": "e8eabc0200",
+      "text": "call    isBattle_HUDupdate"
+    },
+    {
+      "ea": "0x47d146",
+      "hex": "e895b30200",
+      "text": "call    BattleUI_HudInputAndATBTick"
+    },
+    {
+      "ea": "0x47d14b",
+      "hex": "e890a70200",
+      "text": "call    Battle_cursor_battle_win_and_pause_menu_render_related"
+    },
+    {
+      "ea": "0x47d150",
+      "hex": "391d30f8cf01",
+      "text": "cmp     exit_battle, ebx"
+    },
+    {
+      "ea": "0x47d156",
+      "hex": "7452",
+      "text": "jz      short loc_47D1AA"
+    },
+    {
+      "ea": "0x47d158",
+      "hex": "66833de0bfcd0104",
+      "text": "cmp     mode_Battle_AnimationState, 4"
+    },
+    {
+      "ea": "0x47d160",
+      "hex": "751a",
+      "text": "jnz     short loc_47D17C"
+    },
+    {
+      "ea": "0x47d162",
+      "hex": "c744241080224a00",
+      "text": "mov     [esp+24h+var_14], offset menu_init_sub_4A2280"
+    },
+    {
+      "ea": "0x47d16a",
+      "hex": "c7442414a0224a00",
+      "text": "mov     [esp+24h+var_10], offset menu_exit_sub_4A22A0"
+    },
+    {
+      "ea": "0x47d172",
+      "hex": "c744241890264a00",
+      "text": "mov     [esp+24h+var_C], offset main__BattleRewardMenu_MainLoop"
+    },
+    {
+      "ea": "0x47d17a",
+      "hex": "eb18",
+      "text": "jmp     short loc_47D194"
+    },
+    {
+      "ea": "0x47d17c",
+      "hex": "c744241090064700",
+      "text": "mov     [esp+24h+var_14], offset main_init_sub_470690"
+    },
+    {
+      "ea": "0x47d184",
+      "hex": "c7442414a0064700",
+      "text": "mov     [esp+24h+var_10], offset main_exit_sub_4706A0"
+    },
+    {
+      "ea": "0x47d18c",
+      "hex": "c7442418b0064700",
+      "text": "mov     [esp+24h+var_C], offset main__FFModuleHandler_main_loop"
+    },
+    {
+      "ea": "0x47d194",
+      "hex": "8d442408",
+      "text": "lea     eax, [esp+24h+var_1C]"
+    },
+    {
+      "ea": "0x47d198",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d199",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47d19a",
+      "hex": "895c2424",
+      "text": "mov     [esp+2Ch+var_8], ebx"
+    },
+    {
+      "ea": "0x47d19e",
+      "hex": "895c2428",
+      "text": "mov     [esp+2Ch+var_4], ebx"
+    },
+    {
+      "ea": "0x47d1a2",
+      "hex": "e8b0c8f8ff",
+      "text": "call    FFSwitchModule_set_game_loop"
+    },
+    {
+      "ea": "0x47d1a7",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x47d1aa",
+      "hex": "a0e98dd201",
+      "text": "mov     al, IS_BATTLE_PAUSED"
+    },
+    {
+      "ea": "0x47d1af",
+      "hex": "3ac3",
+      "text": "cmp     al, bl"
+    },
+    {
+      "ea": "0x47d1b1",
+      "hex": "7547",
+      "text": "jnz     short loc_47D1FA"
+    },
+    {
+      "ea": "0x47d1b3",
+      "hex": "a1f4f6cf01",
+      "text": "mov     eax, battle_swirl_dword_1CFF6F4"
+    },
+    {
+      "ea": "0x47d1b8",
+      "hex": "3bc3",
+      "text": "cmp     eax, ebx"
+    },
+    {
+      "ea": "0x47d1ba",
+      "hex": "7437",
+      "text": "jz      short loc_47D1F3"
+    },
+    {
+      "ea": "0x47d1bc",
+      "hex": "8b155076a701",
+      "text": "mov     edx, Render_Height"
+    },
+    {
+      "ea": "0x47d1c2",
+      "hex": "33c9",
+      "text": "xor     ecx, ecx"
+    },
+    {
+      "ea": "0x47d1c4",
+      "hex": "83f802",
+      "text": "cmp     eax, 2"
+    },
+    {
+      "ea": "0x47d1c7",
+      "hex": "a15476a701",
+      "text": "mov     eax, Render_width"
+    },
+    {
+      "ea": "0x47d1cc",
+      "hex": "0f94c1",
+      "text": "setz    cl"
+    },
+    {
+      "ea": "0x47d1cf",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x47d1d0",
+      "hex": "8b0d4876a701",
+      "text": "mov     ecx, Render_Y_Axis"
+    },
+    {
+      "ea": "0x47d1d6",
+      "hex": "68a69bc43a",
+      "text": "push    3AC49BA6h"
+    },
+    {
+      "ea": "0x47d1db",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x47d1dc",
+      "hex": "8b154c76a701",
+      "text": "mov     edx, Render_X_Axis"
+    },
+    {
+      "ea": "0x47d1e2",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47d1e3",
+      "hex": "51",
+      "text": "push    ecx"
+    },
+    {
+      "ea": "0x47d1e4",
+      "hex": "52",
+      "text": "push    edx"
+    },
+    {
+      "ea": "0x47d1e5",
+      "hex": "e8e6ff0e00",
+      "text": "call    start_battle_swirl_sub_56D1D0"
+    },
+    {
+      "ea": "0x47d1ea",
+      "hex": "83c418",
+      "text": "add     esp, 18h"
+    },
+    {
+      "ea": "0x47d1ed",
+      "hex": "891df4f6cf01",
+      "text": "mov     battle_swirl_dword_1CFF6F4, ebx"
+    },
+    {
+      "ea": "0x47d1f3",
+      "hex": "e888e80e00",
+      "text": "call    nullsub_35"
+    },
+    {
+      "ea": "0x47d1f8",
+      "hex": "eb0a",
+      "text": "jmp     short loc_47D204"
+    },
+    {
+      "ea": "0x47d1fa",
+      "hex": "6aff",
+      "text": "push    0FFFFFFFFh"
+    },
+    {
+      "ea": "0x47d1fc",
+      "hex": "e80f04feff",
+      "text": "call    Gpu_DrawOTagCurrent"
+    },
+    {
+      "ea": "0x47d201",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d204",
+      "hex": "391d34f8cf01",
+      "text": "cmp     pause_game_battle, ebx"
+    },
+    {
+      "ea": "0x47d20a",
+      "hex": "7407",
+      "text": "jz      short loc_47D213"
+    },
+    {
+      "ea": "0x47d20c",
+      "hex": "c605e98dd20101",
+      "text": "mov     IS_BATTLE_PAUSED, 1"
+    },
+    {
+      "ea": "0x47d213",
+      "hex": "391d44f8cf01",
+      "text": "cmp     is_sleeping, ebx"
+    },
+    {
+      "ea": "0x47d219",
+      "hex": "751a",
+      "text": "jnz     short loc_47D235"
+    },
+    {
+      "ea": "0x47d21b",
+      "hex": "e8a0ae0100",
+      "text": "call    Gfx_SubmitDisplayLists"
+    },
+    {
+      "ea": "0x47d220",
+      "hex": "e80b87feff",
+      "text": "call    Gfx_SubmitTexturePageLists"
+    },
+    {
+      "ea": "0x47d225",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d226",
+      "hex": "6a01",
+      "text": "push    1"
+    },
+    {
+      "ea": "0x47d228",
+      "hex": "e81a17faff",
+      "text": "call    GfxDriver_SelectRenderTarget"
+    },
+    {
+      "ea": "0x47d22d",
+      "hex": "83c408",
+      "text": "add     esp, 8"
+    },
+    {
+      "ea": "0x47d230",
+      "hex": "e86bcc0100",
+      "text": "call    Gfx_SubmitViewportLists"
+    },
+    {
+      "ea": "0x47d235",
+      "hex": "e816e2fdff",
+      "text": "call    common_set_dword_1B477F4_to_zero_sub_45B450"
+    },
+    {
+      "ea": "0x47d23a",
+      "hex": "56",
+      "text": "push    esi"
+    },
+    {
+      "ea": "0x47d23b",
+      "hex": "e85d17faff",
+      "text": "call    GfxDriver_LeaveScene"
+    },
+    {
+      "ea": "0x47d240",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d243",
+      "hex": "e878070f00",
+      "text": "call    reset_dword_209CEEC_input_related_sub_56D9C0"
+    },
+    {
+      "ea": "0x47d248",
+      "hex": "a170d9b600",
+      "text": "mov     eax, movie_dword_B6D970"
+    },
+    {
+      "ea": "0x47d24d",
+      "hex": "3bc3",
+      "text": "cmp     eax, ebx"
+    },
+    {
+      "ea": "0x47d24f",
+      "hex": "7414",
+      "text": "jz      short loc_47D265"
+    },
+    {
+      "ea": "0x47d251",
+      "hex": "391d34f8cf01",
+      "text": "cmp     pause_game_battle, ebx"
+    },
+    {
+      "ea": "0x47d257",
+      "hex": "750c",
+      "text": "jnz     short loc_47D265"
+    },
+    {
+      "ea": "0x47d259",
+      "hex": "e8924ef8ff",
+      "text": "call    UpdateRateRelated"
+    },
+    {
+      "ea": "0x47d25e",
+      "hex": "a344f8cf01",
+      "text": "mov     is_sleeping, eax"
+    },
+    {
+      "ea": "0x47d263",
+      "hex": "eb06",
+      "text": "jmp     short loc_47D26B"
+    },
+    {
+      "ea": "0x47d265",
+      "hex": "891d44f8cf01",
+      "text": "mov     is_sleeping, ebx"
+    },
+    {
+      "ea": "0x47d26b",
+      "hex": "dd05e08ba701",
+      "text": "fld     timer_volume_change_related_dbl_1A788B8"
+    },
+    {
+      "ea": "0x47d271",
+      "hex": "e81adb0d00",
+      "text": "call    __ftol"
+    },
+    {
+      "ea": "0x47d276",
+      "hex": "50",
+      "text": "push    eax"
+    },
+    {
+      "ea": "0x47d277",
+      "hex": "e894eafeff",
+      "text": "call    music_sfx_volume_changes_loop_sub_46BB10"
+    },
+    {
+      "ea": "0x47d27c",
+      "hex": "83c404",
+      "text": "add     esp, 4"
+    },
+    {
+      "ea": "0x47d27f",
+      "hex": "5e",
+      "text": "pop     esi"
+    },
+    {
+      "ea": "0x47d280",
+      "hex": "5b",
+      "text": "pop     ebx"
+    },
+    {
+      "ea": "0x47d281",
+      "hex": "83c41c",
+      "text": "add     esp, 1Ch"
+    },
+    {
+      "ea": "0x47d284",
+      "hex": "c3",
+      "text": "retn"
+    }
+  ],
+  "callees": [
+    {
+      "site": "0x47cf7f",
+      "operand": "SetResolution",
+      "operand_type": 7,
+      "operand_value": "0x45b4c0",
+      "code_targets": [
+        "0x45b4c0"
+      ]
+    },
+    {
+      "site": "0x47cfad",
+      "operand": "isGetDrawBuf",
+      "operand_type": 7,
+      "operand_value": "0x41e168",
+      "code_targets": [
+        "0x41e168"
+      ]
+    },
+    {
+      "site": "0x47cfb9",
+      "operand": "isGetDrawBuf2",
+      "operand_type": 7,
+      "operand_value": "0x41dfba",
+      "code_targets": [
+        "0x41dfba"
+      ]
+    },
+    {
+      "site": "0x47cfe6",
+      "operand": "SetResolution",
+      "operand_type": 7,
+      "operand_value": "0x45b4c0",
+      "code_targets": [
+        "0x45b4c0"
+      ]
+    },
+    {
+      "site": "0x47cff0",
+      "operand": "GfxDriver_BeginScene",
+      "operand_type": 7,
+      "operand_value": "0x41e972",
+      "code_targets": [
+        "0x41e972"
+      ]
+    },
+    {
+      "site": "0x47d007",
+      "operand": "sub_416B9A",
+      "operand_type": 7,
+      "operand_value": "0x416b9a",
+      "code_targets": [
+        "0x416b9a"
+      ]
+    },
+    {
+      "site": "0x47d012",
+      "operand": "sub_424BF9",
+      "operand_type": 7,
+      "operand_value": "0x424bf9",
+      "code_targets": [
+        "0x424bf9"
+      ]
+    },
+    {
+      "site": "0x47d017",
+      "operand": "Gfx_CopyRenderTuningDefaults",
+      "operand_type": 7,
+      "operand_value": "0x49b120",
+      "code_targets": [
+        "0x49b120"
+      ]
+    },
+    {
+      "site": "0x47d01c",
+      "operand": "sub_499A40",
+      "operand_type": 7,
+      "operand_value": "0x499a40",
+      "code_targets": [
+        "0x499a40"
+      ]
+    },
+    {
+      "site": "0x47d022",
+      "operand": "Render_ESI_A60h_unused",
+      "operand_type": 7,
+      "operand_value": "0x43fbe8",
+      "code_targets": [
+        "0x43fbe8"
+      ]
+    },
+    {
+      "site": "0x47d028",
+      "operand": "render_ESIA78h",
+      "operand_type": 7,
+      "operand_value": "0x409b42",
+      "code_targets": [
+        "0x409b42"
+      ]
+    },
+    {
+      "site": "0x47d02e",
+      "operand": "render_ESI348",
+      "operand_type": 7,
+      "operand_value": "0x409b08",
+      "code_targets": [
+        "0x409b08"
+      ]
+    },
+    {
+      "site": "0x47d034",
+      "operand": "sub_409B25",
+      "operand_type": 7,
+      "operand_value": "0x409b25",
+      "code_targets": [
+        "0x409b25"
+      ]
+    },
+    {
+      "site": "0x47d03c",
+      "operand": "___setargv_2",
+      "operand_type": 7,
+      "operand_value": "0x56ba40",
+      "code_targets": [
+        "0x56ba40"
+      ]
+    },
+    {
+      "site": "0x47d04e",
+      "operand": "battle_pause_related_sub_4A71D0",
+      "operand_type": 7,
+      "operand_value": "0x4a71d0",
+      "code_targets": [
+        "0x4a71d0"
+      ]
+    },
+    {
+      "site": "0x47d071",
+      "operand": "Gpu_EnableOTagHostPass",
+      "operand_type": 7,
+      "operand_value": "0x45b580",
+      "code_targets": [
+        "0x45b580"
+      ]
+    },
+    {
+      "site": "0x47d076",
+      "operand": "GameTime_Tick2191_SG",
+      "operand_type": 7,
+      "operand_value": "0x4701b0",
+      "code_targets": [
+        "0x4701b0"
+      ]
+    },
+    {
+      "site": "0x47d07b",
+      "operand": "GameTime_Tick2191_SG",
+      "operand_type": 7,
+      "operand_value": "0x4701b0",
+      "code_targets": [
+        "0x4701b0"
+      ]
+    },
+    {
+      "site": "0x47d080",
+      "operand": "GameTime_Tick2191_SG",
+      "operand_type": 7,
+      "operand_value": "0x4701b0",
+      "code_targets": [
+        "0x4701b0"
+      ]
+    },
+    {
+      "site": "0x47d085",
+      "operand": "GameTime_Tick2191_SG",
+      "operand_type": 7,
+      "operand_value": "0x4701b0",
+      "code_targets": [
+        "0x4701b0"
+      ]
+    },
+    {
+      "site": "0x47d095",
+      "operand": "BattleUI_SetHudDrawTarget",
+      "operand_type": 7,
+      "operand_value": "0x4a76e0",
+      "code_targets": [
+        "0x4a76e0"
+      ]
+    },
+    {
+      "site": "0x47d09d",
+      "operand": "isBattle_HUDupdate",
+      "operand_type": 7,
+      "operand_value": "0x4a8e30",
+      "code_targets": [
+        "0x4a8e30"
+      ]
+    },
+    {
+      "site": "0x47d0a2",
+      "operand": "BattleUI_HudInputAndATBTick",
+      "operand_type": 7,
+      "operand_value": "0x4a84e0",
+      "code_targets": [
+        "0x4a84e0"
+      ]
+    },
+    {
+      "site": "0x47d0a7",
+      "operand": "isBattle_HUDupdate",
+      "operand_type": 7,
+      "operand_value": "0x4a8e30",
+      "code_targets": [
+        "0x4a8e30"
+      ]
+    },
+    {
+      "site": "0x47d0ac",
+      "operand": "BattleUI_HudInputAndATBTick",
+      "operand_type": 7,
+      "operand_value": "0x4a84e0",
+      "code_targets": [
+        "0x4a84e0"
+      ]
+    },
+    {
+      "site": "0x47d0b1",
+      "operand": "isBattle_HUDupdate",
+      "operand_type": 7,
+      "operand_value": "0x4a8e30",
+      "code_targets": [
+        "0x4a8e30"
+      ]
+    },
+    {
+      "site": "0x47d0b6",
+      "operand": "BattleUI_HudInputAndATBTick",
+      "operand_type": 7,
+      "operand_value": "0x4a84e0",
+      "code_targets": [
+        "0x4a84e0"
+      ]
+    },
+    {
+      "site": "0x47d0bb",
+      "operand": "IsWindowNOTActive",
+      "operand_type": 7,
+      "operand_value": "0x45b2e0",
+      "code_targets": [
+        "0x45b2e0"
+      ]
+    },
+    {
+      "site": "0x47d0c5",
+      "operand": "GfxDriver_LeaveScene",
+      "operand_type": 7,
+      "operand_value": "0x41e99d",
+      "code_targets": [
+        "0x41e99d"
+      ]
+    },
+    {
+      "site": "0x47d0e2",
+      "operand": "battle_sub_5003A0",
+      "operand_type": 7,
+      "operand_value": "0x5003a0",
+      "code_targets": [
+        "0x5003a0"
+      ]
+    },
+    {
+      "site": "0x47d100",
+      "operand": "sub_45B590",
+      "operand_type": 7,
+      "operand_value": "0x45b590",
+      "code_targets": [
+        "0x45b590"
+      ]
+    },
+    {
+      "site": "0x47d113",
+      "operand": "main__FFBattleDirector_battleLoop",
+      "operand_type": 7,
+      "operand_value": "0x47ccb0",
+      "code_targets": [
+        "0x47ccb0"
+      ]
+    },
+    {
+      "site": "0x47d139",
+      "operand": "BattleUI_SetHudDrawTarget",
+      "operand_type": 7,
+      "operand_value": "0x4a76e0",
+      "code_targets": [
+        "0x4a76e0"
+      ]
+    },
+    {
+      "site": "0x47d141",
+      "operand": "isBattle_HUDupdate",
+      "operand_type": 7,
+      "operand_value": "0x4a8e30",
+      "code_targets": [
+        "0x4a8e30"
+      ]
+    },
+    {
+      "site": "0x47d146",
+      "operand": "BattleUI_HudInputAndATBTick",
+      "operand_type": 7,
+      "operand_value": "0x4a84e0",
+      "code_targets": [
+        "0x4a84e0"
+      ]
+    },
+    {
+      "site": "0x47d14b",
+      "operand": "Battle_cursor_battle_win_and_pause_menu_render_related",
+      "operand_type": 7,
+      "operand_value": "0x4a78e0",
+      "code_targets": [
+        "0x4a78e0"
+      ]
+    },
+    {
+      "site": "0x47d1a2",
+      "operand": "FFSwitchModule_set_game_loop",
+      "operand_type": 7,
+      "operand_value": "0x409a57",
+      "code_targets": [
+        "0x409a57"
+      ]
+    },
+    {
+      "site": "0x47d1e5",
+      "operand": "start_battle_swirl_sub_56D1D0",
+      "operand_type": 7,
+      "operand_value": "0x56d1d0",
+      "code_targets": [
+        "0x56d1d0"
+      ]
+    },
+    {
+      "site": "0x47d1f3",
+      "operand": "nullsub_35",
+      "operand_type": 7,
+      "operand_value": "0x56ba80",
+      "code_targets": [
+        "0x56ba80"
+      ]
+    },
+    {
+      "site": "0x47d1fc",
+      "operand": "Gpu_DrawOTagCurrent",
+      "operand_type": 7,
+      "operand_value": "0x45d610",
+      "code_targets": [
+        "0x45d610"
+      ]
+    },
+    {
+      "site": "0x47d21b",
+      "operand": "Gfx_SubmitDisplayLists",
+      "operand_type": 7,
+      "operand_value": "0x4980c0",
+      "code_targets": [
+        "0x4980c0"
+      ]
+    },
+    {
+      "site": "0x47d220",
+      "operand": "Gfx_SubmitTexturePageLists",
+      "operand_type": 7,
+      "operand_value": "0x465930",
+      "code_targets": [
+        "0x465930"
+      ]
+    },
+    {
+      "site": "0x47d228",
+      "operand": "GfxDriver_SelectRenderTarget",
+      "operand_type": 7,
+      "operand_value": "0x41e947",
+      "code_targets": [
+        "0x41e947"
+      ]
+    },
+    {
+      "site": "0x47d230",
+      "operand": "Gfx_SubmitViewportLists",
+      "operand_type": 7,
+      "operand_value": "0x499ea0",
+      "code_targets": [
+        "0x499ea0"
+      ]
+    },
+    {
+      "site": "0x47d235",
+      "operand": "common_set_dword_1B477F4_to_zero_sub_45B450",
+      "operand_type": 7,
+      "operand_value": "0x45b450",
+      "code_targets": [
+        "0x45b450"
+      ]
+    },
+    {
+      "site": "0x47d23b",
+      "operand": "GfxDriver_LeaveScene",
+      "operand_type": 7,
+      "operand_value": "0x41e99d",
+      "code_targets": [
+        "0x41e99d"
+      ]
+    },
+    {
+      "site": "0x47d243",
+      "operand": "reset_dword_209CEEC_input_related_sub_56D9C0",
+      "operand_type": 7,
+      "operand_value": "0x56d9c0",
+      "code_targets": [
+        "0x56d9c0"
+      ]
+    },
+    {
+      "site": "0x47d259",
+      "operand": "UpdateRateRelated",
+      "operand_type": 7,
+      "operand_value": "0x4020f0",
+      "code_targets": [
+        "0x4020f0"
+      ]
+    },
+    {
+      "site": "0x47d271",
+      "operand": "__ftol",
+      "operand_type": 7,
+      "operand_value": "0x55ad90",
+      "code_targets": [
+        "0x55ad90"
+      ]
+    },
+    {
+      "site": "0x47d277",
+      "operand": "music_sfx_volume_changes_loop_sub_46BB10",
+      "operand_type": 7,
+      "operand_value": "0x46bd10",
+      "code_targets": [
+        "0x46bd10"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4709ec",
+      "type": 1,
+      "code": false,
+      "function": "0x4706b0"
+    },
+    {
+      "from": "0x5598dd",
+      "type": 1,
+      "code": false,
+      "function": "0x559890"
+    }
+  ],
+  "existing_today_tag": false
+}

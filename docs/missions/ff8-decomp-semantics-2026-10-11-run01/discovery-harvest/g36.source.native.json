@@ -1,0 +1,1375 @@
+{
+  "at_utc": "2026-10-11T17:14:59.583Z",
+  "session": {
+    "id": "ses_ed41f6854ffemmPxPCa1inVFne",
+    "parentID": "ses_ed449e6bdffd3H481rC1IU4olB",
+    "projectID": "68ae5f2640259377289ea9521632cd4a94698438",
+    "agent": "explore",
+    "model": {
+      "id": "glm-5.3-flash",
+      "providerID": "zai-coding-plan",
+      "variant": "max"
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 26132,
+      "output": 5527,
+      "reasoning": 4684,
+      "cache": {
+        "read": 204992,
+        "write": 0
+      }
+    },
+    "outcome": "succeeded",
+    "time": {
+      "created": 1791737501983,
+      "updated": 1791738395705,
+      "idle": 1791738395714
+    },
+    "title": "discover-g36 (@explore teammate)",
+    "metadata": {
+      "ensemble.permissions": [
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "team_message",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_broadcast",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_list",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_add",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_complete",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_claim",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_results",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_status",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_view",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_handoff",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "execute",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "action": "edit",
+        "resource": "*",
+        "effect": "deny"
+      },
+      {
+        "action": "shell",
+        "resource": "*",
+        "effect": "deny"
+      },
+      {
+        "action": "team_message",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_broadcast",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_list",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_add",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_complete",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_claim",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_results",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_status",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_view",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_handoff",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "execute",
+        "resource": "*",
+        "effect": "allow"
+      }
+    ],
+    "location": {
+      "directory": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+    }
+  },
+  "messages": {
+    "data": [
+      {
+        "id": "msg_12be099280018SUiKGXGp6gYD7",
+        "time": {
+          "created": 1791737501992
+        },
+        "type": "agent-switched",
+        "agent": "explore"
+      },
+      {
+        "id": "msg_12be0992d001mclLbdFXWliTSR",
+        "time": {
+          "created": 1791737501997
+        },
+        "type": "model-switched",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        }
+      },
+      {
+        "id": "msg_12be09932001MhzG2YSQRd5JAY",
+        "time": {
+          "created": 1791737502065
+        },
+        "text": "You are \"discover-g36\", a teammate in team \"ff8-decomp-semantics-20261011-r01\".\nYour agent type is \"explore\".\nOther teammates: discover-g11-zai, discover-g05, discover-g24, discover-g01, discover-g03, discover-g04, discover-g06, discover-g07, discover-g08, discover-g09, discover-g10, discover-g12, discover-g13, discover-g14, discover-g15, discover-g16, discover-g17, discover-g18, discover-g19, discover-g20, discover-g21, discover-g22, discover-g23, discover-g25, discover-g26, discover-g27, discover-g28, discover-g29, discover-g30, discover-g31, discover-g32, discover-g33, discover-g34, discover-g35, discover-g02\n\nTools available to you:\n- team_message: send a message to the lead or another teammate\n- team_broadcast: send a message to all team members\n- team_tasks_list: view the shared team task board\n\nCollaboration:\n- Check team_tasks_list to see what other teammates are working on.\n- If you need information another teammate has, message them directly via team_message.\n- If you discover something relevant to another teammate's task, share it with them.\n- Use team_broadcast for updates that affect the whole team.\n- Keep peer messages focused and actionable — coordinate, don't chat.\n\nWhen you finish your task:\nUse team_handoff to change your own agent in this same session when needed. Use team_results, team_status and team_view for inspection.\n1. Send ONE message to the lead using team_message with this format:\n<task-result>\n<status>completed or failed</status>\n<summary>One-line summary of what you did</summary>\n<details>Full findings or changes made</details>\n</task-result>\n2. STOP. Do not send follow-up confirmations, status updates, or 'standing by' messages.\n\nIf you are blocked:\n- Send ONE message to the lead via team_message describing the specific blocker.\n- Do NOT attempt workarounds or make assumptions. Wait for the lead's response.\n\nYour plain text output is NOT visible to the team. You MUST use team_message to communicate.\n\nYour task:\nRead-only factual discovery g36 for mission run01. Claim task_mv424nx5_0011_vccpmd if pending. Read docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and native-groups.json for owned EAs; primary evidence .tmp/ff8-decomp-semantics-20261011-r01/native/<EA>.json. Maximize validated surrounding docs/code/ABI/globals/structures/xrefs facts, with path:line and instruction provenance. GrepAI first for code, QMD CLI for knowledge, common root retro-eng. Native labels are not evidence of purpose. Do not reconstruct target C or give semantic verdict; separate historical unvalidated conclusions. No edits/IDB/Git/ledger/live/delegation. Return ONE team_message COMMON_COMPACTION reusable factual synthesis, uncertainties, source inventory. Preserve context for independent producer forks; STOP after report.",
+        "type": "user"
+      },
+      {
+        "id": "msg_12be09978001KlMuik3HE1jtls",
+        "time": {
+          "created": 1791737547011,
+          "streamed": 1791737555210,
+          "completed": 1791737563967
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Let me start by understanding my task. I'm discover-g36 in a team working on FF8 decompilation semantics. I need to:\n\n1. Claim task_mv424nx5_0011_vccpmd if pending\n2. Read docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and native-groups.json for owned EAs\n3. Primary evidence in .tmp/ff8-decomp-semantics-20261011-r01/native/<EA>.json\n4. Maximize validated surrounding docs/code/ABI/globals/structures/xrefs facts with path:line and instruction provenance\n5. Return ONE team_message COMMON_COMPACTION\n\nLet me start by claiming the task and reading the contract files.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737555134,
+              "completed": 1791737555192
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_563a92ff47264393aa5a957a",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "const claim = await tools.team_claim({ task_id: \"task_mv424nx5_0011_vccpmd\" });\nreturn claim;"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Claimed task: DISCOVERY g36: 0x6F29D0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01."
+                }
+              ],
+              "metadata": {
+                "toolCalls": [
+                  {
+                    "tool": "team_claim",
+                    "status": "completed",
+                    "input": {
+                      "task_id": "task_mv424nx5_0011_vccpmd"
+                    }
+                  }
+                ],
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737555176,
+              "ran": 1791737555204,
+              "completed": 1791737555244
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 775,
+          "output": 40,
+          "reasoning": 160,
+          "cache": {
+            "read": 8896,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be18b52001s762nvzYoZtrMg",
+        "time": {
+          "created": 1791737601562,
+          "streamed": 1791737609538,
+          "completed": 1791737617567
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Task claimed. My EA is 0x6F29D0. Now let me read the CONTRACT.md and native-groups.json, plus the native packet for 0x6F29D0.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737609401,
+              "completed": 1791737609508
+            }
+          },
+          {
+            "type": "text",
+            "text": "Task claimed. My EA is **0x6F29D0**. Now reading the contract, groups file, and my native packet in parallel."
+          },
+          {
+            "type": "tool",
+            "id": "call_5c7a4c08ef7b4300a53d1e6a",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "const [contract, groups, packet] = await Promise.all([\n  tools.qmd.qmd_1mcp_multi_get({ pattern: \"docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md\", maxLines: 400 }),\n  tools.qmd.qmd_1mcp_multi_get({ pattern: \"docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json\", maxLines: 400 }),\n  tools.qmd.qmd_1mcp_multi_get({ pattern: \".tmp/ff8-decomp-semantics-20261011-r01/native/6F29D0.json\", maxLines: 2000 })\n]);\nreturn { contract, groups, packet };"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "MCP tool \"qmd_1mcp_multi_get\" on server \"qmd\" failed: Error calling tool"
+                }
+              ],
+              "metadata": {
+                "toolCalls": [
+                  {
+                    "tool": "qmd.qmd_1mcp_multi_get",
+                    "status": "error",
+                    "input": {
+                      "pattern": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md",
+                      "maxLines": 400
+                    }
+                  },
+                  {
+                    "tool": "qmd.qmd_1mcp_multi_get",
+                    "status": "error",
+                    "input": {
+                      "pattern": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json",
+                      "maxLines": 400
+                    }
+                  },
+                  {
+                    "tool": "qmd.qmd_1mcp_multi_get",
+                    "status": "error",
+                    "input": {
+                      "pattern": ".tmp/ff8-decomp-semantics-20261011-r01/native/6F29D0.json",
+                      "maxLines": 2000
+                    }
+                  }
+                ],
+                "error": true,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737609430,
+              "ran": 1791737609523,
+              "completed": 1791737609623
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "end": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 261,
+          "output": 201,
+          "reasoning": 41,
+          "cache": {
+            "read": 9664,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be25cb0001YjVCmDChOpOQzf",
+        "time": {
+          "created": 1791737638954,
+          "streamed": 1791737648018,
+          "completed": 1791737654797
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "The qmd multi_get failed. Let me use the native read tool instead.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737647946,
+              "completed": 1791737647988
+            }
+          },
+          {
+            "type": "text",
+            "text": "QMD failed; falling back to direct reads."
+          },
+          {
+            "type": "tool",
+            "id": "call_8400318d3a584175aadc3816",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\CONTRACT.md"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\CONTRACT.md, lines 1-41\n1: # FF8 decomp/semantics — run01\n2: \n3: GO utilisateur reçu le 2026-10-11 dans la session superviseur.\n4: \n5: ## Périmètre et autorité\n6: \n7: - 98 EA du brief `../ff8-decomp-semantics-2026-10-11.md`, sections 1–2 uniquement.\n8: - Extension de 151 EA exclue ; aucun live. Historique DRAINED / STOP_DISPATCH inchangé.\n9: - Nouvelle équipe `ff8-decomp-semantics-20261011-r01`, nouveaux IDs et ledger append-only `ledger.jsonl`.\n10: - Aucun plafond de coût ou concurrence utilisateur ; maximiser les admissions utiles, sans doublon ni saut de dépendance. Saturation attestée : route temporairement indisponible, cause/Retry-After/cooldown tracés ; autres routes maintenues.\n11: - Superviseur seul : ledger, classification, validation ASM §5.6, IDB/save/readback et Git sérialisés. Workers : pas de mutation IDB/Git/registre/live, pas de délégation.\n12: - Travail utilisateur préexistant préservé ; aucun commit global opportuniste.\n13: \n14: ## Contexte et classification obligatoires\n15: \n16: 1. Export natif factuel, regroupement par graphe d'appels IDA ; chaque EA appartient à un groupe unique.\n17: 2. Explorateur lecteur par groupe, contexte de découverte sans reconstruction/verdict cible.\n18: 3. Une compaction factuelle commune gelée/versionnée/hashée par groupe.\n19: 4. Pour chaque EA : `classify_x86` reçoit son ASM complet et cette compaction commune. Archiver le payload exact avant appel et la réponse native complète à réception, sans enrichissement a posteriori. Exception utilisateur explicite après GO : entrée dépassant les limites de Classify → évaluation par `openai/gpt-6-luna-fast`, variante `medium`, même ASM complet + compaction, prompt/scoring/réponse exacts archivés avec `classifier_kind=luna_oversize` ; ne jamais présenter cette évaluation comme une sortie native Classify. Aucun tronquage. Autres erreurs ou capture manquante : bloquer cette EA, continuer les autres.\n20: 5. Productions C et sémantique en parallèle, forks indépendants depuis la même session explorateur gelée, explicitement autorisés par l'utilisateur. Pas d'héritage des productions des frères ni du lead. Slots recyclables, auteurs C nouveaux par fonction/production.\n21: 6. Réconciliation distincte après dépôt A+B ; contrôle final croisé C/sémantique par le superviseur.\n22: \n23: ## Routage initial conservateur v1\n24: \n25: Les seuils sont des décisions opérationnelles du superviseur après GO, non une calibration démontrée.\n26: \n27: - Simple : complexité ≤25, risque ≤20, ≤80 instructions natives ; aucune ambiguïté ABI/arithmétique, contrôle indirect non résolu, contexte incomplet ou contradiction. Un auteur par volet + validation parent. Tout obstacle entraîne 2+1.\n28: - Moyen : hors simple, complexité ≤65 et risque ≤50, sans trigger structurel majeur ; 2+1 par volet.\n29: - Complexe/haut risque : autres cas, >200 instructions, contrôle indirect non résolu ou conflit ; 2+1 par volet.\n30: - Classification obligatoire et consultative : ne dispense jamais des contrôles natifs ; motifs de surclassement tracés.\n31: - Catalogue partagé `C:/Users/djden/.config/opencode/ensemble.json`, snapshot exact local sans override global. Modèles/variantes découverts, `Model.Ref` effectif vérifié à chaque création. Écarts de variantes bloqués ou mapping explicite tracé, jamais default silencieux.\n32: - Lecture : route gratuite vérifiée si suffisante, sinon Luna medium/GLM high. C simple : MiMo Flash/Luna ; C moyen : GLM max et Luna medium indépendants ; C complexe : Astra high et Opus high indépendants. Sémantique : Sol medium/high selon risque, seconde production indépendante si 2+1 ; R high, escalade motivée possible. Alternatives du catalogue admissibles selon disponibilité et risque, justification obligatoire.\n33: - Refus/auth/entrée/erreur C ne sont pas assimilés à saturation. Reprise événementielle bornée ; aucune boucle de polling ni action d'alimentation/service/configuration globale.\n34: - Instruction utilisateur après GO : `0x487DF0` (2447 instructions, ASM natif 140198 caractères) → sessions GLM 5.3 Flash dédiées, `zai-coding-plan/glm-5.3-flash`, `max`, 2+1 par volet. L'annonce utilisateur de contexte 1M n'est pas une mesure de capacité effective ; vérifier admission et couverture complète, sans réduire le gel. Le routage Luna oversize concerne l'évaluation, pas cette production.\n35: - Steering exploration : privilégier intelligence déclarée moyenne ou supérieure ; GLM Flash max (42) et Sol medium/high (48) pour les nouvelles découvertes. Luna medium (30) n'est plus une route privilégiée de découverte ; contrôler la compaction g02 déjà produite contre le gel natif. Luna Fast medium reste autorisé pour l'évaluation oversize. MiMo Console et OpenCode Go sont des accès distincts ; le 403 de la seule tentative `opencode/mimo-v2.6-flash-free` n'est ni une saturation ni une preuve d'indisponibilité générale de Console.\n36: \n37: ## Activation et clôture\n38: \n39: Vérifier accès IDA, 98 EA uniques, extension 151 distinctes et disjointe, catalogue, communication, Model.Ref, capture Classify et fork avant élargissement aux producteurs. Un blocage de production n'interdit pas une découverte indépendante utile.\n40: \n41: Clôture par EA seulement après couverture native complète, preuves C/sémantiques, §5.6 et traces de validation ; défaut non résolu reste UNCERTAIN/CONFLICT, jamais promotion sur prose seule."
+                }
+              ],
+              "metadata": {
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737647961,
+              "ran": 1791737647996,
+              "completed": 1791737648038
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_e3b4285904094841b1209a2f",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "error",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\6F29D0.json"
+              },
+              "error": {
+                "type": "tool.execution",
+                "message": "File not found: C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\6F29D0.json\n\nDid you mean one of these?\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x6F29D0.json"
+              }
+            },
+            "time": {
+              "created": 1791737647973,
+              "ran": 1791737648004,
+              "completed": 1791737648029
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "end": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 275,
+          "output": 115,
+          "reasoning": 16,
+          "cache": {
+            "read": 9920,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be2ee24001KVrrv1YZyVUNjd",
+        "time": {
+          "created": 1791737663951,
+          "streamed": 1791737671884,
+          "completed": 1791737678402
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "The packet file is `0x6F29D0.json` (with `0x` prefix). Let me read it.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737671795,
+              "completed": 1791737671870
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_d370726d0d654da7af45977c",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x6F29D0.json"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x6F29D0.json, lines 1-102\n1: {\n2:   \"ea\": \"0x6F29D0\",\n3:   \"name_label_only\": \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\",\n4:   \"native\": {\n5:     \"idb\": \"D:\\\\Modding\\\\ff8\\\\retro-exe\\\\FF8_EN.exe - 9.3.i64\",\n6:     \"input\": \"C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\FINAL FANTASY VIII\\\\FF8_EN.exe\",\n7:     \"bits\": 32,\n8:     \"input_sha256\": \"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\",\n9:     \"exported_utc\": \"2026-10-11T16:38:25.140966+00:00\"\n10:   },\n11:   \"chunks\": [\n12:     {\n13:       \"start\": \"0x6f29d0\",\n14:       \"end\": \"0x6f2a30\",\n15:       \"hex\": \"8b54241033c08bca560fbf74240c890189410489410889410c8941108b44240825ff0f00008d0c85b87b3b010fbf0485b87b3b010fbf49020fafc60fafce668b742410c1f80c6689420c66897208c1f90cf7d866890a6689420466894a105ec3\"\n16:     }\n17:   ],\n18:   \"assembly\": \"006F29D0: mov     edx, [esp+arg_C]\\n006F29D4: xor     eax, eax; Logical Exclusive OR\\n006F29D6: mov     ecx, edx\\n006F29D8: push    esi\\n006F29D9: movsx   esi, [esp+4+arg_4]; Move with Sign-Extend\\n006F29DE: mov     [ecx], eax\\n006F29E0: mov     [ecx+4], eax\\n006F29E3: mov     [ecx+8], eax\\n006F29E6: mov     [ecx+0Ch], eax\\n006F29E9: mov     [ecx+10h], eax\\n006F29EC: mov     eax, dword ptr [esp+4+arg_0]\\n006F29F0: and     eax, 0FFFh; Logical AND\\n006F29F5: lea     ecx, ds:13B7BB8h[eax*4]; Load Effective Address\\n006F29FC: movsx   eax, word_13B7BB8[eax*4]; Move with Sign-Extend\\n006F2A04: movsx   ecx, word ptr [ecx+2]; Move with Sign-Extend\\n006F2A08: imul    eax, esi; Signed Multiply\\n006F2A0B: imul    ecx, esi; Signed Multiply\\n006F2A0E: mov     si, [esp+4+arg_8]\\n006F2A13: sar     eax, 0Ch; Shift Arithmetic Right\\n006F2A16: mov     [edx+0Ch], ax\\n006F2A1A: mov     [edx+8], si\\n006F2A1E: sar     ecx, 0Ch; Shift Arithmetic Right\\n006F2A21: neg     eax; Two's Complement Negation\\n006F2A23: mov     [edx], cx\\n006F2A26: mov     [edx+4], ax\\n006F2A2A: mov     [edx+10h], cx\\n006F2A2E: pop     esi\\n006F2A2F: retn; Return Near from Procedure\",\n19:   \"cfg\": [\n20:     {\n21:       \"start\": \"0x6f29d0\",\n22:       \"end\": \"0x6f2a30\",\n23:       \"successors\": []\n24:     }\n25:   ],\n26:   \"xrefs_to\": [\n27:     {\n28:       \"from\": \"0x6edd68\",\n29:       \"type\": 17,\n30:       \"iscode\": true,\n31:       \"function\": \"0x6ed900\"\n32:     },\n33:     {\n34:       \"from\": \"0x6edeaf\",\n35:       \"type\": 17,\n36:       \"iscode\": true,\n37:       \"function\": \"0x6ed900\"\n38:     },\n39:     {\n40:       \"from\": \"0x6edf3f\",\n41:       \"type\": 17,\n42:       \"iscode\": true,\n43:       \"function\": \"0x6ed900\"\n44:     },\n45:     {\n46:       \"from\": \"0x6ee0fa\",\n47:       \"type\": 17,\n48:       \"iscode\": true,\n49:       \"function\": \"0x6ed900\"\n50:     },\n51:     {\n52:       \"from\": \"0x6ee3ad\",\n53:       \"type\": 17,\n54:       \"iscode\": true,\n55:       \"function\": \"0x6ed900\"\n56:     },\n57:     {\n58:       \"from\": \"0x6ee428\",\n59:       \"type\": 17,\n60:       \"iscode\": true,\n61:       \"function\": \"0x6ed900\"\n62:     },\n63:     {\n64:       \"from\": \"0x6eea08\",\n65:       \"type\": 17,\n66:       \"iscode\": true,\n67:       \"function\": \"0x6ed900\"\n68:     },\n69:     {\n70:       \"from\": \"0x6eee44\",\n71:       \"type\": 17,\n72:       \"iscode\": true,\n73:       \"function\": \"0x6ed900\"\n74:     },\n75:     {\n76:       \"from\": \"0x6ef3f2\",\n77:       \"type\": 17,\n78:       \"iscode\": true,\n79:       \"function\": \"0x6ed900\"\n80:     },\n81:     {\n82:       \"from\": \"0x6ef6cf\",\n83:       \"type\": 17,\n84:       \"iscode\": true,\n85:       \"function\": \"0x6ed900\"\n86:     },\n87:     {\n88:       \"from\": \"0x6f11a0\",\n89:       \"type\": 17,\n90:       \"iscode\": true,\n91:       \"function\": \"0x6f1060\"\n92:     },\n93:     {\n94:       \"from\": \"0x6f2a75\",\n95:       \"type\": 17,\n96:       \"iscode\": true,\n97:       \"function\": \"0x6f2a30\"\n98:     }\n99:   ],\n100:   \"code_targets\": [],\n101:   \"instruction_count\": 28\n102: }"
+                }
+              ],
+              "metadata": {
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737671821,
+              "ran": 1791737671879,
+              "completed": 1791737672061
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "end": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 1739,
+          "output": 56,
+          "reasoning": 27,
+          "cache": {
+            "read": 10176,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be34a53001FouEgHUdc4E8W0",
+        "time": {
+          "created": 1791737811880,
+          "completed": 1791737816408
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [],
+        "snapshot": {
+          "start": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "end": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "files": []
+        },
+        "finish": "error",
+        "error": {
+          "type": "provider.rate-limit",
+          "message": "Rate limit reached for requests",
+          "status": 429,
+          "response": {
+            "body": "{\"error\":{\"code\":\"1302\",\"message\":\"Rate limit reached for requests\"}}"
+          }
+        }
+      },
+      {
+        "id": "msg_12be5655c001K2X27lfCtFzyw7",
+        "time": {
+          "created": 1791737816412
+        },
+        "type": "idle",
+        "outcome": "failed"
+      },
+      {
+        "id": "msg_12be5656400129RwdC3Ey93uDa",
+        "time": {
+          "created": 1791737816458
+        },
+        "text": "[System]: You completed your work but did not report results. Send your findings to the lead via team_message now.",
+        "type": "user"
+      },
+      {
+        "id": "msg_12be56592001YMOAqzL1BgzwbA",
+        "time": {
+          "created": 1791737901450,
+          "streamed": 1791737947477,
+          "completed": 1791737948958
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "I need to finish my discovery work and report. Let me be efficient — I have the packet for 0x6F29D0. I should gather a bit more validated context: native-groups.json (my group), the data table 13B7BB8 references, xref caller functions (0x6ed900, 0x6f1060, 0x6f2a30), and any docs. But I've been asked to report now. Let me do a quick parallel batch of targeted greps to strengthen the compaction, then send the report.\n\nKey facts from the packet (all verifiable from the JSON I read):\n\n- EA 0x6F29D0, label-only name \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\" (label not evidence of purpose)\n- 28 instructions, single chunk 0x6F29D0–0x6F2A30, single basic block, no successors, ends with retn — leaf function\n- Args: [esp+arg_0]=out ptr? Actually: edx = [esp+arg_C]... wait let me decode carefully.\n\nAssembly decode (32-bit stdcall-ish, esi saved):\n- 006F29D0: mov edx, [esp+arg_C] — arg_C is the output pointer (edx = ecx later)\n- 006F29D4: xor eax, eax\n- 006F29D6: mov ecx, edx\n- 006F29D8: push esi\n- 006F29D9: movsx esi, [esp+4+arg_4] — arg_4 sign-extended into esi (16-bit source)\n- 006F29DE..E9: mov [ecx],eax / [ecx+4] / [ecx+8] / [ecx+0Ch] / [ecx+10h] — zero-fills 20 bytes (5 dwords) at output\n- 006F29EC: mov eax, [esp+4+arg_0]\n- 006F29F0: and eax, 0FFFh — index masked to 12 bits (0..4095)\n- 006F29F5: lea ecx, ds:13B7BB8h[eax*4] — pointer into table 13B7BB8, stride 4 bytes\n- 006F29FC: movsx eax, word_13B7BB8[eax*4] — first word of table entry, sign-extended\n- 006F2A04: movsx ecx, word ptr [ecx+2] — second word of entry, sign-extended\n- 006F2A08: imul eax, esi\n- 006F2A0B: imul ecx, esi\n- 006F2A0E: mov si, [esp+4+arg_8] — arg_8 16-bit value into si (word)\n- 006F2A13: sar eax, 0Ch — arithmetic shift right 12 (fixed-point /4096)\n- 006F2A16: mov [edx+0Ch], ax — offset +0Ch = product of second word? Wait: eax is first-word product. Store [edx+0Ch]=ax\n- 006F2A1A: mov [edx+8], si — offset +8 = arg_8 verbatim\n- 006F2A1E: sar ecx, 0Ch\n- 006F2A21: neg eax — negate first product\n- 006F2A23: mov [edx], cx — offset +0 = second-word product\n- 006F2A26: mov [edx+4], ax — offset +4 = negated first product\n- 006F2A2A: mov [edx+10h], cx — offset +10h = second-word product\n- 006F2A2E: pop esi; retn\n\nSo layout: 3×3 matrix of 16-bit elements? Offsets written: 0, 4, 8, 0Ch, 10h — that's 5 dword writes but as words: [edx]=cx (word at +0), [edx+2] untouched? Actually stores are 16-bit: mov [edx], cx stores word at +0; mov [edx+4], ax stores word at +4; mov [edx+8], si word at +8; [edx+0Ch], ax word; [edx+10h], cx word. Plus zero-fill dwords at 0,4,8,0Ch,10h — so words at +2, +6, +0Ah, +0Eh, +12h are zeroed by the dword zero-fill. Total 20 bytes = 10 words = a 2-row?? No — 20 bytes could be a 3x3 s16 matrix would be 18 bytes; 20 bytes suggests padding or a 5-element struct. Actually the zero fill writes 5 dwords = 20 bytes (0x14). Matrix 3x3 of s16 = 18 bytes + 2 pad. Layout matches column-major or row-major 3x3 s16 with 2 bytes padding at +12h.\n\nPattern: row/col 0 = [c2*arg4>>12, -(c1*arg4>>12)] i.e. [[cos*scale, -sin*scale...]] typical rotation-Y with fixed point 12. This matches the label \"Mat3S16_MakeScaledRotY\" — but label is not evidence; I can state the arithmetic factually: negation applied to first-table-word product, stored at +4; second-word product stored at +0 and +10h; arg_8 stored verbatim at +8. Table entry: two s16 at 13B7BB8+idx*4 and +2.\n\nTable: 13B7BB8, index = arg_0 & 0xFFF (4096 entries, stride 4 = 16KB table, spanning 13B7BB8..13BBFB8 presumably).\n\nABI: caller-cleaned? retn with no operand = cdecl (caller cleans). Returns eax=?? eax after stores holds negated value at end — actually eax = negated product; return value in eax but likely unused. Push/pop esi balanced. No frame pointer, arg offsets: after push esi, args at [esp+4+argN] — so 4 args: arg_0 (angle/index), arg_4 (s16 scale), arg_8 (s16 verbatim element), arg_C (out ptr).\n\nXrefs: 12 call sites, type 17 (callNear/CFL_Call?). Actually type 17 = dr_C = call. Callers: 0x6ED900 (10 call sites: 6edd68, 6edeaf, 6edf3f, 6ee0fa, 6ee3ad, 6ee428, 6eea08, 6eee44, 6ef3f2, 6ef6cf), 0x6F1060 (0x6f11a0), 0x6F2A30 (0x6f2a75 — the very next function, likely a wrapper).\n\nNeighbor: 0x6F2A30 is the function immediately following.\n\nNow I should quickly check native-groups.json for my group, and maybe grep for 13B7BB8 in docs/repo, and check if there are other packets for callers (0x6ED900, 0x6F1060, 0x6F2A30) in the .tmp native dir. Let me do that in one parallel batch, then send the report. Keep it fast — a couple of parallel calls.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737904880,
+              "completed": 1791737947409
+            }
+          },
+          {
+            "type": "text",
+            "text": "I need to finalize discovery and report. Let me gather the remaining validated context in one parallel batch: my group assignment, the referenced data table, and neighbour packets."
+          },
+          {
+            "type": "tool",
+            "id": "call_df03b7791cec4ad8ab4f4a06",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "6F29D0",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01",
+                "limit": 20
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 8 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\inventory.json:\n  Line 50:     \"0x6F29D0\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json:\n  Line 286:         \"0x6F29D0\"\r\n\n  Line 697:       \"ea\": \"0x6F29D0\",\r\n\n  Line 702:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json\",\r\n\n  Line 3625:     \"0x6F29D0\": {\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-pe-verification.json:\n  Line 257:       \"ea\": \"0x6F29D0\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.readback.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.native.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D..."
+                }
+              ],
+              "metadata": {
+                "matches": 8,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737946279,
+              "ran": 1791737947419,
+              "completed": 1791737947719
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_f0123c9d1a2045bcbedabb30",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "13B7BB8",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8",
+                "limit": 30
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 30 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\remaining-functions-inventory-2026-10-11.md:\n  Line 99: E17  0x6F29D0  MakeScaledRotY_NegSin_Table13B7BB8   H\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_ida_class.json:\n  Line 1: {\"n_eas\": 1047, \"n_starts\": 498, \"n_interior\": 229, \"n_nofunc\": 320, \"starts\": [\"0x401000\", \"0x4020f0\", \"0x403d99\", \"0x40702f\", \"0x4070b0\", \"0x407162\", \"0x407586\", \"0x40763d\", \"0x4076b6\", \"0x40942e\", \"0x409805\", \"0x41619a\", \"0x4178d7\", \"0x419d8f\", \"0x41df0c\", \"0x41e650\", \"0x41e752\", \"0x41e7a5\", \"0x41e803\", \"0x41e947\", \"0x41e972\", \"0x41e99d\", \"0x4252b0\", \"0x425540\", \"0x4257d0\", \"0x438599\", \"0x438682\", \"0x43b50c\", \"0x43e24a\", \"0x43e356\", \"0x440ff0\", \"0x444ba8\", \"0x445de9\", \"0x446000\", \"0x44655f\", \"0x4467b6\", \"0x45b2e0\", \"0x45c0f0\", \"0x45c7a0\", \"0x45c8e0\", \"0x45c9b0\", \"0x45ca50\", \"0x45d610\", \"0x45dca0\", \"0x45e5c0\", \"0x45e610\", \"0x45e670\", \"0x45e9d0\", \"0x45ebf0\", \"0x45ee10\", \"0x45f930\", \"0x460810\", \"0x460840\", \"0x460860\", \"0x463fc0\", \"0x464db0\", \"0x464f70\", \"0x465930\", \"0x465ce0\", \"0x4675c0\", \"0x4677d0\", \"0x467d10\", \"0x4685f0\", \"0x46a0a0\", \"0x46deb0\", \"0x46e0c0\", \"0x46e100\", \"0x46e2a0\", \"0x46e320\", \"0x46fa10\", \"0x4706b0\", \"0x47ca90\", \"0x47ccb0\", \"0x47ce10\", \"0x47cef0\", \"0x47cf50\", \"0x47cf60\", \"0x47d890\", \"0x47d8a0\", \"0x47d8e0\", \"0x47dda0\", \"0x47de70\", \"0x47df60\", \"0x47e120\", \"0x47e250\", \"0x47e3f0\", \"0x47e480\", \"0x47e5f0\", \"0x47ed90\", \"0x47ee00\", \"0x47eef0\", \"0x482560\", \"0x482590\", \"0x482870\", \"0x482bd0\", \"0x482c90\", \"0x482d50\", \"0x482dc0\", \"0x482e00\", \"0x482f70\", \"0x482f80\", \"0x483190\", \"0x4831f0\", \"0x483270\", \"0x4832f0\", \"0x483340\", \"0x483370\", \"0x483470\", \"0x483790\", \"0x4837e0\", \"0x483860\", \"0x483880\", \"0x4838c0\", \"0x483940\", \"0x483d60\", \"0x4842b0\", \"0x484490\", \"0x4844d0\", \"0x4845a0\", \"0x484720\", \"0x4847f0\", \"0x484d20\", \"0x484fd0\", \"0x485160\", \"0x485460\", \"0x485610\", \"0x485ec0\", \"0x485f00\", \"0x485ff0\", \"0x486130\", \"0x4862a0\", \"0x486390\", \"0x4863f0\", \"0x486450\", \"0x486500\", \"0x4865c0\", \"0x486650\", \"0x4867c0\", \"0x4868c0\", \"0x486a10\", \"0x486b40\", \"0x486cd0\", \"0x486dc0\", \"0x486e00\", \"0x486e70\", \"0x487590\", \"0x487670\", \"0x4876d0\", \"0x4877b0\", \"0x4877f0\", \"0x487d80\", \"0x487db0\", \"0x487df0\", \"0x48a640\", \"0x48a680\", \"0x48a720\", \"0x48a770\", \"0x48a7a0\", \"0x48a830\", \"0x48a900\", ...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11.md:\n  Line 176: E17  0x6F29D0  MakeScaledRotY_NegSin_Table13B7BB8   H\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x6F29D0.json:\n  Line 3:   \"name_label_only\": \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\",\n\n  Line 18:   \"assembly\": \"006F29D0: mov     edx, [esp+arg_C]\\n006F29D4: xor     eax, eax; Logical Exclusive OR\\n006F29D6: mov     ecx, edx\\n006F29D8: push    esi\\n006F29D9: movsx   esi, [esp+4+arg_4]; Move with Sign-Extend\\n006F29DE: mov     [ecx], eax\\n006F29E0: mov     [ecx+4], eax\\n006F29E3: mov     [ecx+8], eax\\n006F29E6: mov     [ecx+0Ch], eax\\n006F29E9: mov     [ecx+10h], eax\\n006F29EC: mov     eax, dword ptr [esp+4+arg_0]\\n006F29F0: and     eax, 0FFFh; Logical AND\\n006F29F5: lea     ecx, ds:13B7BB8h[eax*4]; Load Effective Address\\n006F29FC: movsx   eax, word_13B7BB8[eax*4]; Move with Sign-Extend\\n006F2A04: movsx   ecx, word ptr [ecx+2]; Move with Sign-Extend\\n006F2A08: imul    eax, esi; Signed Multiply\\n006F2A0B: imul    ecx, esi; Signed Multiply\\n006F2A0E: mov     si, [esp+4+arg_8]\\n006F2A13: sar     eax, 0Ch; Shift Arithmetic Right\\n006F2A16: mov     [edx+0Ch], ax\\n006F2A1A: mov     [edx+8], si\\n006F2A1E: sar     ecx, 0Ch; Shift Arithmetic Right\\n006F2A21: neg     eax; Two's Complement Negation\\n006F2A23: mov     [edx], cx\\n006F2A26: mov     [edx+4], ax\\n006F2A2A: mov     [edx+10h], cx\\n006F2A2E: pop     esi\\n006F2A2F: retn; Return Near from Procedure\",\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\reference\\address_catalog.md:\n  Line 610:   `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\.manifest.json:\n  Line 10739:     \"docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md\": {\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json:\n  Line 698:       \"label\": \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-address-catalog.md:\n  Line 237: - `0x6D9510` / `0x6CF070` / `0x6ED1E0` / `0x6F29D0` — RotY, inverted-sign RotZ, scaled RotY and `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.readback.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_func_gap.json:\n  Line 279:   \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\",\r\n\n  Line 2250:   \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\": [\r\n\n  Line 4201:   \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\": [\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle_loop_render_pipeline_entrypoints.md:\n  Line 689: 9. **Lot E3c — hubs NIS indeg 5–19** : 212 VA, 174 renames/commentaires et 38 KEEP. Familles mécaniques : `GteState_*`, matrices Q12 RotY/RotZ, OT/GPU AVSZ3, BattleUI/action/caméra, DSound/Music, BdLink, MagFx/GF, LCG et mémoire/chaînes. Corrections vtable DSound : Lock `+0x2C`, SetVolume `+0x3C`, SetFrequency `+0x44`, Unlock `+0x4C`; `0x46A0A0` est Stop, pas Play. Axes vérifiés : `0x56D020` RotY, `0x56D090` RotZ, `0x6CF070` RotZ signes inversés, `0x6F29D0` RotY mise à l’échelle via table `0x13B7BB8`. Arbitrages parent : `MusicPerformance_IsSegmentPlaying @ 0x46FA10`, fallback scan `0x539C90`, RotY `0x6F29D0`, arbre MagFx `0x6DA980`. Ledger SHA `4bfb14965d…`, NIS 5392 ; aucun `runtime-only` ajouté.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\semantic-certainty.md:\n  Line 549: | `0x6F29D0` | `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8` | 28 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.native.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\decomp-function-catalog.md:\n  Line 275: | 0x6F29D0 | Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 | high | SKIP_NODECOMP |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\glm-mcp-function-budget.md:\n  Line 506: | `0x6F29D0` | `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8` | 28 | high | — |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\battle-graph-ledger.json:\n  Line 353536:       \"name\": \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-static-call-graph.md:\n  Line 74: Parent-arbitrated names are `MusicPerformance_IsSegmentPlaying @ 0x46FA10`, `Table_ScanRecords24_ReturnIdx_1DFEEB4 @ 0x539C90`, `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 @ 0x6F29D0`, and `MagFx_IndexPackedNodeTree @ 0x6DA980`. No E3c node uses `runtime-only` to hide an unresolved static hole.\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\PLAN_gfx-battleloop-campaign-2026-10-08.md:\n  Line 96: `0x45DCA0` Gte_LZCS (23), `0x45E5C0` Gte_AVSZ3 (15), `0x45E610` Gte_AVSZ4 (18), `0x45E670` Gte_Cross3Float_SatS16 (92), `0x45EE10` Gte_NCLIP (36), `0x45F930` Gte_SQR (36), `0x460860` Gte_MVMVA (177), `0x45E9D0` sub_45E9D0 (109), `0x45EBF0` sub_45EBF0 (116), `0x56BBF0` Vec3S32_CrossQ12 (37), `0x56C090` Mat3S16_MulQ12_Copy5 (116), `0x56D020` MulByRotY (31), `0x56D090` MulByRotZ (32), `0x6CF070` MakeRotZ_NegSin (25), `0x6D9510` MakeRotY (24), `0x6ED1E0` MakeRotY_Scaled (37), `0x6F29D0` MakeScaledRotY_NegSin_Table13B7BB8 (28), `0x701220` MakeRotX (29), `0x7012C0` MakeRotZ (29), `0x687300` LcgRand15_2508284 (7).\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md:\n  Line 1: # Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 @ 0x6F29D0\r\n\n  Line 10: - SetType: int __cdecl Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8(__int16, __int16, __int16, _DWORD *)\r\n\n  Line 11: - Notes parent: 5 DWORD zeros puis 5 WORD (66). Table `word_13B7BB8` stride 4, idx AND 0FFFh. m20=+sin*k puis NEG → m02=-sin*k; m00=m22=cos*k; m11=arg_8. EAX leftover = m02. Occupancy absente. Distinct de 0x6D9510.\r\n\n  Line 16: /* Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 @ 0x6F29D0\r\n\n  Line 20:  * Table word_13B7BB8: 4096 x {sin,cos} int16 Q12, stride 4 (eax*4).\r\n\n  Line 28: extern __int16 word_13B7BB8[];\r\n\n  Line 30: int __cdecl Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8(\r\n\n  Line 45:     s = (int)word_13B7BB8[idx * 2];     /* movsx word [table+idx*4+0] sin */\r\n\n  Line 46:     c = (int)word_13B7BB8[idx * 2 + 1]; /* movsx word [table+idx*4+2] cos */\r\n\n\n(Results are truncated: showing first 30 results. Consider using a more specific path or pattern.)"
+                }
+              ],
+              "metadata": {
+                "matches": 30,
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737946321,
+              "ran": 1791737947428,
+              "completed": 1791737948408
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_cb6fad0d999a4823b476553e",
+            "name": "glob",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x6*.json",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No files found"
+                }
+              ],
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737947215,
+              "ran": 1791737947468,
+              "completed": 1791737947667
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "end": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 1828,
+          "output": 195,
+          "reasoning": 1687,
+          "cache": {
+            "read": 11904,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be76b30001GoO7nweH8MnrlZ",
+        "time": {
+          "created": 1791737952692,
+          "streamed": 1791737963091,
+          "completed": 1791737965297
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Good haul. The glob for `.tmp/ff8-decomp-semantics-20261011-r01/native/0x6*.json` found nothing — odd since the packet itself is `0x6F29D0.json`. Maybe glob path handling with the dot directory. Let me check the native dir and read the existing decomp doc for this EA, the group assignment in native-groups.json (line 286 context), the PE verification entry, and the address_catalog.md line 610 context. Also check the callers' packets exist: 0x6ED900, 0x6F1060, 0x6F2A30.\n\nLet me read:\n1. The decomp doc: docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md (full)\n2. native-groups.json around line 270-300 (group membership) and line 3625 (per-EA metadata)\n3. native-pe-verification.json around line 257\n4. address_catalog.md around line 600-620\n\nThese are independent reads — do them in parallel.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737956247,
+              "completed": 1791737963042
+            }
+          },
+          {
+            "type": "text",
+            "text": "Good context. Now reading the existing decomp doc, my group assignment, PE verification, and the address catalog entry in parallel."
+          },
+          {
+            "type": "tool",
+            "id": "call_5a1868de5f7c41d9b1a393e9",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md, lines 1-61\n1: # Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 @ 0x6F29D0\r\n2: \r\n3: - Instr (live): 28\r\n4: - Palier: high\r\n5: - GLM A: fence_found=true finish_reason=stop reasoning_tokens=20\r\n6: - GLM B: fence_found=true finish_reason=stop reasoning_tokens=17\r\n7: - GLM C: fence_found=true finish_reason=stop reasoning_tokens=34\r\n8: - A==B: non\r\n9: - Push IDB: oui\r\n10: - SetType: int __cdecl Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8(__int16, __int16, __int16, _DWORD *)\r\n11: - Notes parent: 5 DWORD zeros puis 5 WORD (66). Table `word_13B7BB8` stride 4, idx AND 0FFFh. m20=+sin*k puis NEG → m02=-sin*k; m00=m22=cos*k; m11=arg_8. EAX leftover = m02. Occupancy absente. Distinct de 0x6D9510.\r\n12: \r\n13: ## C réconcilié\r\n14: \r\n15: ```c\r\n16: /* Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8 @ 0x6F29D0\r\n17:  * Ground truth = live ASM (asm_clean.asm) + ida_dump_bytes, not Hex-Rays.\r\n18:  * 28 instr, size 0x60, end 0x6F2A30. cdecl, 4 args, retn C3. Saves ESI.\r\n19:  * No callees. No add esp. No ja/jg/setcc/jcc. No jump table.\r\n20:  * Table word_13B7BB8: 4096 x {sin,cos} int16 Q12, stride 4 (eax*4).\r\n21:  * Five DWORD zeros (20 bytes) then five WORD (66) punches.\r\n22:  * Ry NegSin scaled: m00=m22=cos*k, m02=-sin*k, m20=+sin*k, m11=arg_8.\r\n23:  * Distinct from 0x6D9510 (m02=+sin, m20=-sin, m11=0x1000).\r\n24:  * EAX leftover = NEG of (sin*k)>>12 (m02 as int).\r\n25:  * Occupancy 1+2 / slot 0xD0 / F_CHAR 0x1D0 / GF Exists 0x44: absent.\r\n26:  */\r\n27: \r\n28: extern __int16 word_13B7BB8[];\r\n29: \r\n30: int __cdecl Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8(\r\n31:     __int16 angle, __int16 scale_k, __int16 m11, _DWORD *out_m)\r\n32: {\r\n33:     int idx;\r\n34:     int s;\r\n35:     int c;\r\n36:     _WORD *w;\r\n37: \r\n38:     out_m[0] = 0; /* DWORD [ecx] */\r\n39:     out_m[1] = 0; /* DWORD [ecx+4] */\r\n40:     out_m[2] = 0; /* DWORD [ecx+8] */\r\n41:     out_m[3] = 0; /* DWORD [ecx+0Ch] */\r\n42:     out_m[4] = 0; /* DWORD [ecx+10h]  m22 + 2 bytes past 3x3 */\r\n43: \r\n44:     idx = (int)angle & 0xFFF; /* mov eax, arg_0; and eax, 0FFFh — not movsx */\r\n45:     s = (int)word_13B7BB8[idx * 2];     /* movsx word [table+idx*4+0] sin */\r\n46:     c = (int)word_13B7BB8[idx * 2 + 1]; /* movsx word [table+idx*4+2] cos */\r\n47:     s *= (int)scale_k; /* imul eax, esi (esi = movsx arg_4) */\r\n48:     c *= (int)scale_k; /* imul ecx, esi */\r\n49:     s >>= 12;          /* sar eax, 0Ch */\r\n50:     w = (_WORD *)out_m;\r\n51:     w[6] = (_WORD)s;   /* [edx+0Ch] AX  m20 = +sin*k */\r\n52:     w[4] = (_WORD)m11; /* [edx+8]   SI  m11 = arg_8 */\r\n53:     c >>= 12;          /* sar ecx, 0Ch */\r\n54:     s = -s;            /* neg eax (F7 D8) after m20, before m02 */\r\n55:     w[0] = (_WORD)c;   /* [edx]     CX  m00 = cos*k */\r\n56:     w[2] = (_WORD)s;   /* [edx+4]   AX  m02 = -sin*k */\r\n57:     w[8] = (_WORD)c;   /* [edx+10h] CX  m22 = cos*k */\r\n58:     /* m01+2 m10+6 m12+0Ah m21+0Eh stay 0 from DWORD clear */\r\n59:     return s;\r\n60: }\r\n61: ```\r"
+                }
+              ],
+              "metadata": {
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737960657,
+              "ran": 1791737963051,
+              "completed": 1791737963400
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_31d650322066441da81f80b6",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json",
+                "offset": 265,
+                "limit": 45
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json, lines 265-309\n265:         \"0x51A9A0\"\n266:       ]\n267:     },\n268:     {\n269:       \"id\": \"g34\",\n270:       \"eas\": [\n271:         \"0x56D090\",\n272:         \"0x6D9510\",\n273:         \"0x6CF070\",\n274:         \"0x6ED1E0\"\n275:       ]\n276:     },\n277:     {\n278:       \"id\": \"g35\",\n279:       \"eas\": [\n280:         \"0x687300\"\n281:       ]\n282:     },\n283:     {\n284:       \"id\": \"g36\",\n285:       \"eas\": [\n286:         \"0x6F29D0\"\n287:       ]\n288:     }\n289:   ],\n290:   \"functions\": [\n291:     {\n292:       \"ea\": \"0x460860\",\n293:       \"label\": \"Gte_MVMVA\",\n294:       \"instructions\": 177,\n295:       \"asm_chars\": 7825,\n296:       \"blocks\": 22,\n297:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x460860.json\",\n298:       \"sha256\": \"9384e033a8c2529b83d45416bffb9fc86fec628fa40990f5f60610486739861a\"\n299:     },\n300:     {\n301:       \"ea\": \"0x45E9D0\",\n302:       \"label\": \"sub_45E9D0\",\n303:       \"instructions\": 109,\n304:       \"asm_chars\": 5195,\n305:       \"blocks\": 22,\n306:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x45E9D0.json\",\n307:       \"sha256\": \"20a01d8e22132e51bd91786c830d7529b9608a3d0cdabc88a1981ffcda06cf5e\"\n308:     },\n309:     {\n[Output truncated. Continue reading with offset: 310]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737961279,
+              "ran": 1791737963061,
+              "completed": 1791737963388
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_5c639e33f8e6491b8bc4a714",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-pe-verification.json",
+                "offset": 245,
+                "limit": 30
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-pe-verification.json, lines 245-274\n245:     },\n246:     {\n247:       \"ea\": \"0x6D9510\",\n248:       \"idb_equals_pe_and_freeze\": true,\n249:       \"mismatches\": []\n250:     },\n251:     {\n252:       \"ea\": \"0x6ED1E0\",\n253:       \"idb_equals_pe_and_freeze\": true,\n254:       \"mismatches\": []\n255:     },\n256:     {\n257:       \"ea\": \"0x6F29D0\",\n258:       \"idb_equals_pe_and_freeze\": true,\n259:       \"mismatches\": []\n260:     },\n261:     {\n262:       \"ea\": \"0x701220\",\n263:       \"idb_equals_pe_and_freeze\": true,\n264:       \"mismatches\": []\n265:     },\n266:     {\n267:       \"ea\": \"0x7012C0\",\n268:       \"idb_equals_pe_and_freeze\": true,\n269:       \"mismatches\": []\n270:     },\n271:     {\n272:       \"ea\": \"0x687300\",\n273:       \"idb_equals_pe_and_freeze\": true,\n274:       \"mismatches\": []\n[Output truncated. Continue reading with offset: 275]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737962157,
+              "ran": 1791737963078,
+              "completed": 1791737963435
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_0e8a9a2579444f0dbeab90df",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\reference\\address_catalog.md",
+                "offset": 595,
+                "limit": 30
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\reference\\address_catalog.md, lines 595-624\n595: `j_Thunk_BattleGeom_SetCurrentBoneMatrix_1D97778`; les renames explicites\n596: restent au nombre de 174.\n597: \n598: - DSound/Music : `0x46DEB0` `DSoundBuffer_Lock_I2C`, `0x46E0C0`\n599:   `DSoundBuffer_SetVolume_I3C`, `0x46E2A0`\n600:   `DSoundBuffer_Unlock_I4C_Dup`, `0x46E320`\n601:   `DSoundBuffer_SetFrequency_Unchecked_I44`, `0x46A0A0`\n602:   `DSound_StopChannel_1CD0B00`, `0x46FA10`\n603:   `MusicPerformance_IsSegmentPlaying`.\n604: - GTE/matrices : `0x460860` `Gte_MVMVA`, `0x45E670`\n605:   `Gte_Cross3Float_SatS16`, `0x56BBF0` `Vec3S32_CrossQ12`, `0x56D020`\n606:   `Mat3S16_MulByRotY_Q12`, `0x56D090` `Mat3S16_MulByRotZ_Q12`,\n607:   `0x6D9510` `Mat3S16_MakeRotY_Q12`, `0x6CF070`\n608:   `Mat3S16_MakeRotZ_NegSin_Q12`, `0x6ED1E0`\n609:   `Mat3S16_MakeRotY_Scaled_Q12`, `0x6F29D0`\n610:   `Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8`.\n611: - OT/GPU : `0x45C9B0` `Gpu_PackOtTag1_DrawOffsetE5`, `0x45CA50`\n612:   `Gpu_PackOtTag1_TexpageE1`; AVSZ3 emitters FromObj44\n613:   `0x595AA0/0x5BD460/0x5EF910/0x60A290` et FromObj2C\n614:   `0x5E48A0/0x649740`; quads `0x6A83B0/0x700150`.\n615: - BattleUI/action/caméra : `0x407162` `Gfx_SetPrimBlendMode`,\n616:   `0x4A2F80` `BattleUI_DispatchCmdKey_80to8F`, `0x509C10`\n617:   `BattleAction_ClassFromScriptBits`, `0x509C80`\n618:   `BattleAction_TickScript_IfByte4lt10`, `0x683D10`\n619:   `Camera_OrbitWorldAroundLookAt_Q12`, `0x6FC250`\n620:   `Camera_BlendLookAtAndWorldXZ_Word3`.\n621: - MagFx/GF/BdLink : `0x6DA980` `MagFx_IndexPackedNodeTree`,\n622:   `0x6545B0` `GF_Diablo_ClearTex_4C6B`, `0x658890`\n623:   `GF_Diablo_FindFreeSlot30`; wrappers `BdLinkTask_Register_*` à\n624:   `0x675650/0x6E5D80/0x63E960/0x659900/0x6804B0/0x65E4B0/0x65F250/0x685CC0`.\n[Output truncated. Continue reading with offset: 625]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737962980,
+              "ran": 1791737963086,
+              "completed": 1791737963443
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "374d6346b59c3767dec457ca5038909555288871",
+          "end": "374d6346b59c3767dec457ca5038909555288871",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 10035,
+          "output": 277,
+          "reasoning": 255,
+          "cache": {
+            "read": 13696,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be7ab05001q2Kl3w7YkAicfq",
+        "time": {
+          "created": 1791738045994,
+          "streamed": 1791738087099,
+          "completed": 1791738088330
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Excellent. I now have rich material. Let me also check:\n1. The table 13B7BB8 — is it documented? Let me grep for \"13B7BB8\" in the battle-graph-ledger or address catalog for the table itself. Already saw the decomp doc says 4096 x {sin,cos} Q12. Let me check if there's a table doc.\n2. Caller function labels for 0x6ED900, 0x6F1060, 0x6F2A30 — do packets exist? Earlier glob failed oddly; let me try reading the dir listing or check native-groups for those EAs. Actually a quick check: grep in native-groups.json for \"0x6ED900\", \"0x6F1060\", \"0x6F2A30\" labels.\n3. Also the mission brief section for E17 (docs/missions/ff8-decomp-semantics-2026-10-11.md line 176).\n\nLet me do a final parallel batch: grep native-groups.json for the caller EAs; read the brief around line 170-185; grep for \"13B7BB8\" in docs/tech (table doc, sin/cos table). Also maybe check remaining-functions-inventory line 99 context (already seen: E17 0x6F29D0 ... H).",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791738078724,
+              "completed": 1791738087030
+            }
+          },
+          {
+            "type": "text",
+            "text": "Final batch: caller labels in native-groups, the mission brief entry, and any documentation of table 13B7BB8 itself."
+          },
+          {
+            "type": "tool",
+            "id": "call_bd81a32767154723abb563cf",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "limit": 15,
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json",
+                "pattern": "\"ea\": \"0x(6ED900|6F1060|6F2A30)\""
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No matches found"
+                }
+              ],
+              "metadata": {
+                "matches": 0,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791738085168,
+              "ran": 1791738087039,
+              "completed": 1791738087238
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_13c94645081d44e396fa5bfd",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "limit": 15,
+                "offset": 168,
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11.md"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11.md, lines 168-182\n168: ```text\n169: E3   0x45E610  Gte_AVSZ4                           H\n170: E4   0x45E670  Gte_Cross3Float_SatS16               H\n171: E9   0x45EBF0  sub_45EBF0                          H\n172: E13  0x56D090  MulByRotZ                           H\n173: E14  0x6CF070  MakeRotZ_NegSin                     H\n174: E15  0x6D9510  MakeRotY                            H\n175: E16  0x6ED1E0  MakeRotY_Scaled                     H\n176: E17  0x6F29D0  MakeScaledRotY_NegSin_Table13B7BB8   H\n177: E18  0x701220  MakeRotX                            H\n178: E19  0x7012C0  MakeRotZ                            H\n179: E20  0x687300  LcgRand15_2508284                   H\n180: ```\n181: \n182: Source : PLAN:96. Total E restant : 14, dont trois déjà dans la section 1.\n[Output truncated. Continue reading with offset: 183]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791738086144,
+              "ran": 1791738087046,
+              "completed": 1791738087527
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_ca709374001a46788bc339a0",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "limit": 15,
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech",
+                "pattern": "sin.cos|13B7BB8",
+                "include": "*table*.md"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No matches found"
+                }
+              ],
+              "metadata": {
+                "matches": 0,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791738086224,
+              "ran": 1791738087090,
+              "completed": 1791738087329
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "f7196ef69baba4176e82a0964c8628e25236a7cb",
+          "end": "f7196ef69baba4176e82a0964c8628e25236a7cb",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 3723,
+          "output": 230,
+          "reasoning": 286,
+          "cache": {
+            "read": 23680,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be98b9d001juFEA4m4WhUb0O",
+        "time": {
+          "created": 1791738088360,
+          "streamed": 1791738098470,
+          "completed": 1791738100630
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "The caller EAs (0x6ED900, 0x6F1060, 0x6F2A30) are not among the 98 mission EAs (no packets for them). Their labels might exist in the battle-graph-ledger.json. Let me do one quick grep for their names in the ledger or in the battle docs to give callers names, and check the table doc. Actually the decomp doc already documents the table (4096 x {sin,cos} s16 Q12, stride 4). The family docs: PLAN_gfx line 96 lists the family; address_catalog.md:604-610 confirms family naming; battle_loop_render_pipeline_entrypoints.md:689 confirms parent-arbitrated naming and axis verification.\n\nOne more quick grep for the caller function names in battle docs to enrich xref context — but I must be careful: labels are not evidence of purpose; I'll mark them label-only. Let me grep the battle-graph-ledger.json for \"6ED900\", \"6F1060\", \"6F2A30\" names quickly. That file is huge (353k lines) so grep with limit is fine.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791738091536,
+              "completed": 1791738098454
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_4d155d95288a4c5eb02281f8",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "include": "*.md",
+                "limit": 12,
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation",
+                "pattern": "6ED900|6F1060|6F2A30"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 2 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\r0-scope.md:\n  Line 99: | `0x5022C0` | 58 | E3a | `0x6F2A30` | 9 | E3c |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md:\n  Line 18:  * 28 instr, size 0x60, end 0x6F2A30. cdecl, 4 args, retn C3. Saves ESI.\r\n"
+                }
+              ],
+              "metadata": {
+                "matches": 2,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791738098277,
+              "ran": 1791738098465,
+              "completed": 1791738098680
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "f7196ef69baba4176e82a0964c8628e25236a7cb",
+          "end": "f7196ef69baba4176e82a0964c8628e25236a7cb",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 882,
+          "output": 68,
+          "reasoning": 244,
+          "cache": {
+            "read": 27392,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be9bba9001HMQKB3ERxQ2OJy",
+        "time": {
+          "created": 1791738123210,
+          "streamed": 1791738211350,
+          "completed": 1791738211630
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Caller names aren't documented in the investigation docs. I have enough. Time to compile the COMMON_COMPACTION and send it to the lead.\n\nSummary of validated facts:\n\n**Native packet** (.tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json):\n- EA 0x6F29D0, label-only \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\" (name_label_only field — not evidence of purpose)\n- 28 instructions, size 0x60 (0x6F29D0→0x6F2A30), single chunk, single basic block (cfg successors []), leaf (no calls), ends retn\n- PE: FF8_EN.exe 32-bit, sha256 064d466b..., IDB \"FF8_EN.exe - 9.3.i64\", exported 2026-10-11T16:38:25Z\n- PE verification: idb_equals_pe_and_freeze=true, no mismatches (native-pe-verification.json:257-260)\n\n**ABI facts (from ASM, packet line 18):**\n- 4 stack args: arg_0 (dword, used as angle/index, `mov eax,[esp+4+arg_0]` @6F29EC), arg_4 (sign-extended to esi via movsx @6F29D9), arg_8 (16-bit read as word into si @6F2A0E), arg_C (dword output pointer → edx @6F29D0, copied to ecx @6F29D6)\n- cdecl: `retn` without operand @6F2A2F (caller cleans); saves/restores esi (push @6F29D8, pop @6F2A2E)\n- Return value in eax = negated (sin*arg_4)>>12 (leftover, semantic value unproven from packet alone)\n\n**Body (from ASM with addresses):**\n- Zero-fills 5 dwords = 20 bytes at [out+0..0x13] (@6F29DE-E9)\n- idx = arg_0 & 0xFFF (4096-entry index space) @6F29F0 — logical AND, not sign-extended\n- Table lookup at 0x13B7BB8, stride 4 bytes: entry = two s16 words: word@[13B7BB8+idx*4] (movsx @6F29FC) and word@[entry+2] (movsx @6F2A04); pointer via lea ds:13B7BB8h[eax*4] @6F29F5\n- Both words imul by sign-extended arg_4 (esi) @6F2A08/6F2A0B, then sar 12 (Q12 fixed point) @6F2A13/6F2A1E\n- Stores (all 16-bit): word@[out+0Ch] = (w0*k)>>12 @6F2A16; word@[out+8] = arg_8 verbatim @6F2A1A; neg eax @6F2A21; word@[out+0] = (w1*k)>>12 @6F2A23; word@[out+4] = -((w0*k)>>12) @6F2A26; word@[out+10h] = (w1*k)>>12 @6F2A2A\n- Words at out+2, +6, +0Ah, +0Eh, +12h remain zero from the dword clear → struct is 20 bytes (0x14) = 3x3 s16 (18 bytes) + 2 pad\n\n**Xrefs (packet xrefs_to, all type 17 = near call, 12 sites):**\n- From function 0x6ED900 at: 0x6EDD68, 0x6EDEAF, 0x6EDF3F, 0x6EE0FA, 0x6EE3AD, 0x6EE428, 0x6EEA08, 0x6EEE44, 0x6EF3F2, 0x6EF6CF (10 call sites)\n- From 0x6F1060 at 0x6F11A0 (1 site)\n- From 0x6F2A30 at 0x6F2A75 (1 site — the immediately following function, likely wrapper; unproven)\n- Callers 0x6ED900/0x6F1060/0x6F2A30 are NOT among the 98 mission EAs (no native packets)\n- code_targets: [] (no callees)\n\n**Data table 0x13B7BB8:**\n- Indexed idx*4 with s16 at +0 and +2; doc claims (historical, unvalidated here): 4096 entries {sin,cos} s16 Q12 (decomp doc line 20). Table content itself not exported in packet.\n\n**Group/mission facts:**\n- Group g36 = singleton [0x6F29D0] (native-groups.json:284-288)\n- Mission brief: E17, family E (GTE/matrix builders), risk H (brief line 176; PLAN_gfx line 96)\n- Family context (labels only, parent-arbitrated): 0x6D9510 MakeRotY, 0x6CF070 MakeRotZ_NegSin, 0x6ED1E0 MakeRotY_Scaled, 0x56D020/0x56D090 MulByRotY/Z (address_catalog.md:604-610; PLAN:96)\n\n**Historical/unvalidated (must be separated):**\n- Reconciled C exists (decomp doc): 3x3 s16 Q12 matrix builder; m00=m22=cos*k, m02=-sin*k, m20=+sin*k, m11=arg_8, other entries 0; return = m02 value. Historical doc status: SKIP_NODECOMP, priority high (semantic-certainty.md:549, decomp-function-catalog.md:275)\n- Parent-arbitrated naming and axis verification for the RotY family (battle_loop_render_pipeline_entrypoints.md:689, battle-static-call-graph.md:74)\n- Interpretation that w0=sin, w1=cos comes from the label and historical doc, NOT provable from packet alone; packet only proves w0 and w1 are two distinct s16 table values, with w1 stored at +0/+10h and w0 at +0Ch and negated at +4.\n\nUncertainties:\n- Which of w0/w1 is sin vs cos — not provable from ASM alone\n- Direction/naming of matrix indices (m02/m20 etc.) is a convention from historical docs\n- Return value usage by callers — caller bodies not in packet\n- Table values/extent at 0x13B7BB8 not exported in packet (0x14 stride claim is arithmetic: idx<4096 × 4 bytes)\n- Caller 0x6F2A30 \"wrapper\" is positional inference only (immediately following function)\n\nSource inventory:\n- .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json (frozen packet)\n- docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md\n- docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:284-288\n- docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json:256-260\n- docs/missions/ff8-decomp-semantics-2026-10-11.md:176\n- docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__...md (historical)\n- docs/tech/reference/address_catalog.md:604-610\n- docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:689\n- docs/tech/investigation/battle-static-discovery/PLAN_gfx-battleloop-campaign-2026-10-08.md:96\n- docs/tech/investigation/battle-static-discovery/semantic-certainty.md:549\n- obsidian-docs/projects/re-ff8/references/decomp-function-catalog.md:275, battle-address-catalog.md:237, battle-static-call-graph.md:74\n\nNow compose the team_message to lead. Keep it structured, complete, one message. Then STOP.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791738132711,
+              "completed": 1791738211332
+            }
+          },
+          {
+            "type": "text",
+            "text": "Discovery complete. Sending the single COMMON_COMPACTION report to the lead now."
+          },
+          {
+            "type": "tool",
+            "id": "call_4962b10191854979b6b6389c",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "await tools.team_message({\n  to: \"lead\",\n  text: `<task-result>\n<status>completed</status>\n<summary>g36 COMMON_COMPACTION for 0x6F29D0: full validated fact sheet with path:line + instruction provenance, historical conclusions separated, uncertainties and source inventory included.</summary>\n<details>\nCOMMON_COMPACTION g36 — EA 0x6F29D0 (group g36, singleton; native-groups.json:284-288; mission brief E17 family E, risk H — docs/missions/ff8-decomp-semantics-2026-10-11.md:176)\nPrimary evidence: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json (frozen 2026-10-11T16:38:25Z). Label \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\" is name_label_only — NOT evidence of purpose.\n\n== VALIDATED NATIVE FACTS (packet line refs / instruction addresses) ==\n- Size/shape: 28 instructions, single chunk 0x6F29D0–0x6F2A30 (0x60 bytes), single basic block, cfg successors [] (packet lines 11-25), no callees (code_targets [] line 100), leaf function ending `retn` @006F2A2F.\n- Binary: FF8_EN.exe 32-bit, input sha256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570 (packet lines 6-8); IDB bytes = PE bytes = freeze, no mismatches (native-pe-verification.json:257-260).\n- ABI (from ASM, packet line 18): 4 stack args. arg_C → edx = output pointer (@006F29D0, copied to ecx @006F29D6). arg_0 dword used as index (@006F29EC). arg_4 sign-extended via movsx into esi (@006F29D9). arg_8 read as 16-bit word into si (@006F2A0E). `retn` without operand → cdecl (caller cleans). ESI saved/restored (@006F29D8/@006F2A2E). EAX leftover at return = negated (w0*arg_4)>>12.\n- Body: (1) zero-fill 5 DWORDs = 20 bytes at [out+0..13h] (@006F29DE-E9). (2) idx = arg_0 AND 0FFFh (@006F29F0) — logical AND, zero-based 12-bit index. (3) table lookup at 0x13B7BB8, stride 4: `lea ecx, ds:13B7BB8h[eax*4]` (@006F29F5); s16 w0 = movsx word_13B7BB8[idx*4] (@006F29FC); s16 w1 = movsx word [entry+2] (@006F2A04). (4) both imul esi (@006F2A08/0B), then sar 0Ch = Q12 arithmetic shift (@006F2A13/1E). (5) 16-bit stores: [out+0Ch] = (w0*k)>>12 (@006F2A16); [out+8] = arg_8 verbatim (@006F2A1A); `neg eax` (@006F2A21); [out+0] = (w1*k)>>12 (@006F2A23); [out+4] = -((w0*k)>>12) (@006F2A26); [out+10h] = (w1*k)>>12 (@006F2A2A). Words at +2,+6,+0Ah,+0Eh,+12h remain zero from the DWORD clear → 20-byte (0x14) struct = 3x3 s16 (18 bytes) + 2 bytes pad. No jcc, no jump table, no stack add.\n- Table 0x13B7BB8: access pattern proves entries of two s16 at +0/+2, index masked to 4096, footprint arithmetic 4096*4 = 16KB. Table contents NOT exported in packet.\n- Xrefs_to (all type 17 near call, 12 sites, packet lines 26-99): 10 from function 0x6ED900 (@0x6EDD68, 0x6EDEAF, 0x6EDF3F, 0x6EE0FA, 0x6EE3AD, 0x6EE428, 0x6EEA08, 0x6EEE44, 0x6EF3F2, 0x6EF6CF); 1 from 0x6F1060 (@0x6F11A0); 1 from 0x6F2A30 (@0x6F2A75). None of the three callers is among the 98 mission EAs (no native packets exist for them).\n\n== HISTORICAL, UNVALIDATED HERE (do not promote on prose) ==\n- Reconciled C exists: docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md — claims 3x3 s16 Q12 rotation-Y builder: m00=m22=cos*k, m02=-sin*k, m20=+sin*k, m11=arg_8, others 0; w0=sin, w1=cos; returns m02; cdecl (int)(__int16 angle, __int16 scale_k, __int16 m11, _DWORD *out). Status SKIP_NODECOMP, priority high (semantic-certainty.md:549; obsidian-docs/projects/re-ff8/references/decomp-function-catalog.md:275; glm-mcp-function-budget.md:506).\n- Parent-arbitrated family naming + axis verification: battle_loop_render_pipeline_entrypoints.md:689 (\"0x6F29D0 RotY mise à l'échelle via table 0x13B7BB8\", arbitrage parent); battle-static-call-graph.md:74; address_catalog.md:604-610 (family: 0x6D9510 MakeRotY, 0x6CF070 MakeRotZ_NegSin, 0x6ED1E0 MakeRotY_Scaled); PLAN_gfx-battleloop-campaign-2026-10-08.md:96 (E17 line entry); battle-address-catalog.md:237.\n- Distinctness claim vs 0x6D9510 (sign flip, m11 fixed 0x1000 there) is from decomp doc comment only — not verified against 0x6D9510 packet in this run (g34 owns it).\n\n== UNCERTAINTIES ==\n1. w0=sin / w1=cos assignment is conventional, not provable from packet ASM alone; packet proves only two distinct s16 values with distinct store targets/negation.\n2. Matrix index naming (m02/m20/m11) and row/column convention come from historical docs, not the packet.\n3. Return-value consumption by callers unknown (caller bodies not in packet).\n4. Table 0x13B7BB8 contents/signedness beyond access pattern unverified here.\n5. 0x6F2A30 \"wrapper\" role is positional inference (immediately following function) — unproven.\n\n== SOURCE INVENTORY ==\nFrozen native: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json. Mission: docs/missions/ff8-decomp-semantics-2026-10-11-run01/{CONTRACT.md, native-groups.json:284-288, native-pe-verification.json:256-260}; brief docs/missions/ff8-decomp-semantics-2026-10-11.md:176. Historical: decomp/0x6F29D0__*.md; docs/tech/reference/address_catalog.md:604-610; docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:689; battle-static-discovery/{semantic-certainty.md:549, PLAN_gfx-battleloop-campaign-2026-10-08.md:96, battle-static-call-graph.md:74, glm-mcp-function-budget.md:506, r0-scope.md:99}; obsidian-docs/projects/re-ff8/references/{decomp-function-catalog.md:275, battle-address-catalog.md:237}. QMD multi_get errored on first attempt (tool failure, not infra outage signal); direct reads used instead. No C reconstruction, no verdict, no edits/IDB/Git/ledger/live/delegation. STOP.\n</details>\n</task-result>`\n});\nreturn \"report sent\";"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Unexpected token (11:197)"
+                }
+              ],
+              "metadata": {
+                "toolCalls": [],
+                "error": true,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791738175779,
+              "ran": 1791738211342,
+              "completed": 1791738211358
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "1c6adc3adf0667159c3d2c9d3e73b01b6b55330c",
+          "end": "3cdd0dcc1def2eb2d97ed230cce8e2d274bb3794",
+          "files": [
+            "docs/missions/ff8-decomp-semantics-2026-10-11-run01/classifier-payloads/0x463FC0.response.native.json",
+            "docs/missions/ff8-decomp-semantics-2026-10-11-run01/classifier-payloads/0x464DB0.response.native.json",
+            "docs/missions/ff8-decomp-semantics-2026-10-11-run01/classifier-payloads/0x484490.response.native.json",
+            "docs/missions/ff8-decomp-semantics-2026-10-11-run01/classifier-payloads/0x4844D0.response.native.json",
+            "docs/missions/ff8-decomp-semantics-2026-10-11-run01/ledger.jsonl"
+          ]
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 555,
+          "output": 2013,
+          "reasoning": 1887,
+          "cache": {
+            "read": 28224,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12beb6d400013ynTc3uqSXBhV7",
+        "time": {
+          "created": 1791738298760,
+          "completed": 1791738299316
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [],
+        "snapshot": {
+          "start": "97096a50db3c3e42814ef84387dd8d791b83151c",
+          "end": "97096a50db3c3e42814ef84387dd8d791b83151c",
+          "files": []
+        },
+        "finish": "error",
+        "error": {
+          "type": "provider.rate-limit",
+          "message": "Rate limit reached for requests",
+          "status": 429,
+          "response": {
+            "body": "{\"error\":{\"code\":\"1302\",\"message\":\"Rate limit reached for requests\"}}"
+          }
+        }
+      },
+      {
+        "id": "msg_12becc3b9001f4F5JkKr9k110R",
+        "time": {
+          "created": 1791738299321
+        },
+        "type": "idle",
+        "outcome": "failed"
+      },
+      {
+        "id": "msg_12becc3bf001tCg301V7EAw7O3",
+        "time": {
+          "created": 1791738299358
+        },
+        "text": "[System]: You completed your work but did not report results. Send your findings to the lead via team_message now.",
+        "type": "user"
+      },
+      {
+        "id": "msg_12becc3e6001o15JS6WzG7XTQH",
+        "time": {
+          "created": 1791738306710,
+          "streamed": 1791738334504,
+          "completed": 1791738336804
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "The template literal failed because of backtick issues inside the string — I used backticks inside a template literal (the `retn`, `lea` etc. in markdown code formatting). I need to escape them or use a regular string. Let me rewrite avoiding backticks inside the template literal.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791738310127,
+              "completed": 1791738334484
+            }
+          },
+          {
+            "type": "text",
+            "text": "The message failed due to backticks inside the template literal. Resending with backticks removed."
+          },
+          {
+            "type": "tool",
+            "id": "call_9db070c7a8a245a9aa73cee0",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "await tools.team_message({\n  to: \"lead\",\n  text: `<task-result>\n<status>completed</status>\n<summary>g36 COMMON_COMPACTION for 0x6F29D0: full validated fact sheet with path:line + instruction provenance, historical conclusions separated, uncertainties and source inventory included.</summary>\n<details>\nCOMMON_COMPACTION g36 — EA 0x6F29D0 (group g36, singleton; native-groups.json:284-288; mission brief E17 family E, risk H — docs/missions/ff8-decomp-semantics-2026-10-11.md:176)\nPrimary evidence: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json (frozen 2026-10-11T16:38:25Z). Label \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\" is name_label_only — NOT evidence of purpose.\n\n== VALIDATED NATIVE FACTS (packet line refs / instruction addresses) ==\n- Size/shape: 28 instructions, single chunk 0x6F29D0-0x6F2A30 (0x60 bytes), single basic block, cfg successors [] (packet lines 11-25), no callees (code_targets [] line 100), leaf function ending retn @006F2A2F.\n- Binary: FF8_EN.exe 32-bit, input sha256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570 (packet lines 6-8); IDB bytes = PE bytes = freeze, no mismatches (native-pe-verification.json:257-260).\n- ABI (from ASM, packet line 18): 4 stack args. arg_C -> edx = output pointer (@006F29D0, copied to ecx @006F29D6). arg_0 dword used as index (@006F29EC). arg_4 sign-extended via movsx into esi (@006F29D9). arg_8 read as 16-bit word into si (@006F2A0E). retn without operand -> cdecl, caller cleans. ESI saved/restored (@006F29D8/@006F2A2E). EAX leftover at return = negated (w0*arg_4)>>12.\n- Body: (1) zero-fill 5 DWORDs = 20 bytes at [out+0..13h] (@006F29DE-E9). (2) idx = arg_0 AND 0FFFh (@006F29F0) — logical AND, zero-based 12-bit index. (3) table lookup at 0x13B7BB8, stride 4: lea ecx, ds:13B7BB8h[eax*4] (@006F29F5); s16 w0 = movsx word_13B7BB8[idx*4] (@006F29FC); s16 w1 = movsx word [entry+2] (@006F2A04). (4) both imul esi (@006F2A08/0B), then sar 0Ch = Q12 arithmetic shift (@006F2A13/1E). (5) 16-bit stores: [out+0Ch] = (w0*k)>>12 (@006F2A16); [out+8] = arg_8 verbatim (@006F2A1A); neg eax (@006F2A21); [out+0] = (w1*k)>>12 (@006F2A23); [out+4] = -((w0*k)>>12) (@006F2A26); [out+10h] = (w1*k)>>12 (@006F2A2A). Words at +2,+6,+0Ah,+0Eh,+12h remain zero from the DWORD clear -> 20-byte (0x14) struct = 3x3 s16 (18 bytes) + 2 bytes pad. No jcc, no jump table, no stack add.\n- Table 0x13B7BB8: access pattern proves entries of two s16 at +0/+2, index masked to 4096, footprint arithmetic 4096*4 = 16KB. Table contents NOT exported in packet.\n- Xrefs_to (all type 17 near call, 12 sites, packet lines 26-99): 10 from function 0x6ED900 (@0x6EDD68, 0x6EDEAF, 0x6EDF3F, 0x6EE0FA, 0x6EE3AD, 0x6EE428, 0x6EEA08, 0x6EEE44, 0x6EF3F2, 0x6EF6CF); 1 from 0x6F1060 (@0x6F11A0); 1 from 0x6F2A30 (@0x6F2A75). None of the three callers is among the 98 mission EAs (no native packets exist for them).\n\n== HISTORICAL, UNVALIDATED HERE (do not promote on prose) ==\n- Reconciled C exists: docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md — claims 3x3 s16 Q12 rotation-Y builder: m00=m22=cos*k, m02=-sin*k, m20=+sin*k, m11=arg_8, others 0; w0=sin, w1=cos; returns m02; cdecl int f(__int16 angle, __int16 scale_k, __int16 m11, _DWORD *out). Status SKIP_NODECOMP, priority high (semantic-certainty.md:549; obsidian-docs/projects/re-ff8/references/decomp-function-catalog.md:275; glm-mcp-function-budget.md:506).\n- Parent-arbitrated family naming + axis verification: battle_loop_render_pipeline_entrypoints.md:689 (\"0x6F29D0 RotY mise à l'échelle via table 0x13B7BB8\", arbitrage parent); battle-static-call-graph.md:74; address_catalog.md:604-610 (family: 0x6D9510 MakeRotY, 0x6CF070 MakeRotZ_NegSin, 0x6ED1E0 MakeRotY_Scaled); PLAN_gfx-battleloop-campaign-2026-10-08.md:96 (E17 entry); battle-address-catalog.md:237.\n- Distinctness claim vs 0x6D9510 (sign flip, m11 fixed 0x1000 there) is from decomp doc comment only — not verified against the 0x6D9510 packet in this run (g34 owns it).\n\n== UNCERTAINTIES ==\n1. w0=sin / w1=cos assignment is conventional, not provable from packet ASM alone; packet proves only two distinct s16 values with distinct store targets/negation.\n2. Matrix index naming (m02/m20/m11) and row/column convention come from historical docs, not the packet.\n3. Return-value consumption by callers unknown (caller bodies not in packet).\n4. Table 0x13B7BB8 contents/signedness beyond the access pattern unverified here.\n5. 0x6F2A30 \"wrapper\" role is positional inference (immediately following function) — unproven.\n\n== SOURCE INVENTORY ==\nFrozen native: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json. Mission: docs/missions/ff8-decomp-semantics-2026-10-11-run01/{CONTRACT.md, native-groups.json:284-288, native-pe-verification.json:256-260}; brief docs/missions/ff8-decomp-semantics-2026-10-11.md:176. Historical: decomp/0x6F29D0__*.md; docs/tech/reference/address_catalog.md:604-610; docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:689; battle-static-discovery/{semantic-certainty.md:549, PLAN_gfx-battleloop-campaign-2026-10-08.md:96, battle-static-call-graph.md:74, glm-mcp-function-budget.md:506, r0-scope.md:99}; obsidian-docs/projects/re-ff8/references/{decomp-function-catalog.md:275, battle-address-catalog.md:237}. QMD multi_get errored on first attempt (single tool failure; direct reads used). No C reconstruction, no verdict, no edits/IDB/Git/ledger/live/delegation. STOP.\n</details>\n</task-result>`\n});\nreturn \"report sent\";"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "report sent"
+                }
+              ],
+              "metadata": {
+                "toolCalls": [
+                  {
+                    "tool": "team_message",
+                    "status": "completed",
+                    "input": {
+                      "to": "lead",
+                      "text": "<task-result>\n<status>completed</status>\n<summary>g36 COMMON_COMPACTION for 0x6F29D0: full validated fact sheet with path:line + instruction provenance, historical conclusions separated, uncertainties and source inventory included.</summary>\n<details>\nCOMMON_COMPACTION g36 — EA 0x6F29D0 (group g36, singleton; native-groups.json:284-288; mission brief E17 family E, risk H — docs/missions/ff8-decomp-semantics-2026-10-11.md:176)\nPrimary evidence: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json (frozen 2026-10-11T16:38:25Z). Label \"Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8\" is name_label_only — NOT evidence of purpose.\n\n== VALIDATED NATIVE FACTS (packet line refs / instruction addresses) ==\n- Size/shape: 28 instructions, single chunk 0x6F29D0-0x6F2A30 (0x60 bytes), single basic block, cfg successors [] (packet lines 11-25), no callees (code_targets [] line 100), leaf function ending retn @006F2A2F.\n- Binary: FF8_EN.exe 32-bit, input sha256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570 (packet lines 6-8); IDB bytes = PE bytes = freeze, no mismatches (native-pe-verification.json:257-260).\n- ABI (from ASM, packet line 18): 4 stack args. arg_C -> edx = output pointer (@006F29D0, copied to ecx @006F29D6). arg_0 dword used as index (@006F29EC). arg_4 sign-extended via movsx into esi (@006F29D9). arg_8 read as 16-bit word into si (@006F2A0E). retn without operand -> cdecl, caller cleans. ESI saved/restored (@006F29D8/@006F2A2E). EAX leftover at return = negated (w0*arg_4)>>12.\n- Body: (1) zero-fill 5 DWORDs = 20 bytes at [out+0..13h] (@006F29DE-E9). (2) idx = arg_0 AND 0FFFh (@006F29F0) — logical AND, zero-based 12-bit index. (3) table lookup at 0x13B7BB8, stride 4: lea ecx, ds:13B7BB8h[eax*4] (@006F29F5); s16 w0 = movsx word_13B7BB8[idx*4] (@006F29FC); s16 w1 = movsx word [entry+2] (@006F2A04). (4) both imul esi (@006F2A08/0B), then sar 0Ch = Q12 arithmetic shift (@006F2A13/1E). (5) 16-bit stores: [out+0Ch] = (w0*k)>>12 (@006F2A16); [out+8] = arg_8 verbatim (@006F2A1A); neg eax (@006F2A21); [out+0] = (w1*k)>>12 (@006F2A23); [out+4] = -((w0*k)>>12) (@006F2A26); [out+10h] = (w1*k)>>12 (@006F2A2A). Words at +2,+6,+0Ah,+0Eh,+12h remain zero from the DWORD clear -> 20-byte (0x14) struct = 3x3 s16 (18 bytes) + 2 bytes pad. No jcc, no jump table, no stack add.\n- Table 0x13B7BB8: access pattern proves entries of two s16 at +0/+2, index masked to 4096, footprint arithmetic 4096*4 = 16KB. Table contents NOT exported in packet.\n- Xrefs_to (all type 17 near call, 12 sites, packet lines 26-99): 10 from function 0x6ED900 (@0x6EDD68, 0x6EDEAF, 0x6EDF3F, 0x6EE0FA, 0x6EE3AD, 0x6EE428, 0x6EEA08, 0x6EEE44, 0x6EF3F2, 0x6EF6CF); 1 from 0x6F1060 (@0x6F11A0); 1 from 0x6F2A30 (@0x6F2A75). None of the three callers is among the 98 mission EAs (no native packets exist for them).\n\n== HISTORICAL, UNVALIDATED HERE (do not promote on prose) ==\n- Reconciled C exists: docs/tech/investigation/battle-static-discovery/decomp/0x6F29D0__Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8.md — claims 3x3 s16 Q12 rotation-Y builder: m00=m22=cos*k, m02=-sin*k, m20=+sin*k, m11=arg_8, others 0; w0=sin, w1=cos; returns m02; cdecl int f(__int16 angle, __int16 scale_k, __int16 m11, _DWORD *out). Status SKIP_NODECOMP, priority high (semantic-certainty.md:549; obsidian-docs/projects/re-ff8/references/decomp-function-catalog.md:275; glm-mcp-function-budget.md:506).\n- Parent-arbitrated family naming + axis verification: battle_loop_render_pipeline_entrypoints.md:689 (\"0x6F29D0 RotY mise à l'échelle via table 0x13B7BB8\", arbitrage parent); battle-static-call-graph.md:74; address_catalog.md:604-610 (family: 0x6D9510 MakeRotY, 0x6CF070 MakeRotZ_NegSin, 0x6ED1E0 MakeRotY_Scaled); PLAN_gfx-battleloop-campaign-2026-10-08.md:96 (E17 entry); battle-address-catalog.md:237.\n- Distinctness claim vs 0x6D9510 (sign flip, m11 fixed 0x1000 there) is from decomp doc comment only — not verified against the 0x6D9510 packet in this run (g34 owns it).\n\n== UNCERTAINTIES ==\n1. w0=sin / w1=cos assignment is conventional, not provable from packet ASM alone; packet proves only two distinct s16 values with distinct store targets/negation.\n2. Matrix index naming (m02/m20/m11) and row/column convention come from historical docs, not the packet.\n3. Return-value consumption by callers unknown (caller bodies not in packet).\n4. Table 0x13B7BB8 contents/signedness beyond the access pattern unverified here.\n5. 0x6F2A30 \"wrapper\" role is positional inference (immediately following function) — unproven.\n\n== SOURCE INVENTORY ==\nFrozen native: .tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json. Mission: docs/missions/ff8-decomp-semantics-2026-10-11-run01/{CONTRACT.md, native-groups.json:284-288, native-pe-verification.json:256-260}; brief docs/missions/ff8-decomp-semantics-2026-10-11.md:176. Historical: decomp/0x6F29D0__*.md; docs/tech/reference/address_catalog.md:604-610; docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md:689; battle-static-discovery/{semantic-certainty.md:549, PLAN_gfx-battleloop-campaign-2026-10-08.md:96, battle-static-call-graph.md:74, glm-mcp-function-budget.md:506, r0-scope.md:99}; obsidian-docs/projects/re-ff8/references/{decomp-function-catalog.md:275, battle-address-catalog.md:237}. QMD multi_get errored on first attempt (single tool failure; direct reads used). No C reconstruction, no verdict, no edits/IDB/Git/ledger/live/delegation. STOP.\n</details>\n</task-result>"
+                    }
+                  }
+                ],
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791738311055,
+              "ran": 1791738334494,
+              "completed": 1791738334619
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "97096a50db3c3e42814ef84387dd8d791b83151c",
+          "end": "97096a50db3c3e42814ef84387dd8d791b83151c",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 3979,
+          "output": 2004,
+          "reasoning": 59,
+          "cache": {
+            "read": 28736,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12bed5646001Sohx9796vAGarr",
+        "time": {
+          "created": 1791738386005,
+          "streamed": 1791738395322,
+          "completed": 1791738395705
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Report sent successfully. Per instructions, I must STOP now — no follow-up confirmations or standing-by messages.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791738389311,
+              "completed": 1791738395312
+            }
+          },
+          {
+            "type": "text",
+            "text": "Report delivered to the lead. Task `task_mv424nx5_0011_vccpmd` (DISCOVERY g36: 0x6F29D0) is complete.\n\n**Summary of what was accomplished:**\n- Claimed the task and read the mission CONTRACT plus my owned EA packet `.tmp/ff8-decomp-semantics-20261011-r01/native/0x6F29D0.json`\n- Extracted all validated native facts with instruction-level provenance: 28-instruction leaf function (0x6F29D0–0x6F2A30), cdecl 4-arg ABI, 20-byte s16 output struct, 12-bit masked index into table `0x13B7BB8` (stride 4, two s16 entries), Q12 `imul`+`sar 12` fixed-point math, one negation, and all 12 call xrefs (10 from `0x6ED900`, 1 from `0x6F1060`, 1 from `0x6F2A30`)\n- Separated historical/unvalidated conclusions (reconciled C doc, sin/cos naming, matrix index conventions, SKIP_NODECOMP status) from packet-provable facts\n- Documented 5 uncertainties and a full source inventory with path:line references\n- Sent the single COMMON_COMPACTION `team_message` to the lead (first attempt failed on a template-literal syntax error from backticks; corrected and resent successfully)\n\nPer protocol, I am now stopping — no follow-up messages."
+          }
+        ],
+        "snapshot": {
+          "start": "10978c94b66f9423fec687716fa6d6278ebec4da",
+          "end": "10978c94b66f9423fec687716fa6d6278ebec4da",
+          "files": []
+        },
+        "finish": "stop",
+        "rawFinish": "stop",
+        "cost": 0,
+        "tokens": {
+          "input": 2080,
+          "output": 328,
+          "reasoning": 22,
+          "cache": {
+            "read": 32704,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12bee3c42001g8q7mnm9Z4XO68",
+        "time": {
+          "created": 1791738395714
+        },
+        "type": "idle",
+        "outcome": "succeeded"
+      }
+    ],
+    "cursor": {
+      "previous": "eyJpZCI6Im1zZ18xMmJlMDk5MjgwMDE4U1VpS0dYR3A2Z1lENyIsIm9yZGVyIjoiYXNjIiwiZGlyZWN0aW9uIjoicHJldmlvdXMifQ",
+      "next": "eyJpZCI6Im1zZ18xMmJlZTNjNDIwMDFnOHE3bW5tOVo0WE82OCIsIm9yZGVyIjoiYXNjIiwiZGlyZWN0aW9uIjoibmV4dCJ9"
+    }
+  }
+}

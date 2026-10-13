@@ -1,0 +1,217 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION — run01 / g17 / discover-g17. Claimed task_mv424nwl_000j_ozakl1. Read-only; no IDA/live/Git/ledger/file edits/delegation. Shared factual context for independent producer forks, not production or approval.\n; \n; AUTHORITY / PRIMARY INVENTORY\n; Contract: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:11,16–21,38–40. Ownership: C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:133–140.\n; Primary sources (N1–N6; assembly always JSON line 18, chunk bytes lines 12–16, CFG line 19):\n; N1 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x502380.json\n; N2 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x505C00.json\n; N3 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x509C80.json\n; N4 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50B2A0.json\n; N5 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x506690.json\n; N6 C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50B830.json\n; All identify 32-bit FF8_EN.exe; input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570; exported_utc 2026-10-11T16:38:25.140966+00:00 (metadata lines 4–10). Names, parameter labels and semicolon comments are historical annotations, not purpose evidence. Direct E8 targets below were checked against raw relative-displacement bytes.\n; EA / instructions / half-open chunk / CFG blocks / incoming xrefs:\n; 502380 /243/[502380,502628)/36/1; 505C00 /42/[505C00,505C6E)/13/204; 509C80 /30/[509C80,509CC3)/6/8; 50B2A0 /400/[50B2A0,50B7E6)/57/1; 506690 /154/[506690,506853)/28/281; 50B830 /195/[50B830,50BADF)/41/1.\n; Xref-section lines N1:267,N2:116,N3:62,N4:447,N5:229,N6:330. N1 incoming call 500D29 from 500CC0. N4/N6 incoming references 50A7F1/50A812 from 50A790 are iscode=false/type=1: address references, NOT direct invocation evidence. N3 has eight direct xrefs, including B3AA3B with no containing function.\n; \n; SHARED NATIVE ABI / STORAGE\n; Entries consume stack arguments and use plain RET, not RET n. Call sites explicitly clean DWORD argument slots: caller-cleanup observations, not authenticated C prototypes. N2 consumes two arguments; others one. Do not assume meaningful EAX-return contracts for N2/N3 from labels.\n; Actor arithmetic computes 1D972C0 + 0x9C*index: N1 @5023DD–5023F3, N5 @506696–5066A4/506811–506827, N4 @50B647–50B664. N1 reads signed WORD indices; N5 uses zeroed EAX then BYTE; N4 masks 0xFF. Actor fields touched include WORD +0, BYTE +2/+4/+8/+61, DWORD +8, pointers +74/+84/+8C. Do NOT conflate with domain-slot array 1D27B10/stride 0xD0: C:/Users/djden/source/repos/retro-eng/re-ff8/ff8re/battle_state.py:80–83,110–120. Sibling rewrite SlotState is abstract, not a packed presentation ABI: C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/core/include/ff8iso/core/battle_state.hpp:85–132.\n; N4/N6 loops base 1D972C0 to 1D97494 span three 0x9C records. N1 loops base+8 to 1D9749C (same three). Neighbor 50AED0 loops to 1D97704, seven strides. Different loop bounds do not prove one universal array size.\n; Byte-verified globals: actor pointer 1D99A40; descriptor pointer 1D99A50; event cursor 1D99A60; callback slot 21DFEC4; backup 21DFEC8; callback-return store 1D96AAC; signed-tested file-result DWORD 1D99C8; control word 1D97704; flags DWORD 1D96A9C; marker DWORD 1D99A64; callback argument address 1D99A78. A50 is pointer storage, distinct from pointed descriptor bytes.\n; \n; PER-EA OBSERVATIONS (instruction citations use N#:18)\n; N1 502380: @502387–50239A reads WORD [input+2], sign-extends, adds FFFFFF9A (minus 0x66), unsigned-compares 0x11, indirect-jumps through absolute table 502628. Native table-bound test covers 0x66..0x77, not proof of historical “0x64..0x77” wording. @5023A6/50240A/50254A/50256E call 500DD0; stores put input at returned-node+10, sometimes zero BYTE node+0D, explicitly EAX=8. Several other arms set EAX=0xF. @5023D1 calls 50A790(input). @502453/5024B1 call 505C00; @5025AB/502617 call 509C80. @502582–5025A5 reloads input+4 into ESI, reads DWORD [ESI+0C], MOV AX,[ESI+82], then PUSH EAX: preserve partial-register/full-DWORD argument provenance; do not silently zero-extend from guessed prototypes. @5025DC–5025F8 shifts DWORD 1 by CL from input+0A (x86 count masking); @502606 reads BYTE +0B. @5024EC bytes 81 0E 00 00 00 01 prove immediate 0x01000000 despite IDA “VIT…” mask label.\n; N2 505C00: @505C01 tests full second-argument DWORD; @505C0E tests actor BYTE +8 mask 0x18; @505C14 tests BH mask 0x10; @505C1F clears it (0x1000 in EBX). @505C19 tests actor DWORD +8C. @505C26 pushes callback literal 505C70; @505C2B calls 506C10, checks EAX, writes actor to node+0C and BL to node+15. @505C44–505C5C traverses actor+8C until null or back to original actor; on BYTE actor+0 bit 2, masks WORD [actor+74 pointer +2C] with FFBF. With null +8C, @505C63 calls 505BC0(actor, full EBX). Blanket byte truncation or invented BOOL return is unsupported.\n; N3 509C80: @509C85–89 unsigned-compares actor BYTE +4 with 0x10. @509C8C calls 509C10; @509C91 fetches actor+74. If BYTE pointed-state+3 is nonzero, @509CA1–AB reads BYTE +0, SUB EDX,EAX; NEG EDX; SBB DL,DL; AND EDX,EAX; stores DL to +3. Preserve exact carry/partial-register sequence, not prose simplification. Other path compares zero-extended state BYTE +0 with EAX and calls 505CB0(actor,EAX) @509CB9 only on inequality. Neither helper has a run01 native packet.\n; N5 506690: @50669A indexes actor by input BYTE +0; @5066AB calls 493D80(input) BEFORE later local actor gates. @5066BC conditionally calls 50E510(3) when actor BYTE +4==0x8C. Gates use actor flag bits 2/0x10, input WORD +4/DWORD +8, actor BYTE +8 mask 0x1A and WORD state+2C mask 0x140. @5066FD/506741 call 506B50(actor, WORD-derived DWORD, input+8 DWORD). @506729 calls 508360 with list 1D986A8 and callback 506860, then writes BL to returned node+0C. @506797/506841 call 509C80. @5067FF calls 5068B0(input). @506804–506847 tests input BYTE +0C against 0xFF; when unequal, indexes another actor by that byte, reads WORD input+10/DWORD input+14, calls 50A070,506620 with zero-extended BYTE +0D,509C80, then 5068B0(input+0C). Accesses fit two 12-byte-shaped portions within a 0x18 record; purposes unassigned. Flags DWORD 1D96A9C bit 10000000 is tested @50679F and cleared @5067C6.\n; N4/N6: node BYTE +0D is unsigned-bounded by 9 /7 (@50B2B4/@50B84A); tables 50B7E8/50BAE0. Both read node+10 as another pointer. Both call 508580 then 501190 initially, 50AFC0 for setup, 50AF20(descriptor WORD +6,address 21DFEC4), and use 50AED0/50AE80. Labels do not authenticate helper purpose.\n; N4 @50B4AA–50B4C5 loads callback from 21DFEC4, backs up to 21DFEC8, pushes 1D99A78, CALL EAX @50B4B9, stores return to 1D96AAC, then RELOADS descriptor pointer 1D99A50. @50B4C8–DE tests descriptor BYTE +1==0xFE, passes zero-extended WORD +4/global BYTE 1D28DF7 as DWORD arguments to 56DCE0. N6 analogous callback @50B9A1/return-store @50B9A3. N4 @50B790–50B7BE conditionally calls 50A670 when BYTE 1D99A81==3; historical “presentation-only/no state effects” comments are not proof. N4 @50B677–69A and N6 @50BA8A–94 OR AH,0x10 into helper EAX then push full EAX to 505C00. Actor/descriptor reloads after helpers are real native operations, not interchangeable with captured pointers. Final arms write BYTE pointed-object+1=0xFF, clear flags bit 0x10/marker 1D99A64, set EAX=2 (@50B7C3–E5 /50BAB8–DE).\n; \n; SURROUNDING NATIVE SOURCES\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50BF90.json:18 @50BF9B–50BFE7 stores input pointer to 1D99A50,input+8 to cursor 1D99A60,base+0x9C*input[0] to 1D99A40,input+0C to 1D99A74. @50C04D advances event cursor 0x18; @50C05B group cursor 0x14. Native loops support strides independently of wiki.\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50AF20.json:18 @50AF2E–37 decrements effect argument/signed-checks [0,0x190); @50AF49 reads table C81774,@50AF88 reads C81DB8/optionally CALL EAX; @50AFAE writes selected logic pointer through second argument. Establishes table-backed callback path, not current runtime target.\n; C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50A690.json:18 @50A697–A0 advances global 1D99A60 by 0x18 BEFORE calling 506690(old cursor); @50A6A5 reloads after helper. Also inspected frozen 505BC0,50A670,50A6C0,50AED0,50AFC0,506C10 in that native directory.\n; \n; KNOWLEDGE / UNCERTAINTIES\n; GrepAI first, common root retro-eng including sibling code; QMD CLI for knowledge. ff8-wiki has 188 docs, updated 4 days ago: not run01 validation. Historical QMD sources: C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/concepts/battle-action-sequencing.md:22–36 describes registration/payload; C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/gf-asset-loading-and-authoring.md:117–128 describes roles and notes impact-chain exception. Treat purpose descriptions as background, not independent verdicts. Historical target decomp headers only (no C bodies read) say A!=B and Push IDB=oui; not run01 validation.\n; Raw tables 502628,50B7E8,50BAE0 are OUTSIDE exported chunks. CFG successors/IDA case comments do not replace raw selector-to-arm bytes. Missing run01 neighbor packets include 50A790,509C10,505CB0,50AE80,50B810,493D80,5068B0: precise ABI/purpose/side effects unresolved. Indirect callback targets, invalid indices, ring integrity, aliasing across helpers/runtime ordering are unsettled. No semantic classification, reconstructed target C, promotion or completeness verdict.\n; TARGET ASM COMPLETE\n00506690: push    ebx; Presentation/domain seam: applies result/status first via 0x493D80, then restores animations/spawns reactions and finally creates damage popups via 0x5068B0. Popup creation itself does not mutate HP.\n00506691: push    esi\n00506692: mov     esi, [esp+8+result_event]\n00506696: xor     eax, eax; Logical Exclusive OR\n00506698: push    edi\n00506699: push    esi; unsigned __int8 *\n0050669A: mov     al, [esi]\n0050669C: lea     ecx, [eax+eax*4]; Load Effective Address\n0050669F: shl     ecx, 3; Shift Logical Left\n005066A2: sub     ecx, eax; Integer Subtraction\n005066A4: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address\n005066AB: call    domain__BattleAction_ResolveAndApplyStatusResult; When summon-start flag 0x20000 is present and the slot still has GF Summoning, seed F_CHAR_ACTIVE_SUMMON_HP and slot.target_info_mask from SG_GF_CURRENT_HP_ using F_CHAR_ACTIVE_SUMMON_GF_ID.\n005066B0: mov     al, [edi+4]\n005066B3: add     esp, 4; Add\n005066B6: cmp     al, 8Ch; Compare Two Operands\n005066B8: jnz     short loc_5066C4; Jump if Not Zero (ZF=0)\n005066BA: push    3\n005066BC: call    BS_DispatchStageById; [chunk-iso 2026-09-12] reconstructed C in regular function comment (iso vs ASM)\n005066C1: add     esp, 4; Add\n005066C4: mov     ax, [edi]\n005066C7: test    al, 2; Logical Compare\n005066C9: jz      loc_50684F; Jump if Zero (ZF=1)\n005066CF: test    al, 10h; Logical Compare\n005066D1: jnz     loc_50684F; Jump if Not Zero (ZF=0)\n005066D7: mov     ax, [esi+4]\n005066DB: test    al, 4; Logical Compare\n005066DD: jz      short loc_506736; Jump if Zero (ZF=1)\n005066DF: test    byte ptr [edi+8], 1Ah; Logical Compare\n005066E3: jnz     short loc_506736; Jump if Not Zero (ZF=0)\n005066E5: mov     edx, [edi+74h]\n005066E8: test    word ptr [edx+2Ch], 140h; Logical Compare\n005066EE: jnz     short loc_506736; Jump if Not Zero (ZF=0)\n005066F0: mov     ecx, [esi+8]\n005066F3: and     eax, 0FFFFh; Logical AND\n005066F8: and     al, 0FBh; Logical AND\n005066FA: push    ecx\n005066FB: push    eax\n005066FC: push    edi\n005066FD: call    domain__BattleStatus_MaskWithSlotStatus2; READS status_2 to mask input flags before passing to sub_50A070.\n00506702: mov     ecx, edi\n00506704: mov     eax, 0D20D20D3h\n00506709: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction\n0050670F: push    offset sub_506860; callback\n00506714: imul    ecx; Signed Multiply\n00506716: add     edx, ecx; Add\n00506718: push    offset dword_1D986A8; list_head\n0050671D: sar     edx, 7; Shift Arithmetic Right\n00506720: mov     eax, edx\n00506722: mov     ebx, edx\n00506724: shr     eax, 1Fh; Shift Logical Right\n00506727: add     ebx, eax; Add\n00506729: call    BdLinkTask_Register; Call Procedure\n0050672E: add     esp, 14h; Add\n00506731: mov     [eax+0Ch], bl\n00506734: jmp     short loc_506749; Jump\n00506736: mov     ecx, [esi+8]\n00506739: and     eax, 0FFFFh; Logical AND\n0050673E: push    ecx\n0050673F: push    eax\n00506740: push    edi\n00506741: call    domain__BattleStatus_MaskWithSlotStatus2; READS status_2 to mask input flags before passing to sub_50A070.\n00506746: add     esp, 0Ch; Add\n00506749: test    byte ptr [esi+2], 40h; Logical Compare\n0050674D: jz      short loc_50677E; Jump if Zero (ZF=1)\n0050674F: push    offset unk_B8B858\n00506754: push    edi\n00506755: call    au_re_BdLinkTask_4; Call Procedure\n0050675A: push    7\n0050675C: push    edi\n0050675D: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript\n00506762: lea     ebx, [edi+1Ch]; Load Effective Address\n00506765: push    ebx\n00506766: push    8\n00506768: push    0Dh\n0050676A: call    BdPlaySystemSE3D; Call Procedure\n0050676F: push    ebx\n00506770: push    10h\n00506772: push    0Eh\n00506774: call    BdPlaySystemSE3D; Call Procedure\n00506779: add     esp, 28h; Add\n0050677C: jmp     short loc_50679F; Jump\n0050677E: test    dword ptr [esi+8], 10000h; Logical Compare\n00506785: jnz     short loc_506796; Jump if Not Zero (ZF=0)\n00506787: xor     edx, edx; Logical Exclusive OR\n00506789: mov     dl, [esi+1]\n0050678C: push    edx\n0050678D: push    edi\n0050678E: call    sub_506620; Call Procedure\n00506793: add     esp, 8; Add\n00506796: push    edi; actor\n00506797: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync\n0050679C: add     esp, 4; Add\n0050679F: test    battle_to_update_flags_dword_1D96A9C, 10000000h; Logical Compare\n005067A9: jnz     short loc_5067C6; Jump if Not Zero (ZF=0)\n005067AB: test    byte ptr [esi+3], 2; Logical Compare\n005067AF: jz      short loc_5067D0; Jump if Zero (ZF=1)\n005067B1: push    0FFh\n005067B6: push    0\n005067B8: push    1\n005067BA: push    0\n005067BC: call    au_re_BdLinkTask_6; Call Procedure\n005067C1: add     esp, 10h; Add\n005067C4: jmp     short loc_5067D0; Jump\n005067C6: and     battle_to_update_flags_dword_1D96A9C, 0EFFFFFFFh; Logical AND\n005067D0: mov     al, [esi+2]\n005067D3: and     eax, 30h; Logical AND\n005067D6: cmp     eax, 10h; Compare Two Operands\n005067D9: jz      short loc_5067ED; Jump if Zero (ZF=1)\n005067DB: cmp     eax, 20h ; ' '; Compare Two Operands\n005067DE: jz      short loc_5067E9; Jump if Zero (ZF=1)\n005067E0: cmp     eax, 30h ; '0'; Compare Two Operands\n005067E3: jnz     short loc_5067F8; Jump if Not Zero (ZF=0)\n005067E5: push    26h ; '&'\n005067E7: jmp     short loc_5067EF; Jump\n005067E9: push    28h ; '('\n005067EB: jmp     short loc_5067EF; Jump\n005067ED: push    27h ; '''\n005067EF: push    edi\n005067F0: call    au_re_BdLinkTask_5; Call Procedure\n005067F5: add     esp, 8; Add\n005067F8: push    esi\n005067F9: call    sub_5065B0; Call Procedure\n005067FE: push    esi; unsigned __int8 *\n005067FF: call    BattlePresentation_SpawnDamagePopup; Crée la présentation popup/réaction à partir d'un événement déjà routé; la chaîne appelante peut avoir appliqué HP/statuts via 0x493D80.\n00506804: mov     al, [esi+0Ch]\n00506807: lea     ebx, [esi+0Ch]; Load Effective Address\n0050680A: add     esp, 8; Add\n0050680D: cmp     al, 0FFh; Compare Two Operands\n0050680F: jz      short loc_50684F; Jump if Zero (ZF=1)\n00506811: and     eax, 0FFh; Logical AND\n00506816: mov     edx, [esi+14h]\n00506819: push    edx\n0050681A: lea     ecx, [eax+eax*4]; Load Effective Address\n0050681D: shl     ecx, 3; Shift Logical Left\n00506820: sub     ecx, eax; Integer Subtraction\n00506822: mov     ax, [esi+10h]\n00506826: push    eax\n00506827: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address\n0050682E: push    edi\n0050682F: call    sub_50A070; Call Procedure\n00506834: xor     ecx, ecx; Logical Exclusive OR\n00506836: mov     cl, [esi+0Dh]\n00506839: push    ecx\n0050683A: push    edi\n0050683B: call    sub_506620; Call Procedure\n00506840: push    edi; actor\n00506841: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync\n00506846: push    ebx; unsigned __int8 *\n00506847: call    BattlePresentation_SpawnDamagePopup; Crée la présentation popup/réaction à partir d'un événement déjà routé; la chaîne appelante peut avoir appliqué HP/statuts via 0x493D80.\n0050684C: add     esp, 1Ch; Add\n0050684F: pop     edi\n00506850: pop     esi\n00506851: pop     ebx\n00506852: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x506690",
+        "end": "0x5066ba",
+        "successors": [
+          "0x5066ba",
+          "0x5066c4"
+        ]
+      },
+      {
+        "start": "0x5066ba",
+        "end": "0x5066c4",
+        "successors": [
+          "0x5066c4"
+        ]
+      },
+      {
+        "start": "0x5066c4",
+        "end": "0x5066cf",
+        "successors": [
+          "0x5066cf",
+          "0x50684f"
+        ]
+      },
+      {
+        "start": "0x5066cf",
+        "end": "0x5066d7",
+        "successors": [
+          "0x5066d7",
+          "0x50684f"
+        ]
+      },
+      {
+        "start": "0x5066d7",
+        "end": "0x5066df",
+        "successors": [
+          "0x5066df",
+          "0x506736"
+        ]
+      },
+      {
+        "start": "0x5066df",
+        "end": "0x5066e5",
+        "successors": [
+          "0x5066e5",
+          "0x506736"
+        ]
+      },
+      {
+        "start": "0x5066e5",
+        "end": "0x5066f0",
+        "successors": [
+          "0x5066f0",
+          "0x506736"
+        ]
+      },
+      {
+        "start": "0x5066f0",
+        "end": "0x506736",
+        "successors": [
+          "0x506749"
+        ]
+      },
+      {
+        "start": "0x506736",
+        "end": "0x506749",
+        "successors": [
+          "0x506749"
+        ]
+      },
+      {
+        "start": "0x506749",
+        "end": "0x50674f",
+        "successors": [
+          "0x50674f",
+          "0x50677e"
+        ]
+      },
+      {
+        "start": "0x50674f",
+        "end": "0x50677e",
+        "successors": [
+          "0x50679f"
+        ]
+      },
+      {
+        "start": "0x50677e",
+        "end": "0x506787",
+        "successors": [
+          "0x506787",
+          "0x506796"
+        ]
+      },
+      {
+        "start": "0x506787",
+        "end": "0x506796",
+        "successors": [
+          "0x506796"
+        ]
+      },
+      {
+        "start": "0x506796",
+        "end": "0x50679f",
+        "successors": [
+          "0x50679f"
+        ]
+      },
+      {
+        "start": "0x50679f",
+        "end": "0x5067ab",
+        "successors": [
+          "0x5067ab",
+          "0x5067c6"
+        ]
+      },
+      {
+        "start": "0x5067ab",
+        "end": "0x5067b1",
+        "successors": [
+          "0x5067b1",
+          "0x5067d0"
+        ]
+      },
+      {
+        "start": "0x5067b1",
+        "end": "0x5067c6",
+        "successors": [
+          "0x5067d0"
+        ]
+      },
+      {
+        "start": "0x5067c6",
+        "end": "0x5067d0",
+        "successors": [
+          "0x5067d0"
+        ]
+      },
+      {
+        "start": "0x5067d0",
+        "end": "0x5067db",
+        "successors": [
+          "0x5067db",
+          "0x5067ed"
+        ]
+      },
+      {
+        "start": "0x5067db",
+        "end": "0x5067e0",
+        "successors": [
+          "0x5067e0",
+          "0x5067e9"
+        ]
+      },
+      {
+        "start": "0x5067e0",
+        "end": "0x5067e5",
+        "successors": [
+          "0x5067e5",
+          "0x5067f8"
+        ]
+      },
+      {
+        "start": "0x5067e5",
+        "end": "0x5067e9",
+        "successors": [
+          "0x5067ef"
+        ]
+      },
+      {
+        "start": "0x5067e9",
+        "end": "0x5067ed",
+        "successors": [
+          "0x5067ef"
+        ]
+      },
+      {
+        "start": "0x5067ed",
+        "end": "0x5067ef",
+        "successors": [
+          "0x5067ef"
+        ]
+      },
+      {
+        "start": "0x5067ef",
+        "end": "0x5067f8",
+        "successors": [
+          "0x5067f8"
+        ]
+      },
+      {
+        "start": "0x5067f8",
+        "end": "0x506811",
+        "successors": [
+          "0x506811",
+          "0x50684f"
+        ]
+      },
+      {
+        "start": "0x506811",
+        "end": "0x50684f",
+        "successors": [
+          "0x50684f"
+        ]
+      },
+      {
+        "start": "0x50684f",
+        "end": "0x506853",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 28
+  }
+}

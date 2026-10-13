@@ -1,0 +1,860 @@
+{
+  "at_utc": "2026-10-11T17:14:59.264Z",
+  "session": {
+    "id": "ses_ed41fd30dffesWwHN1kdzH25Zn",
+    "parentID": "ses_ed449e6bdffd3H481rC1IU4olB",
+    "projectID": "68ae5f2640259377289ea9521632cd4a94698438",
+    "agent": "explore",
+    "model": {
+      "id": "glm-5.3-flash",
+      "providerID": "zai-coding-plan",
+      "variant": "max"
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 12180,
+      "output": 744,
+      "reasoning": 4978,
+      "cache": {
+        "read": 49344,
+        "write": 0
+      }
+    },
+    "outcome": "failed",
+    "time": {
+      "created": 1791737474683,
+      "updated": 1791738010982,
+      "idle": 1791738010987
+    },
+    "title": "discover-g13 (@explore teammate)",
+    "metadata": {
+      "ensemble.permissions": [
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "team_message",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_broadcast",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_list",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_add",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_tasks_complete",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_claim",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_results",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_status",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_view",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "team_handoff",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "execute",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "action": "edit",
+        "resource": "*",
+        "effect": "deny"
+      },
+      {
+        "action": "shell",
+        "resource": "*",
+        "effect": "deny"
+      },
+      {
+        "action": "team_message",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_broadcast",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_list",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_add",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_tasks_complete",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_claim",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_results",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_status",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_view",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "team_handoff",
+        "resource": "*",
+        "effect": "allow"
+      },
+      {
+        "action": "execute",
+        "resource": "*",
+        "effect": "allow"
+      }
+    ],
+    "location": {
+      "directory": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+    }
+  },
+  "messages": {
+    "data": [
+      {
+        "id": "msg_12be02e8400152IOHR1Wz2UfHe",
+        "time": {
+          "created": 1791737474692
+        },
+        "type": "agent-switched",
+        "agent": "explore"
+      },
+      {
+        "id": "msg_12be02e89001NcxrtwmG0iJFmo",
+        "time": {
+          "created": 1791737474697
+        },
+        "type": "model-switched",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        }
+      },
+      {
+        "id": "msg_12be02e8e001NdkMCX3QMe4nPj",
+        "time": {
+          "created": 1791737474800
+        },
+        "text": "You are \"discover-g13\", a teammate in team \"ff8-decomp-semantics-20261011-r01\".\nYour agent type is \"explore\".\nOther teammates: discover-g11-zai, discover-g05, discover-g24, discover-g01, discover-g03, discover-g04, discover-g06, discover-g07, discover-g08, discover-g09, discover-g10, discover-g12, discover-g02\n\nTools available to you:\n- team_message: send a message to the lead or another teammate\n- team_broadcast: send a message to all team members\n- team_tasks_list: view the shared team task board\n\nCollaboration:\n- Check team_tasks_list to see what other teammates are working on.\n- If you need information another teammate has, message them directly via team_message.\n- If you discover something relevant to another teammate's task, share it with them.\n- Use team_broadcast for updates that affect the whole team.\n- Keep peer messages focused and actionable — coordinate, don't chat.\n\nWhen you finish your task:\nUse team_handoff to change your own agent in this same session when needed. Use team_results, team_status and team_view for inspection.\n1. Send ONE message to the lead using team_message with this format:\n<task-result>\n<status>completed or failed</status>\n<summary>One-line summary of what you did</summary>\n<details>Full findings or changes made</details>\n</task-result>\n2. STOP. Do not send follow-up confirmations, status updates, or 'standing by' messages.\n\nIf you are blocked:\n- Send ONE message to the lead via team_message describing the specific blocker.\n- Do NOT attempt workarounds or make assumptions. Wait for the lead's response.\n\nYour plain text output is NOT visible to the team. You MUST use team_message to communicate.\n\nYour task:\nRead-only factual discovery g13 for mission run01. Claim task_mv424nwe_000f_cd3wk3 if pending. Read docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and native-groups.json for owned EAs; primary evidence .tmp/ff8-decomp-semantics-20261011-r01/native/<EA>.json. Maximize validated surrounding docs/code/ABI/globals/structures/xrefs facts, with path:line and instruction provenance. GrepAI first for code, QMD CLI for knowledge, common root retro-eng. Native labels are not evidence of purpose. Do not reconstruct target C or give semantic verdict; separate historical unvalidated conclusions. No edits/IDB/Git/ledger/live/delegation. Return ONE team_message COMMON_COMPACTION reusable factual synthesis, uncertainties, source inventory. Preserve context for independent producer forks; STOP after report.",
+        "type": "user"
+      },
+      {
+        "id": "msg_12be02f00001vm0uN7u9kz52yo",
+        "time": {
+          "created": 1791737484740,
+          "streamed": 1791737507722,
+          "completed": 1791737523369
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Let me start by understanding my task. I'm discover-g13, and I need to:\n1. Claim task_mv424nwe_000f_cd3wk3 if pending\n2. Read docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md and native-groups.json for owned EAs\n3. Primary evidence: .tmp/ff8-decomp-semantics-20261011-r01/native/<EA>.json\n4. Maximize validated facts about docs/code/ABI/globals/structures/xrefs with path:line and instruction provenance\n5. Return ONE team_message COMMON_COMPACTION\n\nLet me start by claiming the task and reading the contract files in parallel. Actually, let me first claim the task, then read files. Or do them in parallel via execute.\n\nLet me use the execute tool to call team_claim and read files. Wait — I have team_claim available? The tools listed in my prompt say: team_message, team_broadcast, team_tasks_list. But the system prompt catalog shows team_claim exists. Let me check via search in execute. The instructions say tools must be called through execute. Let me search for team_claim.\n\nActually the task says \"Claim task_mv424nwe_000f_cd3wk3 if pending\" — so team_claim should be available. Let me try.\n\nLet me do:\n1. team_tasks_list + team_claim in parallel (claim depends on pending status, but claim itself will fail if not claimable; I can just try claiming).\n2. Read CONTRACT.md and native-groups.json.\n\nLet me batch: team_tasks_list, team_claim, read CONTRACT.md, read native-groups.json — all independent enough. The claim path depends on knowing the file paths. Let me glob first for the mission files.\n\nActually, let me just do it efficiently in one execute block with Promise.allSettled:\n- tools.team_claim({ task_id: \"task_mv424nwe_000f_cd3wk3\" })\n- tools.team_tasks_list()\n- read CONTRACT.md via read tool? But read is not in the execute catalog... The catalog shows only certain tools. I should use search to find tools like read/glob/grep. The instructions say \"Within { code }, the only callable tools are those explicitly listed in the Code Mode catalog instructions or returned by the search function.\"\n\nThe catalog lists context-mode, grepai, qmd, serena, team_* tools. The core tools (read, glob, grep) are shown as direct functions in the system prompt's function list... but the Code Mode instructions say to call tools through execute. Hmm, actually the function definitions at the top (glob, grep, read, webfetch, websearch, execute) are direct tools I can call outside execute. The Code Mode section says MCP tools must be called via execute.\n\nSo I can call glob/grep/read directly. Good. Let me:\n\n1. execute: team_claim + team_tasks_list (parallel)\n2. glob/grep for CONTRACT.md and native-groups.json (parallel direct calls)\n\nLet me start.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737492349,
+              "completed": 1791737507663
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_9f4389fc449d44c7a1e0e485",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "const results = await Promise.allSettled([\n  tools.team_claim({ task_id: \"task_mv424nwe_000f_cd3wk3\" }),\n  tools.team_tasks_list()\n]);\nreturn results.map(r => r.status === 'fulfilled' ? r.value : `ERROR: ${r.reason}`);"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "[\n  \"Claimed task: DISCOVERY g13: 0x48F050. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01.\",\n  \"[in_progress] DISCOVERY g11: 0x484490, 0x4844D0. Read frozen native facts and validated surrounding documentation; produce common factual compaction/provenance, no target C/verdict. Mission run01. (task_mv41sods_0001_dmo9oy) → discover-g11-zai [high] @explore [complexity:20 risk:20]\\n[in_progress] DISCOVERY g02: 0x45E610,0x45E9D0,0x45EBF0,0x56C090,0x701220,0x7012C0. Common factual compaction/provenance from frozen ASM and surrounding documentation only; no target C/verdict. (task_mv41sodw_0002_dmdzvn) → discover-g02 [high] @explore [complexity:55 risk:55]\\n[completed] DISCOVERY g05: 0x463FC0,0x464DB0,0x465720. Read frozen native facts and surrounding validated documentation; common factual compaction/provenance, no target C/verdict. (task_mv41sodx_0003_oz4937) → discover-g05 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g24: 0x50A9A0,0x50AED0,0x50AFC0,0x50BB00,0x50B0C0,0x50B190. Read frozen native facts and surrounding validated documentation; common factual compaction/provenance, no target C/verdict. (task_mv41sodz_0004_meyiiw) → discover-g24 [high] @explore [complexity:65 risk:60]\\n[in_progress] DISCOVERY g01: 0x419D8F. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw6_0006_bgm0j7) → discover-g01 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g03: 0x45E670. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw7_0007_c4bdzi) → discover-g03 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g04: 0x460860. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw8_0008_natqik) → discover-g04 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g06: 0x464850. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nw9_0009_d535ut) → discover-g06 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g07: 0x47CF60,0x500900,0x485FF0,0x493840,0x485EC0,0x4868C0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwa_000a_k3yfi5) → discover-g07 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g08: 0x47DDA0,0x484720,0x47DE70,0x47E120,0x482BD0,0x487DF0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwa_000b_s5lpld) → discover-g08 [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g09: 0x47DF60. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwb_000c_mzzwt0) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g10: 0x47E3F0,0x485F00,0x48D200,0x486E00,0x48FE20,0x495EC0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwc_000d_p73m0s) [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g12: 0x484D20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwd_000e_h8e7nv) → discover-g12 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g13: 0x48F050. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwe_000f_cd3wk3) → discover-g13 [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g14: 0x4954B0,0x495960,0x495D80. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwf_000g_z26eqm) [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g15: 0x4ADDB0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwj_000h_wcl3px) → discover-g15 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g16: 0x500EA0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwk_000i_17h4pr) → discover-g16 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g17: 0x502380,0x505C00,0x509C80,0x50B2A0,0x506690,0x50B830. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwl_000j_ozakl1) → discover-g17 [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g18: 0x504BB0,0x50C950,0x50C780,0x50D300,0x506C10,0x50A670. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwm_000k_q4kvep) → discover-g18 [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g19: 0x505BC0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwo_000l_7mgsql) [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g20: 0x5083C0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwo_000m_sh49jx) → discover-g20 [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g21: 0x508540,0x50AE00,0x50AE20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwq_000n_sk2y4p) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g22: 0x508F90,0x5095B0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwr_000o_1xn466) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g23: 0x50A690,0x50A6C0,0x50E510. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nws_000p_0o9fn3) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g25: 0x50AF20. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwt_000q_575pc8) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g26: 0x50BDC0,0x50BEE0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwu_000r_0hjsxz) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g27: 0x50BF90. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwv_000s_21y4jj) [high] @explore [complexity:50 risk:50]\\n[in_progress] DISCOVERY g28: 0x50C860. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nww_000t_hby3wg) → discover-g28 [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g29: 0x50DB40. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwx_000u_6pd08l) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g30: 0x50F900,0x50FDF0,0x5106E0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwy_000v_wl9kqw) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g31: 0x511EB0,0x511EF0,0x5163A0,0x5177C0,0x517EE0,0x519620. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nwz_000w_lo6n7e) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g32: 0x5156D0,0x515730,0x517B40,0x5180C0,0x518290,0x518440. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx1_000x_gumfnt) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g33: 0x51A2A0,0x51A9A0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx2_000y_ssbffp) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g34: 0x56D090,0x6D9510,0x6CF070,0x6ED1E0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx3_000z_61egf0) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g35: 0x687300. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx4_0010_3y25gb) [high] @explore [complexity:50 risk:50]\\n[pending] DISCOVERY g36: 0x6F29D0. Maximum factual neighbour discovery from frozen native packets and validated docs; one reusable common compaction with provenance; no target C/verdict. Mission run01. (task_mv424nx5_0011_vccpmd) [high] @explore [complexity:50 risk:50]\"\n]"
+                }
+              ],
+              "metadata": {
+                "toolCalls": [
+                  {
+                    "tool": "team_claim",
+                    "status": "completed",
+                    "input": {
+                      "task_id": "task_mv424nwe_000f_cd3wk3"
+                    }
+                  },
+                  {
+                    "tool": "team_tasks_list",
+                    "status": "completed"
+                  }
+                ],
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737506237,
+              "ran": 1791737507673,
+              "completed": 1791737507864
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_537a224c1ded4e508fb86304",
+            "name": "glob",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/**"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\ledger.jsonl\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\inventory.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g11.readback.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g11-zai.readback.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.readback.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.readback.json\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\CONTRACT.md\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\catalogue.snapshot.json"
+                }
+              ],
+              "metadata": {
+                "count": 9,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737507566,
+              "ran": 1791737507683,
+              "completed": 1791737507940
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_06b2f1deb38a4b56b8aab218",
+            "name": "glob",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": ".tmp/ff8-decomp-semantics-20261011-r01/native/*.json"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No files found"
+                }
+              ],
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737507587,
+              "ran": 1791737507712,
+              "completed": 1791737507931
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 687,
+          "output": 129,
+          "reasoning": 637,
+          "cache": {
+            "read": 8896,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be0ecc0001MA0XyNoswEt9jG",
+        "time": {
+          "created": 1791737523406,
+          "streamed": 1791737538419,
+          "completed": 1791737550172
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "Task claimed. My EA is 0x48F050. The native packets glob under .tmp didn't match. Let me check the .tmp directory structure and read the CONTRACT.md and native-groups.json.",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737538046,
+              "completed": 1791737538360
+            }
+          },
+          {
+            "type": "text",
+            "text": "Task claimed. My owned EA is **0x48F050**. Now let me read the contract, the native-groups.json, and locate the native packet directory."
+          },
+          {
+            "type": "tool",
+            "id": "call_a1d0079dab1c4c78a8b617c0",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\CONTRACT.md"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\CONTRACT.md, lines 1-40\n1: # FF8 decomp/semantics — run01\n2: \n3: GO utilisateur reçu le 2026-10-11 dans la session superviseur.\n4: \n5: ## Périmètre et autorité\n6: \n7: - 98 EA du brief `../ff8-decomp-semantics-2026-10-11.md`, sections 1–2 uniquement.\n8: - Extension de 151 EA exclue ; aucun live. Historique DRAINED / STOP_DISPATCH inchangé.\n9: - Nouvelle équipe `ff8-decomp-semantics-20261011-r01`, nouveaux IDs et ledger append-only `ledger.jsonl`.\n10: - Aucun plafond de coût ou concurrence utilisateur ; maximiser les admissions utiles, sans doublon ni saut de dépendance. Saturation attestée : route temporairement indisponible, cause/Retry-After/cooldown tracés ; autres routes maintenues.\n11: - Superviseur seul : ledger, classification, validation ASM §5.6, IDB/save/readback et Git sérialisés. Workers : pas de mutation IDB/Git/registre/live, pas de délégation.\n12: - Travail utilisateur préexistant préservé ; aucun commit global opportuniste.\n13: \n14: ## Contexte et classification obligatoires\n15: \n16: 1. Export natif factuel, regroupement par graphe d'appels IDA ; chaque EA appartient à un groupe unique.\n17: 2. Explorateur lecteur par groupe, contexte de découverte sans reconstruction/verdict cible.\n18: 3. Une compaction factuelle commune gelée/versionnée/hashée par groupe.\n19: 4. Pour chaque EA : `classify_x86` reçoit son ASM complet et cette compaction commune. Archiver le payload exact avant appel et la réponse native complète à réception, sans enrichissement a posteriori. Exception utilisateur explicite après GO : entrée dépassant les limites de Classify → évaluation par `openai/gpt-6-luna-fast`, variante `medium`, même ASM complet + compaction, prompt/scoring/réponse exacts archivés avec `classifier_kind=luna_oversize` ; ne jamais présenter cette évaluation comme une sortie native Classify. Aucun tronquage. Autres erreurs ou capture manquante : bloquer cette EA, continuer les autres.\n20: 5. Productions C et sémantique en parallèle, forks indépendants depuis la même session explorateur gelée, explicitement autorisés par l'utilisateur. Pas d'héritage des productions des frères ni du lead. Slots recyclables, auteurs C nouveaux par fonction/production.\n21: 6. Réconciliation distincte après dépôt A+B ; contrôle final croisé C/sémantique par le superviseur.\n22: \n23: ## Routage initial conservateur v1\n24: \n25: Les seuils sont des décisions opérationnelles du superviseur après GO, non une calibration démontrée.\n26: \n27: - Simple : complexité ≤25, risque ≤20, ≤80 instructions natives ; aucune ambiguïté ABI/arithmétique, contrôle indirect non résolu, contexte incomplet ou contradiction. Un auteur par volet + validation parent. Tout obstacle entraîne 2+1.\n28: - Moyen : hors simple, complexité ≤65 et risque ≤50, sans trigger structurel majeur ; 2+1 par volet.\n29: - Complexe/haut risque : autres cas, >200 instructions, contrôle indirect non résolu ou conflit ; 2+1 par volet.\n30: - Classification obligatoire et consultative : ne dispense jamais des contrôles natifs ; motifs de surclassement tracés.\n31: - Catalogue partagé `C:/Users/djden/.config/opencode/ensemble.json`, snapshot exact local sans override global. Modèles/variantes découverts, `Model.Ref` effectif vérifié à chaque création. Écarts de variantes bloqués ou mapping explicite tracé, jamais default silencieux.\n32: - Lecture : route gratuite vérifiée si suffisante, sinon Luna medium/GLM high. C simple : MiMo Flash/Luna ; C moyen : GLM max et Luna medium indépendants ; C complexe : Astra high et Opus high indépendants. Sémantique : Sol medium/high selon risque, seconde production indépendante si 2+1 ; R high, escalade motivée possible. Alternatives du catalogue admissibles selon disponibilité et risque, justification obligatoire.\n33: - Refus/auth/entrée/erreur C ne sont pas assimilés à saturation. Reprise événementielle bornée ; aucune boucle de polling ni action d'alimentation/service/configuration globale.\n34: - Instruction utilisateur après GO : `0x487DF0` (2447 instructions, ASM natif 140198 caractères) → sessions GLM 5.3 Flash dédiées, `zai-coding-plan/glm-5.3-flash`, `max`, 2+1 par volet. L'annonce utilisateur de contexte 1M n'est pas une mesure de capacité effective ; vérifier admission et couverture complète, sans réduire le gel. Le routage Luna oversize concerne l'évaluation, pas cette production.\n35: \n36: ## Activation et clôture\n37: \n38: Vérifier accès IDA, 98 EA uniques, extension 151 distinctes et disjointe, catalogue, communication, Model.Ref, capture Classify et fork avant élargissement aux producteurs. Un blocage de production n'interdit pas une découverte indépendante utile.\n39: \n40: Clôture par EA seulement après couverture native complète, preuves C/sémantiques, §5.6 et traces de validation ; défaut non résolu reste UNCERTAIN/CONFLICT, jamais promotion sur prose seule."
+                }
+              ],
+              "metadata": {
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737538165,
+              "ran": 1791737538372,
+              "completed": 1791737538667
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_92af89e11b164950a5dab652",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "48F050",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 6 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json:\n  Line 109:         \"0x48F050\"\r\n\n  Line 994:       \"ea\": \"0x48F050\",\r\n\n  Line 999:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x48F050.json\",\r\n\n  Line 4005:     \"0x48F050\": {\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\inventory.json:\n  Line 83:     \"0x48F050\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.readback.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D..."
+                }
+              ],
+              "metadata": {
+                "matches": 6,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737538251,
+              "ran": 1791737538403,
+              "completed": 1791737538587
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_05d25206ff664b0f877c5700",
+            "name": "glob",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": ".tmp/ff8-decomp-semantics-20261011-r01/**",
+                "limit": 50
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No files found"
+                }
+              ],
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737538342,
+              "ran": 1791737538412,
+              "completed": 1791737538567
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 4629,
+          "output": 174,
+          "reasoning": 43,
+          "cache": {
+            "read": 9536,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be15572001fIDmRhoDHzjYyd",
+        "time": {
+          "created": 1791737550209,
+          "streamed": 1791737562848,
+          "completed": 1791737570154
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "The .tmp glob found nothing — probably .tmp is hidden or glob excludes hidden dirs. Let me try reading the native packet directly at `.tmp/ff8-decomp-semantics-20261011-r01/native/0x48F050.json`, and also look at native-groups.json around lines 994-1010 and 4005 for group info about 0x48F050.\n\nLet me read:\n1. The native packet file .tmp/ff8-decomp-semantics-20261011-r01/native/0x48F050.json (may be large — check size first with read limit)\n2. native-groups.json lines around 990-1010 (group context) and 3990-4060 (per-EA data)",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737557890,
+              "completed": 1791737562801
+            }
+          },
+          {
+            "type": "text",
+            "text": "The `.tmp` glob returns nothing (hidden dir likely excluded), but the packet path is documented. Let me read the native packet for 0x48F050 and the group metadata in native-groups.json."
+          },
+          {
+            "type": "tool",
+            "id": "call_8c0fa8a4e63d4afabf59ca96",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48F050.json"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48F050.json, lines 1-51\n1: {\n2:   \"ea\": \"0x48F050\",\n3:   \"name_label_only\": \"domain::Battle_SeedRNG\",\n4:   \"native\": {\n5:     \"idb\": \"D:\\\\Modding\\\\ff8\\\\retro-exe\\\\FF8_EN.exe - 9.3.i64\",\n6:     \"input\": \"C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\FINAL FANTASY VIII\\\\FF8_EN.exe\",\n7:     \"bits\": 32,\n8:     \"input_sha256\": \"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\",\n9:     \"exported_utc\": \"2026-10-11T16:38:25.140966+00:00\"\n10:   },\n11:   \"chunks\": [\n12:     {\n13:       \"start\": \"0x48f050\",\n14:       \"end\": \"0x48f0b6\",\n15:       \"hex\": \"8a4c240433c0888828a2d2018b0d28a2d20181e1ff0000008a91f897b6008a0d28a2d201fec188542404880d28a2d2018b4c240481e1ff0000004083f8087cc6a128a2d2018a1528a2d20125ff000000fec2881528a2d2018a80f897b6002407a230a2d201c3\"\n16:     }\n17:   ],\n18:   \"assembly\": \"0048F050: mov     cl, [esp+seed]; Battle-local RNG seeder. Initializes 8 lane cursors from one byte seed, advances lane 0 through RANDOM_NUMBER_LIST, then picks BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7.\\n0048F054: xor     eax, eax; Logical Exclusive OR\\n0048F056: mov     byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl\\n0048F05C: mov     ecx, BATTLE_RNG_LANE_INDEXES\\n0048F062: and     ecx, 0FFh; Logical AND\\n0048F068: mov     dl, ds:RANDOM_NUMBER_LIST[ecx]; (rng & 7) - branch >= vs > (Grok seul)\\n0048F06E: mov     cl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F074: inc     cl; Increment by 1\\n0048F076: mov     [esp+seed], dl\\n0048F07A: mov     byte ptr BATTLE_RNG_LANE_INDEXES, cl\\n0048F080: mov     ecx, dword ptr [esp+seed]\\n0048F084: and     ecx, 0FFh; Logical AND\\n0048F08A: inc     eax; Increment by 1\\n0048F08B: cmp     eax, 8; Compare Two Operands\\n0048F08E: jl      short loc_48F056; Jump if Less (SF!=OF)\\n0048F090: mov     eax, BATTLE_RNG_LANE_INDEXES\\n0048F095: mov     dl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F09B: and     eax, 0FFh; Logical AND\\n0048F0A0: inc     dl; Increment by 1\\n0048F0A2: mov     byte ptr BATTLE_RNG_LANE_INDEXES, dl\\n0048F0A8: mov     al, ds:RANDOM_NUMBER_LIST[eax]\\n0048F0AE: and     al, 7; (rng & 3) + 3 (Grok seul)\\n0048F0B0: mov     byte ptr BATTLE_RNG_ACTIVE_LANE, al\\n0048F0B5: retn; Return Near from Procedure\",\n19:   \"cfg\": [\n20:     {\n21:       \"start\": \"0x48f050\",\n22:       \"end\": \"0x48f056\",\n23:       \"successors\": [\n24:         \"0x48f056\"\n25:       ]\n26:     },\n27:     {\n28:       \"start\": \"0x48f056\",\n29:       \"end\": \"0x48f090\",\n30:       \"successors\": [\n31:         \"0x48f090\",\n32:         \"0x48f056\"\n33:       ]\n34:     },\n35:     {\n36:       \"start\": \"0x48f090\",\n37:       \"end\": \"0x48f0b6\",\n38:       \"successors\": []\n39:     }\n40:   ],\n41:   \"xrefs_to\": [\n42:     {\n43:       \"from\": \"0x47d510\",\n44:       \"type\": 17,\n45:       \"iscode\": true,\n46:       \"function\": \"0x47ccb0\"\n47:     }\n48:   ],\n49:   \"code_targets\": [],\n50:   \"instruction_count\": 24\n51: }"
+                }
+              ],
+              "metadata": {
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737560260,
+              "ran": 1791737562810,
+              "completed": 1791737562995
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_8c10cbe6155c44c7b764ea4a",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json",
+                "offset": 960,
+                "limit": 80
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json, lines 960-1039\n960:       \"instructions\": 22,\n961:       \"asm_chars\": 1044,\n962:       \"blocks\": 3,\n963:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x485F00.json\",\n964:       \"sha256\": \"747d202f109234c40a3cfa42723ef64c709fc02120dc937e0f00a381432c893b\"\n965:     },\n966:     {\n967:       \"ea\": \"0x485FF0\",\n968:       \"label\": \"domain::Battle_BuildTargetVisibilityMasks\",\n969:       \"instructions\": 37,\n970:       \"asm_chars\": 2554,\n971:       \"blocks\": 15,\n972:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x485FF0.json\",\n973:       \"sha256\": \"cda0002d86ac4ddd92e07c4113dc843be7e9918846d93248d7039944999ac590\"\n974:     },\n975:     {\n976:       \"ea\": \"0x4868C0\",\n977:       \"label\": \"domain::Battle_EndCleanupAndTransition\",\n978:       \"instructions\": 90,\n979:       \"asm_chars\": 5089,\n980:       \"blocks\": 23,\n981:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x4868C0.json\",\n982:       \"sha256\": \"bb4e83a4a9db291ee331f1ee5a7cc16c766b37c54fd76ea9a4c44bfdf0721f28\"\n983:     },\n984:     {\n985:       \"ea\": \"0x486E00\",\n986:       \"label\": \"domain::BattleTarget_GetRandomMonsterMask\",\n987:       \"instructions\": 22,\n988:       \"asm_chars\": 1972,\n989:       \"blocks\": 6,\n990:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x486E00.json\",\n991:       \"sha256\": \"ef099cfe9af8151c897475e4e0d9d6c6942ad7ed00fc591e43fbbf071fcebd2d\"\n992:     },\n993:     {\n994:       \"ea\": \"0x48F050\",\n995:       \"label\": \"domain::Battle_SeedRNG\",\n996:       \"instructions\": 24,\n997:       \"asm_chars\": 1344,\n998:       \"blocks\": 3,\n999:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x48F050.json\",\n1000:       \"sha256\": \"682897cf8ec710ff3639218bc85b8b88a2f37514730d91326d17baa315099b0c\"\n1001:     },\n1002:     {\n1003:       \"ea\": \"0x493840\",\n1004:       \"label\": \"domain::BattleStatus_ApplyAndSyncSlot\",\n1005:       \"instructions\": 190,\n1006:       \"asm_chars\": 11245,\n1007:       \"blocks\": 26,\n1008:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x493840.json\",\n1009:       \"sha256\": \"6df9af35d2257f0c169ad31fd7bbc4eb2db1e9d0d8f1192469ff89d17cb89704\"\n1010:     },\n1011:     {\n1012:       \"ea\": \"0x4954B0\",\n1013:       \"label\": \"domain::Battle_BuildMagicJunctionList\",\n1014:       \"instructions\": 44,\n1015:       \"asm_chars\": 2047,\n1016:       \"blocks\": 7,\n1017:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x4954B0.json\",\n1018:       \"sha256\": \"0d3ae552496212fc6656e5c02fe6db6830acc5b6b35ab41b58a693811db60ac6\"\n1019:     },\n1020:     {\n1021:       \"ea\": \"0x495960\",\n1022:       \"label\": \"domain::Battle_CalculateJunctionStats\",\n1023:       \"instructions\": 333,\n1024:       \"asm_chars\": 14818,\n1025:       \"blocks\": 50,\n1026:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x495960.json\",\n1027:       \"sha256\": \"f3689a0e914a803ad59128fa4ea76bb4de7f1057a6b37e4bb6dc728c38324d2b\"\n1028:     },\n1029:     {\n1030:       \"ea\": \"0x495D80\",\n1031:       \"label\": \"domain::BattleGF_RecomputeBattleData\",\n1032:       \"instructions\": 101,\n1033:       \"asm_chars\": 4123,\n1034:       \"blocks\": 18,\n1035:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x495D80.json\",\n1036:       \"sha256\": \"862f2ad69328e5f7b6edf55f2758945567bbedec39d64efd8db945c141c4ad7b\"\n1037:     },\n1038:     {\n1039:       \"ea\": \"0x495EC0\",\n[Output truncated. Continue reading with offset: 1040]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737561375,
+              "ran": 1791737562824,
+              "completed": 1791737563004
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_b62436080ab84c2fb83343e6",
+            "name": "read",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json",
+                "offset": 3990,
+                "limit": 80
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Read file C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json, lines 3990-4069\n3990:         \"0x4860D0\",\n3991:         \"0x48F020\"\n3992:       ],\n3993:       \"callers\": [\n3994:         \"0x483880\",\n3995:         \"0x4838C0\",\n3996:         \"0x483940\",\n3997:         \"0x483D20\",\n3998:         \"0x483D60\",\n3999:         \"0x483EB0\",\n4000:         \"0x4855F0\",\n4001:         \"0x485610\",\n4002:         \"0x48E830\"\n4003:       ]\n4004:     },\n4005:     \"0x48F050\": {\n4006:       \"out\": [],\n4007:       \"callers\": [\n4008:         \"0x47CCB0\"\n4009:       ]\n4010:     },\n4011:     \"0x493840\": {\n4012:       \"out\": [\n4013:         \"0x484600\",\n4014:         \"0x484640\",\n4015:         \"0x485030\",\n4016:         \"0x485EC0\",\n4017:         \"0x485FF0\",\n4018:         \"0x486C70\",\n4019:         \"0x48C5C0\",\n4020:         \"0x493AF0\",\n4021:         \"0x497110\",\n4022:         \"0x4A8460\"\n4023:       ],\n4024:       \"callers\": [\n4025:         \"0x47DAF0\",\n4026:         \"0x47DBA0\",\n4027:         \"0x483470\",\n4028:         \"0x493D80\"\n4029:       ]\n4030:     },\n4031:     \"0x4954B0\": {\n4032:       \"out\": [\n4033:         \"0x47EEB0\"\n4034:       ],\n4035:       \"callers\": [\n4036:         \"0x486A10\",\n4037:         \"0x495960\"\n4038:       ]\n4039:     },\n4040:     \"0x495960\": {\n4041:       \"out\": [\n4042:         \"0x4954B0\",\n4043:         \"0x4961D0\",\n4044:         \"0x496240\",\n4045:         \"0x496310\",\n4046:         \"0x496440\",\n4047:         \"0x4967C0\",\n4048:         \"0x4968A0\",\n4049:         \"0x496930\",\n4050:         \"0x496960\",\n4051:         \"0x4969E0\",\n4052:         \"0x496AC0\",\n4053:         \"0x496AF0\",\n4054:         \"0x496B50\",\n4055:         \"0x496BD0\"\n4056:       ],\n4057:       \"callers\": [\n4058:         \"0x48B7E0\",\n4059:         \"0x48B8B0\",\n4060:         \"0x495EF0\",\n4061:         \"0x4971F0\"\n4062:       ]\n4063:     },\n4064:     \"0x495D80\": {\n4065:       \"out\": [\n4066:         \"0x4960C0\",\n4067:         \"0x496120\"\n4068:       ],\n4069:       \"callers\": [\n[Output truncated. Continue reading with offset: 4070]"
+                }
+              ],
+              "metadata": {
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737562674,
+              "ran": 1791737562839,
+              "completed": 1791737563035
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "end": "3a53c2729044367630b73c2d8573657e203ea3ee",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 2672,
+          "output": 227,
+          "reasoning": 163,
+          "cache": {
+            "read": 14144,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be1a37a0014JMYFTkaUvPo9g",
+        "time": {
+          "created": 1791737719042,
+          "completed": 1791737724108
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [],
+        "snapshot": {
+          "start": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "end": "15c9653f68c82415cfed15ea9c8d032804bbce6a",
+          "files": []
+        },
+        "finish": "error",
+        "error": {
+          "type": "provider.rate-limit",
+          "message": "Rate limit reached for requests",
+          "status": 429,
+          "response": {
+            "body": "{\"error\":{\"code\":\"1302\",\"message\":\"Rate limit reached for requests\"}}"
+          }
+        }
+      },
+      {
+        "id": "msg_12be3fcd2001IHvvd5945WatlX",
+        "time": {
+          "created": 1791737724114
+        },
+        "type": "idle",
+        "outcome": "failed"
+      },
+      {
+        "id": "msg_12be3fcda001QrARvSjbD2fOiz",
+        "time": {
+          "created": 1791737724163
+        },
+        "text": "[System]: You completed your work but did not report results. Send your findings to the lead via team_message now.",
+        "type": "user"
+      },
+      {
+        "id": "msg_12be3fd0b001UVjgb7gMjfxAps",
+        "time": {
+          "created": 1791737802409,
+          "streamed": 1791737896650,
+          "completed": 1791737909700
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [
+          {
+            "type": "reasoning",
+            "text": "I need to finish my discovery and report. Let me quickly gather the key remaining evidence:\n\n1. The native packet for 0x48F050 is read: label \"domain::Battle_SeedRNG\" (label only, not evidence), 24 instructions, 3 blocks, single chunk 0x48F050-0x48F0B6, xref from 0x47D510 (in function 0x47CCB0), no call targets, callers [0x47CCB0].\n\n2. Key globals referenced:\n- BATTLE_RNG_LANE_INDEXES — referenced at 0x48F056, 0x48F05C, 0x48F06E, 0x48F07A, 0x48F090, 0x48F095, 0x48F0A2\n- RANDOM_NUMBER_LIST — 0x48F068, 0x48F0A8\n- BATTLE_RNG_ACTIVE_LANE — 0x48F0B0\n\nNote the assembly annotation: at 0x48F056 `mov byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl` — the first store uses base+index; interesting: this is a byte array of 8 lane indexes. The loop: seed byte → fills all 8 lanes with seed (lane cursor init), and inside loop reads RANDOM_NUMBER_LIST[lane_value] — actually let me re-read:\n\n- 0x48F050: mov cl, [esp+seed] — argument byte (stack arg named seed)\n- 0x48F054: xor eax, eax — eax = 0 (loop counter)\n- loop loc_48F056:\n  - mov byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl — store cl at LANE_INDEXES[i] — wait but 0x48F05C loads ecx = BATTLE_RNG_LANE_INDEXES (the base address value as dword), and ecx &= 0xFF — hmm, that's odd: `mov ecx, BATTLE_RNG_LANE_INDEXES` then `and ecx, 0FFh`. Wait, but the first iteration stored cl into BATTLE_RNG_LANE_INDEXES[0], so reading dword BATTLE_RNG_LANE_INDEXES gives first 4 lane bytes; & 0xFF takes lane0 = seed. So RANDOM_NUMBER_LIST[lane0] is read. dl = RANDOM_NUMBER_LIST[seed]\n  - mov cl, BATTLE_RNG_LANE_INDEXES (byte, lane0 = old value)\n  - inc cl — lane0+1\n  - mov [esp+seed], dl — temp save dl\n  - mov BATTLE_RNG_LANE_INDEXES, cl — store incremented lane0\n  - mov ecx, [esp+seed] — restore dl\n  - and ecx, 0xFF\n  - inc eax — counter++\n  - cmp eax, 8; jl loop — so 8 iterations: each iteration i: temp = LANE_INDEXES[0]; LANE_INDEXES[0] = temp+1... wait no, first store wrote cl at index eax (0..7). Actually the first instruction of the loop writes cl to LANE_INDEXES[i] each iteration. Hmm, the first iteration writes cl (seed) to LANE_INDEXES[0], then reads LANE_INDEXES dword & 0xFF = seed, reads RANDOM_NUMBER_LIST[seed], increments LANE_INDEXES[0]. Second iteration writes cl (still original seed? no — cl unchanged, still seed) to LANE_INDEXES[1]. Then reads LANE_INDEXES[0] (now seed+1), reads RANDOM_NUMBER_LIST[seed+1], increments lane0 to seed+2... So loop: LANE_INDEXES[i] = seed for i in 0..7; and RANDOM_NUMBER_LIST[seed + i] is read 8 times (side-effect unknown, likely just a read; dl loaded but stored to stack temp, then used for and 0xFF and discarded — the value dl is loaded but after the loop it's never used. So RANDOM_NUMBER_LIST reads in the loop appear to have no persistent effect — a prewarm/prefetch pattern or vestigial. That's an observation, not a verdict.)\n\n- After loop (0x48F090):\n  - eax = BATTLE_RNG_LANE_INDEXES (dword) — lane0 value after 8 increments = seed+8\n  - dl = byte LANE_INDEXES[0]\n  - eax &= 0xFF\n  - inc dl → dl = lane0+1\n  - mov LANE_INDEXES, dl — lane0 = seed+9\n  - al = RANDOM_NUMBER_LIST[lane0] — reads list at seed+8\n  - al &= 7\n  - BATTLE_RNG_ACTIVE_LANE = al\n  - retn\n\nSo it's the classic FF8 battle RNG seeding: RANDOM_NUMBER_LIST is a table (at B6 97 F8 → address 0xB697F8? The hex shows `8a91f897b600` = mov dl, [ecx + 0xB697F8]; so RANDOM_NUMBER_LIST base = 0xB697F8). And BATTLE_RNG_LANE_INDEXES = 0x1D2A228 (from `88 88 28 a2 d2 01` = mov [eax + 0x1D2A228], cl). BATTLE_RNG_ACTIVE_LANE = 0x1D2A230 (from `a230a2d201`).\n\nWait: `88 88 28 a2 d2 01` — mov [eax+0x01D2A228], cl. `8b0d28a2d201` mov ecx, [0x1D2A228]. `8a91f897b600` mov dl, [ecx+0xB697F8]. `8a0d28a2d201` mov cl, [0x1D2A228]. `880d28a2d201` mov [0x1D2A228], cl. `a128a2d201` mov eax, [0x1D2A228]. `8a1528a2d201` mov dl, [0x1D2A228]. `8815 28a2d201` mov [0x1D2A228], dl. `8a80f897b600` mov al, [eax+0xB697F8]. `a230a2d201` mov [0x1D2A230], al.\n\nSo addresses: BATTLE_RNG_LANE_INDEXES = 0x00D2A228 (wait, 0x1D2A228? byte sequence 28 a2 d2 01 → 0x01D2A228). Yes 0x01D2A228. RANDOM_NUMBER_LIST = 0x00B697F8. BATTLE_RNG_ACTIVE_LANE = 0x01D2A230.\n\nNote in the loop the RANDOM_NUMBER_LIST read at 0x48F068 has annotation \"(rng & 7) - branch >= vs > (Grok seul)\" — marked as historical unvalidated (Grok only). And 0x48F0AE \"and al, 7; (rng & 3) + 3 (Grok seul)\" — also historical, and actually contradictory-ish (al & 7 vs (rng&3)+3 are different) — these are prior unvalidated conclusions, must be separated.\n\nWait, I mis-stated the loop semantics earlier. Let me redo carefully with hex:\n\n```\n0048F050: 8a 4c 24 04    mov cl, [esp+4]        ; arg0 (byte seed)\n0048F054: 33 c0          xor eax, eax           ; i = 0\n0048F056: 88 88 28 a2 d2 01  mov byte [0x1D2A228 + eax], cl  ; LANE[i] = seed (byte store, index eax)\n0048F05C: 8b 0d 28 a2 d2 01  mov ecx, [0x1D2A228]   ; dword read = LANE[0..3]\n0048F062: 81 e1 ff 00 00 00  and ecx, 0xFF          ; ecx = LANE[0]\n0048F068: 8a 91 f8 97 b6 00  mov dl, [ecx + 0xB697F8]  ; dl = LIST[LANE[0]]\n0048F06E: 8a 0d 28 a2 d2 01  mov cl, byte [0x1D2A228]  ; cl = LANE[0]\n0048F074: fe c1          inc cl                 ; LANE[0]+1\n0048F076: 88 54 24 04    mov [esp+4], dl        ; spill dl\n0048F07A: 88 0d 28 a2 d2 01  mov byte [0x1D2A228], cl ; LANE[0] = LANE[0]+1\n0048F080: 8b 4c 24 04    mov ecx, [esp+4]       ; reload dl value\n0048F084: 81 e1 ff 00 00 00  and ecx, 0xFF\n0048F08A: 40             inc eax\n0048F08B: 83 f8 08       cmp eax, 8\n0048F08E: 7c c6          jl 0x48F056\n0048F090: a1 28 a2 d2 01 mov eax, [0x1D2A228]   ; dword = LANE[0..3]\n0048F095: 8a 15 28 a2 d2 01  mov dl, byte [0x1D2A228]\n0048F09B: 81 e1 ff 00 00 00  and eax, 0xFF          ; eax = LANE[0] (after loop = seed+8)\n0048F0A0: fe c2          inc dl\n0048F0A2: 88 15 28 a2 d2 01  mov byte [0x1D2A228], dl ; LANE[0] = seed+9\n0048F0A8: 8a 80 f8 97 b6 00  mov al, [eax + 0xB697F8] ; al = LIST[seed+8]\n0048F0AE: 24 07          and al, 7\n0048F0B0: a2 30 a2 d2 01 mov byte [0x1D2A230], al ; ACTIVE_LANE = al\n0048F0B5: c3             retn\n```\n\nSo the function: seeds all 8 lane cursors (byte array at 0x1D2A228, 8 entries since loop runs i=0..7 storing seed) to the seed byte; the loop body reads LIST[LANE[0]] and increments LANE[0] each iteration (8 times) — LANE[0] ends at seed+8; loop reads of LIST have no observable effect on memory (dl spilled/reloaded, discarded). Then reads LIST[LANE[0]] (=LIST[seed+8])... wait no: at 0x48F090, eax = dword[0x1D2A228] & 0xFF = LANE[0] = seed+8. Then reads LIST[seed+8], ands with 7, stores to 0x1D2A230 (ACTIVE_LANE), and increments LANE[0] to seed+9.\n\nHmm wait — actually the native annotation says \"Initializes 8 lane cursors from one byte seed, advances lane 0 through RANDOM_NUMBER_LIST, then picks BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7.\" That matches my reading. The label says \"SeedRNG\" and it's label-only (not evidence).\n\nThe \"8 lane cursors\" — the store writes seed into bytes 0..7 at 0x1D2A228. But only lane 0 (first byte) is used/advanced here. The annotation claims 8 lane cursors.\n\nImportant: the loop reads `dword [0x1D2A228]` — since iteration i stores cl at index i, for i≥1 the byte at LANE[0] was already overwritten by the increment... order: store LANE[i]=cl happens BEFORE reading dword. On i=0: store LANE[0]=seed; read dword → LANE[0]=seed. Read LIST[seed]. inc → LANE[0]=seed+1. i=1: store LANE[1]=cl — cl is still the original seed byte (cl unchanged since 0x48F050? At 0x48F06E cl was reloaded from LANE[0] then incremented and stored; cl at loop start of i=1 = seed+1. So LANE[1] = seed+1, not seed!). Hmm wait: cl after 0x48F07A store = old LANE[0]+1 = seed+1. Then loop back: 0x48F056 stores cl (=seed+1) into LANE[1]. Then dword read → LANE[0] = seed+1. LIST[seed+1]. cl = LANE[0]; inc → seed+2; store LANE[0]=seed+2. So at iteration i: LANE[i] = cl which equals LANE[0] value from previous iteration end = seed+i. And LANE[0] before increment at iteration i = seed+i (after the store at i=0 it's seed, at i=1 LANE[0] = seed+1...).\n\nActually iteration i: LANE[i] = seed+i (for i≥1, from cl), LANE[0]=seed (i=0). Then LANE[0] gets incremented to seed+i+1. So after all 8 iterations: LANE = [seed+8, seed+1, seed+2, ..., seed+7]. All 8 bytes initialized to seed+i — so the array is \"seed + index\". Then final: reads dword → LANE[0] = seed+8; LIST[seed+8]; &7; store; LANE[0] = seed+9.\n\nSo effectively: LANE[i] = seed + i for i in 0..7; ACTIVE_LANE = LIST[seed+8] & 7; LANE[0] = seed+9. That's a precise factual statement I can make from the hex.\n\nNote: and ecx, 0xFF masks — the byte reads are byte-level; the dword read + 0xFF = LANE[0] effectively (little endian).\n\nSo the deterministic summary: LIST index used is seed+8, which for seed in 0..0xFF means indices 8..0x107 — but wait, the byte index ecx is masked to 0xFF only via `and ecx, 0xFF` after dword read of LANE[0] which is a byte value ≤0xFF... LANE[0] = seed+8 could exceed 0xFF? seed ≤ 0xFF (byte), seed+8 ≤ 0x107 but stored as byte → wraps mod 256. LANE[0] as byte = (seed+8) mod 256. So LIST index = (seed+8) & 0xFF. And and ecx,0xFF on dword read: LANE[0..3] bytes: LANE[0]=(seed+8)&0xFF, LANE[1]=seed+1... The low byte is LANE[0]. So index = (seed+8) mod 256. Also seed itself is a byte arg, so LIST index ranges 8..255 / 0..7 when wrapping.\n\nWhether caller passes seed & 0xFF etc. is unknown without the caller. The xref: call site at 0x47D510 inside function 0x47CCB0 (label-only per other packets presumably; 0x47CCB0 appears in other groups? It's a caller listed also for other EAs maybe. In the groups file, 0x47CCB0 as caller of 0x48F050.)\n\nAlso relevant: g07 group owns 0x47CF60 etc. The caller 0x47CCB0 — is it in any of the 98 EA set? The inventory.json line 83 lists 0x48F050. Let me check inventory for 0x47CCB0... not needed strictly, but interesting: if 0x47CCB0 is owned by another group, another discoverer covers it. From the task board, g07 covers 0x47CF60 (not 0x47CCB0). g08 covers 0x47DDA0, 0x484720, 0x47DE70, 0x47E120, 0x482BD0, 0x487DF0. g10: 0x47E3F0... g11: 0x484490, 0x4844D0. So 0x47CCB0 itself is likely not in the 98. I can check quickly with grep in inventory.json.\n\nAlso let me search the repo for docs mentioning these addresses/globals: BATTLE_RNG_ACTIVE_LANE, BATTLE_RNG_LANE_INDEXES, RANDOM_NUMBER_LIST, 0x48F050, 48F050, Battle_SeedRNG, battle RNG seed documentation in docs/tech/investigation/battle-static-discovery/ etc. Use grep across docs and src.\n\nAlso QMD for knowledge (FF8 wiki battle RNG?). QMD collections include ff8-wiki. The instruction says GrepAI first for code, QMD CLI for knowledge. GrepAI tools available: grepai_1mcp_grepai_list_workspaces, rpg_fetch shown; there are 14 tools, 2 shown. Let me search for grepai_search tool in the catalog via search().\n\nPlan next execute block:\n1. search({query:\"grepai search\"}) to discover the semantic search tool.\n2. In parallel direct greps: \n   - grep \"BATTLE_RNG_ACTIVE_LANE\" across repo\n   - grep \"BATTLE_RNG_LANE_INDEXES\" \n   - grep \"RANDOM_NUMBER_LIST\"\n   - grep \"0x47CCB0|47CCB0\" in docs + inventory.json\n   - grep \"48F050\" across repo (case-insensitive) to find docs mentions.\n   - grep \"Battle_SeedRNG\" across repo.\n\nLet me batch greps in parallel (multiple tool calls in one block).",
+            "state": {
+              "reasoningField": "reasoning_content"
+            },
+            "time": {
+              "created": 1791737806434,
+              "completed": 1791737896594
+            }
+          },
+          {
+            "type": "text",
+            "text": "The native packet is read. Now let me gather surrounding code/docs facts: discover GrepAI search tool, and grep for the globals, the caller 0x47CCB0, and any docs mentioning this EA or label."
+          },
+          {
+            "type": "tool",
+            "id": "call_c3f2f305555f4f39aca66b8b",
+            "name": "execute",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "code": "const r1 = search({ query: \"semantic code search grep\", limit: 10 });\nreturn r1;"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{\n  \"items\": [\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_search\",\n      \"description\": \"Semantic code search. Search your codebase using natural language queries. Returns the most relevant code chunks with file paths, line numbers, and similarity scores.\\n\\nExamples:\\n- workspace-only mode: workspace='acme', path='src/'\\n- workspace + projects mode: workspace='acme', projects='backend,shared', path='api/'\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_search({\\n  /** Return minimal output without content (default: false) */\\n  compact?: boolean,\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /**\\n   * Path prefix to filter results. When projects is set, path is relative to each selected project root (not workspace root). Examples: workspace-only path='src/' and workspace+projects path='MM32/src' or 'api/'.\\n   */\\n  path?: string,\\n  /** Comma-separated list of project names to search within workspace (requires workspace) */\\n  projects?: string,\\n  /** Natural language search query (e.g., 'user authentication flow', 'error handling middleware') */\\n  query: string,\\n  /**\\n   * Absolute project root path. When provided, the server will load configuration/index from this path (overrides server startup project). Optional.\\n   */\\n  root?: string,\\n  /** Workspace name for cross-project search (optional) */\\n  workspace?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_rpg_search\",\n      \"description\": \"Search RPG nodes using Jaccard-based semantic matching with scope and kind filtering.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_rpg_search({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Comma-separated node kinds to filter: area, category, subcategory, file, symbol, chunk (default: symbol) */\\n  kinds?: string,\\n  /** Maximum number of results to return (default: 10) */\\n  limit?: number,\\n  /** Natural language or feature query to search for */\\n  query: string,\\n  /** Area/category path to narrow search (e.g., 'cli', 'rpg/query') */\\n  scope?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools[\\\"context-mode\\\"].ctx_search\",\n      \"description\": \"Search a unified knowledge base with a multi-strategy ranking pipeline. Two parallel matchers run on every query: a Porter-stemming matcher (\\\"caching\\\" finds \\\"cached\\\", \\\"caches\\\", \\\"cach\\\") and a trigram-substring matcher (\\\"useEff\\\" finds \\\"useEffect\\\"). Their ranked lists are merged via Reciprocal Rank Fusion, so a document that ranks well in both surfaces above one that wins only on a single strategy. Multi-term queries get an additional proximity-rerank pass that boosts passages where the query terms appear close together. Typos are corrected via Levenshtein distance and re-searched. Result snippets are window-extracted around the matched terms, not blindly truncated.\\n\\nThe knowledge base is unified: queries reach indexed content you stored (ctx_index, ctx_fetch_and_index, ctx_batch_execute output) AND auto-captured session memory written by hooks (decisions, errors, blockers, plans, user prompts, rejected approaches, tool failures, compaction guides — 26 event categories). File-backed sources carry a content hash and auto-flag staleness when the source file changes.\\n\\nWHEN:\\n  - You want to recall something that exists in storage (recently indexed content, prior session events, auto-memory) instead of re-reading raw sources\\n  - You have multiple related questions about the same body of knowledge — batch every question into one call (the ranking pipeline runs per-query but the round-trip cost is paid once)\\n  - You want to scope the query to one labelled source (pass `source` — partial match is fine)\\n  - You want a chronological view across current session + prior sessions + persistent auto-memory (pass `sort: \\\"timeline\\\"` — the default `relevance` mode only ranks within the current session)\\n  - You want to filter ranked results by content shape (pass `contentType: \\\"code\\\"` to surface implementation snippets or `contentType: \\\"prose\\\"` to surface explanations)\\n\\nWHEN NOT:\\n  - The data you want to query has never been stored in the knowledge base AND no session memory has accumulated around it — capture first (run a gather-and-index call), then come back here to query\\n  - You have one ad-hoc question against data that is not in the knowledge base — answer it inline by running code in the sandbox tool; one round-trip instead of capture-then-query\\n\\nRETURNS:\\n  Per-query ranked sections with window-extracted snippets. Use 2-4 specific technical terms per query. Common session-memory source labels: `decision` (user corrections / preferences), `error` and `error-resolution` (past failures + their fixes), `blocker`, `plan`, `user-prompt`, `rejected-approach`, `compaction` (post-compact session guide). See ctx_stats for live category counts. Each response carries a throttle counter (call #N/M in the rolling time window); results taper toward the soft cap and calls block after the hard cap. Tune via CONTEXT_MODE_SEARCH_WINDOW_MS, CONTEXT_MODE_SEARCH_MAX_RESULTS_AFTER, CONTEXT_MODE_SEARCH_BLOCK_AFTER.\\n\\nEXAMPLE: ctx_search(queries: [\\\"root cause\\\", \\\"proposed fix\\\", \\\"test coverage\\\"], source: \\\"issue-#683\\\")\\nEXAMPLE: ctx_search(queries: [\\\"what did we decide about caching\\\"], source: \\\"decision\\\", sort: \\\"timeline\\\")\\nEXAMPLE: ctx_search(queries: [\\\"useEffect cleanup pattern\\\"], source: \\\"react-docs\\\", contentType: \\\"code\\\", limit: 5)\\nEXAMPLE: ctx_search(queries: [\\\"last user prompt\\\", \\\"active skills\\\", \\\"open blockers\\\"], sort: \\\"timeline\\\")\",\n      \"signature\": \"tools[\\\"context-mode\\\"].ctx_search({\\n  /** Array of search queries. Batch ALL questions in one call. */\\n  queries?: Array<string>,\\n  /** Results per query (default: 3). @default 3 */\\n  limit?: number,\\n  /** Filter to a specific indexed source (partial match). */\\n  source?: string,\\n  /** Filter results by content type: 'code' or 'prose'. */\\n  contentType?: \\\"code\\\" | \\\"prose\\\",\\n  /**\\n   * Sort mode. 'relevance' (default): BM25 ranked, current session only. 'timeline': chronological across current session, prior sessions, and auto-memory.\\n   * @default \\\"relevance\\\"\\n   */\\n  sort?: \\\"relevance\\\" | \\\"timeline\\\",\\n  /**\\n   * Project scope. Default (omit): this session's project — auto-resolved from the host adapter. 'global': span every project in the shared store (cross-project recall). <absolute-path>: scope to that specific project directory.\\n   */\\n  project?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools.serena.serena_1mcp_search_for_pattern\",\n      \"description\": \"Searches for a regex pattern across project files, returning whole matched lines (plus optional context).\\nPrefer symbolic operations if you know which symbols you are looking for!. Returns A mapping from file paths to matched consecutive lines (0-based line numbers).\",\n      \"signature\": \"tools.serena.serena_1mcp_search_for_pattern({\\n  /** Regular expression to search for. */\\n  substring_pattern: string,\\n  /** Number of context lines to include before each match. @default 0 @multipleOf 1 */\\n  context_lines_before?: number,\\n  /** Number of context lines to include after each match. @default 0 @multipleOf 1 */\\n  context_lines_after?: number,\\n  /**\\n   * Optional glob (relative to project root, e.g. ``\\\"src/** /*.ts\\\"``) restricting which files are searched.\\n   * @default \\\"\\\"\\n   */\\n  paths_include_glob?: string,\\n  /** Optional glob to exclude files; takes precedence over `paths_include_glob`. @default \\\"\\\" */\\n  paths_exclude_glob?: string,\\n  /** Restricts the search to this file or subdirectory of the project root. @default \\\"\\\" */\\n  relative_path?: string,\\n  /**\\n   * Whether to search only (non-ignored) files containing analyzable code symbols\\n   * (useful when looking for class/method definitions); otherwise also search non-code files.\\n   * @default false\\n   */\\n  restrict_search_to_code_files?: boolean,\\n  /** Whether to skip ignored sub-paths (default: True). @default true */\\n  skip_ignored_files?: boolean,\\n  /**\\n   * Whether to apply multi-line matching (default: True), enabling the flags re.DOTALL and re.MULTILINE.\\n   * @default true\\n   */\\n  multiline?: boolean,\\n  /**\\n   * If the output exceeds this many characters, a progressively shortened summary is returned instead.\\n   * ``-1`` uses the configured default.\\n   * @default -1 @multipleOf 1\\n   */\\n  max_answer_chars?: number,\\n}): Promise<{\\n  result: string,\\n}>\"\n    },\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_list_projects\",\n      \"description\": \"List all projects within a workspace. Use this to discover project names and file paths relative to their project roots, which informs how to use the --path parameter in grepai_search.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_list_projects({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Name of the workspace to list projects for (optional when mcp-serve was started with --workspace) */\\n  workspace?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools[\\\"context-mode\\\"].ctx_execute\",\n      \"description\": \"Run code in a sandboxed subprocess. (Bun detected — JS/TS runs 3-5x faster) Languages: javascript, shell, typescript, python, rust.\\n\\nThink-in-Code — the core philosophy: the bytes your code processes never enter your conversation memory; only what you console.log() does. Reading a 700 KB log directly means 700 KB of your remaining reasoning capacity gets spent on raw bytes. Running code over that same log in this sandbox and printing a 3 KB summary leaves you with 697 KB of capacity for the actual work.\\n\\nConcrete shape — analyze 47 source files without reading any of them:\\n  ctx_execute(language: \\\"javascript\\\", code: `\\n    const fs = require('fs');\\n    const files = fs.readdirSync('src').filter(f => f.endsWith('.ts'));\\n    files.forEach(f => {\\n      const lines = fs.readFileSync('src/'+f,'utf8').split('\\\\\\\\n').length;\\n      console.log(f + ': ' + lines + ' lines');\\n    });\\n  `)\\n  // 47 files analyzed, 15,314 LoC summarized — output ~3.6 KB instead of 47 Read() calls = ~700 KB.\\n\\nWHEN:\\n  - You intend to derive an answer FROM data (filter, count, aggregate, parse, compare, transform) — do the derivation in code and print only the answer\\n  - Output shape or size cannot be predicted before execution (recursive finds, repo-wide greps, list endpoints, query results, log scans)\\n  - You would otherwise read raw output and then mentally compute — that compute belongs here, in code, where its inputs stay out of your conversation\\n  - You need to keep a long-running process alive (dev server, watcher, daemon) — pass `background: true` to detach on timeout instead of killing the process\\n  - The output may legitimately be large but you only want recall-by-topic later — pass an `intent` string; outputs over ~5KB are auto-indexed into the knowledge base and only the section titles + previews come back, retrievable via ctx_search\\n\\nWHEN NOT:\\n  - Single observational command whose entire short output you intend to consume verbatim (whoami, pwd, git status on a clean tree) — Bash is simpler\\n  - File mutations (Edit/Write) or navigation (cd/ls) — Bash is the right surface\\n  - You already know the output is one short fixed line and you want to read it as-is\\n\\nRETURNS:\\n  Only what your code prints. Wrap risky calls in try/catch — uncaught errors go to stderr and may leak more than intended. When `intent` is set and output exceeds the auto-index threshold, the response carries searchable section titles + previews instead of the raw stdout; use ctx_search(queries: [...]) to drill into specific sections.\\n\\nEXAMPLE: ctx_execute(language: \\\"javascript\\\", code: \\\"const out = require('child_process').execSync('npm test', {encoding:'utf8', stdio:['ignore','pipe','pipe']}); console.log(out.split('\\\\\\\\n').filter(l => /(FAIL|✗|×|Error:|Tests +.*(failed|passed))/i.test(l)).slice(0, 60).join('\\\\\\\\n'))\\\")\\nEXAMPLE: ctx_execute(language: \\\"javascript\\\", code: \\\"const out = require('child_process').execSync('gh issue list --json number,title --limit 100', {encoding:'utf8'}); const hooks = JSON.parse(out).filter(i => /hook|routing/i.test(i.title)); console.log(`${hooks.length} hook-related issues`)\\\")\",\n      \"signature\": \"tools[\\\"context-mode\\\"].ctx_execute({\\n  /** Runtime language */\\n  language: \\\"javascript\\\" | \\\"typescript\\\" | \\\"python\\\" | \\\"shell\\\" | \\\"ruby\\\" | \\\"go\\\" | \\\"rust\\\" | \\\"php\\\" | \\\"perl\\\" | \\\"r\\\" | \\\"elixir\\\" | \\\"csharp\\\",\\n  /**\\n   * Source code to execute. Use console.log (JS/TS), print (Python/Ruby/Perl/R), echo (Shell), echo (PHP), fmt.Println (Go), IO.puts (Elixir), or Console.WriteLine (C#) to output a summary to context.\\n   */\\n  code: string,\\n  /**\\n   * Max execution time in ms. When omitted, no server-side timer fires — the MCP host's RPC timeout governs (which is the right layer for this policy). Pass an explicit value for long-running builds (Gradle/Maven/SBT).\\n   */\\n  timeout?: number,\\n  /**\\n   * Keep process running after timeout (for servers/daemons). Returns partial output without killing the process. IMPORTANT: Do NOT add setTimeout/self-close timers in background scripts — the process must stay alive until the timeout detaches it. For server+fetch patterns, prefer putting both server and fetch in ONE ctx_execute call instead of using background.\\n   * @default false\\n   */\\n  background?: boolean,\\n  /**\\n   * Optional working directory for shell commands. Non-shell languages still execute from their sandbox temp directory.\\n   */\\n  cwd?: string,\\n  /**\\n   * What you're looking for in the output. When provided and output is large (>5KB), indexes output into knowledge base and returns section titles + previews — not full content. Use ctx_search(queries: [...]) to retrieve specific sections. Example: 'failing tests', 'HTTP 500 errors'.\\n   *\\n   * TIP: Use specific technical terms, not just concepts. Check 'Searchable terms' in the response for available vocabulary.\\n   */\\n  intent?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_trace_callers\",\n      \"description\": \"Find all functions that call the specified symbol. Useful for understanding code dependencies before modifying a function.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_trace_callers({\\n  /** Return minimal output without context (default: false) */\\n  compact?: boolean,\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /** Project name within workspace (requires workspace) */\\n  project?: string,\\n  /**\\n   * Absolute project root path. When provided, the server will load configuration/index from this path (overrides server startup project). Optional.\\n   */\\n  root?: string,\\n  /** Name of the function/method to find callers for */\\n  symbol: string,\\n  /** Workspace name for cross-project trace (optional) */\\n  workspace?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_index_status\",\n      \"description\": \"Check the health and status of the grepai index. Returns statistics about indexed files, chunks, and configuration.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_index_status({\\n  /** Output format: 'json' (default) or 'toon' (token-efficient) */\\n  format?: string,\\n  /**\\n   * Absolute project root path. When provided, the server will load configuration/index from this path (overrides server startup project). Optional.\\n   */\\n  root?: string,\\n  /** Include additional debug details when available (optional). */\\n  verbose?: boolean,\\n  /** Workspace name to check status for (optional) */\\n  workspace?: string,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools.grepai.grepai_1mcp_grepai_stats\",\n      \"description\": \"Show token savings summary achieved by using grepai instead of grep-based workflows. Returns aggregated metrics from local stats.\",\n      \"signature\": \"tools.grepai.grepai_1mcp_grepai_stats({\\n  /** Include per-day history breakdown (default: false) */\\n  history?: boolean,\\n  /** Max days in history (default: 30, only used when history=true) */\\n  limit?: number,\\n}): Promise<unknown>\"\n    },\n    {\n      \"path\": \"tools[\\\"context-mode\\\"].ctx_batch_execute\",\n      \"description\": \"Run multiple commands in ONE call. Every command's output is auto-indexed into the knowledge base; if you also pass `queries`, the matching sections come back in the same round trip so a follow-up search call is not needed.\\n\\nConcurrency parallelizes the FETCH phase (run-the-commands). The DERIVATION phase — turning raw output into an answer — still belongs in code: add a processing command that consumes the indexed output and prints only the answer, so the raw bytes never enter your conversation (Think-in-Code, same principle as the sandbox tool).\\n\\nWHEN:\\n  - You have 3+ related commands you would otherwise run sequentially (multi-issue lookups, git log + git diff + git blame, multi-file reads, multi-region cloud queries)\\n  - You want to gather AND query in one round trip — pass `queries` so the matching sections come back inline\\n  - You want to parallelize I/O-bound work — pass `concurrency` 2-8 (network calls, gh CLI, cloud APIs, multi-repo git reads)\\n  - The combined output is large enough that piping it through ctx_search later would itself be expensive — let auto-index + inline queries do both in one shot\\n\\nWHEN NOT:\\n  - Single command with no follow-up query — run it in the sandbox tool directly\\n  - CPU-bound or stateful commands — keep concurrency at 1 (npm test, build, lint, port-binding servers, lock-file holders, anything that races on the same resource)\\n\\nRETURNS:\\n  Auto-indexed section list per command label, plus top matches per query (when `queries` is passed). Raw output is NOT echoed in full — only the matched windows. Concurrency>1 switches each command to its own per-command timeout (no shared budget); concurrency=1 preserves the legacy shared-budget cascading-skip-on-timeout path. Use 4-8 for I/O-bound batches; keep at 1 for CPU work or shared-state commands; lower the value when target hosts enforce per-IP rate limits.\\n\\nEXAMPLE: ctx_batch_execute(\\n  commands: [\\n    {label: \\\"issue 1\\\", command: \\\"gh issue view 1\\\"},\\n    {label: \\\"issue 2\\\", command: \\\"gh issue view 2\\\"},\\n    {label: \\\"summarize\\\", command: \\\"echo done\\\"}\\n  ],\\n  queries: [\\\"root cause\\\", \\\"proposed fix\\\"],\\n  concurrency: 2\\n)\",\n      \"signature\": \"tools[\\\"context-mode\\\"].ctx_batch_execute({\\n  /**\\n   * Commands to execute as a batch. Output is labeled with the section header. Default order is sequential; pass concurrency>1 to run in parallel (output stays in input order).\\n   * @minItems 1\\n   */\\n  commands: Array<{\\n      /** Section header for this command's output (e.g., 'README', 'Package.json', 'Source Tree') */\\n      label: string,\\n      /** Shell command to execute */\\n      command: string,\\n    }>,\\n  /**\\n   * Search queries to extract information from indexed output. Use 5-8 comprehensive queries. Each returns top 5 matching sections with full content. This is your ONLY chance — put ALL your questions here. No follow-up calls needed.\\n   * @minItems 1\\n   */\\n  queries: Array<string>,\\n  /**\\n   * Max execution time in ms. When omitted, no server-side timer fires — the MCP host's RPC timeout governs. With concurrency=1, the value (when set) is a shared budget across commands; with concurrency>1, it is applied per-command.\\n   */\\n  timeout?: number,\\n  /**\\n   * Max commands to run in parallel (1-8, default: 1). Use 4-8 for I/O-bound batches (network, gh, curl, multi-repo git reads). Keep at 1 for CPU-bound (npm test, build, lint) or stateful commands (ports, locks). >1 switches to per-command timeouts (no shared budget) and individual `(timed out)` blocks instead of cascading skip.\\n   * @default 1 @integer @minimum 1 @maximum 8\\n   */\\n  concurrency?: number,\\n  /** Optional working directory for all shell commands in this batch. */\\n  cwd?: string,\\n  /**\\n   * Scope for `queries` (default: `batch`). `batch` searches ONLY the chunks produced by this batch's commands — useful when you want answers about the just-fetched output. `global` searches the entire persistent index (same scope as ctx_search) — useful when you want the batch commands to enrich context and the queries to also surface related prior knowledge in one round trip.\\n   * @default \\\"batch\\\"\\n   */\\n  query_scope?: \\\"batch\\\" | \\\"global\\\",\\n}): Promise<unknown>\"\n    }\n  ],\n  \"remaining\": 23,\n  \"next\": {\n    \"offset\": 10\n  }\n}"
+                }
+              ],
+              "metadata": {
+                "toolCalls": [
+                  {
+                    "tool": "search",
+                    "status": "completed",
+                    "input": {
+                      "query": "semantic code search grep",
+                      "limit": 10
+                    }
+                  }
+                ],
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737894921,
+              "ran": 1791737896603,
+              "completed": 1791737896662
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_cbd1bb43c7104149b432e490",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "BATTLE_RNG_ACTIVE_LANE|BATTLE_RNG_LANE_INDEXES|RANDOM_NUMBER_LIST",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng",
+                "caseSensitive": false
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 78 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-test\\nomcp-nor-context\\glm5.3.txt:\n  Line 45: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n\n  Line 256: `domain__Battle_GetRandomInt` : liste déterministe `RANDOM_NUMBER_LIST` + curseur octet par lane (`BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]`). **Cinq points d'usage** :\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-test\\nomcp-nor-context\\glm5.3-flash.txt:\n  Line 45: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n\n  Line 258: **Un seul primitive** : `domain__Battle_GetRandomInt` — commente elle-même : lit `RANDOM_NUMBER_LIST` au curseur `BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]`, incrémente le curseur. Retour 32-bit, toujours masqué `&0xFF` avant usage.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-test\\mcp-allow\\glm5.3.txt:\n  Line 45: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n\n  Line 292: Tout passe par `domain::Battle_GetRandomInt()` (RNG battle-local, curseur `BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]`, pas de CRT) :\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-test\\mcp-allow\\glm5.3-flash.txt:\n  Line 43: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n\n  Line 335: Primitive unique : `domain::Battle_GetRandomInt` (0x48F020) — lit `RANDOM_NUMBER_LIST` au curseur `BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]` et incrémente. Aucun CRT. Appels :\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x4844D0.json:\n  Line 18:   \"assembly\": \"004844D0: push    esi; Battle_InitATB_RandomFromSpeed: cur_atb = max_atb/100*(spd/4+rand(0..127)+1-35), clamped [0,max_atb]\\n004844D1: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\\n004844D6: and     eax, 7Fh; weapon+70*lines 0x1CFE6F8: 71..79=weapon+320, else weapon+230\\n004844D9: inc     eax; Increment by 1\\n004844DA: mov     edx, eax\\n004844DC: mov     eax, [esp+4+p_attacker_slot_id]\\n004844E0: lea     ecx, [eax+eax*2]; Load Effective Address\\n004844E3: lea     ecx, [eax+ecx*4]; Load Effective Address\\n004844E6: xor     eax, eax; Logical Exclusive OR\\n004844E8: shl     ecx, 4; Shift Logical Left\\n004844EB: add     ecx, offset BATTLE_SLOT_DATA; Add\\n004844F1: mov     al, [ecx+0C1h]; si att%2==1: factor=(att+1)/2+100, sinon factor=att/2+4 (branche impaire manquante GLM)\\n004844F7: shr     eax, 2; Shift Logical Right\\n004844FA: lea     esi, [eax+edx-23h]; Load Effective Address\\n004844FE: mov     edx, [ecx+10h]\\n00484501: mov     eax, 51EB851Fh\\n00484506: imul    edx; Signed Multiply\\n00484508: sar     edx, 5; Shift Arithmetic Right\\n0048450B: mov     eax, edx\\n0048450D: shr     eax, 1Fh; Shift Logical Right\\n00484510: add     edx, eax; Add\\n00484512: imul    esi, edx; Signed Multiply\\n00484515: mov     [ecx+14h], esi\\n00484518: mov     edx, [ecx+10h]\\n0048451B: mov     eax, [ecx+14h]\\n0048451E: cmp     edx, eax; Compare Two Operands\\n00484520: pop     esi\\n00484521: jge     short loc_484529; Jump if Greater or Equal (SF=OF)\\n00484523: mov     eax, [ecx+10h]\\n00484526: mov     [ecx+14h], eax\\n00484529: mov     eax, [ecx+14h]; EAX = pre-zero-clamp cur_atb (returned as-is, may be negative); slot clamped to 0 below. [wave 2026-09-12 GLM+Grok PASS]\\n0048452C: test    eax, eax; Logical Compare\\n0048452E: jge     short locret_484537; Jump if Greater or Equal (SF=OF)\\n0048453...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_static_rng_lane_discipline.md:\n  Line 13: - `Battle_GetRandomInt` `0x48F020` — returns `RANDOM_NUMBER_LIST[lane_cursor[active_lane]++]`.\n\n  Line 16: - `RANDOM_NUMBER_LIST` `0xB697F8` (static 256-byte table), `BATTLE_RNG_LANE_INDEXES[8]` `0x1D2A228`, `BATTLE_RNG_ACTIVE_LANE` `0x1D2A230`.\n\n  Line 22: - `Battle_GetRandomInt` advances only the **active** lane's cursor; `BATTLE_RNG_ACTIVE_LANE` selects which.\n\n  Line 27: 2. Find every writer of `BATTLE_RNG_ACTIVE_LANE` `0x1D2A230` (`xrefs_to`) to learn how/when the active lane switches (per-subsystem lane assignment?).\n\n  Line 29: 4. Confirm `RANDOM_NUMBER_LIST` is the shipped static table (no runtime mutation) → replay needs only the 9 state bytes.\n\n  Line 39: - `Battle_GetRandomInt` (`0x48F020`): `v = BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]++; return RANDOM_NUMBER_LIST[v];`. Cursor is **one byte** → wraps mod 256. Table is exactly **256 bytes** (`next_head(0xB697F8)=0xB698F8`). **71** code callers.\n\n  Line 40: - `Battle_SeedRNG(seed)` (`0x48F050`): sets all 8 lane cursors to `seed`, walks lane 0 eight times feeding `seed` forward, then `BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7`.\n\n  Line 41: - **Lane discipline:** `BATTLE_RNG_ACTIVE_LANE` (`0x1D2A230`) is written **only** by `Battle_SeedRNG`, read **only** by `Battle_GetRandomInt`. → **No mid-battle lane switching.** All draws advance one fixed lane; battle randomness = a single 256-entry ring with a seed-derived start. (So there is no per-subsystem lane map; lanes 1–7 are seeded but never advance.)\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48FE20.json:\n  Line 18:   \"assembly\": \"0048FE20: sub     esp, 10h; Magic/Draw/Slot/247 first switch: HIT_ELEMENT, HIT_ATTACK_ENABLER, HIT_STATUS_1/2 from K_MAGIC[action_id]. HIT_ATTACK_HITPERCENT stays 0xFF. Second switch cmd 2/16/247: ATTACK_FLAG, animation, Damage_ComputeRawDeltaFromAttackType(attackType, spellPower).\\n0048FE23: mov     eax, [esp+10h+p_target_slot_id]\\n0048FE27: push    ebx\\n0048FE28: push    ebp\\n0048FE29: push    esi\\n0048FE2A: lea     ecx, [eax+eax*2]; Load Effective Address\\n0048FE2D: push    edi\\n0048FE2E: lea     edx, [eax+ecx*4]; Load Effective Address\\n0048FE31: shl     edx, 4; Shift Logical Left\\n0048FE34: mov     [esp+20h+target_slot_offset], edx\\n0048FE38: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[edx]\\n0048FE3E: and     ch, 0BFh; Logical AND\\n0048FE41: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edx], ecx\\n0048FE47: mov     cl, BATTLE_SLOT_DATA.scripted_invuln_flag[edx]\\n0048FE4D: xor     esi, esi; Logical Exclusive OR\\n0048FE4F: test    cl, cl; Logical Compare\\n0048FE51: jz      short loc_48FE5B; Jump if Zero (ZF=1)\\n0048FE53: dec     cl; Decrement by 1\\n0048FE55: mov     BATTLE_SLOT_DATA.scripted_invuln_flag[edx], cl\\n0048FE5B: mov     byte ptr unk_1D28DF3, al\\n0048FE60: and     eax, 0FFh; Logical AND\\n0048FE65: mov     ebx, dword ptr ATTACKER_SLOT_ID; slot 0 to 2 are actually the characters (When looking the back of chara, 0 is right chara, 2 is left chara, 3 is right moonster, 5 is left monster)\\n0048FE6B: xor     ecx, ecx; Logical Exclusive OR\\n0048FE6D: mov     cl, COMMAND_TYPE_ID; COMMAND_TYPE_ID is LIVE-mutable post-GetText (0xF8/0xF3/0xFD/0xFB/0xF9 writers); presentation selector is frozen payload[1] (VA)\\n0048FE73: lea     edx, [eax+eax*2]; Load Effective Address\\n0048FE76: mov     edi, ecx\\n0048FE78: mov     byte ptr unk_1D28E29, 0\\n0048FE7F: lea     eax, [eax+edx*4]; Load Effective Address\\n0048FE82: mov     dl, EQUAL_GAME_OVER_RELATED\\n0048FE88: shl     eax, 4; Shift Logical Left\\n0048FE8B: mov     ATTACK_FLAG, 3; | ID   | Meaning       ...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\battle_rng_storage.md:\n  Line 3: summary: Static IDA analysis pins battle RNG to an 8-lane byte-index state over RANDOM_NUMBER_LIST, seeded once per battle from CRT rand(), with confirmed caller families across init, AI, targeting, damage, limits, and loot; live debugger validation remains blocked.\n\n  Line 25: This staging note resolves the main open question left in [[projects/re-ff8/concepts/battle-state-model]]: battle RNG is not an unnamed field hidden inside the documented `0x1D27xxx-0x1D28xxx` slot/queue cluster. It is a nearby battle-global state made of an 8-byte cursor array plus one active-lane selector over `RANDOM_NUMBER_LIST`, reseeded once at battle init from the engine-wide CRT `rand()` stream.\n\n  Line 32: return RANDOM_NUMBER_LIST[BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]++];\n\n  Line 35: - `BATTLE_RNG_LANE_INDEXES` lives at `0x1D2A228` and is now typed in IDA as `unsigned __int8[8]`.\n\n  Line 36: - `BATTLE_RNG_ACTIVE_LANE` lives at `0x1D2A230` and is now typed in IDA as `unsigned __int8`.\n\n  Line 37: - `RANDOM_NUMBER_LIST` is the static lookup table at `0xB697F8`.\n\n  Line 41: 1. a fixed lookup table (`RANDOM_NUMBER_LIST`);\n\n  Line 42: 2. eight one-byte lane cursors (`BATTLE_RNG_LANE_INDEXES[0..7]`);\n\n  Line 43: 3. one one-byte lane selector (`BATTLE_RNG_ACTIVE_LANE`).\n\n  Line 73: 1. for `i = 0..7`, write the current `seed` byte into `BATTLE_RNG_LANE_INDEXES[i]`;\n\n  Line 74: 2. after each write, advance lane `0` through `RANDOM_NUMBER_LIST` and feed that output back as the next `seed`;\n\n  Line 75: 3. after the loop, advance lane `0` once more and set `BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0] & 7`.\n\n  Line 77: So the 8-byte state is not eight identical copies of the battle seed after initialization. Lane `0` is the advancing bootstrap lane, and lanes `1..7` end up holding a short chain derived from successive `RANDOM_NUMBER_LIST` lookups.\n\n  Line 81: - `BATTLE_RNG_LANE_INDEXES` / `BATTLE_RNG_ACTIVE_LANE` are battle globals, but they sit outside the currently documented `0x1D27xxx-0x1D28xxx` slot/queue core.\n\n  Line 115: - Static reconstruction now adds the stronger storage claim: the flee roll uses the same `BATTLE_RNG_LANE_INDEXES` / `BATTLE_RNG_ACTIVE_LANE` state as the rest of battle domain logic.\n\n  Line 151: - domain mechanics use the battle-local RNG stream built on `RANDOM_NUMBER_LIST`;\n\n  Line 160: 1. Inside the battle-local stream, every random mechanic listed above ultimately advances `BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]`.\n\n  Line 162:    - `BATTLE_RNG_LANE_INDEXES[8]`\n\n  Line 163:    - `BATTLE_RNG_ACTIVE_LANE`\n\n  Line 180: - `RELATED_TO_RANDOM_NUMBER_INDEX1` -> `BATTLE_RNG_LANE_INDEXES`\n\n  Line 181: - `RELATED_TO_RANDOM_NUMBER_INDEX2` -> `BATTLE_RNG_ACTIVE_LANE`\n\n  Line 187: - `BATTLE_RNG_LANE_INDEXES` typed as `unsigned __int8[8]`\n\n  Line 188: - `BATTLE_RNG_ACTIVE_LANE` typed as `unsigned __int8`\n\n  Line 201: - `0x1D2A228` (`BATTLE_RNG_LANE_INDEXES`)\n\n  Line 202: - `0x1D2A230` (`BATTLE_RNG_ACTIVE_LANE`)\n\n  Line 212: 1. verify `BATTLE_RNG_LANE_INDEXES[8]` mutation order across repeated battles loaded from the same save point;\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\live_static_closure_2026-06-13.md:\n  Line 32: - `Battle_GetRandomInt` (`0x48F020`) returns `RANDOM_NUMBER_LIST[BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE]++]` — eight one-byte lane cursors over a static table.\n\n  Line 41: | `RANDOM_NUMBER_LIST` | `0xB697F8` | `63 06 F0 23 …` (static FF8 table) | 256-byte fixed RNG table |\n\n  Line 42: | `BATTLE_RNG_LANE_INDEXES[8]` | `0x1D2A228` | `[202,235,41,245,144,165,104,61]` | per-lane cursors |\n\n  Line 43: | `BATTLE_RNG_ACTIVE_LANE` | `0x1D2A230` | `3` | active lane (`& 7`) |\n\n  Line 45: **Deterministic replay requirement:** serialize the 9 bytes at `0x1D2A228..0x1D2A230` (8 lane cursors + active lane). `RANDOM_NUMBER_LIST` is static and needs no capture. There is no hidden CRT-rand state.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48F050.json:\n  Line 18:   \"assembly\": \"0048F050: mov     cl, [esp+seed]; Battle-local RNG seeder. Initializes 8 lane cursors from one byte seed, advances lane 0 through RANDOM_NUMBER_LIST, then picks BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7.\\n0048F054: xor     eax, eax; Logical Exclusive OR\\n0048F056: mov     byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl\\n0048F05C: mov     ecx, BATTLE_RNG_LANE_INDEXES\\n0048F062: and     ecx, 0FFh; Logical AND\\n0048F068: mov     dl, ds:RANDOM_NUMBER_LIST[ecx]; (rng & 7) - branch >= vs > (Grok seul)\\n0048F06E: mov     cl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F074: inc     cl; Increment by 1\\n0048F076: mov     [esp+seed], dl\\n0048F07A: mov     byte ptr BATTLE_RNG_LANE_INDEXES, cl\\n0048F080: mov     ecx, dword ptr [esp+seed]\\n0048F084: and     ecx, 0FFh; Logical AND\\n0048F08A: inc     eax; Increment by 1\\n0048F08B: cmp     eax, 8; Compare Two Operands\\n0048F08E: jl      short loc_48F056; Jump if Less (SF!=OF)\\n0048F090: mov     eax, BATTLE_RNG_LANE_INDEXES\\n0048F095: mov     dl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F09B: and     eax, 0FFh; Logical AND\\n0048F0A0: inc     dl; Increment by 1\\n0048F0A2: mov     byte ptr BATTLE_RNG_LANE_INDEXES, dl\\n0048F0A8: mov     al, ds:RANDOM_NUMBER_LIST[eax]\\n0048F0AE: and     al, 7; (rng & 3) + 3 (Grok seul)\\n0048F0B0: mov     byte ptr BATTLE_RNG_ACTIVE_LANE, al\\n0048F0B5: retn; Return Near from Procedure\",\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x487DF0.json:\n  Line 18:   \"assembly\": \"00487DF0: sub     esp, 64h; Enemy AI VM interpreter. 61-opcode bytecode (0x01..0x3D; 0x00=STOP). Inline little-endian operands; ctrl flow = 0x23 JUMP / 0x02 IF. Berserk(sec1) -> forced Attack via AI_VM_FALLBACK_BYTECODE. Commit tail @0x48983D. Full table: wiki references/enemy-ai-opcodes.\\n00487DF3: push    ebx\\n00487DF4: mov     ebx, [esp+68h+p_monster_slot_id]\\n00487DF8: xor     ecx, ecx; Logical Exclusive OR\\n00487DFA: push    ebp\\n00487DFB: lea     eax, [ebx+ebx*8]; Load Effective Address\\n00487DFE: lea     edx, [ebx+ebx*2]; Load Effective Address\\n00487E01: shl     eax, 3; Shift Logical Left\\n00487E04: sub     eax, ebx; Integer Subtraction\\n00487E06: push    esi\\n00487E07: push    edi\\n00487E08: xor     esi, esi; Logical Exclusive OR\\n00487E0A: mov     cl, BMI71_LOW_MED_HIGH_LEVEL_BIS[eax]\\n00487E10: lea     eax, [ebx+edx*4]; Load Effective Address\\n00487E13: shl     eax, 4; Shift Logical Left\\n00487E16: mov     [esp+74h+monster_difficulty], ecx\\n00487E1A: mov     byte ptr [esp+74h+ai_scratch_var], 0\\n00487E1F: mov     ecx, dword ptr BATTLE_SLOT_DATA.monster_info_section[eax]; G16 SQ-G16-001: slot.monster_info_section is a pointer-to-pointer. ecx=field, edi=[ecx]=380-byte ff8_battle_monster_info base. Same deref as G13 Draw. Do not treat the slot field as the table.\\n00487E25: mov     byte ptr [esp+74h+has_text_pending], 0\\n00487E2A: mov     byte ptr [esp+74h+command_type], 0\\n00487E2F: mov     [esp+74h+p_monster_slot_id], esi\\n00487E33: mov     edi, [ecx]; G16: first_ability = *monster_info_section (one deref). Ability rows at base+0x34, stride 4, index=16*difficulty+idx. Row: typeID, animscript, id.\\n00487E35: mov     cl, byte ptr AI_CURRENT_SECTION_INDEX\\n00487E3B: cmp     cl, 1; Compare Two Operands\\n00487E3E: mov     [esp+74h+first_ability], edi\\n00487E42: mov     byte ptr [esp+74h+enter_alt_target_param_2], 0\\n00487E47: mov     [esp+74h+section_position], esi\\n00487E4B: jnz     short loc_487EB6; Jump if Not Zero (ZF=0)\\n00487E4D: test    by...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\escape_mechanics.md:\n  Line 102: - `domain::Battle_GetRandomInt()` indexes into `RANDOM_NUMBER_LIST` using `RELATED_TO_RANDOM_NUMBER_INDEX2` / `RELATED_TO_RANDOM_NUMBER_INDEX1`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x486E00.json:\n  Line 18:   \"assembly\": \"00486E00: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)\\n00486E05: cmp     eax, 0FFh; Compare Two Operands\\n00486E0A: jnz     short loc_486E11; Jump if Not Zero (ZF=0)\\n00486E0C: mov     ax, 8; empty -> 8 (= 1<<3), not 0\\n00486E10: retn; Return Near from Procedure\\n00486E11: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\\n00486E16: and     eax, 0FFh; Logical AND\\n00486E1B: mov     ecx, eax\\n00486E1D: and     ecx, 80000003h; MSVC signed %4 pattern on 0..255 value == &3 ; slot = (rng&3)+3 -> slots 3-6\\n00486E23: jns     short loc_486E2A; Jump if Not Sign (SF=0)\\n00486E25: dec     ecx; Decrement by 1\\n00486E26: or      ecx, 0FFFFFFFCh; Logical Inclusive OR\\n00486E29: inc     ecx; Increment by 1\\n00486E2A: add     ecx, 3; Add\\n00486E2D: lea     eax, [ecx+ecx*2]; Load Effective Address\\n00486E30: lea     edx, [ecx+eax*4]; Load Effective Address\\n00486E33: shl     edx, 4; Shift Logical Left\\n00486E36: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\\n00486E3D: jnz     short loc_486E11; Live capture 2026-08-09 (g08-native-meteor-rng-delta-pre-g09): Meteor entered 0x48E830 with mask 0xA018, hit_count=10, active RNG lane 1 cursor 186. Before first G09 cursor was 200: 14 draws. Each loop uses (Battle_GetRandomInt() & 3)+3; dead slots 5/6 rejected 4 times, accepted slots [3,3,3,4,3,4,3,4,3,4] exactly match the 10 resolved masks. One RNG byte is consumed per candidate attempt, including retries.\\n00486E3F: mov     eax, 1\\n00486E44: shl     eax, cl; Shift Logical Left\\n00486E46: retn; Return Near from P...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\post_state.json:\n  Line 80762:       \"RANDOM_NUMBER_LIST\"\r\n\n  Line 102710:       \"BATTLE_RNG_LANE_INDEXES\"\r\n\n  Line 102714:       \"BATTLE_RNG_ACTIVE_LANE\"\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\concepts\\battle-state-model.md:\n  Line 59:   - `RANDOM_NUMBER_LIST` at `0xB697F8` — static 256-byte table (does not need capture)\n\n  Line 60:   - `BATTLE_RNG_LANE_INDEXES[8]` at `0x1D2A228` — eight one-byte lane cursors\n\n  Line 61:   - `BATTLE_RNG_ACTIVE_LANE` at `0x1D2A230` — active lane (`& 7`)\n\n  Line 65: **RNG model (confirmed 2026-06-13, seed-source corrected 2026-06-14):** `Battle_GetRandomInt` (`0x48F020`) returns `RANDOM_NUMBER_LIST[BATTLE_RNG_LANE_INDEXES[active_lane]++]` — the active lane's one-byte cursor post-increments and wraps mod 256. All 71 in-battle randomness callsites (damage, crit, hit, targeting, mug/steal/draw, ATB init, enemy AI, GF specials, escape) draw from this single table+cursor path. The cursor type is one byte, so the table is exactly 256 entries.\n\n  Line 67: `Battle_SeedRNG` (`0x48F050`) is called **exactly once per battle** by `FFBattleDirector_battleLoop` (`0x47D510`). It fills all eight lane cursors from the seed byte, walks lane 0 eight times to diffuse it, then picks `BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7`.\n\n  Line 69: **Lane discipline:** `BATTLE_RNG_ACTIVE_LANE` (`0x1D2A230`) is written *only* by `Battle_SeedRNG` and read *only* by `Battle_GetRandomInt` — there is **no mid-battle lane switching**. After seeding, every draw advances one fixed lane, so a battle's randomness is effectively a single 256-entry ring with a seed-derived start offset.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-loop-iso-readiness.md:\n  Line 160: Resolved. `BATTLE_RNG_ACTIVE_LANE` is set **only** at seed and read **only** by `Battle_GetRandomInt` → **no mid-battle lane switching**; all 71 callsites draw from one fixed lane (a 256-entry ring). `Battle_SeedRNG` diffuses a single seed byte across the 8 cursors and picks the active lane `& 7`. The seed byte comes from CRT `rand()` (`0x55CBD2`, MSVC LCG) **once** at battle start via `FFBattleDirector_battleLoop`. In-battle replay = 9 state bytes; cross-run = CRT `holdrand` at entry. Distilled into [[projects/re-ff8/concepts/battle-state-model]].\n\n  Line 350: Resolved. `BATTLE_RNG_ACTIVE_LANE` is set **only** at seed and read **only** by `Battle_GetRandomInt` → **no mid-battle lane switching**; all 71 callsites draw from one fixed lane (a 256-entry ring). `Battle_SeedRNG` diffuses a single seed byte across the 8 cursors and picks the active lane `& 7`. The seed byte comes from CRT `rand()` (`0x55CBD2`, MSVC LCG) **once** at battle start via `FFBattleDirector_battleLoop`. In-battle replay = 9 state bytes; cross-run = CRT `holdrand` at entry. Distilled into [[projects/re-ff8/concepts/battle-state-model]].\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\final_post_state.json:\n  Line 80818:       \"RANDOM_NUMBER_LIST\"\r\n\n  Line 102790:       \"BATTLE_RNG_LANE_INDEXES\"\r\n\n  Line 102794:       \"BATTLE_RNG_ACTIVE_LANE\"\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\baseline.json:\n  Line 59098:       \"RANDOM_NUMBER_LIST\"\r\n\n  Line 81038:       \"BATTLE_RNG_LANE_INDEXES\"\r\n\n  Line 81042:       \"BATTLE_RNG_ACTIVE_LANE\"\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ff8re\\battle_state.py:\n  Line 103:     BATTLE_RNG_LANE_INDEXES = 0x1D2A228\r\n\n  Line 104:     BATTLE_RNG_ACTIVE_LANE  = 0x1D2A230\r\n\n  Line 392:         raw = self.mcp.read_bytes(self.BATTLE_RNG_LANE_INDEXES, 8)\r\n\n  Line 395:             \"BATTLE_RNG_LANE_INDEXES_ADDR\": hex(self.BATTLE_RNG_LANE_INDEXES),\r\n\n  Line 396:             \"BATTLE_RNG_ACTIVE_LANE_ADDR\": hex(self.BATTLE_RNG_ACTIVE_LANE),\r\n\n  Line 397:             \"BATTLE_RNG_LANE_INDEXES\": indexes,\r\n\n  Line 398:             \"BATTLE_RNG_ACTIVE_LANE\": self.mcp.read_u8(self.BATTLE_RNG_ACTIVE_LANE),\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\FinalFantasy_VIII_Reimaginated\\evidence\\battle-iso\\g08-native-meteor-rng-delta-pre-g09-2026-08-09.json:\n  Line 36:     \"table\": \"RANDOM_NUMBER_LIST\",\n"
+                }
+              ],
+              "metadata": {
+                "matches": 78,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737894962,
+              "ran": 1791737896608,
+              "completed": 1791737906523
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_6b556fcaaa274e61b63341c7",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "48F050|Battle_SeedRNG",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng",
+                "caseSensitive": false
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 77 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_ida_class.json:\n  Line 1: {\"n_eas\": 1047, \"n_starts\": 498, \"n_interior\": 229, \"n_nofunc\": 320, \"starts\": [\"0x401000\", \"0x4020f0\", \"0x403d99\", \"0x40702f\", \"0x4070b0\", \"0x407162\", \"0x407586\", \"0x40763d\", \"0x4076b6\", \"0x40942e\", \"0x409805\", \"0x41619a\", \"0x4178d7\", \"0x419d8f\", \"0x41df0c\", \"0x41e650\", \"0x41e752\", \"0x41e7a5\", \"0x41e803\", \"0x41e947\", \"0x41e972\", \"0x41e99d\", \"0x4252b0\", \"0x425540\", \"0x4257d0\", \"0x438599\", \"0x438682\", \"0x43b50c\", \"0x43e24a\", \"0x43e356\", \"0x440ff0\", \"0x444ba8\", \"0x445de9\", \"0x446000\", \"0x44655f\", \"0x4467b6\", \"0x45b2e0\", \"0x45c0f0\", \"0x45c7a0\", \"0x45c8e0\", \"0x45c9b0\", \"0x45ca50\", \"0x45d610\", \"0x45dca0\", \"0x45e5c0\", \"0x45e610\", \"0x45e670\", \"0x45e9d0\", \"0x45ebf0\", \"0x45ee10\", \"0x45f930\", \"0x460810\", \"0x460840\", \"0x460860\", \"0x463fc0\", \"0x464db0\", \"0x464f70\", \"0x465930\", \"0x465ce0\", \"0x4675c0\", \"0x4677d0\", \"0x467d10\", \"0x4685f0\", \"0x46a0a0\", \"0x46deb0\", \"0x46e0c0\", \"0x46e100\", \"0x46e2a0\", \"0x46e320\", \"0x46fa10\", \"0x4706b0\", \"0x47ca90\", \"0x47ccb0\", \"0x47ce10\", \"0x47cef0\", \"0x47cf50\", \"0x47cf60\", \"0x47d890\", \"0x47d8a0\", \"0x47d8e0\", \"0x47dda0\", \"0x47de70\", \"0x47df60\", \"0x47e120\", \"0x47e250\", \"0x47e3f0\", \"0x47e480\", \"0x47e5f0\", \"0x47ed90\", \"0x47ee00\", \"0x47eef0\", \"0x482560\", \"0x482590\", \"0x482870\", \"0x482bd0\", \"0x482c90\", \"0x482d50\", \"0x482dc0\", \"0x482e00\", \"0x482f70\", \"0x482f80\", \"0x483190\", \"0x4831f0\", \"0x483270\", \"0x4832f0\", \"0x483340\", \"0x483370\", \"0x483470\", \"0x483790\", \"0x4837e0\", \"0x483860\", \"0x483880\", \"0x4838c0\", \"0x483940\", \"0x483d60\", \"0x4842b0\", \"0x484490\", \"0x4844d0\", \"0x4845a0\", \"0x484720\", \"0x4847f0\", \"0x484d20\", \"0x484fd0\", \"0x485160\", \"0x485460\", \"0x485610\", \"0x485ec0\", \"0x485f00\", \"0x485ff0\", \"0x486130\", \"0x4862a0\", \"0x486390\", \"0x4863f0\", \"0x486450\", \"0x486500\", \"0x4865c0\", \"0x486650\", \"0x4867c0\", \"0x4868c0\", \"0x486a10\", \"0x486b40\", \"0x486cd0\", \"0x486dc0\", \"0x486e00\", \"0x486e70\", \"0x487590\", \"0x487670\", \"0x4876d0\", \"0x4877b0\", \"0x4877f0\", \"0x487d80\", \"0x487db0\", \"0x487df0\", \"0x48a640\", \"0x48a680\", \"0x48a720\", \"0x48a770\", \"0x48a7a0\", \"0x48a830\", \"0x48a900\", ...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_live_rng_mixed_rand_callsite.md:\n  Line 16: - `domain::Battle_SeedRNG` at `0x48F050`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\g22-battle-init-new-chat.md:\n  Line 171: | `Battle_SeedRNG` | `0x48F050` | **interdit** — U22.5 |\r\n\n  Line 446: Un seed de bataille (natif : `Battle_SeedRNG(rand())`). Hors-ligne :\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\g22-static-catchup-before-g23-new-chat.md:\n  Line 42:   `Battle_SeedRNG`, `Odin_BattleInit_ZantetsukenCheck`,\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\temp_result_battle_init.md:\n  Line 44: | 8 | (inline) | rand() → Battle_SeedRNG (0x48F050) | Seed battle RNG |\r\n\n  Line 361: | 0x48F050 | domain::Battle_SeedRNG | void(char seed) |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\remaining-functions-inventory-2026-10-11.md:\n  Line 146: G20  0x48F050  Battle_SeedRNG                        N\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\live_static_closure_2026-06-13.md:\n  Line 33: - `Battle_SeedRNG` (`0x48F050`) seeds the eight lanes from a one-byte seed and selects the active lane (`& 7`). It has **exactly one caller**: `FFBattleDirector_battleLoop` (seeded once per battle).\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48F050.json:\n  Line 2:   \"ea\": \"0x48F050\",\n\n  Line 3:   \"name_label_only\": \"domain::Battle_SeedRNG\",\n\n  Line 13:       \"start\": \"0x48f050\",\n\n  Line 18:   \"assembly\": \"0048F050: mov     cl, [esp+seed]; Battle-local RNG seeder. Initializes 8 lane cursors from one byte seed, advances lane 0 through RANDOM_NUMBER_LIST, then picks BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7.\\n0048F054: xor     eax, eax; Logical Exclusive OR\\n0048F056: mov     byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl\\n0048F05C: mov     ecx, BATTLE_RNG_LANE_INDEXES\\n0048F062: and     ecx, 0FFh; Logical AND\\n0048F068: mov     dl, ds:RANDOM_NUMBER_LIST[ecx]; (rng & 7) - branch >= vs > (Grok seul)\\n0048F06E: mov     cl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F074: inc     cl; Increment by 1\\n0048F076: mov     [esp+seed], dl\\n0048F07A: mov     byte ptr BATTLE_RNG_LANE_INDEXES, cl\\n0048F080: mov     ecx, dword ptr [esp+seed]\\n0048F084: and     ecx, 0FFh; Logical AND\\n0048F08A: inc     eax; Increment by 1\\n0048F08B: cmp     eax, 8; Compare Two Operands\\n0048F08E: jl      short loc_48F056; Jump if Less (SF!=OF)\\n0048F090: mov     eax, BATTLE_RNG_LANE_INDEXES\\n0048F095: mov     dl, byte ptr BATTLE_RNG_LANE_INDEXES\\n0048F09B: and     eax, 0FFh; Logical AND\\n0048F0A0: inc     dl; Increment by 1\\n0048F0A2: mov     byte ptr BATTLE_RNG_LANE_INDEXES, dl\\n0048F0A8: mov     al, ds:RANDOM_NUMBER_LIST[eax]\\n0048F0AE: and     al, 7; (rng & 3) + 3 (Grok seul)\\n0048F0B0: mov     byte ptr BATTLE_RNG_ACTIVE_LANE, al\\n0048F0B5: retn; Return Near from Procedure\",\n\n  Line 21:       \"start\": \"0x48f050\",\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_static_rng_lane_discipline.md:\n  Line 9: `battle-state-model` confirmed the RNG model (8 lane cursors + active lane, table-based, no CRT `rand()`), so deterministic replay needs only the 9 bytes at `0x1D2A228..0x1D2A230`. But **which lane each callsite consumes, in what order**, and the exact `Battle_SeedRNG` algorithm are not enumerated — both are required for byte-exact replay (B4).\n\n  Line 14: - `Battle_SeedRNG` `0x48F050` — seeds the 8 lanes (called once per battle by `FFBattleDirector_battleLoop`).\n\n  Line 26: 1. Decompile `Battle_GetRandomInt` `0x48F020` and `Battle_SeedRNG` `0x48F050`: exact cursor advance, wraparound, and the seed derivation (source bytes → 8 lane start cursors).\n\n  Line 33: 1. Exact `Battle_GetRandomInt` + `Battle_SeedRNG` pseudocode.\n\n  Line 40: - `Battle_SeedRNG(seed)` (`0x48F050`): sets all 8 lane cursors to `seed`, walks lane 0 eight times feeding `seed` forward, then `BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7`.\n\n  Line 41: - **Lane discipline:** `BATTLE_RNG_ACTIVE_LANE` (`0x1D2A230`) is written **only** by `Battle_SeedRNG`, read **only** by `Battle_GetRandomInt`. → **No mid-battle lane switching.** All draws advance one fixed lane; battle randomness = a single 256-entry ring with a seed-derived start. (So there is no per-subsystem lane map; lanes 1–7 are seeded but never advance.)\n\n  Line 42: - **Seed source CORRECTION:** `FFBattleDirector_battleLoop` @ `0x47D510` does `call _rand; push eax; call Battle_SeedRNG` — **once per battle**. `_rand` @ **`0x55CBD2`** IS the statically-linked MSVC CRT LCG: `holdrand = holdrand*214013 + 2531011; return (holdrand>>16)&0x7FFF` (constants `0x343FD`/`0x269EC3`, thread state at `_getptd()+20`). The prior \"no CRT rand() in the binary / constants absent\" claim was **wrong** (it's statically linked, not imported).\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\FinalFantasy_VIII_Reimaginated\\manifests\\ownership-matrix.toml:\n  Line 215: excluded = \"G22 never directly calls ParseBattleParty, ParseBattleCharacter, Battle_CalculateJunctionStats, setBattleSlotData, SceneOut_InitEnemySlot, setAllMonsterInfoFromDatSection, setMonsterInfoFromDatInfoSection, BS_ParseItems, ReadSceneOutForEncounter, Battle_InitATB_MaxAndReset, Battle_InitATB_RandomFromSpeed, Battle_InitPreemptiveBackAttackStatus, Battle_SeedRNG, Odin_BattleInit_ZantetsukenCheck, Gilgamesh_BattleInit_TriggerCheck, or Battle_BuildTargetVisibilityMasks, and never uses import_legacy as its init source. Battle_InitActionQueueGroup and Battle_EnqueueInitialPartyActions are detoured and their native bodies are suppressed only while G22 is armed. G22 does not own the later presentation consumer of special_id=0. The original case-3 compatibility tail may still execute visibility, special checks, dead timer, step 4, and G07; that native tail is not replacement ownership or promotion proof\"\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-loop-iso-readiness.md:\n  Line 160: Resolved. `BATTLE_RNG_ACTIVE_LANE` is set **only** at seed and read **only** by `Battle_GetRandomInt` → **no mid-battle lane switching**; all 71 callsites draw from one fixed lane (a 256-entry ring). `Battle_SeedRNG` diffuses a single seed byte across the 8 cursors and picks the active lane `& 7`. The seed byte comes from CRT `rand()` (`0x55CBD2`, MSVC LCG) **once** at battle start via `FFBattleDirector_battleLoop`. In-battle replay = 9 state bytes; cross-run = CRT `holdrand` at entry. Distilled into [[projects/re-ff8/concepts/battle-state-model]].\n\n  Line 350: Resolved. `BATTLE_RNG_ACTIVE_LANE` is set **only** at seed and read **only** by `Battle_GetRandomInt` → **no mid-battle lane switching**; all 71 callsites draw from one fixed lane (a 256-entry ring). `Battle_SeedRNG` diffuses a single seed byte across the 8 cursors and picks the active lane `& 7`. The seed byte comes from CRT `rand()` (`0x55CBD2`, MSVC LCG) **once** at battle start via `FFBattleDirector_battleLoop`. In-battle replay = 9 state bytes; cross-run = CRT `holdrand` at entry. Distilled into [[projects/re-ff8/concepts/battle-state-model]].\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_func_gap.json:\n  Line 179:   \"Battle_SeedRNG\",\r\n\n  Line 353:   \"domain::Battle_SeedRNG\",\r\n\n  Line 1030:   \"domain::Battle_SeedRNG\": [\r\n\n  Line 1033:   \"Battle_SeedRNG\": [\r\n\n  Line 2637:    \"0x48f050\",\r\n\n  Line 2802:   \"domain::Battle_SeedRNG\": [\r\n\n  Line 2803:    \"0x48f050\"\r\n\n  Line 3164:   \"Battle_SeedRNG\": [\r\n\n  Line 3166:    \"0x48f050\",\r\n\n  Line 3176:    \"0x48f050\",\r\n\n  Line 4897:   \"0x48f050\",\r\n\n  Line 6367:   \"0x48f050\": [\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\battle_rng_storage.md:\n  Line 60: - `domain::Battle_SeedRNG` (`0x48F050`) has one static caller: `main::FFBattleDirector_battleLoop`.\n\n  Line 64:   3. `call domain::Battle_SeedRNG`\n\n  Line 67: That means each battle gets a fresh local RNG state, but the byte seed passed into `Battle_SeedRNG` comes from the shared CRT `rand()` stream rather than from save-backed battle state.\n\n  Line 71: `domain::Battle_SeedRNG(unsigned __int8 seed)` does all of the following:\n\n  Line 82: - Current xrefs to these RNG-state globals are limited to `domain::Battle_GetRandomInt` and `domain::Battle_SeedRNG`.\n\n  Line 165: 3. Reproducing **battle entry** additionally requires controlling the upstream CRT `_rand()` state, because the battle seed byte comes from `_rand()` immediately before `Battle_SeedRNG`.\n\n  Line 190: - `domain::Battle_SeedRNG` signature fixed to `unsigned __int8 __cdecl (unsigned __int8 seed)`\n\n  Line 200: - `0x48F050` (`domain::Battle_SeedRNG`)\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ff8re\\tests\\tier4_behavioral\\live_followups\\RNG_MIXED_RAND_CALLSITE_001.yaml:\n  Line 18:   BATTLE_SEED_RNG: 0x48F050\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\concepts\\battle-state-model.md:\n  Line 67: `Battle_SeedRNG` (`0x48F050`) is called **exactly once per battle** by `FFBattleDirector_battleLoop` (`0x47D510`). It fills all eight lane cursors from the seed byte, walks lane 0 eight times to diffuse it, then picks `BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7`.\n\n  Line 69: **Lane discipline:** `BATTLE_RNG_ACTIVE_LANE` (`0x1D2A230`) is written *only* by `Battle_SeedRNG` and read *only* by `Battle_GetRandomInt` — there is **no mid-battle lane switching**. After seeding, every draw advances one fixed lane, so a battle's randomness is effectively a single 256-entry ring with a seed-derived start offset.\n\n  Line 71: **Seed source — correction:** the seed byte comes from `Battle_SeedRNG(rand())` where `rand` is the **statically-linked MSVC CRT LCG** at `0x55CBD2` (`holdrand = holdrand*214013 + 2531011; return (holdrand>>16) & 0x7FFF`, constants `0x343FD`/`0x269EC3`). The earlier \"no CRT `rand()` in the binary\" note was wrong (it is statically linked, hence not an *import*, and the constants are present). Consequently: **in-battle** replay needs only the 9 RNG-state bytes at `0x1D2A228..0x1D2A230`; **cross-run** reproduction of a given encounter also requires the CRT `holdrand` (thread state at `_getptd()+20`) at battle entry. See [[_staging/investigations/live_static_closure_2026-06-13]].\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\systems\\battle_init.md:\n  Line 106: | 8 | `0x48F050` | `Battle_SeedRNG(rand())` | Seed battle RNG |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\reference\\address_catalog.md:\n  Line 201: | `0x48F050` | `domain::Battle_SeedRNG` | Seed battle RNG |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\semantic-certainty.md:\n  Line 254: | `0x48F050` | `domain::Battle_SeedRNG` | 24 | SKIP_NODECOMP | — | oui | — | — | pas de C réconcilié |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\r0-scope.json:\n  Line 3664:    \"va\": \"0x48f050\",\r\n\n  Line 3665:    \"name\": \"domain::Battle_SeedRNG\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\PLAN_gfx-battleloop-campaign-2026-10-08.md:\n  Line 127: | G20 | `0x48F050` | `Battle_SeedRNG` | 24 |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11.md:\n  Line 227: G20  0x48F050  Battle_SeedRNG                        N\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-pe-verification.json:\n  Line 422:       \"ea\": \"0x48F050\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\native-groups.json:\n  Line 109:         \"0x48F050\"\r\n\n  Line 994:       \"ea\": \"0x48F050\",\r\n\n  Line 995:       \"label\": \"domain::Battle_SeedRNG\",\r\n\n  Line 999:       \"path\": \".tmp/ff8-decomp-semantics-20261011-r01/native/0x48F050.json\",\r\n\n  Line 4005:     \"0x48F050\": {\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\inventory.json:\n  Line 83:     \"0x48F050\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\glm-mcp-function-budget.md:\n  Line 247: | `0x48F050` | `domain::Battle_SeedRNG` | 24 | high | oui |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.readback.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\battle-graph-ledger.json:\n  Line 9528:       \"target_va\": \"0x48F050\"\r\n\n  Line 285954:           \"start_va\": \"0x48F050\"\r\n\n  Line 285958:       \"name\": \"domain::Battle_SeedRNG\",\r\n\n  Line 285963:       \"va\": \"0x48F050\"\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\post_state.json:\n  Line 1448:       \"comment\": \"[glm-triple 2026-09-13]\\n/* FFBattleDirector_battleLoop @ 0x47CCB0\\n * Chunks: dispatcher 0x47CCB0-0x47CDE4, tail 0x47D490-0x47D871,\\n *         card/exit 0x534640-0x5347B6.\\n * Ground truth = live ASM (asm_clean.asm), not Hex-Rays.\\n * this is unused (ECX still passed as __thiscall).\\n */\\n\\n#define BYTE1(x) (*((unsigned char *)&(x) + 1)) /* action latch  TARGET_SLOT_ID+1 */\\n#define BYTE2(x) (*((unsigned char *)&(x) + 2)) /* result latch TARGET_SLOT_ID+2 */\\n\\n/* ---- globals (IDA names; widths from load/store opcodes) ---- */\\nextern short          mode_StateGlobal;            /* movsx at 0x47CCB0 */\\nextern int            mode3_substep;\\nextern int            mode3_subsub_step;\\nextern int            mode_3_subsubsubstep;\\nextern unsigned char  mode_3_subsubsubcondition;\\nextern unsigned char  BATTLE_TRANSITION_COUNTDOWN;\\nextern unsigned char  BATTLE_RESULT_CODE;           /* 0 ongoing, 1 wipe, 2 escape, 3 timer, 4 victory */\\nextern unsigned short POST_BATTLE_GF_ID_QUEUE;\\nextern unsigned char  byte_1D28E19;\\nextern unsigned char  byte_1CFF6E6;\\nextern unsigned char  byte_1D280C3;\\nextern unsigned short ENCOUTER_BATTLE_FLAG;\\nextern unsigned short COMBAT_SCENE_ID;\\nextern unsigned int   CURRENT_ENCOUNTER_ID;\\nextern unsigned char  exit_battle;\\nextern int            FFBattleDirector_related;\\nextern int            mode_Battle_AnimationState;\\nextern void          *btitle_ovl_DestPointer;\\nextern void          *off_B6D074;\\nextern unsigned short battle_mode_related[];       /* 0xFFFF-terminated WORD list */\\nextern unsigned char  CAN_BATTLE_BE_PAUSED;\\nextern unsigned char  AI_BATTLE_ACTIVE_FLAG;\\nextern unsigned char  BATTLE_ESCAPE_STATE;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH_PREV;\\nextern unsigned char  BATTLE_ESCAPE_CANNOT_ESCAPE_PENDING;\\nextern unsigned char  BATTLE_ACTION_TAKING_PLACE_;\\nextern unsigned int   TARGET_SLOT_ID;\\nextern int            dword_1D27B00;\\nextern unsigne...\n  Line 25546:       \"domain::Battle_SeedRNG\"\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\missions\\ff8-decomp-semantics-2026-10-11-run01\\discover-g02.final.native.json:\n  Line 2589:                   \"text\": \"Read file docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json, lines 1-2000\\n1: {\\n2:   \\\"native\\\": {\\n3:     \\\"idb\\\": \\\"D:\\\\\\\\Modding\\\\\\\\ff8\\\\\\\\retro-exe\\\\\\\\FF8_EN.exe - 9.3.i64\\\",\\n4:     \\\"input\\\": \\\"C:\\\\\\\\Program Files (x86)\\\\\\\\Steam\\\\\\\\steamapps\\\\\\\\common\\\\\\\\FINAL FANTASY VIII\\\\\\\\FF8_EN.exe\\\",\\n5:     \\\"bits\\\": 32,\\n6:     \\\"input_sha256\\\": \\\"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570\\\",\\n7:     \\\"exported_utc\\\": \\\"2026-10-11T16:38:25.140966+00:00\\\"\\n8:   },\\n9:   \\\"algorithm\\\": \\\"v1 direct=100 shared-code-callers=3 shared-code-targets=1; greedy max6; no zero-score joins\\\",\\n10:   \\\"groups\\\": [\\n11:     {\\n12:       \\\"id\\\": \\\"g01\\\",\\n13:       \\\"eas\\\": [\\n14:         \\\"0x419D8F\\\"\\n15:       ]\\n16:     },\\n17:     {\\n18:       \\\"id\\\": \\\"g02\\\",\\n19:       \\\"eas\\\": [\\n20:         \\\"0x45E610\\\",\\n21:         \\\"0x45E9D0\\\",\\n22:         \\\"0x45EBF0\\\",\\n23:         \\\"0x56C090\\\",\\n24:         \\\"0x701220\\\",\\n25:         \\\"0x7012C0\\\"\\n26:       ]\\n27:     },\\n28:     {\\n29:       \\\"id\\\": \\\"g03\\\",\\n30:       \\\"eas\\\": [\\n31:         \\\"0x45E670\\\"\\n32:       ]\\n33:     },\\n34:     {\\n35:       \\\"id\\\": \\\"g04\\\",\\n36:       \\\"eas\\\": [\\n37:         \\\"0x460860\\\"\\n38:       ]\\n39:     },\\n40:     {\\n41:       \\\"id\\\": \\\"g05\\\",\\n42:       \\\"eas\\\": [\\n43:         \\\"0x463FC0\\\",\\n44:         \\\"0x464DB0\\\",\\n45:         \\\"0x465720\\\"\\n46:       ]\\n47:     },\\n48:     {\\n49:       \\\"id\\\": \\\"g06\\\",\\n50:       \\\"eas\\\": [\\n51:         \\\"0x464850\\\"\\n52:       ]\\n53:     },\\n54:     {\\n55:       \\\"id\\\": \\\"g07\\\",\\n56:       \\\"eas\\\": [\\n57:         \\\"0x47CF60\\\",\\n58:         \\\"0x500900\\\",\\n59:         \\\"0x485FF0\\\",\\n60:         \\\"0x493840\\\",\\n61:         \\\"0x485EC0\\\",\\n62:         \\\"0x4868C0\\\"\\n63:       ]\\n64:     },\\n65:     {\\n66:       \\\"id\\\": \\\"g08\\\",\\n67:       \\\"eas\\\": [\\n68:         \\\"0x47DDA0\\\",\\n69:         \\\"0x484720\\\",\\n70:         \\\"0x47DE70\\\",\\n71:         \\\"0x47E120\\\",\\n72:         \\\"0x482BD0\\\",\\n73:         \\\"0x487D...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\baseline.json:\n  Line 3986:       \"domain::Battle_SeedRNG\"\r\n\n  Line 94839:       \"comment\": \"[glm-triple 2026-09-13]\\n/* FFBattleDirector_battleLoop @ 0x47CCB0\\n * Chunks: dispatcher 0x47CCB0-0x47CDE4, tail 0x47D490-0x47D871,\\n *         card/exit 0x534640-0x5347B6.\\n * Ground truth = live ASM (asm_clean.asm), not Hex-Rays.\\n * this is unused (ECX still passed as __thiscall).\\n */\\n\\n#define BYTE1(x) (*((unsigned char *)&(x) + 1)) /* action latch  TARGET_SLOT_ID+1 */\\n#define BYTE2(x) (*((unsigned char *)&(x) + 2)) /* result latch TARGET_SLOT_ID+2 */\\n\\n/* ---- globals (IDA names; widths from load/store opcodes) ---- */\\nextern short          mode_StateGlobal;            /* movsx at 0x47CCB0 */\\nextern int            mode3_substep;\\nextern int            mode3_subsub_step;\\nextern int            mode_3_subsubsubstep;\\nextern unsigned char  mode_3_subsubsubcondition;\\nextern unsigned char  BATTLE_TRANSITION_COUNTDOWN;\\nextern unsigned char  BATTLE_RESULT_CODE;           /* 0 ongoing, 1 wipe, 2 escape, 3 timer, 4 victory */\\nextern unsigned short POST_BATTLE_GF_ID_QUEUE;\\nextern unsigned char  byte_1D28E19;\\nextern unsigned char  byte_1CFF6E6;\\nextern unsigned char  byte_1D280C3;\\nextern unsigned short ENCOUTER_BATTLE_FLAG;\\nextern unsigned short COMBAT_SCENE_ID;\\nextern unsigned int   CURRENT_ENCOUNTER_ID;\\nextern unsigned char  exit_battle;\\nextern int            FFBattleDirector_related;\\nextern int            mode_Battle_AnimationState;\\nextern void          *btitle_ovl_DestPointer;\\nextern void          *off_B6D074;\\nextern unsigned short battle_mode_related[];       /* 0xFFFF-terminated WORD list */\\nextern unsigned char  CAN_BATTLE_BE_PAUSED;\\nextern unsigned char  AI_BATTLE_ACTIVE_FLAG;\\nextern unsigned char  BATTLE_ESCAPE_STATE;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH_PREV;\\nextern unsigned char  BATTLE_ESCAPE_CANNOT_ESCAPE_PENDING;\\nextern unsigned char  BATTLE_ACTION_TAKING_PLACE_;\\nextern unsigned int   TARGET_SLOT_ID;\\nextern int            dword_1D27B00;\\nextern unsigne...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47CCB0__FFBattleDirector_battleLoop.md:\n  Line 97: extern void  domain__Battle_SeedRNG(unsigned int seed);\r\n\n  Line 254:         domain__Battle_SeedRNG((unsigned int)_rand());\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\idb-sync-2026-10-07\\final_post_state.json:\n  Line 1448:       \"comment\": \"[glm-triple 2026-09-13]\\n/* FFBattleDirector_battleLoop @ 0x47CCB0\\n * Chunks: dispatcher 0x47CCB0-0x47CDE4, tail 0x47D490-0x47D871,\\n *         card/exit 0x534640-0x5347B6.\\n * Ground truth = live ASM (asm_clean.asm), not Hex-Rays.\\n * this is unused (ECX still passed as __thiscall).\\n */\\n\\n#define BYTE1(x) (*((unsigned char *)&(x) + 1)) /* action latch  TARGET_SLOT_ID+1 */\\n#define BYTE2(x) (*((unsigned char *)&(x) + 2)) /* result latch TARGET_SLOT_ID+2 */\\n\\n/* ---- globals (IDA names; widths from load/store opcodes) ---- */\\nextern short          mode_StateGlobal;            /* movsx at 0x47CCB0 */\\nextern int            mode3_substep;\\nextern int            mode3_subsub_step;\\nextern int            mode_3_subsubsubstep;\\nextern unsigned char  mode_3_subsubsubcondition;\\nextern unsigned char  BATTLE_TRANSITION_COUNTDOWN;\\nextern unsigned char  BATTLE_RESULT_CODE;           /* 0 ongoing, 1 wipe, 2 escape, 3 timer, 4 victory */\\nextern unsigned short POST_BATTLE_GF_ID_QUEUE;\\nextern unsigned char  byte_1D28E19;\\nextern unsigned char  byte_1CFF6E6;\\nextern unsigned char  byte_1D280C3;\\nextern unsigned short ENCOUTER_BATTLE_FLAG;\\nextern unsigned short COMBAT_SCENE_ID;\\nextern unsigned int   CURRENT_ENCOUNTER_ID;\\nextern unsigned char  exit_battle;\\nextern int            FFBattleDirector_related;\\nextern int            mode_Battle_AnimationState;\\nextern void          *btitle_ovl_DestPointer;\\nextern void          *off_B6D074;\\nextern unsigned short battle_mode_related[];       /* 0xFFFF-terminated WORD list */\\nextern unsigned char  CAN_BATTLE_BE_PAUSED;\\nextern unsigned char  AI_BATTLE_ACTIVE_FLAG;\\nextern unsigned char  BATTLE_ESCAPE_STATE;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH;\\nextern unsigned char  BATTLE_ESCAPE_INPUT_LATCH_PREV;\\nextern unsigned char  BATTLE_ESCAPE_CANNOT_ESCAPE_PENDING;\\nextern unsigned char  BATTLE_ACTION_TAKING_PLACE_;\\nextern unsigned int   TARGET_SLOT_ID;\\nextern int            dword_1D27B00;\\nextern unsigne...\n  Line 25598:       \"domain::Battle_SeedRNG\"\r\n"
+                }
+              ],
+              "metadata": {
+                "matches": 77,
+                "truncated": false
+              }
+            },
+            "time": {
+              "created": 1791737895833,
+              "ran": 1791737896631,
+              "completed": 1791737906531
+            }
+          },
+          {
+            "type": "tool",
+            "id": "call_feee6e8d64d244788a81cf94",
+            "name": "grep",
+            "executed": false,
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "47CCB0",
+                "path": "C:\\Users\\djden\\source\\repos\\retro-eng",
+                "caseSensitive": false
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Found 100 matches\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.codex\\agents\\semantic-reviewer.toml:\n  Line 12: - Leçon fondatrice (`0x47CCB0`) : le fait clé « occupancy 3 ennemis » était dans A mais V doit **chercher** elle-même le libellé des slots, pas le prendre pour acquis parce que A l'a dit.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.codex\\agents\\semantic-reconciler.toml:\n  Line 42: Historique utile : sur l'échantillon 2026-09-15, le 2+1 n'a été **nécessaire** que pour `0x47CCB0` (nom + occupancy). Ne pas encombrer ton livrable de justification de procédure — livrer la sémantique tranchée.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.agents\\skills\\ff8-live-necessity-filter\\references\\g22-2026-08-29.md:\n  Line 265: SQ-G22-004 | SET-ASIDE-CERTAIN-UNKNOWN | replacement-owned initial enqueue remains open; this candidate explicitly uses the original native case-3 compatibility tail | SQ-G22-004 + IDA 0x47CCB0 | yes | no\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_ida_class.json:\n  Line 1: {\"n_eas\": 1047, \"n_starts\": 498, \"n_interior\": 229, \"n_nofunc\": 320, \"starts\": [\"0x401000\", \"0x4020f0\", \"0x403d99\", \"0x40702f\", \"0x4070b0\", \"0x407162\", \"0x407586\", \"0x40763d\", \"0x4076b6\", \"0x40942e\", \"0x409805\", \"0x41619a\", \"0x4178d7\", \"0x419d8f\", \"0x41df0c\", \"0x41e650\", \"0x41e752\", \"0x41e7a5\", \"0x41e803\", \"0x41e947\", \"0x41e972\", \"0x41e99d\", \"0x4252b0\", \"0x425540\", \"0x4257d0\", \"0x438599\", \"0x438682\", \"0x43b50c\", \"0x43e24a\", \"0x43e356\", \"0x440ff0\", \"0x444ba8\", \"0x445de9\", \"0x446000\", \"0x44655f\", \"0x4467b6\", \"0x45b2e0\", \"0x45c0f0\", \"0x45c7a0\", \"0x45c8e0\", \"0x45c9b0\", \"0x45ca50\", \"0x45d610\", \"0x45dca0\", \"0x45e5c0\", \"0x45e610\", \"0x45e670\", \"0x45e9d0\", \"0x45ebf0\", \"0x45ee10\", \"0x45f930\", \"0x460810\", \"0x460840\", \"0x460860\", \"0x463fc0\", \"0x464db0\", \"0x464f70\", \"0x465930\", \"0x465ce0\", \"0x4675c0\", \"0x4677d0\", \"0x467d10\", \"0x4685f0\", \"0x46a0a0\", \"0x46deb0\", \"0x46e0c0\", \"0x46e100\", \"0x46e2a0\", \"0x46e320\", \"0x46fa10\", \"0x4706b0\", \"0x47ca90\", \"0x47ccb0\", \"0x47ce10\", \"0x47cef0\", \"0x47cf50\", \"0x47cf60\", \"0x47d890\", \"0x47d8a0\", \"0x47d8e0\", \"0x47dda0\", \"0x47de70\", \"0x47df60\", \"0x47e120\", \"0x47e250\", \"0x47e3f0\", \"0x47e480\", \"0x47e5f0\", \"0x47ed90\", \"0x47ee00\", \"0x47eef0\", \"0x482560\", \"0x482590\", \"0x482870\", \"0x482bd0\", \"0x482c90\", \"0x482d50\", \"0x482dc0\", \"0x482e00\", \"0x482f70\", \"0x482f80\", \"0x483190\", \"0x4831f0\", \"0x483270\", \"0x4832f0\", \"0x483340\", \"0x483370\", \"0x483470\", \"0x483790\", \"0x4837e0\", \"0x483860\", \"0x483880\", \"0x4838c0\", \"0x483940\", \"0x483d60\", \"0x4842b0\", \"0x484490\", \"0x4844d0\", \"0x4845a0\", \"0x484720\", \"0x4847f0\", \"0x484d20\", \"0x484fd0\", \"0x485160\", \"0x485460\", \"0x485610\", \"0x485ec0\", \"0x485f00\", \"0x485ff0\", \"0x486130\", \"0x4862a0\", \"0x486390\", \"0x4863f0\", \"0x486450\", \"0x486500\", \"0x4865c0\", \"0x486650\", \"0x4867c0\", \"0x4868c0\", \"0x486a10\", \"0x486b40\", \"0x486cd0\", \"0x486dc0\", \"0x486e00\", \"0x486e70\", \"0x487590\", \"0x487670\", \"0x4876d0\", \"0x4877b0\", \"0x4877f0\", \"0x487d80\", \"0x487db0\", \"0x487df0\", \"0x48a640\", \"0x48a680\", \"0x48a720\", \"0x48a770\", \"0x48a7a0\", \"0x48a830\", \"0x48a900\", ...\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.cursor\\agents\\semantic-reconciler.md:\n  Line 43: Historique utile : sur l'échantillon 2026-09-15, le 2+1 n'a été **nécessaire** que pour `0x47CCB0` (nom + occupancy). Ne pas encombrer ton livrable de justification de procédure — livrer la sémantique tranchée.\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.cursor\\agents\\semantic-reviewer.md:\n  Line 14: - Leçon fondatrice (`0x47CCB0`) : le fait clé « occupancy 3 ennemis » était dans A mais V doit **chercher** elle-même le libellé des slots, pas le prendre pour acquis parce que A l'a dit.\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\_tmp_wiki_func_gap.json:\n  Line 2636:    \"0x47ccb0\",\r\n\n  Line 3172:    \"0x47ccb0\",\r\n\n  Line 4667:   \"0x47ccb0\",\r\n\n  Line 6250:   \"0x47ccb0\": [\r\n\n  Line 9754:   \"0x47ccb0\",\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\escape_mechanics.md:\n  Line 52: That state interpretation is backed by all current xrefs (`0x486130`, `0x4862A0`, `0x47CCB0`, `0x47DF64`).\n\n  Line 78: - `main::FFBattleDirector_battleLoop` (`0x47CCB0`) merges `CURRENT_ENCOUNTER_DATA_SCENE_OUT.battle_flags` into `ENCOUTER_BATTLE_FLAG` during battle init.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ff8re\\battle_state.py:\n  Line 132:     FUNC_BATTLE_LOOP            = 0x47CCB0\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\tools\\battle_static_graph_ledger.py:\n  Line 35:         0x4706B0, 0x559890, 0x47CE10, 0x47CEF0, 0x47CF60, 0x47CCB0,\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ff8re\\tests\\tier4_behavioral\\live_followups\\BATTLE_FRAME_OWNERSHIP_PAUSED_001.yaml:\n  Line 14:   DIRECTOR: 0x47CCB0\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\FinalFantasy_VIII_Reimaginated\\tools\\ida\\export_closure.py:\n  Line 19:     \"FFBattleDirector_battleLoop\": 0x47CCB0,\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ff8re\\tests\\tier4_behavioral\\live_followups\\BATTLE_FRAME_OWNERSHIP_ACTIVE_001.yaml:\n  Line 15:   DIRECTOR: 0x47CCB0\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\g22-static-catchup-before-g23-new-chat.md:\n  Line 96: Appelées au **case 3** du Director `0x47CCB0` (avant le write\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\_staging\\investigations\\battle_hook_boundary.md:\n  Line 3: summary: Static and live IDA analysis distinguishes the whole-frame owner at 0x47CF60 from the domain director at 0x47CCB0, corrects the four-level active guard, and defines the callback/BdLink obligations after native init.\n\n  Line 32: Inside `main::FFBattleDirector_battleLoop` (`0x47CCB0`), the last pre-active branch is:\n\n  Line 266: 1. `0x47CF60` is the complete-frame owner; `0x47CCB0` is only the domain director.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\skills\\implementing-iso-battle-migration.md:\n  Line 191: `FFBattleDirector_battleLoop` (`0x47CCB0`) is a useful internal seam for early research, but replacing it alone does not replace the frame, HUD/input/ATB, renderer, pacing, or module switching.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\g22-battle-init-new-chat.md:\n  Line 154: | `FFBattleDirector_battleLoop` | `0x47CCB0` | machine 4 niveaux ; tu interceptes l’init, pas le tick 4 |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\semantic-triple-pipeline.md:\n  Line 50: - 3 fonctions semantiques closes en 2+1 (0x47CA90 Field_Encounter_RollAndSelectScene, 0x47CCB0 main::FFBattleDirector_battleLoop, 0x47CE10 FFBattleInitSystem), toutes R=CERTAIN avec push IDB.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\ai_investigation_live_runtime_callback_mix_matrix.md:\n  Line 24: - Post-hook tail in `main::FFBattleDirector_battleLoop` (`0x47CCB0`).\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\todo\\ai_investigation_live_exit_path_state_reset_matrix.md:\n  Line 18: - `main::FFBattleDirector_battleLoop` at `0x47CCB0`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\decomp-function-catalog.md:\n  Line 477: | 0x47CCB0 | FFBattleDirector_battleLoop | low | CERTAIN |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-loop-takeover-feasibility.md:\n  Line 102: This proves that `0x47CF60` replaces the whole battle frame, while `0x47CCB0` replaces only the domain director.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\references\\battle-address-catalog.md:\n  Line 32: - `0x47CCB0` — `main::FFBattleDirector_battleLoop`, battle state machine and per-frame tick.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\temp_result_battle_init.md:\n  Line 3: ## State Machine Structure (FFBattleDirector_battleLoop @ 0x47CCB0)\r\n\n  Line 354: | 0x47CCB0 | main::FFBattleDirector_battleLoop | void __thiscall (void*) |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_static_action_sequencing_and_cadence.md:\n  Line 9: > **Complexité d'investigation : 4/5 (Élevée) — statique.** Le pacing outcome-faithful est déjà modélisé (ATB gelé hors pause). Reste : la machine à sous-états du gros `FFBattleDirector_battleLoop` (0x47CCB0), le hand-off `BattleTaskQueue_Tick/Dispatch` ↔ dispatcher de séquence, et l'unité de frame (source vsync/timer). Contrôle de flux large + couplage présentation ; fiddly mais 100% statique.\n\n  Line 23: - `FFBattleDirector_battleLoop` `0x47CCB0` — top driver; active tick gate `mode_StateGlobal==3 / mode3_subsub_step==3 / mode_3_subsubsubstep==4`.\n\n  Line 36: 1. Decompile `FFBattleDirector_battleLoop` `0x47CCB0`: enumerate the substep state machine (`mode3_substep`/`subsub`/`subsubsub`) transitions and exactly which subsystems run per substep (and which gate on `BATTLE_RESULT_CODE==0`).\n\n  Line 55: - **Still open (B2/B3):** the exact substep transitions inside `FFBattleDirector_battleLoop` (0x47CCB0), the `BattleTaskQueue_Tick`/`Dispatch` ↔ sequence-dispatcher hand-off, and the frame-time unit (every-frame vs every-Nth; vsync/timer source). These are timing-faithful concerns, not outcome-faithful.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\.manifest.json:\n  Line 7429:     \"docs/tech/investigation/battle-static-discovery/decomp/0x47CCB0__FFBattleDirector_battleLoop.md\": {\n\n  Line 11939:     \"tools/_tmp_semantic_triple/0x47ccb0/meta.json\": {\n\n  Line 11949:     \"tools/_tmp_semantic_triple/0x47ccb0/semantic_a.md\": {\n\n  Line 11959:     \"tools/_tmp_semantic_triple/0x47ccb0/semantic_b.md\": {\n\n  Line 11969:     \"tools/_tmp_semantic_triple/0x47ccb0/semantic_r.md\": {\n\n  Line 11979:     \"tools/_tmp_semantic_triple/0x47ccb0/glm_reconcile_notes.md\": {\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\obsidian-docs\\projects\\re-ff8\\concepts\\battle-lifecycle.md:\n  Line 37: `main::FFBattleDirector_battleLoop` at `0x47CCB0` still anchors the full battle state machine, but the staging batch clarified three once-fuzzy areas: the exact escape path, same-frame behavior after a result latch, and the obligations that survive the recommended replacement hook boundary.\n\n  Line 52: `FFBattleDirector_battleLoop` (`0x47CCB0`) is a 4-level nested state machine. Resting values read live (combat paused) were `mode_StateGlobal=3, mode3_substep=3, mode3_subsub_step=1, mode_3_subsubsubstep=4` — i.e. the active tick.\n\n  Line 182: 2. **Domain only:** `FFBattleDirector_battleLoop` (`0x47CCB0`) or the recurring active-case entry at `0x47D70F`. The surrounding HUD and frame rendering remain native.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_on_escape_mechanics.md:\n  Line 16: - `FFBattleDirector_battleLoop` at `0x47CCB0`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_on_battle_init.md:\n  Line 5: FF8's battle loop (`FFBattleDirector_battleLoop` at 0x47CCB0) uses a state\n\n  Line 34: Starting from `FFBattleDirector_battleLoop` (0x47CCB0), trace the complete\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_on_battle_hook_boundary.md:\n  Line 16: - `FFBattleDirector_battleLoop` at `0x47CCB0`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\ai-prompt\\completed\\ai_investigation_on_battle_cleanup_and_reset.md:\n  Line 16: - `FFBattleDirector_battleLoop` at `0x47CCB0`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\remaining-functions-inventory-2026-10-11.md:\n  Line 192: - `0x47CCB0 — main::FFBattleDirector_battleLoop` : historique CERTAIN, FAIT, push IDB ; `semantic-certainty.md:43,48,133`.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x500900.json:\n  Line 179:       \"function\": \"0x47ccb0\"\n\n  Line 185:       \"function\": \"0x47ccb0\"\n\n  Line 191:       \"function\": \"0x47ccb0\"\n\n  Line 197:       \"function\": \"0x47ccb0\"\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x48F050.json:\n  Line 46:       \"function\": \"0x47ccb0\"\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x4868C0.json:\n  Line 197:       \"function\": \"0x47ccb0\"\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x485FF0.json:\n  Line 139:       \"function\": \"0x47ccb0\"\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\ff8-decomp-semantics-20261011-r01\\native\\0x47CF60.json:\n  Line 360:     \"0x47ccb0\",\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\agents\\semantic-reviewer.md:\n  Line 21: - Leçon fondatrice (`0x47CCB0`) : le fait clé « occupancy 3 ennemis » était dans A mais V doit **chercher** elle-même le libellé des slots, pas le prendre pour acquis parce que A l'a dit.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\agents\\semantic-reconciler.md:\n  Line 51: Historique utile : sur l'échantillon 2026-09-15, le 2+1 n'a été **nécessaire** que pour `0x47CCB0` (nom + occupancy). Ne pas encombrer ton livrable de justification de procédure — livrer la sémantique tranchée.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\systems\\render_pipeline_scheduling_submit.md:\n  Line 42: - Director: `0x47D113` (`E8 98 FB FF FF` → `0x47CCB0`), skipped if\r\n\n  Line 87: ## 3. Director — `0x47CCB0` (presentation calls only)\r\n\n  Line 89: - Primary chunk `0x47CCB0`–`0x47CDE4` (`list_funcs` size `0x134`),\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\systems\\battle_loop.md:\n  Line 8: - `main::FFBattleDirector_battleLoop` (`0x47CCB0`) is the **domain director** called once from that frame owner while the battle is not paused. It owns battle initialization, the recurring domain tick, result detection, and cleanup.\n\n  Line 86:   frameOwner --> director[\"FFBattleDirector 0x47CCB0\"]\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\systems\\battle_init.md:\n  Line 9: `main::FFBattleDirector_battleLoop` (`0x47CCB0`) drives the battle module through a three-level state machine.\r\n\n  Line 486: - **State machine map**: High (decompiled directly from `0x47CCB0`, all branches verified).\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\reference\\address_catalog.md:\n  Line 17: | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | Battle state machine + per-frame tick |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle_state_reconstruction.md:\n  Line 29: - Main loop (`main::FFBattleDirector_battleLoop`, `0x47CCB0`) orchestrates battle via global phase flags and global data regions, not via one passed context pointer\r\n\n  Line 166: Within `main::FFBattleDirector_battleLoop` (`0x47CCB0`) initialization phases:\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle_loop_render_pipeline_entrypoints.md:\n  Line 157: `list_funcs` size `0x134` ne décrit que le chunk primaire `0x47CCB0–0x47CDE4`. L’IDB possède déjà les tails `0x47D490–0x47D871` (tick actif) et `0x534640–0x5347B6` (Triple Triad), visibles par Hex-Rays et `basic_blocks`. **Ne pas étendre jusqu’à `0x47D890`** : `BattleUI_EnterHudMode` est une autre fonction, et `sub_47D2A0` n’appartient pas au director. Le stub orphelin `0x47D900 call file-callbacks ; 0x47D905 jmp BdLink` n’est pas un cinquième call du director.\n\n  Line 452: | `FFBattleDirector_battleLoop` | `0x47CCB0` | |\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle_entry_hook.md:\n  Line 10: - `FFBattleDirector_battleLoop` (`0x47CCB0`) owns native battle-state initialization and the recurring domain tick.\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\semantic-certainty.md:\n  Line 43: > n°2 (`0x47CCB0`) FAIT (R=CERTAIN, push IDB). n°3 (`0x47CE10`) FAIT (R=CERTAIN, push IDB). Prochaine tête : `0x47CEF0`.\r\n\n  Line 48: | 2 | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |\r\n\n  Line 133: | `0x47CCB0` | `main::FFBattleDirector_battleLoop` | 413 | CERTAIN | oui | oui | non (A!=B) | oui | triple Grok 2026-09-15 : R=CERTAIN, nom confirme, push IDB |\r\n\n\nC:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\battle-graph-ledger.json:\n  Line 9455:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9461:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9467:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9473:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9479:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9485:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9491:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9497:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9503:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9509:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9515:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9521:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9527:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9533:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9539:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9545:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9551:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9557:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9563:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9569:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9575:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9581:       \"source_va\": \"0x47CCB0\",\r\n\n  Line 9587:       \"source_va\": \"0x47CCB0\",\r\n\n\n(Results are truncated: showing first 100 results. Consider using a more specific path or pattern.)"
+                }
+              ],
+              "metadata": {
+                "matches": 100,
+                "truncated": true
+              }
+            },
+            "time": {
+              "created": 1791737896577,
+              "ran": 1791737896642,
+              "completed": 1791737898622
+            }
+          }
+        ],
+        "snapshot": {
+          "start": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "end": "06563711abdc27b1094e4757d587e9914f6de2df",
+          "files": []
+        },
+        "finish": "tool-calls",
+        "rawFinish": "tool_calls",
+        "cost": 0,
+        "tokens": {
+          "input": 4192,
+          "output": 214,
+          "reasoning": 4135,
+          "cache": {
+            "read": 16768,
+            "write": 0
+          }
+        }
+      },
+      {
+        "id": "msg_12be6d1dc0012IIiGXVeBkUsf8",
+        "time": {
+          "created": 1791738006771,
+          "completed": 1791738010982
+        },
+        "type": "assistant",
+        "agent": "explore",
+        "model": {
+          "id": "glm-5.3-flash",
+          "providerID": "zai-coding-plan",
+          "variant": "max"
+        },
+        "content": [],
+        "snapshot": {
+          "start": "28b64c7d92e2356062a9d904575cdbbec16071b0",
+          "end": "28b64c7d92e2356062a9d904575cdbbec16071b0",
+          "files": []
+        },
+        "finish": "error",
+        "error": {
+          "type": "provider.rate-limit",
+          "message": "Rate limit reached for requests",
+          "status": 429,
+          "response": {
+            "body": "{\"error\":{\"code\":\"1302\",\"message\":\"Rate limit reached for requests\"}}"
+          }
+        }
+      },
+      {
+        "id": "msg_12be85d6b0018eSDJZVAOCmbv4",
+        "time": {
+          "created": 1791738010987
+        },
+        "type": "idle",
+        "outcome": "failed"
+      }
+    ],
+    "cursor": {
+      "previous": "eyJpZCI6Im1zZ18xMmJlMDJlODQwMDE1MklPSFIxV3oyVWZIZSIsIm9yZGVyIjoiYXNjIiwiZGlyZWN0aW9uIjoicHJldmlvdXMifQ",
+      "next": "eyJpZCI6Im1zZ18xMmJlODVkNmIwMDE4ZVNESlpWQU9DbWJ2NCIsIm9yZGVyIjoiYXNjIiwiZGlyZWN0aW9uIjoibmV4dCJ9"
+    }
+  }
+}

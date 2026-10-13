@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-12T17:38:34.367491+00:00",
+  "event": "IDB_CERTAIN_LOCAL_FACTS_COMMITTED",
+  "kind": "reviewed_mechanics",
+  "ea": "0x5083C0",
+  "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+  "name": "sub_5083C0",
+  "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "proof_sha256": "3edfe61bb6dc7c2c8f5e95466c1d9ad2f7fabc2b4ad3c2d4338a6a27fec6683a",
+  "before": "",
+  "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "append": "\n\n[semantic-triple 2026-10-12] run01 closure; supervisor-verified CERTAIN local mechanics.\nRead-only first-match scan: pointer at descriptor+8, signed WORD count at +0x0E, signed WORD stride at +0x0C. Returns full EAX pointer to the first record whose first byte has bit0 clear. Nonpositive count or exhaustion returns zero. The stride is re-read for each rejected record; negative stride is not ruled out. Signed JLE/JL control the count, and no record is marked/claimed. No calls. Allocation, GF/task ownership or occupancy meaning of bit0 is not established.\nLive ASM anchors: 0x5083c7, 0x5083cb, 0x5083d1, 0x5083d3, 0x5083d8, 0x5083e1, 0x5083e3. Native function chunks match the frozen packet and authenticated PE.\nLimits above are retained; this is not full C acceptance or a promotion of uncertain business names. No rename/type change. Evidence: docs/missions/ff8-decomp-semantics-2026-10-11-run01/closure-20261012/native-final/0x5083C0.json.",
+  "anchors": [
+    {
+      "ea": "0x5083c7",
+      "hex": "0fbf720e",
+      "text": "movsx   esi, word ptr [edx+0Eh]"
+    },
+    {
+      "ea": "0x5083cb",
+      "hex": "8b4208",
+      "text": "mov     eax, [edx+8]"
+    },
+    {
+      "ea": "0x5083d1",
+      "hex": "7e10",
+      "text": "jle     short loc_5083E3"
+    },
+    {
+      "ea": "0x5083d3",
+      "hex": "f60001",
+      "text": "test    byte ptr [eax], 1"
+    },
+    {
+      "ea": "0x5083d8",
+      "hex": "0fbf7a0c",
+      "text": "movsx   edi, word ptr [edx+0Ch]"
+    },
+    {
+      "ea": "0x5083e1",
+      "hex": "7cf0",
+      "text": "jl      short loc_5083D3"
+    },
+    {
+      "ea": "0x5083e3",
+      "hex": "33c0",
+      "text": "xor     eax, eax"
+    }
+  ],
+  "checks": {
+    "native_bytes": true,
+    "cited_callees": true,
+    "cited_xref_kinds": true,
+    "signedness_stride_return_and_role": "Reviewed by parent against live capture; bounded to appended statements",
+    "source_name_or_full_C_promotion": false
+  }
+}
