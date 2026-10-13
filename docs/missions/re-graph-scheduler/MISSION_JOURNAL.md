@@ -4,6 +4,8 @@
 
 ### Relance effective corrigée — 2026-10-13
 
+- L5 gelé par parent dans branche `73211b8` (trois fichiers lot + correctif test L1 parent déjà présent main), worktree propre, shutdown puis `team_merge`. Hashes main après merge conformes aux trois empreintes corrigées ; **main typecheck exit0, suite373/1skip/0fail (374 tests/17 fichiers, exit0)**. Intégration modulaire L5 acceptée offline ; aucun central câblé, L8/L9 toujours gates séparées.
+
 - Rendu L5 final reçu ; slot immédiatement recyclé vers **L4 `l4-semantic`**, task `task_mv6towq2_0008_m3s5ul`, fresh, Cursor `grok-4.7` variante `Grok 4.7 High`, c70/r60. Session `ses_ec9cd49a6ffeyT32DGbYPzqFnq`, Model.Ref natif relu conforme, aucun nouvel usage Z AI.
 - Review parent L5 : hashes/périmètre confirmés, typecheck exit0, 41 propres + suite372/1skip reproduits. Contre-exemple natif confirmé A↔B avec groupes owned A seul et edge optional/dispense valide perdait SCC et sélectionnait A sans diagnostic. **Correction parent** conservative : SCC sur graphe natif complet et diagnostic/defer `partial-native-scc` sur fragments ; régression optional/dispensed incluant C indépendant toujours admis. Après correction : **42 propres, suite373/1skip/0fail, typecheck exit0**. Verdict module offline **ACCEPTÉ après correction**, intégration/revue L8/L9 restent gates. Preuves/empreintes/limites : `L5_PARENT_VALIDATION.md`.
 

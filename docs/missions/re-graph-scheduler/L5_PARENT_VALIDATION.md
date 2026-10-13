@@ -38,6 +38,8 @@ Régression ajoutée avec deux variantes (optional/dispensed), A refusé, B non 
 
 ## Limites à préserver pour L8/L9
 
+Intégration main effectuée via `team_shutdown` puis `team_merge` depuis branche parent `73211b8` (worktree propre). Les trois fichiers intégrés correspondent exactement aux SHA256 ci-dessus ; le correctif L1 déjà présent dans main reste identique. Gates main reproduits : **typecheck exit0 ; 373 pass / 1 skip / 0 fail, 374 tests / 17 fichiers, exit0**. Aucun central câblé à ce stade.
+
 - Préflight pur : aucune réservation/admission réelle. CAS/fencing/recontrôles transactionnels L6/L8 obligatoires.
 - Context envelopes planner : L8 doit aussi mesurer le dossier natif réel, enveloppes/métadonnées et 2000 caractères par ligne ; une mesure planner ne dispense pas ce contrôle.
 - Benchmarks worker 10k/3.59 s et SCC/69 ms non reproduits comme benchmark indépendant par ce document ; stress couvert par les tests relancés, pas certification 100k ni absence de tous worst-cases.
