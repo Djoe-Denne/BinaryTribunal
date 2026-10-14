@@ -51,6 +51,11 @@ préservés, aucun changement global/harness/variant/source main.
 Task corrective préparée **non admise**, contextepending :
 `task_mv8b7nqo_00kf_yu3x4u` L4-ADOPT-RECLUSTER-FIX. Aucun worker/slot occupé.
 
+**Décision ultérieure utilisateur :** « Astra Max ciblé (Recommended) » choisi
+explicitement, exception bornée au même effort autorisée. Contexte task rev2fresh
+et admission désormais autorisée selon `L4_ADOPT_RECLUSTER_GO.md` ; l'état pending
+ci-dessus est historique, pas une nouvelle pause ni une acceptance du module.
+
 ## Positifs et limites exacts de la review
 
 36/36 contrôles mémoire indépendants (26authority/full-content/quiescence et
