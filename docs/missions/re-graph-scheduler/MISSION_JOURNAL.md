@@ -6,6 +6,9 @@
 
 #### Continuation 2026-10-14 — retry et escalade autorisés
 
+- L4MAX rendufinal **50ciblés** (pasprogress48), own3SHA exacts transférésgelL4FIX canonique35pathsmanifest `1b57b0db…c8b01`. Parent reproduit **typecheckexit0/50pass0fail/suite423pass1skip0fail**,424tests18fichiers. **Toujours NONACCEPTÉ**, encodeur/proofs/architecture simulés, pasnative ni certificationtimingdense/100k.
+- Slot L4 auteur recyclé **L4-RV-MAX** task `task_mv7wm5n3_001w_ccjfuo`, session `ses_ec6444404ffen9xxIhV4kpD7Kf`, SolmaxnativeRefrelu/freshread-onlyPlan/worktreefalse. Confirmationspath+hashes+contrat explicitement DIRECTDESTreviewer pouréviterbootstrapmalcontext ; pasautresoutputs/prose pourpreuve. Gates/source/limites `L4_FIX_PARENT_GATES.md` ; aucunmergecodeavantreview+parentjudgment.
+
 - L3MAX rendu **FINAL39ciblés** (pasprogress38), SHAown3 vérifiés/codegelL3FIXcanonique32pathsmanifest `a393ab24…1e984`. Parent reproduit typecheck/39ciblés/412suite+1skip/0fail, etoracleDENSEoriginalindépendant tousmouvements+singleton surancien5node : runfullQ30/128convergedtruegain0 ; borne1Q27/128gain3/128 **convergedfalse** (pasfauxPASS). **Toujours NONACCEPTÉ**, autregraphes/tolérances/interop/restants nécessitentreview.
 - Slot L3fix recyclé **L3-RV-MAX** task `task_mv7w9mzv_001p_hlz46a`, session `ses_ec64d2cfcffezEORxp2s7iaSH7`, SolmaxModelRefrelufreshreadonly/plan, gelrootautorisée confirméexplicitement, aucunnewpermission. Source/doc/gates/limites : `L3_FIX_PARENT_GATES.md`. Auteur shutdown demandéaprèsrendu, parentaucunmergecodeavantV.
 - L6R4découplage détaillé approuvé : pendingrequesthashcorrectimmuable/opfingerprintstable, finalverifiedcontentID calculéaprèsreadback ; existingjoinmission/unit= mappingdurable, pasnouvfaçade/tableinutile. TouschampsoracleL1 ycompriseffetpendingNEsatisfiespas etfinalhash/histoire/legacysafe obligatoires. Codev5 sousimplémentationMAX, pasnouveauxgatesparentniacceptance.
