@@ -38,6 +38,24 @@
     "L3ManifestSha256": "d6b6b4e753409a89d930fc3ab861111a8f9d9445c77253fd0dbc7e634e43f0bc"
   },
   "communicationGuard": "Workers must not call team_results, even from lead: shared read markers and lack of recipient filtering expose other recipients' approvals. Use direct session messages with explicit DESTINATAIRE and task binding",
+  "L3ProvisionalBlock": {
+    "reviewer": "l3-rv-xhigh",
+    "sourceSha256": "17f0939d2a335e2e5e3ffd01458afcac2e3e502ad0655fe02a1d1df1d08b4dc9",
+    "parentReproduced": true,
+    "method": "Actual leiden/sparseGraph code plus independent dense directed-modularity oracle, pure memory",
+    "nodeCount": 5,
+    "arcsSourceTargetWeight": [[3,3,1],[3,4,2],[0,0,3],[2,4,2],[3,0,1],[1,2,1],[3,1,1],[2,3,1],[4,0,3],[3,1,1]],
+    "config": {"seed":"rv-min:1645","resolution":1,"temperature":0},
+    "returnedLabels": [0,1,1,1,1],
+    "returnedConverged": true,
+    "modularityBefore": 0.2109375,
+    "modularityAfterMovingNode4ToCommunity0": 0.234375,
+    "gain": 0.0234375,
+    "verdict": "False convergence on original graph; acceptance blocked",
+    "correctionTask": "task_mv7ubzrm_000w_5zdnkl",
+    "correctionModel": {"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},
+    "admissionGate": "Depends on final L3 review; not yet dispatched"
+  },
   "acceptance": "No module acceptance or native/scientific promotion from these green gates; reviews and integration gates remain required",
   "notPerformed": ["remote push", "global config changes", "historical campaign migration", "IDB mutation", "live action", "Docker creation"]
 }
