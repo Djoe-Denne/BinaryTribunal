@@ -2,6 +2,8 @@
 
 2026-10-14. **NON ACCEPTÉ, EN RE-REVIEW** ; aucun G4/G6/native ni L8 validé.
 
+**Mise à jour : re-review finale BLOQUANTE** malgré ces gates. Projection sous-intent non liée au node/binary canonique (wrongEA deuxownedIDs→mêmeinput/I/O), attestation PASS mutable enFAIL pendanthook puisCOMMITTED, reçu artifactF0 relabelF1 débloqueG1, pendingeffect/cibleIDBembedded horsoracleL1. Parent confronte addUnit321–323 et attestation681–716 au code, confirme trous de guards ; probes dynamiques reviewer mémoire/fixtures, pas native. Détails et reprise indépendante **Astra max dernier recours** : `L6_V5_LAST_RESORT.md`. Gelci-dessous préservé, aucune acceptance/déblocageG4 déduit des69tests.
+
 Auteur `l6-fix-max`, Sol max natif vérifié, own4 (eventlog inchangé). Livraison finale69 tests ; ancienne source/gels/historique conservés, aucune écriture worker Git/IDA/config/L1/central. Shutdown demandé après livraison.
 
 ## Gel final confirmé

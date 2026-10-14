@@ -1,0 +1,20 @@
+# L6 v5 — nouvelle revue bloquante, dernier recours Astra
+
+2026-10-14. **NON ACCEPTÉ** : les69 tests verts ne couvrent pas les contre-exemples nouveaux de la re-review indépendante Sol max.
+
+Gel `L6FIX5`, manifest `dc1cb8d35df0527916e8e17d9879b6668df4e02d7a4acd45ad3693536e90753f`,32/32 SHA inchangés avant/après. Reviewer `l6-rv2-max`, mémoire SQLite only :43/69 bodies compatibles mémoire PASS,26 disque/reopen/multiprocess omis explicitement. Pas verdict auteur comme preuve, pas native ni G4/G6. Rapport final/task review completed ; shutdown demandé.
+
+## Défauts retenus
+
+1. **RV6R2-01 P1 projection canonique** — graph-store:288–324/131/488,unit-lease104–105. Ownedfn0x2000 mais sub.harnessIdentity exact du node0x2100/EA0x402100 accepté ; une autre unité own0x2100 correcte donne le même input identity. Deux réservations/pins/I/O simulés sont ACCEPTED sur la même cible avec claims différentes. Variante sha étrangère aussi admise. Parent relit321–323 : présence des IDs dans snapshot uniquement, pas binding de projection. Exiger chaîne autoritative snapshot/node/binary moduleSHA:RVA→EA/imageBase/label/arch, avant addUnit/pin/admission/dispatch et usages durables, pas cercle inputs↔sub auto-déclarés. Champs canoniques absents/incertains : fail-closed, aucune identité inventée.
+2. **RV6R2-02 P1 attestation mutable** — graph-store681–690/700/716–724/758/921–924. Hook host authentifie les mêmes auteurs valides mais mute `request.checks[0].outcome='fail'` après contrôle. CheckFAIL persisté puis validate/publication/readbackCOMMITTED/satisfies2=true. Parent confronte code : vérification690,callback700,copie716. Snapshot/copie défensive avant validation/hook, digests/couverture/evidence/outcomes revalidés stockage/relecture/réemploi, pas checks.length seul. Précondition callback privilégié mutable ; aucune exploitation/native science prouvée, mais gate mécanique contradictoire.
+3. **RV6R2-03 P1 reçu relabeling** — graph-store372–379/400–405. Commit multi-F0/F1 valide ; artifactId résultat R deF0/document et pinF0, receipt.functionIdF1 avec mêmes module/hash/revision/kind. Reçu accepté, consumerF2 exigeantF1 atteint RESERVED. artifact∈commit et fn∈ownedUnit ne suffisent pas : lien autoritatif artifact→execution/sub/fn/type/hash/validation ou fact-witness parent durable exact, pas appartenance globale/relabeling implicite. Preuve niveau1 fixture seulement.
+4. **RV6R2-04 P2 oracle L1 publication** — graph-store814–818/868–873,oracle independent graph-contract284–291. Pending canonique `futurePrerequisiteEffect=satisfies` accepté, invalideL1ligne289 ; **satisfies effectif restaitfalse avantreadback**, pas faux déblocage pré-readback prouvé. Target `local:cache:idb-snapshot` accepté/COMMITTED bien que canonL1ligne290 interdit IDB substring ; aucun appelIDB réalisé. Appliquer tous invariants croisés/cibles, pas regex préfixe seule ou selfSHA seule. Contrôle pending does_not_satisfy/local autorisé valide et ne débloque rien.
+
+R1noop-now/D2generation/R3absence-postIO/R4digests-op↔scientifique restent corrigés sur leurs probes ; ces positifs ne compensent pas les nouveaux défauts. Anciennes limites replayaudit/TTL/scans/layouts connus et trusted-host physique restent déclarées.
+
+## Arbitrage parent / correcteur
+
+Après auteurSolMax+reviewSolMax en échec, dernier recours préautorisé **Astra max**. Task `task_mv7zlalm_0032_ihogvs`, membre `l6-last-astra`, session `ses_ec5f851e8ffeL4vfOPRkHGsWBZ`, nativeModelRef `{openai,gpt-6-astra,max}` vérifié ; location initiale main déplacée avant approval/écriture. Sélection opérateur acceptée, pas bypass/score d'intelligence fabriqué.
+
+Own4 eventlog.ts/unit-lease.ts/graph-store.ts/eventlog.test.ts ; source/gels préservés, pas L1/central/registry/config/Gitworker/IDA/live. Lien artefact/fait durable nouveau ou versionown6 nécessaire à proposer avant migration ; aucun hash/fait inventé. Identité native inconnue → pas d'admission. Inputs/proofs avant callbacks à cloner/geler, validation sémantique intégrale à tous usages. Schémas/Contrat L1 readonly et vrais oracles indépendants, fixtures attaquées puis nouvelle re-review/gates parent requis.
