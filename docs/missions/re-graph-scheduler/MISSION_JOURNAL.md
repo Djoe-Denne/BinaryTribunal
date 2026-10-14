@@ -6,6 +6,9 @@
 
 #### Continuation 2026-10-14 — retry et escalade autorisés
 
+- **L6RVAfixAstra livré** own3,4pins76cb/1f53/2813/eventlog98d0unchangé. Parent vérifie **exactement2lignesprod**, inverseenMÉMOIRErestitue0524/4513SHAanciens, aucunotherdelta ; pasOwnversion/API/historychange/base0ban. GelfixedL6RVAFIX32pathsmanifest `59575950…37af3`. Parent reproduit **typecheck/93ciblés0fail/suite466pass1skip0fail467tests18fichiers**, anciens86+7nouveaux/normativezeroI/O0/base0positive/importlegacy/reopen/width. Pasnative/G4niacceptanceL6.
+- NouvelleV indépendantefresh ciblée **l6-rva-review** task `task_mv8439v6_000u_nel2mn`, session `ses_ec584d46cffeA1qW41CL7s0LOt`, SolMAXnativeRef relu, rootgelfinalconfirméDIRECT+oldbytes/contract/probes32SHAs. Auteurshutdownaprèsrendu, re-reviewlimitéedelta/control/legacy/noequivban/nonexhaustif, pasfullscopeexpansion/writes. `L6_RVA_FIX_PARENT_GATES.md`, intégrationtoujoursfermée.
+
 - **L6V6reviewFINAL BLOQUANTuniquementRV6V6-01P2** : normalizedFP54388a0d…272b0 qualifiée/schémastrictPASS/oracleentierexact1erreurRVA0→I/O1simulé,32SHAVavant/apinchangés.49memo/37omissions+26assertions/2D2mono-connexionpositifs noncompensatoires, pasnative. Taskreviewdéjàcompleted(shutdown aprèsrendu), initialcompletealreadydone a court-circuité appelgroupé : **nospawns cachés/doublons**, create suivante expliciteIDretourné.
 - Correctifprescrit **L6-RVA-POSITIVE-FIX `task_mv83dgcl_000o_nhwqpa`**, freshsession `l6-rva-astra`/`ses_ec596de6cffezakkQnGGOVx2M9`, **AstraMaxnativeRefETownlocationrelusavantGO**, transfertsowneditable3+eventlogreadonly+deps6+packetSHA exacts/manifest `fbfcf0ec…9ccbab`. RootGO aprèsreportfinal : commonrva>0n +ownedIDpositif, testslegacy/primitive/reopen/I/O0+positiveRVA/base0, pas ban genericaddr0/noAPIversionmigrations/histoire. SourcegelL6V6immutable, noGitworker/IDA/centraux/L1config, nouvelleV+parentgates aprèsfix requises, aucuneacceptanceL6/L8native.
 
