@@ -2,6 +2,8 @@
 
 2026-10-14. **NON ACCEPTÉ, EN RE-REVIEW** ; aucune architecture FF8/native ni admission scientifique validée.
 
+Mise à jour : **review Max finale BLOQUANTE**, config/contraintes changées derrière fingerprint via callback et sidecarfull/admissibilité/ascendance non attestés. Détails `L4_MAX_LAST_RESORT.md`, reprise Astra dernier recours avec ancien gel ci-dessous immutable. Cinquante tests verts ne valident pas ces frontières.
+
 Auteur `l4-fix-max`, Sol max natif vérifié, own3 seulement. Rendu final50 tests, pas progress48 ; source/parent manifests initiaux et package/lock conservés. Shutdown demandé après livraison sans abort de travail utile.
 
 ## Gel final vérifié
