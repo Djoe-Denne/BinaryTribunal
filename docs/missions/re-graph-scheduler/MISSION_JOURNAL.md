@@ -6,6 +6,8 @@
 
 #### Continuation 2026-10-14 — retry et escalade autorisés
 
+- L6RVA-V a déclaréblocageINPUTS(noncode/nonverdict) aprèsrecherchemain/src(nonmergé) malgrépaths envoyés. **Diagnosticpublicnative corrigehypothèse livraison** : messageuser `msg_13a7b2c5e001GGST0uUeO4iRBS` contientbienbriefcomplet/FINALROOT/SHAs(aprèsYourtask). Premièreinspectionutilisaitassistant.content suruser quiporte**text**, videartificielcorrigéparlecturekeys/text ; paspreuvequeharnessn'ainjectéprompt. PasécritureSDKrequest/differentharness/globalconfig nécessaire. Assignment read-only clairspacé **REVIEW_INPUTS_L6_RVA.md** crééauMAINavecfullabsolutepathsOLD/NEW/procedureinversemémoire/authorityscope, forcewake mêmeV aprèsfile. Pascopieécrasantgel ni nouveauxspawns/modèlefallback. ParentnecomptePASattentecommeauditfait ; futurecollectepréférerdest-rapportsparsenderactifpouréviteréchoslead/readmarkerspartagés.
+
 - **L6RVAfixAstra livré** own3,4pins76cb/1f53/2813/eventlog98d0unchangé. Parent vérifie **exactement2lignesprod**, inverseenMÉMOIRErestitue0524/4513SHAanciens, aucunotherdelta ; pasOwnversion/API/historychange/base0ban. GelfixedL6RVAFIX32pathsmanifest `59575950…37af3`. Parent reproduit **typecheck/93ciblés0fail/suite466pass1skip0fail467tests18fichiers**, anciens86+7nouveaux/normativezeroI/O0/base0positive/importlegacy/reopen/width. Pasnative/G4niacceptanceL6.
 - NouvelleV indépendantefresh ciblée **l6-rva-review** task `task_mv8439v6_000u_nel2mn`, session `ses_ec584d46cffeA1qW41CL7s0LOt`, SolMAXnativeRef relu, rootgelfinalconfirméDIRECT+oldbytes/contract/probes32SHAs. Auteurshutdownaprèsrendu, re-reviewlimitéedelta/control/legacy/noequivban/nonexhaustif, pasfullscopeexpansion/writes. `L6_RVA_FIX_PARENT_GATES.md`, intégrationtoujoursfermée.
 
