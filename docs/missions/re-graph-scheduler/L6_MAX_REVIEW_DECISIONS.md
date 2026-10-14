@@ -16,6 +16,16 @@ Parent choisit cependant une frontière fail-closed : absence simple après I/O/
 
 ## Positifs bornés
 
+### Complément final RV6M-04 — identité scientifique bloquante
+
+Le task-result final ajoute un défaut après le premier rapport : graph-store.ts:676–678 ne vérifie que la forme SHA,722 modifie pending→verified sans recalculer commitId,724–727 rend le document scientifique satisfaisant malgré une identité fausse. Reviewer a reproduit arbitrary `a*64` accepté et ID correct du pending devenu incorrect au final verified. **Parent confronte directement CONTRAT.md:46–53 et oracle indépendant graph-contract.test.ts:284–291** : commitId est SHA256(canonical(document SANS commitId)), aucun autre champ exclu. Exemple reviewer : ID pending cadabf6c…683fed vs contenu final963c8d0e… (pas un changement d'ID arbitraire).
+
+Correction ajoutée à L6-FIX-MAX avant gates : validation digest dès prepare et sur scientifique final ; séparation identité d'opération/publication/request immutable vs ID de contenu final, mapping durable additive own v5 autorisé si nécessaire, historiques pending/readbacks/fences conservés. Ne pas prétendre verified sans preuve ni fabriquer une publication ; respect ordre publish→readback exact→commit. Legacy ID invalide reste conservé mais ne satisfait aucune dépendance, pas réécriture silencieuse. Tests oracle L1 réellement croisés sur arbitrary ID/pending valide/final/readback répété/revocation/stale/doublecommit requis.
+
+### Proposition v5 arbitrée
+
+Correcteur confirme source et propose `freezeAdmissionInputs(authority,lease,subIntentId,inputs:InputBundle)` + table own `ff8_graph_input_pins`, pin immuable séparé du body, réservation/binding/family/sub/function/role/projection/manifest/inputVersions, hash des inputs réellement gelés et normalisation dossier v3 UTF8-lines-LF. **GO parent** version5 additive, migrations/reopen v1/v3/v4→v5/harness1, absence de pin fail-closed sans bypass fixture. R3 conservateur approuvé : absence aprèsattempt>0 audit-only/nonterminal/nonretry/nonrelease, jamais-envoyé0attempt distinct, definitive rejected enregistré et terminal receipt-bound distincts ; garde releaseProven indépendante pour legacyv4. Aucune capability native-fence implicite ; besoin plus large à escalader.
+
 Douze probes indépendantes : boolean niveau2 sans attestation refusé, acteur parent auteur/session refusé, modèle/digest incorrect refusés sans demi-write ; attestation idempotente now différent ; révocation avant readback bloque commit, post-commit satisfies true→false et historique conservé ; accepted tardif après expiry inéligible/claims quarantinées ; ancien catch ne remplace pas génération2. Ceci ne dispense pas RV6M-01/02/03 ni native G4/G6.
 
 Replay reste projection d'audit, pas reconstructeur outbox/leases ; migrations connues additives ne réparent pas colonnes arbitraires ; limitations scans/perf maintenues.
