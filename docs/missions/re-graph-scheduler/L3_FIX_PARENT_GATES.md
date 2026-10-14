@@ -2,6 +2,10 @@
 
 2026-10-14. **EN ATTENTE DE RE-REVIEW, NON ACCEPTÉ** ; aucune intégration L8/L9/native.
 
+**Mise à jour : re-review BLOQUANTE sur deux nouveaux défauts numériques**, tous deux reproduits parent sur ce même gel. Les gates/oracle cinq-nœuds ci-dessous restent vrais mais ne justifient pas l'acceptation. RV3M-06 : PPR cycle2 avec poids1e-320, converged=true/residual0 malgré masse0.999802371541502 et résidu d'équations indépendant0.0004644268774703919 (poids1 correct). RV3M-07 : quatre nœuds/arcs0→1 poids3u,2→3 poids2u, u=MIN_VALUE,tol=u, retourne singleton/converged=true/Q0/certMax=Tol0.2 ; fusion donne gain exact6/25=0.24>0.2. Domaine positif finite accepté, pas une entrée invalide. Normalisation/ordre d'opérations robustes ou refus numérique traçable exigés, jamais faux converged ni input-ban arbitraire pour masquer la probe.
+
+Escalade prévue **Astra max en dernier recours autorisé**, après défaut persistant auteurSolMax+reviewSolMax, catalogue actif/variante vérifiés et mission model-policy revision2 en réserve. Task `task_mv7x2ofv_0026_knbdhc` dépend de la fin de re-review actuelle, **pas encore dispatchée** ; gel inchangé. Il ne s'agit pas d'une affirmation de score d'intelligence mesuré ni d'un changement du modèle par défaut. Aucun G4/native.
+
 Auteur `l3-fix-max`, Sol max vérifié. Rendu final annoncé39 tests (le progress provisoire38 n'est plus le gel final). Own3 seulement ; sources initiales et gels préservés, pas de commit worker. Shutdown demandé après livraison, pas abort de travail utile.
 
 ## Gel final

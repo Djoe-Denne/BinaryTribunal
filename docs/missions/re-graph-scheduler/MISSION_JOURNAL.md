@@ -6,6 +6,9 @@
 
 #### Continuation 2026-10-14 — retry et escalade autorisés
 
+- **L3-RV-MAX nouveaux RV3M-06/07** surgel4f51b398…17dccb : parent REPRODUIT exactement puremémoire. PPRpoids1e-320 fauxmass0.999802371541502/residual0/convergedtrue vséquationsindépendantes0.0004644268774703919 ; poids1correct. Leiden4nE2(3u/2u),u=MIN_VALUE,tolu, singleton/Q0/convergedtrue/cert0.2 malgrégainrationnel6/25=.24>.2. Domainefinitepositifvalide, pascontraintemalformée ; bugs distinctsold5nodefix (qui restePASS). **L3 resteBLOQUANT** malgré39gatesvertes et1800graphes/61kciblesoracledu reviewer.
+- **Escalade dernierrecourspréautorisée Astra MAX**, catalogueOpenAIid `gpt-6-astra`, variantesincluantmaxactivesconfirmées ; modelpolicyrevision2 conserve4routes/efforts etajouteASTRAmax **réserve25**, aucuneintelligence/coûtgonflé, pasdéfautroutage. Task **L3-NUMERIC-LAST-RESORT `task_mv7x2ofv_0026_knbdhc`** gatedfinreviewMax, **NONDISPATCHÉE encore**, rootgelimmutable. MotifpreuvespersistantesaprèscorrecteurMax, pasfallbacksilencieux/achatimplicite/Goautremodèle. Normalisationrobuste/executionnumericfailclosed requise,pasfauxconvergence/pruningseedsniinputbanarbitraire.
+
 - L4MAX rendufinal **50ciblés** (pasprogress48), own3SHA exacts transférésgelL4FIX canonique35pathsmanifest `1b57b0db…c8b01`. Parent reproduit **typecheckexit0/50pass0fail/suite423pass1skip0fail**,424tests18fichiers. **Toujours NONACCEPTÉ**, encodeur/proofs/architecture simulés, pasnative ni certificationtimingdense/100k.
 - Slot L4 auteur recyclé **L4-RV-MAX** task `task_mv7wm5n3_001w_ccjfuo`, session `ses_ec6444404ffen9xxIhV4kpD7Kf`, SolmaxnativeRefrelu/freshread-onlyPlan/worktreefalse. Confirmationspath+hashes+contrat explicitement DIRECTDESTreviewer pouréviterbootstrapmalcontext ; pasautresoutputs/prose pourpreuve. Gates/source/limites `L4_FIX_PARENT_GATES.md` ; aucunmergecodeavantreview+parentjudgment.
 
