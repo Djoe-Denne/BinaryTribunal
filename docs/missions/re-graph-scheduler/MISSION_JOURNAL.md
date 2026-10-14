@@ -6,6 +6,8 @@
 
 #### Continuation 2026-10-14 — retry et escalade autorisés
 
+- L6V6reviewpréliminaire49memoPASS/37disk-reopen-multiprocess-CASomitted explicit ;3relabels equalbytesdeuxfonctions refusés, MAIS **P2RV6V6-01 RVA0** rapporteI/O1simuléaccepté. ParentlitdirectunitLease29/37–38+graphStore335 etcontrat126/145/oracle135 : rva>0manque, ea>0 necompensepasbasepositive. Statiqueconfirmé, reproofnormalFP/oracleentier demandéavantfinal. Noeditdugel/pasnative/aucunlotaccepté, zérobaseimagepossible≠fonctionRVA0permis. `L6_V6_PARENT_GATES.md` préciseportée49memo/37omissions.
+
 - **L6OWNv6 Astra livréfinal**, reportpublic `msg_13a401253001h6io0aqshLsl39`, own4SHA98d0/0524/4513/e1e9vérifiéscopiésgelL6V6canonique32pathsmanifest `52e36e13…925c5`. Auteurshutdown aprèsrendu, histoire/gelspréservés. Parent reproduit **typecheckexit0/86ciblés0fail/suite459pass1skip0fail460tests18fichiers**, oraclesmemoire/disque/reopen/multiprocesswitness inclusmaisnonexhaustifs, aucuneactionnativeG4/FF8/APIEnsemble.
 - Slotrecyclé **L6-V6-REVIEW** task `task_mv825k24_000b_v0hrny`, session `ses_ec5b64d51ffegXsWMS9wNIHNKV`, SolMAXnativeRefrelu/freshreadonly/plan/gelfinal32pathsDirectconfirmed. Guardsactualidentity/bytes/fn/type/artifactwitness/proofs-mutations/G1reopenrevoke/intentfinalID/fulloracle/migrations/v5regressions à attaquer. **L6toujoursNONACCEPTÉ**, L8fermé ; `L6_V6_PARENT_GATES.md`.
 - NouvelleinterruptionaprèsrésultatsconfirmésparentgatesL6 : repriseenregistredoc/receipt, **pasredémarragede86tests/suite ni spawnduplicat**, taskreviewcréé/refrelu/messagesDIRECTdéjàfaits conservés.
