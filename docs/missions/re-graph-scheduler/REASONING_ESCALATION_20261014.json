@@ -1,0 +1,43 @@
+{
+  "missionId": "re-graph-scheduler-20261013",
+  "date": "2026-10-14",
+  "authorization": "User authorizes Grok Xhigh default, Sol Xhigh/Max, stronger corrective runs, and only GLM 5.3 Flash Max on OpenCode Go; explicit retry after operator pause",
+  "policy": {
+    "modelRevision": 1,
+    "mode": "legacy",
+    "providerOrderRevision": 4,
+    "providerOrder": ["cursor", "openai", "opencode-go", "zai-coding-plan"],
+    "grokDefault": {"providerID":"cursor","id":"grok-4.7","variant":"Grok 4.7 Extra High"},
+    "solAllowedVariants": ["xhigh", "max"],
+    "openCodeGoExclusive": {"providerID":"opencode-go","id":"glm-5.3-flash","variant":"max"},
+    "openCodeGoReset": "Reported by user; catalogue active confirmed, no inference call made in this batch",
+    "noNewZaiAdmission": true,
+    "classification": "manual unchanged",
+    "maxRunningWorkers": 5
+  },
+  "firstAttempt": "Model selection denied because mission paused by operator; no model fallback or pause bypass",
+  "retry": "User explicitly authorized retry; subsequent native spawns succeeded",
+  "sessions": [
+    {"member":"l4-fix-max","task":"task_mv71p2r6_004h_rfvlmr","session":"ses_ec691262bffeQ6QgMTZrbC3H6D","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"writerLocationVerified":true,"role":"correct L4 defects; prior Grok High source preserved d15a642"},
+    {"member":"l5-shard-max","task":"task_mv717o3v_004a_goswoa","session":"ses_ec68f34b6ffehhjHKhC8isdSMm","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"writerLocationVerified":true,"role":"continue shard correction from preserved Sol High partial source"},
+    {"member":"l2-rv-max","task":"task_mv74dfu5_0000_kzgjml","session":"ses_ec68de87effevYqpXaN47urbxu","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"role":"fresh read-only re-review corrected L2"},
+    {"member":"l6-rv-max","task":"task_mv74dfu6_0001_7xhni0","session":"ses_ec68d4a25ffe8rh8yd0t280C49","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"role":"fresh read-only re-review corrected L6 v4"},
+    {"member":"l3-rv-xhigh","task":"task_mv74dfu6_0002_dj4dpu","session":"ses_ec68c678fffexlOuchbwv5iIN8","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"xhigh"},"nativeRefVerified":true,"role":"fresh read-only first review L3"}
+  ],
+  "parentGates": {
+    "method": "Sequential Context Mode commands in absolute author worktrees; exact source hashes matched",
+    "L2": {"typecheckExit":0,"focusedPass":66,"focusedFail":0,"suitePass":439,"suiteSkip":1,"suiteFail":0,"suiteExit":0},
+    "L6": {"typecheckExit":0,"focusedPass":47,"focusedFail":0,"suitePass":378,"suiteSkip":1,"suiteFail":0,"suiteExit":0},
+    "L3": {"typecheckExit":0,"focusedPass":27,"focusedFail":0,"suitePass":400,"suiteSkip":1,"suiteFail":0,"suiteExit":0}
+  },
+  "reviewGels": {
+    "root": ".tmp/re-graph-scheduler/review-20261014",
+    "reason": "Context Mode file tool refuses external worktree; parent supplies byte-identical read-only gels inside existing allowed source root, without permissions/config changes",
+    "L2ManifestSha256": "b881a7f00d311709cbbdf94b8ed75fc4630d034086f1420344831dbad0b465f0",
+    "L6ManifestSha256": "eb58e2ad2a214ce563f8356443e44db81134ed5e4efdad4cc7007ca27f89bee5",
+    "L3ManifestSha256": "d6b6b4e753409a89d930fc3ab861111a8f9d9445c77253fd0dbc7e634e43f0bc"
+  },
+  "communicationGuard": "Workers must not call team_results, even from lead: shared read markers and lack of recipient filtering expose other recipients' approvals. Use direct session messages with explicit DESTINATAIRE and task binding",
+  "acceptance": "No module acceptance or native/scientific promotion from these green gates; reviews and integration gates remain required",
+  "notPerformed": ["remote push", "global config changes", "historical campaign migration", "IDB mutation", "live action", "Docker creation"]
+}

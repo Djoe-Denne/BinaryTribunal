@@ -2,6 +2,14 @@
 
 ## Politique courante — avenant utilisateur 2026-10-13 (supersède les routes précédentes)
 
+### Avenant utilisateur 2026-10-14 — efforts et escalade
+
+Supersède les efforts précédents pour cette mission seulement : Grok défaut **Extra High**, Sol **xhigh/max** ; toute correction d'un retour défectueux sur une route moins puissante est escaladée (ce batch : **Sol max**). OpenCode Go réautorisé **exclusivement `glm-5.3-flash/max`** ; catalogue actif confirmé, reset annoncé par utilisateur, aucun autre modèle Go autorisé. Politique persistée model revision1, providers revision4 `Cursor > OpenAI > OpenCode Go > ZAI`, manuel/plafond5 inchangés ; aucun nouvel appel ZAI.
+
+Premier dispatch refusé pour pause opérateur ; aucun contournement. Après «Retry» explicite, cinq sessions créées et Model.Ref natifs vérifiés : corrections L4/L5 et re-reviews L2/L6 sur Sol max, première review L3 sur Sol xhigh. Writers déplacés puis locations relues avant approbation, transferts hash-match ; receipt `REASONING_ESCALATION_20261014.json`. Gates parent L2/L6/L3 reproduits mais ne valent pas acceptation.
+
+Décision additive L5 : les **nouveaux** planIds incluent `relationViewVersion:planner-relations-v1` pour distinguer l'algorithme corrigé ; aucune migration des anciens plans/unités/fonctions, aucun schéma L1 modifié. Installation locale frozen autorisée aux correcteurs, package/lock/config inchangés.
+
 **Dernier steering utilisateur : budget Z AI bientôt épuisé.** Ordre persisté **revision 3 : Cursor > OpenAI > Z AI**. Plus de nouvelle admission Z AI dans la continuation ; préférer Cursor Grok 4.7/4.6 et OpenAI Sol. `openai/gpt-6-astra` actif confirmé au catalogue (low/medium/high/xhigh/max), admissible **en dernier recours**. Les deux sessions Z AI déjà actives peuvent terminer ; limite atteinte → préserver leur travail et basculer vers une route autorisée, sans supposer leur arrêt ni dupliquer les writers.
 
 **État constaté après steering** : quota Z AI effectivement épuisé (provider.quota / HTTP429 / code1310, preuves natives dans `QUOTA_HANDOFF_20261013.json`). Sessions L2/L7-r2 arrêtées et sources préservées ; continuations L2/L7-r3 sur OpenAI Sol high, Model.Ref/location vérifiés, transferts hashés et plans approuvés. Plafond partagé Ensemble **5 workers** désormais persisté et appliqué ; cinq sessions actives au dernier contrôle, aucune sur Z AI.
