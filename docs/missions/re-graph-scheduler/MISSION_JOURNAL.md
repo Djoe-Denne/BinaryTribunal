@@ -1,5 +1,26 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Admission correcteur final et replay spike parent — 2026-10-15
+
+- L8ACK83lignesDECISION+23GATE/2pins6950B/SHAsreceiptaefc60a4 effectifs, parent
+  accèsapprovedpuis **GO FINAL WRITE trancheA v2** sixsrc/septtests bornés.
+  GénéraliserA/B/R+sourcesactuelles/atomicN+fences, client/adapterreadonly. Future
+  focused/typecheck/pins puis fullréservationdistincte/reviewfresh+parent ; B/sim/
+  réel/nativefermés etcodepasaccepté. Spike17parentneclôtpasL8.
+
+- Writerfreshl7-final-fix-astra/task_mv9si4oj_003p_veyhvi/native
+  ses_ebf78f8d5ffedb0W7RDtlrlmOR AstraMAXOWN/HEADc94 relus ;382inputs8134600B/
+  manifest3df4d191/receiptb4fee1ae,256HEADrefs12runtime99rawexacts. Assomptionparent
+  14runtimefausse(2anciensrapportsnonruntime) corrigée,111déjàcopiésjusterehashés,
+  aucunoverwrite/manquant. LectureACKeffectivepuis **GO repros mémoire/analyse/PLAN**,
+  code/DB/fulltoujourshold,76contrôles/gelsintacts.
+- L8spikecodefb1b8073 lu+rejouéINCHANGÉcopieisolée688fichiers,17gatesPASSexit0,
+  parent13DB3854336Bhashéesferméesconservées,36DBauteur10702848Bvérifiées.
+  Feasibilitysameconnrollback/finalfences/retry/contention, PAS preuveB/R/hostL8.
+  NativeSolMAXOWN13sourcepinsrelus, décisionWRITEbornée5881B/SHAa37c4578+
+  parentGATE paquet2pins6950B/receiptaefc60a4préparé, accès-onlyACKpendingpuis
+  GOsrcdistinct. Client/adapterreadonly, full/B/sim/nativegardentleursgates.
+
 ## Accord utilisateur correcteur final ciblé — 2026-10-15
 
 - Aprèsreproparent3findings, questionroutageexplicite→réponse **Astra Max ciblé

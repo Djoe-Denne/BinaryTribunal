@@ -21,7 +21,10 @@ Auteur typecheck0/76focusedPASS13 149assertions, full928PASS1SKIP0FAIL90 321asse
 premiers échecs de setup/binding et preuves retained sont gardés, pas PASS masqués.
 
 Parent gèle **un nouveau paquet** sur main accepté634d18f (L5nouveau985+QA initiale)
-avec les14 fichiers de dépendances/candidat simulateur overlayés, rien dans main :
+avec les12 fichiers runtime de dépendances/candidat simulateur overlayés, rien dans main :
+Le compte14 d'une version antérieure de cette note incluait à tort deux rapports
+verification-20261013.json/log, conservés dans le gel historique mais non runtime.
+Les manifests/gates avaient déjà les12 bons fichiers ; aucun code n'est manquant.
 `L7_ASTRA_3EA92F_REVIEW`,455fichiers/5 398 908B, manifest
 `0bb65af0a559c6012b79bb4e4812e4eb95a144736ac6ecf81ead4412e087edff`.
 Il exécute **typecheck0 et76PASS13 149assertions** sur ce vrai gel avant paid review.

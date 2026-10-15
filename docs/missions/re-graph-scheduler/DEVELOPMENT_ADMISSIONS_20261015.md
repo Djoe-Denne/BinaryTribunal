@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Correcteur final admis en plan, spike L8 rejoué par parent
+
+Nouvelle session fresh `l7-final-fix-astra`, task`task_mv9si4oj_003p_veyhvi`, native
+`ses_ebf78f8d5ffedb0W7RDtlrlmOR` Astra/max etOWN/HEADc94d1e3 relus.382inputs/
+8 134 600B/manifest3df4d191/receiptb4fee1ae,256HEADrefs+12runtime3ea+raw99 exacts.
+Erreur parent initiale count14 corrigée : deux rapports historiques n'étaient pas
+runtime ; reprise ne fait que rehash111copiés, aucun overwrite/code manquant.
+Lecture complète/rôle/382pins effectivement ACK, parent accès approuvé puis **GO
+repros mémoire/analyse/PLAN seulement**, pas code/DB/full.76contrôles readonly.
+
+L8 spike : sixfichiers/36DBauteur10 702 848B vérifiés ; parent lit wrapper/current/
+claim/validation/contention, rejoue source fb1b8073 identique dans copie isolée688
+fichiers **17/17PASS exit0**,13nouvellesDB3 854 336B closes/hashées/conservées.
+Pas nouvelle native authority des receipts copiés comme données, ni preuve B/R/
+générique/verticale. Source13L8 encore exactes, SolMAXOWN relus. Décision
+`L8_PHASE_A_V2_WRITE_GO_20261015.md`5881B/SHAa37c4578, paquet2pins6950B,
+receiptaefc60a4 :83lignes+GATE23lignes/2pins6950B effectivement ACK, accès approuvé
+puis **GO FINAL WRITE trancheA v2**.6src+7tests bornés, client/adapterreadonly,
+généralisationA/B/R/contexte actuel et gates réelles encore requises. Full sur
+réservation/GO distinct, B/sim/réel toujours séparés ; pas acceptation du code.
+
 ## Accord utilisateur suivant — nouveau correcteur AstraMax ciblé
 
 Question de routage posée après les3findings parent confirmés ; réponse explicite
