@@ -143,3 +143,50 @@ Sources L5/L6 intactes, garde conservée. Paquet `L8_BUDGET_BOUNDARY_EVIDENCE`,
 13 sources L8 intermédiaires et32 preuves, pas code accepté.
 Voir `L8_ADMISSION_BUDGET_BOUNDARY_20261015.md` : analyse avant choix d'une API
 pré-freeze versionnée, aucune permission d'élargir après gel ou padding scientifique.
+
+## Revues actives et GO correctif après lecture complète
+
+L'analyse budget `l8-budget-boundary`, task `task_mv9ex0g8_002m_udy5pa`, session
+`ses_ec0d54dc3ffer6jIwoiUtka1sW`, Sol max natif relu, a effectivement lu/hashé
+443/443 fichiers (8 184 776B), receipt
+`43e5dc69172dadafb1fffe7862713b3e591bd307bd6955da84d0f79f223829e7`.
+GO analyse readonly donné : conseil indépendant seulement, pas décision d'API/
+owner ou droit d'écriture. L8 auteur reste gelé en attendant l'arbitrage parent.
+
+Revue fresh QA `l7-initial-qa-review`, task `task_mv9f1srm_002v_u1khxa`, session
+`ses_ec0d1b02affeIvtVOYGjNaLIBJ`, Sol max natif relu. Le helper a échoué depuis
+le checkout indépendant `re-graph-qa-readonly-20261015` : le RPC public
+preparationBinding y renvoie RPC failed, mais réussit depuis main avec le bon
+binding session/tâche. **Ce n'est ni panne modèle ni incapacité de lire les fichiers.**
+Session explicitement revenue en main ; aucun plugin/config/harness modifié.
+
+V2 préparée dans main/inputs/L7QA_INITIAL_E03_NATIVE_MAIN_V2 : **422 fichiers /
+10 936 101B**, receipt
+`750343b91cb74e704a5f67e2ec6dde5e16123d914fa6d4ee0573ea7bac493dcc`.
+Parent projette seulement les sept nouveaux tests et raw99 sans overwrite dans le
+checkout enregistré HEAD6ab2680, vérifie ses 231 autres harness, quatre références
+et le ledger tracked séparé b5c9dfa1…10e4d4. La session native reste **main**, tandis
+que ce checkout est le runtime de tests explicitement autorisé en lecture seule.
+Le reviewer confirme réellement 422 pins + runtime238/raw99/ledger et accès deps.
+Trois documents du checkout sont plus récents que le baseline : ne pas lire ces
+versions ni les écraser ; **docs/contrat pinés et scope parent du paquet** sont la
+portée documentaire. GO review donné après ce constat ; pas de source/test write,
+seules DB fixtures propres temporaires sont autorisées et conservées. Rien intégré.
+
+Le correcteur du simulateur a reproduit les six sujets sur vrais exports actuels,
+19 assertions propres, puis proposé le plan. Parent relit notamment
+planner.ts:713–746 : ressources de famille, pas par sous-intent. Choix explicite
+**l5-whole-unit-envelope-per-execution-v2**, conservateur SIM distinct, sans claim
+d'équivalence du packing L5 ni d'infaisabilité réelle sur refus simulé. Sept paths
+exacts autorisés, métriques DAG/occupation et compteurs complets, 35 anciens cas
+inchangés. Décision `L7_SIMULATOR_CORRECTIVE_PLAN_GO_20261015.md`, projetée OWN :
+6 771B, SHA `afacd3716035eb93c6e6141ad43236e035e956b2035723f9a9e372edd225aa76`,
+receipt `d0e78df8ec130fe5a4f5705955f08597fc733c37e4b97b124aac640d72056247`.
+Lecture/hash/conditions ACK puis **GO FINAL WRITE** explicite. Nouvelle review
+fraîche et gates parent obligatoires après livraison, pas acceptation anticipée.
+
+Supervisor Model.Ref relu xhigh, les trois workers max ; pool5/rev2/rev4/manual
+inchangés. GrepAI ciblé échoue réellement ; Serena est bien attaché à retro-eng
+mais CPP-only. Lectures ciblées/AST TypeScript via Context Mode, aucun index ou
+serveur reconfiguré. Reçus locaux supplémentaires native-ref-resume, binding-
+diagnostic, preparation-v2 et runtime-v2/raw, l7sim-plan-go dans le répertoire habituel.
