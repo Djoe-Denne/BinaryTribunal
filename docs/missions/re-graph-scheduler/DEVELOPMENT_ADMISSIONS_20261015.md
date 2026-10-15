@@ -43,10 +43,13 @@ Même baseline/pins dans les deux OWN, pas deux runs complets dupliqués.
 
 ## Plans et permissions courants
 
-**L8 : analyse/plan seulement, plan approval pending, aucun write GO.** Propriétaire
-central unique selon le contrat de phase ; nouveaux chemins/API ou store/validation
-hors cinq centraux requièrent proposition avant édition. Legacy, Intent fonctionnel,
-OWNv6/proofs/fences et L4 receipts restent opposables. Zéro runtime réel/scientifique.
+**L8 : plan examiné et tranche A approuvée**, cinq centraux + trois nouveaux modules
+et sept nouveaux tests, exacts dans `L8_PHASE_A_PLAN_APPROVAL_20261015.md`. DTOs et
+façade additifs autorisés sans MissionConfig/L1 modifiés ; store/validation/autres
+modules readonly. GO préparation/adaptateur/boucle/recovery + CLI offline, puis
+livraison et PAUSE avant L4 régime B ou simulateur historique. Legacy, Intent
+fonctionnel, OWNv6/proofs/fences et reçus complets restent opposables. Journal
+générique/discriminant protocolaire seuls ne font jamais autorité. Zéro runtime réel.
 
 **L7 : plan initial approuvé**, sept nouveaux fichiers uniquement :
 `test/simulator/graph-interop-{support,relations.test,structure.test,adoption.test,planning.test,durability.test}.ts`
