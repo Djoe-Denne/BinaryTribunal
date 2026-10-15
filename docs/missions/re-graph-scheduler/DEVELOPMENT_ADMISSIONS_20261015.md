@@ -190,3 +190,18 @@ inchangés. GrepAI ciblé échoue réellement ; Serena est bien attaché à retr
 mais CPP-only. Lectures ciblées/AST TypeScript via Context Mode, aucun index ou
 serveur reconfiguré. Reçus locaux supplémentaires native-ref-resume, binding-
 diagnostic, preparation-v2 et runtime-v2/raw, l7sim-plan-go dans le répertoire habituel.
+
+## Retour budget et arrêt ciblé à la gate de routage
+
+Analyse indépendante complète reçue, 443 pins intacts et auteur readonly fermé.
+Parent retient le défaut de frontière réel et le choix d'allocation limitée avant
+sélection L5, sans promesse que toutes propositions R tiendront ; L6 inchangé.
+Repro propre avec texte multibyte/échappé : A localement valide14 476B, bodyR44 590B
+contre13 590 original, zéro DB/submit, aucune autorité scientifique/native.
+Voir `L8_BUDGET_PARENT_DECISION_AND_ROUTING_20261015.md`.
+
+Le dernier writer planner accepté est **Astra max**, Model.Ref et bytes main37723edf
+vérifiés contre son OWN. Gate corrective renforcée déjà au maximum : **exception
+utilisateur requise avant nouvelle admission L5**, pas de relabel feature ou repli
+Sol implicite. Writer fresh ciblé/plan avant write recommandé. L8 reste gelé,
+simulateur et revue QA poursuivent ; aucune configuration/modèle/politique changé.
