@@ -92,3 +92,9 @@ plan, puis verticale L8 et revues L7/L9/L10. Pas de GO réel/native déduit.
 La correction du simulateur et la revue initiale QA restent indépendantes et
 continuent. L8 A reste gelé ; aucun worker existant interrompu, aucune configuration
 ou politique modifiée. La question de routage n'est pas une acceptation du code.
+
+**Décision utilisateur ultérieure : « Astra Max ciblé (Recommended) »**, après
+question reposée parce qu'il était absent. Gate de routage levée pour une session
+fresh Astra max ciblée, accès/repros/plan d'abord et aucun write avant approbation.
+Voir `L5_ADMISSION_BUDGET_TARGETED_GO_20261015.md`. L'état WAIT ci-dessus est donc
+historique ; ni une acceptation ni un GO L6/L8/real dispatch ne sont ajoutés.
