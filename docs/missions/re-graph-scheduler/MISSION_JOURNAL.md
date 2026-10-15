@@ -1,5 +1,37 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## ReviewSim analyse / L8 gate transactionnelle — 2026-10-15
+
+- L8ACKintégral101lignes6882B/SHA104a7d55/receipt2a23595e+conditionsréelles,
+  parentaccèsapprovedpuis **GO SPIKE ONLY** .tmp/fixturesneuvesferméesconservées.
+  Preuvesrollback/finalfences/idempotence/contentionàlivreravantGOsrc/test,
+  13sources/3073/gelsreadonly, aucuneautorité/full/B/sim/réelaccordée.
+
+- ReviewerSimACK455pins5398908B/scope75lignes+décisions+depsréelles ; parentrôle/
+  accèsapprovedpuis **GO review indépendante NONBLIND**, verdictpasencorereçu.
+- L8planv2proposepublicsame-db atomicpin/claim/outbox, S3086/C30000/N3/T90000probe
+  mémoire. ParentrelitvraisAPIs : db/events/leasespartagés,nested.immediate(),
+  eventdigestavectime/priorignoreexpectedSeq,leaseexpirepareventseq. Ratifie
+  versions/bindingsenprincipeet **spikeisoléavantcodesource** : reassertfinalaprès
+  append, pasautreStorewrites/async/directSQL, rollback3côtés/reopen/contentionprouvés.
+  Décision6882B/SHA104a7d55/receipt2a23595e préparéeaprèssolmaxOWN+13pinsrelus,
+  lectureACKpendingpuisSPIKEGOdistinct. PasWRITE/full/B/sim/réelautorisé.
+
+## SimAstra gel et nouvelle review — 2026-10-15
+
+- Livraison3ea92f92418B/README9833/testa141, troispaths ; auteurcompleted/fermé,
+  sourceuncommittedpréservé. Parent3sources12preuves447inputs328readonlyraw99et54
+  contrôlesbyteexacts,10DB2936832Bhashées/ferméesconservées. Auteur76/928full1skip
+  OLD377, pasL5main985/956tests. Aucunmerge/intégration.
+- Gelcurrent985main634d18f+unacceptedsim455files5398908B/manifest0bb65af0 ; parent
+  typecheck0/76PASS13149assertions,5vraiscontre-exemplesetobserveDTOpassent, guard
+  receipt2fixtureexplicitrejectL5true. Vraiunresolved.kind=indirect_call/pasDATA,
+  sansrelationindexed : raccourcihistoriqueparentrectifié, preuvesintactes.
+- FreshreviewSolMAXl7-astra-review/task_mv9qdvek_002y_6x3kw6/native
+  ses_ebfaf67fcffeic9eeKh6PQkRwI Model.Reflu,455inputsreceipt58487dce, accès-only
+  ACKpending. Scopefullmoduleborné/nonblindindépendant, OLDcodepasoracle ; L8plan
+  indépendantnereçoitpassim. Nonaccepté, pasfallbackcorrecteurimplicite.
+
 ## L8 accès réel approuvé, GO plan — 2026-10-15
 
 - MêmeownerL8ACK12/12pins164877B,scope84lignes/décisionscomplètesetprojection

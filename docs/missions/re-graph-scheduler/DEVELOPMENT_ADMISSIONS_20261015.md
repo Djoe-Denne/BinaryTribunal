@@ -1,5 +1,39 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Review Sim GO et plan L8 v2 sous gate transactionnelle
+
+ReviewerSim455pins/5 398 908B/scope/décisions/depsréelles ACK, accès/rôle approuvés
+puis **GO analyse indépendante non aveugle**. Verdict attendu, candidat non intégré.
+
+Plan L8 v2 reçu avec probes mémoire S3086/C30000/N3/T90000, pas source/DB modifiée.
+Parent ratifie versions/bindings en principe et composition publique same-db en
+**spike isolé d'abord**, pas WRITE du source. APIs réellement relues : db/events/
+leases publics communs ; prepareAdmission/EventLog imbriquent .immediate ; digest
+EventLog inclut time, prior-key saute expectedSequence ; leaseexpire par séquence.
+Réassert guards APRÈS derniers append, aucune Promise/I/O/Store.commit autreconnexion
+dans outer tx, retry record/temps originaux, aucune autorité créée par claim.
+Rollback pin/claim/outbox, réponse perdue/reopen et contention à prouver avant source.
+
+Décision `L8_V2_PUBLIC_TRANSACTION_SPIKE_GO_20261015.md` :6882B/SHA104a7d55…65de1,
+receipt2a23595e…0ee86. SolMAX/OWN/13sources exacts relus,101lignes/6882B/SHAs et
+conditions effectivement ACK ; parent approuve accès puis **GO SPIKE ONLY .tmp**.
+Résultat/proof pending, code src/test/full/B/sim/réel toujours interdits.
+
+## Simulateur Astra livré, nouveau reviewer indépendant admis
+
+3ea92f…8a031/92 418B +README9833/testa141 gelés ; auteurcompleted/fermé, aucune
+intégration. Parent3sources/12preuves/447inputs/328readonly/raw99/54contrôles exacts,
+10DB2 936 832B retained ; auteurfull928PASS1SKIP OLD377, pas956main.
+Nouveau gel455files/5 398 908B/manifest0bb65af0 contre L5accepté985 : parenttypecheck0/
+76PASS13 149assertions,5ancienscontre-exemples etDTOobserve contrôlés, guardreceipt
+incohérent explicite. Le vrai unresolved est kindindirect_call sans relation indexée,
+ancien raccourciDATA rectifié sans changer les preuves historiques.
+
+Fresh SolMAX`l7-astra-review`, task`task_mv9qdvek_002y_6x3kw6`, native
+`ses_ebfaf67fcffeic9eeKh6PQkRwI` relue ;455inputsreceipt58487dce…98496, accès-only/
+ACKpending. Source absentmain, L8 n'a pas reçu le candidat, aucun vieux reviewer
+rejoué. Voir `L7_ASTRA_DELIVERY_FRESH_REVIEW_20261015.md`/scope, pas acceptation.
+
 ## Commit L5 et transfert L8 pour plan uniquement
 
 **ACK réel ensuite reçu et accès/rôle approuvés** :12/12pins164877B,manifest/receipt,
