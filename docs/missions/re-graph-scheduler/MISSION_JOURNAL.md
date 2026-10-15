@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Intégration L5 et transfert prospectif L8 — 2026-10-15
+
+- **613218f** intègredeuxfichiersbudget+5notesaprèsreview/parentgates956PASS1SKIP.
+  Postcommit275pinsharness+bytesGit2sourcesexacts,indexvide,userdirtypréservé,
+  pasremote. Pasreceipt/science/L8acceptanceglobale.
+- MêmeownerL8/SolMAX/OWNrelus,398inputsexacts/13sourcecandidats+32preuvesgelées
+  intactes.12inputs164877B/manifest07cdccbe/receipt01acf91e préparés puis2dépsseules
+  projetéesplanner377→985+newtestreadonly,225autresruntimeexacts, vieux3073jamais
+  réécrit. Accès-onlyACKpendingpuisanalysePLANavantcode/DB/full, scopeprospectif
+  `L8_ACCEPTED_BUDGET_TRANSFER_PLAN_ONLY_20261015.md`, B/sim/réelGOdistincts.
+
 ## Acceptation parent allocation L5 — 2026-10-15
 
 - AstraSimACKlectureintégrale3files8627B/SHA71dfdd3a/receipt1193746a+conditions :

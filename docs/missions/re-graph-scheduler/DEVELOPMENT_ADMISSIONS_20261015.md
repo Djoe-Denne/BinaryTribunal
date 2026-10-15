@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Commit L5 et transfert L8 pour plan uniquement
+
+L5 correction intégrée **613218f75e7b0df524afee57152f1dd4374f9359**, sept paths
+bornés (2source/test+5notes),275harness pins et2sources stockées Git exacts après
+commit, index vide, maintenance utilisateur préservée. Full956PASS/1SKIP, pasremote.
+
+Même auteur L8/SolMAX natif et OWN relus ;398inputs exacts,13candidats unacceptés
+encore byte-exacts et32preuves gelées conservées. Nouveau paquet
+`inputs/L8_ACCEPTED_BUDGET_613218F/` : **12fichiers/164 877B**, manifest07cdccbe…2f268,
+receipt01acf91e…54033. Parent projette seulement dépendance planner377→985acceptée
+etnouveau test78readonly,225autresruntime inchangés, vieux3073/gels/inputs intacts.
+Accès-only demandé, lecture réelle/ACK puis GO analyse/PLAN distincts ; pas édition,
+DB ou full autorisés. Contrat `L8_ACCEPTED_BUDGET_TRANSFER_PLAN_ONLY_20261015.md` :
+bindings sans cycles, C/N/T et Ndurable, strictreaders/crash/CAS, gapreceipt et vrais
+proofs ; même trancheA/paths, pas Store/L1/L6/MissionConfig/B/simulateur/GO réel.
+
 ## Décision parent finale — L5 allocation acceptée, L8 pas encore repris
 
 Toutes gates parent franchies : typecheck0,143L5PASS/13 583 assertions,60QA croisés
