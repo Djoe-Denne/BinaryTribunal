@@ -236,3 +236,24 @@ SQLITE_CANTOPEN puis timeout100s sans bilan. Ancien log conservé. Parent crée 
 sous-dossier OWN et autorise retest série borné420s, seulement après vérification
 de fin de l'ancien processus, aucun kill/cleanup/édition L6 ou TEMP global.
 Livraison finale/revue/acceptation encore attendues.
+
+## Simulateur final gelé et nouvelle review
+
+Livraison auteur finale ac82e53…3fb3a,81 832B ; sept paths ROOT/FROZEN exacts,
+417 inputs/412pins initiaux/19preuves parent vérifiés, seuls quatre changements
+existants autorisés +deux nouveaux. Helper inversé exactement, sources35cas/oracle
+intactes. Full auteur846PASS/1SKIP/85840assertions confirmé, pas de couverture réelle.
+Auteur completed pour cette livraison, worker fermé sans supprimer ses changements.
+
+Pré-gate parent initial échoue car son gel omettait cinq scripts tracked, pas un
+défaut source. Ancien gel/erreurs conservés, nouveau V2 immuable434files/4793231B/
+manifest e37bc696…c65e5 ; source inchangée et scripts committés exacts. Parent
+typecheck0/54PASS11817assertions. Nouveau reviewer fresh `l7-sim-corrective-review`,
+task`task_mv9ku3x5_000g_tc4kbh`, native`ses_ec03d9d0effep5x4mBY16ogUt3` SolMAX
+vérifié ; paquet434files/receipt77200ea7…9d2453, accès-only, ACK/analyse encore à venir.
+Voir `L7_SIMULATOR_CORRECTIVE_DELIVERY_20261015.md` ; non accepté/non intégré.
+
+Clarification de dépendances L5 : la jonction déjà créée et vérifiée est
+**OWN/tools/ff8-harness/node_modules**, pas OWN/node_modules comme un message parent
+l'indiquait. L'auteur a justement refusé de deviner ; parent donne le chemin exact
+et reprend GO analyse/repros/plan, sans nouvelle jonction/install/config ou write GO.
