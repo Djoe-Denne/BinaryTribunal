@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Accord utilisateur namespace/replan — 2026-10-15
+
+- AprèsdeuxP1494bparentconfirmés, questionexplicite→**Astra Max ciblé (Recommended)**.
+  Autoriseune nouvellefreshAstraMAXmêmeeffort, classesnamespacearchivé/replanmonotone,
+  reprosPLANavantcode/100oldreadonly/gelsconservés/futurefreshreview+parentgates.
+  Admissionpending,pasWRITE/DB/full, pasancienscontextesreroutés ouglobalchange.
+  L8fullcontinueindépendamment,pas nouvelle gateL7lourde avant libération.
+
 ## L8 fullGO / L7 deuxP1 confirmés — 2026-10-15
 
 - L8code13v2+2bridgespartielsreadonly=runtime15, copies/pins/oldarchiveexacts.

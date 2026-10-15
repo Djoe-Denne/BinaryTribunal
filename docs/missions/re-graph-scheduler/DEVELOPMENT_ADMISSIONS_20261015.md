@@ -1,5 +1,15 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Accord user suivant — fresh AstraMax namespace/replan, plan avant code
+
+Question explicite après BLOCK494b confirmé deuxP1 → réponse **Astra Max ciblé
+(Recommended)**. Nouvelle sessionfresh/mêmeeffort autorisée pour liaison du namespace
+archivé et invalidation/retry monotone,100contrôles/gels intacts, repros/PLAN avant
+code, future reviewfresh+parentgates. WAIT route antérieure levée seulement :
+admission native/OWN/inputs/accès encore à vérifier, aucun WRITE/DB/full accordé.
+Contrat`L7_NAMESPACE_REPLAN_USER_GO_20261015.md`, pas fallback/globalchange ou
+reprise auteur/reviewer terminé. L8full continue, pas gate lourde concurrente L7.
+
 ## L8 full distinct autorisé ; L7 BLOCK deux P1 confirmé, route WAIT user
 
 L8 livraison13v2deltas/279 880B +2bridges partiels hérités readonly =runtime15 non
