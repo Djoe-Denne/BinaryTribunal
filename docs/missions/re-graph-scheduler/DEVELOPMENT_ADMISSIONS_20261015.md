@@ -85,7 +85,31 @@ donné. Trois rapports auteur omis ; benchmark JSONL = données, jamais oracle.
 Un appel initial team_results avant lecture du HOLD a été déclaré : seul son propre
 HOLD exposé selon reviewer, aucun autre rendu ; pas de prétention zéro inbox lifetime,
 aucun restart imposé sur cette déviation déclarée. Aucun autre accès inbox autorisé.
-Verdict encore attendu, simulation mémoire ≠ L6 durable/native et candidat **non intégré**.
+Verdict final **BLOCK**, cinq findings dont deux P1 ; parent reproduit ressources
+permissives et famine G2, ainsi que mauvaise attribution et chemin critique local.
+Reviewer fermé, onze originaux intacts, simulateur toujours **non intégré**.
+Contrat de correction renforcée fresh Sol max :
+`L7_SIMULATOR_BLOCK_AND_FIX_CONTRACT_20261015.md`, plan avant toute édition.
+Simulation mémoire ≠ L6 durable/native.
+
+## Décisions supplémentaires livrées sans notification tronquée
+
+L'arbitrage bridges-rare n'avait atteint L7 que sous un header tronqué. Parent a
+préparé **3 fichiers / 17 492 octets** dans `OWN/inputs/BRIDGES_RARE_V1/`, fingerprint
+`fe67243807dddf44bb13f054f126c88c8ee3bec6ecf672dfe32e369eeda11f46`.
+L7 a effectivement lu/hashé les trois, puis a reçu un GO final court ; aucune
+instruction devinée depuis un résumé, aucun usage inbox. Les tests portables
+construisent le dérivé explicitement, sans dépendre de ces fichiers privés.
+
+L8 a proposé l'ancre additive `CycleRecord.graph` avant write. Parent a relu
+Store.load/commit et Engine.begin, puis livré la décision complète dans
+`OWN/inputs/L8_CYCLE_ANCHOR_V1/DECISION.md`, **1 fichier / 3 928 octets**, fingerprint
+`c7e2b3aa1c52e389c3787c2f29aa109d6d76327fb6b59cb72dbcc5c2e268bab0`.
+Lecture/hash effectifs ACK, puis GO final court : champ optionnel, garde avant
+attach/renew/control legacy, aucun effet activant avant CAS ancré, pas de Store/L1/
+MissionConfig changé. Voir `L8_FROZEN_CYCLE_ANCHOR_GO_20261015.md`. Une présence
+malformée n'est pas du legacy, un marker/hash n'est jamais une autorité. Code et
+tests de cette extension restent à vérifier ; pas de signature anticipée.
 
 Reçus : `.tmp/coordination-three-20261014/` admission pre/post, preparation,
 runtime-readback, development-HEAD-baseline et l7-simulator-current. Aucun worker
