@@ -1,5 +1,25 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Correctif final L7 RED/code autorisé — 2026-10-15
+
+- ACKréel91lignes+callback/2pins8456B/conditions ; parent rehashpins/receipt,
+  relitAstraMAX/parentSolXHIGH/OWN, source3eaexacte/testabsentavantGO. Native
+  planApprovalpending explicitementapprouvée via team_message.approve, puis
+  **GO FINAL RED puis CODE ciblé2paths**. PasREADME/DTO/76old/dépendances modifiés.
+  FullDBHOLDjusqu'àfocused/typecheckverts+réservationGOdistinct, freshreview+parent
+  avantintégration ; L8écriturebornéeindépendantecontinue. Pasacceptation/native.
+
+## Ratification plan correctif final — 2026-10-15
+
+- PlanAstra2paths reçu ; parentrelitwait/state/place/dispatch/G2, paused() déjàunion.
+  Ratifiebesoinoriginalownexactsinonlocalfalse/pauseprioritésphases+unionfrontières/
+  causalitémétrique≠tickets/queues/holdings. ParentreproduitcallbackP3hashaltéré
+  Cterminal→BLOCKED vscontrôleintactterminal ; gardeconsumerautorisée,mêmeinvariant.
+  Pasgardeterminalglobaleannulantdone/release/occupationtardive.
+- Décision5861B/SHA28b7771e+callbackcases/2pins8456B/receipte839b289 préparée,
+  AstraMAXOWN/source3eaencoreexacte/newtestabsentrelus. Accès-onlyACKpendingpuis
+  RED/codeGOdistinct ;76oldreadonly/fullDBencoreholds, nouvellereview/gatesrequises.
+
 ## Admission correcteur final et replay spike parent — 2026-10-15
 
 - L8ACK83lignesDECISION+23GATE/2pins6950B/SHAsreceiptaefc60a4 effectifs, parent

@@ -1,5 +1,35 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Correctif final L7 — GO RED puis code, full encore HOLD
+
+Lecture réelle91lignes+callback/2pins8456B et conditions intégrales ACK ; parent
+rehash décision/receipt, relit natifs auteurAstraMAX/parentSolXHIGH etOWN, vérifie
+source3ea exacte/nouveau test absent avant permission. PlanApproval native pending
+approuvée explicitement via team_message.approve puis **GO FINAL RED puis CODE**.
+Deux paths seuls selon plan ratifié : simulator.ts et nouveau final-review-
+regressions.test.ts ;76contrôles/gels/README/DTO/dépendances readonly.
+Full etDB restent **HOLD** jusqu'à typecheck/focused verts et réservation/GO distinct.
+Nouvelle review indépendante et gates parent avant toute intégration, pas acceptation.
+Reçu de décision fichierSHA51d41829c213d41ed6f46519f42b69f35340676f02f1b00fbca81659ed9ca2bb,
+contrôles locaux l7-final-pre-code-native-check.json.
+
+## Plan ciblé L7 ratifié — lecture avant RED/code
+
+Plan fresh AstraMax reçu : deux paths (simulator.ts+nouveau test final), besoin
+local original exact sans substitution, pause par phases et garde lifecycle ciblée.
+Parent relit wait/state/markReady/place/dispatch/G2worklist : métrique waitReason
+distincte de waitingKey/tickets, paused() couvre déjà union des incidents. Ratifie
+priorités sous conditions frontières overlap/contigu sans micro-dispatch, restitution
+des seules causes encore légales et réveils réels sans toucher holdings/queueordre.
+Parent reproduit aussi producerCallback3 : besoin hashaltéré remet actuellement
+CANCELLED/STALE en BLOCKED ; contrôle intact reste terminal. Garde consommateur
+autorisée au même invariant, jamais garde générique supprimant done/releaseJob.
+
+Décision `L7_FINAL_TARGETED_PLAN_GO_20261015.md`5861B/SHA28b7771e…74c0e8 +cas
+callback parent, paquet2pins8456B/receipte839b289…9ddc34. NativeAstraMAXOWN relus,
+source3ea encore exacte/newtest absent avant permission ; accès-only, ACK puis
+GO RED/code distinct.76anciensreadonly, full/DB encore interdits sans réservation.
+
 ## Correcteur final admis en plan, spike L8 rejoué par parent
 
 Nouvelle session fresh `l7-final-fix-astra`, task`task_mv9si4oj_003p_veyhvi`, native
