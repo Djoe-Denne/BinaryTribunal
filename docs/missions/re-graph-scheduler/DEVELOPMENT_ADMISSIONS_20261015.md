@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Dernière précision — continuation L5 / troisième fixture L7
+
+Review L5 toujours indépendante **non aveugle** : fragment parent reçu dans le
+harness déclaré, pas contenu d'un auteur/autre reviewer. Pas restart/rerun des
+143tests/106probes/8contrôles. Paquet additionnel séparé **4fichiers/20 208B**, manifest
+9743d155…30ef7, receipt a8f5840d…23a58, `inputs/L5_REVIEW_CONTINUATION_V1/`, contient
+texte complet et vrai cas snapshot/groupes/policy/receipt. Ancien gel474pins inchangé.
+Parent Sol/xhigh et reviewer Sol/max relus via API. Quatre pins/20 208B et lecture
+complète effectivement ACK ; accès additionnel approuvé puis **GO reprise même
+review non aveugle**, sans restart/rerun historique. Aucun verdict scientifique/
+acceptation/code source modifié.
+
+AstraSim STOP pré-full sur graph-interop-durability.test.ts:32, troisième namespace
+Temp/opencode hors child. Parent compare source accepté exact SHA979fa24c…96838f et
+lit afterEach17–25 : ferme handles/hache/conserve DB, **aucun delete**. Seules racines
+mkdtemp graph-interop-* fraîchement créées par CE full autorisées, lifecycle existant
+et preuves paths/tailles/SHA conservées. Anciennes exceptions re-policy/runtime et
+TEMP child inchangées ; tout autre escape STOP. Full420s après gates vertes, pas
+nouveau full concurrent. 17nouveauxPASS/1225assertions = progrès auteur, pas handoff.
+Décision complète `L5_REVIEW_CONTINUATION_AND_L7_FIXTURE_GO_20261015.md`.
+
 Équipe existante, plafond cinq workers, politiques modèle/provider rev2/rev4,
 classification manuelle, dispatch/scaling automatiques désactivés inchangés.
 Modules acceptés commit `9a35cb9`, baseline de phase **e03e063**.

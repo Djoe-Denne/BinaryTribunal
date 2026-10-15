@@ -1,5 +1,27 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Continuation ciblée 2026-10-15 — L5 non aveugle / fixture L7
+
+- Quatre pins additionnels/20208B/manifest9743d155/receipta8f5840d et lecture complète
+  ACK par reviewer L5 ; parent approuve accès puis **GO REPRISE même review non
+  aveugle**, pas restart/rerun historique. Ancien474gel revérifié exact. Cas à
+  redériver/limites à qualifier indépendamment, pas verdict parent imposé.
+
+- Reviewer L5 a déclaré le fragment parent en plus de son unique inbox HOLD ;
+  review indépendante non aveugle, pas contamination auteur/reviewer. Parent confirme
+  recevabilité, sans restart/rerun des143tests/106probes/8contrôles. Texte complet
+  et cas reproductible offline projetés en paquet séparé4fichiers/20208B,
+  manifest9743d155/receipta8f5840d ; ancien474gel intact. Native parentSol/xhigh et
+  reviewerSol/max relus ; accès-only, ACK puis GO reprise restent distincts.
+- SimAstra STOP avant full sur mkdtemp graph-interop- littéral hors child ; parent
+  lit source QA32/afterEach17–25 et compare hash979fa24c exact. Seules nouvelles
+  racines de CE full autorisées, handles fermés/DB hashées **conservées, pas delete**.
+  Deux anciens hooks cleanup restent bornés, autres escapesSTOP, childTEMP/global
+  inchangés ; full420 après gates et sans concurrent.17nouveauxPASS1225assertions
+  sont progrès auteur seulement. Aucun source L5/L6/L8/QA/main modifié ni intégré.
+- Décision `L5_REVIEW_CONTINUATION_AND_L7_FIXTURE_GO_20261015.md`, reçus locaux
+  dans .tmp/coordination-three-20261014. Pas nouveau run natif/scientifique/IDB.
+
 ## Correction catalogue et changement providers — 2026-10-13
 
 ### Relance effective corrigée — 2026-10-13
