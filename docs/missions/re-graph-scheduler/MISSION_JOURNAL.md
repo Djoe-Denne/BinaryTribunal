@@ -1,5 +1,38 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Acceptation parent allocation L5 — 2026-10-15
+
+- AstraSimACKlectureintégrale3files8627B/SHA71dfdd3a/receipt1193746a+conditions :
+  parentaccèsapprovedpuisGOdeltareceipt/bindinget **HOLD FULL EXPLICITEMENT LEVÉ**
+  aprèsfinréellevertefullL5. Ciblés54+nouv/typecheckvertavantfull420s, bornes
+  retentionluesinchangées, L5OWNold377gelépasmaincopié, futurereview+parentgates.
+
+- Full parent callback réel exit0/956PASS+1SKIP0FAIL77509assertions957tests30files,
+  151889ms.273autres+2sourcesexactes, legacyplanning8f5a36ffrejouébyteexact ;22DB
+  fixtures6643712B parenthashéesferméesconservées. Après reviewindépendante+143L5+
+  60QA/typecheck : **parentACCEPT correctionallocation2fichiersseulement**. Pasreceipt
+  science/L8/G4globaux ; OPENreceipt2fixture etgranularitylegacy-only maintenus.
+- AstraSimconfirmefulljamaislancé/pasfinaletdeuxarbitragesnonreçus. Parentrelit
+  testhistorique167–171,intact : mismatchobligation→producteurseulcommit,consumer
+  bloqué,pasthrowglobal. Ratifiestrictbindingexternal/unresolvedseulement+refusreceipt
+  incohérentavantSIM. Paquetcomplet3files8627B/décision71dfdd3a/receipt1193746a,
+  nativeAstraMaxOWNetold377/54testsrelus, accès-onlyACKpending. Fullparentfini mais
+  libérationfullSIMencoreexpliciteaprèsACK, pasdéduitedereceipt, aucunchangementL5L6.
+
+## L5 review finale et gates parent — 2026-10-15
+
+- Review985e SolMAX **ACCEPTABLE allocation seulement**, gapreceiptOPEN et nouveau
+  readiness non-protégé de ce point, compareGranularitieslegacy-only/failclosed.
+  Reviewerclosed,474+4pinset3DB974848B parentvérifiés,106+20+8+17probes, rapportspublics.
+- ParentAST10fonctionsnouvelles/2existanteschangées lit mode/C-N-T/closure/readiness.
+  Transfèrestrictement2sourcespourgatesmain,273autrespréservées,noncommittées.
+  Typecheck0/143focusedPASS13583assertions/60crossQAPASS3149assertions, pins exacts.
+- L7message«completed»=sessionidle,pastâchetoujoursin_progress : récupérations
+  publiquesfinissentSTOPavantfull,0workersactifs/pasprocessBuntest. Parentnotifie
+  HOLDfulltemporaireL7/réservefullmain420s,childTEMP/opencodepréparé ; résultat
+  encoreattendu, pasPASSinféré956niattented'unfullL7actifinexistant. Aucun kill,
+  nouveaureviewer/routage/config oupromotionsourceL8/natif. Docgatesparent dédié.
+
 ## Continuation ciblée 2026-10-15 — L5 non aveugle / fixture L7
 
 - Quatre pins additionnels/20208B/manifest9743d155/receipta8f5840d et lecture complète

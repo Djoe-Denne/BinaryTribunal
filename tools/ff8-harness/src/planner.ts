@@ -1,3 +1,4 @@
+import { types as utilTypes } from "node:util";
 import { canonical, compareText, fingerprint, normalizeEA, validateSHA } from "./validation";
 import { compareFunctionIds, stronglyConnectedComponents, topologicalOrder, type DirectedEdge, type StrongComponent } from "./scc";
 
@@ -103,6 +104,36 @@ export interface ResourceRequirement {
   profiles: string[]; models: string[]; tools: string[]; accounts: string[];
   slots: number; cpu: number; gpu: number; budget: number;
 }
+/** Pre-plan commitments supplied independently by L8 from its current inputs.
+ * No plan/prepared/run hash or future execution identity belongs in this tuple. */
+export interface AdmissionBudgetContextV1 {
+  version: "planner-admission-context-v1";
+  missionId: string; snapshotId: string; snapshotFingerprint: string; partitionId: string; knowledgeRevision: number;
+  missionConfigFingerprint: string; executionSpecFingerprint: string; inputManifestFingerprint: string;
+  admissionCodecVersion: string; cycle: number; budgetEpoch: number;
+}
+export interface AdmissionBudgetInputV1 {
+  version: "complete-admission-cap-v1"; scope: "one-immutable-run";
+  executionProfile: "one-execution-per-subintent-v1";
+  context: AdmissionBudgetContextV1;
+  capsByFunction: Record<string, {
+    completeBodyMaxUtf8Bytes: UnknownableInteger;
+    maxNewExecutionsPerRole: { A: 1; B: 1; R: 1 };
+  }>;
+  fingerprint: string;
+}
+export interface AdmissionUnitBudget {
+  structuralEnvelopeUtf8Bytes: number;
+  admissionCapUtf8Bytes: UnknownableInteger;
+  maxNewExecutions: UnknownableInteger;
+  totalAdmissionUtf8Bytes: UnknownableInteger;
+}
+export interface AdmissionBudgetAccountingV1 {
+  version: "planner-admission-accounting-v1";
+  context: AdmissionBudgetContextV1; allocationFingerprint: string | null;
+  byUnit: Record<string, AdmissionUnitBudget>;
+  selectedTotalAdmissionUtf8Bytes: number;
+}
 export interface PlannerPolicy {
   version: string; estimationVersion: string; partitionId: string;
   investigationKind: WorkUnit["investigationKind"]; artifactKind: ArtifactKind; publicationLevel: PublicationLevel;
@@ -118,6 +149,9 @@ export interface PlannerPolicy {
   dispensationsByEdge?: Record<string, Dispensation>;
   externalReceiptsByEdge?: Record<string, ArtifactReceipt>;
   extraConflictsByFunction?: Record<string, ConflictRef[]>;
+  /** Explicit opt-in. A legacy policy's opaque version string never opts in. */
+  admissionBudgetMode?: "complete-admission-cap-v1";
+  admissionBudget?: AdmissionBudgetInputV1;
 }
 export interface Diagnostic { code: string; unitId: string | null; functionIds: string[]; detail: string }
 /** Approved additive metadata, separate from the strict v1 transport documents. */
@@ -135,6 +169,7 @@ export interface PlannerSidecar {
   envelopeBytesByUnit: Record<string, number>;
   unitFingerprints: Record<string, string>;
   diagnostics: Diagnostic[];
+  admissionBudget?: AdmissionBudgetAccountingV1;
   fingerprint: string;
 }
 export interface PlannerResult {
@@ -151,6 +186,125 @@ function freeze<T>(value: T): T {
   const pending: unknown[] = [value];
   while (pending.length) { const x = pending.pop(); if (x && typeof x === "object" && !Object.isFrozen(x)) { for (const child of Object.values(x)) pending.push(child); Object.freeze(x); } }
   return value;
+}
+
+const ADMISSION_BUDGET_MODE = "complete-admission-cap-v1" as const;
+const ADMISSION_ACCOUNTING_VERSION = "planner-admission-accounting-v1" as const;
+const ADMISSION_POLICY_PREFIX = `${ADMISSION_BUDGET_MODE}:`;
+
+/** Inspect descriptors before cloning: structuredClone would otherwise invoke
+ * getters and erase prototypes. Shared JSON subobjects are OK, cycles are not. */
+function assertBudgetJson(value: unknown): void {
+  const pending: Array<{ value: unknown; exit?: boolean }> = [{ value }];
+  const visiting = new Set<object>(), visited = new Set<object>();
+  while (pending.length) {
+    const item = pending.pop()!, x = item.value;
+    if (x === null || typeof x === "string" || typeof x === "boolean") continue;
+    if (typeof x === "number") { assert(Number.isFinite(x) && !Object.is(x, -0), "noncanonical admission budget number"); continue; }
+    assert(typeof x === "object" && !utilTypes.isProxy(x), "admission budget requires plain JSON data");
+    if (item.exit) { visiting.delete(x); visited.add(x); continue; }
+    assert(!visiting.has(x), "cyclic admission budget data");
+    if (visited.has(x)) continue;
+    const proto = Object.getPrototypeOf(x), array = Array.isArray(x);
+    assert(array ? proto === Array.prototype : proto === Object.prototype || proto === null, "non-JSON admission budget prototype");
+    assert(Object.getOwnPropertySymbols(x).length === 0, "symbol in admission budget data");
+    const descriptors = Object.getOwnPropertyDescriptors(x);
+    if (array) assert(Object.keys(descriptors).length === x.length + 1, "sparse/non-JSON admission budget array");
+    visiting.add(x); pending.push({ value: x, exit: true });
+    for (const [key, d] of Object.entries(descriptors)) {
+      if (array && key === "length") continue;
+      assert("value" in d && d.enumerable, "accessor/non-enumerable admission budget data");
+      if (array) assert(/^(0|[1-9][0-9]*)$/.test(key) && Number(key) < x.length, "non-JSON admission budget array key");
+      pending.push({ value: d.value });
+    }
+  }
+}
+function budgetRecord(value: unknown): asserts value is Record<string, unknown> {
+  assert(value !== null && typeof value === "object" && !Array.isArray(value), "admission budget object required");
+}
+function budgetKeys(value: unknown, keys: readonly string[]): asserts value is Record<string, unknown> {
+  budgetRecord(value);
+  assert(Object.keys(value).length === keys.length && keys.every(k => Object.hasOwn(value, k)), "unexpected/missing admission budget keys");
+}
+function admissionMode(policy: PlannerPolicy, context?: AdmissionBudgetContextV1): boolean {
+  assert(policy && typeof policy === "object" && !utilTypes.isProxy(policy), "invalid admission policy object");
+  for (const key of ["admissionBudgetMode", "admissionBudget"]) if (key in policy) {
+    const d = Object.getOwnPropertyDescriptor(policy, key);
+    assert(d && "value" in d && d.enumerable, "inherited/accessor admission budget field");
+  }
+  if (!Object.hasOwn(policy, "admissionBudgetMode")) {
+    assert(!Object.hasOwn(policy, "admissionBudget") && context === undefined, "allocation/context requires explicit admissionBudgetMode");
+    return false;
+  }
+  assertBudgetJson(policy);
+  assert(policy.admissionBudgetMode === ADMISSION_BUDGET_MODE, "unsupported admissionBudgetMode");
+  // L1/L6's existing text bound is UTF-16 length, not UTF-8 bytes. Do not
+  // truncate or constrain the opaque legacy version namespace.
+  assert(typeof policy.version === "string" && policy.version.length <= 32 && policy.version.startsWith(ADMISSION_POLICY_PREFIX)
+    && nonempty(policy.version.slice(ADMISSION_POLICY_PREFIX.length)), "new admission policy version required (maximum 32 UTF-16 code units)");
+  assert(context !== undefined, "independent current admission budget context required");
+  validateAdmissionContext(context);
+  return true;
+}
+function validateAdmissionContext(context: AdmissionBudgetContextV1): void {
+  assertBudgetJson(context);
+  budgetKeys(context, ["version", "missionId", "snapshotId", "snapshotFingerprint", "partitionId", "knowledgeRevision",
+    "missionConfigFingerprint", "executionSpecFingerprint", "inputManifestFingerprint", "admissionCodecVersion", "cycle", "budgetEpoch"]);
+  assert(context.version === "planner-admission-context-v1", "unsupported admission budget context version");
+  for (const s of [context.missionId, context.snapshotId, context.partitionId, context.admissionCodecVersion]) assert(nonempty(s), "missing admission context identity/codec");
+  for (const s of [context.snapshotFingerprint, context.missionConfigFingerprint, context.executionSpecFingerprint, context.inputManifestFingerprint]) {
+    assert(typeof s === "string" && /^[a-f0-9]{64}$/.test(s), "noncanonical admission context fingerprint");
+  }
+  assert(integer(context.knowledgeRevision) && integer(context.cycle, 1) && integer(context.budgetEpoch, 1), "invalid admission context revision/cycle/epoch");
+}
+function validateAdmissionAllocation(policy: PlannerPolicy, context: AdmissionBudgetContextV1): AdmissionBudgetInputV1 | undefined {
+  const allocation = policy.admissionBudget;
+  if (allocation === undefined) return undefined;
+  budgetKeys(allocation, ["version", "scope", "executionProfile", "context", "capsByFunction", "fingerprint"]);
+  assert(allocation.version === ADMISSION_BUDGET_MODE && allocation.scope === "one-immutable-run"
+    && allocation.executionProfile === "one-execution-per-subintent-v1", "unsupported admission allocation contract");
+  validateAdmissionContext(allocation.context);
+  assert(canonical(allocation.context) === canonical(context), "admission allocation differs from current context");
+  assert(typeof allocation.fingerprint === "string" && /^[a-f0-9]{64}$/.test(allocation.fingerprint)
+    && allocation.fingerprint === digestDocument(allocation), "admission allocation fingerprint mismatch");
+  budgetRecord(allocation.capsByFunction);
+  for (const [id, cap] of Object.entries(allocation.capsByFunction)) {
+    assert(canonicalOwnershipKey(id) === `fn:${id}`, "noncanonical admission cap function");
+    budgetKeys(cap, ["completeBodyMaxUtf8Bytes", "maxNewExecutionsPerRole"]);
+    const bytes = cap.completeBodyMaxUtf8Bytes;
+    budgetKeys(bytes, ["known", "value"]);
+    assert(bytes.known === false ? bytes.value === null : bytes.known === true && integer(bytes.value!, 1), "invalid admission cap/unknown value");
+    budgetKeys(cap.maxNewExecutionsPerRole, ["A", "B", "R"]);
+    assert(Object.values(cap.maxNewExecutionsPerRole).every(n => n === 1), "admission profile requires exactly one new execution per role");
+  }
+  return allocation;
+}
+function assertAdmissionScope(context: AdmissionBudgetContextV1, graph: Pick<PlannerGraphInput, "missionId" | "snapshotId" | "normalizedFingerprint" | "knowledgeRevision">, policy: PlannerPolicy): void {
+  assert(context.missionId === graph.missionId && context.snapshotId === graph.snapshotId && context.snapshotFingerprint === graph.normalizedFingerprint
+    && context.knowledgeRevision === graph.knowledgeRevision && context.partitionId === policy.partitionId, "admission context differs from graph/partition/revision");
+}
+function admissionUnitBudget(structuralBytes: number, functionIds: readonly string[], allocation: AdmissionBudgetInputV1 | undefined): {
+  budget: AdmissionUnitBudget; issues: Array<{ code: string; functionIds: string[]; detail: string }>;
+} {
+  assert(integer(structuralBytes, 1) && functionIds.length > 0 && functionIds.length <= Math.floor(Number.MAX_SAFE_INTEGER / 3), "admission measurement/count overflow");
+  const count = functionIds.length * 3, issues: Array<{ code: string; functionIds: string[]; detail: string }> = [];
+  const missing = functionIds.filter(id => !allocation || !Object.hasOwn(allocation.capsByFunction, id));
+  const unknown = functionIds.filter(id => allocation && Object.hasOwn(allocation.capsByFunction, id) && !allocation.capsByFunction[id]!.completeBodyMaxUtf8Bytes.known);
+  if (missing.length) issues.push({ code: allocation ? "admission-cap-missing" : "admission-allocation-missing", functionIds: missing,
+    detail: `${ADMISSION_BUDGET_MODE}: explicit complete-body allocation required; structural size is not a substitute` });
+  if (unknown.length) issues.push({ code: "admission-cap-unknown", functionIds: unknown, detail: `${ADMISSION_BUDGET_MODE}: complete-body allocation unknown` });
+  let cap: UnknownableInteger = { known: false, value: null }, total: UnknownableInteger = { known: false, value: null };
+  if (!issues.length) {
+    let bytes = structuralBytes;
+    for (const id of functionIds) bytes = Math.max(bytes, allocation!.capsByFunction[id]!.completeBodyMaxUtf8Bytes.value!);
+    cap = { known: true, value: bytes };
+    if (bytes > Math.floor(Number.MAX_SAFE_INTEGER / count)) issues.push({ code: "admission-budget-overflow", functionIds: [...functionIds], detail: `${ADMISSION_BUDGET_MODE}: C*N exceeds safe integer range` });
+    else total = { known: true, value: bytes * count };
+  }
+  return { budget: { structuralEnvelopeUtf8Bytes: structuralBytes, admissionCapUtf8Bytes: cap,
+    // The fixed profile and the actual 2+1 sub-intents already determine N,
+    // including when a cap is missing/unknown. SCC passes do not multiply N.
+    maxNewExecutions: { known: true, value: count }, totalAdmissionUtf8Bytes: total }, issues };
 }
 export function canonicalOwnershipKey(functionId: string): string {
   const colon = functionId.lastIndexOf(":");
@@ -185,6 +339,11 @@ function effectiveEdgeKind(e: PlannerEdge, policy: PlannerPolicy): Prerequisite[
 const RELATION_VIEW_VERSION = "planner-relations-v1" as const;
 // New-plan identity only: own ByEdge declarations and external producer binding.
 const RELATION_POLICY_VERSION = "planner-relation-policy-v2";
+
+function planningIdentity(snapshot: string, policy: PlannerPolicy, families: string[][], context?: AdmissionBudgetContextV1): string {
+  return `plan:${fingerprint({ snapshot, policy, families, relationViewVersion: RELATION_VIEW_VERSION, relationPolicyVersion: RELATION_POLICY_VERSION,
+    ...(context ? { admissionAccountingVersion: ADMISSION_ACCOUNTING_VERSION, admissionBudgetContext: context } : {}) })}`;
+}
 /** Transport pages are not knowledge obligations. Reject ambiguity before any SCC/closure. */
 function canonicalRelationView(graph: PlannerGraphInput, policy: PlannerPolicy) {
   const relations = new Map<string, PlannerRelation>();
@@ -294,8 +453,13 @@ export function pipelineCost(estimate: Pick<PipelineEstimate, "A" | "B" | "R" | 
   assert(integer(cost), "pipeline estimate overflow"); return cost;
 }
 
-export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGroupInput[], inputPolicy: PlannerPolicy): PlannerResult {
+export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGroupInput[], inputPolicy: PlannerPolicy,
+  expectedAdmissionBudgetContext?: AdmissionBudgetContextV1): PlannerResult {
+  const budgetMode = admissionMode(inputPolicy, expectedAdmissionBudgetContext);
+  const budgetContext = budgetMode ? structuredClone(expectedAdmissionBudgetContext!) : undefined;
   const policy = structuredClone(inputPolicy);
+  const allocation = budgetContext ? validateAdmissionAllocation(policy, budgetContext) : undefined;
+  if (budgetContext) assertAdmissionScope(budgetContext, graph, policy);
   const policyValues: unknown[] = [policy];
   const seenPolicyObjects = new Set<object>();
   while (policyValues.length) {
@@ -326,6 +490,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const eligible = (id: string): boolean => {
     const n = nodes.get(id); return !!n && n.status === "observed" && !["import", "external", "incomplete"].includes(n.functionClass);
   };
+  if (allocation) for (const id of Object.keys(allocation.capsByFunction)) assert(eligible(id), "admission cap for unknown/inadmissible function");
   for (const e of graph.edges) assert(nodes.has(e.sourceId) && nodes.has(e.destinationId), "edge missing function endpoint");
   const relations = canonicalRelationView(graph, policy), { liveEdges } = relations;
   const isCall = isPlannerCall;
@@ -415,6 +580,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const requirementById: PlannerSidecar["requirementById"] = {}, dispensationById: PlannerSidecar["dispensationById"] = {}, externalReceiptById: PlannerSidecar["externalReceiptById"] = {};
   const localOrders: PlannerSidecar["localOrders"] = {}, estimatesByUnit: PlannerSidecar["estimatesByUnit"] = {}, resourcesByUnit: PlannerSidecar["resourcesByUnit"] = {};
   const envelopes: Record<string, number> = {};
+  const admissionBudgets: Record<string, AdmissionUnitBudget> = {};
   const artifacts = new Map(graph.binaryArtifacts.map(a => [a.contentSha256, a]));
   assert(artifacts.size === graph.binaryArtifacts.length, "ambiguous binary hash/version projection");
   for (const a of graph.binaryArtifacts) { validateSHA(a.contentSha256); assert(nonempty(a.versionLabel), "missing binary version label"); }
@@ -515,9 +681,16 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
       investigationKind: policy.investigationKind, pipeline: "2+1", subIntents, prerequisites, conflicts,
       estimatedCost: estimatesByUnit[unitId]!.cost, requiredPublicationLevel: policy.publicationLevel, state: "PENDING" };
     // Actual canonical envelope, including metadata, not String.length or SQLite length.
-    envelopes[unitId] = Buffer.byteLength(canonical({ snapshotId: graph.snapshotId, snapshotFingerprint: graph.normalizedFingerprint,
+    const structuralBytes = Buffer.byteLength(canonical({ snapshotId: graph.snapshotId, snapshotFingerprint: graph.normalizedFingerprint,
       policyVersion: policy.version, unit, functions: [...ownedFunctionIds, ...unit.contextFunctionIds].map(id => nodes.get(id)),
       requirements: prerequisites.map(p => requirementById[p.id] ?? null), dispensations: prerequisites.map(p => dispensationById[p.id] ?? null) }), "utf8");
+    if (budgetContext) {
+      const { budget, issues } = admissionUnitBudget(structuralBytes, ownedFunctionIds, allocation);
+      assert(budget.maxNewExecutions.value === subIntents.length, "admission execution profile differs from generated sub-intents");
+      admissionBudgets[unitId] = budget;
+      if (budget.admissionCapUtf8Bytes.known) envelopes[unitId] = budget.admissionCapUtf8Bytes.value!;
+      for (const issue of issues) diagnostics.push({ ...issue, unitId });
+    } else envelopes[unitId] = structuralBytes;
     return unit;
   });
   const byUnit = new Map(units.map(u => [u.unitId, u]));
@@ -544,8 +717,20 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
       const id = pending.pop()!; if (selected.has(id) || closure.has(id)) continue;
       if (budgetExcluded.has(id)) { budgetFailure = true; break; }
       closure.add(id); const u = byUnit.get(id)!;
-      bytes += envelopes[id]!;
-      if (spent + bytes > policy.totalContextBudgetUtf8Bytes || selected.size + closure.size > policy.maxSelectedUnits) { budgetFailure = true; break; }
+      if (budgetContext) {
+        const charge = admissionBudgets[id]!.totalAdmissionUtf8Bytes;
+        if (!charge.known) failure = "unknown/overflow complete-admission allocation in mandatory closure";
+        else {
+          // Subtract before adding. No unsafe intermediate sum, rounded total,
+          // or partial closure can be admitted even at MAX_SAFE_INTEGER.
+          if (charge.value! > policy.totalContextBudgetUtf8Bytes - spent - bytes) { budgetFailure = true; break; }
+          bytes += charge.value!;
+        }
+        if (selected.size + closure.size > policy.maxSelectedUnits) { budgetFailure = true; break; }
+      } else {
+        bytes += envelopes[id]!;
+        if (spent + bytes > policy.totalContextBudgetUtf8Bytes || selected.size + closure.size > policy.maxSelectedUnits) { budgetFailure = true; break; }
+      }
       if (blocked.has(id)) failure = "dependency diagnostic/bound";
       if (envelopes[id]! > policy.contextEnvelopeMaxUtf8Bytes) failure = "context envelope exceeds UTF8-byte budget";
       for (const p of u.prerequisites) if (p.kind === "obligatory" && !p.dispensed) {
@@ -555,7 +740,8 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     }
     if (failure) { record(root, "defer", failure); continue; }
     if (budgetFailure) { budgetExcluded.add(root); record(root, "exclude_budget", "whole mandatory closure does not fit; no partial consumer inclusion"); continue; }
-    for (const id of [...closure].sort(compareText)) if (!selected.has(id)) { selected.add(id); record(id, "include", "complete mandatory closure within budget"); }
+    for (const id of [...closure].sort(compareText)) if (!selected.has(id)) { selected.add(id); record(id, "include", budgetContext
+      ? "complete mandatory closure within complete-admission C*N budget" : "complete mandatory closure within budget"); }
     spent += bytes;
   }
   for (const u of units) if (!selected.has(u.unitId) && !decided.has(u.unitId)) record(u.unitId, "defer", "not selected by any admitted root closure");
@@ -566,11 +752,11 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const planContent: Omit<MissionPlan, "fingerprint"> = { schemaVersion: 1,
     // New plans are fenced from earlier relation-policy semantics; existing
     // plan/unit identities are never migrated. Neither marker is a field in L1.
-    planId: `plan:${fingerprint({ snapshot: graph.normalizedFingerprint, policy, families, relationViewVersion: RELATION_VIEW_VERSION,
-      relationPolicyVersion: RELATION_POLICY_VERSION })}`, missionId: graph.missionId,
+    planId: planningIdentity(graph.normalizedFingerprint, policy, families, budgetContext), missionId: graph.missionId,
     snapshotId: graph.snapshotId, partitionId: policy.partitionId, knowledgeRevision: graph.knowledgeRevision,
     units: units.map(u => ({ unitId: u.unitId, ownedFunctionIds: u.ownedFunctionIds, contextFunctionIds: u.contextFunctionIds,
-      requiredPublicationLevel: u.requiredPublicationLevel, state: u.state, contextEnvelopeUtf8Bytes: { known: true, value: envelopes[u.unitId]! } })),
+      requiredPublicationLevel: u.requiredPublicationLevel, state: u.state, contextEnvelopeUtf8Bytes: budgetContext
+        ? admissionBudgets[u.unitId]!.admissionCapUtf8Bytes : { known: true, value: envelopes[u.unitId]! } })),
     prerequisites: units.flatMap(u => u.prerequisites.map(p => ({ ...p, consumerUnitId: u.unitId }))), g1Edges,
     g2Conflicts: units.flatMap(u => u.conflicts), g3Affinities, sccs: condensation.sccs, selectedUnitIds: [...selected].sort(compareText), decisions,
     budgets: { unit: "utf8-bytes", contextEnvelopeMaxUtf8Bytes: policy.contextEnvelopeMaxUtf8Bytes, countsSqliteLength: false, nativeLineCharLimit: 2000 },
@@ -579,28 +765,106 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const sidecarContent: Omit<PlannerSidecar, "fingerprint"> = { schemaVersion: 1, policyVersion: policy.version, estimationVersion: policy.estimationVersion,
     planId: plan.planId, planFingerprint: plan.fingerprint, snapshotFingerprint: graph.normalizedFingerprint, knowledgeRevision: graph.knowledgeRevision,
     policy, relationView: relations.relationView, requirementById, dispensationById, externalReceiptById, localOrders, estimatesByUnit, resourcesByUnit, envelopeBytesByUnit: envelopes,
-    unitFingerprints: Object.fromEntries(units.map(u => [u.unitId, unitContentFingerprint(u)])), diagnostics };
+    unitFingerprints: Object.fromEntries(units.map(u => [u.unitId, unitContentFingerprint(u)])), diagnostics,
+    ...(budgetContext ? { admissionBudget: { version: ADMISSION_ACCOUNTING_VERSION, context: budgetContext,
+      allocationFingerprint: allocation?.fingerprint ?? null, byUnit: admissionBudgets, selectedTotalAdmissionUtf8Bytes: spent } } : {}) };
   const sidecar: PlannerSidecar = { ...sidecarContent, fingerprint: fingerprint(sidecarContent) };
   const bindingContent = { schemaVersion: 1 as const, planFingerprint: plan.fingerprint, sidecarFingerprint: sidecar.fingerprint };
   return freeze({ plan, units, sidecar, diagnostics, binding: { ...bindingContent, fingerprint: fingerprint(bindingContent) } });
+}
+
+/** Validate the allocation commitment and its accounting after JSON readback.
+ * This is not the triple-document binding or a host/L6 authority proof. In
+ * particular, L8 must derive expectedContext from its current validated inputs,
+ * and still check the original durable binding and the real snapshot. */
+export function assertAdmissionBudgetBinding(plan: MissionPlan, sidecar: PlannerSidecar, expectedContext: AdmissionBudgetContextV1): void {
+  assertBudgetJson([plan, sidecar, expectedContext]);
+  assert(admissionMode(sidecar.policy, expectedContext), "explicit admission budget mode required");
+  const allocation = validateAdmissionAllocation(sidecar.policy, expectedContext);
+  assertAdmissionScope(expectedContext, { missionId: plan.missionId, snapshotId: plan.snapshotId,
+    normalizedFingerprint: sidecar.snapshotFingerprint, knowledgeRevision: plan.knowledgeRevision }, sidecar.policy);
+  assert(plan.schemaVersion === 1 && sidecar.schemaVersion === 1 && plan.fingerprint === digestDocument(plan)
+    && sidecar.fingerprint === digestDocument(sidecar), "admission plan/sidecar digest mismatch");
+  assert(sidecar.planId === plan.planId && sidecar.planFingerprint === plan.fingerprint && sidecar.policyVersion === plan.policyVersion
+    && sidecar.policy.version === plan.policyVersion && sidecar.estimationVersion === plan.estimationVersion
+    && sidecar.policy.estimationVersion === plan.estimationVersion && sidecar.knowledgeRevision === plan.knowledgeRevision
+    && sidecar.policy.partitionId === plan.partitionId, "incoherent admission planning documents");
+  const policy = sidecar.policy, accounting = sidecar.admissionBudget;
+  assert(Object.hasOwn(sidecar, "admissionBudget") && accounting, "missing admission accounting");
+  budgetKeys(accounting, ["version", "context", "allocationFingerprint", "byUnit", "selectedTotalAdmissionUtf8Bytes"]);
+  assert(accounting.version === ADMISSION_ACCOUNTING_VERSION && canonical(accounting.context) === canonical(expectedContext)
+    && accounting.allocationFingerprint === (allocation?.fingerprint ?? null), "admission accounting context/allocation/version mismatch");
+  assert([policy.contextEnvelopeMaxUtf8Bytes, policy.totalContextBudgetUtf8Bytes, policy.maxSelectedUnits].every(n => integer(n))
+    && plan.budgets.contextEnvelopeMaxUtf8Bytes === policy.contextEnvelopeMaxUtf8Bytes, "invalid/inconsistent admission planning bounds");
+  assert(Array.isArray(plan.units) && Array.isArray(plan.selectedUnitIds), "invalid admission unit sets");
+  const unitIds = plan.units.map(u => u.unitId), selected = new Set(plan.selectedUnitIds);
+  assert(new Set(unitIds).size === unitIds.length && selected.size === plan.selectedUnitIds.length
+    && selected.size <= policy.maxSelectedUnits, "duplicate/excess admission unit selection");
+  budgetKeys(accounting.byUnit, unitIds); budgetKeys(sidecar.unitFingerprints, unitIds);
+  const expectedEnvelopes: string[] = [], families: string[][] = [];
+  const owned = new Set<string>();
+  let total = 0;
+  for (const unit of plan.units) {
+    assert(Array.isArray(unit.ownedFunctionIds) && unit.ownedFunctionIds.length > 0, "missing admission unit ownership");
+    for (const id of unit.ownedFunctionIds) {
+      assert(canonicalOwnershipKey(id) === `fn:${id}` && !owned.has(id), "noncanonical/duplicate admission function ownership"); owned.add(id);
+    }
+    assert(unit.unitId === unitIdentity(unit.ownedFunctionIds, policy.investigationKind), "admission allocation changed family identity");
+    families.push(unit.ownedFunctionIds);
+    const entry = accounting.byUnit[unit.unitId]!;
+    budgetKeys(entry, ["structuralEnvelopeUtf8Bytes", "admissionCapUtf8Bytes", "maxNewExecutions", "totalAdmissionUtf8Bytes"]);
+    const { budget } = admissionUnitBudget(entry.structuralEnvelopeUtf8Bytes, unit.ownedFunctionIds, allocation);
+    assert(canonical(entry) === canonical(budget), "inconsistent admission S/C/N/T accounting");
+    assert(canonical(unit.contextEnvelopeUtf8Bytes) === canonical(budget.admissionCapUtf8Bytes), "plan admission cap differs from accounting");
+    if (budget.admissionCapUtf8Bytes.known) {
+      expectedEnvelopes.push(unit.unitId);
+      assert(sidecar.envelopeBytesByUnit[unit.unitId] === budget.admissionCapUtf8Bytes.value, "sidecar admission cap differs from accounting");
+    }
+    if (selected.has(unit.unitId)) {
+      assert(budget.admissionCapUtf8Bytes.known && budget.admissionCapUtf8Bytes.value! <= policy.contextEnvelopeMaxUtf8Bytes
+        && budget.totalAdmissionUtf8Bytes.known && !sidecar.diagnostics.some(d => d.unitId === unit.unitId), "unallocable/diagnostic admission unit selected");
+      assert(budget.totalAdmissionUtf8Bytes.value! <= policy.totalContextBudgetUtf8Bytes - total, "admission selection exceeds safe total budget");
+      total += budget.totalAdmissionUtf8Bytes.value!;
+    }
+  }
+  budgetKeys(sidecar.envelopeBytesByUnit, expectedEnvelopes);
+  assert(plan.selectedUnitIds.every(id => unitIds.includes(id)), "unknown selected admission unit");
+  const included = plan.decisions.filter(d => d.action === "include").map(d => d.unitId);
+  assert(included.length === selected.size && new Set(included).size === included.length && included.every(id => selected.has(id)), "admission decisions differ from selection");
+  for (const p of plan.prerequisites) if (selected.has(p.consumerUnitId) && p.kind === "obligatory" && !p.dispensed) {
+    assert(p.producerUnitId !== null && selected.has(p.producerUnitId), "incomplete mandatory admission closure");
+  }
+  assert(integer(accounting.selectedTotalAdmissionUtf8Bytes) && accounting.selectedTotalAdmissionUtf8Bytes === total, "admission selected total mismatch");
+  assert(plan.planId === planningIdentity(sidecar.snapshotFingerprint, policy, families, expectedContext), "admission plan identity changed; explicit replan required");
 }
 
 export interface ReadinessInput {
   plan: MissionPlan; sidecar?: PlannerSidecar; unit: WorkUnit; receipts: readonly ArtifactReceipt[];
   expectedSidecarFingerprint: string;
   snapshotFingerprint: string; knowledgeRevision: number; validContext: boolean; cancelled: boolean;
+  admissionBudgetContext?: AdmissionBudgetContextV1;
 }
 export interface Readiness { ready: boolean; reasons: string[] }
 export function evaluateReadiness(input: ReadinessInput): Readiness {
   try { return evaluateReadinessChecked(input, coherentDocuments(input)); }
   catch { return { ready: false, reasons: ["malformed sidecar/plan/requirement; fail closed"] }; }
 }
-function coherentDocuments(input: Pick<ReadinessInput, "plan" | "sidecar" | "expectedSidecarFingerprint" | "snapshotFingerprint">): boolean {
+function coherentDocuments(input: Pick<ReadinessInput, "plan" | "sidecar" | "expectedSidecarFingerprint" | "snapshotFingerprint" | "admissionBudgetContext">): boolean {
   const { plan, sidecar } = input;
-  try { return !!sidecar && sidecar.schemaVersion === 1 && digestDocument(sidecar) === sidecar.fingerprint && digestDocument(plan) === plan.fingerprint
+  try {
+    if (!sidecar) return false;
+    // Inspect the carrier before dereferencing policy: no accessor can smuggle
+    // a new mode/cap into the legacy reader. Legacy version names stay opaque.
+    const descriptor = Object.getOwnPropertyDescriptor(sidecar, "policy");
+    if (!descriptor || !("value" in descriptor)) return false;
+    const budgetMode = admissionMode(descriptor.value, input.admissionBudgetContext);
+    if (budgetMode) assertAdmissionBudgetBinding(plan, sidecar, input.admissionBudgetContext!);
+    else if ("admissionBudget" in sidecar) return false;
+    return sidecar.schemaVersion === 1 && digestDocument(sidecar) === sidecar.fingerprint && digestDocument(plan) === plan.fingerprint
     && sidecar.planId === plan.planId && sidecar.planFingerprint === plan.fingerprint && sidecar.policyVersion === plan.policyVersion
     && sidecar.policy.version === sidecar.policyVersion && sidecar.estimationVersion === plan.estimationVersion
-    && sidecar.fingerprint === input.expectedSidecarFingerprint && sidecar.snapshotFingerprint === input.snapshotFingerprint; }
+    && sidecar.fingerprint === input.expectedSidecarFingerprint && sidecar.snapshotFingerprint === input.snapshotFingerprint;
+  }
   catch { return false; }
 }
 function receiptIndexKey(producerUnitId: string | null, artifactId: string, functionId: string): string { return JSON.stringify([producerUnitId, artifactId, functionId]); }

@@ -1,5 +1,39 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Décision parent finale — L5 allocation acceptée, L8 pas encore repris
+
+Toutes gates parent franchies : typecheck0,143L5PASS/13 583 assertions,60QA croisés
+PASS/3 149assertions, **full956PASS/1SKIP/0FAIL/77 509assertions**,957tests30files,
+exit0/151.889s.273autres fichiers+2candidats exacts ; vieux planning complet rejoué
+byte-exact8f5a36ff.22fixtures parent6 643 712B fermées/hashées/conservées.
+**Parent accepte l'intégration des deux fichiers de correction allocation L5**,
+notes comprises ; pas de source L1/L6/L8/config/fixture/maintenance utilisateur ajouté.
+Receipt niveau2fixture-only upstream OPEN et compareGranularitieslegacy-only non
+waivés, pas autorité native/scientifique/globalL7/L8. Source simulateur absentmain.
+
+Full parent fini ; lecture intégrale/3pins8627B/décision71dfdd3a/receipt1193746a
+effectivement ACK par AstraSim. Parent approuve l'accès et donne **GO delta
+receipts/binding puis lève EXPLICITEMENT HOLD full** (après ciblés verts/typecheck),
+aucun GO déduit du reçu prepared. Ancien test obligation
+doit laisser producteur avancer/consommateur bloqué, binding strict scoped aux
+branches external/unresolved et receipt2fixture refusé sans modifier L5/L6/54tests.
+
+## L5 review finale acceptable — sources parent sous gates, full attendu
+
+Review fresh SolMAX985e rendue **ACCEPTABLE sur allocation**, non aveugle/exposition
+rectifiée, reviewercompleted/fermé. Parent474+4pins et3DBreviewer974 848B vérifiés,
+rapports publics complets conservés ;106+20+8+17probes indépendantes, pas d'autorité
+receipt/science. Gapreceipt niveau2fixtureOPEN incl readiness nouveau mode ; API
+compareGranularities reste legacy-only/failclosed pour opt-in, L8 non dégelé.
+
+Deux fichiers hashés transférés vers main **pour gates, non committés** : planner985e
+etnouveau test8d02 ;273autres harness byte-exacts, ancien65test inchangé. Parent
+typecheck0/143focusedPASS13583assertions/60crossQAPASS3149assertions, pins après.
+L7session idle mais tâche in_progress, publications publiques finissent STOP avantfull,
+pasfinal ; natif0running/pasBuntest trouvé. Parent réserve full borné420 et notifie
+HOLD full temporaireL7 ; résultat parent attendu, pas attente d'un full L7 imaginaire.
+Voir `L5_BUDGET_FINAL_REVIEW_AND_PARENT_GATES_20261015.md`. Aucun code accepté/intégré.
+
 ## Dernière précision — continuation L5 / troisième fixture L7
 
 Review L5 toujours indépendante **non aveugle** : fragment parent reçu dans le
