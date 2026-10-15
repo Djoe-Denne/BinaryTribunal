@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Gel final intermédiaire vérifié — FULL L7 explicitement réservé
+
+Source494b8bf8…06fcde/95 290B, nouveau test8d44e0f6…288991/21 963B, deuxpaths.
+Parent25preuves321 691B/manifest74a6c0e7,366readonlyOWN/384inputs et33types publics
+byte-exacts. Il lit le delta et reproduit **typecheck0/100PASS0FAIL13 606assertions**
+(76anciens inchangés+24nouveaux). Ses probes mémoire propres confirment original
+intactP3/C6, besoin hashaltéré/absentPseul, pausedRUNNING0/occupation12, validation4/
+paused0, terminal0null0/terminal1null1 et callbacks non ressuscitants, unionpause
+contiguë-overlap4ticks/firstjob4 dans deux ordres. Première erreur setup parent
+(compte worker a≠acct requis) conservée : READY était conservateur, pas défaut source.
+
+Décision complète `L7_FINAL_FULL_GATE_20261015.md`4375B/SHA4b69f843…41d14b,
+receipt511a773c…ea290 : lecture70lignes/conditions réellement ACK. L8enginefocused
+finit naturellement exit1 (5PASS+timeoutD/E→B), échec non waivé/log conservé ; ACK
+pas nouvelle gate lourde/full jusqu'à libération. Processcheck final zéroBuntest,
+parent approuve accès puis **RÉSERVATION EXCLUSIVE + GO FINAL FULL L7 unique420s**.
+ChildTEMPfresh, hookspréexistants bornés aux seules fixtures CE run, graph-interop/
+L5budget DBretained/hashées/fermées, pasdelete manuel/globalchange. Attendu1030+1skip
+sanity seulement, résultat pas encore connu. Pas patch/rerun si rouge, fin explicite
+libère créneau. Freshreview+parentgates encore requises ; rien intégré/native.
+
 ## Correctif final L7 — GO RED puis code, full encore HOLD
 
 Lecture réelle91lignes+callback/2pins8456B et conditions intégrales ACK ; parent

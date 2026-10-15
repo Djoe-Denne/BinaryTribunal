@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Gel494b vérifié et full réservé — 2026-10-15
+
+- Parent25preuves321691B/366readonly/384inputs/33DTOtypeexacts ; delta2pathslu,
+  typecheck0+100PASS13606assertions reproduits. Probespropres3familles/callback/
+  unionpausepassent ; premièrefixtureaccounta≠acctcorrigée/logFAILconservé,pasdéfaut.
+- Fullgate4375B/SHA4b69f843/receipt511a773c réellementlue70lignes/conditionsACK.
+  L8focusedfinitexit1(5PASS+timeoutD/E→B)nonwaivé,ACKholdnouvellesgateslourdes.
+  Processcheckfinalzérotest/noKill ; **GO FINAL FULL L7 exclusif unique420s**,
+  gel494b/8d44immutable/childTEMP/hooksbornés/DBretained, paspatch/rerunsiFAIL.
+  Résultatpending,1030+1skipseulementattendu, freshreview+parentrequis/pasintégration.
+
 ## Correctif final L7 RED/code autorisé — 2026-10-15
 
 - ACKréel91lignes+callback/2pins8456B/conditions ; parent rehashpins/receipt,
