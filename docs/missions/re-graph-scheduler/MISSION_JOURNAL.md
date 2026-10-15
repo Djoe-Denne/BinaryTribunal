@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 accès réel approuvé, GO plan — 2026-10-15
+
+- MêmeownerL8ACK12/12pins164877B,scope84lignes/décisionscomplètesetprojection
+  physiqueplanner985/testreadonly ;225runtime398inputs13candidats32preuvesintacts.
+  Parentaccès/rôleapprovedpuis **GO analyse/repros mémoire/PLAN** ; versions/champs/
+  binding/protocoleN durable ratificationavantwrite, pascode/tests/DB/full. Ancien
+  3073/B/sim/réeltoujourshorsGO. L7fullindépendantaprès76ciblésauteurverts,pas
+  gateL8lourdeconcurrente. TâchesL8/L7 restent ouvertes, pasacceptanceglobale.
+
 ## Intégration L5 et transfert prospectif L8 — 2026-10-15
 
 - **613218f** intègredeuxfichiersbudget+5notesaprèsreview/parentgates956PASS1SKIP.

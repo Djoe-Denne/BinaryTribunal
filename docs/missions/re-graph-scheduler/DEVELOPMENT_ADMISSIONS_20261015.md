@@ -2,6 +2,13 @@
 
 ## Commit L5 et transfert L8 pour plan uniquement
 
+**ACK réel ensuite reçu et accès/rôle approuvés** :12/12pins164877B,manifest/receipt,
+scope84lignes+décisions complètes, ROOT985+nouveau testreadonly,225runtime/398inputs/
+13candidats/32preuves vérifiés par l'auteur. Parent donne **GO analyse/repros mémoire/
+PLAN uniquement**, versions/champs/bindings et protocoleN durable à ratifier avant
+write. Aucun code/test/DB/full avant plan ; ancien3073/B/sim/réel toujours hors GO.
+L7 exécute son full indépendant après76ciblés auteur verts, pas de gate lourde L8.
+
 L5 correction intégrée **613218f75e7b0df524afee57152f1dd4374f9359**, sept paths
 bornés (2source/test+5notes),275harness pins et2sources stockées Git exacts après
 commit, index vide, maintenance utilisateur préservée. Full956PASS/1SKIP, pasremote.
