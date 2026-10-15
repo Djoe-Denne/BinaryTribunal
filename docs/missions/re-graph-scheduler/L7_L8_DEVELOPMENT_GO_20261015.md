@@ -13,10 +13,13 @@ Deux tests L3 adaptés ont une nouvelle revue indépendante acceptable ; SHA fin
 recheckés et six centraux restés identiques. Voir `MAIN_TRANSFERS_20261015.md` et
 `L2_V5_OFFLINE_ACCEPTANCE.md`. L7 complet, L8, L9 et L10 ne sont pas clos.
 
-Sélection prévue pour ces nouveaux auteurs : **cursor/grok-4.7**, variante exacte
-**Grok 4.7 Extra High**, sélection préférée de la mission et catalogue vérifié.
+La préférence **cursor/grok-4.7 / Grok 4.7 Extra High** a été vérifiée au catalogue,
+mais la tentative L8 a été refusée : `absent or unavailable in the operator
+selection`. Aucun worker/claim n'a été créé, aucune saturation globale inférée.
+Le parent retient explicitement **openai/gpt-6.1-sol / max**, route déjà autorisée,
+sans achat, modification de sélection ou politique, ni repli silencieux.
 Le parent vérifiera le vrai Model.Ref et le répertoire isolé après chaque admission.
-Pas de repli silencieux, achat ou variant différent. Chaque worker attend son
+Chaque worker attend son
 paquet explicite, sa lecture réelle et l'approbation de plan avant toute édition.
 
 ## L7-INTEROP — tâche existante task_mv71y0s6_004q_ksbii0
@@ -69,7 +72,7 @@ Invariants :
 - L4 régime B utilise ses preuves/receipts complets, pas adoption automatique.
   Aucun changement de partitions/unités actives en douce, aucune migration historique.
 - Pas de recalcul clustering dans ranking/dispatch ; pas de LLM/classifieur dans
-  extraction/clustering/planning/simulation. Auteurs Grok de développement ne sont
+  extraction/clustering/planning/simulation. Les auteurs de développement ne sont
   pas un choix implicite de modèle/format pour les futurs workers du harnais.
 - Modes strict/file et providers ne sont jamais substitués silencieusement.
   Le cœur est testable avec workers simulés, sans LLM/IDA ni API Ensemble réelle.
