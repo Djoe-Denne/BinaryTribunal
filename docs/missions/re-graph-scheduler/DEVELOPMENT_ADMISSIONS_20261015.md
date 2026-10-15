@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 full distinct autorisé ; L7 BLOCK deux P1 confirmé, route WAIT user
+
+L8 livraison13v2deltas/279 880B +2bridges partiels hérités readonly =runtime15 non
+accepté. Parentarchives/pins/398/225/12 exacts ; compteDB207v2+5earliestanciens+36spike
+=248/81 465 344B, 15hashestardifs qualifiés. Erreurs parent de réunion207etd'assemblage
+398sansbridges conservées, pas défautsource conclu. Nouvellecopie409pins conforme :
+typecheck0/**60PASS424assertions**/49DB16 490 496B retenues, D/E→B vert.
+Décisionfull5753B/SHA9848fe7a/receipt17203696/lecture89lignes ACK,15pinsrelus et
+zérotestobservé : **GO FINAL FULL unique420s** exclusif, commande timeout30000,
+930+1SKIPsanitypasrésultat. Doc`L8_A2_FOCUSED_PARENT_AND_FULL_GO_20261015.md`.
+
+ReviewfinalL7completed/fermée BLOCK : deuxP1 namespacebesoin/invalid-retry confirmés
+parent ; aliasarchiveinchangée→COMMITTED6, planinvalidé+stopretry→A10avantB22.
+SuppressionbesoinseulBLOCKED, retryfalseAannulé et cancelretrylégal contrôles passent.
+incident/fence/tryReservetextes inchangésOLD3ea, pasrégressionnouvelle prétendue.
+377pins/natifSolMAX exacts,4rapportspublics+32toolinputs archivés (inlinePlanpasfiles),
+reprospropresparent conservés. **WAIT nouvel accord explicite user** pour correcteur
+freshAstraMax ougelmaintenu ; aucune admission implicite. Simulateur absentmain,
+pas L8/B/simulationCLI/native. Doc`L7_494B_TWO_P1_BLOCK_ROUTING_GATE_20261015.md`.
+
 ## Review final494b — accès réel approuvé, GO analyse indépendante
 
 377pins/8 068 114B,scope80lignes+décisions complètes et déps/preuves réelles ACK ;

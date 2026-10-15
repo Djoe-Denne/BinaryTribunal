@@ -1,5 +1,21 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 fullGO / L7 deuxP1 confirmés — 2026-10-15
+
+- L8code13v2+2bridgespartielsreadonly=runtime15, copies/pins/oldarchiveexacts.
+  Compteparent207seulinsuffisant résolu207+5early+36spike=248/81465344B, digests15
+  clienttardifsqualifiés. Premierstageparent398sansbridges→4TS gardé ; nouvelle
+  copie409pinsconforme typecheck0/60PASS424assertions,49DB16490496B retained, D/E→B
+  repasse. Fullgate5753B/SHA9848fe7a/receipt17203696 lu89lignes/conditionsACK,
+  15pinsrelus/noBuntest : **GO FINAL FULL exclusif420s**,930+1skipsanitynonrésultat.
+- L7reviewfreshSolMAXBLOCK/closed,377pins etnatifexacts,4rapportspublics32commands
+  archivés (Planinlinepasproof-files). Parentpropreprobe confirme2P1 : aliasunit/pre
+  gardearchive maisqabsentcommitte6 ; invalidation+stopretryA10avantB22sansnouveauplan.
+  Contrairesqabsentseulblocked/retryfalseAannulé/cancelretrylegal passent. Incident/
+  fence/tryReservebyte-textOLD3eainchangés,pasrégressionattribuéeau494/L5budget.
+  **WAITaccordusernouvellefreshAstraMaxcadréeougel**, aucunworkeradmis/pasfallback ;
+  L8indépendantcontinue, L7absentmain etB/sim/nativefermés,preuvesconservées.
+
 ## Review final494b GO après accès réel — 2026-10-15
 
 - ReviewerACK377pins8068114B/scope80l+décisions/dépspreuvesréelles,parentrehash/
