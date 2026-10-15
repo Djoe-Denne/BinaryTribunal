@@ -18,6 +18,7 @@ mais la tentative L8 a été refusée : `absent or unavailable in the operator
 selection`. Aucun worker/claim n'a été créé, aucune saturation globale inférée.
 Le parent retient explicitement **openai/gpt-6.1-sol / max**, route déjà autorisée,
 sans achat, modification de sélection ou politique, ni repli silencieux.
+Clarification utilisateur : Grok uniquement via **cursor**, jamais un autre provider.
 Le parent vérifiera le vrai Model.Ref et le répertoire isolé après chaque admission.
 Chaque worker attend son
 paquet explicite, sa lecture réelle et l'approbation de plan avant toute édition.
