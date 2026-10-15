@@ -115,3 +115,31 @@ Reçus : `.tmp/coordination-three-20261014/` admission pre/post, preparation,
 runtime-readback, development-HEAD-baseline et l7-simulator-current. Aucun worker
 ne délègue/commit, aucune mission réelle/LLM/dispatch/IDA/live/publication, nouvelle
 équipe, config globale, achat, reset, suppression ou push.
+
+## Suite : correcteur renforcé, livraison QA et blocage budget
+
+Correcteur fresh `l7-simulator-fix-max`, task `task_mv9doihe_0028_o59w3v`, session
+`ses_ec0f4f005ffeiESudi5ADo2QXH`, **Sol max natif/OWN relus**, HEAD903bf6e.
+417 inputs / 8 077 481 octets, fingerprint
+`355badfa38a36569df2cf089137e40aea3a16527fe9865ced602ba687d072297`.
+Lecture/hash des 417 confirmée puis GO analyse/repros/plan, **pas encore de write GO**.
+302 HEAD/refs exacts et 110 fichiers candidat+raw projetés sans overwrite ; libs
+préinstallées par jonction OWN autorisées readonly, pas sources du parent.
+
+L7 initial QA livré : 7 sources gelées aggregate b190378c…, 60 nouveaux cas,
+auteur852PASS/1SKIP et504acceptedPASS, toujours PARTIAL/post-L8. Parent vérifie les
+sept pins et les dix DB du dernier full (2 936 832 octets), puis exécute lui-même
+typecheck0 et **60PASS/3 149 assertions**. Gel `L7QA_INITIAL_E03`, 422 fichiers /
+10 936 101 octets, manifest
+`4590f09af2c5d4a4f72ee281e8f0e28705e3a4b940a645578b27cc7534fe9b1e`.
+Revue indépendante encore requise, aucune intégration des sept tests acquise.
+
+L8 A est gelé sur un vrai blocage L5→L6 : enveloppe structurelle3073, Admission
+complète A/B3578 et R13590, plafond global1M inchangé. Parent reproduit le paquet
+pur validé localement, zéro submit et R **likely**, sans preuve scientifique.
+Sources L5/L6 intactes, garde conservée. Paquet `L8_BUDGET_BOUNDARY_EVIDENCE`,
+443 fichiers / 8 184 776 octets, manifest
+`b682682a26c54f9828ca18ab0ad6ebe8e46f40a4403ba57fca26e80bac2df059` :
+13 sources L8 intermédiaires et32 preuves, pas code accepté.
+Voir `L8_ADMISSION_BUDGET_BOUNDARY_20261015.md` : analyse avant choix d'une API
+pré-freeze versionnée, aucune permission d'élargir après gel ou padding scientifique.
