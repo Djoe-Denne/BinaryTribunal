@@ -299,3 +299,41 @@ natifs relus : palier **Astra max dernier recours préautorisé** sélectionné 
 une nouvelle correction fresh/repro/plan d'abord, pas même-modèle L5 ni fallback.
 Contrat `L7_SIMULATOR_AC82_BLOCK_AND_LAST_RESORT_20261015.md` ; admission pas encore
 faite, aucun write GO. L5 budgétaire continue, L8 reste gelé, pas nouvel essai réel.
+
+## Admission Astra simulateur et deux clarifications L5
+
+Worker fresh `l7-simulator-fix-astra`, task `task_mv9m9894_0015_cjacy0`, session
+`ses_ec0192753ffeWKOqq53yPbjVoL`, native `openai/gpt-6-astra / max` relu, OWN
+enregistré après déplacement/HEADfbca7d9 vérifiés. Paquet **443 fichiers /
+8 663 686B**, receipt
+`54c0c6c976e4b4fe596ab578491fafebe2c45dc21eaa8d5b47c84f5e1fd8ac79`.
+319 HEAD/refs exacts, raw99 et11 fichiers candidats ac82 explicitement projetés
+dans son ROOT sans overwrite. L5 reste accepté37723edf ; son correctif parallèle
+n'est pas transféré. Ledger tracked séparé b5c9dfa1…10e4d4, non helper-transféré.
+
+Accès-only envoyé ; l'auteur avait interprété «OWN» comme dossier littéral et a
+justement demandé le path. Parent vérifie le fichier physique et fournit son chemin
+absolu,7132B/SHA08a0e726…dc128, sans déplacer/copier/inventer de nouveau fichier.
+443pins et lecture complète ensuite ACK ; parent approuve rôle/accès et donne
+**GO repros/analyse/PLAN seulement**, aucun code avant plan approuvé. Déps exactement
+sous son worktree/tools/ff8-harness/node_modules, pas à la racine.
+
+L5 auteur en cours : typecheck0 et65 anciennes régressions PASS, focused137PASS/
+5FAIL sur142, refus correct du vrai L6 pour policyVersion de nouvelles fixtures >32.
+Parent vérifie max32 et String.length réel en UTF-16 ; préfixe26, suffixe1..6.
+Nouveau mode seulement validé tôt, tests32/33+BMP/astral, aucun truncate/ASCII-only/
+legacy/L1/L6 changé. Le full est autorisé avec hooks cleanup **préexistants non
+modifiés**, uniquement fixtures uniques créées par CETTE exécution dans un TEMP
+child isolé fraîchement préparé avec opencode. Nouveau gate L6 l5-admission-budget-*
+fermé/conservé, pas nettoyage manuel/evidence/DB étrangère ou global TEMP modifié.
+Message complet court/ACK demandé, pas une notification tronquée à deviner.
+Voir `L5_BUDGET_VERSION_AND_TEST_CLEANUP_20261015.md`. Aucune gate full verte déduite.
+
+L5 a ensuite STOP le full devant deux escapes TEMP : re-policy base littérale et
+runtime via LOCALAPPDATA. Parent relit les hooks et autorise uniquement leurs
+retours mkdtemp frais de CE full, préfixes ff8-re-policy-/ff8-runtime-test- dans
+le Temp/opencode préapprouvé, hooks anciens inchangés, jamais glob/delete manuel
+ou ressource préexistante. LOCALAPPDATA inchangé, autres escapes → STOP ; reste
+isolé child TEMP/opencode et nouvelles DB L6 conservées. Déclarer les exceptions,
+pas «tout confiné OWN». Focused doit être vert corrigé avant full420s ; pas de
+full lancé ni de source produit attribuée aux erreurs de setup précédentes.
