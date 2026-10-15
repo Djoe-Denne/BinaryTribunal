@@ -362,3 +362,16 @@ session`ses_ebff13ea5ffeqgqh2NPnl1FL6i` nativerelue ; receipt4c243003…a07a02,
 zéro lifetime ; autre contenu exposé → STOP avant analyse. Pas de restart imposé
 pour son seul HOLD ; plus d'inbox autorisée. Voir candidat/scope review.
 Pas code accepté/intégré, L8 strict/durable/verticale restent à son propriétaire.
+
+## Clarification receipt portée au parent avant test
+
+AstraSim STOP sur requirement1/fixture-only +receipt2/fixture-only : booléen L5=true.
+Parent reproduit aussi vrai plan external_satisfied sans diagnostic dans OLD377 et
+candidat985 byte-exacts, ac82 accepte. Pas allocation-régression, aucune publication.
+CONTRAT§4 niveau2 exige validation parent réelle : **SIM refuse fail-closed** ce
+receipt contradictoire avant satisfaction ; jamais relabel/rétrogradation/publication
+fabriquée. Différentiel limité aux receipts cohérents, négatif expose L5true/SIMrefus.
+Trois paths inchangés, L5/L6 readonly ; ACK demandé avant application.
+Limite upstream OPEN, prévalidation L8/proofs et disposition L9/L10 nécessaires.
+Reviewer L5 informé du contre-exemple parent pour qualification indépendante, pas
+verdict imposé. Voir `L5_SIM_RECEIPT_LEVEL_COHERENCE_20261015.md`.
