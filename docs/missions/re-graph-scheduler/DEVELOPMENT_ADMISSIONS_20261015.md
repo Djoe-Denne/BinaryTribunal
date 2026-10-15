@@ -337,3 +337,28 @@ ou ressource préexistante. LOCALAPPDATA inchangé, autres escapes → STOP ; re
 isolé child TEMP/opencode et nouvelles DB L6 conservées. Déclarer les exceptions,
 pas «tout confiné OWN». Focused doit être vert corrigé avant full420s ; pas de
 full lancé ni de source produit attribuée aux erreurs de setup précédentes.
+
+## GO écriture simulateur et livraison budgétaire
+
+Plan AstraSim reçu avec5repros et8variantes G2. Parent ratifie worklist/multiholders
+avec réservations/claims, provenance record-export versionnée sans raw inventé,
+receipt force+niveau>=, **observe DTO détaché/gelé sans SimStore live** plutôt qu'un
+alias de SimRunResult, métriques non mutantes. Trois paths seulement,54contrôles
+inchangés. Décision `L7_SIMULATOR_ASTRA_PLAN_GO_20261015.md`,8327B/SHA
+`e827e232904d38319e6503e0b25efaeb4c2a2b7978dbe063578a53aaf1ea5ebb`,
+receipt `b0b5358dd2337ec947973ba07bc85871c26b40d22da32c587f99638e5dc79761`.
+Native AstraMax/OWN relus, lecture complète/hash/amendements ACK, puis
+**GO FINAL WRITE/plan approved**. Future review/gates parent toujours requis.
+
+L5 candidat livré985e5e…c858988 +nouveau78tests8d02cbec, deux paths seulement,
+ancien65byte-exacts ; auteurcompleted/fermé sans commit ni merge. Parent vérifie
+2sources/14preuves/487inputs/306autresROOT/4DB1 388 544B, réexécute vieux planning
+8f5a36ff byte-exact ; gates auteur143focused/870full+1SKIP demeurent preuves auteur.
+Vrai gel parent474files/10 470 218B/manifest36c6eb0d, typecheck0/143PASS13 583assertions
+reproduits. Review fresh SolMAX`l5-budget-review`, task`task_mv9ntc9a_001m_ahmspg`,
+session`ses_ebff13ea5ffeqgqh2NPnl1FL6i` nativerelue ; receipt4c243003…a07a02,
+474pins+manifest/receipt et lecture scope/deps ACK, rôle/accès approuvés puis
+**GO analyse review**. Un appel inbox initial de mission/HOLD déclaré, pas de claim
+zéro lifetime ; autre contenu exposé → STOP avant analyse. Pas de restart imposé
+pour son seul HOLD ; plus d'inbox autorisée. Voir candidat/scope review.
+Pas code accepté/intégré, L8 strict/durable/verticale restent à son propriétaire.
