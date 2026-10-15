@@ -54,7 +54,8 @@ Paquet `inputs/L7SIM_CORRECTIVE_REVIEW_V2/`, mêmes434 fichiers/4 793 231B,
 receipt `77200ea7760865b5460ba1dd3afd8cf08d43d9ca9358336e284bc415969d2453`.
 Scope complet `L7_SIMULATOR_CORRECTIVE_REVIEW_SCOPE_20261015.md`.
 
-Accès-only demandé, **lecture réelle/ACK et GO analyse encore attendus**. Historique
+Lecture réelle/ACK des434 pins,scope/plan et jonction exacte reçus ; parent approuve
+le rôle/accès puis donne **GO analyse readonly**. Aucun verdict encore reçu. Historique
 OLD limité au code, rapports/gates complets auteur non transférés ; JSONL brut n'est
 pas un oracle. Ledger9MB absent explicitement : pas full/native gel revendiqué.
 Jonction préinstallée readonly exactement sous le module tools/ff8-harness,

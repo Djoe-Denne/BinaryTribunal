@@ -257,3 +257,28 @@ Clarification de dépendances L5 : la jonction déjà créée et vérifiée est
 **OWN/tools/ff8-harness/node_modules**, pas OWN/node_modules comme un message parent
 l'indiquait. L'auteur a justement refusé de deviner ; parent donne le chemin exact
 et reprend GO analyse/repros/plan, sans nouvelle jonction/install/config ou write GO.
+
+## GO review et ratification du plan budget
+
+Reviewer simulateur confirme434pins/sourceac82/OLDdcaa/receipt exacts, lecture du
+scope et accès deps réel ; parent approuve rôle/accès puis **GO analyse indépendante**.
+Pas de verdict/acceptation anticipés, aucun ancien reviewer réactivé.
+
+Plan Astra budget reçu après vrais repros3073→3578/13590 et croissanceR44590,
+486pins exacts. Parent vérifie les APIs réelles L6 freezePlan et le schéma plan
+(unknown permis), puis ratifie l'API prospective **avec mode discriminant explicite**
+admissionBudgetMode, pas simple préfixe de policy.version qui était historiquement
+opaque. L'ancien chemin byte-exact doit aussi accepter un ancien nom préfixé sans
+nouveau mode/input. Contexte indépendant obligatoire, S/C/N/T séparés, N=1 par
+sous-intent toutes générations/passes reste obligation durable L8, L6 unchanged.
+
+Ownership planner.ts +nouveau test +ajouts seulement dans planner.test si utiles,
+vrai petit positif public GraphStore SQLite fixture/relecture/guard requis, pas
+simple assignabilité TS ou faux reçu. Décision complète
+`L5_ADMISSION_BUDGET_PLAN_GO_20261015.md`, **7 676B**, SHA
+`bb95cb3c332f124993bf293b429b2d4bd40471c08affaa57443ed562aeacc9b4`,
+receipt `e308cab7badf9589d9011ed0553c451a4f99acf720ae65d2309c0c02f8c30cac`.
+Astra/max/OWN relus au transfert, lecture intégrale/hash/conditions ACK ensuite.
+Parent approuve accès décision et donne **GO FINAL WRITE/plan approved** sur les
+paths bornés ; fresh review et gates parent restent requis après livraison.
+Pas de code accepté, pas de L8 dégelé ou de nouvelle autorité native.
