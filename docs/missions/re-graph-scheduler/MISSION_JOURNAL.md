@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Accord utilisateur correcteur final ciblé — 2026-10-15
+
+- Aprèsreproparent3findings, questionroutageexplicite→réponse **Astra Max ciblé
+  (Recommended)**. AutorisationnouveauwriterfreshmêmeAstraMax ciblé, reproPLANavant
+  code/76testsintacts/gelsconservés/futurefreshreview+parentgates. WAITroutehistorique
+  levéseulement,pasencoreadmission/source/full/DBGo. Contrat
+  L7_FINAL_TARGETED_ASTRA_USER_GO_20261015.md, L8spikecontinuepasB/sim/réel/globalchange.
+
 ## SimAstra BLOCK confirmé et gate utilisateur — 2026-10-15
 
 - FreshreviewSolMAXtask_mv9qdvek_002y_6x3kw6 BLOCK puisclosed.138probes133PASS5écarts

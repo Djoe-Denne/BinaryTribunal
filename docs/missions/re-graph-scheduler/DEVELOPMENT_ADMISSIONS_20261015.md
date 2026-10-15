@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Accord utilisateur suivant — nouveau correcteur AstraMax ciblé
+
+Question de routage posée après les3findings parent confirmés ; réponse explicite
+**Astra Max ciblé (Recommended)**. Exception bornée au même effort, nouveau writer
+fresh/repros/PLAN avant code,76contrôles etgels préservés, future reviewfresh+gates
+parent. Gate WAIT antérieure historique, pas acceptation/code/full/DB autorisés.
+Contrat`L7_FINAL_TARGETED_ASTRA_USER_GO_20261015.md`, admission encore à vérifier.
+L8 spike indépendant continue, aucun provider/politique globale ou GO réel changé.
+
 ## SimAstra BLOCK final parent — nouvelle correction en WAIT utilisateur
 
 Review freshSolMAX3ea terminéeBLOCK/fermée :3familles/5manifestations confirmées
