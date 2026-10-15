@@ -282,3 +282,20 @@ Astra/max/OWN relus au transfert, lecture intégrale/hash/conditions ACK ensuite
 Parent approuve accès décision et donne **GO FINAL WRITE/plan approved** sur les
 paths bornés ; fresh review et gates parent restent requis après livraison.
 Pas de code accepté, pas de L8 dégelé ou de nouvelle autorité native.
+
+## Review ac82 finale : nouveau BLOCK confirmé
+
+Review fresh Sol max terminée **BLOCK** : deux P1 G2 (wake multiclé perdu ; nouvelle
+clé sans rétention de tous les holders actifs) et trois P2 (force receipt externe,
+vrai unresolved sans call, attente ouverte absente des métriques). Parent reproduit
+les cinq sur vrais snapshots normalisés/validés et exports L5,434pins inchangés.
+Dans le cas critique C démarre t3 alors que quatre jobs A/B fencés restent occupés
+jusqu'à t4/t5. Le cas multiclé exige explicitement ordre FIFO et première clé ;
+premier setup parent qui n'avait pas ces préconditions passait, pas bug attribué.
+
+Reviewer closed, rapports publics explicites/parent-repros archivés ; candidat,
+origines et gels intacts, aucun source ajouté à main. Source/réview **Sol max**
+natifs relus : palier **Astra max dernier recours préautorisé** sélectionné pour
+une nouvelle correction fresh/repro/plan d'abord, pas même-modèle L5 ni fallback.
+Contrat `L7_SIMULATOR_AC82_BLOCK_AND_LAST_RESORT_20261015.md` ; admission pas encore
+faite, aucun write GO. L5 budgétaire continue, L8 reste gelé, pas nouvel essai réel.
