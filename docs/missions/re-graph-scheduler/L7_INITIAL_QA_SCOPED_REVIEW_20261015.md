@@ -38,13 +38,23 @@ aucun widening/padding de plan, mais **pas preuve du budget Admission L8 complet
 Parents/author/readback fixtures ne prouvent jamais authentification/arrêt hôte/
 publication scientifique native niveau2. L8 budget, post-L8, L9/L10 restent requis.
 
-## Gate parent main en cours
+## Gate parent main finale et décision
 
 Parent a déjà reproduit typecheck +60 tests dans OWN auteur avant revue. Après revue,
 transfert fail-closed des sept fichiers neufs vers main, **267 anciens fichiers
 harness préservés byte-exact**, pas de production modifiée. Typecheck/focused/full
-main sérialisés lancés avec logs/pins avant/après. **Résultat main encore attendu** :
-ni commit des tests ni acceptation d'intégration sur la seule prose reviewer.
+main sérialisés exécutés avec logs/pins avant/après : **typecheck exit0, focused
+60 PASS / 3 149 assertions, full878 PASS / 1 SKIP / 0 FAIL / 77 227 assertions**,
+879 tests /29 fichiers. Le full contient les 26 tests de maintenance préexistants
+en main, absents du HEAD auteur852 ; ils ne sont pas copiés ni intégrés par ce lot.
+Les 267 fichiers anciens et sept nouveaux sont exacts après chaque gate et juste
+avant commit. **Parent accepte l'intégration des sept fichiers QA initiaux** :
+aucun code de production, L1, schéma, configuration ou helper de maintenance ajouté.
+Les maintenances sales de l'utilisateur restent hors commit. Pas de remote push.
+
+Cette décision ne clôt ni la tâche auteur post-L8, ni §17 global/L9/L10. Le SKIP
+interop réel demeure non vérifié ; aucun dispatch/science/native/IDB lancé. Le
+simulateur historique et la correction L5 ne sont pas intégrés par ce transfert.
 
 Reçus `.tmp/coordination-three-20261014/l7-initial-qa-review-parent-verification.json`,
 `l7-initial-main-transfer-before.json`, logs et résultat main-gates associés.

@@ -223,8 +223,11 @@ Contrat `L5_ADMISSION_BUDGET_TARGETED_GO_20261015.md`, pas de L6 changé.
 Revue QA final **ACCEPTABLE OFFLINE SCOPÉ**, 60 tests +512 graphes/sondes propres,
 douze DB3 575 808B retenues et hashées par parent, 422 pins exacts, reviewer fermé.
 Les sept tests sont transférés sans overwrite vers main, 267 anciens fichiers
-préservés ; gates main sérialisées en cours, aucune acceptation/commit des tests
-anticipée. Voir `L7_INITIAL_QA_SCOPED_REVIEW_20261015.md`, portée post-L8 ouverte.
+préservés ; gates main finales **typecheck0, 60 focused PASS/3 149 assertions,
+878 full PASS/1 SKIP/77 227 assertions**, 274 pins exacts avant commit. Parent accepte
+l'intégration des sept tests initiaux seulement, sans production/L1/helpers ou
+maintenance utilisateur. Voir `L7_INITIAL_QA_SCOPED_REVIEW_20261015.md`, portée
+post-L8 ouverte. Aucun simulateur/correctif L5 ou interop natif promu par ce lot.
 
 Correcteur simulateur : auteur typecheck0/35 anciens contrôles11 195 assertions +
 19 nouveaux622 assertions. Son premier full est **INVALIDE**, pas une régression
