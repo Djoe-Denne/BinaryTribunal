@@ -17,6 +17,24 @@ export interface PlannerEdge {
   status: "observed" | "inferred" | "validated" | "invalidated";
   schedulerRelevance: "may_block" | "non_blocking" | "hypothesis_not_call" | "context_only";
   retiredInRevision: number | null;
+  // Legacy projection only: absent schema/direction/confidence are derived
+  // conveniences, not certified native metadata. Absent appearance stays unknown.
+  schemaVersion?: 1; direction?: "source_to_destination";
+  confidence?: "high" | "medium" | "low" | "unknown"; appearedInRevision?: number;
+  sites?: PlannerSite[];
+}
+export interface PlannerSite {
+  siteRva: string; xrefType: "code" | "data";
+  provenance: { moduleSha256: string; siteRva: string | null; siteKind: "instruction" | "object" | "import" | "table" | "extractor";
+    xrefType: "code" | "data" | "none"; source: string; sourceVersion: string; sourceHash: string; evidenceSha256: string };
+}
+/** Not an L1 FunctionEdge: its lossless evidence union may exceed 64 sites. */
+export interface PlannerRelation {
+  relationId: string; sourceId: string; destinationId: string; kind: PlannerEdge["kind"];
+  sourceEdgeIds: string[]; sites: PlannerSite[];
+  observations: Array<{ metadata: Record<string, unknown>; sourceEdgeIds: string[]; sites: PlannerSite[];
+    // Preserve record-to-citation associations too, not just their aggregate union.
+    sitesBySourceEdgeId: Record<string, PlannerSite[]> }>;
 }
 export interface PlannerGraphInput {
   schemaVersion: 1; snapshotId: string; missionId: string; normalizedFingerprint: string; knowledgeRevision: number;
@@ -93,6 +111,9 @@ export interface PlannerPolicy {
   requirementsByFunction: Record<string, ArtifactRequirement>;
   estimatesByFunction: Record<string, PipelineEstimate>;
   resourcesByFunction: Record<string, ResourceRequirement>;
+  // Legacy API, keyed ONLY by input transport record ID (not relation ID).
+  // Each record's explicit/default policy must agree across its whole relation.
+  // Repacking requires an explicit policy rebind; stale keys fail closed.
   edgeKinds?: Record<string, Prerequisite["kind"]>;
   dispensationsByEdge?: Record<string, Dispensation>;
   externalReceiptsByEdge?: Record<string, ArtifactReceipt>;
@@ -104,6 +125,7 @@ export interface PlannerSidecar {
   schemaVersion: 1; policyVersion: string; estimationVersion: string;
   planId: string; planFingerprint: string; snapshotFingerprint: string; knowledgeRevision: number;
   policy: PlannerPolicy;
+  relationView: { version: "planner-relations-v1"; relations: PlannerRelation[] };
   requirementById: Record<string, ArtifactRequirement>;
   dispensationById: Record<string, Dispensation>;
   externalReceiptById: Record<string, ArtifactReceipt>;
@@ -137,6 +159,98 @@ export function canonicalOwnershipKey(functionId: string): string {
 }
 function unitIdentity(functionIds: string[], kind: WorkUnit["investigationKind"]): string {
   return `unit:${fingerprint({ investigationKind: kind, functionIds })}`;
+}
+/** Additive identity for new plans only. Function/family identities stay unchanged. */
+export function canonicalRelationKey(edge: Pick<PlannerEdge, "sourceId" | "destinationId" | "kind">): string {
+  return `relation:v1:${fingerprint({ sourceId: edge.sourceId, destinationId: edge.destinationId, kind: edge.kind })}`;
+}
+function isPlannerCall(e: PlannerEdge): boolean {
+  return e.kind !== "callback_candidate" && e.schedulerRelevance !== "hypothesis_not_call" && e.schedulerRelevance !== "context_only";
+}
+function defaultEdgeKind(e: PlannerEdge): Prerequisite["kind"] {
+  if (!isPlannerCall(e)) return "non_blocking";
+  if (e.status === "inferred") return "unknown_unresolved";
+  if (e.schedulerRelevance === "non_blocking") return "non_blocking";
+  return "obligatory";
+}
+function ownEntry<T>(table: Record<string, T> | undefined, id: string): T | undefined {
+  return table && Object.hasOwn(table, id) ? table[id] : undefined;
+}
+function effectiveEdgeKind(e: PlannerEdge, policy: PlannerPolicy): Prerequisite["kind"] {
+  const kind = defaultEdgeKind(e);
+  // Preserve single-record legacy semantics: an override cannot promote a
+  // hypothesis/inferred/nonblocking edge. Still compare the declaration below.
+  return kind === "obligatory" ? ownEntry(policy.edgeKinds, e.id) ?? kind : kind;
+}
+const RELATION_VIEW_VERSION = "planner-relations-v1" as const;
+// New-plan identity only: own ByEdge declarations and external producer binding.
+const RELATION_POLICY_VERSION = "planner-relation-policy-v2";
+/** Transport pages are not knowledge obligations. Reject ambiguity before any SCC/closure. */
+function canonicalRelationView(graph: PlannerGraphInput, policy: PlannerPolicy) {
+  const relations = new Map<string, PlannerRelation>();
+  const comparedByRelation = new Map<string, { metadataKey: string; policyKey: string }>();
+  const liveByRelation = new Map<string, PlannerEdge>();
+  const observations = new Map<string, Map<string, PlannerRelation["observations"][number]>>();
+  const kinds = new Map<string, Prerequisite["kind"]>(), dispensations = new Map<string, Dispensation>(), receipts = new Map<string, ArtifactReceipt>();
+  const ids = new Set<string>();
+  const unionSites = (sites: PlannerSite[]): PlannerSite[] => [...new Map(sites.map(s => [canonical(s), s])).entries()]
+    .sort(([a], [b]) => compareText(a, b)).map(([, site]) => site);
+  for (const input of graph.edges) {
+    assert(nonempty(input.id) && !ids.has(input.id), "missing/duplicate edge identity"); ids.add(input.id);
+  }
+  for (const table of [policy.edgeKinds, policy.dispensationsByEdge, policy.externalReceiptsByEdge]) {
+    for (const id of Object.keys(table ?? {})) assert(ids.has(id), `relation-policy-conflict: unknown transport record ${id}; explicit rebind required`);
+  }
+  for (const input of graph.edges) {
+    const e = structuredClone(input), relationId = canonicalRelationKey(e);
+    assert(["direct_call", "tail_jump", "indirect_resolved", "thunk", "callback_candidate"].includes(e.kind)
+      && ["observed", "inferred", "validated", "invalidated"].includes(e.status)
+      && ["may_block", "non_blocking", "hypothesis_not_call", "context_only"].includes(e.schedulerRelevance), `relation-metadata-conflict:${relationId}: invalid kind/status/relevance`);
+    // planner-relations-v1 defines these three legacy projection defaults only.
+    // Validate supplied values BEFORE deriving defaults. Appearance is deliberately
+    // not defaulted: missing vs known (even zero) cannot be merged as source facts.
+    assert((e.schemaVersion === undefined || e.schemaVersion === 1)
+      && (e.direction === undefined || e.direction === "source_to_destination")
+      && (e.confidence === undefined || ["high", "medium", "low", "unknown"].includes(e.confidence)), `relation-metadata-conflict:${relationId}: invalid schema/direction/confidence`);
+    if (e.appearedInRevision !== undefined) assert(integer(e.appearedInRevision) && e.appearedInRevision <= graph.knowledgeRevision, `relation-revision-conflict:${relationId}: future/invalid appearance`);
+    if (e.retiredInRevision !== null) assert(integer(e.retiredInRevision) && e.retiredInRevision <= graph.knowledgeRevision
+      && (e.appearedInRevision === undefined || e.retiredInRevision >= e.appearedInRevision), `relation-revision-conflict:${relationId}: incoherent retirement`);
+    const { id: _id, sites = [], sourceId, destinationId, kind, ...metadata } = e;
+    const normalizedMetadata = { ...metadata, schemaVersion: 1 as const, direction: "source_to_destination" as const, confidence: e.confidence ?? "unknown" };
+    const metadataKey = canonical(normalizedMetadata), observationKey = canonical(metadata);
+    const explicitKind = ownEntry(policy.edgeKinds, e.id);
+    assert(explicitKind === undefined || ["obligatory", "optional", "external_satisfied", "unknown_unresolved", "non_blocking"].includes(explicitKind), `relation-policy-conflict:${relationId}: invalid legacy edgeKind`);
+    const declaredKind = explicitKind ?? defaultEdgeKind(e);
+    const edgeKind = effectiveEdgeKind(e, policy), d = ownEntry(policy.dispensationsByEdge, e.id), receipt = ownEntry(policy.externalReceiptsByEdge, e.id);
+    const policyKey = canonical({ declaredKind, edgeKind, dispensation: d ?? null, externalReceipt: receipt ?? null });
+    const prior = comparedByRelation.get(relationId);
+    assert(!prior || prior.metadataKey === metadataKey, `relation-metadata-conflict:${relationId}: incoherent observations`);
+    assert(!prior || prior.policyKey === policyKey, `relation-policy-conflict:${relationId}: legacy shard policies disagree`);
+    comparedByRelation.set(relationId, { metadataKey, policyKey });
+    const relation = relations.get(relationId) ?? { relationId, sourceId, destinationId, kind, sourceEdgeIds: [], sites: [], observations: [] };
+    relation.sourceEdgeIds.push(e.id); relation.sites.push(...sites); relations.set(relationId, relation);
+    const byMetadata = observations.get(relationId) ?? new Map<string, PlannerRelation["observations"][number]>();
+    const observation: PlannerRelation["observations"][number] = byMetadata.get(observationKey)
+      ?? { metadata, sourceEdgeIds: [], sites: [], sitesBySourceEdgeId: Object.create(null) };
+    observation.sitesBySourceEdgeId[e.id] = sites;
+    observation.sourceEdgeIds.push(e.id); observation.sites.push(...sites); byMetadata.set(observationKey, observation); observations.set(relationId, byMetadata);
+    // Full metadata AND policy agreement precedes retirement filtering. A retired
+    // page cannot conceal contradictory evidence/policy from another page.
+    if (e.status === "invalidated" || e.retiredInRevision !== null) continue;
+    // Derived, not an L1 transport edge or a winning source observation.
+    liveByRelation.set(relationId, { id: relationId, sourceId, destinationId, kind, ...normalizedMetadata });
+    kinds.set(relationId, edgeKind); if (d) dispensations.set(relationId, d); if (receipt) receipts.set(relationId, receipt);
+  }
+  const ordered = [...relations.values()].sort((a, b) => compareText(a.relationId, b.relationId));
+  for (const relation of ordered) {
+    relation.sourceEdgeIds.sort(compareText); relation.sites = unionSites(relation.sites);
+    relation.observations = [...observations.get(relation.relationId)!.entries()].sort(([a], [b]) => compareText(a, b)).map(([, observation]) => ({
+      metadata: observation.metadata, sourceEdgeIds: observation.sourceEdgeIds.sort(compareText), sites: unionSites(observation.sites),
+      sitesBySourceEdgeId: Object.fromEntries(Object.entries(observation.sitesBySourceEdgeId).sort(([a], [b]) => compareText(a, b)).map(([id, sites]) => [id, unionSites(sites)])),
+    }));
+  }
+  return { relationView: { version: RELATION_VIEW_VERSION, relations: ordered },
+    liveEdges: [...liveByRelation.values()].sort((a, b) => compareText(a.id, b.id)), kinds, dispensations, receipts };
 }
 function validRequirement(r: ArtifactRequirement | undefined): r is ArtifactRequirement {
   if (!r) return false;
@@ -212,16 +326,10 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const eligible = (id: string): boolean => {
     const n = nodes.get(id); return !!n && n.status === "observed" && !["import", "external", "incomplete"].includes(n.functionClass);
   };
-  const liveEdges = graph.edges.filter(e => e.status !== "invalidated" && e.retiredInRevision === null).sort((a, b) => compareText(a.id, b.id));
-  assert(new Set(graph.edges.map(e => e.id)).size === graph.edges.length, "duplicate edge identity");
-  for (const e of liveEdges) assert(nodes.has(e.sourceId) && nodes.has(e.destinationId), "edge missing function endpoint");
-  const isCall = (e: PlannerEdge): boolean => e.kind !== "callback_candidate" && e.schedulerRelevance !== "hypothesis_not_call" && e.schedulerRelevance !== "context_only";
-  const edgeKind = (e: PlannerEdge): Prerequisite["kind"] => {
-    if (!isCall(e)) return "non_blocking";
-    if (e.status === "inferred") return "unknown_unresolved";
-    if (e.schedulerRelevance === "non_blocking") return "non_blocking";
-    return policy.edgeKinds?.[e.id] ?? "obligatory";
-  };
+  for (const e of graph.edges) assert(nodes.has(e.sourceId) && nodes.has(e.destinationId), "edge missing function endpoint");
+  const relations = canonicalRelationView(graph, policy), { liveEdges } = relations;
+  const isCall = isPlannerCall;
+  const edgeKind = (e: PlannerEdge): Prerequisite["kind"] => relations.kinds.get(e.id)!;
   const outgoing = new Map<string, PlannerEdge[]>();
   for (const e of liveEdges) { const list = outgoing.get(e.sourceId) ?? []; list.push(e); outgoing.set(e.sourceId, list); }
   const diagnostics: Diagnostic[] = [];
@@ -240,12 +348,12 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   }
   // Mandatory callee closure precedes grouping/budget selection. No silently omitted callee.
   for (let i = 0; i < queue.length; i++) for (const e of outgoing.get(queue[i]!) ?? []) {
-    if (edgeKind(e) === "obligatory" && eligible(e.destinationId) && !validDispensation(policy.dispensationsByEdge?.[e.id], policy, graph.knowledgeRevision)
+    if (edgeKind(e) === "obligatory" && eligible(e.destinationId) && !validDispensation(relations.dispensations.get(e.id), policy, graph.knowledgeRevision)
       && !selectedFunctions.has(e.destinationId)) { selectedFunctions.add(e.destinationId); queue.push(e.destinationId); }
   }
   const functionIds = [...selectedFunctions].sort(compareFunctionIds);
   const mandatoryCalls = liveEdges.filter(e => selectedFunctions.has(e.sourceId) && selectedFunctions.has(e.destinationId)
-    && edgeKind(e) === "obligatory" && !validDispensation(policy.dispensationsByEdge?.[e.id], policy, graph.knowledgeRevision));
+    && edgeKind(e) === "obligatory" && !validDispensation(relations.dispensations.get(e.id), policy, graph.knowledgeRevision));
   // SCCs describe confirmed control flow, not a policy-weakened G1 projection.
   // A waiver/optional edge cannot erase a real native recursive cycle/self-loop.
   const structuralCalls = liveEdges.filter(e => selectedFunctions.has(e.sourceId) && selectedFunctions.has(e.destinationId)
@@ -360,16 +468,18 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     const prerequisites: Prerequisite[] = [];
     for (const from of ownedFunctionIds) for (const e of outgoing.get(from) ?? []) {
       if (!isCall(e)) continue;
-      const producerUnitId = q.owner.get(e.destinationId) ?? null;
-      if (producerUnitId === unitId) continue;
-      const id = `pre:${fingerprint({ edgeId: e.id, consumerUnitId: unitId })}`;
       let kind = edgeKind(e);
+      // External evidence is not produced by a selected local family. Retain its
+      // receipt requirement even inside that family, including invalidation checks.
+      const producerUnitId = kind === "external_satisfied" ? null : q.owner.get(e.destinationId) ?? null;
+      if (producerUnitId === unitId) continue;
+      const id = `pre:${fingerprint({ relationVersion: 1, relationId: e.id, consumerUnitId: unitId })}`;
       const requested = policy.requirementsByFunction[e.destinationId];
       const requirement = validRequirement(requested) && requested.functionId === e.destinationId && requested.moduleSha256 === nodes.get(e.destinationId)!.moduleSha256 ? requested : undefined;
       if (requirement) requirementById[id] = requirement;
-      const d = policy.dispensationsByEdge?.[e.id], dispensed = validDispensation(d, policy, graph.knowledgeRevision);
+      const d = relations.dispensations.get(e.id), dispensed = validDispensation(d, policy, graph.knowledgeRevision);
       if (dispensed) dispensationById[id] = d;
-      const external = policy.externalReceiptsByEdge?.[e.id];
+      const external = relations.receipts.get(e.id);
       if (producerUnitId === null && eligible(e.destinationId) && kind === "obligatory" && !dispensed) {
         diagnostics.push({ code: "missing-obligatory-callee", unitId, functionIds: [e.destinationId], detail: "Mandatory callee is not in the closure" });
       } else if (producerUnitId === null && !eligible(e.destinationId)) {
@@ -454,7 +564,10 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const g3Affinities = [...contextOwners].filter(([, ids]) => ids.length > 1).sort(([a], [b]) => compareFunctionIds(a, b))
     .map(([id, ids]) => ({ unitIds: ids.sort(compareText), reason: `shared context:${id}`, blocking: false as const }));
   const planContent: Omit<MissionPlan, "fingerprint"> = { schemaVersion: 1,
-    planId: `plan:${fingerprint({ snapshot: graph.normalizedFingerprint, policy, families })}`, missionId: graph.missionId,
+    // New plans are fenced from earlier relation-policy semantics; existing
+    // plan/unit identities are never migrated. Neither marker is a field in L1.
+    planId: `plan:${fingerprint({ snapshot: graph.normalizedFingerprint, policy, families, relationViewVersion: RELATION_VIEW_VERSION,
+      relationPolicyVersion: RELATION_POLICY_VERSION })}`, missionId: graph.missionId,
     snapshotId: graph.snapshotId, partitionId: policy.partitionId, knowledgeRevision: graph.knowledgeRevision,
     units: units.map(u => ({ unitId: u.unitId, ownedFunctionIds: u.ownedFunctionIds, contextFunctionIds: u.contextFunctionIds,
       requiredPublicationLevel: u.requiredPublicationLevel, state: u.state, contextEnvelopeUtf8Bytes: { known: true, value: envelopes[u.unitId]! } })),
@@ -465,7 +578,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   const plan: MissionPlan = { ...planContent, fingerprint: fingerprint(planContent) };
   const sidecarContent: Omit<PlannerSidecar, "fingerprint"> = { schemaVersion: 1, policyVersion: policy.version, estimationVersion: policy.estimationVersion,
     planId: plan.planId, planFingerprint: plan.fingerprint, snapshotFingerprint: graph.normalizedFingerprint, knowledgeRevision: graph.knowledgeRevision,
-    policy, requirementById, dispensationById, externalReceiptById, localOrders, estimatesByUnit, resourcesByUnit, envelopeBytesByUnit: envelopes,
+    policy, relationView: relations.relationView, requirementById, dispensationById, externalReceiptById, localOrders, estimatesByUnit, resourcesByUnit, envelopeBytesByUnit: envelopes,
     unitFingerprints: Object.fromEntries(units.map(u => [u.unitId, unitContentFingerprint(u)])), diagnostics };
   const sidecar: PlannerSidecar = { ...sidecarContent, fingerprint: fingerprint(sidecarContent) };
   const bindingContent = { schemaVersion: 1 as const, planFingerprint: plan.fingerprint, sidecarFingerprint: sidecar.fingerprint };

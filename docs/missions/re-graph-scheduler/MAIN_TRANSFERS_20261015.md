@@ -1,7 +1,7 @@
 # Main — transferts acceptés et gates croisés du 15 octobre
 
-État : **sources et tests transférés ; gates main verts ; revue indépendante du
-seul delta test-only L3 en attente avant signature finale d'intégration**. Ce
+État : **intégration parent L2/L3/L4/L5 acceptée offline**, sources et tests
+transférés, gates main verts et revue indépendante test-only L3 acceptable. Ce
 document ne clôture pas L7/L8/L9/L10 et ne délivre aucune autorité native.
 
 ## Sources transférées byte-exact
@@ -41,7 +41,26 @@ Sol Max `ses_ec1423127ffeA9vf2RQ1OjzEm5`, task `task_mv9ao561_000g_l8bbm2`,
 membre `l3-main-fixture-review`. Native Model.Ref vérifié, réception explicite,
 accès réel confirmé avant GO analyse. Paquet : 209 fichiers / 1 400 306 octets,
 fingerprint `1b61bd9b366ed7bb1e8ed82817dcdce838b960e23efab9aa13cbe76a517675db`.
-Les anciens reviewers/maths ne sont pas relancés. Verdict encore requis.
+Les anciens reviewers/maths ne sont pas relancés. Verdict final reçu :
+**ACCEPTABLE scoped TEST-ONLY**, aucun finding de correction dans le delta.
+
+Reviewer : 2 affected PASS / 74 assertions, 52 cluster PASS / 40 253 assertions,
+1 141 checks indépendants. Les trois hunks conservent tous les rejets, variantes,
+permutations et contrôles d'immutabilité ; 321→323 callsites expect, aucun test
+supprimé. Le vrai schéma JSON est distingué des guards cross-field, non simulé.
+Caller synthétique [0x2000,0x2085), 133 octets, sites [0x2004,0x2084] : aucun
+overlap avec les autres fonctions, 123 octets avant la prochaine à 0x2100.
+Le variant non étendu produit réellement 117 violations de containment.
+Les citations restent celles d'une fixture, pas une preuve des nouveaux sites.
+Tous les 209 pins du paquet et les 165 fichiers fixture inclus sont inchangés.
+
+Déviation déclarée : un appel initial team_results a effectivement eu lieu avant
+lecture du HOLD, exposant selon le reviewer le seul message d'assignation/HOLD de
+sa propre tâche, aucun autre rendu. Aucun autre appel déclaré ; ne pas présenter
+cette revue comme zéro accès inbox sur toute sa durée. Une probe initiale avait
+aussi supposé à tort une garantie L2 de size/span ; le check final contrôle le
+133-byte/span explicite et ne prétend pas rouvrir L2 sur cette hypothèse ajoutée.
+Ces limites sont conservées dans l'acceptation ciblée.
 
 ## Gates parent réellement exécutés
 
@@ -65,7 +84,13 @@ skip n'a été ajouté pour masquer les erreurs. Journaux conservés dans
 `.tmp/coordination-three-20261014/main-L2L3*` et `main-L2L3L4L5-*` ; transferts et
 backups dans `main-transfer-L2L3/` et `main-transfer-L4L5/`.
 
-Suite : verdict ciblé test-only, recheck SHA et intégration parent sérialisée ;
-alors seulement activation des contextes L7 interop et du propriétaire central L8
-selon leurs gates. L8 n'attend pas les tests L7 post-L8. Pas de GO natif/live/shadow,
+Après verdict, parent a rechecké les **209 pins reviewer**, les **12 sources/tests
+main** (unique delta test-only explicite), et les **six fichiers centraux inchangés**.
+Les octets sont donc exactement ceux des gates main818PASS. Reviewer arrêté
+normalement ; **signature parent d'intégration offline acquise**. Pas de nouvelle
+review numérique ou L2, ni de répétition des suites sans delta.
+
+Suite : commit parent sérialisé puis activation des contextes L7 interop et du
+propriétaire central L8 selon leurs gates. L8 n'attend pas les tests L7 post-L8.
+Pas de GO natif/live/shadow,
 pas de changement de politique, de reset/nettoyage ou de push remote.

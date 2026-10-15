@@ -29,3 +29,17 @@ Une nouvelle session indépendante Sol Max vérifie le delta des deux tests, son
 absence de perte de couverture et les spans/identités/citations du variant. Aucun
 ancien auteur/reviewer n'est réveillé. Pas réouverture des revues numériques ou L2.
 L4/L5, L7/L8 ne sont pas annoncés intégrés sur ce seul résultat.
+
+## Verdict final et jugement parent
+
+Fresh reviewer Sol Max : **ACCEPTABLE scoped TEST-ONLY**. Exécution indépendante
+2 cas / 74 assertions, 52 cluster tests / 40 253 assertions et 1 141 checks propres
+PASS. Tous les anciens rejets restent, aucun test retiré, sources de production
+inchangées, 209 pins avant/après exacts. L1 fixture inchangée et synthèse non native
+explicitement conservées. Détails et déviation inbox initiale déclarée dans
+`MAIN_TRANSFERS_20261015.md`. Reviewer arrêté normalement.
+
+Parent accepte ce delta test-only après recheck des mêmes SHA : les gates main
+818 PASS / 1 SKIP restent attachées aux octets finals. Pas d'élargissement du
+verdict à la justesse numérique complète, à une nouvelle garantie size/span L2,
+au natif, ou à l'intégration centrale L8.

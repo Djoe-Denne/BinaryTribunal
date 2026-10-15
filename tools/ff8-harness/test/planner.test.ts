@@ -2,10 +2,12 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { canonical, fingerprint, hash } from "../src/validation";
+import { assertSnapshotContract, fingerprintWithout, type GraphSnapshotV1 } from "../src/graph";
+import { buildGraphSnapshot, type GraphParts } from "../src/graph-normalize";
 import { compareFunctionIds, stronglyConnectedComponents, topologicalOrder, type DirectedEdge } from "../src/scc";
-import { canonicalOwnershipKey, compareGranularities, evaluateReadiness, pipelineCost, planMission, rankUnits, readySubIntents, receiptSatisfies,
+import { canonicalOwnershipKey, canonicalRelationKey, compareGranularities, evaluateReadiness, pipelineCost, planMission, rankUnits, readySubIntents, receiptSatisfies,
   selectCompatible, selectReadyUnits, unitsConflict, type ArtifactReceipt, type ArtifactRequirement, type PlannerGraphInput,
-  type PlannerGroupInput, type PlannerPolicy, type PlannerResult, type ResourceRequirement, type WorkUnit } from "../src/planner";
+  type PlannerGroupInput, type PlannerPolicy, type PlannerResult, type PlannerSite, type ResourceRequirement, type WorkUnit } from "../src/planner";
 
 const MODULE = hash("planner-test-module"), ROOT = join(import.meta.dir, "fixtures/graph");
 const RESOURCES: ResourceRequirement = { profiles: ["build"], models: ["offline"], tools: ["cpu"], accounts: ["shared"], slots: 1, cpu: 1, gpu: 0, budget: 1 };
@@ -331,6 +333,583 @@ describe("versioned artifact/readback and immutable policy sidecars", () => {
     expect(again.plan).toEqual(r.plan); expect(again.sidecar).toEqual(r.sidecar);
     const { fingerprint: pf, ...pc } = r.plan, { fingerprint: sf, ...sc } = r.sidecar;
     expect(pf).toBe(fingerprint(pc)); expect(sf).toBe(fingerprint(sc));
+  });
+});
+
+function normalizerParts(g: GraphSnapshotV1): GraphParts {
+  return { missionId: g.missionId, snapshotId: g.snapshotId, artifacts: g.binaryArtifacts, nodes: g.nodes, edges: g.edges,
+    objects: g.objects, unresolved: g.unresolved, capabilities: g.capabilities, knowledgeRevision: g.knowledgeRevision,
+    scopeDescription: g.scope.description, coverage: g.coverage, toolVersions: g.toolVersions, configFingerprint: g.configFingerprint };
+}
+/** Real frozen L2 normalizer, with L1 fixture metadata and synthetic tail sites.
+ * Input segmentation is an adversarial input, NOT a copied normalizer/oracle. */
+function transportFixture(siteCount: number, inputLengths = [siteCount]): GraphSnapshotV1 {
+  const g = graph(2, [[0, 1]]);
+  const seed: GraphSnapshotV1 = JSON.parse(readFileSync(join(ROOT, "ff8-chunks-tails/content.json"), "utf8"));
+  const artifact = { ...seed.binaryArtifacts[0]!, artifactId: `mod:${MODULE}`, contentSha256: MODULE,
+    provenance: { ...seed.binaryArtifacts[0]!.provenance, moduleSha256: MODULE } };
+  const nodes = g.nodes.map((node, i) => ({ ...seed.nodes[i]!, ...node,
+    boundaries: i === 0 ? [{ ordinal: 0, rva: node.rva, endRvaExclusive: "0x2", role: "entry" as const },
+      { ordinal: 1, rva: "0x1000", endRvaExclusive: "0x1100", role: "tail" as const }]
+      : [{ ordinal: 0, rva: node.rva, endRvaExclusive: "0x12", role: "entry" as const }],
+    sizeBytes: { known: true, value: i === 0 ? 257 : 16 } }));
+  const sites: PlannerSite[] = Array.from({ length: siteCount }, (_, i) => {
+    const siteRva = `0x${(0x1000 + i).toString(16).toUpperCase()}`;
+    return { siteRva, xrefType: "code", provenance: { moduleSha256: MODULE, siteRva, siteKind: "instruction", xrefType: "code",
+      source: "synthetic-tail-sites-not-native", sourceVersion: "v1", sourceHash: hash("synthetic-sites"), evidenceSha256: hash(`proof:${i}`) } };
+  });
+  expect(inputLengths.reduce((sum, n) => sum + n, 0)).toBe(siteCount);
+  let offset = 0;
+  const edges = inputLengths.map(length => {
+    expect(length > 0).toBe(true);
+    const pageSites = sites.slice(offset, offset + length); offset += length;
+    return { ...seed.edges[0]!, ...g.edges[0]!, id: "", sites: pageSites };
+  });
+  const normalized = buildGraphSnapshot({ missionId: g.missionId, snapshotId: g.snapshotId, artifacts: [artifact], nodes, edges,
+    objects: [], unresolved: [], capabilities: [], knowledgeRevision: g.knowledgeRevision, coverage: seed.coverage,
+    scopeDescription: "synthetic L1/L2 shard interop; not a native completeness claim", toolVersions: seed.toolVersions,
+    configFingerprint: seed.configFingerprint });
+  expect(normalized.stats.truncatedSiteEdges).toBe(0);
+  return normalized.snapshot;
+}
+/** A different VALID transport packing, not the normalizer's expected output.
+ * Refresh the real snapshot digest: old snapshots/plans are never migrated. */
+function repackTransport(g: GraphSnapshotV1, lengths: number[]): GraphSnapshotV1 {
+  const changed = structuredClone(g), sites = changed.edges.flatMap(e => e.sites);
+  expect(lengths.reduce((sum, n) => sum + n, 0)).toBe(sites.length);
+  let offset = 0;
+  changed.edges = lengths.map((length, i) => {
+    expect(length > 0 && length <= 64).toBe(true);
+    const page = sites.slice(offset, offset + length); offset += length;
+    return { ...changed.edges[0]!, id: `edge:repacked:${i}`, sites: page };
+  });
+  changed.normalizedFingerprint = fingerprintWithout(changed, "normalizedFingerprint");
+  return assertSnapshotContract(changed);
+}
+function semanticPlan(r: PlannerResult) {
+  const { planId: _planId, fingerprint: _fingerprint, ...content } = r.plan;
+  return content;
+}
+
+describe("external relation producers and own-only ByEdge policies", () => {
+  function externalPolicy(g: PlannerGraphInput, level: 1 | 2 = 1): PlannerPolicy {
+    const p = policy(g); p.publicationLevel = level;
+    const required = p.requirementsByFunction[fn(1)]!;
+    required.minimumRevision = g.knowledgeRevision;
+    required.publicationLevel = level; required.validation = level === 2 ? "parent-validated" : "fixture-only";
+    p.edgeKinds = Object.fromEntries(g.edges.map(e => [e.id, "external_satisfied"]));
+    p.externalReceiptsByEdge = Object.fromEntries(g.edges.map(e => [e.id, receipt(required, null)]));
+    return p;
+  }
+  function sameUnit(g: PlannerGraphInput): PlannerGroupInput[] {
+    return [{ groupId: "joined", partitionId: "partition:test", ownedFunctionIds: g.nodes.map(n => n.id), contextFunctionIds: [] }];
+  }
+  test("64/65/129 external receipts keep a null producer for A-only, A+B and same-unit at levels 1/2", () => {
+    for (const siteCount of [64, 65, 129]) for (const level of [1, 2] as const) {
+      const g = assertSnapshotContract(JSON.parse(canonical(transportFixture(siteCount)))), p = externalPolicy(g, level);
+      const external = p.externalReceiptsByEdge![g.edges[0]!.id]!, before = canonical({ g, p });
+      const selections = [groups(g, [fn(0)]), groups(g), sameUnit(g)];
+      for (const [i, gs] of selections.entries()) {
+        const r = build(g, p, gs), A = unit(r, fn(0)), pre = A.prerequisites[0]!;
+        expect(A.prerequisites).toHaveLength(1);
+        expect(pre).toMatchObject({ kind: "external_satisfied", producerUnitId: null, requiredPublicationLevel: level });
+        expect(r.sidecar.externalReceiptById[pre.id]).toEqual(external);
+        expect(r.sidecar.requirementById[pre.id]).toEqual(p.requirementsByFunction[fn(1)]!);
+        expect(r.sidecar.relationView.relations[0]!.sites).toHaveLength(siteCount);
+        expect(A.conflicts.some(c => c.kind === "blocking_dependency")).toBe(false);
+        expect(ready(r, A).ready).toBe(true);
+        expect(r.plan.g1Edges).toHaveLength(i === 1 ? 1 : 0);
+        if (i === 1) expect(r.plan.g1Edges[0]).toMatchObject({ fromUnitId: unit(r, fn(1)).unitId, toUnitId: A.unitId, kind: "non_blocking" });
+        if (i !== 0) {
+          const local = { ...external, producerUnitId: unit(r, fn(1)).unitId, knowledgeRevision: external.knowledgeRevision + 1, commitId: hash("distinct-local-B-commit") };
+          expect(local.commitId).not.toBe(external.commitId);
+          expect(receiptSatisfies(p.requirementsByFunction[fn(1)]!, local, local.producerUnitId)).toBe(true);
+          expect(receiptSatisfies(p.requirementsByFunction[fn(1)]!, local, null)).toBe(false);
+          expect(ready(r, A, [local]).ready).toBe(true);
+        }
+        if (i === 2) {
+          expect(A.subIntents.filter(s => s.role !== "R").every(s => s.waitsForSubIntentIds.length === 0)).toBe(true);
+          for (const R of A.subIntents.filter(s => s.role === "R"))
+            expect(R.waitsForSubIntentIds).toEqual(A.subIntents.filter(s => s.functionId === R.functionId && s.role !== "R").map(s => s.subIntentId));
+          expect(readySubIntents(A).map(s => s.role)).toEqual(["A", "B", "A", "B"]);
+        }
+        validateSchema(A, JSON.parse(readFileSync(join(import.meta.dir, "../schemas/work-unit-v1.schema.json"), "utf8")));
+        validateSchema(r.plan, JSON.parse(readFileSync(join(import.meta.dir, "../schemas/mission-plan-v1.schema.json"), "utf8")));
+      }
+      expect(canonical({ g, p })).toBe(before);
+    }
+  });
+  test("external invalidation and exact receipt requirements survive same-unit ownership and distinct local commits", () => {
+    const g = transportFixture(65);
+    for (const level of [1, 2] as const) for (const gs of [groups(g, [fn(0)]), groups(g), sameUnit(g)]) {
+      const p = externalPolicy(g, level), r = build(g, p, gs), A = unit(r, fn(0));
+      const external = p.externalReceiptsByEdge![g.edges[0]!.id]!;
+      const local = { ...external, producerUnitId: unit(r, fn(1))?.unitId ?? "unit:distinct-local-B", knowledgeRevision: external.knowledgeRevision + 2, commitId: hash("newer-local-B") };
+      const invalidation: ArtifactReceipt = { ...external, producerUnitId: local.producerUnitId, knowledgeRevision: external.knowledgeRevision + 1,
+        commitId: hash("invalidate-external-B"), futurePrerequisiteEffect: "invalidates_future" };
+      expect(ready(r, A, [local, invalidation]).ready).toBe(false);
+      expect(ready(r, A, [{ ...invalidation, readbackStatus: "pending" }]).ready).toBe(true);
+      for (const patch of [{ producerUnitId: local.producerUnitId }, { artifactSha256: hash("wrong-artifact") }, { functionId: fn(0) },
+        { knowledgeRevision: g.knowledgeRevision - 1 }, { readbackStatus: "pending" as const }, { futurePrerequisiteEffect: "does_not_satisfy" as const },
+        { publicationLevel: 3 as any }, ...(level === 2 ? [{ validation: "fixture-only" as const }, { publicationLevel: 1 as const }] : [])]) {
+        const bad = structuredClone(p);
+        bad.externalReceiptsByEdge = Object.fromEntries(g.edges.map(e => [e.id, { ...external, ...patch }]));
+        const rejected = build(g, bad, gs);
+        expect(rejected.diagnostics.some(d => d.code === "unverified-external")).toBe(true);
+        expect(ready(rejected, unit(rejected, fn(0)), [local]).ready).toBe(false);
+        expect(Object.keys(rejected.sidecar.externalReceiptById)).toHaveLength(0);
+      }
+      const waived = structuredClone(p);
+      waived.dispensationsByEdge = Object.fromEntries(g.edges.map(e => [e.id, { reason: "explicit external waiver", policyVersion: p.version,
+        source: "fixture-lead", sourceHash: hash("external-waiver"), validation: external.validation, knowledgeRevision: g.knowledgeRevision }]));
+      const permitted = build(g, waived, gs);
+      expect(unit(permitted, fn(0)).prerequisites[0]!.dispensed).toBe(true);
+      expect(ready(permitted, unit(permitted, fn(0)), [invalidation]).ready).toBe(true);
+      expect(permitted.plan.decisions.filter(d => d.action === "dispense")).toHaveLength(1);
+      for (const d of Object.values(waived.dispensationsByEdge!)) d.policyVersion = "old-policy";
+      const staleWaiver = build(g, waived, gs);
+      expect(ready(staleWaiver, unit(staleWaiver, fn(0)), [invalidation]).ready).toBe(false);
+    }
+  });
+  test("same-unit external receipt adds no self wait while real local obligations still wait for callee R", () => {
+    const g = graph(3, [[0, 1], [1, 2]]), p = externalPolicy(g);
+    delete p.edgeKinds![g.edges[1]!.id]; delete p.externalReceiptsByEdge![g.edges[1]!.id];
+    const r = build(g, p, sameUnit(g)), u = r.units[0]!;
+    expect(u.prerequisites).toHaveLength(1); expect(u.prerequisites[0]!.producerUnitId).toBeNull();
+    expect(r.plan.g1Edges).toHaveLength(0); expect(ready(r, u).ready).toBe(true);
+    const C = u.subIntents.find(s => s.functionId === fn(2) && s.role === "R")!;
+    for (const s of u.subIntents.filter(s => s.role !== "R"))
+      expect(s.waitsForSubIntentIds).toEqual(s.functionId === fn(1) ? [C.subIntentId] : []);
+    expect(readySubIntents(u).some(s => s.functionId === fn(1))).toBe(false);
+    expect(readySubIntents(u, [C.subIntentId]).filter(s => s.functionId === fn(1)).map(s => s.role)).toEqual(["A", "B"]);
+  });
+  test("external producer stays independent of closure/context budgets and explicit repacking policy rebind", () => {
+    for (const siteCount of [64, 65, 129]) {
+      const g = transportFixture(siteCount), p = externalPolicy(g), base = build(g, p), A = unit(base, fn(0));
+      const bytes = base.sidecar.envelopeBytesByUnit[A.unitId]!;
+      for (const limit of [bytes - 1, bytes]) for (const key of ["contextEnvelopeMaxUtf8Bytes", "totalContextBudgetUtf8Bytes"] as const) {
+        const bounded = { ...p, [key]: limit, maxSelectedUnits: 1 }, r = build(g, bounded);
+        expect(r.plan.selectedUnitIds.includes(A.unitId)).toBe(limit === bytes);
+        expect(ready(r, unit(r, fn(0))).ready).toBe(limit === bytes);
+      }
+      const ordinary = { ...policy(g), maxSelectedUnits: 1 };
+      expect(build(g, ordinary, groups(g, [fn(0)])).plan.selectedUnitIds).toHaveLength(0);
+      const repacked = repackTransport(g, Array.from({ length: Math.ceil(siteCount / 32) }, (_, i) => Math.min(32, siteCount - i * 32)));
+      expect(() => build(repacked, p)).toThrow("explicit rebind required");
+      const rebound = build(repacked, externalPolicy(repacked));
+      expect(semanticPlan(rebound)).toEqual(semanticPlan(base)); expect(rebound.units).toEqual(base.units);
+      expect(rebound.binding).not.toEqual(base.binding);
+      expect(ready(rebound, unit(rebound, fn(0))).ready).toBe(true);
+    }
+  });
+  test("strict constructor/toString/hasOwnProperty IDs treat absent, empty and inherited ByEdge entries as absent", () => {
+    for (const id of ["constructor", "toString", "hasOwnProperty"]) {
+      const g = transportFixture(64); g.edges[0]!.id = id;
+      g.normalizedFingerprint = fingerprintWithout(g, "normalizedFingerprint");
+      assertSnapshotContract(JSON.parse(canonical(g)));
+      for (const table of ["edgeKinds", "dispensationsByEdge", "externalReceiptsByEdge"] as const) {
+        const p = table === "externalReceiptsByEdge" ? externalPolicy(g) : policy(g);
+        delete p[table]; const base = build(g, p, groups(g, [fn(0)]));
+        for (const empty of [{}, Object.create({ [id]: "inherited-invalid-declaration", "edge:unknown": "ignored-inherited-key" })]) {
+          const r = build(g, { ...p, [table]: empty }, groups(g, [fn(0)]));
+          expect(r.units).toEqual(base.units); expect(semanticPlan(r)).toEqual(semanticPlan(base));
+          expect(ready(r, unit(r, fn(0)))).toEqual(ready(base, unit(base, fn(0))));
+        }
+        const own = structuredClone(p);
+        if (table === "edgeKinds") own.edgeKinds = { [id]: "optional" };
+        else if (table === "externalReceiptsByEdge") own.externalReceiptsByEdge = { [id]: receipt(own.requirementsByFunction[fn(1)]!, null) };
+        else own.dispensationsByEdge = { [id]: { reason: "explicit own waiver", policyVersion: own.version, source: "fixture-lead",
+          sourceHash: hash("own-waiver"), validation: "fixture-only", knowledgeRevision: g.knowledgeRevision } };
+        expect(Object.hasOwn(own[table]!, id)).toBe(true);
+        const r = build(g, own, groups(g, [fn(0)])), A = unit(r, fn(0));
+        expect(r.units).toHaveLength(1); expect(ready(r, A).ready).toBe(true);
+        if (table === "edgeKinds") expect(A.prerequisites[0]!.kind).toBe("optional");
+        else if (table === "dispensationsByEdge") expect(A.prerequisites[0]!.dispensed).toBe(true);
+        else expect(A.prerequisites[0]).toMatchObject({ kind: "external_satisfied", producerUnitId: null });
+      }
+    }
+  });
+  test("own special-ID shard declarations still reconcile before retired filtering", () => {
+    const g = transportFixture(129), ids = ["constructor", "toString", "hasOwnProperty"];
+    g.edges.forEach((e, i) => { e.id = ids[i]!; e.retiredInRevision = g.knowledgeRevision; e.status = "invalidated"; });
+    g.normalizedFingerprint = fingerprintWithout(g, "normalizedFingerprint"); assertSnapshotContract(g);
+    const p = policy(g); p.edgeKinds = { constructor: "obligatory" as const };
+    expect(build(g, p).plan.g1Edges).toHaveLength(0);
+    p.edgeKinds!["toString"] = "optional";
+    for (const edges of [g.edges, [...g.edges].reverse()]) expect(() => build({ ...g, edges }, p)).toThrow("relation-policy-conflict");
+  });
+});
+
+describe("semantic relation view is independent of transport shards", () => {
+  test("frozen L2 normalizer + strict L1 JSON roundtrip retain 64/65/129 proofs and canonical source record IDs", () => {
+    for (const [siteCount, lengths] of [[64, [64]], [65, [64, 1]], [129, [64, 64, 1]]] as const) {
+      const g = transportFixture(siteCount), serialized = canonical(g);
+      expect(g.edges.map(e => e.sites.length)).toEqual([...lengths]);
+      expect(g.edges.flatMap(e => e.sites)).toHaveLength(siteCount);
+      expect(g.edges.every(e => e.sites.length <= 64)).toBe(true);
+      const restored = assertSnapshotContract(JSON.parse(serialized));
+      expect(buildGraphSnapshot(normalizerParts(restored)).snapshot).toEqual(g);
+      expect(canonical(g)).toBe(serialized);
+      // Different source segmentation feeds the real normalizer, not an oracle
+      // implementing its merge/dedupe/shard/ID algorithm.
+      expect(transportFixture(siteCount, [1, siteCount - 1])).toEqual(g);
+      const parts = structuredClone(normalizerParts(g)); parts.nodes.reverse(); parts.edges.reverse();
+      // These are fresh anonymous extraction records; existing IDs/digests are
+      // never carried across a changed immutable transport payload.
+      for (const edge of parts.edges) { edge.id = ""; edge.sites.reverse(); }
+      expect(buildGraphSnapshot(parts).snapshot).toEqual(g);
+      const r = build(restored), relation = r.sidecar.relationView.relations[0]!;
+      expect(new Set(relation.sites.map(canonical))).toEqual(new Set(g.edges.flatMap(e => e.sites).map(canonical)));
+      expect(relation.sourceEdgeIds).toEqual(g.edges.map(e => e.id).sort());
+      expect(new Set(relation.observations.flatMap(o => o.sourceEdgeIds))).toEqual(new Set(relation.sourceEdgeIds));
+      for (const edge of g.edges) {
+        const observation = relation.observations.find(o => o.sourceEdgeIds.includes(edge.id))!;
+        expect(new Set(observation.sitesBySourceEdgeId[edge.id]!.map(canonical))).toEqual(new Set(edge.sites.map(canonical)));
+        expect(Object.keys(observation.sitesBySourceEdgeId).sort()).toEqual(observation.sourceEdgeIds);
+      }
+      expect(build(JSON.parse(serialized))).toEqual(r);
+    }
+  });
+  test("64/65/129 sites retain every proof but only one G1/prerequisite/G2/artifact and envelope", () => {
+    const results = [transportFixture(64, [64]), transportFixture(65, [64, 1]), transportFixture(129, [64, 64, 1])].map(g => build(g));
+    for (const [index, r] of results.entries()) {
+      const A = unit(r, fn(0)), relation = r.sidecar.relationView.relations[0]!;
+      expect(r.plan.g1Edges).toHaveLength(1); expect(A.prerequisites).toHaveLength(1);
+      expect(A.conflicts.filter(c => c.kind === "blocking_dependency")).toHaveLength(1);
+      expect(Object.keys(r.sidecar.requirementById)).toHaveLength(1);
+      expect(relation.sites).toHaveLength([64, 65, 129][index]!);
+      expect(relation.sourceEdgeIds).toHaveLength(index + 1);
+      expect(relation.observations).toHaveLength(1);
+      expect(relation.observations[0]!.sites).toEqual(relation.sites);
+      expect(new Set(relation.sites.map(s => s.provenance.evidenceSha256)).size).toBe(relation.sites.length);
+      expect(r.sidecar.relationView.version).toBe("planner-relations-v1");
+      expect(A.prerequisites).toEqual(unit(results[0]!, fn(0)).prerequisites);
+      expect(r.sidecar.envelopeBytesByUnit).toEqual(results[0]!.sidecar.envelopeBytesByUnit);
+      expect(r.sidecar.estimatesByUnit).toEqual(results[0]!.sidecar.estimatesByUnit);
+      expect(r.sidecar.resourcesByUnit).toEqual(results[0]!.sidecar.resourcesByUnit);
+      expect(r.plan.sccs).toEqual(results[0]!.plan.sccs);
+      expect(r.units).toEqual(results[0]!.units);
+      for (const kind of ["fifo", "depth", "critical_path", "critical_path_influence", "heft_like"] as const)
+        expect(ranks(r, kind)).toEqual(ranks(results[0]!, kind));
+      expect(r.plan.selectedUnitIds).toEqual(results[0]!.plan.selectedUnitIds);
+      expect(ready(r, A).ready).toBe(false);
+      expect(ready(r, A, [receipt(r.sidecar.requirementById[A.prerequisites[0]!.id]!, unit(r, fn(1)).unitId)]).ready).toBe(true);
+    }
+    // Evidence/transport binding remains intentionally distinct, not concealed by a semantic hash.
+    expect(new Set(results.map(r => r.sidecar.fingerprint)).size).toBe(3);
+  });
+  test("same full content repartitioned preserves budget frontier and relation identity", () => {
+    const a = transportFixture(129), b = repackTransport(a, [32, 32, 32, 33]);
+    const base = build(a), bytes = base.sidecar.envelopeBytesByUnit[unit(base, fn(0)).unitId]!;
+    for (const limit of [bytes - 1, bytes]) {
+      const p = policy(a); p.contextEnvelopeMaxUtf8Bytes = limit;
+      const ra = build(a, p), rb = build(b, p);
+      expect(semanticPlan(ra)).toEqual(semanticPlan(rb)); expect(ra.units).toEqual(rb.units);
+      expect(ra.plan.planId).not.toBe(rb.plan.planId); expect(ra.binding).not.toEqual(rb.binding);
+      expect(ra.plan.selectedUnitIds.includes(unit(ra, fn(0)).unitId)).toBe(limit === bytes);
+      expect(ra.sidecar.relationView.relations[0]!.sites).toEqual(rb.sidecar.relationView.relations[0]!.sites);
+    }
+    const total = Object.values(base.sidecar.envelopeBytesByUnit).reduce((sum, n) => sum + n, 0);
+    for (const limit of [total - 1, total]) {
+      const p = policy(a); p.totalContextBudgetUtf8Bytes = limit;
+      const ra = build(a, p, groups(a, [fn(0)])), rb = build(b, p, groups(b, [fn(0)]));
+      expect(semanticPlan(ra)).toEqual(semanticPlan(rb)); expect(ra.plan.selectedUnitIds.length).toBe(limit === total ? 2 : 0);
+    }
+    expect(canonicalRelationKey(a.edges[0]!)).toBe(canonicalRelationKey(b.edges[0]!));
+    expect(canonicalRelationKey({ ...a.edges[0]!, kind: "tail_jump" })).not.toBe(canonicalRelationKey(a.edges[0]!));
+  });
+  test("planner-relations-v1 legacy convenience defaults preserve raw absence; appearance is NEVER fabricated", () => {
+    const g = graph(2, [[0, 1]]), base = build(g);
+    g.edges.push({ ...g.edges[0]!, id: "edge:legacy-defaults", schemaVersion: 1, direction: "source_to_destination", confidence: "unknown" });
+    const r = build(g), relation = r.sidecar.relationView.relations[0]!;
+    expect(r.units).toEqual(base.units); expect(r.plan.g1Edges).toEqual(base.plan.g1Edges);
+    expect(relation.observations).toHaveLength(2);
+    expect(relation.observations.every(o => !Object.hasOwn(o.metadata, "appearedInRevision"))).toBe(true);
+    expect(relation.observations.some(o => !Object.hasOwn(o.metadata, "confidence"))).toBe(true);
+    expect(relation.observations.some(o => o.metadata.confidence === "unknown")).toBe(true);
+    expect(build({ ...g, edges: [...g.edges].reverse() })).toEqual(r);
+    expect(build(JSON.parse(canonical(g)))).toEqual(r);
+    for (const appearance of [0, 1, 2]) {
+      const changed = structuredClone(g); changed.edges[1]!.appearedInRevision = appearance;
+      for (const edges of [changed.edges, [...changed.edges].reverse()])
+        expect(() => build({ ...changed, edges })).toThrow("relation-metadata-conflict");
+    }
+    const full = transportFixture(65), projected: PlannerGraphInput = structuredClone(full);
+    delete projected.edges[1]!.appearedInRevision;
+    expect(() => build(projected)).toThrow("relation-metadata-conflict");
+    delete projected.edges[0]!.appearedInRevision;
+    const unknown = build(projected);
+    expect(unknown.sidecar.relationView.relations[0]!.observations.every(o => !Object.hasOwn(o.metadata, "appearedInRevision"))).toBe(true);
+    const confidenceMissing: PlannerGraphInput = structuredClone(full); delete confidenceMissing.edges[1]!.confidence;
+    expect(() => build(confidenceMissing)).toThrow("relation-metadata-conflict");
+    // The versioned conveniences can coexist with full metadata ONLY at the
+    // documented projection defaults. Both source appearances remain known=1;
+    // raw omissions remain visible and are never labeled native certification.
+    const mixed: PlannerGraphInput = structuredClone(full);
+    for (const e of mixed.edges) e.confidence = "unknown";
+    delete mixed.edges[1]!.schemaVersion; delete mixed.edges[1]!.direction; delete mixed.edges[1]!.confidence;
+    const mixedRelation = build(mixed).sidecar.relationView.relations[0]!;
+    expect(mixedRelation.observations).toHaveLength(2);
+    expect(mixedRelation.observations.every(o => o.metadata.appearedInRevision === 1)).toBe(true);
+    expect(mixedRelation.observations.some(o => !Object.hasOwn(o.metadata, "schemaVersion") && !Object.hasOwn(o.metadata, "direction") && !Object.hasOwn(o.metadata, "confidence"))).toBe(true);
+    expect(mixedRelation.sites).toHaveLength(65);
+  });
+  test("explicit invalid metadata never becomes a legacy default, even on retired records", () => {
+    for (const patch of [{ schemaVersion: 2 }, { schemaVersion: null }, { direction: "destination_to_source" },
+      { direction: null }, { confidence: "unrecognized" }, { confidence: null }]) {
+      const g = transportFixture(65); for (const e of g.edges) { e.status = "invalidated"; e.retiredInRevision = 2; Object.assign(e, patch); }
+      for (const edges of [g.edges, [...g.edges].reverse()]) expect(() => build({ ...g, edges })).toThrow("relation-metadata-conflict");
+    }
+    const g = transportFixture(65); Object.assign(g.edges[1]!, { unexpectedMetadata: "must not silently disappear" });
+    expect(() => build(g)).toThrow("relation-metadata-conflict");
+  });
+  test("explicit legacy default equals absent default; conflicting shard edgeKinds fail closed in either order", () => {
+    const g = transportFixture(65, [64, 1]), p = policy(g);
+    p.edgeKinds = { [g.edges[0]!.id]: "obligatory" };
+    expect(build(g, p).plan.g1Edges).toHaveLength(1);
+    p.edgeKinds[g.edges[1]!.id] = "optional";
+    for (const edges of [g.edges, [...g.edges].reverse()]) expect(() => build({ ...g, edges }, p)).toThrow("relation-policy-conflict");
+    p.edgeKinds[g.edges[0]!.id] = "optional";
+    const r = build(g, p); expect(unit(r, fn(0)).prerequisites[0]!.kind).toBe("optional");
+    expect(r.sidecar.policy.edgeKinds).toEqual(p.edgeKinds);
+    for (const invalidKind of [null, "not-a-prerequisite-kind"]) {
+      const invalid = policy(g); Object.assign(invalid, { edgeKinds: Object.fromEntries(g.edges.map(e => [e.id, invalidKind])) });
+      expect(() => build(g, invalid)).toThrow("invalid legacy edgeKind");
+    }
+  });
+  test("legacy declarations cannot hide policy conflicts behind inferred/context/retired filtering", () => {
+    for (const patch of [{ status: "inferred" as const }, { schedulerRelevance: "context_only" as const },
+      { schedulerRelevance: "non_blocking" as const }, { retiredInRevision: 2 }, { status: "invalidated" as const }]) {
+      const g = transportFixture(65), p = policy(g); for (const e of g.edges) Object.assign(e, patch);
+      const [x, y] = g.edges.map(e => e.id);
+      p.edgeKinds = { [x!]: "optional", [y!]: "obligatory" };
+      for (const edges of [g.edges, [...g.edges].reverse()]) expect(() => build({ ...g, edges }, p)).toThrow("relation-policy-conflict");
+      p.edgeKinds[y!] = "optional";
+      const r = build(g, p);
+      if (patch.status === "inferred") expect(unit(r, fn(0)).prerequisites[0]!.kind).toBe("unknown_unresolved");
+      if (patch.retiredInRevision !== undefined || patch.status === "invalidated") expect(r.plan.g1Edges).toHaveLength(0);
+      const defaults = policy(g);
+      const defaultKind = patch.status === "inferred" ? "unknown_unresolved" : patch.schedulerRelevance ? "non_blocking" : "obligatory";
+      defaults.edgeKinds = { [x!]: defaultKind };
+      expect(build(g, defaults).units).toEqual(build(g).units);
+    }
+  });
+  test("all 64/65/129 record policies apply once per relation, never by a selected shard or helper multiplication", () => {
+    for (const siteCount of [64, 65, 129]) {
+      const g = transportFixture(siteCount), p = policy(g);
+      const waiver = { reason: "offline fixture", policyVersion: p.version, source: "lead-fixture",
+        sourceHash: hash("relation-waiver"), validation: "fixture-only" as const, knowledgeRevision: g.knowledgeRevision };
+      for (const kind of ["optional", "non_blocking", "unknown_unresolved"] as const) {
+        p.edgeKinds = Object.fromEntries(g.edges.map(e => [e.id, kind]));
+        const r = build(g, p, groups(g, [fn(0)])), A = unit(r, fn(0));
+        expect(A.prerequisites).toHaveLength(1); expect(A.prerequisites[0]!.kind).toBe(kind);
+        expect(r.units).toHaveLength(1); expect(ready(r, A).ready).toBe(true);
+        expect(Object.keys(r.sidecar.requirementById)).toHaveLength(1);
+      }
+      delete p.edgeKinds;
+      p.dispensationsByEdge = Object.fromEntries(g.edges.map(e => [e.id, structuredClone(waiver)]));
+      const dispensed = build(g, p, groups(g, [fn(0)]));
+      expect(dispensed.plan.decisions.filter(d => d.action === "dispense")).toHaveLength(1);
+      expect(Object.keys(dispensed.sidecar.dispensationById)).toHaveLength(1);
+      expect(unit(dispensed, fn(0)).prerequisites[0]!.dispensed).toBe(true);
+      expect(ready(dispensed, unit(dispensed, fn(0))).ready).toBe(true);
+      delete p.dispensationsByEdge; g.nodes[1]!.functionClass = "external";
+      const external = receipt(p.requirementsByFunction[fn(1)]!, null);
+      p.externalReceiptsByEdge = Object.fromEntries(g.edges.map(e => [e.id, structuredClone(external)]));
+      const satisfied = build(g, p, groups(g, [fn(0)]));
+      expect(unit(satisfied, fn(0)).prerequisites[0]!.kind).toBe("external_satisfied");
+      expect(Object.keys(satisfied.sidecar.externalReceiptById)).toHaveLength(1);
+      expect(ready(satisfied, unit(satisfied, fn(0))).ready).toBe(true);
+    }
+  });
+  test("ByEdge means record IDs ONLY: stale/repacked/relation keys need explicit rebind, never implicit policy migration", () => {
+    const g = transportFixture(129), relationId = canonicalRelationKey(g.edges[0]!);
+    const waiver = { reason: "fixture-only waiver", policyVersion: policy(g).version, source: "lead-fixture",
+      sourceHash: hash("waiver"), validation: "fixture-only" as const, knowledgeRevision: g.knowledgeRevision };
+    for (const key of [relationId, "edge:unknown"]) {
+      for (const patch of [{ edgeKinds: { [key]: "optional" as const } }, { dispensationsByEdge: { [key]: waiver } },
+        { externalReceiptsByEdge: { [key]: receipt(requirement(g, fn(1)), null) } }])
+        expect(() => build(g, { ...policy(g), ...patch })).toThrow("unknown transport record");
+    }
+    const p = policy(g); p.edgeKinds = Object.fromEntries(g.edges.map(e => [e.id, "optional"]));
+    const repacked = repackTransport(g, [32, 32, 32, 33]);
+    expect(() => build(repacked, p)).toThrow("explicit rebind required");
+    p.edgeKinds = Object.fromEntries(repacked.edges.map(e => [e.id, "optional"]));
+    expect(unit(build(repacked, p), fn(0)).prerequisites[0]!.kind).toBe("optional");
+  });
+  test("legacy waiver and receipt are compared completely, not picked from a winning shard", () => {
+    const g = transportFixture(65, [64, 1]), p = policy(g), [x, y] = g.edges.map(e => e.id);
+    const waiver = { reason: "offline contract", policyVersion: p.version, source: "lead-waiver", sourceHash: hash("waiver"), validation: "fixture-only" as const, knowledgeRevision: 2 };
+    p.dispensationsByEdge = { [x!]: waiver };
+    expect(() => build(g, p)).toThrow("relation-policy-conflict");
+    p.dispensationsByEdge[y!] = structuredClone(waiver);
+    const r = build(g, p); expect(unit(r, fn(0)).prerequisites).toHaveLength(1);
+    expect(Object.keys(r.sidecar.dispensationById)).toHaveLength(1);
+    for (const patch of [{ reason: "other reason" }, { policyVersion: "other policy" }, { source: "other source" },
+      { sourceHash: hash("different-waiver-proof") }, { validation: "parent-validated" as const }, { knowledgeRevision: 1 }]) {
+      p.dispensationsByEdge[y!] = { ...waiver, ...patch };
+      expect(() => build(g, p)).toThrow("relation-policy-conflict");
+      expect(() => build({ ...g, edges: [...g.edges].reverse() }, p)).toThrow("relation-policy-conflict");
+    }
+    delete p.dispensationsByEdge; g.nodes[1]!.functionClass = "external";
+    const external = receipt(p.requirementsByFunction[fn(1)]!, null);
+    p.externalReceiptsByEdge = { [x!]: external, [y!]: structuredClone(external) };
+    const ext = build(g, p, groups(g, [fn(0)]));
+    expect(unit(ext, fn(0)).prerequisites[0]!.kind).toBe("external_satisfied");
+    expect(Object.keys(ext.sidecar.externalReceiptById)).toHaveLength(1);
+    for (const patch of [{ commitId: hash("other-commit") }, { knowledgeRevision: external.knowledgeRevision + 1 },
+      { artifactSha256: hash("other-content") }, { artifactId: "other artifact" }, { functionId: fn(0) }, { moduleSha256: hash("other-module") },
+      { artifactKind: "semantic_description" as const }, { publicationLevel: 2 as const }, { validation: "parent-validated" as const },
+      { producerUnitId: "other producer" }, { readbackStatus: "pending" as const }, { futurePrerequisiteEffect: "does_not_satisfy" as const }]) {
+      p.externalReceiptsByEdge[y!] = { ...external, ...patch };
+      expect(() => build(g, p)).toThrow("relation-policy-conflict");
+      expect(() => build({ ...g, edges: [...g.edges].reverse() }, p)).toThrow("relation-policy-conflict");
+    }
+  });
+  test("retired relation policies are compared before filtering, including every waiver/receipt proof", () => {
+    const g = transportFixture(65), p = policy(g), [x, y] = g.edges.map(e => e.id);
+    for (const e of g.edges) { e.status = "invalidated"; e.retiredInRevision = 2; }
+    const waiver = { reason: "historical fixture", policyVersion: p.version, source: "lead-fixture",
+      sourceHash: hash("historical-waiver"), validation: "fixture-only" as const, knowledgeRevision: 2 };
+    p.dispensationsByEdge = { [x!]: waiver };
+    expect(() => build(g, p)).toThrow("relation-policy-conflict");
+    p.dispensationsByEdge[y!] = structuredClone(waiver);
+    const r = build(g, p); expect(r.plan.g1Edges).toHaveLength(0);
+    expect(r.sidecar.policy.dispensationsByEdge).toEqual(p.dispensationsByEdge);
+    delete p.dispensationsByEdge;
+    const external = receipt(requirement(g, fn(1)), null);
+    p.externalReceiptsByEdge = { [x!]: external };
+    expect(() => build(g, p)).toThrow("relation-policy-conflict");
+    p.externalReceiptsByEdge[y!] = structuredClone(external);
+    expect(build(g, p).sidecar.policy.externalReceiptsByEdge).toEqual(p.externalReceiptsByEdge);
+    p.externalReceiptsByEdge[y!]!.readbackStatus = "mismatch";
+    expect(() => build(g, p)).toThrow("relation-policy-conflict");
+    expect(() => build({ ...g, edges: [...g.edges].reverse() }, p)).toThrow("relation-policy-conflict");
+  });
+  test("all metadata/revisions are coherent before retired/invalidated filtering; coherent history keeps every proof", () => {
+    const g = transportFixture(65, [64, 1]);
+    for (const patch of [{ confidence: "low" as const }, { appearedInRevision: 2 }, { status: "inferred" as const },
+      { schedulerRelevance: "non_blocking" as const }, { retiredInRevision: 2 }, { status: "invalidated" as const }]) {
+      const changed = structuredClone(g); Object.assign(changed.edges[1]!, patch);
+      expect(() => build(changed)).toThrow("relation-metadata-conflict");
+      expect(() => build({ ...changed, edges: [...changed.edges].reverse() })).toThrow("relation-metadata-conflict");
+    }
+    for (const patch of [{ appearedInRevision: 3 }, { appearedInRevision: -1 }, { appearedInRevision: 2, retiredInRevision: 1 }, { retiredInRevision: 3 }]) {
+      const changed = structuredClone(g); Object.assign(changed.edges[1]!, patch);
+      expect(() => build(changed)).toThrow("relation-revision-conflict");
+    }
+    for (const e of g.edges) { e.status = "invalidated"; e.appearedInRevision = 0; e.retiredInRevision = 1; }
+    const old = { ...structuredClone(g.edges[0]!), id: "edge:retired-history" };
+    old.sites = [structuredClone(old.sites![0]!)]; old.sites[0]!.provenance.source = "old-extractor";
+    g.edges.push(old);
+    const r = build(g), rel = r.sidecar.relationView.relations[0]!;
+    expect(rel.observations).toHaveLength(1); expect(rel.sourceEdgeIds).toContain(old.id);
+    expect(rel.sites).toHaveLength(66); expect(rel.sites.filter(s => s.siteRva === "0x1000")).toHaveLength(2);
+    expect(r.plan.g1Edges).toHaveLength(0); expect(unit(r, fn(0)).prerequisites).toHaveLength(0);
+    const original = canonical(g); const again = build(g); expect(canonical(g)).toBe(original);
+    expect(again.binding).toEqual(r.binding); expect(Object.isFrozen(g.edges[0]!.sites)).toBe(false);
+    expect(Object.isFrozen(rel.sites[0]!.provenance)).toBe(true);
+    const retiredOnly = build({ ...g, edges: [old] }); expect(retiredOnly.plan.g1Edges).toHaveLength(0);
+    expect(retiredOnly.sidecar.relationView.relations[0]!.sourceEdgeIds).toEqual([old.id]);
+  });
+  test("permuted shards/sites/provenance yield identical decisions and bound hashes; changed proof/revision fences binding", () => {
+    const g = transportFixture(129, [64, 64, 1]), p = policy(g), r = build(g, p);
+    const permuted = structuredClone(g); permuted.nodes.reverse(); permuted.edges.reverse();
+    for (const edge of permuted.edges) edge.sites!.reverse();
+    const again = build(permuted, p, groups(g).reverse()); expect(again).toEqual(r);
+    const proofChanged = structuredClone(g); proofChanged.edges[0]!.sites![0]!.provenance.evidenceSha256 = hash("new-proof");
+    proofChanged.normalizedFingerprint = fingerprintWithout(proofChanged, "normalizedFingerprint");
+    expect(build(proofChanged, p).binding.sidecarFingerprint).not.toBe(r.binding.sidecarFingerprint);
+    const revisionChanged = structuredClone(g); revisionChanged.knowledgeRevision++;
+    for (const edge of revisionChanged.edges) edge.appearedInRevision = 2;
+    expect(build(revisionChanged, p).binding).not.toEqual(r.binding);
+    const input = { plan: r.plan, sidecar: build(proofChanged, p).sidecar, unit: unit(r, fn(1)), expectedSidecarFingerprint: r.binding.sidecarFingerprint,
+      snapshotFingerprint: g.normalizedFingerprint, knowledgeRevision: g.knowledgeRevision, validContext: true, cancelled: false, receipts: [] };
+    expect(evaluateReadiness(input).ready).toBe(false);
+  });
+  test("lost citation/provenance/source record identity changes immutable evidence bindings, not obligations or old inputs", () => {
+    const g = transportFixture(129), r = build(g), original = canonical(g);
+    const lost = structuredClone(g); lost.edges[0]!.sites.shift();
+    lost.normalizedFingerprint = fingerprintWithout(lost, "normalizedFingerprint"); assertSnapshotContract(lost);
+    const changed = build(lost), rel = changed.sidecar.relationView.relations[0]!;
+    expect(rel.sites).toHaveLength(128); expect(rel.sourceEdgeIds).toEqual(r.sidecar.relationView.relations[0]!.sourceEdgeIds);
+    expect(changed.plan.g1Edges).toEqual(r.plan.g1Edges); expect(changed.units).toEqual(r.units);
+    expect(changed.binding).not.toEqual(r.binding); expect(changed.plan.planId).not.toBe(r.plan.planId);
+    const idChanged = structuredClone(g); idChanged.edges[0]!.id = "edge:rebound-source-record";
+    idChanged.normalizedFingerprint = fingerprintWithout(idChanged, "normalizedFingerprint"); assertSnapshotContract(idChanged);
+    const rebound = build(idChanged);
+    expect(rebound.sidecar.relationView.relations[0]!.sites).toEqual(r.sidecar.relationView.relations[0]!.sites);
+    expect(rebound.sidecar.relationView.relations[0]!.sourceEdgeIds).not.toEqual(r.sidecar.relationView.relations[0]!.sourceEdgeIds);
+    expect(rebound.binding).not.toEqual(r.binding);
+    const reassociated = structuredClone(g), firstId = reassociated.edges[0]!.id;
+    reassociated.edges[0]!.id = reassociated.edges[1]!.id; reassociated.edges[1]!.id = firstId;
+    reassociated.normalizedFingerprint = fingerprintWithout(reassociated, "normalizedFingerprint"); assertSnapshotContract(reassociated);
+    const reassociatedRelation = build(reassociated).sidecar.relationView.relations[0]!;
+    expect(reassociatedRelation.sites).toEqual(r.sidecar.relationView.relations[0]!.sites);
+    expect(reassociatedRelation.sourceEdgeIds).toEqual(r.sidecar.relationView.relations[0]!.sourceEdgeIds);
+    expect(reassociatedRelation.observations[0]!.sitesBySourceEdgeId).not.toEqual(r.sidecar.relationView.relations[0]!.observations[0]!.sitesBySourceEdgeId);
+    for (const fresh of [changed, rebound]) {
+      expect(evaluateReadiness({ plan: fresh.plan, sidecar: r.sidecar, unit: unit(fresh, fn(1)), receipts: [],
+        expectedSidecarFingerprint: r.binding.sidecarFingerprint, snapshotFingerprint: fresh.sidecar.snapshotFingerprint,
+        knowledgeRevision: 2, validContext: true, cancelled: false }).ready).toBe(false);
+    }
+    expect(canonical(g)).toBe(original); expect(build(g)).toEqual(r);
+  });
+  test("new plan ID hashes private relation-policy version; old plans/units/families and single-function identities are not migrated", () => {
+    const g = graph(1, []), p = policy(g), r = build(g, p), u = r.units[0]!;
+    const families = r.units.map(x => x.ownedFunctionIds), legacyPlanId = `plan:${fingerprint({ snapshot: g.normalizedFingerprint, policy: p, families })}`;
+    const relationV1PlanId = `plan:${fingerprint({ snapshot: g.normalizedFingerprint, policy: p, families, relationViewVersion: "planner-relations-v1" })}`;
+    expect(r.plan.planId).toBe(`plan:${fingerprint({ snapshot: g.normalizedFingerprint, policy: p, families,
+      relationViewVersion: "planner-relations-v1", relationPolicyVersion: "planner-relation-policy-v2" })}`);
+    expect(r.plan.planId).not.toBe(legacyPlanId);
+    expect(r.plan.planId).not.toBe(relationV1PlanId);
+    expect(u.unitId).toBe(`unit:${fingerprint({ investigationKind: p.investigationKind, functionIds: [fn(0)] })}`);
+    expect(u.subIntents.every(s => s.harnessIdentity.sha256 === MODULE && s.harnessIdentity.version === "fixture-v1" && s.harnessIdentity.ea === "0x400001")).toBe(true);
+    expect(r.sidecar.schemaVersion).toBe(1); expect(Object.hasOwn(r.plan, "relationViewVersion")).toBe(false);
+    expect(Object.hasOwn(r.plan, "relationPolicyVersion") || Object.hasOwn(r.sidecar, "relationPolicyVersion")).toBe(false);
+    // Pre-relation and relation-v1 documents retain their own hash formula and
+    // readiness contract. The new plan identity never repairs/rebinds old inputs.
+    for (const oldId of [legacyPlanId, relationV1PlanId]) {
+      const oldPlan = structuredClone(r.plan); oldPlan.planId = oldId; oldPlan.fingerprint = fingerprintWithout(oldPlan, "fingerprint");
+      const oldSidecar: any = structuredClone(r.sidecar); if (oldId === legacyPlanId) delete oldSidecar.relationView;
+      oldSidecar.planId = oldId; oldSidecar.planFingerprint = oldPlan.fingerprint; oldSidecar.fingerprint = fingerprintWithout(oldSidecar, "fingerprint");
+      const before = canonical({ oldPlan, oldSidecar });
+      const oldInput = { plan: oldPlan, sidecar: oldSidecar, unit: u, receipts: [], expectedSidecarFingerprint: oldSidecar.fingerprint,
+        snapshotFingerprint: g.normalizedFingerprint, knowledgeRevision: 2, validContext: true, cancelled: false };
+      expect(evaluateReadiness(oldInput).ready).toBe(true);
+      expect(evaluateReadiness({ ...oldInput, plan: r.plan }).ready).toBe(false);
+      expect(evaluateReadiness({ ...oldInput, sidecar: r.sidecar }).ready).toBe(false);
+      const active = [{ unit: { ...u, state: "RUNNING" as const }, familyLeaseKey: `family:${u.unitId}`, planId: oldId, workerMayStillRun: true }];
+      expect(selectCompatible([{ unit: u, readiness: ready(r, u), requirements: RESOURCES }], [worker(0)], [{ accountId: "shared", slots: 1, budget: 1 }], active).assignments).toEqual([]);
+      expect(canonical({ oldPlan, oldSidecar })).toBe(before);
+    }
+  });
+  test("overlapping transport proofs deduplicate exact citations, not distinct provenance or call kind", () => {
+    const g = transportFixture(65, [64, 1]), before = build(g);
+    const duplicate = structuredClone(g.edges[0]!); duplicate.id = "edge:duplicate-proof-page";
+    duplicate.sites = [structuredClone(g.edges[0]!.sites![0]!)]; g.edges.push(duplicate);
+    const repeated = build(g);
+    expect(repeated.sidecar.relationView.relations[0]!.sites).toHaveLength(65);
+    expect(repeated.sidecar.relationView.relations[0]!.sourceEdgeIds).toContain(duplicate.id);
+    expect(repeated.plan).toEqual(before.plan); expect(repeated.units).toEqual(before.units);
+    duplicate.sites[0]!.provenance.sourceVersion = "v2";
+    expect(build(g).sidecar.relationView.relations[0]!.sites).toHaveLength(66);
+    duplicate.kind = "tail_jump";
+    const anotherKind = build(g); expect(anotherKind.sidecar.relationView.relations).toHaveLength(2);
+    expect(anotherKind.plan.g1Edges).toHaveLength(2); expect(unit(anotherKind, fn(0)).prerequisites).toHaveLength(2);
+  });
+  test("sharded recursion and in-family calls retain native SCC/local publication gates without transport duplication", () => {
+    const g = transportFixture(129, [64, 64, 1]);
+    const family = [{ groupId: "joined", partitionId: "partition:test", ownedFunctionIds: [fn(0), fn(1)], contextFunctionIds: [] }];
+    const r = build(g, policy(g), family), u = r.units[0]!;
+    expect(u.prerequisites).toHaveLength(0); expect(r.plan.g1Edges).toHaveLength(0);
+    const B = u.subIntents.find(s => s.functionId === fn(1) && s.role === "R")!;
+    for (const s of u.subIntents.filter(s => s.functionId === fn(0) && s.role !== "R")) expect(s.waitsForSubIntentIds).toEqual([B.subIntentId]);
+    g.edges.push({ ...g.edges[0]!, id: "edge:reverse-call", sourceId: fn(1), destinationId: fn(0), sites: [] });
+    const cycle = build(g); expect(cycle.plan.sccs).toHaveLength(1); expect(cycle.plan.sccs[0]!.exclusive).toBe(true);
+    const partial = policy(g); partial.edgeKinds = Object.fromEntries(g.edges.map(e => [e.id, "optional"]));
+    const scoped = build(g, partial, groups(g, [fn(0)]));
+    expect(scoped.diagnostics.some(d => d.code === "partial-native-scc")).toBe(true); expect(scoped.plan.selectedUnitIds).toHaveLength(0);
   });
 });
 
