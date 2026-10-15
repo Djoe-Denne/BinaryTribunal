@@ -205,3 +205,31 @@ vérifiés contre son OWN. Gate corrective renforcée déjà au maximum : **exce
 utilisateur requise avant nouvelle admission L5**, pas de relabel feature ou repli
 Sol implicite. Writer fresh ciblé/plan avant write recommandé. L8 reste gelé,
 simulateur et revue QA poursuivent ; aucune configuration/modèle/politique changé.
+
+## Exception utilisateur admise et retour de QA
+
+L'utilisateur choisit ensuite explicitement **Astra Max ciblé (Recommended)**.
+Writer fresh `l5-budget-astra`, task `task_mv9k1ikn_0000_bo44nq`, session
+`ses_ec051dad7ffeMZ5jqeWhGUzt3H`, Model.Ref natif `openai/gpt-6-astra / max`
+et répertoire OWN après déplacement vérifiés, HEAD13874bc. Paquet **486 fichiers /
+9 102 668B**, receipt
+`05d86508481d98a3bde603d73d3f24d75de95b92c06d62ef6bdf3dca38446ed3`.
+307 HEAD/refs exacts et raw99 copiés explicitement ; ledger tracked séparé inchangé.
+Référence L8 gelée imbriquée, jamais projetée ROOT ; L8/simulator absents du ROOT.
+486 pins et rôle/lecture effective ensuite ACK, accès approuvé puis **GO analyse/
+repros/plan uniquement**, édition toujours bloquée sur approbation du plan.
+Contrat `L5_ADMISSION_BUDGET_TARGETED_GO_20261015.md`, pas de L6 changé.
+
+Revue QA final **ACCEPTABLE OFFLINE SCOPÉ**, 60 tests +512 graphes/sondes propres,
+douze DB3 575 808B retenues et hashées par parent, 422 pins exacts, reviewer fermé.
+Les sept tests sont transférés sans overwrite vers main, 267 anciens fichiers
+préservés ; gates main sérialisées en cours, aucune acceptation/commit des tests
+anticipée. Voir `L7_INITIAL_QA_SCOPED_REVIEW_20261015.md`, portée post-L8 ouverte.
+
+Correcteur simulateur : auteur typecheck0/35 anciens contrôles11 195 assertions +
+19 nouveaux622 assertions. Son premier full est **INVALIDE**, pas une régression
+L6 attribuée : TEMP/TMP OWN redirigés sans sous-dossier opencode, erreurs ENOENT/
+SQLITE_CANTOPEN puis timeout100s sans bilan. Ancien log conservé. Parent crée le
+sous-dossier OWN et autorise retest série borné420s, seulement après vérification
+de fin de l'ancien processus, aucun kill/cleanup/édition L6 ou TEMP global.
+Livraison finale/revue/acceptation encore attendues.
