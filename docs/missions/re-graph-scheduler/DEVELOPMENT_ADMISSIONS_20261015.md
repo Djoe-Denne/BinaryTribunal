@@ -1,5 +1,19 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## SimAstra BLOCK final parent — nouvelle correction en WAIT utilisateur
+
+Review freshSolMAX3ea terminéeBLOCK/fermée :3familles/5manifestations confirmées
+parent (besoin local supprimé→COMMITTED6 ; pause1→4/3ticks ; terminalà0→dependency5).
+Contrôle hashaltéré reste BLOCKED et incidentà1 conserve seulement1tick fermé.
+Pas nouvelles régressions attribuées : chemins existent textuellement OLDac82.
+Parent37preuves1 856 484B/455pins exacts, nativeAstraMax/SolMax relus, sources/gels
+préservés et simulateur absentmain.138probesreview133PASS/5écarts,76testsverts
+ne valent pas acceptation. Doc`L7_ASTRA_BLOCK_AND_USER_ROUTING_GATE_20261015.md`.
+
+Dernière source déjàAstraMax : **WAIT choix explicite utilisateur** avant correcteur
+fresh ciblé au même effort, pas fallback/relabel ou reprise du reviewer. Aucun
+nouveau correcteur autorisé ; L8 continue son spike indépendant, pas WRITE/B/simGO.
+
 ## Review Sim GO et plan L8 v2 sous gate transactionnelle
 
 ReviewerSim455pins/5 398 908B/scope/décisions/depsréelles ACK, accès/rôle approuvés

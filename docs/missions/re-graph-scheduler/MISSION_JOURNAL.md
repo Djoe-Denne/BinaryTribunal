@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## SimAstra BLOCK confirmé et gate utilisateur — 2026-10-15
+
+- FreshreviewSolMAXtask_mv9qdvek_002y_6x3kw6 BLOCK puisclosed.138probes133PASS5écarts
+  en3familles,76testsverts insuffisants. Parent37preuves1856484B/455pinsexacts,
+  nativeauteurAstraMax/reviewerSolMaxrelus, ownprobeEXIT0reproduitles3 : qsupprimé
+  commit6/originalbesoinintact(controlhashBLOCKED), pause1=>4/3, terminal0=>dep5,
+  controlincident1=>raisonnulle/histoire1. PasrégressionsnouvellesprétenduesOLDac82.
+- Sim3earesteBLOCK/nonaccepté/nonintégré, sourceabsentmain/OLD/gels/proofsconservés.
+  **WAITchoixexpliciteuser** pour nouveaucorrecteurfreshAstraMaxmêmeeffort ciblé ou
+  gelmaintenu. Aucun fallback/relabel/mécanique ou auteurreviewerrecyclé. L8spike
+  indépendantcontinue, pasWRITE/full/B/simGO/power/native. Docgateutilisateur dédiée,
+  unequestioninterrompuenevautpasaccord.
+
 ## ReviewSim analyse / L8 gate transactionnelle — 2026-10-15
 
 - L8ACKintégral101lignes6882B/SHA104a7d55/receipt2a23595e+conditionsréelles,
