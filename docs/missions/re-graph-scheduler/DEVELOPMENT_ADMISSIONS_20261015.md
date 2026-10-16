@@ -1,5 +1,17 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA D1/D2 verte terminée/libérée — collecte finale requise — 2026-10-16
+
+Parent vérifie rawargv/CWD/logs/noms/PID/exitnaturel0 :D1PID11860/109ms/quatrePASS/
+35assertions/74filtered (pas74callbacks exécutés), puisD2PID26524/11638ms/cinqPASS/
+49assertions.11840ms depuispremierspawn,0retry/TSC/full ;441pinsavant/après chaque
+commande/envintrasandbox/guard conformes. SEQUENCE_END conserve collectionNotStarted,
+retourdesenfants etlibération déclaréeavantcollecte :créneau LIBÉRÉ parent.
+Reçu `l7-l8-crossqa-dynamic-natural-release-parent-verification-20261016.json`.
+Seulecollecte prévueown2DB/suffixes/registry/cacheopaque/owner/locks/postpins en cours,
+pasproduit/SQLdirect/delete supplémentaire. Neufcallbacks fixture PASS≠deliveryfinale
+conforme/acceptationglobalL7L8/L9/native/intégration. Tâcheglobale resteouverte/HOLDfinal.
+
 ## QA combinée — ACKcontrat et FINALGO D1 puis D2 conditionnelle — 2026-10-16
 
 ACK complet MD3a6d205e/JSON28d4b1d8/reçu18e245e8 approuvé ;natif/tâcheouverte/

@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## D1/D2 vertes, créneau libéré avantcollecte — 2026-10-16
+
+- Parentrawlogs :11860naturel0/quatreP35assert/74filtered,26524naturel0/cinqP49assert,
+  11840msdepuispremierspawn/0retryTSCfull ;nomsargvCWD/env441pins conformes.
+- Libérationavantcollecte approuvée/slotlibre,collecteseuleown2DB/registry/suffixes/
+  cacheopaque/owner/locks/postpins encore requise. Pasdeliveryfinale/acceptationglobale/
+  native/L9/intégration déduite des9callbacks fixtures ;tâcheglobaleouverte.
+
 ## QA combinée FINALGO dynamique — 2026-10-16
 
 - ACKcontrat complet approuvé/natifpinsguard/main275 exacts. Fauxpositif parent
