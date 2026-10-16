@@ -1,5 +1,31 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 full vert terminé/libéré ; L7 statique conforme, accès TC195 — 2026-10-16
+
+Full16 uniquePID33464,15:37:40.992Z→15:41:15.025Z/214032.4908ms,exit0 naturel sans
+timeout/kill/rerun. Parent vérifieend39e63aae/logs4ef82deb+552afc01 etcomptesbruts :
+**977PASS/0FAIL/1SKIP/75019assertions/978tests/29files**. LigneinteropSKIP dupliquée
+dansleslogs=UNseulSKIP/résumé,aucuneruninteropnative. Créneau explicitementLIBÉRÉ
+avantcollecte,endold443PostReads0 ;pasfullenexécutionàattendre. Collecteur a supposé
+marqueurstdoutJSON alorsqu'ilest TEXTEchemin+SHA+count :correctionlecteurSEULEqualifiée,
+registryafter/tailconservés,paspreuve443postpinpersistéeinventéeavantl'erreur.
+Postcollectefinaleglobale/freshreviewruntime16/acceptation restentpending.
+
+L7 source851e6ab2/122803B :8preuves291596B/e6221f5e exactes,9hunks relus contrePLAN.
+Parent redérive33DTO/exportnames/imports exacts,anciensvalidate/projectbodies+SimStore
+exacts,83/85membresEngine inchangés(constructor/finalize seuls). Freezeprivé devient
+itératif conformémentausafe-stack ;checkerparenttop-levelreceiptMatches/freezeexact
+corrigé contretexte/méthode,pasdéfautproduit ni exécutioncachée.368autresbaseline+
+testcb111/131sept/READMEhelpers/proofsRED/392+3+4inputs intacts. STATIQUECONFORME,
+parser0≠TSC/GREEN,nouvellefonctionnalitépasacceptée/intégrée.
+
+AprèsreleaseL8,mêmefreshAstraMAX/taskOWN relus,gate
+`L7_COPY_BOUNDARY_TC195_GATE_20261016.md`4092B/1d6b1923…3ded4f etpaquet3pins100269B/
+receipteb2883ce…c4b3d transmis **ACCÈSSEUL**. ACK3entiers/hash/rôleconditions puisGO
+FINALTC_THEN_195_ONLY distinct encore requis. FuturUNE TSC120s→si0etpinsUNE8files
+131anciens+64nouveaux≤300s,corpus195attendupasrésultat ;rougeHOLDsansfixrerun. Aucun
+TSCtestL7autorisépartransfert,aucuneDB/port/registreL8 touché,full/reviewgatesdistinctes.
+
 ## L8 runtime16 — réservation exclusive et GO full final — 2026-10-16
 
 ACK intégral des 6 fichiers / 891737B et 1658 lignes de pins comme métadonnées

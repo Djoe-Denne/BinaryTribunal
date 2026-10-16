@@ -1,5 +1,19 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## FullL8 vert/libéré ; L7 statique conforme, TC195 accès-only — 2026-10-16
+
+- FullL833464fin15:41:15.025Z/214032.4908ms/exit0naturel,UNE977P0F1SKIP75019assert978/
+  29files,parent39e63end+4ef82/552aflogsbrutsexacts ;duplicateSKIPline≠2skips.
+  LIBÉRATIONavantcollecte,endold443PostReads0. LecteurcollectemetadataJSONassumption
+  erronée(marqueurchemintexte),correctionSEULEpermise/registryaftertailintacts,
+  pasanciennequalification443postpinpersistéeinventée. Postcollect/reviewpending.
+- L7851source122803B/e6228preuves291596B/9hunks,parent33DTO/exportnames/imports/
+  validprojectbodiesStore83membresexacts ;freezeitératifratifié,checkerparenthypothèses
+  top-levelméthode/freezeinchangécorrigé sansproduitrun.368other+testcb/old1317files/
+  READMEproofsinputs intacts,STATIQUEconformepasTSC/GREENacceptance.
+- GateTC1954092B1d6b1923/3pins100269B/receipteb2883ceaccèsseul,mêmeAstraMAX/taskOWN
+  aprèsreleaseL8. ACKpuisTSC120→si0UNE8files195≤300sGOfinalpending,noDBL8/full/intégration.
+
 ## L8 runtime16 — GO full exclusif réel — 2026-10-16
 
 - ACK6 fichiers891737B/1658pinrows comme données approuvé ;39aafc94 receipt exact.
