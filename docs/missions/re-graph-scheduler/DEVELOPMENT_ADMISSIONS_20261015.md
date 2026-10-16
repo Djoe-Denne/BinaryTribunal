@@ -1,5 +1,23 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 deux sources livrées/non exécutées ; accès TC107 préparé — 2026-10-16
+
+Livraison WRITE-fb1d83b15e3e/93868f3d…d9560 vérifiée :client620c690b/16526B,
+graph-engine1b305b78/54464B,9artefacts843588B,16runtime365416B exacts. Parent contrôle
+822checks/784nonDBpaths ;seules6occurrences2sourcescourantes exclues,pasanciensgels.
+13runtime/test708/60old/registry15725711607270 inchangés.12hunks relus contre A–E,
+flagprivéappendadmissionrefusal dansscopegraph-engine ;pasblanketstepreturn/API/SQL
+nouveaux. Imports/SQLlittérauxidentiques/ASTparse0 ne valent pas TSCni GREEN.
+
+`L8_A2_TYPECHECK_107_GATE_20261016.md`3946B/2caad8ad…add39 +baseline/parentcheck,
+paquet3pins349320B/receipta6c7cf0b…72701 transféré mêmeSolMAX. **ACCÈSSEUL**,ACKlecture/
+hashconditions puisFINALGO TC_THEN_107_ONLY distinct requis. FuturTSC≤120s puis
+seulementsi0 UNEciblée7files60old47new≤180s ;rougeSTOP sansfixrerun. Propsources/
+testsreadonly,fixturesNEUVESpublicAPI-CLIoffline/helperlisté,registryprefix157257
+protégéseulappendfutur. CREDseedssealed,pasSCRATCH/reopen/checkerC ici ;nouveauxseeds
+du107neprennentpasle statutbadREDsurleurseulnom. Pasexécution/test/full/intégration
+encore autorisée. L7analysePLANstatiquecontinueindépendant.
+
 ## L7 copie — accès réel approuvé, PLAN statique GO — 2026-10-16
 
 ACK392uniques8441428B/391payloads+manifest/PARENTcomplets/hash/rôleconditionsaccès

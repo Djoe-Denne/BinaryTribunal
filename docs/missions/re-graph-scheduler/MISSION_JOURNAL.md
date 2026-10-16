@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 write livré/nonexécuté vérifié, TC107 accès-only — 2026-10-16
+
+- Livraison93868f3d/9artefacts843588B ;client620c690b+graph-engine1b305b78/70990B,
+  runtime16/365416B exacts.822checks784nonDBpaths/seules6occurrences2sourceexclues,
+  12hunksrelusA–E/privateappendguarddansscope,importsSQLidentiques/AST0pasTSC.
+  13runtime/test708/60old/registry15725711607270exacts,aucunmoduleprojetexécuté.
+- TC107gate3946B2caad8ad/3pins349320B/receipta6c7cf0btransféréeaccès-onlymêmeMAX,
+  ACKpuisGOfinalTSC120s→si0ciblés107≤180sdistinctpending ;rougeHOLDsansfixrerun.
+  FuturefixtureshelperfreshpublicAPI/registrypréfixeappendprotégé,CREDseedssealed
+  pasSCRATCHchecker ;nouveaunomseedbadnesuffitpas. L7PLANstatiquecontinueindépendant.
+  Pasexecution/full/intégration/nativegoàcestade.
+
 ## L7 copie — ACK392 approuvé/PLAN statique GO — 2026-10-16
 
 - ACK392uniques8441428B/PARENTcomplets/rôlehashaccèsréel approuvé,receiptfichierefb3f772/
