@@ -1,5 +1,23 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## PLAN L8 effectif / gate full L7 accès-only — 2026-10-16
+
+L8 ACK76lignesUSER_GO/26pins399374B/rôle/conditions/lecturecomplète exact, receipt
+4cc7c211 relu ;taskin_progress/OWN/natifsSolMAXparentXHIGH/guardreadyetpasdepauses
+cible vérifiés,15runtimeBLOCKinchangé. **GO FINALANALYSE/PLAN UNIQUEMENT** dans
+OWN/.tmp/L8_A2_CORRECTIVE_20261016/ ;aucuncode/probedynamique/typecheck/test/SQLite/
+full avantplanratifié+permissionsdistinctes. Deuxfixes/designsnapshot-pause etraces/
+limites àproposer, pasalgorithme imposé, autrebesoinàescalader. Auteuractifexistant,
+reviewercompletedrestefermé,pasautremissionrelancée.
+
+L7 source6d00/taskAstraMAXouverterelu,379inputs250readonly+116ROOTdata+ledger9MB
+exacts. Gate`L7_NAMESPACE_FULL_GATE_20261016.md`4594B/a47bfe13…ad23 :futurfullunique
+30000/test/420sglobal,12cleanupfiles22callslegacyseulspropresfixturesneuves
+éphémères autorisables sansposthashprétendu,graphInteroplogs/L5DBretained/ledgerOWN
+hashépastransféré. Paquet3pins113552B/receipt5245aa32…fab4f transféré,wake**ACCÈSSEUL**.
+ACKpuisnouvelle réservationetFINALFULLGO encore requis,aucunfull/childTEMP/DBcréé
+parcettepréparation. L8readonlyanalysepeutcontinuermaisaucungateexécutionconcurrente.
+
 ## Reprise post-upgrade et accord correctif Sol Max — 2026-10-16
 
 Utilisateur a choisi **Sol Max ciblé (Recommended)** puis GOreprisemissionuniquement.

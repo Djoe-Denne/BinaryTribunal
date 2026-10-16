@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 PLANseul effectif / L7fullpréparépasautorisé — 2026-10-16
+
+- ACKL876lUSER_GO26pins399374B/rôleconditions/receipt4cc7c211 approuvé ;nativeSolMAX/
+  parentXHIGH/task/OWN/guardreadyciblenonpaused/15pinsrelus. **GOANALYSEPLANSEUL**,
+  preuvesown.tmpPLAN,dynprobe/test/SQL/code/fulltoujoursinterditsavantplanratifié.
+- L7AstraMAXtaskouverte/pins379+250+116ROOTdata/ledger9MBexacts,gatefull4594B/
+  a47bfe13+inventorybaseline3pins113552B/receipt5245aa32 transférés,wakeaccès-only.
+  ACK+réservationneuveFINALGO restentattendus,nofull/tempDB ;future1bun30000≤420s,
+  22legacycleanupcallspropreséphémères sansposthash/graphInteropL5DBretained,
+  ledgerhashOWNnontransféré. L8analysereadonlycontinuepasgateheavyconcurrente.
+
 ## GOreprisepostupgrade / accordcorrectifSolMAX — 2026-10-16
 
 - User«SolMaxciblé»puisrepriseexplicitecetteseulemission ; arrêtOpenCodeV2possible.
