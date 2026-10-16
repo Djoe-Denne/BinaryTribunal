@@ -1,5 +1,27 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Nouveau GO user Astra Max fresh, accès seulement — 2026-10-16
+
+User répond ànouveau **Astra Max ciblé (Recommended)** après BLOCKcopie6d00. Contrat
+`L7_COPY_BOUNDARY_USER_GO_20261016.md`4796B/3f8259f1…3e94c :nouvelle session fresh,
+invariant copie/validation consommée, PLAN statique avant code. Proposés sourceSIM+
+NOUVEAU copy-boundary-regressions,100old31new/33DTO/README/helpers readonly ;source6d00
+etfull/reviews/DB historiques préservés. Nouvellecorrectionpasgénérale/fallback.
+
+Task `task_mvb1jeoy_0011_n4y9u9`,fresh `l7-copy-astra`,session
+`ses_ebaf6d8c9ffeEq9w6t6V1gxFrE`,natifAstraMAX vérifié. Gateinitiale STOP :outilannonçait
+worktree maisnativeDirectory=MAIN. Parent vérifie worktreeRÉELneuf14:06:27.617Z,
+HEAD0e0ca786/trackéclean/sourceSIMabsent ;rattache MÊMEfreshsession par APIpublique
+session_move,pasconfig/harness/modèle/reset/copieMmain. Readbacksuivant OWNcorrect,
+tasktoujoursin_progress/modelMAX. Aucunepermission/materialisation avantceSTOP,
+pasanciencontextetaskcompletedréouvert.
+
+392pins8441428B/manifestf882697d…96374b préparés/transférés APRÈSgate native,
+receipt64e49300…61e21. **ACCÈSSEUL** envoyé,lecturecomplète/hash392/rôleconditions
+etaccèsréelACK puisbaselineworktreepréparéeparentetGOANALYSE/PLANdistinct requis.
+Pas sourceanalyse/probe/test/code/SQLite/fullautoriséparaccès. L8GO2sourcesseul
+continueindépendant,pasautredroitdéduit/pasintégration.
+
 ## L8 GO final deux sources, sans exécution — 2026-10-16
 
 ACK54l décision/105lBASELINE/50lRED_PARENT,3pins9554B et conditions intégrales reçu.

@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## User renouvelle AstraMAX fresh / gate rattachement respectée — 2026-10-16
+
+- RéponseAstraMaxciblérenouvelée pourcopie/validation,contrat4796B3f8259f1/100old31new
+  33DTOREADMEreadonly,sourceSIM+nouveautestproposésaprèsPLAN. Taskmvb1jeoy/session
+  ebaf6d8c/freshl7-copy-astraMAX. PremièreassertionSTOPdirectoryMAIN malgréworktree
+  déclaré ;parentvérifieOWNneuf14:06:27HEAD0e0ca786clean/SIMabsent,puisAPIpublique
+  session_moveMÊMEsession→OWN,readbacktaskouverteMAXcorrect. Aucunconfig/harness/
+  modèle/sourceMmainreset,paspermissionpréalableoudecontexteterminérelancé.
+- Paquet392pins8441428B/f882697d/receipt64e49300transféréaprèsgate,accès-onlyenvoyé.
+  ACK392réel→parentbaselinecopies→GOstaticPLANdistinctencorepending,pasprobe/code/
+  TSC/testSQL/full/intégration. L8continue2sourceswriteonlyindépendant.
+
 ## L8 GO2sources sans exécution — 2026-10-16
 
 - ACK54l/105l/50l3pins9554B/conditions approuvé,receipteb3e3b2b exact ;natifSolMAX/
