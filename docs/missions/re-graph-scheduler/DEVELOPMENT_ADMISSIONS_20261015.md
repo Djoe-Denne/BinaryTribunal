@@ -1,5 +1,29 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 review dynamique bornée — GO final après statique entière — 2026-10-16
+
+Reviewer confirmelectureintégrale8src+fixture-driver+7tests/contrats A–E/APIs,
+465pins9144956B/runtime16 exacts/helpermetadataEMPTY,0exécution/écriture. Écartinitial
+inbox/board/cache reconnu,sansnouvellelecture. AucunBLOCKcertain rapporté ;deux
+hypothèses àqualifier :visibilitéfichierapprovedForBlind vsautorisationintrinsèque
+validatedFacts,etorderingG1/proofs vsacquisitiond'artefactsdepuiscycleKnowledgegelé.
+Pasnouvellepolitique niport/contextefutur automatique déduits de ceshypothèses.
+
+Parent relit natifSolMAX/Plan/taskOWN/guardready/465receipt/helperEMPTY,L7TC195terminé
+etconforme,zérotest/probe/TSC observé sanskill. **GO FINAL REVIEW_DYNAMIC**16:19:42.212Z,
+selonSCOPE12af86e0déjàluavec bornesRÉDUITES :UNE TSC≤120s,puisSEULEMENTsi0+postpins
+UNE107nommée7paths≤180s. Après107exit0seulement,≤6casextra/≤16unitésfixture,
+≤4DBneuves supplémentaires/≤4invocations≤60s,≤120DBtotal. Rouge/setup/drift→HOLD
+sansfix/rerun/probeextra ;consoliderBLOCKcertain sanscampagnesansborne.
+
+CWDexactpaquet/tools/ff8-harness,abbréviationmessage`tools/harness` corrigée AVANT
+preuveexécution,pasrépertoireàcréer. Source/tests465readonly ;APIpubliquesownfresh/
+fakeportsseuls,TEMPchildproofroot,LOCALAPPDATA/configinchangés/helpermetadataappend
+retoursneufsseulement,closesDBsidecars/receiptsconservés. PasSQLdirect/old540DB/author/
+inboxboard/full100k/Git/native. RefusPlan→STOPinlinepublicsansbypass. Résultatsinconnus,
+finsavantcollecte puisverdictparentrecevable ;acceptation/intégrationrestentfermées.
+L7fullencoreNONautorisé,pasdynamiquecandidateconcurrente prévue.
+
 ## L7 TSC/195 conformes ; L8 review statique GO, dynamique encore fermée — 2026-10-16
 
 Parentvérifie21payloads540216B/ARTIFACTS7b2ccb5a,source851/testcbfrozenlive exacts,
