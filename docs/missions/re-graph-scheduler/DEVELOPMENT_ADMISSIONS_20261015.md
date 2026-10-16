@@ -1,5 +1,27 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 statique entière terminée ; standalone qualifié, GO dynamique borné — 2026-10-16
+
+Reviewer confirme1385lignes/4candidats lus,33DTO et85membres redérivés,aucunproduit
+exécuté niBLOCKcertain. QuestionSimStorestandalone escaladée correctement :parent
+lit648–652/673–685/1157–1159,compareStore/builders byte-exacts contre6d00hashvérifié,
+etconfirme portée du détachement aux frontières ratifiées de scénario/plan/wrappers.
+`L7_COPY851_REVIEW_STANDALONE_BOUNDARY_20261016.md` conserve l'effet de freeze des
+arraysstandalone comme limite déclarée,pas promessepureAPI/toutpointpublic ;aucun
+waiver révisions/duplicates/publications moteur ou régression liée au helperfreeze.
+
+NatifSolMAXPlan/taskOWNouverte/politiques4/2/guardready/393pins2receipts exacts,
+TEMPfuturabsent/guardstrictabsent,zérotest/probe/TSCconcurrent observé sanskill.
+**GO FINAL REVIEW_DYNAMIC17:57:47.744Z** :UNE TSC120→si0+postpinsUNE25514paths180→
+si0≤12casmémoirepubliques/8unités/4invocations60s/0DBextra/0port,retoursgraphDBNEUFS
+explicites≤12total fermésconservésqualifiés. Oracle18/20proposé reste àcalculer avec
+paramètrescomplets,pas endossé commevaleur dictée. Source/tests393readonly,TEMPcourt
+l7rv5620/opencodepréparémesuréavantcommandes/TEMPspawnROOT/envinchangé,aucunctx_search/
+indexpartagé/inboxboard/old22L7ou636L8DB/SQLdirect/full/Git/native/intégration.
+Rouge/setup/tool/pindriftHOLDsansfixrerun/probeextra ;refusPlanSTOPinline sansbypass.
+FinsPIDcodescomptesavantcollecte puisverdictscopé ;résultatsdynamiques encoreinconnus,
+qualificationpréambule etstandalone àdéclarer,gatesparent/globalQArestentouvertes.
+
 ## L7 review entière — GO statique après ACK393 et qualification acceptée — 2026-10-16
 
 ACK complément2/5304B complet etrehashcombiné391+2=393pins/9002942B sansécart reçus ;
