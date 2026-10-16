@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Paquet combiné L7/L8 — accès seul, aucun test encore autorisé — 2026-10-16
+
+`L7_L8_COMBINED_CROSSQA_SCOPE_20261016.md` : même owner l7-interop-r1/SolMAXbuild,
+tâche task_mv71y0s6_004q_ksbii0 toujours in_progress (API19:14:47.760Z). Ancien
+rapport de tour avait empêché le premier message de réveiller l'owner ; reprise
+parent force explicite de cette tâche ouverte, pas review completed réouverte.
+
+Nouveau gel OWN/inputs/L7_L8_COMBINED_CROSSQA_20261016 :423helper8465094B,
+manifest028a83c9/scope03eca490/receiptb37cc25f (fichier92352B9f84fec4). PLUS projection
+parent ledger8943882B/b5c9 readonly, reçu distinct1756B74f206ae. Total424payloads/
+17408976B ;helpercap inchangé.301harness :275main sauf4core runtime16 explicites
+(cli/client/domain/engine),26ajouts L7/L8 ;package main/commandes maintenance conservés.
+Sources gelées inchangées, depsjunction sansinstall, futur OWN/CROSSQA-20261016absent.
+
+GO ACCÈS SEUL :contrats/decisions/scope/manifest/deuxreçus complets et424hashs/ledger
+readonly/accèsréel/rôle ACK puisHOLD. GO statique distinct avant plan/inventaire,
+GO dynamique encore ultérieur après audit effets/cleanup/bornes. Aucun import
+produit/TSC/test/build/probe/CLI/DB/port/TEMP runtime, ni maintransfert/intégration.
+Les auteurs L7/L8 restent HOLD et les deux reviewers terminés ne sont pas repris.
+
 ## L7 copie851 — review finale recevable, pas encore main — 2026-10-16
 
 `L7_COPY851_REVIEW_ACCEPTABLE_SCOPED_20261016.md` : parent retient ACCEPTABLE SCOPED

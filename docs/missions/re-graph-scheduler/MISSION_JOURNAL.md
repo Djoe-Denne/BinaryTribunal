@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## QA combinée L7/L8 préparée en accès seul — 2026-10-16
+
+- Même l7-interop-r1/SolMAXbuild/tâche ouverte relue API19:14:47.760Z ;premier
+  message stocké sanswake,forceparent reprend ce tour/pas tâchecompletedreview.
+- Nouveaugel423helper8465094B/028a83c9/03eca490/receiptb37cc25f-fichier9f84fec4 ;
+  ledgerparent séparé8943882b5readonly/reçu74f206ae=424payloads17408976B.
+  Mainpackage maintconservé,301harness=275main sauf4coreL8 +26ajouts gelés L7/L8.
+- ACCÈSSEUL424hashs/contrats/deuxreçus/rôleACK puisHOLD ;GOstatique puis audit
+  effets/borne avant GOdynamique distinct.0test/importproduit/DB/port/TEMP/maintransfert,
+  auteursHOLD/reviewsarrêtées,aucuneintégrationnative/globalQA nouvelle.
+
 ## Review L7 copie851 recevable ; suite QA croisée — 2026-10-16
 
 - Final932b81c4 + addendum DB374bd489 / manifeste b60e0bae :13preuves258996B exactes.
