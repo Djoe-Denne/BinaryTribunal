@@ -1,5 +1,30 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 WRITE borné / gel L8 vérifié — 2026-10-16
+
+- L7ACK109l/7794B/conditions approuvé, receipte9b17ee1/natifAstraMAXparentXHIGH/OWN/
+  source494bREADME9833newtestabsent relus ; pendingplanapprouvé etGO FINALREDpuis
+  WRITE/typecheck/ciblés3paths,1interface/32exactes/100oldreadonly. Full/SQLite séparés.
+- ParentL8fullgel492f9f83/runtime15/28artefacts+107nouveaux exacts,1004checks/992paths,
+  registry158rows/109réservations/49closes.298DB98340864B retenues closes/sanssidecars
+  =248historiques+49L8+1L5 ; filtreparentTemponly initial corrigéexacthistoricalpins,
+  sansdéfautdonnée. Late15historiques/L5postexit qualifiés sanspercloseinventé.
+  Logs930PASS1SKIP0FAIL74729assertions/singlefullnaturalexit vérifiés, paspostdeletehash.
+  Review15freshSolMAXNONBLIND préparée445pins8320550B/b9bfe4b5, L5accepté985/pasSIM.
+  AuteurHOLD, review60ciblés/probes/parentgatesavantacceptance/intégration, pasfullnatif.
+
+## Arbitrages namespace/replan ratifiés — 2026-10-16
+
+- Parent relitvraisDTO/planContent/contrat/100tests ; **A evidencev2+planDocumentréel**
+  approuvé, pas WorkUnitfp inventé, v1exportfailclosed/gelsintacts/manualvrai légal.
+  **B adoptionactivefinish/futuradmissionblocked** approuvé, HARDdomineetstopneprouve
+  pasfraîcheur. Namespacebijoins/vuesnormaliséespasS=C,1interfacepublique/32exactes,
+  source+newtest+noteREADMEbornée,100oldreadonly. Décision7794B/SHAaf7ca5a3/
+  receipt25dca0ad accès-onlyACKpending, puisRED/WRITE/ciblésGOdistinct, pasfullDB.
+- L8fullfinitnaturellementselonauteur930PASS1SKIP0FAIL74729assertions931tests28files
+  175418ms/exit0, créneaulibéré ; collecte/postconformité/livraisonfinaleencoreattendue.
+  L7informélibérationpasWRITEimplicite, aucuneacceptance/intégration/nativeL8.
+
 ## Renouvellement full L8 2026-10-16
 
 - ACKréelamendement61l/inventaire167l/2pins8518B/conditions, receiptfile84ed8f77.

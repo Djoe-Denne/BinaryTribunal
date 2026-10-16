@@ -1,5 +1,50 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 WRITE ciblé et L8 gel vérifié — 2026-10-16
+
+L7 : ACK109lignes/7794B/SHAaf7ca5a3+conditions reçu, receiptfichier
+e9b17ee1…fed2a relu, natifsSolXHIGH/AstraMAX etOWN/source494b/README9833/newtestabsent
+vérifiés AVANT permission ; plan natif pending explicitement APPROUVÉ et **GO FINAL
+RED puis WRITE/typecheck/ciblés** envoyé. Troispaths bornés/seuleEvidencepublique
+modifiée/32autres+100anciensreadonly, nouveau full/SQLite attendent gel+GO séparés.
+
+L8 : parent vérifie fullgel livraison49845B/SHA492f9f83…ac05b, runtime15/321686B,
+28artefacts2065898B +107nouveaux artefacts exacts,1004checks/992paths protégés,
+registrypréfixe+158rows109réservations49fermetures exacts. **298DB/98340864B**
+fermées/hashées/sansWALSHMjournal conservées=248historiques+49nouvellesL8+1L5.
+Le filtre initial parent supposait toutesDBsousTemp : corrigé en chemins historiques
+EXACTS+nouveauxjournalisés, sans défaut de donnée ou mutation source. Première
+empreinte tardive15historiques et nouvelleL5 postexit qualifiées, pas perclose inventé.
+Logs confirment930PASS/1SKIP/0FAIL/74729assertions, une invocation/naturalexit ; pas
+dehashpostdelete prétendu pour les fixtures éphémères explicitement autorisées.
+
+Gel de review complète15 prêt :445pins/8320550B, manifestb9bfe4b5…28e57e,
+L5accepté985/pasSIML7. Scope `L8_A2_INDEPENDENT_REVIEW_SCOPE_20261016.md` : nouvelle
+session SolMAX indépendante fresh NONBLIND, lecture réelle puisGO60ciblés/probes
+SQLite possédées uniquement ettypecheck ; pasfull/native/acceptation/intégration.
+Auteur L8 reste enHOLD/taskouverte, régimeB etsimCLI toujours sousGO distincts.
+
+## Plan namespace/replan A/B ratifié 2026-10-16 — accès décision avant code
+
+Parent relit ORDRE637–641/766–767, DTOv1/projecteur, planner752–773 et100contrôles.
+Ratifie **evidencev2+vrai planDocument** : namespace complet vérifiable, pas WorkUnit
+reconstitué ni fpunit inventé ; v1exporté refusé sans migration/fallback, vrai manuel
+source-less préservé. Vérifications des vues normalisées réelles, pas S=C ni rerankingL5.
+Ratifie **adoptionactivepeutfinir/futuresadmissionsbloquées**, hard invalidation
+monotone dominant adoption/opérations, vrais releases/histoirecommits conservés.
+Seuleinterface publiqueEvidence modifiable,32autres exactes ; source+nouveautest et
+noteREADMEcompat/coût strictement bornée (déjàfourni9833) autorisables aprèsACK/GO.
+
+Décision`L7_NAMESPACE_REPLAN_PLAN_GO_20261016.md`,7794B/SHAaf7ca5a3…1af094,
+receipt25dca0ad…1ced25, natifAstraMAXOWN/source494b/README9833/newtestabsent relus.
+Accès-only envoyé, ACK puis finalRED/WRITE/ciblés distinct encore attendu ; pas
+full/DB/intégration. Les100 anciens tests et tous gels demeurent readonly.
+
+L8 a notifié fin naturelle/libération de son unique full : auteur930PASS/1SKIP/
+0FAIL/74 729assertions/931tests28files175.418s, logs etpostconformité à vérifier
+avec livraison finale encore attendue. Créneau libre, pas de full imaginaire à
+attendre ; cela ne donne pas un WRITE ni testL7 implicite. L8 pas accepté/intégré.
+
 ## Full L8 renouvelé 2026-10-16 après amendement lu
 
 AMENDMENT61lignes+inventaire167lignes/2pins8518B et conditions intégrales ACK,
