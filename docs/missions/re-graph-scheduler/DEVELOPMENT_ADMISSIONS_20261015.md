@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 C : processus public2/2 vert, scellés raw aprèsclose pending — 2026-10-16
+
+UniqueprobePID33164/15:11:31.921Z→15:11:31.995Z/73.7663ms,exit0naturel/signalnull/
+sanstimeoutkillrerun. Parentvérifieendb4f6e231/results7c2f053a/stdout7d363bcc/stderr
+vide,script7045bdf0/readyc7dde260/frame216d38e0pinés. **2/2publiccachedcasesPASS**,
+sériecontrolstart1-close2 puisbadstart3-close4,unsubmit/closeparcopie/0RPC0token,
+callerbytes/descriptorsinchangésannoncés. ReceiptCONTROL égale auRED ;BADErrorlocal
+exact`idempotency key durable payload changed`,aucunereceipt/fakeRPCrefuspriscommePASS.
+
+FinnotifiéeAVANTcollecte ;**rawcopiesscratchaprèsclose/originauxsealedavantaprès/
+952postpins etregistry232965 inchangée restent àvérifier**,pasCfinalcertifiéencore.
+OriginauxjamaisSQLite,2copiesannoncées53248Bchacuneexactesavantprobe. Aucunprojet
+source/testedit/SQLdirect/helperappend/TSC107/full/probeannexeautoriséparcerésultat.
+Preuvebornée2cachedrows≠pending/concurrence/racesnative. L7source-onlycontinue,
+full/review/intégrationparent sousgatesdistinctes.
+
 ## L7 source seule — GO final réel après ACK — 2026-10-16
 
 ACK4entrées118325B/décisionbaselineREDparenttestcomplets/hash/rôleconditions approuvé.

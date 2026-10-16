@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 Cpublic2/2naturel/rawsealsencorepending — 2026-10-16
+
+- Cprobe33164fin15:11:31.995Z73.7663ms/exit0naturelunefois,parentb4f6e231/7c2f053a/
+  7d363bcc/stderr0vérifiés.2cachedcasesPASSsérie1-close2/3-close4,unsubmitclose/0RPC0token,
+  controlreceiptREDégale/badlocalpayloadrefusalexactnoreceipt,pasfakeRPCerrorPASS.
+- Rawcopiesscratchafterclose/originauxsealsbeforeafter/952postpinsregistry232965
+  postcollectpending,pasCfinaleprouvéeparprose. SourcesreadonlyaucunSQLdirect/helper/
+  TSCtestfullrerun ;2cases≠allpendingracesnative. L7sourceonlyindépendantcontinue,
+  fullfreshreview/intégrationgatesdistinctes.
+
 ## L7 sourceONLYfinalGO — 2026-10-16
 
 - ACK4complets118325B/rôleconditions,receipt4b6db630/natifAstraMAXtaskOWNguard/3696d00
