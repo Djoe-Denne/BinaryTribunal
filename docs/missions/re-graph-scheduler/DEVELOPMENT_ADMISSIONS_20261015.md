@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 raw107 conforme avec supplément, sceau final encore attendu — 2026-10-16
+
+Parentvérifie supplément81221B/b4b25ac4 etqualification962c16dfHOLDintacte.887fullSHA/
+835paths +baseline850intacts/2liveTest0f7/1registrypréfixequalifié exacts,16runtime
+livefrozen365568B. Registry157257prefix→232965/tail75708B275rows179res96closes83sansDB
+confirmé. **96DB24633344B et96receiptsperclose identiques après exit**,birthtimes
+dansrun/sanssidecars ;201ownedfiles24768944B+cacheopaque1357748B conservés/hashés.
+
+Mapping96vérifié :6index2215936B +90autres22417408B,toutesles90néesAPRÈSindex ;
+90horssnapshotprécoce≠missing. InitialHOLD etindexnonretouchés,qualificationadditive
+pasréécriture.4observateursPREPAREDnonpositifs effectivemententrésenGREENlocale ;
+nouveaux2seedlabelscohérents restentdifférentsdesoriginauxCREDsealed. Rawpostcollect
+CONFORME avecsupplément,rapport/deliveryfinalsealencoreattendus,aucunacceptéintégré.
+
+ContratCprochain rédigé `L8_A2_LEGACY_C_COPY_GATE_20261016.md` :DEUXcopiesneuves des
+seulsoriginauxCREDnommés/control460f+bad282b,publicClientcachedsubmit/fake0RPC et
+refussansrepairattendu,originauxjamaisouvertsSQLite. **PRÉPARATIONSEULE**,paspaquet/
+admission/copielibérée avantdeliveryconforme+native/ACK/FINALGOdistinct. PasC/full/
+freshreview/intégration/native implicite ;L7REDindépendantcontinue.
+
 ## L8 afterAll : HOLD de collecte qualifié, supplément sans réexécution — 2026-10-16
 
 Collecteur initial exigeait indexafterAll=96DB :qualification555200B/962c16df…f3ce12

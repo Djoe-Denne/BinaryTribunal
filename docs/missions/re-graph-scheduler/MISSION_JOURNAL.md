@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 raw96+supplément conformes/finalsealpending — 2026-10-16
+
+- Parentb4b25ac4/962cHOLDintacts,887checks835paths/baseline850+2test0f7+1registryprefix/
+  16livefrozen365568B exacts.96DB24633344B/96receiptsperclosepost,birthtimes/0sidecars,
+  201files24768944B+cache1357748hashés.179res96closed83sansDB/registrytail75708exact.
+  Mapping6index2215936B+90néesaprèssnapshot22417408B confirmequalificationadditive,
+  pasmissingDB/rerun ;4PREPAREDnonpositivecasréellementobservés,2newseedscohérents.
+- RAWpostcollectconforme,rapportdeliverysceaufinalencoreattendu,pasacceptance.
+  ContratfuturCDEUXcopiesoriginalsRED460f282b/publiccached0RPC rédigéPRÉPARATIONSEULE,
+  paspaquet/admission/copieexécutionavantgatesdistinctes,pasfull/intégration/native.
+  L7REDmémoireindépendantcontinue.
+
 ## L8 indexafterAll scopequalifié/pasrerun — 2026-10-16
 
 - CollecteurHOLD555200B962c16dfexigeaitindex==96 ;parentindex1422Bb803de81/log6mêmeSHA/
