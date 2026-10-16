@@ -1,5 +1,22 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Admission indépendante L8 A2 — 2026-10-16
+
+Nouvelle task`task_mvatt7q4_000c_w991j0`/membre`l8-a2-review`, profilplan readonly,
+sessionfresh`ses_ebbbd0168ffeS27MM62vOwa0A5`, natifSol/max relu (parentSol/xhigh).
+Pasfork/ancienreviewer ni réouverture d'une tâchecompleted. Teamexistante/5slots/
+manualclassif/autodispatchfalse/autoscalefalse/modèlespolicies2/providers4 inchangés.
+Paquet445pins8320550B/manifestb9bfe4b5…28e57e transféré parhelper, receipt
+cf6743eb…264b98/fichierSHAa70b60cf…2fc6e. SCOPE7270B/SHA c9fdae3e…3eebd complet,
+runtime15incluantbridges+L5accepté985, pas nouvelle reviewL2 ouSIML7.
+
+**ACCÈS SEUL** : ACKlecturecomplète/rôle/445hash etaccès réel encore requis,
+puis GOreview/typecheck/60ciblés/probes publicAPI surSQLite neufs distinct. Parent
+prépare proofdir etjunctiondéps danspaquet (pasinstall), directorymetadatafixturevide.
+Readonlystrictsource/tests/projet, writes ultérieures uniquement preuves etnouveaux
+fixture-registry/receipts possédés selon scope. Pasfull,DBauteur/Ensemble,Git/native/
+intégration. Réceptionconformité L8auteur notifiée enHOLD ; aucunwake/reopen requis.
+
 ## L7 WRITE ciblé et L8 gel vérifié — 2026-10-16
 
 L7 : ACK109lignes/7794B/SHAaf7ca5a3+conditions reçu, receiptfichier

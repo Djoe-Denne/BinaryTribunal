@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Review fraîche L8 A2 admise accès-only — 2026-10-16
+
+- Taskmvatt7q4/membrel8-a2-review/sessionebbbd016, planfreshNONBLIND/natifSolMAX,
+  parentXHIGHrelu, pasfork/ancienreviewerréouvert.445pins8320550B/b9bfe4b5 transférés,
+  receiptcf6743eb/fichierSHAa70b60cf, scope7270B/c9fdae3e. Junctiondeps/proofdir/
+  metadatafixturevide préparés sansinstall ; accès-onlyACKlecture/rôle/hashpending,
+  puisGOreview60ciblés/typecheck/probesSQLite neuves distinct. PasnewreviewL2/full/
+  SIML7/native/intégration. AuteurL8notifiéconformepasaccepté/HOLD sansréactivation.
+
 ## L7 WRITE borné / gel L8 vérifié — 2026-10-16
 
 - L7ACK109l/7794B/conditions approuvé, receipte9b17ee1/natifAstraMAXparentXHIGH/OWN/
