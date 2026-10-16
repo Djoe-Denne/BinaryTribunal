@@ -1,5 +1,11 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Lecture complète du GO confirmée — 2026-10-16
+
+- ACK supplément4985B/deuxpayloads+receipt/rôle approuvé,424+2/nativeSolMAX/
+  tâcheouverte/guard/sortieabsente recontrôlés19:23:56.806Z. HOLDdocumentairelevé,
+  GOstatiqueoriginalmatérialisé confirmé ;pasélargissement/import/exécution/intégration.
+
 ## GO statique tronqué — restitution matérielle — 2026-10-16
 
 - Owner HOLD sansécriture/analyse :message stocké tronqué. Parent projette texte
