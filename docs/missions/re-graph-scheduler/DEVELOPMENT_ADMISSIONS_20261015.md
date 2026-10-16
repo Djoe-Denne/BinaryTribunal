@@ -1,5 +1,18 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## U1UNCERTAIN recevable, correctif1ligne séparé/reviewdelta accès seul — 2026-10-17
+
+ReviewsourceXMLa32a8c64/details e2cf2789 archivéeparent ;natifcompleted/shutdown.
+Sous-comptageCRLFcertain,overflow64MiBatteignablenondémontré ;pasBLOCKABI/OSrepro.
+ParentGOsource23:03:41.982Z/Scope9f44ed65 :UNEremplacementdansnouvellecopie,compter
+UTF8(events.NewLine),CRLF/bornes/lifecycle/wrapperinchangés. Candidat6/75846B,
+C#cb3a6dfd/manifest577c7c85readonly,ancien7095/design/manifest/verdict/18inputs/main275intacts,
+0compile/APIJob/test. Voir JOB_NEWLINE_CANDIDATE_DELTA_ADMISSION_20261017.md.
+FreshPlanSolMAXNONBLIND task_mvbks4gv/session ses_eb909b534ffeQtDzpY9mK84TKv vérifié,
+paquet24/260867B/5f06d0d3/8854a7cd/reçu0731bf5f :ACCÈSSEULACK/HOLDavantGOstatique,
+couvertureantérieureendossée statiqueinchangée seulement,pasnouvellefullreview/hôteprouvé.
+Pasfull44/L9L10/main/native/intégration ;qualificationinoffensivefuture requise.
+
 ## NewLine ACK réel ; reprise de l'audit statique original — 2026-10-17
 
 ACK8références109130B/reçu/binding/conditions approuvé. Parent recontrôle18pins/

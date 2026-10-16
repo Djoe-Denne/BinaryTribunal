@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## U1 compteurcertain/overflowincertain ; V2parent1ligne — 2026-10-17
+
+- ReviewUNCERTAINa32a8c64/e2cf2789qualifiée,taskcompleted/reviewerarrêté,aucunOSoverflow
+  inventé. ParentGO23:03:41.982Z/correctifUNEexpressionUTF8NewLine surcopienouveauseule,
+  V2cb3a6dfd/6fichiers75846B/manifest577c7c85gelés,anciens/verdict/main275intacts.
+- FreshSolMAXPlandeltareview task_mvbks4gv/session ses_eb909b534ffeQtDzpY9mK84TKv,
+ 24/260867B/5f06d0d3/8854a7cd/reçu0731bf5f ACCÈSSEULACKpuisHOLD ;pascompile/APIJob/test/
+  runtime/full44/intégration,ancienABIstatique nonréauditéautomatiquement.
+
 ## Référence lue, statiqueoriginal confirmé — 2026-10-17
 
 - ACK8références/reçu/conditions approuvé,18pins/deuxreçus/natifguard/main275 exacts.
