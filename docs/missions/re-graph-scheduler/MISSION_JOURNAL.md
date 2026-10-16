@@ -1,5 +1,27 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 reprise bornée finale après ACK68l — 2026-10-16
+
+- ACK68l/4511Bconditions,receiptfile1838960d/source9c87test38c2+natifAstraMAXparentXHIGH/
+  OWN relus avantpermission. **GOREPRISEWRITE/TC/100OLDcomplets+ALLNEWciblés** pour
+  SEULEMENTmanuelv2+versionnewfixtureoptin ratifiés ; origineTOTALeffacée limiteauth,
+  wrongoracle/setupREDqualifiés/évidenceinitialeintacte.3paths32DTO250readonly379pins/
+  100anciens immuables,pas100k/fullSQLite/native/intégration. L8reviewautrepaquetborné.
+
+## STOPmanuelv2 L7 / GO effectif reviewL8 — 2026-10-16
+
+- Parentgèle9artefacts9c87/38c2,379pins250readonly32DTOexactes/logs vérifiés.
+  RED29=10PASS19FAILassertionnelsdontoraclenoSourceinjustifié, pas19preuvesvalides ;
+  complet131=123PASS8FAIL13907assertions/TC0 :7manualv2historiques+1setupoptin.
+  Deuxfixesratifiés :origine≠projectionv2,sourcefourniearchivemustfailclosed/manual
+  source-lesslégal ; suppressionTOTALEorigineindistinguable/limitepasauth. Nouveau
+  négatifinjustifiéremplacé,versionfixtureoptinconforme≤32UTF16 ; old100readonly.
+  Décision4511B/51191b9c/receipt39ba12bc accès-onlyACK+GOREPRISEdistinctattendus.
+- L8ACK99lScope+8PARENT/445pins8320550B/rôle/accèsréel approuvé,SolMAXparentXHIGH/
+  sessiontask+445paquet275mainrévérifiés. **GOreviewruntime15 freshNONBLIND**,
+  TC/60ciblés/probesSQLiteNEUVESpublicAPIseulement ; nofull/oldDB/sourcefix/native/
+  intégration,éventueldéniprofilPlanàrapporterexplicitementpasbypass.
+
 ## Review fraîche L8 A2 admise accès-only — 2026-10-16
 
 - Taskmvatt7q4/membrel8-a2-review/sessionebbbd016, planfreshNONBLIND/natifSolMAX,

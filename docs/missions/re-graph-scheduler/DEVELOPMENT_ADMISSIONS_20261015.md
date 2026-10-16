@@ -1,5 +1,39 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Reprise finale bornée L7 après ACK manuelv2 — 2026-10-16
+
+ACKcomplet68lignes/4511B/conditions reçu, receiptfichier1838960d…b52a48 vérifié,
+source9c87/test38c2 toujours exacts avantpermission, natifsAstraMAX/parentXHIGH/OWN
+relus. **GO FINALREPRISE WRITE/typecheck/ciblés**, deuxfixes ratifiés SEULS :manuelv2
+sanssource légal/sourcefourniearchiverefusfermé, version nouveaufixtureoptinconforme.
+Wrongoracle/source-totaldelete etsetupRED explicitement qualifiés sans réécriture ;
+100anciensCOMPLETS+tousnouveaux à rejouer séparément.100k/full/SQLite/intégration
+restent interdits. L8review bornée indépendante active danssonpaquet, pas fullconcurrent.
+
+## STOP L7 arbitré / GO review L8 réel — 2026-10-16
+
+L7 STOP9c87/newtest38c2 gelé : parent snapshot9artefacts/hashlogs,379pins/250readonly/
+32autresDTO exacts. RED29cas10PASS19FAIL assertionnels sans erreur runtime ; ne pas
+compter l'oracle fauxsourceabsente comme preuve valide. Premier121PASS=92old+29new,
+puis véritablegate131=123PASS8FAIL13907assertions/typecheck0 :7anciensmanuelv2 et
+1setupopt-in. Parent confirme sparse61 est manuelv2 sanssource et planner243 exige
+préfixeoptin+suffixe≤32UTF16 ; aucun défaut L5 allégué,100anciens restent inchangés.
+
+Arbitrage`L7_MANUAL_V2_COMPAT_CORRECTIVE_GO_20261016.md` : archive sur source
+effectivement fournie, pas projectionVersion2 ; sourcefournie null/malformée ou
+evidencemanquante/v1 restent refusées, vrai manuelv2 légal. Suppression TOTALE
+d'origine indistinguable viaDTO/selfhash : limite explicite, pas authenticité
+inventée. Un seul nouveau négatif injustifié remplacé+contraires, nouveaufixture
+optin version conforme uniquement. QualificationRED distincte, aucun log écrasé.
+Paquet1pin4511B/SHA51191b9c…030ba9/receipt39ba12bc…860f7e transféré **accès-only**,
+ACK puisGOREPRISE ciblé encore requis ; full/SQLite toujours interdits.
+
+L8review : ACKscope99lignes+8PARENT/rôle/445pins8320550B/SHA/receipt etaccès réel
+reçu ; parentreluSolMAX/XHIGH/sessiontask,445paquet+275main exacts. **GO FINALREVIEW**
+typecheck/60ciblésL8+probesbornées propres/publicAPI surSQLiteNEUVES selonScope,
+aucunfull/sourcefix/DBauteur/Ensemble/native/intégration. PARENT_REVIEW_GO.json
+conservé dansproofdir. LimiteprofilPlan→rapport explicite, pascontournement.
+
 ## Admission indépendante L8 A2 — 2026-10-16
 
 Nouvelle task`task_mvatt7q4_000c_w991j0`/membre`l8-a2-review`, profilplan readonly,
