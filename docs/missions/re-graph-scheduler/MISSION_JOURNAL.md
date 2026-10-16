@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 107GREEN naturel, collecte/conformité pasencore — 2026-10-16
+
+- PID35704fin14:39:14.776Z/70781.6406ms/exit0naturel,UNE107aprèsTSC0,norerun.
+  Parente28a1a40/87461429/30de08e6+logsbrutsconfirme107P0FAIL714assertions7files,
+  skipnonrapporté0déduit. Finavantcollecte,pasgateexécutantrestant/fullniC.
+- Quickpinsruntime16/0f7/620c1b305annoncésexacts ;collection96DB/receipts/postreadonly/
+  registrypendingconformitéparent. Prefix157257→232965/tail75708B275rows179res96closed
+  annoncés,paspreuvesfinalesdéduites. Nouveaux2labelsseedcohérents≠originauxCREDsealed.
+  Ccopies/fullfreshreview/intégration/nativegatesdistinctes,L7REDindépendantreadonly6d00.
+
 ## L7 REDfinalGO / L8 nouveauTSC0 vérifié — 2026-10-16
 
 - ACKL73pins109766B369BASELINE/rôleconditionslecture approuvé,natifAstraMAXtaskOWN/

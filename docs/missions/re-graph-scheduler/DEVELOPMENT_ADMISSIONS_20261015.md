@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 107 verts terminés naturellement, collecte finale attendue — 2026-10-16
+
+Après nouveauTSC0 autorisé, unique107 PID35704/14:38:03.995Z→14:39:14.776Z/
+70781.6406ms,exit0naturel/signalnull/sanstimeoutkillrerun. Parentvérifieend
+e28a1a40/stdout87461429/stderr30de08e6 etcomptesbruts **107PASS/0FAIL/714assertions/
+107tests7files**. AucunSKIPrapporté,0déduitducorpus ;pasfull/probeannexeexécutée.
+Fin signaléeAVANTcollecte,plusdegateexécutant àattendre pourcettepermission.
+
+Runtime16/test0f7/2sources620c1b305 quickpinsannoncés exacts ;postcollectionreadonly/
+96DBneuves/receipts/registry resteencours etconformitéparentNONacquise. Préfixe
+registry157257 exact annoncé→232965/tail75708B275rows(179reserved96closed) ;réservations
+sansDB licites àqualifier. Deuxlabelsseednouveaux107sontCOHÉRENTS,nesubstituentpas
+auxoriginauxCRED460f/282b restéssealed. GateCcopiesexactes sera distincte APRÈS
+livraisonconforme ;niC/full/freshreview/intégration/native autorisésparceGREEN.
+L7nouveautestREDautoriséindépendant,source6d00restereadonly.
+
 ## L7 RED GO final ; L8 patch exact et TSC0 vérifiés — 2026-10-16
 
 L7 ACK3pins109766B/DECISION/PLAN/369BASELINE complets/rôleconditionsaccèsréel approuvé.
