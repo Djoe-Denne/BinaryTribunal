@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 GO final deux sources, sans exécution — 2026-10-16
+
+ACK54l décision/105lBASELINE/50lRED_PARENT,3pins9554B et conditions intégrales reçu.
+Receipt fichier eb3e3b2b…ef23b exact. Parent relit SolMAX/task ouverte/OWN/guardready,
+15runtime/test70857679/registry157257B11607270 exacts AVANT permission. **GO FINAL
+TWO_SOURCE_WRITE_ONLY** envoyé :client.ts etgraph-engine.ts selon A–E ratifiés,
+livrable DELTA/pins dans WRITEfresh puisHOLD. Nouveau test47/13autresruntime/60old
+readonly, aucun chargementmodule/probe/typecheck/test/SQLite/SCRATCH/reopen/append
+registry autorisé. TC107/checkerC/full/reviewfresh/intégration restent gatesdistinctes.
+L7 BLOCK confirmé attend son choix utilisateur, sans collision sur L8.
+
 ## L7 P1 copie confirmé / L8 RED conforme et accès source-only — 2026-10-16
 
 Review L7 fraîche **BLOCK** : validation du caller avant structuredClone perd un ID
