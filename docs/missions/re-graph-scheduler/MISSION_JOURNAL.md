@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## GOreprisepostupgrade / accordcorrectifSolMAX — 2026-10-16
+
+- User«SolMaxciblé»puisrepriseexplicitecetteseulemission ; arrêtOpenCodeV2possible.
+  Transport/admission/persistentpausecibledéjàabsents/guardready :pasmodifconfig,
+  autremissionpausedintacte. Contexteupgrade19→20 transmisintégralementleadexistant,
+  étatpersistantrelu6restantes4inprogress2blocked/dépendances/modèles/politiques2/4/
+  5slotsmanualautodispatchscalefalseconservés,aucunemission/reviewerrecréé.
+- MêmeauteurL8SolMAX/taskouverte/15pins+main275exacts ;userautoriseextensionclient
+  bornéeAPRÈSPLAN. Paquet26pins399374B/787edd47,USER_GO5173B/bf1a0101,
+  receipt60c3275c/fichier4cc7c211 transféré etACCÈSSEULwakeenvoyé. ACKcomplet puis
+  GOANALYSEPLANdistinctpending,nocode/probe/SQLitetestfull/intégration. L7fullséparé.
+
 ## L8 BLOCK confirmé parreplay / L7 parentvert — 2026-10-16
 
 - ReviewerL8completed/shutdown ; parent445pins10preuves57DB17874944B125files17999131B

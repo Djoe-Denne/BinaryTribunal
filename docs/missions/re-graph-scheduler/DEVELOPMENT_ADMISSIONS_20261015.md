@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Reprise post-upgrade et accord correctif Sol Max — 2026-10-16
+
+Utilisateur a choisi **Sol Max ciblé (Recommended)** puis GOreprisemissionuniquement.
+Précision : arrêtOpenCodeV2 possible, pasnécessairementpauseopérateur. Contrôlepublic
+natif12:12Z :re-graph-schedulerDÉJÀabsent pausedTeamsconfig+transport+admission/readytrue ;
+autremissionrestepausedintacte. Aucun retraitfictif/verrou/config modifié, aucun
+autremissionrelancé. Contexteuserupgrade/migration19→20 transmisintégralement au
+leadEXISTANT ;pasnouveausuperviseur/mission/reviewcompletedréouverte.6tâchesrestantes
+(4in_progress/2blocked) et dépendances relues,5slots/manual/autodispatchscale false,
+providerrev4/modelrev2legacy etrefs parentXHIGH/L8MAX/L7AstraMAX conservés.
+
+`L8_A2_CORRECTIVE_USER_GO_20261016.md` :phasecorrective bornée RV8A2-01/02,extension
+clientexplicitementautorisableAPRÈSplanratifié ;présentstadeACCÈSpuisPLANseulement.
+Même auteurL8/taskin_progress/OWN/SolMAX vérifiés,15runtimeetmain275intacts.
+Paquet26pins399374B/manifest787edd47…2fbdb,USER_GO5173B/bf1a0101…5f004,
+receipt60c3275c…fc744/fichier4cc7c211…967b3,transféré puis mêmeauteurréactivé
+ACCÈSSEUL. ACKlecture/rôle/26pins puisGOANALYSEPLANdistinct encore requis ;aucun
+code/probe/typecheck/test/DB/full/intégration autorisémaintenant. Projet26pincopié,
+aucunanciengelécrasé/anciencheminabsolurevieweradopté. Correctif/60anciens+nouveaux/
+fullfreshreviewparentgates àvenir ;L7fulltoujours séparé/nonlancé.
+
 ## L8 BLOCK confirmé parent / route utilisateur requise — 2026-10-16
 
 ReviewfreshL8A2 completed/shutdown, pasréouverture. Parentvalide445pins+10preuves,
