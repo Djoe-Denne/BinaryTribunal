@@ -1,5 +1,22 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 rouge final livré/vérifié, nouvelle tentative non autorisée — 2026-10-16
+
+- Parent88695448manifest10913B/26artefacts2774952B exacts ;10graphDB2936832B +
+  L5postexit385024B =11DB3321856B conservées, raw per-close graph égaux sanssidecars.
+  370current/ledger/4copies/33DTO/50proofs/407inputs5receipts/45TS/main275 exacts,
+  natifAstraMAXauteur/parentXHIGH/ownership/politiques4/2 inchangés.
+- V2/logsprimaires1033P92F1SKIP91154assert1126/36, engine2/eventlog90setup ;parent
+  TEMP/opencode manquant corroborépréflightempty+birth16:51:31.305pendantrun,
+  premiercréateur noninstrumenté/effetlongueurWindows non testé. V1bd770184records
+  conservée,93footerrepetitions exclues uniquement suppléments, pasrewritelogs.
+  CheckerparentWindowsheaders/pinsSHA-only corrigé sansproduitexécuté.195ciblés,
+  new64,interop54+scale6PASS partiels ;full resteFAIL, GO unique consommé.
+- `L7_COPY_BOUNDARY_FULL_RED_QUALIFIED_20261016.md` :HOLDstrict, proposerGOutilisateur
+  nouvelle tentative launcher-seul TEMPcourt+parentprêt,mêmepins/auteur ;aucunroot
+  futurcréé/aucunmkdirfixrerun autorisé. NouveaucontratACKexclusiveFINALGO puis
+  future reviewL7SolMAX/gatesparent avantintégration. L8scoped inchangé/nonintégré.
+
 ## L7 fullROUGEcréneaulibéré/launcheràqualifier — 2026-10-16
 
 - 40332fin16:52:06.387Z/163936.2833ms/exit1naturelUNEfois,parent79314end/75606stdout/

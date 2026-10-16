@@ -1,5 +1,31 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 full rouge final vérifié — HOLD, nouveau GO utilisateur requis — 2026-10-16
+
+Qualification finale : `L7_COPY_BOUNDARY_FULL_RED_QUALIFIED_20261016.md`.
+Parent retient la conformité de livraison d'ÉCHEC, pas le passage du full :
+manifest88695448/10913B, 26artefacts2774952B, 10DBgraph2936832B + L5child385024B =
+11DB3321856B conservées ; per-close graph/post-exit/raw parent égaux, aucun sidecar.
+L5 premier hash post-exit seulement. 370current/ledger8943882/4copies195451B/33DTO/
+50oldproofs/407inputspins5receipts/45TS et main275 exacts. NatifAstraMAX/taskOWN et
+parentSolXHIGH/politiques4/2 relus ; aucune réouverture SQL/exécution produit parent.
+
+V2 redérivée depuis logs primaires :1033P92F1SKIP91154assert1126/36, FAILengine2+
+eventlog90 (1SQLCANTOPEN+1mkdirENOENT+90mkdtempENOENT). Défaut de préparation du
+parent `${TEMP}/opencode` corroboré ; birthtime pendant run16:51:31.305Z, premier
+créateur non instrumenté, effet longueur Windows non exclu par expérience.
+V1bd770184records conservée,93 répétitionsfooter exclues seulement en suppléments.
+Checkerparent séparateursWindows/pinsSHA-only corrigé sans changer les preuves.
+195ciblés/64new/54interop+6scale PASS = preuves partielles, pas GREEN full.
+
+GO unique consommé, créneau libéré ; source/tests/launcher et dynamique HOLD.
+Proposition NON AUTORISÉE : nouvelle tentative même auteur/pins, launcher-seul avec
+TEMP court dédié et `${TEMP}/opencode` préparé. Accord utilisateur puis nouveau
+contrat piné/ACK/réservation/FINALGO requis ; aucun futur root créé maintenant.
+Pas de fix/rerun/reviewpromotion/intégration acquis. Review L7 fresh SolMAX après
+éventuel futur full GREEN et gates parent/croisées toujours requises ; L8 scoped
+ACCEPTABLE ne ferme pas QA globale/native ni les autres dépendances.
+
 ## L7 full rouge/libéré — qualification launcher et footer, aucune relance — 2026-10-16
 
 UNEfullPID40332/16:49:22.450Z→16:52:06.387Z/163936.2833ms,exit1naturel/signalnull/
