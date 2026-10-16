@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Policy B01/B02 ratifiée prospectivement, pas run — 2026-10-17
+
+- ReviewACCEPTABLE_PROPOSAL_SCOPED/f64f9d77/a1354950 archivéeparent/49pins+main275
+  exacts ;natiftaskopen≠rapportcompleted qualifié,puisparentclôturecesoustâche et
+  shutdownreviewer,aucunrerun/L9débloqué. Contraires/pertes8ancragesretenus.
+- Ratification6a955370/22:34:07.359Z ducontratréduitCDB1/normaleprovenance uniquement
+  pourfuturrunlié+GOdistinct. Anciennegarantiecrashnonacquise,0cleanupactuel/runtime,
+  Jobsourceonly ;images/outils/env/Jobqualifié+accèsexclusivitégates/L9L10mainheld.
+
 ## Policyreview GO statique, proposition toujours non approuvée — 2026-10-17
 
 - ACK49/rôle/contrats approuvé,pinsnativeguard/main275/outputabsent exacts ;

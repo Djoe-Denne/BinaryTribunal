@@ -1,5 +1,19 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Policyreview recevable ; contrat réduit ratifié prospectivement — 2026-10-17
+
+ACCEPTABLE_PROPOSAL_SCOPED indépendant,8ancrages/contraires/pertes qualifiés ;
+49pins/reçu/main275 exacts. RapportpublicXML5866Bf64f9d77/details5636Ba1354950 archivé
+parASTsansreasoning/eval/Planwritebypass. Statutnatifin_progress malgrérapportcompleted
+constaté (premierlecteurarrêtéavantarchive), puis clôtureadministrativeparent de la
+seulesous-tâche etshutdownreviewer ;aucunreviewrerun/L9débloqué.
+FULL44_POLICY_RATIFICATION_20261017.md6a955370/ratification22:34:07.359Z :CDB-1exact
+etpertesaprèsFAIL/receiptsmockvsréels explicités,attributionfin normaleplusétroite,
+pasinventairecrash/alltimesidecar/FSsandbox. **PASGOactuel** :futurcontratrunconcret/
+imageTEMPregistry/paths/outils/env/Jobqualifié/accès/exclusivité/FINALGO restent requis.
+Propositionancienneinchangée,aucunancienDB/preuve/cleanupmanuel/testedit/skip autorisé.
+Jobhelper resteSOURCEONLY ;L9global/L10/main/native/intégrationfermés.
+
 ## Policyreview ACK réel et GO statique — 2026-10-17
 
 ACK49payloads921813B/reçu/scope-proposition-contrats/rôle approuvé ;parentnative
