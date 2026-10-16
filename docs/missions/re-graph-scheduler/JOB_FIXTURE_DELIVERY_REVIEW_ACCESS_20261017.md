@@ -52,3 +52,15 @@ Planpublicsiwrite-refus,sansbypass,stdout<2800Bavantémission. Aprèsreview :tou
 compilationfixture/évolutionducontroller/budgets/hostqualification réclamera des
 décisionsetGOdistincts. Full44/L9global/L10/main/nativeintégration restent fermés.
 Politiques4/2/budget5/manueldispatchoffinchangés ;pas ancien travail rejoué.
+
+## ACK réel approuvé ; GO statique distinct
+
+Les12payloads121060B/scopes/reçu/binding/rôleconditions intégralement lus et
+hashés par le reviewer. Parent recontrôle natifSolMaxPlan/tâcheouverte/disjoint
+auteurcompleted/leadXhigh/politiques4/2/guardready, pinsreadonlynonlink1/reçu/
+main275 etproofdirabsent exacts. **23:53:58.412Z**, GOstatique sousSCOPE33faabd4 :
+auditindépendant sources/oracle,3–8ancrages/verdict/limites puisHOLD. Rapportpublic
+Plan sansbypass,aucuncorrectif oupermissionruntime. Reçu .tmp parent :
+job-fixture-review-static-actual-final-go-20261017.json.
+Gaps opérationnels connus restent fermés quel que soit le verdict. Aucun nouveau
+controller/quota, compilation/DLLload/APIJob/fixture/test/native/intégration autorisé.

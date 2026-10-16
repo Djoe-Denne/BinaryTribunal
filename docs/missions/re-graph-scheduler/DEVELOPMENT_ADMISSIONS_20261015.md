@@ -1,5 +1,15 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Fixturescaffold ACK réel etGOstatique indépendant — 2026-10-17
+
+ACK12payloads121060B/scopes/reçu/binding/rôle approuvé ;parentnativeSolMAXPlan/
+tâcheouverte/disjointauteurcompleted/leadXhigh/guard/politiques/pinsreadonlynonlink1/
+main275/proofoutputabsent recontrôlés. GO23:53:58.412Z sousSCOPE33faabd4 :sources+
+oracleprospectifs3–8ancrages/verdict/limitespuisHOLD,Planpublicsansbypass.
+Gapsbudget-observerJob0-case6handle-case8référence-AssignnestedJob restentHELD,
+0sourcefix/contrôleurquota/compile/DLLload/APIJob/fixture/test/native/intégration.
+MêmeACCEPTABLE≠runready/compilepermission/hôtequalifié ;full44/L9L10mainfermés.
+
 ## Fixturesources livrées etreviewindépendante accès seul — 2026-10-17
 
 4/57859B/069bf451-e0a8baa5-6bcb4ea4-11ec6339conformes,3pinsmanifest/input10+reçu/
