@@ -1,5 +1,33 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 P1 copie confirmé / L8 RED conforme et accès source-only — 2026-10-16
+
+Review L7 fraîche **BLOCK** : validation du caller avant structuredClone perd un ID
+hérité/non énumérable ; archive intacte, besoin local absent, consommateur COMMITTED.
+Parent reproduit 4 cas sur copie386pins : baseline2commits, absence seule BLOCKED/
+attempts0/1commit, deux variantes destructives COMMITTED/attempt1/2commits ; copie
+préalable puis validation refuse correctement. Ce n'est ni total-origin-removal
+ratifié ni nouveau défaut HARD/adoption. TC0/131PASS conservés, oracleFIFO erroné
+d'une probe reviewer qualifié séparément. Rapport public inline et33tools/41textes
+archivés sans reasoning privé. Review task completed, reviewer shutdown, jamais
+rouvrir sur wake. Voir `L7_6D00_COPY_BOUNDARY_BLOCK_ROUTING_GATE_20261016.md` : accord
+user de nouvelle correction ou gel encore requis ; pas continuation Astra implicite.
+
+L8 RED final conforme :20PASS27FAIL/47tests/221assertions, exit1 naturel7952.0021ms,
+16client/11pause aux expects. 14artefacts1400575B/791checks764paths nonDB exacts,
+15baseline+test70857679 inchangés ;47DB8269824B/47receipts closes/pins sanssidecars,
+95files8296180B conservés,71réservations dont24sansDB,0lecture248anciennesDB.
+Préfixe registry123186B exact/tail34071B118rows ;pasassertionsaprèsFAIL/observateurs
+nonpositifs nonentrés/checkerC certifiés. Deux seeds Ccohérent/incohérent conservés
+fermés sansSCRATCH/reopen/repair. Parent verification enregistrée, main275exact.
+
+Gate `L8_A2_TWO_SOURCE_WRITE_GATE_20261016.md`3464B/968cf890…9997d, paquet3pins9554B/
+receipt7a6a7a12…ce019 transféré au même auteur SolMAX/taskouverte/OWN natifs relus.
+**ACCÈS SEUL**, ACKcomplet puis GO distinct TWO_SOURCE_WRITE_ONLY requis. Futurs
+client+graph-engine seuls, nouveau test47/autres13/60old readonly, pasexécution/
+SQLite/typecheck/test/SCRATCH/registryappend durant cette phase. Aucun sourcefix
+encore autorisé ni intégration nouvelle. L8 ne dépend pas du choix correctif L7.
+
 ## L7 review indépendante GO réel après ACK386 — 2026-10-16
 
 ACKcomplet5PARENTdocs/386fichiersuniques8295717B/hashmanifestScopeReceiptNativeAdmission/

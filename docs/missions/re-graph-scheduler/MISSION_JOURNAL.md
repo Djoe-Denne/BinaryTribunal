@@ -1,5 +1,21 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 BLOCK copie confirmé / L8 RED conforme, gate2sources préparée — 2026-10-16
+
+- Nouvelle review L7 BLOCK P1 : IDprérequishérité/nonénumérable accepté avantcopie,
+  perdu ensuite, besoin absent connu contourné/consommateurCOMMITTED. Parent4cas
+  sur386pins exacts confirme, archive/sourceintactes ;contrairecopythenvalidate refuse.
+  TC131verts ne couvrentpascecas. OracleFIFOreviewqualifiépasseconddéfaut,33tools/
+  41textespublicsarchivéssansreasoning ;reviewcompletedshutdownjamaisrouvrir.
+  NouvellecorrectionWAITuserexceptionAstraMAXfreshougel, pasdroitdéduitduGOprécédent.
+- L8RED20P27FAIL47tests221assertions/exit1naturel qualifié,14artefacts1400575B/
+  791checks764nonDBpaths/15baseline+test708exacts.47DB8269824B+receipts/birthtimes/
+  postclose/no-sidecars,95files8296180B ;71res24sansDB,0old248DBread. Registryprefix
+  123186exact/tail34071 ;Cseedssealedpaschecker/SCRATCHcertifié,nonpositiveobserver/
+  aprèsassertionsFAILpascoverageinventée. Gate2sources3464B968cf890/3pins9554B/
+  receipt7a6a7a12 transféréeaccès-onlymêmeSolMAX,ACKpuisGOfinalwriteonlypending.
+  Pas sourcewrite/exécution/SQL/TSC/testfull/intégrationnouvelle,main275exact.
+
 ## L7 reviewGO indépendant réel — 2026-10-16
 
 - ACK5PARENT/386uniques8295717B/hash/rôle/accès réel approuvé,SolMAXparentXHIGH/OWN/
