@@ -1,10 +1,11 @@
-# L7 namespace6d00 — prochaine review fraîche, admission après gel conforme
+# L7 namespace6d00 — review fraîche du gel conforme
 
 Review **fresh indépendante NONBLIND Sol/max**, jamais reprendre un auteur ou un
 ancien reviewer completed. Source6d00cf29…9716f et nouveautest74f052d4…23327,README
 5ed73b73…79e9e forment un candidat NON accepté. Le full1061PASS1SKIP et les hashes
-ne sont pas une review. Parent attend encore collecte/conformité finale avant
-toute création/admission payante de cette review.
+ne sont pas une review. Parent a vérifié le gelfinal877158f6/postflight13a18b90 :
+783checks,3copies/9artefacts,11DB3321856B conservées closes sanssidecars,main275
+exact. Accès/rôle/hash/lecture réelle puis GOreview distinct restent obligatoires.
 
 ## Entrée/contrat à lire intégralement
 
@@ -78,7 +79,8 @@ Pas full/SQLite/100k/benchmark lourd, sourcewrite/testwrite/Git/config/install/
 sous-agent/inbox/autressessions/LLM/IDA/live/dispatchréel. Seulement proofdir neuf
 parent donné et scripts/logs de probes propres ; mémoireSIM ne vaut pas hostproof.
 ProfilPlan refuseécriture/outils → rapport public avec repros inline, pas bypass.
-Cheminsabsolusarchivés sont provenance sans droit d'accès. Ledger9MB nontransféré,
+ContextMode est borné au paquet/proofdir, aucun recall global/index partagé lisant
+une autre copie. Cheminsabsolusarchivés sont provenance sans droit d'accès. Ledger9MB nontransféré,
 aucune extraction/rawreconstruction ; contextefrozenRAW est PARTIAL/quarantaine.
 
 ACCEPTABLE ou BLOCK scoped avec3–8preuves path:line, contre-exemples/contraires

@@ -1,5 +1,53 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 plan ratifié / RED seul ; L7 retransmission d'accès — 2026-10-16
+
+PlanL8463lignes32071B/00fbd781…b1b11 reçu et relu par sections utiles aveccodec/
+client/prepare/journal/L6réels. A–E ratifiés dans
+`L8_A2_CORRECTIVE_PLAN_APPROVAL_20261016.md`6799B/b5d2f4ab…e02be :imagecanonique
+détachée+autorité rawETimage,limitesgetter/Proxyexplicites, pauseLOCALepasatomicité
+interconn/réseau ;rowpayloadcheck4vraischampsenveloppe sansrepair ;observerPREPARED
+positifliéoui/nonacceptépaspseudoquiescence.3paths,seulementnouveautestavantRED.
+
+Paquet3pins42473B/receipt8efcd145…d5453/fichier62361ff0…90e10,ACK99lDECISION+PLAN/
+BASELINEcomplets/conditions approuvé ;ModelSolMAX/task/OWN/15baseline exacts et
+nouveautestABSENT+registry123186B/0227c81f…a43e vérifiésavantpermission. **GO FINAL
+TEST_WRITE_RED_ONLY** :nouveaufilebody-pause-regressions puisUNEpremièreREDciblée
+≤180s/30000test,fixturesSQLiteNEUVESpublicAPI/helperreadonly,appendprefixregistry
+protégé. Identifier/fermer/pinnerbadRV01DB+boncontrôledeCErun pour FUTUREprobeC ;
+pasencorecopieSCRATCH/reopen. DEUXSOURCES/60old/typecheck/focusedglobal/full restent
+interdits. Aucuncorrectifsource/intégration/native approuvéparceGO.
+
+L7reviewer :13:13Z READY/IDLE aprèsACKrôleinitial seulement,aucunACKlecture386pins.
+Une retransmission CONTRÔLÉE du mêmeaccès/mêmetask/session/paquet, pasrecréation.
+Il a déclaré un team_resultspré-scope :receiptpublique native confirme sonretour
+`No unread messages.` (appeljointtasklist). Écartprocédural enregistré, aucunmatériel
+d'inboxobtenu ; NONBLIND/fresh resteadmissible,sanspermissiongénérale/récidive.
+ToujourspasGOreview/tests avantACKréel. Source/gels/mainintacts, L8REDindépendant.
+
+## Livraison L7 finale conforme / nouvelle review accès-only — 2026-10-16
+
+Parent vérifie manifest877158f6…96d05/9artefacts824787B,3sources+copies exactes,
+postflight13a18b90/783checks/32déclarationsexportées etmain275intacts. Full naturel
+1061PASS1SKIP0FAIL1062tests35files91458assertions confirmé.11DB3321856B conservées
+sansWALSHMjournal :10graphpathsneufsLOGGÉS/birthtimesdansrun/hashaprèscloseégal,
+1L5postexithashqualifiépasperclose.28oldproofspré/post/currentexacts ;7étaientdéjà
+pinnésparentavantfull,pasprétentiond'unsealindépendantprécoce detous28. Éphémères
+supprimés sansposthash/conservationuniversalprétendue, aucunancienTempinventorié.
+
+ReviewfreshNONBLINDSolMAX créée APRÈSconformité :`l7-namespace-review`,task
+`task_mvayt47j_000e_gx1ukb`,session`ses_ebb3cde8dffeG2EQhIteowOhWK`,natifmaxrelu.
+Scopebf51eb60…d35e2/6436B etpaquet386pins8295717B/manifestaf3de2b7…0b57d,
+receipt85df465e…b3602/fichierf9bdc03d…16df3. CollisioninitialeoldPARENTcontrols dans
+projection corrigée AVANTwrite/admission :ancienscontrôlesintacts sousHISTORICAL,
+actuelPARENTscopecourant, pasidentitéreviewerprise dansvieuxmetadata.
+
+**ACCÈSSEUL** envoyé,lecture/hash386/rôle/conditions/accès réelACK puisGOreview
+distinct encore requis. Junctiondéps/proofdirpréparés sansinstall ;futursTC+131ciblés/
+probesmémoirepropres seulement,pasSQLite/full/100k/sourcewrite. AuteurL7informé
+conformepasaccepté/HOLDtaskglobaleouverte,ancienne reviewjamaisréouverte. Rien
+n'est intégré ni promu native ;L8continuePLANborné soussesgatespropres.
+
 ## L7 full fin naturelle / collecte finale en cours — 2026-10-16
 
 Auteur notifie **FIN+LIBÉRATION** avant collecte,PID31924/wrapper39684,12:34:41.036Z

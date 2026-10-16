@@ -1,5 +1,32 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 ratification/REDseul / L7 accès retransmis — 2026-10-16
+
+- PlanL800fbd781/463l32071B relu+codecréel,parentarbitreA–E conditionnels :canonimage/
+  rawETcapturedauthority,pauseLOCALEpasatomicitéinterconn,Crowfailclosednorepair,
+  PREPAREDobserverpositiflié/negativepaspseudoquiescence. Décision6799B/b5d2f4ab,
+  3pins42473B/receipt8efcd145/fichier62361ff0,ACK99l+PLAN+BASELINEcomplet approuvé.
+  AvantGO15sourceexactes/newtestabsent/registry123186B0227c81f. **GOTESTWRITE+REDSEUL**
+  uneinitiale≤180s,publicAPIfreshSQLite/helperappendpréfixeprotégé ;badRV01DB+
+  contrôleconservésfutureCpasencoreSCRATCHcopy/reopen. Sources2/60old/TSC/fullinterdits.
+- ReviewerL7READY/IDLE/ACKrôleseul,pasactualpaquetACK :uneseuleretransmissioncontrôlée
+  mêmetask/session/386pins. Appelteam_resultspré-scope:receiptpubliqueNoUnreadconfirmée,
+  écartconsignépasfuiteraw/NONBLINDfreshresteadmissible,aucunerécidivepermission.
+  Revue/tests/promotionencorebloquésjusquACK386réel,sourcesetgelsinchangés.
+
+## L7 livraison conforme / freshreviewadmisaccès-only — 2026-10-16
+
+- Parent877158f6/9artefacts824787B/783checks/3copies32déclarations/main275exacts,
+  full1061P1SKIP0FAIL91458assertionsnaturel.11DB3321856B closesretenuessanssidecars,
+  10graphlog+birthtime+posthashequal/1L5postexitqualifié ;28oldprépostcourantségaux
+  dont7déjàparentpinnésavantfull,passealprécoce28inventé,paspostdeletehashprétendu.
+- NouvellefreshreviewSolMAXNONBLINDplanreadonly :taskmvayt47j/sessionebb3cde8/membre
+  l7-namespace-review,386pins8295717B/af3de2b7,scope6436B/bf51eb60,
+  receipt85df465e/fichierf9bdc03d. AncienPARENTmetadata déplacéHISTORICALdansprojection
+  aprèscollisiondétectéeAVANTwrite/admission,originauxintacts. Accès-onlyACK386/rôle/
+  lecturepuisGOreviewdistinctpending ;pasSQL/full100k/sourcewrites/intégration/native.
+  AuteurL7HOLDglobaleouverte,L8PLANcontinueindépendant.
+
 ## L7 full terminé naturellement/slot libéré — 2026-10-16
 
 - PID31924/wrapper39684fin12:37:18.826Z/157790.2608ms/exit0/naturalsans timeout,
