@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## QA finale conforme ; audit frais pré-intégration préparé — 2026-10-16
+
+- Parent f35ee27d/55preuves3464153B/441pins+main275 exacts,2DB1441792Bretenues/no
+  sidecars/cache29opaque,9P84assert/11840ms. PASSoffline scoped,limitesguardJS/
+  layouts/close/28stepsconservées,pas globalQA/native/intégration ;interopHOLDouvert.
+- Nouvelle sous-tâche candidate mvbf4ikr/SolMAXPlanfreshNONBLIND ses_eb99a9a93ffeCSVcDbnCW9UlEK,
+  ne débloque pas L9globalblocked. Expositionbootstrappublique auditée/qualifiéeV2,
+  source/reasoningprivé nonimporté,aucunclaimpacket-only. Pasrepriseancienreviewer.
+- Gel452helper8865020B/9848635f/41c710f9/receipt78ffd6bd-fichier6b8b1898 +ledgerlocal
+ 8943882b5/reçu5517f1c3=453payloads17808902Breadonly,code301inchangé/pasrawDBcache.
+  ACCÈSSEULACKpuisHOLD avantGOstatique,pasimport/exécution/native/maintransfert.
+
 ## D1/D2 vertes, créneau libéré avantcollecte — 2026-10-16
 
 - Parentrawlogs :11860naturel0/quatreP35assert/74filtered,26524naturel0/cinqP49assert,

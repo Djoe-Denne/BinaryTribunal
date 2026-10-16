@@ -1,5 +1,28 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA finale conforme et audit frais candidat en accès seul — 2026-10-16
+
+`L7_L8_CROSSQA_OFFLINE_PASS_20261016.md` :parent20:23:21.693Z valide55artefacts/
+3464153B/f35ee27d,441pins actuels etmain275 exacts,2DB1441792Bretenues/receiptsraw
+égaux/sanssidecars,cache29/1073981Bopaque.9PASS/84assert/2invocations/11840ms ;
+guard JS/Bun/layouts seulement,close≠Qquiescence,28stepsbornepascompteur. QAglobale
+reste ouverte/HOLD, aucune commande supplémentaire ;L9global task_mv6towry_000d_c1nxby
+reste blocked, dépendances non effacées.
+
+Sous-tâche indépendante candidate task_mvbf4ikr_005s_dg6l8i, reviewerfresh NONBLIND
+preintegration-boundary-r1/Plan, natifSolMAX ses_eb99a9a93ffeCSVcDbnCW9UlEK relu,
+modèle/catalogue/politiques4/2/budget5inchangés. Elle fournit evidence partielle,
+ne claim/rouvre/termine pas L9global. Préambule public exposé avant message FIRSTHOLD
+détaillé :audit publicV2/qualification explicite, pasraisoningprivéimporté,
+admissibilitéNONBLIND conservée,aucune promessepacket-only/zéroinbox/anciensrésumésvus.
+
+Nouveaugel inputs/PREINTEGRATION_BOUNDARY_REVIEW_20261016 :452helper8865020B,
+manifest9848635f/scope5281B41c710f9,receipt78ffd6bd/fichier98119B6b8b1898 ;ledger
+parentSEPARÉ8943882B/b5c9readonly/reçu1814B5517f1c3=453payloads17808902B.
+301harness byte-exacts,3anciensmetadatahistoriques seulement,aucunrawDB/cache transféré.
+**ACCÈSSEUL**contrats/préambule/manifest/453hashs/deuxreçus/rôleACK puisHOLDavant
+GOstatique distinct. Pasimport/TSC/test/probe/DB/TEMP/Git/native/maintransfert/intégration.
+
 ## QA D1/D2 verte terminée/libérée — collecte finale requise — 2026-10-16
 
 Parent vérifie rawargv/CWD/logs/noms/PID/exitnaturel0 :D1PID11860/109ms/quatrePASS/
