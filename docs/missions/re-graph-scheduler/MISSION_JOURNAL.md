@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Frontière recevable ; préparer validationcomplète sans exécution — 2026-10-16
+
+- AuditACCEPTABLE_BOUNDARY_SCOPED,rapportpublic216bdd92/details21ffaeab archivéparent
+  viaASTsansreasoning/eval ;453/reçus/main275 exacts,contraires/limites8ancragesretenus.
+  Sous-tâche completed/reviewerarrêté,nouvelleprobe0,L9globalblocked/L10/mainfermés.
+- MêmeL8owner/cycle1/SolMAX tâcheouverte :nouveau435helper8681300B/c40906eb/421699d5/
+  receiptfa0d99cf-fichierafa0e1ca +ledger8943882b5/reçuaa27165b=436payloads17625182B.
+  ACCÈSSEULACKpuisHOLDavantplanstatiqueeffetscleanup/couverture/ownership/bornes.
+  Dossierplanabsent,0image/runtime/DB/TEMP/TSC/test/build/sourcefix/native/intégration.
+
 ## Audit candidat GO statique — 2026-10-16
 
 - ACK453/contrats/préambule/deuxreçus/rôle approuvé ;parentnativeSolMAXPlan/tâche/

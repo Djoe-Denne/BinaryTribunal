@@ -1,5 +1,24 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Frontière recevable ; plan non-régression complète en accès seul — 2026-10-16
+
+`PREINTEGRATION_BOUNDARY_ACCEPTABLE_SCOPED_20261016.md` :parent20:52:15.681Z retient
+ACCEPTABLE_BOUNDARY_SCOPED,8ancrages/contraires/limites lues ;453pins/reçus/main275
+exacts. RapportpublicXML8580B216bdd92/details8282B21ffaeab archivé parparent via
+ASTlittéraloutil public, jamais eval/reasoning ;Plan n'a contourné aucune écriture.
+Sous-tâche completed/reviewerarrêté définitivement, pas branchemerger ;L9globalblocked
+etL10/main restent fermés. Pas nouvelleprobe nécessaire ni garantiebodycomparatortest
+exhaustive/host/100k/régimeB/shadow acquise. Validationcomplète future encore requise.
+
+Même ownerL8 tâche task_mv6towrm_000c_24005n/cycle1/SolMAXbuild relus :paquet
+OWN/inputs/COMBINED_FULL_VALIDATION_PLAN_20261016,435helper8681300B/manifestc40906eb/
+scope5300B421699d5,receiptfa0d99cf(fichier94724Bafa0e1ca) +ledgerparent8943882b5/
+reçu1798Baa27165b=436payloads17625182Breadonly,301harness/45testfiles inchangés.
+**ACCÈSSEUL**scope/contrats/décisions/manifest/reçus/436hashs/rôle ACKpuisHOLD.
+Futur dossier plan absent,pasimage/runtime/DB/TEMP/TSC/test/build/importproduit.
+AprèsGOstatique distinct seulement :audit complet effets/cleanup/ownedimage/env/
+couverture/commandes/bornes, pas sourcefix/full implicite/install/native/intégration.
+
 ## Audit candidat : ACK453 approuvé et GO statique — 2026-10-16
 
 Lecture intégrale des contrats/scope/préambule/manifest/deuxreçus +453pins physiques
