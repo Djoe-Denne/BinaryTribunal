@@ -1,5 +1,17 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA combinée : livraison statique, trois corrections de draft avant dynamique — 2026-10-16
+
+Sixsorties56354B/manifest792ee369, cinqpayloads51335B/aggregate11503043 et424inputs
+vérifiés. `L7_L8_CROSSQA_STATIC_QUALIFICATION_20261016.md` : pasexécution/PASS.
+Parent bloque le GO dynamique sur configlease1000/horizon80, oracle makespan11
+confondu avecpublicationEnd d'un casstuck, rétention oubliant-journal. SourcesSIM
+1021/1031/1288/1301–07 et1313–14/1333–36 confirment les deux premiers points.
+NatifSolMAX/tâcheouverte relus ;GO19:53:52.163Z correction STATIQUE ADDITIVE
+uniquement (draftv2/addendum/manifest), ancien6files inchangés, mêmescas/bornes,
+puisHOLD. Risque fixture-driver registry hardcodé interdit107/full.0produitrun/DB/
+sourcefix/maintransfert/native ;aucun défaut produit ni résultatFAIL inféré.
+
 ## GO complet effectivement lu ; HOLD documentaire levé — 2026-10-16
 
 ACK lecture intégrale des2payloads4985B etreceipt893B/rôleconditions approuvé.

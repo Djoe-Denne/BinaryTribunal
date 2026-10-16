@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## QA croisée : draft bloqué statiquement, pas défaut produit — 2026-10-16
+
+- Sixsorties56354B/792ee369, cinqpayloads51335B/11503043,424inputs exacts.
+  Parent trouve lease1000>horizon80 (événements drainés), makespanstuck≠publication11,
+  sidecar-journal omis. Aucune exécution/PASS/FAIL produit.
+- GOstatiqueadditif19:53:52.163Z,mêmeSolMAX/tâcheouverte :draftV2/addendum/manifest
+  seuls,ancien6intacts/casbornesinchangés,puisHOLD ;107/full exclus pour registry
+  hardcodé.0DB/sourcefix/maintransfert/native,GOdynamique encore bloqué.
+
 ## Lecture complète du GO confirmée — 2026-10-16
 
 - ACK supplément4985B/deuxpayloads+receipt/rôle approuvé,424+2/nativeSolMAX/
