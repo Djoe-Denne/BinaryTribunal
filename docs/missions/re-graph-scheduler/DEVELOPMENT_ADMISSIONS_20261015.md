@@ -1,5 +1,19 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 source seule — GO final réel après ACK — 2026-10-16
+
+ACK4entrées118325B/décisionbaselineREDparenttestcomplets/hash/rôleconditions approuvé.
+Receipt fichier4b6db630…f798,parentnatifAstraMAX/taskOWNguardready/369baseline6d00/
+testcb111/RED10/ARTIFACTS/PLANcd21 exacts relus AVANTwrite. **GO FINAL SOURCE_ONLY**
+envoyé :SEUL ROOT src/simulator.ts selonPLANcd21/ratificationee53/gate07785d89,
+livraisonstatiquebefore/after/diff/DELTA/pins/coûtsrisquespuisHOLDpourcontrôlediffparent.
+
+64testcb111/131septfichiers/READMEhelpers/33DTO/368autresbaseline+inputsoldproofs
+readonly,pasextensionoumodèleévénementielopportuniste. ASTtext/hashdiffstatique
+seulement,pasproduitload/probe/TSC/tests195/SQL/full/100k/Git/native/intégration.
+GatesexécutionTSC195/full/freshreviewparent restentdistinctes. Aucunrésultatcorrectif
+encore ;L8gateCcopiesindépendantecontinue,pasdroitL8déduit duGO L7.
+
 ## L7 RED qualifié recevable / accès source-only — 2026-10-16
 
 ParentvérifieARTIFACTS2709b3a9/10preuves201367B,source6d00/369baseline/33DTO/392+3
