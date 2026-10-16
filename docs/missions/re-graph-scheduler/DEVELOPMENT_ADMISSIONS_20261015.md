@@ -1,5 +1,17 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 copie851 — review finale recevable, pas encore main — 2026-10-16
+
+`L7_COPY851_REVIEW_ACCEPTABLE_SCOPED_20261016.md` : parent retient ACCEPTABLE SCOPED
+OFFLINE après final932b81c4 + addendum DB374bd489, manifeste b60e0bae / 13 preuves /
+258996B. TSC0 réutilisé sur254 fichiers identiques, V2 réel255P0F17622assert/14files,
+puis12probes publiques indépendantes prépinées/12PASS/1invocation/2unitésmax/0DB0port.
+Parent vérifie calculs et contraires,403inputs/deuxreçus/TARGET7/main275 exacts.
+NONBLIND/standalone/authenticité/Proxy/offline limites maintenues ;ancien rouge et
+42DBL7/quatreprovenances préservés. Tâche review completed/natifSolMAXPlan, reviewer
+arrêté définitivement, pas branche à merger. Auteurs HOLD ; prochaine étape autonome
+QA combinée L7+runtime16, aucun maintransfert/intégration/globalQA/native par ce verdict.
+
 ## V2 livraison conforme ; GO probes publiques indépendantes mémoire — 2026-10-16
 
 Parentvalide400d9a0dmanifest7preuves303532B/qualification100550B593021ba,255P0F17622/
