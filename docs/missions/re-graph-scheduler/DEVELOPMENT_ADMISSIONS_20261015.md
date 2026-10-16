@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA V2 qualifiée ; contrat dynamique prêt, accès seulement — 2026-10-16
+
+V2draft5420398b/addendumcaa438bd/manifest34a5211c :quatre remplacements exacts,
+sixanciens intacts/neufsorties88480B readonly. Parent valide chronologie lease16/
+HB0/horizon32(max27),publication22/work24,casstuck publication11/frontière16 ;
+Bun1.4.2 helpflags qualifiés sans test.424inputs/main275 intacts.
+Contrat OWN/inputs/L7_L8_CROSSQA_DYNAMIC_GATE_20261016 (2payloads13735B,
+3a6d205e/28d4b1d8,receipta693f91c/fichier18e245e8) en **ACCÈSSEUL** ;ACKcomplet
+puisHOLD avantréservation/FINALGO. D1quatrepurs puisD2cinqV2 conditionnels/2DB/180s
+seulement envisagés ;runtime-xq-80920072 absent.0exécution/DB/TEMP/native/intégration.
+
 ## QA combinée : livraison statique, trois corrections de draft avant dynamique — 2026-10-16
 
 Sixsorties56354B/manifest792ee369, cinqpayloads51335B/aggregate11503043 et424inputs

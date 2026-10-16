@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## V2 QA qualifiée, contrat dynamique en accès seul — 2026-10-16
+
+- Draft5420398b/addendumcaa438bd/manifest34a5211c :quatre remplacements exacts,
+  anciens6intacts/neuf88480Breadonly,oracles statiques16/0/32(max27)/publication22/
+  work24/casstuck11vs16 qualifiés. Runnerhelp1.4.2flagsPASS,pas test.
+- ContratMD3a6d205e/JSON28d4b1d8,2payloads13735B/receipta693f91c-fichier18e245e8,
+  ACCÈSSEUL puisACK/réservation/FINALGO. Runtime-xq-80920072 absent,D1/D2 encore
+  nonautorisés,0DB/TEMP/exécution ;424/main275intacts,aucunenative/intégration.
+
 ## QA croisée : draft bloqué statiquement, pas défaut produit — 2026-10-16
 
 - Sixsorties56354B/792ee369, cinqpayloads51335B/11503043,424inputs exacts.

@@ -55,3 +55,34 @@ Reçus parent sous `.tmp/coordination-three-20261014/` :
 Aucun import/TSC/test/build/probe/CLI/SQLite/DB/port/TEMP runtime, source centrale,
 main transfert, intégration ou native autorisé. Qualification V2, flags du runner,
 environnement/ownership/bornes et GO dynamique distinct restent requis.
+
+## V2 qualifiée ; contrat dynamique en accès seul — 2026-10-16
+
+Trois ajouts /32126B, neuf fichiers /88480B au total. V2 proposée16633B/
+`5420398b28676ae8f2c0ebc72cf7d6d36ea64f1035f5b31b2959050e0c8bc878`,
+addendum8774B/caa438bd, manifeste6719B/34a5211c. Le parent confirme exactement
+quatre remplacements textuels : lease16/heartbeat0, horizon32, oracle XQA-02
+publicationEnd11/stuck/makespan=observationEnd, et rétention-journal. Six anciens
+fichiers intacts, cinq cas/bornes inchangés ; neuf sorties maintenant readonly.
+
+Chronologie dérivée statiquement : durées3/7/2/validation2, latency11 ; heartbeat0
+ne réenfile rien. Positif0,3,7,9,11,14,16,18,20,22,27 ; deux expirations initiales
+16/27, dernière observation27<32, publication/makespan complet22 et travail24.
+Cas C bloqué :0,3,7,9,11,16 ; publication11 et frontière16 distinctes. Aucun test
+n'a servi à ajuster ces attentes. Le parent a relu les chemins source correspondants.
+
+Bun1.4.2 `test --help` exit0 : bail/name-pattern/timeout exposés ; aucune découverte
+ou exécution de tests demandée par cette commande. Reçu de qualification runner
+`l7-l8-crossqa-runner-qualification-20261016.json` sous le répertoire `.tmp` parent.
+
+Nouveau contrat matériel OWN/inputs/L7_L8_CROSSQA_DYNAMIC_GATE_20261016 :
+MD5920B/3a6d205e et JSON7815B/28d4b1d8, deuxpayloads13735B readonly ; reçu884B/
+18e245e8/fingerprinta693f91c. **ACCÈS SEUL**, lecture intégrale/hashs/ACK puisHOLD
+avant réservation et FINALGO distinct. Future racine runtime-xq-80920072 absente.
+Argv/cwd/env/OWNER/DBs/sidecars/logs/guard et stop sont écrits intégralement dans
+ce contrat, pas laissés au texte potentiellement tronqué d'un réveil.
+
+Séquence seulement envisagée : D1 quatre callbacks L5 purs filtrés,30s/0DB ; D2
+cinq tests V2,150s/2DB seulement après D1 naturel0/quatrePASS exacts/postpins ;
+deadline global180s. Aucune permission de créer/exécuter à ce stade. Main275,
+424inputs et deuxreçus préservés, pas sourcefix/native/intégration/globalQA.
