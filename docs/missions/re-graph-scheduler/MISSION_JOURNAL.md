@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Full2 vert fin naturelle/créneau libéré — 2026-10-16
+
+- UNE41388fin17:25:56.421Z/177473.247ms/exit0naturel,parentcdd00end/108d0stdout/
+  5c7f5stderr+résuméréel1125P0F1SKIP91927assert1126/36 vérifiés. LIBÉRATIONavantcollecte,
+  aucuneannexe/TSC/probe/rerun. PréflightworkerROOT60/nested69nonsymlinks/[opencode]/
+  nestedEMPTY/TEMPspawnROOT/guardabsent/envSHAinchangé lus,pasparentliveobservation.
+  Chemincourt+parentpréparé modifiésensemble,pasisolation1facteur/full1toujoursROUGE.
+- Collecte finale readonlypostpins414/old11DBraw+NEWDBcloses/4candidats/HANDOFFpending,
+  aucunGREENdeliveryacceptance/reviewdispatch/intégrationnative déduit. FreshreviewL7
+  ENTIERESolMAXaprèsgelparentconformeencorerequise,autresgates/missionsinchangées.
+
 ## Full2 réservation exclusive et FINALGO — 2026-10-16
 
 - ACK7complets261183B/receipt/rôleconditions approuvé, nativeAstraMAXparentXHIGH/taskOWN/

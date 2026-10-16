@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Full2 vert terminé/libéré — collecte finale et review encore attendues — 2026-10-16
+
+UNEfull2PID41388/17:22:58.948Z→17:25:56.421Z/177473.247ms,exit0naturel/signalnull,
+sanstimeoutkillspawnerror oucommandeannexe. Parent vérifie endcdd00a0d/stdout108d0b92/
+stderr5c7f5dd1 et résumé BRUT :**1125PASS/0FAIL/1SKIP/91927assertions/1126tests36files**.
+Créneau17:19:57.034Z explicitement LIBÉRÉ avantcollecte détaillée. Aucunfullàattendre
+ourefaire ;collectereadonly despostpins/old11DBraw/NEWDBautorisées seulement.
+
+Préflight enregistré :TEMProot60chars/nested69,nonsymlinks,rootentries=[opencode],
+nestedEMPTY/rootEmptyClaim=false,spawnTEMP/TMP=ROOTpasnested,guardstrictabsent,
+process.envSHAavant=après. Parent lit les mesuresworkerprélaunch,ne prétendpas une
+observationparentlive niuneisolationcausale1facteur :chemin court ETparentpréparé
+changentensemble. Full1resteROUGEetimmuable ;ses92échecs ne sontpas effacés.
+
+ProcessGREEN n'est pas encore livraison finale conforme :postpins414/old11DB3321856B/
+nouveauxDB/closes/gel4candidats etmanifest sontattendus. Touteanomalie→HOLDsansfixrerun,
+erreurlecteur→supplémentconservantlesoriginaux,pasréécriture. FreshreviewL7ENTIÈRE
+SolMAX indépendante ne sera admise qu'après gel conforme. PasacceptationglobaleL7/
+L8/intégration/native,QA/régimeB/simCLI/L9L10 etautresmissions restentouverts/intouchés.
+
 ## Full2 — ACK approuvé, réservation exclusive et GO final distinct — 2026-10-16
 
 ACK des7fichiers261183B/receipt/rôleconditions intégraux approuvé. Parent relit
