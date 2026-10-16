@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 STOP conforme/amendment test exacte accès-only — 2026-10-16
+
+- STOPa66c387e/28artefacts2796891B/853checks801paths/16runtimefrozenliveexacts,TSC2
+  naturel/0tests107,registry157257tail0/0DB ;cacheopaqueNode1357740BhashheaderpasSQL,
+  aucune désérialisation/coverage107inventée. Livraisond'échecconformepasgateverte.
+- Amendmenttest3214040B974bcb29 :1hunklectureadmissionunique/guardnonnullréel+mêmes
+  étatsreceipt,expected39398B0f7cb296 ;paquet4pins408955B/receipt72e1ae61transféré
+  accèsseulmêmeSolMAX. ACKpuisGOfinalPATCHexact→TSC120s→si0UNE107180sdistinctpending,
+  nopatch/exécutionmaintenant.2rowstestlivepinattendu+1registrypréfixemutables,
+  850autresfullSHA/copies708immuables ;sources2/13runtime60oldreadonly,C/fullgates
+  séparées,L7PLANstatiquecontinue,pasintégration.
+
 ## L8 STOP TSC2 / 107 NONlancé — 2026-10-16
 
 - UniqueTSC31564fin14:22:14.155Z/3833.5539ms/exit2naturel,logsparentexactsf8a8281e/

@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 STOP collecté conforme / amendment exacte en accès seul — 2026-10-16
+
+Parent vérifie livraisonSTOP a66c387e/28artefacts2796891B/853checks801paths et16runtime
+live/frozen exacts. TSC2naturel/0invocation107 confirmés,registry157257/tail0/0DB ;
+cacheNode1357740B retenu/hashé/headernonSQLite, pasdésérialisé ni proof107. Ceci est
+conformité de livraison ROUGE, pas TSC source séparément validé ni runtimeGREEN.
+
+Amendment `L8_A2_TEST321_TYPING_AMENDMENT_20261016.md`4040B/974bcb29…9b644b,pré-ratifiée
+au seul hunk321 du nouveau test :lectureunique admission,guardnonnullableRÉEL puis
+MÊMEACCEPTED|TERMINAL/receipt1,aucuncast/waiver/affaiblissement. EXPECTED_TEST39398B/
+0f7cb296…b5a7ff danspaquetnormatif4pins408955B/receipt72e1ae61…bf2eab ;mêmeSolMAX/
+taskOWNrelus. **ACCÈSSEUL** envoyé,ACK4complets/hash/rôleconditions puisFINALGOdistinct
+EXACT_TEST_PATCH_THEN_TC107 encore requis. Aucunpatch ni nouvelleexécution autorisé.
+
+FuturGOéventuel :patchbytesexactprératifié→vérifpin/readonlies→NOUVEAUTSC120s→si0
+UNE1077files180s,rougeHOLDsansfixrerun.853rowshistoriques :2occurrenceslive testpin
+mutables àl'attendu,1registrylivequalifiéepréfixeaprèstests,850autresfullSHAintacts ;
+copies708RED/WRITE/TSCSTOPtoujoursimmuables. Sources2/autres13/60oldreadonly,fixtures
+etC/full/review/intégrationgates inchangées. L7PLANstatiquecontinueindépendant.
+
 ## L8 STOP TSC rouge, aucun ciblé107 lancé — 2026-10-16
 
 UniqueTSC PID31564,14:22:10.322Z→14:22:14.155Z/3833.5539ms,exit2naturel/signalnull/
