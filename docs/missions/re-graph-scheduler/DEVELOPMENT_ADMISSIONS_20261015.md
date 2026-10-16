@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 copie — réservation exclusive et GO full réel — 2026-10-16
+
+ACK5payloads227781B+receipt/contratsintégraux/rôleconditions approuvé. Parentrelit
+natifAstraMAXauteur/SolXHIGHsuperviseur/taskOWN/politiques4/2/guardready etcurrent370/
+ledger8943882/4candidats195451B/TC21old27proofs/402inputspins/45TS exacts,
+receipt82623aa4…cb2e6. Guardinteropstrictabsentcase-insensitive parent,pasenvmodifié ;
+prélaunchworkerindépendantreste requis. ReviewL8completed/shutdown,autresauteursHOLD.
+
+**RéservationEXCLUSIVEnEUVE16:44:29.163Z**,aucunBuntest/probe/TSCobservé,aucunkill/
+childTEMPfullcrééparparent. **GO FINAL L7_COPY_FULL**distinct16:44:40.592Z :UNE
+`bun test --timeout 30000`,global≤420s,préflightsource/ledger/rawfixtures/pins/guard,
+TEMPchildOWNfresh/LOCALAPPDATA/configinchangés,407inputs(402+5)protégés. Seulement
+12legacyhooks22callsproprescréationsNEUVES+escapesnommés ;13eINACTIF146nonautorisé,
+GraphinteropNEUFretourslogs+L5childDB/sidecarsprésentesretenus,lifecyclehashqualifié.
+
+RésultatsencoreINCONNUS,sanity1125P1SKIPpasacquis. Rouge/setup/drift→HOLDsansfixrerun,
+FIN/codescomptes+LIBÉRATIONimmédiateAVANTcollecte,puisfullgel4candidats/HOLDparent.
+Niancien636DBL8/11L7autreOWN,niprobes/TSCextras/fullconcurrent/native/IDA/autremission
+autorisés. ReviewL7FRESH SolMAX etgatesparentcroisées restentdistinctesavantintégration.
+
 ## L8 review recevable/arrêtée ; L7 full en accès seul — 2026-10-16
 
 ReviewfreshNONBLINDSolMAX taskmvb5kbvg/sessioneba8fb751 **completed**, native relu,
