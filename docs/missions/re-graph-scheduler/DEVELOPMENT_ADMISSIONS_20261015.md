@@ -1,5 +1,33 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## V2 livraison conforme ; GO probes publiques indépendantes mémoire — 2026-10-16
+
+Parentvalide400d9a0dmanifest7preuves303532B/qualification100550B593021ba,255P0F17622/
+25514files réels etraw98cas effectivementPASS cettefois.402helper9300341B+ledgerlocal
+8943882B=403payloads18244223B/2receipts/controls exacts,ledgerb5readonlynonlink1 ;
+10newDB2936832Bexplicitstdout=posthash,néessrun/distinctold32/nosidecarsretenues.
+Closesqualifiéshooktentatives+finprocess,pasinstrumentationnativeindividuelle.
+TEMPpostruntime[opencode]/nestedEMPTY/0cacheopaqueOBSERVÉpasforcé. Oldrouge393/TSC0/
+setupcache conservés,42DBL7quatreprovenancesdistinctes/main275exact. Source254identique
+justifieTSC0/statiqueentière réutilisés ;raw98resteofflinePARTIAL/quarantined.
+
+NatifSolMAXPlan/taskouverte/politiques4/2/guardready/403inputs etpreuvesV2 relus,
+zérotest/probe/TSCconcurrent sanskill. **GO FINAL PUBLIC_MEMORY_PROBES18:43:38.512Z**
+distinct :≤12casDÉCLARÉS total/≤8unitésfixture/≤4invocations≤60schacune/0DBnouvelle/
+0port. NouveauPROBES-9c4a62f1c225sousproofV2aprèsGO,plans/scripts/fixtures/configs/
+attentes/contre-cas etcalculsMANUELS pinésAVANTexécution. APIsPUBLIQUES srcV2,pas
+helperprivéasany/testoraclecopié/ancienfinding oubouclecachéemassive. 18/20nonimposés,
+paramètresroles/workers/ressources/validation/travail àdocumenterindépendamment.
+
+SimStoremémoirelicite,Store/GraphStore/SQLite/durableports interdits ;effetscallbacks
+OWNobjetsmémoireseuls,pasFS/réseau. TempV2continuation sansdelete/recréation,cacheoutil
+éventuelrawhashretenuopaque,envintrasandbox/guardstrictabsent/authoritypaths/TEMP_TMP
+childseuls inchangés.403sources/ledger/reçus/TARGETpreuves immuables,pas TSC/ciblée/full
+supplémentaire. ToutRED/setup/drift/refus→HOLDsansfixoracle/source/rerun/bypass,
+contrairespréplanifiésmêmeinvocationbornéelicites,pasfollowupillimité. Finsavantcollecte
+puisverdictscopé3–8ancrages/reprospublics/pins/limites ;NONBLINDpréambule etstandalone
+limiteàdéclarer,aucunACCEPTABLEglobalL7L8/native/intégrationparceGO.
+
 ## Ciblée ledger V2 verte terminée/libérée — collecte finale encore requise — 2026-10-16
 
 UNEcibleV24276/18:34:11.326→18:34:29.096Z/17769.1268ms,exit0naturel/signalnull,

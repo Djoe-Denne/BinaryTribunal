@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## V2finalconforme/probesmémoireGOdistinct — 2026-10-16
+
+- Parent400dmanifest7preuves303532B/593021qualification100550B/255P17622+raw98PASS réels,
+  403inputs18244223B2reçusledgerb5readonlycontrôles exacts ;10DB2936832retours=posthash/
+  néessrun/distinctold32/nosidecars,closehook+finprocessqualifiés.0cacheOBSERVÉnonforcé,
+  oldpreuvesrouges/TSC0/main275 et42DBL7quatreprovenances préservés,nonnative.
+- NatifSolMAXPlantaskguard403+V2proofs/zéroconcurrent relus. **GOPROBES18:43:38.512Z**
+  ≤12casdéclarés/8unités/4invocations60s/0DB0port,planscriptfixturesattentesMANUELLES
+  pinésavantcas ;publicAPIs/nooraclecopié/18-20nonimposés.403sourcesTARGETreadonly,
+  TempOWNcontinuation/cachesopaque/envintrachecks ;RED/setupHOLDsansfixrerun/bypass.
+  Finsavantcollectepuisverdictscopé/pins/limitesNONBLINDstandalone,pasintégrationnative.
+
 ## Cible ledgerV2 verte/créneau libéré — 2026-10-16
 
 - UNE4276fin18:34:29.096Z/17769.1268ms/exit0naturel,parentafdc7007/70fdstdout/841eastderr
