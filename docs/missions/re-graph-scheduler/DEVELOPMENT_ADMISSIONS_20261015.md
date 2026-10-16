@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Jobsource livré, source-only ; reviewindépendante en accès seul — 2026-10-17
+
+4fichiers71085B/70957212-100e329a-9ca22a88-eb0f6990physiquementconformes,
+inputs/reçu/main275intacts,sortiesgeléesreadonly. Auteur task_mvbj4159_0004_vbidtk
+completednatif/shutdown ;aucuncompile/Add-Type/APIJob/fixture/test,prosenonpreuve.
+JOB_SOURCE_DELIVERY_REVIEW_ADMISSION_20261017.md :freshPlanSolMAXNONBLIND
+task_mvbjxhu4_000w_jzq6ql/session ses_eb91f8e52ffemThfZygsvxMcgI relu,paquet10/95874B/
+scope596080b5/manifest7fa7a092/reçu2374B2faf53d8. ACCÈSSEULACKpuisHOLDavantGOstatique.
+Expositionbootstrappublique déclarée,pasprivateauthor/packet-only ;pasnouveaurequêtesindex.
+Reviewpuisqualificationinoffensive séparées encore requises,pasfull44/native/intégration.
+
 ## Policyreview recevable ; contrat réduit ratifié prospectivement — 2026-10-17
 
 ACCEPTABLE_PROPOSAL_SCOPED indépendant,8ancrages/contraires/pertes qualifiés ;

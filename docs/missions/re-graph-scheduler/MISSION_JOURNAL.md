@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Jobsource livré/reviewfraîche accès seul — 2026-10-17
+
+- 4/71085B/70957212+100e329a+9ca22a88+eb0f6990conformes/inputsmain275intacts,
+  gelreadonly/auteurcompletedshutdown,0compile/APIJob/fixturetest.
+- FreshPlanSolMAXNONBLINDreviewer task_mvbjxhu4/session ses_eb91f8e52ffemThfZygsvxMcgI,
+  paquet10/95874B/596080b5/7fa7a092/reçu2faf53d8 :ACCÈSSEULpuisACK/HOLDavantGOstatique,
+  pasadoptionqualifiée/full44/native/intégration ;bootstrapdéclarépaspacket-only.
+
 ## Policy B01/B02 ratifiée prospectivement, pas run — 2026-10-17
 
 - ReviewACCEPTABLE_PROPOSAL_SCOPED/f64f9d77/a1354950 archivéeparent/49pins+main275
