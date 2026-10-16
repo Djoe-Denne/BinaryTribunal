@@ -1,5 +1,20 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Plan complet qualifié ; route TC/build séparée en accès seul — 2026-10-16
+
+Quatre documents45415B/03ef85bd,3payloads39004B,45membership/44argv et436inputs
+qualifiés parent. FullB01/B02/B03 reste BLOQUÉ,sanswaivercleanup/patch/skip.
+Décision :isoler compilationnoEmit/bundling sans tests ;voir
+COMBINED_FULL_PLAN_QUALIFIED_PARTIAL_COMPILE_ROUTE_20261016.md etcontratTC_BUILD.
+Outillageexistantpinné :Bun1.4.2/Node24.11.1/TS5.9.3/SDK2.0.26 ;versions/help/
+metadata seulement,pasTSC/build,aucuninstall/macro/preload/envfileadoptésimplicitement.
+Imagepréparéeparent CVB-d2d2b842e3/repo :436payloads17625182Breadonlybyteidentiques,
+OWNER/IMAGE_PARENT_RECEIPT9ca4693c,uniqueNMjunction déclarée,run/dist absents.
+Contratnouveau OWN/inputs/COMBINED_PARTIAL_TC_BUILD_GATE_20261016 :2payloads21557B
+d2c6d480/281f60de,receipt357ad9bd/fichier888Be3a96595 ;helperNEcouvrepasimage.
+ACCÈSSEUL lecture/hash/image/outillage/receipts/rôleACKpuisHOLD avantFINALGO.
+0compilation/test/DB/runtime/sourcefix/native/intégration,nouvellepermissionfull0.
+
 ## Escalade rétention confirmée ; audit statique continue — 2026-10-16
 
 Parent relit les sources gelées :client7/18–20 créeclient.db sousrootneuf puis

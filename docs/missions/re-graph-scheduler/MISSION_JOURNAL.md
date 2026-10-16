@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Plan complet conforme/fullbloqué ; TCbuild séparé préparé — 2026-10-16
+
+- Quatre docs45415B/03ef85bd,45membership/44argv/436inputs conformes. FullB01B02B03
+  resteheld,sanswaivercleanup/patch/skip ;parent sépareprospectivementTCnoEmit/build.
+- MétadataoutillagepinnéeBun1.4.2/Node24.11.1/TS5.9.3/SDK2.0.26,helpflags qualifiés,
+  0compilation. ParentprépareCVB-d2d2b842e3/repo436/17625182Breadonly+OWNER/receipt9ca4693c,
+  uniquejunctionvendor/run-distabsents. Contrat2/21557B/d2c6d480/281f60de,
+  receipt357ad9bd-e3a96595 ;helpercouvrecontrôlePASimage. ACCÈSSEULACKpuisHOLD,
+ 0test/TSC/build/DB/runtime/sourcefix/native/intégration/maintransfert.
+
 ## Rétention full : contradiction statique confirmée — 2026-10-16
 
 - Parent confirmeclient/eventlog/store :cleanup desDBphysiques mêmeenimagefraîche ;
