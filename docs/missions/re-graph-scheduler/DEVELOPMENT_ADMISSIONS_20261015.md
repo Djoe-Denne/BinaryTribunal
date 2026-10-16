@@ -1,5 +1,18 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Escalade rétention confirmée ; audit statique continue — 2026-10-16
+
+Parent relit les sources gelées :client7/18–20 créeclient.db sousrootneuf puis
+rmrecursive ;eventlog17–24 closepuisunlink own/foreign/ensemble mock+WAL/SHM ;
+store19–34 unlinkfixtures SQLite aprèsclose. Une imagefraîche ne conservepas les
+bytes ainsi supprimés. mechanical-preparation123 supprime un staging d'échec,
+à distinguer des DB. Reçu `combined-full-validation-retention-escalation-parent-20261016.json`.
+GOstatique continue pour l'inventaire complet ;GOdynamique BLOQUÉ surcettecontradiction
+avec rétention chaqueDB/suffixe duSCOPE421699. Aucunancienwaiverlegacy appliqué,
+aucuneexceptionéphémère/amendement/interception/exclusion silencieuse autorisée.
+Aprèsauditcomplet,parentarbitreraprospectivement ownership/retention etlimites,
+sansquestionuser.0image/runtime/TSC/test/build/DB/cleanup/sourcefix/intégration.
+
 ## Plan validationcomplète — ACK436 et GO statique seul — 2026-10-16
 
 ACKcomplet436payloads17625182B/contrats/décisions/manifest/deuxreçus/rôle approuvé.

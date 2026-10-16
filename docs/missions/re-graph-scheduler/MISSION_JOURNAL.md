@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Rétention full : contradiction statique confirmée — 2026-10-16
+
+- Parent confirmeclient/eventlog/store :cleanup desDBphysiques mêmeenimagefraîche ;
+  stagingmechanical123 distinct. GOstatiquecontinue/inventairecomplet attendu,
+  GODYNAMIQUEbloqué,aucunwaiverlegacy/exceptionéphémère/amendement/interception/
+  exclusion implicite. Arbitrageparentprospectifaprèsaudit,0image/test/DB/sourcefix.
+
 ## GO statique plan validationcomplète — 2026-10-16
 
 - ACK436/contrats/deuxreçus approuvé ;parentnativeL8SolMAX/cycle1/guard/pinsreadonly/
