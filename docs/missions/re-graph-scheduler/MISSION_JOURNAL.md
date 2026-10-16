@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 REDrecevable/sourceaccès-only — 2026-10-16
+
+- Parent2709ARTIFACTS10preuves201367B/logs39P25F64tests386assert64endsuniques,4repros
+  contrairesretrouvés,369source6d0033DTO392+3inputsoldproofs/test27720cb111exacts.
+  PID31948/289.7731ms/exit1naturelunefois ;25FAILclasses/domaine ratifiés≠25bugs,
+  C31C34C37qualificationsintactes,C56CP10work12/C57–60contrat.131=7files5sim2bench
+  byteexacts,pasrerun131nianciennepreuveblanchie. REDrecevablepasfixaccepted.
+- Gate3540B07785d89/4pins118325B/receiptc8a25ab9transféréemêmeAstraMAXaccèsseul,
+  ACKpuisSOURCE_ONLYGOpending ;futurSEULsimulator.ts,64cb/131README33DTO/368others
+  readonly,BASELINE_TESTparentfrozenAPRÈSREDAVANTfixpasearlyseal. Pascode/probeTSC/
+  tests195SQL/full/intégration,L8Cindépendantcontinue.
+
 ## L8 CcopyFINALGO — 2026-10-16
 
 - ACK66/6563/196/137l4pins426308B/rôleconditions approuvé,receipted15bfc3/natifSolMAX/

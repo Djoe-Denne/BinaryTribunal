@@ -1,5 +1,23 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 RED qualifié recevable / accès source-only — 2026-10-16
+
+ParentvérifieARTIFACTS2709b3a9/10preuves201367B,source6d00/369baseline/33DTO/392+3
+inputs/oldproofsexacts,nouveautest27720B/cb111c86inchangé. UneREDPID31948/289.7731ms/
+exit1naturel,64casmax2unités/39PASS25FAIL386assertions,64finsuniques/logsconfirmés.
+4casparent etcontrairesrépliquentpublicationindueblocagelocal avecarchiveintacte.
+25FAILsontclasses+refusdedomaineRATIFIÉS,pas25défautsindépendants ;C31/C34/C37qualifiés
+sanslostindex/infiniterecursioninventés. C56CP10work12redérivé,C57–60danscontrat.
+131existants=7fichiers(5sim+2bench)byteexacts via369,pasnouvelleexécution131.
+
+**REDRECEVABLE**,pasfixvalidé ni intégration. Gate
+`L7_COPY_BOUNDARY_SOURCE_WRITE_GATE_20261016.md`3540B/07785d89…f79be,
+4pins118325B/receiptc8a25ab9…dc79b transférés mêmefreshAstraMAX/taskOWNrelus.
+**ACCÈSSEUL**,lecture/hash4/rôleconditionsACK puisFINAL_SOURCE_ONLY distinct requis.
+FutureSEULEsourceSIM selonPLANcd21/ratificationee53,64testcb/131README33DTO/368autres
+baselineetproofsreadonly ;BASELINE_TESTfourni parparent APRÈSRED/AVANTfix,pasearly
+sealprétendu. Pascodewrite/TSC/test195/probe/SQL/fullmaintenant. L8Ccopiesindépendant.
+
 ## L8 C_COPY — GO final réel après ACK complet — 2026-10-16
 
 ACK66lDECISION/6563lBASELINE/196lSEEDS/137lPARENT,4pins426308B/rôleconditions reçu.
