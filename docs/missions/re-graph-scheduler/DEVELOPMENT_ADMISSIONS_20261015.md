@@ -1,5 +1,38 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Full2 final conforme ; nouvelle review L7 entière en accès seul — 2026-10-16
+
+Parent valide manifestd58d9801/11179B et22preuves1354816B :1125P0F1SKIP91927assert1126/
+36 réels,92anciensFAIL appariés chacun à unPASSunique.370current/ledger8943882/4pins
+195451B/33DTO/old50/full1_26+manifest/414inputs6receipts/45TS exacts. Old11DB3321856B
+raw avant/après et11NEWDB3321856B distinctes conservées (graph10perclose/postexit
+égaux,L5premierhashpostexit) sanssidecars ;22DB6643712B/provenancesfull1/full2 distinctes.
+Birthroots postGO/préfull corroborent mesuresTEMP60/nested69/envinchangé,pasisolement
+causal1facteur. Full1ROUGE/V1bd770+V2 immuables,main275exact,aucunSQL/rerunparent.
+**FULL2DELIVERYCONFORME**,pasacceptationglobaleL7 ouintégration. AuteurAstraHOLD.
+
+Fresh review NONBLIND ENTIERL7 :nouvelle task `task_mvb91iar_003f_0d5wmp`, membre
+`l7-copy851-review`, session `ses_eba369739ffehvsCe5mwiHl4YJ`, natifSolMAX/Planreadonly
+etownership/indépendance de tousautresmembres relus. Pasfork/ancienreviewer repris,
+pasworktree ;mainnatif sertCONTEXTE,pas accèsmain/autressessions. Scope
+`L7_COPY851_FULL2_FRESH_REVIEW_SCOPE_20261016.md`8061B/SHA49757baa…c458fa :33DTO/
+85membres etfrontières entières,contrats ratifiés/dépendances readonly,aucun oracle
+ancienreviewer/raisonnementprivétransféré. Ledger9MB/22DBL7/636DBL8 non transférés
+etphysiquement inaccessibles au reviewer ;RAW98 restent fixturesofflinePARTIAL.
+
+391pins8997638B/manifestf25a623d…095523/receipt55882d6d…9fcd1a transférés etrelus,
+receiptfile85625B/63a11cb5…5984c5. Junctiondepssansinstall,proofNATIVE_ADMISSIONparent
+prêt ;TEMPfuturl7rv-5620a967a0ed nomméMAISabsent. **ACCÈSSEUL** envoyé :lecture
+complètehash391/rôleconditionsACK attendu puisGO STATIQUEdistinct. Une erreur syntaxe
+du premier appel messageparent a été corrigée avant envoi effectif,pasrejetprovider/
+fallback/nouveaumodèle. Pasreviewsource/TSC/test/probe/DBcréation actuelle.
+
+Après statique seulement,GO DYNAMIQUEencore distinct :TSC120→si0UNE255/14paths180→
+si0≤12probesmémoirepubliques/8unités/4invocations60s/0DBextra ;nouvellesgraphDBretours
+seulement≤12. Aucunefullreviewer ni suppression/policyextension/sourcefix/Git/native.
+Reviewrecevable+gatesparentcroisées restentavantintégration ;globalQA/régimeB/simCLI/
+L9L10 ouverts,autresmissions intouchées.
+
 ## Full2 vert terminé/libéré — collecte finale et review encore attendues — 2026-10-16
 
 UNEfull2PID41388/17:22:58.948Z→17:25:56.421Z/177473.247ms,exit0naturel/signalnull,

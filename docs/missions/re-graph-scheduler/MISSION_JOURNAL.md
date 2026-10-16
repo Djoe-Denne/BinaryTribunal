@@ -1,5 +1,19 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Full2 finalconforme/reviewL7fresh accès-only — 2026-10-16
+
+- Parentd58dmanifest22preuves1354816B/1125P0F1SKIP91927assert1126/36+92oldFAIL→PASSunique
+  vérifiés ;370ledger4pins33DTOold50full1_26manifest414inputs6receipts45TS intacts.
+  Old11DB3321856+new11DB3321856distinctes rawretenues/perclosegraphégaux/L5postexit
+  seulement/nosidecars. TempbirthpostGOpréfull/envinchangé,pasisolement1facteur ;
+  full1ROUGE/V1bd770V2/main275 intacts. Deliveryconforme≠acceptationintégration.
+- FreshSolMAXPlanreadonlytaskmvb91iar/sessioneba369739/l7-copy851-review natif/ownership/
+  indépendance relus. Scope8061B49757baa/391pins8997638Bf25a623d/receipt55882d6d,file63a11cb5
+  transférésaccèsseul,junctiondepssansinstall/proofNATIVEprêt/TEMPfuturl7rv5620absent.
+  Premiermessageparent syntaxeincorrecte corrigéeavantdelivery,pasfallback/provider.
+  ACK391rôleconditions puisSTATIQUEGOpending,dynamiqueTSC255probesencoreGOdistinct,
+  ledger9MB/22DBL7/636L8/ancienraisonnementnontransférés/inaccessibles. Autresgatesouvertes.
+
 ## Full2 vert fin naturelle/créneau libéré — 2026-10-16
 
 - UNE41388fin17:25:56.421Z/177473.247ms/exit0naturel,parentcdd00end/108d0stdout/
