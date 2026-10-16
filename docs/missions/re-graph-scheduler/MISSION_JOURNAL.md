@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Full2 réservation exclusive et FINALGO — 2026-10-16
+
+- ACK7complets261183B/receipt/rôleconditions approuvé, nativeAstraMAXparentXHIGH/taskOWN/
+  politiques4/2guard/370ledgerold50full1_26manifest407old+7new414inputs45TS/main275
+  et11oldDB3321856rawsanssidecars exacts ;fingerprint96397611≠fileSHA0f04ee2a.
+- RéservationNEUVE17:19:57.034Z,zérotestprobeTSC/nokill/bothrootsabsents ;readbackfinal
+  idem. **FINALFULL2GO17:20:02.601Z**UNE30000/test420s/415child,préflightexactTEMPcourt
+  rootentries[opencode]/nestedEMPTY/mesures puisspawnTEMP=ROOTpasnested,guardabsent
+  processenvinchangé/legacy12hooks22callsseuls/13einactif. RésultatsINCONNUS,pasoracle.
+  RougeHOLDsansfixrerun,FIN+LIBÉRATIONavantcollectepuisgel/postpins414old11DB/HOLD.
+  Full1resteROUGE,freshL7SolMAXreviewparentcroiséavantintégration/nativeautremissionfermés.
+
 ## Accord utilisateur launcher-seul/full2 accès-only — 2026-10-16
 
 - Choix explicite «Nouvel essai (Recommended)» :UNE tentative distincte420s,mêmeAstraMAX/

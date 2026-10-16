@@ -1,5 +1,28 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Full2 — ACK approuvé, réservation exclusive et GO final distinct — 2026-10-16
+
+ACK des7fichiers261183B/receipt/rôleconditions intégraux approuvé. Parent relit
+natifAstraMAXauteur/SolXHIGHsuperviseur/taskOWN/politiques4/2/guardready,370ledger/
+old50proofs/full1_26+manifest/407anciens+7nouveaux414inputspins/45TS exacts,11DB3321856B
+raw exactes sanssidecars. Fingerprint96397611/fileSHA0f04ee2a distingués et vérifiés.
+Main275 accepté inchangé. Aucune connexionSQLite ou création de root par parent.
+
+Réservation EXCLUSIVE NEUVE17:19:57.034Z :zéroBuntest/probe/TSC observé sanskill,
+TEMPcourt/proofroot encore absents. Readback final recontrôle processus etabsences.
+**GO FINAL FULL2** distinct17:20:02.601Z selonUSERGO/DECISION98ae21c0 intégraux :
+après préflight physique seulement, création exact rootTEMPcourt+opencode vide et
+proofdir neufs ;rootentries=[opencode],types/longueurs/emptiness mesurés,spawnTEMP/TMP
+=ROOT pasnested,guardstrictabsent/process.envjamaismodifié/LOCALAPPDATAconfighérités.
+UNEfull30000/test/global420s/child415s,source/test/old11DB/proofs immuables,cleanup
+12/22freshownlegacy seulement+13eINACTIF,retoursDBneufsconservésqualifiés.
+
+Résultats encore INCONNUS. Sanity1125P1SKIP n'est pas résultat. Rouge/setup/drift→HOLD
+sansfixrerun ;FIN/codescomptes+LIBÉRATION avantcollecte mêmeFAIL,puis postpins414/
+old11raw etnouveauxDB/manifests/gel4candidats/HOLD. Full1 reste rouge et conservé.
+Aucune review promotion/intégration/native ni autre mission autorisée par ce GO ;
+freshL7SolMAXreview+gatesparentcroisées restent requises après éventuel GREEN.
+
 ## Accord utilisateur full2 launcher-seul ; paquet en accès seul — 2026-10-16
 
 L'utilisateur choisit «Nouvel essai (Recommended)» à la question explicite portant
