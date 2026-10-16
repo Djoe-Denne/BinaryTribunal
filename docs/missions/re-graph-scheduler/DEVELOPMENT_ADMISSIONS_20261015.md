@@ -1,5 +1,28 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Review L7 — ACK391 réel, préambule qualifié, supplément accès seul — 2026-10-16
+
+ACK réel391/8997638B sansécart,11PARENT etcontrats/manifeste/receipt complets reçus.
+Reviewer déclare spontanément un écart pré-FIRST_HOLD détaillé et reste HOLD :
+inboxvides/board/AGENT/manuelSerena puisctx_search surlabelgénérique. Audit PUBLIC
+parent7c88a218…11b0e (sansreasoningprivé) confirme le résultat indexé8617B UTF8/
+0169f018…2cc98 de descriptions historiques publiques de tâches/findings L7 etautres,
+passtrictementlectureAGENT niabsence deconclusionsantérieuresvues. Aucunancienrapport/
+transcript/sessionreviewer/corpscandidatavantaccès observé ;aucunproduitexécuté.
+
+Décision `L7_COPY851_REVIEW_PREAMBLE_QUALIFICATION_20261016.md` :admissibilité FRESH
+NONBLIND maintenue,écart etlimites déclarés,pasblindclaim/oracleanciensfindings. Chaque
+conclusion doitêtre redérivéecontrecodeactuel aveccontraires publics. Interdiction
+explicite ctx_search/indexpartagé/inboxboard/team_results/autrescontextes ;label
+générique≠isolation. ctx_execute exactfiles/sortiescourtes/tranchesautorisées seulement,
+refus→parent sansbypass. Aucunpurge/reset/configglobal/fallback niancienreviewerrepris.
+
+Complément additif2pins5304B/DECISION3905B64ecbbb5…a81f7/receipt8a5e9824…5f266 préparé
+ettransféré **ACCÈSSEUL**. Paquet391intact,supplémentACK/rôleconditions puisreadback
+natif391+2/GO STATIQUE distinct encore requis ;reviewer peutcontesteretHOLD. Ce stade
+n'autorise aucuneanalyse sémantique/source/TSC255/probe/DB/TEMP/intégration. Gates
+dynamique etacceptationparent restent ultérieures,globalL7/L8/native nonclos.
+
 ## Full2 final conforme ; nouvelle review L7 entière en accès seul — 2026-10-16
 
 Parent valide manifestd58d9801/11179B et22preuves1354816B :1125P0F1SKIP91927assert1126/
