@@ -1,5 +1,27 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 BLOCK confirmé parent / route utilisateur requise — 2026-10-16
+
+ReviewfreshL8A2 completed/shutdown, pasréouverture. Parentvalide445pins+10preuves,
+57DB17874944B/125files17999131B conservés/closes/sanssidecars,123racinesexactes.
+Reproductionisolée445pins,troisimportsrebasés/logiqueinchangée :2PASS2FAIL8assertions,
+deuxBLOCKconfirmés. Parent4DBneuves692224B conservées,7réservationsdont3sansDB ;
+premiercollecteur supposait DBparréservation, corrigé SANSrerun ni sourcefix.
+
+RV8A2-01 clienthéritéaf00 :digestavantawait/bodyaprèsmutation puisreceiptpouroriginal.
+Pasrégressionv2prouvée,clientmain aautrehash. RV8A2-02 observePREPARED resoumet sous
+pause,1→2submit/PREPARED→ACCEPTED/receipt1 ;premièreadmissioneffectivesouspause,
+pas preuveN1/refund. Contrairessansmutation/pauseavantpremierstepverts.
+`L8_A2_TWO_BLOCKS_ROUTING_GATE_20261016.md` fixe les limites et laroute àchoisir :
+clientétaitreadonly, sonécriture ne s'élargitpas implicitement. Aucuncorrectif GO/
+transfert/réactivationauteur/full/intégration ; questionutilisateurphasecorrective
+SolMAXexistante planavantcode/extensionclientbornée ouplanseulement/HOLD.
+
+L7 : parent rejoue maintenantdansgel380pinsTC0+**131PASS100old31new14004assertions**,
+7.375s ciblés,main275et380pinsexactsavantaprès. N'estpasreviewindépendante niGO
+full/SQLite ; FULLL7toujoursnonréservé/nonlancé. TâchesglobalesL7/L8in_progress,
+reviewL8completed/shutdown confirmés parreadbacknatif,politiques inchangées.
+
 ## Gel L7 6d00 vérifié / review L8 en consolidation — 2026-10-16
 
 L7 auteur :100ANCIENS+31NOUVEAUX=131PASS0FAIL14004assertions7files/typecheck0.

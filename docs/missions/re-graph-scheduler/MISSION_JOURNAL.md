@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 BLOCK confirmé parreplay / L7 parentvert — 2026-10-16
+
+- ReviewerL8completed/shutdown ; parent445pins10preuves57DB17874944B125files17999131B
+  /123racinesexactesconformes. Copieisolée445pins/test3importsseulsrebasés reproduit
+  2PASS2FAIL8assertions :clienthéritédigest/body/receiptmutables etadmissionPREPARED
+  souspause confirmés, pasrégressionnative/N1refund alléguée.4parentDB692224B closes
+  retenues,7réservations3sansDB ; premierpostcollecteurhypothèseerronée corrigé sans
+  rerun ;preuvesreviewerintactes. Gate routingutilisateurclientreadonly/phaseSolMAX
+  cibléeplanavantcodeouplanseulement/HOLD, pascorrection/transfert/réactivation/
+  full/intégrationautorisés. L8globalin_progress, reviewcompleted jamaisréouverte.
+- ParentL7TC0/131PASS100old31new14004assertions replaygel380,380et275mainpinsexacts,
+  noconcurrentBuntest/nokill. Pasreview/acceptation/FULLGO ; fullnonréservé/nonlancé.
+
 ## Gel L7 6d00 / findingsL8 préliminaires — 2026-10-16
 
 - Parentvérifie131PASS100old31new14004assertions/TC0,3copies6d00/74f0/5ed7,
