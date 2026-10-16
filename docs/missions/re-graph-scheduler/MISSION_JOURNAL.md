@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Audit candidat GO statique — 2026-10-16
+
+- ACK453/contrats/préambule/deuxreçus/rôle approuvé ;parentnativeSolMAXPlan/tâche/
+  guard/politiques/pinsreadonlynonlink/main275 exacts. **GO20:39:56.450Z** audit
+  sourcefrontière/callees/verdictscopé3–8ancrages/contraires,proofdiroupublicsiPlanrefuse,
+  puisHOLD.0importproduit/test/DB/TEMP/native/intégration,L9global toujoursblocked.
+
 ## QA finale conforme ; audit frais pré-intégration préparé — 2026-10-16
 
 - Parent f35ee27d/55preuves3464153B/441pins+main275 exacts,2DB1441792Bretenues/no
