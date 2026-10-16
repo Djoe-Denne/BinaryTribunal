@@ -35,3 +35,16 @@ processustest/runtime/TEMP/DB/cache/port/sourceprojet/Git/install/nativeFF8/IDA/
 Après futurelivraison :reviewindépendante puis compilationfixtures et qualification
 inoffensive host avec GOdistincts, avantadoption. Full44/L9global/L10/main/native/
 intégration restent fermés. Aucune nouvelle questionuser ou extensionmission.
+
+## ACK réel approuvé ; GO source distinct
+
+Lecturecomplète des10payloads73279B/reçu/binding/rôle/conditions confirmée par
+l'auteur. Parent recontrôle le natifSolMaxbuild/tâcheouverte, leadXhigh/politiques4/2/
+guardready,10pinsreadonlynonlink1/reçu/main275 etoutputabsent exacts.
+**23:36:40.636Z**, GOsource sousSCOPE681d62fe autorise SEULEMENT les4fichiers
+annoncés dans le nouveau outputlié,puislivraisonpinée/risques etHOLD.
+Reçu :job-fixture-source-actual-final-go-20261017.json sous .tmp parent.
+Ancienne erreur syntaxiquedulecteur déclarée avantlecture, pas défautcodeproduit.
+Aucun chargementDLL/APIJob/compilation/fixture/test/runtime autorisé. Cas8risqué
+reste une proposition sourceseule ;reviewindépendante et GOdynamique distincts
+requises, sans waiverfull44/L9global/L10/main/nativeFF8/intégration.
