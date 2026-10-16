@@ -1,5 +1,20 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 typecheck puis195 — GO final réel — 2026-10-16
+
+ACK3entrées100269B/décision4092/baseline94228/parent1949 complets,rôleconditions
+approuvé. Parent relit natifAstraMAX/taskOWN/guardready/source851/current370/RED10/
+WRITE8/oldproofs exacts,receipt52b75c5c…286b1 ;releasefullL8 avantcollecteconfirmée,
+zérotest/probe/TSCobservé sanskill. **GO FINAL TC_THEN_195_ONLY** envoyé15:49:34.407Z :
+uneTSC≤120s puisSEULEMENTsi0+postpins unecommande8pathsnommés≤300s.195attendus,
+pasrésultatsacquis. Rouge/setup/drift→STOPHOLDsanspatch/fix/rerun.
+
+Source851/test64cb111/131sept/READMEhelpers33DTO/368autresbaseline/inputsproofs
+readonly,TEMPchildfresh/cacheoutilopaquepréservé ;aucuneDB/registryL8/SQL/probeannexe/
+interop5/benchscaleCLI100k/full autorisé. Fin naturelle etcomptesavantcollecte puis
+HOLD. CollecterawL8indépendantepeutcontinuer,sansfull/gateconcurrente. FuturfullL7/
+freshreviewSolMAX/gatesparent avantacceptation/intégrationrestentdistincts.
+
 ## L8 full vert terminé/libéré ; L7 statique conforme, accès TC195 — 2026-10-16
 
 Full16 uniquePID33464,15:37:40.992Z→15:41:15.025Z/214032.4908ms,exit0 naturel sans
