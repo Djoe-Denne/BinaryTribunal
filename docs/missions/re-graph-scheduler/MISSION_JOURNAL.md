@@ -1,5 +1,11 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Case8HOLD documenté, suiteautressourcesGOinchangé — 2026-10-17
+
+- 23:38:17.712Z :référencebreakawayabsente=>HOLD_REFERENCE_NOT_IMPLEMENTED plan+
+  manifest,pasinventionniwaiver/skip. SourceGO23:36:40.636Zintactpourautrespropositions,
+ 4livrablespuisHOLD ;0DLL/APIJob/compile/test/runtime/qualificationcomplète/intégration.
+
 ## Fixturesinoffensives GOsource aprèsACK — 2026-10-17
 
 - ACK10/rôle/reçu approuvé,natifSolMAXbuild/tâche/leadXhigh/pinsguard/main275/output

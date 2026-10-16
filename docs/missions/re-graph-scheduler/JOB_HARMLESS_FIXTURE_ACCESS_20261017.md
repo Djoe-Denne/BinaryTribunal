@@ -48,3 +48,16 @@ Ancienne erreur syntaxiquedulecteur déclarée avantlecture, pas défautcodeprod
 Aucun chargementDLL/APIJob/compilation/fixture/test/runtime autorisé. Cas8risqué
 reste une proposition sourceseule ;reviewindépendante et GOdynamique distincts
 requises, sans waiverfull44/L9global/L10/main/nativeFF8/intégration.
+
+## Cas8 :référence manquante, lacune explicite conservée
+
+Auteur arrête avantd'inventer CREATE_BREAKAWAY_FROM_JOB/flags/conditions/oracle,
+non documentés matériellement dans le paquet. **23:38:17.712Z**, parentborne
+ce cas en HOLD_REFERENCE_NOT_IMPLEMENTED et autorise la poursuite des AUTRES
+sources déjà admises sous le même GO23:36:40.636Z/SCOPE681d62fe. Aucun nouvel
+input/navigation ou réécriture du contrat. Case8 reste présent dans plan+manifest,
+avec référencesofficiellespinées/oraclecontrolindépendant/review et futursGO requis.
+Pas skip silencieux/dispensebreakaway ni qualificationcomplète de huitcas.
+Les autrescas restent des propositions, pas des résultats ou droitsd'exécution.
+Livrer4fichiers/risques/limites puisHOLD. Reçu .tmp parent :
+job-fixture-case8-reference-disposition-20261017.json ;sourcehelper etgatesintacts.

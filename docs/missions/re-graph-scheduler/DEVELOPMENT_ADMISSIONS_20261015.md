@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Fixturecas8 référence manquante, HOLD explicite sanswaiver — 2026-10-17
+
+Escaladeauteurconforme :pascontratmatérielCREATE_BREAKAWAY_FROM_JOB/flags/oracle.
+Parent23:38:17.712Z case8HOLD_REFERENCE_NOT_IMPLEMENTED àconsignerplan+manifest,
+sansconstante/PInvokeinventée/refusOSprésumé/skip/dispensebreakaway. Autressources
+déjàautorisées peuventcontinuer sousmêmeGO23:36:40.636Z/SCOPE681d62fe,4livrablespuisHOLD.
+Référenceofficiellepinée+oraclecontrolreview+GOdistinctsencoreàfournir pourcas8 ;
+0compile/DLLload/APIJob/fixture/test/runtime/qualificationcomplète/native/intégration.
+
 ## Fixturesinoffensives ACK réel et GO source seulement — 2026-10-17
 
 ACK10payloads73279B/reçu/binding/rôleconditions approuvé. ParentnativeSolMAXbuild/
