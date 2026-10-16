@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## EscaladeNewLine — référence officielle en accès seul — 2026-10-17
+
+Questionreview211–218/+1 vsWriteLine397 :parentfournit LearnNetFramework481 et
+referencesourceMicrosoftcommitec9fa9ae,TextWriter99–101/166–171/452+ (CRLF),pasprobe
+ni verdictfinal/correctif. JOB_NEWLINE_REFERENCE_20261017.md :8payloads109130B,
+scopeebc880cf/manifest e39056ad/reçu2018Bf9c2a52b,readonly/10inputshelperinchangés,
+mêmetâcheSolMAXPlan ouverte. ACCÈSSEULACKpuisHOLD avantconfirmationreprisestatique ;
+aucunecompilation/import/.NETprobe/JobAPI/test/sourcefix/full44/native/intégration.
+
 ## Jobreview ACK réel et GO statique seulement — 2026-10-17
 
 ACK10payloads95874B/reçu/contrats/sources/binding/rôle approuvé ;parentnativeSolMAX

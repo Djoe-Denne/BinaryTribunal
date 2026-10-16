@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## NewLine référence Microsoft pinée — 2026-10-17
+
+- Escalade+1/WriteLine :Learn481+referencesourceec9fa9ae sourcesrawhashées/CRLFdéfaut,
+  0probe/fix. Supplément8/109130B/ebc880cf/e39056ad/reçuf9c2a52breadonly,
+ 10anciensintacts,mêmetâche ;ACCÈSSEULACK/HOLDavantreprisestatique,verdictnonprescrit.
+  PasDotnet/Job/test/runtime/DB/sourceedit/native/intégration.
+
 ## Review source Job GO statique — 2026-10-17
 
 - ACK10/rôle/reçu approuvé,nativefreshSolMAXPlan/disjointauteur/pinsguard/main275/
