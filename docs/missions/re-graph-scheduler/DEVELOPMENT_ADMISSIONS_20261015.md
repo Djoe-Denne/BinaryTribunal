@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## FixturesJobindépendantes — accèsSOURCEONLY préparé — 2026-10-17
+
+FreshSolMAXbuildnatiftask_mvblq60r/session ses_eb8f18c6cffeen68TV3OAQdd73 ownedopen
+vérifiée/politiques4/2guardready/budget5inchangés. Scope681d62fe4sourcesfutures,
+oracleindépendantcasfinis3process≤15s/256KiBcase,0DLLload/APIJob/compiler/fixture/test.
+Paquet10/73279B/manifest940664cf/reçu2441B1ab50ec4/fpaf78d837 readonlynonlink1exact,
+outputabsent. GOACCÈSSEULACKpuisHOLDavantGOsource ;helpertexteseul,pasbinarytransféré
+ouprovenanceoldroot/DBcachepermission. Voir JOB_HARMLESS_FIXTURE_ACCESS_20261017.md.
+ReviewpuiscompilationqualificationinoffensiveetGOdistinctsrestentobligatoires,
+full44/L9global/L10/main/native/intégrationfermés.
+
 ## Reviewdelta recevable ; compilation seule aprèsCS1504 conservé — 2026-10-17
 
 ACCEPTABLE_DELTA_SOURCE_SCOPED/6ancrages/24pins/reçu/main275 qualifiés,
