@@ -1,5 +1,48 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Full L8 renouvelé 2026-10-16 après amendement lu
+
+AMENDMENT61lignes+inventaire167lignes/2pins8518B et conditions intégrales ACK,
+receiptfileSHA84ed8f77…402dfb. Parent rehash runtime15+12hooks, constate zéroBuntest,
+réserve un **nouveau créneau** puis **GO FINAL FULL renouvelé**, première invocation
+réelle seulement (préflight initial=0). Commande/bornes invariantes timeout30000/
+420s ; fixtures éphémères strictement listées/proprechildTMP peuvent suivre leurs
+hooks normaux sans promessehashpostdestruction, L5budget/L8DB et vraiespreuves/gels
+toujoursconservés. Pas patch/rerun si rouge, fin/libération explicites requises.
+Résultat inconnu, pas acceptation. L7mémoire/repros/PLAN seuls continuent ; aucun
+code L7 ni gate lourde concurrente autorisés. Source494b resteBLOCK/nonintégrée.
+
+## Reprise explicite 2026-10-16 — L7 PLAN GO / L8 préflight zéro run
+
+Demandeuser«reprends ce que tu faisais», mêmelead/team/taskids, aucun nouveau profil
+ou routage. Natif parentSolXHIGH/L8SolMAX/L7AstraMAX etOWN relus, L8runtime15exact,
+L7source494b/newtestabsent/379pins exacts. ACK réel SCOPE70lignes/379pins8113536B/
+receiptfichierc8b87fa1…a25cfe puis **accès/rôle approuvés et GO mémoire/repros/PLAN**
+à l7-namespace-astra ; aucun code/DB/heavy/full avant ratification distincte.
+
+L8avaitSTOP **AVANTtoutfull**,0invocation/aucun childTEMP/DBcréé, créneau libéré,
+reçu32214B/SHAb121d540…7ba62a. Cause=contradiction dans gateparent : conservation
+générale DBenfant versus hooksreadonly de fixtures éphémères. Parent inventorie28TS/
+12files et lit leurscibles/freshcréations. Amendement explicite
+`L8_FULL_EPHEMERAL_FIXTURE_AMENDMENT_20261015.md` : seuls hooks listés sur LEURS
+fixtures neuves sous childTEMP unique sont éphémères, sans promessehash/conservation
+aprèsdestruction. L5budget/L8DB et preuves/gels historiques restent conservés,
+hooks re-policy/runtime extérieurs inchangés, aucun delete manuel/sourcepatch.
+Paquet2pins8518B, texte4316B/SHA805143e8…612c0/receiptfe4dc182…c1ab ; accès-only/
+ACKpuisréservationneuve+FINALFULLGO renouvelé encore requis, rien relancé.
+
+## Nouvelle admission L7 namespace/replan — accès-only, pas code
+
+Fresh `l7-namespace-astra`, task`task_mv9wspa8_0058_bz8uxd`, native
+`ses_ebf0aef70ffetlgGafSSmiNaPI` Astra/max relue ; OWN physique etHEAD18c3568 vérifiés
+après session_move, disjointe des auteurs/reviewers terminés. Paquet
+`inputs/L7_NAMESPACE_18C3568/` **379pins/8 113 536B**,manifest99aac197…bfdd4b,
+receiptc93bda72…fd0e7a.256refsHEAD exactes,13runtime494b+raw99 projetés sansoverwrite,
+100contrôles readonly etL5accepté985 ; nouveau test identité/replan absent.
+Accès-only complet envoyé, lecture réelle/rôle/ACK puis GO mémoire/PLAN distincts
+attendus ; aucun code/DB/testlourd/full autorisé. L8full garde son créneau, source494b
+resteBLOCK/nonintégrée, nouvel accorduser18c3568 ne vaut pas ratification de code.
+
 ## Accord user suivant — fresh AstraMax namespace/replan, plan avant code
 
 Question explicite après BLOCK494b confirmé deuxP1 → réponse **Astra Max ciblé

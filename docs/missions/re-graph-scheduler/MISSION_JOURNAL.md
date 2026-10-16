@@ -1,5 +1,36 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Renouvellement full L8 2026-10-16
+
+- ACKréelamendement61l/inventaire167l/2pins8518B/conditions, receiptfile84ed8f77.
+  Parent runtime15/hooks12réhashés,zéroBuntest/nokill : **NOUVEAU créneau exclusif+
+  GO FINAL FULL**, premièrevraieinvocation (ancienpréflight0). Commande30s/test,
+  global420s/unefois, seulsancienshookslistés/proprechildTMPéphémères sanspromesse
+  dehashpostdelete ; L5budget/L8DB/vraiespreuves/gelsrestentretained. Résultatpending,
+  paspatch/rerun/acceptance. L7mémoire/PLANseulement,494bBLOCK etpasintégration/native.
+
+## Reprise explicite 2026-10-16
+
+- Userreprendmêmelead/team/tasks, parentSolXHIGH/L8SolMAX/L7AstraMAXnatifsetOWNrelus,
+  L8runtime15exact/L7source494b+379pinsexacts. ACK379/8113536B/SCOPE70lignes puis
+  accès/rôleapproved **GO mémoire/repros/PLAN L7** ; code/DB/heavy/fullnonautorisés.
+- L8STOPpréflightb121d540réel **0invocationtest/DB/childTEMP**, anciencréneaulibéré.
+  ContradictionparentDBenfanttoutesconservéesvsancienshookscleanup, pasdéfautsource.
+  Inventaireparent28TS/12files+cibleslues ; amendement4316B/SHA805143e8+
+  inventaire2pins8518B/receiptfe4dc182 accès-only. Seulesfixtureséphémères propres
+  fraisessouschildTMP/hookspinnésexplicitementautorisables, sanshashpostdeleteprétendu ;
+  L5budget/L8DB/preuves/gelsretained,2hooksextérieursbornésinchangés. ACK puis
+  créneauneuf+FULLGO renouvelé restentattendus, aucun testrelancé/codepatch/delete.
+
+## Fresh admission namespace/replan — 2026-10-15
+
+- l7-namespace-astra/task_mv9wspa8_0058_bz8uxd/native
+  ses_ebf0aef70ffetlgGafSSmiNaPI AstraMAX/OWN/HEAD18c3568 lus avant/aprèstransfert
+  natif.379inputs8113536B/manifest99aac197/receiptc93bda72,256HEADrefsexactes,
+  13runtime494b+99rawcrééssansoverwrite,100oldreadonly/L5985/gelshistoriquesintacts.
+  Accès-onlyACKpendingpuisreprosmémoire/PLAN_GOdistinct, aucun code/DB/testlourd/full.
+  L8fullcontinueindépendant,494bpasaccepté/intégré ; noresetoldsession/globalchange.
+
 ## Accord utilisateur namespace/replan — 2026-10-15
 
 - AprèsdeuxP1494bparentconfirmés, questionexplicite→**Astra Max ciblé (Recommended)**.
