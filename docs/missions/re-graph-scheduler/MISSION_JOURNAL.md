@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Accord utilisateur launcher-seul/full2 accès-only — 2026-10-16
+
+- Choix explicite «Nouvel essai (Recommended)» :UNE tentative distincte420s,mêmeAstraMAX/
+  pins source-tests,TEMPcourt+parentpréparé,preuvesrougesetgatesreview/intégration
+  séparées. ContratsUSER_GO/FULL2_LAUNCHER_GATE écrits,0nouveauworker/modèle/config.
+- NativeAstraMAXtaskOWNpolitiques4/2guard/370ledgerold50proofs26rouge11DB3321856B
+  exacts. Paquet7pins261183B/DECISION4600B98ae21c0/receipt96397611,file0f04ee2a transféré
+  ACCÈSSEUL,ACKcomplet puisréservationNEUVEFINALFULL2GOpending. TEMPcourt l7f2-8feac6522642
+  etproofFULL2-8feac6522642 fixésMAISabsents,paspréflightphysiqueextra/create/fullavantGO.
+  FuturROOTcontientopencodevide/TEMPspawnROOT/414inputspins/11oldDBrawprotections/
+  guardstrictabsent/legacy12hooks22callsinchangés,rougeHOLDsansrerun. Full1resteFAIL,
+  reviewL7freshSolMAX+parentcroiséavantintégrationtoujoursrequis,autresmissionsintouchées.
+
 ## L7 rouge final livré/vérifié, nouvelle tentative non autorisée — 2026-10-16
 
 - Parent88695448manifest10913B/26artefacts2774952B exacts ;10graphDB2936832B +

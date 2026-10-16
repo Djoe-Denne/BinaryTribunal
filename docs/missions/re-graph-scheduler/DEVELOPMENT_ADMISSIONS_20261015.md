@@ -1,5 +1,31 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Accord utilisateur full2 launcher-seul ; paquet en accès seul — 2026-10-16
+
+L'utilisateur choisit «Nouvel essai (Recommended)» à la question explicite portant
+sur UNE nouvelle full≤420s, même auteurAstraMAX et pins source/tests, TEMP court
+neuf+`${TEMP}/opencode` préparé, preuves rouges intactes et gates distinctes.
+Contrats `L7_COPY_BOUNDARY_LAUNCHER_ONLY_USER_GO_20261016.md` et
+`L7_COPY_BOUNDARY_FULL2_LAUNCHER_GATE_20261016.md` : aucune permission source/test/
+fixture/oracle/config ou reprise de l'ancienne gate. Review indépendante/intégration
+non accordées ; natifAstraMAX/taskOWN/politiques4/2/guardready relus inchangés.
+
+Parent vérifie370/ledger/old50proofs/full1artefacts26+manifest et11DB3321856B exacts,
+sansSQL ; nouvelle gate7pins261183B/receipt96397611…01f44 préparée/transférée.
+DECISION4600B/SHA98ae21c0…572779,receiptfile1775B/0f04ee2a…c0f7e.
+**ACCÈSSEUL** envoyé :lecture complète/hash7+receipt/rôleconditionsACK encore attendu,
+puis réservation exclusive neuve+FINALFULL2GO distinct requis. Aucunelecturephysique
+supplémentaire/préflight/createTEMP/launcheredit/full permise par le transfert.
+
+Chemins fixés sans création :TEMP `C:/Users/djden/AppData/Local/Temp/opencode/l7f2-8feac6522642`,
+proof OWN/.tmp/L7_COPY_BOUNDARY_20261016/FULL2-8feac6522642. AprèsFINALGOseulement :
+rootTEMP contient exactement opencode vide, TEMP/TMPspawn=ROOT et nonnested,
+mesuresloguées/guardabsentinchangé/LOCALAPPDATAconfighérités ;407old+7new=414pinsinputs,
+ancien11DBrawavant/après sanssidecars protégées. Nouveau run≤420s/child415s sansTSC/
+probeannexe,cleanup12/22ownfreshlegacy/13einactif etretoursDBneufsqualifiés seulement.
+Rouge/setup/drift→HOLD sansfixrerun,fin+libérationavantcollecte. FuturGREENimposerait
+reviewL7freshSolMAX+gatesparentcroisées avantintégration. Full1resteROUGEpréservé.
+
 ## L7 full rouge final vérifié — HOLD, nouveau GO utilisateur requis — 2026-10-16
 
 Qualification finale : `L7_COPY_BOUNDARY_FULL_RED_QUALIFIED_20261016.md`.
