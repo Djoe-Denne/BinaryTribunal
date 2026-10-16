@@ -41,3 +41,13 @@ JOB_NEWLINE_REFERENCE_INPUTS_20261017/,job-newline-reference-admission-20261017.
 job-newline-reference-parent-verification-20261017.json. Zéro compiler/Add-Type/
 PowerShellchild/APIJob/.NETfixture/test/runtime/DB/sourceedit/Gitcode/nativeFF8.
 Qualificationhôte/full44/L9L10/main/intégration restent fermés.
+
+## Lecture réelle approuvée ; reprise statique confirmée
+
+ACK intégral des8payloads109130B/reçu/binding/conditions reçu. Parent recontrôle
+10inputs initiaux+8références/deuxreçus readonlyregularnonlink1, natifSolMAXPlan/
+tâcheouverte/guard/politiques/main275 exacts. **22:54:35.236Z**, HOLD documentaire
+levé, confirmation du GOstatique ORIGINAL22:46:03.100Z/SCOPE596080b5 seulement.
+Finaliser impact et reste d'audit/verdict, sans répéter scans/ACK achevés. Aucun
+verdict/fix imposé, probe/compilation/JobAPI/test/runtime ou intégration autorisé.
+Reçu :job-newline-static-resume-actual-final-20261017.json sous .tmp parent.

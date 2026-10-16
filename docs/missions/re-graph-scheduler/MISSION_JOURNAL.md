@@ -1,5 +1,11 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Référence lue, statiqueoriginal confirmé — 2026-10-17
+
+- ACK8références/reçu/conditions approuvé,18pins/deuxreçus/natifguard/main275 exacts.
+ 22:54:35.236ZHOLDdocumentairelevé :GOstatiqueORIGINAL22:46:03.100Z seulement,
+  impact/verdict puisHOLD,sansrépétertravailachevé/fix/probe/compile/Job/test/runtime.
+
 ## NewLine référence Microsoft pinée — 2026-10-17
 
 - Escalade+1/WriteLine :Learn481+referencesourceec9fa9ae sourcesrawhashées/CRLFdéfaut,
