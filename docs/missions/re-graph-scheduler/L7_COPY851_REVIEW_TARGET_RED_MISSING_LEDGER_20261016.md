@@ -1,5 +1,24 @@
 # L7 review — ciblée rouge, dépendance omise par le parent
 
+## Livraison finale vérifiée, toujours aucune reprise autorisée
+
+Parent valide TARGET_ARTIFACTS2337B/81473167…3a086,13preuves1761818B etqualification
+151096B/b74c5bb5…23b54.393pins9002942B/deuxreceipts/old4/diagnostic604a5/8contrôles
+parent/source4et33DTOinchangés parhash exacts.10DBNEUVES2936832B explicitesstdout,
+post-exit=receipts,néesspendantrun/distinctesold22/sanssidecars,conservées enplace.
+Fermeture :tentativesclose duhook avantémission (catchalreadyclosed),puisfinprocess ;
+pasuneinstrumentationindividuelle native additionnelle. ZéroconnexionSQLparent.
+Cache1357764B etcopieopaqueavant égaux/conservés,sansdésérialisation,flagFALSE intact.
+Les32DBL7 connues restent en troisprovenancesdistinctes (full1auteur11,full2auteur11,
+reviewer10),pasunindexfusionné d'ownership. Main275accepté inchangé.
+
+TSC0et255rouge restentdistincts,probes0 ;195SIM/benchPASS+53interopPASS1FAIL+scale6PASS
+ne dispensentpasdu casraw98 incomplet. SamefreshSolMAXPlan/taskglobale ouverte au
+readbackparent,NONBLIND/publicsummary etSimStorestandalone limites conservées.
+**Livraison d'échec conforme, pas review ACCEPTABLE.** Demande deGOutilisateur
+pournouveaugel/fixturelocalegrande/nouvelleciblée,aucunecréationcopieouautorisation
+de reprise déduite de ce contrôle final.
+
 Première commande14paths réelle PID43764,18:12:12.649Z→18:12:23.638Z,
 10987.5423ms,exit1 naturel/signalnull :**254PASS/1FAIL/0SKIP/17608assertions/
 255tests14files**. Probes0,TSCnonrelancé. Preuves brutes parent :

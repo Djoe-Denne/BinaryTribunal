@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Review cible rouge finale conforme — attente GO utilisateur projection ledger — 2026-10-16
+
+Parent valide13preuves1761818B/manifest81473167 etqualification151096B/b74c5bb5,
+393pins9002942B/2receipts/old4/diag/8contrôles/source4DTO33 parhash inchangés.10DBneuves
+2936832Bexplicitstdout=postexit,néessrun/distinctesold22/sanssidecars etcache1357764B/
+snapshotopaque conservés. Closesqualifiés hooktentativebeforeemit+finprocess,pas
+instrumentationnativeindividuelle supplémentaire ;aucunSQLparent. Main275exact,
+NONBLIND etstandalonelimits conservés,natifSolMAXPlan/taskglobaleouverte relus.
+
+195SIMbenchPASS+53interopPASS1FAIL+scale6PASS ;255rouge254P1F17608assert effectifs,
+raw98avalnonexécuté. **Livraison d'échec conforme**,pasACCEPTABLE/verdictglobal/
+intégration. Parentassumeledgeromis/claimscopefaux,ancien393etgelsintacts ;32DBL7
+en3provenances11+11+10préservées,ownershipnonfusionné. Probes0 etsource/testsimmuables.
+
+ÉtatHOLD :demanderGOutilisateur pournouveaugel+matérialisationlocaleexplicite duseul
+ledgerpiné8943882B/b5c9(horsreçuhelper8MiB,sanscap/configchangé/anciensgelsoverwrite),
+nouvellecibléeunique255≤180s,mêmescodes/tests/reviewerSolMAX,TSCnonrelancé. ACK/gates
+parent puislancementseulementaprèsaccord ;probesetintégrationrestentgatesdistinctes.
+Aucunledgercopy/link/split/rerun/probe oubypasspermisactuellement.
+
 ## Ciblée reviewer rouge — omission ledger du paquet parent, HOLD — 2026-10-16
 
 UNE25514paths43764exit1naturel/10987.5423ms/18:12:23.638Z :254PASS1FAIL0SKIP17608assert,
