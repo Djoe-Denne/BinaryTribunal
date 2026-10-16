@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Suite full : supplément en accès seul, aucune exception de cleanup — 2026-10-16
+
+MêmeL8/cycle1/SolMAX/tâcheouverte :FULL_ROUTE_REFINEMENT_SCOPEa754e160 etrésultats
+parentTCbuild livrés en3contrôles16612Breadonly,receipt9a007e17/fichier1065Bd7b49a78.
+ACCÈSSEUL/ACKpuisHOLD,ancieninput436+reçus/plan4 seulement autorisés enlecture.
+PasnouveauDBcache/Job/runtime oupatch :B01exceptionéphémèrecandidate/rootsB02/
+arbreparentprospectifB03 àraffiner aprèsGOstatique distinct. Aucunwaiver accordé.
+
+## Worker NODE_OPTIONS HOLD ; TC/build parent distincts conformes — 2026-10-16
+
+Worker :NODE_OPTIONS72caractères/loadermention présent,FF8/BUNabsents,STOPavant
+compiler/run/dist ;pasd'effacement/exceptioninfra/pasACKvert. Parentqualifie SON
+launcher effectif Bun/ContextMode déjàpropre,1175pins/guard/natif recontrôlés,
+avenant prospectif `COMBINED_PARENT_COMPILE_LAUNCHER_20261016.md`,workerresteHOLD.
+FINALGO21:46:34.746Z :TC10176naturel0/4968ms puisBUILD36404naturel0/560ms,0test/
+retry/bundleexécuté ;libérationavantcollecte à7417msdepuispremierspawn.
+Collecte20artefacts3352985B/bundle626387Ba3a45693,cacheNode3/1359444Bopaque/Bun0,
+1175pins actuels/image-source436/reçus/plan/vendor/main275exactsetpréservés.
+Mêmeenvchildcopie+5overrides/pasclear ;observationsJS/processnonuniverselles.
+TrancheTCbuildPASS seulement,FULLB01/B02/B03/L9global/L10/main/native/intégrationHELD.
+
 ## Plan complet qualifié ; route TC/build séparée en accès seul — 2026-10-16
 
 Quatre documents45415B/03ef85bd,3payloads39004B,45membership/44argv et436inputs

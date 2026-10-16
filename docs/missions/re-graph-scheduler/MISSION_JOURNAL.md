@@ -1,5 +1,20 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Raffinement full préparé en accès seul — 2026-10-16
+
+- Supplément3/16612B/a754e160/receipt9a007e17-d7b49a78 :résultatsTCbuildparent et
+  scopeB01cleanupcandidate/B02roots/B03Jobparentprospectif. MêmeL8/cycle1/SolMAX,
+  ACCÈSSEULACKpuisHOLD,passtatique/dynamique/Job/exceptioncleanupautorisésencore.
+
+## TC/build parent conformes, workerprélaunch HOLD préservé — 2026-10-16
+
+- NODE_OPTIONS72loader worker=>STOPstrict sansclear ;parentlauncher effectif déjà
+  propre qualifié1175pins,avenantparentseul/mêmeContextMode,paswaiver/configchange.
+- FINALGO21:46:34.746Z,TC10176naturel0/4968ms puisBUILD36404naturel0/560ms,
+ 2invocations/0retry-test,libération7417msavantcollecte.20preuves3352985B,
+  bundle626387Ba3a45693jamaisexécuté/cacheNode3opaque,1175pins/main275intacts.
+  WorkerHOLD/fullB01B02B03/L9global/L10/main/native/intégrationtoujoursfermés.
+
 ## Plan complet conforme/fullbloqué ; TCbuild séparé préparé — 2026-10-16
 
 - Quatre docs45415B/03ef85bd,45membership/44argv/436inputs conformes. FullB01B02B03
