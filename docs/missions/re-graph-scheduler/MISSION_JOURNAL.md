@@ -1,5 +1,11 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## DeltaNewLine GOstatique aprèsACK — 2026-10-17
+
+- ACK24/rôle/reçu approuvé,nativepinsguard/main275/outputabsent exacts ;
+  GO23:09:25.182Z reviewbornée7095→cb3a/UTF8terminateur/garde/partialHOLD puisverdict.
+  AncienUNCERTAINintact,pasrépétitionfullABI ni compile/Job/test/runtime/intégration.
+
 ## U1 compteurcertain/overflowincertain ; V2parent1ligne — 2026-10-17
 
 - ReviewUNCERTAINa32a8c64/e2cf2789qualifiée,taskcompleted/reviewerarrêté,aucunOSoverflow

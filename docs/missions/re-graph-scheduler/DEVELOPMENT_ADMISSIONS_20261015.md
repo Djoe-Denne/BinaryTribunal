@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## ReviewdeltaNewLine ACK réel et GO statique — 2026-10-17
+
+ACK24payloads260867B/reçu/binding/rôle approuvé ;parentnativeSolMAXPlan/tâcheouverte/
+guard/politiques/pinsreadonlynonlink1/main275/outputabsent recontrôlés. GO23:09:25.182Z
+sousSCOPE5f06d0d3 :delta7095→cb3a/wrapper100e,UTF8NewLine/gardes/partial/HOLD,
+3–6ancrages/verdict puisHOLD. Couvertureendossée statiqueinchangéeseulement,ancien
+UNCERTAINpréservé ;pasnouveaufullABI,interactionélargie=>parent.0sourcefix/compile/
+Dotnet/JobAPI/fixture/test/runtime/native/intégration ;qualificationfuture distincte.
+
 ## U1UNCERTAIN recevable, correctif1ligne séparé/reviewdelta accès seul — 2026-10-17
 
 ReviewsourceXMLa32a8c64/details e2cf2789 archivéeparent ;natifcompleted/shutdown.
