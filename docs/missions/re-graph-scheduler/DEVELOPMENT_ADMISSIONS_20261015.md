@@ -1,5 +1,37 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 review recevable/arrêtée ; L7 full en accès seul — 2026-10-16
+
+ReviewfreshNONBLINDSolMAX taskmvb5kbvg/sessioneba8fb751 **completed**, native relu,
+puis shutdownparent,jamaisréouvrir. `L8_RUNTIME16_REVIEW_ACCEPTABLE_SCOPED_20261016.md`
+retientACCEPTABLEoffline/fixture :FINAL6101B/1ef4e304,15preuves280237B,465pins9144956B/
+16runtime exacts ;TSC0→107P0F714assert puis UNEprobe6/6pure/0DBextra vérifiées.
+96DB24633344B/96receiptsperclose rawégaux/nosidecars,distinctes540anciennes ;275rows
+179res96closed83sansDB/registry75708 etearly6+90later exacts,cache1357764Bopaque retenu.
+636DBconnues restent en2provenances distinctes(540auteur+96reviewer),pasnouvelindex
+mixantlesowners. Main275inchangé,aucunSQL/probererunparentoumergereviewer(readonly).
+
+ParentqualifieP1–P4 :projectionCONFIGsynthétique explicitementfourni≠autorisation
+depublication/nativeparValidatedFactMetadataseule ;acquired-publicbindingadapter
+59–64/109 conservé,paspolicyL6waivée/révocationcouplageinventée. P5/P6 :orderingG1 et
+cycleKnowledgegeléfailclosed≠acquisitionautomatiqued'artefactsfuturs. Écartinitial
+inboxrecadré/962HOLD+b4bsupplément/tousgels intacts. Verdictreviewrecevable **PAS**
+acceptationglobaleL8/maintransfert/intégration/native/globalQA/L9L10 ;auteurL8HOLD.
+
+L7TC195conforme ouvrePRÉPARATIONfull,aucuneréexécution implicite. MêmeAstraMAX/
+taskOWNguardreadyrelus,370current/250harnessreadonly116rootdata/4candidats195451B et
+TC21/oldproofs exacts. Ledger8943882B/b5c9déjàdansOWNexact,PAStransféré/recopié ni
+bypasssizehelper. InventaireASTtest+scripts45TS36testfiles :13potentialfiles23calls,
+12active22legacyexacts+1INACTIVErole-sharing146guardstrictabsentinchangé.
+
+`L7_COPY_BOUNDARY_FULL_GATE_20261016.md`3997B/11949a70…2b339,
+5pins227781B/receipt3c997072…cdd78 transférés **ACCÈSSEUL** :lecture/hash5/rôleconditions
+ACK puisréservationEXCLUSIVEnEUVEetFINALFULLGO encore requis. FuturUNE30000/test≤420s/
+1125P1SKIPsanitypasacquis,ownfreshcleanup12hooks+escapesnommés/GraphinteropNEUF
+retourslogs+L5childDBretainedpostexitqualifié/oldgels protégés. Pasfull/tempfixtures/
+préflightphysiqueextra maintenant ;futurreviewL7freshSolMAX+gatesparentcroiséesavant
+intégration. Aucunecampagnehistorique/live/IDB/autremissionréactivée.
+
 ## L8 review dynamique bornée — GO final après statique entière — 2026-10-16
 
 Reviewer confirmelectureintégrale8src+fixture-driver+7tests/contrats A–E/APIs,

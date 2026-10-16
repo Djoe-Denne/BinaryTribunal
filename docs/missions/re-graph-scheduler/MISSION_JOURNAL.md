@@ -1,5 +1,19 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8reviewACCEPTABLEscopéfermé/L7fullaccès-only — 2026-10-16
+
+- Parentreview1ef4FINAL6101B/15preuves280237B465pins16runtimeexactes,TSC0/107P714+
+  6pureprobes/0DBextra ;96DB24633344B96perclose/0sidecars distinctesold540,registry
+  179res96close83absent/early6+90later/cacheopaque1357764Bexact. Taskreviewcompleted/
+  SolMAXnativerelu puisshutdownjamaisrouvrir,pasmergereadonly/acceptanceglobalL8.
+  PublicmetadataCONFIG≠autorisationnative,adapterfilepublicationbindingconservé ;
+  G1ordering≠futureknowledgeautoacquisition. 962HOLD+b4b/initialinboxqualification intacts.
+- L7fullgate3997B11949a70/5pins227781B/receipt3c997072 accèsseul,mêmeAstraMAXtaskOWN
+  guard370/2501164candidate195451Bproofsexacts,ledger9MBdéjàOWNpastransféré. AST45TS/
+  36tests13potential23calls12active22exacts+inactive146guardstrict. ACKpuisreservation
+  NEUVEFINALFULLGOpending,pasfull/tempfixtures maintenant ;1125P1SKIPsanitypasacquis,
+  graphinteropownfreshlogs+L5childretained/noold636DBreads,reviewsL7freshparentavantintégration.
+
 ## L8 review dynamique finalGO — 2026-10-16
 
 - StatiqueENTIER16+contrats terminée/465pins9144956B exacts/metadataEMPTY/0exécution,
