@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 deliverysealconforme/Ccopieaccès-only — 2026-10-16
+
+- Final90f55b57/179582B/39artefacts4333845B/16frozenlive365568B/96DB24633344Brevalidés,
+  raw887/850registry201files liés962HOLD+b4bsupplémentintacts ;TSC0/107P714réels,oldTSC2
+  pasreclassé,aucunlifecyclewaiver. Livraisonconformepasacceptance/intégration.
+- MêmeSolMAXtaskOWNrelus,Cscope4193B2d9c67f2/4pins426308B/receiptea7dfb1ctransférés
+  metadataACCÈSSEUL :ACKpuisGOfinalCcopiedistinctpending. OrigRED460f282bpasreadhash/
+  copiés/openparpréparation,futur2scratchcopiespubliccached0RPC1script60sseuls ;sources/
+  gel39registry232965readonly,pasSQLdirect/helperappend/TSC107/full/nativego.
+  L7petitREDmémoireindépendantcontinue.
+
 ## L8 raw96+supplément conformes/finalsealpending — 2026-10-16
 
 - Parentb4b25ac4/962cHOLDintacts,887checks835paths/baseline850+2test0f7+1registryprefix/

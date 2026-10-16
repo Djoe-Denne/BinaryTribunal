@@ -1,5 +1,23 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 livraison finale conforme / gate C accès seul — 2026-10-16
+
+Parentseal delivery179582B/90f55b57…14c819 :39artefacts4333845B et16runtime365568B
+live/frozen exacts,96DB24633344B rehashés identiques. Donnéesraw887readonly/835paths,
+850baseline+2testnewpin+registry/201ownedfiles déjàvalidées restent liées àqualification
+962cHOLD etsupplémentb4b inchangés. UneTSC0/une107PASS714assertions enregistrées,ancien
+TSC2pasreclassé,aucuncontrat lifecyclewaivé. **LIVRAISONCONFORME**,nonaccepté/nonintégré.
+
+MêmeSolMAX/taskOWNin_progress relus,4pins426308B transférés pour
+`L8_A2_LEGACY_C_COPY_GATE_20261016.md`4193B/2d9c67f2…170e7a,
+receiptea7dfb1c…e0077. **ACCÈSSEUL**,lecturemetadata/hash4/rôleconditionsACK puisFINAL
+C_COPY_ONLY distinct encore requis. Préparationn'ouvre/copie/hashpaslesoriginauxDB.
+FuturCborné auxcopiesneuvesdeCONTROLRED460f/iHJqNA etBADRED282b/LLRstJ,originaux
+jamaisSQLite ;publicClientcached/0fakeRPC/receiptégaleourefuslocalnorepairaveccloses/
+hashesavantaprès,1script60s/2cas. Sources16/887readonly/39gel+delivery/registry232965
+intacts,pashelperappend/SQLdirect/TSC107/full/review/intégration/nativegoimplicite.
+L7REDmémoireindépendantcontinue,aucunautreworkerréactivé.
+
 ## L8 raw107 conforme avec supplément, sceau final encore attendu — 2026-10-16
 
 Parentvérifie supplément81221B/b4b25ac4 etqualification962c16dfHOLDintacte.887fullSHA/
