@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Raffinement full GO statique — 2026-10-16
+
+- ACK3supp/436anciens/plan4/reçus approuvé ;parentnativeSolMAX/cycle1/pinsguard/
+  main275/sortieabsente exacts. GO21:54:04.328Z quatrepropositionsdocuments
+  B01cleanupcandidate/B02roots/B03Jobparent puisHOLD,aucunwaiverJobruntime/test/
+  sourcechange,intégration ;workerNodeOptionsHOLDdynamicresteinchangé.
+
 ## Raffinement full préparé en accès seul — 2026-10-16
 
 - Supplément3/16612B/a754e160/receipt9a007e17-d7b49a78 :résultatsTCbuildparent et
