@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Fixtures4sourcesfigées/reviewscaffold préparée — 2026-10-17
+
+- 4/57859B/069bf451+e0a8baa5+6bcb4ea4+11ec6339pins/main275exactsgelreadonly,
+  auteurcompletedshutdown ;TOUSRunHOLDavantDLL,case8/gapsbudget-observer-handleinchangés.
+- FreshSolMAXPlanreview task_mvbme3sg/session ses_eb8e085acffenbEe3aD3FriXcn,
+ 12/121060B/33faabd4/930ca773/reçuba685106 ACCÈSSEULACKpuisHOLD ;paswaiveropérationnel/
+  compile/Job/DLL/fixturetest/runtime/native/intégration,full44/L9L10mainfermés.
+
 ## Case8HOLD documenté, suiteautressourcesGOinchangé — 2026-10-17
 
 - 23:38:17.712Z :référencebreakawayabsente=>HOLD_REFERENCE_NOT_IMPLEMENTED plan+

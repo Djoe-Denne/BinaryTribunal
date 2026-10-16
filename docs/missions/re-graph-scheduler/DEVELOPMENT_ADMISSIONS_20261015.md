@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Fixturesources livrées etreviewindépendante accès seul — 2026-10-17
+
+4/57859B/069bf451-e0a8baa5-6bcb4ea4-11ec6339conformes,3pinsmanifest/input10+reçu/
+main275intacts,gelreadonly/auteurcompletedshutdown. RunPS117–136HOLDavantDLLread,
+case8HOLD,capagrégé/observerJob0/case6handle/refusAssignnestedJob nonacquis ;pasmesure
+watchdog/exitdepuismarker. VoirJOB_FIXTURE_DELIVERY_REVIEW_ACCESS_20261017.md.
+FreshPlanSolMAXNONBLIND task_mvbme3sg/session ses_eb8e085acffenbEe3aD3FriXcn
+natifsownedvérifiés,scope33faabd4/12payloads121060B/manifest930ca773/reçuba685106.
+ACCÈSSEULpuisACK/HOLDavantGOstatique,sources/oraclescaffoldseuls,aucunwaivergap/
+compile/DLLload/APIJob/fixturetest/runtime/native/full44/intégrationaccordé.
+
 ## Fixturecas8 référence manquante, HOLD explicite sanswaiver — 2026-10-17
 
 Escaladeauteurconforme :pascontratmatérielCREATE_BREAKAWAY_FROM_JOB/flags/oracle.
