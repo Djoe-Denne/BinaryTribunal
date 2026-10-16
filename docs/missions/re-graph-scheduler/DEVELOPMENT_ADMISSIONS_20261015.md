@@ -1,5 +1,15 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Jobhelper ACK et GO source seulement — 2026-10-17
+
+ACKréel4payloads16773B/reçu/binding/rôle approuvé ;parentnativeSolMAXbuild/tâche/
+guard/pinsreadonlynonlink1/outputabsent recontrôlés. GOsource22:23:58.964Z sous
+SCOPE056f81f5 :4nouveauxfichiers C#/PS/design/manifest dans .tmp disjoint,puisHOLD.
+0Add-Type/csc/PowerShellchild/APIJob/fixture/compile/test/runtime/DB/sourceprojet/Git.
+Reviewindépendante+qualificationinoffensive séparées restentrequises ;paswaiver/full.
+Reviewerpolicy n'a encore rendu qu'unACKFIRSTHOLD :accès49réitéré pour letouropen,
+pasreviewstatique autorisée ni completedtask réouverte,aucunpaquetàrecréer.
+
 ## Raffinement conforme/BLOCK ; deux préparations distinctes — 2026-10-17
 
 9ba22e13/4docs86498B et3payloads76855B vérifiés,25sites22roots9groupes44membership,

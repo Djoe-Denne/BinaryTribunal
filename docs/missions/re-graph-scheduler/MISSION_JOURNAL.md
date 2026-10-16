@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Jobhelper GO source, policyreview encore accès seul — 2026-10-17
+
+- ACK4/rôle/reçu approuvé/natifSolMAX/pinsguard/outputabsent exacts ;GOsource
+ 22:23:58.964Z quatre .tmp sources/docs seuls,pascompile/APIJob/fixture/test/runtime.
+  Reviewindépendante puisqualificationrequises,pasB01B02waiver/full/intégration.
+- ACKreviewerétaitFIRSTHOLDhistorique,accès49réitéré/mêmetâcheouverte ;GOstatique
+  nonaccordé,pasrecréationpaquet ouancienreviewredémarré.
+
 ## Raffinement reçu/BLOCK ; policyreview et Jobsource préparés — 2026-10-17
 
 - 4docs86498B/9ba22e13conformes/pins436+plan4+main275intacts,25sites22roots9groupes,
