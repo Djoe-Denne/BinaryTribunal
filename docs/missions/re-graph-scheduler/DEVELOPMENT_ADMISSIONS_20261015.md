@@ -1,5 +1,31 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 full rouge/libéré — qualification launcher et footer, aucune relance — 2026-10-16
+
+UNEfullPID40332/16:49:22.450Z→16:52:06.387Z/163936.2833ms,exit1naturel/signalnull/
+sanstimeoutkillspawnerror. Parentend79314d84/stdout75606e4b/stderr2135b04d+résumébrut
+vérifiés :**1033PASS/92FAIL/1SKIP/91154assertions/1126tests36files**. Réservation
+16:44:29.163Z explicitementLIBÉRÉE avantcollecte. FullresteROUGE,HOLDsource/test/
+dynamique,pasfix/rerun/reviewpromotion/intégration. TC195antérieurrestepreuve distincte.
+
+ParentisolelesCASavantfooter :engine2+eventlog90=92,pasFAILdusimulatordéduitdufooter.
+`full-failures.json`initial184records(92body+92footer) sauvegardébyteexactauparent/
+bd770c92…13e,ne prouvePAS184échecs. Supplémentdequalification demandé,initialparse/
+logs conservés. Un1erparserparentcomptaitaussilefooter,aucuntotal184promuengate.
+
+Préflight annonceTEMP/TMP=…/FULL…/temp/opencode **initialementvide**. Lecodeinchangé
+engine343–345,519–520/eventlog24 exigeENV_TEMP/opencode ;logsSQLITE_CANTOPEN/ENOENT
+yconcordent. Planner-budget433créeceparentrécursivementPLUS TARD ;sonexistenceaprès
+runneprouvepaspréparationaulancement. DirectionSETUPLAUNCHERàqualifierdepuispreuves/
+factories/mesurepreflight,**pas92bugs indépendants ni régressionsource851 établie**.
+LongueurWindowspossiblementionnéecommeinconnue,pasdiagnosticprouvé paruneexpérience.
+
+CollecteautoriséeSEULEMENT :parcas/diagnostics/postpins/DBNEUVESclosed/preuvesgelées.
+Pasmkdir/probeFs/DBreopen/source-testpatch/clearenv pendantcettecollecte. Livraison
+finaleetpostpins encoreattendusavanttouteamendmentlauncherou autorisationnouvelle.
+LeGO fulluniqueestconsommé ;aucunenouvelletentative implicite dediagnosticoumaintenance.
+ReviewL8ACCEPTABLEscopéeinchangée,globalQA/intégration/native restentouverts.
+
 ## L7 copie — réservation exclusive et GO full réel — 2026-10-16
 
 ACK5payloads227781B+receipt/contratsintégraux/rôleconditions approuvé. Parentrelit

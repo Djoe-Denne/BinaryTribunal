@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 fullROUGEcréneaulibéré/launcheràqualifier — 2026-10-16
+
+- 40332fin16:52:06.387Z/163936.2833ms/exit1naturelUNEfois,parent79314end/75606stdout/
+  2135stderr+comptesréels1033P92FAIL1SKIP91154assert1126/36vérifiés. LIBÉRATIONavant
+  collecte,HOLDsansfixrerunpromotionintégration ;TC195précédentnonréécrit.
+- Vraiscases92=engine2+eventlog90avantfooter ;parseinitial184body92+footer92conservé
+  byteexactparentbd770c92,aucun184FAILpromu. ErreursSQLCANTOPEN/ENOENT/préflightTEMP
+  temp/opencodeinitialvide vsfactoriesENV_TEMP/opencodeetmkdirrecursiveL5plustard :
+  directionSETUPlauncher,pasrégressionsource851/92bugsétablis. Dossierprésentaprès≠
+  avant,longueurWinpathnonprouvéeexpérimentalement. Collectepostpins/DBnewqualifiée
+  SEULE,pasmkdir/probe/réouverture/fix/clearenv,finaldeliverypending ;GOuniqueconsommé,
+  nouvellerepriseinterditeavantnouvelleautorisationdistincte. L8reviewscopéeinchangée.
+
 ## L7 fullCOPY exclusif FINALGO — 2026-10-16
 
 - ACK5complets227781B+receipt/rôleconditions approuvé,82623aa4/natifAstraMAXparentXHIGH/
