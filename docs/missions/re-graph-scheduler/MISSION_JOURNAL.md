@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 indexafterAll scopequalifié/pasrerun — 2026-10-16
+
+- CollecteurHOLD555200B962c16dfexigeaitindex==96 ;parentindex1422Bb803de81/log6mêmeSHA/
+  helperSetmainthread46–65 :6entréesexactsubset6/96metadata,mtime14:38:10.243Zavantfin.
+  90horssnapshot≠90missingDB ;hypothèsecouverturetropforte,pasrégression107source.
+  Supplémentappendpermis,initialHOLD/indexbyteexacts,aucuneréexécution/modif/SQL/C/full.
+- 96DB24633344B/96receipts/201files24768944Bannoncés ;rawglobalparent+postpinsfinal
+  encorependingpasacceptance/intégration/native. L7REDindépendantreadonly6d00continue.
+
 ## L8 107GREEN naturel, collecte/conformité pasencore — 2026-10-16
 
 - PID35704fin14:39:14.776Z/70781.6406ms/exit0naturel,UNE107aprèsTSC0,norerun.

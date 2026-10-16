@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 afterAll : HOLD de collecte qualifié, supplément sans réexécution — 2026-10-16
+
+Collecteur initial exigeait indexafterAll=96DB :qualification555200B/962c16df…f3ce12
+conservée enHOLD, sansécrasement. Parent lit indexretourné1422B/b803de81…bd85b et
+helperreadonly46–65 :ownedSet/hookmainthread,aucunegarantieindexcorpusfinuniversel.
+**6entrées exactementsubset6/96 metadata path/bytes/SHA**,mtime/birth14:38:10.243Z
+avantfinrun14:39:14.776Z ;logannonce6au mêmeSHA.90DBnonénuméréesdans cet instantané
+ne sont pas90DBmanquantes. Hypothèsecollecteurcouverturetotale tropforte, pas défaut
+source/résultat107rouge déduit. Qualificationparent indépendante enregistrée.
+
+Supplément métadonnées append explicite permis,preuvesinitiales+indeximmutables ;
+aucunrerun/helperpatch/SQL/DBedit/C/full.96DB24633344B/96receipts,201fichiers24768944B
+etpostreadonly/registry annoncés parworker,**validationrawglobaleparentencorepending**.
+Il n'y a pas deconformitéfinale/acceptance/intégration déduite de ce sous-ensemble.
+Attendrelivraisonsupplémentpuiscontrôlesparent ;L7REDindépendantcontinue6d00readonly.
+
 ## L8 107 verts terminés naturellement, collecte finale attendue — 2026-10-16
 
 Après nouveauTSC0 autorisé, unique107 PID35704/14:38:03.995Z→14:39:14.776Z/
