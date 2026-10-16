@@ -1,5 +1,22 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 C_COPY — GO final réel après ACK complet — 2026-10-16
+
+ACK66lDECISION/6563lBASELINE/196lSEEDS/137lPARENT,4pins426308B/rôleconditions reçu.
+Receipt fichiered15bfc3…9420b,parentnatifSolMAX/taskOWNguardready/16runtime887readonly/
+39final+delivery/registry232965 relus exacts. Readback n'a lu/hashé/copié/ouvert AUCUN
+originalDB. **GO FINAL C_COPY_ONLY** envoyé,script≤60s/2casSÉRIELS surCOPIESneuves
+desseulsoriginauxREDcontrol460f/iHJqNA etbad282b/LLRstJ ;vérifhash/size/nosidecars
+physique seulementAPRÈSGO,pasnouveauxlabels107cohérents.
+
+Origlecturebytes/hash/copiesseulement,jamaisSQLiteClientCLI ;sources/887/39gel/
+registryreadonly. PublicClientsurSCRATCHseul/expectedPayloadRED/missionexacte,
+unecachedsubmitparcopie,0fakeRPC/token,controlreceiptégale/badrefuslocalprécis
+sansrepair/inputsimmutables,copiesrawinchangéesaprèsclose/origbeforeaftersealed.
+ToutécartHOLDsansfixrerunreplacementcopy,preuvespuisparent ;pasSQLdirect/helper/
+registryappend/TSCtest/full/intégration/nativego. RésultatsCencoreinconnus ;2cached
+legacycasesneprouventpastoutespending/raceshost. L7REDmémoireindépendantcontinue.
+
 ## L8 livraison finale conforme / gate C accès seul — 2026-10-16
 
 Parentseal delivery179582B/90f55b57…14c819 :39artefacts4333845B et16runtime365568B
