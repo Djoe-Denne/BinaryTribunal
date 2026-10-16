@@ -1,5 +1,31 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## GO autonome utilisateur ; nouveau gel ledger V2 en accès seul — 2026-10-16
+
+L'utilisateur impose désormais autonomie/sansquestions,autorise choixmodèles et
+relancestâches. `AUTONOMY_CONTINUATION_20261016.md` lève l'attente d'une question pour
+ce correctif de paquet. Le parent poursuit uniquement la mission existante et
+conserve les contrôles/preuves ;aucun modèle/worker/globalconfig changé inutilement.
+
+Même reviewerSolMAX/Plan/task_mvb91iar ouverte/native relus,politiques4/2 inchangées.
+NOUVEAUgel `inputs/L7_COPY851_LEDGER_V2_REVIEW_20261016` :402payloadshelper9300341B/
+manifest68d08ec9…c1aa/receiptc95d16e8…08e77c(file87748B/f1d8c527…f31f6),scopeactif
+3877B/a0fa862a…932ad. Original393payloadbytes conservés,3metadataauthorityarchivés
+HISTORICAL au lieu d'être réactivés ;sources/tests/configs/candidats inchangés.
+
+Projection localeparent EXPLICITE séparée :ledger8943882B/b5c9…10e4d4 byte-exact,
+READONLY dansnouveaugel,sourcehashavant/aprèsexacts ;pasparse/split/tronque/lien,
+pashelpercap/configmodifiée. Helper402ne couvrePAScepayload>8MiB. Reçudistinct
+LARGE_FIXTURE_PARENT_RECEIPT1754B/f552cc5a…ee988 lie identité,destination et402+1=
+403payloads18244223B. Old393/rouge/TSC/cache/32DBL7 inchangés,nouvellefixturepasnative.
+Junctiondepssansinstall,proofNATIVEV2prêt ;TEMPfuturl7rv2-9c4a62f1c225absent.
+
+**ACCÈSSEUL** envoyé402hash+ledgerphysiqueSHA/readOnly+deuxreceipts/contratsACKavant
+GO TARGET_V2distinct. AucunTSC/ciblée/probe/DB/TEMPcréationnouveaux ;statiqueentière
+etTSC0réutilisables aprèsvérifidentitécode. FuturUNE25514paths≤180,nouveauTEMPcourt/
+lock,guardabsent/intra-envchecks ;probesextraetintégrationrestentgatesparentdistinctes.
+Plusdequestionutilisateurpourcesétapes ;autresmissions/science/live/IDB nonréactivées.
+
 ## Review cible rouge finale conforme — attente GO utilisateur projection ledger — 2026-10-16
 
 Parent valide13preuves1761818B/manifest81473167 etqualification151096B/b74c5bb5,

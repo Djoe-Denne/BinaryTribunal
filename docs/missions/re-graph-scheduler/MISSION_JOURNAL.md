@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Autonomieuser/ledgerV2nouveaugel accès-only — 2026-10-16
+
+- Userdemandeautonomiesansquestions/modèlesetrelancestâcheslibres ;parentlèveattente
+  GOuserprojection etpoursuit missionexistante sanschangerSolMAX/Plan/politiques4/2.
+  Source393bytes/anciensgelsrouges/preuves/TSC/32DBL7préservés,3metadatav1historiques.
+- V2helper402pins9300341B68d08ec9/receiptc95d16e8,filef1d8c527,scope3877Ba0fa862a ;
+  projectionlocaleparentSEPARÉEledger8943882b5c9READONLY/sourceavantaprèségaux,
+  reçudistinct1754Bf552cc5a =403payloads18244223B. Helpercap8MiBinchangé/pasrawledger
+  couvertparhelper/passplittronqueparse/lien. Junctiondeps/proofNATIVEprêts,TEMPnouveauabsent.
+- MêmeSolMAX/taskouverte nativevalidée,ACCÈSSEULhash402+ledgerphysique/2receiptsconditionsACK
+  puisGOTARGET_V2pending. Statique/TSC0réutilisablessipinscodeidentiques,futurUNE255180,
+  probes/intégrationgatesdistinctes. Plusdequestionsuser,pasautremission/live/IDBactivée.
+
 ## Review cible rouge finalconforme/attenteGOuserfixturegrande — 2026-10-16
 
 - Parent814731manifest13preuves1761818B/b74c5qualification151096B,393pins2receiptsold4/
