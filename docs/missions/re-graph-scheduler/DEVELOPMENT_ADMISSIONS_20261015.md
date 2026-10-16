@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Policyreview ACK réel et GO statique — 2026-10-17
+
+ACK49payloads921813B/reçu/scope-proposition-contrats/rôle approuvé ;parentnative
+SolMAXPlan/tâcheouverte/guard/politiques/pinsreadonlynonlink1/main275/outputabsent
+recontrôlés. GOstatique22:25:41.794Z sousSCOPEf7acbd0f :verdictINDÉPENDANT/3–8ancrages/
+autoritésupérieure/contreexemplesconditionslimites,puisHOLD ;Planpublicsiwrite-refus.
+Aucunwaivercleanup/ratificationpolicy oucompiler/JobAPI/test/DB/runtime/native/
+intégration. B03séparée,L9global/L10/mainheld,aucunclaimgarantiecrash/FSsandbox.
+
 ## Jobhelper ACK et GO source seulement — 2026-10-17
 
 ACKréel4payloads16773B/reçu/binding/rôle approuvé ;parentnativeSolMAXbuild/tâche/

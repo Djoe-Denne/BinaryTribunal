@@ -1,5 +1,11 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Policyreview GO statique, proposition toujours non approuvée — 2026-10-17
+
+- ACK49/rôle/contrats approuvé,pinsnativeguard/main275/outputabsent exacts ;
+  GO22:25:41.794Z audit indépendant3–8ancrages/autorité/contraires/limites puisHOLD.
+ 0waivercleanup/JobAPI/compiler/test/runtime/native/intégration,B03etL9L10mainheld.
+
 ## Jobhelper GO source, policyreview encore accès seul — 2026-10-17
 
 - ACK4/rôle/reçu approuvé/natifSolMAX/pinsguard/outputabsent exacts ;GOsource
