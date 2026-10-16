@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 amendmentfinalGO / L7 PLANratifiéaccèsRED — 2026-10-16
+
+- L8ACK4complets408955B/conditions,37e57c43/natifSolMAXtaskOWNguard853/inverseexact
+  etzéroBuntestrelus :**GOFINALpatchtest708→0f7exact→nouveauTSC120s→si0UNE107180s**,
+  sinonHOLDsansfixrerun.15autresruntimeold60readonly,2rowstestnewpin/1registryprefix
+  mutables850autresfullSHA/historiques708intacts,CREDsealedpasC/full/intégration.
+- L7PLANcd21bbe8/22634B132l lu+codeconstructeur/wrappersréels,ratification5641Bee53ffd8
+  domaineDTOconsommé/descriptors/copieIMAGE/visitesbornées/compatstadesrôlespublics/
+  durées1unité/pasobservehashscan ;source369/newtestabsent/natifMAXtaskrelus.
+  Paquet3pins109766B/receipt3ccf257daccèsseul,ACKpuisREDGOpending. Futur1testnouveau
+  ≤80cas≤8unités120smémoirepublic,pasTSC131/SQL/full ;source6d00/131README33DTOreadonly.
+  PeutcoexisteravecL8cibléautorisé,pasfull/lourd,codageL7pasencorepermis.
+
 ## L8 STOP conforme/amendment test exacte accès-only — 2026-10-16
 
 - STOPa66c387e/28artefacts2796891B/853checks801paths/16runtimefrozenliveexacts,TSC2

@@ -1,5 +1,30 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 amendment GO final / L7 PLAN ratifié en accès seul — 2026-10-16
+
+L8 ACK61/6111/483/16l des4pins408955B/conditions reçu ;receipt fichier37e57c43…90ac5,
+natifSolMAX/taskOWNguard/853préhashes/inverseexactduhunk relus,zéroBuntestobservé.
+**GO FINAL EXACT_TEST_PATCH_THEN_TC107** :testlive708→0f7cb296/39398Buniquement,
+before/after/diff et15autresruntime/readonliesexacts AVANTexécution ;nouveauTSC120s,
+si0UNE1077files180s,sinonHOLDsansfixrerun.2rowstestnouveaupin+1registryprefixmutable,
+850autresfullSHA/historiques708immuables. CREDsealed/pasSCRATCHC/full/intégration.
+Ce GO est distinct de l'ancienTCconsomméSTOP ;résultats encoreinconnus.
+
+L7 PLANcd21bbe8/22634B132l reçu et relu avec code réel. Ratification conditionnelle
+`L7_COPY_BOUNDARY_PLAN_APPROVAL_20261016.md`5641B/ee53ffd8…baaec4 :DTOconsommérefus
+descriptorsaccessor/nonénumérables(exceptionlength),pasblacklistprotos/freeze ni
+scandesextraenveloppenonconsommés ;copiefidèlepuisvalidationIMAGE/visitesbornées/
+cyclesaliasdiagnosticsqualifiés,stadedesrefus/rôlespublicspréservés. DuréesObjetMap/
+fonction1/unitéimage/configincidentsdétachésavantcallbacks,pas scan/hashobserve.
+Archivefourniemalforméefailclosed/manualv1v2légal/totalorigineabsentelimiteintacts.
+
+369baselineexacts/newtestabsent/natifAstraMAX/taskOWNrelus. Paquet3pins109766B/
+receipt3ccf257d…56696 transféré **ACCÈSSEUL**,ACK3complets puisFINALREDGO distinct.
+FuturREDseulementNOUVEAUtest≤80cas/fixtures≤8unités/1invocation120s,purAPIpubmémoire,
+pasSQL/TSC/suite131/full/probeannexe.131README33DTO/source6d00readonly,codeSOURCE
+aprèsREDqualifiéetGOséparé. PetitRED indépendantpeutcoexisteravecL8cibléautorisé,
+pascollisiondeDB/full/lourd. AucunGORED/codeL7 implicite danscettepréparation.
+
 ## L8 STOP collecté conforme / amendment exacte en accès seul — 2026-10-16
 
 Parent vérifie livraisonSTOP a66c387e/28artefacts2796891B/853checks801paths et16runtime
