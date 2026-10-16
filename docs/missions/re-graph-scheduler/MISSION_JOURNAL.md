@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Raffinement reçu/BLOCK ; policyreview et Jobsource préparés — 2026-10-17
+
+- 4docs86498B/9ba22e13conformes/pins436+plan4+main275intacts,25sites22roots9groupes,
+  route44toujoursbloquée/L8HOLD,aucundéfautproduit/exécutioninféré.
+- DeuxfreshSolMAXnatifs/catalogue/ownership vérifiés :policyB01B02NONAPPROUVÉEreview
+  49/921813B/f7acbd0f/reçu0dc934e2 ;JobSOURCEONLY4/16773B/056f81f5/reçue3886e27.
+  ACCÈSSEULpuisACK/HOLD avantGOdistinct,0waivercleanup/Jobcompiled/API/test/runtime,
+  L9global/L10/main/native/intégrationfermés. Politiques4/2budget5inchangés.
+
 ## Raffinement full GO statique — 2026-10-16
 
 - ACK3supp/436anciens/plan4/reçus approuvé ;parentnativeSolMAX/cycle1/pinsguard/

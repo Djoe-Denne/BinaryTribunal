@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Raffinement conforme/BLOCK ; deux préparations distinctes — 2026-10-17
+
+9ba22e13/4docs86498B et3payloads76855B vérifiés,25sites22roots9groupes44membership,
+source436/ancienplan4/main275 exacts ;L8resteHOLD,0exécution/défautproduit inféré.
+Voir FULL_ROUTE_REFINEMENT_QUALIFIED_20261017.md. Source/Model.Refs natifs vérifiés
+pour deux tâches fresh disjointes SolMAX,politiques4/2/budget5/manueldispatchoffinchangés :
+reviewNONBLIND de propositionNONAPPROUVÉE B01/B02 (49payloads921813B/f7acbd0f/
+b3bec60b/receipt0dc934e2) et helperJob SOURCE-ONLY (4payloads16773B/056f81f5/
+33bf3056/receipte3886e27). ACCÈSSEUL/hashs/rôleACKpuisHOLD avantGOstatique/source.
+Aucunwaivercleanup/compileJob/API/fixture/full44/native/intégration ;L9globalbloqué.
+
 ## Raffinement full — ACK complet et GO statique seulement — 2026-10-16
 
 ACKsupplément3/reçu/ancien436+2reçus/plan4/rôleconditions approuvé. Parent relit
