@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 typecheck puis 107 ciblés — GO final réel — 2026-10-16
+
+ACK58lDECISION/5869lBASELINE822rows+16runtime/129lPARENTcomplets,3pins349320B/
+rôleconditions approuvé. Parent natifSolMAX/taskOWN/guardready relu,16runtime+
+822préhashes exacts/receipt fichier9ad823b3…cbcbd ;zéroBuntest observé sanskill.
+**GO FINAL TC_THEN_107_ONLY** envoyé :UNEtypecheck≤120s,puisSEULEMENTsi0 UNEciblée
+7pathsnommés60old47new≤180s. Rouge/setup/drift=HOLD,sansfix ni rerunautomatique.
+Les résultats/invocations effectives ne sont pas encore connus.
+
+2sources/13runtime/test708/60old readonly ;fixturesNEUVEShelperpublicAPI/CLIoffline
+seules,registryprefix15725711607270 exact protégé puisappendhelper. Uniquecheminlive
+registryNoAppend explicitementmutable :preuve PREFIXEaprès,821autresrowshashcomplet
+exacts exigés,pas822fullSHAinchangésprétendus. CREDseedssealed/pasSCRATCHreopen/
+checkerC/full/probeannexe. Finnaturelle avantcollecte puisgelfinal/HOLD. L7PLANstatique
+continueindépendant,pasintégration/science/nativeauthority.
+
 ## L8 deux sources livrées/non exécutées ; accès TC107 préparé — 2026-10-16
 
 Livraison WRITE-fb1d83b15e3e/93868f3d…d9560 vérifiée :client620c690b/16526B,
