@@ -1,5 +1,33 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 TSC/195 conformes ; L8 review statique GO, dynamique encore fermée — 2026-10-16
+
+Parentvérifie21payloads540216B/ARTIFACTS7b2ccb5a,source851/testcbfrozenlive exacts,
+370current/33DTO/27oldproofs/402pins4receipts intacts. UNE TSC25080 exit0/4848.3956ms,
+postpinspassentAVANTUNE8paths PID16688/15:54:15.718Z→15:54:25.786Z/10067.9891ms,
+exit0naturel. **195PASS/0FAIL/14473assertions/195cases8files**,0SKIP/TODO/parseissue,
+64endsuniquesalignés. C01baseline2commits,C02/C07localblocageconsommateur,C03/C04
+refusqualifié/getters0contraires retrouvés ;39préPASSgardés+25FAIL→PASS≠25défauts.
+Cache1357740Bhashéopaque dansTEMPneufLocalTemp/opencode/l7-copy-tc195-… explicitement
+retourné,pasprétendu sousproofroot ;aucunSQLite/L8fixture/native. **TC195DELIVERY
+CONFORME**,pasfull/freshreviewL7/acceptation/intégration. AuteurHOLD,pasrerun/fix.
+
+ReviewL8 :ACKcorrigé465uniques9144956B/SCOPEcontrats/manifestreceipt/rôleaccèsréel
+REÇU ;lespremiersACK464étaientinitiaux,ne prouvaientpaséchecactuelledelivery. Audit
+PUBLICsansreasoning de lafreshsession constateAVANTaccèscourant :1team_resultslead
+retourneNoUnreadMessages,1team_tasks_list etlecturecache deCEtableau. Écartinitial
+consigné,pasaffirmationzéroinboxdepuiscréation,paspermissiongénérale. Parent conserve
+admissibilité NONBLIND :métadonnéespubliquesboard,pasraisonnementprivé/autretranscript
+observé,aucunreadsource/probeprématuré. LeheuristiquesubstringnativeUserProjection
+false du1erauditn'estPASpreuvequenotre465messagen'étaitpasarrivé ;ACKréel prime.
+
+NatifSolMAX/Plan/taskOWNguard/465+runtime16/metadatahelperEMPTY relus avant
+**GO FINAL STATIC_REVIEW_ONLY**16:07:30.959Z. Code+contrats runtimeENTIER16 en
+lectureadversariale,notesproofdiroupublicinline siPlanrefuse(sansbypass). AucunTSC107/
+test/probe/moduleproduitexécuté/DBfixture/registryappend avantGO DYNAMIQUEdistinct.
+Old540DB/main/autressessions restenthorsaccès. ReviewstatiqueetL7futurfullgates
+séparées,tasksouvertes,pasreviewverdict niintégration/nativeacceptance acquis.
+
 ## L8 full final conforme ; nouvelle review entière en accès seul — 2026-10-16
 
 Parentvalide livraisoned46f1f1/120482B et34artefacts4822368B,runtime16live/frozen
