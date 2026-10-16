@@ -1,5 +1,28 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 reviewer TSC0, ciblée0 — HOLD setup environnement, diagnostic seul — 2026-10-16
+
+TSC45324exit0naturel17:59:14.876→17:59:19.750Z/4873.5924ms,lifecycle4b9be4c7/logs
+sansdiagnostic vérifiés. Nouvellectx_execute pourciblée s'arrête AVANT postpins/spawn
+surconditionOR`wholeEnvHash!=ancienSandboxHash || guardPrésent`. AuditPUBLICpréservé,
+quatrepreuvesoriginales exactes,aucun target.lifecycle/log/probe observé :target0/
+probe0/DB0,pasFAILED255niTSCàrefaire. Une rechercheparenta d'abord sélectionné le
+message d'auto-signalement, puis le bon inputwrapper public ;aucun contrôle affaibli.
+
+`L7_COPY851_REVIEW_ENV_SETUP_HOLD_20261016.md` qualifie le digest interprocessus comme
+nonattribuable :on ne sait niquelleclef niquellebrancheOR déclenche,pasguardmodifié
+ouvariationinoffensive prouvés,pasdéfautproduit/provider. Ancienpréflightne contient
+pas le détailperkey ;TSCprouveintraprocessusinchangé uniquement. TargetGO suspendu,
+nonconsomméparuneexécution,pasautorisationwrapperfix/retry automatique.
+
+NatifSolMAX/taskouverte/politiques4/2/guardadmission relus :**GO DIAGNOSTICSEUL
+18:03:46.185Z**,UNEctx_execute≤30sreadonly393/deuxreceipts/old4,guardclefsstrictABSENT,
+LOCALAPPDATA/APPDATAcasefolduniqueségauxauxpinsoriginaux,TEMP/TMPhéritésconsignables,
+SHAenvavant/après duMÊMEsandbox. InspectionreadonlyTEMPownexistant/types/entrées,
+pasmkdir/delete/recréation ;nouveauSETUP_ENV_DIAGNOSTIC.jsonseul,aucunchildspawn/
+produit/TSC/test/probe/DB. Toutécartguard/autorité/pins→HOLDsansclearrepair ;retour
+mesures avantparentamendmentetGO TARGET_ONLYdistinct éventuels. Globalgatesinchangées.
+
 ## L7 statique entière terminée ; standalone qualifié, GO dynamique borné — 2026-10-16
 
 Reviewer confirme1385lignes/4candidats lus,33DTO et85membres redérivés,aucunproduit

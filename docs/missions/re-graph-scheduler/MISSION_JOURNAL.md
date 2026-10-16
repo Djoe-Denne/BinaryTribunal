@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## ReviewerTSC0/target0HOLDenvsetup — 2026-10-16
+
+- TSC45324exit0/4873.5924ms/4b9be4c7+logs exacts. Nouveauwrapperctx_execute stopavant
+  postpins/spawn surSHAenvAUTREsandbox||guard,aucune255/probe/DBinvocation,old4intacts.
+  AuditPUBLIC conservé,pasprivateReasoning. Parentinputd'abordauto-signalement puisbon
+  wrapper sélectionné ;ORneprouveniquelleclefniquellebranche/guardmodifié,ancien
+  snapshotperkeyabsent. Pasproduit/providerFAIL,targetgate suspenduenonconsommée.
+- **GODIAGNOSTICSEUL18:03:46.185Z**UNEreadonlyctx30s/393receiptsold4,envhashintra-même
+  sandbox/guardstrictabsent/LOCALAPPDATAAPPDATAoriginaux/TEMPTMPhéritésconsignés/ownTEMP
+  readonlysansmkdirdelete. SETUP_ENV_DIAGNOSTIC.jsonseul,paswrapperfix/retry/childspawn/
+  produit/TSCtestprobeDB. MesurespuisparentéventuelleamendmentGOtargetdistinct,pasici.
+
 ## L7 standalonequalifié/reviewdynamiqueFINALGO — 2026-10-16
 
 - Statique1385lignes/4candidats/33DTO/85membresredérivés sansBLOCKcertain/produitexécuté.
