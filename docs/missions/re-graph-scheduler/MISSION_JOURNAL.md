@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Delta source acceptable, compile-onlyPASSdistinctrouge1préservé — 2026-10-17
+
+- 18a662e7/50db89e4reviewdeltaqualifiée/6ancrages,natifcompletedshutdown,24pins/main275
+  intacts. AncienUNCERTAINconservé,LFsourcevsCRLFwriter documentaireclarifiés.
+- Compile1GO23:25:54.325Z/PID16688naturel1/CS1504lookuppath/460ms,outtempvides,
+ 6preuves45644B. Compile2GOdistinct23:28:15.352Z/Win32argvseuls/newroot,
+ PID26112naturel0/444ms/DLL33792Bb36aa7c7jamaisload,7preuves79298B/326pins/main275
+ exacts,slotlibéréavantcollecte.0Job/helperfixture/APItest/native ;hôteencoreinqualifié.
+
 ## DeltaNewLine GOstatique aprèsACK — 2026-10-17
 
 - ACK24/rôle/reçu approuvé,nativepinsguard/main275/outputabsent exacts ;

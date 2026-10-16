@@ -1,5 +1,17 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Reviewdelta recevable ; compilation seule aprèsCS1504 conservé — 2026-10-17
+
+ACCEPTABLE_DELTA_SOURCE_SCOPED/6ancrages/24pins/reçu/main275 qualifiés,
+XML6690B18a662e7/details6382B50db89e4 ;natifreviewcompleted/shutdown,ancienUNCERTAINintact.
+JOB_HELPER_COMPILE_ONLY_RESULT_20261017.md :metadataPS5.1Framework4.8/cscpinés,
+GO1 23:25:54.325Z/PID16688naturel1/460ms/CS1504pathlookup malgré sourceexacte,
+6preuves45644B/outtempvidesconservés,0sourceverdict/Jobexecution.
+GO2prospectifdistinct23:28:15.352Z/Win32argvpathsseuls/nouveauroot :PID26112naturel0/
+444ms/stdoutstderrvides,libérationavantcollecte ;DLL33792Bb36aa7c7headersAMD64CLI
+lusjamaisload,7preuves79298B/326pins/main275exactsetconservés.0helperJob/API/fixture/
+produittest/DB/nativeFF8/intégration ;qualificationinoffensiveindépendante encoreàpréparer.
+
 ## ReviewdeltaNewLine ACK réel et GO statique — 2026-10-17
 
 ACK24payloads260867B/reçu/binding/rôle approuvé ;parentnativeSolMAXPlan/tâcheouverte/
