@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Gel L7 6d00 / findingsL8 préliminaires — 2026-10-16
+
+- Parentvérifie131PASS100old31new14004assertions/TC0,3copies6d00/74f0/5ed7,
+ 379pins250readonly32autresDTOexactes/deuxguardlignesdepuis9c87. Gelparent380pins
+ 8154346B/1873b005 pourreplaycibléencorepending ;39TS/12cleanupfiles22calls identiques
+ paths/hashesàl'inventaireL8déjàinspecté. Ceci n'estpasGO/fullSQLite/delete ;sourceHOLD.
+- ReviewL8TC0/60PASS424assertionsannoncés,2contre-exemplesAPIpubliquesneuvesdigest/
+ mutationclientetpauseobservePREPARED/backoff,ownprobes2PASS2FAIL ;BLOCKborné/
+ contrecontrôles/DBpinsenconsolidationpasencoreverdictparent. PasfixGo/scopereadonly
+ clientélargi. FinheavyfrontièrenaturelledemandéepourfuturfullL7pasencoreautorisé,
+ rienavorté/tué/relancé, aucuneintégration/nativeclaim.
+
 ## L7 reprise bornée finale après ACK68l — 2026-10-16
 
 - ACK68l/4511Bconditions,receiptfile1838960d/source9c87test38c2+natifAstraMAXparentXHIGH/

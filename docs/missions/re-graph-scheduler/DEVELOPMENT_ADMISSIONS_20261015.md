@@ -1,5 +1,27 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Gel L7 6d00 vérifié / review L8 en consolidation — 2026-10-16
+
+L7 auteur :100ANCIENS+31NOUVEAUX=131PASS0FAIL14004assertions7files/typecheck0.
+Parent vérifie logs/pins/copiesGREENb61bc401, source6d00cf29…9716f/newtest74f052d4…
+23327/README5ed73b73…79e9e ; depuis STOP9c87 seulesdeuxlignesguardd'originesource
+diffèrent dans simulator.379inputs/250readonly/32autresDTO exacts, note de limite
+auth et qualificationwrongoracle/setup conservées. Pasreviewindépendante ducorrectif.
+
+Parent gèle380pins8154346B/manifest1873b005…20796 pour replayciblé encoreàfaire.
+Inventairefull39TS/12files22callscleanup :les12PATHS/HASHES sont IDENTIQUES à ceux
+déjàinspectés pourl'amendementL8, aucun aliasdestructeur ou réaffectationTEMP racine
+observés. Ce constat **n'autorise PAS** un full/SQLite/delete ni une nouvelle
+conservation postdelete. Replayparent/réservation/permissionfixtures/ACK+FINALGO
+restent requis. L7source3pathsHOLD, aucune commande full lancée.
+
+L8 reviewer annonceTC0/60PASS424assertions etdeuxcontre-exemples APIpubliques sur
+fixturesNEUVES :digestclient avantawait/bodyaprèsmutation,observePREPARED resoumet
+aprèspause/backoff. Probespropres2PASS2FAIL annoncées, BLOCK borné+contrecontrôles/
+DBpins enconsolidation ; **pasencoreverdictparent ni cause acceptée**, aucunepermission
+decorrectif/outilspluschers/périmètreclientreadonly élargi. L8invité ànotifierfrontière
+naturelle/finexécutions pourfuturcréneauL7 ; rienavorté/tué, pasfullconcurrent.
+
 ## Reprise finale bornée L7 après ACK manuelv2 — 2026-10-16
 
 ACKcomplet68lignes/4511B/conditions reçu, receiptfichier1838960d…b52a48 vérifié,
