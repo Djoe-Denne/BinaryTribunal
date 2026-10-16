@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Plan validationcomplète — ACK436 et GO statique seul — 2026-10-16
+
+ACKcomplet436payloads17625182B/contrats/décisions/manifest/deuxreçus/rôle approuvé.
+Parent recontrôle SolMAXbuild/tâcheL8ouverte/cycle1/politiques4/2/guard,readonly/
+regularnonlink1/pins/main275 exacts etsortieneuveabsente. **GOstatique21:03:44.670Z**
+sousSCOPE421699d5 :plan/inventaire45tests+tsconfig/TOUSeffets-cleanups-transitifs/
+imagepossédéeproposée/env/commandesbornes/membership_exécuté-exclu/manifest puisHOLD.
+Siimage sansretouche ne satisfaitpasownership/rétention,escalade ;pasinterception/
+patch/exclusion silencieuse.0image/runtime/TEMP/DB/cache/port/threadcréé ni TSC/test/
+build/importproduit. GOdynamique ultérieur après qualificationimage/accès/réservation.
+
 ## Frontière recevable ; plan non-régression complète en accès seul — 2026-10-16
 
 `PREINTEGRATION_BOUNDARY_ACCEPTABLE_SCOPED_20261016.md` :parent20:52:15.681Z retient
