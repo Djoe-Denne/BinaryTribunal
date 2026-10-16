@@ -1,5 +1,18 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA combinée — ACKcontrat et FINALGO D1 puis D2 conditionnelle — 2026-10-16
+
+ACK complet MD3a6d205e/JSON28d4b1d8/reçu18e245e8 approuvé ;natif/tâcheouverte/
+guard/politiques/pins/main275 recontrôlés. Premier préflight parent regex'tsc'
+trop large matchait tsserver/tscancellation, arrêté AVANTréservation/GO,0kill ;
+qualificationmetadata conservée. Sélecteur corrigé aux frontières :zéroBun/Node
+test/probe/TSC observé, pas produitrun ouwaiver.
+Réservation20:10:14.545Z/FINALGO20:10:14.546Z,runtime-xq-80920072 encore absent auGO.
+UneD1 quatrepurs, puisuneD2v2 cinqcas SEULEMENTsi D1naturel0/noms/quatrePASS/postpins/
+guard :180sdeadline/2DB/28steps, contrats matériels intégraux inchangés. Fin/libération
+avantcollecte/retentionown,HOLDsurrouge sansretry/fix/cleanup. RésultatsINCONNUS,
+pasTSC/full/native/maintransfert/intégration/globalQA par ceGO.
+
 ## QA V2 qualifiée ; contrat dynamique prêt, accès seulement — 2026-10-16
 
 V2draft5420398b/addendumcaa438bd/manifest34a5211c :quatre remplacements exacts,

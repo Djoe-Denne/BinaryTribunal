@@ -86,3 +86,30 @@ Séquence seulement envisagée : D1 quatre callbacks L5 purs filtrés,30s/0DB ; 
 cinq tests V2,150s/2DB seulement après D1 naturel0/quatrePASS exacts/postpins ;
 deadline global180s. Aucune permission de créer/exécuter à ce stade. Main275,
 424inputs et deuxreçus préservés, pas sourcefix/native/intégration/globalQA.
+
+## ACK dynamique approuvé ; réservation et FINAL GO — 2026-10-16
+
+Lecture intégrale effective MD/JSON/reçu, rôle/conditions compris, runtime absent :
+ACK approuvé. Parent recontrôle natifSolMAXbuild/tâcheouverte/politiques4/2/guard,
+424inputs/reçus/suppléments/neufstatiques/main275 exacts et readonly selon contrat.
+
+Premier préflight de créneau arrêté avant réservation/GO : le regex parent trop
+large reconnaissait `tscancellation` dans quatre tsserver.js (LSP). Aucun test/TSC
+concurrent n'en était établi ; aucun processus arrêté. Résultat outil initial
+conservé dans le transcript, qualification distincte explicite sous `.tmp` sans
+prétendre à un log brut reconstruit. Sélecteur corrigé aux frontières du nom tsc,
+nouvelle observation JSON conservée : zéro test/probe/TSC Bun/Node observé.
+Pas relance produit, changement de fixture/oracle/env/globalconfig ni waiver.
+
+Réservation exclusive **20:10:14.545Z**, FINAL GO distinct **20:10:14.546Z** pour
+runtime-xq-80920072 et contrat matériel inchangé. Une D1, puis une D2v2 seulement
+si D1 naturel0/quatrePASS/noms exacts et postpins/guard ; deadline180s,2DB/28steps.
+Créer runtime/OWNER/tmp-opencode/cache/verrouswx après ce GO seulement. Résultats
+encore inconnus. Tout rouge/setup/drift/refus :HOLDsansretry/fix/cleanup. Fin et
+libération avant collecte puis rétention des seules DB/suffixes explicitement
+possédés/registry/cacheopaque, preuves/HOLD. Aucun TSC/full/native/intégration.
+
+Reçus parent : `l7-l8-crossqa-dynamic-exclusive-reservation-20261016.json`,
+`l7-l8-crossqa-dynamic-actual-final-go-20261016.json`,
+`l7-l8-crossqa-dynamic-process-preflight-corrected-20261016.json` et
+`l7-l8-crossqa-exclusive-filter-qualification-20261016.md` sous `.tmp`.

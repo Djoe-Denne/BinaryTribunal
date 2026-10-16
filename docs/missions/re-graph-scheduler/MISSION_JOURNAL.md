@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## QA combinée FINALGO dynamique — 2026-10-16
+
+- ACKcontrat complet approuvé/natifpinsguard/main275 exacts. Fauxpositif parent
+  tscancellation/LSP qualifié,préflight arrêtéavantGO/réservation/0kill,regexborné
+  corrigé et0test/probe/TSC observé,pasproduitrun/waiver.
+- Réservation20:10:14.545Z/FINALGO20:10:14.546Z,runxq-80920072,uneD1 puisD2v2
+  seulementsiquatrePASSnoms/exitzero/postpinsguard ;180s/2DB/28steps. Résultats
+  inconnus,fin/libérationavantcollecte,HOLDsansfixretrycleanup,pasnative/intégration.
+
 ## V2 QA qualifiée, contrat dynamique en accès seul — 2026-10-16
 
 - Draft5420398b/addendumcaa438bd/manifest34a5211c :quatre remplacements exacts,
