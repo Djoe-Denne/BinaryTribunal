@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 STOP TSC2 / 107 NONlancé — 2026-10-16
+
+- UniqueTSC31564fin14:22:14.155Z/3833.5539ms/exit2naturel,logsparentexactsf8a8281e/
+  8b8e8605/83662072. TS2769nouveautest321:50toContainstringundefined,typagepasruntime
+  nifixturefailure ;condition0absente,0tests107/HOLDsanspatchrerunrespecté.
+- Collectefinale/postpinsduMÊMETSCpending,paspatchpendantcollecte. Parentenvisage
+  guardnonnullableRÉELtestseulMÊMEétatsreceipt,pascast/waiver ;aucunGoamendment/retry
+  maintenant. Sources620c/1b305/runtime16/test708/registryinchangésannoncés ;C/full/
+  freshreview/intégrationtoujoursgatesdistinctes,L7PLANstatiquecontinue.
+
 ## L8 finalGO TCpuis107ciblés — 2026-10-16
 
 - ACK58/5869/129l3pins349320B+822rows16runtime/rôleconditions approuvé,receipt9ad823b3/

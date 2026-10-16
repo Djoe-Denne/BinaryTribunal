@@ -1,5 +1,20 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 STOP TSC rouge, aucun ciblé107 lancé — 2026-10-16
+
+UniqueTSC PID31564,14:22:10.322Z→14:22:14.155Z/3833.5539ms,exit2naturel/signalnull/
+sans timeout ni kill. Parentvérifieendf8a8281e/stdout8b8e8605/stderr83662072 :
+**TS2769** nouveau testbody-pause-regressions:321:50,`toContain` reçoitstateoptionnel
+`string|undefined`. Défaut de typage du test708, paséchecfixture/process ni107FAIL.
+Conditionexit0nonremplie :**0invocation107**,pasGREENacquis ;HOLDsansfix/rerun respecté.
+
+Auteurannonce853postchecks/16runtime/test708/registry157257inchangés ;collectefinale
+duMÊMETSC/proofsgelésetconformitéparentencorepending. Paspatchpendantcollecte.
+Parentenvisagecorrectiontypedbornée(testseulguardnonnullréelpuisMÊMEsetACCEPTED/
+TERMINAL/receipt1),pascast/waiver/affaiblissement ;**aucuneamendmentWRITE/retryaccordée
+maintenant**. Deuxsources620c/1b305intactes,C/full/reviewfresh/intégration sousgates
+distinctes. L7PLANstatiqueindépendantcontinue.
+
 ## L8 typecheck puis 107 ciblés — GO final réel — 2026-10-16
 
 ACK58lDECISION/5869lBASELINE822rows+16runtime/129lPARENTcomplets,3pins349320B/
