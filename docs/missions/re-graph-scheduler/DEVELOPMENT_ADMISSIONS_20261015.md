@@ -1,5 +1,26 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Ciblée reviewer rouge — omission ledger du paquet parent, HOLD — 2026-10-16
+
+UNE25514paths43764exit1naturel/10987.5423ms/18:12:23.638Z :254PASS1FAIL0SKIP17608assert,
+logs/end87290158/fa8dc8f7/d1b11d22 vérifiés. Le casraw98 litledgeràstructure140–144,
+ENOENTdanspacket393 AVANTbuildFf8GraphSnapshot. Parentconfirme etassume erreur de
+design :SCOPE«ledgernonnécessaireauxcommandesbornées» FAUX pources14tests. Source
+851/régressionouoracleerroné nonétablis,ancienfullauteur ne remplacepasindependentgate.
+
+`L7_COPY851_REVIEW_TARGET_RED_MISSING_LEDGER_20261016.md` conserve lespreuves etcause.
+FixtureauthorOWN8943882B/b5c9…10e4d4 parentrehashée,ni copiée ni parsée,nouveaudroit
+workeraucun. Helperlimite8MiB inchangée,pasforcer/split/tronquer/régénérer/lienIO ou
+ajouterfixtureaugel393pourverdir. Paquetrouge etanciennephraseerronée restentfigés.
+Collecte autoriséepost393/receipts/old4/diag/controls/cache/newDBexactsretoursstdout
+close/rawhash/sidecars seulement,finaldelivery encoreattendue. TSC/probes/rerun255/
+fixturecopy/sourceedit/reviewpromotion/intégration fermés,targetuniqueconsommé.
+
+Aprèsfinalconformité demanderGOutilisateur pourunNOUVEAUgel avecprojectionlocale
+grandefixturebyte-exact,explicitementhorsreçuhelper,sanschangerlimit/config nianciens
+gels ;puisnouvellecibléeunique/gatesparent,mêmemodèle/sources/tests. Pasautoriséici,
+paswaiverraw98/native,autresmissionsinchangées.
+
 ## Diagnostic env conforme, cache qualifié ; GO ciblée seule — 2026-10-16
 
 Diagnostic4016B/604a5c8b parentvérifié :guardstrictabsent/LOCALAPPDATA APPDATAuniques

@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Reviewer255rouge/parentpacketledgeromis — 2026-10-16
+
+- Première255réelle43764fin18:12:23.638Z/10987.5423ms/exit1naturel,254P1FAIL17608assert/
+  255/14,parent872901/fa8dc8/d1b11logs exacts. ENOENTledgerdanspacket393 àstructure140–144
+  AVANTbuilderraw98 :parentSCOPE«nonnécessaire»étaitFAUX,erreurpaquetparent assumée,
+  pasrégression851établie/waivergate. TSC0reste/probes0,targetuniqueconsommérouge.
+- Originalauthor8943882B/b5c9rehashparentseul,paslectureworker/copie/parse ;limitehelper
+  8MiBinchangée,aucunbypass/split/tronque/geloverwrite/lienIO. Collectepostpins/newDB/
+  controls/cachereadonlyfinalpending,pasfixrerun/probe/intégration. Aprèsconformité
+  demanderGOusernouveaugel/projectionlocalegrossefixtureconnuehorsreçuhelper+nouvelle
+  cibleunique,gatesdistinctes,mêmescode/modèle. Ancienfullauteurgreenpasindependentgate.
+
 ## Reviewenvcachequalifié/TARGET_ONLYpremier255GO — 2026-10-16
 
 - Parent604a5diag4016B guardabsent/authoritypaths393receiptsold4/digestINTRAmêmesandbox
