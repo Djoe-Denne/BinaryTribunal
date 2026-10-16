@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L8 runtime16 — GO full exclusif réel — 2026-10-16
+
+- ACK6 fichiers891737B/1658pinrows comme données approuvé ;39aafc94 receipt exact.
+  AuteurSolMAX/parentSolXHIGH/taskOWN/politiques4/2/guard/runtime16/957readonly/C16+
+  delivery/registry232965/34TS relus. Réservation15:33:30.856Z, zéro Bun test/probe/TSC,
+  pas kill/temp créé ; L7 informé source STATIQUE seule, pasTSC195 pendant le créneau.
+- **GO FINAL FULL16**15:34:16.744Z :une invocation30000/test≤420s,443DB nommées raw
+  avant/après jamaisSQLite,12hooks22calls propres neufs/13e inactif,interop strictement
+  absent inchangé,préfixe registre232965 protégé. Résultats inconnus, rougeHOLD sans
+  fix/rerun ;fin+libération immédiate avant collecte. Fresh review16+gates parent
+  avant intégration, aucune activation native/interop ou gate concurrente.
+
 ## Cgateconforme/full16accès-onlypréparé — 2026-10-16
 
 - C3e756712/30269B16artefacts1005765B957checks887paths/952before16runtime/registryexacts,

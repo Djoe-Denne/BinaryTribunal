@@ -1,5 +1,25 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 runtime16 — réservation exclusive et GO full final — 2026-10-16
+
+ACK intégral des 6 fichiers / 891737B et 1658 lignes de pins comme métadonnées
+approuvé ; receipt fichier39aafc94…e6cf7 exact. Parent relit SolMAX auteur/SolXHIGH
+superviseur, tâche ouverte/OWN, politiques4/2 et garde d'admission inchangées,
+runtime16/957readonly/C16+delivery/registry232965 et34TS exacts. Garde interop
+strictement absente dans le contexte parent ; vérification enfant reste obligatoire.
+
+Réservation EXCLUSIVE NEUVE15:33:30.856Z : aucun Bun test/probe/typecheck observé,
+aucun process tué/temp enfant créé par le parent. L7 notifié : source STATIQUE seule,
+pasTSC195 pendant ce créneau. **GO FINAL FULL16** distinct envoyé15:34:16.744Z :
+une `bun test --timeout 30000`, global≤420s, préflight physique des443DB nommées
+avant/après (jamaisSQLite), fixtures propres/22cleanups actifs uniquement,13e inactif
+et garde absente inchangée, registre232965 en préfixe append-only. Résultats inconnus.
+
+Tout rouge/setup/drift impose HOLD sans fix ni rerun. Fin/codes/comptes réels et
+libération immédiate AVANT collecte, puis gel/preuves/HOLD parent. Pas typecheck,
+probe annexe, full concurrent, activation interop, IDB/live/native ni intégration.
+Fresh review NONBLIND SolMAX du runtime16 entier et gates parent encore requises.
+
 ## L8 Cfinal conforme / fullruntime16 accès seul préparé — 2026-10-16
 
 ParentvérifieCdelivery30269B/3e756712…27702f,16artefacts1005765B/957checks887paths et
