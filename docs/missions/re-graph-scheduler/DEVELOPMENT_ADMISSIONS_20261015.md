@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Ciblée ledger V2 verte terminée/libérée — collecte finale encore requise — 2026-10-16
+
+UNEcibleV24276/18:34:11.326→18:34:29.096Z/17769.1268ms,exit0naturel/signalnull,
+TSCrerun0/probes0. Parentlit endafdc7007/stdout70fdc852/stderr841ea73b,résumé réel et
+255lignesPASS :**255PASS/0FAIL/0SKIP/17622assertions/255tests14files**. PréflightCWD
+biennouveaugelV2,envintra-sandboxinchangé/guardabsent. Réservation18:32:17.183Z
+LIBÉRÉE explicitementavantcollecte,aucunprocesscibléeàattendre/refaire.
+
+Le rougeV1 resteconservé,pasreclassé ;compléterledger corrige monpaquetpasleproduit.
+Collectereadonly402helper+ledgerreadonly/2receipts/contrôles/newDBretoursstdout/
+closesrawposthash/sidecars/cacheopaquequalifié en cours. NouveauTEMPfresh61/nested70
+enregistréavantlaunch,nonsymlinks/root[opencode]/nestedEMPTY,paspostruntimeemptyinventé.
+Probes restentSUSPENDUES malgréGREEN,GOparentdistinctaprèsdeliveryconforme.
+Résultatprocessvert≠reviewACCEPTABLE/intégration/globalQA/native ;aucunefixrerun/
+nouveauTSC/SQL/delete/oldDB ouautremissionautoriséparconstat.
+
 ## Review ledger V2 — ACK403 approuvé, réservation et GO cible distinct — 2026-10-16
 
 ACK réel402helper9300341B+ledgerlocal8943882B=403payloads18244223B/contratsactifs/

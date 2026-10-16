@@ -1,5 +1,15 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Cible ledgerV2 verte/créneau libéré — 2026-10-16
+
+- UNE4276fin18:34:29.096Z/17769.1268ms/exit0naturel,parentafdc7007/70fdstdout/841eastderr
+  +résuméréel255P0F17622assert255/14 et255lignesPASS exacts,CWDnouveaugelV2. TSCrerun0/
+  probes0,envinchangéintra-sandbox/guardabsent ;LIBÉRATIONavantcollecte confirmée.
+- Post402helper+ledgerreadonly/receipts/controls/newDBretoursclosespins/cachequalifié
+  encollecte. Rootfresh61/nested70initialEMPTY/nonlinks enregistré,paspostruntimeclaim.
+  Ancienrougepréservé,probesSUSPENDUESmêmeGREENavantdeliveryconforme+GOparentdistinct,
+  aucunverdictACCEPTABLE/intégration/globalQA/native déduit,pasfixrerun/TSCextra.
+
 ## LedgerV2réservation/FINALcibleGO — 2026-10-16
 
 - ACK402helper+ledger403payloads18244223B2reçuscontratsreadonly approuvé ;parentnative
