@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## LedgerV2réservation/FINALcibleGO — 2026-10-16
+
+- ACK402helper+ledger403payloads18244223B2reçuscontratsreadonly approuvé ;parentnative
+  SolMAXPlan/taskouverteguardpolitiques4/2/402hashledgerb5mode444nonlink1/f1d8f552,
+  254harnessV1/V2exacts →statiqueetTSC45324exit0réutilisables. Main275intact.
+- RéservationNEUVE18:32:17.183Z zérotestprobeTSC/nokill/newrootsabsentes. **GOcibleV2
+  18:32:23.003Z**UNE25514paths180newgelcwd,shortTEMProotopencode/nestedEMPTY/nonlinks/
+  guardabsent/intra-env/lockwx. Erreurpremiermessageparentcorrigéeavantdelivery,pas2erun.
+  RésultatsINCONNUS,FIN+LIBÉRATIONavantcollecte puisnewDBclosespinscache/HOLD ;
+  rougepasfixrerun,probesSUSPENDUESmêmeGREEN,gatesparent/nonnativeintégrationinchangées.
+
 ## Autonomieuser/ledgerV2nouveaugel accès-only — 2026-10-16
 
 - Userdemandeautonomiesansquestions/modèlesetrelancestâcheslibres ;parentlèveattente

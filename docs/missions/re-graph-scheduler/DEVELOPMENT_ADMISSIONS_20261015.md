@@ -1,5 +1,28 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Review ledger V2 — ACK403 approuvé, réservation et GO cible distinct — 2026-10-16
+
+ACK réel402helper9300341B+ledgerlocal8943882B=403payloads18244223B/contratsactifs/
+deuxreçus séparés reçu etapprouvé. Parentrelit tout :natifSolMAXPlan/taskouverte/
+politiques4/2/guardready,402hashs/ledgerb5READONLYnonlinknlink1 etreceiptsf1d8/f552 exacts.
+254fichiersharnesscode/tests/configsV1/V2 byte-exacts indépendamment comparés :statique
+entièreetTSC45324exit0/4b9be4c7 réutilisables,aucunTSCrerun. Main275 accepté inchangé.
+
+Réservation EXCLUSIVE NEUVE18:32:17.183Z,zérotest/probe/TSCconcurrent sanskill et
+nouvellesracinesabsentes. **GO FINAL TARGET_V2 distinct18:32:23.003Z** :UNE25514paths
+exacte≤180s CWDnouveaugelV2,pasanciengel/auteur ;newproofTARGET-9c4a62f1c225 etTEMP
+court l7rv2-9c4a62f1c225/opencode créés seulementaprèsGO,nonlinks/root[opencode]/
+nestedEMPTY mesurés,guardabsent/authoritypathsTSCuniques/envintraprocessus inchangé/
+childdiffTEMP_TMPseuls,nouveaulockwx. Premierappelmessageparent avaitunesyntaxe
+incorrecte,corrigéeavantlivraisoneffective ;pas2commandesproduitoufallback.
+
+Ledgerparse autorisé au SEULtestpublic sousnouveaugel,source/tests/402pins+ledger/
+receiptsparentcontrolsreadonlyavant/après. RésultatsINCONNUS,255attenduspasoracle.
+FIN/codescomptes+LIBÉRATIONimmédiateavantcollecte puisnewgraphDBretoursstdout≤12/
+closesrawpostpins/sidecars/cacheopaqueconservés,HOLDparent. Rouge/setup/refus/drift
+STOPsansfixrerun/lockdelete. ProbesEXTRASUSPENDUES mêmeGREEN,GOparentultérieuraprès
+qualification ;aucuneintégration/native/old32L7ou636L8DB/globalconfigautorisée.
+
 ## GO autonome utilisateur ; nouveau gel ledger V2 en accès seul — 2026-10-16
 
 L'utilisateur impose désormais autonomie/sansquestions,autorise choixmodèles et
