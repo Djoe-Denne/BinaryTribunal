@@ -1,5 +1,20 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Cgateconforme/full16accès-onlypréparé — 2026-10-16
+
+- C3e756712/30269B16artefacts1005765B957checks887paths/952before16runtime/registryexacts,
+  2copies106496B/origsealedrawavantaprès/no-sidecars/fileIDs+birthdaydistincts,2cached
+  publiccasessérie0RPCtoken/controlreceipt+badrefuslocalnorepair confirmés.Pasuniversel/
+  nativeacceptance,publicRAWpending962HOLD+b4bsupplémentintacts.
+- NewcleanupAST34TS29testfiles13potential23calls :old12active22byte+linesexacts,
+  extra13e role-sharing146DANSguardabsenttest.skip/nonautorisé ;ancieninventairetest/
+  partielpasanciencleanupinconnuexécuté. Fullguardstrictabsentunchanged,presentSTOP.
+- Parent4ownedindexes298+47+96+2→443oldDB131350528Brawprepin/nosidecars/noSQLTempglob.
+  Fullgate5135B392ba70f/6pins891737B/receiptf02856a5transféréeaccèsseul,mêmeMAXtask
+  OWNguardrelus,ACKpuisréservationneuveFINALFULLGOpending. Pasfull/tempfixturescleanup/
+  worker443readsavantGO,sanity977P1SKIPpasacquis ;freshreviewparentavantintégration,
+  L7staticsourceonlycontinue.
+
 ## L8 Cpublic2/2naturel/rawsealsencorepending — 2026-10-16
 
 - Cprobe33164fin15:11:31.995Z73.7663ms/exit0naturelunefois,parentb4f6e231/7c2f053a/

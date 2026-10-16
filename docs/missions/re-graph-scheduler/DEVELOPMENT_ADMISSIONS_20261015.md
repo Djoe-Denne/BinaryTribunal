@@ -1,5 +1,30 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 Cfinal conforme / fullruntime16 accès seul préparé — 2026-10-16
+
+ParentvérifieCdelivery30269B/3e756712…27702f,16artefacts1005765B/957checks887paths et
+952before/16runtime/registry232965 exacts. Copies2/106496B+originaux53248Bchacun raw
+avantaprès byteexacts,sanssidecars,paths/birthtimesETfileIDs distincts ;2cachedcases
+série0RPC0token/controlreceiptRED/badlocalrefus sansrepairconfirmés. C_GATEconforme
+pourcesDEUXrows,pasallpending/racesnative/acceptance. PublicrésultatRAWpendinginitial
+et962HOLD+b4bsupplémentconservés,pasréécriture d'histoire.
+
+Avantfull,nouvelleASTcoverage test/ETscripts/ :34TS/29testfiles,13files23callspotentiels.
+Ancieninventaire étaitlimitétest/. Le13e role-sharing-offline:146 estDANS test.skip
+quandFF8_ENSEMBLE_SOURCEabsent ;ancienfullSKIPconfirmeabsenceopération,pasanciencleanup
+exécutéinconnu. **12active22calls hashes+lines identiques**,13eINACTIF/NONAUTORISÉ.
+Guardvraimentabsentinchangé requis,presentmêmevideSTOPavantfull,pasclearenv/activation.
+
+Parentcompose4indexesowned(298+47+96+2)dedupEXACTpathsansfiltreextension :443oldDB/
+131350528Brawprépinssanssidecars vérifiés,aucunSQLite/Tempinventaire/historiquehash
+précoceinventé. Contrat `L8_RUNTIME16_FULL_GATE_20261016.md`5135B/392ba70f…134744c,
+paquet6pins891737B/receiptf02856a5…bb79b transféré mêmeSolMAX/taskOWN/guardreadyrelus.
+**ACCÈSSEUL**,lecture/hash6/rôleconditionsACK puisréservationEXCLUSIVEnEUVE etGOFINAL
+FULLdistinct encore requis. Aucunfull/fixture/temp/cleanup crééparpréparation ;worker
+ne litpasphysiquement443DBavantGO. Futurunique30000/test≤420s/977P1SKIPsanitypasacquis,
+legacy12hookséphémèresbornés+retained/provenanceseals/registrypréfixequalifiés.
+FullGREENpuisfreshreviewruntime16/gatesparentavantintégration,L7sourceSTATIQUEonly.
+
 ## L8 C : processus public2/2 vert, scellés raw aprèsclose pending — 2026-10-16
 
 UniqueprobePID33164/15:11:31.921Z→15:11:31.995Z/73.7663ms,exit0naturel/signalnull/
