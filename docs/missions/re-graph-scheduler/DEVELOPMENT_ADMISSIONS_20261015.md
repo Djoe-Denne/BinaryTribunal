@@ -1,5 +1,39 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L8 full final conforme ; nouvelle review entière en accès seul — 2026-10-16
+
+Parentvalide livraisoned46f1f1/120482B et34artefacts4822368B,runtime16live/frozen
+365568B exact.1031fullSHA/906paths+2rowsMÊMEregistrypréfixe=1033checks qualifiés ;
+232965prefix→308673/tail75708B275rows179res96closed83sansDB exact.443old131350528B
+avant/après+96newL8perclose24633344B+L5postexit385024B=**540DB156368896B** rehashées
+sansSQLite/nosidecars ;201filesL8externes24768944B exacts. Nouveaux96birthtimesrun,
+indexafterAll6+90nésaprès qualifié sansindex==all/lifecyclewaiver. L5premierhashPOSTEXIT
+seulement,éphémèrescleanupaucunposthashinventé,13einterophook inactif.
+
+Deux erreurs lecteurmetadata conservées :marqueurchemin prisJSON,puisregexslash
+avantinstructions. Repriselecteurseule,pasproduit/source/test/index/DBmodifié/rerun ;
+pasold443postsealpersistéantérieurinventé. Collectorjournal895Bprefix+348append intact,
+REPORTING20e7231a qualifie footerSKIP nonattribuableàrecovery ;qualification5a99f49d
+intacte. Full977P0F1SKIP75019assert978/29 reste même run,CRED/962HOLD+b4bsupplément
+etanciensgelspréservés. **FULLDELIVERYCONFORME**,pasacceptance/intégration/native.
+
+Fresh reviewNONBLIND SolMAX,task `task_mvb5kbvg_002f_5q34sa`,nouveauPlanreadonly
+`l8-runtime16-review`,session `ses_eba8fb751ffeIOgTYA9PAAJh6M`,natifSolMAX+ownership
+etindépendancedetousmembres/auteur relus. Pasworktree,pasancienreviewerrelancé ;
+répertoirenatifmainsertCONTEXTE,n'autorisequelepaquet/proofdir donnés. Scope
+`L8_RUNTIME16_FRESH_REVIEW_SCOPE_20261016.md`7405B/12af86e0…ed5ce5 :runtimeENTIER16,
+API/autorité/bodypause A–E+couplages,reviewstatiqueetdynamiquedistinctes.
+
+PremiertransfertREJETÉAVANTcopie :9kindscodeinvalides,schémaexigesource,paserreur
+produit/provider/quota. Original464gel+requête/rejet conservés. SCHEMA2corrige9tags,
+463payloads/SCOPE/runtimeinchangés,+auditmetadata+manifest :465pins9144956B,
+manifest4b9c20cd…ce3d2/receipt1625aaef…544c4 transférés,sessions/model/configinchangés.
+Junctiondeps ethelpermetadataEMPTYpréparésparent,pasregistry/DBfixturescréées.
+**ACCÈSSEUL** envoyé,lecture/hash465/rôleconditions/accèsréelACK puisGO REVIEWSTATIQUE
+distinct encore requis. TSC107/probesfreshbornées auront encoreGO DYNAMIQUE distinct
+aprèscontrôledecréneauL7TC195,pasdynamiquereviewermaintenant. AuteurL8HOLD,540oldDB
+inaccessiblesaureviewer,aucunGit/native/intégration oulectureautrecontextedéduit.
+
 ## L7 typecheck puis195 — GO final réel — 2026-10-16
 
 ACK3entrées100269B/décision4092/baseline94228/parent1949 complets,rôleconditions
