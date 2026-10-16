@@ -1,5 +1,19 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 full fin naturelle / collecte finale en cours — 2026-10-16
+
+Auteur notifie **FIN+LIBÉRATION** avant collecte,PID31924/wrapper39684,12:34:41.036Z
+→12:37:18.826Z/157790.2608ms/exit0/signalnull/naturaltrue/no timeout. Parentlitexit
+etlogcombined157559B/SHA664f0e01…03309, confirmecompteurs**1061PASS1SKIP0FAIL/
+1062tests35files91458assertions**. Ce n'est plus unfullattendu/actif ; L8notifié
+libérationmaisGOrestePLANseul. Aucun autre full/patch/rerun demandé.
+
+Préflightpins/32DTO annoncésverts ; collecte postexit/DBneuvesloggées/postpins/
+HANDOFFfinal encoreen cours, conformitéparent/acceptation NON acquises. Prochaine
+reviewfreshSolMAX complète3paths définie dans
+`L7_NAMESPACE6D00_INDEPENDENT_REVIEW_SCOPE_20261016.md`, **aucuneadmission payante
+avantgelfinalconforme**. Pasréouvertureancienreviewer/nativerun/intégration.
+
 ## L7 full FINALGO après ACK / créneau neuf — 2026-10-16
 
 ACKdécision72lignes/3pins113552B+cleanup12files22calls+BASELINE250/116 entrées et

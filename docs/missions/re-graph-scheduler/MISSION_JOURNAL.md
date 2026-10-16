@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 full terminé naturellement/slot libéré — 2026-10-16
+
+- PID31924/wrapper39684fin12:37:18.826Z/157790.2608ms/exit0/naturalsans timeout,
+  LIBÉRATIONexplicite reçue. Parentexit/log157559B/664f0e01confirme1061PASS1SKIP0FAIL/
+  1062tests35files91458assertions. L8informéfinpasnouveauxdroits,PLANseulement.
+- Collecte/postpins/DB/HANDOFFfinaletconformitéparentencorepending ;prochainefresh
+  review3pathsSolMAXscopepréparé,aucuneadmissionpayanteavantgelfinalconforme.
+  Aucunpatch/rerun/ancienne reviewréouverte/acceptance/intégration/nativeclaim.
+
 ## L7 full FINALGO / créneauneuf12:29Z — 2026-10-16
 
 - ACK72l/3pins113552B/cleanup12files22calls/BASELINEconditions approuvé ;receipt8673b622,
