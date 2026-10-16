@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## GO statique tronqué — restitution matérielle — 2026-10-16
+
+- Owner HOLD sansécriture/analyse :message stocké tronqué. Parent projette texte
+  complet4454ba38 +JSONoriginal8fcbc58d (2payloads4985Breadonly,receipt2baeb024/
+  fichier83355143) danssupplément distinct.424/deuxreçus intacts/sortieabsente.
+  ACCÈSSEUL puisACKréel/confirmationparent avantstatique,pasdéfautproduit/nouveauGOdynamique.
+
 ## QA combinée — GO statique après ACK424 — 2026-10-16
 
 - ACK424/contrats/deuxreçus/rôle approuvé, nativeOWNtâcheSolMAXbuild/guard/politiques/

@@ -1,5 +1,16 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Restitution du GO statique tronqué — 2026-10-16
+
+L'owner a reçu seulement un header tronqué du GO stocké et a HOLD sans création
+de CROSSQA ni analyse supplémentaire. Parent matérialise le texte COMPLET et le
+JSON original du GO19:19:41.400Z dans un supplément distinct OWN/inputs/
+L7_L8_COMBINED_STATIC_GO_20261016 :2payloads4985B readonly,4454ba38/8fcbc58d,
+receipt2baeb024/fichier893B83355143. Aucun changement de périmètre/exécution ;
+424inputs/deuxreçus originaux intacts etsortieabsente recontrôlés. ACCÈSSEUL au
+supplément puisACKréel/HOLD avant confirmation parent. Blocage de livraison, pas
+défaut produit ou permission de compléter les conditions par inbox/index/autrecontexte.
+
 ## QA combinée — ACK424 approuvé, GO statique seulement — 2026-10-16
 
 ACK réel424payloads17408976B/contrats complets/deuxreçus/rôleconditions approuvé.
