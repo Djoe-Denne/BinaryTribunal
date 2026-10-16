@@ -1,5 +1,30 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Diagnostic env conforme, cache qualifié ; GO ciblée seule — 2026-10-16
+
+Diagnostic4016B/604a5c8b parentvérifié :guardstrictabsent/LOCALAPPDATA APPDATAuniques
+exactes/393pins2receipts/old4 inchangés,digestenvavant=aprèsDANScettesandbox. Ancienne
+OR/clefdifférente nonattribuée,pasclaimtoutevariationinoffensive. RootTEMP contient
+désormaisnode-compile-cache+opencode,nestedEMPTY ;flagFalse du diagnostic RESTEFalse,
+préflightinitialprétSC[opencode]historiquementvrai. Créateurcache noninstrumenté.
+Parentrawhash proprecache nonlinks/nonSQLite :1fichier1357764B,opaque non désérialisé,
+sansdelete/SQL ;copieavant immuableOPAQUE_CACHE_BEFORE/file-001.bin pinéeconservée.
+Cacheoutil peutévoluerparruntime seulement,avant/aprèsqualifiés,pasinputscientifique.
+
+`L7_COPY851_REVIEW_TARGET_RESUME_GATE_20261016.md`3322B/6238193b…99a54 fixe amendment
+WRAPPERSEUL :digestintraprocessus,guard etauthoritypaths checks séparés,childenv copié
+ACTUELdiffTEMP/TMPseuls,postTSCrootexact[cache,opencode]/nestedEMPTY,393/receipts/old4/
+diagparentcontrols intacts,absenceancienstart/lifecycle/lock puistargetlockwx. Aucune
+source/test/oracle/configmodifié,aucunrerunTSC ;oldshaenvhistorique noncomparécommegate.
+
+NatifSolMAXPlan/taskOWNouverte/politiques4/2/guardready/pins/old4/diag/0target etzéro
+concurrenttest/probe/TSC relus sanskill :**GO FINAL TARGET_ONLY18:10:13.876Z**,première
+UNE25514paths≤180s seloncommandeexacte. Lecturecomplètescope+GO/ACKconditionsavant
+lancement,pasbesoindenouvelleexécutionTSC. Rouge/setup/drift/refus→STOPHOLDsansfixrerun/
+clearenv/lockdelete ;finsPIDcodescomptesavantcollecte,puispinsnewgraphDB≤12retours
+explicitesclose/posthash/sidecars/cacheconservés/HOLD. Probesextra explicitement
+SUSPENDUES mêmeGREEN,GOparentultérieuraprèsqualificationciblée. Aucuneintégrationnative.
+
 ## L7 reviewer TSC0, ciblée0 — HOLD setup environnement, diagnostic seul — 2026-10-16
 
 TSC45324exit0naturel17:59:14.876→17:59:19.750Z/4873.5924ms,lifecycle4b9be4c7/logs
