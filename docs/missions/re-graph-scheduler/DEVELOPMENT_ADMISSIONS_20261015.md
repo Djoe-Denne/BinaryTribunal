@@ -1,5 +1,22 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## L7 RED GO final ; L8 patch exact et TSC0 vérifiés — 2026-10-16
+
+L7 ACK3pins109766B/DECISION/PLAN/369BASELINE complets/rôleconditionsaccèsréel approuvé.
+Parent relitAstraMAX/taskOWNguardready/369pins/PLANcd21/newtestabsent ;receipt fichier
+9b98e249…59fe3. **GO FINAL NEW_TEST_WRITE_RED_ONLY** donné :SEULnouveaufilecopy-boundary
+puisUNEciblée sur6d00readonly≤120s/80cas/8unitésfixture,4parentcas+contraires/matrice
+qualifiée.131README33DTO/source/historicalreadonly,postpins/parcas preuves puisHOLD ;
+pasTSC/old131/probeannexe/SQL/full/sourcefix. Petitmémoireindépendant autorisé avec
+L8ciblé,aucuncréneauexclusif/full réclamé. RésultatREDencoreinconnu.
+
+L8 patchhunkexactappliquétest39398B/0f7cb296,15autresruntimeinchangés,16runtime365568B
+gelés ;readyc18a6185 pinéparent. NouveauTSC PID21216/14:36:30.353Z→14:36:34.587Z/
+4233.7964ms/exit0naturel/signalnull,sanstimeout/diagnostic. Parentend322ecde4 vérifié ;
+ancienneévidenceTSC2jamaisreclassée.888postpinsannoncésconformes/prédécesseurrempli,
+107uneinvocation7pathsexactsannoncée,comptesréels/finalcollectepending ;pas107acquis
+avantsonrésultat. CREDsealed/pasSCRATCHC/full/intégration/nativego.
+
 ## L8 amendment GO final / L7 PLAN ratifié en accès seul — 2026-10-16
 
 L8 ACK61/6111/483/16l des4pins408955B/conditions reçu ;receipt fichier37e57c43…90ac5,

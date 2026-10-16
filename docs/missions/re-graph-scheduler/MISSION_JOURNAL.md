@@ -1,5 +1,17 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## L7 REDfinalGO / L8 nouveauTSC0 vérifié — 2026-10-16
+
+- ACKL73pins109766B369BASELINE/rôleconditionslecture approuvé,natifAstraMAXtaskOWN/
+  guard369PLANcd21/newtestabsentrelus,receipt9b98e249. **GO NEWTESTWRITE+UNE RED6d00**
+  ≤120s80cas8unités/matricecontrairesqualifiés,pasTSC131/probeSQL/full/sourcefix.
+  Source131README33DTOreadonly,HOLDaprèspreuves,parentsourceGOdistinct ;petitmémoire
+  indépendantd’unL8ciblépermis,pasfullslotexclusif. REDrésultatpending.
+- L8test393980f7exact/readyc18a6185parentpinés,runtime16365568B ;nouveauTSC21216
+  fin14:36:34.587Z4233.7964ms/exit0naturel,parentend322ecde4vérifié. OldTSC2conservé
+  nonreclassé,888postpinsannoncés/prédécesseurrempli107uneexacteannoncée ;comptes/
+  collecteencorepending,pasC/full/intégration/nativego.
+
 ## L8 amendmentfinalGO / L7 PLANratifiéaccèsRED — 2026-10-16
 
 - L8ACK4complets408955B/conditions,37e57c43/natifSolMAXtaskOWNguard853/inverseexact
