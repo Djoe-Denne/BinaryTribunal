@@ -1,5 +1,18 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## QA combinée — ACK424 approuvé, GO statique seulement — 2026-10-16
+
+ACK réel424payloads17408976B/contrats complets/deuxreçus/rôleconditions approuvé.
+Parent recontrôle natifSolMAXbuild/OWN/tâche ouverte/politiques4/2/guardready,
+423helper+ledgerreadonlynonlink1/receipts/scope03eca490 exacts/main275intact et
+sortieCROSSQA encore absente. **GO STATIQUE DISTINCT19:19:41.400Z** :inventaire
+couverture/interfacepublique réelle, audit path:line des effets/cleanup/env/DB,
+plan borné et attentes indépendantes, propositions isolées si manque réel,
+manifest puisHOLD. Le message stocké sanswake est explicitement réactivé par
+force pour ce tour de la même tâche ouverte, pas reviewcompleted réouverte.
+Aucun importproduit/TSC/test/build/probe/CLI/SQLite/DB/port/TEMPruntime/sourcefix/
+maintransfert/native/intégration. GO dynamique ultérieur après qualification.
+
 ## Paquet combiné L7/L8 — accès seul, aucun test encore autorisé — 2026-10-16
 
 `L7_L8_COMBINED_CROSSQA_SCOPE_20261016.md` : même owner l7-interop-r1/SolMAXbuild,

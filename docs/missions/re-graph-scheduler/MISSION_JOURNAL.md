@@ -1,5 +1,14 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## QA combinée — GO statique après ACK424 — 2026-10-16
+
+- ACK424/contrats/deuxreçus/rôle approuvé, nativeOWNtâcheSolMAXbuild/guard/politiques/
+  sourcesreadonly/ledger/main275 etsortieneuveabsente recontrôlés.
+- **GO statique19:19:41.400Z**, tour de même tâche ouverte force-réactivé après
+  message stocké sanswake :couverture publique réelle/audit effetscleanup/planborné/
+  attentesindépendantes/propositionsisolées/manifest puisHOLD.0importproduit/test/
+  DB/TEMP/maintransfert/native,intégration ;GOdynamique distinct encore nécessaire.
+
 ## QA combinée L7/L8 préparée en accès seul — 2026-10-16
 
 - Même l7-interop-r1/SolMAXbuild/tâche ouverte relue API19:14:47.760Z ;premier
