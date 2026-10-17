@@ -30,6 +30,39 @@
     "capacity5ManualClassificationAutoDispatchScalingOffReviewIndependenceAndGatesUnchanged": true,
     "stage": "MODEL_POLICY_REV5_PROVIDER_REV6_ACTIVE_VERIFIED_BY_READBACK_NOT_A_MISSION_RESULT"
   },
+  "ModelSyncAndIndependentReviewSpawns20261017": {
+    "authority": "explicit user GO 2026-10-17 (relayed via maintenance-chat handoff): catalogue sync verified, mission resumes autonomous work, supervisor model preserved",
+    "catalogueSyncVerification": {
+      "userStated": "SHA 0a0e3d4d67812ebc09ca5c76ea0b73d5f0b677e10e1c89bc66ff753e8f42ebaa, 55 entries, updated 10:19:13Z",
+      "snapshotByteExact": ".tmp/mission-model-sync-20261017/ensemble-global-snapshot.json SHA matches user-stated exactly",
+      "liveFilePostReceipt": "mtime 10:31:22Z, SHA ca7e0fd838f0d03dded1747731da64ee5948d6f2129ff9496f658caedd2eedc1, 52 entries",
+      "liveDeltaVsSnapshot": "ONLY removal of opencode/claude-opus-5-5 #high/#xhigh/#max (3 unavailable entries); zero value changes",
+      "missionImpact": "none: 4 authorized pairs still available:true, exposed 29 pairs, mission policy rev5 intact, provider order rev6",
+      "intelligenceRange": "18-58 in BOTH snapshot and live (user-tuned: GLM covers exactly complexity<=60 at risk 0)"
+    },
+    "supervisorModel": "opencode-go/glm-5.3-flash#max, preserved per GO without override; prior Grok-downgrade script from earlier turn NOT executed and set aside",
+    "staleWakeConsumed": "9 undelivered messages were recycled historical bookkeeping (frontier inventory + old lead planning notes), consumed via team_results; no new worker reports",
+    "boardHygiene": {
+      "completedNow": ["task_mvc42woi_0006_kj3b51 (guardian source, intake receipt)", "task_mvc42woi_0007_28drf0 (observer source, intake receipt; unblocked 1 dependent = 0009)"],
+      "alreadyCompleted": ["task_mvc422gy_0002", "task_mvb1jeoy_0011", "task_mv9wspa8_0058"],
+      "placeholder0008": "task_mvc42woi_0008_oa19w8 stays pending/never-admitted/superseded by 0009; never dispatched"
+    },
+    "composedReview": {
+      "task": "task_mvc43o9u_0009_ctebzb READY (deps 0006+0007+0003+0004 all completed)",
+      "packet": ".tmp/coordination-three-20261014/V3_COMPOSED_REVIEW_INPUTS_20261017 (20 inputs, 323444B, manifest SHA 72f31cd424060eacdcc3d843748cc6785b34a36d595213ade157eb5d45b5f9c1)",
+      "packetBinding": "draft2 bb69e0ad, ABI1 bb4758cc/8016B, scopes f8611364, guardian+observer 8 frozen files, budget module 4 accepted files, oracle ad67adf0/5008B, ratification/disposition/review-accepted docs",
+      "reviewer": "v3-composed-review-r1 ses_eb682d8f3ffesaTiSmKoI0A1Lh cursor/claude-opus-5-5 Claude Opus 5.5 Max (complexity 88, risk 85), Model.Ref verified native",
+      "claimGuard": "spawn claim_task refused by guard (fresh reviewer only after sealed outputs and parent input/GO); binding via packet manifest+prompt, parent assigns/completes task after report"
+    },
+    "benchReview": {
+      "packet": ".tmp/coordination-three-20261014/L7_SPARSE_BENCH_REVIEW_INPUTS_20261017 (8 inputs, 80905B, manifest SHA 1a2cb5ec8f5e7fe9e8ff599e277198ae87d0d77f874e1e4a9a604c463752d2b4)",
+      "reviewer": "l7-sparse-bench-review-r1 ses_eb682d700ffe1F3Ll62sPiCjaB cursor/grok-4.7 Grok 4.7 Extra High (complexity 70, risk 65), Model.Ref verified native",
+      "scopeSupersession": "committed scope doc historical Plan/SolMax reference is a stale snapshot; tier rule user 2026-10-17 governs model selection"
+    },
+    "phase": "both reviewers in PHASE 1 ACK-then-HOLD; separate work GO only after physical ACK verified",
+    "unchanged": "capacity 5, manual classification, autoDispatch/autoScale off, freezes, gates G0-G7, budget NOT_PROVEN, last-close NOT_ESTABLISHED",
+    "stage": "TWO_FRESH_INDEPENDENT_REVIEWS_RUNNING_PHASE1_NOT_A_RESULT"
+  },
   "V3CoreSourceGosAndBudgetCompile20261017": {
     "details": "V3_CORE_SOURCE_GOS_BUDGET_COMPILE_PASS_20261017.md",
     "parentCoreSourceRatification": "V3_CORE_PARENT_SOURCE_RATIFICATION_20261017.md",

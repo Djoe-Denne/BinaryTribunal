@@ -1,4 +1,25 @@
-# MISSION_JOURNAL — re-graph-scheduler-20261013
+# MISSION_JOURNAL - re-graph-scheduler-20261013
+
+## Sync catalogue + spawns reviews indépendantes — 2026-10-17
+
+- GO utilisateur : sync catalogue vérifiée par re-hash — snapshot 10:26:06Z identique
+  au SHA annoncé 0a0e3d4d (55 entrées) ; fichier courant 10:31:22Z = même état moins
+  3 entrées opencode/claude-opus-5-5 indisponibles, zéro impact mission (4 paires
+  autorisées available, politique rév. 5 intacte, échelle 18–58 accordée par
+  l'utilisateur : GLM couvre exactement ≤60 à risque 0).
+- Superviseur sur opencode-go/glm-5.3-flash max, préservé conformément au GO.
+- Wake expliqué : 9 messages « non livrés » = bookkeeping historique recyclé,
+  consommés ; aucun nouveau rapport worker.
+- Board : 0006/0007 complétées après intake (0007 débloque 0009) ; 0002/0011/0058
+  déjà closes ; 0008 placeholder jamais admis reste intouché.
+- Paquets reviewer en place pinnés puis deux spawns fresh vérifiés Model.Ref :
+  v3-composed-review-r1 (Opus 5.5 Max, ses_eb682d8f3ffesaTiSmKoI0A1Lh, paquet
+  20 inputs/323444B, manifeste 72f31cd4) et l7-sparse-bench-review-r1 (Grok 4.7
+  Extra High, ses_eb682d700ffe1F3Ll62sPiCjaB, paquet 8 inputs/80905B, manifeste
+  1a2cb5ec). La garde refuse l'auto-claim de 0009 : liaison par paquet/prompt,
+  assignation/clôture par le parent après rapport.
+- Les deux reviewers sont en PHASE 1 ACK-then-HOLD ; GO travail distinct seulement
+  après ACK physique vérifié. Aucun résultat de review n'existe encore.
 
 ## Migration des modèles hors OpenAI — 2026-10-17
 
