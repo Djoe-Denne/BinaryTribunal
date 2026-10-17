@@ -1,5 +1,18 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Migration des modèles hors OpenAI — 2026-10-17
+
+- Demande utilisateur (crédit OpenAI bientôt épuisé) : GLM 5.3 Flash jusqu'à 60,
+  Grok 4.7 Extra High de 61 à 80, Opus 5.5 Max au-delà. Superviseur migré vers
+  Opus 5.5 Max dans la même session ; deux paires Cursor activées avec accord.
+- Simulation hors ligne du vrai routeur : la révision 3 envoyait tout vers Opus.
+  Corrigé par l'ordre providers rév. 6 (Go > Z.ai > Cursor), la politique rév. 4
+  (coût benchmark, step-5 exclu) et la rév. 5 (OpenAI retiré). Quatre paires
+  autorisées seulement ; règle manuelle par complexité = autorité, détails dans
+  MODEL_BANDS_USER_REQUEST_20261017.md. Aucun run, gate ou contrôle modifié.
+- Auteurs guardian core et observer kernel livrés (4 fichiers chacun), intake
+  parent et review composée encore à faire.
+
 ## Vérificationindépendante préparée en parallèle — 2026-10-17
 
 - ParentOracleBudget12cas5008Bad67adf0 geléavantintakeimplémentation,attenduspropres

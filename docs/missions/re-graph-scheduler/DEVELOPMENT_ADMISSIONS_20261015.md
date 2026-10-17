@@ -1,5 +1,14 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Paires de modèles admises pour les nouveaux départs — 2026-10-17
+
+Chaque nouvelle admission porte la paire exacte de sa tranche de complexité :
+0–60 opencode-go/glm-5.3-flash max (zai-coding-plan en alternative explicite),
+61–80 cursor/grok-4.7 `Grok 4.7 Extra High`, 81–100 cursor/claude-opus-5-5
+`Claude Opus 5.5 Max`. Aucun nouveau départ OpenAI ; une ancienne session épinglée
+sur OpenAI n'est réutilisée qu'après bascule explicite vers sa tranche. Politique
+mission rév. 5, ordre providers rév. 6 (MODEL_BANDS_USER_REQUEST_20261017.md).
+
 ## OracleparentBudgetindépendant préparé pendant implémentation — 2026-10-17
 
 12cas/ad67adf0/5008B gelésreadonly sous .tmp/V3_BUDGET_PARENT_ORACLE_20261017,

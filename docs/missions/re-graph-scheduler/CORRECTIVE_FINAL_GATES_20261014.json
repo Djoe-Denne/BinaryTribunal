@@ -1,6 +1,35 @@
 {
   "date": "2026-10-14",
   "mission": "re-graph-scheduler",
+  "ModelPolicyCursorGlmOpusMigration20261017": {
+    "authority": "explicit user request 2026-10-17: OpenAI credit nearly exhausted; GLM Flash up to complexity 60, Cursor Grok 4.7 Extra High up to 80, Opus 5.5 above 80",
+    "details": "MODEL_BANDS_USER_REQUEST_20261017.md",
+    "userConfirmedGlm53FlashAndGlobalActivationOfExactlyTwoCursorPairs": true,
+    "globalAvailabilityEditsOnly": ["cursor/grok-4.7#Grok 4.7 Extra High", "cursor/claude-opus-5-5#Claude Opus 5.5 Max"],
+    "catalogueScoresCostsBetaIntelligenceRangeUnchanged": true,
+    "leadSession": "ses_eca40a8e2ffeanEKTBLiGjDNw8",
+    "leadModelBefore": "openai/gpt-6.1-sol#xhigh",
+    "leadModelAfter": "cursor/claude-opus-5-5#Claude Opus 5.5 Max",
+    "leadMigratedUtc": "2026-10-17T09:33:20.016Z",
+    "manualTierRuleAuthoritative": {
+      "complexity0to60": "opencode-go/glm-5.3-flash#max (zai-coding-plan/glm-5.3-flash#max explicit alternative)",
+      "complexity61to80": "cursor/grok-4.7#Grok 4.7 Extra High",
+      "complexity81to100": "cursor/claude-opus-5-5#Claude Opus 5.5 Max"
+    },
+    "revision3DefectFoundOffline": "legacy + cursor-first + effective cost unknown for both Cursor pairs routed every complexity/risk to Opus 5.5 Max; step-5-preview-free remained authorized by inheritance",
+    "providerOrderRevision6": ["opencode-go", "zai-coding-plan", "cursor"],
+    "modelPolicyRevision4": "legacy kept, costMode benchmark as Grok/Opus tie-break only, step-5-preview-free disabled",
+    "modelPolicyRevision5": "OpenAI Sol max/xhigh exception removed after both engaged authors delivered and the lead migrated",
+    "authorizedPairsAfter": ["opencode-go/glm-5.3-flash#max", "zai-coding-plan/glm-5.3-flash#max", "cursor/grok-4.7#Grok 4.7 Extra High", "cursor/claude-opus-5-5#Claude Opus 5.5 Max"],
+    "automaticBandsRisk0": "GLM 0-57, Grok 58-76, Opus 77-100",
+    "automaticBandsRisk80": "GLM 0-40, Grok 41-66, Opus 67-100",
+    "automaticTierNeverBelowManualRuleNoOpenAiSelection": true,
+    "offlineRouterPreviewNoSpawnNoModelCallNoCredit": ".tmp/coordination-three-20261014/ENSEMBLE_MODEL_ACTIVATION_20261017/",
+    "pinnedOpenAiIdleSessionsRefusedReuseRequiresExplicitTierSwitch": true,
+    "cursorGlm53FlashNotEvaluatedNotUsed": true,
+    "capacity5ManualClassificationAutoDispatchScalingOffReviewIndependenceAndGatesUnchanged": true,
+    "stage": "MODEL_POLICY_REV5_PROVIDER_REV6_ACTIVE_VERIFIED_BY_READBACK_NOT_A_MISSION_RESULT"
+  },
   "V3CoreSourceGosAndBudgetCompile20261017": {
     "details": "V3_CORE_SOURCE_GOS_BUDGET_COMPILE_PASS_20261017.md",
     "parentCoreSourceRatification": "V3_CORE_PARENT_SOURCE_RATIFICATION_20261017.md",
