@@ -1,5 +1,21 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## 002r' mémoire VERTE sur octets corrigés — 2026-10-17
+
+- Review ciblée ACCEPTABLE_SOURCE_SCOPED (re-dérivation racine, diff +19 lignes
+  détaillées, invariants relus invocation par invocation). Écart noté : verdict
+  plein sans cycle ACK-HOLD intermédiaire (accès parent-admis, contenu conforme
+  à l'intake parent).
+- Nouveau compileGO : BudgetedEvidenceTests.dll 34d2a586… (module inchangé +
+  tests corrigés), zéro warning ; runner recompilé (76ad05c1…).
+- Ré-exécution mémoire : RUNALL_COMPLETED exit 0 — RunAll 16ms, delta managé
+  1072B, GC 2/2/2, pic 18 067 456B. **20 invocations / 17 méthodes passent** —
+  comptage revendicable (contrat 002r : claimable seulement si RunAll complet).
+- Portée : module budget SEUL en mémoire — pas la preuve budget-intégré
+  (ledger/wiring hôte absents), pas d'acceptation globale, pas L8/G4.
+- Assemblage V3ASM : son DLL de tests embarque les anciens tests budget —
+  recompilation due à la préparation qualification. Workers budget clôturés.
+
 ## Défaut runtime réel au module budget (002r) — 2026-10-17
 
 - Memory test LEAD ONLY exécuté (runner pur mémoire C#5 écrit par le parent, refs
