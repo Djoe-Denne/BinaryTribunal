@@ -88,6 +88,18 @@
     },
     "stage": "TWO_AUTHORS_BUSY_PARALLEL_L8_GAP_CLOSED_NO_RESULTS_YET"
   },
+  "RealNativePlanApproved20261017": {
+    "plan": "14/14 IGuardianOwnerNative members mapped with P/Invoke decision + frozen-kernel consumption source:line; NO impossible member; structs exact (144=64+48+32, JobMemory :120, accounting-48/PID-72 stay in frozen KernelObserver.cs:14-32, GuardianWin32Owner :985-fin untouched and NOT constructed by harness)",
+    "parentArbitrations": {
+      "A": "ACCEPTED: PerJobUserTimeLimit field 0, flag 0x4 ABSENT (posing it would kill T and contradict LimitsMatch :319-322)",
+      "B": "ACCEPTED: S/D = CreateEventW manual unsignaled handles (kernel consumes only wait/inherit); real-D process path stays NOT_PROVEN published; no OpenProcess/DuplicateHandle",
+      "C": "ACCEPTED: exact LimitFlags 0x2208 equality = documented OS precondition, else fail-close LimitRefused"
+    },
+    "acceptedChoices": "T = self-exit of same winexe (sentinel re-graph-v3-self-exit -> Environment.Exit(0) before any Job; no conhost/AutoRun; parent compiles /target:winexe); RunnerReal order 0-7 (8 CreateNew streams, events/pipes exact flags, fresh attestation, new GuardianCore(new RealNative(), new KernelObserver(), new GuardianStopwatchClock()) with CoLocatedGuardianHost FORBIDDEN; stdout bounded FACTS; exit 0/QUIET never PASS; harness never TerminateJobObject)",
+    "planGo": "issued; phase 3 writing RealNative.cs + RunnerReal.cs + DESIGN.md + MANIFEST.json (exactly 4) + public report, then HOLD for fresh review; parent re-hash before review; slice-2 execution remains a SEPARATE parent gate with the published preconditions (64-bit, no non-nestable enclosing job, local DosPath .exe, fresh case dir)",
+    "notProven": "last-close, multi-process S/G, budget-integrated cross-process, lease duration, reparse/canonical DosPath, S/D/G-loss matrix slices, readback 0x2208 equality (until parent executes)",
+    "stage": "REALNATIVE_PHASE3_WRITING_NOT_A_RESULT"
+  },
   "HostDeltaAcceptedAndBatchGreen20261017": {
     "deltaVerdict": "ACCEPTABLE_SOURCE_SCOPED (delta) by v3-host-correction-review-r1 (GLM max, fresh, Model.Ref verified) — no contraries, TRYREADBACK verified line-by-line (exactly RecordBytes frozen :382, no source bytes, fail-closed, read-only strict, position unchanged on success, HostLauncher.cs:234 integration, error path = Acknowledge(null) consumes single attempt, Job retained, never PASS), DESIGN fixes verified bounded, C#5 strict, delta diff hunks verified vs original",
     "phaseDeviationDisposition": "reviewer declared premature phase-2 execution (before explicit GO) — PARENT DISPOSITION option (i) RATIFIED: access parent-admitted, 13/13 pins start/end, no writes no execution, facts reproducible, parent spot-checks independent, empirical confirmation (delta compiles zero-warning in full assembly); no re-run",

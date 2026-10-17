@@ -1,5 +1,27 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Plan RealNative approuvé, arbitrages ABI tranchés — 2026-10-17
+
+- PLAN phase 2 : 14/14 membres mappés (décision P/Invoke + conso noyau
+  source:ligne), structs alignées exactes (144/48/72 restées dans KernelObserver
+  gelé — zéro duplication ; GuardianWin32Owner gelé non édité, jamais construit
+  par le harnais). Aucun membre impossible.
+- Arbitrages parent tranchés : **A** champ 0 / flag 0x4 ABSENT (tuerait T,
+  contredirait LimitsMatch) ; **B** S/D = CreateEventW manuels non signalés
+  (noyau ne consomme que wait/héritage ; chemin D-process réel = NOT_PROVEN
+  publié ; zéro OpenProcess/DuplicateHandle) ; **C** égalité exacte 0x2208 =
+  précondition OS documentée, sinon fail-close LimitRefused.
+- Choix T accepté : self-exit du même winexe (sentinelle
+  `re-graph-v3-self-exit` → Environment.Exit(0) avant tout Job ; pas de conhost
+  ni AutoRun ; le parent compilera /target:winexe). Ordre RunnerReal 0-7
+  accepté : 8 FileStreams CreateNew, events/pipes flags exacts, attestation
+  fraîche, `new GuardianCore(new RealNative(), new KernelObserver(), new
+  GuardianStopwatchClock())` — **CoLocatedGuardianHost interdit** ; stdout borné
+  = FAITS ; exit 0/QUIET jamais PASS ; jamais TerminateJobObject par le harnais.
+- plan-GO émis (phase 3 écriture des 4 livrables) ; l'exécution slice 2 reste
+  une gate parent SÉPARÉE avec les préconditions publiées. Driver mesures en
+  écriture parallèle. Limites NOT_PROVEN inchangées.
+
 ## Lancement parallèle RealNative + driver mesures ; acquisition schémas L8 — 2026-10-17
 
 - GO utilisateur « paralléliser tout ce qui est possible » — trois streams :
