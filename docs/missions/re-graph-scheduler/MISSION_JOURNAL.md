@@ -1,5 +1,26 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Slice 2 real-Job : quiescence naturelle FACTUELLE — 2026-10-17
+
+- Review RealNative ACCEPTABLE_SOURCE_SCOPED (8 ancrages A1-A8 ; extras
+  justifiés : DeleteProcThreadAttributeList aligné gel :1111 ; ReadFile overlapped
+  NULL ≠ IOCP ; re-hash 10/10 début/fin) ; spot-check parent : zéro
+  OpenProcess/DuplicateHandle/IOCP, arbitrage A consigné :78.
+- **Exécution slice 2 (LEAD ONLY, gate séparée)** : compile winexe 9 sources
+  (zéro warning) → essai 1 : exit 2 honnête (parent avait PRÉ-CRÉÉ le répertoire
+  — RunnerReal.cs:218 exige un DosPath ABSENT qu'il crée lui-même ; zéro état) →
+  **essai 2 : exit 0, 184ms, FAITS = AcknowledgedSealed / Phase=Sealed /
+  HOLD=None / NaturalQuiescent / QUIET=true / JOB_RETAINED=false / SEALED=true /
+  RESERVED=true + 8 fichiers de cas pinnés**.
+- Établi : le vertical COMPLET tourne sur l'OS réel (hôte S → noyau avec
+  RealNative → Job réel → T enfant réel suspendu+assigné+repris → observation
+  kernel réelle → quiescence naturelle → ACK avec readback durable → Scellé).
+- NON établi (bornage honnête) : matrice S/D/G-loss réelle non exercée (T
+  self-exit = chemin propre ; pas de driver réel ; driver-loss jamais forcé ni
+  jamais un PASS) ; multi-rép ; readback 0x2208 au-delà de la run observée ;
+  last-close NOT_ESTABLISHED inchangé. Exit 0/QUIET = FAITS, jamais un PASS.
+- Receipts gelés : WINEXE1-b8a9c88660/out/* + copie v3-slice2-receipt-20261017.json.
+
 ## RealNative livré, review lancée — 2026-10-17
 
 - v3-realnative-r1 (Grok XH) : 4 livrables (RealNative.cs e58eef0c/15934B,
