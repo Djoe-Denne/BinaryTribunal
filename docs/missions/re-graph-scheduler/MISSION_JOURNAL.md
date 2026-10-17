@@ -1,5 +1,26 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Correction hôte livrée (delta), review du delta lancée — 2026-10-17
+
+- v3-host-correction-r1 (GLM 5.3 Flash max) : EXACTEMENT 4 livrables dans
+  V3_HOST_CORRECTION_OUTPUT_20261017 ; sources intake NON modifiées (re-hash
+  parent 6/6) ; Host.Tests re-pin byte-identique (tests exerçant TryReadBack
+  transitivement via HostLauncher:234 — destinations MemoryStream conformes).
+- Delta : WriterLedger.cs 67e9b21c/8889B — TryReadBackGuardianResult relit
+  EXACTEMENT RecordBytes (192, gel :382) depuis la destination GuardianResult
+  déjà écrite, AUCUN octet source reçu (byte[] readback seule), fail-closed
+  (non-ready/≠192/!CanRead/!CanSeek/start<0/short/exception), read-only strict ;
+  DESIGN.md b61274fd/13866B — matrice +HeldCaptureIncomplete, anti-« prouvé »,
+  latch post-Run, ControllerLost avant quiescence = faux, clauses bornées.
+- Intake parent (host-correction-parent-intake-20261017.json) ; tâche
+  task_mvcnc4us_000j_8o9eem complétée ; auteur clôturé.
+- Review delta lancée : v3-host-correction-review-r1 (GLM 5.3 Flash max,
+  complexité 50 — delta borné, règle d'économie ≤60), Model.Ref vérifié, paquet
+  28ebadba… (13 inputs / 189151B). Anti-saturation : partiels par livrable
+  autorisés ; ne jamais finir un tour sans message.
+- Après ACCEPTABLE : NOUVEAU compileGO assemblage complet puis qualification
+  000c (gates séparées). Limites NOT_PROVEN inchangées.
+
 ## Verdict final review hôte : CORRIGE — correction delta lancée — 2026-10-17
 
 - v3-host-review-r1 (Grok XH) : CORRIGE, 7 ancrages, re-hash début/fin 18/18.
