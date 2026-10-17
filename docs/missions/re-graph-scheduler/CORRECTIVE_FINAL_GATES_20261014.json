@@ -63,6 +63,24 @@
     },
     "stage": "REAL_RUNTIME finding recorded; budget NOT_PROVEN budget-integrated unchanged; nothing promoted"
   },
+  "HostReviewFinalCorrige20261017": {
+    "reviewer": "v3-host-review-r1 ses_eb5463f4affeySA3HWToGyY7xZ cursor/grok-4.7 Grok 4.7 Extra High, fresh, Model.Ref verified; partial-per-target strategy (anti-saturation) worked: 5 partials + final, re-hash start AND end 18/18",
+    "verdict": "CORRIGE (7 anchors) — why not BLOCK: decomposition/owners/capture/fakes/G-loss matrix follow the PLAN, one local seam + 3 DESIGN sentences; why not ACCEPTABLE: without readback there is no durable receipt distinct from source bytes and the ACK subgate claim (DESIGN.md:155) is false",
+    "realDefect": "TryReadBackGuardianResult CALLED at HostLauncher.cs:231-243 but absent from all deliverables (durable 192B readback required by PLAN and Matches :407-413 not implemented; HostLauncher.cs would not compile)",
+    "designHoles": "matrix :112-121 omits HeldCaptureIncomplete (real state HostLauncher.cs:105/:226); :90-96/:155-156 claim readback+ACK path proved while the method does not exist; :146 signalled-to-G wrong (Mark after Run, Acknowledge gelé :969 does not re-read flags); :117 ControllerLost misattributes KernelQuiescenceObserved (false before quiescence, no WritePublication)",
+    "conformantParts": "ledger owners/caps/pins/debit (:50-57, :19-20 == const :354/:382, TryWrite only :113-116, debit :272 before Write :283); capture (attempts++/reservedCumulative before Read <=min(4096,remaining), raw UTF8, exhaustion->EvidenceIncomplete, cap 114688 == const :126); tests read-coherent (Quiescent case :417 == EvaluatePair :348-349, ACK mismatch -> RejectPublication, G-loss/CrashOnLaunch sealed false, natural stop JobStops==0); HostAuthority pins; C#5 all four .cs; IGuardBorrowSource not reimplemented",
+    "testWeaknessesNonBlocking": "receipt-before-close test checks length 192 + CloseCounts[10]==1 not the ORDER; stop test lacks concurrent kill injection",
+    "verdictTranscription": ".tmp/coordination-three-20261014/V3_HOST_CORRECTION_INPUTS_20261017/PARENT/HOST_REVIEW_VERDICT.md (parent transcription, contract of the correction)",
+    "correctionLaunch": {
+      "task": "task_mvcnc4us_000j_8o9eem (V3-HOST-CORRECTION, delta-only)",
+      "packet": "V3_HOST_CORRECTION_INPUTS_20261017 manifest 911ab9a5fcaed0854503f0ceb62df551bd3462fac1ce9d3b8d05fc8c4830da42 (11 inputs, 173920B)",
+      "author": "v3-host-correction-r1 ses_eb52dc4e6ffevB6tgCHf3P3ymI opencode-go/glm-5.3-flash max (complexity 55 <= 60 tier per user economy rule; fully specified delta), fresh disjoint, Model.Ref verified native",
+      "deliverables": "exactly WriterLedger.cs (new TryReadBackGuardianResult: exactly 192 bytes from already-written GuardianResult destination, fail short/unreadable, never copy source buffer) + DESIGN.md (3 fixes) + Host.Tests.cs (re-pin, minimal justified addition only) + MANIFEST.json; HostLauncher.cs/CaptureWiring.cs stay at intake pins",
+      "after": "delta review fresh -> NEW assembly compileGO (corrected budget tests + host sources) -> qualificationGO 000c separate gates"
+    },
+    "reviewerShutdownPending": "v3-host-review-r1 to be shut down after verdict recording",
+    "stage": "HOST_REVIEW_CORRIGE_RECORDED_CORRECTION_LAUNCHED_NOT_COMPILE_NOT_QUALIFICATION"
+  },
   "SolHighReenabledOpusUnavailable20261017": {
     "authority": "explicit user GO: Opus no longer available (provider side); openai/gpt-6.1-sol high — and xhigh if necessary — reauthorized for future spawns",
     "modelPolicyRevision": 6,

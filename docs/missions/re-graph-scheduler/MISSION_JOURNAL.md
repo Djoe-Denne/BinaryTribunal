@@ -1,5 +1,28 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Verdict final review hôte : CORRIGE — correction delta lancée — 2026-10-17
+
+- v3-host-review-r1 (Grok XH) : CORRIGE, 7 ancrages, re-hash début/fin 18/18.
+  Stratégie anti-saturation validée (5 partiels publics + final consolidé).
+- Un seul défaut réel : TryReadBackGuardianResult appelé (HostLauncher.cs:234)
+  mais absent de tous les livrables — readback durable 192B non implémenté,
+  HostLauncher ne compilerait pas. + 3 trous DESIGN (HeldCaptureIncomplete
+  manquant à la matrice, « prouvé » prématuré :90-96/:155-156,
+  « signalled to G » → latch post-Run ; :117 ControllerLost garde
+  KernelQuiescenceObserved faux avant quiescence).
+- Pourquoi pas BLOCK : découpage/owners/capture/fakes/matrice G-loss suivent le
+  PLAN — un seam local + 3 phrases. Pourquoi pas ACCEPTABLE : sans readback pas
+  de receipt durable distinct des octets source.
+- Correction delta lancée : v3-host-correction-r1 (GLM 5.3 Flash max,
+  complexité 55 ≤ 60 — delta entièrement spécifié par la review, règle
+  d'économie utilisateur), Model.Ref vérifié, paquet 911ab9a5 (11 inputs,
+  verdict transcription = contrat). Livrables : WriterLedger.cs (méthode
+  readback : exactement 192 octets depuis la destination déjà écrite, échec
+  court/illisible, jamais de recopie du buffer), DESIGN.md (3 fixes),
+  Host.Tests.cs (re-pin, addition minimale justifiée seulement), MANIFEST.json.
+- Après delta accepté : NOUVEAU compileGO assemblage complet puis
+  qualificationGO 000c (gates séparées). Limites NOT_PROVEN inchangées.
+
 ## Sol réautorisé (Opus indisponible) — 2026-10-17
 
 - GO utilisateur : Opus plus disponible côté provider. Politique mission rév. 6 :
