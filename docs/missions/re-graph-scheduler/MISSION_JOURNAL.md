@@ -1,5 +1,23 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Panne capacité hôte, complétion parent, review lancée — 2026-10-17
+
+- Événement maintenance (plugin 20261017-preflight-gate, failure-wake) : l'auteur
+  hôte a échoué sur cursor capacity_limit à 15:07Z après 3 tentatives — rapporté
+  au parent, pas de faux succès. Vérification réelle : 5/6 fichiers écrits
+  (14:15–14:37Z), MANIFEST + rapport absents ; une réactivation force a aussi
+  échoué silencieusement. Pas de retry sans borne (consigne utilisateur).
+- Complétion structurée parent : MANIFEST.json mécanique écrit par le parent
+  (pins des 5 sources d'auteur INTACTES, stage, limites publiées), intake
+  (noyau re-hashé 4/4 AVANT gel, C#5 sanity), 6 fichiers gelés readonly, tâche
+  hôte complétée, auteur clôturé (session capacity-fail non réutilisée).
+- Le PLAN approuvé fait foi comme contrat d'intégration (transcription parent
+  pinnée PARENT/HOST_PLAN.md) ; la review fresh vérifie les SOURCES contre lui.
+- Review ciblée lancée : v3-host-review-r1 (Grok XH, Model.Ref vérifié), paquet
+  378432b8… (18 inputs / 279040B), PHASE 1 ACK-then-HOLD. Après verdict
+  ACCEPTABLE : nouveau compileGO assemblage puis qualification 000c (gates
+  séparées). last-close NOT_ESTABLISHED et budget-intégré NOT_PROVEN intacts.
+
 ## Plan hôte vérifié, arbitrage ABI tranché — 2026-10-17
 
 - ACK hôte 10/10 pins ; question budget tranchée (correction fixture-only, pin
