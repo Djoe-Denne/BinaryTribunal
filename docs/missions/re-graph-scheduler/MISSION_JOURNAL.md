@@ -1,5 +1,13 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Référencesqualifiées, contratnonadopté/RuntimeHOLD — 2026-10-17
+
+- e87a8158/50db0206finalqualifié/19pinsmain275exacts,natifcompletedshutdown ;draft
+  sizeguardnotSent10970B conservé distinct delivraison9264B,pasreviewrerun.
+- IOCPdupinterprocessrejeté surdocs ;oracleexactJob0/lastcloseNOTESTABLISHED,
+  brokerJobcandidatNONADOPTÉ/case8nestedBLOCKED/budget262144NOTPROVEN.0source/API/
+  compile/fixture/runtimeadmissionsurcerapport,full44L9L10mainnativeintégrationheld.
+
 ## ContratdocsofficiellesGOstatique aprèsACK — 2026-10-17
 
 - ACK19/rôle/reçu/8docs approuvé,nativeSolMAXPlan/leadXhigh/pinsguard/main275/proof

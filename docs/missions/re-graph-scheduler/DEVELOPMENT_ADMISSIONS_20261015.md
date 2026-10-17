@@ -1,5 +1,18 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Contratdocsofficielles terminé ; oracle exactHOLD, portduprejeté — 2026-10-17
+
+Rapportfinale87a8158/50db0206/8ancrages/19pins/reçu/main275 qualifiés,natifcompleted/
+shutdown. Draft10970BnotSent/reportsizeguard et livraison9264Bcompleted distingués/
+conservés,ASTpublicsansraisonnementprivé/eval. VoirJOB_OFFICIAL_REFERENCE_CONTRACT_FINAL_HOLD_20261017.md.
+Parentrejette partage/dupIOCPinterprocess selonCreateIOCP147/DuplicateHandle200 ;
+Jobduplicable≠portduplicateutilisable. OracleJobexact+kernelzero+causelastclose
+NOTESTABLISHED ;candidatHcréeJob+port/brokerseulJobhandle resteNONADOPTÉ,interface
+actuelleprivéestringinsuffisante. Nested/epoch/falsification/autofin nonrésolus,
+case8nestedBLOCKED/nonimplémenté. Budget262144NOTPROVEN/tousRunfull44L9L10mainheld,
+0nouvelleadmissionsource/interface/compile/API/fixture/runtime/nativeintégrationsurcerapport.
+Prochaincontratnouvelleversionspéculatif/restereview+gatesdistinctes,pasrerunsidentiques.
+
 ## Référencescontrat ACK réel etGOdocumentairestatique — 2026-10-17
 
 ACK19payloads251378B/reçu/scopes/binding/rôle approuvé ;raw8docs115426B exacts,
