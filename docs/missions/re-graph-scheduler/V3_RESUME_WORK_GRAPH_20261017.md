@@ -87,3 +87,11 @@ Reçus .tmp parent :{v3-budget-source-r1,v3-contract-review-r1,mission-frontier-
 La mission continue aux callbacks, ratification/corrections et branchesREADY ;
 aucune fin de mission ou nouveau GO utilisateur à attendre pour ces décisions.
 CodeJobprivilégié,compilations/tests et runtime restent derrière leursgates propres.
+
+Pendant ces travaux, parent a gelé un oracle numérique indépendant de12cas pour
+le moduleBudget, dérivé des seules exigences AVANTintake du code :casfrontières,
+partialwrite/noRefund,invalidslice,stickycaseHOLD,réentrance/concurrence/Streamownership.
+Fichier .tmp parent/V3_BUDGET_PARENT_ORACLE_20261017/cases.json5008B/ad67adf0,
+manifestreadonly ;somme262144 et64chunks4096 vérifiées en calculpur. Nonexécuté,
+pasPASSimplémentation/globalhost etpas un oracle fabriqué par le module testé.
+La future review reçoit cette evidence pour qualification, sans modifier le gel.

@@ -1,5 +1,12 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## OracleparentBudgetindépendant préparé pendant implémentation — 2026-10-17
+
+12cas/ad67adf0/5008B gelésreadonly sous .tmp/V3_BUDGET_PARENT_ORACLE_20261017,
+attendus dérivésdesexigences sanslectureducodeModule ;caps262144/64chunksarithmétique
+vérifiée. Partial/noRefund/HOLD/ranges/reentrance/concurrency/ownership,sourcebinding
+et reviewfuturerequis.0testmoduleexécuté/compile/globalhostPASS ;3chantierscontinuent.
+
 ## TroisACKréels etGOtravailV3 — 2026-10-17
 
 7/21/18payloads/reçus/bindings/rôlesconditions approuvés ;parentnatifSolMAXprofiles/
