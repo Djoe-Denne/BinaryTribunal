@@ -1,5 +1,17 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Source hôte lancée (dernier bloqueur qualification) — 2026-10-17
+
+- GO utilisateur « go » : préparation du paquet hôte lancée. Paquet pinné
+  1b1d17b8 (10 inputs / 199151B : draft2+ABI1+noyau gelé+extract verdict),
+  auteur fresh disjoint v3-host-source-r1 sur Opus 5.5 Max (complexité 82>80),
+  Model.Ref vérifié natif, tâche board task_mvcg77nv_004e_tm6rai.
+- Trois phases strictes : ACK pins→HOLD ; GO→PLAN SEULE (décomposition + carte
+  d'intégration source:ligne du noyau) ; plan-GO→écriture (HostLauncher S avec
+  G-loss=HOLD côté S, WriterLedger #6, CaptureWiring #7, compteurs #8,
+  Host.Tests, DESIGN sous-gates 000c, MANIFEST). Seam ABI manquant = HOLD
+  (arbitrage ABI = gate parent). Noyau gelé intouché ; rien de compilé/exécuté.
+
 ## 002r' mémoire VERTE sur octets corrigés — 2026-10-17
 
 - Review ciblée ACCEPTABLE_SOURCE_SCOPED (re-dérivation racine, diff +19 lignes
