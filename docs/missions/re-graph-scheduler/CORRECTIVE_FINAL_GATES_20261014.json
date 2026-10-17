@@ -30,6 +30,19 @@
     "capacity5ManualClassificationAutoDispatchScalingOffReviewIndependenceAndGatesUnchanged": true,
     "stage": "MODEL_POLICY_REV5_PROVIDER_REV6_ACTIVE_VERIFIED_BY_READBACK_NOT_A_MISSION_RESULT"
   },
+  "BudgetMemoryTestFailedFirstExecution20261017": {
+    "task": "task_mvc6a24d_002r_tcm0ui (V3-BUDGET-PARENT-MEMORY-TEST, LEAD ONLY, compiles+review preconditions satisfied)",
+    "runner": "BudgetMemoryRunner.cs authored by lead (pure memory, C#5, Console stdout only, no FS/spawn/network/Job/threads; source pinned in root V3MEM-9c1ae2d7b4), compiled against the frozen budget library (BMC BudgetedEvidenceTests.dll d64ba7fe/pin verified) with the pinned csc toolchain",
+    "firstAttempt": "exited 82 in 62ms: FileNotFoundException loading BudgetedEvidenceTests (referenced DLL not adjacent); zero test code ran; parent deployed the pinned library into the owned root (pin verified before+after) — standard probe deployment, not a runner side effect, not a historical rearmed failure",
+    "secondRun": "executed 62ms, exit 1: RunAll did NOT complete — InvalidOperationException label ownership-write at invocation 11/20 CallerRetainsStreamOwnership (Tests.cs:289) after 9ms; invocations 1..10 passed inside this run",
+    "verdict": "BUDGET_MEMORY_TEST_FAILED — the budget module rejected a first 2-byte TryWrite into a fresh DriverEvidence slot where the test requires success; first-ever runtime evidence on the budget module; static reviews were source-scoped and could not execute this",
+    "counting": "NO 20-invocation/17-method count claimed (claimable only if RunAll completes per 002r contract)",
+    "oracleNotMaterialized": "parent 12-case JSON not acquired into the run (budget tests use inline numeric fixtures); oracle stays frozen",
+    "invariants": "pure memory only, timeout 60000 never fired, original process control by parent, no Job API anywhere, runner errors fail closed",
+    "receipt": ".tmp/coordination-three-20261014/v3-budget-memory-execution-receipt-20261017.json + root out/ receipts and capture (hash-pinned)",
+    "disposition": "NO auto-correction, NO rearm; fresh budget correction author + targeted review required per the runtime finding; the V3 assembly (which embeds BudgetedEvidence) requires a NEW compileGO after any budget correction; guardian qualification 000c remains independently blocked on missing host proofs (HostS/D/bindings/capture-from-before-Read/global writer ledger)",
+    "stage": "REAL_RUNTIME finding recorded; budget NOT_PROVEN budget-integrated unchanged; nothing promoted"
+  },
   "V3ComposedReviewAccepted20261017": {
     "verdict": "ACCEPTABLE_SOURCE_SCOPED",
     "reviewer": "v3-composed-review-r1 ses_eb682d8f3ffesaTiSmKoI0A1Lh cursor/claude-opus-5-5 Claude Opus 5.5 Max (complexity 88, risk 85), fresh, Model.Ref verified at spawn",

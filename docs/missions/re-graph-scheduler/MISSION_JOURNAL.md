@@ -1,5 +1,24 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Défaut runtime réel au module budget (002r) — 2026-10-17
+
+- Memory test LEAD ONLY exécuté (runner pur mémoire C#5 écrit par le parent, refs
+  pins vérifiées, timeout 60s jamais atteint, aucun Job/FS/spawn) : RunAll n'a
+  PAS complété — échec à l'invocation 11/20 (CallerRetainsStreamOwnership,
+  Tests.cs:289 check « ownership-write », 9ms après ; invocations 1..10 passées
+  dans ce run). Essayé d'abord en échec de chargement (exit 82, DLL non adjacent)
+  — zéro test exécuté, corrigé par déploiement parent du DLL pinné, pas un rearm.
+- PREMIÈRE preuve runtime ever sur le module budget : un TryWrite initial de
+  2 octets dans un slot DriverEvidence neuf est refusé là où le test exige un
+  succès. Les reviews statiques étaient scope source et ne pouvaient exécuter.
+  Comptage 20/17 NON revendiqué (claimable seulement si RunAll complet). Oracle
+  parent pas matérialisé (fixtures inline des tests).
+- Disposition : aucune auto-correction, aucun rearm ; auteur de correction budget
+  fresh + review ciblée requise ; l'assemblage V3 (qui embarque BudgetedEvidence)
+  exigera un NOUVEAU compileGO après toute correction ; la qualification guardian
+  000c reste bloquée indépendamment sur les preuves hôte absentes
+  (HostS/D/bindings/capture/ledger). Budget NOT_PROVEN inchangé, rien promu.
+
 ## Compile GO 000c réussi — 2026-10-17
 
 - Compile library-only parent (LEAD ONLY) : 8 pins toolchain + 7 pins sources
