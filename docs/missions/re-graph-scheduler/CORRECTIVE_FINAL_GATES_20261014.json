@@ -56,7 +56,20 @@
       "packet": "V3_G_CORRECTIONS_R1_INPUTS_20261017 manifest 976158a7106748e4d62f4793095bbc16cf2a66183485eb5a0945b58fd412dcab (8 inputs, 159033B incl. verdict extract PARENT-CURATED)",
       "author": "v3-g-corrections-r1 ses_eb65d2f1fffef6f6lFY3ag98gn cursor/grok-4.7 Grok 4.7 Extra High (complexity 65, risk 70), fresh, Model.Ref verified native",
       "deliverables": "exactly GuardianCore.Tests.cs + DESIGN.md + MANIFEST.json into V3_G_CORRECTIONS_R1_OUTPUT_20261017; C3 test parent-authorized",
-      "phase": "PHASE1_ACK_THEN_HOLD; separate parent GO before any write; targeted fresh review after delivery; then single compile GO 000c on corrected bytes"
+      "phase": "PHASE1_ACK_THEN_HOLD; separate parent GO before any write; targeted fresh review after delivery; then single compile GO 000c on corrected bytes",
+      "deliveryAndIntake": {
+        "phase1Ack": "8/8 pins MATCH 159033B exact, conditions restated, NONBLIND declared",
+        "phase2GoIssued": "force:true wake confirmed; author wrote during phase 2 with no frozen-source edits (author re-verified gels after writing)",
+        "deliveredPins": "GuardianCore.Tests.cs aefc941e/38487B, DESIGN.md cd2827d9/19089B, MANIFEST.json d817b770/4193B; LF no BOM",
+        "parentIntake": "g-corrections-parent-intake-20261017.json: pins exact, exactly 3 regular files, frozen readonly, C2 tautology confirmed removed + const bindings present (parent grep), gels intact",
+        "correctionsWritten": "C1 four falsifying EvaluatePair reject tests with single-deviation quiescent controls + latch test; C2 const-bound assertions replacing :275; C3 assigned-non-member coin test (JobStops==1, RootStops==0, ResumeCalls==0, cleanup waits exhaust, HoldQuarantined, no false release); C4 DESIGN creator rights J/T added, no other DESIGN paragraph changed"
+      },
+      "targetedReview": {
+        "task": "fresh reviewer v3-g-corrections-review-r1 ses_eb63a7a60ffewnNBVK63SMICUx cursor/grok-4.7 Grok 4.7 Extra High (complexity 65, risk 60), Model.Ref verified native",
+        "packet": "V3_G_CORRECTIONS_REVIEW_INPUTS_20261017 manifest ef843ac1ac74616227b459c9a1f9179cb68618599f9b8d1ae998edcaa7424d53 (10 inputs, 212004B incl. frozen originals as diff baselines)",
+        "phase": "PHASE1_ACK_THEN_HOLD",
+        "after": "parent single compile GO 000c on corrected bytes (dependsOn binding first)"
+      }
     },
     "compileGate": "task_mvc44d90_000c compile GO runs ONCE on corrected bytes (tests compiled not executed) after corrections land; parent binds 000c dependsOn first",
     "exposureDeclarations": "phase-2 reads via host read/grep/glob bounded to pinned files (budget glob = its 4 pinned files), ContextMode guard <2800B NOT used in phase 2 (declared deviation); cases.json hashed not read; phase-1 bootstrap snippets declared; no DB/git/IDB/board-write/delegation; model unchanged",
