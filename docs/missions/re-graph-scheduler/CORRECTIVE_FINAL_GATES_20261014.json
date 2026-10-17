@@ -82,6 +82,17 @@
       }
     },
     "composedTaskClosure": "task_mvc43o9u_0009_ctebzb completed by parent after verdict admission -> task_mvc44d90_000c_xic81o unblocked to pending (deps 0009+0004 satisfied); 000c content confirms LEAD ONLY serial source checks/build-id/toolchain/env/pins, separate compileGO then harmless qualificationGO; 000d dependsOn binding to 000c still owed by parent before full admission",
+    "compileGoResult": {
+      "at": "2026-10-17T12:39:33.369Z",
+      "root": "C:/Users/djden/AppData/Local/Temp/opencode/V3ASM-a7cda4f9a6 (owned, named by combined source-hash a7cda4f9a6)",
+      "serialChecks": "8 toolchain pins (csc.exe eca02e6b15cde93009a59a3d129d5a77fb5008f2e1cf62cf573b6737c747ecc3 + 4 framework refs + config/rsp + powershell launcher) and 7 source pins verified BEFORE compiling",
+      "libraryDll": "GuardianV3Assembly.dll 45568B sha256 c031009b18c2ae3fcd9f8bbd2bfce7fde216ecad742e3a8f0230e84ffd928010 (85ms, zero warnings)",
+      "testsDll": "GuardianV3Tests.dll 102912B sha256 7eb58e94313ffe81d2d24979bd6f3a27230bb3d8edb3ace146c1bf3faae36891 (106ms, zero warnings; compiles corrected tests against frozen sources under /langversion:5)",
+      "arguments": "/noconfig /nologo /nostdlib+ /target:library /platform:x64 /debug- /optimize- /codepage:65001 /langversion:5, backslash paths (csc parses forward slashes as switches — CS1504 incident recorded)",
+      "invariants": "compile-only: nothing executed, loaded, tested or run; no native API; DLLs frozen readonly; receipts v3-assembly-compilego-receipt-20261017.json + per-compile receipts in out/",
+      "cs1504Incident": "first run failed with CS1504 (csc parsed forward-slash source paths as CWD-relative); fixed by backslash conversion; failure preserved in script history, not rearmed silently",
+      "next": "000c qualificationGO subgate (real-Job harmless cases) and 002r budget memory test remain SEPARATE execution gates, not yet GO'd; 000d dependsOn binding owed"
+    },
     "compileGate": "task_mvc44d90_000c compile GO runs ONCE on corrected bytes (tests compiled not executed) after corrections land; parent binds 000c dependsOn first",
     "exposureDeclarations": "phase-2 reads via host read/grep/glob bounded to pinned files (budget glob = its 4 pinned files), ContextMode guard <2800B NOT used in phase 2 (declared deviation); cases.json hashed not read; phase-1 bootstrap snippets declared; no DB/git/IDB/board-write/delegation; model unchanged",
     "stage": "COMPOSED_REVIEW_ACCEPTED_SOURCE_SCOPED_CORRECTIONS_QUEUED_NOT_QUALIFICATION"

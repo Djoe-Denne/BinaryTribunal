@@ -1,5 +1,20 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Compile GO 000c réussi — 2026-10-17
+
+- Compile library-only parent (LEAD ONLY) : 8 pins toolchain + 7 pins sources
+  vérifiés en série AVANT. GuardianV3Assembly.dll 45568B `c031009b…` (85ms) et
+  GuardianV3Tests.dll 102912B `7eb58e94…` (106ms), zéro warning, root neuf
+  `V3ASM-a7cda4f9a6` nommé par hash combiné, DLL gelées readonly, reçus dans out/.
+- Le DLL de tests compile proprement sous `/langversion:5` contre les sources
+  gelées (corrections incluses) — cohérence syntaxique acquise ; NADA exécuté,
+  chargé ou testé.
+- Incident CS1504 consigné (csc parse les chemins à slashes comme switches) —
+  corrigé par conversion backslash, échec conservé.
+- Suite séparée : qualificationGO 000c (cas real-Job) et 002r budget memory
+  test restent des gates d'exécution distinctes non GO ; liage dependsOn
+  000d→000c dû par le parent.
+
 ## Review ciblée des corrections : ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
 
 - v3-g-corrections-review-r1 (Grok XH, fresh) : ACCEPTABLE_SOURCE_SCOPED, 8
