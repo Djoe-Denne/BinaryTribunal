@@ -1,5 +1,22 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Verdict composé ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
+
+- v3-composed-review-r1 (Opus 5.5 Max) : ACCEPTABLE_SOURCE_SCOPED, 8 ancrages
+  tracés, pins 21/21 revérifiés début ET fin de phase 2. Spot-checks parent :
+  aucun DuplicateHandle/OpenProcess/IOCP dans GuardianCore.cs ; triple condition
+  de quiescence :348 exacte ; tautologie C2 littérale Tests.cs:275.
+- Contraires C1–C4 non bloquants, dispositions parent : corrections autorisées
+  (tests falsifiants EvaluatePair, assertions liées aux const budget, test du
+  coin fail-closed C3 autorisé, droits créateur J/T dans DESIGN) — portée
+  GuardianCore.Tests.cs + DESIGN.md SEULEMENT, auteur fresh disjoint, review
+  ciblée ensuite.
+- Gate compile 000c : un seul GO sur les octets corrigés (tests compilés non
+  exécutés), liage dependsOn par le parent d'abord.
+- Écart déclaré par le reviewer : lectures phase 2 via host read/grep/glob
+  (ContextMode <2800B non utilisé en phase 2) — borné aux fichiers pinés,
+  consigné dans le gates.
+
 ## Verdict bench ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
 
 - GOs phase 2 émis et vérifiés (reçu .tmp/coordination-three-20261014/phase2-gos-

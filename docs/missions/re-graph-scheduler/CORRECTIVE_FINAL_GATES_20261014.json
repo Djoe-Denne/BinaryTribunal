@@ -30,6 +30,31 @@
     "capacity5ManualClassificationAutoDispatchScalingOffReviewIndependenceAndGatesUnchanged": true,
     "stage": "MODEL_POLICY_REV5_PROVIDER_REV6_ACTIVE_VERIFIED_BY_READBACK_NOT_A_MISSION_RESULT"
   },
+  "V3ComposedReviewAccepted20261017": {
+    "verdict": "ACCEPTABLE_SOURCE_SCOPED",
+    "reviewer": "v3-composed-review-r1 ses_eb682d8f3ffesaTiSmKoI0A1Lh cursor/claude-opus-5-5 Claude Opus 5.5 Max (complexity 88, risk 85), fresh, Model.Ref verified at spawn",
+    "object": "sealed GuardianCore (4 files) + KernelObserver (4 files) vs draft2 bb69e0ad / ABI1 bb4758cc / scopes f8611364 / boundary 084e847c / budget 0944a3bb",
+    "packet": "V3_COMPOSED_REVIEW_INPUTS_20261017 manifest 72f31cd4, 21/21 pins re-verified at start AND end of phase 2 (incl. addendum 084e847c)",
+    "anchors": "8 anchors source:line traced (A1 host-binding gate+HostComplete; A2 #4 handles/limits 0x2208|8|4GiB, suspended 0x80404, assign-before-resume, no DuplicateHandle/OpenProcess/IOCP; A3 #2 exit on original root handle + RootExitWitness then J query; A4 #3 two-query identity/seals/quiescence triple-condition; A5 #1/#5 driver-loss matrix ForcedQuiescent/HOLD, ordered D exit after proof; A6 observer injected via IGuardKernelObserver, fresh fixed buffers, fail-closed list errors; A7 observer surface 3 Win32 calls only, immediate GetLastError, no counters/cache/IOCP; A8 budget consts only, 18432<=24576, in-memory evidence, no sinks)",
+    "parentSpotChecks": "grep-verified: no DuplicateHandle/OpenProcess/CreateIoCompletionPort in GuardianCore.cs; quiescence triple condition at :348 exactly as claimed; C2 tautology literally present at Tests.cs:275",
+    "contrariesNonBlocking": {
+      "C1": "G tests #3: EvaluatePair branches admissionSealed=false / witness.Sequence>=permit / witness.Elapsed>permit / permit.Elapsed>elapsed (GuardianCore.cs:329-334) falsified by NO test; Decide fixes admissionSealed=true",
+      "C2": "G test budget: Tests.cs:275 literal tautology (96*192==18432 && <24576 && 192<=8192) not bound to GuardianMemoryEvidence.CapacityBytes (GuardianCore.cs:355) nor CaseBudgetV3 slot caps (BudgetedEvidence.cs:127,129)",
+      "C3": "G fail-closed coin: Assign=TRUE then IsProcessInJob member=FALSE (700) leaves a never-resumed T outside J untargeted by both terminates -> cleanup waits exhaust -> HoldQuarantined, J held, T suspended survives; policy-conformant (no false release) but uncovered",
+      "C4": "DESIGN #4: S/D published rights stated but creator rights held on J/T creation handles not stated"
+    },
+    "parentDisposition": {
+      "C1": "correction authorized: new pinned falsifying tests for all four EvaluatePair reject branches, tests-only",
+      "C2": "correction authorized: replace tautology with const-bound assertions CapacityBytes<=GuardianEvidenceCapacityBytes and RecordBytes<=GuardianResultCapacityBytes",
+      "C3": "PARENT AUTHORIZES the uncovered-coin test as part of the same correction batch (fail-closed path worth pinning); behavior stays HoldQuarantined/no false release",
+      "C4": "correction authorized: DESIGN.md states creator rights on J/T creation handles per draft2 #4"
+    },
+    "limitsNoted": "static only (C#5 patterns, not compiler proof); assembly checked top-level type disjointness, not compiled; Win32 timing/IsProcessInJob/list ReturnLength runtime-only; natural-success ACK within 20s window is a liveness constraint to validate S-side; G-loss HOLD implemented S-side; budget-integrated NOT_PROVEN intact; assembly cannot execute any case (MissingHostBinding) by design",
+    "correctionScope": "GuardianCore.Tests.cs + DESIGN.md ONLY; GuardianCore.cs, KernelObserver*, ABI1, budget frozen untouched; fresh author (not guardian/observer authors), targeted review after per its scope",
+    "compileGate": "task_mvc44d90_000c compile GO runs ONCE on corrected bytes (tests compiled not executed) after corrections land; parent binds 000c dependsOn first",
+    "exposureDeclarations": "phase-2 reads via host read/grep/glob bounded to pinned files (budget glob = its 4 pinned files), ContextMode guard <2800B NOT used in phase 2 (declared deviation); cases.json hashed not read; phase-1 bootstrap snippets declared; no DB/git/IDB/board-write/delegation; model unchanged",
+    "stage": "COMPOSED_REVIEW_ACCEPTED_SOURCE_SCOPED_CORRECTIONS_QUEUED_NOT_QUALIFICATION"
+  },
   "L7SparseBenchReviewAccepted20261017": {
     "verdict": "ACCEPTABLE_SOURCE_SCOPED",
     "reviewer": "l7-sparse-bench-review-r1 ses_eb682d700ffe1F3Ll62sPiCjaB cursor/grok-4.7 Grok 4.7 Extra High (complexity 70, risk 65), fresh, Model.Ref verified at spawn",
