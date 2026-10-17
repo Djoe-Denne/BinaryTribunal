@@ -41,6 +41,18 @@
     "invariants": "pure memory only, timeout 60000 never fired, original process control by parent, no Job API anywhere, runner errors fail closed",
     "receipt": ".tmp/coordination-three-20261014/v3-budget-memory-execution-receipt-20261017.json + root out/ receipts and capture (hash-pinned)",
     "disposition": "NO auto-correction, NO rearm; fresh budget correction author + targeted review required per the runtime finding; the V3 assembly (which embeds BudgetedEvidence) requires a NEW compileGO after any budget correction; guardian qualification 000c remains independently blocked on missing host proofs (HostS/D/bindings/capture-from-before-Read/global writer ledger)",
+    "correctionDelivery": {
+      "author": "v3-budget-runtime-correction-r1 (Grok XH, fresh, disjoint) — root cause: TEST FIXTURE, not the module — MemoryStream.Write/WriteByte call EnsureWriteable which callvirt's CanWrite (mscorlib CLR 4.0.30319, static IL read, no execution); the frozen probe threw unexpected-CanWrite on every CanWrite, so the module's legit 2-byte Write failed before any byte, mapped by the module's catch (:289) to Hold StreamWriteFailed, TryWrite returned false (:297), Check threw ownership-write; module behavior consistent with contract (no CanWrite read, no exception swallow)",
+      "delivered": "BudgetedEvidence.cs corrected=false (byte-identical 0944a3bb), DESIGN.md corrected=false (b54b561f), BudgetedEvidence.Tests.cs corrected=true (e24df773/32653B — prefix 1..515 identical, diff confined to ProbeStream body: records bytes without MemoryStream delegation, adds Length/ToArray; CanWrite still throws, Flush/Seek/SetLength/Dispose unchanged, all ownership assertions kept), MANIFEST.json corrected=true (0fcb436d/4661B, self-hash excluded)",
+      "parentIntake": "budget-correction-parent-intake-20261017.json: 4 pins exact, module/DESIGN byte-identical to gel, first diff at :516 inside ProbeStream body (last class decl before diff = ProbeStream, no new class), suffix from PartialThrowStream identical, module never reads CanWrite, frozen readonly",
+      "correctionTaskClosed": "task_mvcebg9b_003z_ln1wqt completed; author + G-corrections chain workers shut down (read-only or delivered)",
+      "targetedReview": {
+        "task": "fresh reviewer v3-budget-correction-review-r1 ses_eb5fd04e3ffegyogdNZMNdUhO3 cursor/grok-4.7 Grok 4.7 Extra High (complexity 62, risk 60), Model.Ref verified native",
+        "packet": "V3_BUDGET_CORRECTION_REVIEW_INPUTS_20261017 manifest b7b53a6814a77d1eb416bc83c98d7761017c7ffb8bb936201b330ac9832387b3 (9 inputs, 119348B incl. runtime receipt 23b51154 + gel originals as diff baselines)",
+        "phase": "PHASE1_ACK_THEN_HOLD",
+        "after": "on ACCEPTABLE verdict: NEW parent compileGO (budget corrected) then memory re-execution 002r' on corrected bytes"
+      }
+    },
     "correctionLaunch": {
       "boardTask": "task_mvcebg9b_003z_ln1wqt (added by parent, pending, binding via packet/prompt)",
       "packet": "V3_BUDGET_RUNTIME_CORRECTION_INPUTS_20261017 manifest 17efc11290fad752a8744594836c6f6dd9973ee5a99054bb1ac34e57968bd53e (8 inputs, 77657B incl. runtime finding receipt)",
