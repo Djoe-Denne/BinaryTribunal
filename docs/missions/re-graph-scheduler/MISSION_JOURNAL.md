@@ -1,5 +1,21 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Verdict bench ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
+
+- GOs phase 2 émis et vérifiés (reçu .tmp/coordination-three-20261014/phase2-gos-
+  20261017.json) : addendum pin frontière ABI 084e847c/2118B au paquet composé
+  (point 4 du reviewer clos) ; réactivation force:true nécessaire (auto-complétion
+  après ACK).
+- l7-sparse-bench-review-r1 (Grok 4.7 XH) : verdict ACCEPTABLE_SOURCE_SCOPED,
+  8 ancrages source:ligne, recalcul indépendant concordant (E1k=2890/SCC31,
+  E10k=28915/SCC310, histogrammes/mix32 re-dérivés). Spot-check parent : ancre 1
+  vérifiée (sparse-bench.ts:182 RangeError 100k sans allowLarge). Admis parent.
+- Portée : source seulement — pas mesure, L7/G2/G3 ouverts, skip 100k jamais PASS.
+  Suite en file séparée : admission verdict (fait), adapter public à re-revoir
+  contre contrats réels, GO toolchain avant tout import/test (sans activer 100k).
+- Reviewer bench clôturé (lecture seule, rien d'écrit) ; tout futur review
+  correction/adapter exigera un reviewer fresh. La review composée V3 continue.
+
 ## Sync catalogue + spawns reviews indépendantes — 2026-10-17
 
 - GO utilisateur : sync catalogue vérifiée par re-hash — snapshot 10:26:06Z identique
