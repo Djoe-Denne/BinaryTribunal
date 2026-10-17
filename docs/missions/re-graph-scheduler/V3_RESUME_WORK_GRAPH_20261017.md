@@ -72,3 +72,18 @@ siune branche bloque, sans remplir artificiellement les2slots encorelibres.
 Reçus .tmp parent :*-native-20261017.json pourles3sessions,
 *-packet-admission-20261017.json/*-parent-packet-verification-20261017.json,
 v3-kernel-reference-fetch-20261017.json. Aucuntools_tmp oucopie gel n'est committé.
+
+## Trois ACK réels approuvés, travail lancé
+
+Lecturescomplètes/tailles/SHA/reçus/bindings/rôlesconditions confirmées pour7,
+21et18payloads. Parent recontrôle touspinsreadonlynonlink1/main275/outputabsents,
+natifmodels/profiles/openowned/leadXhigh/politiques4/2/cap5/guardready exacts.
+GOdistincts08:16:07.968Z BudgetSOURCEPURE,08:16:07.978Z reviewCONTRAT,
+08:16:07.986Z inventaireFRONTIÈRE. Les3chantiers travaillent réellement maintenant,
+pas simplement des slots réservés ;seule la sourcepure peut créer4fichiersneufs.
+Les2Plans rendent publicrapport sansbypasswrite. RéférencesQueryJob supplémentaires
+nonadmises restent parent-data jusqu'àpaquet explicite, pas lectureparprovenance.
+Reçus .tmp parent :{v3-budget-source-r1,v3-contract-review-r1,mission-frontier-r1}-actual-work-go-20261017.json.
+La mission continue aux callbacks, ratification/corrections et branchesREADY ;
+aucune fin de mission ou nouveau GO utilisateur à attendre pour ces décisions.
+CodeJobprivilégié,compilations/tests et runtime restent derrière leursgates propres.

@@ -1,5 +1,12 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## TravailparallèleV3effectivementlancé aprèsACK — 2026-10-17
+
+- ACK7/21/18/rôles/reçusapprouvés,pinsnatifguard/main275/outputabsents exacts.
+  GO08:16:07.968ZBudgetSOURCE/08:16:07.978ZCONTRACTREVIEW/08:16:07.986ZFRONTIER,
+  3travauxutiles,pasréservationvide.0privilegedJob/compile/test/runtime/native,
+  missioncontinueauxretours/pasnouveauGOuserordinaire/pasclôturesurfind'étude.
+
 ## Repriseautonomeeffective :contratV3/sourcepure/frontière en parallèle — 2026-10-17
 
 - OrdreuserexpliciterésuméAUTONOMY_RESUMED :finsétudeslocalesn'arrêtentplusmission.
