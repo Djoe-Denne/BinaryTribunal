@@ -1,5 +1,23 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Mesures L7 exécutées (parent run) — 2026-10-17
+
+- Driver livré (04e3122d/45856B, 1128 lignes) ; spot-checks parent code-seul
+  passés (zéro allowLarge/node/network/fs-write, SIZES bornées, ancres présentes)
+  ; gel readonly avant run.
+- **GO de run parent exécuté** : exit 0 en 274ms (budget <90s honnête), capture
+  + DTO hash-pinnés (37d558d8). 3 bras équitables × 4 seeds constantes × 2
+  tailles (1k/10k), 1 warmup + 5 reps avec déterminisme asserté, hash fnv1a32
+  avant/après chaque replay, mémoires/temps/itérateurs par politique. Ancres
+  2890/28915 = cross-check fail-loud (exit 0 ⇒ passées). Jamais présenté comme
+  observation produit/native ; zéro allégation de gain natif.
+- Note d'honnêteté : run 1 exit 0 perdu par un bug d'assertion parent (nom de
+  champ DTO) ; run 2 = la capture enregistrée ; driver déterministe (mêmes
+  seeds).
+- Tâche complétée ; worker clôturé. Reçu : l7-measures-run-receipt-20261017.json.
+- Portée : mesures offline synthétiques SEULEMENT — jamais acceptation
+  produit/native/L9/L10.
+
 ## Plan RealNative approuvé, arbitrages ABI tranchés — 2026-10-17
 
 - PLAN phase 2 : 14/14 membres mappés (décision P/Invoke + conso noyau
