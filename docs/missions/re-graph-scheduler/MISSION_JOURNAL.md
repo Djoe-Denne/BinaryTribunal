@@ -1,5 +1,17 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Sol réautorisé (Opus indisponible) — 2026-10-17
+
+- GO utilisateur : Opus plus disponible côté provider. Politique mission rév. 6 :
+  openai/gpt-6.1-sol high (90) et xhigh (80, « si nécessaire ») réautorisés ;
+  max reste désactivé. Le routage auto place OpenAI en dernier — Sol ne sort que
+  si aucun candidat GLM/Grok ne rencontre le plancher, conforme à « high, extra
+  high si nécessaire ». Pas de substitution silencieuse : Opus reste listé mais
+  la garde refusera (exposition déjà null) ; toute réutilisation d'Opus exigera
+  une réactivation utilisateur explicite.
+- Reviewer hôte relancé busy (reprise anti-saturation : verdict partiel public
+  par cible).
+
 ## Panne capacité hôte, complétion parent, review lancée — 2026-10-17
 
 - Événement maintenance (plugin 20261017-preflight-gate, failure-wake) : l'auteur
