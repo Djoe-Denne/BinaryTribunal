@@ -1,5 +1,26 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Lancement parallèle RealNative + driver mesures ; acquisition schémas L8 — 2026-10-17
+
+- GO utilisateur « paralléliser tout ce qui est possible » — trois streams :
+  1) **v3-realnative-r1** (Grok XH, Model.Ref vérifié, paquet 37541f87/9 inputs)
+     : implémentation RÉELLE du seam owner (IGuardianOwnerNative, Win32 P/Invoke,
+     144B/0x2208/8/4GiB, 0x80404, 0x20002=3-stdio, assign-once, close-par-
+     outcome, zéro OpenProcess/IOCP/DuplicateHandle) + RunnerReal.cs harnais
+     slice-2 réservé PARENT. ACK 9/9 ; GO plan émis (plan avant écriture).
+  2) **l7-measures-driver-r1** (GLM max, Model.Ref vérifié, paquet be3d568c/4
+     inputs) : driver de mesures borné 1k/10k (100k exclu, seeds constantes,
+     bornes 2890/28915 jamais présentées comme observations, <90s) — le parent
+     exécutera sous son GO après relecture/re-pin.
+  3) **Acquisition L8** : les 3 schémas déclarés absents par la matrice
+     (cluster-partition-v1, investigation-group-v1, knowledge-delta-v1) EXISTENT
+     comme artefacts produit dans tools/ff8-harness/schemas/ (loaders lineage.ts
+     :16-17, investigation-groups.ts:45) — acquisition parent ciblée (pins
+     complets, fichiers en place, zéro écriture centrale) ; la ratification
+     parser B peut désormais les pinner/les lire.
+- Deux auteurs busy en parallèle (2/5) ; rien de promu ; last-close
+  NOT_ESTABLISHED, budget intégré NOT_PROVEN.
+
 ## Compile assemblage complet vert + batch 4 suites vertes (slice 1 qualification) — 2026-10-17
 
 - Verdict delta ACCEPTABLE_SOURCE_SCOPED (aucun contraire) — ratification d'un
