@@ -71,3 +71,17 @@ Reçusprefixejob-reference-contract-r1-...-20261017.json sous .tmp parent ;sourc
 de référence ne sont pas instructions/navigation/API/permission de code. Aucun
 controller/requête/compilation/JobIOCPDuplicateHandle/fixture/test/runtime/nativeFF8/
 IDA/full44/L9global/L10/main/intégration autorisé. Budget262144 ettousRunHOLD inchangés.
+
+## ACK réel et GO documentaire statique distinct
+
+ACK19payloads251378B/reçu/scopes/binding/rôleconditions approuvé ;8docs115426B
+conformes, ancienpublicDetailsf991092e rehashé, XMLabsent nonprétendurehashé.
+Parent recontrôle natifSolMaxPlan/tâcheouverte/leadXhigh/politiques4/2/guardready,
+19pinsreadonlynonlink1/reçu/main275/proofoutputabsent exacts.
+**00:30:17.242Z**, GOstatique sousSCOPE9b1980cb :3–8ancragesOFFICIELS,
+contre-exemples/conditions/verdictparquestion puisHOLD. HypothèseIOCP NONAPPROUVÉE,
+aucun résultat prescrit, architecture ouoracleadopté. Reçu .tmp parent :
+job-reference-contract-static-actual-final-go-20261017.json.
+0codecontroller/requête/sourcefix/compile/APIJobIOCPDuplicateHandle/DLLload/EXE/
+fixture/test/runtime/nativeintégration. Référencemissing=>parent,pasfollowURL/probe.
+Budget262144, case8codeHOLD et full44/L9L10main inchangés quellequesoit conclusion.

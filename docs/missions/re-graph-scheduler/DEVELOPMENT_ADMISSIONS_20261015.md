@@ -1,5 +1,15 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Référencescontrat ACK réel etGOdocumentairestatique — 2026-10-17
+
+ACK19payloads251378B/reçu/scopes/binding/rôle approuvé ;raw8docs115426B exacts,
+detailsf991092erehashé/XMLabsentnonprétendupiné. ParentnativeSolMAXPlan/tâcheouverte/
+leadXhigh/politiquesguard/pinsreadonlynonlink1/main275/proofoutputabsent recontrôlés.
+GO00:30:17.242Z/SCOPE9b1980cb étudeIOCPJob0/lastclose/case8docs,3–8ancragesofficiels/
+conditions/contre-exemples/verdictpuisHOLD. HypothèseNONAPPROUVÉE,pasarchitecture/
+oracleratifié ;0code/requête/compile/APIJobIOCPDuplicateHandle/DLL/EXE/fixture/test/
+runtime/nativeintégration. Budget262144/allRun/full44/L9L10maininchangés.
+
 ## ReadinessNOTPROVEN qualifié ; référencesofficielles/étude accèsseul — 2026-10-17
 
 e80c40d2/f991092e/8ancrages/13pins/reçu/main275 qualifiés,natifstudycompleted/shutdown.
