@@ -51,6 +51,13 @@
     },
     "limitsNoted": "static only (C#5 patterns, not compiler proof); assembly checked top-level type disjointness, not compiled; Win32 timing/IsProcessInJob/list ReturnLength runtime-only; natural-success ACK within 20s window is a liveness constraint to validate S-side; G-loss HOLD implemented S-side; budget-integrated NOT_PROVEN intact; assembly cannot execute any case (MissingHostBinding) by design",
     "correctionScope": "GuardianCore.Tests.cs + DESIGN.md ONLY; GuardianCore.cs, KernelObserver*, ABI1, budget frozen untouched; fresh author (not guardian/observer authors), targeted review after per its scope",
+    "correctionExecution": {
+      "boardTask": "task_mvcbhxtk_003g_xtyje3 (added by parent, pending; binding via packet/prompt, parent completes after targeted review)",
+      "packet": "V3_G_CORRECTIONS_R1_INPUTS_20261017 manifest 976158a7106748e4d62f4793095bbc16cf2a66183485eb5a0945b58fd412dcab (8 inputs, 159033B incl. verdict extract PARENT-CURATED)",
+      "author": "v3-g-corrections-r1 ses_eb65d2f1fffef6f6lFY3ag98gn cursor/grok-4.7 Grok 4.7 Extra High (complexity 65, risk 70), fresh, Model.Ref verified native",
+      "deliverables": "exactly GuardianCore.Tests.cs + DESIGN.md + MANIFEST.json into V3_G_CORRECTIONS_R1_OUTPUT_20261017; C3 test parent-authorized",
+      "phase": "PHASE1_ACK_THEN_HOLD; separate parent GO before any write; targeted fresh review after delivery; then single compile GO 000c on corrected bytes"
+    },
     "compileGate": "task_mvc44d90_000c compile GO runs ONCE on corrected bytes (tests compiled not executed) after corrections land; parent binds 000c dependsOn first",
     "exposureDeclarations": "phase-2 reads via host read/grep/glob bounded to pinned files (budget glob = its 4 pinned files), ContextMode guard <2800B NOT used in phase 2 (declared deviation); cases.json hashed not read; phase-1 bootstrap snippets declared; no DB/git/IDB/board-write/delegation; model unchanged",
     "stage": "COMPOSED_REVIEW_ACCEPTED_SOURCE_SCOPED_CORRECTIONS_QUEUED_NOT_QUALIFICATION"
