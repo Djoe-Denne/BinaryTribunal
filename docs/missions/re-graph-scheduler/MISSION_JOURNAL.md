@@ -1,5 +1,16 @@
 # MISSION_JOURNAL — re-graph-scheduler-20261013
 
+## Repriseautonomeeffective :contratV3/sourcepure/frontière en parallèle — 2026-10-17
+
+- OrdreuserexpliciterésuméAUTONOMY_RESUMED :finsétudeslocalesn'arrêtentplusmission.
+  ParentchoisitGuardianV3draft185477125directQueryJobheld/noIOCP,reviewavantprivilégié,
+  ancienlastclose/budgetNOTPROVENpasPASS. 3sessionsfreshSolMAXnativesvérifiées :
+  task_mvc422gxcontrat21/307499B/reçu645a89d8 ;task_mvc422gy_0001budget7/22210B/
+  e7b6385d ;task_mvc422gy_0002frontier18/781193B/f7792873,ACCÈSSEULACK/GOdistinct.
+- GrapheV3_RESUME_WORK_GRAPH liegatesparent/source/reviews/compile/full/mesuresL7/
+  L9L10 ;placeholder0008nonadmissupersédé0009,blockedcloseguardrespectépasreviewPASS.
+  Mêmelead/politiques4/2/cap5/manueldispatchoff,0runtime/FF8/native/intégrationaccordé.
+
 ## Référencesqualifiées, contratnonadopté/RuntimeHOLD — 2026-10-17
 
 - e87a8158/50db0206finalqualifié/19pinsmain275exacts,natifcompletedshutdown ;draft

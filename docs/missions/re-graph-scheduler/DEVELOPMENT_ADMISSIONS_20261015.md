@@ -1,5 +1,21 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Repriseexpliciteutilisateur — V3et3branchesindépendantes préparées — 2026-10-17
+
+AUTONOMY_RESUMED_20261017.md enregistre l'ordredecontinuerdansmêmelead ;777cdb8
+n'étaitpasclôturemission. ParentproposecontratGuardianV3draft185477125 NOIOCP/
+Jobhandlegardé/querykernel/driverlossownedstop,ancienlastcloseHOLDpréservé.
+ReviewfreshSolMAXtask_mvc422gx/ses_eb7196c7dffejBDJG36NRqMwC7,paquet21/307499B/
+reçu645a89d8 ;budgetpure-sourceSolMAXbuildtask_mvc422gy_0001/ses_eb719c39fffek3Q6ewu4sRu1aR,
+7/22210B/reçue7b6385d ;frontierSolMAXPlantask_mvc422gy_0002/ses_eb7190156ffeZsYwRP93QQbZp1,
+18/781193B/reçuf7792873. NativeRefchaqueavantpool/readOnly/pins/outputabsentvérifiés,
+GOACCÈSSEULACKpuisGOtravaildistinct ;privilégiésattendreview/ratificationABI.
+V3_RESUME_WORK_GRAPH_20261017.md lievraisIDsratification/sourceguardian+observer/
+reviewbudget/composée/compilequalif/fullprépa+exécution/mesuresL7etL9L10existants.
+Placeholder0008supersédé0009jamaisadmis,outilrefuseclôtureblockedrespecté,pasPASS.
+3slotsutiles/cap5/politiques4/2/manueldispatchoffinchangés,2librespasremplissageartificiel.
+8docsQueryJobdirectHTTPGETpinées,pasAPI ;0runtime/FF8/native/intégrationnouveaux.
+
 ## Contratdocsofficielles terminé ; oracle exactHOLD, portduprejeté — 2026-10-17
 
 Rapportfinale87a8158/50db0206/8ancrages/19pins/reçu/main275 qualifiés,natifcompleted/
