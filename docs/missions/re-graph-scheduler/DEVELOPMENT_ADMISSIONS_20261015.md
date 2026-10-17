@@ -1,5 +1,17 @@
 # Développement L7/L8 et revue du simulateur — 2026-10-15
 
+## Readinessétudestatique ACK réel etGO distinct — 2026-10-17
+
+ACK13payloads124130B/reçu/scopes/binding/rôle approuvé. IncidentReadmanifestreçu
+sansgardepréoutput+échappementavant-exécution déclaré,aucunhorspaquet/binaire/
+défautproduitrapporté ;suitelectures/calculsContextModeavecguard<2800Bavantémission,
+pasindexquery/purgeoulecturecomplèteàrefaire. ParentnativeSolMAXPlan/tâche/leadXhigh/
+politiquesguard/13pinsreadonlynonlink1/main275/proofoutputabsent exacts.
+GO00:10:58.095Z/SCOPEbe185142 :preuvecap≤262144BconditionnelleouNOT_PROVEN/
+contratminimalobserverJob0handlecas6SANScode/frontièredépendances,3–8ancragespuisHOLD.
+0budgetrelevé/waiver/controllercode/requête/sourcefix/compile/Job/DLL/EXE/test/runtime,
+full44/L9L10main/nativeintégrationfermés ;référencemissing=>parentpasprobe.
+
 ## Reviewfixture recevable/compilation seule PASS ; étudiereadiness accèsseul — 2026-10-17
 
 ReviewACCEPTABLE_SOURCE_SCAFFOLD_SCOPED/db845ba1-e1975a95/8ancrages/12pins/reçu/main275

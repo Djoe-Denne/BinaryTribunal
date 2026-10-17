@@ -70,3 +70,21 @@ Reçusprefixejob-control-readiness-r1-...-v2-20261017.json sous .tmp parent.
 
 Full44/L9global/L10/main/native/intégration restent fermés. Ni compilation ni
 cette étude ne ratifient une politiqueopérationnelle ou autorisent uncas hôte.
+
+## Étude readiness — ACK réel et GO statique distinct
+
+ACK lectureentière13payloads124130B/reçu/scopes/binding/rôleconditions approuvé.
+Incidentdéclaré :Readinitialmanifest/reçu sansgardepréoutput et premièreerreur
+d'échappement avantexécution ;pas défautproduit ou drift, aucun horspaquet/binaire
+rapporté. Pas réexécution des lecturescomplètes ;dorénavant touteslectures/calculs
+ContextModebornés avecgardedure<2800Bavantémission, pas Readnonborné/indexquery/purge.
+
+Parent recontrôle natifSolMaxPlan/tâcheouverte/leadXhigh/politiques4/2/guardready,
+13pinsreadonlynonlink1/reçu/main275/proofoutputabsent exacts. **00:10:58.095Z**, GO
+statique sousSCOPEbe185142 :preuveconditionnellesource≤262144B ouNOT_PROVEN,
+contratminimalobserverJob0/handlecas6 SANSimplémentation etfrontièrecas/dépendances,
+3–8ancrages/verdictpargap puisHOLD. Reçu .tmp parent :
+job-control-readiness-static-actual-final-go-20261017.json. Aucunverdictprescrit,
+référenceAPImanquante=>parent,pasnavigation/probe ou garantieinventée.
+0budgetrelevé/waiver/controllercode/requête/sourcefix/compiler/DLLload/EXElaunch/
+APIJob/fixture/test/runtime/native/intégration. Toutes gatesRun/full44 restent fermées.
