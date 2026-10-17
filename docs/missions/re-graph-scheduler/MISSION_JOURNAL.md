@@ -1,5 +1,28 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Compile assemblage complet vert + batch 4 suites vertes (slice 1 qualification) — 2026-10-17
+
+- Verdict delta ACCEPTABLE_SOURCE_SCOPED (aucun contraire) — ratification d'un
+  verdict publié avant GO (déclaration de transparence du reviewer, disposition
+  parent option i : accès admis, 13/13 pins, zéro écriture, faits reproductibles,
+  confirmation empirique par compile). Spot-check parent : signature
+  TryReadBackGuardianResult(byte[]) sans octet source (:114).
+- Compile assemblage complet (V3ASM2-77be4f35f8, 12 sources pinnées en série) :
+  GuardianV3Assembly.dll 45568B / 4f6af6a6… (zéro warning ; delta de taille nulle
+  vs compile 1 — différence d'octets = MVID aléatoire csc par compilation, pas un
+  contenu), GuardianV3Tests.dll 124416B / 1459e2e7… (11 sources ; 2 warnings
+  CS0649 consignés : knobs FakeClock.Frozen/FakeObserver.ExitCode jamais
+  assignés).
+- **Slice 1 qualification (mémoire pure, LEAD ONLY, GO séparé reçu du contrat
+  source)** : BatchTestRunner sur les 4 suites — BudgetedEvidence 17ms OK,
+  GuardianCore 30ms OK, KernelObserver 19ms OK, **Host 14ms OK** —
+  BATCH_PASSED=4/FAILED=0, exit 0, 247ms. PREMIÈRE exécution ever des suites
+  guardian/observer/host avec l'intégration hôte corrigée : tout vert.
+- Borne honnête : mémoire pure uniquement (FakeNative/FakeObserver/MemoryStream)
+  — AUCUN Job réel/T/oracle kernel ; slice 2 (cas real-Job) reste bloquée sur la
+  tâche source RealNative NON ACQUISE. last-close NOT_ESTABLISHED, budget
+  intégré NOT_PROVEN intacts.
+
 ## Correction hôte livrée (delta), review du delta lancée — 2026-10-17
 
 - v3-host-correction-r1 (GLM 5.3 Flash max) : EXACTEMENT 4 livrables dans

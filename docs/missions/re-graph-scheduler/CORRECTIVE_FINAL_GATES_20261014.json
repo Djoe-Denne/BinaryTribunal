@@ -63,6 +63,28 @@
     },
     "stage": "REAL_RUNTIME finding recorded; budget NOT_PROVEN budget-integrated unchanged; nothing promoted"
   },
+  "HostDeltaAcceptedAndBatchGreen20261017": {
+    "deltaVerdict": "ACCEPTABLE_SOURCE_SCOPED (delta) by v3-host-correction-review-r1 (GLM max, fresh, Model.Ref verified) — no contraries, TRYREADBACK verified line-by-line (exactly RecordBytes frozen :382, no source bytes, fail-closed, read-only strict, position unchanged on success, HostLauncher.cs:234 integration, error path = Acknowledge(null) consumes single attempt, Job retained, never PASS), DESIGN fixes verified bounded, C#5 strict, delta diff hunks verified vs original",
+    "phaseDeviationDisposition": "reviewer declared premature phase-2 execution (before explicit GO) — PARENT DISPOSITION option (i) RATIFIED: access parent-admitted, 13/13 pins start/end, no writes no execution, facts reproducible, parent spot-checks independent, empirical confirmation (delta compiles zero-warning in full assembly); no re-run",
+    "parentSpotCheck": "internal bool TryReadBackGuardianResult(byte[] readback) at corrected WriterLedger.cs:114 — no source bytes in signature",
+    "compileGo3": {
+      "root": "V3ASM2-77be4f35f8 (12 sources pinned serially incl. corrected budget tests + corrected guardian tests + host sources/tests)",
+      "library": "GuardianV3Assembly.dll 45568B 4f6af6a6… zero warnings — same SIZE as first compile (c031009b…); byte difference explained by csc per-compilation MVID (random module GUID), same 4 source pins, NOT a content difference",
+      "tests": "GuardianV3Tests.dll 124416B 1459e2e7… 11 sources, stdout warnings = 2x CS0649 (HostSourceTests fixture knobs FakeClock.Frozen / FakeObserver.ExitCode never assigned — unused-knob smell, recorded) + zero errors",
+      "noExecution": "compile-only"
+    },
+    "recentCS0649Explanation": "warnings are compile hints, not defects; suites passed anyway",
+    "batchRunSlice1": {
+      "runner": "in/BatchTestRunner.cs parent-authored (four suites, per-suite try/catch, Stopwatch, Console stdout only, no FS/net/Job/spawn)",
+      "authorization": "frozen source comment (BudgetedEvidence.Tests.cs:8 'parent-controlled future runner may call RunAll under a separate GO') + standing user autonomy GO; LEAD ONLY, pure memory, FakeNative/FakeObserver/MemoryStream only; timeout 120s never fired; original process control by parent",
+      "result": "exit 0, 247ms total: BudgetedEvidenceTests OK 17ms, GuardianCoreSourceTests OK 30ms, KernelObserverSourceTests OK 19ms, HostSourceTests OK 14ms; BATCH_PASSED=4 BATCH_FAILED=0; peakWorkingSet 21528576B; capture hash-pinned",
+      "significance": "first execution EVER of guardian/observer/host test suites with the corrected host integration — all green on corrected bytes; HostSourceTests covers G-loss never-PASS, ACK windows, ledger integrity, capture-before-Read wiring",
+      "honestBound": "IN-MEMORY ONLY: no real Job/T/kernel oracle exercised; slice 2 (real-Job qualification cases) remains gated on a RealNative source task NOT acquired; last-close NOT_ESTABLISHED unchanged; budget-integrated NOT_PROVEN unchanged",
+      "receipt": "v3-batchrun-receipt-20261017.json + root out/ receipts+capture frozen readonly"
+    },
+    "nextGates": "slice 2 real-Job qualification (RealNative source task next), L7 measures toolchain GO, L8 schemas NOT ACQUIRED",
+    "stage": "ASSEMBLY_COMPILE_GREEN_AND_SLICE1_BATCH_GREEN_NOT_QUALIFICATION_COMPLETE"
+  },
   "HostReviewFinalCorrige20261017": {
     "reviewer": "v3-host-review-r1 ses_eb5463f4affeySA3HWToGyY7xZ cursor/grok-4.7 Grok 4.7 Extra High, fresh, Model.Ref verified; partial-per-target strategy (anti-saturation) worked: 5 partials + final, re-hash start AND end 18/18",
     "verdict": "CORRIGE (7 anchors) — why not BLOCK: decomposition/owners/capture/fakes/G-loss matrix follow the PLAN, one local seam + 3 DESIGN sentences; why not ACCEPTABLE: without readback there is no durable receipt distinct from source bytes and the ACK subgate claim (DESIGN.md:155) is false",
