@@ -1,5 +1,25 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Plan hôte vérifié, arbitrage ABI tranché — 2026-10-17
+
+- ACK hôte 10/10 pins ; question budget tranchée (correction fixture-only, pin
+  module 0944a3bb courant, pas de re-pin).
+- PLAN phase 2 reçu sans écriture : AUCUN seam ABI manquant bloquant — les seams
+  hôte existent comme classes abstraites (ctor protected) dans le noyau gelé,
+  destinés à la dérivation hôte dans le même assembly interne. Décomposition 6
+  fichiers approuvée, carte d'intégration exhaustive source:ligne (HostComplete,
+  Run, Acknowledge, ownership croisé, 18432/192 == const gelées), liste de tests
+  approuvée (MissingHostBinding câblé, HostComplete satisfait via FakeNative/
+  FakeObserver sur VRAI GuardianCore, ACK exact/mismatch/taille, G-loss avant
+  preuve → réservation tenue jamais PASS, ordre d'arrêt préserve l'oracle).
+- **Arbitrage parent** : modèle CO-LOCATED S/G in-process CONFORME au contrat
+  gelé (Matches :409 exige ReferenceEquals ; DESIGN G:150-157 impose le même
+  owner object vivant pendant le handshake). Multi-process S/G = hors tranche,
+  NOT_PROVEN publié comme limite de modèle (pas un défaut) ; case6 last-close
+  reste NOT_ESTABLISHED ; qualification 000c réelle (Job/T/requêtes kernel).
+- plan-GO émis : écriture des 6 livrables en phase 3 (en cours), re-hash parent
+  du noyau avant review fresh.
+
 ## Source hôte lancée (dernier bloqueur qualification) — 2026-10-17
 
 - GO utilisateur « go » : préparation du paquet hôte lancée. Paquet pinné
