@@ -1,5 +1,23 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## RealNative livré, review lancée — 2026-10-17
+
+- v3-realnative-r1 (Grok XH) : 4 livrables (RealNative.cs e58eef0c/15934B,
+  RunnerReal.cs 8e8bb623/20530B harnais parent-only, DESIGN 0cf2057a/13435B,
+  MANIFEST 06a1b8bf/4065B) ; 14/14 membres décision + conso source:ligne ;
+  arbitrages A/B/C appliqués ; noyau re-hashé intact 6/6 par l'auteur puis le
+  parent. Pas de compile, pas d'exécution.
+- Spec slice-2 publiée : /target:winexe, closure sans tests, DosPath frais en
+  argument, stdout redirigé, sentinelle jamais au parent, LimitFlags 0x2208 =
+  précondition OS.
+- Intake parent (realnative-parent-intake-20261017.json : pins 4/4 gelés) ; tâche
+  complétée ; auteur clôturé.
+- Review fresh lancée : v3-realnative-review-r1 (Grok XH, Model.Ref vérifié,
+  paquet 43d44ea2…/14 inputs/241703B avec transcription PLAN = contrat) — paquet
+  complété APRES le spawn (déclaré au reviewer dans le GO) ; PHASE 1 ACK-then-
+  HOLD. Après ACCEPTABLE : compile winexe parent + exécution RunnerReal (gate
+  séparée) = les premiers cas real-Job/T/oracle kernel.
+
 ## Mesures L7 exécutées (parent run) — 2026-10-17
 
 - Driver livré (04e3122d/45856B, 1128 lignes) ; spot-checks parent code-seul
