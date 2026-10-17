@@ -1,5 +1,20 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Review ciblée des corrections : ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
+
+- v3-g-corrections-review-r1 (Grok XH, fresh) : ACCEPTABLE_SOURCE_SCOPED, 8
+  ancrages liés ligne par ligne à la source gelée, aucun contraire bloquant,
+  re-hash début/fin 10/10 (212004B). Spot-check parent : ancre C2 vérifiée
+  (Tests.cs:353-354 liées aux const BudgetedEvidence).
+- Incident consigné : premier tour phase 2 terminé sans verdict malgré GO livré
+  ; réactivation force + consigne de reprise → verdict rendu. Filet : reviewer
+  fresh au même paquet si récidive (non nécessaire).
+- Limite KernelObserver fermée par re-hash parent (4/4 byte-identiques intake).
+- task_mvc43o9u_0009_ctebzb complétée par le parent → task_mvc44d90_000c_xic81o
+  débloquée (pending, LEAD ONLY) : checks série source/toolchain/env/pins puis
+  compileGO séparé (tests compilés NON exécutés), qualificationGO ensuite
+  séparément ; liage dependsOn 000d→000c encore dû par le parent.
+
 ## Verdict composé ACCEPTABLE_SOURCE_SCOPED — 2026-10-17
 
 - v3-composed-review-r1 (Opus 5.5 Max) : ACCEPTABLE_SOURCE_SCOPED, 8 ancrages

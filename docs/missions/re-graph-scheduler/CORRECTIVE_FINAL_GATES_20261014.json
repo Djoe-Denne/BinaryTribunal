@@ -68,9 +68,20 @@
         "task": "fresh reviewer v3-g-corrections-review-r1 ses_eb63a7a60ffewnNBVK63SMICUx cursor/grok-4.7 Grok 4.7 Extra High (complexity 65, risk 60), Model.Ref verified native",
         "packet": "V3_G_CORRECTIONS_REVIEW_INPUTS_20261017 manifest ef843ac1ac74616227b459c9a1f9179cb68618599f9b8d1ae998edcaa7424d53 (10 inputs, 212004B incl. frozen originals as diff baselines)",
         "phase": "PHASE1_ACK_THEN_HOLD",
+        "incident": "first phase-2 turn ended ready without verdict after confirmed GO delivery; force re-activation with resume instruction succeeded",
+        "verdict": {
+          "result": "ACCEPTABLE_SOURCE_SCOPED",
+          "anchors": 8,
+          "blockingContraries": "none; the four tests and the coin would pass against the frozen source by path reading without execution",
+          "reHashStartAndEnd": "10/10, 212004B, bad=0",
+          "parentSpotCheck": "C2 anchor verified by parent grep: corrected Tests.cs:353-354 bind CapacityBytes<=GuardianEvidenceCapacityBytes and RecordBytes<=GuardianResultCapacityBytes exactly as claimed",
+          "traceQuality": "each anchor tied to frozen GuardianCore.cs lines (:329-334, :802-803/:830-831, :355/:382 vs BudgetedEvidence :127/:129, :303-304, :692-700/:703-704, :727-735, :749-751/:822, :484/:865/:869, ABI :20); C4 diff limited to the two creator-rights paragraphs; kernel-observer integrity limit closed by parent re-hash receipt",
+          "scope": "targeted corrections review only; not the compile, not 000c, not qualification"
+        },
         "after": "parent single compile GO 000c on corrected bytes (dependsOn binding first)"
       }
     },
+    "composedTaskClosure": "task_mvc43o9u_0009_ctebzb completed by parent after verdict admission -> task_mvc44d90_000c_xic81o unblocked to pending (deps 0009+0004 satisfied); 000c content confirms LEAD ONLY serial source checks/build-id/toolchain/env/pins, separate compileGO then harmless qualificationGO; 000d dependsOn binding to 000c still owed by parent before full admission",
     "compileGate": "task_mvc44d90_000c compile GO runs ONCE on corrected bytes (tests compiled not executed) after corrections land; parent binds 000c dependsOn first",
     "exposureDeclarations": "phase-2 reads via host read/grep/glob bounded to pinned files (budget glob = its 4 pinned files), ContextMode guard <2800B NOT used in phase 2 (declared deviation); cases.json hashed not read; phase-1 bootstrap snippets declared; no DB/git/IDB/board-write/delegation; model unchanged",
     "stage": "COMPOSED_REVIEW_ACCEPTED_SOURCE_SCOPED_CORRECTIONS_QUEUED_NOT_QUALIFICATION"
