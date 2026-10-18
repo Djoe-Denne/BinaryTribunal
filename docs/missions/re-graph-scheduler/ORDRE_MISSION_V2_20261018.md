@@ -149,10 +149,55 @@ explicit, aucun fallback ; le parent fait TOUTES les compilations/exécutions
   accumulée), MISSION_JOURNAL.md, MODEL_BANDS_USER_REQUEST_20261017.md,
   FOLLOWUP_PACKET_EPERM_DISPOSITION_20261017.md, V3_RESUME_WORK_GRAPH_20261017.md.
 
-## 6. Commit anchors (derniers)
+## 6. Commit anchors (au moment de l'ordre)
 
-4ff1ee6 batch vert ; 22297bc mesures L7 ; 720d727 plan RealNative ; 65be22d
-intake realnative ; c293b3a **slice 2 real-Job faits** ; e18fda2/27f8894/09645c3
-chaîne host ; ea789f3 complétion parent hôte (capacity failure) ; 80f1c80/0e2247c
-migration modèles ; bca2260 sync catalogue. HEAD au moment de l'ordre : voir
-`git log -1`.
+f19f2e6/65be22d realnative ; 4ff1ee6 batch vert ; 22297bc mesures L7 ; 720d727
+plan RealNative ; c293b3a **slice 2 real-Job faits** ; e18fda2/27f8894/09645c3
+chaîne host ; ea789f3 complétion parent hôte ; 80f1c80/0e2247c migration
+modèles ; bca2260 sync catalogue ; 0c2f9b4 cet ordre V2. Suivants : voir
+`git log --oneline -15`.
+
+## 7. AUDIT vs ORDRE initial (2026-10-18) — AUCUNE DÉVIATION MATÉRIELLE
+
+Lecture directe de ORDRE_MISSION.md §15-19 contre les faits §2 :
+
+- **L0-L6** : hérités acceptés (L2 9a35cb9, L3/L6 23b92b6, L4 accepté corrigé,
+  L5 613218f, L1 immuable G1) — hors périmètre de reprise.
+- **L7 (§17.1-17.3)** : initial QA / SIM851 / runtime16 / copy851 / crossQA
+  acceptés scoped ; sparse bench ACCEPTABLE ; §17.3 respecté À LA LETTRE
+  (mesures 1k/10k exécutées parent-run ; **100k conditionnel jamais touché** ;
+  bornes jamais présentées comme mesures ; seeds/versions/brans équitables).
+  Ouvert : §17.1 couverture globale (complément held) + adjudication DTO.
+- **L8 (§16 + full44 routing)** : runtime16 review accepted scoped
+  (unintégré) ; matrice command-B livrée (C1-C5) ; schemas acquis (demande de
+  la matrice elle-même) ; parser-B ratification prête ; tranche centrale
+  ensuite (ownership à arbitrer). **Chaîne V3 guardian = route explicite de
+  L8-full** (frontier task_mvc42mb4_0005 : « V3 ratification→sources/reviews
+  →qualification ») — pas une déviation : slices 1/2 exécutées bornées,
+  matrix S/D/G-loss restante.
+- **L9/L10** : non engagés, gates inchangées (L9 après L8 substantiel ; L10
+  après L7+L8+L9 ; full44 gated par 000d).
+- **G0-G7** : G0/G1 acquis ; G2 acquis (tranche verticale offline) ; G3
+  PARTIAL explicite ; G4 scoped reviews accumulées ; G5/G6/G7 jamais engagés
+  (le guardian V3 est le harnais de sécurité de la mission, pas une adoption
+  native du produit — aucune confusion).
+- **Q1 anomalie L1 (frontier)** : READY, pas encore engagée — pont
+  originel-rejet/variante positive à lier aux tests déjà acceptés, arbitrage
+  anomalie canonique/limite de clôture. **REPRISE MAINTENANT** (spawn ci-après).
+- **Q3 L8 parser-B** : schemas acquis → **ratification MAINTENANT** (spawn).
+- Aucune tâche du frontier contredite ; aucune fabrication ; les succès
+  restent des faits bornés (§19 : implémenté/vérifié offline distingués).
+
+## 8. REPRISE ALIGNÉE — prochains spawns (ordre du frontier)
+
+- SP1 **Q1-L1-ARBITRATION** (GLM max, ~50) : lire les preuves L1 gèlées
+  (L1_BRIDGES_RARE_INCOMPATIBILITY_20261015.md, canonical 69278ee8, dérivé
+  bb3b194a) + les tests DÉJÀ acceptés ; produire l'ARBITRAGE proposé
+  (original-rejet/variante-positive liés aux tests, limite de clôture) —
+  proposition parent, zéro code.
+- SP2 **L8-PARSER-B-RATIFICATION** (Grok XH, ~65) : pinner/lire les 3 schémas
+  acquis in-place + les loaders centraux (lineage.ts:16-17,
+  investigation-groups.ts:45) + C1-C5 du rapport matrice ; verdict de
+  cohérence contrat-B ↔ schémas réels (JSON exact) + design versionné de la
+  tranche centrale (proposition). Zéro écriture centrale.
+- SP3 (wake suivant) **V3-MATRIX-SLICES** (Grok XH) — T1 ci-dessus.
