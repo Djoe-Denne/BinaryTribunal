@@ -1,5 +1,22 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Proposition d'arbitrage L1 livrée, disposition B1 — 2026-10-18
+
+- l1-arbitration-r1 (GLM max) : L1_ARBITRATION_PROPOSAL.md 18327B/01365c74 gelé
+  (intake receipt) — 5 sections ancrées doc:ligne. Constats clés : le rejet
+  strict original est la régression exigée (jamais contournée) ; la variante
+  positive ne prouve PAS la compatibilité L1↔L2 ; AUCUN ancre test:ligne ne lie
+  encore la paire rejet-strict/positif dans les sources pinnées.
+- **Disposition parent : B1 adopté** — recherche read-only des gels de tests L7
+  figés pour D1 (rejet strict de 69278ee8) et D2 (positif bb3b194a) ; si les
+  deux sont trouvés, le lien se ferme par test:ligne cité par le parent ;
+  sinon B2 (cas disjoint minimal, sourceGO séparé + auteur fresh). L'option A
+  est refusée (sans preuve). Le verbe de clôture reste parent-only, infaillible
+  : « clos pour la paire telle que gelée, aucune règle changée ».
+- L1BridgesRare20261015 reste OPEN — la proposition ne change aucun statut ;
+  l'exécution B1 est reportée au post-checkpoint.
+- Tâche complétée, worker clôturé. Reste en vol : ratification L8 parser-B.
+
 ## Slice 2 real-Job : quiescence naturelle FACTUELLE — 2026-10-17
 
 - Review RealNative ACCEPTABLE_SOURCE_SCOPED (8 ancrages A1-A8 ; extras
