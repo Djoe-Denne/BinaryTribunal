@@ -201,3 +201,12 @@ Lecture directe de ORDRE_MISSION.md §15-19 contre les faits §2 :
   cohérence contrat-B ↔ schémas réels (JSON exact) + design versionné de la
   tranche centrale (proposition). Zéro écriture centrale.
 - SP3 (wake suivant) **V3-MATRIX-SLICES** (Grok XH) — T1 ci-dessus.
+
+## 9. SPAWNS EFFECTUÉS (2026-10-18, réalignés)
+
+- SP1 → **l1-arbitration-r1** (GLM max, Model.Ref vérifié,
+  task_mvdjqmb1_0000_4j3t2i, paquet 5e06bcd8/4 inputs/306048B docs committés).
+- SP2 → **v3-l8-parser-b-ratifier-r1** (Grok XH, Model.Ref vérifié,
+  task_mvdjqmc4_0001_t0qmvt, paquet 46ed0852/8 inputs/117149B schémas réels
+  in-place + loaders + C1-C5).
+- SP3 reste planifié (wake suivant). Deux auteurs busy (2/5).
