@@ -1,5 +1,27 @@
 # MISSION_JOURNAL - re-graph-scheduler-20261013
 
+## Ratification parser-B L8 : CORRIGE + binding proposé — 2026-10-18
+
+- v3-l8-parser-b-ratifier-r1 (Grok XH) : CORRIGE, re-hash fin 8/8. Ancres
+  tenues (cluster.ts:38-42, :817, graph-store.ts:318-328, lineage.ts:16-17/
+  :199/:500-501/:671/:719/:900/:1037-1038). Contrat C1/C2 à corriger champ par
+  champ : adopted booléen vs littéral L3, $id manquants (l8-prepared-graph-v3 ;
+  la discrimination A|B existe déjà comme $.regime du v1), renommages
+  (kernelIds/externalContextIds/contextFunctionIds/ownedFunctionIds),
+  digest/révisions/acteur/inventaire à lier aux réels (Fingerprints,
+  fromRevision/toRevision, authorityRef=:645 jamais localReceipt, inventaire
+  :687-688), l8-partition-adoption-v1 $id absent (additionalProperties:false).
+- **Binding l8-parser-b-binding-20261018-r1 adopté comme base de design** :
+  deux documents neufs (l8-prepared-graph-v3 branche A=v1 conforme L3, branche
+  B=v1 régime B adopted=false + multiview-components v2 + snapshot/config/
+  contraintes + diagnostics + sidecar l4-lineage-2 ; l8-partition-adoption-v1
+  = vue adoptée, v1 stocké reste adopted=false, putPartition flip refusé,
+  acteur lié au receipt HOST). Jamais G7.
+- **Prochaine tâche** (auteur fresh, GLM tier) : écrire les DEUX documents de
+  schémas selon le binding + review delta. La tranche de CODE centrale reste
+  gated sur l'arbitrage ownership (l8-integration-r1 inactif sur modèle
+  désactivé). C3-C5 non ratifiés dans ce verdict.
+
 ## Proposition d'arbitrage L1 livrée, disposition B1 — 2026-10-18
 
 - l1-arbitration-r1 (GLM max) : L1_ARBITRATION_PROPOSAL.md 18327B/01365c74 gelé
