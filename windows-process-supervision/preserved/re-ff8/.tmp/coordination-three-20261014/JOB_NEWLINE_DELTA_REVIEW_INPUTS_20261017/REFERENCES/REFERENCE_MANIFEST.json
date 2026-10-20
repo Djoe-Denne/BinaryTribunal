@@ -1,0 +1,213 @@
+{
+  "at": "2026-10-16T22:50:30.305Z",
+  "purpose": "AUTHORITATIVE_READ_ONLY_REFERENCE_NO_HELPER_OS_PROBE_OR_COMPILATION",
+  "repository": "microsoft/referencesource",
+  "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+  "defaultBranch": "main",
+  "records": [
+    {
+      "url": "https://api.github.com/repos/microsoft/referencesource",
+      "finalUrl": "https://api.github.com/repos/microsoft/referencesource",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 6823,
+      "sha256": "8e2eaef01f47d2d68351a10bdf9ee51fe61ca67f2ec4aa4e025877014750eebb",
+      "name": "REPOSITORY_METADATA.json",
+      "at": "2026-10-16T22:50:29.210Z"
+    },
+    {
+      "url": "https://api.github.com/repos/microsoft/referencesource/commits/main",
+      "finalUrl": "https://api.github.com/repos/microsoft/referencesource/commits/main",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 5517,
+      "sha256": "9ecef8fb1d74e022da05c8584c8ab0a29460b575cac6b08facef805c5a7e5599",
+      "name": "COMMIT_METADATA.json",
+      "at": "2026-10-16T22:50:29.435Z"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/mscorlib/system/io/textwriter.cs",
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/mscorlib/system/io/textwriter.cs",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 34725,
+      "sha256": "3fa08bd4f54680cdaa71eff1db4121e26d2c47e1f3f66ed1599b0e1ef664ddf2",
+      "name": "REFERENCE_TextWriter.cs",
+      "at": "2026-10-16T22:50:29.672Z"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/mscorlib/system/io/streamwriter.cs",
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/mscorlib/system/io/streamwriter.cs",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 38496,
+      "sha256": "be45ea81048c1616a98841da1302179f43d6d12e3fbcf5e2e8b358f11c4059bf",
+      "name": "REFERENCE_StreamWriter.cs",
+      "at": "2026-10-16T22:50:29.911Z"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.newline?view=netframework-4.8.1&accept=text/markdown",
+      "finalUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.newline?view=netframework-4.8.1&accept=text/markdown",
+      "status": 200,
+      "contentType": "text/markdown; charset=utf-8",
+      "bytes": 7256,
+      "sha256": "3c9583305567c0a51fe4b2de3cb2e1b6f9e9cd383e6cebf05d9a179f50883129",
+      "name": "LEARN_TextWriter_NewLine.md",
+      "at": "2026-10-16T22:50:30.304Z"
+    }
+  ],
+  "excerpts": [
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 97,
+      "to": 104,
+      "text": "97:        // to avoid loading Environment unnecessarily so I've duplicated\n98:        // the value here.\n99:        private const String InitialNewLine = \"\\r\\n\";\n100:\n101:        protected char[] CoreNewLine = new char[] { '\\r', '\\n' };\n102:\n103:        // Can be null - if so, ask for the Thread's CurrentCulture every time.\n104:        private IFormatProvider InternalFormatProvider;"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 99,
+      "to": 106,
+      "text": "99:        private const String InitialNewLine = \"\\r\\n\";\n100:\n101:        protected char[] CoreNewLine = new char[] { '\\r', '\\n' };\n102:\n103:        // Can be null - if so, ask for the Thread's CurrentCulture every time.\n104:        private IFormatProvider InternalFormatProvider;\n105:\n106:        protected TextWriter()"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 164,
+      "to": 171,
+      "text": "164:        // terminator strings should be used: \"\\r\", \"\\n\", or \"\\r\\n\".\n165:        // \n166:        public virtual String NewLine {\n167:            get { return new String(CoreNewLine); }\n168:            set {\n169:                if (value == null) \n170:                    value = InitialNewLine;\n171:                CoreNewLine = value.ToCharArray();"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 165,
+      "to": 172,
+      "text": "165:        // \n166:        public virtual String NewLine {\n167:            get { return new String(CoreNewLine); }\n168:            set {\n169:                if (value == null) \n170:                    value = InitialNewLine;\n171:                CoreNewLine = value.ToCharArray();\n172:            }"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 168,
+      "to": 175,
+      "text": "168:            set {\n169:                if (value == null) \n170:                    value = InitialNewLine;\n171:                CoreNewLine = value.ToCharArray();\n172:            }\n173:        }\n174:    \n175:"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 169,
+      "to": 176,
+      "text": "169:                if (value == null) \n170:                    value = InitialNewLine;\n171:                CoreNewLine = value.ToCharArray();\n172:            }\n173:        }\n174:    \n175:\n176:        [HostProtection(Synchronization=true)]"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 359,
+      "to": 366,
+      "text": "359:        //\n360:        public virtual void WriteLine() {\n361:            Write(CoreNewLine);\n362:        }\n363:    \n364:        // Writes a character followed by a line terminator to the text stream.\n365:        //\n366:        public virtual void WriteLine(char value) {"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 450,
+      "to": 457,
+      "text": "450:        // Writes a string followed by a line terminator to the text stream.\n451:        //\n452:        public virtual void WriteLine(String value) {\n453:\n454:            if (value==null) {\n455:                WriteLine();\n456:            }\n457:            else {"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 465,
+      "to": 472,
+      "text": "465:                // backing store this way, potentially.\n466:                int vLen = value.Length;\n467:                int nlLen = CoreNewLine.Length;\n468:                char[] chars = new char[vLen+nlLen];\n469:                value.CopyTo(0, chars, 0, vLen);\n470:                // CoreNewLine will almost always be 2 chars, and possibly 1.\n471:                if (nlLen == 2) {\n472:                    chars[vLen] = CoreNewLine[0];"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 468,
+      "to": 475,
+      "text": "468:                char[] chars = new char[vLen+nlLen];\n469:                value.CopyTo(0, chars, 0, vLen);\n470:                // CoreNewLine will almost always be 2 chars, and possibly 1.\n471:                if (nlLen == 2) {\n472:                    chars[vLen] = CoreNewLine[0];\n473:                    chars[vLen+1] = CoreNewLine[1];\n474:                }\n475:                else if (nlLen == 1)"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 470,
+      "to": 477,
+      "text": "470:                // CoreNewLine will almost always be 2 chars, and possibly 1.\n471:                if (nlLen == 2) {\n472:                    chars[vLen] = CoreNewLine[0];\n473:                    chars[vLen+1] = CoreNewLine[1];\n474:                }\n475:                else if (nlLen == 1)\n476:                    chars[vLen] = CoreNewLine[0];\n477:                else"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 471,
+      "to": 478,
+      "text": "471:                if (nlLen == 2) {\n472:                    chars[vLen] = CoreNewLine[0];\n473:                    chars[vLen+1] = CoreNewLine[1];\n474:                }\n475:                else if (nlLen == 1)\n476:                    chars[vLen] = CoreNewLine[0];\n477:                else\n478:                    Buffer.InternalBlockCopy(CoreNewLine, 0, chars, vLen * 2, nlLen * 2);"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 474,
+      "to": 481,
+      "text": "474:                }\n475:                else if (nlLen == 1)\n476:                    chars[vLen] = CoreNewLine[0];\n477:                else\n478:                    Buffer.InternalBlockCopy(CoreNewLine, 0, chars, vLen * 2, nlLen * 2);\n479:                Write(chars, 0, vLen + nlLen);\n480:            }\n481:            /*"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 476,
+      "to": 483,
+      "text": "476:                    chars[vLen] = CoreNewLine[0];\n477:                else\n478:                    Buffer.InternalBlockCopy(CoreNewLine, 0, chars, vLen * 2, nlLen * 2);\n479:                Write(chars, 0, vLen + nlLen);\n480:            }\n481:            /*\n482:            Write(value);  // We could call Write(String) on StreamWriter...\n483:            WriteLine();"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 605,
+      "to": 612,
+      "text": "605:        public virtual Task WriteLineAsync()\n606:        {\n607:            return WriteAsync(CoreNewLine);\n608:        }\n609:\n610:        [HostProtection(ExternalThreading = true)]\n611:        [ComVisible(false)]\n612:        public virtual Task FlushAsync()"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 639,
+      "to": 646,
+      "text": "639:\n640:            // Not strictly necessary, but for perf reasons\n641:            public override void WriteLine(String value) {\n642:            }\n643:            \n644:            public override void WriteLine(Object value) {\n645:            }\n646:        }"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 663,
+      "to": 670,
+      "text": "663:            }\n664:            \n665:            public override  String NewLine {\n666:                [MethodImplAttribute(MethodImplOptions.Synchronized)]\n667:                get { return _out.NewLine; }\n668:                [MethodImplAttribute(MethodImplOptions.Synchronized)]\n669:                set { _out.NewLine = value; }\n670:            }"
+    },
+    {
+      "name": "REFERENCE_TextWriter.cs",
+      "from": 835,
+      "to": 842,
+      "text": "835:            \n836:            [MethodImplAttribute(MethodImplOptions.Synchronized)]\n837:            public override void WriteLine(String value) {\n838:                _out.WriteLine(value);\n839:            }\n840:            \n841:            [MethodImplAttribute(MethodImplOptions.Synchronized)]\n842:            public override void WriteLine(Object value) {"
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 462,
+      "to": 469,
+      "text": "462:            CheckAsyncTaskInProgress();\n463:\n464:            Task task = WriteAsyncInternal(this, value, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: false);\n465:            _asyncWriteTask = task;\n466:\n467:            return task;\n468:        }\n469:"
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 526,
+      "to": 533,
+      "text": "526:                CheckAsyncTaskInProgress();\n527:\n528:                Task task = WriteAsyncInternal(this, value, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: false);\n529:                _asyncWriteTask = task;\n530:\n531:                return task;\n532:            }\n533:            else"
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 620,
+      "to": 627,
+      "text": "620:            CheckAsyncTaskInProgress();\n621:\n622:            Task task = WriteAsyncInternal(this, buffer, index, count, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: false);\n623:            _asyncWriteTask = task;\n624:\n625:            return task;\n626:        }\n627:"
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 698,
+      "to": 705,
+      "text": "698:            CheckAsyncTaskInProgress();\n699:\n700:            Task task = WriteAsyncInternal(this, null, 0, 0, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: true);\n701:            _asyncWriteTask = task;\n702:\n703:            return task;\n704:        }\n705:        "
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 721,
+      "to": 728,
+      "text": "721:            CheckAsyncTaskInProgress();\n722:\n723:            Task task = WriteAsyncInternal(this, value, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: true);\n724:            _asyncWriteTask = task;\n725:\n726:            return task;\n727:        }\n728:        "
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 744,
+      "to": 751,
+      "text": "744:            CheckAsyncTaskInProgress();\n745:\n746:            Task task = WriteAsyncInternal(this, value, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: true);\n747:            _asyncWriteTask = task;\n748:\n749:            return task;\n750:        }\n751:"
+    },
+    {
+      "name": "REFERENCE_StreamWriter.cs",
+      "from": 777,
+      "to": 784,
+      "text": "777:            CheckAsyncTaskInProgress();\n778:\n779:            Task task = WriteAsyncInternal(this, buffer, index, count, charBuffer, charPos, charLen, CoreNewLine, autoFlush, appendNewLine: true);\n780:            _asyncWriteTask = task;\n781:\n782:            return task;\n783:        }\n784:        "
+    }
+  ],
+  "sourceCodeIsEvidenceOnlyMustNeverImportOrCompile": true,
+  "networkFetchOnlyNoJobFixtureProductRuntimeOrSourceChanges": true
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "delivery": "v3-g-corrections-r1",
+  "date": "2026-10-17",
+  "taskId": "task_mvcbhxtk_003g_xtyje3",
+  "missionId": "team_mv6tmopg_0000_4urn3c",
+  "member": "v3-g-corrections-r1",
+  "role": "author",
+  "profile": "build",
+  "bootstrap": "NONBLIND",
+  "imposedModel": "cursor/grok-4.7 Grok 4.7 Extra High",
+  "stage": "CORRECTIONS_DELIVERED_UNCOMPILED_UNEXECUTED_HOLD_FOR_TARGETED_REVIEW",
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_G_CORRECTIONS_R1_OUTPUT_20261017",
+  "allowedOutputs": [
+    "GuardianCore.Tests.cs",
+    "DESIGN.md",
+    "MANIFEST.json"
+  ],
+  "corrections": [
+    {
+      "id": "C1",
+      "file": "GuardianCore.Tests.cs",
+      "methods": [
+        "UnsealedAdmissionRejectsPairPermanently",
+        "WitnessSequenceNotBeforePermitRejectsPairPermanently",
+        "WitnessElapsedAfterPermitRejectsPairPermanently",
+        "PermitElapsedAfterSampleRejectsPairPermanently"
+      ],
+      "falsifies": "GuardianCore.cs:329-334 admissionSealed, witness.Sequence>=permit.Sequence, witness.Elapsed>permit.Elapsed, permit.Elapsed>elapsed",
+      "latch": "RejectedPairLatchesHoldAndIsNotRetried shows GuardianCore.cs:802-803 and :830-831: one rejected pair, HoldQuarantined, the following triple-zero is not observed"
+    },
+    {
+      "id": "C2",
+      "file": "GuardianCore.Tests.cs",
+      "replaces": "literal tautology 96*192==18432 && 18432<24576 && 192<=8192",
+      "asserts": "GuardianMemoryEvidence.CapacityBytes <= CaseBudgetV3.GuardianEvidenceCapacityBytes and GuardianTerminalPublication.RecordBytes <= CaseBudgetV3.GuardianResultCapacityBytes"
+    },
+    {
+      "id": "C3",
+      "file": "GuardianCore.Tests.cs",
+      "method": "AssignedNonMemberExhaustsCleanupWithoutFalseRelease",
+      "expects": "Assign true then IsProcessInJob member false: MembershipFailed, HoldQuarantined, cleanup root waits exhausted, J retained, suspended T not resumed and not closed, no TerminateProcess, no publication"
+    },
+    {
+      "id": "C4",
+      "file": "DESIGN.md",
+      "states": "creator access on J is JOB_OBJECT_ALL_ACCESS; creator access on T process/thread is PROCESS_ALL_ACCESS and THREAD_ALL_ACCESS; both include SYNCHRONIZE and are not duplicated or narrowed. S/D SYNCHRONIZE sentence unchanged"
+    }
+  ],
+  "frozenUnmodified": [
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_GUARDIAN_CORE_R1_OUTPUT_20261017/GuardianCore.cs",
+      "bytes": 71132,
+      "sha256": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_CORE_ABI1_20261017/GuardV3.Contracts.cs",
+      "bytes": 8016,
+      "sha256": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_BUDGET_SOURCE_OUTPUT_R1_20261017/BudgetedEvidence.cs",
+      "bytes": 11846,
+      "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/re-graph-scheduler/JOB_GUARDIAN_V3_CONTRACT_DRAFT2_20261017.md",
+      "bytes": 9919,
+      "sha256": "bb69e0ade4c0b48c8d1c420e528683fe2d614eff6cac80fa64e6f58df33cafd3"
+    }
+  ],
+  "files": [
+    {
+      "path": "GuardianCore.Tests.cs",
+      "bytes": 38487,
+      "sha256": "aefc941e19765c108acd7e573ebb1664f67dc5a57978bdd607b0cda2a8ce86fa",
+      "kind": "source-tests-not-executed"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 19089,
+      "sha256": "cd2827d92748ed0829b03d9e476e2d525cafa966d87976200695fa8439a12709",
+      "kind": "design-and-limitations"
+    }
+  ],
+  "selfPinPolicy": "MANIFEST.json is excluded from its own file pins to avoid recursion; its physical bytes and SHA256 are reported with the public delivery.",
+  "validation": {
+    "compilerInvoked": false,
+    "testsExecuted": false,
+    "runAllInvoked": false,
+    "nativeJobOrProcessApiInvoked": false,
+    "gitUsed": false,
+    "delegated": false,
+    "frozenSourcesEdited": false
+  }
+}

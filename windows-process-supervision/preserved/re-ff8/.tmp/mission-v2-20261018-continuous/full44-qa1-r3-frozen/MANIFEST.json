@@ -1,0 +1,213 @@
+{
+  "schema": "q1-qa1-manifest-v1",
+  "revision": "R3",
+  "date": "2026-10-18",
+  "role": "full44-Q1-independent-Csharp4-test-source",
+  "task": "task_mvdz6yfe_001n_m472ji",
+  "team": "mission-a58a462638c0db92",
+  "status": "QA1_SOURCE_PROPOSED_R3_NO_EXECUTION",
+  "r1_archive": {
+    "path_label": "full44-qa1-r1-frozen",
+    "readonly_intangible": true,
+    "r1_final_hashes": [
+      { "path": "GenericTargetPlanTests.cs", "bytes": 68995, "sha256": "f8f70e658fb3148c047f72ed3fddef2e11321d019237dbf5d04ed22419f98752" },
+      { "path": "QA_PLAN.md", "bytes": 18687, "sha256": "d0abb8f657bc79907a78edebd1a84cb890624ae931decae6eaf81e5527bcf9c4" },
+      { "path": "MANIFEST.json", "bytes": 12957, "sha256": "577ebd3dc90d4e9eb5a67a33de338e74c03c39bab15bfd8915e11991f448aefe" }
+    ],
+    "note": "R1 archivé readonly par le parent, pas effacé ni réécrit dans l'archive ; pas d'acceptation candidate R1"
+  },
+  "r2_archive": {
+    "path_label": "full44-qa1-r2-frozen",
+    "readonly_intangible": true,
+    "source_byte_identical_in_r3": true,
+    "r2_frozen_source": { "path": "GenericTargetPlanTests.cs", "bytes": 71286, "sha256": "a3a910bfffe77c0c4256c1f6d3e08eb0ed479838b758b703fba3bb2318106f95" },
+    "note": "R2 figée readonly intangible par le parent ; en R3 GenericTargetPlanTests.cs reste byte-identique à R2, seuls QA_PLAN.md et MANIFEST.json sont corrigés (correction d'inventaire documentaire unique)"
+  },
+  "authorization": {
+    "plan_approved": "result_mvdzsw8a_0026_t56hi4 (GO source R1 ; P1-P6 confirmés, P7 OrdinalIgnoreCase membership sans normalisation)",
+    "plan_adjudication": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_QA1_PLAN_ADJUDICATION.md",
+      "bytes": 4157,
+      "sha256": "77a0e50e7e8e9a2bf827fa07c1dc2167de89af18713113b543951dfcac6204d1"
+    },
+    "api_r3_supplement": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_Q1_API_R3_MEMBERSHIP_AND_NULL.md",
+      "bytes": 1474,
+      "sha256": "6f31ec7a480e734edf2486c9e4688e2d889196eedbd9faa8cdac7747ace5cd26"
+    },
+    "v_composed_corrective": "result_mve2hjpc_000r_gxu7eb CORRIGE ; défauts offsets/inventaire fondés par le parent ; source corrective auteur R3 non livrée à QA (jamais lue)",
+    "r2_go": "GO QA R2 sur les 3 outputs seulement selon FULL44_QA1_R2_FIX_SCOPE.md (corrections offsets/inventaire + positif env/allowlist vides ; négatifs conservés sans adaptation au mauvais code source)",
+    "r2_fix_scope": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_QA1_R2_FIX_SCOPE.md",
+      "bytes": 2273,
+      "sha256": "ae3c7050ed35dfcfbae4143d5bd4d0b06b9b10e7535c26cc3ee4380105eeecec"
+    },
+    "vdelta_full44": "result_mve42vt8_002b_mbwcct CORRIGE UNIQUEMENT les sites d'appel documentaires ; delta sourceR3 auteur et QA R2 examinés statiquement sans autre défaut identifié ; sourceR3 autre owner non consultée par QA",
+    "r3_go": "GO DOC R3 : modifier UNIQUEMENT outputs/QA_PLAN.md et outputs/MANIFEST.json selon FULL44_QA_R3_INVENTORY_WORDING_GO.md ; GenericTargetPlanTests.cs DOIT rester byte-identique à R2 (71286B/a3a910bf...f95) ; corriger les nombres/phrases historiques R1sites 336->337 et R2sites 345->346 là où ils affirment le vrai décompte, sans remplacement global aveugle dans hashs/offsets/tailles/lignes ; anciennes erreurs préservées comme chronologie explicite, jamais réaffirmées comme correctes",
+    "r3_inventory_wording_go": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_QA_R3_INVENTORY_WORDING_GO.md",
+      "bytes": 2267,
+      "sha256": "eaac08341bc45c8a05080b5809d8423cbefc50398e2b07dcae854600b24a83e4"
+    },
+    "r3_call_site_evidence": {
+      "path": ".tmp/mission-v2-20261018-continuous/full44-qa-parent-call-site-counts.json",
+      "bytes": 5490,
+      "sha256": "9b150e2baf0bbb6727ed67dee72d8b0f7d89c8ac6962b11d74d75ac8ede70fec",
+      "role": "preuve parent données-seule du recompte lexical (masque commentaires/littéraux, corps RunT01..RunT12) : R1=337 sites, R2=346 sites, par helper et par groupe ; aucun C# exécuté/compilé"
+    }
+  },
+  "inputs": {
+    "root": "../inputs",
+    "manifest": "../inputs/INPUT_MANIFEST.json",
+    "pin_count": 15,
+    "pin_bytes_total": 215401,
+    "qa_rehash_final": "15/15 exact, 215401 bytes, no mismatch (rehash final post-écriture R2)",
+    "pins_kept_intact": true,
+    "package_digest": {
+      "algorithm": "SHA-256",
+      "over": "bytes RAW de ../inputs/INPUT_MANIFEST.json",
+      "digest_hex64": "473432b406b4110ca671dfadcd1fc1cdd6f2b8413d7b32a0a5860aa3f1afc403",
+      "qa_recomputed_match": true
+    },
+    "pins": [
+      { "path": "SCOPE.md", "bytes": 3385, "sha256": "d0dfc9c4a108db78fb9c03d53f387c8277c0c86330894ca8ce09da3e45012dd5" },
+      { "path": "API_FIXED_R1.md", "bytes": 10596, "sha256": "d84313a6741998985c0acedf2a3d8ea49fbf485b53d424ef869d6670444c9a41" },
+      { "path": "QA0_PARENT_ADJUDICATION.json", "bytes": 1373, "sha256": "8804575269f1087d19ce27fdb36afdc6999aaa96a48920636b9e609173deecd0" },
+      { "path": "qa0/ARG_ENV_ORACLES.json", "bytes": 25555, "sha256": "c99ec04a709f4c498907bd6ec42511006d6eb07b82cac6660dd18b05c0405986" },
+      { "path": "qa0/QA_PLAN.md", "bytes": 11887, "sha256": "001e65d3c2934b5e7fa5b4f2348ccc0b70fbe8f1886fa16b4fa9400ae1ad404a" },
+      { "path": "qa0/MANIFEST.json", "bytes": 8460, "sha256": "d423e692d8a3e61d5daa816541a5e6bd0a68dca2878b988e8af8f61ef3161d3d" },
+      { "path": "RATIFICATION.md", "bytes": 3927, "sha256": "812386558a28a9dc6d4b8d709dcfe3b1d913639a1c08a4068023340a31b9c399" },
+      { "path": "contracts/GENERIC_T_CONTRACT.md", "bytes": 13180, "sha256": "7decaa54571289958749a3981544b1d524efc5bb6bb3169b897d58e90e013f88" },
+      { "path": "contracts/DUAL_STREAM_BUDGET.md", "bytes": 13035, "sha256": "42218665ea975332e054d740a5d98b0e48a3ff395e8c3a351bcf9093a024636b" },
+      { "path": "contracts/QUALIFICATION_MATRIX.md", "bytes": 13354, "sha256": "1e87e097956e97896840cf733ea3f20d2f562371962994d8b493144f71dde3b6" },
+      { "path": "contracts/MANIFEST.json", "bytes": 15241, "sha256": "0e4aa24412ffa53994cc54560377ccbadcba30504876cbb3a4fd0d5c2986120c" },
+      { "path": "reference/GuardV3.Contracts.cs", "bytes": 8016, "sha256": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709" },
+      { "path": "reference/GuardianCore.cs", "bytes": 71132, "sha256": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f" },
+      { "path": "reference/BudgetedEvidence.cs", "bytes": 11846, "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f" },
+      { "path": "GOLDEN_DATA.json", "bytes": 4414, "sha256": "9dfa126f31750042cda8be6b47eea2c8f94f64dd1464eb72c86706f9766ebf09" }
+    ],
+    "authorized_supplements": [
+      {
+        "path": ".tmp/mission-v2-20261018-continuous/FULL44_QA1_PLAN_ADJUDICATION.md",
+        "bytes": 4157,
+        "sha256": "77a0e50e7e8e9a2bf827fa07c1dc2167de89af18713113b543951dfcac6204d1",
+        "role": "adjudication plan QA1 : P1-P7 tranchés, 10 corrections obligatoires (SHA256Managed, cmdline 30, TryCount standalone, offsets 826/830, path259 3 occurrences 1603/1659, labels p2/empty 944/947, golden baseline, TryEncodeCanonical(null), console 1024, -r nu + -r= + -rmodule)"
+      },
+      {
+        "path": ".tmp/mission-v2-20261018-continuous/FULL44_Q1_API_R3_MEMBERSHIP_AND_NULL.md",
+        "bytes": 1474,
+        "sha256": "6f31ec7a480e734edf2486c9e4688e2d889196eedbd9faa8cdac7747ace5cd26",
+        "role": "clarification R3 : membership entry-name OrdinalIgnoreCase sans normalisation de casse/hash ; TryEncodeCanonical(null) refuse sans enum imposé ; TryCountControlFiles somme les arrays fournis, aucun record caché"
+      },
+      {
+        "path": ".tmp/mission-v2-20261018-continuous/FULL44_QA1_R2_FIX_SCOPE.md",
+        "bytes": 2273,
+        "sha256": "ae3c7050ed35dfcfbae4143d5bd4d0b06b9b10e7535c26cc3ee4380105eeecec",
+        "role": "GO QA R2 : baseline length fields argv0@366/pin0 label@445 (362/441 = compteurs), long image 259 length fields @278/613/939, second pin length@537/chars@541, inventaire développé V = 621 (46+7+51+20+18+20+54+19+63+61+42+220), positif env+allowlist vides record 838/control 894, négatifs conservés sans adaptation au mauvais code source, pas de test heavy/clock, archive R1 intangible"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "path": "GenericTargetPlanTests.cs",
+      "bytes": 71286,
+      "sha256": "a3a910bfffe77c0c4256c1f6d3e08eb0ed479838b758b703fba3bb2318106f95",
+      "r3_note": "byte-identique à R2, non modifié en R3 (correction documentaire uniquement) ; compteur runtime intouché",
+      "r2_delta": "Constantes d'offsets corrigées : CanonicalArgv0LengthOffset 362->366 (362 = argc compteur), CanonicalPin0LabelLengthOffset 441->445 (441 = pinCount), CanonicalPin1LabelLengthOffset 533->537, CanonicalPin1LabelCharsOffset 537->541 ; nouveaux offsets fixture image 259 coordonnée LongImageArgv0LengthOffset=613 / LongImagePin0LabelLengthOffset=939 (constantes baseline non réutilisées pour cette fixture) ; assertions corrigées T12-pg.ao/.plo, T12-p2.lo/.c0, T12-zb.lo/.c0 ; positif ajouté T10-env0 : env+allowlist vides depuis GoldenInput, block exact 2 NUL, getters length 0, record 838/control 894, u32@409=0/@413=0, oracle indépendant ciblé sans égalité prétendue avec le baseline 862 B. Aucun négatif modifié/affaibli (argv controls/surrogate/129/cmd 32767 et positif env vide conservés tels quels) ; aucun test heavy 64MiB/GC/performance/clock ajouté. Totaux 1603/1659/944/947, layout et golden inchangés."
+    },
+    {
+      "path": "QA_PLAN.md",
+      "bytes": 24331,
+      "sha256": "290b30807043813bbfc11e93b2389fbc7c77712afde5e44a4abbfaa9a28eac3a",
+      "r2_delta": "En-tête R2 (archive R1 readonly intangible, hashes R1 conservés) ; §1 offsets corrigés (362/441 = compteurs ; 537/541 ; long fixture 278/613/939) ; §2 inventaire distingué source/exécution (R1 : 336 sites / 621 développées V-statique 46+7+51+20+18+20+54+19+63+61+42+220 ; R2 : 345 sites / 632 développées) ; §3 T10 row + positif env/allowlist vides, T12 row offsets corrigés ; §4 corrections 11-14 ajoutées ; §5/§6 mis à jour ; compteur runtime jamais ajusté pour égaler une phrase documentaire",
+      "r3_delta": "correction d'inventaire documentaire UNIQUE : en-tête R3 (GO wording + preuve comptage parent) ; §2 inventaire = comptage STATIQUE défini, sites R1=337/R2=346 (groupes R2 46+7+26+10+9+10+52+13+27+32+14+100), développées 621/632 inchangées, delta 9 sites/11 développées, chronologie des erreurs '336'/'345' préservée sans réaffirmation ; §4 correction 12 réécrite en R3-12 ; §10 : vérification fresh minimale du delta ensuite, pas de réaudit global"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": null,
+      "sha256": null,
+      "r2_delta": "revision R2 ; archive R1 ; supplément FIX_SCOPE ; hashes/bytes R2 ; inventaire statique justifié ; self-hash détaché",
+      "r3_delta": "revision R3 ; archive R2 (source byte-identique) ; suppléments GO wording + preuve comptage parent ; inventaire corrigé 337/346 sites (621/632 développées inchangées), définition STATIQUE ; self-hash toujours détaché"
+    }
+  ],
+  "self_hash_policy": {
+    "path": "MANIFEST.json",
+    "embedded_self_sha256": null,
+    "embedded_self_bytes": null,
+    "reason": "pas d'auto-référence circulaire ; le parent peut hasher ce fichier indépendamment ; hash final R2 transmis dans le final response natif détaché"
+  },
+  "inventory": {
+    "definition": "comptage STATIQUE : sites textuels d'appel des helpers d'assertion (Chk/ChkEq/ChkBytes/BuildOk/BuildRefusal/EncArg/EncArgRefuse/EncCmd/EncCmdRefuse/EncEnv/EncEnvRefuse/CountOk/CountRefuse/ChkArgThrow) dans les corps RunT01..RunT12, commentaires/littéraux/déclarations exclus, et assertions développées statiquement (expansion par helper) ; ce n'est PAS une preuve d'exécution ; le compteur runtime de la suite n'est ni forcé ni édité, même source inchangée",
+    "provenance": "recompte indépendant parent via masque lexical C# + corps RunT01..RunT12, preuve données-seule full44-qa-parent-call-site-counts.json (aucun C# exécuté/compilé) ; erreur QA historique : scans de littéraux d'ids (R1 '336', R2 '345') ne voyaient pas le site BuildOk(input, \"T07\") id sans tiret",
+    "r1_source_sites": 337,
+    "r1_sites_group_breakdown": { "T01": 46, "T02": 7, "T03": 26, "T04": 10, "T05": 9, "T06": 10, "T07": 52, "T08": 13, "T09": 27, "T10": 23, "T11": 14, "T12": 100, "total": 337 },
+    "r1_expanded_by_V": 621,
+    "r1_expanded_group_breakdown": { "T01": 46, "T02": 7, "T03": 51, "T04": 20, "T05": 18, "T06": 20, "T07": 54, "T08": 19, "T09": 63, "T10": 61, "T11": 42, "T12": 220, "total": 621 },
+    "r2_source_sites": 346,
+    "r2_sites_group_breakdown": { "T01": 46, "T02": 7, "T03": 26, "T04": 10, "T05": 9, "T06": 10, "T07": 52, "T08": 13, "T09": 27, "T10": 32, "T11": 14, "T12": 100, "total": 346 },
+    "r2_expanded": 632,
+    "r2_expanded_group_breakdown": { "T01": 46, "T02": 7, "T03": 51, "T04": 20, "T05": 18, "T06": 20, "T07": 54, "T08": 19, "T09": 63, "T10": 72, "T11": 42, "T12": 220, "total": 632 },
+    "r1_to_r2_delta": "9 sites / 11 développées (T10 : 23->32 sites, 61->72 développées ; +1 BuildOk x3 + 8 assertions directes) ; aucun retrait ; aucune assertion nouvelle déclarée exécutée"
+  },
+  "corrections_incorporated": [
+    "1. SHA256Managed .NET4 standard (ComputeHash byte[], dispose), aucune implémentation SHA256 maison",
+    "2. WindowsCommandLine golden = 30 UTF16 units (12+3+2+5+8), littéral exact depuis règles/vecteurs QA0, jamais adapté pour valider 29",
+    "3. TryCountControlFiles standalone : somme des arrays fournis vs cap 32768 ; 31905/31906/31907 acceptés, aucun seuil caché 31906 ; totaux réels 32767/32768 acceptés, 32769 refusé totalBytes=0 ; le 32769 record+artifacts est le cas TryBuild T08-32769",
+    "4. Padding T08 : 862+40+31865/31866 acceptés (ControlFileByteCount exacts, u32@826, sha32@830 = nouvelles valeurs, pas d'égalité avec le record baseline) ; 31867 -> refus ControlBudgetExceeded(15)",
+    "5. Path ASCII 259 : C:\\d\\ + 250x + .exe = 259 aux trois occurrences coordonnées (TargetImagePath/argv0/SourcePin.PathLabel) => record 1603, contrôle 1659, PAS 1348",
+    "6. 944 = pin label p2 (2 chars) +82 B ; 947 = pin label empty (5 chars), Bytes 0, SHA256(empty) via bibliothèque ; autres longueurs dérivées pour réel",
+    "7. Golden bytes/intent = oracle baseline uniquement ; autres positifs = oracles indépendants ciblés (longueurs dérivées du layout fixé + champs ciblés), self-roundtrip seul jamais oracle intégral",
+    "8. TryEncodeCanonical(null) : false / canonical null / refusal != None, aucun enum imposé (R3)",
+    "9. Console cap 1024 tout inclus (tags, newlines, tag TRUNC, summary), tag réservé avant consommation, ASCII only",
+    "10. R2 -r : TryBuild refuse -r nu ET préfixe -r= ; positif -rmodule ajouté ; primitives quotent ces chaînes sans politique TryBuild (T03-ar/T03-crr/T03-apre/T03-aprev)",
+    "R2-11. Offsets corrigés (fondés par V composé result_mve2hjpc_000r_gxu7eb + parent) : baseline length fields argv0@366 / pin0 label@445 (362/441 = compteurs argc/pinCount) ; second pin length@537 / chars@541 (pas 533/537) ; fixture image 259 coordonnée : trois length fields @278/613/939, constantes baseline non réutilisées ; assertions T12-pg.ao/.plo, T12-p2.lo/.c0, T12-zb.lo/.c0 corrigées ; totaux 1603/1659/944/947, layout et golden inchangés",
+    "R2-12. Inventaire = comptage STATIQUE (sites textuels et assertions développées statiquement, pas preuve d'exécution). Chronologie des erreurs documentaires préservée, jamais réaffirmées comme correctes : R1 a déclaré '336 assertions' (scan de littéraux d'ids, site BuildOk(input, \"T07\") id sans tiret non compté) ; R2 a déclaré '345 sites' (même méthode) ; recompte indépendant parent (masque lexical C# commentaires/littéraux + corps RunT01..RunT12, preuve full44-qa-parent-call-site-counts.json) fonde R1 = 337 sites, R2 = 346 sites (groupes R2 46+7+26+10+9+10+52+13+27+32+14+100) ; développées statiques 621/632 et tous leurs groupes restent inchangées (R1->R2 : +9 sites, +11 développées) ; compteur runtime ni forcé ni édité (R3 : reformulation documentaire uniquement)",
+    "R2-13. Positif TryBuild env+allowlist vides depuis GoldenInput : block exact 2 NUL, listes vides, record 838/control 894 (862-14 env-10 allowed, payloads 56 inchangés), success/None ; oracle indépendant ciblé, pas d'égalité prétendue avec le record baseline 862 B quand la fixture a changé ; data-only inventaire hôte incomplet, pas une permission de run ; primitive T05-a01 conservée",
+    "R2-14. Conservation : négatifs argv (controls/surrogate/129 args/cmd 32767) et positif env vide conservés tels quels, jamais adaptés au mauvais code source ; aucun nouveau test heavy 64MiB/GC/performance/clock (bornage audité statiquement dans la source corrective séparée, pas preuve QA) ; aucune instrumentation produit uniquement pour QA ; API_R1/R2/R3 et P8 inchangés ; crypto .NET standard et console cap conservées",
+    "R3-15. Correction d'inventaire documentaire UNIQUE (V delta full44 result_mve42vt8_002b_mbwcct CORRIGE) : QA_PLAN.md + MANIFEST.json seulement ; GenericTargetPlanTests.cs byte-identique à R2 (71286B/a3a910bf...f95), compteur runtime intouché, archives R1/R2 readonly intangibles ; sites R1=337/R2=346 fondeés par recompte parent indépendant (masque lexical, preuve full44-qa-parent-call-site-counts.json) ; développées 621/632 inchangées ; pas de remplacement global aveugle dans hashs/offsets/tailles/lignes ; pas de nouvelle couverture/gate/autorité OS fabriquée"
+  ],
+  "interpretations": {
+    "confirmed_by_lead": [
+      "P1 argv0 != TargetImagePath -> BadArgv(6)",
+      "P2 entry dont le nom n'est pas allowlisté -> BadEnvironmentEntries(9)",
+      "P3 arrays null -> code du step correspondant (Argv 6, entries 9, allowlist 18, pins 12, roots 13, artifacts 17, réservation 11) ; input null -> NullInput(1)",
+      "P4 getters EnvironmentEntries/AllowedEnvironmentNames du plan retournent les listes triées",
+      "P5 argv raw-valide mais ligne encodée >32766 -> BadCommandLine(7)",
+      "P6 entries raw-valides mais bloc dérivé >32767 -> BadEnvironmentBlock(10) avant cap 15",
+      "P7 membership entry-name <-> AllowedEnvironmentNames OrdinalIgnoreCase, casing des chaînes/record conservé, aucun invariant de hash par équivalence de casse (R3)"
+    ],
+    "remaining_P8": "Notation des membres : getters scalaires/collections de GenericTargetPlanV1 utilisés comme propriétés internal (plan.Version, plan.Argv...) conformément à la notation du bloc API (Nom:type;), GetCanonicalEncoding/GetAdditionalControlArtifacts comme méthodes (GetX():type), DTOs traités en champs internal mutables/readonly (input.X = ..., binding.ReservationSha256) fidèles à la notation 'mutable fields / readonly fields'. API_R1/R2/R3 et P8 props inchangés en R2. Si l'auteur a choisi des getters-méthodes, correction mécanique à la gate compile (V fresh/parent) ; aucun choix d'API nouveau."
+  },
+  "derived_oracles_documented": [
+    "862/918 baseline ; 718/718 artifacts vides (u32@714=0) ; 838/894 env+allowlist vides (block exact 2 NUL ; u32@409=0, @413=0) ; 850 membership x2 variantes de casse (longueurs égales, jamais égalité d'intent exigée) ; 863 cwd espace ; 790/816 alias 2 slots même instance ; 944 p2 (length@537, chars@541) ; 947 empty (length@537, chars@541) ; 1603/1659 path 259 (length fields @278/613/939) ; 862 mode C14 (u32@614=14) et padding (u32@826=31865/31866, sha32 indépendant @830) ; TryBuild A13 -> ControlBudgetExceeded(15) ; cmd 32767 -> BadCommandLine(7) ; bloc 32772 -> BadEnvironmentBlock(10)"
+  ],
+  "out_of_scope_no_oracle": [
+    "InternalEncodingFailure(16) non atteignable par data pure : déclaration documentaire, aucun vecteur inventé",
+    "TryEncodeCanonical sur plan invalide autre que null : non spécifié, exclu",
+    "U7 référence ContractPin absente du paquet : déclaration documentaire (bb69e0ade4c0b48c8d1c420e528683fe2d614eff6cac80fa64e6f58df33cafd3 déclaré dans contracts/MANIFEST.json et présent dans le core gelé), pas d'origin, pas de réseau",
+    "MaxChunk 4096, framing GTC1 16B, seuils capture 114688/total 262144 : obligations broker/qualification futures, hors slice",
+    "Aucun validateur de bloc env préencodé exposé par l'API : lignes CONDITIONNEL QA0 hors table exécutable (correction 4)",
+    "Bornage ressources/allocations/performance : audit statique dans la source corrective séparée (source R3), pas une preuve QA ; aucun test heavy/GC/clock",
+    "Aucun champ inconnu promu en capacité ; TimeProfile/Intent/Version = constants/dérivés E5/E10 vérifiés en sortie, jamais en input"
+  ],
+  "performed": [
+    "Read pinned inputs (15/15), frozen references, parent adjudication, API R3, R2 fix scope, PARENT_ACCESS_RECEIPT (pas de code auteur, pas de source corrective auteur R3, pas d'origins, pas d'outputs d'autres workers)",
+    "SHA256 recomputation over all 15 pins, INPUT_MANIFEST.json (digest 473432b4... exact), the three authorized supplements and outputs as data only",
+    "Independent data-only decode of the 862B golden record against gtplan-canonical-v1: all fields match fixture, SHA256(record) recomputed = c404dcf... = intent, 4 artifact raw32 = SHA256 recomputed, offsets pinned (R2 : length fields argv0@366/pin0@445, second pin 537/541)",
+    "R2 edits : 4 constantes d'offsets corrigées + 4 nouvelles constantes (env/allowed counts, long-image offsets), assertions T12-pg/p2/zb corrigées, positif T10-env0 ajouté, aucune assertion retirée ou affaiblie",
+    "Static inventory recount after edits : R2 = 345 sites déclarés (corrigé R3 : 346), 632 expanded (R1 336/621 — corrigé R3 : 337/621), zéro id complet dupliqué, hex golden toujours byte-exact dans la source, accolades équilibrées",
+    "R3 : lecture/hash du GO wording FULL44_QA_R3_INVENTORY_WORDING_GO.md et de la preuve parent full44-qa-parent-call-site-counts.json (données-seule, aucun C# exécuté/compilé) ; correction documentaire UNIQUEMENT dans QA_PLAN.md + MANIFEST.json ; GenericTargetPlanTests.cs vérifié byte-identique à R2 (rehash a3a910bf...f95/71286B) ; compteur runtime non touché ; aucune lecture source auteur R3/origins/outputs d'autres workers",
+    "Write only the three owned QA1 outputs (révision R2 en place, archive R1 parent-side intangible)"
+  ],
+  "not_performed": [
+    "Compilation, exécution, validateur, import produit (la source proposée n'a jamais été compilée ni exécutée)",
+    "Lecture GenericTargetPlan.cs/DESIGN.md auteur, source corrective auteur R3, origins, production, outputs d'autres workers",
+    "Broker/writer/authority, framing GTC1, seuils capture/total (hors slice)",
+    "API OS, File/Stream/Process/PInvoke/Job, network, clock, DB, handles, thread, launch, réflexion",
+    "Tests heavy 64MiB/GC/performance/clock ou instrumentation produit pour QA",
+    "Git/registry/IDB écritures",
+    "Delegation, team tools, claim/complete/clôture de tâche",
+    "full44/Q1 réel, time125, capability, run01/live/FF8/G5-G7, promotion full44/native"
+  ],
+  "next_gates": "Réception de cette R3 par le lead -> vérification fresh MINIMALE de ce delta documentaire (pas de nouvelle revue globale source, pas de réaudit global) -> gate compile parent séparée -> gate run parent distincte (csc /main:ReGraph.GuardV3.GenericTargetPlanTests, exit 0 attendu, console <=1024 B) -> lecture parent. Aucune assertion nouvelle déclarée exécutée. Aucune valeur validée ne devient trusted authority/lease/proof/OS pin acquis : tout reste DATA_ONLY. Pas de promotion full44/native/G5-G7."
+}

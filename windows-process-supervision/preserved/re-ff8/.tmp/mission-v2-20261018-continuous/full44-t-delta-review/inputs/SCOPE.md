@@ -1,0 +1,23 @@
+# Vdelta fresh full44 T — correctifs documentaires R1/R2
+
+AncienVfullfreshCORRIGE:brokerferméavantreadbackempêchaitreceipt;CDB-1
+confondait enfinhooks autorisésaprèsassertionFAIL etcollecteparentnormale.
+Parent tranche PARENT_DECISIONS etpatch3docs;4eMANIFESTgénéréactualisehashs/
+provenance,aucuncode/runtime/caps modifié. Ancienlotbefore immuable.
+
+ACKhash/NONBLIND+plan→GOauditstatique. Ciblerdelta avant/après eteffets:
+R1ordinaryproducers/pumps terminal,brokeridleexclusif FINALIZING garde8slots
+GRwrite→readbackréel→Receiptwrite→ACKG→derniersrecords déclarés/pré-réservés
+→CLOSED. Touswritesreceiptcomprisviamêmebroker;aucunnewcredit/reopen/2ewriter,
+paslecturecontrewriteconcurrent. Casnormalaprèsfinalisationcomplète,échecHOLD,
+stopGindépendantI/O inchangé. C11orderoraclereadbacketrefuswritespostCLOSED.
+R2finally/hookfixtures+rootslistés autorisésassertionFAIL versusCOLLECTEparent
+exit0ETJob0/registry/receiptsexactsnormaleseulement;nonzero/crash=HOLDcollecte,
+pasabrogationfinallyounouveauwaiver/perte. Caps/tempsQ1 inchangés,125sNONratifié,
+DB/cachestiersfull44HOLD,sourcepureQ1peutensuiteêtreratifiéePARTIELLEMENT.
+
+Pasdere-reviewentièreparroutine;siunecontradictiondéterminantetrouvée,signaler.
+VérifierMANIFESTnouveaux3hashs+predecessor/provenance,guardancienshashs conservés.
+Verdict ACCEPTABLE_DELTA_CONTRACT_SOURCE_SCOPED|CORRIGE|BLOCK,3–8ancres/fix
+minimaux/limites/rehashfinal. Aucunwrite/importproduit/compile/test/run/validator/
+DB/JobAPI/IOCP/DLL/processOS/natif/git/IDA/live/réseau/délégation/origins.

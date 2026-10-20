@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-17T14:50:00Z",
+  "owner": "lead ses_eca40a8e2ffeanEKTBLiGjDNw8 (opencode-go/glm-5.3-flash#max)",
+  "planVerified": {
+    "member": "v3-host-source-r1",
+    "verdictSeams": "NO blocking missing seam: all host seams exist as abstract classes (protected ctors) + sealed types in frozen GuardianCore.cs, meant for host derivation/assembly in the same internal ReGraph.GuardV3 assembly",
+    "decomposition": "6 files approved; 4 concrete subclasses co-located with their wiring (justified by kernel reading, no 7th file)",
+    "integrationMap": "exhaustive with source:line: HostAuthority (GuardianHostAuthority :14-27, AbiPin bb4758cc, ContractPin bb69e0ad), 5 transferred handles (Transfer(0)=S), LaunchIntent, CaptureReservation :63-73 (CapacityBytes==114688), GlobalLedgerReservation :77-99 (8 owners/8 pins), SupervisorBinding :102-112, HostSignals :116-133, HostBinding :146-155, HostComplete :275-318 (cap :300, 18432/192 == frozen consts :354/:382, cross-ownership :312-317), Run :916-960 (gate :922, MissingHostBinding :923), RunResult :416-432, readback 192B, Ack :393-413, Acknowledge :961-976; BudgetedEvidence ctor :161-169, OpenSink :173-199, TryWrite :113-116, caps :122-137",
+    "tests": "MissingHostBinding wired; HostComplete satisfied via FakeNative/FakeObserver driving a REAL GuardianCore with the real host binding (natural quiescence path); ledger integrity; capture-before-Read; raw UTF8; ACK exact/mismatch/size; S dead -> ControllerLost; G-loss before proof -> reservation held never PASS; ordered exit vs loss; counters #8; stop order preserves oracle",
+    "noKernelEdits": true
+  },
+  "parentArbitration": {
+    "question": "co-located S/G in-process vs multi-process OS",
+    "decision": "CO-LOCATED model is CONTRACT-CONFORMANT: GuardianSupervisorAcknowledgement.Matches requires ReferenceEquals(Publication) (:409) and guardian DESIGN G:150-157 requires the launcher to keep the same owner object alive during the handshake — the ratified frozen ABI models S holding the G object in-process",
+    "multiProcess": "out of tranche = NOT_PROVEN, to be PUBLISHED as a model limit in DESIGN (not a defect); case6 last-close remains NOT_ESTABLISHED (co-location neither qualifies nor contradicts it)",
+    "qualification": "000c remains real: real Job, real T, real kernel queries"
+  },
+  "planGoIssued": true,
+  "phase3Deliverables": "exactly HostLauncher.cs, WriterLedger.cs, CaptureWiring.cs, Host.Tests.cs, DESIGN.md, MANIFEST.json into V3_HOST_SOURCE_OUTPUT_20261017; C#5 strict; no compile/test execution; parent re-hash before fresh review",
+  "state": "HOST_AUTHOR_PHASE3_WRITING_NOT_A_RESULT"
+}

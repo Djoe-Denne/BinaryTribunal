@@ -1,0 +1,350 @@
+diff --git a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-qa-r1-frozen/GenericEvidenceBrokerTests.cs b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-qa-r2/outputs/GenericEvidenceBrokerTests.cs
+index 7bb6219..cbff654 100644
+--- a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-qa-r1-frozen/GenericEvidenceBrokerTests.cs
++++ b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-qa-r2/outputs/GenericEvidenceBrokerTests.cs
+@@ -1,5 +1,6 @@
+-// Independent SOURCE QA, C# 4 / .NET 4. NOT compiled or executed by its author.
++// Independent SOURCE QA R2, C# 4 / .NET 4. NOT compiled or executed by its author.
+ // Only the pinned API and NONBLIND dependencies were consulted, never broker source.
+ // All bindings, handle-shaped numbers and publications below are DATA fixtures.
++// R2 corrects admission/grant/credit/category oracles; R1 remains frozen.
+ using System;
+ using System.IO;
+@@ -91,5 +92,5 @@ namespace ReGraph.GuardV3
+         {
+             private readonly MemoryStream memory = new MemoryStream();
+-            internal int Writes, Reads, Seeks, Flushes, Disposals;
++            internal int Writes, Reads, Seeks, Properties, SetLengths, Flushes, Disposals;
+             internal bool Readable = true, Seekable = true;
+             internal bool ThrowWrite, ThrowRead, ThrowSeek, ThrowProperty, BadSeek, Mismatch;
+@@ -99,4 +100,5 @@ namespace ReGraph.GuardV3
+             private void PropertyCallback()
+             {
++                Properties++;
+                 Action a = OnProperty; OnProperty = null;
+                 if (a != null) a();
+@@ -113,5 +115,5 @@ namespace ReGraph.GuardV3
+             }
+             public override void Flush() { Flushes++; }
+-            public override void SetLength(long value) { memory.SetLength(value); }
++            public override void SetLength(long value) { SetLengths++; memory.SetLength(value); }
+             public override long Seek(long offset, SeekOrigin origin)
+             {
+@@ -248,6 +250,15 @@ namespace ReGraph.GuardV3
+                 GuardianTransferredHandle[] transfers = new GuardianTransferredHandle[5];
+                 for (int i = 0; i < transfers.Length; i++)
+-                    // Positive numeric DATA tokens only; no native operation or acquisition.
+-                    transfers[i] = new GuardianTransferredHandle(a, (GuardianTransferKind)i, new IntPtr(101 + i), i + 1);
++                {
++                    // Default positive DATA tokens; negative fixtures inject invalid values.
++                    // No native operation or acquisition occurs.
++                    IntPtr value = new IntPtr(fault == 25 && i == 1 ? 101 : 101 + i);
++                    if (fault == 26 && i == 0) value = IntPtr.Zero;
++                    if (fault == 34 && i == 0) value = new IntPtr(-1);
++                    transfers[i] = new GuardianTransferredHandle(fault == 29 && i == 0 ? other : a,
++                        (GuardianTransferKind)(fault == 27 && i == 0 ? 1 : i), value,
++                        fault == 28 && i == 0 ? 99 : i + 1);
++                }
++                if (fault == 30) transfers[2] = null;
+                 GuardianLaunchIntent intent = new GuardianLaunchIntent(a, Plan.TargetImagePath,
+                     Plan.WindowsCommandLine, Plan.WorkingDirectory, Plan.EnvironmentBlock,
+@@ -265,7 +276,20 @@ namespace ReGraph.GuardV3
+                     fault == 13 ? new GuardianTransferredHandle(a, GuardianTransferKind.ControllerProcess,
+                         new IntPtr(101), 1) : transfers[0], Owners[6]);
++                GuardianTransferredHandle[] boundTransfers = transfers;
++                if (fault == 24)
++                { boundTransfers = new GuardianTransferredHandle[4]; Array.Copy(transfers, boundTransfers, 4); }
++                if (fault == 31) boundTransfers = null;
++                if (fault == 32)
++                {
++                    boundTransfers = new GuardianTransferredHandle[6]; Array.Copy(transfers, boundTransfers, 5);
++                    boundTransfers[5] = transfers[0];
++                }
++                GuardianHostSignals signals = new GuardianHostSignals();
++                if (fault == 21) signals.Mark(GuardianHostSignals.CaptureHeld);
++                if (fault == 22) signals.Mark(GuardianHostSignals.EvidenceIncomplete);
++                if (fault == 23) signals.Mark(GuardianHostSignals.AdmissionRevoked);
+                 Binding = new GuardianHostBinding(fault == 14 ? null : a, fault == 15 ? null : intent,
+-                    transfers, fault == 16 ? null : capture, fault == 17 ? null : ledger,
+-                    fault == 18 ? null : supervisor, fault == 19 ? null : new GuardianHostSignals(), Owners[3]);
++                    boundTransfers, fault == 16 ? null : capture, fault == 17 ? null : ledger,
++                    fault == 18 ? null : supervisor, fault == 19 ? null : signals, fault == 33 ? null : Owners[3]);
+             }
+ 
+@@ -302,5 +326,5 @@ namespace ReGraph.GuardV3
+             }
+             Check(c == s.Budget.TotalChargedBytes && c <= Admitted(s) && Admitted(s) <= 262144);
+-            Check(s.CaptureGrants >= 0 && s.CaptureGrants <= 256 && s.OtherGrants >= 0 && s.OtherGrants <= 256);
++            Check(s.CaptureGrants >= 0 && s.CaptureGrants <= 256 && s.OtherGrants >= 2 && s.OtherGrants <= 256);
+             Check(s.PendingReads >= 0 && s.PendingReads <= 2);
+             Check(!f.Sources[0].BadRequest && !f.Sources[1].BadRequest);
+@@ -401,5 +425,5 @@ namespace ReGraph.GuardV3
+             Check(s.AdmittedBytes(EvidenceSlot.CapturedStreams) == 0 && s.AdmittedBytes(EvidenceSlot.FixtureMarkers) == 0);
+             Check(s.AdmittedBytes(EvidenceSlot.DriverEvidence) == 0 && s.Budget.TotalChargedBytes == 0);
+-            Check(s.CaptureGrants == 0 && s.OtherGrants == 0 && s.OutstandingOrdinaryPermits == 0);
++            Check(s.CaptureGrants == 0 && s.OtherGrants == 2 && s.OutstandingOrdinaryPermits == 0);
+             Check(s.PendingReads == 0 && s.ReadyCommands == 0 && !s.CommitActive && !s.ReadbackActive);
+             Check(!s.EofCommitted(1) && !s.EofCommitted(2) && !s.AcknowledgementDataExported);
+@@ -409,18 +433,27 @@ namespace ReGraph.GuardV3
+ 
+         private static void RefuseCreate(Fixture f, GenericTargetPlanV1 plan, GuardianHostBinding binding,
+-            Stream[] destinations, ICaptureSource[] captures)
++            Stream[] destinations, ICaptureSource[] captures, GenericBrokerFailure exact = GenericBrokerFailure.None)
+         {
+             GenericEvidenceBroker b; GenericBrokerFailure failure;
+             Check(!GenericEvidenceBroker.TryCreate(plan, binding, destinations, captures, out b, out failure));
+             Check(b == null && failure != GenericBrokerFailure.None);
++            if (exact != GenericBrokerFailure.None) Check(failure == exact);
+             Check(Writes(f) == 0 && f.Sources[0].Reads == 0 && f.Sources[1].Reads == 0);
++            if (exact == GenericBrokerFailure.InvalidBinding)
++            {
++                // Managed admission must precede ANY supplied Stream invocation.
++                for (int i = 0; i < 8; i++)
++                    Check(f.Sinks[i].Reads == 0 && f.Sinks[i].Seeks == 0 && f.Sinks[i].Properties == 0
++                        && f.Sinks[i].SetLengths == 0 && f.Sinks[i].Flushes == 0 && f.Sinks[i].Disposals == 0);
++                Check(f.Sources[0].EofChecks == 0 && f.Sources[1].EofChecks == 0);
++            }
+         }
+ 
+         private static void BindingNegatives()
+         {
+-            for (int fault = 1; fault <= 20; fault++)
++            for (int fault = 1; fault <= 34; fault++)
+             {
+                 Fixture f = new Fixture(fault);
+-                RefuseCreate(f, f.Plan, f.Binding, f.Destinations, f.CaptureSources);
++                RefuseCreate(f, f.Plan, f.Binding, f.Destinations, f.CaptureSources, GenericBrokerFailure.InvalidBinding);
+             }
+             Fixture a = new Fixture(0); RefuseCreate(a, null, a.Binding, a.Destinations, a.CaptureSources);
+@@ -481,5 +514,5 @@ namespace ReGraph.GuardV3
+             Check(after.Budget.TotalChargedBytes == 7 && after.AdmittedBytes(EvidenceSlot.FixtureMarkers) == 10);
+             Check(after.OutstandingOrdinaryPermits == 0 && !after.CommitActive && !after.Budget.IoActive);
+-            Check(before.OtherGrants == 0 && before.OutstandingOrdinaryPermits == 0 && Admitted(before) == initial);
++            Check(before.OtherGrants == 2 && before.OutstandingOrdinaryPermits == 0 && Admitted(before) == initial);
+             Check(before.Budget.TotalChargedBytes == 0 && before.AdmittedBytes(EvidenceSlot.FixtureMarkers) == 0);
+             Check(reserved.OutstandingOrdinaryPermits == 1 && reserved.Budget.TotalChargedBytes == 0);
+@@ -492,23 +525,89 @@ namespace ReGraph.GuardV3
+         {
+             EvidenceSlot[] slots = new EvidenceSlot[]
+-                { EvidenceSlot.ControlFiles, EvidenceSlot.GuardianEvidence, EvidenceSlot.SupervisorResult };
++                { EvidenceSlot.ControlFiles, EvidenceSlot.GuardianEvidence };
+             foreach (EvidenceSlot slot in slots)
+             {
+-                Fixture f = Fresh(); long prepaid = f.Broker.GetSnapshot().AdmittedBytes(slot);
+-                long a = Admitted(f.Broker.GetSnapshot()); long remaining = prepaid;
+-                byte[] bytes = new byte[4096];
+-                while (remaining > 0)
+-                {
+-                    int n = (int)Math.Min(remaining, 4096);
+-                    WritePermit p = Reserve(f, slot, n, GenericBrokerRecordKind.Ordinary);
+-                    Check(Admitted(f.Broker.GetSnapshot()) == a);
+-                    Check(f.Broker.TryStage(p, bytes, 0, n)); Commit(f, p); remaining -= n;
+-                }
+-                Check(f.Broker.GetSnapshot().Budget.GetSlot(slot).ChargedBytes == prepaid);
+-                WritePermit extra = Reserve(f, slot, 1, GenericBrokerRecordKind.Ordinary);
+-                Check(f.Broker.GetSnapshot().AdmittedBytes(slot) == prepaid + 1);
+-                Check(f.Broker.TryStage(extra, bytes, 0, 1)); Commit(f, extra);
+-                Check(f.Broker.GetSnapshot().Budget.GetSlot(slot).ChargedBytes == prepaid + 1);
++                // Positive fixture ends at the EXACT prepaid pool, not cap_s.
++                Fixture positive = Fresh(); long prepaid = positive.Broker.GetSnapshot().AdmittedBytes(slot);
++                Check(prepaid > 0 && prepaid < Caps[(int)slot]);
++                ConsumeOrdinaryPool(positive, slot, prepaid);
++                Check(positive.Broker.GetSnapshot().State == GenericBrokerState.Ordinary);
++                Check(positive.Broker.GetSnapshot().Budget.GetSlot(slot).ChargedBytes == prepaid);
++
++                // Separate negative reaches the exhausted-pool guard with a cell free.
++                Fixture negative = Fresh(); ConsumeOrdinaryPool(negative, slot, prepaid);
++                GenericBrokerSnapshot before = negative.Broker.GetSnapshot(); int writes = Writes(negative);
++                Check(before.State == GenericBrokerState.Ordinary && before.OutstandingOrdinaryPermits == 0
++                    && before.OtherGrants < 256);
++                WritePermit refused;
++                Check(!negative.Broker.TryReserve(negative.Identity, negative.Owners[(int)slot], slot,
++                    GenericBrokerRecordKind.Ordinary, 1, out refused)); Check(refused == null);
++                GenericBrokerSnapshot after = negative.Broker.GetSnapshot();
++                Check(Admitted(after) == Admitted(before) && after.OtherGrants == before.OtherGrants);
++                Check(after.Budget.TotalChargedBytes == before.Budget.TotalChargedBytes && Writes(negative) == writes);
++                Held(negative, GenericBrokerFailure.BudgetExceeded);
+             }
++
++            // SR Ordinary is FRESH; it must leave all 512 prepaid terminal bytes available.
++            Fixture sr = Fresh(); long initial = Admitted(sr.Broker.GetSnapshot());
++            WritePermit ordinary = Reserve(sr, EvidenceSlot.SupervisorResult, 32, GenericBrokerRecordKind.Ordinary);
++            Check(sr.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.SupervisorResult) == 544);
++            Check(Admitted(sr.Broker.GetSnapshot()) == initial + 32 && sr.Broker.GetSnapshot().Budget.TotalChargedBytes == 0);
++            Check(sr.Broker.TryStage(ordinary, new byte[32], 0, 32)); Commit(sr, ordinary);
++            WritePermit terminal = Reserve(sr, EvidenceSlot.SupervisorResult, 512, GenericBrokerRecordKind.DeferredFinal);
++            Check(sr.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.SupervisorResult) == 544);
++            Check(sr.Broker.TryStage(terminal, new byte[512], 0, 512)); Empty(sr);
++            Check(sr.Broker.GetSnapshot().State == GenericBrokerState.Ordinary);
++            Check(sr.Broker.GetSnapshot().Budget.GetSlot(EvidenceSlot.SupervisorResult).ChargedBytes == 32);
++            Check(sr.Sinks[6].Bytes().Length == 32);
++
++            Fixture srExcess = Fresh();
++            WritePermit srPool = Reserve(srExcess, EvidenceSlot.SupervisorResult, 512, GenericBrokerRecordKind.DeferredFinal);
++            Check(srExcess.Broker.TryStage(srPool, new byte[512], 0, 512));
++            GenericBrokerSnapshot srBefore = srExcess.Broker.GetSnapshot(); WritePermit noSr;
++            Check(srBefore.AdmittedBytes(EvidenceSlot.SupervisorResult) == 512 && srBefore.OtherGrants == 3
++                && srBefore.Budget.TotalChargedBytes == 0);
++            Check(!srExcess.Broker.TryReserve(srExcess.Identity, srExcess.Owners[6], EvidenceSlot.SupervisorResult,
++                GenericBrokerRecordKind.DeferredFinal, 1, out noSr)); Check(noSr == null);
++            Check(Admitted(srExcess.Broker.GetSnapshot()) == Admitted(srBefore));
++            Check(srExcess.Broker.GetSnapshot().OtherGrants == srBefore.OtherGrants && Writes(srExcess) == 0);
++            Held(srExcess, GenericBrokerFailure.BudgetExceeded);
++
++            // GE Deferred is FRESH and cannot consume a single byte of the G-memory pool.
++            Fixture ge = Fresh(); long geInitial = Admitted(ge.Broker.GetSnapshot());
++            WritePermit geDeferred = Reserve(ge, EvidenceSlot.GuardianEvidence, 64, GenericBrokerRecordKind.DeferredFinal);
++            Check(ge.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.GuardianEvidence) == 18496);
++            Check(Admitted(ge.Broker.GetSnapshot()) == geInitial + 64 && ge.Broker.GetSnapshot().Budget.TotalChargedBytes == 0);
++            Check(ge.Broker.TryStage(geDeferred, new byte[64], 0, 64)); Empty(ge);
++            ConsumeOrdinaryPool(ge, EvidenceSlot.GuardianEvidence, 18432);
++            Check(ge.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.GuardianEvidence) == 18496);
++            Check(ge.Broker.GetSnapshot().Budget.GetSlot(EvidenceSlot.GuardianEvidence).ChargedBytes == 18432);
++            Check(ge.Sinks[3].Bytes().Length == 18432); Empty(ge);
++            Check(ge.Broker.GetSnapshot().State == GenericBrokerState.Ordinary);
++
++            Fixture geExcess = Fresh();
++            Reserve(geExcess, EvidenceSlot.GuardianEvidence, 4096, GenericBrokerRecordKind.DeferredFinal);
++            Reserve(geExcess, EvidenceSlot.GuardianEvidence, 2048, GenericBrokerRecordKind.DeferredFinal);
++            GenericBrokerSnapshot geBefore = geExcess.Broker.GetSnapshot(); WritePermit noGe;
++            Check(geBefore.AdmittedBytes(EvidenceSlot.GuardianEvidence) == 24576 && geBefore.OtherGrants == 4);
++            Check(!geExcess.Broker.TryReserve(geExcess.Identity, geExcess.Owners[3], EvidenceSlot.GuardianEvidence,
++                GenericBrokerRecordKind.DeferredFinal, 1, out noGe)); Check(noGe == null);
++            Check(Admitted(geExcess.Broker.GetSnapshot()) == Admitted(geBefore));
++            Check(geExcess.Broker.GetSnapshot().OtherGrants == geBefore.OtherGrants && Writes(geExcess) == 0);
++            Held(geExcess, GenericBrokerFailure.BudgetExceeded);
++        }
++
++        private static void ConsumeOrdinaryPool(Fixture f, EvidenceSlot slot, long bytes)
++        {
++            long a = Admitted(f.Broker.GetSnapshot()); long remaining = bytes;
++            byte[] payload = new byte[4096];
++            while (remaining > 0)
++            {
++                int n = (int)Math.Min(remaining, 4096);
++                WritePermit p = Reserve(f, slot, n, GenericBrokerRecordKind.Ordinary);
++                Check(Admitted(f.Broker.GetSnapshot()) == a);
++                Check(f.Broker.TryStage(p, payload, 0, n)); Commit(f, p); remaining -= n;
++            }
++            Check(f.Broker.GetSnapshot().Budget.GetSlot(slot).ChargedBytes == bytes);
+         }
+ 
+@@ -579,7 +678,9 @@ namespace ReGraph.GuardV3
+             Fixture f = Fresh(); WritePermit[] permits = new WritePermit[3];
+             for (int i = 0; i < 3; i++)
+-                permits[i] = Reserve(f, EvidenceSlot.FixtureMarkers, 1,
++                permits[i] = Reserve(f, i == 1 ? EvidenceSlot.GuardianEvidence : EvidenceSlot.FixtureMarkers, 1,
+                     i == 1 ? GenericBrokerRecordKind.DeferredFinal : GenericBrokerRecordKind.Ordinary);
+             long a = Admitted(f.Broker.GetSnapshot()); WritePermit refused;
++            Check(f.Broker.GetSnapshot().State == GenericBrokerState.Ordinary && f.Broker.GetSnapshot().OtherGrants == 5
++                && f.Broker.GetSnapshot().OutstandingOrdinaryPermits == 2 && Writes(f) == 0);
+             Check(!f.Broker.TryReserve(f.Identity, f.Owners[1], EvidenceSlot.FixtureMarkers,
+                 GenericBrokerRecordKind.Ordinary, 1, out refused)); Check(refused == null);
+@@ -597,14 +698,46 @@ namespace ReGraph.GuardV3
+             for (int i = 0; i < 3; i++)
+             {
+-                WritePermit d = Reserve(deferred, EvidenceSlot.FixtureMarkers, 1, GenericBrokerRecordKind.DeferredFinal);
+-                Check(deferred.Broker.TryStage(d, new byte[] { 99 }, 0, 1));
++                EvidenceSlot slot = i < 2 ? EvidenceSlot.GuardianEvidence : EvidenceSlot.SupervisorResult;
++                int count = i < 2 ? 2048 : 512;
++                WritePermit d = Reserve(deferred, slot, count, GenericBrokerRecordKind.DeferredFinal);
++                Check(deferred.Broker.TryStage(d, new byte[count], 0, count));
+             }
+             Check(deferred.Broker.GetSnapshot().OutstandingOrdinaryPermits == 0);
++            Check(deferred.Broker.GetSnapshot().OtherGrants == 5);
++            Check(deferred.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.GuardianEvidence) == 22528);
++            Check(deferred.Broker.GetSnapshot().AdmittedBytes(EvidenceSlot.SupervisorResult) == 512);
+             Empty(deferred); Check(deferred.Broker.GetSnapshot().State == GenericBrokerState.Ordinary);
+             Eofs(deferred); GuardianTerminalPublication publication = Publication(deferred.Identity);
+             Finish(deferred, publication);
+-            Check(deferred.Sinks[1].Bytes().Length == 0);
++            Check(deferred.Sinks[3].Bytes().Length == 0 && deferred.Sinks[6].Bytes().Length == 0);
++            Check(deferred.Broker.GetSnapshot().OtherGrants == 5);
+             Empty(deferred);
+             Check(deferred.Broker.GetSnapshot().State == GenericBrokerState.WaitingGuardianAcknowledgement);
++
++            EvidenceSlot[] unsupported = new EvidenceSlot[]
++                { EvidenceSlot.ControlFiles, EvidenceSlot.FixtureMarkers, EvidenceSlot.DriverEvidence };
++            foreach (EvidenceSlot slot in unsupported)
++            {
++                Fixture negative = Fresh(); GenericBrokerSnapshot before = negative.Broker.GetSnapshot(); WritePermit noPermit;
++                Check(!negative.Broker.TryReserve(negative.Identity, negative.Owners[(int)slot], slot,
++                    GenericBrokerRecordKind.DeferredFinal, 1, out noPermit)); Check(noPermit == null);
++                Check(Admitted(negative.Broker.GetSnapshot()) == Admitted(before));
++                Check(negative.Broker.GetSnapshot().OtherGrants == before.OtherGrants && Writes(negative) == 0);
++                Held(negative, GenericBrokerFailure.InvalidState);
++            }
++            EvidenceSlot[] privatePaths = new EvidenceSlot[]
++                { EvidenceSlot.CapturedStreams, EvidenceSlot.GuardianResult, EvidenceSlot.SupervisorReceipt };
++            foreach (EvidenceSlot slot in privatePaths)
++            {
++                for (int kind = 0; kind < 2; kind++)
++                {
++                    Fixture negative = Fresh(); GenericBrokerSnapshot before = negative.Broker.GetSnapshot(); WritePermit noPermit;
++                    Check(!negative.Broker.TryReserve(negative.Identity, negative.Owners[(int)slot], slot,
++                        (GenericBrokerRecordKind)kind, 1, out noPermit)); Check(noPermit == null);
++                    Check(Admitted(negative.Broker.GetSnapshot()) == Admitted(before));
++                    Check(negative.Broker.GetSnapshot().OtherGrants == before.OtherGrants && Writes(negative) == 0);
++                    Held(negative, GenericBrokerFailure.None);
++                }
++            }
+         }
+ 
+@@ -643,8 +776,13 @@ namespace ReGraph.GuardV3
+             Held(capture, GenericBrokerFailure.BudgetExceeded);
+ 
+-            Fixture grants = Fresh(); OrdinaryGrants(grants, 256);
++            Fixture grants = Fresh(); OrdinaryGrants(grants, 254);
+             Check(grants.Broker.GetSnapshot().OtherGrants == 256);
++            GenericBrokerSnapshot beforeGrantRefusal = grants.Broker.GetSnapshot(); int beforeWrites = Writes(grants);
++            Check(beforeGrantRefusal.State == GenericBrokerState.Ordinary && beforeGrantRefusal.OutstandingOrdinaryPermits == 0);
+             Check(!grants.Broker.TryReserve(grants.Identity, grants.Owners[1], EvidenceSlot.FixtureMarkers,
+                 GenericBrokerRecordKind.Ordinary, 1, out q)); Check(q == null);
++            Check(Admitted(grants.Broker.GetSnapshot()) == Admitted(beforeGrantRefusal));
++            Check(grants.Broker.GetSnapshot().OtherGrants == 256 && Writes(grants) == beforeWrites);
++            Check(grants.Broker.GetSnapshot().Budget.TotalChargedBytes == beforeGrantRefusal.Budget.TotalChargedBytes);
+             Held(grants, GenericBrokerFailure.GrantLimit);
+         }
+@@ -1066,20 +1204,27 @@ namespace ReGraph.GuardV3
+         private static void InternalGrants()
+         {
+-            Fixture exact = Fresh(); OrdinaryGrants(exact, 254); Eofs(exact); Finish(exact, Publication(exact.Identity));
++            Fixture exact = Fresh(); Check(exact.Broker.GetSnapshot().OtherGrants == 2);
++            OrdinaryGrants(exact, 254); Eofs(exact);
+             Check(exact.Broker.GetSnapshot().OtherGrants == 256);
+-            Fixture exhausted = Fresh(); OrdinaryGrants(exhausted, 255); Eofs(exhausted);
+-            GuardianTerminalPublication publication = Publication(exhausted.Identity);
+-            bool began = exhausted.Broker.TryBeginFinalization(publication);
+-            if (began && exhausted.Broker.GetSnapshot().State != GenericBrokerState.Hold)
+-            {
+-                if (exhausted.Sinks[5].Bytes().Length == 0)
+-                {
+-                    WritePermit p; bool committed = exhausted.Broker.TryCommitNext(out p);
+-                    Check(committed ? p != null : p == null);
+-                }
+-                if (exhausted.Broker.GetSnapshot().State != GenericBrokerState.Hold)
+-                    Check(!exhausted.Broker.TryReadBackGuardianResult());
+-            }
+-            Check(exhausted.Sinks[7].Writes == 0 && !exhausted.Broker.GetSnapshot().AcknowledgementDataExported);
++            long a = Admitted(exact.Broker.GetSnapshot());
++            Finish(exact, Publication(exact.Identity));
++            Check(exact.Broker.GetSnapshot().OtherGrants == 256);
++            Check(Admitted(exact.Broker.GetSnapshot()) == a);
++
++            // A separate negative makes request255 DIRECTLY; no positive helper
++            // may assume it succeeds and accidentally test an unreachable later guard.
++            Fixture exhausted = Fresh(); OrdinaryGrants(exhausted, 254); Eofs(exhausted);
++            GenericBrokerSnapshot before = exhausted.Broker.GetSnapshot(); int writes = Writes(exhausted);
++            Check(before.State == GenericBrokerState.Ordinary && before.OtherGrants == 256
++                && before.OutstandingOrdinaryPermits == 0);
++            WritePermit refused;
++            Check(!exhausted.Broker.TryReserve(exhausted.Identity, exhausted.Owners[1], EvidenceSlot.FixtureMarkers,
++                GenericBrokerRecordKind.Ordinary, 1, out refused)); Check(refused == null);
++            GenericBrokerSnapshot after = exhausted.Broker.GetSnapshot();
++            Check(Admitted(after) == Admitted(before) && after.OtherGrants == before.OtherGrants);
++            Check(after.Budget.TotalChargedBytes == before.Budget.TotalChargedBytes && Writes(exhausted) == writes);
++            Check(!exhausted.Broker.TryBeginFinalization(Publication(exhausted.Identity)));
++            Check(exhausted.Sinks[5].Writes == 0 && exhausted.Sinks[7].Writes == 0);
++            Check(!exhausted.Broker.GetSnapshot().AcknowledgementDataExported);
+             Held(exhausted, GenericBrokerFailure.GrantLimit);
+         }

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "job-newline-source-candidate-v2",
+  "at": "2026-10-16T23:03:52.564Z",
+  "executionOwner": "parent",
+  "parentFixGoUtc": "2026-10-16T23:03:41.982Z",
+  "scopeSha256": "9f44ed6593c529f1c1c36ca7eea996143d38f2161dcbc0da2b4bdd5fa84cc5d9",
+  "oldReview": "UNCERTAIN",
+  "oldReviewPublicSha256": "a32a8c643845d020729c28a282ff5890129cbae6caa965483012239c147ac1b6",
+  "oldCsSha256": "709572128a71ca20fc0119ba059d3e79d817968c653492aa27adb6a7cd291c53",
+  "newCsSha256": "cb3a6dfd3fe5b3fe23246905223bf2186e97b7b8d723853a94701878d40957fb",
+  "exactOneTextReplacement": {
+    "oldLine": "eventBytes = checked(eventBytes + Encoding.UTF8.GetByteCount(line) + 1);",
+    "newLine": "eventBytes = checked(eventBytes + Encoding.UTF8.GetByteCount(line) + Encoding.UTF8.GetByteCount(events.NewLine));"
+  },
+  "files": [
+    {
+      "path": "JobRunner.cs",
+      "bytes": 40339,
+      "sha256": "cb3a6dfd3fe5b3fe23246905223bf2186e97b7b8d723853a94701878d40957fb"
+    },
+    {
+      "path": "Invoke-JobRunner.ps1",
+      "bytes": 2920,
+      "sha256": "100e329ac33228d08e9bae323090925588d26115e0f9ee53382cd8c9940c1a77"
+    },
+    {
+      "path": "HISTORICAL/DESIGN_AND_FIXTURES.md",
+      "bytes": 22639,
+      "sha256": "9ca22a88e361323ecd27ee0721c5bc8491687b05850efa062f3f9173f273a99d"
+    },
+    {
+      "path": "HISTORICAL/MANIFEST.json",
+      "bytes": 5228,
+      "sha256": "eb0f69900ebf7388dead6d73fbd1855dedd9638583d01c5ad4e2d4eb246fe7e2"
+    },
+    {
+      "path": "FIX_NOTE.md",
+      "bytes": 2746,
+      "sha256": "9f44ed6593c529f1c1c36ca7eea996143d38f2161dcbc0da2b4bdd5fa84cc5d9"
+    }
+  ],
+  "preservedWrapperAndHistoricalDesignManifestExact": true,
+  "historicalDesignNotAProofOfNewCandidate": true,
+  "sourceOnlyUncompiledNoApiProbeOrFixture": true,
+  "next": "fresh independent bounded delta review with parent-endorsed unchanged prior static coverage, then separate harmless compile and host qualification",
+  "full44AndNativeIntegrationNotAuthorized": true
+}

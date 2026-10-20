@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-17T12:46:52.614Z",
+  "task": "task_mvc6a24d_002r_tcm0ui (V3-BUDGET-PARENT-MEMORY-TEST, LEAD ONLY)",
+  "invocation": "single direct child of parent bun script; timeout 60000ms SIGKILL; no Job object; no resource manipulation",
+  "runnerSource": "C:/Users/djden/AppData/Local/Temp/opencode/V3MEM-9c1ae2d7b4/inputs/BudgetMemoryRunner.cs sha256 cd00d0915a8f935b674a384b321211a431997a4b59a94b19798234527650763d",
+  "referencedLibrary": "C:/Users/djden/AppData/Local/Temp/opencode/BMC-0944a3bbf9/out/BudgetedEvidenceTests.dll sha256 d64ba7febdb0ad9a719248f24e048cd8400d75c3538d80863934f531396d0f84 (budget compile receipt budget-csc-final-verification-20261017.json)",
+  "compile": {
+    "exitCode": 0,
+    "exeBytes": 4608,
+    "exeSha256": "181eeee68abac070e85d170ab5543a522fbca3b17b853e22e4300527ea93cf6b",
+    "warnings": 0
+  },
+  "deployedDependency": "BudgetedEvidenceTests.dll copied by parent into out/ (pin verified before+after), adjacent for standard CLR probe resolution; NOT a runner side effect",
+  "attemptedLoadFailurePreserved": "first run exited 82 in 62ms with FileNotFoundException loading BudgetedEvidenceTests (dependency not adjacent); zero test code ran; stdout tail preserved in script history; not a verdict, not a rearmed test failure",
+  "execution": {
+    "exitCode": 1,
+    "durationMs": 62,
+    "timeoutKill": false,
+    "captureSha256": "b7f3f2fc437d6d9d64f1c7aff3b58152dd4e45cd0bb50e6533598e2b4cb19c70",
+    "stdoutTail": [
+      "RUNALL_FAILED\r",
+      "exceptionType=System.InvalidOperationException\r",
+      "message=ownership-write\r",
+      "elapsedMs=9\r",
+      ""
+    ]
+  },
+  "runAllCompleted": false,
+  "countingPreAauthorized": "20 top-level invocations / 17 distinct methods (RunAll body lines 13-32) ONLY IF RunAll completes; counted=false",
+  "oracleNotMaterialized": "parent 12-case JSON (cases.json ad67adf0) NOT acquired into this run — budget tests use their own inline numeric fixtures; oracle stays frozen for future review binding",
+  "invariants": "pure memory only; no filesystem writes by runner; no spawn/thread/network/Job by runner; parent process controlled timing/capture"
+}

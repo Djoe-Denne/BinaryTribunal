@@ -1,0 +1,27 @@
+# Parent — GO run séparé heap broker2a R2, pas campagnehôte
+
+VforteR2 acceptable result_mvf3w63e_003r_wmankd,parent38pins/6artefactsgelés
+rehashés. CompileC#4.NET4strict12sources exit0/275ms,aucundiagnostic,receipt
+d815a67e8b9704fb3c182b007e9cfc67a52356a0e89f5c53aee45bed3976bdca.
+Parentreadback24sourcesorigines+copies/4compilerrefs/2logs/exe137728B,
+SHA25a5dbef29a86de37e495273b2117d3d46d17f1014d4f90111935fee22e6f0b6.
+L'exécutable n'a pas encore été lancé. Main sélectionnéexplicitement
+ReGraph.GuardV3.GenericEvidenceBrokerTests,18groupesinconditionnels lusparent,
+longcounter incrémentéparchaqueCheck,sortieOKseulementaprèstouslesgroupes.
+
+GO parentuniquement : copierPEexactdansfixtureTemp/opencodefraîchepossédée,
+exécutersansargument/sansshell,timeoutsoftware5s,maxBuffer1024parflux ET
+budgetfinalstdout+stderr<=1024B,ASCIIstdout/stderrvideauvert. Exigerexit0,
+summaryuniqueBROKER_HEAP_QA OK assertions=<Nréelpositif>,pas de compteurruntime
+inventédepuis304sites/18groupsstatiques. Capturerbyteexactlogs,exe/source/
+toolpinsavant/après,releasegate etrétentioncomplète,aucun retry automatique.
+
+TestssourcefontdesMemoryStream/ICaptureSourcefakes/objetsmanagedbindings ;
+aucunGuardianCore.Run/HostLauncher/Job/targetT/FF8/nativecapture appelésparcetentry.
+L'assembly contientlestypesinteropgelés,ce n'estpasuneaffirmationd'absence des
+appelsOS normauxCLR ni preuvehost/kernel/progressionpipes/durabilité/join/
+GthreadACK/physicalwriterinterinstances/heapglobal. WaitingACKn'estpasClosed/
+release. Ni broker2b/full44/125s/Linux/G5G7 ne sontqualifiéspar cetest.
+
+Toutéchec conserve nouvellepreuverouge etsesartefacts,diagnostic/fix/Vdistincts
+avantautrenouveaugate ; pas modificationducounter/matcherpouraccommoderunrouge.

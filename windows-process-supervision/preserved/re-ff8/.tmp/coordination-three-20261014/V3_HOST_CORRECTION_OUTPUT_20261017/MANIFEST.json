@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-17T17:14:17.964Z",
+  "missionId": "team_mv6tmopg_0000_4urn3c",
+  "member": "v3-host-correction-r1",
+  "role": "author",
+  "mode": "CORRECTION_DELTA_AUTHOR_SOURCE_ONLY",
+  "corrects": "ROOT = defect 1 of PARENT/HOST_REVIEW_VERDICT.md (anchor 1): the durable readback required by the PLAN and GuardianSupervisorAcknowledgement.Matches (GuardianCore.cs:407-413) did not exist and HostLauncher.cs:231-243 did not compile. Secondary DESIGN misstatements fixed per verdict: state matrix :112-121 omitted HeldCaptureIncomplete (real state at HostLauncher.cs:105/:226); :90-96 and :155-156 called the durable 192B readback and the ACK path proven while the method did not exist; :146 said EvidenceIncomplete 'signalled to G' while the Mark is post-Run (HostLauncher.cs:225) and the frozen Acknowledge :969 never re-reads the flags; :117 wrongly gave pre-quiescence ControllerLost a kept KernelQuiescenceObserved (it stays false: Hold ControllerLost, no WritePublication).",
+  "inputPinsVerified": {
+    "manifest": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_HOST_CORRECTION_INPUTS_20261017/INPUT_MANIFEST.json",
+    "recalculatedFiles": 11,
+    "totalBytes": 173920,
+    "divergences": 0,
+    "method": "Get-FileHash SHA256 + file length at each absolute path, read-only, before any write"
+  },
+  "files": [
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_HOST_CORRECTION_OUTPUT_20261017/WriterLedger.cs",
+      "bytes": 8889,
+      "sha256": "67e9b21c1f8ec6212fa3d21199254359770e5e0b4b56c7268567af55eb0323b0",
+      "status": "corrected",
+      "delta": "defect-1 fix: adds TryReadBackGuardianResult (reads EXACTLY 192 bytes from the GuardianResult slot destination already written; false on null/short output buffer, not-ready ledger, null/unreadable/unseekable destination, short record or read failure; never copies the source buffer); adds guardianResultDestination field set in the constructor for that slot; amends the single-write-path comment to name the readback as the ONE read-only direct destination access. Owners/caps/pins/Write*/Snapshot unchanged."
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_HOST_CORRECTION_OUTPUT_20261017/DESIGN.md",
+      "bytes": 13866,
+      "sha256": "b61274fde7739c8f12b49308b96d6931d51130d350c49c3989a68d8983176b5c",
+      "status": "corrected",
+      "delta": "1. state matrix adds HeldCaptureIncomplete (PumpToCompletion != Completed at HostLauncher.cs:225-226, state at :105) with never-PASS; 2. :90-96 first lifecycle bullet and the sub-gate paragraph (:155-156) stop calling the durable 192B readback and the ACK path proven — now implemented-with-correction-(a) only, awaiting fresh delta review and the compile gate; 3. EvidenceIncomplete is a post-Run latch observed by S (Mark after Run, HostLauncher.cs:225; frozen Acknowledge GuardianCore.cs:961-976 does not re-read the flags), not 'signalled to G'; pre-quiescence ControllerLost leaves KernelQuiescenceObserved false (Hold ControllerLost, no WritePublication), so it lands in HeldNotQuiescent. Consequential consistency clauses (declared): correction banner, directory-content sentence adapted to the correction output, writer-ledger section notes the one read-only destination access, NOT_PROVEN paragraph bounds the readback durability, handoff paragraph counts 3 artifacts plus intake pins."
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_HOST_CORRECTION_OUTPUT_20261017/Host.Tests.cs",
+      "bytes": 29049,
+      "sha256": "c5770e353e8c60fa22ac753ebcc37e3cd66c9ef8c94bc4c1e64b69d88eea1716",
+      "status": "repinned-byte-identical",
+      "delta": "NONE. No existing test must reference the new method directly: the seal-path tests (AckExactReadbackSealsAndRecordsReceiptBeforeClose, OrderlyCompletionVersusLoss c1, StopOrderPreservesOracleNotKillGuardianFirst) exercise TryReadBackGuardianResult transitively through HostLauncher.cs:234; their MemoryStream destinations satisfy the readback (CanRead/CanSeek true, position advances on write). RunAll/Check/FakeNative conventions untouched."
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_HOST_CORRECTION_OUTPUT_20261017/MANIFEST.json",
+      "bytes": null,
+      "sha256": null,
+      "status": "self (hash reported separately to the parent to avoid a self-referential manifest)"
+    }
+  ],
+  "frozenCore": [
+    { "file": "GuardianCore.cs", "pin": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f", "bytes": 71132, "verified": "intake re-hash 11/11" },
+    { "file": "GuardV3.Contracts.cs", "pin": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709", "bytes": 8016, "verified": "intake re-hash 11/11" },
+    { "file": "BudgetedEvidence.cs", "pin": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f", "bytes": 11846, "verified": "intake re-hash 11/11" },
+    { "file": "KernelObserver.cs", "pin": "a419fc426fef0a77ed1385f04f17b7c7fffe2ca457d98fb0bdc27dad365d5284", "bytes": 21557, "verified": "hashed at V3_KERNEL_OBSERVER_R1_OUTPUT_20261017/KernelObserver.cs; matches SCOPE pin; parent re-hash before review" }
+  ],
+  "unchangedAtIntakePins": [
+    { "file": "HostLauncher.cs", "pin": "1cc9cca0f0d2516f40c42f6d2b421126aa7b05bef29bcbfcd3e5760c1d956a15", "bytes": 15729, "note": "not re-delivered; byte-identical at its V3_HOST_SOURCE_OUTPUT_20261017 pin; consumes TryReadBackGuardianResult as-is at :234" },
+    { "file": "CaptureWiring.cs", "pin": "d08beba3b371661a1c7a12d4ddda697514556bdc2f91dc16028b0fa20cc2987f", "bytes": 6029, "note": "not re-delivered; byte-identical at its V3_HOST_SOURCE_OUTPUT_20261017 pin" }
+  ],
+  "publishedLimits": {
+    "coLocatedModel": "S/G in-process per frozen ABI (GuardianSupervisorAcknowledgement.Matches ReferenceEquals GuardianCore.cs:409; guardian DESIGN G:150-157) — parent-arbitrated contract-conformant, unchanged",
+    "multiProcessSG": "NOT_PROVEN, unchanged",
+    "durableReadback": "implemented at source scope with correction (a): re-read of the destination Stream object the budget wrote to; real cross-process or on-disk durability NOT_PROVEN (000c)",
+    "case6LastClose": "NOT_ESTABLISHED unchanged",
+    "case8Host": "unqualified until 000c qualificationGO",
+    "durableLease": "lease/reservation durable = memory objects; file/registry durability NOT_PROVEN",
+    "fixtureMarkers": "reserved for closed-source writers, not proven",
+    "crossProcessLedgerUniqueness": "local only, NOT_PROVEN"
+  },
+  "invariantsHonoured": "frozen core untouched; C#5 strict (no interpolation, no null-conditional, no async); Check/RunAll/FakeNative conventions untouched; caps 262144/chunk 4096/sticky HOLD/debit-before-attempt/reserve-before-Read never weakened; G-loss keeps reservation held and never PASS; case6 last-close NOT_ESTABLISHED; no compile, no test executed; no git/IDB/native/Job/Process/DB; writes confined to V3_HOST_CORRECTION_OUTPUT_20261017 (4 files) plus this board/report.",
+  "stage": "CORRECTION_DELIVERED_HOLD_FOR_FRESH_DELTA_REVIEW_NO_COMPILE_NO_TEST"
+}

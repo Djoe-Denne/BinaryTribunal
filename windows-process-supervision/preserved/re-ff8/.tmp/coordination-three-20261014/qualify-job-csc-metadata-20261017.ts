@@ -1,0 +1,21 @@
+import { readFileSync, writeFileSync, existsSync, statSync, lstatSync, realpathSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+import { strict as assert } from 'node:assert';
+const phase='C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014',sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const framework='C:/Windows/Microsoft.NET/Framework64/v4.0.30319',ps='C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe';
+const paths=[ps,framework+'/csc.exe',framework+'/mscorlib.dll',framework+'/System.dll',framework+'/System.Core.dll',framework+'/System.Web.Extensions.dll'];
+const guards=['FF8_ENSEMBLE_SOURCE','NODE_OPTIONS','BUN_OPTIONS','DOTNET_STARTUP_HOOKS','APPDOMAIN_MANAGER_ASM','APPDOMAIN_MANAGER_TYPE'];
+const injections=Object.keys(process.env).filter(k=>guards.includes(k.toUpperCase())||k.toUpperCase().startsWith('COR_')||k.toUpperCase().startsWith('CORECLR_')||k.toUpperCase().startsWith('COMPLUS_'));assert.equal(injections.length,0,'Present injection/environment keys: '+JSON.stringify(injections));
+const pins=paths.map(path=>{assert(existsSync(path),path);const s=statSync(path),b=readFileSync(path);assert(lstatSync(path).isFile()&&!lstatSync(path).isSymbolicLink());assert.equal(b.subarray(0,2).toString(),'MZ');return {path,realpath:realpathSync(path),bytes:b.length,sha256:sha(b),nlink:s.nlink};});
+const configs=['csc.exe.config','csc.rsp'].filter(n=>existsSync(framework+'/'+n)).map(name=>{const b=readFileSync(framework+'/'+name);return {name,path:framework+'/'+name,bytes:b.length,sha256:sha(b),used:name.endsWith('.config')?'installed CLR compiler config':'explicitly bypassed by proposed /noconfig',forbiddenLoaderDirective:/appDomainManager|codeBase|probing|loadFromRemoteSources/i.test(b.toString('utf8'))};});
+assert(!configs.some(c=>c.name.endsWith('.config')&&c.forbiddenLoaderDirective),'Unqualified compiler config loader directive');
+const command=String.raw`$ErrorActionPreference='Stop'; $compiler=Get-Item -LiteralPath 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe'; $net=Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full'; [pscustomobject]@{PSVersion=$PSVersionTable.PSVersion.ToString();PSEdition=$PSVersionTable.PSEdition;Is64Bit=[Environment]::Is64BitProcess;CompilerFileVersion=$compiler.VersionInfo.FileVersion;CompilerProductVersion=$compiler.VersionInfo.ProductVersion;CompilerCompany=$compiler.VersionInfo.CompanyName;FrameworkRelease=$net.Release;FrameworkVersion=$net.Version} | ConvertTo-Json -Compress`;
+const p=spawnSync(ps,['-NoProfile','-NonInteractive','-Command',command],{encoding:'utf8',timeout:20000});writeFileSync(phase+'/job-csc-metadata-20261017.stdout.log',p.stdout,{flag:'wx'});writeFileSync(phase+'/job-csc-metadata-20261017.stderr.log',p.stderr,{flag:'wx'});assert.equal(p.status,0,p.stderr);const metadata=JSON.parse(p.stdout);assert(metadata.Is64Bit&&metadata.PSEdition==='Desktop'&&metadata.PSVersion.startsWith('5.1'));assert(metadata.FrameworkRelease>=378389);
+const out={at:new Date().toISOString(),framework,pins,configs,metadata,strictlyAbsentGuardAndProfilerKeys:true,guardsAndPrefixes:{names:guards,prefixes:['COR_','CORECLR_','COMPLUS_']},
+ proposedCompilerRoute:'direct installed Framework64 csc.exe /noconfig /nostdlib+ /target:library /platform:x64 /codepage:65001 with explicit pinned framework references and new owned output',
+ metadataPowerShellOnlyNoHelperSourceImportCompilerInvocationAddTypeOrWin32JobApi:true,
+ noSourceOracleProjectEnvironmentOrGlobalConfigMutation:true,
+ limitations:['existing compiler/runtime entrypoints and direct references pinned, not every OS/vendor byte or malicious host ruled out','standalone direct csc compilation does not prove proposed PowerShell Add-Type route or any Job API runtime behavior'],
+ stage:'INSTALLED_FRAMEWORK_CSC_METADATA_QUALIFIED_PROSPECTIVE_COMPILATION_ONLY_NO_COMPILER_OR_JOB_RUN_YET'};
+writeFileSync(phase+'/job-csc-toolchain-metadata-20261017.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({stage:out.stage,metadata,pins:pins.map(p=>({path:p.path,bytes:p.bytes,sha256:p.sha256})),configs}));

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "candidate": "BudgetedEvidence-V3-Q1-runtime-correction-R1",
+  "status": "CORRECTED_SOURCE_HOLD_FOR_FRESH_TARGETED_REVIEW",
+  "date": "2026-10-17",
+  "taskId": "task_mvcebg9b_003z_ln1wqt",
+  "role": "v3-budget-runtime-correction-r1",
+  "classification": "NONBLIND",
+  "authorDisjointFromBudgetSourceAndPriorReviewers": true,
+  "csharpCompiled": false,
+  "testsExecuted": false,
+  "rootCause": {
+    "owner": "test-fixture",
+    "moduleFault": false,
+    "assertionFault": false,
+    "summary": "CallerRetainsStreamOwnership requires a 2-byte write on a fresh DriverEvidence sink to succeed and requires CanWriteCalls to stay 0. ProbeStream.CanWrite throws, and ProbeStream.Write called MemoryStream.Write. On Framework mscorlib, MemoryStream.Write calls EnsureWriteable, which callvirts Stream.get_CanWrite. That throw is caught by CaseBudgetV3.TryWrite, which holds and returns false. Check then throws InvalidOperationException with label ownership-write. The module must accept this write when Stream.Write returns. The fixture made Write throw. The success assertion stays; the fixture no longer delegates Write or WriteByte to MemoryStream.",
+    "frozenAnchors": [
+      "BudgetedEvidence.Tests.cs:289 ownership-write assertion",
+      "BudgetedEvidence.Tests.cs:514 ProbeStream",
+      "BudgetedEvidence.Tests.cs:521 CanWrite throws unexpected-CanWrite",
+      "BudgetedEvidence.Tests.cs:526 base.Write",
+      "BudgetedEvidence.cs:128 DriverEvidenceCapacityBytes = 8192",
+      "BudgetedEvidence.cs:171 OpenSink never calls a Stream member",
+      "BudgetedEvidence.cs:256 slot remaining check before charge",
+      "BudgetedEvidence.cs:283 the only external callback is Stream.Write",
+      "BudgetedEvidence.cs:289 catch holds StreamWriteFailed",
+      "BudgetedEvidence.cs:297 return writeReturned && !held",
+      "BudgetedEvidence.cs:318 CapacityForIndex case 4 returns DriverEvidenceCapacityBytes",
+      "mscorlib 4.0.30319 Framework64 MemoryStream.EnsureWriteable token 060018E9 callvirt Stream.get_CanWrite token 06001971; Write and WriteByte both call EnsureWriteable. Static IL only, not a test run."
+    ],
+    "receiptConsistency": "Parent receipt message is ownership-write, not unexpected-CanWrite. That is the Check label thrown when TryWrite returns false. The fixture exception is swallowed by TryWrite's catch."
+  },
+  "correction": {
+    "testsLines1Through515IdenticalToFrozen": true,
+    "callerRetainsStreamOwnershipBodyUnchanged": true,
+    "suffixFromPartialThrowStreamIdenticalToFrozen": true,
+    "probeWriteNoLongerCallsBaseWrite": true,
+    "probeWriteByteOverrideAdded": true,
+    "canWriteFlushSeekSetLengthStillThrow": true,
+    "correctedAnchors": [
+      "BudgetedEvidence.Tests.cs:525-528 CanWrite still throws",
+      "BudgetedEvidence.Tests.cs:529-532 Length reads the retained count",
+      "BudgetedEvidence.Tests.cs:533-538 Write records bytes without MemoryStream.Write",
+      "BudgetedEvidence.Tests.cs:539-542 WriteByte records the caller append without MemoryStream.WriteByte",
+      "BudgetedEvidence.Tests.cs:543-546 ToArray returns the retained bytes"
+    ]
+  },
+  "invariants": {
+    "moduleBytesUnchanged": true,
+    "slotCapacityBytes": {
+      "ControlFiles": 32768,
+      "FixtureMarkers": 57344,
+      "CapturedStreams": 114688,
+      "GuardianEvidence": 24576,
+      "DriverEvidence": 8192,
+      "GuardianResult": 8192,
+      "SupervisorResult": 8192,
+      "SupervisorReceipt": 8192
+    },
+    "totalCapacityBytes": 262144,
+    "maxChunkBytes": 4096,
+    "guaranteesNotWeakened": true,
+    "invocations1Through10SourceUnchanged": true
+  },
+  "artifacts": [
+    {
+      "path": "BudgetedEvidence.cs",
+      "corrected": false,
+      "bytes": 11846,
+      "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f"
+    },
+    {
+      "path": "BudgetedEvidence.Tests.cs",
+      "corrected": true,
+      "bytes": 32653,
+      "sha256": "e24df7737199e7c567dc6ae82bf5a7050cd9a38a28988e386b7c36893b19bed4"
+    },
+    {
+      "path": "DESIGN.md",
+      "corrected": false,
+      "bytes": 11294,
+      "sha256": "b54b561f0aa24e80df9102432772cc6837a5ef9f37b25aa87552a01e245198b6",
+      "reason": "Module contract and the documented probe rule (CanWrite, Flush, Seek, SetLength throw if touched) stay true. Only the fixture implementation changed."
+    }
+  ],
+  "manifestSelfHashExcluded": true,
+  "manifestCorrected": true,
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_BUDGET_RUNTIME_CORRECTION_OUTPUT_20261017",
+  "nextGate": "HOLD_FOR_FRESH_TARGETED_REVIEW_BEFORE_PARENT_RECOMPILE_AND_MEMORY_RERUN"
+}

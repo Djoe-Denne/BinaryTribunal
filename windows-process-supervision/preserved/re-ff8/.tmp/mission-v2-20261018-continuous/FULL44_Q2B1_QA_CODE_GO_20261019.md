@@ -1,0 +1,27 @@
+# Parent — GO QA2b1 source indépendante, sans implémentationcandidate
+
+ACKresult_mvf5fdgw_004s_zqg6f0 conforme29pins407063B/API6827B054eae63,
+NONBLINDdépendances/indépendancecandidateimpl/microplan5axes approuvé.
+GO QA CODE maintenant3ownedoutputsDualCaptureCoordinatorTests.cs/QA_PLAN.md/
+MANIFEST.json sousfull44-q2b1-independent-qa/outputs,aucunautrefichier modifié.
+No extraGOderoutine,microplanexactdéjàratifié. Pin ceGO etpaquet/APIauMANIFEST.
+
+Fixtures réellesbroker2a/V3/Q1managedHEAP,positifsavantnégatifsisolés. WorkExecute
+one-shot/return+actualexactpermitcommit avantFree,noncapturewritercommitsnefreepas
+capture,550TOTALPrepare+Commitempty/invalidchargedbeforeactionifroom,551erefus,
+freshElapsed BOTH APIs/nondecreasing>=0/deadline55000refuseonly,firstHOLDSignal
+Markbits/externalHOLD/NoneLatch/prepaidnegativeERRORpreserved. Snapshotscounts
+Engaged etBroker.PendingReadschevauchants,pasadditifs/niEOF2commeClosed/join.
+Interleavingcommitbeforereturnbookkeeping = staticreviewlimitsiheapnoapproved
+seam,nepasinventerthreads/hook. Nestedcallbacks≠cross-threadprogress/lockproof.
+
+OutputMain ReGraph.GuardV3.DualCaptureCoordinatorTests,C#4/NET4,assertcounter
+réel,ASCIIstdout<=1024B/stderrvideauvert/exitnonzeroerreur. RuntimeNONOBSERVÉ,
+aucunPASScount69759depremièretranche. APIgapréelgroupé→parentavantoracleinventé.
+CandidateDualCaptureCoordinator.cs/DESIGNauteur/QAautres/logs/originsINTERDITS.
+
+No compiler/typecheck/transpile/test/run/validator/productimport/OS/DB/git/IDA/
+live/network/config/délégation/teamtools/claim/complete. Staticread/hash/parsing
++patch/fsowned3outputsautorisés. Sourceauteurproposéeestgeléeparparentmaisne
+t'estpasexposée ; freshforteVcomposée puisgatesparentencoreobligatoires,aucune
+preuveHOST/native/full44/125s/Linux/Closed/release fournieparceGO.

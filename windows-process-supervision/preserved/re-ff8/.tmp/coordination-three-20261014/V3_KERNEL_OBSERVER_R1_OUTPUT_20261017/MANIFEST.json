@@ -1,0 +1,163 @@
+{
+  "schema": "guard-v3-kernel-observer-source-delivery-v1",
+  "stage": "SOURCE_ONLY_HOLD_FOR_FRESH_COMPOSED_REVIEW",
+  "date": "2026-10-17",
+  "taskId": "task_mvc42woi_0007_28drf0",
+  "sessionId": "ses_eb6eb1dc5ffeFBZOGgB5yVJ5ES",
+  "profile": "build",
+  "role": "observer-implementer-O",
+  "cycle": 1,
+  "nativeModelRefVerifiedByParent": {
+    "providerID": "openai",
+    "id": "gpt-6.1-sol",
+    "variant": "max"
+  },
+  "separateAccessAckAndSourceGoReceived": true,
+  "bootstrap": {
+    "nonblind": true,
+    "packetOnlyClaim": false,
+    "guardianImplementationTestsAndResultsNotSuppliedSoughtOrConsumed": true,
+    "noDelegationOrModelFallback": true
+  },
+  "inputRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8/inputs/V3_KERNEL_OBSERVER_R1_20261017",
+  "inputPacket": {
+    "payloadCount": 27,
+    "payloadBytes": 210473,
+    "allPhysicalPayloadSizesAndHashesMatchedDetachedReceipt": true,
+    "allInputManifestEntriesMatched": true,
+    "allPreparationReceiptEntriesMatched": true,
+    "microsoftArticleCountRead": 18,
+    "inputManifest": {
+      "path": "INPUT_MANIFEST.json",
+      "bytes": 5941,
+      "sha256": "3d519a3dd4bd21475c574cbd5314f8053184ec27af32b2413c03ce195ef7dc1e"
+    },
+    "detachedParentReceipt": {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/v3-kernel-observer-r1-PARENT_ACCESS_RECEIPT-20261017.json",
+      "bytes": 5500,
+      "sha256": "2579ced7303eed3fb2c7aac7677790141a93aa99161f233d25237e46eff7d556",
+      "helperCompleted": true,
+      "notNativeValidation": true
+    },
+    "abi": {
+      "path": "ABI/GuardV3.Contracts.cs",
+      "version": "guard-v3-core-abi1",
+      "bytes": 8016,
+      "sha256": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709",
+      "readonlyUnmodified": true,
+      "notCopiedIntoOutput": true
+    },
+    "draft2": {
+      "path": "PARENT/JOB_GUARDIAN_V3_CONTRACT_DRAFT2_20261017.md",
+      "bytes": 9919,
+      "sha256": "bb69e0ade4c0b48c8d1c420e528683fe2d614eff6cac80fa64e6f58df33cafd3"
+    },
+    "scope": {
+      "path": "PARENT/SCOPE.md",
+      "bytes": 5073,
+      "sha256": "f861136446decd8ed33ce07e6e26acca111758e7337ef5903d3288bb9969b2b4"
+    },
+    "sourceBoundarySha256": "084e847cf8192613a9559ad5bfb9f0bfdb5d2fa0bbe90a377fc82448e941958f",
+    "sourceRatificationSha256": "ed2be9a003315ddaa3eade015473212032d0e461258041fc03ade48c764bbfe8",
+    "bindingSha256": "7fc106ebcbb69c60b11472d62a972ee935f15c47e4680ecefe97a2a77eea2c10",
+    "cscMetadataReadOnlyNotProbedOrInvoked": true
+  },
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_KERNEL_OBSERVER_R1_OUTPUT_20261017",
+  "outputs": [
+    {
+      "path": "KernelObserver.cs",
+      "bytes": 21557,
+      "sha256": "a419fc426fef0a77ed1385f04f17b7c7fffe2ca457d98fb0bdc27dad365d5284"
+    },
+    {
+      "path": "KernelObserver.Tests.cs",
+      "bytes": 45179,
+      "sha256": "82a95a2fb76857cc3f70a78abc9b48168bbb849ba0666a981fa14cbdc06ab942"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 17511,
+      "sha256": "f0efc73e97f4b456addc37af9fd95a53bd4d98e8189b74a75447fd81cba37cc2"
+    },
+    {
+      "path": "MANIFEST.json",
+      "selfHashPolicy": "Delivered to parent out of band; no self-referential hash or byte count"
+    }
+  ],
+  "implementation": {
+    "interface": "ReGraph.GuardV3.IGuardKernelObserver",
+    "methods": ["ObserveRoot", "CapturePair"],
+    "language": "C# 5 / .NET Framework 4.x source",
+    "targetAbi": "Windows 64-bit, IntPtr.Size == 8 required",
+    "nativeImports": [
+      "kernel32.dll!WaitForSingleObject",
+      "kernel32.dll!GetExitCodeProcess",
+      "kernel32.dll!QueryInformationJobObject"
+    ],
+    "lastErrorCapturedImmediatelyOnFailure": true,
+    "noLifecycleWriteDebugPidReopenOrPublicationCapability": true,
+    "exactLiveBorrowRequiredBeforeEachNativeCall": true,
+    "sameOriginalHandleRequiredWithinEachOperation": true,
+    "numericHandleFilterIsNotAuthentication": true,
+    "ownerMustSerializeUseAndClose": true,
+    "accountingWireBytes": 48,
+    "pidHeaderBytes": 8,
+    "pidPointerBytes": 8,
+    "pidEntryCapacity": 8,
+    "pidBufferBytes": 72,
+    "maxNativeQueriesPerPair": 2,
+    "maxRootWaitsPerObserveRoot": 1,
+    "maxRootExitQueriesPerObserveRoot": 1,
+    "maxWaitSliceMilliseconds": 100,
+    "noRetryResizePollDrainOrUnboundedLoop": true,
+    "freshBuffersNoObservationCache": true,
+    "nonAtomicPair": true,
+    "rawCumulativeTotalNotCappedToEight": true,
+    "moreDataNeverBecomesEmptySuccess": true,
+    "successFlagsRequireNativeAndStructuralSuccess": true,
+    "rawReturnLengthDwordBitsPreservedInSignedAbiFields": true,
+    "identityReferenceAndPermitSequencePreserved": true,
+    "rootIdentitySequenceNotInventedOutsideAbi": true,
+    "caseOutcomeOrReleaseDecision": false,
+    "permitIssuanceCountersPhaseDeadlinesMonotonicityOwnedByG": true,
+    "noMarshalSizeOfOrReflectionLayoutProbe": true,
+    "managedExceptionsMapToBoundedCodesNotMessages": true
+  },
+  "deferredTestSources": {
+    "explicitCaseCount": 40,
+    "automaticEntryPoint": false,
+    "onlyMemoryCallsAndMemoryBorrowSeams": true,
+    "independentLiteralExpectedNumbersAndFixtureEncoders": true,
+    "noNativeAdapterOrPInvokeOrReflectionTest": true,
+    "compiled": false,
+    "imported": false,
+    "executed": false,
+    "passClaim": false
+  },
+  "verificationActuallyPerformed": [
+    "Scoped readonly packet reading, SHA256 and length comparisons",
+    "Owned output text inventory, source inspection and SHA256 hashing only",
+    "Bounded Context Mode stdout with pre-emission guards; no index query",
+    "No C# source, native API, compiler, test or runtime invocation"
+  ],
+  "memoryAndWriters": {
+    "filesystemConsoleStreamOrPublicationWriter": false,
+    "freshQueryScratchPayloadBytesPerPair": 120,
+    "retainedHandlePidArrayHistoryOrResponseCache": false,
+    "memoryWritersAndRuntimeOverheadsDisclosedInDesign": true,
+    "globalWriterLedgerClosed": false,
+    "hostBudgetOrHardRealtimeProof": false
+  },
+  "unchangedGates": {
+    "sourceCoreFreshComposedReviewPending": true,
+    "separateBudgetReviewRequired": true,
+    "separateParentCompileGoRequired": true,
+    "separateImportTestNativeRuntimeGoRequired": true,
+    "launcherSDriverDOriginalControlHandleBindingsNotProven": true,
+    "captureReservationBeforeReadNotProven": true,
+    "closedGlobalWriterLedgerNotProven": true,
+    "nativeHandleSerializationRootRefsAndQuiescenceNotProven": true,
+    "lastCloseCase8IntegratedBudgetFull44AndFf8NotPromoted": true,
+    "globalAcceptanceOrRelease": false
+  }
+}

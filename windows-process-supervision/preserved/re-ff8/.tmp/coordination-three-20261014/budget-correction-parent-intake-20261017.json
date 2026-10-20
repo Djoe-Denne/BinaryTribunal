@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-17T13:16:46.701Z",
+  "owner": "lead ses_eca40a8e2ffeanEKTBLiGjDNw8 (opencode-go/glm-5.3-flash#max)",
+  "author": "v3-budget-runtime-correction-r1 ses_eb614ea7effeMhQxgmc33frHi4 (cursor/grok-4.7 Grok 4.7 Extra High)",
+  "files": [
+    {
+      "name": "BudgetedEvidence.cs",
+      "bytes": 11846,
+      "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f",
+      "frozenReadonly": true,
+      "corrected": false
+    },
+    {
+      "name": "BudgetedEvidence.Tests.cs",
+      "bytes": 32653,
+      "sha256": "e24df7737199e7c567dc6ae82bf5a7050cd9a38a28988e386b7c36893b19bed4",
+      "frozenReadonly": true,
+      "corrected": true
+    },
+    {
+      "name": "DESIGN.md",
+      "bytes": 11294,
+      "sha256": "b54b561f0aa24e80df9102432772cc6837a5ef9f37b25aa87552a01e245198b6",
+      "frozenReadonly": true,
+      "corrected": false
+    },
+    {
+      "name": "MANIFEST.json",
+      "bytes": 4661,
+      "sha256": "0fcb436d075f56b43a6b4223e8a095817206653a2f91fd397c64ef8952de0902",
+      "frozenReadonly": false,
+      "corrected": true
+    }
+  ],
+  "parentVerifications": {
+    "moduleByteIdenticalToGel": true,
+    "designByteIdenticalToGel": true,
+    "testsPrefix1ToFirstDiffIdentical": true,
+    "testsSuffixFromPartialThrowStreamIdentical": true,
+    "firstDiffLine1Based": 516,
+    "lineCounts": {
+      "old": 644,
+      "new": 663,
+      "deltaExplainedBy": "ProbeStream gains Length/ToArray members (fixture-only region)"
+    },
+    "moduleNeverReadsCanWrite": true,
+    "exactlyFourRegularFilesNoLinksFrozenReadonly": true
+  },
+  "rootCauseAuthorClaim": "MemoryStream.Write/WriteByte -> EnsureWriteable -> callvirt CanWrite; probe threw unexpected-CanWrite inside legit Write; fixture-only correction (records bytes without MemoryStream delegation), invariants + assertions intact",
+  "sourcesNotCompiledNotExecutedNoNativeApi": true,
+  "stage": "BUDGET_CORRECTION_PARENT_INTAKE_PHYSICAL_ONLY_TARGETED_FRESH_REVIEW_REQUIRED_NOT_ACCEPTANCE"
+}

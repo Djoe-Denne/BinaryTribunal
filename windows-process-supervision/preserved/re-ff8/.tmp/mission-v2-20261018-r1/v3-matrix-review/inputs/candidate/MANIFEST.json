@@ -1,0 +1,106 @@
+{
+  "schema": "v3-matrix-source-candidate-manifest-r1",
+  "role": "v3-matrix-source-r1",
+  "taskId": "task_mvdlnm56_000m_uhifru",
+  "runtimeTeam": "mission-a58a462638c0db92",
+  "inputMission": "team_mvdlecqs_000i_wny3o5",
+  "policyRevision": 1,
+  "policyHash": "b97d940a25f7e2db6feab6224441e5f5a12e4d81e22220a80ce84aee00586f11",
+  "status": "SOURCE_CANDIDATE_UNCOMPILED_UNEXECUTED",
+  "nonblindHistoricalContext": true,
+  "authorization": "Lead native Plan Approved: GO WRITE SOURCE SEULEMENT; supplement SCOPE mandatory",
+  "writeScope": ".tmp/mission-v2-20261018-r1/v3-matrix-source/outputs",
+  "artifacts": [
+    {
+      "path": "RunnerMatrix.cs",
+      "bytes": 35669,
+      "sha256": "ee6a830ce4e6e03fcdc7c3d743835bc87b1e96b9ce86cf05a635604fc2e16a7c",
+      "kind": "C#5 source candidate; same-assembly frozen dependencies required"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 17576,
+      "sha256": "f230ef21b8be82356e401b690767283be18e82e0c41512a0459f44490c05a75a",
+      "kind": "Conditional expected facts, eight source anchors, exact closure and proposed future parent gate"
+    }
+  ],
+  "manifestSelfHash": "Not recursive; MANIFEST.json is pinned separately in the final handoff",
+  "inputRehash": [
+    {
+      "path": "../inputs/INPUT_MANIFEST.json",
+      "bytes": 5790,
+      "sha256": "6243ae5d0ae98667bc80e4ac44d68798dfca4e539a30cbace431ee8dcd0b1889",
+      "pinnedFiles": 14,
+      "pinnedBytes": 250521,
+      "initialMatchedPins": 14,
+      "finalMatchedPins": 14,
+      "mismatches": [],
+      "manifestUnchanged": true
+    },
+    {
+      "path": "../supplement-capture/inputs/INPUT_MANIFEST.json",
+      "bytes": 773,
+      "sha256": "2df4ff7b2b9730dcac07b8934e72326dfc476c70c723260e916069c234ab1fa7",
+      "pinnedFiles": 2,
+      "pinnedBytes": 8901,
+      "initialMatchedPins": 2,
+      "finalMatchedPins": 2,
+      "mismatches": [],
+      "manifestUnchanged": true
+    }
+  ],
+  "cases": [
+    "d-loss-signalled",
+    "s-loss-signalled",
+    "g-thread-loss-postRun-preACK",
+    "ack-mismatch-byte191",
+    "attestation-incoherent-length4"
+  ],
+  "closureRelativeToPackageRoot": [
+    "inputs/frozen/V3_CORE_ABI1_20261017/GuardV3.Contracts.cs",
+    "inputs/frozen/V3_GUARDIAN_CORE_R1_OUTPUT_20261017/GuardianCore.cs",
+    "inputs/frozen/V3_KERNEL_OBSERVER_R1_OUTPUT_20261017/KernelObserver.cs",
+    "inputs/frozen/V3_BUDGET_SOURCE_OUTPUT_R1_20261017/BudgetedEvidence.cs",
+    "inputs/frozen/V3_HOST_SOURCE_OUTPUT_20261017/HostLauncher.cs",
+    "supplement-capture/inputs/CaptureWiring.cs",
+    "inputs/frozen/V3_HOST_CORRECTION_OUTPUT_20261017/WriterLedger.cs",
+    "inputs/frozen/V3_REALNATIVE_OUTPUT_20261017/RealNative.cs",
+    "outputs/RunnerMatrix.cs"
+  ],
+  "closureExclusions": [
+    "RunnerReal.cs remains frozen and is not included or invoked",
+    "No Tests sources",
+    "No first-version host WriterLedger; corrected 67e9b21c only",
+    "No additional dependency or bootstrapper"
+  ],
+  "staticByteInspectionOnly": {
+    "ownerMemberDeclarations": 14,
+    "dependencyHashesPresentInDesign": 8,
+    "missingDependencyHashes": [],
+    "compilerOrProductParserUsed": false
+  },
+  "candidateExecution": {
+    "compiled": false,
+    "productImported": false,
+    "executed": false,
+    "productTestsOrProbes": false,
+    "nativeApiCalled": false,
+    "processOrJobCreated": false,
+    "observedCandidateResults": [],
+    "parentExecutionGate": "NOT_AUTHORIZED_BY_SOURCE_GO"
+  },
+  "limits": {
+    "driverAndSupervisorLoss": "Signalled event stand-ins only; real D-process and S death not proven",
+    "guardianLoss": "Captured managed fault after real Run and before ACK, then actual thread termination only",
+    "midRunGuardianLossOrUnhandledCrash": "NOT_ESTABLISHED",
+    "separateSupervisorGuardianProcesses": "NOT_PROVEN",
+    "integratedCrossProcessBudget": "NOT_PROVEN",
+    "lastCloseCase6": "NOT_ESTABLISHED",
+    "forcedDriverLoss": "Facts only, never PASS",
+    "reservationRelease": "Not performed or authorized",
+    "centralIntegrationOrHistoricalTaskClosure": "Not performed or authorized"
+  },
+  "freshDisjointReviewRequired": true,
+  "parentFinalAdjudicationRequired": true,
+  "newContextRequestsForThisBoundedCandidate": []
+}

@@ -1,0 +1,30 @@
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, lstatSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { strict as assert } from 'node:assert';
+import ts from '../../tools/ff8-harness/node_modules/typescript/lib/typescript.js';
+import { Service } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import { OpenCode } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',load=(n:string)=>JSON.parse(readFileSync(phase+'/'+n,'utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const a=load('job-control-readiness-r1-packet-admission-v2-20261017.json'),q=load('job-control-readiness-r1-request-v2-20261017.json'),v=load('job-control-readiness-r1-parent-packet-verification-v2-20261017.json');
+const ep=await Service.discover();assert(ep);const cli=OpenCode.make({baseUrl:ep.url,headers:Service.headers(ep)}),session=await cli.session.get({sessionID:a.session});assert.deepEqual(session.model,a.model);const res=await fetch('http://127.0.0.1:4747/api/state');assert(res.ok);const team=(await res.json()).teams.find((t:any)=>t.id===q.missionId),task=team.tasks.find((t:any)=>t.id===a.task);assert(['in_progress','completed'].includes(task.status));assert.equal(task.assignee,'job-control-readiness-r1');assert.equal(team.tasks.find((t:any)=>t.id==='task_mv6towry_000d_c1nxby').status,'blocked');
+const reports:Array<{messageId:string;toolId:string;text:string}>=[];let cursor:string|undefined,pages=0;
+do{assert(++pages<=5);const page=await cli.message.list({sessionID:a.session,...(cursor?{cursor}:{limit:100,order:'asc'})});for(const m of page.data){if(m.type!=='assistant')continue;for(const p of m.content??[]){const code=p.state?.input?.code;if(p.type!=='tool'||typeof code!=='string'||!code.includes('<task-result>')||!code.includes('NOT_PROVEN'))continue;const ast=ts.createSourceFile('public-result.js',code,ts.ScriptTarget.Latest,true);assert.equal(ast.parseDiagnostics.length,0);const walk=(node:ts.Node)=>{if((ts.isStringLiteral(node)||ts.isNoSubstitutionTemplateLiteral(node))&&node.text.includes('<task-result>')&&node.text.includes('NOT_PROVEN'))reports.push({messageId:m.id,toolId:p.id,text:node.text});ts.forEachChild(node,walk);};walk(ast);}}cursor=page.cursor.next??undefined;}while(cursor);
+assert(reports.length>=1);const distinct=new Map(reports.map(r=>[sha(Buffer.from(r.text)),r]));assert.equal(distinct.size,1,'Different public reports need explicit parent disposition');const r=reports[0]!,b=Buffer.from(r.text),start=r.text.indexOf('<details>')+9,end=r.text.lastIndexOf('</details>');assert(start>=9&&end>start&&r.text.includes('<status>completed</status>'));const details=Buffer.from(r.text.slice(start,end));
+for(const s of ['PROVEN_CONDITIONAL_STATIC','NOT_PROVEN','BLOCKED_REFERENCE_AUTHORITY','2491','106','264046','37438','79360','62464','last-close','Job0'])assert(r.text.includes(s),s);
+let bytes=0;for(const f of q.files){const path=q.destinationRoot+'/'+f.path,x=readFileSync(path);assert.equal(sha(x),f.sha256);assert.equal(statSync(path).mode&0o222,0);assert.equal(statSync(path).nlink,1);assert(lstatSync(path).isFile()&&!lstatSync(path).isSymbolicLink());bytes+=x.length;}assert.equal(bytes,124130);assert.equal(sha(readFileSync(q.destinationRoot+'/.preparation-receipt.json')),v.receiptSha256);
+assert.equal(24576+3*4096+574,37438);assert.equal(24576+13*4096+1536,79360);assert.equal(24576+9*4096+1024,62464);assert.equal(626+3*575+140,2491);assert.equal(106*2491,264046);assert(264046>262144);
+const main=load('l5-budget-main-transfer-before.json');for(const f of [...main.preserved,...main.source])assert.equal(sha(readFileSync(root+'/'+f.path)),f.sha256);
+assert(!existsSync(a.outputDirectory));mkdirSync(a.outputDirectory);writeFileSync(a.outputDirectory+'/WORKER_PUBLIC_RESULT.xml',b,{flag:'wx'});writeFileSync(a.outputDirectory+'/WORKER_PUBLIC_STUDY.md',details,{flag:'wx'});
+const out={at:new Date().toISOString(),task:task.id,session:session.id,model:session.model,nativeTaskStatusAtQualification:task.status,proofDirectory:a.outputDirectory,
+ publicResult:{bytes:b.length,sha256:sha(b)},publicDetails:{bytes:details.length,sha256:sha(details)},publicSource:{refs:reports.map(r=>({messageId:r.messageId,toolId:r.toolId})),distinctPayloads:1,method:'public tool literal AST extraction only never eval reasoning or Plan write bypass'},
+ all13Payloads124130BytesReceiptMain275Unchanged:true,eightSourceAnchorsSelectiveParentCheckAndIndependentArithmeticQualified:true,
+ perGapVerdicts:{guardedFixturePrepMarkerOutputSubtotals:'PROVEN_CONDITIONAL_STATIC',aggregate262144ByteCap:'NOT_PROVEN',independentJobZeroObserver:'NOT_PROVEN',case6OriginalHandleLastCloseOracle:'NOT_PROVEN',case8:'BLOCKED_REFERENCE_AUTHORITY'},
+ conditionalSubtotals:{solo:37438,tree:79360,orphan:62464},eventTextScenario:{perStable3PidGroupMin:2491,groups:106,bytes:264046,notObservedOrAssertedReachableOnHost:true},
+ unknownWritersErrorsResultControllerAndMissingIterationBoundNotAssignedZero:true,
+ retainingExtraJobHandleChangesLastCloseAndCurrentRunStringInterfaceDoesNotExportJobHandle:true,
+ stage:'STATIC_READINESS_STUDY_RECEIVABLE_ALL_AGGREGATE_OBSERVER_LASTCLOSE_OPERATIONAL_GAPS_HOLD',
+ parentDecision:'preserve all limits/frozen bytes; retrieve official references read-only for later observation-interface decision, no source implementation or native execution permission',
+ conditionalSubproofsNotHostGuaranteeOrTotalQuotaAndNoAcceptedFullCase:true,
+ noSourceFixControllerCodeRequestsCompileDllLoadExeLaunchJobApiFixtureTestsRuntimeDbGitNativeOrIntegration:true,
+ full44GlobalL9L10MainNativeIntegrationRemainClosed:true};
+writeFileSync(phase+'/job-control-readiness-final-parent-verification-20261017.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({stage:out.stage,task:out.task,nativeTaskStatus:task.status,publicResult:out.publicResult,publicDetails:out.publicDetails,all13PinsAndMain275Exact:true,arithmeticVerified:true,noDynamicPermission:true}));

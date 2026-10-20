@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-17T18:35:00Z",
+  "owner": "lead ses_eca40a8e2ffeanEKTBLiGjDNw8 (opencode-go/glm-5.3-flash#max)",
+  "planVerified": {
+    "member": "v3-realnative-r1",
+    "members": "14/14 mapped with P/Invoke decision + frozen-kernel consumption source:line; NO impossible member",
+    "structs": "Sequential, x64 only; BasicLimits 64 (JobTime :8 zero, Flags :16, ActiveProcesses :40); IoCounters 48 = six ulong (internal 144 block, not accounting); ExtendedLimits 144 = 64+48+32 (JobMemory :120); StartupInfoEx 112; ProcessInformation 24; job class 9; flags 0x2208/0x80404/0x20002 exact; accounting-48/PID-72 STAY in frozen KernelObserver.cs:14-32 (no duplication); frozen GuardianWin32Owner :985-fin untouched and NOT constructed by the harness"
+  },
+  "parentArbitrations": {
+    "A": "ACCEPTED — PerJobUserTimeLimit field 0, flag 0x4 ABSENT (posing it would kill T and contradict LimitsMatch :319-322 exact equality)",
+    "B": "ACCEPTED — S/D = CreateEventW manual unsignaled handles, inheritance 0 (kernel consumes only WaitForSingleObject/GetHandleInformation); real-D process path stays NOT_PROVEN published; no OpenProcess/DuplicateHandle per corrections #2/#3",
+    "C": "ACCEPTED — exact LimitFlags 0x2208 equality is a documented OS precondition; anything else -> fail-close LimitRefused, no readback correction"
+  },
+  "acceptedDesignChoices": {
+    "T": "self-exit of the SAME winexe (sentinel re-graph-v3-self-exit -> Environment.Exit(0) before any Job); no conhost/AutoRun; parent will compile /target:winexe",
+    "runnerOrder": "0-7 accepted (8 FileStreams CreateNew per slot, 2 events + 3 pipes with exact inheritance flags via SetHandleInformation, fresh attestation, new GuardianCore(new RealNative(), new KernelObserver(), new GuardianStopwatchClock()) with CoLocatedGuardianHost FORBIDDEN, stdout bounded FACTS (STATE/PHASE/HOLD/OUTCOME/QUIET/JOB_RETAINED/SEALED/RESERVED), exit 0/QUIET never a PASS, harness never calls TerminateJobObject)"
+  },
+  "planGoIssued": true,
+  "phase3": "write exactly 4 deliverables (RealNative.cs, RunnerReal.cs, DESIGN.md, MANIFEST.json) into V3_REALNATIVE_OUTPUT_20261017 + public report (pins + per-member map + parent slice-2 preconditions), then HOLD for fresh review",
+  "parallel": "l7-measures-driver-r1 also busy writing its 2 deliverables",
+  "state": "REALNATIVE_AUTHOR_PHASE3_WRITING_MEASURES_AUTHOR_BUSY_NOT_RESULTS"
+}

@@ -1,0 +1,32 @@
+diff --git a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-source-r1-frozen/GenericEvidenceBroker.cs b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-source-r2/outputs/GenericEvidenceBroker.cs
+index e204a3f..51a8857 100644
+--- a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-source-r1-frozen/GenericEvidenceBroker.cs
++++ b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2a-source-r2/outputs/GenericEvidenceBroker.cs
+@@ -1,7 +1,9 @@
+-// SOURCE PROPOSAL ONLY -- full44-q2a-broker-author-r1, NONBLIND.
++// SOURCE PROPOSAL ONLY -- full44-q2a-broker-author-r1, bounded R2, NONBLIND.
+ // C#4/.NET4; no compile, typecheck, run, test, validator or host qualification.
+ // Fixed API R1: f95cd66eab84bc94e6a2ca6e621a4c16ed6e15781ad13523ef2c4c3fcce27697.
+-// Source GO: fd1bbbc1e4991644556c7959f5eec8b57de5e72ccb6749bf5de734bfc9e4ca56.
++// Original R1 GO: fd1bbbc1e4991644556c7959f5eec8b57de5e72ccb6749bf5de734bfc9e4ca56.
+ // ERROR oracle: FULL44_Q2A_API_R1_CAPTURE_ERROR_CLARIFICATION_20261019.md.
++// R2 policy: d605f9c37bfe1ad5e62139356cb1c54c1c05022e4cc10ec43b7ded9b2df9187d.
++// R2 GO: 88bf438b2a8a8b908aad8c69022d299849b40837aea31d1b58104059aa2cf7da.
+ // One private V3 budget, injected streams only; no open/close/release/ACK authority.
+ using System;
+@@ -225,4 +227,7 @@ namespace ReGraph.GuardV3
+         {
+             failure = GenericBrokerFailure.InvalidBinding;
++            // Reuse the frozen managed V3 gate BEFORE any reference copy/sink:
++            // transfers/controller identity/signals are not optional in R2.
++            if (!GuardianPredicates.HostComplete(binding)) return false;
+             if (plan == null || binding == null || binding.Authority == null
+                 || binding.Ledger == null || binding.Capture == null
+@@ -401,5 +406,6 @@ namespace ReGraph.GuardV3
+                 if (otherGrants >= GrantLimit)
+                 { HoldLocked(GenericBrokerFailure.GrantLimit); return false; }
+-                bool prepaid = slot == EvidenceSlot.ControlFiles || slot == EvidenceSlot.GuardianEvidence
++                bool prepaid = slot == EvidenceSlot.ControlFiles
++                    || (slot == EvidenceSlot.GuardianEvidence && kind == GenericBrokerRecordKind.Ordinary)
+                     || (slot == EvidenceSlot.SupervisorResult && kind == GenericBrokerRecordKind.DeferredFinal);
+                 if (prepaid ? !ConsumePrepaidLocked(slot, reservedBytes) : !AdmitFreshLocked(slot, reservedBytes))

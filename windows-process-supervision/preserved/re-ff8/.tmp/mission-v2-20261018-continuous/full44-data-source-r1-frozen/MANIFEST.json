@@ -1,0 +1,203 @@
+{
+  "schema": "generic-target-plan-source-manifest-v1",
+  "date": "2026-10-18T15:25:28.575Z",
+  "author": "full44-q1-data-author-r1",
+  "task": "task_mvdy1o3t_000j_oo31db",
+  "team": "mission-a58a462638c0db92",
+  "status": "SOURCE_PROPOSED_DATA_ONLY_AWAITING_PARENT_ACCEPTANCE",
+  "nonblind": true,
+  "nonblind_reason": "Author intentionally saw the frozen accepted V3 copies (GuardV3.Contracts.cs, GuardianCore.cs, BudgetedEvidence.cs), the three parent contracts and the parent API fixation document; not an independent blind analysis. QA remains disjoint and unseen by this author.",
+  "approved_plan": "result_mvdyffua_0010_omiamb (author API plan; parent fixed E1-E10 and API in FULL44_Q1_API_FIXED_R1.md)",
+  "authorization": {
+    "decision": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/FULL44_Q1_API_FIXED_R1.md",
+    "bytes": 10596,
+    "sha256": "d84313a6741998985c0acedf2a3d8ea49fbf485b53d424ef869d6670444c9a41"
+  },
+  "input": {
+    "root": "../inputs",
+    "manifest": "../inputs/INPUT_MANIFEST.json",
+    "manifest_bytes": 2830,
+    "manifest_sha256": "c5340417f5270049fbd8ba0ae6dd40e9d45aeb12f8dd648f8e3d7eb8dcaac6e3",
+    "pin_count": 9,
+    "pin_bytes": 150960,
+    "rehash_after_api_go": "9/9 exact, 150960 bytes, no mismatch, rehashed after API fixation before writing outputs; pins untouched by this delivery",
+    "pins": [
+      {
+        "path": "SCOPE.md",
+        "bytes": 1229,
+        "sha256": "a0e59b268a08616dd0ce3f553dffb8a15a0c6419c31e5f2d4eca41727d1dc886"
+      },
+      {
+        "path": "RATIFICATION.md",
+        "bytes": 3927,
+        "sha256": "812386558a28a9dc6d4b8d709dcfe3b1d913639a1c08a4068023340a31b9c399"
+      },
+      {
+        "path": "contracts/GENERIC_T_CONTRACT.md",
+        "bytes": 13180,
+        "sha256": "7decaa54571289958749a3981544b1d524efc5bb6bb3169b897d58e90e013f88"
+      },
+      {
+        "path": "contracts/DUAL_STREAM_BUDGET.md",
+        "bytes": 13035,
+        "sha256": "42218665ea975332e054d740a5d98b0e48a3ff395e8c3a351bcf9093a024636b"
+      },
+      {
+        "path": "contracts/QUALIFICATION_MATRIX.md",
+        "bytes": 13354,
+        "sha256": "1e87e097956e97896840cf733ea3f20d2f562371962994d8b493144f71dde3b6"
+      },
+      {
+        "path": "contracts/MANIFEST.json",
+        "bytes": 15241,
+        "sha256": "0e4aa24412ffa53994cc54560377ccbadcba30504876cbb3a4fd0d5c2986120c"
+      },
+      {
+        "path": "reference/GuardV3.Contracts.cs",
+        "bytes": 8016,
+        "sha256": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709"
+      },
+      {
+        "path": "reference/GuardianCore.cs",
+        "bytes": 71132,
+        "sha256": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f"
+      },
+      {
+        "path": "reference/BudgetedEvidence.cs",
+        "bytes": 11846,
+        "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "path": "GenericTargetPlan.cs",
+      "bytes": 58707,
+      "sha256": "2484a1b2e889f4ffcc9f1973b2d3612542dc98bafc1c323c265dd76e5468efc1",
+      "content": "C#4/.NET4 data-only source: GenericTargetPlanContract, GenericQualificationMode C01..C14, GenericPlanRefusal (19 bounded codes), reservation/pin/root DTOs, GenericTargetPlanInput, GenericTargetPlanV1 (defensive getters), GenericTargetPlanCodec (TryBuild frozen order, win-quote-v1, win-env-v1, gtplan-canonical-v1 two-pass canonical record, TryEncodeCanonical, TryCountControlFiles). Not compiled, not executed."
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 15557,
+      "sha256": "40d65553c7a64e3a750220cc41f3781c8097db9f0969896500a9c23033121b5b",
+      "content": "E1-E10 application table, win-quote-v1 algorithm with literal oracle examples, win-env-v1 + allowlist + closed Q1 policy, canonical layout, frozen TryBuild refusal order table, defensive-copy rules, non-provided/remaining trusted-host obligations, Q1 limits, anchors D1-D8."
+    }
+  ],
+  "self_hash_policy": {
+    "path": "MANIFEST.json",
+    "embedded_self_sha256": null,
+    "embedded_self_bytes": null,
+    "reason": "Avoid circular self-hash/self-size claims. Final bytes and SHA256 of this manifest are computed after write and delivered in the detached task result to the lead; the parent can hash this same file independently."
+  },
+  "api_fixes_applied": {
+    "E1_reservation": "GenericPlanReservationBinding {ReservationSha256, ReservationEpoch>0}; validated HexPin + epoch>0 (BadReservationBinding).",
+    "E2_roots": "GenericOwnershipRootBinding {BindingLabel, BindingSha256, BindingEpoch>0}; <=16, labels distinct Ordinal, >=1 (E10); no handle/lease/OS right.",
+    "E3_pins": "GenericSourcePin {PathLabel, Bytes, Sha256}; labels distinct Ordinal; repeated SHA allowed under distinct labels; Bytes 0..int.MaxValue; labels PlainBounded<=259; labels are provenance data only.",
+    "E4_utf8": "new UTF8Encoding(false, true): strict UTF-8, no BOM, error on isolated surrogate; argv/env native bounds stay UTF16 code units.",
+    "E5_intent": "Derived WindowsCommandLine/EnvironmentBlock excluded from the canonical record; computed only from vectors + bound codec IDs; IntentSha256 = SHA256(record) lowercase hex64; no IntentSha256 input; no self-reference.",
+    "E6_control": "No new sub-cap. AdditionalControlArtifacts mandatory array (empty allowed), deep-copied, <=16 non-null byte[] each <=32768; record binds each by u32LE(len)+raw32(SHA256); ControlFileByteCount = canonical.Length + sum(actual artifact bytes) enforced against GuardV3Contract.MaxControlFileBytes (32768) inside TryBuild; artifact bytes never embedded in the record (no double credit); empty/partial list never claims complete host inventory.",
+    "E7_limits": "env4096, allowedNames4096, pins64, roots16, labels259, args128, source bytes 0..int.MaxValue, artifacts16; no cap or Q1 increase.",
+    "E8_image_pin": "Exactly one SourcePins entry with PathLabel Ordinal == TargetImagePath, Sha256 Ordinal == TargetImageSha256, Bytes > 0; data-only verification.",
+    "E9_predicates": "Frozen GuardianPredicates (HexPin/PlainBounded/DosPath/EnvironmentBlock) and GuardianMemoryEvidence.Put32/Put64 reused in same assembly; frozen CaseIdentity/GuardV3Contract reused; parent mono-assembly closure; no core/owner/native call.",
+    "E10_mode": "GenericQualificationMode C01..C14 required; pins >=1; roots >=1; TimeProfileId const V3-Q1, not an input.",
+    "corrections_argv": "Empty argument encodable (bypasses PlainBounded explicitly); backslash without space/quote stays NOT quoted; win-quote-v1 quote rule (2n+1 before quote, 2n before final quote); command line joined by single space; only TryBuild binds argv[0] to the DOS .exe image.",
+    "corrections_env": "win-env-v1 sorts by name OrdinalIgnoreCase (unsorted caller list NOT refused); duplicates/no-'='/empty-name/controls/NUL/invalid-surrogate refused; empty values allowed; empty env encodes exactly two NUL; explicit AllowedEnvironmentNames ASCII [A-Za-z_][A-Za-z0-9_]* <=259, no ignore-case duplicates; all entries allowlisted; closed Q1 names NODE_OPTIONS/BUN_OPTIONS/NODE_PATH/FF8_ENSEMBLE_SOURCE refused ignore-case even when declared; closed argv flags --preload/--require/--watch/--hot/--env-file exact or flag=value, -r only in -r=value form; --no-env-file allowed; no blanket substring.",
+    "refusal_codes": "GenericPlanRefusal None=0..BadControlArtifacts=17, BadEnvironmentAllowlist=18; TryBuild order frozen per API fix; failure outputs plan=null/refusal!=None, success refusal=None; codec string output null on false; canonical null on false; TryCountControlFiles totalBytes=0 on false."
+  },
+  "interpretation_notes": [
+    "The '-r' closed-flag wording '(avec forme -r=value seulement)' is implemented literally: only the '-r=value' prefix form is refused; the bare '-r' argument passes the data profile (documented in DESIGN.md section 3 and in the source comment). Escalate if the parent intended bare '-r' to be refused too.",
+    "Allowlist names are sorted and encoded OrdinalIgnoreCase (consistent with the entry-name domain); pins/roots/artifacts preserve caller order and are bound unsorted, per the layout line 'order is preserved and bound, not silently sorted'.",
+    "Per-argument PlainBounded bound is MaxCommandLineChars (32766); the real command-line bound is enforced on the joined string, so quoting growth still hits BadCommandLine.",
+    "GenericTargetPlanV1.EnvironmentEntries and AllowedEnvironmentNames getters return the canonical sorted copies; input order is erased from the plan object for entries/allowlist by design (QA must not treat caller order as pinned for these two; pins/roots/artifacts order IS pinned)."
+  ],
+  "current_unchanged": {
+    "time_profile": "V3-Q1",
+    "setup_ms": 5000,
+    "normal_ms": 20000,
+    "cleanup_ms": 30000,
+    "total_ms": 55000,
+    "evidence_total_bytes": 262144,
+    "captured_stdout_plus_stderr_bytes": 114688,
+    "max_control_file_bytes": 32768,
+    "max_sink_chunk_bytes": 4096,
+    "active_process_limit": 8,
+    "job_memory_bytes": 4294967296,
+    "time_proposal_125s_in_force": false,
+    "frozen_sources_modified": false,
+    "frozen_refs_rehash": "GuardV3.Contracts.cs/GuardianCore.cs/BudgetedEvidence.cs rehashed intact after API fixation"
+  },
+  "not_provided_future_obligations": [
+    "Broker, runtime ledger, permits, pumps, dual readers",
+    "Job, handles, CreateProcess, launch, stdin/stdout wiring",
+    "Readback/ACK, GuardianResult/SupervisorReceipt writing",
+    "Concrete ledger plan and OWNER/lease/registry artifacts (bound by hash+length only)",
+    "Path canonicality, non-reparse, real image hashing, ownership",
+    "Complete host control-file inventory (empty/partial AdditionalControlArtifacts proves nothing)"
+  ],
+  "performed": [
+    "Read the frozen supplied copies and the three parent contracts",
+    "Read and hash the parent API fixation document",
+    "SHA256 and byte counts of the 9 input pins before writing (9/9 exact)",
+    "Static design and writing of the three outputs only",
+    "Static re-read of the proposed source (no compile)",
+    "SHA256 and byte counts of the written outputs"
+  ],
+  "not_performed": [
+    "Read origin paths",
+    "Read QA outputs",
+    "Central code writes",
+    "Git/registry/DB/IDB writes",
+    "OS process inspection or control",
+    "Compilation or execution of any code, including this proposed source",
+    "Validator/test/product execution",
+    "Job/IOCP/DLL/native API calls",
+    "Product imports",
+    "Network/web research",
+    "IDA/live/FF8",
+    "Delegation",
+    "Team task claim/complete (report delivered in native final response)"
+  ],
+  "next_gate": "Parent accepts/fixes the proposed source and hands the API surface to the independent QA (full44-q1-data-qa) without cross-implementation; fresh V composed against contracts + source before any parent compile/run gate; no runtime, budget, native or full44 proof implied by this delivery.",
+  "anchors": [
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/FULL44_Q1_API_FIXED_R1.md",
+      "lines": "8-63",
+      "supports": "E1-E10 decisions and argv/env/closed-policy corrections"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/FULL44_Q1_API_FIXED_R1.md",
+      "lines": "65-148",
+      "supports": "Exact C#4 surface, TryBuild order, failure outputs"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/FULL44_Q1_API_FIXED_R1.md",
+      "lines": "150-174",
+      "supports": "Canonical layout, aggregate cap inside TryBuild, QA frontier"
+    },
+    {
+      "path": "../inputs/RATIFICATION.md",
+      "lines": "22-42",
+      "supports": "Q1 caps unchanged; control ensemble counted without double credit; slice contract"
+    },
+    {
+      "path": "../inputs/contracts/GENERIC_T_CONTRACT.md",
+      "lines": "31-58",
+      "supports": "GenericTargetPlanV1 field list and bounds"
+    },
+    {
+      "path": "../inputs/reference/GuardianCore.cs",
+      "lines": "223-274",
+      "supports": "Frozen predicates reused (HexPin/PlainBounded/DosPath/EnvironmentBlock)"
+    },
+    {
+      "path": "../inputs/reference/GuardV3.Contracts.cs",
+      "lines": "7-24",
+      "supports": "Frozen Q1 time constants and MaxControlFileBytes"
+    },
+    {
+      "path": "../inputs/reference/BudgetedEvidence.cs",
+      "lines": "119-137",
+      "supports": "Eight caps, precharge, no-refund accounting model"
+    }
+  ]
+}

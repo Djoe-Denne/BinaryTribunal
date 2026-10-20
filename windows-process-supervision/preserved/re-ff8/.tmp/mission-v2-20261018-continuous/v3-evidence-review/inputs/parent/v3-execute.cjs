@@ -1,0 +1,50 @@
+// Parent-only gate: owned harmless V3 runner, sequential cases, no FF8 access.
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous';
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),bs=p=>p.replaceAll('/','\\');
+const json=v=>JSON.stringify(v,(_,x)=>typeof x==='bigint'?x.toString():x,2)+'\n';
+const compile=JSON.parse(fs.readFileSync(base+'/v3-compile-receipt.json','utf8'));
+if(process.platform!=='win32'||process.arch!=='x64'||compile.exitCode!==0||!compile.postPinsExact||compile.productExecuted!==false)throw Error('Execution precondition');
+if(Object.keys(process.env).some(k=>k.toUpperCase()==='FF8_ENSEMBLE_SOURCE'))throw Error('FF8_ENSEMBLE_SOURCE must be absent; not cleared');
+const exe=compile.executable.path;
+function pins(){for(const p of [...compile.sources,compile.compiler,...compile.references,{path:exe,sha256:compile.executable.sha256}])if(sha(fs.readFileSync(p.path))!==p.sha256)throw Error('Pin drift '+p.path);}
+pins();
+const start=Date.now(),runRoot=compile.scratch+'/matrix-'+start;
+fs.mkdirSync(runRoot);fs.mkdirSync(runRoot+'/cases');
+const lease={at:new Date().toISOString(),ownerPid:process.pid,runRoot,exe,exeSha256:compile.executable.sha256,scope:'five sequential owned V3 variants only'};
+fs.writeFileSync(base+'/v3-execution-lease.json',json(lease),{flag:'wx'});
+const cases=['d-loss-signalled','s-loss-signalled','g-thread-loss-postRun-preACK','ack-mismatch-byte191','attestation-incoherent-length4'];
+const names=['control-files.bin','fixture-markers.bin','captured-streams.bin','guardian-evidence.bin','driver-evidence.bin','guardian-result.bin','supervisor-result.bin','supervisor-receipt.bin'].sort();
+const expected={
+'d-loss-signalled':{STATE:'AcknowledgedSealed',PHASE:'Sealed',HOLD:'DriverLost',OUTCOME:'ForcedQuiescent',QUIET:'True',JOB_RETAINED:'False',SEALED:'True',STOP_ATTEMPTS:'1',ACK_CALLS:'1',SIGNAL_ATTEMPTED:'True',SIGNAL_OK:'True',SIGNAL_REAL_WAIT:'True'},
+'s-loss-signalled':{STATE:'HeldNotQuiescent',PHASE:'Quarantined',HOLD:'ControllerLost',OUTCOME:'HoldQuarantined',QUIET:'True',JOB_RETAINED:'True',SEALED:'False',STOP_ATTEMPTS:'1',ACK_CALLS:'0',SIGNAL_ATTEMPTED:'True',SIGNAL_OK:'True',SIGNAL_REAL_WAIT:'True'},
+'g-thread-loss-postRun-preACK':{STATE:'GuardianLostBeforeProof',PHASE:'KernelQuiescent',HOLD:'None',OUTCOME:'NaturalQuiescent',QUIET:'True',JOB_RETAINED:'True',SEALED:'False',STOP_ATTEMPTS:'0',ACK_CALLS:'0',G_JOINED:'True',G_TERMINATED:'True',G_FAULT_INJECTED:'True',G_FAULT_CAUGHT:'True',G_UNEXPECTED_FAULT:'False'},
+'ack-mismatch-byte191':{STATE:'HeldNoAcknowledgement',PHASE:'Quarantined',HOLD:'PublicationUnacknowledged',OUTCOME:'HoldQuarantined',QUIET:'True',JOB_RETAINED:'True',SEALED:'False',STOP_ATTEMPTS:'1',ACK_CALLS:'1',MUTATION_WRITES:'1',MUTATION_COMPLETE:'True',MUTATION_DIFFS:'1',REAL_READBACK_BYTES:'192'},
+'attestation-incoherent-length4':{STATE:'AttestationIncoherent',PHASE:'none',HOLD:'none',OUTCOME:'none',QUIET:'False',JOB_RETAINED:'False',SEALED:'False',CORE_LAUNCHES:'0',OWNER_CALLS:'0',ROOT_CREATED:'False',RESUME_OK:'False',ACK_CALLS:'0'}
+};
+function facts(raw,errors){const lines=raw.trim().split(/\r?\n/);if(lines.length!==1||lines[0].length>2048){errors.push('facts-line-shape');return{};}const out={};for(const token of lines[0].split(' ')){const at=token.indexOf('=');if(at<1||Object.hasOwn(out,token.slice(0,at))){errors.push('facts-token');continue;}out[token.slice(0,at)]=token.slice(at+1);}return out;}
+function publication(bytes,name,errors){if(bytes.length!==192){errors.push('record192');return null;}const r={magic:bytes.toString('ascii',0,4),version:bytes.readUInt32LE(4),nonceHexShape:/^[0-9a-f]{64}$/.test(bytes.toString('ascii',8,72)),epoch:bytes.readBigUInt64LE(72),sequence:bytes.readBigUInt64LE(80),outcome:bytes.readUInt32LE(88),firstHold:bytes.readUInt32LE(92),rootExitCode:bytes.readUInt32LE(96),normalRootWaits:bytes.readUInt32LE(100),cleanupRootWaits:bytes.readUInt32LE(104),normalPairs:bytes.readUInt32LE(108),cleanupPairs:bytes.readUInt32LE(112),initialQueries:bytes.readUInt32LE(116),elapsedMs:bytes.readBigUInt64LE(120),limitFlags:bytes.readUInt32LE(128),activeProcessLimit:bytes.readUInt32LE(132),jobMemoryBytes:bytes.readBigUInt64LE(136),evidenceRecords:bytes.readUInt32LE(144),controlWaits:bytes.readUInt32LE(148),admissionSealed:bytes.readUInt32LE(152),rootsReleased:bytes.readUInt32LE(156),stopRequested:bytes.readUInt32LE(160),previousTotal:bytes.readUInt32LE(164),lastByte:bytes[191]};
+if(r.magic!=='GCV3'||r.version!==1||!r.nonceHexShape||r.epoch<=0n||r.sequence<=0n||r.limitFlags!==0x2208||r.activeProcessLimit!==8||r.jobMemoryBytes!==4294967296n||r.normalRootWaits>4096||r.cleanupRootWaits>300||r.normalPairs>4096||r.cleanupPairs>300||r.evidenceRecords>96||r.elapsedMs>55000n||r.admissionSealed!==1||r.rootsReleased!==1)errors.push('record-fields');
+const ack=name==='ack-mismatch-byte191';if(r.outcome!==(ack?1:2)||r.firstHold!==(ack?0:17)||r.stopRequested!==(ack?0:1))errors.push('pre-ack-publication-fields');
+if(!bytes.subarray(168,191).every(x=>x===0)||bytes[191]!== (ack?1:0))errors.push('record-padding-or-byte191');return r;}
+const results=[];let fatal=null;
+try{for(const name of cases){pins();const dir=runRoot+'/cases/'+name;if(fs.existsSync(dir))throw Error('Case directory must be absent');
+const at=Date.now();const run=cp.spawnSync(bs(exe),[name,bs(dir)],{cwd:compile.scratch,encoding:'utf8',timeout:70000,maxBuffer:65536,killSignal:'SIGKILL',windowsHide:true});const elapsed=Date.now()-at;
+// Preserve captures BEFORE parsing/adjudication, even on malformed results.
+const stdout=run.stdout||'',stderr=run.stderr||'';fs.writeFileSync(runRoot+'/'+name+'.stdout.txt',stdout,{flag:'wx'});fs.writeFileSync(runRoot+'/'+name+'.stderr.txt',stderr,{flag:'wx'});
+const errors=[];if(run.status!==0||run.signal||run.error)errors.push('non-natural-zero-exit');if(stderr.length)errors.push('runner-stderr');const f=facts(stdout,errors);
+const required={FACTS_ONLY:'true',CASE:name,MATRIX_HOLD:'none-expected-facts-only',RESERVED:'True',CLEANUP_FAILED:'False',LOCAL_BUDGET_HELD:'False',BUDGET_INTEGRATED:'NOT_PROVEN',LAST_CLOSE:'NOT_ESTABLISHED',...expected[name]};
+if(name!=='attestation-incoherent-length4')Object.assign(required,{CORE_LAUNCHES:'1',ROOT_CREATED:'True',RESUME_OK:'True',ROOT_STOP_ATTEMPTS:'0'});
+for(const[k,v]of Object.entries(required))if(f[k]!==v)errors.push('fact-'+k+':'+String(f[k]));
+if(!/^\d+$/.test(f.LOCAL_CHARGED||'')||Number(f.LOCAL_CHARGED)>262144)errors.push('local-charge');
+const fileData={},files=[];const listed=fs.existsSync(dir)?fs.readdirSync(dir).sort():[];if(JSON.stringify(listed)!==JSON.stringify(names))errors.push('eight-files-exact');
+for(const n of listed){const p=dir+'/'+n,s=fs.lstatSync(p);if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.size>262144){errors.push('unsafe-case-file');continue;}const b=fs.readFileSync(p);fileData[n]=b;files.push({name:n,bytes:b.length,sha256:sha(b)});}
+const withRecord=name==='d-loss-signalled'||name==='ack-mismatch-byte191';for(const n of names){const b=fileData[n];if(!b||b.length!==(withRecord&&['guardian-result.bin','supervisor-receipt.bin'].includes(n)?192:0))errors.push('file-size-'+n);}
+if(files.reduce((n,f)=>n+f.bytes,0)>262144)errors.push('files-cap');let decoded=null;if(withRecord&&fileData['guardian-result.bin']&&fileData['supervisor-receipt.bin']){if(!fileData['guardian-result.bin'].equals(fileData['supervisor-receipt.bin']))errors.push('real-readback-receipt-mismatch');decoded=publication(fileData['guardian-result.bin'],name,errors);}
+pins();const rec={at:new Date().toISOString(),case:name,exeSha256:compile.executable.sha256,args:[name,dir],parentPassedChildSentinel:false,ownedRunnerPid:run.pid,exitCode:run.status,signal:run.signal,error:run.error?String(run.error.message):null,elapsedMs:elapsed,stdoutSha256:sha(stdout),stderrSha256:sha(stderr),facts:f,typedGuardianFacts:{present:f.PHASE&&f.PHASE!=='none',kernelQuiescent:f.PHASE&&f.PHASE!=='none'?f.QUIET==='True':null,jobRetained:f.PHASE&&f.PHASE!=='none'?f.JOB_RETAINED==='True':null},files,publicationBeforeAck:decoded,checks:errors,factsMatchExpected:errors.length===0,notAPassOrPromotion:true,postPinsExact:true};
+fs.writeFileSync(runRoot+'/'+name+'.receipt.json',json(rec),{flag:'wx'});for(const n of listed)if(fileData[n])fs.chmodSync(dir+'/'+n,0o444);for(const suffix of ['.stdout.txt','.stderr.txt','.receipt.json'])fs.chmodSync(runRoot+'/'+name+suffix,0o444);results.push(rec);
+console.log(JSON.stringify({case:name,exitCode:run.status,elapsedMs:elapsed,state:f.STATE,phase:f.PHASE,outcome:f.OUTCOME,files:files.length,factsMatchExpected:rec.factsMatchExpected,checks:errors}));if(errors.length)break;
+}}catch(e){fatal=String(e.stack||e);}
+const summary={at:new Date().toISOString(),gate:'V3_EXECUTION_GATE.md',runRoot,compileReceipt:base+'/v3-compile-receipt.json',casesRequested:cases,attempted:results.length,allFiveFactsMatchExpected:results.length===5&&results.every(x=>x.factsMatchExpected),fatal,results,limits:{driverForcedNeverPass:true,eventsDSStandIns:true,guardianLossOnlyPostRunPreAck:true,crossProcessBudget:'NOT_PROVEN',lastCloseCase6:'NOT_ESTABLISHED',ff8OrLive:false,integrationOrPromotion:false}};
+fs.writeFileSync(runRoot+'/matrix-summary.json',json(summary),{flag:'wx'});fs.chmodSync(runRoot+'/matrix-summary.json',0o444);fs.writeFileSync(base+'/v3-matrix-summary.json',json(summary),{flag:'wx'});fs.chmodSync(base+'/v3-matrix-summary.json',0o444);fs.writeFileSync(base+'/v3-execution-release.json',json({at:new Date().toISOString(),lease,attempted:results.length,activeRunner:false,notProofOfLastClose:true}),{flag:'wx'});
+if(fatal)console.log('FATAL '+fatal.slice(0,2500));console.log('SUMMARY '+JSON.stringify({attempted:summary.attempted,allFiveFactsMatchExpected:summary.allFiveFactsMatchExpected,runRoot,notAPassOrPromotion:true}));if(!summary.allFiveFactsMatchExpected)process.exitCode=2;

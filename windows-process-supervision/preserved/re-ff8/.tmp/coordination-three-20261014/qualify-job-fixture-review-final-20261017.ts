@@ -1,0 +1,28 @@
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, lstatSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { strict as assert } from 'node:assert';
+import ts from '../../tools/ff8-harness/node_modules/typescript/lib/typescript.js';
+import { Service } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import { OpenCode } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',load=(n:string)=>JSON.parse(readFileSync(phase+'/'+n,'utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const a=load('job-fixture-review-r1-packet-admission-20261017.json'),q=load('job-fixture-review-r1-request-20261017.json'),v=load('job-fixture-review-r1-parent-packet-verification-20261017.json');
+const ep=await Service.discover();assert(ep);const cli=OpenCode.make({baseUrl:ep.url,headers:Service.headers(ep)}),session=await cli.session.get({sessionID:a.session});assert.deepEqual(session.model,a.model);const res=await fetch('http://127.0.0.1:4747/api/state');assert(res.ok);const team=(await res.json()).teams.find((t:any)=>t.id===q.missionId),task=team.tasks.find((t:any)=>t.id===a.task);assert(['in_progress','completed'].includes(task.status));assert.equal(task.assignee,'job-fixture-review-r1');assert.equal(team.tasks.find((t:any)=>t.id==='task_mv6towry_000d_c1nxby').status,'blocked');
+const reports:Array<{messageId:string;toolId:string;text:string}>=[];let cursor:string|undefined,pages=0;
+do{assert(++pages<=5);const page=await cli.message.list({sessionID:a.session,...(cursor?{cursor}:{limit:100,order:'asc'})});for(const m of page.data){if(m.type!=='assistant')continue;for(const p of m.content??[]){const code=p.state?.input?.code;if(p.type!=='tool'||typeof code!=='string'||!code.includes('<task-result>')||!code.includes('ACCEPTABLE_SOURCE_SCAFFOLD_SCOPED'))continue;const ast=ts.createSourceFile('public-result.js',code,ts.ScriptTarget.Latest,true);assert.equal(ast.parseDiagnostics.length,0);const walk=(node:ts.Node)=>{if((ts.isStringLiteral(node)||ts.isNoSubstitutionTemplateLiteral(node))&&node.text.includes('<task-result>')&&node.text.includes('ACCEPTABLE_SOURCE_SCAFFOLD_SCOPED'))reports.push({messageId:m.id,toolId:p.id,text:node.text});ts.forEachChild(node,walk);};walk(ast);}}cursor=page.cursor.next??undefined;}while(cursor);
+assert(reports.length>=1);const distinct=new Map(reports.map(r=>[sha(Buffer.from(r.text)),r]));assert.equal(distinct.size,1,'Different public report payloads require parent disposition');const r=reports[0]!,b=Buffer.from(r.text),start=r.text.indexOf('<details>')+9,end=r.text.lastIndexOf('</details>');assert(start>=9&&end>start&&r.text.includes('<status>completed</status>'));const details=Buffer.from(r.text.slice(start,end));
+for(const s of ['101','136','14','256','Job0','Assign','NONBLIND'])assert(r.text.includes(s),s);
+let bytes=0;for(const f of q.files){const path=q.destinationRoot+'/'+f.path,x=readFileSync(path);assert.equal(sha(x),f.sha256);assert.equal(statSync(path).mode&0o222,0);assert.equal(statSync(path).nlink,1);assert(lstatSync(path).isFile()&&!lstatSync(path).isSymbolicLink());bytes+=x.length;}assert.equal(bytes,121060);assert.equal(sha(readFileSync(q.destinationRoot+'/.preparation-receipt.json')),v.receiptSha256);
+const main=load('l5-budget-main-transfer-before.json');for(const f of [...main.preserved,...main.source])assert.equal(sha(readFileSync(root+'/'+f.path)),f.sha256);
+assert(!existsSync(a.outputDirectory));mkdirSync(a.outputDirectory);writeFileSync(a.outputDirectory+'/WORKER_PUBLIC_RESULT.xml',b,{flag:'wx'});writeFileSync(a.outputDirectory+'/WORKER_PUBLIC_REVIEW.md',details,{flag:'wx'});
+const out={at:new Date().toISOString(),task:task.id,session:session.id,model:session.model,nativeTaskStatusAtQualification:task.status,proofDirectory:a.outputDirectory,
+ verdict:'ACCEPTABLE_SOURCE_SCAFFOLD_SCOPED',publicResult:{bytes:b.length,sha256:sha(b)},publicDetails:{bytes:details.length,sha256:sha(details)},publicSource:{messageId:r.messageId,toolId:r.toolId,method:'public tool literal via AST only never eval private reasoning or Plan write bypass',identicalDeliveryRefs:reports.map(r=>({messageId:r.messageId,toolId:r.toolId})),distinctPayloads:1},
+ firstReaderStoppedOnTwoIdenticalPublicDeliveryLiteralsBeforeArchiveNotTwoReviewsOrProductFailure:true,
+ eightSourceAnchorsFixtureSafetyAndIndependentOracleQualifiedNoDynamicRepro:true,
+ all12Payloads121060BytesReceiptAndMain275Exact:true,
+ staticChecksNotRuntimeFacts:['source watchdog14s not wallclock host15s','exiting marker not actual exit','fixed tree and marker quota not aggregate case write cap','prepare ACK argument not external reservation authority','exit0 JSON HOLD not a successful runtime test'],
+ knownGapsUnchanged:['aggregate256KiB vs helper64MiB','independent observer and Job0 binding','case6 original launcher handle control','case8 reference and implementation','forced Assign/nestedJob refusal coverage'],
+ parentDecision:'source scaffold review receivable, prepare separate pinned compiler-only route for Fixture.cs; no fixture execution or operational gap waiver',
+ stage:'FIXTURE_SOURCE_SCAFFOLD_REVIEW_RECEIVABLE_COMPILE_PREPARATION_ONLY_RUNTIME_HOLD_UNCHANGED',
+ noCompilerDllReadLoadJobApiFixtureRuntimeTestsDbSourceFixGitNativeOrIntegrationByQualification:true,
+ globalL9L10MainFull44RemainClosed:true};
+writeFileSync(phase+'/job-fixture-review-final-parent-verification-20261017.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(out));

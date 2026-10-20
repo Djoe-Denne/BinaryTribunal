@@ -1,0 +1,18 @@
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { strict as assert } from 'node:assert';
+const phase='C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014',destination=phase+'/JOB_NEWLINE_REFERENCE_INPUTS_20261017';
+assert(!existsSync(destination));const sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const records:any[]=[],files:Array<{name:string;b:Buffer}>=[];
+const get=async(url:string,name:string)=>{const response=await fetch(url,{headers:{'User-Agent':'re-graph-scheduler-parent-source-reference','Accept':name.endsWith('.md')?'text/markdown':'application/vnd.github+json'},signal:AbortSignal.timeout(30000)});assert(response.ok,url+' HTTP '+response.status);const b=Buffer.from(await response.arrayBuffer());assert(b.length<2*1024*1024);records.push({url,finalUrl:response.url,status:response.status,contentType:response.headers.get('content-type'),bytes:b.length,sha256:sha(b),name,at:new Date().toISOString()});files.push({name,b});return b;};
+try{
+ const repoBytes=await get('https://api.github.com/repos/microsoft/referencesource','REPOSITORY_METADATA.json'),repo=JSON.parse(repoBytes.toString('utf8'));assert.equal(repo.full_name.toLowerCase(),'microsoft/referencesource');assert(typeof repo.default_branch==='string');
+ const commitBytes=await get('https://api.github.com/repos/microsoft/referencesource/commits/'+encodeURIComponent(repo.default_branch),'COMMIT_METADATA.json'),commit=JSON.parse(commitBytes.toString('utf8'));assert(/^[a-f0-9]{40}$/.test(commit.sha));
+ const prefix='https://raw.githubusercontent.com/microsoft/referencesource/'+commit.sha+'/mscorlib/system/io/';
+ const tw=await get(prefix+'textwriter.cs','REFERENCE_TextWriter.cs'),sw=await get(prefix+'streamwriter.cs','REFERENCE_StreamWriter.cs');
+ await get('https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.newline?view=netframework-4.8.1&accept=text/markdown','LEARN_TextWriter_NewLine.md');
+ const excerpts:any[]=[];for(const[name,b,needles]of [['REFERENCE_TextWriter.cs',tw,['InitialNewLine','CoreNewLine','String NewLine','void WriteLine(String value)']],['REFERENCE_StreamWriter.cs',sw,['void WriteLine(String value)','CoreNewLine','WriteLineAsyncInternal']]] as const){const lines=b.toString('utf8').split('\n');const indexes=lines.map((line,index)=>needles.some(needle=>line.includes(needle))?index:-1).filter(index=>index>=0);for(const index of indexes){const from=Math.max(0,index-2),to=Math.min(lines.length,index+6);excerpts.push({name,from:from+1,to,text:lines.slice(from,to).map((line,i)=>(from+i+1)+':'+line).join('\n')});}}
+ const manifest={at:new Date().toISOString(),purpose:'AUTHORITATIVE_READ_ONLY_REFERENCE_NO_HELPER_OS_PROBE_OR_COMPILATION',repository:'microsoft/referencesource',commit:commit.sha,defaultBranch:repo.default_branch,records,excerpts,sourceCodeIsEvidenceOnlyMustNeverImportOrCompile:true,networkFetchOnlyNoJobFixtureProductRuntimeOrSourceChanges:true};
+ mkdirSync(destination);for(const f of files)writeFileSync(destination+'/'+f.name,f.b,{flag:'wx'});writeFileSync(destination+'/REFERENCE_MANIFEST.json',JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({destination,commit:commit.sha,records:records.map(r=>({name:r.name,bytes:r.bytes,sha256:r.sha256,contentType:r.contentType})),excerptHead:excerpts.slice(0,8)}));
+}catch(error){writeFileSync(phase+'/job-newline-reference-fetch-failure-'+Date.now()+'.json',JSON.stringify({at:new Date().toISOString(),records,error:String(error),noHelperCompilationOrJobApiProbe:true},null,2)+'\n',{flag:'wx'});throw error;}

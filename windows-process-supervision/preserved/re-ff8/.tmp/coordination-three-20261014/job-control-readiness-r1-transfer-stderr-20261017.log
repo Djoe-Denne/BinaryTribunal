@@ -1,0 +1,13 @@
+50 | }
+51 | function validateRequest(req: PreparationRequest): void {
+52 |   if (req && Object.keys(req).some(k => !["schemaVersion", "missionId", "taskId", "cycle", "role", "sourceRoot", "targetSessionId", "destinationRoot", "blind", "files"].includes(k))) throw new Error("Unexpected preparation request property");
+53 |   if (!req || req.schemaVersion !== 1 || !Number.isSafeInteger(req.cycle) || req.cycle < 1 || typeof req.blind !== "boolean") throw new Error("Invalid preparation request");
+54 |   for (const id of [req.missionId, req.taskId, req.targetSessionId]) if (typeof id !== "string" || !/^[A-Za-z0-9_-]{1,128}$/.test(id)) throw new Error("Exact bounded ownership IDs required");
+55 |   if (!["A", "B", "R", "implementer", "reviewer", "mechanical"].includes(req.role) || ((req.role === "A" || req.role === "B") && !req.blind)) throw new Error("Invalid role/blind contract");
+                                                                                                                                                             ^
+error: Invalid role/blind contract
+      at validateRequest (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\src\mechanical-preparation.ts:55:153)
+      at prepareTransfer (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\src\mechanical-preparation.ts:62:3)
+      at C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\scripts\prepare-transfer.ts:11:23
+
+Bun v1.4.2 (Windows x64)
