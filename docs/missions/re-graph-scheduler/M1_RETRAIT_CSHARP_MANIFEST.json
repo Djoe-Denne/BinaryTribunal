@@ -1,0 +1,108 @@
+{
+  "id": "rms-m1-retrait-csharp-20261020",
+  "version": 1,
+  "date": "2026-10-20",
+  "statut": "VERIFIED_NOT_INTEGRATED",
+  "statut_note": "A09 tranché par l'utilisateur (2026-10-20) : le RMS visé = la route statique @re-ff8/mission-harness ; aucune des 57 familles BLOCKED n'est requise sur main (0 migration requise ; V01/V04 renvoyées à la définition de M2). Candidat T3 vérifié (review CONFORME, A/B zéro régression) ; gels C# retirés du checkout après préservation byte-exacte (voir withdrawal_of_gels). Intégration à main : commits locaux uniquement sous autorisation Git explicite, pas de push/amend.",
+  "head_depart": "bba8eb91f38828cab88251a9be0de1f5f179fb1b",
+  "head_livre": "bba8eb91f38828cab88251a9be0de1f5f179fb1b",
+  "tree_head": "66245ec711997d381788403e33c391b45e812f15",
+  "integration_git": "NON_AUTORISEE — candidat vérifié non intégré ; aucun commit sur main ; aucun push/amend",
+  "helper_conserve": {
+    "branche": "dev/windows-process-supervision",
+    "worktree": "C:/Users/djden/source/repos/retro-eng/re-ff8-helper-win-wt",
+    "commit": "9f789ff931a3dfe2aeb6497addd067368faffb88",
+    "parent": "bba8eb91f38828cab88251a9be0de1f5f179fb1b",
+    "copies": 1471,
+    "octets": 17919783,
+    "identite": "1471/1471 byte-exactes (source avant/après = destination = blob git)",
+    "manifest_versionne": "47f8cc88fd7e9cdf7a85702b4d6426e62b217762a291c8575e44c7765d90102d",
+    "runners_sans_copie_reff8": [
+      { "origine": "C:/Users/djden/AppData/Local/Temp/opencode/V3ASM2-77be4f35f8/in/BatchTestRunner.cs", "sha256": "cab18f3055bea831da25605f34017fac26c343b420d4cfd6b965bb5ffb44fa0d" },
+      { "origine": "C:/Users/djden/AppData/Local/Temp/opencode/V3MEM-9c1ae2d7b4/inputs/BudgetMemoryRunner.cs", "sha256": "cd00d0915a8f935b674a384b321211a431997a4b59a94b19798234527650763d" }
+    ],
+    "limites_documentees": ["budgets cross-process NOT_PROVEN", "perte/last-close multiprocessus non établis"]
+  },
+  "retraits": {
+    "fichiers_retires_de_main": 0,
+    "justification": "T1 : 2673 blobs trackés de main sans .cs, sans PE managé, sans build .NET ; les 325 .cs du checkout sont hors index (.tmp/, inputs/) = gels d'evidence préservés sur place",
+    "inventaire": "docs/missions/re-graph-scheduler/M1_INVENTAIRE_CSHARP_20261020.json",
+    "inventaire_sha256": "8909834645cf837ac59e996f2579626a326a4d004c7124b8013d9e2f67972c57",
+    "hashes_source_destination": "voir M1_HELPER_PRESERVATION_20261020.json (1471 entrées : origine, destination, tailles, SHA-256 avant/après, blob git)"
+  },
+  "dependances_partagees_et_remplacements": {
+    "mapping_complet": "docs/missions/re-graph-scheduler/M1_REMPLACEMENTS_20261020.json",
+    "mapping_sha256": "fdeba708ab491795fd0c671f6d01cf190224a5f0f5ec6a8affebb3e1b7bb2eb7",
+    "total_familles": 112,
+    "ts_inchangees": 39,
+    "portees_verifiees": ["Q01", "Q03", "Q04"],
+    "autocontrole_reference": ["Q02"],
+    "partial_blocked": ["Q09 (10 sous-cas réels portés)"],
+    "blocked": 57,
+    "windows_archivees": 8,
+    "plans_non_qualifies": 3,
+    "fichiers_candidat": [
+      "tools/ff8-harness/src/generic-target-primitives.ts",
+      "tools/ff8-harness/test/generic-target-primitives.test.ts",
+      "tools/ff8-harness/test/fixtures/generic-target-reference.json"
+    ],
+    "fichiers_modifies": ["tools/ff8-harness/package.json (+1 ligne test:q1-primitives, préimage 33781202f102a3ee570fd1d1a96c6c98fbfa1fa0b69f9fb68f5d6f477f77ea4b vérifiée)", "tools/ff8-harness/README.md (section ajoutée, reste byte-identique à l'archive)"],
+    "references_independantes": [
+      { "fichier": ".tmp/mission-v2-20261018-continuous/full44-source-r3-frozen/GenericTargetPlan.cs", "sha256": "ce19bd43052bd46ce65ea355fb4af12ade30c6d6a36174b4bf5dd02d19d6aee1" },
+      { "fichier": ".tmp/mission-v2-20261018-continuous/full44-qa1-r3-frozen/GenericTargetPlanTests.cs", "sha256": "a3a910bfffe77c0c4256c1f6d3e08eb0ed479838b758b703fba3bb2318106f95" },
+      { "fichier": "GuardianCore.cs (GuardianPredicates.PlainBounded)", "sha256_t1": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f" }
+    ],
+    "escalades": ["besoin d'exécutable compilé → Rust/C++ (préférence utilisateur), rien d'implémenté", "A09 : identité du plugin RMS installé non établie"]
+  },
+  "suites_et_recus_tests": {
+    "q1_primitives": { "commande": "bun run test:q1-primitives", "resultat": "55 pass / 0 fail / 125 expect / exit 0", "executions_independantes": 4, "bornes": "60s" },
+    "typecheck": { "commande": "bun run typecheck", "resultat": "exit 0", "executions_independantes": 4, "outils": "Bun 1.4.2 / TS 5.9.3" },
+    "suite_complete": {
+      "borne": "300s, fixture raw98 (99 JSON, 1,67 Mo, manifest 79790bef…) injectée et hashée à l'identique dans les trois espaces",
+      "head_bba8eb9": { "pass": 930, "fail": 0, "skip": 1, "tests": 931, "fichiers": 28, "assertions": 77454, "duree_s": 174.7, "exit": 0 },
+      "head_plus_t3": { "pass": 985, "fail": 0, "skip": 1, "tests": 986, "fichiers": 29, "assertions": 77579, "duree_s": 163.8, "exit": 0 },
+      "candidat_repo_head_user_t3": { "pass": 1209, "fail": 0, "skip": 1, "tests": 1210, "fichiers": 41, "assertions": 79703, "duree_s": 213.0, "exit": 0 },
+      "conclusion": "HEAD→C : 931 identités/statuts conservées exactement, seuls +55 tests Q1 / +125 assertions ; C→candidat : 986 identités conservées, +224 PASS du travail utilisateur ; le 1 SKIP est la garde historique cross-project Ensemble, intacte ; zéro régression, suites entièrement vertes",
+      "artefact_methode_initial": "les 4 FAIL des espaces B/C du superviseur (sans fixture raw98) étaient environnementaux ; diagnostiques nommés conservés dans la première version du bilan",
+      "audit_zero_cs_candidate_repo": { "fichiers": 3948, "octets": 107232736, "cs": 0, "cs_embarque": 0, "pe_natifs": 8, "pe_manages": 0, "faux_positifs_expliques": 3 }
+    },
+    "recus_t4": { "fichier": "docs/missions/re-graph-scheduler/M1_VERIFICATION_20261020.json", "taille": 1644852, "sha256": "133b647a669de9d093556016575fc3bc97f8da2eed84ecea30344eda089da27e", "espace_possedé": "C:/Users/djden/AppData/Local/Temp/opencode/mission-m1-verify-20261020T132358307Z/", "phases": "21 reçus complets (phases 1/2 conservées intégralement, ENOENT requalifiés artefacts de méthode ; phase 3 = qualification trois colonnes + audit zéro C# du candidate-repo)", "artefact_methode": "premier A/B (baseline 60s tronquée vs candidat non structuré 144 ENOENT) conservé mais non utilisé pour conclusion" },
+    "review_independante": { "fichier": "docs/missions/re-graph-scheduler/M1_REVIEW_T3_20261020.md", "sha256": "ce66969b3e7fd3a67b2d396592851c3a4b6e1a3c27355da052200102b2ad5d13", "verdict": "aucun défaut établi ; points 1–4 conformes ; doute d'attribution package.json levé par reconstruction byte-exacte (superviseur)" }
+  },
+  "controle_zero_csharp": {
+    "arbre_livre_head": { "methode": "T1 lecture directe HEAD/DIRC/objets packs", "resultat": "0 .cs / 0 PE managé / 0 build .NET sur 2673 blobs (111 126 156 B)" },
+    "candidat_harness_dependances": { "methode": "T4 par contenu (headers PE/CLR)", "resultat": "3843 fichiers, 0 .cs, 8 PE natifs, 0 PE managé, 0 commande .NET réelle, 3 faux positifs lexicaux justifiés", "portee": "harness + dépendances seulement — le dépôt entier reste couvert par T1" },
+    "cs_hors_index_conserve": { "fichiers": 325, "contenus_distincts": 34, "statut": "gels d'evidence intacts sur place, référencés par manifests ; aucun déplacement/suppression" }
+  },
+  "preservation_changements_etrangers": {
+    "baseline_porcelain": 505,
+    "apres_t1": 507,
+    "apres_t2_t3_t4": 509,
+    "nouvelles_entrees_m1": ["docs/missions/re-graph-scheduler/M1_*.md", "docs/missions/re-graph-scheduler/M1_*.json"],
+    "empreintes_controle": {
+      "diff_pre_t3_ff8_harness": "8b279da4cf18df555da037480edbfe32418b8d83",
+      "liste_dirty_ff8_harness": ".tmp/mission-m1-control/baseline-ff8-harness-dirty.txt",
+      "hash_liste_dirty": "50f6e8945640fad6fb76f74063fce4c7af1af02cf33a8e314ae4d88c3787577d"
+    },
+    "main_head_index": "inchangés (T2 : SHA-256 index avant/après identiques ; T3 : aucun git ; T4 : lecture seule + clone)"
+  },
+  "impacts_suite_rms": {
+    "route_statique": "inchangée et verte (suite complète : seuls les 4 FAIL préexistants des QA RE historiques)",
+    "nouvelle_couverture": "+55 tests Q1-port à oracles indépendants sur l'arbre livré",
+    "non_regressions": "démontrée par A/B isolant T3 (espaces neufs, même méthode)",
+    "ouvert_pour_m2": ["A09 : TRANCHÉ (RMS = route statique mission-harness)", "V01/V04 : invariants partagés à hériter ou non — à définir par M2", "équivalents Rust/C++ si besoin d'exécutable", "intégration Git sous autorisation explicite"]
+  },
+  "withdrawal_of_gels": {
+    "autorisation": "utilisateur 2026-10-20 : « j'accepte [A09] mais elles doivent alors disparaître de la branche main »",
+    "receu": "docs/missions/re-graph-scheduler/M1_RETRAIT_GELS_20261020.json",
+    "receu_sha256": "f735859906c68a5f6a6896fbf6bb092b4f4cec48919edca744984014e80f057b",
+    "methode": "reçu écrit AVANT suppression ; ensemble = strictement les copies de M1_HELPER_PRESERVATION_20261020.json d'origine interne NON trackée (exclusions : 40 fichiers trackés, M1_INVENTAIRE_CSHARP_20261020.md/.json) ; par fichier : existence + sha256 courant == manifest de préservation, sinon skip ; Remove-Item par fichier ; jamais git clean / wipe de répertoire",
+    "supprimes": 1261,
+    "skips": 0,
+    "repartition": { ".tmp": 1185, "inputs": 72, "docs_non_tracks": 4 },
+    "scan_cs_apres": 0,
+    "porcelain_apres": 518,
+    "fichiers_tracks_conservés": 40,
+    "note_manifests": "les champs « origine » des manifests de préservation désignent désormais les copies de la branche dev/windows-process-supervision (copies byte-exactes, hashes inchangés)"
+  }
+}

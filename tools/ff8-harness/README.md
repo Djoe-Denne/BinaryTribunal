@@ -9,6 +9,41 @@ Extension opt-in : [accès par rôle et partage entre R](docs/ROLE_ACCESS.md).
 La sortie finale stricte et les autorisations de communication sont deux
 contrats distincts ; les profils de production restent à vérifier en natif.
 
+## M1 — dépendances et couverture, 2026-10-20
+
+Le paquet présent est **`@re-ff8/mission-harness`**, privé, Bun/TypeScript.
+Ses entrées sont le CLI `src/cli.ts` et les scripts déclarés dans `package.json`.
+Ce checkout ne démontre pas l'installation d'un **plugin RMS OpenCode V2
+générique** ; Ensemble n'est pas ce plugin. Aucun nouvel orchestrateur ni
+changement de configuration globale n'est introduit ici.
+
+**M1 reste BLOCKED.** Le port data-only
+`src/generic-target-primitives.ts` couvre les constantes Q1 et l'encodage argv
+Windows (UTF-16, quoting, bornes et refus), ainsi que le comptage autonome des
+octets de contrôle. Il ne construit pas un plan Q1, n'applique pas sa politique
+de flags/allowlist et n'implémente ni le broker Q2a ni le coordinateur Q2b1.
+Le golden canonique conservé dans les fixtures est une référence indépendante,
+pas une sortie de codec ni une preuve d'autorisation ou de confinement OS.
+
+```powershell
+bun run test:q1-primitives
+```
+
+Cette suite autonome utilise seulement Bun/TS et ses littéraux de référence ;
+elle ne lit pas les sources historiques, ne compile ni ne charge .NET, et ne
+lance aucune cible. Elle ne remplace **pas** les contrats Q1/Q2 encore absents.
+Les anciennes gates compile/run et préparations de `.tmp/` restent des preuves
+gelées, inchangées ; ne pas les relancer comme une route M1 sans C#.
+Un timeout OpenCode/Bun ne remplace jamais les garanties d'arrêt des descendants,
+de Job/handles, de readback/ACK ou de progression native.
+
+Le développement du helper Windows est conservé sur
+`dev/windows-process-supervision`, commit
+`9f789ff931a3dfe2aeb6497addd067368faffb88`, avec ses limites et preuves rouges.
+Voir l'[index de conservation](../../docs/missions/re-graph-scheduler/M1_HELPER_PRESERVATION_20261020.md)
+et le [mapping exhaustif ancien scénario → test/absence](../../docs/missions/re-graph-scheduler/M1_REMPLACEMENTS_20261020.md).
+Aucune garantie requise sans équivalent vérifié n'est réputée différée ou acquise.
+
 ## Installation locale et contrôle
 
 ```powershell

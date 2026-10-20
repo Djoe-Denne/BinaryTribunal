@@ -4,11 +4,21 @@
   "type": "module",
   "scripts": {
     "test": "bun test",
+    "test:q1-primitives": "bun test test/generic-target-primitives.test.ts",
     "typecheck": "tsc --noEmit",
     "build": "bun build src/cli.ts --target bun --outdir dist --external @opencode/client --external @opencode/client/service",
     "harness": "bun src/cli.ts",
-    "canary": "bun scripts/native-canary.ts"
+    "canary": "bun scripts/native-canary.ts",
+    "prepare:transfer": "bun scripts/prepare-transfer.ts",
+    "review:scope": "bun scripts/plan-review.ts",
+    "review:preflight": "bun scripts/pre-review.ts",
+    "build:coordination": "bun build scripts/prepare-transfer.ts scripts/plan-review.ts scripts/pre-review.ts --target bun --outdir dist/coordination --external @opencode/client --external @opencode/client/service"
   },
-  "dependencies": { "@opencode/client": "2.0.26" },
-  "devDependencies": { "@types/bun": "1.4.0", "typescript": "^5.9.3" }
+  "dependencies": {
+    "@opencode/client": "2.0.26"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.0",
+    "typescript": "^5.9.3"
+  }
 }
