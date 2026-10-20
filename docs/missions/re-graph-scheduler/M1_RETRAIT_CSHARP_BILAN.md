@@ -1,13 +1,13 @@
 # M1_RETRAIT_CSHARP_BILAN — `rms-m1-retrait-csharp-20261020`
 
-Date : 2026-10-20. Statut final : **VERIFIED_NOT_INTEGRATED** — A09 tranché par
+Date : 2026-10-20. Statut final : **ACCEPTED_INTEGRATED** — A09 tranché par
 l'utilisateur (le RMS = la route statique `@re-ff8/mission-harness` ; 0 des 57
-familles BLOCKED n'est requise sur main, V01/V04 renvoyées à M2) ; candidat
-vérifié ; gels C# retirés du checkout après préservation ; commits sur main
-non effectués (autorisation Git non donnée à ce jour). Autorité :
-`ORDRE_MISSION_01_RETRAIT_CSHARP_20261020.md`. Rédigé par le superviseur après
-vérification propre de chaque étape ; les statuts « done » des workers n'ont
-jamais suffi.
+familles BLOCKED n'est requise sur main, V01/V04 renvoyées à M2) ; intégration
+autorisée et exécutée : commit `e1a97a0` (18 fichiers, +47 491/−3) poussé sur
+`origin/main`, branche de préservation `dev/windows-process-supervision` poussée
+également. Autorité : `ORDRE_MISSION_01_RETRAIT_CSHARP_20261020.md`. Rédigé par
+le superviseur après vérification propre de chaque étape ; les statuts « done »
+des workers n'ont jamais suffi.
 
 ## 1. Périmètre exact
 
@@ -140,12 +140,14 @@ B01–B18, dual capture D01–D30, budget/capture/ledger/host partagés V01/V04.
    les 40 docs trackés (§2 : mentions historiques permises) et les livrables
    `M1_INVENTAIRE_*`. Les 43+19 copies d'origine Temp (hors dépôt) ne sont
    pas concernées.
-3. **Autorisation Git explicite** pour intégrer le candidat à `main` (delta
-   T3 + livrables M1) — attention : `package.json`/`README.md` portent du
-   dirt utilisateur préexistant ; intégrer ces fichiers embarquerait ce dirt,
-   sauf staging chirurgical par hunk — décision utilisateur.
-4. Alors seulement : revérification post-intégration → `ACCEPTED_INTEGRATED` →
-   M2. Aucun GO M2 accordé par ce bilan.
+3. **Intégration Git — EXÉCUTÉE** (autorisation utilisateur « commit et push
+   all ») : commit `e1a97a0` (18 fichiers : delta T3 entier + 13 livrables M1
+   + contrôle baseline ; mode simple = dirt préexistant de
+   `package.json`/`README.md` embarqué tel quel) poussé sur `origin/main` ;
+   branche `dev/windows-process-supervision` poussée aussi. Re-vérification
+   post-intégration : arbre livré sans `.cs`, suites vertes (reçus T4).
+4. Statut passé à `ACCEPTED_INTEGRATED` → **M2 ouvert** (reprise RMS — voir
+   `ORDRE_MISSION_02_REPRISE_RMS_APRES_M1_20261020.md`).
 
 ## 8. Table des reçus (SHA-256)
 
