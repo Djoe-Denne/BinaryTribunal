@@ -37,3 +37,17 @@ la source de vérité ; aucune promotion sur la seule prose d'un worker.
   Aucun suspend/veille/réarmement/action d'alimentation n'est autorisé.
 - L'adaptatif est limité aux six EA du pilote. Après bilan, pas d'extension
   adaptative automatique ; la suite éventuelle conserve le canon enregistré.
+
+## QA des futures missions — amendement 2026-10-22
+
+- Convenir de `verification` via `/ensemble-mission config`, puis approbation
+  par `start` : light, proportionate par défaut, ou reinforced, avec commandes
+  et critères fermés. Un ordre explicite plus exigeant prime sur le défaut :
+  M2 RMS applique son §7.1 reinforced et sa condition d'arrêt §8.
+- Pas de pipeline QA universel : réutiliser les preuves valides et revalider
+  selon l'impact, sans les rendre accessibles aux auteurs aveugles. Les contrôles
+  ASM, permissions, 2+1 et gates scientifiques applicables restent obligatoires ;
+  signaler les conflits. La QA logicielle RMS statique n'est pas une campagne RE
+  par EA ou live. Les campagnes historiques ne sont pas modifiées rétroactivement.
+- Toute extension importante d'exigences/harness demande arbitrage ; arrêter
+  lorsque les critères convenus sont satisfaits et l'acceptation finale rendue.
