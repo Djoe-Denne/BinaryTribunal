@@ -5,7 +5,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { openOwnDatabase } from "./store";
 import { canonical, fingerprint, failureCause, bridgeFailureCategory, hash, validateFile, validateIdentity, validateKnowledge } from "./validation";
-import type { InputBundle } from "./domain";
+import type { InputBundle, StoredResult } from "./domain";
+import { assertPublicationManifestEvidenceV1, parsePublicationMaterializationV1, parseStaticPublicationPolicyV1, publicationTargetIdV1, type PublicationMaterializationV1, type StaticPublicationPolicyV1 } from "./graph-publication-materialization";
+import { staticPublicationReadbackSourceV1 } from "./graph-static-publication";
 import type { ExecutionClient } from "./client";
 import { EventLog, GraphPersistenceError, immutableCopy, integer, invariant, nonempty, type ErrorClass, type GraphEvent } from "./eventlog";
 import { UnitLeaseStore, assertController, assertExecutionQuiescence, assertCanonicalUnitProjection, contradictoryAcceptedObservation, type ControllerAuthority, type UnitLease } from "./unit-lease";
@@ -422,6 +424,7 @@ export class GraphStore {
     invariant(this.satisfies(missionId, row.unit_id, commit.publicationLevel), "artifact not bound to verified publication");
     const publication = this.db.query("SELECT token FROM ff8_graph_publications WHERE mission=? AND unit_id=?").get(missionId, row.unit_id) as { token: number };
     const validation = this.assertPublicationEvidence(missionId, row.unit_id, publication.token, commit);
+    const manifest = this.publicationPolicy(missionId) ? this.assertMaterializationEvidence(missionId, row.unit_id, commit.resultIds, commit.evidence, commit.validatedFactIds, true)! : undefined;
     const sources = request.sourceResultIds.map(id => {
       invariant(commit.resultIds.includes(id), "artifact source not part of exact publication");
       const result = this.scientificResult(missionId, row.unit_id, id, publication.token);
@@ -432,10 +435,19 @@ export class GraphStore {
     let content: string;
     if (isResult) {
       invariant(commit.resultIds.includes(request.artifactId) && canonical(request.sourceResultIds) === canonical([request.artifactId]) && request.content === undefined, "stored result cannot be rematerialized/relabelled as a derived fact");
-      content = this.scientificResult(missionId, row.unit_id, request.artifactId, publication.token).bytes;
+      if (manifest) {
+        const retained = this.assertMaterializationScope(missionId, row.unit_id, manifest, true).get(request.artifactId);
+        invariant(retained, "stored artifact requires exact retained source image", "scientific_block");
+        content = retained.content; // raw SHA/record digest/author checked; never reserialize the scientific document
+      } else content = this.scientificResult(missionId, row.unit_id, request.artifactId, publication.token).bytes; // historical mode unchanged
     } else {
       invariant(commit.validatedFactIds.includes(request.artifactId) && typeof request.content === "string" && request.content.length > 0 && validation.parentAttestationId, "derived fact requires known bytes and exact parent-attested fact identity", "scientific_block");
       content = request.content;
+    }
+    if (manifest) {
+      const artifact = manifest.artifacts.find(a => a.artifactId === request.artifactId);
+      invariant(artifact && artifact.functionId === request.functionId && artifact.artifactKind === request.artifactKind && canonical(artifact.sourceResultIds) === canonical(request.sourceResultIds)
+        && artifact.materialization === (isResult ? "stored-result" : "parent-derived") && artifact.content === content, "artifact differs from exact parent-attested publication manifest", "scientific_block");
     }
     const parentAttestationId = validation.parentAttestationId ?? null;
     if (parentAttestationId) {
@@ -799,6 +811,100 @@ export class GraphStore {
     invariant(contentDigest(plan) === plan.fingerprint && contentDigest(sidecar) === sidecar.fingerprint && contentDigest(binding) === bindingFingerprint && binding.planFingerprint === plan.fingerprint && binding.sidecarFingerprint === sidecar.fingerprint, "parent attestation frozen binding digest mismatch", "schema");
     return { bindingFingerprint, plan, sidecar };
   }
+  /** Optional ONLY in a prospective preparing image, never added by reopen. */
+  publicationPolicy(missionId: string): StaticPublicationPolicyV1 | undefined {
+    const origins = this.events.read(missionId).filter(e => e.kind === "l8.graph2.preparing" || e.kind === "l8.graph.preparing");
+    invariant(origins.length <= 1, "multiple publication preparation origins", "schema");
+    const event = origins[0], payload = event?.payload as { version: string; run: { missionId: string; cycle: number }; publicationPolicy?: unknown } | undefined;
+    if (!payload || !Object.hasOwn(payload, "publicationPolicy")) return;
+    invariant(event!.kind === "l8.graph2.preparing" && payload.version === "l8-graph-preparing-v2" && payload.run.missionId === missionId && event!.key === `l8.graph2.prepare:${payload.run.cycle}`, "prospective publication origin mismatch", "schema");
+    this.assertAuthorizationEvent(missionId, event!.key, event!.kind, payload, null);
+    return parseStaticPublicationPolicyV1(payload.publicationPolicy);
+  }
+  publicationMaterialization(missionId: string, unitId: string): PublicationMaterializationV1 | undefined {
+    const event = this.events.read(missionId).find(e => e.key === `publication_materialization:${unitId}`);
+    if (!event) return;
+    invariant(this.publicationPolicy(missionId), "orphan prospective publication manifest", "schema");
+    const manifest = parsePublicationMaterializationV1(event.payload);
+    this.assertAuthorizationEvent(missionId, event.key, "publication_materialization_frozen", manifest, unitId);
+    this.assertMaterializationScope(missionId, unitId, manifest); return manifest;
+  }
+  private assertMaterializationScope(missionId: string, unitId: string, m: PublicationMaterializationV1, verifyAuthors = false): ReadonlyMap<string, StoredResult> {
+    const policy = this.publicationPolicy(missionId); invariant(policy, "prospective publication policy required", "schema");
+    const unit = this.unit(missionId, unitId), lease = { missionId, unitId, token: m.familyToken } as UnitLease, frozen = this.familyPublicationContext(lease);
+    const events = this.events.read(missionId), origin = events.find(e => e.kind === "l8.graph2.preparing")!.payload as { run: { fingerprint: string } };
+    const reservation = events.find(e => e.key === `reserve:${unitId}:${m.familyToken}`)!.payload as { controllerToken: number };
+    invariant(m.missionId === missionId && m.unitId === unitId && m.runFingerprint === origin.run.fingerprint && m.controllerToken === reservation.controllerToken
+      && m.bindingFingerprint === frozen.bindingFingerprint && m.planFingerprint === frozen.plan.fingerprint && m.snapshotId === unit.snapshotId
+      && m.inputRevision === unit.knowledgeRevision && m.outputRevision === unit.knowledgeRevision + 1 && m.publicationLevel >= unit.requiredPublicationLevel
+      && m.policySha256 === fingerprint(policy) && m.targetId === publicationTargetIdV1(m, policy), "manifest immutable scope/policy/fence/revision mismatch", "scientific_block");
+    invariant(m.resultPins.length === unit.subIntents.length && unit.subIntents.every(s => m.resultPins.some(p => p.subIntentId === s.subIntentId)), "manifest requires exact whole-family coverage", "scientific_block");
+    const retained = new Map<string, StoredResult>();
+    for (const pin of m.resultPins) {
+      const result = this.scientificResult(missionId, unitId, pin.resultId, m.familyToken);
+      const event = events.find(e => e.key === `l8.graph2.result:${pin.resultId}` && e.kind === "l8.graph2.result"), payload = event?.payload as { runFingerprint: string; unitId: string; familyToken: number; subIntentId: string; result: StoredResult } | undefined;
+      invariant(event && payload && event.unitId === unitId && payload.unitId === unitId && payload.familyToken === m.familyToken && payload.runFingerprint === m.runFingerprint && payload.subIntentId === pin.subIntentId, "manifest lacks exact eligible retained result image", "scientific_block");
+      this.assertAuthorizationEvent(missionId, event.key, event.kind, payload, unitId);
+      const stored = payload.result;
+      invariant(stored.resultId === pin.resultId && stored.executionId === pin.executionId && result.execution_id === pin.executionId && result.sub.subIntentId === pin.subIntentId && result.sub.functionId === pin.functionId && result.sub.role === pin.role
+        && result.digest === pin.documentDigest && fingerprint(stored.document) === pin.documentDigest && canonical(JSON.parse(stored.content)) === canonical(result.document)
+        && hash(stored.content) === stored.sha256 && stored.sha256 === pin.rawContentSha256 && fingerprint(stored) === pin.recordDigest, "manifest raw/document/record pin mismatch", "scientific_block");
+      if (verifyAuthors) {
+        const row = this.db.query("SELECT document,digest FROM ff8_graph_native_authors WHERE mission=? AND execution_id=?").get(missionId, pin.executionId) as { document: string; digest: string } | null;
+        invariant(row && fingerprint(JSON.parse(row.document)) === row.digest, "manifest lacks parent-verified author", "scientific_block");
+        const author = JSON.parse(row.document) as NativeAuthorIdentity;
+        invariant(stored.authorId === author.authorId && stored.sessionId === author.sessionId && canonical(stored.effectiveModel) === canonical(author.model), "manifest retained record/native author mismatch", "scientific_block");
+      }
+      retained.set(pin.resultId, stored);
+    }
+    invariant(m.artifacts.length === unit.ownedFunctionIds.length && new Set(m.artifacts.map(a => a.functionId)).size === m.artifacts.length && unit.ownedFunctionIds.every(id => m.artifacts.some(a => a.functionId === id)), "manifest needs exact owned-function artifact coverage", "scientific_block");
+    for (const artifact of m.artifacts) {
+      for (const id of artifact.sourceResultIds) {
+        const source = this.scientificResult(missionId, unitId, id, m.familyToken);
+        invariant(source.sub.functionId === artifact.functionId && source.sub.role === "R" && source.document.kind === "reconciliation" && source.document.decision === "certain", "artifact requires exact accepted certain R", "scientific_block");
+      }
+      if (artifact.materialization === "stored-result") invariant(artifact.content === retained.get(artifact.artifactId)?.content, "stored artifact must contain exact retained source bytes", "scientific_block");
+      else invariant(!this.db.query("SELECT 1 FROM ff8_graph_results WHERE mission=? AND result_id=?").get(missionId, artifact.artifactId), "derived artifact cannot relabel a stored result", "scientific_block");
+    }
+    return retained;
+  }
+  recordPublicationMaterialization(authority: ControllerAuthority, lease: UnitLease, raw: PublicationMaterializationV1): void {
+    authority = immutableCopy(authority); lease = immutableCopy(lease); const m = parsePublicationMaterializationV1(raw);
+    this.db.transaction(() => {
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      const parent = this.bootstrapParentAuthority(authority), policy = this.publicationPolicy(lease.missionId);
+      invariant(policy && parent.identity.actorId === policy.ownerActorId && m.familyToken === lease.token && m.controllerToken === authority.lease.token, "manifest requires actual configured parent/fences", "auth");
+      this.assertMaterializationScope(lease.missionId, lease.unitId, m);
+      const old = this.publicationMaterialization(lease.missionId, lease.unitId);
+      invariant(!old || canonical(old) === canonical(m), "immutable publication manifest changed", "scientific_block");
+      if (!old) {
+        invariant(this.unit(lease.missionId, lease.unitId).state === "RUNNING", "manifest must freeze before validation/pending");
+        this.events.append(lease.missionId, `publication_materialization:${lease.unitId}`, "publication_materialization_frozen", authority.now, m, lease.unitId);
+      }
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+    }).immediate();
+  }
+  private assertMaterializationEvidence(missionId: string, unitId: string, resultIds: string[], evidence: unknown[], factIds: string[], verifyAuthors = false): PublicationMaterializationV1 | undefined {
+    if (!this.publicationPolicy(missionId)) return;
+    const m = this.publicationMaterialization(missionId, unitId); invariant(m, "durable prospective publication manifest required", "scientific_block");
+    this.assertMaterializationScope(missionId, unitId, m, verifyAuthors); assertPublicationManifestEvidenceV1(m, evidence);
+    invariant(canonical([...resultIds].sort()) === canonical(m.resultPins.map(p => p.resultId).sort()) && canonical([...factIds].sort()) === canonical(m.artifacts.map(a => a.artifactId).sort()), "manifest/evidence exact result/fact set mismatch", "scientific_block"); return m;
+  }
+  /** A synchronous pre-I/O check, NOT a transaction spanning external FS effects. */
+  assertPublicationMaterializationCurrent(authority: ControllerAuthority, lease: UnitLease, raw: PublicationMaterializationV1): void {
+    authority = immutableCopy(authority); lease = immutableCopy(lease); const m = parsePublicationMaterializationV1(raw);
+    this.db.transaction(() => {
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      const row = this.db.query("SELECT request,digest,token FROM ff8_graph_publications WHERE mission=? AND unit_id=?").get(lease.missionId, lease.unitId) as { request: string; digest: string; token: number } | null;
+      invariant(row && row.token === lease.token, "missing/fenced durable publication"); const pending = JSON.parse(row.request) as KnowledgeCommit;
+      const durable = this.assertMaterializationEvidence(lease.missionId, lease.unitId, pending.resultIds, pending.evidence, pending.validatedFactIds, true);
+      invariant(durable && canonical(durable) === canonical(m) && pending.readbackHash === hash(canonical(m)) && pending.publicationTargetId === m.targetId && fingerprint(pending) === row.digest && this.unit(lease.missionId, lease.unitId).state === "VALIDATING", "publication image/state changed before external effect", "scientific_block");
+      const validation = this.assertPublicationEvidence(lease.missionId, lease.unitId, lease.token, pending);
+      const parent = this.assertParentAttestation(authority, lease, validation.parentAttestationId, pending.resultIds, pending.evidence, pending.validatedFactIds);
+      invariant(parent.parentActorId === this.publicationPolicy(lease.missionId)!.ownerActorId, "publication target parent ownership changed", "auth");
+      this.assertQuiescence(lease); assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+    }).immediate();
+  }
   recordParentAttestation(authority: ControllerAuthority, lease: UnitLease, request: ParentAttestationRequest): ParentAttestation {
     authority = immutableCopy(authority); lease = immutableCopy(lease); request = immutableCopy(request);
     return this.db.transaction(() => {
@@ -835,6 +941,8 @@ export class GraphStore {
         authorDigests[admission.execution_id] = nativeDigest;
       }
       invariant(u.subIntents.every(sub => covered.has(sub.subIntentId)), "parent attestation does not cover whole unit", "scientific_block");
+      this.assertMaterializationEvidence(lease.missionId, lease.unitId, request.resultIds, request.evidence, request.validatedFactIds, true);
+      invariant(!this.publicationPolicy(lease.missionId) || parent.identity.actorId === this.publicationPolicy(lease.missionId)!.ownerActorId, "prospective manifest requires configured actual parent", "auth");
       const content = { version: 1 as const, missionId: lease.missionId, unitId: lease.unitId, familyToken: lease.token, controllerToken: authority.lease.token, parentActorId: parent.identity.actorId, parentAuthorityDigest: parent.digest, bindingFingerprint: frozen.bindingFingerprint, planFingerprint: frozen.plan.fingerprint, snapshotId: u.snapshotId, snapshotFingerprint: frozen.sidecar.snapshotFingerprint, partitionId: u.partitionId, knowledgeRevision: u.knowledgeRevision, resultIds: [...request.resultIds], resultDigests: { ...request.resultDigests }, authorDigests, evidenceDigest, validatedFactIds: [...request.validatedFactIds], checks: structuredClone(request.checks) };
       const attestation: ParentAttestation = { ...content, attestationId: fingerprint(content) }, digest = fingerprint(attestation), eventKey = `parent_attestation:${attestation.attestationId}`;
       const old = this.db.query("SELECT document,revocation_event FROM ff8_graph_parent_attestations WHERE mission=? AND attestation_id=?").get(lease.missionId, attestation.attestationId) as { document: string; revocation_event: string | null } | null;
@@ -886,6 +994,8 @@ export class GraphStore {
       this.assertAuthorizationEvent(missionId, `native_author:${executionId}`, "native_author_verified", native);
     }
     invariant(unit.subIntents.every(s => covered.has(s.subIntentId)), "parent attestation whole-unit coverage mismatch", "scientific_block");
+    this.assertMaterializationEvidence(missionId, doc.unitId, doc.resultIds, evidence, doc.validatedFactIds, true);
+    invariant(!this.publicationPolicy(missionId) || doc.parentActorId === this.publicationPolicy(missionId)!.ownerActorId, "prospective parent target ownership mismatch", "auth");
     return doc;
   }
   revokeParentAttestation(authority: ControllerAuthority, attestationId: string, reason: string): void {
@@ -954,7 +1064,7 @@ export class GraphStore {
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
       const u = this.unit(lease.missionId, lease.unitId);
       invariant(validation.source === "artifact" && validation.evidence.length > 0 && validation.validatedFactIds.length > 0, "scientific validation evidence required", "scientific_block");
-      if (u.requiredPublicationLevel === 2 || validation.parentAttestationId) this.assertParentAttestation(authority, lease, validation.parentAttestationId, resultIds, validation.evidence, validation.validatedFactIds);
+      if (u.requiredPublicationLevel === 2 || validation.parentAttestationId || this.publicationPolicy(lease.missionId)) this.assertParentAttestation(authority, lease, validation.parentAttestationId, resultIds, validation.evidence, validation.validatedFactIds);
       const candidates = this.db.query("SELECT r.result_id,o.sub_intent,o.execution_id FROM ff8_graph_results r JOIN ff8_graph_outbox o ON o.execution_id=r.execution_id WHERE r.mission=? AND r.unit_id=? AND r.token=? AND r.eligible=1").all(lease.missionId, lease.unitId, lease.token) as Array<{ result_id: string; sub_intent: string; execution_id: string }>;
       const results = candidates.filter(candidate => this.hasScientificCompletion(this.outbox(candidate.execution_id)!));
       invariant(resultIds.length === u.subIntents.length && resultIds.length === new Set(resultIds).size && resultIds.every(id => results.some(r => r.result_id === id)) && u.subIntents.every(s => results.some(r => r.sub_intent === s.subIntentId && resultIds.includes(r.result_id))), "validation requires all attributable family artifacts", "scientific_block");
@@ -978,7 +1088,7 @@ export class GraphStore {
       const event = this.events.read(lease.missionId).find(e => e.key === `validation:${lease.unitId}:${lease.token}`);
       invariant(event, "no executed validation"); const validated = event.payload as { resultIds: string[]; validation: UnitValidation };
       invariant(canonical(commit.resultIds) === canonical(validated.resultIds) && canonical(commit.evidence) === canonical(validated.validation.evidence) && canonical(commit.validatedFactIds) === canonical(validated.validation.validatedFactIds), "publication differs from validated evidence", "scientific_block");
-      if (commit.publicationLevel === 2) {
+      if (commit.publicationLevel === 2 || this.publicationPolicy(lease.missionId)) {
         const attestation = this.assertParentAttestation(authority, lease, validated.validation.parentAttestationId, commit.resultIds, commit.evidence, commit.validatedFactIds);
         const payload = { attestationId: attestation.attestationId, commitDigest: fingerprint(commit), parentAuthorityDigest: attestation.parentAuthorityDigest, token: lease.token };
         const key = `parent_publication:${lease.unitId}`;
@@ -996,6 +1106,7 @@ export class GraphStore {
       this.events.append(lease.missionId, `publication:${lease.unitId}`, "publication_prepared", authority.now, commit, lease.unitId);
       this.db.query("INSERT INTO ff8_graph_publication_effects VALUES(?,?,?,?,?)").run(lease.missionId, lease.unitId, canonical(intent), fingerprint(intent), effectKey);
       this.events.append(lease.missionId, effectKey, "publication_effect_frozen", authority.now, intent, lease.unitId);
+      if (this.publicationPolicy(lease.missionId)) { assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); }
     }).immediate();
   }
   private publicationEffect(missionId: string, unitId: string, token: number, requestDigest: string): PublicationEffectWitness {
@@ -1016,6 +1127,8 @@ export class GraphStore {
       && canonical(validation.evidence) === canonical(commit.evidence) && canonical(validation.validatedFactIds) === canonical(commit.validatedFactIds), "publication differs from validated evidence", "scientific_block");
     const subs = new Set(commit.resultIds.map(id => this.scientificResult(missionId, unitId, id, token).sub.subIntentId));
     invariant(commit.resultIds.length === unit.subIntents.length && subs.size === commit.resultIds.length && unit.subIntents.every(s => subs.has(s.subIntentId)), "publication requires exact whole-unit result coverage", "scientific_block");
+    const manifest = this.assertMaterializationEvidence(missionId, unitId, commit.resultIds, commit.evidence, commit.validatedFactIds, true);
+    if (manifest) invariant(manifest.familyToken === token && commit.publicationTargetId === manifest.targetId && commit.readbackHash === hash(canonical(manifest)) && commit.inputRevision === manifest.inputRevision && commit.outputRevision === manifest.outputRevision && commit.publicationLevel === manifest.publicationLevel, "pending/verified commit differs from exact attested manifest", "scientific_block");
     return validation;
   }
   commitReadback(authority: ControllerAuthority, lease: UnitLease, readback: { targetId: string; hash: string; requestDigest: string; source: string }): KnowledgeCommit {
@@ -1026,7 +1139,7 @@ export class GraphStore {
       if (done) {
         const commit = JSON.parse(done.document) as KnowledgeCommit;
         this.assertScientificCommitMapping(lease.missionId, lease.unitId, commit);
-        invariant(commit.publicationLevel !== 2 || this.hasCommittedParentAttestation(lease.missionId, lease.unitId, commit), "committed parent attestation is no longer valid", "scientific_block");
+        invariant((commit.publicationLevel !== 2 && !this.publicationPolicy(lease.missionId)) || this.hasCommittedParentAttestation(lease.missionId, lease.unitId, commit), "committed parent attestation is no longer valid", "scientific_block");
         invariant(commit.publicationTargetId === readback.targetId && commit.readbackHash === readback.hash, "double commit readback changed");
         const prior = this.db.query("SELECT readback FROM ff8_graph_publications WHERE mission=? AND unit_id=?").get(lease.missionId, lease.unitId) as { readback: string };
         invariant(prior.readback === canonical(readback), "double commit provenance changed"); return commit;
@@ -1039,13 +1152,15 @@ export class GraphStore {
       const effect = this.publicationEffect(lease.missionId, lease.unitId, lease.token, r.digest);
       this.assertPublicationEvidence(lease.missionId, lease.unitId, lease.token, pending);
       this.assertAuthorizationEvent(lease.missionId, `publication:${lease.unitId}`, "publication_prepared", pending);
-      if (pending.publicationLevel === 2) {
+      if (pending.publicationLevel === 2 || this.publicationPolicy(lease.missionId)) {
         const validationEvent = this.events.read(lease.missionId).find(e => e.key === `validation:${lease.unitId}:${lease.token}`);
         const validation = (validationEvent?.payload as { validation: UnitValidation } | undefined)?.validation;
         const attestation = this.assertParentAttestation(authority, lease, validation?.parentAttestationId, pending.resultIds, pending.evidence, pending.validatedFactIds);
         this.assertAuthorizationEvent(lease.missionId, `parent_publication:${lease.unitId}`, "parent_publication_authorized", { attestationId: attestation.attestationId, commitDigest: r.digest, parentAuthorityDigest: attestation.parentAuthorityDigest, token: lease.token });
       }
       invariant(readback.targetId === pending.publicationTargetId && readback.hash === pending.readbackHash && readback.requestDigest === r.digest && readback.source.trim(), "publication readback mismatch", "scientific_block");
+      const policy = this.publicationPolicy(lease.missionId);
+      if (policy) invariant(readback.source === staticPublicationReadbackSourceV1(policy, readback.targetId), "static readback provenance changed", "scientific_block");
       this.assertQuiescence(lease);
       // The pending request is the immutable operation/readback identity. The
       // scientific document has a different content ID after verified readback;
@@ -1059,6 +1174,7 @@ export class GraphStore {
       this.db.query("INSERT INTO ff8_graph_commits VALUES(?,?,?,?)").run(lease.missionId, lease.unitId, commit.commitId, canonical(commit));
       this.change(authority, lease.unitId, "COMMITTED", "scientific publication readback verified");
       this.events.append(lease.missionId, `commit:${lease.unitId}`, "knowledge_committed", authority.now, commit, lease.unitId);
+      if (policy) { assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); }
       this.leases.releaseProven(authority, lease); return commit;
     }).immediate();
   }
@@ -1072,6 +1188,8 @@ export class GraphStore {
       validateGraphDocument("knowledge-commit", pending);
       invariant(fingerprint(pending) === r.digest, "immutable pending publication digest mismatch", "schema");
       invariant(readback.targetId === pending.publicationTargetId && readback.hash === pending.readbackHash && readback.requestDigest === r.digest && readback.source.trim(), "publication readback mismatch", "scientific_block");
+      const policy = this.publicationPolicy(authority.lease.missionId);
+      if (policy) invariant(readback.source === staticPublicationReadbackSourceV1(policy, readback.targetId), "static observation provenance changed", "scientific_block");
       const content = canonical(readback); invariant(!r.readback || r.readback === content, "immutable publication readback changed");
       if (r.readback) return;
       this.db.query("UPDATE ff8_graph_publications SET readback=? WHERE mission=? AND unit_id=?").run(content, authority.lease.missionId, unitId);
@@ -1083,7 +1201,7 @@ export class GraphStore {
       const r = this.db.query("SELECT document FROM ff8_graph_commits WHERE mission=? AND unit_id=?").get(missionId, unitId) as { document: string } | null;
       if (!r) return false; const c = JSON.parse(r.document) as KnowledgeCommit;
       this.assertScientificCommitMapping(missionId, unitId, c);
-      if (c.publicationLevel === 2 && !this.hasCommittedParentAttestation(missionId, unitId, c)) return false;
+      if ((c.publicationLevel === 2 || this.publicationPolicy(missionId)) && !this.hasCommittedParentAttestation(missionId, unitId, c)) return false;
       return [1, 2].includes(level) && c.readbackStatus === "verified" && c.futurePrerequisiteEffect === "satisfies" && c.publicationLevel >= level;
     } catch { return false; }
   }

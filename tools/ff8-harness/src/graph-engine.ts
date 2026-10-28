@@ -9,11 +9,13 @@ import { canonical, fingerprint, hash, identityKey } from "./validation";
 import { assertCurrentAdmissionSource, assertReceiptCoherence, graphArray, graphCheck, graphCopy, graphFreeze, graphInteger, graphKeys, graphObject, graphString } from "./graph-pipeline";
 import { graphExecutionSlotKey, graphResult, makeExecutionClaim, makeGraphIntent, parseExecutionClaim, parseGraphIntent, parseGraphRun, type FixtureExecutionPort, type GraphExecutionClaim, type GraphIntentRecord, type GraphIntentRecordV2 } from "./graph-adapter";
 import type { GraphEvent } from "./eventlog";
+import { assertPublicationManifestEvidenceV1, parsePublicationMaterializationV1, parseRetainedPublicationSourceV1, parseStaticPublicationPolicyV1, publicationContextV1, publicationTargetIdV1, type PublicationContextV1, type PublicationMaterializationV1, type RetainedPublicationSourceV1, type StaticPublicationPolicyV1 } from "./graph-publication-materialization";
+import type { StaticPublicationPort } from "./graph-static-publication";
 
-export interface GraphReview { evidence: Evidence[]; validatedFactIds: string[]; checks: ParentScientificCheck[] }
+export interface GraphReview { evidence: Evidence[]; validatedFactIds: string[]; checks: ParentScientificCheck[]; materialization?: PublicationMaterializationV1 }
 export interface FixtureReviewPort {
   readonly kind: "offline-fixture-v1";
-  review(context: Readonly<{ run: GraphRun; unit: WorkUnit; results: StoredResult[] }>): Promise<GraphReview>;
+  review(context: Readonly<{ run: GraphRun; unit: WorkUnit; results: StoredResult[]; publicationContext?: PublicationContextV1 }>): Promise<GraphReview>;
 }
 export interface FixturePublicationPort {
   readonly kind: "offline-fixture-v1";
@@ -22,13 +24,19 @@ export interface FixturePublicationPort {
 }
 export interface GraphEngineOptions {
   store: Store; graph: GraphStore; missionId: string; authority: () => ControllerAuthority;
-  executions: FixtureExecutionPort; review: FixtureReviewPort; publication: FixturePublicationPort; inputAccess: InputAccess;
+  executions: FixtureExecutionPort; review: FixtureReviewPort; publication: FixturePublicationPort | StaticPublicationPort; publicationSource?: RetainedPublicationSourceV1; inputAccess: InputAccess;
   inputs: (snapshot: Snapshot, sub: WorkUnit["subIntents"][number], proposals?: StoredResult[]) => InputBundle;
 }
 type ResultRecord = { version: "l8-graph-result-v1" | "l8-graph-result-v2"; runFingerprint: string; unitId: string; familyToken: number; subIntentId: string; result: StoredResult; inspection: import("./domain").Inspection };
 type ReviewRecord = { version: "l8-graph-review-v1" | "l8-graph-review-v2"; runFingerprint: string; unitId: string; familyToken: number; resultIds: string[]; review: GraphReview };
-interface Journal { events: GraphEvent[]; run: GraphRun; intents: GraphIntentRecord[]; results: ResultRecord[]; lateResults: ResultRecord[]; reviews: ReviewRecord[]; refused: GraphIntentRecordV2[]; paused: boolean; installed: boolean }
+interface Journal { events: GraphEvent[]; run: GraphRun; intents: GraphIntentRecord[]; results: ResultRecord[]; lateResults: ResultRecord[]; reviews: ReviewRecord[]; refused: GraphIntentRecordV2[]; paused: boolean; installed: boolean; publicationPolicy?: StaticPublicationPolicyV1 }
 const runtimeRun = (run: GraphRun): GraphRunV2 => { graphCheck(run.version === "l8-graph-run-v2", "v1 graph run is inspectable/read-only, never resumed or migrated"); return run; };
+export function configuredPublicationPolicyV1(options: Pick<GraphEngineOptions, "publication" | "publicationSource">): StaticPublicationPolicyV1 | undefined {
+  if (options.publicationSource === undefined) { graphCheck(options.publication.kind === "offline-fixture-v1", "static publication requires explicit prospective source"); return; }
+  const source = parseRetainedPublicationSourceV1(options.publicationSource);
+  graphCheck(options.publication.kind === "offline-static-publication-v1" && canonical(options.publication.policy) === canonical(source.policy), "publication source/port/policy mismatch");
+  return source.policy;
+}
 /** Local pre-admission deferral only, never a protocol rejection/no-worker proof. */
 class GraphAdmissionPaused extends Error {}
 
@@ -69,20 +77,22 @@ function runFromEvents(events: GraphEvent[], missionId: string): GraphRun | unde
   const preparations = events.filter(e => e.kind === "l8.graph.preparing" || e.kind === "l8.graph2.preparing");
   graphCheck(preparations.length <= 1, "multiple graph preparation origins");
   const first = preparations[0]; if (!first) { graphCheck(!events.some(e => e.kind.startsWith("l8.")), "orphan own graph namespace"); return; }
-  const payload = graphKeys(first.payload, ["version", "run"]), run = parseGraphRun(payload.run), v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph";
+  const payload = graphKeys(first.payload, ["version", "run"], ["publicationPolicy"]), run = parseGraphRun(payload.run), v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph";
+  if (Object.hasOwn(payload, "publicationPolicy")) { graphCheck(v2, "historical v1 refuses prospective publication policy"); parseStaticPublicationPolicyV1(payload.publicationPolicy); }
   graphCheck(payload.version === (v2 ? "l8-graph-preparing-v2" : "l8-graph-preparing-v1") && first.kind === `${ns}.preparing`, "preparation journal version");
   graphCheck(run.missionId === missionId && first.key === `${ns}.prepare:${run.cycle}` && first.unitId === null, "preparation journal scope"); return run;
 }
 /** Public journal only. A generic event digest never grants scientific authority. */
-export function appendGraphPreparation(graph: GraphStore, authority: ControllerAuthority, run: GraphRun): void {
+export function appendGraphPreparation(graph: GraphStore, authority: ControllerAuthority, run: GraphRun, rawPolicy?: StaticPublicationPolicyV1): void {
   run = parseGraphRun(run); graphCheck(authority.lease.missionId === run.missionId, "preparation authority scope");
   runtimeRun(run);
   authority = graphCopy(authority);
+  const publicationPolicy = rawPolicy === undefined ? undefined : parseStaticPublicationPolicyV1(rawPolicy);
   graph.db.transaction(() => {
     assertController(graph.db, authority, run.missionId);
     const old = preparedGraphRun(graph, run.missionId);
-    if (old) graphCheck(canonical(old) === canonical(run), "immutable preparation changed");
-    else graph.events.append(run.missionId, `l8.graph2.prepare:${run.cycle}`, "l8.graph2.preparing", authority.now, { version: "l8-graph-preparing-v2", run }, null, graph.events.cursor(run.missionId).sequence);
+    if (old) graphCheck(canonical(old) === canonical(run) && canonical(graph.publicationPolicy(run.missionId) ?? null) === canonical(publicationPolicy ?? null), "immutable preparation/policy changed");
+    else graph.events.append(run.missionId, `l8.graph2.prepare:${run.cycle}`, "l8.graph2.preparing", authority.now, { version: "l8-graph-preparing-v2", run, ...(publicationPolicy ? { publicationPolicy } : {}) }, null, graph.events.cursor(run.missionId).sequence);
     assertController(graph.db, authority, run.missionId);
   }).immediate();
 }
@@ -114,12 +124,17 @@ export function prepareGraphExecution(graph: GraphStore, store: Store, rawRun: G
     return graphCopy(claim);
   }).immediate();
 }
-function parseReview(value: unknown, run: GraphRun, unit: WorkUnit): GraphReview {
-  const r = graphKeys(graphCopy(value), ["evidence", "validatedFactIds", "checks"]); graphArray(r.evidence); graphArray(r.validatedFactIds); graphArray(r.checks);
+function parseReview(value: unknown, run: GraphRun, unit: WorkUnit, context?: PublicationContextV1): GraphReview {
+  const r = graphKeys(graphCopy(value), ["evidence", "validatedFactIds", "checks", ...(context ? ["materialization"] : [])]); graphArray(r.evidence); graphArray(r.validatedFactIds); graphArray(r.checks);
   graphCheck(r.evidence.length > 0 && r.checks.length > 0, "complete executed fixture review required");
   for (const value of r.evidence) { const e = graphKeys(value, ["id", "source", "sha256", "detail"]); [e.id, e.source, e.detail].forEach(graphString); graphCheck(typeof e.sha256 === "string" && /^[a-f0-9]{64}$/.test(e.sha256), "review evidence hash"); }
   r.validatedFactIds.forEach(graphString);
-  graphCheck(canonical(r.validatedFactIds) === canonical(unit.ownedFunctionIds.map(id => run.publicationsByFunction[id]!.artifactId).sort()), "review fact/function attribution changed");
+  if (context) {
+    const m = parsePublicationMaterializationV1(r.materialization), { policy, ...scope } = context;
+    graphCheck(Object.entries(scope).every(([key, value]) => canonical((m as unknown as Record<string, unknown>)[key]) === canonical(value)) && m.policySha256 === fingerprint(policy) && m.targetId === publicationTargetIdV1(context, policy), "review manifest scope/policy/fences changed");
+    graphCheck(canonical(r.validatedFactIds) === canonical(m.artifacts.map(a => a.artifactId).sort()), "review manifest fact attribution changed");
+    assertPublicationManifestEvidenceV1(m, r.evidence);
+  } else graphCheck(canonical(r.validatedFactIds) === canonical(unit.ownedFunctionIds.map(id => run.publicationsByFunction[id]!.artifactId).sort()), "review fact/function attribution changed");
   for (const value of r.checks) { const c = graphKeys(value, ["id", "kind", "outcome", "evidenceDigest", "detail"]); [c.id, c.kind, c.detail].forEach(graphString); graphCheck(c.outcome === "pass" && c.evidenceDigest === fingerprint(r.evidence), "review checks/evidence mismatch"); }
   return r as unknown as GraphReview;
 }
@@ -145,7 +160,7 @@ function originalFamilyLease(j: Journal, record: GraphIntentRecord): UnitLease {
 }
 export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal {
   const events = graphEvents(graph, snapshot.missionId), run = runFromEvents(events, snapshot.missionId); graphCheck(run, "graph preparation unavailable"); assertGraphSnapshot(snapshot, run);
-  const v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph", suffix = v2 ? "v2" : "v1";
+  const v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph", suffix = v2 ? "v2" : "v1", publicationPolicy = graph.publicationPolicy(snapshot.missionId);
   const intents: GraphIntentRecord[] = [], results: ResultRecord[] = [], lateResults: ResultRecord[] = [], observed: StoredResult[] = [], reviews: ReviewRecord[] = [], refused: GraphIntentRecordV2[] = [];
   let installed = false, paused = false;
   for (const event of events.filter(e => e.kind.startsWith("l8."))) {
@@ -185,13 +200,15 @@ export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal
       const p = graphKeys(event.payload, ["version", "runFingerprint", "unitId", "familyToken", "resultIds", "review"]), unit = run.prepared.planning.units.find(u => u.unitId === p.unitId);
       graphCheck(p.version === `l8-graph-review-${suffix}` && p.runFingerprint === run.fingerprint && unit && event.unitId === unit.unitId && event.key === `${ns}.review:${unit.unitId}:${p.familyToken}`, "review journal binding"); graphInteger(p.familyToken, 1); graphArray(p.resultIds); p.resultIds.forEach(graphString);
       const family = results.filter(r => r.unitId === unit.unitId && r.familyToken === p.familyToken);
-      graphCheck(family.length === unit.subIntents.length && canonical(p.resultIds) === canonical(family.map(r => r.result.resultId).sort()), "review lacks complete family"); parseReview(p.review, run, unit); reviews.push(p as unknown as ReviewRecord);
+      graphCheck(family.length === unit.subIntents.length && canonical(p.resultIds) === canonical(family.map(r => r.result.resultId).sort()), "review lacks complete family");
+      const reserve = events.find(e => e.key === `reserve:${unit.unitId}:${p.familyToken}`)?.payload as { controllerToken: number } | undefined;
+      parseReview(p.review, run, unit, publicationPolicy ? publicationContextV1(run, unit, Number(p.familyToken), reserve!.controllerToken, publicationPolicy) : undefined); reviews.push(p as unknown as ReviewRecord);
     } else if (event.kind === `${ns}.control`) {
       const p = graphKeys(event.payload, ["version", "runFingerprint", "action"]); graphCheck(p.version === `l8-graph-control-${suffix}` && p.runFingerprint === run.fingerprint && ["pause", "resume"].some(x => x === p.action) && event.key === `${ns}.control:${event.sequence}` && event.unitId === null, "control journal schema"); paused = p.action === "pause";
     } else throw new Error("graph: unknown own journal namespace/version");
   }
   if (v2) for (const unit of run.prepared.planning.units) graphCheck(intents.filter(r => r.unitId === unit.unitId).length <= run.prepared.planning.sidecar.admissionBudget!.byUnit[unit.unitId]!.maxNewExecutions.value!, "durable N exceeded across generations/passes");
-  return { events, run, intents, results, lateResults, reviews, refused, paused, installed };
+  return { events, run, intents, results, lateResults, reviews, refused, paused, installed, ...(publicationPolicy ? { publicationPolicy } : {}) };
 }
 function verifiedReceiptHints(graph: GraphStore, j: Journal): import("./planner").ArtifactReceipt[] {
   return j.events.filter(e => e.kind === "artifact_receipt").map(e => {
@@ -225,7 +242,8 @@ export function inspectGraphState(graph: GraphStore, snapshot: Snapshot) {
 export class GraphEngine {
   constructor(readonly options: GraphEngineOptions) {
     graphCheck(options.store.path !== ":memory:" && options.store.path === options.graph.path, "graph and legacy Store require the same persistent OWN file");
-    graphCheck([options.executions.kind, options.review.kind, options.publication.kind].every(kind => kind === "offline-fixture-v1"), "only explicitly configured fixture ports are enabled");
+    graphCheck([options.executions.kind, options.review.kind].every(kind => kind === "offline-fixture-v1"), "only explicitly configured offline fixture execution/review ports are enabled");
+    configuredPublicationPolicyV1(options);
   }
   close(): void { this.options.graph.close(); }
   private snapshot(): Snapshot { return this.options.store.load(this.options.missionId); }
@@ -261,7 +279,10 @@ export class GraphEngine {
     this.append(`l8.graph2.ready:${run.fingerprint}`, "l8.graph2.ready", { version: "l8-graph-ready-v2", runFingerprint: run.fingerprint, missionRevision: run.missionRevision, bindingFingerprint: run.prepared.planning.binding.fingerprint });
   }
   /** Strict, read-only preflight, usable before an explicit graph lease attach. */
-  verifyEntry(): void { this.journal(); }
+  verifyEntry(): void {
+    const journal = this.journal(), configured = configuredPublicationPolicyV1(this.options);
+    graphCheck(canonical(journal.publicationPolicy ?? null) === canonical(configured ?? null), "old cycle refuses publication opt-in, missing source or changed root/policy");
+  }
   private journal(): Journal {
     return readGraphJournal(this.options.graph, this.snapshot());
   }
@@ -365,6 +386,7 @@ export class GraphEngine {
       if (lease && unit.state === "COMMITTED") {
         const commitEvent = graphEvents(graph, j.run.missionId).find(e => e.key === `commit:${unit.unitId}` && e.kind === "knowledge_committed");
         graphCheck(commitEvent, "COMMITTED without durable commit"); validateGraphDocument("knowledge-commit", commitEvent.payload);
+        if (j.publicationPolicy) { this.materializeProspectiveArtifacts(j, unit, commitEvent.payload as KnowledgeCommit); continue; }
         this.materializeArtifacts(j, unit, commitEvent.payload as KnowledgeCommit, j.results.filter(r => r.unitId === unit.unitId && r.familyToken === lease.token).map(r => r.result));
         continue;
       }
@@ -375,6 +397,7 @@ export class GraphEngine {
       if (!family.filter(r => r.document.kind === "reconciliation").every(r => r.document.kind === "reconciliation" && r.document.decision === "certain")) {
         graph.retireFamily(this.authority(), lease, "FAILED", "uncertain reconciliation retained, no publication or additional SCC pass", "scientific_block"); continue;
       }
+      if (j.publicationPolicy) { await this.finishProspective(j, unit, lease, family); continue; }
       const resultIds = family.map(r => r.resultId).sort(); let review = j.reviews.find(r => r.unitId === unit.unitId && r.familyToken === lease.token)?.review;
       if (!review) {
         review = parseReview(await this.options.review.review(graphFreeze({ run: j.run, unit, results: family })), j.run, unit);
@@ -403,6 +426,55 @@ export class GraphEngine {
       const commit = graph.commitReadback(this.authority(), lease, { targetId, requestDigest: request.requestDigest, hash: hash(readback.content), source: readback.source });
       this.materializeArtifacts(j, unit, commit, family);
       await this.fill(); // immediately after THIS commit/receipts, not after unrelated validation branches
+    }
+  }
+  private async finishProspective(j: Journal, unit: WorkUnit, lease: UnitLease, family: StoredResult[]): Promise<void> {
+    const graph = this.options.graph, context = publicationContextV1(j.run, unit, lease.token, this.authority().lease.token, j.publicationPolicy!);
+    const resultIds = family.map(r => r.resultId).sort();
+    let review = j.reviews.find(r => r.unitId === unit.unitId && r.familyToken === lease.token)?.review;
+    if (!review) {
+      review = parseReview(await this.options.review.review(graphFreeze({ run: j.run, unit, results: family, publicationContext: context })), j.run, unit, context);
+      this.append(`l8.graph2.review:${unit.unitId}:${lease.token}`, "l8.graph2.review", { version: "l8-graph-review-v2", runFingerprint: j.run.fingerprint, unitId: unit.unitId, familyToken: lease.token, resultIds, review }, unit.unitId);
+    }
+    const manifest = parseReview(review, j.run, unit, context).materialization!;
+    // Original review/manifest are replayed, never reconstructed from preannounced
+    // publicationsByFunction or from a new callback after a lost response.
+    graph.recordPublicationMaterialization(this.authority(), lease, manifest);
+    if (!graphEvents(graph, j.run.missionId).some(e => e.key === `validation:${unit.unitId}:${lease.token}`)) {
+      const attestation = graph.recordParentAttestation(this.authority(), lease, { bindingFingerprint: context.bindingFingerprint, planFingerprint: context.planFingerprint,
+        snapshotId: unit.snapshotId, knowledgeRevision: unit.knowledgeRevision, resultIds, resultDigests: Object.fromEntries(family.map(r => [r.resultId, fingerprint(r.document)])),
+        evidence: review.evidence, validatedFactIds: review.validatedFactIds, checks: review.checks });
+      graph.validateUnit(this.authority(), lease, resultIds, { source: "artifact", parentValidated: false, parentAttestationId: attestation.attestationId, evidence: review.evidence, validatedFactIds: review.validatedFactIds });
+    }
+    const durable = graph.publicationMaterialization(j.run.missionId, unit.unitId); graphCheck(durable && canonical(durable) === canonical(manifest), "immutable reviewed publication manifest changed");
+    const content = canonical(durable), pendingContent = { schemaVersion: 1 as const, inputRevision: manifest.inputRevision, outputRevision: manifest.outputRevision, unitId: unit.unitId, resultIds,
+      validatedFactIds: review.validatedFactIds, evidence: review.evidence, publicationLevel: manifest.publicationLevel, publicationTargetId: manifest.targetId,
+      readbackStatus: "pending" as const, readbackHash: hash(content), futurePrerequisiteEffect: "does_not_satisfy" as const, isGitCommit: false as const };
+    const pending: KnowledgeCommit = { ...pendingContent, commitId: fingerprint(pendingContent) };
+    graph.preparePublication(this.authority(), lease, pending, { verifiedEffect: "satisfies" });
+    const request = graphFreeze({ targetId: manifest.targetId, requestDigest: fingerprint(pending), content });
+    this.verifyEntry(); graph.assertPublicationMaterializationCurrent(this.authority(), lease, durable);
+    await this.options.publication.write(request);
+    const readback = graphCopy(await this.options.publication.read(graphFreeze({ targetId: request.targetId, requestDigest: request.requestDigest })));
+    graphKeys(readback, ["targetId", "requestDigest", "content", "source"]);
+    graphCheck(readback.targetId === request.targetId && readback.requestDigest === request.requestDigest && readback.content === content, "actual static publication byte readback mismatch");
+    const observation = { targetId: request.targetId, requestDigest: request.requestDigest, hash: hash(readback.content), source: readback.source };
+    // A real physical effect can outlive its family fence/revocation. Preserve
+    // its observation independently; only commitReadback may accept it.
+    graph.observePublication(this.authority(), unit.unitId, observation);
+    const commit = graph.commitReadback(this.authority(), lease, observation);
+    this.materializeProspectiveArtifacts(j, unit, commit); await this.fill();
+  }
+  private materializeProspectiveArtifacts(j: Journal, unit: WorkUnit, commit: KnowledgeCommit): void {
+    const graph = this.options.graph, manifest = graph.publicationMaterialization(j.run.missionId, unit.unitId);
+    graphCheck(manifest && graph.satisfies(j.run.missionId, unit.unitId, unit.requiredPublicationLevel), "prospective publication no longer satisfies exact proofs");
+    for (const artifact of manifest.artifacts) {
+      const binding = graph.recordArtifactBinding(this.authority(), { commitId: commit.commitId, artifactId: artifact.artifactId, functionId: artifact.functionId, artifactKind: artifact.artifactKind,
+        sourceResultIds: artifact.sourceResultIds, ...(artifact.materialization === "parent-derived" ? { content: artifact.content } : {}) });
+      graphCheck(binding.content === artifact.content && binding.artifactSha256 === artifact.bytesRef.sha256, "artifact binding bytes differ from attested manifest");
+      const receipt: ArtifactReceipt = { artifactId: binding.artifactId, artifactSha256: binding.artifactSha256, functionId: binding.functionId, moduleSha256: binding.moduleSha256, artifactKind: binding.artifactKind,
+        knowledgeRevision: binding.knowledgeRevision, publicationLevel: binding.publicationLevel, validation: binding.validation, producerUnitId: binding.producerUnitId, commitId: binding.commitId, readbackStatus: "verified", futurePrerequisiteEffect: "satisfies" };
+      assertReceiptCoherence(receipt); graph.recordKnowledgeReceipt(this.authority(), receipt);
     }
   }
   private materializeArtifacts(j: Journal, unit: WorkUnit, commit: KnowledgeCommit, family: StoredResult[]): void {
