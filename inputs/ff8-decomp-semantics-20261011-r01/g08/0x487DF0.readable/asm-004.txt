@@ -1,0 +1,25 @@
+00487EFB: push    offset domain__EnemyAI_AbilityLookupCallback
+00487F00: movzx   ax, al; Move with Zero-Extend
+00487F04: inc     esi; Increment by 1
+00487F05: lea     eax, [eax+eax*2]; Load Effective Address
+00487F08: lea     edi, [eax+eax*4]; Load Effective Address
+00487F0B: shl     edi, 1; Shift Logical Left
+00487F0D: call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+00487F12: movsx   edx, ax; Move with Sign-Extend
+00487F15: add     esp, 4; Add
+00487F18: shl     edx, 4; Shift Logical Left
+00487F1B: mov     word_1D28C4C[edx], di
+00487F22: jmp     short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00487F24: mov     al, [esi]; AI VM op 0x20 SET_TEXT_FRAMES_15: word_1D28C4C[] = 15*n(1) (text wait frames, half of op 0x1C)
+00487F26: push    offset domain__EnemyAI_AbilityLookupCallback
+00487F2B: movzx   ax, al; Move with Zero-Extend
+00487F2F: inc     esi; Increment by 1
+00487F30: lea     eax, [eax+eax*2]; Load Effective Address
+00487F33: lea     edi, [eax+eax*4]; Load Effective Address
+00487F36: call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+00487F3B: movsx   eax, ax; Move with Sign-Extend
+00487F3E: add     esp, 4; Add
+00487F41: shl     eax, 4; Shift Logical Left
+00487F44: mov     word_1D28C4C[eax], di
+00487F4B: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00487F50: mov     cl, [esi]; AI VM op 0x34 SPAWN_MONSTER: spawn id(1) into first free enemy slot 3..7; relay 0x71 init; SetTargetableCallback

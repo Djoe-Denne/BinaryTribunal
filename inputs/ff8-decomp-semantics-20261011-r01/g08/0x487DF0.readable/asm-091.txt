@@ -1,0 +1,25 @@
+00489E0E: mov     al, [esi]; AI VM op 0x31 GIVE_GF: GF_SetOwnedFlag(gf_id(1)); append gf_id to POST_BATTLE_GF_ID_QUEUE
+00489E10: inc     esi; Increment by 1
+00489E11: mov     [esp+74h+op_param_2], al
+00489E15: mov     ecx, dword ptr [esp+74h+op_param_2]
+00489E19: and     ecx, edi; Logical AND
+00489E1B: push    ecx; p_gforce_id
+00489E1C: call    domain__GF_SetOwnedFlag; Sets the SG_ARRAY_GF_DATA.Exists bit for gf_id. Used by Draw/acquisition paths and enemy AI opcode 0x31.
+00489E21: mov     al, POST_BATTLE_GF_ID_QUEUE_COUNT
+00489E26: mov     cl, [esp+78h+op_param_2]
+00489E2A: xor     edx, edx; Logical Exclusive OR
+00489E2C: add     esp, 4; Add
+00489E2F: mov     dl, al
+00489E31: inc     al; Increment by 1
+00489E33: mov     POST_BATTLE_GF_ID_QUEUE_COUNT, al
+00489E38: mov     byte ptr POST_BATTLE_GF_ID_QUEUE[edx], cl
+00489E3E: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489E43: mov     AI_PREPARE_SUMMON_FLAG, 1; AI VM op 0x32 SET_PREPARE_SUMMON: AI_PREPARE_SUMMON_FLAG=1 (summon-targeting override)
+00489E4A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489E4F: push    0; AI VM op 0x33 ACTIVATE_RELAY_70: relay 0x70 (camera/presentation barrier)
+00489E51: push    80h; a2
+00489E56: push    70h ; 'p'; a1
+00489E58: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00489E5D: add     esp, 0Ch; Add
+00489E60: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489E65: mov     al, [esi]; AI VM op 0x35 ENTER_ANIM_TARGET: relay 0x71 enter-anim with slot code(1) (0xD1=global attacker)

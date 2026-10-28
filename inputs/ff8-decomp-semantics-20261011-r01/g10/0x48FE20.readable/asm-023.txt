@@ -1,0 +1,25 @@
+00490797: add     esp, 8; Add
+0049079A: push    eax
+0049079B: push    0Bh
+0049079D: call    domain__BattleText_GetMiscText; Call Procedure
+004907A2: mov     al, [eax]
+004907A4: add     esp, 4; Add
+004907A7: push    eax
+004907A8: push    13h
+004907AA: call    domain__BattleText_GetMiscText; Call Procedure
+004907AF: add     esp, 4; Add
+004907B2: jmp     short loc_490833; Jump
+004907B4: call    domain__BattleText_GetMiscText; Call Procedure
+004907B9: add     esp, 4; Add
+004907BC: push    eax
+004907BD: push    7
+004907BF: push    77h ; 'w'
+004907C1: call    domain__BattleText_GetMiscText; Call Procedure
+004907C6: mov     ecx, [esp+2Ch+mug_object_id]
+004907CA: add     esp, 4; Add
+004907CD: and     ecx, 0FFh; Logical AND
+004907D3: push    eax
+004907D4: push    7
+004907D6: push    ecx
+004907D7: call    getTextBattleItem; Call Procedure
+004907DC: add     esp, 4; Add

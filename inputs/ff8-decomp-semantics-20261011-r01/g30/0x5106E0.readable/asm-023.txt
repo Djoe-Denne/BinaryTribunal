@@ -1,0 +1,25 @@
+00510E35: mov     [esp+50h+var_18], eax
+00510E39: mov     [esp+50h+var_1C], ecx
+00510E3D: mov     [esp+50h+var_20], edx
+00510E41: call    Poly_BackfaceTest2D; Call Procedure
+00510E46: add     esp, 0Ch; Add
+00510E49: test    eax, eax; Logical Compare
+00510E4B: mov     eax, dword_1D99C1C
+00510E50: jle     loc_51105E; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510E56: mov     edi, [esp+44h+ctx]
+00510E5A: mov     ecx, [eax+14h]
+00510E5D: mov     [esp+44h+var_24], ecx
+00510E61: movsx   edx, word ptr [edi+24h]; Move with Sign-Extend
+00510E65: test    edx, offset unk_FFFFFF; Logical Compare
+00510E6B: jz      short loc_510E9E; Jump if Zero (ZF=1)
+00510E6D: push    6
+00510E6F: push    ecx
+00510E70: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+00510E75: mov     eax, [edi+24h]
+00510E78: push    8
+00510E7A: or      eax, 8000000h; Logical Inclusive OR
+00510E7F: push    eax
+00510E80: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+00510E85: call    sub_45F270; Call Procedure
+00510E8A: lea     ecx, [esp+54h+var_24]; Load Effective Address
+00510E8E: push    16h

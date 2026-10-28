@@ -1,0 +1,25 @@
+0050DC78: and     eax, 0FFh; Logical AND
+0050DC7D: add     eax, 0FFFFFF1Ch; switch 16 cases
+0050DC82: cmp     eax, 0Fh; Compare Two Operands
+0050DC85: ja      def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DC8B: jmp     ds:jpt_50DC8B[eax*4]; switch jump
+0050DC92: xor     esi, esi; jumptable 0050DC8B case 228
+0050DC94: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DC99: inc     ecx; jumptable 0050DC8B case 229
+0050DC9A: push    ecx
+0050DC9B: call    sub_50DAB0; Call Procedure
+0050DCA0: mov     ebx, eax
+0050DCA2: add     esp, 4; Add
+0050DCA5: cmp     ebx, 80h; Compare Two Operands
+0050DCAB: jl      short loc_50DCCF; Jump if Less (SF!=OF)
+0050DCAD: lea     ecx, ds:0[ebx*4]; Load Effective Address
+0050DCB4: lea     edx, [esp+50h+arg_3B8]; Load Effective Address
+0050DCBB: sub     edx, ecx; Integer Subtraction
+0050DCBD: mov     ecx, [esp+50h+arg_0]
+0050DCC1: add     ecx, 2; Add
+0050DCC4: mov     [edx], esi
+0050DCC6: mov     [esp+50h+arg_0], ecx
+0050DCCA: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DCCF: push    esi
+0050DCD0: push    ebx
+0050DCD1: call    ebp; E2 script_vm: call ebp = arg_C store opcode 0xE5 val<0x80

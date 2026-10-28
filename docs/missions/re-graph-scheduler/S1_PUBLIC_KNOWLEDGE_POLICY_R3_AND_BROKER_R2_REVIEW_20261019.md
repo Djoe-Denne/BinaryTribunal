@@ -1,0 +1,36 @@
+# S1 contrat connaissance/policy précisé ; brokerR2 gelé en nouvelleV
+
+GapQA result_mvf2jyfr_0034_hnierq traité publiquement,avantinspectioncandidate :
+rootHash/ledgerDigest sont témoinsbackendOPAQUES64hex,aucunepréimageS1implicite.
+Ilsdoivent matcher lesmêmesétats/révisionssourcesindépendantes/T0 ; validations
+facts/materializations/content/approvalretiennentleurforce. Desdigestsfixtures
+neprouventpas authentification/provenance/durabilité. S2devraencorevrairoot/
+ledgerreadback etcommitJ→KouemptyK→K ; aucungatepromu/waivé par cetteclarification.
+Parentconstateensuite sourceR2déjàconformeàl'opacité(:459–492),pasdefixknowledge.
+
+sourcePolicyRefdoitrésoudreun VRAIdocumentpolicyfixture d'octetscommoninput.
+Complémentpublic5397B/d8ac7422 : JSONfermé version/missionId/lineageId/bornes,
+ByteRefkindl8-activation-policy-source-v1/UTF8JSONhashraw ; Blobraw-v1mêmesbytes,
+fichierkindrule/commonopérateur/nonblind/identityabsente/accessiblerules/config
+fixturetrue. Counts/mission/lineage exacts,pas reconstructiondescountscomme
+preuveindépendante. BackendT0autoritétoujoursfuture,JSONn'octroiepasHOST/LOCAL.
+SourceR2shape-checkaitseulementpolicyref : correctifR3autorisé sibling5fichiers
++DESIGN/MANIFEST,sansnouveauchamp/API/domaine,4autressources/schemaspréservés.
+
+SourceS1R3 paquet70pins1539175B/0f2e5631,Sol/xhighnatifrevérifié,GOdirectaprèshash.
+QAindépendante reçoitseulementaddendumpublic,pascandidat/golden ; GOcontinue.
+MétadonnéesowncodecR3 seront fourniesDATAseulementaprèsgel pourfixturesexactes.
+
+En parallèle : sourcebrokerR2 result_mvf2jpge_0031_zrslxq3artefacts73730B gelés,
+30pins421286B exacts,R1intact,diffparentlu(deuxdeltasHostComplete/GEDefFresh).
+QAR2 result_mvf2s0gs_0036_3esagc3artefacts96841Bgelés,29pins429981B exacts,
+R1QA/R2source6pinsinchangés. 304sites/18groupesstatiques,aucunruntimeobservé.
+ForteVfreshR2 task_mvf3ixw3_003g_0loqmt admise38pins661796B,
+manifest6c31796031aaf4827edd4298cdf4b95d97ed8ad6491f9b6a7405316c040cb8a4,
+Sol/xhighnatifvérifiégrille74/88 ; ACKmicroplanpuisGOauditavantverdict. Ni source
+ni QAacceptée/compilée/exécutée. R1CORRIGEetgels conservés,nopush/cleanup.
+
+GrepAI : racinecommune/config vérifiées,indexprésent11956fichiers,mais aucun
+résultatTSutilepourceschamps ; requêteracineexplicitea échouécôtéMCP. Leschemins
+gelés connus ontétéinspectésciblément,pas d'indexrecréé/watchrelancé/configmodifiée.
+ContextModefonctionnel ; la coupuretransportdupatchvide n'avaitappliquéaucunedit.

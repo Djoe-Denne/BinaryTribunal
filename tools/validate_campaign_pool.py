@@ -145,8 +145,12 @@ def validate(pool, verify_files=True):
     for t in tasks.values():
         visit(t["id"])
         require(t["status"] in STATUSES, "invalid task status")
-        require(t["case"] in {*pool["sources"], "J3"}, "out-of-scope task")
-        if t["case"] != "J3":
+        require(t["case"] in {*pool["sources"], "J3"}
+                or (t["id"] == "DOC_tables_question_recovery_1"
+                    and t["case"] == "DOC_recovery" and t.get("ea") is None
+                    and t.get("role") == "documentary_recovery"),
+                "out-of-scope task")
+        if t["case"] not in {"J3", "DOC_recovery"}:
             require(t["ea"] == pool["sources"][t["case"]]["ea"], "EA mismatch")
         if t["status"] in {"ready", "running", "fallback", "completed"}:
             require(all(tasks[d]["status"] == "completed" for d in t["depends_on"]),
@@ -214,6 +218,24 @@ def validate(pool, verify_files=True):
         require({"timestamp_utc", "task_id", "ea", "role", "depends_on", "status",
                  "slot_id", "session_id", "model", "inputs_digest"} <= event.keys(),
                 "incomplete event record")
+    if pool.get("user_drain"):
+        drain = pool["user_drain"]
+        require(pool["activation"] in {"draining_native", "drained_user"}
+                and not pool["guards"]["dispatch_GO"],
+                "explicit user drain closes new frontier dispatch")
+        scope = drain.get("scope_cases", [])
+        require(len(scope) == len(set(scope)) and all(c in pool["sources"] for c in scope),
+                "user drain scope must be unique existing cases")
+        require(drain.get("natural_underutilization_authorized") is True,
+                "user drain explicitly supersedes continuous utilization")
+        require(all(t["case"] in scope or t["id"] == "DOC_tables_question_recovery_1"
+                    for t in tasks.values() if t["status"] == "running" and t["actor"] == "worker"),
+                "user drain cannot start a new EA")
+        if pool["activation"] == "drained_user":
+            require(not active and not any(t["status"] == "running" and t["actor"] == "worker"
+                                          for t in tasks.values())
+                    and not drain.get("completion_dispatch_GO"),
+                    "final drain must stop completion dispatch and have no workers running")
     if pool["activation"] in {"awaiting_parent_long_GO", "awaiting_background_GO"} or pool["activation"].startswith("blocked_"):
         require(not pool["guards"]["dispatch_GO"], "global gate must prevent new dispatch")
         drain = pool.get("global_stop_drain")
@@ -304,6 +326,7 @@ def self_test(pool):
                                         "variant": "default"}), "literal high suffix accepted")
     checks += 1
     drain_sample = copy.deepcopy(pool)
+    drain_sample.pop("user_drain", None)  # historical restart test, not the later user freeze
     drain_sample["activation"] = "blocked_native_ida_mcp_absent_after_restart"
     drain_sample["guards"]["dispatch_GO"] = False
     drain_sample["global_stop_drain"] = {
@@ -321,7 +344,7 @@ def self_test(pool):
         checks += 1
     else:
         raise AssertionError("critical restart drain accepted new dispatch")
-    if pool.get("sustained_scheduler"):
+    if pool.get("sustained_scheduler") and not pool.get("user_drain"):
         frontier = copy.deepcopy(pool)
         for task in frontier["tasks"]:
             if task["case"] in {"P3","P4","P6"} and task["actor"]=="worker" and task["status"]!="completed":
@@ -341,6 +364,10 @@ def self_test(pool):
             checks+=1
         else:
             raise AssertionError("adaptive expanded silently outside six pilots")
+    if pool.get("user_drain"):
+        rejects(lambda p: p["guards"].update(dispatch_GO=True))
+        rejects(lambda p: p.update(activation="running_native"))
+        rejects(lambda p: p["user_drain"].update(natural_underutilization_authorized=False))
     if pool.get("native_migration_2026_10_10"):
         rejects(lambda p: p["native_migration_2026_10_10"]["self_model_actual"].update(variant="default"))
         rejects(lambda p: p["native_migration_2026_10_10"]["canaries"][0]["model_actual"].update(id="glm-5.3-flash#high"))

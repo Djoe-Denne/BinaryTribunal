@@ -1,0 +1,105 @@
+{
+  "ea": "0x50C950",
+  "name_label_only": "BattleModel_AdvanceH4Frame",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50c950",
+      "end": "0x50ca04",
+      "hex": "538b5c240855568b83840000008b403085c00f84980000008b6c2414668b34686685f60f848700000081e6ffff000003f08a4e0584c974688a4606573c08742f33d225ff0000008a560781e1ff00000003c28bfa998d0ccd08000000f7f9c1ef0388560781e2ff000000c1ea03eb1d33d281e1ff0000008a5607418bfa8d470199f7f988560781e2ff0000003bd75f741f525553e897fdffff83c40c5e5d5bc333c08a4606505553e863feffff83c40c5e5d5bc3"
+    }
+  ],
+  "assembly": "0050C950: push    ebx\n0050C951: mov     ebx, [esp+4+actor]\n0050C955: push    ebp\n0050C956: push    esi\n0050C957: mov     eax, [ebx+84h]\n0050C95D: mov     eax, [eax+30h]\n0050C960: test    eax, eax; Logical Compare\n0050C962: jz      loc_50CA00; Jump if Zero (ZF=1)\n0050C968: mov     ebp, [esp+0Ch+h4Index]\n0050C96C: mov     si, [eax+ebp*2]\n0050C970: test    si, si; Logical Compare\n0050C973: jz      loc_50CA00; Jump if Zero (ZF=1)\n0050C979: and     esi, 0FFFFh; Logical AND\n0050C97F: add     esi, eax; Add\n0050C981: mov     cl, [esi+5]\n0050C984: test    cl, cl; Logical Compare\n0050C986: jz      short loc_50C9F0; Jump if Zero (ZF=1)\n0050C988: mov     al, [esi+6]\n0050C98B: push    edi\n0050C98C: cmp     al, 8; Compare Two Operands\n0050C98E: jz      short loc_50C9BF; Jump if Zero (ZF=1)\n0050C990: xor     edx, edx; Logical Exclusive OR\n0050C992: and     eax, 0FFh; Logical AND\n0050C997: mov     dl, [esi+7]\n0050C99A: and     ecx, 0FFh; Logical AND\n0050C9A0: add     eax, edx; Add\n0050C9A2: mov     edi, edx\n0050C9A4: cdq; EAX -> EDX:EAX (with sign)\n0050C9A5: lea     ecx, ds:8[ecx*8]; Load Effective Address\n0050C9AC: idiv    ecx; Signed Divide\n0050C9AE: shr     edi, 3; Shift Logical Right\n0050C9B1: mov     [esi+7], dl\n0050C9B4: and     edx, 0FFh; Logical AND\n0050C9BA: shr     edx, 3; Shift Logical Right\n0050C9BD: jmp     short loc_50C9DC; Jump\n0050C9BF: xor     edx, edx; Logical Exclusive OR\n0050C9C1: and     ecx, 0FFh; Logical AND\n0050C9C7: mov     dl, [esi+7]\n0050C9CA: inc     ecx; Increment by 1\n0050C9CB: mov     edi, edx\n0050C9CD: lea     eax, [edi+1]; Load Effective Address\n0050C9D0: cdq; EAX -> EDX:EAX (with sign)\n0050C9D1: idiv    ecx; Signed Divide\n0050C9D3: mov     [esi+7], dl\n0050C9D6: and     edx, 0FFh; Logical AND\n0050C9DC: cmp     edx, edi; Compare Two Operands\n0050C9DE: pop     edi\n0050C9DF: jz      short loc_50CA00; Jump if Zero (ZF=1)\n0050C9E1: push    edx; frame\n0050C9E2: push    ebp; h4Index\n0050C9E3: push    ebx; actor\n0050C9E4: call    BattleModel_ApplyH4UvSlot; H4 UV slot: [actor+0x84]+0x30 u16-table + TPage scan + queue 0x505EB0; opcodes 0x9B/0xBD/0xBE/0x9F(via 5057D0)\n0050C9E9: add     esp, 0Ch; Add\n0050C9EC: pop     esi\n0050C9ED: pop     ebp\n0050C9EE: pop     ebx\n0050C9EF: retn; Return Near from Procedure\n0050C9F0: xor     eax, eax; Logical Exclusive OR\n0050C9F2: mov     al, [esi+6]\n0050C9F5: push    eax; scrollV\n0050C9F6: push    ebp; tableIndex\n0050C9F7: push    ebx; actor\n0050C9F8: call    BattleModel_ScrollH4SlotV; H4 sister: same prologue, V-scroll variant; caller 0x50C950 only\n0050C9FD: add     esp, 0Ch; Add\n0050CA00: pop     esi\n0050CA01: pop     ebp\n0050CA02: pop     ebx\n0050CA03: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50c950",
+      "end": "0x50c968",
+      "successors": [
+        "0x50c968",
+        "0x50ca00"
+      ]
+    },
+    {
+      "start": "0x50c968",
+      "end": "0x50c979",
+      "successors": [
+        "0x50c979",
+        "0x50ca00"
+      ]
+    },
+    {
+      "start": "0x50c979",
+      "end": "0x50c988",
+      "successors": [
+        "0x50c988",
+        "0x50c9f0"
+      ]
+    },
+    {
+      "start": "0x50c988",
+      "end": "0x50c990",
+      "successors": [
+        "0x50c990",
+        "0x50c9bf"
+      ]
+    },
+    {
+      "start": "0x50c990",
+      "end": "0x50c9bf",
+      "successors": [
+        "0x50c9dc"
+      ]
+    },
+    {
+      "start": "0x50c9bf",
+      "end": "0x50c9dc",
+      "successors": [
+        "0x50c9dc"
+      ]
+    },
+    {
+      "start": "0x50c9dc",
+      "end": "0x50c9e1",
+      "successors": [
+        "0x50c9e1",
+        "0x50ca00"
+      ]
+    },
+    {
+      "start": "0x50c9e1",
+      "end": "0x50c9f0",
+      "successors": []
+    },
+    {
+      "start": "0x50c9f0",
+      "end": "0x50ca00",
+      "successors": [
+        "0x50ca00"
+      ]
+    },
+    {
+      "start": "0x50ca00",
+      "end": "0x50ca04",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x505619",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    }
+  ],
+  "code_targets": [
+    "0x50c780",
+    "0x50c860"
+  ],
+  "instruction_count": 68
+}

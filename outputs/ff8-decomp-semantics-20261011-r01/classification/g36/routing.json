@@ -1,0 +1,63 @@
+{
+  "group": "g36",
+  "task_id": "task_mv435edk_003e_20yf9c",
+  "status": "DISPATCH_READY",
+  "dispatch_authority": "lead_only",
+  "source": "discover-g36",
+  "source_session_id": "ses_ed41f6854ffemmPxPCa1inVFne",
+  "source_admission": "CHECKPOINT_REQUIRED",
+  "checkpoint_reason": "Source report explicitly includes historical target reconciled-C claims and source receipt records a full read of target decomp document. Lead must verify an exclusive native checkpoint before target candidate exposure; current compaction also includes historical target conclusions. No author may fork classifier or inherit these target previews.",
+  "source_receipt": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g36.source.native.json",
+  "source_receipt_sha256": "0861d8138b1db3adcc170054087cb292c94a8b979a7d12e21f9fdac40421424a",
+  "factual_inputs": {
+    "native_path": "inputs/ff8-decomp-semantics-20261011-r01/g36/0x6F29D0.json",
+    "native_sha256": "ac670d94cdb80e94d1d89afce9306ee3848c43d43062ffe2664e040554464e88",
+    "compaction_path": "inputs/ff8-decomp-semantics-20261011-r01/g36/common-compaction.md",
+    "compaction_sha256": "81b68d07a8aca9d84eac0a21870de02553054e20ca78d6d11465bcaaa041c9bd"
+  },
+  "routes": [
+    {
+      "ea": "0x6F29D0",
+      "status": "CHECKPOINT_REQUIRED",
+      "native_pe_verified": true,
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "classifier_calls": 1,
+      "payload_unchanged": true,
+      "assembly_characters": 6410,
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g36/0x6F29D0.request.json",
+      "request_sha256": "6f105977bf1a32e3998f9c127cb48c13a959bc4da29dbaa5381107e4b27cff25",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g36/0x6F29D0.response.json",
+      "response_sha256": "02108d38be299503a0eb7a1722c88bd42647ff473f0457d240e6df5ec23d99af",
+      "complexity": 39,
+      "risk": 36,
+      "risk_source": "native classifier uncertainty (operational risk proxy; not probability)",
+      "uncertainty_cause": "data_flow",
+      "instructions": 28,
+      "basic_blocks": 1,
+      "classifier_threshold_tier": "medium",
+      "tier": "complex_high_risk",
+      "rationale": "39/36 is outside simple and inside medium classifier thresholds, but existing frozen compaction explicitly preserves mission E17 risk H. Conservative high-risk override retained; table contents, matrix conventions and caller return consumption remain unverified. Both volets use independent 2+1; native classification is consultative only.",
+      "inherited_source": "discover-g36",
+      "context_mode": "checkpoint",
+      "author_sessions_independent": true,
+      "C": {
+        "protocol": "2+1",
+        "A": {"model": "openai/gpt-6-astra", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/C/0x6F29D0/A.md"},
+        "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/C/0x6F29D0/B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/C/0x6F29D0/R.md", "depends_on": ["C.A", "C.B"]}
+      },
+      "semantics": {
+        "protocol": "2+1",
+        "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/semantics/0x6F29D0/A.md"},
+        "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/semantics/0x6F29D0/B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/semantics/0x6F29D0/R.md", "depends_on": ["semantics.A", "semantics.B"]}
+      },
+      "admission_gates": ["Lead verifies clean exclusive discover-g36 checkpoint and factual inheritance", "Lead verifies exact native Model.Ref and non-default variants on creation", "Reconciliation only after both independent A and B artifacts exist", "Supervisor native ASM final validation"]
+    }
+  ],
+  "quarantined_eas": [],
+  "oversize_eas": [],
+  "blocked_eas": [{"ea": "0x6F29D0", "reason": "CHECKPOINT_REQUIRED"}],
+  "producers_spawned": 0
+}

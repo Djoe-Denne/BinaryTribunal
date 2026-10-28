@@ -1,0 +1,25 @@
+0050AAA5: pop     esi
+0050AAA6: xor     eax, eax; Logical Exclusive OR
+0050AAA8: pop     ebx
+0050AAA9: retn; Return Near from Procedure
+0050AAAA: mov     al, byte_1D96A90; jumptable 0050A9C9 case 3
+0050AAAF: test    al, al; Logical Compare
+0050AAB1: jbe     short loc_50AAC3; Jump if Below or Equal (CF=1 | ZF=1)
+0050AAB3: test    battle_to_update_flags_dword_1D96A9C, 20000000h; Logical Compare
+0050AABD: jz      def_50A9C9; jumptable 0050A9C9 default case
+0050AAC3: mov     eax, BATTLE_PRESENTATION_FILE_RESULT
+0050AAC8: test    eax, eax; Logical Compare
+0050AACA: jl      def_50A9C9; jumptable 0050A9C9 default case
+0050AAD0: mov     al, byte ptr g_BattleCameraFlags
+0050AAD5: test    al, al; Logical Compare
+0050AAD7: jnz     def_50A9C9; jumptable 0050A9C9 default case
+0050AADD: mov     eax, dword_1D99A40
+0050AAE2: mov     ecx, [eax+8Ch]
+0050AAE8: test    ecx, ecx; Logical Compare
+0050AAEA: jnz     short loc_50AB01; Jump if Not Zero (ZF=0)
+0050AAEC: mov     eax, [eax+74h]
+0050AAEF: pop     edi
+0050AAF0: or      byte ptr [eax+2Ch], 10h; Logical Inclusive OR
+0050AAF4: mov     al, [esi+0Dh]
+0050AAF7: inc     al; Increment by 1
+0050AAF9: mov     [esi+0Dh], al

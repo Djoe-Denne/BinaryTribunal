@@ -1,0 +1,143 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g14. Read-only factual discovery; no target C, purpose verdict, edits, IDB/Git/ledger/live/delegation. Task task_mv424nwf_000g_z26eqm claimed/completed. Contract read, GrepAI common-root discovery first, QMD CLI knowledge search/retrieval. Native labels/comments are not purpose evidence.\n; \n; ABSOLUTE SOURCE ALIASES (alias:line below expands to these paths):\n; P4=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x4954B0.json\n; P9=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x495960.json\n; PD=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x495D80.json\n; GROUP=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json\n; PE=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json\n; ABI=C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/address-map/ff8_en_064d466b5fe2ba90/abi-ledger.yaml\n; LAYOUT=C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/abi/include/ff8iso/abi/layout.hpp\n; Q22=C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/g22-init-static-layouts-2026-08-30.md\n; INIT=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/battle_init.md\n; SEAL=C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-01.md\n; \n; FREEZE / CRITICAL LIMITATION:\n; P*:4-9: 32-bit FF8_EN.exe SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, export2026-10-11T16:38:25.140966+00:00. Packet SHA256 independently computed, matching GROUP:1012-1036:\n; P4=0d3ae552496212fc6656e5c02fe6db6830acc5b6b35ab41b58a693811db60ac6;44insns,7blocks,[4954B0,49552F).\n; P9=f3689a0e914a803ad59128fa4ea76bb4de7f1057a6b37e4bb6dc728c38324d2b;333insns,50blocks,[495960,495D73).\n; PD=862f2ad69328e5f7b6edf55f2758945567bbedec39d64efd8db945c141c4ad7b;101insns,18blocks,[495D80,495EB3).\n; PE:432-434/460-462 says P4/PD equals PE/freeze. CRITICAL PE:437-455 says495960 does NOT equal PE:7 bytes differing495A29..495A2F, live_idb_changed_since_freeze=false. Frozen chunkSHA cbcd827c14b62562b02d32ebf5be96ae641ad24dd3174feecfd828f54f186f15 vs PE chunkSHA6ba7b6f4a3febcb536a5c2e458ca184e18f368c7a62408662df9c196863bae02. P9:18 lists495A29 'db 0E8h', next instruction495A30; frozen chunk has E8 72 A3 81 5B 90 90 in span. Do NOT treat333 listed instructions as complete authenticated original-PE decoding, infer missing behavior or silently repair from prose. Requires supervisor source/coverage disposition.\n; \n; OBSERVED ABI (all instruction-address citations from P*:18):\n; 4954B0 saves EBP/ESI/EDI, reads entry-stack argument ESP+4 at4954B3, plainRET49552E. Call47EEB0 at4954F4 pushes zero-extended byteID then argument, cleans8 at4954F9. Return contract unvalidated: EAX altered through final byte load495520, no explicit result reset.\n; 495960 saves EBX/EBP/ESI/EDI; reads entry second argument ESP+8 intoEDX495961, firstESP+4 intoEDI495968. PlainRET exits. First-derived persistent record=0x1CFE0E8+152*EDI (49596C..97B); second-derived local record=0x1CFF000+464*EDX (495972..988, raw immediate01CFF000). EDI==FF exits49598E..994; no ordinary index bounds check shown. Callee interfaces below are push observations, not recovered declarations. No justified stable return contract.\n; 495D80 reserves12bytes, savesEBX/EBP/ESI/EDI, reads entryESP+4 intoEBX495D84, restores stack/plainRET495EAF..EB2. Persistent record=0x1CFDCA8+68*index; local=0x1CFF618+12*index (495D88..DA3, raw immediate01CFF618). No index bounds. Call4960C0 at495DBC pushes index then dword persistent+0C, resultAL ->local+8. Call496120 at495E49 pushes index then zero-extended local+8, resultAX sign-extended at495E4E. Both clean8.\n; \n; TABLES / STRUCTURES:\n; P4:18 4954BC..D0 forms local+86, counter20h at4954B7; stride5 at49550A, decrement/loop49551F/529. IDs cursor-4 (initial+82); qty not accessed. Kernel stride3Ch at4954DE/50D/51C. Raw sources=0x1CF406F+60*id (4954E1,test80),0x1CF406E+60*id (495510),0x1CF406D+60*id (495520); row offsets+B,+A,+9 using independent base below. Writes local+86,+85,+84. Pure byte/bit facts: +4cache zero; table80 may set1; nonzero47EEB0 result OR4; two other table bytes copied. Meaning of47EEB0/cache fields unvalidated by name.\n; ABI:1076-1106 marks F_CHAR_DATA RVA018FF000,3records stride1D0, HPu16+172; F_CHARACTER_MAGIC_DATA RVA018FF082,32entriesx5,id+0 qty+1 cache+2..4. Add image base400000 to RVA to match nativeVAs. ABI:1019-1030 K_MAGIC RVA018F4064,57rowsx3C, authenticated-kernel/static evidence; replacement restriction reject>=57. P4 has NO such native upper check: do not inject replacement guard into recovered native.\n; Q22:98-117 (QMD CLI #f611a2): SG_ARRAY_CHARA_DATA VA1CFE0E8,CharacterData[8],stride152; +0CurrentHP i16,+2storedMaxHP i16,+4XP i32,+8ModelID,+9WeaponID,+10 32(id,qty) pairs,+50four commands,+54four abilityIDs,+58junctionedGF bitmap,+5Cjunction spellIDs,+94exists,+96mentalstatus. Q22:119-121 says JFlag at F_CHAR+190; do NOT conflate with P9's native tested dword+188. Q22:141 stored currentHP may exceed storedmax;145 decoder does not apply junctions.\n; ABI:1440-1464 and LAYOUT:165-176/207-209: persistentGF RVA018FDCA8,16x68; name[12],XPuint32+0C,existsbyte+11,HPu16+12,complete_abilities[16] begins+14,APs[24],KO+3E,learning/forgotten bytes. PD bitmap reads persistent+1C,+20 are within complete_abilities; native scans these TWO dwords, not entire16bytes.\n; IMPORTANT ADDRESS CONFLICT: ABI:1504-1520 SG_GF_CURRENT_HP_ RVA018FF318 (VA1CFF318),stride12,attributes writer495D80. PD495DA3 raw VA=1CFF618, NOT1CFF318. PersistentGF base agrees; localGF base conflicts. Historical ABI prose must not override frozen raw immediate; no live correction done.\n; \n; OTHER DIRECT FACTS / RISKS:\n; P9:18 49599A..9C5 copies32pairs persistent+10 stride2 ->local+82 stride5;4959C8 callsP4. Calls496240/4961D0 at4959D2/9E2 with persistentXP+4 and first argument; storesEAX local+17C,AL+1B8. Call496310 at4959F4 with zero-extended local+1B8 and first argument. Multiplierbyte+1C7; signedIMUL high constant51EB851F,SAR5,SHR31/add correction; signed uppercmp270F (495A06..A22), then disputed span. After hole, persistent+0/local+172 stores ONLY in comparison branch495A30..A3F; do not convert to unconditional store based on formula prose.\n; Repeated496440 selectors1,2,3,4,5,8; multiplierbytes local+1C8,1C9,1CA,1CB,1CC,1CF; byteoutputs+1BB,1BC,1BD,1BE,1BF,1C0.4967C0 result multiplier+1CE/output+1C2;4968A0 receives local+1BF as additional pushed input,multiplier+1CD/output+1C1. Signed uppercapsFF; no lower clamp evidenced. Preserve signed highmultiply/byte truncation.\n; 495C62/495C6E resultbytes ->local+1C4/+1C5.495C7C..C99 loop8 calls496930,AX->local+194+2*i.495C9C/CA8/CB5 calls4969E0/496960/496AC0 ->EAX+18C,AX+1B4,AX+1B6.495CC4..CDB loop13 calls496AF0 ->AL+1A4+i.495CDD tests dword+188&60000. Both tailarms scan4 stride4 records at+1E for leadingbyte2; OR10 orAND EF at+21+4*i. Historical 'Auto-Reflect' not a validated verdict. Duplicate scans/sentinel code require proof before simplification.\n; PD:18 495DB0/DB4/DB8 initializeslocal+B/+9/+A=0/0/100. Persistent+0C ->local+4 at495DC4..DCD. Two loops32 consume bitmap viaSHR EDX,1 (495DE1..E40); tablecursor+=8/bit,outerbase+=100h. Signed accepted pointer range >=1CF81C6 and <1CF820E (rawcompares495DF5/DFC). Selected byte[-1] ORlocal+B; byte[0]==0 addsbyte[1] tolocal+9; byte[0]==1 addsbyte[1] tolocal+A. Operations are byte-width.495E56..E75 zero-extendedlocal+A multiplier,signed highmultiply /100 sequence,signed uppercap9999.495E87 DX->local+2; sign-extendedDX compared against zero-extended persistentHP,conditionally writespersistent+12 at495E8F; always persistentword->local+0 at495E93..E97.495E9A..EA7 SAR16-bitDX by2,signedAX/DXcompare,mayOR80 local+B. Signed/narrow overflow important.\n; \n; NATIVE XREF INVENTORY (no purpose inferred):\n; P4:71-93 incoming486AB8/486B22 from486A10;4959C8 from495960; target47EEB0.\n; P9:388-429 incoming48B883 from48B7E0,48B97B from48B8B0,495F14 from495EF0,49721B from4971F0. code_targets4954B0,4961D0,496240,496310,496440,4967C0,4968A0,496930,496960,4969E0,496AC0,496AF0,496B50,496BD0. Last2 are NOT displayed CALLs in inspected assembly: code_targets is xref inventory, not proven direct-call list.\n; PD:155-178 incoming493E24 from493D80,495ECF from495EC0,495F2F from495EF0;targets4960C0,496120.\n; \n; HISTORICAL CONTEXT / NOT PROMOTION:\n; INIT:137-171 describes party parse/junction formulas;187-201 describes setBattleSlotData/16GF setup. Navigation/historical prose only; stat-index names and formula prose must not override native. SEAL:5-7 offlinecandidate only;34-47 expressly leaves8junction-derivedparty stats and16five-byteGF records atF_CHAR+122 outside G22 writeallowlist. Existing rewrite/G22 tests therefore do NOT establish complete/live target implementation. Independent forks need this factual inventory AND full packets,495960source discrepancy,GF-local-address uncertainty; no inferred target verdict inherited.\n; TARGET ASM COMPLETE\n00495D80: sub     esp, 0Ch; Integer Subtraction\n00495D83: push    ebx\n00495D84: mov     ebx, [esp+10h+gf_id]\n00495D88: mov     eax, ebx\n00495D8A: push    ebp\n00495D8B: shl     eax, 4; Shift Logical Left\n00495D8E: add     eax, ebx; Add\n00495D90: push    esi\n00495D91: lea     ecx, [ebx+ebx*2]; Load Effective Address\n00495D94: push    edi\n00495D95: mov     edx, SG_ARRAY_GF_DATA.Experience[eax*4]\n00495D9C: lea     edi, ds:1CFDCA8h[eax*4]; Load Effective Address\n00495DA3: lea     esi, ds:1CFF618h[ecx*4]; Load Effective Address\n00495DAA: push    ebx; gf_id\n00495DAB: push    edx; xp\n00495DAC: mov     [esp+24h+var_4], edi\n00495DB0: mov     byte ptr [esi+0Bh], 0\n00495DB4: mov     byte ptr [esi+9], 0\n00495DB8: mov     byte ptr [esi+0Ah], 64h ; 'd'\n00495DBC: call    sub_4960C0; Call Procedure\n00495DC1: mov     [esi+8], al\n00495DC4: mov     eax, [edi+0Ch]\n00495DC7: add     esp, 8; Add\n00495DCA: add     edi, 1Ch; Add\n00495DCD: mov     [esi+4], eax\n00495DD0: mov     ebp, (offset K_CHARA_ABILITY.Flags+31h)\n00495DD5: mov     [esp+1Ch+var_C], edi\n00495DD9: mov     [esp+1Ch+var_8], 2\n00495DE1: mov     edx, [edi]\n00495DE3: mov     eax, ebp\n00495DE5: mov     edi, 20h ; ' '\n00495DEA: add     ebp, 100h; Add\n00495DF0: test    dl, 1; Logical Compare\n00495DF3: jz      short loc_495E24; Jump if Zero (ZF=1)\n00495DF5: cmp     eax, offset K_GF_ABILITY.stat_to_increase; Compare Two Operands\n00495DFA: jl      short loc_495E24; Jump if Less (SF!=OF)\n00495DFC: cmp     eax, offset K_MENU_ABILITY.start_offset; Compare Two Operands\n00495E01: jge     short loc_495E24; Jump if Greater or Equal (SF=OF)\n00495E03: mov     cl, [eax-1]\n00495E06: or      [esi+0Bh], cl; Logical Inclusive OR\n00495E09: mov     cl, [eax]\n00495E0B: test    cl, cl; Logical Compare\n00495E0D: jnz     short loc_495E19; Jump if Not Zero (ZF=0)\n00495E0F: mov     bl, [eax+1]\n00495E12: add     [esi+9], bl; Add\n00495E15: mov     ebx, [esp+1Ch+gf_id]\n00495E19: cmp     cl, 1; Compare Two Operands\n00495E1C: jnz     short loc_495E24; Jump if Not Zero (ZF=0)\n00495E1E: mov     cl, [eax+1]\n00495E21: add     [esi+0Ah], cl; Add\n00495E24: shr     edx, 1; Shift Logical Right\n00495E26: add     eax, 8; Add\n00495E29: dec     edi; Decrement by 1\n00495E2A: jnz     short loc_495DF0; Jump if Not Zero (ZF=0)\n00495E2C: mov     edi, [esp+1Ch+var_C]\n00495E30: mov     eax, [esp+1Ch+var_8]\n00495E34: add     edi, 4; Add\n00495E37: dec     eax; Decrement by 1\n00495E38: mov     [esp+1Ch+var_C], edi\n00495E3C: mov     [esp+1Ch+var_8], eax\n00495E40: jnz     short loc_495DE1; Jump if Not Zero (ZF=0)\n00495E42: xor     edx, edx; Logical Exclusive OR\n00495E44: push    ebx\n00495E45: mov     dl, [esi+8]\n00495E48: push    edx\n00495E49: call    sub_496120; Call Procedure\n00495E4E: movsx   ecx, ax; Move with Sign-Extend\n00495E51: xor     eax, eax; Logical Exclusive OR\n00495E53: add     esp, 8; Add\n00495E56: mov     al, [esi+0Ah]\n00495E59: imul    ecx, eax; Signed Multiply\n00495E5C: mov     eax, 51EB851Fh\n00495E61: imul    ecx; Signed Multiply\n00495E63: sar     edx, 5; Shift Arithmetic Right\n00495E66: mov     ecx, edx\n00495E68: shr     ecx, 1Fh; Shift Logical Right\n00495E6B: add     edx, ecx; Add\n00495E6D: cmp     edx, 270Fh; Compare Two Operands\n00495E73: jle     short loc_495E7A; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495E75: mov     edx, 270Fh\n00495E7A: mov     eax, [esp+1Ch+var_4]\n00495E7E: xor     ecx, ecx; Logical Exclusive OR\n00495E80: movsx   edi, dx; Move with Sign-Extend\n00495E83: mov     cx, [eax+12h]\n00495E87: mov     [esi+2], dx\n00495E8B: cmp     edi, ecx; Compare Two Operands\n00495E8D: jge     short loc_495E93; Jump if Greater or Equal (SF=OF)\n00495E8F: mov     [eax+12h], dx\n00495E93: mov     ax, [eax+12h]\n00495E97: mov     [esi], ax\n00495E9A: mov     dx, [esi+2]\n00495E9E: sar     dx, 2; Shift Arithmetic Right\n00495EA2: cmp     ax, dx; Compare Two Operands\n00495EA5: jge     short loc_495EAB; Jump if Greater or Equal (SF=OF)\n00495EA7: or      byte ptr [esi+0Bh], 80h; Logical Inclusive OR\n00495EAB: pop     edi\n00495EAC: pop     esi\n00495EAD: pop     ebp\n00495EAE: pop     ebx\n00495EAF: add     esp, 0Ch; Add\n00495EB2: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x495d80",
+        "end": "0x495de1",
+        "successors": [
+          "0x495de1"
+        ]
+      },
+      {
+        "start": "0x495de1",
+        "end": "0x495df0",
+        "successors": [
+          "0x495df0"
+        ]
+      },
+      {
+        "start": "0x495df0",
+        "end": "0x495df5",
+        "successors": [
+          "0x495df5",
+          "0x495e24"
+        ]
+      },
+      {
+        "start": "0x495df5",
+        "end": "0x495dfc",
+        "successors": [
+          "0x495dfc",
+          "0x495e24"
+        ]
+      },
+      {
+        "start": "0x495dfc",
+        "end": "0x495e03",
+        "successors": [
+          "0x495e03",
+          "0x495e24"
+        ]
+      },
+      {
+        "start": "0x495e03",
+        "end": "0x495e0f",
+        "successors": [
+          "0x495e0f",
+          "0x495e19"
+        ]
+      },
+      {
+        "start": "0x495e0f",
+        "end": "0x495e19",
+        "successors": [
+          "0x495e19"
+        ]
+      },
+      {
+        "start": "0x495e19",
+        "end": "0x495e1e",
+        "successors": [
+          "0x495e1e",
+          "0x495e24"
+        ]
+      },
+      {
+        "start": "0x495e1e",
+        "end": "0x495e24",
+        "successors": [
+          "0x495e24"
+        ]
+      },
+      {
+        "start": "0x495e24",
+        "end": "0x495e2c",
+        "successors": [
+          "0x495df0",
+          "0x495e2c"
+        ]
+      },
+      {
+        "start": "0x495e2c",
+        "end": "0x495e42",
+        "successors": [
+          "0x495de1",
+          "0x495e42"
+        ]
+      },
+      {
+        "start": "0x495e42",
+        "end": "0x495e75",
+        "successors": [
+          "0x495e75",
+          "0x495e7a"
+        ]
+      },
+      {
+        "start": "0x495e75",
+        "end": "0x495e7a",
+        "successors": [
+          "0x495e7a"
+        ]
+      },
+      {
+        "start": "0x495e7a",
+        "end": "0x495e8f",
+        "successors": [
+          "0x495e8f",
+          "0x495e93"
+        ]
+      },
+      {
+        "start": "0x495e8f",
+        "end": "0x495e93",
+        "successors": [
+          "0x495e93"
+        ]
+      },
+      {
+        "start": "0x495e93",
+        "end": "0x495ea7",
+        "successors": [
+          "0x495ea7",
+          "0x495eab"
+        ]
+      },
+      {
+        "start": "0x495ea7",
+        "end": "0x495eab",
+        "successors": [
+          "0x495eab"
+        ]
+      },
+      {
+        "start": "0x495eab",
+        "end": "0x495eb3",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 18
+  }
+}

@@ -1,0 +1,25 @@
+00490DE1: and     al, 3; Logical AND
+00490DE3: lea     ecx, [ecx+edx*4]; Load Effective Address
+00490DE6: xor     edx, edx; Logical Exclusive OR
+00490DE8: shl     ecx, 4; Shift Logical Left
+00490DEB: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[ecx], al
+00490DF1: mov     eax, dword ptr SHOT_INDEX
+00490DF6: and     eax, 0FFh; Logical AND
+00490DFB: lea     eax, [eax+eax*2]; Load Effective Address
+00490DFE: shl     eax, 3; Shift Logical Left
+00490E01: mov     dl, K_SHOT.AttackPower[eax]
+00490E07: mov     cl, byte ptr K_SHOT.Unknown[eax]
+00490E0D: mov     esi, edx
+00490E0F: mov     edx, [esp+20h+p_target_slot_id]
+00490E13: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+00490E19: xor     ecx, ecx; Logical Exclusive OR
+00490E1B: mov     cl, K_SHOT.AttackType[eax]
+00490E21: push    esi; p_attack_power
+00490E22: push    edx; p_target_slot_id
+00490E23: push    ebx; p_attacker_slot_id
+00490E24: push    ecx; p_attack_type
+00490E25: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+00490E2A: add     esp, 10h; Add
+00490E2D: mov     esi, eax
+00490E2F: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490E34: and     ecx, 0FFFFh; jumptable 0049043B cases 8,236

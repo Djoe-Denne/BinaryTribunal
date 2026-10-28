@@ -1,0 +1,25 @@
+00419D8F: push    ebp
+00419D90: mov     ebp, esp
+00419D92: sub     esp, 8; Integer Subtraction
+00419D95: mov     [ebp+var_8], 0
+00419D9C: cmp     [ebp+tex], 0; Compare Two Operands
+00419DA0: jz      short loc_419DE2; Jump if Zero (ZF=1)
+00419DA2: cmp     [ebp+upload_key], 0; Compare Two Operands
+00419DA6: jz      short loc_419DE2; Jump if Zero (ZF=1)
+00419DA8: mov     eax, [ebp+tex]
+00419DAB: mov     ecx, [ebp+desc]
+00419DAE: mov     edx, [ecx+64h]
+00419DB1: mov     [eax+2Ch], edx
+00419DB4: mov     eax, [ebp+upload_key]
+00419DB7: push    eax
+00419DB8: mov     ecx, [ebp+tex]
+00419DBB: push    ecx
+00419DBC: mov     edx, [ebp+desc]
+00419DBF: push    edx
+00419DC0: call    Texture_FindTexture; Call Procedure
+00419DC5: add     esp, 0Ch; Add
+00419DC8: mov     [ebp+var_4], eax
+00419DCB: mov     eax, [ebp+var_4]
+00419DCE: push    eax
+00419DCF: mov     ecx, [ebp+tex]
+00419DD2: push    ecx

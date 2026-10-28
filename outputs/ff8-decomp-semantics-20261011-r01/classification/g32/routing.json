@@ -1,0 +1,544 @@
+{
+  "group": "g32",
+  "status": "DISPATCH_READY",
+  "SOURCE": "discover-g32",
+  "classifier_kind": "native_classify_x86",
+  "classifier_tool": "tools.classify_x86",
+  "risk_mapping": "native uncertainty as v1 risk; consultative not calibrated",
+  "common_compaction": {
+    "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/common-compaction.md",
+    "sha256": "0275b90641f9e096923fe2c463e5b544d0388c9c01173590fa80c5bb3ae6afcd"
+  },
+  "factual_hashes": {
+    "native_groups": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+    "native_pe_verification": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "catalogue_snapshot": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"
+  },
+  "checkpoint_required": false,
+  "source_candidate_previews": false,
+  "blocked_eas": [],
+  "routes": [
+    {
+      "ea": "0x5156D0",
+      "status": "DISPATCH_READY",
+      "level": "complex_high_risk",
+      "protocol": "2+1_per_volet",
+      "complexity": 38,
+      "risk": 54,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 30,
+      "assembly_payload_characters": 9316,
+      "pe_verified": true,
+      "rationale": [
+        "v1 complexity >65 or risk >50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "No major structural trigger recorded for this EA beyond scored risk"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x5156D0.json",
+        "sha256": "bd90008a2253d079716ba28644228e9fa084ee1116d92e640ea41947200e93df"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0.request.json",
+        "sha256": "b6fb2df2d200586ce71a790b5abafa8fe7e93275942e00abcadf81798acdf520"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0.response.json",
+        "sha256": "75aff45388a9e565679ee15a4f57a985f8b5305b2093e28ca7cf0af9c636b7b5"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5156D0/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    },
+    {
+      "ea": "0x515730",
+      "status": "DISPATCH_READY",
+      "level": "complex_high_risk",
+      "protocol": "2+1_per_volet",
+      "complexity": 76,
+      "risk": 49,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 93,
+      "assembly_payload_characters": 12443,
+      "pe_verified": true,
+      "rationale": [
+        "v1 complexity >65 or risk >50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "Source incomplete tail mapping, odd target 0x55CBD2 and optimized arithmetic"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x515730.json",
+        "sha256": "2f9321971ac2380ba3bd71cd06e0b66b8b190ce75bff9a243a1b7edf1528f7b2"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730.request.json",
+        "sha256": "81a0581ad45a50a8df9c379ef6a9febcd6aa6ab61baabad0cf800d52be984cd3"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730.response.json",
+        "sha256": "f739e0e985879dd490e74491e27acf0101e12997c0c5b4a1b638638851fa377c"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x515730/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    },
+    {
+      "ea": "0x517B40",
+      "status": "DISPATCH_READY",
+      "level": "medium",
+      "protocol": "2+1_per_volet",
+      "complexity": 32,
+      "risk": 46,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 21,
+      "assembly_payload_characters": 8837,
+      "pe_verified": true,
+      "rationale": [
+        "v1 outside simple; complexity <=65 and risk <=50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "No major structural trigger recorded for this EA beyond scored risk"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x517B40.json",
+        "sha256": "b3244d22c4f3acd924dc919440d0503ea3320cf089e64e02be9c6a8d40d37912"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40.request.json",
+        "sha256": "585a3c32007dc8835dcd96d9fe014af3e8894251a0a9bed851e657d18fdb6562"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40.response.json",
+        "sha256": "7e3e646e5eb3d8acacb4c8cb38034f2930952861563048863f43423c54775790"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x517B40/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    },
+    {
+      "ea": "0x5180C0",
+      "status": "DISPATCH_READY",
+      "level": "medium",
+      "protocol": "2+1_per_volet",
+      "complexity": 31,
+      "risk": 46,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 17,
+      "assembly_payload_characters": 8711,
+      "pe_verified": true,
+      "rationale": [
+        "v1 outside simple; complexity <=65 and risk <=50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "No major structural trigger recorded for this EA beyond scored risk"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x5180C0.json",
+        "sha256": "256f908f19f061ef63238487d10134117924cb5d45a71e8659fa3f09a8557e9b"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0.request.json",
+        "sha256": "74a133adb9aea1d77764b82f47aae381d62d2d663fefe765669a0b7c404f8eb2"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0.response.json",
+        "sha256": "ad69989927312ec780d105728af48d7bd72b28fd011eb8fea54b3ae728e1607d"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x5180C0/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    },
+    {
+      "ea": "0x518290",
+      "status": "DISPATCH_READY",
+      "level": "medium",
+      "protocol": "2+1_per_volet",
+      "complexity": 32,
+      "risk": 44,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 17,
+      "assembly_payload_characters": 8711,
+      "pe_verified": true,
+      "rationale": [
+        "v1 outside simple; complexity <=65 and risk <=50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "No major structural trigger recorded for this EA beyond scored risk"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x518290.json",
+        "sha256": "3d63df2117d2376c158e1ad98db27dd9a95c0ac187a66a3d09ea03f984fb52c2"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290.request.json",
+        "sha256": "27008fbd26dd69094753095f10b4505672d54cd01324aaae451612a1aaee9a81"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290.response.json",
+        "sha256": "7181b87beb96917885954127d79487b9f7110882fdaaf56c9bdd17ae0e1cddd7"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518290/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    },
+    {
+      "ea": "0x518440",
+      "status": "DISPATCH_READY",
+      "level": "medium",
+      "protocol": "2+1_per_volet",
+      "complexity": 31,
+      "risk": 45,
+      "risk_native_field": "uncertainty",
+      "instruction_count": 17,
+      "assembly_payload_characters": 8711,
+      "pe_verified": true,
+      "rationale": [
+        "v1 outside simple; complexity <=65 and risk <=50",
+        "Common source flags incomplete discovery, unknown external/global meanings; no simple admission",
+        "No major structural trigger recorded for this EA beyond scored risk"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g32/0x518440.json",
+        "sha256": "20d50df24a38b3ab03b1a4a7f6901c67cb0f003555aad2e595c9c3393a2ece8c"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440.request.json",
+        "sha256": "942da2137013b6c55db04dd024c49e024e07a9f3ff9cdf66b24cf24d9a949ee1"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440.response.json",
+        "sha256": "1055f6996ddc68ffba74b5b69736dbb67700e6feac6fb12d7ff40f275ac3145b"
+      },
+      "c": [
+        {
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/c_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/c_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/c_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ],
+      "semantics": [
+        {
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/semantic_A.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/semantic_B.md",
+          "dispatch_condition": "LEAD_ADMISSION_AND_MODEL_REF_VERIFICATION"
+        },
+        {
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g32",
+          "inheritance": "independent authors from same frozen explorer; never classifier",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g32/0x518440/semantic_R.md",
+          "dispatch_condition": "AFTER_A_AND_B_ARTIFACTS"
+        }
+      ]
+    }
+  ]
+}

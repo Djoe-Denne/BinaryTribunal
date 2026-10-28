@@ -1,0 +1,25 @@
+00495A09: mov     eax, 51EB851Fh
+00495A0E: imul    ecx; Signed Multiply
+00495A10: sar     edx, 5; Shift Arithmetic Right
+00495A13: mov     ecx, edx
+00495A15: shr     ecx, 1Fh; Shift Logical Right
+00495A18: add     edx, ecx; Add
+00495A1A: cmp     edx, 270Fh; Compare Two Operands
+00495A20: jle     short loc_495A27; Jump if Less or Equal (ZF=1 | SF!=OF)
+00495A22: mov     edx, 270Fh
+00495A27: xor     eax, eax; Logical Exclusive OR
+00495A29: db 0E8h; Call Procedure
+00495A30: mov     ax, [ebp+0]
+00495A34: movsx   ecx, dx; Move with Sign-Extend
+00495A37: cmp     ecx, eax; Compare Two Operands
+00495A39: jge     short loc_495A46; Jump if Greater or Equal (SF=OF)
+00495A3B: mov     [ebp+0], dx
+00495A3F: mov     [esi+172h], dx
+00495A46: xor     edx, edx; Logical Exclusive OR
+00495A48: push    1; p_stat
+00495A4A: mov     dl, [esi+1B8h]
+00495A50: push    edi; p_char_id
+00495A51: push    edx; p_lvl
+00495A52: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.
+00495A57: mov     ecx, eax
+00495A59: xor     eax, eax; Logical Exclusive OR

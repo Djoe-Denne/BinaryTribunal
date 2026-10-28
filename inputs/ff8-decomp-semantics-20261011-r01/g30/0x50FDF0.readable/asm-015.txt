@@ -1,0 +1,25 @@
+005102E3: mov     dx, [eax+2]
+005102E7: mov     edi, ecx
+005102E9: and     ecx, 0FFFh; Logical AND
+005102EF: xor     ebx, ebx; Logical Exclusive OR
+005102F1: lea     edx, [esi+edx*8]; Load Effective Address
+005102F4: mov     bx, [eax+4]
+005102F8: lea     ecx, [esi+ecx*8]; Load Effective Address
+005102FB: mov     [esp+38h+var_24], ecx
+005102FF: mov     [esp+38h+packet], edx
+00510303: mov     ecx, [ecx+4]
+00510306: mov     edx, [edx+4]
+00510309: lea     ebx, [esi+ebx*8]; Load Effective Address
+0051030C: mov     [esp+38h+var_28], ebx
+00510310: mov     ebx, ecx
+00510312: or      ebx, edx; Logical Inclusive OR
+00510314: mov     edx, [esp+38h+var_28]
+00510318: shr     edi, 0Ch; Shift Logical Right
+0051031B: mov     edx, [edx+4]
+0051031E: sub     edi, 8; Integer Subtraction
+00510321: or      ebx, edx; Logical Inclusive OR
+00510323: test    ebx, 60000h; Logical Compare
+00510329: jnz     loc_51045E; Jump if Not Zero (ZF=0)
+0051032F: mov     ebx, [esp+38h+packet]
+00510333: and     ecx, [ebx+4]; Logical AND
+00510336: and     ecx, edx; Logical AND

@@ -1,0 +1,25 @@
+0048DA7C: mov     eax, ebx
+0048DA7E: and     eax, 0FFFFh; Logical AND
+0048DA83: add     esp, 4; Add
+0048DA86: sub     eax, 0FFF8h; Integer Subtraction
+0048DA8B: jz      short loc_48DAE8; Jump if Zero (ZF=1)
+0048DA8D: dec     eax; Decrement by 1
+0048DA8E: jnz     loc_48DB1A; jumptable 0048D37A cases 240,245
+0048DA94: push    38h ; '8'
+0048DA96: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048DA9D: mov     byte ptr [esp+28h+p_command_type], 0
+0048DAA2: mov     ebx, 9
+0048DAA7: mov     [esp+28h+p_always_zero], 0Ah
+0048DAAC: mov     [esp+28h+magic_id], 0
+0048DAB4: call    domain__BattleText_GetMiscText; Call Procedure
+0048DAB9: add     esp, 4; Add
+0048DABC: push    eax
+0048DABD: push    0Bh
+0048DABF: call    domain__BattleText_GetMiscText; Call Procedure
+0048DAC4: mov     cl, [eax]
+0048DAC6: add     esp, 4; Add
+0048DAC9: push    ecx
+0048DACA: call    sub_47E4A0; Call Procedure
+0048DACF: push    eax
+0048DAD0: call    domain__BattleText_PrepareBuffer; Call Procedure
+0048DAD5: push    eax

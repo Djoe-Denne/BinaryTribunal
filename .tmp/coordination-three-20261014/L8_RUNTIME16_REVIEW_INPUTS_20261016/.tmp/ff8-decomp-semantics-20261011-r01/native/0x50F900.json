@@ -1,0 +1,273 @@
+{
+  "ea": "0x50F900",
+  "name_label_only": "ParseVertices",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50f900",
+      "end": "0x50fd3e",
+      "hex": "558bec83e4f883ec548b45085356570fbf70140fbf48180fbf58160fbf401ac1e603c1e3038d14ce8974244c895424448b550c8d0cc38b45108b12895c24508b38894c2448668b0283c2026685c0894424180f84df030000db059092ca01a1e492ca0125ffff0000d80de493b600894424400fbf0dde92ca01d95c2424db059492ca01d1e88944243cd80de493b6000fbf05e292ca01d95c2428db059892ca01c1e103c1e003d95c2438db44244085f6894c24208944241cd95c2440d9055492ca01d80de093b600d95c2434d9055092ca01d80de093b600d95c2430d9054c92ca01d80de093b600d95c242c0f859c01000085db0f85940100000fbf74241885f60f8e2603000089742418eb0c8b44241c8b4c24208b5424140fbf32c1e603897424140fbf7202db442414c1e603897424140fbf7204db442414c1e603897424148b74243cdb442414d9053492ca0183c206d8c9d9053892ca01d8cb89542414dec1d9053c92ca01d8ccdec1d8442424d95c240cd9054092ca01d8c9d9054492ca01d8cbdec1d9054892ca01d8ccdec1d8442428d95c2410d84c242cd9c9d84c2430dec1d9c9d84c2434dec1d8442438d9c0dc05d893b600dd5c24508b54245081c2000000803bd67f33ddd8d944240cdc05d893b600be00000200dd5c2450d9442410dc05d893b6008b5c24508d0c59dd5c24508b5c24508d0458eb3ad87c244033f6d9c0d84c240cdc05d893b600dd5c24508b5c2450d84c24108d8c0b00000080dc05d893b600dd5c24508b5c24508d8403000000803b4c2444760681ce000000013b442448760681ce00000002c1e01081e1ffff000081e2ffff00000bc10bd689078b44241889570483c70848894424180f8594feffff8b450c8b4d108b542414891089395f5e5b8be55dc30fbf74241885f60f8e9201000089742418eb0c8b44241c8b4c24208b5424140fbf32c1e603897424140fbf7202db442414c1e603897424140fbf7204db442414c1e6038974241483c206db442414d9053492ca0189542414d8c9d9053892ca01d8cbdec1d9053c92ca01d8ccdec1d8442424d95c240cd9054092ca01d8c9d9054492ca01d8cbdec1d9054892ca01d8ccdec1d8442428d95c2410d84c242cd9c9d84c2430dec1d9c9d84c2434dec1d8442438d9c0dc05d893b600dd5c24588b5424588db2000000808b54243c3bf27f33ddd8d944240cdc05d893b600ba00000200dd5c2458d9442410dc05d893b6008b5c24588d0c59dd5c24588b5c24588d0458eb3ad87c244033d2d9c0d84c240cdc05d893b600dd5c24588b5c2458d84c24108d8c0b00000080dc05d893b600dd5c24588b5c24588d8403000000803b4c244c7d0881ca00001001eb0c3b4c24447e0681ca000020013b4424507d0881ca00004002eb0c3b4424487e0681ca00008002c1e01081e1ffff000081e6ffff00000bc10bf289078b44241889770483c70848894424180f8578feffff8b5424148b450c8b4d10891089395f5e5b8be55dc3"
+    }
+  ],
+  "assembly": "0050F900: push    ebp\n0050F901: mov     ebp, esp\n0050F903: and     esp, 0FFFFFFF8h; Logical AND\n0050F906: sub     esp, 54h; Integer Subtraction\n0050F909: mov     eax, [ebp+ctx]\n0050F90C: push    ebx\n0050F90D: push    esi\n0050F90E: push    edi\n0050F90F: movsx   esi, word ptr [eax+14h]; Move with Sign-Extend\n0050F913: movsx   ecx, word ptr [eax+18h]; Move with Sign-Extend\n0050F917: movsx   ebx, word ptr [eax+16h]; Move with Sign-Extend\n0050F91B: movsx   eax, word ptr [eax+1Ah]; Move with Sign-Extend\n0050F91F: shl     esi, 3; Shift Logical Left\n0050F922: shl     ebx, 3; Shift Logical Left\n0050F925: lea     edx, [esi+ecx*8]; Load Effective Address\n0050F928: mov     [esp+60h+var_14], esi\n0050F92C: mov     [esp+60h+var_1C], edx\n0050F930: mov     edx, [ebp+verts]\n0050F933: lea     ecx, [ebx+eax*8]; Load Effective Address\n0050F936: mov     eax, [ebp+outPacked]\n0050F939: mov     edx, [edx]\n0050F93B: mov     dword ptr [esp+60h+var_10], ebx\n0050F93F: mov     edi, [eax]\n0050F941: mov     [esp+60h+var_18], ecx\n0050F945: mov     ax, [edx]\n0050F948: add     edx, 2; Add\n0050F94B: test    ax, ax; Logical Compare\n0050F94E: mov     [esp+60h+var_48], eax\n0050F952: jz      loc_50FD37; Jump if Zero (ZF=1)\n0050F958: fild    world_CameraWorldSpaceX; Load Integer\n0050F95E: mov     eax, World_CameraZoom\n0050F963: and     eax, 0FFFFh; Logical AND\n0050F968: fmul    ds:CONST_8_0; Multiply Real\n0050F96E: mov     [esp+60h+var_20], eax\n0050F972: movsx   ecx, word_1CA92DE; Move with Sign-Extend\n0050F979: fstp    [esp+60h+var_3C]; Store Real and Pop\n0050F97D: fild    World_CameraWorldSpaceY; Load Integer\n0050F983: shr     eax, 1; Shift Logical Right\n0050F985: mov     [esp+60h+var_24], eax\n0050F989: fmul    ds:CONST_8_0; Multiply Real\n0050F98F: movsx   eax, World_CameraWorldLookAtZ; Move with Sign-Extend\n0050F996: fstp    [esp+60h+var_38]; Store Real and Pop\n0050F99A: fild    World_CameraWorldSpaceZ; Load Integer\n0050F9A0: shl     ecx, 3; Shift Logical Left\n0050F9A3: shl     eax, 3; Shift Logical Left\n0050F9A6: fstp    [esp+60h+var_28]; Store Real and Pop\n0050F9AA: fild    [esp+60h+var_20]; Load Integer\n0050F9AE: test    esi, esi; Logical Compare\n0050F9B0: mov     [esp+60h+var_40], ecx\n0050F9B4: mov     [esp+60h+var_44], eax\n0050F9B8: fstp    [esp+60h+var_20]; Store Real and Pop\n0050F9BC: fld     Cam_xyz3_x_float; Load Real\n0050F9C2: fmul    ds:CONST_0_125; Multiply Real\n0050F9C8: fstp    [esp+60h+var_2C]; Store Real and Pop\n0050F9CC: fld     Cam_xyz3_y_float; Load Real\n0050F9D2: fmul    ds:CONST_0_125; Multiply Real\n0050F9D8: fstp    [esp+60h+var_30]; Store Real and Pop\n0050F9DC: fld     Cam_xyz3_z_float; Load Real\n0050F9E2: fmul    ds:CONST_0_125; Multiply Real\n0050F9E8: fstp    [esp+60h+var_34]; Store Real and Pop\n0050F9EC: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)\n0050F9F2: test    ebx, ebx; Logical Compare\n0050F9F4: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)\n0050F9FA: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend\n0050F9FF: test    esi, esi; Logical Compare\n0050FA01: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FA07: mov     [esp+60h+var_48], esi\n0050FA0B: jmp     short loc_50FA19; Jump\n0050FA0D: mov     eax, [esp+60h+var_44]\n0050FA11: mov     ecx, [esp+60h+var_40]\n0050FA15: mov     edx, [esp+60h+var_4C]\n0050FA19: movsx   esi, word ptr [edx]; Move with Sign-Extend\n0050FA1C: shl     esi, 3; Shift Logical Left\n0050FA1F: mov     [esp+60h+var_4C], esi\n0050FA23: movsx   esi, word ptr [edx+2]; Move with Sign-Extend\n0050FA27: fild    [esp+60h+var_4C]; Load Integer\n0050FA2B: shl     esi, 3; Shift Logical Left\n0050FA2E: mov     [esp+60h+var_4C], esi\n0050FA32: movsx   esi, word ptr [edx+4]; Move with Sign-Extend\n0050FA36: fild    [esp+60h+var_4C]; Load Integer\n0050FA3A: shl     esi, 3; Shift Logical Left\n0050FA3D: mov     [esp+60h+var_4C], esi\n0050FA41: mov     esi, [esp+60h+var_24]\n0050FA45: fild    [esp+60h+var_4C]; Load Integer\n0050FA49: fld     Cam_xyz1_z_float; Load Real\n0050FA4F: add     edx, 6; Add\n0050FA52: fmul    st, st(1); Multiply Real\n0050FA54: fld     Cam_xyz1_y_float; Load Real\n0050FA5A: fmul    st, st(3); Multiply Real\n0050FA5C: mov     [esp+60h+var_4C], edx\n0050FA60: faddp   st(1), st; Add Real and Pop\n0050FA62: fld     Cam_xyz1_x_float; Load Real\n0050FA68: fmul    st, st(4); Multiply Real\n0050FA6A: faddp   st(1), st; Add Real and Pop\n0050FA6C: fadd    [esp+60h+var_3C]; Add Real\n0050FA70: fstp    [esp+60h+var_54]; Store Real and Pop\n0050FA74: fld     Cam_xyz2_z_float; Load Real\n0050FA7A: fmul    st, st(1); Multiply Real\n0050FA7C: fld     Cam_xyz2_y_float; Load Real\n0050FA82: fmul    st, st(3); Multiply Real\n0050FA84: faddp   st(1), st; Add Real and Pop\n0050FA86: fld     Cam_xyz2_x_float; Load Real\n0050FA8C: fmul    st, st(4); Multiply Real\n0050FA8E: faddp   st(1), st; Add Real and Pop\n0050FA90: fadd    [esp+60h+var_38]; Add Real\n0050FA94: fstp    [esp+60h+var_50]; Store Real and Pop\n0050FA98: fmul    [esp+60h+var_34]; Multiply Real\n0050FA9C: fxch    st(1); Exchange Registers\n0050FA9E: fmul    [esp+60h+var_30]; Multiply Real\n0050FAA2: faddp   st(1), st; Add Real and Pop\n0050FAA4: fxch    st(1); Exchange Registers\n0050FAA6: fmul    [esp+60h+var_2C]; Multiply Real\n0050FAAA: faddp   st(1), st; Add Real and Pop\n0050FAAC: fadd    [esp+60h+var_28]; Add Real\n0050FAB0: fld     st; Load Real\n0050FAB2: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAB8: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FABC: mov     edx, dword ptr [esp+60h+var_10]\n0050FAC0: add     edx, 80000000h; Add\n0050FAC6: cmp     edx, esi; Compare Two Operands\n0050FAC8: jg      short loc_50FAFD; Jump if Greater (ZF=0 & SF=OF)\n0050FACA: fstp    st; Store Real and Pop\n0050FACC: fld     [esp+60h+var_54]; Load Real\n0050FAD0: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAD6: mov     esi, 20000h\n0050FADB: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FADF: fld     [esp+60h+var_50]; Load Real\n0050FAE3: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FAE9: mov     ebx, dword ptr [esp+60h+var_10]\n0050FAED: lea     ecx, [ecx+ebx*2]; Load Effective Address\n0050FAF0: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FAF4: mov     ebx, dword ptr [esp+60h+var_10]\n0050FAF8: lea     eax, [eax+ebx*2]; Load Effective Address\n0050FAFB: jmp     short loc_50FB37; Jump\n0050FAFD: fdivr   [esp+60h+var_20]; Divide Real Reversed\n0050FB01: xor     esi, esi; Logical Exclusive OR\n0050FB03: fld     st; Load Real\n0050FB05: fmul    [esp+60h+var_54]; Multiply Real\n0050FB09: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FB0F: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FB13: mov     ebx, dword ptr [esp+60h+var_10]\n0050FB17: fmul    [esp+60h+var_50]; Multiply Real\n0050FB1B: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address\n0050FB22: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FB28: fstp    [esp+60h+var_10]; Store Real and Pop\n0050FB2C: mov     ebx, dword ptr [esp+60h+var_10]\n0050FB30: lea     eax, [ebx+eax+80000000h]; Load Effective Address\n0050FB37: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands\n0050FB3B: jbe     short loc_50FB43; Jump if Below or Equal (CF=1 | ZF=1)\n0050FB3D: or      esi, offset VIT_0_STATUS_MASK?; Logical Inclusive OR\n0050FB43: cmp     eax, [esp+60h+var_18]; Compare Two Operands\n0050FB47: jbe     short loc_50FB4F; Jump if Below or Equal (CF=1 | ZF=1)\n0050FB49: or      esi, offset unk_2000000; Logical Inclusive OR\n0050FB4F: shl     eax, 10h; Shift Logical Left\n0050FB52: and     ecx, 0FFFFh; Logical AND\n0050FB58: and     edx, 0FFFFh; Logical AND\n0050FB5E: or      eax, ecx; Logical Inclusive OR\n0050FB60: or      edx, esi; Logical Inclusive OR\n0050FB62: mov     [edi], eax\n0050FB64: mov     eax, [esp+60h+var_48]\n0050FB68: mov     [edi+4], edx\n0050FB6B: add     edi, 8; Add\n0050FB6E: dec     eax; Decrement by 1\n0050FB6F: mov     [esp+60h+var_48], eax\n0050FB73: jnz     loc_50FA0D; Jump if Not Zero (ZF=0)\n0050FB79: mov     eax, [ebp+verts]\n0050FB7C: mov     ecx, [ebp+outPacked]\n0050FB7F: mov     edx, [esp+60h+var_4C]\n0050FB83: mov     [eax], edx\n0050FB85: mov     [ecx], edi\n0050FB87: pop     edi\n0050FB88: pop     esi\n0050FB89: pop     ebx\n0050FB8A: mov     esp, ebp\n0050FB8C: pop     ebp\n0050FB8D: retn; Return Near from Procedure\n0050FB8E: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend\n0050FB93: test    esi, esi; Logical Compare\n0050FB95: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FB9B: mov     [esp+60h+var_48], esi\n0050FB9F: jmp     short loc_50FBAD; Jump\n0050FBA1: mov     eax, [esp+60h+var_44]\n0050FBA5: mov     ecx, [esp+60h+var_40]\n0050FBA9: mov     edx, [esp+60h+var_4C]\n0050FBAD: movsx   esi, word ptr [edx]; Move with Sign-Extend\n0050FBB0: shl     esi, 3; Shift Logical Left\n0050FBB3: mov     [esp+60h+var_4C], esi\n0050FBB7: movsx   esi, word ptr [edx+2]; Move with Sign-Extend\n0050FBBB: fild    [esp+60h+var_4C]; Load Integer\n0050FBBF: shl     esi, 3; Shift Logical Left\n0050FBC2: mov     [esp+60h+var_4C], esi\n0050FBC6: movsx   esi, word ptr [edx+4]; Move with Sign-Extend\n0050FBCA: fild    [esp+60h+var_4C]; Load Integer\n0050FBCE: shl     esi, 3; Shift Logical Left\n0050FBD1: mov     [esp+60h+var_4C], esi\n0050FBD5: add     edx, 6; Add\n0050FBD8: fild    [esp+60h+var_4C]; Load Integer\n0050FBDC: fld     Cam_xyz1_z_float; Load Real\n0050FBE2: mov     [esp+60h+var_4C], edx\n0050FBE6: fmul    st, st(1); Multiply Real\n0050FBE8: fld     Cam_xyz1_y_float; Load Real\n0050FBEE: fmul    st, st(3); Multiply Real\n0050FBF0: faddp   st(1), st; Add Real and Pop\n0050FBF2: fld     Cam_xyz1_x_float; Load Real\n0050FBF8: fmul    st, st(4); Multiply Real\n0050FBFA: faddp   st(1), st; Add Real and Pop\n0050FBFC: fadd    [esp+60h+var_3C]; Add Real\n0050FC00: fstp    [esp+60h+var_54]; Store Real and Pop\n0050FC04: fld     Cam_xyz2_z_float; Load Real\n0050FC0A: fmul    st, st(1); Multiply Real\n0050FC0C: fld     Cam_xyz2_y_float; Load Real\n0050FC12: fmul    st, st(3); Multiply Real\n0050FC14: faddp   st(1), st; Add Real and Pop\n0050FC16: fld     Cam_xyz2_x_float; Load Real\n0050FC1C: fmul    st, st(4); Multiply Real\n0050FC1E: faddp   st(1), st; Add Real and Pop\n0050FC20: fadd    [esp+60h+var_38]; Add Real\n0050FC24: fstp    [esp+60h+var_50]; Store Real and Pop\n0050FC28: fmul    [esp+60h+var_34]; Multiply Real\n0050FC2C: fxch    st(1); Exchange Registers\n0050FC2E: fmul    [esp+60h+var_30]; Multiply Real\n0050FC32: faddp   st(1), st; Add Real and Pop\n0050FC34: fxch    st(1); Exchange Registers\n0050FC36: fmul    [esp+60h+var_2C]; Multiply Real\n0050FC3A: faddp   st(1), st; Add Real and Pop\n0050FC3C: fadd    [esp+60h+var_28]; Add Real\n0050FC40: fld     st; Load Real\n0050FC42: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC48: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC4C: mov     edx, dword ptr [esp+60h+var_8]\n0050FC50: lea     esi, [edx+80000000h]; Load Effective Address\n0050FC56: mov     edx, [esp+60h+var_24]\n0050FC5A: cmp     esi, edx; Compare Two Operands\n0050FC5C: jg      short loc_50FC91; Jump if Greater (ZF=0 & SF=OF)\n0050FC5E: fstp    st; Store Real and Pop\n0050FC60: fld     [esp+60h+var_54]; Load Real\n0050FC64: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC6A: mov     edx, 20000h\n0050FC6F: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC73: fld     [esp+60h+var_50]; Load Real\n0050FC77: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FC7D: mov     ebx, dword ptr [esp+60h+var_8]\n0050FC81: lea     ecx, [ecx+ebx*2]; Load Effective Address\n0050FC84: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FC88: mov     ebx, dword ptr [esp+60h+var_8]\n0050FC8C: lea     eax, [eax+ebx*2]; Load Effective Address\n0050FC8F: jmp     short loc_50FCCB; Jump\n0050FC91: fdivr   [esp+60h+var_20]; Divide Real Reversed\n0050FC95: xor     edx, edx; Logical Exclusive OR\n0050FC97: fld     st; Load Real\n0050FC99: fmul    [esp+60h+var_54]; Multiply Real\n0050FC9D: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FCA3: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FCA7: mov     ebx, dword ptr [esp+60h+var_8]\n0050FCAB: fmul    [esp+60h+var_50]; Multiply Real\n0050FCAF: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address\n0050FCB6: fadd    ds:CONST_4_503601774854144e15; Add Real\n0050FCBC: fstp    [esp+60h+var_8]; Store Real and Pop\n0050FCC0: mov     ebx, dword ptr [esp+60h+var_8]\n0050FCC4: lea     eax, [ebx+eax+80000000h]; Load Effective Address\n0050FCCB: cmp     ecx, [esp+60h+var_14]; Compare Two Operands\n0050FCCF: jge     short loc_50FCD9; Jump if Greater or Equal (SF=OF)\n0050FCD1: or      edx, offset unk_1100000; Logical Inclusive OR\n0050FCD7: jmp     short loc_50FCE5; Jump\n0050FCD9: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands\n0050FCDD: jle     short loc_50FCE5; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FCDF: or      edx, offset unk_1200000; Logical Inclusive OR\n0050FCE5: cmp     eax, dword ptr [esp+60h+var_10]; Compare Two Operands\n0050FCE9: jge     short loc_50FCF3; Jump if Greater or Equal (SF=OF)\n0050FCEB: or      edx, offset unk_2400000; Logical Inclusive OR\n0050FCF1: jmp     short loc_50FCFF; Jump\n0050FCF3: cmp     eax, [esp+60h+var_18]; Compare Two Operands\n0050FCF7: jle     short loc_50FCFF; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FCF9: or      edx, offset dword_2800000; Logical Inclusive OR\n0050FCFF: shl     eax, 10h; Shift Logical Left\n0050FD02: and     ecx, 0FFFFh; Logical AND\n0050FD08: and     esi, 0FFFFh; Logical AND\n0050FD0E: or      eax, ecx; Logical Inclusive OR\n0050FD10: or      esi, edx; Logical Inclusive OR\n0050FD12: mov     [edi], eax\n0050FD14: mov     eax, [esp+60h+var_48]\n0050FD18: mov     [edi+4], esi\n0050FD1B: add     edi, 8; Add\n0050FD1E: dec     eax; Decrement by 1\n0050FD1F: mov     [esp+60h+var_48], eax\n0050FD23: jnz     loc_50FBA1; Jump if Not Zero (ZF=0)\n0050FD29: mov     edx, [esp+60h+var_4C]\n0050FD2D: mov     eax, [ebp+verts]\n0050FD30: mov     ecx, [ebp+outPacked]\n0050FD33: mov     [eax], edx\n0050FD35: mov     [ecx], edi\n0050FD37: pop     edi\n0050FD38: pop     esi\n0050FD39: pop     ebx\n0050FD3A: mov     esp, ebp\n0050FD3C: pop     ebp\n0050FD3D: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50f900",
+      "end": "0x50f958",
+      "successors": [
+        "0x50f958",
+        "0x50fd37"
+      ]
+    },
+    {
+      "start": "0x50f958",
+      "end": "0x50f9f2",
+      "successors": [
+        "0x50f9f2",
+        "0x50fb8e"
+      ]
+    },
+    {
+      "start": "0x50f9f2",
+      "end": "0x50f9fa",
+      "successors": [
+        "0x50f9fa",
+        "0x50fb8e"
+      ]
+    },
+    {
+      "start": "0x50f9fa",
+      "end": "0x50fa07",
+      "successors": [
+        "0x50fa07",
+        "0x50fd2d"
+      ]
+    },
+    {
+      "start": "0x50fa07",
+      "end": "0x50fa0d",
+      "successors": [
+        "0x50fa19"
+      ]
+    },
+    {
+      "start": "0x50fa0d",
+      "end": "0x50fa19",
+      "successors": [
+        "0x50fa19"
+      ]
+    },
+    {
+      "start": "0x50fa19",
+      "end": "0x50faca",
+      "successors": [
+        "0x50faca",
+        "0x50fafd"
+      ]
+    },
+    {
+      "start": "0x50faca",
+      "end": "0x50fafd",
+      "successors": [
+        "0x50fb37"
+      ]
+    },
+    {
+      "start": "0x50fafd",
+      "end": "0x50fb37",
+      "successors": [
+        "0x50fb37"
+      ]
+    },
+    {
+      "start": "0x50fb37",
+      "end": "0x50fb3d",
+      "successors": [
+        "0x50fb3d",
+        "0x50fb43"
+      ]
+    },
+    {
+      "start": "0x50fb3d",
+      "end": "0x50fb43",
+      "successors": [
+        "0x50fb43"
+      ]
+    },
+    {
+      "start": "0x50fb43",
+      "end": "0x50fb49",
+      "successors": [
+        "0x50fb49",
+        "0x50fb4f"
+      ]
+    },
+    {
+      "start": "0x50fb49",
+      "end": "0x50fb4f",
+      "successors": [
+        "0x50fb4f"
+      ]
+    },
+    {
+      "start": "0x50fb4f",
+      "end": "0x50fb79",
+      "successors": [
+        "0x50fa0d",
+        "0x50fb79"
+      ]
+    },
+    {
+      "start": "0x50fb79",
+      "end": "0x50fb8e",
+      "successors": []
+    },
+    {
+      "start": "0x50fb8e",
+      "end": "0x50fb9b",
+      "successors": [
+        "0x50fb9b",
+        "0x50fd2d"
+      ]
+    },
+    {
+      "start": "0x50fb9b",
+      "end": "0x50fba1",
+      "successors": [
+        "0x50fbad"
+      ]
+    },
+    {
+      "start": "0x50fba1",
+      "end": "0x50fbad",
+      "successors": [
+        "0x50fbad"
+      ]
+    },
+    {
+      "start": "0x50fbad",
+      "end": "0x50fc5e",
+      "successors": [
+        "0x50fc5e",
+        "0x50fc91"
+      ]
+    },
+    {
+      "start": "0x50fc5e",
+      "end": "0x50fc91",
+      "successors": [
+        "0x50fccb"
+      ]
+    },
+    {
+      "start": "0x50fc91",
+      "end": "0x50fccb",
+      "successors": [
+        "0x50fccb"
+      ]
+    },
+    {
+      "start": "0x50fccb",
+      "end": "0x50fcd1",
+      "successors": [
+        "0x50fcd1",
+        "0x50fcd9"
+      ]
+    },
+    {
+      "start": "0x50fcd1",
+      "end": "0x50fcd9",
+      "successors": [
+        "0x50fce5"
+      ]
+    },
+    {
+      "start": "0x50fcd9",
+      "end": "0x50fcdf",
+      "successors": [
+        "0x50fcdf",
+        "0x50fce5"
+      ]
+    },
+    {
+      "start": "0x50fcdf",
+      "end": "0x50fce5",
+      "successors": [
+        "0x50fce5"
+      ]
+    },
+    {
+      "start": "0x50fce5",
+      "end": "0x50fceb",
+      "successors": [
+        "0x50fceb",
+        "0x50fcf3"
+      ]
+    },
+    {
+      "start": "0x50fceb",
+      "end": "0x50fcf3",
+      "successors": [
+        "0x50fcff"
+      ]
+    },
+    {
+      "start": "0x50fcf3",
+      "end": "0x50fcf9",
+      "successors": [
+        "0x50fcf9",
+        "0x50fcff"
+      ]
+    },
+    {
+      "start": "0x50fcf9",
+      "end": "0x50fcff",
+      "successors": [
+        "0x50fcff"
+      ]
+    },
+    {
+      "start": "0x50fcff",
+      "end": "0x50fd29",
+      "successors": [
+        "0x50fba1",
+        "0x50fd29"
+      ]
+    },
+    {
+      "start": "0x50fd29",
+      "end": "0x50fd2d",
+      "successors": [
+        "0x50fd2d"
+      ]
+    },
+    {
+      "start": "0x50fd2d",
+      "end": "0x50fd37",
+      "successors": [
+        "0x50fd37"
+      ]
+    },
+    {
+      "start": "0x50fd37",
+      "end": "0x50fd3e",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x509a9d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5099d0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 297
+}

@@ -1,0 +1,25 @@
+0047D011: push    eax
+0047D012: call    sub_424BF9; Call Procedure
+0047D017: call    Gfx_CopyRenderTuningDefaults; Copie trois constantes de réglage flottantes (0, 0.0005, 0.001) vers l'état de rendu. Aucun parsing ni chargement TIM.
+0047D01C: call    sub_499A40; Call Procedure
+0047D021: push    esi
+0047D022: call    Render_ESI_A60h_unused; Call Procedure
+0047D027: push    esi
+0047D028: call    render_ESIA78h; Call Procedure
+0047D02D: push    esi
+0047D02E: call    render_ESI348; Call Procedure
+0047D033: push    esi
+0047D034: call    sub_409B25; Call Procedure
+0047D039: add     esp, 18h; Add
+0047D03C: call    ___setargv_2; Call Procedure
+0047D041: mov     al, CAN_BATTLE_BE_PAUSED
+0047D046: cmp     al, bl; Compare Two Operands
+0047D048: jz      loc_47D0D3; Jump if Zero (ZF=1)
+0047D04E: call    battle_pause_related_sub_4A71D0; Call Procedure
+0047D053: test    eax, eax; Logical Compare
+0047D055: jz      short loc_47D0D3; Jump if Zero (ZF=1)
+0047D057: mov     pause_game_battle, 1
+0047D061: mov     is_sleeping, ebx
+0047D067: mov     dword ptr [esi+0B88h], 1
+0047D071: call    Gpu_EnableOTagHostPass; SET B7CC24=1 unconditional, every battle frame (PH10)
+0047D076: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers

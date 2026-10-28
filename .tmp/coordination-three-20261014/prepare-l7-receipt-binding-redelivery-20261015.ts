@@ -1,0 +1,17 @@
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strict as assert} from 'node:assert';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',sourceRoot=phase+'/L7_RECEIPT_BINDING_GO_V1',own='C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-simulator-fix-astra',sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');assert(!existsSync(sourceRoot),'Immutable decisions already exist');
+const e=await Service.discover();assert(e);const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)}),session=await cli.session.get({sessionID:'ses_ec0192753ffeWKOqq53yPbjVoL'});
+assert.deepEqual(session.model,{id:'gpt-6-astra',providerID:'openai',variant:'max'});assert.equal(session.location.directory.replaceAll('\\','/'),own);
+assert.equal(sha(readFileSync(own+'/tools/ff8-harness/src/planner.ts')),'37723edf3e365be178bfce2db18e316f9e38efc4e41fbfe16f321760ffecd8b3','Parallel L5 must not leak into OWN');
+assert(readFileSync(own+'/tools/ff8-harness/test/simulator/simulator.test.ts').equals(readFileSync(root+'/inputs/L7SIM_CORRECTIVE_REVIEW_V2/tools/ff8-harness/test/simulator/simulator.test.ts')),'Historical tests changed');
+const entries=[['DECISION.md',root+'/docs/missions/re-graph-scheduler/L7_SIM_RECEIPT_BINDING_FULL_REDELIVERY_20261015.md'],['RECEIPT_POLICY.md',root+'/docs/missions/re-graph-scheduler/L5_SIM_RECEIPT_LEVEL_COHERENCE_20261015.md']] as const;
+const files=entries.map(([path,p])=>{const b=readFileSync(p);return {path,bytes:b.length,sha256:sha(b),kind:'rule',content:b};});
+const manifest=Buffer.from(JSON.stringify({task:'task_mv9m9894_0015_cjacy0',session:session.id,stage:'READ/ACK before parent GO; FULL still held separately',files:files.map(({content:_c,...f})=>f)},null,2)+'\n');
+mkdirSync(sourceRoot);for(const f of files)writeFileSync(sourceRoot+'/'+f.path,f.content,{flag:'wx'});writeFileSync(sourceRoot+'/MANIFEST.json',manifest,{flag:'wx'});
+const requestFiles=[...files.map(({bytes:_b,content:_c,...f})=>f),{path:'MANIFEST.json',sha256:sha(manifest),kind:'manifest'}],request={schemaVersion:1,missionId:'team_mv6tmopg_0000_4urn3c',taskId:'task_mv9m9894_0015_cjacy0',cycle:1,role:'implementer',blind:false,sourceRoot,targetSessionId:session.id,destinationRoot:own+'/inputs/L7_RECEIPT_BINDING_GO_V1',files:requestFiles};
+writeFileSync(phase+'/l7-receipt-binding-redelivery-request.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});const result={model:session.model,directory:session.location.directory,files:files.map(({content:_c,...f})=>f).concat([{path:'MANIFEST.json',bytes:manifest.length,sha256:sha(manifest),kind:'manifest'}]),bytes:files.reduce((n,f)=>n+f.bytes,manifest.length),destination:request.destinationRoot,fullHeldSeparately:true};
+writeFileSync(phase+'/l7-receipt-binding-redelivery-native-and-inputs.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

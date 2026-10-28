@@ -1,0 +1,25 @@
+00464064: jnz     short loc_464097; Jump if Not Zero (ZF=0)
+00464066: push    edi
+00464067: push    ebp
+00464068: push    1Fh
+0046406A: mov     eax, 10h
+0046406F: push    3E0h
+00464074: push    7C00h
+00464079: push    eax
+0046407A: mov     [esi+4], ebp
+0046407D: mov     [esi+38h], eax
+00464080: mov     [esi+1Ch], ebp
+00464083: call    Graphics_FillBitfieldLayout; E3c: lu: 1 seul BB, popcount+shifts+masks+(1<<n)−1; helpers 79/35o notés
+00464088: mov     ecx, [edi]
+0046408A: add     esp, 18h; Add
+0046408D: shl     ecx, 1; Shift Logical Left
+0046408F: mov     [edi+8], ecx
+00464092: jmp     loc_46411E; Jump
+00464097: push    edi
+00464098: push    8000h
+0046409D: push    1Fh
+0046409F: push    3E0h
+004640A4: push    7C00h
+004640A9: push    ebx
+004640AA: mov     dword ptr [esi+4], 1
+004640B1: mov     [esi+0BCh], ebp

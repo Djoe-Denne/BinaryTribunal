@@ -1,16 +1,12 @@
+import { invariant } from "./graph-persistence-errors";
+export { GraphPersistenceError, invariant } from "./graph-persistence-errors";
 import type { Database } from "bun:sqlite";
 import { canonical, fingerprint } from "./validation";
 
 export type ErrorClass = "none" | "auth" | "input" | "schema" | "quota" | "outage" | "scientific_block";
-export class GraphPersistenceError extends Error {
-  constructor(readonly category: Exclude<ErrorClass, "none">, message: string) { super(message); }
-}
 export interface GraphEvent {
   version: 1; missionId: string; sequence: number; time: number; key: string; kind: string;
   unitId: string | null; payload: unknown; digest: string;
-}
-export function invariant(value: unknown, message: string, category: Exclude<ErrorClass, "none"> = "input"): asserts value {
-  if (!value) throw new GraphPersistenceError(category, message);
 }
 export function nonempty(value: string): void { invariant(typeof value === "string" && value.trim().length > 0, "explicit nonempty identity required"); }
 export function integer(value: number, minimum = 0): void { invariant(Number.isSafeInteger(value) && value >= minimum, "invalid event counter/time"); }

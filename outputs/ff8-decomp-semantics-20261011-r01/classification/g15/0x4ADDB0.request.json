@@ -1,0 +1,1627 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; \\nCOMMON_COMPACTION g15/run01. task_mv424nwj_000h_wcl3px claimed/completed. Read-only; no IDB/Git/ledger/live/delegation. Function labels/comments are NOT evidence. Source abbreviations below resolve to absolute paths.\\n\\nSOURCE INVENTORY:\\nN = C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x4ADDB0.json\\nC = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md\\nG = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json\\nO = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x4ADD10__BattleDrawMenu_Open.md\\nP = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x484FD0__PendingCmd_QueueOrStore.md\\nB = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x48CAE0__BattleDraw_BuildCastOrStockMenu.md\\nW = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x4B9AD0__BattleUI_RegisterWidgetSlot.md\\nF = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x4B9B90__BattleUI_SetWidgetSlotFlags.md\\nT = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x4B9C00__BattleUI_SetWidget_11hFF_12_1.md\\nL = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x4B9C40__BattleUI_ClampWidgetSlotsDown.md\\nD = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/draw_system.md\\nA = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/reference/address_catalog.md\\nR = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/command_pipeline.md\\nH = C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime_internal.hpp\\nK = C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/core/include/ff8iso/core/draw_slice.hpp\\nE = C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-offline-draft-2026-08-19.md\\nQ = C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/concepts/draw-magic-and-render-bridge.md\\n\\nBINDING: G:121–124 owns only 0x4ADDB0. C:14–21 requires factual context, independent forks. N packet SHA256=7a147e6c831c259e3d67c6cc522a4497158f9d3198723a3200ee36d8f25171d5. N:4–10 reports 32-bit FF8_EN.exe input SHA256=064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, export UTC 2026-10-11T16:38:25.140966+00:00. N:11–17 one chunk [0x4ADDB0,0x4AF282), 5330 bytes. N:18 contains full ASM in ONE physical JSON line; instruction EAs supplement this citation. N:19–1638 exports 213 CFG blocks; N:1685 instruction count 1408. N:1639–1652 xrefs: call from 0x4ADDA0 and noncode reference from 0x4ADD3C, both owner 0x4ADD10. Snapshot xrefs do not prove exhaustive callback graph.\\n\\nNATIVE ABI/CONTROL FACTS (all N:18+specified EA, corroborated by N chunk bytes where described):\\n1. 0x4ADDB0 allocates 0xC stack bytes, saves EBX/EBP; 0x4ADDB5 calls numeric 0x4BA470 and tests FULL EAX before branch to 0x4AF27C. EBP cleared at 0x4ADDC7; ESI/EDI saved later (0x4ADE87/8D). Three plain RETs (0x4AF22A,0x4AF23B,0x4AF281), no immediate argument-pop. No incoming stack parameter identified. Do not assume char return from historical IDA types. Return EAX is not uniformly normalized: 0x4AF1FD loads [0xB87908]; compares with 3; 0x4AF210/21D loads AL then SETZ AL (high EAX remains), whereas 0x4AF22B/231 loads/increments full EAX.\\n2. Pointer [0x1D6D490] loaded 0x4ADDC2; BYTE [ptr+0x2D] compared with 2. WORD loads at +0x10/+0x12/+0x14, partial WORD stack stores. 0x4ADDF1 TEST CH,0xA0; selected path AND ECX/EBX,0xAFFF at 0x4ADDFE/0x4ADE04. Preserve operand widths/partial-register behavior.\\n3. 0x4ADE18 calls 0x4BB8D0; DWORD [0x1D768D4]&0xFF compared with FULL EAX, then signed JL against zero at 0x4ADE33. BYTE [0x1D768DB] has special 0xFF path. WORD [0x1D750BE] loaded at 0x4ADE4B; EDX=1 shifted by CL at 0x4ADE51 and TESTed. BYTE [0x1D768EE] gates reset; reset writes WORD [0x1D768F0], WORD [0x1D768F2], DWORD [0x1D768D0]=4. x86 shift-count semantics must be retained.\\n4. DWORD [0x1D768D0] loaded 0x4ADEB0. Unsigned JA guard vs 0x2B at 0x4ADEE6/E9. Dispatch 0x4ADEFA bytes ff248584f24a00 = JMP DWORD [EAX*4+0x4AF284]. CFG block [0x4ADEFA,0x4ADF01) exports 44 distinct successors. BUT actual jump-table bytes at 0x4AF284 are outside N chunk; index→destination mapping is not independently frozen.\\n5. Arithmetic/structures: 0x4ADE95/9A/A3 derives 0x1D76928+slot*0x6C (slot is low byte of 0x1D768D4). 0x4ADE8E/98/9D/A0 derives slot*0x1D0 before BYTE [0x1CFF1B2+offset]. 0x4ADFB4/BA/BD/C0 derives (source−3)*0x47; ADD immediate at 0x4ADFC2 bytes 05 18 8f d2 01 proves base 0x1D28F18. Four DWORDs copied from +0/+4/+8/+0xC to 0x1D7543C/40/44/48. 0x4ADFF4–0x4AE000 stores pointer 0x1D7543C in 0x1D768F4. 0x4AE006–15 computes slot*0x1D0 and adds 0x1CFF000 (0x4AE010 bytes 05 00 f0 cf 01), stores pointer at 0x1D768F8. 0x4AE01A–2B scans FOUR BYTE ids spaced 4 bytes, signed JL. Do NOT import BATTLE_SLOT stride 0xD0 here.\\n6. 0x4AE300 reads BYTE [pointer from 0x1D768F4+(0x1D768D8&0xFF)*4], stores BYTE 0x1D768DC, calls 0x48CAE0 at 0x4AE316 with that value and zero-extended actor. 0x4AE4B9 reads BYTE [pointer from 0x1D768F8+zero-extended BYTE 0x1D768D9*4], compares full zero-extended value with 10, stores BYTE 0x1D768DD. Equality path shifts EAX=1 by BYTE [0x1D768DB], stores AX to 0x1D768DE at 0x4AE4D3. 0x4AE5DD tests BL&0x80; 0x4AE5E2 AND EBX,0xFF7F; 0x4AE5ED writes BX to same WORD. WORD ramps reach 0x1000 at 0x4AE162/16E and 0x4AE332/343. No purpose assigned to these facts.\\n7. Unique direct 0x484FD0 call at 0x4AF05F, bytes e86c5ffdff; return VA 0x4AF064/RVA 0xAF064. Six pushed DWORD slots, right-to-left: EAX after AX load from WORD 0x1D768DE (upper EAX preserved); zero-extended BYTE 0x1D768DD; zero-extended BYTE 0x1D768DB; DWORD 0x1D768DC masked 0xFF; zero-extended BYTE 0x1D768DA; DWORD 0x1D768D4 masked 0xFF. BYTE 0x1D768EE=1 before last pushes. Caller cleanup batched with helper calls, ADD ESP,0x40 at 0x4AF098. No direct call to 0x484D20 in N.\\n\\nNUMERIC CALL INVENTORY: E8 rel32 decoded from chunk bytes, agrees with N:1653–1684; all 30 are direct E8, no indirect CALL. First PC→target: 4ADDB5→4BA470;4ADE18→4BB8D0;4ADE7A→4A9780;4ADF19→4A9DF0;4ADF43→4A9DD0;4ADF8E→4A9890;4ADFAF→48CA70;4AE0AD→4AF340;4AE0E5→4B9C40;4AE1A5→4B9B90;4AE316→48CAE0;4AE377→4A9040;4AE37E→4A7160;4AE531→4AB4F0;4AE6F7→4AB920;4AE7DD→4A8F10;4AE7E4→4B9C00;4AE7EA→4AAC50;4AE822→4BB7A0;4AEA27→4950C0;4AEA3B→47E9C0;4AED06→47EC00;4AEDC9→4A97B0;4AEEC4→4A8250;4AF05F→484FD0;4AF093→4B1E70;4AF0D6→4AD620;4AF1C5→4AD3C0;4AF1EC→4BB710;4AF26E→4B9AD0.\\n\\nNEIGHBOUR CONTRACTS — historical parent-checked reports; NO fresh neighbour ASM verification here:\\n• O:10–11,39–70: four BYTE-value cdecl args; D4 low byte slot,+2 aux,+3 flags; D8+2 menu command byte; D0 DWORD state; F0/F2 WORD zero; registrar (2,4ADDB0,4AF4F0,4AAFD0). O:21 caller 4BC968. N xrefs corroborate owner O; neighbour store meaning remains reported history.\\n• P:10–11,24–33,38–64: cdecl(slot,command_id,BYTE arg,char aux_6,char aux_5,WORD mask); first of three slot-local pending entries at 0x1D28D44+slot*0x18. 8-byte layout [maskLE,attacker,id,arg,aux_5,aux_6,active]. Actor battle-slot stride 0xD0; BYTE +0x90 bit0 branch; dead command==4 special BYTE +0xC8 write; EAX leftover pointer except special AL arg path. Do not assume declared BYTE return is meaningful Boolean. R:26–28 agrees caller; R:34–39 documents downstream pending→exec transfer.\\n• B:10–11: F_CHAR stride 0x1D0, stock 32×5 at +0x82, signed JGE vs 0x40, amount cap 0x64; BYTE stores, no occupancy test. N validates two-arg call and actor-row arithmetic, not B internals.\\n• W:10–11: registry 0x1D76628 stride 0x14; DWORD callbacks +0/+8/+C, BYTE +10/+11=FF,+12=0; +4/+13 untouched. F:10–11 signed flags comparison/BYTE state stores. T:10–11 BYTE +11=FF,+12=1. L:10–11 signed descending loop with BYTE +10/+13. Distinguish registry 0x14 vs actor 0x1D0 vs battle slot 0xD0.\\n\\nCONTEXT/UNCERTAINTIES: GrepAI first at common root located D/P/R; QMD CLI search 4ADDB0 empty, Draw system found Q (#7e38ea), retrieved by qmd get. Q updated 2026-09-12 and cites older static/live evidence. Empty address keyword did NOT mean missing index. Q:35–41/K:13–22 separate resolver family 6, aux_5 9/10 and source slot from pending command byte. H:109–132 uses observed 0x06, caller RVA 0xAF064, independent menu-row RVA 0x19768D8+2: runtime constraints, NOT proof every native id equals 6. E:36–73 explicitly warns; mov eax,6 at 0x4ADF4E is not pending-id proof. D:5,25 explicitly leaves full 44-case walk open. A:657–658 catalog pointer/callback descriptions of D0/D4 conflict with blindly assigning those types here: N uses D0 integer dispatch and D4 low-byte index; contextual/shared storage requires caution. No prior target prose/C promoted. Missing table bytes/index mapping, historical-only neighbour contracts, partial registers, signed/unsigned branches, overlapping widths, CL shifts, batched cleanup and unnormalized EAX remain producer obligations. Quantity/stock/resolver descriptions in D/Q concern other functions, not established target facts. No reconstructed target C or semantic verdict supplied.\\n\n; TARGET ASM COMPLETE\n004ADDB0: sub     esp, 0Ch; Draw menu state machine. Does NOT call BattlePendingAction_Write 0x484D20. Queues Draw via PendingCmd_QueueOrStore 0x484FD0 at 0x4AF05F (return 0xAF064 = kG13DrawQueueOrStoreCallerRva).\n004ADDB3: push    ebx\n004ADDB4: push    ebp\n004ADDB5: call    BattleUI_BothFlags_1D76701_02; E3c: 2 adresses explicites\n004ADDBA: test    eax, eax; Logical Compare\n004ADDBC: jnz     loc_4AF27C; Jump if Not Zero (ZF=0)\n004ADDC2: mov     eax, dword_1D6D490\n004ADDC7: xor     ebp, ebp; Logical Exclusive OR\n004ADDC9: cmp     byte ptr [eax+2Dh], 2; Compare Two Operands\n004ADDCD: jz      short loc_4ADDDB; Jump if Zero (ZF=1)\n004ADDCF: xor     ecx, ecx; Logical Exclusive OR\n004ADDD1: mov     [esp+14h+var_C], ebp\n004ADDD5: mov     [esp+14h+var_8], ebp\n004ADDD9: jmp     short loc_4ADDF1; Jump\n004ADDDB: mov     cx, [eax+10h]\n004ADDDF: mov     dx, [eax+12h]\n004ADDE3: mov     ax, [eax+14h]\n004ADDE7: mov     word ptr [esp+14h+var_C], dx\n004ADDEC: mov     word ptr [esp+14h+var_8], ax\n004ADDF1: test    ch, 0A0h; Logical Compare\n004ADDF4: jz      short loc_4ADE14; Jump if Zero (ZF=1)\n004ADDF6: mov     ecx, [esp+14h+var_C]\n004ADDFA: mov     ebx, [esp+14h+var_8]\n004ADDFE: and     ecx, 0AFFFh; Logical AND\n004ADE04: and     ebx, 0AFFFh; Logical AND\n004ADE0A: mov     [esp+14h+var_C], ecx\n004ADE0E: mov     [esp+14h+var_8], ebx\n004ADE12: jmp     short loc_4ADE18; Jump\n004ADE14: mov     ebx, [esp+14h+var_8]\n004ADE18: call    GetWord_1D76844_OrMinus1_If1000; E3c: test 1000 + movsx; Cursor/Chara = callers\n004ADE1D: mov     ecx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004ADE23: and     ecx, 0FFh; Logical AND\n004ADE29: cmp     ecx, eax; Compare Two Operands\n004ADE2B: jnz     loc_4AF23C; Jump if Not Zero (ZF=0)\n004ADE31: cmp     eax, ebp; Compare Two Operands\n004ADE33: jl      loc_4AF23C; Jump if Less (SF!=OF)\n004ADE39: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004ADE3F: cmp     cl, 0FFh; Compare Two Operands\n004ADE42: jz      short loc_4ADE82; Jump if Zero (ZF=1)\n004ADE44: mov     edx, 1\n004ADE49: xor     eax, eax; Logical Exclusive OR\n004ADE4B: mov     ax, word ptr dword_1D750BC+2\n004ADE51: shl     edx, cl; Shift Logical Left\n004ADE53: test    eax, edx; Logical Compare\n004ADE55: jnz     short loc_4ADE82; Jump if Not Zero (ZF=0)\n004ADE57: mov     al, byte_1D768EE\n004ADE5C: test    al, al; Logical Compare\n004ADE5E: jnz     short loc_4ADE82; Jump if Not Zero (ZF=0)\n004ADE60: push    5\n004ADE62: mov     word ptr dword_1D768F0, bp\n004ADE69: mov     word ptr dword_1D768F0+2, bp\n004ADE70: mov     dword_1D768D0, 4; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004ADE7A: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004ADE7F: add     esp, 4; Add\n004ADE82: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004ADE87: push    esi\n004ADE88: and     eax, 0FFh; Logical AND\n004ADE8D: push    edi\n004ADE8E: lea     edx, ds:0[eax*8]; Load Effective Address\n004ADE95: lea     ecx, [eax+eax*2]; Load Effective Address\n004ADE98: sub     edx, eax; Integer Subtraction\n004ADE9A: lea     ecx, [ecx+ecx*8]; Load Effective Address\n004ADE9D: lea     eax, [eax+edx*4]; Load Effective Address\n004ADEA0: shl     eax, 4; Shift Logical Left\n004ADEA3: lea     edi, ds:1D76928h[ecx*4]; Load Effective Address\n004ADEAA: mov     cl, byte ptr word_1CFF1B2[eax]\n004ADEB0: mov     eax, dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004ADEB5: test    cl, 10h; Logical Compare\n004ADEB8: mov     [esp+1Ch+var_4], edi\n004ADEBC: jz      short loc_4ADEE6; Jump if Zero (ZF=1)\n004ADEBE: cmp     eax, 4; Compare Two Operands\n004ADEC1: jz      short loc_4ADEE6; Jump if Zero (ZF=1)\n004ADEC3: cmp     eax, 5; Compare Two Operands\n004ADEC6: jz      short loc_4ADEE6; Jump if Zero (ZF=1)\n004ADEC8: mov     cl, byte_1D768EE\n004ADECE: test    cl, cl; Logical Compare\n004ADED0: jnz     short loc_4ADEE6; Jump if Not Zero (ZF=0)\n004ADED2: push    5\n004ADED4: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004ADED9: mov     eax, 4\n004ADEDE: add     esp, 4; Add\n004ADEE1: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004ADEE6: cmp     eax, 2Bh; switch 44 cases\n004ADEE9: ja      def_4ADEFA; jumptable 004ADEFA default case\n004ADEEF: mov     esi, 0Dh\n004ADEF4: jmp     short loc_4ADEFA; Jump\n004ADEF6: mov     ebx, [esp+1Ch+var_8]\n004ADEFA: jmp     ds:jpt_4ADEFA[eax*4]; switch jump\n004ADF01: mov     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 0\n004ADF08: mov     word ptr dword_1D768F0+2, bp\n004ADF0F: mov     eax, 1\n004ADF14: jmp     loc_4AE669; Jump\n004ADF19: call    sub_4A9DF0; jumptable 004ADEFA case 3\n004ADF1E: test    al, 7Fh; Logical Compare\n004ADF20: jnz     short loc_4ADF36; Jump if Not Zero (ZF=0)\n004ADF22: push    5\n004ADF24: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004ADF29: add     esp, 4; Add\n004ADF2C: mov     eax, 4\n004ADF31: jmp     loc_4AE669; Jump\n004ADF36: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare\n004ADF3B: jz      short loc_4ADF58; Jump if Zero (ZF=1)\n004ADF3D: mov     word ptr dword_1D768DC+2, ax\n004ADF43: call    sub_4A9DD0; Call Procedure\n004ADF48: mov     word_1D75438, ax\n004ADF4E: mov     eax, 6; Draw menu UI state dword_1D768D0 = 6, NOT pending command_id. Pending command_id is dword_1D768D8+2 from BattleDrawMenu_Open arg_4.\n004ADF53: jmp     loc_4AE669; Jump\n004ADF58: test    bl, 10h; Logical Compare\n004ADF5B: jz      short loc_4ADF71; Jump if Zero (ZF=1)\n004ADF5D: push    3\n004ADF5F: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004ADF64: add     esp, 4; Add\n004ADF67: mov     eax, 4\n004ADF6C: jmp     loc_4AE669; Jump\n004ADF71: test    bl, 20h; Logical Compare\n004ADF74: jz      def_4ADEFA; jumptable 004ADEFA default case\n004ADF7A: mov     eax, 2Ah ; '*'\n004ADF7F: jmp     loc_4AE669; Jump\n004ADF84: xor     ecx, ecx; jumptable 004ADEFA case 6\n004ADF86: mov     cx, word ptr dword_1D768DC+2\n004ADF8D: push    ecx\n004ADF8E: call    sub_4A9890; Call Procedure\n004ADF93: mov     ebx, eax\n004ADF95: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004ADF9A: mov     edx, ebx\n004ADF9C: and     eax, 0FFh; Logical AND\n004ADFA1: and     edx, 0FFh; Logical AND\n004ADFA7: mov     byte ptr dword_1D768D8+3, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004ADFAD: push    edx; monster_slot\n004ADFAE: push    eax; party_slot\n004ADFAF: call    domain__BattleDraw_RefreshKnownMagicFlags; Call Procedure\n004ADFB4: lea     ecx, [ebx-3]; Load Effective Address\n004ADFB7: add     esp, 0Ch; Add\n004ADFBA: lea     eax, [ecx+ecx*8]; Load Effective Address\n004ADFBD: shl     eax, 3; Shift Logical Left\n004ADFC0: sub     eax, ecx; Integer Subtraction\n004ADFC2: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add\n004ADFC7: mov     ecx, [eax]\n004ADFC9: mov     edx, [eax+4]\n004ADFCC: mov     dword_1D7543C, ecx\n004ADFD2: mov     ecx, [eax+8]\n004ADFD5: mov     dword_1D75440, edx\n004ADFDB: mov     edx, [eax+0Ch]\n004ADFDE: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004ADFE3: mov     dword_1D75448, edx\n004ADFE9: and     eax, 0FFh; Logical AND\n004ADFEE: mov     dword_1D75444, ecx\n004ADFF4: mov     ecx, offset dword_1D7543C\n004ADFF9: lea     edx, ds:0[eax*8]; Load Effective Address\n004AE000: mov     dword_1D768F4, ecx\n004AE006: sub     edx, eax; Integer Subtraction\n004AE008: lea     eax, [eax+edx*4]; Load Effective Address\n004AE00B: xor     edx, edx; Logical Exclusive OR\n004AE00D: shl     eax, 4; Shift Logical Left\n004AE010: add     eax, offset F_CHAR_DATA; By address:\n004AE015: mov     dword_1D768F8, eax\n004AE01A: xor     eax, eax; Logical Exclusive OR\n004AE01C: cmp     byte ptr [ecx], 0; Compare Two Operands\n004AE01F: jz      short loc_4AE024; Jump if Zero (ZF=1)\n004AE021: lea     edx, [eax+1]; Load Effective Address\n004AE024: inc     eax; Increment by 1\n004AE025: add     ecx, 4; Add\n004AE028: cmp     eax, 4; Compare Two Operands\n004AE02B: jl      short loc_4AE01C; Jump if Less (SF!=OF)\n004AE02D: cmp     edx, ebp; Compare Two Operands\n004AE02F: jnz     loc_4AE833; Jump if Not Zero (ZF=0)\n004AE035: push    5\n004AE037: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE03C: add     esp, 4; Add\n004AE03F: mov     eax, 27h ; '''\n004AE044: jmp     loc_4AE669; Jump\n004AE049: mov     eax, dword_1D6D490; jumptable 004ADEFA case 10\n004AE04E: mov     cl, [eax+21h]\n004AE051: test    cl, cl; Logical Compare\n004AE053: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AE059: xor     ecx, ecx; Logical Exclusive OR\n004AE05B: mov     byte ptr [eax+2Bh], 0FFh\n004AE05F: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE065: push    1\n004AE067: sub     ecx, 3; Integer Subtraction\n004AE06A: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE06F: mov     word ptr dword_1D768F0, bp\n004AE076: mov     word ptr dword_1D768F0+2, bp\n004AE07D: lea     eax, [ecx+ecx*8]; Load Effective Address\n004AE080: shl     eax, 3; Shift Logical Left\n004AE083: sub     eax, ecx; Integer Subtraction\n004AE085: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add\n004AE08A: mov     ecx, [eax]\n004AE08C: mov     edx, [eax+4]\n004AE08F: mov     dword_1D7543C, ecx\n004AE095: mov     ecx, [eax+8]\n004AE098: mov     dword_1D75440, edx\n004AE09E: mov     edx, [eax+0Ch]\n004AE0A1: mov     dword_1D75444, ecx\n004AE0A7: mov     dword_1D75448, edx\n004AE0AD: call    sub_4AF340; Call Procedure\n004AE0B2: add     esp, 8; Add\n004AE0B5: mov     eax, 7\n004AE0BA: jmp     loc_4AE669; Jump\n004AE0BF: mov     al, byte_1D768EC; jumptable 004ADEFA case 11\n004AE0C4: push    1\n004AE0C6: dec     al; Decrement by 1\n004AE0C8: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE0CD: mov     byte_1D768EC, al\n004AE0D2: call    sub_4AF340; Call Procedure\n004AE0D7: mov     al, byte_1D768ED\n004AE0DC: add     esp, 8; Add\n004AE0DF: test    al, al; Logical Compare\n004AE0E1: jz      short loc_4AE0F7; Jump if Zero (ZF=1)\n004AE0E3: push    7; int\n004AE0E5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE0EA: add     esp, 4; Add\n004AE0ED: mov     eax, 9\n004AE0F2: jmp     loc_4AE669; Jump\n004AE0F7: mov     al, byte_1D768EC\n004AE0FC: test    al, al; Logical Compare\n004AE0FE: mov     eax, dword_1D6D490\n004AE103: jl      short loc_4AE110; Jump if Less (SF!=OF)\n004AE105: mov     cl, [eax+21h]\n004AE108: test    cl, cl; Logical Compare\n004AE10A: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AE110: mov     byte ptr [eax+2Bh], 0FFh\n004AE114: mov     eax, 0Ch\n004AE119: mov     word ptr dword_1D768F0, 200h\n004AE122: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE127: jmp     loc_4AE669; Jump\n004AE12C: push    1; jumptable 004ADEFA case 12\n004AE12E: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE133: call    sub_4AF340; Call Procedure\n004AE138: mov     al, byte_1D768ED\n004AE13D: add     esp, 8; Add\n004AE140: test    al, al; Logical Compare\n004AE142: jz      short loc_4AE158; Jump if Zero (ZF=1)\n004AE144: push    7; int\n004AE146: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE14B: add     esp, 4; Add\n004AE14E: mov     eax, 9\n004AE153: jmp     loc_4AE669; Jump\n004AE158: mov     ax, word ptr dword_1D768F0\n004AE15E: add     ax, 200h; Add\n004AE162: cmp     ax, 1000h; Compare Two Operands\n004AE166: mov     word ptr dword_1D768F0, ax\n004AE16C: jl      short loc_4AE184; Jump if Less (SF!=OF)\n004AE16E: mov     word ptr dword_1D768F0, 1000h\n004AE177: mov     dword_1D768D0, esi; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE17D: mov     eax, esi; jumptable 004ADEFA case 25\n004AE17F: jmp     loc_4AE669; Jump\n004AE184: test    bl, 10h; Logical Compare\n004AE187: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AE18D: push    3\n004AE18F: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE194: add     esp, 4; Add\n004AE197: mov     eax, 0Fh\n004AE19C: jmp     loc_4AE669; Jump\n004AE1A1: push    2; jumptable 004ADEFA case 13\n004AE1A3: push    2; slot_index\n004AE1A5: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE1AA: push    2; flags\n004AE1AC: push    4; slot_index\n004AE1AE: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE1B3: push    2; int\n004AE1B5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE1BA: push    1\n004AE1BC: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE1C1: call    sub_4AF340; Call Procedure\n004AE1C6: mov     al, byte_1D768ED\n004AE1CB: add     esp, 1Ch; Add\n004AE1CE: test    al, al; Logical Compare\n004AE1D0: jz      short loc_4AE1E6; Jump if Zero (ZF=1)\n004AE1D2: push    7; int\n004AE1D4: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE1D9: add     esp, 4; Add\n004AE1DC: mov     eax, 9\n004AE1E1: jmp     loc_4AE669; Jump\n004AE1E6: mov     dword_1D768D0, 0Eh; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE1F0: push    1; jumptable 004ADEFA case 14\n004AE1F2: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE1F7: call    sub_4AF340; Call Procedure\n004AE1FC: mov     al, byte_1D768ED\n004AE201: add     esp, 8; Add\n004AE204: test    al, al; Logical Compare\n004AE206: jz      short loc_4AE21C; Jump if Zero (ZF=1)\n004AE208: push    7; int\n004AE20A: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE20F: add     esp, 4; Add\n004AE212: mov     eax, 9\n004AE217: jmp     loc_4AE669; Jump\n004AE21C: mov     ebx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE222: mov     eax, [esp+1Ch+var_C]\n004AE226: and     ebx, 0FFh; Logical AND\n004AE22C: test    ah, 40h; Logical Compare\n004AE22F: jz      short loc_4AE25A; Jump if Zero (ZF=1)\n004AE231: mov     eax, dword_1D768F4\n004AE236: mov     ecx, ebx\n004AE238: inc     ebx; Increment by 1\n004AE239: cmp     ebx, 4; Compare Two Operands\n004AE23C: jl      short loc_4AE240; Jump if Less (SF!=OF)\n004AE23E: xor     ebx, ebx; Logical Exclusive OR\n004AE240: cmp     ecx, ebx; Compare Two Operands\n004AE242: jz      short loc_4AE24A; Jump if Zero (ZF=1)\n004AE244: cmp     byte ptr [eax+ebx*4], 0; Compare Two Operands\n004AE248: jz      short loc_4AE238; Jump if Zero (ZF=1)\n004AE24A: push    1\n004AE24C: mov     byte ptr dword_1D768D8, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE252: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE257: add     esp, 4; Add\n004AE25A: mov     eax, [esp+1Ch+var_C]\n004AE25E: test    ah, 10h; Logical Compare\n004AE261: jz      short loc_4AE28C; Jump if Zero (ZF=1)\n004AE263: mov     eax, dword_1D768F4\n004AE268: mov     ecx, ebx\n004AE26A: dec     ebx; Decrement by 1\n004AE26B: jns     short loc_4AE272; Jump if Not Sign (SF=0)\n004AE26D: mov     ebx, 3\n004AE272: cmp     ecx, ebx; Compare Two Operands\n004AE274: jz      short loc_4AE27C; Jump if Zero (ZF=1)\n004AE276: cmp     byte ptr [eax+ebx*4], 0; Compare Two Operands\n004AE27A: jz      short loc_4AE26A; Jump if Zero (ZF=1)\n004AE27C: push    1\n004AE27E: mov     byte ptr dword_1D768D8, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE284: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE289: add     esp, 4; Add\n004AE28C: mov     cl, byte ptr dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE292: xor     eax, eax; Logical Exclusive OR\n004AE294: mov     al, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE299: sub     eax, 3; Integer Subtraction\n004AE29C: mov     [eax+edi+64h], cl\n004AE2A0: mov     [edi+68h], al\n004AE2A3: mov     al, byte ptr [esp+1Ch+var_8]\n004AE2A7: test    al, 10h; Logical Compare\n004AE2A9: jz      short loc_4AE2BF; Jump if Zero (ZF=1)\n004AE2AB: push    3\n004AE2AD: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE2B2: add     esp, 4; Add\n004AE2B5: mov     eax, 0Fh\n004AE2BA: jmp     loc_4AE669; Jump\n004AE2BF: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare\n004AE2C4: jz      short loc_4AE2DA; Jump if Zero (ZF=1)\n004AE2C6: push    2\n004AE2C8: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE2CD: add     esp, 4; Add\n004AE2D0: mov     eax, 11h\n004AE2D5: jmp     loc_4AE669; Jump\n004AE2DA: test    al, 20h; Logical Compare\n004AE2DC: jz      loc_4AE9C8; Jump if Zero (ZF=1)\n004AE2E2: mov     eax, 2Ah ; '*'\n004AE2E7: jmp     loc_4AE669; Jump\n004AE2EC: mov     edx, dword_1D768D8; jumptable 004ADEFA case 17\n004AE2F2: mov     ecx, dword_1D768F4\n004AE2F8: and     edx, 0FFh; Logical AND\n004AE2FE: xor     eax, eax; Logical Exclusive OR\n004AE300: mov     al, [ecx+edx*4]\n004AE303: mov     edx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE309: and     edx, 0FFh; Logical AND\n004AE30F: push    eax; int\n004AE310: push    edx; int\n004AE311: mov     byte ptr dword_1D768DC, al\n004AE316: call    domain__BattleDraw_BuildCastOrStockMenu; Call Procedure\n004AE31B: add     esp, 8; Add\n004AE31E: mov     eax, 12h\n004AE323: jmp     loc_4AE669; Jump\n004AE328: mov     ax, word ptr dword_1D768F0+2; jumptable 004ADEFA case 21\n004AE32E: add     ax, 2AAh; Add\n004AE332: cmp     ax, 1000h; Compare Two Operands\n004AE336: mov     word ptr dword_1D768F0+2, ax\n004AE33C: jl      short loc_4AE356; Jump if Less (SF!=OF)\n004AE33E: mov     eax, 16h\n004AE343: mov     word ptr dword_1D768F0+2, 1000h\n004AE34C: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE351: jmp     loc_4AE669; Jump\n004AE356: test    bl, 10h; Logical Compare\n004AE359: jz      loc_4AEC54; Jump if Zero (ZF=1)\n004AE35F: push    3\n004AE361: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE366: add     esp, 4; Add\n004AE369: mov     eax, 18h\n004AE36E: jmp     loc_4AE669; Jump\n004AE373: push    1; jumptable 004ADEFA case 22\n004AE375: push    0FFFFFFFFh\n004AE377: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex\n004AE37C: push    1\n004AE37E: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0\n004AE383: push    2; flags\n004AE385: push    4; slot_index\n004AE387: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE38C: push    2; flags\n004AE38E: push    2; slot_index\n004AE390: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE395: push    7; int\n004AE397: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE39C: add     esp, 20h; Add\n004AE39F: mov     dword_1D768D0, 17h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE3A9: xor     ebx, ebx; jumptable 004ADEFA case 23\n004AE3AB: push    1\n004AE3AD: mov     bl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE3B3: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE3B8: call    sub_4AF340; Call Procedure\n004AE3BD: mov     al, byte_1D768ED\n004AE3C2: add     esp, 8; Add\n004AE3C5: test    al, al; Logical Compare\n004AE3C7: jz      short loc_4AE3D3; Jump if Zero (ZF=1)\n004AE3C9: mov     eax, 18h\n004AE3CE: jmp     loc_4AE669; Jump\n004AE3D3: mov     eax, [esp+1Ch+var_C]\n004AE3D7: test    ah, 40h; Logical Compare\n004AE3DA: jz      short loc_4AE402; Jump if Zero (ZF=1)\n004AE3DC: mov     eax, dword_1D768F8\n004AE3E1: inc     ebx; Increment by 1\n004AE3E2: cmp     ebx, 2; Compare Two Operands\n004AE3E5: jl      short loc_4AE3E9; Jump if Less (SF!=OF)\n004AE3E7: xor     ebx, ebx; Logical Exclusive OR\n004AE3E9: cmp     byte ptr [eax+ebx*4], 0; Compare Two Operands\n004AE3ED: jz      short loc_4AE3E1; Jump if Zero (ZF=1)\n004AE3EF: push    1\n004AE3F1: mov     byte ptr dword_1D768D8+1, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE3F7: mov     [edi+59h], bl\n004AE3FA: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE3FF: add     esp, 4; Add\n004AE402: mov     eax, [esp+1Ch+var_C]\n004AE406: test    ah, 10h; Logical Compare\n004AE409: jz      short loc_4AE431; Jump if Zero (ZF=1)\n004AE40B: mov     eax, dword_1D768F8\n004AE410: dec     ebx; Decrement by 1\n004AE411: jns     short loc_4AE418; Jump if Not Sign (SF=0)\n004AE413: mov     ebx, 1\n004AE418: cmp     byte ptr [eax+ebx*4], 0; Compare Two Operands\n004AE41C: jz      short loc_4AE410; Jump if Zero (ZF=1)\n004AE41E: push    1\n004AE420: mov     byte ptr dword_1D768D8+1, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE426: mov     [edi+59h], bl\n004AE429: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE42E: add     esp, 4; Add\n004AE431: mov     al, byte ptr [esp+1Ch+var_8]\n004AE435: test    al, 10h; Logical Compare\n004AE437: jz      short loc_4AE44D; Jump if Zero (ZF=1)\n004AE439: push    3\n004AE43B: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE440: add     esp, 4; Add\n004AE443: mov     eax, 18h\n004AE448: jmp     loc_4AE669; Jump\n004AE44D: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare\n004AE452: jz      short loc_4AE497; Jump if Zero (ZF=1)\n004AE454: mov     ecx, dword_1D768F8\n004AE45A: xor     eax, eax; Logical Exclusive OR\n004AE45C: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE461: test    byte ptr [ecx+eax*4+3], 2; Logical Compare\n004AE466: jz      short loc_4AE483; Jump if Zero (ZF=1)\n004AE468: push    5\n004AE46A: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE46F: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE474: add     esp, 4; Add\n004AE477: neg     al; Two's Complement Negation\n004AE479: sbb     eax, eax; Integer Subtraction with Borrow\n004AE47B: add     eax, 24h ; '$'; Add\n004AE47E: jmp     loc_4AE669; Jump\n004AE483: push    2\n004AE485: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE48A: add     esp, 4; Add\n004AE48D: mov     eax, 1Ah\n004AE492: jmp     loc_4AE669; Jump\n004AE497: test    al, 20h; Logical Compare\n004AE499: jz      loc_4AEC71; Jump if Zero (ZF=1)\n004AE49F: mov     eax, 2Ah ; '*'\n004AE4A4: jmp     loc_4AE669; Jump\n004AE4A9: mov     ecx, dword_1D768F8; jumptable 004ADEFA case 26\n004AE4AF: xor     edx, edx; Logical Exclusive OR\n004AE4B1: mov     dl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE4B7: xor     eax, eax; Logical Exclusive OR\n004AE4B9: mov     al, [ecx+edx*4]\n004AE4BC: cmp     eax, 0Ah; Compare Two Operands\n004AE4BF: mov     byte ptr dword_1D768DC+1, al\n004AE4C4: jnz     short loc_4AE4E9; Jump if Not Zero (ZF=0)\n004AE4C6: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE4CC: mov     eax, 1\n004AE4D1: shl     eax, cl; Shift Logical Left\n004AE4D3: mov     word ptr dword_1D768DC+2, ax\n004AE4D9: mov     eax, 20h ; ' '; jumptable 004ADEFA case 31\n004AE4DE: jmp     loc_4AE669; Jump\n004AE4E3: mov     ecx, dword_1D768F8; jumptable 004ADEFA case 27\n004AE4E9: xor     eax, eax; Logical Exclusive OR\n004AE4EB: xor     ebx, ebx; Logical Exclusive OR\n004AE4ED: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE4F2: mov     bl, byte ptr dword_1D768E4+1\n004AE4F8: lea     edx, [eax+eax*2]; Load Effective Address\n004AE4FB: lea     edx, [eax+edx*4]; Load Effective Address\n004AE4FE: lea     edx, [edx+ebx+9]; Load Effective Address\n004AE502: push    edx\n004AE503: mov     edx, dword_1D768E4\n004AE509: and     edx, 0FFh; Logical AND\n004AE50F: add     edx, 7; Add\n004AE512: push    edx\n004AE513: xor     edx, edx; Logical Exclusive OR\n004AE515: mov     dl, [ecx+eax*4+3]\n004AE519: push    edx\n004AE51A: mov     dl, [ecx+eax*4+1]\n004AE51E: mov     al, [ecx+eax*4+2]\n004AE522: mov     ecx, dword_1D6D490\n004AE528: push    edx\n004AE529: push    eax\n004AE52A: mov     dl, [ecx+20h]\n004AE52D: and     edx, 0Fh; Logical AND\n004AE530: push    edx\n004AE531: call    sub_4AB4F0; Call Procedure\n004AE536: push    3; flags\n004AE538: push    4; slot_index\n004AE53A: mov     [esp+3Ch+var_C], ebp\n004AE53E: mov     [esp+3Ch+var_8], ebp\n004AE542: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE547: push    3; flags\n004AE549: push    2; slot_index\n004AE54B: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE550: push    2; int\n004AE552: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE557: push    ebp\n004AE558: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0\n004AE55D: mov     eax, 1Ch\n004AE562: add     esp, 30h; Add\n004AE565: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE56A: jmp     loc_4AE669; Jump\n004AE56F: call    sub_4A9DF0; jumptable 004ADEFA case 28\n004AE574: push    1\n004AE576: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE57B: mov     ebx, eax\n004AE57D: call    sub_4AF340; Call Procedure\n004AE582: mov     al, byte_1D768ED\n004AE587: add     esp, 8; Add\n004AE58A: test    al, al; Logical Compare\n004AE58C: jz      short loc_4AE5A2; Jump if Zero (ZF=1)\n004AE58E: push    7; int\n004AE590: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE595: add     esp, 4; Add\n004AE598: mov     eax, 9\n004AE59D: jmp     loc_4AE669; Jump\n004AE5A2: test    bl, 7Fh; Logical Compare\n004AE5A5: jnz     short loc_4AE5BB; Jump if Not Zero (ZF=0)\n004AE5A7: push    5\n004AE5A9: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE5AE: add     esp, 4; Add\n004AE5B1: mov     eax, 4\n004AE5B6: jmp     loc_4AE669; Jump\n004AE5BB: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare\n004AE5C0: jz      short loc_4AE5DD; Jump if Zero (ZF=1)\n004AE5C2: push    2\n004AE5C4: mov     word ptr dword_1D768DC+2, bx\n004AE5CB: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE5D0: add     esp, 4; Add\n004AE5D3: mov     eax, 1Fh\n004AE5D8: jmp     loc_4AE669; Jump\n004AE5DD: test    bl, 80h; Logical Compare\n004AE5E0: jz      short loc_4AE5F6; Jump if Zero (ZF=1)\n004AE5E2: and     ebx, 0FF7Fh; Logical AND\n004AE5E8: mov     eax, 1Fh\n004AE5ED: mov     word ptr dword_1D768DC+2, bx\n004AE5F4: jmp     short loc_4AE669; Jump\n004AE5F6: mov     al, byte ptr [esp+1Ch+var_8]\n004AE5FA: test    al, 10h; Logical Compare\n004AE5FC: jz      short loc_4AE60F; Jump if Zero (ZF=1)\n004AE5FE: push    3\n004AE600: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE605: add     esp, 4; Add\n004AE608: mov     eax, 1Dh\n004AE60D: jmp     short loc_4AE669; Jump\n004AE60F: test    al, 20h; Logical Compare\n004AE611: jz      loc_4AEDC9; Jump if Zero (ZF=1)\n004AE617: mov     eax, 2Ah ; '*'\n004AE61C: jmp     short loc_4AE669; Jump\n004AE61E: test    ebx, 0F050h; jumptable 004ADEFA case 37\n004AE624: jz      short loc_4AE62D; Jump if Zero (ZF=1)\n004AE626: mov     eax, 26h ; '&'\n004AE62B: jmp     short loc_4AE669; Jump\n004AE62D: mov     al, byte ptr dword_1D768E8+3\n004AE632: inc     al; Increment by 1\n004AE634: cmp     al, 0B4h; Compare Two Operands\n004AE636: mov     byte ptr dword_1D768E8+3, al\n004AE63B: jbe     def_4ADEFA; jumptable 004ADEFA default case\n004AE641: mov     eax, 26h ; '&'\n004AE646: jmp     short loc_4AE669; Jump\n004AE648: test    ebx, 0F050h; jumptable 004ADEFA case 40\n004AE64E: jnz     short loc_4AE664; Jump if Not Zero (ZF=0)\n004AE650: mov     al, byte ptr dword_1D768E8+3\n004AE655: inc     al; Increment by 1\n004AE657: cmp     al, 0B4h; Compare Two Operands\n004AE659: mov     byte ptr dword_1D768E8+3, al\n004AE65E: jbe     def_4ADEFA; jumptable 004ADEFA default case\n004AE664: mov     eax, 29h ; ')'\n004AE669: cmp     eax, 2Bh ; '+'; Compare Two Operands\n004AE66C: jbe     loc_4ADEF6; Jump if Below or Equal (CF=1 | ZF=1)\n004AE672: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE677: mov     edx, dword_1D6D490; jumptable 004ADEFA case 1\n004AE67D: xor     eax, eax; Logical Exclusive OR\n004AE67F: mov     al, byte_1D76843\n004AE684: mov     word ptr dword_1D768F0, bp\n004AE68B: mov     byte ptr dword_1D768D8+3, 0FFh; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE692: lea     ecx, [eax+eax*2]; Load Effective Address\n004AE695: lea     esi, [eax+ecx*4+0A1h]; Load Effective Address\n004AE69C: mov     al, [edx+20h]\n004AE69F: mov     dl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE6A5: xor     ecx, ecx; Logical Exclusive OR\n004AE6A7: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+3; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE6AD: push    esi\n004AE6AE: and     eax, 0Fh; Logical AND\n004AE6B1: push    1Dh\n004AE6B3: push    ecx\n004AE6B4: mov     edi, eax\n004AE6B6: push    80h\n004AE6BB: push    edx\n004AE6BC: push    edi\n004AE6BD: call    sub_4AB4F0; Call Procedure\n004AE6C2: call    sub_4A9DD0; Call Procedure\n004AE6C7: and     eax, 0FFFFh; Logical AND\n004AE6CC: mov     edx, 1\n004AE6D1: push    eax\n004AE6D2: mov     eax, [esp+38h+var_4]\n004AE6D6: mov     cl, [eax+68h]\n004AE6D9: xor     eax, eax; Logical Exclusive OR\n004AE6DB: add     ecx, 3; Add\n004AE6DE: mov     al, byte ptr g_BattleSubmenu_CharaSlotPtr+3; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE6E3: shl     edx, cl; Shift Logical Left\n004AE6E5: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE6EB: push    edx\n004AE6EC: push    esi\n004AE6ED: push    1Dh\n004AE6EF: push    eax\n004AE6F0: push    80h\n004AE6F5: push    ecx\n004AE6F6: push    edi\n004AE6F7: call    sub_4AB920; Call Procedure\n004AE6FC: push    2; flags\n004AE6FE: push    2; slot_index\n004AE700: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE705: add     esp, 40h; Add\n004AE708: push    2; flags\n004AE70A: push    4; slot_index\n004AE70C: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE711: add     esp, 8; Add\n004AE714: mov     dword_1D768D0, 3; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE71E: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE723: mov     cl, byte ptr dword_1D768D8+3; jumptable 004ADEFA case 2\n004AE729: mov     dx, word_1D75438\n004AE730: mov     eax, 1\n004AE735: push    edx\n004AE736: shl     eax, cl; Shift Logical Left\n004AE738: mov     word ptr dword_1D768F0, bp\n004AE73F: push    eax\n004AE740: xor     eax, eax; Logical Exclusive OR\n004AE742: mov     al, byte_1D76843\n004AE747: lea     ecx, [eax+eax*2]; Load Effective Address\n004AE74A: lea     edx, [eax+ecx*4+0A1h]; Load Effective Address\n004AE751: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE757: xor     eax, eax; Logical Exclusive OR\n004AE759: push    edx\n004AE75A: mov     al, byte ptr g_BattleSubmenu_CharaSlotPtr+3; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE75F: mov     edx, dword_1D6D490\n004AE765: push    1Dh\n004AE767: push    eax\n004AE768: mov     al, [edx+20h]\n004AE76B: push    80h\n004AE770: and     eax, 0Fh; Logical AND\n004AE773: push    ecx\n004AE774: push    eax\n004AE775: call    sub_4AB920; Call Procedure\n004AE77A: push    2; flags\n004AE77C: push    2; slot_index\n004AE77E: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE783: push    2; flags\n004AE785: push    4; slot_index\n004AE787: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE78C: add     esp, 30h; Add\n004AE78F: mov     byte ptr dword_1D768D8+3, 0FFh; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE796: mov     dword_1D768D0, 3; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE7A0: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE7A5: cmp     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 4\n004AE7AC: mov     byte_1D768EE, 1\n004AE7B3: jle     short loc_4AE7C4; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AE7B5: mov     ecx, dword_1D768F0\n004AE7BB: neg     ecx; Two's Complement Negation\n004AE7BD: mov     word ptr dword_1D768F0, cx\n004AE7C4: mov     ax, word ptr dword_1D768F0+2\n004AE7CA: cmp     ax, bp; Compare Two Operands\n004AE7CD: jle     short loc_4AE7D8; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AE7CF: neg     ax; Two's Complement Negation\n004AE7D2: mov     word ptr dword_1D768F0+2, ax\n004AE7D8: push    0FFFFFFFFh; flags\n004AE7DA: push    ebp; id\n004AE7DB: push    ebp; y\n004AE7DC: push    ebp; x\n004AE7DD: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE7E2: push    2; slot_index\n004AE7E4: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AE7E9: push    ebp\n004AE7EA: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AE7EF: add     esp, 18h; Add\n004AE7F2: mov     dword_1D768D0, 5; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE7FC: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE801: push    0FFFFFFFFh; jumptable 004ADEFA case 5\n004AE803: push    ebp; id\n004AE804: push    ebp; y\n004AE805: push    ebp; x\n004AE806: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE80B: mov     eax, dword_1D6D490\n004AE810: add     esp, 10h; Add\n004AE813: mov     cl, [eax+21h]\n004AE816: test    cl, cl; Logical Compare\n004AE818: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AE81E: mov     byte ptr [eax+2Bh], 0FFh\n004AE822: call    sub_4BB7A0; Call Procedure\n004AE827: mov     byte ptr g_BattleSubmenu_CharaSlotPtr, 0FEh; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE82E: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE833: push    2\n004AE835: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AE83A: add     esp, 4; Add\n004AE83D: xor     edx, edx; jumptable 004ADEFA case 7\n004AE83F: push    1\n004AE841: mov     dl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE847: mov     al, [edx+edi+61h]\n004AE84B: mov     byte ptr dword_1D768D8, al; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE850: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0\n004AE855: mov     edx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AE85B: xor     ecx, ecx; Logical Exclusive OR\n004AE85D: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE863: and     edx, 0FFh; Logical AND\n004AE869: push    ecx; monster_slot\n004AE86A: push    edx; party_slot\n004AE86B: call    domain__BattleDraw_RefreshKnownMagicFlags; Call Procedure\n004AE870: push    ebp\n004AE871: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE876: call    sub_4AF340; Call Procedure\n004AE87B: xor     ecx, ecx; Logical Exclusive OR\n004AE87D: add     esp, 14h; Add\n004AE880: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE886: sub     ecx, 3; Integer Subtraction\n004AE889: lea     eax, [ecx+ecx*8]; Load Effective Address\n004AE88C: shl     eax, 3; Shift Logical Left\n004AE88F: sub     eax, ecx; Integer Subtraction\n004AE891: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add\n004AE896: mov     ecx, [eax]\n004AE898: mov     edx, [eax+4]\n004AE89B: mov     dword_1D7543C, ecx\n004AE8A1: mov     ecx, [eax+8]\n004AE8A4: mov     dword_1D75440, edx\n004AE8AA: mov     edx, [eax+0Ch]\n004AE8AD: mov     al, byte_1D768ED\n004AE8B2: mov     dword_1D75444, ecx\n004AE8B8: test    al, al; Logical Compare\n004AE8BA: mov     dword_1D75448, edx\n004AE8C0: jz      short loc_4AE8DA; Jump if Zero (ZF=1)\n004AE8C2: mov     al, byte ptr dword_1D768E8\n004AE8C7: mov     cl, byte ptr dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE8CD: and     al, 0Fh; Logical AND\n004AE8CF: cmp     cl, al; Compare Two Operands\n004AE8D1: jb      short loc_4AE8DA; Jump if Below (CF=1)\n004AE8D3: dec     al; Decrement by 1\n004AE8D5: mov     byte ptr dword_1D768D8, al; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE8DA: push    1\n004AE8DC: push    0FFFFFFFFh\n004AE8DE: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex\n004AE8E3: push    7; int\n004AE8E5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE8EA: add     esp, 0Ch; Add\n004AE8ED: push    ebp; jumptable 004ADEFA case 8\n004AE8EE: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AE8F3: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AE8F8: push    ebp; flags\n004AE8F9: and     eax, 0FFh; Logical AND\n004AE8FE: push    1; id\n004AE900: mov     dword_B877B8, 290h\n004AE90A: lea     ecx, [eax+eax*2]; Load Effective Address\n004AE90D: lea     edx, [eax+ecx*4]; Load Effective Address\n004AE910: xor     eax, eax; Logical Exclusive OR\n004AE912: mov     al, byte ptr dword_1D768E0+1\n004AE917: lea     ecx, [edx+eax+9]; Load Effective Address\n004AE91B: mov     edx, dword_1D768E0\n004AE921: and     edx, 0FFh; Logical AND\n004AE927: push    ecx; y\n004AE928: add     edx, 7; Add\n004AE92B: push    edx; x\n004AE92C: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE931: push    2; flags\n004AE933: push    ebp; id\n004AE934: push    ebp; y\n004AE935: push    ebp; x\n004AE936: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE93B: push    3; flags\n004AE93D: push    2; slot_index\n004AE93F: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE944: push    7; int\n004AE946: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE94B: mov     eax, dword_1D6D490\n004AE950: add     esp, 30h; Add\n004AE953: mov     dword_1D768D0, 0Bh; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE95D: cmp     byte ptr [eax+2Bh], 1; Compare Two Operands\n004AE961: setnz   cl; Set Byte if Not Zero (ZF=0)\n004AE964: dec     ecx; Decrement by 1\n004AE965: and     ecx, 5; Logical AND\n004AE968: mov     byte_1D768EC, cl\n004AE96E: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE973: cmp     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 9\n004AE97A: jle     short loc_4AE98B; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AE97C: mov     edx, dword_1D768F0\n004AE982: neg     edx; Two's Complement Negation\n004AE984: mov     word ptr dword_1D768F0, dx\n004AE98B: mov     ax, word ptr dword_1D768F0+2\n004AE991: cmp     ax, bp; Compare Two Operands\n004AE994: jle     short loc_4AE99F; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AE996: neg     ax; Two's Complement Negation\n004AE999: mov     word ptr dword_1D768F0+2, ax\n004AE99F: push    ebp\n004AE9A0: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AE9A5: push    7; int\n004AE9A7: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AE9AC: push    0FFFFFFFFh; flags\n004AE9AE: push    ebp; id\n004AE9AF: push    ebp; y\n004AE9B0: push    ebp; x\n004AE9B1: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE9B6: add     esp, 18h; Add\n004AE9B9: mov     dword_1D768D0, 0Ah; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AE9C3: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AE9C8: lea     eax, [ebx+ebx*2]; Load Effective Address\n004AE9CB: xor     edx, edx; Logical Exclusive OR\n004AE9CD: mov     dl, byte ptr dword_1D768E0+1\n004AE9D3: push    ebp; flags\n004AE9D4: lea     ecx, [ebx+eax*4]; Load Effective Address\n004AE9D7: push    1; id\n004AE9D9: mov     dword_B877B8, 370h\n004AE9E3: lea     eax, [ecx+edx+9]; Load Effective Address\n004AE9E7: mov     ecx, dword_1D768E0\n004AE9ED: and     ecx, 0FFh; Logical AND\n004AE9F3: push    eax; y\n004AE9F4: add     ecx, 7; Add\n004AE9F7: push    ecx; x\n004AE9F8: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AE9FD: push    2; flags\n004AE9FF: push    ebp; id\n004AEA00: push    ebp; y\n004AEA01: push    ebp; x\n004AEA02: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEA07: mov     edx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEA0D: mov     eax, dword_1D768F4\n004AEA12: and     edx, 0FFh; Logical AND\n004AEA18: add     esp, 20h; Add\n004AEA1B: mov     cl, [eax+edx*4+1]\n004AEA1F: lea     eax, [eax+edx*4]; Load Effective Address\n004AEA22: test    cl, 8; Logical Compare\n004AEA25: jz      short loc_4AEA36; Jump if Zero (ZF=1)\n004AEA27: call    sub_4950C0; Call Procedure\n004AEA2C: mov     dword_1D76860, eax\n004AEA31: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEA36: xor     ecx, ecx; Logical Exclusive OR\n004AEA38: mov     cl, [eax]\n004AEA3A: push    ecx\n004AEA3B: call    sub_47E9C0; Call Procedure\n004AEA40: add     esp, 4; Add\n004AEA43: mov     dword_1D76860, eax\n004AEA48: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEA4D: cmp     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 15\n004AEA54: jle     short loc_4AEA65; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AEA56: mov     edx, dword_1D768F0\n004AEA5C: neg     edx; Two's Complement Negation\n004AEA5E: mov     word ptr dword_1D768F0, dx\n004AEA65: mov     ax, word ptr dword_1D768F0+2\n004AEA6B: cmp     ax, bp; Compare Two Operands\n004AEA6E: jle     short loc_4AEA79; Jump if Less or Equal (ZF=1 | SF!=OF)\n004AEA70: neg     ax; Two's Complement Negation\n004AEA73: mov     word ptr dword_1D768F0+2, ax\n004AEA79: push    ebp\n004AEA7A: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0\n004AEA7F: push    7; int\n004AEA81: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AEA86: add     esp, 8; Add\n004AEA89: mov     dword_1D768D0, 10h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEA93: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEA98: mov     eax, dword_1D6D490; jumptable 004ADEFA case 16\n004AEA9D: mov     cl, [eax+21h]\n004AEAA0: test    cl, cl; Logical Compare\n004AEAA2: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AEAA8: mov     dword_1D768D0, 2; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEAB2: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEAB7: mov     cl, [edi+59h]; jumptable 004ADEFA case 18\n004AEABA: xor     edx, edx; Logical Exclusive OR\n004AEABC: mov     byte ptr dword_1D768D8+1, cl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEAC2: mov     ecx, dword_1D768F8\n004AEAC8: xor     eax, eax; Logical Exclusive OR\n004AEACA: cmp     byte ptr [ecx], 0; Compare Two Operands\n004AEACD: jz      short loc_4AEAD1; Jump if Zero (ZF=1)\n004AEACF: mov     edx, eax\n004AEAD1: inc     eax; Increment by 1\n004AEAD2: add     ecx, 4; Add\n004AEAD5: cmp     eax, 2; Compare Two Operands\n004AEAD8: jl      short loc_4AEACA; Jump if Less (SF!=OF)\n004AEADA: lea     ecx, [edx+1]; Load Effective Address\n004AEADD: mov     dl, 0Dh\n004AEADF: mov     al, cl\n004AEAE1: mov     byte ptr dword_1D768E4, 72h ; 'r'\n004AEAE8: imul    dl; Signed Multiply\n004AEAEA: mov     dl, 0BEh\n004AEAEC: mov     byte ptr dword_1D768E4+2, 50h ; 'P'\n004AEAF3: sub     dl, al; Integer Subtraction\n004AEAF5: add     al, 0Bh; Add\n004AEAF7: test    cl, 1; Logical Compare\n004AEAFA: mov     byte ptr dword_1D768E4+1, dl\n004AEB00: mov     byte ptr dword_1D768E4+3, al\n004AEB05: jz      short loc_4AEB16; Jump if Zero (ZF=1)\n004AEB07: dec     dl; Decrement by 1\n004AEB09: inc     al; Increment by 1\n004AEB0B: mov     byte ptr dword_1D768E4+1, dl\n004AEB11: mov     byte ptr dword_1D768E4+3, al\n004AEB16: mov     al, byte ptr dword_1D768E8\n004AEB1B: push    1\n004AEB1D: shl     cl, 4; Shift Logical Left\n004AEB20: and     al, 0Fh; Logical AND\n004AEB22: push    0FFFFFFFFh\n004AEB24: or      cl, al; Logical Inclusive OR\n004AEB26: mov     byte ptr dword_1D768E8, cl\n004AEB2C: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex\n004AEB31: add     esp, 8; Add\n004AEB34: mov     ecx, dword_1D6D490; jumptable 004ADEFA case 19\n004AEB3A: xor     eax, eax; Logical Exclusive OR\n004AEB3C: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEB41: push    ebp; flags\n004AEB42: mov     byte ptr [ecx+2Bh], 0FFh\n004AEB46: xor     ecx, ecx; Logical Exclusive OR\n004AEB48: mov     cl, byte ptr dword_1D768E4+1\n004AEB4E: lea     edx, [eax+eax*2]; Load Effective Address\n004AEB51: push    1; id\n004AEB53: mov     word ptr dword_1D768F0+2, bp\n004AEB5A: lea     eax, [eax+edx*4]; Load Effective Address\n004AEB5D: mov     dword_B877B8, 3DAh\n004AEB67: lea     edx, [eax+ecx+9]; Load Effective Address\n004AEB6B: mov     eax, dword_1D768E4\n004AEB70: and     eax, 0FFh; Logical AND\n004AEB75: push    edx; y\n004AEB76: add     eax, 7; Add\n004AEB79: push    eax; x\n004AEB7A: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEB7F: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEB84: xor     ecx, ecx; Logical Exclusive OR\n004AEB86: mov     cl, byte ptr dword_1D768E8+1\n004AEB8C: and     eax, 0FFh; Logical AND\n004AEB91: push    2; flags\n004AEB93: push    ecx; id\n004AEB94: lea     edx, [eax+eax*2]; Load Effective Address\n004AEB97: xor     ecx, ecx; Logical Exclusive OR\n004AEB99: mov     cl, byte ptr dword_1D768E0+1\n004AEB9F: mov     byte_1D76604, 1\n004AEBA6: lea     eax, [eax+edx*4]; Load Effective Address\n004AEBA9: mov     dword_B877B8, 3E3h\n004AEBB3: lea     edx, [eax+ecx+9]; Load Effective Address\n004AEBB7: mov     eax, dword_1D768E0\n004AEBBC: and     eax, 0FFh; Logical AND\n004AEBC1: push    edx; y\n004AEBC2: add     eax, 7; Add\n004AEBC5: push    eax; x\n004AEBC6: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEBCB: push    3; flags\n004AEBCD: push    2; slot_index\n004AEBCF: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AEBD4: push    2; int\n004AEBD6: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AEBDB: add     esp, 2Ch; Add\n004AEBDE: mov     dword_1D768D0, 14h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEBE8: mov     ecx, dword_1D6D490; jumptable 004ADEFA case 20\n004AEBEE: mov     al, [ecx+21h]\n004AEBF1: test    al, al; Logical Compare\n004AEBF3: jz      short loc_4AEBFF; Jump if Zero (ZF=1)\n004AEBF5: mov     dword_1D768D0, 15h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEBFF: xor     edx, edx; Logical Exclusive OR\n004AEC01: push    2; flags\n004AEC03: mov     dl, byte ptr dword_1D768E8+1\n004AEC09: mov     byte_1D76604, 1\n004AEC10: mov     dword_B877B8, 3FBh\n004AEC1A: push    edx; id\n004AEC1B: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEC20: and     eax, 0FFh; Logical AND\n004AEC25: lea     ecx, [eax+eax*2]; Load Effective Address\n004AEC28: lea     edx, [eax+ecx*4]; Load Effective Address\n004AEC2B: xor     eax, eax; Logical Exclusive OR\n004AEC2D: mov     al, byte ptr dword_1D768E0+1\n004AEC32: lea     ecx, [edx+eax+9]; Load Effective Address\n004AEC36: mov     edx, dword_1D768E0\n004AEC3C: and     edx, 0FFh; Logical AND\n004AEC42: push    ecx; y\n004AEC43: add     edx, 7; Add\n004AEC46: push    edx; x\n004AEC47: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEC4C: add     esp, 10h; Add\n004AEC4F: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEC54: xor     eax, eax; Logical Exclusive OR\n004AEC56: push    2\n004AEC58: mov     al, byte ptr dword_1D768E8+1\n004AEC5D: mov     byte_1D76604, 1\n004AEC64: mov     dword_B877B8, 414h\n004AEC6E: push    eax\n004AEC6F: jmp     short loc_4AEC1B; Jump\n004AEC71: lea     eax, [ebx+ebx*2]; Load Effective Address\n004AEC74: xor     edx, edx; Logical Exclusive OR\n004AEC76: mov     dl, byte ptr dword_1D768E4+1\n004AEC7C: push    ebp; flags\n004AEC7D: lea     ecx, [ebx+eax*4]; Load Effective Address\n004AEC80: push    1; id\n004AEC82: mov     dword_B877B8, 490h\n004AEC8C: lea     eax, [ecx+edx+9]; Load Effective Address\n004AEC90: mov     ecx, dword_1D768E4\n004AEC96: and     ecx, 0FFh; Logical AND\n004AEC9C: push    eax; y\n004AEC9D: add     ecx, 7; Add\n004AECA0: push    ecx; x\n004AECA1: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AECA6: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AECAB: xor     edx, edx; Logical Exclusive OR\n004AECAD: mov     dl, byte ptr dword_1D768E8+1\n004AECB3: and     eax, 0FFh; Logical AND\n004AECB8: push    2; flags\n004AECBA: push    edx; id\n004AECBB: lea     ecx, [eax+eax*2]; Load Effective Address\n004AECBE: mov     byte_1D76604, 1\n004AECC5: mov     dword_B877B8, 499h\n004AECCF: lea     edx, [eax+ecx*4]; Load Effective Address\n004AECD2: xor     eax, eax; Logical Exclusive OR\n004AECD4: mov     al, byte ptr dword_1D768E0+1\n004AECD9: lea     ecx, [edx+eax+9]; Load Effective Address\n004AECDD: mov     edx, dword_1D768E0\n004AECE3: and     edx, 0FFh; Logical AND\n004AECE9: push    ecx; y\n004AECEA: add     edx, 7; Add\n004AECED: push    edx; x\n004AECEE: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AECF3: mov     edx, dword_1D768F8\n004AECF9: xor     eax, eax; Logical Exclusive OR\n004AECFB: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AED00: xor     ecx, ecx; Logical Exclusive OR\n004AED02: mov     cl, [edx+eax*4]\n004AED05: push    ecx\n004AED06: call    sub_47EC00; Call Procedure\n004AED0B: add     esp, 24h; Add\n004AED0E: mov     dword_1D76860, eax\n004AED13: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AED18: xor     eax, eax; jumptable 004ADEFA case 24\n004AED1A: push    7; int\n004AED1C: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AED21: mov     esi, eax\n004AED23: mov     ax, word ptr dword_1D768F0+2\n004AED29: neg     ax; Two's Complement Negation\n004AED2C: mov     word ptr dword_1D768F0+2, ax\n004AED32: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AED37: lea     ecx, [esi+esi*2]; Load Effective Address\n004AED3A: xor     eax, eax; Logical Exclusive OR\n004AED3C: mov     al, byte ptr dword_1D768E4+1\n004AED41: push    ebp; flags\n004AED42: lea     edx, [esi+ecx*4]; Load Effective Address\n004AED45: push    1; id\n004AED47: mov     dword_B877B8, 4AFh\n004AED51: lea     ecx, [edx+eax+9]; Load Effective Address\n004AED55: mov     edx, dword_1D768E4\n004AED5B: and     edx, 0FFh; Logical AND\n004AED61: push    ecx; y\n004AED62: add     edx, 7; Add\n004AED65: push    edx; x\n004AED66: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AED6B: xor     eax, eax; Logical Exclusive OR\n004AED6D: push    2; flags\n004AED6F: mov     al, byte ptr dword_1D768E8+1\n004AED74: mov     byte_1D76604, 1\n004AED7B: push    eax; id\n004AED7C: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AED81: and     eax, 0FFh; Logical AND\n004AED86: mov     dword_B877B8, 4B8h\n004AED90: lea     ecx, [eax+eax*2]; Load Effective Address\n004AED93: lea     edx, [eax+ecx*4]; Load Effective Address\n004AED96: xor     eax, eax; Logical Exclusive OR\n004AED98: mov     al, byte ptr dword_1D768E0+1\n004AED9D: lea     ecx, [edx+eax+9]; Load Effective Address\n004AEDA1: mov     edx, dword_1D768E0\n004AEDA7: and     edx, 0FFh; Logical AND\n004AEDAD: push    ecx; y\n004AEDAE: add     edx, 7; Add\n004AEDB1: push    edx; x\n004AEDB2: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEDB7: add     esp, 24h; Add\n004AEDBA: mov     dword_1D768D0, 19h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEDC4: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEDC9: call    sub_4A97B0; Call Procedure\n004AEDCE: test    eax, eax; Logical Compare\n004AEDD0: jnz     def_4ADEFA; jumptable 004ADEFA default case\n004AEDD6: mov     al, byte ptr dword_1D768E8+1\n004AEDDB: test    al, al; Logical Compare\n004AEDDD: jz      short loc_4AEE08; Jump if Zero (ZF=1)\n004AEDDF: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEDE5: mov     eax, dword_1D768E0\n004AEDEA: and     ecx, 0FFh; Logical AND\n004AEDF0: and     eax, 0FFh; Logical AND\n004AEDF5: add     eax, 7; Add\n004AEDF8: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEDFB: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEDFE: xor     edx, edx; Logical Exclusive OR\n004AEE00: mov     dl, byte ptr dword_1D768E0+1\n004AEE06: jmp     short loc_4AEE2B; Jump\n004AEE08: mov     eax, dword_1D768E4\n004AEE0D: xor     ecx, ecx; Logical Exclusive OR\n004AEE0F: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEE15: and     eax, 0FFh; Logical AND\n004AEE1A: add     eax, 7; Add\n004AEE1D: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEE20: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEE23: xor     edx, edx; Logical Exclusive OR\n004AEE25: mov     dl, byte ptr dword_1D768E4+1\n004AEE2B: lea     ecx, [ecx+edx+9]; Load Effective Address\n004AEE2F: push    ebp; flags\n004AEE30: push    1; id\n004AEE32: push    ecx; y\n004AEE33: push    eax; x\n004AEE34: mov     byte_1D76604, 1\n004AEE3B: mov     dword_B877B8, 54Ch\n004AEE45: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEE4A: push    1\n004AEE4C: push    ebp\n004AEE4D: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex\n004AEE52: mov     al, byte ptr dword_1D768E8+1\n004AEE57: add     esp, 18h; Add\n004AEE5A: test    al, al; Logical Compare\n004AEE5C: jnz     short loc_4AEE87; Jump if Not Zero (ZF=0)\n004AEE5E: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEE64: mov     eax, dword_1D768E0\n004AEE69: and     ecx, 0FFh; Logical AND\n004AEE6F: and     eax, 0FFh; Logical AND\n004AEE74: add     eax, 7; Add\n004AEE77: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEE7A: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEE7D: xor     edx, edx; Logical Exclusive OR\n004AEE7F: mov     dl, byte ptr dword_1D768E0+1\n004AEE85: jmp     short loc_4AEEAA; Jump\n004AEE87: mov     eax, dword_1D768E4\n004AEE8C: xor     ecx, ecx; Logical Exclusive OR\n004AEE8E: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEE94: and     eax, 0FFh; Logical AND\n004AEE99: add     eax, 7; Add\n004AEE9C: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEE9F: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEEA2: xor     edx, edx; Logical Exclusive OR\n004AEEA4: mov     dl, byte ptr dword_1D768E4+1\n004AEEAA: lea     ecx, [ecx+edx+9]; Load Effective Address\n004AEEAE: push    ebp\n004AEEAF: push    1\n004AEEB1: push    ecx\n004AEEB2: push    eax\n004AEEB3: mov     byte_1D76604, 1\n004AEEBA: mov     dword_B877B8, 55Dh\n004AEEC4: call    sub_4A8250; Call Procedure\n004AEEC9: add     esp, 10h; Add\n004AEECC: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEED1: push    ebp; jumptable 004ADEFA case 29\n004AEED2: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AEED7: push    7; int\n004AEED9: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AEEDE: add     esp, 8; Add\n004AEEE1: mov     dword_1D768D0, 1Eh; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AEEEB: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AEEF0: call    sub_4A97B0; jumptable 004ADEFA case 30\n004AEEF5: test    eax, eax; Logical Compare\n004AEEF7: jnz     loc_4AEFF3; Jump if Not Zero (ZF=0)\n004AEEFD: mov     al, byte ptr dword_1D768E8+1\n004AEF02: test    al, al; Logical Compare\n004AEF04: jz      short loc_4AEF2F; Jump if Zero (ZF=1)\n004AEF06: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEF0C: mov     eax, dword_1D768E0\n004AEF11: and     ecx, 0FFh; Logical AND\n004AEF17: and     eax, 0FFh; Logical AND\n004AEF1C: add     eax, 7; Add\n004AEF1F: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEF22: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEF25: xor     edx, edx; Logical Exclusive OR\n004AEF27: mov     dl, byte ptr dword_1D768E0+1\n004AEF2D: jmp     short loc_4AEF52; Jump\n004AEF2F: mov     eax, dword_1D768E4\n004AEF34: xor     ecx, ecx; Logical Exclusive OR\n004AEF36: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEF3C: and     eax, 0FFh; Logical AND\n004AEF41: add     eax, 7; Add\n004AEF44: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEF47: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEF4A: xor     edx, edx; Logical Exclusive OR\n004AEF4C: mov     dl, byte ptr dword_1D768E4+1\n004AEF52: lea     ecx, [ecx+edx+9]; Load Effective Address\n004AEF56: push    ebp; flags\n004AEF57: push    1; id\n004AEF59: push    ecx; y\n004AEF5A: push    eax; x\n004AEF5B: mov     byte_1D76604, 1\n004AEF62: mov     dword_B877B8, 581h\n004AEF6C: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AEF71: push    1\n004AEF73: push    ebp\n004AEF74: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex\n004AEF79: mov     al, byte ptr dword_1D768E8+1\n004AEF7E: add     esp, 18h; Add\n004AEF81: test    al, al; Logical Compare\n004AEF83: jnz     short loc_4AEFAE; Jump if Not Zero (ZF=0)\n004AEF85: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEF8B: mov     eax, dword_1D768E0\n004AEF90: and     ecx, 0FFh; Logical AND\n004AEF96: and     eax, 0FFh; Logical AND\n004AEF9B: add     eax, 7; Add\n004AEF9E: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEFA1: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEFA4: xor     edx, edx; Logical Exclusive OR\n004AEFA6: mov     dl, byte ptr dword_1D768E0+1\n004AEFAC: jmp     short loc_4AEFD1; Jump\n004AEFAE: mov     eax, dword_1D768E4\n004AEFB3: xor     ecx, ecx; Logical Exclusive OR\n004AEFB5: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AEFBB: and     eax, 0FFh; Logical AND\n004AEFC0: add     eax, 7; Add\n004AEFC3: lea     edx, [ecx+ecx*2]; Load Effective Address\n004AEFC6: lea     ecx, [ecx+edx*4]; Load Effective Address\n004AEFC9: xor     edx, edx; Logical Exclusive OR\n004AEFCB: mov     dl, byte ptr dword_1D768E4+1\n004AEFD1: lea     ecx, [ecx+edx+9]; Load Effective Address\n004AEFD5: push    ebp\n004AEFD6: push    1\n004AEFD8: push    ecx\n004AEFD9: push    eax\n004AEFDA: mov     byte_1D76604, 1\n004AEFE1: mov     dword_B877B8, 593h\n004AEFEB: call    sub_4A8250; Call Procedure\n004AEFF0: add     esp, 10h; Add\n004AEFF3: push    7; int\n004AEFF5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AEFFA: mov     eax, dword_1D6D490\n004AEFFF: add     esp, 4; Add\n004AF002: mov     cl, [eax+21h]\n004AF005: test    cl, cl; Logical Compare\n004AF007: jz      def_4ADEFA; jumptable 004ADEFA default case\n004AF00D: mov     byte ptr [eax+2Bh], 0FFh\n004AF011: mov     dword_1D768D0, 16h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF01B: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF020: mov     ax, word ptr dword_1D768DC+2; jumptable 004ADEFA case 32\n004AF026: xor     ecx, ecx; Logical Exclusive OR\n004AF028: mov     cl, byte ptr dword_1D768DC+1\n004AF02E: push    eax; __int16\n004AF02F: mov     eax, dword_1D768DC\n004AF034: xor     edx, edx; Logical Exclusive OR\n004AF036: mov     dl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AF03C: push    ecx; char\n004AF03D: and     eax, 0FFh; Logical AND\n004AF042: push    edx; char\n004AF043: push    eax; BYTE\n004AF044: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AF049: xor     ecx, ecx; Logical Exclusive OR\n004AF04B: and     eax, 0FFh; Logical AND\n004AF050: mov     cl, byte ptr dword_1D768D8+2; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.\n004AF056: mov     byte_1D768EE, 1\n004AF05D: push    ecx; int\n004AF05E: push    eax; int\n004AF05F: call    domain__PendingCmd_QueueOrStore; call PendingCmd_QueueOrStore; return 0xAF064. G13 Draw Cast/Stock observed site. Not a BattlePendingAction_Write caller.\n004AF064: push    3; flags\n004AF066: push    2; slot_index\n004AF068: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF06D: push    3; flags\n004AF06F: push    4; slot_index\n004AF071: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF076: push    4; slot_index\n004AF078: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AF07D: push    2; slot_index\n004AF07F: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AF084: push    7; int\n004AF086: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF08B: push    ebp\n004AF08C: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AF091: push    ebp\n004AF092: push    ebp\n004AF093: call    BattleUI_Set_1D76A76_77; E3c: convergence; 2 adresses explicites\n004AF098: add     esp, 40h; Add\n004AF09B: push    0FFFFFFFFh; flags\n004AF09D: push    ebp; id\n004AF09E: push    ebp; y\n004AF09F: push    ebp; x\n004AF0A0: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AF0A5: add     esp, 10h; Add\n004AF0A8: mov     dword_1D768D0, 21h ; '!'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF0B2: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF0B7: push    0FFFFFFFFh; jumptable 004ADEFA case 33\n004AF0B9: push    ebp; id\n004AF0BA: push    ebp; y\n004AF0BB: push    ebp; x\n004AF0BC: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AF0C1: mov     edx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.\n004AF0C7: push    ebp\n004AF0C8: push    80h\n004AF0CD: and     edx, 0FFh; Logical AND\n004AF0D3: push    12h\n004AF0D5: push    edx\n004AF0D6: call    presentation__BattleUI_EnqueueCommand; Old name: sub_4AD620. Enqueues battle UI command events (called from isBattle_HUDdisplay).\n004AF0DB: push    7; int\n004AF0DD: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF0E2: add     esp, 24h; Add\n004AF0E5: mov     dword_1D768D0, 22h ; '\"'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF0EF: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF0F4: mov     eax, dword_1D6D490; jumptable 004ADEFA case 34\n004AF0F9: mov     cl, [eax+21h]\n004AF0FC: test    cl, cl; Logical Compare\n004AF0FE: jz      short loc_4AF104; Jump if Zero (ZF=1)\n004AF100: mov     byte ptr [eax+2Bh], 0FFh\n004AF104: push    0FFFFFFFFh; flags\n004AF106: push    ebp; id\n004AF107: push    ebp; y\n004AF108: push    ebp; x\n004AF109: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AF10E: push    7; int\n004AF110: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF115: add     esp, 14h; Add\n004AF118: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF11D: mov     byte ptr dword_1D768E8+3, 0; jumptable 004ADEFA case 35\n004AF124: mov     byte ptr dword_1D768E8+2, 3\n004AF12B: push    0FFFFFFFFh; flags\n004AF12D: push    ebp; id\n004AF12E: push    ebp; y\n004AF12F: push    ebp; x\n004AF130: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AF135: add     esp, 10h; Add\n004AF138: mov     dword_1D768D0, 25h ; '%'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF142: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF147: mov     byte ptr dword_1D768E8+3, 0; jumptable 004ADEFA case 36\n004AF14E: mov     byte ptr dword_1D768E8+2, 1\n004AF155: jmp     short loc_4AF12B; Jump\n004AF157: push    7; jumptable 004ADEFA case 38\n004AF159: mov     byte ptr dword_1D768E8+3, 0\n004AF160: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF165: add     esp, 4; Add\n004AF168: mov     dword_1D768D0, 14h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF172: jmp     def_4ADEFA; jumptable 004ADEFA default case\n004AF177: push    0FFFFFFFFh; jumptable 004ADEFA case 39\n004AF179: push    ebp; id\n004AF17A: push    ebp; y\n004AF17B: push    ebp; x\n004AF17C: mov     byte ptr dword_1D768E8+3, 0\n004AF183: mov     byte ptr dword_1D768E8+2, 2\n004AF18A: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.\n004AF18F: add     esp, 10h; Add\n004AF192: mov     dword_1D768D0, 28h ; '('; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF19C: jmp     short def_4ADEFA; jumptable 004ADEFA default case\n004AF19E: push    7; jumptable 004ADEFA case 41\n004AF1A0: mov     byte ptr dword_1D768E8+3, 0\n004AF1A7: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF1AC: add     esp, 4; Add\n004AF1AF: mov     dword_1D768D0, 3; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.\n004AF1B9: jmp     short def_4ADEFA; jumptable 004ADEFA default case\n004AF1BB: mov     dword_1D768D0, 2Ah ; '*'; jumptable 004ADEFA case 42\n004AF1C5: call    Return_1; E3c: unanimité 3/3; libre IDB\n004AF1CA: test    eax, eax; Logical Compare\n004AF1CC: jz      short def_4ADEFA; jumptable 004ADEFA default case\n004AF1CE: push    7\n004AF1D0: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.\n004AF1D5: push    ebp\n004AF1D6: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet\n004AF1DB: push    2; slot_index\n004AF1DD: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AF1E2: push    7; int\n004AF1E4: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF1E9: add     esp, 10h; Add\n004AF1EC: call    BattleUI_ResetMenu_Call_4A7160; E3c: lu complet: reset submenu + 4A7160 ACCEPTÉE + rebind tables\n004AF1F1: jmp     short def_4ADEFA; jumptable 004ADEFA default case\n004AF1F3: push    7; jumptable 004ADEFA case 43\n004AF1F5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF1FA: add     esp, 4; Add\n004AF1FD: mov     eax, dword_B87908; jumptable 004ADEFA default case\n004AF202: pop     edi\n004AF203: cmp     eax, 3; Compare Two Operands\n004AF206: mov     byte_1D768ED, 0\n004AF20D: pop     esi\n004AF20E: jnz     short loc_4AF22B; Jump if Not Zero (ZF=0)\n004AF210: mov     al, byte ptr dword_1D768E8+1\n004AF215: mov     dword_B87908, ebp\n004AF21B: test    al, al; Logical Compare\n004AF21D: setz    al; Set Byte if Zero (ZF=1)\n004AF220: pop     ebp\n004AF221: mov     byte ptr dword_1D768E8+1, al\n004AF226: pop     ebx\n004AF227: add     esp, 0Ch; Add\n004AF22A: retn; Return Near from Procedure\n004AF22B: mov     eax, dword_B87908\n004AF230: pop     ebp\n004AF231: inc     eax; Increment by 1\n004AF232: pop     ebx\n004AF233: mov     dword_B87908, eax\n004AF238: add     esp, 0Ch; Add\n004AF23B: retn; Return Near from Procedure\n004AF23C: mov     ecx, dword_1D6D490\n004AF242: push    2; slot_index\n004AF244: mov     word ptr dword_1D768F0, bp\n004AF24B: mov     word ptr dword_1D768F0+2, bp\n004AF252: mov     byte ptr [ecx+2Dh], 4\n004AF256: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AF25B: push    4; slot_index\n004AF25D: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1\n004AF262: push    7; int\n004AF264: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)\n004AF269: push    ebp; aux_callback\n004AF26A: push    ebp; draw_callback\n004AF26B: push    ebp; update_callback\n004AF26C: push    2; slot_index\n004AF26E: call    BattleUI_RegisterWidgetSlot; Registers one 0x14-byte HUD slot: +0 update, +4 userdata/reserved, +8 draw, +0xC auxiliary, +0x10..+0x13 state bytes. No visible bounds check.\n004AF273: push    ebp\n004AF274: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0\n004AF279: add     esp, 20h; Add\n004AF27C: pop     ebp\n004AF27D: pop     ebx\n004AF27E: add     esp, 0Ch; Add\n004AF281: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x4addb0",
+        "end": "0x4addc2",
+        "successors": [
+          "0x4addc2",
+          "0x4af27c"
+        ]
+      },
+      {
+        "start": "0x4addc2",
+        "end": "0x4addcf",
+        "successors": [
+          "0x4addcf",
+          "0x4adddb"
+        ]
+      },
+      {
+        "start": "0x4addcf",
+        "end": "0x4adddb",
+        "successors": [
+          "0x4addf1"
+        ]
+      },
+      {
+        "start": "0x4adddb",
+        "end": "0x4addf1",
+        "successors": [
+          "0x4addf1"
+        ]
+      },
+      {
+        "start": "0x4addf1",
+        "end": "0x4addf6",
+        "successors": [
+          "0x4addf6",
+          "0x4ade14"
+        ]
+      },
+      {
+        "start": "0x4addf6",
+        "end": "0x4ade14",
+        "successors": [
+          "0x4ade18"
+        ]
+      },
+      {
+        "start": "0x4ade14",
+        "end": "0x4ade18",
+        "successors": [
+          "0x4ade18"
+        ]
+      },
+      {
+        "start": "0x4ade18",
+        "end": "0x4ade31",
+        "successors": [
+          "0x4ade31",
+          "0x4af23c"
+        ]
+      },
+      {
+        "start": "0x4ade31",
+        "end": "0x4ade39",
+        "successors": [
+          "0x4ade39",
+          "0x4af23c"
+        ]
+      },
+      {
+        "start": "0x4ade39",
+        "end": "0x4ade44",
+        "successors": [
+          "0x4ade44",
+          "0x4ade82"
+        ]
+      },
+      {
+        "start": "0x4ade44",
+        "end": "0x4ade57",
+        "successors": [
+          "0x4ade57",
+          "0x4ade82"
+        ]
+      },
+      {
+        "start": "0x4ade57",
+        "end": "0x4ade60",
+        "successors": [
+          "0x4ade60",
+          "0x4ade82"
+        ]
+      },
+      {
+        "start": "0x4ade60",
+        "end": "0x4ade82",
+        "successors": [
+          "0x4ade82"
+        ]
+      },
+      {
+        "start": "0x4ade82",
+        "end": "0x4adebe",
+        "successors": [
+          "0x4adebe",
+          "0x4adee6"
+        ]
+      },
+      {
+        "start": "0x4adebe",
+        "end": "0x4adec3",
+        "successors": [
+          "0x4adec3",
+          "0x4adee6"
+        ]
+      },
+      {
+        "start": "0x4adec3",
+        "end": "0x4adec8",
+        "successors": [
+          "0x4adec8",
+          "0x4adee6"
+        ]
+      },
+      {
+        "start": "0x4adec8",
+        "end": "0x4aded2",
+        "successors": [
+          "0x4aded2",
+          "0x4adee6"
+        ]
+      },
+      {
+        "start": "0x4aded2",
+        "end": "0x4adee6",
+        "successors": [
+          "0x4adee6"
+        ]
+      },
+      {
+        "start": "0x4adee6",
+        "end": "0x4adeef",
+        "successors": [
+          "0x4adeef",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4adeef",
+        "end": "0x4adef6",
+        "successors": [
+          "0x4adefa"
+        ]
+      },
+      {
+        "start": "0x4adef6",
+        "end": "0x4adefa",
+        "successors": [
+          "0x4adefa"
+        ]
+      },
+      {
+        "start": "0x4adefa",
+        "end": "0x4adf01",
+        "successors": [
+          "0x4adf01",
+          "0x4adf19",
+          "0x4adf84",
+          "0x4ae049",
+          "0x4ae0bf",
+          "0x4ae12c",
+          "0x4ae17d",
+          "0x4ae1a1",
+          "0x4ae1f0",
+          "0x4ae2ec",
+          "0x4ae328",
+          "0x4ae373",
+          "0x4ae3a9",
+          "0x4ae4a9",
+          "0x4ae4d9",
+          "0x4ae4e3",
+          "0x4ae56f",
+          "0x4ae61e",
+          "0x4ae648",
+          "0x4ae677",
+          "0x4ae723",
+          "0x4ae7a5",
+          "0x4ae801",
+          "0x4ae83d",
+          "0x4ae8ed",
+          "0x4ae973",
+          "0x4aea4d",
+          "0x4aea98",
+          "0x4aeab7",
+          "0x4aeb34",
+          "0x4aebe8",
+          "0x4aed18",
+          "0x4aeed1",
+          "0x4aeef0",
+          "0x4af020",
+          "0x4af0b7",
+          "0x4af0f4",
+          "0x4af11d",
+          "0x4af147",
+          "0x4af157",
+          "0x4af177",
+          "0x4af19e",
+          "0x4af1bb",
+          "0x4af1f3"
+        ]
+      },
+      {
+        "start": "0x4adf01",
+        "end": "0x4adf19",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4adf19",
+        "end": "0x4adf22",
+        "successors": [
+          "0x4adf22",
+          "0x4adf36"
+        ]
+      },
+      {
+        "start": "0x4adf22",
+        "end": "0x4adf36",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4adf36",
+        "end": "0x4adf3d",
+        "successors": [
+          "0x4adf3d",
+          "0x4adf58"
+        ]
+      },
+      {
+        "start": "0x4adf3d",
+        "end": "0x4adf58",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4adf58",
+        "end": "0x4adf5d",
+        "successors": [
+          "0x4adf5d",
+          "0x4adf71"
+        ]
+      },
+      {
+        "start": "0x4adf5d",
+        "end": "0x4adf71",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4adf71",
+        "end": "0x4adf7a",
+        "successors": [
+          "0x4adf7a",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4adf7a",
+        "end": "0x4adf84",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4adf84",
+        "end": "0x4ae01c",
+        "successors": [
+          "0x4ae01c"
+        ]
+      },
+      {
+        "start": "0x4ae01c",
+        "end": "0x4ae021",
+        "successors": [
+          "0x4ae021",
+          "0x4ae024"
+        ]
+      },
+      {
+        "start": "0x4ae021",
+        "end": "0x4ae024",
+        "successors": [
+          "0x4ae024"
+        ]
+      },
+      {
+        "start": "0x4ae024",
+        "end": "0x4ae02d",
+        "successors": [
+          "0x4ae01c",
+          "0x4ae02d"
+        ]
+      },
+      {
+        "start": "0x4ae02d",
+        "end": "0x4ae035",
+        "successors": [
+          "0x4ae035",
+          "0x4ae833"
+        ]
+      },
+      {
+        "start": "0x4ae035",
+        "end": "0x4ae049",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae049",
+        "end": "0x4ae059",
+        "successors": [
+          "0x4ae059",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae059",
+        "end": "0x4ae0bf",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae0bf",
+        "end": "0x4ae0e3",
+        "successors": [
+          "0x4ae0e3",
+          "0x4ae0f7"
+        ]
+      },
+      {
+        "start": "0x4ae0e3",
+        "end": "0x4ae0f7",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae0f7",
+        "end": "0x4ae105",
+        "successors": [
+          "0x4ae105",
+          "0x4ae110"
+        ]
+      },
+      {
+        "start": "0x4ae105",
+        "end": "0x4ae110",
+        "successors": [
+          "0x4ae110",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae110",
+        "end": "0x4ae12c",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae12c",
+        "end": "0x4ae144",
+        "successors": [
+          "0x4ae144",
+          "0x4ae158"
+        ]
+      },
+      {
+        "start": "0x4ae144",
+        "end": "0x4ae158",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae158",
+        "end": "0x4ae16e",
+        "successors": [
+          "0x4ae16e",
+          "0x4ae184"
+        ]
+      },
+      {
+        "start": "0x4ae16e",
+        "end": "0x4ae17d",
+        "successors": [
+          "0x4ae17d"
+        ]
+      },
+      {
+        "start": "0x4ae17d",
+        "end": "0x4ae184",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae184",
+        "end": "0x4ae18d",
+        "successors": [
+          "0x4ae18d",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae18d",
+        "end": "0x4ae1a1",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae1a1",
+        "end": "0x4ae1d2",
+        "successors": [
+          "0x4ae1d2",
+          "0x4ae1e6"
+        ]
+      },
+      {
+        "start": "0x4ae1d2",
+        "end": "0x4ae1e6",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae1e6",
+        "end": "0x4ae1f0",
+        "successors": [
+          "0x4ae1f0"
+        ]
+      },
+      {
+        "start": "0x4ae1f0",
+        "end": "0x4ae208",
+        "successors": [
+          "0x4ae208",
+          "0x4ae21c"
+        ]
+      },
+      {
+        "start": "0x4ae208",
+        "end": "0x4ae21c",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae21c",
+        "end": "0x4ae231",
+        "successors": [
+          "0x4ae231",
+          "0x4ae25a"
+        ]
+      },
+      {
+        "start": "0x4ae231",
+        "end": "0x4ae238",
+        "successors": [
+          "0x4ae238"
+        ]
+      },
+      {
+        "start": "0x4ae238",
+        "end": "0x4ae23e",
+        "successors": [
+          "0x4ae23e",
+          "0x4ae240"
+        ]
+      },
+      {
+        "start": "0x4ae23e",
+        "end": "0x4ae240",
+        "successors": [
+          "0x4ae240"
+        ]
+      },
+      {
+        "start": "0x4ae240",
+        "end": "0x4ae244",
+        "successors": [
+          "0x4ae244",
+          "0x4ae24a"
+        ]
+      },
+      {
+        "start": "0x4ae244",
+        "end": "0x4ae24a",
+        "successors": [
+          "0x4ae238",
+          "0x4ae24a"
+        ]
+      },
+      {
+        "start": "0x4ae24a",
+        "end": "0x4ae25a",
+        "successors": [
+          "0x4ae25a"
+        ]
+      },
+      {
+        "start": "0x4ae25a",
+        "end": "0x4ae263",
+        "successors": [
+          "0x4ae263",
+          "0x4ae28c"
+        ]
+      },
+      {
+        "start": "0x4ae263",
+        "end": "0x4ae26a",
+        "successors": [
+          "0x4ae26a"
+        ]
+      },
+      {
+        "start": "0x4ae26a",
+        "end": "0x4ae26d",
+        "successors": [
+          "0x4ae26d",
+          "0x4ae272"
+        ]
+      },
+      {
+        "start": "0x4ae26d",
+        "end": "0x4ae272",
+        "successors": [
+          "0x4ae272"
+        ]
+      },
+      {
+        "start": "0x4ae272",
+        "end": "0x4ae276",
+        "successors": [
+          "0x4ae276",
+          "0x4ae27c"
+        ]
+      },
+      {
+        "start": "0x4ae276",
+        "end": "0x4ae27c",
+        "successors": [
+          "0x4ae26a",
+          "0x4ae27c"
+        ]
+      },
+      {
+        "start": "0x4ae27c",
+        "end": "0x4ae28c",
+        "successors": [
+          "0x4ae28c"
+        ]
+      },
+      {
+        "start": "0x4ae28c",
+        "end": "0x4ae2ab",
+        "successors": [
+          "0x4ae2ab",
+          "0x4ae2bf"
+        ]
+      },
+      {
+        "start": "0x4ae2ab",
+        "end": "0x4ae2bf",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae2bf",
+        "end": "0x4ae2c6",
+        "successors": [
+          "0x4ae2c6",
+          "0x4ae2da"
+        ]
+      },
+      {
+        "start": "0x4ae2c6",
+        "end": "0x4ae2da",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae2da",
+        "end": "0x4ae2e2",
+        "successors": [
+          "0x4ae2e2",
+          "0x4ae9c8"
+        ]
+      },
+      {
+        "start": "0x4ae2e2",
+        "end": "0x4ae2ec",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae2ec",
+        "end": "0x4ae328",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae328",
+        "end": "0x4ae33e",
+        "successors": [
+          "0x4ae33e",
+          "0x4ae356"
+        ]
+      },
+      {
+        "start": "0x4ae33e",
+        "end": "0x4ae356",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae356",
+        "end": "0x4ae35f",
+        "successors": [
+          "0x4ae35f",
+          "0x4aec54"
+        ]
+      },
+      {
+        "start": "0x4ae35f",
+        "end": "0x4ae373",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae373",
+        "end": "0x4ae3a9",
+        "successors": [
+          "0x4ae3a9"
+        ]
+      },
+      {
+        "start": "0x4ae3a9",
+        "end": "0x4ae3c9",
+        "successors": [
+          "0x4ae3c9",
+          "0x4ae3d3"
+        ]
+      },
+      {
+        "start": "0x4ae3c9",
+        "end": "0x4ae3d3",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae3d3",
+        "end": "0x4ae3dc",
+        "successors": [
+          "0x4ae3dc",
+          "0x4ae402"
+        ]
+      },
+      {
+        "start": "0x4ae3dc",
+        "end": "0x4ae3e1",
+        "successors": [
+          "0x4ae3e1"
+        ]
+      },
+      {
+        "start": "0x4ae3e1",
+        "end": "0x4ae3e7",
+        "successors": [
+          "0x4ae3e7",
+          "0x4ae3e9"
+        ]
+      },
+      {
+        "start": "0x4ae3e7",
+        "end": "0x4ae3e9",
+        "successors": [
+          "0x4ae3e9"
+        ]
+      },
+      {
+        "start": "0x4ae3e9",
+        "end": "0x4ae3ef",
+        "successors": [
+          "0x4ae3e1",
+          "0x4ae3ef"
+        ]
+      },
+      {
+        "start": "0x4ae3ef",
+        "end": "0x4ae402",
+        "successors": [
+          "0x4ae402"
+        ]
+      },
+      {
+        "start": "0x4ae402",
+        "end": "0x4ae40b",
+        "successors": [
+          "0x4ae40b",
+          "0x4ae431"
+        ]
+      },
+      {
+        "start": "0x4ae40b",
+        "end": "0x4ae410",
+        "successors": [
+          "0x4ae410"
+        ]
+      },
+      {
+        "start": "0x4ae410",
+        "end": "0x4ae413",
+        "successors": [
+          "0x4ae413",
+          "0x4ae418"
+        ]
+      },
+      {
+        "start": "0x4ae413",
+        "end": "0x4ae418",
+        "successors": [
+          "0x4ae418"
+        ]
+      },
+      {
+        "start": "0x4ae418",
+        "end": "0x4ae41e",
+        "successors": [
+          "0x4ae410",
+          "0x4ae41e"
+        ]
+      },
+      {
+        "start": "0x4ae41e",
+        "end": "0x4ae431",
+        "successors": [
+          "0x4ae431"
+        ]
+      },
+      {
+        "start": "0x4ae431",
+        "end": "0x4ae439",
+        "successors": [
+          "0x4ae439",
+          "0x4ae44d"
+        ]
+      },
+      {
+        "start": "0x4ae439",
+        "end": "0x4ae44d",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae44d",
+        "end": "0x4ae454",
+        "successors": [
+          "0x4ae454",
+          "0x4ae497"
+        ]
+      },
+      {
+        "start": "0x4ae454",
+        "end": "0x4ae468",
+        "successors": [
+          "0x4ae468",
+          "0x4ae483"
+        ]
+      },
+      {
+        "start": "0x4ae468",
+        "end": "0x4ae483",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae483",
+        "end": "0x4ae497",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae497",
+        "end": "0x4ae49f",
+        "successors": [
+          "0x4ae49f",
+          "0x4aec71"
+        ]
+      },
+      {
+        "start": "0x4ae49f",
+        "end": "0x4ae4a9",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae4a9",
+        "end": "0x4ae4c6",
+        "successors": [
+          "0x4ae4c6",
+          "0x4ae4e9"
+        ]
+      },
+      {
+        "start": "0x4ae4c6",
+        "end": "0x4ae4d9",
+        "successors": [
+          "0x4ae4d9"
+        ]
+      },
+      {
+        "start": "0x4ae4d9",
+        "end": "0x4ae4e3",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae4e3",
+        "end": "0x4ae4e9",
+        "successors": [
+          "0x4ae4e9"
+        ]
+      },
+      {
+        "start": "0x4ae4e9",
+        "end": "0x4ae56f",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae56f",
+        "end": "0x4ae58e",
+        "successors": [
+          "0x4ae58e",
+          "0x4ae5a2"
+        ]
+      },
+      {
+        "start": "0x4ae58e",
+        "end": "0x4ae5a2",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae5a2",
+        "end": "0x4ae5a7",
+        "successors": [
+          "0x4ae5a7",
+          "0x4ae5bb"
+        ]
+      },
+      {
+        "start": "0x4ae5a7",
+        "end": "0x4ae5bb",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae5bb",
+        "end": "0x4ae5c2",
+        "successors": [
+          "0x4ae5c2",
+          "0x4ae5dd"
+        ]
+      },
+      {
+        "start": "0x4ae5c2",
+        "end": "0x4ae5dd",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae5dd",
+        "end": "0x4ae5e2",
+        "successors": [
+          "0x4ae5e2",
+          "0x4ae5f6"
+        ]
+      },
+      {
+        "start": "0x4ae5e2",
+        "end": "0x4ae5f6",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae5f6",
+        "end": "0x4ae5fe",
+        "successors": [
+          "0x4ae5fe",
+          "0x4ae60f"
+        ]
+      },
+      {
+        "start": "0x4ae5fe",
+        "end": "0x4ae60f",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae60f",
+        "end": "0x4ae617",
+        "successors": [
+          "0x4ae617",
+          "0x4aedc9"
+        ]
+      },
+      {
+        "start": "0x4ae617",
+        "end": "0x4ae61e",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae61e",
+        "end": "0x4ae626",
+        "successors": [
+          "0x4ae626",
+          "0x4ae62d"
+        ]
+      },
+      {
+        "start": "0x4ae626",
+        "end": "0x4ae62d",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae62d",
+        "end": "0x4ae641",
+        "successors": [
+          "0x4ae641",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae641",
+        "end": "0x4ae648",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae648",
+        "end": "0x4ae650",
+        "successors": [
+          "0x4ae650",
+          "0x4ae664"
+        ]
+      },
+      {
+        "start": "0x4ae650",
+        "end": "0x4ae664",
+        "successors": [
+          "0x4ae664",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae664",
+        "end": "0x4ae669",
+        "successors": [
+          "0x4ae669"
+        ]
+      },
+      {
+        "start": "0x4ae669",
+        "end": "0x4ae672",
+        "successors": [
+          "0x4adef6",
+          "0x4ae672"
+        ]
+      },
+      {
+        "start": "0x4ae672",
+        "end": "0x4ae677",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae677",
+        "end": "0x4ae723",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae723",
+        "end": "0x4ae7a5",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae7a5",
+        "end": "0x4ae7b5",
+        "successors": [
+          "0x4ae7b5",
+          "0x4ae7c4"
+        ]
+      },
+      {
+        "start": "0x4ae7b5",
+        "end": "0x4ae7c4",
+        "successors": [
+          "0x4ae7c4"
+        ]
+      },
+      {
+        "start": "0x4ae7c4",
+        "end": "0x4ae7cf",
+        "successors": [
+          "0x4ae7cf",
+          "0x4ae7d8"
+        ]
+      },
+      {
+        "start": "0x4ae7cf",
+        "end": "0x4ae7d8",
+        "successors": [
+          "0x4ae7d8"
+        ]
+      },
+      {
+        "start": "0x4ae7d8",
+        "end": "0x4ae801",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae801",
+        "end": "0x4ae81e",
+        "successors": [
+          "0x4ae81e",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae81e",
+        "end": "0x4ae833",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae833",
+        "end": "0x4ae83d",
+        "successors": [
+          "0x4ae83d"
+        ]
+      },
+      {
+        "start": "0x4ae83d",
+        "end": "0x4ae8c2",
+        "successors": [
+          "0x4ae8c2",
+          "0x4ae8da"
+        ]
+      },
+      {
+        "start": "0x4ae8c2",
+        "end": "0x4ae8d3",
+        "successors": [
+          "0x4ae8d3",
+          "0x4ae8da"
+        ]
+      },
+      {
+        "start": "0x4ae8d3",
+        "end": "0x4ae8da",
+        "successors": [
+          "0x4ae8da"
+        ]
+      },
+      {
+        "start": "0x4ae8da",
+        "end": "0x4ae8ed",
+        "successors": [
+          "0x4ae8ed"
+        ]
+      },
+      {
+        "start": "0x4ae8ed",
+        "end": "0x4ae973",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae973",
+        "end": "0x4ae97c",
+        "successors": [
+          "0x4ae97c",
+          "0x4ae98b"
+        ]
+      },
+      {
+        "start": "0x4ae97c",
+        "end": "0x4ae98b",
+        "successors": [
+          "0x4ae98b"
+        ]
+      },
+      {
+        "start": "0x4ae98b",
+        "end": "0x4ae996",
+        "successors": [
+          "0x4ae996",
+          "0x4ae99f"
+        ]
+      },
+      {
+        "start": "0x4ae996",
+        "end": "0x4ae99f",
+        "successors": [
+          "0x4ae99f"
+        ]
+      },
+      {
+        "start": "0x4ae99f",
+        "end": "0x4ae9c8",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4ae9c8",
+        "end": "0x4aea27",
+        "successors": [
+          "0x4aea27",
+          "0x4aea36"
+        ]
+      },
+      {
+        "start": "0x4aea27",
+        "end": "0x4aea36",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aea36",
+        "end": "0x4aea4d",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aea4d",
+        "end": "0x4aea56",
+        "successors": [
+          "0x4aea56",
+          "0x4aea65"
+        ]
+      },
+      {
+        "start": "0x4aea56",
+        "end": "0x4aea65",
+        "successors": [
+          "0x4aea65"
+        ]
+      },
+      {
+        "start": "0x4aea65",
+        "end": "0x4aea70",
+        "successors": [
+          "0x4aea70",
+          "0x4aea79"
+        ]
+      },
+      {
+        "start": "0x4aea70",
+        "end": "0x4aea79",
+        "successors": [
+          "0x4aea79"
+        ]
+      },
+      {
+        "start": "0x4aea79",
+        "end": "0x4aea98",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aea98",
+        "end": "0x4aeaa8",
+        "successors": [
+          "0x4aeaa8",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aeaa8",
+        "end": "0x4aeab7",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aeab7",
+        "end": "0x4aeaca",
+        "successors": [
+          "0x4aeaca"
+        ]
+      },
+      {
+        "start": "0x4aeaca",
+        "end": "0x4aeacf",
+        "successors": [
+          "0x4aeacf",
+          "0x4aead1"
+        ]
+      },
+      {
+        "start": "0x4aeacf",
+        "end": "0x4aead1",
+        "successors": [
+          "0x4aead1"
+        ]
+      },
+      {
+        "start": "0x4aead1",
+        "end": "0x4aeada",
+        "successors": [
+          "0x4aeaca",
+          "0x4aeada"
+        ]
+      },
+      {
+        "start": "0x4aeada",
+        "end": "0x4aeb07",
+        "successors": [
+          "0x4aeb07",
+          "0x4aeb16"
+        ]
+      },
+      {
+        "start": "0x4aeb07",
+        "end": "0x4aeb16",
+        "successors": [
+          "0x4aeb16"
+        ]
+      },
+      {
+        "start": "0x4aeb16",
+        "end": "0x4aeb34",
+        "successors": [
+          "0x4aeb34"
+        ]
+      },
+      {
+        "start": "0x4aeb34",
+        "end": "0x4aebe8",
+        "successors": [
+          "0x4aebe8"
+        ]
+      },
+      {
+        "start": "0x4aebe8",
+        "end": "0x4aebf5",
+        "successors": [
+          "0x4aebf5",
+          "0x4aebff"
+        ]
+      },
+      {
+        "start": "0x4aebf5",
+        "end": "0x4aebff",
+        "successors": [
+          "0x4aebff"
+        ]
+      },
+      {
+        "start": "0x4aebff",
+        "end": "0x4aec1b",
+        "successors": [
+          "0x4aec1b"
+        ]
+      },
+      {
+        "start": "0x4aec1b",
+        "end": "0x4aec54",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aec54",
+        "end": "0x4aec71",
+        "successors": [
+          "0x4aec1b"
+        ]
+      },
+      {
+        "start": "0x4aec71",
+        "end": "0x4aed18",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aed18",
+        "end": "0x4aedc9",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aedc9",
+        "end": "0x4aedd6",
+        "successors": [
+          "0x4aedd6",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aedd6",
+        "end": "0x4aeddf",
+        "successors": [
+          "0x4aeddf",
+          "0x4aee08"
+        ]
+      },
+      {
+        "start": "0x4aeddf",
+        "end": "0x4aee08",
+        "successors": [
+          "0x4aee2b"
+        ]
+      },
+      {
+        "start": "0x4aee08",
+        "end": "0x4aee2b",
+        "successors": [
+          "0x4aee2b"
+        ]
+      },
+      {
+        "start": "0x4aee2b",
+        "end": "0x4aee5e",
+        "successors": [
+          "0x4aee5e",
+          "0x4aee87"
+        ]
+      },
+      {
+        "start": "0x4aee5e",
+        "end": "0x4aee87",
+        "successors": [
+          "0x4aeeaa"
+        ]
+      },
+      {
+        "start": "0x4aee87",
+        "end": "0x4aeeaa",
+        "successors": [
+          "0x4aeeaa"
+        ]
+      },
+      {
+        "start": "0x4aeeaa",
+        "end": "0x4aeed1",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aeed1",
+        "end": "0x4aeef0",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4aeef0",
+        "end": "0x4aeefd",
+        "successors": [
+          "0x4aeefd",
+          "0x4aeff3"
+        ]
+      },
+      {
+        "start": "0x4aeefd",
+        "end": "0x4aef06",
+        "successors": [
+          "0x4aef06",
+          "0x4aef2f"
+        ]
+      },
+      {
+        "start": "0x4aef06",
+        "end": "0x4aef2f",
+        "successors": [
+          "0x4aef52"
+        ]
+      },
+      {
+        "start": "0x4aef2f",
+        "end": "0x4aef52",
+        "successors": [
+          "0x4aef52"
+        ]
+      },
+      {
+        "start": "0x4aef52",
+        "end": "0x4aef85",
+        "successors": [
+          "0x4aef85",
+          "0x4aefae"
+        ]
+      },
+      {
+        "start": "0x4aef85",
+        "end": "0x4aefae",
+        "successors": [
+          "0x4aefd1"
+        ]
+      },
+      {
+        "start": "0x4aefae",
+        "end": "0x4aefd1",
+        "successors": [
+          "0x4aefd1"
+        ]
+      },
+      {
+        "start": "0x4aefd1",
+        "end": "0x4aeff3",
+        "successors": [
+          "0x4aeff3"
+        ]
+      },
+      {
+        "start": "0x4aeff3",
+        "end": "0x4af00d",
+        "successors": [
+          "0x4af00d",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af00d",
+        "end": "0x4af020",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af020",
+        "end": "0x4af0b7",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af0b7",
+        "end": "0x4af0f4",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af0f4",
+        "end": "0x4af100",
+        "successors": [
+          "0x4af100",
+          "0x4af104"
+        ]
+      },
+      {
+        "start": "0x4af100",
+        "end": "0x4af104",
+        "successors": [
+          "0x4af104"
+        ]
+      },
+      {
+        "start": "0x4af104",
+        "end": "0x4af11d",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af11d",
+        "end": "0x4af12b",
+        "successors": [
+          "0x4af12b"
+        ]
+      },
+      {
+        "start": "0x4af12b",
+        "end": "0x4af147",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af147",
+        "end": "0x4af157",
+        "successors": [
+          "0x4af12b"
+        ]
+      },
+      {
+        "start": "0x4af157",
+        "end": "0x4af177",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af177",
+        "end": "0x4af19e",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af19e",
+        "end": "0x4af1bb",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af1bb",
+        "end": "0x4af1ce",
+        "successors": [
+          "0x4af1ce",
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af1ce",
+        "end": "0x4af1f3",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af1f3",
+        "end": "0x4af1fd",
+        "successors": [
+          "0x4af1fd"
+        ]
+      },
+      {
+        "start": "0x4af1fd",
+        "end": "0x4af210",
+        "successors": [
+          "0x4af210",
+          "0x4af22b"
+        ]
+      },
+      {
+        "start": "0x4af210",
+        "end": "0x4af22b",
+        "successors": []
+      },
+      {
+        "start": "0x4af22b",
+        "end": "0x4af23c",
+        "successors": []
+      },
+      {
+        "start": "0x4af23c",
+        "end": "0x4af27c",
+        "successors": [
+          "0x4af27c"
+        ]
+      },
+      {
+        "start": "0x4af27c",
+        "end": "0x4af282",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 213
+  }
+}

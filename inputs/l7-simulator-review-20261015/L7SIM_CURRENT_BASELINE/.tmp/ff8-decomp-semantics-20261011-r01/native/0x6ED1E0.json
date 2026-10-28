@@ -1,0 +1,75 @@
+{
+  "ea": "0x6ED1E0",
+  "name_label_only": "Mat3S16_MakeRotY_Scaled_Q12",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x6ed1e0",
+      "end": "0x6ed242",
+      "hex": "535556578b7c241c33c08bcf0fbf5c241489010fbf6c2418894104f7db8941085389410c894110e824ffe7ff8bf0530faff5c1fe0ce8e6fee7ff0fafc5668b5424206689770c83c40866895708c1f80cf7de66890766897704668947105f5e5d5bc3"
+    }
+  ],
+  "assembly": "006ED1E0: push    ebx\n006ED1E1: push    ebp\n006ED1E2: push    esi\n006ED1E3: push    edi\n006ED1E4: mov     edi, [esp+10h+dest]\n006ED1E8: xor     eax, eax; Logical Exclusive OR\n006ED1EA: mov     ecx, edi\n006ED1EC: movsx   ebx, [esp+10h+angle]; Move with Sign-Extend\n006ED1F1: mov     [ecx], eax\n006ED1F3: movsx   ebp, [esp+10h+scale]; Move with Sign-Extend\n006ED1F8: mov     [ecx+4], eax\n006ED1FB: neg     ebx; Two's Complement Negation\n006ED1FD: mov     [ecx+8], eax\n006ED200: push    ebx\n006ED201: mov     [ecx+0Ch], eax\n006ED204: mov     [ecx+10h], eax\n006ED207: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.\n006ED20C: mov     esi, eax\n006ED20E: push    ebx\n006ED20F: imul    esi, ebp; Signed Multiply\n006ED212: sar     esi, 0Ch; Shift Arithmetic Right\n006ED215: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.\n006ED21A: imul    eax, ebp; Signed Multiply\n006ED21D: mov     dx, [esp+18h+scale]\n006ED222: mov     [edi+0Ch], si\n006ED226: add     esp, 8; Add\n006ED229: mov     [edi+8], dx\n006ED22D: sar     eax, 0Ch; Shift Arithmetic Right\n006ED230: neg     esi; Two's Complement Negation\n006ED232: mov     [edi], ax\n006ED235: mov     [edi+4], si\n006ED239: mov     [edi+10h], ax\n006ED23D: pop     edi\n006ED23E: pop     esi\n006ED23F: pop     ebp\n006ED240: pop     ebx\n006ED241: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x6ed1e0",
+      "end": "0x6ed242",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x69a436",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69a410"
+    },
+    {
+      "from": "0x69a5e7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69a5d0"
+    },
+    {
+      "from": "0x69cb27",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69cb10"
+    },
+    {
+      "from": "0x6ed0e6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed0c0"
+    },
+    {
+      "from": "0x6f8c1c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f8bf0"
+    },
+    {
+      "from": "0x6f8e31",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f8bf0"
+    },
+    {
+      "from": "0x6f9b86",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f9b60"
+    }
+  ],
+  "code_targets": [
+    "0x56d100",
+    "0x56d130"
+  ],
+  "instruction_count": 37
+}

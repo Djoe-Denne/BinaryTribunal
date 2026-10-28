@@ -1,0 +1,25 @@
+0048FE20: sub     esp, 10h; Magic/Draw/Slot/247 first switch: HIT_ELEMENT, HIT_ATTACK_ENABLER, HIT_STATUS_1/2 from K_MAGIC[action_id]. HIT_ATTACK_HITPERCENT stays 0xFF. Second switch cmd 2/16/247: ATTACK_FLAG, animation, Damage_ComputeRawDeltaFromAttackType(attackType, spellPower).
+0048FE23: mov     eax, [esp+10h+p_target_slot_id]
+0048FE27: push    ebx
+0048FE28: push    ebp
+0048FE29: push    esi
+0048FE2A: lea     ecx, [eax+eax*2]; Load Effective Address
+0048FE2D: push    edi
+0048FE2E: lea     edx, [eax+ecx*4]; Load Effective Address
+0048FE31: shl     edx, 4; Shift Logical Left
+0048FE34: mov     [esp+20h+target_slot_offset], edx
+0048FE38: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[edx]
+0048FE3E: and     ch, 0BFh; Logical AND
+0048FE41: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edx], ecx
+0048FE47: mov     cl, BATTLE_SLOT_DATA.scripted_invuln_flag[edx]
+0048FE4D: xor     esi, esi; Logical Exclusive OR
+0048FE4F: test    cl, cl; Logical Compare
+0048FE51: jz      short loc_48FE5B; Jump if Zero (ZF=1)
+0048FE53: dec     cl; Decrement by 1
+0048FE55: mov     BATTLE_SLOT_DATA.scripted_invuln_flag[edx], cl
+0048FE5B: mov     byte ptr unk_1D28DF3, al
+0048FE60: and     eax, 0FFh; Logical AND
+0048FE65: mov     ebx, dword ptr ATTACKER_SLOT_ID; slot 0 to 2 are actually the characters (When looking the back of chara, 0 is right chara, 2 is left chara, 3 is right moonster, 5 is left monster)
+0048FE6B: xor     ecx, ecx; Logical Exclusive OR
+0048FE6D: mov     cl, COMMAND_TYPE_ID; COMMAND_TYPE_ID is LIVE-mutable post-GetText (0xF8/0xF3/0xFD/0xFB/0xF9 writers); presentation selector is frozen payload[1] (VA)
+0048FE73: lea     edx, [eax+eax*2]; Load Effective Address

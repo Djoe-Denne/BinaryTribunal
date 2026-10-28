@@ -1,0 +1,116 @@
+{
+  "ea": "0x464DB0",
+  "name_label_only": "Gfx_UploadCLUTSlot",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x464db0",
+      "end": "0x464f6f",
+      "hex": "81ec8800000053568bb42494000000578b464485c00f859a010000e87a52faff8bd8a188fdcc0185c00f84190100008b84249c000000c74660000000008bf8c1f80483e00183e70fc1e0088944240c8b465cc1e70685c0751868f0000000e84d23000083c40489465c85c00f84440100008d44241055506a00e80122faff56e82cf3ffff8b9424b000000033c08b4e5c668b82480400008b56148be883e03fc1ed06c1e50603e8a12c60cb01c1e50503e8894c24488b4944558b6e1052558b6e0c55518b4e608b6c243051b9020000002bca8b5604d3fa8b4e08680008000003cdc1e10a03fa03cf8d144852e82f2900008b83500a00008d4c2440506a00516a066a01e8ca1efbff83c440894644c74424400100000050e8da30fbff894424488b93500a0000528d44241c6a00506a0e6a01e89b1efbff83c4188946485d5f5e5b81c488000000c3a1008aca0185c074098d4c2410516a02eb078d542410526a00e81921faff8b462483c408c744243c0100000050e87c30fbff894424448b8b500a0000518d5424186a00526a066a01e83d1efbff8946448b83500a0000508d4c242c6a00516a0e6a01e8231efbff83c42c8946485f5e5b81c488000000c3"
+    }
+  ],
+  "assembly": "00464DB0: sub     esp, 88h; Integer Subtraction\n00464DB6: push    ebx\n00464DB7: push    esi\n00464DB8: mov     esi, [esp+90h+arg_0]\n00464DBF: push    edi\n00464DC0: mov     eax, [esi+44h]\n00464DC3: test    eax, eax; Logical Compare\n00464DC5: jnz     loc_464F65; Jump if Not Zero (ZF=0)\n00464DCB: call    FFGetBufferAddress; Call Procedure\n00464DD0: mov     ebx, eax\n00464DD2: mov     eax, dword_1CCFD88\n00464DD7: test    eax, eax; Logical Compare\n00464DD9: jz      loc_464EF8; Jump if Zero (ZF=1)\n00464DDF: mov     eax, [esp+94h+arg_4]\n00464DE6: mov     dword ptr [esi+60h], 0\n00464DED: mov     edi, eax\n00464DEF: sar     eax, 4; Shift Arithmetic Right\n00464DF2: and     eax, 1; Logical AND\n00464DF5: and     edi, 0Fh; Logical AND\n00464DF8: shl     eax, 8; Shift Logical Left\n00464DFB: mov     [esp+94h+var_88], eax\n00464DFF: mov     eax, [esi+5Ch]\n00464E02: shl     edi, 6; Shift Logical Left\n00464E05: test    eax, eax; Logical Compare\n00464E07: jnz     short loc_464E21; Jump if Not Zero (ZF=0)\n00464E09: push    0F0h\n00464E0E: call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018; E3c: lu: scan B7E018 + pool 2 slots; TPage = callers + strings Psx2 seulement\n00464E13: add     esp, 4; Add\n00464E16: mov     [esi+5Ch], eax\n00464E19: test    eax, eax; Logical Compare\n00464E1B: jz      loc_464F65; Jump if Zero (ZF=1)\n00464E21: lea     eax, [esp+94h+desc]; Load Effective Address\n00464E25: push    ebp\n00464E26: push    eax; desc\n00464E27: push    0; filter\n00464E29: call    Gfx_InitDrawListDesc; Vague C: init desc 0x84 octets. arg0 = mode filtre 0-4 (stocke a +32), PAS un type de liste.\n00464E2E: push    esi\n00464E2F: call    sub_464160; Call Procedure\n00464E34: mov     edx, [esp+0A4h+arg_8]\n00464E3B: xor     eax, eax; Logical Exclusive OR\n00464E3D: mov     ecx, [esi+5Ch]\n00464E40: mov     ax, [edx+448h]\n00464E47: mov     edx, [esi+14h]\n00464E4A: mov     ebp, eax\n00464E4C: and     eax, 3Fh; Logical AND\n00464E4F: shr     ebp, 6; Shift Logical Right\n00464E52: shl     ebp, 6; Shift Logical Left\n00464E55: add     ebp, eax; Add\n00464E57: mov     eax, dword_1CB602C\n00464E5C: shl     ebp, 5; Shift Logical Left\n00464E5F: add     ebp, eax; Add\n00464E61: mov     [esp+0A4h+var_5C], ecx\n00464E65: mov     ecx, [ecx+44h]\n00464E68: push    ebp; unsigned __int16 *\n00464E69: mov     ebp, [esi+10h]\n00464E6C: push    edx; int\n00464E6D: push    ebp; int\n00464E6E: mov     ebp, [esi+0Ch]\n00464E71: push    ebp; int\n00464E72: push    ecx; int\n00464E73: mov     ecx, [esi+60h]\n00464E76: mov     ebp, [esp+0B8h+var_88]\n00464E7A: push    ecx; unsigned __int16 *\n00464E7B: mov     ecx, 2\n00464E80: sub     ecx, edx; Integer Subtraction\n00464E82: mov     edx, [esi+4]\n00464E85: sar     edx, cl; Shift Arithmetic Right\n00464E87: mov     ecx, [esi+8]\n00464E8A: push    800h; int\n00464E8F: add     ecx, ebp; Add\n00464E91: shl     ecx, 0Ah; Shift Logical Left\n00464E94: add     edi, edx; Add\n00464E96: add     ecx, edi; Add\n00464E98: lea     edx, [eax+ecx*2]; Load Effective Address\n00464E9B: push    edx; unsigned __int8 *\n00464E9C: call    TexStaging_BlitCLUTAlpha; Vague C: frere blit CLUT-alpha de TexStaging_BlitRows (lookup CLUT, alpha <<12).\n00464EA1: mov     eax, [ebx+0A50h]\n00464EA7: lea     ecx, [esp+0C4h+desc]; Load Effective Address\n00464EAB: push    eax; owner\n00464EAC: push    0; tim_path\n00464EAE: push    ecx; desc\n00464EAF: push    6; list_type\n00464EB1: push    1; mode\n00464EB3: call    Gfx_CreateDrawList; Call Procedure\n00464EB8: add     esp, 40h; Add\n00464EBB: mov     [esi+44h], eax\n00464EBE: mov     [esp+98h+var_58], 1\n00464EC6: push    eax\n00464EC7: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture\n00464ECC: mov     [esp+9Ch+var_54], eax\n00464ED0: mov     edx, [ebx+0A50h]\n00464ED6: push    edx; owner\n00464ED7: lea     eax, [esp+0A0h+desc]; Load Effective Address\n00464EDB: push    0; tim_path\n00464EDD: push    eax; desc\n00464EDE: push    0Eh; list_type\n00464EE0: push    1; mode\n00464EE2: call    Gfx_CreateDrawList; Call Procedure\n00464EE7: add     esp, 18h; Add\n00464EEA: mov     [esi+48h], eax\n00464EED: pop     ebp\n00464EEE: pop     edi\n00464EEF: pop     esi\n00464EF0: pop     ebx\n00464EF1: add     esp, 88h; Add\n00464EF7: retn; Return Near from Procedure\n00464EF8: mov     eax, dword_1CA8A00\n00464EFD: test    eax, eax; Logical Compare\n00464EFF: jz      short loc_464F0A; Jump if Zero (ZF=1)\n00464F01: lea     ecx, [esp+94h+desc]; Load Effective Address\n00464F05: push    ecx\n00464F06: push    2\n00464F08: jmp     short loc_464F11; Jump\n00464F0A: lea     edx, [esp+94h+desc]; Load Effective Address\n00464F0E: push    edx; desc\n00464F0F: push    0; filter\n00464F11: call    Gfx_InitDrawListDesc; Vague C: init desc 0x84 octets. arg0 = mode filtre 0-4 (stocke a +32), PAS un type de liste.\n00464F16: mov     eax, [esi+24h]\n00464F19: add     esp, 8; Add\n00464F1C: mov     [esp+94h+var_58], 1\n00464F24: push    eax\n00464F25: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture\n00464F2A: mov     [esp+98h+var_54], eax\n00464F2E: mov     ecx, [ebx+0A50h]\n00464F34: push    ecx; owner\n00464F35: lea     edx, [esp+9Ch+desc]; Load Effective Address\n00464F39: push    0; tim_path\n00464F3B: push    edx; desc\n00464F3C: push    6; list_type\n00464F3E: push    1; mode\n00464F40: call    Gfx_CreateDrawList; Call Procedure\n00464F45: mov     [esi+44h], eax\n00464F48: mov     eax, [ebx+0A50h]\n00464F4E: push    eax; owner\n00464F4F: lea     ecx, [esp+0B0h+desc]; Load Effective Address\n00464F53: push    0; tim_path\n00464F55: push    ecx; desc\n00464F56: push    0Eh; list_type\n00464F58: push    1; mode\n00464F5A: call    Gfx_CreateDrawList; Call Procedure\n00464F5F: add     esp, 2Ch; Add\n00464F62: mov     [esi+48h], eax\n00464F65: pop     edi\n00464F66: pop     esi\n00464F67: pop     ebx\n00464F68: add     esp, 88h; Add\n00464F6E: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x464db0",
+      "end": "0x464dcb",
+      "successors": [
+        "0x464dcb",
+        "0x464f65"
+      ]
+    },
+    {
+      "start": "0x464dcb",
+      "end": "0x464ddf",
+      "successors": [
+        "0x464ddf",
+        "0x464ef8"
+      ]
+    },
+    {
+      "start": "0x464ddf",
+      "end": "0x464e09",
+      "successors": [
+        "0x464e09",
+        "0x464e21"
+      ]
+    },
+    {
+      "start": "0x464e09",
+      "end": "0x464e21",
+      "successors": [
+        "0x464e21",
+        "0x464f65"
+      ]
+    },
+    {
+      "start": "0x464e21",
+      "end": "0x464ef8",
+      "successors": []
+    },
+    {
+      "start": "0x464ef8",
+      "end": "0x464f01",
+      "successors": [
+        "0x464f01",
+        "0x464f0a"
+      ]
+    },
+    {
+      "start": "0x464f01",
+      "end": "0x464f0a",
+      "successors": [
+        "0x464f11"
+      ]
+    },
+    {
+      "start": "0x464f0a",
+      "end": "0x464f11",
+      "successors": [
+        "0x464f11"
+      ]
+    },
+    {
+      "start": "0x464f11",
+      "end": "0x464f65",
+      "successors": [
+        "0x464f65"
+      ]
+    },
+    {
+      "start": "0x464f65",
+      "end": "0x464f6f",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x464ccc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x464bd0"
+    },
+    {
+      "from": "0x465faf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x465ce0"
+    }
+  ],
+  "code_targets": [
+    "0x40702f",
+    "0x40a04a",
+    "0x416d82",
+    "0x417fa6",
+    "0x464160",
+    "0x467160",
+    "0x4677d0"
+  ],
+  "instruction_count": 147
+}

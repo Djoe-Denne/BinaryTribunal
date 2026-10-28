@@ -1,0 +1,25 @@
+004AF0FE: jz      short loc_4AF104; Jump if Zero (ZF=1)
+004AF100: mov     byte ptr [eax+2Bh], 0FFh
+004AF104: push    0FFFFFFFFh; flags
+004AF106: push    ebp; id
+004AF107: push    ebp; y
+004AF108: push    ebp; x
+004AF109: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AF10E: push    7; int
+004AF110: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AF115: add     esp, 14h; Add
+004AF118: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AF11D: mov     byte ptr dword_1D768E8+3, 0; jumptable 004ADEFA case 35
+004AF124: mov     byte ptr dword_1D768E8+2, 3
+004AF12B: push    0FFFFFFFFh; flags
+004AF12D: push    ebp; id
+004AF12E: push    ebp; y
+004AF12F: push    ebp; x
+004AF130: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AF135: add     esp, 10h; Add
+004AF138: mov     dword_1D768D0, 25h ; '%'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AF142: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AF147: mov     byte ptr dword_1D768E8+3, 0; jumptable 004ADEFA case 36
+004AF14E: mov     byte ptr dword_1D768E8+2, 1
+004AF155: jmp     short loc_4AF12B; Jump
+004AF157: push    7; jumptable 004ADEFA case 38

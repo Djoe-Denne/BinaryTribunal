@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-15",
+  "candidate": "dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4",
+  "realL2InputValid": true,
+  "resourceP1": {
+    "realPlannerResourceIntersection": [],
+    "actualSimWorkersAllProfile": "p",
+    "impossibleIntersectionYetSimCommits": 1
+  },
+  "resourceProjection": {
+    "required": {
+      "profiles": [
+        "p"
+      ],
+      "models": [
+        "model:unavailable"
+      ],
+      "accounts": [
+        "account:fixture"
+      ],
+      "tools": [],
+      "slots": 2,
+      "cpu": 4,
+      "gpu": 1,
+      "budget": 200
+    },
+    "actualSimWorkers": {
+      "profile": "p",
+      "accountId": "account:fixture"
+    },
+    "simCommits": 1
+  },
+  "waiterP1": {
+    "states": [
+      {
+        "unitId": "A",
+        "state": "COMMITTED",
+        "dispatchTick": 0,
+        "becameReadyTick": 0,
+        "commitLevel": 1,
+        "attempts": 1,
+        "blockedReason": null,
+        "waitReason": null,
+        "waitTicks": 1
+      },
+      {
+        "unitId": "B",
+        "state": "STALE",
+        "dispatchTick": null,
+        "becameReadyTick": 0,
+        "commitLevel": null,
+        "attempts": 0,
+        "blockedReason": "requires_new_immutable_plan:invalidate_knowledge",
+        "waitReason": "conflict",
+        "waitTicks": 0
+      },
+      {
+        "unitId": "C",
+        "state": "READY",
+        "dispatchTick": null,
+        "becameReadyTick": 0,
+        "commitLevel": null,
+        "attempts": 0,
+        "blockedReason": null,
+        "waitReason": "conflict",
+        "waitTicks": 0
+      }
+    ],
+    "committed": 1,
+    "tryReserveCAt5": {
+      "ok": true
+    }
+  },
+  "criticalPathP2": {
+    "actualMakespan": 9,
+    "reportedCriticalPath": 5,
+    "handDerivedCriticalPath": 9
+  },
+  "workerAttributionProbe": {
+    "decisions": [
+      {
+        "t": 0,
+        "unitId": "A",
+        "workerIds": [
+          0,
+          1
+        ],
+        "attempt": 1
+      },
+      {
+        "t": 0,
+        "unitId": "B",
+        "workerIds": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "attempt": 1
+      }
+    ],
+    "starts": [
+      {
+        "t": 0,
+        "seq": 7,
+        "ev": "job_start",
+        "unitId": "A",
+        "functionId": "fn:A",
+        "role": "A",
+        "subIntentId": "[\"fn:A\",\"A\"]",
+        "workerId": 0,
+        "executionId": "A/fn:A/A/1",
+        "endTick": 2,
+        "attempt": 1,
+        "contextManifest": "c3c2f6c4f2b3acc9aa713b11efdffa52601fc463ad047ce145255b012f4d39b8",
+        "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+      },
+      {
+        "t": 0,
+        "seq": 9,
+        "ev": "job_start",
+        "unitId": "A",
+        "functionId": "fn:A",
+        "role": "B",
+        "subIntentId": "[\"fn:A\",\"B\"]",
+        "workerId": 1,
+        "executionId": "A/fn:A/B/1",
+        "endTick": 3,
+        "attempt": 1,
+        "contextManifest": "c3c2f6c4f2b3acc9aa713b11efdffa52601fc463ad047ce145255b012f4d39b8",
+        "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+      },
+      {
+        "t": 0,
+        "seq": 15,
+        "ev": "job_start",
+        "unitId": "B",
+        "functionId": "fn:B",
+        "role": "A",
+        "subIntentId": "[\"fn:B\",\"A\"]",
+        "workerId": 2,
+        "executionId": "B/fn:B/A/1",
+        "endTick": 2,
+        "attempt": 1,
+        "contextManifest": "5e80dc146ac14b8476df53d20e031f6b540b677fbf3d8e2fbf393e7bed9b5d5d",
+        "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+      },
+      {
+        "t": 0,
+        "seq": 17,
+        "ev": "job_start",
+        "unitId": "B",
+        "functionId": "fn:B",
+        "role": "B",
+        "subIntentId": "[\"fn:B\",\"B\"]",
+        "workerId": 3,
+        "executionId": "B/fn:B/B/1",
+        "endTick": 3,
+        "attempt": 1,
+        "contextManifest": "5e80dc146ac14b8476df53d20e031f6b540b677fbf3d8e2fbf393e7bed9b5d5d",
+        "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+      },
+      {
+        "t": 3,
+        "seq": 22,
+        "ev": "job_start",
+        "unitId": "A",
+        "functionId": "fn:A",
+        "role": "R",
+        "subIntentId": "[\"fn:A\",\"R\"]",
+        "workerId": 0,
+        "executionId": "A/fn:A/R/1",
+        "endTick": 4,
+        "attempt": 1,
+        "contextManifest": "699ce6424999f424d552caf953bc5ca7aaaff7204fc93db2a22f7dfcb5beb6a0",
+        "outputPath": "outputs/1f4dc5fa6db08bbec40d11a676eb104ff8f792cf93887447a4fed167bc4e1eb9.json"
+      },
+      {
+        "t": 3,
+        "seq": 25,
+        "ev": "job_start",
+        "unitId": "B",
+        "functionId": "fn:B",
+        "role": "R",
+        "subIntentId": "[\"fn:B\",\"R\"]",
+        "workerId": 1,
+        "executionId": "B/fn:B/R/1",
+        "endTick": 4,
+        "attempt": 1,
+        "contextManifest": "bcdf500e5105992450fdb8f0edbc4b3d1cb75f9d93afb7200eeed245630350de",
+        "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+      }
+    ]
+  },
+  "verdict": "BLOCK candidate, not integrated; parent reproduced both P1 and the local-critical-path defect",
+  "noNativeAuthority": true
+}

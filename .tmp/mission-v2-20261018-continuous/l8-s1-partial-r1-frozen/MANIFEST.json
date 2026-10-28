@@ -1,0 +1,80 @@
+{
+  "version": "l8-s1-isolated-source-manifest-v1",
+  "status": "PROPOSED_PARTIAL_BLOCKED",
+  "owner": "l8-s1-source-author-r1",
+  "taskId": "task_mvdy6khz_000q_0ee18w",
+  "date": "2026-10-19",
+  "nonblind": "ratified contracts and qualified source references only; no other-worker QA/output or origins",
+  "inputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "bytes": 17193,
+    "sha256": "0113348a57f290e09f323c8d9f125e2b671ab3c4355848b8ce3eeacac6630c6c",
+    "pinCount": 61,
+    "totalPinnedBytes": 1365697,
+    "allPinsByteAndSha256CheckedBeforeWriting": true
+  },
+  "codeGo": {
+    "path": "../../L8_S1_QUALIFIED_CODE_GO_20261019.md",
+    "bytes": 2094,
+    "sha256": "40804e8318876989acf784addc96823307444874ded45e4355c03276777b4366"
+  },
+  "artifacts": [
+    { "path": "src/graph-execution-envelope.ts", "bytes": 76617, "sha256": "4bab5be164ebbc8972a04105cd1f338cf94c5f28801c2c8622363eb9cb276cd6" },
+    { "path": "src/graph-b-projection.ts", "bytes": 23529, "sha256": "9eff6beff94b72a6777dcd9655eb64b87b7e5a92fd08e2c0d579f07005ac5d8c" },
+    { "path": "src/graph-execution-prepare.ts", "bytes": 2717, "sha256": "28c9cfceecaf22d19a03a0e76321c67c237e88e52c571e62ae09dd2941c16b12" },
+    { "path": "schemas/l8-execution-envelope-v1.schema.json", "bytes": 29582, "sha256": "3f541a03b84dba35788680c316fc4f2aa539467cfd06506d5b2512738d48e316" },
+    { "path": "schemas/l8-graph-run-v3.schema.json", "bytes": 3115, "sha256": "a566ed5857b4725c600c506141f14cbd82ee83a78e09e1951cbfceacfd1ec16b" },
+    { "path": "DESIGN.md", "bytes": 23206, "sha256": "8ccd533df3880ccfd6f5fef9c23a23f58eb36c15f57a3174bb6c723ed4ef73c8" }
+  ],
+  "artifactBytesExcludingManifest": 158766,
+  "selfHash": "excluded to avoid a hash cycle; raw manifest digest is returned in the native final receipt",
+  "dependencyPinResolution": "Every inputPin below resolves by exact path to the size/SHA256 entry in the raw-hash-pinned inputManifest, not to a mutable main/origin file.",
+  "runtimePureDependencyPins": [
+    "reference/src/graph.ts",
+    "reference/src/graph-transport.ts",
+    "reference/src/graph-pure-codecs.ts",
+    "reference/src/lineage-pure-codecs.ts",
+    "reference/src/semantic-config-codec.ts",
+    "reference/src/graph-persistence-errors.ts",
+    "reference/src/validation.ts",
+    "reference/src/re-policy.ts",
+    "reference/schemas/graph-snapshot-v1.schema.json",
+    "reference/schemas/cluster-partition-v1.schema.json",
+    "reference/schemas/investigation-group-v1.schema.json",
+    "reference/schemas/knowledge-commit-v1.schema.json",
+    "reference/schemas/mission-plan-v1.schema.json",
+    "reference/schemas/work-unit-v1.schema.json",
+    "reference/schemas/l8-prepared-graph-v3.schema.json",
+    "reference/schemas/l8-partition-adoption-v1.schema.json"
+  ],
+  "producerPreparationOnlyPins": ["reference/src/planner.ts", "reference/src/scc.ts"],
+  "directTypeOnlyDependencyPins": [
+    "reference/src/domain.ts", "reference/src/planner.ts", "reference/src/investigation-groups.ts",
+    "reference/src/graph-store.ts", "reference/src/lineage.ts", "reference/src/semantic-index.ts"
+  ],
+  "configurationPins": ["reference/package.json", "reference/tsconfig.json"],
+  "externalRuntime": ["node:util", "Bun.CryptoHasher via the pinned validation module", "standard ECMAScript/Web UTF-8 APIs"],
+  "authority": "none; neither JSON nor hashes, record labels, local objects or callbacks grant HOST/LOCAL/quiescence/activation",
+  "blocker": {
+    "code": "PLANNING_SOURCE_RELATION_CODEC_UNAVAILABLE",
+    "effect": "bindExecutionSourcesV1 is deliberately fail-closed; prepareExecutionV1 cannot finish its final binding",
+    "existingPublicHelper": "reference/src/graph-pure-codecs.ts:172-219 validatePlanningBindingV1",
+    "missingCapability": "pure validation of source snapshot records/sites/observations against PlannerResult.sidecar.relationView, without importing the planner producer or copying its core",
+    "originalPrivateRoutine": "reference/src/planner.ts:214-276 canonicalRelationView; relation identity codec is producer-only at :190-192",
+    "requiredDecision": "parent identifies a qualified equivalent or authorizes the minimal pure extraction/validator API, then qualifies and repins it before source continuation"
+  },
+  "workerProductChecks": {
+    "compiled": false, "typechecked": false, "tested": false,
+    "validatorsExecuted": false, "productImportedOrExecuted": false,
+    "sharedSourcesModified": false, "gitOrRegistryOrDbOrIdaOrLiveActions": false,
+    "otherWorkerQaRead": false
+  },
+  "admission": "none; dependency qualification is parent-reported and does not qualify this draft",
+  "nextGates": [
+    "parent decision and qualified repin for the precise missing source relation validator",
+    "finish source binding under explicit continuation",
+    "source-disjoint independent QA from exact API design and qualified references",
+    "fresh composed V",
+    "parent-only integration, typecheck/tests and readback"
+  ]
+}

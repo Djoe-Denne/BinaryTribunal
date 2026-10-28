@@ -1,0 +1,725 @@
+{
+  "group": "g17",
+  "task_id": "task_mv435ed6_002y_irtdux",
+  "status": "CHECKPOINT_REQUIRED",
+  "routing_preparation": "DISPATCH_READY",
+  "SOURCE": "discover-g17",
+  "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+  "inheritance": "All authors independently inherit the same factual explorer checkpoint; never classifier, lead or sibling output. R starts only after A+B.",
+  "checkpoint_reason": "Source report admits historical target decomp header previews (A!=B / Push IDB=oui). No C bodies reported read. Parent must select/verify a factual checkpoint before those previews; do not fork final explorer context silently.",
+  "source_report": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g17.source.native.json",
+    "sha256": "f8a5d78029f8f5ea561072873d45ab1af637ad8e27967d40a39cf760d055aafe",
+    "report_message": "msg_12beb73c1001GD4b3EcEdKkRrG"
+  },
+  "common_factual_input": {
+    "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/common-compaction.md",
+    "sha256": "f785a0931af7bb175c494b885cc51feab037139d05521e1686d110f79a2e671c"
+  },
+  "native_pe_verification": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json",
+    "sha256": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "disk_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570"
+  },
+  "catalogue": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/catalogue.snapshot.json",
+    "sha256": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"
+  },
+  "model_ref_gate": "Lead verifies effective providerID/id/variant on creation. Routes are proposed only; no producers started.",
+  "entries": [
+    {
+      "ea": "0x502380",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 77,
+      "risk": 66,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 243,
+      "assembly_characters": 20107,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "243 native instructions (>200)",
+        "raw switch table outside exported chunks",
+        "partial-register DWORD provenance / shift count masking",
+        "unresolved helper ABI"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x502380.json",
+        "sha256": "1955590faeb8479a4a74ef892a9aff80681522f6abb4285ebd55f725551fff09"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x502380.request.json",
+        "sha256": "667ac304f7c93159c59b2ba469d356070539f19552f977d5b3de76942a03b49a",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x502380.response.json",
+        "sha256": "ab45c22f8737f81ea4ceac40bb390565699cb5c6d847699bfda3f32673939fe0",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x502380/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    },
+    {
+      "ea": "0x505C00",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 65,
+      "risk": 57,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 42,
+      "assembly_characters": 11688,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "full DWORD argument vs BH/BL operations",
+        "ring integrity and helper ABI/return contract unresolved"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x505C00.json",
+        "sha256": "a9a3657c00325a3d8641238ff73c3400f89c3dff920d3ffdb3a9291a5cde3d58"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x505C00.request.json",
+        "sha256": "16b51574924420b4c21709a40618935d04b0054e5b28b265e7945f5726445431",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x505C00.response.json",
+        "sha256": "3ab081a3f63dc06cab3017942572a01ceae462c9a013f1a7f82ecd5e441ec86c",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x505C00/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    },
+    {
+      "ea": "0x509C80",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 68,
+      "risk": 59,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 30,
+      "assembly_characters": 11266,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "SUB/NEG/SBB DL carry and partial-register arithmetic",
+        "both helper native packets missing; return ABI unresolved"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x509C80.json",
+        "sha256": "2b5b3b9a757e4613d03a108e0bbbeccbba9a8ab8575582609814aa12d8792b32"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x509C80.request.json",
+        "sha256": "f6f7a25e43c13fcc64ab911b223a1b22bac86a9b31a653d02acfea561d2e4a9e",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x509C80.response.json",
+        "sha256": "5c8c600a95a99db46845bec9f65e59f2bff46bcf080631192a4f558bb4829cba",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x509C80/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    },
+    {
+      "ea": "0x50B2A0",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 77,
+      "risk": 61,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 400,
+      "assembly_characters": 29187,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "400 native instructions (>200)",
+        "raw switch table outside exported chunks",
+        "unresolved indirect callback target and reload/aliasing ordering"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x50B2A0.json",
+        "sha256": "a2948fb2cfed39d50786de24509013d91ce4e411862d0610508c371e3ce3bbaf"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x50B2A0.request.json",
+        "sha256": "d5f4cb57bd61e7218d53836e54ecb3f00a8668cf76164e5ec5d585fb5cf6df06",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x50B2A0.response.json",
+        "sha256": "ee2869a818efd4039a385ffbc56b92475f119ddd31686b7c4608dc12aedbde78",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B2A0/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    },
+    {
+      "ea": "0x506690",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 76,
+      "risk": 63,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 154,
+      "assembly_characters": 17228,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "helper ABI/side effects unresolved",
+        "partial-width data flow and aliasing/order constraints"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x506690.json",
+        "sha256": "a06164a315f2bbd28ca6608c24aeacb164898dd4b1565e7cb495a84e9acbe6e6"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x506690.request.json",
+        "sha256": "998a30dec5e373f4f7f14f8004c1b540061cd3bc909837e9806122d0bd0a16dc",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x506690.response.json",
+        "sha256": "5ec5879dd93ea2d72260a121936dcd611eb994256d04ea3fa3af1f8e507d9f7c",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x506690/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    },
+    {
+      "ea": "0x50B830",
+      "status": "CHECKPOINT_REQUIRED",
+      "routing_preparation": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "complexity": 76,
+      "risk": 63,
+      "risk_mapping": "native uncertainty used as v1 operational risk, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "instruction_count": 195,
+      "assembly_characters": 19646,
+      "pe_verified": true,
+      "tier": "complex_high_risk",
+      "protocol": "2+1 per volet",
+      "rationale": "v1 complex/high-risk: uncertainty >50 for every EA; existing structural flags retained, never waive native gates",
+      "structural_flags": [
+        "raw switch table outside exported chunks",
+        "unresolved indirect callback target",
+        "partial-register full DWORD provenance and reload ordering"
+      ],
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g17/0x50B830.json",
+        "sha256": "e89c8ab63b9fd82b3051f599dea4bcd4e2d1bc49457d7a0afe239ac230aafbbf"
+      },
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x50B830.request.json",
+        "sha256": "41359678711b631a9526933604ad489a6766ca0f6d3c078f46c1dc85aaf0a3df",
+        "unchanged": true
+      },
+      "native_response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g17/0x50B830.response.json",
+        "sha256": "76420c9ee90b7a33099e60b4fcce4489b82c1ee2bc7114a8983e64dae52c1e37",
+        "complete_native_response": true
+      },
+      "dispatches": [
+        {
+          "role": "c_A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/c/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/c/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "c_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "c_A",
+            "c_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/c/R.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/semantic/A.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "CHECKPOINT_REQUIRED",
+          "depends_on": [],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/semantic/B.md",
+          "fresh_independent_session": true
+        },
+        {
+          "role": "semantic_R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g17",
+          "source_session_id": "ses_ed41fc6c0ffeWZh5hkKIUXKy89",
+          "context_mode": "checkpoint",
+          "status": "WAIT_A_B_AND_CHECKPOINT",
+          "depends_on": [
+            "semantic_A",
+            "semantic_B"
+          ],
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g17/0x50B830/semantic/R.md",
+          "fresh_independent_session": true
+        }
+      ]
+    }
+  ]
+}

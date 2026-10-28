@@ -1,0 +1,25 @@
+0048DAD6: call    domain__BattleText_Print; Call Procedure
+0048DADB: add     esp, 10h; Add
+0048DADE: mov     battle_message_pointer, eax
+0048DAE3: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DAE8: push    37h ; '7'
+0048DAEA: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048DAF1: mov     byte ptr [esp+28h+p_command_type], 0
+0048DAF6: mov     ebx, 9
+0048DAFB: mov     [esp+28h+p_always_zero], 0Ah
+0048DB00: mov     [esp+28h+magic_id], 0
+0048DB08: call    domain__BattleText_GetMiscText; Call Procedure
+0048DB0D: add     esp, 4; Add
+0048DB10: mov     battle_message_pointer, eax
+0048DB15: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DB1A: mov     eax, ebx; jumptable 0048D37A cases 240,245
+0048DB1C: xor     ecx, ecx; Logical Exclusive OR
+0048DB1E: and     eax, 0FFFFh; Logical AND
+0048DB23: push    eax
+0048DB24: lea     esi, [eax+eax*4]; Load Effective Address
+0048DB27: shl     esi, 2; Shift Logical Left
+0048DB2A: mov     cl, byte ptr (K_NONJ_GF_ATTACK_NAME_OFFSET.unknown2+1)[esi]
+0048DB30: mov     dx, K_NONJ_GF_ATTACK_NAME_OFFSET.magicID[esi]
+0048DB37: mov     [esp+28h+hit_count], ecx
+0048DB3B: mov     [esp+28h+magic_id], edx
+0048DB3F: call    getAddressTextNonJGF; Call Procedure

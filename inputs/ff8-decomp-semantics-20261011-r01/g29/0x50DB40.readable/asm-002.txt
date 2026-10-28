@@ -1,0 +1,25 @@
+0050DB85: cmp     al, 0E4h; Compare Two Operands
+0050DB87: jnb     loc_50DC74; Jump if Not Below (CF=0)
+0050DB8D: mov     edi, [esp+50h+arg_C]
+0050DB91: and     edi, 0FFh; Logical AND
+0050DB97: mov     eax, edi
+0050DB99: and     eax, 3; Logical AND
+0050DB9C: cmp     eax, 3; switch 4 cases
+0050DB9F: ja      short def_50DBA1; jumptable 0050DBA1 default case
+0050DBA1: jmp     ds:jpt_50DBA1[eax*4]; switch jump
+0050DBA8: inc     ecx; jumptable 0050DBA1 case 0
+0050DBA9: push    ecx
+0050DBAA: call    sub_50DAC0; Call Procedure
+0050DBAF: mov     ecx, [esp+54h+arg_0]
+0050DBB3: add     esp, 4; Add
+0050DBB6: mov     ebx, eax
+0050DBB8: add     ecx, 3; Add
+0050DBBB: jmp     short loc_50DC05; Jump
+0050DBBD: inc     ecx; jumptable 0050DBA1 case 1
+0050DBBE: push    ecx
+0050DBBF: call    sub_50DAA0; Call Procedure
+0050DBC4: jmp     short loc_50DBF9; Jump
+0050DBC6: inc     ecx; jumptable 0050DBA1 case 2
+0050DBC7: push    ecx
+0050DBC8: call    sub_50DAB0; Call Procedure
+0050DBCD: jmp     short loc_50DBF9; Jump

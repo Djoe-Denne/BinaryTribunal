@@ -1,0 +1,25 @@
+00495E68: shr     ecx, 1Fh; Shift Logical Right
+00495E6B: add     edx, ecx; Add
+00495E6D: cmp     edx, 270Fh; Compare Two Operands
+00495E73: jle     short loc_495E7A; Jump if Less or Equal (ZF=1 | SF!=OF)
+00495E75: mov     edx, 270Fh
+00495E7A: mov     eax, [esp+1Ch+var_4]
+00495E7E: xor     ecx, ecx; Logical Exclusive OR
+00495E80: movsx   edi, dx; Move with Sign-Extend
+00495E83: mov     cx, [eax+12h]
+00495E87: mov     [esi+2], dx
+00495E8B: cmp     edi, ecx; Compare Two Operands
+00495E8D: jge     short loc_495E93; Jump if Greater or Equal (SF=OF)
+00495E8F: mov     [eax+12h], dx
+00495E93: mov     ax, [eax+12h]
+00495E97: mov     [esi], ax
+00495E9A: mov     dx, [esi+2]
+00495E9E: sar     dx, 2; Shift Arithmetic Right
+00495EA2: cmp     ax, dx; Compare Two Operands
+00495EA5: jge     short loc_495EAB; Jump if Greater or Equal (SF=OF)
+00495EA7: or      byte ptr [esi+0Bh], 80h; Logical Inclusive OR
+00495EAB: pop     edi
+00495EAC: pop     esi
+00495EAD: pop     ebp
+00495EAE: pop     ebx
+00495EAF: add     esp, 0Ch; Add

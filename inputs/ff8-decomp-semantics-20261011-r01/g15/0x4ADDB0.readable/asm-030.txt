@@ -1,0 +1,25 @@
+004AE871: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE876: call    sub_4AF340; Call Procedure
+004AE87B: xor     ecx, ecx; Logical Exclusive OR
+004AE87D: add     esp, 14h; Add
+004AE880: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE886: sub     ecx, 3; Integer Subtraction
+004AE889: lea     eax, [ecx+ecx*8]; Load Effective Address
+004AE88C: shl     eax, 3; Shift Logical Left
+004AE88F: sub     eax, ecx; Integer Subtraction
+004AE891: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add
+004AE896: mov     ecx, [eax]
+004AE898: mov     edx, [eax+4]
+004AE89B: mov     dword_1D7543C, ecx
+004AE8A1: mov     ecx, [eax+8]
+004AE8A4: mov     dword_1D75440, edx
+004AE8AA: mov     edx, [eax+0Ch]
+004AE8AD: mov     al, byte_1D768ED
+004AE8B2: mov     dword_1D75444, ecx
+004AE8B8: test    al, al; Logical Compare
+004AE8BA: mov     dword_1D75448, edx
+004AE8C0: jz      short loc_4AE8DA; Jump if Zero (ZF=1)
+004AE8C2: mov     al, byte ptr dword_1D768E8
+004AE8C7: mov     cl, byte ptr dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE8CD: and     al, 0Fh; Logical AND
+004AE8CF: cmp     cl, al; Compare Two Operands

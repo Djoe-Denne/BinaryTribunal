@@ -1,0 +1,25 @@
+004885AB: lea     eax, [ebx-3]; Load Effective Address
+004885AE: lea     ecx, [eax+eax*8]; Load Effective Address
+004885B1: shl     ecx, 3; Shift Logical Left
+004885B4: sub     ecx, eax; Integer Subtraction
+004885B6: mov     BMI_SCAN_BUFFER[ecx], 0
+004885BD: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004885C2: mov     edx, dword ptr [esp+74h+opcode_param_1]
+004885C6: mov     eax, [esp+74h+p_text_offset_section]
+004885CD: and     edx, edi; Logical AND
+004885CF: mov     ax, [eax+edx*2]
+004885D3: cmp     ax, 0FFFFh; Compare Two Operands
+004885D7: jnz     short loc_4885E0; Jump if Not Zero (ZF=0)
+004885D9: mov     ecx, offset RELATED_TO_AI_TEXT_SECTION_DEFAULT
+004885DE: jmp     short loc_4885F0; Jump
+004885E0: mov     ecx, [esp+74h+p_text_subsection]
+004885E7: and     eax, 0FFFFh; Logical AND
+004885EC: add     eax, ecx; Add
+004885EE: mov     ecx, eax
+004885F0: lea     eax, [ebx-3]; Load Effective Address
+004885F3: push    18h
+004885F5: lea     edx, [eax+eax*8]; Load Effective Address
+004885F8: shl     edx, 3; Shift Logical Left
+004885FB: sub     edx, eax; Integer Subtraction
+004885FD: add     edx, offset BMI_SCAN_BUFFER; Add
+00488603: push    edx

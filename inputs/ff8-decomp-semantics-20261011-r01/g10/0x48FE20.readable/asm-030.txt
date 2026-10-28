@@ -1,0 +1,25 @@
+004909DF: mov     dl, K_MAGIC.attackType[eax]
+004909E5: mov     esi, ecx
+004909E7: mov     ecx, [esp+20h+p_target_slot_id]
+004909EB: push    esi; p_attack_power
+004909EC: push    ecx; p_target_slot_id
+004909ED: push    ebx; p_attacker_slot_id
+004909EE: push    edx; p_attack_type
+004909EF: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+004909F4: add     esp, 10h; Add
+004909F7: mov     esi, eax
+004909F9: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+004909FE: and     eax, 0FFh; Logical AND
+00490A03: add     eax, 0Ah; Add
+00490A06: imul    eax, esi; Signed Multiply
+00490A09: mov     ecx, eax
+00490A0B: mov     eax, 1B4E81B5h
+00490A10: imul    ecx; Signed Multiply
+00490A12: sar     edx, 4; Shift Arithmetic Right
+00490A15: mov     eax, edx
+00490A17: shr     eax, 1Fh; Shift Logical Right
+00490A1A: add     edx, eax; Add
+00490A1C: mov     esi, edx
+00490A1E: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490A23: mov     al, byte ptr dword_1D28E20+1; jumptable 0049043B case 244
+00490A28: test    al, al; Logical Compare

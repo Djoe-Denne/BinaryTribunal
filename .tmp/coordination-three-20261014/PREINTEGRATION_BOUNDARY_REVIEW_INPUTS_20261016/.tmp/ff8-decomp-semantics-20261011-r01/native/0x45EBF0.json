@@ -1,0 +1,966 @@
+{
+  "ea": "0x45EBF0",
+  "name_label_only": "sub_45EBF0",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x45ebf0",
+      "end": "0x45ee0d",
+      "hex": "83ec08a1648aca018b0d688aca01a3608aca01890d648aca010fbf05308aca010fbf0d348aca01894424008a152b8aca01db442400894c240088156b8aca010fbf0d388aca01d80df895b600db442400a1748aca01568b357c8aca01c705f892ca0100000000d8c9dc05d893b600dd5c24048b542404894c2404db4424048b0d788aca018d8410000000803d0080ffffa3748aca01d8c9dc05d893b600dd5c24048b5424048d9411000000800fbf0d3c8aca01894c24048915788aca01db442404d8c9dc05d893b600dd5c24048b4c2404ddd88d8c0e00000080beff7f0000890d7c8aca017d16c705f892ca0100000081c705348aca010080ffffeb1b3bc67e12c705f892ca01000000818935348aca01eb05a3348aca0181fa0080ffff537d1e8b1df892ca01c705388aca010080ffff81cb00008080891df892ca01eb243bd67e1a8b1df892ca018935388aca0181cb00008080891df892ca01eb068915388aca0181f90080ffff7d1e8b35f892ca01c7053c8aca010080ffff81ce000040008935f892ca01eb243bce7e1a8b1df892ca0189353c8aca0181cb00004000891df892ca01eb06890d3c8aca013dff0000005b76178b35f892ca01c1f81f81ce00002000f7d08935f892ca01a2688aca018bc23dff0000005e76178b15f892ca01c1f81f81ca00001000f7d08915f892ca0181f9ff000000a2698aca017614a1f892ca01c1f91f0d00000800f7d1a3f892ca01880d6a8aca0183c408c3"
+    }
+  ],
+  "assembly": "0045EBF0: sub     esp, 8; Integer Subtraction\n0045EBF3: mov     eax, dword_1CA8A64\n0045EBF8: mov     ecx, dword_1CA8A68\n0045EBFE: mov     dword_1CA8A60, eax\n0045EC03: mov     dword_1CA8A64, ecx\n0045EC09: movsx   eax, word ptr dword_1CA8A30; Move with Sign-Extend\n0045EC10: movsx   ecx, word ptr dword_1CA8A34; Move with Sign-Extend\n0045EC17: mov     dword ptr [esp+8+var_8], eax\n0045EC1B: mov     dl, byte_1CA8A2B\n0045EC21: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EC25: mov     dword ptr [esp+8+var_8], ecx\n0045EC29: mov     byte ptr dword_1CA8A68+3, dl\n0045EC2F: movsx   ecx, word ptr dword_1CA8A38; Move with Sign-Extend\n0045EC36: fmul    ds:flt_B695F8; Multiply Real\n0045EC3C: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EC40: mov     eax, dword_1CA8A74\n0045EC45: push    esi\n0045EC46: mov     esi, dword_1CA8A7C\n0045EC4C: mov     dword_1CA92F8, 0\n0045EC56: fmul    st, st(1); Multiply Real\n0045EC58: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045EC5E: fstp    [esp+0Ch+var_8]; Store Real and Pop\n0045EC62: mov     edx, dword ptr [esp+0Ch+var_8]\n0045EC66: mov     dword ptr [esp+0Ch+var_8], ecx\n0045EC6A: fild    dword ptr [esp+0Ch+var_8]; Load Integer\n0045EC6E: mov     ecx, dword_1CA8A78\n0045EC74: lea     eax, [eax+edx+80000000h]; Load Effective Address\n0045EC7B: cmp     eax, 0FFFF8000h; Compare Two Operands\n0045EC80: mov     dword_1CA8A74, eax\n0045EC85: fmul    st, st(1); Multiply Real\n0045EC87: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045EC8D: fstp    [esp+0Ch+var_8]; Store Real and Pop\n0045EC91: mov     edx, dword ptr [esp+0Ch+var_8]\n0045EC95: lea     edx, [ecx+edx+80000000h]; Load Effective Address\n0045EC9C: movsx   ecx, word ptr dword_1CA8A3C; Move with Sign-Extend\n0045ECA3: mov     dword ptr [esp+0Ch+var_8], ecx\n0045ECA7: mov     dword_1CA8A78, edx\n0045ECAD: fild    dword ptr [esp+0Ch+var_8]; Load Integer\n0045ECB1: fmul    st, st(1); Multiply Real\n0045ECB3: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045ECB9: fstp    [esp+0Ch+var_8]; Store Real and Pop\n0045ECBD: mov     ecx, dword ptr [esp+0Ch+var_8]\n0045ECC1: fstp    st; Store Real and Pop\n0045ECC3: lea     ecx, [esi+ecx+80000000h]; Load Effective Address\n0045ECCA: mov     esi, 7FFFh\n0045ECCF: mov     dword_1CA8A7C, ecx\n0045ECD5: jge     short loc_45ECED; Jump if Greater or Equal (SF=OF)\n0045ECD7: mov     dword_1CA92F8, 81000000h\n0045ECE1: mov     dword_1CA8A34, 0FFFF8000h\n0045ECEB: jmp     short loc_45ED08; Jump\n0045ECED: cmp     eax, esi; Compare Two Operands\n0045ECEF: jle     short loc_45ED03; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045ECF1: mov     dword_1CA92F8, 81000000h\n0045ECFB: mov     dword_1CA8A34, esi\n0045ED01: jmp     short loc_45ED08; Jump\n0045ED03: mov     dword_1CA8A34, eax\n0045ED08: cmp     edx, 0FFFF8000h; Compare Two Operands\n0045ED0E: push    ebx\n0045ED0F: jge     short loc_45ED2F; Jump if Greater or Equal (SF=OF)\n0045ED11: mov     ebx, dword_1CA92F8\n0045ED17: mov     dword_1CA8A38, 0FFFF8000h\n0045ED21: or      ebx, 80800000h; Logical Inclusive OR\n0045ED27: mov     dword_1CA92F8, ebx\n0045ED2D: jmp     short loc_45ED53; Jump\n0045ED2F: cmp     edx, esi; Compare Two Operands\n0045ED31: jle     short loc_45ED4D; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045ED33: mov     ebx, dword_1CA92F8\n0045ED39: mov     dword_1CA8A38, esi\n0045ED3F: or      ebx, 80800000h; Logical Inclusive OR\n0045ED45: mov     dword_1CA92F8, ebx\n0045ED4B: jmp     short loc_45ED53; Jump\n0045ED4D: mov     dword_1CA8A38, edx\n0045ED53: cmp     ecx, 0FFFF8000h; Compare Two Operands\n0045ED59: jge     short loc_45ED79; Jump if Greater or Equal (SF=OF)\n0045ED5B: mov     esi, dword_1CA92F8\n0045ED61: mov     dword_1CA8A3C, 0FFFF8000h\n0045ED6B: or      esi, 400000h; Logical Inclusive OR\n0045ED71: mov     dword_1CA92F8, esi\n0045ED77: jmp     short loc_45ED9D; Jump\n0045ED79: cmp     ecx, esi; Compare Two Operands\n0045ED7B: jle     short loc_45ED97; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045ED7D: mov     ebx, dword_1CA92F8\n0045ED83: mov     dword_1CA8A3C, esi\n0045ED89: or      ebx, 400000h; Logical Inclusive OR\n0045ED8F: mov     dword_1CA92F8, ebx\n0045ED95: jmp     short loc_45ED9D; Jump\n0045ED97: mov     dword_1CA8A3C, ecx\n0045ED9D: cmp     eax, 0FFh; Compare Two Operands\n0045EDA2: pop     ebx\n0045EDA3: jbe     short loc_45EDBC; Jump if Below or Equal (CF=1 | ZF=1)\n0045EDA5: mov     esi, dword_1CA92F8\n0045EDAB: sar     eax, 1Fh; Shift Arithmetic Right\n0045EDAE: or      esi, 200000h; Logical Inclusive OR\n0045EDB4: not     eax; One's Complement Negation\n0045EDB6: mov     dword_1CA92F8, esi\n0045EDBC: mov     byte ptr dword_1CA8A68, al\n0045EDC1: mov     eax, edx\n0045EDC3: cmp     eax, 0FFh; Compare Two Operands\n0045EDC8: pop     esi\n0045EDC9: jbe     short loc_45EDE2; Jump if Below or Equal (CF=1 | ZF=1)\n0045EDCB: mov     edx, dword_1CA92F8\n0045EDD1: sar     eax, 1Fh; Shift Arithmetic Right\n0045EDD4: or      edx, 100000h; Logical Inclusive OR\n0045EDDA: not     eax; One's Complement Negation\n0045EDDC: mov     dword_1CA92F8, edx\n0045EDE2: cmp     ecx, 0FFh; Compare Two Operands\n0045EDE8: mov     byte ptr dword_1CA8A68+1, al\n0045EDED: jbe     short loc_45EE03; Jump if Below or Equal (CF=1 | ZF=1)\n0045EDEF: mov     eax, dword_1CA92F8\n0045EDF4: sar     ecx, 1Fh; Shift Arithmetic Right\n0045EDF7: or      eax, 80000h; Logical Inclusive OR\n0045EDFC: not     ecx; One's Complement Negation\n0045EDFE: mov     dword_1CA92F8, eax\n0045EE03: mov     byte ptr dword_1CA8A68+2, cl\n0045EE09: add     esp, 8; Add\n0045EE0C: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x45ebf0",
+      "end": "0x45ecd7",
+      "successors": [
+        "0x45ecd7",
+        "0x45eced"
+      ]
+    },
+    {
+      "start": "0x45ecd7",
+      "end": "0x45eced",
+      "successors": [
+        "0x45ed08"
+      ]
+    },
+    {
+      "start": "0x45eced",
+      "end": "0x45ecf1",
+      "successors": [
+        "0x45ecf1",
+        "0x45ed03"
+      ]
+    },
+    {
+      "start": "0x45ecf1",
+      "end": "0x45ed03",
+      "successors": [
+        "0x45ed08"
+      ]
+    },
+    {
+      "start": "0x45ed03",
+      "end": "0x45ed08",
+      "successors": [
+        "0x45ed08"
+      ]
+    },
+    {
+      "start": "0x45ed08",
+      "end": "0x45ed11",
+      "successors": [
+        "0x45ed11",
+        "0x45ed2f"
+      ]
+    },
+    {
+      "start": "0x45ed11",
+      "end": "0x45ed2f",
+      "successors": [
+        "0x45ed53"
+      ]
+    },
+    {
+      "start": "0x45ed2f",
+      "end": "0x45ed33",
+      "successors": [
+        "0x45ed33",
+        "0x45ed4d"
+      ]
+    },
+    {
+      "start": "0x45ed33",
+      "end": "0x45ed4d",
+      "successors": [
+        "0x45ed53"
+      ]
+    },
+    {
+      "start": "0x45ed4d",
+      "end": "0x45ed53",
+      "successors": [
+        "0x45ed53"
+      ]
+    },
+    {
+      "start": "0x45ed53",
+      "end": "0x45ed5b",
+      "successors": [
+        "0x45ed5b",
+        "0x45ed79"
+      ]
+    },
+    {
+      "start": "0x45ed5b",
+      "end": "0x45ed79",
+      "successors": [
+        "0x45ed9d"
+      ]
+    },
+    {
+      "start": "0x45ed79",
+      "end": "0x45ed7d",
+      "successors": [
+        "0x45ed7d",
+        "0x45ed97"
+      ]
+    },
+    {
+      "start": "0x45ed7d",
+      "end": "0x45ed97",
+      "successors": [
+        "0x45ed9d"
+      ]
+    },
+    {
+      "start": "0x45ed97",
+      "end": "0x45ed9d",
+      "successors": [
+        "0x45ed9d"
+      ]
+    },
+    {
+      "start": "0x45ed9d",
+      "end": "0x45eda5",
+      "successors": [
+        "0x45eda5",
+        "0x45edbc"
+      ]
+    },
+    {
+      "start": "0x45eda5",
+      "end": "0x45edbc",
+      "successors": [
+        "0x45edbc"
+      ]
+    },
+    {
+      "start": "0x45edbc",
+      "end": "0x45edcb",
+      "successors": [
+        "0x45edcb",
+        "0x45ede2"
+      ]
+    },
+    {
+      "start": "0x45edcb",
+      "end": "0x45ede2",
+      "successors": [
+        "0x45ede2"
+      ]
+    },
+    {
+      "start": "0x45ede2",
+      "end": "0x45edef",
+      "successors": [
+        "0x45edef",
+        "0x45ee03"
+      ]
+    },
+    {
+      "start": "0x45edef",
+      "end": "0x45ee03",
+      "successors": [
+        "0x45ee03"
+      ]
+    },
+    {
+      "start": "0x45ee03",
+      "end": "0x45ee0d",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x56cb7d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x56cb50"
+    },
+    {
+      "from": "0x56cbed",
+      "type": 17,
+      "iscode": true,
+      "function": "0x56cbc0"
+    },
+    {
+      "from": "0x5d9585",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5d9510"
+    },
+    {
+      "from": "0x657e24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x657df0"
+    },
+    {
+      "from": "0x657e56",
+      "type": 17,
+      "iscode": true,
+      "function": "0x657df0"
+    },
+    {
+      "from": "0x6580d5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x658010"
+    },
+    {
+      "from": "0x658563",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6583e0"
+    },
+    {
+      "from": "0x6593a9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x659340"
+    },
+    {
+      "from": "0x659455",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6593e0"
+    },
+    {
+      "from": "0x65948d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6593e0"
+    },
+    {
+      "from": "0x6594c5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6593e0"
+    },
+    {
+      "from": "0x659589",
+      "type": 17,
+      "iscode": true,
+      "function": "0x659510"
+    },
+    {
+      "from": "0x6595bd",
+      "type": 17,
+      "iscode": true,
+      "function": "0x659510"
+    },
+    {
+      "from": "0x6595f1",
+      "type": 17,
+      "iscode": true,
+      "function": "0x659510"
+    },
+    {
+      "from": "0x65962b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x659510"
+    },
+    {
+      "from": "0x680794",
+      "type": 17,
+      "iscode": true,
+      "function": "0x680520"
+    },
+    {
+      "from": "0x6807c8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x680520"
+    },
+    {
+      "from": "0x683cf4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x683ca0"
+    },
+    {
+      "from": "0x686c19",
+      "type": 17,
+      "iscode": true,
+      "function": "0x686a10"
+    },
+    {
+      "from": "0x686c4d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x686a10"
+    },
+    {
+      "from": "0x686c81",
+      "type": 17,
+      "iscode": true,
+      "function": "0x686a10"
+    },
+    {
+      "from": "0x688895",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6887b0"
+    },
+    {
+      "from": "0x6889d3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6887b0"
+    },
+    {
+      "from": "0x6a0b52",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a0af0"
+    },
+    {
+      "from": "0x6b2126",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b2030"
+    },
+    {
+      "from": "0x6b2159",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b2030"
+    },
+    {
+      "from": "0x6b6b11",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b68c0"
+    },
+    {
+      "from": "0x6b6b45",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b68c0"
+    },
+    {
+      "from": "0x6b6b79",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b68c0"
+    },
+    {
+      "from": "0x6b707c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b6fe0"
+    },
+    {
+      "from": "0x6b70b3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b6fe0"
+    },
+    {
+      "from": "0x6ba765",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ba680"
+    },
+    {
+      "from": "0x6ba8a3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ba680"
+    },
+    {
+      "from": "0x6c8aa1",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c8850"
+    },
+    {
+      "from": "0x6c8ad5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c8850"
+    },
+    {
+      "from": "0x6c8b09",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c8850"
+    },
+    {
+      "from": "0x6c900c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c8f70"
+    },
+    {
+      "from": "0x6c9043",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c8f70"
+    },
+    {
+      "from": "0x6d55f5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d5580"
+    },
+    {
+      "from": "0x6d95b9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d9560"
+    },
+    {
+      "from": "0x6e2c65",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e2c10"
+    },
+    {
+      "from": "0x6e2c97",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e2c10"
+    },
+    {
+      "from": "0x6e3b1c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e3ac0"
+    },
+    {
+      "from": "0x6e3b52",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e3ac0"
+    },
+    {
+      "from": "0x6e3b8f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e3ac0"
+    },
+    {
+      "from": "0x6e3c3a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e3ac0"
+    },
+    {
+      "from": "0x6e40c4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e3f30"
+    },
+    {
+      "from": "0x6e44ca",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e4350"
+    },
+    {
+      "from": "0x6e99c9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e9970"
+    },
+    {
+      "from": "0x6e9b3f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6e9b00"
+    },
+    {
+      "from": "0x6ebb82",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ebb20"
+    },
+    {
+      "from": "0x6f4064",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f3df0"
+    },
+    {
+      "from": "0x6f4098",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f3df0"
+    },
+    {
+      "from": "0x6fc2ad",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fc250"
+    },
+    {
+      "from": "0x6fc2df",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fc250"
+    },
+    {
+      "from": "0x6fceca",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fcd50"
+    },
+    {
+      "from": "0x701405",
+      "type": 17,
+      "iscode": true,
+      "function": "0x701390"
+    },
+    {
+      "from": "0x70acc4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x70abf0"
+    },
+    {
+      "from": "0x712ff4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x712f20"
+    },
+    {
+      "from": "0x71c374",
+      "type": 17,
+      "iscode": true,
+      "function": "0x71c2a0"
+    },
+    {
+      "from": "0x725e24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x725d50"
+    },
+    {
+      "from": "0x72e2f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x72e220"
+    },
+    {
+      "from": "0x737d44",
+      "type": 17,
+      "iscode": true,
+      "function": "0x737c70"
+    },
+    {
+      "from": "0x741984",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7418b0"
+    },
+    {
+      "from": "0x74be74",
+      "type": 17,
+      "iscode": true,
+      "function": "0x74bda0"
+    },
+    {
+      "from": "0x752c14",
+      "type": 17,
+      "iscode": true,
+      "function": "0x752b40"
+    },
+    {
+      "from": "0x75d044",
+      "type": 17,
+      "iscode": true,
+      "function": "0x75cf70"
+    },
+    {
+      "from": "0x76fc04",
+      "type": 17,
+      "iscode": true,
+      "function": "0x76fb30"
+    },
+    {
+      "from": "0x77c5a4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x77c4d0"
+    },
+    {
+      "from": "0x78abd4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x78ab00"
+    },
+    {
+      "from": "0x7948c4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7947f0"
+    },
+    {
+      "from": "0x79bf94",
+      "type": 17,
+      "iscode": true,
+      "function": "0x79bec0"
+    },
+    {
+      "from": "0x7a3634",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7a3560"
+    },
+    {
+      "from": "0x7a99e4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7a9910"
+    },
+    {
+      "from": "0x7af683",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7af5e0"
+    },
+    {
+      "from": "0x7afb75",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7af9f0"
+    },
+    {
+      "from": "0x7b0277",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7affb0"
+    },
+    {
+      "from": "0x7b2b24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7b2a50"
+    },
+    {
+      "from": "0x7ba304",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7ba230"
+    },
+    {
+      "from": "0x7bd3d7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7bd110"
+    },
+    {
+      "from": "0x7c28a4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7c27d0"
+    },
+    {
+      "from": "0x7c96e4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7c9610"
+    },
+    {
+      "from": "0x7d0374",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7d02a0"
+    },
+    {
+      "from": "0x7d9b44",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7d9a70"
+    },
+    {
+      "from": "0x7dbb1e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7dba70"
+    },
+    {
+      "from": "0x7dccee",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7dcc80"
+    },
+    {
+      "from": "0x7e2fd4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7e2f00"
+    },
+    {
+      "from": "0x7e9514",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7e9440"
+    },
+    {
+      "from": "0x7f0164",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7f0090"
+    },
+    {
+      "from": "0x7f61a4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7f60d0"
+    },
+    {
+      "from": "0x7fb644",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7fb570"
+    },
+    {
+      "from": "0x801704",
+      "type": 17,
+      "iscode": true,
+      "function": "0x801630"
+    },
+    {
+      "from": "0x806d24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x806c50"
+    },
+    {
+      "from": "0x810474",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8103a0"
+    },
+    {
+      "from": "0x815904",
+      "type": 17,
+      "iscode": true,
+      "function": "0x815830"
+    },
+    {
+      "from": "0x81adf4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x81ad20"
+    },
+    {
+      "from": "0x81de35",
+      "type": 17,
+      "iscode": true,
+      "function": "0x81ddc0"
+    },
+    {
+      "from": "0x828c74",
+      "type": 17,
+      "iscode": true,
+      "function": "0x828ba0"
+    },
+    {
+      "from": "0x82ffa4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x82fed0"
+    },
+    {
+      "from": "0x8340f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x834020"
+    },
+    {
+      "from": "0x83d244",
+      "type": 17,
+      "iscode": true,
+      "function": "0x83d170"
+    },
+    {
+      "from": "0x8426f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x842620"
+    },
+    {
+      "from": "0x844529",
+      "type": 17,
+      "iscode": true,
+      "function": "0x844270"
+    },
+    {
+      "from": "0x849ff4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x849f20"
+    },
+    {
+      "from": "0x84be29",
+      "type": 17,
+      "iscode": true,
+      "function": "0x84bb70"
+    },
+    {
+      "from": "0x84dbae",
+      "type": 17,
+      "iscode": true,
+      "function": "0x84db40"
+    },
+    {
+      "from": "0x854ef4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x854e20"
+    },
+    {
+      "from": "0x85a304",
+      "type": 17,
+      "iscode": true,
+      "function": "0x85a230"
+    },
+    {
+      "from": "0x862fb4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x862ee0"
+    },
+    {
+      "from": "0x869a34",
+      "type": 17,
+      "iscode": true,
+      "function": "0x869960"
+    },
+    {
+      "from": "0x870644",
+      "type": 17,
+      "iscode": true,
+      "function": "0x870570"
+    },
+    {
+      "from": "0x877004",
+      "type": 17,
+      "iscode": true,
+      "function": "0x876f30"
+    },
+    {
+      "from": "0x878e2e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x878d80"
+    },
+    {
+      "from": "0x87c0d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x87c000"
+    },
+    {
+      "from": "0x881614",
+      "type": 17,
+      "iscode": true,
+      "function": "0x881540"
+    },
+    {
+      "from": "0x886ad4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x886a00"
+    },
+    {
+      "from": "0x88b395",
+      "type": 17,
+      "iscode": true,
+      "function": "0x88b320"
+    },
+    {
+      "from": "0x891524",
+      "type": 17,
+      "iscode": true,
+      "function": "0x891450"
+    },
+    {
+      "from": "0x8982b4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8981e0"
+    },
+    {
+      "from": "0x89b13e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x89b0d0"
+    },
+    {
+      "from": "0x89cca5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x89cb90"
+    },
+    {
+      "from": "0x89e74e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x89e6e0"
+    },
+    {
+      "from": "0x8a7b14",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8a7a40"
+    },
+    {
+      "from": "0x8a98a9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8a95f0"
+    },
+    {
+      "from": "0x8aed94",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8aecc0"
+    },
+    {
+      "from": "0x8b4214",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8b4140"
+    },
+    {
+      "from": "0x8bbb24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8bba50"
+    },
+    {
+      "from": "0x8ca914",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8ca840"
+    },
+    {
+      "from": "0x8d2944",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8d2870"
+    },
+    {
+      "from": "0x8d582e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8d57c0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 116
+}

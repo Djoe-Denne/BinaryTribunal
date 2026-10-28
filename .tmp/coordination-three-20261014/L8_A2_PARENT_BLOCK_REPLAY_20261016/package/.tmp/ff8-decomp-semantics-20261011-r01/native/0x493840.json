@@ -1,0 +1,267 @@
+{
+  "ea": "0x493840",
+  "name_label_only": "domain::BattleStatus_ApplyAndSyncSlot",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x493840",
+      "end": "0x493ae3",
+      "hex": "538b5c24105533ed568b742410f7c300000080570f84800000008d04f5000000002bc68d0c86c1e1046639a918f0cf01743ef6442418357537f7c300400100752f8d1476f6c3098d04967412c1e0048d808c7bd2018b0880cd048908eb3cc1e0048d808c7bd2018b0880e5fb8908eb2a8d14768d0496c1e0048bb8187bd20181e7ffffff7f89b8187bd2018b888c7bd20180e5fb89888c7bd201f6442418047505f6c309743f56e8140dffff83c40485c07532f7c3000000800f858f0000008d14768d0496c1e0048d808c7bd2018b0883e1f789088b1083e2fb891056e80e17ffff83c404f7c30000008075618a0475308ed2018a54241832c2a82075118b0cb5388ed20133cbf7c100400002743f56e8ab0cffff83c40485c0753233d28a150f7bd2013bf274268d04768d0c86c1e1048d818c7bd2018b1083e2f789108b0883e1fb890856e8a516ffff83c4048d14768d3c96c1e704f7c300000100668b87927bd20166890475308ed2018b8f1c7bd201890cb5388ed201747d8b87187bd2015625fffffeff8987187bd201e89e32ffff8b978c7bd20183e2f789978c7bd2018b878c7bd20124fb89878c7bd20156e83b16ffff56e8450cffff89af247bd2018d0cf5000000002bce568d3c8ec1e70489af84f1cf01e8a48bffffc687c3f1cf01ffe8c825ffffe8334a010056e8dd36000083c414eb54f644241801744d8b978c7bd20183e2f789978c7bd2018b878c7bd20124fb89878c7bd20156e8ce15ffff56e8d80bffff89af247bd2018d0cf5000000002bce568d148ec1e20489aa84f1cf01e83724ffff83c40c8d04f50000000081e3ff7f0e032bc68d0c86c1e1048d8100f0cf01668b4c241883e17f50668988b2010000899888010000f680b201000010740f6a01e82300000083c4085f5e5d5bc355e81500000083c4085f5e5d5bc3"
+    }
+  ],
+  "assembly": "00493840: push    ebx; G10: apply bits then sync copies, ready/ATB/Eject side effects; Doom+Zombie clears Doom and disables timer[10]\n00493841: mov     ebx, [esp+4+param_status_2]\n00493845: push    ebp\n00493846: xor     ebp, ebp; Logical Exclusive OR\n00493848: push    esi\n00493849: mov     esi, [esp+0Ch+param_target_slot_id]\n0049384D: test    ebx, 80000000h; Logical Compare\n00493853: push    edi\n00493854: jz      loc_4938DA; Jump if Zero (ZF=1)\n0049385A: lea     eax, ds:0[esi*8]; Load Effective Address\n00493861: sub     eax, esi; Integer Subtraction\n00493863: lea     ecx, [esi+eax*4]; Load Effective Address\n00493866: shl     ecx, 4; Shift Logical Left\n00493869: cmp     F_CHAR_ACTIVE_SUMMON_HP[ecx], bp; Compare Two Operands\n00493870: jz      short loc_4938B0; Jump if Zero (ZF=1)\n00493872: test    byte ptr [esp+10h+param_status_1], 35h; Logical Compare\n00493877: jnz     short loc_4938B0; Jump if Not Zero (ZF=0)\n00493879: test    ebx, 14000h; Logical Compare\n0049387F: jnz     short loc_4938B0; Jump if Not Zero (ZF=0)\n00493881: lea     edx, [esi+esi*2]; Load Effective Address\n00493884: test    bl, 9; Logical Compare\n00493887: lea     eax, [esi+edx*4]; Load Effective Address\n0049388A: jz      short loc_49389E; Jump if Zero (ZF=1)\n0049388C: shl     eax, 4; Shift Logical Left\n0049388F: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address\n00493895: mov     ecx, [eax]\n00493897: or      ch, 4; Logical Inclusive OR\n0049389A: mov     [eax], ecx\n0049389C: jmp     short loc_4938DA; Jump\n0049389E: shl     eax, 4; Shift Logical Left\n004938A1: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address\n004938A7: mov     ecx, [eax]\n004938A9: and     ch, 0FBh; Logical AND\n004938AC: mov     [eax], ecx\n004938AE: jmp     short loc_4938DA; Jump\n004938B0: lea     edx, [esi+esi*2]; Load Effective Address\n004938B3: lea     eax, [esi+edx*4]; Load Effective Address\n004938B6: shl     eax, 4; Shift Logical Left\n004938B9: mov     edi, BATTLE_SLOT_DATA.status_2[eax]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned\n004938BF: and     edi, 7FFFFFFFh; Logical AND\n004938C5: mov     BATTLE_SLOT_DATA.status_2[eax], edi; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned\n004938CB: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[eax]\n004938D1: and     ch, 0FBh; Logical AND\n004938D4: mov     dword ptr BATTLE_SLOT_DATA.flag_data[eax], ecx\n004938DA: test    byte ptr [esp+10h+param_status_1], 4; Logical Compare\n004938DF: jnz     short loc_4938E6; Jump if Not Zero (ZF=0)\n004938E1: test    bl, 9; Logical Compare\n004938E4: jz      short loc_493925; Jump if Zero (ZF=1)\n004938E6: push    esi; slot\n004938E7: call    sub_484600; copier str_src dans exec Q : str @+0x3EE/+0x4EE, len=0x33/0x2C (incl NUL), retour = channel-USED flag\n004938EC: add     esp, 4; Add\n004938EF: test    eax, eax; Logical Compare\n004938F1: jnz     short loc_493925; Jump if Not Zero (ZF=0)\n004938F3: test    ebx, 80000000h; Logical Compare\n004938F9: jnz     loc_49398E; Jump if Not Zero (ZF=0)\n004938FF: lea     edx, [esi+esi*2]; Load Effective Address\n00493902: lea     eax, [esi+edx*4]; Load Effective Address\n00493905: shl     eax, 4; Shift Logical Left\n00493908: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address\n0049390E: mov     ecx, [eax]\n00493910: and     ecx, 0FFFFFFF7h; Logical AND\n00493913: mov     [eax], ecx\n00493915: mov     edx, [eax]\n00493917: and     edx, 0FFFFFFFBh; Logical AND\n0049391A: mov     [eax], edx\n0049391C: push    esi\n0049391D: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.\n00493922: add     esp, 4; Add\n00493925: test    ebx, 80000000h; Logical Compare\n0049392B: jnz     short loc_49398E; Jump if Not Zero (ZF=0)\n0049392D: mov     al, byte ptr word_1D28E30[esi*2]\n00493934: mov     dl, byte ptr [esp+10h+param_status_1]\n00493938: xor     al, dl; Logical Exclusive OR\n0049393A: test    al, 20h; Logical Compare\n0049393C: jnz     short loc_49394F; Jump if Not Zero (ZF=0)\n0049393E: mov     ecx, CURRENT_STATUS_TIMER_FLAGS[esi*4]\n00493945: xor     ecx, ebx; Logical Exclusive OR\n00493947: test    ecx, offset unk_2004000; Logical Compare\n0049394D: jz      short loc_49398E; Jump if Zero (ZF=1)\n0049394F: push    esi; slot\n00493950: call    sub_484600; copier str_src dans exec Q : str @+0x3EE/+0x4EE, len=0x33/0x2C (incl NUL), retour = channel-USED flag\n00493955: add     esp, 4; Add\n00493958: test    eax, eax; Logical Compare\n0049395A: jnz     short loc_49398E; Jump if Not Zero (ZF=0)\n0049395C: xor     edx, edx; Logical Exclusive OR\n0049395E: mov     dl, AI_CURRENT_EXECUTING_SLOT\n00493964: cmp     esi, edx; Compare Two Operands\n00493966: jz      short loc_49398E; If Berserk or status_2 0x02004000 (Confuse | Angel Wing) changed on a non-executing slot, clear ready/menu flags 0x04/0x08 and run the UI reset helper.\n00493968: lea     eax, [esi+esi*2]; Load Effective Address\n0049396B: lea     ecx, [esi+eax*4]; Load Effective Address\n0049396E: shl     ecx, 4; Shift Logical Left\n00493971: lea     eax, BATTLE_SLOT_DATA.flag_data[ecx]; Load Effective Address\n00493977: mov     edx, [eax]\n00493979: and     edx, 0FFFFFFF7h; Logical AND\n0049397C: mov     [eax], edx\n0049397E: mov     ecx, [eax]\n00493980: and     ecx, 0FFFFFFFBh; Logical AND\n00493983: mov     [eax], ecx\n00493985: push    esi\n00493986: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.\n0049398B: add     esp, 4; Add\n0049398E: lea     edx, [esi+esi*2]; Load Effective Address\n00493991: lea     edi, [esi+edx*4]; Load Effective Address\n00493994: shl     edi, 4; Shift Logical Left\n00493997: test    ebx, 10000h; Logical Compare\n0049399D: mov     ax, BATTLE_SLOT_DATA.status_1_copy[edi]\n004939A4: mov     word_1D28E30[esi*2], ax\n004939AC: mov     ecx, BATTLE_SLOT_DATA.status_2_copy[edi]\n004939B2: mov     CURRENT_STATUS_TIMER_FLAGS[esi*4], ecx\n004939B9: jz      short loc_493A38; Jump if Zero (ZF=1)\n004939BB: mov     eax, BATTLE_SLOT_DATA.status_2[edi]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned\n004939C1: push    esi\n004939C2: and     eax, 0FFFEFFFFh; Logical AND\n004939C7: mov     BATTLE_SLOT_DATA.status_2[edi], eax; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned\n004939CD: call    domain__BattleStatus_HandleEject_ResetSlot; WRITES status_1 (clears bit 0x20) while resetting slot after EJECT; called from status-apply path.\n004939D2: mov     edx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]\n004939D8: and     edx, 0FFFFFFF7h; Logical AND\n004939DB: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], edx\n004939E1: mov     eax, dword ptr BATTLE_SLOT_DATA.flag_data[edi]\n004939E7: and     al, 0FBh; Logical AND\n004939E9: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], eax\n004939EF: push    esi\n004939F0: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.\n004939F5: push    esi\n004939F6: call    sub_484640; Call Procedure\n004939FB: mov     BATTLE_SLOT_DATA.cur_atb[edi], ebp\n00493A01: lea     ecx, ds:0[esi*8]; Load Effective Address\n00493A08: sub     ecx, esi; Integer Subtraction\n00493A0A: push    esi\n00493A0B: lea     edi, [esi+ecx*4]; Load Effective Address\n00493A0E: shl     edi, 4; Shift Logical Left\n00493A11: mov     dword_1CFF184[edi], ebp\n00493A17: call    domain__BattleSlot_ManageDeathState; BattleSlot_ManageDeathState: death cleanup - com_file_id=-1, flag_data=0, status_1|=DEATH, zero crisis_level, fill timers with sentinel 0xFBA9\n00493A1C: mov     RELATED_CHARA_ID[edi], 0FFh\n00493A23: call    domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.\n00493A28: call    sub_4A8460; Call Procedure\n00493A2D: push    esi\n00493A2E: call    check_combat_scene_511; Call Procedure\n00493A33: add     esp, 14h; Add\n00493A36: jmp     short loc_493A8C; Jump\n00493A38: test    byte ptr [esp+10h+param_status_1], 1; Logical Compare\n00493A3D: jz      short loc_493A8C; Jump if Zero (ZF=1)\n00493A3F: mov     edx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]\n00493A45: and     edx, 0FFFFFFF7h; Logical AND\n00493A48: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], edx\n00493A4E: mov     eax, dword ptr BATTLE_SLOT_DATA.flag_data[edi]\n00493A54: and     al, 0FBh; Logical AND\n00493A56: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], eax\n00493A5C: push    esi\n00493A5D: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.\n00493A62: push    esi\n00493A63: call    sub_484640; Call Procedure\n00493A68: mov     BATTLE_SLOT_DATA.cur_atb[edi], ebp\n00493A6E: lea     ecx, ds:0[esi*8]; Load Effective Address\n00493A75: sub     ecx, esi; Integer Subtraction\n00493A77: push    esi; slot_id\n00493A78: lea     edx, [esi+ecx*4]; Load Effective Address\n00493A7B: shl     edx, 4; Shift Logical Left\n00493A7E: mov     dword_1CFF184[edx], ebp\n00493A84: call    domain__BattleItem_RefundStashedItems; Static 2026-08-18: refunds up to two nonzero item ids stashed at slot +0xB8/+0xB9 through BattleEqualItemBuffer_AdjustCount(id, add), then clears the stash. Callers include battle end, eject reset, status sync, and Angel Wing rewrite cleanup.\n00493A89: add     esp, 0Ch; Add\n00493A8C: lea     eax, ds:0[esi*8]; Load Effective Address\n00493A93: and     ebx, 30E7FFFh; Logical AND\n00493A99: sub     eax, esi; Integer Subtraction\n00493A9B: lea     ecx, [esi+eax*4]; Load Effective Address\n00493A9E: shl     ecx, 4; Shift Logical Left\n00493AA1: lea     eax, F_CHAR_DATA[ecx]; By address:\n00493AA7: mov     cx, [esp+10h+param_status_1]\n00493AAC: and     ecx, 7Fh; Logical AND\n00493AAF: push    eax\n00493AB0: mov     [eax+1B2h], cx\n00493AB7: mov     [eax+188h], ebx\n00493ABD: test    byte ptr [eax+1B2h], 10h; Logical Compare\n00493AC4: jz      short loc_493AD5; Jump if Zero (ZF=1)\n00493AC6: push    1\n00493AC8: call    sub_493AF0; Call Procedure\n00493ACD: add     esp, 8; Add\n00493AD0: pop     edi\n00493AD1: pop     esi\n00493AD2: pop     ebp\n00493AD3: pop     ebx\n00493AD4: retn; Return Near from Procedure\n00493AD5: push    ebp\n00493AD6: call    sub_493AF0; Call Procedure\n00493ADB: add     esp, 8; Add\n00493ADE: pop     edi\n00493ADF: pop     esi\n00493AE0: pop     ebp\n00493AE1: pop     ebx\n00493AE2: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x493840",
+      "end": "0x49385a",
+      "successors": [
+        "0x49385a",
+        "0x4938da"
+      ]
+    },
+    {
+      "start": "0x49385a",
+      "end": "0x493872",
+      "successors": [
+        "0x493872",
+        "0x4938b0"
+      ]
+    },
+    {
+      "start": "0x493872",
+      "end": "0x493879",
+      "successors": [
+        "0x493879",
+        "0x4938b0"
+      ]
+    },
+    {
+      "start": "0x493879",
+      "end": "0x493881",
+      "successors": [
+        "0x493881",
+        "0x4938b0"
+      ]
+    },
+    {
+      "start": "0x493881",
+      "end": "0x49388c",
+      "successors": [
+        "0x49388c",
+        "0x49389e"
+      ]
+    },
+    {
+      "start": "0x49388c",
+      "end": "0x49389e",
+      "successors": [
+        "0x4938da"
+      ]
+    },
+    {
+      "start": "0x49389e",
+      "end": "0x4938b0",
+      "successors": [
+        "0x4938da"
+      ]
+    },
+    {
+      "start": "0x4938b0",
+      "end": "0x4938da",
+      "successors": [
+        "0x4938da"
+      ]
+    },
+    {
+      "start": "0x4938da",
+      "end": "0x4938e1",
+      "successors": [
+        "0x4938e1",
+        "0x4938e6"
+      ]
+    },
+    {
+      "start": "0x4938e1",
+      "end": "0x4938e6",
+      "successors": [
+        "0x4938e6",
+        "0x493925"
+      ]
+    },
+    {
+      "start": "0x4938e6",
+      "end": "0x4938f3",
+      "successors": [
+        "0x4938f3",
+        "0x493925"
+      ]
+    },
+    {
+      "start": "0x4938f3",
+      "end": "0x4938ff",
+      "successors": [
+        "0x4938ff",
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x4938ff",
+      "end": "0x493925",
+      "successors": [
+        "0x493925"
+      ]
+    },
+    {
+      "start": "0x493925",
+      "end": "0x49392d",
+      "successors": [
+        "0x49392d",
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x49392d",
+      "end": "0x49393e",
+      "successors": [
+        "0x49393e",
+        "0x49394f"
+      ]
+    },
+    {
+      "start": "0x49393e",
+      "end": "0x49394f",
+      "successors": [
+        "0x49394f",
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x49394f",
+      "end": "0x49395c",
+      "successors": [
+        "0x49395c",
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x49395c",
+      "end": "0x493968",
+      "successors": [
+        "0x493968",
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x493968",
+      "end": "0x49398e",
+      "successors": [
+        "0x49398e"
+      ]
+    },
+    {
+      "start": "0x49398e",
+      "end": "0x4939bb",
+      "successors": [
+        "0x4939bb",
+        "0x493a38"
+      ]
+    },
+    {
+      "start": "0x4939bb",
+      "end": "0x493a38",
+      "successors": [
+        "0x493a8c"
+      ]
+    },
+    {
+      "start": "0x493a38",
+      "end": "0x493a3f",
+      "successors": [
+        "0x493a3f",
+        "0x493a8c"
+      ]
+    },
+    {
+      "start": "0x493a3f",
+      "end": "0x493a8c",
+      "successors": [
+        "0x493a8c"
+      ]
+    },
+    {
+      "start": "0x493a8c",
+      "end": "0x493ac6",
+      "successors": [
+        "0x493ac6",
+        "0x493ad5"
+      ]
+    },
+    {
+      "start": "0x493ac6",
+      "end": "0x493ad5",
+      "successors": []
+    },
+    {
+      "start": "0x493ad5",
+      "end": "0x493ae3",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47db6c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47daf0"
+    },
+    {
+      "from": "0x47dc59",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47dba0"
+    },
+    {
+      "from": "0x483613",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483470"
+    },
+    {
+      "from": "0x493d01",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x493ff3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x4940b5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493d80"
+    }
+  ],
+  "code_targets": [
+    "0x484600",
+    "0x484640",
+    "0x485030",
+    "0x485ec0",
+    "0x485ff0",
+    "0x486c70",
+    "0x48c5c0",
+    "0x493af0",
+    "0x497110",
+    "0x4a8460"
+  ],
+  "instruction_count": 190
+}

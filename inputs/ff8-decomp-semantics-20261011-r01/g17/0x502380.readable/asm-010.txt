@@ -1,0 +1,18 @@
+005025FF: add     esp, 8; Add
+00502602: not     ecx; One's Complement Negation
+00502604: and     edi, ecx; Logical AND
+00502606: mov     cl, [esi+0Bh]
+00502609: test    cl, cl; Logical Compare
+0050260B: jz      short loc_50260F; Jump if Zero (ZF=1)
+0050260D: or      edi, eax; Logical Inclusive OR
+0050260F: push    edi
+00502610: push    ebx
+00502611: call    sub_509CD0; Call Procedure
+00502616: push    ebx; actor
+00502617: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync
+0050261C: add     esp, 0Ch; Add
+0050261F: pop     edi; jumptable 0050239A default case, case 107
+00502620: pop     esi
+00502621: mov     eax, 0Fh
+00502626: pop     ebx
+00502627: retn; Return Near from Procedure

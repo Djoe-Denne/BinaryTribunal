@@ -1,0 +1,25 @@
+0047E176: jnz     short loc_47E17C; Jump if Not Zero (ZF=0)
+0047E178: cmp     [eax], bl; Compare Two Operands
+0047E17A: jnz     short loc_47E18B; Jump if Not Zero (ZF=0)
+0047E17C: add     eax, 0D0h; Add
+0047E181: inc     ecx; Increment by 1
+0047E182: cmp     eax, offset byte_1D28187; Compare Two Operands
+0047E187: jl      short loc_47E16F; Jump if Less (SF!=OF)
+0047E189: jmp     short loc_47E1C8; Jump
+0047E18B: lea     eax, [ecx+ecx*2]; Load Effective Address
+0047E18E: lea     esi, [ecx+eax*4]; Load Effective Address
+0047E191: shl     esi, 4; Shift Logical Left
+0047E194: mov     al, BATTLE_SLOT_DATA.target_reaction_type[esi]
+0047E19A: cmp     al, 2; Compare Two Operands
+0047E19C: jnz     short loc_47E1AC; Jump if Not Zero (ZF=0)
+0047E19E: test    byte ptr BATTLE_SLOT_DATA.status_1[esi], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0047E1A5: jnz     short loc_47E1BC; Jump if Not Zero (ZF=0)
+0047E1A7: push    ebx
+0047E1A8: push    2
+0047E1AA: jmp     short loc_47E1B3; Jump
+0047E1AC: and     eax, 0FFh; Logical AND
+0047E1B1: push    ebx; group
+0047E1B2: push    eax; special_id
+0047E1B3: push    ecx; slot
+0047E1B4: call    domain__Battle_EnqueueSpecialAction; G17: sole native group-0 writer. (slot, special_id, group). group==0 -> stru_1D28864; group!=0 -> group 2. command_id=0xFF. IDs 2/3/5/6/7/8 are G17; id 1 from EnqueueEnemyCounterActions is group 2.
+0047E1B9: add     esp, 0Ch; Add

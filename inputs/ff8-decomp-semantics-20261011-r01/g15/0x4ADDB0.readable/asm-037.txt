@@ -1,0 +1,25 @@
+004AEAFA: mov     byte ptr dword_1D768E4+1, dl
+004AEB00: mov     byte ptr dword_1D768E4+3, al
+004AEB05: jz      short loc_4AEB16; Jump if Zero (ZF=1)
+004AEB07: dec     dl; Decrement by 1
+004AEB09: inc     al; Increment by 1
+004AEB0B: mov     byte ptr dword_1D768E4+1, dl
+004AEB11: mov     byte ptr dword_1D768E4+3, al
+004AEB16: mov     al, byte ptr dword_1D768E8
+004AEB1B: push    1
+004AEB1D: shl     cl, 4; Shift Logical Left
+004AEB20: and     al, 0Fh; Logical AND
+004AEB22: push    0FFFFFFFFh
+004AEB24: or      cl, al; Logical Inclusive OR
+004AEB26: mov     byte ptr dword_1D768E8, cl
+004AEB2C: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex
+004AEB31: add     esp, 8; Add
+004AEB34: mov     ecx, dword_1D6D490; jumptable 004ADEFA case 19
+004AEB3A: xor     eax, eax; Logical Exclusive OR
+004AEB3C: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEB41: push    ebp; flags
+004AEB42: mov     byte ptr [ecx+2Bh], 0FFh
+004AEB46: xor     ecx, ecx; Logical Exclusive OR
+004AEB48: mov     cl, byte ptr dword_1D768E4+1
+004AEB4E: lea     edx, [eax+eax*2]; Load Effective Address
+004AEB51: push    1; id

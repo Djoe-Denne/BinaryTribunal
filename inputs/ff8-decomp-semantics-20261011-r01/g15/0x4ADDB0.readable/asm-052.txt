@@ -1,0 +1,25 @@
+004AF09F: push    ebp; x
+004AF0A0: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AF0A5: add     esp, 10h; Add
+004AF0A8: mov     dword_1D768D0, 21h ; '!'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AF0B2: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AF0B7: push    0FFFFFFFFh; jumptable 004ADEFA case 33
+004AF0B9: push    ebp; id
+004AF0BA: push    ebp; y
+004AF0BB: push    ebp; x
+004AF0BC: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AF0C1: mov     edx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AF0C7: push    ebp
+004AF0C8: push    80h
+004AF0CD: and     edx, 0FFh; Logical AND
+004AF0D3: push    12h
+004AF0D5: push    edx
+004AF0D6: call    presentation__BattleUI_EnqueueCommand; Old name: sub_4AD620. Enqueues battle UI command events (called from isBattle_HUDdisplay).
+004AF0DB: push    7; int
+004AF0DD: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AF0E2: add     esp, 24h; Add
+004AF0E5: mov     dword_1D768D0, 22h ; '"'; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AF0EF: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AF0F4: mov     eax, dword_1D6D490; jumptable 004ADEFA case 34
+004AF0F9: mov     cl, [eax+21h]
+004AF0FC: test    cl, cl; Logical Compare

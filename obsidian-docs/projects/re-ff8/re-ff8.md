@@ -5,19 +5,20 @@ tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
 sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl]
 summary: >-
-  FF8 PC battle RE overview. Remaster G14–G17 live; runtime laboratories
-  split; injector and ISO layer law linked. AF3DN.P live track: drop test
-  (lot 12-ter), per-node draw-list dumps + offline decode (lot 13), roadmap
-  to textures v8.
+  FF8 battle RE and rewrite knowledge. AF3DN.P Lot25 v18 proves stage0 NO_HOT_UNLOAD offline; global live remains blocked pending other hook lifetimes.
 provenance:
   extracted: 0.76
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-09-25T20:30:00+02:00
+updated: 2026-10-28
 ---
 
 # RE FF8
+
+## RMS statique — reprise au 28 octobre 2026
+
+[[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028|Archive M2 : superviseur, seize auteurs et préparateur]] : numeric/context et S1 ont des qualifications bornées ; le remplacement reste non accepté (délai de quinze secondes dépassé, preuves de threads interdites). La [[projects/re-ff8/references/rms-static-closure-mission-20261028|nouvelle mission de clôture statique]] est préparée, pas lancée. Voir aussi [[projects/re-ff8/skills/recuperer-un-resultat-opencode-manquant|récupération des résultats avant remplacement]].
 
 This project documents the Final Fantasy VIII PC 2000 battle system from product-level mechanics down to reverse-engineered functions, globals, structs, prompts, executable hypotheses, and tooling.
 
@@ -76,6 +77,11 @@ harden v7.2) is tracked in
 
 
 ## Implementation Projects
+
+AF3DN.P update (2026-10-07):
+[[projects/re-ff8/references/af3dn-lot25-v18-no-hot-unload-2026-10-07]] —
+stage0 prototype compiled and gates A–I proven offline. No deployment;
+pre-PIN detours, wrappers and concurrent lifetime remain live blockers.
 
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]] — Dedicated in-process x86 battle reimplementation. G05–G17 are live-promoted. G17 claim is party Counter only. Runtime is six laboratory clusters, not a second Runtime service. See [[projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories]] and [[projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27]].
 - [[projects/ffscriptloader/ffscriptloader]] — Generic hardened injector used to load, bootstrap, test, and shut down the battle DLL.
@@ -154,6 +160,39 @@ harden v7.2) is tracked in
 - [[projects/re-ff8/skills/evidence-to-domain-doc]] — Procedure for turning evidence JSON into runtime-confirmed domain docs.
 - [[projects/re-ff8/skills/static-reverse-triplet-protocol]] — Multi-agent static RE method: Grok triplets read-only, parent arbitration, Spark Max resolver, single IDA batch.
 - [[projects/re-ff8/skills/model-assisted-decompile-bench]] — Measured decompiler-model bench, golden eval target, GLM effort rules, glm-decompile MCP, IDA diff-push.
+
+## Campaign Harness — Strict Output And Role Sharing (2026-10-13)
+
+- [[projects/re-ff8/references/ff8-harness-strict-canary-2026-10-13]] — Native strict canary attempt 16 PASS (parent-confirmed), failed attempts 12–15 retained, synthetic-PASS limits (no FF8 science, no IDA/IDB publication, no HTTP transport).
+- [[projects/re-ff8/concepts/ff8-harness-role-policy]] — Role-policy contracts (`mission.rePolicy`), frozen R bulletin wire, generic Ensemble vs FF8 domain boundary, epistemic limits of provisional sharing.
+- [[projects/re-ff8/references/ff8-harness-role-sharing-session-2026-10-13]] — Session implementation: three workers, parent gates (242, then 1439 PASS post-UTF8 fix), worker-announced FF8 bulletin audit (219 targeted tests, UNVALIDATED by parent — cross-test and full gates still pending), parent operational notes.
+- Raw session preservation: [[_raw/ff8-harness-session-20261013/session-record]] and [[_raw/ff8-harness-session-20261013/session-addendum-20261013|session addendum]] (hashes in manifest).
+
+## Coordination Maintenance And Mission Resume (2026-10-14/15)
+
+- [[projects/re-ff8/references/ensemble-coordination-maintenance-2026-10-14]] — three coordination fixes (lead wake coalescing, pinned-hash mechanical preparation, generator/schema/cache pre-review) implemented, tested and deployed under pause; native cleanup 30/32 obsolete wakes with reports untouched (proven by hashes); parent-only guide published then revised to rev 2 for the 2026-10-15 user GO.
+- [[projects/re-ff8/concepts/ensemble-coordination-helpers]] — durable principles: one durable wake per team bound by token, `prepared-not-approved` receipts via public session/task binding, exact-token cancel only under pause + native quiescence, tamper-proof guide, completed tasks never implicitly reopened.
+- [[projects/re-ff8/skills/pre-review-invariant-gate]] — repeatable procedure: `prepare:transfer` (pinned SHA256), `review:scope` (delta only on parent-endorsed prior coverage), `review:preflight` (finite generator/schema/cache profile bound to the frozen fingerprint); PASS is not acceptance.
+- Raw session preservation: [[_raw/coordination-maintenance-20261014/session-record|session record]] (receipts copied byte-exact, hashes frontmatter).
+- Journal: [[journal/2026-10-15]].
+
+## RMS Plugin Engineering — M1 Retrait C# (2026-10-20)
+
+The RMS line (generic OpenCode V2 plugin) is engineered separately from the
+battle campaign. Mission [[projects/re-ff8/references/rms-m1-retrait-csharp-20261020|M1
+`rms-m1-retrait-csharp-20261020`]] closed **ACCEPTED_INTEGRATED**: the delivered
+`main` tree (2 673 blobs) is proven C#-free by content (no `.cs`, no managed PE,
+no .NET build), the Windows process-supervision helper is preserved byte-exact
+on `dev/windows-process-supervision` @ `9f789ff` (1 471 copies, per-file hash
+manifest), a first Q1 primitives port added +55 independently-oracled tests
+(bounds 128 argv / 32 766 UTF-16 units, `OrdinalIgnoreCase` semantics gated),
+1 261 frozen gels were withdrawn from the checkout after identity verification,
+and A09 was ruled by the user: **RMS = the harness static route** — none of the
+57 BLOCKED helper-qualification families is required on main (V01/V04 shared
+invariants deferred to M2). Reusable methods:
+[[projects/re-ff8/skills/preserve-then-withdraw-hash-verified]] and
+[[projects/re-ff8/skills/abc-space-isolation-delta-verification]]; orchestration
+lessons merged into [[projects/re-ff8/concepts/ensemble-coordination-helpers]].
 
 ## Open Questions
 

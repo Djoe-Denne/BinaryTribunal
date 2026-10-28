@@ -7,18 +7,18 @@ sources:
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - IDA IDB FF8_EN.exe.i64
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/44edffa6-6550-49df-b188-2e0223d16f0f/44edffa6-6550-49df-b188-2e0223d16f0f.jsonl
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-validation-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-promotion-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-live-completion-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g18-gf-gameplay-static-debts-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
 summary: >-
   SQ-Gxx register. G19 live-promoted. SQ-G19-001 persist still open.
   G22 category-3 holes (no later gate) recorded 2026-08-31.

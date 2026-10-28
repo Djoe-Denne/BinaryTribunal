@@ -1,0 +1,25 @@
+00489ACC: and     eax, edi; Logical AND
+00489ACE: and     ecx, edi; Logical AND
+00489AD0: push    eax; p_status
+00489AD1: mov     eax, dword ptr [esp+78h+opcode_param_1]
+00489AD5: and     edx, edi; Logical AND
+00489AD7: push    ecx; p_comparator
+00489AD8: and     eax, edi; Logical AND
+00489ADA: push    edx; p_target
+00489ADB: push    eax; p_unknown_bool
+00489ADC: inc     esi; Increment by 1
+00489ADD: call    BattleTarget_SelectByStatusOrStat; G15 U15.7 opcode 0x26: status/stat target mask. p1=all-bits vs random, target 200/201/id, cmp 3 inverts, status 0 death / 1-47 bits / 200-201 sex / 203-204 HP / 205-220 stats / 221-236 elem.
+00489AE2: add     esp, 10h; Add
+00489AE5: mov     [esp+74h+p_monster_slot_id], eax
+00489AE9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489AEE: mov     cl, [esi]; Static ABI verified 2026-08-10: VM TARGET_SLOT can construct 1<<slot. Values slot>=8 set low-mask bits 8–12, which are not emitted by canonical targetInfo helpers and require fail-closed handling in G08 until a supported live producer is proven.
+00489AF0: mov     eax, 1
+00489AF5: shl     eax, cl; Shift Logical Left
+00489AF7: inc     esi; Increment by 1
+00489AF8: mov     [esp+74h+p_monster_slot_id], eax
+00489AFC: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489B01: mov     dl, [esi]; AI VM op 0x04 CHOOSE_TARGET: target_mask from code(1); 0xC8..0xE3 symbolic + com_file_id scan
+00489B03: inc     esi; Increment by 1
+00489B04: mov     [esp+74h+opcode_param_1], dl
+00489B08: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+00489B0C: and     ecx, edi; Logical AND

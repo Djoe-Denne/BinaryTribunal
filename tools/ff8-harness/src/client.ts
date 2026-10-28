@@ -7,9 +7,36 @@ export interface ClientOptions {
   token: () => string; controllerId: string; teamName: string; leaseMs: number; maxRunning: number;
 }
 interface RequestRow { digest: string; body: string; receipt: string | null }
+interface SubmissionImage { payload: Record<string, unknown>; image: string; key: string; digest: string }
+const submissionAuthorityFields = ["token", "principalId", "controllerId", "expectedRevision", "directory", "missionId"] as const;
+/** Preserve the existing codec; detach its image before any configured callback.
+ * Getters/Proxy traps may run during canonical itself, not atomically with it. */
+function captureSubmission(input: Record<string, unknown>): SubmissionImage {
+  if (input === null || typeof input !== "object" || submissionAuthorityFields.some(key => key in input)) throw new Error("invalid submission identity/authority");
+  const image = canonical(input); let decoded: unknown;
+  try { decoded = JSON.parse(image); } catch { throw new Error("invalid submission image"); }
+  if (decoded === null || typeof decoded !== "object" || Array.isArray(decoded)) throw new Error("invalid submission image");
+  const payload = decoded as Record<string, unknown>, key = payload.idempotencyKey;
+  // A trap may have introduced authority after the raw presence check. The key
+  // must also belong to the captured data, not only the caller's prototype.
+  if (submissionAuthorityFields.some(field => field in payload) || !Object.hasOwn(payload, "idempotencyKey") || typeof key !== "string" || !key) throw new Error("invalid submission identity/authority");
+  return { payload, image, key, digest: hash(image) };
+}
+/** A cached receipt or retry may use only the exact captured payload. Historical
+ * controller/CAS values are envelope, not payload; contradictory rows are never repaired. */
+function boundRequestBody(row: RequestRow, captured: SubmissionImage): Record<string, unknown> {
+  if (row.digest !== captured.digest) throw new Error("idempotency key payload changed");
+  let decoded: unknown;
+  try { decoded = JSON.parse(row.body); } catch { throw new Error("incoherent durable submission body"); }
+  if (decoded === null || typeof decoded !== "object" || Array.isArray(decoded)) throw new Error("incoherent durable submission body");
+  const body = decoded as Record<string, unknown>;
+  const { missionId: _mission, directory: _directory, controllerId: _controller, expectedRevision: _revision, ...payload } = body;
+  if (canonical(payload) !== captured.image) throw new Error("idempotency key durable payload changed");
+  return body;
+}
 /** Admission provenance for deterministic permanent-block versus retry transitions. */
 export class BridgeAdmissionError extends Error {
-  constructor(message: string, readonly category: string, readonly recoverable: boolean) { super(message); }
+  constructor(message: string, readonly category: string, readonly recoverable: boolean, readonly type?: "execution_rejected") { super(message); }
 }
 /** Durable client for the public generic bridge. */
 export class ExecutionClient {
@@ -34,7 +61,8 @@ export class ExecutionClient {
       const data = native.data && typeof native.data === "object" ? native.data as Record<string, unknown> : native;
       const message = (error instanceof Error && error.message ? error.message : String(native.type ?? native._tag ?? "bridge transport error")).split(token).join("[redacted]");
       const declared = native.type === "execution_rejected" || typeof data.category === "string";
-      throw new BridgeAdmissionError(message, declared ? String(data.category ?? "unknown") : "transport", declared ? data.recoverable === true : true);
+      throw new BridgeAdmissionError(message, declared ? String(data.category ?? "unknown") : "transport", declared ? data.recoverable === true : true,
+        native.type === "execution_rejected" ? "execution_rejected" : undefined);
     }
     if (r.version !== 1) throw new Error("unsupported execution bridge version"); return r;
   }
@@ -57,21 +85,22 @@ export class ExecutionClient {
     this.recordRevision(missionId, r);
   }
   async submit(missionId: string, input: Record<string, unknown>): Promise<Record<string, unknown>> {
-    const key = input.idempotencyKey; if (typeof key !== "string" || !key || "token" in input || "principalId" in input || "controllerId" in input || "expectedRevision" in input || "directory" in input || "missionId" in input) throw new Error("invalid submission identity/authority");
-    const digest = hash(canonical(input));
+    const captured = captureSubmission(input), { key, digest } = captured;
     let row = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
-    if (row && row.digest !== digest) throw new Error("idempotency key payload changed");
+    if (row) boundRequestBody(row, captured);
     if (row?.receipt) return JSON.parse(row.receipt) as Record<string, unknown>;
     if (!row) {
       const state = await this.snapshot(missionId); const admission = state.admissions as { controllerId: string; leaseUntil: number } | undefined;
       if (admission && (admission.controllerId !== this.options.controllerId || admission.leaseUntil <= Date.now())) throw new Error("controller lease unavailable; explicit recover required");
       if (admission && admission.leaseUntil - Date.now() < this.options.leaseMs / 2) await this.control(missionId, "renew");
-      const body = { ...input, ...this.scope(missionId), controllerId: this.options.controllerId, expectedRevision: this.revision(missionId) };
+      const body = { ...captured.payload, ...this.scope(missionId), controllerId: this.options.controllerId, expectedRevision: this.revision(missionId) };
       this.db.transaction(() => { this.db.query("INSERT INTO ff8_bridge_requests(mission,key,digest,body) VALUES(?,?,?,?) ON CONFLICT(mission,key) DO NOTHING").run(missionId, key, digest, canonical(body)); }).immediate();
       row = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
       if (!row || row.digest !== digest) throw new Error("concurrent idempotency conflict");
+      boundRequestBody(row, captured);
+      if (row.receipt) return JSON.parse(row.receipt) as Record<string, unknown>;
     } else {
-      const state = await this.snapshot(missionId); const pending = JSON.parse(row.body) as Record<string, unknown>;
+      const state = await this.snapshot(missionId); const pending = boundRequestBody(row, captured);
       const executions = state.executions;
       if (!Array.isArray(executions)) throw new Error("cannot reconcile pending command without native execution snapshot");
       const accepted = executions.some((e: Record<string, unknown>) => e.executionId === pending.executionId);
@@ -87,8 +116,9 @@ export class ExecutionClient {
       }
     }
     // The exact command was durably committed before network I/O. Tokens remain in memory only.
+    const command = boundRequestBody(row, captured);
     this.db.query("INSERT INTO ff8_bridge_command_attempts(mission,key,time,body) VALUES(?,?,?,?)").run(missionId, key, Date.now(), row.body);
-    const response = await this.call("submit", JSON.parse(row.body));
+    const response = await this.call("submit", command);
     this.db.transaction(() => { this.db.query("UPDATE ff8_bridge_requests SET receipt=? WHERE mission=? AND key=?").run(canonical(response), missionId, key); this.recordRevision(missionId, response); }).immediate();
     return response;
   }

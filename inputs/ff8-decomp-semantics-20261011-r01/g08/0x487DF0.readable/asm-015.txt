@@ -1,0 +1,25 @@
+00488303: add     esp, 4; Add
+00488306: push    edx
+00488307: push    1Bh
+00488309: call    domain__BattleText_GetMiscText; Call Procedure
+0048830E: add     esp, 4; Add
+00488311: push    eax
+00488312: push    7
+00488314: push    edi
+00488315: call    domain__BattleText_GetCharacterName; Call Procedure
+0048831A: add     esp, 4; shared message tail: 0x2E fall-through, 0x29 via jmp (PrepareBuffer x3 + Print + DisplayMessageAndWait)
+0048831D: push    eax
+0048831E: call    domain__BattleText_PrepareBuffer; Call Procedure
+00488323: add     esp, 0Ch; Add
+00488326: push    eax
+00488327: call    domain__BattleText_PrepareBuffer; Call Procedure
+0048832C: add     esp, 0Ch; Add
+0048832F: push    eax
+00488330: call    domain__BattleText_PrepareBuffer; Call Procedure
+00488335: push    eax
+00488336: call    domain__BattleText_Print; Call Procedure
+0048833B: add     esp, 10h; Add
+0048833E: push    eax
+0048833F: call    domain__BattleEvent_DisplayMessageAndWait; Call Procedure
+00488344: add     esp, 14h; Add
+00488347: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

@@ -1,0 +1,25 @@
+0050F900: push    ebp
+0050F901: mov     ebp, esp
+0050F903: and     esp, 0FFFFFFF8h; Logical AND
+0050F906: sub     esp, 54h; Integer Subtraction
+0050F909: mov     eax, [ebp+ctx]
+0050F90C: push    ebx
+0050F90D: push    esi
+0050F90E: push    edi
+0050F90F: movsx   esi, word ptr [eax+14h]; Move with Sign-Extend
+0050F913: movsx   ecx, word ptr [eax+18h]; Move with Sign-Extend
+0050F917: movsx   ebx, word ptr [eax+16h]; Move with Sign-Extend
+0050F91B: movsx   eax, word ptr [eax+1Ah]; Move with Sign-Extend
+0050F91F: shl     esi, 3; Shift Logical Left
+0050F922: shl     ebx, 3; Shift Logical Left
+0050F925: lea     edx, [esi+ecx*8]; Load Effective Address
+0050F928: mov     [esp+60h+var_14], esi
+0050F92C: mov     [esp+60h+var_1C], edx
+0050F930: mov     edx, [ebp+verts]
+0050F933: lea     ecx, [ebx+eax*8]; Load Effective Address
+0050F936: mov     eax, [ebp+outPacked]
+0050F939: mov     edx, [edx]
+0050F93B: mov     dword ptr [esp+60h+var_10], ebx
+0050F93F: mov     edi, [eax]
+0050F941: mov     [esp+60h+var_18], ecx
+0050F945: mov     ax, [edx]

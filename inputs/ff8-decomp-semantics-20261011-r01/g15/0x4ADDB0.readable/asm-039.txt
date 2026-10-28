@@ -1,0 +1,25 @@
+004AEBC1: push    edx; y
+004AEBC2: add     eax, 7; Add
+004AEBC5: push    eax; x
+004AEBC6: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AEBCB: push    3; flags
+004AEBCD: push    2; slot_index
+004AEBCF: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AEBD4: push    2; int
+004AEBD6: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AEBDB: add     esp, 2Ch; Add
+004AEBDE: mov     dword_1D768D0, 14h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AEBE8: mov     ecx, dword_1D6D490; jumptable 004ADEFA case 20
+004AEBEE: mov     al, [ecx+21h]
+004AEBF1: test    al, al; Logical Compare
+004AEBF3: jz      short loc_4AEBFF; Jump if Zero (ZF=1)
+004AEBF5: mov     dword_1D768D0, 15h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AEBFF: xor     edx, edx; Logical Exclusive OR
+004AEC01: push    2; flags
+004AEC03: mov     dl, byte ptr dword_1D768E8+1
+004AEC09: mov     byte_1D76604, 1
+004AEC10: mov     dword_B877B8, 3FBh
+004AEC1A: push    edx; id
+004AEC1B: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEC20: and     eax, 0FFh; Logical AND
+004AEC25: lea     ecx, [eax+eax*2]; Load Effective Address

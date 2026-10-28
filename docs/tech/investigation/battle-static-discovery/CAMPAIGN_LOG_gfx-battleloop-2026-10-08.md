@@ -479,3 +479,8 @@ contrat frame/callback), aucune réparation devinée. Slot immédiatement
 réaffecté au pack du wrapper canonique `500DD0`. Readback API **14:05:20Z** :
 toujours **11 workers + superviseur**, **4 READY**
 (`N508F90_pack/N509440_pack/N5095B0_pack/N5099C0_pack`), 20 tests PASS.
+
+
+## 2026-10-10T15:40:16.643893+00:00 — arrêt terminal sur DRAIN utilisateur
+
+Gel44EA,21clôtures distinctes numériques LIKELY et23bloquées,6réserveEA noncommencées exclues ;65clôtures cumulées=44historiques+21,7commits repairs≠clôtures. Native finalSAVE=True/bool 2026-10-10T15:33:02.492531+00:00,readback21/21,IDB existante inchangée de chemin. Native167sessions worker terminales/0actif. activation=drained_user,dispatch_GO=false,completion_GO=false,refill=false; aucune autoreprise. Debugger NOTASK=0 courant (RUN historique seulement), cause inconnue,aucun contrôle debugger par assistant. [Bilan terminal](CAMPAIGN_DRAIN_FINAL_2026-10-10.md) + [JSON](CAMPAIGN_DRAIN_FINAL_2026-10-10.json) + [SAVE](CAMPAIGN_DRAIN_SAVE_2026-10-10.json). Partiels/gels/reviews/receipts/anciensC conservés, aucun remote/power/cleanup. Handoff canonique prioritaire nécessite GO nouvelle session et contextes enfants neufs.

@@ -1,0 +1,25 @@
+00701220: push    ebx; E3b: rotX Q12: m00=0x1000, m11=m22=cos, m12=sin, m21=-sin
+00701221: push    esi
+00701222: mov     esi, [esp+8+arg_4]
+00701226: xor     eax, eax; Logical Exclusive OR
+00701228: mov     ecx, esi
+0070122A: push    edi
+0070122B: movsx   edi, [esp+0Ch+arg_0]; Move with Sign-Extend
+00701230: mov     [ecx], eax
+00701232: push    edi
+00701233: mov     [ecx+4], eax
+00701236: mov     [ecx+8], eax
+00701239: mov     [ecx+0Ch], eax
+0070123C: mov     [ecx+10h], eax
+0070123F: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+00701244: push    edi
+00701245: mov     ebx, eax
+00701247: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.
+0070124C: mov     edx, ebx
+0070124E: add     esp, 8; Add
+00701251: neg     edx; Two's Complement Negation
+00701253: mov     word ptr [esi], 1000h
+00701258: mov     [esi+8], ax
+0070125C: mov     [esi+0Eh], dx
+00701260: mov     [esi+0Ah], bx
+00701264: mov     [esi+10h], ax

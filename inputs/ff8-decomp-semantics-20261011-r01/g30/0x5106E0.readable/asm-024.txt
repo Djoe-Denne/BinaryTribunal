@@ -1,0 +1,25 @@
+00510E90: push    ecx
+00510E91: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].
+00510E96: mov     eax, dword_1D99C1C
+00510E9B: add     esp, 18h; Add
+00510E9E: mov     ebp, [esp+44h+var_10]
+00510EA2: mov     ecx, esi
+00510EA4: shl     ecx, 10h; Shift Logical Left
+00510EA7: mov     edx, esi
+00510EA9: xor     edi, edi; Logical Exclusive OR
+00510EAB: sar     ecx, 10h; Shift Arithmetic Right
+00510EAE: sar     edx, 10h; Shift Arithmetic Right
+00510EB1: cmp     ecx, ebp; Compare Two Operands
+00510EB3: jge     short loc_510EBC; Jump if Greater or Equal (SF=OF)
+00510EB5: mov     edi, 1
+00510EBA: jmp     short loc_510EC7; Jump
+00510EBC: cmp     ecx, [esp+44h+var_8]; Compare Two Operands
+00510EC0: jle     short loc_510EC7; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510EC2: mov     edi, 2
+00510EC7: cmp     edx, [esp+44h+var_C]; Compare Two Operands
+00510ECB: jge     short loc_510ED2; Jump if Greater or Equal (SF=OF)
+00510ECD: or      edi, 4; Logical Inclusive OR
+00510ED0: jmp     short loc_510EDB; Jump
+00510ED2: cmp     edx, [esp+44h+var_8]; Compare Two Operands
+00510ED6: jle     short loc_510EDB; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510ED8: or      edi, 8; Logical Inclusive OR

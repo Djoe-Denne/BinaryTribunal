@@ -1,0 +1,5 @@
+0050A6C0: mov     eax, result_event
+0050A6C5: push    eax; result_event
+0050A6C6: call    BattleAction_ApplyResultAndSpawnPresentation; Presentation/domain seam: applies result/status first via 0x493D80, then restores animations/spawns reactions and finally creates damage popups via 0x5068B0. Popup creation itself does not mutate HP.
+0050A6CB: pop     ecx
+0050A6CC: retn; Return Near from Procedure

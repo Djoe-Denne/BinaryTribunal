@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "snapshotId": "snap:cycles-recursion",
+  "missionId": "re-graph-scheduler-20261013",
+  "binaryArtifacts": [
+    {
+      "schemaVersion": 1,
+      "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "moduleName": "fixture-alpha.exe",
+      "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "versionLabel": "fixture-v1",
+      "format": "PE32",
+      "architecture": "x86-32",
+      "imageBase": "0x400000",
+      "idbIdentity": "",
+      "sections": [],
+      "provenance": {
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "siteRva": null,
+        "siteKind": "extractor",
+        "xrefType": "none",
+        "source": "fixture-extractor",
+        "sourceVersion": "v1",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259"
+      },
+      "analysisVersion": "l1-contract-v1",
+      "extractorVersion": "fixture-not-native"
+    }
+  ],
+  "nodes": [
+    {
+      "schemaVersion": 1,
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "rva": "0x5100",
+      "ea": "0x405100",
+      "imageBase": "0x400000",
+      "name": "cycle_a",
+      "observedDescription": "",
+      "boundaries": [
+        {
+          "ordinal": 0,
+          "rva": "0x5100",
+          "endRvaExclusive": "0x5110",
+          "role": "entry"
+        }
+      ],
+      "sizeBytes": {
+        "known": true,
+        "value": 16
+      },
+      "instructionCount": {
+        "known": false,
+        "value": null
+      },
+      "basicBlockCount": {
+        "known": false,
+        "value": null
+      },
+      "functionClass": "internal",
+      "status": "observed",
+      "semanticMaturity": "none",
+      "analysisRefs": [],
+      "byteAgreement": "unknown",
+      "admissibleAsOracle": false,
+      "byteDivergence": {
+        "known": false,
+        "peMismatchByteCount": null,
+        "frozenSha256": null,
+        "peSha256": null
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "rva": "0x5200",
+      "ea": "0x405200",
+      "imageBase": "0x400000",
+      "name": "cycle_b",
+      "observedDescription": "",
+      "boundaries": [
+        {
+          "ordinal": 0,
+          "rva": "0x5200",
+          "endRvaExclusive": "0x5210",
+          "role": "entry"
+        }
+      ],
+      "sizeBytes": {
+        "known": true,
+        "value": 16
+      },
+      "instructionCount": {
+        "known": false,
+        "value": null
+      },
+      "basicBlockCount": {
+        "known": false,
+        "value": null
+      },
+      "functionClass": "internal",
+      "status": "observed",
+      "semanticMaturity": "none",
+      "analysisRefs": [],
+      "byteAgreement": "unknown",
+      "admissibleAsOracle": false,
+      "byteDivergence": {
+        "known": false,
+        "peMismatchByteCount": null,
+        "frozenSha256": null,
+        "peSha256": null
+      }
+    }
+  ],
+  "edges": [
+    {
+      "schemaVersion": 1,
+      "id": "edge:83bfd6438e949f41f514cf0a67bdba5d4f1f64c7c78d8a4a5d12d13cff41dc88",
+      "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "kind": "direct_call",
+      "direction": "source_to_destination",
+      "sites": [
+        {
+          "siteRva": "0x5108",
+          "xrefType": "code",
+          "provenance": {
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+            "siteRva": "0x5108",
+            "siteKind": "instruction",
+            "xrefType": "code",
+            "source": "fixture-extractor",
+            "sourceVersion": "v1",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "evidenceSha256": "f45cc483fb82cd5437ed94048c5d652cddcbf5d11de48c328426dcacf173da80"
+          }
+        }
+      ],
+      "status": "observed",
+      "confidence": "high",
+      "appearedInRevision": 1,
+      "retiredInRevision": null,
+      "schedulerRelevance": "may_block"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "edge:04cd8cdf0b5845a3712fa62ca3a98f5185446f5b002d16ed54fd6bff9591c276",
+      "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "kind": "direct_call",
+      "direction": "source_to_destination",
+      "sites": [
+        {
+          "siteRva": "0x5208",
+          "xrefType": "code",
+          "provenance": {
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+            "siteRva": "0x5208",
+            "siteKind": "instruction",
+            "xrefType": "code",
+            "source": "fixture-extractor",
+            "sourceVersion": "v1",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "evidenceSha256": "ccb91981a3cb202276af635a4f0bac231b7d27da1e8ef0a5ad342a840c18205b"
+          }
+        }
+      ],
+      "status": "observed",
+      "confidence": "high",
+      "appearedInRevision": 1,
+      "retiredInRevision": null,
+      "schedulerRelevance": "may_block"
+    }
+  ],
+  "objects": [],
+  "unresolved": [],
+  "capabilities": [],
+  "normalizedFingerprint": "8a7bb75839f5fb0d70e36b6b49a86b7d9ea0013e9ddb66d81f26ebc8e6e5b4c1",
+  "knowledgeRevision": 1,
+  "scope": {
+    "description": "Mutual recursion A to B and B to A. Do not invent a total bottom-up order.",
+    "moduleSha256s": [
+      "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+    ],
+    "functionCount": 2
+  },
+  "coverage": {
+    "status": "complete",
+    "uncoveredReason": null,
+    "tailsIterated": true,
+    "selfLoopsPreserved": true
+  },
+  "toolVersions": {
+    "extractor": "fixture-extractor",
+    "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+    "normalizer": "graph-contract-v1"
+  },
+  "configFingerprint": "0392e37e05aa794739c2c926bd287afb0d258c4c93a5e206d0954466e4cca1a2"
+}

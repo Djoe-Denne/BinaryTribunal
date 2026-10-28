@@ -1,0 +1,25 @@
+00505C00: push    ebx
+00505C01: mov     ebx, [esp+4+animId]
+00505C05: test    ebx, ebx; Logical Compare
+00505C07: push    esi
+00505C08: jz      short loc_505C6B; Jump if Zero (ZF=1)
+00505C0A: mov     esi, [esp+8+actor]
+00505C0E: test    byte ptr [esi+8], 18h; Logical Compare
+00505C12: jz      short loc_505C19; Jump if Zero (ZF=1)
+00505C14: test    bh, 10h; Logical Compare
+00505C17: jz      short loc_505C6B; Jump if Zero (ZF=1)
+00505C19: mov     eax, [esi+8Ch]
+00505C1F: and     bh, 0EFh; Logical AND
+00505C22: test    eax, eax; Logical Compare
+00505C24: jz      short loc_505C61; Jump if Zero (ZF=1)
+00505C26: push    offset sub_505C70; callback
+00505C2B: call    au_re_BdLinkTask_0; Call Procedure
+00505C30: add     esp, 4; Add
+00505C33: test    eax, eax; Logical Compare
+00505C35: jz      short loc_505C6B; Jump if Zero (ZF=1)
+00505C37: mov     [eax+0Ch], esi
+00505C3A: mov     [eax+15h], bl
+00505C3D: mov     ecx, esi
+00505C3F: mov     edx, 0FFBFh
+00505C44: test    byte ptr [esi], 2; Logical Compare
+00505C47: jz      short loc_505C50; Jump if Zero (ZF=1)

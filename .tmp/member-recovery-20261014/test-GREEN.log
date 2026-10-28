@@ -1,0 +1,18 @@
+bun test v1.4.2 (744846f84)
+
+test\member-recovery.test.ts:
+(pass) actual runtime startup repairs persisted running states, not only stale starting admissions [15.62ms]
+(pass) a fast native idle event during graceful-stop delivery cannot be overwritten by a late stop flag [11.62ms]
+(pass) restart reconciles three phantom running workers and a stopped review without prompting or aborting [11.26ms]
+(pass) active and retrying native sessions are not stopped or freed [9.47ms]
+(pass) failed, absent, malformed or timed-out native observations never release capacity [20.55ms]
+(pass) fresh and still-owned starting/spawn admissions cannot be reconciled away [9.99ms]
+(pass) an observed row changed during the native read is fenced against stale recovery [9.40ms]
+(pass) only owning directory and active teams may recover members [9.06ms]
+(pass) interrupted task ownership and dirty worktrees remain intact; inactivity never completes a task [9.43ms]
+(pass) completed shutdown releases unfinished claims, never accepted results [10.48ms]
+
+ 10 pass
+ 0 fail
+ 38 expect() calls
+Ran 10 tests across 1 file. [207.00ms]

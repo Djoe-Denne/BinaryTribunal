@@ -1,0 +1,25 @@
+0056C19C: fld     [esp+48h+var_30]; Load Real
+0056C1A0: fmul    st, st(2); Multiply Real
+0056C1A2: faddp   st(1), st; Add Real and Pop
+0056C1A4: fadd    ds:CONST_4_503601774854144e15; Add Real
+0056C1AA: fstp    [esp+48h+var_40]; Store Real and Pop
+0056C1AE: fld     [esp+48h+var_2C]; Load Real
+0056C1B2: fmul    st, st(3); Multiply Real
+0056C1B4: fld     [esp+48h+var_28]; Load Real
+0056C1B8: fmul    st, st(3); Multiply Real
+0056C1BA: mov     si, word ptr [esp+48h+var_40]
+0056C1BF: mov     [eax-8], si
+0056C1C3: faddp   st(1), st; Add Real and Pop
+0056C1C5: fld     [esp+48h+var_24]; Load Real
+0056C1C9: fmul    st, st(2); Multiply Real
+0056C1CB: faddp   st(1), st; Add Real and Pop
+0056C1CD: fadd    ds:CONST_4_503601774854144e15; Add Real
+0056C1D3: fstp    [esp+48h+var_40]; Store Real and Pop
+0056C1D7: mov     si, word ptr [esp+48h+var_40]
+0056C1DC: fstp    st; Store Real and Pop
+0056C1DE: mov     [eax-6], si
+0056C1E2: fstp    st; Store Real and Pop
+0056C1E4: fstp    st; Store Real and Pop
+0056C1E6: jnz     loc_56C12F; Jump if Not Zero (ZF=0)
+0056C1EC: mov     eax, [ebp+arg_8]
+0056C1EF: mov     edx, [esp+48h+var_20]

@@ -1,0 +1,82 @@
+bun test v1.4.2 (744846f84)
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] tool-arg-hint:fired tool=shell session=ses_alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] system-prompt:injected role=lead len=3731
+[ensemble] system-prompt:injected role=member len=968
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] nudge:idle-without-report name=alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+
+test\v2-client.test.ts:
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.create re-asserts permissions via rules() so agent denies cannot bury them [0.44ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.create maps parentID/title/permissions to V2 shape [0.09ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.promptAsync maps synthetic wakes to session.synthetic [0.25ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.promptAsync maps to queue-delivery prompt [0.12ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.promptAsync applies the model via switchModel first [0.19ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.abort maps to interrupt [0.08ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.status derives busy/idle from the active set [0.18ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > tui calls resolve without a server round-trip (toasts live in the CLI plugin) [0.12ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > tui.selectSession emits the view RPC event for native navigation [0.10ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > worktree.create discovers the branch via git (V2 reports directory only) [0.22ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > worktree creation supplies the native project identity and resolves its workspace without an injected gitDir [0.22ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > worktree.create falls back to the requested name when git lookup fails [0.09ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > worktree.remove/list/reset map to V2 remove/list/refresh [0.25ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > session.create routes a v2dir workspace id to location.directory [0.06ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > workspace.create bridges branch to directory (no workspace domain on V2 ctx) [0.10ms]
+(pass) v2-client adapter (issue #36, DRY: reuses all tool logic) > workspace.list is empty and workspace.remove resolves (DB is the source of truth) [0.07ms]
+
+test\v2-events.test.ts:
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.status idle transitions a busy member to ready [14.29ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.idle is equivalent to status idle [12.08ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.execution.started marks busy, succeeded marks ready [12.07ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.created tracks parent for sub-agent isolation [12.78ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.retry.scheduled persists retry columns without changing status [13.10ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > unknown sessions and unrelated event types are ignored [13.72ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > native failed execution is an error, not a successful ready member [13.55ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > idle/succeeded after failure cannot erase the error or revive the worker [12.38ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > durable failure replay cannot corrupt a later execution or duplicate its report [10.66ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > a distinct failed execution after explicit restart produces a new report [11.10ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > failure frees only the execution slot and retains the claimed task [10.49ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > the report is UTF8-bounded and excludes provider response bodies [13.95ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > state and failure report roll back together if persistence fails [11.01ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > old hosts deduplicate an error episode without durable IDs [10.23ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > intentional shutdown and the supervisor's own failure do not create recursive error wakes [10.60ms]
+
+test\v2-setup.test.ts:
+(pass) v2-setup (issue #36) > registers the native mission command and disposes it with its location [14.14ms]
+(pass) v2-setup (issue #36) > all native request transports enforce selection and dynamic revocation before provider calls [14.27ms]
+(pass) v2-setup (issue #36) > dispatched status events flow to member state [18.30ms]
+(pass) v2-setup (issue #36) > the setup event stream leaves foreign mission transitions for their owner [12.56ms]
+(pass) v2-setup (issue #36) > failed V2 worker wakes only the lead once, never retries the worker or emits success [13.02ms]
+(pass) v2-setup (issue #36) > foreign and archived worker failures cannot wake this supervisor [13.65ms]
+(pass) v2-setup (issue #36) > replaying after a crash between persistence and wake recovers exactly one parent wake [14.58ms]
+(pass) v2-setup (issue #36) > operator pause preserves the failure but blocks its wake until an authorized resume/replay [12.32ms]
+(pass) v2-setup (issue #36) > tool execute.before blocks team tools for sub-agents [13.45ms]
+(pass) v2-setup (issue #36) > tool execute.after enriches shell arg-fumble errors (issue #39) [12.23ms]
+(pass) v2-setup (issue #36) > tool execute.after leaves non-fumble errors untouched (issue #39) [12.33ms]
+(pass) v2-setup (issue #36) > shell hook is registered (per-session env unavailable on V2 — see OQ-V2-shell) [11.60ms]
+(pass) v2-setup (issue #36) > session context hook appends team system prompt for team sessions [12.49ms]
+(pass) v2-setup (issue #36) > dashboard serves team state on the configured port [26.95ms]
+(pass) v2-setup (issue #36) > extractQuestionOutput reads string and part-array results [0.06ms]
+(pass) v2-setup (issue #36) > context hook blocks native auto-wakes while an inherited spawn is being prepared [11.34ms]
+(pass) v2-setup (issue #36) > setup rehydrates registry and nudges already-idle silent members [40.24ms]
+
+ 48 pass
+ 0 fail
+ 150 expect() calls
+Ran 48 tests across 3 files. [544.00ms]

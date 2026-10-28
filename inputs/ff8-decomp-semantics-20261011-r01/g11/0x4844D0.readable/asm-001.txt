@@ -1,0 +1,25 @@
+004844D0: push    esi; Battle_InitATB_RandomFromSpeed: cur_atb = max_atb/100*(spd/4+rand(0..127)+1-35), clamped [0,max_atb]
+004844D1: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+004844D6: and     eax, 7Fh; weapon+70*lines 0x1CFE6F8: 71..79=weapon+320, else weapon+230
+004844D9: inc     eax; Increment by 1
+004844DA: mov     edx, eax
+004844DC: mov     eax, [esp+4+p_attacker_slot_id]
+004844E0: lea     ecx, [eax+eax*2]; Load Effective Address
+004844E3: lea     ecx, [eax+ecx*4]; Load Effective Address
+004844E6: xor     eax, eax; Logical Exclusive OR
+004844E8: shl     ecx, 4; Shift Logical Left
+004844EB: add     ecx, offset BATTLE_SLOT_DATA; Add
+004844F1: mov     al, [ecx+0C1h]; si att%2==1: factor=(att+1)/2+100, sinon factor=att/2+4 (branche impaire manquante GLM)
+004844F7: shr     eax, 2; Shift Logical Right
+004844FA: lea     esi, [eax+edx-23h]; Load Effective Address
+004844FE: mov     edx, [ecx+10h]
+00484501: mov     eax, 51EB851Fh
+00484506: imul    edx; Signed Multiply
+00484508: sar     edx, 5; Shift Arithmetic Right
+0048450B: mov     eax, edx
+0048450D: shr     eax, 1Fh; Shift Logical Right
+00484510: add     edx, eax; Add
+00484512: imul    esi, edx; Signed Multiply
+00484515: mov     [ecx+14h], esi
+00484518: mov     edx, [ecx+10h]
+0048451B: mov     eax, [ecx+14h]

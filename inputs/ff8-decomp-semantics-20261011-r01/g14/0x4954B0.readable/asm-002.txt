@@ -1,0 +1,19 @@
+004954FE: jz      short loc_495503; Jump if Zero (ZF=1)
+00495500: or      byte ptr [esi], 4; Logical Inclusive OR
+00495503: xor     eax, eax; Logical Exclusive OR
+00495505: xor     edx, edx; Logical Exclusive OR
+00495507: mov     al, [esi-4]
+0049550A: add     esi, 5; Add
+0049550D: imul    eax, 3Ch ; '<'; Signed Multiply
+00495510: mov     cl, K_MAGIC.defaultTarget[eax]
+00495516: mov     [esi-6], cl
+00495519: mov     dl, [esi-9]
+0049551C: imul    edx, 3Ch ; '<'; Signed Multiply
+0049551F: dec     ebp; Decrement by 1
+00495520: mov     al, K_MAGIC.unknown1[edx]
+00495526: mov     [esi-7], al
+00495529: jnz     short loc_4954D6; Jump if Not Zero (ZF=0)
+0049552B: pop     edi
+0049552C: pop     esi
+0049552D: pop     ebp
+0049552E: retn; Return Near from Procedure

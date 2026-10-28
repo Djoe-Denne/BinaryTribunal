@@ -1,0 +1,25 @@
+0050061E: mov     ecx, dword_B8A3E4
+00500624: lea     eax, ds:1D96980h[edx*4]; Load Effective Address
+0050062B: push    eax
+0050062C: push    ecx
+0050062D: call    sub_4A9220; Call Procedure
+00500632: mov     al, byte_1D8E03A
+00500637: add     esp, 10h; Add
+0050063A: test    al, al; Logical Compare
+0050063C: jz      short loc_50065E; Jump if Zero (ZF=1)
+0050063E: cmp     al, 10h; Compare Two Operands
+00500640: jbe     short loc_50064B; Jump if Below or Equal (CF=1 | ZF=1)
+00500642: add     al, 0F0h; Add
+00500644: mov     byte_1D8E03A, al
+00500649: jmp     short loc_50065E; Jump
+0050064B: and     eax, 1; Logical AND
+0050064E: push    eax
+0050064F: call    nullsub_4_used; Call Procedure
+00500654: add     esp, 4; Add
+00500657: mov     byte_1D8E03A, 0
+0050065E: call    sub_501B60; Call Procedure
+00500663: call    sub_501230; Call Procedure
+00500668: test    byte ptr battle_to_update_flags_dword_1D96A9C, 8; Logical Compare
+0050066F: jz      short loc_50068F; Jump if Zero (ZF=1)
+00500671: call    BattleTimQueue_FlushToVram; VRAM flush iff battle_to_update_flags&8 (PH10)
+00500676: push    1

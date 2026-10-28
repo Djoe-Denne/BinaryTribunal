@@ -1,3 +1,5 @@
+import { scientificCommitId, validateSchema, validateGraphDocument } from "./graph-pure-codecs";
+export { validateGraphDocument } from "./graph-pure-codecs";
 import type { Database } from "bun:sqlite";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -10,7 +12,6 @@ import { UnitLeaseStore, assertController, assertExecutionQuiescence, assertCano
 
 export const GRAPH_SCHEMA_VERSION = 6;
 function contentDigest(value: object): string { const { fingerprint: _ignored, ...content } = value as Record<string, unknown>; return fingerprint(content); }
-function scientificCommitId(value: KnowledgeCommit): string { const { commitId: _ignored, ...content } = value; return fingerprint(content); }
 
 export type WorkUnitState = "PENDING" | "BLOCKED" | "READY" | "RESERVED" | "RUNNING" | "VALIDATING" | "COMMITTED" | "RETRYABLE" | "FAILED" | "STALE" | "CANCELLED" | "STOP_PENDING" | "QUARANTINED";
 export interface WorkUnit {
@@ -183,36 +184,6 @@ const transitions: Record<WorkUnitState, WorkUnitState[]> = {
   RETRYABLE: ["READY", "FAILED"], STOP_PENDING: ["CANCELLED", "QUARANTINED", "FAILED"], QUARANTINED: [], COMMITTED: [], FAILED: [], STALE: [], CANCELLED: [],
 };
 
-/** Strict L1 schema subset; no regex dialect or runtime schema dependency. */
-function validateSchema(value: unknown, schema: Record<string, any>, path = "document"): void {
-  const match = (type: string) => type === "null" ? value === null : type === "integer" ? Number.isSafeInteger(value) : type === "array" ? Array.isArray(value) : type === "object" ? value !== null && typeof value === "object" && !Array.isArray(value) : typeof value === type;
-  invariant((Array.isArray(schema.type) ? schema.type : [schema.type]).some(match), `${path}: schema type mismatch`, "schema");
-  if (schema.enum) invariant(schema.enum.includes(value), `${path}: invalid enumeration`, "schema");
-  if (typeof value === "number") invariant((schema.minimum === undefined || value >= schema.minimum) && (schema.maximum === undefined || value <= schema.maximum), `${path}: numeric bounds`, "schema");
-  if (typeof value === "string") invariant((schema.minLength === undefined || value.length >= schema.minLength) && (schema.maxLength === undefined || value.length <= schema.maxLength), `${path}: text bounds`, "schema");
-  if (Array.isArray(value)) {
-    invariant((schema.minItems === undefined || value.length >= schema.minItems) && (schema.maxItems === undefined || value.length <= schema.maxItems), `${path}: array bounds`, "schema");
-    value.forEach((v, i) => validateSchema(v, schema.items, `${path}[${i}]`));
-  } else if (value !== null && typeof value === "object") {
-    const r = value as Record<string, unknown>;
-    for (const key of schema.required ?? []) invariant(key in r, `${path}: missing ${key}`, "schema");
-    for (const [key, v] of Object.entries(r)) {
-      invariant(schema.properties?.[key], `${path}: unexpected ${key}`, "schema"); validateSchema(v, schema.properties[key], `${path}.${key}`);
-    }
-  }
-}
-export function validateGraphDocument(kind: string, value: unknown): void {
-  invariant(["graph-snapshot", "cluster-partition", "work-unit", "knowledge-commit", "mission-plan"].includes(kind), "unsupported graph document", "schema");
-  validateSchema(value, JSON.parse(readFileSync(join(import.meta.dir, "..", "schemas", `${kind}-v1.schema.json`), "utf8")));
-  if (kind === "knowledge-commit") {
-    const commit = value as KnowledgeCommit;
-    invariant(/^[a-f0-9]{64}$/.test(commit.commitId) && /^[a-f0-9]{64}$/.test(commit.readbackHash) && commit.commitId === scientificCommitId(commit), "scientific content commitId/hash mismatch", "schema");
-    invariant(commit.isGitCommit === false && commit.outputRevision === commit.inputRevision + 1 && [1, 2].includes(commit.publicationLevel), "inadmissible scientific publication", "schema");
-    invariant(commit.futurePrerequisiteEffect !== "satisfies" || commit.readbackStatus === "verified", "unverified publication cannot satisfy prerequisites", "schema");
-    invariant(!/idb/i.test(commit.publicationTargetId) && !/(?:^|[:/\\])ida(?:[:/\\]|$)/i.test(commit.publicationTargetId), "IDB publication outside mission", "schema");
-    invariant(new Set(commit.resultIds).size === commit.resultIds.length && new Set(commit.validatedFactIds).size === commit.validatedFactIds.length, "duplicate scientific publication artifacts", "schema");
-  }
-}
 export function graphErrorClass(error: unknown): Exclude<ErrorClass, "none"> {
   const category = bridgeFailureCategory(error)?.category;
   if (error instanceof GraphPersistenceError) return error.category;

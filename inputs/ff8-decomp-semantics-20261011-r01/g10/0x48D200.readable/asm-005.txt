@@ -1,0 +1,25 @@
+0048D393: call    BattleTarget_BuildAliveTargetableMask; Builds the 7-bit generic alive/targetable mask over native slots 6..0. A bit requires flag_data bit0, status_1 Death clear, and flag_data bit6 clear. This helper does not apply strict Sleep/Stop/Confuse/Angel-Wing filtering.
+0048D398: mov     edx, [esp+24h+p_enemy_number]
+0048D39C: mov     ecx, eax
+0048D39E: and     ecx, edx; Logical AND
+0048D3A0: test    cx, cx; Logical Compare
+0048D3A3: jnz     short loc_48D403; Jump if Not Zero (ZF=0)
+0048D3A5: mov     bl, AI_PREPARE_SUMMON_FLAG
+0048D3AB: mov     cx, 7
+0048D3AF: cmp     cx, dx; Compare Two Operands
+0048D3B2: sbb     ecx, ecx; Integer Subtraction with Borrow
+0048D3B4: and     ecx, 0F1h; Logical AND
+0048D3BA: add     ecx, 7; Add
+0048D3BD: test    bl, bl; Logical Compare
+0048D3BF: jnz     short loc_48D401; Jump if Not Zero (ZF=0)
+0048D3C1: and     ecx, eax; Logical AND
+0048D3C3: mov     eax, edx
+0048D3C5: mov     [esp+24h+p_enemy_number], edx
+0048D3C9: xor     esi, esi; Logical Exclusive OR
+0048D3CB: shl     eax, 1; Shift Logical Left
+0048D3CD: mov     ebx, eax
+0048D3CF: and     ebx, ecx; Logical AND
+0048D3D1: test    bx, bx; Logical Compare
+0048D3D4: jnz     loc_48D468; Jump if Not Zero (ZF=0)
+0048D3DA: inc     esi; Increment by 1
+0048D3DB: cmp     esi, 8; Compare Two Operands

@@ -1,0 +1,92 @@
+{
+  "observations": [
+    {
+      "kind": "cancel",
+      "hashAltered": false,
+      "consumerState": "CANCELLED",
+      "producerState": "COMMITTED",
+      "trace": [
+        {
+          "t": 0,
+          "seq": 3,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "PENDING",
+          "to": "CANCELLED",
+          "reason": "cancelled_by_fixture"
+        }
+      ]
+    },
+    {
+      "kind": "cancel",
+      "hashAltered": true,
+      "consumerState": "BLOCKED",
+      "producerState": "COMMITTED",
+      "trace": [
+        {
+          "t": 0,
+          "seq": 3,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "PENDING",
+          "to": "CANCELLED",
+          "reason": "cancelled_by_fixture"
+        },
+        {
+          "t": 3,
+          "seq": 25,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "CANCELLED",
+          "to": "BLOCKED",
+          "reason": "artifact_revision_validation_or_level_shortfall"
+        }
+      ]
+    },
+    {
+      "kind": "invalidate_knowledge",
+      "hashAltered": false,
+      "consumerState": "STALE",
+      "producerState": "COMMITTED",
+      "trace": [
+        {
+          "t": 0,
+          "seq": 3,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "PENDING",
+          "to": "STALE",
+          "reason": "requires_new_immutable_plan:invalidate_knowledge"
+        }
+      ]
+    },
+    {
+      "kind": "invalidate_knowledge",
+      "hashAltered": true,
+      "consumerState": "BLOCKED",
+      "producerState": "COMMITTED",
+      "trace": [
+        {
+          "t": 0,
+          "seq": 3,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "PENDING",
+          "to": "STALE",
+          "reason": "requires_new_immutable_plan:invalidate_knowledge"
+        },
+        {
+          "t": 3,
+          "seq": 25,
+          "ev": "unit_state",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "from": "STALE",
+          "to": "BLOCKED",
+          "reason": "artifact_revision_validation_or_level_shortfall"
+        }
+      ]
+    }
+  ],
+  "scope": "same lifecycle invariant; no true quiescence inferred from state",
+  "noDbOrSourceWrite": true
+}

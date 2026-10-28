@@ -1,0 +1,25 @@
+004ADF36: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare
+004ADF3B: jz      short loc_4ADF58; Jump if Zero (ZF=1)
+004ADF3D: mov     word ptr dword_1D768DC+2, ax
+004ADF43: call    sub_4A9DD0; Call Procedure
+004ADF48: mov     word_1D75438, ax
+004ADF4E: mov     eax, 6; Draw menu UI state dword_1D768D0 = 6, NOT pending command_id. Pending command_id is dword_1D768D8+2 from BattleDrawMenu_Open arg_4.
+004ADF53: jmp     loc_4AE669; Jump
+004ADF58: test    bl, 10h; Logical Compare
+004ADF5B: jz      short loc_4ADF71; Jump if Zero (ZF=1)
+004ADF5D: push    3
+004ADF5F: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004ADF64: add     esp, 4; Add
+004ADF67: mov     eax, 4
+004ADF6C: jmp     loc_4AE669; Jump
+004ADF71: test    bl, 20h; Logical Compare
+004ADF74: jz      def_4ADEFA; jumptable 004ADEFA default case
+004ADF7A: mov     eax, 2Ah ; '*'
+004ADF7F: jmp     loc_4AE669; Jump
+004ADF84: xor     ecx, ecx; jumptable 004ADEFA case 6
+004ADF86: mov     cx, word ptr dword_1D768DC+2
+004ADF8D: push    ecx
+004ADF8E: call    sub_4A9890; Call Procedure
+004ADF93: mov     ebx, eax
+004ADF95: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004ADF9A: mov     edx, ebx

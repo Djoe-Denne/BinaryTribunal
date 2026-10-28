@@ -13,9 +13,9 @@ sources:
   - obsidian-docs/_staging/investigations/limit_breaks.md
   - obsidian-docs/_staging/investigations/escape_mechanics.md
   - IDA static decompile 2026-06-14 (BattleATB_TickAndReady 0x4842B0, BattleUI_HudInputAndATBTick 0x4A84E0)
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
 summary: ATB/GF share four pulses per frame; P0.9 replaces their domain logic while retaining one proven native HUD render call per frame.
 provenance:
   extracted: 0.91

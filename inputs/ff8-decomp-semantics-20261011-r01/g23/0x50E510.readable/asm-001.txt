@@ -1,0 +1,25 @@
+0050E510: mov     ecx, BattleStageNumber
+0050E516: xor     eax, eax; Logical Exclusive OR
+0050E518: and     ecx, 0FFh; Logical AND
+0050E51E: cmp     ecx, 0A2h; switch 163 cases
+0050E524: ja      def_50E52A; jumptable 0050E52A default case
+0050E52A: jmp     ds:jpt_50E52A[ecx*4]; switch jump
+0050E531: mov     eax, [esp+arg_0]; jumptable 0050E52A case 0
+0050E535: push    eax
+0050E536: call    BS_Stage000; Call Procedure
+0050E53B: add     esp, 4; Add
+0050E53E: retn; Return Near from Procedure
+0050E53F: mov     ecx, [esp+arg_0]; jumptable 0050E52A case 1
+0050E543: push    ecx
+0050E544: call    BS_Stage001; Call Procedure
+0050E549: add     esp, 4; Add
+0050E54C: retn; Return Near from Procedure
+0050E54D: mov     edx, [esp+arg_0]; jumptable 0050E52A case 2
+0050E551: push    edx
+0050E552: call    BS_Stage002; Call Procedure
+0050E557: add     esp, 4; Add
+0050E55A: retn; Return Near from Procedure
+0050E55B: mov     eax, [esp+arg_0]; jumptable 0050E52A case 3
+0050E55F: push    eax
+0050E560: call    BS_Stage003; Call Procedure
+0050E565: add     esp, 4; Add

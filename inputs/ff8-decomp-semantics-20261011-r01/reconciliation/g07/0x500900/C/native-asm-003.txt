@@ -1,0 +1,25 @@
+005005C8: mov     eax, g_BattleOTBase
+005005CD: add     eax, 8; Add
+005005D0: lea     edx, ds:1D969C8h[ecx*4]; Load Effective Address
+005005D7: push    edx
+005005D8: push    eax
+005005D9: call    sub_4A9160; Call Procedure
+005005DE: mov     al, byte ptr battle_to_update_flags_dword_1D96A9C
+005005E3: add     esp, 0Ch; Add
+005005E6: test    al, 4; Logical Compare
+005005E8: jz      short loc_50065E; Jump if Zero (ZF=1)
+005005EA: mov     ecx, g_BattleFramePingPongIndex
+005005F0: and     ecx, 0FFh; Logical AND
+005005F6: mov     eax, ecx
+005005F8: lea     edx, [ecx+ecx*2]; Load Effective Address
+005005FB: xor     eax, 1; Logical Exclusive OR
+005005FE: shl     edx, 3; Shift Logical Left
+00500601: sub     edx, ecx; Integer Subtraction
+00500603: lea     ecx, ds:1D969C8h[edx*4]; Load Effective Address
+0050060A: lea     edx, [eax+eax*2]; Load Effective Address
+0050060D: shl     edx, 3; Shift Logical Left
+00500610: sub     edx, eax; Integer Subtraction
+00500612: push    ecx
+00500613: lea     ecx, ds:1D969C8h[edx*4]; Load Effective Address
+0050061A: lea     edx, [eax+eax*4]; Load Effective Address
+0050061D: push    ecx

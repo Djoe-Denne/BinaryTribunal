@@ -1,0 +1,17 @@
+00505C49: mov     eax, [esi+74h]
+00505C4C: and     [eax+2Ch], dx; Logical AND
+00505C50: mov     esi, [esi+8Ch]
+00505C56: cmp     esi, ecx; Compare Two Operands
+00505C58: jz      short loc_505C6B; Jump if Zero (ZF=1)
+00505C5A: test    esi, esi; Logical Compare
+00505C5C: jnz     short loc_505C44; Jump if Not Zero (ZF=0)
+00505C5E: pop     esi
+00505C5F: pop     ebx
+00505C60: retn; Return Near from Procedure
+00505C61: push    ebx
+00505C62: push    esi
+00505C63: call    sub_505BC0; Call Procedure
+00505C68: add     esp, 8; Add
+00505C6B: pop     esi
+00505C6C: pop     ebx
+00505C6D: retn; Return Near from Procedure

@@ -1,0 +1,19 @@
+0046496B: mov     eax, ecx
+0046496D: and     al, 0FEh; Logical AND
+0046496F: add     eax, edx; Add
+00464971: inc     ecx; Increment by 1
+00464972: cmp     ecx, esi; Compare Two Operands
+00464974: lea     ebp, [eax+eax*4]; Load Effective Address
+00464977: lea     eax, [eax+ebp*2]; Load Effective Address
+0046497A: lea     eax, [eax+eax*4]; Load Effective Address
+0046497D: lea     eax, [eax+eax*4]; Load Effective Address
+00464980: mov     dword_1CBECEC[eax*4], 0FFFFFFFFh
+0046498B: jle     short loc_46496B; Jump if Less or Equal (ZF=1 | SF!=OF)
+0046498D: inc     ebx; Increment by 1
+0046498E: cmp     ebx, edi; Compare Two Operands
+00464990: jle     short loc_464958; Jump if Less or Equal (ZF=1 | SF!=OF)
+00464992: pop     edi
+00464993: pop     esi
+00464994: pop     ebp
+00464995: pop     ebx
+00464996: retn; Return Near from Procedure

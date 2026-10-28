@@ -1,0 +1,25 @@
+00515781: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+00515786: cdq; EAX -> EDX:EAX (with sign)
+00515787: and     edx, 3; Logical AND
+0051578A: add     eax, edx; Add
+0051578C: sar     eax, 2; Shift Arithmetic Right
+0051578F: push    eax
+00515790: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+00515795: add     esp, 8; Add
+00515798: jmp     short loc_5157D7; Jump
+0051579A: cmp     eax, 1Eh; Compare Two Operands
+0051579D: jle     short loc_5157A6; Jump if Less or Equal (ZF=1 | SF!=OF)
+0051579F: mov     ecx, 1000h
+005157A4: jmp     short loc_5157E3; Jump
+005157A6: mov     ecx, eax
+005157A8: mov     eax, 88888889h
+005157AD: shl     ecx, 0Ch; Shift Logical Left
+005157B0: imul    ecx; Signed Multiply
+005157B2: add     edx, ecx; Add
+005157B4: sar     edx, 4; Shift Arithmetic Right
+005157B7: mov     eax, edx
+005157B9: shr     eax, 1Fh; Shift Logical Right
+005157BC: add     edx, eax; Add
+005157BE: mov     eax, edx
+005157C0: cdq; EAX -> EDX:EAX (with sign)
+005157C1: and     edx, 3; Logical AND

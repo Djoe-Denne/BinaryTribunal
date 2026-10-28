@@ -1,0 +1,16 @@
+00495EC0: push    esi; Finalize party setup: iterates all 16 GFs, for each existing GF calls sub_495D80 to set up GF battle data.
+00495EC1: push    edi
+00495EC2: xor     edi, edi; Logical Exclusive OR
+00495EC4: mov     esi, offset SG_ARRAY_GF_DATA.Exists
+00495EC9: test    byte ptr [esi], 1; Logical Compare
+00495ECC: jz      short loc_495ED7; Jump if Zero (ZF=1)
+00495ECE: push    edi; gf_id
+00495ECF: call    domain__BattleGF_RecomputeBattleData; Call Procedure
+00495ED4: add     esp, 4; Add
+00495ED7: add     esi, 44h ; 'D'; Add
+00495EDA: inc     edi; Increment by 1
+00495EDB: cmp     esi, offset SG_ARRAY_CHARA_DATA.Magic.amount; Compare Two Operands
+00495EE1: jl      short loc_495EC9; Jump if Less (SF!=OF)
+00495EE3: pop     edi
+00495EE4: pop     esi
+00495EE5: retn; Return Near from Procedure

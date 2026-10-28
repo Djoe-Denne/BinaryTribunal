@@ -1,0 +1,47 @@
+{
+  "group": "g35",
+  "status": "CHECKPOINT_REQUIRED",
+  "SOURCE": "discover-g35",
+  "source_session": "ses_ed41f6fbbffeI2SrFtyj7BeEOw",
+  "classifier_source_forbidden": true,
+  "routes": [
+    {
+      "ea": "0x687300",
+      "classification": {"complexity": 6, "risk": 30, "risk_native_field": "uncertainty", "uncertainty_cause": "data_flow", "instruction_count": 7},
+      "pe_verified": true,
+      "tier": "medium",
+      "protocol": "2+1_per_volet",
+      "status": "CHECKPOINT_REQUIRED",
+      "dispatch_after_checkpoint": "DISPATCH_READY",
+      "rationale": [
+        "Native uncertainty 30 exceeds simple risk threshold 20; scores satisfy medium thresholds 65/50.",
+        "Frozen facts show 7 instructions, one basic block, no outgoing calls or indirect control-flow trigger.",
+        "Existing source gaps include absent caller ASM, global data xrefs and unobserved caller return-width/convention; no simple single-author route.",
+        "Source compaction section C explicitly records prior target C sketch and historical semantic claims. Lead must establish a clean factual checkpoint before author inheritance. Do not fork classifier."
+      ],
+      "checkpoint": {"required": true, "owner": "lead", "reason": "target_candidate_preview_in_source_report", "inherit_SOURCE": "discover-g35", "do_not_alter_classifier_payload": true},
+      "productions": {
+        "C": {
+          "A": {"model": "zai-coding-plan/glm-5.3-flash", "variant": "max", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/C/A.md"},
+          "B": {"model": "opencode-go/gpt-6-luna", "variant": "medium", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/C/B.md"},
+          "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "depends_on": ["C.A", "C.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/C/R.md"}
+        },
+        "semantic": {
+          "A": {"model": "openai/gpt-6.1-sol", "variant": "medium", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/semantic/A.md"},
+          "B": {"model": "openai/gpt-6.1-sol", "variant": "medium", "independent_fresh_session": true, "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/semantic/B.md"},
+          "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "depends_on": ["semantic.A", "semantic.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g35/0x687300/semantic/R.md"}
+        }
+      },
+      "admission_guards": ["lead_only_dispatch", "same_clean_factual_SOURCE_for_A_and_B", "independent_blind_A_B_sessions", "native_Model.Ref_verification", "R_only_after_A_plus_B", "parent_native_validation_required"],
+      "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g35/0x687300.request.json",
+      "request_sha256": "a1f9aa711a6e9290213f67ed49b995d2341235eb6465f376db1dfc1467584a4d",
+      "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g35/0x687300.response.native.json",
+      "response_sha256": "e79a030caba9a423be246bb728cfec3b4153e6daff981e0dd9bd716db0396c26",
+      "factual_hash_manifest": "outputs/ff8-decomp-semantics-20261011-r01/classification/g35/hashes.json"
+    }
+  ],
+  "blocked_eas": [{"ea": "0x687300", "reason": "CHECKPOINT_REQUIRED"}],
+  "pe_quarantined_eas": [],
+  "oversize_eas": [],
+  "classifier_calls": 1
+}

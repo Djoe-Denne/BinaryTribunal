@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-16T20:10:14.545Z",
+  "status": 0,
+  "stdout": "",
+  "stderr": "",
+  "selector": "Get-CimInstance Win32_Process | Where-Object { $_.Name -in @(\"bun.exe\",\"bunx.exe\",\"bun\",\"bunx\",\"node.exe\",\"node\") -and ($_.CommandLine -match '(?:^|\\s|\\x22)test(?:\\s|\\x22|$)|\\.test\\.ts|(?:^|\\s|\\x22|[/\\\\])tsc(?:\\.js|\\.cjs)?(?:\\s|\\x22|$)|run typecheck|probe(?:\\.ts|\\.js)|independent-projection\\.mjs') } | Select-Object ProcessId,ParentProcessId,CommandLine | ConvertTo-Json -Compress",
+  "metadataObservationOnlyNoProductExecutionOrKill": true
+}

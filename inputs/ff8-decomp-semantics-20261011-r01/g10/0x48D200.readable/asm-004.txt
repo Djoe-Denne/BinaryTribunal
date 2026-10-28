@@ -1,0 +1,25 @@
+0048D328: jmp     short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D32A: mov     [esp+24h+p_always_zero], 0Eh; jumptable 0048D2DD cases 244,254
+0048D32F: jmp     short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D331: mov     [esp+24h+p_always_zero], 0Bh; jumptable 0048D2DD case 247
+0048D336: jmp     short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D338: mov     [esp+24h+p_always_zero], 1Ch; jumptable 0048D2DD case 239
+0048D33D: jmp     short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D33F: mov     ebx, [esp+24h+p_offset_to_execute_]
+0048D343: mov     ebp, [esp+24h+p_command_type]; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D347: mov     edx, [esp+24h+p_target_slot_id]
+0048D34B: and     ebp, 0FFh; Logical AND
+0048D351: mov     BOOL_LAST_COMMAND_FAILED, 0
+0048D358: mov     byte_1D28DF5, 0
+0048D35F: mov     [esp+24h+var_C], ebp
+0048D363: lea     esi, [ebp-2]; switch 253 cases
+0048D366: cmp     esi, 0FCh; Compare Two Operands
+0048D36C: ja      def_48D37A; jumptable 0048D37A default case, cases 9,10,12,35-37,39-235,242,243,248,249,251,253
+0048D372: xor     eax, eax; Logical Exclusive OR
+0048D374: mov     al, ds:byte_48E494[esi]
+0048D37A: jmp     ds:jpt_48D37A[eax*4]; switch jump
+0048D381: push    ebp; jumptable 0048D37A case 29
+0048D382: call    getAddressAbilityName; Call Procedure
+0048D387: add     esp, 4; Add
+0048D38A: mov     edi, eax
+0048D38C: mov     BOOL_TARGET_CHOOSEN, 0

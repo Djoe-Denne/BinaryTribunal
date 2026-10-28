@@ -1,0 +1,22 @@
+0050FD02: and     ecx, 0FFFFh; Logical AND
+0050FD08: and     esi, 0FFFFh; Logical AND
+0050FD0E: or      eax, ecx; Logical Inclusive OR
+0050FD10: or      esi, edx; Logical Inclusive OR
+0050FD12: mov     [edi], eax
+0050FD14: mov     eax, [esp+60h+var_48]
+0050FD18: mov     [edi+4], esi
+0050FD1B: add     edi, 8; Add
+0050FD1E: dec     eax; Decrement by 1
+0050FD1F: mov     [esp+60h+var_48], eax
+0050FD23: jnz     loc_50FBA1; Jump if Not Zero (ZF=0)
+0050FD29: mov     edx, [esp+60h+var_4C]
+0050FD2D: mov     eax, [ebp+verts]
+0050FD30: mov     ecx, [ebp+outPacked]
+0050FD33: mov     [eax], edx
+0050FD35: mov     [ecx], edi
+0050FD37: pop     edi
+0050FD38: pop     esi
+0050FD39: pop     ebx
+0050FD3A: mov     esp, ebp
+0050FD3C: pop     ebp
+0050FD3D: retn; Return Near from Procedure

@@ -1,0 +1,102 @@
+{
+  "ea": "0x6F29D0",
+  "name_label_only": "Mat3S16_MakeScaledRotY_NegSin_Table13B7BB8",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x6f29d0",
+      "end": "0x6f2a30",
+      "hex": "8b54241033c08bca560fbf74240c890189410489410889410c8941108b44240825ff0f00008d0c85b87b3b010fbf0485b87b3b010fbf49020fafc60fafce668b742410c1f80c6689420c66897208c1f90cf7d866890a6689420466894a105ec3"
+    }
+  ],
+  "assembly": "006F29D0: mov     edx, [esp+arg_C]\n006F29D4: xor     eax, eax; Logical Exclusive OR\n006F29D6: mov     ecx, edx\n006F29D8: push    esi\n006F29D9: movsx   esi, [esp+4+arg_4]; Move with Sign-Extend\n006F29DE: mov     [ecx], eax\n006F29E0: mov     [ecx+4], eax\n006F29E3: mov     [ecx+8], eax\n006F29E6: mov     [ecx+0Ch], eax\n006F29E9: mov     [ecx+10h], eax\n006F29EC: mov     eax, dword ptr [esp+4+arg_0]\n006F29F0: and     eax, 0FFFh; Logical AND\n006F29F5: lea     ecx, ds:13B7BB8h[eax*4]; Load Effective Address\n006F29FC: movsx   eax, word_13B7BB8[eax*4]; Move with Sign-Extend\n006F2A04: movsx   ecx, word ptr [ecx+2]; Move with Sign-Extend\n006F2A08: imul    eax, esi; Signed Multiply\n006F2A0B: imul    ecx, esi; Signed Multiply\n006F2A0E: mov     si, [esp+4+arg_8]\n006F2A13: sar     eax, 0Ch; Shift Arithmetic Right\n006F2A16: mov     [edx+0Ch], ax\n006F2A1A: mov     [edx+8], si\n006F2A1E: sar     ecx, 0Ch; Shift Arithmetic Right\n006F2A21: neg     eax; Two's Complement Negation\n006F2A23: mov     [edx], cx\n006F2A26: mov     [edx+4], ax\n006F2A2A: mov     [edx+10h], cx\n006F2A2E: pop     esi\n006F2A2F: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x6f29d0",
+      "end": "0x6f2a30",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x6edd68",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6edeaf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6edf3f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6ee0fa",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6ee3ad",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6ee428",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6eea08",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6eee44",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6ef3f2",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6ef6cf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed900"
+    },
+    {
+      "from": "0x6f11a0",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f1060"
+    },
+    {
+      "from": "0x6f2a75",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f2a30"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 28
+}

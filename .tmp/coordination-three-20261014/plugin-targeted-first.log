@@ -1,0 +1,20 @@
+bun test v1.4.2 (744846f84)
+
+test\lead-notifications.test.ts:
+(pass) a burst of distinct reports coalesces to one queued wake without discarding report rows [14.14ms]
+(pass) consumed native notification allows a genuinely new identical report to wake again [10.57ms]
+(pass) a reload/new client cannot enqueue another pending wake for the same team [10.18ms]
+(pass) full results retrieved by the lead are not reinjected as old system-prompt messages [12.11ms]
+(pass) worker reads and foreign recipient data cannot acknowledge a lead notification [9.99ms]
+(pass) legacy cleanup cancels only queued synthetic hints for already read AND delivered reports [9.75ms]
+(pass) future/foreign or malformed native notifications never become obsolete candidates [9.49ms]
+(pass) ambiguous submission failure holds a durable uncertain wake instead of blind retry [9.78ms]
+(pass) a policy refusal remains recoverable and never deletes the canonical report [9.92ms]
+(pass) full lead retrieval resolves an uncertain wake and allows the next true report [9.95ms]
+(pass) acknowledged cancellation is exact-token-only, never broad native/user queue deletion [10.84ms]
+(pass) maintenance requires operator pause and native quiescence, preserves reports/control items [10.41ms]
+
+ 12 pass
+ 0 fail
+ 27 expect() calls
+Ran 12 tests across 1 file. [169.00ms]

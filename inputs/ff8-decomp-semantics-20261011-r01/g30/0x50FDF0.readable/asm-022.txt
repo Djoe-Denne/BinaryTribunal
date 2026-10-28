@@ -1,0 +1,25 @@
+0051051F: mov     [esp+44h+var_8], ecx
+00510523: mov     [esp+44h+var_14], edx
+00510527: call    Poly_BackfaceTest2D; Call Procedure
+0051052C: add     esp, 0Ch; Add
+0051052F: test    eax, eax; Logical Compare
+00510531: jle     loc_510653; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510537: mov     eax, dword_1D99C18
+0051053C: mov     ecx, [esp+38h+var_4]
+00510540: mov     edx, [esp+38h+var_8]
+00510544: mov     [eax+8], ebp
+00510547: mov     ebp, [esp+38h+ctx]
+0051054B: mov     [eax+10h], ecx
+0051054E: mov     ecx, [esp+38h+var_14]
+00510552: mov     [eax+18h], edx
+00510555: mov     [eax+20h], ecx
+00510558: mov     ecx, dword_1D99C1C
+0051055E: movsx   ebp, word ptr [ebp+24h]; Move with Sign-Extend
+00510562: mov     edx, [ecx+14h]
+00510565: test    ebp, offset unk_FFFFFF; Logical Compare
+0051056B: mov     [esp+38h+var_C], edx
+0051056F: jz      short loc_5105B0; Jump if Zero (ZF=1)
+00510571: push    6
+00510573: push    edx
+00510574: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+00510579: mov     edx, [esp+40h+ctx]

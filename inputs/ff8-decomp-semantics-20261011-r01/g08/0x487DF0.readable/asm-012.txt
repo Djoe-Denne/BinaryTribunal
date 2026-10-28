@@ -1,0 +1,25 @@
+004881F4: xor     eax, eax; Logical Exclusive OR
+004881F6: push    offset domain__EnemyAI_MonsterEnterAnimation; a3
+004881FB: mov     al, ATTACK_HIT_COUNT
+00488200: push    80h; a2
+00488205: movzx   di, [esp+0B0h+opcode_param_1]; Move with Zero-Extend
+0048820E: lea     eax, [eax+eax*4]; index = hit*20 into ACTION_EVENT_GROUP_INDEX (x5 then x4)
+00488211: push    71h ; 'q'; G14: AI 0x1B GF_SUMMON_PRESENT enqueue 0x71 + MonsterEnterAnimation after 0x70 barrier.
+00488213: mov     byte ptr ACTION_EVENT_GROUP_INDEX[eax*4], 0
+0048821B: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00488220: add     esp, 40h; Add
+00488223: mov     [eax], di; store DI (param_1) into ActivateTargetRelay result
+00488226: push    6; phase
+00488228: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+0048822D: add     esp, 4; Add
+00488230: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488235: lea     ecx, [ebx+ebx*2]; AI VM op 0x2E READ_PLAYER_MAGIC_B: as 0x29 + EnemyAI_SelectRandomMagicFromStock (RNG); different text
+00488238: lea     edx, [esp+74h+list_of_element_flag_blow_away]; Load Effective Address
+0048823C: push    edx; p_list_of_indice_element_flagged
+0048823D: lea     ebp, [ebx+ecx*4]; Load Effective Address
+00488240: shl     ebp, 4; Shift Logical Left
+00488243: mov     ax, ss:BATTLE_SLOT_DATA.target_info_mask[ebp]
+0048824A: push    eax; p_element
+0048824B: call    Battle_GetElementFlagged; Enumerates every set bit in the element mask into an output byte list ordered from lowest bit to highest bit. Raw damage code currently uses only out[0], so multi-bit HIT_ELEMENT masks resolve as single-element (lowest set bit).
+00488250: mov     ecx, [esp+7Ch+list_of_element_flag_blow_away]
+00488254: push    0; preset_magic_id

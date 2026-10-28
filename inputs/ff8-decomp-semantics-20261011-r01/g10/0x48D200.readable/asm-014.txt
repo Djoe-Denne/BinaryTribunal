@@ -1,0 +1,25 @@
+0048D667: mov     ecx, eax
+0048D669: shl     ecx, 4; Shift Logical Left
+0048D66C: add     ecx, eax; Add
+0048D66E: test    SG_ARRAY_GF_DATA.Exists[ecx*4], 1; Logical Compare
+0048D676: jnz     loc_48D4C8; Jump if Not Zero (ZF=0)
+0048D67C: push    eax; p_gforce_id
+0048D67D: call    domain__GF_SetOwnedFlag; Sets the SG_ARRAY_GF_DATA.Exists bit for gf_id. Used by Draw/acquisition paths and enemy AI opcode 0x31.
+0048D682: mov     al, POST_BATTLE_GF_ID_QUEUE_COUNT
+0048D687: mov     cl, byte ptr [esp+28h+p_enemy_number]
+0048D68B: xor     edx, edx; Logical Exclusive OR
+0048D68D: push    ebp
+0048D68E: mov     dl, al
+0048D690: inc     al; Increment by 1
+0048D692: mov     POST_BATTLE_GF_ID_QUEUE_COUNT, al
+0048D697: mov     byte_1D28E18, 1
+0048D69E: mov     byte ptr POST_BATTLE_GF_ID_QUEUE[edx], cl
+0048D6A4: mov     dl, byte_B81516
+0048D6AA: mov     [esp+2Ch+p_always_zero], dl
+0048D6AE: mov     [esp+2Ch+magic_id], 0Fh
+0048D6B6: call    getAddressAbilityName; Call Procedure
+0048D6BB: push    76h ; 'v'
+0048D6BD: mov     edi, eax
+0048D6BF: call    domain__BattleText_GetMiscText; Call Procedure
+0048D6C4: add     esp, 0Ch; Add
+0048D6C7: push    eax

@@ -1,0 +1,25 @@
+0050AC64: pop     ebx
+0050AC65: retn; Return Near from Procedure
+0050AC66: mov     eax, g_GfSequenceContextSharedB; jumptable 0050A9C9 case 6
+0050AC6B: cmp     word ptr [eax+4], 0FFFEh; Compare Two Operands
+0050AC71: jnz     short loc_50AC85; Jump if Not Zero (ZF=0)
+0050AC73: mov     eax, g_GfSequenceContextCandidateA
+0050AC78: test    eax, eax; Logical Compare
+0050AC7A: jnz     short def_50A9C9; jumptable 0050A9C9 default case
+0050AC7C: inc     byte ptr [esi+0Dh]; Increment by 1
+0050AC7F: pop     edi; jumptable 0050A9C9 default case
+0050AC80: pop     esi
+0050AC81: xor     eax, eax; Logical Exclusive OR
+0050AC83: pop     ebx
+0050AC84: retn; Return Near from Procedure
+0050AC85: mov     al, [eax+1]
+0050AC88: cmp     al, 0Bh; Compare Two Operands
+0050AC8A: jz      loc_50AD59; Jump if Zero (ZF=1)
+0050AC90: cmp     al, 0Eh; Compare Two Operands
+0050AC92: jz      loc_50AD59; Jump if Zero (ZF=1)
+0050AC98: call    BattleActionSequence_WaitBusy; wave3 attaques: busy-wait pose/CandidatA/cam/501190; 8 xrefs ticks
+0050AC9D: test    eax, eax; Logical Compare
+0050AC9F: jz      short loc_50ACC9; Jump if Zero (ZF=1)
+0050ACA1: mov     eax, g_GfSequenceContextCandidateA
+0050ACA6: test    eax, eax; Logical Compare
+0050ACA8: jnz     short def_50A9C9; jumptable 0050A9C9 default case

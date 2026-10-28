@@ -1,0 +1,25 @@
+0050B705: or      byte ptr [ecx+2], 4; Logical Inclusive OR
+0050B709: cmp     al, 2; Compare Two Operands
+0050B70B: jz      short loc_50B747; Jump if Zero (ZF=1)
+0050B70D: push    14h; animId
+0050B70F: push    ecx; actor
+0050B710: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050B715: mov     edx, dword_1D99A40
+0050B71B: xor     ecx, ecx; Logical Exclusive OR
+0050B71D: mov     cl, byte_1D99A4E
+0050B723: mov     eax, [edx+84h]
+0050B729: add     ecx, 3; Add
+0050B72C: push    ecx; int
+0050B72D: mov     ecx, [eax+2Ch]
+0050B730: push    ecx; unsigned __int16 *
+0050B731: call    BattleCamera_StartTrack; Alloue d'abord l'un des 2 noeuds BdLink caméra, puis scanne 2 records de 0x524. Le scan local n'a pas de garde 'pool plein', mais le 3e démarrage normal échoue au registre BdLink tant que les cycles de vie restent couplés. record[0]=variant; 0xFF=libre.
+0050B736: mov     al, [ebp+0Dh]
+0050B739: add     esp, 10h; Add
+0050B73C: inc     al; Increment by 1
+0050B73E: mov     [ebp+0Dh], al
+0050B741: pop     esi; jumptable 0050B2BD default case
+0050B742: pop     ebp
+0050B743: xor     eax, eax; Logical Exclusive OR
+0050B745: pop     ebx
+0050B746: retn; Return Near from Procedure
+0050B747: mov     edx, [ecx+74h]

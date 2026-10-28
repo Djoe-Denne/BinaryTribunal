@@ -1,0 +1,55 @@
+{
+  "group": "g30",
+  "task_id": "task_mv435edg_0039_h8m4hj",
+  "status": "DISPATCH_READY",
+  "classifier_kind": "classify_x86",
+  "classifier_tool": "tools.classify_x86",
+  "source": "discover-g30",
+  "SOURCE": "discover-g30",
+  "source_session_id": "ses_ed41f86ccffeIOnoRo2nbIlElt",
+  "source_report_message": "msg_12be8993c001MS2gmgHQDi0LoM",
+  "source_receipt_sha256": "698a69a63225ac2a6ca5c0546c7fb38bff1b9a0f7b2534ab8b286c67974759f8",
+  "common_compaction": "inputs/ff8-decomp-semantics-20261011-r01/g30/common-compaction.md",
+  "common_compaction_sha256": "c238af779a9a057731cbde7000502112b8d00fe0c2b65c030578e460432695bf",
+  "checkpoint_required": false,
+  "checkpoint_rationale": "Source final report does not flag target candidate previews; surrounding caller/callee historical material is explicitly separated. Authors inherit discover-g30, never classify-g30.",
+  "risk_field_mapping": "native uncertainty is operational risk for v1 thresholds; neither score is a calibrated probability",
+  "pe_gate": "All three EAs idb_equals_pe_and_freeze=true, mismatches=[] in native-pe-verification.json",
+  "blocked_eas": [],
+  "production_protocol": "2+1 per volet; fresh independent A/B forks from same inherited SOURCE; R admitted only after both corresponding A+B deposited; lead verifies effective Model.Ref including explicit variant before admission",
+  "dispatch_models": {
+    "c_a": {"model": "openai/gpt-6-astra", "variant": "high"},
+    "c_b": {"model": "opencode/claude-opus-5-5", "variant": "high"},
+    "c_r": {"model": "openai/gpt-6.1-sol", "variant": "high", "depends_on": ["c_a", "c_b"]},
+    "semantic_a": {"model": "openai/gpt-6.1-sol", "variant": "high"},
+    "semantic_b": {"model": "openai/gpt-6.1-sol", "variant": "high"},
+    "semantic_r": {"model": "openai/gpt-6.1-sol", "variant": "high", "depends_on": ["semantic_a", "semantic_b"]}
+  },
+  "model_rationale": "Contract v1 complex C pair Astra high + Opus high, independent semantic Sol high pair, distinct R Sol high; catalogue snapshot explicitly contains these models/variants. No producers spawned here.",
+  "routes": [
+    {
+      "ea": "0x50F900", "status": "DISPATCH_READY", "tier": "complex", "complexity": 76, "risk": 62, "instruction_count": 297,
+      "rationale": ["complexity>65", "risk>50", ">200 native instructions", "source flags x87/control-word and constant-data gaps, aliases and return-type uncertainty"],
+      "factual_sha256": "5682a10eabc8838c39e3ee92b22f86f8e62c9abfa0290882f19bde6c944999ef",
+      "request": "0x50F900.request.json", "request_sha256": "b61406e50d1af3ef04e578b58bbdbaaab2c86205ab543d3f147adae4b9ad25b3",
+      "response": "0x50F900.response.json", "response_sha256": "6d5cd0c19113e1e9fb6032a0dc2017cbc2fdac05eb2308544bbf9769e12fb983",
+      "output_paths": {"c_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/c_a.md","c_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/c_b.md","c_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/c_r.md","semantic_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/semantic_a.md","semantic_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/semantic_b.md","semantic_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50F900/semantic_r.md"}
+    },
+    {
+      "ea": "0x50FDF0", "status": "DISPATCH_READY", "tier": "complex", "complexity": 76, "risk": 62, "instruction_count": 634,
+      "rationale": ["complexity>65", "risk>50", ">200 native instructions", "source flags opaque helper effects, mixed-width inputs, aliases and missing buffer-bound contract"],
+      "factual_sha256": "4e66001ce60c975ed8dccd727ffa4c52a5fc5712a61c965df597b5da226a4eb5",
+      "request": "0x50FDF0.request.json", "request_sha256": "18c59afa126b8f8cfd464831807fa6f43a37a1a430a7a771cd67f724cb264f0f",
+      "response": "0x50FDF0.response.json", "response_sha256": "c8e903fce31604650a6d71f75b9edf9a061007f92a65db7e74218eeac4cdbbb0",
+      "output_paths": {"c_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/c_a.md","c_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/c_b.md","c_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/c_r.md","semantic_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/semantic_a.md","semantic_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/semantic_b.md","semantic_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x50FDF0/semantic_r.md"}
+    },
+    {
+      "ea": "0x5106E0", "status": "DISPATCH_READY", "tier": "complex", "complexity": 78, "risk": 65, "instruction_count": 743,
+      "rationale": ["complexity>65", "risk>50", ">200 native instructions", "source flags opaque helper effects, shared upper-bound rationale and family-purpose uncertainty"],
+      "factual_sha256": "8348832713482d58ab168586214c47a76b509cd94f1ec7b033bbdff012f7311c",
+      "request": "0x5106E0.request.json", "request_sha256": "65b852383638683df7148a8bd5bef5c6cbbef48a1fc2982eb95ae0e49720ccfc",
+      "response": "0x5106E0.response.json", "response_sha256": "6b04b25f46845ea51dd0e9c27502abe7cca7f38faf890e700cfd77b1319d27ad",
+      "output_paths": {"c_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/c_a.md","c_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/c_b.md","c_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/c_r.md","semantic_a":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/semantic_a.md","semantic_b":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/semantic_b.md","semantic_r":"outputs/ff8-decomp-semantics-20261011-r01/g30/0x5106E0/semantic_r.md"}
+    }
+  ]
+}

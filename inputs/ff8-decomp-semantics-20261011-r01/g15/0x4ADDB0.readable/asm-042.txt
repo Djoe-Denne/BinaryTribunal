@@ -1,0 +1,25 @@
+004AECED: push    edx; x
+004AECEE: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AECF3: mov     edx, dword_1D768F8
+004AECF9: xor     eax, eax; Logical Exclusive OR
+004AECFB: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AED00: xor     ecx, ecx; Logical Exclusive OR
+004AED02: mov     cl, [edx+eax*4]
+004AED05: push    ecx
+004AED06: call    sub_47EC00; Call Procedure
+004AED0B: add     esp, 24h; Add
+004AED0E: mov     dword_1D76860, eax
+004AED13: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AED18: xor     eax, eax; jumptable 004ADEFA case 24
+004AED1A: push    7; int
+004AED1C: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AED21: mov     esi, eax
+004AED23: mov     ax, word ptr dword_1D768F0+2
+004AED29: neg     ax; Two's Complement Negation
+004AED2C: mov     word ptr dword_1D768F0+2, ax
+004AED32: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AED37: lea     ecx, [esi+esi*2]; Load Effective Address
+004AED3A: xor     eax, eax; Logical Exclusive OR
+004AED3C: mov     al, byte ptr dword_1D768E4+1
+004AED41: push    ebp; flags
+004AED42: lea     edx, [esi+ecx*4]; Load Effective Address

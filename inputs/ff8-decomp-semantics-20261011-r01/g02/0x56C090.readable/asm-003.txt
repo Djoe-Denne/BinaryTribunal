@@ -1,0 +1,25 @@
+0056C14C: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C150: movsx   esi, word ptr [ecx]; Move with Sign-Extend
+0056C153: fmul    ds:flt_B695F8; Multiply Real
+0056C159: mov     dword ptr [esp+48h+var_40], esi
+0056C15D: add     ecx, 6; Add
+0056C160: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C164: dec     edx; Decrement by 1
+0056C165: fmul    ds:flt_B695F8; Multiply Real
+0056C16B: fld     st(3); Load Real
+0056C16D: fmul    st, st(3); Multiply Real
+0056C16F: fld     st(5); Load Real
+0056C171: fmul    st, st(3); Multiply Real
+0056C173: faddp   st(1), st; Add Real and Pop
+0056C175: fld     st(6); Load Real
+0056C177: fmul    st, st(2); Multiply Real
+0056C179: faddp   st(1), st; Add Real and Pop
+0056C17B: fadd    ds:CONST_4_503601774854144e15; Add Real
+0056C181: fstp    [esp+48h+var_40]; Store Real and Pop
+0056C185: fld     [esp+48h+var_38]; Load Real
+0056C189: fmul    st, st(3); Multiply Real
+0056C18B: fld     [esp+48h+var_34]; Load Real
+0056C18F: fmul    st, st(3); Multiply Real
+0056C191: mov     si, word ptr [esp+48h+var_40]
+0056C196: mov     [eax-0Ah], si
+0056C19A: faddp   st(1), st; Add Real and Pop

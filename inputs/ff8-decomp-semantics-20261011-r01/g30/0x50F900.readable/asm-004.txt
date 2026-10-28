@@ -1,0 +1,25 @@
+0050FA27: fild    [esp+60h+var_4C]; Load Integer
+0050FA2B: shl     esi, 3; Shift Logical Left
+0050FA2E: mov     [esp+60h+var_4C], esi
+0050FA32: movsx   esi, word ptr [edx+4]; Move with Sign-Extend
+0050FA36: fild    [esp+60h+var_4C]; Load Integer
+0050FA3A: shl     esi, 3; Shift Logical Left
+0050FA3D: mov     [esp+60h+var_4C], esi
+0050FA41: mov     esi, [esp+60h+var_24]
+0050FA45: fild    [esp+60h+var_4C]; Load Integer
+0050FA49: fld     Cam_xyz1_z_float; Load Real
+0050FA4F: add     edx, 6; Add
+0050FA52: fmul    st, st(1); Multiply Real
+0050FA54: fld     Cam_xyz1_y_float; Load Real
+0050FA5A: fmul    st, st(3); Multiply Real
+0050FA5C: mov     [esp+60h+var_4C], edx
+0050FA60: faddp   st(1), st; Add Real and Pop
+0050FA62: fld     Cam_xyz1_x_float; Load Real
+0050FA68: fmul    st, st(4); Multiply Real
+0050FA6A: faddp   st(1), st; Add Real and Pop
+0050FA6C: fadd    [esp+60h+var_3C]; Add Real
+0050FA70: fstp    [esp+60h+var_54]; Store Real and Pop
+0050FA74: fld     Cam_xyz2_z_float; Load Real
+0050FA7A: fmul    st, st(1); Multiply Real
+0050FA7C: fld     Cam_xyz2_y_float; Load Real
+0050FA82: fmul    st, st(3); Multiply Real

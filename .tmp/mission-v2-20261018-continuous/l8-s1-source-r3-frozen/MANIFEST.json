@@ -1,0 +1,160 @@
+{
+  "version": "l8-s1-isolated-source-manifest-v1",
+  "status": "PROPOSED_SOURCE_R3",
+  "sourceRevision": "R3",
+  "owner": "l8-s1-source-author-r1",
+  "taskId": "task_mvdy6khz_000q_0ee18w",
+  "date": "2026-10-19",
+  "nonblind": "ratified contracts, qualified source references and frozen own prior artifacts only; no other-worker QA/output or origins",
+  "inputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "bytes": 22905,
+    "sha256": "0f2e563153df9f4acedcdaecf63b21ec8a0db2e8943100566f61dd2a49858a25",
+    "pinCount": 70,
+    "totalPinnedBytes": 1539175,
+    "allPinsByteAndSha256CheckedBeforeWriting": true
+  },
+  "codeGo": {
+    "path": "../inputs/SCOPE.md",
+    "bytes": 2828,
+    "sha256": "826331ebb4a64b4988410904334f589a96a721570942db87dc4f1119b8402d4d"
+  },
+  "publicKnowledgePolicyAddendum": {
+    "path": "../inputs/PUBLIC_KNOWLEDGE_POLICY_ADDENDUM.md",
+    "bytes": 5397,
+    "sha256": "d8ac742256db494a0e5f421766a2dbd4c5362a20034f5f15ee649a9202b835cd",
+    "meaning": "public backend-opaque knowledge witnesses and actual common-rule activation-policy byte source, fixed by parent without exposing foreign QA implementation"
+  },
+  "artifacts": [
+    { "path": "src/graph-execution-envelope.ts", "bytes": 79223, "sha256": "ab5e40f0babafd90c5522f47d96fea56abf63e04d31e0035c7a6083917654acb" },
+    { "path": "src/graph-b-projection.ts", "bytes": 23529, "sha256": "9eff6beff94b72a6777dcd9655eb64b87b7e5a92fd08e2c0d579f07005ac5d8c" },
+    { "path": "src/graph-execution-prepare.ts", "bytes": 2717, "sha256": "28c9cfceecaf22d19a03a0e76321c67c237e88e52c571e62ae09dd2941c16b12" },
+    { "path": "schemas/l8-execution-envelope-v1.schema.json", "bytes": 29582, "sha256": "3f541a03b84dba35788680c316fc4f2aa539467cfd06506d5b2512738d48e316" },
+    { "path": "schemas/l8-graph-run-v3.schema.json", "bytes": 3115, "sha256": "a566ed5857b4725c600c506141f14cbd82ee83a78e09e1951cbfceacfd1ec16b" },
+    { "path": "DESIGN.md", "bytes": 27968, "sha256": "f8e55e148982337fc6f6bddef874f477026af0a2ad58b2fb271edc58c19db02c" }
+  ],
+  "artifactBytesExcludingManifest": 166134,
+  "selfHash": "excluded to avoid a hash cycle; raw manifest digest is returned in the native final receipt",
+  "dependencyPinResolution": "Every inputPin below resolves by exact path to the size/SHA256 entry in the raw-hash-pinned inputManifest, not to a mutable main/origin file.",
+  "runtimePureDependencyPins": [
+    "reference/src/graph.ts",
+    "reference/src/graph-transport.ts",
+    "reference/src/graph-pure-codecs.ts",
+    "reference/src/planner-relation-codecs.ts",
+    "reference/src/lineage-pure-codecs.ts",
+    "reference/src/semantic-config-codec.ts",
+    "reference/src/graph-persistence-errors.ts",
+    "reference/src/validation.ts",
+    "reference/src/re-policy.ts",
+    "reference/schemas/graph-snapshot-v1.schema.json",
+    "reference/schemas/cluster-partition-v1.schema.json",
+    "reference/schemas/investigation-group-v1.schema.json",
+    "reference/schemas/knowledge-commit-v1.schema.json",
+    "reference/schemas/mission-plan-v1.schema.json",
+    "reference/schemas/work-unit-v1.schema.json",
+    "reference/schemas/l8-prepared-graph-v3.schema.json",
+    "reference/schemas/l8-partition-adoption-v1.schema.json"
+  ],
+  "producerPreparationOnlyPins": ["reference/src/planner.ts", "reference/src/scc.ts"],
+  "directTypeOnlyDependencyPins": [
+    "reference/src/domain.ts", "reference/src/planner.ts", "reference/src/investigation-groups.ts",
+    "reference/src/graph-store.ts", "reference/src/lineage.ts", "reference/src/semantic-index.ts"
+  ],
+  "configurationPins": ["reference/package.json", "reference/tsconfig.json"],
+  "externalRuntime": ["node:util", "Bun.CryptoHasher via the pinned validation module", "standard ECMAScript/Web UTF-8 APIs"],
+  "authority": "none; neither JSON nor hashes, record labels, local objects or callbacks grant HOST/LOCAL/quiescence/activation",
+  "blocker": null,
+  "resolvedPriorBlocker": {
+    "code": "PLANNING_SOURCE_RELATION_CODEC_UNAVAILABLE",
+    "qualifiedReference": "reference/src/planner-relation-codecs.ts:31-96 canonicalRelationView",
+    "bytes": 8164,
+    "sha256": "afe9d66d3db8c457385f83fbe306075a935349ef49e993210e8b6aad7794bd50",
+    "parentFreshReviewReceipt": "result_mvf11kgx_0020_5z7jre",
+    "qualificationAppliesTo": "the supplied offline dependency extraction, not this S1 source proposal"
+  },
+  "qualifiedPlannerProducerPin": {
+    "inputPin": "reference/src/planner.ts",
+    "bytes": 60760,
+    "sha256": "fd90abe4bf8583d613beef41988d5a63323afdc5083d33ed04659f86cb203b99",
+    "s1ValueImporter": "src/graph-execution-prepare.ts only"
+  },
+  "priorRelationDeltaRetainedUnchanged": {
+    "sourcePath": "src/graph-execution-envelope.ts",
+    "valueImport": "canonicalRelationView from ./planner-relation-codecs; no producer import",
+    "typeOnlyImportAdded": "PlannerGraphInput; readonly typing detached only, not a regime/source cast",
+    "checkPlacement": "after bindExecutionPreparationV1/full-source projection and validatePlanningBindingV1, before publishing BoundExecutionV1",
+    "comparison": "upstream canonical of the complete canonicalRelationView(prepared.projection.graph, planning.sidecar.policy).relationView versus planning.sidecar.relationView",
+    "coverage": ["metadata", "sourceEdgeIds", "sites", "observations", "sitesBySourceEdgeId"],
+    "mismatch": "reject with planning relation view differs from full snapshot records/sites/observations",
+    "codecConflicts": "propagate through the existing failure result, no permissive catch or fallback",
+    "priorGuardRemoved": true,
+    "plannerSourcePinUpdated": true,
+    "noPlannerOrSccRecomputeAtLoad": true,
+    "coreCopied": false,
+    "publicApiChanged": false,
+    "publicExportDeclarationLinesByteEqualToPrior": true
+  },
+  "boundedDelta": {
+    "sourcePath": "src/graph-execution-envelope.ts",
+    "privateHelperAdded": "bindActivationPolicySourceV1",
+    "callPlacement": "inside bindExecutionPreparationV1 after independent source equality, verifyParent and bindInputBytes",
+    "sourceResolution": "actual ArtifactBytesV1 in independent.inputManifestSource.files, already byte-exactly equal to the envelope input files",
+    "policyTypedRef": { "kind": "l8-activation-policy-source-v1", "encoding": "utf8-json-v1" },
+    "candidateFileRequirements": [
+      "at least one coherent independent common rule artifact",
+      "file.kind=rule, identity absent, approvedForBlind=false explicitly",
+      "identical ArtifactFile in both inputSource.commonInputs and source config.commonInputs",
+      "path occurs in both accessibleRules lists and source config.fixture=true",
+      "file SHA, raw blob SHA and raw byte length match sourcePolicyRef"
+    ],
+    "blobTypedRef": "raw-v1; do not demand identical kind/encoding between raw and JSON typed refs describing the same bytes",
+    "actualBytes": "existing validateBoundBytes, fatal UTF-8/BOM checks and documentBytes/strict JSON parsing; no document reconstruction from envelope counts",
+    "closedPolicyFields": ["version", "missionId", "lineageId", "maxActivationAttempts", "maxCandidateReplacements"],
+    "policyBindings": "exact version tag, envelope mission/control-root lineage and root ceilings; safe integer attempts>=1/replacements>=0; no defaults",
+    "failureBehavior": "unresolved/non-common/inaccessible/wrong-scope or malformed/mismatched policy source rejects through the existing failure result",
+    "knowledgeRootAndLedger": "already backend-opaque in R2; unchanged equality to independent same-state sources/T0, no preimage recipe or legacy hash change",
+    "existingFactMaterializationApprovalAndByteChecksChanged": false,
+    "sourceAfterRemovingOnlyNewPrivateHelperAndCallByteEqualToOwnR2": true,
+    "publicFunctionCountBefore": 18,
+    "publicFunctionCountAfter": 18,
+    "publicFunctionDeclarationLinesByteEqualToOwnR2": true,
+    "publicTypesExportsEnvelopeFieldsArgumentsOrDocumentKindKeysAdded": false,
+    "importsChanged": false,
+    "newStructuralGapIdentifiedInBoundedRevision": false
+  },
+  "priorOwnManifest": {
+    "inputPin": "prior/MANIFEST.json",
+    "bytes": 7176,
+    "sha256": "d74f4a059362496c27966ea4f87bdba49af29d66acb28853ce608a307c154fc7",
+    "priorOutputsAndFrozenInputsModified": false
+  },
+  "byteIdenticalToFrozenPrior": [
+    "src/graph-b-projection.ts", "src/graph-execution-prepare.ts",
+    "schemas/l8-execution-envelope-v1.schema.json", "schemas/l8-graph-run-v3.schema.json"
+  ],
+  "inputBookends": {
+    "beforeRawManifestSha256": "0f2e563153df9f4acedcdaecf63b21ec8a0db2e8943100566f61dd2a49858a25",
+    "afterSourceDocsRawManifestSha256": "0f2e563153df9f4acedcdaecf63b21ec8a0db2e8943100566f61dd2a49858a25",
+    "pinsCheckedEachTime": 70,
+    "totalPinnedBytesEachTime": 1539175,
+    "mismatchesEachTime": []
+  },
+  "operationNotes": {
+    "ownedCopyPreparation": "exclusive copy of seven frozen own R2 files to the new sibling, then make only those seven new copies writable before patch; no input/prior/older-output bytes or permissions changed",
+    "r3OperationalErrors": [],
+    "historicalR2Incidents": "retained in the frozen prior manifest; not new R3 errors",
+    "productCodeOrValidatorExecutedByTheseOperations": false
+  },
+  "workerProductChecks": {
+    "compiled": false, "typechecked": false, "tested": false,
+    "validatorsExecuted": false, "productImportedOrExecuted": false,
+    "sharedSourcesModified": false, "gitOrRegistryOrDbOrIdaOrLiveActions": false,
+    "otherWorkerQaRead": false
+  },
+  "admission": "none; dependency qualification is parent-reported and does not qualify this draft",
+  "nextGates": [
+    "source-disjoint independent QA from the public addendum/contract and qualified references, with parent-provided data-only R3 hash metadata; no candidate implementation/schema/DESIGN oracle",
+    "fresh composed V",
+    "parent-only integration, typecheck/tests and readback"
+  ]
+}

@@ -1,0 +1,21 @@
+00517B40: mov     edx, [esp+arg_0]
+00517B44: mov     cx, [edx+0Ch]
+00517B48: movsx   eax, cx; Move with Sign-Extend
+00517B4B: sub     eax, 0; Integer Subtraction
+00517B4E: jz      short loc_517B74; Jump if Zero (ZF=1)
+00517B50: dec     eax; Decrement by 1
+00517B51: jnz     short loc_517B79; Jump if Not Zero (ZF=0)
+00517B53: test    byte ptr dword_1D9898C, 2; Logical Compare
+00517B5A: jnz     short loc_517B6C; Jump if Not Zero (ZF=0)
+00517B5C: mov     eax, dword_1D98A50
+00517B61: push    0
+00517B63: push    eax
+00517B64: call    BS_Effect_DeformCompression; Call Procedure
+00517B69: add     esp, 8; Add
+00517B6C: call    BS_RenderRelated; Call Procedure
+00517B71: xor     eax, eax; Logical Exclusive OR
+00517B73: retn; Return Near from Procedure
+00517B74: inc     ecx; Increment by 1
+00517B75: mov     [edx+0Ch], cx
+00517B79: xor     eax, eax; Logical Exclusive OR
+00517B7B: retn; Return Near from Procedure

@@ -1,0 +1,399 @@
+﻿ M .agents/skills/ff8-dump-writer-verify/scripts/verify_writer.ps1
+ M .codex/agents/decompileur.toml
+ M .codex/agents/evidence-curator.toml
+ M .codex/agents/live-validator.toml
+ M .codex/agents/mechanical-worker.toml
+ M .codex/agents/orchestrator.toml
+ M .codex/agents/semantic-analyste.toml
+ M .codex/agents/semantic-reconciler.toml
+ M .codex/agents/semantic-reviewer.toml
+ M .codex/agents/wiki-scribe.toml
+ M .codex/config.toml
+ M .cursor/agents/orchestrator.md
+ M .cursor/mcp.json
+ M .opencode/agents/live-campaign-runner.md
+ D .serena/memories/implementation-sibling.md
+ M .serena/project.yml
+ M AGENTS.md
+ M docs/tech/investigation/battle-static-discovery/CAMPAIGN_LOG_gfx-battleloop-2026-10-08.md
+ M docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json
+ M docs/tech/investigation/battle-static-discovery/HANDOFF_semantic-triple-review.md
+ M docs/tech/investigation/battle-static-discovery/driver-passthrough/AUDIT_completude.md
+ M obsidian-docs/.manifest.json
+ M obsidian-docs/index.md
+ M obsidian-docs/journal/2026-08-28.md
+ M obsidian-docs/journal/2026-08-29.md
+ M obsidian-docs/journal/2026-08-30.md
+ M obsidian-docs/journal/2026-08-31.md
+ M obsidian-docs/journal/2026-09-02.md
+ M obsidian-docs/journal/2026-09-03.md
+ M obsidian-docs/log.md
+ M obsidian-docs/projects/ffscriptloader/skills/hardening-x86-dll-injection.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/concepts/runtime-laboratories.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/evidence-catalog.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/g14-g17-red-team-2026-08-27.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/g16-g22-red-team-2026-08-28.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-5-offline-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-6-offline-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-7-offline-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-8-a-g06-cadence-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-8-c-g06-atb-pilot-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-8-d-g06-atb-matrix-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-9-g06-ownership-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g07-command-spine-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g08-target-plan-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g09-attack-slice-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g10-status-timers-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g11-g12-representative-live-campaign.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g11-magic-offline-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g12-item-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p0-harness-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g17-reactions-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/references/p1-g23-battle-end-validation.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/g11-g14-live-session-campaign-index.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/g11-live-single-cast-session-plan.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/g12-live-item-session-plan.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/g13-live-draw-session-plan.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/p0-6-live-validation-playbook.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/p0-7-live-validation-playbook.md
+ M obsidian-docs/projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories.md
+ M obsidian-docs/projects/re-ff8/concepts/atb-and-command-menu.md
+ M obsidian-docs/projects/re-ff8/concepts/battle-backend-roadmap.md
+ M obsidian-docs/projects/re-ff8/concepts/battle-lifecycle.md
+ M obsidian-docs/projects/re-ff8/concepts/command-action-pipeline.md
+ M obsidian-docs/projects/re-ff8/concepts/damage-status-pipeline.md
+ M obsidian-docs/projects/re-ff8/concepts/draw-magic-and-render-bridge.md
+ M obsidian-docs/projects/re-ff8/concepts/enemy-ai-vm.md
+ M obsidian-docs/projects/re-ff8/concepts/escape-mechanics.md
+ M obsidian-docs/projects/re-ff8/concepts/targeting-system.md
+ M obsidian-docs/projects/re-ff8/concepts/timed-status-expiry.md
+ M obsidian-docs/projects/re-ff8/re-ff8.md
+ M obsidian-docs/projects/re-ff8/references/battle-address-catalog.md
+ M obsidian-docs/projects/re-ff8/references/battle-formulas.md
+ M obsidian-docs/projects/re-ff8/references/battle-iso-migration-milestones.md
+ M obsidian-docs/projects/re-ff8/references/battle-loop-iso-readiness.md
+ M obsidian-docs/projects/re-ff8/references/g11-g20-static-open-questions.md
+ M obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
+ M obsidian-docs/projects/re-ff8/references/g11-magic-offline-draft.md
+ M obsidian-docs/projects/re-ff8/references/g22-init-static-layouts-2026-08-30.md
+ M obsidian-docs/projects/re-ff8/references/kernel-bin-authenticated-tables.md
+ M obsidian-docs/projects/re-ff8/references/semantic-triple-pipeline.md
+ M obsidian-docs/projects/re-ff8/skills/ff8-live-validation-operations.md
+ M obsidian-docs/projects/re-ff8/skills/implementing-iso-battle-migration.md
+ M tools/af3dn_state/lot24_contract.py
+ M tools/validate_campaign_pool.py
+?? .codex/config.toml.bak-20260918-ida-serena
+?? .opencode/agents/decompileur.md
+?? .opencode/agents/evidence-curator.md
+?? .opencode/agents/ff8-doc-researcher.md
+?? .opencode/agents/live-validator.md
+?? .opencode/agents/mechanical-worker.md
+?? .opencode/agents/orchestrator.md
+?? .opencode/agents/re-decompile-ensemble.md
+?? .opencode/agents/re-reconcile-ensemble.md
+?? .opencode/agents/re-review-ensemble.md
+?? .opencode/agents/re-semantic-ensemble.md
+?? .opencode/agents/semantic-analyste-astra.md
+?? .opencode/agents/semantic-analyste-sol.md
+?? .opencode/agents/semantic-analyste.md
+?? .opencode/agents/semantic-breakthrough.md
+?? .opencode/agents/semantic-reconciler.md
+?? .opencode/agents/semantic-reviewer.md
+?? .opencode/agents/wiki-scribe.md
+?? .serena/memories/battle_driver_lot21.md
+?? .serena/memories/environment_mcp.md
+?? .serena/memories/project_overview.md
+?? .serena/memories/repo_conventions.md
+?? .serena/memories/semantic_pipeline.md
+?? .tmp/campaign-drain-debugger-current-state-2026-10-10.json
+?? .tmp/campaign-drain-save-handoff-2026-10-10.json
+?? .tmp/campaign-finish-sleep-execution-2026-10-09.jsonl
+?? .tmp/campaign-finish-sleep-request-2026-10-09.json
+?? .tmp/campaign-live-native-identity-2026-10-10.json
+?? .tmp/campaign-live-proposal-recovery-2026-10-10.json
+?? .tmp/campaign-live-proposal-supervisor-handoff-2026-10-10.json
+?? .tmp/campaign-live-readiness-2026-10-10.json
+?? .tmp/campaign-tables-question-recovery-2026-10-10/
+?? .tmp/campaign-utilization-steering-2026-10-10.json
+?? .tmp/coordination-three-20261014/
+?? .tmp/external-harness-20261012/
+?? .tmp/ff8-decomp-semantics-20261011-r01/
+?? .tmp/ff8-decomp-semantics-r01-export-ida.py
+?? .tmp/ff8-decomp-semantics-r01-init.py
+?? .tmp/ff8-r01-api-readback.mjs
+?? .tmp/ff8-r01-approve-dispatch.py
+?? .tmp/ff8-r01-approved-s1.json
+?? .tmp/ff8-r01-approved-s2.json
+?? .tmp/ff8-r01-approved-s3.json
+?? .tmp/ff8-r01-capture-admissions.mjs
+?? .tmp/ff8-r01-classifier-admissions.json
+?? .tmp/ff8-r01-close-idb-facts-20261012.py
+?? .tmp/ff8-r01-close-idb-tables-20261012.py
+?? .tmp/ff8-r01-close-inventory-20261012.mjs
+?? .tmp/ff8-r01-close-native-readback-20261012.py
+?? .tmp/ff8-r01-discovery-recovery.json
+?? .tmp/ff8-r01-ensemble-readonly-20261012T161238633241Z.db
+?? .tmp/ff8-r01-ensemble-readonly-20261012T161238633241Z.db-shm
+?? .tmp/ff8-r01-ensemble-readonly-20261012T161238633241Z.db-wal
+?? .tmp/ff8-r01-ensemble-readonly-20261012T162700209757Z.db
+?? .tmp/ff8-r01-ensemble-readonly-20261012T162700209757Z.db-shm
+?? .tmp/ff8-r01-ensemble-readonly-20261012T162700209757Z.db-wal
+?? .tmp/ff8-r01-ensemble-readonly-20261012T164816118860Z.db
+?? .tmp/ff8-r01-ensemble-readonly-20261012T164816118860Z.db-shm
+?? .tmp/ff8-r01-ensemble-readonly-20261012T164816118860Z.db-wal
+?? .tmp/ff8-r01-freeze-4868c0-table.py
+?? .tmp/ff8-r01-freeze-495d80-semantic-r.mjs
+?? .tmp/ff8-r01-freeze-502380-table.py
+?? .tmp/ff8-r01-freeze-506690-c-r.mjs
+?? .tmp/ff8-r01-freeze-50b2a0-table.py
+?? .tmp/ff8-r01-freeze-50b830-table.py
+?? .tmp/ff8-r01-freeze-discovery.py
+?? .tmp/ff8-r01-freeze-g23-table.py
+?? .tmp/ff8-r01-freeze-g27-reconciliation.py
+?? .tmp/ff8-r01-freeze-harvest.py
+?? .tmp/ff8-r01-freeze-ready-reconciliations.mjs
+?? .tmp/ff8-r01-g01-R-compaction.mjs
+?? .tmp/ff8-r01-g04-authors.json
+?? .tmp/ff8-r01-g27-reconciliation-manifests.py
+?? .tmp/ff8-r01-hardening-20261012.mjs
+?? .tmp/ff8-r01-hardening-readonly-20261012T165709354915Z.db
+?? .tmp/ff8-r01-hardening-readonly-20261012T165709354915Z.db-shm
+?? .tmp/ff8-r01-hardening-readonly-20261012T165709354915Z.db-wal
+?? .tmp/ff8-r01-hardening-routing-20261012.py
+?? .tmp/ff8-r01-harvest-discovery.mjs
+?? .tmp/ff8-r01-inactive-reports-20261012.py
+?? .tmp/ff8-r01-next24-manual.json
+?? .tmp/ff8-r01-next24-manual.mjs
+?? .tmp/ff8-r01-pool-policy.json
+?? .tmp/ff8-r01-project-g01-compaction.mjs
+?? .tmp/ff8-r01-readable-native.py
+?? .tmp/ff8-r01-ready-R.json
+?? .tmp/ff8-r01-record-classifier-admissions.mjs
+?? .tmp/ff8-r01-record-event.mjs
+?? .tmp/ff8-r01-record-g27-production.mjs
+?? .tmp/ff8-r01-record-readbacks.py
+?? .tmp/ff8-r01-recovery-admissions.json
+?? .tmp/ff8-r01-repair-audit-20261012.mjs
+?? .tmp/ff8-r01-routing-snapshot-20261012.py
+?? .tmp/ff8-r01-select-35.mjs
+?? .tmp/ff8-r01-selected-35.json
+?? .tmp/ff8-r01-session-receipts.mjs
+?? .tmp/ff8-r01-verify-native-pe.py
+?? .tmp/member-recovery-20261014/
+?? .tmp/mission-watch-20261014/
+?? .tmp/model-admission-20261013/
+?? .tmp/re-graph-scheduler/
+?? .tmp/re-role-sharing-20261013/
+?? .tmp/reconciliation-audit-2026-10-09/
+?? .tmp/remaining-functions-inventory-2026-10-11.md
+?? .tmp/strict-output-20261013/
+?? .tmp/structured-output-catalogue-20261013/
+?? .tmp/suspend-after-campaign-2026-10-09.ps1
+?? FF8ModdingWiki/
+?? docs/mission-profiles/
+?? docs/tech/RE_MULTI_PROVIDER_MISSIONS.md
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_DRAIN_2026-10-10.json
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_DRAIN_FINAL_2026-10-10.json
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_DRAIN_FINAL_2026-10-10.md
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_DRAIN_SAVE_2026-10-10.json
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_DRAIN_SESSIONS_2026-10-10.json
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json.577e5dd45d0d40b3b95df27b9048ea5d.pending
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json.5e8515f12c6c4f948c44cbe806f6b7a7.pending
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json.8fc1e809f6a944b8a13da84fb801225f.pending
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json.a8c285b97fa545bc8c1b484bfa91f4e3.pending
+?? docs/tech/investigation/battle-static-discovery/CAMPAIGN_POOL_2026-10-10.json.dca0b72f79214e69a3c3cedecb606666.pending
+?? docs/tech/investigation/battle-static-discovery/IDB_SYNC_2026-10-07.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/AF3DN.P
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot21_2026-10-01.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot25pass2bis_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/ERRATUM_lot25pass2_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/IDB_SYNC_lot21_2026-10-02.json
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/IDB_SYNC_lot21_2026-10-02.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/IDB_SYNC_lot21_2026-10-02.receipt.json
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LIVE_CARD_lot25_v19_stability_2026-10-08.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LIVE_CARD_lot25pass2bis_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LOT25_V17_CLOSE_DIAGNOSIS_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LOT25_V17_UNLOAD_AUDIT_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LOT25_V18_OFFLINE_REPORT_2026-10-07.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/LOT25_V19_OFFLINE_CLOSURE_2026-10-08.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/PROMPT_lot22-etats-blend-depth-binding-offline.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/PROMPT_lot23-paquet-offline-et-preuves-binding.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/VISUAL_REPLAY_lot25_2026-10-04.md
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/pass2_parse.json
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v17/
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v18/
+?? docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v19/
+?? docs/tech/investigation/battle-static-discovery/idb-sync-2026-10-07/
+?? harness.obj
+?? harness_probe.obj
+?? harness_probe_lot22.obj
+?? inputs/
+?? obsidian-docs/_archives/
+?? obsidian-docs/_raw/ff8-harness-session-20261013/
+?? obsidian-docs/_raw/lot14-af3dn-v10.3-2026-09-26/
+?? obsidian-docs/_raw/lot21-af3dn-v13-2026-10-01/
+?? obsidian-docs/_raw/lot25-fresh-raster-20261004-seq3556/
+?? obsidian-docs/_raw/lot25-v17-sessions-2026-10-04/
+?? obsidian-docs/_raw/lot25-v18-offline-2026-10-07/
+?? obsidian-docs/projects/re-ff8/concepts/ff8-harness-role-policy.md
+?? obsidian-docs/projects/re-ff8/references/af3dn-captures-evidence-catalog-lot14.md
+?? obsidian-docs/projects/re-ff8/references/af3dn-captures-evidence-catalog-lot21.md
+?? obsidian-docs/projects/re-ff8/references/af3dn-captures-evidence-catalog-lot25.md
+?? obsidian-docs/projects/re-ff8/references/af3dn-lot25-v17-unload-audit-2026-10-04.md
+?? obsidian-docs/projects/re-ff8/references/af3dn-lot25-v18-no-hot-unload-2026-10-07.md
+?? obsidian-docs/projects/re-ff8/references/codex-session-lot21-uv-composite-2026-10-01.md
+?? obsidian-docs/projects/re-ff8/references/driver-replay-fond-uv-composite-lot21-2026-10-01.md
+?? obsidian-docs/projects/re-ff8/references/ff8-harness-role-sharing-session-2026-10-13.md
+?? obsidian-docs/projects/re-ff8/references/ff8-harness-strict-canary-2026-10-13.md
+?? opencode.jsonc
+?? opencode.jsonc.bak
+?? outputs/ff8-decomp-semantics-20261011-r01/admission/
+?? outputs/ff8-decomp-semantics-20261011-r01/classification/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g01/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g02/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g03/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g04/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g05/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g06/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g07/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/c_a.md
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g11/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g14/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g17/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g19/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g20/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g21/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g23/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g27/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g28/
+?? outputs/ff8-decomp-semantics-20261011-r01/production/g34/
+?? tools/_tmp_af3dn_drop/AF3DN.P.v6.1.bak
+?? tools/_tmp_af3dn_drop/AF3DN.P.v7.1.bak
+?? tools/_tmp_af3dn_drop/captures/csv_reverify.csv
+?? tools/_tmp_af3dn_drop/captures/gfx_passthrough_v7_campaign.csv
+?? tools/_tmp_af3dn_drop/captures/lot14/
+?? tools/_tmp_af3dn_drop/captures/lot14_out/
+?? tools/_tmp_af3dn_drop/captures/lot15/
+?? tools/_tmp_af3dn_drop/captures/lot16_texture_library/
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/gfx_passthrough_dump.bin
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/gfx_passthrough_dump.log
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/lot17renderer/
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/screenshot_
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164851_1.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164851_2.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164851_3.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164852_1.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164852_2.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164852_3.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164853_1.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164853_2.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164854_1.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164854_2.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164856_1.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/20260929164856_2.jpg
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/LOT19_final_composite.png
+?? tools/_tmp_af3dn_drop/captures/lot19/battle_v12/visuals/LOT19_replay.png
+?? tools/_tmp_af3dn_drop/captures/lot20/battle_v13/gfx_passthrough_dump.bin
+?? tools/_tmp_af3dn_drop/captures/lot20/battle_v13/gfx_passthrough_dump.log
+?? tools/_tmp_af3dn_drop/captures/lot20/battle_v13/lot17ent/
+?? tools/_tmp_af3dn_drop/captures/lot21/
+?? tools/_tmp_af3dn_drop/captures/lot22/
+?? tools/_tmp_af3dn_drop/captures/lot25-fresh-raster-20261004-seq3556/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2bis-pre-a36876ff48614386a33b64086ff2278a/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-closed-de08918ae55b450bbeb3c02226f01e13/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume2-closed-ea3593dd7e1b4b13a2afb6b841df5d2f/
+?? tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume2-pre-d77eb136f6a2424fae3070102e15c2ca/
+?? tools/_tmp_af3dn_drop/captures/lot25-pre/
+?? tools/_tmp_af3dn_drop/captures/lot25-render-lot21-control-20261004/
+?? tools/_tmp_af3dn_drop/captures/lot25/
+?? tools/_tmp_af3dn_drop/captures/mixed_append.log
+?? tools/_tmp_af3dn_drop/captures/png_all/
+?? tools/_tmp_af3dn_drop/captures/strict_v71.bin
+?? tools/_tmp_af3dn_drop/captures/strict_v71.log
+?? tools/_tmp_af3dn_drop/captures/visual-progress-20261004/
+?? tools/_tmp_af3dn_drop/decode/_patch_tr_anchor.py
+?? tools/_tmp_af3dn_drop/decode/_patch_trb.py
+?? tools/_tmp_af3dn_drop/decode/_patch_v101.py
+?? tools/_tmp_af3dn_drop/decode/_patch_v102.py
+?? tools/_tmp_af3dn_drop/decode/_patch_v103.py
+?? tools/_tmp_af3dn_drop/decode/_probe_lot15_sweep.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_disasm_dll.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_disasm_native.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_lot15_hist_rpm.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_lot15_noderaw.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_lot15_probe_alt.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_lot15_probe_texinfo.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_menu51_probe2.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_menu51_probe3.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_scan_globals.py
+?? tools/_tmp_af3dn_drop/decode/_tmp_verify_menu_contract.py
+?? tools/_tmp_af3dn_drop/decode/analyze_lot22_state.py
+?? tools/_tmp_af3dn_drop/decode/compare.py
+?? tools/_tmp_af3dn_drop/decode/exp_battle9.py
+?? tools/_tmp_af3dn_drop/decode/gfx_passthrough.csv
+?? tools/_tmp_af3dn_drop/decode/harness_dumpnode.c
+?? tools/_tmp_af3dn_drop/decode/lot15_ab.py
+?? tools/_tmp_af3dn_drop/decode/lot15_ab_battle.py
+?? tools/_tmp_af3dn_drop/decode/render_lot21.py
+?? tools/_tmp_af3dn_drop/decode/render_tim_v11.py
+?? tools/_tmp_af3dn_drop/decode/selftest_out/
+?? tools/_tmp_af3dn_drop/decode/test_all16.py
+?? tools/_tmp_af3dn_drop/decode/test_lot21.py
+?? tools/_tmp_af3dn_drop/decode/test_lot22_state.py
+?? tools/_tmp_af3dn_drop/decode/test_slot49.py
+?? tools/_tmp_af3dn_drop/decode/test_slot49_v11.py
+?? tools/_tmp_af3dn_drop/decode/test_tim_all.py
+?? tools/_tmp_af3dn_drop/decode/texture.py
+?? tools/_tmp_af3dn_drop/dotemu_orig.dll
+?? tools/_tmp_af3dn_drop/enum_mods.ps1
+?? tools/_tmp_af3dn_drop/ff8_14_collect.ps1
+?? tools/_tmp_af3dn_drop/ff8_14_prep.ps1
+?? tools/_tmp_af3dn_drop/ff8_14_trigger.ps1
+?? tools/_tmp_af3dn_drop/ff8_watch3.ps1
+?? tools/_tmp_af3dn_drop/gfx_passthrough_v6.1_campaign.csv
+?? tools/_tmp_calib/
+?? tools/_tmp_ida_lot21_sync/
+?? tools/_tmp_lot25b_unload_build_20261004.cmd
+?? tools/af3dn_state/build_lot25_v18.py
+?? tools/af3dn_state/build_lot25_v19.py
+?? tools/af3dn_state/control_lot25_v19.py
+?? tools/af3dn_state/gate_lot25_v18_extra.py
+?? tools/af3dn_state/gate_lot25_v18_lifecycle.py
+?? tools/af3dn_state/gate_lot25_v19_remote.py
+?? tools/af3dn_state/gate_writer_lot25.py
+?? tools/af3dn_state/gate_writer_lot25_v18.py
+?? tools/af3dn_state/harness_lot25.c
+?? tools/af3dn_state/harness_lot25_lifecycle.c
+?? tools/af3dn_state/harness_lot25_v18_extra.c
+?? tools/af3dn_state/harness_lot25_v18_lifecycle.c
+?? tools/af3dn_state/harness_lot25_v18_writer.c
+?? tools/af3dn_state/harness_lot25_v19_lifecycle.c
+?? tools/af3dn_state/harness_lot25_v19_remote.c
+?? tools/af3dn_state/harness_lot25b_lifecycle.c
+?? tools/af3dn_state/harness_lot25b_unload.c
+?? tools/af3dn_state/lot25_render_input.py
+?? tools/af3dn_state/render_lot25.py
+?? tools/af3dn_state/test_gate_writer_lot25.py
+?? tools/af3dn_state/test_lot25_builds.py
+?? tools/af3dn_state/test_lot25_render_input.py
+?? tools/af3dn_state/test_lot25_v18_contract.py
+?? tools/af3dn_state/v19_live_ops/
+?? tools/af3dn_state/verify_lot25_v19_offline.py
+?? tools/af3dn_state/visual_progress.py
+?? tools/ff8-harness/docs/MEMBER_RECOVERY_FIX_20261014.md
+?? tools/ff8-harness/docs/MODEL_ADMISSION_FIX_20261013.md

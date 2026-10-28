@@ -1,0 +1,269 @@
+{
+  "schema": "numeric-context-qualification-test-source/v2-five-fixes",
+  "status": "SOURCE_PROPOSED_R2_FIVE_FIXES_NOT_EXECUTED_NOT_QUALIFIED",
+  "authorRole": "numeric-context-qualification-author-r1",
+  "task": "numeric-qualification-r2-five-fixes; continuation of task_mvff940k_009p_lk8v1j",
+  "authority": {
+    "scope": "../inputs/SCOPE.md",
+    "scopeSha256": "bf81847d1f19850629bb384061dfabe7e30b7cdabcf53b4c0d7e1c737f4e659b",
+    "parentR1Corrige": "../inputs/PARENT_R1_CORRIGE.json",
+    "parentR1CorrigeSha256": "19860b4923101ba5474859d632414a3fdec61f68d890865794ed3e0670339e97",
+    "reviewCandidate": "result_mvfgws0d_00a8_mcc9bq",
+    "reviewVerdict": "CORRIGE_QUALIFICATION_R1_NOT_ACCEPTED_NO_EXECUTION",
+    "parentPlanScopeSha256": "c6e10358b74a9d5410d7af01051c82ed84f20bf51905343e40eb2985dd248bee",
+    "parentAdjudicationSha256": "46cdfb719ac4e7e5d03bd0b6e60feba52a6a523ecbc5c2de92637079658e8fe7",
+    "parentAdjudicationVerdict": "NUMERIC_CONTEXT_QUALIFICATION_PLAN_ACCEPTED_TEST_SOURCE_ONLY",
+    "productR2Frozen": true,
+    "integrationOrS1RepinAuthorized": false,
+    "planningR5CorpusDependency": false
+  },
+  "inputBookends": {
+    "rawManifest": "../inputs/INPUT_MANIFEST.json",
+    "rawManifestBytes": 13440,
+    "rawManifestSha256": "a37e9dd4424bdcacf5a51547a4a7b803453ce6cecdd6d2a30c6f028c038e1a7d",
+    "opening": { "method": "static byte reads, JSON parsing, SHA-256 only", "pins": 39, "bytes": 690978, "mismatches": [] },
+    "closing": { "method": "static byte reads, JSON parsing, SHA-256 only", "pins": 39, "bytes": 690978, "mismatches": [] },
+    "inputBytesOrProductExecuted": false,
+    "qualifiedBaselineIndex": { "path": "../inputs/QUALIFIED_BASELINE_INDEX.json", "bytes": 153462, "sha256": "9e1167a0ce781db0adb551a4cbd8089912bf2a849726837a3cf8c3021371df80", "sourceEntries": 269, "actualSdkResolutionCertifiedByAuthor": false }
+  },
+  "ownedOutputsExactly": [
+    "numeric-context-regressions.test.ts",
+    "numeric-differential.test.ts",
+    "DESIGN.md",
+    "MANIFEST.json"
+  ],
+  "outputPinsExcludingSelf": [
+    { "path": "numeric-context-regressions.test.ts", "bytes": 15842, "sha256": "61a73837c9d4829b496e01eaae92c661f21780ca8734dd2291a079e81a73f8e2" },
+    { "path": "numeric-differential.test.ts", "bytes": 62478, "sha256": "097fe1ecc88d443754a79499129bda58853a04fd76c18f737e9231f1490e4431" },
+    { "path": "DESIGN.md", "bytes": 21618, "sha256": "920b4bb9ed16112a1eaad24f690c37fb08f5add2a8d5c977fcb06eec5df76bfe" }
+  ],
+  "manifestDigestPolicy": "The complete MANIFEST.json byte count and SHA-256 are supplied in the native final together with the other three pins. A self-referential SHA-256 field is deliberately not fabricated. Parent persists that four-file external receipt.",
+  "priorR1FrozenPins": [
+    { "path": "../inputs/prior/numeric-context-regressions.test.ts", "bytes": 13208, "sha256": "588d00cbaf055d73da18ec611c62d7083d3089e3aeffdf71e19e62c53f9aac86" },
+    { "path": "../inputs/prior/numeric-differential.test.ts", "bytes": 48004, "sha256": "f0d92922c8b697c38d8677f116fac38f54e1a9b50d6a9265dbcb11a7d402483c" },
+    { "path": "../inputs/prior/DESIGN.md", "bytes": 16436, "sha256": "f0e52b9c1091b7cdf166d2a8973f6e0e6893dd7e08ea28f961c5a7a4e0701011" },
+    { "path": "../inputs/prior/MANIFEST.json", "bytes": 25017, "sha256": "91e3b9ce45024eb56f7ca33e710ed5be0bc64e536b9569eab6748e290332c95b" }
+  ],
+  "r2CorrectionsExactly": [
+    { "finding": 1, "change": "Roundtrip compares exportSparseGraph(restored) to original snapshot with exact events, NOT constructor/import graph own-property order. Original graph, snapshot, full restored graph/caches/summands and reexport remain in paired output. No product normalization." },
+    { "finding": 2, "change": "Projection-underflow make constructs actual input/classification/config; state holds those objects and action consumes the same references, without hidden synthetic allocation." },
+    { "finding": 3, "change": "DATA-only regression fixture; before/call/finally-after guards for every prepare/bind/derive/graph/context call. All differential scientific preparations guarded before consumption; action raw state or individual guards cover actual parameters/new intermediates. Exact stage event proofs, actual reference stability and raw stage errors persist under unchanged caps. Intentional DATA poison construction is distinct from producer mutation." },
+    { "finding": 4, "change": "Stack presence/position/descriptor flags remain semantic; only string value explicitly tagged technical. Complete origin chain aligns source hashes and line+column; authored test frames require exact common coordinates/hash. One known inserted producer frame has three closed source-derived neighbor rules, consumes its index and retains full proof. Unknown frame/property/profile remains STOP. Synthetic shape/extra-frame counterexamples are not new paired cases." },
+    { "finding": 5, "change": "movesOracle original node<n bound restored; copied mathematical helper bodies statically match after documented whitespace/Arc qualification only. No other mathematical change." }
+  ],
+  "futureLayout": {
+    "regressions": "candidate/tools/ff8-harness/test/numeric-context-regressions.test.ts",
+    "differential": "qualification/test/numeric-differential.test.ts",
+    "baselineFixturePattern": "baseline/tools/ff8-harness/test/fixtures/graph/NAME/content.json",
+    "packetIsExecutableLayout": false,
+    "parentStrictTscScope": "Complete transitive baseline/candidate source, tests and scripts with actual SDK types; no excluded client/scripts, shims, ignores or configuration weakening."
+  },
+  "staticImports": {
+    "numeric-context-regressions.test.ts": [
+      "bun:test",
+      "../src/cluster",
+      "../src/sparse-graph-codecs",
+      "../src/group-context-codecs"
+    ],
+    "numeric-differential.test.ts": [
+      "bun:test", "node:crypto", "node:fs", "node:path", "node:url",
+      "../../baseline/tools/ff8-harness/src/cluster",
+      "../../candidate/tools/ff8-harness/src/cluster",
+      "../../candidate/tools/ff8-harness/src/sparse-graph-codecs",
+      "../../baseline/tools/ff8-harness/src/investigation-groups",
+      "../../candidate/tools/ff8-harness/src/investigation-groups",
+      "../../baseline/tools/ff8-harness/src/validation",
+      "../../candidate/tools/ff8-harness/src/validation"
+    ],
+    "newTestExports": [],
+    "sdkRuntimeImportsIntroduced": [],
+    "productImportClosureReference": "../inputs/candidate/MANIFEST.json runtimeImportDeclarations and qualifiedRuntimeClosure",
+    "productImportClosureUnchanged": true,
+    "actualLoadOrTypecheckPerformed": false
+  },
+  "declaredTestCaseLedger": {
+    "status": "PROPOSED_NOT_EXECUTED",
+    "candidateRegressionBunTests": 9,
+    "differentialBunTests": 1,
+    "clusterPairs": 64,
+    "matrixGroupPairs": 128,
+    "numericPairs": 242,
+    "smallSyntheticGroupPairs": 16,
+    "totalDifferentialPairs": 450,
+    "expectedValuePairs": 224,
+    "expectedRefusalPairs": 226,
+    "proposedBranchActions": 900,
+    "observedCasesByAuthor": 0,
+    "noRuntimePassClaim": true,
+    "enumerationRule": "Closed literal products below, in source order, without filtering, random selection, skips or retry. Every expanded case has an ID, explicit override configuration, expected kind and oracle. Runtime ledgers retain actual prepared-input hash and full observation separately for each branch.",
+    "regressions": [
+      { "id": "fixed supplied ID own metrics: __proto__", "expected": "value", "oracle": "Manual one-owner fixture; all four null-prototype records/own keys/JSON values; unchanged ID" },
+      { "id": "fixed supplied ID own metrics: constructor", "expected": "value", "oracle": "Same independent manual fixture" },
+      { "id": "fixed supplied ID own metrics: toString", "expected": "value", "oracle": "Same independent manual fixture" },
+      { "id": "fixed supplied ID own metrics: hasOwnProperty", "expected": "value", "oracle": "Same independent manual fixture" },
+      { "id": "fixed supplied ID own metrics: ordinary:group", "expected": "value", "oracle": "Same independent manual fixture" },
+      { "id": "single diagnostic constructor and exact empty-snapshot refusal", "expected": "identity plus exact refusal", "code": "empty-snapshot-no-partition", "name": "ClusterDiagnosticError", "message": "cluster: empty-snapshot-no-partition: L2 empty snapshot is valid, but v1 partition requires at least one nonempty community; no partition produced", "optionalCounts": "absent" },
+      { "id": "prepared/bound/maps/graph/caches stay unchanged; ownership refusals and uncovered work", "expected": "nonmutation plus 9 exact ownership refusals plus 2 successful uncovered-work variants", "invalidDetails": ["fixed groups empty", "fixed group ID empty/duplicate", "fixed group empty ownership", "fixed owner unknown/non-kernel (known nonkernel)", "fixed owner unknown/non-kernel (unknown ID)", "duplicate investigation owner (within group)", "duplicate investigation owner (across groups)", "fixed group ID empty/duplicate (across groups)", "fixed groups missing kernel owner"], "successfulVariants": ["owned-unobserved", "owned-incomplete"], "kernelEmptyCommunityAttribution": true },
+      { "id": "first NUMERIC 0x2 kernel owns uncovered work despite reversed groups and lexical 0x10", "expected": "0x40 uncovered owner is __proto__, owning 0x2; group owning 0x10 is supplied first", "kernelOrder": ["0x10", "0x2"], "groupOrder": ["lexical-first-but-numeric-later", "__proto__"] },
+      { "id": "partition boundary context is distinct from raw/provided group adjacency", "expected": "designated 0x10->0x30 partition contexts [[0x30],[0x10]], empty graph [[],[]]; raw group [], affinity group [0x30]", "authenticityOrOptimalityClaim": false }
+    ],
+    "matrix": {
+      "clusterId": "fixture/NAME/ALGORITHM/cluster",
+      "groupId": "fixture/NAME/ALGORITHM/groups/MODE",
+      "sourceOracle": "../inputs/baseline/test/cluster.test.ts:354-367; exact fixture list at 357",
+      "algorithmsInOrder": ["historical-cc", "hub-baseline", "leiden", "ppr"],
+      "groupModesInOrder": ["raw", "provided-affinity"],
+      "clusterConfig": { "algorithm": "literal algorithm row", "maxCommunitySize": 128, "weights": {}, "seedIds": "PPR=[fixture.firstAdmissibleProjectionId], all others=[]", "seedCapabilityIds": [], "ppr": {}, "leiden": { "seed": "numeric-context-qualification-v1" } },
+      "scientificDefaultPolicy": "Empty non-seed override records resolve only through pinned producer defaults; source and actual result config fingerprints are fully observed.",
+      "groupConfig": {},
+      "rawOptions": {},
+      "providedAffinityOptions": "Only the same branch's independent cluster result graph and hub IDs",
+      "expectedKindEveryExpandedCase": "value",
+      "inputHash": "RAW pinned fixture SHA-256 below; actual full prepared state also receives an independent bit/shape/order/alias observation hash per branch",
+      "noEmptySkip": "All pinned fixtures have at least one projection ID. Changed/empty bytes fail their hash. Four separate empty-snapshot cases supply [] seeds and require explicit refusal.",
+      "fixturesInOrder": [
+        { "name": "communities-obvious", "path": "fixtures/communities-obvious/content.json", "sha256": "fd452804a2c098d68ce4ed18f6dbf5c678af27b221e3f9276005a20c979073e4", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000" },
+        { "name": "components-disconnected", "path": "fixtures/components-disconnected/content.json", "sha256": "71079dd202b0bbd50a337f0d1466b1bfb87c68396fe8f51e29ff2823ecb20242", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000" },
+        { "name": "hubs-utilities", "path": "fixtures/hubs-utilities/content.json", "sha256": "1e38704f35b7325d9277a7fa6dc13aa0c25d0cdc62ce7b407ed4bdbfaf8893aa", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000" },
+        { "name": "cycles-recursion", "path": "fixtures/cycles-recursion/content.json", "sha256": "e787e99c859f77ea1be54273f163b6c65320382ba7cd5417cf3ca2e2c38091a9", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100" },
+        { "name": "indirect-uncertain", "path": "fixtures/indirect-uncertain/content.json", "sha256": "1e3830d78b077e3f7d09f6effcf325cf360ebcf1c2cddd1ba54039319f379f75", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x7000" },
+        { "name": "isolates", "path": "fixtures/isolates/content.json", "sha256": "658b438153ce8ecac1719457792334a3043efe09c1df1f264e511749e31dd1af", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x6000" },
+        { "name": "bridges-rare", "path": "fixtures/bridges-rare/content.json", "sha256": "69278ee8e28390b623f525774e8fe036231873934fb30ed0e98a2c33353105c4", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000" },
+        { "name": "shared-data", "path": "fixtures/shared-data/content.json", "sha256": "09b2ce91c3d4c2d0499a0e6d376a8ed534ac12c3d44688084f699d9d77dc0eb8", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x8000" },
+        { "name": "ff8-chunks-tails", "path": "fixtures/ff8-chunks-tails/content.json", "sha256": "dcaf79b23970660ec930f56d233b75580a28f5f45f5717488ba0569b31567501", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xC000" },
+        { "name": "ff8-imports-thunks", "path": "fixtures/ff8-imports-thunks/content.json", "sha256": "010857160b1eec0509bf9ed3d182d2018b2ea2597174137a5427e2ff90639d41", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xB000" },
+        { "name": "ff8-data-callback-not-call", "path": "fixtures/ff8-data-callback-not-call/content.json", "sha256": "3982efd1696451724029483da7193fbf74eb0064e3bc4aafb0e01862fbdf94d4", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xA000" },
+        { "name": "ff8-idb-pe-quarantine", "path": "fixtures/ff8-idb-pe-quarantine/content.json", "sha256": "35f019b2caf28aa3346507d3309baaa837df27c987d234f8726ebfcf28db7dd2", "firstAdmissibleProjectionId": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570:0x60860" },
+        { "name": "ff8-multi-module", "path": "fixtures/ff8-multi-module/content.json", "sha256": "513561269a3ae03630a823365bcc11ef259651f2d4fae5cdf0a7d64ca26ff794", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000" },
+        { "name": "ff8-self-loop", "path": "fixtures/ff8-self-loop/content.json", "sha256": "0fe3ac5b2d981992df569db199a9c9d95001ea54950c46ca97053f4edff0127f", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x9000" },
+        { "name": "ff8-unknown-metrics", "path": "fixtures/ff8-unknown-metrics/content.json", "sha256": "261c31eb7130a916d6525ad5820ba28d2c35d8d8e7c549a65131ee5c0d89079c", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xF000" },
+        { "name": "ff8-coverage-partial-tails", "path": "fixtures/ff8-coverage-partial-tails/content.json", "sha256": "b5f5ace60d6e037bb1021177e08df9e2aedff2ac96fbc80ce0c5b96163dbd3c9", "firstAdmissibleProjectionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xD000" }
+      ],
+      "seventeenthFixture": { "name": "ff8-identity-rename", "sha256": "82bc473a5279951bce6d77d40fd1f29390756b5a18c725599a5cc087b00f2d56", "disposition": "Unchanged original cluster.test.ts identity case; not falsely included in the 16x4 matrix" }
+    },
+    "numericFamiliesInOrder": [
+      { "id": "numeric/roundtrip/ROUTE/SCALE_BITS", "count": 6, "routesInOrder": ["public", "direct"], "scales": ["2**-1000", "1", "2**990"], "config": { "seed": "roundtrip", "temperature": 0, "tolerance": "0.5*scale", "pprDirections": ["callee", "caller", "both"], "pprTolerance": "1e-11" }, "expected": "value", "oracle": "cluster.test.ts:568-586; copied pprOracle residual certificate" },
+      { "id": "numeric/legacy/ROUTE", "count": 2, "routesInOrder": ["public", "direct"], "config": { "seed": "numeric-context-qualification-v1", "temperature": 0, "removedMetadata": ["numericPolicy", "numericSource"] }, "expected": "value; canonical-arcs-v1 convention", "oracle": "cluster.test.ts:588-592" },
+      { "id": "numeric/poison/POISON/CONSUMER", "count": 207, "poisonsInOrder": ["arc", "id", "out", "incoming", "outDegree", "inDegree", "totalWeight", "negativeZeroCache", "summandWeight", "summandEndpoint", "summandZero", "summandNegativeZero", "summandInfinity", "summandNaN", "summandOrder", "rawCount", "sourceBudget", "sourceVersion", "binding", "missingSource", "missingPolicy", "convention", "rehashedStaleCaches"], "consumersInOrder": ["validate", "components", "conductance", "sweep", "ppr", "modularity", "leiden", "export", "groups"], "config": { "seed": "numeric-context-qualification-v1", "pprSeedIndex": 0, "conductanceMembers": [0], "sweepScores": [0.5, 0.5, 0, 0], "sweepMaxSize": 2, "modularityLabels": [0, 0, 1, 1] }, "expected": { "kind": "refusal", "code": "unsupported-numeric" }, "oracle": "cluster.test.ts:594-613; all nine original consumers" },
+      { "id": "numeric/import-refusal/ROUTE/MODE", "count": 4, "routesInOrder": ["public", "direct"], "modesInOrder": ["missingSource", "mutatedSnapshot"], "expected": { "kind": "refusal", "code": "unsupported-numeric" }, "oracle": "cluster.test.ts:585-586,614" },
+      { "id": "numeric/stale-after-validation", "count": 1, "config": { "poison": "outDegree-after-valid-receipt" }, "expected": { "kind": "refusal", "code": "unsupported-numeric" }, "oracle": "cluster.test.ts:615" },
+      { "id": "numeric/summand-binding-groups", "count": 1, "config": { "source": "raw-summands-versus-rounded" }, "expected": "value; same logical group IDs, distinct context binding", "oracle": "cluster.test.ts:616-619" },
+      { "id": "numeric/budgets/MODE", "count": 4, "modesInOrder": ["source-refusal", "retained-success", "score-refusal", "unique-no-retention"], "sourceBudget": "3 only for source-refusal, otherwise 8; unique output uses 1", "scoreBudget": "7 only for score-refusal, otherwise 8", "direction": "both", "expectedByMode": { "source-refusal": "refusal:numeric-source-budget-exceeded", "retained-success": "value", "score-refusal": "refusal:ppr-score-budget-exceeded", "unique-no-retention": "value" }, "oracle": "cluster.test.ts:621-631" },
+      { "id": "numeric/tiny-cycles/WEIGHT_BITS", "count": 4, "weightsInOrder": ["Number.MIN_VALUE", "1e-320", "1", "2**1000"], "config": { "pprSeedIndex": 0, "tolerance": "1e-12" }, "expected": "value; converged, zero unreachable scores and rational residual certificate", "oracle": "cluster.test.ts:532-542" },
+      { "id": "numeric/subnormal-gain", "count": 1, "config": { "seed": "rv-subnormal", "temperature": 0, "resolution": 1, "tolerance": "Number.MIN_VALUE", "arcs": "0->1:3u,2->3:2u" }, "expected": "value; exact pre-move max=6/25 > threshold=1/5, modularity=.48, gain tolerance=.2, zero post-move improving moves", "oracle": "cluster.test.ts:544-553; copied movesOracle" },
+      { "id": "numeric/range/MODE", "count": 6, "modesInOrder": ["huge-success", "duplicate-overflow", "total-overflow", "range-ppr", "range-leiden", "projection-underflow"], "config": { "seed": "numeric-context-qualification-v1" }, "expectedByMode": { "huge-success": "value; cut=1, modularity=0", "duplicate-overflow": "refusal:unsupported-numeric", "total-overflow": "refusal:unsupported-numeric", "range-ppr": "refusal:unsupported-numeric", "range-leiden": "refusal:unsupported-numeric", "projection-underflow": "refusal:unsupported-numeric" }, "oracle": "cluster.test.ts:710-720" },
+      { "id": "numeric/projection-product/DIRECT_BITS", "count": 2, "triplesInOrder": [["1e-200", "1e-200", "1e200"], ["1e200", "1e200", "1e-200"]], "tripleFields": ["direct", "importFactor", "utilityFactor"], "expected": "value; whole bit-exact projection compared", "oracle": "cluster.test.ts:722-727" },
+      { "id": "numeric/empty/ALGORITHM", "count": 4, "algorithmsInOrder": ["historical-cc", "hub-baseline", "ppr", "leiden"], "config": { "seedIds": [], "seedCapabilityIds": [], "maxCommunitySize": 128, "weights": {}, "ppr": {}, "leiden": { "seed": "numeric-context-qualification-v1" } }, "expected": { "kind": "refusal", "code": "empty-snapshot-no-partition" }, "oracle": "cluster.test.ts:415-422" }
+    ],
+    "smallSyntheticGroups": {
+      "id": "synthetic-groups/MODE",
+      "count": 16,
+      "modesInOrder": ["balanced-split", "preserve", "attach", "unknown-cost", "known-cost", "hub-cap", "empty-kernel", "capability-overflow", "context-raw", "context-affinity", "context-hub", "context-community-omission", "partial-coverage", "cost-overflow", "invalid-sizes", "empty-partition"],
+      "configReference": "groupCases(): literal per-mode n/pairs/cluster algorithm/overrides/options, including seed numeric-context-qualification-v1",
+      "expectedByMode": {
+        "balanced-split": "value; owned sizes [6,6,5]", "preserve": "value; 2 groups", "attach": "value; 1 group",
+        "unknown-cost": "value; known:false,value:null", "known-cost": "value; known:true,value:9",
+        "hub-cap": "value; full hubs/context-cap/byte metrics", "empty-kernel": "value; no empty group; all members attributed uncovered",
+        "capability-overflow": "value; 256 document capability IDs, 300 sidecar IDs",
+        "context-raw": "value; first group context []", "context-affinity": "value; context [id(1)], omission [id(2)]",
+        "context-hub": "value; context [id(2)], omission [id(1)]",
+        "context-community-omission": "value; context [id(1)], group and community omission [id(2)]",
+        "partial-coverage": "value; full coverage diagnostic sequence",
+        "cost-overflow": "Error: investigation-groups: cost overflow",
+        "invalid-sizes": "Error: investigation-groups: minimum exceeds maximum",
+        "empty-partition": "Error: investigation-groups: empty snapshot/partition: no v1 partition exists; do not synthesize empty groups"
+      },
+      "oracle": "cluster.test.ts:368-437; small named variants, no new numerical implementation"
+    },
+    "runtimeLedgerFields": ["id", "inputHash of actual full prepared state", "sourceFixtureOrCaseSpecHash", "config exact event stream", "expected", "oracle", "observation full exact event stream", "stage before/after proofs and actual reference stability", "stageRawErrors", "rawErrorEvidence full descriptor/stack event stream", "authoredTestSha256", "PAIRED only after full equality and complete consuming origin-chain proof"],
+    "inputHashPolicy": "Fixture pins identify raw packet bytes; synthetic source hashes identify the closed case specification, not a fabricated evaluated graph. Actual constructed input-state hashes are future runtime evidence and are explicitly not claimed here.",
+    "copiedOracleSource": { "path": "../inputs/baseline/test/cluster.test.ts", "sha256": "c05297dfb5a84a9974cbbb50629b8cba267c3fc6124f3d0a13e14b2f40daebb2", "spans": [[460, 478], [486, 525]], "changes": ["Arc type qualified B.Arc", "outer describe indentation/comment placement only", "unused asNumber helper omitted"], "movesOracleBound": "for (let node = 0; node < n; node++)", "expectRoundedCopied": false, "newNumericAlgorithm": false,
+      "staticNormalizedBodyComparison": { "method": "Text-only function body extraction; strip per-line indentation/trailing whitespace and undo B.Arc qualification; compare to pinned original. No compiler or function execution.", "allMatched": true, "originalNormalizedSha256": {
+        "r": "e52d8c9cd451464fe494d5344ffaeb833c9848fa1bdee51cc885080833954e44",
+        "fromNumber": "e666c8db904b9bc166e46e835d3904975ec90fb857e60f6d2d462f09b145a48f",
+        "matrix": "5f54012a4cd55cce602c543b6fb8acc6ef7d1ee7f76f1018364ba940eb10c075",
+        "qOracle": "788066f1a83aa3ad31677d6a159c18586c566fca203ad550f2ac3c0218e4b9ab",
+        "movesOracle": "f9fde81bf4a21e2be8c40645fbe4ecb59fa8278a817fe579c29bbd5c97d5f2c5",
+        "pprOracle": "c8c3f5bf9e22c9222c00cfac5f424c87b7e691070d03300b8d907c3aad4821f2"
+      } }
+    }
+  },
+  "observerContract": {
+    "genericObserverCount": 1,
+    "domain": ["null", "undefined", "boolean", "string", "binary64 number", "bigint", "Object.prototype record", "null-prototype record", "Array.prototype array", "Map.prototype Map", "Set.prototype Set"],
+    "numberEncoding": "8 bytes big-endian IEEE binary64, including -0 and nonfinite payloads; no scientific JSON-number encoding",
+    "preserves": ["all own DATA descriptors", "own-key order", "absence versus own undefined", "array holes/length/order", "Map key/value order", "Set member order", "per-stream reference aliases", "representable cycles", "complete output and complete pre/post input state"],
+    "fatal": ["custom prototypes", "symbols", "functions", "accessors", "depth over 128", "65536 first-seen objects", "oversize", "unmapped source", "unknown Error property"],
+    "directStreamEquality": true,
+    "toleranceEquality": false,
+    "hashOnlyEquality": false,
+    "canonicalJsonOnlyEquality": false,
+    "secondPlanningTraceFramework": false
+  },
+  "nonmutationStageContract": {
+    "regressionFixtureDataOnly": true,
+    "beforeFirstPrepareBindProjectionClusterAndNumericPreparation": true,
+    "helper": "Small typed before/call/finally-after guard; no transaction or trace framework",
+    "exactEventAndActualReferenceIdentityChecks": true,
+    "stageProofFields": ["label", "before", "after", "referenceCount", "referencesStable", "returned"],
+    "stageProofsIncludedInComparedObservation": true,
+    "rawStageErrorDescriptorsAndStacksRetainedSeparately": true,
+    "intentionalFixtureDataCorruptionIsNotProducerMutation": true,
+    "guardFailureCanPassAsScientificRefusal": false,
+    "sameGenericObserverAndExistingCaps": true
+  },
+  "errorEvidenceContract": {
+    "rawAllOwnDataDescriptorsCapturedBeforeClassification": true,
+    "rawStackRetainedPerBranch": true,
+    "semanticComparison": ["name", "message", "ordered own semantic descriptor data including stack presence/position/flags", "explicit technical tag ONLY for stack string value", "complete diagnostic including optional counts and field presence"],
+    "closedOwnPropertyVocabulary": ["message", "stack", "name", "diagnostic"],
+    "stackClassifiedTechnicalNotSilentlyDiscarded": true,
+    "originMapping": { "productPinFiles": 6, "movedSpanRows": 22, "explicitExportPrefixDeclarationLines": { "sparse-graph-codecs.ts": [51, 52, 65, 68, 71, 74, 78, 88], "group-context-codecs.ts": [56] }, "columnRule": "Candidate column minus exactly 7 ONLY on a statically proved export-prefix line; otherwise identical column. Unjustifiable coordinates STOP.", "rawColumnsRetained": true, "authoredTestFrames": "Exact shared file, hash, line and column, never a generic equal token", "authoredTestHashMatchedByParentPreflight": "required; not certified by author",
+      "insertedWrapper": { "candidateFile": "investigation-groups.ts", "line": 49, "callee": "prepareGroupContextSource", "callExpressionColumnChecked": true, "sourceHash": "162c979a5c65a6c08625f255d33aba7cb16ba3bb85ddfc7937925b95073d3b1a", "closedCalleeRules": [
+        { "candidateFile": "group-context-codecs.ts", "candidateLine": 67, "baselineFile": "investigation-groups.ts", "baselineLine": 60, "call": "requireThat", "role": "minimum exceeds maximum" },
+        { "candidateFile": "group-context-codecs.ts", "candidateLine": 72, "baselineFile": "investigation-groups.ts", "baselineLine": 65, "call": "requireThat", "role": "empty snapshot/partition" },
+        { "candidateFile": "group-context-codecs.ts", "candidateLine": 93, "baselineFile": "investigation-groups.ts", "baselineLine": 86, "call": "validateSparseGraph", "role": "supplied-affinity poison refusal" }
+      ], "neighbors": "Immediately preceding frame must already align at the exact declared callee site; following frame must align at the same reviewed test build/BG-CG invocation coordinate. Rule, source lines, raw frame, indices and neighbors retained.", "otherCallsitesOrRangesAccepted": false },
+      "completeChainProof": "Sequential alignments or explicit source-justified insertion, consuming every baseline and candidate index exactly once. No frame filtering, omission or throwing-origin-only acceptance. Full proof retained in each branch PAIRED row."
+    },
+    "syntheticNegativeOracles": ["stack enumerable/configurable/writable flag differences remain unequal", "stack position differs", "stack presence differs", "only stack value receives the explicit technical tag", "additional unauthorized origin frame causes full-chain refusal"],
+    "negativeOraclesAreRuntimeProfileOrNewPairedCases": false,
+    "unavailableProfileDisposition": "No extra sourceURL/coordinate/cause property or native/eval/async/foreign frame mapping is invented. Unknown property or origin MUST STOP for parent adjudication before any expansion.",
+    "runtimeErrorProfileCertified": false,
+    "importOrPathErrorsAcceptedAsPairedScientificRefusal": false
+  },
+  "futureEvidence": {
+    "requiredParentEnvironment": "PARENT_NUMERIC_EVIDENCE_DIR",
+    "ownedChild": "numeric-context-qualification-v1",
+    "creation": "absolute supplied OWN root; exclusive nonrecursive child mkdir; exclusive wx files; existing namespace fatal",
+    "casePerBranchMaxBytes": 2097152,
+    "branchMaxBytes": 134217728,
+    "combinedBranchMaxBytes": 268435456,
+    "fatalMarkerReserveBytes": 1024,
+    "capAccounting": "raw error + complete observation including stage proofs + raw stage errors + paired full origin proof + fatal/completion artifacts, cumulatively per branch and case; unchanged hard caps",
+    "capExceeded": "fatal marker and STOP; no cropped observation, retry, cleanup or silent omission",
+    "oneCaseStateAtATime": true,
+    "rssOrGcTimingClaim": false,
+    "testTimeoutMs": 120000,
+    "authorEvidenceDirectoryCreated": false,
+    "moduleLoadWrites": false
+  },
+  "notPerformed": [
+    "compiler", "typecheck", "transpile", "test execution", "product import", "pure-load execution", "validator",
+    "Bun execution", "SDK resolution probe", "OS probe", "database", "git", "IDA", "live", "network",
+    "delegation", "team tools", "task closure", "main changes", "configuration changes", "autoformat", "build", "commit", "integration", "S1 repin"
+  ],
+  "requiredParentGatesInOrder": [
+    "fresh independent strong V of all four source outputs",
+    "serialized frozen-layout/pin/reviewed-test-hash/actual-SDK preflight",
+    "full strict baseline TSC",
+    "full strict candidate TSC including nine new regressions",
+    "unchanged original cluster.test.ts on baseline and candidate",
+    "nine candidate regression tests",
+    "FULL 450-pair differential with parent-owned evidence and raw failure retention",
+    "pure-load closure",
+    "parent adjudication before integration or qualified S1 repin"
+  ],
+  "stopAndFixLimits": "Baseline failure, mismatch, mutation, import/path failure, invalid fixture, unknown Error property, unmapped origin, unsupported observation or cap failure STOP. No retry, autofix, scientific-source change, tolerance relaxation, SDK shim or whitelist invention. A new source-only correction requires parent adjudication and fresh independent V.",
+  "nativeLiveFull44AuthorityEntitlementOrOptimalityClaim": false
+}

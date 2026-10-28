@@ -4,12 +4,12 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G16 AI actions, P1 G16, enemy AI emit]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-corpus-apply-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-suite-r2-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-shutdown-r2-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-corpus-apply-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-suite-r2-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g16-positive-post-shutdown-r2-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/references/enemy-ai-opcodes.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g15-ai-control-validation.md

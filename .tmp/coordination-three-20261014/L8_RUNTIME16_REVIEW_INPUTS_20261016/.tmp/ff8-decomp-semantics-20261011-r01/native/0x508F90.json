@@ -1,0 +1,555 @@
+{
+  "ea": "0x508F90",
+  "name_label_only": "Battle_ReadAnimation",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x508f90",
+      "end": "0x50929b",
+      "hex": "83ec08538b5c24148a43068a4b073ac1720ab8010000005b83c408c356576a08e8fbf2ffff8b4c241c8bf033d283c4048b41048a13c744240c000000008b48088b388b4491040fbf530403c18956040fbf4b0203c889442410890e8a4b018ad1d1ea83e2014285d20f8e3d02000055f6c1010f842e0100008a430684c00f842301000056e8070300000fbfc0992bc256d1f866014708e8f50200000fbfc0992bc256d1f86601470ae8e30200000fbfc0992bc26a01d1f86601470c56e84f0200008a570183c4148aca32c880e10132caf6c101884f0175588a0733ed84c00f86950100008d5f1656e8f30200000fbfc0992bc256d1f8660143fee8e10200000fbfc0992bc256d1f8660103e8d00200000fbfc0992bc283c40cd1f86601430233c08a074583c3303be87cbce9450100008a0733ed84c00f863d0100008d5f1656e89b0200000fbfc0992bc256d1f8660143fee8890200000fbfc0992bc256d1f8660103e8780200000fbfc0992bc256d1f866014302e8e60200005666894304e8dc0200005666894306e8d202000033c983c418668943088a0f4583c3303be97c9ee9cf00000056e8e40100006601470856e8da0100006601470a56e8d00100006601470c6a0156e8440100008a570183c4148aca32c880e10132caf6c101884f01753d8a0733ed84c00f868a0000008d5f1656e8e8010000660143fe56e8de01000066010356e8d50100006601430233d28a1783c40c4583c3303bea7cd4eb558a0733ed84c076518d5f1656e8af010000660143fe56e8a501000066010356e89c0100006601430256e8120200005666894304e8080200005666894306e8fe0100006689430833c08a0783c4184583c3303be87cb68b5c24208a53068a4b07fec28ac28853063ac1731c8a4b018b6c24108ad145d1ea83e201896c2410423bea0f8cc9fdffff8b4424145d8a4b01f6c1017405f6c10c7512668b16662bd0668b460466895302668943048ad1c1ea0283e2034281e20100008079054a83cafe428b44241880e203c0e20280e1f3500ad1885301e808faffff6a08e841f0ffff83c40833c05f5e5b83c408c3"
+    }
+  ],
+  "assembly": "00508F90: sub     esp, 8; Integer Subtraction\n00508F93: push    ebx\n00508F94: mov     ebx, [esp+0Ch+arg_4]\n00508F98: mov     al, [ebx+6]\n00508F9B: mov     cl, [ebx+7]\n00508F9E: cmp     al, cl; Compare Two Operands\n00508FA0: jb      short loc_508FAC; Jump if Below (CF=1)\n00508FA2: mov     eax, 1\n00508FA7: pop     ebx\n00508FA8: add     esp, 8; Add\n00508FAB: retn; Return Near from Procedure\n00508FAC: push    esi\n00508FAD: push    edi\n00508FAE: push    8; nbytes\n00508FB0: call    bs_modulo; Call Procedure\n00508FB5: mov     ecx, [esp+18h+arg_0]\n00508FB9: mov     esi, eax\n00508FBB: xor     edx, edx; Logical Exclusive OR\n00508FBD: add     esp, 4; Add\n00508FC0: mov     eax, [ecx+4]\n00508FC3: mov     dl, [ebx]\n00508FC5: mov     [esp+14h+var_8], 0\n00508FCD: mov     ecx, [eax+8]\n00508FD0: mov     edi, [eax]\n00508FD2: mov     eax, [ecx+edx*4+4]\n00508FD6: movsx   edx, word ptr [ebx+4]; Move with Sign-Extend\n00508FDA: add     eax, ecx; Add\n00508FDC: mov     [esi+4], edx\n00508FDF: movsx   ecx, word ptr [ebx+2]; Move with Sign-Extend\n00508FE3: add     ecx, eax; Add\n00508FE5: mov     [esp+14h+var_4], eax\n00508FE9: mov     [esi], ecx\n00508FEB: mov     cl, [ebx+1]\n00508FEE: mov     dl, cl\n00508FF0: shr     edx, 1; Shift Logical Right\n00508FF2: and     edx, 1; Logical AND\n00508FF5: inc     edx; Increment by 1\n00508FF6: test    edx, edx; Logical Compare\n00508FF8: jle     loc_50923B; Jump if Less or Equal (ZF=1 | SF!=OF)\n00508FFE: push    ebp\n00508FFF: test    cl, 1; Logical Compare\n00509002: jz      loc_509136; Jump if Zero (ZF=1)\n00509008: mov     al, [ebx+6]\n0050900B: test    al, al; Logical Compare\n0050900D: jz      loc_509136; Jump if Zero (ZF=1)\n00509013: push    esi\n00509014: call    Battle__ReadPositionType; Call Procedure\n00509019: movsx   eax, ax; Move with Sign-Extend\n0050901C: cdq; EAX -> EDX:EAX (with sign)\n0050901D: sub     eax, edx; Integer Subtraction\n0050901F: push    esi\n00509020: sar     eax, 1; Shift Arithmetic Right\n00509022: add     [edi+8], ax; Add\n00509026: call    Battle__ReadPositionType; Call Procedure\n0050902B: movsx   eax, ax; Move with Sign-Extend\n0050902E: cdq; EAX -> EDX:EAX (with sign)\n0050902F: sub     eax, edx; Integer Subtraction\n00509031: push    esi\n00509032: sar     eax, 1; Shift Arithmetic Right\n00509034: add     [edi+0Ah], ax; Add\n00509038: call    Battle__ReadPositionType; Call Procedure\n0050903D: movsx   eax, ax; Move with Sign-Extend\n00509040: cdq; EAX -> EDX:EAX (with sign)\n00509041: sub     eax, edx; Integer Subtraction\n00509043: push    1\n00509045: sar     eax, 1; Shift Arithmetic Right\n00509047: add     [edi+0Ch], ax; Add\n0050904B: push    esi\n0050904C: call    bitReader; Call Procedure\n00509051: mov     dl, [edi+1]\n00509054: add     esp, 14h; Add\n00509057: mov     cl, dl\n00509059: xor     cl, al; Logical Exclusive OR\n0050905B: and     cl, 1; Logical AND\n0050905E: xor     cl, dl; Logical Exclusive OR\n00509060: test    cl, 1; Logical Compare\n00509063: mov     [edi+1], cl\n00509066: jnz     short loc_5090C0; Jump if Not Zero (ZF=0)\n00509068: mov     al, [edi]\n0050906A: xor     ebp, ebp; Logical Exclusive OR\n0050906C: test    al, al; Logical Compare\n0050906E: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n00509074: lea     ebx, [edi+16h]; Load Effective Address\n00509077: push    esi\n00509078: call    Battle__ReadRotationType; Call Procedure\n0050907D: movsx   eax, ax; Move with Sign-Extend\n00509080: cdq; EAX -> EDX:EAX (with sign)\n00509081: sub     eax, edx; Integer Subtraction\n00509083: push    esi\n00509084: sar     eax, 1; Shift Arithmetic Right\n00509086: add     [ebx-2], ax; Add\n0050908A: call    Battle__ReadRotationType; Call Procedure\n0050908F: movsx   eax, ax; Move with Sign-Extend\n00509092: cdq; EAX -> EDX:EAX (with sign)\n00509093: sub     eax, edx; Integer Subtraction\n00509095: push    esi\n00509096: sar     eax, 1; Shift Arithmetic Right\n00509098: add     [ebx], ax; Add\n0050909B: call    Battle__ReadRotationType; Call Procedure\n005090A0: movsx   eax, ax; Move with Sign-Extend\n005090A3: cdq; EAX -> EDX:EAX (with sign)\n005090A4: sub     eax, edx; Integer Subtraction\n005090A6: add     esp, 0Ch; Add\n005090A9: sar     eax, 1; Shift Arithmetic Right\n005090AB: add     [ebx+2], ax; Add\n005090AF: xor     eax, eax; Logical Exclusive OR\n005090B1: mov     al, [edi]\n005090B3: inc     ebp; Increment by 1\n005090B4: add     ebx, 30h ; '0'; Add\n005090B7: cmp     ebp, eax; Compare Two Operands\n005090B9: jl      short loc_509077; Jump if Less (SF!=OF)\n005090BB: jmp     loc_509205; Jump\n005090C0: mov     al, [edi]\n005090C2: xor     ebp, ebp; Logical Exclusive OR\n005090C4: test    al, al; Logical Compare\n005090C6: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n005090CC: lea     ebx, [edi+16h]; Load Effective Address\n005090CF: push    esi\n005090D0: call    Battle__ReadRotationType; Call Procedure\n005090D5: movsx   eax, ax; Move with Sign-Extend\n005090D8: cdq; EAX -> EDX:EAX (with sign)\n005090D9: sub     eax, edx; Integer Subtraction\n005090DB: push    esi\n005090DC: sar     eax, 1; Shift Arithmetic Right\n005090DE: add     [ebx-2], ax; Add\n005090E2: call    Battle__ReadRotationType; Call Procedure\n005090E7: movsx   eax, ax; Move with Sign-Extend\n005090EA: cdq; EAX -> EDX:EAX (with sign)\n005090EB: sub     eax, edx; Integer Subtraction\n005090ED: push    esi\n005090EE: sar     eax, 1; Shift Arithmetic Right\n005090F0: add     [ebx], ax; Add\n005090F3: call    Battle__ReadRotationType; Call Procedure\n005090F8: movsx   eax, ax; Move with Sign-Extend\n005090FB: cdq; EAX -> EDX:EAX (with sign)\n005090FC: sub     eax, edx; Integer Subtraction\n005090FE: push    esi\n005090FF: sar     eax, 1; Shift Arithmetic Right\n00509101: add     [ebx+2], ax; Add\n00509105: call    au_re_bitReader; Call Procedure\n0050910A: push    esi\n0050910B: mov     [ebx+4], ax\n0050910F: call    au_re_bitReader; Call Procedure\n00509114: push    esi\n00509115: mov     [ebx+6], ax\n00509119: call    au_re_bitReader; Call Procedure\n0050911E: xor     ecx, ecx; Logical Exclusive OR\n00509120: add     esp, 18h; Add\n00509123: mov     [ebx+8], ax\n00509127: mov     cl, [edi]\n00509129: inc     ebp; Increment by 1\n0050912A: add     ebx, 30h ; '0'; Add\n0050912D: cmp     ebp, ecx; Compare Two Operands\n0050912F: jl      short loc_5090CF; Jump if Less (SF!=OF)\n00509131: jmp     loc_509205; Jump\n00509136: push    esi\n00509137: call    Battle__ReadPositionType; Call Procedure\n0050913C: add     [edi+8], ax; Add\n00509140: push    esi\n00509141: call    Battle__ReadPositionType; Call Procedure\n00509146: add     [edi+0Ah], ax; Add\n0050914A: push    esi\n0050914B: call    Battle__ReadPositionType; Call Procedure\n00509150: add     [edi+0Ch], ax; Add\n00509154: push    1\n00509156: push    esi\n00509157: call    bitReader; Call Procedure\n0050915C: mov     dl, [edi+1]\n0050915F: add     esp, 14h; Add\n00509162: mov     cl, dl\n00509164: xor     cl, al; Logical Exclusive OR\n00509166: and     cl, 1; Logical AND\n00509169: xor     cl, dl; Logical Exclusive OR\n0050916B: test    cl, 1; Logical Compare\n0050916E: mov     [edi+1], cl\n00509171: jnz     short loc_5091B0; Jump if Not Zero (ZF=0)\n00509173: mov     al, [edi]\n00509175: xor     ebp, ebp; Logical Exclusive OR\n00509177: test    al, al; Logical Compare\n00509179: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n0050917F: lea     ebx, [edi+16h]; Load Effective Address\n00509182: push    esi\n00509183: call    Battle__ReadRotationType; Call Procedure\n00509188: add     [ebx-2], ax; Add\n0050918C: push    esi\n0050918D: call    Battle__ReadRotationType; Call Procedure\n00509192: add     [ebx], ax; Add\n00509195: push    esi\n00509196: call    Battle__ReadRotationType; Call Procedure\n0050919B: add     [ebx+2], ax; Add\n0050919F: xor     edx, edx; Logical Exclusive OR\n005091A1: mov     dl, [edi]\n005091A3: add     esp, 0Ch; Add\n005091A6: inc     ebp; Increment by 1\n005091A7: add     ebx, 30h ; '0'; Add\n005091AA: cmp     ebp, edx; Compare Two Operands\n005091AC: jl      short loc_509182; Jump if Less (SF!=OF)\n005091AE: jmp     short loc_509205; Jump\n005091B0: mov     al, [edi]\n005091B2: xor     ebp, ebp; Logical Exclusive OR\n005091B4: test    al, al; Logical Compare\n005091B6: jbe     short loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n005091B8: lea     ebx, [edi+16h]; Load Effective Address\n005091BB: push    esi\n005091BC: call    Battle__ReadRotationType; Call Procedure\n005091C1: add     [ebx-2], ax; Add\n005091C5: push    esi\n005091C6: call    Battle__ReadRotationType; Call Procedure\n005091CB: add     [ebx], ax; Add\n005091CE: push    esi\n005091CF: call    Battle__ReadRotationType; Call Procedure\n005091D4: add     [ebx+2], ax; Add\n005091D8: push    esi\n005091D9: call    au_re_bitReader; Call Procedure\n005091DE: push    esi\n005091DF: mov     [ebx+4], ax\n005091E3: call    au_re_bitReader; Call Procedure\n005091E8: push    esi\n005091E9: mov     [ebx+6], ax\n005091ED: call    au_re_bitReader; Call Procedure\n005091F2: mov     [ebx+8], ax\n005091F6: xor     eax, eax; Logical Exclusive OR\n005091F8: mov     al, [edi]\n005091FA: add     esp, 18h; Add\n005091FD: inc     ebp; Increment by 1\n005091FE: add     ebx, 30h ; '0'; Add\n00509201: cmp     ebp, eax; Compare Two Operands\n00509203: jl      short loc_5091BB; Jump if Less (SF!=OF)\n00509205: mov     ebx, [esp+18h+arg_4]\n00509209: mov     dl, [ebx+6]\n0050920C: mov     cl, [ebx+7]\n0050920F: inc     dl; Increment by 1\n00509211: mov     al, dl\n00509213: mov     [ebx+6], dl\n00509216: cmp     al, cl; Compare Two Operands\n00509218: jnb     short loc_509236; Jump if Not Below (CF=0)\n0050921A: mov     cl, [ebx+1]\n0050921D: mov     ebp, [esp+18h+var_8]\n00509221: mov     dl, cl\n00509223: inc     ebp; Increment by 1\n00509224: shr     edx, 1; Shift Logical Right\n00509226: and     edx, 1; Logical AND\n00509229: mov     [esp+18h+var_8], ebp\n0050922D: inc     edx; Increment by 1\n0050922E: cmp     ebp, edx; Compare Two Operands\n00509230: jl      loc_508FFF; Jump if Less (SF!=OF)\n00509236: mov     eax, [esp+18h+var_4]\n0050923A: pop     ebp\n0050923B: mov     cl, [ebx+1]\n0050923E: test    cl, 1; Logical Compare\n00509241: jz      short loc_509248; Jump if Zero (ZF=1)\n00509243: test    cl, 0Ch; Logical Compare\n00509246: jnz     short loc_50925A; Jump if Not Zero (ZF=0)\n00509248: mov     dx, [esi]\n0050924B: sub     dx, ax; Integer Subtraction\n0050924E: mov     ax, [esi+4]\n00509252: mov     [ebx+2], dx\n00509256: mov     [ebx+4], ax\n0050925A: mov     dl, cl\n0050925C: shr     edx, 2; Shift Logical Right\n0050925F: and     edx, 3; Logical AND\n00509262: inc     edx; Increment by 1\n00509263: and     edx, 80000001h; Logical AND\n00509269: jns     short loc_509270; Jump if Not Sign (SF=0)\n0050926B: dec     edx; Decrement by 1\n0050926C: or      edx, 0FFFFFFFEh; Logical Inclusive OR\n0050926F: inc     edx; Increment by 1\n00509270: mov     eax, [esp+14h+arg_0]\n00509274: and     dl, 3; Logical AND\n00509277: shl     dl, 2; Shift Logical Left\n0050927A: and     cl, 0F3h; Logical AND\n0050927D: push    eax; int\n0050927E: or      dl, cl; Logical Inclusive OR\n00509280: mov     [ebx+1], dl\n00509283: call    BattleSkeleton_BuildHierarchicalFK; Call Procedure\n00509288: push    8; nbytes\n0050928A: call    BattleScratch_Unwind; E3a: unwind bump dword_1D999C4 (inverse of bs_modulo 0x5082B0). Cerberus Frame-memory-allocation claim is false.\n0050928F: add     esp, 8; Add\n00509292: xor     eax, eax; Logical Exclusive OR\n00509294: pop     edi\n00509295: pop     esi\n00509296: pop     ebx\n00509297: add     esp, 8; Add\n0050929A: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x508f90",
+      "end": "0x508fa2",
+      "successors": [
+        "0x508fa2",
+        "0x508fac"
+      ]
+    },
+    {
+      "start": "0x508fa2",
+      "end": "0x508fac",
+      "successors": []
+    },
+    {
+      "start": "0x508fac",
+      "end": "0x508ffe",
+      "successors": [
+        "0x508ffe",
+        "0x50923b"
+      ]
+    },
+    {
+      "start": "0x508ffe",
+      "end": "0x508fff",
+      "successors": [
+        "0x508fff"
+      ]
+    },
+    {
+      "start": "0x508fff",
+      "end": "0x509008",
+      "successors": [
+        "0x509008",
+        "0x509136"
+      ]
+    },
+    {
+      "start": "0x509008",
+      "end": "0x509013",
+      "successors": [
+        "0x509013",
+        "0x509136"
+      ]
+    },
+    {
+      "start": "0x509013",
+      "end": "0x509068",
+      "successors": [
+        "0x509068",
+        "0x5090c0"
+      ]
+    },
+    {
+      "start": "0x509068",
+      "end": "0x509074",
+      "successors": [
+        "0x509074",
+        "0x509209"
+      ]
+    },
+    {
+      "start": "0x509074",
+      "end": "0x509077",
+      "successors": [
+        "0x509077"
+      ]
+    },
+    {
+      "start": "0x509077",
+      "end": "0x5090bb",
+      "successors": [
+        "0x5090bb",
+        "0x509077"
+      ]
+    },
+    {
+      "start": "0x5090bb",
+      "end": "0x5090c0",
+      "successors": [
+        "0x509205"
+      ]
+    },
+    {
+      "start": "0x5090c0",
+      "end": "0x5090cc",
+      "successors": [
+        "0x5090cc",
+        "0x509209"
+      ]
+    },
+    {
+      "start": "0x5090cc",
+      "end": "0x5090cf",
+      "successors": [
+        "0x5090cf"
+      ]
+    },
+    {
+      "start": "0x5090cf",
+      "end": "0x509131",
+      "successors": [
+        "0x509131",
+        "0x5090cf"
+      ]
+    },
+    {
+      "start": "0x509131",
+      "end": "0x509136",
+      "successors": [
+        "0x509205"
+      ]
+    },
+    {
+      "start": "0x509136",
+      "end": "0x509173",
+      "successors": [
+        "0x509173",
+        "0x5091b0"
+      ]
+    },
+    {
+      "start": "0x509173",
+      "end": "0x50917f",
+      "successors": [
+        "0x50917f",
+        "0x509209"
+      ]
+    },
+    {
+      "start": "0x50917f",
+      "end": "0x509182",
+      "successors": [
+        "0x509182"
+      ]
+    },
+    {
+      "start": "0x509182",
+      "end": "0x5091ae",
+      "successors": [
+        "0x5091ae",
+        "0x509182"
+      ]
+    },
+    {
+      "start": "0x5091ae",
+      "end": "0x5091b0",
+      "successors": [
+        "0x509205"
+      ]
+    },
+    {
+      "start": "0x5091b0",
+      "end": "0x5091b8",
+      "successors": [
+        "0x5091b8",
+        "0x509209"
+      ]
+    },
+    {
+      "start": "0x5091b8",
+      "end": "0x5091bb",
+      "successors": [
+        "0x5091bb"
+      ]
+    },
+    {
+      "start": "0x5091bb",
+      "end": "0x509205",
+      "successors": [
+        "0x509205",
+        "0x5091bb"
+      ]
+    },
+    {
+      "start": "0x509205",
+      "end": "0x509209",
+      "successors": [
+        "0x509209"
+      ]
+    },
+    {
+      "start": "0x509209",
+      "end": "0x50921a",
+      "successors": [
+        "0x50921a",
+        "0x509236"
+      ]
+    },
+    {
+      "start": "0x50921a",
+      "end": "0x509236",
+      "successors": [
+        "0x508fff",
+        "0x509236"
+      ]
+    },
+    {
+      "start": "0x509236",
+      "end": "0x50923b",
+      "successors": [
+        "0x50923b"
+      ]
+    },
+    {
+      "start": "0x50923b",
+      "end": "0x509243",
+      "successors": [
+        "0x509243",
+        "0x509248"
+      ]
+    },
+    {
+      "start": "0x509243",
+      "end": "0x509248",
+      "successors": [
+        "0x509248",
+        "0x50925a"
+      ]
+    },
+    {
+      "start": "0x509248",
+      "end": "0x50925a",
+      "successors": [
+        "0x50925a"
+      ]
+    },
+    {
+      "start": "0x50925a",
+      "end": "0x50926b",
+      "successors": [
+        "0x50926b",
+        "0x509270"
+      ]
+    },
+    {
+      "start": "0x50926b",
+      "end": "0x509270",
+      "successors": [
+        "0x509270"
+      ]
+    },
+    {
+      "start": "0x509270",
+      "end": "0x50929b",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50102e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x500fd0"
+    },
+    {
+      "from": "0x5094b7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x509440"
+    },
+    {
+      "from": "0x509501",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5094f0"
+    },
+    {
+      "from": "0x509511",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5094f0"
+    },
+    {
+      "from": "0x595e0f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x595e00"
+    },
+    {
+      "from": "0x5a8fdf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5a8fd0"
+    },
+    {
+      "from": "0x5c4eaf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5c4ea0"
+    },
+    {
+      "from": "0x62cbcf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x62cbc0"
+    },
+    {
+      "from": "0x6373ff",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6373f0"
+    },
+    {
+      "from": "0x64a26f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x64a260"
+    },
+    {
+      "from": "0x66a8d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x66a850"
+    },
+    {
+      "from": "0x6fbdbe",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fbdb0"
+    },
+    {
+      "from": "0x81e876",
+      "type": 17,
+      "iscode": true,
+      "function": "0x81e840"
+    },
+    {
+      "from": "0x820156",
+      "type": 17,
+      "iscode": true,
+      "function": "0x820120"
+    },
+    {
+      "from": "0x88bdd6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x88bda0"
+    },
+    {
+      "from": "0x89d496",
+      "type": 17,
+      "iscode": true,
+      "function": "0x89d460"
+    },
+    {
+      "from": "0x8bf946",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8bf910"
+    },
+    {
+      "from": "0x8d7146",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8d7110"
+    },
+    {
+      "from": "0x8dd1df",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8dd1c0"
+    },
+    {
+      "from": "0x8dd23d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8dd220"
+    },
+    {
+      "from": "0x8eb14f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8eb120"
+    },
+    {
+      "from": "0x8f873f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8f8710"
+    },
+    {
+      "from": "0x905f1f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x905ef0"
+    },
+    {
+      "from": "0x91350f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9134e0"
+    },
+    {
+      "from": "0x920aff",
+      "type": 17,
+      "iscode": true,
+      "function": "0x920ad0"
+    },
+    {
+      "from": "0x92e0ef",
+      "type": 17,
+      "iscode": true,
+      "function": "0x92e0c0"
+    },
+    {
+      "from": "0x9393cf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9393a0"
+    },
+    {
+      "from": "0x95ab3f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x95ab10"
+    },
+    {
+      "from": "0xa0c5cf",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa0c5a0"
+    },
+    {
+      "from": "0xa16daf",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa16d80"
+    },
+    {
+      "from": "0xa3f5df",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa3f5b0"
+    },
+    {
+      "from": "0xa49b5f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa49b30"
+    },
+    {
+      "from": "0xa5d69f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa5d670"
+    },
+    {
+      "from": "0xa6785f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa67830"
+    },
+    {
+      "from": "0xacb63f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xacb610"
+    },
+    {
+      "from": "0xad8e1f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xad8df0"
+    },
+    {
+      "from": "0xae417f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xae4150"
+    },
+    {
+      "from": "0xaf578f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xaf5760"
+    },
+    {
+      "from": "0xb0101f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb00ff0"
+    },
+    {
+      "from": "0xb0d41f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb0d3f0"
+    },
+    {
+      "from": "0xb19ebf",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb19e90"
+    },
+    {
+      "from": "0xb26aff",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb26ad0"
+    },
+    {
+      "from": "0xb3169f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb31670"
+    },
+    {
+      "from": "0xb4ba4f",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb4ba20"
+    },
+    {
+      "from": "0xb5a4af",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5a480"
+    },
+    {
+      "from": "0xb5a66c",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5a5b0"
+    }
+  ],
+  "code_targets": [
+    "0x5082b0",
+    "0x5082d0",
+    "0x508c90",
+    "0x5092a0",
+    "0x509320",
+    "0x509370",
+    "0x5093f0"
+  ],
+  "instruction_count": 284
+}

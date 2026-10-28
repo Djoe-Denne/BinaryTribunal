@@ -1,0 +1,25 @@
+00495960: push    ebx; Battle_CalculateJunctionStats(char,slot): level from XP; HP=GetCharacterHP; each battle stat = slotPct * GetCharacterStat(level,char,statIdx)/100 (HP cap 9999, others cap 255); loads elem atk/def, mental_res[13], hit status/flags; sets Auto-Reflect if abilities&0x60000.
+00495961: mov     edx, [esp+4+p_slot_id]
+00495965: push    ebp
+00495966: push    esi
+00495967: push    edi
+00495968: mov     edi, [esp+10h+p_char_id]
+0049596C: lea     eax, [edi+edi*8]; Load Effective Address
+0049596F: lea     ecx, [edi+eax*2]; Load Effective Address
+00495972: lea     eax, ds:0[edx*8]; Load Effective Address
+00495979: sub     eax, edx; Integer Subtraction
+0049597B: lea     ebp, ds:1CFE0E8h[ecx*8]; Load Effective Address
+00495982: lea     esi, [edx+eax*4]; Load Effective Address
+00495985: shl     esi, 4; Shift Logical Left
+00495988: add     esi, offset F_CHAR_DATA; By address:
+0049598E: cmp     edi, 0FFh; Compare Two Operands
+00495994: jz      loc_495D6E; Jump if Zero (ZF=1)
+0049599A: lea     ecx, [esi+83h]; Load Effective Address
+004959A0: lea     eax, [ebp+11h]; Load Effective Address
+004959A3: mov     [esp+10h+p_char_id], 20h ; ' '
+004959AB: mov     bl, [eax-1]
+004959AE: add     eax, 2; Add
+004959B1: mov     [ecx-1], bl
+004959B4: mov     bl, [eax-2]
+004959B7: mov     [ecx], bl
+004959B9: mov     ebx, [esp+10h+p_char_id]

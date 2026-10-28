@@ -1,0 +1,83 @@
+bun test v1.4.2 (744846f84)
+
+test\model-authorization.test.ts:
+(pass) mandatory model selection authorization > explicit override cannot admit fixture/disabled [22.66ms]
+(pass) mandatory model selection authorization > explicit override cannot admit opencode-go/grok-4.7 [12.11ms]
+(pass) mandatory model selection authorization > explicit override cannot admit other/cheap [11.61ms]
+(pass) mandatory model selection authorization > exact enabled pair accepted; unevaluated/default variant denied [11.37ms]
+(pass) mandatory model selection authorization > mission disable and zero weight enforced in legacy [10.46ms]
+(pass) mandatory model selection authorization > mission disable and zero weight enforced in balanced [9.36ms]
+(pass) mandatory model selection authorization > mission enabled cannot resurrect a globally unavailable pair [9.13ms]
+(pass) mandatory model selection authorization > configured empty selection and unknown implicit model are closed [9.50ms]
+(pass) mandatory model selection authorization > no operator selection retains legacy compatibility [9.23ms]
+(pass) mandatory model selection authorization > pinned suffix becomes a real native variant; ambiguity fails closed [0.49ms]
+51 |     for (const model of ["fixture/cheap#", "fixture/cheap#max#high", "fixture/cheap ", "cheap"]) expect(() => normalizeModelSelection(model)).toThrow()
+52 |     expect(() => normalizeModelSelection("fixture/cheap#max", "high")).toThrow()
+53 |   })
+54 |   test("spawn rejects before worktree, fork, session or task reservation effects", async () => {
+55 |     const d = fixture()
+56 |     await expect(executeTeamSpawn(d, { name: "bad", agent: "build", prompt: "never sent", model: "opencode-go/grok-4.7", variant: "high" }, "lead")).rejects.toThrow("Model selection denied")
+                                                                                                                                                                  ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\model-authorization.test.ts:56:158)
+(fail) mandatory model selection authorization > spawn rejects before worktree, fork, session or task reservation effects [19.69ms]
+58 |     expect(d.db.query("SELECT COUNT(*) n FROM team_member").get()).toEqual({ n: 0 }); d.db.close()
+59 |   })
+60 |   test("in-place model change rejects without changing stored member selection", async () => {
+61 |     const d = fixture(); insertMember(d.db, "t1", "worker", "ses_worker")
+62 |     d.db.run("UPDATE team_member SET model=?,model_variant=? WHERE name='worker'", [selected.id, "max"])
+63 |     await expect(executeTeamMessage(d, { to: "worker", model: "opencode-go/grok-4.7#high" }, "lead")).rejects.toThrow("Model selection denied")
+                                                                                                                   ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\model-authorization.test.ts:63:111)
+(fail) mandatory model selection authorization > in-place model change rejects without changing stored member selection [10.90ms]
+65 |     expect(d.client.calls).toHaveLength(0); d.db.close()
+66 |   })
+67 |   test("authorized in-place update stores native ID/variant separately", async () => {
+68 |     const d = fixture(); insertMember(d.db, "t1", "worker", "ses_worker")
+69 |     await executeTeamMessage(d, { to: "worker", model: "fixture/cheap#max" }, "lead")
+70 |     expect(d.db.query("SELECT model,model_variant FROM team_member WHERE name='worker'").get()).toEqual({ model: selected.id, model_variant: "max" }); d.db.close()
+                                                                                                     ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "model": "fixture/cheap",
+-   "model_variant": "max",
++   "model": "fixture/cheap#max",
++   "model_variant": null,
+  }
+
+- Expected  - 2
++ Received  + 2
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\model-authorization.test.ts:70:97)
+(fail) mandatory model selection authorization > authorized in-place update stores native ID/variant separately [12.24ms]
+(pass) mandatory model selection authorization > runtime rechecks current policy on every wake, including implicit session model [9.81ms]
+79 |     const calls: string[] = []
+80 |     const ctx = { session: { get: async () => ({ id: "worker", model: { providerID: "fixture", id: "disabled", variant: "max" } }),
+81 |       switchAgent: async () => { calls.push("agent") }, switchModel: async () => { calls.push("model") }, prompt: async () => { calls.push("prompt") }, synthetic: async () => { calls.push("synthetic") } } }
+82 |     const d = fixture(); const client = createV2Client(ctx as never, { authorizeModel: (sessionID, model) => authorizeSessionModel(d, sessionID, model) })
+83 |     for (const options of [{ model: { providerID: "fixture", modelID: "disabled" }, variant: "max", agent: "build" }, {}, { synthetic: true }]) {
+84 |       await expect(client.session.promptAsync({ sessionID: "worker", parts: [{ type: "text", text: "never sent" }], ...options })).rejects.toThrow()
+                                                                                                                                                ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\model-authorization.test.ts:84:140)
+(fail) mandatory model selection authorization > native client validates before switchAgent, switchModel and prompt; no fallback [9.92ms]
+(pass) mandatory model selection authorization > configured empty file remains an explicit denied selection after load [9.11ms]
+
+ 12 pass
+ 4 fail
+ 30 expect() calls
+Ran 16 tests across 1 file. [265.00ms]

@@ -1,0 +1,25 @@
+0056C090: push    ebp; E3b: 3x3 s16 * 3 vec * flt_B695F8=1/4096 (0x39800000); 5 dwords -> arg2; callee of Mat_ComposeTwoThenCopy8
+0056C091: mov     ebp, esp
+0056C093: and     esp, 0FFFFFFF8h; Logical AND
+0056C096: sub     esp, 44h; Integer Subtraction
+0056C099: mov     eax, [ebp+arg_4]
+0056C09C: push    esi
+0056C09D: movsx   ecx, word ptr [eax+0Ch]; Move with Sign-Extend
+0056C0A1: movsx   edx, word ptr [eax+6]; Move with Sign-Extend
+0056C0A5: mov     dword ptr [esp+48h+var_40], ecx
+0056C0A9: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C0AD: movsx   ecx, word ptr [eax]; Move with Sign-Extend
+0056C0B0: mov     dword ptr [esp+48h+var_40], edx
+0056C0B4: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C0B8: movsx   edx, word ptr [eax+0Eh]; Move with Sign-Extend
+0056C0BC: mov     dword ptr [esp+48h+var_40], ecx
+0056C0C0: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C0C4: movsx   ecx, word ptr [eax+8]; Move with Sign-Extend
+0056C0C8: mov     dword ptr [esp+48h+var_40], edx
+0056C0CC: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C0D0: movsx   edx, word ptr [eax+2]; Move with Sign-Extend
+0056C0D4: fstp    [esp+48h+var_30]; Store Real and Pop
+0056C0D8: mov     dword ptr [esp+48h+var_40], ecx
+0056C0DC: fild    dword ptr [esp+48h+var_40]; Load Integer
+0056C0E0: movsx   ecx, word ptr [eax+10h]; Move with Sign-Extend
+0056C0E4: fstp    [esp+48h+var_34]; Store Real and Pop

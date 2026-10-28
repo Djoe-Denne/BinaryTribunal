@@ -1,0 +1,290 @@
+{
+  "schema_version": 2,
+  "request_date": "2026-10-09",
+  "request_active": false,
+  "user_authorized": true,
+  "user_request": "Laisse la campagne se finir. Puis tu sauvegarderas IDA après avoir confirmé que tout avait été push dans l'IDB. Puis tu mettras en veille l'ordinateur.",
+  "latest_user_authorization": {
+    "date": "2026-10-09",
+    "text": "Je vais me coucher. Donc si tu rencontres une erreur ou un checkpoint que tu ne peux pas résoudre seul, tu as l'autorisation de déclencher la mise en veille.",
+    "scope": "This campaign only; supersedes the previous prohibition on sleep after an unresolved blockage.",
+    "additional_user_confirmation_required_for_branch_b": false
+  },
+  "campaign_session_id": "ses_ede295648ffe946nUdUdHFevqT",
+  "requested_sequence_applies_to": "normal_completion",
+  "requested_sequence": [
+    "normal_campaign_completion",
+    "confirm_expected_validated_findings_actually_in_correct_idb",
+    "save_ida_verified_true",
+    "sleep_windows"
+  ],
+  "gate": "sleep_native_call_returned_success",
+  "selected_branch": "unrecoverable_error_or_blocking_checkpoint",
+  "authorized_branches": {
+    "normal_completion": {
+      "sequence": ["normal_campaign_completion", "confirm_expected_validated_findings_actually_in_correct_idb", "save_ida_verified_true", "sleep_windows"],
+      "requirements": "All expected validated closures, pushes and corrections verified in the correct IDB; native save returns true with correct path, timestamp and readback; no active worker or outstanding final validation."
+    },
+    "unrecoverable_error_or_blocking_checkpoint": {
+      "sequence": ["receive_completion_checkpoint_or_error_notification", "confirm_campaign_writing_stopped", "preserve_and_record_exact_state", "best_effort_native_ida_save_if_accessible_and_identity_confirmed", "record_ready_status", "announce_and_sleep_windows"],
+      "eligibility": "Root establishes that an error or blocking checkpoint cannot be resolved autonomously within the authorized scope.",
+      "incomplete_findings_or_unavailable_mcp_allowed": true,
+      "save_success_required_for_sleep": false,
+      "additional_user_confirmation_required": false,
+      "campaign_writing": "Confirm campaign writes have stopped without duplicating, continuing or interrupting an active campaign; record evidence and any uncertainty. If writing cessation cannot be confirmed, do not claim this branch is ready.",
+      "worker_finals": "Record exact session IDs and whether pending/read-only/final states are confirmed or unconfirmed; do not claim every worker has finished. Pending or unconfirmed read-only finals do not themselves prohibit this branch.",
+      "preserve": ["files", "drafts", "journals", "exact session IDs", "latest exact commits"],
+      "save": {
+        "attempt": "Best effort native IDA save only if still accessible and actual native input and IDB identity are confirmed.",
+        "command": "idc.save_database(idc.get_idb_path())",
+        "record": "Record actual return true/false or unavailable, path and available readback evidence; never assert save true without proof.",
+        "false_or_unavailable_blocks_sleep": false
+      },
+      "forbidden": ["invented validations", "promoting uncertain findings to complete all pushes", "provider fallback", "retry loops", "kill", "abort user processes", "persistent tasks"]
+    }
+  },
+  "scope": {
+    "trigger": "Root receives the automatic runtime completion, checkpoint or error notification for this campaign only; do not contact or poll the active campaign.",
+    "normal_completion_required": "For branch A only: normal completion of the active scope, including recoveries, repairs and pilot; no active worker or outstanding final validation.",
+    "technical_return_is_not_completion": ["technical blockage", "quota", "OOM", "refusal"],
+    "technical_return_handling": "Not normal completion, but may qualify for branch B if the blockage is not autonomously resolvable.",
+    "normal_case": "Let the campaign finish without interruption. Resolve locally correctable issues within scope normally; no sleep for trivial script syntax errors or intermediate checkpoints with autonomous work still feasible.",
+    "expected_findings": "Every actually validated closure or promotion announced in the campaign journal and registry, including its corrections; not arbitrary drafts or uncertain findings.",
+    "one_shot": true,
+    "not_rearmed_after_reboot": true,
+    "persistent_scheduled_task_allowed": false
+  },
+  "root_verification_after_notification": {
+    "applies_to": "normal_completion; branch B uses its separate best-effort preservation and save requirements",
+    "fresh_orchestrator_final_validator_required": true,
+    "expected_native_input": "D:/Modding/ff8/retro-exe/FF8_EN.exe",
+    "expected_idb_filename": "FF8_EN.exe - 9.3.i64",
+    "confirm_actual_idb_and_input_identity": true,
+    "inspect": ["final statuses", "chunks", "registries", "commits", "IDA function comments"],
+    "comment_requirements": [
+      "Appropriate unique tags and exact text or digests matching the validated findings and corrections; tag presence alone is insufficient.",
+      "Do not invent synchronization of a remaining inherited B comment."
+    ],
+    "missing_validated_push": "Supervisor finalizes only with proper independence, permissions and provenance, then repeats verification.",
+    "forbidden_mutations": ["binary bytes", "SetType", "rename", "debugger"],
+    "save": {
+      "only_after_all_expected_validated_findings_verified": true,
+      "command": "idc.save_database(idc.get_idb_path())",
+      "required_return": true,
+      "verify_correct_path_timestamp_and_readback": true
+    },
+    "record_evidence_in_request_or_events": true,
+    "record_secrets": false
+  },
+  "failure_policy": {
+    "conditions": ["MCP unavailable", "verification or save failure", "pending work", "uncertain endpoint", "active workers", "technical stop"],
+    "result": "Assess authorized branches: resolve autonomously within scope where possible; otherwise branch B may authorize sleep despite incomplete findings or unavailable/failed save, after confirming campaign writing stopped and recording exact state.",
+    "pending_work_handling": "Feasible autonomous work continues normally; pending read-only finals are recorded accurately rather than treated as a universal no-sleep gate.",
+    "notify_user_with_blockage_report": true,
+    "additional_user_confirmation_required_for_branch_b": false,
+    "retry_loop_allowed": false,
+    "fallback_allowed": false,
+    "force_allowed": false
+  },
+  "sleep_action": {
+    "executor": "root_only",
+    "requires_selected_branch_requirements_passed": true,
+    "record_ready_status_and_selected_branch_before_action": true,
+    "recheck_latest_user_steer_at_execution": true,
+    "latest_cancellation_wake_or_sleep_counterorder_prevails": true,
+    "announce_immediately_before_suspension": true,
+    "supported_api": "SetSuspendState(false, false, false) or equivalent supported Windows suspend API without force",
+    "forbidden": ["shutdown", "reboot", "hibernate", "forced suspension", "persistent scheduling"],
+    "wake_capability_guaranteed": false
+  },
+  "preservation": {
+    "user_and_ida_journals": "preserve",
+    "campaign_files_drafts_exact_session_ids_and_latest_commits": "preserve and record without invented validations",
+    "unrelated_git_changes": "untouched"
+  },
+  "recording_execution": {
+    "campaign_contacted_or_polled": false,
+    "campaign_files_read_or_written": true,
+    "campaign_files_read": true,
+    "campaign_files_written": false,
+    "durable_request_updated": true,
+    "idb_connected_or_modified": true,
+    "idb_access_attempted": true,
+    "idb_modified": false,
+    "save_performed": true,
+    "power_action_performed": true,
+    "workers_spawned": false,
+    "git_commit_performed": false
+  },
+  "superseded_history": [
+    {
+      "active": false,
+      "date": "2026-10-09",
+      "superseded_by": "latest_user_authorization",
+      "previous_failure_policy": {
+        "conditions": ["MCP unavailable", "verification or save failure", "pending work", "uncertain endpoint", "active workers", "technical stop"],
+        "result": "blocked_no_sleep"
+      },
+      "previous_sleep_requirement": "All normal-completion proof gates, including successful verified save, required before any sleep.",
+      "note": "Historical only, not an active universal gate; branch A retains its proof requirements and branch B is explicitly authorized without successful save."
+    }
+  ],
+  "events": [
+    {
+      "date": "2026-10-09",
+      "event": "request_recorded",
+      "gate": "pending",
+      "note": "Durable directive only; campaign completion, IDB synchronization and save have not been verified. No suspension performed."
+    },
+    {
+      "date": "2026-10-09",
+      "event": "explicit_blockage_sleep_authorization_recorded",
+      "gate": "pending",
+      "note": "Two authorized branches persisted. Previous universal blocked_no_sleep policy superseded and preserved as inactive history. No campaign contact, IDA save, worker or power action performed."
+    },
+    {
+      "date": "2026-10-09",
+      "recorded_at_utc": "2026-10-09T19:50:58.100Z",
+      "event": "final_validator_authorized_branch_b_preservation_checkpoint",
+      "selected_branch": "unrecoverable_error_or_blocking_checkpoint",
+      "gate": "ready_for_sleep_on_authorized_blockage",
+      "reason": {
+        "type": "provider.transport",
+        "message": "WebSocket closed with code 1012",
+        "observed_at_utc": "2026-10-09T19:45:28.2826604Z",
+        "policy": "Mandatory stop without retry, provider fallback, service/DB repair or mission resumption; not autonomously resolvable within authorized scope."
+      },
+      "writing_cessation": {
+        "supervisor_session_id": "ses_ede295648ffe946nUdUdHFevqT",
+        "runtime_status": "COMPLETED",
+        "evidence_source": "Parent-provided automatic runtime completion notification, corroborated by journal/registry technical-stop checkpoint.",
+        "sole_campaign_idb_and_git_writer_stopped": true,
+        "all_leaf_workers_finished_claimed": false,
+        "pending_leaf_activity_confirmed": false,
+        "pending_leaf_permissions": "Read-only IDB/no git; own drafts/files may still be written. Preserve without kill/abort/poll.",
+        "pending_leaf_sessions": [
+          {"session_id": "ses_eddcfab21ffemQVBcJU9EKYNOC", "role": "P1 adjudication R", "status": "final_not_received_at_checkpoint_current_activity_unconfirmed"},
+          {"session_id": "ses_eddcd7cf7ffeRMSvoH2OiqzOoK", "role": "P3 pack/C-A", "status": "final_not_received_at_checkpoint_current_activity_unconfirmed"}
+        ]
+      },
+      "preserved_checkpoint": {
+        "git_HEAD": "bd595b2ba04c4e5c9e7b7196c5421bda6a3f5f84",
+        "HEAD_before_campaign_checkpoint": "cd9d9c482d4be1340c8b7bcf1b609d028990a126",
+        "git_dirty_entries_observed": 267,
+        "git_staged_entries_observed": 0,
+        "new_commit_performed": false,
+        "files_drafts_jobs_journals_unrelated_edits": "Preserved untouched; only this durable request JSON edited.",
+        "journal": "docs/tech/investigation/battle-static-discovery/CAMPAIGN_LOG_gfx-battleloop-2026-10-08.md",
+        "registry": "docs/tech/investigation/battle-static-discovery/PILOT_adaptive-decomp-semantic-2026-10-09.registry.json",
+        "registry_status": "technical_stop_provider_transport_1012_no_retry"
+      },
+      "campaign_state": {
+        "new_pilot_closures": "0/6",
+        "primary_C_generated_and_rereviewed": "2/6",
+        "production_AV_completed": "1/6",
+        "control_pairs_returned": "1/3",
+        "control_pairs_adjudicated": "0/3",
+        "P1": "Production A/V and both blind controls returned; R adjudication and semantic-B parent read audit pending; no new promotion.",
+        "P2": "Targeted C correction re-review accepted for ordered-memory/EAX32 bounded model only; A/V not started; no native replacement claim.",
+        "P3": "Previously dispatched; final not received at checkpoint.",
+        "P4_P5_P6": "Not started.",
+        "J3": "Documentary revalidation callback ACCEPTED_bounded_model; D1/D2 closed. Parent section 5.6, IDB push and commit remain pending; native equivalence not proved.",
+        "J3_documentary_session_id": "ses_eddd63fdcffeej41WFQrh8AA29",
+        "all_validated_pending_findings_pushed_verified": false,
+        "historical_closures_excluded_from_pilot": {
+          "C6": {"ea": "0x464F70", "status": "closed_LIKELY_historical_semantic_2+1_retained", "commit": "523d5d2b622209fd1485f6953e10b30a3cf835ab", "initial_IDB_readback": false, "initial_problem": "IDA single-line truncation at 1024 characters", "corrective_multiline_append_save_readback_exact": true, "historical_postimage_sha256": "20f055703683e495c6b58285d700d86d59f5a3c5d699f2bf2b1327132fcdd17b"},
+          "C10": {"ea": "0x45BDD0", "status": "closed_LIKELY", "commit": "4ede5129fe27d317499a48e2f2ed70e329095bc7", "historical_IDB_save_readback_exact": true, "historical_postimage_sha256": "7264b7d2759c900b54070a3e626c812099014d00eae5be1c9ae4f34f70f343d2"},
+          "A8": {"ea": "0x5BD460", "status": "bounded_documentary_correction_closed", "commit": "f0c4b2f1f2b1e3c403f344216418fe439c15bee8", "historical_IDB_save_readback_exact": true, "historical_postimage_sha256": "d87b75a854b0c95852a253d93e1eebf31be6ecc716ffff12dbb844ec92f35499"},
+          "A10": {"ea": "0x5EF910", "status": "bounded_documentary_correction_closed", "commit": "c728ddd5a8b6b7fdae197b07a41ad55f166fb120", "historical_IDB_save_readback_exact": true, "historical_postimage_sha256": "df24fe75422c9798f13e80d75031073f711b2153c57e2931d85cf80f71ebfde1"},
+          "C11": {"ea": "0x45BE70", "status": "historical_neutral_recovery_closed_outside_pilot", "confidence": "LIKELY", "commit": "cd9d9c482d4be1340c8b7bcf1b609d028990a126", "historical_IDB_save_readback_exact": true, "historical_postimage_sha256": "2d55240c0078298acacd46ffd07e400a974af47f0b7b0175565459dff9862a52"}
+        },
+        "historical_IDB_evidence_source": "Registry/journal, not a new successful native readback in this validation."
+      },
+      "best_effort_IDA": {
+        "native_tool": "ida-pro-mcp.py_eval",
+        "native_access_count": 1,
+        "expected_idb_path": "D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64",
+        "expected_input_basename": "FF8_EN.exe",
+        "expected_input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+        "expected_hash_source": "Campaign registry/journal; previous native IDA input SHA256 check.",
+        "old_request_input_path_note": "D:/Modding/ff8/retro-exe/FF8_EN.exe is stale as an exact input-path requirement. Journal records actual Steam input and distinct IDB paths as valid for the matching binary; no configuration changed.",
+        "actual_input_path": null,
+        "actual_input_sha256": null,
+        "actual_idb_path": null,
+        "identity_confirmed_in_this_validation": false,
+        "status": "native_call_script_failed_before_save_no_retry",
+        "exact_error": "NameError: name 'hashlib' is not defined. Did you forget to import 'hashlib'?",
+        "error_location": "py_eval <string> line 20, comments() line 18; function-global import visibility. Native call returned empty stdout/result and traceback.",
+        "save_attempted": false,
+        "save_return": null,
+        "save_status": "not_reached_unavailable_evidence",
+        "file_stat_and_comment_digests": null,
+        "disk_reload_performed": false,
+        "IDB_mutation_performed": false,
+        "retry_or_HTTP_fallback_performed": false,
+        "save_failure_blocks_authorized_branch_B": false
+      },
+      "authorization_and_execution": {
+        "latest_user_authorization_allows_branch_B": true,
+        "contradictory_latest_user_instruction_reported": false,
+        "additional_confirmation_required": false,
+        "request_active": true,
+        "power_action_performed": false,
+        "power_action_executor": "root_only",
+        "ready_does_not_claim_normal_completion_or_all_pushes": true,
+        "workers_spawned_polled_killed_or_aborted": false,
+        "campaign_restarted_or_repaired": false
+      }
+    },
+    {
+      "event": "root_native_save_verified_and_one_shot_sleep_dispatch_authorized",
+      "at_utc": "2026-10-09T19:52:33.332314+00:00",
+      "selected_branch": "unrecoverable_error_or_blocking_checkpoint",
+      "checkpoint": "bd595b2ba04c4e5c9e7b7196c5421bda6a3f5f84",
+      "previous_script_error_corrected": "Imported hashlib in the direct evaluation scope; corrected script, not a transport retry or provider fallback.",
+      "native_input_path": "C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/FF8_EN.exe",
+      "native_input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+      "native_idb_path": "D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64",
+      "identity_confirmed": true,
+      "save_attempted": true,
+      "save_result": true,
+      "idb_size_bytes": 485458356,
+      "idb_mtime_utc": "2026-10-09T19:52:33.306163+00:00",
+      "comments_readback_unchanged_across_save": true,
+      "comment_sha256": {
+        "0x5bd460": "d87b75a854b0c95852a253d93e1eebf31be6ecc716ffff12dbb844ec92f35499",
+        "0x5ef910": "df24fe75422c9798f13e80d75031073f711b2153c57e2931d85cf80f71ebfde1",
+        "0x45be70": "2d55240c0078298acacd46ffd07e400a974af47f0b7b0175565459dff9862a52"
+      },
+      "these_three_readback_digests_match_journal_postimages": true,
+      "disk_reload_performed": false,
+      "all_pending_findings_pushed_claimed": false,
+      "pilot_closures": "0/6",
+      "J3_parent_gate_and_push_pending": true,
+      "pending_leaf_sessions_preserved": ["ses_eddcfab21ffemQVBcJU9EKYNOC", "ses_eddcd7cf7ffeRMSvoH2OiqzOoK"],
+      "no_worker_kill_abort_or_poll": true,
+      "power_action_confirmed": false,
+      "power_action": "Root will dispatch one supported Windows suspend request, hibernate=false, force=false, disableWakeEvent=false; outcome written to campaign-finish-sleep-execution-2026-10-09.jsonl.",
+      "one_shot_request_consumed_before_dispatch": true,
+      "no_persistent_scheduler": true
+    },
+    {
+      "event": "root_sleep_execution_log_verified_after_shell_completion",
+      "at_utc": "2026-10-10T07:15:21.8968773Z",
+      "shell_id": "sh_1223b274f001E7oEnucA8kYuSD",
+      "shell_state": "completed",
+      "execution_log": ".tmp/campaign-finish-sleep-execution-2026-10-09.jsonl",
+      "native_suspend_call_started_at_utc": "2026-10-09T19:54:24.8596220Z",
+      "native_suspend_call_returned_at_utc": "2026-10-10T07:15:21.8968773Z",
+      "native_suspend_call_returned_success": true,
+      "hibernate": false,
+      "force": false,
+      "disable_wake_events": false,
+      "request_active": false,
+      "one_shot_consumed_no_automatic_resuspend": true,
+      "campaign_checkpoint": "bd595b2ba04c4e5c9e7b7196c5421bda6a3f5f84",
+      "campaign_resumed": false,
+      "pending_findings_remain_unpromoted": true
+    }
+  ]
+}

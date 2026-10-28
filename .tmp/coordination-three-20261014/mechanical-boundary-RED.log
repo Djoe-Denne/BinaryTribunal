@@ -1,0 +1,67 @@
+bun test v1.4.2 (744846f84)
+
+test\mechanical-preparation.test.ts:
+(pass) mechanical transfer is byte-exact, bounded, receipted and not approved; repeat is idempotent [10.53ms]
+(pass) hash mismatch leaves no destination and never overwrites the source [2.43ms]
+(pass) parent receipt cannot pretend that filesystem preparation verified worker tool access [7.60ms]
+(pass) unsafe logical path ../input.txt is rejected before writes [2.58ms]
+(pass) unsafe logical path C:/outside.txt is rejected before writes [1.63ms]
+(pass) unsafe logical path data:stream is rejected before writes [1.65ms]
+(pass) unsafe logical path NUL.txt is rejected before writes [1.58ms]
+(pass) unsafe logical path name. is rejected before writes [1.49ms]
+(pass) unsafe logical path sub//file is rejected before writes [1.68ms]
+(pass) unsafe logical path .preparation-receipt.json is rejected before writes [1.53ms]
+(pass) case-colliding files and foreign native session identities fail closed [1.91ms]
+(pass) blind author projection excludes proposals and unapproved source/knowledge [1.91ms]
+(pass) a source-directory junction cannot escape a frozen projection [3.56ms]
+(pass) owner move/source mutation during transfer cannot publish the staging directory [7.13ms]
+(pass) changed existing prepared package is refused, never repaired by overwriting [8.39ms]
+56 |   await expect(prepareTransfer(f.req,f.binding)).rejects.toThrow("altered");expect(await readFile(join(f.req.destinationRoot,"input.txt"),"utf8")).toBe("user changed output");
+57 | });
+58 | test("extra unapproved files cannot enter an idempotent blind projection",async()=>{
+59 |   const f=await fixture();f.req.role="A";f.req.blind=true;await prepareTransfer(f.req,f.binding);
+60 |   await writeFile(join(f.req.destinationRoot,"semantic_b.md"),"unapproved independent proposal");
+61 |   await expect(prepareTransfer(f.req,f.binding)).rejects.toThrow("Unexpected prepared");
+                                                              ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\harness\test\mechanical-preparation.test.ts:61:58)
+(fail) extra unapproved files cannot enter an idempotent blind projection [14.25ms]
+(pass) an existing unknown empty directory is not adopted or overwritten [10.94ms]
+66 |   await expect(prepareTransfer(f.req,f.binding)).rejects.toThrow();
+67 |   expect(await readdir(f.req.destinationRoot)).toEqual([]);
+68 | });
+69 | test("idempotent preparation revalidates native task ownership after checking files",async()=>{
+70 |   const f=await fixture();await prepareTransfer(f.req,f.binding);let calls=0;
+71 |   await expect(prepareTransfer(f.req,async()=>({...await f.binding(),taskId:++calls===2?"foreign-task":"task"}))).rejects.toThrow("native session");
+                                                                                                                               ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\harness\test\mechanical-preparation.test.ts:71:123)
+(fail) idempotent preparation revalidates native task ownership after checking files [8.62ms]
+71 |   await expect(prepareTransfer(f.req,async()=>({...await f.binding(),taskId:++calls===2?"foreign-task":"task"}))).rejects.toThrow("native session");
+72 | });
+73 | test("a receipt cannot silently claim approval, foreign ownership or extra input pins",async()=>{
+74 |   const f=await fixture();await prepareTransfer(f.req,f.binding);const p=join(f.req.destinationRoot,".preparation-receipt.json");
+75 |   const r=JSON.parse(await readFile(p,"utf8"));r.workerAccessVerified=true;r.targetSessionId="ses_foreign";
+76 |   await writeFile(p,JSON.stringify(r));await expect(prepareTransfer(f.req,f.binding)).rejects.toThrow("receipt");
+                                                                                                   ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\harness\test\mechanical-preparation.test.ts:76:95)
+(fail) a receipt cannot silently claim approval, foreign ownership or extra input pins [13.94ms]
+(pass) review delta requires matching parent coverage, preserves regression/fresh-review gates [0.72ms]
+
+ 17 pass
+ 3 fail
+ 43 expect() calls
+Ran 20 tests across 1 file. [130.00ms]

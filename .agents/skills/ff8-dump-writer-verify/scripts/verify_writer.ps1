@@ -1,4 +1,4 @@
-# verify_writer.ps1 — gate post-build/déploiement pour le writer AF3DN.P (skill ff8-dump-writer-verify)
+﻿# verify_writer.ps1 — gate post-build/déploiement pour le writer AF3DN.P (skill ff8-dump-writer-verify)
 # Usage:
 #   powershell -File verify_writer.ps1 -PassthroughDir <dir source+dll> -DeployedPath <AF3DN.P jeu> [-SkipHarness]
 # Vérifie : exports, fopen binaire, harnais sentinelles (RVAs auto-dérivées), hash déployé == build.

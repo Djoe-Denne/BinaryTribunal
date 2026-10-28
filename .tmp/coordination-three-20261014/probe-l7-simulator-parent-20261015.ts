@@ -1,0 +1,30 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {strict as assert} from 'node:assert';
+import {planMission,type PlannerPolicy} from '../../tools/ff8-harness/src/planner';
+import {validateGraphSnapshot,fingerprintWithout} from '../../tools/ff8-harness/src/graph';
+import {SimEngine,simPlanFromExport,validateSimPlan,type SimPlanInput,type SimUnitInput,type SimConfig} from '../re-graph-scheduler/review-20261014/L7SIM_CURRENT_BASELINE/tools/ff8-harness/src/simulator';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014';
+const config=(n:number):SimConfig=>({controllerId:'parent-fixture',workers:Array.from({length:n},()=>({profile:'p',accountId:'account:fixture'})),accountQuotas:{'account:fixture':n},leaseTicks:100,heartbeatEvery:0,validationTicks:1,maxAttempts:2,maxTicks:1000,policy:'event_driven',rolesParallel:true});
+const unit=(unitId:string):SimUnitInput=>({unitId,ownedFunctionIds:['fn:'+unitId],contextFunctionIds:[],investigationKind:'structural',requiredProfile:'p',requiredPublicationLevel:1,prerequisites:[],conflicts:[],knowledgeRevision:1});
+const plan=(units:SimUnitInput[]):SimPlanInput=>({planId:'plan:parent-fixture',missionId:'mission:parent-fixture',knowledgeRevision:1,units,g1Edges:[],g2Conflicts:[],budgets:{contextEnvelopeMaxUtf8Bytes:100000,nativeLineCharLimit:100000}});
+const durations={A:2,B:3,R:1};
+const graph=JSON.parse(readFileSync(root+'/tools/ff8-harness/test/fixtures/graph/communities-obvious/content.json','utf8'));
+graph.snapshotId='fixture:parent-simulator-resource-v1';graph.edges=[];graph.normalizedFingerprint=fingerprintWithout(graph,'normalizedFingerprint');assert.deepEqual(validateGraphSnapshot(graph),[]);
+const group={groupId:'group:parent-resources',partitionId:'partition:parent-resources',ownedFunctionIds:graph.nodes.map((n:any)=>n.id),contextFunctionIds:[]};
+function policy(disjoint:boolean):PlannerPolicy{return {version:'parent-sim-repro-v1',estimationVersion:'parent-estimate-v1',partitionId:group.partitionId,investigationKind:'structural',artifactKind:'structural_fact',publicationLevel:1,contextEnvelopeMaxUtf8Bytes:100000,totalContextBudgetUtf8Bytes:1000000,maxSelectedUnits:100,sccMaxFunctions:32,sccMaxIterations:100,sccCostBudget:1000000,requirementsByFunction:{},estimatesByFunction:Object.fromEntries(graph.nodes.map((n:any)=>[n.id,{version:'parent-estimate-v1',...durations,validation:1}])),resourcesByFunction:Object.fromEntries(graph.nodes.map((n:any,i:number)=>[n.id,{profiles:[disjoint&&i===1?'q':'p'],models:disjoint?['m']:['model:unavailable'],accounts:['account:fixture'],tools:[],slots:disjoint?1:2,cpu:disjoint?1:4,gpu:disjoint?0:1,budget:50}]))};}
+const exported=planMission(graph,[group],policy(true));assert.equal(exported.units.length,1);assert.equal(exported.plan.selectedUnitIds.length,1);
+const resources=exported.sidecar.resourcesByUnit[exported.units[0]!.unitId]!;assert.deepEqual(resources.profiles,[]);
+const resourceResult=new SimEngine({plan:simPlanFromExport(exported),config:config(6),durations}).run();assert.equal(resourceResult.metrics.committedUnits,1);
+const richer=planMission(graph,[group],policy(false)),richUnit=richer.units[0]!,richResources=richer.sidecar.resourcesByUnit[richUnit.unitId]!;
+const richResult=new SimEngine({plan:simPlanFromExport(richer),config:config(6),durations}).run();assert.equal(richResult.metrics.committedUnits,1);
+const shared=plan(['A','B','C'].map(id=>({...unit(id),conflicts:[{resourceKey:'shared:x'}]})));
+assert.deepEqual(validateSimPlan(shared),[]);const scenario={plan:shared,config:config(6),durations,incidents:[{kind:'invalidate_knowledge' as const,atTick:1,unitIds:['B']}]};
+const starvation=new SimEngine(scenario).run(),cState=starvation.units.find(u=>u.unitId==='C')!;assert.equal(starvation.store.committedCount,1);assert.equal(cState.state,'READY');assert.equal(cState.waitReason,'conflict');
+const at5=new SimEngine(scenario);at5.runUntil(5);const reserve=at5.tryReserve('C','parent-fixture');assert.equal(reserve.ok,true);
+const multi=unit('U');multi.ownedFunctionIds=['fn:callee','fn:caller'];multi.subIntents=[
+ {subIntentId:'callee:A',functionId:'fn:callee',role:'A',waitsForSubIntentIds:[]},{subIntentId:'callee:B',functionId:'fn:callee',role:'B',waitsForSubIntentIds:[]},{subIntentId:'callee:R',functionId:'fn:callee',role:'R',waitsForSubIntentIds:['callee:A','callee:B']},
+ {subIntentId:'caller:A',functionId:'fn:caller',role:'A',waitsForSubIntentIds:['callee:R']},{subIntentId:'caller:B',functionId:'fn:caller',role:'B',waitsForSubIntentIds:['callee:R']},{subIntentId:'caller:R',functionId:'fn:caller',role:'R',waitsForSubIntentIds:['caller:A','caller:B']}];
+const metric=new SimEngine({plan:plan([multi]),config:config(4),durations}).run();assert.equal(metric.metrics.makespan,9);assert.equal(metric.metrics.criticalPathTicks,5);
+const concurrent=new SimEngine({plan:plan([unit('A'),unit('B')]),config:config(4),durations}).run();
+const report={date:'2026-10-15',candidate:'dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4',realL2InputValid:true,resourceP1:{realPlannerResourceIntersection:resources.profiles,actualSimWorkersAllProfile:'p',impossibleIntersectionYetSimCommits:resourceResult.metrics.committedUnits},resourceProjection:{required:richResources,actualSimWorkers:config(6).workers[0],simCommits:richResult.metrics.committedUnits},waiterP1:{states:starvation.units,committed:starvation.store.committedCount,tryReserveCAt5:reserve},criticalPathP2:{actualMakespan:metric.metrics.makespan,reportedCriticalPath:metric.metrics.criticalPathTicks,handDerivedCriticalPath:(Math.max(2,3)+1)*2+1},workerAttributionProbe:{decisions:concurrent.decisions,starts:concurrent.trace.filter(t=>t.ev.includes('start'))},verdict:'BLOCK candidate, not integrated; parent reproduced both P1 and the local-critical-path defect',noNativeAuthority:true};
+writeFileSync(phase+'/l7-simulator-parent-repro.json',JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report,null,2));

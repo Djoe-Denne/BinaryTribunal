@@ -1,0 +1,25 @@
+00489DB0: and     edx, 0FFFFFFFEh; Logical AND
+00489DB3: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], edx
+00489DB9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489DBE: lea     eax, [ebx+ebx*2]; AI VM op 0x2F SHOW_SELF: flag_data&=~0x40; rebuild target visibility (targetable)
+00489DC1: lea     ecx, [ebx+eax*4]; Load Effective Address
+00489DC4: shl     ecx, 4; Shift Logical Left
+00489DC7: lea     eax, BATTLE_SLOT_DATA.flag_data[ecx]; Load Effective Address
+00489DCD: mov     edx, [eax]
+00489DCF: and     edx, 0FFFFFFBFh; Logical AND
+00489DD2: mov     [eax], edx
+00489DD4: push    offset domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00489DD9: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+00489DDE: add     esp, 4; Add
+00489DE1: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489DE6: lea     eax, [ebx+ebx*2]; AI VM op 0x30 HIDE_SELF: flag_data|=0x40; rebuild target visibility (untargetable)
+00489DE9: lea     ecx, [ebx+eax*4]; Load Effective Address
+00489DEC: shl     ecx, 4; Shift Logical Left
+00489DEF: lea     eax, BATTLE_SLOT_DATA.flag_data[ecx]; Load Effective Address
+00489DF5: mov     edx, [eax]
+00489DF7: or      edx, 40h; Logical Inclusive OR
+00489DFA: mov     [eax], edx
+00489DFC: push    offset domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00489E01: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+00489E06: add     esp, 4; Add
+00489E09: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

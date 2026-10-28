@@ -1,0 +1,36 @@
+# L25-v17-RESUME2-DEPLOY — deployment log (redeploy only, frozen candidate)
+
+Receipt time (UTC): 2026-10-04T15:12:09.5085990Z. Instance: L25-v17-RESUME2-DEPLOY (subagent).
+Scope: redeploy frozen v17 candidate for the second live session authorized by operator. NO launch, NO capture/arming, NO operator interaction, NO git, NO docs/cards edits, NO oracle/source edits, NO build.
+
+## 1) Preconditions (all PASS)
+
+- Processes: CIM LIKE '%FF8%' = 0 AND Get-Process '*ff8*' = 0 (checked pre-deploy, after backup, after deploy).
+- Sidecar markers absent before mutation: gfx_passthrough.stage0 = absent, gfx_passthrough.dump/.dump.bin = absent, gfx_passthrough.nohook = absent.
+- Conserved (no-purge) artifacts still in place from prior session: gfx_passthrough.csv, gfx_passthrough_stage0.log.
+- Identity (separate comparisons): candidate 0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc len 614912 (frozen, never modified); game pre 3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19 len 145920; FF8_EN.exe 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570; marker source (resume-closed archive) 1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82 len 111.
+- Both prior rollbacks intact and re-verified: lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44 == 3da7883f...d19; lot25-pass2bis-pre-a36876ff48614386a33b64086ff2278a == 3da7883f...d19.
+
+Note: first scripted run aborted at STEP1 (exit 2) BEFORE any mutation due to a buggy hash-comparison expression (PowerShell precedence -join vs -ne); all printed hashes were exact; nothing created. Clean rerun below.
+
+## 2) Fresh backup (before any replacement)
+
+- tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume2-pre-d77eb136f6a2424fae3070102e15c2ca/AF3DN.P.rollback
+- sha256 3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19, len 145920 — verified BEFORE candidate copy. UUID d77eb136f6a2424fae3070102e15c2ca.
+
+## 3) Deploy
+
+- Copy candidate -> game AF3DN.P. Post-hash 0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc, len 614912, mtime 2026-10-04T13:19:17.4110859Z (source timestamps preserved by Copy-Item; hash = identity proof). No rollback needed (rollback_attempted=false; no red).
+
+## 4) Stage0 sidecar (byte-exact)
+
+- Copy marker 111 B from tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-closed-de08918ae55b450bbeb3c02226f01e13/gfx_passthrough.stage0 -> game dir. Verified sha 1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82 len 111 after copy. dump/nohook remain absent.
+
+## 5) Run dir + final process recheck
+
+- New receipts dir: docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v17/resume2-20261004T151157973518Z-d77eb136/
+- Final process check: CIM = 0, Get-Process = 0 (both in-script and in independent post verification). Prior receipts (resume-20261004T143246Z-f05fa234/ and historical v17 receipts) untouched.
+
+## Verdict (distinct)
+
+- WRITER VERIFIED POST-COPY: hash identity ONLY. requested / result_observed / applied = NOT assessed. live_stage0_install_proven = false (the morning install belongs to the previous session). promotion_satisfied = false. deployment live = NOT AUTHORIZED here; the second session transaction belongs to the parent.

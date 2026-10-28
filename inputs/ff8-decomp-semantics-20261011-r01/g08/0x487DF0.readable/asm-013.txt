@@ -1,0 +1,25 @@
+00488256: and     ecx, edi; Logical AND
+00488258: push    ecx; player_slot
+00488259: call    domain__EnemyAI_SelectRandomMagicFromPlayer; Call Procedure
+0048825E: add     esp, 10h; Add
+00488261: cmp     al, 0FFh; Compare Two Operands
+00488263: mov     ss:BATTLE_SLOT_DATA.magic_to_blow_away[ebp], al
+00488269: jnz     short loc_48826F; Jump if Not Zero (ZF=0)
+0048826B: or      al, al; Logical Inclusive OR
+0048826D: jmp     short loc_488286; Jump
+0048826F: mov     al, byte ptr [esp+74h+list_of_element_flag_blow_away]
+00488273: mov     byte_1D28E11, 2
+0048827A: mov     dl, ss:BATTLE_SLOT_DATA.magic_to_blow_away[ebp]
+00488280: mov     byte_1D28E12, dl
+00488286: cmp     al, 0FFh; Compare Two Operands
+00488288: mov     byte ptr [esp+74h+magic_selected_to_blow_away], al
+0048828C: mov     [esp+74h+opcode_param_1], al
+00488290: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488296: mov     edi, [esp+74h+magic_selected_to_blow_away]
+0048829A: xor     eax, eax; Logical Exclusive OR
+0048829C: mov     al, ss:BATTLE_SLOT_DATA.magic_to_blow_away[ebp]
+004882A2: and     edi, 0FFh; Logical AND
+004882A8: push    eax
+004882A9: push    edi
+004882AA: call    domain__EnemyAI_SelectRandomMagicFromStock; SelectRandomMagicFromStock(slot,id): PAS de RNG; scan 32x stride5 id@F_CHAR_DATA+slot*464+130; absent->0; trouve->(int8)qty @+131 (movsx)
+004882AF: movzx   cx, SG_BATTLE_MESSAGE_SPEED_SETTING; Move with Zero-Extend

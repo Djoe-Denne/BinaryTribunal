@@ -1,0 +1,117 @@
+{
+  "ea": "0x509C80",
+  "name_label_only": "BattleAction_TickScript_IfByte4lt10",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x509c80",
+      "end": "0x509cc3",
+      "hex": "568b742408807e0410733656e87fffffff8b4e7483c4048a510384d2741133d25e8a112bd0f7da1ad223d0885103c333d28a113bd0740a5056e8f2bfffff83c4085ec3"
+    }
+  ],
+  "assembly": "00509C80: push    esi\n00509C81: mov     esi, [esp+4+actor]\n00509C85: cmp     byte ptr [esi+4], 10h; Compare Two Operands\n00509C89: jnb     short loc_509CC1; Jump if Not Below (CF=0)\n00509C8B: push    esi; actor\n00509C8C: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés\n00509C91: mov     ecx, [esi+74h]\n00509C94: add     esp, 4; Add\n00509C97: mov     dl, [ecx+3]\n00509C9A: test    dl, dl; Logical Compare\n00509C9C: jz      short loc_509CAF; Jump if Zero (ZF=1)\n00509C9E: xor     edx, edx; Logical Exclusive OR\n00509CA0: pop     esi\n00509CA1: mov     dl, [ecx]\n00509CA3: sub     edx, eax; Integer Subtraction\n00509CA5: neg     edx; Two's Complement Negation\n00509CA7: sbb     dl, dl; Integer Subtraction with Borrow\n00509CA9: and     edx, eax; Logical AND\n00509CAB: mov     [ecx+3], dl\n00509CAE: retn; Return Near from Procedure\n00509CAF: xor     edx, edx; Logical Exclusive OR\n00509CB1: mov     dl, [ecx]\n00509CB3: cmp     edx, eax; Compare Two Operands\n00509CB5: jz      short loc_509CC1; Jump if Zero (ZF=1)\n00509CB7: push    eax\n00509CB8: push    esi\n00509CB9: call    sub_505CB0; Call Procedure\n00509CBE: add     esp, 8; Add\n00509CC1: pop     esi\n00509CC2: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x509c80",
+      "end": "0x509c8b",
+      "successors": [
+        "0x509c8b",
+        "0x509cc1"
+      ]
+    },
+    {
+      "start": "0x509c8b",
+      "end": "0x509c9e",
+      "successors": [
+        "0x509c9e",
+        "0x509caf"
+      ]
+    },
+    {
+      "start": "0x509c9e",
+      "end": "0x509caf",
+      "successors": []
+    },
+    {
+      "start": "0x509caf",
+      "end": "0x509cb7",
+      "successors": [
+        "0x509cb7",
+        "0x509cc1"
+      ]
+    },
+    {
+      "start": "0x509cb7",
+      "end": "0x509cc1",
+      "successors": [
+        "0x509cc1"
+      ]
+    },
+    {
+      "start": "0x509cc1",
+      "end": "0x509cc3",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x5025ab",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502380"
+    },
+    {
+      "from": "0x502617",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502380"
+    },
+    {
+      "from": "0x502a17",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5027d0"
+    },
+    {
+      "from": "0x5031ce",
+      "type": 17,
+      "iscode": true,
+      "function": "0x503190"
+    },
+    {
+      "from": "0x506797",
+      "type": 17,
+      "iscode": true,
+      "function": "0x506690"
+    },
+    {
+      "from": "0x506841",
+      "type": 17,
+      "iscode": true,
+      "function": "0x506690"
+    },
+    {
+      "from": "0x50b75e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b2a0"
+    },
+    {
+      "from": "0xb3aa3b",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    }
+  ],
+  "code_targets": [
+    "0x505cb0",
+    "0x509c10"
+  ],
+  "instruction_count": 30
+}

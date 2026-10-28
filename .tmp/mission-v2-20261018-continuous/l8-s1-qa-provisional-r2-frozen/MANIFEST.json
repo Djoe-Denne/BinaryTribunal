@@ -1,0 +1,115 @@
+{
+  "version": "l8-s1-independent-qa-candidate-manifest-v1",
+  "authoredOn": "2026-10-19",
+  "owner": "l8-s1-independent-qa-r2",
+  "status": "PROPOSED_QA_SOURCE_AWAITING_PARENT_R3_METADATA_PIN_AND_FRESH_V_GATES",
+  "qualification": false,
+  "sourceAccepted": false,
+  "integrationPerformed": false,
+  "runtime": "UNOBSERVED",
+  "files": [
+    {
+      "path": "execution-envelope.test.ts",
+      "target": "test/graph-phase2/execution-envelope.test.ts",
+      "bytes": 86183,
+      "sha256": "6f3482a025435ba17e62c905623f4d0b5ee43d8c6eb539b45e8921c3580e02ff"
+    },
+    {
+      "path": "QA_PLAN.md",
+      "bytes": 10614,
+      "sha256": "ad6d3736cd0e675ccb387900505f97124cccf06cf96777e04507324cd424a1c7"
+    }
+  ],
+  "selfHash": "External native final receipt only; no recursive embedded self-hash",
+  "inputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "bytes": 22254,
+    "sha256": "8302bfa4052be52bce2c6457a69f54d2611976e57ffdeb6567e35cbdc03d7c4e",
+    "pinSetRepresentation": "The exact raw manifest commits every supplied path, byte length and full SHA-256. All 68 packet files were independently read/hash/size-checked without following origin paths.",
+    "entry": { "pins": 68, "totalBytes": 1393589, "allHashesAndSizesMatch": true, "duplicatePaths": 0 },
+    "bookend": { "pins": 68, "totalBytes": 1393589, "allHashesAndSizesMatch": true, "mismatches": [] },
+    "referencePins": 54
+  },
+  "supplements": [
+    {
+      "path": "../../L8_S1_INDEPENDENT_QA_R2_CODE_GO_20261019.md",
+      "bytes": 2130,
+      "sha256": "706ba539002c45fd0320668d2328119277b7f75a84a9e64fb6a372904698e09c",
+      "purpose": "Explicit parent permission for exactly three owned outputs; no execution permission"
+    },
+    {
+      "path": "../../L8_S1_PUBLIC_KNOWLEDGE_POLICY_ADDENDUM_R3_20261019.md",
+      "bytes": 5397,
+      "sha256": "d8ac742256db494a0e5f421766a2dbd4c5362a20034f5f15ee649a9202b835cd",
+      "purpose": "Public contract: opaque knowledge witnesses and actual selected common-rule policy bytes; not candidate implementation or golden"
+    }
+  ],
+  "candidateExposure": {
+    "publicDeclarationFiles": 3,
+    "publicFunctionDeclarations": 18,
+    "candidateFilesKnownByMetadataOnly": 5,
+    "metadataOnlyCandidateBytes": 135736,
+    "metadataFile": { "path": "../inputs/api/CANDIDATE_FILE_PINS.json", "bytes": 965, "sha256": "eb9d44beb8ef01907191a94e3693b171b9a10893afbb98fbfa6719a69d8762ed" },
+    "implementationSchemaDesignPriorForeignQaOrOriginContentsRead": false,
+    "metadataHashesAreNotClaimedAsIndependentlyVerifiedCandidateContents": true
+  },
+  "ownCodecPin": {
+    "state": "PROVISIONAL_R2_METADATA_AWAITING_ANNOUNCED_PARENT_R3_DATA_ONLY_SUPPLEMENT",
+    "constant": "OWN_ENVELOPE_CODEC",
+    "path": "src/graph-execution-envelope.ts",
+    "bytes": 76793,
+    "sha256": "cf5db0580592a7ecfa7a6ec07fa8d92e2110147164d2ffa20191e1e13b20dc93",
+    "selfProof": false,
+    "trustBoundary": "A matching own envelope-codec data pin cannot authenticate its interpreter. Parent/backend must acquire and pin the trusted loader independently."
+  },
+  "contractPinMapping": {
+    "envelopeCodec": "ownCodecPin metadata only",
+    "fullSnapshotSchema": { "packetPath": "reference/schemas/graph-snapshot-v1.schema.json", "bytes": 47133, "sha256": "e62f78b47b610e40a701203d4750025161d8ccb787224e650d1fe5b18d7c8bea" },
+    "fullSnapshotModule": { "packetPath": "reference/src/graph.ts", "bytes": 36515, "sha256": "2da7c8778833097b43f23be3e878b352b7d71fc89d3b9daf0aa5478aad96ef6f" },
+    "proposalCodec": { "packetPath": "reference/src/graph-transport.ts", "bytes": 22680, "sha256": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a" },
+    "plannerCodec": { "packetPath": "reference/src/planner.ts", "bytes": 60760, "sha256": "fd90abe4bf8583d613beef41988d5a63323afdc5083d33ed04659f86cb203b99" },
+    "inputCodec": { "packetPath": "reference/src/graph-pure-codecs.ts", "bytes": 46607, "sha256": "7e618cf57373a79ac5b7aad384ef80f020876fa69a4c4d96dae394533481d5cf" },
+    "admissionCodec": { "packetPath": "reference/src/graph-pure-codecs.ts", "bytes": 46607, "sha256": "7e618cf57373a79ac5b7aad384ef80f020876fa69a4c4d96dae394533481d5cf" },
+    "preparedTransportSchema": { "packetPath": "reference/schemas/l8-prepared-graph-v3.schema.json", "bytes": 104742, "sha256": "fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9" },
+    "adoptionTransportSchema": { "packetPath": "reference/schemas/l8-partition-adoption-v1.schema.json", "bytes": 12396, "sha256": "c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e" },
+    "encoding": "All contract pins describe raw-v1 bytes, not domain-separated ValueRefs"
+  },
+  "independence": {
+    "candidateImplementationBlind": true,
+    "nonblindDependencies": "Qualified reference source/types/schemas; ratified contracts; parent public declarations, dispositions and public addenda",
+    "qualifiedAlgorithmsUsedAsFixtureProducersOnly": true,
+    "independentExpectedValues": "Public literal tags, C1/D/raw SHA, explicit source view, hand-checked source IDs/metadata/65 sites and per-source associations",
+    "bAsACast": false,
+    "privateCandidateHookOrGolden": false
+  },
+  "staticInventory": {
+    "textualTestCallSites": 45,
+    "textualDescribeCallSites": 9,
+    "staticallyExpandedIntendedCases": 155,
+    "method": "45 textual test sites plus 110 expansions from explicitly enumerated literal tables/loops; no test-run discovery or source evaluation",
+    "tableSizes": { "hostile": 18, "badWire": 7, "malformed": 11, "relationTampering": 10, "groupTampering": 6, "substitutions": 12, "knowledgeCases": 8, "approvalCases": 8, "policyEdits": 7, "generationCases": 5, "runCases": 10 },
+    "runtimeTestCount": null,
+    "runtimePassCount": null,
+    "baseline415Claim": false,
+    "positiveControlsObserved": false
+  },
+  "execution": {
+    "compiler": false,
+    "typecheck": false,
+    "transpile": false,
+    "productImportOrEvaluation": false,
+    "testOrValidatorRun": false,
+    "databaseFilesystemCliTimerNetworkNativeProductActions": false,
+    "gitConfigIdaLiveDelegationTeamOrTaskMutation": false,
+    "permittedActions": "Packet/supplement and owned-output static reads, hashing and textual/JSON parsing; patch writes to the three owned outputs only"
+  },
+  "limitsAndRequiredGates": [
+    "Own-codec R3 metadata supplement must be received, hashed and applied before R3 freeze",
+    "Fresh parent strong composed source+QA V and parent-only compilation/typecheck/focused tests remain required",
+    "Public-export producer spies do not prove no import-time or hidden producer effects; fresh source V owns that closure review",
+    "No S2/CAS/drain/activation/ledger/native authority behavior is simulated or qualified",
+    "B fixtures use previous=null; historical previous-witness/backend J->K or no-op authentication remains outside this slice",
+    "Fixture-only retained likely result content/readback/approval data is not native scientific certainty or a HOST/LOCAL capability",
+    "No integration, source R2/R3 acceptance, native promotion, full44 or 415-baseline equivalence"
+  ]
+}

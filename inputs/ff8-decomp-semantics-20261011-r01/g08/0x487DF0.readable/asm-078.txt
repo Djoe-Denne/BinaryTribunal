@@ -1,0 +1,25 @@
+00489975: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048997A: lea     eax, [ebx+ebx*2]; Load Effective Address
+0048997D: lea     edx, [ebx+eax*4]; Load Effective Address
+00489980: shl     edx, 4; Shift Logical Left
+00489983: lea     eax, BATTLE_SLOT_DATA.status_1[edx]; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489989: mov     edx, 1
+0048998E: shl     edx, cl; Shift Logical Left
+00489990: not     edx; One's Complement Negation
+00489992: and     [eax], dx; Logical AND
+00489995: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048999A: cmp     al, 1; Compare Two Operands
+0048999C: lea     eax, [ebx+ebx*2]; Load Effective Address
+0048999F: lea     edx, [ebx+eax*4]; Load Effective Address
+004899A2: jnz     short loc_4899BE; Jump if Not Zero (ZF=0)
+004899A4: shl     edx, 4; Shift Logical Left
+004899A7: sub     ecx, 10h; Integer Subtraction
+004899AA: lea     eax, BATTLE_SLOT_DATA.status_2[edx]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004899B0: mov     edx, 1
+004899B5: shl     edx, cl; Shift Logical Left
+004899B7: or      [eax], edx; Logical Inclusive OR
+004899B9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004899BE: shl     edx, 4; Shift Logical Left
+004899C1: sub     ecx, 10h; Integer Subtraction
+004899C4: lea     eax, BATTLE_SLOT_DATA.status_2[edx]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004899CA: mov     edx, 1

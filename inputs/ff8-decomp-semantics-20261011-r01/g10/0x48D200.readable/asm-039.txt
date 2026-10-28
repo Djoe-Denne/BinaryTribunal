@@ -1,0 +1,25 @@
+0048DF5B: mov     [eax+6], cx
+0048DF5F: mov     word ptr RELATED_TO_TARGET_MASK_LOW+2, cx
+0048DF66: mov     byte_1D28E1C, 0
+0048DF6D: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DF72: mov     al, byte_1D28E1C; jumptable 0048D37A case 241
+0048DF77: test    al, al; Logical Compare
+0048DF79: jnz     short loc_48DF89; Jump if Not Zero (ZF=0)
+0048DF7B: mov     byte_1D28DEF, 0FEh
+0048DF82: push    offset sub_48E5A0
+0048DF87: jmp     short loc_48DFA1; Jump
+0048DF89: mov     eax, ebx
+0048DF8B: and     eax, 0FFFFh; Logical AND
+0048DF90: sub     eax, 0FFFAh; Integer Subtraction
+0048DF95: jz      short loc_48DFA9; Jump if Zero (ZF=1)
+0048DF97: sub     eax, 2; Integer Subtraction
+0048DF9A: jz      short loc_48DFA9; Jump if Zero (ZF=1)
+0048DF9C: push    offset sub_48E5E0
+0048DFA1: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+0048DFA6: add     esp, 4; Add
+0048DFA9: mov     esi, ebx
+0048DFAB: and     esi, 0FFFFh; Logical AND
+0048DFB1: mov     eax, esi
+0048DFB3: sub     eax, 0FFFAh; Integer Subtraction
+0048DFB8: jz      short loc_48DFFB; Jump if Zero (ZF=1)
+0048DFBA: sub     eax, 2; Integer Subtraction

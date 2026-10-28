@@ -1,0 +1,25 @@
+004904AC: push    ecx; p_target_slot_id
+004904AD: push    ebx; p_attacker_slot_id
+004904AE: push    1; arg_0
+004904B0: call    domain__BattleStatus_ApplyHitStatus; G10: a1==0 STR/VIT else MAG/SPR. VIT_0_STATUS_MASK 0x01000000 forces def-stat 0. Walk HIT_STATUS_1 bits 0..6 then HIT_STATUS_2 bits 8..39. Drain HIT_STATUS_2&0x8000 fail-closed outside G10.
+004904B5: add     esp, 14h; Add
+004904B8: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004904BD: mov     edx, HIT_STATUS_2; | ID         | Description |
+004904C3: mov     ax, HIT_STATUS_1; | ID     | Description |
+004904C9: mov     ecx, [esp+20h+p_target_slot_id]
+004904CD: push    edx
+004904CE: push    eax
+004904CF: push    edi
+004904D0: push    ecx
+004904D1: mov     HIT_TYPE_2, 1; Seems to be a bit list
+004904D8: call    checkDoubleStatusApply; Check if zombie on a zombie or float on a fly monster
+004904DD: mov     eax, [esp+30h+p_target_slot_id]
+004904E1: xor     edx, edx; Logical Exclusive OR
+004904E3: mov     dl, byte ptr DEVOUR_RESULT
+004904E9: push    edx; devour_result
+004904EA: push    eax; p_target_slot_id
+004904EB: call    domain__Devour_ApplyPermanentStatBonuses; G19 U19.4: Devour persist (named Devour_ApplyPermanentStatBonuses). Writes via increaseCharaStatBy1 + sub_495F50. CFG not closed; ISO refuses persist.
+004904F0: add     esp, 18h; Add
+004904F3: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004904F8: mov     ecx, [esp+20h+p_target_slot_id]; jumptable 0049045B case 8
+004904FC: push    0; p_attack_power

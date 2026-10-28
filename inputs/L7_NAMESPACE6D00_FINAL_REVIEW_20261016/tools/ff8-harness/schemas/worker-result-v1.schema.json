@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/worker-result-v1",
+  "title": "Scientific WorkerResult v1",
+  "description": "Execution completion is not scientific acceptance. Full identity/hash/independence validation lives in validation.ts; publication gates additionally require actual native attestation.",
+  "type": "object",
+  "required": ["schemaVersion", "missionId", "taskId", "attemptId", "executionId", "cycle", "authorId", "inputFingerprint", "inputVersions", "previousResultIds", "kind"],
+  "properties": {
+    "schemaVersion": { "const": 1 }, "missionId": { "type": "string" }, "taskId": { "type": "string" }, "attemptId": { "type": "string" }, "executionId": { "type": "string" }, "cycle": { "type": "integer", "minimum": 1 }, "authorId": { "type": "string" },
+    "inputFingerprint": { "type": "string" }, "inputVersions": { "type": "array", "items": { "type": "object", "required": ["path", "version", "sha256"] } }, "previousResultIds": { "type": "array", "items": { "type": "string" } },
+    "identity": { "type": ["object", "null"], "required": ["sha256", "version", "ea"] },
+    "kind": { "enum": ["explore", "evaluate", "proposal", "reconciliation"] },
+    "role": { "enum": ["A", "B"] }, "candidates": { "type": "array" }, "assessments": { "type": "array" },
+    "propositions": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["id", "text", "evidence", "contradictions", "questions"] } },
+    "conclusion": { "type": "object", "required": ["text", "evidence"] },
+    "decision": { "enum": ["unlikely", "likely", "certain", "blocked"], "description": "Decision categories, NOT calibrated probabilities." },
+    "contradictions": { "type": "array", "items": { "type": "string" } }, "questions": { "type": "array", "items": { "type": "string" } },
+    "publicationGate": { "type": "object", "required": ["nativeAsmChecked", "independentAuthors", "inputHashesVerified", "opcodeCoverageComplete", "abiChecked", "contradictionsResolved", "readbackPlan", "targetId", "targetRevision", "evidence"], "properties": { "nativeAsmChecked": { "const": true }, "independentAuthors": { "const": true }, "inputHashesVerified": { "const": true }, "opcodeCoverageComplete": { "const": true }, "abiChecked": { "const": true }, "contradictionsResolved": { "const": true }, "readbackPlan": { "const": true }, "targetId": { "type": "string" }, "targetRevision": { "type": "integer", "minimum": 0 }, "evidence": { "type": "array", "minItems": 1 } } }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "explore" } } }, "then": { "required": ["candidates"] } },
+    { "if": { "properties": { "kind": { "const": "evaluate" } } }, "then": { "required": ["identity", "assessments"] } },
+    { "if": { "properties": { "kind": { "const": "proposal" } } }, "then": { "required": ["identity", "role", "propositions"] } },
+    { "if": { "properties": { "kind": { "const": "reconciliation" } } }, "then": { "required": ["identity", "propositions", "decision", "contradictions", "questions"] } },
+    { "if": { "required": ["decision"], "properties": { "decision": { "const": "certain" } } }, "then": { "required": ["publicationGate"] } }
+  ]
+}

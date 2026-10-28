@@ -1,0 +1,165 @@
+bun test v1.4.2 (744846f84)
+
+test\strict-adapter.test.ts:
+41 |     setCapabilities: (value: Record<string, unknown>) => { capabilities = value; }, get ensured() { return ensured; } };
+42 | }
+43 | 
+44 | test("strict submission transports its schema and requires reads, never a worker edit", async () => {
+45 |   const f = await fixture();
+46 |   expect(f.submitted.output).toMatchObject({ mode: "json_schema", strict: true, route: "openai-responses-v1" });
+                                  ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:46:30)
+(fail) strict submission transports its schema and requires reads, never a worker edit [4.18ms]
+55 | 
+56 | test("strict native payload is validated and materialized once with controller-owned header", async () => {
+57 |   const f = await fixture(); expect(existsSync(f.intent.outputPath)).toBe(false);
+58 |   const first = await f.bridge.inspect(f.intent);
+59 |   expect(first.status).toBe("completed");
+60 |   const doc = JSON.parse(first.artifact!.content);
+                                    ^
+TypeError: undefined is not an object (evaluating 'first.artifact.content')
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:60:32)
+(fail) strict native payload is validated and materialized once with controller-owned header [3.29ms]
+76 |     if (defect === "schema") f.execution.structuredResult.schemaSha256 = hash("wrong");
+77 |     if (defect === "session") f.execution.structuredResult.native.sessionId = "other";
+78 |     if (defect === "model") f.execution.structuredResult.native.model = { ...f.intent.requestedModel, variant: "low" };
+79 |     if (defect === "hash") f.execution.structuredResult.sha256 = hash("wrong");
+80 |     const result = await f.bridge.inspect(f.intent);
+81 |     expect(result.status).toBe("failed"); expect(result.artifact).toBeUndefined(); expect(existsSync(f.intent.outputPath)).toBe(false);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "completed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:81:27)
+(fail) strict success cannot be inferred from native outcome, an old file or unwitnessed output [2.72ms]
+84 | 
+85 | test("strict capture rejects aliases and reserved fields without post-hoc repair", async () => {
+86 |   for (const payload of [{ proposals: [] }, { propositions: [], missionId: "forged" }]) {
+87 |     const f = await fixture(); f.execution.structuredResult.value = payload; f.execution.structuredResult.sha256 = hash(canonical(payload));
+88 |     const result = await f.bridge.inspect(f.intent);
+89 |     expect(result.status).toBe("failed"); expect(existsSync(f.intent.outputPath)).toBe(false);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "completed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:89:27)
+(fail) strict capture rejects aliases and reserved fields without post-hoc repair [2.39ms]
+90 |   }
+91 | });
+92 | 
+93 | test("strict mode refuses missing bridge capability before team allocation", async () => {
+94 |   const f = await fixture(); f.setCapabilities({ resourceBoundary: true, nativeAccessWitness: true });
+95 |   await expect(f.bridge.ensureTeam({ missionId: "m", outputDirectory: f.options.outputDirectory, knowledge: { files: [] }, models: { A: f.intent.requestedModel } } as unknown as MissionConfig, f.control)).rejects.toThrow(/strict/);
+                                                                                                                                                                                                                          ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:95:214)
+(fail) strict mode refuses missing bridge capability before team allocation [2.86ms]
+ 96 |   expect(f.ensured).toBe(0);
+ 97 | });
+ 98 | 
+ 99 | test("strict mode cannot grant worker file edits or silently fall back to another provider", async () => {
+100 |   const f = await fixture();
+101 |   expect(() => new EnsembleBridge({ ...f.options, allowedTools: ["read", "edit"] })).toThrow(/edit/);
+                                                                                           ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /edit/
+
+Received function did not throw
+Received value: EnsembleBridge {
+  options: {
+    client: {
+      capabilities: [AsyncFunction: capabilities],
+      ensure: [AsyncFunction: ensure],
+      submit: [AsyncFunction: submit],
+      replay: [AsyncFunction: replay],
+      inspect: [AsyncFunction: inspect],
+    },
+    directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd",
+    profiles: {
+      explore: "e",
+      evaluate: "v",
+      A: "a",
+      B: "b",
+      R: "r",
+    },
+    approvedSources: [],
+    projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd\\inputs",
+    outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd\\outputs",
+    roleInstructions: {
+      explore: "derive",
+      evaluate: "assess",
+      A: "derive",
+      B: "derive",
+      R: "reconcile",
+    },
+    allowedTools: [ "read", "edit" ],
+    admissionMode: "native-boundary-witness",
+    outputMode: "json-schema-strict",
+  },
+  access: ProjectionAccess {
+    options: {
+      client: {
+        capabilities: [AsyncFunction: capabilities],
+        ensure: [AsyncFunction: ensure],
+        submit: [AsyncFunction: submit],
+        replay: [AsyncFunction: replay],
+        inspect: [AsyncFunction: inspect],
+      },
+      directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd",
+      profiles: {
+        explore: "e",
+        evaluate: "v",
+        A: "a",
+        B: "b",
+        R: "r",
+      },
+      approvedSources: [],
+      projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd\\inputs",
+      outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\ff8-strict-adapter-cqR5Vd\\outputs",
+      roleInstructions: {
+        explore: "derive",
+        evaluate: "assess",
+        A: "derive",
+        B: "derive",
+        R: "reconcile",
+      },
+      allowedTools: [ "read", "edit" ],
+      admissionMode: "native-boundary-witness",
+      outputMode: "json-schema-strict",
+    },
+    publicFacts: Map {},
+    approveKnowledge: [Function: approveKnowledge],
+    authorized: [Function: authorized],
+    read: [AsyncFunction: read],
+    list: [AsyncFunction: list],
+    tool: [AsyncFunction: tool],
+    projected: [Function: projected],
+  },
+  ensureTeam: [AsyncFunction: ensureTeam],
+  submit: [AsyncFunction: submit],
+  inspect: [AsyncFunction: inspect],
+  pauseAdmissions: [AsyncFunction: pauseAdmissions],
+  resumeAdmissions: [AsyncFunction: resumeAdmissions],
+  stop: [AsyncFunction: stop],
+}
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:101:86)
+(fail) strict mode cannot grant worker file edits or silently fall back to another provider [2.68ms]
+
+ 0 pass
+ 6 fail
+ 7 expect() calls
+Ran 6 tests across 1 file. [37.00ms]

@@ -1,0 +1,25 @@
+0049398B: add     esp, 4; Add
+0049398E: lea     edx, [esi+esi*2]; Load Effective Address
+00493991: lea     edi, [esi+edx*4]; Load Effective Address
+00493994: shl     edi, 4; Shift Logical Left
+00493997: test    ebx, 10000h; Logical Compare
+0049399D: mov     ax, BATTLE_SLOT_DATA.status_1_copy[edi]
+004939A4: mov     word_1D28E30[esi*2], ax
+004939AC: mov     ecx, BATTLE_SLOT_DATA.status_2_copy[edi]
+004939B2: mov     CURRENT_STATUS_TIMER_FLAGS[esi*4], ecx
+004939B9: jz      short loc_493A38; Jump if Zero (ZF=1)
+004939BB: mov     eax, BATTLE_SLOT_DATA.status_2[edi]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004939C1: push    esi
+004939C2: and     eax, 0FFFEFFFFh; Logical AND
+004939C7: mov     BATTLE_SLOT_DATA.status_2[edi], eax; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004939CD: call    domain__BattleStatus_HandleEject_ResetSlot; WRITES status_1 (clears bit 0x20) while resetting slot after EJECT; called from status-apply path.
+004939D2: mov     edx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]
+004939D8: and     edx, 0FFFFFFF7h; Logical AND
+004939DB: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], edx
+004939E1: mov     eax, dword ptr BATTLE_SLOT_DATA.flag_data[edi]
+004939E7: and     al, 0FBh; Logical AND
+004939E9: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], eax
+004939EF: push    esi
+004939F0: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.
+004939F5: push    esi
+004939F6: call    sub_484640; Call Procedure

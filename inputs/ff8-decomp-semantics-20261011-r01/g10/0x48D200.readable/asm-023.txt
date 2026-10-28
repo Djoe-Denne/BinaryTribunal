@@ -1,0 +1,25 @@
+0048D9BD: mov     [esi+1Ch], al
+0048D9C0: pop     edi
+0048D9C1: pop     esi
+0048D9C2: pop     ebp
+0048D9C3: mov     eax, 1
+0048D9C8: pop     ebx
+0048D9C9: add     esp, 14h; Add
+0048D9CC: retn; Return Near from Procedure
+0048D9CD: lea     edx, [ecx+ecx*2]; jumptable 0048D37A case 254
+0048D9D0: lea     eax, [ecx+edx*4]; Load Effective Address
+0048D9D3: shl     eax, 4; Shift Logical Left
+0048D9D6: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 10h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048D9DD: jz      short loc_48D9FC; Jump if Zero (ZF=1)
+0048D9DF: xor     edi, edi; Logical Exclusive OR
+0048D9E1: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048D9E8: mov     byte ptr [esp+24h+p_command_type], 0
+0048D9ED: mov     ebx, 9
+0048D9F2: mov     [esp+24h+p_always_zero], 0Ah
+0048D9F7: jmp     loc_48E347; Jump
+0048D9FC: mov     eax, ebx
+0048D9FE: mov     GF_BOOST, 0
+0048DA05: and     eax, 0FFFFh; Logical AND
+0048DA0A: mov     byte_1D28E00, 1
+0048DA11: push    eax; p_command_arg
+0048DA12: lea     ecx, [eax+eax*2]; Load Effective Address

@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-19T17:23:27.540Z",
+  "status": "NATIVE_INSPECTOR_ACTUAL_EMIT_AND_INLINE_MAP_SUPPORTED_FOR_OWNED_SYNTHETIC_RUN",
+  "retainedProbeReceiptSha256": "207bc1488c041c06e79153e75a077a4b98ec8bd69ca4e21e31e048c18d4a9604",
+  "retainedProbeFailureNotRewritten": "loopback inspector connection error",
+  "proof": "Actual Debugger.scriptParsed/getScriptSource response binds emitted buffer+inline native source map to the same synthetic runner invocation and exact source content; both Error original generated points map to native sourceURL/line/column and top stack frame under demonstrated CRLF/UTF16/readonlyparameterproperty/imported-helper controls.",
+  "sources": [
+    {
+      "scriptId": "2",
+      "sourcePath": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-1792430522218\\helper.ts",
+      "sourceBytes": 556,
+      "sourceSha256": "d8b518a5edd0f925efe677946dafbe7ea96286fd7fc7075032c7698ff14d6f87",
+      "emittedPath": "C:/Users/djden/AppData/Local/Temp/opencode/NATIVE-EMITTER-INSPECTOR-1792430522218/inspector-source-0.txt",
+      "emittedSha256": "15e46b7a5f7da4cd0d7f7877fecec0a68363e18b8a46a9fc150fbdf6385b4004",
+      "mapSha256": "092eb57c4158ccdfe7adf811c228460213c71fd366ed3cb4fedf46294377d6bd",
+      "mapSource": "/helper.ts",
+      "sameSourceContent": true
+    },
+    {
+      "scriptId": "3",
+      "sourcePath": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-1792430522218\\probe.test.ts",
+      "sourceBytes": 1115,
+      "sourceSha256": "5c0ec718e4793b7f597254f05cf9f1715d5dedec721c2cb7355d4f3700834e0f",
+      "emittedPath": "C:/Users/djden/AppData/Local/Temp/opencode/NATIVE-EMITTER-INSPECTOR-1792430522218/inspector-source-1.txt",
+      "emittedSha256": "3026bd0ca7a35ad0392f9d950e5373838b8a6d74434bda888fdae5f5eb2f0ebe",
+      "mapSha256": "bef4efe51effebc02055d461d89d249f6a86e88bc6c15b7ce3395f272fdd4a3d",
+      "mapSource": "/probe.test.ts",
+      "sameSourceContent": true
+    }
+  ],
+  "points": [
+    {
+      "case": "unicode",
+      "sourcePath": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-1792430522218\\helper.ts",
+      "sourceSha256": "d8b518a5edd0f925efe677946dafbe7ea96286fd7fc7075032c7698ff14d6f87",
+      "emittedSha256": "15e46b7a5f7da4cd0d7f7877fecec0a68363e18b8a46a9fc150fbdf6385b4004",
+      "mapSha256": "092eb57c4158ccdfe7adf811c228460213c71fd366ed3cb4fedf46294377d6bd",
+      "generated": {
+        "line": 11,
+        "column": 18,
+        "lineText": "  throw new Error(\"cluster: \" + \"\\uD83D\\uDE00\\xE9\");"
+      },
+      "mapped": {
+        "line": 7,
+        "column": 68,
+        "lineText": "export function raiseUnicode():never { const text=\"😀é\"; throw new Error(\"cluster: \"+text); }"
+      },
+      "mapSegment": {
+        "generatedLine": 11,
+        "generatedColumn": 12,
+        "source": 0,
+        "sourceLine": 6,
+        "sourceColumn": 67
+      },
+      "convention": "native tuple is 1-based; SourceMap-v3 stored deltas 0-based; lookup greatest generated UTF16 column <= nativeColumn-1",
+      "utf8ByteColumnForComparison": 71,
+      "utf16Distinguished": true
+    },
+    {
+      "case": "parameter",
+      "sourcePath": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-1792430522218\\helper.ts",
+      "sourceSha256": "d8b518a5edd0f925efe677946dafbe7ea96286fd7fc7075032c7698ff14d6f87",
+      "emittedSha256": "15e46b7a5f7da4cd0d7f7877fecec0a68363e18b8a46a9fc150fbdf6385b4004",
+      "mapSha256": "092eb57c4158ccdfe7adf811c228460213c71fd366ed3cb4fedf46294377d6bd",
+      "generated": {
+        "line": 14,
+        "column": 37,
+        "lineText": "  throw new ParameterDiagnosticError({ version: \"cluster-refusal-v1\", code: \"probe\", detail: \"synthetic\" });"
+      },
+      "mapped": {
+        "line": 8,
+        "column": 52,
+        "lineText": "export function raiseParameter():never { throw new ParameterDiagnosticError({version:\"cluster-refusal-v1\",code:\"probe\",detail:\"synthetic\"}); }"
+      },
+      "mapSegment": {
+        "generatedLine": 14,
+        "generatedColumn": 12,
+        "source": 0,
+        "sourceLine": 7,
+        "sourceColumn": 51
+      },
+      "convention": "native tuple is 1-based; SourceMap-v3 stored deltas 0-based; lookup greatest generated UTF16 column <= nativeColumn-1",
+      "utf8ByteColumnForComparison": 52,
+      "utf16Distinguished": true
+    }
+  ],
+  "loopbackConnectionClosedAfterArtifactsReleased": true,
+  "limitation": "The diagnostic wrapper reported a WebSocket closure error after both buffers/protocol/observation/release signal and successful 1-pass child completed. This audit does not turn that receipt into a green gate. No claim for default uninspected runner, all scientific sources/emit options, or numerical qualification. Future actual gate must capture actual inspected-run emit/maps and be separately reviewed/approved.",
+  "allArtifactsRetained": true,
+  "noScienceOrQualificationCandidateImported": true,
+  "activeOwnedRunner": false
+}

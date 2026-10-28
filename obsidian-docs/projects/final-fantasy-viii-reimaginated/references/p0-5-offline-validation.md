@@ -5,14 +5,14 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G05 G06 offline evidence, P0.5 deterministic core, P0.5 validation]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-5-offline-validation-2026-07-21.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/director-gateway-p0-5-2026-07-21.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/director-gateway-validation-2026-07-21.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/offline/test_g05.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/offline/test_g06.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G06.suite.toml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/p0-5-offline-validation-2026-07-21.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/blocked/director-gateway-p0-5-2026-07-21.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/director-gateway-validation-2026-07-21.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/offline/test_g05.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/offline/test_g06.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process/G06.suite.toml
 summary: >-
   Offline G05/G06 model validation plus fresh-process G03/G04 seam validation; BattleUI and domain ownership remain deliberately disabled.
 provenance:

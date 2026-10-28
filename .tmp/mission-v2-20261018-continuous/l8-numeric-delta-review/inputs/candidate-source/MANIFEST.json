@@ -1,0 +1,95 @@
+{
+  "manifestVersion": 1,
+  "at": "2026-10-18T12:12:19.833Z",
+  "role": "L8-phase1B-transport-source-author",
+  "author": "l8-transport-author-r1",
+  "taskId": "task_mvdrzkq1_0059_3ncf8o",
+  "status": "SOURCE_CANDIDATE_NOT_EXECUTED",
+  "independence": "NONBLIND: fresh transport author; intentionally reads frozen schema candidates, their DESIGN and supplied sources; not a blind semantic B role",
+  "ownership": [
+    "outputs/graph-transport.ts",
+    "outputs/DESIGN.md",
+    "outputs/MANIFEST.json"
+  ],
+  "inputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "sha256": "0fed4681a958126c1b57f8bf3c535eade553dd60ab2cc089ce30c6fed15a083f",
+    "pinnedFileCount": 18,
+    "pinnedBytes": 670751,
+    "initialVerification": "18/18 exact, 670751 bytes, no mismatches",
+    "preManifestRehash": "18/18 exact, 670751 bytes, no mismatches; final post-manifest receipt rehash reported separately",
+    "originsRead": false
+  },
+  "schemaPins": [
+    {
+      "inputPath": "../inputs/candidate/l8-prepared-graph-v3.schema.json",
+      "futureImport": "../schemas/l8-prepared-graph-v3.schema.json",
+      "bytes": 104742,
+      "sha256": "fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9",
+      "modified": false
+    },
+    {
+      "inputPath": "../inputs/candidate/l8-partition-adoption-v1.schema.json",
+      "futureImport": "../schemas/l8-partition-adoption-v1.schema.json",
+      "bytes": 12396,
+      "sha256": "c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e",
+      "modified": false
+    }
+  ],
+  "payloads": [
+    {
+      "path": "graph-transport.ts",
+      "futureDestination": "src/graph-transport.ts",
+      "bytes": 22657,
+      "sha256": "8754732312755f2eaf8cf515fbb81185f38261a159afc49eb65fd07561ba3518"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 16687,
+      "sha256": "4e42b20f16d276713d334ac5a4e6640597ab4f1a9365f0e397e31b1a367b2332"
+    }
+  ],
+  "selfHashPolicy": "No circular self-hash. MANIFEST.json size and SHA-256 are reported in the final task-result receipt with the two payloads.",
+  "api": [
+    "decodePreparedGraphV3(value: unknown)",
+    "decodePartitionAdoptionV1(value: unknown)",
+    "inspectPreparedGraphV3(value: unknown)",
+    "inspectPartitionAdoptionV1(value: unknown, prepared?: unknown)"
+  ],
+  "invariants": {
+    "decoding": "actual frozen strict-schema validator; cloned/frozen JSON values; no scientific evaluation",
+    "coherence": "separate documentary identities, memberships, mirrors and joins",
+    "evidence": "existing B inspector only on B; negative admissibility is not a schema/coherence rejection; A evidence preserved with not-applicable-A status",
+    "authority": "untrusted",
+    "adoptionReady": false,
+    "historyAdopted": "boolean preserved; only current primary/result partitions have schema-mandated false",
+    "rawNegatives": "preserved without trimming, normalization, defaulting or filtering",
+    "runtimePreparedGraph": false,
+    "bCastToA": false,
+    "hostReceiptRefResolved": false,
+    "inputMutation": false,
+    "newResourceCap": false
+  },
+  "performed": [
+    "read only the frozen input package and owned output text",
+    "parsed/hash-verified input data",
+    "submitted ACK NONBLIND and API/relations/resources plan; parent approved",
+    "authored three isolated output files as text",
+    "statically inspected authored source text and computed payload byte hashes"
+  ],
+  "notPerformed": [
+    "source import or evaluation",
+    "schema validator execution",
+    "compilation, typechecking, tests or product execution",
+    "central source/schema/test/package changes or integration",
+    "database, native, IDA, live, OS process, network or Git action",
+    "registry change or delegation",
+    "HOST resolution, quiescence verification, planAdoption, putPartition or adopted flip"
+  ],
+  "remainingGates": [
+    "fresh independent source V",
+    "fresh QA source against the approved public contract",
+    "parent-only integration and separate typecheck/test/run gates"
+  ],
+  "acceptanceClaim": "none: no runtime, global L8, C3-C5, G7, native or adoption acceptance"
+}

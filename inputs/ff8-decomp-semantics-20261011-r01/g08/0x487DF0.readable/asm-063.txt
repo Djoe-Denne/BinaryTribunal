@@ -1,0 +1,25 @@
+004893E1: cmp     eax, 3; Compare Two Operands
+004893E4: jnz     short loc_489411; Jump if Not Zero (ZF=0)
+004893E6: mov     al, SG_ODIN_ANGEL_GILGA_FLAG
+004893EB: mov     edx, 1
+004893F0: mov     ecx, edi
+004893F2: shl     edx, cl; Shift Logical Left
+004893F4: test    al, dl; Logical Compare
+004893F6: jz      short loc_4893D4; Jump if Zero (ZF=1)
+004893F8: mov     ecx, [esp+74h+jump_value]
+004893FC: mov     [esp+74h+ability_data_ptr], 0
+00489404: and     ecx, 0FFFFh; Logical AND
+0048940A: add     esi, ecx; Add
+0048940C: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489411: mov     eax, [esp+74h+ability_data_ptr]
+00489415: test    eax, eax; Logical Compare
+00489417: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048941D: mov     ecx, [esp+74h+jump_value]
+00489421: and     ecx, 0FFFFh; Logical AND
+00489427: add     esi, ecx; Add
+00489429: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048942E: mov     eax, dword ptr [esp+74h+op_param_3]; jumptable 004887D6 case 16
+00489432: and     eax, edi; Logical AND
+00489434: jnz     short loc_48944C; Jump if Not Zero (ZF=0)
+00489436: mov     eax, SG_COUNTDOWN
+0048943B: test    eax, eax; Logical Compare

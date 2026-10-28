@@ -1,0 +1,25 @@
+0048FF0F: mov     byte ptr RELATED_TO_CRIT_BONUS, 0
+0048FF16: mov     HIT_ELEMENT_PERCENT, 0
+0048FF1D: mov     [esp+20h+CommandTypeId2], edi
+0048FF21: ja      def_48FF2F; jumptable 0048FF2F default case, cases 1,3,5,9-12,28,35-37,39-235,242,243,246,248,250,252,253
+0048FF27: xor     eax, eax; Logical Exclusive OR
+0048FF29: mov     al, ds:byte_491250[edi]
+0048FF2F: jmp     ds:jpt_48FF2F[eax*4]; switch jump
+0048FF36: mov     edi, ecx; jumptable 0048FF2F case 239
+0048FF38: and     edi, 0FFFFh; Logical AND
+0048FF3E: shl     edi, 5; Shift Logical Left
+0048FF41: jmp     short loc_48FF84; Jump
+0048FF43: mov     eax, ecx; jumptable 0048FF2F case 241
+0048FF45: and     eax, 0FFFFh; Logical AND
+0048FF4A: cmp     eax, 0FFFAh; Compare Two Operands
+0048FF4F: jl      short loc_48FF7F; Jump if Less (SF!=OF)
+0048FF51: cmp     eax, 0FFFCh; Compare Two Operands
+0048FF56: jg      short loc_48FF7F; Jump if Greater (ZF=0 & SF=OF)
+0048FF58: mov     HIT_ELEMENT_PERCENT, 0
+0048FF5F: xor     eax, eax; jumptable 0048FF2F case 251
+0048FF61: mov     HIT_ELEMENT, 0
+0048FF68: mov     HIT_ATTACK_ENABLER, 0
+0048FF6F: mov     HIT_STATUS_1, ax; | ID     | Description |
+0048FF75: mov     HIT_STATUS_2, eax; | ID         | Description |
+0048FF7A: jmp     loc_490423; Jump
+0048FF7F: shl     eax, 5; Shift Logical Left

@@ -1,0 +1,119 @@
+{
+  "version": 2,
+  "providers": [
+    "openai"
+  ],
+  "models": [
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "low",
+      "intelligenceScore": 40,
+      "averageCostPerTask": 0.08,
+      "available": true,
+      "level": "simple",
+      "usage": "taches_simples",
+      "benchmarkCostPerTask": 0.08,
+      "accessMode": "unknown",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 43,
+      "averageCostPerTask": 0.12,
+      "available": true,
+      "level": "simple",
+      "usage": "taches_simples",
+      "benchmarkCostPerTask": 0.12,
+      "accessMode": "unknown",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 48,
+      "averageCostPerTask": 0.21,
+      "available": true,
+      "level": "medium",
+      "usage": "taches_standard",
+      "benchmarkCostPerTask": 0.21,
+      "accessMode": "unknown",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "high",
+      "intelligenceScore": 50,
+      "averageCostPerTask": 0.32,
+      "available": true,
+      "level": "medium",
+      "usage": "taches_standard",
+      "benchmarkCostPerTask": 0.32,
+      "accessMode": "unknown",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "xhigh",
+      "intelligenceScore": 51,
+      "averageCostPerTask": 0.39,
+      "available": true,
+      "level": "medium",
+      "usage": "taches_difficiles",
+      "benchmarkCostPerTask": 0.39,
+      "accessMode": "unknown",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    }
+  ],
+  "startingIntelligence": 50,
+  "classificationBeta": 0.35,
+  "verification": {
+    "level": "reinforced",
+    "commands": [
+      "cd tools/ff8-harness && bun run typecheck",
+      "cd tools/ff8-harness && bun run test:q1-primitives",
+      "cd tools/ff8-harness && bun test"
+    ],
+    "acceptance": [
+      "Machine d'etat verifiee: transitions autorisees/interdites, preconditions, CAS/generations perimees, absence de double publication, echec/reprise et replay deterministe.",
+      "450 paires et 9 regressions numeric/context preserves avec leurs oracles; aucun faux PASS sur tests non lances.",
+      "Reviews independantes requises acquises sur sessions fraiches: contrat S1 avant implementation, QA S1, L9, L10.",
+      "Preuves reutilisees quand encore valides; rejeu seulement si code/entree/oracle/conditions pertinentes changent, motif consigne.",
+      "Superviseur peut corriger dans le perimetre approuve puis revalider les comportements affectes; nouvelle infrastructure importante = accord prealable.",
+      "Pas de framework supplementaire ni pipeline fixe de reviewers; oracles ne recopient pas l'implementation.",
+      "Aucun bloquant ouvert; preuve obligatoire indisponible = etat partiel/bloque explicite; reports modifiant le contrat acceptes explicitement.",
+      "Pas de C#, pas de baisse de seuil, pas de suppression de cas, SKIP non compte comme PASS, validation dynamique du code reconstruit restant hors perimetre.",
+      "Chaque decision de supervision est consignee avec son lien a l'objectif final, sa justification et les preuves ou resultats attendus ; privilegier la progression utile sans reduire les gates ni repeter inutilement les controles."
+    ]
+  }
+}

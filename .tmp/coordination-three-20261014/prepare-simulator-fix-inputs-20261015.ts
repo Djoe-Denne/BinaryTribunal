@@ -1,0 +1,26 @@
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
+import {dirname} from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',base=root+'/.tmp/re-graph-scheduler/review-20261014',sourceRoot=base+'/L7SIM_FIX_903bf6e';
+if(existsSync(sourceRoot))throw Error('Immutable input snapshot exists');
+const admission=JSON.parse(readFileSync(phase+'/l7-simulator-fix-admission-post.json','utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const native=JSON.parse(readFileSync(phase+'/l7-simulator-final-review-native.json','utf8'));const texts:string[]=[];
+function walk(x:any){if(!x||typeof x!=='object')return;if(x.input?.to==='lead'&&typeof x.input.text==='string')texts.push(x.input.text);for(const v of Object.values(x))if(v&&typeof v==='object')walk(v);}
+for(const m of native.messages)if(m.type==='assistant')walk(m.content);
+const final=texts.findLast(s=>s.includes('FINDINGS')&&s.includes('BLOCK'));if(!final)throw Error('Final review report unavailable; no invented substitute');
+const selected=spawnSync('git',['ls-tree','-r','--name-only',admission.head,'--','tools/ff8-harness/src','tools/ff8-harness/schemas','tools/ff8-harness/test','tools/ff8-harness/scripts','tools/ff8-harness/package.json','tools/ff8-harness/bun.lock','tools/ff8-harness/tsconfig.json','docs/missions/re-graph-scheduler'],{cwd:root,encoding:'utf8'});if(selected.status!==0)throw Error('No source manifest');
+const refs=['docs/tech/investigation/battle-static-discovery/battle-indirect-registry.json','docs/tech/investigation/battle-static-discovery/magic-registry.json','docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json','docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json'];
+const files:{path:string,sha256:string,kind:string,origin:string}[]=[];
+function add(path:string,bytes:Buffer,kind:string,origin:string){if(bytes.length>8*1024*1024)throw Error('File exceeds helper budget');mkdirSync(dirname(sourceRoot+'/'+path),{recursive:true});writeFileSync(sourceRoot+'/'+path,bytes,{flag:'wx'});files.push({path,sha256:sha(bytes),kind,origin});}
+for(const path of [...selected.stdout.trim().split(/\r?\n/),...refs].sort())add(path,readFileSync(admission.owned+'/'+path),path.includes('/src/')||path.includes('/scripts/')?'source':path.includes('/test/')?'test':path.includes('/contract/')||path.includes('/schemas/')?'rule':'knowledge','owned current HEAD '+admission.head);
+const candidate=JSON.parse(readFileSync(base+'/L7SIM_CURRENT_BASELINE/L7_CANDIDATE_MANIFEST.json','utf8'));
+for(const p of candidate.files.filter((p:any)=>p.origin.startsWith('historical L7')||p.kind==='native'||p.path.endsWith('/native/TRANSFER_MANIFEST.json'))){const b=readFileSync(base+'/L7SIM_CURRENT_BASELINE/'+p.path);if(sha(b)!==p.sha256)throw Error('Candidate/raw drift');if(files.some(f=>f.path===p.path))throw Error('Unexpected runtime overwrite');add(p.path,b,p.kind,p.origin);}
+for(const [path,source,kind]of [['PARENT/REPRO_REFERENCE.txt',phase+'/probe-l7-simulator-parent-20261015.ts','knowledge'],['PARENT/REPRO.json',phase+'/l7-simulator-parent-repro.json','manifest']] as const)add(path,readFileSync(source),kind,'parent counterexample');
+add('PARENT/REVIEW.md',Buffer.from(final+'\n'),'proposal','completed independent review, not acceptance');
+const ledger='docs/tech/investigation/battle-static-discovery/battle-graph-ledger.json';if(sha(readFileSync(admission.owned+'/'+ledger))!=='b5c9dfa112e53ffde99d7a30ef54a1ce13ae28a4e3c8e14432f085536310e4d4')throw Error('Existing tracked ledger drift');
+const notes={purpose:'Reinforced simulator correction input; no acceptance/main integration',sourceCandidate:'dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4',currentOwnedHead:admission.head,sourceEffort:'Sol high',correctorEffort:'Sol max',oldElevenFilesPreserved:true,oversizedLedgerNotTransferredButExistingTrackedExact:true,mainUncommittedMaintenanceNotIncluded:true,codeApproval:'PLAN REQUIRED; new resource/API semantics need parent approval',historicalLogsMustNotBeOverwritten:true,parentReproReference:'Archival text, not executable authority; imports and absolute paths refer to parent context. Do NOT run unchanged or access/write parent. Re-derive OWN in-memory probes using received modules/fixtures only.'};
+add('PARENT/NOTES.json',Buffer.from(JSON.stringify(notes,null,2)+'\n'),'manifest','parent scope');
+const manifest={...notes,files};add('INPUT_MANIFEST.json',Buffer.from(JSON.stringify(manifest,null,2)+'\n'),'manifest','parent pins');
+const req={schemaVersion:1,missionId:'team_mv6tmopg_0000_4urn3c',taskId:admission.taskId,cycle:1,role:'implementer',blind:false,sourceRoot,targetSessionId:admission.sessionID,destinationRoot:admission.owned+'/inputs/L7SIM_FIX_903bf6e',files:files.map(({origin,...pin})=>pin)};
+writeFileSync(phase+'/l7-simulator-fix-preparation-request.json',JSON.stringify(req,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({files:files.length,bytes:files.reduce((n,f)=>n+readFileSync(sourceRoot+'/'+f.path).length,0),sourceRoot,destination:req.destinationRoot,source:notes.sourceCandidate,decision:files.find(f=>f.path.endsWith('/L7_SIMULATOR_BLOCK_AND_FIX_CONTRACT_20261015.md'))}));

@@ -1,0 +1,25 @@
+004AEE15: and     eax, 0FFh; Logical AND
+004AEE1A: add     eax, 7; Add
+004AEE1D: lea     edx, [ecx+ecx*2]; Load Effective Address
+004AEE20: lea     ecx, [ecx+edx*4]; Load Effective Address
+004AEE23: xor     edx, edx; Logical Exclusive OR
+004AEE25: mov     dl, byte ptr dword_1D768E4+1
+004AEE2B: lea     ecx, [ecx+edx+9]; Load Effective Address
+004AEE2F: push    ebp; flags
+004AEE30: push    1; id
+004AEE32: push    ecx; y
+004AEE33: push    eax; x
+004AEE34: mov     byte_1D76604, 1
+004AEE3B: mov     dword_B877B8, 54Ch
+004AEE45: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AEE4A: push    1
+004AEE4C: push    ebp
+004AEE4D: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex
+004AEE52: mov     al, byte ptr dword_1D768E8+1
+004AEE57: add     esp, 18h; Add
+004AEE5A: test    al, al; Logical Compare
+004AEE5C: jnz     short loc_4AEE87; Jump if Not Zero (ZF=0)
+004AEE5E: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEE64: mov     eax, dword_1D768E0
+004AEE69: and     ecx, 0FFh; Logical AND
+004AEE6F: and     eax, 0FFh; Logical AND

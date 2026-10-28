@@ -1,0 +1,25 @@
+00463FC0: mov     eax, [esp+arg_4]; Vague C: desc pixel TPage. a3==2 -> 16 bpp, sinon 8 bpp.
+00463FC4: push    ebx
+00463FC5: push    ebp
+00463FC6: push    esi
+00463FC7: mov     esi, [eax+54h]
+00463FCA: mov     edx, dword_1CCFD80
+00463FD0: push    edi
+00463FD1: mov     ecx, 3Ch ; '<'
+00463FD6: xor     eax, eax; Logical Exclusive OR
+00463FD8: mov     edi, esi
+00463FDA: rep stosd; Store String
+00463FDC: mov     eax, dword_1CCFD84
+00463FE1: xor     ebp, ebp; Logical Exclusive OR
+00463FE3: cmp     eax, ebp; Compare Two Operands
+00463FE5: lea     edi, [esi+3Ch]; Load Effective Address
+00463FE8: jz      short loc_464005; Jump if Zero (ZF=1)
+00463FEA: mov     ecx, [esp+10h+arg_8]
+00463FEE: cmp     ecx, 2; Compare Two Operands
+00463FF1: jge     short loc_463FF7; Jump if Greater or Equal (SF=OF)
+00463FF3: cmp     edx, ebp; Compare Two Operands
+00463FF5: jz      short loc_463FFC; Jump if Zero (ZF=1)
+00463FF7: mov     [esi+8], ebp
+00463FFA: jmp     short loc_464010; Jump
+00463FFC: mov     dword ptr [esi+8], 1
+00464003: jmp     short loc_464010; Jump

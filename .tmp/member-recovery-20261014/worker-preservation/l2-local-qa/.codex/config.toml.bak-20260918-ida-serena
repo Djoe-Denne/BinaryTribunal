@@ -1,0 +1,60 @@
+# MCP — miroir de .cursor/mcp.json pour Codex.
+# Serena passe par le runtime 1MCP partagé (serena-proxy.ps1) et GrepAI
+# utilise l'index du dossier parent retro-eng, commun aux deux projets
+# voisins (re-ff8 et FinalFantasy_VIII_Reimaginated).
+
+[mcp_servers.serena]
+command = 'powershell.exe'
+args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", 'C:\Users\djden\.config\1mcp\serena-proxy.ps1', "-ProjectPath", 'C:\Users\djden\source\repos\retro-eng']
+cwd = 'C:\Users\djden\source\repos\retro-eng'
+startup_timeout_sec = 90
+
+[mcp_servers.grepai]
+command = 'C:\Users\djden\AppData\Local\Programs\grepai\grepai.exe'
+args = ["mcp-serve", 'C:\Users\djden\source\repos\retro-eng']
+
+# GLM-5.3 Flash is catalogued for the v2 multi-agent tool surface.
+# One root/orchestrator plus five workers requires six concurrent threads.
+[features]
+multi_agent = true
+multi_agent_v2 = true
+
+[agents]
+max_threads = 6
+max_depth = 2
+
+[agents.orchestrator]
+description = "Superviseur unique du projet re-ff8 et routeur des workers spécialisés."
+config_file = "agents/orchestrator.toml"
+
+[agents.decompileur]
+description = "Construit un pack IDA et un livrable C réconcilié pour une fonction."
+config_file = "agents/decompileur.toml"
+
+[agents.semantic-analyste]
+description = "Produit l'analyse sémantique A ou B d'une fonction depuis son pack."
+config_file = "agents/semantic-analyste.toml"
+
+[agents.semantic-reviewer]
+description = "Effectue la revue sémantique adversariale V d'une fonction."
+config_file = "agents/semantic-reviewer.toml"
+
+[agents.semantic-reconciler]
+description = "Réconcilie A et B contre l'ASM lors d'une escalade 2+1."
+config_file = "agents/semantic-reconciler.toml"
+
+[agents.mechanical-worker]
+description = "Réalise les modifications mécaniques déterministes du dépôt."
+config_file = "agents/mechanical-worker.toml"
+
+[agents.evidence-curator]
+description = "Ingestion et maintenance des preuves dans le wiki Obsidian."
+config_file = "agents/evidence-curator.toml"
+
+[agents.wiki-scribe]
+description = "Synchronise les livrables techniques vers le wiki FF8."
+config_file = "agents/wiki-scribe.toml"
+
+[agents.live-validator]
+description = "Exécute les validations live explicitement demandées."
+config_file = "agents/live-validator.toml"

@@ -1,0 +1,60 @@
+{
+  "group": "g22",
+  "status": "DISPATCH_READY",
+  "policy": "CONTRACT.md conservative v1; uncertainty used as risk, not calibrated probability",
+  "SOURCE": "discover-g22",
+  "source_session_id": "ses_ed41fb295ffeYD3J2A6qH612D8",
+  "source_receipt_sha256": "f4c28de75e4409833f6d6e5842e16bd747d9a0aaee648534f37cc22d22c8aedf",
+  "inheritance": "Independent author forks/checkpoints exclusively from same factual discover-g22 source; never classifier or siblings. Fresh distinct author identities per EA/volet/A/B/R. Lead verifies native Model.Ref before admission.",
+  "checkpoint_required": false,
+  "checkpoint_reason": "Source explicitly reports no historical target C read/reused and no target semantic verdict; no candidate-preview flag.",
+  "factual_inputs": {
+    "directory": "inputs/ff8-decomp-semantics-20261011-r01/g22/",
+    "common-compaction.md": "b0e006e8484b1929af3b64bf08dd392a82325d8d76136ceb886935f9fb0db9aa",
+    "0x508F90.json": "701983d92eb0489edf8668ff81560527532d200c4dd88d2e83b53a64ef50bd39",
+    "0x5095B0.json": "df3e91b963392470478c8f35545cccbb004c2ad2af1129c259adaaae1c0f9b05",
+    "native-groups.json": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+    "native-pe-verification.json": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e"
+  },
+  "blocked_eas": [],
+  "dispatches": [
+    {
+      "ea": "0x508F90", "status": "DISPATCH_READY", "pe_verified": true,
+      "classifier_kind": "native_classify_x86", "classifier_tool": "tools.classify_x86",
+      "request": "0x508F90.request.json", "request_sha256": "7d8e58635e4b2422d9f7e3033325787f7619941e5ef19b0da5a43939cbd2e1a7",
+      "response": "0x508F90.response.json", "response_sha256": "88cd68645e2cfb417723e20be054e4e56b9aa921f562f12d870c270bf6c62d53",
+      "complexity": 76, "risk": 63, "instruction_count": 284, "assembly_payload_chars": 20612,
+      "tier": "complex", "protocol_per_volet": "2+1",
+      "rationale": ["Complexity 76 >65, risk 63 >50, 284 instructions >200.", "Existing factual flags: helper contracts/clobbers, alias reloads, WORD/partial-register arithmetic, scratch lifetime and ABI unresolved."],
+      "C": {
+        "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/C_A.md"},
+        "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/C_B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/C_R.md", "depends_on": ["C.A", "C.B"], "status": "WAIT_A_AND_B"}
+      },
+      "semantics": {
+        "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/semantic_A.md"},
+        "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/semantic_B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x508F90/semantic_R.md", "depends_on": ["semantics.A", "semantics.B"], "status": "WAIT_A_AND_B"}
+      }
+    },
+    {
+      "ea": "0x5095B0", "status": "DISPATCH_READY", "pe_verified": true,
+      "classifier_kind": "native_classify_x86", "classifier_tool": "tools.classify_x86",
+      "request": "0x5095B0.request.json", "request_sha256": "f40d2e5c4953f980129ee4d3c2b81d2b12f327f4ab57dc07366a67ed9fe659ba",
+      "response": "0x5095B0.response.json", "response_sha256": "bdd3d91cd028def61f44966e28019662e4e923ba5d7a0a9cb26ef3a4ad2c028d",
+      "complexity": 57, "risk": 59, "instruction_count": 28, "assembly_payload_chars": 10268,
+      "tier": "complex", "protocol_per_volet": "2+1",
+      "rationale": ["Risk 59 >50: mechanically high-risk despite short native body and complexity 57.", "Existing factual flags: helper 56C2F0 semantics opaque, duplicate argument alias, count reload after call, return ABI unestablished."],
+      "C": {
+        "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/C_A.md"},
+        "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/C_B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/C_R.md", "depends_on": ["C.A", "C.B"], "status": "WAIT_A_AND_B"}
+      },
+      "semantics": {
+        "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/semantic_A.md"},
+        "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/semantic_B.md"},
+        "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g22/0x5095B0/semantic_R.md", "depends_on": ["semantics.A", "semantics.B"], "status": "WAIT_A_AND_B"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+004869B7: mov     SG_BATTLE_VICTORY_COUNT, ebx
+004869BD: and     edx, 5Fh; Logical AND
+004869C0: add     edx, 5; Add
+004869C3: mov     mode_StateGlobal, dx; 100: In some cases of victory
+004869CA: jmp     short def_48698A; jumptable 0048698A default case
+004869CC: inc     SG_UNUSED_IN_FIELD_1; jumptable 0048698A cases 1,3
+004869D3: mov     mode_StateGlobal, 64h ; 'd'; jumptable 0048698A case 5
+004869DC: call    InitializeSound_CAL_sfx_stop_all2; jumptable 0048698A default case
+004869E1: mov     mode_Battle_AnimationState, 0
+004869EA: call    battle_vibrate_init_sub_4A92F0; Call Procedure
+004869EF: pop     edi
+004869F0: pop     esi
+004869F1: pop     ebp
+004869F2: pop     ebx
+004869F3: retn; Return Near from Procedure

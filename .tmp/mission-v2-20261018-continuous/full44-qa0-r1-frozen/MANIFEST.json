@@ -1,0 +1,94 @@
+{
+  "schema": "q1-qa0-manifest-v1",
+  "date": "2026-10-18",
+  "role": "full44-Q1-pure-data-qa",
+  "task": "task_mvdy1o3t_000k_0fwlcc",
+  "team": "mission-a58a462638c0db92",
+  "status": "QA0_PARTIAL_DELIVERABLE_NO_EXECUTION",
+  "authorization": {
+    "plan_approved": "result_mvdycjb9_000s_92mec8 (GO QA0 écriture après corrections parent persistées)",
+    "adjudication": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_Q1_QA0_PLAN_ADJUDICATION.md",
+      "bytes": 3217,
+      "sha256": "3fcaf308e0835734f9d5e880e81ad1e3fff3df56ff4b4d9efed8075d9e544ffa"
+    }
+  },
+  "inputs": {
+    "root": "../inputs",
+    "manifest": "../inputs/INPUT_MANIFEST.json",
+    "pin_count": 9,
+    "pin_bytes_total": 150730,
+    "qa_rehash": "9/9 exact, 150730 bytes, no mismatch",
+    "pins_kept_intact": true,
+    "package_digest": {
+      "algorithm": "SHA-256",
+      "over": "bytes RAW de ../inputs/INPUT_MANIFEST.json",
+      "digest_hex64": "384734b29766a3bc5c99c0e15ba668c4eba6594adb4485265070fa2d6e26c557",
+      "qa_recomputed_match": true,
+      "u1_correction": "Le 'SHA384734...' de la tâche concaténait le libellé SHA et le digest commençant par 384 ; jamais SHA384. Erreur d'interprétation QA notée par correction parent 1, pas un HOLD restant, pas un data drift, aucune recette de concat des pins."
+    },
+    "pins": [
+      { "path": "SCOPE.md", "bytes": 999, "sha256": "fbd0e74a9240cda454975f46cb2ea85faaa11f454cb49d6317c2641de53e1021" },
+      { "path": "RATIFICATION.md", "bytes": 3927, "sha256": "812386558a28a9dc6d4b8d709dcfe3b1d913639a1c08a4068023340a31b9c399" },
+      { "path": "contracts/GENERIC_T_CONTRACT.md", "bytes": 13180, "sha256": "7decaa54571289958749a3981544b1d524efc5bb6bb3169b897d58e90e013f88" },
+      { "path": "contracts/DUAL_STREAM_BUDGET.md", "bytes": 13035, "sha256": "42218665ea975332e054d740a5d98b0e48a3ff395e8c3a351bcf9093a024636b" },
+      { "path": "contracts/QUALIFICATION_MATRIX.md", "bytes": 13354, "sha256": "1e87e097956e97896840cf733ea3f20d2f562371962994d8b493144f71dde3b6" },
+      { "path": "contracts/MANIFEST.json", "bytes": 15241, "sha256": "0e4aa24412ffa53994cc54560377ccbadcba30504876cbb3a4fd0d5c2986120c" },
+      { "path": "reference/GuardV3.Contracts.cs", "bytes": 8016, "sha256": "bb4758cc60d6ff32176b01b87d72ac94685729796afb3b585b0a29e6d4864709" },
+      { "path": "reference/GuardianCore.cs", "bytes": 71132, "sha256": "7d4d2c660317e0f2757aaec640dec5af2036bf77990390bbff0ef98287a52a3f" },
+      { "path": "reference/BudgetedEvidence.cs", "bytes": 11846, "sha256": "0944a3bbf9f0599b3a748efb0fc88b41b3ba109773f951daeea4fb6470f0c80f" }
+    ]
+  },
+  "outputs": [
+    {
+      "path": "ARG_ENV_ORACLES.json",
+      "bytes": 23011,
+      "sha256": "3572df00033215c6287a5bd1e4b7563aae1e1a03be266a909ae94a65f9b0b1e2",
+      "role": "vecteurs littéraux indépendants exacts, 3 couches (encodeur / bloc préencodé CONDITIONNEL / plan DTO), exactness correction parent 6"
+    },
+    {
+      "path": "QA_PLAN.md",
+      "bytes": 10356,
+      "sha256": "ec96245166567211f56957816f028336d164c4a8e399f805cfba53508d6aa48d",
+      "role": "plan QA0 : ack intégrité, architecture 3 couches, corrections incorporées, unknowns, frontières"
+    }
+  ],
+  "self_hash_policy": {
+    "path": "MANIFEST.json",
+    "embedded_self_sha256": null,
+    "embedded_self_bytes": null,
+    "reason": "pas d'auto-référence circulaire ; bytes et SHA256 finaux calculés après écriture et transmis dans le résultat natif détaché ; le parent peut hasher ce fichier indépendamment"
+  },
+  "corrections_incorporated": [
+    "1. U1 = erreur d'interprétation : digest réel SHA-256 raw INPUT_MANIFEST.json = 384734b2...6c557, recompute QA match ; noté comme correction, pas HOLD restant ni drift",
+    "2. Trois couches séparées : encodeur (env trie les entrées caller, ENV-A03b/A03c ACCEPT) / validateur bloc préencodé CONDITIONNEL (bloc non trié refusé seulement là) / validateur plan ; encodeur ne réutilise pas le refus de bloc non trié du core",
+    "3. Seuils UTF16/code units = codecs seuls ; aucun plan positif qualifié sur la seule longueur bloc/cmd ; PLAN-C11 32767/32768/32769 taggé awaiting_canonical_encoding_fixation",
+    "4. MaxChunk4096, framing GTC1, capture 114688, total 262144 = obligations broker futures, retirés de la table exécutable QA0, sans oracle de méthode inexistante",
+    "5. SHA répétés dans SourcePins : aucune contrainte d'unicité inventée (PLAN-C07 non-oracle) ; distinct TargetPin du ledger HostComplete est hors slice plan",
+    "6. ACCEPT/REFUSE codecs exacts sur domaine commun ; restriction additionnelle jamais auto-ratifiée, remontée avant adoption ; écart hors table = adjudication parent ; jamais accepter un refus d'un positif contractualisé pour éviter le défaut"
+  ],
+  "unknowns_remaining": [
+    "U2 version quotage argv exacte — hypothèse win-argv-quote-1 (MS-CRT), à réconcilier avec le quoting versionné auteur à la fixation API",
+    "U3 API C#4 fixée par parent non fournie — GenericTargetPlanTests.cs non écrit, aucune signature inventée",
+    "U4 encodage canonique exact des bytes de contrôle — PLAN-C11 attend la fixation puis ajuste les bytes supplémentaires réellement fournis",
+    "U5 partiel vocabulaire littéral TimeProfileId/QualificationMode auteur (hypothèse V3-Q1/C01-C14 depuis contrats)",
+    "U7 référence ContractPin absente du paquet — déclaration documentaire seulement, pas d'origin/réseau"
+  ],
+  "performed": [
+    "Read pinned inputs, frozen references and parent adjudication only",
+    "SHA256/SHA384 recomputation over pins and INPUT_MANIFEST.json as data only",
+    "JSON data-only parse of this manifest and ARG_ENV_ORACLES.json",
+    "Write only the three owned QA0 outputs"
+  ],
+  "not_performed": [
+    "GenericTargetPlanTests.cs (bloqué sur API parent)",
+    "Compilation, exécution, validateur, import produit",
+    "Broker/writer/authority, framing GTC1, seuils capture/total (hors slice)",
+    "API OS, Process, file IO, réseau, clock, DB, Job, handles, thread, launch",
+    "Git/registry/IDB écritures",
+    "Lecture author/origins/production/autres workers",
+    "Delegation, team tools, clôture de tâche",
+    "full44/Q1 réel, time125, capability, run01/live/FF8/G5-G7"
+  ],
+  "next_gates": "Parent fixe API/encoding -> QA1 GenericTargetPlanTests.cs indépendante (purs tests sans filesystem/process) -> V fresh composé -> gates compile/qualification parent séparées. Verdict QA0 : livraison partielle seulement."
+}

@@ -1,0 +1,21 @@
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { strict as assert } from 'node:assert';
+import { Service } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import { OpenCode } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',load=(n:string)=>JSON.parse(readFileSync(phase+'/'+n,'utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const a=load('combined-full-validation-plan-admission-20261016.json'),old=load('combined-full-validation-plan-preparation-request-20261016.json'),p=load('combined-full-validation-plan-parent-materialization-20261016.json'),compile=load('combined-partial-parent-final-verification-20261016.json');
+assert(compile.stage.startsWith('PARENT_PARTIAL_TC_BUILD_PASS_CONFORMING'));
+const ep=await Service.discover();assert(ep);const cli=OpenCode.make({baseUrl:ep.url,headers:Service.headers(ep)}),session=await cli.session.get({sessionID:a.session});assert.deepEqual(session.model,a.model);assert.equal(session.location.directory.replaceAll('\\','/'),a.own);
+const res=await fetch('http://127.0.0.1:4747/api/state');assert(res.ok);const team=(await res.json()).teams.find((t:any)=>t.id===a.missionId),task=team.tasks.find((t:any)=>t.id===a.task);assert.equal(task.status,'in_progress');assert.equal(task.assignee,'l8-integration-r1');assert.equal(team.modelPolicy.revision,2);assert.equal(team.routingPolicy.revision,4);assert(!team.scheduling.autoDispatch&&!team.scheduling.autoScale);
+const auth=(await cli.rpc.call({rpcID:'ensemble',method:'modelAuthorizationStatus',location:{directory:root},input:{}})).output as any;assert(auth.ready&&!auth.pausedTeams.includes(team.id)&&!auth.admissionPausedTeams.includes(team.id));
+for(const f of old.files)assert.equal(sha(readFileSync(old.destinationRoot+'/'+f.path)),f.sha256);assert.equal(sha(readFileSync(old.destinationRoot+'/'+a.ledger.path)),a.ledger.sha256);assert.equal(sha(readFileSync(old.destinationRoot+'/.preparation-receipt.json')),p.helperReceiptSha256);assert.equal(sha(readFileSync(old.destinationRoot+'/LARGE_FIXTURE_PARENT_RECEIPT.json')),p.parentReceiptSha256);
+const cm=JSON.parse(readFileSync(a.outputDirectory+'/MANIFEST.json','utf8'));for(const f of cm.artifacts)assert.equal(sha(readFileSync(a.outputDirectory+'/'+f.path)),f.sha256);assert.equal(sha(readFileSync(a.outputDirectory+'/MANIFEST.json')),'03ef85bd174e1a056c7bc7f01bedf370b79c2b3adbb5f23ca15bde185a4a5b72');
+const sourceRoot=phase+'/FULL_ROUTE_REFINEMENT_INPUTS_20261016',destinationRoot=a.own+'/inputs/FULL_ROUTE_REFINEMENT_20261016',outputDirectory=a.own+'/FULL_ROUTE_REFINEMENT_20261016';assert(!existsSync(sourceRoot)&&!existsSync(destinationRoot)&&!existsSync(outputDirectory));mkdirSync(sourceRoot);
+const inputs=[['SCOPE.md',root+'/docs/missions/re-graph-scheduler/COMBINED_FULL_ROUTE_REFINEMENT_SCOPE_20261016.md'],['PARENT_COMPILE_PASS.md',root+'/docs/missions/re-graph-scheduler/COMBINED_PARENT_COMPILE_PASS_20261016.md'],['PARENT_COMPILE_RESULT.json',phase+'/combined-partial-parent-final-verification-20261016.json']];
+const files=inputs.map(([path,from])=>{const b=readFileSync(from!);writeFileSync(sourceRoot+'/'+path,b,{flag:'wx'});return {path:path!,bytes:b.length,sha256:sha(b),kind:'rule'};});
+const request={...old,sourceRoot,destinationRoot,files:files.map(({bytes,...f})=>f)},out={at:new Date().toISOString(),task:task.id,session:session.id,model:session.model,cycle:1,sourceRoot,destinationRoot,outputDirectory,files,
+ existingInputRoot:a.destinationRoot,existingInput436AndBothReceiptsExact:true,existingPlan4ReadonlyUnchanged:true,
+ parentTcBuildConformingNotWorkerEnvFixOrNewWorkerDynamicAuthority:true,helperCoversOnlySupplementThreeNotExistingSourceImageLedgerDbOrCache:true,
+ stage:'ACCESS_ONLY_REFINEMENT_SCOPE_PARENT_PARTIAL_COMPILE_EVIDENCE_ACK_THEN_HOLD_BEFORE_STATIC_GO'};
+writeFileSync(phase+'/full-route-refinement-request-20261016.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});writeFileSync(phase+'/full-route-refinement-admission-20261016.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(out));

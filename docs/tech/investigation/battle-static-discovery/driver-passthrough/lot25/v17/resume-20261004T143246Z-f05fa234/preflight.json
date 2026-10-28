@@ -1,0 +1,72 @@
+{
+  "schema": "lot25-v17-resume-preflight-v1",
+  "receipt_time_utc": "2026-10-04T14:38:27.9980640Z",
+  "instance": "L25-v17-RESUME-PREP",
+  "scope": "pre-mutation acceptance checks for controlled v17 redeploy; no launch, no capture, no arm",
+  "processes": {
+    "cim_like_FF8_count_before": 0,
+    "get_process_like_ff8_count_before": 0,
+    "cim_like_FF8_count_after": 0,
+    "get_process_like_ff8_count_after": 0,
+    "debugger_attached": false
+  },
+  "identity": {
+    "candidate": "docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v17/gfx_driver_passthrough.dll",
+    "candidate_sha256": "0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc",
+    "candidate_len": 614912,
+    "game_pre_AF3DN.P_sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "exe_path": "C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/FF8_EN.exe",
+    "exe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "dotemu_orig_present_sha256": "539558e4f5cf495735ccc8d5e98a185e3660ceb8d5ddf21eb7558b02fbb21fec",
+    "buffer_only_read_not_modified": true
+  },
+  "sidecars_before": {
+    "gfx_passthrough_stage0": "absent",
+    "gfx_passthrough_dump": "absent",
+    "nohook": "absent",
+    "trigger_sidecars_cmds": "absent",
+    "frame_csv_log_artifacts": "none found (top-level scan passthrough|stage0|nohook|cmds|trig|*.log|*.csv)",
+    "unexpected_artifacts": "none; only AF3DN.P recent mtime (restore at pause, 2026-10-04T12:29:48Z)"
+  },
+  "prior_rollbacks": {
+    "old_archive_dir": "tools/_tmp_af3dn_drop/captures/lot25-pass2bis-pre-a36876ff48614386a33b64086ff2278a",
+    "old_rollback_sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "old_rollback_len": 145920,
+    "preserved_untouched": true,
+    "rebuild_attempted": false
+  },
+  "gate_evidence_copies_verified": {
+    "gate_strict.json": {
+      "sha256": "2802993022a10f5a1b6ccce8d7e559a78d1a77e2aaa9de8b76ff097e32bda27a",
+      "status": "BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED",
+      "deployed_flag": false,
+      "harness_checks": 648,
+      "harness_fails": 0,
+      "exit_code": 0,
+      "exports_observed": 17,
+      "build_sites": 5,
+      "guard_site": "0x10009780",
+      "build_id": "0x5644"
+    },
+    "python_tests.log": {
+      "sha256": "341af060850fc6c26f088ccdca8ab398b01d298ada80a2a3f63801daa6e95c11",
+      "sweep_tests": 292,
+      "result": "OK",
+      "exit_code": 0
+    },
+    "gate_run.log": {
+      "sha256": "bd8c697628042df5faa1117cd6568d8bb6c86883e8ad5d57f289fe5c4752724e",
+      "verdict": "PASS BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED"
+    },
+    "lifecycle_final_receipt.json (prior, v17 root)": {
+      "sha256": "834a9eaca725048881e83ecc4503a368eecb4a8b26ccc9d0306fab8b589e7579",
+      "checks": 32,
+      "fails": 0,
+      "status": "PASS_OFFLINE",
+      "native_process_is_synthetic": true,
+      "note": "same candidate; NOT a live witness"
+    }
+  },
+  "preflight_verdict": "PASS",
+  "stop_conditions_triggered": []
+}

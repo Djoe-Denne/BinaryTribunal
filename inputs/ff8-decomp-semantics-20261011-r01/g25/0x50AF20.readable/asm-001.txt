@@ -1,0 +1,25 @@
+0050AF20: sub     esp, 200h; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.
+0050AF26: push    esi
+0050AF27: mov     esi, [esp+204h+magicID]
+0050AF2E: dec     esi; Decrement by 1
+0050AF2F: js      short loc_50AF39; Jump if Sign (SF=1)
+0050AF31: cmp     esi, 190h; Compare Two Operands
+0050AF37: jl      short loc_50AF49; Jump if Less (SF!=OF)
+0050AF39: push    esi
+0050AF3A: push    offset aReadEffectIlle; "read_effect: illegal magic ID: #%i\n"
+0050AF3F: call    sub_56D900; Call Procedure
+0050AF44: add     esp, 8; Add
+0050AF47: xor     esi, esi; Logical Exclusive OR
+0050AF49: mov     eax, MagicList_Logic[esi*4]; MagicList_Logic[effect_id-1]: per-effect entry/logic callback (GF *_InvokeSummonScript or MAG_* handler). Stride 4. Read by Magic_GetIDLoad.
+0050AF50: mov     dword_1D99A64, 1
+0050AF5A: test    eax, eax; Logical Compare
+0050AF5C: mov     dword_1D99A68, esi
+0050AF62: jnz     short loc_50AF79; Jump if Not Zero (ZF=0)
+0050AF64: push    esi
+0050AF65: lea     eax, [esp+208h+Buffer]; Load Effective Address
+0050AF69: push    offset aReadEffectNonE; "read_effect: non existent magic ID: #%i"...
+0050AF6E: push    eax; Buffer
+0050AF6F: call    _sprintf; Call Procedure
+0050AF74: add     esp, 0Ch; Add
+0050AF77: xor     esi, esi; Logical Exclusive OR
+0050AF79: mov     dword_1DCD6E8, offset sub_534150

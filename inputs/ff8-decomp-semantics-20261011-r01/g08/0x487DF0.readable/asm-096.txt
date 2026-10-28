@@ -1,0 +1,25 @@
+00489FC0: mov     al, BOOL_TARGET_CHOOSEN
+00489FC5: add     esp, 20h; Add
+00489FC8: test    al, al; Logical Compare
+00489FCA: jnz     loc_48A0AD; Jump if Not Zero (ZF=0)
+00489FD0: push    5; phase
+00489FD2: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+00489FD7: xor     ecx, ecx; Logical Exclusive OR
+00489FD9: mov     cl, ATTACK_HIT_COUNT
+00489FDF: dec     ecx; Decrement by 1
+00489FE0: push    ecx; payload_index
+00489FE1: call    BattleEvent_EnqueueActionPresentation; enqueue 'h' presentation task for payload slot; does NOT advance any counter (ex-misnomer)
+00489FE6: xor     eax, eax; Logical Exclusive OR
+00489FE8: add     esp, 8; Add
+00489FEB: mov     al, ATTACK_HIT_COUNT
+00489FF0: lea     edx, [eax+eax*4]; Load Effective Address
+00489FF3: mov     byte ptr ACTION_EVENT_GROUP_INDEX[edx*4], 0
+00489FFB: mov     al, byte ptr BACK_PREEMTIVE_INFO_3
+0048A000: test    al, al; Logical Compare
+0048A002: jz      loc_48A098; Jump if Zero (ZF=1)
+0048A008: xor     eax, eax; Logical Exclusive OR
+0048A00A: xor     ecx, ecx; Logical Exclusive OR
+0048A00C: mov     al, byte_1D28DCD
+0048A011: lea     eax, [eax+eax*2]; Load Effective Address
+0048A014: lea     eax, [eax+eax*4]; Load Effective Address
+0048A017: mov     cl, K_MAGIC.defaultTarget[eax*4]

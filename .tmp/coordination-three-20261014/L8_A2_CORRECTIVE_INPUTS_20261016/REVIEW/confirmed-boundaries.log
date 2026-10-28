@@ -1,0 +1,51 @@
+bun test v1.4.2 (744846f84)
+REVIEW_CLIENT_BODY {"mutate":false,"db":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\l8-central-v2-1AikLR\\own.db","sent":[{"prompt":"ORIGINAL_REVIEW_BODY","id":"review-exec-1"}],"retrySameReceipt":true}
+REVIEW_CLIENT_BODY {"mutate":true,"db":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\l8-central-v2-4puX4E\\own.db","sent":[{"prompt":"MUTATED_DURING_SNAPSHOT","id":"review-exec-1"}],"retrySameReceipt":true}
+REVIEW_PAUSE_FRESH {"path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\l8-central-v2-j9FuGO\\own.db","status":"paused","submits":0}
+REVIEW_PAUSED_RETRY {"path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\l8-central-v2-3f70D1\\own.db","before":1,"after":2,"beforeAdmission":"PREPARED","afterAdmission":"ACCEPTED","acceptedFixtureReceipts":1,"status":"paused","idsBefore":["central-fixture:graph:b1b2dba0e863:1d037a0e4695:f1:a1:3d17567db650c0e5ce4e60a2"],"idsAfter":["central-fixture:graph:b1b2dba0e863:1d037a0e4695:f1:a1:3d17567db650c0e5ce4e60a2","central-fixture:graph:b1b2dba0e863:1d037a0e4695:f1:a1:3d17567db650c0e5ce4e60a2"]}
+L8_RETAINED_FIXTURES C:\Users\djden\AppData\Local\Temp\opencode\l8-central-v2-K88weM\retained-databases.json sha256=344008d36ffa953962e818901e941d472c80fc2d281bb29cf655e6a4fd80fd9a databases=4
+
+..\..\..\..\.tmp\coordination-three-20261014\l8-a2-review-evidence-20261016\confirmed-boundaries.test.ts:
+(pass) independent client body is snapshotted before awaited RPC (mutate=false) [28.17ms]
+13 |     if(method === "submit") {sent.push({prompt:body.prompt,id:body.executionId});return {version:1,revision:2,executionId:body.executionId,state:"accepted"};}
+14 |     throw new Error("unexpected fake RPC "+method);
+15 |   }}});
+16 |   try {await client.ensure("review-client-body");const a=await client.submit("review-client-body",input);input.prompt="ORIGINAL_REVIEW_BODY";const b=await client.submit("review-client-body",input);
+17 |     console.log("REVIEW_CLIENT_BODY "+JSON.stringify({mutate,db,sent,retrySameReceipt:canonical(a)===canonical(b)}));
+18 |     expect(sent).toEqual([{prompt:"ORIGINAL_REVIEW_BODY",id:"review-exec-1"}]);expect(b).toEqual(a);
+                      ^
+error: expect(received).toEqual(expected)
+
+  [
+    {
+      "id": "review-exec-1",
+-     "prompt": "ORIGINAL_REVIEW_BODY",
++     "prompt": "MUTATED_DURING_SNAPSHOT",
+    },
+  ]
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\l8-a2-review-evidence-20261016\confirmed-boundaries.test.ts:18:18)
+(fail) independent client body is snapshotted before awaited RPC (mutate=true) [23.62ms]
+(pass) independent pause before any admission submits nothing [164.37ms]
+23 |   const h=graphHarness(preparationV2(snapshotFixture(1),1));try {h.start();h.runtime.pause();const v=await h.step();console.log("REVIEW_PAUSE_FRESH "+JSON.stringify({path:h.path,status:v.status,submits:h.host.submissions.length}));expect(v.status).toBe("paused");expect(h.host.submissions.length).toBe(0);}finally{h.close();}
+24 | });
+25 | 
+26 | test("independent pause blocks a PREPARED recoverable retry until resume",async()=>{
+27 |   const h=graphHarness(preparationV2(snapshotFixture(1),1));try {h.start();h.host.submissionFailures.push("quota");await h.step();const before=h.host.submissions.length,ids=h.host.submissions.map(s=>s.command.executionId);const beforeAdmission=h.runtime.options.graph.admission(String(ids[0]))?.state;h.runtime.pause();h.advance(1000);const v=await h.step();const after=h.host.submissions.length,afterAdmission=h.runtime.options.graph.admission(String(ids[0]))?.state;
+28 |     console.log("REVIEW_PAUSED_RETRY "+JSON.stringify({path:h.path,before,after,beforeAdmission,afterAdmission,acceptedFixtureReceipts:h.host.receipts.size,status:v.status,idsBefore:ids,idsAfter:h.host.submissions.map(s=>s.command.executionId)}));expect(before).toBe(1);expect(v.status).toBe("paused");expect(after).toBe(before);
+                                                                                                                                                                                                                                                                                                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\l8-a2-review-evidence-20261016\confirmed-boundaries.test.ts:28:317)
+(fail) independent pause blocks a PREPARED recoverable retry until resume [312.10ms]
+
+ 2 pass
+ 2 fail
+ 8 expect() calls
+Ran 4 tests across 1 file. [561.00ms]

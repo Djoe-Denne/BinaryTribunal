@@ -1,0 +1,25 @@
+0050B653: lea     eax, [ecx+ecx*4]; Load Effective Address
+0050B656: shl     eax, 3; Shift Logical Left
+0050B659: sub     eax, ecx; Integer Subtraction
+0050B65B: shl     eax, 2; Shift Logical Left
+0050B65E: mov     dl, byte ptr g_BattlePresentationActors[eax]
+0050B664: lea     ecx, g_BattlePresentationActors[eax]; Load Effective Address
+0050B66A: test    dl, 2; Logical Compare
+0050B66D: jz      short loc_50B6A2; Jump if Zero (ZF=1)
+0050B66F: or      byte ptr (g_BattlePresentationActors+2)[eax], 4; Logical Inclusive OR
+0050B676: push    ecx; actor
+0050B677: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés
+0050B67C: or      ah, 10h; Logical Inclusive OR
+0050B67F: push    eax; animId
+0050B680: mov     eax, dword_1D99A70
+0050B685: and     eax, 0FFh; Logical AND
+0050B68A: lea     edx, [eax+eax*4]; Load Effective Address
+0050B68D: shl     edx, 3; Shift Logical Left
+0050B690: sub     edx, eax; Integer Subtraction
+0050B692: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address
+0050B699: push    eax; actor
+0050B69A: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050B69F: add     esp, 0Ch; Add
+0050B6A2: mov     ecx, dword_1D99A40
+0050B6A8: mov     esi, offset g_BattlePresentationActors
+0050B6AD: cmp     esi, ecx; Compare Two Operands

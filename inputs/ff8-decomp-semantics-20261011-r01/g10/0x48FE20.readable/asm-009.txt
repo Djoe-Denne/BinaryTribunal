@@ -1,0 +1,25 @@
+004901E9: mov     byte ptr RELATED_TO_CRIT_BONUS, dl
+004901EF: mov     dl, EQUAL_GAME_OVER_RELATED
+004901F5: mov     HIT_ATTACK_HITPERCENT, al
+004901FA: jmp     loc_490423; Jump
+004901FF: mov     edi, ebp; jumptable 0048FF2F cases 14,237,238
+00490201: and     edi, 0FFh; Logical AND
+00490207: lea     edi, [edi+edi*2]; Load Effective Address
+0049020A: shl     edi, 3; Shift Logical Left
+0049020D: mov     al, K_SHOT.ElementAttackPercent[edi]
+00490213: mov     HIT_ELEMENT_PERCENT, al
+00490218: mov     al, K_SHOT.ElementAttack[edi]
+0049021E: mov     HIT_ELEMENT, al
+00490223: mov     al, K_SHOT.StatusAttackEnabler[edi]
+00490229: mov     HIT_ATTACK_ENABLER, al
+0049022E: mov     ax, K_SHOT.Status0[edi]
+00490235: mov     HIT_STATUS_1, ax; | ID     | Description |
+0049023B: mov     eax, K_SHOT.Status1[edi]
+00490241: mov     HIT_STATUS_2, eax; | ID         | Description |
+00490246: mov     al, K_SHOT.CritIncrease[edi]
+0049024C: jmp     loc_49041E; Jump
+00490251: mov     edi, ecx; jumptable 0048FF2F cases 4,13
+00490253: and     edi, 0FFFFh; Logical AND
+00490259: lea     edi, [edi+edi*2]; Load Effective Address
+0049025C: shl     edi, 3; Shift Logical Left
+0049025F: mov     al, K_ITEM.attackParam[edi]

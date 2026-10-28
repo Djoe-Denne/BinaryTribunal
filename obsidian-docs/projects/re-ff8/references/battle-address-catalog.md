@@ -5,8 +5,8 @@ tags: [ff8, runtime-memory, reverse-engineering, reference]
 aliases: [FF8 battle addresses]
 sources:
   - docs/tech/reference/address_catalog.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/address-map/ff8_en_064d466b5fe2ba90/abi-ledger.yaml
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/address-map/ff8_en_064d466b5fe2ba90/abi-ledger.yaml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
@@ -288,4 +288,3 @@ Post-load (registre, fiabilité HIGH):
 - `0x505F00` / `0x506190` / `0x5064F0` - camera collection H6 consumers (tracks 22/23 only on c0m101).
 Note: the registry proof_notes cite `GetTextureEOF 0x505E30` — that address is now `BattleTimQueue_EnqueueType1` (renamed after the registry was generated); treat the registry name as historical, not current (fiabilité: naming MEDIUM, address HIGH).
 Full detail: [[battle-model-tools-and-format]] + [[c0m-monster-archives]].
-

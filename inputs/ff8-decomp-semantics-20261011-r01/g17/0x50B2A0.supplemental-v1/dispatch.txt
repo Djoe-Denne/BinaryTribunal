@@ -1,0 +1,11 @@
+0050B2A0  53                       push    ebx
+0050B2A1  55                       push    ebp
+0050B2A2  8b 6c 24 0c              mov     ebp, [esp+8+arg_0]
+0050B2A6  56                       push    esi
+0050B2A7  8a 5d 0d                 mov     bl, [ebp+0Dh]
+0050B2AA  8b 75 10                 mov     esi, [ebp+10h]
+0050B2AD  8b c3                    mov     eax, ebx
+0050B2AF  25 ff 00 00 00           and     eax, 0FFh
+0050B2B4  83 f8 09                 cmp     eax, 9
+0050B2B7  0f 87 84 04 00 00        ja      def_50B2BD
+0050B2BD  ff 24 85 e8 b7 50 00     jmp     ds:jpt_50B2BD[eax*4]

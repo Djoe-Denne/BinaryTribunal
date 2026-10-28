@@ -1,0 +1,25 @@
+0048834C: lea     eax, [ebx+ebx*2]; AI VM op 0x29 READ_PLAYER_MAGIC_A: random magic from target player stock (RNG) -> magic_to_blow_away; show text
+0048834F: lea     ecx, [esp+74h+element_flags_result]; Load Effective Address
+00488353: push    ecx; p_list_of_indice_element_flagged
+00488354: lea     ebp, [ebx+eax*4]; Load Effective Address
+00488357: shl     ebp, 4; Shift Logical Left
+0048835A: mov     dx, ss:BATTLE_SLOT_DATA.target_info_mask[ebp]
+00488361: push    edx; p_element
+00488362: call    Battle_GetElementFlagged; Enumerates every set bit in the element mask into an output byte list ordered from lowest bit to highest bit. Raw damage code currently uses only out[0], so multi-bit HIT_ELEMENT masks resolve as single-element (lowest set bit).
+00488367: mov     eax, [esp+7Ch+element_flags_result]
+0048836B: push    0; preset_magic_id
+0048836D: and     eax, edi; Logical AND
+0048836F: push    eax; player_slot
+00488370: call    domain__EnemyAI_SelectRandomMagicFromPlayer; Call Procedure
+00488375: add     esp, 10h; Add
+00488378: cmp     al, 0FFh; Compare Two Operands
+0048837A: mov     ss:BATTLE_SLOT_DATA.magic_to_blow_away[ebp], al
+00488380: jnz     short loc_488386; Jump if Not Zero (ZF=0)
+00488382: or      al, al; Logical Inclusive OR
+00488384: jmp     short loc_48839D; Jump
+00488386: mov     al, byte ptr [esp+74h+element_flags_result]
+0048838A: mov     byte_1D28E11, 2
+00488391: mov     cl, ss:BATTLE_SLOT_DATA.magic_to_blow_away[ebp]
+00488397: mov     byte_1D28E12, cl
+0048839D: cmp     al, 0FFh; Compare Two Operands
+0048839F: mov     [esp+74h+opcode_param_1], al

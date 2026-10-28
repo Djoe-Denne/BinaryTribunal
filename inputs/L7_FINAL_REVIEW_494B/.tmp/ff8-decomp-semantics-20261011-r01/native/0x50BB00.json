@@ -1,0 +1,166 @@
+{
+  "ea": "0x50BB00",
+  "name_label_only": "BattleActionSequence_Tick_DefaultParamBZero",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50bb00",
+      "end": "0x50bc0d",
+      "hex": "568b74240833c0578a460d8b7e1083f8030f87f1000000ff248510bc5000a15c9ad9018b0d509ad90125ffff00005051e8cba3ffffa2859ad9018a460d83c408fec088460da0859ad90184c074166a406a1ae829caffff83c40885c00f85a6000000eb0de877f2ffff85c00f8597000000fe460de847f4ffff8b0d409ad9018b15509ad9018b410825ffff7fff8941088a420284c0741125ff0000005051e85da0ffff83c408eb05e8c3eaffffa0859ad9018b0d509ad9015051e8d1a5ffff8a460d83c408fec088460d8b15409ad9018b4a74668b412ca8c07509538a1af6c3025b75248a151877d90184d2751a257fff00006689412ce8d4f2ffffc64701ff5fb8020000005ec35f33c05ec3"
+    }
+  ],
+  "assembly": "0050BB00: push    esi\n0050BB01: mov     esi, [esp+4+arg_0]\n0050BB05: xor     eax, eax; Logical Exclusive OR\n0050BB07: push    edi\n0050BB08: mov     al, [esi+0Dh]\n0050BB0B: mov     edi, [esi+10h]\n0050BB0E: cmp     eax, 3; switch 4 cases\n0050BB11: ja      def_50BB17; jumptable 0050BB17 default case\n0050BB17: jmp     ds:jpt_50BB17[eax*4]; switch jump\n0050BB1E: mov     eax, dword_1D99A5C; jumptable 0050BB17 case 0\n0050BB23: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050BB29: and     eax, 0FFFFh; Logical AND\n0050BB2E: push    eax; int\n0050BB2F: push    ecx; unsigned __int8 *\n0050BB30: call    sub_505F00; Call Procedure\n0050BB35: mov     byte ptr dword_1D99A84+1, al\n0050BB3A: mov     al, [esi+0Dh]\n0050BB3D: add     esp, 8; Add\n0050BB40: inc     al; Increment by 1\n0050BB42: mov     [esi+0Dh], al\n0050BB45: mov     al, byte ptr dword_1D99A84+1; jumptable 0050BB17 case 1\n0050BB4A: test    al, al; Logical Compare\n0050BB4C: jz      short loc_50BB64; Jump if Zero (ZF=1)\n0050BB4E: push    40h ; '@'\n0050BB50: push    1Ah\n0050BB52: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit\n0050BB57: add     esp, 8; Add\n0050BB5A: test    eax, eax; Logical Compare\n0050BB5C: jnz     def_50BB17; jumptable 0050BB17 default case\n0050BB62: jmp     short loc_50BB71; Jump\n0050BB64: call    sub_50ADE0; Call Procedure\n0050BB69: test    eax, eax; Logical Compare\n0050BB6B: jnz     def_50BB17; jumptable 0050BB17 default case\n0050BB71: inc     byte ptr [esi+0Dh]; Increment by 1\n0050BB74: call    BattleActionSequence_SetupContext; jumptable 0050BB17 case 2\n0050BB79: mov     ecx, dword_1D99A40\n0050BB7F: mov     edx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050BB85: mov     eax, [ecx+8]\n0050BB88: and     eax, 0FF7FFFFFh; Logical AND\n0050BB8D: mov     [ecx+8], eax\n0050BB90: mov     al, [edx+2]\n0050BB93: test    al, al; Logical Compare\n0050BB95: jz      short loc_50BBA8; Jump if Zero (ZF=1)\n0050BB97: and     eax, 0FFh; Logical AND\n0050BB9C: push    eax; animId\n0050BB9D: push    ecx; actor\n0050BB9E: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n0050BBA3: add     esp, 8; Add\n0050BBA6: jmp     short loc_50BBAD; Jump\n0050BBA8: call    BattleAction_ApplyEventGroup0; wave3 attaques: apply groupe0 (ptr payload+8,count +0x10); GF/BZero/Physical + opcode AA case170\n0050BBAD: mov     al, byte ptr dword_1D99A84+1\n0050BBB2: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050BBB8: push    eax; char\n0050BBB9: push    ecx; unsigned __int8 *\n0050BBBA: call    BattleActionSequence_SelectGenericCameraAnimation; Generic-action camera selector for presentation. Examines g_GfSequenceContextSharedB command_type/flags plus attacker/target slot state, chooses a stage camera animation ID or explicit camera opcode, and queues it through BS_GetCameraAnimationPointer. Camera-less cases clear the force-camera flag instead.\n0050BBBF: mov     al, [esi+0Dh]\n0050BBC2: add     esp, 8; Add\n0050BBC5: inc     al; Increment by 1\n0050BBC7: mov     [esi+0Dh], al\n0050BBCA: mov     edx, dword_1D99A40; jumptable 0050BB17 case 3\n0050BBD0: mov     ecx, [edx+74h]\n0050BBD3: mov     ax, [ecx+2Ch]\n0050BBD7: test    al, 0C0h; Logical Compare\n0050BBD9: jnz     short loc_50BBE4; Jump if Not Zero (ZF=0)\n0050BBDB: push    ebx\n0050BBDC: mov     bl, [edx]\n0050BBDE: test    bl, 2; Logical Compare\n0050BBE1: pop     ebx\n0050BBE2: jnz     short def_50BB17; jumptable 0050BB17 default case\n0050BBE4: mov     dl, byte ptr g_BattleCameraFlags\n0050BBEA: test    dl, dl; Logical Compare\n0050BBEC: jnz     short def_50BB17; jumptable 0050BB17 default case\n0050BBEE: and     eax, 0FF7Fh; Logical AND\n0050BBF3: mov     [ecx+2Ch], ax\n0050BBF7: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks\n0050BBFC: mov     byte ptr [edi+1], 0FFh\n0050BC00: pop     edi\n0050BC01: mov     eax, 2\n0050BC06: pop     esi\n0050BC07: retn; Return Near from Procedure\n0050BC08: pop     edi; jumptable 0050BB17 default case\n0050BC09: xor     eax, eax; Logical Exclusive OR\n0050BC0B: pop     esi\n0050BC0C: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50bb00",
+      "end": "0x50bb17",
+      "successors": [
+        "0x50bb17",
+        "0x50bc08"
+      ]
+    },
+    {
+      "start": "0x50bb17",
+      "end": "0x50bb1e",
+      "successors": [
+        "0x50bb1e",
+        "0x50bb45",
+        "0x50bb74",
+        "0x50bbca"
+      ]
+    },
+    {
+      "start": "0x50bb1e",
+      "end": "0x50bb45",
+      "successors": [
+        "0x50bb45"
+      ]
+    },
+    {
+      "start": "0x50bb45",
+      "end": "0x50bb4e",
+      "successors": [
+        "0x50bb4e",
+        "0x50bb64"
+      ]
+    },
+    {
+      "start": "0x50bb4e",
+      "end": "0x50bb62",
+      "successors": [
+        "0x50bb62",
+        "0x50bc08"
+      ]
+    },
+    {
+      "start": "0x50bb62",
+      "end": "0x50bb64",
+      "successors": [
+        "0x50bb71"
+      ]
+    },
+    {
+      "start": "0x50bb64",
+      "end": "0x50bb71",
+      "successors": [
+        "0x50bb71",
+        "0x50bc08"
+      ]
+    },
+    {
+      "start": "0x50bb71",
+      "end": "0x50bb74",
+      "successors": [
+        "0x50bb74"
+      ]
+    },
+    {
+      "start": "0x50bb74",
+      "end": "0x50bb97",
+      "successors": [
+        "0x50bb97",
+        "0x50bba8"
+      ]
+    },
+    {
+      "start": "0x50bb97",
+      "end": "0x50bba8",
+      "successors": [
+        "0x50bbad"
+      ]
+    },
+    {
+      "start": "0x50bba8",
+      "end": "0x50bbad",
+      "successors": [
+        "0x50bbad"
+      ]
+    },
+    {
+      "start": "0x50bbad",
+      "end": "0x50bbca",
+      "successors": [
+        "0x50bbca"
+      ]
+    },
+    {
+      "start": "0x50bbca",
+      "end": "0x50bbdb",
+      "successors": [
+        "0x50bbdb",
+        "0x50bbe4"
+      ]
+    },
+    {
+      "start": "0x50bbdb",
+      "end": "0x50bbe4",
+      "successors": [
+        "0x50bbe4",
+        "0x50bc08"
+      ]
+    },
+    {
+      "start": "0x50bbe4",
+      "end": "0x50bbee",
+      "successors": [
+        "0x50bbee",
+        "0x50bc08"
+      ]
+    },
+    {
+      "start": "0x50bbee",
+      "end": "0x50bc08",
+      "successors": []
+    },
+    {
+      "start": "0x50bc08",
+      "end": "0x50bc0d",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50a847",
+      "type": 1,
+      "iscode": false,
+      "function": "0x50a790"
+    }
+  ],
+  "code_targets": [
+    "0x505c00",
+    "0x505f00",
+    "0x506190",
+    "0x508580",
+    "0x50a670",
+    "0x50ade0",
+    "0x50aed0",
+    "0x50afc0"
+  ],
+  "instruction_count": 84
+}

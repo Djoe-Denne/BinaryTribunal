@@ -1,0 +1,25 @@
+004AE6AE: and     eax, 0Fh; Logical AND
+004AE6B1: push    1Dh
+004AE6B3: push    ecx
+004AE6B4: mov     edi, eax
+004AE6B6: push    80h
+004AE6BB: push    edx
+004AE6BC: push    edi
+004AE6BD: call    sub_4AB4F0; Call Procedure
+004AE6C2: call    sub_4A9DD0; Call Procedure
+004AE6C7: and     eax, 0FFFFh; Logical AND
+004AE6CC: mov     edx, 1
+004AE6D1: push    eax
+004AE6D2: mov     eax, [esp+38h+var_4]
+004AE6D6: mov     cl, [eax+68h]
+004AE6D9: xor     eax, eax; Logical Exclusive OR
+004AE6DB: add     ecx, 3; Add
+004AE6DE: mov     al, byte ptr g_BattleSubmenu_CharaSlotPtr+3; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE6E3: shl     edx, cl; Shift Logical Left
+004AE6E5: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE6EB: push    edx
+004AE6EC: push    esi
+004AE6ED: push    1Dh
+004AE6EF: push    eax
+004AE6F0: push    80h
+004AE6F5: push    ecx

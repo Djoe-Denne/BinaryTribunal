@@ -1,0 +1,85 @@
+bun test v1.4.2 (744846f84)
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] tool-arg-hint:fired tool=shell session=ses_alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] system-prompt:injected role=lead len=3731
+[ensemble] system-prompt:injected role=member len=968
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] nudge:idle-without-report name=alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+
+test\v2-events.test.ts:
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.status idle transitions a busy member to ready [16.45ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.idle is equivalent to status idle [13.25ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.execution.started marks busy, succeeded marks ready [13.04ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.created tracks parent for sub-agent isolation [14.42ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.retry.scheduled persists retry columns without changing status [15.25ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > unknown sessions and unrelated event types are ignored [11.39ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > native failed execution is an error, not a successful ready member [14.87ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > idle/succeeded after failure cannot erase the error or revive the worker [14.16ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > durable failure replay cannot corrupt a later execution or duplicate its report [14.93ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > a distinct failed execution after explicit restart produces a new report [13.72ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > failure frees only the execution slot and retains the claimed task [12.34ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > the report is UTF8-bounded and excludes provider response bodies [12.83ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > state and failure report roll back together if persistence fails [11.36ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > old hosts deduplicate an error episode without durable IDs [10.30ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > intentional shutdown and the supervisor's own failure do not create recursive error wakes [11.20ms]
+
+test\v2-setup.test.ts:
+(pass) v2-setup (issue #36) > registers the native mission command and disposes it with its location [14.82ms]
+(pass) v2-setup (issue #36) > all native request transports enforce selection and dynamic revocation before provider calls [13.78ms]
+(pass) v2-setup (issue #36) > dispatched status events flow to member state [14.29ms]
+(pass) v2-setup (issue #36) > the setup event stream leaves foreign mission transitions for their owner [11.87ms]
+(pass) v2-setup (issue #36) > failed V2 worker wakes only the lead once, never retries the worker or emits success [14.24ms]
+(pass) v2-setup (issue #36) > foreign and archived worker failures cannot wake this supervisor [11.70ms]
+(pass) v2-setup (issue #36) > replaying after a crash between persistence and wake recovers exactly one parent wake [13.27ms]
+208 |       expect(wakes).toEqual([])
+209 |       expect(handle.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:1})
+210 |       expect(handle.db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({status:"error"})
+211 |       config.modelRouting.pausedTeams=[]
+212 |       await handle.dispatch(event);await new Promise(resolve=>setImmediate(resolve))
+213 |       expect(wakes).toEqual(["ses_lead"])
+                          ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "ses_lead",
+- ]
++ []
+
+- Expected  - 3
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-setup.test.ts:213:21)
+(fail) v2-setup (issue #36) > operator pause preserves the failure but blocks its wake until an authorized resume/replay [13.08ms]
+(pass) v2-setup (issue #36) > tool execute.before blocks team tools for sub-agents [10.93ms]
+(pass) v2-setup (issue #36) > tool execute.after enriches shell arg-fumble errors (issue #39) [11.22ms]
+(pass) v2-setup (issue #36) > tool execute.after leaves non-fumble errors untouched (issue #39) [11.72ms]
+(pass) v2-setup (issue #36) > shell hook is registered (per-session env unavailable on V2 — see OQ-V2-shell) [11.21ms]
+(pass) v2-setup (issue #36) > session context hook appends team system prompt for team sessions [13.08ms]
+(pass) v2-setup (issue #36) > dashboard serves team state on the configured port [28.04ms]
+(pass) v2-setup (issue #36) > extractQuestionOutput reads string and part-array results [0.06ms]
+(pass) v2-setup (issue #36) > context hook blocks native auto-wakes while an inherited spawn is being prepared [11.85ms]
+(pass) v2-setup (issue #36) > setup rehydrates registry and nudges already-idle silent members [41.57ms]
+
+1 tests failed:
+(fail) v2-setup (issue #36) > operator pause preserves the failure but blocks its wake until an authorized resume/replay [13.08ms]
+
+ 31 pass
+ 1 fail
+ 124 expect() calls
+Ran 32 tests across 2 files. [531.00ms]

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "kind": "L7_INITIAL_DELIVERY",
+  "date": "2026-10-15",
+  "missionId": "team_mv6tmopg_0000_4urn3c",
+  "taskId": "task_mv71y0s6_004q_ksbii0",
+  "sessionId": "ses_ec12e19acffe3Ks6U1fc4l9zPK",
+  "member": "l7-interop-r1",
+  "branch": "ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-interop-r1",
+  "ownDirectory": "C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-interop-r1",
+  "baselineHeadReportedByParent": "e03e0638d2fc570c5f8303716e03ab8b7060739c",
+  "status": "PARTIAL_POST_L8_PENDING",
+  "parentAcceptanceClaimed": false,
+  "taskCompleted": false,
+  "globalL7Closed": false,
+  "nativeEvidence": false,
+  "manifestGeneration": {
+    "testRerun": false,
+    "sqliteConnectionOpened": false,
+    "verification": "Read-only readFileSync SHA256/size checks of the ten paths already logged by the LAST full run; no other database paths were scanned or opened.",
+    "cleanupPerformed": false,
+    "sourceChangesAfterFreeze": false
+  },
+  "finalSerialGates": [
+    {
+      "order": 1,
+      "command": "bun run typecheck",
+      "cwdRelativeToOwn": "tools/ff8-harness",
+      "exitCode": 0,
+      "evidenceTag": "L7_FINAL_TYPECHECK_RESULT",
+      "counts": null
+    },
+    {
+      "order": 2,
+      "command": "bun test test/simulator test/benchmarks",
+      "cwdRelativeToOwn": "tools/ff8-harness",
+      "exitCode": 0,
+      "evidenceTag": "L7_FINAL_FOCUSED_RESULT",
+      "counts": { "pass": 60, "skip": 0, "fail": 0, "tests": 60, "files": 6 },
+      "expectCalls": null,
+      "expectCallsNote": "Not copied from the focused trailer; not inferred from the parent baseline or full-run difference."
+    },
+    {
+      "order": 3,
+      "command": "bun test test/graph-extract.test.ts test/graph-contract.test.ts test/cluster.test.ts test/lineage.test.ts test/planner.test.ts test/eventlog.test.ts",
+      "cwdRelativeToOwn": "tools/ff8-harness",
+      "exitCode": 0,
+      "evidenceTag": "L7_FINAL_ACCEPTED_RESULT",
+      "counts": { "pass": 504, "skip": 0, "fail": 0, "tests": 504, "files": 6 },
+      "expectCalls": 67986,
+      "processElapsedMs": 123096,
+      "bunReportedSeconds": 123.01
+    },
+    {
+      "order": 4,
+      "command": "bun test",
+      "cwdRelativeToOwn": "tools/ff8-harness",
+      "exitCode": 0,
+      "evidenceTag": "L7_FINAL_FULL_RESULT",
+      "counts": { "pass": 852, "skip": 1, "fail": 0, "tests": 853, "files": 27 },
+      "expectCalls": 77172,
+      "processElapsedMs": 139771,
+      "bunReportedSeconds": 139.69,
+      "scope": "Prepared OWN baseline plus the sixty new tests; not a rerun of untransferred main maintenance or a claim of the former 818-test main scope."
+    }
+  ],
+  "frozenSources": {
+    "count": 7,
+    "sha256Aggregate": "b190378cd9bd2a250029f6e122cc5760092ff5ff500f2e7023e2e1512914bec7",
+    "aggregateEncoding": "SHA256 UTF8 of sorted path:sha256 entries joined with |",
+    "files": [
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-support.ts", "sha256": "a8e4c8b2558aadb7a96ab4259e2eb2a166216bf2500788aeb0c633e0228b813c" },
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-relations.test.ts", "sha256": "71e2a44a99c1dfcf3f0f451d83a36a65baccfdce4abd9a5cd2042b768007bf97" },
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-structure.test.ts", "sha256": "de4d7c53ad1564fcb6ee7e4ed7c1deb93f82c947b8c6930a4d527e0ade18b09c" },
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-adoption.test.ts", "sha256": "69976d325199fd682ddfb2d7c581713588534c4f87f8760b4d0218ccb9046a9d" },
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-planning.test.ts", "sha256": "4f352b6ae885fb588afd262f7b10a70cdac8c8a5074002aa6615c20bc44c4993" },
+      { "path": "tools/ff8-harness/test/simulator/graph-interop-durability.test.ts", "sha256": "979fa24c00001e56b087c07c789ec701521cecc4d87128dac8fcd8137e96838f" },
+      { "path": "tools/ff8-harness/test/benchmarks/graph-interop-scale.test.ts", "sha256": "921ec877ab7a6611996720df463f9ad4a837309cd382d61bb161c3456913afdb" }
+    ],
+    "preexistingHarnessPins": { "files": 231, "mismatches": 0 },
+    "preexistingCorePins": {
+      "files": 223,
+      "sha256AggregateBeforeAndAfter": "ceaa8d9a3395736d99f90eeeddde12429b28e0c5e5b90d4bc37304fe80d5d89d"
+    },
+    "originalRuntimePins": { "files": 99, "mismatches": 0 }
+  },
+  "lastFullSQLiteEvidence": {
+    "count": 10,
+    "totalBytes": 2936832,
+    "source": "The ten graph-interop-owned-offline-db JSON rows captured from L7_FINAL_FULL_RESULT; not fixtures from earlier focused runs.",
+    "handlesClosed": true,
+    "handlesClosedEvidence": "The test afterEach closed tracked GraphStore/Store handles before emitting each hash row, and the owning bun test child process subsequently exited with code 0. Handoff verification used filesystem byte reads only.",
+    "allCurrentHashesAndSizesMatchCapturedLastFull": true,
+    "walOrShmPresentAtHandoff": false,
+    "retained": true,
+    "deleted": false,
+    "databases": [
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-qeuOYz/own.sqlite",
+        "bytes": 245760,
+        "sha256": "4c78ff164267910c4334caeb04f491879db4fc96ae7bcb98771c459f7d0bdfb1"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-n7YcX8/own.sqlite",
+        "bytes": 245760,
+        "sha256": "593b119853b86f68e41b823588db387a93ff3bb28f6d141cd9138cb173b30480"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-Mg6im2/own.sqlite",
+        "bytes": 282624,
+        "sha256": "c0c629f23bf5c32d8593df29dd370ed86f19dfb66a073a591babede7f6d99f1a"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-2sYtoe/own.sqlite",
+        "bytes": 274432,
+        "sha256": "719a5e8fc3c438af7489632040604e7c0a6acb265b9b23b1501f545f1cbdec4d"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-mlCmYA/own.sqlite",
+        "bytes": 262144,
+        "sha256": "0870b77bb2443c5023a33c5cbe91c6cb6069279ac63442ddf537d1076c19e7f0"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-a1lAll/own.sqlite",
+        "bytes": 262144,
+        "sha256": "235bca3a214f32ea19c43c15ab1462871a7f0343629de7048209dde9c58ec20b"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-ZxVrmO/own.sqlite",
+        "bytes": 262144,
+        "sha256": "d1f0999c16fad20a720bdcf30ef4ce9b87bfb95a3b1fc17879d810307b2bf400"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-cfQb7T/own.sqlite",
+        "bytes": 512000,
+        "sha256": "8a771cbdeef275688cfefbfeabaf2377c3d2232ffc7028c1e6e3c953e1b2ed51"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-zwKygc/own.sqlite",
+        "bytes": 294912,
+        "sha256": "e745a919f9b54beee8ec7aa3735c1a827513c4d9ea47212bb1bc0a45d586e8d6"
+      },
+      {
+        "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-PKHGpc/own.sqlite",
+        "bytes": 294912,
+        "sha256": "398b0d65ec3954846f8234ef62db593dc40666a2a205686bd2d34774231c6349"
+      }
+    ]
+  },
+  "limitations": {
+    "bridgesRareOriginalL1Anomaly": "OPEN; original immutable SHA69278ee8e28390b623f525774e8fe036231873934fb30ed0e98a2c33353105c4 is explicitly rejected, not skipped or repaired.",
+    "bridgesRareDerivedPositive": "Explicit portable syntheticRareBridgeDeclaredSpanV1 only, per BRIDGES_RARE_V1 decision; not native bytes or canonical L1 repair.",
+    "ff8Raw98": "PARTIAL; selfLoopsPreserved=false remains false and L5 planning refusal is asserted.",
+    "historicalSimulatorReceived": false,
+    "postL8PackageReceived": false,
+    "nativeScientificAuthorityClaimed": false,
+    "gitUsed": false,
+    "cleanupAuthorized": false
+  }
+}

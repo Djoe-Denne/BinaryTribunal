@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/mission-v1",
+  "title": "FF8 mission configuration v1",
+  "description": "Runtime validateConfig remains the authoritative cross-field validator. No production defaults or calibrated difficulty probabilities.",
+  "type": "object",
+  "required": ["schemaVersion", "missionId", "binary", "fixture", "evaluation", "maxCycles", "stagnationLimit", "models", "knowledge", "commonInputs", "accessibleRules", "requiredTools", "outputDirectory"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "missionId": { "type": "string", "minLength": 1 },
+    "binary": { "$ref": "#/$defs/binary" },
+    "fixture": { "type": "boolean" },
+    "evaluation": { "type": "object", "required": ["method", "version", "maxDifficulty"], "properties": { "method": { "type": "string", "minLength": 1 }, "version": { "type": "string", "minLength": 1 }, "maxDifficulty": { "type": "number", "minimum": 0, "maximum": 100 } } },
+    "subsetSize": { "type": "integer", "minimum": 1 },
+    "budget": { "type": "number", "exclusiveMinimum": 0 },
+    "maxCycles": { "type": "integer", "minimum": 1 },
+    "stagnationLimit": { "type": "integer", "minimum": 1 },
+    "retryPolicy": { "type": "object", "required": ["maxAttempts", "retryDelayMs"], "properties": { "maxAttempts": { "type": "integer", "minimum": 1 }, "retryDelayMs": { "type": "integer", "minimum": 0 }, "fixtureSynthetic": { "const": true } } },
+    "rePolicy": { "$ref": "re-policy-v1.schema.json" },
+    "models": { "type": "object", "required": ["explore", "evaluate", "A", "B", "R"], "additionalProperties": { "$ref": "#/$defs/model" } },
+    "knowledge": { "type": "object", "required": ["version", "fingerprint", "leadsFingerprint", "files"], "properties": { "version": { "type": "string" }, "fingerprint": { "type": "string" }, "leadsFingerprint": { "type": "string" }, "files": { "type": "array", "items": { "$ref": "#/$defs/file" } } } },
+    "commonInputs": { "type": "array", "items": { "$ref": "#/$defs/file" } },
+    "accessibleRules": { "type": "array", "items": { "type": "string" } },
+    "requiredTools": { "type": "array", "items": { "type": "string" } },
+    "outputDirectory": { "type": "string", "minLength": 1 },
+    "fixtureSeeds": { "type": "object", "required": ["approved", "candidates", "assessments"], "properties": { "approved": { "const": true }, "candidates": { "type": "array" }, "assessments": { "type": "array" } } }
+  },
+  "oneOf": [{ "required": ["subsetSize"], "not": { "required": ["budget"] } }, { "required": ["budget"], "not": { "required": ["subsetSize"] } }],
+  "allOf": [{ "if": { "properties": { "fixture": { "const": false } } }, "then": { "required": ["retryPolicy"], "not": { "required": ["fixtureSeeds"] } } }],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "binary": { "type": "object", "required": ["sha256", "version"], "properties": { "sha256": { "$ref": "#/$defs/sha256" }, "version": { "type": "string", "minLength": 1 } } },
+    "model": { "type": "object", "required": ["providerID", "id", "variant"], "properties": { "providerID": { "type": "string", "minLength": 1 }, "id": { "type": "string", "minLength": 1 }, "variant": { "type": "string", "minLength": 1 } } },
+    "file": { "type": "object", "required": ["path", "sha256", "version", "provenance", "kind"], "properties": { "path": { "type": "string" }, "sha256": { "$ref": "#/$defs/sha256" }, "version": { "type": "string" }, "provenance": { "type": "string" }, "kind": { "enum": ["native", "rule", "knowledge", "proposal", "score", "manifest"] }, "approvedForBlind": { "type": "boolean" } } }
+  }
+}

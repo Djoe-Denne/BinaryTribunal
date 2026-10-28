@@ -1,0 +1,397 @@
+{
+  "case": "R",
+  "status": "FAIL",
+  "execution": {
+    "command": [
+      "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-offline-closure-20261008T120247Z-28ddb9\\v18-extra-1\\R\\offline_extra.exe",
+      "R",
+      "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-offline-closure-20261008T120247Z-28ddb9\\v18-extra-1\\R\\test_candidate.dll"
+    ],
+    "cwd": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-offline-closure-20261008T120247Z-28ddb9\\v18-extra-1\\R",
+    "timeout_seconds": 25,
+    "started_utc": "2026-10-08T12:21:59.251247+00:00",
+    "timed_out": false,
+    "pid": 26660,
+    "returncode": 2,
+    "returncode_u32": 2,
+    "elapsed_seconds": 0.087434
+  },
+  "summary": {
+    "event": "summary",
+    "case": "R",
+    "checks": 31,
+    "fails": 2,
+    "load_calls": 1,
+    "free_calls": 1,
+    "install_calls": 0,
+    "restore_calls": 0,
+    "present_calls": 0,
+    "present_returns": 0,
+    "pin_calls": 0,
+    "real_pin_calls": 0,
+    "protect_faults": 0
+  },
+  "failures": [
+    {
+      "event": "check",
+      "case": "R",
+      "index": 30,
+      "ok": false,
+      "name": "unload_has_no_dangling_Present_E9"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 31,
+      "ok": false,
+      "name": "unload_has_no_dangling_ODS_E9"
+    }
+  ],
+  "errors": [],
+  "lifecycle": {
+    "status": "VALID",
+    "records": [
+      {
+        "magic": 942752588,
+        "size": 64,
+        "pid": 26660,
+        "tid": 13992,
+        "creation_lo": 2646502231,
+        "creation_hi": 31282975,
+        "module": 1713242112,
+        "reason": 1,
+        "terminating": 0,
+        "optin": 1,
+        "nohook": 0,
+        "state": 1,
+        "pinned": 0,
+        "owned_mask": 0,
+        "armed": 0,
+        "frame_seq": 0
+      },
+      {
+        "magic": 942752588,
+        "size": 64,
+        "pid": 26660,
+        "tid": 13992,
+        "creation_lo": 2646502231,
+        "creation_hi": 31282975,
+        "module": 1713242112,
+        "reason": 0,
+        "terminating": 0,
+        "optin": 1,
+        "nohook": 0,
+        "state": 1,
+        "pinned": 0,
+        "owned_mask": 0,
+        "armed": 0,
+        "frame_seq": 0
+      }
+    ]
+  },
+  "events": [
+    {
+      "event": "check",
+      "case": "R",
+      "index": 1,
+      "ok": true,
+      "name": "process_identity"
+    },
+    {
+      "event": "identity",
+      "case": "R",
+      "pid": 26660,
+      "tid": 13992,
+      "creation_lo": 2646502231,
+      "creation_hi": 31282975,
+      "build": 22086,
+      "dll_sha256": "d36f7366d16961adcf5ec670f840907d715fa28d687e3f67812cbc8cc7633265",
+      "host_base": 5242880
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 2,
+      "ok": true,
+      "name": "synthetic_sites_inside_owned_text_pad"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 3,
+      "ok": true,
+      "name": "prepare_protect"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 4,
+      "ok": true,
+      "name": "prepare_protection_restored"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 5,
+      "ok": true,
+      "name": "prepare_icache"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 6,
+      "ok": true,
+      "name": "prepare_protect"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 7,
+      "ok": true,
+      "name": "prepare_protection_restored"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 8,
+      "ok": true,
+      "name": "prepare_icache"
+    },
+    {
+      "event": "window",
+      "phase": "prepared",
+      "site": 0,
+      "va": 5369693,
+      "hex14": "A0A0A0A0FF9098000000D0D0D0D0",
+      "e8_target": 0,
+      "original14": true
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 9,
+      "ok": true,
+      "name": "window_neighbors_unchanged"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 10,
+      "ok": true,
+      "name": "window_original6_exact"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 11,
+      "ok": true,
+      "name": "window_original14_exact"
+    },
+    {
+      "event": "window",
+      "phase": "prepared",
+      "site": 1,
+      "va": 5369714,
+      "hex14": "A1A1A1A1FF9098000000D1D1D1D1",
+      "e8_target": 0,
+      "original14": true
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 12,
+      "ok": true,
+      "name": "window_neighbors_unchanged"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 13,
+      "ok": true,
+      "name": "window_original6_exact"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 14,
+      "ok": true,
+      "name": "window_original14_exact"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 15,
+      "ok": true,
+      "name": "owned_host_write_bounds"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 16,
+      "ok": true,
+      "name": "owned_host_write_protect"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 17,
+      "ok": true,
+      "name": "owned_host_write_restore"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 18,
+      "ok": true,
+      "name": "owned_host_write_flush"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 19,
+      "ok": true,
+      "name": "owned_host_write_bounds"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 20,
+      "ok": true,
+      "name": "owned_host_write_protect"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 21,
+      "ok": true,
+      "name": "owned_host_write_restore"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 22,
+      "ok": true,
+      "name": "owned_host_write_flush"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 23,
+      "ok": true,
+      "name": "candidate_loaded"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 24,
+      "ok": true,
+      "name": "exports"
+    },
+    {
+      "event": "snapshot",
+      "phase": "attached",
+      "module": 1713242112,
+      "optin": 1,
+      "nohook": 0,
+      "pinned": 0,
+      "pin_attempts": 0,
+      "patch_writes": 0,
+      "activation": 0,
+      "lock": 0,
+      "state": 1,
+      "source": 0,
+      "in_dllmain": 0,
+      "armed": 0,
+      "owned_mask": 0,
+      "target": [
+        0,
+        0
+      ],
+      "ret": [
+        0,
+        0
+      ],
+      "frame_seq": 0
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 25,
+      "ok": true,
+      "name": "real_attach_hooks_installed"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 26,
+      "ok": true,
+      "name": "before_first_PIN"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 27,
+      "ok": true,
+      "name": "sole_LoadLibrary_reference"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 28,
+      "ok": true,
+      "name": "FreeLibrary_return"
+    },
+    {
+      "event": "residence",
+      "module": 1713242112,
+      "get_module_handle": 0,
+      "query_bytes": 28,
+      "allocation_base": 0,
+      "state": 65536,
+      "type": 0,
+      "load_calls": 1,
+      "free_calls": 1
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 29,
+      "ok": true,
+      "name": "unretained_module_absent"
+    },
+    {
+      "event": "prepin_unload",
+      "present_first_byte": 233,
+      "ods_first_byte": 233
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 30,
+      "ok": false,
+      "name": "unload_has_no_dangling_Present_E9"
+    },
+    {
+      "event": "check",
+      "case": "R",
+      "index": 31,
+      "ok": false,
+      "name": "unload_has_no_dangling_ODS_E9"
+    },
+    {
+      "event": "summary",
+      "case": "R",
+      "checks": 31,
+      "fails": 2,
+      "load_calls": 1,
+      "free_calls": 1,
+      "install_calls": 0,
+      "restore_calls": 0,
+      "present_calls": 0,
+      "present_returns": 0,
+      "pin_calls": 0,
+      "real_pin_calls": 0,
+      "protect_faults": 0
+    }
+  ]
+}

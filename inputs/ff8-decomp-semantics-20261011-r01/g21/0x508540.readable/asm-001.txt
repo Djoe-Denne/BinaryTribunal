@@ -1,0 +1,20 @@
+00508540: mov     eax, [esp+arg_0]
+00508544: test    byte ptr [eax], 8; Logical Compare
+00508547: jnz     short loc_508572; Jump if Not Zero (ZF=0)
+00508549: mov     ecx, [esp+arg_4]
+0050854D: mov     edx, [eax+8]
+00508550: test    ecx, edx; Logical Compare
+00508552: jnz     short loc_508572; Jump if Not Zero (ZF=0)
+00508554: mov     cl, [eax+5]
+00508557: test    cl, cl; Logical Compare
+00508559: jnz     short loc_50856C; Jump if Not Zero (ZF=0)
+0050855B: mov     edx, [eax+74h]
+0050855E: mov     ecx, [esp+arg_8]
+00508562: xor     eax, eax; Logical Exclusive OR
+00508564: mov     ax, [edx+2Ch]
+00508568: test    eax, ecx; Logical Compare
+0050856A: jnz     short loc_508572; Jump if Not Zero (ZF=0)
+0050856C: mov     eax, 1
+00508571: retn; Return Near from Procedure
+00508572: xor     eax, eax; Logical Exclusive OR
+00508574: retn; Return Near from Procedure

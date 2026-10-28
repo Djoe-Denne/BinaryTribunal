@@ -1,0 +1,25 @@
+004AE006: sub     edx, eax; Integer Subtraction
+004AE008: lea     eax, [eax+edx*4]; Load Effective Address
+004AE00B: xor     edx, edx; Logical Exclusive OR
+004AE00D: shl     eax, 4; Shift Logical Left
+004AE010: add     eax, offset F_CHAR_DATA; By address:
+004AE015: mov     dword_1D768F8, eax
+004AE01A: xor     eax, eax; Logical Exclusive OR
+004AE01C: cmp     byte ptr [ecx], 0; Compare Two Operands
+004AE01F: jz      short loc_4AE024; Jump if Zero (ZF=1)
+004AE021: lea     edx, [eax+1]; Load Effective Address
+004AE024: inc     eax; Increment by 1
+004AE025: add     ecx, 4; Add
+004AE028: cmp     eax, 4; Compare Two Operands
+004AE02B: jl      short loc_4AE01C; Jump if Less (SF!=OF)
+004AE02D: cmp     edx, ebp; Compare Two Operands
+004AE02F: jnz     loc_4AE833; Jump if Not Zero (ZF=0)
+004AE035: push    5
+004AE037: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE03C: add     esp, 4; Add
+004AE03F: mov     eax, 27h ; '''
+004AE044: jmp     loc_4AE669; Jump
+004AE049: mov     eax, dword_1D6D490; jumptable 004ADEFA case 10
+004AE04E: mov     cl, [eax+21h]
+004AE051: test    cl, cl; Logical Compare
+004AE053: jz      def_4ADEFA; jumptable 004ADEFA default case

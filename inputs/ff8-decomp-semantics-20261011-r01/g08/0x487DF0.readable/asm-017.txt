@@ -1,0 +1,25 @@
+004883A3: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004883A9: movzx   dx, SG_BATTLE_MESSAGE_SPEED_SETTING; Move with Zero-Extend
+004883B1: push    56h ; 'V'
+004883B3: push    80h
+004883B8: lea     eax, ds:8[edx*8]; Load Effective Address
+004883BF: push    3
+004883C1: push    eax
+004883C2: push    76h ; 'v'
+004883C4: mov     byte_1D28E13, 1
+004883CB: call    domain__BattleText_GetMiscText; Call Procedure
+004883D0: add     esp, 4; Add
+004883D3: xor     ecx, ecx; Logical Exclusive OR
+004883D5: mov     cl, byte_1D28E12
+004883DB: push    eax
+004883DC: push    7
+004883DE: push    ecx
+004883DF: call    domain__BattleText_GetMagicName; Call Procedure
+004883E4: add     esp, 4; Add
+004883E7: push    eax
+004883E8: push    0Bh
+004883EA: call    domain__BattleText_GetMiscText; Call Procedure
+004883EF: mov     dl, [eax]
+004883F1: add     esp, 4; Add
+004883F4: lea     eax, [esp+90h+text_display_buffer]; Load Effective Address
+004883F8: push    edx

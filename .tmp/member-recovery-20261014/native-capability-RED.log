@@ -1,0 +1,66 @@
+bun test v1.4.2 (744846f84)
+
+test\v2-continuity.test.ts:
+182 |         const text = joinParts(options.parts)
+183 |         return ctx.session.prompt({ sessionID: options.sessionID, text, delivery: "queue", ...(options.metadata ? { metadata: options.metadata } : {}) })
+184 |       },
+185 |       abort: async (options) => ctx.session.interrupt({ sessionID: options.sessionID }),
+186 |       status: async () => {
+187 |         const active = await ctx.session.active()
+                                               ^
+TypeError: ctx.session.active is not a function. (In 'ctx.session.active()', 'ctx.session.active' is undefined)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\v2-client.ts:187:42)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\v2-continuity.test.ts:42:33)
+(fail) V2 native continuity adapter > status on the real plugin capability subset uses the authenticated same-server activity bridge [1.37ms]
+44 |   })
+45 | 
+46 |   test("status without a verifiable owning session does not substitute an empty idle map", async () => {
+47 |     const { ctx } = fixture(); Reflect.deleteProperty(ctx.session, "active")
+48 |     const client = createV2Client(ctx as unknown as V2Context)
+49 |     await expect(client.session.status()).rejects.toThrow("owning session")
+                                                       ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "owning session"
+Received message: "ctx.session.active is not a function. (In 'ctx.session.active()', 'ctx.session.active' is undefined)"
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\v2-continuity.test.ts:49:51)
+(fail) V2 native continuity adapter > status without a verifiable owning session does not substitute an empty idle map [0.26ms]
+55 |       const routes: string[] = []
+56 |       const client = createV2Client(ctx as unknown as V2Context, {
+57 |         activityAnchor: () => info.id, discoverBridge: async () => ({ apiUrl: "http://127.0.0.1:41037" }),
+58 |         fetch: (async url => { routes.push(String(url)); return status === 401 ? new Response(null, { status }) : Response.json({ data: { ...info, projectID: "foreign" } }) }) as typeof fetch,
+59 |       })
+60 |       await expect(client.session.status()).rejects.toThrow(status === 401 ? "HTTP 401" : "same OpenCode server")
+                                                         ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "HTTP 401"
+Received message: "ctx.session.active is not a function. (In 'ctx.session.active()', 'ctx.session.active' is undefined)"
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\v2-continuity.test.ts:60:53)
+(fail) V2 native continuity adapter > an activity bridge authentication or identity failure cannot free worker slots [0.29ms]
+(pass) V2 native continuity adapter > uses the native fork when exposed; never reads/rebuilds messages [0.26ms]
+(pass) V2 native continuity adapter > missing fork capability is explicit, without native create fallback [0.14ms]
+(pass) V2 native continuity adapter > discovered authentication failure refuses fork without POST [0.42ms]
+(pass) V2 native continuity adapter > compaction active fallback uses the authenticated discovered server [0.49ms]
+(pass) V2 native continuity adapter > discovers authenticated shared service without explicit configuration [0.20ms]
+(pass) V2 native continuity adapter > discovered wrong server fails before POST [0.12ms]
+(pass) V2 native continuity adapter > explicit URL never receives discovered credentials [0.13ms]
+(pass) V2 native continuity adapter > discovery errors do not leak credentials [0.12ms]
+(pass) V2 native continuity adapter > HTTP fork checks source identity and sends before, using configured authentication [6.22ms]
+(pass) V2 native continuity adapter > wrong server/source identity fails before HTTP fork [1.57ms]
+(pass) V2 native continuity adapter > move verifies isolation, awaits the native boundary and checks actual directory [0.38ms]
+(pass) V2 native continuity adapter > dirty or divergent source is never moved [0.13ms]
+(pass) V2 native continuity adapter > equivalent Windows directories never request a Git transfer [0.10ms]
+(pass) V2 native continuity adapter > successful compaction requires the admitted durable checkpoint to be completed [0.11ms]
+(pass) V2 native continuity adapter > idle does not imply compaction success [0.07ms]
+(pass) V2 native continuity adapter > busy source cannot be compacted by a waiting spawn [0.08ms]
+(pass) V2 native continuity adapter > unknown handoff agent does not mutate a session [0.28ms]
+(pass) V2 native continuity adapter > an initializing fork settles its agent wake before task admission [0.13ms]
+(pass) V2 native continuity adapter > handoff removes only owned overrides, preserving user session permissions [0.30ms]
+
+ 19 pass
+ 3 fail
+ 46 expect() calls
+Ran 22 tests across 1 file. [56.00ms]

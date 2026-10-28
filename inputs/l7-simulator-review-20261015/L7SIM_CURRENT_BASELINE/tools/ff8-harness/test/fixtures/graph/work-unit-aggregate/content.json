@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "unitId": "unit:aggregate-1",
+  "snapshotId": "snap:work-unit-aggregate",
+  "partitionId": "part:work-unit-aggregate",
+  "knowledgeRevision": 2,
+  "ownedFunctionIds": [
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000"
+  ],
+  "contextFunctionIds": [
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x23000"
+  ],
+  "investigationKind": "decompilation",
+  "pipeline": "2+1",
+  "subIntents": [
+    {
+      "subIntentId": "sub:a:A",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "role": "A",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x421000"
+      },
+      "waitsForSubIntentIds": [],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    },
+    {
+      "subIntentId": "sub:a:B",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "role": "B",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x421000"
+      },
+      "waitsForSubIntentIds": [],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    },
+    {
+      "subIntentId": "sub:a:R",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "role": "R",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x421000"
+      },
+      "waitsForSubIntentIds": [
+        "sub:a:A",
+        "sub:a:B"
+      ],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    },
+    {
+      "subIntentId": "sub:b:A",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "role": "A",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x422000"
+      },
+      "waitsForSubIntentIds": [],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    },
+    {
+      "subIntentId": "sub:b:B",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "role": "B",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x422000"
+      },
+      "waitsForSubIntentIds": [],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    },
+    {
+      "subIntentId": "sub:b:R",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "role": "R",
+      "harnessIdentity": {
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "version": "fixture-v1",
+        "ea": "0x422000"
+      },
+      "waitsForSubIntentIds": [
+        "sub:b:A",
+        "sub:b:B"
+      ],
+      "sharesFamilyLease": true,
+      "outputDisjoint": true
+    }
+  ],
+  "prerequisites": [],
+  "conflicts": [
+    {
+      "id": "conflict:owned-a",
+      "kind": "owned_function",
+      "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "withUnitId": null
+    }
+  ],
+  "estimatedCost": {
+    "known": false,
+    "value": null
+  },
+  "requiredPublicationLevel": 2,
+  "state": "PENDING"
+}

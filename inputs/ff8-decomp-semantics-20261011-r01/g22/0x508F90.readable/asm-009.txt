@@ -1,0 +1,25 @@
+005091B4: test    al, al; Logical Compare
+005091B6: jbe     short loc_509209; Jump if Below or Equal (CF=1 | ZF=1)
+005091B8: lea     ebx, [edi+16h]; Load Effective Address
+005091BB: push    esi
+005091BC: call    Battle__ReadRotationType; Call Procedure
+005091C1: add     [ebx-2], ax; Add
+005091C5: push    esi
+005091C6: call    Battle__ReadRotationType; Call Procedure
+005091CB: add     [ebx], ax; Add
+005091CE: push    esi
+005091CF: call    Battle__ReadRotationType; Call Procedure
+005091D4: add     [ebx+2], ax; Add
+005091D8: push    esi
+005091D9: call    au_re_bitReader; Call Procedure
+005091DE: push    esi
+005091DF: mov     [ebx+4], ax
+005091E3: call    au_re_bitReader; Call Procedure
+005091E8: push    esi
+005091E9: mov     [ebx+6], ax
+005091ED: call    au_re_bitReader; Call Procedure
+005091F2: mov     [ebx+8], ax
+005091F6: xor     eax, eax; Logical Exclusive OR
+005091F8: mov     al, [edi]
+005091FA: add     esp, 18h; Add
+005091FD: inc     ebp; Increment by 1

@@ -1,0 +1,25 @@
+0050B1DF: inc     al; Increment by 1
+0050B1E1: mov     [esi+0Dh], al
+0050B1E4: pop     edi; jumptable 0050B1A8 default case
+0050B1E5: xor     eax, eax; Logical Exclusive OR
+0050B1E7: pop     esi
+0050B1E8: retn; Return Near from Procedure
+0050B1E9: mov     eax, BATTLE_PRESENTATION_FILE_RESULT; jumptable 0050B1A8 case 2
+0050B1EE: test    eax, eax; Logical Compare
+0050B1F0: jl      short def_50B1A8; jumptable 0050B1A8 default case
+0050B1F2: mov     al, byte_1D96A90
+0050B1F7: test    al, al; Logical Compare
+0050B1F9: ja      short def_50B1A8; jumptable 0050B1A8 default case
+0050B1FB: inc     cl; Increment by 1
+0050B1FD: pop     edi
+0050B1FE: mov     [esi+0Dh], cl
+0050B201: xor     eax, eax; Logical Exclusive OR
+0050B203: pop     esi
+0050B204: retn; Return Near from Procedure
+0050B205: call    sub_50A750; jumptable 0050B1A8 case 3
+0050B20A: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks
+0050B20F: mov     edx, dword_1D99A40
+0050B215: push    edx
+0050B216: call    Camera_ZeroS16_Or800_IfPast_1D97494; E3c: convergence; P explicite
+0050B21B: push    offset byte_1D99A78; int
+0050B220: mov     word ptr CameraID_Maybe, 0FFFFh

@@ -1,0 +1,551 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g30 / run01 / discovery-only / 2026-10-11.\n; Owned: 0x50F900,0x50FDF0,0x5106E0; claimed task_mv424nwy_000v_wl9kqw. No edits/IDB/Git/ledger/live/delegation or producer-artifact inheritance. Labels are lookup aids, never purpose evidence. Reusable for independent forks; no reconstruction/verdict.\n; \n; SOURCE MAP (aliases resolve to absolute paths; references include file-line and instruction EA):\n; M=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json\n; N1=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50F900.json\n; N2=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50FDF0.json\n; N3=C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x5106E0.json\n; A=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x5099d0/native-2026-10-10/N5099D0_pack/neutral/asm.txt\n; B=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x510680/asm.asm\n; C=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_semantic_triple/0x45c870/asm.asm\n; D=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_animation.md\n; E=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x509B30__BattleGeom_SetCurrentBoneMatrix.md\n; F=C:/Users/djden/source/repos/retro-eng/re-ff8/tools/battle-model-probe/parse_c0m.py\n; G=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x5099D0__RenderGeometry.md\n; H=C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/closure-audit.md\n; Q=C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/battle-render-pipeline-entrypoints.md\n; Read C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:11,16-21,41 and AGENT.md. GrepAI first/common root retro-eng located F/rendering docs. QMD CLI searches ParseVertices/ParsePolygons in ff8-wiki located Q:94-96 and format/catalog references; prose used as leads, not native proof. Exact sibling rewrite helper/global search had no matches, not proof no equivalent implementation exists.\n; \n; IDENTITY / NATIVE PROVENANCE\n; M:231-237 owns g30; M:598-613,625-631 inventories:\n; N1 297 instructions/33 blocks, [50F900,50FD3E), SHA256 5682a10eabc8838c39e3ee92b22f86f8e62c9abfa0290882f19bde6c944999ef.\n; N2 634/72, [50FDF0,51067C), SHA256 4e66001ce60c975ed8dccd727ffa4c52a5fc5712a61c965df597b5da226a4eb5.\n; N3 743/144, [5106E0,511082), SHA256 8348832713482d58ab168586214c47a76b509cd94f1ec7b033bbdff012f7311c.\n; All hashes independently recomputed and match. N*:5-9: 32-bit FF8_EN.exe, input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, export 2026-10-11T16:38:25.140966+00:00. ASM is one JSON line :18; instruction EA disambiguates. Raw instruction bytes :15 checked for argument/global addresses.\n; N1:263-271 sole exported code xref 509A9D/function5099D0, no calls. N2:563-577 sole xref509B02/function5099D0. N3:1107-1121 sole xrefA4A00C/functionA49EE0, NOT5099D0. N2/N3 exact code targets45C870,45D7A0,45D7C0,45F270,510680; no indirect CALL in their ASM. Xrefs are snapshot facts, not runtime completeness.\n; \n; SURROUNDING CALLER / ABI\n; A:50-74 /509A62..509AAA: loads context+4 DWORD into output cursor home; consumes signed WORD count/index from source; CALL509B30 @509A8D, then pushes two local-cell addresses and context @509A9A/9B/9C; CALL50F900 @509A9D. ADD ESP,16 @509AA6 includes deferred 4-byte arg of509B30 plus 12 for50F900, NOT four args to50F900. Its EAX is overwritten by reloaded source home @509AA2.\n; A:75-106 /509AAC..509B0E: align source ADD3/AND AL,FCh; four sequential WORD reads stored context+8/+A/+C/+E @509ABF/ACD/ADB/AE9; four-byte skip without read; store context+0 DWORD @509AF9. Four pushes to50FDF0 @509B02: context, OT base, shift, current packet; cleanup16 @509B0B and returned EAX saved to packet home @509B0E. A:44,48-49: SHL EDX,CL against context+20 mask, hardware count masking; no count<=32 contract.\n; N1:18 /50F909 bytes8B4508,50F930 8B550C,50F936 8B4510 prove EBP+8/+C/+10 inputs. Dereferences latter two pointer cells; writes them back @50FB83/85 or50FD33/35. Zero WORD count @50F952 branches directly to restores @50FD37 without stores; later MOVSX WORD/JLE count handling differs. Plain RET, EBP frame, ESP aligned8, EBX/ESI/EDI preserved; source return type unproved.\n; N2/N3:18 stack inputs, plain RET, EBX/EBP/ESI/EDI restored, allocations28h/34h. N3 initial context bytes8B4C2438 after SUB ESP,34h; fourth arg bytes8B442450 @5106F9 after three pushes. Both return reloaded DWORD[1D99C18] @51066F/511075. Observed ABI does not certify original business types.\n; \n; RECORDS/GLOBALS: DIRECT NATIVE FACTS\n; N2:18 /50FE06/0F loads context+0 DWORD source/context+4 DWORD indexed base; WORD counters+8/+A/+C/+E @50FE37,510056,5102CC,510477. N3 initial same DWORD fields @510711/717 and four WORD counters. Context+1C/+28 DWORD loads; +24 sign-extended WORD for conditional tests but reread DWORD for helper input (N2 51038D/A8,51055E/57F; N3 510BF6/C0A,510E61/75). Preserve mixed widths, not guessed struct types.\n; N1:18 /50F90F..91B: signed WORD context+14/+16/+18/+1A scaled SHL3/LEA*8. Count WORD @50F945; entry signed WORD reads offsets0/2/4 @50FA19/23/32 and50FBAD/B7/C6; source advances6 @50FA4F/50FBD5. Two DWORD output writes, stride8 @50FB62/68/6B and50FD12/18/1B. N2/N3 index base+index*8; first index maskFFF; high nibble SHR12/SUB8 in N2. Do NOT infer all later indices mask12 bits from tool F.\n; Both write/reload DWORD globals1D99C18 and1D99C1C (N2 @50FDFD/50FE26 bytesA3189CD901/A31C9CD901; N3 @510708/72E). No reentrancy/thread-safety/alias-exclusion contract.\n; N2 four source advances10h/14h/14h/18h @51002A/2B7/462/65C; emitted destination advances20h/28h/20h/28h @510019/2A2/44A/64B. N3 source @5108FC/B48/D93/511062, destination @5108EB/B37/D7E/51104D. Tags07000000/09000000 and codes24000000/2C000000 are different fields.\n; N2 tests OR-combined second DWORDs with60000h and AND-combined with3F00000h (50FE9F/AF). N3 reads byte+6, OR/tests6 (5107A2..7B9), separately signed-halfword comparisons and bits1/2/4/8. Do not transplant N2 guards. N3 upper second-coordinate comparisons @510C62/C66 (and later) use SAME var_8 upper bound as first-coordinate tests; initial bounds read context+14/+16/+18 @5106EA/EE/FD, not presumed+1A height.\n; \n; FLOAT / GLOBAL NUMERICAL DEPENDENCIES\n; N1:15/18 bytes: FILD DWORD1CA9290/94/98 @50F958/97D/99A; DWORD1CA92E4 @50F95E then AND FFFF/SHR1; MOVSX WORD1CA92DE/E2 @50F972/98F. FLD m32 bank1CA9234/38/3C,1CA9240/44/48,1CA924C/50/54. FMUL m32 B693E4/B693E0; FADD m64 B693D8 @50FAB2 (DC05D893B600). Labels8,1/8,large rounding constant are NOT freshly verified data values: packet has no global data bytes/control-word contract.\n; E:52-55,68-70 documents parent-gated writer chain509B30→56BAE0/56BB30, eight DWORD bank writes1CA927C..9298 and nine signed-WORD→float conversions to1CA9234..9254; 'bone' explicitly UNCERTAIN. Surrounding gate evidence, not g30 business meaning.\n; \n; CALLEES VALIDATED AGAINST SAVED ASM\n; B:2-36 /510680..6D1: three stack DWORD args; low/high halves sign-extended SHL/SAR; IMUL32×2 then SUB @5106BD/C0/C3; MOV EAX,0/SETS AL @5106C6/CE; RET. SETS observes SF of wrapped native subtraction, NOT unrestricted signed-area math; CW/CCW unproved. Both targets push3/cleanup12. N2 calls50FED4,51011B,361,527; N3 calls5107CD,9C9,BD6,E41.\n; C:2-38 /45C870: unsigned cursor-base>=60000h @45C877/7D/83 early returns without writes; six stack args. Args3..6→node+4/+8/+C/+10; arg2 packet ptr→+0; old-head metadata+14 WORD0/+16 BYTE high head; patch packet low24 XOR/AND FFFFFF/XOR; update head/cursor+18h. EAX return cursor not node @45C8CF/D5. Targets push6/cleanup24 and reload packet global. Node18h is NOT packet20h/28h.\n; N2:18 /5103A0..3D3,510571..5AD; N3 /510C00..C2B,510E6B..E9B: two two-arg calls45D7C0 with indices6/8, zero-additional-stack-arg call45F270, two-arg call45D7A0 with index16h/destination local; combined cleanup24. Comments identify indexed GTE table, but helper bodies not freshly retrieved: historical purpose comments only;45F270 opaque (H:327 'DPCS non vérifié').\n; \n; CODE/HISTORICAL CAUTIONS AND OPEN QUESTIONS\n; F:117-141 implements mesh offsets, WORD batch id/count, signed6-byte triples, whole-block-list alignment, four WORD face counts+skipped DWORD; F:143-188 consumes16/20/20/24-byte records. Corroborates extents, NOT native specification: unsigned counts, masks ALL indices, axis/UV/viewer remapping and GLB assumptions (F:31-38,57-59).\n; D:118-137 supports6-byte source/8-byte output and packet sizes but leaves PC-07 field layout/PC-08 shading unresolved. G:3-7,31-42 limits caller C to conditional numeric projection, not original prototypes/runtime. Q:94-96 calls A49EE0 MAG_234 FamilyB; only numeric xref freshly proven. Historical HANDOFF_gfx-pipeline-decomp.md:220 gives5108A0 for GF function; authoritative g30 address5106E0 supersedes that lead.\n; Uncertainties: named structures/ownership/buffer bounds; helper effects and aliases; source return types; x87 precision/control/exceptions and constant data; GF family purpose and shared upper-bound rationale; runtime reachability; equivalence to tooling coordinates/UVs. No target verdict/promotion.\n; TARGET ASM COMPLETE\n0050FDF0: sub     esp, 28h; Integer Subtraction\n0050FDF3: push    ebx\n0050FDF4: push    ebp\n0050FDF5: mov     ebp, [esp+30h+ctx]\n0050FDF9: mov     eax, [esp+30h+packet]\n0050FDFD: mov     dword_1D99C18, eax\n0050FE02: push    esi\n0050FE03: mov     ecx, [ebp+1Ch]\n0050FE06: mov     eax, [ebp+0]\n0050FE09: and     ecx, 2FFFFFFh; Logical AND\n0050FE0F: mov     esi, [ebp+4]\n0050FE12: or      ecx, 24000000h; Logical Inclusive OR\n0050FE18: push    edi\n0050FE19: mov     [esp+38h+var_18], ecx\n0050FE1D: mov     ecx, [ebp+28h]\n0050FE20: and     ecx, offset unk_FFFFFF; Logical AND\n0050FE26: mov     dword_1D99C1C, eax\n0050FE2B: or      ecx, 26000000h; Logical Inclusive OR\n0050FE31: mov     [esp+38h+var_10], ecx\n0050FE35: xor     ecx, ecx; Logical Exclusive OR\n0050FE37: mov     cx, [ebp+8]\n0050FE3B: test    ecx, ecx; Logical Compare\n0050FE3D: jz      loc_510041; Jump if Zero (ZF=1)\n0050FE43: mov     [esp+38h+var_14], ecx\n0050FE47: mov     ecx, [eax+0Ch]\n0050FE4A: xor     edx, edx; Logical Exclusive OR\n0050FE4C: mov     [esp+38h+var_20], ecx\n0050FE50: mov     ecx, [esp+38h+var_1C]\n0050FE54: mov     dx, [eax+2]\n0050FE58: and     ecx, 0FFFh; Logical AND\n0050FE5E: mov     [esp+38h+var_1C], ecx\n0050FE62: xor     ecx, ecx; Logical Exclusive OR\n0050FE64: mov     cx, [eax]\n0050FE67: lea     ebx, [esi+edx*8]; Load Effective Address\n0050FE6A: mov     edi, ecx\n0050FE6C: and     ecx, 0FFFh; Logical AND\n0050FE72: xor     edx, edx; Logical Exclusive OR\n0050FE74: mov     [esp+38h+packet], ebx\n0050FE78: mov     dx, [eax+4]\n0050FE7C: mov     ebx, [ebx+4]\n0050FE7F: lea     ecx, [esi+ecx*8]; Load Effective Address\n0050FE82: mov     [esp+38h+var_24], ecx\n0050FE86: lea     edx, [esi+edx*8]; Load Effective Address\n0050FE89: mov     ecx, [ecx+4]\n0050FE8C: mov     [esp+38h+var_28], edx\n0050FE90: mov     edx, [edx+4]\n0050FE93: mov     ebp, ecx\n0050FE95: or      ebp, ebx; Logical Inclusive OR\n0050FE97: shr     edi, 0Ch; Shift Logical Right\n0050FE9A: or      ebp, edx; Logical Inclusive OR\n0050FE9C: sub     edi, 8; Integer Subtraction\n0050FE9F: test    ebp, 60000h; Logical Compare\n0050FEA5: jnz     loc_510026; Jump if Not Zero (ZF=0)\n0050FEAB: and     ecx, ebx; Logical AND\n0050FEAD: and     ecx, edx; Logical AND\n0050FEAF: test    ecx, 3F00000h; Logical Compare\n0050FEB5: jnz     loc_510026; Jump if Not Zero (ZF=0)\n0050FEBB: mov     eax, [esp+38h+var_24]\n0050FEBF: mov     edx, [esp+38h+var_28]\n0050FEC3: mov     ecx, [esp+38h+packet]\n0050FEC7: mov     ebx, [eax]\n0050FEC9: mov     eax, [edx]\n0050FECB: mov     ebp, [ecx]\n0050FECD: push    eax\n0050FECE: push    ebp\n0050FECF: push    ebx\n0050FED0: mov     [esp+44h+var_C], eax\n0050FED4: call    Poly_BackfaceTest2D; Call Procedure\n0050FED9: add     esp, 0Ch; Add\n0050FEDC: test    eax, eax; Logical Compare\n0050FEDE: jle     loc_510021; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050FEE4: mov     eax, dword_1D99C18\n0050FEE9: mov     [eax+8], ebx\n0050FEEC: mov     ecx, dword_1D99C18\n0050FEF2: mov     eax, [esp+38h+var_C]\n0050FEF6: mov     [ecx+10h], ebp\n0050FEF9: mov     edx, dword_1D99C18\n0050FEFF: mov     ecx, [esp+38h+var_18]\n0050FF03: test    ecx, offset unk_2000000; Logical Compare\n0050FF09: mov     [edx+18h], eax\n0050FF0C: jz      short loc_50FF71; Jump if Zero (ZF=1)\n0050FF0E: test    [esp+38h+var_10], 0FFFFh; Logical Compare\n0050FF16: jz      short loc_50FF71; Jump if Zero (ZF=1)\n0050FF18: mov     eax, [esp+38h+var_20]\n0050FF1C: test    eax, 0FE000000h; Logical Compare\n0050FF21: jnz     short loc_50FF7C; Jump if Not Zero (ZF=0)\n0050FF23: mov     edx, dword_1D99C18\n0050FF29: mov     [edx+4], ecx\n0050FF2C: mov     ecx, dword_1D99C18\n0050FF32: lea     edx, [eax+400000h]; Load Effective Address\n0050FF38: mov     dword ptr [ecx], 7000000h\n0050FF3E: mov     [ecx+14h], edx\n0050FF41: mov     ecx, dword_1D99C1C\n0050FF47: mov     edx, [ecx+8]\n0050FF4A: mov     ecx, dword_1D99C18\n0050FF50: mov     [ecx+0Ch], edx\n0050FF53: mov     edx, dword_1D99C18\n0050FF59: mov     [edx+14h], eax\n0050FF5C: mov     eax, dword_1D99C1C\n0050FF61: mov     edx, dword_1D99C18\n0050FF67: mov     cx, [eax+6]\n0050FF6B: mov     [edx+1Ch], cx\n0050FF6F: jmp     short loc_50FFC0; Jump\n0050FF71: mov     eax, [esp+38h+var_20]\n0050FF75: test    eax, 0FE000000h; Logical Compare\n0050FF7A: jz      short loc_50FF82; Jump if Zero (ZF=1)\n0050FF7C: or      ecx, offset unk_2000000; Logical Inclusive OR\n0050FF82: mov     edx, dword_1D99C18\n0050FF88: mov     [edx+4], ecx\n0050FF8B: mov     ecx, dword_1D99C18\n0050FF91: mov     edx, dword_1D99C1C\n0050FF97: mov     dword ptr [ecx], 7000000h\n0050FF9D: mov     edx, [edx+8]\n0050FFA0: mov     [ecx+0Ch], edx\n0050FFA3: mov     ecx, dword_1D99C18\n0050FFA9: mov     [ecx+14h], eax\n0050FFAC: mov     edx, dword_1D99C1C\n0050FFB2: mov     ecx, dword_1D99C18\n0050FFB8: mov     ax, [edx+6]\n0050FFBC: mov     [ecx+1Ch], ax\n0050FFC0: mov     edx, [esp+38h+var_24]\n0050FFC4: mov     eax, [esp+38h+packet]\n0050FFC8: xor     ecx, ecx; Logical Exclusive OR\n0050FFCA: xor     ebx, ebx; Logical Exclusive OR\n0050FFCC: mov     cx, [edx+4]\n0050FFD0: xor     edx, edx; Logical Exclusive OR\n0050FFD2: mov     dx, [eax+4]\n0050FFD6: mov     eax, [esp+38h+var_28]\n0050FFDA: cmp     edx, ecx; Compare Two Operands\n0050FFDC: mov     bx, [eax+4]\n0050FFE0: mov     eax, ecx\n0050FFE2: jge     short loc_50FFE6; Jump if Greater or Equal (SF=OF)\n0050FFE4: mov     eax, edx\n0050FFE6: cmp     ebx, eax; Compare Two Operands\n0050FFE8: jge     short loc_50FFEC; Jump if Greater or Equal (SF=OF)\n0050FFEA: mov     eax, ebx\n0050FFEC: add     ebx, edi; Add\n0050FFEE: push    0\n0050FFF0: add     edx, edi; Add\n0050FFF2: push    ebx\n0050FFF3: add     ecx, edi; Add\n0050FFF5: push    edx\n0050FFF6: push    ecx\n0050FFF7: mov     ecx, dword_1D99C18\n0050FFFD: mov     edx, [esp+48h+ot_base]\n00510001: push    ecx\n00510002: mov     ecx, [esp+4Ch+ot_shift]\n00510006: sar     eax, cl; Shift Arithmetic Right\n00510008: lea     eax, [edx+eax*4]; Load Effective Address\n0051000B: push    eax\n0051000C: call    OT_InsertPrimitive; Call Procedure\n00510011: mov     eax, dword_1D99C18\n00510016: add     esp, 18h; Add\n00510019: add     eax, 20h ; ' '; Add\n0051001C: mov     dword_1D99C18, eax\n00510021: mov     eax, dword_1D99C1C\n00510026: mov     ecx, [esp+38h+var_14]\n0051002A: add     eax, 10h; Add\n0051002D: dec     ecx; Decrement by 1\n0051002E: mov     dword_1D99C1C, eax\n00510033: mov     [esp+38h+var_14], ecx\n00510037: jnz     loc_50FE47; Jump if Not Zero (ZF=0)\n0051003D: mov     ebp, [esp+38h+ctx]\n00510041: mov     ecx, [ebp+1Ch]\n00510044: and     ecx, 2FFFFFFh; Logical AND\n0051004A: or      ecx, 2C000000h; Logical Inclusive OR\n00510050: mov     [esp+38h+var_18], ecx\n00510054: xor     ecx, ecx; Logical Exclusive OR\n00510056: mov     cx, [ebp+0Ah]\n0051005A: test    ecx, ecx; Logical Compare\n0051005C: jz      loc_5102CA; Jump if Zero (ZF=1)\n00510062: mov     [esp+38h+var_C], ecx\n00510066: mov     ecx, [eax+0Ch]\n00510069: xor     edx, edx; Logical Exclusive OR\n0051006B: mov     [esp+38h+var_14], ecx\n0051006F: mov     ecx, [esp+38h+var_1C]\n00510073: and     ecx, 0FFFh; Logical AND\n00510079: mov     dx, [eax+2]\n0051007D: mov     [esp+38h+var_1C], ecx\n00510081: xor     ecx, ecx; Logical Exclusive OR\n00510083: mov     cx, [eax]\n00510086: mov     edi, ecx\n00510088: and     ecx, 0FFFh; Logical AND\n0051008E: shr     edi, 0Ch; Shift Logical Right\n00510091: lea     ebx, [esi+ecx*8]; Load Effective Address\n00510094: lea     ecx, [esi+edx*8]; Load Effective Address\n00510097: xor     edx, edx; Logical Exclusive OR\n00510099: mov     [esp+38h+packet], ecx\n0051009D: mov     dx, [eax+4]\n005100A1: mov     [esp+38h+var_24], ebx\n005100A5: mov     ebx, [ebx+4]\n005100A8: sub     edi, 8; Integer Subtraction\n005100AB: lea     ecx, [esi+edx*8]; Load Effective Address\n005100AE: xor     edx, edx; Logical Exclusive OR\n005100B0: mov     dx, [eax+6]\n005100B4: mov     [esp+38h+var_28], ecx\n005100B8: mov     ecx, [esi+edx*8+4]\n005100BC: lea     edx, [esi+edx*8]; Load Effective Address\n005100BF: mov     ebp, ecx\n005100C1: mov     [esp+38h+var_20], edx\n005100C5: or      ebp, ebx; Logical Inclusive OR\n005100C7: mov     ebx, [esp+38h+packet]\n005100CB: or      ebp, [ebx+4]; Logical Inclusive OR\n005100CE: mov     ebx, [esp+38h+var_28]\n005100D2: mov     ebx, [ebx+4]\n005100D5: or      ebp, ebx; Logical Inclusive OR\n005100D7: test    ebp, 60000h; Logical Compare\n005100DD: jnz     loc_5102AF; Jump if Not Zero (ZF=0)\n005100E3: mov     ebp, [esp+38h+var_24]\n005100E7: and     ecx, [ebp+4]; Logical AND\n005100EA: mov     ebp, [esp+38h+packet]\n005100EE: and     ecx, [ebp+4]; Logical AND\n005100F1: and     ecx, ebx; Logical AND\n005100F3: test    ecx, 3F00000h; Logical Compare\n005100F9: jnz     loc_5102AF; Jump if Not Zero (ZF=0)\n005100FF: mov     eax, [esp+38h+var_24]\n00510103: mov     ecx, [esp+38h+var_28]\n00510107: mov     ebp, [ebp+0]\n0051010A: mov     edx, [edx]\n0051010C: mov     ebx, [eax]\n0051010E: mov     eax, [ecx]\n00510110: push    eax\n00510111: push    ebp\n00510112: push    ebx\n00510113: mov     [esp+44h+var_8], eax\n00510117: mov     [esp+44h+var_4], edx\n0051011B: call    Poly_BackfaceTest2D; Call Procedure\n00510120: add     esp, 0Ch; Add\n00510123: test    eax, eax; Logical Compare\n00510125: jle     loc_5102AA; Jump if Less or Equal (ZF=1 | SF!=OF)\n0051012B: mov     eax, dword_1D99C18\n00510130: mov     [eax+8], ebx\n00510133: mov     ecx, dword_1D99C18\n00510139: mov     eax, [esp+38h+var_8]\n0051013D: mov     [ecx+10h], ebp\n00510140: mov     edx, dword_1D99C18\n00510146: mov     [edx+18h], eax\n00510149: mov     ecx, dword_1D99C18\n0051014F: mov     eax, [esp+38h+var_18]\n00510153: mov     edx, [esp+38h+var_4]\n00510157: test    eax, offset unk_2000000; Logical Compare\n0051015C: mov     [ecx+20h], edx\n0051015F: jz      short loc_5101D7; Jump if Zero (ZF=1)\n00510161: test    [esp+38h+var_10], 0FFFFh; Logical Compare\n00510169: jz      short loc_5101D7; Jump if Zero (ZF=1)\n0051016B: mov     ecx, [esp+38h+var_14]\n0051016F: test    ecx, 0FE000000h; Logical Compare\n00510175: jnz     short loc_5101E3; Jump if Not Zero (ZF=0)\n00510177: mov     edx, dword_1D99C18\n0051017D: mov     [edx+4], eax\n00510180: mov     eax, dword_1D99C18\n00510185: lea     edx, [ecx+400000h]; Load Effective Address\n0051018B: mov     dword ptr [eax], 9000000h\n00510191: mov     [eax+14h], edx\n00510194: mov     eax, dword_1D99C1C\n00510199: mov     edx, [eax+8]\n0051019C: mov     eax, dword_1D99C18\n005101A1: mov     [eax+0Ch], edx\n005101A4: mov     edx, dword_1D99C18\n005101AA: mov     [edx+14h], ecx\n005101AD: mov     eax, dword_1D99C1C\n005101B2: mov     edx, dword_1D99C18\n005101B8: mov     cx, [eax+10h]\n005101BC: mov     [edx+1Ch], cx\n005101C0: mov     eax, dword_1D99C1C\n005101C5: mov     edx, dword_1D99C18\n005101CB: mov     ecx, [eax+10h]\n005101CE: shr     ecx, 10h; Shift Logical Right\n005101D1: mov     [edx+24h], cx\n005101D5: jmp     short loc_510238; Jump\n005101D7: mov     ecx, [esp+38h+var_14]\n005101DB: test    ecx, 0FE000000h; Logical Compare\n005101E1: jz      short loc_5101E8; Jump if Zero (ZF=1)\n005101E3: or      eax, offset unk_2000000; Logical Inclusive OR\n005101E8: mov     edx, dword_1D99C18\n005101EE: mov     [edx+4], eax\n005101F1: mov     eax, dword_1D99C18\n005101F6: mov     edx, dword_1D99C1C\n005101FC: mov     dword ptr [eax], 9000000h\n00510202: mov     edx, [edx+8]\n00510205: mov     [eax+0Ch], edx\n00510208: mov     eax, dword_1D99C18\n0051020D: mov     [eax+14h], ecx\n00510210: mov     ecx, dword_1D99C1C\n00510216: mov     eax, dword_1D99C18\n0051021B: mov     dx, [ecx+10h]\n0051021F: mov     [eax+1Ch], dx\n00510223: mov     ecx, dword_1D99C1C\n00510229: mov     eax, dword_1D99C18\n0051022E: mov     edx, [ecx+10h]\n00510231: shr     edx, 10h; Shift Logical Right\n00510234: mov     [eax+24h], dx\n00510238: mov     edx, [esp+38h+var_24]\n0051023C: mov     eax, [esp+38h+packet]\n00510240: xor     ecx, ecx; Logical Exclusive OR\n00510242: xor     ebx, ebx; Logical Exclusive OR\n00510244: mov     cx, [edx+4]\n00510248: xor     edx, edx; Logical Exclusive OR\n0051024A: mov     dx, [eax+4]\n0051024E: mov     eax, [esp+38h+var_28]\n00510252: xor     ebp, ebp; Logical Exclusive OR\n00510254: cmp     edx, ecx; Compare Two Operands\n00510256: mov     bx, [eax+4]\n0051025A: mov     eax, [esp+38h+var_20]\n0051025E: mov     bp, [eax+4]\n00510262: mov     eax, ecx\n00510264: jge     short loc_510268; Jump if Greater or Equal (SF=OF)\n00510266: mov     eax, edx\n00510268: cmp     ebx, eax; Compare Two Operands\n0051026A: jge     short loc_51026E; Jump if Greater or Equal (SF=OF)\n0051026C: mov     eax, ebx\n0051026E: cmp     ebp, eax; Compare Two Operands\n00510270: jge     short loc_510274; Jump if Greater or Equal (SF=OF)\n00510272: mov     eax, ebp\n00510274: add     ebp, edi; Add\n00510276: add     ebx, edi; Add\n00510278: push    ebp\n00510279: add     edx, edi; Add\n0051027B: push    ebx\n0051027C: add     ecx, edi; Add\n0051027E: push    edx\n0051027F: push    ecx\n00510280: mov     ecx, dword_1D99C18\n00510286: mov     edx, [esp+48h+ot_base]\n0051028A: push    ecx\n0051028B: mov     ecx, [esp+4Ch+ot_shift]\n0051028F: sar     eax, cl; Shift Arithmetic Right\n00510291: lea     eax, [edx+eax*4]; Load Effective Address\n00510294: push    eax\n00510295: call    OT_InsertPrimitive; Call Procedure\n0051029A: mov     eax, dword_1D99C18\n0051029F: add     esp, 18h; Add\n005102A2: add     eax, 28h ; '('; Add\n005102A5: mov     dword_1D99C18, eax\n005102AA: mov     eax, dword_1D99C1C\n005102AF: mov     ecx, [esp+38h+var_C]\n005102B3: mov     ebp, [esp+38h+ctx]\n005102B7: add     eax, 14h; Add\n005102BA: dec     ecx; Decrement by 1\n005102BB: mov     dword_1D99C1C, eax\n005102C0: mov     [esp+38h+var_C], ecx\n005102C4: jnz     loc_510066; Jump if Not Zero (ZF=0)\n005102CA: xor     ecx, ecx; Logical Exclusive OR\n005102CC: mov     cx, [ebp+0Ch]\n005102D0: test    ecx, ecx; Logical Compare\n005102D2: jz      loc_510475; Jump if Zero (ZF=1)\n005102D8: mov     [esp+38h+var_10], ecx\n005102DC: xor     ecx, ecx; Logical Exclusive OR\n005102DE: xor     edx, edx; Logical Exclusive OR\n005102E0: mov     cx, [eax]\n005102E3: mov     dx, [eax+2]\n005102E7: mov     edi, ecx\n005102E9: and     ecx, 0FFFh; Logical AND\n005102EF: xor     ebx, ebx; Logical Exclusive OR\n005102F1: lea     edx, [esi+edx*8]; Load Effective Address\n005102F4: mov     bx, [eax+4]\n005102F8: lea     ecx, [esi+ecx*8]; Load Effective Address\n005102FB: mov     [esp+38h+var_24], ecx\n005102FF: mov     [esp+38h+packet], edx\n00510303: mov     ecx, [ecx+4]\n00510306: mov     edx, [edx+4]\n00510309: lea     ebx, [esi+ebx*8]; Load Effective Address\n0051030C: mov     [esp+38h+var_28], ebx\n00510310: mov     ebx, ecx\n00510312: or      ebx, edx; Logical Inclusive OR\n00510314: mov     edx, [esp+38h+var_28]\n00510318: shr     edi, 0Ch; Shift Logical Right\n0051031B: mov     edx, [edx+4]\n0051031E: sub     edi, 8; Integer Subtraction\n00510321: or      ebx, edx; Logical Inclusive OR\n00510323: test    ebx, 60000h; Logical Compare\n00510329: jnz     loc_51045E; Jump if Not Zero (ZF=0)\n0051032F: mov     ebx, [esp+38h+packet]\n00510333: and     ecx, [ebx+4]; Logical AND\n00510336: and     ecx, edx; Logical AND\n00510338: test    ecx, 3F00000h; Logical Compare\n0051033E: jnz     loc_51045E; Jump if Not Zero (ZF=0)\n00510344: mov     eax, [esp+38h+var_24]\n00510348: mov     ecx, [esp+38h+packet]\n0051034C: mov     edx, [esp+38h+var_28]\n00510350: mov     ebx, [eax]\n00510352: mov     eax, [ecx]\n00510354: mov     ecx, [edx]\n00510356: mov     [esp+38h+var_4], eax\n0051035A: push    ecx\n0051035B: push    eax\n0051035C: push    ebx\n0051035D: mov     [esp+44h+var_8], ecx\n00510361: call    Poly_BackfaceTest2D; Call Procedure\n00510366: add     esp, 0Ch; Add\n00510369: test    eax, eax; Logical Compare\n0051036B: jle     loc_510459; Jump if Less or Equal (ZF=1 | SF!=OF)\n00510371: mov     eax, dword_1D99C18\n00510376: mov     ecx, [esp+38h+var_4]\n0051037A: mov     edx, [esp+38h+var_8]\n0051037E: mov     [eax+8], ebx\n00510381: mov     [eax+10h], ecx\n00510384: mov     ecx, dword_1D99C1C\n0051038A: mov     [eax+18h], edx\n0051038D: movsx   ebx, word ptr [ebp+24h]; Move with Sign-Extend\n00510391: mov     edx, [ecx+10h]\n00510394: test    ebx, offset unk_FFFFFF; Logical Compare\n0051039A: mov     [esp+38h+var_C], edx\n0051039E: jz      short loc_5103D6; Jump if Zero (ZF=1)\n005103A0: push    6\n005103A2: push    edx\n005103A3: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).\n005103A8: mov     eax, [ebp+24h]\n005103AB: push    8\n005103AD: push    eax\n005103AE: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).\n005103B3: call    sub_45F270; Call Procedure\n005103B8: lea     ecx, [esp+48h+var_C]; Load Effective Address\n005103BC: push    16h\n005103BE: push    ecx\n005103BF: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].\n005103C4: mov     eax, dword_1D99C18\n005103C9: mov     ecx, dword_1D99C1C\n005103CF: mov     edx, [esp+50h+var_C]\n005103D3: add     esp, 18h; Add\n005103D6: mov     [eax+4], edx\n005103D9: mov     dword ptr [eax], 7000000h\n005103DF: mov     edx, [ecx+8]\n005103E2: mov     ebx, [esp+38h+packet]\n005103E6: mov     [eax+0Ch], edx\n005103E9: mov     edx, [ecx+0Ch]\n005103EC: mov     [eax+14h], edx\n005103EF: mov     cx, [ecx+6]\n005103F3: mov     edx, [esp+38h+var_24]\n005103F7: mov     [eax+1Ch], cx\n005103FB: xor     ecx, ecx; Logical Exclusive OR\n005103FD: xor     ebp, ebp; Logical Exclusive OR\n005103FF: mov     cx, [edx+4]\n00510403: xor     edx, edx; Logical Exclusive OR\n00510405: mov     dx, [ebx+4]\n00510409: mov     ebx, [esp+38h+var_28]\n0051040D: cmp     edx, ecx; Compare Two Operands\n0051040F: mov     bp, [ebx+4]\n00510413: mov     ebx, ecx\n00510415: jge     short loc_510419; Jump if Greater or Equal (SF=OF)\n00510417: mov     ebx, edx\n00510419: cmp     ebp, ebx; Compare Two Operands\n0051041B: jge     short loc_51041F; Jump if Greater or Equal (SF=OF)\n0051041D: mov     ebx, ebp\n0051041F: add     ebp, edi; Add\n00510421: push    0\n00510423: add     edx, edi; Add\n00510425: push    ebp\n00510426: add     ecx, edi; Add\n00510428: push    edx\n00510429: push    ecx\n0051042A: mov     ecx, [esp+48h+ot_shift]\n0051042E: sar     ebx, cl; Shift Arithmetic Right\n00510430: push    eax\n00510431: mov     eax, [esp+4Ch+ot_base]\n00510435: lea     ecx, [eax+ebx*4]; Load Effective Address\n00510438: push    ecx\n00510439: call    OT_InsertPrimitive; Call Procedure\n0051043E: mov     eax, dword_1D99C18\n00510443: mov     ebp, [esp+50h+ctx]\n00510447: add     esp, 18h; Add\n0051044A: add     eax, 20h ; ' '; Add\n0051044D: mov     dword_1D99C18, eax\n00510452: mov     eax, dword_1D99C1C\n00510457: jmp     short loc_51045E; Jump\n00510459: mov     eax, dword_1D99C1C\n0051045E: mov     ecx, [esp+38h+var_10]\n00510462: add     eax, 14h; Add\n00510465: dec     ecx; Decrement by 1\n00510466: mov     dword_1D99C1C, eax\n0051046B: mov     [esp+38h+var_10], ecx\n0051046F: jnz     loc_5102DC; Jump if Not Zero (ZF=0)\n00510475: xor     ecx, ecx; Logical Exclusive OR\n00510477: mov     cx, [ebp+0Eh]\n0051047B: test    ecx, ecx; Logical Compare\n0051047D: jz      loc_51066F; Jump if Zero (ZF=1)\n00510483: mov     [esp+38h+var_10], ecx\n00510487: xor     ecx, ecx; Logical Exclusive OR\n00510489: xor     edx, edx; Logical Exclusive OR\n0051048B: mov     cx, [eax]\n0051048E: mov     dx, [eax+2]\n00510492: mov     edi, ecx\n00510494: and     ecx, 0FFFh; Logical AND\n0051049A: shr     edi, 0Ch; Shift Logical Right\n0051049D: lea     ebx, [esi+ecx*8]; Load Effective Address\n005104A0: lea     ecx, [esi+edx*8]; Load Effective Address\n005104A3: xor     edx, edx; Logical Exclusive OR\n005104A5: mov     [esp+38h+packet], ecx\n005104A9: mov     dx, [eax+4]\n005104AD: sub     edi, 8; Integer Subtraction\n005104B0: lea     ecx, [esi+edx*8]; Load Effective Address\n005104B3: xor     edx, edx; Logical Exclusive OR\n005104B5: mov     dx, [eax+6]\n005104B9: mov     [esp+38h+var_28], ecx\n005104BD: lea     ecx, [esi+edx*8]; Load Effective Address\n005104C0: mov     edx, [ebx+4]\n005104C3: mov     [esp+38h+var_20], ecx\n005104C7: mov     ecx, [ecx+4]\n005104CA: mov     ebp, ecx\n005104CC: or      ebp, edx; Logical Inclusive OR\n005104CE: mov     edx, [esp+38h+packet]\n005104D2: or      ebp, [edx+4]; Logical Inclusive OR\n005104D5: mov     edx, [esp+38h+var_28]\n005104D9: mov     edx, [edx+4]\n005104DC: or      ebp, edx; Logical Inclusive OR\n005104DE: test    ebp, 60000h; Logical Compare\n005104E4: jnz     loc_510658; Jump if Not Zero (ZF=0)\n005104EA: mov     ebp, [ebx+4]\n005104ED: and     ecx, ebp; Logical AND\n005104EF: mov     ebp, [esp+38h+packet]\n005104F3: and     ecx, [ebp+4]; Logical AND\n005104F6: and     ecx, edx; Logical AND\n005104F8: test    ecx, 3F00000h; Logical Compare\n005104FE: jnz     loc_510658; Jump if Not Zero (ZF=0)\n00510504: mov     ecx, [esp+38h+var_28]\n00510508: mov     eax, [esp+38h+packet]\n0051050C: mov     edx, [esp+38h+var_20]\n00510510: mov     ebp, [ebx]\n00510512: mov     ecx, [ecx]\n00510514: mov     eax, [eax]\n00510516: mov     edx, [edx]\n00510518: push    ecx\n00510519: push    eax\n0051051A: push    ebp\n0051051B: mov     [esp+44h+var_4], eax\n0051051F: mov     [esp+44h+var_8], ecx\n00510523: mov     [esp+44h+var_14], edx\n00510527: call    Poly_BackfaceTest2D; Call Procedure\n0051052C: add     esp, 0Ch; Add\n0051052F: test    eax, eax; Logical Compare\n00510531: jle     loc_510653; Jump if Less or Equal (ZF=1 | SF!=OF)\n00510537: mov     eax, dword_1D99C18\n0051053C: mov     ecx, [esp+38h+var_4]\n00510540: mov     edx, [esp+38h+var_8]\n00510544: mov     [eax+8], ebp\n00510547: mov     ebp, [esp+38h+ctx]\n0051054B: mov     [eax+10h], ecx\n0051054E: mov     ecx, [esp+38h+var_14]\n00510552: mov     [eax+18h], edx\n00510555: mov     [eax+20h], ecx\n00510558: mov     ecx, dword_1D99C1C\n0051055E: movsx   ebp, word ptr [ebp+24h]; Move with Sign-Extend\n00510562: mov     edx, [ecx+14h]\n00510565: test    ebp, offset unk_FFFFFF; Logical Compare\n0051056B: mov     [esp+38h+var_C], edx\n0051056F: jz      short loc_5105B0; Jump if Zero (ZF=1)\n00510571: push    6\n00510573: push    edx\n00510574: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).\n00510579: mov     edx, [esp+40h+ctx]\n0051057D: push    8\n0051057F: mov     eax, [edx+24h]\n00510582: or      eax, 8000000h; Logical Inclusive OR\n00510587: push    eax\n00510588: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).\n0051058D: call    sub_45F270; Call Procedure\n00510592: lea     ecx, [esp+48h+var_C]; Load Effective Address\n00510596: push    16h\n00510598: push    ecx\n00510599: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].\n0051059E: mov     eax, dword_1D99C18\n005105A3: mov     ecx, dword_1D99C1C\n005105A9: mov     edx, [esp+50h+var_C]\n005105AD: add     esp, 18h; Add\n005105B0: mov     [eax+4], edx\n005105B3: mov     dword ptr [eax], 9000000h\n005105B9: mov     edx, [ecx+8]\n005105BC: mov     ebp, [esp+38h+var_28]\n005105C0: mov     [eax+0Ch], edx\n005105C3: mov     edx, [ecx+0Ch]\n005105C6: mov     [eax+14h], edx\n005105C9: mov     dx, [ecx+10h]\n005105CD: mov     [eax+1Ch], dx\n005105D1: mov     ecx, [ecx+10h]\n005105D4: shr     ecx, 10h; Shift Logical Right\n005105D7: mov     [eax+24h], cx\n005105DB: xor     ecx, ecx; Logical Exclusive OR\n005105DD: mov     cx, [ebx+4]\n005105E1: mov     ebx, [esp+38h+packet]\n005105E5: xor     edx, edx; Logical Exclusive OR\n005105E7: mov     dx, [ebx+4]\n005105EB: xor     ebx, ebx; Logical Exclusive OR\n005105ED: mov     bx, [ebp+4]\n005105F1: mov     ebp, [esp+38h+var_20]\n005105F5: mov     [esp+38h+packet], ebx\n005105F9: xor     ebx, ebx; Logical Exclusive OR\n005105FB: mov     bx, [ebp+4]\n005105FF: cmp     edx, ecx; Compare Two Operands\n00510601: mov     [esp+38h+var_4], ebx\n00510605: mov     ebx, ecx\n00510607: jge     short loc_51060B; Jump if Greater or Equal (SF=OF)\n00510609: mov     ebx, edx\n0051060B: mov     ebp, [esp+38h+packet]\n0051060F: cmp     ebp, ebx; Compare Two Operands\n00510611: jge     short loc_510615; Jump if Greater or Equal (SF=OF)\n00510613: mov     ebx, ebp\n00510615: mov     ebp, [esp+38h+var_4]\n00510619: cmp     ebp, ebx; Compare Two Operands\n0051061B: jge     short loc_51061F; Jump if Greater or Equal (SF=OF)\n0051061D: mov     ebx, ebp\n0051061F: add     ebp, edi; Add\n00510621: add     edx, edi; Add\n00510623: push    ebp\n00510624: mov     ebp, [esp+3Ch+packet]\n00510628: add     ebp, edi; Add\n0051062A: add     ecx, edi; Add\n0051062C: push    ebp\n0051062D: push    edx\n0051062E: mov     edx, [esp+44h+ot_base]\n00510632: push    ecx\n00510633: mov     ecx, [esp+48h+ot_shift]\n00510637: push    eax\n00510638: sar     ebx, cl; Shift Arithmetic Right\n0051063A: lea     eax, [edx+ebx*4]; Load Effective Address\n0051063D: push    eax\n0051063E: call    OT_InsertPrimitive; Call Procedure\n00510643: mov     eax, dword_1D99C18\n00510648: add     esp, 18h; Add\n0051064B: add     eax, 28h ; '('; Add\n0051064E: mov     dword_1D99C18, eax\n00510653: mov     eax, dword_1D99C1C\n00510658: mov     ecx, [esp+38h+var_10]\n0051065C: add     eax, 18h; Add\n0051065F: dec     ecx; Decrement by 1\n00510660: mov     dword_1D99C1C, eax\n00510665: mov     [esp+38h+var_10], ecx\n00510669: jnz     loc_510487; Jump if Not Zero (ZF=0)\n0051066F: mov     eax, dword_1D99C18\n00510674: pop     edi\n00510675: pop     esi\n00510676: pop     ebp\n00510677: pop     ebx\n00510678: add     esp, 28h; Add\n0051067B: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x50fdf0",
+        "end": "0x50fe43",
+        "successors": [
+          "0x50fe43",
+          "0x510041"
+        ]
+      },
+      {
+        "start": "0x50fe43",
+        "end": "0x50fe47",
+        "successors": [
+          "0x50fe47"
+        ]
+      },
+      {
+        "start": "0x50fe47",
+        "end": "0x50feab",
+        "successors": [
+          "0x50feab",
+          "0x510026"
+        ]
+      },
+      {
+        "start": "0x50feab",
+        "end": "0x50febb",
+        "successors": [
+          "0x50febb",
+          "0x510026"
+        ]
+      },
+      {
+        "start": "0x50febb",
+        "end": "0x50fee4",
+        "successors": [
+          "0x50fee4",
+          "0x510021"
+        ]
+      },
+      {
+        "start": "0x50fee4",
+        "end": "0x50ff0e",
+        "successors": [
+          "0x50ff0e",
+          "0x50ff71"
+        ]
+      },
+      {
+        "start": "0x50ff0e",
+        "end": "0x50ff18",
+        "successors": [
+          "0x50ff18",
+          "0x50ff71"
+        ]
+      },
+      {
+        "start": "0x50ff18",
+        "end": "0x50ff23",
+        "successors": [
+          "0x50ff23",
+          "0x50ff7c"
+        ]
+      },
+      {
+        "start": "0x50ff23",
+        "end": "0x50ff71",
+        "successors": [
+          "0x50ffc0"
+        ]
+      },
+      {
+        "start": "0x50ff71",
+        "end": "0x50ff7c",
+        "successors": [
+          "0x50ff7c",
+          "0x50ff82"
+        ]
+      },
+      {
+        "start": "0x50ff7c",
+        "end": "0x50ff82",
+        "successors": [
+          "0x50ff82"
+        ]
+      },
+      {
+        "start": "0x50ff82",
+        "end": "0x50ffc0",
+        "successors": [
+          "0x50ffc0"
+        ]
+      },
+      {
+        "start": "0x50ffc0",
+        "end": "0x50ffe4",
+        "successors": [
+          "0x50ffe4",
+          "0x50ffe6"
+        ]
+      },
+      {
+        "start": "0x50ffe4",
+        "end": "0x50ffe6",
+        "successors": [
+          "0x50ffe6"
+        ]
+      },
+      {
+        "start": "0x50ffe6",
+        "end": "0x50ffea",
+        "successors": [
+          "0x50ffea",
+          "0x50ffec"
+        ]
+      },
+      {
+        "start": "0x50ffea",
+        "end": "0x50ffec",
+        "successors": [
+          "0x50ffec"
+        ]
+      },
+      {
+        "start": "0x50ffec",
+        "end": "0x510021",
+        "successors": [
+          "0x510021"
+        ]
+      },
+      {
+        "start": "0x510021",
+        "end": "0x510026",
+        "successors": [
+          "0x510026"
+        ]
+      },
+      {
+        "start": "0x510026",
+        "end": "0x51003d",
+        "successors": [
+          "0x50fe47",
+          "0x51003d"
+        ]
+      },
+      {
+        "start": "0x51003d",
+        "end": "0x510041",
+        "successors": [
+          "0x510041"
+        ]
+      },
+      {
+        "start": "0x510041",
+        "end": "0x510062",
+        "successors": [
+          "0x510062",
+          "0x5102ca"
+        ]
+      },
+      {
+        "start": "0x510062",
+        "end": "0x510066",
+        "successors": [
+          "0x510066"
+        ]
+      },
+      {
+        "start": "0x510066",
+        "end": "0x5100e3",
+        "successors": [
+          "0x5100e3",
+          "0x5102af"
+        ]
+      },
+      {
+        "start": "0x5100e3",
+        "end": "0x5100ff",
+        "successors": [
+          "0x5100ff",
+          "0x5102af"
+        ]
+      },
+      {
+        "start": "0x5100ff",
+        "end": "0x51012b",
+        "successors": [
+          "0x51012b",
+          "0x5102aa"
+        ]
+      },
+      {
+        "start": "0x51012b",
+        "end": "0x510161",
+        "successors": [
+          "0x510161",
+          "0x5101d7"
+        ]
+      },
+      {
+        "start": "0x510161",
+        "end": "0x51016b",
+        "successors": [
+          "0x51016b",
+          "0x5101d7"
+        ]
+      },
+      {
+        "start": "0x51016b",
+        "end": "0x510177",
+        "successors": [
+          "0x510177",
+          "0x5101e3"
+        ]
+      },
+      {
+        "start": "0x510177",
+        "end": "0x5101d7",
+        "successors": [
+          "0x510238"
+        ]
+      },
+      {
+        "start": "0x5101d7",
+        "end": "0x5101e3",
+        "successors": [
+          "0x5101e3",
+          "0x5101e8"
+        ]
+      },
+      {
+        "start": "0x5101e3",
+        "end": "0x5101e8",
+        "successors": [
+          "0x5101e8"
+        ]
+      },
+      {
+        "start": "0x5101e8",
+        "end": "0x510238",
+        "successors": [
+          "0x510238"
+        ]
+      },
+      {
+        "start": "0x510238",
+        "end": "0x510266",
+        "successors": [
+          "0x510266",
+          "0x510268"
+        ]
+      },
+      {
+        "start": "0x510266",
+        "end": "0x510268",
+        "successors": [
+          "0x510268"
+        ]
+      },
+      {
+        "start": "0x510268",
+        "end": "0x51026c",
+        "successors": [
+          "0x51026c",
+          "0x51026e"
+        ]
+      },
+      {
+        "start": "0x51026c",
+        "end": "0x51026e",
+        "successors": [
+          "0x51026e"
+        ]
+      },
+      {
+        "start": "0x51026e",
+        "end": "0x510272",
+        "successors": [
+          "0x510272",
+          "0x510274"
+        ]
+      },
+      {
+        "start": "0x510272",
+        "end": "0x510274",
+        "successors": [
+          "0x510274"
+        ]
+      },
+      {
+        "start": "0x510274",
+        "end": "0x5102aa",
+        "successors": [
+          "0x5102aa"
+        ]
+      },
+      {
+        "start": "0x5102aa",
+        "end": "0x5102af",
+        "successors": [
+          "0x5102af"
+        ]
+      },
+      {
+        "start": "0x5102af",
+        "end": "0x5102ca",
+        "successors": [
+          "0x510066",
+          "0x5102ca"
+        ]
+      },
+      {
+        "start": "0x5102ca",
+        "end": "0x5102d8",
+        "successors": [
+          "0x5102d8",
+          "0x510475"
+        ]
+      },
+      {
+        "start": "0x5102d8",
+        "end": "0x5102dc",
+        "successors": [
+          "0x5102dc"
+        ]
+      },
+      {
+        "start": "0x5102dc",
+        "end": "0x51032f",
+        "successors": [
+          "0x51032f",
+          "0x51045e"
+        ]
+      },
+      {
+        "start": "0x51032f",
+        "end": "0x510344",
+        "successors": [
+          "0x510344",
+          "0x51045e"
+        ]
+      },
+      {
+        "start": "0x510344",
+        "end": "0x510371",
+        "successors": [
+          "0x510371",
+          "0x510459"
+        ]
+      },
+      {
+        "start": "0x510371",
+        "end": "0x5103a0",
+        "successors": [
+          "0x5103a0",
+          "0x5103d6"
+        ]
+      },
+      {
+        "start": "0x5103a0",
+        "end": "0x5103d6",
+        "successors": [
+          "0x5103d6"
+        ]
+      },
+      {
+        "start": "0x5103d6",
+        "end": "0x510417",
+        "successors": [
+          "0x510417",
+          "0x510419"
+        ]
+      },
+      {
+        "start": "0x510417",
+        "end": "0x510419",
+        "successors": [
+          "0x510419"
+        ]
+      },
+      {
+        "start": "0x510419",
+        "end": "0x51041d",
+        "successors": [
+          "0x51041d",
+          "0x51041f"
+        ]
+      },
+      {
+        "start": "0x51041d",
+        "end": "0x51041f",
+        "successors": [
+          "0x51041f"
+        ]
+      },
+      {
+        "start": "0x51041f",
+        "end": "0x510459",
+        "successors": [
+          "0x51045e"
+        ]
+      },
+      {
+        "start": "0x510459",
+        "end": "0x51045e",
+        "successors": [
+          "0x51045e"
+        ]
+      },
+      {
+        "start": "0x51045e",
+        "end": "0x510475",
+        "successors": [
+          "0x5102dc",
+          "0x510475"
+        ]
+      },
+      {
+        "start": "0x510475",
+        "end": "0x510483",
+        "successors": [
+          "0x510483",
+          "0x51066f"
+        ]
+      },
+      {
+        "start": "0x510483",
+        "end": "0x510487",
+        "successors": [
+          "0x510487"
+        ]
+      },
+      {
+        "start": "0x510487",
+        "end": "0x5104ea",
+        "successors": [
+          "0x5104ea",
+          "0x510658"
+        ]
+      },
+      {
+        "start": "0x5104ea",
+        "end": "0x510504",
+        "successors": [
+          "0x510504",
+          "0x510658"
+        ]
+      },
+      {
+        "start": "0x510504",
+        "end": "0x510537",
+        "successors": [
+          "0x510537",
+          "0x510653"
+        ]
+      },
+      {
+        "start": "0x510537",
+        "end": "0x510571",
+        "successors": [
+          "0x510571",
+          "0x5105b0"
+        ]
+      },
+      {
+        "start": "0x510571",
+        "end": "0x5105b0",
+        "successors": [
+          "0x5105b0"
+        ]
+      },
+      {
+        "start": "0x5105b0",
+        "end": "0x510609",
+        "successors": [
+          "0x510609",
+          "0x51060b"
+        ]
+      },
+      {
+        "start": "0x510609",
+        "end": "0x51060b",
+        "successors": [
+          "0x51060b"
+        ]
+      },
+      {
+        "start": "0x51060b",
+        "end": "0x510613",
+        "successors": [
+          "0x510613",
+          "0x510615"
+        ]
+      },
+      {
+        "start": "0x510613",
+        "end": "0x510615",
+        "successors": [
+          "0x510615"
+        ]
+      },
+      {
+        "start": "0x510615",
+        "end": "0x51061d",
+        "successors": [
+          "0x51061d",
+          "0x51061f"
+        ]
+      },
+      {
+        "start": "0x51061d",
+        "end": "0x51061f",
+        "successors": [
+          "0x51061f"
+        ]
+      },
+      {
+        "start": "0x51061f",
+        "end": "0x510653",
+        "successors": [
+          "0x510653"
+        ]
+      },
+      {
+        "start": "0x510653",
+        "end": "0x510658",
+        "successors": [
+          "0x510658"
+        ]
+      },
+      {
+        "start": "0x510658",
+        "end": "0x51066f",
+        "successors": [
+          "0x510487",
+          "0x51066f"
+        ]
+      },
+      {
+        "start": "0x51066f",
+        "end": "0x51067c",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 72
+  }
+}

@@ -1,0 +1,43 @@
+# L25-v17-RESUME-CLOSE — close/collect/rollback log
+
+Receipt time (UTC): 2026-10-04T14:50:17.5818836Z. Instance: L25-v17-RESUME-CLOSE (subagent).
+Scope: closure after parent STOP on missing safety witness; normal quit; collect; disk rollback. NO launch/retest, NO kill, NO debugger, NO memory writes, NO armement ever.
+
+## 1) Process checks (observed)
+
+- Start of session: CIM Win32_Process LIKE '%FF8%' = 0 / Get-Process '*ff8*' = 0 (after user « fermé »).
+- Re-checked before capture, before restore, after restore: all 0. No kill attempted, none needed.
+- Witnessed beforehand (runDir processes.json): FF8_Launcher PID 38860; FF8_EN PID 18328 (created 2026-10-04T14:43:15.1439110Z).
+
+## 2) Collect (all copies verified, sources stable)
+
+Raw dir: tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-closed-de08918ae55b450bbeb3c02226f01e13/
+UUID: de08918ae55b450bbeb3c02226f01e13 — manifest.json sha256 c2ecf4122b79923dbf6f796d499fda72621d0b3d7aab6a44421391ac07a30b62
+
+- gfx_passthrough.csv: sha 503f286b05cf3728bf3b985b54ae38148086585c88a214d44c04377bf63b9fce, len 24,590,094 (grew 16,461,668@14:45:19 -> 24,590,094@close 14:46:19.744). Streaming hash+copy only; NEVER read wholesale.
+- gfx_passthrough_stage0.log: sha b14d14aec9cdb9154cac546a078e3dbe3a35145658a309da6822167b037fe79b, len 6,065 (5,606 + 459 close append).
+- gfx_passthrough.stage0 (marker): sha 1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82, len 111.
+- All: sha-before == sha-dest == sha-after, mtimes unchanged (stability PASS).
+- Append-only proof: first 5606 B of live log sha == open snapshot sha f77fab64891170de32ec1f206dffa37aab2cf35217b2ea6b3f5b45d68879a5f6 == snapshot full-file sha. Snapshot observation.json c8b793652337bdb5d808ec52fd251577fa140dd662b766a5eb5707f4b90bdb1e; processes.json a1fd716fe5fc878bd0e1c8b13628ce38bafd7d9a0dd78c6d39d979796ee3459b.
+- No gfx_passthrough_dump.bin, no gfx_passthrough.nohook. No dump sidecar was ever created.
+
+## 3) Disk rollback (hash-proven, guards)
+
+- Pre-restore game AF3DN.P: 0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc len 614,912 (expected).
+- Fresh archive (lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44/AF3DN.P.rollback): re-verified 3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19 before copy.
+- Restore: post-hash 3da7883f...d19, len 145,920, mtime 2026-10-04T12:29:48.4462209Z (source-preserved). BYTE-EXACT.
+- Sidecar removal AFTER restore: gfx_passthrough.stage0 removed (archived sha == live sha verified first). CSV + stage0.log originals kept in game dir per NO-PURGE rule. Final scan: only gfx_passthrough.csv + gfx_passthrough_stage0.log remain.
+
+## 4) Final diagnostic phases (close_gfx_passthrough_stage0.log, 16 lines)
+
+attach 2 | install_enter 2 | install_site_before 4 | install_site_after 4 | install_exit 2 | detach 2 | restore/uninstall lines 0.
+Final line detach: ret=-1 cause=snapshot_only seq=10909 armed=1, site1/site2 still E8->stub 54E3294B (stub_match=1), saved6=FF9098000000 (flag saved_match=0 reported — parent to review). No PID field anywhere -> same-process inference forbidden.
+
+## Verdicts (distinct, per contract)
+
+- normal_quit = USER_DECLARATION. process_absence = OBSERVED (0/0 at all checks). disk_restore = HASH_PROVEN.
+- memory_restore/detach = NOT OBSERVED (red): no restore lines; detach leaves sites patched. STOP is kept; satisfied=false; promotion=no. The intermediate detach is NOT retroactively validated (no PID linkage).
+
+## Restore failure lines
+
+None. Restore completed byte-exact on first attempt; sidecar deletion succeeded; no residual red artifact left in game dir besides retained log/CSV (documented above).

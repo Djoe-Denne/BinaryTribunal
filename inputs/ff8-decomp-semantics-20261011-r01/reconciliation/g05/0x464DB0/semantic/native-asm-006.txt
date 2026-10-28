@@ -1,0 +1,22 @@
+00464F35: lea     edx, [esp+9Ch+desc]; Load Effective Address
+00464F39: push    0; tim_path
+00464F3B: push    edx; desc
+00464F3C: push    6; list_type
+00464F3E: push    1; mode
+00464F40: call    Gfx_CreateDrawList; Call Procedure
+00464F45: mov     [esi+44h], eax
+00464F48: mov     eax, [ebx+0A50h]
+00464F4E: push    eax; owner
+00464F4F: lea     ecx, [esp+0B0h+desc]; Load Effective Address
+00464F53: push    0; tim_path
+00464F55: push    ecx; desc
+00464F56: push    0Eh; list_type
+00464F58: push    1; mode
+00464F5A: call    Gfx_CreateDrawList; Call Procedure
+00464F5F: add     esp, 2Ch; Add
+00464F62: mov     [esi+48h], eax
+00464F65: pop     edi
+00464F66: pop     esi
+00464F67: pop     ebx
+00464F68: add     esp, 88h; Add
+00464F6E: retn; Return Near from Procedure

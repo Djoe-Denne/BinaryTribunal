@@ -1,0 +1,352 @@
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 5.
+Checked 91 files in 48ms. No fixes applied.
+Found 13 warnings.
+Found 12 infos.
+$ bunx biome lint src/
+src\dashboard.ts:22:24 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    21 │ /** Assemble the full dashboard HTML from parts. */
+  > 22 │ const DASHBOARD_HTML = DASHBOARD_HEAD + "\n<script>" + DASHBOARD_JS_CORE + DASHBOARD_JS_RENDER + DASHBOARD_JS_EVENTS + "<\/script>\n</body></html>"
+       │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    23 │ 
+    24 │ interface TeamRow {
+  
+  i Unsafe fix: Use a template literal.
+  
+     20  20 │   
+     21  21 │   /** Assemble the full dashboard HTML from parts. */
+     22     │ - const·DASHBOARD_HTML·=·DASHBOARD_HEAD·+·"\n<script>"·+·DASHBOARD_JS_CORE·+·DASHBOARD_JS_RENDER·+·DASHBOARD_JS_EVENTS·+·"<\/script>\n</body></html>"
+         22 │ + const·DASHBOARD_HTML·=·`${DASHBOARD_HEAD}\n<script>${DASHBOARD_JS_CORE}${DASHBOARD_JS_RENDER}${DASHBOARD_JS_EVENTS}<\/script>\n</body></html>`
+     23  23 │   
+     24  24 │   interface TeamRow {
+  
+
+src\mission-graph-js-models.ts:24:40 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+     23 │ /** Browser-only draft state: no writes on open, refresh, mode change or close. */
+   > 24 │ export const MISSION_GRAPH_MODELS_JS = String.raw`
+        │                                        ^^^^^^^^^^^
+   > 25 │ const modelEditor = { team: null, revision: 0, rows: [], nativeVariants: [], retained: [], editable: false, busy: false, stale: false, base: '' };
+         ...
+  > 144 │   } catch (error) { modelNotice(error.message, true); }
+  > 145 │ });
+  > 146 │ `;
+        │ ^
+    147 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\mission-graph-js-providers.ts:2:43 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+      1 │ /** Provider preference editor embedded in the mission graph; saves only on explicit submission. */
+    > 2 │ export const MISSION_GRAPH_PROVIDERS_JS = String.raw`
+        │                                           ^^^^^^^^^^^
+    > 3 │ const providerEditor = { team: null, revision: 0, order: [], base: [], providers: [], editable: false, busy: false };
+    > 4 │ function providerNotice(text, error) {
+         ...
+  > 104 │   finally { providerEditor.busy = false; renderProviderOrder(); }
+  > 105 │ });
+  > 106 │ `;
+        │ ^
+    107 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\v2-client.ts:109:31 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    107 │       create: async (options) => {
+    108 │         const input: Record<string, unknown> = { title: options.title }
+  > 109 │         if (options.id) input["id"] = options.id
+        │                               ^^^^
+    110 │         if (options.agent) input["agent"] = options.agent
+    111 │         if (options.model) input["model"] = options.model
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    107 107 │         create: async (options) => {
+    108 108 │           const input: Record<string, unknown> = { title: options.title }
+    109     │ - ········if·(options.id)·input["id"]·=·options.id
+        109 │ + ········if·(options.id)·input.id·=·options.id
+    110 110 │           if (options.agent) input["agent"] = options.agent
+    111 111 │           if (options.model) input["model"] = options.model
+  
+
+src\v2-client.ts:110:34 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    108 │         const input: Record<string, unknown> = { title: options.title }
+    109 │         if (options.id) input["id"] = options.id
+  > 110 │         if (options.agent) input["agent"] = options.agent
+        │                                  ^^^^^^^
+    111 │         if (options.model) input["model"] = options.model
+    112 │         if (options.metadata) input["metadata"] = options.metadata
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    108 108 │           const input: Record<string, unknown> = { title: options.title }
+    109 109 │           if (options.id) input["id"] = options.id
+    110     │ - ········if·(options.agent)·input["agent"]·=·options.agent
+        110 │ + ········if·(options.agent)·input.agent·=·options.agent
+    111 111 │           if (options.model) input["model"] = options.model
+    112 112 │           if (options.metadata) input["metadata"] = options.metadata
+  
+
+src\v2-client.ts:111:34 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    109 │         if (options.id) input["id"] = options.id
+    110 │         if (options.agent) input["agent"] = options.agent
+  > 111 │         if (options.model) input["model"] = options.model
+        │                                  ^^^^^^^
+    112 │         if (options.metadata) input["metadata"] = options.metadata
+    113 │         if (options.parentID) input["parentID"] = options.parentID
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    109 109 │           if (options.id) input["id"] = options.id
+    110 110 │           if (options.agent) input["agent"] = options.agent
+    111     │ - ········if·(options.model)·input["model"]·=·options.model
+        111 │ + ········if·(options.model)·input.model·=·options.model
+    112 112 │           if (options.metadata) input["metadata"] = options.metadata
+    113 113 │           if (options.parentID) input["parentID"] = options.parentID
+  
+
+src\v2-client.ts:112:37 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    110 │         if (options.agent) input["agent"] = options.agent
+    111 │         if (options.model) input["model"] = options.model
+  > 112 │         if (options.metadata) input["metadata"] = options.metadata
+        │                                     ^^^^^^^^^^
+    113 │         if (options.parentID) input["parentID"] = options.parentID
+    114 │         // V1 action names predate the V2 vocabulary: bash is now shell.
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    110 110 │           if (options.agent) input["agent"] = options.agent
+    111 111 │           if (options.model) input["model"] = options.model
+    112     │ - ········if·(options.metadata)·input["metadata"]·=·options.metadata
+        112 │ + ········if·(options.metadata)·input.metadata·=·options.metadata
+    113 113 │           if (options.parentID) input["parentID"] = options.parentID
+    114 114 │           // V1 action names predate the V2 vocabulary: bash is now shell.
+  
+
+src\dashboard-html.ts:12:45 lint/suspicious/noUselessEscapeInString  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! The character doesn't need to be escaped.
+  
+    10 │ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    11 │ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  > 12 │ <script src="https://cdn.tailwindcss.com"><\/script>
+       │                                             ^
+    13 │ <script>tailwind.config={theme:{extend:{colors:{base:{950:'#0c0e14',900:'#141822',850:'#1a1f2e',800:'#1e2433',700:'#2a3144',600:'#3a4358'},txt:{100:'#e2e8f0',200:'#c1c9d9',300:'#aab4c6',400:'#8a96aa',500:'#7b879b'}},fontFamily:{sans:['Inter','system-ui','sans-serif'],mono:['JetBrains Mono','monospace']}}}}<\/script>
+    14 │ <style>
+  
+  i Only quotes that enclose the string and special characters need to be escaped.
+  
+  i Safe fix: Unescape the character.
+  
+    12 │ <script·src="https://cdn.tailwindcss.com"><\/script>
+       │                                            -        
+
+src\dashboard.ts:22:123 lint/suspicious/noUselessEscapeInString  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! The character doesn't need to be escaped.
+  
+    21 │ /** Assemble the full dashboard HTML from parts. */
+  > 22 │ const DASHBOARD_HTML = DASHBOARD_HEAD + "\n<script>" + DASHBOARD_JS_CORE + DASHBOARD_JS_RENDER + DASHBOARD_JS_EVENTS + "<\/script>\n</body></html>"
+       │                                                                                                                           ^
+    23 │ 
+    24 │ interface TeamRow {
+  
+  i Only quotes that enclose the string and special characters need to be escaped.
+  
+  i Safe fix: Unescape the character.
+  
+    22 │ const·DASHBOARD_HTML·=·DASHBOARD_HEAD·+·"\n<script>"·+·DASHBOARD_JS_CORE·+·DASHBOARD_JS_RENDER·+·DASHBOARD_JS_EVENTS·+·"<\/script>\n</body></html>"
+       │                                                                                                                          -                         
+
+src\dashboard.ts:388:42 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    386 │   const activityMatch = url.pathname.match(/^\/api\/session\/([^/]+)\/activity$/)
+    387 │   if (activityMatch) {
+  > 388 │     const sessionId = decodeURIComponent(activityMatch[1]!)
+        │                                          ^^^^^^^^^^^^^^^^^
+    389 │     handleActivityRoute(sessionId, options, res).catch(() => {
+    390 │       if (!res.headersSent) {
+  
+
+src\dashboard.ts:332:3 lint/style/useConst  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This let declares a variable that is only assigned once.
+  
+    331 │   let sessionData: unknown = null
+  > 332 │   let fallbackActivity: ActivityEntry[] = []
+        │   ^^^
+    333 │ 
+    334 │   if (client) {
+  
+  i 'fallbackActivity' is never reassigned.
+  
+    331 │   let sessionData: unknown = null
+  > 332 │   let fallbackActivity: ActivityEntry[] = []
+        │       ^^^^^^^^^^^^^^^^
+    333 │ 
+    334 │   if (client) {
+  
+  i Safe fix: Use const instead.
+  
+    330 330 │   
+    331 331 │     let sessionData: unknown = null
+    332     │ - ··let·fallbackActivity:·ActivityEntry[]·=·[]
+        332 │ + ··const·fallbackActivity:·ActivityEntry[]·=·[]
+    333 333 │   
+    334 334 │     if (client) {
+  
+
+src\progress.ts:100:56 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+     98 │   lastActivityAt(sessionId: string): number {
+     99 │     const records = this.steps.get(sessionId)
+  > 100 │     const lastStepAt = records && records.length > 0 ? records[records.length - 1]!.timestamp : 0
+        │                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    101 │     return Math.max(
+    102 │       this.lastMessageAt.get(sessionId) ?? 0,
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+     98  98 │     lastActivityAt(sessionId: string): number {
+     99  99 │       const records = this.steps.get(sessionId)
+    100     │ - ····const·lastStepAt·=·records·&&·records.length·>·0·?·records[records.length·-·1]!.timestamp·:·0
+        100 │ + ····const·lastStepAt·=·records·&&·records.length·>·0·?·records[records.length·-·1]?.timestamp·:·0
+    101 101 │       return Math.max(
+    102 102 │         this.lastMessageAt.get(sessionId) ?? 0,
+  
+
+src\recovery.ts:233:46 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    232 │       // Skip delivery to teammates who have already reported completion (issue #3)
+  > 233 │       if (hasReportedCompletion(db, team.id, msg.to_name!)) {
+        │                                              ^^^^^^^^^^^^
+    234 │         markDelivered(db, msg.id)
+    235 │         continue
+  
+
+src\result-parser.ts:17:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    15 │   if (!match) return null
+    16 │ 
+  > 17 │   const inner = match[1]!
+       │                 ^^^^^^^^^
+    18 │   const status = inner.match(/<status>([\s\S]*?)<\/status>/)?.[1]?.trim()
+    19 │   const summary = inner.match(/<summary>([\s\S]*?)<\/summary>/)?.[1]?.trim()
+  
+
+src\tools\team-cleanup.ts:97:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    96 │   return rows
+  > 97 │     .map(row => row.teams[0]!)
+       │                 ^^^^^^^^^^^^^
+    98 │     .sort((a, b) => b.time_updated - a.time_updated || a.name.localeCompare(b.name))
+    99 │ }
+  
+
+src\tools\team-cleanup.ts:204:24 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    202 │     getPurgeMemberResources(deps, targets)
+    203 │       .filter(isStaleEnsembleBranch)
+  > 204 │       .map(resource => resource.worktree_branch!)
+        │                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    205 │   )]
+    206 │ }
+  
+
+src\tools\team-cleanup.ts:513:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    511 │   if (unmerged.length > 0 && mergeOnCleanup) {
+    512 │     for (const member of unmerged) {
+  > 513 │       const branch = member.worktree_branch!
+        │                      ^^^^^^^^^^^^^^^^^^^^^^^
+    514 │       // Warn (but don't block) if lead has local changes to overlapping files
+    515 │       try {
+  
+
+src\tools\team-cleanup.ts:6:46 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Several of these imports are unused.
+  
+    4 │ import { spawnFailures } from "./team-spawn"
+    5 │ import { getTeamResourceParts, mergeBranch, deleteBranch, preserveBranch, preservedBranchName, getOverlappingFiles, teamResourceSegment } from "./merge-helper"
+  > 6 │ import type { MergeBranchFn, DeleteBranchFn, PreserveBranchFn, OverlapCheckFn } from "./merge-helper"
+      │                                              ^^^^^^^^^^^^^^^^
+    7 │ import { log } from "../log"
+    8 │ import { runCommand } from "../process"
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    6 │ import·type·{·MergeBranchFn,·DeleteBranchFn,·PreserveBranchFn,·OverlapCheckFn·}·from·"./merge-helper"
+      │                                              ------------------                                      
+
+src\tools\team-status.ts:106:96 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    104 │       // "retrying" label, no rate-limit-specific wording (Fix 2).
+    105 │       const isRetrying = m.retry_until !== null && m.retry_until > now
+  > 106 │       const retrying = isRetrying ? `, retrying (attempt ${m.retry_attempt}, ~${formatDuration(m.retry_until! - now)})` : ""
+        │                                                                                                ^^^^^^^^^^^^^^
+    107 │ 
+    108 │       // Last message time
+  
+
+src\watchdog.ts:169:9 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    167 │         ...stallModel,
+    168 │       }).then(() => {
+  > 169 │         this.progressTracker!.markReported(member.session_id)
+        │         ^^^^^^^^^^^^^^^^^^^^^
+    170 │       }).catch((err) => {
+    171 │         log(`watchdog:stall:nudge-failed member=${member.name} team=${member.team_id} session=${member.session_id} err=${err instanceof Error ? err.message : String(err)}`)
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+    167 167 │           ...stallModel,
+    168 168 │         }).then(() => {
+    169     │ - ········this.progressTracker!.markReported(member.session_id)
+        169 │ + ········this.progressTracker?.markReported(member.session_id)
+    170 170 │         }).catch((err) => {
+    171 171 │           log(`watchdog:stall:nudge-failed member=${member.name} team=${member.team_id} session=${member.session_id} err=${err instanceof Error ? err.message : String(err)}`)
+  
+

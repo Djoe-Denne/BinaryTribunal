@@ -1,0 +1,25 @@
+0050B3FE: imul    ecx; Signed Multiply
+0050B400: add     edx, ecx; Add
+0050B402: sar     edx, 7; Shift Arithmetic Right
+0050B405: mov     eax, edx
+0050B407: shr     eax, 1Fh; Shift Logical Right
+0050B40A: add     edx, eax; Add
+0050B40C: cmp     dl, 1; Compare Two Operands
+0050B40F: mov     byte_1D96DC4, dl
+0050B415: jbe     short loc_50B41E; Jump if Below or Equal (CF=1 | ZF=1)
+0050B417: mov     byte_1D96DC4, 1
+0050B41E: inc     bl; Increment by 1
+0050B420: pop     esi
+0050B421: mov     [ebp+0Dh], bl
+0050B424: pop     ebp
+0050B425: xor     eax, eax; Logical Exclusive OR
+0050B427: pop     ebx
+0050B428: retn; Return Near from Procedure
+0050B429: mov     al, byte_1D96A90; jumptable 0050B2BD case 3
+0050B42E: test    al, al; Logical Compare
+0050B430: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B436: mov     ecx, dword_1D99A40
+0050B43C: test    byte ptr [ecx], 4; Logical Compare
+0050B43F: jz      def_50B2BD; jumptable 0050B2BD default case
+0050B445: call    InitializeSound_CAL_sfx_stop_all2; Call Procedure
+0050B44A: mov     eax, dword_1D99A40

@@ -1,0 +1,25 @@
+0050DDF4: push    ecx
+0050DDF5: test    esi, esi; Logical Compare
+0050DDF7: setz    dl; Set Byte if Zero (ZF=1)
+0050DDFA: push    edx
+0050DDFB: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3
+0050DE00: mov     ecx, eax
+0050DE02: add     esp, 8; Add
+0050DE05: mov     [esp+50h+arg_0], ecx
+0050DE09: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DE0E: xor     eax, eax; jumptable 0050DC8B case 241
+0050DE10: push    ecx
+0050DE11: test    esi, esi; Logical Compare
+0050DE13: setnz   al; Set Byte if Not Zero (ZF=0)
+0050DE16: push    eax
+0050DE17: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3
+0050DE1C: mov     ecx, eax
+0050DE1E: add     esp, 8; Add
+0050DE21: mov     [esp+50h+arg_0], ecx
+0050DE25: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DE2A: push    ecx; jumptable 0050DC8B case 242
+0050DE2B: xor     ecx, ecx; Logical Exclusive OR
+0050DE2D: test    esi, esi; Logical Compare
+0050DE2F: setle   cl; Set Byte if Less or Equal (ZF=1 | SF!=OF)
+0050DE32: push    ecx
+0050DE33: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3

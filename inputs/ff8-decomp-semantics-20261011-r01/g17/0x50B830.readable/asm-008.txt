@@ -1,0 +1,20 @@
+0050BA99: push    0Ch
+0050BA9B: push    esi
+0050BA9C: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript
+0050BAA1: add     esp, 14h; Add
+0050BAA4: add     esi, 9Ch; Add
+0050BAAA: inc     edi; Increment by 1
+0050BAAB: cmp     esi, offset word_1D97494; Compare Two Operands
+0050BAB1: jl      short loc_50BA74; Jump if Less (SF!=OF)
+0050BAB3: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks
+0050BAB8: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050BABD: pop     edi
+0050BABE: and     al, 0EFh; Logical AND
+0050BAC0: pop     esi
+0050BAC1: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050BAC6: mov     eax, [esp+4+arg_0]
+0050BACA: mov     dword_1D99A64, 0
+0050BAD4: pop     ebp
+0050BAD5: mov     byte ptr [eax+1], 0FFh
+0050BAD9: mov     eax, 2
+0050BADE: retn; Return Near from Procedure

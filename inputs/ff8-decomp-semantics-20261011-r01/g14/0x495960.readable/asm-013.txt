@@ -1,0 +1,25 @@
+00495D2F: pop     ebx
+00495D30: retn; Return Near from Procedure
+00495D31: lea     edx, [esi+1Eh]; Load Effective Address
+00495D34: xor     eax, eax; Logical Exclusive OR
+00495D36: mov     ecx, edx
+00495D38: cmp     byte ptr [ecx], 2; Compare Two Operands
+00495D3B: jz      short loc_495D4B; Jump if Zero (ZF=1)
+00495D3D: inc     eax; Increment by 1
+00495D3E: add     ecx, 4; Add
+00495D41: cmp     eax, 4; Compare Two Operands
+00495D44: jl      short loc_495D38; Jump if Less (SF!=OF)
+00495D46: pop     edi
+00495D47: pop     esi
+00495D48: pop     ebp
+00495D49: pop     ebx
+00495D4A: retn; Return Near from Procedure
+00495D4B: cmp     eax, 0FFh; Compare Two Operands
+00495D50: jz      short loc_495D6E; Jump if Zero (ZF=1)
+00495D52: xor     eax, eax; Logical Exclusive OR
+00495D54: mov     ecx, edx
+00495D56: cmp     byte ptr [ecx], 2; Compare Two Operands
+00495D59: jz      short loc_495D69; Jump if Zero (ZF=1)
+00495D5B: inc     eax; Increment by 1
+00495D5C: add     ecx, 4; Add
+00495D5F: cmp     eax, 4; Compare Two Operands

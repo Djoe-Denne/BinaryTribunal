@@ -1,0 +1,25 @@
+004ADDB0: sub     esp, 0Ch; Draw menu state machine. Does NOT call BattlePendingAction_Write 0x484D20. Queues Draw via PendingCmd_QueueOrStore 0x484FD0 at 0x4AF05F (return 0xAF064 = kG13DrawQueueOrStoreCallerRva).
+004ADDB3: push    ebx
+004ADDB4: push    ebp
+004ADDB5: call    BattleUI_BothFlags_1D76701_02; E3c: 2 adresses explicites
+004ADDBA: test    eax, eax; Logical Compare
+004ADDBC: jnz     loc_4AF27C; Jump if Not Zero (ZF=0)
+004ADDC2: mov     eax, dword_1D6D490
+004ADDC7: xor     ebp, ebp; Logical Exclusive OR
+004ADDC9: cmp     byte ptr [eax+2Dh], 2; Compare Two Operands
+004ADDCD: jz      short loc_4ADDDB; Jump if Zero (ZF=1)
+004ADDCF: xor     ecx, ecx; Logical Exclusive OR
+004ADDD1: mov     [esp+14h+var_C], ebp
+004ADDD5: mov     [esp+14h+var_8], ebp
+004ADDD9: jmp     short loc_4ADDF1; Jump
+004ADDDB: mov     cx, [eax+10h]
+004ADDDF: mov     dx, [eax+12h]
+004ADDE3: mov     ax, [eax+14h]
+004ADDE7: mov     word ptr [esp+14h+var_C], dx
+004ADDEC: mov     word ptr [esp+14h+var_8], ax
+004ADDF1: test    ch, 0A0h; Logical Compare
+004ADDF4: jz      short loc_4ADE14; Jump if Zero (ZF=1)
+004ADDF6: mov     ecx, [esp+14h+var_C]
+004ADDFA: mov     ebx, [esp+14h+var_8]
+004ADDFE: and     ecx, 0AFFFh; Logical AND
+004ADE04: and     ebx, 0AFFFh; Logical AND

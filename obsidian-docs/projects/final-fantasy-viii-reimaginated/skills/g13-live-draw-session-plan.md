@@ -9,24 +9,24 @@ sources:
   - projects/re-ff8/concepts/draw-magic-and-render-bridge.md
   - projects/re-ff8/concepts/command-action-pipeline.md
   - projects/re-ff8/skills/ff8-live-validation-operations.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-offline-draft-2026-08-19.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-offline-draft-2026-08-19.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g12-item-live-promotion-2026-08-25.md
   - C:/Users/djden/source/repos/retro-eng/re-ff8/ai-prompt/todo/g13-live-draw-observe-session-new-chat.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-fire-plus-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-observe-fire-plus-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-review-and-phase-b-design-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-fire-plus-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-observe-fire-plus-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-observe-review-and-phase-b-design-2026-08-25.md
   - C:/Users/djden/source/repos/retro-eng/re-ff8/ai-prompt/todo/g13-live-draw-phase-b-new-chat.md
   - C:/Users/djden/source/repos/retro-eng/re-ff8/ai-prompt/todo/g13-live-draw-direct-replacement-new-chat.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-confirm-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-confirm-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-b1-arm-authorized-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-b1-observe-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-b1-armed-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-stock-replacement-retry3-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-cast-replacement-retry3-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-confirm-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-confirm-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-b1-arm-authorized-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-b1-observe-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-b1-armed-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-stock-replacement-retry3-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-cast-replacement-retry3-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
   - projects/final-fantasy-viii-reimaginated/references/p0-g13-draw-validation.md
 summary: >-
   G13 is live-promoted. PID 22956 produced official Cast and Stock

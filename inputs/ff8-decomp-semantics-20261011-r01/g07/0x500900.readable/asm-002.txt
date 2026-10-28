@@ -1,0 +1,25 @@
+0050095B: call    sub_502020; Call Procedure
+00500960: call    sub_4BB090; Call Procedure
+00500965: call    nullsub_6; Call Procedure
+0050096A: mov     ecx, battle_tasks_init_dword_1D96A94
+00500970: push    ecx; list_head
+00500971: call    BdLinkTask_Pump; Call Procedure
+00500976: add     esp, 8; Add
+00500979: call    nullsub_6; Call Procedure
+0050097E: call    BdLinkTask_PumpStageList; Call Procedure
+00500983: call    nullsub_6; Call Procedure
+00500988: call    updateBattleCamera; Per-frame battle camera updater. Advances active camera animation tasks, applies blend/snap-back using word_1D9771E and the cached dword_B8B800..dword_B8B80C camera, then writes Battle_Camera_world_* and Battle_Camera_LookAt_* from cameraStructPointer.
+0050098D: call    sub_506E30; Call Procedure
+00500992: call    BattleCamera_BuildViewAndConsumeDeltas; Call Procedure
+00500997: call    sub_502020; Call Procedure
+0050099C: jmp     loc_5005A0; Far jump to BdLink tail 0x5005A0-0x50081F (upload, camera parse, audio, ping-pong). The tail is already attached; list_funcs primary size 0xA1 and callees omit it.
+005005A0: test    byte ptr battle_to_update_flags_dword_1D96A9C, 4; Logical Compare
+005005A7: jz      loc_50065E; Jump if Zero (ZF=1)
+005005AD: mov     eax, dword_B8A3E4
+005005B2: push    eax
+005005B3: mov     eax, g_BattleFramePingPongIndex
+005005B8: and     eax, 0FFh; Logical AND
+005005BD: xor     eax, 1; Logical Exclusive OR
+005005C0: lea     ecx, [eax+eax*2]; Load Effective Address
+005005C3: shl     ecx, 3; Shift Logical Left
+005005C6: sub     ecx, eax; Integer Subtraction

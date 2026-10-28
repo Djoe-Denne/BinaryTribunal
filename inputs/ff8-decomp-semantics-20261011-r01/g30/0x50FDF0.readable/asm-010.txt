@@ -1,0 +1,25 @@
+00510117: mov     [esp+44h+var_4], edx
+0051011B: call    Poly_BackfaceTest2D; Call Procedure
+00510120: add     esp, 0Ch; Add
+00510123: test    eax, eax; Logical Compare
+00510125: jle     loc_5102AA; Jump if Less or Equal (ZF=1 | SF!=OF)
+0051012B: mov     eax, dword_1D99C18
+00510130: mov     [eax+8], ebx
+00510133: mov     ecx, dword_1D99C18
+00510139: mov     eax, [esp+38h+var_8]
+0051013D: mov     [ecx+10h], ebp
+00510140: mov     edx, dword_1D99C18
+00510146: mov     [edx+18h], eax
+00510149: mov     ecx, dword_1D99C18
+0051014F: mov     eax, [esp+38h+var_18]
+00510153: mov     edx, [esp+38h+var_4]
+00510157: test    eax, offset unk_2000000; Logical Compare
+0051015C: mov     [ecx+20h], edx
+0051015F: jz      short loc_5101D7; Jump if Zero (ZF=1)
+00510161: test    [esp+38h+var_10], 0FFFFh; Logical Compare
+00510169: jz      short loc_5101D7; Jump if Zero (ZF=1)
+0051016B: mov     ecx, [esp+38h+var_14]
+0051016F: test    ecx, 0FE000000h; Logical Compare
+00510175: jnz     short loc_5101E3; Jump if Not Zero (ZF=0)
+00510177: mov     edx, dword_1D99C18
+0051017D: mov     [edx+4], eax

@@ -1,0 +1,22 @@
+0048A069: call    BattleEvent_EnqueueActionPresentation; enqueue 'h' presentation task for payload slot; does NOT advance any counter (ex-misnomer)
+0048A06E: xor     eax, eax; Logical Exclusive OR
+0048A070: push    6; phase
+0048A072: mov     al, ATTACK_HIT_COUNT
+0048A077: lea     edx, [eax+eax*4]; Load Effective Address
+0048A07A: mov     byte ptr ACTION_EVENT_GROUP_INDEX[edx*4], 0
+0048A082: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+0048A087: add     esp, 34h; Add
+0048A08A: mov     byte ptr BACK_PREEMTIVE_INFO_3, 0
+0048A091: mov     byte_1D28E0D, 0
+0048A098: push    6; phase
+0048A09A: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+0048A09F: push    ebx
+0048A0A0: call    domain__EnemyAI_SyncAIVarsToSlot; Call Procedure
+0048A0A5: add     esp, 8; Add
+0048A0A8: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048A0AD: pop     edi
+0048A0AE: pop     esi
+0048A0AF: pop     ebp
+0048A0B0: pop     ebx
+0048A0B1: add     esp, 64h; Add
+0048A0B4: retn; Return Near from Procedure

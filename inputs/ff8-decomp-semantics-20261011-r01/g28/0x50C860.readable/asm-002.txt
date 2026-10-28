@@ -1,0 +1,25 @@
+0050C8AD: test    esi, esi; Logical Compare
+0050C8AF: jz      short loc_50C8B9; Jump if Zero (ZF=1)
+0050C8B1: inc     ecx; Increment by 1
+0050C8B2: cmp     ecx, 0Ch; Compare Two Operands
+0050C8B5: jl      short loc_50C89F; Jump if Less (SF!=OF)
+0050C8B7: jmp     short loc_50C8BB; Jump
+0050C8B9: mov     eax, ecx
+0050C8BB: mov     esi, eax
+0050C8BD: push    ebx
+0050C8BE: cdq; EAX -> EDX:EAX (with sign)
+0050C8BF: sub     eax, edx; Integer Subtraction
+0050C8C1: and     esi, 1; Logical AND
+0050C8C4: movzx   dx, byte ptr [edi+1]; Move with Zero-Extend
+0050C8C9: sar     eax, 1; Shift Arithmetic Right
+0050C8CB: add     eax, 0Ah; Add
+0050C8CE: mov     ebx, dword ptr [esp+14h+scrollV]
+0050C8D2: shl     eax, 6; Shift Logical Left
+0050C8D5: add     eax, edx; Add
+0050C8D7: mov     word ptr [esp+14h+var_8], ax
+0050C8DC: movzx   ax, byte ptr [edi+2]; Move with Zero-Extend
+0050C8E1: shl     esi, 7; Shift Logical Left
+0050C8E4: add     eax, esi; Add
+0050C8E6: mov     word ptr [esp+14h+var_8+2], ax
+0050C8EB: movzx   cx, byte ptr [edi+3]; Move with Zero-Extend
+0050C8F0: mov     [esp+14h+var_4], cx

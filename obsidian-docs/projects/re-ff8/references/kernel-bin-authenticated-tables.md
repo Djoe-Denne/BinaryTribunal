@@ -4,7 +4,7 @@ category: references
 tags: [ff8, battle-system, reverse-engineering, testing, reference]
 aliases: [Authenticated K_MAGIC, Authenticated K_ITEM, G11 kernel matrix]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g11-g12-offline-family-completion-2026-08-19.md
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fs
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fi
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/Data/lang-en/main.fl

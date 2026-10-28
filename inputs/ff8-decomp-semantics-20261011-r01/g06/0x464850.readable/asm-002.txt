@@ -1,0 +1,25 @@
+0046488C: mov     eax, esi
+0046488E: cdq; EAX -> EDX:EAX (with sign)
+0046488F: and     edx, 3Fh; Logical AND
+00464892: add     eax, edx; Add
+00464894: mov     esi, eax
+00464896: mov     eax, edi
+00464898: cdq; EAX -> EDX:EAX (with sign)
+00464899: and     edx, 0FFh; Logical AND
+0046489F: add     eax, edx; Add
+004648A1: mov     edi, eax
+004648A3: sar     ecx, 8; Shift Arithmetic Right
+004648A6: sar     edi, 8; Shift Arithmetic Right
+004648A9: sar     ebp, 6; Shift Arithmetic Right
+004648AC: sar     esi, 6; Shift Arithmetic Right
+004648AF: cmp     ecx, edi; Compare Two Operands
+004648B1: mov     [esp+10h+arg_C], ebp
+004648B5: mov     [esp+10h+arg_0], ecx
+004648B9: mov     [esp+10h+arg_4], edi
+004648BD: jg      loc_464950; Jump if Greater (ZF=0 & SF=OF)
+004648C3: mov     eax, edi
+004648C5: mov     ebp, ecx
+004648C7: sub     eax, ecx; Integer Subtraction
+004648C9: shl     ebp, 4; Shift Logical Left
+004648CC: inc     eax; Increment by 1
+004648CD: mov     [esp+10h+arg_8], eax

@@ -64,3 +64,43 @@ test("unaccepted pending command can refresh revision only after snapshot proves
   s.options.transport = { async call(method, input) { if (method === "submit" && drop) { drop = false; throw new Error("cut before acceptance"); } return real.call(method, input); } };
   try { await s.client.ensure("m"); await expect(s.client.submit("m", body)).rejects.toThrow("cut"); await s.client.control("m", "renew"); expect((await s.client.submit("m", body)).state).toBe("accepted"); expect(s.receipts.size).toBe(1); expect(s.requests[0].expectedRevision).toBe(2); } finally { s.client.close(); s.cleanup(); }
 });
+for (const [native, category, recoverable] of [
+  [{ _tag: "UnauthorizedError", message: "TOP-SECRET unauthorized" }, "auth", false],
+  [{ _tag: "ForbiddenError", message: "TOP-SECRET forbidden" }, "permission", false],
+  [{ _tag: "InvalidRequestError", message: "TOP-SECRET invalid" }, "input", false],
+  [{ _tag: "RpcInternalError", type: "rpc.invalid_output", message: "TOP-SECRET invalid output" }, "schema", false],
+  [{ _tag: "ServiceUnavailableError", message: "TOP-SECRET unavailable" }, "transport", true],
+  [{ _tag: "RpcError", type: "execution_rejected", message: "TOP-SECRET quota", data: { category: "quota", recoverable: true } }, "quota", true],
+] as const) test(`public error ${native._tag}/${category} survives submit/inspect/control without invented refusal authority`, async () => {
+  for (const operation of ["submit", "inspect", "control"] as const) {
+    const s = setup(), real = s.options.transport; let fail = false;
+    s.options.transport = { call: async (method, input) => { if (fail && method === operation) throw native; return real.call(method, input); } };
+    const client = new ExecutionClient(s.options);
+    try {
+      await client.ensure("m"); fail = true;
+      const action = operation === "submit" ? client.submit("m", body) : operation === "inspect" ? client.inspect("m", body.executionId) : client.control("m", "pause");
+      await expect(action).rejects.toMatchObject({ category, recoverable, type: native._tag === "RpcError" ? "execution_rejected" : undefined });
+      fail = false;
+      if (operation === "submit") expect((await client.submit("m", body)).state).toBe("accepted");
+    } finally { client.close(); s.client.close(); s.cleanup(); }
+  }
+});
+for (const state of [
+  { executions: [] },
+  { admissions: { controllerId: "ctl", leaseUntil: Number.NaN, paused: false }, executions: [] },
+  { admissions: { controllerId: "ctl", leaseUntil: Date.now() + 300000, paused: true }, executions: [] },
+  { admissions: { controllerId: "ctl", leaseUntil: Date.now() + 300000, paused: false }, executions: [null] },
+]) test("ambiguous or paused admission snapshot cannot send a new command", async () => {
+  const s = setup(), real = s.options.transport;
+  s.options.transport = { call: async (method, input) => method === "snapshot" ? { version: 1, revision: 1, ...state } : real.call(method, input) };
+  const client = new ExecutionClient(s.options);
+  try { await client.ensure("m"); await expect(client.submit("m", body)).rejects.toThrow(); expect(s.requests).toHaveLength(0); }
+  finally { client.close(); s.client.close(); s.cleanup(); }
+});
+test("invalid acceptance receipt is not cached and retry keeps the original identity", async () => {
+  const s = setup(), real = s.options.transport; let invalid = true;
+  s.options.transport = { call: async (method, input) => method === "submit" && invalid ? { version: 1, revision: 2, executionId: "other", state: "accepted" } : real.call(method, input) };
+  const client = new ExecutionClient(s.options);
+  try { await client.ensure("m"); await expect(client.submit("m", body)).rejects.toThrow(/receipt/); invalid = false; expect((await client.submit("m", body)).executionId).toBe(body.executionId); expect(s.receipts.size).toBe(1); }
+  finally { client.close(); s.client.close(); s.cleanup(); }
+});

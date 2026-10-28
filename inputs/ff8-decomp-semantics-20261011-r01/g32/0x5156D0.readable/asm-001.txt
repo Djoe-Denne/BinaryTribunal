@@ -1,0 +1,25 @@
+005156D0: push    esi; Stage092 specialized worker: conditionally deforms layer 0, invokes helper 0x515730 around the render, then calls BS_RenderRelated.
+005156D1: mov     esi, [esp+4+arg_0]
+005156D5: movsx   eax, word ptr [esi+0Ch]; Move with Sign-Extend
+005156D9: sub     eax, 0; Integer Subtraction
+005156DC: jz      short loc_515716; Jump if Zero (ZF=1)
+005156DE: dec     eax; Decrement by 1
+005156DF: jnz     short loc_515724; Jump if Not Zero (ZF=0)
+005156E1: test    byte ptr dword_1D9898C, 2; Logical Compare
+005156E8: jnz     short loc_5156FA; Jump if Not Zero (ZF=0)
+005156EA: mov     eax, dword_1D98A50
+005156EF: push    0
+005156F1: push    eax
+005156F2: call    BS_Effect_DeformCompression; Call Procedure
+005156F7: add     esp, 8; Add
+005156FA: test    byte ptr dword_1D9898C, 8; Logical Compare
+00515701: jnz     short loc_51570D; Jump if Not Zero (ZF=0)
+00515703: push    0
+00515705: call    sub_515730; Call Procedure
+0051570A: add     esp, 4; Add
+0051570D: call    BS_RenderRelated; Call Procedure
+00515712: xor     eax, eax; Logical Exclusive OR
+00515714: pop     esi
+00515715: retn; Return Near from Procedure
+00515716: push    1
+00515718: call    sub_515730; Call Procedure

@@ -1,0 +1,158 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g06 — 0x464850 tex_vram_rectangle (factual, provenance-cited)\n; \n; == FROZEN NATIVE PACKET ==\n; Source: .tmp/ff8-decomp-semantics-20261011-r01/native/0x464850.json (sha256 72f5e85aeda3168bd1cd97ff40d4407399a0fbbdd3d5589f58031f5fc9e7b087; IDB FF8_EN.exe - 9.3.i64, input sha256 064d466b..., exported 2026-10-11T16:38:25Z; 32-bit).\n; - Single chunk [0x464850,0x464997), 119 insns, 20 blocks (native-groups.json:580-587; ledger battle-graph-ledger.json:280024-280037 status \"named_not_semantically_audited\").\n; - Sole code target: call sub_467550 @0x46486D; 5 args pushed (ebp,ebx,esi,edi @0x464869-6C + push offset dword_1CB6040 @0x464864); caller-side add esp,0x14 @0x464874 (cdecl, 5 args).\n; - ABI of 0x464850: 4 cdecl args, inclusive bounds (x, y, x+w-1, y+h-1) — proven by validated callers (decomp/0x45BD30__copyblockToVRAM.md:33,114; decomp/0x45BDD0__moveVramRectToVram.md:64-69,116). ebx/ebp/esi/edi saved; no meaningful return (callers ignore helper result; EAX=1 set by callers after return).\n; - Coordinate math (packet asm): arg0/arg2 rounded (cdq; and 0x3F; add) then sar 6 => signed /64; arg1/arg3 (and 0xFF; add) then sar 8 => /256 (0x464872-0x4648AC). Signed zone compares jg/jle @0x4648BD/0x464938/0x464954.\n; - Write effects (hex-verified + validated): loop @0x4648F4 mov dword [ecx],0xFFFFFFFF, stride add 0x8980, 3 iterations (mov edx,3); target lea ecx,[idx*4+0x1CB636C] (0x8980 = 0x44C*0x20 arithmetic identity). Optional block gated by [0x1CCFD90]!=0 (0x464903 region) computing idx*0x470, second gate [0x1CAD28C+8 (0x1CAD294)]!=0, then mov ecx,0x100; lea edi,[edx+0x1CAD28C]; rep stosd (0x400 bytes cleared per selected slot row). Final mov dword [eax*4+0x1CBECEC],0xFFFFFFFF; ret via pops.\n; - xrefs_to: exactly 6, all code type 17: 0x45B6D8(fn 0x45B660), 0x45BAB8(0x45BA60), 0x45BC10(0x45BB00), 0x45BDBA(0x45BD30), 0x45BE5D(0x45BDD0), 0x45BFA7(0x45BEE0). Matches address_catalog.md:469 (\"Rectangle VRAM complet (6 xrefs)\") and graph native-groups.json:2649-2661.\n; \n; == VALIDATED SEMANTIC FACTS (prior campaign, parent-gated) ==\n; - Role: DIRTY/INVALIDATION marker on texture-page tables, NOT a blit and NOT a proven GPU upload (3 votes; render_textures_tim.md:223-230). Catalog names copyblock/moveVramRect \"trop large\"; \"VRAM\" is LIKELY, unproven by name (semantic/0x45BD30.md:10-11; semantic/0x45BDD0.md:5,21).\n; - Callee 0x467550: [0x467550,0x4675B7), non_investigated_static (ledger:280206-280219). render_textures_tim.md:224-225 (3 votes): overlap-clears ([eax-0x10C]=0 over 0x40 slots stride 0x44C on intersect). semantic/0x45BD30.md:28 conservatively states \"cible réelle 0x467550 à 0x46486D, cinq arguments nettoyés à 0x464874, rôle inconnu\".\n; - Caller 0x45BD30 copyblockToVRAM (validated C9-V-R-SOL 2026-10-09, §5.6 OK): copies u16 rect to CPU buffer 0x1B47818 (base+2*(1024*y+x), stride 0x800), then notifies inclusive bounds via 0x464850 @0x45BDBA, add esp,0x10; height 0 still notifies (semantic/0x45BD30.md:9-28).\n; - Caller 0x45BDD0 moveVramRectToVram (validated 2026-10-09): 16-bit-word rect copy within same 0x1B47818 base, rep movsd/movsb, dirty on DESTINATION inclusive bounds @0x45BE5D; ABI (rect, dst_x, dst_y) cdecl per caller 0x505DAD/0x505DB2 (semantic/0x45BDD0.md:11-17).\n; - Caller 0x45B660 sub_45B660 [0x45B660,0x45B6E6), non_investigated: calls 0x45B6F0 @0x45B697 then 0x464850 @0x45B6D8 (ledger:5416-5427); invoked from BdLink_GF_battle_input_and_texture_upload 0x500900 with (__int16*)(0x1D969C8+(pp^1)*0x5C) frame ping-pong, under flags&4, followed by Gpu_DrawOTagCurrent (decomp/0x500900__BdLink_GF_battle_input_and_texture_upload.md:43,145-148).\n; - Callers 0x45BA60/0x45BB00: per CLOSURE_sky-path.md:20,50,56, 0x45BB00 is target of g_GpuPrimDispatchOpaque[0x80] handler 0x462E80 (GP0 MoveImage VRAM->VRAM, backdrop tile composition), \"thunks E1-E7 -> famille 0x45BAxx-0x45BC60\" — so 2 of 6 xrefs sit on the GP0-MoveImage path (that doc's verdict (c)).\n; - Caller 0x45BEE0 isDravingOverlayImage [0x45BEE0,0x45BFB8), named_not_semantically_audited: calls 0x464220 @0x45BEEE then 0x464850 @0x45BFA7 (ledger:5446-5457).\n; - Pipeline placement (validated): upload chain ring 32x16B -> BattleTimQueue_FlushToVram 0x505D20 case 0 -> copyblockToVRAM -> mirror 0x1B47818 + tex_vram_rectangle dirty (0x505D47 / 0x45BD61-DBA) (CLOSURE_tim-vram-tpage.md:125). Battle CLUT refs encode (y<<6)|(x>>4) via sub_45B920 (same doc:127).\n; - Shared data context: 0x1CB6040 = TPage context table base, ctx stride 0x44C (semantic/0x464DB0.md:15; semantic/0x465CE0.md:16 \"P=1CB6040+0x44C*(32*d+p)\", alt table S=1CAD228+0x470*p; 0x1CAD28C = 0x1CAD228+0x64 arithmetic identity). 0x1CB636C = 0x1CB6040+0x32C; fields +0x324/328/32C also tested by World_loadTextureVRAM_updateAnim 0x464BD0 (render_textures_tim.md:240-243). 0x1CCFD90 gate also used by Gfx_SelectTexturePageDrawList.\n; - Address-order neighbours (ledger): 0x4647A0 Gfx_DestroyTexturePageSlots [..,0x464804) precedes; next function after is 0x464BD0 World_loadTextureVRAM_updateAnim, then 0x464DB0 Gfx_UploadCLUTSlot / 0x464F70 Gfx_AllocTexturePageSlot / 0x4653B0 isUpdateVRAMOrSomething / 0x465720 (g05, owned by discover-g05).\n; - Mission history: C12 0x464850 status N (never engaged prior) (missions/ff8-decomp-semantics-2026-10-11.md:148; PLAN_gfx...:79).\n; \n; == UNCERTAIN / OPEN (do not promote) ==\n; 1. Tile-grid orientation: asm maps args0/2 -> /64 and args1/3 -> /256; render_textures_tim.md:226 phrases \"x:(x+0xFF)/256, y:(y+0x3F)/64\" — naming swap unresolved; exact seeds 64x256 vs GPU pages open (PC-10).\n; 2. Meaning of end-queue past 0x464950 open (PC-08).\n; 3. 0x467550 role: \"inconnu\" (semantic) vs overlap-clear detail (render, 3 votes) — both preserved, not reconciled here.\n; 4. Second gate [0x1CAD294]!=0 inside the rep-stosd block comes from my hex decode of the packet; the validated doc names only the [0x1CCFD90] gate — flagged for author forks to verify.\n; 5. \"VRAM mirror\" identity and buffer capacity remain LIKELY interpretations; height-512 clamp absent (PC-07).\n; 6. Xref counts elsewhere in docs (38 xrefs = copyblockToVRAM; 9 xrefs = moveVramRectToVram) concern callers, not this EA; packet's 6 is authoritative for 0x464850.\n; \n; == TOOL/INFRA NOTES ==\n; - GrepAI: list_workspaces returned [] (no applicable index) -> native grep used per policy. QMD query tool call failed (MCP error); knowledge base unavailable this run — all knowledge facts are repo-doc sourced. No files modified; no IDB/Git/ledger/live actions.\n; \n; == SOURCE INVENTORY ==\n; .tmp/ff8-decomp-semantics-20261011-r01/native/0x464850.json; docs/missions/ff8-decomp-semantics-2026-10-11-run01/{native-groups.json:49-53,580-587,2649-2661, CONTRACT.md}; docs/missions/ff8-decomp-semantics-2026-10-11.md:142-152; docs/tech/systems/render_textures_tim.md:188-243; docs/tech/reference/address_catalog.md:469; docs/tech/investigation/battle-static-discovery/: semantic/{0x45BD30,0x45BDD0,0x45BE70,0x464DB0:15,0x465CE0:16}.md; decomp/{0x45BD30,0x45BDD0,0x500900:43,145-148,0x509E00:72}.md; driver-passthrough/{CLOSURE_tim-vram-tpage.md:125-128, CLOSURE_sky-path.md:20,50,56}; battle-graph-ledger.json:5416-5457,278364-278452,280024-280037,280206-280219.\n; Native packet + frozen docs preserved intact for independent C/semantic author forks. STOP.\n; TARGET ASM COMPLETE\n00464850: push    ebx; Vague C: tex_vram_rectangle complet (marqueur tuiles -1 + memset 0x400). 6 xrefs.\n00464851: mov     ebx, [esp+4+arg_4]\n00464855: push    ebp\n00464856: mov     ebp, [esp+8+arg_0]\n0046485A: push    esi\n0046485B: mov     esi, [esp+0Ch+arg_8]\n0046485F: push    edi\n00464860: mov     edi, [esp+10h+arg_C]\n00464864: push    offset dword_1CB6040\n00464869: push    edi\n0046486A: push    esi\n0046486B: push    ebx\n0046486C: push    ebp\n0046486D: call    sub_467550; Call Procedure\n00464872: mov     eax, ebp\n00464874: add     esp, 14h; Add\n00464877: cdq; EAX -> EDX:EAX (with sign)\n00464878: and     edx, 3Fh; Logical AND\n0046487B: add     eax, edx; Add\n0046487D: mov     ebp, eax\n0046487F: mov     eax, ebx\n00464881: cdq; EAX -> EDX:EAX (with sign)\n00464882: and     edx, 0FFh; Logical AND\n00464888: add     eax, edx; Add\n0046488A: mov     ecx, eax\n0046488C: mov     eax, esi\n0046488E: cdq; EAX -> EDX:EAX (with sign)\n0046488F: and     edx, 3Fh; Logical AND\n00464892: add     eax, edx; Add\n00464894: mov     esi, eax\n00464896: mov     eax, edi\n00464898: cdq; EAX -> EDX:EAX (with sign)\n00464899: and     edx, 0FFh; Logical AND\n0046489F: add     eax, edx; Add\n004648A1: mov     edi, eax\n004648A3: sar     ecx, 8; Shift Arithmetic Right\n004648A6: sar     edi, 8; Shift Arithmetic Right\n004648A9: sar     ebp, 6; Shift Arithmetic Right\n004648AC: sar     esi, 6; Shift Arithmetic Right\n004648AF: cmp     ecx, edi; Compare Two Operands\n004648B1: mov     [esp+10h+arg_C], ebp\n004648B5: mov     [esp+10h+arg_0], ecx\n004648B9: mov     [esp+10h+arg_4], edi\n004648BD: jg      loc_464950; Jump if Greater (ZF=0 & SF=OF)\n004648C3: mov     eax, edi\n004648C5: mov     ebp, ecx\n004648C7: sub     eax, ecx; Integer Subtraction\n004648C9: shl     ebp, 4; Shift Logical Left\n004648CC: inc     eax; Increment by 1\n004648CD: mov     [esp+10h+arg_8], eax\n004648D1: mov     ebx, [esp+10h+arg_C]\n004648D5: cmp     ebx, esi; Compare Two Operands\n004648D7: jg      short loc_464942; Jump if Greater (ZF=0 & SF=OF)\n004648D9: lea     eax, [ebx+ebp]; Load Effective Address\n004648DC: lea     ecx, [eax+eax*4]; Load Effective Address\n004648DF: lea     ecx, [eax+ecx*2]; Load Effective Address\n004648E2: lea     ecx, [ecx+ecx*4]; Load Effective Address\n004648E5: lea     edx, [ecx+ecx*4]; Load Effective Address\n004648E8: lea     ecx, ds:1CB636Ch[edx*4]; Load Effective Address\n004648EF: mov     edx, 3\n004648F4: mov     dword ptr [ecx], 0FFFFFFFFh\n004648FA: add     ecx, 8980h; Add\n00464900: dec     edx; Decrement by 1\n00464901: jnz     short loc_4648F4; Jump if Not Zero (ZF=0)\n00464903: mov     ecx, dword_1CCFD90\n00464909: test    ecx, ecx; Logical Compare\n0046490B: jz      short loc_464935; Jump if Zero (ZF=1)\n0046490D: lea     edx, [eax+eax*8]; Load Effective Address\n00464910: shl     edx, 3; Shift Logical Left\n00464913: sub     edx, eax; Integer Subtraction\n00464915: shl     edx, 4; Shift Logical Left\n00464918: mov     eax, dword_1CAD694[edx]\n0046491E: test    eax, eax; Logical Compare\n00464920: jz      short loc_464935; Jump if Zero (ZF=1)\n00464922: mov     ecx, 100h\n00464927: xor     eax, eax; Logical Exclusive OR\n00464929: lea     edi, unk_1CAD28C[edx]; Load Effective Address\n0046492F: rep stosd; Store String\n00464931: mov     edi, [esp+10h+arg_4]\n00464935: inc     ebx; Increment by 1\n00464936: cmp     ebx, esi; Compare Two Operands\n00464938: jle     short loc_4648D9; Jump if Less or Equal (ZF=1 | SF!=OF)\n0046493A: mov     ecx, [esp+10h+arg_0]\n0046493E: mov     eax, [esp+10h+arg_8]\n00464942: add     ebp, 10h; Add\n00464945: dec     eax; Decrement by 1\n00464946: mov     [esp+10h+arg_8], eax\n0046494A: jnz     short loc_4648D1; Jump if Not Zero (ZF=0)\n0046494C: mov     ebp, [esp+10h+arg_C]\n00464950: cmp     ecx, edi; Compare Two Operands\n00464952: mov     ebx, ecx\n00464954: jg      short loc_464992; Jump if Greater (ZF=0 & SF=OF)\n00464956: jmp     short loc_46495C; Jump\n00464958: mov     ebp, [esp+10h+arg_C]\n0046495C: mov     eax, [esp+10h+arg_C]\n00464960: mov     ecx, ebp\n00464962: cmp     eax, esi; Compare Two Operands\n00464964: jg      short loc_46498D; Jump if Greater (ZF=0 & SF=OF)\n00464966: mov     edx, ebx\n00464968: shl     edx, 4; Shift Logical Left\n0046496B: mov     eax, ecx\n0046496D: and     al, 0FEh; Logical AND\n0046496F: add     eax, edx; Add\n00464971: inc     ecx; Increment by 1\n00464972: cmp     ecx, esi; Compare Two Operands\n00464974: lea     ebp, [eax+eax*4]; Load Effective Address\n00464977: lea     eax, [eax+ebp*2]; Load Effective Address\n0046497A: lea     eax, [eax+eax*4]; Load Effective Address\n0046497D: lea     eax, [eax+eax*4]; Load Effective Address\n00464980: mov     dword_1CBECEC[eax*4], 0FFFFFFFFh\n0046498B: jle     short loc_46496B; Jump if Less or Equal (ZF=1 | SF!=OF)\n0046498D: inc     ebx; Increment by 1\n0046498E: cmp     ebx, edi; Compare Two Operands\n00464990: jle     short loc_464958; Jump if Less or Equal (ZF=1 | SF!=OF)\n00464992: pop     edi\n00464993: pop     esi\n00464994: pop     ebp\n00464995: pop     ebx\n00464996: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x464850",
+        "end": "0x4648c3",
+        "successors": [
+          "0x4648c3",
+          "0x464950"
+        ]
+      },
+      {
+        "start": "0x4648c3",
+        "end": "0x4648d1",
+        "successors": [
+          "0x4648d1"
+        ]
+      },
+      {
+        "start": "0x4648d1",
+        "end": "0x4648d9",
+        "successors": [
+          "0x4648d9",
+          "0x464942"
+        ]
+      },
+      {
+        "start": "0x4648d9",
+        "end": "0x4648f4",
+        "successors": [
+          "0x4648f4"
+        ]
+      },
+      {
+        "start": "0x4648f4",
+        "end": "0x464903",
+        "successors": [
+          "0x464903",
+          "0x4648f4"
+        ]
+      },
+      {
+        "start": "0x464903",
+        "end": "0x46490d",
+        "successors": [
+          "0x46490d",
+          "0x464935"
+        ]
+      },
+      {
+        "start": "0x46490d",
+        "end": "0x464922",
+        "successors": [
+          "0x464922",
+          "0x464935"
+        ]
+      },
+      {
+        "start": "0x464922",
+        "end": "0x464935",
+        "successors": [
+          "0x464935"
+        ]
+      },
+      {
+        "start": "0x464935",
+        "end": "0x46493a",
+        "successors": [
+          "0x4648d9",
+          "0x46493a"
+        ]
+      },
+      {
+        "start": "0x46493a",
+        "end": "0x464942",
+        "successors": [
+          "0x464942"
+        ]
+      },
+      {
+        "start": "0x464942",
+        "end": "0x46494c",
+        "successors": [
+          "0x4648d1",
+          "0x46494c"
+        ]
+      },
+      {
+        "start": "0x46494c",
+        "end": "0x464950",
+        "successors": [
+          "0x464950"
+        ]
+      },
+      {
+        "start": "0x464950",
+        "end": "0x464956",
+        "successors": [
+          "0x464956",
+          "0x464992"
+        ]
+      },
+      {
+        "start": "0x464956",
+        "end": "0x464958",
+        "successors": [
+          "0x46495c"
+        ]
+      },
+      {
+        "start": "0x464958",
+        "end": "0x46495c",
+        "successors": [
+          "0x46495c"
+        ]
+      },
+      {
+        "start": "0x46495c",
+        "end": "0x464966",
+        "successors": [
+          "0x464966",
+          "0x46498d"
+        ]
+      },
+      {
+        "start": "0x464966",
+        "end": "0x46496b",
+        "successors": [
+          "0x46496b"
+        ]
+      },
+      {
+        "start": "0x46496b",
+        "end": "0x46498d",
+        "successors": [
+          "0x46498d",
+          "0x46496b"
+        ]
+      },
+      {
+        "start": "0x46498d",
+        "end": "0x464992",
+        "successors": [
+          "0x464958",
+          "0x464992"
+        ]
+      },
+      {
+        "start": "0x464992",
+        "end": "0x464997",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 20
+  }
+}

@@ -1,0 +1,25 @@
+004888DA: mov     eax, dword ptr [esp+74h+op_param_3]; IF test case 5: Check last_attacker_attack_element (elemental type of attack)
+004888DE: mov     ebp, [esp+74h+if_right_condition_final]
+004888E2: lea     ecx, [ebx+ebx*2]; Load Effective Address
+004888E5: and     eax, 0FFh; Logical AND
+004888EA: and     ebp, 0FFFFh; Logical AND
+004888F0: lea     edx, [ebx+ecx*4]; Load Effective Address
+004888F3: xor     ecx, ecx; Logical Exclusive OR
+004888F5: shl     edx, 4; Shift Logical Left
+004888F8: test    eax, eax; Logical Compare
+004888FA: mov     cl, BATTLE_SLOT_DATA.last_attacker_attack_element[edx]
+00488900: mov     edx, ecx
+00488902: jnz     short loc_488916; Jump if Not Zero (ZF=0)
+00488904: mov     eax, 1
+00488909: mov     ecx, ebp
+0048890B: shl     eax, cl; Shift Logical Left
+0048890D: test    edx, eax; Logical Compare
+0048890F: jz      short loc_48892C; Jump if Zero (ZF=1)
+00488911: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488916: cmp     eax, 3; Compare Two Operands
+00488919: jnz     short loc_48892C; Jump if Not Zero (ZF=0)
+0048891B: mov     eax, 1
+00488920: mov     ecx, ebp
+00488922: shl     eax, cl; Shift Logical Left
+00488924: test    edx, eax; Logical Compare
+00488926: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

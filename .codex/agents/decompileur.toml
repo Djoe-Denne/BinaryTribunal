@@ -1,7 +1,7 @@
 name = "decompileur"
 description = "Constructeur de pack de contexte IDA (§5.1) et producteur de C réconcilié ground truth ASM pour une fonction FF8. Use proactively quand l'orchestrator demande un pack `tools/_tmp_semantic_triple/<ea>/` ou un livrable `decomp/<EA>__<Name>.md`."
-model = "glm-5.3-flash"
-model_reasoning_effort = "max"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 developer_instructions = """
 Tu es le worker de décompilation de re-ff8. L'orchestrator t'a donné un EA et un livrable. Tu construis le pack de contexte, puis tu produis le C réconcilié si demandé. Tu n'écris jamais l'IDB ni git.
 
@@ -55,3 +55,4 @@ Pièges connus (§8 HANDOFF) : noms menteurs, bit `0x40` inversé selon l'access
 - Anomalies : pack stub, ASM tronqué, callgraph `TRUNCATED`, chunk à découper
 - Blocages ou ambiguïtés (ne pas deviner)
 """
+

@@ -1,0 +1,25 @@
+00495A5B: mov     al, [esi+1C8h]
+00495A61: add     esp, 0Ch; Add
+00495A64: imul    ecx, eax; Signed Multiply
+00495A67: mov     eax, 51EB851Fh
+00495A6C: imul    ecx; Signed Multiply
+00495A6E: sar     edx, 5; Shift Arithmetic Right
+00495A71: mov     ecx, edx
+00495A73: shr     ecx, 1Fh; Shift Logical Right
+00495A76: add     edx, ecx; Add
+00495A78: cmp     edx, 0FFh; Compare Two Operands
+00495A7E: jle     short loc_495A85; Jump if Less or Equal (ZF=1 | SF!=OF)
+00495A80: mov     edx, 0FFh
+00495A85: mov     [esi+1BBh], dl
+00495A8B: xor     edx, edx; Logical Exclusive OR
+00495A8D: mov     dl, [esi+1B8h]
+00495A93: push    2; p_stat
+00495A95: push    edi; p_char_id
+00495A96: push    edx; p_lvl
+00495A97: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.
+00495A9C: mov     ecx, eax
+00495A9E: xor     eax, eax; Logical Exclusive OR
+00495AA0: mov     al, [esi+1C9h]
+00495AA6: add     esp, 0Ch; Add
+00495AA9: imul    ecx, eax; Signed Multiply
+00495AAC: mov     eax, 51EB851Fh

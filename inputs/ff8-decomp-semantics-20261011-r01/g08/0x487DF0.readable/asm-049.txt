@@ -1,0 +1,25 @@
+00488EBC: ja      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EC2: mov     eax, [esp+74h+jump_value]
+00488EC6: and     eax, 0FFFFh; Logical AND
+00488ECB: add     esi, eax; Add
+00488ECD: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488ED2: cmp     eax, ebp; jumptable 00488E83 case 3
+00488ED4: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EDA: mov     eax, [esp+74h+jump_value]
+00488EDE: and     eax, 0FFFFh; Logical AND
+00488EE3: add     esi, eax; Add
+00488EE5: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EEA: cmp     eax, ebp; jumptable 00488E83 case 4
+00488EEC: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EF2: mov     eax, [esp+74h+jump_value]
+00488EF6: and     eax, 0FFFFh; Logical AND
+00488EFB: add     esi, eax; Add
+00488EFD: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488F02: cmp     eax, ebp; jumptable 00488E83 case 5
+00488F04: jmp     loc_4890F0; Jump
+00488F09: mov     ebp, dword ptr [esp+74h+op_param_2]; jumptable 004887D6 case 7
+00488F0D: and     ebp, edi; Logical AND
+00488F0F: lea     eax, [ebp-0C8h]; switch 28 cases
+00488F15: cmp     eax, 1Bh; Compare Two Operands
+00488F18: ja      short def_488F22; jumptable 00488F22 default case, cases 201,202,204-219
+00488F1A: xor     ecx, ecx; Logical Exclusive OR

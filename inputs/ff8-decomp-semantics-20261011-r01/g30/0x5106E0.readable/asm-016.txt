@@ -1,0 +1,25 @@
+00510C05: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+00510C0A: mov     eax, [esi+24h]
+00510C0D: push    8
+00510C0F: push    eax
+00510C10: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+00510C15: call    sub_45F270; Call Procedure
+00510C1A: lea     ecx, [esp+54h+var_20]; Load Effective Address
+00510C1E: push    16h
+00510C20: push    ecx
+00510C21: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].
+00510C26: mov     eax, dword_1D99C1C
+00510C2B: add     esp, 18h; Add
+00510C2E: mov     esi, [esp+44h+var_10]
+00510C32: mov     ecx, ebx
+00510C34: shl     ecx, 10h; Shift Logical Left
+00510C37: mov     edx, ebx
+00510C39: xor     edi, edi; Logical Exclusive OR
+00510C3B: sar     ecx, 10h; Shift Arithmetic Right
+00510C3E: sar     edx, 10h; Shift Arithmetic Right
+00510C41: cmp     ecx, esi; Compare Two Operands
+00510C43: jge     short loc_510C4C; Jump if Greater or Equal (SF=OF)
+00510C45: mov     edi, 1
+00510C4A: jmp     short loc_510C57; Jump
+00510C4C: cmp     ecx, [esp+44h+var_8]; Compare Two Operands
+00510C50: jle     short loc_510C57; Jump if Less or Equal (ZF=1 | SF!=OF)

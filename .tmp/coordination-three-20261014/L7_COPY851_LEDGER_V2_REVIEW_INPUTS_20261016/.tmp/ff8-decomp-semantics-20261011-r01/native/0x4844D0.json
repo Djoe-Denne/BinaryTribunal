@@ -1,0 +1,74 @@
+{
+  "ea": "0x4844D0",
+  "name_label_only": "domain::Battle_InitATB_RandomFromSpeed",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x4844d0",
+      "end": "0x484538",
+      "hex": "56e84aab000083e07f408bd08b4424088d0c408d0c8833c0c1e10481c1107bd2018a81c1000000c1e8028d7410dd8b5110b81f85eb51f7eac1fa058bc2c1e81f03d00faff28971148b51108b41143bd05e7d068b41108941148b411485c07d07c7411400000000c3"
+    }
+  ],
+  "assembly": "004844D0: push    esi; Battle_InitATB_RandomFromSpeed: cur_atb = max_atb/100*(spd/4+rand(0..127)+1-35), clamped [0,max_atb]\n004844D1: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n004844D6: and     eax, 7Fh; weapon+70*lines 0x1CFE6F8: 71..79=weapon+320, else weapon+230\n004844D9: inc     eax; Increment by 1\n004844DA: mov     edx, eax\n004844DC: mov     eax, [esp+4+p_attacker_slot_id]\n004844E0: lea     ecx, [eax+eax*2]; Load Effective Address\n004844E3: lea     ecx, [eax+ecx*4]; Load Effective Address\n004844E6: xor     eax, eax; Logical Exclusive OR\n004844E8: shl     ecx, 4; Shift Logical Left\n004844EB: add     ecx, offset BATTLE_SLOT_DATA; Add\n004844F1: mov     al, [ecx+0C1h]; si att%2==1: factor=(att+1)/2+100, sinon factor=att/2+4 (branche impaire manquante GLM)\n004844F7: shr     eax, 2; Shift Logical Right\n004844FA: lea     esi, [eax+edx-23h]; Load Effective Address\n004844FE: mov     edx, [ecx+10h]\n00484501: mov     eax, 51EB851Fh\n00484506: imul    edx; Signed Multiply\n00484508: sar     edx, 5; Shift Arithmetic Right\n0048450B: mov     eax, edx\n0048450D: shr     eax, 1Fh; Shift Logical Right\n00484510: add     edx, eax; Add\n00484512: imul    esi, edx; Signed Multiply\n00484515: mov     [ecx+14h], esi\n00484518: mov     edx, [ecx+10h]\n0048451B: mov     eax, [ecx+14h]\n0048451E: cmp     edx, eax; Compare Two Operands\n00484520: pop     esi\n00484521: jge     short loc_484529; Jump if Greater or Equal (SF=OF)\n00484523: mov     eax, [ecx+10h]\n00484526: mov     [ecx+14h], eax\n00484529: mov     eax, [ecx+14h]; EAX = pre-zero-clamp cur_atb (returned as-is, may be negative); slot clamped to 0 below. [wave 2026-09-12 GLM+Grok PASS]\n0048452C: test    eax, eax; Logical Compare\n0048452E: jge     short locret_484537; Jump if Greater or Equal (SF=OF)\n00484530: mov     dword ptr [ecx+14h], 0\n00484537: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x4844d0",
+      "end": "0x484523",
+      "successors": [
+        "0x484523",
+        "0x484529"
+      ]
+    },
+    {
+      "start": "0x484523",
+      "end": "0x484529",
+      "successors": [
+        "0x484529"
+      ]
+    },
+    {
+      "start": "0x484529",
+      "end": "0x484530",
+      "successors": [
+        "0x484530",
+        "0x484537"
+      ]
+    },
+    {
+      "start": "0x484530",
+      "end": "0x484537",
+      "successors": [
+        "0x484537"
+      ]
+    },
+    {
+      "start": "0x484537",
+      "end": "0x484538",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x48b740",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48b5f0"
+    },
+    {
+      "from": "0x48bf35",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48bbd0"
+    }
+  ],
+  "code_targets": [
+    "0x48f020"
+  ],
+  "instruction_count": 35
+}

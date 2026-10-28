@@ -1,0 +1,417 @@
+# activation
+  10002140: 51                 push        ecx
+  10002141: 83 3D CC 6C 09 14  cmp         dword ptr ds:[14096CCCh],0
+  10002148: 56                 push        esi
+  10002149: 57                 push        edi
+  1000214A: C7 44 24 08 00 00  mov         dword ptr [esp+8],0
+  10002152: 0F 85 3C 01 00 00  jne         10002294
+  10002158: BE 01 00 00 00     mov         esi,1
+  1000215D: BF C8 6C 09 14     mov         edi,14096CC8h
+  10002162: 8B CE              mov         ecx,esi
+  10002164: 33 C0              xor         eax,eax
+  10002166: F0 0F B1 0F        lock cmpxchg dword ptr [edi],ecx
+  1000216A: 85 C0              test        eax,eax
+  1000216C: 0F 85 22 01 00 00  jne         10002294
+  10002172: 39 05 C4 6C 09 14  cmp         dword ptr ds:[14096CC4h],eax
+  10002178: 74 0D              je          10002187
+  1000217A: A1 4C 6C 09 14     mov         eax,dword ptr ds:[14096C4Ch]
+  1000217F: 33 C9              xor         ecx,ecx
+  10002181: 87 0F              xchg        ecx,dword ptr [edi]
+  10002183: 5F                 pop         edi
+  10002184: 5E                 pop         esi
+  10002185: 59                 pop         ecx
+  10002186: C3                 ret
+  10002187: 8B 44 24 10        mov         eax,dword ptr [esp+10h]
+  1000218B: 83 F8 01           cmp         eax,1
+  1000218E: 75 0D              jne         1000219D
+  10002190: 83 3D B4 6C 09 14  cmp         dword ptr ds:[14096CB4h],0
+  10002197: 0F 84 F3 00 00 00  je          10002290
+  1000219D: A3 D4 6C 09 14     mov         dword ptr ds:[14096CD4h],eax
+  100021A2: B9 C4 6C 09 14     mov         ecx,14096CC4h
+  100021A7: 8B C6              mov         eax,esi
+  100021A9: 87 01              xchg        eax,dword ptr [ecx]
+  100021AB: 83 3D 88 6C 09 14  cmp         dword ptr ds:[14096C88h],0
+  100021B2: 0F 85 B8 00 00 00  jne         10002270
+  100021B8: 68 B0 3D 06 10     push        10063DB0h
+  100021BD: E8 BE FE FF FF     call        10002080
+  100021C2: 83 C4 04           add         esp,4
+  100021C5: 85 C0              test        eax,eax
+  100021C7: 0F 85 A3 00 00 00  jne         10002270
+  100021CD: F0 FF 05 BC 6C 09  lock inc    dword ptr ds:[14096CBCh]
+  100021D4: 8D 44 24 08        lea         eax,[esp+8]
+  100021D8: 50                 push        eax
+  100021D9: 68 D0 15 00 10     push        offset _Passthrough_Stage0Stub
+  100021DE: 6A 05              push        5
+  100021E0: FF 15 50 80 05 10  call        dword ptr [__imp__GetModuleHandleExA@12]
+  100021E6: 85 C0              test        eax,eax
+  100021E8: 74 66              je          10002250
+  100021EA: 8B 44 24 08        mov         eax,dword ptr [esp+8]
+  100021EE: 3B 05 A8 49 06 10  cmp         eax,dword ptr ds:[100649A8h]
+  100021F4: 75 5A              jne         10002250
+  100021F6: B8 B8 6C 09 14     mov         eax,14096CB8h
+  100021FB: 87 30              xchg        esi,dword ptr [eax]
+  100021FD: 6A 00              push        0
+  100021FF: 6A 01              push        1
+  10002201: 68 10 3E 06 10     push        10063E10h
+  10002206: 68 24 3E 06 10     push        10063E24h
+  1000220B: E8 10 F9 FF FF     call        10001B20
+  10002210: E8 BB 3F 00 00     call        100061D0
+  10002215: 8B F0              mov         esi,eax
+  10002217: B8 44 3E 06 10     mov         eax,10063E44h
+  1000221C: 8B CE              mov         ecx,esi
+  1000221E: F7 D9              neg         ecx
+  10002220: 6A 03              push        3
+  10002222: 1B C9              sbb         ecx,ecx
+  10002224: 83 C1 04           add         ecx,4
+  10002227: 85 F6              test        esi,esi
+  10002229: 89 0D D0 6C 09 14  mov         dword ptr ds:[14096CD0h],ecx
+  1000222F: B9 34 3E 06 10     mov         ecx,10063E34h
+  10002234: 56                 push        esi
+  10002235: 0F 44 C8           cmove       ecx,eax
+  10002238: 51                 push        ecx
+  10002239: 68 58 3E 06 10     push        10063E58h
+  1000223E: E8 DD F8 FF FF     call        10001B20
+  10002243: 83 C4 20           add         esp,20h
+  10002246: 33 C0              xor         eax,eax
+  10002248: 87 07              xchg        eax,dword ptr [edi]
+  1000224A: 5F                 pop         edi
+  1000224B: 8B C6              mov         eax,esi
+  1000224D: 5E                 pop         esi
+  1000224E: 59                 pop         ecx
+  1000224F: C3                 ret
+  10002250: 6A 00              push        0
+  10002252: 6A 00              push        0
+  10002254: 68 E4 3D 06 10     push        10063DE4h
+  10002259: 89 35 50 6C 09 14  mov         dword ptr ds:[14096C50h],esi
+  1000225F: C7 05 D0 6C 09 14  mov         dword ptr ds:[14096CD0h],2
+  10002269: 68 FC 3D 06 10     push        10063DFCh
+  1000226E: EB 18              jmp         10002288
+  10002270: 6A 00              push        0
+  10002272: 6A 00              push        0
+  10002274: 68 C8 3D 06 10     push        10063DC8h
+  10002279: C7 05 D0 6C 09 14  mov         dword ptr ds:[14096CD0h],7
+  10002283: 68 D0 3D 06 10     push        10063DD0h
+  10002288: E8 93 F8 FF FF     call        10001B20
+  1000228D: 83 C4 10           add         esp,10h
+  10002290: 33 C0              xor         eax,eax
+  10002292: 87 07              xchg        eax,dword ptr [edi]
+  10002294: 5F                 pop         edi
+  10002295: 33 C0              xor         eax,eax
+  10002297: 5E                 pop         esi
+  10002298: 59                 pop         ecx
+  10002299: C3                 ret
+
+# present
+  10005AB0: 56                 push        esi
+  10005AB1: 8B 74 24 08        mov         esi,dword ptr [esp+8]
+  10005AB5: 85 F6              test        esi,esi
+  10005AB7: 0F 84 B0 00 00 00  je          10005B6D
+  10005ABD: 83 3D B4 6C 09 14  cmp         dword ptr ds:[14096CB4h],0
+  10005AC4: 74 13              je          10005AD9
+  10005AC6: 83 3D C4 6C 09 14  cmp         dword ptr ds:[14096CC4h],0
+  10005ACD: 75 0A              jne         10005AD9
+  10005ACF: 6A 01              push        1
+  10005AD1: E8 6A C6 FF FF     call        10002140
+  10005AD6: 83 C4 04           add         esp,4
+  10005AD9: E8 F2 DC FF FF     call        100037D0
+  10005ADE: 83 3D 98 49 06 10  cmp         dword ptr ds:[10064998h],0
+  10005AE5: 0F 85 82 00 00 00  jne         10005B6D
+  10005AEB: 53                 push        ebx
+  10005AEC: 8B 9E 74 0A 00 00  mov         ebx,dword ptr [esi+0A74h]
+  10005AF2: 85 DB              test        ebx,ebx
+  10005AF4: 74 76              je          10005B6C
+  10005AF6: 57                 push        edi
+  10005AF7: 6A 04              push        4
+  10005AF9: 68 00 30 00 00     push        3000h
+  10005AFE: 68 08 01 00 00     push        108h
+  10005B03: 6A 00              push        0
+  10005B05: 89 1D 94 49 06 10  mov         dword ptr ds:[10064994h],ebx
+  10005B0B: C7 05 9C 49 06 10  mov         dword ptr ds:[1006499Ch],1
+  10005B15: FF 15 3C 80 05 10  call        dword ptr [__imp__VirtualAlloc@16]
+  10005B1B: 8B F8              mov         edi,eax
+  10005B1D: 85 FF              test        edi,edi
+  10005B1F: 74 4A              je          10005B6B
+  10005B21: 89 3D 98 49 06 10  mov         dword ptr ds:[10064998h],edi
+  10005B27: E8 74 FD FF FF     call        100058A0
+  10005B2C: 89 BE 74 0A 00 00  mov         dword ptr [esi+0A74h],edi
+  10005B32: E8 49 BC FF FF     call        10001780
+  10005B37: A1 AC 49 06 10     mov         eax,dword ptr ds:[100649ACh]
+  10005B3C: 85 C0              test        eax,eax
+  10005B3E: 74 20              je          10005B60
+  10005B40: FF 35 98 49 06 10  push        dword ptr ds:[10064998h]
+  10005B46: 53                 push        ebx
+  10005B47: 68 A0 34 06 10     push        100634A0h
+  10005B4C: 50                 push        eax
+  10005B4D: E8 9E 10 00 00     call        _fprintf
+  10005B52: FF 35 AC 49 06 10  push        dword ptr ds:[100649ACh]
+  10005B58: E8 57 D8 00 00     call        _fflush
+  10005B5D: 83 C4 14           add         esp,14h
+  10005B60: 68 D0 34 06 10     push        100634D0h
+  10005B65: FF 15 18 80 05 10  call        dword ptr [__imp__OutputDebugStringA@4]
+  10005B6B: 5F                 pop         edi
+  10005B6C: 5B                 pop         ebx
+  10005B6D: 5E                 pop         esi
+  10005B6E: C3                 ret
+  10005B6F: CC                 int         3
+  10005B70: 60                 pushad
+  10005B71: 9C                 pushfd
+  10005B72: 8B 44 24 28        mov         eax,dword ptr [esp+28h]
+  10005B76: 50                 push        eax
+  10005B77: E8 34 FF FF FF     call        10005AB0
+  10005B7C: 83 C4 04           add         esp,4
+  10005B7F: 9D                 popfd
+  10005B80: 61                 popad
+  10005B81: FF 25 B0 49 06 10  jmp         dword ptr ds:[100649B0h]
+  10005B87: CC                 int         3
+  10005B88: CC                 int         3
+  10005B89: CC                 int         3
+  10005B8A: CC                 int         3
+  10005B8B: CC                 int         3
+  10005B8C: CC                 int         3
+  10005B8D: CC                 int         3
+  10005B8E: CC                 int         3
+  10005B8F: CC                 int         3
+
+# lifecycle
+  100067F0: 83 EC 48           sub         esp,48h
+  100067F3: A1 80 3F 06 10     mov         eax,dword ptr [___security_cookie]
+  100067F8: 33 C4              xor         eax,esp
+  100067FA: 89 44 24 44        mov         dword ptr [esp+44h],eax
+  100067FE: 83 3D 90 30 06 10  cmp         dword ptr ds:[10063090h],0FFFFFFFFh
+  10006805: 0F 84 D4 00 00 00  je          100068DF
+  1000680B: 56                 push        esi
+  1000680C: FF 15 20 80 05 10  call        dword ptr [__imp__GetLastError@0]
+  10006812: 8B 0D D8 6C 09 14  mov         ecx,dword ptr ds:[14096CD8h]
+  10006818: 8B F0              mov         esi,eax
+  1000681A: C7 44 24 08 4C 43  mov         dword ptr [esp+8],3831434Ch
+  10006822: C7 44 24 0C 40 00  mov         dword ptr [esp+0Ch],40h
+  1000682A: 89 4C 24 10        mov         dword ptr [esp+10h],ecx
+  1000682E: FF 15 34 80 05 10  call        dword ptr [__imp__GetCurrentThreadId@0]
+  10006834: 8B 0D DC 6C 09 14  mov         ecx,dword ptr ds:[14096CDCh]
+  1000683A: 89 44 24 14        mov         dword ptr [esp+14h],eax
+  1000683E: A1 A8 49 06 10     mov         eax,dword ptr ds:[100649A8h]
+  10006843: 89 44 24 20        mov         dword ptr [esp+20h],eax
+  10006847: 8B 44 24 50        mov         eax,dword ptr [esp+50h]
+  1000684B: 89 44 24 24        mov         dword ptr [esp+24h],eax
+  1000684F: 33 C0              xor         eax,eax
+  10006851: 39 44 24 54        cmp         dword ptr [esp+54h],eax
+  10006855: 89 4C 24 18        mov         dword ptr [esp+18h],ecx
+  10006859: 8B 0D E0 6C 09 14  mov         ecx,dword ptr ds:[14096CE0h]
+  1000685F: 0F 95 C0           setne       al
+  10006862: 89 44 24 28        mov         dword ptr [esp+28h],eax
+  10006866: A1 B4 6C 09 14     mov         eax,dword ptr ds:[14096CB4h]
+  1000686B: 89 44 24 2C        mov         dword ptr [esp+2Ch],eax
+  1000686F: A1 88 6C 09 14     mov         eax,dword ptr ds:[14096C88h]
+  10006874: 89 44 24 30        mov         dword ptr [esp+30h],eax
+  10006878: A1 D0 6C 09 14     mov         eax,dword ptr ds:[14096CD0h]
+  1000687D: 89 44 24 34        mov         dword ptr [esp+34h],eax
+  10006881: A1 B8 6C 09 14     mov         eax,dword ptr ds:[14096CB8h]
+  10006886: 89 44 24 38        mov         dword ptr [esp+38h],eax
+  1000688A: A1 78 6C 09 14     mov         eax,dword ptr ds:[14096C78h]
+  1000688F: 89 4C 24 1C        mov         dword ptr [esp+1Ch],ecx
+  10006893: 33 C9              xor         ecx,ecx
+  10006895: 39 0D 74 6C 09 14  cmp         dword ptr ds:[14096C74h],ecx
+  1000689B: 6A 00              push        0
+  1000689D: 0F 95 C1           setne       cl
+  100068A0: F7 D8              neg         eax
+  100068A2: 1B C0              sbb         eax,eax
+  100068A4: 83 E0 02           and         eax,2
+  100068A7: 0B C8              or          ecx,eax
+  100068A9: A1 4C 6C 09 14     mov         eax,dword ptr ds:[14096C4Ch]
+  100068AE: 89 44 24 44        mov         dword ptr [esp+44h],eax
+  100068B2: A1 E8 6A 09 14     mov         eax,dword ptr ds:[14096AE8h]
+  100068B7: 89 44 24 48        mov         dword ptr [esp+48h],eax
+  100068BB: 8D 44 24 08        lea         eax,[esp+8]
+  100068BF: 50                 push        eax
+  100068C0: 6A 40              push        40h
+  100068C2: 8D 44 24 14        lea         eax,[esp+14h]
+  100068C6: 89 4C 24 48        mov         dword ptr [esp+48h],ecx
+  100068CA: 50                 push        eax
+  100068CB: FF 35 90 30 06 10  push        dword ptr ds:[10063090h]
+  100068D1: FF 15 10 80 05 10  call        dword ptr [__imp__WriteFile@20]
+  100068D7: 56                 push        esi
+  100068D8: FF 15 24 80 05 10  call        dword ptr [__imp__SetLastError@4]
+  100068DE: 5E                 pop         esi
+  100068DF: 8B 4C 24 44        mov         ecx,dword ptr [esp+44h]
+  100068E3: 33 CC              xor         ecx,esp
+  100068E5: E8 82 06 00 00     call        @__security_check_cookie@4
+  100068EA: 83 C4 48           add         esp,48h
+  100068ED: C3                 ret
+  100068EE: CC                 int         3
+  100068EF: CC                 int         3
+
+# dllmain
+  100068F0: 81 EC 28 01 00 00  sub         esp,128h
+  100068F6: A1 80 3F 06 10     mov         eax,dword ptr [___security_cookie]
+  100068FB: 33 C4              xor         eax,esp
+  100068FD: 89 84 24 24 01 00  mov         dword ptr [esp+124h],eax
+  10006904: 53                 push        ebx
+  10006905: 56                 push        esi
+  10006906: 8B B4 24 3C 01 00  mov         esi,dword ptr [esp+13Ch]
+  1000690D: B8 01 00 00 00     mov         eax,1
+  10006912: 57                 push        edi
+  10006913: BB CC 6C 09 14     mov         ebx,14096CCCh
+  10006918: 87 03              xchg        eax,dword ptr [ebx]
+  1000691A: 8B 84 24 3C 01 00  mov         eax,dword ptr [esp+13Ch]
+  10006921: 83 F8 01           cmp         eax,1
+  10006924: 0F 85 A9 01 00 00  jne         10006AD3
+  1000692A: A3 10 6D 09 14     mov         dword ptr ds:[14096D10h],eax
+  1000692F: 8B 84 24 38 01 00  mov         eax,dword ptr [esp+138h]
+  10006936: A3 A8 49 06 10     mov         dword ptr ds:[100649A8h],eax
+  1000693B: FF 15 30 80 05 10  call        dword ptr [__imp__GetCurrentProcessId@0]
+  10006941: A3 D8 6C 09 14     mov         dword ptr ds:[14096CD8h],eax
+  10006946: 8D 44 24 0C        lea         eax,[esp+0Ch]
+  1000694A: 50                 push        eax
+  1000694B: 8D 44 24 18        lea         eax,[esp+18h]
+  1000694F: 50                 push        eax
+  10006950: 8D 44 24 24        lea         eax,[esp+24h]
+  10006954: 50                 push        eax
+  10006955: 68 DC 6C 09 14     push        14096CDCh
+  1000695A: FF 15 2C 80 05 10  call        dword ptr [__imp__GetCurrentProcess@0]
+  10006960: 50                 push        eax
+  10006961: FF 15 28 80 05 10  call        dword ptr [__imp__GetProcessTimes@20]
+  10006967: 68 AC 3E 06 10     push        10063EACh
+  1000696C: E8 0F B7 FF FF     call        10002080
+  10006971: 68 C4 3E 06 10     push        10063EC4h
+  10006976: A3 B4 6C 09 14     mov         dword ptr ds:[14096CB4h],eax
+  1000697B: A3 84 6C 09 14     mov         dword ptr ds:[14096C84h],eax
+  10006980: E8 FB B6 FF FF     call        10002080
+  10006985: 8B 0D B4 6C 09 14  mov         ecx,dword ptr ds:[14096CB4h]
+  1000698B: 83 C4 08           add         esp,8
+  1000698E: A3 88 6C 09 14     mov         dword ptr ds:[14096C88h],eax
+  10006993: 85 C0              test        eax,eax
+  10006995: 74 07              je          1000699E
+  10006997: B8 07 00 00 00     mov         eax,7
+  1000699C: EB 07              jmp         100069A5
+  1000699E: 33 C0              xor         eax,eax
+  100069A0: 85 C9              test        ecx,ecx
+  100069A2: 0F 95 C0           setne       al
+  100069A5: A3 D0 6C 09 14     mov         dword ptr ds:[14096CD0h],eax
+  100069AA: 85 C9              test        ecx,ecx
+  100069AC: 74 35              je          100069E3
+  100069AE: 8D 44 24 2C        lea         eax,[esp+2Ch]
+  100069B2: 50                 push        eax
+  100069B3: 68 DC 3E 06 10     push        10063EDCh
+  100069B8: E8 03 C0 FF FF     call        100029C0
+  100069BD: 83 C4 08           add         esp,8
+  100069C0: 85 C0              test        eax,eax
+  100069C2: 74 1F              je          100069E3
+  100069C4: 6A 00              push        0
+  100069C6: 68 80 00 00 00     push        80h
+  100069CB: 6A 04              push        4
+  100069CD: 6A 00              push        0
+  100069CF: 6A 03              push        3
+  100069D1: 6A 04              push        4
+  100069D3: 8D 44 24 44        lea         eax,[esp+44h]
+  100069D7: 50                 push        eax
+  100069D8: FF 15 04 80 05 10  call        dword ptr [__imp__CreateFileA@28]
+  100069DE: A3 90 30 06 10     mov         dword ptr ds:[10063090h],eax
+  100069E3: 56                 push        esi
+  100069E4: 6A 01              push        1
+  100069E6: E8 05 FE FF FF     call        100067F0
+  100069EB: 83 C4 08           add         esp,8
+  100069EE: E8 8D AD FF FF     call        10001780
+  100069F3: A1 AC 49 06 10     mov         eax,dword ptr ds:[100649ACh]
+  100069F8: 85 C0              test        eax,eax
+  100069FA: 74 19              je          10006A15
+  100069FC: 68 FC 3E 06 10     push        10063EFCh
+  10006A01: 50                 push        eax
+  10006A02: E8 E9 01 00 00     call        _fprintf
+  10006A07: FF 35 AC 49 06 10  push        dword ptr ds:[100649ACh]
+  10006A0D: E8 A2 C9 00 00     call        _fflush
+  10006A12: 83 C4 0C           add         esp,0Ch
+  10006A15: 83 3D 88 6C 09 14  cmp         dword ptr ds:[14096C88h],0
+  10006A1C: 74 10              je          10006A2E
+  10006A1E: 68 0C 3F 06 10     push        10063F0Ch
+  10006A23: FF 15 18 80 05 10  call        dword ptr [__imp__OutputDebugStringA@4]
+  10006A29: E9 D8 00 00 00     jmp         10006B06
+  10006A2E: 6A 08              push        8
+  10006A30: 8D 44 24 28        lea         eax,[esp+28h]
+  10006A34: 50                 push        eax
+  10006A35: 68 44 3F 06 10     push        10063F44h
+  10006A3A: FF 15 00 80 05 10  call        dword ptr [__imp__GetEnvironmentVariableA@12]
+  10006A40: 85 C0              test        eax,eax
+  10006A42: 74 0B              je          10006A4F
+  10006A44: 80 7C 24 24 30     cmp         byte ptr [esp+24h],30h
+  10006A49: 0F 84 B7 00 00 00  je          10006B06
+  10006A4F: 68 B0 49 06 10     push        100649B0h
+  10006A54: 68 70 5B 00 10     push        10005B70h
+  10006A59: 6A FF              push        0FFFFFFFFh
+  10006A5B: 6A 08              push        8
+  10006A5D: 68 F0 81 05 10     push        100581F0h
+  10006A62: 68 0C DF 41 00     push        41DF0Ch
+  10006A67: E8 24 F1 FF FF     call        10005B90
+  10006A6C: 68 04 6D 09 14     push        14096D04h
+  10006A71: 68 C0 5D 00 10     push        10005DC0h
+  10006A76: 6A 04              push        4
+  10006A78: 6A 09              push        9
+  10006A7A: 68 00 82 05 10     push        10058200h
+  10006A7F: 68 99 3D 40 00     push        403D99h
+  10006A84: 8B F0              mov         esi,eax
+  10006A86: E8 05 F1 FF FF     call        10005B90
+  10006A8B: 83 C4 30           add         esp,30h
+  10006A8E: 8B F8              mov         edi,eax
+  10006A90: 85 F6              test        esi,esi
+  10006A92: 74 72              je          10006B06
+  10006A94: B9 01 00 00 00     mov         ecx,1
+  10006A99: BA 0C 6D 09 14     mov         edx,14096D0Ch
+  10006A9E: 33 C0              xor         eax,eax
+  10006AA0: F0 0F B1 0A        lock cmpxchg dword ptr [edx],ecx
+  10006AA4: 85 C0              test        eax,eax
+  10006AA6: 75 5E              jne         10006B06
+  10006AA8: E8 D3 AC FF FF     call        10001780
+  10006AAD: A1 AC 49 06 10     mov         eax,dword ptr ds:[100649ACh]
+  10006AB2: 85 C0              test        eax,eax
+  10006AB4: 74 50              je          10006B06
+  10006AB6: 57                 push        edi
+  10006AB7: 56                 push        esi
+  10006AB8: 68 30 35 06 10     push        10063530h
+  10006ABD: 50                 push        eax
+  10006ABE: E8 2D 01 00 00     call        _fprintf
+  10006AC3: FF 35 AC 49 06 10  push        dword ptr ds:[100649ACh]
+  10006AC9: E8 E6 C8 00 00     call        _fflush
+  10006ACE: 83 C4 14           add         esp,14h
+  10006AD1: EB 33              jmp         10006B06
+  10006AD3: 85 C0              test        eax,eax
+  10006AD5: 75 2F              jne         10006B06
+  10006AD7: 56                 push        esi
+  10006AD8: 50                 push        eax
+  10006AD9: E8 12 FD FF FF     call        100067F0
+  10006ADE: A1 90 30 06 10     mov         eax,dword ptr ds:[10063090h]
+  10006AE3: 83 C4 08           add         esp,8
+  10006AE6: 83 F8 FF           cmp         eax,0FFFFFFFFh
+  10006AE9: 74 11              je          10006AFC
+  10006AEB: 50                 push        eax
+  10006AEC: FF 15 1C 80 05 10  call        dword ptr [__imp__CloseHandle@4]
+  10006AF2: C7 05 90 30 06 10  mov         dword ptr ds:[10063090h],0FFFFFFFFh
+  10006AFC: C7 05 10 6D 09 14  mov         dword ptr ds:[14096D10h],0
+  10006B06: 33 C9              xor         ecx,ecx
+  10006B08: 87 0B              xchg        ecx,dword ptr [ebx]
+  10006B0A: 8B 8C 24 30 01 00  mov         ecx,dword ptr [esp+130h]
+  10006B11: B8 01 00 00 00     mov         eax,1
+  10006B16: 5F                 pop         edi
+  10006B17: 5E                 pop         esi
+  10006B18: 5B                 pop         ebx
+  10006B19: 33 CC              xor         ecx,esp
+  10006B1B: E8 4C 04 00 00     call        @__security_check_cookie@4
+  10006B20: 81 C4 28 01 00 00  add         esp,128h
+  10006B26: C2 0C 00           ret         0Ch
+  10006B29: CC CC CC CC CC CC CC                             ÌÌÌÌÌÌÌ
+  10006B30: B8 20 7F 09 14     mov         eax,offset ?_OptionsStorage@?1??__local_stdio_printf_options@@9@9
+  10006B35: C3                 ret
+  10006B36: CC CC CC CC CC CC CC CC CC CC                    ÌÌÌÌÌÌÌÌÌÌ
+  10006B40: FF 74 24 10        push        dword ptr [esp+10h]
+  10006B44: FF 74 24 10        push        dword ptr [esp+10h]
+  10006B48: FF 74 24 10        push        dword ptr [esp+10h]
+  10006B4C: FF 74 24 10        push        dword ptr [esp+10h]
+  10006B50: E8 DB FF FF FF     call        ___local_stdio_printf_options
+  10006B55: FF 70 04           push        dword ptr [eax+4]
+  10006B58: FF 30              push        dword ptr [eax]
+  10006B5A: E8 85 84 02 00     call        ___stdio_common_vfprintf
+  10006B5F: 83 C4 18           add         esp,18h
+  10006B62: C3                 ret
+  10006B63: CC CC CC CC CC CC CC CC CC CC CC CC CC           ÌÌÌÌÌÌÌÌÌÌÌÌÌ
+  10006B70: FF 74 24 14        push        dword ptr [esp+14h]
+  10006B74: FF 74 24 14        push        dword ptr [esp+14h]
+  10006B78: FF 74 24 14        push        dword ptr [esp+14h]
+  10006B7C: FF 74 24 14        push        dword ptr [esp+14h]

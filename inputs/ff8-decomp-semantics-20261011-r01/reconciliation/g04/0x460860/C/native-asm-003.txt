@@ -1,0 +1,25 @@
+0046091F: mov     [esp+14h+arg_0], edx
+00460923: fild    [esp+14h+arg_0]; Load Integer
+00460927: movsx   edx, word ptr [eax+2]; Move with Sign-Extend
+0046092B: fmul    st, st(1); Multiply Real
+0046092D: mov     [esp+14h+arg_0], edx
+00460931: fild    [esp+14h+arg_0]; Load Integer
+00460935: movsx   edx, word ptr [eax]; Move with Sign-Extend
+00460938: fmul    st, st(3); Multiply Real
+0046093A: mov     [esp+14h+arg_0], edx
+0046093E: movsx   edi, word ptr [eax+0Ah]; Move with Sign-Extend
+00460942: faddp   st(1), st; Add Real and Pop
+00460944: fild    [esp+14h+arg_0]; Load Integer
+00460948: mov     [esp+14h+arg_0], edi
+0046094C: movsx   edi, word ptr [eax+8]; Move with Sign-Extend
+00460950: fmul    st, st(4); Multiply Real
+00460952: movsx   ebx, word ptr [eax+10h]; Move with Sign-Extend
+00460956: faddp   st(1), st; Add Real and Pop
+00460958: fadd    ds:CONST_4_503601774854144e15; Add Real
+0046095E: fstp    [esp+14h+var_8]; Store Real and Pop
+00460962: fild    [esp+14h+arg_0]; Load Integer
+00460966: mov     [esp+14h+arg_0], edi
+0046096A: mov     edx, dword ptr [esp+14h+var_8]
+0046096E: movsx   edi, word ptr [eax+6]; Move with Sign-Extend
+00460972: fmul    st, st(1); Multiply Real
+00460974: fild    [esp+14h+arg_0]; Load Integer

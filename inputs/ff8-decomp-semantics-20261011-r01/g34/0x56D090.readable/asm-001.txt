@@ -1,0 +1,25 @@
+0056D090: sub     esp, 20h; Integer Subtraction
+0056D093: push    esi
+0056D094: push    edi
+0056D095: mov     edi, [esp+28h+p_angle]
+0056D099: push    edi
+0056D09A: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.
+0056D09F: push    edi
+0056D0A0: mov     esi, eax
+0056D0A2: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+0056D0A7: mov     ecx, eax
+0056D0A9: mov     [esp+30h+var_20], si
+0056D0AE: neg     ecx; Two's Complement Negation
+0056D0B0: mov     [esp+30h+var_18], si
+0056D0B5: mov     esi, [esp+30h+p_dst]
+0056D0B9: mov     [esp+30h+var_1E], cx
+0056D0BE: lea     edx, [esp+30h+var_20]; Load Effective Address
+0056D0C2: xor     ecx, ecx; Logical Exclusive OR
+0056D0C4: push    esi
+0056D0C5: push    edx
+0056D0C6: mov     [esp+38h+var_1C], cx
+0056D0CB: mov     [esp+38h+var_1A], ax
+0056D0D0: mov     [esp+38h+var_16], cx
+0056D0D5: mov     [esp+38h+var_14], cx
+0056D0DA: mov     [esp+38h+var_12], cx
+0056D0DF: mov     [esp+38h+var_10], 1000h

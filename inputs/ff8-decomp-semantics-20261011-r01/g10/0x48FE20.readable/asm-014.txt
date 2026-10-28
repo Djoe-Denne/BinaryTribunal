@@ -1,0 +1,25 @@
+0049045B: jmp     ds:jpt_49045B[ecx*4]; switch jump
+00490462: xor     ecx, ecx; jumptable 0049045B case 10
+00490464: mov     eax, [esp+20h+target_slot_offset]
+00490468: mov     cl, byte ptr DEVOUR_RESULT
+0049046E: xor     edx, edx; Logical Exclusive OR
+00490470: mov     eax, BATTLE_SLOT_DATA.max_hp[eax]
+00490476: lea     ecx, [ecx+ecx*2]; Load Effective Address
+00490479: shl     ecx, 2; Shift Logical Left
+0049047C: mov     dl, K_DEVOUR.HPHealDMGQuantityFlag[ecx]
+00490482: mov     edi, edx
+00490484: imul    eax, edi; Signed Multiply
+00490487: cdq; EAX -> EDX:EAX (with sign)
+00490488: and     edx, 0Fh; Logical AND
+0049048B: add     eax, edx; Add
+0049048D: mov     esi, eax
+0049048F: xor     eax, eax; Logical Exclusive OR
+00490491: mov     al, K_DEVOUR.DamageOrHealFlag[ecx]
+00490497: sar     esi, 4; Shift Arithmetic Right
+0049049A: sub     eax, 1Eh; Integer Subtraction
+0049049D: jz      short loc_4904BD; Jump if Zero (ZF=1)
+0049049F: dec     eax; Decrement by 1
+004904A0: jnz     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004904A6: mov     ecx, [esp+20h+p_target_slot_id]
+004904AA: push    esi; p_target_vit
+004904AB: push    edi; arg_C

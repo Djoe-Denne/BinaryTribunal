@@ -1,0 +1,25 @@
+0048DCB2: mov     [esp+28h+hit_count], ecx
+0048DCB6: mov     cx, K_RINOA_LIMIT_PART_2.MagicID[esi]
+0048DCBD: mov     [esp+28h+magic_id], ecx
+0048DCC1: call    sub_47E4C0; Call Procedure
+0048DCC6: add     esp, 4; Add
+0048DCC9: mov     edi, eax
+0048DCCB: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DCD0: mov     eax, ebx; jumptable 0048D37A cases 17,18,20-22
+0048DCD2: xor     ecx, ecx; Logical Exclusive OR
+0048DCD4: and     eax, 0FFFFh; Logical AND
+0048DCD9: push    eax
+0048DCDA: lea     esi, [eax+eax*2]; Load Effective Address
+0048DCDD: shl     esi, 3; Shift Logical Left
+0048DCE0: mov     cl, K_TEMP_CHAR.HitCount[esi]
+0048DCE6: mov     dx, K_TEMP_CHAR.MagicID[esi]
+0048DCED: mov     [esp+28h+hit_count], ecx
+0048DCF1: mov     [esp+28h+magic_id], edx
+0048DCF5: call    sub_47E6B0; Call Procedure
+0048DCFA: add     esp, 4; Add
+0048DCFD: mov     edi, eax
+0048DCFF: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DD04: mov     esi, ebx; jumptable 0048D37A case 15
+0048DD06: xor     ecx, ecx; Logical Exclusive OR
+0048DD08: and     esi, 0FFFFh; Logical AND
+0048DD0E: mov     eax, esi

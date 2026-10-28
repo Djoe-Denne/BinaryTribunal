@@ -1,3 +1,5 @@
+import { configFingerprint, validConfig, provenanceReady, ALGORITHM, ALGORITHM_VERSION, LEXICAL_RULESET_VERSION } from "./semantic-config-codec";
+export { configFingerprint, validConfig, provenanceReady, ALGORITHM, ALGORITHM_VERSION, LEXICAL_RULESET_VERSION } from "./semantic-config-codec";
 import { canonical, hash } from "./validation";
 import { stronglyConnectedComponents } from "./scc";
 import {
@@ -33,9 +35,6 @@ import {
  * Aucun réseau, aucun LLM, aucun modèle téléchargé. L'encodeur est injecté ou absent.
  */
 
-export const ALGORITHM = "multiview-components";
-export const ALGORITHM_VERSION = "2";
-export const LEXICAL_RULESET_VERSION = "ff8-tech-syn-1";
 export const SYNONYM_GROUPS: readonly (readonly string[])[] = [
   ["update", "refresh", "tick"],
   ["state", "status"],
@@ -294,32 +293,6 @@ export function defaultMultiviewConfig(): MultiviewConfig {
   };
 }
 
-export function configFingerprint(config: MultiviewConfig, encoder: Omit<FrozenEncoder, "encode"> | null): string {
-  config = immutableSnapshot(config);
-  return hash(canonical({
-    algorithm: ALGORITHM,
-    algorithmVersion: ALGORITHM_VERSION,
-    rulesetVersion: config.rulesetVersion,
-    synonyms: config.synonyms,
-    bm25: config.bm25,
-    topK: config.topK,
-    scoreTieDecimals: config.scoreTieDecimals,
-    similarityThreshold: config.similarityThreshold,
-    maxPostingDf: config.maxPostingDf,
-    maxCandidates: config.maxCandidates,
-    hubMinDegree: config.hubMinDegree,
-    hysteresis: config.hysteresis,
-    views: config.views,
-    encoder: encoder && config.views.embeddings ? {
-      modelId: encoder.modelId,
-      tokenizerRevision: encoder.tokenizerRevision,
-      parameterFingerprint: encoder.parameterFingerprint,
-      dimension: encoder.dimension,
-      implementationSha256: encoder.implementationSha256 ?? null,
-      tokenizerSha256: encoder.tokenizerSha256 ?? null,
-    } : null,
-  }));
-}
 
 export function createMemoryEmbeddingCache(): EmbeddingCache {
   const store = new Map<string, readonly number[]>();
@@ -1095,16 +1068,6 @@ function partitionMetrics(communities: readonly { contentId: string; memberIds: 
   return { modularity, totalWeight, communityWeights: [...stats.values()], communities: [...stats.values()].map(item => ({ contentId: item.contentId, conductance: item.conductanceDenominator > 0 ? item.cut / item.conductanceDenominator : null })) };
 }
 
-export function provenanceReady(provenance: ProvenanceView): boolean {
-  return !!provenance && typeof provenance.source === "string" && provenance.source.length > 0
-    && typeof provenance.sourceVersion === "string" && provenance.sourceVersion.length > 0
-    && ["instruction", "object", "import", "table", "extractor"].includes(provenance.siteKind)
-    && ["code", "data", "none"].includes(provenance.xrefType)
-    && (provenance.siteRva === null ? ["import", "extractor"].includes(provenance.siteKind) : typeof provenance.siteRva === "string" && /^0x(?:0|[1-9A-F][0-9A-F]*)$/.test(provenance.siteRva))
-    && /^[a-f0-9]{64}$/.test(provenance.moduleSha256)
-    && /^[a-f0-9]{64}$/.test(provenance.evidenceSha256)
-    && /^[a-f0-9]{64}$/.test(provenance.sourceHash);
-}
 
 function embeddingReport(
   config: MultiviewConfig,
@@ -1185,17 +1148,6 @@ function canonicalToken(token: string): string {
   return token;
 }
 
-export function validConfig(config: MultiviewConfig): boolean {
-  if (!config || !config.bm25 || !config.views || config.rulesetVersion !== LEXICAL_RULESET_VERSION || typeof config.synonyms !== "boolean") return false;
-  const integer = (value: number, min: number, max: number) => Number.isSafeInteger(value) && value >= min && value <= max;
-  return Number.isFinite(config.bm25.k1) && config.bm25.k1 > 0 && config.bm25.k1 <= 100
-    && Number.isFinite(config.bm25.b) && config.bm25.b >= 0 && config.bm25.b <= 1
-    && integer(config.topK, 1, 100) && integer(config.maxCandidates, 1, 10000) && integer(config.maxPostingDf, 1, 1000000)
-    && integer(config.scoreTieDecimals, 0, 12) && integer(config.hubMinDegree, 1, 1000000)
-    && Number.isFinite(config.similarityThreshold) && config.similarityThreshold >= 0 && config.similarityThreshold <= 1
-    && Number.isFinite(config.hysteresis) && config.hysteresis >= 0 && config.hysteresis <= 1
-    && ["structure", "data", "lexical", "embeddings", "validatedRelations", "capabilities"].every(key => typeof config.views[key as keyof MultiviewViews] === "boolean");
-}
 
 function canonicalRelations(edges: readonly FunctionEdgeView[], diagnostics: Diagnostic[]): CanonicalRelation[] {
   const groups = new Map<string, { relation: CanonicalRelation; policy: string; transport: Set<string>; sites: Map<string, CanonicalRelation["sites"][number]> }>();

@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/knowledge-commit-v1",
+  "title": "Knowledge commit v1",
+  "description": "Scientific commit, not a git commit. Publication levels 1 and 2 only. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "commitId",
+    "inputRevision",
+    "outputRevision",
+    "unitId",
+    "resultIds",
+    "validatedFactIds",
+    "evidence",
+    "publicationLevel",
+    "publicationTargetId",
+    "readbackStatus",
+    "readbackHash",
+    "futurePrerequisiteEffect",
+    "isGitCommit"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "commitId": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Stable operation id: sha256(canonical(document without this field)). Not a git commit. 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "inputRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision before the commit"
+    },
+    "outputRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision after the commit"
+    },
+    "unitId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "WorkUnit that committed"
+    },
+    "resultIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Attributed result id"
+      },
+      "minItems": 1,
+      "maxItems": 256,
+      "description": "Results attributed to functions, not only to the group"
+    },
+    "validatedFactIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Validated fact id"
+      },
+      "minItems": 0,
+      "maxItems": 256,
+      "description": "Validated facts"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source",
+          "sha256",
+          "detail"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Evidence id"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "Observation source"
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Evidence sha256 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800,
+            "description": "Concrete observation. Prose alone is not evidence."
+          }
+        },
+        "description": "Harness-shaped evidence reference"
+      },
+      "minItems": 1,
+      "maxItems": 64,
+      "description": "Commit evidence"
+    },
+    "publicationLevel": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ],
+      "description": "Admissible publication level. 1 fixture store. 2 local approved knowledge. Level 3 IDB is absent and not admissible."
+    },
+    "publicationTargetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Fixture store or local knowledge store id. Not an IDB target."
+    },
+    "readbackStatus": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "pending",
+        "mismatch"
+      ],
+      "description": "A missing readback does not satisfy a prerequisite"
+    },
+    "readbackHash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Readback hash 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "futurePrerequisiteEffect": {
+      "type": "string",
+      "enum": [
+        "satisfies",
+        "does_not_satisfy",
+        "invalidates_future"
+      ],
+      "description": "Level 1 does not satisfy a level 2 prerequisite"
+    },
+    "isGitCommit": {
+      "type": "boolean",
+      "enum": [
+        false
+      ],
+      "description": "This record is not a git commit"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',sourceRoot=phase+'/L7SIM_ASTRA_PLAN_GO_V1',own='C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-simulator-fix-astra';
+if(existsSync(sourceRoot))throw Error('Immutable decision exists');
+const e=await Service.discover();if(!e)throw Error('No public API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)}),session=await cli.session.get({sessionID:'ses_ec0192753ffeWKOqq53yPbjVoL'});
+if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6-astra'||session.model.variant!=='max'||session.location.directory.replaceAll('\\','/')!==own)throw Error('Native model/directory drift');
+writeFileSync(phase+'/l7sim-astra-plan-go-native-readback.json',JSON.stringify({id:session.id,model:session.model,directory:session.location.directory},null,2)+'\n',{flag:'wx'});
+mkdirSync(sourceRoot);const b=readFileSync(root+'/docs/missions/re-graph-scheduler/L7_SIMULATOR_ASTRA_PLAN_GO_20261015.md');writeFileSync(sourceRoot+'/DECISION.md',b,{flag:'wx'});
+const files=[{path:'DECISION.md',sha256:createHash('sha256').update(b).digest('hex'),kind:'rule'}];
+const request={schemaVersion:1,missionId:'team_mv6tmopg_0000_4urn3c',taskId:'task_mv9m9894_0015_cjacy0',cycle:1,role:'implementer',blind:false,sourceRoot,targetSessionId:session.id,destinationRoot:own+'/inputs/L7SIM_ASTRA_PLAN_GO_V1',files};
+writeFileSync(phase+'/l7sim-astra-plan-go-request.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({bytes:b.length,files,destination:request.destinationRoot,nativeModel:session.model}));

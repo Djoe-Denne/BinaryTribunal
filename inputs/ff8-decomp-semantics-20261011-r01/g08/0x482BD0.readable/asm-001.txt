@@ -1,0 +1,25 @@
+00482BD0: mov     edx, [esp+links]; G07: first node with prev==0 && next==0; on saturation reuses index 0, appends as newest, clears reserved_2, and preserves opaque reserved_3.
+00482BD4: push    esi
+00482BD5: mov     esi, [esp+4+capacity]
+00482BD9: xor     ecx, ecx; Logical Exclusive OR
+00482BDB: test    esi, esi; Logical Compare
+00482BDD: jle     short loc_482BF4; Jump if Less or Equal (ZF=1 | SF!=OF)
+00482BDF: mov     eax, edx
+00482BE1: cmp     byte ptr [eax], 0; Compare Two Operands
+00482BE4: jnz     short loc_482BEC; Jump if Not Zero (ZF=0)
+00482BE6: cmp     byte ptr [eax+1], 0; Compare Two Operands
+00482BEA: jz      short loc_482C28; Jump if Zero (ZF=1)
+00482BEC: inc     ecx; Increment by 1
+00482BED: add     eax, 4; Add
+00482BF0: cmp     ecx, esi; Compare Two Operands
+00482BF2: jl      short loc_482BE1; Jump if Less (SF!=OF)
+00482BF4: mov     byte ptr [esp+4+capacity], 0
+00482BF9: mov     eax, [esp+4+capacity]
+00482BFD: mov     esi, [esp+4+head_index]
+00482C01: and     eax, 0FFh; Logical AND
+00482C06: mov     cl, [esi]
+00482C08: mov     [edx+eax*4], cl
+00482C0B: mov     byte ptr [edx+eax*4+1], 0FFh
+00482C10: cmp     cl, 0FFh; Compare Two Operands
+00482C13: mov     byte ptr [edx+eax*4+2], 0
+00482C18: jz      short loc_482C24; Jump if Zero (ZF=1)

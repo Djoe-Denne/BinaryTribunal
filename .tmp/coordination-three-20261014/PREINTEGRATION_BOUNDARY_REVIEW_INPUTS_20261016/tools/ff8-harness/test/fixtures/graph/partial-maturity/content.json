@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "snapshotId": "snap:partial-maturity",
+  "missionId": "re-graph-scheduler-20261013",
+  "binaryArtifacts": [
+    {
+      "schemaVersion": 1,
+      "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "moduleName": "fixture-alpha.exe",
+      "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "versionLabel": "fixture-v1",
+      "format": "PE32",
+      "architecture": "x86-32",
+      "imageBase": "0x400000",
+      "idbIdentity": "",
+      "sections": [],
+      "provenance": {
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "siteRva": null,
+        "siteKind": "extractor",
+        "xrefType": "none",
+        "source": "fixture-extractor",
+        "sourceVersion": "v1",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259"
+      },
+      "analysisVersion": "l1-contract-v1",
+      "extractorVersion": "fixture-not-native"
+    }
+  ],
+  "nodes": [
+    {
+      "schemaVersion": 1,
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xE200",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "rva": "0xE200",
+      "ea": "0x40E200",
+      "imageBase": "0x400000",
+      "name": "",
+      "observedDescription": "",
+      "boundaries": [
+        {
+          "ordinal": 0,
+          "rva": "0xE200",
+          "endRvaExclusive": "0xE210",
+          "role": "entry"
+        }
+      ],
+      "sizeBytes": {
+        "known": true,
+        "value": 16
+      },
+      "instructionCount": {
+        "known": false,
+        "value": null
+      },
+      "basicBlockCount": {
+        "known": false,
+        "value": null
+      },
+      "functionClass": "internal",
+      "status": "observed",
+      "semanticMaturity": "none",
+      "analysisRefs": [],
+      "byteAgreement": "unknown",
+      "admissibleAsOracle": false,
+      "byteDivergence": {
+        "known": false,
+        "peMismatchByteCount": null,
+        "frozenSha256": null,
+        "peSha256": null
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xE300",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "rva": "0xE300",
+      "ea": "0x40E300",
+      "imageBase": "0x400000",
+      "name": "",
+      "observedDescription": "",
+      "boundaries": [
+        {
+          "ordinal": 0,
+          "rva": "0xE300",
+          "endRvaExclusive": "0xE310",
+          "role": "entry"
+        }
+      ],
+      "sizeBytes": {
+        "known": true,
+        "value": 16
+      },
+      "instructionCount": {
+        "known": false,
+        "value": null
+      },
+      "basicBlockCount": {
+        "known": false,
+        "value": null
+      },
+      "functionClass": "internal",
+      "status": "observed",
+      "semanticMaturity": "reconciled",
+      "analysisRefs": [
+        "result:partial-maturity"
+      ],
+      "byteAgreement": "unknown",
+      "admissibleAsOracle": false,
+      "byteDivergence": {
+        "known": false,
+        "peMismatchByteCount": null,
+        "frozenSha256": null,
+        "peSha256": null
+      }
+    }
+  ],
+  "edges": [],
+  "objects": [],
+  "unresolved": [],
+  "capabilities": [],
+  "normalizedFingerprint": "720f7bf60a4a0813b5bba881ce862831f8ed2d43cff08f2e0be17db8ff327bb1",
+  "knowledgeRevision": 1,
+  "scope": {
+    "description": "Local maturity differs inside one scope. Not a global transition.",
+    "moduleSha256s": [
+      "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+    ],
+    "functionCount": 2
+  },
+  "coverage": {
+    "status": "complete",
+    "uncoveredReason": null,
+    "tailsIterated": true,
+    "selfLoopsPreserved": true
+  },
+  "toolVersions": {
+    "extractor": "fixture-extractor",
+    "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+    "normalizer": "graph-contract-v1"
+  },
+  "configFingerprint": "2dac7231fa962b8c918eec4034af6184c05601544c31214bd7f7c70d331ccc32"
+}

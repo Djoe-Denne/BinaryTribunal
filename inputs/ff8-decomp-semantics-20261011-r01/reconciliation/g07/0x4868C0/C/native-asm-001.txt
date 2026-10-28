@@ -1,0 +1,25 @@
+004868C0: push    ebx; LIVE 2026-07-12 victory handback: entered with result=4 and mode3_subsub_step=2, then set mode_StateGlobal=5 and reset subsub to 0. Pending/exec/latch buffers were not globally zeroed; they are abandoned with the battle module and reinitialized by the next battle init.
+004868C1: push    ebp
+004868C2: push    esi
+004868C3: push    edi
+004868C4: xor     edi, edi; Logical Exclusive OR
+004868C6: mov     ebp, offset word_1CFF1B2
+004868CB: mov     esi, offset BATTLE_SLOT_DATA.status_1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+004868D0: mov     bl, 0FFh
+004868D2: cmp     [esi+3Bh], bl; Compare Two Operands
+004868D5: jz      short loc_486912; Jump if Zero (ZF=1)
+004868D7: xor     eax, eax; Logical Exclusive OR
+004868D9: push    edi; slot_id
+004868DA: mov     al, byte ptr SG_PARTY_BATTLE[edi]
+004868E0: lea     ecx, [eax+eax*8]; Load Effective Address
+004868E3: lea     edx, [eax+ecx*2]; Load Effective Address
+004868E6: mov     cx, [esi-68h]
+004868EA: and     word ptr [esi], 0FFDFh; Logical AND
+004868EF: lea     eax, ds:1CFE0E8h[edx*8]; Load Effective Address
+004868F6: mov     [eax], cx
+004868F9: mov     cx, [esi]
+004868FC: mov     [eax+96h], cx
+00486903: call    domain__BattleItem_RefundStashedItems; Static 2026-08-18: refunds up to two nonzero item ids stashed at slot +0xB8/+0xB9 through BattleEqualItemBuffer_AdjustCount(id, add), then clears the stash. Callers include battle end, eject reset, status sync, and Angel Wing rewrite cleanup.
+00486908: mov     dx, [esi]
+0048690B: add     esp, 4; Add
+0048690E: mov     [ebp+0], dx

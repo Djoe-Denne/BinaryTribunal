@@ -1,0 +1,25 @@
+0048933C: mov     eax, dword ptr [esp+74h+op_param_3]; jumptable 004887D6 case 14
+00489340: and     eax, edi; Logical AND
+00489342: jnz     short loc_489377; Jump if Not Zero (ZF=0)
+00489344: lea     ecx, [ebx-3]; Load Effective Address
+00489347: lea     eax, [ecx+ecx*8]; Load Effective Address
+0048934A: shl     eax, 3; Shift Logical Left
+0048934D: sub     eax, ecx; Integer Subtraction
+0048934F: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add
+00489354: xor     ecx, ecx; Logical Exclusive OR
+00489356: cmp     byte ptr [eax], 40h ; '@'; Compare Two Operands
+00489359: jnb     short loc_48936C; Jump if Not Below (CF=0)
+0048935B: inc     ecx; Increment by 1
+0048935C: add     eax, 4; Add
+0048935F: cmp     ecx, 4; Compare Two Operands
+00489362: jl      short loc_489356; Jump if Less (SF!=OF)
+00489364: xor     eax, eax; Logical Exclusive OR
+00489366: mov     [esp+74h+blow_away_count], eax
+0048936A: jmp     short loc_489394; Jump
+0048936C: mov     eax, 1
+00489371: mov     [esp+74h+blow_away_count], eax
+00489375: jmp     short loc_489394; Jump
+00489377: cmp     eax, 3; Compare Two Operands
+0048937A: jnz     short loc_489390; Jump if Not Zero (ZF=0)
+0048937C: push    ebx; battle_slot
+0048937D: call    EnemyAI_GetSubjectValue_C; arg_0 = battle_slot (monstre) : 71*(slot-3) + BMI base

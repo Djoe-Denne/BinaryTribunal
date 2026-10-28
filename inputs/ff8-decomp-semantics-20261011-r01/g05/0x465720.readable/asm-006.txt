@@ -1,0 +1,25 @@
+004658A5: push    0
+004658A7: push    eax
+004658A8: mov     [esp+0B0h+var_88], eax
+004658AC: call    dword ptr [ecx+64h]; Indirect Call Near Procedure
+004658AF: test    eax, eax; Logical Compare
+004658B1: jnz     short loc_46591A; Jump if Not Zero (ZF=0)
+004658B3: mov     esi, [esi+10h]
+004658B6: mov     edx, [edi+0D8h]
+004658BC: mov     eax, [esp+9Ch+var_58]
+004658C0: test    esi, esi; Logical Compare
+004658C2: jz      short loc_4658FA; Jump if Zero (ZF=1)
+004658C4: mov     ebx, [edi+44h]
+004658C7: mov     [esp+9Ch+var_8C], esi
+004658CB: mov     ecx, ebx
+004658CD: mov     esi, edx
+004658CF: mov     ebp, ecx
+004658D1: mov     edi, eax
+004658D3: shr     ecx, 2; Shift Logical Right
+004658D6: rep movsd; Move Byte(s) from String to String
+004658D8: mov     ecx, ebp
+004658DA: add     edx, ebx; Add
+004658DC: and     ecx, 3; Logical AND
+004658DF: rep movsb; Move Byte(s) from String to String
+004658E1: mov     esi, [esp+9Ch+var_6C]
+004658E5: mov     ecx, [esp+9Ch+var_8C]

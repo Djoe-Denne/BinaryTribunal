@@ -1,0 +1,25 @@
+0049393E: mov     ecx, CURRENT_STATUS_TIMER_FLAGS[esi*4]
+00493945: xor     ecx, ebx; Logical Exclusive OR
+00493947: test    ecx, offset unk_2004000; Logical Compare
+0049394D: jz      short loc_49398E; Jump if Zero (ZF=1)
+0049394F: push    esi; slot
+00493950: call    sub_484600; copier str_src dans exec Q : str @+0x3EE/+0x4EE, len=0x33/0x2C (incl NUL), retour = channel-USED flag
+00493955: add     esp, 4; Add
+00493958: test    eax, eax; Logical Compare
+0049395A: jnz     short loc_49398E; Jump if Not Zero (ZF=0)
+0049395C: xor     edx, edx; Logical Exclusive OR
+0049395E: mov     dl, AI_CURRENT_EXECUTING_SLOT
+00493964: cmp     esi, edx; Compare Two Operands
+00493966: jz      short loc_49398E; If Berserk or status_2 0x02004000 (Confuse | Angel Wing) changed on a non-executing slot, clear ready/menu flags 0x04/0x08 and run the UI reset helper.
+00493968: lea     eax, [esi+esi*2]; Load Effective Address
+0049396B: lea     ecx, [esi+eax*4]; Load Effective Address
+0049396E: shl     ecx, 4; Shift Logical Left
+00493971: lea     eax, BATTLE_SLOT_DATA.flag_data[ecx]; Load Effective Address
+00493977: mov     edx, [eax]
+00493979: and     edx, 0FFFFFFF7h; Logical AND
+0049397C: mov     [eax], edx
+0049397E: mov     ecx, [eax]
+00493980: and     ecx, 0FFFFFFFBh; Logical AND
+00493983: mov     [eax], ecx
+00493985: push    esi
+00493986: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.

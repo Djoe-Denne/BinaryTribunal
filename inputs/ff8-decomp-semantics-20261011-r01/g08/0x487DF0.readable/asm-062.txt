@@ -1,0 +1,25 @@
+00489382: not     eax; One's Complement Negation
+00489384: add     esp, 4; Add
+00489387: and     eax, 1; Logical AND
+0048938A: mov     [esp+74h+blow_away_count], eax
+0048938E: jmp     short loc_489394; Jump
+00489390: mov     eax, [esp+74h+blow_away_count]
+00489394: test    eax, eax; Logical Compare
+00489396: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048939C: mov     ecx, [esp+74h+jump_value]
+004893A0: and     ecx, 0FFFFh; Logical AND
+004893A6: add     esi, ecx; Add
+004893A8: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004893AD: mov     edi, [esp+74h+if_right_condition_final]; jumptable 004887D6 case 15
+004893B1: mov     eax, dword ptr [esp+74h+op_param_3]
+004893B5: and     edi, 0FFFFh; Logical AND
+004893BB: and     eax, 0FFh; Logical AND
+004893C0: jnz     short loc_4893E1; Jump if Not Zero (ZF=0)
+004893C2: mov     al, SG_ODIN_ANGEL_GILGA_FLAG
+004893C7: mov     edx, 1
+004893CC: mov     ecx, edi
+004893CE: shl     edx, cl; Shift Logical Left
+004893D0: test    al, dl; Logical Compare
+004893D2: jz      short loc_4893F8; Jump if Zero (ZF=1)
+004893D4: mov     [esp+74h+ability_data_ptr], 1
+004893DC: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

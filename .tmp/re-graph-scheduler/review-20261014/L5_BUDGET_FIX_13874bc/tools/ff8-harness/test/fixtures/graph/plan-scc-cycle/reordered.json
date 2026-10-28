@@ -1,0 +1,93 @@
+{
+  "fingerprint": "542ab808e95937011a96e28f800a53afbf0c76d53f2b7c95a9fb9c12d8371854",
+  "estimationVersion": "v1",
+  "policyVersion": "v1",
+  "budgets": {
+    "nativeLineCharLimit": 2000,
+    "countsSqliteLength": false,
+    "contextEnvelopeMaxUtf8Bytes": 8000,
+    "unit": "utf8-bytes"
+  },
+  "decisions": [
+    {
+      "reason": "recursive SCC has no total bottom-up order; exclusive local iteration",
+      "action": "defer",
+      "unitId": "unit:cycle",
+      "id": "dec:cycle"
+    },
+    {
+      "reason": "singleton self-loop retained; not deleted before SCC",
+      "action": "defer",
+      "unitId": "unit:self",
+      "id": "dec:self"
+    }
+  ],
+  "selectedUnitIds": [],
+  "sccs": [
+    {
+      "selfLoopPreserved": true,
+      "hasSelfLoop": false,
+      "exclusive": true,
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200"
+      ],
+      "id": "scc:pair"
+    },
+    {
+      "selfLoopPreserved": true,
+      "hasSelfLoop": true,
+      "exclusive": true,
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x9000"
+      ],
+      "id": "scc:self"
+    }
+  ],
+  "g3Affinities": [],
+  "g2Conflicts": [
+    {
+      "withUnitId": null,
+      "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "kind": "owned_function",
+      "id": "conflict:cycle-family"
+    }
+  ],
+  "g1Edges": [],
+  "prerequisites": [],
+  "units": [
+    {
+      "contextEnvelopeUtf8Bytes": {
+        "value": null,
+        "known": false
+      },
+      "state": "BLOCKED",
+      "requiredPublicationLevel": 1,
+      "contextFunctionIds": [],
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200"
+      ],
+      "unitId": "unit:cycle"
+    },
+    {
+      "contextEnvelopeUtf8Bytes": {
+        "value": null,
+        "known": false
+      },
+      "state": "PENDING",
+      "requiredPublicationLevel": 1,
+      "contextFunctionIds": [],
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x9000"
+      ],
+      "unitId": "unit:self"
+    }
+  ],
+  "knowledgeRevision": 1,
+  "partitionId": "part:scc",
+  "snapshotId": "snap:cycles-recursion",
+  "missionId": "re-graph-scheduler-20261013",
+  "planId": "plan:scc-cycle",
+  "schemaVersion": 1
+}

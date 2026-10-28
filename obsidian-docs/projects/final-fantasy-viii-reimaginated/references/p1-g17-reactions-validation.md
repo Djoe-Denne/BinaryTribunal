@@ -4,12 +4,12 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G17 reactions, P1 G17, Counter Cover Regen]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-offline-validation-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-suite-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-shutdown-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-static-closure-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g17-reactions-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g17-positive-post-shutdown-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g16-ai-actions-live-promotion-2026-08-27.md
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/concepts/command-action-pipeline.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g16-ai-actions-validation.md

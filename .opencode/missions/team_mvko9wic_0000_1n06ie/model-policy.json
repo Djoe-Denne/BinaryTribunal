@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "providers": [
+    "openai",
+    "opencode-go",
+    "zai-coding-plan",
+    "cursor"
+  ],
+  "models": [
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "high",
+      "intelligenceScore": 50,
+      "averageCostPerTask": 0.32,
+      "benchmarkCostPerTask": 0.32,
+      "accessMode": "unknown",
+      "available": true,
+      "structuredOutput": {
+        "supported": true,
+        "source": "https://models.dev/api.json",
+        "checkedAt": "2026-10-13T08:19:21.633Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "opencode-go/glm-5.3-flash",
+      "provider": "opencode-go",
+      "reasoningEffort": "max",
+      "intelligenceScore": 42,
+      "averageCostPerTask": 0.25,
+      "available": true,
+      "level": "medium",
+      "usage": "coding_agentique",
+      "benchmarkCostPerTask": 0.25,
+      "accessMode": "subscription",
+      "structuredOutput": {
+        "supported": true,
+        "source": "https://models.dev/api.json",
+        "checkedAt": "2026-10-13T08:19:21.633Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "zai-coding-plan/glm-5.3-flash",
+      "provider": "zai-coding-plan",
+      "reasoningEffort": "max",
+      "intelligenceScore": 42,
+      "averageCostPerTask": 0.25,
+      "available": true,
+      "level": "medium",
+      "usage": "coding_agentique",
+      "benchmarkCostPerTask": 0.25,
+      "accessMode": "subscription",
+      "structuredOutput": {
+        "supported": true,
+        "source": "https://models.dev/api.json",
+        "checkedAt": "2026-10-13T08:19:21.633Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "cursor/grok-4.7",
+      "provider": "cursor",
+      "reasoningEffort": "Grok 4.7 Extra High",
+      "intelligenceScore": 46,
+      "averageCostPerTask": 0.30,
+      "benchmarkCostPerTask": 3.74,
+      "accessMode": "subsidized",
+      "available": true,
+      "cursorBenchCostPerTask": 6.01,
+      "amortizedCostPerTask": 0.30,
+      "structuredOutput": {
+        "supported": null,
+        "source": "https://models.dev/api.json",
+        "checkedAt": "2026-10-13T08:19:21.633Z",
+        "strictVerification": "unverified"
+      }
+    }
+  ],
+  "startingIntelligence": 46,
+  "classificationBeta": 0.35,
+  "verification": {
+    "level": "reinforced",
+    "commands": [
+      "bun run typecheck",
+      "bun test",
+      "bun run test:q1-primitives"
+    ],
+    "acceptance": [
+      "Appliquer ORDRE_MISSION_02_REPRISE_RMS_APRES_M1_20261020.md, notamment §§5–8. Avant implementation, tenir un unique journal de reprise avec HEAD/WIP/gels, obligations, observables, preuves reutilisables, manques, ownership et decisions V01/V04 motivees par les consommateurs statiques reels. Ne pas rouvrir M1/A09 ni porter automatiquement les 57 familles historiques.",
+      "Qualifier numeric/context avec review independante et execution observee des 450 paires (224 valeurs, 226 refus) et neuf regressions, en preservant leurs oracles et la chaine d'erreurs. Typecheck/import seuls ne valent pas qualification comportementale.",
+      "Ratifier le contrat public S1 minimal ferme apres review fraiche avant implementation ; integrer S1 avec QA independante fondee sur l'API, codecs et dependances planner/numeric effectivement qualifiees.",
+      "Achever S2–S4 selon leurs contrats mis a jour : persistance/acquisition/CAS, execution native OpenCode, conflits/ressources, reprise/replay et connaissance durable. Demontrer le raccordement public sur fixture statique maitrisee, incluant echec/reprise ; aucune simulation ne remplace une preuve native requise. Si permissions ou moyens requis manquent, bloquer la preuve concernee et demander arbitrage sans ouvrir G5–G7.",
+      "Completer L7 et les obligations encore applicables des §§16–18 de l'ordre initial ; obtenir L9 independant et L10 superviseur. Chaque risque requis a une preuve distincte pertinente, avec nominaux/refus/limites/transitions selon le risque ; ne pas rejouer les campagnes deja qualifiees sans invalidation.",
+      "Preserver les invariants du §6 : snapshots immuables, selection par reference/generation exacte et CAS, PREPARED sans autorite d'acquisition/publication, grants root independants par slot, caps immuables et budget L5 distinct, bindings Model.Ref explicites sans injectivite inventee, domaines de provenance distincts et calculs deterministes sans LLM.",
+      "Executer les commandes depuis tools/ff8-harness : typecheck et bun test sur le candidat final integre coherent ; test:q1-primitives cible seulement si impact ou incertitude. Bornes initiales 60 s pour typecheck/Q1 et 300 s pour bun test ; diagnostiquer un depassement sans relance aveugle. Reutiliser les preuves valides en referencant code/entrees/oracle/conditions ; rejouer seulement les controles invalides et dependances pertinentes. Aucun SKIP ou controle non execute declare PASS, aucune baisse de couverture ou oracle assoupli.",
+      "Aucun C# livre/reimporte, live/IDA, jeu lance, code reconstruit execute, adoption G5–G7, configuration globale, nettoyage, achat ou fallback payant implicite. Toute infrastructure importante, extension ou report modifiant les obligations demande accord. Operations Git finales reservees au superviseur sous autorisation explicite.",
+      "Arreter selon §8 : livrables integres et relus, chaque obligation approuvee couverte par une preuve recevable, verifications satisfaites, aucun bloquant ouvert ; reports contractuels explicitement acceptes. Rendre le bilan pour acceptation finale avec faits implementes/verifies/integres/observes, preuves reutilisees/rejouees et limites. Preuve obligatoire absente = PARTIAL/BLOCKED, jamais cloture acceptee ni boucle indefinie."
+    ]
+  }
+}

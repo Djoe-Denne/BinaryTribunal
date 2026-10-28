@@ -1,0 +1,45 @@
+{
+  "group": "g14",
+  "status": "DISPATCH_READY",
+  "classifier_tool": "tools.classify_x86",
+  "SOURCE": "discover-g14",
+  "source_session_id": "ses_ed41fcf7cffekHHwWY7knEV8Af",
+  "inheritance": "Independent author forks from SAME frozen discover-g14 source; never fork classifier or siblings. Lead verifies effective Model.Ref and native variants before admission.",
+  "checkpoint_required": false,
+  "checkpoint_rationale": "Source factual report does not flag target candidate previews; offline validation candidate status is not a target C preview.",
+  "common_compaction": "inputs/ff8-decomp-semantics-20261011-r01/g14/common-compaction.md",
+  "common_compaction_sha256": "1972f7b1c746b0faf2526a5bbd825130cf653de28074b5ba617852d5661d6c0c",
+  "source_native_sha256": "587b32239f902490e8da788a4f53c2b4f6eb06046dff4028c634afd7ff1f4f33",
+  "risk_mapping": "Native uncertainty used as operational v1 risk; not calibrated probabilities.",
+  "blocked": [{"ea":"0x495960","status":"QUARANTINED_PE_MISMATCH","classifier_called":false,"mismatch_byte_count":7,"mismatch_span":"0x495A29..0x495A2F","frozen_chunk_sha256":"cbcd827c14b62562b02d32ebf5be96ae641ad24dd3174feecfd828f54f186f15","pe_chunk_sha256":"6ba7b6f4a3febcb536a5c2e458ca184e18f368c7a62408662df9c196863bae02","required":"Supervisor source/coverage disposition"}],
+  "routes": [
+    {
+      "ea":"0x4954B0","status":"DISPATCH_READY","complexity":60,"risk":64,"native_instruction_count":44,"tier":"complex_high_risk","protocol":"2+1 per volet",
+      "factual_sha256":"0d3ae552496212fc6656e5c02fe6db6830acc5b6b35ab41b58a693811db60ac6",
+      "request":"0x4954B0.request.json","response":"0x4954B0.response.json",
+      "rationale":"Risk 64 exceeds medium threshold 50 despite 44 instructions; source flags unvalidated return/callee contracts. Full native coverage required, quarantined caller cannot authenticate callee purpose.",
+      "productions":[
+        {"volet":"C","role":"A","model":"openai/gpt-6-astra","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/c_a.md"},
+        {"volet":"C","role":"B","model":"opencode/claude-opus-5-5","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/c_b.md"},
+        {"volet":"C","role":"R","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/c_r.md","requires":["C.A","C.B"]},
+        {"volet":"semantics","role":"A","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/semantic_a.md"},
+        {"volet":"semantics","role":"B","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/semantic_b.md"},
+        {"volet":"semantics","role":"R","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x4954B0/semantic_r.md","requires":["semantics.A","semantics.B"]}
+      ]
+    },
+    {
+      "ea":"0x495D80","status":"DISPATCH_READY","complexity":73,"risk":60,"native_instruction_count":101,"tier":"complex_high_risk","protocol":"2+1 per volet",
+      "factual_sha256":"862f2ad69328e5f7b6edf55f2758945567bbedec39d64efd8db945c141c4ad7b",
+      "request":"0x495D80.request.json","response":"0x495D80.response.json",
+      "rationale":"Complexity 73 and risk 60 exceed medium thresholds; source flags native-versus-historical GF local address contradiction and signed/narrow arithmetic risks. ASM immediate remains truth; no silent address repair.",
+      "productions":[
+        {"volet":"C","role":"A","model":"openai/gpt-6-astra","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/c_a.md"},
+        {"volet":"C","role":"B","model":"opencode/claude-opus-5-5","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/c_b.md"},
+        {"volet":"C","role":"R","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/c_r.md","requires":["C.A","C.B"]},
+        {"volet":"semantics","role":"A","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/semantic_a.md"},
+        {"volet":"semantics","role":"B","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/semantic_b.md"},
+        {"volet":"semantics","role":"R","model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/g14/0x495D80/semantic_r.md","requires":["semantics.A","semantics.B"]}
+      ]
+    }
+  ]
+}

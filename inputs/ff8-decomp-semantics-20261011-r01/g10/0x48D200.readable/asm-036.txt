@@ -1,0 +1,25 @@
+0048DE5E: sub     edx, eax; Integer Subtraction
+0048DE60: mov     ebx, 0FFFEh
+0048DE65: lea     eax, [eax+edx*4]; Load Effective Address
+0048DE68: shl     eax, 4; Shift Logical Left
+0048DE6B: mov     cl, CURRENT_WEAPON_ID[eax]
+0048DE71: mov     eax, ecx
+0048DE73: lea     edx, [eax+eax*2]; Load Effective Address
+0048DE76: xor     eax, eax; Logical Exclusive OR
+0048DE78: mov     al, K_WEAPON.renzokukenFinishers[edx*4]
+0048DE7F: mov     esi, eax
+0048DE81: call    domain__Battle_GetRandom1ToMax; Returns 1..max_value from the battle-local RNG via (Battle_GetRandomInt() % max_value) + 1.
+0048DE86: add     esp, 4; Add
+0048DE89: dec     eax; Decrement by 1
+0048DE8A: jns     short loc_48DE8E; Jump if Not Sign (SF=0)
+0048DE8C: xor     eax, eax; Logical Exclusive OR
+0048DE8E: test    eax, eax; Logical Compare
+0048DE90: mov     ecx, 1
+0048DE95: jle     short loc_48DE9E; Jump if Less or Equal (ZF=1 | SF!=OF)
+0048DE97: mov     edx, eax
+0048DE99: shl     ecx, 1; Shift Logical Left
+0048DE9B: dec     edx; Decrement by 1
+0048DE9C: jnz     short loc_48DE99; Jump if Not Zero (ZF=0)
+0048DE9E: dec     eax; Decrement by 1
+0048DE9F: test    esi, ecx; Logical Compare
+0048DEA1: jz      short loc_48DE8E; Jump if Zero (ZF=1)

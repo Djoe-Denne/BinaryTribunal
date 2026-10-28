@@ -1,0 +1,62 @@
+{
+  "schema": "lot25-v17-resume2-deployment-v1",
+  "receipt_time_utc": "2026-10-04T15:12:09.5085990Z",
+  "instance": "L25-v17-RESUME2-DEPLOY",
+  "build_id": "0x5644",
+  "candidate": "docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v17/gfx_driver_passthrough.dll",
+  "candidate_frozen": true,
+  "candidate_sha256": "0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc",
+  "candidate_len": 614912,
+  "pre_state": {
+    "game_AF3DN.P_sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "game_AF3DN.P_len": 145920,
+    "exe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "sidecars": { "gfx_passthrough.stage0": "absent", "gfx_passthrough.dump": "absent", "gfx_passthrough.nohook": "absent" },
+    "kept_artifacts_from_prior_session": [ "gfx_passthrough.csv", "gfx_passthrough_stage0.log" ],
+    "process_absent": true
+  },
+  "fresh_rollback": {
+    "dir": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume2-pre-d77eb136f6a2424fae3070102e15c2ca",
+    "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume2-pre-d77eb136f6a2424fae3070102e15c2ca/AF3DN.P.rollback",
+    "sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "len": 145920,
+    "complete_and_verified_before_candidate_copy": true
+  },
+  "prior_rollbacks_preserved": {
+    "lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "lot25-pass2bis-pre-a36876ff48614386a33b64086ff2278a": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19"
+  },
+  "deployed": {
+    "path": "C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/AF3DN.P",
+    "sha256": "0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc",
+    "len": 614912,
+    "mtime_utc": "2026-10-04T13:19:17.4110859Z (source preserved by Copy-Item; hash is the identity proof)",
+    "postcopy_verdict": "WRITER VERIFIED POST-COPY (hash identity only)"
+  },
+  "stage0_sidecar": {
+    "path": "C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/gfx_passthrough.stage0",
+    "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-closed-de08918ae55b450bbeb3c02226f01e13/gfx_passthrough.stage0",
+    "byte_exact_copy": true,
+    "sha256": "1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82",
+    "len": 111,
+    "dump_and_nohook_absent": true
+  },
+  "process_absent_at_deploy": true,
+  "process_absent_after_deploy": true,
+  "process_recheck_cim_and_getproc": 0,
+  "launch_attempted": false,
+  "capture_armed": false,
+  "live_stage0_install_proven": false,
+  "live_stage0_install_session_attribution": "this morning (resume-open session) belongs to the PREVIOUS run; nothing proven for the future session",
+  "verdicts_distinct": {
+    "deployment": "hash-identity only",
+    "requested": "not assessed",
+    "result_observed": "not assessed",
+    "applied": "not assessed",
+    "promotion_satisfied": false
+  },
+  "incident_log": [
+    "First script aborted at STEP1 with exit 2 BEFORE any mutation: subagent bug in hash comparison expression (PowerShell precedence of -join vs -ne); printed hashes were all exactly expected values. No file created, no copy made. Rerun with separate comparisons succeeded."
+  ],
+  "boundaries_respected": [ "no launch", "no capture", "no arming", "no operator interaction", "no git", "no docs/card edits", "candidate never modified" ]
+}

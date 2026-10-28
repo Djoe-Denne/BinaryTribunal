@@ -1,0 +1,25 @@
+0046411B: mov     [edi+24h], ecx
+0046411E: mov     ebx, [esp+10h+arg_4]
+00464122: cmp     [ebx+58h], ebp; Compare Two Operands
+00464125: jnz     short loc_464146; Jump if Not Zero (ZF=0)
+00464127: mov     edx, [edi+8]
+0046412A: imul    edx, [edi+4]; Signed Multiply
+0046412E: push    edx
+0046412F: call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018; E3c: lu: scan B7E018 + pool 2 slots; TPage = callers + strings Psx2 seulement
+00464134: add     esp, 4; Add
+00464137: cmp     eax, ebp; Compare Two Operands
+00464139: mov     [ebx+58h], eax
+0046413C: jnz     short loc_464146; Jump if Not Zero (ZF=0)
+0046413E: pop     edi
+0046413F: pop     esi
+00464140: pop     ebp
+00464141: or      eax, 0FFFFFFFFh; Logical Inclusive OR
+00464144: pop     ebx
+00464145: retn; Return Near from Procedure
+00464146: mov     eax, [ebx+58h]
+00464149: pop     edi
+0046414A: mov     [esi+0D8h], eax
+00464150: pop     esi
+00464151: pop     ebp
+00464152: xor     eax, eax; Logical Exclusive OR
+00464154: pop     ebx

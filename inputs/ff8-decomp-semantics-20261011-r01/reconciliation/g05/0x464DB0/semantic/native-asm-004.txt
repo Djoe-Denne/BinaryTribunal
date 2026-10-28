@@ -1,0 +1,25 @@
+00464E9C: call    TexStaging_BlitCLUTAlpha; Vague C: frere blit CLUT-alpha de TexStaging_BlitRows (lookup CLUT, alpha <<12).
+00464EA1: mov     eax, [ebx+0A50h]
+00464EA7: lea     ecx, [esp+0C4h+desc]; Load Effective Address
+00464EAB: push    eax; owner
+00464EAC: push    0; tim_path
+00464EAE: push    ecx; desc
+00464EAF: push    6; list_type
+00464EB1: push    1; mode
+00464EB3: call    Gfx_CreateDrawList; Call Procedure
+00464EB8: add     esp, 40h; Add
+00464EBB: mov     [esi+44h], eax
+00464EBE: mov     [esp+98h+var_58], 1
+00464EC6: push    eax
+00464EC7: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture
+00464ECC: mov     [esp+9Ch+var_54], eax
+00464ED0: mov     edx, [ebx+0A50h]
+00464ED6: push    edx; owner
+00464ED7: lea     eax, [esp+0A0h+desc]; Load Effective Address
+00464EDB: push    0; tim_path
+00464EDD: push    eax; desc
+00464EDE: push    0Eh; list_type
+00464EE0: push    1; mode
+00464EE2: call    Gfx_CreateDrawList; Call Procedure
+00464EE7: add     esp, 18h; Add
+00464EEA: mov     [esi+48h], eax

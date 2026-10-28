@@ -1,0 +1,25 @@
+00488148: push    71h ; 'q'; G14: AI 0x1F second 0x71 + EnemyAI_MonsterEnterAnimation (persists while actor busy).
+0048814A: movzx   di, al; Move with Zero-Extend
+0048814E: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00488153: push    offset BattleAction_UnlockActionLatch
+00488158: mov     [eax], di; store DI into ActivateTargetRelay result
+0048815B: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+00488160: push    6; phase
+00488162: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+00488167: add     esp, 14h; Add
+0048816A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048816F: mov     [esp+74h+p_ai_current_subcode], ecx
+00488173: jmp     loc_4880F1; Jump
+00488178: mov     al, [esi]; AI VM op 0x1B GF_SUMMON_PRESENT: slot(1),p2(1); relay 0x70 barrier + 0x71 enter-anim; AI_PREPARE_SUMMON_FLAG=1; commits inline
+0048817A: push    0; a3
+0048817C: add     al, 3; Add
+0048817E: push    80h; a2
+00488183: push    70h ; 'p'; a1
+00488185: mov     [esp+80h+opcode_param_1], al
+00488189: inc     esi; Increment by 1
+0048818A: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+0048818F: mov     cl, [esp+80h+opcode_param_1]
+00488193: mov     dl, [esi]
+00488195: mov     edi, 1
+0048819A: mov     byte ptr [esp+80h+enter_alt_target_param_2], dl
+0048819E: mov     eax, [esp+80h+enter_alt_target_param_2]

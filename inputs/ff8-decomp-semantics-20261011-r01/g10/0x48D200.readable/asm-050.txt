@@ -1,0 +1,25 @@
+0048E33B: mov     [esp+24h+magic_id], 0
+0048E343: jmp     short loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E345: xor     edi, edi; jumptable 0048D37A default case, cases 9,10,12,35-37,39-235,242,243,248,249,251,253
+0048E347: mov     [esp+24h+magic_id], edi
+0048E34B: mov     dl, byte ptr [esp+24h+p_param_is_0_for_ai]; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E34F: mov     esi, [esp+24h+var_4]
+0048E353: mov     al, byte ptr [esp+24h+p_command_type]
+0048E357: mov     EQUAL_GAME_OVER_RELATED, dl
+0048E35D: mov     dl, byte ptr [esp+24h+p_target_slot_id]
+0048E361: mov     COMMAND_TYPE_ID, al; COMMAND_TYPE_ID is LIVE-mutable post-GetText (0xF8/0xF3/0xFD/0xFB/0xF9 writers); presentation selector is frozen payload[1] (VA)
+0048E366: mov     byte ptr RELATED_TO_TARGET_SLOT_NOPE, dl
+0048E36C: mov     dl, byte ptr [esp+24h+hit_count]
+0048E370: mov     CURRENT_ATTACK_HIT_COUNT, dl; Static ABI verified 2026-08-10: sole writer of CURRENT_ATTACK_HIT_COUNT (u8), sourced from kernel command/magic/item/GF hit-count data or AI command 252 parameter. ResolveTargetAndHitCount has no native upper-bound check.
+0048E376: mov     dl, [esp+24h+p_always_zero]
+0048E37A: mov     [esi+2], dl
+0048E37D: mov     dx, word ptr [esp+24h+magic_id]
+0048E382: mov     [esi+1], al
+0048E385: mov     al, byte ptr [esp+24h+camera_change]
+0048E389: mov     [esi+4], bx
+0048E38D: mov     [esi+3], al
+0048E390: xor     eax, eax; Logical Exclusive OR
+0048E392: mov     [esi+6], dx
+0048E396: mov     al, byte ptr ACTION_EVENT_GROUP_INDEX
+0048E39B: mov     cl, byte ptr [esp+24h+p_attacker_slot_id]
+0048E39F: mov     ATTACKER_SLOT_ID, cl; slot 0 to 2 are actually the characters (When looking the back of chara, 0 is right chara, 2 is left chara, 3 is right moonster, 5 is left monster)

@@ -1,0 +1,898 @@
+{
+  "schema": "ff8_classification_routing_v1",
+  "group": "g24",
+  "status": "DISPATCH_READY",
+  "status_scope": "Five safe EAs ready for lead admission; one encoding-mismatch EA blocked.",
+  "SOURCE": "discover-g24",
+  "source": {
+    "SOURCE": "discover-g24",
+    "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+    "context_mode": "fork",
+    "classifier_is_fork_source": false,
+    "source_report_flags_target_candidate_previews": false,
+    "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+    "native_receipt": {
+      "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+      "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+    },
+    "compaction": {
+      "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+      "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+    }
+  },
+  "contract": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md",
+    "sha256": "7b02409526370e917919de440c51bb39bc0216de2a4965bb43b79f561301d777"
+  },
+  "native_groups": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json",
+    "sha256": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9"
+  },
+  "native_pe_verification": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json",
+    "sha256": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e"
+  },
+  "catalogue": {
+    "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/catalogue.snapshot.json",
+    "sha256": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"
+  },
+  "disk_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "calls": {
+    "native": 6,
+    "reused": 0,
+    "retries": 0
+  },
+  "blocked_eas": [
+    "0x50AED0"
+  ],
+  "quarantined_pe_mismatch_eas": [],
+  "luna_oversize_required_eas": [],
+  "routes": [
+    {
+      "ea": "0x50A9A0",
+      "SOURCE": "discover-g24",
+      "native_instructions": 297,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50A9A0.json",
+        "sha256": "77b0b2f0ec853775055dff42da4291c3ae3ed2a56cab41f9cc94291a2e793cb5"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50A9A0.json",
+        "sha256": "77b0b2f0ec853775055dff42da4291c3ae3ed2a56cab41f9cc94291a2e793cb5"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50A9A0",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50A9A0.request.json",
+        "sha256": "a279a5a62787f53775e82fcc7d9fc12c1624b81271d384e10a2666244c9a5ac4"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50A9A0.response.native.json",
+        "sha256": "28a0f520db0e834a071085ebcf3561d53a399e87a21f3c8ee4cbcdc85e1577a5"
+      },
+      "assembly_characters": 24591,
+      "complexity": 77,
+      "risk": 48,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "DISPATCH_READY",
+      "classifier_receipt_valid_for_dispatch": true,
+      "level": "complex",
+      "structural_flags": [
+        "native_instruction_count_gt_200",
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "policy": "2+1_per_volet",
+      "rationale": [
+        "v1 complexity=77, risk=48, native instructions=297; complex route.",
+        "native_instruction_count_gt_200",
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "productions": [
+        {
+          "volet": "c",
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/c/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/c/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/c/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/c/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/c/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        },
+        {
+          "volet": "semantic",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/semantic/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/semantic/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/semantic/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/semantic/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50A9A0/semantic/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x50AED0",
+      "SOURCE": "discover-g24",
+      "native_instructions": 16,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50AED0.json",
+        "sha256": "2f301739b27878886586c7affc7f132a0fb3ce933cac6e48aa764813c75c18f9"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50AED0.json",
+        "sha256": "2f301739b27878886586c7affc7f132a0fb3ce933cac6e48aa764813c75c18f9"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50AED0",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50AED0.request.json",
+        "sha256": "8e5f764fe78ce950014d323dbe66ca66a4a0ee07d38e5ee71c1bb0dfe7e7fa60"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50AED0.response.native.json",
+        "sha256": "85192c6cd0705c46438cfde6d83998bb2f27e50a12fdb8ca5584009a914ae3a1"
+      },
+      "assembly_characters": 9941,
+      "complexity": 55,
+      "risk": 42,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "BLOCKED_PAYLOAD_ENCODING_MISMATCH",
+      "classifier_receipt_valid_for_dispatch": false,
+      "actual_submitted_request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50AED0.submitted-encoding-mismatch.request.json",
+        "sha256": "d10d04b4a5dcea5352a0cf1ebeefc29ca94e0b4adf23b2337cf607677738ab35"
+      },
+      "rationale": [
+        "First call decoded UTF-8 bytes as Latin-1; common-compaction accented character changed. Full native response retained, but invalid for unchanged-payload admission. No corrective double call without lead authorization."
+      ],
+      "productions": []
+    },
+    {
+      "ea": "0x50AFC0",
+      "SOURCE": "discover-g24",
+      "native_instructions": 54,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50AFC0.json",
+        "sha256": "b09a3c5aba1fc183f9f2a2cee7abcff5be053084938f0a1387631ba0d4804a1d"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50AFC0.json",
+        "sha256": "b09a3c5aba1fc183f9f2a2cee7abcff5be053084938f0a1387631ba0d4804a1d"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50AFC0",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50AFC0.request.json",
+        "sha256": "c968e4cbc8ecc6b1383bfe58e141be78f514c84423d42e1896e4ed28c997c393"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50AFC0.response.native.json",
+        "sha256": "9f4ff281b478cab02dec609a568057d478979a3969cefd3acad08a6177974eba"
+      },
+      "assembly_characters": 11721,
+      "complexity": 58,
+      "risk": 43,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "DISPATCH_READY",
+      "classifier_receipt_valid_for_dispatch": true,
+      "level": "medium",
+      "structural_flags": [],
+      "policy": "2+1_per_volet",
+      "rationale": [
+        "v1 complexity=58, risk=43, native instructions=54; medium route."
+      ],
+      "productions": [
+        {
+          "volet": "c",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/c/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/c/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/c/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/c/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/c/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        },
+        {
+          "volet": "semantic",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/semantic/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/semantic/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/semantic/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/semantic/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50AFC0/semantic/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x50BB00",
+      "SOURCE": "discover-g24",
+      "native_instructions": 84,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50BB00.json",
+        "sha256": "6f5294c3a11f6044587dbc48ccd92b9836b3792b8067a64147806cb8cc3114c1"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50BB00.json",
+        "sha256": "6f5294c3a11f6044587dbc48ccd92b9836b3792b8067a64147806cb8cc3114c1"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50BB00",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50BB00.request.json",
+        "sha256": "a94294809a1179f565c171a9d1f933dccef6e528a32dc835759224218eea5fbe"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50BB00.response.native.json",
+        "sha256": "c09427660afd02ecba536f4b44e26be9c3a9ed5f11d95ed928983bd6396e2283"
+      },
+      "assembly_characters": 13771,
+      "complexity": 69,
+      "risk": 45,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "DISPATCH_READY",
+      "classifier_receipt_valid_for_dispatch": true,
+      "level": "complex",
+      "structural_flags": [],
+      "policy": "2+1_per_volet",
+      "rationale": [
+        "v1 complexity=69, risk=45, native instructions=84; complex route."
+      ],
+      "productions": [
+        {
+          "volet": "c",
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/c/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/c/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/c/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/c/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/c/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        },
+        {
+          "volet": "semantic",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/semantic/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/semantic/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/semantic/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/semantic/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50BB00/semantic/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x50B0C0",
+      "SOURCE": "discover-g24",
+      "native_instructions": 61,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50B0C0.json",
+        "sha256": "93346ae557ffdd9d54734fe9ac0e57bc4fdddb0acdcd8a623a8f28d855d5b9ce"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50B0C0.json",
+        "sha256": "93346ae557ffdd9d54734fe9ac0e57bc4fdddb0acdcd8a623a8f28d855d5b9ce"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50B0C0",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50B0C0.request.json",
+        "sha256": "ac6081a3c0fe6dcfca95c7d80011af91e584c160fe6d99b4555141710431907d"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50B0C0.response.native.json",
+        "sha256": "45695f6f5eb73bf992fbd014a3340ca911b89e57f98f9913d0bb631cca8acc94"
+      },
+      "assembly_characters": 11917,
+      "complexity": 74,
+      "risk": 43,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "DISPATCH_READY",
+      "classifier_receipt_valid_for_dispatch": true,
+      "level": "complex",
+      "structural_flags": [
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "policy": "2+1_per_volet",
+      "rationale": [
+        "v1 complexity=74, risk=43, native instructions=61; complex route.",
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "productions": [
+        {
+          "volet": "c",
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/c/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/c/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/c/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/c/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/c/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        },
+        {
+          "volet": "semantic",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/semantic/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/semantic/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/semantic/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/semantic/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B0C0/semantic/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x50B190",
+      "SOURCE": "discover-g24",
+      "native_instructions": 76,
+      "factual_input": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/0x50B190.json",
+        "sha256": "b74bafbbb455401cf33b5d3879f18dcdec9d4d85e3a6b94c80fbc3bfe35579d1"
+      },
+      "native_frozen_export": {
+        "path": ".tmp/ff8-decomp-semantics-20261011-r01/native/0x50B190.json",
+        "sha256": "b74bafbbb455401cf33b5d3879f18dcdec9d4d85e3a6b94c80fbc3bfe35579d1"
+      },
+      "common_compaction": {
+        "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+        "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+      },
+      "pe_verification": {
+        "ea": "0x50B190",
+        "idb_equals_pe_and_freeze": true,
+        "mismatches": []
+      },
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50B190.request.json",
+        "sha256": "ce66ed8e23b3c1876df8f6beddd53487280d6df71d1d09d67c908c5e0866c7f1"
+      },
+      "response": {
+        "path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g24/0x50B190.response.native.json",
+        "sha256": "60997f143379fb4321753dd40d2fbea834f6a1c9884712a067d82e305e29aec2"
+      },
+      "assembly_characters": 12818,
+      "complexity": 74,
+      "risk": 44,
+      "risk_mapping": "v1 operational risk = native Classify uncertainty; non-calibrated judgement signal",
+      "uncertainty_cause": "external_calls",
+      "producer_context": {
+        "SOURCE": "discover-g24",
+        "session_id": "ses_ed423066dffeDbrR8MDt9xmpLU",
+        "context_mode": "fork",
+        "classifier_is_fork_source": false,
+        "source_report_flags_target_candidate_previews": false,
+        "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+        "native_receipt": {
+          "path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g24.source.native.json",
+          "sha256": "ceb57509688d2b5f3449bab29052642964b5f7477eaf06c404ffb599b30b80be"
+        },
+        "compaction": {
+          "path": "inputs/ff8-decomp-semantics-20261011-r01/g24/common-compaction.md",
+          "sha256": "1fd6896ec0155b7d269f21d934933e9694f9ea48e0d82a63cbe8b9c246710912"
+        }
+      },
+      "admission_owner": "lead",
+      "native_model_ref_readback_required": true,
+      "status": "DISPATCH_READY",
+      "classifier_receipt_valid_for_dispatch": true,
+      "level": "complex",
+      "structural_flags": [
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "policy": "2+1_per_volet",
+      "rationale": [
+        "v1 complexity=74, risk=44, native instructions=76; complex route.",
+        "indirect_callback_target_not_fully_resolved_in_common_facts"
+      ],
+      "productions": [
+        {
+          "volet": "c",
+          "role": "A",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/c/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "B",
+          "model": "opencode/claude-opus-5-5",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/c/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "c",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/c/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/c/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/c/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        },
+        {
+          "volet": "semantic",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/semantic/a.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "B",
+          "model": "openai/gpt-6-astra",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/semantic/b.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "lead_source_and_Model.Ref_validation"
+          ],
+          "reads_sibling_outputs": false
+        },
+        {
+          "volet": "semantic",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/semantic/r.md",
+          "SOURCE": "discover-g24",
+          "context_mode": "fork",
+          "fresh_independent_session": true,
+          "admit_after": [
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/semantic/a.md",
+            "outputs/ff8-decomp-semantics-20261011-r01/production/g24/0x50B190/semantic/b.md"
+          ],
+          "requires_both_A_and_B": true,
+          "truth_source": "complete frozen native ASM"
+        }
+      ]
+    }
+  ],
+  "scope_guards": {
+    "no_producers_spawned": true,
+    "no_IDB_git_ledger_registry_live_config_mutation": true,
+    "writes_only_own_classification_directory": true
+  }
+}

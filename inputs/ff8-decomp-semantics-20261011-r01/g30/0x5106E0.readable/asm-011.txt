@@ -1,0 +1,25 @@
+00510A65: mov     edx, ecx
+00510A67: mov     esi, [esp+44h+dest]
+00510A6B: xor     ebx, ebx; Logical Exclusive OR
+00510A6D: mov     bx, [esi+4]
+00510A71: cmp     ebx, edx; Compare Two Operands
+00510A73: jge     short loc_510A77; Jump if Greater or Equal (SF=OF)
+00510A75: mov     edx, ebx
+00510A77: mov     ebp, [esp+44h+var_30]
+00510A7B: xor     esi, esi; Logical Exclusive OR
+00510A7D: mov     si, [ebp+4]
+00510A81: cmp     esi, edx; Compare Two Operands
+00510A83: jge     loc_510B17; Jump if Greater or Equal (SF=OF)
+00510A89: jmp     loc_510B15; Jump
+00510A8E: mov     edx, [esp+44h+var_24]
+00510A92: mov     eax, dword_1D99C18
+00510A97: test    edx, 0FE000000h; Logical Compare
+00510A9D: mov     [eax+8], edi
+00510AA0: mov     edi, [esp+44h+var_28]
+00510AA4: mov     [eax+10h], edi
+00510AA7: mov     [eax+18h], esi
+00510AAA: mov     esi, [esp+44h+var_1C]
+00510AAE: mov     [eax+20h], esi
+00510AB1: jz      short loc_510AB9; Jump if Zero (ZF=1)
+00510AB3: or      ecx, offset unk_2000000; Logical Inclusive OR
+00510AB9: mov     [eax+4], ecx

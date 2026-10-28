@@ -1,0 +1,25 @@
+00465720: sub     esp, 8Ch; Integer Subtraction
+00465726: push    ebx
+00465727: push    ebp
+00465728: push    esi
+00465729: push    edi
+0046572A: call    FFGetBufferAddress; Call Procedure
+0046572F: mov     esi, [esp+9Ch+arg_0]
+00465736: mov     ebx, eax
+00465738: mov     [esp+9Ch+var_84], ebx
+0046573C: mov     eax, [esi+44h]
+0046573F: push    eax
+00465740: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture
+00465745: mov     edi, [eax+98h]
+0046574B: mov     ecx, [esp+0A0h+arg_8]
+00465752: xor     eax, eax; Logical Exclusive OR
+00465754: mov     ebp, dword_1CB602C
+0046575A: mov     ax, [ecx+448h]
+00465761: mov     edx, [esi+14h]
+00465764: mov     ecx, eax
+00465766: and     eax, 3Fh; Logical AND
+00465769: shr     ecx, 6; Shift Logical Right
+0046576C: shl     ecx, 6; Shift Logical Left
+0046576F: add     ecx, eax; Add
+00465771: mov     eax, [esi+10h]
+00465774: shl     ecx, 5; Shift Logical Left

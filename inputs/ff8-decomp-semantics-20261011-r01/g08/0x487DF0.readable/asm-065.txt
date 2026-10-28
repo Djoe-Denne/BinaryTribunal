@@ -1,0 +1,25 @@
+004894A1: jz      short loc_4894A9; Jump if Zero (ZF=1)
+004894A3: test    byte ptr [eax], 1; Logical Compare
+004894A6: jnz     short loc_4894A9; Jump if Not Zero (ZF=0)
+004894A8: inc     ecx; Increment by 1
+004894A9: add     eax, 0D0h; Add
+004894AE: cmp     eax, (offset BATTLE_SLOT_DATA.status_1+270h); 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+004894B3: jl      short loc_48949D; Jump if Less (SF!=OF)
+004894B5: mov     [esp+74h+p_ai_current_subcode], ecx
+004894B9: mov     edi, offset BATTLE_SLOT_DATA.status_1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+004894BE: mov     eax, ebp
+004894C0: mov     dl, [edi-4]
+004894C3: test    dl, 1; Logical Compare
+004894C6: jz      short loc_4894EF; Jump if Zero (ZF=1)
+004894C8: test    byte ptr [edi], 1; Logical Compare
+004894CB: jnz     short loc_4894EF; Jump if Not Zero (ZF=0)
+004894CD: mov     ecx, [esp+74h+if_right_condition_final]
+004894D1: lea     eax, [edi-80h]; Load Effective Address
+004894D4: and     ecx, 0FFFFh; Logical AND
+004894DA: push    eax; slot
+004894DB: push    ecx; bit
+004894DC: push    0; mode
+004894DE: call    domain__EnemyAI_GetSubjectValue_D; a1=mode (0=present,3=absent) ; a2=bit_index ; a3=ai_ctx
+004894E3: mov     ecx, [esp+80h+p_ai_current_subcode]
+004894EA: add     esp, 0Ch; Add
+004894ED: add     eax, ebp; Add

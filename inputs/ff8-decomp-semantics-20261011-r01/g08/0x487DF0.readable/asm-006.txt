@@ -1,0 +1,25 @@
+00487FB2: mov     dl, byte ptr [esp+80h+p_ai_current_subcode]
+00487FB9: mov     al, byte ptr [esp+80h+encounter_slot_to_enable]
+00487FBD: push    offset domain__SceneOut_InitEnemySlot; a3
+00487FC2: push    80h; a2
+00487FC7: push    71h ; 'q'; G14: AI 0x34 SPAWN_MONSTER enqueue 0x71 + SceneOut_InitEnemySlot callback. Not 0x33 (0x33 is push 70h at 0x489E56).
+00487FC9: mov     byte ptr ATTACKER_SLOT_ID_0+3, dl
+00487FCF: mov     byte ptr TARGET_SLOT_ID, al
+00487FD4: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00487FD9: push    offset BattleAction_UnlockActionLatch
+00487FDE: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+00487FE3: add     esp, 1Ch; Add
+00487FE6: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00487FEB: mov     [esp+74h+p_ai_current_subcode], ecx
+00487FEF: jmp     short loc_487F96; Jump
+00487FF1: mov     cl, [esi]; AI VM op 0x3B SPAWN_TO_SLOT: spawn id(1); slot(1)!=0 use it else first free enemy slot
+00487FF3: mov     dl, [esi+1]
+00487FF6: inc     esi; Increment by 1
+00487FF7: mov     [esp+74h+op_param_2], cl
+00487FFB: mov     [esp+74h+op_param_3], dl
+00487FFF: mov     ecx, dword ptr [esp+74h+op_param_2]
+00488003: mov     eax, dword ptr [esp+74h+op_param_3]
+00488007: and     ecx, edi; Logical AND
+00488009: inc     esi; Increment by 1
+0048800A: and     eax, edi; Logical AND
+0048800C: mov     [esp+74h+encounter_slot_to_enable], ecx

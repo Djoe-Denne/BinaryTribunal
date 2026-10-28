@@ -1,0 +1,25 @@
+00485FF0: push    ebx; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00485FF1: xor     ecx, ecx; Logical Exclusive OR
+00485FF3: mov     eax, 4E0h
+00485FF8: mov     edx, 1
+00485FFD: mov     bl, 40h ; '@'
+00485FFF: shl     ecx, 1; Shift Logical Left
+00486001: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl; Logical Compare
+00486007: jz      short loc_486022; Jump if Zero (ZF=1)
+00486009: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl; Logical Compare
+0048600F: jnz     short loc_486022; Jump if Not Zero (ZF=0)
+00486011: cmp     eax, 270h; Compare Two Operands
+00486016: jge     short loc_486020; Jump if Greater or Equal (SF=OF)
+00486018: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048601E: jnz     short loc_486022; Jump if Not Zero (ZF=0)
+00486020: or      ecx, edx; Logical Inclusive OR
+00486022: sub     eax, 0D0h; Integer Subtraction
+00486027: cmp     eax, 0FFFFFF30h; Compare Two Operands
+0048602C: jg      short loc_485FFF; Jump if Greater (ZF=0 & SF=OF)
+0048602E: mov     BATTLE_VISIBILITY_MASK_A, cx
+00486035: xor     ecx, ecx; Logical Exclusive OR
+00486037: mov     eax, 4E0h
+0048603C: shl     ecx, 1; Shift Logical Left
+0048603E: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl; Logical Compare
+00486044: jz      short loc_48605F; Jump if Zero (ZF=1)
+00486046: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl; Logical Compare

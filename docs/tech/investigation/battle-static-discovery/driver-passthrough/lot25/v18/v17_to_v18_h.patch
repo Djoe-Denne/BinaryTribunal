@@ -1,0 +1,45 @@
+diff --git "a/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v17\\gfx_driver_passthrough.h" "b/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\gfx_driver_passthrough.h"
+index 9576835..ec0c24e 100644
+--- "a/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v17\\gfx_driver_passthrough.h"
++++ "b/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\gfx_driver_passthrough.h"
+@@ -248,6 +248,10 @@ typedef struct GFXPT_Capture {
+  * ajoute seulement gfx_passthrough_stage0.log (texte append, lifecycle borne),
+  * lectures SEH des sites et compteurs req/result lifetime par site 0/1/2.
+  * Bit1 = Armed && Seen : son absence ne prouve pas un refus d'installation.
++ * v18 (0x5646) OFFLINE NO_HOT_UNLOAD: attach observes opt-in only. Existing
++ * Present path and explicit export share a single activation attempt, with
++ * confirmed self-PIN BEFORE stage0 writes. Restore verifies full 14-byte
++ * windows; ownership survives failure. Success = RESTORED_RETAINED.
+  * ------------------------------------------------------------------------- */
+ 
+ /* ---------------------------------------------------------------------------
+@@ -270,19 +274,22 @@ void __cdecl Passthrough_SetReplayLive(int enable);
+ 
+ unsigned long __cdecl Passthrough_CaptureCount(void);
+ 
+-/* v2 — pose le détour boot sur CheckRegistry (0x401890) : le premier appel
+- * arme engine+0xBA8=2 / engine+0xBD0=factory avant le dispatch type 2.
+- * Posé automatiquement par DllMain (mode AF3DN.P) ; export conservé pour
+- * une future voie injecteur. Retour : 1 posé/déjà posé, 0 refus (preimage). */
++/* Legacy name: currently installs PresentDispatch and ODS detours, NOT
++ * CheckRegistry. These pre-PIN hooks are NOT covered by the stage0 fix.
++ * Return 1 = both installed/already present, 0 = refusal/partial install. */
+ int __cdecl Passthrough_InstallBootHook(void* reserved);
+ 
+ /* v15 (lot 24) — instrumentation stage0 SetTexture (option B, 2 call-sites
+  * RVA 0x1EF5D/0x1EF72, préimage FF 90 98 00 00 00). Export explicite pour
+- * l'hôte/harnais ; v16/v17 auto-installent au DllMain attach via sidecar stage0
+- * si nohook est absent. Install : armé SI ET SEULEMENT SI les 2 sites sont
++ * l'hôte/harnais. v18: call ONLY outside all loader callbacks, with a valid
++ * module reference and no concurrent unload. No universal loader-lock
++ * detection is provided. nohook vetoes even explicit activation. One attempt
++ * per module; restore/failure do not allow reactivation. Install : armé SI ET
++ * SEULEMENT SI les 2 sites sont
+  * posés (préimages + ret VAs target+5
+  * sauvés), sinon restauration partielle + flag broken. Restore :
+- * réécriture byte-exact des préimages et désarmement. Le stub (naked à la
++ * réécriture byte-exact des préimages et désarmement, WITHOUT unpin/unload.
++ * The lock is not a stub/driver rundown guarantee. Le stub (naked à la
+  * définition) est stdcall ret 12 : logge kind8/kind9 via le ring v15 et
+  * propage EAX = HRESULT ; testable par GetProcAddress (harnais synthétique
+  * — travail offline uniquement). Retours : 1 ok, 0 refus/rien armé. */

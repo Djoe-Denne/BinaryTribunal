@@ -1,0 +1,38 @@
+# Trois revues actives, aucun nouveaucode intégré
+
+## Extractions S1
+
+PlannerACKV result_mvf7232t_006b_y7stko28pins442743B/NBL/microplan4axes
+approuvé,GOAUDITfortexplicitedonné. Auditre-dérive10helpersparamétrés et
+call-sitesproducteur,nonqualifiablesdepuisseuls6bodymoves ; codegelé122064B.
+
+Numericcontextlivraison result_mvf7259m_006d_huejvy6artefacts139768B gelés,
+parent20pins375072B exacts. Parentrevérifie37literalspans(21numeric/13context/
+3retained)danslesvraissourcesetdestinations/hashs ; celaneprouvepasnewfixed-
+ownershipadapter/rangomissions/équivalenceproducteur. Sparsenumeric16517B/
+4ca2bed3,context18887B/da37bee6,cluster52529B/a7c29057,groups10684B/162c979a,
+manifest29296B/89598c14. AuteuridleHOLD/taskinprogress,aucunmain/typecheck/run.
+
+VforteNumeric task_mvf798c9_006i_3gskdd/s1-r5-numeric-context-review-r1 admise,
+28pins528643B/25529a6e74cd5f282a7ddc082137ca09919f4ed6e605fcd9b94341890e7d189b,
+Sol/xhighnatifvérifié82/89,ACKpuisGOauditavantverdict. Réfs+after+GOsource,
+aucunS1witnesspayloadentérinéparcetteextraction. Contextpartition/groupes2rôles
+distinctssource,numericconsistency≠authenticity/native/scientificoptimality.
+
+## 2b1 R2
+
+Livraison result_mvf720qv_0068_egifnj3artefacts39435B gelés,CS19567B/3368af20,
+manifest11333B/1bf3e74e. Parent34pins447538B etQAR1frozen3pins exacts. Restaurer
+seulementdeuxbodiesHold/ObserveR1dansR2restaureR1BYTEexact. Publishbrokerpuis
+snapshotretainedcause effectivementludansR2 ; linéarisationresteàreviewindépendante.
+
+DeltaVfresh task_mvf798c9_006h_s4qlqt/full44-q2b1-r2-delta-review-r1 admise,
+41pins550320B/92b2023e6fa844ef4bba3adb41c2dd2361e8c28729178ba4573d9e06604764b3,
+Sol/xhighnatifvérifié58/85,ACKpuisGOAUDITrequis. QAR1strictinchangée,aucunhook/
+threadpourfabriquerunepreuve de course. R1CORRIGE/gelsconservés,nocompiler/run.
+
+Lesdeuxtâchescodecauteurs etl'auteur2b1restentidleHOLDpourfixes,aucuneclôture
+devantlesgates. AprèsVacceptablesseulement,parentgatesSÉRIALISÉES : TS
+typecheck+équivalenceFULLoutputs/diagnostics/fingerprints/errors/numericcontext/
+regressions/loadpurity avantrepinS1 ; C#strict13sourcespuisheaprun2b1séparé.
+Toujoursnocommit/push/cleanup,nopromotionS1/native/full44/125s/Linux/Closed.

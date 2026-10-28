@@ -1,0 +1,465 @@
+diff --git "a/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v17\\gfx_driver_passthrough.c" "b/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\gfx_driver_passthrough.c"
+index cdda968..09f674a 100644
+--- "a/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v17\\gfx_driver_passthrough.c"
++++ "b/C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\gfx_driver_passthrough.c"
+@@ -664,7 +664,7 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
+  * 32768 + fvf 131072) + footer 280 = 164 188 o (0x2815C) âŠ‚
+  * GFXPT_DUMP_MAX_NODE_BYTES (0x100C80) â€” le pin reste inchangÃ©.
+  * =========================================================================== */
+-#define GFXPT_VERSION_TEXT          "v17-lot25diag"
++#define GFXPT_VERSION_TEXT          "v18-NO_HOT_UNLOAD-offline"
+ #define GFXPT_DUMP_MAGIC            0x3730444Eul        /* 'ND07' (restaurÃ© : utilisÃ© par
+                                  * le chemin ND07 â€” kind 0/1 â€” hdr.magic
+                                  * @GFXPT_DumpNode) : le chemin kind2 passe
+@@ -672,7 +672,7 @@ static void GFXPT_CaptureCall(unsigned slot, void* ctx, void* node, void* arg)
+ /* v9 â€” magic ND08 : TOUT record geom_kind==2 (footer texture appended).
+  * ASCII LE Â« ND08 Â» = 4E 44 30 38 â†’ 0x3830444E (famille 'ND07'). */
+ #define GFXPT_DUMP_MAGIC_ND08       0x3830444Eul        /* 'ND08' */
+-#define GFXPT_BUILD_ID            0x5644ul            /* v17 : diagnostics + restore avant unload */    /* build-id u32 dans CHAQUE
++#define GFXPT_BUILD_ID            0x5646ul            /* v18 offline NO_HOT_UNLOAD */    /* build-id u32 dans CHAQUE
+                                                  * record (ND07/ND08 champ 9,
+                                                  * TX07/TR08 2e u32) â€” v9 : bump
+                                                  * 0x5638 â†’ 0x5639 (leÃ§on lot
+@@ -969,6 +969,27 @@ static void GFXPT_Stage0Diag(const char* phase, const char* cause, int ret,
+                              unsigned long siteMask);
+ static void GFXPT_Stage0BeforeUnload(void);
+ 
++/* v18: stage0-only residence contract. The lock serializes installer/restore,
++ * NOT executing stubs, other detours or the driver wrappers (no rundown).
++ * InDllMain detects OUR callback only. Other DLL callbacks are forbidden
++ * callers by contract; this is NOT a universal loader-lock detector. */
++static int            g_stage0OptIn;
++static volatile LONG  g_stage0Pinned;
++static volatile LONG  g_stage0PinAttempts;
++static volatile LONG  g_stage0PatchWrites;
++static volatile LONG  g_stage0Activation; /* one attempt per module lifetime */
++static volatile LONG  g_stage0Lock;
++static volatile LONG  g_stage0InDllMain;
++static DWORD          g_stage0LifecycleState;
++static DWORD          g_stage0ActivationSource; /* 1=Present, 2=explicit export */
++static DWORD          g_stage0PID;
++static FILETIME       g_stage0ProcessCreation;
++static HANDLE         g_stage0LifeFile = INVALID_HANDLE_VALUE;
++static unsigned char  g_stage0Window[2][14];
++static int            g_stage0LastWritten;
++static int GFXPT_SideFileExists(const char* name);
++static int GFXPT_Stage0Activate(DWORD source);
++
+ /* Copie gÃ©nÃ©rique dÃ©fendue (le detour draw ne doit JAMAIS faire tomber le jeu). */
+ static int GFXPT_CopyBytes(void* dst, const void* src, unsigned long n)
+ {
+@@ -2609,6 +2630,13 @@ static void GFXPT_PresentWrapC(void* engine)
+     if (!engine)
+         return;
+ 
++    /* Existing Present detour -> this helper; no new host hook/address.
++     * The controlled caller must be a normal frame dispatch outside loader
++     * callbacks. Until that first dispatch, the persistent marker is merely
++     * an opt-in; its contents are not consumed or interpreted. */
++    if (g_stage0OptIn && !g_stage0Activation)
++        GFXPT_Stage0Activate(1);
++
+     /* v7 â€” pulsation par frame : seq++, flush ring dump, contrÃ´le sidecar.
+      * DOIT tourner Ã  chaque frame, avant le fast-path du wrap. */
+     GFXPT_DumpFramePulse();
+@@ -2787,8 +2815,8 @@ int __cdecl Passthrough_InstallBootHook(void* reserved)
+ 
+ /* ===========================================================================
+  * v15 (lot 24) â€” instrumentation stage0 SetTexture (option B, PROMPT lot24
+- * Â§1/Â§4/Â§5 ; export pour harnais. v16/v17 gardent l'auto-install opt-in
+- * au DLL_PROCESS_ATTACH par sidecar (ne pas deplacer vers Present).
++ * Â§1/Â§4/Â§5 ; export pour harnais. v18 defers the opt-in to the existing
++ * Present path; the explicit export uses the same PIN-before-patch path.
+  *
+  * Deux call-sites `call dword ptr [eax+98h]` du SetTexture device (prÃ©image
+  * 6 o `FF 90 98 00 00 00`) : RVA 0x1EF5D (bind) et 0x1EF72 (unbind) â€”
+@@ -2841,7 +2869,7 @@ static void GFXPT_Stage0Diag(const char* phase, const char* cause, int ret,
+     void* nativeSlot25 = 0;
+     DWORD entryError, n;
+ 
+-    if (!g_stage0DiagEnabled)
++    if (!g_stage0DiagEnabled || g_stage0InDllMain)
+         return;
+     entryError = GetLastError();
+     if (!GFXPT_BuildSidePath("gfx_passthrough_stage0.log", path))
+@@ -2865,6 +2893,12 @@ static void GFXPT_Stage0Diag(const char* phase, const char* cause, int ret,
+             (unsigned long)g_stage0DiagReq[2], (unsigned long)g_stage0DiagRes[0],
+             (unsigned long)g_stage0DiagRes[1], (unsigned long)g_stage0DiagRes[2],
+             (void*)&Passthrough_Stage0Stub);
++    fprintf(log, " pid=%lu tid=%lu process_created=%08lX%08lX module=%p"
++                 " lifecycle=%lu source=%lu pinned=%ld pin_attempts=%ld patch_writes=%ld",
++            g_stage0PID, GetCurrentThreadId(), g_stage0ProcessCreation.dwHighDateTime,
++            g_stage0ProcessCreation.dwLowDateTime, (void*)g_hinstDLL,
++            g_stage0LifecycleState, g_stage0ActivationSource,
++            g_stage0Pinned, g_stage0PinAttempts, g_stage0PatchWrites);
+     if (strcmp(cause, "virtualprotect_failed") == 0)
+         fprintf(log, " winerr=%lu", (unsigned long)g_stage0DiagWinError);
+     if (!g_native)
+@@ -2987,6 +3021,12 @@ static int GFXPT_PlaceCallSiteHook(void* targetVA, const unsigned char* preimage
+ 
+     g_stage0DiagCause = "invalid_args";
+     g_stage0DiagWinError = 0;
++    g_stage0LastWritten = 0;
++    if (!g_stage0Pinned || g_stage0InDllMain)
++    {
++        g_stage0DiagCause = "pin_required_outside_dllmain";
++        return 0;
++    }
+     if (!targetVA || !preimage || !stubVA || !savedOut)
+         return 0;
+     if (memcmp(target, preimage, (size_t)GFXPT_STAGE0_PATCH_BYTES) != 0)
+@@ -3015,9 +3055,25 @@ static int GFXPT_PlaceCallSiteHook(void* targetVA, const unsigned char* preimage
+         return 0;
+     }
+     memcpy(target, patch, (size_t)GFXPT_STAGE0_PATCH_BYTES);
+-    VirtualProtect(target, (SIZE_T)GFXPT_STAGE0_PATCH_BYTES, oldProtect, &oldProtect);
+-    FlushInstructionCache(GetCurrentProcess(), target,
+-                          (SIZE_T)GFXPT_STAGE0_PATCH_BYTES);
++    g_stage0LastWritten = 1; /* ownership survives ALL errors after the write */
++    InterlockedIncrement(&g_stage0PatchWrites);
++    if (!VirtualProtect(target, (SIZE_T)GFXPT_STAGE0_PATCH_BYTES, oldProtect, &oldProtect))
++    {
++        g_stage0DiagWinError = GetLastError();
++        g_stage0DiagCause = "virtualprotect_failed";
++        return 0;
++    }
++    if (!FlushInstructionCache(GetCurrentProcess(), target,
++                               (SIZE_T)GFXPT_STAGE0_PATCH_BYTES))
++    {
++        g_stage0DiagCause = "instruction_cache_failed";
++        return 0;
++    }
++    if (memcmp(target, patch, sizeof(patch)) != 0)
++    {
++        g_stage0DiagCause = "patch_readback_failed";
++        return 0;
++    }
+     g_stage0DiagCause = "patched";
+     return 1;
+ }
+@@ -3028,12 +3084,18 @@ static int GFXPT_RestoreCallSiteHook(void* targetVA, const unsigned char* saved)
+ {
+     BYTE*  target = (BYTE*)targetVA;
+     DWORD  oldProtect;
+-    unsigned char readback[GFXPT_STAGE0_PATCH_BYTES];
++    unsigned char readback[14];
++    unsigned long i;
+ 
+     g_stage0DiagCause = "invalid_args";
+     g_stage0DiagWinError = 0;
+     if (!targetVA || !saved)
+         return 0;
++    for (i = 0; i < GFXPT_STAGE0_SITE_COUNT; ++i)
++        if (saved == g_stage0_saved[i])
++            break;
++    if (i == GFXPT_STAGE0_SITE_COUNT)
++        return 0;
+     if (!VirtualProtect(target, (SIZE_T)GFXPT_STAGE0_PATCH_BYTES,
+                         PAGE_EXECUTE_READWRITE, &oldProtect))
+     {
+@@ -3048,10 +3110,15 @@ static int GFXPT_RestoreCallSiteHook(void* targetVA, const unsigned char* saved)
+         g_stage0DiagCause = "virtualprotect_failed";
+         return 0;
+     }
+-    FlushInstructionCache(GetCurrentProcess(), target,
+-                          (SIZE_T)GFXPT_STAGE0_PATCH_BYTES);
+-    if (!GFXPT_CopyBytes(readback, target, GFXPT_STAGE0_PATCH_BYTES) ||
+-        memcmp(readback, saved, GFXPT_STAGE0_PATCH_BYTES) != 0)
++    if (!FlushInstructionCache(GetCurrentProcess(), target,
++                               (SIZE_T)GFXPT_STAGE0_PATCH_BYTES))
++    {
++        g_stage0DiagCause = "instruction_cache_failed";
++        return 0;
++    }
++    if (!GFXPT_CopyBytes(readback, target - 4, 14ul) ||
++        memcmp(readback + 4, saved, GFXPT_STAGE0_PATCH_BYTES) != 0 ||
++        memcmp(readback, g_stage0Window[i], 14ul) != 0)
+     {
+         g_stage0DiagCause = "restore_readback_failed";
+         return 0;
+@@ -3176,7 +3243,8 @@ stage0_site_okr:
+  * Export explicite ; auto-install v16/v17 dans DllMain avec sidecar stage0.
+  * Retour : 1 armÃ©, 0 refus.
+  * ------------------------------------------------------------------------- */
+-int __cdecl Passthrough_InstallStage0Hooks(void)
++/* Only the common activation path may enter this installer, after PIN. */
++static int GFXPT_Stage0InstallPinned(void)
+ {
+     BYTE* site[GFXPT_STAGE0_SITE_COUNT];
+     int   ok[GFXPT_STAGE0_SITE_COUNT];
+@@ -3205,6 +3273,15 @@ int __cdecl Passthrough_InstallStage0Hooks(void)
+ 
+     site[0] = (BYTE*)g_hostModule + GFXPT_STAGE0_RVA_SITE1;
+     site[1] = (BYTE*)g_hostModule + GFXPT_STAGE0_RVA_SITE2;
++    for (i = 0; i < GFXPT_STAGE0_SITE_COUNT; ++i)
++    {
++        if (!GFXPT_CopyBytes(g_stage0Window[i], site[i] - 4, 14ul))
++        {
++            g_stage0Broken = 1;
++            GFXPT_Stage0Diag("install_exit", "window_read_failed", 0, 0ul);
++            return 0;
++        }
++    }
+     g_stage0DiagSavedMask = 0;
+     for (i = 0; i < GFXPT_STAGE0_SITE_COUNT; ++i)
+     {
+@@ -3213,10 +3290,10 @@ int __cdecl Passthrough_InstallStage0Hooks(void)
+         ok[i] = GFXPT_PlaceCallSiteHook(site[i], GFXPT_Stage0Preimage,
+                                         (void*)&Passthrough_Stage0Stub,
+                                         g_stage0_saved[i]);
+-        if (ok[i] || strcmp(g_stage0DiagCause, "virtualprotect_failed") == 0)
++        if (ok[i] || g_stage0LastWritten || strcmp(g_stage0DiagCause, "virtualprotect_failed") == 0)
+             g_stage0DiagSavedMask |= 1ul << i; /* savedOut copie avant VirtualProtect */
+-        g_stage0_target[i] = ok[i] ? (void*)site[i] : 0;
+-        if (!ok[i])
++        g_stage0_target[i] = g_stage0LastWritten ? (void*)site[i] : 0;
++        if (!g_stage0_target[i])
+             g_stage0_ret[i] = 0;            /* site absent : id stub inerte */
+         GFXPT_Stage0Diag("install_site_after", g_stage0DiagCause, ok[i], 1ul << i);
+     }
+@@ -3258,7 +3335,7 @@ int __cdecl Passthrough_InstallStage0Hooks(void)
+  * remis Ã  0 â†’ id site du stub inerte). Ã‰chec d'une rÃ©Ã©criture â†’
+  * g_stage0Broken=1. Retour : 1 restaurÃ©, 0 (rien armÃ© ou Ã©chec).
+  * ------------------------------------------------------------------------- */
+-int __cdecl Passthrough_RestoreStage0Hooks(void)
++static int GFXPT_Stage0RestoreOwned(void)
+ {
+     int ok = 1;
+     int siteOK;
+@@ -3297,28 +3374,92 @@ int __cdecl Passthrough_RestoreStage0Hooks(void)
+     return ok;
+ }
+ 
+-/* Normal shutdown restores the two owned ranges before FreeLibrary. On a
+- * failed restore, keep this DLL mapped: an owned E8 must never target freed
+- * code. Retention is a RED cleanup verdict, not a successful detach. */
+-static void GFXPT_Stage0BeforeUnload(void)
++/* v18 NO_HOT_UNLOAD: one PIN-first activation per loaded module. */
++static int GFXPT_Stage0Activate(DWORD source)
+ {
+-    HMODULE retained;
+-    int restored, pinned;
+-    if (!g_stage0Armed && !g_stage0_target[0] && !g_stage0_target[1])
+-        return;
+-    restored = Passthrough_RestoreStage0Hooks();
+-    if (restored)
++    HMODULE retained = 0;
++    int ok;
++    /* This guard cannot see a different DLL's DllMain. Public exports and
++     * Present have an explicit caller precondition: outside loader callbacks.
++     * No loader-lock probe, thread creation, waiting or PIN in our DllMain. */
++    if (g_stage0InDllMain)
++        return 0;
++    if (InterlockedCompareExchange(&g_stage0Lock, 1, 0) != 0)
++        return 0;
++    if (g_stage0Activation)
+     {
+-        GFXPT_Stage0Diag("unload_guard", "restore_verified", 1, 3ul);
+-        return;
++        ok = g_stage0Armed;
++        InterlockedExchange(&g_stage0Lock, 0);
++        return ok;
+     }
+-    retained = 0;
+-    pinned = GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+-                              GET_MODULE_HANDLE_EX_FLAG_PIN,
+-                              (LPCSTR)&Passthrough_Stage0Stub, &retained);
+-    g_stage0Broken = 1;
+-    GFXPT_Stage0Diag("unload_guard", pinned ? "restore_failed_module_pinned"
+-                                          : "restore_failed_pin_failed", 0, 3ul);
++    if (source == 1 && !g_stage0OptIn)
++    {
++        InterlockedExchange(&g_stage0Lock, 0);
++        return 0;
++    }
++    g_stage0ActivationSource = source;
++    InterlockedExchange(&g_stage0Activation, 1); /* failure is terminal too */
++    /* Attach-time nohook remains authoritative; a newly added nohook also
++     * vetoes the activation. Explicit opt-in cannot bypass it. */
++    if (g_stage0DiagNoHook || GFXPT_SideFileExists("gfx_passthrough.nohook"))
++    {
++        g_stage0LifecycleState = 7;
++        GFXPT_Stage0Diag("activate_refused", "nohook", 0, 0ul);
++        InterlockedExchange(&g_stage0Lock, 0);
++        return 0;
++    }
++    InterlockedIncrement(&g_stage0PinAttempts);
++    ok = GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
++                           GET_MODULE_HANDLE_EX_FLAG_PIN,
++                           (LPCSTR)&Passthrough_Stage0Stub, &retained);
++    if (!ok || retained != g_hinstDLL)
++    {
++        g_stage0Broken = 1;
++        g_stage0LifecycleState = 2;
++        GFXPT_Stage0Diag("activate_refused", "self_pin_not_confirmed", 0, 0ul);
++        InterlockedExchange(&g_stage0Lock, 0);
++        return 0; /* zero stage0 writes; no compensating PIN on shutdown */
++    }
++    InterlockedExchange(&g_stage0Pinned, 1);
++    GFXPT_Stage0Diag("activate_pin", "self_pin_confirmed", 1, 0ul);
++    ok = GFXPT_Stage0InstallPinned();
++    g_stage0LifecycleState = ok ? 3 : 4;
++    GFXPT_Stage0Diag("activate_exit", ok ? "ARMED_RETAINED" : "REFUSED_RETAINED", ok, 3ul);
++    InterlockedExchange(&g_stage0Lock, 0);
++    return ok;
++}
++
++int __cdecl Passthrough_InstallStage0Hooks(void)
++{
++    return GFXPT_Stage0Activate(2);
++}
++
++int __cdecl Passthrough_RestoreStage0Hooks(void)
++{
++    int ok;
++    if (g_stage0InDllMain || InterlockedCompareExchange(&g_stage0Lock, 1, 0) != 0)
++        return 0;
++    InterlockedExchange(&g_stage0Activation, 1); /* cancel pending Present opt-in */
++    ok = GFXPT_Stage0RestoreOwned();
++    if (g_stage0Pinned)
++    {
++        if (ok)
++            g_stage0LifecycleState = 5;
++        else if (g_stage0_target[0] || g_stage0_target[1])
++            g_stage0LifecycleState = 6;
++        GFXPT_Stage0Diag("restore_residence", ok ? "RESTORED_RETAINED"
++                        : "RESTORE_NOT_PROVEN_RETAINED", ok, 3ul);
++    }
++    InterlockedExchange(&g_stage0Lock, 0);
++    return ok;
++}
++
++static void GFXPT_Stage0BeforeUnload(void)
++{
++    /* Compatibility wrapper only. Residence was established before E8 writes,
++     * independently of whether the host ever calls this slot. */
++    if (g_stage0Armed || g_stage0_target[0] || g_stage0_target[1])
++        Passthrough_RestoreStage0Hooks();
+ }
+ 
+ /* ===========================================================================
+@@ -3344,16 +3485,62 @@ static int GFXPT_SideFileExists(const char* name)
+     return GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES;
+ }
+ 
++/* LC18 diagnostic: 16 little-endian DWORDs (64 bytes). Only two records per
++ * module lifetime, preopened file, no formatter/CRT locks at termination.
++ * Missing/short IO is NOT a successful observation: controller validates
++ * size, PID+creation identity, reason and process exit independently. */
++static void GFXPT_Stage0LifeRecord(DWORD reason, LPVOID reserved)
++{
++    DWORD row[16];
++    DWORD written, error;
++    if (g_stage0LifeFile == INVALID_HANDLE_VALUE)
++        return;
++    error = GetLastError();
++    row[0] = 0x3831434Cul; /* LC18 */
++    row[1] = sizeof(row);
++    row[2] = g_stage0PID;
++    row[3] = GetCurrentThreadId();
++    row[4] = g_stage0ProcessCreation.dwLowDateTime;
++    row[5] = g_stage0ProcessCreation.dwHighDateTime;
++    row[6] = (DWORD)g_hinstDLL;
++    row[7] = reason;
++    row[8] = reserved != NULL;
++    row[9] = g_stage0OptIn;
++    row[10] = g_stage0DiagNoHook;
++    row[11] = g_stage0LifecycleState;
++    row[12] = g_stage0Pinned;
++    row[13] = (g_stage0_target[0] ? 1ul : 0ul) | (g_stage0_target[1] ? 2ul : 0ul);
++    row[14] = g_stage0Armed;
++    row[15] = g_frameSeq;
++    WriteFile(g_stage0LifeFile, row, sizeof(row), &written, NULL);
++    SetLastError(error);
++}
++
+ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+ {
+     char disableFlag[8];
+-    char diagDisableFlag[8] = { 0 };
++    char lifePath[MAX_PATH];
++    FILETIME exited, kernel, user;
+ 
+-    (void)lpvReserved;
++    InterlockedExchange(&g_stage0InDllMain, 1);
+     if (fdwReason == DLL_PROCESS_ATTACH)
+     {
+         g_dllAttached = 1;
+         g_hinstDLL = hinstDLL;
++        g_stage0PID = GetCurrentProcessId();
++        GetProcessTimes(GetCurrentProcess(), &g_stage0ProcessCreation,
++                        &exited, &kernel, &user);
++        g_stage0OptIn = GFXPT_SideFileExists("gfx_passthrough.stage0");
++        g_stage0DiagEnabled = g_stage0OptIn;
++        g_stage0DiagNoHook = GFXPT_SideFileExists("gfx_passthrough.nohook");
++        g_stage0LifecycleState = g_stage0DiagNoHook ? 7 : (g_stage0OptIn ? 1 : 0);
++        /* Fixed-size kernel32-only lifecycle witness. No CRT, allocation,
++         * symbol lookup, native calls, PIN or memory walk at detach. */
++        if (g_stage0OptIn && GFXPT_BuildSidePath("gfx_passthrough_lifecycle.bin", lifePath))
++            g_stage0LifeFile = CreateFileA(lifePath, FILE_APPEND_DATA,
++                FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS,
++                FILE_ATTRIBUTE_NORMAL, NULL);
++        GFXPT_Stage0LifeRecord(fdwReason, lpvReserved);
+         /* Trace de chargement : CSV crÃ©Ã© DÃˆS DllMain (diagnostic drop test). */
+         GFXPT_LogOpen();
+         if (g_logFile)
+@@ -3361,27 +3548,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+             fprintf(g_logFile, "#dll_loaded\n");
+             fflush(g_logFile);
+         }
+-        /* Boot hook v2 actif par dÃ©faut (mode AF3DN.P). FF8_PASSTHROUGH_BOOTHOOK=0
+-           ou le fichier sidecar gfx_passthrough.nohook dÃ©sactivent (contrÃ´le).
+-           v16 (lot 25) â€” auto-install stage0 : si le sidecar
+-           gfx_passthrough.stage0 existe AU CHARGEMENT (il n'est PAS consommÃ©,
+-           contrairement au sidecar dump), Passthrough_InstallStage0Hooks est
+-           appelÃ©e ici (fail-closed : armÃ© ssi les 2 sites prÃ©image ok, sinon
+-           dÃ©gradÃ© bit1=0). v17 trace Armed et Seen separement : bit1 n'est
+-           pas un statut d'install (il exige Armed && Seen). Sans sidecar,
+-           aucun diagnostic stage0 ; installation identique a v16. */
+-        g_stage0DiagEnabled = GFXPT_SideFileExists("gfx_passthrough.stage0");
+-        if (g_stage0DiagEnabled)
+-        {
+-            g_stage0DiagNoHook = GFXPT_SideFileExists("gfx_passthrough.nohook");
+-            /* Lecture diagnostic seule ; le predicat d'installation reste ci-dessous. */
+-            g_stage0DiagBootHook =
+-                GetEnvironmentVariableA("FF8_PASSTHROUGH_BOOTHOOK", diagDisableFlag,
+-                                         (DWORD)sizeof(diagDisableFlag)) == 0
+-                || diagDisableFlag[0] != '0';
+-            GFXPT_Stage0Diag("attach", "stage0_sidecar", -1, 0ul);
+-        }
+-        if (GFXPT_SideFileExists("gfx_passthrough.nohook"))
++        /* Existing non-stage0 hooks unchanged and OUTSIDE this residence
++         * guarantee: Present/ODS may be installed BEFORE stage0 PIN. */
++        if (g_stage0DiagNoHook)
+         {
+             GFXPT_ODS("gfx_passthrough: nohook file present, hooks disabled\n");
+         }
+@@ -3393,21 +3562,18 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+             {
+                 Passthrough_InstallBootHook(0);
+             }
+-            if (GFXPT_SideFileExists("gfx_passthrough.stage0"))
+-            {
+-                int armed = Passthrough_InstallStage0Hooks();
+-                GFXPT_ODS(armed
+-                    ? "gfx_passthrough " GFXPT_VERSION_TEXT
+-                      ": stage0 auto-installe (sidecar present)\n"
+-                    : "gfx_passthrough " GFXPT_VERSION_TEXT
+-                      ": stage0 auto-install REFUSEE — mode degrade bit1=0\n");
+-            }
+         }
+     }
+     else if (fdwReason == DLL_PROCESS_DETACH)
+     {
+-        GFXPT_Stage0Diag("detach", "snapshot_only", -1, 3ul);
++        GFXPT_Stage0LifeRecord(fdwReason, lpvReserved);
++        if (g_stage0LifeFile != INVALID_HANDLE_VALUE)
++        {
++            CloseHandle(g_stage0LifeFile);
++            g_stage0LifeFile = INVALID_HANDLE_VALUE;
++        }
+         g_dllAttached = 0;
+     }
++    InterlockedExchange(&g_stage0InDllMain, 0);
+     return TRUE;
+ }

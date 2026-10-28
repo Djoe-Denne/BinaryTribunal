@@ -1,0 +1,1469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/graph-snapshot-v1",
+  "title": "Graph snapshot v1",
+  "description": "Frozen graph snapshot. Strict harness subset: no pattern, no $ref, no combinators. Cross-field rules live in CONTRAT.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "snapshotId",
+    "missionId",
+    "binaryArtifacts",
+    "nodes",
+    "edges",
+    "objects",
+    "unresolved",
+    "capabilities",
+    "normalizedFingerprint",
+    "knowledgeRevision",
+    "scope",
+    "coverage",
+    "toolVersions",
+    "configFingerprint"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Assigned snapshot id. Not a substitute for normalizedFingerprint."
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Mission id"
+    },
+    "binaryArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "artifactId",
+          "moduleName",
+          "contentSha256",
+          "versionLabel",
+          "format",
+          "architecture",
+          "imageBase",
+          "idbIdentity",
+          "sections",
+          "provenance",
+          "analysisVersion",
+          "extractorVersion"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "artifactId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 160,
+            "description": "Stable artifact id, not a filename"
+          },
+          "moduleName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Filename attribute, not the key"
+          },
+          "contentSha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Cryptographic module identity 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "versionLabel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Mission label. Not part of the graph key. Required when projecting harness FunctionIdentity."
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "PE32",
+              "PE32+",
+              "unknown"
+            ],
+            "description": "Verified from the artifact, never from the filename alone"
+          },
+          "architecture": {
+            "type": "string",
+            "enum": [
+              "x86-32",
+              "x86-64",
+              "unknown"
+            ],
+            "description": "Verified from the artifact"
+          },
+          "imageBase": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 18,
+            "description": "Loaded image base attribute 0x + uppercase hex, no leading zeros."
+          },
+          "idbIdentity": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 256,
+            "description": "IDB identity attribute, distinct from the module hash. Empty if none."
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "rva",
+                "virtualSize",
+                "characteristics"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "description": "Section name"
+                },
+                "rva": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 18,
+                  "description": "Section RVA 0x + uppercase hex, no leading zeros."
+                },
+                "virtualSize": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "known",
+                    "value"
+                  ],
+                  "properties": {
+                    "known": {
+                      "type": "boolean",
+                      "description": "false means not observed. Never encode unknown as zero."
+                    },
+                    "value": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "null iff known is false. Zero is legal only when known is true."
+                    }
+                  },
+                  "description": "Section virtual size"
+                },
+                "characteristics": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "description": "Hex characteristic text, or unknown"
+                }
+              },
+              "description": "Section actually extracted. Do not invent one."
+            },
+            "minItems": 0,
+            "maxItems": 32,
+            "description": "Sections. Empty if the section table was not extracted."
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "moduleSha256",
+              "siteRva",
+              "siteKind",
+              "xrefType",
+              "source",
+              "sourceVersion",
+              "sourceHash",
+              "evidenceSha256"
+            ],
+            "properties": {
+              "moduleSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Module whose bytes this proof cites 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "siteRva": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 18,
+                "description": "Instruction or object RVA. Null only for a pure import name or extractor-level citation. Never 0x0."
+              },
+              "siteKind": {
+                "type": "string",
+                "enum": [
+                  "instruction",
+                  "object",
+                  "import",
+                  "table",
+                  "extractor"
+                ],
+                "description": "What the site refers to"
+              },
+              "xrefType": {
+                "type": "string",
+                "enum": [
+                  "code",
+                  "data",
+                  "none"
+                ],
+                "description": "CODE and DATA stay distinct. none is not a call."
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Extractor or citation id. A date or filename alone is not proof."
+              },
+              "sourceVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Extractor or citation version"
+              },
+              "sourceHash": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the extractor or of the cited record 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "evidenceSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the evidence bytes or of the canonical cited record 64 lowercase hex characters; schema cannot use pattern."
+              }
+            },
+            "description": "Mandatory native provenance. ADR-008."
+          },
+          "analysisVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Analysis version"
+          },
+          "extractorVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Extractor version"
+          }
+        },
+        "description": "Binary module. EXE and DLL are distinct artifacts."
+      },
+      "minItems": 1,
+      "maxItems": 16,
+      "description": "Modules in scope"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "id",
+          "moduleSha256",
+          "rva",
+          "ea",
+          "imageBase",
+          "name",
+          "observedDescription",
+          "boundaries",
+          "sizeBytes",
+          "instructionCount",
+          "basicBlockCount",
+          "functionClass",
+          "status",
+          "semanticMaturity",
+          "analysisRefs",
+          "byteAgreement",
+          "admissibleAsOracle",
+          "byteDivergence"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "moduleSha256:rva. Not an EA, not a name, not a group id."
+          },
+          "moduleSha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Owning module hash 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "rva": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 18,
+            "description": "Canonical RVA, greater than zero 0x + uppercase hex, no leading zeros."
+          },
+          "ea": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 18,
+            "description": "Attribute: imageBase + rva. Not the key. 0x + uppercase hex, no leading zeros."
+          },
+          "imageBase": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 18,
+            "description": "Attribute of the loaded image. Rebase does not change id. 0x + uppercase hex, no leading zeros."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 256,
+            "description": "Observed name attribute. Empty if unnamed. Mutable. Not the key."
+          },
+          "observedDescription": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 1800,
+            "description": "Observed description attribute. Not an identity and not a merge key."
+          },
+          "boundaries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "rva",
+                "endRvaExclusive",
+                "role"
+              ],
+              "properties": {
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64,
+                  "description": "0 is the entry chunk"
+                },
+                "rva": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 18,
+                  "description": "Chunk start RVA 0x + uppercase hex, no leading zeros."
+                },
+                "endRvaExclusive": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 18,
+                  "description": "Exclusive end RVA 0x + uppercase hex, no leading zeros."
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "entry",
+                    "tail"
+                  ],
+                  "description": "entry or tail chunk"
+                }
+              },
+              "description": "Function chunk. A tail is not a second function identity."
+            },
+            "minItems": 0,
+            "maxItems": 64,
+            "description": "Chunks. Empty only when boundaries were not extracted."
+          },
+          "sizeBytes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Byte size. Unknown stays unknown."
+          },
+          "instructionCount": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Instruction count. Unknown stays unknown."
+          },
+          "basicBlockCount": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Basic-block count. Unknown stays unknown."
+          },
+          "functionClass": {
+            "type": "string",
+            "enum": [
+              "internal",
+              "import",
+              "external",
+              "thunk",
+              "wrapper",
+              "incomplete"
+            ],
+            "description": "Observed class. import/external are not fabricated zero-EA callees."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "incomplete",
+              "quarantined"
+            ],
+            "description": "quarantined is never an oracle"
+          },
+          "semanticMaturity": {
+            "type": "string",
+            "enum": [
+              "none",
+              "structural",
+              "partial",
+              "reconciled",
+              "published-local"
+            ],
+            "description": "Local maturity. No IDB-published value in this mission."
+          },
+          "analysisRefs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Analysis reference id"
+            },
+            "minItems": 0,
+            "maxItems": 64,
+            "description": "References to analyses. Empty is explicit."
+          },
+          "byteAgreement": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "concordant",
+              "divergent"
+            ],
+            "description": "Byte agreement is not semantic truth"
+          },
+          "admissibleAsOracle": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "description": "v1 never admits an oracle corpus"
+          },
+          "byteDivergence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "peMismatchByteCount",
+              "frozenSha256",
+              "peSha256"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false when this snapshot did not compare IDB bytes to the PE"
+              },
+              "peMismatchByteCount": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "Null iff known is false. Zero is a real concordant count, not an unknown sentinel."
+              },
+              "frozenSha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 64,
+                "description": "Historical freeze hash when recorded; null if not recorded"
+              },
+              "peSha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 64,
+                "description": "PE chunk hash when recorded; null if not recorded"
+              }
+            },
+            "description": "IDB/PE byte agreement. A concordant module input hash does not imply this is zero."
+          }
+        },
+        "description": "Function node. Identity is module hash + RVA. ADR-001, ADR-006."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Function nodes, canonically ordered"
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "id",
+          "sourceId",
+          "destinationId",
+          "kind",
+          "direction",
+          "sites",
+          "status",
+          "confidence",
+          "appearedInRevision",
+          "retiredInRevision",
+          "schedulerRelevance"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "description": "Stable edge id derived from endpoints, kind and sites"
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Caller function id. A calls B means source is A."
+          },
+          "destinationId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Callee function id. Must be a FunctionNode, never a data object, never EA zero."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "direct_call",
+              "tail_jump",
+              "indirect_resolved",
+              "thunk",
+              "callback_candidate"
+            ],
+            "description": "callback_candidate is a hypothesis, not a call"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "source_to_destination"
+            ],
+            "description": "Stored direction is always A to B"
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "siteRva",
+                "xrefType",
+                "provenance"
+              ],
+              "properties": {
+                "siteRva": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 18,
+                  "description": "Instruction or data site RVA, never zero 0x + uppercase hex, no leading zeros."
+                },
+                "xrefType": {
+                  "type": "string",
+                  "enum": [
+                    "code",
+                    "data"
+                  ],
+                  "description": "DATA must not be stored as a code call site"
+                },
+                "provenance": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "moduleSha256",
+                    "siteRva",
+                    "siteKind",
+                    "xrefType",
+                    "source",
+                    "sourceVersion",
+                    "sourceHash",
+                    "evidenceSha256"
+                  ],
+                  "properties": {
+                    "moduleSha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Module whose bytes this proof cites 64 lowercase hex characters; schema cannot use pattern."
+                    },
+                    "siteRva": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 0,
+                      "maxLength": 18,
+                      "description": "Instruction or object RVA. Null only for a pure import name or extractor-level citation. Never 0x0."
+                    },
+                    "siteKind": {
+                      "type": "string",
+                      "enum": [
+                        "instruction",
+                        "object",
+                        "import",
+                        "table",
+                        "extractor"
+                      ],
+                      "description": "What the site refers to"
+                    },
+                    "xrefType": {
+                      "type": "string",
+                      "enum": [
+                        "code",
+                        "data",
+                        "none"
+                      ],
+                      "description": "CODE and DATA stay distinct. none is not a call."
+                    },
+                    "source": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "description": "Extractor or citation id. A date or filename alone is not proof."
+                    },
+                    "sourceVersion": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "description": "Extractor or citation version"
+                    },
+                    "sourceHash": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Hash of the extractor or of the cited record 64 lowercase hex characters; schema cannot use pattern."
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Hash of the evidence bytes or of the canonical cited record 64 lowercase hex characters; schema cannot use pattern."
+                    }
+                  },
+                  "description": "Mandatory native provenance. ADR-008."
+                }
+              },
+              "description": "One supporting site. Dedup the relation, keep every site."
+            },
+            "minItems": 1,
+            "maxItems": 64,
+            "description": "Nonempty sites"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred",
+              "validated",
+              "invalidated"
+            ],
+            "description": "callback_candidate cannot be observed or validated"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              "unknown"
+            ],
+            "description": "Interpretable category, not a calibrated probability"
+          },
+          "appearedInRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000000,
+            "description": "Knowledge revision when the edge appeared"
+          },
+          "retiredInRevision": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Null while the edge is live"
+          },
+          "schedulerRelevance": {
+            "type": "string",
+            "enum": [
+              "may_block",
+              "non_blocking",
+              "hypothesis_not_call",
+              "context_only"
+            ],
+            "description": "hypothesis_not_call must not create a G1 callee prerequisite"
+          }
+        },
+        "description": "Directed relation. Self-loops are retained. ADR-002, ADR-004, ADR-005."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Directed edges, self-loops retained, canonically ordered"
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "id",
+          "moduleSha256",
+          "kind",
+          "rva",
+          "name",
+          "widthBytes",
+          "provenance"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 160,
+            "description": "Object id. Not a function id."
+          },
+          "moduleSha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Module that contains the object, or the importing module for an import slot 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "data",
+              "table",
+              "import",
+              "structure",
+              "global",
+              "vtable",
+              "string"
+            ],
+            "description": "A data object is never a callee"
+          },
+          "rva": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 18,
+            "description": "Object RVA, or null for a pure import with no local slot RVA. Never 0x0."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "Observed object or import name"
+          },
+          "widthBytes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Width. Unknown stays unknown."
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "moduleSha256",
+              "siteRva",
+              "siteKind",
+              "xrefType",
+              "source",
+              "sourceVersion",
+              "sourceHash",
+              "evidenceSha256"
+            ],
+            "properties": {
+              "moduleSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Module whose bytes this proof cites 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "siteRva": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 18,
+                "description": "Instruction or object RVA. Null only for a pure import name or extractor-level citation. Never 0x0."
+              },
+              "siteKind": {
+                "type": "string",
+                "enum": [
+                  "instruction",
+                  "object",
+                  "import",
+                  "table",
+                  "extractor"
+                ],
+                "description": "What the site refers to"
+              },
+              "xrefType": {
+                "type": "string",
+                "enum": [
+                  "code",
+                  "data",
+                  "none"
+                ],
+                "description": "CODE and DATA stay distinct. none is not a call."
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Extractor or citation id. A date or filename alone is not proof."
+              },
+              "sourceVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Extractor or citation version"
+              },
+              "sourceHash": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the extractor or of the cited record 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "evidenceSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the evidence bytes or of the canonical cited record 64 lowercase hex characters; schema cannot use pattern."
+              }
+            },
+            "description": "Mandatory native provenance. ADR-008."
+          }
+        },
+        "description": "Referenced data, table, import or structure. ADR-003."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Data, imports and tables"
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "id",
+          "fromFunctionId",
+          "siteRva",
+          "kind",
+          "target",
+          "referencedObjectId",
+          "fabricatedFunction",
+          "provenance"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 160,
+            "description": "Unresolved reference id"
+          },
+          "fromFunctionId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Function that contains the site"
+          },
+          "siteRva": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 18,
+            "description": "Site RVA, never zero 0x + uppercase hex, no leading zeros."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "indirect_call",
+              "indirect_jump",
+              "data_xref",
+              "callback_slot",
+              "import_unresolved"
+            ],
+            "description": "data_xref is not a call"
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "data_object",
+              "import",
+              "register",
+              "table"
+            ],
+            "description": "unknown is explicit"
+          },
+          "referencedObjectId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 160,
+            "description": "Set when an object is known. Never a fabricated function id."
+          },
+          "fabricatedFunction": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "description": "Must stay false. No fake function at EA zero."
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "moduleSha256",
+              "siteRva",
+              "siteKind",
+              "xrefType",
+              "source",
+              "sourceVersion",
+              "sourceHash",
+              "evidenceSha256"
+            ],
+            "properties": {
+              "moduleSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Module whose bytes this proof cites 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "siteRva": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 18,
+                "description": "Instruction or object RVA. Null only for a pure import name or extractor-level citation. Never 0x0."
+              },
+              "siteKind": {
+                "type": "string",
+                "enum": [
+                  "instruction",
+                  "object",
+                  "import",
+                  "table",
+                  "extractor"
+                ],
+                "description": "What the site refers to"
+              },
+              "xrefType": {
+                "type": "string",
+                "enum": [
+                  "code",
+                  "data",
+                  "none"
+                ],
+                "description": "CODE and DATA stay distinct. none is not a call."
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Extractor or citation id. A date or filename alone is not proof."
+              },
+              "sourceVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Extractor or citation version"
+              },
+              "sourceHash": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the extractor or of the cited record 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "evidenceSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the evidence bytes or of the canonical cited record 64 lowercase hex characters; schema cannot use pattern."
+              }
+            },
+            "description": "Mandatory native provenance. ADR-008."
+          }
+        },
+        "description": "Unresolved target. Not a callee."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Unresolved references. Not callees."
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "id",
+          "ruleId",
+          "ruleVersion",
+          "subjectKind",
+          "subjectId",
+          "capability",
+          "evidence",
+          "confidence",
+          "scope",
+          "hypotheticalRole",
+          "provenance"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Entity schema version"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 160,
+            "description": "Capability fact id"
+          },
+          "ruleId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Rule id"
+          },
+          "ruleVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Rule version"
+          },
+          "subjectKind": {
+            "type": "string",
+            "enum": [
+              "function",
+              "region"
+            ],
+            "description": "What the fact applies to"
+          },
+          "subjectId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Function id or region id"
+          },
+          "capability": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Observed capability name"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "source",
+                "sha256",
+                "detail"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "description": "Evidence id"
+                },
+                "source": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "description": "Observation source"
+                },
+                "sha256": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Evidence sha256 64 lowercase hex characters; schema cannot use pattern."
+                },
+                "detail": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1800,
+                  "description": "Concrete observation. Prose alone is not evidence."
+                }
+              },
+              "description": "Harness-shaped evidence reference"
+            },
+            "minItems": 1,
+            "maxItems": 32,
+            "description": "Nonempty evidence"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred"
+            ],
+            "description": "Observed fact versus inferred propagation"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "propagated"
+            ],
+            "description": "Direct observation or inferred propagation"
+          },
+          "hypotheticalRole": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 128,
+            "description": "Business-role hypothesis, separated from the observed capability. Null if none."
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "moduleSha256",
+              "siteRva",
+              "siteKind",
+              "xrefType",
+              "source",
+              "sourceVersion",
+              "sourceHash",
+              "evidenceSha256"
+            ],
+            "properties": {
+              "moduleSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Module whose bytes this proof cites 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "siteRva": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 0,
+                "maxLength": 18,
+                "description": "Instruction or object RVA. Null only for a pure import name or extractor-level citation. Never 0x0."
+              },
+              "siteKind": {
+                "type": "string",
+                "enum": [
+                  "instruction",
+                  "object",
+                  "import",
+                  "table",
+                  "extractor"
+                ],
+                "description": "What the site refers to"
+              },
+              "xrefType": {
+                "type": "string",
+                "enum": [
+                  "code",
+                  "data",
+                  "none"
+                ],
+                "description": "CODE and DATA stay distinct. none is not a call."
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Extractor or citation id. A date or filename alone is not proof."
+              },
+              "sourceVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Extractor or citation version"
+              },
+              "sourceHash": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the extractor or of the cited record 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "evidenceSha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of the evidence bytes or of the canonical cited record 64 lowercase hex characters; schema cannot use pattern."
+              }
+            },
+            "description": "Mandatory native provenance. ADR-008."
+          }
+        },
+        "description": "Capability fact. A hypothetical role is not the capability."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Capability facts"
+    },
+    "normalizedFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "sha256(canonical(document without this field)) 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "knowledgeRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision this snapshot observes"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "moduleSha256s",
+        "functionCount"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1800,
+          "description": "Scope description"
+        },
+        "moduleSha256s": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Module hash 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "description": "Modules in scope"
+        },
+        "functionCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000,
+          "description": "Must equal nodes.length"
+        }
+      },
+      "description": "Extraction scope"
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "uncoveredReason",
+        "tailsIterated",
+        "selfLoopsPreserved"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial",
+            "diagnostic"
+          ],
+          "description": "diagnostic is a citation, not a fresh extraction"
+        },
+        "uncoveredReason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 1800,
+          "description": "Required nonempty text when status is partial or diagnostic; null when complete"
+        },
+        "tailsIterated": {
+          "type": "boolean",
+          "description": "false means tails are unknown, not proven absent"
+        },
+        "selfLoopsPreserved": {
+          "type": "boolean",
+          "description": "Acceptable snapshots must preserve self-loops. false is not admissible."
+        }
+      },
+      "description": "Coverage. Silent partial extraction is forbidden."
+    },
+    "toolVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extractor",
+        "extractorHash",
+        "normalizer"
+      ],
+      "properties": {
+        "extractor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Extractor id"
+        },
+        "extractorHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "description": "Extractor hash 64 lowercase hex characters; schema cannot use pattern."
+        },
+        "normalizer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Normalizer id"
+        }
+      },
+      "description": "Tool versions"
+    },
+    "configFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Fingerprint of the extraction configuration 64 lowercase hex characters; schema cannot use pattern."
+    }
+  }
+}

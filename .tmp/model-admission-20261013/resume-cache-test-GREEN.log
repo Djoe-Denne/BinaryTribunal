@@ -1,0 +1,27 @@
+bun test v1.4.2 (744846f84)
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+
+test\live-model-routing.test.ts:
+(pass) resident spawn observes pause removal immediately, no plugin reload or routing bypass [32.60ms]
+(pass) resident admission sees new pause and model revocation in both directions [12.63ms]
+(pass) loss of an established selection stays closed and unrelated configuration remains stable [10.86ms]
+60 |   }, permission: { rules: async () => {} }, tool: { hook, transform: async (cb: (editor: { add(def: V2ToolDef): void }) => void) => { cb({ add: def => tools.set(def.name, def) }); return { dispose: async () => {} } } },
+61 |     shell: { hook }, worktree: { create: async () => ({}), remove: async () => {}, list: async () => [], refresh: async () => {} },
+62 |     event: { subscribe: () => (async function* () {})() } }
+63 |   const handle = await setupEnsemble(ctx as never, { dbPath: ":memory:", dashboardPort: 0 })
+64 |   try {
+65 |     insertTeam(handle.db, "team", "test", "lead"); handle.db.run("UPDATE team SET project_id=? WHERE id='team'", [directory])
+                                                                  ^
+SQLiteError: FOREIGN KEY constraint failed
+      errno: 787,
+ byteOffset: -1,
+       code: "SQLITE_CONSTRAINT_FOREIGNKEY"
+
+      at run (bun:sqlite:323:14)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\live-model-routing.test.ts:65:62)
+(fail) real setup keeps registered admission tools live after an operator edits the pause file [29.81ms]
+
+ 3 pass
+ 1 fail
+ 9 expect() calls
+Ran 4 tests across 1 file. [181.00ms]

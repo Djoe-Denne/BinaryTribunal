@@ -17,9 +17,9 @@ sources:
   - obsidian-docs/_staging/investigations/gf_charge_absorption.md
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
   - IDA static decompile 2026-06-14 (full damage/heal/hit/crit/commit helper tree)
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-attack-slice-offline-validation-2026-08-14.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - IDA static decompile 2026-08-18 (G11 K_MAGIC load, UNMISSABLE vs LV_ATTACK, Magic stock consume)
   - obsidian-docs/projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md

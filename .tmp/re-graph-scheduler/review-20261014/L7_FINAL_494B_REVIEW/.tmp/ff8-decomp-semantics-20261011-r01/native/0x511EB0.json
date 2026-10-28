@@ -1,0 +1,67 @@
+{
+  "ea": "0x511EB0",
+  "name_label_only": "sub_511EB0",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x511eb0",
+      "end": "0x511ee4",
+      "hex": "8b542404668b4a0c0fbfc183e800741c48751e6a00e8069200006a01e8ff91000083c408e8f7f0feff33c0c34166894a0c33c0c3"
+    }
+  ],
+  "assembly": "00511EB0: mov     edx, [esp+arg_0]\n00511EB4: mov     cx, [edx+0Ch]\n00511EB8: movsx   eax, cx; Move with Sign-Extend\n00511EBB: sub     eax, 0; Integer Subtraction\n00511EBE: jz      short loc_511EDC; Jump if Zero (ZF=1)\n00511EC0: dec     eax; Decrement by 1\n00511EC1: jnz     short loc_511EE1; Jump if Not Zero (ZF=0)\n00511EC3: push    0\n00511EC5: call    au_re_BS_Effect_DeformCompression; Call Procedure\n00511ECA: push    1\n00511ECC: call    au_re_BS_Effect_DeformCompression; Call Procedure\n00511ED1: add     esp, 8; Add\n00511ED4: call    BS_RenderRelated; Call Procedure\n00511ED9: xor     eax, eax; Logical Exclusive OR\n00511EDB: retn; Return Near from Procedure\n00511EDC: inc     ecx; Increment by 1\n00511EDD: mov     [edx+0Ch], cx\n00511EE1: xor     eax, eax; Logical Exclusive OR\n00511EE3: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x511eb0",
+      "end": "0x511ec0",
+      "successors": [
+        "0x511ec0",
+        "0x511edc"
+      ]
+    },
+    {
+      "start": "0x511ec0",
+      "end": "0x511ec3",
+      "successors": [
+        "0x511ec3",
+        "0x511ee1"
+      ]
+    },
+    {
+      "start": "0x511ec3",
+      "end": "0x511edc",
+      "successors": []
+    },
+    {
+      "start": "0x511edc",
+      "end": "0x511ee1",
+      "successors": [
+        "0x511ee1"
+      ]
+    },
+    {
+      "start": "0x511ee1",
+      "end": "0x511ee4",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x511df3",
+      "type": 1,
+      "iscode": false,
+      "function": "0x511db0"
+    }
+  ],
+  "code_targets": [
+    "0x500fd0",
+    "0x51b0d0"
+  ],
+  "instruction_count": 19
+}

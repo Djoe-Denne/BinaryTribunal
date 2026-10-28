@@ -1,0 +1,17 @@
+116 |       if (sha(await readFile(target)) !== pin.sha256 || sha(await readFile(join(source, ...pin.path.split("/")))) !== pin.sha256) throw new Error("Source/target changed during mechanical transfer");
+117 |     }
+118 |     await verifyBinding();
+119 |     for (const {pin} of data) if (sha(await readFile(join(source, ...pin.path.split("/")))) !== pin.sha256) throw new Error("Source changed at commit boundary");
+120 |     await writeFile(join(staging, RECEIPT), JSON.stringify(receipt, null, 2) + "\n", { flag: "wx" });
+121 |     await noLinks(initial.directory, dirname(destination)); await rename(staging, destination);
+                                                                        ^
+EPERM: operation not permitted, rename 'C:\Users\djden\source\repos\retro-eng\re-ff8\inputs\L8_COMMAND_B_MATRIX_R1_20261017.preparing-405223c5-b4c4-4b66-a8b0-71d9d040a306' -> 'C:\Users\djden\source\repos\retro-eng\re-ff8\inputs\L8_COMMAND_B_MATRIX_R1_20261017'
+    path: "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\inputs\\L8_COMMAND_B_MATRIX_R1_20261017.preparing-405223c5-b4c4-4b66-a8b0-71d9d040a306",
+    dest: "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\inputs\\L8_COMMAND_B_MATRIX_R1_20261017",
+ syscall: "rename",
+   errno: -4048,
+    code: "EPERM"
+
+      at async prepareTransfer (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\src\mechanical-preparation.ts:121:67)
+
+Bun v1.4.2 (Windows x64)

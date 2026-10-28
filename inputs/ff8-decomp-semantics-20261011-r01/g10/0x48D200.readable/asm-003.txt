@@ -1,0 +1,25 @@
+0048D2BB: mov     ebx, 0FFF9h
+0048D2C0: mov     edx, [esp+24h+p_command_type]
+0048D2C4: and     edx, 0FFh; Logical AND
+0048D2CA: lea     esi, [edx-0ECh]; switch 19 cases
+0048D2D0: cmp     esi, 12h; Compare Two Operands
+0048D2D3: ja      short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D2D5: xor     eax, eax; Logical Exclusive OR
+0048D2D7: mov     al, ds:byte_48E40C[esi]
+0048D2DD: jmp     ds:jpt_48D2DD[eax*4]; switch jump
+0048D2E4: mov     [esp+24h+p_always_zero], 0; jumptable 0048D2DD cases 236,240,245
+0048D2E9: jmp     short def_48D2DD; jumptable 0048D2DD default case, cases 237,238,241-243,246,248-253
+0048D2EB: mov     ebx, 0FFF8h
+0048D2F0: jmp     short loc_48D2C0; Jump
+0048D2F2: cmp     bx, 1Fh; Compare Two Operands
+0048D2F6: jnz     short loc_48D2FF; Jump if Not Zero (ZF=0)
+0048D2F8: or      SG_ODIN_ANGEL_GILGA_FLAG, 4; Logical Inclusive OR
+0048D2FF: mov     bx, K_ITEM.magicID[esi]
+0048D306: mov     byte ptr dword_1D28E20+1, 0
+0048D30D: jmp     short loc_48D2C0; Jump
+0048D30F: cmp     dl, 27h ; '''; Compare Two Operands
+0048D312: jnb     short loc_48D2C0; Jump if Not Below (CF=0)
+0048D314: mov     edx, [esp+24h+p_command_type]
+0048D318: and     edx, 0FFh; Logical AND
+0048D31E: mov     al, g_GetText_PartyAnimByCommand[edx]
+0048D324: mov     [esp+24h+p_always_zero], al

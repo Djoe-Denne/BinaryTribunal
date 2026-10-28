@@ -1,0 +1,25 @@
+004907DF: push    eax
+004907E0: push    7
+004907E2: push    47h ; 'G'
+004907E4: call    domain__BattleText_GetMiscText; Call Procedure
+004907E9: add     esp, 4; Add
+004907EC: push    eax
+004907ED: push    0Bh
+004907EF: call    domain__BattleText_GetMiscText; Call Procedure
+004907F4: mov     dl, [eax]
+004907F6: mov     ecx, [esp+40h+CommandTypeId2]
+004907FA: add     esp, 4; Add
+004907FD: lea     eax, [esp+3Ch+number_text_tmp]; Load Effective Address
+00490801: and     ecx, 0FFh; Logical AND
+00490807: push    edx
+00490808: push    eax
+00490809: push    ecx
+0049080A: call    domain__BattleText_FormatNumber; Call Procedure
+0049080F: add     esp, 8; Add
+00490812: push    eax
+00490813: push    0Bh
+00490815: call    domain__BattleText_GetMiscText; Call Procedure
+0049081A: mov     dl, [eax]
+0049081C: add     esp, 4; Add
+0049081F: push    edx
+00490820: push    13h

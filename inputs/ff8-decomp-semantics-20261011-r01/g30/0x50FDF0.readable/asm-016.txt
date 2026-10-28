@@ -1,0 +1,25 @@
+00510338: test    ecx, 3F00000h; Logical Compare
+0051033E: jnz     loc_51045E; Jump if Not Zero (ZF=0)
+00510344: mov     eax, [esp+38h+var_24]
+00510348: mov     ecx, [esp+38h+packet]
+0051034C: mov     edx, [esp+38h+var_28]
+00510350: mov     ebx, [eax]
+00510352: mov     eax, [ecx]
+00510354: mov     ecx, [edx]
+00510356: mov     [esp+38h+var_4], eax
+0051035A: push    ecx
+0051035B: push    eax
+0051035C: push    ebx
+0051035D: mov     [esp+44h+var_8], ecx
+00510361: call    Poly_BackfaceTest2D; Call Procedure
+00510366: add     esp, 0Ch; Add
+00510369: test    eax, eax; Logical Compare
+0051036B: jle     loc_510459; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510371: mov     eax, dword_1D99C18
+00510376: mov     ecx, [esp+38h+var_4]
+0051037A: mov     edx, [esp+38h+var_8]
+0051037E: mov     [eax+8], ebx
+00510381: mov     [eax+10h], ecx
+00510384: mov     ecx, dword_1D99C1C
+0051038A: mov     [eax+18h], edx
+0051038D: movsx   ebx, word ptr [ebp+24h]; Move with Sign-Extend

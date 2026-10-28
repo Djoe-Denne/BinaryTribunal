@@ -1,0 +1,25 @@
+004AEA3A: push    ecx
+004AEA3B: call    sub_47E9C0; Call Procedure
+004AEA40: add     esp, 4; Add
+004AEA43: mov     dword_1D76860, eax
+004AEA48: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEA4D: cmp     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 15
+004AEA54: jle     short loc_4AEA65; Jump if Less or Equal (ZF=1 | SF!=OF)
+004AEA56: mov     edx, dword_1D768F0
+004AEA5C: neg     edx; Two's Complement Negation
+004AEA5E: mov     word ptr dword_1D768F0, dx
+004AEA65: mov     ax, word ptr dword_1D768F0+2
+004AEA6B: cmp     ax, bp; Compare Two Operands
+004AEA6E: jle     short loc_4AEA79; Jump if Less or Equal (ZF=1 | SF!=OF)
+004AEA70: neg     ax; Two's Complement Negation
+004AEA73: mov     word ptr dword_1D768F0+2, ax
+004AEA79: push    ebp
+004AEA7A: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0
+004AEA7F: push    7; int
+004AEA81: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AEA86: add     esp, 8; Add
+004AEA89: mov     dword_1D768D0, 10h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AEA93: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEA98: mov     eax, dword_1D6D490; jumptable 004ADEFA case 16
+004AEA9D: mov     cl, [eax+21h]
+004AEAA0: test    cl, cl; Logical Compare

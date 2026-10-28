@@ -1,0 +1,23 @@
+00485EC0: mov     eax, [esp+p_slot_id]; Static 2026-08-18: refunds up to two nonzero item ids stashed at slot +0xB8/+0xB9 through BattleEqualItemBuffer_AdjustCount(id, add), then clears the stash. Callers include battle end, eject reset, status sync, and Angel Wing rewrite cleanup.
+00485EC4: push    esi
+00485EC5: xor     esi, esi; Logical Exclusive OR
+00485EC7: push    edi
+00485EC8: lea     ecx, [eax+eax*2]; Load Effective Address
+00485ECB: lea     edx, [eax+ecx*4]; Load Effective Address
+00485ECE: shl     edx, 4; Shift Logical Left
+00485ED1: lea     edi, BATTLE_SLOT_DATA.magic_to_blow_away[edx]; Cleanup/refund path: returns stored ids (if any) to inventory via sub_486B40(id,0).
+00485ED7: mov     al, [edi+esi]
+00485EDA: test    al, al; Logical Compare
+00485EDC: jz      short loc_485EF2; Jump if Zero (ZF=1)
+00485EDE: and     eax, 0FFh; id &0xFF obligatoire avant AdjustCount
+00485EE3: push    0; remove_one
+00485EE5: push    eax; id
+00485EE6: call    domain__BattleEqualItemBuffer_AdjustCount; BattleEqualItemBuffer_AdjustCount(id, remove). Independent of Magic stock. Stride 5 from EQUAL_ITEM_ID to BMI_MONSTER1_DRAW_SPELL_ID1. Cap 100. remove missing/zero->1. Persist via Battle_EndCleanupAndTransition merge into SG_ITEM 198.
+00485EEB: add     esp, 8; Add
+00485EEE: mov     byte ptr [edi+esi], 0
+00485EF2: inc     esi; Increment by 1
+00485EF3: cmp     esi, 2; Compare Two Operands
+00485EF6: jl      short loc_485ED7; Jump if Less (SF!=OF)
+00485EF8: pop     edi
+00485EF9: pop     esi
+00485EFA: retn; Return Near from Procedure

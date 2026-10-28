@@ -1,0 +1,14 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash,randomUUID} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {strict as assert} from 'node:assert';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',before=JSON.parse(readFileSync(phase+'/l5-budget-main-transfer-before.json','utf8')),crossed=JSON.parse(readFileSync(phase+'/l5-budget-main-crossed-gates.json','utf8'));
+assert(crossed.allThreeExit0,'Crossed gates did not complete');
+const verify=()=>{for(const f of [...before.preserved,...before.source])assert.equal(createHash('sha256').update(readFileSync(root+'/'+f.path)).digest('hex'),f.sha256,'Harness pin differs '+f.path);};verify();
+const tmp=phase+'/l5-budget-main-full-'+randomUUID();mkdirSync(tmp+'/opencode',{recursive:true});
+writeFileSync(phase+'/l5-budget-main-full-start.json',JSON.stringify({at:new Date().toISOString(),temporaryChildOnly:tmp,sharedWorkerTestProcessCheck:'none; native0running+L7idle and hold sent before start',priorFixtureExceptions:['ff8-re-policy-','ff8-runtime-test-','graph-interop- (retained)'],noGlobalEnvironmentChange:true,preexistingMaintenanceTestsPreserved:true},null,2)+'\n',{flag:'wx'});
+const start=Date.now(),p=spawnSync('bun',['test'],{cwd:root+'/tools/ff8-harness',encoding:'utf8',timeout:420000,env:{...process.env,TEMP:tmp,TMP:tmp}}),out=p.stdout+'\n'+p.stderr;
+writeFileSync(phase+'/l5-budget-main-full.log',out,{flag:'wx'});verify();
+const pass=Number(out.match(/(?:^|\n)\s*(\d+) pass\s*(?:\n|$)/)?.[1]??NaN),fail=Number(out.match(/(?:^|\n)\s*(\d+) fail\s*(?:\n|$)/)?.[1]??NaN),skip=Number(out.match(/(?:^|\n)\s*(\d+) skip\s*(?:\n|$)/)?.[1]??NaN),assertions=Number(out.match(/(\d+) expect\(\) calls/)?.[1]??NaN);
+const result={reviewTask:before.reviewTask,exit:p.status,signal:p.signal,error:p.error?.message,ms:Date.now()-start,pass,fail,skip,assertions,summary:out.split(/\r?\n/).filter(l=>/ pass$| fail$| skip$|expect\(\) calls|^Ran |error TS/.test(l.trim())).slice(-12),expectedBasedOnPrior878Plus78:pass===956&&skip===1&&fail===0,preservedHarnessPins:before.preserved.length,candidateSourcePins:2,allBeforeAfterPinsExact:true,childTempRoot:tmp,gateGreen:p.status===0&&pass===956&&skip===1&&fail===0,noParentAcceptanceAutomatically:true,noNativeScientificGlobalL7L8Claim:true};
+writeFileSync(phase+'/l5-budget-main-full-gates.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));if(!result.gateGreen)process.exitCode=1;

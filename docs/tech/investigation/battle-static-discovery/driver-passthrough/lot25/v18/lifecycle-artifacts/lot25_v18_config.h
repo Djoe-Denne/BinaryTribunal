@@ -1,0 +1,27 @@
+/* Generated for this exact candidate/MAP; do not reuse with another build. */
+#define CANDIDATE_BUILD_ID 0x5646u
+#define CANDIDATE_DLL_SHA256 "d36f7366d16961adcf5ec670f840907d715fa28d687e3f67812cbc8cc7633265"
+#define CANDIDATE_MAP_SHA256 "5956898cec5548be9d89859ccb3cbefd71d3004e3a391de546bb2a5d2dc42687"
+#define RVA_GFXPT_PresentDetour 0x00005B70u
+#define RVA_Passthrough_InstallStage0Hooks 0x000013F0u
+#define RVA_Passthrough_RestoreStage0Hooks 0x00001400u
+#define RVA_Passthrough_Stage0Stub 0x000015D0u
+#define RVA_g_frameSeq 0x04096AE8u
+#define RVA_g_hinstDLL 0x000649A8u
+#define RVA_g_odsTrampoline 0x04096D04u
+#define RVA_g_pdTrampoline 0x000649B0u
+#define RVA_g_proxy 0x00064998u
+#define RVA_g_stage0Activation 0x04096CC4u
+#define RVA_g_stage0ActivationSource 0x04096CD4u
+#define RVA_g_stage0Armed 0x04096C4Cu
+#define RVA_g_stage0DiagNoHook 0x04096C88u
+#define RVA_g_stage0InDllMain 0x04096CCCu
+#define RVA_g_stage0LifecycleState 0x04096CD0u
+#define RVA_g_stage0Lock 0x04096CC8u
+#define RVA_g_stage0OptIn 0x04096CB4u
+#define RVA_g_stage0PatchWrites 0x04096CC0u
+#define RVA_g_stage0PinAttempts 0x04096CBCu
+#define RVA_g_stage0Pinned 0x04096CB8u
+#define RVA_g_stage0_ret 0x04096C7Cu
+#define RVA_g_stage0_saved 0x04096C68u
+#define RVA_g_stage0_target 0x04096C74u

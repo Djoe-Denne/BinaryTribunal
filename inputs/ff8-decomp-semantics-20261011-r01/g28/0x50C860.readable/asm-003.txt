@@ -1,0 +1,25 @@
+0050C8F5: mov     eax, [esp+14h+var_8+2]
+0050C8F9: movzx   dx, byte ptr [edi+4]; Move with Zero-Extend
+0050C8FE: mov     ecx, [esp+14h+var_8]
+0050C902: sub     eax, ebx; Integer Subtraction
+0050C904: mov     [esp+14h+var_2], dx
+0050C909: push    eax
+0050C90A: lea     edx, [esp+18h+var_8]; Load Effective Address
+0050C90E: push    ecx
+0050C90F: push    edx
+0050C910: call    BattleTimQueue_EnqueueType3; enqueue slot type 3 (packed coords)
+0050C915: sub     word ptr [esp+20h+var_8+2], bx; Integer Subtraction
+0050C91A: mov     [esp+20h+var_2], bx
+0050C91F: movzx   ax, byte ptr [edi+2]; Move with Zero-Extend
+0050C924: movzx   cx, byte ptr [edi+4]; Move with Zero-Extend
+0050C929: mov     edx, [esp+20h+var_8]
+0050C92D: sub     eax, ebx; Integer Subtraction
+0050C92F: add     esi, eax; Add
+0050C931: lea     eax, [esp+20h+var_8]; Load Effective Address
+0050C935: add     ecx, esi; Add
+0050C937: push    ecx
+0050C938: push    edx
+0050C939: push    eax
+0050C93A: call    BattleTimQueue_EnqueueType3; enqueue slot type 3 (packed coords)
+0050C93F: add     esp, 18h; Add
+0050C942: pop     ebx

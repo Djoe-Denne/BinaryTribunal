@@ -1,0 +1,15 @@
+import {writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',name='l5-budget-astra',stage=process.argv[2];if(!['pre','post'].includes(stage??''))throw Error('Stage required');
+const e=await Service.discover();if(!e)throw Error('No public API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign parent');
+const member=team.members.find((m:any)=>m.name===name);if(!member)throw Error('Owned writer missing');const session=await cli.session.get({sessionID:member.sessionId});
+if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6-astra'||session.model.variant!=='max')throw Error('Native Model.Ref mismatch');
+const owned='C:/Users/djden/.local/share/opencode/worktree/68ae5f/'+member.worktreeBranch;
+const w=spawnSync('git',['worktree','list','--porcelain'],{cwd:root,encoding:'utf8'});if(w.status!==0||!w.stdout.split(/\r?\n/).includes('worktree '+owned))throw Error('Registered OWN missing');
+const h=spawnSync('git',['rev-parse','HEAD'],{cwd:owned,encoding:'utf8'});if(h.status!==0||!h.stdout.startsWith('13874bc'))throw Error('Wrong OWN baseline');
+if(stage==='post'&&session.location.directory.replaceAll('\\','/').toLowerCase()!==owned.toLowerCase())throw Error('Wrong native directory');
+const record={name,stage,sessionID:session.id,model:session.model,directory:session.location.directory,owned,head:h.stdout.trim(),taskId:'task_mv9k1ikn_0000_bo44nq',userTargetedSameMaxException:true};
+writeFileSync(root+'/.tmp/coordination-three-20261014/l5-budget-admission-'+stage+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(record));

@@ -1,0 +1,25 @@
+004886F8: and     ecx, edi; Logical AND
+004886FA: inc     esi; Increment by 1
+004886FB: lea     eax, ds:1D28C18h[edx*4]; Load Effective Address
+00488702: mov     edx, BATTLE_BATTLE_VAR[edx*4]; Probably a table of var
+00488709: add     edx, ecx; Add
+0048870B: mov     [eax], edx
+0048870D: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488712: mov     dl, [esi]; AI VM op 0x15 ADD_ITEM_SLOT: SG_ITEM_ID_AND_QUANTITY[idx]+=val
+00488714: mov     al, [esi+1]
+00488717: inc     esi; Increment by 1
+00488718: mov     [esp+74h+opcode_param_1], dl
+0048871C: mov     [esp+74h+op_param_2], al
+00488720: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+00488724: mov     edx, dword ptr [esp+74h+op_param_2]
+00488728: and     ecx, edi; Logical AND
+0048872A: and     edx, edi; Logical AND
+0048872C: inc     esi; Increment by 1
+0048872D: lea     eax, ds:1CFE7FCh[ecx*4]; Load Effective Address
+00488734: mov     ecx, dword ptr SG_ITEM_ID_AND_QUANTITY.id+60h[ecx*4]; Item ID followed by Item quantiy for each slot, for 198 slot
+0048873B: add     ecx, edx; Add
+0048873D: mov     [eax], ecx
+0048873F: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488744: mov     al, [esi]; AI VM op 0x2D SET_RES_FIELD: slot.set_zero[2*idx(1)+32] = val(2) (elem/mental res field)
+00488746: inc     esi; Increment by 1
+00488747: mov     [esp+74h+opcode_param_1], al

@@ -1,0 +1,25 @@
+004ADE0A: mov     [esp+14h+var_C], ecx
+004ADE0E: mov     [esp+14h+var_8], ebx
+004ADE12: jmp     short loc_4ADE18; Jump
+004ADE14: mov     ebx, [esp+14h+var_8]
+004ADE18: call    GetWord_1D76844_OrMinus1_If1000; E3c: test 1000 + movsx; Cursor/Chara = callers
+004ADE1D: mov     ecx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004ADE23: and     ecx, 0FFh; Logical AND
+004ADE29: cmp     ecx, eax; Compare Two Operands
+004ADE2B: jnz     loc_4AF23C; Jump if Not Zero (ZF=0)
+004ADE31: cmp     eax, ebp; Compare Two Operands
+004ADE33: jl      loc_4AF23C; Jump if Less (SF!=OF)
+004ADE39: mov     cl, byte ptr dword_1D768D8+3; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004ADE3F: cmp     cl, 0FFh; Compare Two Operands
+004ADE42: jz      short loc_4ADE82; Jump if Zero (ZF=1)
+004ADE44: mov     edx, 1
+004ADE49: xor     eax, eax; Logical Exclusive OR
+004ADE4B: mov     ax, word ptr dword_1D750BC+2
+004ADE51: shl     edx, cl; Shift Logical Left
+004ADE53: test    eax, edx; Logical Compare
+004ADE55: jnz     short loc_4ADE82; Jump if Not Zero (ZF=0)
+004ADE57: mov     al, byte_1D768EE
+004ADE5C: test    al, al; Logical Compare
+004ADE5E: jnz     short loc_4ADE82; Jump if Not Zero (ZF=0)
+004ADE60: push    5
+004ADE62: mov     word ptr dword_1D768F0, bp

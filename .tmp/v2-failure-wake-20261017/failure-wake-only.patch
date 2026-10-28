@@ -1,0 +1,382 @@
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/hooks.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/hooks.ts
+index 34afd84..18e48fa 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/hooks.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/hooks.ts
+@@ -39,6 +39,8 @@ export interface StatusTransition {
+   teamId: string
+   from: string
+   to: string
++  /** A persisted native failure report; replay may request its wake, never retry the worker. */
++  executionFailure?: { reportId: string; replayed: boolean }
+ }
+ 
+ /**
+@@ -72,6 +74,8 @@ export function handleSessionStatusEvent(
+   if (!member) return undefined
+ 
+   if (status === "idle") {
++    // An idle/status/succeeded echo is not an explicit restart after a failed run.
++    if (member.status === "error") return undefined
+     // A stale idle notification can arrive between reservation and the native busy event.
+     if (!confirmedIdle && member.status === "busy" && member.execution_status === "starting" && member.admission_token) return undefined
+     const newStatus = member.status === "shutdown_requested" ? "shutdown" : "ready"
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-events.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-events.ts
+index 9c8c084..a1ef3c0 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-events.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-events.ts
+@@ -1,6 +1,9 @@
+ import type { Database } from "./db"
+ import type { MemberRegistry, DescendantTracker } from "./state"
+ import { isTeamInDirectory } from "./team-scope"
++import { createHash } from "node:crypto"
++import { findTeamBySession } from "./types"
++import { generateId } from "./util"
+ import {
+   handleSessionCreatedEvent,
+   handleSessionStatusEvent,
+@@ -10,16 +13,53 @@ import {
+ /** Minimal structural shape of a V2 server event. */
+ export interface V2EventLike {
+   type: string
++  /** Native durable event identity (SDK event-manifest session.execution.failed). */
++  id?: string
++  created?: number
+   data?: {
+     sessionID?: string
+     parentID?: string
+     status?: string | { type?: string }
+     attempt?: number
+     at?: number
+-    error?: { message?: string }
++    error?: { type?: string; message?: string; status?: number; response?: { body: string } }
+   }
+ }
+ 
++/** Persist state and report atomically, before any asynchronous wake attempt. */
++function recordExecutionFailure(db: Database, registry: MemberRegistry, event: V2EventLike): StatusTransition | undefined {
++  const sessionID = event.data?.sessionID
++  if (!sessionID) return undefined
++  const entry = findTeamBySession(db, registry, sessionID)
++  if (!entry || entry.role !== "member" || !entry.memberName) return undefined
++  const { teamId, memberName } = entry
++  return db.transaction(() => {
++    const row = db.query("SELECT m.status,t.status AS team_status FROM team_member m JOIN team t ON t.id=m.team_id WHERE m.team_id=? AND m.name=? AND m.session_id=?")
++      .get(teamId, memberName, sessionID) as { status: string; team_status: string } | null
++    if (!row || row.team_status !== "active" || row.status === "shutdown") return undefined
++    // A requested shutdown is intentional; preserve its existing release path.
++    if (row.status === "shutdown_requested") return handleSessionStatusEvent(db, registry, sessionID, "idle", undefined, true)
++    const durableId = typeof event.id === "string" && event.id.length > 0 ? event.id : undefined
++    const reportId = durableId ? `msg_v2failure_${createHash("sha256").update(JSON.stringify([teamId, sessionID, durableId])).digest("hex")}` : generateId("msg")
++    if (durableId && db.query("SELECT id FROM team_message WHERE id=? AND team_id=? AND to_name='lead'").get(reportId, teamId)) {
++      // Replay after restart/crash: do not corrupt a later busy run. A missing
++      // wake can still be retried through the durable coalescing/read guards.
++      return { teamId, memberName, from: row.status, to: row.status, executionFailure: { reportId, replayed: true } }
++    }
++    // Older hosts without durable event IDs deduplicate the current error episode.
++    if (!durableId && row.status === "error") return undefined
++    const error = event.data?.error
++    const type = typeof error?.type === "string" ? [...error.type].slice(0,100).join("") : "unknown"
++    const message = typeof error?.message === "string" ? [...error.message].slice(0,1400).join("") : "Native execution failed without details"
++    // Never persist error.response bodies (may include credentials or huge payloads).
++    const content = `Teammate ${JSON.stringify(memberName)} execution failed (${type}): ${message}\nSession: ${sessionID}. No automatic retry or provider switch. This is not a completed task or accepted delivery; the lead must decide a permitted recovery.`
++    const now = Date.now()
++    db.run("UPDATE team_member SET status='error',execution_status='idle',admission_token=NULL,admission_owner_pid=NULL,retry_until=NULL,retry_attempt=NULL,retry_provider=NULL,retry_message=NULL,time_updated=? WHERE team_id=? AND name=?", [now, teamId, memberName])
++    db.run("INSERT INTO team_message(id,team_id,from_name,to_name,content,delivered,time_created) VALUES (?,?,'system','lead',?,0,?)", [reportId, teamId, content, now])
++    return { teamId, memberName, from: row.status, to: "error", executionFailure: { reportId, replayed: false } }
++  })()
++}
++
+ /**
+  * Dispatch a V2 server event to the shared member state machine in hooks.ts.
+  * When directory is supplied, only its missions may consume member transitions.
+@@ -58,11 +98,10 @@ export function dispatchV2Event(
+       if (!data.sessionID) return undefined
+       return handleSessionStatusEvent(db, registry, data.sessionID, "busy")
+     case "session.execution.succeeded":
+-    case "session.execution.failed":
+-      // Ended means idle even on failure — the idle-without-report nudge then
+-      // prompts the teammate to report, which surfaces the failure to the lead.
+       if (!data.sessionID) return undefined
+       return handleSessionStatusEvent(db, registry, data.sessionID, "idle", undefined, true)
++    case "session.execution.failed":
++      return recordExecutionFailure(db, registry, event)
+     case "session.created":
+       handleSessionCreatedEvent(tracker, data.sessionID ?? "", data.parentID)
+       return undefined
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-setup.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-setup.ts
+index 4d1411d..781743b 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-setup.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-setup.ts
+@@ -7,7 +7,7 @@ import { dispatchV2Event, type V2EventLike } from "./v2-events"
+ import type { V2Context } from "./v2-client"
+ import { createV2Client } from "./v2-client"
+ import { createV2Continuity } from "./v2-continuity"
+-import { consumeLeadWakes, maintainLeadNotifications, cancelAcknowledgedLeadWakes } from "./lead-notifications"
++import { consumeLeadWakes, maintainLeadNotifications, cancelAcknowledgedLeadWakes, requestLeadWake } from "./lead-notifications"
+ import {configureCoordinationGuide} from "./coordination-guide"
+ import { assertMissionModelAllowed, authorizeSessionModel, ownsModelRequestLocation, sessionPolicyDirectory, selectionIsConfigured, ModelSelectionDeniedError } from "./model-authorization"
+ import { registerV2Tools } from "./v2-tools"
+@@ -219,6 +219,12 @@ export async function setupEnsemble(
+ 
+   const dispatch = async (event: V2EventLike): Promise<void> => {
+     const transition = dispatchV2Event(db, registry, tracker, event, ctx.location.directory)
++    if (transition?.executionFailure) {
++      // The failed provider cannot be relied on to report its own error. Wake
++      // only the parent; never nudge/retry/reassign the failing worker here.
++      if (!paused(transition.teamId)) requestLeadWake(wakeClient, db, transition.teamId, transition.executionFailure.reportId)
++      if (transition.executionFailure.replayed) return
++    }
+     // Idle-without-report nudge (parity with V1): a member that went idle
+     // without ever messaging the lead gets ONE reminder to report via
+     // team_message. Without this, weak models finish silently and the lead
+@@ -235,7 +241,8 @@ export async function setupEnsemble(
+     }
+     if (transition && ["shutdown", "error"].includes(transition.to)) scheduleCapacity(transition.teamId)
+     if (transition && rpc) {
+-      await emitMemberEvent(rpc, transition).catch(() => {
++      // Keep internal failure metadata out of the strict public member schema.
++      await emitMemberEvent(rpc, { memberName: transition.memberName, teamId: transition.teamId, from: transition.from, to: transition.to }).catch(() => {
+         // Companions are optional — never break the state machine for them.
+       })
+       if (transition.to === "ready" && transition.from === "busy") {
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-client.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-client.ts
+index f8120d5..eb07f77 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/src/v2-client.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/src/v2-client.ts
+@@ -165,7 +165,7 @@ export function createV2Client(ctx: V2Context, deps: V2ClientDeps = {}): PluginC
+         // Synthetic (system) messages render as persistent transcript entries
+         // instead of fake user turns — the native form for agent notifications.
+         if (options.synthetic) {
+-          return ctx.session.synthetic({ sessionID: options.sessionID, text: joinParts(options.parts), delivery: "queue" })
++          return ctx.session.synthetic({ sessionID: options.sessionID, text: joinParts(options.parts), delivery: "queue", resume: true })
+         }
+         if (options.agent) {
+           await ctx.session.switchAgent({ sessionID: options.sessionID, agent: options.agent })
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/v2-events.test.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/v2-events.test.ts
+index bf3b756..c3b3694 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/v2-events.test.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/v2-events.test.ts
+@@ -87,4 +87,104 @@ describe("v2-events (issue #36, DRY: reuses hooks.ts)", () => {
+       dispatchV2Event(db, registry, tracker, { type: "tui.toast.show", data: {} }),
+     ).toBeUndefined()
+   })
++
++  test("native failed execution is an error, not a successful ready member", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      const event = { id: "evt_failure_one", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { type: "provider.internal", message: "Cursor capacity_limit" } } }
++      const result = dispatchV2Event(db, registry, tracker, event)
++      expect(result).toMatchObject({ memberName: "alice", from: "busy", to: "error" })
++      expect(db.query("SELECT status,execution_status FROM team_member WHERE name='alice'").get()).toEqual({ status: "error", execution_status: "idle" })
++      const reports = db.query("SELECT content FROM team_message WHERE to_name='lead'").all() as Array<{ content: string }>
++      expect(reports).toHaveLength(1)
++      expect(reports[0]!.content).toContain("capacity_limit")
++      expect(reports[0]!.content).toContain("provider.internal")
++      expect(reports[0]!.content).toContain("No automatic retry")
++    } finally { db.close() }
++  })
++
++  test("idle/succeeded after failure cannot erase the error or revive the worker", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      dispatchV2Event(db, registry, tracker, { id: "evt_failure_sticky", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "provider failed" } } })
++      expect(dispatchV2Event(db, registry, tracker, statusEvent("ses_alice", "idle"))).toBeUndefined()
++      expect(dispatchV2Event(db, registry, tracker, { type: "session.execution.succeeded", data: { sessionID: "ses_alice" } })).toBeUndefined()
++      expect(db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({ status: "error" })
++    } finally { db.close() }
++  })
++
++  test("durable failure replay cannot corrupt a later execution or duplicate its report", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      const failure = { id: "evt_failure_replay", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "failed" } } }
++      dispatchV2Event(db, registry, tracker, failure)
++      dispatchV2Event(db, registry, tracker, { type: "session.execution.started", data: { sessionID: "ses_alice" } })
++      dispatchV2Event(db, registry, tracker, failure)
++      expect(db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({ status: "busy" })
++      expect(db.query("SELECT COUNT(*) n FROM team_message WHERE to_name='lead'").get()).toEqual({ n: 1 })
++    } finally { db.close() }
++  })
++
++  test("a distinct failed execution after explicit restart produces a new report", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      for (const id of ["evt_failure_first", "evt_failure_second"]) {
++        dispatchV2Event(db, registry, tracker, { type: "session.execution.started", data: { sessionID: "ses_alice" } })
++        dispatchV2Event(db, registry, tracker, { id, type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "capacity_limit" } } })
++      }
++      expect(db.query("SELECT COUNT(*) n FROM team_message WHERE to_name='lead'").get()).toEqual({ n: 2 })
++    } finally { db.close() }
++  })
++
++  test("failure frees only the execution slot and retains the claimed task", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      const now = Date.now()
++      db.run("INSERT INTO team_task(id,team_id,content,status,assignee,time_created,time_updated) VALUES ('held','team1','unfinished','in_progress','alice',?,?)", [now,now])
++      db.run("UPDATE team_member SET admission_token='lease',admission_owner_pid=123,retry_until=9999,retry_attempt=3 WHERE name='alice'")
++      dispatchV2Event(db, registry, tracker, { id: "evt_failure_held", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "failed" } } })
++      expect(db.query("SELECT status,assignee FROM team_task WHERE id='held'").get()).toEqual({ status:"in_progress",assignee:"alice" })
++      expect(db.query("SELECT admission_token,admission_owner_pid,retry_until,retry_attempt FROM team_member WHERE name='alice'").get()).toEqual({ admission_token:null,admission_owner_pid:null,retry_until:null,retry_attempt:null })
++    } finally { db.close() }
++  })
++
++  test("the report is UTF8-bounded and excludes provider response bodies", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      dispatchV2Event(db,registry,tracker,{id:"evt_failure_bounded",type:"session.execution.failed",data:{sessionID:"ses_alice",error:{type:"provider.internal",message:"😀".repeat(20000),response:{body:"DO_NOT_PERSIST_SECRET_BODY"}}}})
++      const row=db.query("SELECT content FROM team_message WHERE to_name='lead'").get() as {content:string}
++      expect(Buffer.byteLength(row.content,"utf8")).toBeLessThanOrEqual(10*1024)
++      expect(row.content).not.toContain("DO_NOT_PERSIST_SECRET_BODY")
++    } finally { db.close() }
++  })
++
++  test("state and failure report roll back together if persistence fails", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      db.exec("CREATE TRIGGER reject_failure BEFORE INSERT ON team_message BEGIN SELECT RAISE(ABORT,'fixture persistence failure'); END;")
++      expect(()=>dispatchV2Event(db,registry,tracker,{id:"evt_failure_rollback",type:"session.execution.failed",data:{sessionID:"ses_alice"}})).toThrow("fixture persistence failure")
++      expect(db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({status:"busy"})
++      expect(db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:0})
++    } finally { db.close() }
++  })
++
++  test("old hosts deduplicate an error episode without durable IDs", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      const event={type:"session.execution.failed",data:{sessionID:"ses_alice"}}
++      dispatchV2Event(db,registry,tracker,event)
++      expect(dispatchV2Event(db,registry,tracker,event)).toBeUndefined()
++      expect(db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:1})
++    } finally { db.close() }
++  })
++
++  test("intentional shutdown and the supervisor's own failure do not create recursive error wakes", () => {
++    const { db, registry, tracker } = seedTeam()
++    try {
++      expect(dispatchV2Event(db,registry,tracker,{id:"evt_lead_failure",type:"session.execution.failed",data:{sessionID:"ses_lead"}})).toBeUndefined()
++      db.run("UPDATE team_member SET status='shutdown_requested' WHERE name='alice'")
++      expect(dispatchV2Event(db,registry,tracker,{id:"evt_cancelled_worker",type:"session.execution.failed",data:{sessionID:"ses_alice"}})).toMatchObject({to:"shutdown"})
++      expect(db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:0})
++    } finally { db.close() }
++  })
+ })
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/v2-setup.test.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/v2-setup.test.ts
+index 07c2d17..1bb47ac 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/v2-setup.test.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/v2-setup.test.ts
+@@ -2,6 +2,8 @@ import { describe, expect, test } from "bun:test"
+ import { setupEnsemble, extractQuestionOutput, type V2SetupContext } from "../src/v2-setup"
+ import { DEFAULT_CONFIG } from "../src/config"
+ import type { MissionCommandDefinition } from "../src/mission-commands"
++import { dispatchV2Event } from "../src/v2-events"
++import { acknowledgeReadLeadMessages } from "../src/lead-notifications"
+ /** Mock V2 setup context: hook registry + programmable event intake. */
+ function mockSetupCtx() {
+   const hooks: Record<string, Array<(event: never) => unknown>> = {}
+@@ -133,6 +135,87 @@ describe("v2-setup (issue #36)", () => {
+     }
+   })
+ 
++  test("failed V2 worker wakes only the lead once, never retries the worker or emits success", async () => {
++    const { ctx } = mockSetupCtx()
++    const synthetics: Array<{ sessionID: string; resume: boolean }> = [], notices: unknown[] = []
++    ctx.session.synthetic = async input => { synthetics.push({ sessionID: String(input.sessionID), resume: input.resume === true }); return { id: "syn_failure" } as never }
++    ctx.rpc = { register: async () => ({ events: { emit: async (_name: string, data: unknown) => { notices.push(data) } }, dispose: async () => undefined }) } as never
++    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0, config: structuredClone(DEFAULT_CONFIG) })
++    try {
++      seedLeadAndMember(handle)
++      const failure = { id: "evt_failure_wake", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { type: "provider.internal", message: "Cursor capacity_limit" } } }
++      await handle.dispatch(failure)
++      await handle.dispatch(failure)
++      await handle.dispatch({ type: "session.idle", data: { sessionID: "ses_alice" } })
++      await new Promise(resolve => setImmediate(resolve))
++      expect(synthetics.map(x => x.sessionID)).toEqual(["ses_lead"])
++      expect(synthetics[0]!.resume).toBe(true)
++      expect(handle.db.query("SELECT COUNT(*) n FROM team_message WHERE to_name='lead'").get()).toEqual({ n: 1 })
++      expect(handle.db.query("SELECT status,last_nudged_at FROM team_member WHERE name='alice'").get()).toEqual({ status: "error", last_nudged_at: null })
++      expect(notices.some(n => JSON.stringify(n).includes('"variant":"success"'))).toBe(false)
++      expect(notices.some(n => JSON.stringify(n).includes('"variant":"error"'))).toBe(true)
++      expect(notices.some(n => JSON.stringify(n).includes('"executionFailure"'))).toBe(false)
++    } finally { await handle.dispose(); handle.db.close() }
++  })
++
++  test("foreign and archived worker failures cannot wake this supervisor", async () => {
++    const { ctx } = mockSetupCtx()
++    const wakes: string[] = []
++    ctx.session.synthetic = async input => { wakes.push(String(input.sessionID)); return { id: "syn_failure" } as never }
++    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
++    try {
++      seedLeadAndMember(handle, "/tmp/other-mission")
++      const failure = { id: "evt_failure_foreign", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "failed" } } }
++      await handle.dispatch(failure)
++      expect(handle.db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({ status: "busy" })
++      handle.db.run("UPDATE project SET path='/tmp/v2-setup-test'")
++      handle.db.run("UPDATE team SET status='archived'")
++      await handle.dispatch(failure)
++      await new Promise(resolve => setImmediate(resolve))
++      expect(wakes).toEqual([])
++      expect(handle.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({ n: 0 })
++    } finally { await handle.dispose(); handle.db.close() }
++  })
++
++  test("replaying after a crash between persistence and wake recovers exactly one parent wake", async () => {
++    const { ctx } = mockSetupCtx(), wakes:string[]=[]
++    ctx.session.synthetic=async input=>{wakes.push(String(input.sessionID));return {id:"syn_recovered_failure"} as never}
++    const handle=await setupEnsemble(ctx,{dbPath:":memory:",dashboardPort:0,config:structuredClone(DEFAULT_CONFIG)})
++    try {
++      seedLeadAndMember(handle)
++      const event={id:"evt_crash_window",type:"session.execution.failed",data:{sessionID:"ses_alice",error:{message:"capacity_limit"}}}
++      // The synchronous dispatcher committed, but the caller died before wake.
++      dispatchV2Event(handle.db,handle.registry,handle.tracker,event,ctx.location.directory)
++      expect(wakes).toEqual([])
++      await handle.dispatch(event);await handle.dispatch(event)
++      await new Promise(resolve=>setImmediate(resolve))
++      expect(wakes).toEqual(["ses_lead"])
++      expect(handle.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:1})
++      handle.db.run("UPDATE team_message SET read=1,delivered=1")
++      acknowledgeReadLeadMessages(handle.db,"team1")
++      await handle.dispatch(event);await new Promise(resolve=>setImmediate(resolve))
++      expect(wakes).toEqual(["ses_lead"])
++    } finally {await handle.dispose();handle.db.close()}
++  })
++
++  test("operator pause preserves the failure but blocks its wake until an authorized resume/replay",async()=>{
++    const {ctx}=mockSetupCtx(),wakes:string[]=[],config=structuredClone(DEFAULT_CONFIG)
++    config.modelRouting.pausedTeams=["team1"]
++    ctx.session.synthetic=async input=>{wakes.push(String(input.sessionID));return {id:"syn_unpaused_failure"} as never}
++    const handle=await setupEnsemble(ctx,{dbPath:":memory:",dashboardPort:0,config})
++    try{
++      seedLeadAndMember(handle)
++      const event={id:"evt_paused_failure",type:"session.execution.failed",data:{sessionID:"ses_alice",error:{message:"capacity_limit"}}}
++      await handle.dispatch(event);await new Promise(resolve=>setImmediate(resolve))
++      expect(wakes).toEqual([])
++      expect(handle.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({n:1})
++      expect(handle.db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({status:"error"})
++      config.modelRouting.pausedTeams=[]
++      await handle.dispatch(event);await new Promise(resolve=>setImmediate(resolve))
++      expect(wakes).toEqual(["ses_lead"])
++    }finally{await handle.dispose();handle.db.close()}
++  })
++
+   test("tool execute.before blocks team tools for sub-agents", async () => {
+     const { ctx, hooks } = mockSetupCtx()
+     const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+diff --git a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/team-scope.test.ts b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/team-scope.test.ts
+index bab7f76..2606de9 100644
+--- a/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-mission-upgrade-20261016/test/team-scope.test.ts
++++ b/C:/Users/djden/AppData/Local/Temp/opencode/ensemble-v2-failure-wake-20261017/test/team-scope.test.ts
+@@ -144,8 +144,13 @@ describe("global V2 events are owned by the mission directory", () => {
+       const foreign = dispatchV2Event(f.foreign.db, f.foreign.registry, f.foreign.tracker, event, f.foreign.directory)
+       expect(foreign).toBeUndefined()
+       expect(f.owner.db.query("SELECT * FROM team_member").get()).toEqual(before)
++      if (type === "session.execution.failed") expect(f.owner.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({ n: 0 })
+       const owned = dispatchV2Event(f.owner.db, f.owner.registry, f.owner.tracker, event, f.owner.directory)
+       if (type === "session.retry.scheduled") expect(f.owner.db.query("SELECT retry_attempt FROM team_member").get()).toEqual({ retry_attempt: 2 })
++      else if (type === "session.execution.failed") {
++        expect(owned?.to).toBe("error")
++        expect(f.owner.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({ n: 1 })
++      }
+       else expect(owned?.to).toBe(type === "session.execution.started" ? "busy" : "ready")
+     })
+   }

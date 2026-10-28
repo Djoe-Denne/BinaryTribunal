@@ -1,0 +1,58 @@
+{
+  "group": "g33",
+  "status": "DISPATCH_READY",
+  "routing_policy": "CONTRACT.md v1; advisory non-calibrated complexity/uncertainty",
+  "SOURCE": "discover-g33",
+  "source_session_id": "ses_ed41f7768ffeEqkbik177TUJk8",
+  "inheritance": "Independent author forks from SAME frozen SOURCE, never classifier or sibling productions; R after both A+B only",
+  "source_report_candidate_preview_flag": false,
+  "admission_requirements": ["Lead owns spawning/admission", "Verify effective native Model.Ref and requested variants", "Disjoint independent A/B/R sessions per EA and volet", "Parent native ASM validation required"],
+  "common_compaction": {"path":"inputs/ff8-decomp-semantics-20261011-r01/g33/common-compaction.md","sha256":"f22f377152cbdb302b96773005ce2bf47e270d87cee07e68217bc644742f6758"},
+  "source_report": {"path":"docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g33.source.native.json","sha256":"4aee6df789502e04fd8ebe784b08ff6e53826e16c1ace867ad625536a4cfe822"},
+  "native_groups_sha256": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+  "native_pe_verification_sha256": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+  "input_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "blocked_eas": [],
+  "routes": [
+    {
+      "ea":"0x51A2A0","status":"DISPATCH_READY","level":"medium","protocol":"2+1 per volet","SOURCE":"discover-g33",
+      "pe_equal":true,"instruction_count":17,"assembly_payload_characters":8501,
+      "factual_input":"inputs/ff8-decomp-semantics-20261011-r01/g33/0x51A2A0.json",
+      "factual_sha256":"15b46c89034e8e15ff746f0d050989a56f0e2e71f77d2ece2a532ce00bd89aa6",
+      "request":"outputs/ff8-decomp-semantics-20261011-r01/classification/g33/0x51A2A0.request.json",
+      "request_sha256":"bdff711d47075465c9723e4cc481e002c3efce0aec4ab6d51fc4fde975108cf2",
+      "response":"outputs/ff8-decomp-semantics-20261011-r01/classification/g33/0x51A2A0.response.json",
+      "response_sha256":"111f6267611d6e8f4d62ef6703c592ee62a43240197b6584ea117558a1f0ba11",
+      "classifier_kind":"classify_x86","scores":{"complexity":29,"risk_uncertainty":37,"cause":"external_calls"},
+      "rationale":"Fails simple score thresholds 25/20; meets medium 65/50, 17 native instructions, no major structural trigger in target CFG. External callee identities remain unverified, field meaning unknown, historical census mismatch retained as uncertainty; address-sorted target lists must not imply call order. No target indirect branch or loop; registration indirect invocation is contextual, not unresolved control within this target.",
+      "productions":[
+        {"volet":"C","role":"A","model":"zai-coding-plan/glm-5.3-flash","variant":"max","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/c_a.md"},
+        {"volet":"C","role":"B","model":"opencode-go/gpt-6-luna","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/c_b.md"},
+        {"volet":"C","role":"R","model":"openai/gpt-6.1-sol","variant":"high","after":["C/A","C/B"],"output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/c_r.md"},
+        {"volet":"semantics","role":"A","model":"openai/gpt-6.1-sol","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/semantic_a.md"},
+        {"volet":"semantics","role":"B","model":"openai/gpt-6.1-sol","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/semantic_b.md"},
+        {"volet":"semantics","role":"R","model":"openai/gpt-6.1-sol","variant":"high","after":["semantics/A","semantics/B"],"output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A2A0/semantic_r.md"}
+      ]
+    },
+    {
+      "ea":"0x51A9A0","status":"DISPATCH_READY","level":"medium","protocol":"2+1 per volet","SOURCE":"discover-g33",
+      "pe_equal":true,"instruction_count":17,"assembly_payload_characters":8501,
+      "factual_input":"inputs/ff8-decomp-semantics-20261011-r01/g33/0x51A9A0.json",
+      "factual_sha256":"82defbeb11c73d263a14df60a7b70ee6389426b3dc35b17e537701a00da55fbd",
+      "request":"outputs/ff8-decomp-semantics-20261011-r01/classification/g33/0x51A9A0.request.json",
+      "request_sha256":"41d20adafdaaa37ce894e9eb91745b633f03eca6947525326a8da458aafb812d",
+      "response":"outputs/ff8-decomp-semantics-20261011-r01/classification/g33/0x51A9A0.response.json",
+      "response_sha256":"2bb8c0f602f9d09b1be7de0ed0e334883c7fab7ea5523eaa9b89fdcc13f811b1",
+      "classifier_kind":"classify_x86","scores":{"complexity":29,"risk_uncertainty":38,"cause":"external_calls"},
+      "rationale":"Fails simple score thresholds 25/20; meets medium 65/50, 17 native instructions, no major structural trigger in target CFG. Same inherited factual uncertainties as companion EA; clone similarity is not a substitute for independent target production/validation.",
+      "productions":[
+        {"volet":"C","role":"A","model":"zai-coding-plan/glm-5.3-flash","variant":"max","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/c_a.md"},
+        {"volet":"C","role":"B","model":"opencode-go/gpt-6-luna","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/c_b.md"},
+        {"volet":"C","role":"R","model":"openai/gpt-6.1-sol","variant":"high","after":["C/A","C/B"],"output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/c_r.md"},
+        {"volet":"semantics","role":"A","model":"openai/gpt-6.1-sol","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/semantic_a.md"},
+        {"volet":"semantics","role":"B","model":"openai/gpt-6.1-sol","variant":"medium","output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/semantic_b.md"},
+        {"volet":"semantics","role":"R","model":"openai/gpt-6.1-sol","variant":"high","after":["semantics/A","semantics/B"],"output":"outputs/ff8-decomp-semantics-20261011-r01/production/g33/0x51A9A0/semantic_r.md"}
+      ]
+    }
+  ]
+}

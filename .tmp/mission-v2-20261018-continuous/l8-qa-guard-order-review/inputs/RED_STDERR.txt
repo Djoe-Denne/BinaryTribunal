@@ -1,0 +1,21 @@
+
+test\graph-phase2\pure-codecs.test.ts:
+767 |       expect(() => graphPure.validateGraphDocument("cluster-partition", { ...partitionDoc(), modularity: { known: "yes", value: null } }))
+768 |         .toThrow("document.modularity.known: schema type mismatch");
+769 |       expect(() => graphPure.validateGraphDocument("cluster-partition", { ...partitionDoc(), zz: 1 }))
+770 |         .toThrow("document: unexpected zz");
+771 |       expect(() => graphPure.validateGraphDocument("work-unit", { schemaVersion: "x" }))
+772 |         .toThrow("document.schemaVersion: schema type mismatch");
+               ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "document.schemaVersion: schema type mismatch"
+Received message: "document: missing unitId"
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\L8-FACTORING-TYPEFIX-1792346054793\tools\ff8-harness\test\graph-phase2\pure-codecs.test.ts:772:10)
+(fail) graph-phase2 pure codecs — QA source (propositions, pas de coverage exécutée) > validateGraphDocument — moteur legacy strict non élargi (ancre) > négatifs exacts du moteur legacy : enum, bornes, type, clé supplémentaire [1.14ms]
+
+ 90 pass
+ 1 fail
+ 1354 expect() calls
+Ran 91 tests across 3 files. [971.00ms]

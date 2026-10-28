@@ -4,11 +4,11 @@ category: references
 tags: [ff8, battle-system, testing, reverse-engineering, reference]
 aliases: [G15 AI control VM, P1 G15, enemy AI shadow]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-offline-validation-2026-08-27.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-suite-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-shutdown-2026-08-27.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-live-promotion-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g15-ai-control-offline-validation-2026-08-27.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-suite-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g15-positive-post-shutdown-2026-08-27.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
   - projects/re-ff8/concepts/enemy-ai-vm.md
   - projects/re-ff8/references/enemy-ai-opcodes.md
   - projects/final-fantasy-viii-reimaginated/references/p0-g14-presentation-validation.md

@@ -1,0 +1,48 @@
+{
+  "schema": "ff8-classification-routing-v1",
+  "group": "g03",
+  "status": "DISPATCH_READY",
+  "scope": "routing proposal only; lead owns admission and Model.Ref verification",
+  "SOURCE": "discover-g03",
+  "source_session_id": "ses_ed420cd0fffewvN21vSSI9NvaX",
+  "source_inheritance": "same frozen factual explorer source for all independent authors; never classifier or sibling productions",
+  "source_gate": "CHECKPOINT_REQUIRED",
+  "source_gate_rationale": "Common compaction explicitly reports awareness of historical target reconciled C at lines 43-44. Lead must verify an exclusive native checkpoint before target candidate exposure or provide a clean factual source; no author admission from contaminated history.",
+  "factual_inputs": [
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g03/common-compaction.md", "sha256": "9959dc7995e01db21518f4c15252096543ca53ec042a342d705dce6badf71572"},
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g03/0x45E670.json", "sha256": "06476e1094d6963e3532e19496a495b87b348503b4e79216e537b193aa571774"},
+    {"path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g03.source.native.json", "sha256": "ebd84fbf7521272d3e0a5e849d9a329b11f788afca2b7dc70df2b92603544415"}
+  ],
+  "entries": [{
+    "ea": "0x45E670",
+    "native_pe": "VERIFIED",
+    "instructions": 92,
+    "native_asm_chars": 4334,
+    "classifier_kind": "classify_x86",
+    "classifier_tool": "tools.classify_x86",
+    "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g03/0x45E670.request.json",
+    "request_sha256": "f1884e7cad6b80679dc2129c3da3605f57698360927030fba9f5105ea307f748",
+    "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g03/0x45E670.response.native.json",
+    "complexity": 71,
+    "risk": 34,
+    "risk_source": "native uncertainty score, operational v1 risk proxy; not calibrated",
+    "uncertainty_cause": "data_flow",
+    "tier": "complex",
+    "protocol": "2+1 per volet",
+    "status": "DISPATCH_READY",
+    "admission_gate": "CHECKPOINT_REQUIRED",
+    "rationale": ["Complexity 71 exceeds medium threshold 65.", "92 native instructions exceed simple limit 80.", "Existing factual flags: x87 magic rounding unresolved, return ABI interpretation deferred, historical documentation contradiction and caller context gaps.", "Native PE verification true with no mismatches; no oversize or dedicated GLM exception applies."],
+    "dispatches": [
+      {"volet": "C", "role": "A", "model": "openai/gpt-6-astra", "variant": "high", "SOURCE": "discover-g03", "context": "independent checkpoint from source", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/C_A.md", "depends_on": ["source_checkpoint_verified", "native_Model.Ref_verified"]},
+      {"volet": "C", "role": "B", "model": "opencode/claude-opus-5-5", "variant": "high", "SOURCE": "discover-g03", "context": "independent checkpoint from source", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/C_B.md", "depends_on": ["source_checkpoint_verified", "native_Model.Ref_verified"]},
+      {"volet": "C", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g03", "context": "distinct reconciler after both deposits; ASM arbiter", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/C_R.md", "depends_on": ["C_A_deposited", "C_B_deposited", "native_Model.Ref_verified"]},
+      {"volet": "semantics", "role": "A", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g03", "context": "independent checkpoint from source", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/semantic_A.md", "depends_on": ["source_checkpoint_verified", "native_Model.Ref_verified"]},
+      {"volet": "semantics", "role": "B", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g03", "context": "independent checkpoint from source; distinct session from A", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/semantic_B.md", "depends_on": ["source_checkpoint_verified", "native_Model.Ref_verified"]},
+      {"volet": "semantics", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g03", "context": "distinct reconciler after both deposits; ASM arbiter", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g03/0x45E670/semantic_R.md", "depends_on": ["semantic_A_deposited", "semantic_B_deposited", "native_Model.Ref_verified"]}
+    ],
+    "models_rationale": "Contract v1 complex C uses Astra high and Opus high independently; semantics uses Sol high for complex data-flow and interpretation flags, with separate same-model sessions allowed; R Sol high distinct and gated on A+B. No producer spawned. Live provider availability and effective Model.Ref remain lead admission checks."
+  }],
+  "quarantined_eas": [],
+  "oversize_eas": [],
+  "blocked_eas": [{"ea": "0x45E670", "reason": "CHECKPOINT_REQUIRED before production admission"}]
+}

@@ -1,0 +1,54 @@
+diff --git a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2b1-source-r1-frozen/DualCaptureCoordinator.cs b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2b1-source-r2/outputs/DualCaptureCoordinator.cs
+index 6643d34..32cc01d 100644
+--- a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2b1-source-r1-frozen/DualCaptureCoordinator.cs
++++ b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/full44-q2b1-source-r2/outputs/DualCaptureCoordinator.cs
+@@ -134,10 +134,14 @@ namespace ReGraph.GuardV3
+         private void HoldLocked(GenericBrokerFailure reason)
+         {
+             reason = NormalizeFailure(reason);
+-            if (!held) { failure = reason; held = true; }
++            held = true; // Fence entries; the visible cause is chosen by the broker.
+             // These concrete frozen calls do not invoke supplied IO or properties.
+-            // Publish to the actual broker BEFORE publishing the two signal bits.
+-            broker.LatchIncomplete(failure);
++            // Its immutable first cause linearizes at the broker gate, not here.
++            broker.LatchIncomplete(reason);
++            GenericBrokerSnapshot retained = broker.GetSnapshot();
++            // Qualified LatchIncomplete guarantees HOLD with a non-None cause.
++            // Copy that retained cause even when this coordinator was already held.
++            failure = retained.Failure;
+             signals.Mark(GuardianHostSignals.CaptureHeld);
+             signals.Mark(GuardianHostSignals.EvidenceIncomplete);
+         }
+@@ -148,22 +152,22 @@ namespace ReGraph.GuardV3
+             // concrete signals object also has no caller-supplied callback.
+             GenericBrokerSnapshot observed = broker.GetSnapshot();
+             int incidents = signals.Read();
+-            bool newlyHeld = false;
+-            if (!held && (observed.Failure != GenericBrokerFailure.None
+-                || observed.State == GenericBrokerState.Hold))
++            bool publishedHold = false;
++            if (observed.Failure != GenericBrokerFailure.None
++                || observed.State == GenericBrokerState.Hold)
+             {
+                 HoldLocked(observed.Failure == GenericBrokerFailure.None
+                     ? GenericBrokerFailure.InvalidState : observed.Failure);
+-                newlyHeld = true;
++                publishedHold = true;
+             }
+-            if (!held && incidents != 0)
++            else if (incidents != 0)
+             {
+                 HoldLocked(GenericBrokerFailure.InvalidState);
+-                newlyHeld = true;
++                publishedHold = true;
+             }
+-            // A signal-only incident above changes the real broker. Include that
+-            // publication, not the preceding Ordinary sample, in our observation.
+-            if (newlyHeld) observed = broker.GetSnapshot();
++            // Include the actual publication and retained cause, also on repeated
++            // held observations; a prior local fence must not mask the broker.
++            if (publishedHold) observed = broker.GetSnapshot();
+             return observed;
+         }
+ 

@@ -1,0 +1,25 @@
+00490A2A: jz      loc_490C87; G18: NONJ resolve. GF_LEVEL=avg existing GF levels, GF_BOOST=100, then Damage_ComputeRawDeltaFromAttackType.
+00490A30: xor     edx, edx; Logical Exclusive OR
+00490A32: mov     eax, 1
+00490A37: mov     dl, SG_CHOCOBO_WORLD_DATA.Level
+00490A3D: mov     esi, edx
+00490A3F: test    esi, esi; Logical Compare
+00490A41: jz      loc_490CB7; Jump if Zero (ZF=1)
+00490A47: mov     eax, esi
+00490A49: jmp     loc_490CB7; Jump
+00490A4E: mov     eax, [esp+20h+target_slot_offset]; jumptable 0049043B case 246
+00490A52: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+00490A59: or      byte ptr BATTLE_SLOT_DATA.status_1[eax], 1; Status write: status_1 |= 1 (command 246 branch).
+00490A60: xor     esi, esi; Logical Exclusive OR
+00490A62: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490A67: and     ecx, 0FFFFh; jumptable 0049043B cases 2,16,247
+00490A6D: xor     edx, edx; Logical Exclusive OR
+00490A6F: mov     dl, byte ptr unk_1D28DF3
+00490A75: lea     eax, [ecx+ecx*2]; Load Effective Address
+00490A78: xor     ecx, ecx; Logical Exclusive OR
+00490A7A: lea     esi, [edx+edx*2]; Load Effective Address
+00490A7D: lea     eax, [eax+eax*4]; Load Effective Address
+00490A80: shl     eax, 2; Shift Logical Left
+00490A83: lea     edx, [edx+esi*4]; Load Effective Address
+00490A86: mov     cl, K_MAGIC.attackFlags[eax]
+00490A8C: mov     ATTACK_FLAG, cl; | ID   | Meaning          |

@@ -1,0 +1,180 @@
+{
+  "ea": "0x50C780",
+  "name_label_only": "BattleModel_ApplyH4UvSlot",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50c780",
+      "end": "0x50c852",
+      "hex": "8b44240483ec088a0856f6c1020f84ba0000008b90840000008b423085c00f84a90000008b4c2414668b34486685f60f849800000081e6ffff00005303f08b5c241c33c0578a0633c98bf833c0668b4202ba01000000d3e285d074078bd74f85d274084183f90c7ce8eb028bf98bc783e701660fb64c5e08992bc2d1f883c00ac1e00603c866894c240c660fb6545e09c1e70703d7668954240e660fb64e0366894c2410660fb656046689542412660fb64e02660fb6560103cf03d0518d4424105250e86896ffff83c40c5f5b5e83c408c3"
+    }
+  ],
+  "assembly": "0050C780: mov     eax, [esp+actor]\n0050C784: sub     esp, 8; Integer Subtraction\n0050C787: mov     cl, [eax]\n0050C789: push    esi\n0050C78A: test    cl, 2; Logical Compare\n0050C78D: jz      loc_50C84D; Jump if Zero (ZF=1)\n0050C793: mov     edx, [eax+84h]\n0050C799: mov     eax, [edx+30h]\n0050C79C: test    eax, eax; Logical Compare\n0050C79E: jz      loc_50C84D; Jump if Zero (ZF=1)\n0050C7A4: mov     ecx, [esp+0Ch+h4Index]\n0050C7A8: mov     si, [eax+ecx*2]\n0050C7AC: test    si, si; Logical Compare\n0050C7AF: jz      loc_50C84D; Jump if Zero (ZF=1)\n0050C7B5: and     esi, 0FFFFh; Logical AND\n0050C7BB: push    ebx\n0050C7BC: add     esi, eax; Add\n0050C7BE: mov     ebx, [esp+10h+frame]\n0050C7C2: xor     eax, eax; Logical Exclusive OR\n0050C7C4: push    edi\n0050C7C5: mov     al, [esi]\n0050C7C7: xor     ecx, ecx; Logical Exclusive OR\n0050C7C9: mov     edi, eax\n0050C7CB: xor     eax, eax; Logical Exclusive OR\n0050C7CD: mov     ax, [edx+2]\n0050C7D1: mov     edx, 1\n0050C7D6: shl     edx, cl; Shift Logical Left\n0050C7D8: test    eax, edx; Logical Compare\n0050C7DA: jz      short loc_50C7E3; Jump if Zero (ZF=1)\n0050C7DC: mov     edx, edi\n0050C7DE: dec     edi; Decrement by 1\n0050C7DF: test    edx, edx; Logical Compare\n0050C7E1: jz      short loc_50C7EB; Jump if Zero (ZF=1)\n0050C7E3: inc     ecx; Increment by 1\n0050C7E4: cmp     ecx, 0Ch; Compare Two Operands\n0050C7E7: jl      short loc_50C7D1; Jump if Less (SF!=OF)\n0050C7E9: jmp     short loc_50C7ED; Jump\n0050C7EB: mov     edi, ecx\n0050C7ED: mov     eax, edi\n0050C7EF: and     edi, 1; Logical AND\n0050C7F2: movzx   cx, byte ptr [esi+ebx*2+8]; Move with Zero-Extend\n0050C7F8: cdq; EAX -> EDX:EAX (with sign)\n0050C7F9: sub     eax, edx; Integer Subtraction\n0050C7FB: sar     eax, 1; Shift Arithmetic Right\n0050C7FD: add     eax, 0Ah; Add\n0050C800: shl     eax, 6; Shift Logical Left\n0050C803: add     ecx, eax; Add\n0050C805: mov     [esp+14h+var_8], cx\n0050C80A: movzx   dx, byte ptr [esi+ebx*2+9]; Move with Zero-Extend\n0050C810: shl     edi, 7; Shift Logical Left\n0050C813: add     edx, edi; Add\n0050C815: mov     [esp+14h+var_6], dx\n0050C81A: movzx   cx, byte ptr [esi+3]; Move with Zero-Extend\n0050C81F: mov     [esp+14h+var_4], cx\n0050C824: movzx   dx, byte ptr [esi+4]; Move with Zero-Extend\n0050C829: mov     [esp+14h+var_2], dx\n0050C82E: movzx   cx, byte ptr [esi+2]; Move with Zero-Extend\n0050C833: movzx   dx, byte ptr [esi+1]; Move with Zero-Extend\n0050C838: add     ecx, edi; Add\n0050C83A: add     edx, eax; Add\n0050C83C: push    ecx\n0050C83D: lea     eax, [esp+18h+var_8]; Load Effective Address\n0050C841: push    edx\n0050C842: push    eax\n0050C843: call    BattleTimQueue_EnqueueType3; enqueue slot type 3 (packed coords)\n0050C848: add     esp, 0Ch; Add\n0050C84B: pop     edi\n0050C84C: pop     ebx\n0050C84D: pop     esi\n0050C84E: add     esp, 8; Add\n0050C851: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50c780",
+      "end": "0x50c793",
+      "successors": [
+        "0x50c793",
+        "0x50c84d"
+      ]
+    },
+    {
+      "start": "0x50c793",
+      "end": "0x50c7a4",
+      "successors": [
+        "0x50c7a4",
+        "0x50c84d"
+      ]
+    },
+    {
+      "start": "0x50c7a4",
+      "end": "0x50c7b5",
+      "successors": [
+        "0x50c7b5",
+        "0x50c84d"
+      ]
+    },
+    {
+      "start": "0x50c7b5",
+      "end": "0x50c7d1",
+      "successors": [
+        "0x50c7d1"
+      ]
+    },
+    {
+      "start": "0x50c7d1",
+      "end": "0x50c7dc",
+      "successors": [
+        "0x50c7dc",
+        "0x50c7e3"
+      ]
+    },
+    {
+      "start": "0x50c7dc",
+      "end": "0x50c7e3",
+      "successors": [
+        "0x50c7e3",
+        "0x50c7eb"
+      ]
+    },
+    {
+      "start": "0x50c7e3",
+      "end": "0x50c7e9",
+      "successors": [
+        "0x50c7d1",
+        "0x50c7e9"
+      ]
+    },
+    {
+      "start": "0x50c7e9",
+      "end": "0x50c7eb",
+      "successors": [
+        "0x50c7ed"
+      ]
+    },
+    {
+      "start": "0x50c7eb",
+      "end": "0x50c7ed",
+      "successors": [
+        "0x50c7ed"
+      ]
+    },
+    {
+      "start": "0x50c7ed",
+      "end": "0x50c84d",
+      "successors": [
+        "0x50c84d"
+      ]
+    },
+    {
+      "start": "0x50c84d",
+      "end": "0x50c852",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x502b21",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502ab0"
+    },
+    {
+      "from": "0x502b34",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502ab0"
+    },
+    {
+      "from": "0x505218",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x50524f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x505271",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x5055d7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x5057fc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5057d0"
+    },
+    {
+      "from": "0x505839",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5057d0"
+    },
+    {
+      "from": "0x509daf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x509d10"
+    },
+    {
+      "from": "0x509dc9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x509d10"
+    },
+    {
+      "from": "0x509de2",
+      "type": 17,
+      "iscode": true,
+      "function": "0x509d10"
+    },
+    {
+      "from": "0x50c9e4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50c950"
+    }
+  ],
+  "code_targets": [
+    "0x505eb0"
+  ],
+  "instruction_count": 71
+}

@@ -1,0 +1,25 @@
+00495CA1: push    edi
+00495CA2: mov     [esi+18Ch], eax
+00495CA8: call    domain__GetCharacter_HitStatus1; Call Procedure
+00495CAD: push    edi
+00495CAE: mov     [esi+1B4h], ax
+00495CB5: call    domain__GetCharacter_AttackFlags; Call Procedure
+00495CBA: add     esp, 0Ch; Add
+00495CBD: mov     [esi+1B6h], ax
+00495CC4: xor     ebx, ebx; Logical Exclusive OR
+00495CC6: push    ebx
+00495CC7: push    edi
+00495CC8: call    domain__GetCharacter_MentalRes; Call Procedure
+00495CCD: add     esp, 8; Add
+00495CD0: mov     [esi+ebx+1A4h], al
+00495CD7: inc     ebx; Increment by 1
+00495CD8: cmp     ebx, 0Dh; Compare Two Operands
+00495CDB: jl      short loc_495CC6; Jump if Less (SF!=OF)
+00495CDD: test    dword ptr [esi+188h], 60000h; Logical Compare
+00495CE7: jz      short loc_495D31; Jump if Zero (ZF=1)
+00495CE9: lea     edx, [esi+1Eh]; Load Effective Address
+00495CEC: xor     eax, eax; Logical Exclusive OR
+00495CEE: mov     ecx, edx
+00495CF0: cmp     byte ptr [ecx], 2; Compare Two Operands
+00495CF3: jz      short loc_495D03; Jump if Zero (ZF=1)
+00495CF5: inc     eax; Increment by 1

@@ -1,0 +1,25 @@
+005095B0: mov     eax, [esp+arg_0]
+005095B4: push    ebx
+005095B5: push    edi
+005095B6: xor     edi, edi; Logical Exclusive OR
+005095B8: mov     ecx, [eax+4]
+005095BB: mov     ebx, [ecx]
+005095BD: cmp     byte ptr [ebx], 0; Compare Two Operands
+005095C0: jbe     short loc_5095E4; Jump if Below or Equal (CF=1 | ZF=1)
+005095C2: push    ebp
+005095C3: mov     ebp, [esp+0Ch+arg_4]
+005095C7: push    esi
+005095C8: lea     esi, [ebx+20h]; Load Effective Address
+005095CB: push    esi
+005095CC: push    esi
+005095CD: push    ebp
+005095CE: call    Mat_ComposeTwoThenCopy8; E3a: call 0x56C090 + call 0x56C600(edi+0x14) + add [esi+14/18/1C] + rep movsd 8 dwords to arg8 (38 insns).
+005095D3: xor     edx, edx; Logical Exclusive OR
+005095D5: add     esp, 0Ch; Add
+005095D8: mov     dl, [ebx]
+005095DA: add     esi, 30h ; '0'; Add
+005095DD: inc     edi; Increment by 1
+005095DE: cmp     edi, edx; Compare Two Operands
+005095E0: jl      short loc_5095CB; Jump if Less (SF!=OF)
+005095E2: pop     esi
+005095E3: pop     ebp

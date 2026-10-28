@@ -1,0 +1,25 @@
+005105D7: mov     [eax+24h], cx
+005105DB: xor     ecx, ecx; Logical Exclusive OR
+005105DD: mov     cx, [ebx+4]
+005105E1: mov     ebx, [esp+38h+packet]
+005105E5: xor     edx, edx; Logical Exclusive OR
+005105E7: mov     dx, [ebx+4]
+005105EB: xor     ebx, ebx; Logical Exclusive OR
+005105ED: mov     bx, [ebp+4]
+005105F1: mov     ebp, [esp+38h+var_20]
+005105F5: mov     [esp+38h+packet], ebx
+005105F9: xor     ebx, ebx; Logical Exclusive OR
+005105FB: mov     bx, [ebp+4]
+005105FF: cmp     edx, ecx; Compare Two Operands
+00510601: mov     [esp+38h+var_4], ebx
+00510605: mov     ebx, ecx
+00510607: jge     short loc_51060B; Jump if Greater or Equal (SF=OF)
+00510609: mov     ebx, edx
+0051060B: mov     ebp, [esp+38h+packet]
+0051060F: cmp     ebp, ebx; Compare Two Operands
+00510611: jge     short loc_510615; Jump if Greater or Equal (SF=OF)
+00510613: mov     ebx, ebp
+00510615: mov     ebp, [esp+38h+var_4]
+00510619: cmp     ebp, ebx; Compare Two Operands
+0051061B: jge     short loc_51061F; Jump if Greater or Equal (SF=OF)
+0051061D: mov     ebx, ebp

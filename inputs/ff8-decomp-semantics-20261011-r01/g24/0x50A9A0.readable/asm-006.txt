@@ -1,0 +1,25 @@
+0050AB47: jz      def_50A9C9; jumptable 0050A9C9 default case
+0050AB4D: inc     cl; Increment by 1
+0050AB4F: cmp     word ptr dword_1D99A90, 0; Compare Two Operands
+0050AB57: mov     [esi+0Dh], cl
+0050AB5A: jz      short loc_50ABCC; jumptable 0050A9C9 case 5
+0050AB5C: mov     ecx, dword_1D99A84
+0050AB62: xor     edx, edx; Logical Exclusive OR
+0050AB64: mov     dl, byte_1D99AAA
+0050AB6A: and     ecx, 0FFh; Logical AND
+0050AB70: push    1Bh; animId
+0050AB72: lea     eax, [ecx+ecx*4]; Load Effective Address
+0050AB75: shl     eax, 3; Shift Logical Left
+0050AB78: sub     eax, ecx; Integer Subtraction
+0050AB7A: lea     ecx, [edx+edx*4]; Load Effective Address
+0050AB7D: shl     ecx, 3; Shift Logical Left
+0050AB80: shl     eax, 2; Shift Logical Left
+0050AB83: sub     ecx, edx; Integer Subtraction
+0050AB85: mov     dx, word_1D972D4[eax]
+0050AB8C: shl     ecx, 2; Shift Logical Left
+0050AB8F: mov     word ptr dword_1D972DC[ecx], dx
+0050AB96: mov     dx, word_1D972D8[eax]
+0050AB9D: mov     word ptr dword_1D972E0[ecx], dx
+0050ABA4: mov     dx, word_1D972D8[eax]
+0050ABAB: add     dx, 320h; Add
+0050ABB0: mov     word ptr dword_1D972E0[eax], dx

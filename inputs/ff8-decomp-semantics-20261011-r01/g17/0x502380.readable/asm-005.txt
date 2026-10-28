@@ -1,0 +1,25 @@
+0050249C: movsx   edx, word ptr [esi+0Ah]; Move with Sign-Extend
+005024A0: lea     ecx, [eax+eax*4]; Load Effective Address
+005024A3: push    edx; animId
+005024A4: shl     ecx, 3; Shift Logical Left
+005024A7: sub     ecx, eax; Integer Subtraction
+005024A9: lea     edx, ds:1D972C0h[ecx*4]; Load Effective Address
+005024B0: push    edx; actor
+005024B1: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+005024B6: add     esp, 8; Add
+005024B9: mov     eax, 0Fh
+005024BE: pop     edi
+005024BF: pop     esi
+005024C0: pop     ebx
+005024C1: retn; Return Near from Procedure
+005024C2: push    esi; jumptable 0050239A case 112
+005024C3: call    au_re_BdLinkTask_1; Call Procedure
+005024C8: add     esp, 4; Add
+005024CB: pop     edi
+005024CC: pop     esi
+005024CD: pop     ebx
+005024CE: retn; Return Near from Procedure
+005024CF: xor     edi, edi; jumptable 0050239A case 108
+005024D1: mov     esi, offset dword_1D972C8
+005024D6: mov     bl, 2
+005024D8: test    [esi-8], bl; Logical Compare

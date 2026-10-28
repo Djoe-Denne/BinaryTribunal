@@ -25,6 +25,9 @@ import ff8dump
 
 BUILD = 0x5642
 BUILD_V16 = 0x5643                   # v16-lot25 : meme format, auto-install stage0
+BUILD_V17 = 0x5644                   # v17-lot25 : meme format, candidat suivant
+BUILD_V18 = 0x5646                   # v18-lot25 : NO_HOT_UNLOAD, meme format
+SUPPORTED_BUILDS = (BUILD, BUILD_V16, BUILD_V17, BUILD_V18)
 MAGIC_ST = 0x39305453              # 'ST09', unchanged since v14
 ST_HDR = struct.Struct('<10I')     # magic, build, seq, epoch, kind, type,
 #                                  value, aux, ctx_token, device_token
@@ -212,7 +215,8 @@ def _prevalidate(data, expected_build=BUILD):
 
 
 def parse_strict(data: bytes, build: int = BUILD) -> dict:
-    _require(build in (BUILD, BUILD_V16), 'unsupported build', 0)
+    _require(type(build) is int, 'unsupported build selector', 0)
+    _require(build in SUPPORTED_BUILDS, 'unsupported build', 0)
     records, contexts, textures, resources, events, draws = _prevalidate(data, build)
     for draw in draws:
         draw['ctx'] = contexts[draw['offset']]
@@ -314,16 +318,18 @@ def _stage0_binding(draw, prefix_events, epoch):
 
 def _validate_replay_input(parsed):
     """Replay is public: do not trust a hand-edited parsed dictionary.
-    v16: un seul build uniforme requis (0x5642 ou 0x5643, meme format)."""
+    Un seul build uniforme requis parmi SUPPORTED_BUILDS (meme format)."""
     events = sorted(parsed['events'], key=lambda item: item['offset'])
     draws = sorted(parsed['draws'], key=lambda item: item['offset'])
     offsets, ordinals, counts = set(), set(), Counter()
     previous_epoch = 0
     builds = ({e.get('build') for e in events} |
               {d.get('build') for d in draws})
-    _require(len(builds) == 1 and builds <= {BUILD, BUILD_V16},
+    _require(len(builds) == 1 and builds <= set(SUPPORTED_BUILDS),
              'mixed or unknown builds in parsed dict', 0)
     rbuild = builds.pop()
+    _require(type(parsed.get('build')) is int and parsed['build'] == rbuild,
+             'top-level build mismatch in parsed dict', 0)
     for event in events:
         _validate_event(event, rbuild)
         _require(event['epoch'] > previous_epoch,
@@ -343,6 +349,8 @@ def _validate_replay_input(parsed):
                       'stage0_hr', 'st_emitted', 'st_lost'):
             _require(type(draw.get(field)) is int and 0 <= draw[field] <= 0xFFFFFFFF,
                      f'invalid ND u32 {field}', draw['offset'])
+        _require(draw['build'] == rbuild, 'ND record build mismatch',
+                 draw['offset'])
         _require(draw['kind'] in (0, 1, 2),
                  'invalid ND replay record', draw['offset'])
         _require(draw['fails'] == 0, 'ND failed read', draw['offset'])
@@ -431,15 +439,15 @@ def replay_strict(parsed: dict) -> dict:
             'reanchor_available': False, 'surface_not_captured': list(SURFACE_NOT_CAPTURED)}
 
 
-def audit_bytes(data: bytes) -> dict:
+def audit_bytes(data: bytes, build: int = BUILD) -> dict:
     result = {'sha256': hashlib.sha256(data).hexdigest(), 'byte_count': len(data)}
     try:
-        parsed = parse_strict(data)
+        parsed = parse_strict(data, build=build)
         replay = replay_strict(parsed)
     except ContractError as exc:
         return dict(result, accepted=False, error=str(exc))
     result.update(replay)
-    result.update(accepted=True, build=BUILD, frames=parsed['frames'],
+    result.update(accepted=True, build=parsed['build'], frames=parsed['frames'],
                   counters={key: parsed[key] for key in
                             ('st_records', 'nd_records', 'tx_records', 'tr_records')},
                   tx_metadata=parsed['tx_metadata'], tr_metadata=parsed['tr_metadata'])
@@ -449,10 +457,13 @@ def audit_bytes(data: bytes) -> dict:
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('capture', type=Path)
+    parser.add_argument('--build', dest='build',
+                        type=lambda value: int(value, 0),
+                        choices=SUPPORTED_BUILDS, default=BUILD)
     parser.add_argument('--out', type=Path)
     args = parser.parse_args(argv)
     try:
-        result = audit_bytes(args.capture.read_bytes())
+        result = audit_bytes(args.capture.read_bytes(), build=args.build)
         text = json.dumps(result, indent=2, sort_keys=True) + '\n'
         if args.out:
             args.out.write_text(text, encoding='utf-8')

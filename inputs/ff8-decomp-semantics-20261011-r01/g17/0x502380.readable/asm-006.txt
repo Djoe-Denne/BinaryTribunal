@@ -1,0 +1,25 @@
+005024DB: jz      short loc_5024EC; Jump if Zero (ZF=1)
+005024DD: push    1
+005024DF: push    18h
+005024E1: push    edi
+005024E2: call    sub_503190; Call Procedure
+005024E7: add     esp, 0Ch; Add
+005024EA: jmp     short loc_5024F2; Jump
+005024EC: or      dword ptr [esi], offset VIT_0_STATUS_MASK?; Logical Inclusive OR
+005024F2: add     esi, 9Ch; Add
+005024F8: inc     edi; Increment by 1
+005024F9: cmp     esi, offset dword_1D9749C; Compare Two Operands
+005024FF: jl      short loc_5024D8; Jump if Less (SF!=OF)
+00502501: pop     edi
+00502502: pop     esi
+00502503: mov     eax, 0Fh
+00502508: pop     ebx
+00502509: retn; Return Near from Procedure
+0050250A: xor     edi, edi; jumptable 0050239A case 109
+0050250C: mov     esi, offset dword_1D972C8
+00502511: mov     bl, 2
+00502513: test    [esi-8], bl; Logical Compare
+00502516: jz      short loc_502527; Jump if Zero (ZF=1)
+00502518: push    0
+0050251A: push    18h
+0050251C: push    edi

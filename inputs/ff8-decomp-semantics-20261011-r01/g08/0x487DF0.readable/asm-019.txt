@@ -1,0 +1,25 @@
+0048844A: and     eax, 0FFFFh; Logical AND
+0048844F: add     eax, ecx; Add
+00488451: mov     ebp, eax
+00488453: push    offset domain__EnemyAI_TextAfterAttackCallback
+00488458: call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+0048845D: movsx   edi, ax; Move with Sign-Extend
+00488460: shl     edi, 4; Shift Logical Left
+00488463: push    ebp
+00488464: add     edi, offset dword_1D28C44; Add
+0048846A: call    domain__BattleScript_DisplayText; Call Procedure
+0048846F: add     esp, 8; Add
+00488472: mov     [edi+4], eax
+00488475: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048847A: mov     dl, [esi]; AI VM op 0x22 SET_ATTACK_TEXT_PARAM: after-attack text id(1) + numeric param(1)
+0048847C: mov     al, [esi+1]
+0048847F: inc     esi; Increment by 1
+00488480: mov     [esp+74h+opcode_param_1], dl
+00488484: mov     edx, [esp+74h+p_text_offset_section]
+0048848B: mov     [esp+74h+op_param_2], al
+0048848F: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+00488493: inc     esi; Increment by 1
+00488494: and     ecx, edi; Logical AND
+00488496: mov     ax, [edx+ecx*2]
+0048849A: cmp     ax, 0FFFFh; Compare Two Operands
+0048849E: jnz     short loc_4884A7; Jump if Not Zero (ZF=0)

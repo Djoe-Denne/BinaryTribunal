@@ -1,0 +1,25 @@
+004882B7: add     esp, 8; Add
+004882BA: mov     byte_1D28E13, al
+004882BF: lea     edx, ds:8[ecx*8]; Load Effective Address
+004882C6: push    56h ; 'V'
+004882C8: push    80h
+004882CD: push    3
+004882CF: push    edx
+004882D0: push    75h ; 'u'
+004882D2: call    domain__BattleText_GetMiscText; Call Procedure
+004882D7: add     esp, 4; Add
+004882DA: push    eax
+004882DB: push    0Bh
+004882DD: call    domain__BattleText_GetMiscText; Call Procedure
+004882E2: mov     al, [eax]
+004882E4: add     esp, 4; Add
+004882E7: xor     ecx, ecx; Logical Exclusive OR
+004882E9: mov     cl, byte_1D28E12
+004882EF: push    eax
+004882F0: push    ecx
+004882F1: call    domain__BattleText_GetMagicName; Call Procedure
+004882F6: add     esp, 4; Add
+004882F9: push    eax
+004882FA: push    0Bh
+004882FC: call    domain__BattleText_GetMiscText; Call Procedure
+00488301: mov     dl, [eax]

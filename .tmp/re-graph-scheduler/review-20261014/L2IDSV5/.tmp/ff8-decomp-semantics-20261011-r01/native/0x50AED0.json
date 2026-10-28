@@ -1,0 +1,130 @@
+{
+  "ea": "0x50AED0",
+  "name_label_only": "BattleActionSequence_ReleaseCamera",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50aed0",
+      "end": "0x50af1f",
+      "hex": "803d1a77d90103742666833d1877d90100750aa10477d901f6c480741266c7051877d901000066c7051e77d90100106681250477d901ff7fb8c072d901668120ff87059c0000003d0477d9017cefc3"
+    }
+  ],
+  "assembly": "0050AED0: cmp     byte ptr g_BattleCameraFlags+2, 3; Vague D: cmp BYTE2==3. Pas de writer .text. Mortes-ou-live.\n0050AED7: jz      short loc_50AEFF; Jump if Zero (ZF=1)\n0050AED9: cmp     word ptr g_BattleCameraFlags, 0; Compare Two Operands\n0050AEE1: jnz     short loc_50AEED; Jump if Not Zero (ZF=0)\n0050AEE3: mov     eax, dword_1D97704\n0050AEE8: test    ah, 80h; Logical Compare\n0050AEEB: jz      short loc_50AEFF; Jump if Zero (ZF=1)\n0050AEED: mov     word ptr g_BattleCameraFlags, 0\n0050AEF6: mov     word_1D9771E, 1000h\n0050AEFF: and     word ptr dword_1D97704, 7FFFh; Logical AND\n0050AF08: mov     eax, offset g_BattlePresentationActors\n0050AF0D: and     word ptr [eax], 87FFh; Logical AND\n0050AF12: add     eax, 9Ch; Add\n0050AF17: cmp     eax, offset dword_1D97704; Compare Two Operands\n0050AF1C: jl      short loc_50AF0D; Jump if Less (SF!=OF)\n0050AF1E: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50aed0",
+      "end": "0x50aed9",
+      "successors": [
+        "0x50aed9",
+        "0x50aeff"
+      ]
+    },
+    {
+      "start": "0x50aed9",
+      "end": "0x50aee3",
+      "successors": [
+        "0x50aee3",
+        "0x50aeed"
+      ]
+    },
+    {
+      "start": "0x50aee3",
+      "end": "0x50aeed",
+      "successors": [
+        "0x50aeed",
+        "0x50aeff"
+      ]
+    },
+    {
+      "start": "0x50aeed",
+      "end": "0x50aeff",
+      "successors": [
+        "0x50aeff"
+      ]
+    },
+    {
+      "start": "0x50aeff",
+      "end": "0x50af0d",
+      "successors": [
+        "0x50af0d"
+      ]
+    },
+    {
+      "start": "0x50af0d",
+      "end": "0x50af1e",
+      "successors": [
+        "0x50af1e",
+        "0x50af0d"
+      ]
+    },
+    {
+      "start": "0x50af1e",
+      "end": "0x50af1f",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50acc9",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50a9a0"
+    },
+    {
+      "from": "0x50b111",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b0c0"
+    },
+    {
+      "from": "0x50b25c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b190"
+    },
+    {
+      "from": "0x50b77d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b2a0"
+    },
+    {
+      "from": "0x50bab3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b830"
+    },
+    {
+      "from": "0x50bbf7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bb00"
+    },
+    {
+      "from": "0x50bcc7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bc20"
+    },
+    {
+      "from": "0x50be21",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bdc0"
+    },
+    {
+      "from": "0x50bf25",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bee0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 16
+}

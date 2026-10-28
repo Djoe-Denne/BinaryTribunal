@@ -1,0 +1,25 @@
+00506690: push    ebx; Presentation/domain seam: applies result/status first via 0x493D80, then restores animations/spawns reactions and finally creates damage popups via 0x5068B0. Popup creation itself does not mutate HP.
+00506691: push    esi
+00506692: mov     esi, [esp+8+result_event]
+00506696: xor     eax, eax; Logical Exclusive OR
+00506698: push    edi
+00506699: push    esi; unsigned __int8 *
+0050669A: mov     al, [esi]
+0050669C: lea     ecx, [eax+eax*4]; Load Effective Address
+0050669F: shl     ecx, 3; Shift Logical Left
+005066A2: sub     ecx, eax; Integer Subtraction
+005066A4: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address
+005066AB: call    domain__BattleAction_ResolveAndApplyStatusResult; When summon-start flag 0x20000 is present and the slot still has GF Summoning, seed F_CHAR_ACTIVE_SUMMON_HP and slot.target_info_mask from SG_GF_CURRENT_HP_ using F_CHAR_ACTIVE_SUMMON_GF_ID.
+005066B0: mov     al, [edi+4]
+005066B3: add     esp, 4; Add
+005066B6: cmp     al, 8Ch; Compare Two Operands
+005066B8: jnz     short loc_5066C4; Jump if Not Zero (ZF=0)
+005066BA: push    3
+005066BC: call    BS_DispatchStageById; [chunk-iso 2026-09-12] reconstructed C in regular function comment (iso vs ASM)
+005066C1: add     esp, 4; Add
+005066C4: mov     ax, [edi]
+005066C7: test    al, 2; Logical Compare
+005066C9: jz      loc_50684F; Jump if Zero (ZF=1)
+005066CF: test    al, 10h; Logical Compare
+005066D1: jnz     loc_50684F; Jump if Not Zero (ZF=0)
+005066D7: mov     ax, [esi+4]

@@ -1,0 +1,125 @@
+{
+  "at": "2026-10-16T12:12:30.855Z",
+  "team": "team_mv6tmopg_0000_4urn3c",
+  "lead": {
+    "session": "ses_eca40a8e2ffeanEKTBLiGjDNw8",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "providerID": "openai",
+      "variant": "xhigh"
+    }
+  },
+  "migration19to20UserReportedVerifiedNotReopenedByUs": true,
+  "operatorPause": {
+    "alreadyAbsentInPersistentConfig": true,
+    "transport": [
+      "team_mv41qy6o_0000_vbge32"
+    ],
+    "admission": [
+      "team_mv41qy6o_0000_vbge32"
+    ],
+    "targetUnpausedInBoth": true,
+    "ready": true,
+    "globalConfigSha256": "c9e6728c5ea359f4b79e94593a7d5fd40aa8088ff504decc1c1e23c002e9cb3c",
+    "noConfigurationMutationOrOtherMissionResume": true
+  },
+  "nativeGuardFields": [
+    "ready",
+    "configured",
+    "directory",
+    "availablePairs",
+    "admissionPausedTeams",
+    "pausedTeams"
+  ],
+  "capacity": {
+    "limit": 5,
+    "running": 0,
+    "starting": 0,
+    "available": 5,
+    "queued": 0,
+    "waiting": 0
+  },
+  "scheduling": {
+    "autoDispatch": false,
+    "autoScale": false
+  },
+  "providerPolicyRevision": 4,
+  "modelPolicyRevision": 2,
+  "mode": "legacy preserved; no new grid imposed",
+  "workerModels": {
+    "l8": {
+      "id": "gpt-6.1-sol",
+      "providerID": "openai",
+      "variant": "max"
+    },
+    "l7": {
+      "id": "gpt-6-astra",
+      "providerID": "openai",
+      "variant": "max"
+    }
+  },
+  "remainingNativeTasks": [
+    {
+      "id": "task_mv6towra_000b_756q9i",
+      "status": "in_progress",
+      "assignee": "l7-qa-r3",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ]
+    },
+    {
+      "id": "task_mv6towrm_000c_24005n",
+      "status": "in_progress",
+      "assignee": "l8-integration-r1",
+      "dependsOn": [
+        "task_mv6towp7_0006_hb6tr0",
+        "task_mv6towpp_0007_tknxf8",
+        "task_mv6towqd_0009_ngf09c",
+        "task_mv6towqs_000a_vf0m47"
+      ]
+    },
+    {
+      "id": "task_mv6towry_000d_c1nxby",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mv6towrm_000c_24005n"
+      ]
+    },
+    {
+      "id": "task_mv6towsa_000e_w4cpxc",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mv6towra_000b_756q9i",
+        "task_mv6towrm_000c_24005n",
+        "task_mv6towry_000d_c1nxby"
+      ]
+    },
+    {
+      "id": "task_mv71y0s6_004q_ksbii0",
+      "status": "in_progress",
+      "assignee": "l7-interop-r1",
+      "dependsOn": [
+        "task_mv717o3c_0049_j4dthw",
+        "task_mv71p2r6_004h_rfvlmr",
+        "task_mv6towpp_0007_tknxf8"
+      ]
+    },
+    {
+      "id": "task_mv9wspa8_0058_bz8uxd",
+      "status": "in_progress",
+      "assignee": "l7-namespace-astra",
+      "dependsOn": []
+    }
+  ],
+  "confirmedWorkingPoint": {
+    "acceptedMain275Unchanged": true,
+    "L8runtime15StillOriginalBlockedPins": true,
+    "L7sourceStillGreen6d00": true,
+    "userSelectedSolMaxTargetedCorrectionBeforeUpgrade": true,
+    "next": "persist explicit user route, prepare pinned L8 corrective access, actualACK then PLAN only; no code before plan ratified",
+    "L7parent131PassVerifiedFullSeparatePending": true
+  },
+  "noMissionRecreatedWorkerRestartedOrOldReviewReopened": true
+}

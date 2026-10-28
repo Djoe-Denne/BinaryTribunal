@@ -1,0 +1,28 @@
+{
+  "fixtureId": "knowledge-commit-level1",
+  "schemaId": "https://re-ff8.local/schemas/knowledge-commit-v1",
+  "schemaFile": "knowledge-commit-v1.schema.json",
+  "schemaCanonicalSha256": "ff839a40749abcef20090c7c6c3744ba40fb37f24de00bf611f31eefc42a2af1",
+  "contentFile": "content.json",
+  "reorderedFile": "reordered.json",
+  "volatileFile": "volatile.json",
+  "contentSha256": "6e4ed4ddfd64b0e778fb9c46a65682d330223cbc3a00966f002535d37d1e0353",
+  "canonicalAlgorithm": "tools/ff8-harness/src/validation.ts canonical()+hash(); sha256 of the canonical string, not of pretty-printed bytes",
+  "hashed": "entire content.json via canonical(); arrays are pre-ordered; digest fields are included after they are computed",
+  "volatileKeys": [
+    "observedAtUtc",
+    "writer",
+    "note"
+  ],
+  "expectedSchema": "accept",
+  "expectedContract": "accept",
+  "oracle": false,
+  "quarantine": false,
+  "extraContents": [],
+  "utf8Probe": null,
+  "notes": [
+    "Volatile keys must not appear in content.",
+    "Changing volatile.json must not change contentSha256.",
+    "Level 3 IDB publication is not representable."
+  ]
+}

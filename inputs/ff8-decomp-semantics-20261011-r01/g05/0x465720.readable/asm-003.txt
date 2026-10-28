@@ -1,0 +1,25 @@
+004657BC: sar     edx, cl; Shift Arithmetic Right
+004657BE: add     eax, edx; Add
+004657C0: lea     ecx, [ebp+eax*2+0]; Load Effective Address
+004657C4: push    ecx; unsigned __int8 *
+004657C5: call    TexStaging_BlitCLUTAlpha; Vague C: frere blit CLUT-alpha de TexStaging_BlitRows (lookup CLUT, alpha <<12).
+004657CA: mov     eax, [ebx+0BA8h]
+004657D0: add     esp, 24h; Add
+004657D3: db  5Fh ; _; E2 IDB=PE VRAM RESOLU: 85 C0 0F 85 3F 01 00 00 8B 56 44...; garder la regle de recoupement PE
+004657D5: db  5Dh ; ]
+004657DB: db    0
+004657DE: db  2Eh ; .; Logical AND
+004657E1: db  5Bh ; [
+004657E4: test    ebp, ebp; Logical Compare
+004657E6: mov     [esp+9Ch+var_80], ebp
+004657EA: jz      loc_46591A; Jump if Zero (ZF=1)
+004657F0: mov     eax, [ebp+98h]
+004657F6: test    eax, eax; Logical Compare
+004657F8: jz      loc_46591A; Jump if Zero (ZF=1)
+004657FE: mov     eax, [ebx+0BECh]
+00465804: test    eax, eax; Logical Compare
+00465806: jz      loc_46588F; Jump if Zero (ZF=1)
+0046580C: mov     ebp, [ebp+8]
+0046580F: push    0
+00465811: lea     edx, [esp+0A0h+var_7C]; Load Effective Address
+00465815: push    21h ; '!'

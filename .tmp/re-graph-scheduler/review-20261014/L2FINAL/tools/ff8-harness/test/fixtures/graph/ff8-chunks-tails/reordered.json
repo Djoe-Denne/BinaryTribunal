@@ -1,0 +1,178 @@
+{
+  "configFingerprint": "7035734431a187c2e1faea2d2685b11794dccb9abcb378071dd5b2659469425f",
+  "toolVersions": {
+    "normalizer": "graph-contract-v1",
+    "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+    "extractor": "fixture-extractor"
+  },
+  "coverage": {
+    "selfLoopsPreserved": true,
+    "tailsIterated": true,
+    "uncoveredReason": null,
+    "status": "complete"
+  },
+  "scope": {
+    "functionCount": 2,
+    "moduleSha256s": [
+      "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+    ],
+    "description": "Synthetic FF8-shaped chunks and a tail jump. Tail transfer is A to B, not a second identity and not DATA."
+  },
+  "knowledgeRevision": 1,
+  "normalizedFingerprint": "75e95527eda488cc8e6770ca68457c44500048a87120a3a7657ee63478af23d1",
+  "capabilities": [],
+  "unresolved": [],
+  "objects": [],
+  "edges": [
+    {
+      "schedulerRelevance": "may_block",
+      "retiredInRevision": null,
+      "appearedInRevision": 1,
+      "confidence": "high",
+      "status": "observed",
+      "sites": [
+        {
+          "provenance": {
+            "evidenceSha256": "349edc71a0827ede6158c03d280723a5ca508da6ef19868c4201909ac7576e83",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "sourceVersion": "v1",
+            "source": "fixture-extractor",
+            "xrefType": "code",
+            "siteKind": "instruction",
+            "siteRva": "0xC208",
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+          },
+          "xrefType": "code",
+          "siteRva": "0xC208"
+        }
+      ],
+      "direction": "source_to_destination",
+      "kind": "tail_jump",
+      "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xC100",
+      "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xC000",
+      "id": "edge:b35e88c76f2e3825526dd98ac8bcfb5d75256ef0e41f8442e67cee28ef670bfd",
+      "schemaVersion": 1
+    }
+  ],
+  "nodes": [
+    {
+      "byteDivergence": {
+        "peSha256": null,
+        "frozenSha256": null,
+        "peMismatchByteCount": null,
+        "known": false
+      },
+      "admissibleAsOracle": false,
+      "byteAgreement": "unknown",
+      "analysisRefs": [],
+      "semanticMaturity": "none",
+      "status": "observed",
+      "functionClass": "internal",
+      "basicBlockCount": {
+        "value": null,
+        "known": false
+      },
+      "instructionCount": {
+        "value": null,
+        "known": false
+      },
+      "sizeBytes": {
+        "value": 128,
+        "known": true
+      },
+      "boundaries": [
+        {
+          "role": "entry",
+          "endRvaExclusive": "0xC040",
+          "rva": "0xC000",
+          "ordinal": 0
+        },
+        {
+          "role": "tail",
+          "endRvaExclusive": "0xC240",
+          "rva": "0xC200",
+          "ordinal": 1
+        }
+      ],
+      "observedDescription": "",
+      "name": "fixture_chunked",
+      "imageBase": "0x400000",
+      "ea": "0x40C000",
+      "rva": "0xC000",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xC000",
+      "schemaVersion": 1
+    },
+    {
+      "byteDivergence": {
+        "peSha256": null,
+        "frozenSha256": null,
+        "peMismatchByteCount": null,
+        "known": false
+      },
+      "admissibleAsOracle": false,
+      "byteAgreement": "unknown",
+      "analysisRefs": [],
+      "semanticMaturity": "none",
+      "status": "observed",
+      "functionClass": "internal",
+      "basicBlockCount": {
+        "value": null,
+        "known": false
+      },
+      "instructionCount": {
+        "value": null,
+        "known": false
+      },
+      "sizeBytes": {
+        "value": 16,
+        "known": true
+      },
+      "boundaries": [
+        {
+          "role": "entry",
+          "endRvaExclusive": "0xC110",
+          "rva": "0xC100",
+          "ordinal": 0
+        }
+      ],
+      "observedDescription": "",
+      "name": "fixture_tail_target",
+      "imageBase": "0x400000",
+      "ea": "0x40C100",
+      "rva": "0xC100",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0xC100",
+      "schemaVersion": 1
+    }
+  ],
+  "binaryArtifacts": [
+    {
+      "extractorVersion": "fixture-not-native",
+      "analysisVersion": "l1-contract-v1",
+      "provenance": {
+        "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "sourceVersion": "v1",
+        "source": "fixture-extractor",
+        "xrefType": "none",
+        "siteKind": "extractor",
+        "siteRva": null,
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "sections": [],
+      "idbIdentity": "",
+      "imageBase": "0x400000",
+      "architecture": "x86-32",
+      "format": "PE32",
+      "versionLabel": "fixture-v1",
+      "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "moduleName": "fixture-alpha.exe",
+      "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "schemaVersion": 1
+    }
+  ],
+  "missionId": "re-graph-scheduler-20261013",
+  "snapshotId": "snap:ff8-chunks-tails",
+  "schemaVersion": 1
+}

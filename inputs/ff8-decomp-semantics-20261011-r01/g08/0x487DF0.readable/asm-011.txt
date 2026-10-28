@@ -1,0 +1,25 @@
+004881A2: push    0
+004881A4: shl     edi, cl; Shift Logical Left
+004881A6: mov     ecx, [esp+84h+has_text_pending]
+004881AA: mov     AI_PREPARE_SUMMON_FLAG, 1
+004881B1: mov     byte ptr [esp+84h+command_type], 0
+004881B6: mov     [esp+84h+section_position], 3
+004881BE: inc     esi; Increment by 1
+004881BF: mov     byte ptr [esp+84h+ai_scratch_var], 0
+004881C4: push    edi
+004881C5: push    eax
+004881C6: push    ecx
+004881C7: push    3
+004881C9: push    0
+004881CB: push    ebx
+004881CC: mov     [esp+9Ch+p_monster_slot_id], edi
+004881D3: call    domain__BattleAction_BuildPayload; GetText: builds action payload. 7 args (slot,cmd,arg,param,target,mask,anim_id); LABEL_182 @ 0x48E34B freezes payload[+1]==CTI; cmd 3 returns 1 with NO snapshot; 7th arg is anim_id (NOT p_always_zero) (VA)
+004881D8: push    edi; p_target_mask
+004881D9: call    domain__BattleAction_ResolveTargetAndHitCount; Verified against FF8_EN.exe SHA-256 064d466b…: function entry is 0x48E830; 0x48EA93 is only the inner per-target call to 0x48FE20 (G09 damage resolver). Prefix decodes target_mask (low 13 bits/high 3 controls), resolves per-hit masks, Cover and count mirrors; tail resolves damage/events. G08 must reconstruct the prefix and never hook or execute this native function during ownership.
+004881DE: push    5; phase
+004881E0: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+004881E5: xor     edx, edx; Logical Exclusive OR
+004881E7: mov     dl, ATTACK_HIT_COUNT
+004881ED: dec     edx; Decrement by 1
+004881EE: push    edx; payload_index
+004881EF: call    BattleEvent_EnqueueActionPresentation; enqueue 'h' presentation task for payload slot; does NOT advance any counter (ex-misnomer)

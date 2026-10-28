@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/knowledge-delta-v1",
+  "title": "Knowledge delta v1",
+  "description": "Idempotent knowledge delta. A bulletin is not a delta. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "deltaId",
+    "fromRevision",
+    "toRevision",
+    "affectedFunctionIds",
+    "factIds",
+    "evidence",
+    "origin",
+    "validation",
+    "invalidations",
+    "potentialImpact"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "deltaId": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Idempotency key: sha256(canonical(document without this field)) 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "fromRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Starting knowledge revision"
+    },
+    "toRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Resulting revision. Equal to fromRevision for an empty delta."
+    },
+    "affectedFunctionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Function id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Affected functions"
+    },
+    "factIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Fact id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Facts added or restated"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source",
+          "sha256",
+          "detail"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Evidence id"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "Observation source"
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Evidence sha256 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800,
+            "description": "Concrete observation. Prose alone is not evidence."
+          }
+        },
+        "description": "Harness-shaped evidence reference"
+      },
+      "minItems": 0,
+      "maxItems": 64,
+      "description": "Evidence. Required nonempty when validation is parent-validated."
+    },
+    "origin": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Origin id. A bulletin id is not a valid origin."
+    },
+    "validation": {
+      "type": "string",
+      "enum": [
+        "parent-validated",
+        "fixture-only",
+        "unvalidated"
+      ],
+      "description": "A bulletin is not parent-validated knowledge"
+    },
+    "invalidations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Invalidated fact id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Facts invalidated for future consumers. History is retained."
+    },
+    "potentialImpact": {
+      "type": "string",
+      "enum": [
+        "local",
+        "structural",
+        "none"
+      ],
+      "description": "none is the empty-delta impact"
+    }
+  }
+}

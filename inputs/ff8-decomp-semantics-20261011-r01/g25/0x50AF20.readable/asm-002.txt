@@ -1,0 +1,13 @@
+0050AF83: call    Magic_ClearMemoryForTex; Call Procedure
+0050AF88: mov     eax, MagicList_TextureLoad[esi*4]; MagicList_TextureLoad[effect_id-1]: per-effect FILE LOADER (*_FL) pulling magNNN_b.00/.01 via IO_GetFile_MAGIC. Parallel to MagicList_Logic. Stride 4. Called by Magic_GetIDLoad before entry.
+0050AF8F: test    eax, eax; Logical Compare
+0050AF91: jz      short loc_50AF95; Jump if Zero (ZF=1)
+0050AF93: call    eax ; MAG_001_CURE_FL; Wave3: Cactuar id199 FL unique via Magic_LoadTexture_IO_GetsFile_DefaultArgs 0x5718E0, pas IO_GetFile_MAGIC
+0050AF95: call    Magic_GetFileArena; returns &g_MagicFileArena (ex-misnomer Magic_TextureOFF_ToEAX1)
+0050AF9A: mov     edx, [esp+204h+arg_4]
+0050AFA1: mov     ecx, MagicList_Logic[esi*4]; Get the function address for the nth magic. n being store in esi
+0050AFA8: mov     dword_1D99A88, eax
+0050AFAD: pop     esi
+0050AFAE: mov     [edx], ecx
+0050AFB0: add     esp, 200h; Add
+0050AFB6: retn; Return Near from Procedure

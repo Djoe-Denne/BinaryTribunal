@@ -1,0 +1,135 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "compaction": {
+    "keep": {
+      "tokens": 40000
+    }
+  },
+  "skills": [
+    "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261012-52e26eee373c/skills"
+  ],
+  "mcp": {
+    "servers": {
+      "context-mode": {
+        "type": "local",
+        "command": [
+          "C:\\Program Files\\nodejs\\node.exe",
+          "--require",
+          "C:\\Users\\djden\\.config\\opencode\\mcp-windows-hide\\preload.cjs",
+          "C:\\Users\\djden\\AppData\\Roaming\\npm\\node_modules\\context-mode\\start.mjs"
+        ],
+        "environment": {
+          "CONTEXT_MODE_PLATFORM": "opencode"
+        }
+      },
+      "google-ads-mcp": {
+        "disabled": true,
+        "type": "local",
+        "command": [
+          "powershell.exe",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\Users\\djden\\.config\\google-ads-mcp\\start-google-ads-mcp.ps1"
+        ]
+      },
+      "google-ads-write": {
+        "disabled": true,
+        "type": "local",
+        "command": [
+          "powershell.exe",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\Users\\djden\\.config\\google-ads-write\\start-google-ads-write.ps1"
+        ]
+      },
+      "qmd": {
+        "type": "local",
+        "command": [
+          "C:\\Program Files\\nodejs\\node.exe",
+          "C:\\Users\\djden\\AppData\\Roaming\\npm\\node_modules\\@tobilu\\qmd\\bin\\qmd",
+          "mcp"
+        ]
+      },
+      "playwright": {
+        "type": "local",
+        "command": [
+          "C:\\Program Files\\nodejs\\node.exe",
+          "C:\\Users\\djden\\AppData\\Roaming\\npm\\node_modules\\@playwright\\mcp\\cli.js",
+          "--caps=vision",
+          "--cdp-endpoint=http://127.0.0.1:9222"
+        ]
+      }
+    }
+  },
+  "agents": {
+    "explore": {
+      "permissions": [
+        {
+          "action": "execute",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "serena_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "grepai_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "qmd_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "context-mode_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "context_mode_*",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
+    }
+  },
+  "plugins": [
+    {
+      "package": "C:/Users/djden/.config/1mcp/lifecycle/opencode-plugin"
+    },
+    {
+      "package": "C:/Users/djden/source/repos/opencode-voice/dist/"
+    },
+    {
+      "package": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261013-model-admission-d398ac24bf2e"
+    },
+    {
+      "package": "C:/Users/djden/source/repos/jev-router-opencode-v2/plugins/jev-router",
+      "options": {
+        "provider": "opencode_zen",
+        "model": "jev-1.13-free",
+        "allowPaidModel": false,
+        "automation": false,
+        "autoPermission": false,
+        "toolSteering": "off",
+        "subagentRouting": "off",
+        "clarify": "off",
+        "failureAdvisor": "off",
+        "review": "off",
+        "validationRpc": false,
+        "timeoutMs": 15000
+      }
+    },
+    {
+      "package": "cursor-opencode-provider"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+004895A0: shl     eax, 4; Shift Logical Left
+004895A3: add     eax, offset BATTLE_SLOT_DATA; Add
+004895A8: and     edx, 0FFh; Logical AND
+004895AE: and     ecx, 0FFFFh; Logical AND
+004895B4: cmp     edx, 5; switch 6 cases
+004895B7: mov     eax, [eax+ebp*4-34Ch]
+004895BE: ja      def_488831; jumptable 00488831 default case
+004895C4: jmp     ds:jpt_4895C4[edx*4]; switch jump
+004895CB: cmp     eax, ecx; jumptable 004895C4 case 0
+004895CD: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004895D3: mov     edx, [esp+74h+jump_value]
+004895D7: and     edx, 0FFFFh; Logical AND
+004895DD: add     esi, edx; Add
+004895DF: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004895E4: mov     eax, ecx
+004895E6: jmp     short loc_489592; Jump
+004895E8: cmp     eax, ecx; jumptable 004895C4 case 1
+004895EA: jb      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004895F0: mov     edx, [esp+74h+jump_value]
+004895F4: and     edx, 0FFFFh; Logical AND
+004895FA: add     esi, edx; Add
+004895FC: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489601: cmp     eax, ecx; jumptable 004895C4 case 2
+00489603: ja      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489609: mov     edx, [esp+74h+jump_value]

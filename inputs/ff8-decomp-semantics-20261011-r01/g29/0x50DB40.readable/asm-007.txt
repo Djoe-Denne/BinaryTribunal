@@ -1,0 +1,25 @@
+0050DD1D: setnl   cl; Set Byte if Not Less (SF=OF)
+0050DD20: push    ecx
+0050DD21: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque
+0050DD26: mov     ecx, eax
+0050DD28: add     esp, 8; Add
+0050DD2B: mov     [esp+50h+arg_0], ecx
+0050DD2F: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DD34: xor     edx, edx; jumptable 0050DC8B case 233
+0050DD36: push    ecx
+0050DD37: test    esi, esi; Logical Compare
+0050DD39: setz    dl; Set Byte if Zero (ZF=1)
+0050DD3C: push    edx
+0050DD3D: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque
+0050DD42: mov     ecx, eax
+0050DD44: add     esp, 8; Add
+0050DD47: mov     [esp+50h+arg_0], ecx
+0050DD4B: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DD50: xor     eax, eax; jumptable 0050DC8B case 234
+0050DD52: push    ecx
+0050DD53: test    esi, esi; Logical Compare
+0050DD55: setnz   al; Set Byte if Not Zero (ZF=0)
+0050DD58: push    eax
+0050DD59: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque
+0050DD5E: mov     ecx, eax
+0050DD60: add     esp, 8; Add

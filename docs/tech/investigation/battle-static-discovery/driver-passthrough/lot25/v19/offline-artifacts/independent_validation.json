@@ -1,0 +1,909 @@
+{
+  "status": "PASS",
+  "verdict": "READY_FOR_CONTROLLED_DIAGNOSTIC_LIVE_ONLY",
+  "dll_sha256": "163e962d7f9355f61d1449b695119e94a928e616cdae54538fe0d2fa96d3d791",
+  "dll_size": 396800,
+  "build": "0x5648",
+  "artifact_dir": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v19\\build-20261008T130333Z-j24yvmub",
+  "profiles": {
+    "v19-native-final": {
+      "processes": 20,
+      "checks": 1355
+    },
+    "v19-extra-final": {
+      "processes": 6,
+      "checks": 333
+    }
+  },
+  "native_checks": 1688,
+  "frozen_files": 185,
+  "exports": {
+    "Passthrough_CaptureCount": 4176,
+    "Passthrough_InstallBootHook": 4192,
+    "Passthrough_InstallStage0Hooks": 5040,
+    "Passthrough_QueryDiagnostic": 4624,
+    "Passthrough_ReplayCaptured": 4144,
+    "Passthrough_RestoreStage0Hooks": 5376,
+    "Passthrough_SetReplayLive": 4160,
+    "Passthrough_Stage0Stub": 5536,
+    "Passthrough_StopDiagnostic": 4464,
+    "dotemuCreateFileA": 382793,
+    "dotemuDeleteFileA": 382841,
+    "dotemuGetDriveTypeA": 382891,
+    "dotemuRegCloseKey": 382941,
+    "dotemuRegDeleteValueA": 382993,
+    "dotemuRegFlushKey": 383045,
+    "dotemuRegOpenKeyExA": 383095,
+    "dotemuRegQueryValueExA": 383150,
+    "dotemuRegSetValueExA": 383206,
+    "new_dll_graphics_driver": 4096
+  },
+  "DllMain_reachable": [
+    "DllMain",
+    "GFXPT_BuildSidePath",
+    "GFXPT_SideFileExists",
+    "GFXPT_Stage0LifeRecord"
+  ],
+  "calls": {
+    "new_dll_graphics_driver": [
+      "GetModuleHandleA"
+    ],
+    "Passthrough_ReplayCaptured": [],
+    "Passthrough_SetReplayLive": [],
+    "Passthrough_CaptureCount": [],
+    "Passthrough_InstallBootHook": [
+      "GFXPT_SideFileExists",
+      "GFXPT_EnsureResident",
+      "GFXPT_PlaceHookRetained",
+      "GFXPT_PlaceHookRetained",
+      "GFXPT_RestoreGenericHooks"
+    ],
+    "Passthrough_StopDiagnostic": [
+      "GFXPT_QuiesceEnd",
+      "Passthrough_RestoreStage0Hooks",
+      "GFXPT_RestoreGenericHooks"
+    ],
+    "Passthrough_QueryDiagnostic": [
+      "GetCurrentProcessId"
+    ],
+    "Passthrough_InstallStage0Hooks": [
+      "GFXPT_SideFileExists",
+      "GetModuleHandleExA",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0InstallPinned",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag"
+    ],
+    "Passthrough_RestoreStage0Hooks": [
+      "GFXPT_Stage0RestoreOwned",
+      "GFXPT_Stage0Diag"
+    ],
+    "Passthrough_Stage0Stub": [
+      "GFXPT_Stage0LogReq",
+      "dword ptr [eax + 0x98]",
+      "GFXPT_Stage0LogRes"
+    ],
+    "DllMain": [
+      "GetCurrentProcessId",
+      "GetCurrentProcess",
+      "GetProcessTimes",
+      "GFXPT_SideFileExists",
+      "GFXPT_SideFileExists",
+      "GFXPT_BuildSidePath",
+      "CreateFileA",
+      "GFXPT_Stage0LifeRecord",
+      "GFXPT_Stage0LifeRecord",
+      "CloseHandle",
+      "0x100036e2"
+    ],
+    "__local_stdio_printf_options": [],
+    "_vfprintf_l": [
+      "__local_stdio_printf_options",
+      "0x1002b024"
+    ],
+    "fprintf": [
+      "__local_stdio_printf_options",
+      "0x1002b024"
+    ],
+    "GFXPT_EnsureResident": [
+      "GetModuleHandleExA"
+    ],
+    "GFXPT_QuiesceBegin": [
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "0x10004a8f",
+      "0x10004a95",
+      "OpenThread",
+      "SuspendThread",
+      "GetThreadContext",
+      "0x10004a9b",
+      "GetLastError",
+      "ebp",
+      "ebp",
+      "ebp",
+      "ebp",
+      "GFXPT_QuiesceEnd",
+      "0x100036e2",
+      "0x100036e2"
+    ],
+    "GFXPT_QuiesceEnd": [
+      "ResumeThread",
+      "WaitForSingleObject",
+      "CloseHandle"
+    ],
+    "GFXPT_RestoreGenericHooks": [
+      "GFXPT_QuiesceBegin",
+      "esi",
+      "0x10004c80",
+      "esi",
+      "GetCurrentProcess",
+      "FlushInstructionCache",
+      "GFXPT_QuiesceEnd",
+      "GFXPT_QuiesceEnd"
+    ],
+    "GFXPT_ODS": [
+      "OutputDebugStringA"
+    ],
+    "GFXPT_Stage0Diag": [
+      "GetLastError",
+      "GFXPT_BuildSidePath",
+      "0x1000fae8",
+      "GetModuleHandleA",
+      "fprintf",
+      "GetCurrentThreadId",
+      "fprintf",
+      "fprintf",
+      "GFXPT_CopyBytes",
+      "fprintf",
+      "fprintf",
+      "GetModuleFileNameA",
+      "edi",
+      "GFXPT_BuildSidePath",
+      "edi",
+      "GFXPT_BuildSidePath",
+      "edi",
+      "fprintf",
+      "fprintf",
+      "GFXPT_CopyBytes",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "GFXPT_CopyBytes",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "fprintf",
+      "0x1000f7fa",
+      "fprintf",
+      "SetLastError",
+      "0x100036e2"
+    ],
+    "GFXPT_SideFileExists": [
+      "GetModuleFileNameA",
+      "lstrcpynA",
+      "GetFileAttributesA",
+      "0x100036e2",
+      "0x100036e2"
+    ],
+    "GFXPT_Stage0Activate": [
+      "GFXPT_SideFileExists",
+      "GetModuleHandleExA",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0InstallPinned",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag"
+    ],
+    "GFXPT_CopyBytes": [
+      "0x10004c80"
+    ],
+    "GFXPT_BuildSidePath": [
+      "GetModuleFileNameA",
+      "lstrlenA",
+      "esi",
+      "esi",
+      "0x100036e2"
+    ],
+    "GFXPT_StLost": [],
+    "GFXPT_StEmitCtx": [],
+    "GFXPT_PresentWrapC": [],
+    "GFXPT_PresentDetour": [
+      "GFXPT_PresentWrapC",
+      "indirect-memory"
+    ],
+    "GFXPT_PlaceHookRetained": [
+      "GFXPT_EnsureResident",
+      "GetModuleHandleA",
+      "GFXPT_CopyBytes",
+      "VirtualAlloc",
+      "0x10004c80",
+      "VirtualProtect",
+      "GetCurrentProcess",
+      "FlushInstructionCache",
+      "0x10005200",
+      "GFXPT_QuiesceBegin",
+      "VirtualProtect",
+      "0x10004c80",
+      "VirtualProtect",
+      "GetCurrentProcess",
+      "FlushInstructionCache",
+      "GFXPT_QuiesceEnd",
+      "VirtualFree",
+      "VirtualFree"
+    ],
+    "GFXPT_PlaceHook": [
+      "GFXPT_PlaceHookRetained"
+    ],
+    "GFXPT_ODSTrace": [],
+    "GFXPT_ODSDetour": [
+      "GFXPT_ODSTrace",
+      "indirect-memory"
+    ],
+    "GFXPT_Stage0LogReq": [
+      "GFXPT_StEmitCtx"
+    ],
+    "GFXPT_Stage0LogRes": [
+      "GFXPT_StEmitCtx"
+    ],
+    "GFXPT_Stage0Write": [
+      "GFXPT_QuiesceBegin",
+      "ebp",
+      "GetLastError",
+      "ebp",
+      "GetLastError",
+      "GetCurrentProcess",
+      "FlushInstructionCache",
+      "GFXPT_QuiesceEnd"
+    ],
+    "GFXPT_PlaceCallSiteHook": [
+      "GFXPT_Stage0Write"
+    ],
+    "GFXPT_RestoreCallSiteHook": [
+      "GFXPT_Stage0Write"
+    ],
+    "GFXPT_Stage0InstallPinned": [
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GetModuleHandleA",
+      "GFXPT_Stage0Diag",
+      "VirtualQuery",
+      "GFXPT_CopyBytes",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Write",
+      "GFXPT_Stage0Diag",
+      "OutputDebugStringA",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "OutputDebugStringA",
+      "GFXPT_Stage0Write",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag"
+    ],
+    "GFXPT_Stage0RestoreOwned": [
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Write",
+      "GFXPT_Stage0Diag",
+      "OutputDebugStringA",
+      "GFXPT_Stage0Diag",
+      "GFXPT_Stage0Diag"
+    ],
+    "GFXPT_Stage0LifeRecord": [
+      "GetLastError",
+      "GetCurrentThreadId",
+      "WriteFile",
+      "SetLastError",
+      "0x100036e2"
+    ]
+  },
+  "checks": [
+    {
+      "name": "build_exit_zero",
+      "ok": true
+    },
+    {
+      "name": "source_bound_gfx_driver_passthrough.c",
+      "ok": true
+    },
+    {
+      "name": "source_bound_gfx_driver_passthrough.h",
+      "ok": true
+    },
+    {
+      "name": "source_bound_gfx_lifetime_v19.h",
+      "ok": true
+    },
+    {
+      "name": "source_bound_gfx_stage0_v19.h",
+      "ok": true
+    },
+    {
+      "name": "dll_bound",
+      "ok": true
+    },
+    {
+      "name": "exports_exact_additive",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuCreateFileA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuDeleteFileA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuGetDriveTypeA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegCloseKey",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegDeleteValueA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegFlushKey",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegOpenKeyExA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegQueryValueExA",
+      "ok": true
+    },
+    {
+      "name": "forward_dotemuRegSetValueExA",
+      "ok": true
+    },
+    {
+      "name": "single_ret12",
+      "ok": true
+    },
+    {
+      "name": "native_vtable_call_98",
+      "ok": true
+    },
+    {
+      "name": "immutable_site_identity_refs",
+      "ok": true
+    },
+    {
+      "name": "known_site_return_plus_one",
+      "ok": true
+    },
+    {
+      "name": "capture_and_proxy_helpers_not_linked",
+      "ok": true
+    },
+    {
+      "name": "DllMain_no_patch_or_PIN_reachable",
+      "ok": true
+    },
+    {
+      "name": "DllMain_no_forbidden_imports",
+      "ok": true
+    },
+    {
+      "name": "existing_listing_identical",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_count",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_A_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_A_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_A_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_A_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_B_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_B_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_B_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_B_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_C_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_C_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_C_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_C_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_D_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_D_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_D_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_D_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_E_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_E_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_E_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_E_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_F_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_F_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_F_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_F_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_G_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_G_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_G_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_G_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_H_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_H_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_H_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_H_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_I_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_I_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_I_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_I_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_J_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_J_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_J_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_J_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_K_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_K_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_K_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_K_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_M_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_M_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_M_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_M_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_U_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_U_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_U_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_U_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_V_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_V_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_V_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_V_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_W_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_W_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_W_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_W_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_X_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_X_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_X_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_X_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Y_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Y_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Y_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Y_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Z_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Z_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Z_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_Z_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_1_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_1_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_1_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_1_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_2_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_2_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_2_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-native-final_2_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_count",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_J_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_J_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_J_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_J_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_K_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_K_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_K_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_K_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_L_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_L_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_L_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_L_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_N_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_N_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_N_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_N_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_O_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_O_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_O_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_O_exit",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_P_raw_checks",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_P_identity",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_P_copy",
+      "ok": true
+    },
+    {
+      "name": "v19-extra-final_P_exit",
+      "ok": true
+    },
+    {
+      "name": "v18_red_cases_preserved",
+      "ok": true
+    },
+    {
+      "name": "v18_slot1_production_wrapper_pass",
+      "ok": true
+    },
+    {
+      "name": "all_frozen_185",
+      "ok": true
+    },
+    {
+      "name": "installed_rollback_unchanged",
+      "ok": true
+    },
+    {
+      "name": "game_EXE_identity",
+      "ok": true
+    },
+    {
+      "name": "game_sidecars_absent",
+      "ok": true
+    },
+    {
+      "name": "concurrent_commits_outside_task_files",
+      "ok": true
+    },
+    {
+      "name": "status_delta_explained_by_concurrent_commits",
+      "ok": true
+    },
+    {
+      "name": "historical_303_no_skips",
+      "ok": true
+    },
+    {
+      "name": "diagnostic_not_accepted_as_dump",
+      "ok": true
+    }
+  ],
+  "head": "a2f80267173594d0838cc927353905905ca00c2a",
+  "git_observation": {
+    "initial_head": "31b9f0035efc3482933074fe483f4ddb2c676fe2",
+    "final_head": "a2f80267173594d0838cc927353905905ca00c2a",
+    "concurrent_committed_paths": [
+      "docs/tech/investigation/battle-static-discovery/CAMPAIGN_LOG_gfx-battleloop-2026-10-08.md",
+      "docs/tech/investigation/battle-static-discovery/PLAN_gfx-battleloop-campaign-2026-10-08.md",
+      "docs/tech/investigation/battle-static-discovery/decomp/0x45CEE0__sub_45CEE0.md",
+      "docs/tech/investigation/battle-static-discovery/decomp/0x45D310__Gpu_DrawOTagWithDispatchTable.md",
+      "docs/tech/investigation/battle-static-discovery/decomp/0x510680__Poly_BackfaceTest2D.md",
+      "docs/tech/investigation/battle-static-discovery/semantic-certainty.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x45C870__OtNode24_AllocHeadInsert.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x45CEE0__sub_45CEE0.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x45D080__Gpu_DrawOTag.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x45D310__Gpu_DrawOTagWithDispatchTable.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x460F20__Gpu_EmitPolyF3.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x4617F0__Gpu_EmitPolyFT3.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x461A90__Gpu_EmitPolyFT4.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x493450__computeCurativeGFMagicItem.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x508360__BdLinkTask_Register.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x510680__Poly_BackfaceTest2D.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x595AA0__Ot_EmitPrim_Code24_AVSZ3_FromObj44.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x5BD460__Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x5E48A0__Ot_EmitPrim_Code24_AVSZ3_FromObj2C.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x5EF910__Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup2.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x60A290__Ot_EmitPrim_Code24_AVSZ3_FromObj44_Dup3.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x649740__Ot_EmitPrim_Code24_AVSZ3_FromObj2C_Dup.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x7040B0__Ot_EmitPolyF4_320x216.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0x8E55E0__Op178_SetSeqCtxA2.md",
+      "docs/tech/investigation/battle-static-discovery/semantic/0xB0C170__MAG_203_CERBERUS_FL.md"
+    ],
+    "missing_initial_status_rows": [
+      " M docs/tech/investigation/battle-static-discovery/semantic-certainty.md"
+    ],
+    "commits_by_this_task": false
+  },
+  "deployed": false,
+  "game_launched": false,
+  "writer_verdict": "NOT_A_CAPTURE_WRITER; full-writer live gate remains required",
+  "live_crash_cause": "UNPROVEN",
+  "full_capture_qualification": false
+}

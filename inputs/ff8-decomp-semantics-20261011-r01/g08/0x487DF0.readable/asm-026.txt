@@ -1,0 +1,25 @@
+004886A8: mov     cl, [esi+1]
+004886AB: lea     eax, [ebx+edx*4]; Load Effective Address
+004886AE: mov     [esp+74h+op_param_2], cl
+004886B2: shl     eax, 4; Shift Logical Left
+004886B5: inc     esi; Increment by 1
+004886B6: inc     esi; Increment by 1
+004886B7: cmp     cl, 0CBh; Compare Two Operands
+004886BA: jnz     short loc_4886C6; Jump if Not Zero (ZF=0)
+004886BC: mov     dl, BATTLE_SLOT_DATA.last_attacker_slot_id[eax]
+004886C2: mov     [esp+74h+op_param_2], dl
+004886C6: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+004886CA: mov     edx, dword ptr [esp+74h+op_param_2]
+004886CE: and     ecx, edi; Logical AND
+004886D0: and     edx, edi; Logical AND
+004886D2: lea     eax, BATTLE_LOCAL_VAR[eax+ecx*4]; Load Effective Address
+004886D9: add     [eax], edx; Add
+004886DB: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004886E0: mov     al, [esi]; AI VM op 0x13 ADD_BATTLE_VAR: BATTLE_BATTLE_VAR[idx]+=val
+004886E2: mov     cl, [esi+1]
+004886E5: inc     esi; Increment by 1
+004886E6: mov     [esp+74h+opcode_param_1], al
+004886EA: mov     [esp+74h+op_param_2], cl
+004886EE: mov     edx, dword ptr [esp+74h+opcode_param_1]
+004886F2: mov     ecx, dword ptr [esp+74h+op_param_2]
+004886F6: and     edx, edi; Logical AND

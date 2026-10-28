@@ -1,0 +1,116 @@
+{
+  "version": "runtime16-independent-log-crosscheck-v1",
+  "newProductExecutions": 0,
+  "comparison": "Node util.isDeepStrictEqual on retained expectedPayload/sentPayload, not product canonical",
+  "imagePairs": 14,
+  "imageMismatches": [],
+  "callbackRows": 12,
+  "callbackNotObserved": 0,
+  "actualContention": [
+    {
+      "staleGeneration": false,
+      "ok": true,
+      "beforeCommitOrder": 2,
+      "beginOrder": 1,
+      "enterOrder": 3,
+      "heldBeforeBegin": 1,
+      "blockedMs": 477.5356,
+      "closed": true,
+      "outerError": null
+    },
+    {
+      "staleGeneration": true,
+      "ok": false,
+      "beforeCommitOrder": 2,
+      "beginOrder": 1,
+      "enterOrder": 3,
+      "heldBeforeBegin": 1,
+      "blockedMs": 434.7476,
+      "closed": true,
+      "outerError": null
+    }
+  ],
+  "pause": [
+    {
+      "caseId": "PAUSED_PREPARED_RED",
+      "status": "paused",
+      "submits": 1,
+      "fakeAccepted": 0,
+      "results": 0,
+      "claimTimes": 1,
+      "admissionStates": [
+        "PREPARED"
+      ]
+    },
+    {
+      "caseId": "PAUSED_ATOMIC_PREPARATION",
+      "status": "paused",
+      "submits": 0,
+      "fakeAccepted": 0,
+      "results": 0,
+      "claimTimes": 0,
+      "admissionStates": []
+    },
+    {
+      "caseId": "PAUSE_ALREADY_ENTERED_PORT",
+      "status": "paused",
+      "submits": 1,
+      "fakeAccepted": 1,
+      "lostReply": false,
+      "firstState": "ACCEPTED",
+      "results": 1,
+      "claimTimes": 1,
+      "admissionStates": [
+        "TERMINAL"
+      ]
+    },
+    {
+      "caseId": "PAUSE_ALREADY_ENTERED_PORT",
+      "status": "paused",
+      "submits": 1,
+      "fakeAccepted": 1,
+      "lostReply": true,
+      "firstState": "AMBIGUOUS",
+      "results": 1,
+      "claimTimes": 1,
+      "admissionStates": [
+        "TERMINAL"
+      ]
+    },
+    {
+      "caseId": "PAUSED_AMBIGUOUS_NONPOSITIVE",
+      "status": "paused",
+      "submits": 1,
+      "fakeAccepted": 1,
+      "results": 0,
+      "claimTimes": 1,
+      "admissionStates": [
+        "AMBIGUOUS"
+      ]
+    },
+    {
+      "caseId": "PAUSED_AMBIGUOUS_NONPOSITIVE",
+      "status": "paused",
+      "submits": 1,
+      "fakeAccepted": 1,
+      "results": 0,
+      "claimTimes": 1,
+      "admissionStates": [
+        "AMBIGUOUS"
+      ]
+    },
+    {
+      "caseId": "PAUSED_EXISTING_FAMILY_FINISHES",
+      "status": "complete",
+      "submits": 3,
+      "fakeAccepted": 3,
+      "results": 3,
+      "claimTimes": 3,
+      "admissionStates": [
+        "TERMINAL",
+        "TERMINAL",
+        "TERMINAL"
+      ]
+    }
+  ]
+}

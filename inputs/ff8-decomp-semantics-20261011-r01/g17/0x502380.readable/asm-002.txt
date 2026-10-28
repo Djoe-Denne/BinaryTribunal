@@ -1,0 +1,25 @@
+005023CD: pop     esi
+005023CE: pop     ebx
+005023CF: retn; Return Near from Procedure
+005023D0: push    esi; jumptable 0050239A case 104
+005023D1: call    BattleActionSequence_DispatchTick; Appelle d'abord BattleActionSequence_PreparePayloadContext(payload), puis route sur payload[1] via double indirection du latch 0x1D99A50.
+005023D6: add     esp, 4; Add
+005023D9: pop     edi
+005023DA: pop     esi
+005023DB: pop     ebx
+005023DC: retn; Return Near from Procedure
+005023DD: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 105
+005023E1: lea     ecx, [eax+eax*4]; Load Effective Address
+005023E4: shl     ecx, 3; Shift Logical Left
+005023E7: sub     ecx, eax; Integer Subtraction
+005023E9: mov     ax, word ptr g_BattlePresentationActors[ecx*4]
+005023F1: test    al, 2; Logical Compare
+005023F3: lea     ecx, ds:1D972C0h[ecx*4]; Load Effective Address
+005023FA: jz      def_50239A; jumptable 0050239A default case, case 107
+00502400: or      al, 10h; Logical Inclusive OR
+00502402: push    offset sub_502ED0; callback
+00502407: mov     [ecx], ax
+0050240A: call    au_re_BdLinkTask; Call Procedure
+0050240F: add     esp, 4; Add
+00502412: mov     [eax+10h], esi
+00502415: mov     byte ptr [eax+0Dh], 0

@@ -1,0 +1,25 @@
+0048695F: add     eax, 2; Add
+00486962: inc     ecx; Increment by 1
+00486963: cmp     ecx, 0C6h; Compare Two Operands
+00486969: jl      short loc_48695A; Jump if Less (SF!=OF)
+0048696B: jmp     short loc_486972; Jump
+0048696D: mov     [eax], dl
+0048696F: mov     [eax+1], bl
+00486972: add     edi, 5; Add
+00486975: cmp     edi, offset BMI_MONSTER1_DRAW_SPELL_ID1; Compare Two Operands
+0048697B: jl      short loc_48692C; Jump if Less (SF!=OF)
+0048697D: xor     eax, eax; Logical Exclusive OR
+0048697F: mov     al, BATTLE_RESULT_CODE
+00486984: dec     eax; switch 5 cases
+00486985: cmp     eax, 4; Compare Two Operands
+00486988: ja      short def_48698A; jumptable 0048698A default case
+0048698A: jmp     ds:jpt_48698A[eax*4]; switch jump
+00486991: inc     SG_BATTLE_ESCAPED; jumptable 0048698A case 2
+00486998: mov     mode_StateGlobal, 5; 100: In some cases of victory
+004869A1: jmp     short def_48698A; jumptable 0048698A default case
+004869A3: mov     dl, CURRENT_ENCOUNTER_DATA_SCENE_OUT.battle_flags; jumptable 0048698A case 4
+004869A9: mov     ebx, SG_BATTLE_VICTORY_COUNT
+004869AF: and     dl, 10h; Logical AND
+004869B2: inc     ebx; Increment by 1
+004869B3: neg     dl; Two's Complement Negation
+004869B5: sbb     edx, edx; Integer Subtraction with Borrow

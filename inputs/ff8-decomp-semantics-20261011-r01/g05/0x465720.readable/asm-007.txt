@@ -1,0 +1,24 @@
+004658E9: add     eax, esi; Add
+004658EB: dec     ecx; Decrement by 1
+004658EC: mov     [esp+9Ch+var_8C], ecx
+004658F0: jnz     short loc_4658CB; Jump if Not Zero (ZF=0)
+004658F2: mov     ebx, [esp+9Ch+var_84]
+004658F6: mov     ebp, [esp+9Ch+var_80]
+004658FA: mov     eax, [esp+9Ch+var_88]
+004658FE: push    0
+00465900: push    eax
+00465901: mov     ecx, [eax]
+00465903: call    dword ptr [ecx+80h]; Indirect Call Near Procedure
+00465909: push    ebx
+0046590A: push    ebp
+0046590B: call    sub_4203B2; Call Procedure
+00465910: push    ebx
+00465911: push    ebp
+00465912: call    sub_420476; Call Procedure
+00465917: add     esp, 10h; Add
+0046591A: pop     edi
+0046591B: pop     esi
+0046591C: pop     ebp
+0046591D: pop     ebx
+0046591E: add     esp, 8Ch; Add
+00465924: retn; Return Near from Procedure

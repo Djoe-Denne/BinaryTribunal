@@ -1,0 +1,25 @@
+00464927: xor     eax, eax; Logical Exclusive OR
+00464929: lea     edi, unk_1CAD28C[edx]; Load Effective Address
+0046492F: rep stosd; Store String
+00464931: mov     edi, [esp+10h+arg_4]
+00464935: inc     ebx; Increment by 1
+00464936: cmp     ebx, esi; Compare Two Operands
+00464938: jle     short loc_4648D9; Jump if Less or Equal (ZF=1 | SF!=OF)
+0046493A: mov     ecx, [esp+10h+arg_0]
+0046493E: mov     eax, [esp+10h+arg_8]
+00464942: add     ebp, 10h; Add
+00464945: dec     eax; Decrement by 1
+00464946: mov     [esp+10h+arg_8], eax
+0046494A: jnz     short loc_4648D1; Jump if Not Zero (ZF=0)
+0046494C: mov     ebp, [esp+10h+arg_C]
+00464950: cmp     ecx, edi; Compare Two Operands
+00464952: mov     ebx, ecx
+00464954: jg      short loc_464992; Jump if Greater (ZF=0 & SF=OF)
+00464956: jmp     short loc_46495C; Jump
+00464958: mov     ebp, [esp+10h+arg_C]
+0046495C: mov     eax, [esp+10h+arg_C]
+00464960: mov     ecx, ebp
+00464962: cmp     eax, esi; Compare Two Operands
+00464964: jg      short loc_46498D; Jump if Greater (ZF=0 & SF=OF)
+00464966: mov     edx, ebx
+00464968: shl     edx, 4; Shift Logical Left

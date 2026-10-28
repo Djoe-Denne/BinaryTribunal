@@ -1,0 +1,25 @@
+0048927A: add     esp, 8; Add
+0048927D: cmp     eax, edi; Compare Two Operands
+0048927F: jz      short loc_4892A1; Jump if Zero (ZF=1)
+00489281: mov     [esp+74h+condition_result], 1
+00489289: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048928E: cmp     ecx, 3; Compare Two Operands
+00489291: jnz     short loc_4892B9; Jump if Not Zero (ZF=0)
+00489293: push    eax; kind
+00489294: push    eax; a1
+00489295: call    EnemyAI_GetSubjectValue_B; a1 ignore (jamais relu) ; kind=a2 : 202 = premier slot SANS 0x100, autre = premier AVEC
+0048929A: add     esp, 8; Add
+0048929D: cmp     eax, edi; Compare Two Operands
+0048929F: jz      short loc_489281; Jump if Zero (ZF=1)
+004892A1: mov     eax, [esp+74h+jump_value]
+004892A5: mov     [esp+74h+condition_result], 0
+004892AD: and     eax, 0FFFFh; Logical AND
+004892B2: add     esi, eax; Add
+004892B4: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004892B9: mov     eax, [esp+74h+condition_result]
+004892BD: jmp     loc_488CDD; Jump
+004892C2: mov     eax, [esp+74h+if_right_condition_final]; jumptable 004887D6 case 12
+004892C6: mov     ecx, dword ptr [esp+74h+op_param_3]
+004892CA: and     eax, 0FFFFh; Logical AND
+004892CF: and     ecx, edi; Logical AND
+004892D1: jnz     short loc_4892FB; Jump if Not Zero (ZF=0)

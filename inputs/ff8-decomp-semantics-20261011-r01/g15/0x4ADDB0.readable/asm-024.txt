@@ -1,0 +1,25 @@
+004AE641: mov     eax, 26h ; '&'
+004AE646: jmp     short loc_4AE669; Jump
+004AE648: test    ebx, 0F050h; jumptable 004ADEFA case 40
+004AE64E: jnz     short loc_4AE664; Jump if Not Zero (ZF=0)
+004AE650: mov     al, byte ptr dword_1D768E8+3
+004AE655: inc     al; Increment by 1
+004AE657: cmp     al, 0B4h; Compare Two Operands
+004AE659: mov     byte ptr dword_1D768E8+3, al
+004AE65E: jbe     def_4ADEFA; jumptable 004ADEFA default case
+004AE664: mov     eax, 29h ; ')'
+004AE669: cmp     eax, 2Bh ; '+'; Compare Two Operands
+004AE66C: jbe     loc_4ADEF6; Jump if Below or Equal (CF=1 | ZF=1)
+004AE672: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AE677: mov     edx, dword_1D6D490; jumptable 004ADEFA case 1
+004AE67D: xor     eax, eax; Logical Exclusive OR
+004AE67F: mov     al, byte_1D76843
+004AE684: mov     word ptr dword_1D768F0, bp
+004AE68B: mov     byte ptr dword_1D768D8+3, 0FFh; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE692: lea     ecx, [eax+eax*2]; Load Effective Address
+004AE695: lea     esi, [eax+ecx*4+0A1h]; Load Effective Address
+004AE69C: mov     al, [edx+20h]
+004AE69F: mov     dl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE6A5: xor     ecx, ecx; Logical Exclusive OR
+004AE6A7: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+3; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE6AD: push    esi

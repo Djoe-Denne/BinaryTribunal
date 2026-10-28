@@ -1,0 +1,25 @@
+0050AFC0: push    ecx
+0050AFC1: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AFC6: cmp     byte ptr [eax+1], 0F0h; Compare Two Operands
+0050AFCA: jnz     short loc_50AFF3; Jump if Not Zero (ZF=0)
+0050AFCC: mov     edx, [esp+4+var_4]
+0050AFD0: xor     ecx, ecx; Logical Exclusive OR
+0050AFD2: mov     eax, offset byte_1D972C4
+0050AFD7: test    byte ptr [eax-4], 2; Logical Compare
+0050AFDB: jz      short loc_50AFE4; Jump if Zero (ZF=1)
+0050AFDD: cmp     byte ptr [eax], 4; Compare Two Operands
+0050AFE0: mov     edx, ecx
+0050AFE2: jz      short loc_50AFF7; Jump if Zero (ZF=1)
+0050AFE4: add     eax, 9Ch; Add
+0050AFE9: inc     ecx; Increment by 1
+0050AFEA: cmp     eax, offset byte_1D97498; Compare Two Operands
+0050AFEF: jl      short loc_50AFD7; Jump if Less (SF!=OF)
+0050AFF1: jmp     short loc_50AFF7; Jump
+0050AFF3: xor     edx, edx; Logical Exclusive OR
+0050AFF5: mov     dl, [eax]
+0050AFF7: mov     eax, dword_1D99A90
+0050AFFC: test    ax, ax; Logical Compare
+0050AFFF: jnz     short loc_50B006; Jump if Not Zero (ZF=0)
+0050B001: mov     eax, dword_1D99A5C
+0050B006: push    eax
+0050B007: push    edx

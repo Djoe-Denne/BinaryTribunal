@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/re-policy-v1",
+  "title": "Explicit FF8 RE role policy",
+  "description": "Trusted operator mappings to vetted registered readonly tools and actual MCP permission action IDs. Literal resource '*' is the canonical native MCP resource for one exact action, not a server wildcard. Runtime rejects duplicate/unsafe/reserved IDs, wildcard actions/tools and missing disasm. Inventory and guards are checked by generic admission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "workKind", "idaReadBindings", "reconcilerSharing"],
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "workKind": { "type": "string", "enum": ["decompilation", "semantification"] },
+    "reconcilerSharing": { "type": "boolean" },
+    "idaReadBindings": {
+      "type": "array", "minItems": 1, "maxItems": 15,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["operation", "tool", "accesses"],
+        "properties": {
+          "operation": { "type": "string", "enum": ["disasm", "decompile", "lookup_funcs", "list_funcs", "list_globals", "imports", "xrefs_to", "callees", "basic_blocks", "get_bytes", "get_int", "get_string", "get_global_value", "stack_frame", "read_struct"] },
+          "tool": { "type": "string", "minLength": 1, "maxLength": 192 },
+          "accesses": {
+            "type": "array", "minItems": 1, "maxItems": 8,
+            "items": {
+              "type": "object", "additionalProperties": false, "required": ["action", "resource"],
+              "properties": { "action": { "type": "string", "minLength": 1, "maxLength": 192 }, "resource": { "type": "string", "const": "*" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

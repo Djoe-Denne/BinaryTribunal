@@ -1,0 +1,25 @@
+00489B79: jnz     short loc_489B57; Jump if Not Zero (ZF=0)
+00489B7B: mov     eax, 1
+00489B80: mov     cx, dx
+00489B83: shl     eax, cl; Shift Logical Left
+00489B85: mov     [esp+74h+p_monster_slot_id], eax
+00489B89: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489B8E: call    domain__EnemyAI_CountAliveMonsters; Target 0xCA: RANDOM_PARTY_ALIVE - Similar to C9 but with different alive-check logic
+00489B93: cmp     eax, 0FFh; Compare Two Operands
+00489B98: jnz     short loc_489BA7; Jump if Not Zero (ZF=0)
+00489B9A: mov     [esp+74h+p_monster_slot_id], 8
+00489BA2: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489BA7: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+00489BAC: and     eax, 0FFh; Logical AND
+00489BB1: mov     ecx, eax
+00489BB3: and     ecx, 80000003h; Logical AND
+00489BB9: jns     short loc_489BC0; Jump if Not Sign (SF=0)
+00489BBB: dec     ecx; Decrement by 1
+00489BBC: or      ecx, 0FFFFFFFCh; Logical Inclusive OR
+00489BBF: inc     ecx; Increment by 1
+00489BC0: add     ecx, 3; Add
+00489BC3: lea     edx, [ecx+ecx*2]; Load Effective Address
+00489BC6: lea     eax, [ecx+edx*4]; Load Effective Address
+00489BC9: shl     eax, 4; Shift Logical Left
+00489BCC: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489BD3: jnz     short loc_489BA7; Jump if Not Zero (ZF=0)

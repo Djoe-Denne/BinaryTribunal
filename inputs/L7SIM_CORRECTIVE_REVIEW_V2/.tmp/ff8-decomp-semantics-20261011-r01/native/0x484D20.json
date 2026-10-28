@@ -1,0 +1,178 @@
+{
+  "ea": "0x484D20",
+  "name_label_only": "domain::BattlePendingAction_Write",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x484d20",
+      "end": "0x484f69",
+      "hex": "538b5c2410555683fb10570f847901000083fb1374668b4c24188b4424148d14488bc103c28d14498d14918d04c5448dd201c1e204f682907bd201017526668b5424248848028a4c2420885803884804c64005005f6689105ec64006005dc64007015bc383fb040f85d70100008a4424205f5e5d8882c87bd2015bc3837c24200175508b4c24188b5424148d044a8bd103d08d04d5448dd2018d14498d1491c1e204f682907bd201010f8595010000884802668b4c2424c6400313c6400401c64005045f6689085ec64006005dc64007015bc38b5c241833c0a072e7cf0133c98d145bc1e8048d3c9350c1e7048a8fda7bd20151e8578300008b54241ca22c8ed2018bcb8d045a03c8a12c8ed20125ff0000008d34cd448dd2018d148033c08a0495bc88cf0150e814eaffff668be8a12c8ed20125ff00000033d28d0c808a148dbc88cf0152e815eaffff8a8f907bd2010be8a12c8ed20183c41025ff000000f6c1010f85db0000008a4c2420885e02c6460313884e0488460566892ec6460600c64607015f5e5d5bc3a0208ed201c74424240000000084c00f86a50000008b5c24188d145b8d0c5b8d04938d34cd478dd201c1e0048da8907bd20133c0a01f8ed2018d04408d148033c08a04956e40cf0150e868e9ffff668bf833c0a01f8ed20133d28d04408d0c808a148d6e40cf0152e869e9ffff8a4d000bf883c40833c0a01f8ed201f6c1017519885effc60610884601c646020066897efdc6460300c64604018b4424248b0d208ed2014081e1ff00000083c6083bc1894424240f8c78ffffff5f5e5d5bc3"
+    }
+  ],
+  "assembly": "00484D20: push    ebx; ISO 2026-09-09: _ReturnAddress() classifies NativeMenu iff return RVA is 0xBB5E1, 0xBB643, 0xBB6A4 or 0xBC497. AutoCommand return 0x483EEA is not NativeMenu. Draw does not call this; it uses PendingCmd_QueueOrStore 0x484FD0 from BattleDrawMenu_StateMachine (return 0xAF064). Live Attack PID 42920 observed caller_rva=0xBB643.\n00484D21: mov     ebx, dword ptr [esp+4+command_id]\n00484D25: push    ebp\n00484D26: push    esi\n00484D27: cmp     ebx, 10h; Compare Two Operands\n00484D2A: push    edi\n00484D2B: jz      loc_484EAA; Jump if Zero (ZF=1)\n00484D31: cmp     ebx, 13h; Compare Two Operands\n00484D34: jz      short loc_484D9C; Jump if Zero (ZF=1)\n00484D36: mov     ecx, [esp+10h+attacker_slot]\n00484D3A: mov     eax, [esp+10h+entry_index]\n00484D3E: lea     edx, [eax+ecx*2]; Load Effective Address\n00484D41: mov     eax, ecx\n00484D43: add     eax, edx; Add\n00484D45: lea     edx, [ecx+ecx*2]; Load Effective Address\n00484D48: lea     edx, [ecx+edx*4]; Load Effective Address\n00484D4B: lea     eax, ds:1D28D44h[eax*8]; Load Effective Address\n00484D52: shl     edx, 4; Shift Logical Left\n00484D55: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00484D5C: jnz     short loc_484D84; Static 2026-08-18: if the attacker is KO, no pending entry is written. For command_id 4 (Item), command_arg is stashed in slot.magic_to_blow_away for later refund/cleanup.\n00484D5E: mov     dx, [esp+10h+target_mask]\n00484D63: mov     [eax+2], cl\n00484D66: mov     cl, [esp+10h+command_arg]\n00484D6A: mov     [eax+3], bl\n00484D6D: mov     [eax+4], cl\n00484D70: mov     byte ptr [eax+5], 0\n00484D74: pop     edi\n00484D75: mov     [eax], dx\n00484D78: pop     esi\n00484D79: mov     byte ptr [eax+6], 0\n00484D7D: pop     ebp\n00484D7E: mov     byte ptr [eax+7], 1\n00484D82: pop     ebx\n00484D83: retn; Return Near from Procedure\n00484D84: cmp     ebx, 4; Compare Two Operands\n00484D87: jnz     loc_484F64; Jump if Not Zero (ZF=0)\n00484D8D: mov     al, [esp+10h+command_arg]\n00484D91: pop     edi\n00484D92: pop     esi\n00484D93: pop     ebp\n00484D94: mov     BATTLE_SLOT_DATA.magic_to_blow_away[edx], al\n00484D9A: pop     ebx\n00484D9B: retn; Return Near from Procedure\n00484D9C: cmp     dword ptr [esp+10h+command_arg], 1; Compare Two Operands\n00484DA1: jnz     short loc_484DF3; Jump if Not Zero (ZF=0)\n00484DA3: mov     ecx, [esp+10h+attacker_slot]\n00484DA7: mov     edx, [esp+10h+entry_index]\n00484DAB: lea     eax, [edx+ecx*2]; Load Effective Address\n00484DAE: mov     edx, ecx\n00484DB0: add     edx, eax; Add\n00484DB2: lea     eax, ds:1D28D44h[edx*8]; Load Effective Address\n00484DB9: lea     edx, [ecx+ecx*2]; Load Effective Address\n00484DBC: lea     edx, [ecx+edx*4]; Load Effective Address\n00484DBF: shl     edx, 4; Shift Logical Left\n00484DC2: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00484DC9: jnz     loc_484F64; Jump if Not Zero (ZF=0)\n00484DCF: mov     [eax+2], cl\n00484DD2: mov     cx, [esp+10h+target_mask]\n00484DD7: mov     byte ptr [eax+3], 13h\n00484DDB: mov     byte ptr [eax+4], 1\n00484DDF: mov     byte ptr [eax+5], 4\n00484DE3: pop     edi\n00484DE4: mov     [eax], cx\n00484DE7: pop     esi\n00484DE8: mov     byte ptr [eax+6], 0\n00484DEC: pop     ebp\n00484DED: mov     byte ptr [eax+7], 1\n00484DF1: pop     ebx\n00484DF2: retn; Return Near from Procedure\n00484DF3: mov     ebx, [esp+10h+attacker_slot]\n00484DF7: xor     eax, eax; Logical Exclusive OR\n00484DF9: mov     al, SG_ANGELO_COMPLETED\n00484DFE: xor     ecx, ecx; Logical Exclusive OR\n00484E00: lea     edx, [ebx+ebx*2]; Load Effective Address\n00484E03: shr     eax, 4; Shift Logical Right\n00484E06: lea     edi, [ebx+edx*4]; Load Effective Address\n00484E09: push    eax; flag_bits\n00484E0A: shl     edi, 4; Shift Logical Left\n00484E0D: mov     cl, BATTLE_SLOT_DATA.crisis_level[edi]\n00484E13: push    ecx; crisis_level\n00484E14: call    sub_48D170; Call Procedure\n00484E19: mov     edx, [esp+18h+entry_index]\n00484E1D: mov     GAME_OVER_RELATED, al; 1 means game over\n00484E22: mov     ecx, ebx\n00484E24: lea     eax, [edx+ebx*2]; Load Effective Address\n00484E27: add     ecx, eax; Add\n00484E29: mov     eax, dword ptr GAME_OVER_RELATED; 1 means game over\n00484E2E: and     eax, 0FFh; Logical AND\n00484E33: lea     esi, ds:1D28D44h[ecx*8]; Load Effective Address\n00484E3A: lea     edx, [eax+eax*4]; Load Effective Address\n00484E3D: xor     eax, eax; Logical Exclusive OR\n00484E3F: mov     al, K_RINOA_LIMIT_PART_2.TargetInfo[edx*4]\n00484E46: push    eax; target_info\n00484E47: call    domain__BattleTarget_ComputeMaskFromDefaultTarget; Static ABI verified 2026-08-10: ComputeMaskFromDefaultTarget(u8 target_info) maps targetInfo bit0 to 0x4000 (alternate/revive direction) and bit1 to 0x2000 (random reroll control).\n00484E4C: mov     bp, ax\n00484E4F: mov     eax, dword ptr GAME_OVER_RELATED; 1 means game over\n00484E54: and     eax, 0FFh; Logical AND\n00484E59: xor     edx, edx; Logical Exclusive OR\n00484E5B: lea     ecx, [eax+eax*4]; Load Effective Address\n00484E5E: mov     dl, K_RINOA_LIMIT_PART_2.TargetInfo[ecx*4]\n00484E65: push    edx; target_info\n00484E66: call    domain__BattleTarget_GetMaskFromInfoField; Static ABI verified 2026-08-10: GetMaskFromInfoField(u8 target_info) emits canonical all-party/all-enemy/everyone/random masks for recognised targetInfo shapes. The 0x30 malformed shape has a noncanonical raw return; replacement must fail-close until a live producer is proven.\n00484E6B: mov     cl, byte ptr BATTLE_SLOT_DATA.status_1[edi]; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00484E71: or      ebp, eax; Logical Inclusive OR\n00484E73: mov     eax, dword ptr GAME_OVER_RELATED; 1 means game over\n00484E78: add     esp, 10h; Add\n00484E7B: and     eax, 0FFh; Logical AND\n00484E80: test    cl, 1; Logical Compare\n00484E83: jnz     loc_484F64; Jump if Not Zero (ZF=0)\n00484E89: mov     cl, [esp+10h+command_arg]\n00484E8D: mov     [esi+2], bl\n00484E90: mov     byte ptr [esi+3], 13h\n00484E94: mov     [esi+4], cl\n00484E97: mov     [esi+5], al\n00484E9A: mov     [esi], bp\n00484E9D: mov     byte ptr [esi+6], 0\n00484EA1: mov     byte ptr [esi+7], 1\n00484EA5: pop     edi\n00484EA6: pop     esi\n00484EA7: pop     ebp\n00484EA8: pop     ebx\n00484EA9: retn; Return Near from Procedure\n00484EAA: mov     al, byte ptr dword_1D28E20\n00484EAF: mov     dword ptr [esp+10h+target_mask], 0\n00484EB7: test    al, al; Logical Compare\n00484EB9: jbe     loc_484F64; Jump if Below or Equal (CF=1 | ZF=1)\n00484EBF: mov     ebx, [esp+10h+attacker_slot]\n00484EC3: lea     edx, [ebx+ebx*2]; Load Effective Address\n00484EC6: lea     ecx, [ebx+ebx*2]; Load Effective Address\n00484EC9: lea     eax, [ebx+edx*4]; Load Effective Address\n00484ECC: lea     esi, ds:1D28D47h[ecx*8]; Load Effective Address\n00484ED3: shl     eax, 4; Shift Logical Left\n00484ED6: lea     ebp, BATTLE_SLOT_DATA.status_1[eax]; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00484EDC: xor     eax, eax; Logical Exclusive OR\n00484EDE: mov     al, byte_1D28E1F\n00484EE3: lea     eax, [eax+eax*2]; Load Effective Address\n00484EE6: lea     edx, [eax+eax*4]; Load Effective Address\n00484EE9: xor     eax, eax; Logical Exclusive OR\n00484EEB: mov     al, K_MAGIC.defaultTarget[edx*4]\n00484EF2: push    eax; target_info\n00484EF3: call    domain__BattleTarget_ComputeMaskFromDefaultTarget; Static ABI verified 2026-08-10: ComputeMaskFromDefaultTarget(u8 target_info) maps targetInfo bit0 to 0x4000 (alternate/revive direction) and bit1 to 0x2000 (random reroll control).\n00484EF8: mov     di, ax\n00484EFB: xor     eax, eax; Logical Exclusive OR\n00484EFD: mov     al, byte_1D28E1F\n00484F02: xor     edx, edx; Logical Exclusive OR\n00484F04: lea     eax, [eax+eax*2]; Load Effective Address\n00484F07: lea     ecx, [eax+eax*4]; Load Effective Address\n00484F0A: mov     dl, K_MAGIC.defaultTarget[ecx*4]\n00484F11: push    edx; target_info\n00484F12: call    domain__BattleTarget_GetMaskFromInfoField; Static ABI verified 2026-08-10: GetMaskFromInfoField(u8 target_info) emits canonical all-party/all-enemy/everyone/random masks for recognised targetInfo shapes. The 0x30 malformed shape has a noncanonical raw return; replacement must fail-close until a live producer is proven.\n00484F17: mov     cl, [ebp+0]\n00484F1A: or      edi, eax; Logical Inclusive OR\n00484F1C: add     esp, 8; Add\n00484F1F: xor     eax, eax; Logical Exclusive OR\n00484F21: mov     al, byte_1D28E1F\n00484F26: test    cl, 1; Logical Compare\n00484F29: jnz     short loc_484F44; Jump if Not Zero (ZF=0)\n00484F2B: mov     [esi-1], bl\n00484F2E: mov     byte ptr [esi], 10h\n00484F31: mov     [esi+1], al\n00484F34: mov     byte ptr [esi+2], 0\n00484F38: mov     [esi-3], di\n00484F3C: mov     byte ptr [esi+3], 0\n00484F40: mov     byte ptr [esi+4], 1\n00484F44: mov     eax, dword ptr [esp+10h+target_mask]; Static ABI verified 2026-08-10: command_id 0x10 (Selphie Slot) ignores the caller target mask and writes N pending entries with masks recomputed from the selected kernel magic targetInfo. Transfer preserves them as exec +6/+8/+A.\n00484F48: mov     ecx, dword_1D28E20\n00484F4E: inc     eax; Increment by 1\n00484F4F: and     ecx, 0FFh; Logical AND\n00484F55: add     esi, 8; Add\n00484F58: cmp     eax, ecx; Compare Two Operands\n00484F5A: mov     dword ptr [esp+10h+target_mask], eax\n00484F5E: jl      loc_484EDC; Jump if Less (SF!=OF)\n00484F64: pop     edi\n00484F65: pop     esi\n00484F66: pop     ebp\n00484F67: pop     ebx\n00484F68: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x484d20",
+      "end": "0x484d31",
+      "successors": [
+        "0x484d31",
+        "0x484eaa"
+      ]
+    },
+    {
+      "start": "0x484d31",
+      "end": "0x484d36",
+      "successors": [
+        "0x484d36",
+        "0x484d9c"
+      ]
+    },
+    {
+      "start": "0x484d36",
+      "end": "0x484d5e",
+      "successors": [
+        "0x484d5e",
+        "0x484d84"
+      ]
+    },
+    {
+      "start": "0x484d5e",
+      "end": "0x484d84",
+      "successors": []
+    },
+    {
+      "start": "0x484d84",
+      "end": "0x484d8d",
+      "successors": [
+        "0x484d8d",
+        "0x484f64"
+      ]
+    },
+    {
+      "start": "0x484d8d",
+      "end": "0x484d9c",
+      "successors": []
+    },
+    {
+      "start": "0x484d9c",
+      "end": "0x484da3",
+      "successors": [
+        "0x484da3",
+        "0x484df3"
+      ]
+    },
+    {
+      "start": "0x484da3",
+      "end": "0x484dcf",
+      "successors": [
+        "0x484dcf",
+        "0x484f64"
+      ]
+    },
+    {
+      "start": "0x484dcf",
+      "end": "0x484df3",
+      "successors": []
+    },
+    {
+      "start": "0x484df3",
+      "end": "0x484e89",
+      "successors": [
+        "0x484e89",
+        "0x484f64"
+      ]
+    },
+    {
+      "start": "0x484e89",
+      "end": "0x484eaa",
+      "successors": []
+    },
+    {
+      "start": "0x484eaa",
+      "end": "0x484ebf",
+      "successors": [
+        "0x484ebf",
+        "0x484f64"
+      ]
+    },
+    {
+      "start": "0x484ebf",
+      "end": "0x484edc",
+      "successors": [
+        "0x484edc"
+      ]
+    },
+    {
+      "start": "0x484edc",
+      "end": "0x484f2b",
+      "successors": [
+        "0x484f2b",
+        "0x484f44"
+      ]
+    },
+    {
+      "start": "0x484f2b",
+      "end": "0x484f44",
+      "successors": [
+        "0x484f44"
+      ]
+    },
+    {
+      "start": "0x484f44",
+      "end": "0x484f64",
+      "successors": [
+        "0x484edc",
+        "0x484f64"
+      ]
+    },
+    {
+      "start": "0x484f64",
+      "end": "0x484f69",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x483ee5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483eb0"
+    },
+    {
+      "from": "0x4bb5dc",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x4bb63e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4bb610"
+    },
+    {
+      "from": "0x4bb69f",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x4bc492",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4bb9e0"
+    }
+  ],
+  "code_targets": [
+    "0x483860",
+    "0x483880",
+    "0x48d170"
+  ],
+  "instruction_count": 177
+}

@@ -1,0 +1,25 @@
+0050B10D: xor     eax, eax; Logical Exclusive OR
+0050B10F: pop     esi
+0050B110: retn; Return Near from Procedure
+0050B111: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks
+0050B116: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050B11B: mov     byte ptr [edi+1], 0FFh
+0050B11F: and     al, 0EFh; Logical AND
+0050B121: pop     edi
+0050B122: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050B127: mov     eax, 2
+0050B12C: pop     esi
+0050B12D: retn; Return Near from Procedure
+0050B12E: call    sub_50ADE0; Call Procedure
+0050B133: test    eax, eax; Logical Compare
+0050B135: jnz     short loc_50B184; Jump if Not Zero (ZF=0)
+0050B137: inc     byte ptr [esi+0Dh]; Increment by 1
+0050B13A: or      battle_to_update_flags_dword_1D96A9C, 10h; Logical Inclusive OR
+0050B141: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks
+0050B146: mov     dl, byte_1D99A79
+0050B14C: mov     eax, dword_1D99A40
+0050B151: or      dl, 1; Logical Inclusive OR
+0050B154: push    eax
+0050B155: mov     byte_1D99A79, dl
+0050B15B: call    Camera_ZeroS16_Or800_IfPast_1D97494; E3c: convergence; P explicite
+0050B160: push    offset byte_1D99A78; int

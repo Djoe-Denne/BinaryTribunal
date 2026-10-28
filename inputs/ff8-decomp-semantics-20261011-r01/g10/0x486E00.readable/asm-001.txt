@@ -1,0 +1,22 @@
+00486E00: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)
+00486E05: cmp     eax, 0FFh; Compare Two Operands
+00486E0A: jnz     short loc_486E11; Jump if Not Zero (ZF=0)
+00486E0C: mov     ax, 8; empty -> 8 (= 1<<3), not 0
+00486E10: retn; Return Near from Procedure
+00486E11: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+00486E16: and     eax, 0FFh; Logical AND
+00486E1B: mov     ecx, eax
+00486E1D: and     ecx, 80000003h; MSVC signed %4 pattern on 0..255 value == &3 ; slot = (rng&3)+3 -> slots 3-6
+00486E23: jns     short loc_486E2A; Jump if Not Sign (SF=0)
+00486E25: dec     ecx; Decrement by 1
+00486E26: or      ecx, 0FFFFFFFCh; Logical Inclusive OR
+00486E29: inc     ecx; Increment by 1
+00486E2A: add     ecx, 3; Add
+00486E2D: lea     eax, [ecx+ecx*2]; Load Effective Address
+00486E30: lea     edx, [ecx+eax*4]; Load Effective Address
+00486E33: shl     edx, 4; Shift Logical Left
+00486E36: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00486E3D: jnz     short loc_486E11; Live capture 2026-08-09 (g08-native-meteor-rng-delta-pre-g09): Meteor entered 0x48E830 with mask 0xA018, hit_count=10, active RNG lane 1 cursor 186. Before first G09 cursor was 200: 14 draws. Each loop uses (Battle_GetRandomInt() & 3)+3; dead slots 5/6 rejected 4 times, accepted slots [3,3,3,4,3,4,3,4,3,4] exactly match the 10 resolved masks. One RNG byte is consumed per candidate attempt, including retries.
+00486E3F: mov     eax, 1
+00486E44: shl     eax, cl; Shift Logical Left
+00486E46: retn; Return Near from Procedure

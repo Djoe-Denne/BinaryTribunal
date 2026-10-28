@@ -1,0 +1,95 @@
+{
+  "schema": "v3-budget-parent-oracle-v1",
+  "authority": "parent requirements-derived expected values; no implementation was read or executed to generate these cases",
+  "execution": "NOT_RUN; later independent source review, compiler and pure-memory test GO required",
+  "globalCap": 262144,
+  "maxChunk": 4096,
+  "caps": {
+    "ControlFiles": 32768,
+    "FixtureMarkers": 57344,
+    "CapturedStreams": 114688,
+    "GuardianEvidence": 24576,
+    "DriverEvidence": 8192,
+    "GuardianResult": 8192,
+    "SupervisorResult": 8192,
+    "SupervisorReceipt": 8192
+  },
+  "cases": [
+    {
+      "id": "control_exact_then_one_over",
+      "slot": "ControlFiles",
+      "writes": [{"bytes": 4096, "repeat": 8}, {"bytes": 1, "repeat": 1}],
+      "expected": {"acceptedPrefixWrites": 8, "chargedBeforeRejection": 32768, "chargedAfterRejection": 32768, "streamLength": 32768, "heldAfterLast": true, "subsequentNewAdmissions": 0}
+    },
+    {
+      "id": "all_slots_exact_global_boundary",
+      "chunksOf4096BySlot": {"ControlFiles": 8, "FixtureMarkers": 14, "CapturedStreams": 28, "GuardianEvidence": 6, "DriverEvidence": 2, "GuardianResult": 2, "SupervisorResult": 2, "SupervisorReceipt": 2},
+      "expected": {"successfulWritesBeforeAnyExtraAttempt": 64, "charged": 262144, "streamLengthsSum": 262144, "heldBeforeExtraAttempt": false, "extraOneByteAccepted": false, "chargedAfterExtraAttempt": 262144, "heldAfterExtraAttempt": true},
+      "limit": "single local budget instance only; does not prove crossprocess uniqueness or integration of fixture writers"
+    },
+    {
+      "id": "partial_then_throw_no_refund",
+      "slot": "DriverEvidence",
+      "stream": {"canWrite": true, "writeBehavior": "write exactly 3 supplied bytes then throw on first Write"},
+      "write": {"bufferLength": 4096, "offset": 0, "count": 4096},
+      "expected": {"charged": 4096, "streamLength": 3, "held": true, "newWritesAfterHold": 0, "refund": 0, "callerStreamDisposed": false}
+    },
+    {
+      "id": "zero_bytes_no_underlying_write",
+      "slot": "GuardianEvidence",
+      "write": {"bufferLength": 1, "offset": 0, "count": 0},
+      "expected": {"charged": 0, "streamLength": 0, "underlyingWriteCalls": 0, "held": false}
+    },
+    {
+      "id": "negative_offset",
+      "slot": "ControlFiles",
+      "write": {"bufferLength": 8, "offset": -1, "count": 1},
+      "expected": {"accepted": false, "held": true, "charged": 0, "underlyingWriteCalls": 0}
+    },
+    {
+      "id": "range_end_integer_overflow",
+      "slot": "ControlFiles",
+      "write": {"bufferLength": 8, "offset": 2147483647, "count": 1},
+      "expected": {"accepted": false, "held": true, "charged": 0, "underlyingWriteCalls": 0}
+    },
+    {
+      "id": "chunk_4097_rejected_before_io",
+      "slot": "CapturedStreams",
+      "write": {"bufferLength": 4097, "offset": 0, "count": 4097},
+      "expected": {"accepted": false, "held": true, "charged": 0, "underlyingWriteCalls": 0}
+    },
+    {
+      "id": "duplicate_sink_is_sticky_hold",
+      "slot": "SupervisorReceipt",
+      "actions": ["open first sink", "attempt second sink for same slot", "attempt write on first sink"],
+      "expected": {"secondSinkGranted": false, "held": true, "charged": 0, "newWritesAfterHold": 0, "callerStreamsDisposed": false}
+    },
+    {
+      "id": "hold_is_case_wide",
+      "actions": ["open ControlFiles and GuardianEvidence", "cause invalid slice in ControlFiles", "attempt valid one-byte GuardianEvidence write"],
+      "expected": {"held": true, "charged": 0, "guardianWriteAccepted": false, "underlyingWriteCalls": 0}
+    },
+    {
+      "id": "reentrant_write_rejected",
+      "slot": "GuardianEvidence",
+      "stream": {"canWrite": true, "writeBehavior": "during outer five-byte write, synchronously attempt nested one-byte write on budget then complete outer write"},
+      "expected": {"nestedAccepted": false, "held": true, "charged": 5, "underlyingWriteCalls": 1, "streamLengthMax": 5, "noUnboundedRecursionOrDeadlock": true},
+      "limit": "outer return contract must be interpreted together with sticky Held; it cannot imply case acceptance"
+    },
+    {
+      "id": "bounded_concurrent_saturation",
+      "slot": "DriverEvidence",
+      "threads": 2,
+      "eachThreadAttempts": 3,
+      "eachWriteBytes": 4096,
+      "expected": {"chargedMax": 8192, "streamLengthMax": 8192, "heldAfterOverCapAttempt": true, "noNewAdmissionsAfterHold": true, "allPreviouslyChargedIoStillAccounted": true},
+      "limit": "no ordering/last-completer claim; earlier charged IO may finish after HOLD, never refund or accept the case"
+    },
+    {
+      "id": "caller_retains_stream_ownership",
+      "actions": ["write one byte through valid sink", "inspect caller stream after budget operations without disposing it"],
+      "expected": {"callerCanStillUseStream": true, "moduleSeekCalls": 0, "moduleTruncateCalls": 0, "moduleDisposeCalls": 0},
+      "limit": "caller direct writes outside the sink are not controlled or promoted as safe by the module"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+0048D484: mov     [esp+28h+magic_id], 0
+0048D48C: call    domain__BattleText_GetMiscText; Call Procedure
+0048D491: add     esp, 4; Add
+0048D494: mov     battle_message_pointer, eax
+0048D499: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D49E: and     edx, 0FFh; jumptable 0048D37A case 6
+0048D4A4: xor     edi, edi; Logical Exclusive OR
+0048D4A6: lea     esi, [edx-3]; Load Effective Address
+0048D4A9: lea     eax, [esi+esi*8]; Load Effective Address
+0048D4AC: shl     eax, 3; Shift Logical Left
+0048D4AF: sub     eax, esi; Integer Subtraction
+0048D4B1: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add
+0048D4B6: movzx   si, byte ptr [eax]; Move with Zero-Extend
+0048D4BA: cmp     si, bx; Compare Two Operands
+0048D4BD: jz      short loc_48D502; Jump if Zero (ZF=1)
+0048D4BF: inc     edi; Increment by 1
+0048D4C0: add     eax, 4; Add
+0048D4C3: cmp     edi, 4; Compare Two Operands
+0048D4C6: jl      short loc_48D4B6; Jump if Less (SF!=OF)
+0048D4C8: push    ebp
+0048D4C9: call    getAddressAbilityName; Call Procedure
+0048D4CE: push    5
+0048D4D0: mov     edi, eax
+0048D4D2: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048D4D9: mov     byte ptr [esp+2Ch+p_command_type], 0

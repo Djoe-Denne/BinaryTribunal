@@ -1,0 +1,25 @@
+00489D4A: push    80h; a2
+00489D4F: push    6Ah ; 'j'; a1
+00489D51: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00489D56: lea     ecx, [ebx+ebx*2]; Load Effective Address
+00489D59: mov     [eax], bx
+00489D5C: push    ebx
+00489D5D: lea     edx, [ebx+ecx*4]; Load Effective Address
+00489D60: shl     edx, 4; Shift Logical Left
+00489D63: or      byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489D6A: lea     eax, BATTLE_SLOT_DATA.status_1[edx]; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489D70: call    domain__BattleState_ResetForEject; Call Procedure
+00489D75: add     esp, 10h; Add
+00489D78: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489D7D: push    ebx; AI VM op 0x2C REMOVE_SELF_HIDDEN: ResetForEject; flag_data|=0x40; rebuild; status_1|=Death; flag_data&=~1
+00489D7E: call    domain__BattleState_ResetForEject; Call Procedure
+00489D83: lea     eax, [ebx+ebx*2]; Load Effective Address
+00489D86: add     esp, 4; Add
+00489D89: lea     edi, [ebx+eax*4]; Load Effective Address
+00489D8C: shl     edi, 4; Shift Logical Left
+00489D8F: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]
+00489D95: or      ecx, 40h; Logical Inclusive OR
+00489D98: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], ecx
+00489D9E: call    domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00489DA3: or      byte ptr BATTLE_SLOT_DATA.status_1[edi], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489DAA: mov     edx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]

@@ -1,0 +1,39 @@
+<task-result>
+<status>completed</status>
+<summary>CORRIGE — contrat V3 défendable en périmètre guardian vivant, mais clarifications de sûreté/ABI à ratifier avant source privilégiée ; aucune ancienne preuve promue.</summary>
+<details>
+VERDICT : CORRIGE, pas BLOCK d'impossibilité architecturale, pas PASS global.
+O = inputs/V3_CONTRACT_REVIEW_20261017 ; K = inputs/V3_KERNEL_REFS_ADDENDUM_20261017.
+Revue documentaire indépendante après les deux GO distincts, bootstrap NONBLIND déclaré ; aucun source/API/Job/compile/runtime exécuté ni fichier modifié.
+
+Huit ancrages et corrections bornées :
+
+1. Couverture crash — O/DOCS/ORDRE_MISSION.md:556-560.
+Le driver-loss avec G vivant peut satisfaire l'absence de fausse libération : arrêt du J possédé, preuve terminale puis FORCED_QUIESCENT, jamais testsPASS. Perdre G ne démontre pas l'arrêt ; HOLD/QUARANTINED sans libération ni réadmission est compatible avec cette règle, mais ne satisfait aucune gate exigeant une terminaison positivement observée après mort du contrôleur détenteur de J. Garder cas6 last-close NOT_ESTABLISHED. Publier la matrice S-loss/D-loss/G-loss et reprise : le draft décrit surtout D/G ; le détenteur durable du bail/fence après disparition de S et l'interdiction de remplacer un cas ambigu doivent être explicites. Ce n'est pas une exigence d'OS malveillant.
+
+2. Lifetime du root — K/REFERENCES/JOB_ACCOUNTING.md:127-133.
+TotalProcesses est cumulatif ; ActiveProcesses n'est décrémenté, selon le document, qu'après sortie et libération de toutes les références au processus. Le draft conserve l'original de T et ne fixe pas sa libération avant le zéro. Un auteur gardant hT jusqu'à SEALED peut donc attendre un zéro que son propre lifetime empêche dans le modèle documentaire. Ratifier : attendre/lire l'exit sur l'original, figer RootExitWitness attribuable, fermer les références process/thread possédées et duplicatas inventoriés, puis observer J en gardant J original vivant. Aucun reopen par PID. C'est une obligation documentaire/source à qualifier, pas le récit d'un test hôte ni une preuve d'impossibilité Windows.
+
+3. Prédicat kernel — K/REFERENCES/JOB_PID_LIST.md:98-108, avec QUERY_JOB et NESTED_JOBS du même paquet.
+Deux appels successifs ne sont pas atomiques. L'ABI doit exiger même J original non NULL, même cas/epoch, admissions définitivement scellées, root terminal attesté, lectures réussies/postérieures et ActiveProcesses=0 ET NumberOfAssignedProcesses=0 ET NumberOfProcessIdsInList=0. Une liste tronquée n'est jamais vide ; retour échoué/partiel/incohérent => HOLD, aucun ancien zéro recyclé. Cap8 actifs ne borne ni TotalProcesses ni les identités cumulées. Fixer buffer/compteurs/retries bornés ; pas d'agrandissement illimité sur ERROR_MORE_DATA, pas d'inventaire lifetime implicite cap8. Les vues nested couvrent J et ses enfants, pas un autre Job/ancêtre obtenu via NULL. Ces références ne qualifient toujours pas cas8 sur l'hôte.
+
+4. Variante et capacités — O/PARENT/V3_CONTRACT_DRAFT.md:35-64.
+Je recommande de ratifier G crée/assigne T, sans duplication de J à D : enlever l'alternative de duplication de cette version exécutable. D ne fournit que des intentions data-only bornées validées contre lease/pins/modes. Observer indépendant comme unité source, emprunt typé local à G ; propriété/fermeture de J non transférées par JSON. Publier types/droits/lifetimes, propriétaire de chaque handle, provenance et séquences des témoins. « Jamais réutiliser PID/handle » doit viser les anciennes références/receipts : Windows peut réemployer une valeur numérique ; seule une nouvelle identité liée à l'original et au nouvel epoch est admissible. Lire limites ET flags activés, dont le vrai JobMemoryLimit 4GiB, pas seulement des champs dont le flag peut être absent.
+
+5. Erreur n'est pas cleanup immédiat — O/PARENT/V3_CONTRACT_DRAFT.md:61-81.
+La règle générale erreur=>stickyHOLD+nettoyage des handles entre en ambiguïté avec l'arrêt possédé exigé après assignation. Séparer phase et stickyHOLD : bloquer nouvelles admissions, tenter FORCED_STOP/observations bornées avec J encore tenu, puis fermer selon outcome. Une fermeture sans preuve reste HOLD/nonlibérée, jamais KERNEL_QUIESCENT. Un writer saturé ne doit pas empêcher le contrôle d'arrêt. Distinguer aussi sortie ordonnée de G après preuve scellée/readback/ACK et perte avant preuve : sinon la phrase « perte G invalide toute acceptation » peut invalider la terminaison normale du protocole. Fixer la décision/fermeture dans l'ABI, pas après coup dans le driver.
+
+6. Budget — O/PARENT/V3_CONTRACT_DRAFT.md:85-106 et CAP_PARTITION.
+Calcul indépendant : huit caps=262144B ; 13×4096=53248B, marge markers4096B. Cela valide l'arithmétique, pas les 13 writers ni l'intégration. Avant qualification, ledger fermé catégorie→propriétaire global/cas→sinks/chemins→sous-bornes ; pas une copie de quota par processus/instance. Les catégories ControlFiles/Markers/Streams ne remplacent pas la preuve de chaque writer concret. Compter framing, résultats, erreurs, captures, écritures partielles et diagnostics/environnement ; pas de remboursement ni copie de secours hors slot. Conserver budget intégré NOT_PROVEN jusqu'à preuve source/protocole complète. Le module pur parallèle peut continuer indépendamment ; son cap ne prouve pas toute cette composition.
+
+7. Conservation/capture — O/PARENT/V3_CONTRACT_DRAFT.md:112-121.
+Le refus explicite EVIDENCE_INCOMPLETE est recevable comme échec conservé, pas comme succès. Mais précharger seulement avant Write laisse un trou si Read a déjà consommé un chunk que le sink refuse : ces raw ont déjà été observés. Exiger réservation de capture AVANT Read, taille≤min(4096,reste réservé), conservation des bytes bruts y compris UTF8 invalide, aucun read/drain hors budget pour compter les pertes. À épuisement sans EOF établi : HOLD ; quantité non collectée inconnue si non mesurable, jamais zéro inventé. Arrêt du producteur respecte l'ownership : T via G/J ; tuer G d'abord perd l'oracle et impose HOLD nonlibéré. Pas truncation silencieuse, effacement, waiver ou hausse de cap.
+
+8. Boucles et temps — O/PARENT/V3_CONTRACT_DRAFT.md:107-110.
+4096 observations +300 cleanup est une vraie borne proposée, pas encore un invariant suffisamment défini pour des auteurs indépendants. Figer compteurs cumulatifs par cas/epoch, débit AVANT tentative y compris erreur/retry, définition observation versus deux queries, aucune remise à zéro par sous-attente/transition. Publier les plafonds temporels chiffrés/versionnés et les attentes/I/O bornées : « bornes temps actuelles » ou Sleep ne suffisent pas. Épuisement => HOLD/nonlibéré, pas prolongation ou réarmement.
+
+Ratification minimale proposée : draft2 + matrice incidents/claims/reprise ; protocole de fermeture/RootExitWitness et prédicat de deux vues non atomiques ; variante G-creator et ABI/capacités/epochs/flags gelés ; ledger des writers et capture préchargée ; compteurs/temps exacts. Ensuite seulement source privilégiée disjointe, revue indépendante, compilation et qualifications inoffensives sous leurs gates parent. Pas nouveau GO utilisateur requis pour cet arbitrage ordinaire. Aucune preuve d'arrêt après last-close n'est introduite. Full44, L9/L10, native/FF8 et intégration restent hors acceptation.
+
+Intégrité finale : O 21payloads/307499B, K 12payloads/72478B, soit 33/379977B, 0 dérive après lecture ; huit références Microsoft concordent avec le manifeste de fetch original. Manifestes O=93d789242b15c3b4a7b00834346432ed34523ccbdb18e20a305853b9224c20f2 ; K=d01ee1442d536cdb8589bc2a318a46fba3d4776a0c23dee1b9851cb9ba2f2590. Reçus645a89d8/e9fad87e inchangés, draft85477125 inchangé, proofdir lié toujours ABSENT. Rapport public uniquement. Tâche de revue clôturée, pas ratification/source acceptance. HOLD parent.
+</details>
+</task-result>

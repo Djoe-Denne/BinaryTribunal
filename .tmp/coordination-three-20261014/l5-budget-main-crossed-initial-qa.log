@@ -1,0 +1,95 @@
+bun test v1.4.2 (744846f84)
+{"benchmark":"graph-interop-bounded-v1","shape":"chain","nodes":64,"calls":63,"groups":4,"units":4,"sparseBytes":7353,"elapsedMs":68.2,"native":false,"oracle":"synthetic-counts-only"}
+{"benchmark":"graph-interop-bounded-v1","shape":"disconnected","nodes":64,"calls":0,"groups":64,"units":64,"sparseBytes":5042,"elapsedMs":29.35,"native":false,"oracle":"synthetic-counts-only"}
+{"benchmark":"graph-interop-bounded-v1","shape":"chain","nodes":256,"calls":255,"groups":16,"units":16,"sparseBytes":29169,"elapsedMs":130.09,"native":false,"oracle":"synthetic-counts-only"}
+{"benchmark":"graph-interop-bounded-v1","shape":"disconnected","nodes":256,"calls":0,"groups":256,"units":256,"sparseBytes":19443,"elapsedMs":97.37,"native":false,"oracle":"synthetic-counts-only"}
+{"benchmark":"graph-interop-bounded-v1","shape":"chain","nodes":1024,"calls":1023,"groups":64,"units":64,"sparseBytes":117536,"elapsedMs":502.93,"native":false,"oracle":"synthetic-counts-only"}
+{"benchmark":"graph-interop-bounded-v1","shape":"disconnected","nodes":1024,"calls":0,"groups":1024,"units":1024,"sparseBytes":77811,"elapsedMs":395.47,"native":false,"oracle":"synthetic-counts-only"}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-sXx0pJ\\own.sqlite","bytes":245760,"sha256":"4c78ff164267910c4334caeb04f491879db4fc96ae7bcb98771c459f7d0bdfb1","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-jeUIG0\\own.sqlite","bytes":245760,"sha256":"593b119853b86f68e41b823588db387a93ff3bb28f6d141cd9138cb173b30480","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-5F56I1\\own.sqlite","bytes":282624,"sha256":"c0c629f23bf5c32d8593df29dd370ed86f19dfb66a073a591babede7f6d99f1a","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-cJqkuw\\own.sqlite","bytes":274432,"sha256":"719a5e8fc3c438af7489632040604e7c0a6acb265b9b23b1501f545f1cbdec4d","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-hHWLMU\\own.sqlite","bytes":262144,"sha256":"0870b77bb2443c5023a33c5cbe91c6cb6069279ac63442ddf537d1076c19e7f0","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-1LYwul\\own.sqlite","bytes":262144,"sha256":"416971a122c88173c25f0c2f12e0365230cd6213ee4ea27c39e8c75e871c1006","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-RsKy9o\\own.sqlite","bytes":262144,"sha256":"d1f0999c16fad20a720bdcf30ef4ce9b87bfb95a3b1fc17879d810307b2bf400","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-I18NPD\\own.sqlite","bytes":512000,"sha256":"8a771cbdeef275688cfefbfeabaf2377c3d2232ffc7028c1e6e3c953e1b2ed51","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-W0Pyvd\\own.sqlite","bytes":294912,"sha256":"e745a919f9b54beee8ec7aa3735c1a827513c4d9ea47212bb1bc0a45d586e8d6","retained":true,"native":false}
+{"evidence":"graph-interop-owned-offline-db","path":"C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\graph-interop-00yFnR\\own.sqlite","bytes":294912,"sha256":"398b0d65ec3954846f8234ef62db593dc40666a2a205686bd2d34774231c6349","retained":true,"native":false}
+
+
+test\benchmarks\graph-interop-scale.test.ts:
+(pass) L7 bounded offline graph interop scale (not universal performance) > chain/64: structural/group/semantic/planner accounting [68.36ms]
+(pass) L7 bounded offline graph interop scale (not universal performance) > disconnected/64: structural/group/semantic/planner accounting [29.37ms]
+(pass) L7 bounded offline graph interop scale (not universal performance) > chain/256: structural/group/semantic/planner accounting [130.11ms]
+(pass) L7 bounded offline graph interop scale (not universal performance) > disconnected/256: structural/group/semantic/planner accounting [97.40ms]
+(pass) L7 bounded offline graph interop scale (not universal performance) > chain/1024: structural/group/semantic/planner accounting [502.95ms]
+(pass) L7 bounded offline graph interop scale (not universal performance) > disconnected/1024: structural/group/semantic/planner accounting [395.49ms]
+
+test\simulator\graph-interop-adoption.test.ts:
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > explicit fixture must/cannot links have an independent membership oracle and contradiction [9.35ms]
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > merge then split preserves immediate parent lineage without recycling content identities [7.68ms]
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > local semantic maturity, not a similar name, enables the lexical relation [2.38ms]
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > copied/self-hashed proposal data is not authority; an independent offline host record is [5.60ms]
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > migration needs exact claims/attempts/revision authority, and launched units stay byte-exact [8.90ms]
+(pass) L7 interop: multiview constraints/lineage -> adoption -> immutable planning > empty knowledge delta is idempotent; revision-bound fixture/host admission is not a payload label [0.95ms]
+
+test\simulator\graph-interop-durability.test.ts:
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > immutable real plan survives reopen and same-resource reservations across two handles are fenced [60.35ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > reattaching even the same controller fences the old family, retaining claims [51.36ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > real new-plan activation uses CAS; stale active-plan expectations cannot reserve unchanged function IDs [47.20ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > L5 external fixture receipt is not laundered into a durable L6 authority binding [46.19ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > an unsent exact admission can be released; an ambiguous sent one cannot use absence [96.51ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > L4 quiescence callback resolves actual OWN L6 release/terminal inventory, not READY payload flags [54.97ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > a late accepted reply/result after event expiry is retained, never commits/unblocks; complete quiescence releases claims only [86.12ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > actual family/fixture commit/readback/artifact binding reopens with exact hashes, provenance and levels [271.85ms]
+(pass) L7 interop: actual L2/L3/L5 plans in OWN L6 persistence > level2 fixture requires complete host-author evidence; boolean/self-label/revoked record cannot authorize [110.13ms]
+
+test\simulator\graph-interop-planning.test.ts:
+(pass) L7 interop: normalized graph/groups -> dependency plan -> readiness > bounded graph census checks SCCs against transitive-closure equivalence, not Tarjan [487.13ms]
+(pass) L7 interop: normalized graph/groups -> dependency plan -> readiness > D/E commit enables B immediately while F is unfinished; A still waits B/C [14.23ms]
+(pass) L7 interop: normalized graph/groups -> dependency plan -> readiness > callee closure precedes UTF8 and selection budgets; bad quotient merge is separated [5.50ms]
+(pass) L7 interop: normalized graph/groups -> dependency plan -> readiness > immutable revisions and per-function G2 ownership persist across partition labels; G3 never blocks [2.58ms]
+(pass) L7 interop: normalized graph/groups -> dependency plan -> readiness > policy-optional edges do not hide a selected fragment of a confirmed native SCC [1.43ms]
+
+test\simulator\graph-interop-relations.test.ts:
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > 64 real normalized site proofs survive every downstream projection [21.64ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > 65 real normalized site proofs survive every downstream projection [19.47ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > 129 real normalized site proofs survive every downstream projection [34.42ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > different valid shard packing changes transport identity, not the call/dependency/proof semantics [13.39ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > conflicting native shard metadata is rejected before clustering/planning can hide it [7.36ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > callback DATA, retired calls and unresolved imports never become hidden obligatory work [3.73ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > own vs inherited policy keys: constructor [3.29ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > own vs inherited policy keys: toString [3.23ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > own vs inherited policy keys: hasOwnProperty [5.22ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > external null-producer receipt stays external with caller-only [8.54ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > external null-producer receipt stays external with separate [10.84ms]
+(pass) L7 interop: L2 transport relations through L3/L4/L5 > external null-producer receipt stays external with same-unit [9.66ms]
+
+test\simulator\graph-interop-structure.test.ts:
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > closed-form three-node PPR with dangling personalization (callee) [2.74ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > closed-form three-node PPR with dangling personalization (caller) [1.42ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > direct small cut/modularity equations and numerical refusal labels are preserved [2.03ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > communities-obvious: complete unique group ownership is not a native-completeness claim [2.37ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > components-disconnected: complete unique group ownership is not a native-completeness claim [1.09ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > hubs-utilities: complete unique group ownership is not a native-completeness claim [2.44ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > cycles-recursion: complete unique group ownership is not a native-completeness claim [1.25ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > isolates: complete unique group ownership is not a native-completeness claim [0.66ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > shared-data: complete unique group ownership is not a native-completeness claim [0.98ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-imports-thunks: complete unique group ownership is not a native-completeness claim [1.23ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-self-loop: complete unique group ownership is not a native-completeness claim [0.75ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-unknown-metrics: complete unique group ownership is not a native-completeness claim [0.54ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-chunks-tails: complete unique group ownership is not a native-completeness claim [1.03ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-idb-pe-quarantine: complete unique group ownership is not a native-completeness claim [1.01ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-data-callback-not-call: complete unique group ownership is not a native-completeness claim [1.13ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-multi-module: complete unique group ownership is not a native-completeness claim [0.90ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-same-name-different-hash: complete unique group ownership is not a native-completeness claim [0.90ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-identity-rename: complete unique group ownership is not a native-completeness claim [0.41ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > ff8-coverage-partial-tails: complete unique group ownership is not a native-completeness claim [0.52ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > OPEN L1 anomaly: original pinned bridges-rare is correctly rejected, never skipped/repaired [1.44ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > syntheticRareBridgeDeclaredSpanV1 is a separate explicit positive, not canonical L1 repair/native evidence [5.57ms]
+(pass) L7 interop: L1/L2 -> structural numerics -> groups -> L5 > original FF8 raw98 is hash-bound and remains PARTIAL/quarantined through actual modules [4270.80ms]
+
+ 60 pass
+ 0 fail
+ 3149 expect() calls
+Ran 60 tests across 6 files. [7.14s]

@@ -1,0 +1,25 @@
+00495D80: sub     esp, 0Ch; Integer Subtraction
+00495D83: push    ebx
+00495D84: mov     ebx, [esp+10h+gf_id]
+00495D88: mov     eax, ebx
+00495D8A: push    ebp
+00495D8B: shl     eax, 4; Shift Logical Left
+00495D8E: add     eax, ebx; Add
+00495D90: push    esi
+00495D91: lea     ecx, [ebx+ebx*2]; Load Effective Address
+00495D94: push    edi
+00495D95: mov     edx, SG_ARRAY_GF_DATA.Experience[eax*4]
+00495D9C: lea     edi, ds:1CFDCA8h[eax*4]; Load Effective Address
+00495DA3: lea     esi, ds:1CFF618h[ecx*4]; Load Effective Address
+00495DAA: push    ebx; gf_id
+00495DAB: push    edx; xp
+00495DAC: mov     [esp+24h+var_4], edi
+00495DB0: mov     byte ptr [esi+0Bh], 0
+00495DB4: mov     byte ptr [esi+9], 0
+00495DB8: mov     byte ptr [esi+0Ah], 64h ; 'd'
+00495DBC: call    sub_4960C0; Call Procedure
+00495DC1: mov     [esi+8], al
+00495DC4: mov     eax, [edi+0Ch]
+00495DC7: add     esp, 8; Add
+00495DCA: add     edi, 1Ch; Add
+00495DCD: mov     [esi+4], eax

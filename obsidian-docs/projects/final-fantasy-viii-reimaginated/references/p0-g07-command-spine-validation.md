@@ -4,8 +4,8 @@ category: references
 tags: [ff8, battle-system, testing, runtime-memory, reference]
 aliases: [G07 validation, command-spine closure evidence]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g07-command-spine-closure-v2-final-live.json
 summary: G07 v2 closes pending, grouped exec queues, arbitration and the action latch with visible native presentation and byte-exact rollback.
 provenance:
   extracted: 0.96

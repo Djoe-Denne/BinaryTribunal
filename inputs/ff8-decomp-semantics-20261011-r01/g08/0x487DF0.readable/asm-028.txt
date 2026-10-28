@@ -1,0 +1,25 @@
+0048874B: mov     eax, esi
+0048874D: add     esi, 2; Add
+00488750: movzx   cx, byte ptr [eax+1]; Move with Zero-Extend
+00488755: movzx   dx, byte ptr [eax]; Move with Zero-Extend
+00488759: shl     ecx, 8; Shift Logical Left
+0048875C: lea     eax, [ebx+ebx*2]; Load Effective Address
+0048875F: add     ecx, edx; Add
+00488761: lea     edx, [ebx+eax*4]; Load Effective Address
+00488764: mov     eax, dword ptr [esp+74h+opcode_param_1]
+00488768: and     eax, edi; Logical AND
+0048876A: lea     edx, [eax+edx*8]; Load Effective Address
+0048876D: mov     BATTLE_SLOT_DATA.elem_def[edx*2], cx
+00488775: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048877A: mov     al, [esi]; AI VM op 0x02 IF: subj(1),param(1),cmp(1),value(2),jump(2); if false byte_ptr += int16 jump. See subject table.
+0048877C: mov     cl, [esi+1]
+0048877F: inc     esi; Increment by 1
+00488780: mov     [esp+74h+op_param_2], cl
+00488784: inc     esi; Increment by 1
+00488785: mov     [esp+74h+opcode_param_1], al
+00488789: mov     dl, [esi]
+0048878B: inc     esi; Increment by 1
+0048878C: mov     [esp+74h+op_param_3], dl
+00488790: mov     ebp, dword ptr [esp+74h+opcode_param_1]
+00488794: movzx   cx, byte ptr [esi+1]; Move with Zero-Extend
+00488799: movzx   ax, byte ptr [esi]; Move with Zero-Extend

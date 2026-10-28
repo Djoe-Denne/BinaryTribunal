@@ -1,0 +1,25 @@
+0049074E: mov     edx, [esp+24h+mug_object_id]
+00490752: add     esp, 4; Add
+00490755: and     edx, 0FFh; Logical AND
+0049075B: push    eax
+0049075C: push    7
+0049075E: push    edx
+0049075F: call    getTextBattleItem; Call Procedure
+00490764: add     esp, 4; Add
+00490767: push    eax
+00490768: push    7
+0049076A: push    47h ; 'G'
+0049076C: call    domain__BattleText_GetMiscText; Call Procedure
+00490771: add     esp, 4; Add
+00490774: push    eax
+00490775: push    0Bh
+00490777: call    domain__BattleText_GetMiscText; Call Procedure
+0049077C: mov     al, [eax]
+0049077E: mov     edx, [esp+38h+CommandTypeId2]
+00490782: add     esp, 4; Add
+00490785: lea     ecx, [esp+34h+number_text_tmp]; Load Effective Address
+00490789: and     edx, 0FFh; Logical AND
+0049078F: push    eax
+00490790: push    ecx
+00490791: push    edx
+00490792: call    domain__BattleText_FormatNumber; Call Procedure

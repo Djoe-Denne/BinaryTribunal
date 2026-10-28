@@ -1,0 +1,25 @@
+00488010: mov     AI_BATTLE_ACTIVE_FLAG, 0
+00488017: test    eax, eax; Logical Compare
+00488019: mov     byte ptr ATTACKER_SLOT_ID_0+1, 1
+00488020: mov     byte ptr TARGET_SLOT_ID+1, 1
+00488027: jnz     short loc_488051; Jump if Not Zero (ZF=0)
+00488029: mov     ecx, 3
+0048802E: mov     eax, (offset BATTLE_SLOT_DATA.flag_data+270h)
+00488033: test    byte ptr [eax], 1; Logical Compare
+00488036: jz      short loc_48804B; Jump if Zero (ZF=1)
+00488038: add     eax, 0D0h; Add
+0048803D: inc     ecx; Increment by 1
+0048803E: cmp     eax, offset BATTLE_SLOT7_FLAG_DATA; Compare Two Operands
+00488043: jl      short loc_488033; Jump if Less (SF!=OF)
+00488045: mov     [esp+74h+p_ai_current_subcode], edi
+00488049: jmp     short loc_488055; Jump
+0048804B: mov     [esp+74h+p_ai_current_subcode], ecx
+0048804F: jmp     short loc_488055; Jump
+00488051: mov     [esp+74h+p_ai_current_subcode], eax
+00488055: mov     eax, [esp+74h+p_ai_current_subcode]
+00488059: push    eax
+0048805A: call    domain__BattleSlot_ManageDeathState; BattleSlot_ManageDeathState: death cleanup - com_file_id=-1, flag_data=0, status_1|=DEATH, zero crisis_level, fill timers with sentinel 0xFBA9
+0048805F: mov     ecx, [esp+78h+encounter_slot_to_enable]
+00488063: mov     edx, [esp+78h+p_ai_current_subcode]
+0048806A: push    ecx
+0048806B: push    edx

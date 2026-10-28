@@ -4,12 +4,12 @@ category: references
 tags: [ff8, battle-system, reverse-engineering, testing, reference]
 aliases: [G11 offline Magic, MagicSlice draft]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/core/src/magic_slice.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/kernel_magic_codec.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/offline/test_g11.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-offline-draft-2026-08-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/core/src/magic_slice.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/kernel_magic_codec.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/offline/test_g11.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g11-magic-live-validation-2026-08-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g11-magic-fire-v2-final-live-2026-08-18.json
 summary: Bounded G11 MagicSlice over authenticated K_MAGIC; Fire v2 live-promoted for HP/event/stock. Magic animation deferred G14.
 provenance:
   extracted: 0.78

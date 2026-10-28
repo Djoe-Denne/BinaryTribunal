@@ -1,0 +1,11 @@
+112 |   save('recovered-paused-readback.json', { at: new Date().toISOString(), status, team });
+113 |   const s = status.output as {ready?: boolean; pausedTeams?: string[]; admissionPausedTeams?: string[]};
+114 |   if (!s.ready || !s.pausedTeams?.includes(teamID) || !s.admissionPausedTeams?.includes(teamID)) throw new Error('Native protection/pause not verified');
+115 |   for (const name of affected) {
+116 |     const m = team.members.find((m: {name: string}) => m.name === name);
+117 |     if (m.status !== (name === 'l3-num-review' ? 'shutdown' : 'ready') || m.executionStatus !== 'idle') throw new Error('Recovery not confirmed for ' + name);
+                                                                                                                        ^
+error: Recovery not confirmed for l2-local-qa
+      at C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\member-recovery-20261014\activate.ts:117:115
+
+Bun v1.4.2 (Windows x64)

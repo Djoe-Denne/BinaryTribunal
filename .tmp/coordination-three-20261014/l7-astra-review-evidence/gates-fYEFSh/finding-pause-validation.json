@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "trace": [
+    {
+      "t": 0,
+      "seq": 4,
+      "ev": "unit_state",
+      "unitId": "A",
+      "from": "PENDING",
+      "to": "READY",
+      "reason": "prerequisites_verified"
+    },
+    {
+      "t": 0,
+      "seq": 5,
+      "ev": "unit_state",
+      "unitId": "A",
+      "from": "READY",
+      "to": "RESERVED",
+      "reason": "reserved_by:independent-review"
+    },
+    {
+      "t": 0,
+      "seq": 6,
+      "ev": "context_frozen",
+      "unitId": "A",
+      "revision": 0,
+      "manifest": "d25abac9bc252dd5a7481e8b841436bb20f21f29f0de6d15b23bf7f756e0950e",
+      "attempt": 1
+    },
+    {
+      "t": 0,
+      "seq": 8,
+      "ev": "unit_state",
+      "unitId": "A",
+      "from": "RESERVED",
+      "to": "RUNNING",
+      "reason": "job_admitted"
+    },
+    {
+      "t": 0,
+      "seq": 9,
+      "ev": "job_start",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "A",
+      "subIntentId": "[\"fn:A\",\"A\"]",
+      "workerId": 0,
+      "executionId": "A/fn:A/A/1",
+      "endTick": 1,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1",
+      "contextManifest": "d25abac9bc252dd5a7481e8b841436bb20f21f29f0de6d15b23bf7f756e0950e",
+      "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+    },
+    {
+      "t": 0,
+      "seq": 11,
+      "ev": "job_start",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "B",
+      "subIntentId": "[\"fn:A\",\"B\"]",
+      "workerId": 1,
+      "executionId": "A/fn:A/B/1",
+      "endTick": 1,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1",
+      "contextManifest": "d25abac9bc252dd5a7481e8b841436bb20f21f29f0de6d15b23bf7f756e0950e",
+      "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+    },
+    {
+      "t": 1,
+      "seq": 13,
+      "ev": "execution_released",
+      "unitId": "A",
+      "executionId": "A/fn:A/A/1",
+      "workerId": 0,
+      "token": 1,
+      "occupiedTicks": 1
+    },
+    {
+      "t": 1,
+      "seq": 14,
+      "ev": "job_done",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "A",
+      "executionId": "A/fn:A/A/1",
+      "workerId": 0,
+      "ticks": 1,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1"
+    },
+    {
+      "t": 1,
+      "seq": 15,
+      "ev": "execution_released",
+      "unitId": "A",
+      "executionId": "A/fn:A/B/1",
+      "workerId": 1,
+      "token": 1,
+      "occupiedTicks": 1
+    },
+    {
+      "t": 1,
+      "seq": 16,
+      "ev": "job_done",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "B",
+      "executionId": "A/fn:A/B/1",
+      "workerId": 1,
+      "ticks": 1,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1"
+    },
+    {
+      "t": 1,
+      "seq": 17,
+      "ev": "job_start",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "R",
+      "subIntentId": "[\"fn:A\",\"R\"]",
+      "workerId": 0,
+      "executionId": "A/fn:A/R/1",
+      "endTick": 2,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1",
+      "contextManifest": "4bf09bd6bbad1e2522e92db6d9c1c0eb0455d6cc1b3ea4b0818328e59ba76b8c",
+      "outputPath": "outputs/1f4dc5fa6db08bbec40d11a676eb104ff8f792cf93887447a4fed167bc4e1eb9.json"
+    },
+    {
+      "t": 2,
+      "seq": 19,
+      "ev": "execution_released",
+      "unitId": "A",
+      "executionId": "A/fn:A/R/1",
+      "workerId": 0,
+      "token": 1,
+      "occupiedTicks": 1
+    },
+    {
+      "t": 2,
+      "seq": 20,
+      "ev": "job_done",
+      "unitId": "A",
+      "functionId": "fn:A",
+      "role": "R",
+      "executionId": "A/fn:A/R/1",
+      "workerId": 0,
+      "ticks": 1,
+      "attempt": 1,
+      "token": 1,
+      "familyId": "family:A/1/1"
+    },
+    {
+      "t": 2,
+      "seq": 21,
+      "ev": "unit_state",
+      "unitId": "A",
+      "from": "RUNNING",
+      "to": "VALIDATING",
+      "reason": "all_function_R_complete"
+    },
+    {
+      "t": 6,
+      "seq": 23,
+      "ev": "bulletin",
+      "atTick": 6,
+      "unitId": "A",
+      "authorRole": "unauthorized",
+      "canonical": false,
+      "accepted": false,
+      "rejectionReason": "author_scope_hash_or_trace",
+      "canonicalKnowledge": false
+    }
+  ],
+  "traceHash": "dc84e0c3b0412e16455ea7e122555b9549d54032b2500c443c2c3cb6127b28b8",
+  "decisions": [
+    {
+      "t": 0,
+      "unitId": "A",
+      "familyId": "family:A/1/1",
+      "workerIds": [
+        0,
+        1,
+        0
+      ],
+      "attempt": 1,
+      "token": 1,
+      "executions": [
+        {
+          "executionId": "A/fn:A/A/1",
+          "functionId": "fn:A",
+          "role": "A",
+          "workerId": 0
+        },
+        {
+          "executionId": "A/fn:A/B/1",
+          "functionId": "fn:A",
+          "role": "B",
+          "workerId": 1
+        },
+        {
+          "executionId": "A/fn:A/R/1",
+          "functionId": "fn:A",
+          "role": "R",
+          "workerId": 0
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "version": 2,
+    "rolesParallel": true,
+    "makespan": 6,
+    "totalUnits": 1,
+    "deferredUnits": 0,
+    "committedUnits": 0,
+    "usefulWorkerTicks": 0,
+    "reworkWorkerTicks": 3,
+    "totalWorkerTicks": 72,
+    "utilization": 0,
+    "occupiedWorkerTicks": 3,
+    "occupationHorizonTicks": 2,
+    "occupationCapacityTicks": 24,
+    "occupationUtilization": 0.125,
+    "observationEndTick": 6,
+    "publicationEndTick": 0,
+    "occupationEndTick": 2,
+    "criticalPathTicks": 10,
+    "estimatedRemainingCriticalPathTicks": 4,
+    "totalWorkTicks": 3,
+    "lowerBoundTicks": 10,
+    "waits": {
+      "dependency": 0,
+      "conflict": 0,
+      "resource": 0,
+      "quota": 0,
+      "barrier": 0,
+      "paused": 3,
+      "validation": 1
+    },
+    "contextFreshness": {
+      "frozenAttempts": 1,
+      "staleAttempts": 0,
+      "revisionLagSum": 0
+    },
+    "reworkAttempts": 0,
+    "outcome": "stuck",
+    "outcomeReasons": [
+      "A:VALIDATING:profile/quota/resources"
+    ],
+    "overhead": {
+      "dispatchPasses": 7,
+      "readyPops": 1,
+      "consumerEdges": 0,
+      "heartbeatEvents": 0,
+      "admissions": 3,
+      "eventHeapComparisons": 28,
+      "conflictChecks": 2,
+      "readinessChecks": 1,
+      "workerCompatibilityChecks": 5,
+      "resourceBuckets": 1,
+      "maxReady": 1,
+      "resourceBucketScans": 7,
+      "workerVisits": 6,
+      "accountCapacityChecks": 0,
+      "conflictWaiterPops": 0,
+      "conflictWakeKeyVisits": 0,
+      "conflictHolderVisits": 1,
+      "conflictMembershipUpdates": 1,
+      "localDagNodes": 3,
+      "localDagEdges": 2
+    }
+  },
+  "bulletins": [
+    {
+      "atTick": 6,
+      "unitId": "A",
+      "authorRole": "unauthorized",
+      "canonical": false,
+      "accepted": false,
+      "rejectionReason": "author_scope_hash_or_trace"
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "legacy_synthetic_v1_assumptions",
+      "detail": "Manual synthetic v1: absent resource declarations are unrestricted, not an L5 export or proof of real capacity"
+    }
+  ],
+  "resourceModel": "legacy-manual-synthetic-v1",
+  "resourceModelLimit": "Conservative SIM envelope per execution; NOT equivalent to L5 family packing. A simulated refusal proves neither L5 infeasibility nor real saturation.",
+  "units": [
+    {
+      "unitId": "A",
+      "state": "VALIDATING",
+      "dispatchTick": 0,
+      "becameReadyTick": 0,
+      "commitLevel": null,
+      "attempts": 1,
+      "blockedReason": null,
+      "waitReason": "paused",
+      "waitTicks": 4
+    }
+  ]
+}

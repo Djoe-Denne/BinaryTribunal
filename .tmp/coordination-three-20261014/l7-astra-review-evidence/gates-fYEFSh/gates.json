@@ -1,0 +1,85 @@
+{
+  "task": "task_mv9qdvek_002y_6x3kw6",
+  "started": "2026-10-15T16:16:52.514Z",
+  "proofDir": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh",
+  "before": {
+    "count": 455,
+    "bytes": 5398908,
+    "bad": []
+  },
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "C:\\Users\\djden\\.bun\\bin\\bun.exe",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "ms": 3609,
+      "logs": {
+        "stdout": {
+          "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh/typecheck.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh/typecheck.stderr.log",
+          "bytes": 15,
+          "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        }
+      },
+      "summary": []
+    },
+    {
+      "name": "focused",
+      "command": [
+        "C:\\Users\\djden\\.bun\\bin\\bun.exe",
+        "test",
+        "test/simulator/simulator.test.ts",
+        "test/simulator/simulator-corrective.test.ts",
+        "test/simulator/simulator-g2-review-regressions.test.ts",
+        "test/benchmarks/benchmarks.test.ts",
+        "test/benchmarks/simulator-corrective.test.ts",
+        "--timeout",
+        "60000"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "ms": 5301,
+      "logs": {
+        "stdout": {
+          "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh/focused.stdout.log",
+          "bytes": 13279,
+          "sha256": "80491bd8f74dcdd26a21af951cce206db8bcf5c4f465366df3b1d8e3ebc55502"
+        },
+        "stderr": {
+          "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh/focused.stderr.log",
+          "bytes": 10843,
+          "sha256": "65446d8c2379bd6e5df68ec62e68e649c02da09585449c609fb4c0852cec5341"
+        }
+      },
+      "summary": [
+        "(pass) contract and independent graph oracle > immutable L5 export A->B/C with artifacts, local SCC recursion and self-loops [9.37ms]",
+        "(pass) contract and independent graph oracle > large SCC is dependency-exclusive and all functions publish once as one family [49.25ms]",
+        "(pass) contract and independent graph oracle > grouped local caller A/B wait callee R, not fake concurrent SCC semantics [1.53ms]",
+        "(pass) contract and independent graph oracle > tampered export fingerprint is not implicitly validated [0.79ms]",
+        "(pass) contract and independent graph oracle > required level2, wrong artifact hash/revision, envelope deficit never fabricated [1.67ms]",
+        "(pass) contract and independent graph oracle > unicode full envelope bytes, CRLF line boundaries, unsafe paths, native limits explicitly separated [0.72ms]",
+        "(pass) contract and independent graph oracle > full admission wrapper UTF8 exact boundary and distinct per-unit allocations [0.93ms]",
+        "(pass) contract and independent graph oracle > all directed three-node graphs: independent cycle oracle uses reachability, not lowlinks [671.29ms]",
+        " 76 pass",
+        " 0 fail",
+        " 13149 expect() calls",
+        "Ran 76 tests across 5 files. [5.27s]"
+      ]
+    }
+  ],
+  "after": {
+    "count": 455,
+    "bytes": 5398908,
+    "bad": []
+  },
+  "ended": "2026-10-15T16:17:01.517Z"
+}

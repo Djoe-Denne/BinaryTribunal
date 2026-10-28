@@ -1,0 +1,25 @@
+004903E1: mov     HIT_STATUS_1, ax; | ID     | Description |
+004903E7: mov     eax, BATTLE_SLOT_DATA.hit_status_2[edi]
+004903ED: mov     HIT_STATUS_2, eax; | ID         | Description |
+004903F2: mov     al, BATTLE_SLOT_DATA.hit_percent[edi]
+004903F8: mov     HIT_ATTACK_HITPERCENT, al
+004903FD: lea     eax, ds:0[ebx*8]; Load Effective Address
+00490404: sub     eax, ebx; Integer Subtraction
+00490406: lea     edi, [ebx+eax*4]; Load Effective Address
+00490409: shl     edi, 4; Shift Logical Left
+0049040C: xor     eax, eax; Logical Exclusive OR
+0049040E: mov     al, CURRENT_WEAPON_ID[edi]
+00490414: lea     eax, [eax+eax*2]; Load Effective Address
+00490417: mov     al, K_WEAPON.critBonus[eax*4]
+0049041E: mov     byte ptr RELATED_TO_CRIT_BONUS, al
+00490423: mov     edi, [esp+20h+CommandTypeId2]
+00490427: cmp     edi, 0FEh; switch 255 cases
+0049042D: ja      def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490433: xor     eax, eax; Logical Exclusive OR
+00490435: mov     al, ds:byte_4913B8[edi]
+0049043B: jmp     ds:jpt_49043B[eax*4]; switch jump
+00490442: and     ecx, 0FFFFh; jumptable 0049043B case 0
+00490448: mov     byte_1D28DF5, 1
+0049044F: add     ecx, 0FFFFFFFEh; switch 9 cases
+00490452: cmp     ecx, 8; Compare Two Operands
+00490455: ja      def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242

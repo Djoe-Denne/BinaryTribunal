@@ -1,0 +1,12 @@
+// Source projection only; creates no database, imports no product, runs no tests.
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous',sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const guard=JSON.parse(fs.readFileSync(base+'/l8-central-preflight/supplement/inputs/CURRENT_MAIN_HARNESS_GUARD.json','utf8')),promotion=JSON.parse(fs.readFileSync(base+'/l8-baseline-promotion-receipt.json','utf8')),schemas=JSON.parse(fs.readFileSync(base+'/l8-transport-schemas-deployment.json','utf8'));
+const entries=new Map(guard.files.map(f=>[f.path,f]));for(const f of promotion.acceptedRuntime16Pins)entries.set(f.path,f);for(const f of schemas.files){const p=path.relative(root,f.path).replaceAll('\\','/');entries.set(p,{...f,path:p});}
+if(entries.size!==260)throw Error('Projection count');for(const f of entries.values()){const b=fs.readFileSync(root+'/'+f.path),s=fs.lstatSync(root+'/'+f.path);if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||b.length!==f.bytes||sha(b)!==f.sha256)throw Error('Projection drift '+f.path);}
+const scratch='C:/Users/djden/AppData/Local/Temp/opencode/L8-FOCUSED-MAIN-'+Date.now();fs.mkdirSync(scratch);
+for(const f of entries.values()){const dest=scratch+'/'+f.path;fs.mkdirSync(path.dirname(dest),{recursive:true});fs.copyFileSync(root+'/'+f.path,dest,fs.constants.COPYFILE_EXCL);if(sha(fs.readFileSync(dest))!==f.sha256)throw Error('Projection copy drift');fs.chmodSync(dest,0o444);}
+for(const d of ['temp','localappdata/Temp/opencode','bun-cache','node-cache','.tmp/L8_PHASE_A_V2'])fs.mkdirSync(scratch+'/'+d,{recursive:true});
+fs.writeFileSync(scratch+'/bunfig.toml','[test]\npreload = []\n',{flag:'wx'});
+const bun='C:/Users/djden/.bun/bin/bun.exe',files=[...entries.values()],receipt={at:new Date().toISOString(),gate:'L8_FOCUSED_TEST_GATE.md',scratch,sourceRoot:root,files,bun:{path:bun,bytes:fs.statSync(bun).size,sha256:sha(fs.readFileSync(bun))},nodeModulesPresent:false,productImported:false,testsRun:false,databaseCreated:false,registry:scratch+'/.tmp/L8_PHASE_A_V2/focused-fixtures.jsonl'};
+fs.writeFileSync(base+'/l8-focused-snapshot-receipt.json',JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});fs.chmodSync(base+'/l8-focused-snapshot-receipt.json',0o444);console.log(JSON.stringify({snapshot:scratch,files:files.length,bytes:files.reduce((n,f)=>n+f.bytes,0),testsRun:false,registry:receipt.registry}));

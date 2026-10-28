@@ -1,0 +1,25 @@
+004880E0: add     eax, 0D0h; Add
+004880E5: inc     ecx; Increment by 1
+004880E6: cmp     eax, offset BATTLE_SLOT7_FLAG_DATA; Compare Two Operands
+004880EB: jl      short loc_4880D7; Jump if Less (SF!=OF)
+004880ED: mov     [esp+74h+p_ai_current_subcode], edi
+004880F1: mov     eax, [esp+74h+p_ai_current_subcode]
+004880F5: push    eax
+004880F6: call    domain__BattleSlot_ManageDeathState; BattleSlot_ManageDeathState: death cleanup - com_file_id=-1, flag_data=0, status_1|=DEATH, zero crisis_level, fill timers with sentinel 0xFBA9
+004880FB: mov     ecx, [esp+78h+encounter_slot_to_enable]
+004880FF: mov     edx, [esp+78h+p_ai_current_subcode]
+00488106: push    ecx
+00488107: push    edx
+00488108: call    domain__BattleSlot_AddMonsterToRAM; Call Procedure
+0048810D: mov     al, byte ptr [esp+80h+p_ai_current_subcode]
+00488114: mov     cl, byte ptr [esp+80h+encounter_slot_to_enable]
+00488118: push    offset domain__SceneOut_InitEnemySlot; a3
+0048811D: push    80h; a2
+00488122: push    71h ; 'q'; G14: AI 0x1F ENTER_MONSTER enqueue 0x71 + SceneOut_InitEnemySlot.
+00488124: mov     byte ptr ATTACKER_SLOT_ID_0+3, al
+00488129: mov     byte ptr TARGET_SLOT_ID, cl
+0048812F: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00488134: mov     al, byte ptr [esp+8Ch+p_ai_current_subcode]
+0048813B: add     esp, 18h; Add
+0048813E: push    offset domain__EnemyAI_MonsterEnterAnimation; shared enter-anim tail: 0x1F fall-through, 0x3B via jmp (relay 0x71 + SetTargetable + SetPhaseFlag 6)
+00488143: push    80h; a2

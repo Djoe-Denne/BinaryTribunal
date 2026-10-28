@@ -1,0 +1,25 @@
+00488BD4: inc     edi; Increment by 1
+00488BD5: cmp     eax, offset byte_1D2817B; Compare Two Operands
+00488BDA: jl      short loc_488BC7; Jump if Less (SF!=OF)
+00488BDC: mov     eax, 0FFh
+00488BE1: lea     ecx, [eax+eax*2]; Load Effective Address
+00488BE4: lea     ecx, [eax+ecx*4]; Load Effective Address
+00488BE7: mov     edi, [esp+74h+if_right_condition_final]
+00488BEB: mov     ebp, dword ptr [esp+74h+op_param_3]
+00488BEF: shl     ecx, 4; Shift Logical Left
+00488BF2: and     edi, 0FFFFh; Logical AND
+00488BF8: add     ecx, offset BATTLE_SLOT_DATA; Add
+00488BFE: and     ebp, 0FFh; Logical AND
+00488C04: test    edi, edi; Logical Compare
+00488C06: jbe     loc_488C94; Jump if Below or Equal (CF=1 | ZF=1)
+00488C0C: cmp     edi, 9; Compare Two Operands
+00488C0F: jbe     short loc_488C28; Jump if Below or Equal (CF=1 | ZF=1)
+00488C11: cmp     edi, 0Ah; Compare Two Operands
+00488C14: jnz     short loc_488C94; Jump if Not Zero (ZF=0)
+00488C16: mov     edx, [ecx+1Ch]
+00488C19: mov     eax, [ecx+18h]
+00488C1C: sar     edx, 2; Shift Arithmetic Right
+00488C1F: push    edx
+00488C20: push    ebp
+00488C21: push    eax
+00488C22: jmp     short loc_488C9A; Jump

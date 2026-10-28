@@ -1,0 +1,25 @@
+005067BC: call    au_re_BdLinkTask_6; Call Procedure
+005067C1: add     esp, 10h; Add
+005067C4: jmp     short loc_5067D0; Jump
+005067C6: and     battle_to_update_flags_dword_1D96A9C, 0EFFFFFFFh; Logical AND
+005067D0: mov     al, [esi+2]
+005067D3: and     eax, 30h; Logical AND
+005067D6: cmp     eax, 10h; Compare Two Operands
+005067D9: jz      short loc_5067ED; Jump if Zero (ZF=1)
+005067DB: cmp     eax, 20h ; ' '; Compare Two Operands
+005067DE: jz      short loc_5067E9; Jump if Zero (ZF=1)
+005067E0: cmp     eax, 30h ; '0'; Compare Two Operands
+005067E3: jnz     short loc_5067F8; Jump if Not Zero (ZF=0)
+005067E5: push    26h ; '&'
+005067E7: jmp     short loc_5067EF; Jump
+005067E9: push    28h ; '('
+005067EB: jmp     short loc_5067EF; Jump
+005067ED: push    27h ; '''
+005067EF: push    edi
+005067F0: call    au_re_BdLinkTask_5; Call Procedure
+005067F5: add     esp, 8; Add
+005067F8: push    esi
+005067F9: call    sub_5065B0; Call Procedure
+005067FE: push    esi; unsigned __int8 *
+005067FF: call    BattlePresentation_SpawnDamagePopup; Crée la présentation popup/réaction à partir d'un événement déjà routé; la chaîne appelante peut avoir appliqué HP/statuts via 0x493D80.
+00506804: mov     al, [esi+0Ch]

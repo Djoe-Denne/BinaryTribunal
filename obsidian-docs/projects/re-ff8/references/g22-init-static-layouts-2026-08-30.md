@@ -7,12 +7,12 @@ aliases: [G22 static catchup, enqueue policy 0x47D8A0, CharacterData 152]
 sources:
   - IDA IDB D:\Modding\ff8\retro-exe\FF8_EN.exe.i64
   - C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/FF8_EN.exe
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/fixtures/g12/kernel.bin
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/fixtures/g12/kernel.bin
   - docs/tech/systems/battle_init.md
   - projects/re-ff8/references/battle-formulas.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g22-battle-init-validation.md
   - C:/Users/djden/Documents/Square Enix/FINAL FANTASY VIII Steam/user_3441234/slot1_save02.ff8
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/fixtures/g22/sg_chara.bin
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/fixtures/g22/sg_chara.bin
 summary: >-
   IDB-proven G22 init octets: enqueue bits, CharacterData stride 152,
   K_MISC.dead_timer +0x0F = 200, ordinary start roll, Draw/SG_KNOWN_MAGIC.

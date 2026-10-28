@@ -1,0 +1,700 @@
+{
+  "group": "g08",
+  "status": "DISPATCH_READY",
+  "SOURCE": "discover-g08",
+  "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+  "source_report_message": "msg_12bea01500013I9zsEx91UmyLs",
+  "source_receipt_sha256": "8cd8fe56bc0b48fbccaf8106318f40535cf45ce22b8d12042427f5f3a9b144a0",
+  "source_candidate_preview_flag": false,
+  "source_note": "Source report separates legacy IDB annotations; no target candidate-preview flag reported. Four packets inventoried only; this prevents simple-route admission, not dual independent production.",
+  "common_compaction": "inputs/ff8-decomp-semantics-20261011-r01/g08/common-compaction.md",
+  "common_compaction_sha256": "c35b5fab419398689cc2a558c9d5482bbae087b8ae5858d470038630368a96bd",
+  "contract_sha256": "7b02409526370e917919de440c51bb39bc0216de2a4965bb43b79f561301d777",
+  "native_groups_sha256": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+  "native_pe_verification_sha256": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+  "model_ref_gate": "Lead must verify effective provider/id/variant before admission; classification author is never fork source.",
+  "routes": [
+    {
+      "ea": "0x47DDA0",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47DDA0.request.json",
+      "request_sha256": "77c60fe9343f0011170a70b18397d8e6002ea06efb5e7e37e8ad629d241212c9",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x47DDA0.json",
+      "input_packet_sha256": "2a26095ba60bfb93dbe50101b3208501d067b33d7fdd32bb16ff65f69717c7bf",
+      "frozen_native_sha256": "2a26095ba60bfb93dbe50101b3208501d067b33d7fdd32bb16ff65f69717c7bf",
+      "instruction_count": 63,
+      "native_assembly_chars": 3975,
+      "classifier_assembly_chars": 11058,
+      "pe_verified": true,
+      "status": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47DDA0.response.native.json",
+      "response_sha256": "50d65abb33806734a561ae90183f5d29e49cbf356ca0baf5f8349ecf1a248f14",
+      "complexity": 60,
+      "risk": 46,
+      "risk_source": "native uncertainty (operational risk proxy, not calibrated)",
+      "route": "medium",
+      "rationale": "v1: complexity 60, uncertainty/risk 46; native instructions 63. Not simple (scores exceed 25/20). No major structural trigger reported; inherited factual limitations and legacy labels require independent A+B and ASM-grounded R.",
+      "structural_flags": [
+        "legacy_IDB_annotations_not_semantic_evidence",
+        "common_compaction_partial_deep_read"
+      ],
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DDA0/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x484720",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x484720.request.json",
+      "request_sha256": "3c6c8fc9ca10065ab5771a94755c759e05990fd21ed4f7ae9ccf48ebf09dac0c",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x484720.json",
+      "input_packet_sha256": "8435d85d070ce27b0d7284198e80f697ddf172c1ce274405ab2ef3ac2cb78b91",
+      "frozen_native_sha256": "8435d85d070ce27b0d7284198e80f697ddf172c1ce274405ab2ef3ac2cb78b91",
+      "instruction_count": 34,
+      "native_assembly_chars": 2101,
+      "classifier_assembly_chars": 9184,
+      "pe_verified": true,
+      "status": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x484720.response.native.json",
+      "response_sha256": "efb55a84fc1706327d3333c9487e7d7b1269b7bea288ce0d0567179f5baeee8c",
+      "complexity": 42,
+      "risk": 41,
+      "risk_source": "native uncertainty (operational risk proxy, not calibrated)",
+      "route": "medium",
+      "rationale": "v1: complexity 42, uncertainty/risk 41; native instructions 34. Not simple (scores exceed 25/20). No major structural trigger reported; inherited factual limitations and legacy labels require independent A+B and ASM-grounded R.",
+      "structural_flags": [
+        "legacy_IDB_annotations_not_semantic_evidence",
+        "common_compaction_partial_deep_read"
+      ],
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x484720/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x47DE70",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47DE70.request.json",
+      "request_sha256": "ad22487a6904b98175d4672f3464293f0dd7bf67ef20661c8aa6e48b7ef3e5f0",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x47DE70.json",
+      "input_packet_sha256": "f95f8196d8a3533ec6f8e40400a30674e74d8ac6a2cd1abad0a4cd0e2bcdd9cf",
+      "frozen_native_sha256": "f95f8196d8a3533ec6f8e40400a30674e74d8ac6a2cd1abad0a4cd0e2bcdd9cf",
+      "instruction_count": 75,
+      "native_assembly_chars": 4445,
+      "classifier_assembly_chars": 11528,
+      "pe_verified": true,
+      "status": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47DE70.response.native.json",
+      "response_sha256": "f7c2fd6cf26218870df8d229b7ab915fb4e3344f2b469c415a461fb7136b7d86",
+      "complexity": 63,
+      "risk": 46,
+      "risk_source": "native uncertainty (operational risk proxy, not calibrated)",
+      "route": "medium",
+      "rationale": "v1: complexity 63, uncertainty/risk 46; native instructions 75. Not simple (scores exceed 25/20). No major structural trigger reported; inherited factual limitations and legacy labels require independent A+B and ASM-grounded R.",
+      "structural_flags": [
+        "legacy_IDB_annotations_not_semantic_evidence",
+        "common_compaction_partial_deep_read"
+      ],
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47DE70/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x47E120",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47E120.request.json",
+      "request_sha256": "8d95cc032f276238bb9305b0a11d82d834ef37208a25ec659d41ccf833759864",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x47E120.json",
+      "input_packet_sha256": "6132e811fc6a0b8275b34e5daf5a4ad4fab738f0102f069d57e010c728389785",
+      "frozen_native_sha256": "6132e811fc6a0b8275b34e5daf5a4ad4fab738f0102f069d57e010c728389785",
+      "instruction_count": 68,
+      "native_assembly_chars": 4097,
+      "classifier_assembly_chars": 11180,
+      "pe_verified": true,
+      "status": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x47E120.response.native.json",
+      "response_sha256": "7e442558a1e50aababe3b377041ffaacb9e2696d798b80c3ef1932c79c4517c2",
+      "complexity": 62,
+      "risk": 44,
+      "risk_source": "native uncertainty (operational risk proxy, not calibrated)",
+      "route": "medium",
+      "rationale": "v1: complexity 62, uncertainty/risk 44; native instructions 68. Not simple (scores exceed 25/20). No major structural trigger reported; inherited factual limitations and legacy labels require independent A+B and ASM-grounded R.",
+      "structural_flags": [
+        "legacy_IDB_annotations_not_semantic_evidence",
+        "common_compaction_partial_deep_read"
+      ],
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x47E120/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x482BD0",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x482BD0.request.json",
+      "request_sha256": "40a0139c26daa2fedb923668c950da7f783770f0ddfb09528237e7eed1eb3b12",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x482BD0.json",
+      "input_packet_sha256": "e90de76e7ac4bddd22ea2ab9aa5395cab32c6ca5e0df93816d8aa8c4fd8577f6",
+      "frozen_native_sha256": "e90de76e7ac4bddd22ea2ab9aa5395cab32c6ca5e0df93816d8aa8c4fd8577f6",
+      "instruction_count": 32,
+      "native_assembly_chars": 1529,
+      "classifier_assembly_chars": 8612,
+      "pe_verified": true,
+      "status": "DISPATCH_READY",
+      "classifier_kind": "classify_x86",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x482BD0.response.native.json",
+      "response_sha256": "36b41bca941f0d32e65353785db9070de8f313a2a2217d83b9f26df55fef185e",
+      "complexity": 52,
+      "risk": 40,
+      "risk_source": "native uncertainty (operational risk proxy, not calibrated)",
+      "route": "medium",
+      "rationale": "v1: complexity 52, uncertainty/risk 40; native instructions 32. Not simple (scores exceed 25/20). No major structural trigger reported; inherited factual limitations and legacy labels require independent A+B and ASM-grounded R.",
+      "structural_flags": [
+        "legacy_IDB_annotations_not_semantic_evidence",
+        "common_compaction_partial_deep_read"
+      ],
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "opencode-go/gpt-6-luna",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "medium",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "openai/gpt-6.1-sol",
+          "variant": "high",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x482BD0/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    },
+    {
+      "ea": "0x487DF0",
+      "SOURCE": "discover-g08",
+      "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x487DF0.request.json",
+      "request_sha256": "88a8be58c074fadb25b296f795bc1c5906d82936580253ccc98573aee52fcb83",
+      "input_packet_path": "inputs/ff8-decomp-semantics-20261011-r01/g08/0x487DF0.json",
+      "input_packet_sha256": "bcc948b73aa69b580d21ebcbe071dc92a26927f492b92e3ed54ea2bcf729b4cb",
+      "frozen_native_sha256": "bcc948b73aa69b580d21ebcbe071dc92a26927f492b92e3ed54ea2bcf729b4cb",
+      "instruction_count": 2447,
+      "native_assembly_chars": 140198,
+      "classifier_assembly_chars": 147281,
+      "pe_verified": true,
+      "status": "LUNA_OVERSIZE_REQUIRED",
+      "classifier_kind": "luna_oversize_pending",
+      "complexity": null,
+      "risk": null,
+      "route": "complex",
+      "oversize_classifier": {
+        "model": "openai/gpt-6-luna-fast",
+        "variant": "medium",
+        "owner": "lead",
+        "unchanged_full_payload": "outputs/ff8-decomp-semantics-20261011-r01/classification/g08/0x487DF0.request.json"
+      },
+      "rationale": "Complete classifier assembly is 147281 characters including inherited compaction; native ASM is 140198 characters / 2447 instructions. No Classify call or truncation. Production override remains dedicated GLM max 2+1 for each volet.",
+      "production_override": {
+        "model": "zai-coding-plan/glm-5.3-flash",
+        "variant": "max",
+        "protocol": "2+1_per_volet"
+      },
+      "dispatches": [
+        {
+          "volet": "C",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/C/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "B",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/C/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "C",
+          "role": "R",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/C/R.md",
+          "depends_on": [
+            "C.A",
+            "C.B"
+          ],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        },
+        {
+          "volet": "semantics",
+          "role": "A",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/semantics/A.md",
+          "depends_on": [],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "B",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/semantics/B.md",
+          "depends_on": [],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": null
+        },
+        {
+          "volet": "semantics",
+          "role": "R",
+          "model": "zai-coding-plan/glm-5.3-flash",
+          "variant": "max",
+          "SOURCE": "discover-g08",
+          "source_session_id": "ses_ed41fddf2ffegK7IFA995Loqlr",
+          "inheritance": "same factual explorer source; fresh independent fork per author; never classifier or sibling",
+          "output_path": "outputs/ff8-decomp-semantics-20261011-r01/productions/g08/0x487DF0/semantics/R.md",
+          "depends_on": [
+            "semantics.A",
+            "semantics.B"
+          ],
+          "admission_gate": "lead_oversize_classification_then_Model.Ref",
+          "reconciler_gate": "A+B deposited; compare against complete native ASM"
+        }
+      ]
+    }
+  ]
+}

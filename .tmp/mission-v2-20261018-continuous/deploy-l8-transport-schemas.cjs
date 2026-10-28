@@ -1,0 +1,7 @@
+// Parent-only byte-exact deployment of the two previously reviewed immutable schemas.
+const fs=require('fs'),crypto=require('crypto');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous',sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const list=[['l8-prepared-graph-v3.schema.json','fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9'],['l8-partition-adoption-v1.schema.json','c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e']];
+for(const[n,h]of list){const src=base+'/l8-central-preflight/inputs/schemas-candidate/'+n,dst=root+'/tools/ff8-harness/schemas/'+n;if(sha(fs.readFileSync(src))!==h||fs.existsSync(dst))throw Error('Schema pin/destination collision '+n);}
+const files=[];for(const[n,h]of list){const src=base+'/l8-central-preflight/inputs/schemas-candidate/'+n,dst=root+'/tools/ff8-harness/schemas/'+n;fs.copyFileSync(src,dst,fs.constants.COPYFILE_EXCL);const b=fs.readFileSync(dst);if(sha(b)!==h)throw Error('Schema deployment drift');files.push({path:dst,bytes:b.length,sha256:h});}
+const r={at:new Date().toISOString(),authority:'L8_PHASE1_OWNERSHIP_20261018.md',files,standaloneSourceReviewAlreadyAccepted:true,loaderWhitelistChanged:false,instancesValidated:false,authorityOrQuiescenceProven:false};fs.writeFileSync(base+'/l8-transport-schemas-deployment.json',JSON.stringify(r,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(r));

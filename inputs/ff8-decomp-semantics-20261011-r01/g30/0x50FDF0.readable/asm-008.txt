@@ -1,0 +1,25 @@
+0051006F: mov     ecx, [esp+38h+var_1C]
+00510073: and     ecx, 0FFFh; Logical AND
+00510079: mov     dx, [eax+2]
+0051007D: mov     [esp+38h+var_1C], ecx
+00510081: xor     ecx, ecx; Logical Exclusive OR
+00510083: mov     cx, [eax]
+00510086: mov     edi, ecx
+00510088: and     ecx, 0FFFh; Logical AND
+0051008E: shr     edi, 0Ch; Shift Logical Right
+00510091: lea     ebx, [esi+ecx*8]; Load Effective Address
+00510094: lea     ecx, [esi+edx*8]; Load Effective Address
+00510097: xor     edx, edx; Logical Exclusive OR
+00510099: mov     [esp+38h+packet], ecx
+0051009D: mov     dx, [eax+4]
+005100A1: mov     [esp+38h+var_24], ebx
+005100A5: mov     ebx, [ebx+4]
+005100A8: sub     edi, 8; Integer Subtraction
+005100AB: lea     ecx, [esi+edx*8]; Load Effective Address
+005100AE: xor     edx, edx; Logical Exclusive OR
+005100B0: mov     dx, [eax+6]
+005100B4: mov     [esp+38h+var_28], ecx
+005100B8: mov     ecx, [esi+edx*8+4]
+005100BC: lea     edx, [esi+edx*8]; Load Effective Address
+005100BF: mov     ebp, ecx
+005100C1: mov     [esp+38h+var_20], edx

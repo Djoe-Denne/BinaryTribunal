@@ -59,3 +59,4 @@ Noms de catalogue menteurs (CountAlive = find-first, SelectRandomMagicFromStock 
 - [[projects/re-ff8/concepts/external-battle-renderer-architecture]] - piste presentation qui recevra la semantique graphique.
 - [[projects/re-ff8/concepts/enemy-ai-vm]] et [[projects/re-ff8/concepts/command-action-pipeline]] - familles EnemyAI et exec/pending du catalogue.
 - [[projects/re-ff8/concepts/gforce-cinematic-architecture]] - familles GF_ du catalogue.
+- [[projects/re-ff8/concepts/ff8-harness-role-policy]] - extension 2026-10-13 du protocole : partage bulletin limite aux R d'un meme voisinage (observations provisoires), sorties strictes et wire gelé ; l'accord entre R communiquants n'est pas une confirmation independante.

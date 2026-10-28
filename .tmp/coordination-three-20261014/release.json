@@ -1,0 +1,133 @@
+{
+  "at": "2026-10-14T20:23:01.474Z",
+  "previous": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261014-member-recovery-71d3bcbee00f",
+  "release": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261014-coordination-three-0b4e7444042b",
+  "artifactSha256": "0b4e7444042bd667d080125e05de5bdbd0472a8be90d63f0c5aacc4e2b1e78d6",
+  "source": "C:/Users/djden/AppData/Local/Temp/opencode/ensemble-coordination-three-20261014",
+  "deployed": [
+    {
+      "file": "src/mechanical-preparation.ts",
+      "sha256": "028efe5998f2f92af1a9acfc3348c11700ee2fbeb4d3b6aa7db4e4bb0dfd362b"
+    },
+    {
+      "file": "src/pre-review.ts",
+      "sha256": "c14dd7fc169bf46eb36e55b069981cc166ff1266b2a369bb3dd5b9aa55e4f1d1"
+    },
+    {
+      "file": "src/l2-pre-review.ts",
+      "sha256": "a00b7ab797598ff829f7aee6cdc938a3c7d67a48c4bbc932fd5da9acf07df63a"
+    },
+    {
+      "file": "scripts/prepare-transfer.ts",
+      "sha256": "a177415e6109c65121ed4a1e06806e0203adf5a0bc868f1b7c5664c32fe83fbd"
+    },
+    {
+      "file": "scripts/plan-review.ts",
+      "sha256": "2732a32762142c05d23eda34737f19a5a21d2872ea14636a4a9340fac9a4bf9b"
+    },
+    {
+      "file": "scripts/pre-review.ts",
+      "sha256": "51089367f71741f968c7be81c1233995d3a09bd74e6ef435e0b6a987c932759a"
+    },
+    {
+      "file": "test/mechanical-preparation.test.ts",
+      "sha256": "db936c0c265482166dcaa907aa9f46cfe688e3ef79baa283d7318678feb56d73"
+    },
+    {
+      "file": "test/pre-review.test.ts",
+      "sha256": "ad2d4f241614c61a718447813113e59d9b7601cbca9811fe1c71e12394985ae4"
+    },
+    {
+      "file": "docs/COORDINATION_HELPERS.md",
+      "sha256": "647d2fc77393e0f85485e364f31662b41adddd94904a03bef3e8078c1e20f1dc"
+    },
+    {
+      "file": "dist/coordination/prepare-transfer.js",
+      "sha256": "927425101d033cfdeb7c1ef452ee3374a767a38fd06e284d7ee94ca254211cc3"
+    },
+    {
+      "file": "dist/coordination/plan-review.js",
+      "sha256": "ef2232ac744281f3e15ae620ff3716a5550769d46bd037c9ca4a2cf66040677a"
+    },
+    {
+      "file": "dist/coordination/pre-review.js",
+      "sha256": "4e1d4bc32d82dfad6fffe27e43711540f8e3c66bcfed7241426cdd2f17346f69"
+    }
+  ],
+  "gates": [
+    {
+      "label": "plugin-typecheck",
+      "command": "bun run typecheck",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/plugin-typecheck-hardened.log",
+      "summary": []
+    },
+    {
+      "label": "plugin-tests",
+      "command": "bun test",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/plugin-tests-hardened.log",
+      "summary": [
+        " 1266 pass",
+        " 0 fail"
+      ]
+    },
+    {
+      "label": "plugin-lint",
+      "command": "bun run lint",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/plugin-lint-hardened.log",
+      "summary": [
+        "Checked 88 files in 47ms. No fixes applied."
+      ]
+    },
+    {
+      "label": "plugin-build",
+      "command": "bun run build",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/plugin-build-hardened.log",
+      "summary": [
+        "Bundled 347 modules in 40ms"
+      ]
+    },
+    {
+      "label": "harness-typecheck",
+      "command": "bun run typecheck",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/harness-typecheck-hardened.log",
+      "summary": []
+    },
+    {
+      "label": "harness-tests",
+      "command": "bun test",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/harness-tests-hardened.log",
+      "summary": [
+        " 492 pass",
+        " 0 fail"
+      ]
+    },
+    {
+      "label": "harness-build",
+      "command": "bun run build",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/harness-build-hardened.log",
+      "summary": [
+        "Bundled 12 modules in 7ms"
+      ]
+    },
+    {
+      "label": "harness-build-helpers",
+      "command": "bun run build:coordination",
+      "exit": 0,
+      "file": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/harness-build-helpers-hardened.log",
+      "summary": [
+        "Bundled 8 modules in 7ms"
+      ]
+    }
+  ],
+  "pauseRetained": true,
+  "schemaVersion": 19,
+  "modelsUnchanged": true,
+  "powerAction": false
+}

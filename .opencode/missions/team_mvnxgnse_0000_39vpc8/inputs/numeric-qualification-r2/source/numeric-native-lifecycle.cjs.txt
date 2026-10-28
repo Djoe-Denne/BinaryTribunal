@@ -1,0 +1,157 @@
+'use strict';
+// Private lifecycle used by the collector and isolated deterministic tests.
+// Terminal admission and owned-handle release are shared by production/tests.
+const STREAM_CAP = 65536, PROTOCOL_CAP = 16 * 1024 * 1024;
+const ignoreLateOwnedError = () => {};
+function assertReleasableSocketClass(SocketClass) {
+  if (typeof SocketClass?.prototype?.terminate !== 'function')
+    throw Error('numeric-native-lifecycle: no synchronous owned socket termination surface; no child may start');
+}
+function createLifecycle(options = {}) {
+  const cap = options.streamCap ?? STREAM_CAP, protocolCap = options.protocolCap ?? PROTOCOL_CAP;
+  if (!Number.isSafeInteger(cap) || cap < 1 || cap > STREAM_CAP || !Number.isSafeInteger(protocolCap) || protocolCap < 1 || protocolCap > PROTOCOL_CAP)
+    throw Error('numeric-native-lifecycle: immutable cap invalid');
+  const clock = options.clock ?? { setTimeout, clearTimeout };
+  let phase = 'collecting', failure = null, child = null, socket = null, childIdentity = null;
+  let confirmedExit = null, spawnFailedWithoutPid = false, cleanupPromise = null, cleanupResolve = null;
+  let deadlineTimer = null, stopTimer = null, killAttempts = 0, finalizations = 0, incomplete = false;
+  let protocolBytes = 0, lateCallbacks = 0, rootReleaseUnknown = false, socketWasAttached = false, pipesOwned = 0;
+  const sink = () => ({ storage: Buffer.allocUnsafeSlow(cap), bytes: 0, discardedKnownBytes: 0, ended: false });
+  const streams = { stdout: sink(), stderr: sink() };
+  const disposers = [], ownedPipes = [], released = { pipes: 0, childUnref: false, socketTerminated: false, listeners: false, timers: false };
+  const issues = [];
+  const clearDeadline = () => { if (deadlineTimer !== null) { clock.clearTimeout(deadlineTimer); deadlineTimer = null; } };
+  const collecting = () => phase === 'collecting';
+  const fail = error => {
+    if (!collecting()) return false;
+    failure = error instanceof Error ? error.message : String(error); incomplete = true; phase = 'terminal'; clearDeadline();
+    options.onFailure?.(error instanceof Error ? error : Error(failure)); return true;
+  };
+  const ignored = () => { if (phase !== 'finalized') { lateCallbacks++; incomplete = true; } return false; };
+  function ingest(name, data) {
+    if (!collecting()) return ignored(); // no access to a rejected chunk or its backing allocation
+    if (!(data instanceof Uint8Array)) { fail(Error('invalid owned stream chunk')); return false; }
+    const sink = streams[name];
+    const remaining = cap - sink.bytes, copied = Math.min(remaining, data.byteLength);
+    if (copied > 0) sink.storage.set(data.subarray(0, copied), sink.bytes); // copies; never retains the incoming view
+    sink.bytes += copied;
+    if (data.byteLength > remaining) { sink.discardedKnownBytes += data.byteLength - copied; fail(Error(name + ' cap')); return false; }
+    return true;
+  }
+  const readStream = name => {
+    const sink = streams[name], prefix = Buffer.allocUnsafeSlow(sink.bytes);
+    prefix.set(sink.storage.subarray(0, sink.bytes)); return prefix;
+  };
+  const acceptProtocol = text => {
+    if (!collecting()) return ignored();
+    const bytes = Buffer.byteLength(text, 'utf8');
+    if (protocolBytes + bytes > protocolCap) { fail(Error('16MiB protocol cap')); return false; }
+    protocolBytes += bytes; return true;
+  };
+  const listen = (target, event, handler, web = false) => {
+    if (web) { target.addEventListener(event, handler); disposers.push(() => target.removeEventListener(event, handler)); }
+    else { target.on(event, handler); disposers.push(() => target.removeListener(event, handler)); }
+  };
+  const maybeComplete = () => {
+    if (collecting() && confirmedExit !== null && streams.stdout.ended && streams.stderr.ended && (socket === null || socketClosed)) {
+      phase = 'terminal'; clearDeadline(); options.onComplete?.();
+    }
+  };
+  const observeExit = (code, signal) => {
+    if (phase === 'finalized' || confirmedExit !== null) return;
+    confirmedExit = { code, signal };
+    if (cleanupResolve) cleanupResolve();
+    options.onExit?.(code, signal);
+    maybeComplete();
+  };
+  function attachChild(value) {
+    if (child !== null || !collecting()) throw Error('numeric-native-lifecycle: child binding closed');
+    child = value; childIdentity = { pid: value.pid ?? null };
+    listen(value, 'exit', observeExit);
+    listen(value, 'error', error => { if (!value.pid) spawnFailedWithoutPid = true; fail(error); });
+    for (const name of ['stdout', 'stderr']) {
+      const stream = value[name]; if (!stream) continue;
+      ownedPipes.push(stream); pipesOwned++;
+      listen(stream, 'data', data => {
+        const accepted = ingest(name, data);
+        if (accepted && name === 'stderr' && collecting()) options.onStderr?.(readStream(name));
+      });
+      listen(stream, 'end', () => { if (phase !== 'finalized') { streams[name].ended = true; maybeComplete(); } });
+      listen(stream, 'close', () => { if (collecting() && !streams[name].ended) fail(Error(name + ' closed before end')); });
+      listen(stream, 'error', fail);
+    }
+    if (value.stdin) { ownedPipes.push(value.stdin); pipesOwned++; }
+  }
+  function attachSocket(value, callbacks) {
+    if (socket !== null || !collecting()) throw Error('numeric-native-lifecycle: socket binding closed');
+    if (typeof value.terminate !== 'function') throw Error('numeric-native-lifecycle: socket lacks bounded release primitive');
+    socket = value; socketWasAttached = true;
+    listen(value, 'open', () => { if (collecting()) callbacks.open(); else ignored(); }, true);
+    listen(value, 'message', event => { if (collecting()) callbacks.message(event); else ignored(); }, true);
+    listen(value, 'error', () => fail(Error('owned inspector connection error')), true);
+    listen(value, 'close', () => { if (phase !== 'finalized') { socketClosed = true; maybeComplete(); } }, true);
+  }
+  let socketClosed = false;
+  function armDeadline(ms) {
+    if (!collecting() || deadlineTimer !== null) throw Error('numeric-native-lifecycle: deadline binding closed');
+    deadlineTimer = clock.setTimeout(() => fail(Error('owned-run deadline with cleanup reserve')), ms);
+  }
+  function releaseOwnedHandles() {
+    clearDeadline();
+    if (stopTimer !== null) { clock.clearTimeout(stopTimer); stopTimer = null; }
+    released.timers = true;
+    let listenersReleased = true;
+    for (const dispose of disposers.splice(0)) { try { dispose(); } catch { listenersReleased = false; rootReleaseUnknown = true; issues.push('listener detach failed'); } }
+    released.listeners = listenersReleased;
+    for (const stream of ownedPipes.splice(0)) {
+      try { stream.on?.('error', ignoreLateOwnedError); } catch { rootReleaseUnknown = true; issues.push('pipe error sink failed'); }
+      try { stream.destroy(); released.pipes++; } catch { rootReleaseUnknown = true; issues.push('pipe destroy failed'); }
+      try { stream.unref?.(); } catch { rootReleaseUnknown = true; issues.push('pipe unref failed'); }
+    }
+    if (socket) {
+      try { socket.terminate(); released.socketTerminated = true; }
+      catch { rootReleaseUnknown = true; issues.push('socket termination failed'); }
+    }
+    if (child) {
+      try { child.on?.('error', ignoreLateOwnedError); } catch { rootReleaseUnknown = true; issues.push('child error sink failed'); }
+      try { child.unref(); released.childUnref = true; }
+      catch { rootReleaseUnknown = true; issues.push('child unref failed'); }
+    }
+    socket = null; child = null; cleanupResolve = null;
+  }
+  const snapshot = () => {
+    const complete = failure === null && !incomplete && !rootReleaseUnknown && confirmedExit !== null
+      && streams.stdout.ended && streams.stderr.ended && (!socketWasAttached || socketClosed);
+    return { phase, failure, childIdentity: childIdentity && { ...childIdentity },
+    childExit: confirmedExit && { ...confirmedExit }, activeOwnedRunner: confirmedExit || spawnFailedWithoutPid || childIdentity === null ? false : 'unknown',
+    rootReleaseUnknown, killAttempts, finalizations, protocolBytes, lateCallbacks,
+    stdoutBytes: streams.stdout.bytes, stderrBytes: streams.stderr.bytes,
+    stdoutDiscardedKnownBytes: streams.stdout.discardedKnownBytes, stderrDiscardedKnownBytes: streams.stderr.discardedKnownBytes,
+    retainedBackingBytes: streams.stdout.storage.buffer.byteLength + streams.stderr.storage.buffer.byteLength,
+    stdoutEndObserved: streams.stdout.ended, stderrEndObserved: streams.stderr.ended,
+    socketCloseObserved: socketClosed, released: { ...released }, issues: [...issues],
+    ownsChildReference: child !== null, ownsSocketReference: socket !== null, pipesOwned,
+    ownedListenerCount: disposers.length, ownedTimerCount: Number(deadlineTimer !== null) + Number(stopTimer !== null),
+    allRawRetained: complete, retention: complete ? 'complete' : 'prefix-incomplete', incomplete: !complete, retryAllowed: false };
+  };
+  function cleanup(waitMs) {
+    if (cleanupPromise) return cleanupPromise;
+    if (!Number.isSafeInteger(waitMs) || waitMs < 0 || waitMs > 1000) throw Error('numeric-native-lifecycle: cleanup bound invalid');
+    phase = 'terminal'; clearDeadline();
+    cleanupPromise = (async () => {
+      if (child && child.pid && confirmedExit === null && !spawnFailedWithoutPid) {
+        const wait = new Promise(resolve => { cleanupResolve = resolve; stopTimer = clock.setTimeout(resolve, waitMs); });
+        killAttempts++;
+        try { child.kill(); } catch { incomplete = true; issues.push('kill failed'); }
+        await wait;
+      }
+      // Releasing OUR handles does not prove the child stopped. Its PID/lease
+      // identity and UNKNOWN survive; there is no second kill or retry.
+      releaseOwnedHandles();
+      phase = 'finalized'; finalizations++; return snapshot();
+    })();
+    return cleanupPromise;
+  }
+  return { collecting, fail, ingest, readStream, acceptProtocol, attachChild, attachSocket, armDeadline, observeExit, cleanup, snapshot };
+}
+module.exports = { createLifecycle, assertReleasableSocketClass, STREAM_CAP, PROTOCOL_CAP };

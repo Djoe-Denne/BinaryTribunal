@@ -1,0 +1,121 @@
+{
+  "role": "independent-L8-pure-codec-extraction-QA-source",
+  "at": "2026-10-18T15:54:40.915Z",
+  "team": "mission-a58a462638c0db92",
+  "task": "task_mvdyy9ti_001i_4pvgrf",
+  "worker": "l8-pure-factoring-qa-r1",
+  "inputs": {
+    "package": ".tmp/mission-v2-20261018-continuous/l8-pure-factoring-qa/inputs",
+    "inputManifestSha256": "51e1b2c80ddd8f7e496fb4008e21256a48b129b9cacc5f5fbe3b244a204d79d6",
+    "pins": 36,
+    "bytes": 1085644,
+    "pinCheck": "checked=36 bad=0 — hash SHA-256 et taille vérifiés pour chaque pin (rehash inclus dans le rapport final)"
+  },
+  "adjudication": {
+    "path": ".tmp/mission-v2-20261018-continuous/L8_PURE_FACTORING_QA_PLAN_ADJUDICATION.md",
+    "sha256": "a51b20d7ce94eb9efb42e745842731ac69a460bde9821eb615b5857f4767f4e7",
+    "correctionsApplied": [
+      "1. Identité === réservée aux publics historiques réellement exportés ; validatePlanning (:124) / validateInputSource (:241) / parseAdmissionSource (:252) testés uniquement par leur nouveau point d'entrée, sans réexport legacy exigé ni API élargie.",
+      "2. graphCopy : undefined REFUSÉ par graphJson avant canonical (throw « non-JSON/cyclic data ») ; contraste canonical({a:undefined})===\"{}\" documenté ; getters à compteur 0 sur les chemins de refus.",
+      "3. validatePlannerPolicy(admission=true) : clés budget OPTIONNELLES (policy sans elles acceptée) ; asymétrie admission=false → « unknown or missing field » ; admission complète testée via assertAdmissionBudgetBinding/parseAdmissionSource avec prérequis.",
+      "4. immutableSnapshot : structuredClone puis freeze seen-set — cycle supporté, copie séparée, original non congelé ; AUCUN oracle « accessor effacé sans appel » sur cette API.",
+      "5. Phases réelles des guards : array sparse+accessor → « sparse/extra array fields » (comptage Reflect.ownKeys avant descriptor) ; dense+accessor → « array accessor/hole » (getter 0 appel) ; chaîne admission ordonnée avec prérequis heap réels (pas de TypeError d'objet incomplet présenté comme refus planifié).",
+      "6. Domaines numériques distincts par API (graphInteger refuse -0 ; graphNumber et graphJson acceptent -0 ; assertBudgetJson refuse -0 ; validateSchema legacy integer = isSafeInteger sans exclusion -0) ; aucun plafond/alignement artificiel ; oracle statique-schema = test pinné existant, non dupliqué."
+    ]
+  },
+  "outputs": [
+    {
+      "path": "outputs/test/graph-phase2/pure-codecs.test.ts",
+      "bytes": 63423,
+      "sha256": "9bcb5f758fb754ec388498157f03cfa8e824d1251a2dad50747a522630c83b71",
+      "description": "Proposition de tests source Bun (heap-only) : identité === des publics historiques, classe GraphPersistenceError, primitives graph*, receipts level2/fixture-only, policy/template, admission source/input source positifs minimaux de contrat, admission binding chaîne ordonnée, validateGraphDocument legacy non élargi avec positif minimal cluster-partition depuis le vrai schéma pinné, lineage pure, semantic config codec, immutableSnapshot. AUCUNE exécution par la QA."
+    },
+    {
+      "path": "outputs/QA_PLAN.md",
+      "bytes": 17365,
+      "sha256": "d313f567e079b24a6a6ad21cb69c671a15b076438275e25dc828df8bfc922d81",
+      "description": "Matrice complète des tests avec oracles référencés (fichier:ligne du pin), corrections 1–6 appliquées, table des domaines numériques, fixtures manquantes, limites. Hash rempli à l'étape finale (voir rapport final)."
+    },
+    {
+      "path": "outputs/MANIFEST.json",
+      "bytes": null,
+      "sha256": null,
+      "description": "Ce manifest. Auto-hash impossible ; le parent le hache à la réception."
+    }
+  ],
+  "mappingChecks": [
+    { "from": "graph-pipeline.ts:25 graphCheck (export historique)", "to": "graph-pure-codecs.graphCheck", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:28 graphObject (export historique)", "to": "graph-pure-codecs.graphObject", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:38 graphKeys (export historique)", "to": "graph-pure-codecs.graphKeys", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:43 graphString (export historique)", "to": "graph-pure-codecs.graphString", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:44 graphInteger (export historique)", "to": "graph-pure-codecs.graphInteger", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:45 graphNumber (export historique)", "to": "graph-pure-codecs.graphNumber", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:47 graphArray (export historique)", "to": "graph-pure-codecs.graphArray", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:48 graphJson (export historique)", "to": "graph-pure-codecs.graphJson", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:63 graphCopy (export historique)", "to": "graph-pure-codecs.graphCopy", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:64 graphFreeze (export historique)", "to": "graph-pure-codecs.graphFreeze", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:69 graphDigest (export historique)", "to": "graph-pure-codecs.graphDigest", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:95 assertReceiptCoherence (export historique)", "to": "graph-pure-codecs.assertReceiptCoherence", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:104 validatePlannerPolicy (export historique)", "to": "graph-pure-codecs.validatePlannerPolicy", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:227 validateExecutionTemplate (export historique)", "to": "graph-pure-codecs.validateExecutionTemplate", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:281 admissionScopeKey (export historique)", "to": "graph-pure-codecs.admissionScopeKey", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:169 parsePreparedGraph (export historique)", "to": "graph-pure-codecs.parsePreparedGraph", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:124 validatePlanning (PRIVÉ au pin)", "to": "graph-pure-codecs.validatePlanning", "identityAsserted": false, "note": "cor.1 : nouveau point d'entrée testé directement, aucune assertion de réexport legacy, aucune API élargie" },
+    { "from": "graph-pipeline.ts:241 validateInputSource (PRIVÉ au pin)", "to": "graph-pure-codecs.validateInputSource", "identityAsserted": false, "note": "cor.1 : idem" },
+    { "from": "graph-pipeline.ts:252 parseAdmissionSource (PRIVÉ au pin)", "to": "graph-pure-codecs.parseAdmissionSource", "identityAsserted": false, "note": "cor.1 : idem" },
+    { "from": "graph-store.ts:204 validateGraphDocument (export historique)", "to": "graph-pure-codecs.validateGraphDocument", "identityAsserted": true },
+    { "from": "planner.ts:780 assertAdmissionBudgetBinding (export historique)", "to": "graph-pure-codecs.assertAdmissionBudgetBinding", "identityAsserted": true },
+    { "from": "lineage.ts:136 compareFunctionIds (export historique)", "to": "lineage-pure-codecs.compareFunctionIds", "identityAsserted": true, "note": "scc.ts:19 compareFunctionIds est une implémentation DIFFÉRENTE, non mappée, non modifiée — jamais assertée === au nouveau codec" },
+    { "from": "lineage.ts:145 sortFunctionIds", "to": "lineage-pure-codecs.sortFunctionIds", "identityAsserted": true },
+    { "from": "lineage.ts:149 communityContentId", "to": "lineage-pure-codecs.communityContentId", "identityAsserted": true },
+    { "from": "lineage.ts:492 proposalEvidenceFingerprint", "to": "lineage-pure-codecs.proposalEvidenceFingerprint", "identityAsserted": true },
+    { "from": "lineage.ts:899 partitionProposalFingerprint", "to": "lineage-pure-codecs.partitionProposalFingerprint", "identityAsserted": true },
+    { "from": "lineage.ts:948 isSerializableProposalData", "to": "lineage-pure-codecs.isSerializableProposalData", "identityAsserted": true },
+    { "from": "lineage.ts:1006 inspectProposalEvidence", "to": "lineage-pure-codecs.inspectProposalEvidence", "identityAsserted": true },
+    { "from": "lineage.ts:122 immutableSnapshot", "to": "semantic-config-codec.immutableSnapshot", "identityAsserted": true, "note": "identité via lineage.ts (maison d'export historique) ; semantic-index ne l'importe que sans l'exporter" },
+    { "from": "semantic-index.ts:297 configFingerprint", "to": "semantic-config-codec.configFingerprint", "identityAsserted": true },
+    { "from": "semantic-index.ts:1188 validConfig", "to": "semantic-config-codec.validConfig", "identityAsserted": true },
+    { "from": "semantic-index.ts:1098 provenanceReady", "to": "semantic-config-codec.provenanceReady", "identityAsserted": true },
+    { "from": "semantic-index.ts:36 ALGORITHM", "to": "semantic-config-codec.ALGORITHM", "identityAsserted": true },
+    { "from": "semantic-index.ts:37 ALGORITHM_VERSION", "to": "semantic-config-codec.ALGORITHM_VERSION", "identityAsserted": true },
+    { "from": "semantic-index.ts:38 LEXICAL_RULESET_VERSION", "to": "semantic-config-codec.LEXICAL_RULESET_VERSION", "identityAsserted": true },
+    { "from": "eventlog.ts:5 GraphPersistenceError", "to": "graph-persistence-errors.GraphPersistenceError", "identityAsserted": true, "note": "eventlog réexporte exactement la même classe ; catégories et instanceof intacts" },
+    { "from": "eventlog.ts:12 invariant", "to": "graph-persistence-errors.invariant", "identityAsserted": true, "note": "catégorie par défaut input préservée" }
+  ],
+  "anchors": [
+    "assertReceiptCoherence : level2+fixture-only refusé — « graph: receipt level2/fixture-only is incoherent (upstream OPEN); no relabel » (graph-pipeline.ts:97)",
+    "graphObject : accessor/symbole/non-énumérable refusés sans lire la valeur (compteur getter 0) — « accessor/symbol/nonenumerable data refused » (graph-pipeline.ts:33)",
+    "graphJson phases exactes : sparse+accessor → comptage Reflect.ownKeys d'abord (« sparse/extra array fields »), dense+accessor → « array accessor/hole » (graph-pipeline.ts:56-57)",
+    "graphCopy : undefined refusé AVANT canonical (cor.2), getters jamais invoqués, copie profonde canonique (graph-pipeline.ts:48-63)",
+    "Domaines numériques distincts sans widening : graphInteger refuse -0/2**53 ; graphNumber accepte -0 et 1e20 (graph-pipeline.ts:44-45, cor.6)",
+    "GraphPersistenceError/invariant : identité eventlog===persistence-errors, 6 catégories intactes, défaut input (eventlog.ts:5-14)",
+    "compareFunctionIds lineage : ordre numérique 0x9<0x10, module-hash d'abord, fallback texte ; scc.ts:19 distinct non asserté (lineage.ts:136 vs scc.ts:19)",
+    "validateGraphDocument : kind inconnu « unsupported graph document » catégorie schema + moteur legacy strict (unexpected/missing/type/enum/bounds) + positif minimal cluster-partition depuis le vrai schéma pinné (graph-store.ts:187-215)"
+  ],
+  "missingFixtures": [
+    "Positif complet parsePreparedGraph v1/v2 : snapshot contractuel (assertSnapshotContract graph.ts:519) + partition + groups + planning + sidecar + binding mutuellement liés par fingerprints — produisible par producteurs (buildGraphSnapshot/clusterGraph/planMission) ou fixture gelée future sous pins ; non inventé ici.",
+    "Positif complet validatePlanning / validateInputSource sur documents réels (mission-plan/work-unit complets).",
+    "Positif complet assertAdmissionBudgetBinding (plan+sidecar produits par planMission) — couvert par planner-admission-budget.test.ts pinné au gate parent.",
+    "Positif inspectProposalEvidence wellFormed — couvert par lineage.test.ts pinné au gate parent.",
+    "Positifs validateGraphDocument pour work-unit/mission-plan/knowledge-commit/graph-snapshot (requis imbriqués profonds) ; knowledge-commit exigerait un scientificCommitId cohérent."
+  ],
+  "limits": [
+    "Aucune coverage exécutée : la source est une proposition ; parent exécute compile/typecheck/tests séparément après V fresh ; S1 reste HOLD.",
+    "Imports legacy du test pour identité === et validation.ts (pur) pour digests cohérents — distincts du contrôle pure-closure statique parent ; l'import de lineage.ts déclenche ses deux readFileSync de schémas AU CHARGEMENT du module legacy (comportement historique préexistant).",
+    "Le fichier test ne devient résolvable qu'après intégration parent (imports ../../src/...).",
+    "planningIdentity (privé planner.ts:343) non répliqué : le test s'arrête à son refus exact.",
+    "Messages inatteignables par construction simple et non asserés : « independent current admission budget context required » (contexte toujours fourni), « non-JSON admission budget array key ».",
+    "Aucun test SQL/store/lease/dispatch réel ; aucun DB/OS/process/réseau dans le fichier QA."
+  ],
+  "nonblind": {
+    "read": [
+      "Paquet QA pinné complet (36 pins vérifiés) : SCOPE.md, MAPPING_DECISION.md, INPUT_MANIFEST.json, reference/src (20 fichiers, lectures sélectives), reference/test (static-json-schema-number.test.ts entier ; lineage.test.ts et planner-admission-budget.test.ts sondés par grep usage), tsconfig.json, package.json",
+      "Adjudication parent L8_PURE_FACTORING_QA_PLAN_ADJUDICATION.md (autorisée par le lead, hashée ci-dessus)"
+    ],
+    "notRead": [
+      "Outputs auteur l8-pure-factoring (src/DESIGN.md/MANIFEST)",
+      "Origins, production, outputs full44-q1-* et autres workers",
+      "Arbre principal du dépôt, session parent"
+    ]
+  }
+}

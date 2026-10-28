@@ -1,0 +1,25 @@
+0050B3AB: push    eax; magicID
+0050B3AC: call    BattleGF_LoadCallbackByMagicID; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.
+0050B3B1: mov     al, [ebp+0Dh]
+0050B3B4: add     esp, 8; Add
+0050B3B7: inc     al; Increment by 1
+0050B3B9: mov     word_1D99A44, 0
+0050B3C2: pop     edi
+0050B3C3: mov     [ebp+0Dh], al
+0050B3C6: pop     esi
+0050B3C7: pop     ebp
+0050B3C8: xor     eax, eax; Logical Exclusive OR
+0050B3CA: pop     ebx
+0050B3CB: retn; Return Near from Procedure
+0050B3CC: mov     eax, BATTLE_PRESENTATION_FILE_RESULT; jumptable 0050B2BD case 2
+0050B3D1: test    eax, eax; Logical Compare
+0050B3D3: jl      def_50B2BD; jumptable 0050B2BD default case
+0050B3D9: mov     al, byte ptr g_BattleCameraFlags
+0050B3DE: test    al, al; Logical Compare
+0050B3E0: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B3E6: mov     eax, dword_1D99A40
+0050B3EB: mov     ecx, [eax+74h]
+0050B3EE: sub     eax, offset g_BattlePresentationActors; Integer Subtraction
+0050B3F3: or      byte ptr [ecx+2Ch], 10h; Logical Inclusive OR
+0050B3F7: mov     ecx, eax
+0050B3F9: mov     eax, 0D20D20D3h

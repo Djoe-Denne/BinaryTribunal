@@ -1,5 +1,156 @@
 # Reprise — sémantique Grok 4.6 xhigh (1 analyse + review, escalade 2+1) → IDB + commit
 
+## Avenant utilisateur prioritaire — DRAIN / FRONTIÈRE FIGÉE (2026-10-10)
+
+**Ce bloc supersède la reprise automatique §9 et la cible continue12.**
+Demande exacte : « changement, fini les fonctions en cour puis push les dans
+IDB et save IDA. met à jour le handoff pour reprise dans une nouvelle session ».
+« Push » signifie append des findings valides dans l'IDB, **pas push remote**.
+
+- Gel unique à **2026-10-10T14:33:27.784642Z** :
+  [`CAMPAIGN_DRAIN_2026-10-10.json`](CAMPAIGN_DRAIN_2026-10-10.json), **44 EA
+  déjà engagées** (ne pas confondre avec 44 fonctions déjà closes historiques).
+  Source exacte des tasks, sessions, Model.Ref, timestamps et hashes du gel.
+  `CAMPAIGN_POOL_2026-10-10.json` : `activation=draining_native`,
+  `guards.dispatch_GO=false`; GO limité aux étapes de clôture de ces mêmes EA.
+  Aucun nouveau EA/famille/backend, aucune recharge11. Sous-effectif naturel
+  du drain explicitement autorisé.
+- Backlog jamais commencé **exclu** : `0x50AE00/0x50AE20/0x508540/0x505BC0/
+  0x505C00/0x506C10`. Packs préparés/READY ≠ travail engagé. Ne pas lancer.
+- Autoriser seulement corrections, reviews indépendantes, A/V/B/R et
+  contrôles nécessaires aux EA figées ; contextes natifs neufs possédés,
+  vrai `Model.Ref={providerID,id,variant:high}` sans suffixe dans l'id.
+  Un nouveau parent **ne reprend jamais les sessions enfants étrangères**.
+- Gate ASM §5.6 parent obligatoire, C final exact et provenance admise ;
+  append `set_func_cmt` non destructif/tag unique, save et readback sérialisés
+  dans **`D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64`**. Pas de rename,
+  SetType, patch, suppression ou promotion de UNKNOWN en CERTAIN. Un backend
+  x87/RAM absent ou une ABI/binding non prouvée reste BLOCKED, drafts conservés.
+- Proposition utilisateur de launch/attach préservée dans
+  `.tmp/campaign-live-proposal-recovery-2026-10-10.json` et
+  `.tmp/campaign-live-proposal-supervisor-handoff-2026-10-10.json`.
+  Question originale **pas encore retrouvée**, aucune table historique inventée.
+  Nouveau signal exact : « c'est fait, en combat (pause) et attaché (run) »
+  (`.tmp/campaign-live-readiness-2026-10-10.json`). Opérateur déjà attaché :
+  ne pas relancer/reattacher. RUN natif vérifié **14:26:42Z**, PID **34892**,
+  EXE SHA `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`,
+  base **0x400000**, ASLR delta0, **126 modules/hash fichiers** ; receipt
+  `.tmp/campaign-live-native-identity-2026-10-10.json`.
+  Ce sont des hashes **disque**, pas attestation des pages process.
+  Aucune mémoire cible lue à ce checkpoint ; pause jeu ≠ threads suspendus
+  ou same-frame. Lecture live uniquement si nécessaire à une EA figée après
+  filtre live ; aucune pause/step/resume/breakpoint/detach implicite, hook,
+  injection, écriture runtime, AF3DN/writer, fermeture IDA/jeu ou action power.
+- Étape historique au gel : collecter les 8 workers réellement actifs. Cette
+  étape est désormais **terminée**, ainsi que toutes les clôtures possibles
+  dans le périmètre autorisé ; voir le bilan terminal ci-dessous.
+  **Nouvelle session : lire ce bilan, puis attendre un GO explicite** ; pas
+  d'autoreprise PLAN, ni nouvelle équipe/harness/config globale.
+
+### Bilan TERMINAL — DRAINED / STOP_DISPATCH / GO nouvelle session obligatoire
+
+**Ne pas exécuter automatiquement §9, le PLAN ou les anciennes instructions
+de refill12 ci-dessous. Le drain est effectif : aucun worker actif/READY,
+aucun dispatch de nouvelle frontière, aucun redémarrage automatique.**
+
+- **44 EA engagées figées = 21 closes + 23 bloquées**. Les 6 EA de réserve
+  jamais commencées restent exclues. **21 nouvelles clôtures distinctes**,
+  pas des repairs : 44 historiques (38 + 6 pilote) + 21 = **65 cumulées**.
+  Les 7 commits de réparation de sérialisation ne gonflent pas ce compteur.
+  L'absence de ces 21 EA dans `semantic/` au commit pré-drain `ad7d2ce` a été
+  vérifiée ; ce dernier commit était du bookkeeping, pas une clôture.
+- Intégrées IDB, source/C/gates vérifiés puis append unique/save/readback :
+  `0x41DF0C, 0x45DCA0, 0x45E5C0, 0x45EE10, 0x45F930, 0x486DC0,
+  0x500DD0, 0x500FD0, 0x501190, 0x5082B0, 0x5082D0, 0x509440,
+  0x5099C0, 0x5099D0, 0x50A790, 0x50AE80, 0x50BC20, 0x50BD00,
+  0x50BD80, 0x56BBF0, 0x56D020`.
+- Confiance finale **LIKELY NUMERIC**, 20 pipelines 1+V ; `0x45DCA0` est
+  une résolution 2+1 **metadata**, A historique CONFLICT conservé, B/R
+  LIKELY et C inchangé. Pas de confirmation métier par le nom catalogue,
+  de backend compilé/ABI native/runtime/same-frame/ISO promotion supposée.
+- Commits locaux par EA, finals `semantic/` + C relu `decomp/` et ledger
+  réconcilié : [bilan lisible](CAMPAIGN_DRAIN_FINAL_2026-10-10.md) et
+  [registre détaillé](CAMPAIGN_DRAIN_FINAL_2026-10-10.json). Ce dernier fixe
+  **chaque EA/commit/repair, source SHA, C SHA/bytes/carrier, paths et SHA
+  des finals worktree/Git, packs/manifests, gates et receipts IDB**.
+  Les anciens C/reviews/gels/receipts/preimages restent préservés.
+- **SAVE IDA natif réellement confirmé** :
+  `idc.save_database(idc.get_idb_path()) → True (bool)` à
+  **2026-10-10T15:33:02.492531Z** dans
+  **`D:\Modding\ff8\retro-exe\FF8_EN.exe - 9.3.i64`**.
+  Readback exact après SAVE des **21 commentaires**, tag unique chacun et
+  source native SHA inchangée ; IDB disque 486048180 octets,
+  SHA-256 `b639cd92dbf2ca42a3bd4eeffef2f2c430603189c2058a60e058df935632d056`.
+  Receipt [CAMPAIGN_DRAIN_SAVE_2026-10-10.json](CAMPAIGN_DRAIN_SAVE_2026-10-10.json)
+  SHA `72d553a3f0bc3a7d907dcb74d7d35b3bd077d60bf92c797ab7570f7805fbc25a`.
+  IDA n'a pas été fermée ; aucun append supplémentaire nécessaire.
+- Worker quiescence : **167 sessions natives terminales vérifiées, 0 actif**,
+  snapshots réels Model.Ref/parentID/sessionID/outcome/timestamps et provenance
+  dans [CAMPAIGN_DRAIN_SESSIONS_2026-10-10.json](CAMPAIGN_DRAIN_SESSIONS_2026-10-10.json),
+  SHA `c80c3c6d86b6c8a14ffc4febd060051e1f07019938c1d8a16feea54e30293f38`.
+  Ces 167 incluent histoires/échecs : ce ne sont pas 167 fonctions/promotions.
+  Superviseur natif `openai/gpt-6.1-sol`, `variant=high`. Son contrôle est
+  clos, sa propre API n'est pas faussement déclarée terminale avant la réponse
+  finale. Nouvelle session : **jamais reprendre un enfant étranger**.
+- Queue : `activation=drained_user`, `dispatch_GO=false`,
+  `completion_dispatch_GO=false`, `refill_authorized=false` ; steering local
+  porte l'override explicite STOP. **0 worker-ready / 0 supervisor-ready**.
+  `tools/validate_campaign_pool.py --self-test` : **21 tests offline PASS**.
+  La capacité historique 1+11 dans le validateur n'est pas une occupation
+  active ni une instruction de reprise.
+- Debugger : readiness utilisateur « combat pause / attaché RUN » et
+  vérifications PID/RUN précédentes sont **historiques**. État natif présent
+  **`DSTATE_NOTASK=0`**, vérifié 15:27:21 puis avant/après SAVE final 15:33:02.
+  Cause **non établie**, ne pas inventer détachement, crash ou fermeture jeu.
+  **Aucun contrôle debugger/processus n'a été envoyé par l'assistant**.
+  Aucune lecture mémoire process cible ; pas de pause/step/resume/attach/
+  detach/breakpoint/runtime patch/hook/injection/power, ni fermeture IDA/jeu.
+- Question originale sur les tables et réponse **NON RETROUVÉES** ; perte de
+  stockage par compaction non prouvée. Rapport exact de recovery conservé.
+  Les candidats callback/stockage connus ne sont pas une reconstruction de
+  l'ancienne question ; live non nécessairement utile aux contrats manquants.
+
+### Blocages et reprise exacte
+
+- **23 EA non intégrées** : `0x45E9D0, 0x460860, 0x47CF60, 0x500900,
+  0x502380, 0x506690, 0x5083C0, 0x508F90, 0x5095B0, 0x50A9A0,
+  0x50AED0, 0x50AF20, 0x50AFC0, 0x50B0C0, 0x50B190, 0x50B2A0,
+  0x50B830, 0x50BB00, 0x50BDC0, 0x50BEE0, 0x50BF90, 0x50D300,
+  0x56C090`. Chaque blocker exact et SHA des partiels figure dans le registre
+  détaillé : backend x87/RAM/GPR non implémenté, bindings/domaines/ABI absents,
+  captures/alias/order/width à corriger, ou EUNKNOWN/uv_spawn sans C utilisable.
+  STRUCTURAL_ACCEPTE n'est pas C canonique ; CORRIGE/ESCALADE ne sont pas effacés.
+  N47CF60/N50A9A0 fixes ne sont pas admissibles sur la seule fin d'un audit.
+- **Next move nouvelle session : lire ce bloc et les receipts, contrôler
+  leurs SHA, puis ATTENDRE UN GO explicite**. Si GO sur une EA bloquée,
+  établir d'abord son contrat/binding/backend manquant ; pas de fallback solo,
+  nouvelle famille, génération superflue ou promotion par simple review/read.
+  Contextes neufs indépendants/high natif ; gates/IDB/save/git parent seul.
+  Les 6 EA non commencées requièrent un GO distinct si reprise de frontière.
+  Les helpers temporaires et la queue sont liés à l'ancien superviseur
+  `ses_edaf43c0cffeAOikFDjgKGcu9H` : après GO, un nouveau superviseur doit
+  d'abord prouver son propre Model.Ref high/ownership puis re-lier uniquement
+  le contrôle/les nouveaux enfants. Ne pas utiliser le OWNER ancien comme
+  preuve d'identité du nouveau parent, ni reprendre une session enfant passée.
+- Sept C CRLF (premier comptage oral « huit » corrigé) étaient normalisés LF
+  par Git. Les **carriers Base64 canoniques décodent byte-exact** les C acceptés
+  dans les commits ; fences de rendu LF non canoniques. Les 14 préfixes doc
+  ont été préservés, aucun C/gate/IDB changé, aucun attribut/config changé.
+  Le worker mécanique a déclaré son blocage patch/CRLF ; receipt conservé,
+  append binaire déterministe parent puis vérification blobs Git réelle.
+- Handoff/queue/journal/receipts ont été actualisés **localement** et ne sont
+  pas glissés dans les commits de fonction (whitelist canonique, HANDOFF exclu).
+  Pour un commit de bookkeeping, demander une autorisation ciblée explicite ;
+  pas de `git add .`, reset/cleanup/amend ou remote push. Les autres edits
+  utilisateur restent hors commits. **FIN de session superviseur / dispatch arrêté.**
+
+Pins additionnels : gel initial
+`efc044761c1f9bfbd120555d63ae4d1290482e9cf67e5c8d1f946d7bffe2880e` ;
+registre final JSON
+`53f1982bbdbdc7c3c735448d6f9c2ec02782022e1d8452188eabee49d86d65ce` ;
+bilan final Markdown
+`3a77198ae32ccc79ecccd960e81887e6a7e24c07a750c40dba4b0a58405210d9`.
+
 > Prompt de redémarrage. Coller tel quel dans un **nouveau chat**.
 > Première action : **§9**.
 > Campagne **parallèle** à la décompilation GLM (`HANDOFF_glm-triple-review.md`)

@@ -1,0 +1,25 @@
+004ADECE: test    cl, cl; Logical Compare
+004ADED0: jnz     short loc_4ADEE6; Jump if Not Zero (ZF=0)
+004ADED2: push    5
+004ADED4: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004ADED9: mov     eax, 4
+004ADEDE: add     esp, 4; Add
+004ADEE1: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004ADEE6: cmp     eax, 2Bh; switch 44 cases
+004ADEE9: ja      def_4ADEFA; jumptable 004ADEFA default case
+004ADEEF: mov     esi, 0Dh
+004ADEF4: jmp     short loc_4ADEFA; Jump
+004ADEF6: mov     ebx, [esp+1Ch+var_8]
+004ADEFA: jmp     ds:jpt_4ADEFA[eax*4]; switch jump
+004ADF01: mov     word ptr dword_1D768F0, bp; jumptable 004ADEFA case 0
+004ADF08: mov     word ptr dword_1D768F0+2, bp
+004ADF0F: mov     eax, 1
+004ADF14: jmp     loc_4AE669; Jump
+004ADF19: call    sub_4A9DF0; jumptable 004ADEFA case 3
+004ADF1E: test    al, 7Fh; Logical Compare
+004ADF20: jnz     short loc_4ADF36; Jump if Not Zero (ZF=0)
+004ADF22: push    5
+004ADF24: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004ADF29: add     esp, 4; Add
+004ADF2C: mov     eax, 4
+004ADF31: jmp     loc_4AE669; Jump

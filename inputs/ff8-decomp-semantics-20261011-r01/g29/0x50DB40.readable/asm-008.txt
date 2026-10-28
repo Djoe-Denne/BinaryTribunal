@@ -1,0 +1,25 @@
+0050DD63: mov     [esp+50h+arg_0], ecx
+0050DD67: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DD6C: push    ecx; jumptable 0050DC8B case 235
+0050DD6D: xor     ecx, ecx; Logical Exclusive OR
+0050DD6F: test    esi, esi; Logical Compare
+0050DD71: setle   cl; Set Byte if Less or Equal (ZF=1 | SF!=OF)
+0050DD74: push    ecx
+0050DD75: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque
+0050DD7A: mov     ecx, eax
+0050DD7C: add     esp, 8; Add
+0050DD7F: mov     [esp+50h+arg_0], ecx
+0050DD83: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DD88: xor     edx, edx; jumptable 0050DC8B case 236
+0050DD8A: push    ecx
+0050DD8B: test    esi, esi; Logical Compare
+0050DD8D: setl    dl; Set Byte if Less (SF!=OF)
+0050DD90: push    edx
+0050DD91: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque
+0050DD96: mov     ecx, eax
+0050DD98: add     esp, 8; Add
+0050DD9B: mov     [esp+50h+arg_0], ecx
+0050DD9F: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DDA4: push    ecx; jumptable 0050DC8B case 237
+0050DDA5: push    1
+0050DDA7: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3

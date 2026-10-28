@@ -1,0 +1,478 @@
+{
+  "ea": "0x50B2A0",
+  "name_label_only": "BattleActionSequence_Tick_GF_Cinematic",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50b2a0",
+      "end": "0x50b7e6",
+      "hex": "53558b6c240c568a5d0d8b75108bc325ff00000083f8090f8784040000ff2485e8b750006a406a1ae8b3d2ffff83c40885c00f8569040000e8b35effff85c00f855c040000fe450d800d0577d9018057830d9c6ad90110e8c4fcffffa1409ad9018b15509ad90133c98b70088a4a0281e6ffff7fff5150897008e8e1a8ffffe87c97020033d2b903000000f7f18b0d409ad90133c080ca1088154e9ad9018ac28b9184000000508b422c50e8d081ffff83c410c605479ad9010033ffbec072d9013b35409ad9017422f60602741d6a0b56e81a0d0000a0479ad901b2018bcf83c408d2e20ac2a2479ad90181c69c0000004781fe9474d9017cc78b0d509ad90133c068c4fe1d02668b410650e86ffbffff8a450d83c408fec066c705449ad90100005f88450d5e5d33c05bc3a1c899d90185c00f8c68030000a01877d90184c00f855b030000a1409ad9018b48742dc072d90180492c108bc8b8d3200dd2f7e903d1c1fa078bc2c1e81f03d080fa018815c46dd9017607c605c46dd90101fec35e885d0d5d33c05bc3a0906ad90184c00f850b0300008b0d409ad901f601040f84fc020000e8f6fff5ffa1409ad901668b1081e2fdff000083ca086689108b4874c6406100a0959bd9016681612cdfff3c027436f605479ad90104742d8b0d84d0b60068000001008d91000002005233d28ad0c1e21003d152e8b2e6ffff83c40c668125f873d901fdffa1c4fe1d0268789ad901a3c8fe1d02ffd0a3ac6ad901a1509ad90183c404807801fe751833c933d2668b48048a15f78dd2015152e8fd27060083c408fe450de892f9ffff85c00f854b020000a0959bd9013c027432f605479ad90104742933c968000001008ac8a184d0b600c1e11003c805000002005150e829e6ffff83c40c800df873d901028b35409ad901b8d3200dd28bce6a0081e9c072d901f7e903d133c98a4e04c1fa078bc2c1e81f03d05251e820bbffff8a450d83c40cfec088450de800bbffff85c00f85c90100008b35409ad901508bceb8d3200dd281e9c072d901f7e903d133c98a4e0480cd10c1fa078bc2c1e81f03d05251e8d7baffff8a450d83c40cfec088450de8b7baffff85c00f85800100008b15409ad90152e8430200008b0d409ad901b8d3200dd281e9c072d90183c404f7e903d1c1fa078bc2c1e81f03d080fa027304fec2eb02feca8815709ad9018b0d709ad90181e1ff0000008d0489c1e0032bc1c1e002f680c072d9010274176a005133c98a88c472d90180cd1051e84cbaffff83c40cfe450de831baffff85c00f85fa0000008b0d709ad90181e1ff0000008d0489c1e0032bc1c1e0028a90c072d9018d88c072d901f6c20274338088c272d9010451e894e5ffff80cc1050a1709ad90125ff0000008d1480c1e2032bd08d0495c072d90150e861a5ffff83c40c8b0d409ad901bec072d9013bf17434668b06a802742d25fbff0000668906a0819ad9013c0274136a0c56e8bf0900008b0d409ad90183c408eb098b15a8b9b80089562c81c69c00000081fe9474d9017cba668b0125f3ff00000c02668901a0819ad901804902043c02743a6a1451e8eba4ffff8b15409ad90133c98a0d4e9ad9018b828400000083c103518b482c51e8ea7dffff8a450d83c410fec088450d5e5d33c05bc38b51746a015166c742280000e8a8a4ffffa1409ad90150e81de5ffff8a450d83c40cfec088450d5e5d33c05bc3a01877d90184c075c4e84ef7ffff8a450d5efec088450d5d33c05bc3803d819ad90103752a68800000006a006887000000e8965fffff68800000006a006888000000e8855fffff83c418e8adeeffffa19c6ad901c64601ff24ef5ea39c6ad9015dc705649ad90100000000b8020000005bc3"
+    }
+  ],
+  "assembly": "0050B2A0: push    ebx; Presentation/state-machine layer only. Does NOT compute damage/status/stock.\n0050B2A1: push    ebp\n0050B2A2: mov     ebp, [esp+8+arg_0]\n0050B2A6: push    esi\n0050B2A7: mov     bl, [ebp+0Dh]\n0050B2AA: mov     esi, [ebp+10h]\n0050B2AD: mov     eax, ebx\n0050B2AF: and     eax, 0FFh; Logical AND\n0050B2B4: cmp     eax, 9; switch 10 cases\n0050B2B7: ja      def_50B2BD; jumptable 0050B2BD default case\n0050B2BD: jmp     ds:jpt_50B2BD[eax*4]; switch jump\n0050B2C4: push    40h ; '@'; jumptable 0050B2BD case 0\n0050B2C6: push    1Ah\n0050B2C8: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit\n0050B2CD: add     esp, 8; Add\n0050B2D0: test    eax, eax; Logical Compare\n0050B2D2: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B2D8: call    sub_501190; Call Procedure\n0050B2DD: test    eax, eax; Logical Compare\n0050B2DF: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B2E5: inc     byte ptr [ebp+0Dh]; Increment by 1\n0050B2E8: or      byte ptr dword_1D97704+1, 80h; jumptable 0050B2BD case 1\n0050B2EF: push    edi\n0050B2F0: or      battle_to_update_flags_dword_1D96A9C, 10h; Logical Inclusive OR\n0050B2F7: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks\n0050B2FC: mov     eax, dword_1D99A40\n0050B301: mov     edx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050B307: xor     ecx, ecx; Logical Exclusive OR\n0050B309: mov     esi, [eax+8]\n0050B30C: mov     cl, [edx+2]\n0050B30F: and     esi, 0FF7FFFFFh; Logical AND\n0050B315: push    ecx; animId\n0050B316: push    eax; actor\n0050B317: mov     [eax+8], esi\n0050B31A: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n0050B31F: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().\n0050B324: xor     edx, edx; Logical Exclusive OR\n0050B326: mov     ecx, 3\n0050B32B: div     ecx; Unsigned Divide\n0050B32D: mov     ecx, dword_1D99A40\n0050B333: xor     eax, eax; Logical Exclusive OR\n0050B335: or      dl, 10h; Logical Inclusive OR\n0050B338: mov     byte_1D99A4E, dl\n0050B33E: mov     al, dl\n0050B340: mov     edx, [ecx+84h]\n0050B346: push    eax; int\n0050B347: mov     eax, [edx+2Ch]\n0050B34A: push    eax; unsigned __int16 *\n0050B34B: call    BattleCamera_StartTrack; Alloue d'abord l'un des 2 noeuds BdLink caméra, puis scanne 2 records de 0x524. Le scan local n'a pas de garde 'pool plein', mais le 3e démarrage normal échoue au registre BdLink tant que les cycles de vie restent couplés. record[0]=variant; 0xFF=libre.\n0050B350: add     esp, 10h; Add\n0050B353: mov     byte_1D99A47, 0\n0050B35A: xor     edi, edi; Logical Exclusive OR\n0050B35C: mov     esi, offset g_BattlePresentationActors\n0050B361: cmp     esi, dword_1D99A40; Compare Two Operands\n0050B367: jz      short loc_50B38B; Jump if Zero (ZF=1)\n0050B369: test    byte ptr [esi], 2; Logical Compare\n0050B36C: jz      short loc_50B38B; Jump if Zero (ZF=1)\n0050B36E: push    0Bh\n0050B370: push    esi\n0050B371: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript\n0050B376: mov     al, byte_1D99A47\n0050B37B: mov     dl, 1\n0050B37D: mov     ecx, edi\n0050B37F: add     esp, 8; Add\n0050B382: shl     dl, cl; Shift Logical Left\n0050B384: or      al, dl; Logical Inclusive OR\n0050B386: mov     byte_1D99A47, al\n0050B38B: add     esi, 9Ch; Add\n0050B391: inc     edi; Increment by 1\n0050B392: cmp     esi, offset word_1D97494; Compare Two Operands\n0050B398: jl      short loc_50B361; Jump if Less (SF!=OF)\n0050B39A: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050B3A0: xor     eax, eax; Logical Exclusive OR\n0050B3A2: push    offset g_GfActiveCallbackPtr; int (__cdecl **)(int)\n0050B3A7: mov     ax, [ecx+6]\n0050B3AB: push    eax; magicID\n0050B3AC: call    BattleGF_LoadCallbackByMagicID; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.\n0050B3B1: mov     al, [ebp+0Dh]\n0050B3B4: add     esp, 8; Add\n0050B3B7: inc     al; Increment by 1\n0050B3B9: mov     word_1D99A44, 0\n0050B3C2: pop     edi\n0050B3C3: mov     [ebp+0Dh], al\n0050B3C6: pop     esi\n0050B3C7: pop     ebp\n0050B3C8: xor     eax, eax; Logical Exclusive OR\n0050B3CA: pop     ebx\n0050B3CB: retn; Return Near from Procedure\n0050B3CC: mov     eax, BATTLE_PRESENTATION_FILE_RESULT; jumptable 0050B2BD case 2\n0050B3D1: test    eax, eax; Logical Compare\n0050B3D3: jl      def_50B2BD; jumptable 0050B2BD default case\n0050B3D9: mov     al, byte ptr g_BattleCameraFlags\n0050B3DE: test    al, al; Logical Compare\n0050B3E0: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B3E6: mov     eax, dword_1D99A40\n0050B3EB: mov     ecx, [eax+74h]\n0050B3EE: sub     eax, offset g_BattlePresentationActors; Integer Subtraction\n0050B3F3: or      byte ptr [ecx+2Ch], 10h; Logical Inclusive OR\n0050B3F7: mov     ecx, eax\n0050B3F9: mov     eax, 0D20D20D3h\n0050B3FE: imul    ecx; Signed Multiply\n0050B400: add     edx, ecx; Add\n0050B402: sar     edx, 7; Shift Arithmetic Right\n0050B405: mov     eax, edx\n0050B407: shr     eax, 1Fh; Shift Logical Right\n0050B40A: add     edx, eax; Add\n0050B40C: cmp     dl, 1; Compare Two Operands\n0050B40F: mov     byte_1D96DC4, dl\n0050B415: jbe     short loc_50B41E; Jump if Below or Equal (CF=1 | ZF=1)\n0050B417: mov     byte_1D96DC4, 1\n0050B41E: inc     bl; Increment by 1\n0050B420: pop     esi\n0050B421: mov     [ebp+0Dh], bl\n0050B424: pop     ebp\n0050B425: xor     eax, eax; Logical Exclusive OR\n0050B427: pop     ebx\n0050B428: retn; Return Near from Procedure\n0050B429: mov     al, byte_1D96A90; jumptable 0050B2BD case 3\n0050B42E: test    al, al; Logical Compare\n0050B430: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B436: mov     ecx, dword_1D99A40\n0050B43C: test    byte ptr [ecx], 4; Logical Compare\n0050B43F: jz      def_50B2BD; jumptable 0050B2BD default case\n0050B445: call    InitializeSound_CAL_sfx_stop_all2; Call Procedure\n0050B44A: mov     eax, dword_1D99A40\n0050B44F: mov     dx, [eax]\n0050B452: and     edx, 0FFFDh; Logical AND\n0050B458: or      edx, 8; Logical Inclusive OR\n0050B45B: mov     [eax], dx\n0050B45E: mov     ecx, [eax+74h]\n0050B461: mov     byte ptr [eax+61h], 0\n0050B465: mov     al, byte_1D99B95\n0050B46A: and     word ptr [ecx+2Ch], 0FFDFh; Logical AND\n0050B470: cmp     al, 2; Compare Two Operands\n0050B472: jz      short loc_50B4AA; Jump if Zero (ZF=1)\n0050B474: test    byte_1D99A47, 4; Logical Compare\n0050B47B: jz      short loc_50B4AA; Jump if Zero (ZF=1)\n0050B47D: mov     ecx, off_B6D084\n0050B483: push    10000h; size\n0050B488: lea     edx, [ecx+20000h]; Load Effective Address\n0050B48E: push    edx; src\n0050B48F: xor     edx, edx; Logical Exclusive OR\n0050B491: mov     dl, al\n0050B493: shl     edx, 10h; Shift Logical Left\n0050B496: add     edx, ecx; Add\n0050B498: push    edx; dst\n0050B499: call    MemMove_OverlapSafe; Call Procedure\n0050B49E: add     esp, 0Ch; Add\n0050B4A1: and     word ptr dword_1D973F8, 0FFFDh; Logical AND\n0050B4AA: mov     eax, g_GfActiveCallbackPtr\n0050B4AF: push    offset byte_1D99A78\n0050B4B4: mov     g_BattleActionCallbackPtr_C8, eax\n0050B4B9: call    eax ; g_GfActiveCallbackPtr; E2 action_seq call eax: eax=[C4] copie C8; cible MagicList_Logic\n0050B4BB: mov     g_GfSequenceContextCandidateA, eax\n0050B4C0: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050B4C5: add     esp, 4; Add\n0050B4C8: cmp     byte ptr [eax+1], 0FEh; Compare Two Operands\n0050B4CC: jnz     short loc_50B4E6; Jump if Not Zero (ZF=0)\n0050B4CE: xor     ecx, ecx; Logical Exclusive OR\n0050B4D0: xor     edx, edx; Logical Exclusive OR\n0050B4D2: mov     cx, [eax+4]\n0050B4D6: mov     dl, byte_1D28DF7\n0050B4DC: push    ecx\n0050B4DD: push    edx\n0050B4DE: call    pre_computeGFBoost?; Call Procedure\n0050B4E3: add     esp, 8; Add\n0050B4E6: inc     byte ptr [ebp+0Dh]; Increment by 1\n0050B4E9: call    BattleActionSequence_WaitBusy; jumptable 0050B2BD case 4\n0050B4EE: test    eax, eax; Logical Compare\n0050B4F0: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B4F6: mov     al, byte_1D99B95\n0050B4FB: cmp     al, 2; Compare Two Operands\n0050B4FD: jz      short loc_50B531; Jump if Zero (ZF=1)\n0050B4FF: test    byte_1D99A47, 4; Logical Compare\n0050B506: jz      short loc_50B531; Jump if Zero (ZF=1)\n0050B508: xor     ecx, ecx; Logical Exclusive OR\n0050B50A: push    10000h; size\n0050B50F: mov     cl, al\n0050B511: mov     eax, off_B6D084\n0050B516: shl     ecx, 10h; Shift Logical Left\n0050B519: add     ecx, eax; Add\n0050B51B: add     eax, 20000h; Add\n0050B520: push    ecx; src\n0050B521: push    eax; dst\n0050B522: call    MemMove_OverlapSafe; Call Procedure\n0050B527: add     esp, 0Ch; Add\n0050B52A: or      byte ptr dword_1D973F8, 2; Logical Inclusive OR\n0050B531: mov     esi, dword_1D99A40\n0050B537: mov     eax, 0D20D20D3h\n0050B53C: mov     ecx, esi\n0050B53E: push    0; p_task_dword_10\n0050B540: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction\n0050B546: imul    ecx; Signed Multiply\n0050B548: add     edx, ecx; Add\n0050B54A: xor     ecx, ecx; Logical Exclusive OR\n0050B54C: mov     cl, [esi+4]\n0050B54F: sar     edx, 7; Shift Arithmetic Right\n0050B552: mov     eax, edx\n0050B554: shr     eax, 1Fh; Shift Logical Right\n0050B557: add     edx, eax; Add\n0050B559: push    edx; p_task_byte_0F\n0050B55A: push    ecx; actor_id\n0050B55B: call    BattleModel_DispatchLoaderByActorId; Call Procedure\n0050B560: mov     al, [ebp+0Dh]\n0050B563: add     esp, 0Ch; Add\n0050B566: inc     al; Increment by 1\n0050B568: mov     [ebp+0Dh], al\n0050B56B: call    au_re_BdlinkTask_0; jumptable 0050B2BD case 5\n0050B570: test    eax, eax; Logical Compare\n0050B572: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B578: mov     esi, dword_1D99A40\n0050B57E: push    eax; p_task_dword_10\n0050B57F: mov     ecx, esi\n0050B581: mov     eax, 0D20D20D3h\n0050B586: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction\n0050B58C: imul    ecx; Signed Multiply\n0050B58E: add     edx, ecx; Add\n0050B590: xor     ecx, ecx; Logical Exclusive OR\n0050B592: mov     cl, [esi+4]\n0050B595: or      ch, 10h; Logical Inclusive OR\n0050B598: sar     edx, 7; Shift Arithmetic Right\n0050B59B: mov     eax, edx\n0050B59D: shr     eax, 1Fh; Shift Logical Right\n0050B5A0: add     edx, eax; Add\n0050B5A2: push    edx; p_task_byte_0F\n0050B5A3: push    ecx; actor_id\n0050B5A4: call    BattleModel_DispatchLoaderByActorId; Call Procedure\n0050B5A9: mov     al, [ebp+0Dh]\n0050B5AC: add     esp, 0Ch; Add\n0050B5AF: inc     al; Increment by 1\n0050B5B1: mov     [ebp+0Dh], al\n0050B5B4: call    au_re_BdlinkTask_0; jumptable 0050B2BD case 6\n0050B5B9: test    eax, eax; Logical Compare\n0050B5BB: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B5C1: mov     edx, dword_1D99A40\n0050B5C7: push    edx\n0050B5C8: call    sub_50B810; Call Procedure\n0050B5CD: mov     ecx, dword_1D99A40\n0050B5D3: mov     eax, 0D20D20D3h\n0050B5D8: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction\n0050B5DE: add     esp, 4; Add\n0050B5E1: imul    ecx; Signed Multiply\n0050B5E3: add     edx, ecx; Add\n0050B5E5: sar     edx, 7; Shift Arithmetic Right\n0050B5E8: mov     eax, edx\n0050B5EA: shr     eax, 1Fh; Shift Logical Right\n0050B5ED: add     edx, eax; Add\n0050B5EF: cmp     dl, 2; Compare Two Operands\n0050B5F2: jnb     short loc_50B5F8; Jump if Not Below (CF=0)\n0050B5F4: inc     dl; Increment by 1\n0050B5F6: jmp     short loc_50B5FA; Jump\n0050B5F8: dec     dl; Decrement by 1\n0050B5FA: mov     byte ptr dword_1D99A70, dl\n0050B600: mov     ecx, dword_1D99A70\n0050B606: and     ecx, 0FFh; Logical AND\n0050B60C: lea     eax, [ecx+ecx*4]; Load Effective Address\n0050B60F: shl     eax, 3; Shift Logical Left\n0050B612: sub     eax, ecx; Integer Subtraction\n0050B614: shl     eax, 2; Shift Logical Left\n0050B617: test    byte ptr g_BattlePresentationActors[eax], 2; Logical Compare\n0050B61E: jz      short loc_50B637; Jump if Zero (ZF=1)\n0050B620: push    0; p_task_dword_10\n0050B622: push    ecx; p_task_byte_0F\n0050B623: xor     ecx, ecx; Logical Exclusive OR\n0050B625: mov     cl, byte_1D972C4[eax]\n0050B62B: or      ch, 10h; Logical Inclusive OR\n0050B62E: push    ecx; actor_id\n0050B62F: call    BattleModel_DispatchLoaderByActorId; Call Procedure\n0050B634: add     esp, 0Ch; Add\n0050B637: inc     byte ptr [ebp+0Dh]; Increment by 1\n0050B63A: call    au_re_BdlinkTask_0; jumptable 0050B2BD case 7\n0050B63F: test    eax, eax; Logical Compare\n0050B641: jnz     def_50B2BD; jumptable 0050B2BD default case\n0050B647: mov     ecx, dword_1D99A70\n0050B64D: and     ecx, 0FFh; Logical AND\n0050B653: lea     eax, [ecx+ecx*4]; Load Effective Address\n0050B656: shl     eax, 3; Shift Logical Left\n0050B659: sub     eax, ecx; Integer Subtraction\n0050B65B: shl     eax, 2; Shift Logical Left\n0050B65E: mov     dl, byte ptr g_BattlePresentationActors[eax]\n0050B664: lea     ecx, g_BattlePresentationActors[eax]; Load Effective Address\n0050B66A: test    dl, 2; Logical Compare\n0050B66D: jz      short loc_50B6A2; Jump if Zero (ZF=1)\n0050B66F: or      byte ptr (g_BattlePresentationActors+2)[eax], 4; Logical Inclusive OR\n0050B676: push    ecx; actor\n0050B677: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés\n0050B67C: or      ah, 10h; Logical Inclusive OR\n0050B67F: push    eax; animId\n0050B680: mov     eax, dword_1D99A70\n0050B685: and     eax, 0FFh; Logical AND\n0050B68A: lea     edx, [eax+eax*4]; Load Effective Address\n0050B68D: shl     edx, 3; Shift Logical Left\n0050B690: sub     edx, eax; Integer Subtraction\n0050B692: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address\n0050B699: push    eax; actor\n0050B69A: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n0050B69F: add     esp, 0Ch; Add\n0050B6A2: mov     ecx, dword_1D99A40\n0050B6A8: mov     esi, offset g_BattlePresentationActors\n0050B6AD: cmp     esi, ecx; Compare Two Operands\n0050B6AF: jz      short loc_50B6E5; Jump if Zero (ZF=1)\n0050B6B1: mov     ax, [esi]\n0050B6B4: test    al, 2; Logical Compare\n0050B6B6: jz      short loc_50B6E5; Jump if Zero (ZF=1)\n0050B6B8: and     eax, 0FFFBh; Logical AND\n0050B6BD: mov     [esi], ax\n0050B6C0: mov     al, byte_1D99A81\n0050B6C5: cmp     al, 2; Compare Two Operands\n0050B6C7: jz      short loc_50B6DC; Jump if Zero (ZF=1)\n0050B6C9: push    0Ch\n0050B6CB: push    esi\n0050B6CC: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript\n0050B6D1: mov     ecx, dword_1D99A40\n0050B6D7: add     esp, 8; Add\n0050B6DA: jmp     short loc_50B6E5; Jump\n0050B6DC: mov     edx, dword_B8B9A8\n0050B6E2: mov     [esi+2Ch], edx\n0050B6E5: add     esi, 9Ch; Add\n0050B6EB: cmp     esi, offset word_1D97494; Compare Two Operands\n0050B6F1: jl      short loc_50B6AD; Jump if Less (SF!=OF)\n0050B6F3: mov     ax, [ecx]\n0050B6F6: and     eax, 0FFF3h; Logical AND\n0050B6FB: or      al, 2; Logical Inclusive OR\n0050B6FD: mov     [ecx], ax\n0050B700: mov     al, byte_1D99A81\n0050B705: or      byte ptr [ecx+2], 4; Logical Inclusive OR\n0050B709: cmp     al, 2; Compare Two Operands\n0050B70B: jz      short loc_50B747; Jump if Zero (ZF=1)\n0050B70D: push    14h; animId\n0050B70F: push    ecx; actor\n0050B710: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n0050B715: mov     edx, dword_1D99A40\n0050B71B: xor     ecx, ecx; Logical Exclusive OR\n0050B71D: mov     cl, byte_1D99A4E\n0050B723: mov     eax, [edx+84h]\n0050B729: add     ecx, 3; Add\n0050B72C: push    ecx; int\n0050B72D: mov     ecx, [eax+2Ch]\n0050B730: push    ecx; unsigned __int16 *\n0050B731: call    BattleCamera_StartTrack; Alloue d'abord l'un des 2 noeuds BdLink caméra, puis scanne 2 records de 0x524. Le scan local n'a pas de garde 'pool plein', mais le 3e démarrage normal échoue au registre BdLink tant que les cycles de vie restent couplés. record[0]=variant; 0xFF=libre.\n0050B736: mov     al, [ebp+0Dh]\n0050B739: add     esp, 10h; Add\n0050B73C: inc     al; Increment by 1\n0050B73E: mov     [ebp+0Dh], al\n0050B741: pop     esi; jumptable 0050B2BD default case\n0050B742: pop     ebp\n0050B743: xor     eax, eax; Logical Exclusive OR\n0050B745: pop     ebx\n0050B746: retn; Return Near from Procedure\n0050B747: mov     edx, [ecx+74h]\n0050B74A: push    1; animId\n0050B74C: push    ecx; actor\n0050B74D: mov     word ptr [edx+28h], 0\n0050B753: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n0050B758: mov     eax, dword_1D99A40\n0050B75D: push    eax; actor\n0050B75E: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync\n0050B763: mov     al, [ebp+0Dh]\n0050B766: add     esp, 0Ch; Add\n0050B769: inc     al; Increment by 1\n0050B76B: mov     [ebp+0Dh], al\n0050B76E: pop     esi\n0050B76F: pop     ebp\n0050B770: xor     eax, eax; Logical Exclusive OR\n0050B772: pop     ebx\n0050B773: retn; Return Near from Procedure\n0050B774: mov     al, byte ptr g_BattleCameraFlags; jumptable 0050B2BD case 8\n0050B779: test    al, al; Logical Compare\n0050B77B: jnz     short def_50B2BD; jumptable 0050B2BD default case\n0050B77D: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks\n0050B782: mov     al, [ebp+0Dh]\n0050B785: pop     esi\n0050B786: inc     al; Increment by 1\n0050B788: mov     [ebp+0Dh], al\n0050B78B: pop     ebp\n0050B78C: xor     eax, eax; Logical Exclusive OR\n0050B78E: pop     ebx\n0050B78F: retn; Return Near from Procedure\n0050B790: cmp     byte_1D99A81, 3; jumptable 0050B2BD case 9\n0050B797: jnz     short loc_50B7C3; Jump if Not Zero (ZF=0)\n0050B799: push    80h\n0050B79E: push    0\n0050B7A0: push    87h\n0050B7A5: call    BdPlaySy; Call Procedure\n0050B7AA: push    80h\n0050B7AF: push    0\n0050B7B1: push    88h\n0050B7B6: call    BdPlaySy; Call Procedure\n0050B7BB: add     esp, 18h; Add\n0050B7BE: call    BattleAction_ApplyEventGroup0; wave3 attaques: apply groupe0 (ptr payload+8,count +0x10); GF/BZero/Physical + opcode AA case170\n0050B7C3: mov     eax, battle_to_update_flags_dword_1D96A9C\n0050B7C8: mov     byte ptr [esi+1], 0FFh\n0050B7CC: and     al, 0EFh; Logical AND\n0050B7CE: pop     esi\n0050B7CF: mov     battle_to_update_flags_dword_1D96A9C, eax\n0050B7D4: pop     ebp\n0050B7D5: mov     dword_1D99A64, 0\n0050B7DF: mov     eax, 2\n0050B7E4: pop     ebx\n0050B7E5: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50b2a0",
+      "end": "0x50b2bd",
+      "successors": [
+        "0x50b2bd",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b2bd",
+      "end": "0x50b2c4",
+      "successors": [
+        "0x50b2c4",
+        "0x50b2e8",
+        "0x50b3cc",
+        "0x50b429",
+        "0x50b4e9",
+        "0x50b56b",
+        "0x50b5b4",
+        "0x50b63a",
+        "0x50b774",
+        "0x50b790"
+      ]
+    },
+    {
+      "start": "0x50b2c4",
+      "end": "0x50b2d8",
+      "successors": [
+        "0x50b2d8",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b2d8",
+      "end": "0x50b2e5",
+      "successors": [
+        "0x50b2e5",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b2e5",
+      "end": "0x50b2e8",
+      "successors": [
+        "0x50b2e8"
+      ]
+    },
+    {
+      "start": "0x50b2e8",
+      "end": "0x50b361",
+      "successors": [
+        "0x50b361"
+      ]
+    },
+    {
+      "start": "0x50b361",
+      "end": "0x50b369",
+      "successors": [
+        "0x50b369",
+        "0x50b38b"
+      ]
+    },
+    {
+      "start": "0x50b369",
+      "end": "0x50b36e",
+      "successors": [
+        "0x50b36e",
+        "0x50b38b"
+      ]
+    },
+    {
+      "start": "0x50b36e",
+      "end": "0x50b38b",
+      "successors": [
+        "0x50b38b"
+      ]
+    },
+    {
+      "start": "0x50b38b",
+      "end": "0x50b39a",
+      "successors": [
+        "0x50b361",
+        "0x50b39a"
+      ]
+    },
+    {
+      "start": "0x50b39a",
+      "end": "0x50b3cc",
+      "successors": []
+    },
+    {
+      "start": "0x50b3cc",
+      "end": "0x50b3d9",
+      "successors": [
+        "0x50b3d9",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b3d9",
+      "end": "0x50b3e6",
+      "successors": [
+        "0x50b3e6",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b3e6",
+      "end": "0x50b417",
+      "successors": [
+        "0x50b417",
+        "0x50b41e"
+      ]
+    },
+    {
+      "start": "0x50b417",
+      "end": "0x50b41e",
+      "successors": [
+        "0x50b41e"
+      ]
+    },
+    {
+      "start": "0x50b41e",
+      "end": "0x50b429",
+      "successors": []
+    },
+    {
+      "start": "0x50b429",
+      "end": "0x50b436",
+      "successors": [
+        "0x50b436",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b436",
+      "end": "0x50b445",
+      "successors": [
+        "0x50b445",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b445",
+      "end": "0x50b474",
+      "successors": [
+        "0x50b474",
+        "0x50b4aa"
+      ]
+    },
+    {
+      "start": "0x50b474",
+      "end": "0x50b47d",
+      "successors": [
+        "0x50b47d",
+        "0x50b4aa"
+      ]
+    },
+    {
+      "start": "0x50b47d",
+      "end": "0x50b4aa",
+      "successors": [
+        "0x50b4aa"
+      ]
+    },
+    {
+      "start": "0x50b4aa",
+      "end": "0x50b4ce",
+      "successors": [
+        "0x50b4ce",
+        "0x50b4e6"
+      ]
+    },
+    {
+      "start": "0x50b4ce",
+      "end": "0x50b4e6",
+      "successors": [
+        "0x50b4e6"
+      ]
+    },
+    {
+      "start": "0x50b4e6",
+      "end": "0x50b4e9",
+      "successors": [
+        "0x50b4e9"
+      ]
+    },
+    {
+      "start": "0x50b4e9",
+      "end": "0x50b4f6",
+      "successors": [
+        "0x50b4f6",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b4f6",
+      "end": "0x50b4ff",
+      "successors": [
+        "0x50b4ff",
+        "0x50b531"
+      ]
+    },
+    {
+      "start": "0x50b4ff",
+      "end": "0x50b508",
+      "successors": [
+        "0x50b508",
+        "0x50b531"
+      ]
+    },
+    {
+      "start": "0x50b508",
+      "end": "0x50b531",
+      "successors": [
+        "0x50b531"
+      ]
+    },
+    {
+      "start": "0x50b531",
+      "end": "0x50b56b",
+      "successors": [
+        "0x50b56b"
+      ]
+    },
+    {
+      "start": "0x50b56b",
+      "end": "0x50b578",
+      "successors": [
+        "0x50b578",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b578",
+      "end": "0x50b5b4",
+      "successors": [
+        "0x50b5b4"
+      ]
+    },
+    {
+      "start": "0x50b5b4",
+      "end": "0x50b5c1",
+      "successors": [
+        "0x50b5c1",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b5c1",
+      "end": "0x50b5f4",
+      "successors": [
+        "0x50b5f4",
+        "0x50b5f8"
+      ]
+    },
+    {
+      "start": "0x50b5f4",
+      "end": "0x50b5f8",
+      "successors": [
+        "0x50b5fa"
+      ]
+    },
+    {
+      "start": "0x50b5f8",
+      "end": "0x50b5fa",
+      "successors": [
+        "0x50b5fa"
+      ]
+    },
+    {
+      "start": "0x50b5fa",
+      "end": "0x50b620",
+      "successors": [
+        "0x50b620",
+        "0x50b637"
+      ]
+    },
+    {
+      "start": "0x50b620",
+      "end": "0x50b637",
+      "successors": [
+        "0x50b637"
+      ]
+    },
+    {
+      "start": "0x50b637",
+      "end": "0x50b63a",
+      "successors": [
+        "0x50b63a"
+      ]
+    },
+    {
+      "start": "0x50b63a",
+      "end": "0x50b647",
+      "successors": [
+        "0x50b647",
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b647",
+      "end": "0x50b66f",
+      "successors": [
+        "0x50b66f",
+        "0x50b6a2"
+      ]
+    },
+    {
+      "start": "0x50b66f",
+      "end": "0x50b6a2",
+      "successors": [
+        "0x50b6a2"
+      ]
+    },
+    {
+      "start": "0x50b6a2",
+      "end": "0x50b6ad",
+      "successors": [
+        "0x50b6ad"
+      ]
+    },
+    {
+      "start": "0x50b6ad",
+      "end": "0x50b6b1",
+      "successors": [
+        "0x50b6b1",
+        "0x50b6e5"
+      ]
+    },
+    {
+      "start": "0x50b6b1",
+      "end": "0x50b6b8",
+      "successors": [
+        "0x50b6b8",
+        "0x50b6e5"
+      ]
+    },
+    {
+      "start": "0x50b6b8",
+      "end": "0x50b6c9",
+      "successors": [
+        "0x50b6c9",
+        "0x50b6dc"
+      ]
+    },
+    {
+      "start": "0x50b6c9",
+      "end": "0x50b6dc",
+      "successors": [
+        "0x50b6e5"
+      ]
+    },
+    {
+      "start": "0x50b6dc",
+      "end": "0x50b6e5",
+      "successors": [
+        "0x50b6e5"
+      ]
+    },
+    {
+      "start": "0x50b6e5",
+      "end": "0x50b6f3",
+      "successors": [
+        "0x50b6ad",
+        "0x50b6f3"
+      ]
+    },
+    {
+      "start": "0x50b6f3",
+      "end": "0x50b70d",
+      "successors": [
+        "0x50b70d",
+        "0x50b747"
+      ]
+    },
+    {
+      "start": "0x50b70d",
+      "end": "0x50b741",
+      "successors": [
+        "0x50b741"
+      ]
+    },
+    {
+      "start": "0x50b741",
+      "end": "0x50b747",
+      "successors": []
+    },
+    {
+      "start": "0x50b747",
+      "end": "0x50b774",
+      "successors": []
+    },
+    {
+      "start": "0x50b774",
+      "end": "0x50b77d",
+      "successors": [
+        "0x50b741",
+        "0x50b77d"
+      ]
+    },
+    {
+      "start": "0x50b77d",
+      "end": "0x50b790",
+      "successors": []
+    },
+    {
+      "start": "0x50b790",
+      "end": "0x50b799",
+      "successors": [
+        "0x50b799",
+        "0x50b7c3"
+      ]
+    },
+    {
+      "start": "0x50b799",
+      "end": "0x50b7c3",
+      "successors": [
+        "0x50b7c3"
+      ]
+    },
+    {
+      "start": "0x50b7c3",
+      "end": "0x50b7e6",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50a7f1",
+      "type": 1,
+      "iscode": false,
+      "function": "0x50a790"
+    }
+  ],
+  "code_targets": [
+    "0x46b440",
+    "0x501190",
+    "0x501740",
+    "0x503520",
+    "0x505c00",
+    "0x507070",
+    "0x507080",
+    "0x508580",
+    "0x509b50",
+    "0x509c10",
+    "0x509c80",
+    "0x50a670",
+    "0x50ae80",
+    "0x50aed0",
+    "0x50af20",
+    "0x50afc0",
+    "0x50b810",
+    "0x50c090",
+    "0x534aa0",
+    "0x56dce0"
+  ],
+  "instruction_count": 400
+}

@@ -5,12 +5,12 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [P0.7 G05 offline validation, G05 scenario protocol v2]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g03-p0-7-regression-2026-07-23.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/p0-7-offline-validation-2026-07-23.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g05-strict-live-validation-2026-07-23.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g03-p0-7-regression-2026-07-23.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
 summary: >-
   P0.7 implements the versioned no-write G05 Director scenario protocol and
   validates its fixtures, wire contract and runtime-derived verdicts offline

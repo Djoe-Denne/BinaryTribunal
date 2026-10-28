@@ -1,0 +1,25 @@
+0050B559: push    edx; p_task_byte_0F
+0050B55A: push    ecx; actor_id
+0050B55B: call    BattleModel_DispatchLoaderByActorId; Call Procedure
+0050B560: mov     al, [ebp+0Dh]
+0050B563: add     esp, 0Ch; Add
+0050B566: inc     al; Increment by 1
+0050B568: mov     [ebp+0Dh], al
+0050B56B: call    au_re_BdlinkTask_0; jumptable 0050B2BD case 5
+0050B570: test    eax, eax; Logical Compare
+0050B572: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B578: mov     esi, dword_1D99A40
+0050B57E: push    eax; p_task_dword_10
+0050B57F: mov     ecx, esi
+0050B581: mov     eax, 0D20D20D3h
+0050B586: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction
+0050B58C: imul    ecx; Signed Multiply
+0050B58E: add     edx, ecx; Add
+0050B590: xor     ecx, ecx; Logical Exclusive OR
+0050B592: mov     cl, [esi+4]
+0050B595: or      ch, 10h; Logical Inclusive OR
+0050B598: sar     edx, 7; Shift Arithmetic Right
+0050B59B: mov     eax, edx
+0050B59D: shr     eax, 1Fh; Shift Logical Right
+0050B5A0: add     edx, eax; Add
+0050B5A2: push    edx; p_task_byte_0F

@@ -5,18 +5,18 @@ category: references
 tags: [ff8, battle-system, testing, reference, atb]
 aliases: [P0.8-A G06 cadence, G06 BattleUI cadence validation]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-watch-runtime.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-pause-watch-runtime.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-watch-runtime.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-pause-one-frame-runtime.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/abi/src/address_map.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/state_synchronizer.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/write_guard.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/offline/test_g06.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-cadence-live-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-watch-runtime.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-a-g06-pause-watch-runtime.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-watch-runtime.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-8-b-g06-pause-one-frame-runtime.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/abi/src/address_map.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/state_synchronizer.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/write_guard.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/offline/test_g06.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-pilot-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa/9bf843ec-4ce7-4dce-b4bc-3feaa1309baa.jsonl
 summary: >-
   P0.8-A establishes the four-pulse BattleUI/ATB cadence and pause baseline

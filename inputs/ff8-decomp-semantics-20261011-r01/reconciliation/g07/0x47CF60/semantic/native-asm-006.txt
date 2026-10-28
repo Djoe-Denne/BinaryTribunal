@@ -1,0 +1,25 @@
+0047D13E: add     esp, 4; Add
+0047D141: call    isBattle_HUDupdate; Call Procedure
+0047D146: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.
+0047D14B: call    Battle_cursor_battle_win_and_pause_menu_render_related; Call Procedure
+0047D150: cmp     exit_battle, ebx; Compare Two Operands
+0047D156: jz      short loc_47D1AA; Jump if Zero (ZF=1)
+0047D158: cmp     mode_Battle_AnimationState, 4; Compare Two Operands
+0047D160: jnz     short loc_47D17C; Jump if Not Zero (ZF=0)
+0047D162: mov     [esp+24h+var_14], offset menu_init_sub_4A2280
+0047D16A: mov     [esp+24h+var_10], offset menu_exit_sub_4A22A0
+0047D172: mov     [esp+24h+var_C], offset main__BattleRewardMenu_MainLoop; Battle frame owner selects main::BattleRewardMenu_MainLoop as the next module callback when exit_battle is set and mode_Battle_AnimationState==4.
+0047D17A: jmp     short loc_47D194; Jump
+0047D17C: mov     [esp+24h+var_14], offset main_init_sub_470690
+0047D184: mov     [esp+24h+var_10], offset main_exit_sub_4706A0
+0047D18C: mov     [esp+24h+var_C], offset main__FFModuleHandler_main_loop; Old name: FFModuleHandler_main_loop. Top-level module dispatcher loop.
+0047D194: lea     eax, [esp+24h+var_1C]; Load Effective Address
+0047D198: push    esi
+0047D199: push    eax
+0047D19A: mov     [esp+2Ch+var_8], ebx
+0047D19E: mov     [esp+2Ch+var_4], ebx
+0047D1A2: call    FFSwitchModule_set_game_loop; Call Procedure
+0047D1A7: add     esp, 8; Add
+0047D1AA: mov     al, IS_BATTLE_PAUSED
+0047D1AF: cmp     al, bl; Compare Two Operands
+0047D1B1: jnz     short loc_47D1FA; Jump if Not Zero (ZF=0)

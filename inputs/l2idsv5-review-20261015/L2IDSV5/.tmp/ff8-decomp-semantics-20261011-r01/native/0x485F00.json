@@ -1,0 +1,114 @@
+{
+  "ea": "0x485F00",
+  "name_label_only": "BattleEvent_EnqueueActionPresentation",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x485f00",
+      "end": "0x485f54",
+      "hex": "8b4424048d04808d0c85c480d2015168800000006a68e8d584ffffa1dc8dd20183c40c85c0742c660fb61539e7cf016a5668800000008d0cd5080000006a035150e8da82ffff83c414c705dc8dd20100000000c3"
+    }
+  ],
+  "assembly": "00485F00: mov     eax, [esp+payload_index]\n00485F04: lea     eax, [eax+eax*4]; Load Effective Address\n00485F07: lea     ecx, ds:1D280C4h[eax*4]; Load Effective Address\n00485F0E: push    ecx; a3\n00485F0F: push    80h; a2\n00485F14: push    68h ; 'h'; a1\n00485F16: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int\n00485F1B: mov     eax, battle_message_pointer\n00485F20: add     esp, 0Ch; Add\n00485F23: test    eax, eax; Logical Compare\n00485F25: jz      short locret_485F53; Jump if Zero (ZF=1)\n00485F27: movzx   dx, SG_BATTLE_MESSAGE_SPEED_SETTING; Move with Zero-Extend\n00485F2F: push    56h ; 'V'\n00485F31: push    80h\n00485F36: lea     ecx, ds:8[edx*8]; Load Effective Address\n00485F3D: push    3\n00485F3F: push    ecx\n00485F40: push    eax\n00485F41: call    domain__BattleEvent_DisplayMessageAndWait; Call Procedure\n00485F46: add     esp, 14h; Add\n00485F49: mov     battle_message_pointer, 0\n00485F53: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x485f00",
+      "end": "0x485f27",
+      "successors": [
+        "0x485f27",
+        "0x485f53"
+      ]
+    },
+    {
+      "start": "0x485f27",
+      "end": "0x485f53",
+      "successors": [
+        "0x485f53"
+      ]
+    },
+    {
+      "start": "0x485f53",
+      "end": "0x485f54",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4833db",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4833b0"
+    },
+    {
+      "from": "0x483445",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483400"
+    },
+    {
+      "from": "0x483f9a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483ef0"
+    },
+    {
+      "from": "0x484017",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483fc0"
+    },
+    {
+      "from": "0x4840b4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x484050"
+    },
+    {
+      "from": "0x48414e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4840e0"
+    },
+    {
+      "from": "0x4841fc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x484180"
+    },
+    {
+      "from": "0x484270",
+      "type": 17,
+      "iscode": true,
+      "function": "0x484180"
+    },
+    {
+      "from": "0x4881ef",
+      "type": 17,
+      "iscode": true,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x489fe1",
+      "type": 17,
+      "iscode": true,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x48a069",
+      "type": 17,
+      "iscode": true,
+      "function": "0x487df0"
+    }
+  ],
+  "code_targets": [
+    "0x47e220",
+    "0x47e3f0"
+  ],
+  "instruction_count": 22
+}

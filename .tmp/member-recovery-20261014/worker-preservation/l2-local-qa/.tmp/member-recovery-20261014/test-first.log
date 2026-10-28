@@ -1,0 +1,39 @@
+bun test v1.4.2 (744846f84)
+
+test\member-recovery.test.ts:
+24 |     expect(row(d, "worker")).toMatchObject({ status: "shutdown_requested" })
+25 |     handleSessionStatusEvent(d.db, d.registry, "ses_worker", "idle", undefined, true)
+26 |     return {}
+27 |   }
+28 |   await executeTeamShutdown(d, { member: "worker" }, "lead", async () => false, async () => true, async () => 0)
+29 |   expect(row(d, "worker")).toMatchObject({ status: "shutdown", execution_status: "idle" })
+                                ^
+error: expect(received).toMatchObject(expected)
+
+  {
+-   "execution_status": "idle",
+-   "status": "shutdown",
++   "execution_status": "running",
++   "status": "shutdown_requested",
++   "worktree_branch": null,
++   "worktree_dir": null,
+  }
+
+- Expected  - 2
++ Received  + 4
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:29:28)
+(fail) a fast native idle event during graceful-stop delivery cannot be overwritten by a late stop flag [16.74ms]
+(pass) restart reconciles three phantom running workers and a stopped review without prompting or aborting [13.77ms]
+(pass) active and retrying native sessions are not stopped or freed [11.50ms]
+(pass) failed, absent, malformed or timed-out native observations never release capacity [21.02ms]
+(pass) fresh and still-owned starting/spawn admissions cannot be reconciled away [10.16ms]
+(pass) an observed row changed during the native read is fenced against stale recovery [9.26ms]
+(pass) only owning directory and active teams may recover members [9.13ms]
+(pass) interrupted task ownership and dirty worktrees remain intact; inactivity never completes a task [9.69ms]
+(pass) completed shutdown releases unfinished claims, never accepted results [9.85ms]
+
+ 8 pass
+ 1 fail
+ 36 expect() calls
+Ran 9 tests across 1 file. [195.00ms]

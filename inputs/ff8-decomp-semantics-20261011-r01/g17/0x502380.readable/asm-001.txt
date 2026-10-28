@@ -1,0 +1,25 @@
+00502380: push    ebx; Dispatches a single battle task by opcode (a1+2). Handles task family 0x64..0x77 and forwards presentation tasks to BattleActionSequence_DispatchTick (opcode 'h').
+00502381: push    esi
+00502382: mov     esi, [esp+8+ctx]
+00502386: push    edi
+00502387: mov     cx, [esi+2]
+0050238B: movsx   eax, cx; Move with Sign-Extend
+0050238E: add     eax, 0FFFFFF9Ah; switch 18 cases
+00502391: cmp     eax, 11h; Compare Two Operands
+00502394: ja      def_50239A; jumptable 0050239A default case, case 107
+0050239A: jmp     ds:jpt_50239A[eax*4]; Relay dispatch: 'p'=0x70 camera barrier BdLinkTask_1; 'q'=0x71 actor-ready sub_502F30; 't'=0x74 escape worker sub_502F90. Return 8 = child spawned until node+1=0xFF.
+005023A1: push    offset sub_502670; jumptable 0050239A case 102
+005023A6: call    au_re_BdLinkTask; Call Procedure
+005023AB: add     esp, 4; Add
+005023AE: mov     [eax+10h], esi
+005023B1: mov     byte ptr [eax+0Dh], 0
+005023B5: mov     eax, 8
+005023BA: pop     edi
+005023BB: pop     esi
+005023BC: pop     ebx
+005023BD: retn; Return Near from Procedure
+005023BE: push    esi; jumptable 0050239A case 103
+005023BF: call    sub_5027D0; Call Procedure
+005023C4: add     esp, 4; Add
+005023C7: mov     eax, 0Fh
+005023CC: pop     edi

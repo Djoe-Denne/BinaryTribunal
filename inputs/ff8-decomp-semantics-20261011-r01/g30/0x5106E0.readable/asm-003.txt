@@ -1,0 +1,25 @@
+0051079E: mov     [esp+44h+var_28], edx
+005107A2: mov     dl, [ecx+esi*8+6]
+005107A6: lea     ecx, [ecx+esi*8]; Load Effective Address
+005107A9: mov     [esp+44h+dest], ecx
+005107AD: mov     esi, [ecx]
+005107AF: mov     cl, [ebx+6]
+005107B2: or      dl, cl; Logical Inclusive OR
+005107B4: mov     cl, [edi+6]
+005107B7: or      dl, cl; Logical Inclusive OR
+005107B9: test    dl, 6; Logical Compare
+005107BC: jnz     loc_5108F8; Jump if Not Zero (ZF=0)
+005107C2: mov     eax, [esp+44h+var_28]
+005107C6: mov     ecx, [esp+44h+var_30]
+005107CA: push    esi
+005107CB: push    eax
+005107CC: push    ecx
+005107CD: call    Poly_BackfaceTest2D; Call Procedure
+005107D2: add     esp, 0Ch; Add
+005107D5: test    eax, eax; Logical Compare
+005107D7: jle     loc_5108F3; Jump if Less or Equal (ZF=1 | SF!=OF)
+005107DD: mov     ecx, [esp+44h+var_2C]
+005107E1: test    ecx, offset unk_2000000; Logical Compare
+005107E7: jz      short loc_510862; Jump if Zero (ZF=1)
+005107E9: test    [esp+44h+var_20], 0FFFFh; Logical Compare
+005107F1: jz      short loc_510862; Jump if Zero (ZF=1)

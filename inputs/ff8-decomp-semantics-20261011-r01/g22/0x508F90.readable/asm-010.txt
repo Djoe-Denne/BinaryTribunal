@@ -1,0 +1,25 @@
+005091FE: add     ebx, 30h ; '0'; Add
+00509201: cmp     ebp, eax; Compare Two Operands
+00509203: jl      short loc_5091BB; Jump if Less (SF!=OF)
+00509205: mov     ebx, [esp+18h+arg_4]
+00509209: mov     dl, [ebx+6]
+0050920C: mov     cl, [ebx+7]
+0050920F: inc     dl; Increment by 1
+00509211: mov     al, dl
+00509213: mov     [ebx+6], dl
+00509216: cmp     al, cl; Compare Two Operands
+00509218: jnb     short loc_509236; Jump if Not Below (CF=0)
+0050921A: mov     cl, [ebx+1]
+0050921D: mov     ebp, [esp+18h+var_8]
+00509221: mov     dl, cl
+00509223: inc     ebp; Increment by 1
+00509224: shr     edx, 1; Shift Logical Right
+00509226: and     edx, 1; Logical AND
+00509229: mov     [esp+18h+var_8], ebp
+0050922D: inc     edx; Increment by 1
+0050922E: cmp     ebp, edx; Compare Two Operands
+00509230: jl      loc_508FFF; Jump if Less (SF!=OF)
+00509236: mov     eax, [esp+18h+var_4]
+0050923A: pop     ebp
+0050923B: mov     cl, [ebx+1]
+0050923E: test    cl, 1; Logical Compare

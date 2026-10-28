@@ -1,0 +1,122 @@
+{"utc": "2026-10-07T17:41:36.126691+00:00", "event": "preflight_pass", "plan_sha256": "8e844d16f69bd49016679451133b50a39e8b574c8733569dcc5467e66e0390a0"}
+{"utc": "2026-10-07T17:41:36.130453+00:00", "event": "failed", "traceback": "Traceback (most recent call last):\n  File \"C:/Users/djden/AppData/Local/Temp/opencode/ff8-idb-sync-20261007T171059Z-a96482/apply_sync.py\", line 247, in main\n    install_types()\n    ~~~~~~~~~~~~~^^\n  File \"C:/Users/djden/AppData/Local/Temp/opencode/ff8-idb-sync-20261007T171059Z-a96482/apply_sync.py\", line 137, in install_types\n    errors = ida_typeinf.idc_parse_types(None, decl, ida_typeinf.PT_SIL)\nTypeError: idc_parse_types() takes 2 positional arguments but 3 were given\n"}
+{"utc": "2026-10-07T17:42:39.294693+00:00", "event": "preflight_pass", "plan_sha256": "8e844d16f69bd49016679451133b50a39e8b574c8733569dcc5467e66e0390a0"}
+{"utc": "2026-10-07T17:42:39.313615+00:00", "event": "create_type", "name": "GfxBatch30", "errors": 0}
+{"utc": "2026-10-07T17:42:39.346300+00:00", "event": "refine_type", "name": "GfxDrawList236", "status": 0}
+{"utc": "2026-10-07T17:42:39.371843+00:00", "event": "rename", "ea": "0x417464", "old": "Gfx_AllocDrawListBatch", "new": "Gfx_ReserveDrawListEntries", "success": true}
+{"utc": "2026-10-07T17:42:39.414498+00:00", "event": "apply_type", "ea": "0x417464", "declaration": "int __cdecl Gfx_ReserveDrawListEntries(int count, GfxDrawList236 *list);", "success": true}
+{"utc": "2026-10-07T17:42:39.414980+00:00", "event": "append_comment", "ea": "0x417464", "success": true}
+{"utc": "2026-10-07T17:42:39.417385+00:00", "event": "rename", "ea": "0x460c20", "old": "sub_460C20", "new": "Gpu_BeginPrimitivePass", "success": true}
+{"utc": "2026-10-07T17:42:39.419415+00:00", "event": "apply_type", "ea": "0x460c20", "declaration": "int __cdecl Gpu_BeginPrimitivePass(void);", "success": true}
+{"utc": "2026-10-07T17:42:39.419720+00:00", "event": "append_comment", "ea": "0x460c20", "success": true}
+{"utc": "2026-10-07T17:42:39.420821+00:00", "event": "rename", "ea": "0x460c90", "old": "sub_460C90", "new": "Gpu_FlushCurrentDrawList", "success": true}
+{"utc": "2026-10-07T17:42:39.421274+00:00", "event": "apply_type", "ea": "0x460c90", "declaration": "int __cdecl Gpu_FlushCurrentDrawList(void);", "success": true}
+{"utc": "2026-10-07T17:42:39.421581+00:00", "event": "append_comment", "ea": "0x460c90", "success": true}
+{"utc": "2026-10-07T17:42:39.428519+00:00", "event": "rename", "ea": "0x509b50", "old": "BS_CopyGeometry", "new": "MemMove_OverlapSafe", "success": true}
+{"utc": "2026-10-07T17:42:39.458533+00:00", "event": "apply_type", "ea": "0x509b50", "declaration": "void __cdecl MemMove_OverlapSafe(unsigned char *dst, const unsigned char *src, unsigned int size);", "success": true}
+{"utc": "2026-10-07T17:42:39.459197+00:00", "event": "append_comment", "ea": "0x509b50", "success": true}
+{"utc": "2026-10-07T17:42:39.463904+00:00", "event": "rename", "ea": "0x63e960", "old": "BdLinkTask_Register_63E9C0", "new": "GFCameraScriptTask_Spawn_63E960", "success": true}
+{"utc": "2026-10-07T17:42:39.464344+00:00", "event": "append_comment", "ea": "0x63e960", "success": true}
+{"utc": "2026-10-07T17:42:39.465601+00:00", "event": "rename", "ea": "0x65e4b0", "old": "BdLinkTask_Register_65F2B0_25053C0", "new": "BdLinkTask_RegisterAndBindEntry_25053C0", "success": true}
+{"utc": "2026-10-07T17:42:39.466023+00:00", "event": "append_comment", "ea": "0x65e4b0", "success": true}
+{"utc": "2026-10-07T17:42:39.466835+00:00", "event": "rename", "ea": "0x65f250", "old": "BdLinkTask_Register_65F2B0_2505438", "new": "BdLinkTask_RegisterAndBindEntry_2505438", "success": true}
+{"utc": "2026-10-07T17:42:39.467129+00:00", "event": "append_comment", "ea": "0x65f250", "success": true}
+{"utc": "2026-10-07T17:42:39.468340+00:00", "event": "rename", "ea": "0x69e700", "old": "sub_69E700", "new": "Ot_EmitQuad_GTE_FromStream", "success": true}
+{"utc": "2026-10-07T17:42:39.468725+00:00", "event": "append_comment", "ea": "0x69e700", "success": true}
+{"utc": "2026-10-07T17:42:39.469765+00:00", "event": "rename", "ea": "0x69e940", "old": "sub_69E940", "new": "MAG_Scratch58_InvokeWorker", "success": true}
+{"utc": "2026-10-07T17:42:39.470194+00:00", "event": "append_comment", "ea": "0x69e940", "success": true}
+{"utc": "2026-10-07T17:42:39.471722+00:00", "event": "rename", "ea": "0x69e970", "old": "sub_69E970", "new": "SeqCtx_BindStream_AndChainPumps", "success": true}
+{"utc": "2026-10-07T17:42:39.472126+00:00", "event": "append_comment", "ea": "0x69e970", "success": true}
+{"utc": "2026-10-07T17:42:39.472888+00:00", "event": "rename", "ea": "0x69eac0", "old": "MAG_213_STORM_BREATH", "new": "MAG_213_STORM_BREATH_Thunk", "success": true}
+{"utc": "2026-10-07T17:42:39.473287+00:00", "event": "append_comment", "ea": "0x69eac0", "success": true}
+{"utc": "2026-10-07T17:42:39.474351+00:00", "event": "rename", "ea": "0x69ead0", "old": "MAG_213_STORM_BREATH_FL", "new": "MAG_213_FL_Load_mag212_TIM_Cached", "success": true}
+{"utc": "2026-10-07T17:42:39.474699+00:00", "event": "append_comment", "ea": "0x69ead0", "success": true}
+{"utc": "2026-10-07T17:42:39.475548+00:00", "event": "rename", "ea": "0x69ee80", "old": "sub_69EE80", "new": "MagFx_SumS16Runs_TwoSources_Scratch38", "success": true}
+{"utc": "2026-10-07T17:42:39.475959+00:00", "event": "append_comment", "ea": "0x69ee80", "success": true}
+{"utc": "2026-10-07T17:42:39.476891+00:00", "event": "rename", "ea": "0x69fd00", "old": "sub_69FD00", "new": "Mag213_BuildCtx_CursorInit_TwoPass", "success": true}
+{"utc": "2026-10-07T17:42:39.477299+00:00", "event": "append_comment", "ea": "0x69fd00", "success": true}
+{"utc": "2026-10-07T17:42:39.478138+00:00", "event": "rename", "ea": "0x6a06c0", "old": "sub_6A06C0", "new": "Mag213_SkelPoseChains_Build_Scratch38", "success": true}
+{"utc": "2026-10-07T17:42:39.478467+00:00", "event": "append_comment", "ea": "0x6a06c0", "success": true}
+{"utc": "2026-10-07T17:42:39.479433+00:00", "event": "rename", "ea": "0x6a0a50", "old": "sub_6A0A50", "new": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx", "success": true}
+{"utc": "2026-10-07T17:42:39.479857+00:00", "event": "append_comment", "ea": "0x6a0a50", "success": true}
+{"utc": "2026-10-07T17:42:39.480982+00:00", "event": "rename", "ea": "0x6a0af0", "old": "sub_6A0AF0", "new": "MagicFx_Step_InterpVecGTE_AddSpritePrimOT", "success": true}
+{"utc": "2026-10-07T17:42:39.481447+00:00", "event": "append_comment", "ea": "0x6a0af0", "success": true}
+{"utc": "2026-10-07T17:42:39.482228+00:00", "event": "rename", "ea": "0x6a0be0", "old": "sub_6A0BE0", "new": "MAG213_TwinTick_SubmitPacketOT12F", "success": true}
+{"utc": "2026-10-07T17:42:39.482623+00:00", "event": "append_comment", "ea": "0x6a0be0", "success": true}
+{"utc": "2026-10-07T17:42:39.483932+00:00", "event": "rename", "ea": "0x6a0c80", "old": "sub_6A0C80", "new": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8", "success": true}
+{"utc": "2026-10-07T17:42:39.484399+00:00", "event": "append_comment", "ea": "0x6a0c80", "success": true}
+{"utc": "2026-10-07T17:42:39.485325+00:00", "event": "rename", "ea": "0x6a0d20", "old": "MAG_212_UNK8", "new": "MAG_212_Entry_Thunk", "success": true}
+{"utc": "2026-10-07T17:42:39.485739+00:00", "event": "append_comment", "ea": "0x6a0d20", "success": true}
+{"utc": "2026-10-07T17:42:39.486851+00:00", "event": "rename", "ea": "0x6a0d50", "old": "sub_6A0D50", "new": "MAG_212_EffectEntry_InitCtxAndRegisterTick", "success": true}
+{"utc": "2026-10-07T17:42:39.487266+00:00", "event": "append_comment", "ea": "0x6a0d50", "success": true}
+{"utc": "2026-10-07T17:42:39.488079+00:00", "event": "rename", "ea": "0x6a0dc0", "old": "sub_6A0DC0", "new": "MAG_212_Effect_Tick_Stepper", "success": true}
+{"utc": "2026-10-07T17:42:39.488590+00:00", "event": "append_comment", "ea": "0x6a0dc0", "success": true}
+{"utc": "2026-10-07T17:42:39.489758+00:00", "event": "rename", "ea": "0x6a1280", "old": "sub_6A1280", "new": "MagFx_Stage1_SnapshotPresentationActorWords", "success": true}
+{"utc": "2026-10-07T17:42:39.490683+00:00", "event": "append_comment", "ea": "0x6a1280", "success": true}
+{"utc": "2026-10-07T17:42:39.492091+00:00", "event": "rename", "ea": "0x6a2f20", "old": "sub_6A2F20", "new": "MagFx_Sync4SlotWordBit04_FromByteFlags_Gated", "success": true}
+{"utc": "2026-10-07T17:42:39.492560+00:00", "event": "append_comment", "ea": "0x6a2f20", "success": true}
+{"utc": "2026-10-07T17:42:39.493879+00:00", "event": "rename", "ea": "0x6a3220", "old": "sub_6A3220", "new": "BattleFx_DirPair_SinCosScale_Build", "success": true}
+{"utc": "2026-10-07T17:42:39.494307+00:00", "event": "append_comment", "ea": "0x6a3220", "success": true}
+{"utc": "2026-10-07T17:42:39.495026+00:00", "event": "rename", "ea": "0x6a3280", "old": "sub_6A3280", "new": "MagFx_Call_32A0_WithTable_1184174", "success": true}
+{"utc": "2026-10-07T17:42:39.495437+00:00", "event": "append_comment", "ea": "0x6a3280", "success": true}
+{"utc": "2026-10-07T17:42:39.496524+00:00", "event": "rename", "ea": "0x6a33c0", "old": "sub_6A33C0", "new": "MagFx_Call_32A0_WithTable_11843DC", "success": true}
+{"utc": "2026-10-07T17:42:39.496875+00:00", "event": "append_comment", "ea": "0x6a33c0", "success": true}
+{"utc": "2026-10-07T17:42:39.498192+00:00", "event": "rename", "ea": "0x6a33e0", "old": "sub_6A33E0", "new": "MagFx_Call_32A0_WithTable_1184694", "success": true}
+{"utc": "2026-10-07T17:42:39.498704+00:00", "event": "append_comment", "ea": "0x6a33e0", "success": true}
+{"utc": "2026-10-07T17:42:39.499624+00:00", "event": "rename", "ea": "0x6a3750", "old": "sub_6A3750", "new": "MagFx_ParticleStepper_EmitOT44", "success": true}
+{"utc": "2026-10-07T17:42:39.500046+00:00", "event": "append_comment", "ea": "0x6a3750", "success": true}
+{"utc": "2026-10-07T17:42:39.500938+00:00", "event": "rename", "ea": "0x6a3800", "old": "sub_6A3800", "new": "MAG_Stepper_EmitScratchPacket_OT44", "success": true}
+{"utc": "2026-10-07T17:42:39.501363+00:00", "event": "append_comment", "ea": "0x6a3800", "success": true}
+{"utc": "2026-10-07T17:42:39.502195+00:00", "event": "rename", "ea": "0x6a38b0", "old": "sub_6A38B0", "new": "MagFX_Step_PosVel_PushOtNodeB4", "success": true}
+{"utc": "2026-10-07T17:42:39.502606+00:00", "event": "append_comment", "ea": "0x6a38b0", "success": true}
+{"utc": "2026-10-07T17:42:39.503684+00:00", "event": "rename", "ea": "0x6a3960", "old": "sub_6A3960", "new": "MagFx_SpawnRandParamTasks", "success": true}
+{"utc": "2026-10-07T17:42:39.504082+00:00", "event": "append_comment", "ea": "0x6a3960", "success": true}
+{"utc": "2026-10-07T17:42:39.504800+00:00", "event": "rename", "ea": "0x6a3a30", "old": "sub_6A3A30", "new": "MagFx_ComposeBoneMat_GteWord3Out", "success": true}
+{"utc": "2026-10-07T17:42:39.505228+00:00", "event": "append_comment", "ea": "0x6a3a30", "success": true}
+{"utc": "2026-10-07T17:42:39.506292+00:00", "event": "rename", "ea": "0x6a3ab0", "old": "MAG_207_MAELSTROM", "new": "MAG_207_MAELSTROM_Thunk", "success": true}
+{"utc": "2026-10-07T17:42:39.506888+00:00", "event": "append_comment", "ea": "0x6a3ab0", "success": true}
+{"utc": "2026-10-07T17:42:39.507774+00:00", "event": "rename", "ea": "0x6a3ae0", "old": "sub_6A3AE0", "new": "BattleMagic_M207_Maelstrom_SetupTask", "success": true}
+{"utc": "2026-10-07T17:42:39.508170+00:00", "event": "append_comment", "ea": "0x6a3ae0", "success": true}
+{"utc": "2026-10-07T17:42:39.509153+00:00", "event": "rename", "ea": "0x6a5650", "old": "sub_6A5650", "new": "BattleMagic_M207_Maelstrom_ParticleSpawnTick", "success": true}
+{"utc": "2026-10-07T17:42:39.509516+00:00", "event": "append_comment", "ea": "0x6a5650", "success": true}
+{"utc": "2026-10-07T17:42:39.510230+00:00", "event": "rename", "ea": "0x6a30c0", "old": "sub_6A30C0", "new": "MagicFx_Wrapper_Invoke2F60_AndSetStateBit04", "success": true}
+{"utc": "2026-10-07T17:42:39.510648+00:00", "event": "append_comment", "ea": "0x6a30c0", "success": true}
+{"utc": "2026-10-07T17:42:39.511335+00:00", "event": "rename", "ea": "0x41ef3c", "old": "sub_41EF3C", "new": "Gfx_SetTextureStage0", "success": true}
+{"utc": "2026-10-07T17:42:39.554296+00:00", "event": "apply_type", "ea": "0x41ef3c", "declaration": "int __cdecl Gfx_SetTextureStage0(void *texobj, void *device);", "success": true}
+{"utc": "2026-10-07T17:42:39.554785+00:00", "event": "append_comment", "ea": "0x41ef3c", "success": true}
+{"utc": "2026-10-07T17:42:39.556015+00:00", "event": "rename", "ea": "0x4623a0", "old": "sub_4623A0", "new": "GpuPrimDispatch02_FillRectVRAM", "success": true}
+{"utc": "2026-10-07T17:42:39.556583+00:00", "event": "append_comment", "ea": "0x4623a0", "success": true}
+{"utc": "2026-10-07T17:42:39.557003+00:00", "event": "append_comment", "ea": "0x407eb4", "success": true}
+{"utc": "2026-10-07T17:42:39.557448+00:00", "event": "append_comment", "ea": "0x41ef7a", "success": true}
+{"utc": "2026-10-07T17:42:39.557931+00:00", "event": "append_comment", "ea": "0x41f99a", "success": true}
+{"utc": "2026-10-07T17:42:39.558409+00:00", "event": "append_comment", "ea": "0x421c41", "success": true}
+{"utc": "2026-10-07T17:42:39.558759+00:00", "event": "append_comment", "ea": "0x4221e6", "success": true}
+{"utc": "2026-10-07T17:42:39.559114+00:00", "event": "append_comment", "ea": "0x43df2a", "success": true}
+{"utc": "2026-10-07T17:42:39.559438+00:00", "event": "append_comment", "ea": "0x43df54", "success": true}
+{"utc": "2026-10-07T17:42:39.559823+00:00", "event": "append_comment", "ea": "0x43e0e2", "success": true}
+{"utc": "2026-10-07T17:42:39.560097+00:00", "event": "append_comment", "ea": "0x461100", "success": true}
+{"utc": "2026-10-07T17:42:39.570138+00:00", "event": "apply_type", "ea": "0x416d82", "declaration": "GfxDrawList236 *__cdecl Gfx_CreateDrawList(int mode, int list_type, void *desc, const char *tim_path, void *owner);", "success": true}
+{"utc": "2026-10-07T17:42:39.570692+00:00", "event": "append_comment", "ea": "0x416d82", "success": true}
+{"utc": "2026-10-07T17:42:39.584828+00:00", "event": "apply_type", "ea": "0x4178d7", "declaration": "void __cdecl Gfx_WalkDrawList(GfxDrawList236 *list, void *cookie);", "success": true}
+{"utc": "2026-10-07T17:42:39.585554+00:00", "event": "append_comment", "ea": "0x4178d7", "success": true}
+{"utc": "2026-10-07T17:42:39.586025+00:00", "event": "append_comment", "ea": "0x41ed69", "success": true}
+{"utc": "2026-10-07T17:42:39.586574+00:00", "event": "append_comment", "ea": "0x440ff0", "success": true}
+{"utc": "2026-10-07T17:42:39.586925+00:00", "event": "append_comment", "ea": "0x43b57f", "success": true}
+{"utc": "2026-10-07T17:42:39.587346+00:00", "event": "append_comment", "ea": "0x43b50c", "success": true}
+{"utc": "2026-10-07T17:42:39.594635+00:00", "event": "rename", "ea": "0x1ca9a88", "old": "dword_1CA9A88", "new": "g_gpuCurrentDrawList", "success": true}
+{"utc": "2026-10-07T17:42:39.595149+00:00", "event": "apply_type", "ea": "0x1ca9a88", "declaration": "GfxDrawList236 *g_gpuCurrentDrawList;", "success": true}
+{"utc": "2026-10-07T17:42:39.595733+00:00", "event": "append_comment", "ea": "0x1ca9a88", "success": true}
+{"utc": "2026-10-07T17:42:39.596373+00:00", "event": "rename", "ea": "0x1ca9a8c", "old": "dword_1CA9A8C", "new": "g_gpuPrimitivePassContext", "success": true}
+{"utc": "2026-10-07T17:42:39.596838+00:00", "event": "apply_type", "ea": "0x1ca9a8c", "declaration": "void *g_gpuPrimitivePassContext;", "success": true}
+{"utc": "2026-10-07T17:42:39.597199+00:00", "event": "append_comment", "ea": "0x1ca9a8c", "success": true}
+{"utc": "2026-10-07T17:42:39.597701+00:00", "event": "append_comment", "ea": "0xb7cc20", "success": true}
+{"utc": "2026-10-07T17:42:39.598006+00:00", "event": "append_comment", "ea": "0x1ca9e98", "success": true}
+{"utc": "2026-10-07T17:42:39.598282+00:00", "event": "append_comment", "ea": "0x41ef5d", "success": true}
+{"utc": "2026-10-07T17:42:39.598642+00:00", "event": "append_comment", "ea": "0x41ef72", "success": true}
+{"utc": "2026-10-07T17:45:22.331998+00:00", "event": "validation_retry", "cause": "IDA propagated four bare argument names to globals; 557 inventoried functions otherwise match the intended postimage"}
+{"utc": "2026-10-07T17:45:22.375704+00:00", "event": "auto_name_spill_reverted", "ea": "0x1ccfd6c", "generated": "list", "observed_type": "GfxDrawList236 *", "note": "Type preimage at this non-target global was not captured; no type change is claimed or reversed."}
+{"utc": "2026-10-07T17:45:22.420037+00:00", "event": "auto_name_spill_reverted", "ea": "0x1d96e9c", "generated": "src", "observed_type": "unsigned __int8 *", "note": "Type preimage at this non-target global was not captured; no type change is claimed or reversed."}
+{"utc": "2026-10-07T17:45:22.468301+00:00", "event": "auto_name_spill_reverted", "ea": "0x1d96eac", "generated": "size", "observed_type": "unsigned int", "note": "Type preimage at this non-target global was not captured; no type change is claimed or reversed."}
+{"utc": "2026-10-07T17:45:22.520437+00:00", "event": "auto_name_spill_reverted", "ea": "0x1d99760", "generated": "dst", "observed_type": "unsigned __int8 *", "note": "Type preimage at this non-target global was not captured; no type change is claimed or reversed."}
+{"utc": "2026-10-07T17:45:24.785134+00:00", "event": "post_validation_pass", "post_state_sha256": "36982db19d94d618381c09cedb3f255fe559d1bf9ef505f7c7c3adcf0e030c4a"}
+{"utc": "2026-10-07T17:45:30.446144+00:00", "event": "saved", "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64"}

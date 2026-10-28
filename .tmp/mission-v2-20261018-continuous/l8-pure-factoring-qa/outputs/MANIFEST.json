@@ -1,0 +1,130 @@
+{
+  "role": "independent-L8-pure-codec-extraction-QA-source",
+  "revision": "R3",
+  "at": "2026-10-18T17:05:00.000Z",
+  "team": "mission-a58a462638c0db92",
+  "task": "task_mvdyy9ti_001i_4pvgrf",
+  "worker": "l8-pure-factoring-qa-r1",
+  "archives": [
+    { "path": ".tmp/mission-v2-20261018-continuous/l8-pure-factoring-qa-r1-frozen", "status": "R1 archivée intangible" },
+    { "path": ".tmp/mission-v2-20261018-continuous/l8-pure-factoring-qa-r2-frozen", "status": "R2 figée intangible" }
+  ],
+  "inputs": {
+    "package": ".tmp/mission-v2-20261018-continuous/l8-pure-factoring-qa/inputs",
+    "inputManifestSha256": "51e1b2c80ddd8f7e496fb4008e21256a48b129b9cacc5f5fbe3b244a204d79d6",
+    "pins": 36,
+    "bytes": 1085644,
+    "pinCheck": "rehash complet des 36 pins exécuté à l'ACK, à R1, à R2 et en clôture R3 (voir rapport final)"
+  },
+  "supplements": [
+    {
+      "path": ".tmp/mission-v2-20261018-continuous/L8_PURE_FACTORING_QA_PLAN_ADJUDICATION.md",
+      "sha256": "a51b20d7ce94eb9efb42e745842731ac69a460bde9821eb615b5857f4767f4e7",
+      "role": "GO source R1 — 6 corrections appliquées"
+    },
+    {
+      "path": ".tmp/mission-v2-20261018-continuous/L8_FACTORING_QA_R2_FIX_SCOPE.md",
+      "sha256": "d3fae4200f923946bdbccde0dc8814b86e4f5f95927bb899514b38977b64167f",
+      "role": "GO fix QA R2 — 5 défauts V R1 + API commune validatePlanningBindingV1"
+    },
+    {
+      "path": ".tmp/mission-v2-20261018-continuous/L8_QA_R3_WORDING_ONLY_GO.md",
+      "sha256": "4cc589c18ff3844181acfaa1b0e08a21339ea0b8bd201034d2197be46e337dbb",
+      "role": "GO R3 — UNIQUE finding F1, correction de formulation seulement (Vdelta R2 result_mve3a11b_001d_at9qz2 ; parent cite QA_PLAN:206-207, test:922, jsonData:931-937 ; Vdelta final cite 68 pins 2 226 691 B exacts)"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "outputs/test/graph-phase2/pure-codecs.test.ts",
+      "bytes": 68151,
+      "sha256": "ba8d95fa9c5eace7530ccfde7bd23ea2c7847b000c81c46116b9c6c011503b4f",
+      "description": "R3 : 59 tests inchangés en assertions/bodies/fixtures/imports — SEUL le titre du test isSerializableProposalData est reformulé (F1)."
+    },
+    {
+      "path": "outputs/QA_PLAN.md",
+      "bytes": 24413,
+      "sha256": "dfdffdc37f7e04a25abfc6877e84b6c4106f58361611892bea1e3dbe99757dea",
+      "description": "R3 : bloc N reformulé (objets descriptors vs arrays value[i]) + limite R3 ajoutée ; le reste inchangé."
+    },
+    {
+      "path": "outputs/MANIFEST.json",
+      "bytes": null,
+      "sha256": null,
+      "description": "Ce manifest — auto-hash impossible ; le parent le hache à la réception."
+    }
+  ],
+  "correctionR3": {
+    "finding": "F1 (unique) — formulation généralisée « getters jamais invoqués » sur isSerializableProposalData",
+    "basis": "jsonData (lineage.ts:924-942) : les OBJETS sont inspectés via Object.getOwnPropertyDescriptor (935-937) — accessor d'objet plain refusé SANS invoquer le getter ; les TABLEAUX lisent leurs indices directement via value[i] (933) — un getter d'index dense PEUT être invoqué ; pas de garantie universelle, ni sur tableaux, ni sur Proxy avec traps.",
+    "applied": [
+      "Titre du test :922 reformulé : « isSerializableProposalData : accessor d'objet plain instrumenté refusé sans invoquer son getter » — body/assertions/compteur inchangés.",
+      "QA_PLAN bloc N : propriété limitée à l'objet plain effectivement instrumenté ; précision arrays value[i] peuvent invoquer un getter ; pas de garantie sur tableaux ni Proxy avec traps ; cas NON généralisé à graphJson, immutableSnapshot ou une autre API.",
+      "QA_PLAN limites : ligne R3 ajoutée (formulation restreinte ; assertions graphJson/graphCopy descriptor-based inchangées — descriptor check avant visit dans ces corps pinnés graph-pipeline.ts:33/57).",
+      "MANIFEST : affirmations inchangées pour graphJson/graphCopy (légitimes : descriptor avant visit) ; aucune répétition de l'affirmation généralisée isSerializable ailleurs dans ce manifest ; hashes/tailles/supplément GO R3 actualisés."
+    ],
+    "notTouched": "Assertions, fixtures, test bodies, imports, le Proxy transparent attendu true, le nombre des 59 tests, le contrôle produit/schema, la source R2 (13 pins figés, inchangée) — rien d'autre modifié."
+  },
+  "correctionsR2": [
+    "1. receiptBase remontré en builder de portée commune (top-level) ; entrées byModel = A/B/R/validation UNIQUEMENT (sans version) ; version de l'estimate parent conservée ; validatePlannerPolicy inchangé.",
+    "2. Positifs worker : comptes réellement présents (accounts: [account('a')]) ; positif ajouté 2 workers d'IDs distincts sur le même compte ; vrai négatif = même scénario avec un accountId muté vers absent (workerId toujours distinct).",
+    "3. Spreads d'unknown éliminés : sourceFixture retypée (AdmissionFixture et sous-shapes explicites, spreads TS valides) ; casts unknown[]→AnyRecord remplacés par Object.defineProperty enumerable pour les propriétés extra ; scénarios/guards inchangés, négatifs restent malformés volontaires.",
+    "4. Les 8 fixtures assertAdmissionBudgetBinding fournissent les 3 arguments réels (plan, sidecar, expectedContext) via bind() ; violation toujours sur le 3e argument ; messages spécifiques, pas de broad catch ni expect.anything.",
+    "5. isSerializableProposalData(new Proxy({})) → true sous le body legacy (jsonData sans utilTypes.isProxy) ; oracle corrigé et test dédié ; AUCUN guard ajouté au produit ; frontière = trusted code/loader ; accessor/symbole/sparse/cycle restent leurs propres cas.",
+    "6. API commune R2 : validatePlanningBindingV1 testée (disponibilité + garde précoce identique wrapper/cœur + getters partition/source NON lus avant refus) ; wrapper validatePlanning garde sa signature et transmet les 4 refs ; pas de nouveau export graph-pipeline ; aucun faux positif B / fake source v1."
+  ],
+  "mappingChecks": [
+    { "from": "graph-pipeline.ts:25-69 graphCheck/Object/Keys/String/Integer/Number/Array/Json/Copy/Freeze/Digest (exports historiques)", "to": "graph-pure-codecs (mêmes noms)", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:95 assertReceiptCoherence / :104 validatePlannerPolicy / :227 validateExecutionTemplate / :281 admissionScopeKey / :169 parsePreparedGraph (exports historiques)", "to": "graph-pure-codecs", "identityAsserted": true },
+    { "from": "graph-pipeline.ts:124 validatePlanning / :241 validateInputSource / :252 parseAdmissionSource (PRIVÉS au pin)", "to": "graph-pure-codecs", "identityAsserted": false, "note": "cor.1 adjudication : nouveau point d'entrée testé directement, aucune réexport legacy exigée, aucune API élargie" },
+    { "from": "graph-store.ts:204 validateGraphDocument / planner.ts:780 assertAdmissionBudgetBinding (exports historiques)", "to": "graph-pure-codecs", "identityAsserted": true },
+    { "from": "lineage.ts:136,145,149,492,899,948,1006 (7 publics) + lineage.ts:122 immutableSnapshot", "to": "lineage-pure-codecs + semantic-config-codec.immutableSnapshot (identité via lineage, maison d'export historique)", "identityAsserted": true, "note": "scc.ts:19 compareFunctionIds = implémentation DIFFÉRENTE, non mappée, jamais assertée ===" },
+    { "from": "semantic-index.ts:297 configFingerprint / :1188 validConfig / :1098 provenanceReady / :36-38 ALGORITHM, ALGORITHM_VERSION, LEXICAL_RULESET_VERSION", "to": "semantic-config-codec", "identityAsserted": true },
+    { "from": "eventlog.ts:5 GraphPersistenceError / :12 invariant", "to": "graph-persistence-errors (eventlog réexporte exactement)", "identityAsserted": true },
+    { "from": "SPÉCIFICATION parent R2 (L8_FACTORING_QA_R2_FIX_SCOPE.md:33-44)", "to": "graph-pure-codecs.validatePlanningBindingV1", "identityAsserted": false, "note": "API commune : PlanningPartitionBindingV1 = Pick<ClusterPartition,\"partitionId\">, PlanningAdmissionBindingV1 = Pick<GraphAdmissionSource,\"context\"|\"allocation\">, snapshot COMPLET, asserts PlannerResult ; wrapper transmet les 4 refs sans lecture anticipée ; pas de nouveau export graph-pipeline ; pas de source v2 ni partition B à lui seul (S1 dédié) ; testé : disponibilité, garde précoce identique wrapper/cœur, compteurs getters 0" }
+  ],
+  "anchors": [
+    "assertReceiptCoherence : level2+fixture-only refusé — « graph: receipt level2/fixture-only is incoherent (upstream OPEN); no relabel » (graph-pipeline.ts:97)",
+    "graphObject : accessor/symbole/non-énumérable refusés sans lire la valeur (compteur getter 0) (graph-pipeline.ts:33)",
+    "graphJson phases exactes : sparse+accessor → comptage Reflect.ownKeys d'abord ; dense+accessor → « array accessor/hole » getter 0 appel — descriptor check AVANT visit dans ce corps pinné (graph-pipeline.ts:56-57)",
+    "graphCopy : undefined refusé AVANT canonical, getters 0 appel sur ces chemins de refus (objet = descriptors, array = descriptor avant visit) (graph-pipeline.ts:48-63)",
+    "Domaines numériques distincts sans widening : graphInteger refuse -0/2**53 ; graphNumber accepte -0 et 1e20 (cor.6)",
+    "GraphPersistenceError/invariant : identité eventlog===persistence-errors, 6 catégories intactes, défaut input (eventlog.ts:5-14)",
+    "compareFunctionIds lineage : ordre numérique 0x9<0x10, module d'abord, fallback texte ; scc.ts:19 distinct non asserté",
+    "validateGraphDocument : kind inconnu + moteur legacy strict + positif minimal cluster-partition depuis le vrai schéma pinné (graph-store.ts:187-215)",
+    "R2 : validatePlanningBindingV1 — garde précoce identique wrapper/cœur, getters partition/source jamais lus avant le refus (compteurs 0)"
+  ],
+  "missingFixtures": [
+    "Positif complet parsePreparedGraph v1/v2 (snapshot contractuel assertSnapshotContract graph.ts:519 + partition + groups + planning + sidecar + binding liés par fingerprints) — producteurs ou fixture gelée future sous pins.",
+    "Positifs complets validatePlanning / validateInputSource sur documents réels (mission-plan/work-unit complets).",
+    "Positif complet assertAdmissionBudgetBinding (plan+sidecar produits par planMission) — couvert par planner-admission-budget.test.ts pinné au gate parent.",
+    "Positif inspectProposalEvidence wellFormed — couvert par lineage.test.ts pinné au gate parent.",
+    "Positifs validateGraphDocument pour work-unit/mission-plan/knowledge-commit/graph-snapshot ; knowledge-commit exigerait un scientificCommitId cohérent.",
+    "R2 : aucun positif B ni source v1 sur le cœur validatePlanningBindingV1 — validation B/fullsource dédiée S1 (exigence scope)."
+  ],
+  "limits": [
+    "Aucune coverage exécutée ; parent = compile/typecheck/tests séparés ; V delta fresh étroite ensuite (pas de reaudit global) ; aucune gate ouverte par QA ; S1 HOLD.",
+    "Imports legacy du test pour identité === + validation.ts (pur) pour digests cohérents — distincts du contrôle pure-closure statique parent ; lineage.ts déclenche ses 2 readFileSync AU CHARGEMENT du module legacy (historique).",
+    "Le fichier test ne devient résolvable qu'après intégration parent (imports ../../src/...).",
+    "planningIdentity (privé planner.ts:343) non répliqué — le test s'arrête à son refus exact.",
+    "Messages inatteignables non asserés : « independent current admission budget context required », « non-JSON admission budget array key ».",
+    "R2 : isSerializableProposalData accepte un Proxy vers cible plain (body legacy sans guard isProxy) — frontière trusted code/loader assumée, aucune garantie contre un import JS mutateur, aucun guard ajouté au produit.",
+    "R3 (F1) : l'oracle « getter non invoqué » vaut UNIQUEMENT pour l'accessor d'objet plain instrumenté (descriptors, jsonData:935-937) ; les indices de tableaux sont lus directement (jsonData:933) et peuvent invoquer un getter d'index dense ; aucune garantie universelle, ni sur tableaux, ni sur Proxy avec traps ; non généralisé à graphJson, immutableSnapshot ou une autre API.",
+    "R2 : l'ordre des paramètres de validatePlanningBindingV1 suit la spécification parent ; vérifié au gate parent.",
+    "R2 : aucune identité === wrapper validatePlanning ↔ cœur validatePlanningBindingV1 (fonctions distinctes par design, corps/guards communs identiques).",
+    "Aucun test SQL/store/lease/dispatch réel ; aucun DB/OS/process/réseau/compile/run/validator dans la QA."
+  ],
+  "nonblind": {
+    "read": [
+      "Paquet QA pinné complet (36 pins vérifiés) : SCOPE.md, MAPPING_DECISION.md, INPUT_MANIFEST.json, reference/src (lectures sélectives), reference/test (sondages grep + static-json-schema-number entier), tsconfig.json, package.json",
+      "Adjudication L8_PURE_FACTORING_QA_PLAN_ADJUDICATION.md (R1, autorisée, hashée)",
+      "Fix scope L8_FACTORING_QA_R2_FIX_SCOPE.md (R2, autorisée, hashée)",
+      "GO wording L8_QA_R3_WORDING_ONLY_GO.md (R3, autorisée, hashée)",
+      "Mes propres outputs R1/R2 (relecture pour les diffs)"
+    ],
+    "notRead": [
+      "Outputs auteur l8-pure-factoring (src/DESIGN.md/MANIFEST)",
+      "Sources V (Vdelta), outputs origins/production/full44-q1-*/autres workers",
+      "Arbre principal du dépôt, session parent, archives R1/R2 (intouchées)"
+    ]
+  }
+}

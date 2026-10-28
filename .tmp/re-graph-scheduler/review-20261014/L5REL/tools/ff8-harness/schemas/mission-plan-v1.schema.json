@@ -1,0 +1,579 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/mission-plan-v1",
+  "title": "Mission plan v1",
+  "description": "G1/G2/G3, SCC and UTF-8 budgets. Strict subset. Level 3 is not representable.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "planId",
+    "missionId",
+    "snapshotId",
+    "partitionId",
+    "knowledgeRevision",
+    "units",
+    "prerequisites",
+    "g1Edges",
+    "g2Conflicts",
+    "g3Affinities",
+    "sccs",
+    "selectedUnitIds",
+    "decisions",
+    "budgets",
+    "policyVersion",
+    "estimationVersion",
+    "fingerprint"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "planId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Plan id"
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Mission id"
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Snapshot id"
+    },
+    "partitionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Partition id"
+    },
+    "knowledgeRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision"
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unitId",
+          "ownedFunctionIds",
+          "contextFunctionIds",
+          "requiredPublicationLevel",
+          "state",
+          "contextEnvelopeUtf8Bytes"
+        ],
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Work unit id"
+          },
+          "ownedFunctionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 1,
+            "maxItems": 100000,
+            "description": "Owned functions"
+          },
+          "contextFunctionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Context functions"
+          },
+          "requiredPublicationLevel": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ],
+            "description": "Admissible publication level. 1 fixture store. 2 local approved knowledge. Level 3 IDB is absent and not admissible."
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "BLOCKED",
+              "READY",
+              "RESERVED",
+              "RUNNING",
+              "VALIDATING",
+              "COMMITTED",
+              "RETRYABLE",
+              "FAILED",
+              "STALE",
+              "CANCELLED",
+              "STOP_PENDING",
+              "QUARANTINED"
+            ],
+            "description": "WorkUnit lifecycle state"
+          },
+          "contextEnvelopeUtf8Bytes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Estimated context envelope in UTF-8 bytes"
+          }
+        },
+        "description": "Plan-level unit reference. The full unit is work-unit-v1."
+      },
+      "minItems": 1,
+      "maxItems": 100000,
+      "description": "Unit references"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "consumerUnitId",
+          "producerUnitId",
+          "kind",
+          "requiredPublicationLevel",
+          "artifactKind",
+          "dispensed",
+          "dispensationReason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Prerequisite id"
+          },
+          "consumerUnitId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Unit that waits"
+          },
+          "producerUnitId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 128,
+            "description": "Unit that must be committed, or null if external/unknown"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "obligatory",
+              "optional",
+              "external_satisfied",
+              "unknown_unresolved",
+              "non_blocking"
+            ],
+            "description": "G1 class"
+          },
+          "requiredPublicationLevel": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ],
+            "description": "Admissible publication level. 1 fixture store. 2 local approved knowledge. Level 3 IDB is absent and not admissible."
+          },
+          "artifactKind": {
+            "type": "string",
+            "enum": [
+              "structural_fact",
+              "reconciled_c",
+              "semantic_description",
+              "validated_knowledge"
+            ],
+            "description": "Required artifact"
+          },
+          "dispensed": {
+            "type": "boolean",
+            "description": "A dispensation must be explicit"
+          },
+          "dispensationReason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 1800,
+            "description": "Required nonempty text when dispensed; otherwise null"
+          }
+        },
+        "description": "Typed prerequisite"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Prerequisites"
+    },
+    "g1Edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fromUnitId",
+          "toUnitId",
+          "kind",
+          "callSourceFunctionId",
+          "callDestinationFunctionId",
+          "storedCallDirection"
+        ],
+        "properties": {
+          "fromUnitId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Producer unit: the callee's work"
+          },
+          "toUnitId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Consumer unit: the caller's work"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "obligatory",
+              "optional",
+              "non_blocking"
+            ],
+            "description": "G1 edge class"
+          },
+          "callSourceFunctionId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Caller function id. Stored call direction is this function to the callee."
+          },
+          "callDestinationFunctionId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Callee function id"
+          },
+          "storedCallDirection": {
+            "type": "string",
+            "enum": [
+              "source_to_destination"
+            ],
+            "description": "Call graph stays A to B. This plan edge is the inverse for scheduling."
+          }
+        },
+        "description": "G1: work(callee) before work(caller). Not a stored call edge."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "G1 view"
+    },
+    "g2Conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "resourceKey",
+          "withUnitId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Conflict id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "owned_function",
+              "blocking_dependency",
+              "non_isolated_file",
+              "exclusive_write",
+              "native_lease",
+              "adapter_constraint"
+            ],
+            "description": "Conflict class"
+          },
+          "resourceKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 192,
+            "description": "Canonical resource key, independent of cluster and partition id"
+          },
+          "withUnitId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 128,
+            "description": "Other unit, or null"
+          }
+        },
+        "description": "G2 conflict. Do not close transitively over a whole component."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "G2 view"
+    },
+    "g3Affinities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unitIds",
+          "reason",
+          "blocking"
+        ],
+        "properties": {
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 4,
+              "maxLength": 128,
+              "description": "Unit id"
+            },
+            "minItems": 2,
+            "maxItems": 64,
+            "description": "Affinity members"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800,
+            "description": "Preference reason"
+          },
+          "blocking": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "description": "G3 never blocks"
+          }
+        },
+        "description": "G3 affinity. Preference only."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "G3 view"
+    },
+    "sccs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "functionIds",
+          "exclusive",
+          "hasSelfLoop",
+          "selfLoopPreserved"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "SCC id"
+          },
+          "functionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 1,
+            "maxItems": 100000,
+            "description": "SCC members"
+          },
+          "exclusive": {
+            "type": "boolean",
+            "description": "Recursive SCC is an exclusive dependency unit in the first prototype"
+          },
+          "hasSelfLoop": {
+            "type": "boolean",
+            "description": "True when a retained self-loop participates"
+          },
+          "selfLoopPreserved": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "description": "Must be true. A stripped self-loop is not an admissible SCC input."
+          }
+        },
+        "description": "SCC. Trivial nodes are size-1 SCCs. Self-loops are not dropped."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "SCCs"
+    },
+    "selectedUnitIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 128,
+        "description": "Selected unit id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Units a budget selection kept"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "unitId",
+          "action",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Decision id"
+          },
+          "unitId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Unit id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "include",
+              "defer",
+              "dispense",
+              "exclude_budget"
+            ],
+            "description": "Explicit decision"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800,
+            "description": "Explainable reason"
+          }
+        },
+        "description": "Explainable decision"
+      },
+      "minItems": 1,
+      "maxItems": 100000,
+      "description": "Decisions"
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit",
+        "contextEnvelopeMaxUtf8Bytes",
+        "countsSqliteLength",
+        "nativeLineCharLimit"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "enum": [
+            "utf8-bytes"
+          ],
+          "description": "Budgets count UTF-8 bytes, including envelope and metadata"
+        },
+        "contextEnvelopeMaxUtf8Bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000000,
+          "description": "Maximum UTF-8 bytes of a context envelope"
+        },
+        "countsSqliteLength": {
+          "type": "boolean",
+          "enum": [
+            false
+          ],
+          "description": "SQLite length(TEXT) is not a byte count"
+        },
+        "nativeLineCharLimit": {
+          "type": "integer",
+          "enum": [
+            2000
+          ],
+          "description": "Native read line character limit. Not a token budget and not the UTF-8 byte budget."
+        }
+      },
+      "description": "UTF-8 budgets. ADR-007."
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Policy version"
+    },
+    "estimationVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Estimation version"
+    },
+    "fingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "sha256(canonical(document without this field)) 64 lowercase hex characters; schema cannot use pattern."
+    }
+  }
+}

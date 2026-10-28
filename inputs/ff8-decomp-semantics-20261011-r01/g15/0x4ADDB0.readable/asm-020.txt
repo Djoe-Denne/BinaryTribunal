@@ -1,0 +1,25 @@
+004AE4D3: mov     word ptr dword_1D768DC+2, ax
+004AE4D9: mov     eax, 20h ; ' '; jumptable 004ADEFA case 31
+004AE4DE: jmp     loc_4AE669; Jump
+004AE4E3: mov     ecx, dword_1D768F8; jumptable 004ADEFA case 27
+004AE4E9: xor     eax, eax; Logical Exclusive OR
+004AE4EB: xor     ebx, ebx; Logical Exclusive OR
+004AE4ED: mov     al, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE4F2: mov     bl, byte ptr dword_1D768E4+1
+004AE4F8: lea     edx, [eax+eax*2]; Load Effective Address
+004AE4FB: lea     edx, [eax+edx*4]; Load Effective Address
+004AE4FE: lea     edx, [edx+ebx+9]; Load Effective Address
+004AE502: push    edx
+004AE503: mov     edx, dword_1D768E4
+004AE509: and     edx, 0FFh; Logical AND
+004AE50F: add     edx, 7; Add
+004AE512: push    edx
+004AE513: xor     edx, edx; Logical Exclusive OR
+004AE515: mov     dl, [ecx+eax*4+3]
+004AE519: push    edx
+004AE51A: mov     dl, [ecx+eax*4+1]
+004AE51E: mov     al, [ecx+eax*4+2]
+004AE522: mov     ecx, dword_1D6D490
+004AE528: push    edx
+004AE529: push    eax
+004AE52A: mov     dl, [ecx+20h]

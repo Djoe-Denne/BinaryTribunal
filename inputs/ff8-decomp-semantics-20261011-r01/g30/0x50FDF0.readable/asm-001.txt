@@ -1,0 +1,25 @@
+0050FDF0: sub     esp, 28h; Integer Subtraction
+0050FDF3: push    ebx
+0050FDF4: push    ebp
+0050FDF5: mov     ebp, [esp+30h+ctx]
+0050FDF9: mov     eax, [esp+30h+packet]
+0050FDFD: mov     dword_1D99C18, eax
+0050FE02: push    esi
+0050FE03: mov     ecx, [ebp+1Ch]
+0050FE06: mov     eax, [ebp+0]
+0050FE09: and     ecx, 2FFFFFFh; Logical AND
+0050FE0F: mov     esi, [ebp+4]
+0050FE12: or      ecx, 24000000h; Logical Inclusive OR
+0050FE18: push    edi
+0050FE19: mov     [esp+38h+var_18], ecx
+0050FE1D: mov     ecx, [ebp+28h]
+0050FE20: and     ecx, offset unk_FFFFFF; Logical AND
+0050FE26: mov     dword_1D99C1C, eax
+0050FE2B: or      ecx, 26000000h; Logical Inclusive OR
+0050FE31: mov     [esp+38h+var_10], ecx
+0050FE35: xor     ecx, ecx; Logical Exclusive OR
+0050FE37: mov     cx, [ebp+8]
+0050FE3B: test    ecx, ecx; Logical Compare
+0050FE3D: jz      loc_510041; Jump if Zero (ZF=1)
+0050FE43: mov     [esp+38h+var_14], ecx
+0050FE47: mov     ecx, [eax+0Ch]

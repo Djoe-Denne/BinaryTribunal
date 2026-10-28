@@ -1,0 +1,25 @@
+005157C4: add     eax, edx; Add
+005157C6: sar     eax, 2; Shift Arithmetic Right
+005157C9: add     eax, 400h; Add
+005157CE: push    eax
+005157CF: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+005157D4: add     esp, 4; Add
+005157D7: mov     ecx, 1000h
+005157DC: sub     ecx, eax; Integer Subtraction
+005157DE: mov     eax, dword_1D9B0E0
+005157E3: mov     edx, dword_1D9B0FC
+005157E9: imul    edx, ecx; Signed Multiply
+005157EC: sar     edx, 0Ch; Shift Arithmetic Right
+005157EF: dec     eax; Decrement by 1
+005157F0: mov     BattleEffect_RotateSky, dx
+005157F7: mov     dword_1D9B0E0, eax
+005157FC: retn; Return Near from Procedure
+005157FD: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().
+00515802: xor     edx, edx; Logical Exclusive OR
+00515804: mov     ecx, 1Eh
+00515809: div     ecx; Unsigned Divide
+0051580B: add     edx, ecx; Add
+0051580D: mov     dword_1D9B100, edx
+00515813: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().
+00515818: xor     edx, edx; Logical Exclusive OR
+0051581A: mov     ecx, 1Eh

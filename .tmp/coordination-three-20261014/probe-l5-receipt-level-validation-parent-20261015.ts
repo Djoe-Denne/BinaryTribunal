@@ -1,0 +1,16 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {pathToFileURL} from 'node:url';
+import {strict as assert} from 'node:assert';
+import {planMission,receiptSatisfies,type ArtifactReceipt} from '../../tools/ff8-harness/src/planner';
+import {canonical} from '../../tools/ff8-harness/src/validation';
+import {simPlanFromExport,validateSimPlan} from '../../inputs/L7SIM_CORRECTIVE_REVIEW_V2/tools/ff8-harness/src/simulator';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014';
+const cases=JSON.parse(readFileSync(phase+'/l7sim-ac82-parent-repros.json','utf8')).scenarios,example=cases.find((s:any)=>s.case==='P2-stronger-external-receipt');assert(example);
+const policy=structuredClone(example.policy),key=Object.keys(policy.externalReceiptsByEdge)[0]!,receipt:ArtifactReceipt={...policy.externalReceiptsByEdge[key],publicationLevel:2,validation:'fixture-only'};
+policy.externalReceiptsByEdge[key]=receipt;assert.equal(receiptSatisfies(example.requirement,receipt,null),true);
+const old=planMission(example.snapshot,example.groups,policy);assert(old.plan.prerequisites.some(p=>p.kind==='external_satisfied'));assert.equal(old.diagnostics.length,0);
+const candidate=await import(pathToFileURL('C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-re-ff8-re-graph-scheduler#4urn3c-l5-budget-astra/tools/ff8-harness/src/planner.ts').href);
+assert.equal(candidate.receiptSatisfies(example.requirement,receipt,null),true);const next=candidate.planMission(example.snapshot,example.groups,policy);assert.equal(canonical(old),canonical(next));
+const simCodes=validateSimPlan(simPlanFromExport(old)).map(d=>d.code);
+const result={fixtureOnly:true,requirement:{level:1,validation:'fixture-only'},receipt:{level:2,validation:'fixture-only'},oldAcceptedL5Predicate:true,newBudgetCandidatePredicate:true,newBudgetCandidateLegacyPlanningSameAsOld:true,oldPlannerExternalSatisfied:true,oldPlannerDiagnostics:0,pinnedAc82SimulatorDiagnosticCodes:simCodes,contractMeaning:'CONTRAT §4 level2 requires actual parent validation; inconsistent level2+fixture-only must not be promoted',noDatabaseNoSubmitNoPublication:true,notAnAllocationRegression:true,upstreamAdmissionValidityGapNotFixedByThisProbe:true};
+writeFileSync(phase+'/l5-receipt-level-validation-parent.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result,null,2));

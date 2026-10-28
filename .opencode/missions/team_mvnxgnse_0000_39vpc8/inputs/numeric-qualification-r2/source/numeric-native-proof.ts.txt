@@ -1,0 +1,236 @@
+// Child/root pure finite relation. No compiler, filesystem, inspector or science.
+import { createHash } from "node:crypto";
+import { resolve, dirname, join } from "node:path";
+import { observe, insist, type Artifact, type Side } from "../test/numeric-evidence-writer";
+export type Point = { line: number; column: number };
+export type NativeMapSite = {
+  side: "baseline" | "candidate"; site: "scale" | "ppr";
+  file: string; sourceSha256: string; astToolSha256: string;
+  callback: Point; caller: Point;
+  functionName: "scaledGraph" | "personalizedPageRankUnchecked";
+  receiver: "summands(g)" | "row";
+};
+export type ConcreteNeighbor = Point & { file: string; sourceSha256: string };
+export type FiniteNativeMapProof = {
+  kind: "finite-native-map"; raw: string; nativeIndex: number; callbackIndex: number; callerIndex: number;
+  operation: "Array.prototype.map"; site: "scale" | "ppr"; side: "baseline" | "candidate";
+  sourceSha256: string; astToolSha256: string;
+  nativeTokenIsNotSourceCoordinate: true;
+};
+export const PINNED_AST_TOOL_SHA = "3ae902c92cc44dace175c0e69e13a4b0899f6983c6121d76b9ab8dd5795e7675";
+const initialMap = Array.prototype.map, initialDescriptor = Object.getOwnPropertyDescriptor(Array.prototype, "map")!;
+export function assertMapContinuity(): void {
+  const current = Object.getOwnPropertyDescriptor(Array.prototype, "map");
+  if (!current || !Object.hasOwn(current, "value") || Object.hasOwn(current, "get") || Object.hasOwn(current, "set")
+    || current.value !== initialMap || Array.prototype.map !== initialMap || typeof initialMap !== "function"
+    || current.writable !== true || current.enumerable !== false || current.configurable !== true
+    || initialDescriptor.value !== initialMap || initialDescriptor.writable !== true || initialDescriptor.enumerable !== false || initialDescriptor.configurable !== true)
+    throw new Error("numeric-native-proof: Array.map continuity/descriptor mismatch");
+}
+
+export function proveFiniteNativeMap(raw: string, nativeIndex: number, callback: ConcreteNeighbor, caller: ConcreteNeighbor,
+  sites: readonly NativeMapSite[], side: "baseline" | "candidate"): FiniteNativeMapProof {
+  assertMapContinuity();
+  if (raw !== "    at map (native:1:11)" || !Number.isSafeInteger(nativeIndex) || nativeIndex < 1)
+    throw new Error("numeric-native-proof: unknown runtime token/index");
+  const matches = sites.filter(site => site.side === side && site.file === callback.file && site.file === caller.file
+    && site.sourceSha256 === callback.sourceSha256 && site.sourceSha256 === caller.sourceSha256
+    && site.callback.line === callback.line && site.callback.column === callback.column
+    && site.caller.line === caller.line && site.caller.column === caller.column);
+  if (matches.length !== 1) throw new Error("numeric-native-proof: native callback/caller AST association missing or ambiguous");
+  const site = matches[0]!;
+  if (site.astToolSha256 !== PINNED_AST_TOOL_SHA || site.sourceSha256 !== (side === "baseline"
+    ? "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303" : "09c2035a16c1d4a1bfe03fc00807920d0af5202b290b0a68d7172a33319a3542"))
+    throw new Error("numeric-native-proof: source/tool authority pin mismatch");
+  return { kind: "finite-native-map", raw, nativeIndex, callbackIndex: nativeIndex - 1, callerIndex: nativeIndex + 1,
+    operation: "Array.prototype.map", site: site.site, side, sourceSha256: site.sourceSha256,
+    astToolSha256: site.astToolSha256, nativeTokenIsNotSourceCoordinate: true };
+}
+
+// Private source-dispatch-v1 amendment. No extra child module or runtime frame.
+export const DISPATCH_POISONS = ["arc", "id", "out", "incoming", "outDegree", "inDegree", "totalWeight", "negativeZeroCache",
+  "summandWeight", "summandEndpoint", "summandZero", "summandNegativeZero", "summandInfinity", "summandNaN", "summandOrder",
+  "rawCount", "sourceBudget", "sourceVersion", "binding", "missingSource", "missingPolicy", "convention", "rehashedStaleCaches"] as const;
+export const DISPATCH_SEED = "numeric-context-qualification-v1";
+export const DISPATCH_FACTORY_SHA = "458ec5a8291258b9d91a6b5c980eeb2041e827db66703237ec777f666ca86b24";
+const digest = (bytes: string | Uint8Array): string => createHash("sha256").update(bytes).digest("hex");
+export type DispatchSource = {
+  version: "source-derived-reviewed-dispatch-v1"; file: string; sourceSha256: string; astToolSha256: string;
+  sourceRevision: "historical-208" | "owned-dispatch-v1"; factorySha256: string; iterationSha256: string;
+  dispatch: Point & { sourceLine: string }; factory: Point; target: Point;
+  imports: { baseline: string; candidate: string }; ids: string[];
+};
+export type DispatchAuthority = { runId: string; bindingSha256: string; catalogueSha256: string;
+  bindingTestSha256: string; catalogueTestSha256: string; source: DispatchSource };
+export function checkDispatchSource(value: unknown, text: string, file: string): DispatchSource {
+  insist(value !== null && typeof value === "object", "dispatch source witness object");
+  const s = value as DispatchSource;
+  const keys = ["version", "file", "sourceSha256", "astToolSha256", "sourceRevision", "factorySha256", "iterationSha256", "dispatch", "factory", "target", "imports", "ids"];
+  insist(Object.keys(s).length === keys.length && Object.keys(s).every(k => keys.includes(k))
+    && s.version === "source-derived-reviewed-dispatch-v1" && s.file === file && s.sourceSha256 === digest(text)
+    && s.astToolSha256 === PINNED_AST_TOOL_SHA && s.factorySha256 === DISPATCH_FACTORY_SHA
+    && (s.sourceRevision === "historical-208" || s.sourceRevision === "owned-dispatch-v1")
+    && /^[a-f0-9]{64}$/.test(s.iterationSha256), "dispatch source/AST/revision/hash mismatch");
+  const lines = text.split(/\r?\n/);
+  for (const point of [s.dispatch, s.factory, s.target]) insist(point && Number.isSafeInteger(point.line) && point.line > 0
+    && point.line <= lines.length && Number.isSafeInteger(point.column) && point.column > 0 && point.column <= lines[point.line - 1]!.length, "dispatch AST point bounds");
+  insist(s.dispatch.sourceLine === lines[s.dispatch.line - 1] && s.dispatch.sourceLine.slice(s.dispatch.column - 1).startsWith("action()")
+    && lines[s.factory.line - 1]!.slice(s.factory.column - 1).startsWith("add(`poison/${name}/${consumer}`")
+    && lines[s.target.line - 1]!.includes('case "groups": return (side === "baseline" ? BG : CG)(input, partition, groupOverrides, groupOptions);'), "dispatch/factory/target AST source mismatch");
+  insist(s.imports?.baseline === "../../baseline/tools/ff8-harness/src/investigation-groups"
+    && s.imports.candidate === "../../candidate/tools/ff8-harness/src/investigation-groups"
+    && s.ids?.length === 23 && s.ids.every((id, n) => id === `numeric/poison/${DISPATCH_POISONS[n]}/groups`), "dispatch import target/finite23 mismatch");
+  return structuredClone(s);
+}
+type DispatchCase = { id: string; config: unknown; expected: unknown; oracle: string; inputHash: string; make: Function };
+type DispatchWork = { action: Function };
+type DispatchGrant = { iteration: object; side: Side; index: number; artifact: Artifact; text: string;
+  caseRef: DispatchCase; make: Function; work: DispatchWork; action: Function; spec: string; source: DispatchSource; authority: DispatchAuthority;
+  framesHash: string; errorProofArtifact: Artifact };
+export type DispatchCapture = { frames: readonly OriginFrame[]; rawStack: string; runId: string; artifact: Artifact; text: string;
+  data: { frames: readonly OriginFrame[]; rawStack: string; runId: string } };
+const grants = new WeakMap<object, DispatchGrant>();
+export type DispatchPair = { version: "owned-dispatch-pair-v1"; baseline: object; candidate: object };
+function member(c: DispatchCase): number {
+  const n = DISPATCH_POISONS.findIndex(poison => c.id === `numeric/poison/${poison}/groups`);
+  insist(n >= 0, "dispatch case outside finite23");
+  insist(observe(c.config) === observe({ poison: DISPATCH_POISONS[n], consumer: "groups", seed: DISPATCH_SEED })
+    && observe(c.expected) === observe({ kind: "refusal", code: "unsupported-numeric" })
+    && c.oracle === "cluster.test.ts:594-613" && c.inputHash === digest(observe(c.config)), "dispatch case/config/expected/oracle/hash mismatch");
+  return n;
+}
+function spec(c: DispatchCase): string { return observe({ id: c.id, config: c.config, expected: c.expected, oracle: c.oracle, inputHash: c.inputHash }); }
+export function createDispatchOwner(authority: DispatchAuthority) {
+  // Authority comes ONLY from the already sealed/validated root catalogue in
+  // production. Tests identify historical DATA and synthetic handles explicitly.
+  const a = structuredClone(authority), s = a.source;
+  insist(/^[A-Za-z0-9_-]{16,128}$/.test(a.runId) && /^[a-f0-9]{64}$/.test(a.bindingSha256) && /^[a-f0-9]{64}$/.test(a.catalogueSha256)
+    && s.version === "source-derived-reviewed-dispatch-v1" && s.astToolSha256 === PINNED_AST_TOOL_SHA
+    && s.sourceSha256 === a.bindingTestSha256 && s.sourceSha256 === a.catalogueTestSha256
+    && s.factorySha256 === DISPATCH_FACTORY_SHA && s.ids.length === 23
+    && s.imports.baseline === "../../baseline/tools/ff8-harness/src/investigation-groups"
+    && s.imports.candidate === "../../candidate/tools/ff8-harness/src/investigation-groups"
+    && s.ids.every((id, n) => id === `numeric/poison/${DISPATCH_POISONS[n]}/groups`), "dispatch source/binding/catalogue authority mismatch");
+  const registered = new WeakMap<object, { make: Function; spec: string }>();
+  return {
+    registerCase(c: DispatchCase): void {
+      if (!s.ids.includes(c.id)) return;
+      member(c); insist(!registered.has(c), "duplicate dispatch factory registration");
+      registered.set(c, { make: c.make, spec: spec(c) });
+    },
+    begin(c: DispatchCase, index: number) {
+      if (!s.ids.includes(c.id)) return undefined;
+      const r = registered.get(c), n = member(c);
+      insist(r !== undefined && r.make === c.make && r.spec === spec(c) && index === 208 + n * 9, "dispatch effective iteration/factory/index mismatch");
+      const iteration = {}, branches = new Map<Side, object>();
+      return {
+        bind(side: Side, work: DispatchWork, actionInputHash: string) {
+          insist((side === "baseline" || side === "candidate") && typeof work.action === "function" && !branches.has(side)
+            && c.make === r.make && spec(c) === r.spec && /^[a-f0-9]{64}$/.test(actionInputHash), "dispatch make/action/side replaced");
+          const action = work.action;
+          return (artifact: Artifact, indexData: unknown, text: string, capture: DispatchCapture): object => {
+            const data = indexData as { id: string; inputHash: string; config: unknown; expected: unknown; oracle: string; sourceFixtureOrCaseSpecHash: string; stageCount: number; stages: unknown[] };
+            insist(c.make === r.make && work.action === action && spec(c) === r.spec && !branches.has(side), "dispatch callback replaced/reused");
+            insist(data.id === c.id && data.inputHash === actionInputHash && observe(data.config) === observe(c.config) && observe(data.expected) === observe(c.expected)
+              && data.oracle === c.oracle && data.sourceFixtureOrCaseSpecHash === c.inputHash && data.stageCount === 2 && data.stages.length === 2
+              && artifact.kind === "index" && artifact.ordinal === 5
+              && artifact.path === join(resolve(dirname(s.file), "../..", "numeric-context-qualification-v3"), `${side}-${index}-5-index.events`)
+              && artifact.text === text && artifact.bytes === Buffer.byteLength(text, "utf8") && observe(indexData) === text, "dispatch owned index artifact/context mismatch");
+            insist(capture.runId === a.runId && capture.data.runId === capture.runId && capture.data.rawStack === capture.rawStack
+              && observe(capture.data.frames) === observe(capture.frames) && observe(capture.data) === capture.text
+              && capture.rawStack.split(/\r?\n/).slice(1).join("\n") === capture.frames.map(f => f.raw).join("\n")
+              && capture.artifact.kind === "error-proof" && capture.artifact.ordinal === 4 && capture.artifact.text === capture.text
+              && capture.artifact.bytes === Buffer.byteLength(capture.text, "utf8")
+              && capture.artifact.path === join(resolve(dirname(s.file), "../..", "numeric-context-qualification-v3"), `${side}-${index}-4-error-proof.events`), "dispatch RAW frame/proof/run mismatch");
+            const token = Object.freeze({ kind: "owned-dispatch-branch-v1" });
+            grants.set(token, { iteration, side, index, artifact: { ...artifact }, text, caseRef: c, make: c.make, work, action,
+              spec: r.spec, source: s, authority: a, framesHash: digest(observe(capture.frames)), errorProofArtifact: { ...capture.artifact } }); branches.set(side, token); return token;
+          };
+        },
+        pair(baseline: object, candidate: object): DispatchPair {
+          insist(branches.get("baseline") === baseline && branches.get("candidate") === candidate, "dispatch branch iteration identity mismatch");
+          return { version: "owned-dispatch-pair-v1", baseline, candidate };
+        },
+      };
+    },
+  };
+}
+export type OriginFrame = {
+  raw: string; kind: "product" | "test" | "prepare-wrapper" | "native-runtime";
+  file: string | null; line: number | null; column: number | null; sourceHash: string | null; sourceLine: string | null;
+  mappedFile: string | null; mappedLine: number | null; mappedColumn: number | null; mappedSourceHash: string | null;
+  nativeProof?: FiniteNativeMapProof;
+};
+export function sameOrigin(a: OriginFrame | undefined, b: OriginFrame | undefined): boolean {
+  return a !== undefined && b !== undefined && a.kind !== "native-runtime" && b.kind !== "native-runtime" && a.kind !== "prepare-wrapper" && b.kind !== "prepare-wrapper"
+    && a.kind === b.kind && a.mappedFile === b.mappedFile && a.mappedLine === b.mappedLine
+    && a.mappedColumn === b.mappedColumn && a.mappedSourceHash === b.mappedSourceHash
+    && (a.kind !== "test" || a.file === b.file && a.sourceHash === b.sourceHash && a.line === b.line && a.column === b.column);
+}
+function reviewedDispatch(pair: DispatchPair | undefined, caller: OriginFrame | undefined, baseline: readonly OriginFrame[], candidate: readonly OriginFrame[]): unknown {
+  insist(pair?.version === "owned-dispatch-pair-v1" && caller?.kind === "test", "dispatch witness absent");
+  const b = grants.get(pair.baseline), c = grants.get(pair.candidate);
+  insist(b && c && b.side === "baseline" && c.side === "candidate" && b.iteration === c.iteration && b.index === c.index
+    && b.spec === c.spec && b.authority.runId === c.authority.runId && b.text === c.text, "dispatch branch/source/run mismatch");
+  insist(b.framesHash === digest(observe(baseline)) && c.framesHash === digest(observe(candidate)), "dispatch frames changed/omitted from captured RAW");
+  for (const g of [b, c]) {
+    insist(g.caseRef.make === g.make && g.work.action === g.action && spec(g.caseRef) === g.spec, "dispatch factory/action/context changed after capture");
+    insist(caller.file === g.source.file && caller.sourceHash === g.source.sourceSha256 && caller.line === g.source.dispatch.line
+      && caller.column === g.source.dispatch.column && caller.sourceLine === g.source.dispatch.sourceLine, "dispatch caller source/point mismatch");
+  }
+  return { kind: "source-derived reviewed dispatch", version: "source-derived-reviewed-dispatch-v1", runId: b.authority.runId,
+    source: b.source, caseIndex: b.index, case: b.spec, baselineIndexArtifact: b.artifact, candidateIndexArtifact: c.artifact,
+    baselineErrorProofArtifact: b.errorProofArtifact, candidateErrorProofArtifact: c.errorProofArtifact,
+    bindingSha256: b.authority.bindingSha256, catalogueSha256: b.authority.catalogueSha256, runtimeFrameInvented: false };
+}
+const prepareInsertions = [
+  { rule: "prepare/minimum-size", candidateCalleeLine: 67, baselineCalleeLine: 60, call: "requireThat(" },
+  { rule: "prepare/empty-partition", candidateCalleeLine: 72, baselineCalleeLine: 65, call: "requireThat(" },
+  { rule: "prepare/affinity-validation", candidateCalleeLine: 93, baselineCalleeLine: 86, call: "validateSparseGraph(" },
+] as const;
+export function reconcileOriginFrames(baseline: readonly OriginFrame[], candidate: readonly OriginFrame[],
+  sourceFile: (side: Side, file: string) => string, wrapperHash: string, dispatch?: DispatchPair) {
+  // Check the admitted complete RAW even if a tampered input removed the only
+  // insertion and would otherwise take exclusively aligned-source branches.
+  const completeDispatchEvidence = dispatch === undefined ? undefined : reviewedDispatch(dispatch, candidate.at(-1), baseline, candidate);
+  const proof: Array<{ kind: string; baselineIndices: number[]; candidateIndices: number[]; evidence: unknown }> = [];
+  const consumedBaseline: number[] = [], consumedCandidate: number[] = [];
+  let bi = 0, ci = 0;
+  while (bi < baseline.length || ci < candidate.length) {
+    const b = baseline[bi], c = candidate[ci];
+    if (b?.kind === "native-runtime" || c?.kind === "native-runtime") {
+      insist(b?.kind === "native-runtime" && c?.kind === "native-runtime" && b.nativeProof !== undefined && c.nativeProof !== undefined
+        && b.raw === c.raw && b.nativeProof.site === c.nativeProof.site && b.nativeProof.side === "baseline" && c.nativeProof.side === "candidate"
+        && b.nativeProof.nativeIndex === bi && c.nativeProof.nativeIndex === ci
+        && sameOrigin(baseline[bi - 1], candidate[ci - 1]) && sameOrigin(baseline[bi + 1], candidate[ci + 1]), "unpaired/unproved native runtime frame");
+      proof.push({ kind: "paired-finite-native-map", baselineIndices: [bi], candidateIndices: [ci], evidence: { baseline: b, candidate: c } });
+      consumedBaseline.push(bi++); consumedCandidate.push(ci++); continue;
+    }
+    if (sameOrigin(b, c)) {
+      proof.push({ kind: "aligned-source-coordinate", baselineIndices: [bi], candidateIndices: [ci], evidence: { baseline: b, candidate: c } });
+      consumedBaseline.push(bi++); consumedCandidate.push(ci++); continue;
+    }
+    const previousB = baseline[bi - 1], previousC = candidate[ci - 1], nextC = candidate[ci + 1];
+    const row = prepareInsertions.find(r => previousC?.file === sourceFile("candidate", "group-context-codecs.ts")
+      && previousC.line === r.candidateCalleeLine && previousB?.file === sourceFile("baseline", "investigation-groups.ts") && previousB.line === r.baselineCalleeLine);
+    const callStart = c?.sourceLine?.indexOf("prepareGroupContextSource(") ?? -1;
+    const callerIsReviewedTestCall = nextC?.kind === "test" && (nextC.sourceLine?.includes("build(") || nextC.sourceLine?.includes("BG : CG"));
+    // A JSON-shaped witness cannot reach this branch: only private grants from
+    // the actual owner iteration carry source, callbacks and admitted RAW.
+    const dispatchEvidence = completeDispatchEvidence;
+    if (c?.kind === "prepare-wrapper" && c.file === sourceFile("candidate", "investigation-groups.ts") && c.line === 49
+      && c.sourceHash === wrapperHash && callStart === 19 && c.column !== null && c.column >= 20 && c.column <= 185
+      && c.sourceLine?.length === 186 && c.sourceLine[184] === ")" && c.sourceLine[185] === ";"
+      && row !== undefined && sameOrigin(previousB, previousC) && previousC?.sourceLine?.includes(row.call)
+      && proof.at(-1)?.kind === "aligned-source-coordinate" && (callerIsReviewedTestCall || dispatchEvidence !== undefined) && sameOrigin(b, nextC)) {
+      proof.push({ kind: "source-justified-candidate-prepare-insertion", baselineIndices: [], candidateIndices: [ci], evidence: {
+        rule: row, wrapper: c, previousAligned: { baselineIndex: bi - 1, candidateIndex: ci - 1, baseline: previousB, candidate: previousC },
+        nextAligned: { baselineIndex: bi, candidateIndex: ci + 1, baseline: b, candidate: nextC }, dispatchEvidence } });
+      consumedCandidate.push(ci++); continue;
+    }
+    throw new Error(`qualification: full origin chain incompatible at baseline[${bi}] candidate[${ci}]; no frame omitted`);
+  }
+  insist(consumedBaseline.length === baseline.length && consumedBaseline.every((index, i) => index === i)
+    && consumedCandidate.length === candidate.length && consumedCandidate.every((index, i) => index === i), "origin proof must consume every frame index on both sides");
+  return { version: "full-origin-pair-source-dispatch-v1", baselineCount: baseline.length, candidateCount: candidate.length, consumedBaseline, consumedCandidate, proof };
+}

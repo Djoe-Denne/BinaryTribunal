@@ -1,0 +1,25 @@
+00509171: jnz     short loc_5091B0; Jump if Not Zero (ZF=0)
+00509173: mov     al, [edi]
+00509175: xor     ebp, ebp; Logical Exclusive OR
+00509177: test    al, al; Logical Compare
+00509179: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)
+0050917F: lea     ebx, [edi+16h]; Load Effective Address
+00509182: push    esi
+00509183: call    Battle__ReadRotationType; Call Procedure
+00509188: add     [ebx-2], ax; Add
+0050918C: push    esi
+0050918D: call    Battle__ReadRotationType; Call Procedure
+00509192: add     [ebx], ax; Add
+00509195: push    esi
+00509196: call    Battle__ReadRotationType; Call Procedure
+0050919B: add     [ebx+2], ax; Add
+0050919F: xor     edx, edx; Logical Exclusive OR
+005091A1: mov     dl, [edi]
+005091A3: add     esp, 0Ch; Add
+005091A6: inc     ebp; Increment by 1
+005091A7: add     ebx, 30h ; '0'; Add
+005091AA: cmp     ebp, edx; Compare Two Operands
+005091AC: jl      short loc_509182; Jump if Less (SF!=OF)
+005091AE: jmp     short loc_509205; Jump
+005091B0: mov     al, [edi]
+005091B2: xor     ebp, ebp; Logical Exclusive OR

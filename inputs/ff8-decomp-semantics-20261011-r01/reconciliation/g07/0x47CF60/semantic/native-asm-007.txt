@@ -1,0 +1,25 @@
+0047D1B3: mov     eax, battle_swirl_dword_1CFF6F4
+0047D1B8: cmp     eax, ebx; Compare Two Operands
+0047D1BA: jz      short loc_47D1F3; Jump if Zero (ZF=1)
+0047D1BC: mov     edx, Render_Height
+0047D1C2: xor     ecx, ecx; Logical Exclusive OR
+0047D1C4: cmp     eax, 2; Compare Two Operands
+0047D1C7: mov     eax, Render_width
+0047D1CC: setz    cl; Set Byte if Zero (ZF=1)
+0047D1CF: push    ecx; int
+0047D1D0: mov     ecx, Render_Y_Axis
+0047D1D6: push    3AC49BA6h; int
+0047D1DB: push    edx; int
+0047D1DC: mov     edx, Render_X_Axis
+0047D1E2: push    eax; int
+0047D1E3: push    ecx; int
+0047D1E4: push    edx; int
+0047D1E5: call    start_battle_swirl_sub_56D1D0; one-shot overlay iff latch!=0 && !pause; clears latch; color 0x55FFFFFF, Z 0x3AC49BA6 (PH10)
+0047D1EA: add     esp, 18h; Add
+0047D1ED: mov     battle_swirl_dword_1CFF6F4, ebx
+0047D1F3: call    nullsub_35; Call Procedure
+0047D1F8: jmp     short loc_47D204; Jump
+0047D1FA: push    0FFFFFFFFh; ot_head
+0047D1FC: call    Gpu_DrawOTagCurrent; Thunk DrawOTag courant vers 0x45D080; pas un upload de texture.
+0047D201: add     esp, 4; Add
+0047D204: cmp     pause_game_battle, ebx; Compare Two Operands

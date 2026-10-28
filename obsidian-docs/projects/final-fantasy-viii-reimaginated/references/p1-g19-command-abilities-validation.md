@@ -4,11 +4,11 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G19 command abilities, P1 G19, command inventory]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-live-promotion-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-validation-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-state-post-suite-2026-08-28.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g19-command-abilities-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-state-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g19-post-shutdown-2026-08-28.json
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g18-gf-gameplay-validation.md
 summary: >-

@@ -1,0 +1,25 @@
+00488A53: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488A59: mov     edx, [esp+74h+jump_value]
+00488A5D: and     edx, 0FFFFh; Logical AND
+00488A63: add     esi, edx; Add
+00488A65: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488A6A: call    domain__Battle_GetRandomInt; IF test type 0x02: RANDOM_PROBABILITY - GetRandomInt() % param2, compared against value.
+00488A6F: mov     ecx, dword ptr [esp+74h+op_param_2]
+00488A73: and     eax, edi; Logical AND
+00488A75: cdq; EAX -> EDX:EAX (with sign)
+00488A76: and     ecx, edi; Logical AND
+00488A78: idiv    ecx; Signed Divide
+00488A7A: mov     eax, [esp+74h+if_right_condition_final]
+00488A7E: and     eax, 0FFFFh; Logical AND
+00488A83: mov     [esp+74h+op_param_2], dl
+00488A87: mov     edx, dword ptr [esp+74h+op_param_3]
+00488A8B: mov     ecx, dword ptr [esp+74h+op_param_2]
+00488A8F: and     edx, edi; Logical AND
+00488A91: and     ecx, edi; Logical AND
+00488A93: cmp     edx, 5; switch 6 cases
+00488A96: ja      def_488831; jumptable 00488831 default case
+00488A9C: jmp     ds:jpt_488A9C[edx*4]; switch jump
+00488AA3: cmp     ecx, eax; jumptable 00488A9C case 0
+00488AA5: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488AAB: mov     edx, [esp+74h+jump_value]
+00488AAF: and     edx, 0FFFFh; Logical AND

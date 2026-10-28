@@ -1,0 +1,41 @@
+bun test v1.4.2 (744846f84)
+
+test\native-canary-strict.test.ts:
+(pass) canary defaults to strict capture, never worker-edited JSON [0.18ms]
+(pass) legacy file output must be explicitly selected, never an automatic fallback [0.05ms]
+(pass) new runnable fixture configuration also defaults to strict mode before filesystem work [0.35ms]
+20 | });
+21 | test("new runnable fixture configuration also defaults to strict mode before filesystem work", () => {
+22 |   expect(() => configureFixture("Z:/nonexistent/strict-fixture-plugin", "zai-coding-plan/glm-5.3-flash#high", "fixture-token")).toThrow(/strict.*route/);
+23 | });
+24 | test("exported fixture factory does not silently default to editable free-form JSON", () => {
+25 |   expect(() => prepareFixtureMission("Z:/nonexistent/strict-fixture-plugin", "zai-coding-plan/glm-5.3-flash#high")).toThrow(/strict.*route/);
+                                                                                                                         ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /strict.*route/
+Received message: "ENOENT: no such file or directory, lstat 'Z:\\'"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\native-canary-strict.test.ts:25:117)
+(fail) exported fixture factory does not silently default to editable free-form JSON [0.52ms]
+(pass) owned stop marker can cancel without killing the token-owning controller [1.19ms]
+(pass) closure requires public stop followed by a complete stopped/paused readback [0.52ms]
+48 | 
+49 | test("closure refuses missing, foreign, duplicated or replaced native identities", async () => {
+50 |   const expected = [{ executionId: "e", sessionId: "s" }];
+51 |   const good = { executionId: "e", nativeSessionId: "s", state: "stopped" };
+52 |   for (const executions of [[], [good, good], [{ ...good, nativeSessionId: "other" }], [{ ...good, executionId: "other" }], [good, { ...good, executionId: "other", nativeSessionId: "other" }]]) {
+53 |     await expect(confirmCanaryClosure({ stopMission: async () => {}, snapshot: async () => ({ admissions: { paused: true }, executions }) }, "m", expected)).rejects.toThrow(/closure/);
+                                                                                                                                                                          ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\native-canary-strict.test.ts:53:166)
+(fail) closure refuses missing, foreign, duplicated or replaced native identities [0.31ms]
+
+ 5 pass
+ 2 fail
+ 17 expect() calls
+Ran 7 tests across 1 file. [20.00ms]

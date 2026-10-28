@@ -1,0 +1,15 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',sourceRoot=root+'/.tmp/re-graph-scheduler/review-20261014/L5_BUDGET_985E_REVIEW',sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const e=await Service.discover();if(!e)throw Error('No public API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign parent');
+const member=team.members.find((m:any)=>m.name==='l5-budget-review');if(!member)throw Error('Owned reviewer absent');const session=await cli.session.get({sessionID:member.sessionId});
+if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6.1-sol'||session.model.variant!=='max'||session.location.directory.replaceAll('\\','/')!==root)throw Error('Native model/directory mismatch');
+writeFileSync(phase+'/l5-budget-review-native-admission.json',JSON.stringify({member,session:{id:session.id,model:session.model,directory:session.location.directory}},null,2)+'\n',{flag:'wx'});
+const b=readFileSync(sourceRoot+'/REVIEW_INPUT_MANIFEST.json');if(sha(b)!=='36c6eb0d365fc5097e3d1bf69e076b2153df3ee97e0fa712619dcf27f1dfcc2d')throw Error('Wrong frozen input manifest');
+const m=JSON.parse(b.toString('utf8')),files=m.files.map((f:any)=>({path:f.path,sha256:f.sha256,kind:f.kind}));for(const f of files)if(sha(readFileSync(sourceRoot+'/'+f.path))!==f.sha256)throw Error('Frozen pin drift');
+files.push({path:'REVIEW_INPUT_MANIFEST.json',sha256:sha(b),kind:'manifest'});
+const request={schemaVersion:1,missionId:team.id,taskId:'task_mv9ntc9a_001m_ahmspg',cycle:1,role:'reviewer',blind:false,sourceRoot,targetSessionId:session.id,destinationRoot:root+'/inputs/L5_BUDGET_REVIEW_985E',files};
+writeFileSync(phase+'/l5-budget-review-preparation-request.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({session:session.id,model:session.model,files:files.length,destination:request.destinationRoot}));

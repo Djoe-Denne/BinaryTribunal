@@ -1,0 +1,43 @@
+{
+  "supersedes": "CONTINUATION_STATE_20261020_CREDIT_EXHAUSTION_PAUSE.json",
+  "policyRevision": 2,
+  "userGO": "relaunch all 3",
+  "note": "claim refusal on dead-claimant tasks => tasks re-added under new IDs, scopes/packets unchanged; dead original tasks remain in_progress by dead claimants, documented not completed",
+  "active": [
+    {
+      "owner": "numeric-r4-review-a-f1-ledger-r2",
+      "task": "task_mvgh3uvr_0000_vsogzu",
+      "session": "ses_ea7629e0fffeNPDC6MO8rEFiLb",
+      "scope": "F1/observer/ledger partA",
+      "supersededTask": "task_mvggh8ks_0005_fiiajx"
+    },
+    {
+      "owner": "numeric-r4-review-b-error-native-r2",
+      "task": "task_mvgh4ppu_0001_v0r5i0",
+      "session": "ses_ea761febeffeZuBL3HxkKEJ2w8",
+      "scope": "Error/native/SEAL partB",
+      "supersededTask": "task_mvggh8l7_0006_obe9yt"
+    },
+    {
+      "owner": "s1-common-contract-final-r2",
+      "task": "task_mvgh5ly9_0002_an6say",
+      "session": "ses_ea7615c07ffeyFvr57K21v7FuT",
+      "scope": "S1 final contract PLAN",
+      "supersededTask": "task_mvgg8nsr_0003_l02t1p"
+    }
+  ],
+  "packetsUnchanged": {
+    "r4Review": [
+      "numeric-qualification-r4-full-review/inputs",
+      "77pins/1315076B/fc3193e9711a5e9eaaf3e637c057d7013e7031c0c446b78f25babbd7dcdf5213"
+    ],
+    "s1Contract": [
+      "s1-common-contract-final-plan/inputs",
+      "51pins/985343B/a81b74f4e1e36c9eaf81fbd1e71c1aa3c5a2be62fec2f383e3a7b9be916ebf5b"
+    ]
+  },
+  "allThreeSolXhighNativeVerified": "matches=true policyRevision2 2026-10-20T09:22:55Z",
+  "compositionRule": "R4 accepted only if BOTH scoped verdicts ACCEPTABLE; S1 contract ratified by parent only after fresh contract V + numeric qual",
+  "noCodeGoAnywhere": true,
+  "noUserInterventionBlocker": true
+}

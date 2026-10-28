@@ -1,0 +1,22 @@
+0050AD6A: mov     edx, battle_to_update_flags_dword_1D96A9C
+0050AD70: and     edx, 0FFFFFFDFh; Logical AND
+0050AD73: mov     ecx, [eax+8Ch]
+0050AD79: mov     battle_to_update_flags_dword_1D96A9C, edx
+0050AD7F: test    ecx, ecx; Logical Compare
+0050AD81: jnz     short loc_50AD8C; Jump if Not Zero (ZF=0)
+0050AD83: mov     eax, [eax+74h]
+0050AD86: or      byte ptr [eax+2Dh], 2; Logical Inclusive OR
+0050AD8A: jmp     short loc_50ADA8; Jump
+0050AD8C: push    offset sub_50B080; callback
+0050AD91: call    au_re_BdLinkTask_0; Call Procedure
+0050AD96: mov     ecx, dword_1D99A40
+0050AD9C: add     esp, 4; Add
+0050AD9F: mov     [eax+0Ch], ecx
+0050ADA2: mov     word ptr [eax+10h], 200h
+0050ADA8: mov     byte ptr [edi+1], 0FFh
+0050ADAC: pop     edi
+0050ADAD: pop     esi
+0050ADAE: mov     dword_1D99A64, 0
+0050ADB8: mov     eax, 2
+0050ADBD: pop     ebx
+0050ADBE: retn; Return Near from Procedure

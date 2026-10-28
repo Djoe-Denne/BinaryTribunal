@@ -4,9 +4,17 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-10-03T17:27:25+02:00*
+*This index is automatically maintained. Last updated: 2026-10-28*
+
+## RMS — reprise et archives du 28 octobre 2026
+
+- [[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028]] — Archive assainie de 18 sessions, qualifications acquises et blocages conservés.
+- [[projects/re-ff8/references/rms-static-closure-mission-20261028]] — Nouvelle mission préparée, dépendances et vérification renforcée ; aucun lancement.
+- [[projects/re-ff8/concepts/rms-remplacement-et-preuves]] — Préparation non autorisante, remplacement atomique, budgets persistants et preuves manquantes.
+- [[projects/re-ff8/skills/recuperer-un-resultat-opencode-manquant]] — Vérifier les livrables natifs avant de remplacer un auteur silencieux.
 
 ## Concepts
+- [[projects/re-ff8/concepts/ff8-harness-role-policy]] - Politique de rôles et bulletin R du harnais FF8 : deux contrats indépendants (sortie stricte vs communication), mission.rePolicy, wire bulletin gelé, frontière générique Ensemble vs domaine re-ff8, limites épistémiques du partage R. ( #reverse-engineering #testing #concept)
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v10-2026-09-26]] — Lot 14 live : capture textures AF3DN.P v8→v10.3 (TX07 miroir VRAM, ND08 footer texture, TR08 pixels TIM+CLUT brut u32), chaîne TIM fermée (backend→v11→T), terrain de bataille rendu en VRAIE texture (battle13 FINAL_tim), STRICT PASS 13/13. ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/re-ff8/concepts/battle-backend-roadmap]] — Roadmap continuation lot 13+ : v8 textures FAIT (lot 14), lot 15 ferme LUT/caméra/ciel/walk-direct (héritage device 0x43E24A), lot 16 ferme la complétude géométrie H1 + BGR + palettes CLUT système + UV 2013 — états + critères PASS. ( #ff8 #rendering #reverse-engineering #concept)
 - [[projects/AIForAll/concepts/iam-idp-connect]] — >-. ( #concept #project #testing)
@@ -46,6 +54,13 @@ title: Wiki Index
 
 ## Skills
 
+- [[projects/re-ff8/skills/preserve-then-withdraw-hash-verified]] — Retrait de fichiers d'un checkout après archive byte-exacte : branche dédiée + manifest par fichier (SHA avant/après, blob git), reçu pré-écrit, re-hash avant chaque suppression, exclusions trackés/livrables ; contenu décide du C#, jamais l'extension. ( #reverse-engineering #testing #skill)
+- [[projects/re-ff8/skills/abc-space-isolation-delta-verification]] — Trois espaces neufs (baseline clone / baseline+delta / candidat complet), fixtures partagées hashées injectées, bornes par suite, comparaison nominative test par test : isole l'effet d'un delta quand le checkout porte un gros WIP étranger. ( #reverse-engineering #testing #skill)
+
+## References
+
+- [[projects/re-ff8/references/rms-m1-retrait-csharp-20261020]] — Mission M1 ACCEPTED_INTEGRATED : main sans C# prouvé par contenu, helper préservé byte-exact (dev/windows-process-supervision @9f789ff, 1471 copies), port Q1 +55 tests, 1261 gels retirés après identité, A09 tranché (RMS = route statique). ( #reverse-engineering #testing #reference)
+
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]] — Full in-process x86 migration guide through G17 party Counter; runtime laboratories place units inside ff8iso_runtime. ( #ff8 #battle-system #reverse-engineering #testing #skill)
 - [[projects/final-fantasy-viii-reimaginated/skills/placing-runtime-laboratories]] — Where kernel, cadence, seams, labs, codecs, and NCOMP live inside ff8iso_runtime. ( #ff8 #battle-system #testing #skill)
 - [[projects/re-ff8/skills/ff8-live-validation-operations]] — Live FF8 procedure for bootstrap, runtime verdicts, presentation barriers, callback-BUSY frame-boundary retry, gated shutdown and exact rollback. ( #ff8 #battle-system #reverse-engineering #testing #skill)
@@ -73,13 +88,21 @@ title: Wiki Index
 - [[projects/final-fantasy-viii-reimaginated/skills/g14-live-half-ownership-fault-session-plan]] — Later-gate terminal G14 negative ownership-fault plan, out of the G11 test campaign. ( #ff8 #battle-system #testing #reverse-engineering #skill)
 
 ## References
+- [[projects/re-ff8/references/ff8-harness-strict-canary-2026-10-13]] - Canary natif strict essai 16 PASS confirmé parent (5 sessions fresh OpenAI gpt-6-astra#high, 18 requêtes WebSocket schema-bound, reprise, publication fixture) ; échecs 12-15 conservés ; limites : PASS synthétique, ni science FF8 ni publication IDA/IDB. ( #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/ff8-harness-role-sharing-session-2026-10-13]] - Session role-sharing 2026-10-13 : 3 workers, gates parents 242 puis 1439 PASS post-correction UTF8, audit bulletin FF8 ANNONCE par worker (219 tests ciblés, non validé parent), test croisé non exécuté, notes opérationnelles parent (intégrité 79, Serena, retrieval GrepAI une note). ( #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/ensemble-coordination-maintenance-2026-10-14]] - Maintenance coordination 2026-10-14/15 : trois correctifs (réveils coalescés, préparation SHA épinglée, pré-review) déployés sous pause (plugin 1266 PASS, harnais 492 PASS), nettoyage natif 30/32 réveils rapports intacts, guide parent rev 2, GO de reprise transmis au superviseur existant Sol xhigh. ( #reverse-engineering #testing #reference)
+- [[projects/re-ff8/concepts/ensemble-coordination-helpers]] - Principes durables : un réveil durable/équipe distinct des rapports, préparation prepared-not-approved avec binding natif, annulation exacte par token, guide parent hashé révisé, tâche completed jamais rouverte implicitement. ( #reverse-engineering #testing #concept)
+- [[projects/re-ff8/skills/pre-review-invariant-gate]] - Procédure : prepare:transfer (SHA épinglé), review:scope (delta sur couverture parent endossée), review:preflight (générateur/schéma/cache sur gel figé) ; PASS offline ≠ acceptation. ( #reverse-engineering #testing #skill)
+- [[projects/re-ff8/references/af3dn-lot25-v18-no-hot-unload-2026-10-07]] — v18 0x5646 NO_HOT_UNLOAD : gates A–I offline, 860 checks lifecycle, 303 tests Python ; live global bloqué, autres durées de vie hors garantie.
 - [[projects/re-ff8/references/driver-replay-fidele-battle13-lot17-2026-09-27]] — Lot 17 offline : replay fidèle battle13 (monstre ocre/vert-turquoise + 3 persos corrects) via raster v3 (poids arête AB↔C corrigé), bindings palettes cache PC↔miroir mesurés 256 couleurs (ids[] footer = index locaux du cache PC, PAS slots 2g), UV f32 bit-à-bit, bande acteur 2×512 B stride 0x800 ; W=256 candidat cohérent, W=128 mal placé ; CORRECTED /255 indisponible (UV u8 + packet absents). ( #ff8 #rendering #reverse-engineering #reference)
 - [[projects/re-ff8/references/driver-replay-fond-uv-composite-lot21-2026-10-01]] — Lot 21 offline : UV rot0 + RHW, falaise/terrain restaurés, UI/blend PARTIAL; synchronisation IDB validée sur 10 fonctions avec `Gpu_EndPrimitivePass` nommé. ( #ff8 #rendering #reverse-engineering #testing #reference)
 - [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot21]] — Catalogue hash-bound lot 21 : campagne, renderer, tests, manifest et neuf PNG, avec copies byte-exact dans `_raw`. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/af3dn-lot23-offline-validation-2026-10-03]] — Lot 23 offline : paquet durable tools/af3dn_state (182 tests verts local+export), audit strict contrat 0x5641, gate build-only native 429 assertions nohook, stage0/depth statique (erratum RVA 0x1EF3C, garde 0x100C80) ; applied/stage0 indisponibles, live NOT AUTHORIZED. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot23]] — Catalogue hash-bound lot 23 : manifests de preuves, reçus gates native local/export, preuves IDA statiques, erratums 0x40000→0x100C80 et VA→RVA. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/af3dn-lot24-candidat-0x5642-2026-10-03]] — Lot 24 : candidat v15 0x5642 (prouvé libre) — ST09 40o + kinds 8/9 + footer 68o, stage0 hook exporté (stub ret 12 remplace callee stdcall, installer fail-closed, DllMain non câblé), harnais 648 assertions, gate PIN/STRICT ; NOT DEPLOYED, live NOT AUTHORIZED. ( #ff8 #rendering #testing #reference)
-- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot24]] — Catalogue hash-bound lot 24 : pin candidat, reçu STRICT, 648 assertions harnais, 235 tests sweep. ( #ff8 #rendering #testing #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot24]] — Catalogue hash-bound lot 24 : pin candidat, reçu STRICT, 648 assertions harnais, 235 tests sweep.
+- [[projects/re-ff8/references/af3dn-lot25-v17-unload-audit-2026-10-04]] — Lot 25 v17 : audit d'unload exécuté — wrapper+FreeLibrary restaure (exit 0), FreeLibrary sans wrapper laisse les E8 pendants (exit 3 rouge) ; v17 bloqué, crash live non attribué. ( #ff8 #rendering #reverse-engineering #testing #reference)
+- [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot25]] — Catalogue hash-bound lot 25 : captures v15/v16, rendu réel frame 3556 (292 tests), v17 validé offline puis bloqué live, rollbacks byte-exacts, oracles intacts. ( #ff8 #rendering #testing #reference) ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/codex-session-lot21-uv-composite-2026-10-01]] — Transcript assaini et synthèse Lot 21 : reprises MCP, preuves UV/slot49/ordre, 23 tests, 13 hashes, limites PARTIAL et synchronisation IDB 10 fonctions. ( #ff8 #rendering #evidence-processing #reference)
 - [[projects/re-ff8/references/af3dn-captures-evidence-catalog-lot17]] — Catalogue evidence hash-bound lot 17 : 11 fichiers cache lot17_v3 copies byte-exact dans _raw (replay final, candidats fenêtre, bandes CLUT, manifest), originals hashés manifest ; battle13.bin non re-copié. ( #ff8 #rendering #testing #reference)
 - [[projects/re-ff8/references/driver-drop-test-af3dn-v11-lot16-completude-2026-09-27]] — Lot 16/17 offline : compluteur géométrie fermée H1 (persos+monstre = records slot-51 VB), mapping texobj↔entité validé opérateur, BGR double-niveau, palettes actives = bandes CLUT système miroir VRAM 0x1DA0-0x1E02, UV C,A+B + table PC 2013 ; restant lot 17 IDB/v12. ( #ff8 #rendering #reverse-engineering #reference)

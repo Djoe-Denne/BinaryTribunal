@@ -1,0 +1,25 @@
+00489A17: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489A1C: mov     cl, [esi]; AI VM op 0x05 SET_SCRATCH: ai_scratch_var = val(1)
+00489A1E: inc     esi; Increment by 1
+00489A1F: mov     byte ptr [esp+74h+ai_scratch_var], cl
+00489A23: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489A28: mov     dl, [esi]; AI VM op 0x1E CHOCOBO_ACTION: command=CHOCOBO|MONSTER_ATTACK, section=1 -> commit
+00489A2A: mov     ebp, 1
+00489A2F: mov     byte ptr [esp+74h+command_type], 0FCh
+00489A34: mov     [esp+74h+section_position], ebp
+00489A38: mov     byte ptr [esp+74h+enter_alt_target_param_2], dl
+00489A3C: inc     esi; Increment by 1
+00489A3D: jmp     loc_48983D; Jump
+00489A42: movzx   ax, byte ptr [esi]; AI VM op 0x03 SET_MAGIC: command=MAGIC, section=spell_id(1)
+00489A46: mov     byte ptr [esp+74h+command_type], 2
+00489A4B: mov     word ptr [esp+74h+section_position], ax
+00489A50: inc     esi; Increment by 1
+00489A51: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489A56: movzx   cx, byte ptr [esi]; AI VM op 0x07 SET_MONSTER_ATTACK: command=MONSTER_ATTACK, section=ability_id(1)
+00489A5A: mov     byte ptr [esp+74h+command_type], 8
+00489A5F: mov     word ptr [esp+74h+section_position], cx
+00489A64: inc     esi; Increment by 1
+00489A65: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489A6A: lea     edx, [ebx+ebx*2]; AI VM op 0x2A CAST_READ_MAGIC: command=MAGIC spell=magic_to_blow_away; mask via EnemyAI_GetTargetMaskFromMask -> commit
+00489A6D: mov     byte ptr [esp+74h+command_type], 2
+00489A72: lea     eax, [ebx+edx*4]; Load Effective Address

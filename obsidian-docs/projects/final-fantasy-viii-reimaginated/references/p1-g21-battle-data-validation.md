@@ -4,12 +4,12 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G21 battle data, P1 G21, EncounterDescriptor]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-sq-002-003-closure-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-live-promotion-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-draft-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-validation-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-describe-post-suite-2026-08-28.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g21-sq-002-003-closure-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g21-battle-data-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-describe-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g21-post-shutdown-2026-08-28.json
   - projects/re-ff8/references/battle-iso-migration-milestones.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g20-limit-families-validation.md
 summary: >-

@@ -1,0 +1,25 @@
+0049115B: cmp     cl, 0FFh; Compare Two Operands
+0049115E: jz      short loc_491190; Jump if Zero (ZF=1)
+00491160: mov     al, dl
+00491162: xor     edx, edx; Logical Exclusive OR
+00491164: mov     dl, cl
+00491166: and     al, 3Fh; Logical AND
+00491168: mov     ecx, edx
+0049116A: sub     ecx, 0; Integer Subtraction
+0049116D: jz      short loc_491182; Jump if Zero (ZF=1)
+0049116F: dec     ecx; Decrement by 1
+00491170: jz      short loc_491179; Jump if Zero (ZF=1)
+00491172: dec     ecx; Decrement by 1
+00491173: jnz     short loc_49117D; Jump if Not Zero (ZF=0)
+00491175: or      al, 80h; Logical Inclusive OR
+00491177: jmp     short loc_491182; Jump
+00491179: or      al, 40h; Logical Inclusive OR
+0049117B: jmp     short loc_491182; Jump
+0049117D: mov     al, HIT_TYPE_2; Seems to be a bit list
+00491182: or      al, 8; Logical Inclusive OR
+00491184: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 16h; 9: miss
+0049118B: mov     HIT_TYPE_2, al; Seems to be a bit list
+00491190: mov     eax, dword ptr ATTACKER_SLOT_ID; slot 0 to 2 are actually the characters (When looking the back of chara, 0 is right chara, 2 is left chara, 3 is right moonster, 5 is left monster)
+00491195: push    0; param_bool
+00491197: push    offset dword_1D27AE8; a8
+0049119C: push    offset CURRENT_MONSTER_STATUS; a7

@@ -1,0 +1,25 @@
+0050BA49: and     ecx, 0FFh; Logical AND
+0050BA4F: push    1; p_task_byte_0F
+0050BA51: or      ch, 10h; Logical Inclusive OR
+0050BA54: push    ecx; actor_id
+0050BA55: call    BattleModel_DispatchLoaderByActorId; Call Procedure
+0050BA5A: add     esp, 0Ch; Add
+0050BA5D: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050BA60: call    au_re_BdlinkTask_0; jumptable 0050B853 case 7
+0050BA65: test    eax, eax; Logical Compare
+0050BA67: jnz     def_50B853; jumptable 0050B853 default case
+0050BA6D: xor     edi, edi; Logical Exclusive OR
+0050BA6F: mov     esi, offset g_BattlePresentationActors
+0050BA74: mov     al, byte ptr dword_1D99A6C
+0050BA79: mov     edx, 1
+0050BA7E: mov     ecx, edi
+0050BA80: shl     edx, cl; Shift Logical Left
+0050BA82: test    dl, al; Logical Compare
+0050BA84: jz      short loc_50BAA4; Jump if Zero (ZF=1)
+0050BA86: or      byte ptr [esi], 2; Logical Inclusive OR
+0050BA89: push    esi; actor
+0050BA8A: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés
+0050BA8F: or      ah, 10h; Logical Inclusive OR
+0050BA92: push    eax; animId
+0050BA93: push    esi; actor
+0050BA94: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs

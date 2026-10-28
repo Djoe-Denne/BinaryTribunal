@@ -1,0 +1,25 @@
+00493895: mov     ecx, [eax]
+00493897: or      ch, 4; Logical Inclusive OR
+0049389A: mov     [eax], ecx
+0049389C: jmp     short loc_4938DA; Jump
+0049389E: shl     eax, 4; Shift Logical Left
+004938A1: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address
+004938A7: mov     ecx, [eax]
+004938A9: and     ch, 0FBh; Logical AND
+004938AC: mov     [eax], ecx
+004938AE: jmp     short loc_4938DA; Jump
+004938B0: lea     edx, [esi+esi*2]; Load Effective Address
+004938B3: lea     eax, [esi+edx*4]; Load Effective Address
+004938B6: shl     eax, 4; Shift Logical Left
+004938B9: mov     edi, BATTLE_SLOT_DATA.status_2[eax]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004938BF: and     edi, 7FFFFFFFh; Logical AND
+004938C5: mov     BATTLE_SLOT_DATA.status_2[eax], edi; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004938CB: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[eax]
+004938D1: and     ch, 0FBh; Logical AND
+004938D4: mov     dword ptr BATTLE_SLOT_DATA.flag_data[eax], ecx
+004938DA: test    byte ptr [esp+10h+param_status_1], 4; Logical Compare
+004938DF: jnz     short loc_4938E6; Jump if Not Zero (ZF=0)
+004938E1: test    bl, 9; Logical Compare
+004938E4: jz      short loc_493925; Jump if Zero (ZF=1)
+004938E6: push    esi; slot
+004938E7: call    sub_484600; copier str_src dans exec Q : str @+0x3EE/+0x4EE, len=0x33/0x2C (incl NUL), retour = channel-USED flag

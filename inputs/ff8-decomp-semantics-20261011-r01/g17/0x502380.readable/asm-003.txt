@@ -1,0 +1,25 @@
+00502419: mov     eax, 8
+0050241E: pop     edi
+0050241F: pop     esi
+00502420: pop     ebx
+00502421: retn; Return Near from Procedure
+00502422: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 106
+00502426: push    0
+00502428: lea     edx, [eax+eax*4]; Load Effective Address
+0050242B: shl     edx, 3; Shift Logical Left
+0050242E: sub     edx, eax; Integer Subtraction
+00502430: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address
+00502437: push    eax
+00502438: call    sub_509CD0; Call Procedure
+0050243D: movsx   eax, word ptr [esi+8]; Move with Sign-Extend
+00502441: push    3; animId
+00502443: lea     ecx, [eax+eax*4]; Load Effective Address
+00502446: shl     ecx, 3; Shift Logical Left
+00502449: sub     ecx, eax; Integer Subtraction
+0050244B: lea     edx, ds:1D972C0h[ecx*4]; Load Effective Address
+00502452: push    edx; actor
+00502453: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+00502458: add     esp, 10h; Add
+0050245B: mov     eax, 0Fh
+00502460: pop     edi
+00502461: pop     esi

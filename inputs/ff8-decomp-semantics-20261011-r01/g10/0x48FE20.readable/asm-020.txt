@@ -1,0 +1,25 @@
+00490682: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490687: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+0049068E: mov     byte_1D27AE1, 1
+00490695: mov     RELATED_TO_ATTACKER_SLOT_ID, bl
+0049069B: mov     byte_1D28E00, 0
+004906A2: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004906A7: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+004906AE: mov     byte_1D28E00, 1; jumptable 0049043B cases 5,11,250
+004906B5: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004906BA: mov     esi, [esp+20h+target_slot_offset]; jumptable 0049043B case 12
+004906BE: mov     byte_1D28E11, 0
+004906C5: mov     eax, dword ptr BATTLE_SLOT_DATA.flag_data[esi]
+004906CB: test    ah, 8; Logical Compare
+004906CE: jz      short loc_4906D7; Jump if Zero (ZF=1)
+004906D0: push    12h
+004906D2: jmp     loc_490867; Jump
+004906D7: lea     edx, [ebx+ebx*2]; Load Effective Address
+004906DA: xor     ecx, ecx; Logical Exclusive OR
+004906DC: lea     eax, [ebx+edx*4]; Load Effective Address
+004906DF: lea     edx, [esp+20h+CommandTypeId2]; Load Effective Address
+004906E3: shl     eax, 4; Shift Logical Left
+004906E6: mov     cl, BATTLE_SLOT_DATA.spd[eax]
+004906EC: lea     eax, [esp+20h+mug_object_id]; Load Effective Address
+004906F0: push    ecx; p_spd
+004906F1: mov     ecx, [esp+24h+p_target_slot_id]

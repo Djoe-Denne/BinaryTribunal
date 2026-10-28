@@ -1,0 +1,255 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION g22 v1 — independent-producer factual input.\n; SOURCE INVENTORY (absolute paths; aliases used below):\n; N1=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\.tmp\\\\ff8-decomp-semantics-20261011-r01\\\\native\\\\0x508F90.json\n; N2=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\.tmp\\\\ff8-decomp-semantics-20261011-r01\\\\native\\\\0x5095B0.json\n; G=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\native-groups.json\n; K=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\CONTRACT.md\n; B=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\semantic\\\\0x5082B0__bs_modulo.md\n; U=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\semantic\\\\0x5082D0__BattleScratch_Unwind.md\n; I=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\semantic\\\\0x509440__BattleAnimation_StartClip.md\n; F=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\decomp\\\\0x508C90__BattleSkeleton_BuildHierarchicalFK.md\n; P=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\tools\\\\battle-model-probe\\\\parse_c0m.py\n; D=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\CAMPAIGN_DRAIN_FINAL_2026-10-10.md\n; H=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\tools\\\\_tmp_semantic_triple\\\\0x508f90\\\\native-2026-10-10\\\\N508F90_pack\\\\neutral\\\\frame_abi.txt\n; HB=C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\tools\\\\_tmp_semantic_triple\\\\0x508f90\\\\native-2026-10-10\\\\N508F90_pack\\\\native_capture.json\n; \n; G:175-179 assigns these two EAs to g22. K:14-21 requires factual discovery/frozen common context and independent productions;K:11 reserves mutations to supervisor. AGENT.md read; generic IDB-push rule superseded by worker prohibition. N1/N2:5-9 identify PE32 FF8_EN.exe SHA256064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, export2026-10-11T16:38:25.140966Z. Labels/comments are not purpose evidence. No historical target author C read. N1 ASM line18, CFG19-266, xrefs267-544, targets545-553,count554. N2 ASM18,CFG19-55,xrefs56-1647,targets1648-1650,count1651. Instruction provenance below refers to respective ASM line18 + EA.\n; \n; N1 FROZEN FACTS:\n; •[508F90,50929B),779bytes,284instructions,33CFG blocks,29CALLs,7distinct targets. HB.root.hex byte-identical to N1 chunk; root SHA256ab715847ae31ad95f2d250d8da06944585bed825ec447f69c638d47d9ae8bc91. Historical surrounding capture remains older evidence.\n; •46CODE xrefs, all containing function recorded, NOT distinct caller count. Examples50102E in500FD0;5094B7 in509440;509501/509511 in5094F0. No direct call toN2.\n; •EntrySUBESP8/PUSHEBX;508F94 reads original second stack slot(originalESP+8) intoEBX.508F98/9B read stateBYTE+6/+7;508F9E/A0 CMP/JB unsigned. Non-JB path EAX1,restore/plainRET. Other path savesESI/EDI,conditionallyEBP;original first stack slotESP+4 loaded508FB5. NoRET immediate.\n; •508FAE/B0 push8/call5082B0;508FB9 capturesEAX intoESI;cleanup4.508FC0 p=[arg0+4],508FCD table=[p+8],508FD0 block=[p]. StateBYTE+0 zero-extended throughXOR EDX/MOVDL selectsDWORD[table+4+index*4]508FD2;508FDA adds table. StateWORD+4 MOVSX→scratchDWORD+4 at508FD6/DC;stateWORD+2 MOVSX→selectedbase+offset→scratchDWORD+0 at508FDF-E9. Bounds/bindings unproved.\n; •508FEB-FF6 capturesstateBYTE+1,extractsbit1(SHR/AND/INC),TEST/JLE,conditionalEBP save.508FFF TESTbit0 separates branch;509008-0D reads stateBYTE+6/testzero. Bit0-clear branches509136. No named animation-flag identities implied.\n; •E8 destinations independently calculated from bytes:508FB0→5082B0;509014→509320(labelPositionType);50904C→5092A0(bitReader);509078→509370(RotationType);509105→5093F0(au_re_bitReader);509283→508C90;50928A→5082D0. Labels do not establish contracts.509320/370/3F0 receive oneESI stack slot percall;5092A0 receivespush1,pushESI. Cleanup spans previouscalls(H:76-100);do not inferfivearguments fromADDESP14.\n; •WORD additions block+8/+A/+C at509022/34/47 and50913C/146/150.509019-20 andsiblings:AXsignextended,CDQ,SUB EAX,EDX,SAR1 thenWORDADD, i.e.signed truncatinghalf ofAX;not genericSARofEAX. Otherpath addsrawAX.\n; •Perrecord pointerblock+16h set509074/CC/17F/1B8. WORDADD pointer-2,+0,+2=block+14/+16/+18. PointerADD30h,signedJL against freshly zeroextendedBYTE[block] at5090B4/B9,50912A/2F,5091A7/AC,5091FE/203. Two paths additionally call5093F0 andstoreAX pointer+4/+6/+8=block+1A/+1C/+1E (50910B/115/123;5091DF/1E9/1F2). Calls interleaved perrecord.\n; •509051-66/50915C-71 reloadblock+1 AFTERcallee,replaceonlybit0 usingAL(XOR/AND1/XOR),TESTbit0,storeBYTE beforeJNZ.509205 reloadEBXfromoriginalarg1;509209-218 reloadstateBYTE+6/+7,increment/store+6 modulo256,JNBunsigned.50921A-230 rereadsstate+1bit1. Earlierbyte snapshot cannot automatically be reused acrosshelpers/alias.\n; •50923B-246 readsstate+1,testbit0and0Ch. ConditionalWORDstate+2/+4stores509248-256 useWORDscratch+0 minuslowselectedbaseEAX,andWORDscratch+4.50925A-280 manipulatesbits2/3 viaSHR/AND/INC,80000001mask/sign-dependentsequence,DLmask3/SHL2,CLmaskF3,storebyte+1. Preserveliteralpartialregister widths before simplification.\n; •Tail50927Dpushoriginalarg0;509283call508C90;509288push8/50928Acall5082D0;cleanup8;509292 explicitlyzeroEAX,restoreregs/plainRET50929A. No directabsolute-global accesses; transitiveeffects/bindingsunknown.\n; \n; N2 FROZEN FACTS:\n; •[5095B0,5095E7),55bytes,28instructions,5CFG.265CODE xrefs;246withfunction,19function=null,notuniquecaller count. Examples50105E/5010B5 in500FD0;502DF2/502E89 in502D40;50F1A2 in50F190. Sharedcaller500FD0 useful;targets do notcall eachother.\n; •5095B0 readsoriginalarg0;5095B8[args0+4],5095BB[[arg0+4]] capturedEBX.5095BDcompareBYTE[EBX]zero,unsignedJBEskipbody. Nonempty savesEBP/ESI;5095C3 readsoriginalarg1intoEBP;5095C8ESI=EBX+20h.5095CB/CC/CDpushESItwice,thenEBP;5095CEcall56C2F0,cleanup0Ch. Three stack slots,arg1thenidenticalsecond/thirdaddresses;callee behavior not inferredfromname.\n; •5095D3XOR EDX;5095D8 reloadBYTE[EBX] AFTERcallee;5095DAESI+=30h;5095DDEDI++;5095DE/E0signedCMP/JL. Count not cached pre-call,canchange viaalias/transitive effects. RestoreEBX/EDI,conditionallyEBP/ESI;RET5095E6,noexplicitfinalEAXassignment,includingempty path. Stablevoid/boolean contractnotestablished. Nodirectabsolute globals.\n; \n; NUMERIC NEIGHBOURS (secondary prior parent gates, not target verdict):\n; B:9-13,21-26 records5082B0 snapshotDWORD[1D999C4],increment((arg+3)wrap32)&FFFFFFFC,modulo32add,returnpriorDWORD;leaf/plainRET. U:9-14,23-28 records5082D0 sameroundedDWORD,subtractfrom[1D999C4],returnrounded increment. Inverseonlymatchedargument/nointerveningstore;alloc/unwind business identityexplicitlyuncertified. Prior staticLIKELYgatesrecord save/readback;bindings/ABI/runtimeunresolved. N1passes8toboth,but508C90liesbetween.\n; I:10-16,23-28 gated509440:stateBYTE+0fromlowindexBYTE,buttable indexsignedWORD;setsBYTE+6=0,WORD+2=1,+4=0,derivesBYTE+7,clearsblockWORD+8/+A/+C andrecordWORD+18/+16/+14stride30.5094B5/6pushstate,arg0;5094B7callsN1,cleanup8/unchangedfullEAX. Captures/reloads/noaliasnotguaranteed;numeric gate,notclip identity.\n; F:18-31 olderopcode-annotated observations only:no fresh independentvalidation. Nested[arg+4]→[p],BYTEcount+0/flagbit0+1,recordorigin+10h,stride30,parentWORD/local signedvectors,32bytecopiesrecord+10h. N2+20h equals suggestedrecordorigin10h+matrixoffset10h:offsetcross-referenceonly,notprovedstructure. F:39 identifies56C2F0three-slotcallee;compositionpurpose/prototype remainssecondary absentcompletecalleenativepacket.\n; \n; CODE/KNOWLEDGE AND CAVEATS:\n; GrepAI first,commonretro-eng/unfilteredworkspace:surfacedP and509440docs. P:258-278PythonLSB-first/signextreader;P:288-331countDWORD/offsetDWORDs,BYTEframecount,accumulatedposition/rotations,optional16bitscales. Tool factsNOTnativeequivalence:out-of-rangebytezeropadding,PythonintvsWORDwrap,separatescalepassvsnativeinterleaving. Do notpromoteparsertoC/ABIevidence.\n; QMD CLI verifiedstatus(ff8-wiki188docs,updated4d),searchBattle_ReadAnimation: #e10094 qmd://ff8-wiki/projects/re-ff8/references/battle-model-tools-and-format.md:87 unresolved5093F0namingconflict;#6a1328 battle-address-catalog.md:284 claim3103animations/0mismatch “registre”;#d14802 decomp-function-catalog.md:303 N1low/LIKELY. Historicalwiki claimsNOTindependentnativevalidation;URIsindexlocators,filesystempathnotinferred.\n; D:45-46 priorN1alias/RAM/GPR/ABIbackendunimplemented/noacceptance;priorN2onlyC_A/opaquecall56C2F0/backendabsent. Historicalcorrectionthemesflags capture,WORDpreloadalias,signedoverflow. No historicaltargetCread/reused. Currentproducer mustindependently cover hiddeninputs,transitiveeffects,countreloads,partialregister/WORDwrap. Noalias,helperpurity/clobbers,bounds,scratchlifetime/reentrancy,processRAM,compiledbackend/runtimeequivalenceallunproved. No target semantic verdict. Taskclaimed/completed;noedits/IDB/Git/ledger/live/delegation.\n; TARGET ASM COMPLETE\n00508F90: sub     esp, 8; Integer Subtraction\n00508F93: push    ebx\n00508F94: mov     ebx, [esp+0Ch+arg_4]\n00508F98: mov     al, [ebx+6]\n00508F9B: mov     cl, [ebx+7]\n00508F9E: cmp     al, cl; Compare Two Operands\n00508FA0: jb      short loc_508FAC; Jump if Below (CF=1)\n00508FA2: mov     eax, 1\n00508FA7: pop     ebx\n00508FA8: add     esp, 8; Add\n00508FAB: retn; Return Near from Procedure\n00508FAC: push    esi\n00508FAD: push    edi\n00508FAE: push    8; nbytes\n00508FB0: call    bs_modulo; Call Procedure\n00508FB5: mov     ecx, [esp+18h+arg_0]\n00508FB9: mov     esi, eax\n00508FBB: xor     edx, edx; Logical Exclusive OR\n00508FBD: add     esp, 4; Add\n00508FC0: mov     eax, [ecx+4]\n00508FC3: mov     dl, [ebx]\n00508FC5: mov     [esp+14h+var_8], 0\n00508FCD: mov     ecx, [eax+8]\n00508FD0: mov     edi, [eax]\n00508FD2: mov     eax, [ecx+edx*4+4]\n00508FD6: movsx   edx, word ptr [ebx+4]; Move with Sign-Extend\n00508FDA: add     eax, ecx; Add\n00508FDC: mov     [esi+4], edx\n00508FDF: movsx   ecx, word ptr [ebx+2]; Move with Sign-Extend\n00508FE3: add     ecx, eax; Add\n00508FE5: mov     [esp+14h+var_4], eax\n00508FE9: mov     [esi], ecx\n00508FEB: mov     cl, [ebx+1]\n00508FEE: mov     dl, cl\n00508FF0: shr     edx, 1; Shift Logical Right\n00508FF2: and     edx, 1; Logical AND\n00508FF5: inc     edx; Increment by 1\n00508FF6: test    edx, edx; Logical Compare\n00508FF8: jle     loc_50923B; Jump if Less or Equal (ZF=1 | SF!=OF)\n00508FFE: push    ebp\n00508FFF: test    cl, 1; Logical Compare\n00509002: jz      loc_509136; Jump if Zero (ZF=1)\n00509008: mov     al, [ebx+6]\n0050900B: test    al, al; Logical Compare\n0050900D: jz      loc_509136; Jump if Zero (ZF=1)\n00509013: push    esi\n00509014: call    Battle__ReadPositionType; Call Procedure\n00509019: movsx   eax, ax; Move with Sign-Extend\n0050901C: cdq; EAX -> EDX:EAX (with sign)\n0050901D: sub     eax, edx; Integer Subtraction\n0050901F: push    esi\n00509020: sar     eax, 1; Shift Arithmetic Right\n00509022: add     [edi+8], ax; Add\n00509026: call    Battle__ReadPositionType; Call Procedure\n0050902B: movsx   eax, ax; Move with Sign-Extend\n0050902E: cdq; EAX -> EDX:EAX (with sign)\n0050902F: sub     eax, edx; Integer Subtraction\n00509031: push    esi\n00509032: sar     eax, 1; Shift Arithmetic Right\n00509034: add     [edi+0Ah], ax; Add\n00509038: call    Battle__ReadPositionType; Call Procedure\n0050903D: movsx   eax, ax; Move with Sign-Extend\n00509040: cdq; EAX -> EDX:EAX (with sign)\n00509041: sub     eax, edx; Integer Subtraction\n00509043: push    1\n00509045: sar     eax, 1; Shift Arithmetic Right\n00509047: add     [edi+0Ch], ax; Add\n0050904B: push    esi\n0050904C: call    bitReader; Call Procedure\n00509051: mov     dl, [edi+1]\n00509054: add     esp, 14h; Add\n00509057: mov     cl, dl\n00509059: xor     cl, al; Logical Exclusive OR\n0050905B: and     cl, 1; Logical AND\n0050905E: xor     cl, dl; Logical Exclusive OR\n00509060: test    cl, 1; Logical Compare\n00509063: mov     [edi+1], cl\n00509066: jnz     short loc_5090C0; Jump if Not Zero (ZF=0)\n00509068: mov     al, [edi]\n0050906A: xor     ebp, ebp; Logical Exclusive OR\n0050906C: test    al, al; Logical Compare\n0050906E: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n00509074: lea     ebx, [edi+16h]; Load Effective Address\n00509077: push    esi\n00509078: call    Battle__ReadRotationType; Call Procedure\n0050907D: movsx   eax, ax; Move with Sign-Extend\n00509080: cdq; EAX -> EDX:EAX (with sign)\n00509081: sub     eax, edx; Integer Subtraction\n00509083: push    esi\n00509084: sar     eax, 1; Shift Arithmetic Right\n00509086: add     [ebx-2], ax; Add\n0050908A: call    Battle__ReadRotationType; Call Procedure\n0050908F: movsx   eax, ax; Move with Sign-Extend\n00509092: cdq; EAX -> EDX:EAX (with sign)\n00509093: sub     eax, edx; Integer Subtraction\n00509095: push    esi\n00509096: sar     eax, 1; Shift Arithmetic Right\n00509098: add     [ebx], ax; Add\n0050909B: call    Battle__ReadRotationType; Call Procedure\n005090A0: movsx   eax, ax; Move with Sign-Extend\n005090A3: cdq; EAX -> EDX:EAX (with sign)\n005090A4: sub     eax, edx; Integer Subtraction\n005090A6: add     esp, 0Ch; Add\n005090A9: sar     eax, 1; Shift Arithmetic Right\n005090AB: add     [ebx+2], ax; Add\n005090AF: xor     eax, eax; Logical Exclusive OR\n005090B1: mov     al, [edi]\n005090B3: inc     ebp; Increment by 1\n005090B4: add     ebx, 30h ; '0'; Add\n005090B7: cmp     ebp, eax; Compare Two Operands\n005090B9: jl      short loc_509077; Jump if Less (SF!=OF)\n005090BB: jmp     loc_509205; Jump\n005090C0: mov     al, [edi]\n005090C2: xor     ebp, ebp; Logical Exclusive OR\n005090C4: test    al, al; Logical Compare\n005090C6: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n005090CC: lea     ebx, [edi+16h]; Load Effective Address\n005090CF: push    esi\n005090D0: call    Battle__ReadRotationType; Call Procedure\n005090D5: movsx   eax, ax; Move with Sign-Extend\n005090D8: cdq; EAX -> EDX:EAX (with sign)\n005090D9: sub     eax, edx; Integer Subtraction\n005090DB: push    esi\n005090DC: sar     eax, 1; Shift Arithmetic Right\n005090DE: add     [ebx-2], ax; Add\n005090E2: call    Battle__ReadRotationType; Call Procedure\n005090E7: movsx   eax, ax; Move with Sign-Extend\n005090EA: cdq; EAX -> EDX:EAX (with sign)\n005090EB: sub     eax, edx; Integer Subtraction\n005090ED: push    esi\n005090EE: sar     eax, 1; Shift Arithmetic Right\n005090F0: add     [ebx], ax; Add\n005090F3: call    Battle__ReadRotationType; Call Procedure\n005090F8: movsx   eax, ax; Move with Sign-Extend\n005090FB: cdq; EAX -> EDX:EAX (with sign)\n005090FC: sub     eax, edx; Integer Subtraction\n005090FE: push    esi\n005090FF: sar     eax, 1; Shift Arithmetic Right\n00509101: add     [ebx+2], ax; Add\n00509105: call    au_re_bitReader; Call Procedure\n0050910A: push    esi\n0050910B: mov     [ebx+4], ax\n0050910F: call    au_re_bitReader; Call Procedure\n00509114: push    esi\n00509115: mov     [ebx+6], ax\n00509119: call    au_re_bitReader; Call Procedure\n0050911E: xor     ecx, ecx; Logical Exclusive OR\n00509120: add     esp, 18h; Add\n00509123: mov     [ebx+8], ax\n00509127: mov     cl, [edi]\n00509129: inc     ebp; Increment by 1\n0050912A: add     ebx, 30h ; '0'; Add\n0050912D: cmp     ebp, ecx; Compare Two Operands\n0050912F: jl      short loc_5090CF; Jump if Less (SF!=OF)\n00509131: jmp     loc_509205; Jump\n00509136: push    esi\n00509137: call    Battle__ReadPositionType; Call Procedure\n0050913C: add     [edi+8], ax; Add\n00509140: push    esi\n00509141: call    Battle__ReadPositionType; Call Procedure\n00509146: add     [edi+0Ah], ax; Add\n0050914A: push    esi\n0050914B: call    Battle__ReadPositionType; Call Procedure\n00509150: add     [edi+0Ch], ax; Add\n00509154: push    1\n00509156: push    esi\n00509157: call    bitReader; Call Procedure\n0050915C: mov     dl, [edi+1]\n0050915F: add     esp, 14h; Add\n00509162: mov     cl, dl\n00509164: xor     cl, al; Logical Exclusive OR\n00509166: and     cl, 1; Logical AND\n00509169: xor     cl, dl; Logical Exclusive OR\n0050916B: test    cl, 1; Logical Compare\n0050916E: mov     [edi+1], cl\n00509171: jnz     short loc_5091B0; Jump if Not Zero (ZF=0)\n00509173: mov     al, [edi]\n00509175: xor     ebp, ebp; Logical Exclusive OR\n00509177: test    al, al; Logical Compare\n00509179: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n0050917F: lea     ebx, [edi+16h]; Load Effective Address\n00509182: push    esi\n00509183: call    Battle__ReadRotationType; Call Procedure\n00509188: add     [ebx-2], ax; Add\n0050918C: push    esi\n0050918D: call    Battle__ReadRotationType; Call Procedure\n00509192: add     [ebx], ax; Add\n00509195: push    esi\n00509196: call    Battle__ReadRotationType; Call Procedure\n0050919B: add     [ebx+2], ax; Add\n0050919F: xor     edx, edx; Logical Exclusive OR\n005091A1: mov     dl, [edi]\n005091A3: add     esp, 0Ch; Add\n005091A6: inc     ebp; Increment by 1\n005091A7: add     ebx, 30h ; '0'; Add\n005091AA: cmp     ebp, edx; Compare Two Operands\n005091AC: jl      short loc_509182; Jump if Less (SF!=OF)\n005091AE: jmp     short loc_509205; Jump\n005091B0: mov     al, [edi]\n005091B2: xor     ebp, ebp; Logical Exclusive OR\n005091B4: test    al, al; Logical Compare\n005091B6: jbe     short loc_509209; Jump if Below or Equal (CF=1 | ZF=1)\n005091B8: lea     ebx, [edi+16h]; Load Effective Address\n005091BB: push    esi\n005091BC: call    Battle__ReadRotationType; Call Procedure\n005091C1: add     [ebx-2], ax; Add\n005091C5: push    esi\n005091C6: call    Battle__ReadRotationType; Call Procedure\n005091CB: add     [ebx], ax; Add\n005091CE: push    esi\n005091CF: call    Battle__ReadRotationType; Call Procedure\n005091D4: add     [ebx+2], ax; Add\n005091D8: push    esi\n005091D9: call    au_re_bitReader; Call Procedure\n005091DE: push    esi\n005091DF: mov     [ebx+4], ax\n005091E3: call    au_re_bitReader; Call Procedure\n005091E8: push    esi\n005091E9: mov     [ebx+6], ax\n005091ED: call    au_re_bitReader; Call Procedure\n005091F2: mov     [ebx+8], ax\n005091F6: xor     eax, eax; Logical Exclusive OR\n005091F8: mov     al, [edi]\n005091FA: add     esp, 18h; Add\n005091FD: inc     ebp; Increment by 1\n005091FE: add     ebx, 30h ; '0'; Add\n00509201: cmp     ebp, eax; Compare Two Operands\n00509203: jl      short loc_5091BB; Jump if Less (SF!=OF)\n00509205: mov     ebx, [esp+18h+arg_4]\n00509209: mov     dl, [ebx+6]\n0050920C: mov     cl, [ebx+7]\n0050920F: inc     dl; Increment by 1\n00509211: mov     al, dl\n00509213: mov     [ebx+6], dl\n00509216: cmp     al, cl; Compare Two Operands\n00509218: jnb     short loc_509236; Jump if Not Below (CF=0)\n0050921A: mov     cl, [ebx+1]\n0050921D: mov     ebp, [esp+18h+var_8]\n00509221: mov     dl, cl\n00509223: inc     ebp; Increment by 1\n00509224: shr     edx, 1; Shift Logical Right\n00509226: and     edx, 1; Logical AND\n00509229: mov     [esp+18h+var_8], ebp\n0050922D: inc     edx; Increment by 1\n0050922E: cmp     ebp, edx; Compare Two Operands\n00509230: jl      loc_508FFF; Jump if Less (SF!=OF)\n00509236: mov     eax, [esp+18h+var_4]\n0050923A: pop     ebp\n0050923B: mov     cl, [ebx+1]\n0050923E: test    cl, 1; Logical Compare\n00509241: jz      short loc_509248; Jump if Zero (ZF=1)\n00509243: test    cl, 0Ch; Logical Compare\n00509246: jnz     short loc_50925A; Jump if Not Zero (ZF=0)\n00509248: mov     dx, [esi]\n0050924B: sub     dx, ax; Integer Subtraction\n0050924E: mov     ax, [esi+4]\n00509252: mov     [ebx+2], dx\n00509256: mov     [ebx+4], ax\n0050925A: mov     dl, cl\n0050925C: shr     edx, 2; Shift Logical Right\n0050925F: and     edx, 3; Logical AND\n00509262: inc     edx; Increment by 1\n00509263: and     edx, 80000001h; Logical AND\n00509269: jns     short loc_509270; Jump if Not Sign (SF=0)\n0050926B: dec     edx; Decrement by 1\n0050926C: or      edx, 0FFFFFFFEh; Logical Inclusive OR\n0050926F: inc     edx; Increment by 1\n00509270: mov     eax, [esp+14h+arg_0]\n00509274: and     dl, 3; Logical AND\n00509277: shl     dl, 2; Shift Logical Left\n0050927A: and     cl, 0F3h; Logical AND\n0050927D: push    eax; int\n0050927E: or      dl, cl; Logical Inclusive OR\n00509280: mov     [ebx+1], dl\n00509283: call    BattleSkeleton_BuildHierarchicalFK; Call Procedure\n00509288: push    8; nbytes\n0050928A: call    BattleScratch_Unwind; E3a: unwind bump dword_1D999C4 (inverse of bs_modulo 0x5082B0). Cerberus Frame-memory-allocation claim is false.\n0050928F: add     esp, 8; Add\n00509292: xor     eax, eax; Logical Exclusive OR\n00509294: pop     edi\n00509295: pop     esi\n00509296: pop     ebx\n00509297: add     esp, 8; Add\n0050929A: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x508f90",
+        "end": "0x508fa2",
+        "successors": [
+          "0x508fa2",
+          "0x508fac"
+        ]
+      },
+      {
+        "start": "0x508fa2",
+        "end": "0x508fac",
+        "successors": []
+      },
+      {
+        "start": "0x508fac",
+        "end": "0x508ffe",
+        "successors": [
+          "0x508ffe",
+          "0x50923b"
+        ]
+      },
+      {
+        "start": "0x508ffe",
+        "end": "0x508fff",
+        "successors": [
+          "0x508fff"
+        ]
+      },
+      {
+        "start": "0x508fff",
+        "end": "0x509008",
+        "successors": [
+          "0x509008",
+          "0x509136"
+        ]
+      },
+      {
+        "start": "0x509008",
+        "end": "0x509013",
+        "successors": [
+          "0x509013",
+          "0x509136"
+        ]
+      },
+      {
+        "start": "0x509013",
+        "end": "0x509068",
+        "successors": [
+          "0x509068",
+          "0x5090c0"
+        ]
+      },
+      {
+        "start": "0x509068",
+        "end": "0x509074",
+        "successors": [
+          "0x509074",
+          "0x509209"
+        ]
+      },
+      {
+        "start": "0x509074",
+        "end": "0x509077",
+        "successors": [
+          "0x509077"
+        ]
+      },
+      {
+        "start": "0x509077",
+        "end": "0x5090bb",
+        "successors": [
+          "0x5090bb",
+          "0x509077"
+        ]
+      },
+      {
+        "start": "0x5090bb",
+        "end": "0x5090c0",
+        "successors": [
+          "0x509205"
+        ]
+      },
+      {
+        "start": "0x5090c0",
+        "end": "0x5090cc",
+        "successors": [
+          "0x5090cc",
+          "0x509209"
+        ]
+      },
+      {
+        "start": "0x5090cc",
+        "end": "0x5090cf",
+        "successors": [
+          "0x5090cf"
+        ]
+      },
+      {
+        "start": "0x5090cf",
+        "end": "0x509131",
+        "successors": [
+          "0x509131",
+          "0x5090cf"
+        ]
+      },
+      {
+        "start": "0x509131",
+        "end": "0x509136",
+        "successors": [
+          "0x509205"
+        ]
+      },
+      {
+        "start": "0x509136",
+        "end": "0x509173",
+        "successors": [
+          "0x509173",
+          "0x5091b0"
+        ]
+      },
+      {
+        "start": "0x509173",
+        "end": "0x50917f",
+        "successors": [
+          "0x50917f",
+          "0x509209"
+        ]
+      },
+      {
+        "start": "0x50917f",
+        "end": "0x509182",
+        "successors": [
+          "0x509182"
+        ]
+      },
+      {
+        "start": "0x509182",
+        "end": "0x5091ae",
+        "successors": [
+          "0x5091ae",
+          "0x509182"
+        ]
+      },
+      {
+        "start": "0x5091ae",
+        "end": "0x5091b0",
+        "successors": [
+          "0x509205"
+        ]
+      },
+      {
+        "start": "0x5091b0",
+        "end": "0x5091b8",
+        "successors": [
+          "0x5091b8",
+          "0x509209"
+        ]
+      },
+      {
+        "start": "0x5091b8",
+        "end": "0x5091bb",
+        "successors": [
+          "0x5091bb"
+        ]
+      },
+      {
+        "start": "0x5091bb",
+        "end": "0x509205",
+        "successors": [
+          "0x509205",
+          "0x5091bb"
+        ]
+      },
+      {
+        "start": "0x509205",
+        "end": "0x509209",
+        "successors": [
+          "0x509209"
+        ]
+      },
+      {
+        "start": "0x509209",
+        "end": "0x50921a",
+        "successors": [
+          "0x50921a",
+          "0x509236"
+        ]
+      },
+      {
+        "start": "0x50921a",
+        "end": "0x509236",
+        "successors": [
+          "0x508fff",
+          "0x509236"
+        ]
+      },
+      {
+        "start": "0x509236",
+        "end": "0x50923b",
+        "successors": [
+          "0x50923b"
+        ]
+      },
+      {
+        "start": "0x50923b",
+        "end": "0x509243",
+        "successors": [
+          "0x509243",
+          "0x509248"
+        ]
+      },
+      {
+        "start": "0x509243",
+        "end": "0x509248",
+        "successors": [
+          "0x509248",
+          "0x50925a"
+        ]
+      },
+      {
+        "start": "0x509248",
+        "end": "0x50925a",
+        "successors": [
+          "0x50925a"
+        ]
+      },
+      {
+        "start": "0x50925a",
+        "end": "0x50926b",
+        "successors": [
+          "0x50926b",
+          "0x509270"
+        ]
+      },
+      {
+        "start": "0x50926b",
+        "end": "0x509270",
+        "successors": [
+          "0x509270"
+        ]
+      },
+      {
+        "start": "0x509270",
+        "end": "0x50929b",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 33
+  }
+}

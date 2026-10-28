@@ -1,0 +1,201 @@
+{
+  "configFingerprint": "0392e37e05aa794739c2c926bd287afb0d258c4c93a5e206d0954466e4cca1a2",
+  "toolVersions": {
+    "normalizer": "graph-contract-v1",
+    "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+    "extractor": "fixture-extractor"
+  },
+  "coverage": {
+    "selfLoopsPreserved": true,
+    "tailsIterated": true,
+    "uncoveredReason": null,
+    "status": "complete"
+  },
+  "scope": {
+    "functionCount": 2,
+    "moduleSha256s": [
+      "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+    ],
+    "description": "Mutual recursion A to B and B to A. Do not invent a total bottom-up order."
+  },
+  "knowledgeRevision": 1,
+  "normalizedFingerprint": "8a7bb75839f5fb0d70e36b6b49a86b7d9ea0013e9ddb66d81f26ebc8e6e5b4c1",
+  "capabilities": [],
+  "unresolved": [],
+  "objects": [],
+  "edges": [
+    {
+      "schedulerRelevance": "may_block",
+      "retiredInRevision": null,
+      "appearedInRevision": 1,
+      "confidence": "high",
+      "status": "observed",
+      "sites": [
+        {
+          "provenance": {
+            "evidenceSha256": "f45cc483fb82cd5437ed94048c5d652cddcbf5d11de48c328426dcacf173da80",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "sourceVersion": "v1",
+            "source": "fixture-extractor",
+            "xrefType": "code",
+            "siteKind": "instruction",
+            "siteRva": "0x5108",
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+          },
+          "xrefType": "code",
+          "siteRva": "0x5108"
+        }
+      ],
+      "direction": "source_to_destination",
+      "kind": "direct_call",
+      "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "id": "edge:83bfd6438e949f41f514cf0a67bdba5d4f1f64c7c78d8a4a5d12d13cff41dc88",
+      "schemaVersion": 1
+    },
+    {
+      "schedulerRelevance": "may_block",
+      "retiredInRevision": null,
+      "appearedInRevision": 1,
+      "confidence": "high",
+      "status": "observed",
+      "sites": [
+        {
+          "provenance": {
+            "evidenceSha256": "ccb91981a3cb202276af635a4f0bac231b7d27da1e8ef0a5ad342a840c18205b",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "sourceVersion": "v1",
+            "source": "fixture-extractor",
+            "xrefType": "code",
+            "siteKind": "instruction",
+            "siteRva": "0x5208",
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+          },
+          "xrefType": "code",
+          "siteRva": "0x5208"
+        }
+      ],
+      "direction": "source_to_destination",
+      "kind": "direct_call",
+      "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "id": "edge:04cd8cdf0b5845a3712fa62ca3a98f5185446f5b002d16ed54fd6bff9591c276",
+      "schemaVersion": 1
+    }
+  ],
+  "nodes": [
+    {
+      "byteDivergence": {
+        "peSha256": null,
+        "frozenSha256": null,
+        "peMismatchByteCount": null,
+        "known": false
+      },
+      "admissibleAsOracle": false,
+      "byteAgreement": "unknown",
+      "analysisRefs": [],
+      "semanticMaturity": "none",
+      "status": "observed",
+      "functionClass": "internal",
+      "basicBlockCount": {
+        "value": null,
+        "known": false
+      },
+      "instructionCount": {
+        "value": null,
+        "known": false
+      },
+      "sizeBytes": {
+        "value": 16,
+        "known": true
+      },
+      "boundaries": [
+        {
+          "role": "entry",
+          "endRvaExclusive": "0x5110",
+          "rva": "0x5100",
+          "ordinal": 0
+        }
+      ],
+      "observedDescription": "",
+      "name": "cycle_a",
+      "imageBase": "0x400000",
+      "ea": "0x405100",
+      "rva": "0x5100",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "schemaVersion": 1
+    },
+    {
+      "byteDivergence": {
+        "peSha256": null,
+        "frozenSha256": null,
+        "peMismatchByteCount": null,
+        "known": false
+      },
+      "admissibleAsOracle": false,
+      "byteAgreement": "unknown",
+      "analysisRefs": [],
+      "semanticMaturity": "none",
+      "status": "observed",
+      "functionClass": "internal",
+      "basicBlockCount": {
+        "value": null,
+        "known": false
+      },
+      "instructionCount": {
+        "value": null,
+        "known": false
+      },
+      "sizeBytes": {
+        "value": 16,
+        "known": true
+      },
+      "boundaries": [
+        {
+          "role": "entry",
+          "endRvaExclusive": "0x5210",
+          "rva": "0x5200",
+          "ordinal": 0
+        }
+      ],
+      "observedDescription": "",
+      "name": "cycle_b",
+      "imageBase": "0x400000",
+      "ea": "0x405200",
+      "rva": "0x5200",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200",
+      "schemaVersion": 1
+    }
+  ],
+  "binaryArtifacts": [
+    {
+      "extractorVersion": "fixture-not-native",
+      "analysisVersion": "l1-contract-v1",
+      "provenance": {
+        "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "sourceVersion": "v1",
+        "source": "fixture-extractor",
+        "xrefType": "none",
+        "siteKind": "extractor",
+        "siteRva": null,
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "sections": [],
+      "idbIdentity": "",
+      "imageBase": "0x400000",
+      "architecture": "x86-32",
+      "format": "PE32",
+      "versionLabel": "fixture-v1",
+      "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "moduleName": "fixture-alpha.exe",
+      "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "schemaVersion": 1
+    }
+  ],
+  "missionId": "re-graph-scheduler-20261013",
+  "snapshotId": "snap:cycles-recursion",
+  "schemaVersion": 1
+}

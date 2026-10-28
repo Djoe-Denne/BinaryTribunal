@@ -1,0 +1,25 @@
+0048E2E5: mov     battle_message_pointer, eax
+0048E2EA: jmp     short loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E2EC: movzx   bx, K_BATTLE_COMMAND.abilityDataID[ebp*8]; jumptable 0048D37A cases 23-27,30-34
+0048E2F5: mov     eax, ebx
+0048E2F7: xor     ecx, ecx; Logical Exclusive OR
+0048E2F9: and     eax, 0FFFFh; Logical AND
+0048E2FE: push    ebp
+0048E2FF: shl     eax, 4; Shift Logical Left
+0048E302: mov     cl, K_BATTLE_COMMAND_ABILITY.HitCount[eax]
+0048E308: mov     ax, word ptr K_BATTLE_COMMAND_ABILITY.MagicID[eax]
+0048E30F: mov     [esp+28h+hit_count], ecx
+0048E313: mov     [esp+28h+magic_id], eax
+0048E317: call    getAddressAbilityName; Call Procedure
+0048E31C: add     esp, 4; Add
+0048E31F: mov     edi, eax
+0048E321: jmp     short loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E323: xor     edi, edi; jumptable 0048D37A case 252
+0048E325: xor     cx, cx; Logical Exclusive OR
+0048E328: mov     cl, dl
+0048E32A: mov     [esp+24h+magic_id], ecx
+0048E32E: jmp     short loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E330: push    ebp; jumptable 0048D37A case 28
+0048E331: call    getAddressAbilityName; Call Procedure
+0048E336: add     esp, 4; Add
+0048E339: mov     edi, eax

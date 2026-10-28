@@ -1,0 +1,25 @@
+004AE299: sub     eax, 3; Integer Subtraction
+004AE29C: mov     [eax+edi+64h], cl
+004AE2A0: mov     [edi+68h], al
+004AE2A3: mov     al, byte ptr [esp+1Ch+var_8]
+004AE2A7: test    al, 10h; Logical Compare
+004AE2A9: jz      short loc_4AE2BF; Jump if Zero (ZF=1)
+004AE2AB: push    3
+004AE2AD: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE2B2: add     esp, 4; Add
+004AE2B5: mov     eax, 0Fh
+004AE2BA: jmp     loc_4AE669; Jump
+004AE2BF: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare
+004AE2C4: jz      short loc_4AE2DA; Jump if Zero (ZF=1)
+004AE2C6: push    2
+004AE2C8: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE2CD: add     esp, 4; Add
+004AE2D0: mov     eax, 11h
+004AE2D5: jmp     loc_4AE669; Jump
+004AE2DA: test    al, 20h; Logical Compare
+004AE2DC: jz      loc_4AE9C8; Jump if Zero (ZF=1)
+004AE2E2: mov     eax, 2Ah ; '*'
+004AE2E7: jmp     loc_4AE669; Jump
+004AE2EC: mov     edx, dword_1D768D8; jumptable 004ADEFA case 17
+004AE2F2: mov     ecx, dword_1D768F4
+004AE2F8: and     edx, 0FFh; Logical AND

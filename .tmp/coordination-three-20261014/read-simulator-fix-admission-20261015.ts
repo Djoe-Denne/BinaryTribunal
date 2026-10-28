@@ -1,0 +1,14 @@
+import {writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',name='l7-simulator-fix-max',stage=process.argv[2];if(stage!=='pre'&&stage!=='post')throw Error('Stage required');
+const endpoint=await Service.discover();if(!endpoint)throw Error('No public API');const cli=OpenCode.make({baseUrl:endpoint.url,headers:Service.headers(endpoint)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign parent');
+const member=team.members.find((m:any)=>m.name===name);if(!member)throw Error('Owned writer absent');const session=await cli.session.get({sessionID:member.sessionId});if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6.1-sol'||session.model.variant!=='max')throw Error('Native Model.Ref mismatch');
+const owned='C:/Users/djden/.local/share/opencode/worktree/68ae5f/'+member.worktreeBranch;
+const w=spawnSync('git',['worktree','list','--porcelain'],{cwd:root,encoding:'utf8'});if(w.status!==0||!w.stdout.split(/\r?\n/).includes('worktree '+owned))throw Error('No registered isolated directory');
+const h=spawnSync('git',['rev-parse','HEAD'],{cwd:owned,encoding:'utf8'});if(h.status!==0||!h.stdout.startsWith('903bf6e'))throw Error('Wrong baseline');
+if(stage==='post'&&session.location.directory.replaceAll('\\','/').toLowerCase()!==owned.toLowerCase())throw Error('Native directory not OWN');
+const rec={name,stage,sessionID:session.id,model:session.model,directory:session.location.directory,owned,head:h.stdout.trim(),taskId:'task_mv9doihe_0028_o59w3v'};
+writeFileSync(root+'/.tmp/coordination-three-20261014/l7-simulator-fix-admission-'+stage+'.json',JSON.stringify(rec,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(rec));

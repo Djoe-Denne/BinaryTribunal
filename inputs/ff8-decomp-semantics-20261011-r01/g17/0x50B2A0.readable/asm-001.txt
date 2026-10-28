@@ -1,0 +1,25 @@
+0050B2A0: push    ebx; Presentation/state-machine layer only. Does NOT compute damage/status/stock.
+0050B2A1: push    ebp
+0050B2A2: mov     ebp, [esp+8+arg_0]
+0050B2A6: push    esi
+0050B2A7: mov     bl, [ebp+0Dh]
+0050B2AA: mov     esi, [ebp+10h]
+0050B2AD: mov     eax, ebx
+0050B2AF: and     eax, 0FFh; Logical AND
+0050B2B4: cmp     eax, 9; switch 10 cases
+0050B2B7: ja      def_50B2BD; jumptable 0050B2BD default case
+0050B2BD: jmp     ds:jpt_50B2BD[eax*4]; switch jump
+0050B2C4: push    40h ; '@'; jumptable 0050B2BD case 0
+0050B2C6: push    1Ah
+0050B2C8: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit
+0050B2CD: add     esp, 8; Add
+0050B2D0: test    eax, eax; Logical Compare
+0050B2D2: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B2D8: call    sub_501190; Call Procedure
+0050B2DD: test    eax, eax; Logical Compare
+0050B2DF: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B2E5: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B2E8: or      byte ptr dword_1D97704+1, 80h; jumptable 0050B2BD case 1
+0050B2EF: push    edi
+0050B2F0: or      battle_to_update_flags_dword_1D96A9C, 10h; Logical Inclusive OR
+0050B2F7: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks

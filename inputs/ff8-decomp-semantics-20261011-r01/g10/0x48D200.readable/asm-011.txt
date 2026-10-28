@@ -1,0 +1,25 @@
+0048D58D: jl      short loc_48D576; Jump if Less (SF!=OF)
+0048D58F: mov     edx, [esp+24h+var_C]
+0048D593: mov     cl, byte_B81516
+0048D599: push    edx
+0048D59A: mov     [esp+28h+p_always_zero], cl
+0048D59E: mov     [esp+28h+magic_id], 0Fh
+0048D5A6: call    getAddressAbilityName; Call Procedure
+0048D5AB: add     esp, 4; Add
+0048D5AE: cmp     ebp, 1; Compare Two Operands
+0048D5B1: mov     edi, eax
+0048D5B3: jnz     short loc_48D62A; Jump if Not Zero (ZF=0)
+0048D5B5: push    76h ; 'v'
+0048D5B7: call    domain__BattleText_GetMiscText; Call Procedure
+0048D5BC: add     esp, 4; Add
+0048D5BF: push    eax
+0048D5C0: push    7
+0048D5C2: push    esi
+0048D5C3: call    domain__BattleText_GetMagicName; Call Procedure
+0048D5C8: add     esp, 4; Add
+0048D5CB: push    eax
+0048D5CC: push    0Bh
+0048D5CE: call    domain__BattleText_GetMiscText; Call Procedure
+0048D5D3: mov     al, [eax]
+0048D5D5: add     esp, 4; Add
+0048D5D8: lea     ecx, [esp+30h+p_offset_to_execute_]; Load Effective Address

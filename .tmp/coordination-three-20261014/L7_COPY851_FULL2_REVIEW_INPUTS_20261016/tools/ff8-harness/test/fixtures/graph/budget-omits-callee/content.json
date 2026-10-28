@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "planId": "plan:budget-omits-callee",
+  "missionId": "re-graph-scheduler-20261013",
+  "snapshotId": "snap:budget",
+  "partitionId": "part:budget",
+  "knowledgeRevision": 1,
+  "units": [
+    {
+      "unitId": "unit:caller",
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100"
+      ],
+      "contextFunctionIds": [],
+      "requiredPublicationLevel": 1,
+      "state": "READY",
+      "contextEnvelopeUtf8Bytes": {
+        "known": true,
+        "value": 4000
+      }
+    },
+    {
+      "unitId": "unit:callee",
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000"
+      ],
+      "contextFunctionIds": [],
+      "requiredPublicationLevel": 1,
+      "state": "READY",
+      "contextEnvelopeUtf8Bytes": {
+        "known": true,
+        "value": 3000
+      }
+    }
+  ],
+  "prerequisites": [
+    {
+      "id": "pre:caller-needs-callee",
+      "consumerUnitId": "unit:caller",
+      "producerUnitId": "unit:callee",
+      "kind": "obligatory",
+      "requiredPublicationLevel": 1,
+      "artifactKind": "structural_fact",
+      "dispensed": false,
+      "dispensationReason": null
+    }
+  ],
+  "g1Edges": [
+    {
+      "fromUnitId": "unit:callee",
+      "toUnitId": "unit:caller",
+      "kind": "obligatory",
+      "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100",
+      "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000",
+      "storedCallDirection": "source_to_destination"
+    }
+  ],
+  "g2Conflicts": [],
+  "g3Affinities": [
+    {
+      "unitIds": [
+        "unit:caller",
+        "unit:callee"
+      ],
+      "reason": "same fixture neighborhood; preference only",
+      "blocking": false
+    }
+  ],
+  "sccs": [
+    {
+      "id": "scc:caller",
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100"
+      ],
+      "exclusive": false,
+      "hasSelfLoop": false,
+      "selfLoopPreserved": true
+    },
+    {
+      "id": "scc:callee",
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000"
+      ],
+      "exclusive": false,
+      "hasSelfLoop": false,
+      "selfLoopPreserved": true
+    }
+  ],
+  "selectedUnitIds": [
+    "unit:caller"
+  ],
+  "decisions": [
+    {
+      "id": "dec:caller",
+      "unitId": "unit:caller",
+      "action": "include",
+      "reason": "caller fits the numeric budget alone"
+    },
+    {
+      "id": "dec:callee",
+      "unitId": "unit:callee",
+      "action": "exclude_budget",
+      "reason": "callee omitted without dispensation"
+    }
+  ],
+  "budgets": {
+    "unit": "utf8-bytes",
+    "contextEnvelopeMaxUtf8Bytes": 5000,
+    "countsSqliteLength": false,
+    "nativeLineCharLimit": 2000
+  },
+  "policyVersion": "v1",
+  "estimationVersion": "v1",
+  "fingerprint": "5024da02eb98439315f4787667fce445f932f69cb2646863a73453182908fe5c"
+}

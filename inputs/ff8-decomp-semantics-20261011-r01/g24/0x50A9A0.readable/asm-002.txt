@@ -1,0 +1,25 @@
+0050A9FC: test    al, al; Logical Compare
+0050A9FE: jz      short loc_50AA16; Jump if Zero (ZF=1)
+0050AA00: push    40h ; '@'
+0050AA02: push    1Ah
+0050AA04: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit
+0050AA09: add     esp, 8; Add
+0050AA0C: test    eax, eax; Logical Compare
+0050AA0E: jnz     def_50A9C9; jumptable 0050A9C9 default case
+0050AA14: jmp     short loc_50AA23; Jump
+0050AA16: call    sub_50ADE0; Call Procedure
+0050AA1B: test    eax, eax; Logical Compare
+0050AA1D: jnz     def_50A9C9; jumptable 0050A9C9 default case
+0050AA23: inc     byte ptr [esi+0Dh]; Increment by 1
+0050AA26: or      battle_to_update_flags_dword_1D96A9C, 10h; jumptable 0050A9C9 case 2
+0050AA2D: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks
+0050AA32: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AA38: mov     al, [ecx+1]
+0050AA3B: cmp     al, 0Bh; Compare Two Operands
+0050AA3D: jnz     short loc_50AA49; Jump if Not Zero (ZF=0)
+0050AA3F: cmp     word ptr [ecx+4], 0FFFBh; Compare Two Operands
+0050AA45: jnz     short loc_50AA54; Jump if Not Zero (ZF=0)
+0050AA47: jmp     short loc_50AA4D; Jump
+0050AA49: cmp     al, 0Eh; Compare Two Operands
+0050AA4B: jnz     short loc_50AA54; Jump if Not Zero (ZF=0)
+0050AA4D: mov     byte_1D99A80, 0

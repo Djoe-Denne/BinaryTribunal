@@ -1,0 +1,25 @@
+00488D06: xor     ecx, ecx; Logical Exclusive OR
+00488D08: mov     cl, ds:byte_48A4E8[eax]
+00488D0E: jmp     ds:jpt_488D0E[ecx*4]; switch jump
+00488D15: lea     edx, [ebx+ebx*2]; jumptable 00488D0E case 203
+00488D18: lea     eax, [ebx+edx*4]; Load Effective Address
+00488D1B: shl     eax, 4; Shift Logical Left
+00488D1E: xor     ecx, ecx; Logical Exclusive OR
+00488D20: mov     cl, BATTLE_SLOT_DATA.last_attacker_slot_id[eax]
+00488D26: mov     eax, ecx
+00488D28: lea     edx, [eax+eax*2]; Load Effective Address
+00488D2B: lea     eax, [eax+edx*4]; Load Effective Address
+00488D2E: jmp     short loc_488D72; Jump
+00488D30: lea     eax, [ebx+ebx*2]; jumptable 00488D0E case 200
+00488D33: lea     eax, [ebx+eax*4]; Load Effective Address
+00488D36: jmp     short loc_488D72; Jump
+00488D38: lea     ecx, [ebx+ebx*2]; jumptable 00488D0E cases 220-227
+00488D3B: lea     edx, [ebx+ecx*4]; Load Effective Address
+00488D3E: lea     eax, [ebp+edx*4+0]; Load Effective Address
+00488D42: mov     eax, BATTLE_LOCAL_VAR[eax*4]
+00488D49: jmp     short loc_488D6C; Jump
+00488D4B: xor     edi, edi; jumptable 00488D0E default case, cases 201,202,204-219
+00488D4D: mov     eax, offset BATTLE_SLOT_DATA.com_file_id
+00488D52: xor     edx, edx; Logical Exclusive OR
+00488D54: mov     dl, [eax]
+00488D56: cmp     edx, ebp; Compare Two Operands

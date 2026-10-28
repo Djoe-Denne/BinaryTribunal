@@ -1,0 +1,25 @@
+004AF221: mov     byte ptr dword_1D768E8+1, al
+004AF226: pop     ebx
+004AF227: add     esp, 0Ch; Add
+004AF22A: retn; Return Near from Procedure
+004AF22B: mov     eax, dword_B87908
+004AF230: pop     ebp
+004AF231: inc     eax; Increment by 1
+004AF232: pop     ebx
+004AF233: mov     dword_B87908, eax
+004AF238: add     esp, 0Ch; Add
+004AF23B: retn; Return Near from Procedure
+004AF23C: mov     ecx, dword_1D6D490
+004AF242: push    2; slot_index
+004AF244: mov     word ptr dword_1D768F0, bp
+004AF24B: mov     word ptr dword_1D768F0+2, bp
+004AF252: mov     byte ptr [ecx+2Dh], 4
+004AF256: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1
+004AF25B: push    4; slot_index
+004AF25D: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1
+004AF262: push    7; int
+004AF264: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AF269: push    ebp; aux_callback
+004AF26A: push    ebp; draw_callback
+004AF26B: push    ebp; update_callback
+004AF26C: push    2; slot_index

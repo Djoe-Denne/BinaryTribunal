@@ -1,0 +1,25 @@
+004938EC: add     esp, 4; Add
+004938EF: test    eax, eax; Logical Compare
+004938F1: jnz     short loc_493925; Jump if Not Zero (ZF=0)
+004938F3: test    ebx, 80000000h; Logical Compare
+004938F9: jnz     loc_49398E; Jump if Not Zero (ZF=0)
+004938FF: lea     edx, [esi+esi*2]; Load Effective Address
+00493902: lea     eax, [esi+edx*4]; Load Effective Address
+00493905: shl     eax, 4; Shift Logical Left
+00493908: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address
+0049390E: mov     ecx, [eax]
+00493910: and     ecx, 0FFFFFFF7h; Logical AND
+00493913: mov     [eax], ecx
+00493915: mov     edx, [eax]
+00493917: and     edx, 0FFFFFFFBh; Logical AND
+0049391A: mov     [eax], edx
+0049391C: push    esi
+0049391D: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.
+00493922: add     esp, 4; Add
+00493925: test    ebx, 80000000h; Logical Compare
+0049392B: jnz     short loc_49398E; Jump if Not Zero (ZF=0)
+0049392D: mov     al, byte ptr word_1D28E30[esi*2]
+00493934: mov     dl, byte ptr [esp+10h+param_status_1]
+00493938: xor     al, dl; Logical Exclusive OR
+0049393A: test    al, 20h; Logical Compare
+0049393C: jnz     short loc_49394F; Jump if Not Zero (ZF=0)

@@ -1,0 +1,25 @@
+004897AE: jnb     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004897B4: mov     ecx, [esp+74h+jump_value]; jumptable 00489728 default case
+004897B8: and     ecx, 0FFFFh; Logical AND
+004897BE: add     esi, ecx; Add
+004897C0: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004897C5: movzx   dx, byte ptr [esi+1]; AI VM op 0x23 JUMP: byte_ptr += int16 offset(2) (unconditional)
+004897CA: movzx   ax, byte ptr [esi]; Move with Zero-Extend
+004897CE: shl     edx, 8; Shift Logical Left
+004897D1: add     edx, eax; Add
+004897D3: add     esi, 2; Add
+004897D6: mov     word ptr [esp+74h+jump_value], dx
+004897DB: mov     eax, [esp+74h+jump_value]
+004897DF: test    ah, 80h; Logical Compare
+004897E2: jz      loc_4890FA; Jump if Zero (ZF=1)
+004897E8: and     eax, 0FFFFh; Logical AND
+004897ED: or      eax, 0FFFF0000h; Logical Inclusive OR
+004897F2: add     esi, eax; Add
+004897F4: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004897F9: mov     cl, [esi]; G16 USE_ABILITY 0x0C: row = [*monster_info_section]+0x34+4*(16*rank+idx); command_type=typeID, section=id, scratch=animscript; then LABEL_375 commit.
+004897FB: mov     edi, [esp+74h+first_ability]
+004897FF: mov     [esp+74h+opcode_param_1], cl
+00489803: inc     esi; Increment by 1
+00489804: mov     edx, [esp+74h+monster_difficulty]
+00489808: mov     eax, dword ptr [esp+74h+opcode_param_1]
+0048980C: shl     edx, 4; Shift Logical Left

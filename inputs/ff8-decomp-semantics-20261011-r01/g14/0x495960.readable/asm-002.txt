@@ -1,0 +1,25 @@
+004959BD: add     ecx, 5; Add
+004959C0: dec     ebx; Decrement by 1
+004959C1: mov     [esp+10h+p_char_id], ebx
+004959C5: jnz     short loc_4959AB; Jump if Not Zero (ZF=0)
+004959C7: push    edx; p_attacker_slot_id
+004959C8: call    domain__Battle_BuildMagicJunctionList; BuildMagicJunctionList(slot): 32x stride5 F_CHAR_DATA+slot*464+134; flag=0; +1 si K_MAGIC.attackFlags&0x80; +4 si sub_47EEB0(slot,id); cache defaultTarget/unknown1; ret=dernier unknown1 (leftover)
+004959CD: mov     ecx, [ebp+4]
+004959D0: push    edi
+004959D1: push    ecx
+004959D2: call    getCharaXP_sub_496240; Call Procedure
+004959D7: mov     edx, [ebp+4]
+004959DA: push    edi
+004959DB: push    edx
+004959DC: mov     [esi+17Ch], eax
+004959E2: call    getCharaXP_sub_4961D0; Call Procedure
+004959E7: mov     [esi+1B8h], al
+004959ED: and     eax, 0FFh; Logical AND
+004959F2: push    edi; char_id
+004959F3: push    eax; lvl
+004959F4: call    domain__GetCharacterHP; Character HP formula: MaxHP_save + growthC + lvl*growthA + spellCount*K_MAGIC[spell].hpJ - 10*lvl²/growthD. spellCount from junction.
+004959F9: mov     ecx, eax
+004959FB: xor     eax, eax; Logical Exclusive OR
+004959FD: mov     al, [esi+1C7h]
+00495A03: add     esp, 1Ch; Add
+00495A06: imul    ecx, eax; Signed Multiply

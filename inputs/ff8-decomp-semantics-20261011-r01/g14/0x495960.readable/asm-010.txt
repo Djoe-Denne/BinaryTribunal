@@ -1,0 +1,25 @@
+00495C4C: add     edx, eax; Add
+00495C4E: cmp     edx, 0FFh; Compare Two Operands
+00495C54: jle     short loc_495C5B; Jump if Less or Equal (ZF=1 | SF!=OF)
+00495C56: mov     edx, 0FFh
+00495C5B: push    edi
+00495C5C: mov     [esi+1C1h], dl
+00495C62: call    domain__GetCharacter_HitElement; Call Procedure
+00495C67: push    edi
+00495C68: mov     [esi+1C4h], al
+00495C6E: call    domain__GetCharacter_HitElementPercent; Call Procedure
+00495C73: add     esp, 8; Add
+00495C76: mov     [esi+1C5h], al
+00495C7C: xor     ebx, ebx; Logical Exclusive OR
+00495C7E: lea     ebp, [esi+194h]; Load Effective Address
+00495C84: push    ebx
+00495C85: push    edi
+00495C86: call    domain__GetCharacter_ElemDef; Call Procedure
+00495C8B: add     esp, 8; Add
+00495C8E: mov     [ebp+0], ax
+00495C92: inc     ebx; Increment by 1
+00495C93: add     ebp, 2; Add
+00495C96: cmp     ebx, 8; Compare Two Operands
+00495C99: jl      short loc_495C84; Jump if Less (SF!=OF)
+00495C9B: push    edi
+00495C9C: call    domain__GetCharacter_HitStatus2; Call Procedure

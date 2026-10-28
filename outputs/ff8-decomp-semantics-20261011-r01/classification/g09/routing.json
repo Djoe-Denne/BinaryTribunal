@@ -1,0 +1,57 @@
+{
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g09",
+  "status": "DISPATCH_READY",
+  "routing_version": "v1",
+  "SOURCE": "discover-g09",
+  "source_session_id": "ses_ed41fdb53ffe50zew52Vi4J67f",
+  "source_native_path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g09.source.native.json",
+  "source_native_sha256": "a425efcf56cc3b5597ea6ce3ba839f9a24bddc9f9b06de21148c78cd2d353ae9",
+  "checkpoint_status": "NO_TARGET_PREVIEW_FLAG_IN_SOURCE_REPORT",
+  "author_fork_policy": "All A/B authors independently fork the same inherited factual SOURCE=discover-g09; never fork classify-g09 or sibling/lead productions. Lead admits sessions and verifies native Model.Ref and frozen source boundary.",
+  "factual_inputs": [
+    { "path": "inputs/ff8-decomp-semantics-20261011-r01/g09/0x47DF60.json", "sha256": "d8e1f25beb6b2ff3141d453e9a9dedce236531c11caa9fb9f1134718454ac39c" },
+    { "path": "inputs/ff8-decomp-semantics-20261011-r01/g09/common-compaction.md", "sha256": "0d873f1f421246868f64857aa39ad79c45cbf41286025c44b0195fdf34833b71" }
+  ],
+  "blocked_eas": [],
+  "dispatches": [
+    {
+      "ea": "0x47DF60",
+      "status": "DISPATCH_READY",
+      "idb_equals_pe_and_freeze": true,
+      "disk_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+      "classifier_kind": "native_classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g09/0x47DF60.request.json",
+      "request_sha256": "dd8a8ef4d7273356b6511f3eef97a206a047c27d63846235949635c1187f6222",
+      "request_byte_equal_prepared_payload": true,
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g09/0x47DF60.response.json",
+      "response_sha256": "38ad8e92b02736f817677be8f489088503b0c311d16fccc0f7c760c6d641fece",
+      "complexity": 60,
+      "risk_proxy_uncertainty": 53,
+      "uncertainty_cause": "external_calls",
+      "native_instructions": 24,
+      "native_asm_chars": 1789,
+      "complete_classifier_assembly_chars": 7600,
+      "native_blocks": 3,
+      "structural_flags": ["loop", "unknown_external_call_semantics", "unexplained_xref", "historical_labels_and_bit_names_unvalidated"],
+      "tier": "complex_high_risk",
+      "rationale": "v1: uncertainty 53 exceeds medium risk ceiling 50; simple also fails complexity 60>25 and uncertainty 53>20. Complete prepared ASM+compaction is within Classify limit. Use conservative 2+1 per volet despite only 24 native instructions. Scores are consultative, not calibrated probabilities; no new semantic findings or structural rediscovery.",
+      "volets": {
+        "C": {
+          "protocol": "2+1",
+          "A": { "model": "openai/gpt-6-astra", "variant": "high", "SOURCE": "discover-g09", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/C/A.md", "requires": ["lead_admission", "source_boundary_verified", "Model.Ref_verified"] },
+          "B": { "model": "opencode/claude-opus-5-5", "variant": "high", "SOURCE": "discover-g09", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/C/B.md", "requires": ["lead_admission", "source_boundary_verified", "Model.Ref_verified"], "blind_to": ["C.A", "semantic.A", "semantic.B"] },
+          "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/C/R.md", "requires": ["C.A_complete", "C.B_complete", "Model.Ref_verified"], "dispatch_before_A_and_B": false }
+        },
+        "semantic": {
+          "protocol": "2+1",
+          "A": { "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g09", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/semantic/A.md", "requires": ["lead_admission", "source_boundary_verified", "Model.Ref_verified"] },
+          "B": { "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g09", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/semantic/B.md", "requires": ["lead_admission", "source_boundary_verified", "Model.Ref_verified"], "blind_to": ["semantic.A", "C.A", "C.B"], "fresh_independent_session": true },
+          "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g09/0x47DF60/semantic/R.md", "requires": ["semantic.A_complete", "semantic.B_complete", "Model.Ref_verified"], "dispatch_before_A_and_B": false }
+        }
+      },
+      "final_validation": "Supervisor native ASM cross-check C/semantics and section 5.6; classification is not promotion. No producers started by classifier."
+    }
+  ]
+}

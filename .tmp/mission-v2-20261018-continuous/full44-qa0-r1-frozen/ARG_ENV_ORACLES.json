@@ -1,0 +1,228 @@
+{
+  "schema": "q1-qa0-arg-env-oracles-v1",
+  "role": "full44-Q1-pure-data-qa",
+  "task": "task_mvdy1o3t_000k_0fwlcc",
+  "team": "mission-a58a462638c0db92",
+  "date": "2026-10-18",
+  "status": "QA0_DATA_ORACLES_ONLY_NO_EXECUTION",
+  "authority": {
+    "contracts": [
+      "inputs/SCOPE.md",
+      "inputs/RATIFICATION.md",
+      "inputs/contracts/GENERIC_T_CONTRACT.md",
+      "inputs/contracts/DUAL_STREAM_BUDGET.md",
+      "inputs/contracts/QUALIFICATION_MATRIX.md"
+    ],
+    "frozen_references": [
+      "inputs/reference/GuardV3.Contracts.cs",
+      "inputs/reference/GuardianCore.cs",
+      "inputs/reference/BudgetedEvidence.cs"
+    ],
+    "parent_adjudication": {
+      "path": ".tmp/mission-v2-20261018-continuous/FULL44_Q1_QA0_PLAN_ADJUDICATION.md",
+      "bytes": 3217,
+      "sha256": "3fcaf308e0835734f9d5e880e81ad1e3fff3df56ff4b4d9efed8075d9e544ffa"
+    }
+  },
+  "integrity": {
+    "pins": "9/9 exact, 150730 bytes, qa_rehash no mismatch",
+    "package_digest": {
+      "algorithm": "SHA-256",
+      "over": "bytes RAW de inputs/INPUT_MANIFEST.json",
+      "digest_hex64": "384734b29766a3bc5c99c0e15ba668c4eba6594adb4485265070fa2d6e26c557",
+      "qa_recomputed_match": true,
+      "u1_correction": "Le libellé 'SHA384734...' de la tâche concaténait 'SHA' + digest commençant par 384. Ce n'était jamais SHA384. Erreur d'interprétation QA notée, pas un HOLD restant, pas un data drift, aucune recette de concat des pins."
+    }
+  },
+  "constants_from_frozen_sources": {
+    "CaseBudgetV3_Version": "V3-Q1",
+    "slot_caps_bytes": {
+      "ControlFiles": 32768,
+      "FixtureMarkers": 57344,
+      "CapturedStreams": 114688,
+      "GuardianEvidence": 24576,
+      "DriverEvidence": 8192,
+      "GuardianResult": 8192,
+      "SupervisorResult": 8192,
+      "SupervisorReceipt": 8192
+    },
+    "total_capacity_bytes": 262144,
+    "max_evidence_record_bytes": 192,
+    "max_guardian_evidence_records": 96,
+    "guardian_memory_capacity_bytes": 18432,
+    "core_predicates_documented": [
+      "GuardianPredicates.PlainBounded(value,max): non-vide, <=max chars, aucun NUL, aucun char<32, paires de surrogates valides uniquement",
+      "GuardianPredicates.DosPath(value): PlainBounded(value,259), len>=3, [1]==':' [2]=='\\', lettre A-Z/a-z en [0], aucun '/' '\"' '*' '?'",
+      "GuardianPredicates.EnvironmentBlock(value): len 2..32767, finit par '\\0\\0', len==2 valide (env vide), entrées non vides, '=' à index>=1, entrée <=32765, noms strictement croissants OrdinalIgnoreCase",
+      "GuardV3Contract.Application .exe OrdinalIgnoreCase, CommandLine PlainBounded(32766)",
+      "CaseIdentity: nonce lowercase hex 64 exact, epoch > 0"
+    ]
+  },
+  "quoting_assumption": {
+    "id": "win-argv-quote-1",
+    "basis": "quotage canonique MS-CRT / CommandLineToArgvW",
+    "status": "UNKNOWN_until_parent_api_fixation",
+    "rules": [
+      "R1: un argument est quoté ssi vide, ou contient espace U+0020 ou quote U+0022",
+      "R2: n backslashes immédiatement suivis d'une quote => 2n backslashes puis backslash+quote (deux chars U+005C U+0022)",
+      "R3: sous quoting, n backslashes finaux de l'argument => 2n backslashes",
+      "R4: backslashes hors R2/R3 inchangés",
+      "R5: arguments joints par un espace simple; argv[0] encodé par les mêmes règles; aucun concaténat libre"
+    ],
+    "tab_note": "MS-CRT quoterait aussi sur tab, mais tout char <32 est refusé en amont du codec, donc tab inatteignable en entrée valide"
+  },
+  "notation": {
+    "NUL": "U+0000 rendu \\u0000 dans les littéraux JSON",
+    "backslashes": "backslashes comptés explicitement dans qa_plan; JSON les échappe en \\\\",
+    "pattern_vectors": "vectors >512 chars portés par {pattern,repeat} + expected_length + anchor first4/last4; spécification exacte bijective (répétition d'un seul char fixe), pas de contenu libre"
+  },
+  "encoder_oracles": {
+    "description": "Couche A : fonctions Encode pures argv->command line et entries->environment block. L'encodeur env trie les entrées caller (OrdinalIgnoreCase ascendant) et refuse les doublons; il ne réutilise PAS le refus de bloc non trié du core.",
+    "argv_positive": [
+      { "id": "ARG-A01", "argv": ["C:\\T\\app.exe"], "expected_command_line": "C:\\T\\app.exe", "expected_length_code_units": 12, "verdict": "ACCEPT", "tags": ["codec_only"] },
+      { "id": "ARG-A02", "argv": ["C:\\T\\app.exe", ""], "expected_command_line": "C:\\T\\app.exe \"\"", "expected_length_code_units": 15, "verdict": "ACCEPT", "tags": ["empty_arg"] },
+      { "id": "ARG-A03", "argv": ["C:\\T\\app.exe", "a b"], "expected_command_line": "C:\\T\\app.exe \"a b\"", "expected_length_code_units": 18, "verdict": "ACCEPT", "tags": ["space"] },
+      { "id": "ARG-A04", "argv": ["C:\\T\\app.exe", "ab\"c"], "expected_command_line": "C:\\T\\app.exe \"ab\\\"c\"", "expected_length_code_units": 20, "verdict": "ACCEPT", "tags": ["embedded_quote_zero_backslash_before"] },
+      { "id": "ARG-A05", "argv": ["C:\\T\\app.exe", "dir\\"], "expected_command_line": "C:\\T\\app.exe dir\\", "expected_length_code_units": 17, "verdict": "ACCEPT", "tags": ["trailing_backslash_unquoted_unchanged"] },
+      { "id": "ARG-A06", "argv": ["C:\\T\\app.exe", "a b\\"], "expected_command_line": "C:\\T\\app.exe \"a b\\\\\"", "expected_length_code_units": 20, "verdict": "ACCEPT", "tags": ["trailing_backslash_quoted_doubled"] },
+      { "id": "ARG-A07", "argv": ["C:\\T\\app.exe", "x a\\\\"], "expected_command_line": "C:\\T\\app.exe \"x a\\\\\\\\\"", "expected_length_code_units": 22, "verdict": "ACCEPT", "tags": ["trailing_backslashes_quoted_doubled"] },
+      { "id": "ARG-A08", "argv": ["C:\\T\\app.exe", "b\\\\c"], "expected_command_line": "C:\\T\\app.exe b\\\\c", "expected_length_code_units": 17, "verdict": "ACCEPT", "tags": ["internal_backslashes_unquoted_unchanged"] },
+      { "id": "ARG-A09", "argv": ["C:\\T\\app.exe", "b\\\"c"], "expected_command_line": "C:\\T\\app.exe \"b\\\\\\\"c\"", "expected_length_code_units": 21, "verdict": "ACCEPT", "tags": ["one_backslash_before_quote"] },
+      { "id": "ARG-A10", "argv": ["C:\\T\\app.exe", "ab\""], "expected_command_line": "C:\\T\\app.exe \"ab\\\"\"", "expected_length_code_units": 19, "verdict": "ACCEPT", "tags": ["quote_at_end_zero_backslash_before"] },
+      { "id": "ARG-A11", "argv": ["C:\\T\\app.exe", "𐀀x"], "expected_command_line": "C:\\T\\app.exe 𐀀x", "expected_length_code_units": 16, "verdict": "ACCEPT", "tags": ["valid_surrogate_pair_unquoted", "code_units_not_chars"] },
+      { "id": "ARG-A15", "argv": ["C:\\Program Files\\x\\app.exe"], "expected_command_line": "\"C:\\Program Files\\x\\app.exe\"", "expected_length_code_units": 28, "verdict": "ACCEPT", "tags": ["argv0_quoted_interior_space"] },
+      { "id": "ARG-A13", "argv_pattern": { "argv0": "C:\\T\\app.exe", "tail_pattern": "x", "tail_repeat": 32753 }, "expected_command_line_spec": "C:\\T\\app.exe + espace + 'x' x32753 non quoté", "expected_length_code_units": 32766, "anchor_first4_after_image": "xxxx", "anchor_last4": "xxxx", "verdict": "ACCEPT", "tags": ["codec_only", "cmd_32766_exact", "correction_parent_3_plan_aggregate_not_qualified_here"] },
+      { "id": "ARG-R07", "argv_pattern": { "argv0": "C:\\T\\app.exe", "tail_pattern": "a{i}", "tail_count": 127, "tail_from": 1 }, "expected_length_code_units": 539, "verdict": "ACCEPT", "tags": ["args_128_exact_boundary", "pattern_spec_exact"] }
+    ],
+    "argv_refusals": [
+      { "id": "ARG-R01", "input": { "arg_contains": "NUL U+0000" }, "verdict": "REFUSE", "reason_category": "NUL_forbidden" },
+      { "id": "ARG-R02", "input": { "arg_contains": "tab U+0009" }, "verdict": "REFUSE", "reason_category": "char_below_32" },
+      { "id": "ARG-R03", "input": { "arg_contains": "LF U+000A" }, "verdict": "REFUSE", "reason_category": "char_below_32" },
+      { "id": "ARG-R04", "input": { "arg_structural": "lone_high_surrogate U+D800 + 'x'" }, "verdict": "REFUSE", "reason_category": "lone_surrogate" },
+      { "id": "ARG-R05", "input": { "argv_count": 129 }, "verdict": "REFUSE", "reason_category": "max_args_exceeded" },
+      { "id": "ARG-R06", "input": { "argv_count": 0 }, "verdict": "REFUSE", "reason_category": "argv0_missing" },
+      { "id": "ARG-R08", "input": { "argv_count": 129, "argv_pattern": { "argv0": "C:\\T\\app.exe", "tail_pattern": "a{i}", "tail_count": 128, "tail_from": 1 } }, "verdict": "REFUSE", "reason_category": "max_args_exceeded" },
+      { "id": "ARG-R09", "input": { "argv_tail_pattern": "x", "tail_repeat": 32754 }, "verdict": "REFUSE", "reason_category": "command_line_above_32766" }
+    ],
+    "env_positive": [
+      { "id": "ENV-A01", "entries": [], "expected_environment_block": "\u0000\u0000", "expected_length_code_units": 2, "verdict": "ACCEPT", "tags": ["empty_env", "allowlist_no_inheritance"] },
+      { "id": "ENV-A02", "entries": ["A=1", "B=2", "path=C:\\x"], "expected_environment_block": "A=1\u0000B=2\u0000path=C:\\x\u0000\u0000", "expected_length_code_units": 19, "verdict": "ACCEPT", "tags": ["sorted_identity"] },
+      { "id": "ENV-A03a", "entries": ["a=1", "B=2"], "expected_environment_block": "a=1\u0000B=2\u0000\u0000", "expected_length_code_units": 9, "verdict": "ACCEPT", "tags": ["ordinal_ignore_case_a_before_b"] },
+      { "id": "ENV-A03b", "entries": ["B=2", "a=1"], "expected_environment_block": "a=1\u0000B=2\u0000\u0000", "expected_length_code_units": 9, "verdict": "ACCEPT", "tags": ["encoder_sorts_caller_entries", "correction_parent_2"] },
+      { "id": "ENV-A03c", "entries": ["B=2", "A=1"], "expected_environment_block": "A=1\u0000B=2\u0000\u0000", "expected_length_code_units": 9, "verdict": "ACCEPT", "tags": ["encoder_sorts_caller_entries", "correction_parent_2"] },
+      { "id": "ENV-A11", "entries": ["A=1"], "expected_environment_block": "A=1\u0000\u0000", "expected_length_code_units": 5, "verdict": "ACCEPT", "tags": ["single_entry"] },
+      { "id": "ENV-A12", "entries_pattern": { "entry": "A=" , "value_pattern": "x", "value_repeat": 32763 }, "expected_length_code_units": 32767, "verdict": "ACCEPT", "tags": ["codec_only_env_32767_exact", "correction_parent_3_real_plan_cost_likely_over_controlfiles32768"] },
+      { "id": "ENV-A16", "entries": ["path=C:\\Program Files\\x"], "expected_environment_block": "path=C:\\Program Files\\x\u0000\u0000", "expected_length_code_units": 24, "verdict": "ACCEPT", "tags": ["value_with_spaces"] }
+    ],
+    "env_refusals": [
+      { "id": "ENV-A04", "entries": ["PATH=1", "path=2"], "verdict": "REFUSE", "reason_category": "duplicate_ignore_case" },
+      { "id": "ENV-A04b", "entries": ["a=1", "A=2"], "verdict": "REFUSE", "reason_category": "duplicate_ignore_case" },
+      { "id": "ENV-A05", "entries": ["A"], "verdict": "REFUSE", "reason_category": "entry_without_equals" },
+      { "id": "ENV-A06", "entries": ["=C:\\x"], "verdict": "REFUSE", "reason_category": "equals_at_index_zero" },
+      { "id": "ENV-A07", "entries": ["A=1", "", "B=2"], "verdict": "REFUSE", "reason_category": "empty_entry" },
+      { "id": "ENV-A08", "entries": ["A=\tx"], "verdict": "REFUSE", "reason_category": "char_below_32" },
+      { "id": "ENV-A09", "entries": ["A=\u0000B"], "verdict": "REFUSE", "reason_category": "NUL_in_entry" },
+      { "id": "ENV-A10", "input": { "entry_structural": "value = lone_high_surrogate U+D800 + 'x'" }, "verdict": "REFUSE", "reason_category": "lone_surrogate" },
+      { "id": "ENV-A13", "entries_pattern": { "entry": "A=", "value_pattern": "x", "value_repeat": 32764 }, "verdict": "REFUSE", "reason_category": "env_block_32768_code_units" },
+      { "id": "ENV-A14", "entries_pattern": { "entry": "A=", "value_pattern": "x", "value_repeat": 32765 }, "verdict": "REFUSE", "reason_category": "entry_above_32765_code_units" }
+    ]
+  },
+  "preencoded_block_validator_oracles": {
+    "status": "CONDITIONAL",
+    "exists_only_if": "l'API parente fixée expose une validation de bloc env préencodé",
+    "semantics": "exactly GuardianPredicates.EnvironmentBlock (prédicat core gelé documenté; réutilisation légitime ici — l'interdit de la correction parent 2 ne vise que le refus d'entrées non triées par l'ENCODEUR)",
+    "rows": [
+      { "id": "ENV-B01", "block": "\u0000\u0000", "length_code_units": 2, "verdict": "ACCEPT_IF_BLOCK_VALIDATOR_API" },
+      { "id": "ENV-B02", "block": "A=1\u0000B=2\u0000\u0000", "length_code_units": 9, "verdict": "ACCEPT_IF_BLOCK_VALIDATOR_API" },
+      { "id": "ENV-B03", "block": "B=2\u0000a=1\u0000\u0000", "length_code_units": 9, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "unsorted_preencoded_block" },
+      { "id": "ENV-B04", "block": "PATH=1\u0000path=2\u0000\u0000", "length_code_units": 15, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "duplicate_ignore_case" },
+      { "id": "ENV-B05", "block": "A=1\u0000\u0000B=2\u0000\u0000", "length_code_units": 10, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "empty_entry" },
+      { "id": "ENV-B06", "block": "A=1\u0000", "length_code_units": 4, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "missing_final_double_NUL" },
+      { "id": "ENV-B07", "block": "A=1\u0000B\u0000\u0000", "length_code_units": 8, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "entry_without_equals" },
+      { "id": "ENV-B08", "block": "=C\u0000\u0000", "length_code_units": 5, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "equals_at_index_zero" },
+      { "id": "ENV-B09a", "block_pattern": { "entry": "A=", "value_pattern": "x", "value_repeat": 32763, "suffix": "\u0000\u0000" }, "length_code_units": 32767, "verdict": "ACCEPT_IF_BLOCK_VALIDATOR_API" },
+      { "id": "ENV-B09b", "block_pattern": { "entry": "A=", "value_pattern": "x", "value_repeat": 32764, "suffix": "\u0000\u0000" }, "length_code_units": 32768, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "env_block_above_32767" },
+      { "id": "ENV-B10", "block": "A=\tx\u0000\u0000", "length_code_units": 6, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "char_below_32" },
+      { "id": "ENV-B11", "block": "A=1\u0000A=1\u0000\u0000", "length_code_units": 10, "verdict": "REFUSE_IF_BLOCK_VALIDATOR_API", "reason_category": "duplicate_exact" }
+    ],
+    "if_api_absent": "les lignes CONDITIONAL sortent de la table exécutable, sans oracle d'une méthode qui n'existe pas (correction parent 4)"
+  },
+  "plan_validator_oracles": {
+    "description": "Couche C : DTO GenericTargetPlan complet, structural data-only, exact sur le domaine commun; verdicts dépendant de l'API marqués awaiting_api_fixation.",
+    "paths": [
+      { "id": "PLAN-C01", "mutation": "Argv[0] != TargetImagePath", "verdict": "REFUSE", "reason_category": "argv0_image_mismatch" },
+      { "id": "PLAN-C02a", "field": "TargetImagePath", "value": "C:/T/app.exe", "verdict": "REFUSE", "reason_category": "slash_in_dos_path" },
+      { "id": "PLAN-C02b", "field": "TargetImagePath", "value": "app.exe", "verdict": "REFUSE", "reason_category": "relative_path" },
+      { "id": "PLAN-C02c", "field": "TargetImagePath", "value": "C:\\T\\app", "verdict": "REFUSE", "reason_category": "not_exe" },
+      { "id": "PLAN-C02d", "field": "TargetImagePath", "value_structural": "C:\\T\\app.exe + quote U+0022", "verdict": "REFUSE", "reason_category": "quote_in_dos_path" },
+      { "id": "PLAN-C02e", "field": "TargetImagePath", "value": "C:\\T\\a*p.exe", "verdict": "REFUSE", "reason_category": "wildcard_in_dos_path" },
+      { "id": "PLAN-C02f", "field": "TargetImagePath", "value": "É:\\x\\app.exe", "verdict": "REFUSE", "reason_category": "non_ascii_drive_letter" },
+      { "id": "PLAN-C02g", "field": "TargetImagePath", "value_structural": "DosPath valide de longueur exacte 259 finissant .exe", "verdict": "ACCEPT", "tags": ["proposed_common_domain", "path_length_boundary_259"] },
+      { "id": "PLAN-C02h", "field": "TargetImagePath", "value_structural": "chemin absolu .exe de longueur 260", "verdict": "REFUSE", "reason_category": "path_above_259" },
+      { "id": "PLAN-C03", "field": "WorkingDirectory", "values": ["C:/T", "T"], "verdict": "REFUSE", "reason_category": "cwd_not_dos_path" }
+    ],
+    "pins_and_identity": [
+      { "id": "PLAN-C05a", "field": "CaseIdentity.NonceHex", "mutation": "un char en majuscule", "verdict": "REFUSE", "reason_category": "nonce_not_lowercase_hex64" },
+      { "id": "PLAN-C05b", "field": "CaseIdentity.NonceHex", "mutation": "longueur 63", "verdict": "REFUSE", "reason_category": "nonce_length" },
+      { "id": "PLAN-C05c", "field": "CaseIdentity.NonceHex", "mutation": "longueur 65", "verdict": "REFUSE", "reason_category": "nonce_length" },
+      { "id": "PLAN-C05d", "field": "CaseIdentity.NonceHex", "mutation": "char 'g'", "verdict": "REFUSE", "reason_category": "nonce_not_hex" },
+      { "id": "PLAN-C05e", "field": "CaseIdentity.Epoch", "value": 0, "verdict": "REFUSE", "reason_category": "epoch_not_positive" },
+      { "id": "PLAN-C05f", "field": "CaseIdentity.Epoch", "value": -1, "verdict": "REFUSE", "reason_category": "epoch_not_positive" },
+      { "id": "PLAN-C06", "fields": ["LeaseReceiptSha256", "IntentSha256", "TargetImageSha256", "LedgerPlanSha256", "SourcePins[i]"], "mutation": "uppercase / longueur!=64 / char non-hex, un seul champ muté à la fois", "verdict": "REFUSE", "reason_category": "pin_not_lowercase_hex64" },
+      { "id": "PLAN-C07", "case": "deux SourcePins portant le même SHA (sources distinctes, mêmes bytes)", "verdict": "NO_CONSTRAINT_AT_PLAN_LEVEL", "note": "correction parent 5 : distinct TargetPin du ledger HostComplete != interdiction de SHA répété dans SourcePins; aucune contrainte d'unicité de digest inventée au niveau plan", "tags": ["explicit_non_oracle"] }
+    ],
+    "profile_and_modes": [
+      { "id": "PLAN-C08a", "field": "TimeProfileId", "value": "V3-Q1", "verdict": "ACCEPT", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C08b", "field": "TimeProfileId", "value": "T-FULL44-TIME-PROPOSAL-1", "verdict": "REFUSE", "reason_category": "time_profile_not_ratified" },
+      { "id": "PLAN-C08c", "field": "TimeProfileId", "value": "Q1-125", "verdict": "REFUSE", "reason_category": "time_profile_unknown" },
+      { "id": "PLAN-C08d", "case": "constantes profil dérivées != 5000/20000/30000/55000", "verdict": "REFUSE", "reason_category": "time_profile_drift" },
+      { "id": "PLAN-C09a", "field": "QualificationMode", "value": "C01", "verdict": "ACCEPT", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C09b", "field": "QualificationMode", "value": "C14", "verdict": "ACCEPT", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C09c", "field": "QualificationMode", "values": ["C00", "C15", "FULL44"], "verdict": "REFUSE", "reason_category": "qualification_mode_out_of_C01_C14" }
+    ],
+    "control_aggregate": [
+      { "id": "PLAN-C11a", "case": "bytes réellement encodés de l'ensemble plan/argv/env/pins/OWNER/lease/ledger/registry = 32767", "verdict": "ACCEPT", "tags": ["awaiting_canonical_encoding_fixation", "correction_parent_3"] },
+      { "id": "PLAN-C11b", "case": "même ensemble = 32768", "verdict": "ACCEPT", "tags": ["awaiting_canonical_encoding_fixation", "cap_exacte"] },
+      { "id": "PLAN-C11c", "case": "même ensemble = 32769", "verdict": "REFUSE", "tags": ["awaiting_canonical_encoding_fixation", "correction_parent_3"], "reason_category": "controlfiles_above_32768" }
+    ],
+    "behavioral": [
+      { "id": "PLAN-C12a", "case": "mutation du tableau argv par l'appelant après création du plan", "expect": "données encodées du plan inchangées (copie défensive à l'entrée)", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C12b", "case": "mutation du tableau env entries par l'appelant après création", "expect": "bloc encodé inchangé", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C12c", "case": "mutation d'un tableau de sortie par l'appelant", "expect": "état interne intact; relecture identique", "tags": ["awaiting_api_fixation"] },
+      { "id": "PLAN-C12d", "case": "même tableau partagé entre deux plans", "expect": "aucune contamination croisée", "tags": ["awaiting_api_fixation"] }
+    ],
+    "data_only_marking": [
+      { "id": "PLAN-C13", "rule": "toute valeur validée reste DATA_ONLY : pas trusted authority, pas lease, pas proof, pas OS pin acquis", "verdict": "DOCUMENTARY_INVARIANT" }
+    ],
+    "unknown_field": [
+      { "id": "PLAN-C10", "case": "champ inconnu additionnel prétendant une capacité", "verdict": "OPEN_PARENT", "note": "aucun champ inconnu promu en capacité; disposition exacte (refus vs ignore strict) à la fixation API; pas auto-ratifié" }
+    ]
+  },
+  "open_cases_parent": [
+    { "id": "OPEN-C01", "case": "TargetImagePath finissant par espace", "core_syntax": "DosPath accepte (char>=32)", "disposition": "adjudication parent; aucun verdict d'oracle inventé" },
+    { "id": "OPEN-C02", "case": "TargetImagePath finissant par point", "core_syntax": "DosPath accepte", "disposition": "adjudication parent" }
+  ],
+  "out_of_slice_no_oracle": [
+    "MaxChunkBytes 4096 : writes runtime FUTURS (broker), pas taille de document/array ni fonction Encode — correction parent 4",
+    "framing GTC1 16B header/payload4080 : obligation broker future — aucun oracle d'une méthode inexistante",
+    "seuils capture 114687/114688/114689 et total 262143/262144/262145 : obligations broker/qualification futures (C06), pas couverture de ce DTO",
+    "broker/writer/authority : absents de cette slice"
+  ],
+  "exactness_rule": {
+    "source": "correction parent 6",
+    "rules": [
+      "ACCEPT/REFUSE des codecs sont exacts sur le domaine commun fixé",
+      "une restriction additionnelle ne s'auto-ratifie pas : remontée avant adoption",
+      "hors table, un écart est à adjudication parent, jamais autorisé par défaut",
+      "ne jamais accepter une implémentation qui refuse un positif contractualisé pour éviter le défaut"
+    ]
+  },
+  "unknowns": {
+    "U1": "RESOLU — SHA-256 raw INPUT_MANIFEST.json = 384734b2...6c557, match recompute QA; piste SHA384/concat = erreur d'interprétation, pas HOLD restant ni drift",
+    "U2": "version de quotage argv exacte — hypothèse win-argv-quote-1 (MS-CRT); à réconcilier avec le 'Windows quoting versionné' de l'auteur à la fixation API; les vecteurs A04/A06/A07/A09/A10/A15 trancheront",
+    "U3": "API C#4 fixée par parent non fournie — GenericTargetPlanTests.cs non écrit, aucune signature inventée",
+    "U4": "encodage canonique exact des bytes de contrôle (sérialisation/charset) non fixé — les seuils PLAN-C11 attendent cette fixation puis ajustent les bytes supplémentaires réellement fournis",
+    "U5_partiel": "vocabulaire littéral exact TimeProfileId/QualificationMode de l'auteur — hypothèse 'V3-Q1'/C01-C14 depuis les contrats; partie API restante à la fixation parent",
+    "U7": "référence ContractPin absente du paquet QA — déclaration documentaire seulement (sha256 déclaré dans contracts/MANIFEST.json), pas d'origin, pas de réseau"
+  }
+}

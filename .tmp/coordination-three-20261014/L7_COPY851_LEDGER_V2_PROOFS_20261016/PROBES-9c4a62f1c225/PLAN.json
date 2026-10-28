@@ -1,0 +1,1005 @@
+{
+  "schemaVersion": "copy851-independent-probe-plan-v1",
+  "task": "task_mvb91iar_003f_0d5wmp",
+  "scope": "fresh NONBLIND whole-L7 review; public summaries exposed but no old finding or author algorithm used as oracle",
+  "maxCasesTotal": 12,
+  "maxUnitsPerFixture": 2,
+  "maxInvocations": 1,
+  "maxMs": 60000,
+  "newDatabases": 0,
+  "newPorts": 0,
+  "productImports": [
+    "C:/Users/djden/source/repos/retro-eng/re-ff8/inputs/L7_COPY851_LEDGER_V2_REVIEW_20261016/tools/ff8-harness/src/simulator.ts",
+    "C:/Users/djden/source/repos/retro-eng/re-ff8/inputs/L7_COPY851_LEDGER_V2_REVIEW_20261016/tools/ff8-harness/src/planner.ts",
+    "C:/Users/djden/source/repos/retro-eng/re-ff8/inputs/L7_COPY851_LEDGER_V2_REVIEW_20261016/tools/ff8-harness/src/graph-normalize.ts",
+    "C:/Users/djden/source/repos/retro-eng/re-ff8/inputs/L7_COPY851_LEDGER_V2_REVIEW_20261016/tools/ff8-harness/src/validation.ts"
+  ],
+  "blueprints": {
+    "manualDag": {
+      "plan": {
+        "projectionVersion": 2,
+        "resourceSemantics": "l5-whole-unit-envelope-per-execution-v2",
+        "planId": "review-memory-dag",
+        "missionId": "review-memory",
+        "knowledgeRevision": 1,
+        "units": [
+          {
+            "unitId": "P",
+            "ownedFunctionIds": [
+              "fn-P"
+            ],
+            "contextFunctionIds": [
+              "shared-read-context"
+            ],
+            "investigationKind": "decompilation",
+            "requiredPublicationLevel": 1,
+            "knowledgeRevision": 1,
+            "prerequisites": [],
+            "conflicts": [],
+            "requiredTools": [
+              "cpu"
+            ],
+            "resources": {
+              "kind": "unrestricted"
+            }
+          },
+          {
+            "unitId": "C",
+            "ownedFunctionIds": [
+              "fn-C"
+            ],
+            "contextFunctionIds": [
+              "shared-read-context"
+            ],
+            "investigationKind": "decompilation",
+            "requiredPublicationLevel": 1,
+            "knowledgeRevision": 1,
+            "prerequisites": [
+              {
+                "producerUnitId": "P",
+                "kind": "obligatory",
+                "requiredPublicationLevel": 1,
+                "dispensed": false
+              }
+            ],
+            "conflicts": [],
+            "requiredTools": [
+              "cpu"
+            ],
+            "resources": {
+              "kind": "unrestricted"
+            }
+          }
+        ],
+        "g1Edges": [
+          {
+            "fromUnitId": "P",
+            "toUnitId": "C",
+            "kind": "obligatory",
+            "callSourceFunctionId": "fn-C",
+            "callDestinationFunctionId": "fn-P"
+          }
+        ],
+        "g2Conflicts": [],
+        "budgets": {
+          "contextEnvelopeMaxUtf8Bytes": 100000,
+          "nativeLineCharLimit": 2000
+        }
+      },
+      "config": {
+        "controllerId": "memory-controller",
+        "workers": [
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          }
+        ],
+        "accountQuotas": {
+          "memory-account": 4
+        },
+        "accountCapacities": {
+          "memory-account": {
+            "slots": 4,
+            "budget": 40
+          }
+        },
+        "leaseTicks": 64,
+        "heartbeatEvery": 0,
+        "validationTicks": 1,
+        "maxAttempts": 4,
+        "maxTicks": 256,
+        "policy": "event_driven",
+        "recordTrace": true
+      },
+      "durations": {
+        "A": 2,
+        "B": 5,
+        "R": 3
+      },
+      "incidents": [],
+      "seed": "review-memory-v1"
+    },
+    "sharedFamilies": {
+      "plan": {
+        "projectionVersion": 2,
+        "resourceSemantics": "l5-whole-unit-envelope-per-execution-v2",
+        "planId": "review-memory-shared",
+        "missionId": "review-memory",
+        "knowledgeRevision": 1,
+        "units": [
+          {
+            "unitId": "A",
+            "ownedFunctionIds": [
+              "fn-A"
+            ],
+            "contextFunctionIds": [],
+            "investigationKind": "decompilation",
+            "requiredPublicationLevel": 1,
+            "knowledgeRevision": 1,
+            "prerequisites": [],
+            "conflicts": [
+              {
+                "resourceKey": "memory-exclusive-key"
+              }
+            ],
+            "requiredTools": [
+              "cpu"
+            ],
+            "resources": {
+              "kind": "unrestricted"
+            }
+          },
+          {
+            "unitId": "B",
+            "ownedFunctionIds": [
+              "fn-B"
+            ],
+            "contextFunctionIds": [],
+            "investigationKind": "decompilation",
+            "requiredPublicationLevel": 1,
+            "knowledgeRevision": 1,
+            "prerequisites": [],
+            "conflicts": [
+              {
+                "resourceKey": "memory-exclusive-key"
+              }
+            ],
+            "requiredTools": [
+              "cpu"
+            ],
+            "resources": {
+              "kind": "unrestricted"
+            }
+          }
+        ],
+        "g1Edges": [],
+        "g2Conflicts": [
+          {
+            "id": "memory-exclusive-incidence",
+            "resourceKey": "memory-exclusive-key"
+          }
+        ],
+        "budgets": {
+          "contextEnvelopeMaxUtf8Bytes": 100000,
+          "nativeLineCharLimit": 2000
+        }
+      },
+      "config": {
+        "controllerId": "memory-controller",
+        "workers": [
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          }
+        ],
+        "accountQuotas": {
+          "memory-account": 4
+        },
+        "accountCapacities": {
+          "memory-account": {
+            "slots": 4,
+            "budget": 40
+          }
+        },
+        "leaseTicks": 64,
+        "heartbeatEvery": 0,
+        "validationTicks": 1,
+        "maxAttempts": 4,
+        "maxTicks": 256,
+        "policy": "event_driven",
+        "recordTrace": true
+      },
+      "durations": {
+        "A": 4,
+        "B": 7,
+        "R": 2
+      },
+      "incidents": [],
+      "seed": "review-memory-v1"
+    },
+    "export": {
+      "graphParts": {
+        "missionId": "review-memory-export",
+        "snapshotId": "review-memory-snapshot",
+        "knowledgeRevision": 1,
+        "artifacts": [
+          {
+            "schemaVersion": 1,
+            "artifactId": "memory-module",
+            "moduleName": "memory-only.bin",
+            "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "versionLabel": "memory-v1",
+            "format": "unknown",
+            "architecture": "unknown",
+            "imageBase": "0x400000",
+            "idbIdentity": "memory:no-idb",
+            "sections": [],
+            "provenance": {
+              "moduleSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "siteRva": null,
+              "siteKind": "extractor",
+              "xrefType": "none",
+              "source": "review-own-memory-fixture",
+              "sourceVersion": "1",
+              "sourceHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "evidenceSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            "analysisVersion": "memory-v1",
+            "extractorVersion": "memory-v1"
+          }
+        ],
+        "nodes": [
+          {
+            "schemaVersion": 1,
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20",
+            "moduleSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "rva": "0x20",
+            "ea": "0x400020",
+            "imageBase": "0x400000",
+            "name": "memory-P",
+            "observedDescription": "Synthetic owned memory fixture; not native evidence",
+            "boundaries": [
+              {
+                "ordinal": 0,
+                "rva": "0x20",
+                "endRvaExclusive": "0x30",
+                "role": "entry"
+              }
+            ],
+            "sizeBytes": {
+              "known": true,
+              "value": 16
+            },
+            "instructionCount": {
+              "known": true,
+              "value": 4
+            },
+            "basicBlockCount": {
+              "known": true,
+              "value": 1
+            },
+            "functionClass": "internal",
+            "status": "observed",
+            "semanticMaturity": "none",
+            "analysisRefs": [],
+            "byteAgreement": "unknown",
+            "admissibleAsOracle": false,
+            "byteDivergence": {
+              "known": false,
+              "peMismatchByteCount": null,
+              "frozenSha256": null,
+              "peSha256": null
+            }
+          },
+          {
+            "schemaVersion": 1,
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40",
+            "moduleSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "rva": "0x40",
+            "ea": "0x400040",
+            "imageBase": "0x400000",
+            "name": "memory-C",
+            "observedDescription": "Synthetic owned memory fixture; not native evidence",
+            "boundaries": [
+              {
+                "ordinal": 0,
+                "rva": "0x40",
+                "endRvaExclusive": "0x50",
+                "role": "entry"
+              }
+            ],
+            "sizeBytes": {
+              "known": true,
+              "value": 16
+            },
+            "instructionCount": {
+              "known": true,
+              "value": 4
+            },
+            "basicBlockCount": {
+              "known": true,
+              "value": 1
+            },
+            "functionClass": "internal",
+            "status": "observed",
+            "semanticMaturity": "none",
+            "analysisRefs": [],
+            "byteAgreement": "unknown",
+            "admissibleAsOracle": false,
+            "byteDivergence": {
+              "known": false,
+              "peMismatchByteCount": null,
+              "frozenSha256": null,
+              "peSha256": null
+            }
+          }
+        ],
+        "edges": [
+          {
+            "schemaVersion": 1,
+            "id": "memory-C-calls-P",
+            "sourceId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40",
+            "destinationId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20",
+            "kind": "direct_call",
+            "direction": "source_to_destination",
+            "sites": [
+              {
+                "siteRva": "0x44",
+                "xrefType": "code",
+                "provenance": {
+                  "moduleSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "siteRva": "0x44",
+                  "siteKind": "instruction",
+                  "xrefType": "code",
+                  "source": "review-own-memory-fixture",
+                  "sourceVersion": "1",
+                  "sourceHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                  "evidenceSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                }
+              }
+            ],
+            "status": "observed",
+            "confidence": "high",
+            "appearedInRevision": 1,
+            "retiredInRevision": null,
+            "schedulerRelevance": "may_block"
+          }
+        ],
+        "objects": [],
+        "unresolved": [],
+        "capabilities": [],
+        "scopeDescription": "Two synthetic owned memory nodes, no native attestation",
+        "coverage": {
+          "status": "partial",
+          "uncoveredReason": "owned synthetic memory only",
+          "tailsIterated": true,
+          "selfLoopsPreserved": true
+        },
+        "toolVersions": {
+          "extractor": "memory-v1",
+          "extractorHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "normalizer": "normalizer-v1"
+        },
+        "configFingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "groups": [
+        {
+          "groupId": "memory-group-P",
+          "partitionId": "review-memory-partition",
+          "ownedFunctionIds": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20"
+          ],
+          "contextFunctionIds": []
+        },
+        {
+          "groupId": "memory-group-C",
+          "partitionId": "review-memory-partition",
+          "ownedFunctionIds": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40"
+          ],
+          "contextFunctionIds": []
+        }
+      ],
+      "policy": {
+        "version": "review-memory-policy-v1",
+        "estimationVersion": "review-memory-cost-v1",
+        "partitionId": "review-memory-partition",
+        "investigationKind": "decompilation",
+        "artifactKind": "reconciled_c",
+        "publicationLevel": 1,
+        "contextEnvelopeMaxUtf8Bytes": 100000,
+        "totalContextBudgetUtf8Bytes": 1000000,
+        "maxSelectedUnits": 2,
+        "sccMaxFunctions": 8,
+        "sccMaxIterations": 1,
+        "sccCostBudget": 1000,
+        "requirementsByFunction": {
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20": {
+            "artifactId": "memory-P-result",
+            "artifactSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "functionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20",
+            "moduleSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 1,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          }
+        },
+        "estimatesByFunction": {
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20": {
+            "version": "review-memory-cost-v1",
+            "A": 2,
+            "B": 5,
+            "R": 3,
+            "validation": 1
+          },
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40": {
+            "version": "review-memory-cost-v1",
+            "A": 2,
+            "B": 5,
+            "R": 3,
+            "validation": 1
+          }
+        },
+        "resourcesByFunction": {
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20": {
+            "profiles": [
+              "memory-build"
+            ],
+            "models": [
+              "memory-offline"
+            ],
+            "accounts": [
+              "memory-account"
+            ],
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          },
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40": {
+            "profiles": [
+              "memory-build"
+            ],
+            "models": [
+              "memory-offline"
+            ],
+            "accounts": [
+              "memory-account"
+            ],
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          }
+        }
+      },
+      "config": {
+        "controllerId": "memory-controller",
+        "workers": [
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          },
+          {
+            "profile": "memory-build",
+            "model": "memory-offline",
+            "accountId": "memory-account",
+            "speed": 1,
+            "tools": [
+              "cpu"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 10
+          }
+        ],
+        "accountQuotas": {
+          "memory-account": 4
+        },
+        "accountCapacities": {
+          "memory-account": {
+            "slots": 4,
+            "budget": 40
+          }
+        },
+        "leaseTicks": 64,
+        "heartbeatEvery": 0,
+        "validationTicks": 1,
+        "maxAttempts": 4,
+        "maxTicks": 256,
+        "policy": "event_driven",
+        "recordTrace": true
+      },
+      "durations": {
+        "A": 2,
+        "B": 5,
+        "R": 3
+      },
+      "producerFunctionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x20",
+      "consumerFunctionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:0x40"
+    }
+  },
+  "accounting": {
+    "interpretation": "Count distinct external fixture/scenario variants, not assertions or repeated API calls. Every compare-created variant and every input journal is named below. No hidden Cartesian product.",
+    "comparePolicies": [
+      "M01 event_driven default rolesParallel=true",
+      "M02 sequential default rolesParallel=false"
+    ],
+    "captureReplayInputs": [
+      "M01 scenario reused for default capture",
+      "M05 valid journal representing M01; replay creates its internal Map only",
+      "M06 duplicate journal variant, valid self-hash",
+      "M09 legacy-source scenario with supplied M07 traceHash; produced legacy journal is NOT replayed"
+    ],
+    "removedRoughProposal": "No separate Map-subclass/get-override fixture is executed; legal Map duration acquisition is exercised by the declared M05 valid replay. This final allocation replaces the initial informal Map slot before any execution."
+  },
+  "manualDerivations": {
+    "dag": "Four compatible speed-1 workers; quota4, account capacities slots4/budget40; manual v2 unrestricted units with explicit cpu tool; rolesParallel omitted => true for event_driven. Authors A2/B5 start together, latest5; R3 ends8; validation1 commits9. C waits P commit, repeats9 => commits18. Nominal total work=2*(2+5+3)=20, excluding validation. Useful scheduled work and occupation=20. Critical path=2*(max(2,5)+3+1)=18. lowerBound=max(18,20/4)=18.",
+    "sequential": "Same values and four workers but sequential default rolesParallel=false. Each unit serial A2+B5+R3+validation1=11; two G1-gated units=>22, work/occupation20. Nominal DAG critical path remains18, not the policy elapsed time.",
+    "shared": "Independent A/B families share one direct exclusive key. Durations authors4/7,R2,validation1, speed1, rolesParallel=true by event_driven default. A full family costs work13 and commits10 ticks after admission.",
+    "hard": "Adopt A@1, HARD new_scc A@2, stop-confirm A@3 retry=true. Two A author jobs occupy0..3:6ticks; HARD prevents new generation. B held until3 then authors finish7/10,R10..12,validate12..13. B commit13; occupation6+13=19, useful13,rework6,reworkAttempts0. Stuck makespan NOT asserted as13; only publicationEnd13.",
+    "adoption": "Adopt A@1 without HARD: current eligible A finishes at10, peer B starts10 and commits20. Occupation26,useful26,rework0,one attempt each. Later reserve A refused due immutable-plan adoption obligation, no history rewritten.",
+    "cancelRetry": "Cancel A@2, stop A@3 retry=true, no replan requirement. Old A occupancy6. B was FIFO waiter since0, starts3, commits13. A retry waits key then starts13, commits23. Occupation6+13+13=32,useful26,rework6,reworkAttempts1; A attempts2/B1; no release on cancel alone."
+  },
+  "cases": [
+    {
+      "id": "M01",
+      "fixture": "manualDag object durations, legal data images",
+      "apis": [
+        "planShape",
+        "runScenario"
+      ],
+      "mutations": [
+        "own source=undefined",
+        "shared acyclic context/tool arrays",
+        "custom prototype with unused metadata on P",
+        "null prototypes on C and budgets",
+        "freeze config outer/durations/context array only, preserve other caller descriptors"
+      ],
+      "expected": {
+        "criticalPath": 18,
+        "totalWork": 20,
+        "makespan": 18,
+        "useful": 20,
+        "occupied": 20,
+        "commits": 2,
+        "producerCommit": 9,
+        "consumerCommit": 18,
+        "callerUnchanged": true
+      },
+      "contrary": "M04 getter refusal; M02 policy default different, not input corruption"
+    },
+    {
+      "id": "M02",
+      "fixture": "manualDag sequential policy generated by comparePolicies; M01 event_driven is reused, not a third scenario",
+      "apis": [
+        "comparePolicies(M01,[event_driven,sequential])"
+      ],
+      "expected": {
+        "policies": [
+          "event_driven",
+          "sequential"
+        ],
+        "makespans": [
+          18,
+          22
+        ],
+        "rolesParallel": [
+          true,
+          false
+        ],
+        "criticalPaths": [
+          18,
+          18
+        ]
+      },
+      "contrary": "M01 same immutable work under parallel default"
+    },
+    {
+      "id": "M03",
+      "fixture": "manualDag duration callback; caller writes only its own memory after image acquisition",
+      "apis": [
+        "new SimEngine",
+        "runUntil(3)",
+        "observe twice",
+        "run"
+      ],
+      "actions": [
+        "first duration callback empties caller units/workers and appends caller cancel0 incident",
+        "return same A2/B5/R3 record for both IDs",
+        "mutate returned record after constructor",
+        "mutate detached observation clone only"
+      ],
+      "expected": {
+        "durationCalls": 2,
+        "ids": [
+          "P",
+          "C"
+        ],
+        "observationEventFrontier": 2,
+        "observationOccupied": 4,
+        "makespan": 18,
+        "work": 20,
+        "commits": 2,
+        "observationStable": true
+      },
+      "contrary": "M04 invalid plan never invokes callback"
+    },
+    {
+      "id": "M04",
+      "fixture": "manualDag plan unit has own enumerable auxiliary getter; duration function counter",
+      "apis": [
+        "validateSimPlan",
+        "new SimEngine"
+      ],
+      "expected": {
+        "diagnostic": "input_snapshot_non_transportable",
+        "errorCode": "plan_non_conformant",
+        "getterCalls": 0,
+        "durationCalls": 0,
+        "callerDescriptorsUnchanged": true
+      },
+      "contrary": "M01 legitimate custom/null/frozen prototypes accepted"
+    },
+    {
+      "id": "M05",
+      "fixture": "valid captured journal for M01, explicit tuple-array representation and internal replay Map",
+      "apis": [
+        "captureReplayJournal(M01)",
+        "replayScenarioJournal"
+      ],
+      "expected": {
+        "journalRows": 2,
+        "makespan": 18,
+        "work": 20,
+        "traceEqualsM01": true,
+        "journalFrozen": true,
+        "callerUnchanged": true
+      },
+      "contrary": "M06 duplicate tuple, not a stale hash refusal"
+    },
+    {
+      "id": "M06",
+      "fixture": "clone of M05 journal; add exactly one duplicate P tuple; recompute public scenarioFingerprint; expectedTraceHash unchanged",
+      "apis": [
+        "fingerprint",
+        "replayScenarioJournal"
+      ],
+      "expected": {
+        "errorCode": "plan_non_conformant",
+        "detailCode": "input_snapshot_non_transportable",
+        "detailContains": "unique unit/duration tuples required",
+        "callerJournalUnchanged": true
+      },
+      "contrary": "M05 valid journal accepted"
+    },
+    {
+      "id": "M07",
+      "fixture": "export blueprint: actual public graph-normalize -> L5 -> SIM, two units and one local artifact need",
+      "apis": [
+        "buildGraphSnapshot",
+        "planMission",
+        "simPlanFromExport",
+        "validateSimPlan",
+        "runScenario"
+      ],
+      "expected": {
+        "units": 2,
+        "evidenceVersion": 2,
+        "archiveEqualsActualPlan": true,
+        "commits": 2,
+        "producerCommit": 9,
+        "consumerCommit": 18,
+        "work": 20,
+        "makespan": 18,
+        "sourceUnchanged": true
+      },
+      "contrary": "M08 missing local need blocks only consumer"
+    },
+    {
+      "id": "M08",
+      "fixture": "clone M07 scenario, remove only consumer prerequisite.requirement; original archive unchanged",
+      "apis": [
+        "validateSimPlan",
+        "runScenario"
+      ],
+      "expected": {
+        "diagnostics": 0,
+        "commits": 1,
+        "producerCommit": 9,
+        "consumerState": "BLOCKED",
+        "consumerAttempts": 0,
+        "publicationEnd": 9,
+        "occupied": 10,
+        "sourceUnchanged": true
+      },
+      "contrary": "M07 intact need publishes both"
+    },
+    {
+      "id": "M09",
+      "fixture": "clone M07 plan, evidence.version=1, no rehash/backfill; own duration callback constant A2/B5/R3; supplied result is M07 expectation only",
+      "apis": [
+        "validateSimPlan",
+        "runScenario refusal",
+        "planShape",
+        "captureReplayJournal(scenario,M07result)"
+      ],
+      "expected": {
+        "globalError": "plan_non_conformant",
+        "callbackCallsBeforeRefusal": 0,
+        "shapeCritical": 18,
+        "capturedLegacyVersion": 1,
+        "captureExpectedHashFromM07": true,
+        "totalCallbackCalls": 4,
+        "noScenarioExecutionBySuppliedCapture": true
+      },
+      "contrary": "M07 evidence v2 actual export; M05 valid replay and M06 tuple rejection. The produced M09 journal is an output only, never a thirteenth input replay."
+    },
+    {
+      "id": "M10",
+      "fixture": "sharedFamilies adoption then HARD then confirmed stop retry request",
+      "incidents": [
+        {
+          "kind": "partition_adoption",
+          "atTick": 1,
+          "unitIds": [
+            "A"
+          ]
+        },
+        {
+          "kind": "new_scc",
+          "atTick": 2,
+          "unitIds": [
+            "A"
+          ]
+        },
+        {
+          "kind": "stop_confirmed",
+          "atTick": 3,
+          "unitId": "A",
+          "retry": true
+        }
+      ],
+      "apis": [
+        "SimEngine",
+        "runUntil(2)",
+        "observe",
+        "run",
+        "tryReserve A after run"
+      ],
+      "expected": {
+        "heldAt2": 4,
+        "peerNotAdmittedAt2": true,
+        "attemptsA": 1,
+        "attemptsB": 1,
+        "noCommitA": true,
+        "peerDispatch": 3,
+        "peerCommit": 13,
+        "publicationEnd": 13,
+        "occupied": 19,
+        "useful": 13,
+        "rework": 6,
+        "reworkAttempts": 0,
+        "laterReserveRefused": true
+      },
+      "contrary": "M11 adoption without HARD finishes; M12 ordinary stop retry is legal"
+    },
+    {
+      "id": "M11",
+      "fixture": "sharedFamilies adoption only",
+      "incidents": [
+        {
+          "kind": "partition_adoption",
+          "atTick": 1,
+          "unitIds": [
+            "A"
+          ]
+        }
+      ],
+      "apis": [
+        "runScenario",
+        "SimStore.write existing commit duplicate"
+      ],
+      "expected": {
+        "attemptsA": 1,
+        "attemptsB": 1,
+        "commitA": 10,
+        "peerDispatch": 10,
+        "peerCommit": 20,
+        "makespan": 20,
+        "occupied": 26,
+        "useful": 26,
+        "rework": 0,
+        "duplicateCommitError": "duplicate_commit",
+        "publications": 2
+      },
+      "contrary": "M10 HARD overrides adoption; no general standalone purity promise"
+    },
+    {
+      "id": "M12",
+      "fixture": "sharedFamilies ordinary cancel/confirmed stop with legal retry, no new-plan cause",
+      "incidents": [
+        {
+          "kind": "cancel",
+          "atTick": 2,
+          "unitId": "A"
+        },
+        {
+          "kind": "stop_confirmed",
+          "atTick": 3,
+          "unitId": "A",
+          "retry": true
+        }
+      ],
+      "apis": [
+        "runScenario"
+      ],
+      "expected": {
+        "attemptsA": 2,
+        "attemptsB": 1,
+        "AAdmissionTicks": [
+          0,
+          13
+        ],
+        "BAdmissionTicks": [
+          3
+        ],
+        "commitA": 23,
+        "commitB": 13,
+        "makespan": 23,
+        "occupied": 32,
+        "useful": 26,
+        "rework": 6,
+        "reworkAttempts": 1,
+        "publications": 2
+      },
+      "contrary": "M10 identical real release tick but HARD forbids retry"
+    }
+  ],
+  "limits": [
+    "NONBLIND public historical summary exposure declared; no old verdict oracle",
+    "SimStore standalone can freeze nested caller arrays outside scenario acquisition guarantees",
+    "All simulation/fixtures only; no native, durable, host, full QA, 100k, or integration claim",
+    "Run exactly the declared twelve cases in one bounded invocation, including preplanned contrary controls; on any red hold without fix/rerun"
+  ]
+}

@@ -1,0 +1,25 @@
+00489552: lea     eax, [eax+edx*4]; Load Effective Address
+00489555: jmp     short loc_489598; Jump
+00489557: lea     eax, [ebx+ebx*2]; jumptable 00489535 case 200
+0048955A: lea     eax, [ebx+eax*4]; Load Effective Address
+0048955D: jmp     short loc_489598; Jump
+0048955F: lea     ecx, [ebx+ebx*2]; jumptable 00489535 cases 220-227
+00489562: lea     edx, [ebx+ecx*4]; Load Effective Address
+00489565: lea     eax, [edi+edx*4]; Load Effective Address
+00489568: mov     eax, BATTLE_LOCAL_VAR[eax*4]
+0048956F: jmp     short loc_489592; Jump
+00489571: xor     ecx, ecx; jumptable 00489535 default case, cases 201,202,204-219
+00489573: mov     eax, offset BATTLE_SLOT_DATA.com_file_id
+00489578: xor     edx, edx; Logical Exclusive OR
+0048957A: mov     dl, [eax]
+0048957C: cmp     edx, edi; Compare Two Operands
+0048957E: jz      short loc_4895E4; Jump if Zero (ZF=1)
+00489580: add     eax, 0D0h; Add
+00489585: inc     ecx; Increment by 1
+00489586: cmp     eax, offset byte_1D2817B; Compare Two Operands
+0048958B: jl      short loc_489578; Jump if Less (SF!=OF)
+0048958D: mov     eax, 0FFh
+00489592: lea     ecx, [eax+eax*2]; Load Effective Address
+00489595: lea     eax, [eax+ecx*4]; Load Effective Address
+00489598: mov     edx, dword ptr [esp+74h+op_param_3]
+0048959C: mov     ecx, [esp+74h+if_right_condition_final]

@@ -1,0 +1,31 @@
+<task-result>
+<status>completed</status>
+<summary>ACCEPTABLE_SOURCE_SCOPED — aucun défaut bloquant établi dans le module gelé ; tests et oracle examinés statiquement, sans compilation ni exécution.</summary>
+<details>
+Périmètre : inputs/V3_BUDGET_REVIEW_R1_20261017 exclusivement, après ACK puis GO REVIEW distinct. 13 payloads/83337 B rehashés sans dérive ; module0944a3bb, testsd94776e2, designb54b561f, manifeste652101e0, addendum96b817ff, oracle12cas ad67adf0. Lecture complète des sources/docs ; calculs de constantes, comptage textuel et SHA seulement. Aucun verdict auteur utilisé comme preuve.
+
+Traçabilité bootstrap NONBLIND, pas packet-only : AVANT réception du cadrage FIRSTHOLD, appel exact tools.team_tasks_list() une fois. Exposition : descriptions publiques de tâches, identifiants, états/affectations/priorités, métadonnées de classification/contexte/admission, chemins/pins et résumés de gates historiques présents dans ces descriptions. Aucun board recopié ici et aucune relecture. tools.team_results({}) avait aussi été appelé une fois : « No unread messages ». Une tentative de filtrer le fichier de sortie sauvegardé via ctx_execute_file a été refusée par confinement, sans lecture supplémentaire de ce fichier. Aucun code produit n’avait été lu. Cette exposition n’est ni une preuve d’aveuglement ni une autorisation élargie.
+
+Ancrages (chemins sous le paquet ; huit ancrages) :
+1. SOURCE/BudgetedEvidence.cs:121–137 : huit caps immuables, somme indépendante 32768+57344+114688+24576+4×8192=262144 ; chunk4096. Le global est redondant sous les invariants locaux, pas une preuve de tous les writers.
+2. SOURCE/BudgetedEvidence.cs:36–96 : snapshots publics sans setter, objets de slots scellés/readonly, tableau privé non exposé. La fabrique crée des valeurs détachées ; pas de garantie adversariale contre accès interne/reflection.
+3. SOURCE/BudgetedEvidence.cs:173–210 : ouverture unique PAR SLOT dans cette instance, contrôle enum/null/HOLD ; aucun membre Stream appelé. Snapshot sous le verrou, avec nouveau tableau/nouveaux objets. Ni unicité de Stream inter-slots ni autorité crossprocess ne sont prétendues.
+4. SOURCE/BudgetedEvidence.cs:214–275 : HOLD/activité avant zéro octet ; identité du sink ; offset/count par soustraction sans somme débordante ; bornes slot/cas avant précharge atomique des deux compteurs. Une tentative concurrente n’ajoute aucune charge et ne déclenche aucun I/O.
+5. SOURCE/BudgetedEvidence.cs:278–307 : seul callback externe Write hors verrou ; exception ordinaire ⇒ HOLD, aucune restitution ; fin active synchronisée ; première raison irréversible. Un Write déjà chargé peut finir après HOLD. false ne signifie donc pas zéro octet écrit.
+6. SOURCE/BudgetedEvidence.Tests.cs:13–32 : exactement 20 invocations de premier niveau, 17 méthodes distinctes, PAS 20 tests exécutés. Capacités, codes, chunks, charges et séquences attendues sont des fixtures littérales, pas des sorties du produit réutilisées comme oracle.
+7. SOURCE/BudgetedEvidence.Tests.cs:401–476 : chevauchement établi par entrée confirmée du premier Write ; deuxième thread indépendant ; rejet contrôlé même zéro octet, charge7 conservée ; finally libère le flux et ne dispose les signaux qu’après joins. Pas d’hypothèse de gagnant d’une course non ordonnée.
+8. SOURCE/BudgetedEvidence.Tests.cs:588–640 : helpers cross-thread/blocage ont joins/waits bornés et threads background. Ils peuvent échouer sous scheduling lent ; ils ne constituent pas une garantie de retour pour tout produit/Stream hostile. Le timeout externe du futur runner reste nécessaire, comme documenté.
+
+Contre-exemples textuels attaqués, résultats déduits du contrat ET des branches, non exécutés :
+• ControlFiles : 8×4096 puis1 ⇒ charge32768, dernier refus/HOLD8, aucun neuvième Write. À la frontière globale 64×4096, chaque slot est plein : l’octet extra reçoit légitimement SlotCapacityExceeded avant le garde global.
+• buffer8, offset=Int32.MaxValue/count1 (ou offset1/count=Int32.MaxValue) ⇒ InvalidRange avant addition/charge/I/O ; null même count0 n’est pas admis.
+• Stream qui conserve3 octets sur une demande4096 puis jette ⇒ charge4096 maintenue, brut3 conservé, HOLD11 ; aucun retry/remboursement. La fixture source utilise demande10/préfixes0 et3 : même invariant, pas une exécution du cas parent4096.
+• Write7 retenu puis tentative zéro/nonzéro sur même/autre sink ⇒ HOLD10, charge7 seulement, aucun second Write ; l’I/O initial peut finir. S’il jette ensuite, raison10 reste première. OpenSink dupliqué peut également poser HOLD sans annuler la réservation initiale.
+
+Oracle parent : les 12 cas sont compatibles avec contrat+addendum ; somme262144 et frontière64 chunks recalculées indépendamment. Le scénario 2 threads×3 demandes4096 est une BORNE charge/longueur≤8192, pas une promesse de deux succès : le premier chevauchement peut déjà mettre HOLD. Aucun défaut d’attendu établi. Ces JSON ne sont pas un runner ; notamment saturation2×3, partial4096 et invalid-slice→autre-slot ne sont pas chacun une invocation littérale de RunAll. Leur future exécution/couverture doit être déclarée séparément, jamais transformée en 12 PASS ici.
+
+Prérequis minimaux suivants, sous GO parent distinct : requalifier les pins/conditions de la route csc proposée ; compiler explicitement en C#5 avec références gelées et sorties neuves possédées ; utiliser un runner mémoire autorisé avec timeout global/scheduling qualifié ; exécuter et compter réellement RunAll puis les cas parent effectivement matérialisés. Les helpers MemoryStream/threaded restent à qualifier sur le framework pinné. Aucune branche de comportement hypothétique du framework n’a été promue en défaut hôte.
+
+Limites intactes : pas de compilation, import produit, test C#, .NET/Job/API, FS runtime du produit, DB, Git, correction, index ou délégation. Aucun fichier modifié. Cette revue source n’autorise ni exécution ni intégration. Capture avant Read hors contrat du module pur ; globalhost/tous-writers/FixtureMarkers distant, unicité crossprocess, auth/origin, native/full44/L9/L10 restent NOT_PROVEN/non promus. HOLD.
+</details>
+</task-result>

@@ -1,0 +1,51 @@
+{
+  "ea": "0x48F050",
+  "name_label_only": "domain::Battle_SeedRNG",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x48f050",
+      "end": "0x48f0b6",
+      "hex": "8a4c240433c0888828a2d2018b0d28a2d20181e1ff0000008a91f897b6008a0d28a2d201fec188542404880d28a2d2018b4c240481e1ff0000004083f8087cc6a128a2d2018a1528a2d20125ff000000fec2881528a2d2018a80f897b6002407a230a2d201c3"
+    }
+  ],
+  "assembly": "0048F050: mov     cl, [esp+seed]; Battle-local RNG seeder. Initializes 8 lane cursors from one byte seed, advances lane 0 through RANDOM_NUMBER_LIST, then picks BATTLE_RNG_ACTIVE_LANE = RANDOM_NUMBER_LIST[lane0++] & 7.\n0048F054: xor     eax, eax; Logical Exclusive OR\n0048F056: mov     byte ptr BATTLE_RNG_LANE_INDEXES[eax], cl\n0048F05C: mov     ecx, BATTLE_RNG_LANE_INDEXES\n0048F062: and     ecx, 0FFh; Logical AND\n0048F068: mov     dl, ds:RANDOM_NUMBER_LIST[ecx]; (rng & 7) - branch >= vs > (Grok seul)\n0048F06E: mov     cl, byte ptr BATTLE_RNG_LANE_INDEXES\n0048F074: inc     cl; Increment by 1\n0048F076: mov     [esp+seed], dl\n0048F07A: mov     byte ptr BATTLE_RNG_LANE_INDEXES, cl\n0048F080: mov     ecx, dword ptr [esp+seed]\n0048F084: and     ecx, 0FFh; Logical AND\n0048F08A: inc     eax; Increment by 1\n0048F08B: cmp     eax, 8; Compare Two Operands\n0048F08E: jl      short loc_48F056; Jump if Less (SF!=OF)\n0048F090: mov     eax, BATTLE_RNG_LANE_INDEXES\n0048F095: mov     dl, byte ptr BATTLE_RNG_LANE_INDEXES\n0048F09B: and     eax, 0FFh; Logical AND\n0048F0A0: inc     dl; Increment by 1\n0048F0A2: mov     byte ptr BATTLE_RNG_LANE_INDEXES, dl\n0048F0A8: mov     al, ds:RANDOM_NUMBER_LIST[eax]\n0048F0AE: and     al, 7; (rng & 3) + 3 (Grok seul)\n0048F0B0: mov     byte ptr BATTLE_RNG_ACTIVE_LANE, al\n0048F0B5: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x48f050",
+      "end": "0x48f056",
+      "successors": [
+        "0x48f056"
+      ]
+    },
+    {
+      "start": "0x48f056",
+      "end": "0x48f090",
+      "successors": [
+        "0x48f090",
+        "0x48f056"
+      ]
+    },
+    {
+      "start": "0x48f090",
+      "end": "0x48f0b6",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d510",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 24
+}

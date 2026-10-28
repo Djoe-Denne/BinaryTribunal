@@ -1,0 +1,100 @@
+{
+  "session": {
+    "id": "ses_ec0d1b02affeIvtVOYGjNaLIBJ",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "providerID": "openai",
+      "variant": "max"
+    },
+    "directory": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+  },
+  "task": "task_mv9f1srm_002v_u1khxa",
+  "reports": [
+    "l7-initial-qa-review prêt en Plan/read-only. J’ai identifié task_mv9f1srm_002v_u1khxa (review initial L7, pas post-L8/global). HOLD respecté : aucune lecture du code/fixtures ni probe avant votre package exact, checkout/actual-access GO et confirmation native OWN/Model.Ref. Aucun fichier modifié, aucune délégation ; merci d’envoyer le scope/chemin et l’autorisation d’accès.",
+    "ACK ACCÈS / HOLD analyse : paquet V2 lu uniquement pour scope/manifests+hashes. 422/422 pins exacts, 10 936 101B ; receipt fingerprint 750343b91cb74e704a5f67e2ec6dde5e16123d914fa6d4ee0573ea7bac493dcc. Checkout réel exact re-graph-qa-readonly-20261015 ; 238 harness (231HEAD+7nouveaux), raw99, tous SHA exacts ; ledger séparé 8 943 882B b5c9dfa112e53ffde99d7a30ef54a1ce13ae28a4e3c8e14432f085536310e4d4 ; jonction deps readonly pointe vers main/node_modules. 3 différences documentaires présentes (pas runtime) vs paquet : CORRECTIVE_FINAL_GATES_20261014.json attendu6ffb1fb5,checkout930bbdcb ; L7_L8_DEVELOPMENT_GO_20261015.md attendu81b612b4,checkoutba461347 ; MISSION_JOURNAL.md attenducc229c45,checkoutfa68ce2f. Je n’ai lu aucun code/test ni exécuté de test/probe. HOLD jusqu’à GO final et votre précision sur les trois documents (paquet = autorité de lecture ou re-projection parent).",
+    "<task-result>\n<status>completed</status>\n<summary>ACCEPTABLE OFFLINE SCOPÉ : sept nouveaux fichiers QA initiaux, aucun défaut bloquant confirmé ; PARTIAL_POST_L8_PENDING, sans acceptation/intégration parent ni clôture globale L7.</summary>\n<details>\nPÉRIMÈTRE / INTÉGRITÉ\nRevue indépendante des sept fichiers du paquet inputs/L7QA_INITIAL_E03_NATIVE_MAIN_V2, exclusivement docs/contrat pinés + PARENT/REVIEW_SCOPE.md. Runtime lu/exécuté uniquement dans C:/Users/djden/.local/share/opencode/worktree/68ae5f/re-graph-qa-readonly-20261015/tools/ff8-harness. Les trois docs checkout divergents n’ont pas été lus ni reprojetés. Aucun historique simulator reçu, aucun accès inbox/team_results, autre WT source, Git, réseau, LLM, dispatch réel, IDA/live ou DB privée. Zéro source/test/project write.\nAvant/après : 422/422 pins du paquet exacts, 10 936 101B ; receipt fingerprint 750343b91cb74e704a5f67e2ec6dde5e16123d914fa6d4ee0573ea7bac493dcc. Checkout final : 400 pins comparables exacts, dont 238 harness (231 préexistants + 7 nouveaux), raw99 et refs runtime ; trois documents ignorés conformément au GO. Aggregate des sept RECALCULÉ exact : b190378cd9bd2a250029f6e122cc5760092ff5ff500f2e7023e2e1512914bec7. Ledger séparé inchangé : 8 943 882B, b5c9dfa112e53ffde99d7a30ef54a1ce13ae28a4e3c8e14432f085536310e4d4.\n\nCONSTATS CODE / ORACLES\n1. graph-interop-relations.test.ts:11–44,47–91 (préfixe tools/ff8-harness/test/simulator/) exerce vraiment normalize→relations→structure/multiview→planner. Attentes 64/65/129 sites, provenance par observation/shard, sens G1 callee→caller et négatifs metadata/callback DATA/retrait/import non circulaires. Les expectedSites réutilisent un générateur synthétique, pas la projection de production comme oracle.\n2. graph-interop-structure.test.ts:43–76 : PPR 4/7,2/7,1/7 et résidu d’équation explicite ; Q=-1/8/conductance=1 dérivés directement. graph-interop-support.ts:161–176 emploie une fermeture exhaustive bornée, distincte du Tarjan de production. Census/planning compare SCC et fermeture budgétaire, pas seulement un fingerprint auto-calculé (planning.test.ts:7–30,52–69).\n3. structure.test.ts:87–125 + support.ts:55–77 : original bridges-rare hashé et réellement refusé ; dérivé span17 séparé, nouveau snapshot/fingerprint, inverse documentaire complet et non-overlap. Aucun blanchiment de l’anomalie L1 OPEN. Structure:128–162 : raw98/hash/4 quarantaines réellement traversés, PARTIAL et selfLoopsPreserved=false inchangés, planning réellement refusé même sélection zéro.\n4. adoption.test.ts:29–49,88–139 : must/cannot explicites synthétiques, négatif fixture-only, contradiction, copie de receipt rejetée, host résout des octets retenus au lieu d’écho de request.evidence ; claims/révision/attempts et unités actives conservées byte-exact. Aucune autorité native obtenue de ces callbacks.\n5. durability.test.ts:119–234 : vrais Store/GraphStore SQLite, double handle, CAS, fencing, envoi ambigu, absence non suffisante, résultat tardif inéligible et quiescence raccordée à l’inventaire OWN. :236–285 : vrais documents/resultats/artifact bindings/readback/reopen et négatifs SHA/fonction/révision/niveau ; booléen parent seul et révocation ne suffisent pas. SQL utilisé ici = SELECT d’observation, pas fabrication d’autorité.\n\nEXÉCUTIONS INDÉPENDANTES\n- bun run typecheck : EXIT0 (tsc --noEmit, pas incremental/composite).\n- bun test test/simulator/graph-interop-relations.test.ts test/simulator/graph-interop-structure.test.ts test/simulator/graph-interop-adoption.test.ts test/simulator/graph-interop-planning.test.ts test/simulator/graph-interop-durability.test.ts test/benchmarks/graph-interop-scale.test.ts : EXIT0, 60PASS/0FAIL/3 149 assertions, Bun1.4.2, ~5.40s. Le full852/1skip auteur N’EST PAS revendiqué exécuté par moi.\n- Sonde propre sans helpers/oracles auteur : TOUS les 512 graphes dirigés à trois sommets, boucles incluses ; SCC attendues par BFS depuis chaque sommet puis accessibilité mutuelle, comparées au pipeline réel normalize/CC/groups/planner : PASS.\n- Autre PPR fermé : fork 0→1,0→2,1→0 avec dangling personnalisé, d=.5 ; attendu (2/3,1/6,1/6), erreur inférieure à 2e-12, converged : PASS.\n- Adoption effective puis clusterMultiview(previous=partition ADOPTED, witness original) : PASS ; le chemin de l’ancien correctif adopted n’est pas seulement inféré.\n- Sonde OWN G1 positive indépendante : deux fonctions A→B, artefact R synthétique connu déclaré AVANT plan/freeze ; B fait admissions A/B/R→résultats→validation→commit→binding. Commit sans receipt exact laisse A non réservable ; mauvais SHA rejeté ; receipt exact permet réserve A APRÈS REOPEN. Même journal relu identique. Aucun changement du plan frozen, aucune SQL d’autorité ni padding. Admissions réelles 1785/1785/1812B, enveloppe frozen3850B. Une première sonde sans provider host a correctement refusé l’artifact binding (auth) ; fixture conservée, seconde avec provider explicitement synthétique PASS, pas défaut produit.\n- Rerun bench seul EXIT0,6PASS/60assertions. Chaînes N64/256/1024 : E63/255/1023, groupes/unités4/16/64, sparseBytes7353/29169/117536, temps55.48/118.95/398.11ms. Déconnectés : E0, groupes/unités=N, sparseBytes5042/19443/77811,28.40/86.85/341.71ms. Comptages effectivement mesurés, pas prétention CPU/RAM/complexité universelle.\n\nLIMITES À CONSERVER AUX GATES SUIVANTES\n- planning.test.ts:34–49 valide readiness algorithmique avec receipts déclaratifs ; ce n’est pas un scheduler auto événementiel ni une publication durable. Mon positif G1 durable est également lower-layer piloté manuellement, pas intégration L8.\n- durability.test.ts:53–70 emploie des InputBundle minimaux sans fichiers. Les gardes byte-exact réels graph-store.ts:648–649 restent actifs ; les tests n’élargissent/rehashent pas de plan frozen et ne prouvent PAS que les admissions L8 A/B/R complètes, surtout R avec les livrables, tiennent dans l’allocation L5. Le blocker pré-freeze L8 reste entièrement ouvert et hors de cette livraison.\n- providers parent/author, terminaux et publication readback sont explicitement des fixtures locales ; succès du contrat d’API ≠ authentification native, arrêt hôte ou fait scientifique niveau2 réel.\n- Bench: CC + vues structure seules, corpus64/256/1024, pas 10k/100k, comparaison des politiques/ressources, gain lexical/embeddings, makespan ou mémoire. Aucune clôture §17 complet, post-L8, L9/L10, G4 ou native.\n\nARTEFACTS OWN CONSERVÉS, HANDLES FERMÉS\nPréfixe commun C:/Users/djden/AppData/Local/Temp/opencode/ ; chacun ci-dessous contient own.sqlite, sans WAL/SHM restant, SHA256 final vérifié ; aucun delete.\ngraph-interop-j1eetb 245760B 4c78ff164267910c4334caeb04f491879db4fc96ae7bcb98771c459f7d0bdfb1\ngraph-interop-loXcYT 245760B 593b119853b86f68e41b823588db387a93ff3bb28f6d141cd9138cb173b30480\ngraph-interop-xeX1zS 282624B c0c629f23bf5c32d8593df29dd370ed86f19dfb66a073a591babede7f6d99f1a [nom exact : graph-interop-xeX1zS]\ngraph-interop-oaHmCi 274432B 719a5e8fc3c438af7489632040604e7c0a6acb265b9b23b1501f545f1cbdec4d\ngraph-interop-IcbnzT 262144B 0870b77bb2443c5023a33c5cbe91c6cb6069279ac63442ddf537d1076c19e7f0\ngraph-interop-4hzGdL 262144B 3201a42e6a04b271b2cb9ab39c868b4b99ce995a4a81de56fe68d6f44b324090\ngraph-interop-glYOjh 262144B d1f0999c16fad20a720bdcf30ef4ce9b87bfb95a3b1fc17879d810307b2bf400\ngraph-interop-q9p3HL 512000B 8a771cbdeef275688cfefbfeabaf2377c3d2232ffc7028c1e6e3c953e1b2ed51\ngraph-interop-WfPo5T 294912B e745a919f9b54beee8ec7aa3735c1a827513c4d9ea47212bb1bc0a45d586e8d6\ngraph-interop-lQcFs4 294912B 398b0d65ec3954846f8234ef62db593dc40666a2a205686bd2d34774231c6349\ngraph-interop-review-fSBzkP 319488B cecb87a30550757c24760606945a2674cba70acaf85ecbbfe15cfab6424e262a (première sonde auth refusée)\ngraph-interop-review-tHZf1M 319488B 416446371c81d56a1835f7af92ddfaf85ff661a291885391ed372e6c4662c347 (sonde G1 positive)\nDécision d’acceptation/intégration exclusivement parent.\n</details>\n</task-result>"
+  ],
+  "reviewerClosed": true,
+  "verdict": "ACCEPTABLE OFFLINE SCOPED initial QA only",
+  "parentInputPinsExact": 422,
+  "parentRuntimeHarnessRawPinsExact": 337,
+  "parentRuntimeRefsExact": 4,
+  "parentSevenSourceAggregate": "b190378cd9bd2a250029f6e122cc5760092ff5ff500f2e7023e2e1512914bec7",
+  "reviewerDatabases": [
+    {
+      "name": "graph-interop-j1eetb",
+      "bytes": 245760,
+      "sha256": "4c78ff164267910c4334caeb04f491879db4fc96ae7bcb98771c459f7d0bdfb1",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-j1eetb/own.sqlite"
+    },
+    {
+      "name": "graph-interop-loXcYT",
+      "bytes": 245760,
+      "sha256": "593b119853b86f68e41b823588db387a93ff3bb28f6d141cd9138cb173b30480",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-loXcYT/own.sqlite"
+    },
+    {
+      "name": "graph-interop-xeX1zS",
+      "bytes": 282624,
+      "sha256": "c0c629f23bf5c32d8593df29dd370ed86f19dfb66a073a591babede7f6d99f1a",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-xeX1zS/own.sqlite"
+    },
+    {
+      "name": "graph-interop-oaHmCi",
+      "bytes": 274432,
+      "sha256": "719a5e8fc3c438af7489632040604e7c0a6acb265b9b23b1501f545f1cbdec4d",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-oaHmCi/own.sqlite"
+    },
+    {
+      "name": "graph-interop-IcbnzT",
+      "bytes": 262144,
+      "sha256": "0870b77bb2443c5023a33c5cbe91c6cb6069279ac63442ddf537d1076c19e7f0",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-IcbnzT/own.sqlite"
+    },
+    {
+      "name": "graph-interop-4hzGdL",
+      "bytes": 262144,
+      "sha256": "3201a42e6a04b271b2cb9ab39c868b4b99ce995a4a81de56fe68d6f44b324090",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-4hzGdL/own.sqlite"
+    },
+    {
+      "name": "graph-interop-glYOjh",
+      "bytes": 262144,
+      "sha256": "d1f0999c16fad20a720bdcf30ef4ce9b87bfb95a3b1fc17879d810307b2bf400",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-glYOjh/own.sqlite"
+    },
+    {
+      "name": "graph-interop-q9p3HL",
+      "bytes": 512000,
+      "sha256": "8a771cbdeef275688cfefbfeabaf2377c3d2232ffc7028c1e6e3c953e1b2ed51",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-q9p3HL/own.sqlite"
+    },
+    {
+      "name": "graph-interop-WfPo5T",
+      "bytes": 294912,
+      "sha256": "e745a919f9b54beee8ec7aa3735c1a827513c4d9ea47212bb1bc0a45d586e8d6",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-WfPo5T/own.sqlite"
+    },
+    {
+      "name": "graph-interop-lQcFs4",
+      "bytes": 294912,
+      "sha256": "398b0d65ec3954846f8234ef62db593dc40666a2a205686bd2d34774231c6349",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-lQcFs4/own.sqlite"
+    },
+    {
+      "name": "graph-interop-review-fSBzkP",
+      "bytes": 319488,
+      "sha256": "cecb87a30550757c24760606945a2674cba70acaf85ecbbfe15cfab6424e262a",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-review-fSBzkP/own.sqlite"
+    },
+    {
+      "name": "graph-interop-review-tHZf1M",
+      "bytes": 319488,
+      "sha256": "416446371c81d56a1835f7af92ddfaf85ff661a291885391ed372e6c4662c347",
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/graph-interop-review-tHZf1M/own.sqlite"
+    }
+  ],
+  "reviewerDatabaseBytes": 3575808,
+  "postL8AndGlobalL7NotClosed": true,
+  "parentMainTransferNotYetApproved": true
+}

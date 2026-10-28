@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-15T18:03:13.289Z",
+  "query": "Get-CimInstance Win32_Process | Where-Object { $_.Name -in @(\"bun.exe\",\"bunx.exe\",\"bun\",\"bunx\") -and $_.CommandLine -match \" test\" } | Select-Object ProcessId,ParentProcessId,CommandLine | ConvertTo-Json -Compress",
+  "testProcesses": [
+    {
+      "ProcessId": 23932,
+      "ParentProcessId": 46392,
+      "CommandLine": "bun test --preload C:\\Users\\djden\\.config\\opencode\\mcp-windows-hide\\preload.cjs --timeout 60000 test/graph-integration/engine.test.ts"
+    }
+  ],
+  "noProcessStopped": true,
+  "supersedesInitialEscapingAmbiguousQuery": true,
+  "reservationOnlyAfterReadAck": true
+}

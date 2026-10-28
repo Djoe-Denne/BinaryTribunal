@@ -1,0 +1,25 @@
+0050B4AF: push    offset byte_1D99A78
+0050B4B4: mov     g_BattleActionCallbackPtr_C8, eax
+0050B4B9: call    eax ; g_GfActiveCallbackPtr; E2 action_seq call eax: eax=[C4] copie C8; cible MagicList_Logic
+0050B4BB: mov     g_GfSequenceContextCandidateA, eax
+0050B4C0: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050B4C5: add     esp, 4; Add
+0050B4C8: cmp     byte ptr [eax+1], 0FEh; Compare Two Operands
+0050B4CC: jnz     short loc_50B4E6; Jump if Not Zero (ZF=0)
+0050B4CE: xor     ecx, ecx; Logical Exclusive OR
+0050B4D0: xor     edx, edx; Logical Exclusive OR
+0050B4D2: mov     cx, [eax+4]
+0050B4D6: mov     dl, byte_1D28DF7
+0050B4DC: push    ecx
+0050B4DD: push    edx
+0050B4DE: call    pre_computeGFBoost?; Call Procedure
+0050B4E3: add     esp, 8; Add
+0050B4E6: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B4E9: call    BattleActionSequence_WaitBusy; jumptable 0050B2BD case 4
+0050B4EE: test    eax, eax; Logical Compare
+0050B4F0: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B4F6: mov     al, byte_1D99B95
+0050B4FB: cmp     al, 2; Compare Two Operands
+0050B4FD: jz      short loc_50B531; Jump if Zero (ZF=1)
+0050B4FF: test    byte_1D99A47, 4; Logical Compare
+0050B506: jz      short loc_50B531; Jump if Zero (ZF=1)

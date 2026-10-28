@@ -1,0 +1,25 @@
+004900F0: mov     edi, eax
+004900F2: lea     edi, [edi+edi*4]; Load Effective Address
+004900F5: shl     edi, 2; Shift Logical Left
+004900F8: mov     al, K_RINOA_LIMIT_PART_2.ElementAttackPercent[edi]
+004900FE: mov     HIT_ELEMENT_PERCENT, al
+00490103: mov     al, K_RINOA_LIMIT_PART_2.ElementAttack[edi]
+00490109: mov     HIT_ELEMENT, al
+0049010E: mov     al, K_RINOA_LIMIT_PART_2.StatusAttackEnabler[edi]
+00490114: mov     HIT_ATTACK_ENABLER, al
+00490119: mov     ax, K_RINOA_LIMIT_PART_2.Status0[edi]
+00490120: mov     HIT_STATUS_1, ax; | ID     | Description |
+00490126: mov     eax, K_RINOA_LIMIT_PART_2.Status1[edi]
+0049012C: mov     HIT_STATUS_2, eax; | ID         | Description |
+00490131: jmp     loc_490423; Jump
+00490136: mov     edi, ecx; jumptable 0048FF2F cases 17,18,20-22
+00490138: and     edi, 0FFFFh; Logical AND
+0049013E: lea     edi, [edi+edi*2]; Load Effective Address
+00490141: shl     edi, 3; Shift Logical Left
+00490144: mov     al, K_TEMP_CHAR.ElementAttackPercent[edi]
+0049014A: mov     HIT_ELEMENT_PERCENT, al
+0049014F: mov     al, K_TEMP_CHAR.ElementAttack[edi]
+00490155: mov     HIT_ELEMENT, al
+0049015A: mov     al, K_TEMP_CHAR.StatusAttackEnabler[edi]
+00490160: mov     HIT_ATTACK_ENABLER, al
+00490165: mov     ax, K_TEMP_CHAR.Status0[edi]

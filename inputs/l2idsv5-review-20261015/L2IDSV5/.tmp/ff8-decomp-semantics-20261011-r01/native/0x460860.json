@@ -1,0 +1,236 @@
+{
+  "ea": "0x460860",
+  "name_label_only": "Gte_MVMVA",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x460860",
+      "end": "0x460aee",
+      "hex": "83ec085356578b7c24188bcf8bc7c1f90d83e1038bd7c1f81183e0038bf1c1fa0fc1e005c1e60583e203057c92ca0181c69092ca0183fa03752f0fbf15348aca01895424180fbf15388aca01db442418895424180fbf153c8aca01db44241889542418db442418eb300fbf1cd5108aca01895c24180fbf1cd5128aca01db4424180fbf14d5148aca01895c2418db44241889542418db442418f7c700000800741ad9cadc0d0096b600d9cad9c9dc0d0096b600d9c9dc0d0096b6000fbf500489542418db4424180fbf5002d8c989542418db4424180fbf10d8cb895424180fbf780adec1db442418897c24180fbf7808d8cc0fbf5810dec1dc05d893b600dd5c240cdb442418897c24188b54240c0fbf7806d8c9db442418897c241881c2000000808915748aca01d8cbdec1db442418895c24180fbf580ed8cc0fbf400cdec1dc05d893b600dd5c240cdb442418895c24188b7c240c81c700000080d8c9db44241889442418893d788aca01d8cbdec1db442418d8ccdec1dc05d893b600dd5c240c8b44240cddd8ddd8050000008083f903ddd8a37c8aca01741f8b0e8b5e0403d18b4e0803fb03c18915748aca01893d788aca01a37c8aca01be0080ffffc705f892ca01000000003bd6b9ff7f00007d12c705f892ca01000000818935348aca01eb1c3bd17e12c705f892ca0100000081890d348aca01eb068915348aca013bfe7d1a8b15f892ca018935388aca0181ca000080808915f892ca01eb243bf97e1a8b15f892ca01890d388aca0181ca000080808915f892ca01eb06893d388aca013bc67d1ca1f892ca0189353c8aca010d000040005f5ea3f892ca015b83c408c33bc17e1ca1f892ca015f0d000040005ea3f892ca01890d3c8aca015b83c408c35f5ea33c8aca015b83c408c3"
+    }
+  ],
+  "assembly": "00460860: sub     esp, 8; Integer Subtraction\n00460863: push    ebx\n00460864: push    esi\n00460865: push    edi\n00460866: mov     edi, [esp+14h+arg_0]\n0046086A: mov     ecx, edi\n0046086C: mov     eax, edi\n0046086E: sar     ecx, 0Dh; Shift Arithmetic Right\n00460871: and     ecx, 3; Logical AND\n00460874: mov     edx, edi\n00460876: sar     eax, 11h; Shift Arithmetic Right\n00460879: and     eax, 3; Logical AND\n0046087C: mov     esi, ecx\n0046087E: sar     edx, 0Fh; Shift Arithmetic Right\n00460881: shl     eax, 5; Shift Logical Left\n00460884: shl     esi, 5; Shift Logical Left\n00460887: and     edx, 3; Logical AND\n0046088A: add     eax, offset xyz1; Add\n0046088F: add     esi, offset world_CameraWorldSpaceX; Add\n00460895: cmp     edx, 3; Compare Two Operands\n00460898: jnz     short loc_4608C9; Jump if Not Zero (ZF=0)\n0046089A: movsx   edx, word ptr dword_1CA8A34; Move with Sign-Extend\n004608A1: mov     [esp+14h+arg_0], edx\n004608A5: movsx   edx, word ptr dword_1CA8A38; Move with Sign-Extend\n004608AC: fild    [esp+14h+arg_0]; Load Integer\n004608B0: mov     [esp+14h+arg_0], edx\n004608B4: movsx   edx, word ptr dword_1CA8A3C; Move with Sign-Extend\n004608BB: fild    [esp+14h+arg_0]; Load Integer\n004608BF: mov     [esp+14h+arg_0], edx\n004608C3: fild    [esp+14h+arg_0]; Load Integer\n004608C7: jmp     short loc_4608F9; Jump\n004608C9: movsx   ebx, word ptr dword_1CA8A10[edx*8]; Move with Sign-Extend\n004608D1: mov     [esp+14h+arg_0], ebx\n004608D5: movsx   ebx, word ptr dword_1CA8A10+2[edx*8]; Move with Sign-Extend\n004608DD: fild    [esp+14h+arg_0]; Load Integer\n004608E1: movsx   edx, word ptr dword_1CA8A14[edx*8]; Move with Sign-Extend\n004608E9: mov     [esp+14h+arg_0], ebx\n004608ED: fild    [esp+14h+arg_0]; Load Integer\n004608F1: mov     [esp+14h+arg_0], edx\n004608F5: fild    [esp+14h+arg_0]; Load Integer\n004608F9: test    edi, 80000h; Logical Compare\n004608FF: jz      short loc_46091B; Jump if Zero (ZF=1)\n00460901: fxch    st(2); Exchange Registers\n00460903: fmul    ds:dbl_B69600; Multiply Real\n00460909: fxch    st(2); Exchange Registers\n0046090B: fxch    st(1); Exchange Registers\n0046090D: fmul    ds:dbl_B69600; Multiply Real\n00460913: fxch    st(1); Exchange Registers\n00460915: fmul    ds:dbl_B69600; Multiply Real\n0046091B: movsx   edx, word ptr [eax+4]; Move with Sign-Extend\n0046091F: mov     [esp+14h+arg_0], edx\n00460923: fild    [esp+14h+arg_0]; Load Integer\n00460927: movsx   edx, word ptr [eax+2]; Move with Sign-Extend\n0046092B: fmul    st, st(1); Multiply Real\n0046092D: mov     [esp+14h+arg_0], edx\n00460931: fild    [esp+14h+arg_0]; Load Integer\n00460935: movsx   edx, word ptr [eax]; Move with Sign-Extend\n00460938: fmul    st, st(3); Multiply Real\n0046093A: mov     [esp+14h+arg_0], edx\n0046093E: movsx   edi, word ptr [eax+0Ah]; Move with Sign-Extend\n00460942: faddp   st(1), st; Add Real and Pop\n00460944: fild    [esp+14h+arg_0]; Load Integer\n00460948: mov     [esp+14h+arg_0], edi\n0046094C: movsx   edi, word ptr [eax+8]; Move with Sign-Extend\n00460950: fmul    st, st(4); Multiply Real\n00460952: movsx   ebx, word ptr [eax+10h]; Move with Sign-Extend\n00460956: faddp   st(1), st; Add Real and Pop\n00460958: fadd    ds:CONST_4_503601774854144e15; Add Real\n0046095E: fstp    [esp+14h+var_8]; Store Real and Pop\n00460962: fild    [esp+14h+arg_0]; Load Integer\n00460966: mov     [esp+14h+arg_0], edi\n0046096A: mov     edx, dword ptr [esp+14h+var_8]\n0046096E: movsx   edi, word ptr [eax+6]; Move with Sign-Extend\n00460972: fmul    st, st(1); Multiply Real\n00460974: fild    [esp+14h+arg_0]; Load Integer\n00460978: mov     [esp+14h+arg_0], edi\n0046097C: add     edx, 80000000h; Add\n00460982: mov     dword_1CA8A74, edx\n00460988: fmul    st, st(3); Multiply Real\n0046098A: faddp   st(1), st; Add Real and Pop\n0046098C: fild    [esp+14h+arg_0]; Load Integer\n00460990: mov     [esp+14h+arg_0], ebx\n00460994: movsx   ebx, word ptr [eax+0Eh]; Move with Sign-Extend\n00460998: fmul    st, st(4); Multiply Real\n0046099A: movsx   eax, word ptr [eax+0Ch]; Move with Sign-Extend\n0046099E: faddp   st(1), st; Add Real and Pop\n004609A0: fadd    ds:CONST_4_503601774854144e15; Add Real\n004609A6: fstp    [esp+14h+var_8]; Store Real and Pop\n004609AA: fild    [esp+14h+arg_0]; Load Integer\n004609AE: mov     [esp+14h+arg_0], ebx\n004609B2: mov     edi, dword ptr [esp+14h+var_8]\n004609B6: add     edi, 80000000h; Add\n004609BC: fmul    st, st(1); Multiply Real\n004609BE: fild    [esp+14h+arg_0]; Load Integer\n004609C2: mov     [esp+14h+arg_0], eax\n004609C6: mov     dword_1CA8A78, edi\n004609CC: fmul    st, st(3); Multiply Real\n004609CE: faddp   st(1), st; Add Real and Pop\n004609D0: fild    [esp+14h+arg_0]; Load Integer\n004609D4: fmul    st, st(4); Multiply Real\n004609D6: faddp   st(1), st; Add Real and Pop\n004609D8: fadd    ds:CONST_4_503601774854144e15; Add Real\n004609DE: fstp    [esp+14h+var_8]; Store Real and Pop\n004609E2: mov     eax, dword ptr [esp+14h+var_8]\n004609E6: fstp    st; Store Real and Pop\n004609E8: fstp    st; Store Real and Pop\n004609EA: add     eax, 80000000h; Add\n004609EF: cmp     ecx, 3; Compare Two Operands\n004609F2: fstp    st; Store Real and Pop\n004609F4: mov     dword_1CA8A7C, eax\n004609F9: jz      short loc_460A1A; Jump if Zero (ZF=1)\n004609FB: mov     ecx, [esi]\n004609FD: mov     ebx, [esi+4]\n00460A00: add     edx, ecx; Add\n00460A02: mov     ecx, [esi+8]\n00460A05: add     edi, ebx; Add\n00460A07: add     eax, ecx; Add\n00460A09: mov     dword_1CA8A74, edx\n00460A0F: mov     dword_1CA8A78, edi\n00460A15: mov     dword_1CA8A7C, eax\n00460A1A: mov     esi, 0FFFF8000h\n00460A1F: mov     dword_1CA92F8, 0\n00460A29: cmp     edx, esi; Compare Two Operands\n00460A2B: mov     ecx, 7FFFh\n00460A30: jge     short loc_460A44; Jump if Greater or Equal (SF=OF)\n00460A32: mov     dword_1CA92F8, 81000000h\n00460A3C: mov     dword_1CA8A34, esi\n00460A42: jmp     short loc_460A60; Jump\n00460A44: cmp     edx, ecx; Compare Two Operands\n00460A46: jle     short loc_460A5A; Jump if Less or Equal (ZF=1 | SF!=OF)\n00460A48: mov     dword_1CA92F8, 81000000h\n00460A52: mov     dword_1CA8A34, ecx\n00460A58: jmp     short loc_460A60; Jump\n00460A5A: mov     dword_1CA8A34, edx\n00460A60: cmp     edi, esi; Compare Two Operands\n00460A62: jge     short loc_460A7E; Jump if Greater or Equal (SF=OF)\n00460A64: mov     edx, dword_1CA92F8\n00460A6A: mov     dword_1CA8A38, esi\n00460A70: or      edx, 80800000h; Logical Inclusive OR\n00460A76: mov     dword_1CA92F8, edx\n00460A7C: jmp     short loc_460AA2; Jump\n00460A7E: cmp     edi, ecx; Compare Two Operands\n00460A80: jle     short loc_460A9C; Jump if Less or Equal (ZF=1 | SF!=OF)\n00460A82: mov     edx, dword_1CA92F8\n00460A88: mov     dword_1CA8A38, ecx\n00460A8E: or      edx, 80800000h; Logical Inclusive OR\n00460A94: mov     dword_1CA92F8, edx\n00460A9A: jmp     short loc_460AA2; Jump\n00460A9C: mov     dword_1CA8A38, edi\n00460AA2: cmp     eax, esi; Compare Two Operands\n00460AA4: jge     short loc_460AC2; Jump if Greater or Equal (SF=OF)\n00460AA6: mov     eax, dword_1CA92F8\n00460AAB: mov     dword_1CA8A3C, esi\n00460AB1: or      eax, 400000h; Logical Inclusive OR\n00460AB6: pop     edi\n00460AB7: pop     esi\n00460AB8: mov     dword_1CA92F8, eax\n00460ABD: pop     ebx\n00460ABE: add     esp, 8; Add\n00460AC1: retn; Return Near from Procedure\n00460AC2: cmp     eax, ecx; Compare Two Operands\n00460AC4: jle     short loc_460AE2; Jump if Less or Equal (ZF=1 | SF!=OF)\n00460AC6: mov     eax, dword_1CA92F8\n00460ACB: pop     edi\n00460ACC: or      eax, 400000h; Logical Inclusive OR\n00460AD1: pop     esi\n00460AD2: mov     dword_1CA92F8, eax\n00460AD7: mov     dword_1CA8A3C, ecx\n00460ADD: pop     ebx\n00460ADE: add     esp, 8; Add\n00460AE1: retn; Return Near from Procedure\n00460AE2: pop     edi\n00460AE3: pop     esi\n00460AE4: mov     dword_1CA8A3C, eax\n00460AE9: pop     ebx\n00460AEA: add     esp, 8; Add\n00460AED: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x460860",
+      "end": "0x46089a",
+      "successors": [
+        "0x46089a",
+        "0x4608c9"
+      ]
+    },
+    {
+      "start": "0x46089a",
+      "end": "0x4608c9",
+      "successors": [
+        "0x4608f9"
+      ]
+    },
+    {
+      "start": "0x4608c9",
+      "end": "0x4608f9",
+      "successors": [
+        "0x4608f9"
+      ]
+    },
+    {
+      "start": "0x4608f9",
+      "end": "0x460901",
+      "successors": [
+        "0x460901",
+        "0x46091b"
+      ]
+    },
+    {
+      "start": "0x460901",
+      "end": "0x46091b",
+      "successors": [
+        "0x46091b"
+      ]
+    },
+    {
+      "start": "0x46091b",
+      "end": "0x4609fb",
+      "successors": [
+        "0x4609fb",
+        "0x460a1a"
+      ]
+    },
+    {
+      "start": "0x4609fb",
+      "end": "0x460a1a",
+      "successors": [
+        "0x460a1a"
+      ]
+    },
+    {
+      "start": "0x460a1a",
+      "end": "0x460a32",
+      "successors": [
+        "0x460a32",
+        "0x460a44"
+      ]
+    },
+    {
+      "start": "0x460a32",
+      "end": "0x460a44",
+      "successors": [
+        "0x460a60"
+      ]
+    },
+    {
+      "start": "0x460a44",
+      "end": "0x460a48",
+      "successors": [
+        "0x460a48",
+        "0x460a5a"
+      ]
+    },
+    {
+      "start": "0x460a48",
+      "end": "0x460a5a",
+      "successors": [
+        "0x460a60"
+      ]
+    },
+    {
+      "start": "0x460a5a",
+      "end": "0x460a60",
+      "successors": [
+        "0x460a60"
+      ]
+    },
+    {
+      "start": "0x460a60",
+      "end": "0x460a64",
+      "successors": [
+        "0x460a64",
+        "0x460a7e"
+      ]
+    },
+    {
+      "start": "0x460a64",
+      "end": "0x460a7e",
+      "successors": [
+        "0x460aa2"
+      ]
+    },
+    {
+      "start": "0x460a7e",
+      "end": "0x460a82",
+      "successors": [
+        "0x460a82",
+        "0x460a9c"
+      ]
+    },
+    {
+      "start": "0x460a82",
+      "end": "0x460a9c",
+      "successors": [
+        "0x460aa2"
+      ]
+    },
+    {
+      "start": "0x460a9c",
+      "end": "0x460aa2",
+      "successors": [
+        "0x460aa2"
+      ]
+    },
+    {
+      "start": "0x460aa2",
+      "end": "0x460aa6",
+      "successors": [
+        "0x460aa6",
+        "0x460ac2"
+      ]
+    },
+    {
+      "start": "0x460aa6",
+      "end": "0x460ac2",
+      "successors": []
+    },
+    {
+      "start": "0x460ac2",
+      "end": "0x460ac6",
+      "successors": [
+        "0x460ac6",
+        "0x460ae2"
+      ]
+    },
+    {
+      "start": "0x460ac6",
+      "end": "0x460ae2",
+      "successors": []
+    },
+    {
+      "start": "0x460ae2",
+      "end": "0x460aee",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4607d5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4607d0"
+    },
+    {
+      "from": "0x4607e5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4607e0"
+    },
+    {
+      "from": "0x4607f5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4607f0"
+    },
+    {
+      "from": "0x460805",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460800"
+    },
+    {
+      "from": "0x460815",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460810"
+    },
+    {
+      "from": "0x460825",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460820"
+    },
+    {
+      "from": "0x460835",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460830"
+    },
+    {
+      "from": "0x460845",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460840"
+    },
+    {
+      "from": "0x460855",
+      "type": 17,
+      "iscode": true,
+      "function": "0x460850"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 177
+}

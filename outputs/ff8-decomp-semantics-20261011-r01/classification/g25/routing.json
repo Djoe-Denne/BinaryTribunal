@@ -1,0 +1,58 @@
+{
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g25",
+  "status": "DISPATCH_READY",
+  "source": "discover-g25",
+  "source_session_id": "ses_ed41fa60affe5f8tCkylir3CG6",
+  "source_receipt": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g25.source.native.json",
+  "source_receipt_sha256": "e92df4888e2d2e88b550eadcb3705119017a205a47c35027ab0194e351fa99a4",
+  "source_gate": "CHECKPOINT_REQUIRED",
+  "admission_blocked": true,
+  "checkpoint_reason": "Common source report explicitly flags full historical target pseudo-C in idb-sync-2026-10-07/post_state.json:4992. Lead must verify exclusive native boundary before candidate-preview exposure; classifier session is never author fork source.",
+  "compaction": "inputs/ff8-decomp-semantics-20261011-r01/g25/common-compaction.md",
+  "compaction_sha256": "e3933c33c1bf5a6f7e17794f4c7c9c96c3036c1cdd821ce886207b36a202c84f",
+  "dispatches": [
+    {
+      "ea": "0x50AF20",
+      "native_facts": "inputs/ff8-decomp-semantics-20261011-r01/g25/0x50AF20.json",
+      "native_facts_sha256": "fc35e823802bdd598961e9f8721076a558113109f79fdcd1c26e9e570868725e",
+      "native_pe_match": true,
+      "instructions": 38,
+      "basic_blocks": 8,
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g25/0x50AF20.request.json",
+      "request_sha256": "7a5e6229f4251070bdf3b76fb15c10b3d8a95c3c5382bfd8dd628042281a9975",
+      "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g25/0x50AF20.response.json",
+      "response_sha256": "4825ed460f908ee096e11c70710961fa33e963fe41c9d8231a4ae979388eabfb",
+      "assembly_characters": 10997,
+      "complexity": 71,
+      "risk": 41,
+      "risk_source": "native classify uncertainty score (operational proxy, not calibrated probability)",
+      "uncertainty_cause": "external_calls",
+      "tier": "complex",
+      "rationale": "v1 complexity 71 exceeds medium ceiling 65. Existing factual flags include one table-dispatched indirect call with unproven full target inventory and unauthenticated helper signatures; no simple admission even though 38 native instructions.",
+      "structural_flags": ["indirect_call_target_inventory_unproven", "helper_signatures_unproven", "historical_target_candidate_preview_flag"],
+      "source": "discover-g25",
+      "inheritance": "same verified factual explorer checkpoint, independent A/B fresh child branches; never classifier, sibling productions or lead history",
+      "volets": {
+        "c": {
+          "protocol": "2+1",
+          "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/c_a.md"},
+          "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/c_b.md"},
+          "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/c_r.md", "depends_on": ["c.A", "c.B"]}
+        },
+        "semantic": {
+          "protocol": "2+1",
+          "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/semantic_a.md"},
+          "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/semantic_b.md"},
+          "R": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g25/0x50AF20/semantic_r.md", "depends_on": ["semantic.A", "semantic.B"]}
+        }
+      },
+      "parent_gates": ["verify source exclusive checkpoint", "verify actual Model.Ref and variants for every session", "R only after its A+B artifacts", "ASM native supervisor validation; classification is consultative"]
+    }
+  ],
+  "quarantined_eas": [],
+  "oversize_eas": [],
+  "producer_sessions_spawned": false
+}

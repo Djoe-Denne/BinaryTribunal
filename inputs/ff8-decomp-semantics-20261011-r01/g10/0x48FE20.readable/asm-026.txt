@@ -1,0 +1,25 @@
+0049086F: mov     esi, DAMAGE_DEAL; FF mean death ?
+00490875: lea     eax, [ebx+ebx*2]; G09 Attack command_id=1/28: skip if com_file_id 0 or 6; ATTACK_FLAG=0; anim=4; last_attacker_attack_type=0; power/type from K_WEAPON; then ComputeRawDelta; Berserk applies (raw*3)>>1 AFTER post-process at 0x49105A.
+00490878: lea     edi, [ebx+eax*4]; Load Effective Address
+0049087B: shl     edi, 4; Shift Logical Left
+0049087E: mov     al, BATTLE_SLOT_DATA.com_file_id[edi]
+00490884: test    al, al; Logical Compare
+00490886: jz      short loc_4908F2; Jump if Zero (ZF=1)
+00490888: cmp     al, 6; Compare Two Operands
+0049088A: jz      short loc_4908F2; Jump if Zero (ZF=1)
+0049088C: xor     eax, eax; Logical Exclusive OR
+0049088E: mov     ATTACK_FLAG, 0; | ID   | Meaning          |
+00490895: mov     al, byte ptr unk_1D28DF3
+0049089A: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 4; 9: miss
+004908A1: lea     ecx, [eax+eax*2]; Load Effective Address
+004908A4: lea     edx, [eax+ecx*4]; Load Effective Address
+004908A7: lea     eax, ds:0[ebx*8]; Load Effective Address
+004908AE: sub     eax, ebx; Integer Subtraction
+004908B0: shl     edx, 4; Shift Logical Left
+004908B3: lea     ecx, [ebx+eax*4]; Load Effective Address
+004908B6: xor     eax, eax; Logical Exclusive OR
+004908B8: shl     ecx, 4; Shift Logical Left
+004908BB: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[edx], 0
+004908C2: mov     edx, [esp+20h+p_target_slot_id]
+004908C6: mov     al, CURRENT_WEAPON_ID[ecx]
+004908CC: xor     ecx, ecx; Logical Exclusive OR

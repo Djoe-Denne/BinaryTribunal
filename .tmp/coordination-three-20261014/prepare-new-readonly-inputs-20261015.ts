@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',base=root+'/.tmp/re-graph-scheduler/review-20261014',mode=process.argv[2];
+const spec=mode==='budget'?{name:'l8-budget-boundary',stage:'pre',label:'L8_BUDGET_BOUNDARY_EVIDENCE',manifest:'BUDGET_INPUT_MANIFEST.json'}:mode==='qa'?{name:'l7-initial-qa-review',stage:'post',label:'L7QA_INITIAL_E03',manifest:'QA_INPUT_MANIFEST.json'}:null;
+if(!spec)throw Error('Explicit reader mode required');const admission=JSON.parse(readFileSync(phase+'/'+spec.name+'-admission-'+spec.stage+'.json','utf8'));
+const sourceRoot=base+'/'+spec.label,m=JSON.parse(readFileSync(sourceRoot+'/'+spec.manifest,'utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const files=m.files.map((p:any)=>({path:p.path,sha256:p.sha256,kind:p.kind}));
+for(const p of files)if(sha(readFileSync(sourceRoot+'/'+p.path))!==p.sha256)throw Error('Source pin drift '+p.path);
+files.push({path:spec.manifest,sha256:sha(readFileSync(sourceRoot+'/'+spec.manifest)),kind:'manifest'});
+if(!admission.taskId)throw Error('Exact task binding required');
+const req={schemaVersion:1,missionId:'team_mv6tmopg_0000_4urn3c',taskId:admission.taskId,cycle:1,role:'reviewer',blind:false,sourceRoot,targetSessionId:admission.sessionID,destinationRoot:admission.directory.replaceAll('\\','/')+'/inputs/'+spec.label,files};
+writeFileSync(phase+'/'+spec.name+'-preparation-request.json',JSON.stringify(req,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({session:admission.sessionID,files:files.length,destination:req.destinationRoot}));

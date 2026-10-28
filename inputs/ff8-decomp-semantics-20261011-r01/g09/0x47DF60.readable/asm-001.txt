@@ -1,0 +1,24 @@
+0047DF60: xor     eax, eax; Escape transition helper: clears cannot-escape pending, sets BATTLE_ESCAPE_STATE=2, disables pause/AI, clears party SummonGF bit, enqueues UI cleanup, and latches BYTE1(TARGET_SLOT_ID)=1.
+0047DF62: push    esi
+0047DF63: push    edi
+0047DF64: mov     BATTLE_ESCAPE_CANNOT_ESCAPE_PENDING, al; Escape transition helper: clears cannot-escape pending, sets BATTLE_ESCAPE_STATE=2, disables pause/AI, clears party SummonGF bit, enqueues UI cleanup, and latches BYTE1(TARGET_SLOT_ID)=1.
+0047DF69: mov     BATTLE_ESCAPE_STATE, 2
+0047DF70: mov     byte ptr TARGET_SLOT_ID+1, 1
+0047DF77: mov     CAN_BATTLE_BE_PAUSED, al
+0047DF7C: mov     AI_BATTLE_ACTIVE_FLAG, al
+0047DF81: xor     edi, edi; Logical Exclusive OR
+0047DF83: mov     esi, offset BATTLE_SLOT_DATA.status_2; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+0047DF88: push    edi
+0047DF89: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.
+0047DF8E: mov     eax, [esi]
+0047DF90: add     esp, 4; Add
+0047DF93: and     eax, 7FFFFFFFh; Logical AND
+0047DF98: inc     edi; Increment by 1
+0047DF99: mov     [esi], eax
+0047DF9B: add     esi, 0D0h; Add
+0047DFA1: cmp     esi, (offset BATTLE_SLOT_DATA.status_2+270h); 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+0047DFA7: jl      short loc_47DF88; Jump if Less (SF!=OF)
+0047DFA9: call    sub_485050; Call Procedure
+0047DFAE: pop     edi
+0047DFAF: pop     esi
+0047DFB0: retn; Return Near from Procedure

@@ -1,0 +1,25 @@
+0047DDA0: mov     al, BATTLE_RESULT_CODE; G17: post-action callback. Walks slots by attack_sequence_id, enqueues Battle_EnqueueSpecialAction(slot, target_reaction_type, group 0). If type==2 and Death(status_1&1), skip enqueue. Then clear attack_sequence_id and target_reaction_type.
+0047DDA5: push    ebx
+0047DDA6: xor     ebx, ebx; Logical Exclusive OR
+0047DDA8: push    edi
+0047DDA9: cmp     al, bl; Compare Two Operands
+0047DDAB: mov     dword_1D27B00, ebx
+0047DDB1: jnz     loc_47DE5A; Jump if Not Zero (ZF=0)
+0047DDB7: cmp     byte ptr ATTACKER_SLOT_ID_0+1, 1; Compare Two Operands
+0047DDBE: jz      short loc_47DDDC; Jump if Zero (ZF=1)
+0047DDC0: call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure
+0047DDC5: cmp     eax, 0FFh; Compare Two Operands
+0047DDCA: jz      loc_47DE5A; Jump if Zero (ZF=1)
+0047DDD0: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)
+0047DDD5: cmp     eax, 0FFh; Compare Two Operands
+0047DDDA: jz      short loc_47DE5A; Jump if Zero (ZF=1)
+0047DDDC: mov     al, byte ptr ATTACKER_SLOT_ID_0
+0047DDE1: xor     edi, edi; Logical Exclusive OR
+0047DDE3: cmp     al, bl; Compare Two Operands
+0047DDE5: jbe     short loc_47DE5A; Jump if Below or Equal (CF=1 | ZF=1)
+0047DDE7: push    esi
+0047DDE8: xor     ecx, ecx; Logical Exclusive OR
+0047DDEA: mov     eax, offset BATTLE_SLOT_DATA.target_reaction_type
+0047DDEF: xor     edx, edx; Logical Exclusive OR
+0047DDF1: mov     dl, [eax+1]
+0047DDF4: cmp     edx, edi; Compare Two Operands

@@ -1,0 +1,25 @@
+0050DDAC: mov     ecx, eax
+0050DDAE: add     esp, 8; Add
+0050DDB1: mov     [esp+50h+arg_0], ecx
+0050DDB5: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DDBA: xor     eax, eax; jumptable 0050DC8B case 238
+0050DDBC: push    ecx
+0050DDBD: test    esi, esi; Logical Compare
+0050DDBF: setnle  al; Set Byte if Not Less or Equal (ZF=0 & SF=OF)
+0050DDC2: push    eax
+0050DDC3: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3
+0050DDC8: mov     ecx, eax
+0050DDCA: add     esp, 8; Add
+0050DDCD: mov     [esp+50h+arg_0], ecx
+0050DDD1: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DDD6: push    ecx; jumptable 0050DC8B case 239
+0050DDD7: xor     ecx, ecx; Logical Exclusive OR
+0050DDD9: test    esi, esi; Logical Compare
+0050DDDB: setnl   cl; Set Byte if Not Less (SF=OF)
+0050DDDE: push    ecx
+0050DDDF: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3
+0050DDE4: mov     ecx, eax
+0050DDE6: add     esp, 8; Add
+0050DDE9: mov     [esp+50h+arg_0], ecx
+0050DDED: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DDF2: xor     edx, edx; jumptable 0050DC8B case 240

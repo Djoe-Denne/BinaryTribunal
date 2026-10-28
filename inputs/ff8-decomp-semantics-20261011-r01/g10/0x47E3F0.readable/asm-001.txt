@@ -1,0 +1,9 @@
+0047E3F0: mov     eax, [esp+a3]; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+0047E3F4: mov     ecx, dword ptr [esp+a2]
+0047E3F8: mov     edx, dword ptr [esp+a1]
+0047E3FC: push    eax; p_pointer_info_section
+0047E3FD: push    ecx; p_bitmask
+0047E3FE: push    edx; p_some_id
+0047E3FF: call    SomeListManipulation; G14 enqueue: appendAndSetByte then node+2=id, +0=seq, +4=payload; return node+8. id 107 flushes presentation window ]100,120[.
+0047E404: add     esp, 0Ch; Add
+0047E407: retn; Return Near from Procedure

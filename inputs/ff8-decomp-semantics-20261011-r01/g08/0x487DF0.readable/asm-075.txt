@@ -1,0 +1,25 @@
+00489873: mov     dl, K_MAGIC.defaultTarget[ecx*4]
+0048987A: push    edx; target_info
+0048987B: call    domain__BattleTarget_ComputeMaskFromDefaultTarget; Static ABI verified 2026-08-10: ComputeMaskFromDefaultTarget(u8 target_info) maps targetInfo bit0 to 0x4000 (alternate/revive direction) and bit1 to 0x2000 (random reroll control).
+00489880: add     esp, 4; Add
+00489883: or      edi, eax; Logical Inclusive OR
+00489885: jmp     loc_489F9A; Jump
+0048988A: mov     cl, [esi]; AI VM op 0x0D (reserved): reads+discards 1 byte
+0048988C: mov     [esp+74h+opcode_param_1], cl
+00489890: inc     esi; AI VM op 0x19 (reserved): reads+discards 1 byte (LABEL_378)
+00489891: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489896: mov     dl, [esi]; AI VM op 0x0B USE_RANDOM_ABILITY_3: rand%3 of 3 ability idx(3B); 253=skip; ability-table lookup -> commit
+00489898: mov     al, [esi+1]
+0048989B: inc     esi; Increment by 1
+0048989C: mov     [esp+74h+opcode_param_1], dl
+004898A0: inc     esi; Increment by 1
+004898A1: mov     [esp+74h+op_param_2], al
+004898A5: mov     cl, [esi]
+004898A7: inc     esi; Increment by 1
+004898A8: mov     [esp+74h+op_param_3], cl
+004898AC: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+004898B1: and     eax, edi; Logical AND
+004898B3: mov     ecx, 3
+004898B8: cdq; EAX -> EDX:EAX (with sign)
+004898B9: idiv    ecx; Signed Divide
+004898BB: mov     [esp+74h+target_status], dl

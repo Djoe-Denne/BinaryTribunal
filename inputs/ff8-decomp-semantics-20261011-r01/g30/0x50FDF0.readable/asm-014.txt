@@ -1,0 +1,25 @@
+0051028B: mov     ecx, [esp+4Ch+ot_shift]
+0051028F: sar     eax, cl; Shift Arithmetic Right
+00510291: lea     eax, [edx+eax*4]; Load Effective Address
+00510294: push    eax
+00510295: call    OT_InsertPrimitive; Call Procedure
+0051029A: mov     eax, dword_1D99C18
+0051029F: add     esp, 18h; Add
+005102A2: add     eax, 28h ; '('; Add
+005102A5: mov     dword_1D99C18, eax
+005102AA: mov     eax, dword_1D99C1C
+005102AF: mov     ecx, [esp+38h+var_C]
+005102B3: mov     ebp, [esp+38h+ctx]
+005102B7: add     eax, 14h; Add
+005102BA: dec     ecx; Decrement by 1
+005102BB: mov     dword_1D99C1C, eax
+005102C0: mov     [esp+38h+var_C], ecx
+005102C4: jnz     loc_510066; Jump if Not Zero (ZF=0)
+005102CA: xor     ecx, ecx; Logical Exclusive OR
+005102CC: mov     cx, [ebp+0Ch]
+005102D0: test    ecx, ecx; Logical Compare
+005102D2: jz      loc_510475; Jump if Zero (ZF=1)
+005102D8: mov     [esp+38h+var_10], ecx
+005102DC: xor     ecx, ecx; Logical Exclusive OR
+005102DE: xor     edx, edx; Logical Exclusive OR
+005102E0: mov     cx, [eax]

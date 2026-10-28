@@ -1,0 +1,25 @@
+00510391: mov     edx, [ecx+10h]
+00510394: test    ebx, offset unk_FFFFFF; Logical Compare
+0051039A: mov     [esp+38h+var_C], edx
+0051039E: jz      short loc_5103D6; Jump if Zero (ZF=1)
+005103A0: push    6
+005103A2: push    edx
+005103A3: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+005103A8: mov     eax, [ebp+24h]
+005103AB: push    8
+005103AD: push    eax
+005103AE: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+005103B3: call    sub_45F270; Call Procedure
+005103B8: lea     ecx, [esp+48h+var_C]; Load Effective Address
+005103BC: push    16h
+005103BE: push    ecx
+005103BF: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].
+005103C4: mov     eax, dword_1D99C18
+005103C9: mov     ecx, dword_1D99C1C
+005103CF: mov     edx, [esp+50h+var_C]
+005103D3: add     esp, 18h; Add
+005103D6: mov     [eax+4], edx
+005103D9: mov     dword ptr [eax], 7000000h
+005103DF: mov     edx, [ecx+8]
+005103E2: mov     ebx, [esp+38h+packet]
+005103E6: mov     [eax+0Ch], edx

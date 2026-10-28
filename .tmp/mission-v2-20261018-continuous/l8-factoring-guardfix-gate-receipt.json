@@ -1,0 +1,2747 @@
+{
+  "at": "2026-10-19T07:31:20.387Z",
+  "gate": "l8-factoring-guardfix-gate.cjs",
+  "approval": {
+    "schema": "l8-parent-QA-guard-order-adjudication/v1",
+    "verdict": "ACCEPTABLE_GUARD_ORDER_QA_FIX",
+    "candidate": "result_mvexmbr6_000d_rzb3w6",
+    "session": "ses_eacf5ee30ffejyTWqIIl2Ic6Qd",
+    "message": "msg_1530ee172001AneMTRZQdqR85R",
+    "task": "task_mvexez7a_0000_q5zeej",
+    "packetManifestSha256": "93667e0ff8f6e9bcc6be7934268aa92634cb9b1aa10a33cf4be970e09563db83",
+    "testBytes": 68322,
+    "testSha256": "5b8b4e0cc76e4c853d6f16a7982c7aab606664b99e06eee7dc62b70d4274783c",
+    "parentProofSha256": "1adada7021264c7074c933687dd8f06ad32e2c80aeefd939b33f4e269b253f3a",
+    "parentRecheck": {
+      "packetPins": 10,
+      "mainGuards": 268,
+      "priorRedIntact": true
+    },
+    "acceptedDelta": "required-unitId assertion retained explicitly; desired type mismatch added from complete positively checked partitionDoc; one assertion added, no product change",
+    "reviewAfterExplicitAuditGo": true,
+    "noNewRuntimeValidationEstablishedByReview": true,
+    "newParentGateAuthorized": "l8-factoring-guardfix-gate.cjs once-only; tsc first, stages serial ifgreen, owned fixture namespaces/readback and no cleanup",
+    "gateScriptSha256": "3ec2f41dee8906f25d109460cb693d4e2039235358dcdcf9bc056a33e5e2d609",
+    "S1CodeStillHold": true,
+    "noGlobalL8NativeFull44G5G7OrPortabilityPromotion": true,
+    "policyRevision": 2
+  },
+  "proofSha256": "1adada7021264c7074c933687dd8f06ad32e2c80aeefd939b33f4e269b253f3a",
+  "priorRedReceiptSha256": "1f451b4eeb51d49d3530fb0a0c6d5f1701f9fbedf21d8b9ebc0d5a67e8e0a33c",
+  "lease": {
+    "at": "2026-10-19T07:30:01.199Z",
+    "ownerPid": 65020,
+    "scratch": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830",
+    "scope": "typecheck then pure+transport, lineage/planner, one owned legacy-admission DB suite, seven focused fixture suites sequentially if green; not full44/native",
+    "namespaceReservation": {
+      "at": "2026-10-19T07:30:01.198Z",
+      "root": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/temp/opencode",
+      "childPrefix": "l5-admission-budget-",
+      "databaseBasename": "own.db",
+      "kind": "exclusive fresh parent-owned namespace reserved before legacy test creates mkdtemp path; NOT an exact database-path receipt"
+    }
+  },
+  "scratch": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830",
+  "runs": [
+    {
+      "name": "typecheck",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "argv": [
+        "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/tsconfig.json"
+      ],
+      "cwd": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness",
+      "ownedRunnerPid": 20400,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "elapsedMs": 5139,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": null,
+      "fail": null,
+      "assertions": null,
+      "fileCount": null,
+      "skipped": 0,
+      "ok": true
+    },
+    {
+      "name": "pure-transport-numeric",
+      "exe": "C:/Users/djden/.bun/bin/bun.exe",
+      "argv": [
+        "test",
+        "--no-env-file",
+        "--config=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\bunfig.toml",
+        "--max-concurrency",
+        "1",
+        "--timeout",
+        "10000",
+        "./test/graph-phase2/pure-codecs.test.ts",
+        "./test/static-json-schema-number.test.ts",
+        "./test/graph-transport.test.ts"
+      ],
+      "cwd": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/tools/ff8-harness",
+      "ownedRunnerPid": 63056,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "elapsedMs": 1022,
+      "stdoutSha256": "6043908c8d26d62698476b88f737f39d5d3e91008d4155a81730902f5a37479c",
+      "stderrSha256": "1dfda0bbbf26d0a18403e92a2386025587e5c1a0e2e0ac49f45613b1755a54eb",
+      "pass": 91,
+      "fail": 0,
+      "assertions": 1355,
+      "fileCount": 3,
+      "skipped": 0,
+      "expectedPass": 91,
+      "expectedFiles": 3,
+      "ok": true
+    },
+    {
+      "name": "lineage-planner",
+      "exe": "C:/Users/djden/.bun/bin/bun.exe",
+      "argv": [
+        "test",
+        "--no-env-file",
+        "--config=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\bunfig.toml",
+        "--max-concurrency",
+        "1",
+        "--timeout",
+        "15000",
+        "./test/lineage.test.ts",
+        "./test/planner.test.ts"
+      ],
+      "cwd": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/tools/ff8-harness",
+      "ownedRunnerPid": 65472,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "elapsedMs": 10970,
+      "stdoutSha256": "6043908c8d26d62698476b88f737f39d5d3e91008d4155a81730902f5a37479c",
+      "stderrSha256": "4791ec009206a1ce6a78b391ced4ba122b57a3e5e7b38446520e8961e2176e6e",
+      "pass": 139,
+      "fail": 0,
+      "assertions": 14726,
+      "fileCount": 2,
+      "skipped": 0,
+      "expectedPass": null,
+      "expectedFiles": 2,
+      "ok": true
+    },
+    {
+      "name": "admission-budget",
+      "exe": "C:/Users/djden/.bun/bin/bun.exe",
+      "argv": [
+        "test",
+        "--no-env-file",
+        "--config=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\bunfig.toml",
+        "--max-concurrency",
+        "1",
+        "--timeout",
+        "15000",
+        "./test/planner-admission-budget.test.ts"
+      ],
+      "cwd": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/tools/ff8-harness",
+      "ownedRunnerPid": 67512,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "elapsedMs": 243,
+      "stdoutSha256": "7a791ef1622cde7a3cf2276e52a9d0a6c42ad50980250eb58088a6694c83b257",
+      "stderrSha256": "e59a5b0980816f3a0f937868dc596cd8e084bc51efa031ab0803c377318457ef",
+      "pass": 78,
+      "fail": 0,
+      "assertions": 282,
+      "fileCount": 1,
+      "skipped": 0,
+      "expectedPass": null,
+      "expectedFiles": 1,
+      "ok": true
+    },
+    {
+      "name": "focused-regression",
+      "exe": "C:/Users/djden/.bun/bin/bun.exe",
+      "argv": [
+        "test",
+        "--no-env-file",
+        "--config=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\bunfig.toml",
+        "--max-concurrency",
+        "1",
+        "--timeout",
+        "15000",
+        "./test/graph-integration/pipeline.test.ts",
+        "./test/graph-integration/engine.test.ts",
+        "./test/graph-integration/protocol.test.ts",
+        "./test/graph-integration/authority.test.ts",
+        "./test/graph-integration/recovery.test.ts",
+        "./test/graph-integration/cli.test.ts",
+        "./test/graph-integration/body-pause-regressions.test.ts"
+      ],
+      "cwd": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/tools/ff8-harness",
+      "ownedRunnerPid": 41524,
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "elapsedMs": 60086,
+      "stdoutSha256": "d52cb2258a62d427570c1a9767ff526eb789bdd8a0137d2a1490eb74bd7a3c2e",
+      "stderrSha256": "74ecb87be643a0b88c9cb4050ea7733448d03cfc7788222e3f801ff81c401f72",
+      "pass": 107,
+      "fail": 0,
+      "assertions": 714,
+      "fileCount": 7,
+      "skipped": 0,
+      "expectedPass": 107,
+      "expectedFiles": 7,
+      "ok": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "tools/ff8-harness/src/adapter.ts",
+      "bytes": 27495,
+      "sha256": "8da11235b4d54f2e2e1f6f5a6ec7d9b55a7e00df445deff268c187cb7cce3354"
+    },
+    {
+      "path": "tools/ff8-harness/src/bulletin-audit.ts",
+      "bytes": 17631,
+      "sha256": "214c800afa4d9107156c4a9a399a50c4ec060400ce2e50268006bb80795ad52a"
+    },
+    {
+      "path": "tools/ff8-harness/src/capabilities.ts",
+      "bytes": 24750,
+      "sha256": "05cb2155d5b0a543762c87dcacc23adf985f241cbcd7aaa0f768e8135cc66934"
+    },
+    {
+      "path": "tools/ff8-harness/src/cli.ts",
+      "bytes": 8320,
+      "sha256": "815a29c0680bb5fba4e235669554f5238f60f7ec4a4c6cf4af17f8753d7f1b05"
+    },
+    {
+      "path": "tools/ff8-harness/src/client.ts",
+      "bytes": 16526,
+      "sha256": "620c690b1dca3c4f47e9e428d6441df331b1b39c576ebd6545fa74e4d685656d"
+    },
+    {
+      "path": "tools/ff8-harness/src/cluster.ts",
+      "bytes": 67308,
+      "sha256": "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303"
+    },
+    {
+      "path": "tools/ff8-harness/src/domain.ts",
+      "bytes": 15444,
+      "sha256": "3f49fa05a228549ed626b4f269818385fd23f32d7cc600eda84a1cd9cb42dbe7"
+    },
+    {
+      "path": "tools/ff8-harness/src/engine.ts",
+      "bytes": 52444,
+      "sha256": "4b47b126f01388b47907363bd7103eae49db1935805b05d6fbf834eb3d284d94"
+    },
+    {
+      "path": "tools/ff8-harness/src/eventlog.ts",
+      "bytes": 4811,
+      "sha256": "cae6dbfe62394440949f488168346809764353d1d4f02c248eae2725e6cd776d"
+    },
+    {
+      "path": "tools/ff8-harness/src/fixture-publication.ts",
+      "bytes": 4432,
+      "sha256": "ca403d133cfef4bfe313e0628da2c9fe79c278e611932cdeb02c3cb1f2806d92"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-normalize.ts",
+      "bytes": 61066,
+      "sha256": "a4a3677fd5c0d7771522eae137746c4733fc4fc1d20c649c8ecd800528519fe7"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-store.ts",
+      "bytes": 129770,
+      "sha256": "7dd20a9051b99a9324c550c4bb682653bfcdf2d8caa23823394acc454312201f"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph.ts",
+      "bytes": 36515,
+      "sha256": "2da7c8778833097b43f23be3e878b352b7d71fc89d3b9daf0aa5478aad96ef6f"
+    },
+    {
+      "path": "tools/ff8-harness/src/ida-publication.ts",
+      "bytes": 31596,
+      "sha256": "12cd79943ecf4ed316158f8d2acd705cd6a60c327237c909358132978d0d25fb"
+    },
+    {
+      "path": "tools/ff8-harness/src/inputs.ts",
+      "bytes": 5031,
+      "sha256": "1254e1ff84c8887f5e3f5a462a704bbabddf101afcc7bde55f5b90f5b5352157"
+    },
+    {
+      "path": "tools/ff8-harness/src/investigation-groups.ts",
+      "bytes": 18093,
+      "sha256": "cf3201b0e6d6ae5d67afc628a8a59e7ecda2a830a07049a1923001033be38525"
+    },
+    {
+      "path": "tools/ff8-harness/src/l2-pre-review.ts",
+      "bytes": 7272,
+      "sha256": "a00b7ab797598ff829f7aee6cdc938a3c7d67a48c4bbc932fd5da9acf07df63a"
+    },
+    {
+      "path": "tools/ff8-harness/src/lineage.ts",
+      "bytes": 41277,
+      "sha256": "4ebe631cf81211429ccaa08fb41d283f26384339430295ad9d8d6f0612506cb2"
+    },
+    {
+      "path": "tools/ff8-harness/src/mechanical-preparation.ts",
+      "bytes": 12369,
+      "sha256": "028efe5998f2f92af1a9acfc3348c11700ee2fbeb4d3b6aa7db4e4bb0dfd362b"
+    },
+    {
+      "path": "tools/ff8-harness/src/native-publication-rpc.ts",
+      "bytes": 8918,
+      "sha256": "b88662c3bd5a6c02a0989b70587b981088b72bdf6fd121240c9d6ad5704e4a33"
+    },
+    {
+      "path": "tools/ff8-harness/src/planner.ts",
+      "bytes": 68395,
+      "sha256": "af9950061a3f22b13e742b0fa8df119dd6decf77b24657abcb9f42b6e6a7f1ee"
+    },
+    {
+      "path": "tools/ff8-harness/src/pre-review.ts",
+      "bytes": 4224,
+      "sha256": "c14dd7fc169bf46eb36e55b069981cc166ff1266b2a369bb3dd5b9aa55e4f1d1"
+    },
+    {
+      "path": "tools/ff8-harness/src/re-policy.ts",
+      "bytes": 12912,
+      "sha256": "c3714c3120d3e8f87a044ef6857ca40c41900a6c74647d1bfdc6205371dfc365"
+    },
+    {
+      "path": "tools/ff8-harness/src/runtime.ts",
+      "bytes": 4987,
+      "sha256": "0dd87778c5456c119fc4f6a5d0e0edcab7ee3582d2d0dc8cd5d15ab539e19746"
+    },
+    {
+      "path": "tools/ff8-harness/src/scc.ts",
+      "bytes": 5180,
+      "sha256": "564967d8a694c635f1b876480158dd7c08df0700adf1fbdc4c61e61b7a250879"
+    },
+    {
+      "path": "tools/ff8-harness/src/semantic-index.ts",
+      "bytes": 64436,
+      "sha256": "266e9a92b05263f25d3a941bff1990ccd9575ea6c259653e48588be1b1b14624"
+    },
+    {
+      "path": "tools/ff8-harness/src/store.ts",
+      "bytes": 10281,
+      "sha256": "e40958217aa7a170e8968dc214aa3d8d95a5ea2097de39468f5ba2d219dce1fe"
+    },
+    {
+      "path": "tools/ff8-harness/src/structured-result.ts",
+      "bytes": 12804,
+      "sha256": "c8b2ff680d35975a83fabc5a1acb6eb744485bbb6a1965736c8987b189fef132"
+    },
+    {
+      "path": "tools/ff8-harness/src/unit-lease.ts",
+      "bytes": 20439,
+      "sha256": "76cbe27572090f505244f492669ac7555b86a0b472160938a87bea4bbae22d4a"
+    },
+    {
+      "path": "tools/ff8-harness/src/validation.ts",
+      "bytes": 22511,
+      "sha256": "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50"
+    },
+    {
+      "path": "tools/ff8-harness/test/adapter.test.ts",
+      "bytes": 7135,
+      "sha256": "b9958fd630686e1a402f15226c65b8807f2d1c957e6cc50b92a4c547df0915e6"
+    },
+    {
+      "path": "tools/ff8-harness/test/benchmarks/graph-interop-scale.test.ts",
+      "bytes": 2747,
+      "sha256": "921ec877ab7a6611996720df463f9ad4a837309cd382d61bb161c3456913afdb"
+    },
+    {
+      "path": "tools/ff8-harness/test/client.test.ts",
+      "bytes": 7167,
+      "sha256": "3962639ba3f842ea2ba40be0bf6cac9bd5e1be9e20016fd73f0116bc83c6e22a"
+    },
+    {
+      "path": "tools/ff8-harness/test/cluster.test.ts",
+      "bytes": 74383,
+      "sha256": "c05297dfb5a84a9974cbbb50629b8cba267c3fc6124f3d0a13e14b2f40daebb2"
+    },
+    {
+      "path": "tools/ff8-harness/test/cycle-order.test.ts",
+      "bytes": 2442,
+      "sha256": "a907732a4a0488c1aec2c3837bafda9b16a7f12f593bd20dc5b3d14a41054472"
+    },
+    {
+      "path": "tools/ff8-harness/test/engine.test.ts",
+      "bytes": 61601,
+      "sha256": "d297478f21d8ccece3154ed4081af3c80a881d9981df1f88c7329c058b7208ae"
+    },
+    {
+      "path": "tools/ff8-harness/test/eventlog.test.ts",
+      "bytes": 160642,
+      "sha256": "2813cfdae18bef082a8f93bf5c855fa7a151245c60aa8a1f6638f7dba600264e"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/bridges-rare/content.json",
+      "bytes": 12136,
+      "sha256": "69278ee8e28390b623f525774e8fe036231873934fb30ed0e98a2c33353105c4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/bridges-rare/manifest.json",
+      "bytes": 1103,
+      "sha256": "5e6f61463cf34aa0f1de447da3baec6b92e66e72dac742ebb2c97891d69bb7a9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/bridges-rare/reordered.json",
+      "bytes": 12136,
+      "sha256": "a50f84ec81ad48960669b2d00786128a42b43919dcc142ba92dc95027b9235ae"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/bridges-rare/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-defers-consumer/content.json",
+      "bytes": 3030,
+      "sha256": "902e6ecb2ca81b278b1248cd19ee8dac81a7a8ea3d059d1f0124f870a7b0dbdd"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-defers-consumer/manifest.json",
+      "bytes": 1109,
+      "sha256": "c74f6a4f070f145dbfd25ce042484b0b1f8f7e61f4cc2303648792ab15f8f6ce"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-defers-consumer/reordered.json",
+      "bytes": 3030,
+      "sha256": "420bb5564b34dbd65d7c91b745a55151521324bcef2f371b2c6687982aa9e7b9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-defers-consumer/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-omits-callee/content.json",
+      "bytes": 3002,
+      "sha256": "60ee42d20795665a741d63aed437fa370a204811fdd96adf8f2d700106fd12ed"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-omits-callee/manifest.json",
+      "bytes": 1106,
+      "sha256": "d583457852d15b46d87d91ec52f6cbc10e0f974dd658db9884553d7b2fb3d77b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-omits-callee/reordered.json",
+      "bytes": 3002,
+      "sha256": "b9f9b0208b5d237f4a4b8bdd34ff79484577edc32267d14918d6eec8c6273862"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/budget-omits-callee/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/communities-obvious/content.json",
+      "bytes": 10973,
+      "sha256": "fd452804a2c098d68ce4ed18f6dbf5c678af27b221e3f9276005a20c979073e4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/communities-obvious/manifest.json",
+      "bytes": 1110,
+      "sha256": "cb60e340f1d363c45d9629c5f85ed81ce5bf9c29f1d94be24512053c2feba6e1"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/communities-obvious/reordered.json",
+      "bytes": 10973,
+      "sha256": "ee973485af17ece79188675960a40602e9ddceabc9e5b23be79bcad1ffde3c49"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/communities-obvious/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/components-disconnected/content.json",
+      "bytes": 4131,
+      "sha256": "71079dd202b0bbd50a337f0d1466b1bfb87c68396fe8f51e29ff2823ecb20242"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/components-disconnected/manifest.json",
+      "bytes": 1114,
+      "sha256": "80dd4227f466361582f9eeccfed36ad5b35563cf3629de4a9e575c255cd4500b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/components-disconnected/reordered.json",
+      "bytes": 4131,
+      "sha256": "acdff401575361f780d8d9c992788e073f14fbdfc8470979309acc029d6029f4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/components-disconnected/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/cycles-recursion/content.json",
+      "bytes": 6516,
+      "sha256": "e787e99c859f77ea1be54273f163b6c65320382ba7cd5417cf3ca2e2c38091a9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/cycles-recursion/manifest.json",
+      "bytes": 1107,
+      "sha256": "6f9395306f17edad81d71a86c3704f483037912333102ae14f79f7119a824b42"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/cycles-recursion/reordered.json",
+      "bytes": 6516,
+      "sha256": "5ada2c90d5015e2224d872e4b5f3a1a170015e0cb6fbb8b4d947949203223d02"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/cycles-recursion/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-chunks-tails/content.json",
+      "bytes": 5540,
+      "sha256": "dcaf79b23970660ec930f56d233b75580a28f5f45f5717488ba0569b31567501"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-chunks-tails/manifest.json",
+      "bytes": 1107,
+      "sha256": "6db2ea0370795677bb1e1b9b5adba96e359848efc7d61365791bd3303228adc0"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-chunks-tails/reordered.json",
+      "bytes": 5540,
+      "sha256": "834cc5c09eae1f953d7fab6dae26c97555fdfd147d7a339526e9825ed143e784"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-chunks-tails/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-coverage-partial-tails/content.json",
+      "bytes": 3191,
+      "sha256": "b5f5ace60d6e037bb1021177e08df9e2aedff2ac96fbc80ce0c5b96163dbd3c9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-coverage-partial-tails/manifest.json",
+      "bytes": 1117,
+      "sha256": "64503cb8e237286e5099fa360d6a4011ee47ad2d40e3fb6361dbb4c86c1dc167"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-coverage-partial-tails/reordered.json",
+      "bytes": 3191,
+      "sha256": "899c73d09918ee0ce400369edd569683589aea183d350f97b519a98173d1f1fd"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-coverage-partial-tails/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-data-callback-not-call/content.json",
+      "bytes": 7122,
+      "sha256": "3982efd1696451724029483da7193fbf74eb0064e3bc4aafb0e01862fbdf94d4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-data-callback-not-call/manifest.json",
+      "bytes": 1117,
+      "sha256": "db9c69ac1f8413128c4059e0a28e9bf245cdfa88d6b5bf25d7c08348364a7b45"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-data-callback-not-call/reordered.json",
+      "bytes": 7122,
+      "sha256": "4eeb2c4ee5ebd8ec35ffdf917e7fc770d52bd34afc3424ef6bb1db06189a59dd"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-data-callback-not-call/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-idb-pe-quarantine/content.json",
+      "bytes": 8132,
+      "sha256": "35f019b2caf28aa3346507d3309baaa837df27c987d234f8726ebfcf28db7dd2"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-idb-pe-quarantine/manifest.json",
+      "bytes": 1111,
+      "sha256": "8f35a0cd2d2d20a6a9d5e8b834f3fb8234d5ef2972aba13650c901a5f425514e"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-idb-pe-quarantine/reordered.json",
+      "bytes": 8132,
+      "sha256": "2828342c8ad214c172408373563e1b4f719e1c524db400adcbf63bac3cec3b56"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-idb-pe-quarantine/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/content.json",
+      "bytes": 3265,
+      "sha256": "82bc473a5279951bce6d77d40fd1f29390756b5a18c725599a5cc087b00f2d56"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/manifest.json",
+      "bytes": 1458,
+      "sha256": "0a81459895791ea0a8b197f01f62acf25ebc20c5e4d3af4cb81415942bf08bab"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/reordered.json",
+      "bytes": 3265,
+      "sha256": "c11619ee1a16a56b0703c3714cb25910a15362da477ac93268674fce79c5adb2"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/twin-rebased.json",
+      "bytes": 3188,
+      "sha256": "52da6eab7d2e0f752d247f1f70331243ddffc1b7243296c48f0bb4609f1ff397"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/twin-renamed.json",
+      "bytes": 3164,
+      "sha256": "0dd99a4e30b8913451b97b8bae2741084dd69d826864bd1106934f1418b32071"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-identity-rename/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-imports-thunks/content.json",
+      "bytes": 8226,
+      "sha256": "010857160b1eec0509bf9ed3d182d2018b2ea2597174137a5427e2ff90639d41"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-imports-thunks/manifest.json",
+      "bytes": 1109,
+      "sha256": "193f780367937802644d1e31f5e240e4f46eea0c84280af1fe0218fa71f0ba23"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-imports-thunks/reordered.json",
+      "bytes": 8226,
+      "sha256": "c03b9d7f92e6d89b735c134b1f958c4b9ce29ea6d9a2e37c35f54244ebe0ab9e"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-imports-thunks/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-multi-module/content.json",
+      "bytes": 5299,
+      "sha256": "513561269a3ae03630a823365bcc11ef259651f2d4fae5cdf0a7d64ca26ff794"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-multi-module/manifest.json",
+      "bytes": 1107,
+      "sha256": "a3f670579b025d976b3bbd11f52757b0461f2cc39a79d0169262a609a441933c"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-multi-module/reordered.json",
+      "bytes": 5299,
+      "sha256": "d0e027296c586411338d8f8ce1b7b1c85536ca42ee2269eb2307859fd57bc6ed"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-multi-module/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-same-name-different-hash/content.json",
+      "bytes": 5266,
+      "sha256": "a7270fff1f3df1756c5c204569c3841024bc9bcfff0dc4ac2540db2b57f91846"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-same-name-different-hash/manifest.json",
+      "bytes": 1119,
+      "sha256": "fd8929c346b114fcfc17005f259b8d3188ab4958674b201f45c5347054d99c21"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-same-name-different-hash/reordered.json",
+      "bytes": 5266,
+      "sha256": "bb3577e18f6233396f217559397c94ff3df4bd6d6bbd7629f9263453316b3fe0"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-same-name-different-hash/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-self-loop/content.json",
+      "bytes": 4309,
+      "sha256": "0fe3ac5b2d981992df569db199a9c9d95001ea54950c46ca97053f4edff0127f"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-self-loop/manifest.json",
+      "bytes": 1104,
+      "sha256": "af627b861fda6125def49fbcb047d10d73aebc9b36f3676525c61cb2cd6312f8"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-self-loop/reordered.json",
+      "bytes": 4309,
+      "sha256": "c4094c4d808feb2523134a899f588eda8979ecdc230ffd9e6102ef238aaa3e62"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-self-loop/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-unknown-metrics/content.json",
+      "bytes": 3032,
+      "sha256": "261c31eb7130a916d6525ad5820ba28d2c35d8d8e7c549a65131ee5c0d89079c"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-unknown-metrics/manifest.json",
+      "bytes": 1110,
+      "sha256": "df8711f13438e889d782eecdce2da13c25095f894992a5ae8dc936cb256c6453"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-unknown-metrics/reordered.json",
+      "bytes": 3032,
+      "sha256": "0813cbb6874cc543493a84e02a875affe303c5818cea2f3cb35e27886f2fefd3"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/ff8-unknown-metrics/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hub-external-context/content.json",
+      "bytes": 1941,
+      "sha256": "610f0bb68b06d011e8c7af8b38f84c6c217e523e74f8ac2e4a0912ecd647891c"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hub-external-context/manifest.json",
+      "bytes": 1117,
+      "sha256": "d947cd4f5bde7bc0cc2bd6ffa4f8a2912a6292e219ca8a2e8ec5dcec142d43e8"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hub-external-context/reordered.json",
+      "bytes": 1941,
+      "sha256": "4904c429c8a518777f02726bd84e187b65e9114af56f3d1437b63a4e18048259"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hub-external-context/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hubs-utilities/content.json",
+      "bytes": 9855,
+      "sha256": "1e38704f35b7325d9277a7fa6dc13aa0c25d0cdc62ce7b407ed4bdbfaf8893aa"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hubs-utilities/manifest.json",
+      "bytes": 1105,
+      "sha256": "662edb1488b5426b8be836b1f83a909bbbff6836b18c97342259a9de416bed62"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hubs-utilities/reordered.json",
+      "bytes": 9855,
+      "sha256": "c5b5e6ae26bbbc6dfd11d7cdbc37e04dc43e952e4618b14e5a16a3d0b6bcd7f1"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/hubs-utilities/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/indirect-uncertain/content.json",
+      "bytes": 3868,
+      "sha256": "1e3830d78b077e3f7d09f6effcf325cf360ebcf1c2cddd1ba54039319f379f75"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/indirect-uncertain/manifest.json",
+      "bytes": 1109,
+      "sha256": "2d0f65e8a12352b3887003dfba0ac1dca1d0ce214dfcb0753a174d22865591b9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/indirect-uncertain/reordered.json",
+      "bytes": 3868,
+      "sha256": "b8d102ccc66393a373f9aad8f5a179de29b9ff98fe77ce42236c12aa0fb8e018"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/indirect-uncertain/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/isolates/content.json",
+      "bytes": 3057,
+      "sha256": "658b438153ce8ecac1719457792334a3043efe09c1df1f264e511749e31dd1af"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/isolates/manifest.json",
+      "bytes": 1099,
+      "sha256": "03724d8f5d3d7068316e9f5114f7c2dc66371b447f30e5fca927cdfb60776755"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/isolates/reordered.json",
+      "bytes": 3057,
+      "sha256": "229ae2320841983bd29eafd6daf0b94e607683187c481ac22a542d3df6fa907e"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/isolates/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level1/content.json",
+      "bytes": 782,
+      "sha256": "1cbfcc31b0071d1a26c57ecd2baf2d8b384259b343ea3c75a78ecc2cf31501bb"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level1/manifest.json",
+      "bytes": 1118,
+      "sha256": "1e835dc7c2f722831e79c62956a42169a7f0b88293f3644717c93cdd14831b13"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level1/reordered.json",
+      "bytes": 782,
+      "sha256": "2acc76f392dfe6ac01ba226750b9e48f2024bb5e962d576fc7571604dd2badb8"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level1/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level2/content.json",
+      "bytes": 790,
+      "sha256": "86ea22fe3426b6642e41d4771b6feed4a4240bc994bd31f3afb4adb1ec573e50"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level2/manifest.json",
+      "bytes": 1118,
+      "sha256": "e370b8d218c146d88a1d9b048fada4310746478f62b33acf328937d752473816"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level2/reordered.json",
+      "bytes": 790,
+      "sha256": "51d0362d3624b7dc5030b9c05f1f2efa6b1445b75a0c08fad164efa1e33723a9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-commit-level2/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-empty/content.json",
+      "bytes": 325,
+      "sha256": "f7f8b6c2720b1e60de90c8fc39ddae6e0cfb6b98b0ba8117b2bdaf0be95eaf8d"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-empty/manifest.json",
+      "bytes": 1108,
+      "sha256": "fa5471a4ffcef36e9b5b1e383fc53a2a46036264cf7e070cf728f32b156f6c10"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-empty/reordered.json",
+      "bytes": 325,
+      "sha256": "3ae26c8d226891586a6242f6abc8293e7251e27efbf73b86a94afee23336ac04"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-empty/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-new/content.json",
+      "bytes": 694,
+      "sha256": "7f5c6ea5b951970a5459837184d23aae7f9740ca15f4228cd113817db2e4ad91"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-new/manifest.json",
+      "bytes": 1106,
+      "sha256": "5b50adad0c4e18429c41a3778d607b847999578df2d724fbc02a52903642a6fa"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-new/reordered.json",
+      "bytes": 694,
+      "sha256": "1b8b2fe5eb55682277b376f8e117c1da7552078e3c9c7526c54c5093d24de04f"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/knowledge-new/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-merge/content.json",
+      "bytes": 1247,
+      "sha256": "a0ec19192d280a72a7fa161409f413566c6eee8c1679d2e6f572942bb0fb84b7"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-merge/manifest.json",
+      "bytes": 1110,
+      "sha256": "d731bf9ae8434b94c97e5744e37d9b6c71e89699d6fe58284da06a5ef097a978"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-merge/reordered.json",
+      "bytes": 1247,
+      "sha256": "00fd95cfda1f80c6a9aff3708bcf2ecb56a440c04d4215f6cfa84970fd4c5124"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-merge/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-split/content.json",
+      "bytes": 1841,
+      "sha256": "92dde7b1a64d89821c9eacc96daa8f8db889255fa43137422db41ae6565387ba"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-split/manifest.json",
+      "bytes": 1110,
+      "sha256": "351b40b1b2d95ea21c21436963de423c6c28f6d65e17e358626de0093fee61c3"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-split/reordered.json",
+      "bytes": 1841,
+      "sha256": "cc1e3ad3e5efba0b15637d2e8bb2f0a2caa035d1f5157556025fa8a300937d5b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/lineage-split/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/MODULE_HASHES.json",
+      "bytes": 696,
+      "sha256": "c8178508978a3dbe1009fdf03055fe7d4705944a106e3e3681e79c30dc586898"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/near-descriptions-distinct-modules/content.json",
+      "bytes": 5281,
+      "sha256": "9d47267b2592eaf6fd17f7edf6ee07355f9f06ea761b7d2deaad3ee07e33248a"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/near-descriptions-distinct-modules/manifest.json",
+      "bytes": 1125,
+      "sha256": "0d155f4cf9a6bed7bb219f0fb2aa008829ceb149b719674a52b7d883fd0f00c2"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/near-descriptions-distinct-modules/reordered.json",
+      "bytes": 5281,
+      "sha256": "06a80c8f2d06ed5ab44238302a64654b23f173c9505ab4bb2f264f005a114daa"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/near-descriptions-distinct-modules/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-data-as-callee/content.json",
+      "bytes": 4994,
+      "sha256": "904a042b7e50ebcb2a3d2056c70cdbe5e16b2b06671f6b274044b3d64678c280"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-data-as-callee/manifest.json",
+      "bytes": 1114,
+      "sha256": "c41432967405241251534f77ad821bba9dba1bd7ecf933b055479e95d863afff"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-data-as-callee/reordered.json",
+      "bytes": 4994,
+      "sha256": "6ce6bdd290facc7808f61c5ca1a54e944d547a3058e3a91ab556a3cf94dd13af"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-data-as-callee/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-ea-zero/content.json",
+      "bytes": 3015,
+      "sha256": "a7dc361f48f05cbfa67a198dfba61e98abc6f89643b9693c01f1e59e2daf0e08"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-ea-zero/manifest.json",
+      "bytes": 1107,
+      "sha256": "65fd87df0b5055abe0702c7a3970f0b50365c0dbc9865e318050f9bc45717dc4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-ea-zero/reordered.json",
+      "bytes": 3015,
+      "sha256": "086ba0805f07131f2bfff887d8dcbf6110e2dba9aa46b13753b742cb4de87985"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-ea-zero/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-fabricated-callee/content.json",
+      "bytes": 3838,
+      "sha256": "3ccf09f325603a3ec4d271c52f056bf8fd4227ea0104ea7c9a9a43da1127f2db"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-fabricated-callee/manifest.json",
+      "bytes": 1117,
+      "sha256": "9276387aa5efb7c205aa7fb86450c35aaf433d30be9e7fc47634511e885a6c69"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-fabricated-callee/reordered.json",
+      "bytes": 3838,
+      "sha256": "0fbf65d69a9f9fbeda06cc9f92b545f65863212669717f97e73ef82b25d4253b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-fabricated-callee/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-self-loop-stripped/content.json",
+      "bytes": 3049,
+      "sha256": "6e251963f4ed99a1f7caa9517827cbaedfb581dfbf5826bf6c8f36bb21706414"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-self-loop-stripped/manifest.json",
+      "bytes": 1118,
+      "sha256": "1b7c7c008550cd726ff7d1af6983553a6a9a1fa8ba093215df3c98d84d677fc4"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-self-loop-stripped/reordered.json",
+      "bytes": 3049,
+      "sha256": "62bd0b872f3f13de79de39c14c3cc8fca592c58cac22294e8f91c48312567e69"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/negative-self-loop-stripped/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/overlapping-contexts/content.json",
+      "bytes": 860,
+      "sha256": "835b1dfb0a840998711d844e355248b05e9d811766f205c9d9e5520407a28dc7"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/overlapping-contexts/manifest.json",
+      "bytes": 1287,
+      "sha256": "ffa2c69d14fc2cd4d6aab00e6bb3b57b4eb371da08be95c2f3858a09785bbea7"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/overlapping-contexts/peer.json",
+      "bytes": 863,
+      "sha256": "44774c5805bd9bb84a0514f64fe0ce8874116729032b03523a3e087d9655c0d2"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/overlapping-contexts/reordered.json",
+      "bytes": 860,
+      "sha256": "a192b109522ec5991f9dfe4f7178f9ee8ca6f0859d1603c9ca81477b2829d6db"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/overlapping-contexts/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity/content.json",
+      "bytes": 4214,
+      "sha256": "88ed4d16e8e76660619eb936bb0b1d3460b23e9fc7ec5bc97624a2e87d9d4c17"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity/manifest.json",
+      "bytes": 1107,
+      "sha256": "a7fe5e519c0c7243c1cc482dd9c7358eb0c2095d28b7ad106f673dda4492aa3c"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity/reordered.json",
+      "bytes": 4214,
+      "sha256": "8995c294a64ae2a606c93f149efc5b08e608ac589f7b27e8c1f552f9207929ca"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity-group/content.json",
+      "bytes": 853,
+      "sha256": "e964fc0acc4a185026f6c4a7a5a4c2b2eabb9023c2c9ecf7b1a055d9cc2f83cf"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity-group/manifest.json",
+      "bytes": 1123,
+      "sha256": "1dcc24357a62a358825c9aaa69d5b8dadd4eae7cc255496e8e68943bb17aeff9"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity-group/reordered.json",
+      "bytes": 853,
+      "sha256": "c7c4eeb97a5486cf18b00de05cd4f291160cf209e2a7f0695563a7bf90d65684"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/partial-maturity-group/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/plan-scc-cycle/content.json",
+      "bytes": 2531,
+      "sha256": "a98bc46697179d5c5334cfe5389782c165332aa8cdade9b5ac919dec3ff32ff0"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/plan-scc-cycle/manifest.json",
+      "bytes": 1101,
+      "sha256": "7ac8340a058381a1f6044c53d112d86fb8cab4fa2cefcc4f5c7bdeb06510e44b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/plan-scc-cycle/reordered.json",
+      "bytes": 2531,
+      "sha256": "ecfe4355e30737cace6a9bedaf502e25e7d990e389f4750d68f6ba8d8462be5d"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/plan-scc-cycle/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/README.md",
+      "bytes": 656,
+      "sha256": "4a1c9f90bf4ac8a29261b9be7a39b61c33bad2140c8baaaf7964357b081e5071"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/shared-data/content.json",
+      "bytes": 6732,
+      "sha256": "09b2ce91c3d4c2d0499a0e6d376a8ed534ac12c3d44688084f699d9d77dc0eb8"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/shared-data/manifest.json",
+      "bytes": 1102,
+      "sha256": "2ac4667a1f82b85b7fd14ef71a40367072e7a3719e68f662ae5f0741a948ffad"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/shared-data/reordered.json",
+      "bytes": 6732,
+      "sha256": "8a77b558d7459df71b465139bc17c33e6c16a2bedc6368b223f9194a71ca4c56"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/shared-data/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/synonym-descriptions/content.json",
+      "bytes": 5374,
+      "sha256": "d48fec5f05a5e5f305b2db1e74b804ec5fa8d5f69ac82128b75846ba5e2e69db"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/synonym-descriptions/manifest.json",
+      "bytes": 1111,
+      "sha256": "a8ecf18002a04dc6ae6ef1519b71f115b8def9d6e1c70a0a8bc16b96891e6e9a"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/synonym-descriptions/reordered.json",
+      "bytes": 5374,
+      "sha256": "6d77bfaaf95da8ba64774216d84e11fcbc2421ee00ae29a97382d804b5aa0c8b"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/synonym-descriptions/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/utf8-probe/content.json",
+      "bytes": 3111,
+      "sha256": "fe7f3fe3581c5706aa128f23bc6c3a6babb4d1058df0d6be275341fc61a4c835"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/utf8-probe/manifest.json",
+      "bytes": 1155,
+      "sha256": "5401911c1150bfdf8ca0238df9502ecb553aada85104966a6510bfc2a465a904"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/utf8-probe/reordered.json",
+      "bytes": 3111,
+      "sha256": "2a3d09df49af83230d8f7fcc37b423c9a1516fb4032b2d66164fbfe9dc7fd5f5"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/utf8-probe/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-attempt/content.json",
+      "bytes": 670,
+      "sha256": "3b8279278ce4e38072e51f56c153a21170a1b2f3d2b1b20be590c766692d579e"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-attempt/manifest.json",
+      "bytes": 1099,
+      "sha256": "bd5a751e00d4fe780c1468f1471d5e3c341c44734611f72fb73afcdcbc64dcbf"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-attempt/reordered.json",
+      "bytes": 670,
+      "sha256": "e0923a2e627889e2ebcd39efbfda363d59f7092f581492cddbe94d3d81996d02"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-attempt/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-unit-aggregate/content.json",
+      "bytes": 3622,
+      "sha256": "048fd09e2e2fa0379de06e04eff57e5ec5c5e02067db4361a2758d5bfd1a6498"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-unit-aggregate/manifest.json",
+      "bytes": 1100,
+      "sha256": "caeb3fe1ea3ba7d5702757f1113a6c1372899cc706b43444c98ecad60c09ef93"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-unit-aggregate/reordered.json",
+      "bytes": 3622,
+      "sha256": "ca8f5c07ccb2b64a62c2e3c890bfcd5794c57660f134cf61cb28c6eb3f8d9a49"
+    },
+    {
+      "path": "tools/ff8-harness/test/fixtures/graph/work-unit-aggregate/volatile.json",
+      "bytes": 152,
+      "sha256": "f59f6a027b67ad6b2248d35aced48cb8b574f40b864a3bccf536c3e5805f0066"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-contract.test.ts",
+      "bytes": 30201,
+      "sha256": "564b4571451f7d94b039cb89607a6e6b653ecd30545cd748a4a947d9c451be35"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-extract.test.ts",
+      "bytes": 100393,
+      "sha256": "82e1d12a245912c70af2edf4ec0eccc72b11b16ac824919eb0dc6e8285f9fc0f"
+    },
+    {
+      "path": "tools/ff8-harness/test/ida-publication.test.ts",
+      "bytes": 21123,
+      "sha256": "82097ffe935719437a23e63b4a4a546df64ca7fd1aeab50a12dc6549aa411ac6"
+    },
+    {
+      "path": "tools/ff8-harness/test/inputs.test.ts",
+      "bytes": 4738,
+      "sha256": "e184eafc1047df48c5bb731560f22a229f44eefc72b647363a0ac09b4b1e6761"
+    },
+    {
+      "path": "tools/ff8-harness/test/lineage.test.ts",
+      "bytes": 100786,
+      "sha256": "02171587562cd55072037883711f72901c8e9f465294470d2747da7b0c4cb2de"
+    },
+    {
+      "path": "tools/ff8-harness/test/mechanical-preparation.test.ts",
+      "bytes": 7362,
+      "sha256": "db936c0c265482166dcaa907aa9f46cfe688e3ef79baa283d7318678feb56d73"
+    },
+    {
+      "path": "tools/ff8-harness/test/native-canary-budget.test.ts",
+      "bytes": 1078,
+      "sha256": "c564c94b32a8e56a5e0543296897c44e19e401732554ab059b74c235c5abfa5f"
+    },
+    {
+      "path": "tools/ff8-harness/test/native-canary-strict.test.ts",
+      "bytes": 5749,
+      "sha256": "2749d77a4c9ee5559a19d5185d8b8d097610ecb4451e83d53460665de8dff67f"
+    },
+    {
+      "path": "tools/ff8-harness/test/planner-admission-budget.test.ts",
+      "bytes": 39066,
+      "sha256": "8d02cbec8c7cd8a4f3d8d5a766d18716f9a0bcd370f95fcad74509a4cdff3edb"
+    },
+    {
+      "path": "tools/ff8-harness/test/planner.test.ts",
+      "bytes": 80223,
+      "sha256": "6a70750d15b37458baf74b3dd2d9e0742908f2e91067039ae0398e6e520e9181"
+    },
+    {
+      "path": "tools/ff8-harness/test/pre-review.test.ts",
+      "bytes": 1869,
+      "sha256": "ad2d4f241614c61a718447813113e59d9b7601cbca9811fe1c71e12394985ae4"
+    },
+    {
+      "path": "tools/ff8-harness/test/re-policy.test.ts",
+      "bytes": 35704,
+      "sha256": "eb10f4a8e3b682149c30059329872c8b15b5717943ec9dacfaf768bef2b2fd38"
+    },
+    {
+      "path": "tools/ff8-harness/test/readable-projections.test.ts",
+      "bytes": 24036,
+      "sha256": "89f7c34a8e58daa5ab45ebc76336e897c835f068af17089cb883764b005d8e71"
+    },
+    {
+      "path": "tools/ff8-harness/test/runtime.test.ts",
+      "bytes": 5463,
+      "sha256": "01ba882d83ab23bd293bde81673e6a8a5ee6403c24bca83d3e8ec00643cde9ae"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-adoption.test.ts",
+      "bytes": 13297,
+      "sha256": "69976d325199fd682ddfb2d7c581713588534c4f87f8760b4d0218ccb9046a9d"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-durability.test.ts",
+      "bytes": 23362,
+      "sha256": "979fa24c00001e56b087c07c789ec701521cecc4d87128dac8fcd8137e96838f"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-planning.test.ts",
+      "bytes": 7035,
+      "sha256": "4f352b6ae885fb588afd262f7b10a70cdac8c8a5074002aa6615c20bc44c4993"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-relations.test.ts",
+      "bytes": 9091,
+      "sha256": "71e2a44a99c1dfcf3f0f451d83a36a65baccfdce4abd9a5cd2042b768007bf97"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-structure.test.ts",
+      "bytes": 12477,
+      "sha256": "de4d7c53ad1564fcb6ee7e4ed7c1deb93f82c947b8c6930a4d527e0ade18b09c"
+    },
+    {
+      "path": "tools/ff8-harness/test/simulator/graph-interop-support.ts",
+      "bytes": 12665,
+      "sha256": "a8e4c8b2558aadb7a96ab4259e2eb2a166216bf2500788aeb0c633e0228b813c"
+    },
+    {
+      "path": "tools/ff8-harness/test/store.test.ts",
+      "bytes": 3539,
+      "sha256": "2d1dc0cebe57c106b328d907e67b95e0dd08bc74c5361a857ebf2d38559a4c1b"
+    },
+    {
+      "path": "tools/ff8-harness/test/strict-adapter.test.ts",
+      "bytes": 12370,
+      "sha256": "cf43531c41a865331b12ebb94b51f04e18c0dafa78f1776598de8fa1828d29fd"
+    },
+    {
+      "path": "tools/ff8-harness/test/structured-result.test.ts",
+      "bytes": 16591,
+      "sha256": "281019753d40ef7adf694278e3ff8dd1617dc0dbb53f5baa7f72af260c7d1086"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/cluster-partition-v1.schema.json",
+      "bytes": 6730,
+      "sha256": "199d505c44e0551d96ec9fafb9510571f056c13017a5d61bb5d114c2cbc4ee1b"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/graph-snapshot-v1.schema.json",
+      "bytes": 47133,
+      "sha256": "e62f78b47b610e40a701203d4750025161d8ccb787224e650d1fe5b18d7c8bea"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/investigation-group-v1.schema.json",
+      "bytes": 4172,
+      "sha256": "732ca008ddf8e55f807bf0a1e19b77d2245048bfc5d8bf57155cea95598c6ffb"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/knowledge-commit-v1.schema.json",
+      "bytes": 4527,
+      "sha256": "1298b80fbc62553375c20517f58a5a07fb198e4ab946c9e1feac9a0318753761"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/knowledge-delta-v1.schema.json",
+      "bytes": 3957,
+      "sha256": "732ce4729c4b1a08f487b7509167b6f1ea97b89c921fb5c0043c13a40e7bc6d1"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/mission-plan-v1.schema.json",
+      "bytes": 15810,
+      "sha256": "916ce329c1d7a67c3b5eb4affc015e7e4e02abe1ff2bd0acfa431a053e6f097d"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/mission-v1.schema.json",
+      "bytes": 3691,
+      "sha256": "ea34f4e5f9a140c1bdbee6b4b88f99cf7511e56307161f7d1c1aa61e1de2c104"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/re-policy-v1.schema.json",
+      "bytes": 1833,
+      "sha256": "34883bf1f4dd041bbdcf1b6288cb2640168aab8dc2d508ca804888a0dc46920d"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/work-attempt-v1.schema.json",
+      "bytes": 4890,
+      "sha256": "812917f0fd679e0453eed5f08d2f0bc8b3a424adab2d8268f7bc36698d00437b"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/work-unit-v1.schema.json",
+      "bytes": 10218,
+      "sha256": "3762f0507c081520b042e0b8ad28e777c214aebc6ec39a2e6011992259d796e5"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/worker-result-v1.schema.json",
+      "bytes": 3232,
+      "sha256": "b3dc757bcfcfd7dec62a496773efdddba10b3ec7f99636e42b8a214af1875ab9"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/canary-output-policy.ts",
+      "bytes": 4240,
+      "sha256": "57850950b106668107842646c5f9ec7741b2d60d52876f3a6e2b81eaa34176cd"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/configure-fixture.ts",
+      "bytes": 1183,
+      "sha256": "038ec5dc94824ea9c96a31d55770ecd1b4299d5561706cc75cc404249873e93b"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/native-canary.ts",
+      "bytes": 20591,
+      "sha256": "3a23139e170ad2218f5578f22f6c2ae26086d2b3333d867c2a8ea8b1ee9b59e7"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/plan-review.ts",
+      "bytes": 852,
+      "sha256": "2732a32762142c05d23eda34737f19a5a21d2872ea14636a4a9340fac9a4bf9b"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/pre-review.ts",
+      "bytes": 1047,
+      "sha256": "51089367f71741f968c7be81c1233995d3a09bd74e6ef435e0b6a987c932759a"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/prepare-transfer.ts",
+      "bytes": 1554,
+      "sha256": "a177415e6109c65121ed4a1e06806e0203adf5a0bc868f1b7c5664c32fe83fbd"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/probe-bridge.ts",
+      "bytes": 5381,
+      "sha256": "fb1e314dd4c43d10e21f8f16c64d92aea9e308e62c86a2c509afdf2bff478f00"
+    },
+    {
+      "path": "tools/ff8-harness/scripts/role-sharing-offline.test.ts",
+      "bytes": 12892,
+      "sha256": "bcb306430e40de88a7984429adc718123387f7ac259473f2243792ed89479b5d"
+    },
+    {
+      "path": "tools/ff8-harness/package.json",
+      "bytes": 880,
+      "sha256": "33781202f102a3ee570fd1d1a96c6c98fbfa1fa0b69f9fb68f5d6f477f77ea4b"
+    },
+    {
+      "path": "tools/ff8-harness/tsconfig.json",
+      "bytes": 286,
+      "sha256": "0f07f181d84b42f60cf4f29eae08b5c5f71678d3f99ac57d03fa37dde1a6c516"
+    },
+    {
+      "path": "tools/ff8-harness/bun.lock",
+      "bytes": 5734,
+      "sha256": "a7b2cc6eb727b177c440587613175f30055f18eaff41730311438e9bdf6b857d"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-pipeline.ts",
+      "bytes": 10771,
+      "sha256": "b76eda099bf428e3ae78cf28114fe42ecc9a41d9e5a3387f3e80f1534a8378d1"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-adapter.ts",
+      "bytes": 36895,
+      "sha256": "4099bc81c057b69a45aacfe37a99fe0d5a66e3e49505685a5495d2639798807a"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/fixture-driver.ts",
+      "bytes": 22665,
+      "sha256": "d8891e8c150d38a7dfaafe3c78be3ccd64bbfec3eb7d680364af197aa28acefd"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/pipeline.test.ts",
+      "bytes": 7699,
+      "sha256": "7e8389bc5fbcb7b0b0c2163a002493a69c84faa4c6f252210c01c8b983f6a103"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/engine.test.ts",
+      "bytes": 7553,
+      "sha256": "2740e3f8959755341ec806ab76af7d3cd108b524942886d718fc2d2848a920c1"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/protocol.test.ts",
+      "bytes": 2053,
+      "sha256": "b72606f35aa7f97501c0426ecb5ed7781f164416385218975db5cf64c9ecbade"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/authority.test.ts",
+      "bytes": 10202,
+      "sha256": "53f3b1e470d5b997223cf117e8f1ca9f20efcc7b4bfb5898ea1e2c3afd76a670"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/recovery.test.ts",
+      "bytes": 23509,
+      "sha256": "560be0d42e87e72a73b68e39df99a8b2c3bab146ab61008e4766aa0ef5d3477e"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/cli.test.ts",
+      "bytes": 6166,
+      "sha256": "41e610cf77aee30ac5c3052b77e3721aec22846171bcd24ff4066a051ade56be"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-engine.ts",
+      "bytes": 54464,
+      "sha256": "1b305b78c104db94f98858f6013d955959b4797bbc894a1529efa20ee16da554"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-integration/body-pause-regressions.test.ts",
+      "bytes": 39398,
+      "sha256": "0f7cb296c246f47ba827d561e0ab75f2e510b1f2f6d348bb1957695443b5a7ff"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/l8-prepared-graph-v3.schema.json",
+      "bytes": 104742,
+      "sha256": "fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9"
+    },
+    {
+      "path": "tools/ff8-harness/schemas/l8-partition-adoption-v1.schema.json",
+      "bytes": 12396,
+      "sha256": "c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e"
+    },
+    {
+      "path": "tools/ff8-harness/test/static-json-schema-number.test.ts",
+      "bytes": 2356,
+      "sha256": "7eb6efbf420e250f2aef165af8437758cd4536e6196e5b3fd7b4c8b6991a1116"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-transport.ts",
+      "bytes": 22680,
+      "sha256": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-transport.test.ts",
+      "bytes": 37615,
+      "sha256": "08d43c6f97763bff4d55c179494619468d57deee323318de05e4d615e965724b"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-persistence-errors.ts",
+      "bytes": 469,
+      "sha256": "5c61d9416b2b52debb2422134c19e857a3f5cf32b25d8c5189f7a5da6adeef70"
+    },
+    {
+      "path": "tools/ff8-harness/src/graph-pure-codecs.ts",
+      "bytes": 46607,
+      "sha256": "7e618cf57373a79ac5b7aad384ef80f020876fa69a4c4d96dae394533481d5cf"
+    },
+    {
+      "path": "tools/ff8-harness/src/lineage-pure-codecs.ts",
+      "bytes": 29225,
+      "sha256": "48880953cbd4a3cdb0becf9d360dd964fcbedf30f72b379cdff72665cf3f5bbf"
+    },
+    {
+      "path": "tools/ff8-harness/src/semantic-config-codec.ts",
+      "bytes": 3810,
+      "sha256": "3d6880adb58fbb93532ac3c62e35a63e948f76e853f45254b10ccdc8c201b3c4"
+    },
+    {
+      "path": "tools/ff8-harness/test/graph-phase2/pure-codecs.test.ts",
+      "bytes": 68322,
+      "sha256": "5b8b4e0cc76e4c853d6f16a7982c7aab606664b99e06eee7dc62b70d4274783c"
+    }
+  ],
+  "toolFiles": [
+    {
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "sha256": "f13ac3ca23248dc389507e8fe38c34489ab7edb3e6d6700eb6da6a0b7e128eaf"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/bin/tsc",
+      "sha256": "8d5fa5bd883fec0979fc2004f1fe1d99aef40570155d550eadc0b03b55513bf0"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/lib/tsc.js",
+      "sha256": "2cffde0b8c6760dfb0b5b0382bbb7e00ba6a8b2d981b9205b256a700a481d983"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/lib/_tsc.js",
+      "sha256": "e8f349eabd48486bdb2bf9dc1a00c89d58297270c54b745838879e2859194419"
+    }
+  ],
+  "bun": {
+    "path": "C:/Users/djden/.bun/bin/bun.exe",
+    "bytes": 86096984,
+    "sha256": "15277c59ccd6c6c20f8dc9716c2b59c1776320d606b6a8658f70be8799519ca4"
+  },
+  "namespaceReservation": {
+    "at": "2026-10-19T07:30:01.198Z",
+    "root": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/temp/opencode",
+    "childPrefix": "l5-admission-budget-",
+    "databaseBasename": "own.db",
+    "kind": "exclusive fresh parent-owned namespace reserved before legacy test creates mkdtemp path; NOT an exact database-path receipt"
+  },
+  "legacyFiles": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\temp\\opencode\\l5-admission-budget-wYeTAT\\own.db",
+      "bytes": 385024,
+      "sha256": "6bee00a57fcdd91972a8ab955fb28cd4434e02a91f7ea8a9c8b28ff289015c6e"
+    }
+  ],
+  "legacyDatabases": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\temp\\opencode\\l5-admission-budget-wYeTAT\\own.db",
+      "bytes": 385024,
+      "sha256": "6bee00a57fcdd91972a8ab955fb28cd4434e02a91f7ea8a9c8b28ff289015c6e"
+    }
+  ],
+  "legacyClosureLimit": "legacy test finally close plus child-exit readback and observed absence of sidecars; no kernel/native qualification claimed",
+  "registry": {
+    "path": "C:/Users/djden/AppData/Local/Temp/opencode/L8-FACTORING-GUARDFIX-1792395000830/.tmp/L8_PHASE_A_V2/focused-fixtures.jsonl",
+    "rows": 274,
+    "sha256": "f3ae3b9502ae69df2770e68133fcc3abb10640e38fda78c0efdbf9c987e9b37a",
+    "reserved": 178
+  },
+  "databases": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-aoTLkD\\own.db",
+      "bytes": 483328,
+      "sha256": "bca0954fc5508d3676548b0f5605499d22d8a1a834d58c935f530238435f9c3a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-aoTLkD\\fixture-pin-c82e8ca6feac0e11ec4b52398545b20f9984d5bd3889c6d8e46c1649fffb5a73.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-iCEN0O\\own.db",
+      "bytes": 704512,
+      "sha256": "f15b1cf7e4425dd8a1ee66388deb80db790aa35256e4fd00b6f6c38ccfa4c65c",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-iCEN0O\\fixture-pin-a8b690fef95d1bf67cb29d2e0174a49aa082796295b98164b46345bc42b48f19.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-AXa1Gf\\own.db",
+      "bytes": 1146880,
+      "sha256": "9d9f77ce1ffeeabec8dab22d71cd9f3fedb5f9631dc89572b9343cabe9d350bb",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-AXa1Gf\\fixture-pin-08ab360d3949372282e00c3caad87ff60aa5e0b4753a866d3b32fbba9bbcf59a.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5RgJzx\\own.db",
+      "bytes": 712704,
+      "sha256": "4257b32d58ddb2b4be4534cbaa947458f9c2bc590faa20666971415470fc3f64",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5RgJzx\\fixture-pin-ec58d01d0fb717e69eae1e654400b4a608902e4faa97de00c9d88acc2555d9d8.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bRQTwt\\own.db",
+      "bytes": 462848,
+      "sha256": "de9e4504d0a299790307d52cf52cb1e723a650c546446ccd2fad44a804a14c51",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bRQTwt\\fixture-pin-73f921d71f8ff41c7744937254dc48c69968a055e637b5117e8426bd3168532c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Qxww4p\\own.db",
+      "bytes": 483328,
+      "sha256": "1607415d4f3761d637217096fc2d12fc14d4bb3b8f6a40faf67c90b6ebbc77d1",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Qxww4p\\fixture-pin-693a281460313a4c53ca35209b86782d53408d947e4f10b7a4dfe03ad44f0b8a.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vtMO9F\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vtMO9F\\fixture-pin-6c4ceb6a94fc95c107ef94c9ff324330a21c7e4c7ef67c3e4e1263aabc744770.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CBdny0\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CBdny0\\fixture-pin-ae1cdee5021a2e7b0ee6d8ee1236fde9020ed18eb9c1bc7763691c770bd7bf69.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PjUb9o\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PjUb9o\\fixture-pin-5d119837df1056d3d524e262e9a069ea05fc1ffc830ff2f9f9d4842c20643528.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-qTKiaT\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-qTKiaT\\fixture-pin-9b89b4e64e8d8b167e497c53f0eeb7f8ecd9956f40503660e55ca9af6a76be7e.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-MMVbpZ\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-MMVbpZ\\fixture-pin-9f09a344b100c9f3608fd7986562ed6a13f46d80fedcd885f88124c7ca6f6a78.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-C9FQHT\\own.db",
+      "bytes": 36864,
+      "sha256": "2fa40744051e4e70ce04f3c224d31a6d622ec47820c1e4e4ac4d7a967caaae17",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-C9FQHT\\fixture-pin-fc3ed2236ecb0deeadaf47e70b85254bf4d410480ba3b60a0ee9363f0665d700.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-fqZqdI\\own.db",
+      "bytes": 278528,
+      "sha256": "46a95d2b3ae8734e5048a7da059490394ca83973ae2e630d6523533f782482b0",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-fqZqdI\\fixture-pin-da9b4472efe848961d5cb0226847ff627828030ef980ac5fffa327f6d9a5aded.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7AgdTS\\own.db",
+      "bytes": 462848,
+      "sha256": "97fd821cf86afc567f775ddc2926b65e9e980718152e000784513c6a11d07654",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7AgdTS\\fixture-pin-5c04cbef00bd865199050a0ea30a48c40343f2c49e30b6e1922ca153dfd9dfcd.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-71sTEG\\own.db",
+      "bytes": 462848,
+      "sha256": "0bc190248a9a457d14063b041d4218413c9036fc0f17616f0bf09665f90f0d7c",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-71sTEG\\fixture-pin-821b18bac2ed86298c36b2db8b69b12f3c5fc0a8c6b03b233e07edced1bce117.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vNdkJD\\own.db",
+      "bytes": 528384,
+      "sha256": "e1558ed0401a08e1f47c5b54fc85e4ad96374342d5adbf15b26937d49c16a28c",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vNdkJD\\fixture-pin-7bc8fe6b6a357067c3d0bb01b7a9ebebfd5e0947e3864b6c851c4ab6d48e2ca6.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4mGkbp\\own.db",
+      "bytes": 483328,
+      "sha256": "1f7ca301ec239bb8064a37f1396415eacb89509f6a22a702717e979350ee0495",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4mGkbp\\fixture-pin-2695b1bbfbff9a6e1b4e8407682ead290a3949e0a83df9122113828138b45d94.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-r71HgJ\\own.db",
+      "bytes": 258048,
+      "sha256": "1eb497ce68afa597172ff3ee6368fa4f87cbabe207b97167a9835fa502ffa1a9",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-r71HgJ\\fixture-pin-7865cf64a02d45c6665186ecefc482646f63cfb1fedc377fb5d2cec1a4cfd8da.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VBJP95\\own.db",
+      "bytes": 278528,
+      "sha256": "aba00f68e54ac0c31deed3449ec86ddea131a09dba57feb859ffc8f9a1f4fbf6",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VBJP95\\fixture-pin-7f5aa813fd3496fe229e73631b7a7b33c7a01f1daac0ae84b22463ab0e3d824c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bNVrRD\\own.db",
+      "bytes": 278528,
+      "sha256": "53d22c7695e7e759035a2f346f2509e9eb4344f6d6bd243b69c7834dad7a7bab",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bNVrRD\\fixture-pin-8dcf9f0fae3f79c7774a0c7a75b748383b4f512a7d551ae21ace100860215d93.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-busX79\\own.db",
+      "bytes": 294912,
+      "sha256": "4823830b86efd9223e599431054d810952463b192d267e0ce756349eda13a7c5",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-busX79\\fixture-pin-1e379b2c0ab4c7be4c25148d931cdf395d3629cf3fa063969bbf7b71596f90d3.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-JqqfpH\\own.db",
+      "bytes": 294912,
+      "sha256": "fdbc8f77982b18efd10e00b84d80095a6ae8d9b12ad0a5cf15fdce637a826900",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-JqqfpH\\fixture-pin-59196fbcaefaa2f70f74634db179ec41e8767c899f800c2bb792aaf8f6f9f522.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9fBBGJ\\own.db",
+      "bytes": 278528,
+      "sha256": "44d6232f3c3dc2781d3dce5136183b3cd9469bc1f2ce14a4bcbfe1d1256727e3",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9fBBGJ\\fixture-pin-98d411819e83f7452efe4e4e9e5bf58ba7409ecc9ecd96dae1d177c63477b70f.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-d7l3Nb\\own.db",
+      "bytes": 278528,
+      "sha256": "8292cd165adf84ebf70be8abc980ebcb7d997b9daee87a0673b85afcbaef3d0d",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-d7l3Nb\\fixture-pin-929cedb570b03c55abbfed29bdc3fbd6a571356a433ee7d9d1b9bbf406a77934.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g325mg\\own.db",
+      "bytes": 278528,
+      "sha256": "157bb03655d6a42a1b7d2281104e50d67e2c26ca1422e56cb6ad79b3d3b6696e",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g325mg\\fixture-pin-63eea36378349b53a9174bfa5d53b06fbf297b73eb616b60e30a55c2b10d9f1b.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5QXXfk\\own.db",
+      "bytes": 278528,
+      "sha256": "f4c127c77258e06c203ff1ddc6ddf6e845ff00fc4f33a64d47fd4bd3d386ceda",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5QXXfk\\fixture-pin-34c3534d6579cf38b68cc037395671cfb6af5516ae8d2aae2ca1a3674af2b732.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jeWr7n\\own.db",
+      "bytes": 294912,
+      "sha256": "adcd3c1e2dbfd42e2646962a69878885a1948296cde88230a7e108715591eae3",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jeWr7n\\fixture-pin-eaa13adf911f0f8906efd5895fc09907112084d93435f6353a0758599a2f505c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4MhHfv\\own.db",
+      "bytes": 299008,
+      "sha256": "9df2162999a71791f631d2676b4f98422e116d52a45bfa61834804ff31e89f36",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4MhHfv\\fixture-pin-e572c9f7ef45fcec183dc766abad92845e326935366fe030b3a64b91050e36a5.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-lf2pIL\\own.db",
+      "bytes": 294912,
+      "sha256": "05641ca0a8a4de332428008dbc5f28ddc7ab462ef4a4d316690facf0c07938b7",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-lf2pIL\\fixture-pin-f90bd0833228c3c978db5382d99a5e9cdba67f68b7958a1e863a42e6e80d3036.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0I9U0U\\own.db",
+      "bytes": 294912,
+      "sha256": "11bfe73a66326696164cffe64e077906c639da59eb5e46f0600ab3fab9035aac",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0I9U0U\\fixture-pin-630c1a8658e874d56cdad7a54f62d67170651a7ffafaadfdd762e62feac0e458.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Za2IR8\\own.db",
+      "bytes": 294912,
+      "sha256": "5b40c20cdd3eca5b5d65bb507c9b4261214ce065d7757e2031a2da65280cffbd",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Za2IR8\\fixture-pin-48d811769e95916ec9e37d0bec6f1d5f748de783e0bd96b3873fb947faf49982.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VSMBQx\\own.db",
+      "bytes": 274432,
+      "sha256": "9020a9a9f561a4b922a67bbc8323572bfdcad8dfa90524c6918b07fd1f2f3ef3",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VSMBQx\\fixture-pin-559145dcf1ff39f108bd5e492a63bfcace517621c3d7f650afc226316f5a06b4.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KSCy2U\\own.db",
+      "bytes": 274432,
+      "sha256": "d08cc7fb8101d9b51d069272fe49e38d2c34f83759cacd7ac17fce85243a439f",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KSCy2U\\fixture-pin-0f4cd1a1a0fc7267587c4df4d3fd5afc53a66f8a54a4d36221a3cebfa9847a36.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-X7LYhb\\own.db",
+      "bytes": 245760,
+      "sha256": "87e17fda7c63fedd57329230ac63b8eccf330929d7b2296fd8975ff06f76f304",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-X7LYhb\\fixture-pin-8f0da29a4a1601de27b3c990f6f815244d2900026caf9d278cb85586aa1795d2.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WjZqdZ\\own.db",
+      "bytes": 483328,
+      "sha256": "1e915529d6d04c62f89d4eb95dcd36a9b08f4acc647c32b90d2b84aaa48b01cb",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WjZqdZ\\fixture-pin-7f73169943b5a5de043f625758af611695f98552f822f2b0fd7aeb94f686a3f2.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-cdcifX\\own.db",
+      "bytes": 483328,
+      "sha256": "86427a48351443b7942dfb8e2c2f8c53ca9ef7c86d708e4610652ead6d3f4262",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-cdcifX\\fixture-pin-37b1a58d4c99b7ccdde56fe0a962ac9f26f905499fe0dd9ef9fada118be1cda8.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ph6WeS\\own.db",
+      "bytes": 483328,
+      "sha256": "4226d26d0af190e7dc87e38b19eeb7ccd2b17efccf55278a740946f5c7098a26",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ph6WeS\\fixture-pin-c2db12c1cfc8cf1cf1ad3eab998f09ee025506a14b5116610b439434df02d611.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-gVPdzB\\own.db",
+      "bytes": 483328,
+      "sha256": "f0200ddb0749adce31584e6f9c1232e0045394dac28171154fdd4573876e6d17",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-gVPdzB\\fixture-pin-1648bdc9dc135fb0e359d597c68988fc772ab49cbbd9b62e2033f05e25fd7edb.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3QHV1\\own.db",
+      "bytes": 483328,
+      "sha256": "57134e398b9fd4204fe70b9f0b09a276455f503622f9aefbf51e4bbfe70f01ca",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3QHV1\\fixture-pin-a82c450135f3f50f7dc99aa1b464fe97c0ba9770d9569ddf9342fced71ec2df3.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-BUwkJ2\\own.db",
+      "bytes": 483328,
+      "sha256": "91c94c8ce0563ba55f4b1b90dfce336891fe248eccfd4d072f725695a57f2a99",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-BUwkJ2\\fixture-pin-5c2277845eb61ab65da6585699063c571a5c05bac52b2783a972f8f4993b6a8c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ECFxVT\\own.db",
+      "bytes": 487424,
+      "sha256": "73597a3dd1f15fd9f6f0bbd30a7cb9aeea9266633164628b95a7aade77ab8f2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ECFxVT\\fixture-pin-7280f6ec0cccc2150e6974758269ba5884ad96472768a942fbaf19ff9b385533.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uWxYAW\\own.db",
+      "bytes": 303104,
+      "sha256": "0402e04dc01e2d74a2633403e879908071e5a06b803a0d8ca5781155822d699d",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uWxYAW\\fixture-pin-8ff259fa07e4c6596e8c7bff9339b8e8f335bba11e8bb99908d961dbc4841cf4.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PZorNt\\own.db",
+      "bytes": 327680,
+      "sha256": "bf2dfc78734bf6a2f8e78c166969ccd03c59280fc9c8801853a41fe9e165e818",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PZorNt\\fixture-pin-349fdeb88288db33c4ab7b703587f4f7dd70ac1606f0a9c56c6d838d57e26af4.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NetVXP\\own.db",
+      "bytes": 487424,
+      "sha256": "a346451404289570ad288abd08da5538fa099f84dba5a7682dbd35cedbe3a365",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NetVXP\\fixture-pin-7e07c6f9c35cc2ec75b99461a28bddc0ef47e847cd6299a86c63fd842fa95fc7.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9Pyyq4\\own.db",
+      "bytes": 344064,
+      "sha256": "b733a2e838c814c2522dd56ff0fef65f6eb054c2e77188f2208ed741686bf71d",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9Pyyq4\\fixture-pin-d0187c86b75cdb0a783ad4851dda79799934af0683c79cdecfd691046da0ff13.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UORUdx\\own.db",
+      "bytes": 323584,
+      "sha256": "8ef1cde2d4fd9bc8a8d49e774fecb4f7b1e9f6b4c07d71f3cacaf2bb4beed83d",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UORUdx\\fixture-pin-046ba4c03e12563f2241817e4df9756e09f5eb3179c4eee91fe032ef04b213cf.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-f05GnD\\own.db",
+      "bytes": 36864,
+      "sha256": "c71d4e1be0aa31ab4b163754331b52de10765499a561eab13079046b1e2df2c5",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-f05GnD\\fixture-pin-497cfe1664c1b5b4330198ddffd670c0fe1b1fdbf2d7fe01eb98727c9b14d5eb.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Hzph2j\\own.db",
+      "bytes": 36864,
+      "sha256": "027cc0c4dd4843e22c509f1143cc94630c706fac1a2170891c1ecaecf159ab8a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Hzph2j\\fixture-pin-82bcd03bf47cd1ee5f584754a6b27715357dd5a744aa228b51b5766a3c62765d.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oOJVBQ\\own.db",
+      "bytes": 36864,
+      "sha256": "6636ba69f180a4c9e22a48743f24fcf84185c4a8bdea6bca97bfcf9cc79b5381",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oOJVBQ\\fixture-pin-5f357a04e8f9f311088fbcb5efb1448c79fde304b9aabe6f1a9aa14887cc2c79.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-8dZfbu\\own.db",
+      "bytes": 53248,
+      "sha256": "fabeff09d06a0379e414cf534d4089d4aafebde47fbeb735ab6ec7823f1f1196",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-8dZfbu\\fixture-pin-982804669cd4f6ff78e410b848044a3ced66e9ae4003e29f852185ba433e9b70.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-IVkDgp\\own.db",
+      "bytes": 53248,
+      "sha256": "824981ec5f9b24d404567f3e0158d8bf922e40864547a754ab990f89ca3e7965",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-IVkDgp\\fixture-pin-fe2c188b93b954efd875a897a93a010c992d41a39bb3b49a957778b2565a0eb3.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0NAUVZ\\own.db",
+      "bytes": 53248,
+      "sha256": "4837d3cda8f521df522784057f1e85b37b6d215b3513d20064c770f11bcd478b",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0NAUVZ\\fixture-pin-bd5106987c5fa7c5565d85072741abfb5b85d524cb8bd06e388b8ea773a2cb03.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UpWErN\\own.db",
+      "bytes": 53248,
+      "sha256": "f33b8612dcc4d58b26506dd210e8efb910ce0c3e029b7810e9c36a43a2131182",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UpWErN\\fixture-pin-f14bf15b8c0961be24679a7ae13e06bf9eb8f8b09607edbe8da412a6aaffd253.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sbKbjx\\own.db",
+      "bytes": 53248,
+      "sha256": "ab1f927ca2e576f75317f1c180b0ccea979d6a2bd74aa7af3098612013a22e18",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sbKbjx\\fixture-pin-6b35b3df2e51f0d4bdb5396cd0e3058661e9d104fe739c5bd110660d69b32251.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-dgVYfh\\own.db",
+      "bytes": 53248,
+      "sha256": "c3d794002781bd2cdf543d7849623c2aa77ea590b50290a63bebcb9b869eed1f",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-dgVYfh\\fixture-pin-f456fce298e5a2a6f4ec3cad5192d272f00acbc10ff9db4e4964ba361c3c8c17.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NalFDR\\own.db",
+      "bytes": 53248,
+      "sha256": "91458e67c6a0f71d1ba794ad8093120d546a76df3d329ec7379e2e9e6b1834fd",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NalFDR\\fixture-pin-0a8395443be466c80a2a8aeae2585ac40878e8454c1856806f121f43e6f7bcc9.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-mVSju5\\own.db",
+      "bytes": 53248,
+      "sha256": "b1fdffc985519ca7f4804ea028d7213ca0a00173a1887ca2b2578286551b8011",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-mVSju5\\fixture-pin-5f1a2f914aeaa48f75776d68a5a71306a4fcd239e2a6b6988803940404a57d3e.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WorMqQ\\own.db",
+      "bytes": 53248,
+      "sha256": "96e4a9ee9221beabfd29feec4b9ad4e0adf501a7954fb16071feecb467542f5f",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WorMqQ\\fixture-pin-c2de7e5d2b23957e75671f755082c1b7333e1595e8509669770c73310fa6325d.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-rQUD5l\\own.db",
+      "bytes": 53248,
+      "sha256": "036c566c45dc94b44eaf9012210740aa856bc4984c6688435e7626058ddb9346",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-rQUD5l\\fixture-pin-ec813bdea47dbc3060ae1a347fe03bdeeee42d8c69866b7a54a0a31fbb82623d.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oTssY2\\own.db",
+      "bytes": 53248,
+      "sha256": "46c7dbc10f3a6252b509d2e21d513d551c14c0e080defe7e0d5b490a761a2d74",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oTssY2\\fixture-pin-276bb7a538157b6f5162d2cc1cb83fb66002bdac7fc89677376a5ebd169e9c85.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vmjCGR\\own.db",
+      "bytes": 53248,
+      "sha256": "4ee884b90cf8ddc82fc8654b7e8f392ead5bdde0bdfee0d3610b8bcd1161dab4",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vmjCGR\\fixture-pin-2c9938453e60ec930323f29aedf86bb9ea6e75c0fd227e5f9d4e5b3814e8dfc6.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-kwTrPK\\own.db",
+      "bytes": 53248,
+      "sha256": "81d4b97873fe500cd84f676a28c123d1d344868479fbede7cc3c84b71a7da9c9",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-kwTrPK\\fixture-pin-7043a2b04dec515c781c29fecb398a0094375406fb64b9ca30aa706812617d94.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7WQ1Le\\own.db",
+      "bytes": 53248,
+      "sha256": "c8acd25c6a0e28e6729def0e07e80f162975c6d7195457ee938f724bf8c460e6",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7WQ1Le\\fixture-pin-d69000b23eda4be14a9d84f8578edfa35a647b129bfa01cfddcbd8cc13b202eb.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-60gFEm\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-60gFEm\\fixture-pin-199df7d29cafbb80dc80ca0503e5c8ff3beab72e8b97e48ac059a7b3df2cccda.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KaYUlX\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KaYUlX\\fixture-pin-10936bcc784ac1e8f693a3fae4d940b8928f8afec50696ad39a5e2c7b8c0ae92.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-caIZp6\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-caIZp6\\fixture-pin-7180110400c7955c45944de273087878dd07d67dca0075c69aedffd54c66bf8c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CUry3B\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CUry3B\\fixture-pin-901e36fda486a69b7381525bd8e0449785f1e85bcff482dad4e8b43d5d78c113.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VNS8pk\\own.db",
+      "bytes": 53248,
+      "sha256": "78e80dbb6318f48db01d7378a0f536c219c209d5d8d821c31276be0a57e8bda7",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VNS8pk\\fixture-pin-49e544232bc7ad0e1b75bb6ace2a0cce793e50bc6c18a0071f16dab2c9d2a0a3.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nelx5G\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nelx5G\\fixture-pin-7b32d357061b7bc195c92b023566a7b6d42167ede5095f3a790f990270226620.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PtYErz\\own.db",
+      "bytes": 53248,
+      "sha256": "d56e0b90ffbbc7e10a3173a103e70209baaeb048fad28444e7e08ddf8dd4c912",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PtYErz\\fixture-pin-f35d0367ee19e69ba210a568b8ae2509c105b743e8469791eeffebe75083fbc7.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-YdEups\\own.db",
+      "bytes": 53248,
+      "sha256": "c9da8320d125d641fa6d57a3af2fd521787a26546cc93c33b6733280b54b3530",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-YdEups\\fixture-pin-ce394d5212d95b49cea45a43ee3187cfa3b1ff5ea16d86ce5f13590f14387f0a.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7utdVs\\own.db",
+      "bytes": 53248,
+      "sha256": "557e60d83f596f2eef4510ba6f3f0db1ef57ef986394414b365a1fc6c3a9dd5b",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7utdVs\\fixture-pin-b2df8f32b6aafb04aaae2176bee39f32f80e51c2cfe4765e13374c652a7d516b.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-6QSz6Q\\own.db",
+      "bytes": 53248,
+      "sha256": "88922b11e466fadeca373ef5f0d68fa7db69e7d179e292130ecca731047328cc",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-6QSz6Q\\fixture-pin-6da9e7a00162855a8e4a0617f7ea3cd4ed1a7ef1ecfd57db9da3820957a95f5d.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Osuv7A\\own.db",
+      "bytes": 53248,
+      "sha256": "e9a4d2db34bdb83fbcb6a7eea55e89b28535d9854911091d03f808ac14822dd2",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Osuv7A\\fixture-pin-e997d29a31892720de723f742213f71f84fa7fc0caf698fe82290d225e61049c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-36AUCO\\own.db",
+      "bytes": 278528,
+      "sha256": "0ab7ce2575056a33a6343be73670a1fc0286693dc9f73501e7fd284897d0a668",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-36AUCO\\fixture-pin-353ed69f5848df351f06e61e04e3a8376af4e64ab2942bc1b735f0cd94bffada.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-xYBykZ\\own.db",
+      "bytes": 303104,
+      "sha256": "c5323fb80cee64cf8471464de05acb81e2c1e0ab026f4cf064a88bd5a934c09c",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-xYBykZ\\fixture-pin-ba6d8f5a2c411a70204a843a0719ef586b505937f25bb3fd5d9a8f1a56c4e53d.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Ieo8Us\\own.db",
+      "bytes": 307200,
+      "sha256": "47a7646c9eb24a4e7ff9a81493836120a3daa7522c8842207c2e7abfa511f6fa",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Ieo8Us\\fixture-pin-0d338c876e7c7cf97cc069bc6e4f538ef3a63b009749ad6893ce23ca76890027.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PFqkJv\\own.db",
+      "bytes": 307200,
+      "sha256": "ab3a4b51072fe32cd37d41e92bf57f43f6ba5a56dc5cc2a1d95fc798a2629db3",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PFqkJv\\fixture-pin-2a3ae3256ce4e941583466906a705f6aed71a9c4a2071e84eb2f2de7225976fc.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-GrfDsL\\own.db",
+      "bytes": 303104,
+      "sha256": "fda8ff86f838cc514e77a8fc390fa5868f90699222f74089e5b50f302a2fa119",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-GrfDsL\\fixture-pin-2d113ffb32e5ce5c506f3402d80aa5703c9815fb440dfb8e33272573ead0c0b7.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-M225Mt\\own.db",
+      "bytes": 303104,
+      "sha256": "4113dcaf6a1ec94c9cbd50419c55306a7efcbec2a6420d7f6e84ba5b7d271fa0",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-M225Mt\\fixture-pin-5ff3bb8200f1bd81e0ba6e89c898deda9877d60d74675b0d839fb920f196a4d0.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-3VktW5\\own.db",
+      "bytes": 303104,
+      "sha256": "cb0952ac1e30058a1a0cfd7a1e7ea5682c5b4eabc68dbd4918ee93b4d2a08455",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-3VktW5\\fixture-pin-b7a00c126506cbf02f30c80e699fc09d739f78fbc758fa06552a93c73e22c415.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-s4gIjp\\own.db",
+      "bytes": 303104,
+      "sha256": "59396995d67eb8808385156d0ee0105ec904339f203ff8fa88d113ee978819d5",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-s4gIjp\\fixture-pin-9b9dffcd6015706156e406302aa61fec7597e73442d00bea3ddbaa3b76647083.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-HYgDue\\own.db",
+      "bytes": 278528,
+      "sha256": "3f439e22ab5e0add41236b0524907f17015eb08b8f06fe14659679b6401fa281",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-HYgDue\\fixture-pin-c903e55644b22c5fc0457c8ed3e20c8310e1ad50ebeb64a003270fd0af519f2f.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nWIkND\\own.db",
+      "bytes": 278528,
+      "sha256": "0f58316296858ebc9af8d7b84b392bd79a5adb9b50cf971d5b177d20ec04ba1f",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nWIkND\\fixture-pin-3621ddceec69f0103c5a6e8404a3795033478432c9b0aa302f8a34125f5c2844.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g6Q2aP\\own.db",
+      "bytes": 278528,
+      "sha256": "d1b80dfb42874618870bcc94d152da88fc640a468557e7756882efa4f75a8b93",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g6Q2aP\\fixture-pin-95c7955e1de4e66944c598b7daf682804b86f355ad33c6f8d881954ee0726566.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3Jb8a\\own.db",
+      "bytes": 278528,
+      "sha256": "08f48ba36def64f1b3d65496a1c9378278a170b814f95459994a547758038b88",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3Jb8a\\fixture-pin-699fddf56a82cec249bf5293bde10c14af2d22a80c79026364debdf7b3691fe9.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PMRaLN\\own.db",
+      "bytes": 331776,
+      "sha256": "c8ac4183fb68f363fe124dcf41653b82c88511b7895aa423ac0bdad6ed52fc1d",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PMRaLN\\fixture-pin-1e8fe562b6c7727d066cd48d4ecb75e4832a1eae26d9e6748dfa93f02e4a09f7.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ywqlKB\\own.db",
+      "bytes": 307200,
+      "sha256": "974a1d625b92bf43a1dff897bfc49c612fd5e7c289d338a05cde6e071169b782",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ywqlKB\\fixture-pin-d63df999aede5c4222c770e44a433fd8079693cac15ffa1312db0387ddfb530e.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ZguarF\\own.db",
+      "bytes": 311296,
+      "sha256": "cd89c397680ea19dcfd0e89b328f2803564bc7712e5ab20829bde1ec7b6ab618",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ZguarF\\fixture-pin-555e3a0c425e5d67dcce74a5e7d409e94fc49c2ff259319a5cc36f2183f7aa9c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-zC9Fm6\\own.db",
+      "bytes": 303104,
+      "sha256": "c97d8ba651ef06e223036a1cd2c9b930ce2e15ccb7f506972241cfa8dec3ef19",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-zC9Fm6\\fixture-pin-ed260277e18638858bda01362b8f84dba1eca032bc18bc5889b8a3b908f56a26.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KTYUft\\own.db",
+      "bytes": 303104,
+      "sha256": "9c6eee5552fde1747fe8e4abc6b0585189147b2b5f3b50bc87fc996c3039dc2a",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KTYUft\\fixture-pin-d49b033147e1c1626cd1fc5c7c2c67a2b09b64c4aa3aeed7da9db412dc2bec06.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-G7Y3RA\\own.db",
+      "bytes": 339968,
+      "sha256": "1e93d94fa04f3fc68da1fb6cfcc147eeb0972b8217b1ccfa1bc6a79fd79b71e1",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-G7Y3RA\\fixture-pin-183531e4acddf68d425fc2b78e2c15e48ba15f003c8edcafdc7932d6a72386f5.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CfeSNa\\own.db",
+      "bytes": 483328,
+      "sha256": "1efc6108c7062127c54717a5226d48c917f24ed9737ede0aa5a9baad952e7b47",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CfeSNa\\fixture-pin-8393c04eff6a2e94a29fd6415229102866ab6b6b7d85a43a891d229a2043b942.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-h91O5H\\own.db",
+      "bytes": 307200,
+      "sha256": "e2c9397a5a82b1637365d43158f60e75cebe13daf880278c536bdb1eb9922cb4",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-h91O5H\\fixture-pin-6524b1d261039b648fc25ff51950b4a7c32ac1810d2e6476b58f2a9707ed2605.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-P71FZn\\own.db",
+      "bytes": 303104,
+      "sha256": "54f5a069197990e9b81f0df35f772a62d942ab997a8230a4bf88affc292e57e0",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-P71FZn\\fixture-pin-a2adda1ef4d2b9d15780d7ac056ffa67318db3aaf88f17405b7e79a22a83204c.json"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jkwE3k\\own.db",
+      "bytes": 303104,
+      "sha256": "845bd98ec9b55e466542161cc44b9b6e4a19c1fbb34f04be246793d1f3658f4f",
+      "receipt": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jkwE3k\\fixture-pin-1b3c5a4a31f708525504f23e3e6c45a949da70cc7d42a73fd2038e2147d43f3d.json"
+    }
+  ],
+  "allDatabaseArtifacts": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0I9U0U\\own.db",
+      "bytes": 294912,
+      "sha256": "11bfe73a66326696164cffe64e077906c639da59eb5e46f0600ab3fab9035aac"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0NAUVZ\\own.db",
+      "bytes": 53248,
+      "sha256": "4837d3cda8f521df522784057f1e85b37b6d215b3513d20064c770f11bcd478b"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-36AUCO\\own.db",
+      "bytes": 278528,
+      "sha256": "0ab7ce2575056a33a6343be73670a1fc0286693dc9f73501e7fd284897d0a668"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-3VktW5\\own.db",
+      "bytes": 303104,
+      "sha256": "cb0952ac1e30058a1a0cfd7a1e7ea5682c5b4eabc68dbd4918ee93b4d2a08455"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4mGkbp\\own.db",
+      "bytes": 483328,
+      "sha256": "1f7ca301ec239bb8064a37f1396415eacb89509f6a22a702717e979350ee0495"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4MhHfv\\own.db",
+      "bytes": 299008,
+      "sha256": "9df2162999a71791f631d2676b4f98422e116d52a45bfa61834804ff31e89f36"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5QXXfk\\own.db",
+      "bytes": 278528,
+      "sha256": "f4c127c77258e06c203ff1ddc6ddf6e845ff00fc4f33a64d47fd4bd3d386ceda"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5RgJzx\\own.db",
+      "bytes": 712704,
+      "sha256": "4257b32d58ddb2b4be4534cbaa947458f9c2bc590faa20666971415470fc3f64"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-60gFEm\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-6QSz6Q\\own.db",
+      "bytes": 53248,
+      "sha256": "88922b11e466fadeca373ef5f0d68fa7db69e7d179e292130ecca731047328cc"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-71sTEG\\own.db",
+      "bytes": 462848,
+      "sha256": "0bc190248a9a457d14063b041d4218413c9036fc0f17616f0bf09665f90f0d7c"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7AgdTS\\own.db",
+      "bytes": 462848,
+      "sha256": "97fd821cf86afc567f775ddc2926b65e9e980718152e000784513c6a11d07654"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7utdVs\\own.db",
+      "bytes": 53248,
+      "sha256": "557e60d83f596f2eef4510ba6f3f0db1ef57ef986394414b365a1fc6c3a9dd5b"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-7WQ1Le\\own.db",
+      "bytes": 53248,
+      "sha256": "c8acd25c6a0e28e6729def0e07e80f162975c6d7195457ee938f724bf8c460e6"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-8dZfbu\\own.db",
+      "bytes": 53248,
+      "sha256": "fabeff09d06a0379e414cf534d4089d4aafebde47fbeb735ab6ec7823f1f1196"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9fBBGJ\\own.db",
+      "bytes": 278528,
+      "sha256": "44d6232f3c3dc2781d3dce5136183b3cd9469bc1f2ce14a4bcbfe1d1256727e3"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-9Pyyq4\\own.db",
+      "bytes": 344064,
+      "sha256": "b733a2e838c814c2522dd56ff0fef65f6eb054c2e77188f2208ed741686bf71d"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-aoTLkD\\own.db",
+      "bytes": 483328,
+      "sha256": "bca0954fc5508d3676548b0f5605499d22d8a1a834d58c935f530238435f9c3a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-AXa1Gf\\own.db",
+      "bytes": 1146880,
+      "sha256": "9d9f77ce1ffeeabec8dab22d71cd9f3fedb5f9631dc89572b9343cabe9d350bb"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bNVrRD\\own.db",
+      "bytes": 278528,
+      "sha256": "53d22c7695e7e759035a2f346f2509e9eb4344f6d6bd243b69c7834dad7a7bab"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-bRQTwt\\own.db",
+      "bytes": 462848,
+      "sha256": "de9e4504d0a299790307d52cf52cb1e723a650c546446ccd2fad44a804a14c51"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-busX79\\own.db",
+      "bytes": 294912,
+      "sha256": "4823830b86efd9223e599431054d810952463b192d267e0ce756349eda13a7c5"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-BUwkJ2\\own.db",
+      "bytes": 483328,
+      "sha256": "91c94c8ce0563ba55f4b1b90dfce336891fe248eccfd4d072f725695a57f2a99"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-C9FQHT\\own.db",
+      "bytes": 36864,
+      "sha256": "2fa40744051e4e70ce04f3c224d31a6d622ec47820c1e4e4ac4d7a967caaae17"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-caIZp6\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CBdny0\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-cdcifX\\own.db",
+      "bytes": 483328,
+      "sha256": "86427a48351443b7942dfb8e2c2f8c53ca9ef7c86d708e4610652ead6d3f4262"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CfeSNa\\own.db",
+      "bytes": 483328,
+      "sha256": "1efc6108c7062127c54717a5226d48c917f24ed9737ede0aa5a9baad952e7b47"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-CUry3B\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-d7l3Nb\\own.db",
+      "bytes": 278528,
+      "sha256": "8292cd165adf84ebf70be8abc980ebcb7d997b9daee87a0673b85afcbaef3d0d"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-dgVYfh\\own.db",
+      "bytes": 53248,
+      "sha256": "c3d794002781bd2cdf543d7849623c2aa77ea590b50290a63bebcb9b869eed1f"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ECFxVT\\own.db",
+      "bytes": 487424,
+      "sha256": "73597a3dd1f15fd9f6f0bbd30a7cb9aeea9266633164628b95a7aade77ab8f2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-f05GnD\\own.db",
+      "bytes": 36864,
+      "sha256": "c71d4e1be0aa31ab4b163754331b52de10765499a561eab13079046b1e2df2c5"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-fqZqdI\\own.db",
+      "bytes": 278528,
+      "sha256": "46a95d2b3ae8734e5048a7da059490394ca83973ae2e630d6523533f782482b0"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g325mg\\own.db",
+      "bytes": 278528,
+      "sha256": "157bb03655d6a42a1b7d2281104e50d67e2c26ca1422e56cb6ad79b3d3b6696e"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-g6Q2aP\\own.db",
+      "bytes": 278528,
+      "sha256": "d1b80dfb42874618870bcc94d152da88fc640a468557e7756882efa4f75a8b93"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-G7Y3RA\\own.db",
+      "bytes": 339968,
+      "sha256": "1e93d94fa04f3fc68da1fb6cfcc147eeb0972b8217b1ccfa1bc6a79fd79b71e1"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-GrfDsL\\own.db",
+      "bytes": 303104,
+      "sha256": "fda8ff86f838cc514e77a8fc390fa5868f90699222f74089e5b50f302a2fa119"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-gVPdzB\\own.db",
+      "bytes": 483328,
+      "sha256": "f0200ddb0749adce31584e6f9c1232e0045394dac28171154fdd4573876e6d17"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-h91O5H\\own.db",
+      "bytes": 307200,
+      "sha256": "e2c9397a5a82b1637365d43158f60e75cebe13daf880278c536bdb1eb9922cb4"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-HYgDue\\own.db",
+      "bytes": 278528,
+      "sha256": "3f439e22ab5e0add41236b0524907f17015eb08b8f06fe14659679b6401fa281"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Hzph2j\\own.db",
+      "bytes": 36864,
+      "sha256": "027cc0c4dd4843e22c509f1143cc94630c706fac1a2170891c1ecaecf159ab8a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-iCEN0O\\own.db",
+      "bytes": 704512,
+      "sha256": "f15b1cf7e4425dd8a1ee66388deb80db790aa35256e4fd00b6f6c38ccfa4c65c"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Ieo8Us\\own.db",
+      "bytes": 307200,
+      "sha256": "47a7646c9eb24a4e7ff9a81493836120a3daa7522c8842207c2e7abfa511f6fa"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-IVkDgp\\own.db",
+      "bytes": 53248,
+      "sha256": "824981ec5f9b24d404567f3e0158d8bf922e40864547a754ab990f89ca3e7965"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jeWr7n\\own.db",
+      "bytes": 294912,
+      "sha256": "adcd3c1e2dbfd42e2646962a69878885a1948296cde88230a7e108715591eae3"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jkwE3k\\own.db",
+      "bytes": 303104,
+      "sha256": "845bd98ec9b55e466542161cc44b9b6e4a19c1fbb34f04be246793d1f3658f4f"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-JqqfpH\\own.db",
+      "bytes": 294912,
+      "sha256": "fdbc8f77982b18efd10e00b84d80095a6ae8d9b12ad0a5cf15fdce637a826900"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KaYUlX\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KSCy2U\\own.db",
+      "bytes": 274432,
+      "sha256": "d08cc7fb8101d9b51d069272fe49e38d2c34f83759cacd7ac17fce85243a439f"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KTYUft\\own.db",
+      "bytes": 303104,
+      "sha256": "9c6eee5552fde1747fe8e4abc6b0585189147b2b5f3b50bc87fc996c3039dc2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-kwTrPK\\own.db",
+      "bytes": 53248,
+      "sha256": "81d4b97873fe500cd84f676a28c123d1d344868479fbede7cc3c84b71a7da9c9"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-lf2pIL\\own.db",
+      "bytes": 294912,
+      "sha256": "05641ca0a8a4de332428008dbc5f28ddc7ab462ef4a4d316690facf0c07938b7"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-M225Mt\\own.db",
+      "bytes": 303104,
+      "sha256": "4113dcaf6a1ec94c9cbd50419c55306a7efcbec2a6420d7f6e84ba5b7d271fa0"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-MMVbpZ\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-mVSju5\\own.db",
+      "bytes": 53248,
+      "sha256": "b1fdffc985519ca7f4804ea028d7213ca0a00173a1887ca2b2578286551b8011"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NalFDR\\own.db",
+      "bytes": 53248,
+      "sha256": "91458e67c6a0f71d1ba794ad8093120d546a76df3d329ec7379e2e9e6b1834fd"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nelx5G\\own.db",
+      "bytes": 53248,
+      "sha256": "a3b6e619a81b42b360da848041a1188d366a3ea35bdfb6aaad196a54af798a2a"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-NetVXP\\own.db",
+      "bytes": 487424,
+      "sha256": "a346451404289570ad288abd08da5538fa099f84dba5a7682dbd35cedbe3a365"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nWIkND\\own.db",
+      "bytes": 278528,
+      "sha256": "0f58316296858ebc9af8d7b84b392bd79a5adb9b50cf971d5b177d20ec04ba1f"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oOJVBQ\\own.db",
+      "bytes": 36864,
+      "sha256": "6636ba69f180a4c9e22a48743f24fcf84185c4a8bdea6bca97bfcf9cc79b5381"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Osuv7A\\own.db",
+      "bytes": 53248,
+      "sha256": "e9a4d2db34bdb83fbcb6a7eea55e89b28535d9854911091d03f808ac14822dd2"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oTssY2\\own.db",
+      "bytes": 53248,
+      "sha256": "46c7dbc10f3a6252b509d2e21d513d551c14c0e080defe7e0d5b490a761a2d74"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-P71FZn\\own.db",
+      "bytes": 303104,
+      "sha256": "54f5a069197990e9b81f0df35f772a62d942ab997a8230a4bf88affc292e57e0"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PFqkJv\\own.db",
+      "bytes": 307200,
+      "sha256": "ab3a4b51072fe32cd37d41e92bf57f43f6ba5a56dc5cc2a1d95fc798a2629db3"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ph6WeS\\own.db",
+      "bytes": 483328,
+      "sha256": "4226d26d0af190e7dc87e38b19eeb7ccd2b17efccf55278a740946f5c7098a26"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PjUb9o\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PMRaLN\\own.db",
+      "bytes": 331776,
+      "sha256": "c8ac4183fb68f363fe124dcf41653b82c88511b7895aa423ac0bdad6ed52fc1d"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PtYErz\\own.db",
+      "bytes": 53248,
+      "sha256": "d56e0b90ffbbc7e10a3173a103e70209baaeb048fad28444e7e08ddf8dd4c912"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PZorNt\\own.db",
+      "bytes": 327680,
+      "sha256": "bf2dfc78734bf6a2f8e78c166969ccd03c59280fc9c8801853a41fe9e165e818"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-qTKiaT\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Qxww4p\\own.db",
+      "bytes": 483328,
+      "sha256": "1607415d4f3761d637217096fc2d12fc14d4bb3b8f6a40faf67c90b6ebbc77d1"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-r71HgJ\\own.db",
+      "bytes": 258048,
+      "sha256": "1eb497ce68afa597172ff3ee6368fa4f87cbabe207b97167a9835fa502ffa1a9"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-rQUD5l\\own.db",
+      "bytes": 53248,
+      "sha256": "036c566c45dc94b44eaf9012210740aa856bc4984c6688435e7626058ddb9346"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-s4gIjp\\own.db",
+      "bytes": 303104,
+      "sha256": "59396995d67eb8808385156d0ee0105ec904339f203ff8fa88d113ee978819d5"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sbKbjx\\own.db",
+      "bytes": 53248,
+      "sha256": "ab1f927ca2e576f75317f1c180b0ccea979d6a2bd74aa7af3098612013a22e18"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UORUdx\\own.db",
+      "bytes": 323584,
+      "sha256": "8ef1cde2d4fd9bc8a8d49e774fecb4f7b1e9f6b4c07d71f3cacaf2bb4beed83d"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UpWErN\\own.db",
+      "bytes": 53248,
+      "sha256": "f33b8612dcc4d58b26506dd210e8efb910ce0c3e029b7810e9c36a43a2131182"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uWxYAW\\own.db",
+      "bytes": 303104,
+      "sha256": "0402e04dc01e2d74a2633403e879908071e5a06b803a0d8ca5781155822d699d"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VBJP95\\own.db",
+      "bytes": 278528,
+      "sha256": "aba00f68e54ac0c31deed3449ec86ddea131a09dba57feb859ffc8f9a1f4fbf6"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vmjCGR\\own.db",
+      "bytes": 53248,
+      "sha256": "4ee884b90cf8ddc82fc8654b7e8f392ead5bdde0bdfee0d3610b8bcd1161dab4"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vNdkJD\\own.db",
+      "bytes": 528384,
+      "sha256": "e1558ed0401a08e1f47c5b54fc85e4ad96374342d5adbf15b26937d49c16a28c"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VNS8pk\\own.db",
+      "bytes": 53248,
+      "sha256": "78e80dbb6318f48db01d7378a0f536c219c209d5d8d821c31276be0a57e8bda7"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-VSMBQx\\own.db",
+      "bytes": 274432,
+      "sha256": "9020a9a9f561a4b922a67bbc8323572bfdcad8dfa90524c6918b07fd1f2f3ef3"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vtMO9F\\own.db",
+      "bytes": 53248,
+      "sha256": "deeec70c614a00a349fc8fcf4020a957ffe4692cc05988ced33aa3ab76970055"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WjZqdZ\\own.db",
+      "bytes": 483328,
+      "sha256": "1e915529d6d04c62f89d4eb95dcd36a9b08f4acc647c32b90d2b84aaa48b01cb"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WorMqQ\\own.db",
+      "bytes": 53248,
+      "sha256": "96e4a9ee9221beabfd29feec4b9ad4e0adf501a7954fb16071feecb467542f5f"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3Jb8a\\own.db",
+      "bytes": 278528,
+      "sha256": "08f48ba36def64f1b3d65496a1c9378278a170b814f95459994a547758038b88"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-x3QHV1\\own.db",
+      "bytes": 483328,
+      "sha256": "57134e398b9fd4204fe70b9f0b09a276455f503622f9aefbf51e4bbfe70f01ca"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-X7LYhb\\own.db",
+      "bytes": 245760,
+      "sha256": "87e17fda7c63fedd57329230ac63b8eccf330929d7b2296fd8975ff06f76f304"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-xYBykZ\\own.db",
+      "bytes": 303104,
+      "sha256": "c5323fb80cee64cf8471464de05acb81e2c1e0ab026f4cf064a88bd5a934c09c"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-YdEups\\own.db",
+      "bytes": 53248,
+      "sha256": "c9da8320d125d641fa6d57a3af2fd521787a26546cc93c33b6733280b54b3530"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ywqlKB\\own.db",
+      "bytes": 307200,
+      "sha256": "974a1d625b92bf43a1dff897bfc49c612fd5e7c289d338a05cde6e071169b782"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Za2IR8\\own.db",
+      "bytes": 294912,
+      "sha256": "5b40c20cdd3eca5b5d65bb507c9b4261214ce065d7757e2031a2da65280cffbd"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-zC9Fm6\\own.db",
+      "bytes": 303104,
+      "sha256": "c97d8ba651ef06e223036a1cd2c9b930ce2e15ccb7f506972241cfa8dec3ef19"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ZguarF\\own.db",
+      "bytes": 311296,
+      "sha256": "cd89c397680ea19dcfd0e89b328f2803564bc7712e5ab20829bde1ec7b6ab618"
+    },
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\temp\\opencode\\l5-admission-budget-wYeTAT\\own.db",
+      "bytes": 385024,
+      "sha256": "6bee00a57fcdd91972a8ab955fb28cd4434e02a91f7ea8a9c8b28ff289015c6e"
+    }
+  ],
+  "emptyReservedDirectories": [
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-0ndmSI\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-2F5yoT\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-tsPEw3\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ZtnWYs\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UeHM2i\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-LUjC21\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-R46N0K\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-JbY4UY\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-JEzVSB\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UnWpwH\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-8xgMAv\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uCNNJ2\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UkM6lv\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-84nLVL\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-kE6gqa\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-f74SVh\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ttNeGA\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-O7InVc\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WxlXWY\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-KBNMyj\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-j6r9Ir\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-GkitQI\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-nRJmeL\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-zUs7n6\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-8nJ2QY\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-RPwrkI\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-naPLLl\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-jw8Ctn\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-qpY5Xj\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-F6d1sq\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-6851Wm\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sqblxj\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-V2e0ch\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uEN1p1\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-u1O5Lo\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-MbaF3d\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sVTg5q\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Nel8L5\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-H3uRUG\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-YPftn7\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-DDsG2A\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-vgnpQB\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-ElFwFW\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-QYmrtZ\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-yW7g01\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-yVZByX\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-C6BOoK\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WjccwD\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-qy5o85\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-rXc1lf\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-s63sSi\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oavmX2\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-D8BS6G\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-20XAS0\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5V3kze\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-cEMmR5\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-kyRO79\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-h1UIh6\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-GQGCma\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-RwpeLU\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-MUTyeR\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-5gF7mr\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-3gWveX\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WNucN5\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-WfwpI3\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-sHMBUp\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-PZ591T\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-eWJcmH\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-FrHUQD\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-tZAYjC\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-f4LKlm\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-rgRmJt\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-UletGE\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-2A73Sj\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-Yfrtst\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-6GPK53\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-oxgNY6\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-4uKBw4\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-zNcBJd\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-C1tLjL\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-uip9Ba\\own.db",
+    "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\L8-FACTORING-GUARDFIX-1792395000830\\localappdata\\Temp\\opencode\\l8-central-v2-X4skyl\\own.db"
+  ],
+  "checks": [],
+  "allQualified": true,
+  "all268MainAndSnapshotGuardsExactBeforeAfter": true,
+  "allArtifactsRetainedNoCleanup": true,
+  "notGlobalL8S1NativeOrFull44Acceptance": true
+}

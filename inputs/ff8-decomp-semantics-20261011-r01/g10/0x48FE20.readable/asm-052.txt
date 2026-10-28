@@ -1,0 +1,25 @@
+004911A1: and     eax, 0FFh; Logical AND
+004911A6: push    offset HIT_TYPE_TARGET_ANIMATION_TO_PLAY; p_hit_type_animation_related
+004911AB: push    eax; p_attacker_slot_id
+004911AC: mov     eax, [esp+34h+p_target_slot_id]
+004911B0: push    offset byte_1D27ADD; a4
+004911B5: push    offset HIT_TYPE_2; p_hit_type_2
+004911BA: push    esi; p_damage_related
+004911BB: push    eax; p_target_slot_id
+004911BC: call    near ptr unk_5BC9B1F0; G09 commit boundary verified 2026-08-10: writes last_attacker_* and target reaction/sequence history after damage computation. G08 must not pre-write these commit-owned fields.
+004911C1: mov     al, RELATED_TO_ATTACKER_SLOT_ID
+004911C6: add     esp, 24h; Add
+004911C9: cmp     al, 0FFh; Compare Two Operands
+004911CB: jz      short loc_491205; Jump if Zero (ZF=1)
+004911CD: mov     ecx, dword ptr ATTACKER_SLOT_ID; slot 0 to 2 are actually the characters (When looking the back of chara, 0 is right chara, 2 is left chara, 3 is right moonster, 5 is left monster)
+004911D3: mov     edx, LINKED_TO_DRAIN?
+004911D9: push    1; param_bool
+004911DB: push    offset dword_1D27AF0; a8
+004911E0: push    offset a7; a7
+004911E5: and     ecx, 0FFh; Logical AND
+004911EB: push    offset p_hit_type_animation_related; p_hit_type_animation_related
+004911F0: push    ecx; p_attacker_slot_id
+004911F1: push    offset byte_1D27AE1; a4
+004911F6: push    offset ATTACK_TYPE_PHY_OR_MAG?; p_hit_type_2
+004911FB: push    edx; p_damage_related
+004911FC: push    ebx; p_target_slot_id

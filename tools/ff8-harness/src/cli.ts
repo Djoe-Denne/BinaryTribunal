@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { Store } from "./store";
 import { Engine } from "./engine";
@@ -6,9 +6,42 @@ import { ExecutionClient, connectPublic } from "./client";
 import { EnsembleBridge } from "./adapter";
 import { loadRuntime, createPublisher } from "./runtime";
 import { FileKnowledgeArtifactSink } from "./inputs";
+import { parsePreparedGraph, prepareGraph } from "./graph-pipeline";
+import { assertLegacySnapshot, inspectGraphState, readGraphJournal } from "./graph-engine";
+import { GraphStore } from "./graph-store";
+
+/** Explicit offline route, reached before runtime loading or any bridge/client I/O. */
+export function graphOffline(args: string[]): unknown {
+  const [command, ...flags] = args;
+  if (command === "inspect" || command === "replay") {
+    if (flags.length !== 4 || flags[0] !== "--state" || !flags[1] || flags[2] !== "--mission" || !flags[3]) throw new Error("usage: graph inspect|replay --state <OWN.db> --mission <id>");
+    if (!existsSync(resolve(flags[1]))) throw new Error("offline inspector will not create a missing OWN database");
+    const store = new Store(resolve(flags[1])); let graph: GraphStore | undefined;
+    try {
+      const snapshot = store.load(flags[3]); if (!snapshot.config.fixture) throw new Error("offline graph inspection requires an explicit fixture");
+      graph = new GraphStore(store.path); const view = inspectGraphState(graph, snapshot);
+      return command === "inspect" ? view : { version: "l8-graph-replay-v2", fixture: true, scientificAuthority: false, nativeVerified: false, view, events: readGraphJournal(graph, snapshot).events };
+    } finally { graph?.close(); store.close(); }
+  }
+  if (!["prepare", "cluster", "groups", "plan", "explain", "export"].includes(command)) throw new Error("graph operation unavailable: real dispatch, shadow, adoption and historical simulation are not enabled");
+  if (![2, 4].includes(flags.length) || flags[0] !== "--input" || !flags[1] || (flags.length === 4 && (flags[2] !== "--context" || !flags[3]))) throw new Error("usage: graph prepare|cluster|groups|plan|explain|export --input <frozen.json> [--context <actual-mission-snapshot.json>]");
+  const source: unknown = JSON.parse(readFileSync(resolve(flags[1]), "utf8"));
+  if ((command === "export" || command === "explain") && flags.length !== 2) throw new Error("frozen readers do not accept replacement current context");
+  const prepared = command === "export" || command === "explain" ? parsePreparedGraph(source) : prepareGraph(source, flags.length === 4 ? JSON.parse(readFileSync(resolve(flags[3]), "utf8")) : undefined);
+  if (command === "cluster") return prepared.partition;
+  if (command === "groups") return prepared.groups;
+  if (command === "plan") return prepared.planning;
+  if (command === "explain") return { version: "l8-graph-explanation-v1", preparedFingerprint: prepared.fingerprint, planFingerprint: prepared.planning.plan.fingerprint,
+    decisions: prepared.planning.plan.decisions, dependencies: prepared.planning.plan.g1Edges, conflicts: prepared.planning.plan.g2Conflicts, diagnostics: prepared.planning.diagnostics,
+    coverage: prepared.snapshot.coverage, nativeVerified: false, scientificAuthority: false,
+    admissionAccounting: prepared.version === "l8-prepared-graph-v2" ? prepared.planning.sidecar.admissionBudget : null,
+    admissionSource: prepared.version === "l8-prepared-graph-v2" ? prepared.admissionSource : null };
+  return prepared;
+}
 
 /** Bounded code-driven control loop; no resident reasoning supervisor or worker scheduler. */
 export async function main(args: string[]): Promise<void> {
+  if (args[0] === "graph") { console.log(JSON.stringify(graphOffline(args.slice(1)), null, 2)); return; }
   const [command, ...flags] = args;
   const option = (name: string) => { const n = flags.indexOf(name); return n < 0 ? undefined : flags[n + 1]; };
   const configPath = option("--config"), state = option("--state");
@@ -18,6 +51,15 @@ export async function main(args: string[]): Promise<void> {
   const summary = () => { const s = store.load(c.mission.missionId); return flags.includes("--json") ? s : { missionId: s.missionId, revision: s.revision, status: s.status, reason: s.reason, cycle: s.cycle, stage: s.stage, selected: s.cycles.find(c => c.number === s.cycle)?.subset.length, reconciliations: s.reconciliations.map(r => ({ decision: r.decision, outcome: r.outcome })), intents: s.intents.map(i => ({ role: i.intent.role, state: i.state, error: i.error })) }; };
   try {
     if (command === "status") { console.log(JSON.stringify(summary(), null, 2)); return; }
+    // The durable marker must block legacy before client construction/connect,
+    // not merely after Engine.begin has already renewed its lease.
+    if (command !== "init") assertLegacySnapshot(store.load(c.mission.missionId));
+    else {
+      let existing: import("./domain").Snapshot | undefined;
+      try { existing = store.load(c.mission.missionId); }
+      catch (error) { if (!(error instanceof Error) || error.message !== `unknown mission: ${c.mission.missionId}`) throw error; }
+      if (existing) { assertLegacySnapshot(existing); throw new Error("mission already exists; init cannot reacquire or dispatch"); }
+    }
     client = new ExecutionClient({ ...c.bridge, transport: await connectPublic(c.bridge.directory, c.bridge.registrationFile), statePath, token: () => process.env[c.bridge.tokenEnv] ?? "" });
     const bridge = new EnsembleBridge({ ...c.execution, ...(c.mission.rePolicy ? { rePolicy: c.mission.rePolicy } : {}), client, directory: c.bridge.directory, outputDirectory: c.mission.outputDirectory });
     const publication = await createPublisher(c, resolve(configPath));

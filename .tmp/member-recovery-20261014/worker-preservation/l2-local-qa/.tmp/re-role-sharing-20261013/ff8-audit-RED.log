@@ -1,0 +1,295 @@
+bun test v1.4.2 (744846f84)
+
+test\client.test.ts:
+(pass) client commits submission before send and reuses it after a lost response/reopen [24.17ms]
+(pass) changed payload under an existing idempotency key is refused locally [14.38ms]
+(pass) public client replay hashes native selections, RE policy metadata and scoped communication [51.96ms]
+(pass) journal consumption tolerates duplicates and restart, using durable cursor [16.47ms]
+(pass) client refuses an unsupported wire version [23.43ms]
+48 | test("bulletinSnapshot uses only public authenticated mission/directory scope and optional assigned channel", async () => {
+49 |   const s = setup(), calls: Array<{ method: string; input: Record<string, unknown> }> = [];
+50 |   s.options.transport = { call: async (method, input) => { calls.push({ method, input }); return { version: 1, missionId: "m", revision: 2, messages: [] }; } };
+51 |   const client = new ExecutionClient(s.options);
+52 |   try {
+53 |     expect(await (client as any).bulletinSnapshot("m", "assigned")).toEqual({ version: 1, missionId: "m", revision: 2, messages: [] });
+                                      ^
+TypeError: client.bulletinSnapshot is not a function. (In 'client.bulletinSnapshot("m", "assigned")', 'client.bulletinSnapshot' is undefined)
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\client.test.ts:53:34)
+(fail) bulletinSnapshot uses only public authenticated mission/directory scope and optional assigned channel [23.24ms]
+(pass) declared admission refusal preserves typed permanent cause and redacts credentials [23.30ms]
+(pass) unaccepted pending command can refresh revision only after snapshot proves no execution [15.84ms]
+
+test\re-policy.test.ts:
+(pass) RE role matrix decompilation/explore: exact native grants and R-only bulletin [25.10ms]
+(pass) RE role matrix decompilation/evaluate: exact native grants and R-only bulletin [25.41ms]
+(pass) RE role matrix decompilation/A: exact native grants and R-only bulletin [22.38ms]
+(pass) RE role matrix decompilation/B: exact native grants and R-only bulletin [21.13ms]
+(pass) RE role matrix decompilation/R: exact native grants and R-only bulletin [24.21ms]
+(pass) RE role matrix semantification/explore: exact native grants and R-only bulletin [22.96ms]
+(pass) RE role matrix semantification/evaluate: exact native grants and R-only bulletin [23.06ms]
+(pass) RE role matrix semantification/A: exact native grants and R-only bulletin [22.02ms]
+(pass) RE role matrix semantification/B: exact native grants and R-only bulletin [21.87ms]
+(pass) RE role matrix semantification/R: exact native grants and R-only bulletin [22.87ms]
+(pass) R schema/channel are shared by frozen group, separated by mission/cycle; no worker chosen scope [58.99ms]
+(pass) R refuses a missing, forged, cross-binary, duplicate or unrelated frozen neighborhood [67.91ms]
+(pass) opt-in policy is immutable on replay, including profile and instruction changes [72.91ms]
+(pass) unsafe operations, duplicate/wildcard IDs and grants, missing disasm, edit/chat/file fallbacks fail closed [13.35ms]
+174 | test("RE cannot rebind builtin tools or permission actions to claimed readonly IDA operations", () => {
+175 |   const f = fixture();
+176 |   for (const id of ["write", "apply_patch", "list", "ls", "webfetch", "websearch", "question", "task", "subagent", "skill", "batch", "lsp"]) {
+177 |     for (const field of ["tool", "action"]) {
+178 |       const p = policy(); if (field === "tool") p.idaReadBindings[0]!.tool = id; else p.idaReadBindings[0]!.accesses[0]!.action = id;
+179 |       expect(() => new EnsembleBridge({ ...f.options, rePolicy: p } as any)).toThrow(/RE policy/);
+                                                                                   ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /RE policy/
+
+Received function did not throw
+Received value: EnsembleBridge {
+  options: {
+    client: {
+      capabilities: [AsyncFunction: capabilities],
+      ensure: [AsyncFunction: ensure],
+      replay: [AsyncFunction: replay],
+      submit: [AsyncFunction: submit],
+      inspect: [AsyncFunction: inspect],
+      bulletinSnapshot: [AsyncFunction: bulletinSnapshot],
+      retainCommunicationAudit: [Function: retainCommunicationAudit],
+    },
+    directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj",
+    profiles: {
+      explore: "re-explore",
+      evaluate: "re-evaluate",
+      A: "re-A",
+      B: "re-B",
+      R: "re-R",
+    },
+    approvedSources: [],
+    projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj\\inputs",
+    outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj\\outputs",
+    roleInstructions: {
+      explore: "Scientific explore instructions",
+      evaluate: "Scientific evaluate instructions",
+      A: "Scientific A instructions",
+      B: "Scientific B instructions",
+      R: "Scientific R instructions",
+    },
+    allowedTools: [ "read", "execute" ],
+    admissionMode: "native-boundary-witness",
+    outputMode: "json-schema-strict",
+    rePolicy: {
+      version: 1,
+      workKind: "decompilation",
+      reconcilerSharing: true,
+      idaReadBindings: [
+        {
+          operation: "disasm",
+          tool: "write",
+          accesses: [
+            {
+              action: "exact_native_disasm_action",
+              resource: "*",
+            }
+          ],
+        }, {
+          operation: "xrefs_to",
+          tool: "registered_ida_xrefs_to",
+          accesses: [
+            {
+              action: "exact_native_xrefs_action",
+              resource: "*",
+            }
+          ],
+        }
+      ],
+    },
+  },
+  access: ProjectionAccess {
+    options: {
+      client: {
+        capabilities: [AsyncFunction: capabilities],
+        ensure: [AsyncFunction: ensure],
+        replay: [AsyncFunction: replay],
+        submit: [AsyncFunction: submit],
+        inspect: [AsyncFunction: inspect],
+        bulletinSnapshot: [AsyncFunction: bulletinSnapshot],
+        retainCommunicationAudit: [Function: retainCommunicationAudit],
+      },
+      directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj",
+      profiles: {
+        explore: "re-explore",
+        evaluate: "re-evaluate",
+        A: "re-A",
+        B: "re-B",
+        R: "re-R",
+      },
+      approvedSources: [],
+      projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj\\inputs",
+      outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-kU2cfj\\outputs",
+      roleInstructions: {
+        explore: "Scientific explore instructions",
+        evaluate: "Scientific evaluate instructions",
+        A: "Scientific A instructions",
+        B: "Scientific B instructions",
+        R: "Scientific R instructions",
+      },
+      allowedTools: [ "read", "execute" ],
+      admissionMode: "native-boundary-witness",
+      outputMode: "json-schema-strict",
+      rePolicy: {
+        version: 1,
+        workKind: "decompilation",
+        reconcilerSharing: true,
+        idaReadBindings: [
+          {
+            operation: "disasm",
+            tool: "write",
+            accesses: [
+              {
+                action: "exact_native_disasm_action",
+                resource: "*",
+              }
+            ],
+          }, {
+            operation: "xrefs_to",
+            tool: "registered_ida_xrefs_to",
+            accesses: [
+              {
+                action: "exact_native_xrefs_action",
+                resource: "*",
+              }
+            ],
+          }
+        ],
+      },
+    },
+    publicFacts: Map {},
+    approveKnowledge: [Function: approveKnowledge],
+    authorized: [Function: authorized],
+    read: [AsyncFunction: read],
+    list: [AsyncFunction: list],
+    tool: [AsyncFunction: tool],
+    projected: [Function: projected],
+  },
+  ensureTeam: [AsyncFunction: ensureTeam],
+  submit: [AsyncFunction: submit],
+  inspect: [AsyncFunction: inspect],
+  inspectStructured: [Function: inspectStructured],
+  pauseAdmissions: [AsyncFunction: pauseAdmissions],
+  resumeAdmissions: [AsyncFunction: resumeAdmissions],
+  stop: [AsyncFunction: stop],
+}
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:179:78)
+(fail) RE cannot rebind builtin tools or permission actions to claimed readonly IDA operations [13.25ms]
+(pass) RE capabilities are checked before team admission, and sharing is explicit [49.92ms]
+(pass) blind authors reject injected peer inputs and unselected native grants [103.47ms]
+(pass) semantic authors accept exact read binding readback without peer authority [49.39ms]
+(pass) communication rejects unknown response aliases and retains raw trace without producing science [22.45ms]
+229 | 
+230 | test("two R native ASM reads plus sourced provisional sharing pass public audit without changing scientific payload", async () => {
+231 |   const f = await sharingFixture(); const before = canonical(f.executions.get(f.a.executionId)!.structuredResult);
+232 |   const a = await f.bridge.inspect(f.a), b = await f.bridge.inspect(f.b);
+233 |   for (const [i, result] of [[f.a, a], [f.b, b]] as const) {
+234 |     expect(result.status).toBe("completed"); expect(result.communicationTrace).toEqual(f.executions.get(i.executionId)!.communicationTrace);
+                                ^
+error: expect(received).toBe(expected)
+
+Expected: "completed"
+Received: "failed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:234:27)
+(fail) two R native ASM reads plus sourced provisional sharing pass public audit without changing scientific payload [31.46ms]
+248 | 
+249 | test("an authenticated peer may still be running; source hashes are declarations, not hashes of returned ASM", async () => {
+250 |   const f = await sharingFixture(); const peer = f.executions.get(f.b.executionId)!;
+251 |   peer.state = "observed_running"; peer.accessVerified = false; peer.accessWitnesses = [];
+252 |   expect(f.second.payload.evidence[0]!.sha256).not.toBe(hash(f.second.payload.evidence[0]!.asm));
+253 |   expect((await f.bridge.inspect(f.a)).status).toBe("completed");
+                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: "completed"
+Received: "failed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:253:48)
+(fail) an authenticated peer may still be running; source hashes are declarations, not hashes of returned ASM [31.04ms]
+(pass) bulletin audit rejects mission before scientific materialization [30.87ms]
+(pass) bulletin audit rejects channel before scientific materialization [30.42ms]
+(pass) bulletin audit rejects version before scientific materialization [28.87ms]
+(pass) bulletin audit rejects snapshot-alias before scientific materialization [33.00ms]
+(pass) bulletin audit rejects trace-alias before scientific materialization [30.43ms]
+(pass) bulletin audit rejects missing-message before scientific materialization [30.10ms]
+(pass) bulletin audit rejects ref-hash before scientific materialization [29.52ms]
+(pass) bulletin audit rejects payload-hash before scientific materialization [29.23ms]
+(pass) bulletin audit rejects schema-hash before scientific materialization [31.74ms]
+(pass) bulletin audit rejects id before scientific materialization [34.04ms]
+(pass) bulletin audit rejects duplicate before scientific materialization [35.97ms]
+(pass) bulletin audit rejects order before scientific materialization [33.17ms]
+(pass) bulletin audit rejects cursor before scientific materialization [32.33ms]
+(pass) bulletin audit rejects received-above-cursor before scientific materialization [32.57ms]
+(pass) bulletin audit rejects own-author before scientific materialization [30.75ms]
+(pass) bulletin audit rejects binary before scientific materialization [31.95ms]
+(pass) bulletin audit rejects member before scientific materialization [32.12ms]
+(pass) bulletin audit rejects source-tool before scientific materialization [32.75ms]
+(pass) bulletin audit rejects source-hash before scientific materialization [30.57ms]
+(pass) bulletin audit rejects payload-alias before scientific materialization [30.29ms]
+(pass) bulletin audit rejects status before scientific materialization [31.10ms]
+(pass) bulletin author public inspect rejects session spoofing [33.93ms]
+(pass) bulletin author public inspect rejects model spoofing [33.27ms]
+(pass) bulletin author public inspect rejects profile spoofing [45.67ms]
+(pass) bulletin author public inspect rejects directory spoofing [33.53ms]
+(pass) bulletin author public inspect rejects mission spoofing [39.38ms]
+(pass) bulletin author public inspect rejects role spoofing [36.07ms]
+(pass) bulletin author public inspect rejects group spoofing [35.81ms]
+(pass) bulletin author public inspect rejects cycle spoofing [33.76ms]
+(pass) bulletin author public inspect rejects policy spoofing [31.47ms]
+(pass) bulletin author public inspect rejects bindings spoofing [33.57ms]
+(pass) bulletin author public inspect rejects binding-hash spoofing [32.86ms]
+(pass) bulletin author public inspect rejects communication-hash spoofing [30.02ms]
+(pass) bulletin author public inspect rejects publication spoofing [29.29ms]
+(pass) bulletin author public inspect rejects unknown-author spoofing [30.22ms]
+311 |   });
+312 | }
+313 | 
+314 | test("audit replay survives controller restart, accepts later publications/self-read/skipped cursors, refuses trace regression", async () => {
+315 |   const f = await sharingFixture(); f.receive(f.a, f.first);
+316 |   const initial = await f.bridge.inspect(f.a); expect(initial.status).toBe("completed"); const content = initial.artifact!.content;
+                                                                            ^
+error: expect(received).toBe(expected)
+
+Expected: "completed"
+Received: "failed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:316:71)
+(fail) audit replay survives controller restart, accepts later publications/self-read/skipped cursors, refuses trace regression [30.19ms]
+(pass) R requires a successful exact native disasm witness; file reads and prompt flags cannot fake it [244.45ms]
+(pass) canonical native MCP permission event uses configured exact action plus literal star resource [23.97ms]
+380 |     expect(r).toHaveLength(2); expect(ab).toHaveLength(4);
+381 |     expect(r[0]!.dossier.inputs.neighborhood).toEqual(neighborhood);
+382 |     expect(r[0]!.communication).toEqual(r[1]!.communication);
+383 |     for (const a of ab) { expect(a.communication).toBeUndefined(); expect(a.nativeTools ?? []).toEqual([]); expect(a.dossier.inputs.neighborhood).toBeUndefined(); expect(a.dossier.inputs.proposals).toBeUndefined(); }
+384 |     expect(s.config.knowledge).toEqual(cfg.knowledge); expect(s.validatedFacts ?? []).toEqual([]); expect(publication.counts()).toEqual({ writes: 0, readbacks: 0 });
+385 |     expect(s.reconciliations).toHaveLength(2);
+                                    ^
+error: expect(received).toHaveLength(expected)
+
+Expected length: 2
+Received length: 0
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:385:31)
+(fail) offline two-function engine/bridge fixture: deterministic frozen membership, two R share channel, A/B stay blind, no auto-publication [242.15ms]
+
+6 tests failed:
+(fail) bulletinSnapshot uses only public authenticated mission/directory scope and optional assigned channel [23.24ms]
+(fail) RE cannot rebind builtin tools or permission actions to claimed readonly IDA operations [13.25ms]
+(fail) two R native ASM reads plus sourced provisional sharing pass public audit without changing scientific payload [31.46ms]
+(fail) an authenticated peer may still be running; source hashes are declarations, not hashes of returned ASM [31.04ms]
+(fail) audit replay survives controller restart, accepts later publications/self-read/skipped cursors, refuses trace regression [30.19ms]
+(fail) offline two-function engine/bridge fixture: deterministic frozen membership, two R share channel, A/B stay blind, no auto-publication [242.15ms]
+
+ 62 pass
+ 6 fail
+ 404 expect() calls
+Ran 68 tests across 2 files. [2.66s]

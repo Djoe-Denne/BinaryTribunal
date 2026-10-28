@@ -5,7 +5,7 @@ category: skills
 tags: [ff8, battle-system, testing, skill]
 aliases: [runtime placement skill, ff8iso_runtime placement]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/.agents/skills/placing-runtime-laboratories/SKILL.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/.agents/skills/placing-runtime-laboratories/SKILL.md
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-

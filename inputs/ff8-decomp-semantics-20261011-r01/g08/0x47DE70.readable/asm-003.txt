@@ -1,0 +1,25 @@
+0047DF12: jmp     short loc_47DF1B; Jump
+0047DF14: and     eax, 0FFh; Logical AND
+0047DF19: push    ebx; group
+0047DF1A: push    eax; special_id
+0047DF1B: push    ecx; slot
+0047DF1C: call    domain__Battle_EnqueueSpecialAction; G17: sole native group-0 writer. (slot, special_id, group). group==0 -> stru_1D28864; group!=0 -> group 2. command_id=0xFF. IDs 2/3/5/6/7/8 are G17; id 1 from EnqueueEnemyCounterActions is group 2.
+0047DF21: add     esp, 0Ch; Add
+0047DF24: mov     BATTLE_SLOT_DATA.attack_sequence_id[esi], bl
+0047DF2A: mov     BATTLE_SLOT_DATA.target_reaction_type[esi], bl
+0047DF30: mov     ecx, ATTACKER_SLOT_ID_0
+0047DF36: inc     edi; Increment by 1
+0047DF37: and     ecx, 0FFh; Logical AND
+0047DF3D: cmp     edi, ecx; Compare Two Operands
+0047DF3F: jl      short loc_47DED0; Jump if Less (SF!=OF)
+0047DF41: pop     esi
+0047DF42: call    domain__Battle_ResetAttackHitCount; thunk jmp : 1 instr vers 47DC50 (pas de logique locale)
+0047DF47: call    domain__Battle_CommitPartyHPAndMagicToSave; Battle->field commit for party state: copies current HP back to SG_ARRAY_CHARA_DATA, syncs magic via Battle_CopyMagicStocksToSave, updates SG_KNOWN_MAGIC/draw availability, then rebuilds junction-derived stats and battle slot data.
+0047DF4C: xor     edx, edx; Logical Exclusive OR
+0047DF4E: mov     dl, AI_CURRENT_EXECUTING_SLOT
+0047DF54: push    edx; param_slot_id
+0047DF55: call    relatedToCharAtbFlagData; slot*464 + offsets junction col low/high (+0x96/+0x97 pour 1ere col)
+0047DF5A: add     esp, 4; Add
+0047DF5D: pop     edi
+0047DF5E: pop     ebx
+0047DF5F: retn; Return Near from Procedure

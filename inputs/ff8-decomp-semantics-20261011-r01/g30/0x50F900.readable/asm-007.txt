@@ -1,0 +1,25 @@
+0050FB43: cmp     eax, [esp+60h+var_18]; Compare Two Operands
+0050FB47: jbe     short loc_50FB4F; Jump if Below or Equal (CF=1 | ZF=1)
+0050FB49: or      esi, offset unk_2000000; Logical Inclusive OR
+0050FB4F: shl     eax, 10h; Shift Logical Left
+0050FB52: and     ecx, 0FFFFh; Logical AND
+0050FB58: and     edx, 0FFFFh; Logical AND
+0050FB5E: or      eax, ecx; Logical Inclusive OR
+0050FB60: or      edx, esi; Logical Inclusive OR
+0050FB62: mov     [edi], eax
+0050FB64: mov     eax, [esp+60h+var_48]
+0050FB68: mov     [edi+4], edx
+0050FB6B: add     edi, 8; Add
+0050FB6E: dec     eax; Decrement by 1
+0050FB6F: mov     [esp+60h+var_48], eax
+0050FB73: jnz     loc_50FA0D; Jump if Not Zero (ZF=0)
+0050FB79: mov     eax, [ebp+verts]
+0050FB7C: mov     ecx, [ebp+outPacked]
+0050FB7F: mov     edx, [esp+60h+var_4C]
+0050FB83: mov     [eax], edx
+0050FB85: mov     [ecx], edi
+0050FB87: pop     edi
+0050FB88: pop     esi
+0050FB89: pop     ebx
+0050FB8A: mov     esp, ebp
+0050FB8C: pop     ebp

@@ -1,0 +1,25 @@
+0048D262: lea     esi, [eax+eax*2]; Load Effective Address
+0048D265: shl     esi, 3; Shift Logical Left
+0048D268: cmp     K_ITEM.attackType[esi], 0Eh; Compare Two Operands
+0048D26F: jnz     loc_48D30F; Jump if Not Zero (ZF=0)
+0048D275: cmp     bx, 1Eh; Compare Two Operands
+0048D279: mov     byte ptr [esp+24h+p_command_type], 0F4h
+0048D27E: mov     byte ptr [esp+24h+p_param_is_0_for_ai], bl
+0048D282: jnz     short loc_48D2F2; Jump if Not Zero (ZF=0)
+0048D284: mov     al, SG_CHOCOBO_WORLD_DATA.FlagInfo
+0048D289: mov     byte ptr dword_1D28E20+1, 1
+0048D290: test    al, 1; Logical Compare
+0048D292: jz      short loc_48D2B1; Jump if Zero (ZF=1)
+0048D294: test    al, 2; Logical Compare
+0048D296: jnz     short loc_48D2AA; Jump if Not Zero (ZF=0)
+0048D298: movzx   bx, SG_CHOCOBO_WORLD_DATA.BokoAttack; Move with Zero-Extend
+0048D2A0: add     ebx, 2; Add
+0048D2A3: mov     eax, 2
+0048D2A8: jmp     short loc_48D2B3; Jump
+0048D2AA: mov     eax, 1
+0048D2AF: jmp     short loc_48D2B3; Jump
+0048D2B1: xor     eax, eax; Logical Exclusive OR
+0048D2B3: sub     eax, 0; Integer Subtraction
+0048D2B6: jz      short loc_48D2EB; Jump if Zero (ZF=1)
+0048D2B8: dec     eax; Decrement by 1
+0048D2B9: jnz     short loc_48D2C0; Jump if Not Zero (ZF=0)

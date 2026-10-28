@@ -1,0 +1,378 @@
+{
+  "ea": "0x47CF60",
+  "name_label_only": "main::FFBattleModule",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x47cf60",
+      "end": "0x47d285",
+      "hex": "83ec1c53568b74242833db399ea80b0000751468e001000068800200005353e83ce5fdff83c4108d4424085650c744241800000000c744241400000000c744241000000000c744241c0000803fe8b611faff566a016a016a01e8fc0ffaff8b86a80b000083c4183bc375238b0d5076a7018b155476a701a14876a701518b0d4c76a701525051e8d5e4fdff83c4105653e87d19faff83c40885c00f84430200008b1584a2d20152e88e9bf9ffa188a2d20150e8e27bfaffe804e10100e81fca010056e8c12bfcff56e815cbf8ff56e8d5caf8ff56e8eccaf8ff83c418e8ffe90e00a0ea8dd2013ac30f8485000000e87da1020085c0747cc70534f8cf0101000000891d44f8cf01c786880b000001000000e80ae5fdffe83531ffffe83031ffffe82b31ffffe82631ffff66833de0bfcd0103752753e846a6020083c404e88ebd0200e839b40200e884bd0200e82fb40200e87abd0200e825b40200e820e2fdff85c0744656e8d318faff83c4045e5b83c41cc3881de98dd201a134f8cf013bc37405e8b9320800a144f8cf01891d34f8cf013bc30f846dffffff899e880b0000e88be4fdffe96cffffffa0e98dd2013ac37505e898fbffff66833de0bfcd0103752e33c0a0806ad9018d0c40c1e1032bc88d148dc869d90152e8a2a5020083c404e8eabc0200e895b30200e890a70200391d30f8cf01745266833de0bfcd0104751ac744241080224a00c7442414a0224a00c744241890264a00eb18c744241090064700c7442414a0064700c7442418b00647008d4424085650895c2424895c2428e8b0c8f8ff83c408a0e98dd2013ac37547a1f4f6cf013bc374378b155076a70133c983f802a15476a7010f94c1518b0d4876a70168a69bc43a528b154c76a701505152e8e6ff0e0083c418891df4f6cf01e888e80e00eb0a6affe80f04feff83c404391d34f8cf017407c605e98dd20101391d44f8cf01751ae8a0ae0100e80b87feff566a01e81a17faff83c408e86bcc0100e816e2fdff56e85d17faff83c404e878070f00a170d9b6003bc37414391d34f8cf01750ce8924ef8ffa344f8cf01eb06891d44f8cf01dd05e08ba701e81adb0d0050e894eafeff83c4045e5b83c41cc3"
+    }
+  ],
+  "assembly": "0047CF60: sub     esp, 1Ch; LIVE 2026-07-12: whole-frame owner confirmed. cdecl arg1 is stable engine/app context (0x092383C8 in capture). Paused frame: HUD x4 then battle draw/present, no director/BdLink. Active frame: HUD x3 -> Director -> active tick -> file-callback tail -> BdLink -> HUD x1 -> frame support -> global present.\n0047CF63: push    ebx\n0047CF64: push    esi\n0047CF65: mov     esi, [esp+24h+game_object]\n0047CF69: xor     ebx, ebx; Logical Exclusive OR\n0047CF6B: cmp     [esi+0BA8h], ebx; Compare Two Operands\n0047CF71: jnz     short loc_47CF87; Jump if Not Zero (ZF=0)\n0047CF73: push    1E0h\n0047CF78: push    280h\n0047CF7D: push    ebx\n0047CF7E: push    ebx\n0047CF7F: call    SetResolution; engine+2984 is the backend selector: 0=DDrawAlt, 1=DDraw, 2=custom, 3=OpenGL. Zero does not prove that the driver object is absent.\n0047CF84: add     esp, 10h; Add\n0047CF87: lea     eax, [esp+24h+var_1C]; Load Effective Address\n0047CF8B: push    esi\n0047CF8C: push    eax\n0047CF8D: mov     [esp+2Ch+var_14], 0\n0047CF95: mov     [esp+2Ch+var_18], 0\n0047CF9D: mov     [esp+2Ch+var_1C], 0\n0047CFA5: mov     [esp+2Ch+var_10], 3F800000h\n0047CFAD: call    isGetDrawBuf; Call Procedure\n0047CFB2: push    esi\n0047CFB3: push    1\n0047CFB5: push    1\n0047CFB7: push    1\n0047CFB9: call    isGetDrawBuf2; Call Procedure\n0047CFBE: mov     eax, [esi+0BA8h]\n0047CFC4: add     esp, 18h; Add\n0047CFC7: cmp     eax, ebx; Compare Two Operands\n0047CFC9: jnz     short loc_47CFEE; Jump if Not Zero (ZF=0)\n0047CFCB: mov     ecx, Render_Height\n0047CFD1: mov     edx, Render_width\n0047CFD7: mov     eax, Render_Y_Axis\n0047CFDC: push    ecx\n0047CFDD: mov     ecx, Render_X_Axis\n0047CFE3: push    edx\n0047CFE4: push    eax\n0047CFE5: push    ecx\n0047CFE6: call    SetResolution; Call Procedure\n0047CFEB: add     esp, 10h; Add\n0047CFEE: push    esi; int\n0047CFEF: push    ebx; int\n0047CFF0: call    GfxDriver_BeginScene; Call Procedure\n0047CFF5: add     esp, 8; Add\n0047CFF8: test    eax, eax; Logical Compare\n0047CFFA: jz      loc_47D243; Jump if Zero (ZF=1)\n0047D000: mov     edx, dummy4_39\n0047D006: push    edx\n0047D007: call    sub_416B9A; Call Procedure\n0047D00C: mov     eax, dword_1D2A288\n0047D011: push    eax\n0047D012: call    sub_424BF9; Call Procedure\n0047D017: call    Gfx_CopyRenderTuningDefaults; Copie trois constantes de réglage flottantes (0, 0.0005, 0.001) vers l'état de rendu. Aucun parsing ni chargement TIM.\n0047D01C: call    sub_499A40; Call Procedure\n0047D021: push    esi\n0047D022: call    Render_ESI_A60h_unused; Call Procedure\n0047D027: push    esi\n0047D028: call    render_ESIA78h; Call Procedure\n0047D02D: push    esi\n0047D02E: call    render_ESI348; Call Procedure\n0047D033: push    esi\n0047D034: call    sub_409B25; Call Procedure\n0047D039: add     esp, 18h; Add\n0047D03C: call    ___setargv_2; Call Procedure\n0047D041: mov     al, CAN_BATTLE_BE_PAUSED\n0047D046: cmp     al, bl; Compare Two Operands\n0047D048: jz      loc_47D0D3; Jump if Zero (ZF=1)\n0047D04E: call    battle_pause_related_sub_4A71D0; Call Procedure\n0047D053: test    eax, eax; Logical Compare\n0047D055: jz      short loc_47D0D3; Jump if Zero (ZF=1)\n0047D057: mov     pause_game_battle, 1\n0047D061: mov     is_sleeping, ebx\n0047D067: mov     dword ptr [esi+0B88h], 1\n0047D071: call    Gpu_EnableOTagHostPass; SET B7CC24=1 unconditional, every battle frame (PH10)\n0047D076: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers\n0047D07B: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers\n0047D080: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers\n0047D085: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers\n0047D08A: cmp     mode_Battle_AnimationState, 3; Compare Two Operands\n0047D092: jnz     short loc_47D0BB; Jump if Not Zero (ZF=0)\n0047D094: push    ebx; draw_env\n0047D095: call    BattleUI_SetHudDrawTarget; Call Procedure\n0047D09A: add     esp, 4; Add\n0047D09D: call    isBattle_HUDupdate; First of three pre-director HUD/input ticks. HudDrawTarget was forced to 0, so these ticks do not call BattleUI_RenderHud.\n0047D0A2: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.\n0047D0A7: call    isBattle_HUDupdate; Call Procedure\n0047D0AC: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.\n0047D0B1: call    isBattle_HUDupdate; Call Procedure\n0047D0B6: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.\n0047D0BB: call    IsWindowNOTActive; Call Procedure\n0047D0C0: test    eax, eax; Logical Compare\n0047D0C2: jz      short loc_47D10A; Jump if Zero (ZF=1)\n0047D0C4: push    esi; int\n0047D0C5: call    GfxDriver_LeaveScene; Call Procedure\n0047D0CA: add     esp, 4; Add\n0047D0CD: pop     esi\n0047D0CE: pop     ebx\n0047D0CF: add     esp, 1Ch; Add\n0047D0D2: retn; Return Near from Procedure\n0047D0D3: mov     IS_BATTLE_PAUSED, bl\n0047D0D9: mov     eax, pause_game_battle\n0047D0DE: cmp     eax, ebx; Compare Two Operands\n0047D0E0: jz      short loc_47D0E7; Jump if Zero (ZF=1)\n0047D0E2: call    battle_sub_5003A0; Call Procedure\n0047D0E7: mov     eax, is_sleeping\n0047D0EC: mov     pause_game_battle, ebx\n0047D0F2: cmp     eax, ebx; Compare Two Operands\n0047D0F4: jz      loc_47D067; Jump if Zero (ZF=1)\n0047D0FA: mov     [esi+0B88h], ebx\n0047D100: call    sub_45B590; CLEAR B7CC24=0 (focus-loss branch only; no draws after) (PH10)\n0047D105: jmp     loc_47D076; Jump\n0047D10A: mov     al, IS_BATTLE_PAUSED\n0047D10F: cmp     al, bl; Compare Two Operands\n0047D111: jnz     short loc_47D118; Jump if Not Zero (ZF=0)\n0047D113: call    main__FFBattleDirector_battleLoop; Unpaused-only call to FFBattleDirector_battleLoop. Skipping/replacing this call replaces domain progression but not the surrounding frame/HUD/render owner. Gate reads IS_BATTLE_PAUSED; pause_game_battle is copied into that latch near end-of-frame, so the transition frame can still run the director.\n0047D118: cmp     mode_Battle_AnimationState, 3; Compare Two Operands\n0047D120: jnz     short loc_47D150; Jump if Not Zero (ZF=0)\n0047D122: xor     eax, eax; Logical Exclusive OR\n0047D124: mov     al, byte ptr g_BattleFramePingPongIndex\n0047D129: lea     ecx, [eax+eax*2]; Load Effective Address\n0047D12C: shl     ecx, 3; Shift Logical Left\n0047D12F: sub     ecx, eax; Integer Subtraction\n0047D131: lea     edx, ds:1D969C8h[ecx*4]; Load Effective Address\n0047D138: push    edx; draw_env\n0047D139: call    BattleUI_SetHudDrawTarget; Post-director HUD pulse selects DRAWENV = 0x1D969C8 + 92*pingpong. This is not g_BattleOTBase and not a boolean enable flag.\n0047D13E: add     esp, 4; Add\n0047D141: call    isBattle_HUDupdate; Call Procedure\n0047D146: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.\n0047D14B: call    Battle_cursor_battle_win_and_pause_menu_render_related; Call Procedure\n0047D150: cmp     exit_battle, ebx; Compare Two Operands\n0047D156: jz      short loc_47D1AA; Jump if Zero (ZF=1)\n0047D158: cmp     mode_Battle_AnimationState, 4; Compare Two Operands\n0047D160: jnz     short loc_47D17C; Jump if Not Zero (ZF=0)\n0047D162: mov     [esp+24h+var_14], offset menu_init_sub_4A2280\n0047D16A: mov     [esp+24h+var_10], offset menu_exit_sub_4A22A0\n0047D172: mov     [esp+24h+var_C], offset main__BattleRewardMenu_MainLoop; Battle frame owner selects main::BattleRewardMenu_MainLoop as the next module callback when exit_battle is set and mode_Battle_AnimationState==4.\n0047D17A: jmp     short loc_47D194; Jump\n0047D17C: mov     [esp+24h+var_14], offset main_init_sub_470690\n0047D184: mov     [esp+24h+var_10], offset main_exit_sub_4706A0\n0047D18C: mov     [esp+24h+var_C], offset main__FFModuleHandler_main_loop; Old name: FFModuleHandler_main_loop. Top-level module dispatcher loop.\n0047D194: lea     eax, [esp+24h+var_1C]; Load Effective Address\n0047D198: push    esi\n0047D199: push    eax\n0047D19A: mov     [esp+2Ch+var_8], ebx\n0047D19E: mov     [esp+2Ch+var_4], ebx\n0047D1A2: call    FFSwitchModule_set_game_loop; Call Procedure\n0047D1A7: add     esp, 8; Add\n0047D1AA: mov     al, IS_BATTLE_PAUSED\n0047D1AF: cmp     al, bl; Compare Two Operands\n0047D1B1: jnz     short loc_47D1FA; Jump if Not Zero (ZF=0)\n0047D1B3: mov     eax, battle_swirl_dword_1CFF6F4\n0047D1B8: cmp     eax, ebx; Compare Two Operands\n0047D1BA: jz      short loc_47D1F3; Jump if Zero (ZF=1)\n0047D1BC: mov     edx, Render_Height\n0047D1C2: xor     ecx, ecx; Logical Exclusive OR\n0047D1C4: cmp     eax, 2; Compare Two Operands\n0047D1C7: mov     eax, Render_width\n0047D1CC: setz    cl; Set Byte if Zero (ZF=1)\n0047D1CF: push    ecx; int\n0047D1D0: mov     ecx, Render_Y_Axis\n0047D1D6: push    3AC49BA6h; int\n0047D1DB: push    edx; int\n0047D1DC: mov     edx, Render_X_Axis\n0047D1E2: push    eax; int\n0047D1E3: push    ecx; int\n0047D1E4: push    edx; int\n0047D1E5: call    start_battle_swirl_sub_56D1D0; one-shot overlay iff latch!=0 && !pause; clears latch; color 0x55FFFFFF, Z 0x3AC49BA6 (PH10)\n0047D1EA: add     esp, 18h; Add\n0047D1ED: mov     battle_swirl_dword_1CFF6F4, ebx\n0047D1F3: call    nullsub_35; Call Procedure\n0047D1F8: jmp     short loc_47D204; Jump\n0047D1FA: push    0FFFFFFFFh; ot_head\n0047D1FC: call    Gpu_DrawOTagCurrent; Thunk DrawOTag courant vers 0x45D080; pas un upload de texture.\n0047D201: add     esp, 4; Add\n0047D204: cmp     pause_game_battle, ebx; Compare Two Operands\n0047D20A: jz      short loc_47D213; End-of-frame pause latch: copy pause_game_battle into IS_BATTLE_PAUSED for the next frame's director gate.\n0047D20C: mov     IS_BATTLE_PAUSED, 1\n0047D213: cmp     is_sleeping, ebx; Compare Two Operands\n0047D219: jnz     short loc_47D235; Jump if Not Zero (ZF=0)\n0047D21B: call    Gfx_SubmitDisplayLists; Vague C: persistance. Pas d unlink. RS(2,0/1) autour des walks extra. TPage drainee ailleurs vs listes conservees. Shared field/battle/menu/world.\n0047D220: call    Gfx_SubmitTexturePageLists; Submits texture-page draw lists while changing driver pass/state slots, then clears the consumed lists. Shared rendering support, not a texture upload alone.\n0047D225: push    esi; int\n0047D226: push    1; int\n0047D228: call    GfxDriver_SelectRenderTarget; Optional battle end-scene callsite, executed only when !is_sleeping. Frame-skip/catch-up may omit this call while the global present path still runs.\n0047D22D: add     esp, 8; Add\n0047D230: call    Gfx_SubmitViewportLists; Submits queued viewport-specific draw lists, restores the main viewport, then drains trailing lists.\n0047D235: call    common_set_dword_1B477F4_to_zero_sub_45B450; Call Procedure\n0047D23A: push    esi; int\n0047D23B: call    GfxDriver_LeaveScene; Driver slot +164 leaves/unlocks the scene. It is not GPU present; SwapBuffers/Flip/Blt is driver slot +16 via Render_FramePresent_Dispatch outside FFBattleModule.\n0047D240: add     esp, 4; Add\n0047D243: call    reset_dword_209CEEC_input_related_sub_56D9C0; Call Procedure\n0047D248: mov     eax, movie_dword_B6D970\n0047D24D: cmp     eax, ebx; Compare Two Operands\n0047D24F: jz      short loc_47D265; Jump if Zero (ZF=1)\n0047D251: cmp     pause_game_battle, ebx; Compare Two Operands\n0047D257: jnz     short loc_47D265; Jump if Not Zero (ZF=0)\n0047D259: call    UpdateRateRelated; Frame-rate limiter: timeGetTime/QPC delta vs target interval dbl_1A78BE8 (~64.5 ms => ~15 fps battle logic). Sleeps the remainder, or returns 1 to frame-skip/catch-up (-> is_sleeping, which throttles the logic block in FFBattleModule).\n0047D25E: mov     is_sleeping, eax\n0047D263: jmp     short loc_47D26B; Jump\n0047D265: mov     is_sleeping, ebx\n0047D26B: fld     timer_volume_change_related_dbl_1A788B8; Load Real\n0047D271: call    __ftol; Call Procedure\n0047D276: push    eax\n0047D277: call    music_sfx_volume_changes_loop_sub_46BB10; Call Procedure\n0047D27C: add     esp, 4; Add\n0047D27F: pop     esi\n0047D280: pop     ebx\n0047D281: add     esp, 1Ch; Add\n0047D284: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x47cf60",
+      "end": "0x47cf73",
+      "successors": [
+        "0x47cf73",
+        "0x47cf87"
+      ]
+    },
+    {
+      "start": "0x47cf73",
+      "end": "0x47cf87",
+      "successors": [
+        "0x47cf87"
+      ]
+    },
+    {
+      "start": "0x47cf87",
+      "end": "0x47cfcb",
+      "successors": [
+        "0x47cfcb",
+        "0x47cfee"
+      ]
+    },
+    {
+      "start": "0x47cfcb",
+      "end": "0x47cfee",
+      "successors": [
+        "0x47cfee"
+      ]
+    },
+    {
+      "start": "0x47cfee",
+      "end": "0x47d000",
+      "successors": [
+        "0x47d000",
+        "0x47d243"
+      ]
+    },
+    {
+      "start": "0x47d000",
+      "end": "0x47d04e",
+      "successors": [
+        "0x47d04e",
+        "0x47d0d3"
+      ]
+    },
+    {
+      "start": "0x47d04e",
+      "end": "0x47d057",
+      "successors": [
+        "0x47d057",
+        "0x47d0d3"
+      ]
+    },
+    {
+      "start": "0x47d057",
+      "end": "0x47d067",
+      "successors": [
+        "0x47d067"
+      ]
+    },
+    {
+      "start": "0x47d067",
+      "end": "0x47d076",
+      "successors": [
+        "0x47d076"
+      ]
+    },
+    {
+      "start": "0x47d076",
+      "end": "0x47d094",
+      "successors": [
+        "0x47d094",
+        "0x47d0bb"
+      ]
+    },
+    {
+      "start": "0x47d094",
+      "end": "0x47d0bb",
+      "successors": [
+        "0x47d0bb"
+      ]
+    },
+    {
+      "start": "0x47d0bb",
+      "end": "0x47d0c4",
+      "successors": [
+        "0x47d0c4",
+        "0x47d10a"
+      ]
+    },
+    {
+      "start": "0x47d0c4",
+      "end": "0x47d0d3",
+      "successors": []
+    },
+    {
+      "start": "0x47d0d3",
+      "end": "0x47d0e2",
+      "successors": [
+        "0x47d0e2",
+        "0x47d0e7"
+      ]
+    },
+    {
+      "start": "0x47d0e2",
+      "end": "0x47d0e7",
+      "successors": [
+        "0x47d0e7"
+      ]
+    },
+    {
+      "start": "0x47d0e7",
+      "end": "0x47d0fa",
+      "successors": [
+        "0x47d067",
+        "0x47d0fa"
+      ]
+    },
+    {
+      "start": "0x47d0fa",
+      "end": "0x47d10a",
+      "successors": [
+        "0x47d076"
+      ]
+    },
+    {
+      "start": "0x47d10a",
+      "end": "0x47d113",
+      "successors": [
+        "0x47d113",
+        "0x47d118"
+      ]
+    },
+    {
+      "start": "0x47d113",
+      "end": "0x47d118",
+      "successors": [
+        "0x47d118"
+      ]
+    },
+    {
+      "start": "0x47d118",
+      "end": "0x47d122",
+      "successors": [
+        "0x47d122",
+        "0x47d150"
+      ]
+    },
+    {
+      "start": "0x47d122",
+      "end": "0x47d150",
+      "successors": [
+        "0x47d150"
+      ]
+    },
+    {
+      "start": "0x47d150",
+      "end": "0x47d158",
+      "successors": [
+        "0x47d158",
+        "0x47d1aa"
+      ]
+    },
+    {
+      "start": "0x47d158",
+      "end": "0x47d162",
+      "successors": [
+        "0x47d162",
+        "0x47d17c"
+      ]
+    },
+    {
+      "start": "0x47d162",
+      "end": "0x47d17c",
+      "successors": [
+        "0x47d194"
+      ]
+    },
+    {
+      "start": "0x47d17c",
+      "end": "0x47d194",
+      "successors": [
+        "0x47d194"
+      ]
+    },
+    {
+      "start": "0x47d194",
+      "end": "0x47d1aa",
+      "successors": [
+        "0x47d1aa"
+      ]
+    },
+    {
+      "start": "0x47d1aa",
+      "end": "0x47d1b3",
+      "successors": [
+        "0x47d1b3",
+        "0x47d1fa"
+      ]
+    },
+    {
+      "start": "0x47d1b3",
+      "end": "0x47d1bc",
+      "successors": [
+        "0x47d1bc",
+        "0x47d1f3"
+      ]
+    },
+    {
+      "start": "0x47d1bc",
+      "end": "0x47d1f3",
+      "successors": [
+        "0x47d1f3"
+      ]
+    },
+    {
+      "start": "0x47d1f3",
+      "end": "0x47d1fa",
+      "successors": [
+        "0x47d204"
+      ]
+    },
+    {
+      "start": "0x47d1fa",
+      "end": "0x47d204",
+      "successors": [
+        "0x47d204"
+      ]
+    },
+    {
+      "start": "0x47d204",
+      "end": "0x47d20c",
+      "successors": [
+        "0x47d20c",
+        "0x47d213"
+      ]
+    },
+    {
+      "start": "0x47d20c",
+      "end": "0x47d213",
+      "successors": [
+        "0x47d213"
+      ]
+    },
+    {
+      "start": "0x47d213",
+      "end": "0x47d21b",
+      "successors": [
+        "0x47d21b",
+        "0x47d235"
+      ]
+    },
+    {
+      "start": "0x47d21b",
+      "end": "0x47d235",
+      "successors": [
+        "0x47d235"
+      ]
+    },
+    {
+      "start": "0x47d235",
+      "end": "0x47d243",
+      "successors": [
+        "0x47d243"
+      ]
+    },
+    {
+      "start": "0x47d243",
+      "end": "0x47d251",
+      "successors": [
+        "0x47d251",
+        "0x47d265"
+      ]
+    },
+    {
+      "start": "0x47d251",
+      "end": "0x47d259",
+      "successors": [
+        "0x47d259",
+        "0x47d265"
+      ]
+    },
+    {
+      "start": "0x47d259",
+      "end": "0x47d265",
+      "successors": [
+        "0x47d26b"
+      ]
+    },
+    {
+      "start": "0x47d265",
+      "end": "0x47d26b",
+      "successors": [
+        "0x47d26b"
+      ]
+    },
+    {
+      "start": "0x47d26b",
+      "end": "0x47d285",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4709ec",
+      "type": 1,
+      "iscode": false,
+      "function": "0x4706b0"
+    },
+    {
+      "from": "0x5598dd",
+      "type": 1,
+      "iscode": false,
+      "function": "0x559890"
+    }
+  ],
+  "code_targets": [
+    "0x4020f0",
+    "0x409a57",
+    "0x409b08",
+    "0x409b25",
+    "0x409b42",
+    "0x416b9a",
+    "0x41dfba",
+    "0x41e168",
+    "0x41e947",
+    "0x41e972",
+    "0x41e99d",
+    "0x424bf9",
+    "0x43fbe8",
+    "0x45b2e0",
+    "0x45b450",
+    "0x45b4c0",
+    "0x45b580",
+    "0x45b590",
+    "0x45d610",
+    "0x465930",
+    "0x46bd10",
+    "0x4701b0",
+    "0x47ccb0",
+    "0x4980c0",
+    "0x499a40",
+    "0x499ea0",
+    "0x49b120",
+    "0x4a71d0",
+    "0x4a76e0",
+    "0x4a78e0",
+    "0x4a84e0",
+    "0x4a8e30",
+    "0x5003a0",
+    "0x55ad90",
+    "0x56ba40",
+    "0x56ba80",
+    "0x56d1d0",
+    "0x56d9c0"
+  ],
+  "instruction_count": 209
+}

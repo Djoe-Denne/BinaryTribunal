@@ -1,0 +1,182 @@
+{
+  "purpose": "Exact existing cleanup callsites for future full; not authorization or invocation",
+  "scannedTsFiles": 39,
+  "readonlyCleanupFiles": 12,
+  "callCount": 22,
+  "aliases": [],
+  "tempAssignments": [],
+  "rows": [
+    {
+      "path": "adapter.test.ts",
+      "bytes": 7135,
+      "sha256": "b9958fd630686e1a402f15226c65b8807f2d1c957e6cc50b92a4c547df0915e6",
+      "calls": [
+        {
+          "line": 15,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        },
+        {
+          "line": 24,
+          "call": "rmSync(f.native)"
+        }
+      ]
+    },
+    {
+      "path": "client.test.ts",
+      "bytes": 7167,
+      "sha256": "3962639ba3f842ea2ba40be0bf6cac9bd5e1be9e20016fd73f0116bc83c6e22a",
+      "calls": [
+        {
+          "line": 19,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        }
+      ]
+    },
+    {
+      "path": "engine.test.ts",
+      "bytes": 61601,
+      "sha256": "d297478f21d8ccece3154ed4081af3c80a881d9981df1f88c7329c058b7208ae",
+      "calls": [
+        {
+          "line": 357,
+          "call": "require(\"node:fs\").unlinkSync(path + suffix)"
+        },
+        {
+          "line": 533,
+          "call": "fs.unlink(factPath)"
+        },
+        {
+          "line": 534,
+          "call": "fs.unlink(p + suffix)"
+        },
+        {
+          "line": 535,
+          "call": "fs.rmdir(p)"
+        }
+      ]
+    },
+    {
+      "path": "eventlog.test.ts",
+      "bytes": 160642,
+      "sha256": "2813cfdae18bef082a8f93bf5c855fa7a151245c60aa8a1f6638f7dba600264e",
+      "calls": [
+        {
+          "line": 20,
+          "call": "unlinkSync(join(dir, name + suffix))"
+        },
+        {
+          "line": 21,
+          "call": "rmdirSync(dir)"
+        }
+      ]
+    },
+    {
+      "path": "ida-publication.test.ts",
+      "bytes": 21123,
+      "sha256": "82097ffe935719437a23e63b4a4a546df64ca7fd1aeab50a12dc6549aa411ac6",
+      "calls": [
+        {
+          "line": 13,
+          "call": "rmSync(p, { recursive: true, force: true })"
+        }
+      ]
+    },
+    {
+      "path": "inputs.test.ts",
+      "bytes": 4738,
+      "sha256": "e184eafc1047df48c5bb731560f22a229f44eefc72b647363a0ac09b4b1e6761",
+      "calls": [
+        {
+          "line": 45,
+          "call": "fs.unlink(file.path)"
+        },
+        {
+          "line": 45,
+          "call": "fs.rmdir(directory)"
+        },
+        {
+          "line": 45,
+          "call": "fs.rmdir(root)"
+        }
+      ]
+    },
+    {
+      "path": "native-canary-strict.test.ts",
+      "bytes": 5749,
+      "sha256": "2749d77a4c9ee5559a19d5185d8b8d097610ecb4451e83d53460665de8dff67f",
+      "calls": [
+        {
+          "line": 33,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        }
+      ]
+    },
+    {
+      "path": "re-policy.test.ts",
+      "bytes": 35704,
+      "sha256": "eb10f4a8e3b682149c30059329872c8b15b5717943ec9dacfaf768bef2b2fd38",
+      "calls": [
+        {
+          "line": 15,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        }
+      ]
+    },
+    {
+      "path": "readable-projections.test.ts",
+      "bytes": 24036,
+      "sha256": "89f7c34a8e58daa5ab45ebc76336e897c835f068af17089cb883764b005d8e71",
+      "calls": [
+        {
+          "line": 12,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        },
+        {
+          "line": 203,
+          "call": "rmSync(f.source)"
+        },
+        {
+          "line": 211,
+          "call": "rmSync(f.projected(f.source))"
+        }
+      ]
+    },
+    {
+      "path": "runtime.test.ts",
+      "bytes": 5463,
+      "sha256": "01ba882d83ab23bd293bde81673e6a8a5ee6403c24bca83d3e8ec00643cde9ae",
+      "calls": [
+        {
+          "line": 15,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        }
+      ]
+    },
+    {
+      "path": "store.test.ts",
+      "bytes": 3539,
+      "sha256": "2d1dc0cebe57c106b328d907e67b95e0dd08bc74c5361a857ebf2d38559a4c1b",
+      "calls": [
+        {
+          "line": 23,
+          "call": "require(\"node:fs\").unlinkSync(path + suffix)"
+        },
+        {
+          "line": 34,
+          "call": "require(\"node:fs\").unlinkSync(path + suffix)"
+        }
+      ]
+    },
+    {
+      "path": "strict-adapter.test.ts",
+      "bytes": 12370,
+      "sha256": "cf43531c41a865331b12ebb94b51f04e18c0dafa78f1776598de8fa1828d29fd",
+      "calls": [
+        {
+          "line": 11,
+          "call": "rmSync(root, { recursive: true, force: true })"
+        }
+      ]
+    }
+  ]
+}

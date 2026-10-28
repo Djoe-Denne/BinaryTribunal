@@ -1,0 +1,25 @@
+0050B933: retn; Return Near from Procedure
+0050B934: mov     eax, BATTLE_PRESENTATION_FILE_RESULT; jumptable 0050B853 case 2
+0050B939: test    eax, eax; Logical Compare
+0050B93B: jl      short def_50B853; jumptable 0050B853 default case
+0050B93D: mov     edx, dword_1D99A6C
+0050B943: xor     ecx, ecx; Logical Exclusive OR
+0050B945: and     edx, 0FFh; Logical AND
+0050B94B: mov     eax, offset g_BattlePresentationActors
+0050B950: mov     esi, 1
+0050B955: shl     esi, cl; Shift Logical Left
+0050B957: test    edx, esi; Logical Compare
+0050B959: jz      short loc_50B960; Jump if Zero (ZF=1)
+0050B95B: test    byte ptr [eax], 4; Logical Compare
+0050B95E: jz      short def_50B853; jumptable 0050B853 default case
+0050B960: add     eax, 9Ch; Add
+0050B965: inc     ecx; Increment by 1
+0050B966: cmp     eax, offset word_1D97494; Compare Two Operands
+0050B96B: jl      short loc_50B950; Jump if Less (SF!=OF)
+0050B96D: call    InitializeSound_CAL_sfx_stop_all2; Call Procedure
+0050B972: test    byte ptr dword_1D99A6C, 4; Logical Compare
+0050B979: jz      short loc_50B98B; Jump if Zero (ZF=1)
+0050B97B: and     word ptr dword_1D973F8, 0FFFDh; Logical AND
+0050B984: mov     byte_1D97459, 0
+0050B98B: mov     eax, g_GfActiveCallbackPtr
+0050B990: push    offset byte_1D99A78

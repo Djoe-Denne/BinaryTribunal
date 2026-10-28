@@ -1,0 +1,25 @@
+005006DE: push    eax; ot_head
+005006DF: call    Gpu_DrawOTagCurrent; Thunk DrawOTag courant vers 0x45D080; pas un upload de texture.
+005006E4: movsx   ecx, word_1D8E038; Move with Sign-Extend
+005006EB: push    ecx
+005006EC: call    Call_Bs_parseCamera2; Call Procedure
+005006F1: movsx   edx, word_1D8E03E; Move with Sign-Extend
+005006F8: movsx   eax, word_1D8E03C; Move with Sign-Extend
+005006FF: add     edx, 6Ch ; 'l'; Add
+00500702: add     eax, 0A0h; Add
+00500707: push    edx
+00500708: push    eax
+00500709: call    Call_Bs_ParseCamera; Call Procedure
+0050070E: movsx   ecx, word_1D8E038; Move with Sign-Extend
+00500715: push    ecx
+00500716: call    Call_Bs_parseCamera2; Call Procedure
+0050071B: movsx   edx, word_1D8E03E; Move with Sign-Extend
+00500722: movsx   eax, word_1D8E03C; Move with Sign-Extend
+00500729: add     edx, 6Ch ; 'l'; Add
+0050072C: add     eax, 0A0h; Add
+00500731: push    edx
+00500732: push    eax
+00500733: call    Call_Bs_ParseCamera; Call Procedure
+00500738: add     esp, 20h; Add
+0050073B: mov     word_1D8E03E, 0
+00500744: mov     word_1D8E03C, 0

@@ -1,0 +1,25 @@
+004AEDAE: add     edx, 7; Add
+004AEDB1: push    edx; x
+004AEDB2: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AEDB7: add     esp, 24h; Add
+004AEDBA: mov     dword_1D768D0, 19h; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AEDC4: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEDC9: call    sub_4A97B0; Call Procedure
+004AEDCE: test    eax, eax; Logical Compare
+004AEDD0: jnz     def_4ADEFA; jumptable 004ADEFA default case
+004AEDD6: mov     al, byte ptr dword_1D768E8+1
+004AEDDB: test    al, al; Logical Compare
+004AEDDD: jz      short loc_4AEE08; Jump if Zero (ZF=1)
+004AEDDF: mov     ecx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEDE5: mov     eax, dword_1D768E0
+004AEDEA: and     ecx, 0FFh; Logical AND
+004AEDF0: and     eax, 0FFh; Logical AND
+004AEDF5: add     eax, 7; Add
+004AEDF8: lea     edx, [ecx+ecx*2]; Load Effective Address
+004AEDFB: lea     ecx, [ecx+edx*4]; Load Effective Address
+004AEDFE: xor     edx, edx; Logical Exclusive OR
+004AEE00: mov     dl, byte ptr dword_1D768E0+1
+004AEE06: jmp     short loc_4AEE2B; Jump
+004AEE08: mov     eax, dword_1D768E4
+004AEE0D: xor     ecx, ecx; Logical Exclusive OR
+004AEE0F: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.

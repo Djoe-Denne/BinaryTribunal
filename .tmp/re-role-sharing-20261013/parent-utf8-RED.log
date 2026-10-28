@@ -1,0 +1,24 @@
+bun test v1.4.2 (744846f84)
+
+
+test\execution-sharing.test.ts:
+48 |       catch (error) { expect(String(error)).toContain("bulletin mission storage limit"); rejected = true; break }
+49 |     }
+50 |     expect(rejected).toBe(true)
+51 |     const snapshot = await f.api.handle("bulletinSnapshot", f.scope())
+52 |     const bytes = snapshot.messages!.reduce((sum, message) => sum + Buffer.byteLength(JSON.stringify(message)), 0)
+53 |     expect(bytes).toBeLessThanOrEqual(4194304)
+                       ^
+error: expect(received).toBeLessThanOrEqual(expected)
+
+Expected: <= 4194304
+Received: 8223268
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-sharing.test.ts:53:19)
+(fail) explicit scoped bulletin > mission storage limit counts UTF-8 bytes including immutable message metadata [2246.44ms]
+
+ 0 pass
+ 12 filtered out
+ 1 fail
+ 3 expect() calls
+Ran 1 test across 1 file. [2.28s]

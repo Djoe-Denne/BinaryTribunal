@@ -1,0 +1,25 @@
+0045EAD2: mov     dword_1CA8A34, edx
+0045EAD8: cmp     eax, 0FFFF8000h; Compare Two Operands
+0045EADD: push    ebx
+0045EADE: jge     short loc_45EAFE; Jump if Greater or Equal (SF=OF)
+0045EAE0: mov     ebx, dword_1CA92F8
+0045EAE6: mov     dword_1CA8A38, 0FFFF8000h
+0045EAF0: or      ebx, 80800000h; Logical Inclusive OR
+0045EAF6: mov     dword_1CA92F8, ebx
+0045EAFC: jmp     short loc_45EB28; Jump
+0045EAFE: cmp     eax, 7FFFh; Compare Two Operands
+0045EB03: jle     short loc_45EB23; Jump if Less or Equal (ZF=1 | SF!=OF)
+0045EB05: mov     ebx, dword_1CA92F8
+0045EB0B: mov     dword_1CA8A38, 7FFFh
+0045EB15: or      ebx, 80800000h; Logical Inclusive OR
+0045EB1B: mov     dword_1CA92F8, ebx
+0045EB21: jmp     short loc_45EB28; Jump
+0045EB23: mov     dword_1CA8A38, eax
+0045EB28: cmp     ecx, 0FFFF8000h; Compare Two Operands
+0045EB2E: jge     short loc_45EB4E; Jump if Greater or Equal (SF=OF)
+0045EB30: mov     ebx, dword_1CA92F8
+0045EB36: mov     dword_1CA8A3C, 0FFFF8000h
+0045EB40: or      ebx, 400000h; Logical Inclusive OR
+0045EB46: mov     dword_1CA92F8, ebx
+0045EB4C: jmp     short loc_45EB7A; Jump
+0045EB4E: cmp     ecx, 7FFFh; Compare Two Operands

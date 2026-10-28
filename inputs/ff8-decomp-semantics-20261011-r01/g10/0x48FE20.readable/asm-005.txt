@@ -1,0 +1,25 @@
+00490004: mov     eax, dword ptr K_NONJ_GF_ATTACK_NAME_OFFSET.status1[edi]
+0049000A: mov     HIT_STATUS_2, eax; | ID         | Description |
+0049000F: jmp     loc_490423; Jump
+00490014: mov     edi, ecx; G18: cmd 0xFE junctionable. gf_index=arg-0x40, stride 0x84. MAG bonus from compatibility table. Do not treat pending 0x03 as this case.
+00490016: and     edi, 0FFFFh; Logical AND
+0049001C: lea     eax, [edi+edi*2]; Load Effective Address
+0049001F: mov     al, byte_1CFF321[eax*4]
+00490026: mov     byte ptr GF_SUMMON_MAG_BONUS, al
+0049002B: lea     eax, [edi-40h]; Load Effective Address
+0049002E: mov     edi, eax
+00490030: shl     edi, 5; Shift Logical Left
+00490033: add     edi, eax; Add
+00490035: shl     edi, 2; Shift Logical Left
+00490038: mov     al, K_GF_JUNCTIONABLE.element[edi]
+0049003E: mov     HIT_ELEMENT, al
+00490043: mov     al, K_GF_JUNCTIONABLE.statusAttackEnabler[edi]
+00490049: mov     HIT_ATTACK_ENABLER, al
+0049004E: mov     ax, K_GF_JUNCTIONABLE.statuses0[edi]
+00490055: mov     HIT_STATUS_1, ax; | ID     | Description |
+0049005B: mov     eax, K_GF_JUNCTIONABLE.statuses1[edi]
+00490061: mov     HIT_STATUS_2, eax; | ID         | Description |
+00490066: jmp     loc_490423; Jump
+0049006B: mov     edi, ecx; jumptable 0048FF2F cases 7,23-27,29-34,38
+0049006D: and     edi, 0FFFFh; Logical AND
+00490073: shl     edi, 4; Shift Logical Left

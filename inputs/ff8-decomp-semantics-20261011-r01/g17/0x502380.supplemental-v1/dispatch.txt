@@ -1,0 +1,10 @@
+00502380  53                       push    ebx
+00502381  56                       push    esi
+00502382  8b 74 24 0c              mov     esi, [esp+8+ctx]
+00502386  57                       push    edi
+00502387  66 8b 4e 02              mov     cx, [esi+2]
+0050238B  0f bf c1                 movsx   eax, cx
+0050238E  83 c0 9a                 add     eax, 0FFFFFF9Ah
+00502391  83 f8 11                 cmp     eax, 11h
+00502394  0f 87 85 02 00 00        ja      def_50239A
+0050239A  ff 24 85 28 26 50 00     jmp     ds:jpt_50239A[eax*4]

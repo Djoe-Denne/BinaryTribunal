@@ -1,0 +1,25 @@
+00510CE6: jmp     short loc_510CF1; Jump
+00510CE8: cmp     esi, [esp+44h+var_8]; Compare Two Operands
+00510CEC: jle     short loc_510CF1; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510CEE: or      edi, 8; Logical Inclusive OR
+00510CF1: and     edx, edi; Logical AND
+00510CF3: jnz     loc_510D8B; Jump if Not Zero (ZF=0)
+00510CF9: mov     ebp, [esp+44h+var_18]
+00510CFD: mov     ecx, dword_1D99C18
+00510D03: mov     edx, [esp+44h+var_1C]
+00510D07: mov     edi, [esp+44h+var_14]
+00510D0B: xor     esi, esi; Logical Exclusive OR
+00510D0D: mov     [ecx+8], ebx
+00510D10: mov     [ecx+10h], ebp
+00510D13: mov     [ecx+18h], edx
+00510D16: mov     edx, [esp+44h+var_20]
+00510D1A: mov     [ecx+4], edx
+00510D1D: mov     dword ptr [ecx], 7000000h
+00510D23: mov     edx, [eax+8]
+00510D26: mov     [ecx+0Ch], edx
+00510D29: mov     edx, [eax+0Ch]
+00510D2C: mov     [ecx+14h], edx
+00510D2F: mov     ax, [eax+6]
+00510D33: mov     edx, [esp+44h+var_2C]
+00510D37: mov     [ecx+1Ch], ax
+00510D3B: mov     si, [edx+4]

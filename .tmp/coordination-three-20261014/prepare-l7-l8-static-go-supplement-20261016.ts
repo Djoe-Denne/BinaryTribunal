@@ -1,0 +1,18 @@
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { strict as assert } from 'node:assert';
+import { Service } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import { OpenCode } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014';
+const q=JSON.parse(readFileSync(phase+'/l7-l8-combined-crossqa-preparation-request-20261016.json','utf8')),a=JSON.parse(readFileSync(phase+'/l7-l8-combined-crossqa-admission-20261016.json','utf8'));
+const sourceRoot=phase+'/L7_L8_COMBINED_STATIC_GO_INPUTS_20261016',destinationRoot=a.own+'/inputs/L7_L8_COMBINED_STATIC_GO_20261016';
+assert(!existsSync(destinationRoot)&&!existsSync(a.proofDirectory));
+const endpoint=await Service.discover();assert(endpoint);const cli=OpenCode.make({baseUrl:endpoint.url,headers:Service.headers(endpoint)});
+const s=await cli.session.get({sessionID:a.session});assert.deepEqual(s.model,a.model);assert.equal(s.location.directory.replaceAll('\\','/'),a.own);
+const response=await fetch('http://127.0.0.1:4747/api/state');assert(response.ok);const team=(await response.json()).teams.find((t:any)=>t.id===a.missionId),task=team.tasks.find((t:any)=>t.id===a.task);assert.equal(task.status,'in_progress');assert.equal(task.assignee,'l7-interop-r1');
+const go=readFileSync(phase+'/l7-l8-combined-crossqa-static-actual-final-go-20261016.json');writeFileSync(sourceRoot+'/PARENT_STATIC_GO.json',go,{flag:'wx'});
+const files=['GO_STATIC_COMPLETE.md','PARENT_STATIC_GO.json'].map(path=>{const b=readFileSync(sourceRoot+'/'+path);return {path,kind:'rule',bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')};});
+const request={...q,sourceRoot,destinationRoot,files:files.map(({bytes,...f})=>f)};
+writeFileSync(phase+'/l7-l8-static-go-supplement-request-20261016.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});
+const out={at:new Date().toISOString(),task:task.id,session:s.id,model:s.model,sourceRoot,destinationRoot,files,stage:'DOCUMENTARY_RESTITUTION_ACCESS_ONLY_NO_SCOPE_CHANGE_OR_PRODUCT_EXECUTION',oldCombined424AndTwoReceiptsUntouched:true,proofDirectoryAbsent:true};
+writeFileSync(phase+'/l7-l8-static-go-supplement-admission-20261016.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(out));

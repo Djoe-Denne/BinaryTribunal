@@ -1,0 +1,25 @@
+0049100F: lea     edx, [eax+eax*2]; Load Effective Address
+00491012: lea     eax, [eax+edx*4]; Load Effective Address
+00491015: shl     eax, 4; Shift Logical Left
+00491018: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[eax], 0
+0049101F: cmp     CRIT_DAMAGE, 14h; 0: Normal damage
+00491027: jl      short loc_491030; Jump if Less (SF!=OF)
+00491029: mov     HIT_TYPE_2, 2; Seems to be a bit list
+00491030: push    ecx; p_attack_power
+00491031: mov     ecx, [esp+24h+p_target_slot_id]
+00491035: push    ecx; p_target_slot_id
+00491036: push    ebx; p_attacker_slot_id
+00491037: push    0Ah; p_attack_type
+00491039: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+0049103E: lea     edx, [ebx+ebx*2]; Load Effective Address
+00491041: mov     esi, eax
+00491043: add     esp, 10h; Add
+00491046: lea     eax, [ebx+edx*4]; Load Effective Address
+00491049: shl     eax, 4; Shift Logical Left
+0049104C: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 20h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00491053: jz      short def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00491055: lea     ecx, [esi+esi*2]; Load Effective Address
+00491058: mov     esi, ecx
+0049105A: shr     esi, 1; Shift Logical Right
+0049105C: mov     al, COMMAND_TYPE_ID; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00491061: cmp     al, 0F3h; Compare Two Operands

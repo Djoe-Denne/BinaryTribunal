@@ -1,0 +1,25 @@
+00510ABC: mov     ecx, dword_1D99C1C
+00510AC2: mov     dword ptr [eax], 9000000h
+00510AC8: xor     edi, edi; Logical Exclusive OR
+00510ACA: mov     esi, [ecx+8]
+00510ACD: mov     [eax+0Ch], esi
+00510AD0: mov     [eax+14h], edx
+00510AD3: mov     dx, [ecx+10h]
+00510AD7: mov     [eax+1Ch], dx
+00510ADB: mov     ecx, [ecx+10h]
+00510ADE: shr     ecx, 10h; Shift Logical Right
+00510AE1: mov     [eax+24h], cx
+00510AE5: mov     di, [ebx+4]
+00510AE9: xor     ecx, ecx; Logical Exclusive OR
+00510AEB: mov     edx, edi
+00510AED: mov     cx, [ebp+4]
+00510AF1: cmp     ecx, edx; Compare Two Operands
+00510AF3: jge     short loc_510AF7; Jump if Greater or Equal (SF=OF)
+00510AF5: mov     edx, ecx
+00510AF7: mov     esi, [esp+44h+dest]
+00510AFB: xor     ebx, ebx; Logical Exclusive OR
+00510AFD: mov     bx, [esi+4]
+00510B01: cmp     ebx, edx; Compare Two Operands
+00510B03: jge     short loc_510B07; Jump if Greater or Equal (SF=OF)
+00510B05: mov     edx, ebx
+00510B07: mov     ebp, [esp+44h+var_30]

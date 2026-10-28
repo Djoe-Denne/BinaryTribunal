@@ -1,0 +1,25 @@
+0048D200: sub     esp, 14h; Integer Subtraction
+0048D203: xor     eax, eax; Logical Exclusive OR
+0048D205: push    ebx
+0048D206: mov     al, ATTACK_HIT_COUNT
+0048D20B: push    ebp
+0048D20C: push    esi
+0048D20D: push    edi
+0048D20E: lea     eax, [eax+eax*4]; Load Effective Address
+0048D211: mov     byte_1D28E00, 0
+0048D218: mov     [esp+24h+camera_change], 0FFh
+0048D220: mov     [esp+24h+hit_count], 1
+0048D228: lea     ecx, ds:1D280C4h[eax*4]; Load Effective Address
+0048D22F: mov     [esp+24h+var_4], ecx
+0048D233: mov     ecx, [esp+24h+p_attacker_slot_id]
+0048D237: cmp     ecx, 3; Compare Two Operands
+0048D23A: jge     loc_48D33F; Jump if Greater or Equal (SF=OF)
+0048D240: mov     dl, byte ptr [esp+24h+p_command_type]
+0048D244: mov     ebx, [esp+24h+p_offset_to_execute_]
+0048D248: cmp     dl, 4; Compare Two Operands
+0048D24B: mov     [esp+24h+p_always_zero], 0
+0048D250: jz      short loc_48D25B; Jump if Zero (ZF=1)
+0048D252: cmp     dl, 0Dh; Compare Two Operands
+0048D255: jnz     loc_48D30F; Jump if Not Zero (ZF=0)
+0048D25B: mov     eax, ebx
+0048D25D: and     eax, 0FFFFh; Logical AND

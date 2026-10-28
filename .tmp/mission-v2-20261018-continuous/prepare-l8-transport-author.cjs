@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous',dst=base+'/l8-transport-author/inputs';
+if(fs.existsSync(dst))throw Error('Packet exists');const sha=b=>crypto.createHash('sha256').update(b).digest('hex');const entries=[{name:'SCOPE.md',source:base+'/L8_TRANSPORT_AUTHOR_SCOPE.md'},{name:'CONTINUATION.md',source:base+'/CONTINUATION.md'}];
+for(const n of ['l8-prepared-graph-v3.schema.json','l8-partition-adoption-v1.schema.json','DESIGN.md'])entries.push({name:'candidate/'+n,source:base+'/l8-central-preflight/inputs/schemas-candidate/'+n});
+for(const n of ['lineage.ts','semantic-index.ts','cluster.ts','investigation-groups.ts','graph.ts','validation.ts','domain.ts','planner.ts'])entries.push({name:'src/'+n,source:root+'/tools/ff8-harness/src/'+n});
+entries.push({name:'src/graph-pipeline.ts',source:base+'/l8-central-preflight/inputs/old-owner/src/graph-pipeline.ts'});
+for(const n of ['cluster-partition-v1.schema.json','investigation-group-v1.schema.json','knowledge-delta-v1.schema.json'])entries.push({name:'schemas/'+n,source:root+'/tools/ff8-harness/schemas/'+n});
+entries.push({name:'test/lineage.test.ts',source:root+'/tools/ff8-harness/test/lineage.test.ts'});
+const files=[];for(const e of entries){const b=fs.readFileSync(e.source),p=dst+'/'+e.name;fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,b,{flag:'wx'});fs.chmodSync(p,0o444);files.push({path:e.name,bytes:b.length,sha256:sha(b),source:e.source});}
+const raw=JSON.stringify({at:new Date().toISOString(),role:'L8-phase1B-source-author',files},null,2)+'\n';fs.writeFileSync(dst+'/INPUT_MANIFEST.json',raw,{flag:'wx'});fs.chmodSync(dst+'/INPUT_MANIFEST.json',0o444);fs.mkdirSync(base+'/l8-transport-author/outputs');const receipt={at:new Date().toISOString(),files:files.length,bytes:files.reduce((n,f)=>n+f.bytes,0),manifestSha256:sha(raw)};fs.writeFileSync(base+'/l8-transport-author/PARENT_ACCESS_RECEIPT.json',JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(receipt));

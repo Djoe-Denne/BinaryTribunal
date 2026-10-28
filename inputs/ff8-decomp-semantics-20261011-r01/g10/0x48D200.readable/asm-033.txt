@@ -1,0 +1,25 @@
+0048DD6D: and     ecx, eax; Logical AND
+0048DD6F: mov     eax, edx
+0048DD71: mov     [esp+24h+p_enemy_number], edx
+0048DD75: xor     esi, esi; Logical Exclusive OR
+0048DD77: shl     eax, 1; Shift Logical Left
+0048DD79: mov     edi, eax
+0048DD7B: and     edi, ecx; Logical AND
+0048DD7D: test    di, di; Logical Compare
+0048DD80: jnz     loc_48DE3A; Jump if Not Zero (ZF=0)
+0048DD86: inc     esi; Increment by 1
+0048DD87: cmp     esi, 8; Compare Two Operands
+0048DD8A: jl      short loc_48DD77; Jump if Less (SF!=OF)
+0048DD8C: xor     eax, eax; Logical Exclusive OR
+0048DD8E: shr     word ptr [esp+24h+p_enemy_number], 1; Shift Logical Right
+0048DD93: mov     ebp, [esp+24h+p_enemy_number]
+0048DD97: mov     esi, ebp
+0048DD99: and     esi, ecx; Logical AND
+0048DD9B: test    si, si; Logical Compare
+0048DD9E: jnz     short loc_48DDAF; Jump if Not Zero (ZF=0)
+0048DDA0: inc     eax; Increment by 1
+0048DDA1: cmp     eax, 8; Compare Two Operands
+0048DDA4: jl      short loc_48DD8E; Jump if Less (SF!=OF)
+0048DDA6: mov     BOOL_TARGET_CHOOSEN, 1
+0048DDAD: mov     ebp, edx
+0048DDAF: lea     edx, [esp+24h+p_enemy_number]; Load Effective Address

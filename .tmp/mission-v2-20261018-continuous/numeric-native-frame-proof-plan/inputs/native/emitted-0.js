@@ -1,0 +1,30 @@
+export class ParameterDiagnosticError extends Error {
+  diagnostic;
+  constructor(diagnostic) {
+    super("cluster: native-emitter-synthetic");
+    this.diagnostic = diagnostic;
+    this.name = "ClusterDiagnosticError";
+  }
+}
+export function raiseUnicode() {
+  const text = "\uD83D\uDE00\xE9";
+  throw new Error("cluster: " + "\uD83D\uDE00\xE9");
+}
+export function raiseParameter() {
+  throw new ParameterDiagnosticError({ version: "cluster-refusal-v1", code: "probe", detail: "synthetic" });
+}
+export function raiseMap() {
+  [1].map(() => {
+    throw new Error("cluster: synthetic map");
+  });
+  throw new Error("unreachable");
+}
+export function raiseForEach() {
+  [1].forEach(() => {
+    throw new Error("cluster: synthetic forEach");
+  });
+  throw new Error("unreachable");
+}
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjozLAogICJzb3VyY2VzIjogWyIvaGVscGVyLnRzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvLyBQYXJlbnQgc3ludGhldGljIGhlbHBlciBvbmx5LCBjb3BpZWQgd2l0aCBDUkxGIHRvIGRpc3Rpbmd1aXNoIG5hdGl2ZSB1bml0cy5cclxuZXhwb3J0IGNsYXNzIFBhcmFtZXRlckRpYWdub3N0aWNFcnJvciBleHRlbmRzIEVycm9yIHtcclxuICBjb25zdHJ1Y3RvcihwdWJsaWMgcmVhZG9ubHkgZGlhZ25vc3RpYzp7dmVyc2lvbjpzdHJpbmc7Y29kZTpzdHJpbmc7ZGV0YWlsOnN0cmluZ30pe1xyXG4gICAgc3VwZXIoXCJjbHVzdGVyOiBuYXRpdmUtZW1pdHRlci1zeW50aGV0aWNcIik7dGhpcy5uYW1lPVwiQ2x1c3RlckRpYWdub3N0aWNFcnJvclwiO1xyXG4gIH1cclxufVxyXG5leHBvcnQgZnVuY3Rpb24gcmFpc2VVbmljb2RlKCk6bmV2ZXIgeyBjb25zdCB0ZXh0PVwiXHVEODNEXHVERTAwXHUwMEU5XCI7IHRocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IFwiK3RleHQpOyB9XHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZVBhcmFtZXRlcigpOm5ldmVyIHsgdGhyb3cgbmV3IFBhcmFtZXRlckRpYWdub3N0aWNFcnJvcih7dmVyc2lvbjpcImNsdXN0ZXItcmVmdXNhbC12MVwiLGNvZGU6XCJwcm9iZVwiLGRldGFpbDpcInN5bnRoZXRpY1wifSk7IH1cclxuXHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZU1hcCgpOm5ldmVyIHsgWzFdLm1hcCgoKT0+e3Rocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IHN5bnRoZXRpYyBtYXBcIik7fSk7dGhyb3cgbmV3IEVycm9yKFwidW5yZWFjaGFibGVcIik7IH1cclxuZXhwb3J0IGZ1bmN0aW9uIHJhaXNlRm9yRWFjaCgpOm5ldmVyIHsgWzFdLmZvckVhY2goKCk9Pnt0aHJvdyBuZXcgRXJyb3IoXCJjbHVzdGVyOiBzeW50aGV0aWMgZm9yRWFjaFwiKTt9KTt0aHJvdyBuZXcgRXJyb3IoXCJ1bnJlYWNoYWJsZVwiKTsgfVxyXG4iXSwKICAibWFwcGluZ3MiOiAiQUFDTyxhQUFNLGlDQUFpQyxNQUFNO0FBQUEsRUFDdEI7QUFBQSxFQUE1QixXQUFXLENBQWlCLFlBQXNEO0FBQUEsSUFDaEYsTUFBTSxtQ0FBbUM7QUFBQSxJQURmO0FBQUEsSUFDaUIsS0FBSyxPQUFLO0FBQUE7QUFFekQ7QUFDTyxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLE1BQU0sT0FBSztBQUFBLEVBQU8sTUFBTSxJQUFJLE1BQU0sY0FBdkIsa0JBQXVDO0FBQUE7QUFDbEYsZ0JBQVMsY0FBYyxHQUFTO0FBQUEsRUFBRSxNQUFNLElBQUkseUJBQXlCLEVBQUMsU0FBUSxzQkFBcUIsTUFBSyxTQUFRLFFBQU8sWUFBVyxDQUFDO0FBQUE7QUFFbkksZ0JBQVMsUUFBUSxHQUFTO0FBQUEsRUFBRSxDQUFDLENBQUMsRUFBRSxJQUFJLE1BQUk7QUFBQSxJQUFDLE1BQU0sSUFBSSxNQUFNLHdCQUF3QjtBQUFBLEdBQUc7QUFBQSxFQUFFLE1BQU0sSUFBSSxNQUFNLGFBQWE7QUFBQTtBQUNuSCxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLENBQUMsQ0FBQyxFQUFFLFFBQVEsTUFBSTtBQUFBLElBQUMsTUFBTSxJQUFJLE1BQU0sNEJBQTRCO0FBQUEsR0FBRztBQUFBLEVBQUUsTUFBTSxJQUFJLE1BQU0sYUFBYTtBQUFBIiwgIm5hbWVzIjogW10KfQ==
+//# sourceURL=C:\Users\djden\AppData\Local\Temp\opencode\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\helper.ts

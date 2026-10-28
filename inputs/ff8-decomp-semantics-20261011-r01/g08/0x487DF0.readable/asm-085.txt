@@ -1,0 +1,25 @@
+00489BD5: mov     eax, 1
+00489BDA: shl     eax, cl; Shift Logical Left
+00489BDC: mov     [esp+74h+p_monster_slot_id], eax
+00489BE0: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489BE5: lea     ecx, [ebx+ebx*2]; Target 0xCB: LAST_ATTACKER - Targets the slot that last attacked this monster
+00489BE8: mov     eax, 1
+00489BED: lea     edx, [ebx+ecx*4]; Load Effective Address
+00489BF0: shl     edx, 4; Shift Logical Left
+00489BF3: mov     cl, BATTLE_SLOT_DATA.last_attacker_slot_id[edx]
+00489BF9: shl     eax, cl; Shift Logical Left
+00489BFB: mov     [esp+74h+p_monster_slot_id], eax
+00489BFF: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C04: mov     [esp+74h+p_monster_slot_id], 8007h; Target 0xCC: ALL_PARTY - Targets all party members (mask covering slots 0-2)
+00489C0C: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C11: mov     [esp+74h+p_monster_slot_id], 80F8h; Target 0xCD: ALL_ALLIES - Targets all allied monsters (mask covering slots 3-7)
+00489C19: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C1E: mov     [esp+74h+p_monster_slot_id], 80FFh; Target 0xCE: ALL_SLOTS - Targets all slots (party + monsters)
+00489C26: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C2B: push    0C9h; Target 0xCF: RANDOM_ALLY - Randomly selects one alive allied monster as target
+00489C30: call    domain__EnemyAI_GetTargetMemberCount; G15 U15.5 subj 0x06: alive count. Alive = status_1 Death bit clear. 200=party0-2 201=monsters3-6.
+00489C35: add     esp, 4; Add
+00489C38: cmp     eax, 1; Compare Two Operands
+00489C3B: jnz     short loc_489C4A; Jump if Not Zero (ZF=0)
+00489C3D: mov     ecx, ebx
+00489C3F: shl     eax, cl; Shift Logical Left

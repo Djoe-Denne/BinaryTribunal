@@ -1,0 +1,25 @@
+0051000C: call    OT_InsertPrimitive; Call Procedure
+00510011: mov     eax, dword_1D99C18
+00510016: add     esp, 18h; Add
+00510019: add     eax, 20h ; ' '; Add
+0051001C: mov     dword_1D99C18, eax
+00510021: mov     eax, dword_1D99C1C
+00510026: mov     ecx, [esp+38h+var_14]
+0051002A: add     eax, 10h; Add
+0051002D: dec     ecx; Decrement by 1
+0051002E: mov     dword_1D99C1C, eax
+00510033: mov     [esp+38h+var_14], ecx
+00510037: jnz     loc_50FE47; Jump if Not Zero (ZF=0)
+0051003D: mov     ebp, [esp+38h+ctx]
+00510041: mov     ecx, [ebp+1Ch]
+00510044: and     ecx, 2FFFFFFh; Logical AND
+0051004A: or      ecx, 2C000000h; Logical Inclusive OR
+00510050: mov     [esp+38h+var_18], ecx
+00510054: xor     ecx, ecx; Logical Exclusive OR
+00510056: mov     cx, [ebp+0Ah]
+0051005A: test    ecx, ecx; Logical Compare
+0051005C: jz      loc_5102CA; Jump if Zero (ZF=1)
+00510062: mov     [esp+38h+var_C], ecx
+00510066: mov     ecx, [eax+0Ch]
+00510069: xor     edx, edx; Logical Exclusive OR
+0051006B: mov     [esp+38h+var_14], ecx

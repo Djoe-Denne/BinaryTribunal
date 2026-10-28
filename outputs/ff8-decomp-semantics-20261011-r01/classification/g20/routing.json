@@ -1,0 +1,47 @@
+{
+  "schema": "ff8-decomp-semantics-routing-v1",
+  "group": "g20",
+  "status": "DISPATCH_READY",
+  "SOURCE": "discover-g20",
+  "inheritance": {"mode": "fork", "from": "discover-g20", "independent_siblings": true, "classifier_as_source_forbidden": true},
+  "dispatch_authority": "lead_only",
+  "native_model_ref_readback_required": true,
+  "blocked_eas": [],
+  "checkpoint_required": false,
+  "checkpoint_rationale": "Common source explicitly states target code/reconciliation content deliberately not consumed; no target candidate preview flag.",
+  "functions": [{
+    "ea": "0x5083C0",
+    "status": "DISPATCH_READY",
+    "classifier_kind": "classify_x86",
+    "classifier_tool": "tools.classify_x86",
+    "classifier_calls": 1,
+    "complexity": 52,
+    "risk": 44,
+    "risk_source": "native uncertainty score; operational v1 mapping, not calibrated probability",
+    "uncertainty_cause": "data_flow",
+    "instructions": 19,
+    "basic_blocks": 5,
+    "native_pe_verified": true,
+    "route": "medium",
+    "protocol": "2+1_per_volet",
+    "rationale": "Complexity 52<=65 and uncertainty 44<=50; outside simple thresholds. Frozen root complete, no calls or indirect target control, 19 instructions. Signed 16-bit descriptor reads, per-iteration stride load, 32-bit arithmetic and incomplete data-layout/runtime guarantees require independent 2+1, not a simple single-author route. Historical C_R BLOCKED is explicitly not a run01 conflict verdict. No current structural major trigger reported.",
+    "factual_inputs": {
+      "native": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g20/0x5083C0.json", "sha256": "75c518fbc4f5feb9551513bfe2cdfe267b7f040320872936cd495ffbd04ff4ad"},
+      "common_compaction": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g20/common-compaction.md", "sha256": "ac2d8e1f8582105b48c87165bc7585491c342db54adfe04d07245b0e2c4b6a3e"},
+      "native_input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570"
+    },
+    "classifier_request": {"path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g20/0x5083C0.request.json", "sha256": "efd5ddeec0f2bcf4b8d3e1bce703ce207f80ae60e01303c449ae55d7fb440035", "unchanged_prepared_payload": true},
+    "classifier_response": {"path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g20/0x5083C0.response.json", "sha256": "968f801b33a237458d13ef60bfef254d22c274ce5deb521652c0ac78b77e6bbe", "entire_native_response": true},
+    "C": {
+      "A": {"model": "zai-coding-plan/glm-5.3-flash", "variant": "max", "SOURCE": "discover-g20", "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/c_a.md"},
+      "B": {"model": "opencode-go/gpt-6-luna", "variant": "medium", "SOURCE": "discover-g20", "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/c_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "after": ["C.A", "C.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/c_r.md"}
+    },
+    "semantics": {
+      "A": {"model": "openai/gpt-6.1-sol", "variant": "medium", "SOURCE": "discover-g20", "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/semantic_a.md"},
+      "B": {"model": "openai/gpt-6.1-sol", "variant": "medium", "SOURCE": "discover-g20", "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/semantic_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "after": ["semantics.A", "semantics.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/0x5083C0/semantic_r.md"}
+    },
+    "production_rationale": "Contract v1 medium route: GLM max/Luna medium independent C authors, Sol medium independent semantic authors, Sol high reconciliation only after respective A+B. Catalogue available flags are advisory; lead validates effective Model.Ref and admission."
+  }]
+}

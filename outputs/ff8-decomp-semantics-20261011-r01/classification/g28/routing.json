@@ -1,0 +1,47 @@
+{
+  "group": "g28",
+  "status": "DISPATCH_READY",
+  "admission_status": "CHECKPOINT_REQUIRED",
+  "SOURCE": "discover-g28",
+  "source_session_id": "ses_ed41f9356ffeJNI38Q23GiUGoO",
+  "source_inheritance": "Same exclusive factual checkpoint for every independent A/B/R session; never fork classifier or sibling author. Lead must establish clean checkpoint before target candidate previews.",
+  "checkpoint_reason": "Source report cites historical target C candidate (decomp md lines 1-89); source native history acknowledges target candidate reading. No producer admission before lead verifies exclusive clean boundary.",
+  "classifier_tool": "tools.classify_x86",
+  "classifier_kind": "native_classify_x86",
+  "classifier_calls": 1,
+  "hashes": {
+    "common_compaction_sha256": "5442a854c4df763dcddb516d9026dba4f1547b8c1023243f14a9def6edc4d951",
+    "native_packet_sha256": "c5b9f7bd3dc89ef1e19b9bdbdef5f37bd727ee44b0f9ad04273b845c7ec575e4",
+    "request_sha256": "aa5e860d258226e1dbd0eef9b1d355910d7ef63f5d44d858032cadddc93aff95",
+    "response_sha256": "51341b52296bc8601d0d4b8a03ef6a4af9efe28c6353619fc83a4f949146e1c1",
+    "native_input_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570"
+  },
+  "functions": [{
+    "ea": "0x50C860",
+    "native_pe_verified": true,
+    "instruction_count": 79,
+    "full_payload_assembly_characters": 13169,
+    "complexity": 70,
+    "risk": 45,
+    "risk_source": "native response uncertainty (operational v1 risk signal, not calibrated probability)",
+    "tier": "complex",
+    "protocol": "2+1 per volet",
+    "rationale": ["Complexity 70 exceeds v1 medium ceiling 65.", "Existing factual flags: overlapping WORD/DWORD stack accesses; full-width versus low-word arg2 usage; uncertain callee/return ABI; historical high tier. No simple route."],
+    "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g28/0x50C860.request.json",
+    "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g28/0x50C860.response.json",
+    "c": {
+      "A": {"model": "openai/gpt-6-astra", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/c_a.md"},
+      "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/c_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["c.A", "c.B"], "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/c_r.md"}
+    },
+    "semantics": {
+      "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/semantic_a.md"},
+      "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "independent_fresh_session": true, "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/semantic_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["semantics.A", "semantics.B"], "output_path": "outputs/ff8-decomp-semantics-20261011-r01/production/g28/0x50C860/semantic_r.md"}
+    }
+  }],
+  "quarantined_eas": [],
+  "oversize_eas": [],
+  "producer_admission_gates": ["Lead verifies clean explorer checkpoint", "Lead verifies effective native Model.Ref and explicit high variant for every session", "R only after own volet A+B are deposited", "Final ASM validation remains supervisor-owned"],
+  "producer_sessions_created": false
+}

@@ -1,0 +1,17 @@
+0051A9A0: mov     edx, [esp+arg_0]
+0051A9A4: mov     cx, [edx+0Ch]
+0051A9A8: movsx   eax, cx; Move with Sign-Extend
+0051A9AB: sub     eax, 0; Integer Subtraction
+0051A9AE: jz      short loc_51A9C5; Jump if Zero (ZF=1)
+0051A9B0: dec     eax; Decrement by 1
+0051A9B1: jnz     short loc_51A9CA; Jump if Not Zero (ZF=0)
+0051A9B3: push    0
+0051A9B5: call    au_re_BS_Effect_DeformCompression; Call Procedure
+0051A9BA: add     esp, 4; Add
+0051A9BD: call    BS_RenderRelated; Call Procedure
+0051A9C2: xor     eax, eax; Logical Exclusive OR
+0051A9C4: retn; Return Near from Procedure
+0051A9C5: inc     ecx; Increment by 1
+0051A9C6: mov     [edx+0Ch], cx
+0051A9CA: xor     eax, eax; Logical Exclusive OR
+0051A9CC: retn; Return Near from Procedure

@@ -1,0 +1,25 @@
+00464E09: push    0F0h
+00464E0E: call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018; E3c: lu: scan B7E018 + pool 2 slots; TPage = callers + strings Psx2 seulement
+00464E13: add     esp, 4; Add
+00464E16: mov     [esi+5Ch], eax
+00464E19: test    eax, eax; Logical Compare
+00464E1B: jz      loc_464F65; Jump if Zero (ZF=1)
+00464E21: lea     eax, [esp+94h+desc]; Load Effective Address
+00464E25: push    ebp
+00464E26: push    eax; desc
+00464E27: push    0; filter
+00464E29: call    Gfx_InitDrawListDesc; Vague C: init desc 0x84 octets. arg0 = mode filtre 0-4 (stocke a +32), PAS un type de liste.
+00464E2E: push    esi
+00464E2F: call    sub_464160; Call Procedure
+00464E34: mov     edx, [esp+0A4h+arg_8]
+00464E3B: xor     eax, eax; Logical Exclusive OR
+00464E3D: mov     ecx, [esi+5Ch]
+00464E40: mov     ax, [edx+448h]
+00464E47: mov     edx, [esi+14h]
+00464E4A: mov     ebp, eax
+00464E4C: and     eax, 3Fh; Logical AND
+00464E4F: shr     ebp, 6; Shift Logical Right
+00464E52: shl     ebp, 6; Shift Logical Left
+00464E55: add     ebp, eax; Add
+00464E57: mov     eax, dword_1CB602C
+00464E5C: shl     ebp, 5; Shift Logical Left

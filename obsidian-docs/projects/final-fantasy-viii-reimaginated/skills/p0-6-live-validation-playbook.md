@@ -5,9 +5,9 @@ tags: [ff8, battle-system, reverse-engineering, testing, skill]
 aliases: [IDA MCP P0.6 workflow, FF8 live validation debugging]
 sources:
   - agent:cursor-session P0.6 implementation and live-validation session (2026-07-22)
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g03-strict-validation-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-one-tick-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g03-strict-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g05-one-tick-validation-2026-07-22.md
 summary: Procédure fiable pour construire, déboguer sous IDA, injecter et prouver les jalons P0.6 sans confondre les états offline, live, Faulted et restaurés.
 relationships:
   - target: "[[projects/re-ff8/skills/implementing-iso-battle-migration]]"

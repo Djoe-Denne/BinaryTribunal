@@ -1,0 +1,25 @@
+00489164: jnz     short loc_4891AF; Jump if Not Zero (ZF=0)
+00489166: xor     edi, edi; Logical Exclusive OR
+00489168: mov     eax, offset BATTLE_SLOT_DATA.com_file_id
+0048916D: xor     edx, edx; Logical Exclusive OR
+0048916F: mov     dl, [eax]
+00489171: cmp     edx, ebp; Compare Two Operands
+00489173: jz      short loc_48918F; Jump if Zero (ZF=1)
+00489175: add     eax, 0D0h; Add
+0048917A: inc     edi; Increment by 1
+0048917B: cmp     eax, offset byte_1D2817B; Compare Two Operands
+00489180: jl      short loc_48916D; Jump if Less (SF!=OF)
+00489182: mov     [esp+74h+condition_lhs], 1
+0048918A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048918F: cmp     edi, 0FFh; Compare Two Operands
+00489195: jz      short loc_489154; Jump if Zero (ZF=1)
+00489197: mov     eax, [esp+74h+jump_value]
+0048919B: mov     [esp+74h+condition_lhs], 0
+004891A3: and     eax, 0FFFFh; Logical AND
+004891A8: add     esi, eax; Add
+004891AA: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004891AF: mov     eax, [esp+74h+condition_lhs]
+004891B3: jmp     loc_488CDD; Jump
+004891B8: mov     ebp, [esp+74h+if_right_condition_final]; jumptable 004887D6 case 9
+004891BC: mov     eax, dword ptr [esp+74h+op_param_3]
+004891C0: and     ebp, 0FFFFh; Logical AND

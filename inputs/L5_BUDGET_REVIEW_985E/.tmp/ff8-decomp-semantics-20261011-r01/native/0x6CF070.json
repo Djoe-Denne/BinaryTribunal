@@ -1,0 +1,63 @@
+{
+  "ea": "0x6CF070",
+  "name_label_only": "Mat3S16_MakeRotZ_NegSin_Q12",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x6cf070",
+      "end": "0x6cf0ba",
+      "hex": "56570fbf74240c56e8b3e0e9ff568bf8e87be0e9ff8b4c24188bd7f7da83c4086689510233d2668979065f66890166895104668941086689510a6689510c6689510e66c7411000105ec3"
+    }
+  ],
+  "assembly": "006CF070: push    esi\n006CF071: push    edi\n006CF072: movsx   esi, [esp+8+arg_0]; Move with Sign-Extend\n006CF077: push    esi\n006CF078: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.\n006CF07D: push    esi\n006CF07E: mov     edi, eax\n006CF080: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.\n006CF085: mov     ecx, [esp+10h+arg_4]\n006CF089: mov     edx, edi\n006CF08B: neg     edx; Two's Complement Negation\n006CF08D: add     esp, 8; Add\n006CF090: mov     [ecx+2], dx\n006CF094: xor     edx, edx; Logical Exclusive OR\n006CF096: mov     [ecx+6], di\n006CF09A: pop     edi\n006CF09B: mov     [ecx], ax\n006CF09E: mov     [ecx+4], dx\n006CF0A2: mov     [ecx+8], ax\n006CF0A6: mov     [ecx+0Ah], dx\n006CF0AA: mov     [ecx+0Ch], dx\n006CF0AE: mov     [ecx+0Eh], dx\n006CF0B2: mov     word ptr [ecx+10h], 1000h\n006CF0B8: pop     esi\n006CF0B9: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x6cf070",
+      "end": "0x6cf0ba",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x69efdd",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69ef60"
+    },
+    {
+      "from": "0x6ceaa5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6cea30"
+    },
+    {
+      "from": "0x6d0d33",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d0c20"
+    },
+    {
+      "from": "0x6d3029",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d2f30"
+    },
+    {
+      "from": "0x6ea99d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ea920"
+    }
+  ],
+  "code_targets": [
+    "0x56d100",
+    "0x56d130"
+  ],
+  "instruction_count": 25
+}

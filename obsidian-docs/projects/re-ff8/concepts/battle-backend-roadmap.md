@@ -211,3 +211,7 @@ live passées (P0.7–G23, drop tests, provenance, lot 13 — playbook consolid�
   remplaçant watch3/4/5 ad-hoc ; purge intégrée + hash déployé + collecte hashée.
 - **(à faire)** skill lot-prompt-drafting (générer PROMPT_lotN depuis cette page + dernier rapport
   + leçons) ; skill inary-stream-recovery (patterns parser auto-réparateur) ; template session-dossier.
+
+## Lot 25 — instrumentation stage0 live et blocage unload (2026-10-04)
+
+**État : v17 bloqué, correction à décider.** Pass 1 (v15 0x5642, 16 frames 7610..7625) et pass 2 (v16 0x5643, 16 frames 3556..3571) capturés ; stage0 kinds 8/9 restent 0/0 (négatif conservé, cause inconnue). Rendu réel frame 3556 produits depuis la capture v16 (codecs récents lot24_contract + modèle Lot 21 inchangé ; 292 tests OK) — aucun gain de fidélité revendiqué (RS/blend raw). v17 0x5644 : offline 648+292 verts, installation stage0 PROUVÉE live (2 sites, préimages/voisins/E8 conformes), mais (1) témoin restore/detach manquant en live (detach armés sans restore, sans PID — terminaisons plausibles non prouvées), (2) reproducer hors jeu : FreeLibrary sans wrapper laisse les E8 pendants (exit 3), wrapper+FreeLibrary restaure (exit 0) → capture bloquée. Crash 1er lancement attribué au module dotemu_orig.DLL (WER) sans cause établie. Rollbacks disque byte-exacts ×2, oracles intacts, CSV conservés. Suite : décision v18 (pin hors loader-lock avant patch, atteindre le restore par tout chemin de déchargement) — voir [[projects/re-ff8/references/af3dn-lot25-v17-unload-audit-2026-10-04]].

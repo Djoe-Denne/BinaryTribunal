@@ -1,0 +1,123 @@
+{
+  "at": "2026-10-18T10:17:01.529Z",
+  "role": "L8 schema candidate DELTA author — l8-schema-delta-r1 (deterministic mechanical correction, single cycle, fresh)",
+  "taskRef": "task_mvdnf0ro_002n_nxb4ya",
+  "originalAuthorRef": {
+    "role": "L8 schema candidate author — l8-schema-source-r1 (fresh, GLM tier, single attempt)",
+    "taskRef": "task_mvdm2br3_001c_n06f51",
+    "at": "2026-10-18T09:40:01.770Z"
+  },
+  "deliverableKind": "CANDIDATE SCHEMA TRANSPORT DELTA ONLY — never L8 acceptance, never C3-C5 ratification, never G7",
+  "state": "SOURCE_DELTA_UNREVIEWED_UNINTEGRATED",
+  "deltaRef": {
+    "originalVerdict": "CORRIGE_R1_R1bis_R2",
+    "reviewTaskRef": "task_mvdn0v6f_002e_dz6iwd",
+    "scope": "SCOPE.md 818bd16523163df3682d76695854d7022fc4c567b9559ee1646bcd7611174658",
+    "maxCorrectionCycles": 1,
+    "correctionCyclesUsed": 1
+  },
+  "inputManifestRefs": [
+    {
+      "kind": "primary",
+      "manifestSha256": "d582826284de34f181e181cd79f501ebbf1c50072192307f50b5c8863760a59e",
+      "files": 16,
+      "bytes": 522462,
+      "verified": "HISTORICAL PROVENANCE of the original source round (l8-schema-source-r1, 16/16 rehashed conform then); NOT re-hashed by this delta"
+    },
+    {
+      "kind": "supplement-semantic",
+      "manifestSha256": "b504fd48333d158fbcdd9e082b886dc63ad8a10bfeea4ba60182716e012c8806",
+      "files": 2,
+      "bytes": 73327,
+      "verified": "HISTORICAL PROVENANCE of the original source round (2/2 rehashed conform then); NOT re-hashed by this delta; semantic-index.ts bf04ce7c697b107ecc3da95c9574eb835a7d0ad984790f7ab267bcd3938b5cb1 equals accepted e03 pin"
+    },
+    {
+      "kind": "delta-input",
+      "manifestSha256": "98ddf0ba63893f43010b5b525879c638e006c56a9b21865ca20d8f6eca8a8adb",
+      "files": 9,
+      "bytes": 292510,
+      "verified": "9/9 rehashed conform BY THIS DELTA ROUND; no input drift; current and sole active input proof"
+    }
+  ],
+  "bindingRef": {
+    "register": "docs/missions/re-graph-scheduler/CORRECTIVE_FINAL_GATES_20261014.json",
+    "key": "L8ParserBRatification20261018",
+    "binding": "l8-parser-b-binding-20261018-r1",
+    "projection": "inputs/BINDING_PROVENANCE.json",
+    "projectionSha256": "b678d9e0e349722b3ebd46e475673f7c61466865046133ccb346fa316e6a4d5b",
+    "status": "adopted as design basis ONLY (BINDING_PROVENANCE.json); not a C3-C5 ratification"
+  },
+  "dispositionsRef": {
+    "path": "supplement-semantic/inputs/PARENT_DESIGN_DISPOSITIONS.md",
+    "sha256": "38aa320e9ec490bf7fc25c2dff816146dffbd22c9572503573e148a947e4003e"
+  },
+  "files": [
+    {
+      "path": "l8-prepared-graph-v3.schema.json",
+      "bytes": 104742,
+      "sha256": "fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9"
+    },
+    {
+      "path": "l8-partition-adoption-v1.schema.json",
+      "bytes": 12396,
+      "sha256": "c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 20833,
+      "sha256": "27115fdf14aaa3aa39b1b4679a54eae5b6cda488734d1d2bd3009b3f5bc2b0bf"
+    },
+    {
+      "path": "MANIFEST.json",
+      "selfHash": "not-computable-self-reference",
+      "note": "No fabricated hash of this manifest itself (dispositions D10)."
+    }
+  ],
+  "deltaDispositions": {
+    "R1": "enum [false] removed on $.proposalEvidence.source.previous.partition.adopted only; type boolean kept; tightening description replaced by the historical v1 mirror; historical data never transformed.",
+    "R1bis": "enum [false] removed on $.proposalEvidence.source.previous.authoritative.partition.adopted only; type boolean kept; same historical v1 mirror description.",
+    "R2": "minLength+maxLength removed on exactly ten INPUT string nodes (constraints leftId/rightId + provenance.moduleSha256/sourceHash/evidenceSha256; snapshot.edges sourceId/destinationId + sites provenance x3); type string kept; descriptions state raw source preserved including rejections, membership/provenanceReady are later scientific evaluations, not transport length preconditions.",
+    "kept": "enum [false] kept on $.partition.adopted and $.proposalEvidence.result.partition.adopted; real 64/64 fingerprints and v1 mirror lengths, nodes[].id, unresolved[].fromFunctionId, diagnostics.code minLength 1, config/constraints kind untouched; no other validation keyword changed.",
+    "adoptionSchema": "l8-partition-adoption-v1.schema.json copied BYTE-IDENTICAL (c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e); no adoption fix required or authorized in this delta.",
+    "authoritativeContainerDescription": "Historical container wording corrected (structure same, historical adopted plain v1 boolean vs current result literal false)."
+  },
+  "dispositions": {
+    "D1D2": "Closed envelope schemaVersion enum [3]: inline v1 cluster-partition (schemaVersion 1, regime A|B, adopted tightened to literal false in this candidate only), groups, optional proposalEvidence mirror required relationally for regime B; wrapper is not a ClusterPartition and is never passed as-is to loaders/putPartition.",
+    "D3": "Groups required for A and B; items exactly the stored investigation-group-v1 schema with NO added kernelIds/externalContextIds (those stay in partition.communities[]); join group.communityContentId to community contentId documented; no externalContextIdsByGroupId invented; no groupMetrics transport added.",
+    "D4": "proposalFingerprint (partition fingerprint with adopted forced false, lineage.ts:900) and observedDigest (stored column digest, graph-store.ts:322) present; no automatic equality claimed; no invented deltaId.",
+    "D5": "actor={hostReceiptRef} non-empty string only; closed shape without a kind property excludes a raw localReceipt object BY FORM but proves nothing about authenticity; authorityRef stays inside each UnitQuiescenceProof.",
+    "D6": "inventory mirrors FrozenActiveUnit:88-100 WITHOUT executionContext: required unitId,state,snapshotId,ownedFunctionIds; optional attemptIds,claimIds,workerStillExecutable,leaseHeld,attempts,claims; absence stays UNKNOWN, never an empty authoritative list.",
+    "D8": "explicit enum [true] is documented decision intent, never proof of acceptance/effective adoption; no duplicated adopted boolean.",
+    "D9": "Doc2 minimal per binding: no migratableUnitIds/diagnostics/plan outputs added.",
+    "D7": "semantic-index.ts provided as supplement; real types GraphSnapshotView/MultiviewConfig/LinkConstraint/FrozenEncoder(omit encode)/validConfig used; GraphSnapshotView NOT replaced by full graph-snapshot-v1.",
+    "D10": "This manifest format (role, at, inputManifestRefs, bindingRef, files, dispositions, limits); no self hash of the manifest itself.",
+    "D11": "Strict subset exclusively: no $ref/oneOf/if-then/pattern/const/format/$defs; sub-schemas fully inlined; enumerations and primitive type unions allowed; non-expressible constraints live in DESIGN.md."
+  },
+  "limits": [
+    "A schema alone never proves: digest equality, HOST authority, quiescence, cross-document relations, lowercase hex, k1 strictly greater than zero, or branch A/B obligations. bm25.k1 carries minimum 0 / maximum 100 only; the exact-zero rejection is validConfig semantics (semantic-index.ts:1191), not schema form; no epsilon, no exclusiveMinimum.",
+    "explicit=true is an intention record, never acceptance, scheduler activation or adoption effectiveness.",
+    "A falsified hostReceiptRef passes the form; only a future HOST resolver can authenticate; localReceipt (l4-local-proposal-receipt, lineage.ts:456) is refused as authority (C2; lineage.ts:507,680); no deserialized authority object or callback is a capability.",
+    "The v3 wrapper is never passed as-is to any loader or putPartition; the new schemas are wired nowhere (graph-store.ts:204-206 unchanged); central ownership l8-integration-r1 stays blocked and unchanged.",
+    "The stored v1 schema is NOT modified; adopted stays false in the stored paths (cluster.ts:38-42, cluster.ts:817); putPartition refuses a digest change under the same id (graph-store.ts:325) and the planAdoption clone (lineage.ts:719) is not durable.",
+    "No migration, no invented contract/field beyond the pinned dispositions; no historical label copied as a present status.",
+    "LosslessMetric (sidecar transport) is distinct from the v1 KnownInteger transport (lineage.ts:26-32).",
+    "No build, run, test, product import, DB, native API, IDA, live, git, registry write or delegation occurred; the two schema files and this manifest were parsed only as plain JSON data, with no external validator.",
+    "Review is fresh and distinct from this authoring; this delivery is a source proposal only, never an acceptance disposition.",
+    "Delta r1 is ONE mechanical correction cycle scoped to 12 validation nodes (2 enum removals + 10 minLength/maxLength pair removals = 22 keywords) plus separately authorized honest descriptions; the adoption schema is a byte-identical copy; any further defect is HOLD/report, never a silent fix.",
+    "This delta state is SOURCE_DELTA_UNREVIEWED_UNINTEGRATED; re-review fresh strong distinct is required after freeze; no acceptance, no integration, no C3-C5/G7.",
+    "The two original input manifest refs above are historical provenance only; the delta-input ref (9 pins, 98ddf0ba...) is the sole current re-hash proof of this round."
+  ],
+  "sourceAnchors": [
+    "cluster.ts:38-42 (L3 literal type), cluster.ts:817 (partition construction)",
+    "cluster-partition-v1.schema.json:8-24,33-91,98-201,233-236 (v1 contract, unmodified)",
+    "investigation-group-v1.schema.json:8-20,94-115,128-161 (groups v1, unmodified)",
+    "knowledge-delta-v1.schema.json:35-46 (revision bounds)",
+    "lineage.ts:16-19 (loaders, regexes), 88-101 (FrozenActiveUnit), 110-115 (Diagnostic), 401-452 (sidecar/evidence types), 491-493 (evidence fingerprint), 500-529 (witness verification), 625 (sidecar production), 640-651 (UnitQuiescenceProof), 653-731 (planAdoption), 895-914 (partition invariants), 900 (proposal fingerprint), 964-1003 (sidecarValid/resultShape/outcome), 1005-1103 (inspectProposalEvidence, B evidence 1037-1039, previous gate 1067-1080), 1105-1151 (strict subset validator)",
+    "graph-store.ts:204-206 (wired document kinds), 310-328 (snapshot/partition immutability and digest column)",
+    "semantic-index.ts:38 (LEXICAL_RULESET_VERSION), 62-115 (provenance and view types), 117-167 (GraphSnapshotView/LinkConstraint/MultiviewConfig/FrozenEncoder), 297-320 (configFingerprint), 1098-1107 (provenanceReady), 1188-1198 (validConfig)",
+    "validation.ts:4-5,33 (hash/canonical/fingerprint primitives)",
+    "lineage.ts:496-502 (historical lifecycle boolean, matchesPreviousProposal), 899-901 (fingerprint normalizes adopted:false), 1037 (current result adopted=false), 952-956 (provenanceShape plain strings)",
+    "semantic-index.ts:945-955 (rejected constraints serialized), 1098-1107 (provenanceReady later scientific evaluation), 1215-1219 (site diagnostics serialized)",
+    "cluster-partition-v1.schema.json:233-236 (v1 plain boolean adopted)"
+  ]
+}

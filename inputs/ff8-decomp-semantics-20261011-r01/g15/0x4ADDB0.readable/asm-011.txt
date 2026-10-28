@@ -1,0 +1,25 @@
+004AE18F: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE194: add     esp, 4; Add
+004AE197: mov     eax, 0Fh
+004AE19C: jmp     loc_4AE669; Jump
+004AE1A1: push    2; jumptable 004ADEFA case 13
+004AE1A3: push    2; slot_index
+004AE1A5: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE1AA: push    2; flags
+004AE1AC: push    4; slot_index
+004AE1AE: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE1B3: push    2; int
+004AE1B5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE1BA: push    1
+004AE1BC: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE1C1: call    sub_4AF340; Call Procedure
+004AE1C6: mov     al, byte_1D768ED
+004AE1CB: add     esp, 1Ch; Add
+004AE1CE: test    al, al; Logical Compare
+004AE1D0: jz      short loc_4AE1E6; Jump if Zero (ZF=1)
+004AE1D2: push    7; int
+004AE1D4: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE1D9: add     esp, 4; Add
+004AE1DC: mov     eax, 9
+004AE1E1: jmp     loc_4AE669; Jump
+004AE1E6: mov     dword_1D768D0, 0Eh; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.

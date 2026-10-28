@@ -1,0 +1,172 @@
+bun test v1.4.2 (744846f84)
+
+test\re-policy.test.ts:
+163 |     if (defect === "pseudo-uri") p.idaReadBindings[0].accesses[0].resource = "ida://binary/disasm";
+164 |     if (defect === "edit") p.idaReadBindings[0].accesses[0].action = "edit";
+165 |     if (defect === "no-disasm") p.idaReadBindings.shift();
+166 |     if (defect === "unknown") p.silentFallback = true;
+167 |     if (defect === "kind-array") p.workKind = ["decompilation"];
+168 |     expect(() => new EnsembleBridge({ ...f.options, rePolicy: p } as any)).toThrow(/RE policy/);
+                                                                                 ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /RE policy/
+
+Received function did not throw
+Received value: EnsembleBridge {
+  options: {
+    client: {
+      capabilities: [AsyncFunction: capabilities],
+      ensure: [AsyncFunction: ensure],
+      replay: [AsyncFunction: replay],
+      submit: [AsyncFunction: submit],
+      inspect: [AsyncFunction: inspect],
+      bulletinSnapshot: [AsyncFunction: bulletinSnapshot],
+      retainCommunicationAudit: [Function: retainCommunicationAudit],
+    },
+    directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr",
+    profiles: {
+      explore: "re-explore",
+      evaluate: "re-evaluate",
+      A: "re-A",
+      B: "re-B",
+      R: "re-R",
+    },
+    approvedSources: [],
+    projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr\\inputs",
+    outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr\\outputs",
+    roleInstructions: {
+      explore: "Scientific explore instructions",
+      evaluate: "Scientific evaluate instructions",
+      A: "Scientific A instructions",
+      B: "Scientific B instructions",
+      R: "Scientific R instructions",
+    },
+    allowedTools: [ "read", "execute" ],
+    admissionMode: "native-boundary-witness",
+    outputMode: "json-schema-strict",
+    rePolicy: {
+      version: 1,
+      workKind: [ "decompilation" ],
+      reconcilerSharing: true,
+      idaReadBindings: [
+        {
+          operation: "disasm",
+          tool: "registered_ida_disasm",
+          accesses: [
+            {
+              action: "exact_native_disasm_action",
+              resource: "*",
+            }
+          ],
+        }, {
+          operation: "xrefs_to",
+          tool: "registered_ida_xrefs_to",
+          accesses: [
+            {
+              action: "exact_native_xrefs_action",
+              resource: "*",
+            }
+          ],
+        }
+      ],
+    },
+  },
+  access: ProjectionAccess {
+    options: {
+      client: {
+        capabilities: [AsyncFunction: capabilities],
+        ensure: [AsyncFunction: ensure],
+        replay: [AsyncFunction: replay],
+        submit: [AsyncFunction: submit],
+        inspect: [AsyncFunction: inspect],
+        bulletinSnapshot: [AsyncFunction: bulletinSnapshot],
+        retainCommunicationAudit: [Function: retainCommunicationAudit],
+      },
+      directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr",
+      profiles: {
+        explore: "re-explore",
+        evaluate: "re-evaluate",
+        A: "re-A",
+        B: "re-B",
+        R: "re-R",
+      },
+      approvedSources: [],
+      projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr\\inputs",
+      outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-9hWIVr\\outputs",
+      roleInstructions: {
+        explore: "Scientific explore instructions",
+        evaluate: "Scientific evaluate instructions",
+        A: "Scientific A instructions",
+        B: "Scientific B instructions",
+        R: "Scientific R instructions",
+      },
+      allowedTools: [ "read", "execute" ],
+      admissionMode: "native-boundary-witness",
+      outputMode: "json-schema-strict",
+      rePolicy: {
+        version: 1,
+        workKind: [ "decompilation" ],
+        reconcilerSharing: true,
+        idaReadBindings: [
+          {
+            operation: "disasm",
+            tool: "registered_ida_disasm",
+            accesses: [
+              {
+                action: "exact_native_disasm_action",
+                resource: "*",
+              }
+            ],
+          }, {
+            operation: "xrefs_to",
+            tool: "registered_ida_xrefs_to",
+            accesses: [
+              {
+                action: "exact_native_xrefs_action",
+                resource: "*",
+              }
+            ],
+          }
+        ],
+      },
+    },
+    publicFacts: Map {},
+    approveKnowledge: [Function: approveKnowledge],
+    authorized: [Function: authorized],
+    read: [AsyncFunction: read],
+    list: [AsyncFunction: list],
+    tool: [AsyncFunction: tool],
+    projected: [Function: projected],
+  },
+  ensureTeam: [AsyncFunction: ensureTeam],
+  submit: [AsyncFunction: submit],
+  inspect: [AsyncFunction: inspect],
+  inspectStructured: [Function: inspectStructured],
+  pauseAdmissions: [AsyncFunction: pauseAdmissions],
+  resumeAdmissions: [AsyncFunction: resumeAdmissions],
+  stop: [AsyncFunction: stop],
+}
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:168:76)
+(fail) unsafe operations, duplicate/wildcard IDs and grants, missing disasm, edit/chat/file fallbacks fail closed [14.92ms]
+292 |     if (["binary", "member", "source-tool", "source-hash", "source-address", "payload-alias", "status", "kind-array"].includes(defect)) {
+293 |       m.payloadSha256 = hash(canonical(m.payload)); e.communicationTrace.received[0].payloadSha256 = m.payloadSha256;
+294 |       f.executions.get(f.b.executionId)!.communicationTrace.published[0].payloadSha256 = m.payloadSha256;
+295 |     }
+296 |     f.setSnapshot(snapshot); const result = await f.bridge.inspect(f.a);
+297 |     expect(result.status).toBe("failed"); expect(result.error).toMatch(/communication audit/); expect(result.artifact).toBeUndefined(); expect(existsSync(f.a.outputPath)).toBe(false);
+                                ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "completed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:297:27)
+(fail) bulletin audit rejects kind-array before scientific materialization [41.61ms]
+
+ 0 pass
+ 61 filtered out
+ 2 fail
+ 24 expect() calls
+Ran 2 tests across 1 file. [85.00ms]

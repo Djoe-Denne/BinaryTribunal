@@ -1,0 +1,344 @@
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 5.
+Checked 85 files in 50ms. No fixes applied.
+Found 17 warnings.
+Found 8 infos.
+$ bunx biome lint src/
+src\mission-graph-js-models.ts:24:40 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+     23 │ /** Browser-only draft state: no writes on open, refresh, mode change or close. */
+   > 24 │ export const MISSION_GRAPH_MODELS_JS = String.raw`
+        │                                        ^^^^^^^^^^^
+   > 25 │ const modelEditor = { team: null, revision: 0, rows: [], nativeVariants: [], retained: [], editable: false, busy: false, stale: false, base: '' };
+         ...
+  > 144 │   } catch (error) { modelNotice(error.message, true); }
+  > 145 │ });
+  > 146 │ `;
+        │ ^
+    147 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\mission-graph-js-providers.ts:2:43 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+      1 │ /** Provider preference editor embedded in the mission graph; saves only on explicit submission. */
+    > 2 │ export const MISSION_GRAPH_PROVIDERS_JS = String.raw`
+        │                                           ^^^^^^^^^^^
+    > 3 │ const providerEditor = { team: null, revision: 0, order: [], base: [], providers: [], editable: false, busy: false };
+    > 4 │ function providerNotice(text, error) {
+         ...
+  > 104 │   finally { providerEditor.busy = false; renderProviderOrder(); }
+  > 105 │ });
+  > 106 │ `;
+        │ ^
+    107 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\v2-client.ts:119:37 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    117 │       create: async (options) => {
+    118 │         const input: Record<string, unknown> = { title: options.title }
+  > 119 │         if (options.parentID) input["parentID"] = options.parentID
+        │                                     ^^^^^^^^^^
+    120 │         // V1 action names predate the V2 vocabulary: bash is now shell.
+    121 │         const V1_ACTION_MAP: Record<string, string> = { bash: "shell" }
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    117 117 │         create: async (options) => {
+    118 118 │           const input: Record<string, unknown> = { title: options.title }
+    119     │ - ········if·(options.parentID)·input["parentID"]·=·options.parentID
+        119 │ + ········if·(options.parentID)·input.parentID·=·options.parentID
+    120 120 │           // V1 action names predate the V2 vocabulary: bash is now shell.
+    121 121 │           const V1_ACTION_MAP: Record<string, string> = { bash: "shell" }
+  
+
+src\v2-client.ts:127:32 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    125 │           effect: rule.action,
+    126 │         }))
+  > 127 │         if (permissions) input["permissions"] = permissions
+        │                                ^^^^^^^^^^^^^
+    128 │         if (permissions) input["metadata"] = { "ensemble.permissions": permissions }
+    129 │         if (options.workspaceID ?? options.directory) {
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    125 125 │             effect: rule.action,
+    126 126 │           }))
+    127     │ - ········if·(permissions)·input["permissions"]·=·permissions
+        127 │ + ········if·(permissions)·input.permissions·=·permissions
+    128 128 │           if (permissions) input["metadata"] = { "ensemble.permissions": permissions }
+    129 129 │           if (options.workspaceID ?? options.directory) {
+  
+
+src\v2-client.ts:128:32 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    126 │         }))
+    127 │         if (permissions) input["permissions"] = permissions
+  > 128 │         if (permissions) input["metadata"] = { "ensemble.permissions": permissions }
+        │                                ^^^^^^^^^^
+    129 │         if (options.workspaceID ?? options.directory) {
+    130 │           if (options.workspaceID?.startsWith(DIR_WORKSPACE_PREFIX)) {
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    126 126 │           }))
+    127 127 │           if (permissions) input["permissions"] = permissions
+    128     │ - ········if·(permissions)·input["metadata"]·=·{·"ensemble.permissions":·permissions·}
+        128 │ + ········if·(permissions)·input.metadata·=·{·"ensemble.permissions":·permissions·}
+    129 129 │           if (options.workspaceID ?? options.directory) {
+    130 130 │             if (options.workspaceID?.startsWith(DIR_WORKSPACE_PREFIX)) {
+  
+
+src\v2-client.ts:131:19 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    129 │         if (options.workspaceID ?? options.directory) {
+    130 │           if (options.workspaceID?.startsWith(DIR_WORKSPACE_PREFIX)) {
+  > 131 │             input["location"] = {
+        │                   ^^^^^^^^^^
+    132 │               directory: options.workspaceID.slice(DIR_WORKSPACE_PREFIX.length),
+    133 │             }
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    129 129 │           if (options.workspaceID ?? options.directory) {
+    130 130 │             if (options.workspaceID?.startsWith(DIR_WORKSPACE_PREFIX)) {
+    131     │ - ············input["location"]·=·{
+        131 │ + ············input.location·=·{
+    132 132 │                 directory: options.workspaceID.slice(DIR_WORKSPACE_PREFIX.length),
+    133 133 │               }
+  
+
+src\v2-client.ts:135:19 lint/complexity/useLiteralKeys  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+    133 │             }
+    134 │           } else {
+  > 135 │             input["location"] = {
+        │                   ^^^^^^^^^^
+    136 │               ...(options.directory ? { directory: options.directory } : {}),
+    137 │               ...(options.workspaceID ? { workspaceID: options.workspaceID } : {}),
+  
+  i Unsafe fix: Use a literal key instead.
+  
+    133 133 │               }
+    134 134 │             } else {
+    135     │ - ············input["location"]·=·{
+        135 │ + ············input.location·=·{
+    136 136 │                 ...(options.directory ? { directory: options.directory } : {}),
+    137 137 │                 ...(options.workspaceID ? { workspaceID: options.workspaceID } : {}),
+  
+
+src\dashboard-html.ts:12:45 lint/suspicious/noUselessEscapeInString  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! The character doesn't need to be escaped.
+  
+    10 │ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    11 │ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  > 12 │ <script src="https://cdn.tailwindcss.com"><\/script>
+       │                                             ^
+    13 │ <script>tailwind.config={theme:{extend:{colors:{base:{950:'#0c0e14',900:'#141822',850:'#1a1f2e',800:'#1e2433',700:'#2a3144',600:'#3a4358'},txt:{100:'#e2e8f0',200:'#c1c9d9',300:'#aab4c6',400:'#8a96aa',500:'#7b879b'}},fontFamily:{sans:['Inter','system-ui','sans-serif'],mono:['JetBrains Mono','monospace']}}}}<\/script>
+    14 │ <style>
+  
+  i Only quotes that enclose the string and special characters need to be escaped.
+  
+  i Safe fix: Unescape the character.
+  
+    12 │ <script·src="https://cdn.tailwindcss.com"><\/script>
+       │                                            -        
+
+src\model-authorization.ts:32:19 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    30 │   if (variant !== undefined && (typeof variant !== "string" || !variant.trim() || variant.trim() !== variant || /[#\r\n]/.test(variant))) throw new ModelSelectionDeniedError("invalid variant")
+    31 │   if (suffix !== undefined && variant !== undefined && suffix !== variant) throw new ModelSelectionDeniedError("conflicting pinned variants")
+  > 32 │   return { model: model!, ...((suffix ?? variant) !== undefined ? { variant: suffix ?? variant } : {}) }
+       │                   ^^^^^^
+    33 │ }
+    34 │ 
+  
+
+src\model-authorization.ts:42:7 lint/complexity/useOptionalChain  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Change to an optional chain.
+  
+    40 │   const pair = normalizeModelSelection(value, variant), effort = pair.variant ?? "default"
+    41 │   const candidate = deps.config.modelRouting.models.find(m => m.id === pair.model && (m.reasoningEffort ?? "default") === effort)
+  > 42 │   if (!candidate || !candidate.available) throw new ModelSelectionDeniedError(`${pair.model}#${effort} is absent or unavailable in the operator selection`)
+       │       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    43 │   const globalPolicy = deps.config.modelRouting.preference ?? { mode: "legacy", maxIntelligenceGap: 2, models: [] }
+    44 │   const globalPreference = effectiveModelPreference(candidate, globalPolicy, [])
+  
+  i Unsafe fix: Change to an optional chain.
+  
+    40 40 │     const pair = normalizeModelSelection(value, variant), effort = pair.variant ?? "default"
+    41 41 │     const candidate = deps.config.modelRouting.models.find(m => m.id === pair.model && (m.reasoningEffort ?? "default") === effort)
+    42    │ - ··if·(!candidate·||·!candidate.available)·throw·new·ModelSelectionDeniedError(`${pair.model}#${effort}·is·absent·or·unavailable·in·the·operator·selection`)
+       42 │ + ··if·(!candidate?.available)·throw·new·ModelSelectionDeniedError(`${pair.model}#${effort}·is·absent·or·unavailable·in·the·operator·selection`)
+    43 43 │     const globalPolicy = deps.config.modelRouting.preference ?? { mode: "legacy", maxIntelligenceGap: 2, models: [] }
+    44 44 │     const globalPreference = effectiveModelPreference(candidate, globalPolicy, [])
+  
+
+src\progress.ts:100:56 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+     98 │   lastActivityAt(sessionId: string): number {
+     99 │     const records = this.steps.get(sessionId)
+  > 100 │     const lastStepAt = records && records.length > 0 ? records[records.length - 1]!.timestamp : 0
+        │                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    101 │     return Math.max(
+    102 │       this.lastMessageAt.get(sessionId) ?? 0,
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+     98  98 │     lastActivityAt(sessionId: string): number {
+     99  99 │       const records = this.steps.get(sessionId)
+    100     │ - ····const·lastStepAt·=·records·&&·records.length·>·0·?·records[records.length·-·1]!.timestamp·:·0
+        100 │ + ····const·lastStepAt·=·records·&&·records.length·>·0·?·records[records.length·-·1]?.timestamp·:·0
+    101 101 │       return Math.max(
+    102 102 │         this.lastMessageAt.get(sessionId) ?? 0,
+  
+
+src\recovery.ts:233:46 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    232 │       // Skip delivery to teammates who have already reported completion (issue #3)
+  > 233 │       if (hasReportedCompletion(db, team.id, msg.to_name!)) {
+        │                                              ^^^^^^^^^^^^
+    234 │         markDelivered(db, msg.id)
+    235 │         continue
+  
+
+src\result-parser.ts:17:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    15 │   if (!match) return null
+    16 │ 
+  > 17 │   const inner = match[1]!
+       │                 ^^^^^^^^^
+    18 │   const status = inner.match(/<status>([\s\S]*?)<\/status>/)?.[1]?.trim()
+    19 │   const summary = inner.match(/<summary>([\s\S]*?)<\/summary>/)?.[1]?.trim()
+  
+
+src\tools\team-cleanup.ts:97:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    96 │   return rows
+  > 97 │     .map(row => row.teams[0]!)
+       │                 ^^^^^^^^^^^^^
+    98 │     .sort((a, b) => b.time_updated - a.time_updated || a.name.localeCompare(b.name))
+    99 │ }
+  
+
+src\tools\team-cleanup.ts:204:24 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    202 │     getPurgeMemberResources(deps, targets)
+    203 │       .filter(isStaleEnsembleBranch)
+  > 204 │       .map(resource => resource.worktree_branch!)
+        │                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    205 │   )]
+    206 │ }
+  
+
+src\tools\team-cleanup.ts:513:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    511 │   if (unmerged.length > 0 && mergeOnCleanup) {
+    512 │     for (const member of unmerged) {
+  > 513 │       const branch = member.worktree_branch!
+        │                      ^^^^^^^^^^^^^^^^^^^^^^^
+    514 │       // Warn (but don't block) if lead has local changes to overlapping files
+    515 │       try {
+  
+
+src\tools\team-status.ts:106:96 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    104 │       // "retrying" label, no rate-limit-specific wording (Fix 2).
+    105 │       const isRetrying = m.retry_until !== null && m.retry_until > now
+  > 106 │       const retrying = isRetrying ? `, retrying (attempt ${m.retry_attempt}, ~${formatDuration(m.retry_until! - now)})` : ""
+        │                                                                                                ^^^^^^^^^^^^^^
+    107 │ 
+    108 │       // Last message time
+  
+
+src\v2-client.ts:113:13 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    111 │       const record = raw && typeof raw === "object" ? raw as Record<string, unknown> : {}
+    112 │       const data = record.data && typeof record.data === "object" ? record.data as Record<string, unknown> : record
+  > 113 │       await deps.authorizeModel!(options.sessionID, data.model)
+        │             ^^^^^^^^^^^^^^^^^^^^
+    114 │       return continuity.compact(options)
+    115 │     } } : continuity,
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+    111 111 │         const record = raw && typeof raw === "object" ? raw as Record<string, unknown> : {}
+    112 112 │         const data = record.data && typeof record.data === "object" ? record.data as Record<string, unknown> : record
+    113     │ - ······await·deps.authorizeModel!(options.sessionID,·data.model)
+        113 │ + ······await·deps.authorizeModel?.(options.sessionID,·data.model)
+    114 114 │         return continuity.compact(options)
+    115 115 │       } } : continuity,
+  
+
+src\v2-client.ts:154:42 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    152 │         if (options.model) {
+    153 │           const selection = normalizeModelSelection(`${options.model.providerID}/${options.model.modelID}`, options.variant)
+  > 154 │           options = { ...options, model: parseModelId(selection.model)!, variant: selection.variant }
+        │                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    155 │         }
+    156 │         if (deps.authorizeModel) {
+  
+
+src\watchdog.ts:169:9 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    167 │         ...stallModel,
+    168 │       }).then(() => {
+  > 169 │         this.progressTracker!.markReported(member.session_id)
+        │         ^^^^^^^^^^^^^^^^^^^^^
+    170 │       }).catch((err) => {
+    171 │         log(`watchdog:stall:nudge-failed member=${member.name} team=${member.team_id} session=${member.session_id} err=${err instanceof Error ? err.message : String(err)}`)
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+    167 167 │           ...stallModel,
+    168 168 │         }).then(() => {
+    169     │ - ········this.progressTracker!.markReported(member.session_id)
+        169 │ + ········this.progressTracker?.markReported(member.session_id)
+    170 170 │         }).catch((err) => {
+    171 171 │           log(`watchdog:stall:nudge-failed member=${member.name} team=${member.team_id} session=${member.session_id} err=${err instanceof Error ? err.message : String(err)}`)
+  
+

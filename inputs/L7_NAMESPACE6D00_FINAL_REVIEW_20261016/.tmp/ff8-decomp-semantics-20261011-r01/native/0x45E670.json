@@ -1,0 +1,196 @@
+{
+  "ea": "0x45E670",
+  "name_label_only": "Gte_Cross3Float_SatS16",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x45e670",
+      "end": "0x45e81a",
+      "hex": "83ec080fbf05348aca010fbf0d388aca010fbf153c8aca01c1e00c89442400c705f892ca0100000000db442400c1e10c894c2400db442400c1e20c89542400db442400d9054492ca01d8c9d9054c92ca01d8cbdee9dc05d893b600dd5c2400d9054c92ca01d8cbd9053c92ca01d8ca8b4424000500000080dee9a3748aca01dc05d893b600dd5c24008b4c2400ddd8d9053c92ca01d8c9d9054492ca01d8cb81c100000080890d788aca01dee9dc05d893b600dd5c24008b542400ddd881c2000000803d0080ffffddd889157c8aca017d16c705f892ca0100000081c705348aca010080ffffeb223dff7f00007e16c705f892ca0100000081c705348aca01ff7f0000eb05a3348aca0181f90080ffff7d1ba1f892ca01c705388aca010080ffff0d00008080a3f892ca01eb2981f9ff7f00007e1ba1f892ca01c705388aca01ff7f00000d00008080a3f892ca01eb06890d388aca0181fa0080ffff7d1da1f892ca01c7053c8aca010080ffff0d00004000a3f892ca0183c408c381faff7f00007e1da1f892ca01c7053c8aca01ff7f00000d00004000a3f892ca0183c408c389153c8aca0183c408c3"
+    }
+  ],
+  "assembly": "0045E670: sub     esp, 8; Integer Subtraction\n0045E673: movsx   eax, word ptr dword_1CA8A34; Move with Sign-Extend\n0045E67A: movsx   ecx, word ptr dword_1CA8A38; Move with Sign-Extend\n0045E681: movsx   edx, word ptr dword_1CA8A3C; Move with Sign-Extend\n0045E688: shl     eax, 0Ch; Shift Logical Left\n0045E68B: mov     dword ptr [esp+8+var_8], eax\n0045E68F: mov     dword_1CA92F8, 0\n0045E699: fild    dword ptr [esp+8+var_8]; Load Integer\n0045E69D: shl     ecx, 0Ch; Shift Logical Left\n0045E6A0: mov     dword ptr [esp+8+var_8], ecx\n0045E6A4: fild    dword ptr [esp+8+var_8]; Load Integer\n0045E6A8: shl     edx, 0Ch; Shift Logical Left\n0045E6AB: mov     dword ptr [esp+8+var_8], edx\n0045E6AF: fild    dword ptr [esp+8+var_8]; Load Integer\n0045E6B3: fld     Cam_xyz2_y_float; Load Real\n0045E6B9: fmul    st, st(1); Multiply Real\n0045E6BB: fld     Cam_xyz3_z_float; Load Real\n0045E6C1: fmul    st, st(3); Multiply Real\n0045E6C3: fsubp   st(1), st; Subtract Real and Pop\n0045E6C5: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045E6CB: fstp    [esp+8+var_8]; Store Real and Pop\n0045E6CF: fld     Cam_xyz3_z_float; Load Real\n0045E6D5: fmul    st, st(3); Multiply Real\n0045E6D7: fld     Cam_xyz1_x_float; Load Real\n0045E6DD: fmul    st, st(2); Multiply Real\n0045E6DF: mov     eax, dword ptr [esp+8+var_8]\n0045E6E3: add     eax, 80000000h; Add\n0045E6E8: fsubp   st(1), st; Subtract Real and Pop\n0045E6EA: mov     dword_1CA8A74, eax\n0045E6EF: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045E6F5: fstp    [esp+8+var_8]; Store Real and Pop\n0045E6F9: mov     ecx, dword ptr [esp+8+var_8]\n0045E6FD: fstp    st; Store Real and Pop\n0045E6FF: fld     Cam_xyz1_x_float; Load Real\n0045E705: fmul    st, st(1); Multiply Real\n0045E707: fld     Cam_xyz2_y_float; Load Real\n0045E70D: fmul    st, st(3); Multiply Real\n0045E70F: add     ecx, 80000000h; Add\n0045E715: mov     dword_1CA8A78, ecx\n0045E71B: fsubp   st(1), st; Subtract Real and Pop\n0045E71D: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045E723: fstp    [esp+8+var_8]; Store Real and Pop\n0045E727: mov     edx, dword ptr [esp+8+var_8]\n0045E72B: fstp    st; Store Real and Pop\n0045E72D: add     edx, 80000000h; Add\n0045E733: cmp     eax, 0FFFF8000h; Compare Two Operands\n0045E738: fstp    st; Store Real and Pop\n0045E73A: mov     dword_1CA8A7C, edx\n0045E740: jge     short loc_45E758; Jump if Greater or Equal (SF=OF)\n0045E742: mov     dword_1CA92F8, 81000000h\n0045E74C: mov     dword_1CA8A34, 0FFFF8000h\n0045E756: jmp     short loc_45E77A; Jump\n0045E758: cmp     eax, 7FFFh; Compare Two Operands\n0045E75D: jle     short loc_45E775; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045E75F: mov     dword_1CA92F8, 81000000h\n0045E769: mov     dword_1CA8A34, 7FFFh\n0045E773: jmp     short loc_45E77A; Jump\n0045E775: mov     dword_1CA8A34, eax\n0045E77A: cmp     ecx, 0FFFF8000h; Compare Two Operands\n0045E780: jge     short loc_45E79D; Jump if Greater or Equal (SF=OF)\n0045E782: mov     eax, dword_1CA92F8\n0045E787: mov     dword_1CA8A38, 0FFFF8000h\n0045E791: or      eax, 80800000h; Logical Inclusive OR\n0045E796: mov     dword_1CA92F8, eax\n0045E79B: jmp     short loc_45E7C6; Jump\n0045E79D: cmp     ecx, 7FFFh; Compare Two Operands\n0045E7A3: jle     short loc_45E7C0; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045E7A5: mov     eax, dword_1CA92F8\n0045E7AA: mov     dword_1CA8A38, 7FFFh\n0045E7B4: or      eax, 80800000h; Logical Inclusive OR\n0045E7B9: mov     dword_1CA92F8, eax\n0045E7BE: jmp     short loc_45E7C6; Jump\n0045E7C0: mov     dword_1CA8A38, ecx\n0045E7C6: cmp     edx, 0FFFF8000h; Compare Two Operands\n0045E7CC: jge     short loc_45E7EB; Jump if Greater or Equal (SF=OF)\n0045E7CE: mov     eax, dword_1CA92F8\n0045E7D3: mov     dword_1CA8A3C, 0FFFF8000h\n0045E7DD: or      eax, 400000h; Logical Inclusive OR\n0045E7E2: mov     dword_1CA92F8, eax\n0045E7E7: add     esp, 8; Add\n0045E7EA: retn; Return Near from Procedure\n0045E7EB: cmp     edx, 7FFFh; Compare Two Operands\n0045E7F1: jle     short loc_45E810; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045E7F3: mov     eax, dword_1CA92F8\n0045E7F8: mov     dword_1CA8A3C, 7FFFh\n0045E802: or      eax, 400000h; Logical Inclusive OR\n0045E807: mov     dword_1CA92F8, eax\n0045E80C: add     esp, 8; Add\n0045E80F: retn; Return Near from Procedure\n0045E810: mov     dword_1CA8A3C, edx\n0045E816: add     esp, 8; Add\n0045E819: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x45e670",
+      "end": "0x45e742",
+      "successors": [
+        "0x45e742",
+        "0x45e758"
+      ]
+    },
+    {
+      "start": "0x45e742",
+      "end": "0x45e758",
+      "successors": [
+        "0x45e77a"
+      ]
+    },
+    {
+      "start": "0x45e758",
+      "end": "0x45e75f",
+      "successors": [
+        "0x45e75f",
+        "0x45e775"
+      ]
+    },
+    {
+      "start": "0x45e75f",
+      "end": "0x45e775",
+      "successors": [
+        "0x45e77a"
+      ]
+    },
+    {
+      "start": "0x45e775",
+      "end": "0x45e77a",
+      "successors": [
+        "0x45e77a"
+      ]
+    },
+    {
+      "start": "0x45e77a",
+      "end": "0x45e782",
+      "successors": [
+        "0x45e782",
+        "0x45e79d"
+      ]
+    },
+    {
+      "start": "0x45e782",
+      "end": "0x45e79d",
+      "successors": [
+        "0x45e7c6"
+      ]
+    },
+    {
+      "start": "0x45e79d",
+      "end": "0x45e7a5",
+      "successors": [
+        "0x45e7a5",
+        "0x45e7c0"
+      ]
+    },
+    {
+      "start": "0x45e7a5",
+      "end": "0x45e7c0",
+      "successors": [
+        "0x45e7c6"
+      ]
+    },
+    {
+      "start": "0x45e7c0",
+      "end": "0x45e7c6",
+      "successors": [
+        "0x45e7c6"
+      ]
+    },
+    {
+      "start": "0x45e7c6",
+      "end": "0x45e7ce",
+      "successors": [
+        "0x45e7ce",
+        "0x45e7eb"
+      ]
+    },
+    {
+      "start": "0x45e7ce",
+      "end": "0x45e7eb",
+      "successors": []
+    },
+    {
+      "start": "0x45e7eb",
+      "end": "0x45e7f3",
+      "successors": [
+        "0x45e7f3",
+        "0x45e810"
+      ]
+    },
+    {
+      "start": "0x45e7f3",
+      "end": "0x45e810",
+      "successors": []
+    },
+    {
+      "start": "0x45e810",
+      "end": "0x45e81a",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4026d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x402620"
+    },
+    {
+      "from": "0x40277e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x402620"
+    },
+    {
+      "from": "0x549e3c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x549dd0"
+    },
+    {
+      "from": "0x61a05a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x619b70"
+    },
+    {
+      "from": "0x61a7a6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x619b70"
+    },
+    {
+      "from": "0x668293",
+      "type": 17,
+      "iscode": true,
+      "function": "0x668230"
+    },
+    {
+      "from": "0x671741",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6716c0"
+    },
+    {
+      "from": "0x676121",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6760a0"
+    },
+    {
+      "from": "0x6b722a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b7170"
+    },
+    {
+      "from": "0x6c91ba",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c9100"
+    },
+    {
+      "from": "0x7041ea",
+      "type": 17,
+      "iscode": true,
+      "function": "0x704130"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 92
+}

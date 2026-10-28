@@ -1,0 +1,180 @@
+{
+  "ea": "0x495D80",
+  "name_label_only": "domain::BattleGF_RecomputeBattleData",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x495d80",
+      "end": "0x495eb3",
+      "hex": "83ec0c538b5c24148bc355c1e00403c3568d0c5b578b1485b4dccf018d3c85a8dccf018d348d18f6cf015352897c2420c6460b00c6460900c6460a64e8ff0200008846088b470c83c40883c71c894604bd2e81cf01897c2410c7442414020000008b178bc5bf2000000081c500010000f6c201742f3dc681cf017c283d0e82cf017d218a48ff084e0b8a0884c9750a8a5801005e098b5c242080f90175068a4801004e0ad1ea83c0084f75c48b7c24108b44241483c70448897c241089442414759f33d2538a560852e8d20200000fbfc833c083c4088a460a0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181fa0f2700007e05ba0f2700008b44241833c90fbffa668b4812668956023bf97d0466895012668b4012668906668b560266c1fa02663bc27d04804e0b805f5e5d5b83c40cc3"
+    }
+  ],
+  "assembly": "00495D80: sub     esp, 0Ch; Integer Subtraction\n00495D83: push    ebx\n00495D84: mov     ebx, [esp+10h+gf_id]\n00495D88: mov     eax, ebx\n00495D8A: push    ebp\n00495D8B: shl     eax, 4; Shift Logical Left\n00495D8E: add     eax, ebx; Add\n00495D90: push    esi\n00495D91: lea     ecx, [ebx+ebx*2]; Load Effective Address\n00495D94: push    edi\n00495D95: mov     edx, SG_ARRAY_GF_DATA.Experience[eax*4]\n00495D9C: lea     edi, ds:1CFDCA8h[eax*4]; Load Effective Address\n00495DA3: lea     esi, ds:1CFF618h[ecx*4]; Load Effective Address\n00495DAA: push    ebx; gf_id\n00495DAB: push    edx; xp\n00495DAC: mov     [esp+24h+var_4], edi\n00495DB0: mov     byte ptr [esi+0Bh], 0\n00495DB4: mov     byte ptr [esi+9], 0\n00495DB8: mov     byte ptr [esi+0Ah], 64h ; 'd'\n00495DBC: call    sub_4960C0; Call Procedure\n00495DC1: mov     [esi+8], al\n00495DC4: mov     eax, [edi+0Ch]\n00495DC7: add     esp, 8; Add\n00495DCA: add     edi, 1Ch; Add\n00495DCD: mov     [esi+4], eax\n00495DD0: mov     ebp, (offset K_CHARA_ABILITY.Flags+31h)\n00495DD5: mov     [esp+1Ch+var_C], edi\n00495DD9: mov     [esp+1Ch+var_8], 2\n00495DE1: mov     edx, [edi]\n00495DE3: mov     eax, ebp\n00495DE5: mov     edi, 20h ; ' '\n00495DEA: add     ebp, 100h; Add\n00495DF0: test    dl, 1; Logical Compare\n00495DF3: jz      short loc_495E24; Jump if Zero (ZF=1)\n00495DF5: cmp     eax, offset K_GF_ABILITY.stat_to_increase; Compare Two Operands\n00495DFA: jl      short loc_495E24; Jump if Less (SF!=OF)\n00495DFC: cmp     eax, offset K_MENU_ABILITY.start_offset; Compare Two Operands\n00495E01: jge     short loc_495E24; Jump if Greater or Equal (SF=OF)\n00495E03: mov     cl, [eax-1]\n00495E06: or      [esi+0Bh], cl; Logical Inclusive OR\n00495E09: mov     cl, [eax]\n00495E0B: test    cl, cl; Logical Compare\n00495E0D: jnz     short loc_495E19; Jump if Not Zero (ZF=0)\n00495E0F: mov     bl, [eax+1]\n00495E12: add     [esi+9], bl; Add\n00495E15: mov     ebx, [esp+1Ch+gf_id]\n00495E19: cmp     cl, 1; Compare Two Operands\n00495E1C: jnz     short loc_495E24; Jump if Not Zero (ZF=0)\n00495E1E: mov     cl, [eax+1]\n00495E21: add     [esi+0Ah], cl; Add\n00495E24: shr     edx, 1; Shift Logical Right\n00495E26: add     eax, 8; Add\n00495E29: dec     edi; Decrement by 1\n00495E2A: jnz     short loc_495DF0; Jump if Not Zero (ZF=0)\n00495E2C: mov     edi, [esp+1Ch+var_C]\n00495E30: mov     eax, [esp+1Ch+var_8]\n00495E34: add     edi, 4; Add\n00495E37: dec     eax; Decrement by 1\n00495E38: mov     [esp+1Ch+var_C], edi\n00495E3C: mov     [esp+1Ch+var_8], eax\n00495E40: jnz     short loc_495DE1; Jump if Not Zero (ZF=0)\n00495E42: xor     edx, edx; Logical Exclusive OR\n00495E44: push    ebx\n00495E45: mov     dl, [esi+8]\n00495E48: push    edx\n00495E49: call    sub_496120; Call Procedure\n00495E4E: movsx   ecx, ax; Move with Sign-Extend\n00495E51: xor     eax, eax; Logical Exclusive OR\n00495E53: add     esp, 8; Add\n00495E56: mov     al, [esi+0Ah]\n00495E59: imul    ecx, eax; Signed Multiply\n00495E5C: mov     eax, 51EB851Fh\n00495E61: imul    ecx; Signed Multiply\n00495E63: sar     edx, 5; Shift Arithmetic Right\n00495E66: mov     ecx, edx\n00495E68: shr     ecx, 1Fh; Shift Logical Right\n00495E6B: add     edx, ecx; Add\n00495E6D: cmp     edx, 270Fh; Compare Two Operands\n00495E73: jle     short loc_495E7A; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495E75: mov     edx, 270Fh\n00495E7A: mov     eax, [esp+1Ch+var_4]\n00495E7E: xor     ecx, ecx; Logical Exclusive OR\n00495E80: movsx   edi, dx; Move with Sign-Extend\n00495E83: mov     cx, [eax+12h]\n00495E87: mov     [esi+2], dx\n00495E8B: cmp     edi, ecx; Compare Two Operands\n00495E8D: jge     short loc_495E93; Jump if Greater or Equal (SF=OF)\n00495E8F: mov     [eax+12h], dx\n00495E93: mov     ax, [eax+12h]\n00495E97: mov     [esi], ax\n00495E9A: mov     dx, [esi+2]\n00495E9E: sar     dx, 2; Shift Arithmetic Right\n00495EA2: cmp     ax, dx; Compare Two Operands\n00495EA5: jge     short loc_495EAB; Jump if Greater or Equal (SF=OF)\n00495EA7: or      byte ptr [esi+0Bh], 80h; Logical Inclusive OR\n00495EAB: pop     edi\n00495EAC: pop     esi\n00495EAD: pop     ebp\n00495EAE: pop     ebx\n00495EAF: add     esp, 0Ch; Add\n00495EB2: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x495d80",
+      "end": "0x495de1",
+      "successors": [
+        "0x495de1"
+      ]
+    },
+    {
+      "start": "0x495de1",
+      "end": "0x495df0",
+      "successors": [
+        "0x495df0"
+      ]
+    },
+    {
+      "start": "0x495df0",
+      "end": "0x495df5",
+      "successors": [
+        "0x495df5",
+        "0x495e24"
+      ]
+    },
+    {
+      "start": "0x495df5",
+      "end": "0x495dfc",
+      "successors": [
+        "0x495dfc",
+        "0x495e24"
+      ]
+    },
+    {
+      "start": "0x495dfc",
+      "end": "0x495e03",
+      "successors": [
+        "0x495e03",
+        "0x495e24"
+      ]
+    },
+    {
+      "start": "0x495e03",
+      "end": "0x495e0f",
+      "successors": [
+        "0x495e0f",
+        "0x495e19"
+      ]
+    },
+    {
+      "start": "0x495e0f",
+      "end": "0x495e19",
+      "successors": [
+        "0x495e19"
+      ]
+    },
+    {
+      "start": "0x495e19",
+      "end": "0x495e1e",
+      "successors": [
+        "0x495e1e",
+        "0x495e24"
+      ]
+    },
+    {
+      "start": "0x495e1e",
+      "end": "0x495e24",
+      "successors": [
+        "0x495e24"
+      ]
+    },
+    {
+      "start": "0x495e24",
+      "end": "0x495e2c",
+      "successors": [
+        "0x495df0",
+        "0x495e2c"
+      ]
+    },
+    {
+      "start": "0x495e2c",
+      "end": "0x495e42",
+      "successors": [
+        "0x495de1",
+        "0x495e42"
+      ]
+    },
+    {
+      "start": "0x495e42",
+      "end": "0x495e75",
+      "successors": [
+        "0x495e75",
+        "0x495e7a"
+      ]
+    },
+    {
+      "start": "0x495e75",
+      "end": "0x495e7a",
+      "successors": [
+        "0x495e7a"
+      ]
+    },
+    {
+      "start": "0x495e7a",
+      "end": "0x495e8f",
+      "successors": [
+        "0x495e8f",
+        "0x495e93"
+      ]
+    },
+    {
+      "start": "0x495e8f",
+      "end": "0x495e93",
+      "successors": [
+        "0x495e93"
+      ]
+    },
+    {
+      "start": "0x495e93",
+      "end": "0x495ea7",
+      "successors": [
+        "0x495ea7",
+        "0x495eab"
+      ]
+    },
+    {
+      "start": "0x495ea7",
+      "end": "0x495eab",
+      "successors": [
+        "0x495eab"
+      ]
+    },
+    {
+      "start": "0x495eab",
+      "end": "0x495eb3",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x493e24",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x495ecf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x495ec0"
+    },
+    {
+      "from": "0x495f2f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x495ef0"
+    }
+  ],
+  "code_targets": [
+    "0x4960c0",
+    "0x496120"
+  ],
+  "instruction_count": 101
+}

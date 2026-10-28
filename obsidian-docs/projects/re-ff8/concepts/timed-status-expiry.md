@@ -7,8 +7,8 @@ sources:
   - obsidian-docs/_staging/investigations/timed_status_expiry_2026-06-09.md
   - docs/tech/systems/battle_slot_data.md
   - docs/tech/systems/battle_loop.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
 summary: Timed status_2 bank uses int16 timers, Director-gated cadence, and G10 live Slow seed 1440. timer[14/15] are opaque and not ticked.
 provenance:
   extracted: 0.90

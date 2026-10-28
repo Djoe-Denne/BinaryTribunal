@@ -1,0 +1,205 @@
+{
+  "schema": "re-ff8.idb-sync-plan.v1",
+  "created_at": "2026-10-02T18:23:00+02:00",
+  "status": "ready_for_root_apply",
+  "writer": "ROOT_ONLY",
+  "idb": {
+    "path": "D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64",
+    "input_file": "SteamFF8_EN.exe",
+    "input_md5": "be8b278becf6757bb811acd45d717d9c",
+    "backup": "D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64.lot21-before-20261002-182318.bak"
+  },
+  "evidence": {
+    "campaign": "docs/tech/investigation/battle-static-discovery/driver-passthrough/CAMPAIGN_lot21_2026-10-01.md",
+    "capture_manifest": "tools/_tmp_af3dn_drop/captures/lot21/battle_v13/visuals/manifest.json",
+    "capture_dump_sha256": "24acea32dc6dc3a25c78460be9d919d3e6ecd9fc64d2aaf630d1cf3bd2264c46",
+    "renderer": "tools/_tmp_af3dn_drop/decode/render_lot21.py",
+    "renderer_sha256": "ec4e91c895cdcc04d73b5a7f2f6805f1ea5ef68efc4389049c5772681c6f8421",
+    "vault_note": "obsidian-docs/projects/re-ff8/references/driver-replay-fond-uv-composite-lot21-2026-10-01.md",
+    "order_basis": "read-only IDA disassembly/xrefs/callees on 2026-10-02"
+  },
+  "apply_policy": {
+    "preimage_cas": true,
+    "preserve_existing_comments": true,
+    "comment_mode": "append_nonrepeatable_function_comment_via_set_func_cmt",
+    "comment_block_id": "[driver-passthrough lot21 2026-10-02]",
+    "idempotent": true,
+    "save_after_all_checks": true,
+    "forbidden": [
+      "debugger",
+      "live capture",
+      "instruction comments",
+      "patch bytes",
+      "invented runtime addresses",
+      "renaming texobj identifiers as globals"
+    ]
+  },
+  "summary": {
+    "functions": 10,
+    "comment_appends": 10,
+    "renames": 1,
+    "type_changes": 1
+  },
+  "functions": [
+    {
+      "ea": "0x0045D080",
+      "preimage": {
+        "name": "Gpu_DrawOTag",
+        "type": "int __cdecl(unsigned int ot_head)",
+        "nonrepeatable_comment_length": 772,
+        "nonrepeatable_comment_sha256": "4a2bc507b4ffff07a1e2a0b79958029c5e69137b27b5a09246376425eb8fe081",
+        "repeatable_comment_length": 168,
+        "repeatable_comment_sha256": "bb1eb14a6c5a282d30e9d35be3940f6ef2681bf37e2a56dda134cc149b608446"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] ASM 0x45D29D..0x45D2C6 confirms the host re-emission sequence: opaque dispatch, end-pass, semitransparent dispatch, end-pass. The v13/build 0x5640 dump captures host submission order after dispatch/list bucketing; it does not expose a recoverable global PSX OT order.",
+      "confidence": "CERTAIN",
+      "proof": ["ASM 0x45D29D..0x45D2C6", "capture v13 host-order replay"]
+    },
+    {
+      "ea": "0x004617F0",
+      "preimage": {
+        "name": "Gpu_EmitPolyFT3",
+        "type": "char __cdecl(int)",
+        "nonrepeatable_comment_length": 411,
+        "nonrepeatable_comment_sha256": "0fcecf25a430e0a97247472b7a0a4255b972e88846c0ea3526361ead979e73ae",
+        "repeatable_comment_length": 0,
+        "repeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] Textured-triangle replay evidence: preserve the emitted index/UV association and per-vertex RHW. For the v13 background, rot0 plus perspective-correct interpolation repairs shared edges; adding a C-A-B UV rotation breaks them. This is capture-scoped evidence, not a new packet-layout offset.",
+      "confidence": "CERTAIN_CAPTURE_SCOPE",
+      "proof": ["ASM call 0x461812 to textured-list helper", "LOT21_uv_board.png", "lot21 shared-edge metrics"]
+    },
+    {
+      "ea": "0x00461A30",
+      "preimage": {
+        "name": "sub_461A30",
+        "type": "_DWORD *__cdecl(unsigned int, unsigned int, __int16, _DWORD *)",
+        "nonrepeatable_comment_length": 0,
+        "nonrepeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "repeatable_comment_length": 0,
+        "repeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] Shared textured-primitive helper used by FT3, FT4 and two adjacent textured emitters. Masks CLUT to 15 bits, selects the host draw list by GPU code/TPage/CLUT/state, allocates one batch, optionally applies host-pass setup, and returns the selected list. It does not define cross-list painter order.",
+      "confidence": "HIGH",
+      "proof": ["4 code xrefs: 0x461812,0x461AB2,0x461E20,0x462052", "callees Gfx_SelectTexturePageDrawList and Gfx_AllocDrawListBatch", "34-instruction ASM body"]
+    },
+    {
+      "ea": "0x00465CE0",
+      "preimage": {
+        "name": "Gfx_SelectTexturePageDrawList",
+        "type": "int __cdecl(unsigned int, unsigned int, __int16, _DWORD *, _DWORD *, _DWORD *)",
+        "nonrepeatable_comment_length": 7390,
+        "nonrepeatable_comment_sha256": "79dfdd5f3e70bec5236381fc68bfa2935ed04c404ecbcacc56c13ed8aecb8b74",
+        "repeatable_comment_length": 0,
+        "repeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] This selector is the TPage/CLUT/pass/state rebucketing boundary; selecting a list does not preserve global PSX OT order across lists. Capture-derived logical resource offsets: 0x05AF00 = sky plus white cliff, 0x059E20 = near terrain, 0x058E40 = far terrain/horizon. They are normalized labels, not raw v13 texobj values and not static image addresses.",
+      "confidence": "CERTAIN_WITH_CAPTURE_SCOPE",
+      "proof": ["ASM stride 0x44C and slot stride 0x64", "lot21 isolated background renders"]
+    },
+    {
+      "ea": "0x00465930",
+      "preimage": {
+        "name": "Gfx_SubmitTexturePageLists",
+        "type": "_DWORD *__cdecl()",
+        "nonrepeatable_comment_length": 8012,
+        "nonrepeatable_comment_sha256": "a8233bfb87f100a404f1aec7d4263541b17cab2de8bb69faf209cf742d43f736",
+        "repeatable_comment_length": 157,
+        "repeatable_comment_sha256": "b3ea5987cf7559f15a26f8aaa3fe98baa1d877fe9425b595ee49af3f236641c9"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] Submission walks fixed render-pass/TPage/subslot lists and preserves order only within each list; there is no global depth merge. The offline background->actors->UI composite is a diagnostic policy, not an observed OT. In v13, direct slot-49 records are 4 shadows (96v/96i), cursor (6v/6i) and HP/status bars (16v/24i); texobj=0 is captured, while the inherited active binding is not serialized and remains unresolved.",
+      "confidence": "CERTAIN_WITH_CAPTURE_SCOPE",
+      "proof": ["ASM list traversal", "slot49 geometry/diffuse classification", "host-order comparison"]
+    },
+    {
+      "ea": "0x004178D7",
+      "preimage": {
+        "name": "Gfx_WalkDrawList",
+        "type": "void __cdecl(_DWORD *, int)",
+        "nonrepeatable_comment_length": 3093,
+        "nonrepeatable_comment_sha256": "74c866e159f7defbaa54225d385ce4169ebf05ab20cebf4f8bfb36fef5eda8fb",
+        "repeatable_comment_length": 149,
+        "repeatable_comment_sha256": "e65bec31e997046b05ad52c7709a2e259afd15b9d010e615c4de4547c472795b"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] The linked-node walk preserves order inside one GfxDrawList only. It cannot reconstruct relative order between TPage/pass lists. Lot21 host-order replay obscures nearly all actors, which is capture-based offline negative evidence against treating captured submission order as a global painter order.",
+      "confidence": "CERTAIN",
+      "proof": ["ASM head +0x94 / next-at-node+0 walk", "LOT21_host_order_pair.png"]
+    },
+    {
+      "ea": "0x00460CE0",
+      "preimage": {
+        "name": "sub_460CE0",
+        "type": "_DWORD *()",
+        "nonrepeatable_comment_length": 315,
+        "nonrepeatable_comment_sha256": "ecb84d37b67f6da0b33e4c0f70b08dc730545816bd5a2ff4b87e59ce03b8085c",
+        "repeatable_comment_length": 0,
+        "repeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "rename_to": "Gpu_EndPrimitivePass",
+      "type_to": "void __cdecl(void)",
+      "comment_append": "[driver-passthrough lot21 2026-10-02] End of one host primitive pass. If dword_B7CC20 is nonzero, tail-submits texture-page lists; otherwise flushes the current list then leaves the scene or restores blend mode 4/render target 0. Called after both opaque and semitransparent OT re-emission. It is not Present; all callers ignore EAX.",
+      "confidence": "CERTAIN",
+      "proof": ["existing semantic-triple 2026-09-17 CERTAIN 1+P", "2 xrefs from Gpu_DrawOTag", "ASM 0x460CE0..0x460D2A"]
+    },
+    {
+      "ea": "0x0045BC60",
+      "preimage": {
+        "name": "sub_45BC60",
+        "type": "int __cdecl(int)",
+        "nonrepeatable_comment_length": 215,
+        "nonrepeatable_comment_sha256": "f032959125d3c223a9d088a2ea56ddd7c9969cf181c56559726157a5613d71ab",
+        "repeatable_comment_length": 0,
+        "repeatable_comment_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate.",
+      "confidence": "CERTAIN_CAPTURE_SCOPE",
+      "proof": ["existing semantic-triple lot17 formula comment", "strict v13 parser: 16 zero TEXWIN records"]
+    },
+    {
+      "ea": "0x0041619A",
+      "preimage": {
+        "name": "Gfx_BindDrawListBackendCallbacks",
+        "type": "void __cdecl(int, int *)",
+        "nonrepeatable_comment_length": 8962,
+        "nonrepeatable_comment_sha256": "02b037898b549ac1eacc9a103422f4d958dcc1b5018ff696ae1f66e2ff639c9b",
+        "repeatable_comment_length": 130,
+        "repeatable_comment_sha256": "0ccd83d39e4d0feaf28b45c110e1718485636b5b93757a2c2265f6f0ef74f2a4"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] The backend callback map explains captured driver-slot IDs, but v13 does not serialize active SetTexture(stage0) state for direct draws. Slot 49 can be classified from geometry/diffuse as shadows, cursor and HP/status bars; texobj=0 is MissingEvidence for binding, not proof that those draws are untextured.",
+      "confidence": "CERTAIN_CAPTURE_SCOPE",
+      "proof": ["driver slots 43..64 callback binder", "v13 slot49 records", "no active texture-state field in dump contract"]
+    },
+    {
+      "ea": "0x0041E752",
+      "preimage": {
+        "name": "GfxDriver_SetBlendMode",
+        "type": "int __cdecl(int, int)",
+        "nonrepeatable_comment_length": 974,
+        "nonrepeatable_comment_sha256": "5e179c59caad4346166ed04025dee35860a9b4c54a391bad4331caf4b984757a",
+        "repeatable_comment_length": 97,
+        "repeatable_comment_sha256": "e30e83167ccfb5edfb1d475ab54e9d45dd87d8f2b0a06569fdb3c104a20839b6"
+      },
+      "rename_to": null,
+      "type_to": null,
+      "comment_append": "[driver-passthrough lot21 2026-10-02] The v13 dump does not serialize this blend state per draw. Diffuse alpha 127 rendered source-over is a reproducible offline candidate (382 triangles in the representative frame), not proof of a PSX STP mode or exact host blend equivalence. Keep blend semantics open until state is captured.",
+      "confidence": "CERTAIN_NEGATIVE_EVIDENCE",
+      "proof": ["blend A/B board", "v13 diffuse alpha distribution", "blend state absent from dump"]
+    }
+  ]
+}

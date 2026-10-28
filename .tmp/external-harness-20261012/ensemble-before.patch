@@ -1,0 +1,370 @@
+﻿diff --git a/docs/task-pool.md b/docs/task-pool.md
+index f24b0fa..41c9d89 100644
+--- a/docs/task-pool.md
++++ b/docs/task-pool.md
+@@ -52,6 +52,24 @@ Lowering the limit never aborts running work; new admissions wait until occupanc
+ falls below it. Raising it immediately pumps the queue. Restarting preserves lead
+ overrides. Legacy missions adopt their owning project's configuration once.
+ 
++## Mission Directory Ownership
++
++Each mission belongs to the working directory persisted as `team.project_id`.
++Only a plugin instance in that directory may pump its task pool, drain queued
++wakes, or create teammates. Paths are normalized using the host's path semantics;
++sibling directories and separate Git worktrees are distinct owners.
++
++V2 events are server-wide. Foreign instances ignore a member's state transition
++**before** applying it, leaving the owning instance to observe completion and
++schedule the next admission. Startup nudges and capacity retries are scoped too.
++An explicit `team_spawn` from a different directory fails before claiming a task
++or creating native resources, without changing the saved context decision.
++
++This does not relax inherited-session Git isolation. A real move between
++directories still requires a clean, matching Git state. Existing context-error
++holds remain for the lead to review and revise; installing a fix does not clear
++them or enable scheduling.
++
+ ## Concurrency Cap (`maxActiveMembers`)
+ 
+ `team_spawn` reserves a slot transactionally before allocating native resources.
+diff --git a/opencode.json b/opencode.json
+index c299e48..57962d8 100644
+--- a/opencode.json
++++ b/opencode.json
+@@ -1,4 +1,22 @@
+ {
+   "$schema": "https://opencode.ai/config.json",
+-  "skills": ["./skills"]
++  "skills": ["./skills"],
++  "mcp": {
++    "servers": {
++      "grepai": {
++        "type": "remote",
++        "url": "http://127.0.0.1:3066/mcp?tags=grepai",
++        "oauth": false,
++        "codemode": true,
++        "timeout": { "startup": 180000, "catalog": 180000 }
++      },
++      "serena": {
++        "type": "remote",
++        "url": "http://127.0.0.1:3066/mcp?tags=serena",
++        "oauth": false,
++        "codemode": true,
++        "timeout": { "startup": 180000, "catalog": 180000 }
++      }
++    }
++  }
+ }
+diff --git a/src/capacity-delivery.ts b/src/capacity-delivery.ts
+index 3cb72ae..495dbce 100644
+--- a/src/capacity-delivery.ts
++++ b/src/capacity-delivery.ts
+@@ -4,6 +4,7 @@ import { releaseMemberCapacity, reserveMemberCapacity } from "./capacity"
+ import { generateId } from "./util"
+ import { hasReportedCompletion, markDelivered } from "./messaging"
+ import { log } from "./log"
++import { isTeamInDirectory } from "./team-scope"
+ 
+ type Prompt = Parameters<PluginClient["session"]["promptAsync"]>[0]
+ 
+@@ -49,6 +50,7 @@ export function isCapacityQueued(result: unknown): boolean {
+ 
+ /** Resume queued wakes after capacity changes or a worker becomes idle. */
+ export function drainCapacityQueue(deps: ToolDeps, teamId: string): void {
++  if (!isTeamInDirectory(deps.db, teamId, deps.directory)) return
+   deps.db.run(`DELETE FROM team_capacity_queue WHERE team_id = ? AND (
+     NOT EXISTS (SELECT 1 FROM team_member m WHERE m.team_id = team_capacity_queue.team_id AND m.name = team_capacity_queue.member_name AND m.status IN ('ready','busy'))
+     OR NOT EXISTS (SELECT 1 FROM team t WHERE t.id = team_capacity_queue.team_id AND t.status = 'active')
+diff --git a/src/capacity-runtime.ts b/src/capacity-runtime.ts
+index 16999e2..2e9d667 100644
+--- a/src/capacity-runtime.ts
++++ b/src/capacity-runtime.ts
+@@ -3,6 +3,7 @@ import { releaseMemberCapacity, releaseSpawnCapacity } from "./capacity"
+ import { pumpTeam } from "./dispatch"
+ import { releaseMemberTasks } from "./tasks"
+ import { log } from "./log"
++import { isTeamInDirectory } from "./team-scope"
+ 
+ export interface CapacityRuntime {
+   request(teamId: string, delayMs?: number): void
+@@ -48,7 +49,8 @@ async function recoverAdmissions(deps: ToolDeps, teamIds: string[]): Promise<voi
+ 
+ /** Resume persisted admissions and schedule event-driven queue retries for this project. */
+ export async function startCapacityRuntime(deps: ToolDeps): Promise<CapacityRuntime> {
+-  const teams = deps.db.query("SELECT id FROM team WHERE project_id = ? AND status = 'active'").all(deps.directory) as Array<{ id: string }>
++  const teams = (deps.db.query("SELECT id FROM team WHERE status = 'active'").all() as Array<{ id: string }>)
++    .filter(team => isTeamInDirectory(deps.db, team.id, deps.directory))
+   teams.forEach(team => {
+     deps.db.run("UPDATE team SET max_running_members = COALESCE(max_running_members, ?), auto_dispatch = COALESCE(auto_dispatch, ?), auto_scale = COALESCE(auto_scale, ?) WHERE id = ?", [deps.config.maxActiveMembers, Number(deps.config.autoDispatch), Number(deps.config.autoScale), team.id])
+   })
+@@ -56,7 +58,7 @@ export async function startCapacityRuntime(deps: ToolDeps): Promise<CapacityRunt
+   const timers = new Map<string, { timer: ReturnType<typeof setTimeout>; at: number }>()
+   let disposed = false
+   const request = (teamId: string, delayMs = 0): void => {
+-    if (disposed) return
++    if (disposed || !isTeamInDirectory(deps.db, teamId, deps.directory)) return
+     const at = Date.now() + Math.max(0, delayMs)
+     const current = timers.get(teamId)
+     if (current && current.at <= at) return
+diff --git a/src/dispatch.ts b/src/dispatch.ts
+index 847076a..bb95b57 100644
+--- a/src/dispatch.ts
++++ b/src/dispatch.ts
+@@ -9,6 +9,7 @@ import { drainCapacityQueue } from "./capacity-delivery"
+ import { routeMissionTaskModel } from "./mission-routing"
+ import { ModelPreferenceUnavailableError } from "./model-preference"
+ import { getTaskContextView, TaskContextUnavailableError } from "./task-context"
++import { isTeamInDirectory } from "./team-scope"
+ 
+ /** A task candidate the pool can hand to an idle member. */
+ export interface PoolTask {
+@@ -85,6 +86,7 @@ const scaleInFlight = new Set<string>()
+  * once any triggered spawn settles, which makes tests deterministic.
+  */
+ export async function pumpTeam(deps: ToolDeps, teamId: string): Promise<void> {
++  if (!isTeamInDirectory(deps.db, teamId, deps.directory)) return
+   const scheduling = getTeamScheduling(deps.db, teamId, deps.config)
+   const team = deps.db.query("SELECT lead_session_id FROM team WHERE id = ? AND status = 'active' AND mission_state != 'critical'")
+     .get(teamId) as { lead_session_id: string } | null
+@@ -155,6 +157,7 @@ function dispatchMessage(task: PoolTask): string {
+  * if it fails, the claim is released back to the pool.
+  */
+ export function dispatchNextTask(deps: ToolDeps, teamId: string, memberName: string): string | null {
++  if (!isTeamInDirectory(deps.db, teamId, deps.directory)) return null
+   if (!getTeamScheduling(deps.db, teamId, deps.config).autoDispatch) return null
+ 
+   const member = deps.db.query("SELECT agent, status, spawn_pending, session_id, model_override FROM team_member WHERE team_id = ? AND name = ?")
+diff --git a/src/process.ts b/src/process.ts
+index 84b0d2d..9f4dbce 100644
+--- a/src/process.ts
++++ b/src/process.ts
+@@ -18,7 +18,7 @@ function collect(stream: Readable | null, chunks: Buffer[]): void {
+   })
+ }
+ 
+-/** Run a subprocess with Node-compatible APIs and capture stdout/stderr. */
++/** Run a subprocess without opening a Windows console and capture stdout/stderr. */
+ export function runCommand(args: string[], options: CommandOptions = {}): Promise<CommandResult> {
+   const [command, ...commandArgs] = args
+   if (!command) return Promise.resolve({ exitCode: 1, stdout: "", stderr: "No command provided" })
+@@ -36,6 +36,7 @@ export function runCommand(args: string[], options: CommandOptions = {}): Promis
+     const child = spawn(command, commandArgs, {
+       cwd: options.cwd,
+       stdio: ["ignore", "pipe", "pipe"],
++      windowsHide: true,
+     })
+ 
+     collect(child.stdout, stdout)
+diff --git a/src/tools/team-spawn.ts b/src/tools/team-spawn.ts
+index f483986..926d458 100644
+--- a/src/tools/team-spawn.ts
++++ b/src/tools/team-spawn.ts
+@@ -1,4 +1,5 @@
+ import type { ToolDeps, PermissionRule, SpawnContext } from "../types"
++import { isTeamInDirectory } from "../team-scope"
+ import { resolveSpawnContext, rollbackInheritedSpawn } from "../session-continuity"
+ import { validateMemberName } from "../util"
+ import { requireLead } from "./shared"
+@@ -591,6 +592,9 @@ async function spawnTeamMember(
+ /** Reserve a shared execution slot before any asynchronous session, fork or worktree allocation. */
+ export async function executeTeamSpawn(deps: ToolDeps, args: Parameters<typeof spawnTeamMember>[1], sessionId: string, requireClaim = false): Promise<string> {
+   const team = requireLead(deps, sessionId)
++  if (!isTeamInDirectory(deps.db, team.teamId, deps.directory)) {
++    throw new Error(`Cannot spawn from plugin directory "${deps.directory}": use the mission's owning directory`)
++  }
+   const nameError = validateMemberName(args.name)
+   if (nameError) throw new Error(nameError)
+   if (deps.db.query("SELECT 1 FROM team_member WHERE team_id = ? AND name = ?").get(team.teamId, args.name)) {
+diff --git a/src/v2-continuity.ts b/src/v2-continuity.ts
+index 3e18ad3..6dedead 100644
+--- a/src/v2-continuity.ts
++++ b/src/v2-continuity.ts
+@@ -18,7 +18,7 @@ interface NativeRule { action: string; resource: string; effect: string }
+ /** Tools available to a teammate independently of its current agent role. */
+ export const MEMBER_TOOLS = ["team_message", "team_broadcast", "team_tasks_list", "team_tasks_add", "team_tasks_complete", "team_claim", "team_results", "team_status", "team_view", "team_handoff"] as const
+ 
+-const sameDirectory = (a: string, b: string) => path.resolve(a) === path.resolve(b)
++const sameDirectory = (a: string, b: string) => path.relative(a, b) === ""
+ 
+ /** Fail closed: a context fork must not silently transfer or omit another branch's changes. */
+ async function verifyIsolatedMove(source: string, destination: string): Promise<void> {
+diff --git a/src/v2-events.ts b/src/v2-events.ts
+index 28538f1..9c8c084 100644
+--- a/src/v2-events.ts
++++ b/src/v2-events.ts
+@@ -1,5 +1,6 @@
+ import type { Database } from "./db"
+ import type { MemberRegistry, DescendantTracker } from "./state"
++import { isTeamInDirectory } from "./team-scope"
+ import {
+   handleSessionCreatedEvent,
+   handleSessionStatusEvent,
+@@ -21,6 +22,7 @@ export interface V2EventLike {
+ 
+ /**
+  * Dispatch a V2 server event to the shared member state machine in hooks.ts.
++ * When directory is supplied, only its missions may consume member transitions.
+  * Returns the status transition when one occurred (for notifications).
+  */
+ export function dispatchV2Event(
+@@ -28,8 +30,15 @@ export function dispatchV2Event(
+   registry: MemberRegistry,
+   tracker: DescendantTracker,
+   event: V2EventLike,
++  directory?: string,
+ ): StatusTransition | undefined {
+   const data = event.data ?? {}
++  // V2 subscriptions are server-wide. Filtering after the transition would
++  // steal the owning instance's idle event and strand its scheduler.
++  if (directory !== undefined && data.sessionID && event.type !== "session.created") {
++    const member = db.query("SELECT team_id FROM team_member WHERE session_id = ?").get(data.sessionID) as { team_id: string } | null
++    if (member && !isTeamInDirectory(db, member.team_id, directory)) return undefined
++  }
+   switch (event.type) {
+     case "session.status": {
+       const raw = data.status
+diff --git a/src/v2-setup.ts b/src/v2-setup.ts
+index 504673f..fdcb715 100644
+--- a/src/v2-setup.ts
++++ b/src/v2-setup.ts
+@@ -1,4 +1,5 @@
+ import type { Database } from "./db"
++import { isTeamInDirectory } from "./team-scope"
+ import { createDb, getDbPath } from "./db"
+ import type { MemberRegistry, DescendantTracker } from "./state"
+ import { MemberRegistry as MemberRegistryImpl, DescendantTracker as DescendantTrackerImpl, PendingPurgeApprovals } from "./state"
+@@ -129,6 +130,7 @@ export async function setupEnsemble(
+ 
+   /** Send the idle-without-report nudge once per member. */
+   const nudgeMember = (teamId: string, memberName: string, sessionId: string): void => {
++    if (!isTeamInDirectory(db, teamId, ctx.location.directory)) return
+     const nudgeKey = `${teamId}:${memberName}`
+     if (nudgedMembers.has(nudgeKey)) return
+     if (!shouldNudgeIdleMember(db, teamId, memberName)) return
+@@ -170,7 +172,7 @@ export async function setupEnsemble(
+   const controller = new AbortController()
+ 
+   const dispatch = async (event: V2EventLike): Promise<void> => {
+-    const transition = dispatchV2Event(db, registry, tracker, event)
++    const transition = dispatchV2Event(db, registry, tracker, event, ctx.location.directory)
+     // Idle-without-report nudge (parity with V1): a member that went idle
+     // without ever messaging the lead gets ONE reminder to report via
+     // team_message. Without this, weak models finish silently and the lead
+diff --git a/test/tools/team-spawn.test.ts b/test/tools/team-spawn.test.ts
+index 741f246..ee32937 100644
+--- a/test/tools/team-spawn.test.ts
++++ b/test/tools/team-spawn.test.ts
+@@ -419,6 +419,8 @@ describe("team_spawn", () => {
+ 
+   test("skips worktree creation when already inside a worktree", async () => {
+     deps.directory = "/home/user/.local/share/opencode/worktree/abc123/some-worktree"
++    deps.db.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'worktree',?,'active',1,1)", [deps.directory, deps.directory])
++    deps.db.run("UPDATE team SET project_id = ?", [deps.directory])
+     const result = await executeTeamSpawn(deps, {
+       name: "alice", agent: "build", prompt: "Fix tests",
+     }, "lead-sess")
+@@ -460,7 +462,7 @@ describe("team_spawn", () => {
+     )
+ 
+     await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "Fix tests" }, "lead-sess")
+-    await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "Fix tests" }, "other-lead")
++    await executeTeamSpawn({ ...deps, directory: "/tmp/other-project" }, { name: "alice", agent: "build", prompt: "Fix tests" }, "other-lead")
+ 
+     const names = deps.client.calls
+       .filter(c => c.method === "worktree.create")
+@@ -877,6 +879,8 @@ describe("team_spawn ÔÇö AGENTS.md NOT loaded into context", () => {
+     const agentsPath = `${tmpDir}/AGENTS.md`
+     await Bun.write(agentsPath, "# Test Guidelines\nUse TypeScript strict mode.")
+     deps.directory = tmpDir
++    deps.db.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'temporary',?,'active',1,1)", [deps.directory, deps.directory])
++    deps.db.run("UPDATE team SET project_id = ?", [deps.directory])
+ 
+     try {
+       await executeTeamSpawn(deps, {
+diff --git a/test/v2-continuity.test.ts b/test/v2-continuity.test.ts
+index 274dc7b..7f0ccc1 100644
+--- a/test/v2-continuity.test.ts
++++ b/test/v2-continuity.test.ts
+@@ -148,6 +148,15 @@ describe("V2 native continuity adapter", () => {
+     await expect(createV2Continuity(ctx as unknown as V2Context, { verifyMove: async () => { throw new Error("Non-transferable source changes") } }).move({ sessionID: "ses_child", directory: "/worktree" })).rejects.toThrow("Non-transferable")
+     expect(calls).toHaveLength(0)
+   })
++
++  test.skipIf(process.platform !== "win32")("equivalent Windows directories never request a Git transfer", async () => {
++    const { ctx, calls, info } = fixture()
++    info.location.directory = "C:\\Users\\Owner\\mission"
++    await createV2Continuity(ctx as unknown as V2Context, {
++      verifyMove: async () => { throw new Error("Non-transferable source changes") },
++    }).move({ sessionID: "ses_child", directory: "c:/users/owner/MISSION/" })
++    expect(calls).toEqual([])
++  })
+   test("successful compaction requires the admitted durable checkpoint to be completed", async () => {
+     const { ctx, calls } = fixture()
+     await createV2Continuity(ctx as unknown as V2Context).compact({ sessionID: "ses_source" })
+diff --git a/test/v2-setup.test.ts b/test/v2-setup.test.ts
+index 236f1c2..b0dc57a 100644
+--- a/test/v2-setup.test.ts
++++ b/test/v2-setup.test.ts
+@@ -49,10 +49,11 @@ function mockSetupCtx() {
+   return { ctx: ctx as unknown as V2SetupContext, hooks }
+ }
+ 
+-function seedLeadAndMember(handle: Awaited<ReturnType<typeof setupEnsemble>>) {  const now = Date.now()
++function seedLeadAndMember(handle: Awaited<ReturnType<typeof setupEnsemble>>, directory = "/tmp/v2-setup-test") {  const now = Date.now()
++  handle.db.run("INSERT OR IGNORE INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'test',?,'active',?,?)", [directory, directory, now, now])
+   handle.db.run(
+-    "INSERT INTO team (id, name, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, ?, 'active', 0, ?, ?)",
+-    ["team1", "alpha", "ses_lead", now, now],
++    "INSERT INTO team (id, name, project_id, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, ?, ?, 'active', 0, ?, ?)",
++    ["team1", "alpha", directory, "ses_lead", now, now],
+   )
+   handle.db.run(
+     "INSERT INTO team_member (team_id, name, session_id, agent, status, execution_status, time_created, time_updated) VALUES (?, ?, ?, 'build', 'busy', 'running', ?, ?)",
+@@ -75,6 +76,19 @@ describe("v2-setup (issue #36)", () => {
+     await handle.dispose()
+   })
+ 
++  test("the setup event stream leaves foreign mission transitions for their owner", async () => {
++    const { ctx } = mockSetupCtx()
++    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
++    try {
++      seedLeadAndMember(handle, "/tmp/other-mission")
++      await handle.dispatch({ type: "session.execution.succeeded", data: { sessionID: "ses_alice" } })
++      expect(handle.db.query("SELECT status,last_nudged_at FROM team_member WHERE name='alice'").get()).toEqual({ status: "busy", last_nudged_at: null })
++    } finally {
++      await handle.dispose()
++      handle.db.close()
++    }
++  })
++
+   test("tool execute.before blocks team tools for sub-agents", async () => {
+     const { ctx, hooks } = mockSetupCtx()
+     const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+@@ -211,14 +225,18 @@ describe("v2-setup (issue #36)", () => {
+     const { createDb } = await import("../src/db")
+     const seed = createDb(dbPath)
+     const now = Date.now()
++    seed.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES ('/tmp/v2-setup-test','test','/tmp/v2-setup-test','active',?,?)", [now, now])
+     seed.run(
+-      "INSERT INTO team (id, name, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, ?, 'active', 0, ?, ?)",
++      "INSERT INTO team (id, name, project_id, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, '/tmp/v2-setup-test', ?, 'active', 0, ?, ?)",
+       ["team1", "alpha", "ses_lead", now, now],
+     )
+     seed.run(
+       "INSERT INTO team_member (team_id, name, session_id, agent, status, execution_status, time_created, time_updated) VALUES (?, ?, ?, 'build', 'ready', 'idle', ?, ?)",
+       ["team1", "alice", "ses_alice", now, now],
+     )
++    seed.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES ('/tmp/foreign','foreign','/tmp/foreign','active',?,?)", [now, now])
++    seed.run("INSERT INTO team (id,name,project_id,lead_session_id,status,time_created,time_updated) VALUES ('foreign','foreign','/tmp/foreign','ses_foreign_lead','active',?,?)", [now, now])
++    seed.run("INSERT INTO team_member (team_id,name,session_id,agent,status,execution_status,time_created,time_updated) VALUES ('foreign','bob','ses_bob','build','ready','idle',?,?)", [now, now])
+     seed.close()
+ 
+     const prompts: unknown[] = []
+@@ -237,6 +255,7 @@ describe("v2-setup (issue #36)", () => {
+     const nudges = prompts.filter((p) => JSON.stringify(p).includes("did not report"))
+     expect(nudges.length).toBe(1)
+     expect(JSON.stringify(nudges[0])).toContain("ses_alice")
++    expect(handle.db.query("SELECT last_nudged_at FROM team_member WHERE name='bob'").get()).toEqual({ last_nudged_at: null })
+     await handle.dispose()
+     handle.db.close()
+     // A second setup (hot-reload) must NOT nudge again within the hour.

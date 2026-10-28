@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-19T16:10:15.625Z",
+  "status": "PLANNER_R1_REMAINING_276_REGRESSIONS_SCOPED_QUALIFIED_BY_PARENT_RETAINED_AUDIT",
+  "retainedGateRed": {
+    "sha256": "c142103d95aebbbf1b25753771ae68e5bf99a84e0d1e613c7ee335f4983d8208",
+    "qualified": false,
+    "failure": "Unclosed reservation directory not empty",
+    "notRewritten": true
+  },
+  "releaseSha256": "52ddf4012bbdb2f2a46d6067b159d39d5dcbb5761d0ddc32e1daf77c80edbb44",
+  "runtimeTestsPassed": 276,
+  "runtimeAssertions": 2351,
+  "files": 11,
+  "comparisons": 936,
+  "mainGuards": 269,
+  "custody": {
+    "databases": 97,
+    "closedReceipts": 96,
+    "legacyExclusiveNamespaceDB": 1,
+    "reservedDatabaseAbsent": 82,
+    "ownedCLIJsonArtifacts": [
+      {
+        "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\PLANNER-R1-REGRESSION-R2-1792426068650\\localappdata\\Temp\\opencode\\l8-central-v2-Vn0Foj\\preparation.json",
+        "bytes": 8681,
+        "sha256": "a275daa4228583d2aba6eba2460027c78943167f3d1076a878e7615eb6747170",
+        "provenance": "pinned cli.test.ts:11 or :30, observed executed focused suite"
+      },
+      {
+        "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\PLANNER-R1-REGRESSION-R2-1792426068650\\localappdata\\Temp\\opencode\\l8-central-v2-Vn0Foj\\prepared.json",
+        "bytes": 31795,
+        "sha256": "96fb36b583a8672daba4c71a8ed516cbd3b9f63f76b78008ccc54ad7dc205435",
+        "provenance": "pinned cli.test.ts:11 or :30, observed executed focused suite"
+      },
+      {
+        "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\PLANNER-R1-REGRESSION-R2-1792426068650\\localappdata\\Temp\\opencode\\l8-central-v2-j5qW9G\\actual-source.json",
+        "bytes": 1539,
+        "sha256": "6874091dfaf0f970b09be8e7c90d1dbe0a6b96bb1e2ca9a9460fd46b1014316e",
+        "provenance": "pinned cli.test.ts:11 or :30, observed executed focused suite"
+      },
+      {
+        "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\PLANNER-R1-REGRESSION-R2-1792426068650\\localappdata\\Temp\\opencode\\l8-central-v2-j5qW9G\\frozen-v2.json",
+        "bytes": 41682,
+        "sha256": "dfabdd3c14727fcc50af1c6f071beee207bb1ce0025ff053ccf84737fcb20640",
+        "provenance": "pinned cli.test.ts:11 or :30, observed executed focused suite"
+      },
+      {
+        "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\PLANNER-R1-REGRESSION-R2-1792426068650\\localappdata\\Temp\\opencode\\l8-central-v2-j5qW9G\\request-v2.json",
+        "bytes": 11663,
+        "sha256": "5f6b826a6edcfbdfc684fe882e4d911960c22a1684f1a5fcef004334d64b9727",
+        "provenance": "pinned cli.test.ts:11 or :30, observed executed focused suite"
+      }
+    ],
+    "registry": {
+      "path": "C:/Users/djden/AppData/Local/Temp/opencode/PLANNER-R1-REGRESSION-R2-1792426068650/.tmp/L8_PHASE_A_V2/focused-fixtures.jsonl",
+      "bytes": 101428,
+      "sha256": "062d0e862d0c1024d237fee9a6a256262375e52b38fdd13ab240a00c72404353"
+    },
+    "noUnclosedExistingDatabaseOrSidecars": true
+  },
+  "correction": "Directory-nonempty predicate exceeded the database-custody contract. Exact five owned JSON fixtures are required by pinned CLI tests, not unknown DBs. Parent independently verifies all existing DBs closed/pinned plus missing reservations contain only known preserved JSON. No closure or safety guard waived.",
+  "noProductRerun": true,
+  "noMainIntegrationOrS1Repin": true,
+  "allArtifactsRetained": true
+}

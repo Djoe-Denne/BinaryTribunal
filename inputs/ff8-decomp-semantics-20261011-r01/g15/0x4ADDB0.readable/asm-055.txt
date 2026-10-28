@@ -1,0 +1,25 @@
+004AF1CE: push    7
+004AF1D0: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AF1D5: push    ebp
+004AF1D6: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet
+004AF1DB: push    2; slot_index
+004AF1DD: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1
+004AF1E2: push    7; int
+004AF1E4: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AF1E9: add     esp, 10h; Add
+004AF1EC: call    BattleUI_ResetMenu_Call_4A7160; E3c: lu complet: reset submenu + 4A7160 ACCEPTÉE + rebind tables
+004AF1F1: jmp     short def_4ADEFA; jumptable 004ADEFA default case
+004AF1F3: push    7; jumptable 004ADEFA case 43
+004AF1F5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AF1FA: add     esp, 4; Add
+004AF1FD: mov     eax, dword_B87908; jumptable 004ADEFA default case
+004AF202: pop     edi
+004AF203: cmp     eax, 3; Compare Two Operands
+004AF206: mov     byte_1D768ED, 0
+004AF20D: pop     esi
+004AF20E: jnz     short loc_4AF22B; Jump if Not Zero (ZF=0)
+004AF210: mov     al, byte ptr dword_1D768E8+1
+004AF215: mov     dword_B87908, ebp
+004AF21B: test    al, al; Logical Compare
+004AF21D: setz    al; Set Byte if Zero (ZF=1)
+004AF220: pop     ebp

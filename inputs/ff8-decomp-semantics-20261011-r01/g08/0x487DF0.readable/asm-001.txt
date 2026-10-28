@@ -1,0 +1,25 @@
+00487DF0: sub     esp, 64h; Enemy AI VM interpreter. 61-opcode bytecode (0x01..0x3D; 0x00=STOP). Inline little-endian operands; ctrl flow = 0x23 JUMP / 0x02 IF. Berserk(sec1) -> forced Attack via AI_VM_FALLBACK_BYTECODE. Commit tail @0x48983D. Full table: wiki references/enemy-ai-opcodes.
+00487DF3: push    ebx
+00487DF4: mov     ebx, [esp+68h+p_monster_slot_id]
+00487DF8: xor     ecx, ecx; Logical Exclusive OR
+00487DFA: push    ebp
+00487DFB: lea     eax, [ebx+ebx*8]; Load Effective Address
+00487DFE: lea     edx, [ebx+ebx*2]; Load Effective Address
+00487E01: shl     eax, 3; Shift Logical Left
+00487E04: sub     eax, ebx; Integer Subtraction
+00487E06: push    esi
+00487E07: push    edi
+00487E08: xor     esi, esi; Logical Exclusive OR
+00487E0A: mov     cl, BMI71_LOW_MED_HIGH_LEVEL_BIS[eax]
+00487E10: lea     eax, [ebx+edx*4]; Load Effective Address
+00487E13: shl     eax, 4; Shift Logical Left
+00487E16: mov     [esp+74h+monster_difficulty], ecx
+00487E1A: mov     byte ptr [esp+74h+ai_scratch_var], 0
+00487E1F: mov     ecx, dword ptr BATTLE_SLOT_DATA.monster_info_section[eax]; G16 SQ-G16-001: slot.monster_info_section is a pointer-to-pointer. ecx=field, edi=[ecx]=380-byte ff8_battle_monster_info base. Same deref as G13 Draw. Do not treat the slot field as the table.
+00487E25: mov     byte ptr [esp+74h+has_text_pending], 0
+00487E2A: mov     byte ptr [esp+74h+command_type], 0
+00487E2F: mov     [esp+74h+p_monster_slot_id], esi
+00487E33: mov     edi, [ecx]; G16: first_ability = *monster_info_section (one deref). Ability rows at base+0x34, stride 4, index=16*difficulty+idx. Row: typeID, animscript, id.
+00487E35: mov     cl, byte ptr AI_CURRENT_SECTION_INDEX
+00487E3B: cmp     cl, 1; Compare Two Operands
+00487E3E: mov     [esp+74h+first_ability], edi

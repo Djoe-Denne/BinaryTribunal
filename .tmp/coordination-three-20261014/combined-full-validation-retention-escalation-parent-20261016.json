@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-16T21:09:48.209Z",
+  "task": "task_mv6towrm_000c_24005n",
+  "session": "ses_ec12fcc43ffeI6xXQ5rSTty2mV",
+  "scopeSha256": "421699d52b1d30839a75223cf1c5ef90aeae58a73adadcad5e24623461376a95",
+  "facts": [
+    {
+      "path": "test/client.test.ts",
+      "lines": "7,18-20",
+      "effect": "new temp root/client.db and recursive rm(root) cleanup; separate image does not retain bytes deleted by test",
+      "sha256": "3962639ba3f842ea2ba40be0bf6cac9bd5e1be9e20016fd73f0116bc83c6e22a"
+    },
+    {
+      "path": "test/eventlog.test.ts",
+      "lines": "17-24",
+      "effect": "close attempts then unlink own/foreign/ensemble DB plus WAL/SHM and rmdir; owned mock names not actual host databases",
+      "sha256": "2813cfdae18bef082a8f93bf5c855fa7a151245c60aa8a1f6638f7dba600264e"
+    },
+    {
+      "path": "test/store.test.ts",
+      "lines": "19-34",
+      "effect": "new OWN reload and foreign mock SQLite files explicitly unlinked after close/test",
+      "sha256": "2d1dc0cebe57c106b328d907e67b95e0dd08bc74c5361a857ebf2d38559a4c1b"
+    },
+    {
+      "path": "src/mechanical-preparation.ts",
+      "lines": "116-123",
+      "effect": "product staging rm on failure, not established as SQLite; must distinguish nonDB transactional cleanup",
+      "sha256": "028efe5998f2f92af1a9acfc3348c11700ee2fbeb4d3b6aa7db4e4bb0dfd362b"
+    }
+  ],
+  "stage": "STATIC_PLAN_CONTINUES_DYNAMIC_RETENTION_HOLD_PENDING_COMPLETE_INVENTORY_AND_EXPLICIT_PARENT_DECISION",
+  "freshImageOwnershipDoesNotByItselfGuaranteeDbRetention": true,
+  "oldLegacyWaiversNotAutomaticallyApplicable": true,
+  "noEphemeralWaiverTestAmendmentInterceptionOrSilentExclusionAuthorized": true,
+  "optionsOnlyProspectiveAfterFullAudit": [
+    "explicit bounded exception for known newly-owned ephemeral unit fixtures with limitations",
+    "separate preservation amendment retaining default behavior and reviewed evidence"
+  ],
+  "noProductRunSqliteImageRuntimeCleanupOrSourceChangeByParentCheck": true
+}

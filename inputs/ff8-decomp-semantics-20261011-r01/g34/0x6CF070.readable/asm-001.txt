@@ -1,0 +1,25 @@
+006CF070: push    esi
+006CF071: push    edi
+006CF072: movsx   esi, [esp+8+arg_0]; Move with Sign-Extend
+006CF077: push    esi
+006CF078: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+006CF07D: push    esi
+006CF07E: mov     edi, eax
+006CF080: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.
+006CF085: mov     ecx, [esp+10h+arg_4]
+006CF089: mov     edx, edi
+006CF08B: neg     edx; Two's Complement Negation
+006CF08D: add     esp, 8; Add
+006CF090: mov     [ecx+2], dx
+006CF094: xor     edx, edx; Logical Exclusive OR
+006CF096: mov     [ecx+6], di
+006CF09A: pop     edi
+006CF09B: mov     [ecx], ax
+006CF09E: mov     [ecx+4], dx
+006CF0A2: mov     [ecx+8], ax
+006CF0A6: mov     [ecx+0Ah], dx
+006CF0AA: mov     [ecx+0Ch], dx
+006CF0AE: mov     [ecx+0Eh], dx
+006CF0B2: mov     word ptr [ecx+10h], 1000h
+006CF0B8: pop     esi
+006CF0B9: retn; Return Near from Procedure

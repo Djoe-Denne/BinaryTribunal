@@ -1,0 +1,25 @@
+00495CF6: add     ecx, 4; Add
+00495CF9: cmp     eax, 4; Compare Two Operands
+00495CFC: jl      short loc_495CF0; Jump if Less (SF!=OF)
+00495CFE: pop     edi
+00495CFF: pop     esi
+00495D00: pop     ebp
+00495D01: pop     ebx
+00495D02: retn; Return Near from Procedure
+00495D03: cmp     eax, 0FFh; Compare Two Operands
+00495D08: jz      short loc_495D6E; Jump if Zero (ZF=1)
+00495D0A: xor     eax, eax; Logical Exclusive OR
+00495D0C: mov     ecx, edx
+00495D0E: cmp     byte ptr [ecx], 2; Compare Two Operands
+00495D11: jz      short loc_495D21; Jump if Zero (ZF=1)
+00495D13: inc     eax; Increment by 1
+00495D14: add     ecx, 4; Add
+00495D17: cmp     eax, 4; Compare Two Operands
+00495D1A: jl      short loc_495D0E; Jump if Less (SF!=OF)
+00495D1C: mov     eax, 0FFh
+00495D21: mov     cl, [esi+eax*4+21h]
+00495D25: pop     edi
+00495D26: or      cl, 10h; Logical Inclusive OR
+00495D29: mov     [esi+eax*4+21h], cl
+00495D2D: pop     esi
+00495D2E: pop     ebp

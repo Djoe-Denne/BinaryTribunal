@@ -1,0 +1,10 @@
+0048451E: cmp     edx, eax; Compare Two Operands
+00484520: pop     esi
+00484521: jge     short loc_484529; Jump if Greater or Equal (SF=OF)
+00484523: mov     eax, [ecx+10h]
+00484526: mov     [ecx+14h], eax
+00484529: mov     eax, [ecx+14h]; EAX = pre-zero-clamp cur_atb (returned as-is, may be negative); slot clamped to 0 below. [wave 2026-09-12 GLM+Grok PASS]
+0048452C: test    eax, eax; Logical Compare
+0048452E: jge     short locret_484537; Jump if Greater or Equal (SF=OF)
+00484530: mov     dword ptr [ecx+14h], 0
+00484537: retn; Return Near from Procedure

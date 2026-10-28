@@ -1,0 +1,25 @@
+00491109: cmp     COMMAND_TYPE_ID, 0EDh; COMMAND_TYPE_ID is LIVE-mutable post-GetText (0xF8/0xF3/0xFD/0xFB/0xF9 writers); presentation selector is frozen payload[1] (VA)
+00491110: jnz     short loc_491124; Jump if Not Zero (ZF=0)
+00491112: mov     eax, [esp+20h+target_slot_offset]
+00491116: mov     ecx, BATTLE_SLOT_DATA.current_hp[eax]
+0049111C: test    ecx, ecx; Logical Compare
+0049111E: jnz     short loc_491124; Jump if Not Zero (ZF=0)
+00491120: xor     esi, esi; Logical Exclusive OR
+00491122: jmp     short loc_49114F; Jump
+00491124: mov     cl, ATTACK_FLAG; | ID   | Meaning          |
+0049112A: and     cl, 8; Logical AND
+0049112D: neg     cl; Two's Complement Negation
+0049112F: sbb     ecx, ecx; Integer Subtraction with Borrow
+00491131: and     ecx, 0C351h; Logical AND
+00491137: add     ecx, 270Fh; Add
+0049113D: cmp     esi, ecx; Compare Two Operands
+0049113F: jle     short loc_491145; Jump if Less or Equal (ZF=1 | SF!=OF)
+00491141: mov     esi, ecx
+00491143: jmp     short loc_49114F; Jump
+00491145: xor     ecx, ecx; Logical Exclusive OR
+00491147: test    esi, esi; Logical Compare
+00491149: setl    cl; Set Byte if Less (SF!=OF)
+0049114C: dec     ecx; Decrement by 1
+0049114D: and     esi, ecx; Logical AND
+0049114F: mov     cl, byte_1D28E19
+00491155: mov     DAMAGE_DEAL, esi; FF mean death ?

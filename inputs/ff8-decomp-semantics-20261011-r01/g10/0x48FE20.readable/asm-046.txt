@@ -1,0 +1,25 @@
+00490FAB: mov     esi, eax
+00490FAD: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490FB2: xor     eax, eax; jumptable 0049043B case 251
+00490FB4: mov     al, byte ptr SG_PARTY_BATTLE[ebx]
+00490FBA: lea     ecx, [eax+eax*8]; Load Effective Address
+00490FBD: lea     edx, [eax+ecx*2]; Load Effective Address
+00490FC0: xor     eax, eax; Logical Exclusive OR
+00490FC2: xor     ecx, ecx; Logical Exclusive OR
+00490FC4: mov     al, SG_ARRAY_CHARA_DATA.ModelID[edx*8]
+00490FCB: lea     eax, [eax+eax*8]; Load Effective Address
+00490FCE: mov     cl, K_CHARACTER.limitBreakParam[eax*4]
+00490FD5: jmp     short loc_490FFA; Jump
+00490FD7: lea     ecx, ds:0[ebx*8]; jumptable 0049043B cases 243,248,253
+00490FDE: xor     eax, eax; Logical Exclusive OR
+00490FE0: sub     ecx, ebx; Integer Subtraction
+00490FE2: lea     edx, [ebx+ecx*4]; Load Effective Address
+00490FE5: shl     edx, 4; Shift Logical Left
+00490FE8: xor     ecx, ecx; Logical Exclusive OR
+00490FEA: mov     al, CURRENT_WEAPON_ID[edx]
+00490FF0: lea     eax, [eax+eax*2]; Load Effective Address
+00490FF3: mov     cl, K_WEAPON.attackPower[eax*4]
+00490FFA: xor     eax, eax; Logical Exclusive OR
+00490FFC: mov     ATTACK_FLAG, 0; | ID   | Meaning          |
+00491003: mov     al, byte ptr unk_1D28DF3
+00491008: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 4; 9: miss

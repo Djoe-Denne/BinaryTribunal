@@ -1,0 +1,25 @@
+004AE1F0: push    1; jumptable 004ADEFA case 14
+004AE1F2: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE1F7: call    sub_4AF340; Call Procedure
+004AE1FC: mov     al, byte_1D768ED
+004AE201: add     esp, 8; Add
+004AE204: test    al, al; Logical Compare
+004AE206: jz      short loc_4AE21C; Jump if Zero (ZF=1)
+004AE208: push    7; int
+004AE20A: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE20F: add     esp, 4; Add
+004AE212: mov     eax, 9
+004AE217: jmp     loc_4AE669; Jump
+004AE21C: mov     ebx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE222: mov     eax, [esp+1Ch+var_C]
+004AE226: and     ebx, 0FFh; Logical AND
+004AE22C: test    ah, 40h; Logical Compare
+004AE22F: jz      short loc_4AE25A; Jump if Zero (ZF=1)
+004AE231: mov     eax, dword_1D768F4
+004AE236: mov     ecx, ebx
+004AE238: inc     ebx; Increment by 1
+004AE239: cmp     ebx, 4; Compare Two Operands
+004AE23C: jl      short loc_4AE240; Jump if Less (SF!=OF)
+004AE23E: xor     ebx, ebx; Logical Exclusive OR
+004AE240: cmp     ecx, ebx; Compare Two Operands
+004AE242: jz      short loc_4AE24A; Jump if Zero (ZF=1)

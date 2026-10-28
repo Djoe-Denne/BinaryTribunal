@@ -1,0 +1,12 @@
+0048604C: jnz     short loc_48605F; Jump if Not Zero (ZF=0)
+0048604E: cmp     eax, 270h; Compare Two Operands
+00486053: jl      short loc_48605D; Jump if Less (SF!=OF)
+00486055: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048605B: jnz     short loc_48605F; Jump if Not Zero (ZF=0)
+0048605D: or      ecx, edx; Logical Inclusive OR
+0048605F: sub     eax, 0D0h; Integer Subtraction
+00486064: cmp     eax, 0FFFFFF30h; Compare Two Operands
+00486069: jg      short loc_48603C; Jump if Greater (ZF=0 & SF=OF)
+0048606B: mov     BATTLE_VISIBILITY_MASK_B, cx
+00486072: pop     ebx
+00486073: retn; Return Near from Procedure

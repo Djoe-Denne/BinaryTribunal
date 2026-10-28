@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "l7-sparse-bench-source-manifest/v1",
+  "contract": "l7-sparse-bench-source-v1",
+  "authoredDate": "2026-10-17",
+  "taskId": "task_mvc59ue8_001j_gscvw5",
+  "sessionId": "ses_eb6fc7513ffeYAO12s3QiKJuHo",
+  "member": "l7-sparse-bench-r1",
+  "role": "implementer",
+  "cycle": 1,
+  "profile": "build",
+  "mode": "bench-source-only",
+  "bootstrap": "NONBLIND",
+  "modelBinding": {
+    "providerID": "openai",
+    "id": "gpt-6.1-sol",
+    "variant": "max",
+    "nativeVerificationOwner": "parent",
+    "nativeQueriedByWorker": false
+  },
+  "status": "SOURCES_AUTHORED_UNCOMPILED_UNEXECUTED_UNMEASURED_PENDING_FRESH_REVIEW",
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/L7_SPARSE_BENCH_R1_OUTPUT_20261017",
+  "allowedOutputs": [
+    "sparse-bench.ts",
+    "sparse-bench.test.ts",
+    "PROTOCOL.md",
+    "MANIFEST.json"
+  ],
+  "ownership": "Four new files only; absent output checked before creation; no prior source, freeze, fixture or other owner's file changed",
+  "files": [
+    {
+      "path": "sparse-bench.ts",
+      "bytes": 20318,
+      "sha256": "91c127a4b903b52a8ba3b6df5e75c75f2cde41c80748bdf8b973c9ec88ca304b",
+      "kind": "pure-typescript-source"
+    },
+    {
+      "path": "sparse-bench.test.ts",
+      "bytes": 22227,
+      "sha256": "e85de41ac42739e8b32ea228b9661c6e94d4d8ae6defcaf9e21455f9397b27df",
+      "kind": "unexecuted-test-source"
+    },
+    {
+      "path": "PROTOCOL.md",
+      "bytes": 20008,
+      "sha256": "c71928c75832883aa166d3f586c4b677b888dd6a5895435b06b3da1fe6810055",
+      "kind": "unmeasured-future-protocol"
+    }
+  ],
+  "selfPin": {
+    "path": "MANIFEST.json",
+    "includedInFiles": false,
+    "reason": "A self-referential SHA256 is not asserted; final bytes/SHA256 are published separately to the parent with the other three pins"
+  },
+  "inputRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/L7_SPARSE_BENCH_R1_SOURCE_PACKET_20261017",
+  "inputPayloadCount": 6,
+  "inputPayloadBytes": 63382,
+  "inputPins": [
+    {
+      "path": "PARENT/SCOPE.md",
+      "bytes": 3041,
+      "sha256": "8591d61c5134a4de88222c4e60e04e45967a14e83695d0d502b09b89994f5589"
+    },
+    {
+      "path": "PARENT/BINDING.json",
+      "bytes": 701,
+      "sha256": "f9856e6c13c275441efd1d3362ea0bdadc7296446e7982acdeca1b4a4b6259df"
+    },
+    {
+      "path": "INPUT_MANIFEST.json",
+      "bytes": 1635,
+      "sha256": "62e5f8f21feac448f326508530cb4ac5efe593911e65e57ef73d0c5a74b3060d"
+    },
+    {
+      "path": "DOCS/ORDRE_MISSION.md",
+      "bytes": 53181,
+      "sha256": "dda023143744703a90c39121893e0d75e6e20d79de07eab09215590d34074ed3"
+    },
+    {
+      "path": "DOCS/FRONTIER_PARENT_ROUTING_20261017.md",
+      "bytes": 3241,
+      "sha256": "fa80b51c7237e58280a20f775b59cbfdf2182abb47f2666f837fa51001668737"
+    },
+    {
+      "path": "DOCS/AUTONOMY_RESUMED_20261017.md",
+      "bytes": 1583,
+      "sha256": "2b5ff5aabf82f18fb96d1e7a9df64c4f3656cfa805a127a4c404a74c5ce326ee"
+    }
+  ],
+  "detachedParentReceipt": {
+    "path": ".tmp/coordination-three-20261014/l7-sparse-bench-r1-PARENT_ACCESS_RECEIPT-20261017.json",
+    "bytes": 2536,
+    "sha256": "b2c1df5d34baaa92dc50f390d70a1aae7f1af5c69a98a4e96760ce2644757a84",
+    "schema": "parent-explicit-inplace-access-v1",
+    "inplaceAdoptionAfterPreservedRenameFailures": true,
+    "helperSuccess": false,
+    "atomicCommitSuccess": false,
+    "permissionRetryOrRepairPerformed": false
+  },
+  "disposition": {
+    "path": "docs/missions/re-graph-scheduler/FOLLOWUP_PACKET_EPERM_DISPOSITION_20261017.md",
+    "bytes": 1602,
+    "sha256": "fb77a7f7895c4d848557b4661200fdd792e742df3665c7d5f7c71fadecf61352"
+  },
+  "api": {
+    "required": "generateSparseCase({size:1000|10000|100000,seed:uint32,allowLarge?:boolean})",
+    "dtoSchema": "synthetic-sparse-case/v1",
+    "additionalPureOracleHelper": "summarizeSparseGraph(N, edges, semantifiedCount=0, allowLarge=false)",
+    "productImports": 0,
+    "productCompatibility": "UNPROVEN_PUBLIC_ADAPTER_REQUIRED",
+    "edgeMeaning": "DIRECTED_TOPOLOGY_ONLY_NO_NATIVE_DEPENDENCY_SEMANTICS",
+    "labels": "DECLARED_SYNTHETIC_NOT_NATIVE_NOT_LLM",
+    "encoder": "ABSENT_DISABLED_NO_SUBSTITUTION"
+  },
+  "analyticalBoundsNotMeasurements": {
+    "time": "O(N+E), fixed-degree duplicate scans and iterative Kosaraju included",
+    "space": "O(N+E), adjacency, explicit stacks, output, SCC and degree histograms included",
+    "edgeBound": "E=3A-4B-1 < 3N <= 8N; I=floor(N/64), A=N-I, B=ceil(A/64)",
+    "maximumCommunitySize": 64,
+    "maximumTotalDegree": 65,
+    "allPairsOrQuadraticMatrix": false,
+    "unboundedTraversalRecursion": false,
+    "validRequestValidation": "O(K), valid own-property count K=2 or 3"
+  },
+  "analyticalExpectationsNotObserved": [
+    { "N": 1000, "E": 2890, "isolates": 15, "nontrivialSccs": 16, "sccs": 31, "preparedSynthetic": 250 },
+    { "N": 10000, "E": 28915, "isolates": 156, "nontrivialSccs": 154, "sccs": 310, "preparedSynthetic": 2500 },
+    { "N": 100000, "E": 289157, "isolates": 1562, "nontrivialSccs": 1539, "sccs": 3101, "preparedSynthetic": 25000, "conditionalOnly": true }
+  ],
+  "largeCase": {
+    "defaultRejectedBeforeGraphAllocation": true,
+    "requiresAllowLargeExactlyTrue": true,
+    "positiveTest": "SKIPPED_SOURCE_ONLY",
+    "workerAllocatedLargeGraph": false,
+    "separateRuntimeBudgetGateStillRequired": true
+  },
+  "validationPerformed": [
+    "Physical full reads and SHA256/byte checks of authorized inputs, binding, detached parent receipt and disposition",
+    "Static author inspection and full-file reads/hashes of newly authored source deliverables",
+    "Text-only generator import/runtime-pattern inspection; not a compiler or semantic correctness proof"
+  ],
+  "validationNotPerformed": [
+    "module import or generator execution",
+    "compilation, typecheck or test execution",
+    "benchmark, timing, CPU or memory measurement",
+    "actual public product API/adapter compatibility proof",
+    "DB, Git, native, scientific or live validation",
+    "fresh independent source review"
+  ],
+  "remainingGates": [
+    "Freeze final four pins and obtain fresh independent source review",
+    "Review separate public adapter against actual graph/scheduler/SCC/resource/event contracts",
+    "Separate parent admission for toolchain build and offline tests",
+    "Separate benchmark/runtime budget admission; additional explicit 100k approval if needed"
+  ],
+  "handoff": "HOLD_FOR_FRESH_REVIEW_NO_PERFORMANCE_PASS_NO_GLOBAL_L7_OR_MISSION_CLOSURE"
+}

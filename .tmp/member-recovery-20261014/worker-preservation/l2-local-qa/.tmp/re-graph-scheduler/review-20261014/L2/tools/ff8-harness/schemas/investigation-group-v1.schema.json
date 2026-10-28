@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/investigation-group-v1",
+  "title": "Investigation group v1",
+  "description": "Owned functions versus read-only context. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "groupId",
+    "partitionId",
+    "communityContentId",
+    "ownedFunctionIds",
+    "contextFunctionIds",
+    "capabilityIds",
+    "granularity",
+    "estimatedCost",
+    "uncoveredIds",
+    "memberMaturity"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "groupId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Group id"
+    },
+    "partitionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Source partition id"
+    },
+    "communityContentId": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Source community content id 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "ownedFunctionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Owned function id"
+      },
+      "minItems": 1,
+      "maxItems": 100000,
+      "description": "Possessed functions. Context membership is not ownership."
+    },
+    "contextFunctionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Context function id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Read-only context. Must be disjoint from owned. Does not create work."
+    },
+    "capabilityIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160,
+        "description": "Capability id"
+      },
+      "minItems": 0,
+      "maxItems": 256,
+      "description": "Originating capabilities"
+    },
+    "granularity": {
+      "type": "string",
+      "enum": [
+        "function",
+        "family",
+        "scc",
+        "group",
+        "subgroup"
+      ],
+      "description": "Group granularity"
+    },
+    "estimatedCost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known",
+        "value"
+      ],
+      "properties": {
+        "known": {
+          "type": "boolean",
+          "description": "false means not observed. Never encode unknown as zero."
+        },
+        "value": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "null iff known is false. Zero is legal only when known is true."
+        }
+      },
+      "description": "Estimated cost in abstract units. Unknown stays unknown. Byte budgets are UTF-8."
+    },
+    "uncoveredIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Function id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Functions explicitly not covered"
+    },
+    "memberMaturity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "functionId",
+          "semanticMaturity"
+        ],
+        "properties": {
+          "functionId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Function id"
+          },
+          "semanticMaturity": {
+            "type": "string",
+            "enum": [
+              "none",
+              "structural",
+              "partial",
+              "reconciled",
+              "published-local"
+            ],
+            "description": "Local maturity"
+          }
+        },
+        "description": "Per-member maturity. Partial maturity is local, not global."
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Maturity projection"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+0048E0CE: lea     eax, [eax+eax*4]; Load Effective Address
+0048E0D1: lea     eax, [eax+eax*4]; Load Effective Address
+0048E0D4: shl     eax, 2; Shift Logical Left
+0048E0D7: test    cl, 1; Logical Compare
+0048E0DA: jz      short loc_48E0FC; Jump if Zero (ZF=1)
+0048E0DC: mov     ecx, SG_GIL_LAGUNA
+0048E0E2: cmp     ecx, eax; Compare Two Operands
+0048E0E4: jb      short loc_48E0F5; Jump if Below (CF=1)
+0048E0E6: sub     ecx, eax; Integer Subtraction
+0048E0E8: mov     eax, 2
+0048E0ED: mov     SG_GIL_LAGUNA, ecx
+0048E0F3: jmp     short loc_48E117; Jump
+0048E0F5: mov     eax, 1
+0048E0FA: jmp     short loc_48E117; Jump
+0048E0FC: mov     ecx, SG_GIL
+0048E102: cmp     ecx, eax; Compare Two Operands
+0048E104: jb      short loc_48E0F5; Jump if Below (CF=1)
+0048E106: sub     ecx, eax; Integer Subtraction
+0048E108: mov     eax, 2
+0048E10D: mov     SG_GIL, ecx
+0048E113: jmp     short loc_48E117; Jump
+0048E115: xor     eax, eax; Logical Exclusive OR
+0048E117: xor     ecx, ecx; Logical Exclusive OR
+0048E119: sub     eax, ecx; Integer Subtraction
+0048E11B: jz      short loc_48E188; Jump if Zero (ZF=1)

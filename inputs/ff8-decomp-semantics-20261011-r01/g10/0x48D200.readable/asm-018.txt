@@ -1,0 +1,25 @@
+0048D7C3: mov     cx, K_MAGIC.magicID[eax]
+0048D7CA: mov     [esp+24h+magic_id], ecx
+0048D7CE: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D7D3: mov     esi, ebx; jumptable 0048D37A case 2
+0048D7D5: and     esi, 0FFFFh; Logical AND
+0048D7DB: push    esi
+0048D7DC: call    domain__BattleText_GetMagicName; Call Procedure
+0048D7E1: mov     edi, eax
+0048D7E3: mov     eax, [esp+28h+p_attacker_slot_id]
+0048D7E7: add     esp, 4; Add
+0048D7EA: cmp     eax, 3; Compare Two Operands
+0048D7ED: jge     short loc_48D83C; Jump if Greater or Equal (SF=OF)
+0048D7EF: mov     edx, eax
+0048D7F1: xor     ecx, ecx; Logical Exclusive OR
+0048D7F3: lea     eax, ds:0[edx*8]; Load Effective Address
+0048D7FA: sub     eax, edx; Integer Subtraction
+0048D7FC: lea     eax, [edx+eax*4]; Load Effective Address
+0048D7FF: shl     eax, 4; Shift Logical Left
+0048D802: add     eax, offset F_CHARACTER_MAGIC_DATA; Add
+0048D807: movzx   bp, byte ptr [eax]; Move with Zero-Extend
+0048D80B: cmp     bp, bx; Compare Two Operands
+0048D80E: jz      short loc_48D840; Jump if Zero (ZF=1)
+0048D810: inc     ecx; Increment by 1
+0048D811: add     eax, 5; Add
+0048D814: cmp     ecx, 20h ; ' '; Compare Two Operands

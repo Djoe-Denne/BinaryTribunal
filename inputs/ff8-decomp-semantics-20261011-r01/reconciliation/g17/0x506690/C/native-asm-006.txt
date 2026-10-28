@@ -1,0 +1,25 @@
+00506807: lea     ebx, [esi+0Ch]; Load Effective Address
+0050680A: add     esp, 8; Add
+0050680D: cmp     al, 0FFh; Compare Two Operands
+0050680F: jz      short loc_50684F; Jump if Zero (ZF=1)
+00506811: and     eax, 0FFh; Logical AND
+00506816: mov     edx, [esi+14h]
+00506819: push    edx
+0050681A: lea     ecx, [eax+eax*4]; Load Effective Address
+0050681D: shl     ecx, 3; Shift Logical Left
+00506820: sub     ecx, eax; Integer Subtraction
+00506822: mov     ax, [esi+10h]
+00506826: push    eax
+00506827: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address
+0050682E: push    edi
+0050682F: call    sub_50A070; Call Procedure
+00506834: xor     ecx, ecx; Logical Exclusive OR
+00506836: mov     cl, [esi+0Dh]
+00506839: push    ecx
+0050683A: push    edi
+0050683B: call    sub_506620; Call Procedure
+00506840: push    edi; actor
+00506841: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync
+00506846: push    ebx; unsigned __int8 *
+00506847: call    BattlePresentation_SpawnDamagePopup; Crée la présentation popup/réaction à partir d'un événement déjà routé; la chaîne appelante peut avoir appliqué HP/statuts via 0x493D80.
+0050684C: add     esp, 1Ch; Add

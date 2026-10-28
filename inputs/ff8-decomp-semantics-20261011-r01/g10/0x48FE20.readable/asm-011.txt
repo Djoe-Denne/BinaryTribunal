@@ -1,0 +1,25 @@
+004902EA: jmp     loc_49041E; Jump
+004902EF: mov     eax, ecx; jumptable 0048FF2F case 0
+004902F1: and     eax, 0FFFFh; Logical AND
+004902F6: sub     eax, 8; Integer Subtraction
+004902F9: jz      short loc_490343; Jump if Zero (ZF=1)
+004902FB: sub     eax, 2; Integer Subtraction
+004902FE: jnz     loc_490423; Jump if Not Zero (ZF=0)
+00490304: xor     eax, eax; Logical Exclusive OR
+00490306: mov     HIT_ELEMENT, 0
+0049030D: mov     al, byte ptr DEVOUR_RESULT
+00490312: mov     HIT_ATTACK_ENABLER, 0C8h
+00490319: lea     eax, [eax+eax*2]; Load Effective Address
+0049031C: shl     eax, 2; Shift Logical Left
+0049031F: mov     dx, K_DEVOUR.Status0[eax]
+00490326: mov     eax, K_DEVOUR.Status1[eax]
+0049032C: mov     HIT_STATUS_1, dx; | ID     | Description |
+00490333: mov     dl, EQUAL_GAME_OVER_RELATED
+00490339: mov     HIT_STATUS_2, eax; | ID         | Description |
+0049033E: jmp     loc_490423; Jump
+00490343: mov     HIT_ELEMENT, 0
+0049034A: mov     HIT_ATTACK_ENABLER, 0FFh
+00490351: mov     HIT_STATUS_1, 1; | ID     | Description |
+0049035A: mov     HIT_STATUS_2, 0; | ID         | Description |
+00490364: jmp     loc_490423; Jump
+00490369: xor     eax, eax; jumptable 0048FF2F case 249

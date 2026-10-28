@@ -1,0 +1,25 @@
+00464EED: pop     ebp
+00464EEE: pop     edi
+00464EEF: pop     esi
+00464EF0: pop     ebx
+00464EF1: add     esp, 88h; Add
+00464EF7: retn; Return Near from Procedure
+00464EF8: mov     eax, dword_1CA8A00
+00464EFD: test    eax, eax; Logical Compare
+00464EFF: jz      short loc_464F0A; Jump if Zero (ZF=1)
+00464F01: lea     ecx, [esp+94h+desc]; Load Effective Address
+00464F05: push    ecx
+00464F06: push    2
+00464F08: jmp     short loc_464F11; Jump
+00464F0A: lea     edx, [esp+94h+desc]; Load Effective Address
+00464F0E: push    edx; desc
+00464F0F: push    0; filter
+00464F11: call    Gfx_InitDrawListDesc; Vague C: init desc 0x84 octets. arg0 = mode filtre 0-4 (stocke a +32), PAS un type de liste.
+00464F16: mov     eax, [esi+24h]
+00464F19: add     esp, 8; Add
+00464F1C: mov     [esp+94h+var_58], 1
+00464F24: push    eax
+00464F25: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture
+00464F2A: mov     [esp+98h+var_54], eax
+00464F2E: mov     ecx, [ebx+0A50h]
+00464F34: push    ecx; owner

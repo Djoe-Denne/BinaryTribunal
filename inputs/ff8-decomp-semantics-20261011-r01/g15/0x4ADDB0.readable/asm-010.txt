@@ -1,0 +1,25 @@
+004AE127: jmp     loc_4AE669; Jump
+004AE12C: push    1; jumptable 004ADEFA case 12
+004AE12E: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE133: call    sub_4AF340; Call Procedure
+004AE138: mov     al, byte_1D768ED
+004AE13D: add     esp, 8; Add
+004AE140: test    al, al; Logical Compare
+004AE142: jz      short loc_4AE158; Jump if Zero (ZF=1)
+004AE144: push    7; int
+004AE146: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE14B: add     esp, 4; Add
+004AE14E: mov     eax, 9
+004AE153: jmp     loc_4AE669; Jump
+004AE158: mov     ax, word ptr dword_1D768F0
+004AE15E: add     ax, 200h; Add
+004AE162: cmp     ax, 1000h; Compare Two Operands
+004AE166: mov     word ptr dword_1D768F0, ax
+004AE16C: jl      short loc_4AE184; Jump if Less (SF!=OF)
+004AE16E: mov     word ptr dword_1D768F0, 1000h
+004AE177: mov     dword_1D768D0, esi; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE17D: mov     eax, esi; jumptable 004ADEFA case 25
+004AE17F: jmp     loc_4AE669; Jump
+004AE184: test    bl, 10h; Logical Compare
+004AE187: jz      def_4ADEFA; jumptable 004ADEFA default case
+004AE18D: push    3

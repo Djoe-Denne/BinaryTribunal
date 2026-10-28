@@ -1,0 +1,95 @@
+# Parent — GO numeric+context PURE R1, deuxseams ratifiées
+
+Planresult_mvf6d1q0_005m_4exdhe14pins321229B/NBL reçu ; parenta relu numeric
+260–323/groups56–101/138–151/cluster810–818. GOcode bornéci-dessous ; aucune
+qualification ni payloadwitnessS1 ratifiéimplicitement. Pasreplan/recluster.
+
+## Sixoutputsisolés
+
+src/sparse-graph-codecs.ts,src/group-context-codecs.ts,src/cluster.ts,
+src/investigation-groups.ts,DESIGN.md,MANIFEST.json. MAINresteintact. Planner,
+function-order.ts,scc.ts etplannerderivedréservésàl'autreextractor : NEPASéditer.
+NopublicS1envelope/projection/schema/QA/validation-coreedits. Sourcepacketrepiné
+inclutpureclosurequalifiée12fichiers,résout re-policy/persistenceerror/schema gap.
+Pasnouvellecommonhashleaf,réutiliser validationcanon/hash/Bunqualified.
+
+## 1. Numeric exactmove
+
+Ratifier sparse-graph-codecs : constantesnumericpolicy/budget,ClusterDiagnosticError
+(UNEconstructoridentity/import-réexportproducteur),typesArc/WeightConvention/
+NumericSource/NumericGraphSummary/SparseGraph/SparseGraphSnapshot ; sparseGraph/
+buildSparseGraph/validateSparseGraph/exportSparseGraph/importSparseGraph,
+closure check/finite/integer/numericFailure/Sum/sum/summands/numericSummary/
+graphProjection/numericBinding,compareFunctionId etreconcileClusterRelations.
+CorpspréexistantsBYTEidentiques,mêmesconstantes/orders/errors/budgets/source
+summands/caches/legacycanonical-arcs/bindings/negativezero/refus ; notrenumérique.
+
+Fonctionsaussiconsomméesparclusterrestantpeuvent êtreexportées"internalshared"
+UNIQUEMENT avecsitecallerrestantconsignémanifest. Leshelpersseuls codec restent
+privés,pasexporteverything. dyadic/ratio/weightProduct/scaledGraph/intervals/
+PPR/Leiden/modularity/certificates restentcluster,importentlesleavespartagées
+nécessaires. NoValueimportclusterdepuiscodec(TYPEONLYauthorised).
+
+## 2. Context core + partition-context projection
+
+Ratifier prepareGroupContextSource,bindGroupContext,deriveDraftGroupContexts,
+deriveFixedGroupContexts,deriveCommunityContextIds,groupContextContentFingerprint
+etlestechnicaltypesproposés GroupAdjacencySource/PreparedGroupContextSource/
+BoundGroupContextSource/GroupContextDraft/FixedGroupOwnership/Derivations.
+SignaturesplanrespectéesSAUFpartitionparamétrétréci àun PickSHAPE réellementlu :
+schemaVersion,partitionId,snapshotId,snapshotFingerprint,communities contenant
+contentId/memberIds/kernelIds/externalContextIds(seulsautreschampsréellement
+lusàjustifier). Pas typeparamClusterPartitionA complet dansnouveaucodec :
+futurBvalidé doitêtreassignablestructurellementsanscastB→A. ProducteurA appelle
+pareil,newshapen'élargitpasloaderlegacy,n'autorisepasBniHOST.
+
+GroupConfigtypespeuventresterdansproducteur enimportTYPEONLY. DEFAULT_GROUP_CONFIG
+constantepeutêtredéplacéeBYTEidentiqueaucontextcodec+import/réexportproducteur,
+évitercyclevalue. requireThat communepeutêtreinternalsharedsiusagerestant.
+
+Préservervalidationconfig/partitionpuissourceallshardrelationreconcileAVANT
+filtre,mêmeaffinityfourni. Rawexclusionscallback/invalidated/retired inchangées,
+provided-affinityvalidateallnumericcaches+nodebinding+summands-aware remap budget/
+bindingexact. Adjacency additionsordinaires/insertionorderPAS compensatedchange.
+Hubsréelssourcés(boundinput),rang/truncationcommunityUNEFOIS/groupunions/omissions/
+uncovered/UTF8IDbytes/contentfingerprint exactsextraits. ProducteurpassesesDRAFTS
+choisis existants,split/attach/familychoices restentproducteurinchangés.
+
+deriveCommunityContextIds = boundaryneighbors surMEMBERSHIPFIXÉ,aucunclustering.
+Garderordonnancementparindicesdugraphd'origine ; validerSparseGraphunefoispar
+batch,pasC×Evalidation. LescontextespartitionetgroupesPEUVENTavoir dessources
+DIFFÉRENTES : nejamaisutiliserrawgrouppourcertifierpartitionaffinityni croire
+externalContextIdsestsa proprepreuve. Contratwitnessfuturdevraporterces2rôles.
+
+## 3. Adaptateurfixedgroup explicitement ratifié, sansheuristique
+
+Nouveau helperderiveFixedGroupContextsestuneVALIDATIONprojectiondeOWNERSHIP
+FOURNIE,pasalgorithmeregroupement,doncnerevendiquerpasextractionBYTEexacte.
+Admissiblelayout :groupsnonvides/IDsuniques,ownedfonctionconnue,kernelpartition
+uniquement,chaquekernelowneruniqueetTOUSkernelscouverts. Originsderivésdepuis
+appartenancepartitiondesownedIDs,pasclaimmetrics. GroupIDsrestentfournis,
+aucunrenaming/balancedsplit/attachmentchoice.
+
+Pourchaquecommunitynonemptykernel :nonkernelmembersattribuésaugroupowner
+contenantPREMIERkernelmembertriécompareFunctionId. Justificationqualified :
+producer102–106metuncoveredsurpremierchunk,etattach-adjacent113n'attachepas
+undraftàuncoverednonvide. Kernel-empty :uncoveredcommunityonly,pasemptygroup.
+Ajouterownedunobserved/incompleteauxuncoveredcommeproducer153. Déduire maps
+ownership/uncovered/nonCovered ; jamaismetricscommesa propreoracle.
+V/gatesdevront testerlayoutsmultiples/kernel-empty/attachements,pasd'optimalité
+oupreuvedurechoixheuristique. Désaccordréeléquivalence→parentAVANTmodifierrègle.
+
+## 4. Contraintes preuvesetGO
+
+GO CODE direct aprèshashpacket,6outputsseulement. No extraACKplan/GOderoutine,
+nouveaugapstructurant/apiownerconflict→parentavantinventer. MANIFESTspans/
+bodyhashes/exactmoves vsnewadapter vsparameterizationexplicit,backwardexports/
+constructoridentity/runtimeimports/pinsbookends. DESIGN affichelesdeuxrôles
+contextsourceetaffinityconsistencynotauthenticity; témoins/provenancehostabsents
+ne peuventêtrecachésparboolean/modefallback. S1witnesspayloadestENCOREPENDING.
+
+FreshVcomposéesourcepuisparenttypecheck/producer-equivalence/numeric+context
+tests/regressions/loadisolationobligatoiresAVANTqualification/repinS1. Aucun
+compiler/typecheck/transpile/test/run/validator/importproduit/OS/DB/git/IDA/
+live/network/origins/délégation/teamtools/claim/complete. Staticread/hash/parsing
++fs/patchOWN6outputspermis. NoS1/native/full44/progressionauthoritypromotion.

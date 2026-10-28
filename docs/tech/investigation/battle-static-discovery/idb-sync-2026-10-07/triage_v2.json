@@ -1,0 +1,3068 @@
+{
+  "snapshot": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-idb-gap-20261007T170337Z\\snapshot.json",
+  "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-idb-sync-20261007T171059Z-a96482",
+  "name_deltas": [
+    {
+      "ea": "0x407eb4",
+      "doc_name": "resolve_texobj_palette_vt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x407EB4__resolve_texobj_palette_vt.md",
+      "function_start": "0x407eb4",
+      "idb_name": "sub_407EB4",
+      "type": "void __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x417464",
+      "doc_name": "Gfx_ReserveDrawListEntries",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x417464__Gfx_ReserveDrawListEntries.md",
+      "function_start": "0x417464",
+      "idb_name": "Gfx_AllocDrawListBatch",
+      "type": "int __cdecl(int, _DWORD *)",
+      "comment_len": 466,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 2+1/R: Gfx_ReserveDrawListEntries (IDA Gfx_AllocDrawListBatch too narrow). cdecl(count,list), EAX=0 iff list NULL else 1. Resets stale generation unsigned; allocates/chains 0x30 batch only when count>remaining; capacity=max(count,0x20); stream strides 0x80/0x10, shared path <=0x200; publishes +0x74/+0x78/+0x7C then advances cursors. Allocation NULL unchecked, faithful ASM. See docs/.../0x417464__Gfx_ReserveDrawListEntries.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — réserve `count` entrées dans le batch courant, alloue/chaîne un nouveau batch si la capacité restante est insuffisante, puis avance trois curseurs"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x421c41",
+      "doc_name": "sub_421C41_TIM_remap",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x421C41__sub_421C41_TIM_remap.md",
+      "function_start": "0x421c41",
+      "idb_name": "sub_421C41",
+      "type": "void __cdecl(int, _DWORD *, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4221e6",
+      "doc_name": "sub_4221E6_slot_E_cache",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4221E6__sub_4221E6_slot_E_cache.md",
+      "function_start": "0x4221e6",
+      "idb_name": "sub_4221E6",
+      "type": "int __cdecl(int, int, int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4252b0",
+      "doc_name": "RenderBackend_Construct_OpenGL",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4252B0__RenderBackend_Construct_OpenGL.md",
+      "function_start": "0x4252b0",
+      "idb_name": "presentation::RenderBackend_Construct_OpenGL",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 5852,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x425540",
+      "doc_name": "RenderBackend_Construct_DDraw",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x425540__RenderBackend_Construct_DDraw.md",
+      "function_start": "0x425540",
+      "idb_name": "presentation::RenderBackend_Construct_DDraw",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 4573,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4257d0",
+      "doc_name": "RenderBackend_Construct_DDrawAlt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4257D0__RenderBackend_Construct_DDrawAlt.md",
+      "function_start": "0x4257d0",
+      "idb_name": "presentation::RenderBackend_Construct_DDrawAlt",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 5714,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x43e0e2",
+      "doc_name": "GfxDDrawAlt_PaletteSpriteNode_Direct",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43E0E2__GfxDDrawAlt_PaletteSpriteNode_Direct.md",
+      "function_start": "0x43e0e2",
+      "idb_name": "sub_43E0E2",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x45bc60",
+      "doc_name": "Gpu_SetTextureWindow_PageRectScales",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x45BC60__Gpu_SetTextureWindow_PageRectScales.md",
+      "function_start": "0x45bc60",
+      "idb_name": "sub_45BC60",
+      "type": "int __cdecl(int)",
+      "comment_len": 505,
+      "tags": [
+        "[semantic-triple 2026-09-27 lot17]",
+        "[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x460c20",
+      "doc_name": "Gpu_BeginPrimitivePass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C20__Gpu_BeginPrimitivePass.md",
+      "function_start": "0x460c20",
+      "idb_name": "sub_460C20",
+      "type": "int()",
+      "comment_len": 367,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_BeginPrimitivePass. Always caches FFGetBufferAddress; only when dword_B7CC20==0 begins scene or selects render target from engine+0x8FC, records branch, resets pass state 3/1/0. Gpu_DrawOTag callers prove active second-pass polarity. EAX residual driver/context, ignored. See docs/.../0x460C20__Gpu_BeginPrimitivePass.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — capture le contexte graphique puis, uniquement quand `dword_B7CC20==0`, ouvre/configure le pass de primitives et réinitialise son état"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x460c90",
+      "doc_name": "Gpu_FlushCurrentDrawList",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C90__Gpu_FlushCurrentDrawList.md",
+      "function_start": "0x460c90",
+      "idb_name": "sub_460C90",
+      "type": "int()",
+      "comment_len": 313,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_FlushCurrentDrawList. If current list exists: SetRenderState(0x0E,1), Gfx_WalkDrawList(list,engine), invalidate list stamp, clear current pointer. Hex-Rays phantom arg rejected by exact pushes. EAX residual ignored. See docs/.../0x460C90__Gpu_FlushCurrentDrawList.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — soumet la draw-list courante, invalide son stamp, puis efface le pointeur courant"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x461100",
+      "doc_name": "sub_461100_ListRenderTargetSwitch",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x461100__sub_461100_ListRenderTargetSwitch.md",
+      "function_start": "0x461100",
+      "idb_name": "sub_461100",
+      "type": "void __cdecl(int, unsigned int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4623a0",
+      "doc_name": "GpuPrimDispatch02_FillRectVRAM",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4623A0__GpuPrimDispatch02_FillRectVRAM.md",
+      "function_start": "0x4623a0",
+      "idb_name": "sub_4623A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4706b0",
+      "doc_name": "FFModuleHandler_main_loop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4706B0__FFModuleHandler_main_loop.md",
+      "function_start": "0x4706b0",
+      "idb_name": "main::FFModuleHandler_main_loop",
+      "type": "char __cdecl(int)",
+      "comment_len": 15304,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47ccb0",
+      "doc_name": "FFBattleDirector_battleLoop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47CCB0__FFBattleDirector_battleLoop.md",
+      "function_start": "0x47ccb0",
+      "idb_name": "main::FFBattleDirector_battleLoop",
+      "type": "void __thiscall(void *this)",
+      "comment_len": 20871,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[semantic-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47cf60",
+      "doc_name": "FFBattleModule",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47CF60__FFBattleModule.md",
+      "function_start": "0x47cf60",
+      "idb_name": "main::FFBattleModule",
+      "type": "int __cdecl(int game_object)",
+      "comment_len": 8948,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47d8a0",
+      "doc_name": "Battle_EnqueueInitialPartyActions",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47D8A0__Battle_EnqueueInitialPartyActions.md",
+      "function_start": "0x47d8a0",
+      "idb_name": "domain::Battle_EnqueueInitialPartyActions",
+      "type": "int __cdecl()",
+      "comment_len": 1672,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47e250",
+      "doc_name": "BattleStatus_EnqueueStatusCopyUpdate",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47E250__BattleStatus_EnqueueStatusCopyUpdate.md",
+      "function_start": "0x47e250",
+      "idb_name": "domain::BattleStatus_EnqueueStatusCopyUpdate",
+      "type": "_WORD *__cdecl(int)",
+      "comment_len": 3313,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47e480",
+      "doc_name": "GF_SetOwnedFlag",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47E480__GF_SetOwnedFlag.md",
+      "function_start": "0x47e480",
+      "idb_name": "domain::GF_SetOwnedFlag",
+      "type": "int __cdecl(int p_gforce_id)",
+      "comment_len": 813,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482d50",
+      "doc_name": "Battle_ProcessActionCallbackChain",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482D50__Battle_ProcessActionCallbackChain.md",
+      "function_start": "0x482d50",
+      "idb_name": "domain::Battle_ProcessActionCallbackChain",
+      "type": "char __cdecl()",
+      "comment_len": 2381,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482dc0",
+      "doc_name": "Battle_ProcessDeferredCallbacks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482DC0__Battle_ProcessDeferredCallbacks.md",
+      "function_start": "0x482dc0",
+      "idb_name": "domain::Battle_ProcessDeferredCallbacks",
+      "type": "_BYTE *()",
+      "comment_len": 1969,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482e00",
+      "doc_name": "Odin_BattleInit_ZantetsukenCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482E00__Odin_BattleInit_ZantetsukenCheck.md",
+      "function_start": "0x482e00",
+      "idb_name": "domain::Odin_BattleInit_ZantetsukenCheck",
+      "type": "void()",
+      "comment_len": 2196,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482f70",
+      "doc_name": "Battle_InitDeadTimer",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482F70__Battle_InitDeadTimer.md",
+      "function_start": "0x482f70",
+      "idb_name": "domain::Battle_InitDeadTimer",
+      "type": "__int16()",
+      "comment_len": 1058,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482f80",
+      "doc_name": "AngeloOdin_SpecialActionTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482F80__AngeloOdin_SpecialActionTick.md",
+      "function_start": "0x482f80",
+      "idb_name": "domain::AngeloOdin_SpecialActionTick",
+      "type": "void()",
+      "comment_len": 5958,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483190",
+      "doc_name": "Battle_GetRandomQuartile0To3",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483190__Battle_GetRandomQuartile0To3.md",
+      "function_start": "0x483190",
+      "idb_name": "domain::Battle_GetRandomQuartile0To3",
+      "type": "int __cdecl()",
+      "comment_len": 936,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4831f0",
+      "doc_name": "Gilgamesh_BattleInit_TriggerCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4831F0__Gilgamesh_BattleInit_TriggerCheck.md",
+      "function_start": "0x4831f0",
+      "idb_name": "domain::Gilgamesh_BattleInit_TriggerCheck",
+      "type": "void()",
+      "comment_len": 2406,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483270",
+      "doc_name": "Battle_PhoenixAutoReviveCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483270__Battle_PhoenixAutoReviveCheck.md",
+      "function_start": "0x483270",
+      "idb_name": "domain::Battle_PhoenixAutoReviveCheck",
+      "type": "int __cdecl()",
+      "comment_len": 2744,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4832f0",
+      "doc_name": "StatusTimer_InitForBitFromKernelMisc",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4832F0__StatusTimer_InitForBitFromKernelMisc.md",
+      "function_start": "0x4832f0",
+      "idb_name": "domain::StatusTimer_InitForBitFromKernelMisc",
+      "type": "int __cdecl(int slot_id, unsigned int status2_bit_mask)",
+      "comment_len": 2559,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483340",
+      "doc_name": "StatusTimer_DisableForBit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483340__StatusTimer_DisableForBit.md",
+      "function_start": "0x483340",
+      "idb_name": "domain::StatusTimer_DisableForBit",
+      "type": "int __cdecl(int slot_id, unsigned int status2_bit_mask)",
+      "comment_len": 1762,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483370",
+      "doc_name": "StatusTimer_IsDisabledForBit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483370__StatusTimer_IsDisabledForBit.md",
+      "function_start": "0x483370",
+      "idb_name": "domain::StatusTimer_IsDisabledForBit",
+      "type": "BOOL __cdecl(int p_target_slot_id, unsigned int a2)",
+      "comment_len": 1406,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483470",
+      "doc_name": "Status_TickAndExpire",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483470__Status_TickAndExpire.md",
+      "function_start": "0x483470",
+      "idb_name": "domain::Status_TickAndExpire",
+      "type": "void()",
+      "comment_len": 9403,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483940",
+      "doc_name": "BattleTarget_FindByCondition",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483940__BattleTarget_FindByCondition.md",
+      "function_start": "0x483940",
+      "idb_name": "domain::BattleTarget_FindByCondition",
+      "type": "int __cdecl(int slot_index, int *out_section, int *out_arg, __int16 *out_target_mask)",
+      "comment_len": 8469,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483d60",
+      "doc_name": "BattleLimitAngelWing_SelectAutoCast",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483D60__BattleLimitAngelWing_SelectAutoCast.md",
+      "function_start": "0x483d60",
+      "idb_name": "domain::BattleLimitAngelWing_SelectAutoCast",
+      "type": "_WORD *__cdecl(int, _DWORD *, int *, _WORD *)",
+      "comment_len": 5209,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4842b0",
+      "doc_name": "BattleATB_TickAndReady",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4842B0__BattleATB_TickAndReady.md",
+      "function_start": "0x4842b0",
+      "idb_name": "domain::BattleATB_TickAndReady",
+      "type": "char()",
+      "comment_len": 6790,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4845a0",
+      "doc_name": "BattleExecQueue_ConsumeCurrentSlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4845A0__BattleExecQueue_ConsumeCurrentSlot.md",
+      "function_start": "0x4845a0",
+      "idb_name": "domain::BattleExecQueue_ConsumeCurrentSlot",
+      "type": "int __cdecl(int queue_slot)",
+      "comment_len": 2518,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x484fd0",
+      "doc_name": "PendingCmd_QueueOrStore",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x484FD0__PendingCmd_QueueOrStore.md",
+      "function_start": "0x484fd0",
+      "idb_name": "domain::PendingCmd_QueueOrStore",
+      "type": "BYTE __cdecl(int, int, BYTE, char, char, __int16)",
+      "comment_len": 2612,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485160",
+      "doc_name": "BattleAction_ResolveSpecialActionAndUpdateDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485160__BattleAction_ResolveSpecialActionAndUpdateDamage.md",
+      "function_start": "0x485160",
+      "idb_name": "domain::BattleAction_ResolveSpecialActionAndUpdateDamage",
+      "type": "int()",
+      "comment_len": 3456,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485460",
+      "doc_name": "BattleArbitration_SelectNextAction",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485460__BattleArbitration_SelectNextAction.md",
+      "function_start": "0x485460",
+      "idb_name": "domain::BattleArbitration_SelectNextAction",
+      "type": "char *()",
+      "comment_len": 7281,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485610",
+      "doc_name": "EnemyAI_PrepareTurnAction",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485610__EnemyAI_PrepareTurnAction.md",
+      "function_start": "0x485610",
+      "idb_name": "domain::EnemyAI_PrepareTurnAction",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 16214,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486130",
+      "doc_name": "BattleEscape_PollInputAndRollChance",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486130__BattleEscape_PollInputAndRollChance.md",
+      "function_start": "0x486130",
+      "idb_name": "domain::BattleEscape_PollInputAndRollChance",
+      "type": "char __cdecl()",
+      "comment_len": 5318,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4862a0",
+      "doc_name": "BattleTick_CheckEscapeSuccess",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4862A0__BattleTick_CheckEscapeSuccess.md",
+      "function_start": "0x4862a0",
+      "idb_name": "domain::BattleTick_CheckEscapeSuccess",
+      "type": "char()",
+      "comment_len": 4655,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486390",
+      "doc_name": "BattleTick_CheckTimerExpiry",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486390__BattleTick_CheckTimerExpiry.md",
+      "function_start": "0x486390",
+      "idb_name": "domain::BattleTick_CheckTimerExpiry",
+      "type": "char()",
+      "comment_len": 2014,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4863f0",
+      "doc_name": "BattleTick_CheckScriptedBattleEnd",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4863F0__BattleTick_CheckScriptedBattleEnd.md",
+      "function_start": "0x4863f0",
+      "idb_name": "domain::BattleTick_CheckScriptedBattleEnd",
+      "type": "char()",
+      "comment_len": 2091,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486450",
+      "doc_name": "BattleTick_CheckPartyWipe",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486450__BattleTick_CheckPartyWipe.md",
+      "function_start": "0x486450",
+      "idb_name": "domain::BattleTick_CheckPartyWipe",
+      "type": "char __cdecl()",
+      "comment_len": 3616,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486500",
+      "doc_name": "BattleTick_CheckAllEnemiesDead",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486500__BattleTick_CheckAllEnemiesDead.md",
+      "function_start": "0x486500",
+      "idb_name": "domain::BattleTick_CheckAllEnemiesDead",
+      "type": "char()",
+      "comment_len": 3363,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4877b0",
+      "doc_name": "BattleTarget_IsEligibleByStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4877B0__BattleTarget_IsEligibleByStatus.md",
+      "function_start": "0x4877b0",
+      "idb_name": "domain::BattleTarget_IsEligibleByStatus",
+      "type": "unsigned int __cdecl(int slot_index)",
+      "comment_len": 1489,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4877f0",
+      "doc_name": "EnemyAI_DispatchSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4877F0__EnemyAI_DispatchSection.md",
+      "function_start": "0x4877f0",
+      "idb_name": "domain::EnemyAI_DispatchSection",
+      "type": "char __cdecl(signed int p_target_slot_id, _DWORD *p_ai_section_to_load)",
+      "comment_len": 13932,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[battle-models-discovery 2026-09-25] (HIGH) EnemyAI_DispatchSection: H8 (AI, sous-section header) -> VM 0x487DF0. Preuves: c0m registry + probe (c0m127 overlay = info+AI seulement)."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a680",
+      "doc_name": "EnemyAI_CompareValues",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A680__EnemyAI_CompareValues.md",
+      "function_start": "0x48a680",
+      "idb_name": "domain::EnemyAI_CompareValues",
+      "type": "int __cdecl(unsigned int left, int op, unsigned int right)",
+      "comment_len": 1667,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a830",
+      "doc_name": "EnemyAI_TargetHasStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A830__EnemyAI_TargetHasStatus.md",
+      "function_start": "0x48a830",
+      "idb_name": "domain::EnemyAI_TargetHasStatus",
+      "type": "BOOL __cdecl(int p_target_generic, int p_comparator, unsigned int p_status_ai, int p_bool_ignore_comparator)",
+      "comment_len": 2917,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a900",
+      "doc_name": "BattleStatus_CheckTargetHasStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A900__BattleStatus_CheckTargetHasStatus.md",
+      "function_start": "0x48a900",
+      "idb_name": "domain::BattleStatus_CheckTargetHasStatus",
+      "type": "int __cdecl(int p_comparator, unsigned int p_status_ai, int p_nb_target_with_status_found, int p_encounter_slot, int a5)",
+      "comment_len": 4761,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ad10",
+      "doc_name": "SceneOut_InitEnemySlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48AD10__SceneOut_InitEnemySlot.md",
+      "function_start": "0x48ad10",
+      "idb_name": "domain::SceneOut_InitEnemySlot",
+      "type": "WORD __cdecl()",
+      "comment_len": 3709,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48afd0",
+      "doc_name": "Battle_InitPreemptiveBackAttackStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48AFD0__Battle_InitPreemptiveBackAttackStatus.md",
+      "function_start": "0x48afd0",
+      "idb_name": "domain::Battle_InitPreemptiveBackAttackStatus",
+      "type": "int __cdecl()",
+      "comment_len": 6425,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b160",
+      "doc_name": "Battle_SetATBForPreemptiveGroup",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B160__Battle_SetATBForPreemptiveGroup.md",
+      "function_start": "0x48b160",
+      "idb_name": "domain::Battle_SetATBForPreemptiveGroup",
+      "type": "void __cdecl(int p_0_to_3_related_back_preemptive)",
+      "comment_len": 3131,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b2e0",
+      "doc_name": "GetPartyAverageLevelExact",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B2E0__GetPartyAverageLevelExact.md",
+      "function_start": "0x48b2e0",
+      "idb_name": "domain::GetPartyAverageLevelExact",
+      "type": "int __cdecl()",
+      "comment_len": 1364,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b7e0",
+      "doc_name": "ParseBattleParty",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B7E0__ParseBattleParty.md",
+      "function_start": "0x48b7e0",
+      "idb_name": "domain::ParseBattleParty",
+      "type": "int __cdecl()",
+      "comment_len": 3808,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ba10",
+      "doc_name": "setAllMonsterInfoFromDatSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BA10__setAllMonsterInfoFromDatSection.md",
+      "function_start": "0x48ba10",
+      "idb_name": "domain::setAllMonsterInfoFromDatSection",
+      "type": "int *()",
+      "comment_len": 5555,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48bbd0",
+      "doc_name": "setMonsterInfoFromDatInfoSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BBD0__setMonsterInfoFromDatInfoSection.md",
+      "function_start": "0x48bbd0",
+      "idb_name": "domain::setMonsterInfoFromDatInfoSection",
+      "type": "int __cdecl(unsigned int p_slot_id, int p_level_code, unsigned __int8 p_com_id)",
+      "comment_len": 7785,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[battle-models-discovery 2026-09-25] (HIGH) setMonsterInfoFromDatInfoSection: H7 (380 o constants par monstre). Preuves: c0m registry + layout s7 (probe)."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48bfa0",
+      "doc_name": "GetPartyAverageLevelWithRandomness",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BFA0__GetPartyAverageLevelWithRandomness.md",
+      "function_start": "0x48bfa0",
+      "idb_name": "domain::GetPartyAverageLevelWithRandomness",
+      "type": "int __cdecl()",
+      "comment_len": 2396,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c020",
+      "doc_name": "GetPartyAverageLevelCapped65PlusRandom",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C020__GetPartyAverageLevelCapped65PlusRandom.md",
+      "function_start": "0x48c020",
+      "idb_name": "domain::GetPartyAverageLevelCapped65PlusRandom",
+      "type": "int __cdecl()",
+      "comment_len": 2312,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c0a0",
+      "doc_name": "GetPartyAverageLevelConstrainedTeam",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C0A0__GetPartyAverageLevelConstrainedTeam.md",
+      "function_start": "0x48c0a0",
+      "idb_name": "domain::GetPartyAverageLevelConstrainedTeam",
+      "type": "int __cdecl()",
+      "comment_len": 2945,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c140",
+      "doc_name": "GetPartyAverageLevelWithOffset",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C140__GetPartyAverageLevelWithOffset.md",
+      "function_start": "0x48c140",
+      "idb_name": "domain::GetPartyAverageLevelWithOffset",
+      "type": "int __cdecl(int)",
+      "comment_len": 2825,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c1c0",
+      "doc_name": "BattleSlot_ApplyMonsterStatScaling",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C1C0__BattleSlot_ApplyMonsterStatScaling.md",
+      "function_start": "0x48c1c0",
+      "idb_name": "domain::BattleSlot_ApplyMonsterStatScaling",
+      "type": "unsigned int __cdecl(int p_slot_id)",
+      "comment_len": 3827,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c3f0",
+      "doc_name": "Monster_CalculateScaledStat",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C3F0__Monster_CalculateScaledStat.md",
+      "function_start": "0x48c3f0",
+      "idb_name": "domain::Monster_CalculateScaledStat",
+      "type": "int __cdecl(int p_level, unsigned __int8 *p_stat_params, int p_stat_index)",
+      "comment_len": 3049,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48cae0",
+      "doc_name": "BattleDraw_BuildCastOrStockMenu",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48CAE0__BattleDraw_BuildCastOrStockMenu.md",
+      "function_start": "0x48cae0",
+      "idb_name": "domain::BattleDraw_BuildCastOrStockMenu",
+      "type": "__int16 *__cdecl(int, int)",
+      "comment_len": 3076,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48d0c0",
+      "doc_name": "Battle_RunFileLoadingCallbacks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48D0C0__Battle_RunFileLoadingCallbacks.md",
+      "function_start": "0x48d0c0",
+      "idb_name": "domain::Battle_RunFileLoadingCallbacks",
+      "type": "__int16()",
+      "comment_len": 797,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48d0e0",
+      "doc_name": "ReadSceneOutForEncounter",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48D0E0__ReadSceneOutForEncounter.md",
+      "function_start": "0x48d0e0",
+      "idb_name": "domain::ReadSceneOutForEncounter",
+      "type": "int __cdecl(unsigned __int16 p_scene_id, int p_dest_buffer)",
+      "comment_len": 2590,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48e620",
+      "doc_name": "BattleGF_FinalizeSummonExit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48E620__BattleGF_FinalizeSummonExit.md",
+      "function_start": "0x48e620",
+      "idb_name": "domain::BattleGF_FinalizeSummonExit",
+      "type": "int __cdecl(int)",
+      "comment_len": 4837,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48eda0",
+      "doc_name": "BattleTarget_IsEligibleByStatusMask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48EDA0__BattleTarget_IsEligibleByStatusMask.md",
+      "function_start": "0x48eda0",
+      "idb_name": "domain::BattleTarget_IsEligibleByStatusMask",
+      "type": "int __cdecl(int slot_index)",
+      "comment_len": 1569,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ef80",
+      "doc_name": "Battle_UpdateDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48EF80__Battle_UpdateDamage.md",
+      "function_start": "0x48ef80",
+      "idb_name": "domain::Battle_UpdateDamage",
+      "type": "int __cdecl(char p_target_slot_id)",
+      "comment_len": 3803,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f120",
+      "doc_name": "Battle_GetRandom1ToMax",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F120__Battle_GetRandom1ToMax.md",
+      "function_start": "0x48f120",
+      "idb_name": "domain::Battle_GetRandom1ToMax",
+      "type": "int __cdecl(int max_value)",
+      "comment_len": 1083,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f270",
+      "doc_name": "BattleLimitRenzokuken_SetFinisherAndComputeTargetMask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F270__BattleLimitRenzokuken_SetFinisherAndComputeTargetMask.md",
+      "function_start": "0x48f270",
+      "idb_name": "domain::BattleLimitRenzokuken_SetFinisherAndComputeTargetMask",
+      "type": "uint16_t __cdecl(int finisher_idx, uint16_t caller_mask)",
+      "comment_len": 1903,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f350",
+      "doc_name": "BattleAction_ResolveRenzokukenFinisherHits",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F350__BattleAction_ResolveRenzokukenFinisherHits.md",
+      "function_start": "0x48f350",
+      "idb_name": "domain::BattleAction_ResolveRenzokukenFinisherHits",
+      "type": "int()",
+      "comment_len": 4262,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f9f0",
+      "doc_name": "DoesMentalStatusHit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F9F0__DoesMentalStatusHit.md",
+      "function_start": "0x48f9f0",
+      "idb_name": "domain::DoesMentalStatusHit",
+      "type": "int __cdecl(int p_attacker_slot_id, unsigned int p_target_slot_id, int p_index, int p_mask, int p_status_list_to_check, int p_attacker_str, int p_target_vit, int p_hit_attack_enabler)",
+      "comment_len": 5540,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48fd20",
+      "doc_name": "Draw_ComputeStealCount",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48FD20__Draw_ComputeStealCount.md",
+      "function_start": "0x48fd20",
+      "idb_name": "domain::Draw_ComputeStealCount",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_magic_id)",
+      "comment_len": 4207,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4914e0",
+      "doc_name": "BattleStatus_ApplyHitStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4914E0__BattleStatus_ApplyHitStatus.md",
+      "function_start": "0x4914e0",
+      "idb_name": "domain::BattleStatus_ApplyHitStatus",
+      "type": "int __cdecl(int arg_0, int p_attacker_slot_id, unsigned int p_target_slot_id, int arg_C, int p_target_vit)",
+      "comment_len": 7912,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x491ad0",
+      "doc_name": "ComputeMagicAndGFDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x491AD0__ComputeMagicAndGFDamage.md",
+      "function_start": "0x491ad0",
+      "idb_name": "domain::ComputeMagicAndGFDamage",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_AttackPower, int p_gf_magic_type_damage)",
+      "comment_len": 11306,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x492220",
+      "doc_name": "Devour_ApplyPermanentStatBonuses",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x492220__Devour_ApplyPermanentStatBonuses.md",
+      "function_start": "0x492220",
+      "idb_name": "domain::Devour_ApplyPermanentStatBonuses",
+      "type": "int __cdecl(int p_target_slot_id, int devour_result)",
+      "comment_len": 2332,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4922b0",
+      "doc_name": "Damage_ComputeRawDeltaFromAttackType",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4922B0__Damage_ComputeRawDeltaFromAttackType.md",
+      "function_start": "0x4922b0",
+      "idb_name": "domain::Damage_ComputeRawDeltaFromAttackType",
+      "type": "int __cdecl(int p_attack_type, int p_attacker_slot_id, int p_target_slot_id, int p_attack_power)",
+      "comment_len": 16460,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x492ac0",
+      "doc_name": "BattleStatus_CanApplyHitStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x492AC0__BattleStatus_CanApplyHitStatus.md",
+      "function_start": "0x492ac0",
+      "idb_name": "domain::BattleStatus_CanApplyHitStatus",
+      "type": "BOOL __cdecl(int p_target_slot_id)",
+      "comment_len": 1520,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493110",
+      "doc_name": "Battle_QueueReflectedActionIfNeeded",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493110__Battle_QueueReflectedActionIfNeeded.md",
+      "function_start": "0x493110",
+      "idb_name": "domain::Battle_QueueReflectedActionIfNeeded",
+      "type": "bool __cdecl(int attacker_slot_id, int target_slot_id)",
+      "comment_len": 3332,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493280",
+      "doc_name": "computeCurativeMagic",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493280__computeCurativeMagic.md",
+      "function_start": "0x493280",
+      "idb_name": "domain::computeCurativeMagic",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_attack_power, int a4)",
+      "comment_len": 6243,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493d80",
+      "doc_name": "BattleAction_ResolveAndApplyStatusResult",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493D80__BattleAction_ResolveAndApplyStatusResult.md",
+      "function_start": "0x493d80",
+      "idb_name": "domain::BattleAction_ResolveAndApplyStatusResult",
+      "type": "unsigned __int8 __cdecl(unsigned __int8 *)",
+      "comment_len": 7706,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4941f0",
+      "doc_name": "BattleLimit_ComputeCrisisAndToggleAttackSlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4941F0__BattleLimit_ComputeCrisisAndToggleAttackSlot.md",
+      "function_start": "0x4941f0",
+      "idb_name": "domain::BattleLimit_ComputeCrisisAndToggleAttackSlot",
+      "type": "char __cdecl(int)",
+      "comment_len": 5050,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x494410",
+      "doc_name": "Battle_ApplyDamageOrHeal",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x494410__Battle_ApplyDamageOrHeal.md",
+      "function_start": "0x494410",
+      "idb_name": "domain::Battle_ApplyDamageOrHeal",
+      "type": "DWORD __cdecl(int p_target_slot_id, int p_damage_related, _BYTE *p_hit_type_2, _BYTE *a4, int p_attacker_slot_id, _BYTE *p_hit_type_animation_related, WORD *a7, DWORD *a8, int param_bool)",
+      "comment_len": 12705,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x494d40",
+      "doc_name": "BattleEnd_DistributeXpAp",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x494D40__BattleEnd_DistributeXpAp.md",
+      "function_start": "0x494d40",
+      "idb_name": "domain::BattleEnd_DistributeXpAp",
+      "type": "FF8SceneOutBattleFlags()",
+      "comment_len": 7322,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x495530",
+      "doc_name": "ParseBattleCharacter",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x495530__ParseBattleCharacter.md",
+      "function_start": "0x495530",
+      "idb_name": "domain::ParseBattleCharacter",
+      "type": "int __cdecl(int p_char_id, int p_slot_id)",
+      "comment_len": 9252,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496310",
+      "doc_name": "GetCharacterHP",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496310__GetCharacterHP.md",
+      "function_start": "0x496310",
+      "idb_name": "domain::GetCharacterHP",
+      "type": "int __cdecl(int lvl, int char_id)",
+      "comment_len": 3037,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496440",
+      "doc_name": "GetCharacterStat",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496440__GetCharacterStat.md",
+      "function_start": "0x496440",
+      "idb_name": "domain::GetCharacterStat",
+      "type": "int __cdecl(int p_lvl, int p_char_id, int p_stat)",
+      "comment_len": 5708,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4967c0",
+      "doc_name": "GetCharacterHit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4967C0__GetCharacterHit.md",
+      "function_start": "0x4967c0",
+      "idb_name": "domain::GetCharacterHit",
+      "type": "int __cdecl(int char_id)",
+      "comment_len": 3032,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4968a0",
+      "doc_name": "GetCharacterEva",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4968A0__GetCharacterEva.md",
+      "function_start": "0x4968a0",
+      "idb_name": "domain::GetCharacterEva",
+      "type": "int __cdecl(int p_char_id, int p_spd)",
+      "comment_len": 2018,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496cb0",
+      "doc_name": "RelatedToCharaXPComputeLvlUp",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496CB0__RelatedToCharaXPComputeLvlUp.md",
+      "function_start": "0x496cb0",
+      "idb_name": "RelatedToCharaXPComputeLvlUp?",
+      "type": "int __cdecl(int p_target_slot_id, unsigned __int16 a2)",
+      "comment_len": 5284,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4a2690",
+      "doc_name": "BattleRewardMenu_MainLoop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4A2690__BattleRewardMenu_MainLoop.md",
+      "function_start": "0x4a2690",
+      "idb_name": "main::BattleRewardMenu_MainLoop",
+      "type": "int __cdecl(int p_draw_ctx)",
+      "comment_len": 6076,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4add10",
+      "doc_name": "BattleDrawMenu_Open",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4ADD10__BattleDrawMenu_Open.md",
+      "function_start": "0x4add10",
+      "idb_name": "domain::BattleDrawMenu_Open",
+      "type": "char __cdecl(char, char, char, char)",
+      "comment_len": 2965,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bb610",
+      "doc_name": "BattleCommandMenu_FlushPendingActions",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BB610__BattleCommandMenu_FlushPendingActions.md",
+      "function_start": "0x4bb610",
+      "idb_name": "domain::BattleCommandMenu_FlushPendingActions",
+      "type": "int __cdecl(int attacker_slot)",
+      "comment_len": 2363,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bb910",
+      "doc_name": "BattleCommandMenu_InitCommandSetAndLimitState",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BB910__BattleCommandMenu_InitCommandSetAndLimitState.md",
+      "function_start": "0x4bb910",
+      "idb_name": "domain::BattleCommandMenu_InitCommandSetAndLimitState",
+      "type": "unsigned int __cdecl(int menu_state, int char_index)",
+      "comment_len": 2148,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bc770",
+      "doc_name": "BattleCommandMenu_OpenSelectedCommand",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BC770__BattleCommandMenu_OpenSelectedCommand.md",
+      "function_start": "0x4bc770",
+      "idb_name": "domain::BattleCommandMenu_OpenSelectedCommand",
+      "type": "int __cdecl(int, unsigned __int8 *)",
+      "comment_len": 6866,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4c8540",
+      "doc_name": "BattleItemMenu_GetWorkingInventory",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4C8540__BattleItemMenu_GetWorkingInventory.md",
+      "function_start": "0x4c8540",
+      "idb_name": "presentation::BattleItemMenu_GetWorkingInventory",
+      "type": "char *__cdecl()",
+      "comment_len": 668,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4f6140",
+      "doc_name": "MenuMagic_PreviewJunctionHpSpellTransfer",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4F6140__MenuMagic_PreviewJunctionHpSpellTransfer.md",
+      "function_start": "0x4f6140",
+      "idb_name": "sub_4F6140",
+      "type": "int __cdecl(int char_id, int dest_char_id)",
+      "comment_len": 4516,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x502f30",
+      "doc_name": "BattleTask_ActorReadyRelay71_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x502F30__BattleTask_ActorReadyRelay71_Worker.md",
+      "function_start": "0x502f30",
+      "idb_name": "domain::BattleTask_ActorReadyRelay71_Worker",
+      "type": "int __cdecl(int)",
+      "comment_len": 1918,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x502f90",
+      "doc_name": "BattleTask_EscapeRelay74_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x502F90__BattleTask_EscapeRelay74_Worker.md",
+      "function_start": "0x502f90",
+      "idb_name": "domain::BattleTask_EscapeRelay74_Worker",
+      "type": "int __cdecl(unsigned __int8 *node)",
+      "comment_len": 2540,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x5085f0",
+      "doc_name": "BattleTask_CameraBarrier70_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x5085F0__BattleTask_CameraBarrier70_Worker.md",
+      "function_start": "0x5085f0",
+      "idb_name": "domain::BattleTask_CameraBarrier70_Worker",
+      "type": "int __cdecl(int)",
+      "comment_len": 1147,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x509b50",
+      "doc_name": "MemMove_OverlapSafe",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x509B50__MemMove_OverlapSafe.md",
+      "function_start": "0x509b50",
+      "idb_name": "BS_CopyGeometry",
+      "type": "void __cdecl(_BYTE *, _BYTE *, unsigned int)",
+      "comment_len": 319,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: MemMove_OverlapSafe; IDA BS_CopyGeometry too narrow. Unsigned dst<src selects forward rep movsd+tail bytes; dst>=src selects reverse byte loop; size 0 no access. Generic callers include music/models/textures/GF/stage. void return. See docs/.../0x509B50__MemMove_OverlapSafe.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — implémentation générique de `memmove(dst, src, size)`, copie avant si `dst<src`, arrière sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x509e00",
+      "doc_name": "BattleActor_StageUploadCLUTBand",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x509E00__BattleActor_StageUploadCLUTBand.md",
+      "function_start": "0x509e00",
+      "idb_name": "sub_509E00",
+      "type": "char *__cdecl(int, __int16)",
+      "comment_len": 268,
+      "tags": [
+        "[semantic-triple 2026-09-27 lot17]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x56dce0",
+      "doc_name": "pre_computeGFBoost",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x56DCE0__pre_computeGFBoost.md",
+      "function_start": "0x56dce0",
+      "idb_name": "pre_computeGFBoost?",
+      "type": "int __cdecl(char, int)",
+      "comment_len": 2921,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x56fe10",
+      "doc_name": "BattleTask_FlyPathCameraAim_TrailFx_Step",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x56FE10__BattleTask_FlyPathCameraAim_TrailFx_Step.md",
+      "function_start": "0x56fe10",
+      "idb_name": "BdLinkCallback_56FE10",
+      "type": "int __cdecl(_WORD *)",
+      "comment_len": 784,
+      "tags": [],
+      "verdict": [
+        "| Verdict | LIKELY (mécanique quasi-CERTAIN ; identité gameplay non recoupée, wiki indisponible) |"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x61de70",
+      "doc_name": "MAG_141_RENZOKUKEN",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x61DE70__MAG_141_RENZOKUKEN.md",
+      "function_start": "0x61de70",
+      "idb_name": "_HITS::MAG_141_RENZOKUKEN(void)",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 3015,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x63e960",
+      "doc_name": "GFCameraScriptTask_Spawn_63E960",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x63E960__GFCameraScriptTask_Spawn_63E960.md",
+      "function_start": "0x63e960",
+      "idb_name": "BdLinkTask_Register_63E9C0",
+      "type": "int __cdecl(int, int, int, int list_head, int)",
+      "comment_len": 658,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x659960",
+      "doc_name": "BdLinkTask_Tick_GfDiabloPacketStream",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x659960__BdLinkTask_Tick_GfDiabloPacketStream.md",
+      "function_start": "0x659960",
+      "idb_name": "sub_659960",
+      "type": "int __cdecl(int)",
+      "comment_len": 532,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN mécanique / LIKELY domaine (Diablo contextuel) |"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x65e4b0",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_25053C0",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65E4B0__BdLinkTask_RegisterAndBindEntry_25053C0.md",
+      "function_start": "0x65e4b0",
+      "idb_name": "BdLinkTask_Register_65F2B0_25053C0",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 429,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x65f250",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_2505438",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65F250__BdLinkTask_RegisterAndBindEntry_2505438.md",
+      "function_start": "0x65f250",
+      "idb_name": "BdLinkTask_Register_65F2B0_2505438",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 393,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6804b0",
+      "doc_name": "FieldCameraInterpTask_Spawn_6804B0",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6804B0__FieldCameraInterpTask_Spawn_6804B0.md",
+      "function_start": "0x6804b0",
+      "idb_name": "BdLinkTask_Register_680520",
+      "type": "int __cdecl(int, int, _DWORD *, char, char, char)",
+      "comment_len": 584,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN mécanique / LIKELY domaine caméra |"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69e420",
+      "doc_name": "Ot_EmitQuadList_Gated",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E420__Ot_EmitQuadList_Gated.md",
+      "function_start": "0x69e420",
+      "idb_name": "sub_69E420",
+      "type": "unsigned __int16 *__cdecl(int)",
+      "comment_len": 483,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - emetteur gate de liste de quads OT : cull = ET des 4 flags (0x69E4E2-0x69E4F4), packet 0x28 o (tag dword 9000000h 0x69E58B, octet 2Eh 0x69E591), chainage OtNode24_PoolAllocLink_Code1 (0x69E599), curseur +4 inconditionnel (0x69E42C), retour EAX = curseur avance (0x69E5BE), FFFFFFFF si count nul (0x69E431)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69e700",
+      "doc_name": "Ot_EmitQuad_GTE_FromStream",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E700__Ot_EmitQuad_GTE_FromStream.md",
+      "function_start": "0x69e700",
+      "idb_name": "sub_69E700",
+      "type": "int __cdecl(int)",
+      "comment_len": 684,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e860",
+      "doc_name": "Camera_Project2Pts_ExpandScreenAABB",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E860__Camera_Project2Pts_ExpandScreenAABB.md",
+      "function_start": "0x69e860",
+      "idb_name": "sub_69E860",
+      "type": "int __cdecl(_WORD *, _WORD *, _DWORD *)",
+      "comment_len": 520,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69e940",
+      "doc_name": "MAG_Scratch58_InvokeWorker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E940__MAG_Scratch58_InvokeWorker.md",
+      "function_start": "0x69e940",
+      "idb_name": "sub_69E940",
+      "type": "int __cdecl(int)",
+      "comment_len": 376,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - frame scratch de 0x58 octets : pre-call sub_69E9A0(a1) retour ignore, alloc bs_modulo(0x58), store a1 a block+0, worker sub_69E970(bloc), liberation BattleScratch_Unwind(0x58) ; 4 pushes cdecl un seul cleanup add esp,10h"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e970",
+      "doc_name": "SeqCtx_BindStream_AndChainPumps",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E970__SeqCtx_BindStream_AndChainPumps.md",
+      "function_start": "0x69e970",
+      "idb_name": "sub_69E970",
+      "type": "_DWORD *__cdecl(_DWORD *)",
+      "comment_len": 449,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - rebinde un contexte de sequence de stream : ctx+4 = base+8, ctx+0x20 = base + dword[base] + 0x10, puis chainne les pumps jumeaux sub_6A9DF0 -> sub_6A60D0 et retourne l'EAX du second"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e9a0",
+      "doc_name": "Vec2Batch_ApproxSqrtNormalize_PackXY10_Mag",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E9A0__Vec2Batch_ApproxSqrtNormalize_PackXY10_Mag.md",
+      "function_start": "0x69e9a0",
+      "idb_name": "sub_69E9A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 613,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - normalise en place un lot de vecteurs 2D {i16 x, i16 y, u32 packe} stride 8 (count a1+4, tableau a1+8) : norme approx via Gte_LZCS + LUT1 word_1178A50 (demi-exposant sar 1), coefficient LUT2 word_1178C50 movsx (index 400h-(scaled>>2) clamp signe), re-pack bits 0-9 x / 10-19 y / 20-31 scaled>>1, retour EAX=0, do-while sans garde"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69eac0",
+      "doc_name": "MAG_213_STORM_BREATH_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAC0__MAG_213_STORM_BREATH_Thunk.md",
+      "function_start": "0x69eac0",
+      "idb_name": "MAG_213_STORM_BREATH",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 394,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - thunk cdecl pur : recharge arg0 (0x69EAC0), le repousse, appelle sub_69EAF0 (0x69EAC5), cleanup add esp,4 (0x69EACA), retourne EAX tel quel (0x69EACD) ; entree tabulee de dispatch de la magie 213 (xref data 0xC81AC4, slot +1 apres 0xC81AC0 = magie 212)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69ead0",
+      "doc_name": "MAG_213_FL_Load_mag212_TIM_Cached",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAD0__MAG_213_FL_Load_mag212_TIM_Cached.md",
+      "function_start": "0x69ead0",
+      "idb_name": "MAG_213_STORM_BREATH_FL",
+      "type": "unsigned __int8 *()",
+      "comment_len": 404,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stub loader FL de l'effet 213 : push litteral mag212.tim (offset id-1), IO_GetFile_MAGIC charge dans l'arene magie, cache pointeur dans dword_2510174 (0x69EADD) et le retourne en EAX ; entree table MagicList_TextureLoad (xref data 0xC81DB8), caller BattleGF_LoadCallbackByMagicID (0x50AF93)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69eaf0",
+      "doc_name": "MAG_213_PresentSetup_InitCtx_LinkTask_BindCamera",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAF0__MAG_213_PresentSetup_InitCtx_LinkTask_BindCamera.md",
+      "function_start": "0x69eaf0",
+      "idb_name": "sub_69EAF0",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 561,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - setup de presentation de la magie 213 : enfile le TIM en cache dword_2510174 (BattleTimQueue_EnqueueType1), stocke arene (2510178) et record arg (251017C), resolve table effets 0x1D972C0 + 0x9C*byte(arg0) dans dword_2510170, BS_Memset 0x14 du ctx unk_25101D8 avec motif word_2510180 (offset pousse), enregistre le stepper sub_69EB70 via BdLinkTask_Register, zero ret+0xC x2 (FillDwords), bind camera unk_117AC50, retourne &unk_25101D8"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69eb70",
+      "doc_name": "Magic213_BdLinkMaster_Step",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EB70__Magic213_BdLinkMaster_Step.md",
+      "function_start": "0x69eb70",
+      "idb_name": "sub_69EB70",
+      "type": null,
+      "comment_len": 953,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - stepper maitre BdLinkTask de la magie 213 : bascule double buffer dword_2510194 a chaque tick ; au tick phase==1 s'auto-init (normalisation min/max 308 entrees 117ADE0 vers base+0x1B18, 4 pools BS_Memset base+0x1614/0x614/0x4D4/0x1D4, Register du stepper enfant sub_69EF60 sur dword_25101C8, liste effets 0x1D972C0 stride 0x9C dans node 0x504 triee par SELECTION descendant sur word +0x1C, +0x22=1, +0x26=(count<<12)/40 via 0x66666667, +0x2C=word de sub_69EE80) ; puis 4x BdLinkTask_Pump, AL=2 si flag + 4 pumps nuls, sinon phase++ saturee 0xA et AL=0"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69ee80",
+      "doc_name": "MagFx_SumS16Runs_TwoSources_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EE80__MagFx_SumS16Runs_TwoSources_Scratch38.md",
+      "function_start": "0x69ee80",
+      "idb_name": "sub_69EE80",
+      "type": "int __cdecl(_DWORD *)",
+      "comment_len": 452,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper de sommation lecture seule : scratch bs_modulo(0x38) (+0x20 pour l'etat), somme des runs s16 via Bitmask_SumS16_Runs sur source 1 [obj+0x64] masquee par [obj+0x7C] puis source 2 [[obj+0x78]+4] non masquee si [obj+0x78] non nul, BattleScratch_Unwind(0x38), retour EAX int 32 bits"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69ef60",
+      "doc_name": "Mag213_BdLinkTask_FxStepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EF60__Mag213_BdLinkTask_FxStepper.md",
+      "function_start": "0x69ef60",
+      "idb_name": "sub_69EF60",
+      "type": "int __usercall@<eax>(int@<edi>, int)",
+      "comment_len": 740,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - stepper BdLinkTask de l'effet MAG213 (machine a etats op 0..0x4B, word task+0x0C) : rattache l'os 0x1D du caster, interpole les poses Q12 entre cibles, applique les resultats de combat a l'impact (BattleAction_ApplyResultAndSpawnPresentation), calcule la distance (sqrt dword) pour le sprite OT (sub_69FD00, groupe 2), seme 6 familles de taches BdLinkTask (6A0AF0/6A0C80/6A0A50/6A0760/6A0BE0x2/6A08D0) et sons ; retour EAX=2 si op>=0x4B (jl signe 16 bits), sinon op++ et 0 ; a1@edi fantome (jamais lu)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69fb30",
+      "doc_name": "MagFX_Step_PrepCamMatrixDrawEntry",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FB30__MagFX_Step_PrepCamMatrixDrawEntry.md",
+      "function_start": "0x69fb30",
+      "idb_name": "sub_69FB30",
+      "type": "int __cdecl(_DWORD *, __int16 *, int)",
+      "comment_len": 670,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - construit dans le scratch battle (0x58) un paquet de rendu d'instance d'effet magie : resolve base = t + t_dword[4*(s16)s[2]+8], selection edi[4] par strides s+0x26/28/2A (cx==dx / bx==0 / bx==0x1000 / sub_6D5580), compose la matrice camera (Field_readCaPre -> preCamReadVariables_Space), plaque les flags de table (and 0xDFFFh, or dh,20h bit13, or 0xC0 conditionnel), soumet a l'OT battle g_BattleOTBase+0x44 prio 2 via sub_572200 en pilotant dword_2510194 (tete de liste), libere le scratch (Unwind 0x58) ; early-outs eax=0, eax final = retour Unwind"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x69fd00",
+      "doc_name": "Mag213_BuildCtx_CursorInit_TwoPass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FD00__Mag213_BuildCtx_CursorInit_TwoPass.md",
+      "function_start": "0x69fd00",
+      "idb_name": "sub_69FD00",
+      "type": "unsigned int *__cdecl(_DWORD *, int, char, unsigned int *)",
+      "comment_len": 397,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - initialise les deux curseurs d'ecriture de la zone de travail du ctx magie 213 (a1[8] = base+8 ; a1[9] = base + *(u32*)base + 0xC), puis enchaine deux passes de construction : sub_69FD50(a1,a2,a3,a4) dont le retour devient 4e arg de sub_6A01B0(a1,a2,a3,ret1) avec a1[9] avance de +0xC entre les deux ; retour EAX brut de sub_6A01B0 (callee-cleanup implicite, add esp,20h unique)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69fd50",
+      "doc_name": "MagFx_QuadPass_TransformClip_EmitTriPairToOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FD50__MagFx_QuadPass_TransformClip_EmitTriPairToOT.md",
+      "function_start": "0x69fd50",
+      "idb_name": "sub_69FD50",
+      "type": "unsigned int *__cdecl(unsigned int *pkt, int, char, unsigned int *)",
+      "comment_len": 804,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - passe de rendu mag FX generique (3 wrappers callers clones 0x46 o) : consomme une file d'entrees 0x18 o (curseur ctx+0x24), transforme 4 sommets via GTE (Set3Pairs/SetsomeDword/setSomeDword5/setSomeDword/AVSZ4), clippe 8 bits signe (X 0xA00, Y 0x6C0, rejet si flag&0xF==0xF ou &0xF0==0xF0), applique lumiere additive ctx+0x0C / soustractive ctx+0x1C (dec/not 32 bits), emet record 0x40 o (packet 0x09000000 de 0x28 + 2 nœuds 0x02000000) lie par 3x OtNode24_PoolAllocLink dans le bucket OT [depth sar cl & 1F *4], skip-path occupancy 0x60000 sur ctx+0x34 sans avance out ; retour EAX = curseur out"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a01b0",
+      "doc_name": "MagFx_QuadBatch_GteClip_OtEmit2Tris",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A01B0__MagFx_QuadBatch_GteClip_OtEmit2Tris.md",
+      "function_start": "0x6a01b0",
+      "idb_name": "sub_6A01B0",
+      "type": "unsigned int *__cdecl(unsigned int *pkt, int, char, unsigned int *)",
+      "comment_len": 669,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - passe 2 generique mag FX (3 wrappers clones 0x46 o) : boucle sur les records stride 0x24 du curseur ctx+0x24, GTE SetPackedSlots/SetTriplet + slots camera 15/16/17 si pkt[2]!=0 sinon copie directe, clip 8 bits signe (X 0xA00 bits 1-8, Y 0x6C0 bits 0x10-0x80), rejet si nibble X (0x0F) OU Y (0xF0) entier, blend couleurs (add word pkt+0x0C, sub byte pkt+0x1C), emet quad 0x0C000000 @out + 2 triangles 0x02000000 lies par 3x OtNode24_PoolAllocLink au bucket a2+4*((int)depth sar a3), skip si pkt[13]&0x60000 (flag GTE relu post setSomeDword3) ; sortie 0x4C/quad emis, retour EAX = esi curseur"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a06c0",
+      "doc_name": "Mag213_SkelPoseChains_Build_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A06C0__Mag213_SkelPoseChains_Build_Scratch38.md",
+      "function_start": "0x6a06c0",
+      "idb_name": "sub_6A06C0",
+      "type": "int __cdecl(_DWORD *, int, _DWORD *)",
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - alloue un scratch 0x38 (bs_modulo/Unwind) et y construit une pose skelettale a 1-2 chaines (entries stride 0x30 a base+0x20) par composition matricielle (WalkStride30_MatComposeInPlace, a1+0x40 spille dans arg_4 @0x6A06E6/0x6A0717) + FK hierarchique sub_6CE880 ; si FK rend 0 et a1+0x78 non nul, rejoue sur le parent avec flag -1 ; copie base+0x28/+0x2C vers arg8 puis unwind"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0760",
+      "doc_name": "MAG213_CameraFxTick_RegisterComposeAdvanceRot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0760__MAG213_CameraFxTick_RegisterComposeAdvanceRot.md",
+      "function_start": "0x6a0760",
+      "idb_name": "sub_6A0760",
+      "type": "int __cdecl(_WORD *)",
+      "comment_len": 596,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - tache BdLinkTask camera du FX MAG213 (30 frames) : scratch 0x58, base camera par defaut + rotations Euler sur a1+0x20, scaling ((22-frame)<<12)/12+0x1000 fusionne lea (0x6A07AE), compose avec dword_1D97778 (Mat_ComposeTwoThenCopy8 0x6A07F5), publie le node (task[0]=unk_117D6C8 0x6A0815) en tete de OT g_BattleOTBase+0x44 via sub_572200 (0x6A0828-36, dword_2510194), integre les deltas s16 avec rebond a l apex (a1[13]+=20 0x6A0840, relecture +0x12 0x6A0859, jl/jle signes 0x6A0867-C, -20-delta 0x6A0872-7D, neg +0x28/2A/2C) ; retour AL = 2 tant que frame++ < 0x1E (setl 0x6A08BF), 0 sinon"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a08d0",
+      "doc_name": "MagFX_HelixRise_TaskStep",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A08D0__MagFX_HelixRise_TaskStep.md",
+      "function_start": "0x6a08d0",
+      "idb_name": "sub_6A08D0",
+      "type": null,
+      "comment_len": 650,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - tache wobble helicoidale mag FX : angle base+w wrap 16 bits (add bp/movsx 0x6A08EF-900), rayon oscillant sin(w/2)>>3, rotation cos/sin Q12 avec neg AVANT sar 0xC (0x6A092C-E), montee dword[obj+0x30]*w>>0xC (0x6A0936-F), matrice m[0]=m[4]=w+0x400 m[8]=0x1000 m[9]=0 (0x6A0993-AC), compose avec la camera (sub_56C270 obj+0x44, 0x6A09A4) et publie une prim 0x58 en tete de OT g_BattleOTBase+0x44 via sub_572200 (0x6A0A0F-1F, dword_2510194) ; phase += 0x80, retour EAX {0,2} via cmp si,0x1000 signe + setl (0x6A0A3A-46)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0a50",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0A50__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx.md",
+      "function_start": "0x6a0a50",
+      "idb_name": "sub_6A0A50",
+      "type": null,
+      "comment_len": 585,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pas de frame d'une tache FX magique (borne 13) : alloue un node scratch 0xB4 (bs_modulo), init (head unk_117D8B8, word +0x24=0), insere dans l'OT battle groupe 2 (g_BattleOTBase+0x44 via sub_571C80 @0x6A0AA1, tete dword_2510194), passe sub_571BC0(a1+0x10, w, -(w>>2)), unwind 0xB4, avance la position ctx+0x10 des deltas ctx+0x18..1C, incremente le compteur ctx+0xC ; retour EAX = 2 tant que compteur < 13 (cmp si,0Dh setl @0x6A0AD9-E3), 0 sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0af0",
+      "doc_name": "MagicFx_Step_InterpVecGTE_AddSpritePrimOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0AF0__MagicFx_Step_InterpVecGTE_AddSpritePrimOT.md",
+      "function_start": "0x6a0af0",
+      "idb_name": "sub_6A0AF0",
+      "type": null,
+      "comment_len": 590,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - step d'anim FX magique (12 frames, blend /12 via magie 2AAAAAABh @0x6A0B06) : interpole par GTE un vecteur global (sub_45E9D0/sub_45EBF0) contre l'etat, construit une prim (descripteur unk_117DC38 @0x6A0B79, compteur @+4, zero +0x24), l'accroche a g_BattleOTBase+0x44 via sub_571C80 (@0x6A0BA0, +44h @0x6A0B99) en chainant dword_2510194, unwind 180 o, incremente word[esi+0Ch] et retourne 0/2 via setl/dec/and 2 (@0x6A0BC6-CB) tant que compteur < 12"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0be0",
+      "doc_name": "MAG213_TwinTick_SubmitPacketOT12F",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0BE0__MAG213_TwinTick_SubmitPacketOT12F.md",
+      "function_start": "0x6a0be0",
+      "idb_name": "sub_6A0BE0",
+      "type": null,
+      "comment_len": 484,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - tick par-frame d'une tache jumelle MAG213 (borne 12) : bump-alloc d'un packet scratch 0xB4 (bs_modulo), remplissage (descripteur unk_117DAF4 @+0, compteur +0x0C, zero +0x24), insertion dans l'OT g_BattleOTBase+0x44 (tete partagee dword_2510194) via sub_571C80, appel sub_571BC0(pos, w, -(w>>2)), unwind du scratch, avance position par deltas +0x18..1C ; retour EAX 0 tant que compteur < 12 sinon 2 (unlink au pump)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0c80",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0C80__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8.md",
+      "function_start": "0x6a0c80",
+      "idb_name": "sub_6A0C80",
+      "type": null,
+      "comment_len": 520,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pas de frame d'une tache FX MAG213 (jumelle de 0x6A0A50, borne 8 au lieu de 13) : alloue un node scratch 0xB4 (bs_modulo @0x6A0C83), init (head unk_117DA18 @0x6A0CAA, compteur +0x0C, flag +0x24), insere dans l'OT battle groupe 2 (g_BattleOTBase+0x44 via sub_571C80 @0x6A0CD1, tete dword_2510194), avance la position ctx+0x10 des deltas +0x18..1C, unwind (add esp,24h @0x6A0CFC) ; retour EAX = 2 tant que compteur < 8 (setl @0x6A0D0E), 0 sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0d20",
+      "doc_name": "MAG_212_Entry_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D20__MAG_212_Entry_Thunk.md",
+      "function_start": "0x6a0d20",
+      "idb_name": "MAG_212_UNK8",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 297,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stub d'entree de la magie 212 (xref data unique table 0xC81AC0 = MagicList_Logic[0xC81AC0], cf. MAG_212_Timeline_Tick 0x6A1660 fermee) : thunk cdecl pur qui retransmet arg_0 au corps reel sub_6A0D50 et retourne son EAX sans modification"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0d50",
+      "doc_name": "MAG_212_EffectEntry_InitCtxAndRegisterTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D50__MAG_212_EffectEntry_InitCtxAndRegisterTick.md",
+      "function_start": "0x6a0d50",
+      "idb_name": "sub_6A0D50",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 464,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - entree d'effet de la magie 212 (corps du thunk 0x6A0D20, slot MagicList_Logic[211] @0xC81AC0) : enfile le TIM de dword_25101F8 (BattleTimQueue_EnqueueType1), latche l'arene magie (dword_2510278) + l'argument (dword_25101FC), resolve l'entree table 0x1D972C0 + 156*id dans dword_2510200, init 16 octets du contexte unk_2510238, enregistre le stepper sub_6A0DC0 via BdLinkTask_Register, FillDwords(task+0xC,0,1) ; retour EAX = &unk_2510238"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0dc0",
+      "doc_name": "MAG_212_Effect_Tick_Stepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0DC0__MAG_212_Effect_Tick_Stepper.md",
+      "function_start": "0x6a0dc0",
+      "idb_name": "sub_6A0DC0",
+      "type": null,
+      "comment_len": 573,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper BdLinkTask de l'effet 212 (caller unique MAG_212_EffectEntry 0x6A0D50) : double buffer base-relatif +0xAAE0/0x1AAE0/0x2AAE0 togglé par ctx+0x0F ; stage init (3x BS_Memset 2510228/2510218/2510208, enregistrement du ticker MAG_212_Timeline_Tick sub_6A1660 sur dword_2510228 @0x6A0E77-81, FillDwords 0x331, bbox records stride 0x18 + LUT 0x1D972C0 entree 156 o avec centres /2 signes, copies payload-handle 0x30-3C, IndexLut_FillFF_AssignKeys 5 args (hdl+0x150,3,0xE,0x12,0x16), sub_5022C0, anim id 1, preload base+0x1BD0) ; puis 3x BdLinkTask_Pump (#1=esi gate, #2 jete, #3=ebx) ; stages 1->copie camera B8B800..C + inc, 2->AND word 0xFFFB sur 3 globaux + retour 2 ; sinon inc word[ctx+0x0C] ou retour 0 (AL)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a1280",
+      "doc_name": "MagFx_Stage1_SnapshotPresentationActorWords",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A1280__MagFx_Stage1_SnapshotPresentationActorWords.md",
+      "function_start": "0x6a1280",
+      "idb_name": "sub_6A1280",
+      "type": "int *()",
+      "comment_len": 456,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - snapshot stage 1 du stepper mag (sub_6A0DC0) : marche les records acteurs de g_BattlePresentationActors (stride 0x9C, sentinelle fin dword_1D97704), copie en miroir le word d'etat a l'offset 0 de chaque record (zero-extend xor edx/mov dx) vers le tableau moteur unk_25102A0 stride 4 ; retour EAX = pointeur src final ; boucle signee jl"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a12b0",
+      "doc_name": "Battle_MagicFx212_RenderSkelRotXScaledFrame",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A12B0__Battle_MagicFx212_RenderSkelRotXScaledFrame.md",
+      "function_start": "0x6a12b0",
+      "idb_name": "sub_6A12B0",
+      "type": "OtNode24 *__cdecl(__int16 *, __int16 *)",
+      "comment_len": 626,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - rendu d'effet magique battle (2 callers code : stepper MAG_212 0x6A0DC0 @0x6A1069 et ticker 0x6A1660 @0x6A1D3F) : dims ceil (idiome and/sar @0x6A130F-56), matrice rotX Q12 (Mat3S16_MakeRotX 0x6A13A6) * MulQ12 (0x6A13B8) * ScaleByVec12 (0x6A1456) avec numerateur imm32 0x01000000 (VIT_0_STATUS_MASK leurre IDA @0x6A1420/43D), divisions trunc cdq+sub+sar ; rendu squelette optionnel (BattleSkeleton_BuildHierarchicalFK 0x6A153B sous byte_1D989BD&1, scratch 0x2C) ; packets GPU DrawEnv (Gpu_PackDrawEnvPacket 0x6A1485, env pingpong 0x1D969C8+(pp^1)*92) + ClipRect (0x6A15FD) + DrawOffsetE5 (0x6A163B) lies par 4 noeuds OtNode24_PoolAllocLink dans g_BattleOTBase+0x44, bump dword_2510258 en octets ; retour EAX = dernier node OT (0x6A164B)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2760",
+      "doc_name": "MagFX_Stepper_RenderScaledLayers_ToOT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2760__MagFX_Stepper_RenderScaledLayers_ToOT44.md",
+      "function_start": "0x6a2760",
+      "idb_name": "sub_6A2760",
+      "type": "char __cdecl(int, char *)",
+      "comment_len": 665,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - stepper de rendu mag FX a couches scalelees (caller ticker MAG_212_Timeline_Tick 0x6A1660 xref 0x6A2073) : scratch 0x74, struct GTE (0x24=1D98B3C, 0x30=0x140, 0x32=0xD8, 0x38=[a1+7Ch], 0x6C=a2), boucle externe avec echelle GTE x1.5 (sar+add 0x6A27CD-D4) puis -0x400/iteration (0x6A28F5), boucle interne p[4] entrees stride 0x20 transformees par 3x GteState_SetWord3Stride6_1CA8A34 + thunks MVMVA (0x49E012/0x480012), idx sommets p+0x88+0x200*(bit) stocke [esi+70h], soumet a l'OT g_BattleOTBase+0x44 via sub_6A2940 4 args (0x6A28CB-E3) ; p[1]-- si p[0]==0, p[0]=0 inconditionnel, retour AL"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2940",
+      "doc_name": "MagFX_EffectScript_StepGroups_EmitOtPacket",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2940__MagFX_EffectScript_StepGroups_EmitOtPacket.md",
+      "function_start": "0x6a2940",
+      "idb_name": "sub_6A2940",
+      "type": "__int16 *__cdecl(__int16 *, __int16 *, int, char)",
+      "comment_len": 795,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - interprete le flux de commandes d'effet mag FX par groupe (caller unique sub_6A2760 @0x6A28E3) : pour chaque groupe i du masque dword [a2+0x18] (bit i = shl edx,1 / jz skip, troncature mod 32 sans garde), lit n = word signe a blk @0x6A2999 (movsx [eax-2]) et avance le curseur de +2 ; idx>=0 -> Field_readCa + Camera_ReadVariables_Space + sub_6A2A90(&curseur_arg4, &v26, entity) avec tbl = [a2+0x50]+32*(idx+8) ; idx<0 -> n records 8 octets flaggues 0x10, skip 6m+2 octets ; alignement 4 octets (and al,0FCh @0x6A2A2F), lit 2 words vers a2+0x08/0x0A, puis sub_68AAE0(entity, a3, a4, g_BattlePacketCursor) @0x6A2A53-6D reecrit g_BattlePacketCursor ; retour EAX residuel non relu par le caller"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2a90",
+      "doc_name": "MagFX_ProjectVertexStream_ToSxyClipRecords",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2A90__MagFX_ProjectVertexStream_ToSxyClipRecords.md",
+      "function_start": "0x6a2a90",
+      "idb_name": "sub_6A2A90",
+      "type": "int *__cdecl(int *, int *, int)",
+      "comment_len": 521,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - decode une commande du stream mag FX (word count + n triplets s16 de 6 o) : projet chaque vertex via GTE (GteState_SetIndexed01_FromS16x3 @0x6A2ABE + cameraRelated_usedByFields @0x6A2AC3), classe par bornes signees shl 3 (secteur word 0/1/2 a +22h @0x6A2AF8-B13, bits or byte 4/8 @0x6A2B28-39), copie 8 octets/entree (2 dwords a3+1C/20) vers *a2 ; fallback sans-GTE mov word [ebp+6],10h @0x6A2AE4 ; curseurs *a1 (+2+n*6) et *a2 (+8/entree) reecrits @0x6A2B63-66 ; retour EAX = a2, ou -1 si count nul (dec residuel @0x6A2AA7 apres movsx unique @0x6A2A9D)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2b80",
+      "doc_name": "MagFx_ObjEmit_CamGtePrim_OT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2B80__MagFx_ObjEmit_CamGtePrim_OT44.md",
+      "function_start": "0x6a2b80",
+      "idb_name": "sub_6A2B80",
+      "type": "int __cdecl(_DWORD *, int, int)",
+      "comment_len": 926,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - emetteur par-objet d'une prim d'effet magie (4 xrefs data dans la table du ticker MAG_212_Timeline_Tick 0x6A1660) : early-outs signes ((s16)a2[1C]|[a2[18]]==0 ; (s16)a2[24]>=0x1000 jl @0x6A2B9B), scratch 0x6C (bs_modulo @0x6A2BAD), lien anim [a1]+table[idx*4+8] via sub_701390 (arg5 [a3+34h] relu apres call, ecrit par le callee), transforms GTE selon flags a2[4] (0x40000/0x1000/0x200/0x100 @0x6A2C55+), mot GPU 0x2030/0x20F0 (0x6A2E06/1B), dispatch type '1'/'2' (override out[0C]=0x8FC @0x6A2EBF, out[1C]|=0xC0 @0x6A2EC6, sub_6A3510 @0x6A2EE6), insertion via sub_701DD0 (dispatcher de 8 emetteurs ; 2 = shift OT) avec curseur packets dword_2510258 stride 0x34 (0x6A2EEE-F09) ; retour EAX = retour BattleScratch_Unwind(0x6C) (0x6A2F0E), proto char IDA faux"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2f20",
+      "doc_name": "MagFx_Sync4SlotWordBit04_FromByteFlags_Gated",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2F20__MagFx_Sync4SlotWordBit04_FromByteFlags_Gated.md",
+      "function_start": "0x6a2f20",
+      "idb_name": "sub_6A2F20",
+      "type": "__int16()",
+      "comment_len": 381,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pour chacun des 4 records mag FX (word a 0x1D97494, stride 0x9C) dont le bit 0x02 est pose, copie le bit 0x04 de l'octet de controle a 0x25102AC+4*i dans le bit 0x04 du word, autres bits preserves (formule (b^w)&4)^w @0x6A2F32-3B) ; retour void effectif (AX residuel du mov ax,[esi] @0x6A2F2B, type IDA __int16() signale)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a2f60",
+      "doc_name": "MagFX_Model_RenderMeshChainFK",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2F60__MagFX_Model_RenderMeshChainFK.md",
+      "function_start": "0x6a2f60",
+      "idb_name": "sub_6A2F60",
+      "type": "int __cdecl(int, __int16 *, __int16 *)",
+      "comment_len": 677,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - rend la chaine de nœuds d'un modele d'effet magie (4 xrefs data dans le ticker MAG_212_Timeline_Tick 0x6A1660) : scratch 0x5C (bs_modulo @0x6A2F64/Unwind @0x6A30AA), ecrit un node OT via sub_5088A0 avec g_BattleOTBase-0xBC (add ecx,0FFFFFF44h @0x6A2F7D, shift 4), transforme la position a3 (3x movsx s16->i32 @0x6A2FA5-BB), compose matrice modele a1+0x40 x vue dword_1D97778 (2x Mat_ComposeTwoThenCopy8) + MulQ12_ToI32x3 puis soustraction composante (0x6A2FE6-FF6), remplit ctx scratch+0x30 (320x216, dword_1D98B3C->+34h, g_BattlePacketEnd, [a1+28h], [a1+7Ch]), rend la geometrie racine [a1+64h] + FK [a1+60h] via WalkStride30 + RenderGeometry (5 args cdecl, packets g_BattlePacketCursor), squelette secondaire [a1+78h] conditionnel avec scratch+50h=-1 (0x6A3072, pas une boucle : jz 0x6A306E sans back-edge) ; retour EAX = retour BattleScratch_Unwind propage (0x6A30B6)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a30c0",
+      "doc_name": "MagicFx_Wrapper_Invoke2F60_AndSetStateBit04",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A30C0__MagicFx_Wrapper_Invoke2F60_AndSetStateBit04.md",
+      "function_start": "0x6a30c0",
+      "idb_name": "sub_6A30C0",
+      "type": "int()",
+      "comment_len": 408,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper cdecl sans argument de la famille mag FX : invoque sub_6A2F60 (rendu modele FX, ferme LIKELY) sur le contexte global dword_2510200 avec deux pointeurs aliases vers dword_2510270 (caller nettoie 0Ch @0x6a30c5-zone), puis marque l'etat de l'effet en forcant le bit 0x04 du premier octet de l'objet contexte (or byte [eax],4 @0x6a30dd) et retourne *dword_2510200 (EAX 32 bits)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a30f0",
+      "doc_name": "MagFx_AnimStep_ComposeCameraAndSubmitOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A30F0__MagFx_AnimStep_ComposeCameraAndSubmitOT.md",
+      "function_start": "0x6a30f0",
+      "idb_name": "sub_6A30F0",
+      "type": null,
+      "comment_len": 608,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - step de tick FX magie enregistre en callback dans sub_6A1660 (xref data 0x6A18AA) : alloue un scratch 0x98 (bs_modulo), y compose deux matrices Q12 (rotX sur s[1C] x16 et builder sub_6A3220 sur s[1D] x16), copie la position s[0C/0E/10] sign-extendee, puis compose le tout avec la matrice vue camera dword_1D97778 ; soumet l'objet dans l'OT battle g_BattleOTBase+0x44 couche 2 via sub_572200 (tete dword_2510258), libere le scratch, avance pos/deltas/angles avec amortissement neg+sar 1 si nouvelle posY >= 0 ; retour EAX : 2 si compteur s[1B] atteint 0 (jnz ZF pur), sinon 0"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3220",
+      "doc_name": "BattleFx_DirPair_SinCosScale_Build",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3220__BattleFx_DirPair_SinCosScale_Build.md",
+      "function_start": "0x6a3220",
+      "idb_name": "sub_6A3220",
+      "type": "int __cdecl(int, int, _DWORD *)",
+      "comment_len": 460,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - construit dans le tampon (3e arg) un bloc 20 octets de direction sin/cos Q12 scale : +0x00=cos*s, +0x04=-sin*s (neg @0x6A3263), +0x08=s brut, +0x0C=sin*s, +0x10=cos*s (5 dwords zeroes d'abord, imul signes + sar 0x0C @0x6A324A-60 via Fixed_Sin4096_Q12/Fixed_Cos4096_Q12), et retourne tel quel dans EAX le dword preserve a +0x14 (lu @0x6A3274, pose par l'appelant)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3280",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184174",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3280__MagFx_Call_32A0_WithTable_1184174.md",
+      "function_start": "0x6a3280",
+      "idb_name": "sub_6A3280",
+      "type": null,
+      "comment_len": 267,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_1184174 puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8 @0x6A328F)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a32a0",
+      "doc_name": "MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A32A0__MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg.md",
+      "function_start": "0x6a32a0",
+      "idb_name": "sub_6A32A0",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 794,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - step de tick FX magie (variante parametree par contexte de la sœur 0x6A30F0, sans amortissement ; 3 wrappers poussant les constantes unk_1184174/11843DC/1184694) : scratch 0x98, rotX (s[1C] x16) buf+0x58 + bloc direction sub_6A3220 (s[1D] x16, rayon s[20]) buf+0x78, translation s+0C/0E/10 sign-extendee buf+0x6C/70/74, compose avec la vue camera dword_1D97778 (Mat_ComposeTwoThenCopy8), soumet dans l'OT battle g_BattleOTBase+0x44 couche 2 via sub_572200 (tete dword_2510258), puis integre pos+=delta, delta+=accel s8, angles+=incs byte ; compteur s[1B] byte dec/jnz ZF pur, retour EAX {0,2}"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a33c0",
+      "doc_name": "MagFx_Call_32A0_WithTable_11843DC",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33C0__MagFx_Call_32A0_WithTable_11843DC.md",
+      "function_start": "0x6a33c0",
+      "idb_name": "sub_6A33C0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_11843DC puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a33e0",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184694",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33E0__MagFx_Call_32A0_WithTable_1184694.md",
+      "function_start": "0x6a33e0",
+      "idb_name": "sub_6A33E0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_1184694 puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8 @0x6A33EF)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3400",
+      "doc_name": "MagFx_SpawnRadialParticles_TaskRegistered",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3400__MagFx_SpawnRadialParticles_TaskRegistered.md",
+      "function_start": "0x6a3400",
+      "idb_name": "sub_6A3400",
+      "type": "int __cdecl(int, __int16, __int16, __int16, int, char, int, int, int, __int16, int callback)",
+      "comment_len": 736,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - spawner de particules radiales mag FX (caller unique ticker sub_6A1660 @0x6a18cc) : boucle do-while sur count arg_0, 2x BdLinkTask_Register(&dword_2510218, callback) avec callback = arg pile arg_28 relu aux deux sites (PAS sub_6A3630), init node (dword +0x18=0 couvrant +0x1A, byte +0x19=0xEC, mot +0x20 = arg24+(rand*arg20)>>15, rayon 32 bits avant angle, X/Z cercle sin/cos Q12 sar 0Ch, Y = a3 copie brute, alpha +0x1B = arg6+(rand*arg5) sar 0Fh add al,dl, mots +0x12/14/16=0, bytes +0x1C-1F = 4 rand) ; retour EAX = a1_old-1 deja decremente au jz 0x6A34E9, ou 0 si echec Register (0x6A3418/0x6A34FF)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3510",
+      "doc_name": "Battle_MagicFX_Type1_SpawnTimedTask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3510__Battle_MagicFX_Type1_SpawnTimedTask.md",
+      "function_start": "0x6a3510",
+      "idb_name": "sub_6A3510",
+      "type": "int __cdecl(int, __int16 *, int)",
+      "comment_len": 688,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - hook type '1' de l'emetteur 0x6A2B80 (ferme LIKELY) : cap 0x20 taches (cmp dword [arg_0+4],20h jge @0x6A3515-19, retour arg_0), enregistre sub_6A3630 via BdLinkTask_Register(&dword_2510218) @0x6A351F-29 (echec -> retour 0 @0x6A3535), thunk sub_56CB50 5 args cdecl (base+row[w+28h]*8, base+row[w+2Ah]*8, 0x1000-w26, movsx w26, task+0xC) @0x6A3559-81 soldes add esp,14h @0x6A358C, init task (+0x0E/+14h/+16h = 0, +0x0C = delta 2510278+148h, +0x10 = delta +14Ch en lecture seule, +0x12 = 90+-rand&3F selon w+2, +0x19 = 1Eh, +0x20 = rand<<12>>15 +800h, +0x1C-1F = 4 rand) ; retour EAX = dernier rand() 32 bits (AL seul stocke a +1Fh)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3630",
+      "doc_name": "Battle_MagicFX_Type1_MotionTick_Task",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3630__Battle_MagicFX_Type1_MotionTick_Task.md",
+      "function_start": "0x6a3630",
+      "idb_name": "sub_6A3630",
+      "type": null,
+      "comment_len": 523,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - tache tick du FX magie type '1' (enregistree par Battle_MagicFX_Type1_SpawnTimedTask 0x6A3510 @0x6A351F) : scratch 0x98, matrice rotX Q12 (s8[+1C] x16, buf+0x58) composee avec le bloc direction sub_6A3220 (s8[+1D] x16, rayon word[+20] -> buf+0x78, rotation Y scalee Q12), compose avec la vue camera dword_1D97778, soumet la prim 0x98 dans l'OT battle g_BattleOTBase+0x44 couche 2 via sub_572200 (tete dword_2510258), puis integre pos word +0x0C/0E/10 += deltas +0x12/14/16, deltas += accels s8 +0x18/19/1A, angles bytes +0x1C += +0x1E / +0x1D += +0x1F ; compteur +0x1B : dec -> 0 -> retour EAX=2, sinon EAX=0"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3750",
+      "doc_name": "MagFx_ParticleStepper_EmitOT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3750__MagFx_ParticleStepper_EmitOT44.md",
+      "function_start": "0x6a3750",
+      "idb_name": "sub_6A3750",
+      "type": null,
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper d'effet magique (borne compteur [esi+0x12] word) : avance la position int16 ctx+0x0C/0E/10 par trois deltas signes x4 (shl 2 @0x6A37DE-EE), emet un packet scratch 0xB4 (bs_modulo @0x6A3770/Unwind @0x6A37AA) avec head unk_1182534 @0x6A377A dans la battle OT g_BattleOTBase+0x44 via sub_571C80 @0x6A37A5 (tete dword_2510258), appel prealable sub_571BC0 @0x6A376B ; retour AL = 2 quand le compteur atteint 0 (dec al @0x6A37BF), sinon 0"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3800",
+      "doc_name": "MAG_Stepper_EmitScratchPacket_OT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3800__MAG_Stepper_EmitScratchPacket_OT44.md",
+      "function_start": "0x6a3800",
+      "idb_name": "sub_6A3800",
+      "type": null,
+      "comment_len": 483,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper FX magie par-tick : pas signe via sub_571BC0 (pas = -(word[+12] sar 2), sar @0x6A3817), alloue un node 0xB4 (bs_modulo @0x6A3824/Unwind @0x6A385E) lie a unk_1182534 @0x6A382E + g_BattleOTBase+0x44 (layer 2, add edx,44h @0x6A3852) + liste dword_2510258 via sub_571C80 @0x6A3859, decremente le compteur ctx[0x17] (movsx signe @0x6A3834, dec @0x6A3873-75) ; 0 -> retour 2, sinon avance la position par pas signes x4 (shl) -> retour 0"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a38b0",
+      "doc_name": "MagFX_Step_PosVel_PushOtNodeB4",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A38B0__MagFX_Step_PosVel_PushOtNodeB4.md",
+      "function_start": "0x6a38b0",
+      "idb_name": "sub_6A38B0",
+      "type": null,
+      "comment_len": 441,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper par-frame d'un node mag FX (2 xrefs data dans sub_6A1660 @0x6a22a1/0x6a232e) : alloue un buffer scratch 0xB4 (bs_modulo/Unwind), init +0x00 = &unk_11823C8, +0x24 = 0, +0x04 = (word)dword_11823D0 - (sext8)p[0x17], insere en tete (sub_571C80(buf, g_BattleOTBase+0x44, 2, dword_2510258), puis dword_2510258 = buf), decremente le compteur p[0x17] (0 -> retour 2), sinon ajoute 4 x sext8(p[0x14/15/16]) aux words +0x0C/0E/10 et retourne 0 ; appel initial sub_571BC0(p+0x0C, w12, -(w12 sar 2))"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3960",
+      "doc_name": "MagFx_SpawnRandParamTasks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3960__MagFx_SpawnRandParamTasks.md",
+      "function_start": "0x6a3960",
+      "idb_name": "sub_6A3960",
+      "type": "char __cdecl(int, char, __int16, __int16, __int16, int, __int16, char, char, char, int, __int16, int callback)",
+      "comment_len": 517,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - alloue jusqu'a 1+arg_0 noeuds taches FX sur la liste dword_2510208 (2x BdLinkTask_Register @0x6A3969/0x6A3A15, callback arg) et remplit chacun de 12 octets de parametres (3 s16 base+jitter aleatoire via 4x rand*mult sar 0Fh signe @0x6A398C-E3, 1 s16 a echelle propre, 4 u8 d'options), boucle test pre-decrement (N+1 iterations pour a1=N, mov edx,ebx/dec/test) ; retour AL = arg_24, 0 si echec d'allocation"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3a30",
+      "doc_name": "MagFx_ComposeBoneMat_GteWord3Out",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3A30__MagFx_ComposeBoneMat_GteWord3Out.md",
+      "function_start": "0x6a3a30",
+      "idb_name": "sub_6A3A30",
+      "type": "_WORD *__cdecl(int, _WORD *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - helper battle mag FX : pour un record arg0 (index os s16 a +6), compose la matrice os (FK BattleSkeleton_BuildHierarchicalFK sur dword_2510200+0x60 @0x6A3A3C-46, header +10h, stride 0x30 via lea eax*3 shl 4 @0x6A3A5A-67) avec 2510200+0x40 via Mat_ComposeTwoThenCopy8 @0x6A3A6D, arme le GTE (Field_readCa + Camera_ReadVariables_Space + setSomeDword5 + thunk MVMVA 0x480012 @0x6A3A77-8C) et copie les 3 mots de l'etat 1CA8A34 vers arg1 (GteState_GetWord3 @0x6A3A96) ; aucun retour demontre (epilogue sans ecriture eax)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3ab0",
+      "doc_name": "MAG_207_MAELSTROM_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AB0__MAG_207_MAELSTROM_Thunk.md",
+      "function_start": "0x6a3ab0",
+      "idb_name": "MAG_207_MAELSTROM",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 366,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - thunk d'entree de la table battle-FX MagicList_Logic (xref data 0xC81AAC = slot effet 207, base 0xC81774+206*4) : transfere tel quel son unique argument cdecl au corps reel sub_6A3AE0 et en restitue la valeur (gabarit byte-identique au thunk MAG_212 0x6A0D20 ferme CERTAIN)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3ae0",
+      "doc_name": "BattleMagic_M207_Maelstrom_SetupTask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AE0__BattleMagic_M207_Maelstrom_SetupTask.md",
+      "function_start": "0x6a3ae0",
+      "idb_name": "sub_6A3AE0",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - setup du sort MAELSTROM (magie 207, corps du thunk 0x6A3AB0) : enfile le TIM de dword_25102C4 (cache FL), copie 0x7740 octets du blob d'entree magic (rep movsd 0x1DD0 dwords unk_11AC624->unk_25102CC @0x6A3AF2-FC), stocke l'arene (dword_25102C8 @0x6A3B01) et l'arg slot (dword_2517A0C @0x6A3B10), resolve l'entree table 0x1D972C0 + 156*id dans dword_25102C0 (@0x6A3B2D-34), initialise le pod contexte unk_2517A48 (BS_Memset + BdLinkTask_Register(sub_6A3B70) @0x6A3B3E-43 + FillDwords +0x0C,0,2), bind la ressource camera unk_11AC278 (@0x6A3B5A) ; retour EAX = &unk_2517A48 (0x6A3B67)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3b70",
+      "doc_name": "BattleMagic_M207_Maelstrom_Stepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3B70__BattleMagic_M207_Maelstrom_Stepper.md",
+      "function_start": "0x6a3b70",
+      "idb_name": "sub_6A3B70",
+      "type": null,
+      "comment_len": 755,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - stepper BdLinkTask par-frame de l'effet M207 Maelstrom (caller BattleMagic_M207_Maelstrom_SetupTask 0x6A3AE0) : toggle double-buffer dword_2517A24 = arene+0x1A2C/0x11A2C (latch [ctx+0x10] @0x6A3B82-BA7) ; au tick WORD[ctx+0x0C]==1 (un seul passage, jnz @0x6A3BB4) : overlay un seul rect {0x240,0x100,0x140,0x100} en arg1 (isDravingOverlayImage 4 args ASM @0x6A3BBA-F2, Hex-Rays 5 args rejete) + sub_45B5E0(0x240,0x100), armement one-shot (sub_6A6070 blob, 2x BS_Memset 2517A38 0x4E8x1 / 2517A28 0x20x0x40, Register sous-task sub_6A3D90 @0x6A3C3A-44, FillDwords 0x4DC octets, copie sub_7016B0 unk_11AE3F4->task+0x30 0x4B8 @0x6A3C63-73 = 17 pushes), centroide des cibles party (ids u8 stride 0x18, acteurs 0x1D972C0+id*0x9C @0x6A3CB0-B8, moyennes idiv signees task+0x28/2A/2C avec buf[2] relu apres callee @0x6A3CD8, Y-0x200) ; puis Mat3S16_OrthonormalizeQ12 dword_1D97778->2517A80 (0x6A3D30-35) + 2x BdLinkTask_Pump (2517A38/2517A28 @0x6A3D3F-49, ret #1 esi @0x6A3D4E) si flag ; retour AL = 2 si Pump(#1)==0 && flag, sinon ++WORD[ctx+0x0C] et 0"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3d90",
+      "doc_name": "BattleMagic_M207_Maelstrom_SubTaskTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3D90__BattleMagic_M207_Maelstrom_SubTaskTick.md",
+      "function_start": "0x6a3d90",
+      "idb_name": "sub_6A3D90",
+      "type": null,
+      "comment_len": 631,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - tick de la sous-tache FX de Maelstrom (registree par BattleMagic_M207_Maelstrom_Stepper 0x6A3B70 sur 2517A38) : B1 si step<0x50 blob 0x14 o (+0x0E=step<<5 @0x6A3DBA, 0xFF80 word @+0x0C, trou +06..07, dst=dword_25102C8+0x0CE8 @0x6A3DC8) -> sub_701970(ebx+30h, sub_6A41E0, &blob, 0) @0x6A3DC2-E7 ; B2 step in [0x20,0x50) : bbox cibles stride 4 (+0x14) via sub_6A5F10, midpoints /2 signe cdq-sub-sar, /8, idiv 0x18000, sin /48 unsigned shr 5 @0x6A3F91, escalade t<8 SHR @0x6A3FBD, fade 3 bandes jnb unsigned /12 magie @0x6A3FEA-402E (inversion 0x40-fade jle signe @0x6A4037), stores tailles+centres word_2517A58/60 + 2517A6C/70 (X/Y @0x6A3F62-89) -> sub_6A5700(&25102CC, zoom>>2+11, inv) ; B3 SE a t==0, t in [0x30,0x40) 4 particules BdLinkTask_Register(2517A28, sub_6A5650) @0x6A40A0-zone avec Vec3_MulSinCos_Q12, scal rand&7FF+800, vel neg+sar 7, centres +0x28/2A/2C add 16 bits @0x6A413D-59 ; B4 t==0x50 : BattleAction_ApplyEventRecords(records=[rec+8], count byte [rec+10h] @0x6A41AA-AC) + BdLinkTask_Spawn_508660(25102C8+0x1A2C @0x6A4191, ebx+10h @0x6A41B1), inc word [ebx+0Ch] uniquement dans ==0x50 (jnz @0x6A4197) ; retour EAX = [ebx+10h]!=0 ? 2 : 0 (neg;sbb;and 2 @0x6A41C2-CB), sinon step++ @0x6A41D2 -> 0"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a41e0",
+      "doc_name": "MaelstromFX_EffectCb_QueuePrim6C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A41E0__MaelstromFX_EffectCb_QueuePrim6C.md",
+      "function_start": "0x6a41e0",
+      "idb_name": "sub_6A41E0",
+      "type": "int __cdecl(_DWORD *, int, int)",
+      "comment_len": 737,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - callback registered de la sous-task Maelstrom (xref data 0x6A3DCE dans sub_6A3D90, appelle [arg_4] @0x701D96) : garde (s16)[+1C]|[dword +18]==0 et (s16)[+24]>=0x1000 signé (jl @0x6A41FB, dword[+20]!=0) ; scratch 0x6C (bs_modulo @0x6A420D/Unwind @0x6A45C2) ; lien anim *a1+tbl[sx16(P+2)] stride 4 @base+8 ; point d'ancrage arbre w28==w2A / w26==0 / w26==0x1000 (facteur w2A movsx) / sub_701390 5 args (5e=[r+10h] dword OUT tampon 25102C8+0xCE8 rechargé @0x6A42AC) ; 3 modes GTE (0x1000 dual-GTE + 0x200 movsx signé / défaut word-add 16-bit wrap @0x6A43E5-EC), caméra dword_1D9778C/90/94 ; skip identité 0x10001000+0x1000 ; matrice Q12 via sub_7015B0 (test 0x40000 @0x6A42B5) ou sub_701310, MulQ12_IntoArg0 (test ah,1) vs ScaleByVec12 ; mot GPU 0x2030 @0x6A4510 / 0x20F0 @0x6A4525 ; mode '9' court-circuite sub_701DD0 (jmp @0x6A4581 vers sub_6A45E0 @0x6A457C), '1' @0x6A4583-9B tombe dans l'insertion commune ; insertion sub_701DD0 (esi, g_BattleOTBase+0x44 @0x6A4575, 2, dword_2517A24) @0x6A45B3, tête persistée dword_2517A24 @0x6A45BB ; retour EAX = clobber BattleScratch_Unwind (dispatcher ignore eax, sondage @0x701D9A), proto char IDA trompeur"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a4710",
+      "doc_name": "MagFX_SubmitFaceList_GteClipTextured_OT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A4710__MagFX_SubmitFaceList_GteClipTextured_OT.md",
+      "function_start": "0x6a4710",
+      "idb_name": "sub_6A4710",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 1440,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - emetteur de faces du pipeline mag FX battle (3 callers sœurs gabarit 0x130) : boucle records stride 0x14 via curseur [a1+34h] compteur en tête (re-store @0x6A4B87) ; par record : Set3Pairs indices u16 pool [a1+4] @0x6A4785, camRelated_0, setSomeDword3(a1+44h) + test 0x60000 skip (0x6A47D2-E1), Gte_NCLIP @0x6A47E7 (jge, override bit 0x10 = draw both sides), AVSZ3, clipping bornes 0xA00/0x6C0 nibble rejet bits 1/2/4 (pkt+04/10/18) + 0x10/0x20/0x40 (pkt+0A/12/1A) ; paquet GPU dword 0x07000000 @0x6A4792 + OR 0x2000000 (bit0 a1+1C) / AND 0xFDFFFFFF (bit2) ; avancé pkt +0x28 si u16[a1+20h]|u16[a1+22h]==0 sinon +0x40 (0x6A498D-B63) ; 4 allocs OtNode24_PoolAllocLink @0x6A497A/AC9/AD0/B65 (ordre +20h, +28h, +00h relié 2e fois, +40h ou +00h si couleurs nulles) au bucket a2+4*(z sar cl) avec z=[a1+40h]+=[a1+18h] clamp >=0 (jns @0x6A48FC) ; packing CBA x2 (0x6A4A84-B7/6A4B16-53) : (b&F8 | FFFE2000) shl5 shl5 shl2 | (~w-1), sources edi+26h/24h/2Ah/28h et 2Eh/2Ch/32h/30h ; addition RVB a1+20h/22h, soustraction a1+30h/32h si >0xFF (cmp/jle signe) ; retour EAX = pkt avance (eax=ebp @0x6A4B8C)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a4ba0",
+      "doc_name": "MagFx_EmitBatchQuads_AVSZ4_OtBucket_Glow",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A4BA0__MagFx_EmitBatchQuads_AVSZ4_OtBucket_Glow.md",
+      "function_start": "0x6a4ba0",
+      "idb_name": "sub_6A4BA0",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 876,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - emetteur batch de quads magic-FX battle (3 callers sœurs gabarit 0x130) : file records stride 0x18 (z|couleur + 4 word vertices rec+4/6/8/0Ah + 3 dwords) via curseur [a1+34h] ; pipeline GTE Set3Pairs -> NCLIP -> AVSZ4 @0x6A4D7C (4 profondeurs, Scale != AVSZ3), cull nibble + bornes signées 0xA00/0x6C0 ; biais OTZ : [a1+40h] += [a1+18h] clamp 0 (jns @0x6A4E02-0A, lea esi,[edi+40h] @0x6A4DCB — PAS rec[0]), bucket a2+4*(z sar cl) @0x6A4E34 ; tints ADDITIFS (add ebx,edx @0x6A4EC9), soustraction fallback si >0xFF (sub al,[edi+30h] @0x6A4EF5) ; nodes OT 2-4 : masque base+0x28 (VIT_0_STATUS_MASK leurre imm32 0x01000000 + 0xE1000220 @0x6A4E8E), texid1 base+0x30, polygone base+0x00 tag 0x09000000 en 3e, texid2 base+0x3C (pack SHL/SAR ctx+24h..32h) ; w20|w22==0 = chemin court (poly alloué quand même, stride 0x30 @0x6A50E3-5) ; stride scratch 0x30 court / 0x48 long ; retour EAX = ebp courant"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5120",
+      "doc_name": "MagFx_EmitTriPackets_GteCull_ToOt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5120__MagFx_EmitTriPackets_GteCull_ToOt.md",
+      "function_start": "0x6a5120",
+      "idb_name": "sub_6A5120",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 817,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - emetteur de packets GPU triangle pour la famille mag FX battle (3 callers sœurs gabarit 0x130) : parcourt la draw-list ctx+0x34 (records 0x1C, count @0x6A5131, curseur avancé +4 @0x6A5133 AVANT jle @0x6A5146, records avancés 0x1C @0x6A5619), projette chaque triangle via GTE (Set3Pairs/NCLIP/AVSZ3/SetsomeDword @0x6A5249, bit 0x80 : SetTriplet/sub_45F4C0/GetTriplet @0x6A5310-29), cull (gate test 0x60000 sur ctx+0x44 @0x6A51FD = gate de visibilité, backface jl sauf bit5 ctx+0x1C, bornes sx 0xA00 bits 1/2/4 / sy 0x6C0 bits 0x10/0x20/0x40 SIGNÉES test ax,ax/jl), teinte 2 canaux u16 ctx+0x20/22 (addition 8 bits mod 256, soustraction y compris accumulateur pkt+24/25 sub dl,al @0x6A544F et @0x6A54A5 ; mots nuls = CLUT sautées + avance 0x30 vs 0x48) ; 4 paquets OT : triangle tag 0x9000000 @pkt1 (0x6A51B0), VIT/status @pkt1+28h = imm32 0x01000000 (VIT_0_STATUS_MASK leurre levé par sondage VA @0x6A53E8) + 0xE1000220 @+2C (0x6A53EE), 2 CLUT 0x2000000 @+30h/+3Ch (0x6A54D9/0x6A55B1), 4 allocs @0x6A53F5/5558/555F/5609 au bucket otBase+4*(sar(z,zShift)) accum clamp >=0 ; retour EAX = esi final (0x6A562F/0x6A563B)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5650",
+      "doc_name": "BattleMagic_M207_Maelstrom_ParticleSpawnTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5650__BattleMagic_M207_Maelstrom_ParticleSpawnTick.md",
+      "function_start": "0x6a5650",
+      "idb_name": "sub_6A5650",
+      "type": null,
+      "comment_len": 565,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper cdecl de particule Maelstrom (registree par la sous-task 0x6A3D90 sur 2517A28) : alloue un frame scratch 0xB4 (bs_modulo @0x6A5669/Unwind @0x6A56A0, header unk_11AC414 @0x6A5673, compteur a +0x04, champ nul +0x24), insere en tete OT via sub_571C80 (g_BattleOTBase+0x44 @0x6A5694, prev=dword_2517A24 @0x6A5687, puis re-ecrit tete @0x6A56A5), appel prealable sub_571BC0 @0x6A5664, integre acc (bytes signes +1Ah/1Bh/1Ch) -> vel (+14h/16h/18h) -> pos (+0Ch/0Eh/10h), incremente le compteur +12h et retourne AL=2 si compteur < 16 (setl/dec/and 2 @0x6A56F2-F7), sinon 0"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a5700",
+      "doc_name": "BattleFX_Magic_ProjectVertsEmitDualOTPkts",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5700__BattleFX_Magic_ProjectVertsEmitDualOTPkts.md",
+      "function_start": "0x6a5700",
+      "idb_name": "sub_6A5700",
+      "type": "int __cdecl(int, __int16 *, int, int, int)",
+      "comment_len": 551,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - builder d'effet Maelstrom (caller unique sub_6A3D90 @0x6A4063) : boucle 1 projection GTE par sommet sur table 0x0C o/elt a dword_25102C8+0xEE0 (index bloc arg5<<8 -> word_11B3364 @0x6A5712-16, dot signe table[angle[3]]*angle[k] sar 0xC, SetIndexed+MVMVA 0x12 x2, clipping flags bits 1/2/4/8 byte [esi+8] store WORD @0x6A57CD, cascade stores [esi+4]=cx/[esi+6]=dx inconditionnels avant saturations 319/0x13F et 215/0xD7 @0x6A5815-48), sortie stride +0x0C @0x6A5852 ; boucle 2 : bs_modulo 0x48, struct ctl (arg_0 pointeur + [arg_0+4] compteur @0x6A5721/37, dword_25102C8+0xEE0, 0x240, 0x100, g_BattleOTBase+arg3*4 stride 4 @0x6A589E, [esi+10]=ptr stream+10), 2 draw-packets 0xE1000220/0xE1000240 (@0x6A58B6/10, [pkt+0] = leurre rdata VIT_0_STATUS_MASK), GteState_Set_1CA8A30(arg4), Camera_SetPackedSlots_15_16_17(0,0,0), builders sub_6A5C90+6A5DB0 puis 6A5950+6A5AD0, BattleScratch_Unwind(0x48) @0x6A5939 -> retour EAX residuel (jamais ecrit avant retn @0x6A5948), proto char IDA faux"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5950",
+      "doc_name": "MagFx_StreamEmitBatch_OtNode24_Code1",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5950__MagFx_StreamEmitBatch_OtNode24_Code1.md",
+      "function_start": "0x6a5950",
+      "idb_name": "sub_6A5950",
+      "type": "int __cdecl(int)",
+      "comment_len": 653,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - sous-builder Maelstrom (caller unique sub_6A5700 @0x6a592c) : lit le count pointé par *(a1+0x10) (curseur avancé +4 @0x6A595C AVANT test/jle ; 0xFFFFFFFF si nul via dec @0x6A5961), records stride 0x14, 3 indices u16 (rec+4/6/8) dans table *(a1+4) stride 4, copie 3x3 dwords vers a1+0x18/0x24/0x30 ; gate : emit si b[20h] & (b[2Ch] & b[38h]) == 0 (jnz skip @0x6A59FC) ; node OT stride 0x20 dans pool dword_2517A24 (magic 0x7000000 @+0 @0x6A5A75-zone, code ptr sub_808080 @+4 @0x6A5A75, tag 0x26 @+7, flags WORD @+16 sar 6/or 40h/shl 2/sar 4, masque couleur movsx(b[1Ch]).lo8 & C0 soustrait R/G/B 8 bits), avance emit seule @0x6A5A95 ; OtNode24_PoolAllocLink_Code1(pool=*(a1+14h), node) @0x6A5A8D add esp,8 ; retour EAX = 0 en sortie de boucle (dec @0x6A5AA3), 0xFFFFFFFF si count nul, proto int __cdecl menteur"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5ad0",
+      "doc_name": "MagFx_BuildQuadNodes_Tag2E",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5AD0__MagFx_BuildQuadNodes_Tag2E.md",
+      "function_start": "0x6a5ad0",
+      "idb_name": "sub_6A5AD0",
+      "type": "unsigned __int16 *__cdecl(int)",
+      "comment_len": 669,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - builder d'effet Maelstrom (caller unique sub_6A5700 @0x6a5932) : lit le count dword de la file *(a1+10h) (0xFFFFFFFF si nul via dec @0x6A5AE1, re-store [esi+10h] @0x6A5AE2/7F), par record stride 0x18 copie 4 entrees 12 octets (index WORD zero-extend a cur+4/6/8/0xA, tbl=*(a1+4)) vers a1+0x18/24/30/3C ; gate : skip si AND des 4 bytes != 0 (test al,dl jnz @0x6A5BA2-BA4) ; sinon node OT 0x28 dans pool dword_2517A24 (magic 0x09000000 @+0 @0x6A5C3B, code ptr sub_808080 @+4, tag 0x2E @+7 @0x6A5C41, 4 dwords sommets @+8/10/18/20, mot flags 16 bits @+16, couleurs = soustraction masque (byte & C0) sub @0x6A5BE8-C12), avance emit seule @0x6A5C51 ; OtNode24_PoolAllocLink_Code1(pool=*(a1+14h), node) @0x6A5C49 add esp,8 ; retour EAX = curseur flux final (0x6A5C6E voie boucle), FFFFFFFF voie count==0, proto int __cdecl menteur"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5c90",
+      "doc_name": "Ot_EmitTri_GTE_FromStream_Nodes1C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5C90__Ot_EmitTri_GTE_FromStream_Nodes1C.md",
+      "function_start": "0x6a5c90",
+      "idb_name": "sub_6A5C90",
+      "type": "int __cdecl(int)",
+      "comment_len": 593,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - sous-builder Maelstrom (caller unique sub_6A5700 @0x6a592c, teste le count AVANT lea curseur @0x6A5C9A-9C puis test/jz @0x6A5CAB-DAC) : par record stride 0x14 copie 3 sommets 12 o (indexes word zero-extend a +04/06/08, vertTable+idx*4 @0x6A5CC3-D10) vers ctx+0x18/24/30 ; extraction dword[1] vers out[2]/[4]/[6] @0x6A5D13-22 ; 3 allers-retours GTE StorePtr(rec/rec+0Ch/rec+10h) -> sub_45F270 -> GetToPtr(out+1/3/5) @0x6A5D25-61 ; node 0x1C : out[0]=0x06000000 @0x6A5D66, byte +7=0x32 @0x6A5D6C ; chaîne OtNode24_PoolAllocLink_Code1(ot, node) push droite->gauche @0x6A5D73-75 ; curseur [ctx+10h] ecrit dans les 2 chemins @0x6A5D92/0x6A5DA0, dword_2517A24 aussi @0x6A5D96/0x6A5DA3 ; 8 pushes d'args = 0x20 soldes add esp,20h @0x6A5D7E ; retour EAX = 0 si count>0, 0xFFFFFFFF si nul (dec @0x6A5CA1 + retn @0x6A5DAC/9F), proto int __cdecl menteur, proto caller ignore eax (R sondage @0x6a58ed-92)"
+      ],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5db0",
+      "doc_name": "MagFx_EmitStream_Code3A_Gte_Ot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5DB0__MagFx_EmitStream_Code3A_Gte_Ot.md",
+      "function_start": "0x6a5db0",
+      "idb_name": "sub_6A5DB0",
+      "type": "int __cdecl(int)",
+      "comment_len": 706,
+      "tags": [],
+      "verdict": [
+        "- Verdict: LIKELY - sous-builder Maelstrom (caller unique sub_6A5700 @0x6a5932, ignore le retour @0x6a58f3-F8) : lit le count dword via [a1+0x10] @0x6A5DB7, records stride 0x18, 4 index WORD (rec+4/6/8/A), copie 4 vertices 12 o depuis [a1+4] + 4*wordIdx (offset source = 4*idx, PAS 12 ; lea ecx,[eax+edx*4] @0x6A5DE3/01/1D/39) vers le scratch a1+0x18/24/30/3C ; 4 passes GTE par record (StorePtr sur rec+0/0xC/0x10/0x14 -> sub_45F270 -> GetToPtr vers pkt+4/0xC/0x14/0x1C) @0x6A5E67-75 ; tag pkt[0]=0x08000000 @0x6A5EBF / byte +7=0x3A @0x6A5EC5 ; link OtNode24_PoolAllocLink_Code1(ot=[a1+14h] push @0x6A5ECD, pkt push @0x6A5ECC) @0x6A5ECE, cleanup add esp,28h @0x6A5ED7 (10 pushes) ; curseurs pkt+=24h @0x6A5EDA, rec+=18h @0x6A5EDD, dec @0x6A5EE0 ; store curseur global dword_2517A24 @0x6A5EEF ; retour EAX = 0 si boucle executee, 0xFFFFFFFF si count==0 ; PAS de sub_808080 @+4 (conforme aux jumeaux 0x6A5950/0x6A5AD0 ; pkt+4 = sortie GetToPtr)"
+      ],
+      "certain": false
+    }
+  ],
+  "confirmed_header_renames": [
+    {
+      "ea": "0x417464",
+      "doc_name": "Gfx_ReserveDrawListEntries",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x417464__Gfx_ReserveDrawListEntries.md",
+      "function_start": "0x417464",
+      "idb_name": "Gfx_AllocDrawListBatch",
+      "type": "int __cdecl(int, _DWORD *)",
+      "comment_len": 466,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 2+1/R: Gfx_ReserveDrawListEntries (IDA Gfx_AllocDrawListBatch too narrow). cdecl(count,list), EAX=0 iff list NULL else 1. Resets stale generation unsigned; allocates/chains 0x30 batch only when count>remaining; capacity=max(count,0x20); stream strides 0x80/0x10, shared path <=0x200; publishes +0x74/+0x78/+0x7C then advances cursors. Allocation NULL unchecked, faithful ASM. See docs/.../0x417464__Gfx_ReserveDrawListEntries.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — réserve `count` entrées dans le batch courant, alloue/chaîne un nouveau batch si la capacité restante est insuffisante, puis avance trois curseurs"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x460c20",
+      "doc_name": "Gpu_BeginPrimitivePass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C20__Gpu_BeginPrimitivePass.md",
+      "function_start": "0x460c20",
+      "idb_name": "sub_460C20",
+      "type": "int()",
+      "comment_len": 367,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_BeginPrimitivePass. Always caches FFGetBufferAddress; only when dword_B7CC20==0 begins scene or selects render target from engine+0x8FC, records branch, resets pass state 3/1/0. Gpu_DrawOTag callers prove active second-pass polarity. EAX residual driver/context, ignored. See docs/.../0x460C20__Gpu_BeginPrimitivePass.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — capture le contexte graphique puis, uniquement quand `dword_B7CC20==0`, ouvre/configure le pass de primitives et réinitialise son état"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x460c90",
+      "doc_name": "Gpu_FlushCurrentDrawList",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C90__Gpu_FlushCurrentDrawList.md",
+      "function_start": "0x460c90",
+      "idb_name": "sub_460C90",
+      "type": "int()",
+      "comment_len": 313,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_FlushCurrentDrawList. If current list exists: SetRenderState(0x0E,1), Gfx_WalkDrawList(list,engine), invalidate list stamp, clear current pointer. Hex-Rays phantom arg rejected by exact pushes. EAX residual ignored. See docs/.../0x460C90__Gpu_FlushCurrentDrawList.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — soumet la draw-list courante, invalide son stamp, puis efface le pointeur courant"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x509b50",
+      "doc_name": "MemMove_OverlapSafe",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x509B50__MemMove_OverlapSafe.md",
+      "function_start": "0x509b50",
+      "idb_name": "BS_CopyGeometry",
+      "type": "void __cdecl(_BYTE *, _BYTE *, unsigned int)",
+      "comment_len": 319,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: MemMove_OverlapSafe; IDA BS_CopyGeometry too narrow. Unsigned dst<src selects forward rep movsd+tail bytes; dst>=src selects reverse byte loop; size 0 no access. Generic callers include music/models/textures/GF/stage. void return. See docs/.../0x509B50__MemMove_OverlapSafe.md."
+      ],
+      "verdict": [
+        "- Verdict: CERTAIN — implémentation générique de `memmove(dst, src, size)`, copie avant si `dst<src`, arrière sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x63e960",
+      "doc_name": "GFCameraScriptTask_Spawn_63E960",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x63E960__GFCameraScriptTask_Spawn_63E960.md",
+      "function_start": "0x63e960",
+      "idb_name": "BdLinkTask_Register_63E9C0",
+      "type": "int __cdecl(int, int, int, int list_head, int)",
+      "comment_len": 658,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x65e4b0",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_25053C0",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65E4B0__BdLinkTask_RegisterAndBindEntry_25053C0.md",
+      "function_start": "0x65e4b0",
+      "idb_name": "BdLinkTask_Register_65F2B0_25053C0",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 429,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x65f250",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_2505438",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65F250__BdLinkTask_RegisterAndBindEntry_2505438.md",
+      "function_start": "0x65f250",
+      "idb_name": "BdLinkTask_Register_65F2B0_2505438",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 393,
+      "tags": [],
+      "verdict": [
+        "| Verdict | CERTAIN |"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e700",
+      "doc_name": "Ot_EmitQuad_GTE_FromStream",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E700__Ot_EmitQuad_GTE_FromStream.md",
+      "function_start": "0x69e700",
+      "idb_name": "sub_69E700",
+      "type": "int __cdecl(int)",
+      "comment_len": 684,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e940",
+      "doc_name": "MAG_Scratch58_InvokeWorker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E940__MAG_Scratch58_InvokeWorker.md",
+      "function_start": "0x69e940",
+      "idb_name": "sub_69E940",
+      "type": "int __cdecl(int)",
+      "comment_len": 376,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - frame scratch de 0x58 octets : pre-call sub_69E9A0(a1) retour ignore, alloc bs_modulo(0x58), store a1 a block+0, worker sub_69E970(bloc), liberation BattleScratch_Unwind(0x58) ; 4 pushes cdecl un seul cleanup add esp,10h"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69e970",
+      "doc_name": "SeqCtx_BindStream_AndChainPumps",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E970__SeqCtx_BindStream_AndChainPumps.md",
+      "function_start": "0x69e970",
+      "idb_name": "sub_69E970",
+      "type": "_DWORD *__cdecl(_DWORD *)",
+      "comment_len": 449,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - rebinde un contexte de sequence de stream : ctx+4 = base+8, ctx+0x20 = base + dword[base] + 0x10, puis chainne les pumps jumeaux sub_6A9DF0 -> sub_6A60D0 et retourne l'EAX du second"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69eac0",
+      "doc_name": "MAG_213_STORM_BREATH_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAC0__MAG_213_STORM_BREATH_Thunk.md",
+      "function_start": "0x69eac0",
+      "idb_name": "MAG_213_STORM_BREATH",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 394,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - thunk cdecl pur : recharge arg0 (0x69EAC0), le repousse, appelle sub_69EAF0 (0x69EAC5), cleanup add esp,4 (0x69EACA), retourne EAX tel quel (0x69EACD) ; entree tabulee de dispatch de la magie 213 (xref data 0xC81AC4, slot +1 apres 0xC81AC0 = magie 212)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69ead0",
+      "doc_name": "MAG_213_FL_Load_mag212_TIM_Cached",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAD0__MAG_213_FL_Load_mag212_TIM_Cached.md",
+      "function_start": "0x69ead0",
+      "idb_name": "MAG_213_STORM_BREATH_FL",
+      "type": "unsigned __int8 *()",
+      "comment_len": 404,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stub loader FL de l'effet 213 : push litteral mag212.tim (offset id-1), IO_GetFile_MAGIC charge dans l'arene magie, cache pointeur dans dword_2510174 (0x69EADD) et le retourne en EAX ; entree table MagicList_TextureLoad (xref data 0xC81DB8), caller BattleGF_LoadCallbackByMagicID (0x50AF93)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69ee80",
+      "doc_name": "MagFx_SumS16Runs_TwoSources_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EE80__MagFx_SumS16Runs_TwoSources_Scratch38.md",
+      "function_start": "0x69ee80",
+      "idb_name": "sub_69EE80",
+      "type": "int __cdecl(_DWORD *)",
+      "comment_len": 452,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper de sommation lecture seule : scratch bs_modulo(0x38) (+0x20 pour l'etat), somme des runs s16 via Bitmask_SumS16_Runs sur source 1 [obj+0x64] masquee par [obj+0x7C] puis source 2 [[obj+0x78]+4] non masquee si [obj+0x78] non nul, BattleScratch_Unwind(0x38), retour EAX int 32 bits"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x69fd00",
+      "doc_name": "Mag213_BuildCtx_CursorInit_TwoPass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FD00__Mag213_BuildCtx_CursorInit_TwoPass.md",
+      "function_start": "0x69fd00",
+      "idb_name": "sub_69FD00",
+      "type": "unsigned int *__cdecl(_DWORD *, int, char, unsigned int *)",
+      "comment_len": 397,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - initialise les deux curseurs d'ecriture de la zone de travail du ctx magie 213 (a1[8] = base+8 ; a1[9] = base + *(u32*)base + 0xC), puis enchaine deux passes de construction : sub_69FD50(a1,a2,a3,a4) dont le retour devient 4e arg de sub_6A01B0(a1,a2,a3,ret1) avec a1[9] avance de +0xC entre les deux ; retour EAX brut de sub_6A01B0 (callee-cleanup implicite, add esp,20h unique)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a06c0",
+      "doc_name": "Mag213_SkelPoseChains_Build_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A06C0__Mag213_SkelPoseChains_Build_Scratch38.md",
+      "function_start": "0x6a06c0",
+      "idb_name": "sub_6A06C0",
+      "type": "int __cdecl(_DWORD *, int, _DWORD *)",
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - alloue un scratch 0x38 (bs_modulo/Unwind) et y construit une pose skelettale a 1-2 chaines (entries stride 0x30 a base+0x20) par composition matricielle (WalkStride30_MatComposeInPlace, a1+0x40 spille dans arg_4 @0x6A06E6/0x6A0717) + FK hierarchique sub_6CE880 ; si FK rend 0 et a1+0x78 non nul, rejoue sur le parent avec flag -1 ; copie base+0x28/+0x2C vers arg8 puis unwind"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0a50",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0A50__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx.md",
+      "function_start": "0x6a0a50",
+      "idb_name": "sub_6A0A50",
+      "type": null,
+      "comment_len": 585,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pas de frame d'une tache FX magique (borne 13) : alloue un node scratch 0xB4 (bs_modulo), init (head unk_117D8B8, word +0x24=0), insere dans l'OT battle groupe 2 (g_BattleOTBase+0x44 via sub_571C80 @0x6A0AA1, tete dword_2510194), passe sub_571BC0(a1+0x10, w, -(w>>2)), unwind 0xB4, avance la position ctx+0x10 des deltas ctx+0x18..1C, incremente le compteur ctx+0xC ; retour EAX = 2 tant que compteur < 13 (cmp si,0Dh setl @0x6A0AD9-E3), 0 sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0af0",
+      "doc_name": "MagicFx_Step_InterpVecGTE_AddSpritePrimOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0AF0__MagicFx_Step_InterpVecGTE_AddSpritePrimOT.md",
+      "function_start": "0x6a0af0",
+      "idb_name": "sub_6A0AF0",
+      "type": null,
+      "comment_len": 590,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - step d'anim FX magique (12 frames, blend /12 via magie 2AAAAAABh @0x6A0B06) : interpole par GTE un vecteur global (sub_45E9D0/sub_45EBF0) contre l'etat, construit une prim (descripteur unk_117DC38 @0x6A0B79, compteur @+4, zero +0x24), l'accroche a g_BattleOTBase+0x44 via sub_571C80 (@0x6A0BA0, +44h @0x6A0B99) en chainant dword_2510194, unwind 180 o, incremente word[esi+0Ch] et retourne 0/2 via setl/dec/and 2 (@0x6A0BC6-CB) tant que compteur < 12"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0be0",
+      "doc_name": "MAG213_TwinTick_SubmitPacketOT12F",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0BE0__MAG213_TwinTick_SubmitPacketOT12F.md",
+      "function_start": "0x6a0be0",
+      "idb_name": "sub_6A0BE0",
+      "type": null,
+      "comment_len": 484,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - tick par-frame d'une tache jumelle MAG213 (borne 12) : bump-alloc d'un packet scratch 0xB4 (bs_modulo), remplissage (descripteur unk_117DAF4 @+0, compteur +0x0C, zero +0x24), insertion dans l'OT g_BattleOTBase+0x44 (tete partagee dword_2510194) via sub_571C80, appel sub_571BC0(pos, w, -(w>>2)), unwind du scratch, avance position par deltas +0x18..1C ; retour EAX 0 tant que compteur < 12 sinon 2 (unlink au pump)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0c80",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0C80__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8.md",
+      "function_start": "0x6a0c80",
+      "idb_name": "sub_6A0C80",
+      "type": null,
+      "comment_len": 520,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pas de frame d'une tache FX MAG213 (jumelle de 0x6A0A50, borne 8 au lieu de 13) : alloue un node scratch 0xB4 (bs_modulo @0x6A0C83), init (head unk_117DA18 @0x6A0CAA, compteur +0x0C, flag +0x24), insere dans l'OT battle groupe 2 (g_BattleOTBase+0x44 via sub_571C80 @0x6A0CD1, tete dword_2510194), avance la position ctx+0x10 des deltas +0x18..1C, unwind (add esp,24h @0x6A0CFC) ; retour EAX = 2 tant que compteur < 8 (setl @0x6A0D0E), 0 sinon"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0d20",
+      "doc_name": "MAG_212_Entry_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D20__MAG_212_Entry_Thunk.md",
+      "function_start": "0x6a0d20",
+      "idb_name": "MAG_212_UNK8",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 297,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stub d'entree de la magie 212 (xref data unique table 0xC81AC0 = MagicList_Logic[0xC81AC0], cf. MAG_212_Timeline_Tick 0x6A1660 fermee) : thunk cdecl pur qui retransmet arg_0 au corps reel sub_6A0D50 et retourne son EAX sans modification"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0d50",
+      "doc_name": "MAG_212_EffectEntry_InitCtxAndRegisterTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D50__MAG_212_EffectEntry_InitCtxAndRegisterTick.md",
+      "function_start": "0x6a0d50",
+      "idb_name": "sub_6A0D50",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 464,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - entree d'effet de la magie 212 (corps du thunk 0x6A0D20, slot MagicList_Logic[211] @0xC81AC0) : enfile le TIM de dword_25101F8 (BattleTimQueue_EnqueueType1), latche l'arene magie (dword_2510278) + l'argument (dword_25101FC), resolve l'entree table 0x1D972C0 + 156*id dans dword_2510200, init 16 octets du contexte unk_2510238, enregistre le stepper sub_6A0DC0 via BdLinkTask_Register, FillDwords(task+0xC,0,1) ; retour EAX = &unk_2510238"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a0dc0",
+      "doc_name": "MAG_212_Effect_Tick_Stepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0DC0__MAG_212_Effect_Tick_Stepper.md",
+      "function_start": "0x6a0dc0",
+      "idb_name": "sub_6A0DC0",
+      "type": null,
+      "comment_len": 573,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper BdLinkTask de l'effet 212 (caller unique MAG_212_EffectEntry 0x6A0D50) : double buffer base-relatif +0xAAE0/0x1AAE0/0x2AAE0 togglé par ctx+0x0F ; stage init (3x BS_Memset 2510228/2510218/2510208, enregistrement du ticker MAG_212_Timeline_Tick sub_6A1660 sur dword_2510228 @0x6A0E77-81, FillDwords 0x331, bbox records stride 0x18 + LUT 0x1D972C0 entree 156 o avec centres /2 signes, copies payload-handle 0x30-3C, IndexLut_FillFF_AssignKeys 5 args (hdl+0x150,3,0xE,0x12,0x16), sub_5022C0, anim id 1, preload base+0x1BD0) ; puis 3x BdLinkTask_Pump (#1=esi gate, #2 jete, #3=ebx) ; stages 1->copie camera B8B800..C + inc, 2->AND word 0xFFFB sur 3 globaux + retour 2 ; sinon inc word[ctx+0x0C] ou retour 0 (AL)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a1280",
+      "doc_name": "MagFx_Stage1_SnapshotPresentationActorWords",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A1280__MagFx_Stage1_SnapshotPresentationActorWords.md",
+      "function_start": "0x6a1280",
+      "idb_name": "sub_6A1280",
+      "type": "int *()",
+      "comment_len": 456,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - snapshot stage 1 du stepper mag (sub_6A0DC0) : marche les records acteurs de g_BattlePresentationActors (stride 0x9C, sentinelle fin dword_1D97704), copie en miroir le word d'etat a l'offset 0 de chaque record (zero-extend xor edx/mov dx) vers le tableau moteur unk_25102A0 stride 4 ; retour EAX = pointeur src final ; boucle signee jl"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a2f20",
+      "doc_name": "MagFx_Sync4SlotWordBit04_FromByteFlags_Gated",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2F20__MagFx_Sync4SlotWordBit04_FromByteFlags_Gated.md",
+      "function_start": "0x6a2f20",
+      "idb_name": "sub_6A2F20",
+      "type": "__int16()",
+      "comment_len": 381,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - pour chacun des 4 records mag FX (word a 0x1D97494, stride 0x9C) dont le bit 0x02 est pose, copie le bit 0x04 de l'octet de controle a 0x25102AC+4*i dans le bit 0x04 du word, autres bits preserves (formule (b^w)&4)^w @0x6A2F32-3B) ; retour void effectif (AX residuel du mov ax,[esi] @0x6A2F2B, type IDA __int16() signale)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3220",
+      "doc_name": "BattleFx_DirPair_SinCosScale_Build",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3220__BattleFx_DirPair_SinCosScale_Build.md",
+      "function_start": "0x6a3220",
+      "idb_name": "sub_6A3220",
+      "type": "int __cdecl(int, int, _DWORD *)",
+      "comment_len": 460,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - construit dans le tampon (3e arg) un bloc 20 octets de direction sin/cos Q12 scale : +0x00=cos*s, +0x04=-sin*s (neg @0x6A3263), +0x08=s brut, +0x0C=sin*s, +0x10=cos*s (5 dwords zeroes d'abord, imul signes + sar 0x0C @0x6A324A-60 via Fixed_Sin4096_Q12/Fixed_Cos4096_Q12), et retourne tel quel dans EAX le dword preserve a +0x14 (lu @0x6A3274, pose par l'appelant)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3280",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184174",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3280__MagFx_Call_32A0_WithTable_1184174.md",
+      "function_start": "0x6a3280",
+      "idb_name": "sub_6A3280",
+      "type": null,
+      "comment_len": 267,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_1184174 puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8 @0x6A328F)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a33c0",
+      "doc_name": "MagFx_Call_32A0_WithTable_11843DC",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33C0__MagFx_Call_32A0_WithTable_11843DC.md",
+      "function_start": "0x6a33c0",
+      "idb_name": "sub_6A33C0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_11843DC puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a33e0",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184694",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33E0__MagFx_Call_32A0_WithTable_1184694.md",
+      "function_start": "0x6a33e0",
+      "idb_name": "sub_6A33E0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - wrapper trivial de forwarding cdecl : pousse la constante de table unk_1184694 puis arg_0, appelle sub_6A32A0 (2 args), retour EAX passthrough (add esp,8 @0x6A33EF)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3750",
+      "doc_name": "MagFx_ParticleStepper_EmitOT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3750__MagFx_ParticleStepper_EmitOT44.md",
+      "function_start": "0x6a3750",
+      "idb_name": "sub_6A3750",
+      "type": null,
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper d'effet magique (borne compteur [esi+0x12] word) : avance la position int16 ctx+0x0C/0E/10 par trois deltas signes x4 (shl 2 @0x6A37DE-EE), emet un packet scratch 0xB4 (bs_modulo @0x6A3770/Unwind @0x6A37AA) avec head unk_1182534 @0x6A377A dans la battle OT g_BattleOTBase+0x44 via sub_571C80 @0x6A37A5 (tete dword_2510258), appel prealable sub_571BC0 @0x6A376B ; retour AL = 2 quand le compteur atteint 0 (dec al @0x6A37BF), sinon 0"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3800",
+      "doc_name": "MAG_Stepper_EmitScratchPacket_OT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3800__MAG_Stepper_EmitScratchPacket_OT44.md",
+      "function_start": "0x6a3800",
+      "idb_name": "sub_6A3800",
+      "type": null,
+      "comment_len": 483,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper FX magie par-tick : pas signe via sub_571BC0 (pas = -(word[+12] sar 2), sar @0x6A3817), alloue un node 0xB4 (bs_modulo @0x6A3824/Unwind @0x6A385E) lie a unk_1182534 @0x6A382E + g_BattleOTBase+0x44 (layer 2, add edx,44h @0x6A3852) + liste dword_2510258 via sub_571C80 @0x6A3859, decremente le compteur ctx[0x17] (movsx signe @0x6A3834, dec @0x6A3873-75) ; 0 -> retour 2, sinon avance la position par pas signes x4 (shl) -> retour 0"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a38b0",
+      "doc_name": "MagFX_Step_PosVel_PushOtNodeB4",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A38B0__MagFX_Step_PosVel_PushOtNodeB4.md",
+      "function_start": "0x6a38b0",
+      "idb_name": "sub_6A38B0",
+      "type": null,
+      "comment_len": 441,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper par-frame d'un node mag FX (2 xrefs data dans sub_6A1660 @0x6a22a1/0x6a232e) : alloue un buffer scratch 0xB4 (bs_modulo/Unwind), init +0x00 = &unk_11823C8, +0x24 = 0, +0x04 = (word)dword_11823D0 - (sext8)p[0x17], insere en tete (sub_571C80(buf, g_BattleOTBase+0x44, 2, dword_2510258), puis dword_2510258 = buf), decremente le compteur p[0x17] (0 -> retour 2), sinon ajoute 4 x sext8(p[0x14/15/16]) aux words +0x0C/0E/10 et retourne 0 ; appel initial sub_571BC0(p+0x0C, w12, -(w12 sar 2))"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3960",
+      "doc_name": "MagFx_SpawnRandParamTasks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3960__MagFx_SpawnRandParamTasks.md",
+      "function_start": "0x6a3960",
+      "idb_name": "sub_6A3960",
+      "type": "char __cdecl(int, char, __int16, __int16, __int16, int, __int16, char, char, char, int, __int16, int callback)",
+      "comment_len": 517,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - alloue jusqu'a 1+arg_0 noeuds taches FX sur la liste dword_2510208 (2x BdLinkTask_Register @0x6A3969/0x6A3A15, callback arg) et remplit chacun de 12 octets de parametres (3 s16 base+jitter aleatoire via 4x rand*mult sar 0Fh signe @0x6A398C-E3, 1 s16 a echelle propre, 4 u8 d'options), boucle test pre-decrement (N+1 iterations pour a1=N, mov edx,ebx/dec/test) ; retour AL = arg_24, 0 si echec d'allocation"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3a30",
+      "doc_name": "MagFx_ComposeBoneMat_GteWord3Out",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3A30__MagFx_ComposeBoneMat_GteWord3Out.md",
+      "function_start": "0x6a3a30",
+      "idb_name": "sub_6A3A30",
+      "type": "_WORD *__cdecl(int, _WORD *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - helper battle mag FX : pour un record arg0 (index os s16 a +6), compose la matrice os (FK BattleSkeleton_BuildHierarchicalFK sur dword_2510200+0x60 @0x6A3A3C-46, header +10h, stride 0x30 via lea eax*3 shl 4 @0x6A3A5A-67) avec 2510200+0x40 via Mat_ComposeTwoThenCopy8 @0x6A3A6D, arme le GTE (Field_readCa + Camera_ReadVariables_Space + setSomeDword5 + thunk MVMVA 0x480012 @0x6A3A77-8C) et copie les 3 mots de l'etat 1CA8A34 vers arg1 (GteState_GetWord3 @0x6A3A96) ; aucun retour demontre (epilogue sans ecriture eax)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3ab0",
+      "doc_name": "MAG_207_MAELSTROM_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AB0__MAG_207_MAELSTROM_Thunk.md",
+      "function_start": "0x6a3ab0",
+      "idb_name": "MAG_207_MAELSTROM",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 366,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - thunk d'entree de la table battle-FX MagicList_Logic (xref data 0xC81AAC = slot effet 207, base 0xC81774+206*4) : transfere tel quel son unique argument cdecl au corps reel sub_6A3AE0 et en restitue la valeur (gabarit byte-identique au thunk MAG_212 0x6A0D20 ferme CERTAIN)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a3ae0",
+      "doc_name": "BattleMagic_M207_Maelstrom_SetupTask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AE0__BattleMagic_M207_Maelstrom_SetupTask.md",
+      "function_start": "0x6a3ae0",
+      "idb_name": "sub_6A3AE0",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - setup du sort MAELSTROM (magie 207, corps du thunk 0x6A3AB0) : enfile le TIM de dword_25102C4 (cache FL), copie 0x7740 octets du blob d'entree magic (rep movsd 0x1DD0 dwords unk_11AC624->unk_25102CC @0x6A3AF2-FC), stocke l'arene (dword_25102C8 @0x6A3B01) et l'arg slot (dword_2517A0C @0x6A3B10), resolve l'entree table 0x1D972C0 + 156*id dans dword_25102C0 (@0x6A3B2D-34), initialise le pod contexte unk_2517A48 (BS_Memset + BdLinkTask_Register(sub_6A3B70) @0x6A3B3E-43 + FillDwords +0x0C,0,2), bind la ressource camera unk_11AC278 (@0x6A3B5A) ; retour EAX = &unk_2517A48 (0x6A3B67)"
+      ],
+      "certain": true
+    },
+    {
+      "ea": "0x6a5650",
+      "doc_name": "BattleMagic_M207_Maelstrom_ParticleSpawnTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5650__BattleMagic_M207_Maelstrom_ParticleSpawnTick.md",
+      "function_start": "0x6a5650",
+      "idb_name": "sub_6A5650",
+      "type": null,
+      "comment_len": 565,
+      "tags": [],
+      "verdict": [
+        "- Verdict: CERTAIN - stepper cdecl de particule Maelstrom (registree par la sous-task 0x6A3D90 sur 2517A28) : alloue un frame scratch 0xB4 (bs_modulo @0x6A5669/Unwind @0x6A56A0, header unk_11AC414 @0x6A5673, compteur a +0x04, champ nul +0x24), insere en tete OT via sub_571C80 (g_BattleOTBase+0x44 @0x6A5694, prev=dword_2517A24 @0x6A5687, puis re-ecrit tete @0x6A56A5), appel prealable sub_571BC0 @0x6A5664, integre acc (bytes signes +1Ah/1Bh/1Ch) -> vel (+14h/16h/18h) -> pos (+0Ch/0Eh/10h), incremente le compteur +12h et retourne AL=2 si compteur < 16 (setl/dec/and 2 @0x6A56F2-F7), sinon 0"
+      ],
+      "certain": true
+    }
+  ],
+  "unannotated": [
+    {
+      "ea": "0x407eb4",
+      "doc_name": "resolve_texobj_palette_vt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x407EB4__resolve_texobj_palette_vt.md",
+      "function_start": "0x407eb4",
+      "idb_name": "sub_407EB4",
+      "type": "void __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41ef3c",
+      "doc_name": "sub_41EF3C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41EF3C__sub_41EF3C.md",
+      "function_start": "0x41ef3c",
+      "idb_name": "sub_41EF3C",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41ef7a",
+      "doc_name": "sub_41EF7A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41EF7A__sub_41EF7A.md",
+      "function_start": "0x41ef7a",
+      "idb_name": "sub_41EF7A",
+      "type": "int __cdecl(int, _DWORD *, _DWORD *)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41f99a",
+      "doc_name": "sub_41F99A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41F99A__sub_41F99A.md",
+      "function_start": "0x41f99a",
+      "idb_name": "sub_41F99A",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x421c41",
+      "doc_name": "sub_421C41_TIM_remap",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x421C41__sub_421C41_TIM_remap.md",
+      "function_start": "0x421c41",
+      "idb_name": "sub_421C41",
+      "type": "void __cdecl(int, _DWORD *, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x4221e6",
+      "doc_name": "sub_4221E6_slot_E_cache",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4221E6__sub_4221E6_slot_E_cache.md",
+      "function_start": "0x4221e6",
+      "idb_name": "sub_4221E6",
+      "type": "int __cdecl(int, int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43df2a",
+      "doc_name": "sub_43DF2A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43DF2A__sub_43DF2A.md",
+      "function_start": "0x43df2a",
+      "idb_name": "sub_43DF2A",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43df54",
+      "doc_name": "sub_43DF54",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43DF54__sub_43DF54.md",
+      "function_start": "0x43df54",
+      "idb_name": "sub_43DF54",
+      "type": "void __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43e0e2",
+      "doc_name": "GfxDDrawAlt_PaletteSpriteNode_Direct",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43E0E2__GfxDDrawAlt_PaletteSpriteNode_Direct.md",
+      "function_start": "0x43e0e2",
+      "idb_name": "sub_43E0E2",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x461100",
+      "doc_name": "sub_461100_ListRenderTargetSwitch",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x461100__sub_461100_ListRenderTargetSwitch.md",
+      "function_start": "0x461100",
+      "idb_name": "sub_461100",
+      "type": "void __cdecl(int, unsigned int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x4623a0",
+      "doc_name": "GpuPrimDispatch02_FillRectVRAM",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4623A0__GpuPrimDispatch02_FillRectVRAM.md",
+      "function_start": "0x4623a0",
+      "idb_name": "sub_4623A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 0,
+      "tags": []
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "typeRoots": ["C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/@types"],
+    "paths": {
+      "@opencode/client": ["C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.d.ts"],
+      "@opencode/client/service": ["C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.d.ts"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/planner.test.ts",
+    "test/cluster.test.ts",
+    "test/planner-admission-budget.test.ts",
+    "test/graph-extract.test.ts",
+    "test/eventlog.test.ts",
+    "test/simulator/**/*.ts",
+    "test/benchmarks/graph-interop-scale.test.ts"
+  ]
+}

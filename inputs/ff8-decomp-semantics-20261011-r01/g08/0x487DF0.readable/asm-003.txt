@@ -1,0 +1,25 @@
+00487EA3: mov     [esp+74h+opcode_param_1], 0
+00487EA8: mov     esi, offset AI_VM_FALLBACK_BYTECODE
+00487EAD: mov     [esp+74h+p_monster_slot_id], eax
+00487EB1: jmp     loc_489804; random alive-target mask set: fallback Attack bytecode, jmp ability-row load
+00487EB6: mov     esi, [esp+74h+p_ai_current_subcode]
+00487EBA: mov     al, [esi]; AI VM parse-loop top (also NOP target for op 0x0A/0x10/0x14/0x21): op=*ptr++; if op==0 return.
+00487EBC: inc     esi; Increment by 1
+00487EBD: test    al, al; Logical Compare
+00487EBF: mov     [esp+74h+op_id], al
+00487EC3: jz      loc_48A0AD; Jump if Zero (ZF=1)
+00487EC9: mov     edx, dword ptr [esp+74h+op_id]
+00487ECD: mov     edi, 0FFh
+00487ED2: and     edx, edi; Logical AND
+00487ED4: lea     eax, [edx-1]; switch 61 cases
+00487ED7: cmp     eax, 3Ch; Compare Two Operands
+00487EDA: ja      short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00487EDC: jmp     ds:jpt_487EDC[eax*4]; AI VM opcode dispatch (switch op_id; jumptable @0x48A0B8, indexed op-1).
+00487EE3: lea     eax, [ebx+ebx*2]; AI VM op 0x24 RESET_ATB_SELF: cur_atb = max_atb (make self ready)
+00487EE6: lea     eax, [ebx+eax*4]; Load Effective Address
+00487EE9: shl     eax, 4; Shift Logical Left
+00487EEC: add     eax, offset BATTLE_SLOT_DATA; Add
+00487EF1: mov     ecx, [eax+10h]
+00487EF4: mov     [eax+14h], ecx
+00487EF7: jmp     short def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00487EF9: mov     al, [esi]; AI VM op 0x1C SET_TEXT_FRAMES_30: word_1D28C4C[] = 30*n(1) (text wait frames)

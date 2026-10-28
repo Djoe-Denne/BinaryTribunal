@@ -8,14 +8,14 @@ sources:
   - obsidian-docs/_staging/investigations/live_static_closure_2026-06-13.md
   - docs/tech/reference/pending_action.md
   - docs/tech/systems/damage_pipeline.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-rng-delta-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-attribution-pre-g09-2026-08-10.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-revive-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-cover-redirect-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-rng-delta-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-attribution-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-revive-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-cover-redirect-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
 summary: Encoded target masks feed a live G08 TargetPlan; G09 consumes one direct plan live for Attack 0x01 HP/event commit.
 provenance:
   extracted: 0.91

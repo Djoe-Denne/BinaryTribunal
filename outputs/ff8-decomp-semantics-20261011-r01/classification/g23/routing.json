@@ -1,0 +1,57 @@
+{
+  "group": "g23",
+  "task_id": "task_mv435edb_0033_eq68xw",
+  "status": "DISPATCH_READY",
+  "SOURCE": "discover-g23",
+  "classifier_kind": "classify_x86",
+  "classifier_tool": "tools.classify_x86",
+  "risk_field": "uncertainty",
+  "policy": "CONTRACT.md conservative v1",
+  "source_checkpoint": {"status": "CLEAR", "target_candidate_previews_flagged": false, "basis": "common-compaction explicitly declares no target C/prototype/business verdict and no sibling producer content consumed"},
+  "common_input": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g23/common-compaction.md", "sha256": "bad5b6657ac3080f5d92a05ca9e2cff3b39e35c9447000dc823a735377cd4906"},
+  "native_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "blocked_eas": [],
+  "dispatch_constraints": ["Lead alone admits and creates sessions; no producers spawned here", "Every author independently forks the same frozen SOURCE=discover-g23, never the classifier or another author", "C and semantics may proceed in parallel; R is fresh and admitted only after corresponding A+B artifacts", "Lead verifies effective Model.Ref and variants; silent default forbidden", "Native parent final validation mandatory"],
+  "model_routes": {
+    "medium": {
+      "C": {"A": {"model": "zai-coding-plan/glm-5.3-flash", "variant": "max"}, "B": {"model": "opencode-go/gpt-6-luna", "variant": "medium"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["C.A", "C.B"]}},
+      "semantics": {"A": {"model": "openai/gpt-6.1-sol", "variant": "medium"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "medium", "fresh_independent_session": true}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["semantics.A", "semantics.B"]}}
+    },
+    "complex": {
+      "C": {"A": {"model": "openai/gpt-6-astra", "variant": "high"}, "B": {"model": "opencode/claude-opus-5-5", "variant": "high"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["C.A", "C.B"]}},
+      "semantics": {"A": {"model": "openai/gpt-6.1-sol", "variant": "high"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "fresh_independent_session": true}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "requires": ["semantics.A", "semantics.B"]}}
+    }
+  },
+  "eas": [
+    {
+      "ea": "0x50A690", "status": "DISPATCH_READY", "SOURCE": "discover-g23", "pe_verified": true,
+      "complexity": 44, "risk": 40, "instruction_count": 11, "assembly_characters": 9425,
+      "route": "medium", "production": "2+1 per volet",
+      "rationale": "Scores exceed simple thresholds; within medium thresholds, no major structural trigger. ABI return type and callee mutation uncertain; preserve post-call reload. Independent A+B and R required.",
+      "factual_sha256": "6454ea00a9a491fb2b36e4936a77fd0d93e1fc47100cfd70e2b1e2f4ad55e5e3",
+      "request": "0x50A690.request.json", "request_sha256": "a26f8f1824f407fa9f687d16d8c7310bf8064ab207549941fc431c8b6e9090c7",
+      "response": "0x50A690.response.json", "response_sha256": "4dab2ac7a4956d4f6f3f1d7a240817844ab8c9f9b17ed7249f6efbb1d20550af",
+      "output_paths": {"C.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/C_A.md", "C.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/C_B.md", "C.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/C_R.md", "semantics.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/semantic_A.md", "semantics.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/semantic_B.md", "semantics.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A690/semantic_R.md"}
+    },
+    {
+      "ea": "0x50A6C0", "status": "DISPATCH_READY", "SOURCE": "discover-g23", "pe_verified": true,
+      "complexity": 39, "risk": 37, "instruction_count": 5, "assembly_characters": 9223,
+      "route": "medium", "production": "2+1 per volet",
+      "rationale": "Scores exceed simple thresholds; within medium thresholds, no major structural trigger. Return type unknown and POP ECX observable register effect; independent A+B and R required.",
+      "factual_sha256": "3cc7424a0ccbf79e66b0d943aa43a2fea7c7475c2bc8b9a145d023578c546ca8",
+      "request": "0x50A6C0.request.json", "request_sha256": "d58ef3b3e528eb27397eb7a8a1e05fe15f690479cc3acc5dfe00821f3ee0ed0c",
+      "response": "0x50A6C0.response.json", "response_sha256": "74f07868e8fe62310ff37dcefe0f1c92acd7521676a6772fc44b957aca21074c",
+      "output_paths": {"C.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/C_A.md", "C.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/C_B.md", "C.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/C_R.md", "semantics.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/semantic_A.md", "semantics.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/semantic_B.md", "semantics.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50A6C0/semantic_R.md"}
+    },
+    {
+      "ea": "0x50E510", "status": "DISPATCH_READY", "SOURCE": "discover-g23", "pe_verified": true,
+      "complexity": 70, "risk": 42, "instruction_count": 821, "assembly_characters": 42423,
+      "route": "complex", "production": "2+1 per volet",
+      "rationale": "Complexity >65 and native instructions >200 independently mandate complex route. 166 CFG blocks and 163 case stubs; table fully resolved by discovery against same-hash PE, supplemental table bytes not separately frozen. Forwarded argument and return ABI remain unproven; keep full native coverage.",
+      "factual_sha256": "ac4d3766e12f8727d8a7d0bd71951c6fadc56fe3300fccc42bf8fa1c99adb871",
+      "request": "0x50E510.request.json", "request_sha256": "b8397ff2c2e8fbfe999c5b0cdf77de3ca7a5800fb5f5315102a8a3d2a286c875",
+      "response": "0x50E510.response.json", "response_sha256": "03d5f4a50765f1ff95fd1b48369772541f2fde9f40ab3bc7bc778f32ba37fbb6",
+      "output_paths": {"C.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/C_A.md", "C.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/C_B.md", "C.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/C_R.md", "semantics.A": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/semantic_A.md", "semantics.B": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/semantic_B.md", "semantics.R": "outputs/ff8-decomp-semantics-20261011-r01/production/g23/0x50E510/semantic_R.md"}
+    }
+  ]
+}

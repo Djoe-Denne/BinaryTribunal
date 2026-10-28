@@ -1,0 +1,25 @@
+0048D817: jl      short loc_48D807; Jump if Less (SF!=OF)
+0048D819: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048D820: mov     byte ptr [esp+24h+p_command_type], 0
+0048D825: mov     ebx, 9
+0048D82A: mov     [esp+24h+p_always_zero], 0Ah
+0048D82F: mov     [esp+24h+magic_id], 0
+0048D837: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D83C: mov     edx, [esp+24h+p_attacker_slot_id]
+0048D840: lea     ecx, [edx+edx*2]; Load Effective Address
+0048D843: lea     edx, [edx+ecx*4]; Load Effective Address
+0048D846: shl     edx, 4; Shift Logical Left
+0048D849: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 10h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048D850: jz      short loc_48D884; Jump if Zero (ZF=1)
+0048D852: push    64h ; 'd'
+0048D854: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048D85B: mov     byte ptr [esp+28h+p_command_type], 0
+0048D860: mov     ebx, 9
+0048D865: mov     [esp+28h+p_always_zero], 0Ah
+0048D86A: mov     [esp+28h+magic_id], 0
+0048D872: call    domain__BattleText_GetMiscText; Call Procedure
+0048D877: add     esp, 4; Add
+0048D87A: mov     battle_message_pointer, eax
+0048D87F: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D884: push    esi; magic_id
+0048D885: call    sub_48B7A0; KNOWN_MAGIC: connu test 0x80 ; KNOWN_ITEM_LINED_FLAG =0xC0 (pas 0x80)

@@ -1,0 +1,25 @@
+0048E3A5: mov     CURRENT_ATTACK_MAGIC_GF_ITEM_COMMAND_ID, bx; first byte: (same value if draw this magic)
+0048E3AC: lea     eax, [eax+eax*2]; Load Effective Address
+0048E3AF: lea     edx, ds:1D28344h[eax*8]; Load Effective Address
+0048E3B6: mov     [esi+8], edx; events ptr = 0x1D28344 + 24*M (Hex-Rays 0x1D27944 fold is WRONG) (VA)
+0048E3B9: mov     [esi+0Ch], edi
+0048E3BC: mov     al, byte_1D28E0C
+0048E3C1: test    al, al; Logical Compare
+0048E3C3: jnz     short loc_48E3D1; Jump if Not Zero (ZF=0)
+0048E3C5: mov     [esi], cl
+0048E3C7: pop     edi
+0048E3C8: pop     esi
+0048E3C9: pop     ebp
+0048E3CA: xor     eax, eax; Logical Exclusive OR
+0048E3CC: pop     ebx
+0048E3CD: add     esp, 14h; Add
+0048E3D0: retn; Return Near from Procedure
+0048E3D1: xor     eax, eax; Logical Exclusive OR
+0048E3D3: pop     edi
+0048E3D4: mov     al, byte_1D28E0D
+0048E3D9: mov     al, byte_1D28DCE[eax+eax*2]
+0048E3E0: mov     [esi], al
+0048E3E2: mov     al, byte_1D28E0D
+0048E3E7: inc     al; Increment by 1
+0048E3E9: pop     esi
+0048E3EA: mov     byte_1D28E0D, al

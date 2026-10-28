@@ -1,0 +1,25 @@
+0050FA84: faddp   st(1), st; Add Real and Pop
+0050FA86: fld     Cam_xyz2_x_float; Load Real
+0050FA8C: fmul    st, st(4); Multiply Real
+0050FA8E: faddp   st(1), st; Add Real and Pop
+0050FA90: fadd    [esp+60h+var_38]; Add Real
+0050FA94: fstp    [esp+60h+var_50]; Store Real and Pop
+0050FA98: fmul    [esp+60h+var_34]; Multiply Real
+0050FA9C: fxch    st(1); Exchange Registers
+0050FA9E: fmul    [esp+60h+var_30]; Multiply Real
+0050FAA2: faddp   st(1), st; Add Real and Pop
+0050FAA4: fxch    st(1); Exchange Registers
+0050FAA6: fmul    [esp+60h+var_2C]; Multiply Real
+0050FAAA: faddp   st(1), st; Add Real and Pop
+0050FAAC: fadd    [esp+60h+var_28]; Add Real
+0050FAB0: fld     st; Load Real
+0050FAB2: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FAB8: fstp    [esp+60h+var_10]; Store Real and Pop
+0050FABC: mov     edx, dword ptr [esp+60h+var_10]
+0050FAC0: add     edx, 80000000h; Add
+0050FAC6: cmp     edx, esi; Compare Two Operands
+0050FAC8: jg      short loc_50FAFD; Jump if Greater (ZF=0 & SF=OF)
+0050FACA: fstp    st; Store Real and Pop
+0050FACC: fld     [esp+60h+var_54]; Load Real
+0050FAD0: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FAD6: mov     esi, 20000h

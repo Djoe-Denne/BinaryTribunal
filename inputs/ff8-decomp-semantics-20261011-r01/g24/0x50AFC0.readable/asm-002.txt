@@ -1,0 +1,25 @@
+0050B008: call    sub_50D300; Call Procedure
+0050B00D: mov     edx, dword_1D99A5C
+0050B013: add     esp, 8; Add
+0050B016: cmp     word ptr dword_1D99A90, 0; Compare Two Operands
+0050B01E: jz      short loc_50B042; Jump if Zero (ZF=1)
+0050B020: mov     eax, edx
+0050B022: xor     ecx, ecx; Logical Exclusive OR
+0050B024: push    esi
+0050B025: and     eax, 0FFFFh; Logical AND
+0050B02A: mov     esi, 1
+0050B02F: shl     esi, cl; Shift Logical Left
+0050B031: test    eax, esi; Logical Compare
+0050B033: jz      short loc_50B03B; Jump if Zero (ZF=1)
+0050B035: mov     byte_1D99AAA, cl
+0050B03B: inc     ecx; Increment by 1
+0050B03C: cmp     ecx, 3; Compare Two Operands
+0050B03F: jl      short loc_50B02A; Jump if Less (SF!=OF)
+0050B041: pop     esi
+0050B042: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050B047: mov     word_1D99A7A, dx
+0050B04E: mov     dword_1D99A7C, eax
+0050B053: mov     byte_1D99A81, 0
+0050B05A: mov     cl, [eax]
+0050B05C: mov     byte_1D99A83, 0
+0050B063: mov     byte_1D99A78, cl

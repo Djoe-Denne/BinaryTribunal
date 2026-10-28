@@ -1,0 +1,25 @@
+0050B995: mov     g_BattleActionCallbackPtr_C8, eax
+0050B99A: mov     byte_1D96DC4, 1
+0050B9A1: call    eax ; g_GfActiveCallbackPtr; E2 action_seq call eax: eax=[C4] copie C8; cible MagicList_Logic
+0050B9A3: mov     g_GfSequenceContextCandidateA, eax
+0050B9A8: mov     al, [ebp+0Dh]
+0050B9AB: add     esp, 4; Add
+0050B9AE: inc     al; Increment by 1
+0050B9B0: mov     [ebp+0Dh], al
+0050B9B3: xor     eax, eax; Logical Exclusive OR
+0050B9B5: pop     edi
+0050B9B6: pop     esi
+0050B9B7: pop     ebp
+0050B9B8: retn; Return Near from Procedure
+0050B9B9: call    BattleActionSequence_WaitBusy; jumptable 0050B853 case 3
+0050B9BE: test    eax, eax; Logical Compare
+0050B9C0: jnz     def_50B853; jumptable 0050B853 default case
+0050B9C6: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B9C9: test    byte ptr dword_1D99A6C, 4; jumptable 0050B853 case 4
+0050B9D0: jz      short loc_50B9EB; Jump if Zero (ZF=1)
+0050B9D2: mov     edx, dword_1D973FC
+0050B9D8: push    0; p_task_dword_10
+0050B9DA: and     edx, 0FFh; Logical AND
+0050B9E0: push    2; p_task_byte_0F
+0050B9E2: push    edx; actor_id
+0050B9E3: call    BattleModel_DispatchLoaderByActorId; Call Procedure

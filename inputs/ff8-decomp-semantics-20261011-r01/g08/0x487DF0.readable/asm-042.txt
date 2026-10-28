@@ -1,0 +1,25 @@
+00488C6D: jmp     short loc_488CA2; Jump
+00488C6F: cmp     ecx, edx; jumptable 00488C47 case 3
+00488C71: jz      short def_488C47; jumptable 00488C47 default case
+00488C73: mov     eax, 1
+00488C78: jmp     short loc_488CA2; Jump
+00488C7A: cmp     ecx, edx; jumptable 00488C47 case 4
+00488C7C: ja      short def_488C47; jumptable 00488C47 default case
+00488C7E: mov     eax, 1
+00488C83: jmp     short loc_488CA2; Jump
+00488C85: cmp     ecx, edx; jumptable 00488C47 case 5
+00488C87: jb      short def_488C47; jumptable 00488C47 default case
+00488C89: mov     eax, 1
+00488C8E: jmp     short loc_488CA2; Jump
+00488C90: xor     eax, eax; jumptable 00488C47 default case
+00488C92: jmp     short loc_488CA2; Jump
+00488C94: mov     ecx, [ecx+18h]
+00488C97: push    edi; right
+00488C98: push    ebp; op
+00488C99: push    ecx; left
+00488C9A: call    domain__EnemyAI_CompareValues; G15 U15.6: unsigned compare. 0== 1< 2> 3!= 4<= 5>=. Returns 1 if true.
+00488C9F: add     esp, 0Ch; Add
+00488CA2: test    eax, eax; Logical Compare
+00488CA4: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488CAA: mov     edx, [esp+74h+jump_value]
+00488CAE: and     edx, 0FFFFh; Logical AND

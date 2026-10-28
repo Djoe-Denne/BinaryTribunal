@@ -1,0 +1,13 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous',dst=base+'/l8-baseline-review/inputs',sha=b=>crypto.createHash('sha256').update(b).digest('hex');if(fs.existsSync(dst))throw Error('Packet exists');
+const entries=[{name:'SCOPE.md',source:base+'/L8_BASELINE_REVIEW_SCOPE.md'},{name:'CONTINUATION.md',source:base+'/CONTINUATION.md'},{name:'OWNERSHIP.md',source:root+'/docs/missions/re-graph-scheduler/L8_PHASE1_OWNERSHIP_20261018.md'}];
+for(const n of ['l8-baseline-promotion.cjs','l8-baseline-preflight.json','l8-baseline-promotion-receipt.json','main-baseline-typecheck-receipt.json','l8-post-transfer-typecheck-receipt.json'])entries.push({name:'parent/'+n,source:base+'/'+n});
+for(const n of ['domain.ts','engine.ts','cli.ts','client.ts'])entries.push({name:'before/'+n,source:base+'/l8-baseline-backup/'+n});
+for(const n of ['RUNTIME16_PINS.json','CURRENT_MAIN_HARNESS_GUARD.json','PARENT_BASELINE_COMPARISON.json'])entries.push({name:'historic/'+n,source:base+'/l8-central-preflight/supplement/inputs/'+n});
+const pins=JSON.parse(fs.readFileSync(base+'/l8-central-preflight/supplement/inputs/RUNTIME16_PINS.json','utf8')).pins;
+for(const f of pins)entries.push({name:'after/'+f.path.replace('tools/ff8-harness/',''),source:root+'/'+f.path,pin:f.sha256});
+for(const n of ['package.json','tsconfig.json','bun.lock'])entries.push({name:'after/'+n,source:root+'/tools/ff8-harness/'+n});
+for(const n of ['store.ts','graph-store.ts','validation.ts','graph-normalize.ts','graph.ts','inputs.ts','runtime.ts','eventlog.ts'])entries.push({name:'deps/'+n,source:root+'/tools/ff8-harness/src/'+n});
+entries.push({name:'HISTORIC_REVIEW.md',source:base+'/l8-central-preflight/inputs/docs/L8_RUNTIME16_REVIEW_ACCEPTABLE_SCOPED_20261016.md'});
+const files=[];for(const e of entries){const b=fs.readFileSync(e.source);if(e.pin&&sha(b)!==e.pin)throw Error('Drift');const p=dst+'/'+e.name;fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,b,{flag:'wx'});fs.chmodSync(p,0o444);files.push({path:e.name,source:e.source,bytes:b.length,sha256:sha(b)});}
+const raw=JSON.stringify({at:new Date().toISOString(),role:'fresh-runtime16-transfer-review',files},null,2)+'\n';fs.writeFileSync(dst+'/INPUT_MANIFEST.json',raw,{flag:'wx'});fs.chmodSync(dst+'/INPUT_MANIFEST.json',0o444);const r={at:new Date().toISOString(),files:files.length,bytes:files.reduce((n,f)=>n+f.bytes,0),manifestSha256:sha(raw)};fs.writeFileSync(base+'/l8-baseline-review/PARENT_ACCESS_RECEIPT.json',JSON.stringify(r,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(r));

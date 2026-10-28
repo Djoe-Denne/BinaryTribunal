@@ -1,0 +1,25 @@
+005066DB: test    al, 4; Logical Compare
+005066DD: jz      short loc_506736; Jump if Zero (ZF=1)
+005066DF: test    byte ptr [edi+8], 1Ah; Logical Compare
+005066E3: jnz     short loc_506736; Jump if Not Zero (ZF=0)
+005066E5: mov     edx, [edi+74h]
+005066E8: test    word ptr [edx+2Ch], 140h; Logical Compare
+005066EE: jnz     short loc_506736; Jump if Not Zero (ZF=0)
+005066F0: mov     ecx, [esi+8]
+005066F3: and     eax, 0FFFFh; Logical AND
+005066F8: and     al, 0FBh; Logical AND
+005066FA: push    ecx
+005066FB: push    eax
+005066FC: push    edi
+005066FD: call    domain__BattleStatus_MaskWithSlotStatus2; READS status_2 to mask input flags before passing to sub_50A070.
+00506702: mov     ecx, edi
+00506704: mov     eax, 0D20D20D3h
+00506709: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction
+0050670F: push    offset sub_506860; callback
+00506714: imul    ecx; Signed Multiply
+00506716: add     edx, ecx; Add
+00506718: push    offset dword_1D986A8; list_head
+0050671D: sar     edx, 7; Shift Arithmetic Right
+00506720: mov     eax, edx
+00506722: mov     ebx, edx
+00506724: shr     eax, 1Fh; Shift Logical Right

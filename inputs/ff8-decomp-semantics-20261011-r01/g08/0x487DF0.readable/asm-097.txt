@@ -1,0 +1,25 @@
+0048A01E: push    ecx; target_info
+0048A01F: call    domain__BattleTarget_ComputeMaskFromDefaultTarget; Static ABI verified 2026-08-10: ComputeMaskFromDefaultTarget(u8 target_info) maps targetInfo bit0 to 0x4000 (alternate/revive direction) and bit1 to 0x2000 (random reroll control).
+0048A024: xor     edx, edx; Logical Exclusive OR
+0048A026: mov     di, ax
+0048A029: mov     dl, byte_1D28DCE
+0048A02F: push    edx
+0048A030: call    domain__EnemyAI_ResetExecState; MISNOMER (rename needs-human): no exec-state reset; thunk -- arg>=3 (signed) tail-jmps GetRandomPartyMask, else GetRandomMonsterMask. [wave 2026-09-12 GLM+Grok PASS]
+0048A035: or      edi, eax; Logical Inclusive OR
+0048A037: push    0
+0048A039: movzx   ax, byte_1D28DCD; Move with Zero-Extend
+0048A041: push    edi
+0048A042: push    0
+0048A044: push    0
+0048A046: push    eax
+0048A047: push    0F7h
+0048A04C: push    ebx
+0048A04D: call    domain__BattleAction_BuildPayload; GetText: builds action payload. 7 args (slot,cmd,arg,param,target,mask,anim_id); LABEL_182 @ 0x48E34B freezes payload[+1]==CTI; cmd 3 returns 1 with NO snapshot; 7th arg is anim_id (NOT p_always_zero) (VA)
+0048A052: push    edi; p_target_mask
+0048A053: call    domain__BattleAction_ResolveTargetAndHitCount; Verified against FF8_EN.exe SHA-256 064d466b…: function entry is 0x48E830; 0x48EA93 is only the inner per-target call to 0x48FE20 (G09 damage resolver). Prefix decodes target_mask (low 13 bits/high 3 controls), resolves per-hit masks, Cover and count mirrors; tail resolves damage/events. G08 must reconstruct the prefix and never hook or execute this native function during ownership.
+0048A058: push    5; phase
+0048A05A: call    domain__BattleState_SetPhaseFlag; switch codes 5..10 -> ret void
+0048A05F: xor     ecx, ecx; Logical Exclusive OR
+0048A061: mov     cl, ATTACK_HIT_COUNT
+0048A067: dec     ecx; Decrement by 1
+0048A068: push    ecx; payload_index

@@ -1,0 +1,25 @@
+0048D6C8: mov     eax, ebx
+0048D6CA: and     eax, 0FFFFh; Logical AND
+0048D6CF: push    7
+0048D6D1: push    eax
+0048D6D2: call    domain__BattleText_GetMagicName; Call Procedure
+0048D6D7: add     esp, 4; Add
+0048D6DA: push    eax
+0048D6DB: push    0Bh
+0048D6DD: call    domain__BattleText_GetMiscText; Call Procedure
+0048D6E2: mov     cl, [eax]
+0048D6E4: add     esp, 4; Add
+0048D6E7: push    ecx
+0048D6E8: push    33h ; '3'
+0048D6EA: call    domain__BattleText_GetMiscText; Call Procedure
+0048D6EF: add     esp, 4; Add
+0048D6F2: jmp     loc_48D608; Jump
+0048D6F7: mov     edi, ebx
+0048D6F9: and     edi, 0FFFFh; Logical AND
+0048D6FF: push    edi; p_magic_id
+0048D700: push    edx; p_target_slot_id
+0048D701: mov     edx, [esp+2Ch+p_attacker_slot_id]
+0048D705: push    edx; p_attacker_slot_id
+0048D706: call    domain__Draw_ComputeStealCount; Draw_ComputeStealCount: rand=(rand8&0x1F)+1; qty=((atk.lvl-tgt.lvl+10)>>1)-drawResist+rand+atk.mag)/5 - monster_draw_amount; clamp 0..9. Amount from LowLvlDraw[tier] 4-entry table or 1 if id not found.
+0048D70B: add     esp, 0Ch; Add
+0048D70E: test    eax, eax; Logical Compare

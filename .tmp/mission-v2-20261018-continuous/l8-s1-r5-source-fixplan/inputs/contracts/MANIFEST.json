@@ -1,0 +1,235 @@
+{
+  "schema": "l8-phase2-r3-corrected-contract-manifest/v1",
+  "at": "2026-10-18T14:01:54.057Z",
+  "status": "PROPOSED_R3_CORRECTED_REQUIRES_FRESH_DELTA_V",
+  "author": "current mission parent — one documentary cardinality clarification",
+  "predecessor": {
+    "manifestSha256": "e3902de329525b6715eb0e519e64ae9223290b40ebe2a9672afc07ee1d14ade9",
+    "manifest": {
+      "version": "l8-phase2-contract-correction-source-manifest-v1",
+      "status": "PROPOSED_CORRECTED_REQUIRES_FRESH_V",
+      "author": "l8-phase2-fix-r1",
+      "taskId": "task_mvdtxw2r_008h_spm8q1",
+      "team": "mission-a58a462638c0db92",
+      "scope": "Bounded R1/R2 correction of the four proposed phase2 source documents, not product implementation, execution or acceptance",
+      "outputRoot": ".tmp/mission-v2-20261018-continuous/l8-phase2-fix/outputs",
+      "declaredOutputs": [
+        "EXECUTION_ENVELOPE.md",
+        "DRAIN_AND_ACTIVATION.md",
+        "QA_MATRIX.md",
+        "MANIFEST.json"
+      ],
+      "access": {
+        "role": "Fresh corrective author, deliberately NONBLIND to the previous proposed documents and parent decisions; not an independent reviewer or blind B",
+        "ackHashNonblindSentBeforePlanApproval": true,
+        "initialMainPacket": {
+          "manifest": "../inputs/INPUT_MANIFEST.json",
+          "sha256": "1501bf93a67cabdf9fb6bdf639fcfc4b3cc762d39577397c5738d2cac3f5b4db",
+          "pins": 32,
+          "bytes": 951771,
+          "mismatches": []
+        },
+        "supplementAckBeforeContinuation": {
+          "manifest": "../supplement/inputs/INPUT_MANIFEST.json",
+          "sha256": "813cc153e1817f8506e63adc6235d2b494120c7d943c93eca3caec34dd9884f9",
+          "pins": 1,
+          "bytes": 3029,
+          "mismatches": []
+        },
+        "planApproval": {
+          "channel": "Native team_message from lead, Plan Approved",
+          "scope": "GO DOC4 only, conditional on effective supplement hash ACK; condition satisfied before output creation",
+          "knowledgeDecision": "Parent rejected staged K to K+1 and selected already admitted/committed historical J to current K, or a genuinely empty trusted K to K no-op; T2 never reapplies the delta",
+          "ratification": "Not granted; requires fresh delta V then parent ratification"
+        },
+        "read": [
+          "This packet's pinned files and the explicitly authorized knowledge supplement",
+          "Team task board descriptions/statuses, own task and native parent messages",
+          "Common project instructions, Serena manual and RE mission guide"
+        ],
+        "notRead": [
+          "Original/source paths from manifests outside the authorized projections",
+          "Neighbour worker outputs or other agents' contexts",
+          "Live product, native state, DB, IDA or runtime process state"
+        ]
+      },
+      "controllingDecisions": [
+        {
+          "path": "../inputs/SCOPE.md",
+          "bytes": 1327,
+          "sha256": "39fe152ee1829260b5441b75007347817a0af1589e7f3a55a91e96bc98d842ff"
+        },
+        {
+          "path": "../inputs/PARENT_DECISIONS.md",
+          "bytes": 5331,
+          "sha256": "25013be7326052439f24e62636bc247d0f2726ae59e5a5e344394815714903f9"
+        },
+        {
+          "path": "../supplement/inputs/PARENT_KNOWLEDGE_BINDING.md",
+          "bytes": 3029,
+          "sha256": "680a9c9eb1f2a6b4f8abfd36089a6b2fce0738fa1c3b593cf64a2d408a307b30"
+        }
+      ],
+      "previousLot": {
+        "status": "Immutable input only; no previous lot, source path or old output was written",
+        "documents": [
+          {
+            "path": "../inputs/candidate-contract/EXECUTION_ENVELOPE.md",
+            "bytes": 17208,
+            "sha256": "c8ff8cc66e93db62593ee8434866f3a845be466c05dd91e520f7f0ae17c3f953"
+          },
+          {
+            "path": "../inputs/candidate-contract/DRAIN_AND_ACTIVATION.md",
+            "bytes": 32162,
+            "sha256": "9a5b9b87ce2d76e10137be6d28b6507196693ecf0b7e266c2a464d6dda4cc18a"
+          },
+          {
+            "path": "../inputs/candidate-contract/QA_MATRIX.md",
+            "bytes": 21998,
+            "sha256": "d77581fff188e8adab633a17c2417acc75ef37623e374491c739d72b1d9f122b"
+          },
+          {
+            "path": "../inputs/candidate-contract/MANIFEST.json",
+            "bytes": 12481,
+            "sha256": "620dcd2d3b1f7391e30d927585cb1699778988f37489119e1ac5686dde3f455a"
+          }
+        ]
+      },
+      "delta": {
+        "R1": [
+          "Removed reusable activationExpectation; immutable dated preparationObservationT0 is separate from scientific source bindings and current final expectations",
+          "T1 compares exact T0 preimage, records h to h+1 and complete engaged-family cut under a durable root barrier; R may be created after this cut",
+          "Final ActivationAttempt has a distinct content-derived identity, exact candidate/barrier/cut references and current head/fences/knowledge/inventory/ledger/proofs/authority expectations; outcomes are separate append-only records",
+          "Attempt append does not secretly advance its own expected head; T2 compares local sources on the same connection without awaits, hooks or callbacks",
+          "Origin adoptionIntent is null or explicitly non-authorizing historical intent; B finalAdoption is built after drain/readbacks/releases, bound in the final attempt and verified HOST-only/L6",
+          "Source knowledge/bytes/approvals/planning changes require explicit new full-source preparation plus CASReplaceCandidate under the same uninterrupted barrier; old origin/IDs/cut stay unchanged and root policies remain bounded",
+          "Final B from/toRevision binds a private trusted historical J to current K commit/admission witness or a real K to K no-op; no transport schema field added, no re-admission at current K, no delta replay or K increment at T2"
+        ],
+        "R2": [
+          "Closed non-authorizing authorizationKind variants bootstrap-a-fixture-v1, transition-a-fixture-v1 and proposal-b-host-fixture-v1",
+          "Distinct private current backend capabilities for bootstrap A and structural A to A transition; source/preimage/candidate/head/fence/case revision bound and verified at CAS, not caller booleans or JSON selfhashes",
+          "A proposalEvidenceRef/lineageRef/adoptionIntent/finalAdoption null; control root lineage is not a fabricated B lineage; no planAdoption or B witness for A",
+          "A and B share complete inventory, trusted Q/releases, fencing, root budget and T1/T2 guards; fresh root B still requires actual empty/full-source proof plus unchanged evidence/lineage/HOST-only B gate",
+          "MVP positives bootstrap A/B, A to A, A to B, B to B; B to A, forged/nonempty bootstrap, forged handle and A injected into B gate refused; native/public activation stays closed for every variant"
+        ],
+        "QA": [
+          "Q1/Q2 explicitly cover h to h+1, R created after cut, changing ledger/inventory/knowledge, current finalization, stale attempt/proof/source rejection and barrier-preserving candidate replacement",
+          "Restart cuts include replacement staging/CAS, final-attempt append/T2, bounded control policies and unchanged old origin/engaged IDs",
+          "Added historical-delta non-reapplication, actual no-op without increment, stale K/hash/witness and source-binding oracles; positive A to A and false bootstrap negatives",
+          "Updated S1-S4 interface ownership and Q5/replay references only where affected by R1/R2; no test result is asserted"
+        ],
+        "limitedProvenanceClarification": "GraphSnapshot source/schema and cli.ts are now pinned supplements; removed stale assertions that these files are absent while keeping codec/SIM dependency closure and future verification gates explicit",
+        "preserved": [
+          "DRAIN sections 5 and 6 are byte-identical to the previous document: publication to actual acquired bytes and cross-epoch SPENT/budget rules unchanged",
+          "QA Q3/Q4 sections are byte-identical to the previous document",
+          "No schema, upstream code, CLI policy, resource cap, product source, legacy v1/v2 loader or native authority changed"
+        ]
+      },
+      "evidenceAnchors": [
+        {
+          "anchor": "../inputs/PARENT_DECISIONS.md:9-43",
+          "supports": "R1 immutable origin, T0/T1/final attempt, final B after drain, explicit replacement under the same barrier and Q1/Q2"
+        },
+        {
+          "anchor": "../inputs/PARENT_DECISIONS.md:47-68",
+          "supports": "R2 discriminants, distinct trusted A capabilities, unchanged B gate and exact MVP/native-closed scope"
+        },
+        {
+          "anchor": "../supplement/inputs/PARENT_KNOWLEDGE_BINDING.md:11-36",
+          "supports": "Current source K, historical J to K or true no-op K to K witness, no delta reapplication or staged K+1"
+        },
+        {
+          "anchor": "../inputs/src/lineage.ts:653-680",
+          "supports": "Existing B adoption proposal gate checks evidence/lineage; it takes/applies no knowledge delta and is not an A structural authorization"
+        },
+        {
+          "anchor": "../inputs/src/lineage.ts:219-236",
+          "supports": "Nonempty delta admission advances one revision and binds its then-current fromRevision; historical commit must not be readmitted at K"
+        },
+        {
+          "anchor": "../inputs/transport-candidate/l8-partition-adoption-v1.schema.json:74-84",
+          "supports": "fromRevision/toRevision are knowledge before/after delta, distinct from headCAS and per-unit proof revision"
+        },
+        {
+          "anchor": "../inputs/src/lineage.ts:88-100,640-708",
+          "supports": "Absent inventory is unknown; exact unit/snapshot/attempt/claim sets and authoritative quiescence remain necessary"
+        },
+        {
+          "anchor": "../inputs/src/graph-engine.ts:91-115",
+          "supports": "Existing same-connection atomic pin/claim/outbox invariant retained; future generation CAS is not claimed implemented"
+        }
+      ],
+      "verification": {
+        "method": "Read-only SHA-256/byte counts, JSON data parsing and bounded text/byte diffs via Context Mode; file-only copying and attribute changes on fresh outputs, then dedicated patch edits",
+        "productImportEvalValidatorCompilerTestRun": false,
+        "centralOriginOldOutputGitRegistryDatabaseNativeIdaLiveNetworkProcessControlDelegation": false,
+        "finalPinnedInputRehash": {
+          "atUtc": "2026-10-18T13:16:04.847Z",
+          "main": {
+            "manifestSha256": "1501bf93a67cabdf9fb6bdf639fcfc4b3cc762d39577397c5738d2cac3f5b4db",
+            "pins": 32,
+            "bytes": 951771,
+            "mismatches": []
+          },
+          "supplement": {
+            "manifestSha256": "813cc153e1817f8506e63adc6235d2b494120c7d943c93eca3caec34dd9884f9",
+            "pins": 1,
+            "bytes": 3029,
+            "mismatches": []
+          },
+          "totalPins": 33,
+          "totalBytes": 954800
+        },
+        "outputs": [
+          {
+            "path": "EXECUTION_ENVELOPE.md",
+            "bytes": 23407,
+            "sha256": "4e8cd0ea76da8e1698c9299523598d7283e3d00b3390da43e6ddf35e8d484ee8"
+          },
+          {
+            "path": "DRAIN_AND_ACTIVATION.md",
+            "bytes": 44750,
+            "sha256": "4c32e4cf615668f30205491a33d0d447b644b488452eeb50f1f32700d250b6a1"
+          },
+          {
+            "path": "QA_MATRIX.md",
+            "bytes": 27478,
+            "sha256": "94c596e3bb777cce76994132de6ce0c91d3d04fa0e1c2727a920e1ea951b9a0e"
+          }
+        ],
+        "manifestSelfHash": "Not embedded to avoid self-reference; external final task receipt carries this file's byte hash"
+      },
+      "nextGate": "Fresh independent V delta against both parent decisions and original immutable lot, then parent ratification before any S1 product source; no routine user GO invented",
+      "notEstablished": [
+        "Implementation or validation of any proposed source, private authority backend, witness, inventory, drain, activation attempt or candidate replacement operation",
+        "Any new runtime, test, compiler, validator, DB or process execution",
+        "Real HOST/native L6 authority, public activation, native quiescence or sourcecap availability",
+        "Runtime B/C3-C5 acceptance, G5-G7/full44, global L7/L8/L9/L10, IDA/live FF8 or historical closure"
+      ]
+    }
+  },
+  "parentDecision": {
+    "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/L8_PHASE2_R3_PARENT_DECISION.md",
+    "sha256": "da1cf80434920eb11703aef5e11867bf04ee23ba01cef45ed55bf5a0877b4e77"
+  },
+  "outputs": [
+    {
+      "path": "EXECUTION_ENVELOPE.md",
+      "bytes": 23407,
+      "sha256": "4e8cd0ea76da8e1698c9299523598d7283e3d00b3390da43e6ddf35e8d484ee8"
+    },
+    {
+      "path": "DRAIN_AND_ACTIVATION.md",
+      "bytes": 46082,
+      "sha256": "17fa4b206bf2a287b6ec68a992b4e9b4c0fb6791b5f758790ca2918916a71b2d"
+    },
+    {
+      "path": "QA_MATRIX.md",
+      "bytes": 27847,
+      "sha256": "5f1fdc6e6c330a0ff7c525e4709596ce29aee7584f0356dee73be9f13e7ee5cb"
+    }
+  ],
+  "changes": "uniqueness current head candidate only, durable staged PREPARED nonauthorizing, root counters and CAS-only selection; addQ1/Q2oracle;Eunchanged",
+  "runtimeCodeOrNativeOrBudgetChanged": false,
+  "selfHashPolicy": "detached receipt only"
+}

@@ -1,0 +1,25 @@
+00490D6B: mov     byte_1D28E00, 0
+00490D72: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00490D79: jz      short loc_490DA1; Jump if Zero (ZF=1)
+00490D7B: and     ebp, 0FFh; Logical AND
+00490D81: xor     esi, esi; Logical Exclusive OR
+00490D83: mov     eax, ebp
+00490D85: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+00490D8C: lea     eax, [eax+eax*2]; Load Effective Address
+00490D8F: mov     cl, byte ptr K_SHOT.Unknown[eax*8]
+00490D96: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+00490D9C: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490DA1: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 0; 9: miss
+00490DA8: xor     esi, esi; Logical Exclusive OR
+00490DAA: mov     byte_1D27ADD, 1; jumptable 0049043B case 252
+00490DB1: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490DB6: and     ebp, 0FFh; jumptable 0049043B case 237
+00490DBC: xor     ecx, ecx; Logical Exclusive OR
+00490DBE: mov     cl, byte ptr unk_1D28DF3
+00490DC4: mov     eax, ebp
+00490DC6: mov     byte_1D28E00, 1
+00490DCD: lea     edx, [eax+eax*2]; Load Effective Address
+00490DD0: xor     eax, eax; Logical Exclusive OR
+00490DD2: mov     al, K_SHOT.AttackFlags[edx*8]
+00490DD9: lea     edx, [ecx+ecx*2]; Load Effective Address
+00490DDC: mov     ATTACK_FLAG, al; | ID   | Meaning          |

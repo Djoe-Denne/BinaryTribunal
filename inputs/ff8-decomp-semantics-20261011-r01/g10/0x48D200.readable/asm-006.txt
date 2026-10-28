@@ -1,0 +1,25 @@
+0048D3DE: jl      short loc_48D3CB; Jump if Less (SF!=OF)
+0048D3E0: xor     esi, esi; Logical Exclusive OR
+0048D3E2: shr     word ptr [esp+24h+p_enemy_number], 1; Shift Logical Right
+0048D3E7: mov     eax, [esp+24h+p_enemy_number]
+0048D3EB: mov     ebx, eax
+0048D3ED: and     ebx, ecx; Logical AND
+0048D3EF: test    bx, bx; Logical Compare
+0048D3F2: jnz     short loc_48D468; Jump if Not Zero (ZF=0)
+0048D3F4: inc     esi; Increment by 1
+0048D3F5: cmp     esi, 8; Compare Two Operands
+0048D3F8: jl      short loc_48D3E2; Jump if Less (SF!=OF)
+0048D3FA: mov     BOOL_TARGET_CHOOSEN, 1
+0048D401: mov     ecx, edx
+0048D403: lea     esi, [esp+24h+p_enemy_number]; Load Effective Address
+0048D407: mov     edx, 1
+0048D40C: xor     eax, eax; Logical Exclusive OR
+0048D40E: mov     ebx, edx
+0048D410: and     ebx, ecx; Logical AND
+0048D412: test    bx, bx; Logical Compare
+0048D415: jz      short loc_48D41A; Jump if Zero (ZF=1)
+0048D417: mov     [esi], al
+0048D419: inc     esi; Increment by 1
+0048D41A: shl     edx, 1; Shift Logical Left
+0048D41C: inc     eax; Increment by 1
+0048D41D: cmp     eax, 10h; Compare Two Operands

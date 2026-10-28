@@ -1,0 +1,25 @@
+00490BF2: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+00490BF8: mov     al, K_BLUE_MAGIC.CritBonus+0F0h[edx*8]
+00490BFF: mov     edx, [esp+20h+p_target_slot_id]
+00490C03: push    eax; p_attack_power
+00490C04: xor     eax, eax; Logical Exclusive OR
+00490C06: mov     al, K_BLUE_MAGIC.AttackType[esi]
+00490C0C: push    edx; p_target_slot_id
+00490C0D: push    ebx; p_attacker_slot_id
+00490C0E: push    eax; p_attack_type
+00490C0F: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+00490C14: add     esp, 10h; Add
+00490C17: mov     esi, eax
+00490C19: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490C1E: and     ecx, 0FFFFh; jumptable 0049043B cases 4,13
+00490C24: xor     edx, edx; Logical Exclusive OR
+00490C26: mov     dl, byte ptr unk_1D28DF3
+00490C2C: lea     eax, [ecx+ecx*2]; Load Effective Address
+00490C2F: xor     ecx, ecx; Logical Exclusive OR
+00490C31: shl     eax, 3; Shift Logical Left
+00490C34: lea     esi, [edx+edx*2]; Load Effective Address
+00490C37: mov     cl, K_ITEM.unknown2[eax]
+00490C3D: lea     edx, [edx+esi*4]; Load Effective Address
+00490C40: mov     ATTACK_FLAG, cl; | ID   | Meaning          |
+00490C46: shl     edx, 4; Shift Logical Left
+00490C49: and     cl, 3; Logical AND

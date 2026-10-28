@@ -1,0 +1,25 @@
+0050B78C: xor     eax, eax; Logical Exclusive OR
+0050B78E: pop     ebx
+0050B78F: retn; Return Near from Procedure
+0050B790: cmp     byte_1D99A81, 3; jumptable 0050B2BD case 9
+0050B797: jnz     short loc_50B7C3; Jump if Not Zero (ZF=0)
+0050B799: push    80h
+0050B79E: push    0
+0050B7A0: push    87h
+0050B7A5: call    BdPlaySy; Call Procedure
+0050B7AA: push    80h
+0050B7AF: push    0
+0050B7B1: push    88h
+0050B7B6: call    BdPlaySy; Call Procedure
+0050B7BB: add     esp, 18h; Add
+0050B7BE: call    BattleAction_ApplyEventGroup0; wave3 attaques: apply groupe0 (ptr payload+8,count +0x10); GF/BZero/Physical + opcode AA case170
+0050B7C3: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050B7C8: mov     byte ptr [esi+1], 0FFh
+0050B7CC: and     al, 0EFh; Logical AND
+0050B7CE: pop     esi
+0050B7CF: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050B7D4: pop     ebp
+0050B7D5: mov     dword_1D99A64, 0
+0050B7DF: mov     eax, 2
+0050B7E4: pop     ebx
+0050B7E5: retn; Return Near from Procedure

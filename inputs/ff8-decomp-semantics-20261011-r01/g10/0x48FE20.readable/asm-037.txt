@@ -1,0 +1,25 @@
+00490C4C: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[edx], cl
+00490C52: mov     dl, K_ITEM.attackFlags[eax]
+00490C58: xor     ecx, ecx; Logical Exclusive OR
+00490C5A: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, dl; 9: miss
+00490C60: mov     cl, K_ITEM.attackPower[eax]
+00490C66: xor     edx, edx; Logical Exclusive OR
+00490C68: mov     dl, K_ITEM.attackType[eax]
+00490C6E: mov     esi, ecx
+00490C70: mov     ecx, [esp+20h+p_target_slot_id]
+00490C74: push    esi; p_attack_power
+00490C75: push    ecx; p_target_slot_id
+00490C76: push    ebx; p_attacker_slot_id
+00490C77: push    edx; p_attack_type
+00490C78: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+00490C7D: add     esp, 10h; Add
+00490C80: mov     esi, eax
+00490C82: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490C87: xor     eax, eax; G18: NONJ resolve. GF_LEVEL=avg existing GF levels, GF_BOOST=100, then Damage_ComputeRawDeltaFromAttackType.
+00490C89: xor     edi, edi; Logical Exclusive OR
+00490C8B: mov     esi, offset byte_1CFF620
+00490C90: mov     edx, offset SG_ARRAY_GF_DATA.Exists
+00490C95: test    byte ptr [edx], 1; Logical Compare
+00490C98: jz      short loc_490CA1; Jump if Zero (ZF=1)
+00490C9A: movzx   bp, byte ptr [esi]; Move with Zero-Extend
+00490C9E: add     eax, ebp; Add

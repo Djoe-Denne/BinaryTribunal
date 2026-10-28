@@ -1,0 +1,20 @@
+bun test v1.4.2 (744846f84)
+
+test\native-canary-budget.test.ts:
+(pass) explicit 20-minute canary budget survives the former global cutoff [0.97ms]
+(pass) canary keeps a ten-minute default and refuses invalid/unbounded durations [0.15ms]
+
+test\native-canary-strict.test.ts:
+(pass) canary defaults to strict capture, never worker-edited JSON [0.21ms]
+(pass) legacy file output must be explicitly selected, never an automatic fallback [0.06ms]
+(pass) new runnable fixture configuration also defaults to strict mode before filesystem work [0.33ms]
+(pass) exported fixture factory does not silently default to editable free-form JSON [0.03ms]
+(pass) owned stop marker can cancel without killing the token-owning controller [1.33ms]
+(pass) closure requires public stop followed by a complete stopped/paused readback [0.50ms]
+(pass) closure refuses missing, foreign, duplicated or replaced native identities [0.17ms]
+(pass) observed native pairs survive lost-reply paths and cannot be rebound [0.23ms]
+
+ 10 pass
+ 0 fail
+ 2039 expect() calls
+Ran 10 tests across 2 files. [36.00ms]

@@ -1,0 +1,25 @@
+00491063: jz      short loc_491069; Jump if Zero (ZF=1)
+00491065: cmp     al, 1Ch; Compare Two Operands
+00491067: jnz     short loc_49106C; Jump if Not Zero (ZF=0)
+00491069: lea     esi, [esi+esi*2]; Load Effective Address
+0049106C: lea     edx, [ebx+ebx*2]; Load Effective Address
+0049106F: lea     ecx, [ebx+edx*4]; Load Effective Address
+00491072: shl     ecx, 4; Shift Logical Left
+00491075: test    BATTLE_SLOT_DATA.status_2[ecx], offset unk_2000000; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+0049107F: jz      short loc_491088; Jump if Zero (ZF=1)
+00491081: cmp     al, 2; Compare Two Operands
+00491083: jnz     short loc_491088; Angel Wing damage rule: if attacker.status_2 has 0x02000000 and COMMAND_TYPE_ID == COMMAND_MAGIC, multiply raw damage by 5.
+00491085: lea     esi, [esi+esi*4]; Load Effective Address
+00491088: cmp     byte_1D28E19, 0FFh; Static boundary verified 2026-08-10: G09 consumes byte_1D28E19 produced by native Cover. G08-side Cover writes original victim slot (or 0xFF when no redirect); this field is cross-boundary, not a G09-produced target history.
+0049108F: jz      short loc_491093; Jump if Zero (ZF=1)
+00491091: shr     esi, 1; Shift Logical Right
+00491093: mov     dl, HIT_TYPE_2; Seems to be a bit list
+00491099: mov     al, dl
+0049109B: and     al, 4; Logical AND
+0049109D: jz      short loc_4910C6; Jump if Zero (ZF=1)
+0049109F: xor     ecx, ecx; Logical Exclusive OR
+004910A1: mov     cl, byte ptr unk_1D28DF3
+004910A7: lea     edi, [ecx+ecx*2]; Load Effective Address
+004910AA: lea     ecx, [ecx+edi*4]; Load Effective Address
+004910AD: shl     ecx, 4; Shift Logical Left
+004910B0: cmp     BATTLE_SLOT_DATA.last_attacker_attack_type[ecx], 0; Compare Two Operands

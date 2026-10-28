@@ -1,0 +1,25 @@
+00488604: push    ecx
+00488605: call    memcpy; Call Procedure
+0048860A: add     esp, 0Ch; Add
+0048860D: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488612: mov     cl, [esi]; AI VM op 0x0E SET_LOCAL_VAR: BATTLE_LOCAL_VAR[52*slot+idx]=val (val 0xCB -> last-attacker slot)
+00488614: lea     eax, [ebx+ebx*2]; Load Effective Address
+00488617: mov     [esp+74h+opcode_param_1], cl
+0048861B: mov     cl, [esi+1]
+0048861E: lea     eax, [ebx+eax*4]; Load Effective Address
+00488621: mov     [esp+74h+op_param_2], cl
+00488625: shl     eax, 4; Shift Logical Left
+00488628: inc     esi; Increment by 1
+00488629: inc     esi; Increment by 1
+0048862A: cmp     cl, 0CBh; Compare Two Operands
+0048862D: jnz     short loc_488639; Jump if Not Zero (ZF=0)
+0048862F: mov     dl, BATTLE_SLOT_DATA.last_attacker_slot_id[eax]
+00488635: mov     [esp+74h+op_param_2], dl
+00488639: mov     ecx, dword ptr [esp+74h+op_param_2]
+0048863D: mov     edx, dword ptr [esp+74h+opcode_param_1]
+00488641: and     ecx, edi; Logical AND
+00488643: and     edx, edi; Logical AND
+00488645: mov     BATTLE_LOCAL_VAR[eax+edx*4], ecx; BATTLE_LOCAL_VAR - Per-slot AI local variable storage (indexed by slot*0xD0 + var_idx*4)
+0048864C: jmp     def_487EDC; Opcode 0x0E: SET_LOCAL_VAR - Sets a per-slot local AI variable.
+00488651: mov     al, [esi]; AI VM op 0x0F SET_BATTLE_VAR: BATTLE_BATTLE_VAR[idx]=val (global AI var)
+00488653: mov     cl, [esi+1]

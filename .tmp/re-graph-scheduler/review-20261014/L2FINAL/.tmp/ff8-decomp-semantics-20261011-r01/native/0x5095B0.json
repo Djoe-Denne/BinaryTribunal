@@ -1,0 +1,1652 @@
+{
+  "ea": "0x5095B0",
+  "name_label_only": "WalkStride30_MatComposeInPlace",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x5095b0",
+      "end": "0x5095e7",
+      "hex": "8b442404535733ff8b48048b19803b007622558b6c2414568d7320565655e81d2d060033d283c40c8a1383c630473bfa7ce95e5d5f5bc3"
+    }
+  ],
+  "assembly": "005095B0: mov     eax, [esp+arg_0]\n005095B4: push    ebx\n005095B5: push    edi\n005095B6: xor     edi, edi; Logical Exclusive OR\n005095B8: mov     ecx, [eax+4]\n005095BB: mov     ebx, [ecx]\n005095BD: cmp     byte ptr [ebx], 0; Compare Two Operands\n005095C0: jbe     short loc_5095E4; Jump if Below or Equal (CF=1 | ZF=1)\n005095C2: push    ebp\n005095C3: mov     ebp, [esp+0Ch+arg_4]\n005095C7: push    esi\n005095C8: lea     esi, [ebx+20h]; Load Effective Address\n005095CB: push    esi\n005095CC: push    esi\n005095CD: push    ebp\n005095CE: call    Mat_ComposeTwoThenCopy8; E3a: call 0x56C090 + call 0x56C600(edi+0x14) + add [esi+14/18/1C] + rep movsd 8 dwords to arg8 (38 insns).\n005095D3: xor     edx, edx; Logical Exclusive OR\n005095D5: add     esp, 0Ch; Add\n005095D8: mov     dl, [ebx]\n005095DA: add     esi, 30h ; '0'; Add\n005095DD: inc     edi; Increment by 1\n005095DE: cmp     edi, edx; Compare Two Operands\n005095E0: jl      short loc_5095CB; Jump if Less (SF!=OF)\n005095E2: pop     esi\n005095E3: pop     ebp\n005095E4: pop     edi\n005095E5: pop     ebx\n005095E6: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x5095b0",
+      "end": "0x5095c2",
+      "successors": [
+        "0x5095c2",
+        "0x5095e4"
+      ]
+    },
+    {
+      "start": "0x5095c2",
+      "end": "0x5095cb",
+      "successors": [
+        "0x5095cb"
+      ]
+    },
+    {
+      "start": "0x5095cb",
+      "end": "0x5095e2",
+      "successors": [
+        "0x5095e2",
+        "0x5095cb"
+      ]
+    },
+    {
+      "start": "0x5095e2",
+      "end": "0x5095e4",
+      "successors": [
+        "0x5095e4"
+      ]
+    },
+    {
+      "start": "0x5095e4",
+      "end": "0x5095e7",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50105e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x500fd0"
+    },
+    {
+      "from": "0x5010b5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x500fd0"
+    },
+    {
+      "from": "0x502df2",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502d40"
+    },
+    {
+      "from": "0x502e89",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502d40"
+    },
+    {
+      "from": "0x50f1a2",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50f190"
+    },
+    {
+      "from": "0x5951ee",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5951e0"
+    },
+    {
+      "from": "0x595e64",
+      "type": 17,
+      "iscode": true,
+      "function": "0x595e40"
+    },
+    {
+      "from": "0x59601e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x596010"
+    },
+    {
+      "from": "0x5968f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5968d0"
+    },
+    {
+      "from": "0x5977f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5977d0"
+    },
+    {
+      "from": "0x599e0c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x599dc0"
+    },
+    {
+      "from": "0x599e90",
+      "type": 17,
+      "iscode": true,
+      "function": "0x599dc0"
+    },
+    {
+      "from": "0x59d5aa",
+      "type": 17,
+      "iscode": true,
+      "function": "0x59d400"
+    },
+    {
+      "from": "0x5a48bc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5a4870"
+    },
+    {
+      "from": "0x5a4940",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5a4870"
+    },
+    {
+      "from": "0x5a9034",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5a9010"
+    },
+    {
+      "from": "0x5aec56",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5aebd0"
+    },
+    {
+      "from": "0x5b17b6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5b1730"
+    },
+    {
+      "from": "0x5b2966",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5b28e0"
+    },
+    {
+      "from": "0x5b4b86",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5b4b00"
+    },
+    {
+      "from": "0x5b7046",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5b6fc0"
+    },
+    {
+      "from": "0x5b95a6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5b9520"
+    },
+    {
+      "from": "0x5bb176",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5bb0f0"
+    },
+    {
+      "from": "0x5bce6c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5bccc0"
+    },
+    {
+      "from": "0x5bf616",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5bf590"
+    },
+    {
+      "from": "0x5c4f04",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5c4ee0"
+    },
+    {
+      "from": "0x5c506e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5c5060"
+    },
+    {
+      "from": "0x5c85de",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5c8500"
+    },
+    {
+      "from": "0x5cbacc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5cba80"
+    },
+    {
+      "from": "0x5cbb50",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5cba80"
+    },
+    {
+      "from": "0x5ccc8c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5ccc40"
+    },
+    {
+      "from": "0x5ccd10",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5ccc40"
+    },
+    {
+      "from": "0x5ce2e7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5ce230"
+    },
+    {
+      "from": "0x5ce373",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5ce230"
+    },
+    {
+      "from": "0x5d2abd",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5d29e0"
+    },
+    {
+      "from": "0x5d5144",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5d5120"
+    },
+    {
+      "from": "0x5d65dc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5d6590"
+    },
+    {
+      "from": "0x5d6660",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5d6590"
+    },
+    {
+      "from": "0x5da6af",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5da660"
+    },
+    {
+      "from": "0x5da73b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5da660"
+    },
+    {
+      "from": "0x5db7e6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5db720"
+    },
+    {
+      "from": "0x5db872",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5db720"
+    },
+    {
+      "from": "0x5de42f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5de3e0"
+    },
+    {
+      "from": "0x5de4bc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5de3e0"
+    },
+    {
+      "from": "0x5df1bf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5df170"
+    },
+    {
+      "from": "0x5df24b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5df170"
+    },
+    {
+      "from": "0x5e58aa",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5e5700"
+    },
+    {
+      "from": "0x5ef01b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5eefc0"
+    },
+    {
+      "from": "0x5ef080",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5eefc0"
+    },
+    {
+      "from": "0x5fc78f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5fc5e0"
+    },
+    {
+      "from": "0x6081de",
+      "type": 17,
+      "iscode": true,
+      "function": "0x608100"
+    },
+    {
+      "from": "0x61280f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6127c0"
+    },
+    {
+      "from": "0x61289b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6127c0"
+    },
+    {
+      "from": "0x616402",
+      "type": 17,
+      "iscode": true,
+      "function": "0x616260"
+    },
+    {
+      "from": "0x6197bf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x619770"
+    },
+    {
+      "from": "0x61984b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x619770"
+    },
+    {
+      "from": "0x62589e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x625890"
+    },
+    {
+      "from": "0x627d5b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x627cf0"
+    },
+    {
+      "from": "0x62c844",
+      "type": 17,
+      "iscode": true,
+      "function": "0x62c820"
+    },
+    {
+      "from": "0x635037",
+      "type": 17,
+      "iscode": true,
+      "function": "0x634e40"
+    },
+    {
+      "from": "0x637454",
+      "type": 17,
+      "iscode": true,
+      "function": "0x637430"
+    },
+    {
+      "from": "0x637dfc",
+      "type": 17,
+      "iscode": true,
+      "function": "0x637d30"
+    },
+    {
+      "from": "0x64a2c4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x64a2a0"
+    },
+    {
+      "from": "0x657528",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6574f0"
+    },
+    {
+      "from": "0x657d2e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x657cb0"
+    },
+    {
+      "from": "0x657daa",
+      "type": 17,
+      "iscode": true,
+      "function": "0x657cb0"
+    },
+    {
+      "from": "0x658de7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x658d90"
+    },
+    {
+      "from": "0x65fb46",
+      "type": 17,
+      "iscode": true,
+      "function": "0x65fb20"
+    },
+    {
+      "from": "0x65fb64",
+      "type": 17,
+      "iscode": true,
+      "function": "0x65fb20"
+    },
+    {
+      "from": "0x660316",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6602c0"
+    },
+    {
+      "from": "0x660387",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6602c0"
+    },
+    {
+      "from": "0x6615a6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x661550"
+    },
+    {
+      "from": "0x661d29",
+      "type": 17,
+      "iscode": true,
+      "function": "0x661cc0"
+    },
+    {
+      "from": "0x6635e6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x663590"
+    },
+    {
+      "from": "0x66b4da",
+      "type": 17,
+      "iscode": true,
+      "function": "0x66b490"
+    },
+    {
+      "from": "0x66e33c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x66e300"
+    },
+    {
+      "from": "0x67a008",
+      "type": 17,
+      "iscode": true,
+      "function": "0x679ec0"
+    },
+    {
+      "from": "0x67cc8d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x67cc10"
+    },
+    {
+      "from": "0x67cd2f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x67cc10"
+    },
+    {
+      "from": "0x67df11",
+      "type": 17,
+      "iscode": true,
+      "function": "0x67dd90"
+    },
+    {
+      "from": "0x67f28e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x67f090"
+    },
+    {
+      "from": "0x681519",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6812e0"
+    },
+    {
+      "from": "0x682299",
+      "type": 17,
+      "iscode": true,
+      "function": "0x682270"
+    },
+    {
+      "from": "0x684b49",
+      "type": 17,
+      "iscode": true,
+      "function": "0x684b20"
+    },
+    {
+      "from": "0x685166",
+      "type": 17,
+      "iscode": true,
+      "function": "0x684fa0"
+    },
+    {
+      "from": "0x685796",
+      "type": 17,
+      "iscode": true,
+      "function": "0x685750"
+    },
+    {
+      "from": "0x687e7f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x687c00"
+    },
+    {
+      "from": "0x68d27b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x68d1d0"
+    },
+    {
+      "from": "0x68d2f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x68d1d0"
+    },
+    {
+      "from": "0x68def8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x68dee0"
+    },
+    {
+      "from": "0x68f7d8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x68f7c0"
+    },
+    {
+      "from": "0x69301c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x693000"
+    },
+    {
+      "from": "0x693203",
+      "type": 17,
+      "iscode": true,
+      "function": "0x693170"
+    },
+    {
+      "from": "0x69327e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x693170"
+    },
+    {
+      "from": "0x695f8c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x695f60"
+    },
+    {
+      "from": "0x69aa20",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69a790"
+    },
+    {
+      "from": "0x69d145",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69d100"
+    },
+    {
+      "from": "0x69d1bd",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69d100"
+    },
+    {
+      "from": "0x69d2a0",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69d200"
+    },
+    {
+      "from": "0x69d319",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69d200"
+    },
+    {
+      "from": "0x69d3a7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x69d360"
+    },
+    {
+      "from": "0x6a06ec",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a06c0"
+    },
+    {
+      "from": "0x6a0723",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a06c0"
+    },
+    {
+      "from": "0x6a154a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a12b0"
+    },
+    {
+      "from": "0x6a3000",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a2f60"
+    },
+    {
+      "from": "0x6a3079",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a2f60"
+    },
+    {
+      "from": "0x6a79d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a79b0"
+    },
+    {
+      "from": "0x6a7a76",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6a7a50"
+    },
+    {
+      "from": "0x6af1a8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6aef50"
+    },
+    {
+      "from": "0x6b4ff8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b4cb0"
+    },
+    {
+      "from": "0x6b5018",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b4cb0"
+    },
+    {
+      "from": "0x6b5038",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b4cb0"
+    },
+    {
+      "from": "0x6b504d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b4cb0"
+    },
+    {
+      "from": "0x6b7fe6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b7fc0"
+    },
+    {
+      "from": "0x6b8004",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b7fc0"
+    },
+    {
+      "from": "0x6b87b6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b8760"
+    },
+    {
+      "from": "0x6b8827",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b8760"
+    },
+    {
+      "from": "0x6b9cc7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6b9af0"
+    },
+    {
+      "from": "0x6bc934",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6bc8a0"
+    },
+    {
+      "from": "0x6bc99e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6bc8a0"
+    },
+    {
+      "from": "0x6c1d10",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c1c90"
+    },
+    {
+      "from": "0x6c1d7c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c1c90"
+    },
+    {
+      "from": "0x6c3882",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c3760"
+    },
+    {
+      "from": "0x6c6469",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c6440"
+    },
+    {
+      "from": "0x6c6798",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6c6770"
+    },
+    {
+      "from": "0x6ca60f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ca560"
+    },
+    {
+      "from": "0x6ca699",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ca560"
+    },
+    {
+      "from": "0x6cb601",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6cb560"
+    },
+    {
+      "from": "0x6cb66d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6cb560"
+    },
+    {
+      "from": "0x6ce80c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ce7e0"
+    },
+    {
+      "from": "0x6ce843",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ce7e0"
+    },
+    {
+      "from": "0x6d1a17",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d19a0"
+    },
+    {
+      "from": "0x6d1a83",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d19a0"
+    },
+    {
+      "from": "0x6d584c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d5620"
+    },
+    {
+      "from": "0x6d8caf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d8c20"
+    },
+    {
+      "from": "0x6d8d1b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6d8c20"
+    },
+    {
+      "from": "0x6dfda7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6dfd90"
+    },
+    {
+      "from": "0x6eb71c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6eb6f0"
+    },
+    {
+      "from": "0x6eb753",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6eb6f0"
+    },
+    {
+      "from": "0x6ed78c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6ed770"
+    },
+    {
+      "from": "0x6f0c46",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f0ae0"
+    },
+    {
+      "from": "0x6f3107",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f2f20"
+    },
+    {
+      "from": "0x6f66ac",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f6690"
+    },
+    {
+      "from": "0x6f96eb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f9440"
+    },
+    {
+      "from": "0x6f9817",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f9800"
+    },
+    {
+      "from": "0x6f99dd",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f9960"
+    },
+    {
+      "from": "0x6f9a59",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6f9960"
+    },
+    {
+      "from": "0x6fbe90",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fbe80"
+    },
+    {
+      "from": "0x6fc0fa",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fc0a0"
+    },
+    {
+      "from": "0x6fc195",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fc0a0"
+    },
+    {
+      "from": "0x6fc200",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fc0a0"
+    },
+    {
+      "from": "0x6fe31e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fe300"
+    },
+    {
+      "from": "0x6fed16",
+      "type": 17,
+      "iscode": true,
+      "function": "0x6fecf0"
+    },
+    {
+      "from": "0x7062cb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x706270"
+    },
+    {
+      "from": "0x71565b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x715600"
+    },
+    {
+      "from": "0x71e9db",
+      "type": 17,
+      "iscode": true,
+      "function": "0x71e980"
+    },
+    {
+      "from": "0x72832b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7282d0"
+    },
+    {
+      "from": "0x7307bb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x730760"
+    },
+    {
+      "from": "0x73970b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7396b0"
+    },
+    {
+      "from": "0x746c6b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x746c10"
+    },
+    {
+      "from": "0x74d87b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x74d820"
+    },
+    {
+      "from": "0x75461b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7545c0"
+    },
+    {
+      "from": "0x7558fb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7558a0"
+    },
+    {
+      "from": "0x75eafb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x75eaa0"
+    },
+    {
+      "from": "0x76766b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x767610"
+    },
+    {
+      "from": "0x7719fb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7719a0"
+    },
+    {
+      "from": "0x77538b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x775330"
+    },
+    {
+      "from": "0x778ce0",
+      "type": 17,
+      "iscode": true,
+      "function": "0x778ab0"
+    },
+    {
+      "from": "0x78018b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x780130"
+    },
+    {
+      "from": "0x79649b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x796440"
+    },
+    {
+      "from": "0x79e7db",
+      "type": 17,
+      "iscode": true,
+      "function": "0x79e780"
+    },
+    {
+      "from": "0x7c4ceb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x7c4c90"
+    },
+    {
+      "from": "0x8b710b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8b70b0"
+    },
+    {
+      "from": "0x8cc52b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8cc4d0"
+    },
+    {
+      "from": "0x8de4a3",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8de220"
+    },
+    {
+      "from": "0x8de73d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8de510"
+    },
+    {
+      "from": "0x8e1326",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8e1300"
+    },
+    {
+      "from": "0x8eb188",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8eb120"
+    },
+    {
+      "from": "0x8eb1a4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8eb120"
+    },
+    {
+      "from": "0x8eb678",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x8f8778",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8f8710"
+    },
+    {
+      "from": "0x8f8794",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8f8710"
+    },
+    {
+      "from": "0x8f8c68",
+      "type": 17,
+      "iscode": true,
+      "function": "0x8f88d0"
+    },
+    {
+      "from": "0x905f58",
+      "type": 17,
+      "iscode": true,
+      "function": "0x905ef0"
+    },
+    {
+      "from": "0x905f74",
+      "type": 17,
+      "iscode": true,
+      "function": "0x905ef0"
+    },
+    {
+      "from": "0x906448",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x913548",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9134e0"
+    },
+    {
+      "from": "0x913564",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9134e0"
+    },
+    {
+      "from": "0x913a38",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x920b38",
+      "type": 17,
+      "iscode": true,
+      "function": "0x920ad0"
+    },
+    {
+      "from": "0x920b54",
+      "type": 17,
+      "iscode": true,
+      "function": "0x920ad0"
+    },
+    {
+      "from": "0x921028",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x92e128",
+      "type": 17,
+      "iscode": true,
+      "function": "0x92e0c0"
+    },
+    {
+      "from": "0x92e144",
+      "type": 17,
+      "iscode": true,
+      "function": "0x92e0c0"
+    },
+    {
+      "from": "0x92e89f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x92e830"
+    },
+    {
+      "from": "0x939408",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9393a0"
+    },
+    {
+      "from": "0x939424",
+      "type": 17,
+      "iscode": true,
+      "function": "0x9393a0"
+    },
+    {
+      "from": "0x9398f8",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x950bd6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x950b50"
+    },
+    {
+      "from": "0x95ab78",
+      "type": 17,
+      "iscode": true,
+      "function": "0x95ab10"
+    },
+    {
+      "from": "0x95ab94",
+      "type": 17,
+      "iscode": true,
+      "function": "0x95ab10"
+    },
+    {
+      "from": "0x95b006",
+      "type": 17,
+      "iscode": true,
+      "function": "0x95afe0"
+    },
+    {
+      "from": "0x95b486",
+      "type": 17,
+      "iscode": true,
+      "function": "0x95b400"
+    },
+    {
+      "from": "0xa0c608",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa0c5a0"
+    },
+    {
+      "from": "0xa0c624",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa0c5a0"
+    },
+    {
+      "from": "0xa16de8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa16d80"
+    },
+    {
+      "from": "0xa16e04",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa16d80"
+    },
+    {
+      "from": "0xa16f41",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa173b9",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa3f618",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa3f5b0"
+    },
+    {
+      "from": "0xa3f634",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa3f5b0"
+    },
+    {
+      "from": "0xa3f7c1",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa3fc39",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa49b98",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa49b30"
+    },
+    {
+      "from": "0xa49bb4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa49b30"
+    },
+    {
+      "from": "0xa49d53",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa49d67",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa5d6d8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa5d670"
+    },
+    {
+      "from": "0xa5d6f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa5d670"
+    },
+    {
+      "from": "0xa67898",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa67830"
+    },
+    {
+      "from": "0xa678b4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa67830"
+    },
+    {
+      "from": "0xa679f1",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa67e69",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xa9c696",
+      "type": 17,
+      "iscode": true,
+      "function": "0xa9c670"
+    },
+    {
+      "from": "0xac2edd",
+      "type": 17,
+      "iscode": true,
+      "function": "0xac2ea0"
+    },
+    {
+      "from": "0xacb678",
+      "type": 17,
+      "iscode": true,
+      "function": "0xacb610"
+    },
+    {
+      "from": "0xacb694",
+      "type": 17,
+      "iscode": true,
+      "function": "0xacb610"
+    },
+    {
+      "from": "0xacbb68",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xad8e58",
+      "type": 17,
+      "iscode": true,
+      "function": "0xad8df0"
+    },
+    {
+      "from": "0xad8e74",
+      "type": 17,
+      "iscode": true,
+      "function": "0xad8df0"
+    },
+    {
+      "from": "0xad95cf",
+      "type": 17,
+      "iscode": true,
+      "function": "0xad9560"
+    },
+    {
+      "from": "0xae41b8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xae4150"
+    },
+    {
+      "from": "0xae41d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xae4150"
+    },
+    {
+      "from": "0xae4926",
+      "type": 17,
+      "iscode": true,
+      "function": "0xae4900"
+    },
+    {
+      "from": "0xaf57c8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xaf5760"
+    },
+    {
+      "from": "0xaf57e4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xaf5760"
+    },
+    {
+      "from": "0xaf5d26",
+      "type": 17,
+      "iscode": true,
+      "function": "0xaf5d00"
+    },
+    {
+      "from": "0xaf6268",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xb01058",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb00ff0"
+    },
+    {
+      "from": "0xb01074",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb00ff0"
+    },
+    {
+      "from": "0xb0d458",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb0d3f0"
+    },
+    {
+      "from": "0xb0d474",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb0d3f0"
+    },
+    {
+      "from": "0xb19ef8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb19e90"
+    },
+    {
+      "from": "0xb19f14",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb19e90"
+    },
+    {
+      "from": "0xb26b38",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb26ad0"
+    },
+    {
+      "from": "0xb26b54",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb26ad0"
+    },
+    {
+      "from": "0xb316d8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb31670"
+    },
+    {
+      "from": "0xb316f4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb31670"
+    },
+    {
+      "from": "0xb31881",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xb31cf9",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xb32678",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xb4ba88",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb4ba20"
+    },
+    {
+      "from": "0xb4baa4",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb4ba20"
+    },
+    {
+      "from": "0xb4bf78",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0xb5a4e8",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5a480"
+    },
+    {
+      "from": "0xb5a504",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5a480"
+    },
+    {
+      "from": "0xb5a6a1",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5a5b0"
+    },
+    {
+      "from": "0xb5ae8c",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5ad50"
+    },
+    {
+      "from": "0xb5af49",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb5ad50"
+    },
+    {
+      "from": "0xb659b3",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb65810"
+    },
+    {
+      "from": "0xb65a81",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb65810"
+    },
+    {
+      "from": "0xb65c9e",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb65b00"
+    },
+    {
+      "from": "0xb65ec9",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb65d10"
+    },
+    {
+      "from": "0xb660d6",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb65f30"
+    },
+    {
+      "from": "0xb67061",
+      "type": 17,
+      "iscode": true,
+      "function": "0xb67040"
+    }
+  ],
+  "code_targets": [
+    "0x56c2f0"
+  ],
+  "instruction_count": 28
+}

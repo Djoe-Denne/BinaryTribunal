@@ -1,0 +1,25 @@
+0047CF60: sub     esp, 1Ch; LIVE 2026-07-12: whole-frame owner confirmed. cdecl arg1 is stable engine/app context (0x092383C8 in capture). Paused frame: HUD x4 then battle draw/present, no director/BdLink. Active frame: HUD x3 -> Director -> active tick -> file-callback tail -> BdLink -> HUD x1 -> frame support -> global present.
+0047CF63: push    ebx
+0047CF64: push    esi
+0047CF65: mov     esi, [esp+24h+game_object]
+0047CF69: xor     ebx, ebx; Logical Exclusive OR
+0047CF6B: cmp     [esi+0BA8h], ebx; Compare Two Operands
+0047CF71: jnz     short loc_47CF87; Jump if Not Zero (ZF=0)
+0047CF73: push    1E0h
+0047CF78: push    280h
+0047CF7D: push    ebx
+0047CF7E: push    ebx
+0047CF7F: call    SetResolution; engine+2984 is the backend selector: 0=DDrawAlt, 1=DDraw, 2=custom, 3=OpenGL. Zero does not prove that the driver object is absent.
+0047CF84: add     esp, 10h; Add
+0047CF87: lea     eax, [esp+24h+var_1C]; Load Effective Address
+0047CF8B: push    esi
+0047CF8C: push    eax
+0047CF8D: mov     [esp+2Ch+var_14], 0
+0047CF95: mov     [esp+2Ch+var_18], 0
+0047CF9D: mov     [esp+2Ch+var_1C], 0
+0047CFA5: mov     [esp+2Ch+var_10], 3F800000h
+0047CFAD: call    isGetDrawBuf; Call Procedure
+0047CFB2: push    esi
+0047CFB3: push    1
+0047CFB5: push    1
+0047CFB7: push    1

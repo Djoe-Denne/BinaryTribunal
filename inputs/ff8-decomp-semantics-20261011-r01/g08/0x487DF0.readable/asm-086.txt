@@ -1,0 +1,25 @@
+00489C41: mov     [esp+74h+p_monster_slot_id], eax
+00489C45: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C4A: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+00489C4F: and     eax, 0FFh; Logical AND
+00489C54: mov     ecx, eax
+00489C56: and     ecx, 80000003h; Logical AND
+00489C5C: jns     short loc_489C63; Jump if Not Sign (SF=0)
+00489C5E: dec     ecx; Decrement by 1
+00489C5F: or      ecx, 0FFFFFFFCh; Logical Inclusive OR
+00489C62: inc     ecx; Increment by 1
+00489C63: add     ecx, 3; Add
+00489C66: cmp     ecx, ebx; Compare Two Operands
+00489C68: jz      short loc_489C4A; Jump if Zero (ZF=1)
+00489C6A: lea     eax, [ecx+ecx*2]; Load Effective Address
+00489C6D: lea     edx, [ecx+eax*4]; Load Effective Address
+00489C70: shl     edx, 4; Shift Logical Left
+00489C73: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489C7A: jnz     short loc_489C4A; Jump if Not Zero (ZF=0)
+00489C7C: mov     eax, 1
+00489C81: shl     eax, cl; Shift Logical Left
+00489C83: mov     [esp+74h+p_monster_slot_id], eax
+00489C87: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C8C: mov     [esp+74h+p_monster_slot_id], 0A007h; Target 0xD0: RANDOM_PARTY_ALT - Alternative random party member selection
+00489C94: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489C99: mov     cl, byte ptr ATTACKER_SLOT_ID_0+3; Target 0xD1: LAST_TARGETED - Uses the last target that was set in a previous action

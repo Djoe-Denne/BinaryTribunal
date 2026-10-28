@@ -1,0 +1,25 @@
+00488656: inc     esi; Increment by 1
+00488657: mov     [esp+74h+op_param_2], cl
+0048865B: mov     edx, dword ptr [esp+74h+op_param_2]
+0048865F: mov     [esp+74h+opcode_param_1], al
+00488663: mov     eax, dword ptr [esp+74h+opcode_param_1]
+00488667: inc     esi; Increment by 1
+00488668: and     edx, edi; Logical AND
+0048866A: and     eax, edi; Logical AND
+0048866C: mov     BATTLE_BATTLE_VAR[eax*4], edx; Probably a table of var
+00488673: jmp     def_487EDC; BATTLE_BATTLE_VAR - Global AI battle variable storage (indexed by var_idx*4)
+00488678: mov     cl, [esi]; AI VM op 0x11 SET_ITEM_SLOT: write SG_ITEM_ID_AND_QUANTITY[idx] = val
+0048867A: mov     dl, [esi+1]
+0048867D: inc     esi; Increment by 1
+0048867E: mov     [esp+74h+op_param_2], dl
+00488682: mov     eax, dword ptr [esp+74h+op_param_2]
+00488686: mov     [esp+74h+opcode_param_1], cl
+0048868A: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+0048868E: inc     esi; Increment by 1
+0048868F: and     eax, edi; Logical AND
+00488691: and     ecx, edi; Logical AND
+00488693: mov     dword ptr SG_ITEM_ID_AND_QUANTITY.id+60h[ecx*4], eax; Opcode 0x11: SET_GLOBAL_VAR_ALT - Sets a variable in alternate global space.
+0048869A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048869F: mov     cl, [esi]; AI VM op 0x12 ADD_LOCAL_VAR: BATTLE_LOCAL_VAR[..]+=val (val 0xCB -> last-attacker slot)
+004886A1: lea     edx, [ebx+ebx*2]; Load Effective Address
+004886A4: mov     [esp+74h+opcode_param_1], cl

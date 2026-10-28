@@ -1,0 +1,2409 @@
+{
+  "snapshot": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-idb-gap-20261007T170337Z\\snapshot.json",
+  "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-idb-sync-20261007T171059Z-a96482",
+  "name_deltas": [
+    {
+      "ea": "0x407eb4",
+      "doc_name": "resolve_texobj_palette_vt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x407EB4__resolve_texobj_palette_vt.md",
+      "function_start": "0x407eb4",
+      "idb_name": "sub_407EB4",
+      "type": "void __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x417464",
+      "doc_name": "Gfx_ReserveDrawListEntries",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x417464__Gfx_ReserveDrawListEntries.md",
+      "function_start": "0x417464",
+      "idb_name": "Gfx_AllocDrawListBatch",
+      "type": "int __cdecl(int, _DWORD *)",
+      "comment_len": 466,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 2+1/R: Gfx_ReserveDrawListEntries (IDA Gfx_AllocDrawListBatch too narrow). cdecl(count,list), EAX=0 iff list NULL else 1. Resets stale generation unsigned; allocates/chains 0x30 batch only when count>remaining; capacity=max(count,0x20); stream strides 0x80/0x10, shared path <=0x200; publishes +0x74/+0x78/+0x7C then advances cursors. Allocation NULL unchecked, faithful ASM. See docs/.../0x417464__Gfx_ReserveDrawListEntries.md."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x421c41",
+      "doc_name": "sub_421C41_TIM_remap",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x421C41__sub_421C41_TIM_remap.md",
+      "function_start": "0x421c41",
+      "idb_name": "sub_421C41",
+      "type": "void __cdecl(int, _DWORD *, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4221e6",
+      "doc_name": "sub_4221E6_slot_E_cache",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4221E6__sub_4221E6_slot_E_cache.md",
+      "function_start": "0x4221e6",
+      "idb_name": "sub_4221E6",
+      "type": "int __cdecl(int, int, int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4252b0",
+      "doc_name": "RenderBackend_Construct_OpenGL",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4252B0__RenderBackend_Construct_OpenGL.md",
+      "function_start": "0x4252b0",
+      "idb_name": "presentation::RenderBackend_Construct_OpenGL",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 5852,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x425540",
+      "doc_name": "RenderBackend_Construct_DDraw",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x425540__RenderBackend_Construct_DDraw.md",
+      "function_start": "0x425540",
+      "idb_name": "presentation::RenderBackend_Construct_DDraw",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 4573,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4257d0",
+      "doc_name": "RenderBackend_Construct_DDrawAlt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4257D0__RenderBackend_Construct_DDrawAlt.md",
+      "function_start": "0x4257d0",
+      "idb_name": "presentation::RenderBackend_Construct_DDrawAlt",
+      "type": "_DWORD *__cdecl(int)",
+      "comment_len": 5714,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x43e0e2",
+      "doc_name": "GfxDDrawAlt_PaletteSpriteNode_Direct",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43E0E2__GfxDDrawAlt_PaletteSpriteNode_Direct.md",
+      "function_start": "0x43e0e2",
+      "idb_name": "sub_43E0E2",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x45bc60",
+      "doc_name": "Gpu_SetTextureWindow_PageRectScales",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x45BC60__Gpu_SetTextureWindow_PageRectScales.md",
+      "function_start": "0x45bc60",
+      "idb_name": "sub_45BC60",
+      "type": "int __cdecl(int)",
+      "comment_len": 505,
+      "tags": [
+        "[semantic-triple 2026-09-27 lot17]",
+        "[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x460c20",
+      "doc_name": "Gpu_BeginPrimitivePass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C20__Gpu_BeginPrimitivePass.md",
+      "function_start": "0x460c20",
+      "idb_name": "sub_460C20",
+      "type": "int()",
+      "comment_len": 367,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_BeginPrimitivePass. Always caches FFGetBufferAddress; only when dword_B7CC20==0 begins scene or selects render target from engine+0x8FC, records branch, resets pass state 3/1/0. Gpu_DrawOTag callers prove active second-pass polarity. EAX residual driver/context, ignored. See docs/.../0x460C20__Gpu_BeginPrimitivePass.md."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x460c90",
+      "doc_name": "Gpu_FlushCurrentDrawList",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x460C90__Gpu_FlushCurrentDrawList.md",
+      "function_start": "0x460c90",
+      "idb_name": "sub_460C90",
+      "type": "int()",
+      "comment_len": 313,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: Gpu_FlushCurrentDrawList. If current list exists: SetRenderState(0x0E,1), Gfx_WalkDrawList(list,engine), invalidate list stamp, clear current pointer. Hex-Rays phantom arg rejected by exact pushes. EAX residual ignored. See docs/.../0x460C90__Gpu_FlushCurrentDrawList.md."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x461100",
+      "doc_name": "sub_461100_ListRenderTargetSwitch",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x461100__sub_461100_ListRenderTargetSwitch.md",
+      "function_start": "0x461100",
+      "idb_name": "sub_461100",
+      "type": "void __cdecl(int, unsigned int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4623a0",
+      "doc_name": "GpuPrimDispatch02_FillRectVRAM",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4623A0__GpuPrimDispatch02_FillRectVRAM.md",
+      "function_start": "0x4623a0",
+      "idb_name": "sub_4623A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 0,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4706b0",
+      "doc_name": "FFModuleHandler_main_loop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4706B0__FFModuleHandler_main_loop.md",
+      "function_start": "0x4706b0",
+      "idb_name": "main::FFModuleHandler_main_loop",
+      "type": "char __cdecl(int)",
+      "comment_len": 15304,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47ccb0",
+      "doc_name": "FFBattleDirector_battleLoop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47CCB0__FFBattleDirector_battleLoop.md",
+      "function_start": "0x47ccb0",
+      "idb_name": "main::FFBattleDirector_battleLoop",
+      "type": "void __thiscall(void *this)",
+      "comment_len": 20871,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[semantic-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47cf60",
+      "doc_name": "FFBattleModule",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47CF60__FFBattleModule.md",
+      "function_start": "0x47cf60",
+      "idb_name": "main::FFBattleModule",
+      "type": "int __cdecl(int game_object)",
+      "comment_len": 8948,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47d8a0",
+      "doc_name": "Battle_EnqueueInitialPartyActions",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47D8A0__Battle_EnqueueInitialPartyActions.md",
+      "function_start": "0x47d8a0",
+      "idb_name": "domain::Battle_EnqueueInitialPartyActions",
+      "type": "int __cdecl()",
+      "comment_len": 1672,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47e250",
+      "doc_name": "BattleStatus_EnqueueStatusCopyUpdate",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47E250__BattleStatus_EnqueueStatusCopyUpdate.md",
+      "function_start": "0x47e250",
+      "idb_name": "domain::BattleStatus_EnqueueStatusCopyUpdate",
+      "type": "_WORD *__cdecl(int)",
+      "comment_len": 3313,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x47e480",
+      "doc_name": "GF_SetOwnedFlag",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x47E480__GF_SetOwnedFlag.md",
+      "function_start": "0x47e480",
+      "idb_name": "domain::GF_SetOwnedFlag",
+      "type": "int __cdecl(int p_gforce_id)",
+      "comment_len": 813,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482d50",
+      "doc_name": "Battle_ProcessActionCallbackChain",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482D50__Battle_ProcessActionCallbackChain.md",
+      "function_start": "0x482d50",
+      "idb_name": "domain::Battle_ProcessActionCallbackChain",
+      "type": "char __cdecl()",
+      "comment_len": 2381,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482dc0",
+      "doc_name": "Battle_ProcessDeferredCallbacks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482DC0__Battle_ProcessDeferredCallbacks.md",
+      "function_start": "0x482dc0",
+      "idb_name": "domain::Battle_ProcessDeferredCallbacks",
+      "type": "_BYTE *()",
+      "comment_len": 1969,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482e00",
+      "doc_name": "Odin_BattleInit_ZantetsukenCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482E00__Odin_BattleInit_ZantetsukenCheck.md",
+      "function_start": "0x482e00",
+      "idb_name": "domain::Odin_BattleInit_ZantetsukenCheck",
+      "type": "void()",
+      "comment_len": 2196,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482f70",
+      "doc_name": "Battle_InitDeadTimer",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482F70__Battle_InitDeadTimer.md",
+      "function_start": "0x482f70",
+      "idb_name": "domain::Battle_InitDeadTimer",
+      "type": "__int16()",
+      "comment_len": 1058,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x482f80",
+      "doc_name": "AngeloOdin_SpecialActionTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x482F80__AngeloOdin_SpecialActionTick.md",
+      "function_start": "0x482f80",
+      "idb_name": "domain::AngeloOdin_SpecialActionTick",
+      "type": "void()",
+      "comment_len": 5958,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483190",
+      "doc_name": "Battle_GetRandomQuartile0To3",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483190__Battle_GetRandomQuartile0To3.md",
+      "function_start": "0x483190",
+      "idb_name": "domain::Battle_GetRandomQuartile0To3",
+      "type": "int __cdecl()",
+      "comment_len": 936,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4831f0",
+      "doc_name": "Gilgamesh_BattleInit_TriggerCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4831F0__Gilgamesh_BattleInit_TriggerCheck.md",
+      "function_start": "0x4831f0",
+      "idb_name": "domain::Gilgamesh_BattleInit_TriggerCheck",
+      "type": "void()",
+      "comment_len": 2406,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483270",
+      "doc_name": "Battle_PhoenixAutoReviveCheck",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483270__Battle_PhoenixAutoReviveCheck.md",
+      "function_start": "0x483270",
+      "idb_name": "domain::Battle_PhoenixAutoReviveCheck",
+      "type": "int __cdecl()",
+      "comment_len": 2744,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4832f0",
+      "doc_name": "StatusTimer_InitForBitFromKernelMisc",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4832F0__StatusTimer_InitForBitFromKernelMisc.md",
+      "function_start": "0x4832f0",
+      "idb_name": "domain::StatusTimer_InitForBitFromKernelMisc",
+      "type": "int __cdecl(int slot_id, unsigned int status2_bit_mask)",
+      "comment_len": 2559,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483340",
+      "doc_name": "StatusTimer_DisableForBit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483340__StatusTimer_DisableForBit.md",
+      "function_start": "0x483340",
+      "idb_name": "domain::StatusTimer_DisableForBit",
+      "type": "int __cdecl(int slot_id, unsigned int status2_bit_mask)",
+      "comment_len": 1762,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483370",
+      "doc_name": "StatusTimer_IsDisabledForBit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483370__StatusTimer_IsDisabledForBit.md",
+      "function_start": "0x483370",
+      "idb_name": "domain::StatusTimer_IsDisabledForBit",
+      "type": "BOOL __cdecl(int p_target_slot_id, unsigned int a2)",
+      "comment_len": 1406,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483470",
+      "doc_name": "Status_TickAndExpire",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483470__Status_TickAndExpire.md",
+      "function_start": "0x483470",
+      "idb_name": "domain::Status_TickAndExpire",
+      "type": "void()",
+      "comment_len": 9403,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483940",
+      "doc_name": "BattleTarget_FindByCondition",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483940__BattleTarget_FindByCondition.md",
+      "function_start": "0x483940",
+      "idb_name": "domain::BattleTarget_FindByCondition",
+      "type": "int __cdecl(int slot_index, int *out_section, int *out_arg, __int16 *out_target_mask)",
+      "comment_len": 8469,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x483d60",
+      "doc_name": "BattleLimitAngelWing_SelectAutoCast",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x483D60__BattleLimitAngelWing_SelectAutoCast.md",
+      "function_start": "0x483d60",
+      "idb_name": "domain::BattleLimitAngelWing_SelectAutoCast",
+      "type": "_WORD *__cdecl(int, _DWORD *, int *, _WORD *)",
+      "comment_len": 5209,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4842b0",
+      "doc_name": "BattleATB_TickAndReady",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4842B0__BattleATB_TickAndReady.md",
+      "function_start": "0x4842b0",
+      "idb_name": "domain::BattleATB_TickAndReady",
+      "type": "char()",
+      "comment_len": 6790,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4845a0",
+      "doc_name": "BattleExecQueue_ConsumeCurrentSlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4845A0__BattleExecQueue_ConsumeCurrentSlot.md",
+      "function_start": "0x4845a0",
+      "idb_name": "domain::BattleExecQueue_ConsumeCurrentSlot",
+      "type": "int __cdecl(int queue_slot)",
+      "comment_len": 2518,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x484fd0",
+      "doc_name": "PendingCmd_QueueOrStore",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x484FD0__PendingCmd_QueueOrStore.md",
+      "function_start": "0x484fd0",
+      "idb_name": "domain::PendingCmd_QueueOrStore",
+      "type": "BYTE __cdecl(int, int, BYTE, char, char, __int16)",
+      "comment_len": 2612,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485160",
+      "doc_name": "BattleAction_ResolveSpecialActionAndUpdateDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485160__BattleAction_ResolveSpecialActionAndUpdateDamage.md",
+      "function_start": "0x485160",
+      "idb_name": "domain::BattleAction_ResolveSpecialActionAndUpdateDamage",
+      "type": "int()",
+      "comment_len": 3456,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485460",
+      "doc_name": "BattleArbitration_SelectNextAction",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485460__BattleArbitration_SelectNextAction.md",
+      "function_start": "0x485460",
+      "idb_name": "domain::BattleArbitration_SelectNextAction",
+      "type": "char *()",
+      "comment_len": 7281,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x485610",
+      "doc_name": "EnemyAI_PrepareTurnAction",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x485610__EnemyAI_PrepareTurnAction.md",
+      "function_start": "0x485610",
+      "idb_name": "domain::EnemyAI_PrepareTurnAction",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 16214,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486130",
+      "doc_name": "BattleEscape_PollInputAndRollChance",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486130__BattleEscape_PollInputAndRollChance.md",
+      "function_start": "0x486130",
+      "idb_name": "domain::BattleEscape_PollInputAndRollChance",
+      "type": "char __cdecl()",
+      "comment_len": 5318,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4862a0",
+      "doc_name": "BattleTick_CheckEscapeSuccess",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4862A0__BattleTick_CheckEscapeSuccess.md",
+      "function_start": "0x4862a0",
+      "idb_name": "domain::BattleTick_CheckEscapeSuccess",
+      "type": "char()",
+      "comment_len": 4655,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486390",
+      "doc_name": "BattleTick_CheckTimerExpiry",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486390__BattleTick_CheckTimerExpiry.md",
+      "function_start": "0x486390",
+      "idb_name": "domain::BattleTick_CheckTimerExpiry",
+      "type": "char()",
+      "comment_len": 2014,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4863f0",
+      "doc_name": "BattleTick_CheckScriptedBattleEnd",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4863F0__BattleTick_CheckScriptedBattleEnd.md",
+      "function_start": "0x4863f0",
+      "idb_name": "domain::BattleTick_CheckScriptedBattleEnd",
+      "type": "char()",
+      "comment_len": 2091,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486450",
+      "doc_name": "BattleTick_CheckPartyWipe",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486450__BattleTick_CheckPartyWipe.md",
+      "function_start": "0x486450",
+      "idb_name": "domain::BattleTick_CheckPartyWipe",
+      "type": "char __cdecl()",
+      "comment_len": 3616,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x486500",
+      "doc_name": "BattleTick_CheckAllEnemiesDead",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x486500__BattleTick_CheckAllEnemiesDead.md",
+      "function_start": "0x486500",
+      "idb_name": "domain::BattleTick_CheckAllEnemiesDead",
+      "type": "char()",
+      "comment_len": 3363,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4877b0",
+      "doc_name": "BattleTarget_IsEligibleByStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4877B0__BattleTarget_IsEligibleByStatus.md",
+      "function_start": "0x4877b0",
+      "idb_name": "domain::BattleTarget_IsEligibleByStatus",
+      "type": "unsigned int __cdecl(int slot_index)",
+      "comment_len": 1489,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4877f0",
+      "doc_name": "EnemyAI_DispatchSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4877F0__EnemyAI_DispatchSection.md",
+      "function_start": "0x4877f0",
+      "idb_name": "domain::EnemyAI_DispatchSection",
+      "type": "char __cdecl(signed int p_target_slot_id, _DWORD *p_ai_section_to_load)",
+      "comment_len": 13932,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[battle-models-discovery 2026-09-25] (HIGH) EnemyAI_DispatchSection: H8 (AI, sous-section header) -> VM 0x487DF0. Preuves: c0m registry + probe (c0m127 overlay = info+AI seulement)."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a680",
+      "doc_name": "EnemyAI_CompareValues",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A680__EnemyAI_CompareValues.md",
+      "function_start": "0x48a680",
+      "idb_name": "domain::EnemyAI_CompareValues",
+      "type": "int __cdecl(unsigned int left, int op, unsigned int right)",
+      "comment_len": 1667,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a830",
+      "doc_name": "EnemyAI_TargetHasStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A830__EnemyAI_TargetHasStatus.md",
+      "function_start": "0x48a830",
+      "idb_name": "domain::EnemyAI_TargetHasStatus",
+      "type": "BOOL __cdecl(int p_target_generic, int p_comparator, unsigned int p_status_ai, int p_bool_ignore_comparator)",
+      "comment_len": 2917,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48a900",
+      "doc_name": "BattleStatus_CheckTargetHasStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48A900__BattleStatus_CheckTargetHasStatus.md",
+      "function_start": "0x48a900",
+      "idb_name": "domain::BattleStatus_CheckTargetHasStatus",
+      "type": "int __cdecl(int p_comparator, unsigned int p_status_ai, int p_nb_target_with_status_found, int p_encounter_slot, int a5)",
+      "comment_len": 4761,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ad10",
+      "doc_name": "SceneOut_InitEnemySlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48AD10__SceneOut_InitEnemySlot.md",
+      "function_start": "0x48ad10",
+      "idb_name": "domain::SceneOut_InitEnemySlot",
+      "type": "WORD __cdecl()",
+      "comment_len": 3709,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48afd0",
+      "doc_name": "Battle_InitPreemptiveBackAttackStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48AFD0__Battle_InitPreemptiveBackAttackStatus.md",
+      "function_start": "0x48afd0",
+      "idb_name": "domain::Battle_InitPreemptiveBackAttackStatus",
+      "type": "int __cdecl()",
+      "comment_len": 6425,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b160",
+      "doc_name": "Battle_SetATBForPreemptiveGroup",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B160__Battle_SetATBForPreemptiveGroup.md",
+      "function_start": "0x48b160",
+      "idb_name": "domain::Battle_SetATBForPreemptiveGroup",
+      "type": "void __cdecl(int p_0_to_3_related_back_preemptive)",
+      "comment_len": 3131,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b2e0",
+      "doc_name": "GetPartyAverageLevelExact",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B2E0__GetPartyAverageLevelExact.md",
+      "function_start": "0x48b2e0",
+      "idb_name": "domain::GetPartyAverageLevelExact",
+      "type": "int __cdecl()",
+      "comment_len": 1364,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48b7e0",
+      "doc_name": "ParseBattleParty",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48B7E0__ParseBattleParty.md",
+      "function_start": "0x48b7e0",
+      "idb_name": "domain::ParseBattleParty",
+      "type": "int __cdecl()",
+      "comment_len": 3808,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ba10",
+      "doc_name": "setAllMonsterInfoFromDatSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BA10__setAllMonsterInfoFromDatSection.md",
+      "function_start": "0x48ba10",
+      "idb_name": "domain::setAllMonsterInfoFromDatSection",
+      "type": "int *()",
+      "comment_len": 5555,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48bbd0",
+      "doc_name": "setMonsterInfoFromDatInfoSection",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BBD0__setMonsterInfoFromDatInfoSection.md",
+      "function_start": "0x48bbd0",
+      "idb_name": "domain::setMonsterInfoFromDatInfoSection",
+      "type": "int __cdecl(unsigned int p_slot_id, int p_level_code, unsigned __int8 p_com_id)",
+      "comment_len": 7785,
+      "tags": [
+        "[glm-triple 2026-09-13]",
+        "[battle-models-discovery 2026-09-25] (HIGH) setMonsterInfoFromDatInfoSection: H7 (380 o constants par monstre). Preuves: c0m registry + layout s7 (probe)."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48bfa0",
+      "doc_name": "GetPartyAverageLevelWithRandomness",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48BFA0__GetPartyAverageLevelWithRandomness.md",
+      "function_start": "0x48bfa0",
+      "idb_name": "domain::GetPartyAverageLevelWithRandomness",
+      "type": "int __cdecl()",
+      "comment_len": 2396,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c020",
+      "doc_name": "GetPartyAverageLevelCapped65PlusRandom",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C020__GetPartyAverageLevelCapped65PlusRandom.md",
+      "function_start": "0x48c020",
+      "idb_name": "domain::GetPartyAverageLevelCapped65PlusRandom",
+      "type": "int __cdecl()",
+      "comment_len": 2312,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c0a0",
+      "doc_name": "GetPartyAverageLevelConstrainedTeam",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C0A0__GetPartyAverageLevelConstrainedTeam.md",
+      "function_start": "0x48c0a0",
+      "idb_name": "domain::GetPartyAverageLevelConstrainedTeam",
+      "type": "int __cdecl()",
+      "comment_len": 2945,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c140",
+      "doc_name": "GetPartyAverageLevelWithOffset",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C140__GetPartyAverageLevelWithOffset.md",
+      "function_start": "0x48c140",
+      "idb_name": "domain::GetPartyAverageLevelWithOffset",
+      "type": "int __cdecl(int)",
+      "comment_len": 2825,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c1c0",
+      "doc_name": "BattleSlot_ApplyMonsterStatScaling",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C1C0__BattleSlot_ApplyMonsterStatScaling.md",
+      "function_start": "0x48c1c0",
+      "idb_name": "domain::BattleSlot_ApplyMonsterStatScaling",
+      "type": "unsigned int __cdecl(int p_slot_id)",
+      "comment_len": 3827,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48c3f0",
+      "doc_name": "Monster_CalculateScaledStat",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48C3F0__Monster_CalculateScaledStat.md",
+      "function_start": "0x48c3f0",
+      "idb_name": "domain::Monster_CalculateScaledStat",
+      "type": "int __cdecl(int p_level, unsigned __int8 *p_stat_params, int p_stat_index)",
+      "comment_len": 3049,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48cae0",
+      "doc_name": "BattleDraw_BuildCastOrStockMenu",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48CAE0__BattleDraw_BuildCastOrStockMenu.md",
+      "function_start": "0x48cae0",
+      "idb_name": "domain::BattleDraw_BuildCastOrStockMenu",
+      "type": "__int16 *__cdecl(int, int)",
+      "comment_len": 3076,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48d0c0",
+      "doc_name": "Battle_RunFileLoadingCallbacks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48D0C0__Battle_RunFileLoadingCallbacks.md",
+      "function_start": "0x48d0c0",
+      "idb_name": "domain::Battle_RunFileLoadingCallbacks",
+      "type": "__int16()",
+      "comment_len": 797,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48d0e0",
+      "doc_name": "ReadSceneOutForEncounter",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48D0E0__ReadSceneOutForEncounter.md",
+      "function_start": "0x48d0e0",
+      "idb_name": "domain::ReadSceneOutForEncounter",
+      "type": "int __cdecl(unsigned __int16 p_scene_id, int p_dest_buffer)",
+      "comment_len": 2590,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48e620",
+      "doc_name": "BattleGF_FinalizeSummonExit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48E620__BattleGF_FinalizeSummonExit.md",
+      "function_start": "0x48e620",
+      "idb_name": "domain::BattleGF_FinalizeSummonExit",
+      "type": "int __cdecl(int)",
+      "comment_len": 4837,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48eda0",
+      "doc_name": "BattleTarget_IsEligibleByStatusMask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48EDA0__BattleTarget_IsEligibleByStatusMask.md",
+      "function_start": "0x48eda0",
+      "idb_name": "domain::BattleTarget_IsEligibleByStatusMask",
+      "type": "int __cdecl(int slot_index)",
+      "comment_len": 1569,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48ef80",
+      "doc_name": "Battle_UpdateDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48EF80__Battle_UpdateDamage.md",
+      "function_start": "0x48ef80",
+      "idb_name": "domain::Battle_UpdateDamage",
+      "type": "int __cdecl(char p_target_slot_id)",
+      "comment_len": 3803,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f120",
+      "doc_name": "Battle_GetRandom1ToMax",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F120__Battle_GetRandom1ToMax.md",
+      "function_start": "0x48f120",
+      "idb_name": "domain::Battle_GetRandom1ToMax",
+      "type": "int __cdecl(int max_value)",
+      "comment_len": 1083,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f270",
+      "doc_name": "BattleLimitRenzokuken_SetFinisherAndComputeTargetMask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F270__BattleLimitRenzokuken_SetFinisherAndComputeTargetMask.md",
+      "function_start": "0x48f270",
+      "idb_name": "domain::BattleLimitRenzokuken_SetFinisherAndComputeTargetMask",
+      "type": "uint16_t __cdecl(int finisher_idx, uint16_t caller_mask)",
+      "comment_len": 1903,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f350",
+      "doc_name": "BattleAction_ResolveRenzokukenFinisherHits",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F350__BattleAction_ResolveRenzokukenFinisherHits.md",
+      "function_start": "0x48f350",
+      "idb_name": "domain::BattleAction_ResolveRenzokukenFinisherHits",
+      "type": "int()",
+      "comment_len": 4262,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48f9f0",
+      "doc_name": "DoesMentalStatusHit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48F9F0__DoesMentalStatusHit.md",
+      "function_start": "0x48f9f0",
+      "idb_name": "domain::DoesMentalStatusHit",
+      "type": "int __cdecl(int p_attacker_slot_id, unsigned int p_target_slot_id, int p_index, int p_mask, int p_status_list_to_check, int p_attacker_str, int p_target_vit, int p_hit_attack_enabler)",
+      "comment_len": 5540,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x48fd20",
+      "doc_name": "Draw_ComputeStealCount",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x48FD20__Draw_ComputeStealCount.md",
+      "function_start": "0x48fd20",
+      "idb_name": "domain::Draw_ComputeStealCount",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_magic_id)",
+      "comment_len": 4207,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4914e0",
+      "doc_name": "BattleStatus_ApplyHitStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4914E0__BattleStatus_ApplyHitStatus.md",
+      "function_start": "0x4914e0",
+      "idb_name": "domain::BattleStatus_ApplyHitStatus",
+      "type": "int __cdecl(int arg_0, int p_attacker_slot_id, unsigned int p_target_slot_id, int arg_C, int p_target_vit)",
+      "comment_len": 7912,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x491ad0",
+      "doc_name": "ComputeMagicAndGFDamage",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x491AD0__ComputeMagicAndGFDamage.md",
+      "function_start": "0x491ad0",
+      "idb_name": "domain::ComputeMagicAndGFDamage",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_AttackPower, int p_gf_magic_type_damage)",
+      "comment_len": 11306,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x492220",
+      "doc_name": "Devour_ApplyPermanentStatBonuses",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x492220__Devour_ApplyPermanentStatBonuses.md",
+      "function_start": "0x492220",
+      "idb_name": "domain::Devour_ApplyPermanentStatBonuses",
+      "type": "int __cdecl(int p_target_slot_id, int devour_result)",
+      "comment_len": 2332,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4922b0",
+      "doc_name": "Damage_ComputeRawDeltaFromAttackType",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4922B0__Damage_ComputeRawDeltaFromAttackType.md",
+      "function_start": "0x4922b0",
+      "idb_name": "domain::Damage_ComputeRawDeltaFromAttackType",
+      "type": "int __cdecl(int p_attack_type, int p_attacker_slot_id, int p_target_slot_id, int p_attack_power)",
+      "comment_len": 16460,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x492ac0",
+      "doc_name": "BattleStatus_CanApplyHitStatus",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x492AC0__BattleStatus_CanApplyHitStatus.md",
+      "function_start": "0x492ac0",
+      "idb_name": "domain::BattleStatus_CanApplyHitStatus",
+      "type": "BOOL __cdecl(int p_target_slot_id)",
+      "comment_len": 1520,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493110",
+      "doc_name": "Battle_QueueReflectedActionIfNeeded",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493110__Battle_QueueReflectedActionIfNeeded.md",
+      "function_start": "0x493110",
+      "idb_name": "domain::Battle_QueueReflectedActionIfNeeded",
+      "type": "bool __cdecl(int attacker_slot_id, int target_slot_id)",
+      "comment_len": 3332,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493280",
+      "doc_name": "computeCurativeMagic",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493280__computeCurativeMagic.md",
+      "function_start": "0x493280",
+      "idb_name": "domain::computeCurativeMagic",
+      "type": "int __cdecl(int p_attacker_slot_id, int p_target_slot_id, int p_attack_power, int a4)",
+      "comment_len": 6243,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x493d80",
+      "doc_name": "BattleAction_ResolveAndApplyStatusResult",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x493D80__BattleAction_ResolveAndApplyStatusResult.md",
+      "function_start": "0x493d80",
+      "idb_name": "domain::BattleAction_ResolveAndApplyStatusResult",
+      "type": "unsigned __int8 __cdecl(unsigned __int8 *)",
+      "comment_len": 7706,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4941f0",
+      "doc_name": "BattleLimit_ComputeCrisisAndToggleAttackSlot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4941F0__BattleLimit_ComputeCrisisAndToggleAttackSlot.md",
+      "function_start": "0x4941f0",
+      "idb_name": "domain::BattleLimit_ComputeCrisisAndToggleAttackSlot",
+      "type": "char __cdecl(int)",
+      "comment_len": 5050,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x494410",
+      "doc_name": "Battle_ApplyDamageOrHeal",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x494410__Battle_ApplyDamageOrHeal.md",
+      "function_start": "0x494410",
+      "idb_name": "domain::Battle_ApplyDamageOrHeal",
+      "type": "DWORD __cdecl(int p_target_slot_id, int p_damage_related, _BYTE *p_hit_type_2, _BYTE *a4, int p_attacker_slot_id, _BYTE *p_hit_type_animation_related, WORD *a7, DWORD *a8, int param_bool)",
+      "comment_len": 12705,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x494d40",
+      "doc_name": "BattleEnd_DistributeXpAp",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x494D40__BattleEnd_DistributeXpAp.md",
+      "function_start": "0x494d40",
+      "idb_name": "domain::BattleEnd_DistributeXpAp",
+      "type": "FF8SceneOutBattleFlags()",
+      "comment_len": 7322,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x495530",
+      "doc_name": "ParseBattleCharacter",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x495530__ParseBattleCharacter.md",
+      "function_start": "0x495530",
+      "idb_name": "domain::ParseBattleCharacter",
+      "type": "int __cdecl(int p_char_id, int p_slot_id)",
+      "comment_len": 9252,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496310",
+      "doc_name": "GetCharacterHP",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496310__GetCharacterHP.md",
+      "function_start": "0x496310",
+      "idb_name": "domain::GetCharacterHP",
+      "type": "int __cdecl(int lvl, int char_id)",
+      "comment_len": 3037,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496440",
+      "doc_name": "GetCharacterStat",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496440__GetCharacterStat.md",
+      "function_start": "0x496440",
+      "idb_name": "domain::GetCharacterStat",
+      "type": "int __cdecl(int p_lvl, int p_char_id, int p_stat)",
+      "comment_len": 5708,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4967c0",
+      "doc_name": "GetCharacterHit",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4967C0__GetCharacterHit.md",
+      "function_start": "0x4967c0",
+      "idb_name": "domain::GetCharacterHit",
+      "type": "int __cdecl(int char_id)",
+      "comment_len": 3032,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4968a0",
+      "doc_name": "GetCharacterEva",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4968A0__GetCharacterEva.md",
+      "function_start": "0x4968a0",
+      "idb_name": "domain::GetCharacterEva",
+      "type": "int __cdecl(int p_char_id, int p_spd)",
+      "comment_len": 2018,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x496cb0",
+      "doc_name": "RelatedToCharaXPComputeLvlUp",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x496CB0__RelatedToCharaXPComputeLvlUp.md",
+      "function_start": "0x496cb0",
+      "idb_name": "RelatedToCharaXPComputeLvlUp?",
+      "type": "int __cdecl(int p_target_slot_id, unsigned __int16 a2)",
+      "comment_len": 5284,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4a2690",
+      "doc_name": "BattleRewardMenu_MainLoop",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4A2690__BattleRewardMenu_MainLoop.md",
+      "function_start": "0x4a2690",
+      "idb_name": "main::BattleRewardMenu_MainLoop",
+      "type": "int __cdecl(int p_draw_ctx)",
+      "comment_len": 6076,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4add10",
+      "doc_name": "BattleDrawMenu_Open",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4ADD10__BattleDrawMenu_Open.md",
+      "function_start": "0x4add10",
+      "idb_name": "domain::BattleDrawMenu_Open",
+      "type": "char __cdecl(char, char, char, char)",
+      "comment_len": 2965,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bb610",
+      "doc_name": "BattleCommandMenu_FlushPendingActions",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BB610__BattleCommandMenu_FlushPendingActions.md",
+      "function_start": "0x4bb610",
+      "idb_name": "domain::BattleCommandMenu_FlushPendingActions",
+      "type": "int __cdecl(int attacker_slot)",
+      "comment_len": 2363,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bb910",
+      "doc_name": "BattleCommandMenu_InitCommandSetAndLimitState",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BB910__BattleCommandMenu_InitCommandSetAndLimitState.md",
+      "function_start": "0x4bb910",
+      "idb_name": "domain::BattleCommandMenu_InitCommandSetAndLimitState",
+      "type": "unsigned int __cdecl(int menu_state, int char_index)",
+      "comment_len": 2148,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4bc770",
+      "doc_name": "BattleCommandMenu_OpenSelectedCommand",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4BC770__BattleCommandMenu_OpenSelectedCommand.md",
+      "function_start": "0x4bc770",
+      "idb_name": "domain::BattleCommandMenu_OpenSelectedCommand",
+      "type": "int __cdecl(int, unsigned __int8 *)",
+      "comment_len": 6866,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4c8540",
+      "doc_name": "BattleItemMenu_GetWorkingInventory",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4C8540__BattleItemMenu_GetWorkingInventory.md",
+      "function_start": "0x4c8540",
+      "idb_name": "presentation::BattleItemMenu_GetWorkingInventory",
+      "type": "char *__cdecl()",
+      "comment_len": 668,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x4f6140",
+      "doc_name": "MenuMagic_PreviewJunctionHpSpellTransfer",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4F6140__MenuMagic_PreviewJunctionHpSpellTransfer.md",
+      "function_start": "0x4f6140",
+      "idb_name": "sub_4F6140",
+      "type": "int __cdecl(int char_id, int dest_char_id)",
+      "comment_len": 4516,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x502f30",
+      "doc_name": "BattleTask_ActorReadyRelay71_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x502F30__BattleTask_ActorReadyRelay71_Worker.md",
+      "function_start": "0x502f30",
+      "idb_name": "domain::BattleTask_ActorReadyRelay71_Worker",
+      "type": "int __cdecl(int)",
+      "comment_len": 1918,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x502f90",
+      "doc_name": "BattleTask_EscapeRelay74_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x502F90__BattleTask_EscapeRelay74_Worker.md",
+      "function_start": "0x502f90",
+      "idb_name": "domain::BattleTask_EscapeRelay74_Worker",
+      "type": "int __cdecl(unsigned __int8 *node)",
+      "comment_len": 2540,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x5085f0",
+      "doc_name": "BattleTask_CameraBarrier70_Worker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x5085F0__BattleTask_CameraBarrier70_Worker.md",
+      "function_start": "0x5085f0",
+      "idb_name": "domain::BattleTask_CameraBarrier70_Worker",
+      "type": "int __cdecl(int)",
+      "comment_len": 1147,
+      "tags": [
+        "[glm-triple 2026-09-15]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x509b50",
+      "doc_name": "MemMove_OverlapSafe",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x509B50__MemMove_OverlapSafe.md",
+      "function_start": "0x509b50",
+      "idb_name": "BS_CopyGeometry",
+      "type": "void __cdecl(_BYTE *, _BYTE *, unsigned int)",
+      "comment_len": 319,
+      "tags": [
+        "[semantic-triple 2026-09-17] CERTAIN 1+P: MemMove_OverlapSafe; IDA BS_CopyGeometry too narrow. Unsigned dst<src selects forward rep movsd+tail bytes; dst>=src selects reverse byte loop; size 0 no access. Generic callers include music/models/textures/GF/stage. void return. See docs/.../0x509B50__MemMove_OverlapSafe.md."
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x509e00",
+      "doc_name": "BattleActor_StageUploadCLUTBand",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x509E00__BattleActor_StageUploadCLUTBand.md",
+      "function_start": "0x509e00",
+      "idb_name": "sub_509E00",
+      "type": "char *__cdecl(int, __int16)",
+      "comment_len": 268,
+      "tags": [
+        "[semantic-triple 2026-09-27 lot17]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x56dce0",
+      "doc_name": "pre_computeGFBoost",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x56DCE0__pre_computeGFBoost.md",
+      "function_start": "0x56dce0",
+      "idb_name": "pre_computeGFBoost?",
+      "type": "int __cdecl(char, int)",
+      "comment_len": 2921,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x56fe10",
+      "doc_name": "BattleTask_FlyPathCameraAim_TrailFx_Step",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x56FE10__BattleTask_FlyPathCameraAim_TrailFx_Step.md",
+      "function_start": "0x56fe10",
+      "idb_name": "BdLinkCallback_56FE10",
+      "type": "int __cdecl(_WORD *)",
+      "comment_len": 784,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x61de70",
+      "doc_name": "MAG_141_RENZOKUKEN",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x61DE70__MAG_141_RENZOKUKEN.md",
+      "function_start": "0x61de70",
+      "idb_name": "_HITS::MAG_141_RENZOKUKEN(void)",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 3015,
+      "tags": [
+        "[glm-triple 2026-09-13]"
+      ],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x63e960",
+      "doc_name": "GFCameraScriptTask_Spawn_63E960",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x63E960__GFCameraScriptTask_Spawn_63E960.md",
+      "function_start": "0x63e960",
+      "idb_name": "BdLinkTask_Register_63E9C0",
+      "type": "int __cdecl(int, int, int, int list_head, int)",
+      "comment_len": 658,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x659960",
+      "doc_name": "BdLinkTask_Tick_GfDiabloPacketStream",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x659960__BdLinkTask_Tick_GfDiabloPacketStream.md",
+      "function_start": "0x659960",
+      "idb_name": "sub_659960",
+      "type": "int __cdecl(int)",
+      "comment_len": 532,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x65e4b0",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_25053C0",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65E4B0__BdLinkTask_RegisterAndBindEntry_25053C0.md",
+      "function_start": "0x65e4b0",
+      "idb_name": "BdLinkTask_Register_65F2B0_25053C0",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 429,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x65f250",
+      "doc_name": "BdLinkTask_RegisterAndBindEntry_2505438",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x65F250__BdLinkTask_RegisterAndBindEntry_2505438.md",
+      "function_start": "0x65f250",
+      "idb_name": "BdLinkTask_Register_65F2B0_2505438",
+      "type": "int __cdecl(int, __int16, __int16, __int16)",
+      "comment_len": 393,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6804b0",
+      "doc_name": "FieldCameraInterpTask_Spawn_6804B0",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6804B0__FieldCameraInterpTask_Spawn_6804B0.md",
+      "function_start": "0x6804b0",
+      "idb_name": "BdLinkTask_Register_680520",
+      "type": "int __cdecl(int, int, _DWORD *, char, char, char)",
+      "comment_len": 584,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e420",
+      "doc_name": "Ot_EmitQuadList_Gated",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E420__Ot_EmitQuadList_Gated.md",
+      "function_start": "0x69e420",
+      "idb_name": "sub_69E420",
+      "type": "unsigned __int16 *__cdecl(int)",
+      "comment_len": 483,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e700",
+      "doc_name": "Ot_EmitQuad_GTE_FromStream",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E700__Ot_EmitQuad_GTE_FromStream.md",
+      "function_start": "0x69e700",
+      "idb_name": "sub_69E700",
+      "type": "int __cdecl(int)",
+      "comment_len": 684,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e860",
+      "doc_name": "Camera_Project2Pts_ExpandScreenAABB",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E860__Camera_Project2Pts_ExpandScreenAABB.md",
+      "function_start": "0x69e860",
+      "idb_name": "sub_69E860",
+      "type": "int __cdecl(_WORD *, _WORD *, _DWORD *)",
+      "comment_len": 520,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e940",
+      "doc_name": "MAG_Scratch58_InvokeWorker",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E940__MAG_Scratch58_InvokeWorker.md",
+      "function_start": "0x69e940",
+      "idb_name": "sub_69E940",
+      "type": "int __cdecl(int)",
+      "comment_len": 376,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e970",
+      "doc_name": "SeqCtx_BindStream_AndChainPumps",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E970__SeqCtx_BindStream_AndChainPumps.md",
+      "function_start": "0x69e970",
+      "idb_name": "sub_69E970",
+      "type": "_DWORD *__cdecl(_DWORD *)",
+      "comment_len": 449,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69e9a0",
+      "doc_name": "Vec2Batch_ApproxSqrtNormalize_PackXY10_Mag",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69E9A0__Vec2Batch_ApproxSqrtNormalize_PackXY10_Mag.md",
+      "function_start": "0x69e9a0",
+      "idb_name": "sub_69E9A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 613,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69eac0",
+      "doc_name": "MAG_213_STORM_BREATH_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAC0__MAG_213_STORM_BREATH_Thunk.md",
+      "function_start": "0x69eac0",
+      "idb_name": "MAG_213_STORM_BREATH",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 394,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69ead0",
+      "doc_name": "MAG_213_FL_Load_mag212_TIM_Cached",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAD0__MAG_213_FL_Load_mag212_TIM_Cached.md",
+      "function_start": "0x69ead0",
+      "idb_name": "MAG_213_STORM_BREATH_FL",
+      "type": "unsigned __int8 *()",
+      "comment_len": 404,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69eaf0",
+      "doc_name": "MAG_213_PresentSetup_InitCtx_LinkTask_BindCamera",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EAF0__MAG_213_PresentSetup_InitCtx_LinkTask_BindCamera.md",
+      "function_start": "0x69eaf0",
+      "idb_name": "sub_69EAF0",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 561,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69eb70",
+      "doc_name": "Magic213_BdLinkMaster_Step",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EB70__Magic213_BdLinkMaster_Step.md",
+      "function_start": "0x69eb70",
+      "idb_name": "sub_69EB70",
+      "type": null,
+      "comment_len": 953,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69ee80",
+      "doc_name": "MagFx_SumS16Runs_TwoSources_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EE80__MagFx_SumS16Runs_TwoSources_Scratch38.md",
+      "function_start": "0x69ee80",
+      "idb_name": "sub_69EE80",
+      "type": "int __cdecl(_DWORD *)",
+      "comment_len": 452,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69ef60",
+      "doc_name": "Mag213_BdLinkTask_FxStepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69EF60__Mag213_BdLinkTask_FxStepper.md",
+      "function_start": "0x69ef60",
+      "idb_name": "sub_69EF60",
+      "type": "int __usercall@<eax>(int@<edi>, int)",
+      "comment_len": 740,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69fb30",
+      "doc_name": "MagFX_Step_PrepCamMatrixDrawEntry",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FB30__MagFX_Step_PrepCamMatrixDrawEntry.md",
+      "function_start": "0x69fb30",
+      "idb_name": "sub_69FB30",
+      "type": "int __cdecl(_DWORD *, __int16 *, int)",
+      "comment_len": 670,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69fd00",
+      "doc_name": "Mag213_BuildCtx_CursorInit_TwoPass",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FD00__Mag213_BuildCtx_CursorInit_TwoPass.md",
+      "function_start": "0x69fd00",
+      "idb_name": "sub_69FD00",
+      "type": "unsigned int *__cdecl(_DWORD *, int, char, unsigned int *)",
+      "comment_len": 397,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x69fd50",
+      "doc_name": "MagFx_QuadPass_TransformClip_EmitTriPairToOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x69FD50__MagFx_QuadPass_TransformClip_EmitTriPairToOT.md",
+      "function_start": "0x69fd50",
+      "idb_name": "sub_69FD50",
+      "type": "unsigned int *__cdecl(unsigned int *pkt, int, char, unsigned int *)",
+      "comment_len": 804,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a01b0",
+      "doc_name": "MagFx_QuadBatch_GteClip_OtEmit2Tris",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A01B0__MagFx_QuadBatch_GteClip_OtEmit2Tris.md",
+      "function_start": "0x6a01b0",
+      "idb_name": "sub_6A01B0",
+      "type": "unsigned int *__cdecl(unsigned int *pkt, int, char, unsigned int *)",
+      "comment_len": 669,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a06c0",
+      "doc_name": "Mag213_SkelPoseChains_Build_Scratch38",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A06C0__Mag213_SkelPoseChains_Build_Scratch38.md",
+      "function_start": "0x6a06c0",
+      "idb_name": "sub_6A06C0",
+      "type": "int __cdecl(_DWORD *, int, _DWORD *)",
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0760",
+      "doc_name": "MAG213_CameraFxTick_RegisterComposeAdvanceRot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0760__MAG213_CameraFxTick_RegisterComposeAdvanceRot.md",
+      "function_start": "0x6a0760",
+      "idb_name": "sub_6A0760",
+      "type": "int __cdecl(_WORD *)",
+      "comment_len": 596,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a08d0",
+      "doc_name": "MagFX_HelixRise_TaskStep",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A08D0__MagFX_HelixRise_TaskStep.md",
+      "function_start": "0x6a08d0",
+      "idb_name": "sub_6A08D0",
+      "type": null,
+      "comment_len": 650,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0a50",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0A50__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx.md",
+      "function_start": "0x6a0a50",
+      "idb_name": "sub_6A0A50",
+      "type": null,
+      "comment_len": 585,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0af0",
+      "doc_name": "MagicFx_Step_InterpVecGTE_AddSpritePrimOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0AF0__MagicFx_Step_InterpVecGTE_AddSpritePrimOT.md",
+      "function_start": "0x6a0af0",
+      "idb_name": "sub_6A0AF0",
+      "type": null,
+      "comment_len": 590,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0be0",
+      "doc_name": "MAG213_TwinTick_SubmitPacketOT12F",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0BE0__MAG213_TwinTick_SubmitPacketOT12F.md",
+      "function_start": "0x6a0be0",
+      "idb_name": "sub_6A0BE0",
+      "type": null,
+      "comment_len": 484,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0c80",
+      "doc_name": "MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0C80__MAG213_FxStep_ScratchNodeSubmitOT2_AdvanceCtx_Bound8.md",
+      "function_start": "0x6a0c80",
+      "idb_name": "sub_6A0C80",
+      "type": null,
+      "comment_len": 520,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0d20",
+      "doc_name": "MAG_212_Entry_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D20__MAG_212_Entry_Thunk.md",
+      "function_start": "0x6a0d20",
+      "idb_name": "MAG_212_UNK8",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 297,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0d50",
+      "doc_name": "MAG_212_EffectEntry_InitCtxAndRegisterTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0D50__MAG_212_EffectEntry_InitCtxAndRegisterTick.md",
+      "function_start": "0x6a0d50",
+      "idb_name": "sub_6A0D50",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 464,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a0dc0",
+      "doc_name": "MAG_212_Effect_Tick_Stepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A0DC0__MAG_212_Effect_Tick_Stepper.md",
+      "function_start": "0x6a0dc0",
+      "idb_name": "sub_6A0DC0",
+      "type": null,
+      "comment_len": 573,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a1280",
+      "doc_name": "MagFx_Stage1_SnapshotPresentationActorWords",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A1280__MagFx_Stage1_SnapshotPresentationActorWords.md",
+      "function_start": "0x6a1280",
+      "idb_name": "sub_6A1280",
+      "type": "int *()",
+      "comment_len": 456,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a12b0",
+      "doc_name": "Battle_MagicFx212_RenderSkelRotXScaledFrame",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A12B0__Battle_MagicFx212_RenderSkelRotXScaledFrame.md",
+      "function_start": "0x6a12b0",
+      "idb_name": "sub_6A12B0",
+      "type": "OtNode24 *__cdecl(__int16 *, __int16 *)",
+      "comment_len": 626,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2760",
+      "doc_name": "MagFX_Stepper_RenderScaledLayers_ToOT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2760__MagFX_Stepper_RenderScaledLayers_ToOT44.md",
+      "function_start": "0x6a2760",
+      "idb_name": "sub_6A2760",
+      "type": "char __cdecl(int, char *)",
+      "comment_len": 665,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2940",
+      "doc_name": "MagFX_EffectScript_StepGroups_EmitOtPacket",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2940__MagFX_EffectScript_StepGroups_EmitOtPacket.md",
+      "function_start": "0x6a2940",
+      "idb_name": "sub_6A2940",
+      "type": "__int16 *__cdecl(__int16 *, __int16 *, int, char)",
+      "comment_len": 795,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2a90",
+      "doc_name": "MagFX_ProjectVertexStream_ToSxyClipRecords",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2A90__MagFX_ProjectVertexStream_ToSxyClipRecords.md",
+      "function_start": "0x6a2a90",
+      "idb_name": "sub_6A2A90",
+      "type": "int *__cdecl(int *, int *, int)",
+      "comment_len": 521,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2b80",
+      "doc_name": "MagFx_ObjEmit_CamGtePrim_OT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2B80__MagFx_ObjEmit_CamGtePrim_OT44.md",
+      "function_start": "0x6a2b80",
+      "idb_name": "sub_6A2B80",
+      "type": "int __cdecl(_DWORD *, int, int)",
+      "comment_len": 926,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2f20",
+      "doc_name": "MagFx_Sync4SlotWordBit04_FromByteFlags_Gated",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2F20__MagFx_Sync4SlotWordBit04_FromByteFlags_Gated.md",
+      "function_start": "0x6a2f20",
+      "idb_name": "sub_6A2F20",
+      "type": "__int16()",
+      "comment_len": 381,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a2f60",
+      "doc_name": "MagFX_Model_RenderMeshChainFK",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A2F60__MagFX_Model_RenderMeshChainFK.md",
+      "function_start": "0x6a2f60",
+      "idb_name": "sub_6A2F60",
+      "type": "int __cdecl(int, __int16 *, __int16 *)",
+      "comment_len": 677,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a30c0",
+      "doc_name": "MagicFx_Wrapper_Invoke2F60_AndSetStateBit04",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A30C0__MagicFx_Wrapper_Invoke2F60_AndSetStateBit04.md",
+      "function_start": "0x6a30c0",
+      "idb_name": "sub_6A30C0",
+      "type": "int()",
+      "comment_len": 408,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a30f0",
+      "doc_name": "MagFx_AnimStep_ComposeCameraAndSubmitOT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A30F0__MagFx_AnimStep_ComposeCameraAndSubmitOT.md",
+      "function_start": "0x6a30f0",
+      "idb_name": "sub_6A30F0",
+      "type": null,
+      "comment_len": 608,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3220",
+      "doc_name": "BattleFx_DirPair_SinCosScale_Build",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3220__BattleFx_DirPair_SinCosScale_Build.md",
+      "function_start": "0x6a3220",
+      "idb_name": "sub_6A3220",
+      "type": "int __cdecl(int, int, _DWORD *)",
+      "comment_len": 460,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3280",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184174",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3280__MagFx_Call_32A0_WithTable_1184174.md",
+      "function_start": "0x6a3280",
+      "idb_name": "sub_6A3280",
+      "type": null,
+      "comment_len": 267,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a32a0",
+      "doc_name": "MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A32A0__MagFx_AnimStep_ComposeCameraAndSubmitOT_CtxArg.md",
+      "function_start": "0x6a32a0",
+      "idb_name": "sub_6A32A0",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 794,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a33c0",
+      "doc_name": "MagFx_Call_32A0_WithTable_11843DC",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33C0__MagFx_Call_32A0_WithTable_11843DC.md",
+      "function_start": "0x6a33c0",
+      "idb_name": "sub_6A33C0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a33e0",
+      "doc_name": "MagFx_Call_32A0_WithTable_1184694",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A33E0__MagFx_Call_32A0_WithTable_1184694.md",
+      "function_start": "0x6a33e0",
+      "idb_name": "sub_6A33E0",
+      "type": null,
+      "comment_len": 318,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3400",
+      "doc_name": "MagFx_SpawnRadialParticles_TaskRegistered",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3400__MagFx_SpawnRadialParticles_TaskRegistered.md",
+      "function_start": "0x6a3400",
+      "idb_name": "sub_6A3400",
+      "type": "int __cdecl(int, __int16, __int16, __int16, int, char, int, int, int, __int16, int callback)",
+      "comment_len": 736,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3510",
+      "doc_name": "Battle_MagicFX_Type1_SpawnTimedTask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3510__Battle_MagicFX_Type1_SpawnTimedTask.md",
+      "function_start": "0x6a3510",
+      "idb_name": "sub_6A3510",
+      "type": "int __cdecl(int, __int16 *, int)",
+      "comment_len": 688,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3630",
+      "doc_name": "Battle_MagicFX_Type1_MotionTick_Task",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3630__Battle_MagicFX_Type1_MotionTick_Task.md",
+      "function_start": "0x6a3630",
+      "idb_name": "sub_6A3630",
+      "type": null,
+      "comment_len": 523,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3750",
+      "doc_name": "MagFx_ParticleStepper_EmitOT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3750__MagFx_ParticleStepper_EmitOT44.md",
+      "function_start": "0x6a3750",
+      "idb_name": "sub_6A3750",
+      "type": null,
+      "comment_len": 549,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3800",
+      "doc_name": "MAG_Stepper_EmitScratchPacket_OT44",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3800__MAG_Stepper_EmitScratchPacket_OT44.md",
+      "function_start": "0x6a3800",
+      "idb_name": "sub_6A3800",
+      "type": null,
+      "comment_len": 483,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a38b0",
+      "doc_name": "MagFX_Step_PosVel_PushOtNodeB4",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A38B0__MagFX_Step_PosVel_PushOtNodeB4.md",
+      "function_start": "0x6a38b0",
+      "idb_name": "sub_6A38B0",
+      "type": null,
+      "comment_len": 441,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3960",
+      "doc_name": "MagFx_SpawnRandParamTasks",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3960__MagFx_SpawnRandParamTasks.md",
+      "function_start": "0x6a3960",
+      "idb_name": "sub_6A3960",
+      "type": "char __cdecl(int, char, __int16, __int16, __int16, int, __int16, char, char, char, int, __int16, int callback)",
+      "comment_len": 517,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3a30",
+      "doc_name": "MagFx_ComposeBoneMat_GteWord3Out",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3A30__MagFx_ComposeBoneMat_GteWord3Out.md",
+      "function_start": "0x6a3a30",
+      "idb_name": "sub_6A3A30",
+      "type": "_WORD *__cdecl(int, _WORD *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3ab0",
+      "doc_name": "MAG_207_MAELSTROM_Thunk",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AB0__MAG_207_MAELSTROM_Thunk.md",
+      "function_start": "0x6a3ab0",
+      "idb_name": "MAG_207_MAELSTROM",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 366,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3ae0",
+      "doc_name": "BattleMagic_M207_Maelstrom_SetupTask",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3AE0__BattleMagic_M207_Maelstrom_SetupTask.md",
+      "function_start": "0x6a3ae0",
+      "idb_name": "sub_6A3AE0",
+      "type": "void *__cdecl(unsigned __int8 *)",
+      "comment_len": 516,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3b70",
+      "doc_name": "BattleMagic_M207_Maelstrom_Stepper",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3B70__BattleMagic_M207_Maelstrom_Stepper.md",
+      "function_start": "0x6a3b70",
+      "idb_name": "sub_6A3B70",
+      "type": null,
+      "comment_len": 755,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a3d90",
+      "doc_name": "BattleMagic_M207_Maelstrom_SubTaskTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A3D90__BattleMagic_M207_Maelstrom_SubTaskTick.md",
+      "function_start": "0x6a3d90",
+      "idb_name": "sub_6A3D90",
+      "type": null,
+      "comment_len": 631,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a41e0",
+      "doc_name": "MaelstromFX_EffectCb_QueuePrim6C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A41E0__MaelstromFX_EffectCb_QueuePrim6C.md",
+      "function_start": "0x6a41e0",
+      "idb_name": "sub_6A41E0",
+      "type": "int __cdecl(_DWORD *, int, int)",
+      "comment_len": 737,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a4710",
+      "doc_name": "MagFX_SubmitFaceList_GteClipTextured_OT",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A4710__MagFX_SubmitFaceList_GteClipTextured_OT.md",
+      "function_start": "0x6a4710",
+      "idb_name": "sub_6A4710",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 1440,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a4ba0",
+      "doc_name": "MagFx_EmitBatchQuads_AVSZ4_OtBucket_Glow",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A4BA0__MagFx_EmitBatchQuads_AVSZ4_OtBucket_Glow.md",
+      "function_start": "0x6a4ba0",
+      "idb_name": "sub_6A4BA0",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 876,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5120",
+      "doc_name": "MagFx_EmitTriPackets_GteCull_ToOt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5120__MagFx_EmitTriPackets_GteCull_ToOt.md",
+      "function_start": "0x6a5120",
+      "idb_name": "sub_6A5120",
+      "type": "unsigned int *__cdecl(int, int, char, unsigned int *pkt)",
+      "comment_len": 817,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5650",
+      "doc_name": "BattleMagic_M207_Maelstrom_ParticleSpawnTick",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5650__BattleMagic_M207_Maelstrom_ParticleSpawnTick.md",
+      "function_start": "0x6a5650",
+      "idb_name": "sub_6A5650",
+      "type": null,
+      "comment_len": 565,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5700",
+      "doc_name": "BattleFX_Magic_ProjectVertsEmitDualOTPkts",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5700__BattleFX_Magic_ProjectVertsEmitDualOTPkts.md",
+      "function_start": "0x6a5700",
+      "idb_name": "sub_6A5700",
+      "type": "int __cdecl(int, __int16 *, int, int, int)",
+      "comment_len": 551,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5950",
+      "doc_name": "MagFx_StreamEmitBatch_OtNode24_Code1",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5950__MagFx_StreamEmitBatch_OtNode24_Code1.md",
+      "function_start": "0x6a5950",
+      "idb_name": "sub_6A5950",
+      "type": "int __cdecl(int)",
+      "comment_len": 653,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5ad0",
+      "doc_name": "MagFx_BuildQuadNodes_Tag2E",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5AD0__MagFx_BuildQuadNodes_Tag2E.md",
+      "function_start": "0x6a5ad0",
+      "idb_name": "sub_6A5AD0",
+      "type": "unsigned __int16 *__cdecl(int)",
+      "comment_len": 669,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5c90",
+      "doc_name": "Ot_EmitTri_GTE_FromStream_Nodes1C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5C90__Ot_EmitTri_GTE_FromStream_Nodes1C.md",
+      "function_start": "0x6a5c90",
+      "idb_name": "sub_6A5C90",
+      "type": "int __cdecl(int)",
+      "comment_len": 593,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    },
+    {
+      "ea": "0x6a5db0",
+      "doc_name": "MagFx_EmitStream_Code3A_Gte_Ot",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x6A5DB0__MagFx_EmitStream_Code3A_Gte_Ot.md",
+      "function_start": "0x6a5db0",
+      "idb_name": "sub_6A5DB0",
+      "type": "int __cdecl(int)",
+      "comment_len": 706,
+      "tags": [],
+      "verdict": [],
+      "certain": false
+    }
+  ],
+  "confirmed_header_renames": [],
+  "unannotated": [
+    {
+      "ea": "0x407eb4",
+      "doc_name": "resolve_texobj_palette_vt",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x407EB4__resolve_texobj_palette_vt.md",
+      "function_start": "0x407eb4",
+      "idb_name": "sub_407EB4",
+      "type": "void __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41ef3c",
+      "doc_name": "sub_41EF3C",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41EF3C__sub_41EF3C.md",
+      "function_start": "0x41ef3c",
+      "idb_name": "sub_41EF3C",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41ef7a",
+      "doc_name": "sub_41EF7A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41EF7A__sub_41EF7A.md",
+      "function_start": "0x41ef7a",
+      "idb_name": "sub_41EF7A",
+      "type": "int __cdecl(int, _DWORD *, _DWORD *)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x41f99a",
+      "doc_name": "sub_41F99A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x41F99A__sub_41F99A.md",
+      "function_start": "0x41f99a",
+      "idb_name": "sub_41F99A",
+      "type": "int __cdecl(int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x421c41",
+      "doc_name": "sub_421C41_TIM_remap",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x421C41__sub_421C41_TIM_remap.md",
+      "function_start": "0x421c41",
+      "idb_name": "sub_421C41",
+      "type": "void __cdecl(int, _DWORD *, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x4221e6",
+      "doc_name": "sub_4221E6_slot_E_cache",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4221E6__sub_4221E6_slot_E_cache.md",
+      "function_start": "0x4221e6",
+      "idb_name": "sub_4221E6",
+      "type": "int __cdecl(int, int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43df2a",
+      "doc_name": "sub_43DF2A",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43DF2A__sub_43DF2A.md",
+      "function_start": "0x43df2a",
+      "idb_name": "sub_43DF2A",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43df54",
+      "doc_name": "sub_43DF54",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43DF54__sub_43DF54.md",
+      "function_start": "0x43df54",
+      "idb_name": "sub_43DF54",
+      "type": "void __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x43e0e2",
+      "doc_name": "GfxDDrawAlt_PaletteSpriteNode_Direct",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x43E0E2__GfxDDrawAlt_PaletteSpriteNode_Direct.md",
+      "function_start": "0x43e0e2",
+      "idb_name": "sub_43E0E2",
+      "type": "int __cdecl(int, int, int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x461100",
+      "doc_name": "sub_461100_ListRenderTargetSwitch",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x461100__sub_461100_ListRenderTargetSwitch.md",
+      "function_start": "0x461100",
+      "idb_name": "sub_461100",
+      "type": "void __cdecl(int, unsigned int)",
+      "comment_len": 0,
+      "tags": []
+    },
+    {
+      "ea": "0x4623a0",
+      "doc_name": "GpuPrimDispatch02_FillRectVRAM",
+      "file": "docs\\tech\\investigation\\battle-static-discovery\\decomp\\0x4623A0__GpuPrimDispatch02_FillRectVRAM.md",
+      "function_start": "0x4623a0",
+      "idb_name": "sub_4623A0",
+      "type": "int __cdecl(int)",
+      "comment_len": 0,
+      "tags": []
+    }
+  ]
+}

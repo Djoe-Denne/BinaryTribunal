@@ -1,0 +1,25 @@
+004AEC28: lea     edx, [eax+ecx*4]; Load Effective Address
+004AEC2B: xor     eax, eax; Logical Exclusive OR
+004AEC2D: mov     al, byte ptr dword_1D768E0+1
+004AEC32: lea     ecx, [edx+eax+9]; Load Effective Address
+004AEC36: mov     edx, dword_1D768E0
+004AEC3C: and     edx, 0FFh; Logical AND
+004AEC42: push    ecx; y
+004AEC43: add     edx, 7; Add
+004AEC46: push    edx; x
+004AEC47: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AEC4C: add     esp, 10h; Add
+004AEC4F: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEC54: xor     eax, eax; Logical Exclusive OR
+004AEC56: push    2
+004AEC58: mov     al, byte ptr dword_1D768E8+1
+004AEC5D: mov     byte_1D76604, 1
+004AEC64: mov     dword_B877B8, 414h
+004AEC6E: push    eax
+004AEC6F: jmp     short loc_4AEC1B; Jump
+004AEC71: lea     eax, [ebx+ebx*2]; Load Effective Address
+004AEC74: xor     edx, edx; Logical Exclusive OR
+004AEC76: mov     dl, byte ptr dword_1D768E4+1
+004AEC7C: push    ebp; flags
+004AEC7D: lea     ecx, [ebx+eax*4]; Load Effective Address
+004AEC80: push    1; id

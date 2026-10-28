@@ -1,0 +1,25 @@
+0048855E: inc     esi; Increment by 1
+0048855F: mov     ax, [edx+ecx*2]
+00488563: cmp     ax, 0FFFFh; Compare Two Operands
+00488567: jnz     short loc_488570; Jump if Not Zero (ZF=0)
+00488569: mov     eax, offset RELATED_TO_AI_TEXT_SECTION_DEFAULT
+0048856E: jmp     short loc_48857E; Jump
+00488570: mov     ecx, [esp+74h+p_text_subsection]
+00488577: and     eax, 0FFFFh; Logical AND
+0048857C: add     eax, ecx; Add
+0048857E: push    0
+00488580: push    80h
+00488585: push    3
+00488587: push    1Eh
+00488589: push    eax
+0048858A: call    domain__BattleScript_DisplayText; Call Procedure
+0048858F: add     esp, 4; Add
+00488592: push    eax
+00488593: call    domain__BattleEvent_DisplayMessageAndWait; Call Procedure
+00488598: add     esp, 14h; Add
+0048859B: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004885A0: mov     al, [esi]; AI VM op 0x25 SCAN_STORE: text_id(1); 0xFF=clear scan buf else copy 24B scan record to BMI_SCAN_BUFFER
+004885A2: inc     esi; Increment by 1
+004885A3: cmp     al, 0FFh; Compare Two Operands
+004885A5: mov     [esp+74h+opcode_param_1], al
+004885A9: jnz     short loc_4885C2; Jump if Not Zero (ZF=0)

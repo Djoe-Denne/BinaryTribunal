@@ -1,0 +1,33 @@
+# Décision parent R3 — unicité du candidat courant, staging non autorisant
+
+VdeltaR1R2CORRIGEune seuleambiguïté:«auplusuncandidatnonterminal» empêchait
+oldpointé+newPREPAREDstaged dansCASReplaceCandidate. Aucundéfautruntime,
+R1/R2/K/C4/C5 substantiellementacceptables-source-scoped restentconservés.
+
+Choixparent:UNICITÉduCANDIDATCOURANTdésignéparhead.candidateGenerationId/ref,
+PASdel'ensembledesoriginspreparéesnonterminales. head.activeGenerationId est
+le parentactif distinct etnechangePASdansun remplacementdecandidat.
+
+Les préparations durables deremplacement peuvent être PREPARED maisstaged-only:
+nonpointées,non sélectionnables pouractivation/admission,reserveNewFamilies ou
+créationd'autorité. LeurlabellingcurrentestDÉRIVÉduheadréel,pasd'uncallerflag.
+Leurpersistencen'altèrenihead/pointeur/barrière/cutnimodes/HOLD. Ellesconsomment
+lesmêmescompteurspersitantsbornésrootdepréparation/remplacement,sansreset/refund
+ni capnouveau;aucunstagingillimité.LacontrainteS2uniqueporte surlepointeur
+courantduhead,pasWHEREstateNonterminal niunique(mission,ordinal)desoriginsstaged.
+Deuxstagedoriginsdistinctespeuventviserlemêmeparent/ordinalattenduen attendant
+leCAS;touteslesvalidationsd'identité/ordinal/currentSource sefont auCAS.
+
+PrepareinitialnepeutsélectionneruncourantquesiheadcandidateestNULLparCAS
+autorisé. PrepareReplacementcréeuniquementlestaging;SEULCASReplaceCandidate
+valideoldcurrent/head/fence/source/barrièremêmeconnexion etrendnewcourant,
+journaliseoldretiré/superseded/ABORTED,sansréécrireoriginbody etsanstransition
+RUNNING. IlneclearaucunHOLD/unknownetnechangeaucunegénérationactive/engagedFamily.
+Refus/race/replyperdu:pasdesélectionimplicited'unstagedaurestart,noadmission,
+headcourantunique etbarrièrecontinue;origins/compteursrestentconservés.
+
+OracleQ1/Q2:oldcourant+newPREPAREDstagedcoexistentlicitement,stagedinexécutable
+aucharged/restart,racede2stagesunseulCASgagnant,pointeurunique/replylost relu,
+barrière/cut/oldbodies inchangés,sources/Kactuelsrevalidés;T2finalreste distinct.
+CorrigerD/Qprécisément,Ebyte-identique,MANIFESTprovenance/hashsactualisés,
+VdeltaR3cibléeavantcodeS1/S2. Native/public/full44/G5-G7toujoursfermés.

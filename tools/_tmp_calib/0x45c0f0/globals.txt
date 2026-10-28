@@ -1,0 +1,7 @@
+- env+18h BYTE isbg → tag OT 8 (0x08000000) ou 5 (0x05000000). unk_FFFFFF = masque 24 bits (leurre IDA).
+- packet[1] GP0 E3 clip start ; packet[2] E4 clip end ; packet[3] E5 draw offset ; packet[4] E1 tpage.
+- packet[5] E2 texture window ou 0 si lea edi,[env+0Ch] ; test edi,edi (Hex-Rays env==-12 = FAUX).
+- si isbg : packet[6] fill code 02 + RGB ; packet[7]/[8] DWORD env+0 / env+4.
+- EAX = env. Occupancy 1+2 / TEST AL,2 / tag 07 / code 24 / +44h GF : absents.
+- E2 width mask : SAR 3 (pas SHR). clip.w : mov di (unsigned 16).
+- dfe env+17h neg/sbb 0x400 ; dtd env+16h → 0x200 ; tpage WORD env+14h & 0x9FF.

@@ -1,0 +1,1059 @@
+import { describe, test, expect, beforeEach, afterEach } from "bun:test"
+import { setupDeps, insertTeam, insertMember } from "../helpers"
+import { executeTeamSpawn } from "../../src/tools/team-spawn"
+import { executeTeamTasksAdd } from "../../src/tools/team-tasks-add"
+import type { ToolDeps } from "../../src/types"
+
+describe("team_spawn", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  test("spawns a teammate and registers in DB + registry", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    // Check DB
+    const row = deps.db.query("SELECT * FROM team_member WHERE name = ?").get("alice") as Record<string, unknown>
+    expect(row).toBeTruthy()
+    expect(row.agent).toBe("build")
+    expect(row.status).toBe("busy")
+    expect(row.execution_status).toBe("starting")
+
+    // Check registry
+    expect(deps.registry.isTeamSession(row.session_id as string)).toBe(true)
+
+    // Check client calls: session.create + promptAsync
+    const createCalls = deps.client.calls.filter(c => c.method === "session.create")
+    expect(createCalls).toHaveLength(1)
+    const promptCalls = deps.client.calls.filter(c => c.method === "session.promptAsync")
+    expect(promptCalls).toHaveLength(1)
+  })
+
+  test("grants every teammate Code Mode access (execute allow) so read-only agents can reach team tools", async () => {
+    await executeTeamSpawn(deps, {
+      name: "scout",
+      agent: "explore",
+      prompt: "Map the codebase",
+    }, "lead-sess")
+    const createCalls = deps.client.calls.filter(c => c.method === "session.create")
+    const permission = (createCalls[0]?.args[0] as { permission?: Array<{
+      permission: string
+      pattern: string
+      action: string
+    }> })?.permission
+    expect(permission).toContainEqual({ permission: "execute", pattern: "*", action: "allow" })
+    expect(permission).toContainEqual({ permission: "team_message", pattern: "*", action: "allow" })
+  })
+
+  test("agent: null defaults to 'build' instead of hitting the NOT NULL constraint (issue #28)", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: null,
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    const row = deps.db.query("SELECT agent FROM team_member WHERE name = ?").get("alice") as { agent: string }
+    expect(row.agent).toBe("build")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const opts = promptCall!.args[0] as { agent?: string }
+    expect(opts.agent).toBe("build")
+  })
+
+  test("agent: undefined defaults to 'build'", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: undefined,
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+
+    const row = deps.db.query("SELECT agent FROM team_member WHERE name = ?").get("alice") as { agent: string }
+    expect(row.agent).toBe("build")
+  })
+
+  test("records a busy-start baseline on spawn (regression: fresh member inserted directly as busy, never fires a ready->busy transition event)", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+    expect(result).toContain("spawned")
+
+    const row = deps.db.query("SELECT session_id FROM team_member WHERE name = ?").get("alice") as { session_id: string }
+    // team-spawn.ts inserts the row with status='busy' directly -- there is no
+    // status-event transition for the watchdog to hook. isTimeStalled must still
+    // see a baseline from the moment of spawn, or a teammate stalled on its very
+    // first action (the exact pattern this checklist item tests) is invisible.
+    expect(deps.progressTracker.isTimeStalled(row.session_id, 0)).toBe(true)
+  })
+
+  test("rejects if caller is not the lead", async () => {
+    insertMember(deps.db, "t1", "bob", "bob-sess")
+    deps.registry.register("t1", "bob", "bob-sess")
+
+    await expect(executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "bob-sess")).rejects.toThrow("Only the team lead")
+  })
+
+  test("rejects duplicate member name", async () => {
+    await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "task 1" }, "lead-sess")
+    await expect(executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "task 2" }, "lead-sess"))
+      .rejects.toThrow("already exists")
+  })
+
+  test("rejects if session is not in any team", async () => {
+    await expect(executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "random-sess")).rejects.toThrow("not in a team")
+  })
+
+  test("rejects invalid member name", async () => {
+    await expect(executeTeamSpawn(deps, {
+      name: "lead",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")).rejects.toThrow("reserved")
+  })
+
+  test("context message instructs teammate to mark tasks complete before messaging lead", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    expect(promptCall).toBeTruthy()
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    // Should instruct to mark task complete
+    expect(text).toContain("team_tasks_complete")
+    // Should NOT have the old "STOP" as step 2 without mentioning task completion first
+    expect(text).toMatch(/mark.*complete.*team_message/s)
+  })
+
+  test("claim_task atomically claims the task on the board and includes it in context", async () => {
+    const addResult = await executeTeamTasksAdd(deps, { tasks: [
+      { content: "Fix the login bug", priority: "high" },
+    ] }, "lead-sess")
+    const taskId = addResult.match(/task_\S+/)![0]!
+
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: taskId,
+    }, "lead-sess")
+
+    // The task must be claimed (in_progress + assignee), not left pending.
+    const task = deps.db.query("SELECT status, assignee FROM team_task WHERE id = ?").get(taskId) as Record<string, string>
+    expect(task.status).toBe("in_progress")
+    expect(task.assignee).toBe("alice")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+    expect(text).toContain(taskId)
+    expect(text).toContain("Mark it complete when done")
+  })
+
+  test("claim_task that cannot be claimed still spawns but does not inject assignment and warns", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: "task-does-not-exist",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+    expect(result).toContain("could not claim task")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+    expect(text).not.toContain("You have been assigned task")
+  })
+
+  test("context message does NOT include assigned task line when claim_task is absent", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    expect(promptCall).toBeTruthy()
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).not.toContain("You have been assigned task")
+  })
+
+  test("claim_task actually claims the task in the DB for the spawned teammate", async () => {
+    deps.db.run(
+      "INSERT INTO team_task (id, team_id, content, status, priority, time_created, time_updated) VALUES ('task_real', 't1', 'Do work', 'pending', 'medium', ?, ?)",
+      [Date.now(), Date.now()],
+    )
+
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: "task_real",
+    }, "lead-sess")
+
+    const row = deps.db.query("SELECT status, assignee FROM team_task WHERE id = ?").get("task_real") as { status: string; assignee: string | null }
+    expect(row.status).toBe("in_progress")
+    expect(row.assignee).toBe("alice")
+  })
+
+  test("claim_task on a nonexistent task does not fail the spawn", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: "task-123",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+  })
+
+  test("claim_task on an already-claimed task does not steal it or fail the spawn", async () => {
+    deps.db.run(
+      "INSERT INTO team_task (id, team_id, content, status, priority, assignee, time_created, time_updated) VALUES ('task_taken', 't1', 'Do work', 'in_progress', 'medium', 'bob', ?, ?)",
+      [Date.now(), Date.now()],
+    )
+
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: "task_taken",
+    }, "lead-sess")
+
+    expect(result).toContain("spawned")
+    const row = deps.db.query("SELECT status, assignee FROM team_task WHERE id = ?").get("task_taken") as { status: string; assignee: string | null }
+    expect(row.assignee).toBe("bob")
+  })
+
+  test("releases the claimed task if the spawn rolls back on delivery failure", async () => {
+    deps.db.run(
+      "INSERT INTO team_task (id, team_id, content, status, priority, time_created, time_updated) VALUES ('task_real', 't1', 'Do work', 'pending', 'medium', ?, ?)",
+      [Date.now(), Date.now()],
+    )
+    deps.client.session.promptAsync = async () => { throw new Error("delivery failed") }
+
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+      claim_task: "task_real",
+    }, "lead-sess")
+
+    // Give the microtask queue time to process the async .catch() rollback
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    const row = deps.db.query("SELECT status, assignee FROM team_task WHERE id = ?").get("task_real") as { status: string; assignee: string | null }
+    expect(row.status).toBe("pending")
+    expect(row.assignee).toBeNull()
+  })
+
+  test("response includes task summary without LLM instructions", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("Fix the tests")
+    expect(result).not.toContain("STOP")
+    expect(result).not.toContain("Do NOT call")
+    expect(result).not.toContain("woken automatically")
+  })
+
+  test("rolls back DB, registry, and aborts session if promptAsync fails asynchronously", async () => {
+    // Make promptAsync throw after session.create succeeds
+    deps.client.session.promptAsync = async () => { throw new Error("promptAsync failed") }
+
+    // Spawn returns immediately — fire-and-forget
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+
+    // Give the microtask queue time to process the async .catch() rollback
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    // DB should have no member
+    const row = deps.db.query("SELECT * FROM team_member WHERE name = 'alice'").get()
+    expect(row).toBeNull()
+
+    // Registry should be clean
+    const members = deps.registry.listByTeam("t1")
+    expect(members).toHaveLength(0)
+
+    // session.abort should have been called
+    const abortCalls = deps.client.calls.filter(c => c.method === "session.abort")
+    expect(abortCalls).toHaveLength(1)
+  })
+
+  test("response is clean without LLM instructions", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).not.toContain("Do NOT call any tools")
+    expect(result).not.toContain("STOP")
+  })
+
+  test("rolls back cleanly even if session.abort fails during promptAsync rollback", async () => {
+    deps.client.session.promptAsync = async () => { throw new Error("promptAsync failed") }
+    deps.client.session.abort = async () => { throw new Error("abort also failed") }
+
+    // Spawn returns immediately — does NOT throw (fire-and-forget)
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+
+    // Give the microtask queue time to process the async .catch() rollback
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    // DB and registry should still be cleaned up
+    const row = deps.db.query("SELECT * FROM team_member WHERE name = 'alice'").get()
+    expect(row).toBeNull()
+    expect(deps.registry.listByTeam("t1")).toHaveLength(0)
+  })
+
+  test("context message includes structured completion format", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice", agent: "build", prompt: "Fix tests",
+    }, "lead-sess")
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+    expect(text).toContain("<task-result>")
+    expect(text).toContain("<status>")
+    expect(text).toContain("<summary>")
+  })
+
+  test("read-only agent gets shorter tool list without write tools", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice", agent: "explore", prompt: "Research",
+    }, "lead-sess")
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+    expect(text).toContain("team_message")
+    expect(text).not.toContain("team_tasks_add")
+    expect(text).not.toContain("team_tasks_complete")
+    expect(text).not.toContain("team_claim")
+  })
+
+  // --- Worktree tests ---
+
+  test("skips worktree for read-only agents (explore) even without explicit worktree: false", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "researcher",
+      agent: "explore",
+      prompt: "Search the codebase",
+    }, "lead-sess")
+
+    // No worktree.create call — read-only agents don't need file isolation
+    const wtCalls = deps.client.calls.filter(c => c.method === "worktree.create")
+    expect(wtCalls).toHaveLength(0)
+
+    // DB should have null worktree columns
+    const row = deps.db.query("SELECT worktree_dir, worktree_branch FROM team_member WHERE name = ?").get("researcher") as Record<string, string | null>
+    expect(row.worktree_dir).toBeNull()
+    expect(row.worktree_branch).toBeNull()
+
+    expect(result).toContain("researcher")
+    expect(result).toContain("spawned")
+  })
+
+  test("skips worktree for read-only agents (plan) even without explicit worktree: false", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "planner",
+      agent: "plan",
+      prompt: "Plan the architecture",
+    }, "lead-sess")
+
+    const wtCalls = deps.client.calls.filter(c => c.method === "worktree.create")
+    expect(wtCalls).toHaveLength(0)
+
+    const row = deps.db.query("SELECT worktree_dir, worktree_branch FROM team_member WHERE name = ?").get("planner") as Record<string, string | null>
+    expect(row.worktree_dir).toBeNull()
+    expect(row.worktree_branch).toBeNull()
+
+    expect(result).toContain("planner")
+    expect(result).toContain("spawned")
+  })
+
+  test("skips worktree creation when already inside a worktree", async () => {
+    deps.directory = "/home/user/.local/share/opencode/worktree/abc123/some-worktree"
+    deps.db.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'worktree',?,'active',1,1)", [deps.directory, deps.directory])
+    deps.db.run("UPDATE team SET project_id = ?", [deps.directory])
+    const result = await executeTeamSpawn(deps, {
+      name: "alice", agent: "build", prompt: "Fix tests",
+    }, "lead-sess")
+    const wtCalls = deps.client.calls.filter(c => c.method === "worktree.create")
+    expect(wtCalls).toHaveLength(0)
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+  })
+
+  test("creates a worktree by default and stores dir/branch in DB", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    // Worktree.create should have been called
+    const wtCalls = deps.client.calls.filter(c => c.method === "worktree.create")
+    expect(wtCalls).toHaveLength(1)
+    expect((wtCalls[0]!.args[0] as Record<string, unknown>).worktreeCreateInput).toEqual({ name: "ensemble-test-project-my-team#t1-alice" })
+
+    // DB should have worktree columns populated
+    const row = deps.db.query("SELECT worktree_dir, worktree_branch FROM team_member WHERE name = ?").get("alice") as Record<string, string | null>
+    expect(row.worktree_dir).toBeTruthy()
+    expect(row.worktree_branch).toBeTruthy()
+
+    // Result should mention the branch
+    expect(result).toContain("branch:")
+  })
+
+  test("uses team id for worktree names so same-name teams in different projects do not collide", async () => {
+    deps.db.run(
+      "INSERT OR IGNORE INTO project (id, name, path, status, time_created, time_updated) VALUES (?, ?, ?, 'active', ?, ?)",
+      ["/tmp/other-project", "other-project", "/tmp/other-project", Date.now(), Date.now()]
+    )
+    deps.db.run(
+      "INSERT INTO team (id, name, project_id, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, ?, ?, 'active', 0, ?, ?)",
+      ["t2", "my-team", "/tmp/other-project", "other-lead", Date.now(), Date.now()]
+    )
+
+    await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "Fix tests" }, "lead-sess")
+    await executeTeamSpawn({ ...deps, directory: "/tmp/other-project" }, { name: "alice", agent: "build", prompt: "Fix tests" }, "other-lead")
+
+    const names = deps.client.calls
+      .filter(c => c.method === "worktree.create")
+      .map(c => ((c.args[0] as { worktreeCreateInput: { name: string } }).worktreeCreateInput).name)
+    expect(names).toEqual(["ensemble-test-project-my-team#t1-alice", "ensemble-other-project-my-team#t2-alice"])
+  })
+
+  test("skips worktree when worktree: false", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "explore",
+      prompt: "Research the codebase",
+      worktree: false,
+    }, "lead-sess")
+
+    // No worktree.create call
+    const wtCalls = deps.client.calls.filter(c => c.method === "worktree.create")
+    expect(wtCalls).toHaveLength(0)
+
+    // DB should have null worktree columns
+    const row = deps.db.query("SELECT worktree_dir, worktree_branch FROM team_member WHERE name = ?").get("alice") as Record<string, string | null>
+    expect(row.worktree_dir).toBeNull()
+    expect(row.worktree_branch).toBeNull()
+
+    // Result should not mention branch
+    expect(result).not.toContain("branch:")
+  })
+
+  test("falls back to shared directory if worktree creation fails", async () => {
+    deps.client.worktree.create = async () => { throw new Error("worktree failed") }
+
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    // Should still succeed — just without worktree
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    // DB should have null worktree columns
+    const row = deps.db.query("SELECT worktree_dir, worktree_branch FROM team_member WHERE name = ?").get("alice") as Record<string, string | null>
+    expect(row.worktree_dir).toBeNull()
+    expect(row.worktree_branch).toBeNull()
+
+    // Toast warning should have been fired
+    const toasts = deps.client.calls.filter(c => c.method === "tui.showToast")
+    expect(toasts.length).toBeGreaterThan(0)
+  })
+
+  test("rolls back member asynchronously if promptAsync fails (fire-and-forget)", async () => {
+    deps.client.session.promptAsync = async () => { throw new Error("promptAsync failed") }
+
+    // Spawn returns immediately — does NOT throw
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    // Give the microtask queue time to process the async .catch() rollback
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    // Member should be cleaned up from DB
+    const row = deps.db.query("SELECT name FROM team_member WHERE name = ?").get("alice")
+    expect(row).toBeNull()
+
+    // Worktree should have been removed during rollback
+    const removeCalls = deps.client.calls.filter(c => c.method === "worktree.remove")
+    expect(removeCalls).toHaveLength(1)
+  })
+
+  test("context message mentions branch when worktree is active", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).toContain("worktree")
+    expect(text).toContain("branch")
+  })
+
+  test("context message does NOT include cd instruction when workspace binding succeeds", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    // Workspace binding succeeded — server handles CWD, no cd instruction needed
+    expect(text).toContain("worktree")
+    expect(text).toContain("branch")
+    expect(text).not.toContain("cd to:")
+  })
+
+  test("context message includes cd instruction when workspace.create fails (fallback)", async () => {
+    deps.client.workspace.create = async () => { throw new Error("workspace failed") }
+
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    // Workspace binding failed — fallback to prompt-based CWD
+    expect(text).toContain("/tmp/worktree-")
+    expect(text).toContain("cd to:")
+  })
+
+  test("context message does not include worktree directory when worktree: false", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "explore",
+      prompt: "Research",
+      worktree: false,
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).not.toContain("/tmp/worktree-")
+    expect(text).not.toContain("cd")
+  })
+
+  test("context message does not mention worktree when worktree: false", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "explore",
+      prompt: "Research",
+      worktree: false,
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).not.toContain("worktree")
+  })
+
+  // --- Workspace binding tests (P0-1) ---
+
+  test("calls workspace.create after worktree.create and passes workspaceID to session.create", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    // workspace.create should have been called with the worktree branch
+    const wsCalls = deps.client.calls.filter(c => c.method === "workspace.create")
+    expect(wsCalls).toHaveLength(1)
+    const wsArgs = wsCalls[0]!.args[0] as { branch?: string }
+    expect(wsArgs.branch).toContain("ensemble-")
+
+    // session.create should have workspaceID, NOT directory
+    const createCall = deps.client.calls.find(c => c.method === "session.create")
+    const createArgs = createCall!.args[0] as { workspaceID?: string; directory?: string }
+    expect(createArgs.workspaceID).toBeTruthy()
+    expect(createArgs.directory).toBeUndefined()
+  })
+
+  test("stores workspace_id in DB", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    const row = deps.db.query("SELECT workspace_id FROM team_member WHERE name = ?").get("alice") as { workspace_id: string | null }
+    expect(row.workspace_id).toBeTruthy()
+  })
+
+  test("workspace.create failure is non-fatal — spawn still succeeds", async () => {
+    deps.client.workspace.create = async () => { throw new Error("workspace failed") }
+
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix the tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    // session.create should NOT have workspaceID (fallback)
+    const createCall = deps.client.calls.find(c => c.method === "session.create")
+    const createArgs = createCall!.args[0] as { workspaceID?: string }
+    expect(createArgs.workspaceID).toBeUndefined()
+  })
+
+  test("skips workspace.create when worktree: false", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "explore",
+      prompt: "Research",
+      worktree: false,
+    }, "lead-sess")
+
+    const wsCalls = deps.client.calls.filter(c => c.method === "workspace.create")
+    expect(wsCalls).toHaveLength(0)
+  })
+
+  test("rolls back workspace when session.create fails", async () => {
+    deps.client.session.create = async () => { throw new Error("session failed") }
+
+    await expect(executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")).rejects.toThrow("session failed")
+
+    const wsRemoveCalls = deps.client.calls.filter(c => c.method === "workspace.remove")
+    expect(wsRemoveCalls).toHaveLength(1)
+  })
+
+  test("rolls back workspace in promptAsync catch handler", async () => {
+    deps.client.session.promptAsync = async () => { throw new Error("delivery failed") }
+
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    // Give microtask queue time to process .catch() rollback
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    const wsRemoveCalls = deps.client.calls.filter(c => c.method === "workspace.remove")
+    expect(wsRemoveCalls).toHaveLength(1)
+  })
+})
+
+describe("team_spawn — plan approval", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  test("sets plan_approval='pending' in DB when plan_approval: true", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Refactor auth",
+      plan_approval: true,
+    }, "lead-sess")
+
+    const row = deps.db.query("SELECT plan_approval FROM team_member WHERE name = ?").get("alice") as { plan_approval: string }
+    expect(row.plan_approval).toBe("pending")
+  })
+
+  test("sets plan_approval='none' in DB when plan_approval is not set", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    const row = deps.db.query("SELECT plan_approval FROM team_member WHERE name = ?").get("alice") as { plan_approval: string }
+    expect(row.plan_approval).toBe("none")
+  })
+
+  test("context message includes PLAN MODE instructions when plan_approval: true", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Refactor auth",
+      plan_approval: true,
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).toContain("PLAN MODE")
+    expect(text).toContain("Do NOT write or modify any files")
+    expect(text).toContain("approval")
+  })
+
+  test("context message does NOT include PLAN MODE when plan_approval is false/absent", async () => {
+    await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+    expect(text).not.toContain("PLAN MODE")
+  })
+
+  test("return message includes plan mode indicator when plan_approval: true", async () => {
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Refactor auth",
+      plan_approval: true,
+    }, "lead-sess")
+
+    expect(result).toContain("plan mode")
+  })
+})
+
+describe("team_spawn — agent mode enforcement", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  const TEAM_TOOL_PERMISSIONS = [
+    { permission: "team_message", pattern: "*", action: "allow" },
+    { permission: "team_broadcast", pattern: "*", action: "allow" },
+    { permission: "team_tasks_list", pattern: "*", action: "allow" },
+    { permission: "team_tasks_add", pattern: "*", action: "allow" },
+    { permission: "team_tasks_complete", pattern: "*", action: "allow" },
+    { permission: "team_claim", pattern: "*", action: "allow" },
+    { permission: "team_results", pattern: "*", action: "allow" },
+    { permission: "team_status", pattern: "*", action: "allow" },
+    { permission: "team_view", pattern: "*", action: "allow" },
+    { permission: "execute", pattern: "*", action: "allow" },
+  ]
+
+  test("plan agent gets deny rules + team tool allow (no worktree) on session.create", async () => {
+    await executeTeamSpawn(deps, { name: "planner", agent: "plan", prompt: "Plan it" }, "lead-sess")
+
+    const createCall = deps.client.calls.find(c => c.method === "session.create")
+    const opts = createCall!.args[0] as { permission?: Array<{ permission: string; pattern: string; action: string }> }
+    expect(opts.permission).toEqual([
+      { permission: "edit", pattern: "*", action: "deny" },
+      { permission: "bash", pattern: "*", action: "deny" },
+      ...TEAM_TOOL_PERMISSIONS,
+    ])
+  })
+
+  test("explore agent gets deny rules + team tool allow (no worktree) on session.create", async () => {
+    await executeTeamSpawn(deps, { name: "explorer", agent: "explore", prompt: "Explore it" }, "lead-sess")
+
+    const createCall = deps.client.calls.find(c => c.method === "session.create")
+    const opts = createCall!.args[0] as { permission?: Array<{ permission: string; pattern: string; action: string }> }
+    expect(opts.permission).toEqual([
+      { permission: "edit", pattern: "*", action: "deny" },
+      { permission: "bash", pattern: "*", action: "deny" },
+      ...TEAM_TOOL_PERMISSIONS,
+    ])
+  })
+
+  test("build agent gets worktree allow + team tool allow rules (no deny)", async () => {
+    await executeTeamSpawn(deps, { name: "builder", agent: "build", prompt: "Build it" }, "lead-sess")
+
+    const createCall = deps.client.calls.find(c => c.method === "session.create")
+    const opts = createCall!.args[0] as { permission?: Array<{ permission: string; pattern: string; action: string }> }
+    expect(opts.permission).toEqual([
+      { permission: "edit", pattern: "/tmp/worktree-ensemble-test-project-my-team#t1-builder/**", action: "allow" },
+      { permission: "bash", pattern: "*", action: "allow" },
+      ...TEAM_TOOL_PERMISSIONS,
+    ])
+  })
+
+  test("plan agent gets agent type on promptAsync without deprecated tools field", async () => {
+    await executeTeamSpawn(deps, { name: "planner", agent: "plan", prompt: "Plan it" }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const opts = promptCall!.args[0] as { agent?: string; tools?: unknown }
+    expect(opts.agent).toBe("plan")
+    expect(opts.tools).toBeUndefined()
+  })
+
+  test("explore agent gets agent type on promptAsync without deprecated tools field", async () => {
+    await executeTeamSpawn(deps, { name: "explorer", agent: "explore", prompt: "Explore it" }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const opts = promptCall!.args[0] as { agent?: string; tools?: unknown }
+    expect(opts.agent).toBe("explore")
+    expect(opts.tools).toBeUndefined()
+  })
+
+  test("build agent does NOT get tools restriction on promptAsync", async () => {
+    await executeTeamSpawn(deps, { name: "builder", agent: "build", prompt: "Build it" }, "lead-sess")
+
+    const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+    const opts = promptCall!.args[0] as { agent?: string; tools?: unknown }
+    expect(opts.agent).toBe("build")
+    expect(opts.tools).toBeUndefined()
+  })
+})
+
+describe("team_spawn — AGENTS.md NOT loaded into context", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  test("does not include AGENTS.md content in context message even when file exists", async () => {
+    // Create a temporary AGENTS.md in the test directory
+    const tmpDir = await import("node:fs/promises").then(fs => fs.mkdtemp("/tmp/ensemble-test-"))
+    const agentsPath = `${tmpDir}/AGENTS.md`
+    await Bun.write(agentsPath, "# Test Guidelines\nUse TypeScript strict mode.")
+    deps.directory = tmpDir
+    deps.db.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'temporary',?,'active',1,1)", [deps.directory, deps.directory])
+    deps.db.run("UPDATE team SET project_id = ?", [deps.directory])
+
+    try {
+      await executeTeamSpawn(deps, {
+        name: "alice",
+        agent: "build",
+        prompt: "Fix tests",
+      }, "lead-sess")
+
+      const promptCall = deps.client.calls.find(c => c.method === "session.promptAsync")
+      const text = (promptCall!.args[0] as { parts: Array<{ text: string }> }).parts[0]!.text
+
+      expect(text).not.toContain("Project guidelines (from AGENTS.md)")
+      expect(text).not.toContain("Use TypeScript strict mode")
+    } finally {
+      await import("node:fs/promises").then(fs => fs.rm(tmpDir, { recursive: true }))
+    }
+  })
+})
+
+describe("team_spawn — fire-and-forget promptAsync", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  test("returns immediately even if promptAsync never resolves", async () => {
+    // Mock promptAsync to hang forever — simulates broken transport / slow proxy
+    deps.client.session.promptAsync = () => new Promise(() => { /* never resolves */ })
+
+    const result = await executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    expect(result).toContain("alice")
+    expect(result).toContain("spawned")
+
+    // Member should be registered in DB
+    const row = deps.db.query("SELECT status FROM team_member WHERE name = ?").get("alice") as { status: string }
+    expect(row.status).toBe("busy")
+  })
+
+  test("cleans up member if promptAsync rejects asynchronously", async () => {
+    let rejectFn: (err: Error) => void
+    deps.client.session.promptAsync = () => new Promise((_resolve, reject) => {
+      rejectFn = reject
+    })
+
+    const result = await executeTeamSpawn(deps, {
+      name: "bob",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    expect(result).toContain("bob")
+
+    // Member exists initially
+    const before = deps.db.query("SELECT name FROM team_member WHERE name = ?").get("bob")
+    expect(before).toBeTruthy()
+
+    // Now reject the promise — async rollback should clean up
+    rejectFn!(new Error("delivery failed"))
+    // Give the microtask queue time to process the .catch()
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    const after = deps.db.query("SELECT name FROM team_member WHERE name = ?").get("bob")
+    expect(after).toBeNull()
+  })
+
+  test("notifies lead via team_message when promptAsync fails", async () => {
+    deps.client.session.promptAsync = async () => { throw new Error("delivery failed") }
+
+    await executeTeamSpawn(deps, {
+      name: "charlie",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")
+
+    // Give the microtask queue time to process the .catch()
+    await new Promise(resolve => setTimeout(resolve, 10))
+
+    // A message to the lead should be in the DB
+    const msg = deps.db.query(
+      "SELECT * FROM team_message WHERE team_id = ? AND to_name = 'lead' AND from_name = 'system'"
+    ).get("t1") as Record<string, unknown> | null
+    expect(msg).toBeTruthy()
+    expect(msg!.content).toContain("charlie")
+    expect(msg!.content).toContain("failed")
+  })
+})
+
+describe("team_spawn — timeout on session.create / worktree.create", () => {
+  let deps: ReturnType<typeof setupDeps>
+  const originalTimeout = process.env.SPAWN_TIMEOUT_MS
+
+  beforeEach(() => {
+    process.env.SPAWN_TIMEOUT_MS = "500"
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  afterEach(() => {
+    if (originalTimeout) { process.env.SPAWN_TIMEOUT_MS = originalTimeout }
+    else { delete process.env.SPAWN_TIMEOUT_MS }
+  })
+
+  test("throws timeout error if session.create hangs beyond SPAWN_TIMEOUT_MS", async () => {
+    // Mock session.create to never resolve (simulates git lock contention)
+    deps.client.session.create = () => new Promise(() => { /* never resolves */ })
+
+    await expect(executeTeamSpawn(deps, {
+      name: "alice",
+      agent: "build",
+      prompt: "Fix tests",
+    }, "lead-sess")).rejects.toThrow(/timed out/i)
+  }, 10000)
+
+  test("falls back to shared directory if worktree.create hangs beyond SPAWN_TIMEOUT_MS", async () => {
+    // Mock worktree.create to never resolve
+    deps.client.worktree.create = () => new Promise(() => { /* never resolves */ })
+
+    const result = await executeTeamSpawn(deps, {
+      name: "bob",
+      agent: "build",
+      prompt: "Fix tests",
+      worktree: true,
+    }, "lead-sess")
+
+    // Should succeed with fallback — no worktree branch in output
+    expect(result).toContain("bob")
+    expect(result).toContain("spawned")
+    expect(result).not.toContain("branch:")
+  }, 10000)
+})
+
+describe("team_spawn — concurrent execution cap", () => {
+  let deps: ReturnType<typeof setupDeps>
+
+  beforeEach(() => {
+    deps = setupDeps()
+    insertTeam(deps.db, "t1", "my-team", "lead-sess")
+  })
+
+  test("an explicit zero limit is unlimited", async () => {
+    deps.config.maxActiveMembers = 0
+    insertMember(deps.db, "t1", "m1", "sess-1", "busy")
+    insertMember(deps.db, "t1", "m2", "sess-2", "busy")
+    const result = await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "work" }, "lead-sess")
+    expect(result).toContain("spawned")
+  })
+
+  test("refuses at the cap with an explicit error and allocates nothing", async () => {
+    deps.config = { ...deps.config, maxActiveMembers: 2 }
+    insertMember(deps.db, "t1", "m1", "sess-1", "busy")
+    insertMember(deps.db, "t1", "m2", "sess-2", "shutdown_requested")
+
+    await expect(executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "work" }, "lead-sess"))
+      .rejects.toThrow(/Concurrent worker limit reached.*2\/2/)
+
+    expect(deps.client.calls.filter(c => c.method === "session.create")).toHaveLength(0)
+    expect(deps.client.calls.filter(c => c.method === "worktree.create")).toHaveLength(0)
+    expect(deps.client.calls.filter(c => c.method === "session.promptAsync")).toHaveLength(0)
+  })
+
+  test("terminal members (shutdown/error) do not occupy slots", async () => {
+    deps.config = { ...deps.config, maxActiveMembers: 1 }
+    insertMember(deps.db, "t1", "done", "sess-1", "shutdown")
+    insertMember(deps.db, "t1", "dead", "sess-2", "error")
+
+    const result = await executeTeamSpawn(deps, { name: "alice", agent: "build", prompt: "work" }, "lead-sess")
+    expect(result).toContain("spawned")
+  })
+})

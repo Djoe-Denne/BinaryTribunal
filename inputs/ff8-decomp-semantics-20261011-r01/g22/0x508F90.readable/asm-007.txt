@@ -1,0 +1,25 @@
+00509129: inc     ebp; Increment by 1
+0050912A: add     ebx, 30h ; '0'; Add
+0050912D: cmp     ebp, ecx; Compare Two Operands
+0050912F: jl      short loc_5090CF; Jump if Less (SF!=OF)
+00509131: jmp     loc_509205; Jump
+00509136: push    esi
+00509137: call    Battle__ReadPositionType; Call Procedure
+0050913C: add     [edi+8], ax; Add
+00509140: push    esi
+00509141: call    Battle__ReadPositionType; Call Procedure
+00509146: add     [edi+0Ah], ax; Add
+0050914A: push    esi
+0050914B: call    Battle__ReadPositionType; Call Procedure
+00509150: add     [edi+0Ch], ax; Add
+00509154: push    1
+00509156: push    esi
+00509157: call    bitReader; Call Procedure
+0050915C: mov     dl, [edi+1]
+0050915F: add     esp, 14h; Add
+00509162: mov     cl, dl
+00509164: xor     cl, al; Logical Exclusive OR
+00509166: and     cl, 1; Logical AND
+00509169: xor     cl, dl; Logical Exclusive OR
+0050916B: test    cl, 1; Logical Compare
+0050916E: mov     [edi+1], cl

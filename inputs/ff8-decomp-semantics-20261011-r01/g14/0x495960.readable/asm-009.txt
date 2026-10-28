@@ -1,0 +1,25 @@
+00495BFC: imul    ecx; Signed Multiply
+00495BFE: sar     edx, 5; Shift Arithmetic Right
+00495C01: mov     eax, edx
+00495C03: add     esp, 4; Add
+00495C06: shr     eax, 1Fh; Shift Logical Right
+00495C09: add     edx, eax; Add
+00495C0B: cmp     edx, 0FFh; Compare Two Operands
+00495C11: jle     short loc_495C18; Jump if Less or Equal (ZF=1 | SF!=OF)
+00495C13: mov     edx, 0FFh
+00495C18: xor     ecx, ecx; Logical Exclusive OR
+00495C1A: mov     [esi+1C2h], dl
+00495C20: mov     cl, [esi+1BFh]
+00495C26: push    ecx; p_spd
+00495C27: push    edi; p_char_id
+00495C28: call    domain__GetCharacterEva; Call Procedure
+00495C2D: xor     edx, edx; Logical Exclusive OR
+00495C2F: mov     ecx, eax
+00495C31: mov     dl, [esi+1CDh]
+00495C37: mov     eax, 51EB851Fh
+00495C3C: imul    ecx, edx; Signed Multiply
+00495C3F: imul    ecx; Signed Multiply
+00495C41: sar     edx, 5; Shift Arithmetic Right
+00495C44: mov     eax, edx
+00495C46: add     esp, 8; Add
+00495C49: shr     eax, 1Fh; Shift Logical Right

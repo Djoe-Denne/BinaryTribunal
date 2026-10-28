@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014';
+const prior=JSON.parse(readFileSync(phase+'/l7-initial-qa-review-preparation-request.json','utf8'));
+const audit=JSON.parse(readFileSync(phase+'/l7-initial-qa-binding-diagnostic.json','utf8'));
+if(audit.session.id!==prior.targetSessionId||audit.session.model?.variant!=='max'||audit.session.location.directory.replaceAll('\\','/')!==root)throw Error('Native reader drift');
+if(!audit.results.some((r:any)=>r.output?.taskId===prior.taskId&&r.output?.sessionId===prior.targetSessionId))throw Error('No native mission/task binding');
+for(const f of prior.files)if(createHash('sha256').update(readFileSync(prior.sourceRoot+'/'+f.path)).digest('hex')!==f.sha256)throw Error('Frozen source drift');
+const req={...prior,destinationRoot:root+'/inputs/L7QA_INITIAL_E03_NATIVE_MAIN_V2'};
+writeFileSync(phase+'/l7-initial-qa-review-preparation-v2-request.json',JSON.stringify(req,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({session:req.targetSessionId,task:req.taskId,files:req.files.length,destination:req.destinationRoot,reason:'Native main binding succeeds; standalone readonly checkout binding fails. Prepare in native session root then explicitly project unchanged harness into registered parent-owned test checkout. No plugin changes.'}));

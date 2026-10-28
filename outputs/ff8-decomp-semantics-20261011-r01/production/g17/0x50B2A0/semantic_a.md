@@ -1,0 +1,88 @@
+# 0x50B2A0 — production sémantique A
+
+**État du dépôt : provisoire, en attente du supplément natif `50B2A0-SUPPLEMENT-v1` annoncé au worker mais non encore accessible par chemin explicite dans le message reçu. Tâche non clôturée.**
+
+## Identité, contrat et provenance
+
+- Mission `ff8-decomp-semantics-20261011-r01`, groupe `g17`, tâche `task_mv44sggs_00bm_oy2byy`, auteur `pool-211`, session `ses_ecf0fab91ffedCFwaolUwkh7jL`, rôle **semantic A**, protocole 2+1.
+- Admission : `openai/gpt-6-astra`, variante `xhigh`. Égalité avec `model_routing.selected`, absence d'override et identité native **attestées par le lead** dans `INPUT-ADMISSION-HARDENING-v1`, pas interrogées par cet auteur. La mention Sol high de la tâche est historique.
+- Contexte commun : checkpoint révision 2 de l'explorateur factuel `ses_ed41fc6c0ffeWZh5hkKIUXKy89`, frontière exclusive `msg_12be1cd49001BowbZIVfuXq4cy`, selon attestation parent. Aucune consultation de production sœur, autre volet, review, verdict ou ledger. Une récupération des messages du lead destinée au supplément annoncé a renvoyé aussi des contrats administratifs d'autres tâches ; aucun fichier tiers cité dans ces contrats n'a été ouvert ni exploité.
+- Entrée locale `I = inputs/ff8-decomp-semantics-20261011-r01/g17/0x50B2A0.readable/` : `manifest.json:1–110`, **tous** `asm-001.txt` à `asm-016.txt` (25 lignes chacun), `bytes-001.txt:1–20`, `bytes-002.txt:1–20`, `bytes-003.txt:1–3`, `metadata.json:1–470`. Contexte `K = inputs/ff8-decomp-semantics-20261011-r01/g17/common-compaction.md:1–38`. Les chemins historiques mentionnés par K ne sont pas de nouvelles lectures de cet auteur.
+- Gel : 32 bits, export `2026-10-11T16:38:25.140966+00:00`, EXE SHA256 `064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570`. Chunk `[0x50B2A0,0x50B7E6)`, 400 instructions, 57 blocs CFG.
+- SHA256 déclarés/attestés, **non recalculés ici** : manifeste `a30d9aef3cfb071bba60d9b0a83dc34ce14ae10f76cf4d8aa78be4741515eedf` ; packet original `a2948fb2cfed39d50786de24509013d91ce4e411862d0610508c371e3ce3bbaf` ; compaction `f785a0931af7bb175c494b885cc51feab037139d05521e1686d110f79a2e671c`.
+- Guide commun lu. Le premier accès au contrat hors `inputs/` avait été refusé : aucun contournement ; reprise seulement après contrat complet transmis par le lead. Lecture au-delà de la fin de metadata (offset 501) sans contenu, puis couverture des 470 lignes effectives ; aucune donnée native manquante n'est déduite de cet incident.
+
+## Rôle et verdict de nom
+
+**Fait mécanique — CERTAIN :** gestionnaire à reprises piloté par un octet d'état du nœud. Il attend des conditions globales et des helpers, prépare des enregistrements d'acteurs, fait sélectionner puis appelle un callback partagé, enregistre son résultat, et orchestre plusieurs étapes de remise en état des acteurs avant de marquer le payload terminé. Les chemins d'attente ou d'avancement ordinaires renvoient `EAX=0` ; le chemin terminal renvoie `EAX=2`.
+
+**Interprétation métier — UNCERTAIN :** séquence de présentation d'une action de combat avec callback d'effet, préparation/rétablissement des acteurs et coordination de ressources. Le contexte factuel des acteurs et de `0x50AF20` soutient cette lecture ; les rôles précis de caméra, chargement, son et GF ne sont pas établis par les noms des callees. L'exclusivité « GF cinématique » n'est pas démontrée : le test du descripteur `+1 == 0xFE` ne garde qu'un appel additionnel après le callback, pas toute la fonction.
+
+**Nom proposé : `BattleActionSequence_TickCallbackAndRestoreActors`.** Fondé indépendamment sur la machine à reprises et l'appel indirect [P1, P4], puis sur les modifications d'acteurs avant/après la séquence [P2, P6]. « Restore » signifie rétablissement opérationnel de flags/états, **pas** restauration byte-exact d'un snapshot. Confiance du noyau descriptif : **CERTAIN** ; rattachement métier détaillé : **UNCERTAIN**.
+
+**Ancien nom `BattleActionSequence_Tick_GF_Cinematic` : UNCERTAIN, non confirmé comme nom canonique.** Ni ce nom, ni les commentaires de la première instruction ne constituent une preuve. Aucun nom n'est promu par ce livrable.
+
+## Entrées, sorties et effets
+
+### ABI et dépendances
+
+- Un pointeur de nœud est lu dans le premier emplacement d'argument pile à l'entrée (`0x50B2A2` après deux PUSH). Lecture de son `u8 +0x0D` et de son pointeur DWORD `+0x10`. Pas de contrôle local de nullité.
+- Prologue/épilogues préservent EBX, EBP, ESI ; EDI est sauvegardé dans la branche qui l'utilise. Tous les RET présents sont sans dépilage d'arguments. Cela correspond à un usage à nettoyage appelant, sans authentifier à lui seul une déclaration C complète.
+- `0x1D99A40` contient l'acteur courant ; `0x1D99A50` contient le descripteur courant. Ce dernier fournit un octet `+2`, un mot `+6`, et conditionnellement un mot `+4` lorsque son octet `+1` vaut `0xFE`.
+- Le payload pris dans `node+0x10` et le descripteur global ne sont **pas prouvés identiques**. Le premier est conservé dans ESI pour l'écriture terminale ; les pointeurs globaux sont rechargés après plusieurs appels. Ne pas substituer systématiquement un pointeur capturé à ces relectures.
+- Dépendances globales additionnelles : valeur signée à `0x1D999C8`, octets `0x1D97718`, `0x1D96A90`, `0x1D99B95`, `0x1D99A81`, `0x1D28DF7`, pointeur de banque à `0xB6D084`, DWORD `0xB8B9A8`, callback à `0x21DFEC4`. La validité et la stabilité de ces objets ne sont pas vérifiées localement.
+
+### Sorties
+
+- **Retour DWORD EAX**, pas seulement AL/AX : `XOR EAX,EAX` sur les épilogues ordinaires ; `MOV EAX,2` à `0x50B7DF` sur l'épilogue terminal. `0` ne signifie pas « aucun travail » : plusieurs branches modifient l'état puis renvoient zéro. `2` accompagne la clôture locale ; son interprétation par le scheduler reste à confirmer.
+- Incréments BYTE du champ `node+0x0D`, avec largeur de huit bits. Un sélecteur initial hors `0..9` rejoint directement le retour zéro, sans correction d'état ni erreur distincte.
+- Fin : écrit `0xFF` dans l'octet `payload+1`, efface uniquement le bit `0x10` du DWORD `0x1D96A9C`, met `0x1D99A64` à zéro, puis renvoie 2. Le champ d'état du nœud n'est pas réinitialisé dans cet épilogue.
+- Le retour du callback indirect est stocké en DWORD à `0x1D96AAC` ; ce n'est pas le retour de cette fonction.
+
+### Effets observables
+
+- Préparation : pose `0x80` dans l'octet `0x1D97705` et `0x10` dans le DWORD `0x1D96A9C`, appelle `0x50AFC0`, efface `0x00800000` du DWORD acteur `+8`, appelle `0x505C00` avec l'octet du descripteur `+2` élargi sans signe.
+- Produit une variante `0x10..0x12` à partir du **reste unsigned modulo 3** du retour de `0x534AA0`, la stocke à `0x1D99A4E`, puis appelle `0x503520` avec cette variante et le DWORD obtenu via acteur `+0x84`, puis objet `+0x2C`. Le caractère aléatoire/caméra des helpers reste une interprétation historique, non une propriété démontrée de leurs noms.
+- Parcourt trois enregistrements de `0x9C` octets à partir de `0x1D972C0`. Pour ceux différents de l'acteur courant et dont l'octet `+0` porte le bit 2 : appelle `0x50C090(actor,0x0B)` et construit le masque BYTE `0x1D99A47`. Appelle `0x50AF20(u16 descriptor[+6], &0x21DFEC4)` ; efface le WORD `0x1D99A44`.
+- Après certaines barrières, pose le bit `0x10` à l'octet de l'objet acteur `+0x74`, offset `+0x2C`. Une autre phase efface le bit 2 et pose le bit 8 du WORD acteur `+0`, efface son octet `+0x61`, puis efface le bit `0x20` du WORD objet `+0x2C`.
+- Si `u8[0x1D99B95] != 2` et masque `0x1D99A47 & 4`, deux phases appellent `0x509B50` avec longueur `0x10000`, entre la banque `base+0x20000` et `base+(u8[0x1D99B95]<<16)`, en directions inverses. Les arguments sont certains ; l'identification exacte du helper comme copie mémoire est historique. Le bit 2 à `0x1D973F8` est respectivement effacé puis reposé.
+- Sauvegarde le callback `0x21DFEC4` dans `0x21DFEC8`, l'appelle avec l'adresse `0x1D99A78`, stocke son EAX à `0x1D96AAC`, puis recharge le descripteur. Si `descriptor[+1]==0xFE`, appelle `0x56DCE0(u8[0x1D28DF7], u16 descriptor[+4])`. Aucun contrôle local de nullité du callback.
+- Attend `0x50AE80`, puis enchaîne des appels à `0x507080` séparés par les tests du retour de `0x507070`. Les arguments de `0x507080` combinent notamment l'octet acteur `+4`, parfois OR `0x1000`, un indice dérivé de l'acteur et zéro. Appelle aussi `0x50B810(actor)` avant de choisir un autre indice BYTE.
+- Remise en état : traite cet autre acteur via `0x509C10` puis `0x505C00`, avec OR `AH,0x10` sur le retour DWORD ; sur les autres acteurs éligibles, efface le bit 4 du WORD `+0`, puis appelle `0x50C090(actor,0x0C)` ou écrit le DWORD `0xB8B9A8` dans acteur `+0x2C` suivant `0x1D99A81==2`. Pour l'acteur courant, efface les bits `0x0C`, pose le bit 2 et pose le bit 4 à l'octet `+2`.
+- Si `0x1D99A81 != 2`, appels `0x505C00(actor,0x14)` et `0x503520` avec variante sauvegardée +3. Sinon, efface le WORD `[actor+0x74]->+0x28`, appelle `0x505C00(actor,1)` puis `0x509C80(actor)`.
+- Une dernière barrière teste l'octet `0x1D97718` avant `0x50AED0`. Dans la branche terminale, si `0x1D99A81==3`, appelle deux fois `0x501740` avec `(0x87,0,0x80)` puis `(0x88,0,0x80)`, puis `0x50A670` **avant** la clôture. Les effets transitifs de ce dernier et du callback restent ouverts : aucune garantie « présentation pure / aucun effet métier ».
+
+## Huit preuves indépendamment vérifiables
+
+Les références `I/...` et `K` utilisent les alias de provenance ci-dessus. Les destinations de CALL direct sont confrontées aux bytes relatifs disponibles et à `metadata.json:447–467`, non déduites de leur nom.
+
+1. **[P1] Machine à reprises.** `0x50B2A2–0x50B2BD` lit `[node+0x0D]`, masque EAX par `0xFF`, compare unsigned à 9, puis saute par `[0x50B7E8+eax*4]`. `0x50B2C8–0x50B2E5` attend deux retours nuls avant incrément. Sources `I/asm-001.txt:3–21`, `I/bytes-001.txt:1–3`. Les dix destinations figurent dans le CFG (`I/metadata.json:20–35`), mais leurs associations numériques exactes ne sont pas prouvées par les bytes absents de la table.
+2. **[P2] Préparation d'un groupe d'acteurs et sélection du callback.** `0x50B353–0x50B398` construit un masque de trois slots par boucles `+0x9C`, exclusion de l'acteur courant et test du bit 2. `0x50B39A–0x50B3AC` passe un WORD **zero-extended** du descripteur et l'adresse de stockage du callback à `0x50AF20`. Sources `I/asm-003.txt:1–25`, `I/asm-004.txt:1–2`, `I/bytes-001.txt:6–10`. K:33 apporte le contexte factuel table-backed du sélectionneur, pas une valeur runtime de callback.
+3. **[P3] Barrières et manipulation de l'acteur courant.** `0x50B3CC–0x50B3E0` attend une valeur signée non négative et un octet global nul ; `0x50B429–0x50B43F` attend un autre octet nul et le bit 4 de l'acteur ; `0x50B44F–0x50B46A` modifie ses flags et son objet `+0x74`. Sources `I/asm-004.txt:14–25`, `I/asm-005.txt:18–25`, `I/asm-006.txt:1–8`, `I/bytes-001.txt:10–15`. Il ne s'agit donc pas d'une simple fonction de calcul sans état.
+4. **[P4] Callback d'effet partagé et cas de descripteur particulier.** `0x50B4AA–0x50B4C5` charge `0x21DFEC4`, le copie à `0x21DFEC8`, appelle EAX avec `&0x1D99A78`, stocke le retour à `0x1D96AAC`, puis recharge `0x1D99A50`. `0x50B4C8–0x50B4DE` traite `descriptor[+1]==0xFE` avec deux arguments zero-extended. Sources `I/asm-006.txt:25`, `I/asm-007.txt:1–16`, `I/bytes-001.txt:17–19`. Cette preuve ne démontre ni un callback fixe ni une exclusivité GF.
+5. **[P5] Séquence asynchrone et indices.** `0x50B531–0x50B5B4` et `0x50B620–0x50B641` intercalent les appels `0x507080` et les barrières `0x507070`. `0x50B5EF–0x50B617` transforme le **low byte** d'un quotient, stocke seulement ce byte dans `0x1D99A70`, remasque la relecture DWORD avec `0xFF` et calcule `base+156*index`. Sources `I/asm-008.txt:13–25`, `I/asm-009.txt:1–25`, `I/asm-010.txt:1–25`, `I/asm-011.txt:1–25`, `I/bytes-002.txt:1–10`.
+6. **[P6] Rétablissement des acteurs, distinct de l'appel callback.** `0x50B66F–0x50B69A` pose un flag et passe le retour complet de `0x509C10` OR `0x1000` à `0x505C00`. `0x50B6AD–0x50B710` reprend le groupe de trois et rétablit notamment bit 2 de l'acteur courant après effacement des bits `0x0C`. Sources `I/asm-012.txt:9–25`, `I/asm-013.txt:1–25`, `I/asm-014.txt:1–6`, `I/bytes-002.txt:11–16`. C'est une seconde base, indépendante de [P4], du nom proposé.
+7. **[P7] Clôture et largeur du retour.** `0x50B790–0x50B7BE` appelle conditionnellement `0x50A670`, puis `0x50B7C3–0x50B7E5` écrit payload `+1=0xFF`, efface bit `0x10` sans tronquer le DWORD des flags, remet le marqueur à zéro et fait `MOV EAX,2`. Comparaison avec `XOR EAX,EAX` à `0x50B743`, `0x50B770`, `0x50B78C`. Sources `I/asm-014.txt:20–24`, `I/asm-015.txt:12–16`, `I/asm-016.txt:1–25`, `I/bytes-003.txt:1–3`.
+8. **[P8] Référence de sélection, non preuve d'appel direct.** L'unique xref entrant gelé est `from=0x50A7F1`, `function=0x50A790`, `type=1`, `iscode=false`. Source `I/metadata.json:439–445`, corroborée par K:15. Cela est compatible avec l'enregistrement d'un gestionnaire, mais ne prouve pas la cadence des appels ni l'ABI de consommation de `EAX=2`.
+
+## Largeurs, signedness et strides
+
+- **Sélecteur** : octet sans signe, borne `JA 9`. Les incréments d'état restent BYTE. Pas d'équivalence avec dix index signés ni de contrôle de table contenu dans le chunk.
+- **Arithmétique acteur** : stride exactement `0x9C=156` via additions de boucle et `(5*i*8-i)*4`. Boucles `[0x1D972C0,0x1D97494)` : trois enregistrements, comparaisons d'adresses `JL` signées. Ce n'est pas une preuve que toute la table globale se limite à trois acteurs ; ne pas confondre avec le tableau métier stride `0xD0` de K:19.
+- **Quotient acteur courant** : différence DWORD entre pointeur et base, `IMUL` signé par `0xD20D20D3`, ajout de l'opérande au high product, `SAR 7`, puis correction `SHR 31` et addition : idiome de division signée par 156 avec troncature vers zéro. En revanche `CMP DL,1/JBE` (`0x50B40C`) et `CMP DL,2/JNB` (`0x50B5EF`) sont des comparaisons **unsigned du seul octet bas**, pas des bornages signés de l'indice DWORD.
+- **Autre slot** : sur l'octet quotient, ajoute 1 s'il est inférieur à 2, sinon soustrait 1 ; écrit seulement BYTE `0x1D99A70`, puis lit le DWORD et masque `0xFF`. Aucun contrôle général de validité de l'indice obtenu.
+- **Arguments** : descripteur `+2`, acteur `+4`, global `0x1D28DF7` sont zero-extended ; descripteur `+6/+4` également via XOR avant MOV AX/CX. Les `OR CH,0x10` construisent `0x1000 | u8_id`. À `0x50B67C`, `OR AH,0x10` conserve **tout le reste d'EAX**, ensuite poussé en entier ; pas de troncature à un identifiant BYTE/WORD.
+- **AL/AX locaux vs EAX final** : les nombreuses écritures AL ou AX ne rendent pas le retour partiel. Tous les épilogues normaux présents fixent EAX entier à 0 ou 2. À `0x50B7CC`, le masque d'AL efface un bit du DWORD préalablement chargé, tout en préservant ses 24 bits hauts pour la réécriture.
+- **Valeur signée d'attente** : `TEST EAX,EAX; JL` à `0x50B3D1–D3`, donc test de négativité, pas d'égalité à un sentinel précis. Les autres barrières citées testent zéro/non-zéro.
+- **Variante** : `XOR EDX,EDX; DIV ECX` avec ECX=3, donc modulo **unsigned** du retour DWORD ; `OR DL,0x10` donne `0x10..0x12`, puis phase ultérieure +3 donne `0x13..0x15`. Aucun retour aléatoire signé n'est supposé.
+
+## Divergences de sources et inconnues
+
+1. **CONFLICT documentaire local résolu par bytes :** K:21 écrit `1D99C8` pour le DWORD d'attente. À `0x50B3CC`, les bytes `A1 C8 99 D9 01` (`I/bytes-001.txt:10`) encodent **`0x01D999C8`**, pas `0x001D99C8`. Ce livrable emploie l'adresse des bytes. Le sens métier « file-result » reste contextuel.
+2. **Table de dispatch absente :** les bytes autorisés finissent avant `0x50B7E8`. Les commentaires « case 0…9 » et le CFG donnent des associations historiques mais ne prouvent pas l'ordre des dix entrées. Aucune reconstruction numérique canonique des phases n'est donc revendiquée. Complément utile au lead : les 40 bytes de `[0x50B7E8,0x50B810)` et leurs xrefs de table.
+3. **Pureté non démontrée :** le commentaire `Does NOT compute damage/status/stock` de `asm-001.txt:1` est historique et trop fort comme garantie transitive. L'appel `0x50A670` et le callback indirect sont réellement présents ; leur portée métier exacte est ouverte. Inversement, la présence d'un helper historiquement nommé « ApplyEventGroup » ne suffit pas à prouver ici une mutation HP précise.
+4. **GF/cinématique/boost/son/caméra :** mappings métier des octets `0xFE`, `2`, `3`, des indices `0x87/0x88`, et contrats exacts des helpers non gelés à confirmer. Les mots de paramètres et noms IDA ne les établissent pas indépendamment. L'expression « cinématique GF uniquement » n'est pas acceptée comme fait.
+5. **Callback et attente :** cible indirecte runtime, effets du callback, règles de réussite/échec de `0x50AF20`, barrières `0x50AE80`/`0x507070`, effet de `0x50B810` et consommation du code retour 2 non entièrement documentés dans l'entrée. Un gel borné de ces voisins et du consommateur de callback serait nécessaire pour lever ces inconnues.
+6. **Aliasing et ordre runtime :** helpers susceptibles de modifier les globals rechargés ; absence de preuve d'absence d'alias entre payload, descripteur, acteurs, banques et contexte callback. La fonction n'impose pas localement la validité de tous les pointeurs ni des bornes de banque/indice.
+
+**Conclusion :** noyau mécanique **CERTAIN**, nom descriptif proposé avec réserve de domaine, interprétation exclusive GF et effets transitifs **UNCERTAIN**, un **CONFLICT** d'adresse dans la compaction explicitement corrigé contre les bytes. Dépôt d'auteur A uniquement ; aucune §5.6 finale, promotion, écriture IDB, intégration ou validation live.

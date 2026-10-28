@@ -1,0 +1,42 @@
+{
+  "ea": "0x484490",
+  "name_label_only": "domain::Battle_InitATB_MaxAndReset",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x484490",
+      "end": "0x4844c6",
+      "hex": "8b4424048d0c408d04888b0d38e7cf01c1e00481e1ff00000005107bd201418d0c898d0c898d1489c1e205895010c7401400000000c3"
+    }
+  ],
+  "assembly": "00484490: mov     eax, [esp+p_attacker_slot_id]; Battle_InitATB_MaxAndReset: max_atb(+0x10) = 4000*(speed_setting+1), cur_atb(+0x14) = 0\n00484494: lea     ecx, [eax+eax*2]; Load Effective Address\n00484497: lea     eax, [eax+ecx*4]; Load Effective Address\n0048449A: mov     ecx, dword ptr SG_BATTLE_SPEED_SETTING\n004844A0: shl     eax, 4; Shift Logical Left\n004844A3: and     ecx, 0FFh; Logical AND\n004844A9: add     eax, offset BATTLE_SLOT_DATA; Add\n004844AE: inc     ecx; Increment by 1\n004844AF: lea     ecx, [ecx+ecx*4]; Load Effective Address\n004844B2: lea     ecx, [ecx+ecx*4]; Load Effective Address\n004844B5: lea     edx, [ecx+ecx*4]; Load Effective Address\n004844B8: shl     edx, 5; Shift Logical Left\n004844BB: mov     [eax+10h], edx; MAX_ATB = 4000*(speed+1), slots stride 0x1B0\n004844BE: mov     dword ptr [eax+14h], 0\n004844C5: retn; returns &BATTLE_SLOT_DATA[slot] (leftover EAX), not a status. [wave 2026-09-12 GLM+Grok PASS]",
+  "cfg": [
+    {
+      "start": "0x484490",
+      "end": "0x4844c6",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x48b713",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48b5f0"
+    },
+    {
+      "from": "0x48bf2f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48bbd0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 15
+}

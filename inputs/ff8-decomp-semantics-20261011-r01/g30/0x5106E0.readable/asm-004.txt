@@ -1,0 +1,25 @@
+005107F3: test    ebp, 0FE000000h; Logical Compare
+005107F9: jnz     short loc_510862; Jump if Not Zero (ZF=0)
+005107FB: mov     eax, dword_1D99C18
+00510800: mov     edx, [esp+44h+var_30]
+00510804: mov     ecx, [esp+44h+var_28]
+00510808: mov     [eax+8], edx
+0051080B: mov     edx, [esp+44h+var_2C]
+0051080F: mov     [eax+10h], ecx
+00510812: mov     [eax+18h], esi
+00510815: mov     [eax+4], edx
+00510818: lea     ecx, [ebp+400000h]; Load Effective Address
+0051081E: mov     dword ptr [eax], 7000000h
+00510824: mov     [eax+14h], ecx
+00510827: mov     ecx, dword_1D99C1C
+0051082D: xor     esi, esi; Logical Exclusive OR
+0051082F: mov     edx, [ecx+8]
+00510832: mov     [eax+0Ch], edx
+00510835: mov     [eax+14h], ebp
+00510838: mov     cx, [ecx+6]
+0051083C: mov     [eax+1Ch], cx
+00510840: mov     si, [edi+4]
+00510844: xor     ecx, ecx; Logical Exclusive OR
+00510846: mov     edx, esi
+00510848: mov     cx, [ebx+4]
+0051084C: cmp     ecx, edx; Compare Two Operands

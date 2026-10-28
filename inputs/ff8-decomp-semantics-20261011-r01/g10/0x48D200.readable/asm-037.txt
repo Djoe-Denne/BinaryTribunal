@@ -1,0 +1,25 @@
+0048DEA3: inc     eax; Increment by 1
+0048DEA4: push    ebp; caller_mask
+0048DEA5: push    eax; finisher_idx
+0048DEA6: mov     [esp+2Ch+p_enemy_number], eax
+0048DEAA: call    domain__BattleLimitRenzokuken_SetFinisherAndComputeTargetMask; Renzokuken finisher stride 24 (idx*3*8). Keep caller mask unless targetInfo expands to 0x8000.
+0048DEAF: add     esp, 8; Add
+0048DEB2: xor     ecx, ecx; Logical Exclusive OR
+0048DEB4: mov     cl, byte_1D28E02
+0048DEBA: mov     dl, byte ptr [esp+24h+p_attacker_slot_id]
+0048DEBE: mov     esi, eax
+0048DEC0: mov     al, byte ptr [esp+24h+p_enemy_number]
+0048DEC4: lea     ecx, [ecx+ecx*2]; Load Effective Address
+0048DEC7: lea     ecx, ds:1D289FCh[ecx*8]; Load Effective Address
+0048DECE: mov     [ecx], dl
+0048DED0: mov     byte ptr [ecx+1], 0FAh
+0048DED4: mov     word ptr [ecx+4], 0FFFFh
+0048DEDA: mov     [ecx+2], al
+0048DEDD: mov     byte ptr [ecx+3], 0
+0048DEE1: mov     [ecx+6], si
+0048DEE5: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DEEA: lea     edx, [ecx+ecx*2]; jumptable 0048D37A case 11
+0048DEED: xor     edi, edi; Logical Exclusive OR
+0048DEEF: mov     ebx, 0FFFBh
+0048DEF4: lea     eax, [ecx+edx*4]; Load Effective Address
+0048DEF7: xor     edx, edx; Logical Exclusive OR

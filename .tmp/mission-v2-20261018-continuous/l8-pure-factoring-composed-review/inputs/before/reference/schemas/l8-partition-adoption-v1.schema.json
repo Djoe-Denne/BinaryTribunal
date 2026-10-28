@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/l8-partition-adoption-v1",
+  "title": "L8 partition adoption v1",
+  "description": "Candidate adoption-view transport for a stored v1 cluster partition. The stored partition stays adopted=false (cluster.ts:38-42, cluster.ts:817); this document is the adopted VIEW, never a rewrite of stored bytes (putPartition refuses a digest change under the same id, graph-store.ts:325-326, and the planAdoption clone is not durable, lineage.ts:719). explicit=true is a documented decision intent, never proof of acceptance or effective adoption. The schema proves nothing about digests, HOST authority, quiescence or cross-document relations: all such checks are relational and reserved to future code and durable receipts (DESIGN.md). Strict harness subset: no pattern, no $ref, no combinators.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "partitionId",
+    "lineageId",
+    "snapshotId",
+    "snapshotFingerprint",
+    "configFingerprint",
+    "proposalFingerprint",
+    "observedDigest",
+    "fromRevision",
+    "toRevision",
+    "quiescenceProofs",
+    "actor",
+    "inventory",
+    "explicit"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "partitionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Adopted partition id; not a lineage id. Identity fields mirror cluster-partition-v1 (schemas/cluster-partition-v1.schema.json:33-91)."
+    },
+    "lineageId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Partition lineage id; must differ from partitionId (relational)."
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Source snapshot id"
+    },
+    "snapshotFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "configFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "proposalFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Proposal fingerprint of the adopted partition with adopted forced false: hash(canonical({...partition, adopted:false})) (lineage.ts:900); equals the l4-lineage-2 sidecar projectionFingerprint (lineage.ts:414,967). Computed over content only; it confers no authority (lineage.ts:491). Equality checks are relational; schema cannot use pattern."
+    },
+    "observedDigest": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Digest observed in the stored partition column (graph-store.ts:322). The schema does not claim it equals the partition fingerprint: that equality and immutability (same id, changed digest refused, graph-store.ts:325-326) are relational code invariants."
+    },
+    "fromRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision before the adoption delta; bounds mirror knowledge-delta-v1 (schemas/knowledge-delta-v1.schema.json:35-40)."
+    },
+    "toRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision after the adoption delta (knowledge-delta-v1:41-46). Per-unit revision lives in each quiescence proof (lineage.ts:646)."
+    },
+    "quiescenceProofs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Exact mirror of UnitQuiescenceProof (lineage.ts:640-651). One proof per unit and same-id-set match with the inventory are relational (lineage.ts:694,701-705); verification is the real L6 authority callback (lineage.ts:661-662), never a JSON shape.",
+        "required": [
+          "unitId",
+          "snapshotId",
+          "attemptIds",
+          "claimIds",
+          "authorityRef",
+          "revision",
+          "quiescent",
+          "released",
+          "workerStillExecutable",
+          "leaseHeld"
+        ],
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "description": "Work unit id; no bound asserted here beyond the relational join to the inventory."
+          },
+          "snapshotId": {
+            "type": "string",
+            "description": "Unit snapshot id; equality with the inventory unit snapshot is relational (lineage.ts:704)."
+          },
+          "attemptIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Attempt id; no bound asserted here."
+            },
+            "description": "Attempt ids of the unit; no item-count bound asserted here."
+          },
+          "claimIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Claim id; no bound asserted here."
+            },
+            "description": "Claim ids of the unit; no item-count bound asserted here."
+          },
+          "authorityRef": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Non-empty L6 authority reference (lineage.ts:645,706); the reference is not itself proof of authority."
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Unit knowledge revision at the proof (lineage.ts:646,706)."
+          },
+          "quiescent": {
+            "type": "boolean",
+            "description": "Quiescence flag; schema form never proves quiescence."
+          },
+          "released": {
+            "type": "boolean",
+            "description": "Release flag; schema form never proves release."
+          },
+          "workerStillExecutable": {
+            "type": "boolean",
+            "description": "Worker executability flag; false is required relationally (lineage.ts:707)."
+          },
+          "leaseHeld": {
+            "type": "boolean",
+            "description": "Lease flag; false is required relationally (lineage.ts:707)."
+          }
+        }
+      },
+      "description": "Per-unit quiescence proofs; no item-count bound asserted here."
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Adoption actor bound to a HOST receipt. The closed shape (no kind property) excludes a raw l4-local-proposal-receipt object by form (lineage.ts:456); a local receipt is refused as authority (dispositions C2; lineage.ts:507,680). This proves nothing about the receipt string itself: a falsified hostReceiptRef passes the form, only a future HOST resolver can authenticate (dispositions D5).",
+      "required": [
+        "hostReceiptRef"
+      ],
+      "properties": {
+        "hostReceiptRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Non-empty reference of the HOST receipt (lineage.ts:479-481); reference only, never a deserialized authority object."
+        }
+      }
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Mirror of FrozenActiveUnit (lineage.ts:88-101) without executionContext (unknown, non-JSON; dispositions D6). Absence of attempt/claim inventories stays UNKNOWN, never replaced by an empty authoritative list.",
+        "required": [
+          "unitId",
+          "state",
+          "snapshotId",
+          "ownedFunctionIds"
+        ],
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "description": "Work unit id; no bound asserted here beyond the relational join to work-unit documents."
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "BLOCKED",
+              "READY",
+              "RESERVED",
+              "RUNNING",
+              "VALIDATING",
+              "COMMITTED",
+              "RETRYABLE",
+              "FAILED",
+              "STALE",
+              "CANCELLED",
+              "STOP_PENDING",
+              "QUARANTINED"
+            ],
+            "description": "WorkUnit state (work-unit-v1 schema:359-376; lineage.ts:80-118)."
+          },
+          "snapshotId": {
+            "type": "string",
+            "description": "Unit snapshot id; units stay snapshot-bound (lineage.ts:711)."
+          },
+          "ownedFunctionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "description": "Possessed functions; uniqueness and count are relational (lineage.ts:702,711); no item-count bound asserted here."
+          },
+          "attemptIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Attempt id; no bound asserted here."
+            },
+            "description": "Optional attempt inventory; absence is unknown, never an empty authoritative list (lineage.ts:93-95)."
+          },
+          "claimIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Claim id; no bound asserted here."
+            },
+            "description": "Optional claim inventory; absence is unknown (lineage.ts:93-95)."
+          },
+          "workerStillExecutable": {
+            "type": "boolean",
+            "description": "Optional worker executability flag"
+          },
+          "leaseHeld": {
+            "type": "boolean",
+            "description": "Optional lease flag"
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "attemptId",
+                "snapshotId",
+                "workerStillExecutable"
+              ],
+              "properties": {
+                "attemptId": {
+                  "type": "string",
+                  "description": "Attempt id; no bound asserted here."
+                },
+                "snapshotId": {
+                  "type": "string",
+                  "description": "Attempt snapshot id"
+                },
+                "workerStillExecutable": {
+                  "type": "boolean",
+                  "description": "Attempt worker executability flag"
+                }
+              }
+            },
+            "description": "Optional attempt details; same-id-set with attemptIds is relational (lineage.ts:699,702)."
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "claimId",
+                "snapshotId",
+                "leaseHeld"
+              ],
+              "properties": {
+                "claimId": {
+                  "type": "string",
+                  "description": "Claim id; no bound asserted here."
+                },
+                "snapshotId": {
+                  "type": "string",
+                  "description": "Claim snapshot id"
+                },
+                "leaseHeld": {
+                  "type": "boolean",
+                  "description": "Claim lease flag"
+                }
+              }
+            },
+            "description": "Optional claim details; same-id-set with claimIds is relational (lineage.ts:700,703)."
+          }
+        }
+      },
+      "description": "Active unit inventory; single inventory entry per unit id is relational (lineage.ts:687-688,697); no item-count bound asserted here."
+    },
+    "explicit": {
+      "type": "boolean",
+      "enum": [
+        true
+      ],
+      "description": "Documented explicit decision intent (planAdoption input, lineage.ts:656,689,717); never proof of acceptance, scheduler activation or adoption effectiveness."
+    }
+  }
+}

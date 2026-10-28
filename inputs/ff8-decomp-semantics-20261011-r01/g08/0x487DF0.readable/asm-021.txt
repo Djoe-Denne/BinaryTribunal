@@ -1,0 +1,25 @@
+00488500: cmp     ax, 0FFFFh; Compare Two Operands
+00488504: jnz     short loc_48850D; Jump if Not Zero (ZF=0)
+00488506: mov     eax, offset RELATED_TO_AI_TEXT_SECTION_DEFAULT
+0048850B: jmp     short loc_48851B; Jump
+0048850D: mov     ecx, [esp+74h+p_text_subsection]
+00488514: and     eax, 0FFFFh; Logical AND
+00488519: add     eax, ecx; Add
+0048851B: movzx   cx, SG_BATTLE_MESSAGE_SPEED_SETTING; Move with Zero-Extend
+00488523: push    0
+00488525: push    80h
+0048852A: lea     edx, ds:8[ecx*8]; Load Effective Address
+00488531: push    1
+00488533: push    edx
+00488534: push    eax
+00488535: call    domain__BattleScript_DisplayText; Call Procedure
+0048853A: add     esp, 4; Add
+0048853D: push    eax
+0048853E: call    domain__BattleEvent_DisplayMessageAndWait; Call Procedure
+00488543: add     esp, 14h; Add
+00488546: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048854B: mov     al, [esi]; AI VM op 0x01 SHOW_TEXT_WAIT: display battle text id(1B) + wait
+0048854D: mov     edx, [esp+74h+p_text_offset_section]
+00488554: mov     [esp+74h+opcode_param_1], al
+00488558: mov     ecx, dword ptr [esp+74h+opcode_param_1]
+0048855C: and     ecx, edi; Logical AND

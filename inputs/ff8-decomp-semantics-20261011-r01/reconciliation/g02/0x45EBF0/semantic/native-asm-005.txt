@@ -1,0 +1,16 @@
+0045EDCB: mov     edx, dword_1CA92F8
+0045EDD1: sar     eax, 1Fh; Shift Arithmetic Right
+0045EDD4: or      edx, 100000h; Logical Inclusive OR
+0045EDDA: not     eax; One's Complement Negation
+0045EDDC: mov     dword_1CA92F8, edx
+0045EDE2: cmp     ecx, 0FFh; Compare Two Operands
+0045EDE8: mov     byte ptr dword_1CA8A68+1, al
+0045EDED: jbe     short loc_45EE03; Jump if Below or Equal (CF=1 | ZF=1)
+0045EDEF: mov     eax, dword_1CA92F8
+0045EDF4: sar     ecx, 1Fh; Shift Arithmetic Right
+0045EDF7: or      eax, 80000h; Logical Inclusive OR
+0045EDFC: not     ecx; One's Complement Negation
+0045EDFE: mov     dword_1CA92F8, eax
+0045EE03: mov     byte ptr dword_1CA8A68+2, cl
+0045EE09: add     esp, 8; Add
+0045EE0C: retn; Return Near from Procedure

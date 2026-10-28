@@ -1,0 +1,25 @@
+004905B7: add     edx, eax; Add
+004905B9: mov     esi, edx
+004905BB: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004905C0: mov     eax, [esp+20h+target_slot_offset]; jumptable 0049045B case 7
+004905C4: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+004905CB: mov     ecx, BATTLE_SLOT_DATA.status_2[eax]; 0x01=Sleep, 0x02=Haste, 0x04=Slow, 0x08=Stop, 0x10=Regen, 0x20=Protect, 0x40=Shell, 0x80=Reflect, 0x100=Aura, 0x10000=Eject, 0x40000000=HasMagic, 0x80000000=GFSummoned
+004905D1: or      ecx, 10000h; Logical Inclusive OR
+004905D7: xor     esi, esi; Logical Exclusive OR
+004905D9: mov     BATTLE_SLOT_DATA.status_2[eax], ecx; Status write: status_2 |= STATUS2_EJECT (command combo branch).
+004905DF: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004905E4: mov     cl, byte ptr RELATED_TO_TARGET_SLOT_NOPE; jumptable 0049045B case 3
+004905EA: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+004905F1: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+004905F7: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+004905FC: mov     byte_1D28E00, 0; jumptable 0049043B case 239
+00490603: jmp     short loc_490623; Jump
+00490605: mov     eax, ecx; jumptable 0049043B case 241
+00490607: and     eax, 0FFFFh; Logical AND
+0049060C: sub     eax, 0FFFAh; Integer Subtraction
+00490611: jz      loc_4906A7; Jump if Zero (ZF=1)
+00490617: sub     eax, 2; Integer Subtraction
+0049061A: jz      short loc_490687; Jump if Zero (ZF=1)
+0049061C: mov     byte_1D28E00, 1
+00490623: and     ecx, 0FFFFh; Logical AND
+00490629: xor     eax, eax; Logical Exclusive OR

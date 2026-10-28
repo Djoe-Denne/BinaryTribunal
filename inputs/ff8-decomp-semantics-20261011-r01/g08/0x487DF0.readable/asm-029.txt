@@ -1,0 +1,25 @@
+0048879D: movzx   dx, byte ptr [esi+3]; Move with Zero-Extend
+004887A2: add     esi, 2; Add
+004887A5: and     ebp, edi; Logical AND
+004887A7: shl     ecx, 8; Shift Logical Left
+004887AA: add     ecx, eax; Add
+004887AC: movzx   ax, byte ptr [esi]; Move with Zero-Extend
+004887B0: shl     edx, 8; Shift Logical Left
+004887B3: add     edx, eax; Add
+004887B5: add     esi, 2; Add
+004887B8: cmp     ebp, 0E3h; Compare Two Operands
+004887BE: mov     word ptr [esp+74h+if_right_condition_final], cx
+004887C3: mov     word ptr [esp+74h+jump_value], dx
+004887C8: ja      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004887CE: xor     edx, edx; Logical Exclusive OR
+004887D0: mov     dl, ss:byte_48A204[ebp]
+004887D6: jmp     ds:jpt_4887D6[edx*4]; Opcode 0x02 IF_CONDITION - Inner test-type dispatch. Test types:
+004887DD: mov     edi, dword ptr [esp+74h+op_param_2]; jumptable 004887D6 case 10
+004887E1: and     edi, 0FFh; Logical AND
+004887E7: cmp     edi, 0CBh; switch 204 cases
+004887ED: ja      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004887F3: xor     eax, eax; Logical Exclusive OR
+004887F5: mov     al, ds:byte_48A308[edi]
+004887FB: jmp     ds:jpt_4887FB[eax*4]; switch jump
+00488802: lea     ecx, [ebx+ebx*2]; IF test case 0: Check last_attacker_attack_type against value
+00488805: mov     eax, [esp+74h+if_right_condition_final]

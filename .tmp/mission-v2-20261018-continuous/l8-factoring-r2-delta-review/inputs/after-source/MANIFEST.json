@@ -1,0 +1,4617 @@
+{
+  "format": "l8-pure-factoring-source-candidate-r2",
+  "status": "R2_SOURCE_PROPOSED_FRESH_COMPOSED_DELTA_REVIEW_PENDING_NOT_INTEGRATED_S1_HOLD",
+  "author": "l8-pure-factoring-author-r1",
+  "nonblind": true,
+  "r2_changed_relative_paths": [
+    "src/graph-pure-codecs.ts",
+    "DESIGN.md",
+    "MANIFEST.json"
+  ],
+  "r2_parent_supplements": [
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/L8_FACTORING_SOURCE_R2_PLANNING_BINDING_GO.md",
+      "bytes": 2932,
+      "sha256": "acbbdf10be46f9d7ac4e4b1b525ed7a94f0ab9c5c7c9f80611b3749a2a6314ae"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/L8_FACTORING_V_R1_PARENT_ADJUDICATION.md",
+      "bytes": 2663,
+      "sha256": "9972e3a0d5fbd8351deb13b3b54bd2463675ae297a72ad018db838802a6a5d09"
+    }
+  ],
+  "r1_baseline_before_r2": {
+    "manifest_bytes": 149575,
+    "manifest_sha256": "3d12815b003188c1804877bd2e6d5de22d01622e82bbff9313118c713cc770d6",
+    "archive": "l8-pure-factoring-r1-frozen; not read or modified by this R2 author",
+    "artifact_sha256": {
+      "src/eventlog.ts": "cae6dbfe62394440949f488168346809764353d1d4f02c248eae2725e6cd776d",
+      "src/graph-persistence-errors.ts": "5c61d9416b2b52debb2422134c19e857a3f5cf32b25d8c5189f7a5da6adeef70",
+      "src/graph-pipeline.ts": "b76eda099bf428e3ae78cf28114fe42ecc9a41d9e5a3387f3e80f1534a8378d1",
+      "src/graph-pure-codecs.ts": "4f9adfe9620809be5743c90d97d332a3d363cf42d88affb49ea55fb0e508d449",
+      "src/graph-store.ts": "7dd20a9051b99a9324c550c4bb682653bfcdf2d8caa23823394acc454312201f",
+      "src/graph-transport.ts": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a",
+      "src/lineage-pure-codecs.ts": "48880953cbd4a3cdb0becf9d360dd964fcbedf30f72b379cdff72665cf3f5bbf",
+      "src/lineage.ts": "4ebe631cf81211429ccaa08fb41d283f26384339430295ad9d8d6f0612506cb2",
+      "src/planner.ts": "af9950061a3f22b13e742b0fa8df119dd6decf77b24657abcb9f42b6e6a7f1ee",
+      "src/semantic-config-codec.ts": "3d6880adb58fbb93532ac3c62e35a63e948f76e853f45254b10ccdc8c201b3c4",
+      "src/semantic-index.ts": "266e9a92b05263f25d3a941bff1990ccd9575ea6c259653e48588be1b1b14624",
+      "DESIGN.md": "bdfd46fc7cf5a3a8bf3a6c38e166574b8861d4bf6a436e8a7aca31b3602ee2a4"
+    }
+  },
+  "r1_mapping_scope": "The 93 r1_symbol_mapping entries, their anchors, definition hashes and r1_mapping_counts describe R1 only. They are retained provenance, not a claim that the R2 wrapper/core signatures are unchanged. Current graph-codec anchors and the explicit parent-issued R2 extension follow separately.",
+  "r2_trusted_boundary": {
+    "qualification": "OFFLINE DATA_ONLY; application code and module loader TRUSTED and pinned",
+    "trusted_consumers": "Must not mutate loader JSON cache objects or shared PARTITION_SCHEMA; no untrusted plugin/preload/eval/watch/importer code in the qualified process.",
+    "untrusted_input": "JSON data, not arbitrary JavaScript importer or Proxy/getter code executing schema mutations.",
+    "excluded_scenario": "A JavaScript importer mutating a shared schema to add regime C is real and excluded; no defense against that importer is claimed.",
+    "parent_review_statement": "Parent reports no JSON-only bypass identified by V. This is not LOCAL/HOST/activation authority or runtime proof.",
+    "runtime_schema_change": "None: no new freeze, clone or mutation. Shared-object identity and schema loader/error timing remain explicit FS-to-JSON deltas.",
+    "future_untrusted_code": "Requires a new isolation/freeze/revalidation design and fresh review; this scoped boundary no longer suffices."
+  },
+  "r2_api_extension": {
+    "authority": "Explicit parent preflight-S1 API extension, distinct from the 93 R1 historical mappings",
+    "file": "src/graph-pure-codecs.ts",
+    "types": [
+      {
+        "symbol": "PlanningPartitionBindingV1",
+        "definition": "export type PlanningPartitionBindingV1 = Pick<ClusterPartition, \"partitionId\">;",
+        "lines": [172, 172],
+        "definition_sha256": "2d21b765e45a88d2dca9b715872b6ac329387165b5b041e8934dae95350d6121"
+      },
+      {
+        "symbol": "PlanningAdmissionBindingV1",
+        "definition": "export type PlanningAdmissionBindingV1 = Pick<GraphAdmissionSource, \"context\" | \"allocation\">;",
+        "lines": [173, 173],
+        "definition_sha256": "400a77592aab1c5d293edad39616a9e4aff09187db20fa7b3cf909c4730053fd"
+      }
+    ],
+    "core": {
+      "symbol": "validatePlanningBindingV1",
+      "signature": "export function validatePlanningBindingV1(value: unknown, snapshot: GraphSnapshotV1, partition: PlanningPartitionBindingV1, source?: PlanningAdmissionBindingV1): asserts value is PlannerResult",
+      "lines": [175, 219],
+      "definition_sha256": "4fe7e420d34369e475f1afaaf1e6956127fb9f81467dd4e2bb061f3f506eadec",
+      "requires": "The same complete GraphSnapshotV1; signature/name change only around the R1 body block.",
+      "not_authority": "Not a v2 admission validator/authority or a B validator. S1 must validate its complete v2/B documents and supply real structural bindings; no fabricated A or admission-source-v1 adapter."
+    },
+    "legacy_wrapper": {
+      "symbol": "validatePlanning",
+      "signature": "export function validatePlanning(value: unknown, snapshot: GraphSnapshotV1, partition: ClusterPartition, source?: GraphAdmissionSource): asserts value is PlannerResult",
+      "lines": [221, 223],
+      "definition_sha256": "2191f59484e7679a961c89f64a3ac94a431fd3277e3ea7d09d2eb3c68eef7244",
+      "body_statement": "validatePlanningBindingV1(value, snapshot, partition, source);",
+      "body_sha256": "df6a501a600352cd948fd5a513d45d1109c584c20c9df2bcf246e2b97251ae5f",
+      "original_signature_text_identical": true,
+      "reference_forwarding": "Four original references, no object construction, property/getter reads, or added guards before the original core guards."
+    },
+    "imports_added": [],
+    "value_import_graph_changed": false,
+    "graph_pipeline_exports_changed": false,
+    "algorithms_schemas_runtime_freezing_cloning_added": false
+  },
+  "r2_author_static_text_facts_not_qa": {
+    "r1_validatePlanning_definition_sha256": "8497b56965a7d91dd08c2994668b926fbd65aba021caecb42e1f19a1ee3d8506",
+    "body_hash_scope": "Exact opening brace through closing brace, excluding signature and trailing line terminator; original frozen graph-pipeline block equals R1 extraction block.",
+    "r1_body_bytes": 6359,
+    "r1_body_sha256": "fdbc225887216a0594386c10dc8688f41e4c467ba1112713351f2f488afcbc90",
+    "r2_core_body_bytes": 6359,
+    "r2_core_body_sha256": "fdbc225887216a0594386c10dc8688f41e4c467ba1112713351f2f488afcbc90",
+    "body_text_identical": true,
+    "other_graph_definition_count": 53,
+    "other_graph_definition_hashes_equal_to_r1": true,
+    "other_graph_definition_hash_facts_sha256": "2afff1360afeccaf34e9f86a5ed9a3e09ee977944887e451eb7c6ab5787a061b",
+    "other_graph_hash_facts_serialization": "Compact JSON array in retained R1 mapping order: [symbol,R1_definition_sha256,R2_definition_sha256], excluding validatePlanning.",
+    "source_diff": "Two type aliases, original body renamed/retyped as the new core, and the legacy direct-reference forwarding wrapper. The patch writer also removes one terminal blank line outside every definition; no other source-text difference remains after reversing these edits.",
+    "r1_full_source_inverse_reconstruction": {
+      "operations": "Remove the two new type aliases and wrapper, restore the R1 function name/signature on the core, and restore the one R1 terminal blank line.",
+      "bytes": 46169,
+      "sha256": "4f9adfe9620809be5743c90d97d332a3d363cf42d88affb49ea55fb0e508d449",
+      "equals_r1_baseline": true,
+      "static_text_only_not_runtime_proof": true
+    },
+    "other_source_candidate_count": 10,
+    "other_source_candidates_byte_identical_to_r1": true,
+    "other_source_hashes": "The ten src artifacts other than graph-pure-codecs retain exactly their r1_baseline_before_r2 hashes.",
+    "qa_outputs_read": false,
+    "archive_accessed": false,
+    "execution_compile_test_validator_or_runtime_proof": false
+  },
+  "r2_current_graph_anchor_map": [
+    ["GRAPH_ADMISSION_CODEC",25,25], ["JsonObject",28,28],
+    ["graphCheck",31,33], ["graphObject",36,44], ["graphKeys",48,52],
+    ["graphString",55,55], ["graphInteger",58,58], ["graphNumber",61,61],
+    ["oneOf",64,64], ["graphArray",67,67], ["graphJson",70,84],
+    ["graphCopy",87,87], ["graphFreeze",90,94], ["graphDigest",97,100],
+    ["dictionary",103,103], ["strings",106,106], ["requirement",109,116],
+    ["dispensation",119,123], ["receipt",126,132], ["assertReceiptCoherence",135,138],
+    ["resource",141,145], ["validatePlannerPolicy",148,164], ["diagnostic",167,169],
+    ["PlanningPartitionBindingV1",172,172], ["PlanningAdmissionBindingV1",173,173],
+    ["validatePlanningBindingV1",175,219], ["validatePlanning",221,223],
+    ["parsePreparedGraph",226,244], ["validateFileManifest",247,256],
+    ["validateExecutionTemplate",259,272], ["validateInputSource",275,285],
+    ["parseAdmissionSource",288,308], ["admissionScopeKey",311,313],
+    ["scientificCommitId",316,316], ["validateSchema",320,336],
+    ["validateGraphDocument",339,350], ["assert",353,353], ["nonempty",356,356],
+    ["integer",359,359], ["digestDocument",362,362], ["ADMISSION_BUDGET_MODE",365,365],
+    ["ADMISSION_ACCOUNTING_VERSION",368,368], ["ADMISSION_POLICY_PREFIX",371,371],
+    ["assertBudgetJson",376,400], ["budgetRecord",403,405], ["budgetKeys",408,411],
+    ["admissionMode",414,433], ["validateAdmissionContext",436,446],
+    ["validateAdmissionAllocation",449,470], ["assertAdmissionScope",473,476],
+    ["admissionUnitBudget",479,501], ["canonicalOwnershipKey",504,508],
+    ["unitIdentity",511,513], ["RELATION_VIEW_VERSION",516,516],
+    ["RELATION_POLICY_VERSION",519,519], ["planningIdentity",522,525],
+    ["assertAdmissionBudgetBinding",532,591]
+  ],
+  "scope": {
+    "candidate_source_count": 11,
+    "extra_historical_paths_explicitly_authorized": [
+      "src/eventlog.ts",
+      "src/planner.ts"
+    ],
+    "closed_outputs": [
+      "src/eventlog.ts",
+      "src/graph-persistence-errors.ts",
+      "src/graph-pipeline.ts",
+      "src/graph-pure-codecs.ts",
+      "src/graph-store.ts",
+      "src/graph-transport.ts",
+      "src/lineage-pure-codecs.ts",
+      "src/lineage.ts",
+      "src/planner.ts",
+      "src/semantic-config-codec.ts",
+      "src/semantic-index.ts",
+      "DESIGN.md",
+      "MANIFEST.json"
+    ]
+  },
+  "inputs": {
+    "root": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\mission-v2-20261018-continuous\\l8-pure-factoring\\inputs",
+    "manifest_path": "inputs/INPUT_MANIFEST.json",
+    "manifest_bytes": 11893,
+    "manifest_sha256": "41014734c8ba12555458fd5d0213f05fded7c03609cd96be1c4ed1c0415c9c99",
+    "pins": 37,
+    "pinned_bytes": 1052093,
+    "pinned_files": [
+      {
+        "path": "contracts/EXECUTION_ENVELOPE.md",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/contracts/EXECUTION_ENVELOPE.md",
+        "bytes": 23407,
+        "sha256": "4e8cd0ea76da8e1698c9299523598d7283e3d00b3390da43e6ddf35e8d484ee8"
+      },
+      {
+        "path": "contracts/DRAIN_AND_ACTIVATION.md",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/contracts/DRAIN_AND_ACTIVATION.md",
+        "bytes": 46082,
+        "sha256": "17fa4b206bf2a287b6ec68a992b4e9b4c0fb6791b5f758790ca2918916a71b2d"
+      },
+      {
+        "path": "contracts/QA_MATRIX.md",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/contracts/QA_MATRIX.md",
+        "bytes": 27847,
+        "sha256": "5f1fdc6e6c330a0ff7c525e4709596ce29aee7584f0356dee73be9f13e7ee5cb"
+      },
+      {
+        "path": "contracts/MANIFEST.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/contracts/MANIFEST.json",
+        "bytes": 13436,
+        "sha256": "fdef256266c279a96abfb67c7df30dde10fca673bba61fa5c6163354f7041e25"
+      },
+      {
+        "path": "reference/package.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/package.json",
+        "bytes": 880,
+        "sha256": "33781202f102a3ee570fd1d1a96c6c98fbfa1fa0b69f9fb68f5d6f477f77ea4b"
+      },
+      {
+        "path": "reference/schemas/cluster-partition-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/cluster-partition-v1.schema.json",
+        "bytes": 6730,
+        "sha256": "199d505c44e0551d96ec9fafb9510571f056c13017a5d61bb5d114c2cbc4ee1b"
+      },
+      {
+        "path": "reference/schemas/graph-snapshot-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/graph-snapshot-v1.schema.json",
+        "bytes": 47133,
+        "sha256": "e62f78b47b610e40a701203d4750025161d8ccb787224e650d1fe5b18d7c8bea"
+      },
+      {
+        "path": "reference/schemas/investigation-group-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/investigation-group-v1.schema.json",
+        "bytes": 4172,
+        "sha256": "732ca008ddf8e55f807bf0a1e19b77d2245048bfc5d8bf57155cea95598c6ffb"
+      },
+      {
+        "path": "reference/schemas/knowledge-commit-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/knowledge-commit-v1.schema.json",
+        "bytes": 4527,
+        "sha256": "1298b80fbc62553375c20517f58a5a07fb198e4ab946c9e1feac9a0318753761"
+      },
+      {
+        "path": "reference/schemas/knowledge-delta-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/knowledge-delta-v1.schema.json",
+        "bytes": 3957,
+        "sha256": "732ce4729c4b1a08f487b7509167b6f1ea97b89c921fb5c0043c13a40e7bc6d1"
+      },
+      {
+        "path": "reference/schemas/l8-partition-adoption-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/l8-partition-adoption-v1.schema.json",
+        "bytes": 12396,
+        "sha256": "c6c60ab6c00f4720d58b893ac806e0e9603ee1eaeab8c49d6343eec0f36dae0e"
+      },
+      {
+        "path": "reference/schemas/l8-prepared-graph-v3.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/l8-prepared-graph-v3.schema.json",
+        "bytes": 104742,
+        "sha256": "fd4cdd41fa6b60ac39f8d40134fb5d593e37b172c04ec2750190f2e6f2fc47b9"
+      },
+      {
+        "path": "reference/schemas/mission-plan-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/mission-plan-v1.schema.json",
+        "bytes": 15810,
+        "sha256": "916ce329c1d7a67c3b5eb4affc015e7e4e02abe1ff2bd0acfa431a053e6f097d"
+      },
+      {
+        "path": "reference/schemas/work-unit-v1.schema.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/schemas/work-unit-v1.schema.json",
+        "bytes": 10218,
+        "sha256": "3762f0507c081520b042e0b8ad28e777c214aebc6ec39a2e6011992259d796e5"
+      },
+      {
+        "path": "reference/src/bulletin-audit.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/bulletin-audit.ts",
+        "bytes": 17631,
+        "sha256": "214c800afa4d9107156c4a9a399a50c4ec060400ce2e50268006bb80795ad52a"
+      },
+      {
+        "path": "reference/src/client.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/client.ts",
+        "bytes": 16526,
+        "sha256": "620c690b1dca3c4f47e9e428d6441df331b1b39c576ebd6545fa74e4d685656d"
+      },
+      {
+        "path": "reference/src/cluster.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/cluster.ts",
+        "bytes": 67308,
+        "sha256": "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303"
+      },
+      {
+        "path": "reference/src/domain.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/domain.ts",
+        "bytes": 15444,
+        "sha256": "3f49fa05a228549ed626b4f269818385fd23f32d7cc600eda84a1cd9cb42dbe7"
+      },
+      {
+        "path": "reference/src/eventlog.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/eventlog.ts",
+        "bytes": 5021,
+        "sha256": "98d0dec0dc8a95389e41bde6a4374dc664716ab1c8c433d400efab32a607614a"
+      },
+      {
+        "path": "reference/src/graph-normalize.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/graph-normalize.ts",
+        "bytes": 61066,
+        "sha256": "a4a3677fd5c0d7771522eae137746c4733fc4fc1d20c649c8ecd800528519fe7"
+      },
+      {
+        "path": "reference/src/graph-pipeline.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/graph-pipeline.ts",
+        "bytes": 34735,
+        "sha256": "1970e6c52fcd252a99d9dc2a533fa111813dac3971b604d42ed6b3de7d53141f"
+      },
+      {
+        "path": "reference/src/graph-store.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/graph-store.ts",
+        "bytes": 132959,
+        "sha256": "1f532f8d223eb37066e6d092b835d6e2e7a204e43e6f50a81539bc375381f160"
+      },
+      {
+        "path": "reference/src/graph-transport.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/graph-transport.ts",
+        "bytes": 22657,
+        "sha256": "8754732312755f2eaf8cf515fbb81185f38261a159afc49eb65fd07561ba3518"
+      },
+      {
+        "path": "reference/src/graph.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/graph.ts",
+        "bytes": 36515,
+        "sha256": "2da7c8778833097b43f23be3e878b352b7d71fc89d3b9daf0aa5478aad96ef6f"
+      },
+      {
+        "path": "reference/src/inputs.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/inputs.ts",
+        "bytes": 5031,
+        "sha256": "1254e1ff84c8887f5e3f5a462a704bbabddf101afcc7bde55f5b90f5b5352157"
+      },
+      {
+        "path": "reference/src/investigation-groups.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/investigation-groups.ts",
+        "bytes": 18093,
+        "sha256": "cf3201b0e6d6ae5d67afc628a8a59e7ecda2a830a07049a1923001033be38525"
+      },
+      {
+        "path": "reference/src/lineage.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/lineage.ts",
+        "bytes": 69662,
+        "sha256": "7e650185c7dff1e1845c3c0f963cf73a72a29a515874eefd535a0733b78e82a9"
+      },
+      {
+        "path": "reference/src/planner.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/planner.ts",
+        "bytes": 84699,
+        "sha256": "985e5ead945ac742a7df5370c0009b2e8f1aab357286ad2cb67b3cf01c858988"
+      },
+      {
+        "path": "reference/src/re-policy.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/re-policy.ts",
+        "bytes": 12912,
+        "sha256": "c3714c3120d3e8f87a044ef6857ca40c41900a6c74647d1bfdc6205371dfc365"
+      },
+      {
+        "path": "reference/src/scc.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/scc.ts",
+        "bytes": 5180,
+        "sha256": "564967d8a694c635f1b876480158dd7c08df0700adf1fbdc4c61e61b7a250879"
+      },
+      {
+        "path": "reference/src/semantic-index.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/semantic-index.ts",
+        "bytes": 67194,
+        "sha256": "bf04ce7c697b107ecc3da95c9574eb835a7d0ad984790f7ab267bcd3938b5cb1"
+      },
+      {
+        "path": "reference/src/store.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/store.ts",
+        "bytes": 10281,
+        "sha256": "e40958217aa7a170e8968dc214aa3d8d95a5ea2097de39468f5ba2d219dce1fe"
+      },
+      {
+        "path": "reference/src/unit-lease.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/unit-lease.ts",
+        "bytes": 20439,
+        "sha256": "76cbe27572090f505244f492669ac7555b86a0b472160938a87bea4bbae22d4a"
+      },
+      {
+        "path": "reference/src/validation.ts",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/src/validation.ts",
+        "bytes": 22511,
+        "sha256": "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50"
+      },
+      {
+        "path": "reference/tsconfig.json",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-author/inputs/reference/tsconfig.json",
+        "bytes": 286,
+        "sha256": "0f07f181d84b42f60cf4f29eae08b5c5f71678d3f99ac57d03fa37dde1a6c516"
+      },
+      {
+        "path": "SCOPE.md",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/L8_PURE_FACTORING_SCOPE.md",
+        "bytes": 1304,
+        "sha256": "94db3d32b4758a57058f768b541f05245f18205a762a2505f306d9e0f3af0e60"
+      },
+      {
+        "path": "PARENT_DECISION.md",
+        "source": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/L8_PURE_FACTORING_PARENT_DECISION.md",
+        "bytes": 3302,
+        "sha256": "81b39a7480c3135b18636a226f6bd74e2fabed1b049354cb2a19589602cecbb8"
+      }
+    ]
+  },
+  "parent_source_go": {
+    "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\mission-v2-20261018-continuous\\L8_PURE_FACTORING_SOURCE_GO_R1.md",
+    "bytes": 3683,
+    "sha256": "8ada258f3687f52073236d7fa6d2c5410aeb9670b77b905d859f93c11fc100ce"
+  },
+  "artifacts": [
+    {
+      "path": "src/eventlog.ts",
+      "bytes": 4811,
+      "sha256": "cae6dbfe62394440949f488168346809764353d1d4f02c248eae2725e6cd776d",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-persistence-errors.ts",
+      "bytes": 469,
+      "sha256": "5c61d9416b2b52debb2422134c19e857a3f5cf32b25d8c5189f7a5da6adeef70",
+      "kind": "new"
+    },
+    {
+      "path": "src/graph-pipeline.ts",
+      "bytes": 10771,
+      "sha256": "b76eda099bf428e3ae78cf28114fe42ecc9a41d9e5a3387f3e80f1534a8378d1",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-pure-codecs.ts",
+      "bytes": 46607,
+      "sha256": "7e618cf57373a79ac5b7aad384ef80f020876fa69a4c4d96dae394533481d5cf",
+      "kind": "new"
+    },
+    {
+      "path": "src/graph-store.ts",
+      "bytes": 129770,
+      "sha256": "7dd20a9051b99a9324c550c4bb682653bfcdf2d8caa23823394acc454312201f",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-transport.ts",
+      "bytes": 22680,
+      "sha256": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/lineage-pure-codecs.ts",
+      "bytes": 29225,
+      "sha256": "48880953cbd4a3cdb0becf9d360dd964fcbedf30f72b379cdff72665cf3f5bbf",
+      "kind": "new"
+    },
+    {
+      "path": "src/lineage.ts",
+      "bytes": 41277,
+      "sha256": "4ebe631cf81211429ccaa08fb41d283f26384339430295ad9d8d6f0612506cb2",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/planner.ts",
+      "bytes": 68395,
+      "sha256": "af9950061a3f22b13e742b0fa8df119dd6decf77b24657abcb9f42b6e6a7f1ee",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/semantic-config-codec.ts",
+      "bytes": 3810,
+      "sha256": "3d6880adb58fbb93532ac3c62e35a63e948f76e853f45254b10ccdc8c201b3c4",
+      "kind": "new"
+    },
+    {
+      "path": "src/semantic-index.ts",
+      "bytes": 64436,
+      "sha256": "266e9a92b05263f25d3a941bff1990ccd9575ea6c259653e48588be1b1b14624",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 8406,
+      "sha256": "d44006f3fafb8c08068d449d84edecf3fbd481e05ecaebaaefeb4210413ffec9",
+      "kind": "design"
+    }
+  ],
+  "r1_symbol_mapping": [
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphCheck",
+      "old_lines": [
+        25,
+        27
+      ],
+      "old_definition_sha256": "2d201f9e8130cae143343c95727cdba5127d134f38c6de8ec44ac27d12310b3a",
+      "old_without_export_sha256": "2d1e1402e6e0f87b94849433dc1acb7ba1ba9f94763e4acd6b7e17cd0c8c63c1",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphCheck",
+      "new_lines": [
+        31,
+        33
+      ],
+      "new_definition_sha256": "2d201f9e8130cae143343c95727cdba5127d134f38c6de8ec44ac27d12310b3a",
+      "new_without_export_sha256": "2d1e1402e6e0f87b94849433dc1acb7ba1ba9f94763e4acd6b7e17cd0c8c63c1",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphObject",
+      "old_lines": [
+        28,
+        36
+      ],
+      "old_definition_sha256": "7728882e89ca5b65b0428c96ce86121e48397782a1ea93f02eee912577ca46de",
+      "old_without_export_sha256": "fa7df09c54f6b9028f4b85ca66e8ce1f7f7acd68193df91570912335bc202eed",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphObject",
+      "new_lines": [
+        36,
+        44
+      ],
+      "new_definition_sha256": "7728882e89ca5b65b0428c96ce86121e48397782a1ea93f02eee912577ca46de",
+      "new_without_export_sha256": "fa7df09c54f6b9028f4b85ca66e8ce1f7f7acd68193df91570912335bc202eed",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphKeys",
+      "old_lines": [
+        38,
+        42
+      ],
+      "old_definition_sha256": "a00b6a3d31860d3b8605fe6b7944bed193e56e383a21864078c517fbe76e8a78",
+      "old_without_export_sha256": "563635af20e1c5ea13ec346a7144bd93a5021f5e34244706158d2192f6800005",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphKeys",
+      "new_lines": [
+        48,
+        52
+      ],
+      "new_definition_sha256": "a00b6a3d31860d3b8605fe6b7944bed193e56e383a21864078c517fbe76e8a78",
+      "new_without_export_sha256": "563635af20e1c5ea13ec346a7144bd93a5021f5e34244706158d2192f6800005",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphString",
+      "old_lines": [
+        43,
+        43
+      ],
+      "old_definition_sha256": "7184ebcc2831c1b12d0d673bdb5882d38e9cb0e3d47cad9499f0910d285de697",
+      "old_without_export_sha256": "25106102f872a07231b1221f375f08a79e0f0a692f9030ae2e026c8017e942f0",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphString",
+      "new_lines": [
+        55,
+        55
+      ],
+      "new_definition_sha256": "7184ebcc2831c1b12d0d673bdb5882d38e9cb0e3d47cad9499f0910d285de697",
+      "new_without_export_sha256": "25106102f872a07231b1221f375f08a79e0f0a692f9030ae2e026c8017e942f0",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphInteger",
+      "old_lines": [
+        44,
+        44
+      ],
+      "old_definition_sha256": "a736ce8388ee0d7260060ad478cb8881b5967c0679b85aaf94495c2eb3d0457e",
+      "old_without_export_sha256": "df08854c9d524fce293f01c643f4191ce2703bb844b8cc196014e998964c9342",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphInteger",
+      "new_lines": [
+        58,
+        58
+      ],
+      "new_definition_sha256": "a736ce8388ee0d7260060ad478cb8881b5967c0679b85aaf94495c2eb3d0457e",
+      "new_without_export_sha256": "df08854c9d524fce293f01c643f4191ce2703bb844b8cc196014e998964c9342",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphNumber",
+      "old_lines": [
+        45,
+        45
+      ],
+      "old_definition_sha256": "576a3679207669b66d13a8fa98e13965237718124d6b6589198f1898080ead3d",
+      "old_without_export_sha256": "b51dbce7ff70506007b79523cc698530d4b140e47a5b9b075f7217b992cffcf6",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphNumber",
+      "new_lines": [
+        61,
+        61
+      ],
+      "new_definition_sha256": "576a3679207669b66d13a8fa98e13965237718124d6b6589198f1898080ead3d",
+      "new_without_export_sha256": "b51dbce7ff70506007b79523cc698530d4b140e47a5b9b075f7217b992cffcf6",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "oneOf",
+      "old_lines": [
+        46,
+        46
+      ],
+      "old_definition_sha256": "bfcd9b0e922d827b5d1f27384c9289f31a32b9cebac4a543d11e680434fd2e2f",
+      "old_without_export_sha256": "bfcd9b0e922d827b5d1f27384c9289f31a32b9cebac4a543d11e680434fd2e2f",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "oneOf",
+      "new_lines": [
+        64,
+        64
+      ],
+      "new_definition_sha256": "7212be116b2bc9ff130c7eb58eb79f77383087f5b6c182d2f9037988875ba055",
+      "new_without_export_sha256": "bfcd9b0e922d827b5d1f27384c9289f31a32b9cebac4a543d11e680434fd2e2f",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphArray",
+      "old_lines": [
+        47,
+        47
+      ],
+      "old_definition_sha256": "1da96bc7f4d97dcb9b2a3f1fddebaa861ef1ede0ed1ccda011c997a609631f2b",
+      "old_without_export_sha256": "e06d8ae6a717487be58c6c29ccddbd7648df7b58b51e915e6c2acf1ae6c087cb",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphArray",
+      "new_lines": [
+        67,
+        67
+      ],
+      "new_definition_sha256": "1da96bc7f4d97dcb9b2a3f1fddebaa861ef1ede0ed1ccda011c997a609631f2b",
+      "new_without_export_sha256": "e06d8ae6a717487be58c6c29ccddbd7648df7b58b51e915e6c2acf1ae6c087cb",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphJson",
+      "old_lines": [
+        48,
+        62
+      ],
+      "old_definition_sha256": "eee06a73e09d429c6c6ec0e11088b1ad91156bf38c889ed280993baa53a55eb6",
+      "old_without_export_sha256": "488c68fa6c16dfbca8a72d1095a73290a3c351e79aba80146ec34c132458aaba",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphJson",
+      "new_lines": [
+        70,
+        84
+      ],
+      "new_definition_sha256": "eee06a73e09d429c6c6ec0e11088b1ad91156bf38c889ed280993baa53a55eb6",
+      "new_without_export_sha256": "488c68fa6c16dfbca8a72d1095a73290a3c351e79aba80146ec34c132458aaba",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphCopy",
+      "old_lines": [
+        63,
+        63
+      ],
+      "old_definition_sha256": "308c50b2d6c4f6f3867b83676f4ba2ba4d35cbe7c98df9267ee9e0dbf4e2566c",
+      "old_without_export_sha256": "13cd9be914cb8f0e8f059d2588de51c1ed5efb0a36eac26f8a0aa1e83262895d",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphCopy",
+      "new_lines": [
+        87,
+        87
+      ],
+      "new_definition_sha256": "308c50b2d6c4f6f3867b83676f4ba2ba4d35cbe7c98df9267ee9e0dbf4e2566c",
+      "new_without_export_sha256": "13cd9be914cb8f0e8f059d2588de51c1ed5efb0a36eac26f8a0aa1e83262895d",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphFreeze",
+      "old_lines": [
+        64,
+        68
+      ],
+      "old_definition_sha256": "34a5aedfa5c468ed6be21f4ab54c69c7ccf240126e76c2acd5a864ea298b9b2b",
+      "old_without_export_sha256": "ac7e02bef86ed543e33a32de45d5c3de54342a49bb21dd75a5c237d5d1735bd8",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphFreeze",
+      "new_lines": [
+        90,
+        94
+      ],
+      "new_definition_sha256": "34a5aedfa5c468ed6be21f4ab54c69c7ccf240126e76c2acd5a864ea298b9b2b",
+      "new_without_export_sha256": "ac7e02bef86ed543e33a32de45d5c3de54342a49bb21dd75a5c237d5d1735bd8",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "graphDigest",
+      "old_lines": [
+        69,
+        72
+      ],
+      "old_definition_sha256": "722b49df1c5b84b8004ed4766447909a4cde98ab3c845834088574b92dc29ff7",
+      "old_without_export_sha256": "7ace4e5b85ce8c05e9a0ec6e58f843b777d3f4d59e24f3ddfb1d17d704faf50a",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "graphDigest",
+      "new_lines": [
+        97,
+        100
+      ],
+      "new_definition_sha256": "722b49df1c5b84b8004ed4766447909a4cde98ab3c845834088574b92dc29ff7",
+      "new_without_export_sha256": "7ace4e5b85ce8c05e9a0ec6e58f843b777d3f4d59e24f3ddfb1d17d704faf50a",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "dictionary",
+      "old_lines": [
+        73,
+        73
+      ],
+      "old_definition_sha256": "31a504c141a1c678b7625bcb027cec6807c9db94b0e2186641cc2f65b16ae005",
+      "old_without_export_sha256": "31a504c141a1c678b7625bcb027cec6807c9db94b0e2186641cc2f65b16ae005",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "dictionary",
+      "new_lines": [
+        103,
+        103
+      ],
+      "new_definition_sha256": "31a504c141a1c678b7625bcb027cec6807c9db94b0e2186641cc2f65b16ae005",
+      "new_without_export_sha256": "31a504c141a1c678b7625bcb027cec6807c9db94b0e2186641cc2f65b16ae005",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "strings",
+      "old_lines": [
+        74,
+        74
+      ],
+      "old_definition_sha256": "5e42128f4b8bbd16dfbed50d568bb47c544df272bb173c26c82b5a6916af3425",
+      "old_without_export_sha256": "5e42128f4b8bbd16dfbed50d568bb47c544df272bb173c26c82b5a6916af3425",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "strings",
+      "new_lines": [
+        106,
+        106
+      ],
+      "new_definition_sha256": "3fe4e0f573f69236b999b3d179d34bca98299aa099334d637dbdfe9a8b7ace5f",
+      "new_without_export_sha256": "5e42128f4b8bbd16dfbed50d568bb47c544df272bb173c26c82b5a6916af3425",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "requirement",
+      "old_lines": [
+        75,
+        82
+      ],
+      "old_definition_sha256": "2b64569e1b2102c24e200dbe5301b478d3c145f6ead2e4b4cb22bdf1cee6b68f",
+      "old_without_export_sha256": "2b64569e1b2102c24e200dbe5301b478d3c145f6ead2e4b4cb22bdf1cee6b68f",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "requirement",
+      "new_lines": [
+        109,
+        116
+      ],
+      "new_definition_sha256": "2b64569e1b2102c24e200dbe5301b478d3c145f6ead2e4b4cb22bdf1cee6b68f",
+      "new_without_export_sha256": "2b64569e1b2102c24e200dbe5301b478d3c145f6ead2e4b4cb22bdf1cee6b68f",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "dispensation",
+      "old_lines": [
+        83,
+        87
+      ],
+      "old_definition_sha256": "0c86279d5ef503f1adaf3557c088268444ca47f1c1692f980b5d1c5f4c6a5030",
+      "old_without_export_sha256": "0c86279d5ef503f1adaf3557c088268444ca47f1c1692f980b5d1c5f4c6a5030",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "dispensation",
+      "new_lines": [
+        119,
+        123
+      ],
+      "new_definition_sha256": "0c86279d5ef503f1adaf3557c088268444ca47f1c1692f980b5d1c5f4c6a5030",
+      "new_without_export_sha256": "0c86279d5ef503f1adaf3557c088268444ca47f1c1692f980b5d1c5f4c6a5030",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "receipt",
+      "old_lines": [
+        88,
+        94
+      ],
+      "old_definition_sha256": "5723656e80364bb29e5e589667e5f83a681bc47af5d6c20b4d562029dd596071",
+      "old_without_export_sha256": "5723656e80364bb29e5e589667e5f83a681bc47af5d6c20b4d562029dd596071",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "receipt",
+      "new_lines": [
+        126,
+        132
+      ],
+      "new_definition_sha256": "5723656e80364bb29e5e589667e5f83a681bc47af5d6c20b4d562029dd596071",
+      "new_without_export_sha256": "5723656e80364bb29e5e589667e5f83a681bc47af5d6c20b4d562029dd596071",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "assertReceiptCoherence",
+      "old_lines": [
+        95,
+        98
+      ],
+      "old_definition_sha256": "9d7dbdf353fb831d39a5695bc890de08aea6c4207e62b00bcab55a8e43d655c6",
+      "old_without_export_sha256": "94527daee903a4bbab7c90f6f572c50a86554fcb0d262aeeb3a33dbcf6f0755f",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "assertReceiptCoherence",
+      "new_lines": [
+        135,
+        138
+      ],
+      "new_definition_sha256": "9d7dbdf353fb831d39a5695bc890de08aea6c4207e62b00bcab55a8e43d655c6",
+      "new_without_export_sha256": "94527daee903a4bbab7c90f6f572c50a86554fcb0d262aeeb3a33dbcf6f0755f",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "resource",
+      "old_lines": [
+        99,
+        103
+      ],
+      "old_definition_sha256": "f8cf02151c4e91044f12fcff9881c70885a74a8ba550f5737b65db8d8cde6591",
+      "old_without_export_sha256": "f8cf02151c4e91044f12fcff9881c70885a74a8ba550f5737b65db8d8cde6591",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "resource",
+      "new_lines": [
+        141,
+        145
+      ],
+      "new_definition_sha256": "f8cf02151c4e91044f12fcff9881c70885a74a8ba550f5737b65db8d8cde6591",
+      "new_without_export_sha256": "f8cf02151c4e91044f12fcff9881c70885a74a8ba550f5737b65db8d8cde6591",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "validatePlannerPolicy",
+      "old_lines": [
+        104,
+        120
+      ],
+      "old_definition_sha256": "7e55aa14f931d40f38ad16fa9920a41b388e943ec3e6251ef1000617476aad6a",
+      "old_without_export_sha256": "9ec2248282afb89b89b716b4c93452548ca653161cf8f322c2ea60a41dd43d34",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validatePlannerPolicy",
+      "new_lines": [
+        148,
+        164
+      ],
+      "new_definition_sha256": "7e55aa14f931d40f38ad16fa9920a41b388e943ec3e6251ef1000617476aad6a",
+      "new_without_export_sha256": "9ec2248282afb89b89b716b4c93452548ca653161cf8f322c2ea60a41dd43d34",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "diagnostic",
+      "old_lines": [
+        121,
+        123
+      ],
+      "old_definition_sha256": "c955642c9926b71795a900a0085e2c6b11b182e76801c961b693e564b98d1d87",
+      "old_without_export_sha256": "c955642c9926b71795a900a0085e2c6b11b182e76801c961b693e564b98d1d87",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "diagnostic",
+      "new_lines": [
+        167,
+        169
+      ],
+      "new_definition_sha256": "c955642c9926b71795a900a0085e2c6b11b182e76801c961b693e564b98d1d87",
+      "new_without_export_sha256": "c955642c9926b71795a900a0085e2c6b11b182e76801c961b693e564b98d1d87",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "validatePlanning",
+      "old_lines": [
+        124,
+        168
+      ],
+      "old_definition_sha256": "87e2243a3b0ef0aa64394d0b59e4cce6850c56f0195706b4d2da26f543454834",
+      "old_without_export_sha256": "87e2243a3b0ef0aa64394d0b59e4cce6850c56f0195706b4d2da26f543454834",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validatePlanning",
+      "new_lines": [
+        172,
+        216
+      ],
+      "new_definition_sha256": "8497b56965a7d91dd08c2994668b926fbd65aba021caecb42e1f19a1ee3d8506",
+      "new_without_export_sha256": "87e2243a3b0ef0aa64394d0b59e4cce6850c56f0195706b4d2da26f543454834",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "parsePreparedGraph",
+      "old_lines": [
+        169,
+        187
+      ],
+      "old_definition_sha256": "88121b31cf1002d1e55c379c94b64776fd905da08fa7fdb53378931f8085f778",
+      "old_without_export_sha256": "5507c93d16a574062cc77816976039d050fbbac6d532e60d69800d70dada7a40",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "parsePreparedGraph",
+      "new_lines": [
+        219,
+        237
+      ],
+      "new_definition_sha256": "75ac78c58c43a0a11e1447672d64c632ec6efd2f951ca9cdcd39895fde2204bc",
+      "new_without_export_sha256": "d91b9556880c61d3e07f5cc0885664b9d8370640c181b8fe3a3b37ac4fc60a9e",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "schema_resolution_substitution"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "validateFileManifest",
+      "old_lines": [
+        217,
+        226
+      ],
+      "old_definition_sha256": "b29f76911f752c8873d8c04ea7aec0d66e64ceb1e5729aaff05a5ffcd925e411",
+      "old_without_export_sha256": "b29f76911f752c8873d8c04ea7aec0d66e64ceb1e5729aaff05a5ffcd925e411",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateFileManifest",
+      "new_lines": [
+        240,
+        249
+      ],
+      "new_definition_sha256": "b29f76911f752c8873d8c04ea7aec0d66e64ceb1e5729aaff05a5ffcd925e411",
+      "new_without_export_sha256": "b29f76911f752c8873d8c04ea7aec0d66e64ceb1e5729aaff05a5ffcd925e411",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "validateExecutionTemplate",
+      "old_lines": [
+        227,
+        240
+      ],
+      "old_definition_sha256": "6b524f1662d8a682c7735d3660d24b61d633edc1bdf8bb69cf3d7425a013403b",
+      "old_without_export_sha256": "c5c1739cc3d129309e60074d08fae91bd6d0cb9ea7d0a9cadef789a5a044f6b0",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateExecutionTemplate",
+      "new_lines": [
+        252,
+        265
+      ],
+      "new_definition_sha256": "6b524f1662d8a682c7735d3660d24b61d633edc1bdf8bb69cf3d7425a013403b",
+      "new_without_export_sha256": "c5c1739cc3d129309e60074d08fae91bd6d0cb9ea7d0a9cadef789a5a044f6b0",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "validateInputSource",
+      "old_lines": [
+        241,
+        251
+      ],
+      "old_definition_sha256": "a0ebe19540c6356d5e5440dc9c9c05ab2b1f746440031fce7a18b98821445de2",
+      "old_without_export_sha256": "a0ebe19540c6356d5e5440dc9c9c05ab2b1f746440031fce7a18b98821445de2",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateInputSource",
+      "new_lines": [
+        268,
+        278
+      ],
+      "new_definition_sha256": "eebb1b9d9a5f8522ce92faa6c582d1d8bb1add0ba8135868a687ea6aba833463",
+      "new_without_export_sha256": "a0ebe19540c6356d5e5440dc9c9c05ab2b1f746440031fce7a18b98821445de2",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "parseAdmissionSource",
+      "old_lines": [
+        252,
+        272
+      ],
+      "old_definition_sha256": "bd420f0f172c8d0b4e9054fe25aee16fd9c2c8c53e7a94fe090442dddf6c78e8",
+      "old_without_export_sha256": "bd420f0f172c8d0b4e9054fe25aee16fd9c2c8c53e7a94fe090442dddf6c78e8",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "parseAdmissionSource",
+      "new_lines": [
+        281,
+        301
+      ],
+      "new_definition_sha256": "02e2b5ccebc2952bb567531c865eef3b5236fd21292061ac21e2777bc368f091",
+      "new_without_export_sha256": "bd420f0f172c8d0b4e9054fe25aee16fd9c2c8c53e7a94fe090442dddf6c78e8",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "admissionScopeKey",
+      "old_lines": [
+        281,
+        283
+      ],
+      "old_definition_sha256": "ecc336d2d62143f436d91eb3ab32127c045f626f3b97d0087e802d75a837f010",
+      "old_without_export_sha256": "8758011df9043dbab2a88aa6a4f8f324845bd5189b342759a376b6051aec1d03",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "admissionScopeKey",
+      "new_lines": [
+        304,
+        306
+      ],
+      "new_definition_sha256": "ecc336d2d62143f436d91eb3ab32127c045f626f3b97d0087e802d75a837f010",
+      "new_without_export_sha256": "8758011df9043dbab2a88aa6a4f8f324845bd5189b342759a376b6051aec1d03",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "GRAPH_ADMISSION_CODEC",
+      "old_lines": [
+        23,
+        23
+      ],
+      "old_definition_sha256": "245630da48047c85a0b03ebacdcd58695b1b976078468165fe6d241af621815d",
+      "old_without_export_sha256": "610757e1ef1cdd9ec53a4857fe3ff1eaad0e2b2fd036701f3ab0c0aab85ba938",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "GRAPH_ADMISSION_CODEC",
+      "new_lines": [
+        25,
+        25
+      ],
+      "new_definition_sha256": "245630da48047c85a0b03ebacdcd58695b1b976078468165fe6d241af621815d",
+      "new_without_export_sha256": "610757e1ef1cdd9ec53a4857fe3ff1eaad0e2b2fd036701f3ab0c0aab85ba938",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-pipeline.ts",
+      "old_symbol": "JsonObject",
+      "old_lines": [
+        24,
+        24
+      ],
+      "old_definition_sha256": "6b7033b6e4683300eb2899970e0e3c078ae8c9f4840946bc2c5454236846cfa4",
+      "old_without_export_sha256": "6b7033b6e4683300eb2899970e0e3c078ae8c9f4840946bc2c5454236846cfa4",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "JsonObject",
+      "new_lines": [
+        28,
+        28
+      ],
+      "new_definition_sha256": "6b7033b6e4683300eb2899970e0e3c078ae8c9f4840946bc2c5454236846cfa4",
+      "new_without_export_sha256": "6b7033b6e4683300eb2899970e0e3c078ae8c9f4840946bc2c5454236846cfa4",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "type",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-store.ts",
+      "old_symbol": "scientificCommitId",
+      "old_lines": [
+        13,
+        13
+      ],
+      "old_definition_sha256": "5f8e1c3c4861e63061780a0d0fe914363616b866dfeecbb124a49ac21b8c1a49",
+      "old_without_export_sha256": "5f8e1c3c4861e63061780a0d0fe914363616b866dfeecbb124a49ac21b8c1a49",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "scientificCommitId",
+      "new_lines": [
+        309,
+        309
+      ],
+      "new_definition_sha256": "1321428f420a873a3fdd4ca6d568cc05050e4d94a6bb43aa9dceef9151c99774",
+      "new_without_export_sha256": "5f8e1c3c4861e63061780a0d0fe914363616b866dfeecbb124a49ac21b8c1a49",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-store.ts",
+      "old_symbol": "validateSchema",
+      "old_lines": [
+        187,
+        203
+      ],
+      "old_definition_sha256": "35e2284cb1b7b32f8382301aaea87c5b919ad01e312f8b01e6c1b7240648c362",
+      "old_without_export_sha256": "35e2284cb1b7b32f8382301aaea87c5b919ad01e312f8b01e6c1b7240648c362",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateSchema",
+      "new_lines": [
+        313,
+        329
+      ],
+      "new_definition_sha256": "068fd64582141720f3f507cd0b3ce722c32f9e73346054b01be2311354b28bce",
+      "new_without_export_sha256": "35e2284cb1b7b32f8382301aaea87c5b919ad01e312f8b01e6c1b7240648c362",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/graph-store.ts",
+      "old_symbol": "validateGraphDocument",
+      "old_lines": [
+        204,
+        215
+      ],
+      "old_definition_sha256": "b7758547f3f1faa94f501398d25ef219503aa671bf374895d2412cf6c4099a47",
+      "old_without_export_sha256": "b9abb9444cff861972efa2eb19b3aa667caaf19e9790f3a45a9c13081646a65e",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateGraphDocument",
+      "new_lines": [
+        332,
+        343
+      ],
+      "new_definition_sha256": "78f0ecfe51271ad7e35e3ad6a80eb5e84c141ae5e505db0c54d14af305c8ebe6",
+      "new_without_export_sha256": "e0a22970d8fc53dfbcb45f0ab39d5a7c320857e6e5967553df94799e15b378e3",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "schema_resolution_substitution"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "assertAdmissionBudgetBinding",
+      "old_lines": [
+        780,
+        839
+      ],
+      "old_definition_sha256": "b05a7e48dd4f9ba8b62da1cdaab0520216c9d127f88675b281eb47730d765eaa",
+      "old_without_export_sha256": "55a10c0f9049d27d4d0492bec80c6a01ffa079c8dd306f97e1d0e8f8a7714a57",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "assertAdmissionBudgetBinding",
+      "new_lines": [
+        525,
+        584
+      ],
+      "new_definition_sha256": "b05a7e48dd4f9ba8b62da1cdaab0520216c9d127f88675b281eb47730d765eaa",
+      "new_without_export_sha256": "55a10c0f9049d27d4d0492bec80c6a01ffa079c8dd306f97e1d0e8f8a7714a57",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "assert",
+      "old_lines": [
+        180,
+        180
+      ],
+      "old_definition_sha256": "4a1683b7e2f0db4822a21803e920ea7fab719faaffe5739423f87ea9bc9ab62c",
+      "old_without_export_sha256": "4a1683b7e2f0db4822a21803e920ea7fab719faaffe5739423f87ea9bc9ab62c",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "assert",
+      "new_lines": [
+        346,
+        346
+      ],
+      "new_definition_sha256": "3b36a8d63cfd9fcbd8a9baa5a7be3c1e699202a6d7c0f0758124292787755a2b",
+      "new_without_export_sha256": "4a1683b7e2f0db4822a21803e920ea7fab719faaffe5739423f87ea9bc9ab62c",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "nonempty",
+      "old_lines": [
+        181,
+        181
+      ],
+      "old_definition_sha256": "d831e74feb7b015e7f795d81b79ba3294007727caf481f03d3acff679a5b2fc4",
+      "old_without_export_sha256": "d831e74feb7b015e7f795d81b79ba3294007727caf481f03d3acff679a5b2fc4",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "nonempty",
+      "new_lines": [
+        349,
+        349
+      ],
+      "new_definition_sha256": "e90ed6e2f7fc8e51e9a8ea2a371966944a12237776c1012870e0602889a0f760",
+      "new_without_export_sha256": "d831e74feb7b015e7f795d81b79ba3294007727caf481f03d3acff679a5b2fc4",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "integer",
+      "old_lines": [
+        182,
+        182
+      ],
+      "old_definition_sha256": "5f29899c2c3cede6b7b3102fb80a7dae93bc28b56ec74212bb5df2c25ea649c9",
+      "old_without_export_sha256": "5f29899c2c3cede6b7b3102fb80a7dae93bc28b56ec74212bb5df2c25ea649c9",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "integer",
+      "new_lines": [
+        352,
+        352
+      ],
+      "new_definition_sha256": "0da465aad114a70b33ca39118a096278ab9b73663cb562240778be4fc371f7a3",
+      "new_without_export_sha256": "5f29899c2c3cede6b7b3102fb80a7dae93bc28b56ec74212bb5df2c25ea649c9",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "digestDocument",
+      "old_lines": [
+        183,
+        183
+      ],
+      "old_definition_sha256": "6e9c0d8ac6823cc518fad43cc3fd67b4c719059083e8574e57cdcfc063b7a087",
+      "old_without_export_sha256": "6e9c0d8ac6823cc518fad43cc3fd67b4c719059083e8574e57cdcfc063b7a087",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "digestDocument",
+      "new_lines": [
+        355,
+        355
+      ],
+      "new_definition_sha256": "a9529b0318b821368a2f60d63ce70057e6f7a8f6c9866e9b46d0310d8445e0d4",
+      "new_without_export_sha256": "6e9c0d8ac6823cc518fad43cc3fd67b4c719059083e8574e57cdcfc063b7a087",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "assertBudgetJson",
+      "old_lines": [
+        197,
+        221
+      ],
+      "old_definition_sha256": "11a244c9fdc866973dfb52965043cda21857864e411a1f37e5123556231d3185",
+      "old_without_export_sha256": "11a244c9fdc866973dfb52965043cda21857864e411a1f37e5123556231d3185",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "assertBudgetJson",
+      "new_lines": [
+        369,
+        393
+      ],
+      "new_definition_sha256": "11a244c9fdc866973dfb52965043cda21857864e411a1f37e5123556231d3185",
+      "new_without_export_sha256": "11a244c9fdc866973dfb52965043cda21857864e411a1f37e5123556231d3185",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "budgetRecord",
+      "old_lines": [
+        222,
+        224
+      ],
+      "old_definition_sha256": "a5ed9b5b518d1cfa81a71b5e36a305052c1885153d1e66b3ca48aa7bf602d744",
+      "old_without_export_sha256": "a5ed9b5b518d1cfa81a71b5e36a305052c1885153d1e66b3ca48aa7bf602d744",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "budgetRecord",
+      "new_lines": [
+        396,
+        398
+      ],
+      "new_definition_sha256": "a5ed9b5b518d1cfa81a71b5e36a305052c1885153d1e66b3ca48aa7bf602d744",
+      "new_without_export_sha256": "a5ed9b5b518d1cfa81a71b5e36a305052c1885153d1e66b3ca48aa7bf602d744",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "budgetKeys",
+      "old_lines": [
+        225,
+        228
+      ],
+      "old_definition_sha256": "8cc8d4b8764e3e5a656ea510b246f35df8b1d60b734b10996361c2649675b45d",
+      "old_without_export_sha256": "8cc8d4b8764e3e5a656ea510b246f35df8b1d60b734b10996361c2649675b45d",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "budgetKeys",
+      "new_lines": [
+        401,
+        404
+      ],
+      "new_definition_sha256": "8cc8d4b8764e3e5a656ea510b246f35df8b1d60b734b10996361c2649675b45d",
+      "new_without_export_sha256": "8cc8d4b8764e3e5a656ea510b246f35df8b1d60b734b10996361c2649675b45d",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "admissionMode",
+      "old_lines": [
+        229,
+        248
+      ],
+      "old_definition_sha256": "4b1f3813ca19442e799fd3cb78e7ca71a24f29fd74f17fcc0c7ecb7701f65e43",
+      "old_without_export_sha256": "4b1f3813ca19442e799fd3cb78e7ca71a24f29fd74f17fcc0c7ecb7701f65e43",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "admissionMode",
+      "new_lines": [
+        407,
+        426
+      ],
+      "new_definition_sha256": "81792078558f55f888f55e5f6219d7ee6580acf9cbffee648aa997f038d8d435",
+      "new_without_export_sha256": "4b1f3813ca19442e799fd3cb78e7ca71a24f29fd74f17fcc0c7ecb7701f65e43",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "validateAdmissionContext",
+      "old_lines": [
+        249,
+        259
+      ],
+      "old_definition_sha256": "5e5fe29ccd0cc2715503574f78b5f5a79b363836c71506b810aae1724744be2d",
+      "old_without_export_sha256": "5e5fe29ccd0cc2715503574f78b5f5a79b363836c71506b810aae1724744be2d",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateAdmissionContext",
+      "new_lines": [
+        429,
+        439
+      ],
+      "new_definition_sha256": "5e5fe29ccd0cc2715503574f78b5f5a79b363836c71506b810aae1724744be2d",
+      "new_without_export_sha256": "5e5fe29ccd0cc2715503574f78b5f5a79b363836c71506b810aae1724744be2d",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "validateAdmissionAllocation",
+      "old_lines": [
+        260,
+        281
+      ],
+      "old_definition_sha256": "20b0c830aedd3e2bdc6f60c2ec25a570d553ee90ea81e0e28798e1b404201f3d",
+      "old_without_export_sha256": "20b0c830aedd3e2bdc6f60c2ec25a570d553ee90ea81e0e28798e1b404201f3d",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "validateAdmissionAllocation",
+      "new_lines": [
+        442,
+        463
+      ],
+      "new_definition_sha256": "8a0dab06cfc1c128cb44a55ea35b4668b291de3a7020b218d540333c2a97bf21",
+      "new_without_export_sha256": "20b0c830aedd3e2bdc6f60c2ec25a570d553ee90ea81e0e28798e1b404201f3d",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "assertAdmissionScope",
+      "old_lines": [
+        282,
+        285
+      ],
+      "old_definition_sha256": "4a15c71c746b3beb1f546f128033e0e6b702292f875f02bc194509789306ec8e",
+      "old_without_export_sha256": "4a15c71c746b3beb1f546f128033e0e6b702292f875f02bc194509789306ec8e",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "assertAdmissionScope",
+      "new_lines": [
+        466,
+        469
+      ],
+      "new_definition_sha256": "19ec8210fc95802e9638e355ad95969bd9a25324c7cc09b39bfb9e340a5bfefc",
+      "new_without_export_sha256": "4a15c71c746b3beb1f546f128033e0e6b702292f875f02bc194509789306ec8e",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "admissionUnitBudget",
+      "old_lines": [
+        286,
+        308
+      ],
+      "old_definition_sha256": "67689f62ae46b8de8864310e339f46a0051ac989ff2b1e2113b64287aa858602",
+      "old_without_export_sha256": "67689f62ae46b8de8864310e339f46a0051ac989ff2b1e2113b64287aa858602",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "admissionUnitBudget",
+      "new_lines": [
+        472,
+        494
+      ],
+      "new_definition_sha256": "cd6009cfbd487bb03f42a9c26478746c0bd615c47924c91b37caced16612ac38",
+      "new_without_export_sha256": "67689f62ae46b8de8864310e339f46a0051ac989ff2b1e2113b64287aa858602",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "canonicalOwnershipKey",
+      "old_lines": [
+        309,
+        313
+      ],
+      "old_definition_sha256": "6c8da8a6657f68c0485507d5b85522060167df67e25c2e7d1b5f15ec9ab5966e",
+      "old_without_export_sha256": "6151c02d06ab54b1b90c5dc9275007d8eef3255abe82b515db149c2be9c907c0",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "canonicalOwnershipKey",
+      "new_lines": [
+        497,
+        501
+      ],
+      "new_definition_sha256": "6c8da8a6657f68c0485507d5b85522060167df67e25c2e7d1b5f15ec9ab5966e",
+      "new_without_export_sha256": "6151c02d06ab54b1b90c5dc9275007d8eef3255abe82b515db149c2be9c907c0",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "unitIdentity",
+      "old_lines": [
+        314,
+        316
+      ],
+      "old_definition_sha256": "8318aa3489f670e5b4d7823babfb70bf790cdb41fbac5250c5c457fb4c91c9e1",
+      "old_without_export_sha256": "8318aa3489f670e5b4d7823babfb70bf790cdb41fbac5250c5c457fb4c91c9e1",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "unitIdentity",
+      "new_lines": [
+        504,
+        506
+      ],
+      "new_definition_sha256": "3e63460bff6b0bf8962f89750633d372e567068f97db05e9530095508d5ded0c",
+      "new_without_export_sha256": "8318aa3489f670e5b4d7823babfb70bf790cdb41fbac5250c5c457fb4c91c9e1",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "planningIdentity",
+      "old_lines": [
+        343,
+        346
+      ],
+      "old_definition_sha256": "4a759f971f57d12bed523a0cff8617dc9c93a906f624949d80234312c22d76dd",
+      "old_without_export_sha256": "4a759f971f57d12bed523a0cff8617dc9c93a906f624949d80234312c22d76dd",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "planningIdentity",
+      "new_lines": [
+        515,
+        518
+      ],
+      "new_definition_sha256": "1a7c2d499b73746696979e050ce4ac4fef73fb86d3adccef814baf368e2c3d39",
+      "new_without_export_sha256": "4a759f971f57d12bed523a0cff8617dc9c93a906f624949d80234312c22d76dd",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "ADMISSION_BUDGET_MODE",
+      "old_lines": [
+        191,
+        191
+      ],
+      "old_definition_sha256": "324b980f09ea99ca61f55fceff59968f73d50a030fca9442f503f8fd20b33fea",
+      "old_without_export_sha256": "324b980f09ea99ca61f55fceff59968f73d50a030fca9442f503f8fd20b33fea",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "ADMISSION_BUDGET_MODE",
+      "new_lines": [
+        358,
+        358
+      ],
+      "new_definition_sha256": "324b980f09ea99ca61f55fceff59968f73d50a030fca9442f503f8fd20b33fea",
+      "new_without_export_sha256": "324b980f09ea99ca61f55fceff59968f73d50a030fca9442f503f8fd20b33fea",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "ADMISSION_ACCOUNTING_VERSION",
+      "old_lines": [
+        192,
+        192
+      ],
+      "old_definition_sha256": "9eeba1351d2449e10c5d93223ce32e02d1c627f8cd826133b99c9f11b1ba04d8",
+      "old_without_export_sha256": "9eeba1351d2449e10c5d93223ce32e02d1c627f8cd826133b99c9f11b1ba04d8",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "ADMISSION_ACCOUNTING_VERSION",
+      "new_lines": [
+        361,
+        361
+      ],
+      "new_definition_sha256": "43e6be0718536c7b9a6e1653dcd5f20056813764636e4d3bca4218b2e5687143",
+      "new_without_export_sha256": "9eeba1351d2449e10c5d93223ce32e02d1c627f8cd826133b99c9f11b1ba04d8",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "ADMISSION_POLICY_PREFIX",
+      "old_lines": [
+        193,
+        193
+      ],
+      "old_definition_sha256": "4248119efc4fabcaca956ac205056642ebcd1514c578938ba44ce03be8498b63",
+      "old_without_export_sha256": "4248119efc4fabcaca956ac205056642ebcd1514c578938ba44ce03be8498b63",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "ADMISSION_POLICY_PREFIX",
+      "new_lines": [
+        364,
+        364
+      ],
+      "new_definition_sha256": "4248119efc4fabcaca956ac205056642ebcd1514c578938ba44ce03be8498b63",
+      "new_without_export_sha256": "4248119efc4fabcaca956ac205056642ebcd1514c578938ba44ce03be8498b63",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "RELATION_VIEW_VERSION",
+      "old_lines": [
+        339,
+        339
+      ],
+      "old_definition_sha256": "785a932af4a17d9fdb63d6c907206ca89a3afa2ecee430e63eae246bf8f64e26",
+      "old_without_export_sha256": "785a932af4a17d9fdb63d6c907206ca89a3afa2ecee430e63eae246bf8f64e26",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "RELATION_VIEW_VERSION",
+      "new_lines": [
+        509,
+        509
+      ],
+      "new_definition_sha256": "ee5f7263d81129098f8e0acfcff270a9302ea8d6705b2ff9946b37d2db80bc4e",
+      "new_without_export_sha256": "785a932af4a17d9fdb63d6c907206ca89a3afa2ecee430e63eae246bf8f64e26",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/planner.ts",
+      "old_symbol": "RELATION_POLICY_VERSION",
+      "old_lines": [
+        341,
+        341
+      ],
+      "old_definition_sha256": "f45932a024c27d476a922d17166fa91a80a7f8375185116eebcb10e22d82010b",
+      "old_without_export_sha256": "f45932a024c27d476a922d17166fa91a80a7f8375185116eebcb10e22d82010b",
+      "new_file": "src/graph-pure-codecs.ts",
+      "new_symbol": "RELATION_POLICY_VERSION",
+      "new_lines": [
+        512,
+        512
+      ],
+      "new_definition_sha256": "f45932a024c27d476a922d17166fa91a80a7f8375185116eebcb10e22d82010b",
+      "new_without_export_sha256": "f45932a024c27d476a922d17166fa91a80a7f8375185116eebcb10e22d82010b",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "compareFunctionIds",
+      "old_lines": [
+        136,
+        143
+      ],
+      "old_definition_sha256": "f4bc892712800688cb3c64608582b74b1c265cff9514a6eea7f1825296132c2c",
+      "old_without_export_sha256": "d75f2473d990bdbb6dbab8521b33d0072440c33c281ca20c2adc31923a35ddf7",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "compareFunctionIds",
+      "new_lines": [
+        16,
+        23
+      ],
+      "new_definition_sha256": "f4bc892712800688cb3c64608582b74b1c265cff9514a6eea7f1825296132c2c",
+      "new_without_export_sha256": "d75f2473d990bdbb6dbab8521b33d0072440c33c281ca20c2adc31923a35ddf7",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "sortFunctionIds",
+      "old_lines": [
+        145,
+        147
+      ],
+      "old_definition_sha256": "acd881595047d4df97cecab1f168341b8e7ad01b089dd5a977598cbbac9be6ab",
+      "old_without_export_sha256": "2f891a93b3a897e1936093168b658fc5f5a08f6ff0d3e4440b7f2c74d2bf225a",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "sortFunctionIds",
+      "new_lines": [
+        26,
+        28
+      ],
+      "new_definition_sha256": "acd881595047d4df97cecab1f168341b8e7ad01b089dd5a977598cbbac9be6ab",
+      "new_without_export_sha256": "2f891a93b3a897e1936093168b658fc5f5a08f6ff0d3e4440b7f2c74d2bf225a",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "communityContentId",
+      "old_lines": [
+        149,
+        156
+      ],
+      "old_definition_sha256": "d75c9db370d4ab94e6578c2e2fee0511ac4ee39239960419a0a8b6b9b17b5acb",
+      "old_without_export_sha256": "64356eb90d624aa1ea779be2d20ddc503e0996e0e25cd8e8f8b6c978a12c0b5d",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "communityContentId",
+      "new_lines": [
+        31,
+        38
+      ],
+      "new_definition_sha256": "d75c9db370d4ab94e6578c2e2fee0511ac4ee39239960419a0a8b6b9b17b5acb",
+      "new_without_export_sha256": "64356eb90d624aa1ea779be2d20ddc503e0996e0e25cd8e8f8b6c978a12c0b5d",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "proposalEvidenceFingerprint",
+      "old_lines": [
+        492,
+        494
+      ],
+      "old_definition_sha256": "a10c84c325b0e990cd44976c7374b7384947e5bb9fd3b9fb480a1ebaadcdd47b",
+      "old_without_export_sha256": "3bcd15a50f171fdfafae7d73be6989bf32d8fb8c425b775c5ed15dc5d9b0f77d",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "proposalEvidenceFingerprint",
+      "new_lines": [
+        42,
+        44
+      ],
+      "new_definition_sha256": "a10c84c325b0e990cd44976c7374b7384947e5bb9fd3b9fb480a1ebaadcdd47b",
+      "new_without_export_sha256": "3bcd15a50f171fdfafae7d73be6989bf32d8fb8c425b775c5ed15dc5d9b0f77d",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "partitionProposalFingerprint",
+      "old_lines": [
+        899,
+        901
+      ],
+      "old_definition_sha256": "9b368c52a091bef4cabd2f189ed1ffe64c886895d4009519b82d128c7a0c20eb",
+      "old_without_export_sha256": "258fd3fec023dbfc0ce040382128e9866a2d64bce0509117cdaa38290de68087",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "partitionProposalFingerprint",
+      "new_lines": [
+        168,
+        170
+      ],
+      "new_definition_sha256": "9b368c52a091bef4cabd2f189ed1ffe64c886895d4009519b82d128c7a0c20eb",
+      "new_without_export_sha256": "258fd3fec023dbfc0ce040382128e9866a2d64bce0509117cdaa38290de68087",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "isSerializableProposalData",
+      "old_lines": [
+        948,
+        950
+      ],
+      "old_definition_sha256": "2aad09fe9ef6a0c897a970242fe4d2d069e640e4e21ab0a1471d7e22e21fd978",
+      "old_without_export_sha256": "8d9fd033d561adb9d0ee472f8efa6fbaa6145d06a09b1993910da0f60c7d7541",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "isSerializableProposalData",
+      "new_lines": [
+        221,
+        223
+      ],
+      "new_definition_sha256": "2aad09fe9ef6a0c897a970242fe4d2d069e640e4e21ab0a1471d7e22e21fd978",
+      "new_without_export_sha256": "8d9fd033d561adb9d0ee472f8efa6fbaa6145d06a09b1993910da0f60c7d7541",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "inspectProposalEvidence",
+      "old_lines": [
+        1006,
+        1103
+      ],
+      "old_definition_sha256": "6a41a5858b795b8c2989b0a17db4d51298be23394c7648849a0f83188541c8bd",
+      "old_without_export_sha256": "3b63952bd53d1432b219078eb49d091c392a9367ef9087e3cb87e53486180a90",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "inspectProposalEvidence",
+      "new_lines": [
+        285,
+        382
+      ],
+      "new_definition_sha256": "6a41a5858b795b8c2989b0a17db4d51298be23394c7648849a0f83188541c8bd",
+      "new_without_export_sha256": "3b63952bd53d1432b219078eb49d091c392a9367ef9087e3cb87e53486180a90",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "matchesPreviousProposal",
+      "old_lines": [
+        499,
+        503
+      ],
+      "old_definition_sha256": "cadfceb4ce15b5a5ffcfaa6a3e7c2cef211106c051ba2cd0e8335e548c8153f0",
+      "old_without_export_sha256": "cadfceb4ce15b5a5ffcfaa6a3e7c2cef211106c051ba2cd0e8335e548c8153f0",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "matchesPreviousProposal",
+      "new_lines": [
+        50,
+        54
+      ],
+      "new_definition_sha256": "28f409c10e35fdb6261c0edede1f8cb3a3a7192d6dabefe94dff62f3b59ec2fc",
+      "new_without_export_sha256": "cadfceb4ce15b5a5ffcfaa6a3e7c2cef211106c051ba2cd0e8335e548c8153f0",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "resolveLineage",
+      "old_lines": [
+        737,
+        769
+      ],
+      "old_definition_sha256": "0100af740f87e7077510f5cd992734c188d1230f3d7b0643e9cb8bbb7d2d2ea3",
+      "old_without_export_sha256": "0100af740f87e7077510f5cd992734c188d1230f3d7b0643e9cb8bbb7d2d2ea3",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "resolveLineage",
+      "new_lines": [
+        57,
+        89
+      ],
+      "new_definition_sha256": "599aeb76782ba693d0e9d396468e9b4087407c587ece7cef26daca47f0da581d",
+      "new_without_export_sha256": "0100af740f87e7077510f5cd992734c188d1230f3d7b0643e9cb8bbb7d2d2ea3",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "detectSplits",
+      "old_lines": [
+        771,
+        781
+      ],
+      "old_definition_sha256": "1d3ede1e4fbbf25da4b4b64310c4229aaf67c0c9ef23d25d87a9f1d0b4d99adf",
+      "old_without_export_sha256": "1d3ede1e4fbbf25da4b4b64310c4229aaf67c0c9ef23d25d87a9f1d0b4d99adf",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "detectSplits",
+      "new_lines": [
+        92,
+        102
+      ],
+      "new_definition_sha256": "9bb6aaf3f6110760b93af220dfdb4bf3b6dd9e6c471b65a146a7cf351ad99701",
+      "new_without_export_sha256": "1d3ede1e4fbbf25da4b4b64310c4229aaf67c0c9ef23d25d87a9f1d0b4d99adf",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "membership",
+      "old_lines": [
+        799,
+        803
+      ],
+      "old_definition_sha256": "006ec30b24386d7e984a4e0fa2f1d8b28d75eb2645c9227ade2346da8ce8f681",
+      "old_without_export_sha256": "006ec30b24386d7e984a4e0fa2f1d8b28d75eb2645c9227ade2346da8ce8f681",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "membership",
+      "new_lines": [
+        105,
+        109
+      ],
+      "new_definition_sha256": "ff172fc90e4eca95a9a8a2d1dab4aa7ea42ac9b8bb9feb518a1bc9d736dc63b1",
+      "new_without_export_sha256": "006ec30b24386d7e984a4e0fa2f1d8b28d75eb2645c9227ade2346da8ce8f681",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "sameIdSet",
+      "old_lines": [
+        809,
+        816
+      ],
+      "old_definition_sha256": "5db4a418d0bb8a197d22a23975cde2ecb8522a4b33ac73e6a0c056384c3cd9aa",
+      "old_without_export_sha256": "5db4a418d0bb8a197d22a23975cde2ecb8522a4b33ac73e6a0c056384c3cd9aa",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "sameIdSet",
+      "new_lines": [
+        112,
+        119
+      ],
+      "new_definition_sha256": "1fbc879af61e6d20956aff248bf74a53588dd6b88f5ace394f87762fdbea99e6",
+      "new_without_export_sha256": "5db4a418d0bb8a197d22a23975cde2ecb8522a4b33ac73e6a0c056384c3cd9aa",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "freshCommunityLineage",
+      "old_lines": [
+        818,
+        820
+      ],
+      "old_definition_sha256": "8d7f64cf873bf610b28254288b46c83fce542a4c89455d047c5921d426adaa2c",
+      "old_without_export_sha256": "8d7f64cf873bf610b28254288b46c83fce542a4c89455d047c5921d426adaa2c",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "freshCommunityLineage",
+      "new_lines": [
+        122,
+        124
+      ],
+      "new_definition_sha256": "8d7f64cf873bf610b28254288b46c83fce542a4c89455d047c5921d426adaa2c",
+      "new_without_export_sha256": "8d7f64cf873bf610b28254288b46c83fce542a4c89455d047c5921d426adaa2c",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "prefixedId",
+      "old_lines": [
+        822,
+        824
+      ],
+      "old_definition_sha256": "e0175768db779d41381d2cd068ad261adf281fce8c890c7b59f948eb8bfae1b9",
+      "old_without_export_sha256": "e0175768db779d41381d2cd068ad261adf281fce8c890c7b59f948eb8bfae1b9",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "prefixedId",
+      "new_lines": [
+        127,
+        129
+      ],
+      "new_definition_sha256": "8f1cec8b275bf562c41ff04a35b9e1668da6961d4b25d501e968cf24d236fde9",
+      "new_without_export_sha256": "e0175768db779d41381d2cd068ad261adf281fce8c890c7b59f948eb8bfae1b9",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "splitFunctionId",
+      "old_lines": [
+        867,
+        872
+      ],
+      "old_definition_sha256": "876492e9fff9f7e4a1b59d01b852228b8cc84309324d8e296908466e97bd8819",
+      "old_without_export_sha256": "876492e9fff9f7e4a1b59d01b852228b8cc84309324d8e296908466e97bd8819",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "splitFunctionId",
+      "new_lines": [
+        132,
+        137
+      ],
+      "new_definition_sha256": "876492e9fff9f7e4a1b59d01b852228b8cc84309324d8e296908466e97bd8819",
+      "new_without_export_sha256": "876492e9fff9f7e4a1b59d01b852228b8cc84309324d8e296908466e97bd8819",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "overlapCandidates",
+      "old_lines": [
+        876,
+        893
+      ],
+      "old_definition_sha256": "273a2ca36ace1f6d03b1fb0c3545d4cf391ae8fc13e282819c4557c027703365",
+      "old_without_export_sha256": "273a2ca36ace1f6d03b1fb0c3545d4cf391ae8fc13e282819c4557c027703365",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "overlapCandidates",
+      "new_lines": [
+        143,
+        160
+      ],
+      "new_definition_sha256": "5a4a5397dda57f805b18a5bf05f8463683060b1c4db73cb05512522d8f76405b",
+      "new_without_export_sha256": "273a2ca36ace1f6d03b1fb0c3545d4cf391ae8fc13e282819c4557c027703365",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "validIntegerMetric",
+      "old_lines": [
+        895,
+        897
+      ],
+      "old_definition_sha256": "00940e978dfb208e8c5beb2b9a7e12669bcd8409dcbb23992f433c099329640e",
+      "old_without_export_sha256": "00940e978dfb208e8c5beb2b9a7e12669bcd8409dcbb23992f433c099329640e",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "validIntegerMetric",
+      "new_lines": [
+        163,
+        165
+      ],
+      "new_definition_sha256": "c5c1b8b9a176a3d26664a20f0d144624f62369e6d07574aa6218195930836ae4",
+      "new_without_export_sha256": "00940e978dfb208e8c5beb2b9a7e12669bcd8409dcbb23992f433c099329640e",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "partitionInvariants",
+      "old_lines": [
+        903,
+        915
+      ],
+      "old_definition_sha256": "a2359d3d1fbe13d5522ac5d8f1ec2227a45d0695153e4b412d79d31f6c2775d4",
+      "old_without_export_sha256": "a2359d3d1fbe13d5522ac5d8f1ec2227a45d0695153e4b412d79d31f6c2775d4",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "partitionInvariants",
+      "new_lines": [
+        173,
+        185
+      ],
+      "new_definition_sha256": "e854958a3255e75ffe63df7288d91e617b53da2e1ff04f5a1c84bc6b40d3c805",
+      "new_without_export_sha256": "a2359d3d1fbe13d5522ac5d8f1ec2227a45d0695153e4b412d79d31f6c2775d4",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "hasKeys",
+      "old_lines": [
+        917,
+        922
+      ],
+      "old_definition_sha256": "df38c50400c91f542bff368affa11957e7c6f554de63afcee63fedc15494e548",
+      "old_without_export_sha256": "df38c50400c91f542bff368affa11957e7c6f554de63afcee63fedc15494e548",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "hasKeys",
+      "new_lines": [
+        188,
+        193
+      ],
+      "new_definition_sha256": "2f30124ca43dd96b2ebed46e38922f49fcfb0ca85984c6556cf728d2d9367830",
+      "new_without_export_sha256": "df38c50400c91f542bff368affa11957e7c6f554de63afcee63fedc15494e548",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "jsonData",
+      "old_lines": [
+        924,
+        942
+      ],
+      "old_definition_sha256": "208c61ecb8a33336a3726bbe8dcbca092baea7c7380d1afb6c290b53448994f3",
+      "old_without_export_sha256": "208c61ecb8a33336a3726bbe8dcbca092baea7c7380d1afb6c290b53448994f3",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "jsonData",
+      "new_lines": [
+        196,
+        214
+      ],
+      "new_definition_sha256": "208c61ecb8a33336a3726bbe8dcbca092baea7c7380d1afb6c290b53448994f3",
+      "new_without_export_sha256": "208c61ecb8a33336a3726bbe8dcbca092baea7c7380d1afb6c290b53448994f3",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "provenanceShape",
+      "old_lines": [
+        952,
+        956
+      ],
+      "old_definition_sha256": "f467b78ee913f12e8c855b0d71e2635ad08e10130a4abd9c60026b207c58dde8",
+      "old_without_export_sha256": "f467b78ee913f12e8c855b0d71e2635ad08e10130a4abd9c60026b207c58dde8",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "provenanceShape",
+      "new_lines": [
+        226,
+        230
+      ],
+      "new_definition_sha256": "f467b78ee913f12e8c855b0d71e2635ad08e10130a4abd9c60026b207c58dde8",
+      "new_without_export_sha256": "f467b78ee913f12e8c855b0d71e2635ad08e10130a4abd9c60026b207c58dde8",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "diagnosticsValid",
+      "old_lines": [
+        958,
+        962
+      ],
+      "old_definition_sha256": "dc3db765008f6137d9202cda79ae3e46c9f11e38be7f727010cfa59ab7d84cce",
+      "old_without_export_sha256": "dc3db765008f6137d9202cda79ae3e46c9f11e38be7f727010cfa59ab7d84cce",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "diagnosticsValid",
+      "new_lines": [
+        233,
+        237
+      ],
+      "new_definition_sha256": "dc3db765008f6137d9202cda79ae3e46c9f11e38be7f727010cfa59ab7d84cce",
+      "new_without_export_sha256": "dc3db765008f6137d9202cda79ae3e46c9f11e38be7f727010cfa59ab7d84cce",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "sidecarValid",
+      "old_lines": [
+        964,
+        989
+      ],
+      "old_definition_sha256": "6e63fb3645df2799dcf7c504734915b7f5c26cc7e8c17015f004630167879ddd",
+      "old_without_export_sha256": "6e63fb3645df2799dcf7c504734915b7f5c26cc7e8c17015f004630167879ddd",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "sidecarValid",
+      "new_lines": [
+        240,
+        265
+      ],
+      "new_definition_sha256": "6e63fb3645df2799dcf7c504734915b7f5c26cc7e8c17015f004630167879ddd",
+      "new_without_export_sha256": "6e63fb3645df2799dcf7c504734915b7f5c26cc7e8c17015f004630167879ddd",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "resultShape",
+      "old_lines": [
+        991,
+        998
+      ],
+      "old_definition_sha256": "90a28d7a36e9c016f32c70bee8c64b10a4bf492a25f24bcb443f6a8f5664ca27",
+      "old_without_export_sha256": "90a28d7a36e9c016f32c70bee8c64b10a4bf492a25f24bcb443f6a8f5664ca27",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "resultShape",
+      "new_lines": [
+        268,
+        275
+      ],
+      "new_definition_sha256": "90a28d7a36e9c016f32c70bee8c64b10a4bf492a25f24bcb443f6a8f5664ca27",
+      "new_without_export_sha256": "90a28d7a36e9c016f32c70bee8c64b10a4bf492a25f24bcb443f6a8f5664ca27",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "outcome",
+      "old_lines": [
+        1000,
+        1003
+      ],
+      "old_definition_sha256": "db71a98cd22b3e2a1aaeee4f2b564de5065591b6d1a96ab8b74b55cc862d4b0f",
+      "old_without_export_sha256": "db71a98cd22b3e2a1aaeee4f2b564de5065591b6d1a96ab8b74b55cc862d4b0f",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "outcome",
+      "new_lines": [
+        278,
+        281
+      ],
+      "new_definition_sha256": "db71a98cd22b3e2a1aaeee4f2b564de5065591b6d1a96ab8b74b55cc862d4b0f",
+      "new_without_export_sha256": "db71a98cd22b3e2a1aaeee4f2b564de5065591b6d1a96ab8b74b55cc862d4b0f",
+      "original_export": false,
+      "candidate_export": false,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "strictSchemaErrors",
+      "old_lines": [
+        1106,
+        1151
+      ],
+      "old_definition_sha256": "1e3d589325bb4aa746f0cc9cc00de1a7b16e01c12361a050b3c8b03c25bcafe3",
+      "old_without_export_sha256": "1e3d589325bb4aa746f0cc9cc00de1a7b16e01c12361a050b3c8b03c25bcafe3",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "strictSchemaErrors",
+      "new_lines": [
+        386,
+        431
+      ],
+      "new_definition_sha256": "db87b498815557a69082f52b1553f70bdc80116be1842b9248dc2199565d0e3d",
+      "new_without_export_sha256": "1e3d589325bb4aa746f0cc9cc00de1a7b16e01c12361a050b3c8b03c25bcafe3",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "SHA",
+      "old_lines": [
+        18,
+        18
+      ],
+      "old_definition_sha256": "3af98a4cb0c665a175cfe6d90b381847b107ff4c9e1df2795e6f2db4ad36052b",
+      "old_without_export_sha256": "3af98a4cb0c665a175cfe6d90b381847b107ff4c9e1df2795e6f2db4ad36052b",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "SHA",
+      "new_lines": [
+        10,
+        10
+      ],
+      "new_definition_sha256": "f80d3285c5f8a34e115dc1d3716afdea911c9ee02d1d5b335ac4cb757ef8b65d",
+      "new_without_export_sha256": "3af98a4cb0c665a175cfe6d90b381847b107ff4c9e1df2795e6f2db4ad36052b",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "FUNCTION_ID",
+      "old_lines": [
+        19,
+        19
+      ],
+      "old_definition_sha256": "2b06ed7ead825f2231e0200fd15384a6de86eb35d695d2bdc1357baf727636a5",
+      "old_without_export_sha256": "2b06ed7ead825f2231e0200fd15384a6de86eb35d695d2bdc1357baf727636a5",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "FUNCTION_ID",
+      "new_lines": [
+        13,
+        13
+      ],
+      "new_definition_sha256": "5e6491e02fb0223d203a16c14a505ae7ca3a316ac2f139fd369833c090b42499",
+      "new_without_export_sha256": "2b06ed7ead825f2231e0200fd15384a6de86eb35d695d2bdc1357baf727636a5",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "OverlapCandidate",
+      "old_lines": [
+        874,
+        874
+      ],
+      "old_definition_sha256": "4e51cc53fefd1566650d80b22d58ddaec5b8245ecf3f066e79247d0d249412f4",
+      "old_without_export_sha256": "4e51cc53fefd1566650d80b22d58ddaec5b8245ecf3f066e79247d0d249412f4",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "OverlapCandidate",
+      "new_lines": [
+        140,
+        140
+      ],
+      "new_definition_sha256": "5695c8aa1348624c468d29adfa632bc01a8183bde65421b981c16b5d7ea1974f",
+      "new_without_export_sha256": "4e51cc53fefd1566650d80b22d58ddaec5b8245ecf3f066e79247d0d249412f4",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "interface",
+      "definition_delta": "export_modifier_only"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "PARTITION_SCHEMA",
+      "old_lines": [
+        17,
+        17
+      ],
+      "old_definition_sha256": "c8b5be47e7ceef7c9c2aada36562fcce2241d74bb588e7ea80de6e429aa13273",
+      "old_without_export_sha256": "c8b5be47e7ceef7c9c2aada36562fcce2241d74bb588e7ea80de6e429aa13273",
+      "new_file": "src/lineage-pure-codecs.ts",
+      "new_symbol": "PARTITION_SCHEMA",
+      "new_lines": [
+        5,
+        5
+      ],
+      "new_definition_sha256": "13b33aa839f5803aad61b91ba59ed97be030420f6e99482137b3a73f5dc74b38",
+      "new_without_export_sha256": "13b33aa839f5803aad61b91ba59ed97be030420f6e99482137b3a73f5dc74b38",
+      "original_export": false,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "schema_binding_fs_to_static_json_import"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "configFingerprint",
+      "old_lines": [
+        297,
+        322
+      ],
+      "old_definition_sha256": "f8588bee287c07f90a50c29ba5a1a2abab2c09818a7c02e61d8a3d7b5331cfcc",
+      "old_without_export_sha256": "2bac7922d03f58874e9278a111aeb8959b5fcd918437fbb81bca6fe57bf08774",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "configFingerprint",
+      "new_lines": [
+        30,
+        55
+      ],
+      "new_definition_sha256": "f8588bee287c07f90a50c29ba5a1a2abab2c09818a7c02e61d8a3d7b5331cfcc",
+      "new_without_export_sha256": "2bac7922d03f58874e9278a111aeb8959b5fcd918437fbb81bca6fe57bf08774",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "validConfig",
+      "old_lines": [
+        1188,
+        1198
+      ],
+      "old_definition_sha256": "71952fdc4443d1f434481217d49cd27b5f6ee4b2b97ef47eb5cb0529e7ec48e6",
+      "old_without_export_sha256": "1ff6a8d63781b163a4a1443b2dfde39aedf13c4fcc02cb4a27555a2359d8ccc5",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "validConfig",
+      "new_lines": [
+        70,
+        80
+      ],
+      "new_definition_sha256": "71952fdc4443d1f434481217d49cd27b5f6ee4b2b97ef47eb5cb0529e7ec48e6",
+      "new_without_export_sha256": "1ff6a8d63781b163a4a1443b2dfde39aedf13c4fcc02cb4a27555a2359d8ccc5",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "provenanceReady",
+      "old_lines": [
+        1098,
+        1107
+      ],
+      "old_definition_sha256": "102df6e9c083169bbc1a4461e1ae7d6d63da5ba6c1224c32b63668c766f8e810",
+      "old_without_export_sha256": "3694cdf721642612c5038823a27fef376e08747a0e5df8ea2b24313a6701bdde",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "provenanceReady",
+      "new_lines": [
+        58,
+        67
+      ],
+      "new_definition_sha256": "102df6e9c083169bbc1a4461e1ae7d6d63da5ba6c1224c32b63668c766f8e810",
+      "new_without_export_sha256": "3694cdf721642612c5038823a27fef376e08747a0e5df8ea2b24313a6701bdde",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "ALGORITHM",
+      "old_lines": [
+        36,
+        36
+      ],
+      "old_definition_sha256": "e9ce6c971c4e2e42dc598bf6a5a2d94783fdda94aad5cc00c266e68bfd210cb8",
+      "old_without_export_sha256": "519e7ee11909f13cc3da66a348f8d8b6783fa3ce50ae70705273c6f0e68884c5",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "ALGORITHM",
+      "new_lines": [
+        21,
+        21
+      ],
+      "new_definition_sha256": "e9ce6c971c4e2e42dc598bf6a5a2d94783fdda94aad5cc00c266e68bfd210cb8",
+      "new_without_export_sha256": "519e7ee11909f13cc3da66a348f8d8b6783fa3ce50ae70705273c6f0e68884c5",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "ALGORITHM_VERSION",
+      "old_lines": [
+        37,
+        37
+      ],
+      "old_definition_sha256": "bb4b329454499ec18b2053a32ce35cad0ca7e400aea3df368a74639e4bfc5add",
+      "old_without_export_sha256": "7b2c37103f894e5df6439aa4cf6bfaa1bd61262eb898104d8f1b84a6cac9e7f1",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "ALGORITHM_VERSION",
+      "new_lines": [
+        24,
+        24
+      ],
+      "new_definition_sha256": "bb4b329454499ec18b2053a32ce35cad0ca7e400aea3df368a74639e4bfc5add",
+      "new_without_export_sha256": "7b2c37103f894e5df6439aa4cf6bfaa1bd61262eb898104d8f1b84a6cac9e7f1",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/semantic-index.ts",
+      "old_symbol": "LEXICAL_RULESET_VERSION",
+      "old_lines": [
+        38,
+        38
+      ],
+      "old_definition_sha256": "bb3c42bd0fc06ffad6e58b2818a64fa9995a2de4d9b30cdc8af992617986dd90",
+      "old_without_export_sha256": "3c7b8da0ca464bcb61a692caf5c05d7e762292baf1036206cda85c8415cfe324",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "LEXICAL_RULESET_VERSION",
+      "new_lines": [
+        27,
+        27
+      ],
+      "new_definition_sha256": "bb3c42bd0fc06ffad6e58b2818a64fa9995a2de4d9b30cdc8af992617986dd90",
+      "new_without_export_sha256": "3c7b8da0ca464bcb61a692caf5c05d7e762292baf1036206cda85c8415cfe324",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "const",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/lineage.ts",
+      "old_symbol": "immutableSnapshot",
+      "old_lines": [
+        122,
+        134
+      ],
+      "old_definition_sha256": "c63118445ae944621780e14a775d6872ec5a6d4f1afca4a6cd982dd875f9ad19",
+      "old_without_export_sha256": "4f3badea81ac5d3885c21b483e6279906d289d64ce7b53dce055c43ce252cdc0",
+      "new_file": "src/semantic-config-codec.ts",
+      "new_symbol": "immutableSnapshot",
+      "new_lines": [
+        6,
+        18
+      ],
+      "new_definition_sha256": "c63118445ae944621780e14a775d6872ec5a6d4f1afca4a6cd982dd875f9ad19",
+      "new_without_export_sha256": "4f3badea81ac5d3885c21b483e6279906d289d64ce7b53dce055c43ce252cdc0",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/eventlog.ts",
+      "old_symbol": "GraphPersistenceError",
+      "old_lines": [
+        5,
+        7
+      ],
+      "old_definition_sha256": "5d4859cb4c8205217a3ccdd8657a3828410e8dd88d0faa0e3bbd9903b97c06f3",
+      "old_without_export_sha256": "658fbc7a6580ba65943cea5c826501e2f24fb162dfd05535f8daf58025072c5d",
+      "new_file": "src/graph-persistence-errors.ts",
+      "new_symbol": "GraphPersistenceError",
+      "new_lines": [
+        4,
+        6
+      ],
+      "new_definition_sha256": "5d4859cb4c8205217a3ccdd8657a3828410e8dd88d0faa0e3bbd9903b97c06f3",
+      "new_without_export_sha256": "658fbc7a6580ba65943cea5c826501e2f24fb162dfd05535f8daf58025072c5d",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "class",
+      "definition_delta": "unchanged"
+    },
+    {
+      "old_file": "inputs/reference/src/eventlog.ts",
+      "old_symbol": "invariant",
+      "old_lines": [
+        12,
+        14
+      ],
+      "old_definition_sha256": "351dbfd6f37a7936f1f379354a2f0a1a51ed321271964c147a3137a1d20bb3e3",
+      "old_without_export_sha256": "2286b0221afd3a5ac9e426050151cf90c9f1f6092613e2e124d85e0c294482cf",
+      "new_file": "src/graph-persistence-errors.ts",
+      "new_symbol": "invariant",
+      "new_lines": [
+        9,
+        11
+      ],
+      "new_definition_sha256": "351dbfd6f37a7936f1f379354a2f0a1a51ed321271964c147a3137a1d20bb3e3",
+      "new_without_export_sha256": "2286b0221afd3a5ac9e426050151cf90c9f1f6092613e2e124d85e0c294482cf",
+      "original_export": true,
+      "candidate_export": true,
+      "kind": "function",
+      "definition_delta": "unchanged"
+    }
+  ],
+  "historical_preserved_definitions": [
+    {
+      "file": "src/graph-pipeline.ts",
+      "symbol": "structural",
+      "old_lines": [
+        188,
+        205
+      ],
+      "new_lines": [
+        22,
+        39
+      ],
+      "old_sha256": "09725123944e23e603b9c0b91c35aa0b3e9bb55ddd98dea650b80e5d3f005530",
+      "new_sha256": "09725123944e23e603b9c0b91c35aa0b3e9bb55ddd98dea650b80e5d3f005530",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-pipeline.ts",
+      "symbol": "prepareGraph",
+      "old_lines": [
+        206,
+        216
+      ],
+      "new_lines": [
+        40,
+        50
+      ],
+      "old_sha256": "775aaf2d830967e954d59c8f86b1b9138e687abf1c7413064e1cc6815c015ba4",
+      "new_sha256": "775aaf2d830967e954d59c8f86b1b9138e687abf1c7413064e1cc6815c015ba4",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-pipeline.ts",
+      "symbol": "assertCurrentAdmissionSource",
+      "old_lines": [
+        274,
+        280
+      ],
+      "new_lines": [
+        52,
+        58
+      ],
+      "old_sha256": "79d10c92931a63c9f5a28a1390cc225469abd01bec0ac62b6381d33ad1961c91",
+      "new_sha256": "79d10c92931a63c9f5a28a1390cc225469abd01bec0ac62b6381d33ad1961c91",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-pipeline.ts",
+      "symbol": "prepareGraphV2",
+      "old_lines": [
+        284,
+        306
+      ],
+      "new_lines": [
+        59,
+        81
+      ],
+      "old_sha256": "5fb36057c1d32e6b7ce3363569156349f8008b9f02e82dfd218a5a92097348a6",
+      "new_sha256": "5fb36057c1d32e6b7ce3363569156349f8008b9f02e82dfd218a5a92097348a6",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-pipeline.ts",
+      "symbol": "prepareGraphParts",
+      "old_lines": [
+        308,
+        311
+      ],
+      "new_lines": [
+        83,
+        86
+      ],
+      "old_sha256": "f9bfddbfa5fff77227218019d2f243d007eec9c12926d9d9d29703ddad08e6f7",
+      "new_sha256": "f9bfddbfa5fff77227218019d2f243d007eec9c12926d9d9d29703ddad08e6f7",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "contentDigest",
+      "old_lines": [
+        12,
+        12
+      ],
+      "new_lines": [
+        14,
+        14
+      ],
+      "old_sha256": "abcb283290ae593154d22e7a8e4fe4e040196e9a4fd9ebd9a249d24f14ce2330",
+      "new_sha256": "abcb283290ae593154d22e7a8e4fe4e040196e9a4fd9ebd9a249d24f14ce2330",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "assertScientificChecks",
+      "old_lines": [
+        101,
+        107
+      ],
+      "new_lines": [
+        102,
+        108
+      ],
+      "old_sha256": "d29295d2fe0c444adbb276f27ee09333eaf34f9d3485893bb4e9849906d9e30e",
+      "new_sha256": "d29295d2fe0c444adbb276f27ee09333eaf34f9d3485893bb4e9849906d9e30e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "assertScientificEvidence",
+      "old_lines": [
+        108,
+        111
+      ],
+      "new_lines": [
+        109,
+        112
+      ],
+      "old_sha256": "12747915777db2670e6e246a35e9084cdc9d117a434c937a012e0748d7a66750",
+      "new_sha256": "12747915777db2670e6e246a35e9084cdc9d117a434c937a012e0748d7a66750",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "admissionProjection",
+      "old_lines": [
+        143,
+        156
+      ],
+      "new_lines": [
+        144,
+        157
+      ],
+      "old_sha256": "45040ac91a361504a786f73350ac21db6da34fbcfbbe57139e79b38f9d9fb5ab",
+      "new_sha256": "45040ac91a361504a786f73350ac21db6da34fbcfbbe57139e79b38f9d9fb5ab",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "validateAdmissionInputs",
+      "old_lines": [
+        157,
+        175
+      ],
+      "new_lines": [
+        158,
+        176
+      ],
+      "old_sha256": "b59e68dc9b4b9fd0e28b062823e8b71a6aae9be605e316a1d0bbdc205ff4be6a",
+      "new_sha256": "b59e68dc9b4b9fd0e28b062823e8b71a6aae9be605e316a1d0bbdc205ff4be6a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "graphErrorClass",
+      "old_lines": [
+        216,
+        225
+      ],
+      "new_lines": [
+        187,
+        196
+      ],
+      "old_sha256": "8803ed94d75af8d97fbe1bd2c0ff1bc3b6d90474c1f43d32f766e6fb29242fce",
+      "new_sha256": "8803ed94d75af8d97fbe1bd2c0ff1bc3b6d90474c1f43d32f766e6fb29242fce",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "openGraphDatabase",
+      "old_lines": [
+        226,
+        236
+      ],
+      "new_lines": [
+        197,
+        207
+      ],
+      "old_sha256": "ec0be76788e3015bea8a521e376b13fe9cc521895f07533863edfc1e62fd8756",
+      "new_sha256": "ec0be76788e3015bea8a521e376b13fe9cc521895f07533863edfc1e62fd8756",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-store.ts",
+      "symbol": "GraphStore",
+      "old_lines": [
+        243,
+        1183
+      ],
+      "new_lines": [
+        214,
+        1154
+      ],
+      "old_sha256": "2ef342707ac49f20d860590991e6dd3f47048cc58d574325db1b2a38db92df13",
+      "new_sha256": "2ef342707ac49f20d860590991e6dd3f47048cc58d574325db1b2a38db92df13",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "plainJson",
+      "old_lines": [
+        107,
+        126
+      ],
+      "new_lines": [
+        107,
+        126
+      ],
+      "old_sha256": "da821074484dc3d12ad062aefd1396b877cc814e63cb5d2ef78e2869983a4f39",
+      "new_sha256": "da821074484dc3d12ad062aefd1396b877cc814e63cb5d2ef78e2869983a4f39",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "freezeData",
+      "old_lines": [
+        127,
+        133
+      ],
+      "new_lines": [
+        127,
+        133
+      ],
+      "old_sha256": "ad969a25401b6e807450fc30e4bd601e98ab58cc97144281b1e715a61395d221",
+      "new_sha256": "ad969a25401b6e807450fc30e4bd601e98ab58cc97144281b1e715a61395d221",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "decode",
+      "old_lines": [
+        134,
+        145
+      ],
+      "new_lines": [
+        134,
+        145
+      ],
+      "old_sha256": "3f4a95d395f3ab9bf3b3e7df9481041f2d10e9e9346f4698dae965391127559a",
+      "new_sha256": "3f4a95d395f3ab9bf3b3e7df9481041f2d10e9e9346f4698dae965391127559a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "decodePreparedGraphV3",
+      "old_lines": [
+        148,
+        150
+      ],
+      "new_lines": [
+        148,
+        150
+      ],
+      "old_sha256": "ac87c70278b7c7c4a82dad479758c347fb29ed8a33dfae9436071b7609748c89",
+      "new_sha256": "ac87c70278b7c7c4a82dad479758c347fb29ed8a33dfae9436071b7609748c89",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "decodePartitionAdoptionV1",
+      "old_lines": [
+        152,
+        154
+      ],
+      "new_lines": [
+        152,
+        154
+      ],
+      "old_sha256": "74ce9905d9b8bc622bd6fc0e3ac6424b1c9904cf0d878e6e2f1497780e1b758b",
+      "new_sha256": "74ce9905d9b8bc622bd6fc0e3ac6424b1c9904cf0d878e6e2f1497780e1b758b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "requireRelation",
+      "old_lines": [
+        156,
+        158
+      ],
+      "new_lines": [
+        156,
+        158
+      ],
+      "old_sha256": "6ad5fe1593938ad56558e63b7479efcfa33df14f0ac6d2c893aeef6c2a43f7d9",
+      "new_sha256": "6ad5fe1593938ad56558e63b7479efcfa33df14f0ac6d2c893aeef6c2a43f7d9",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "unique",
+      "old_lines": [
+        159,
+        163
+      ],
+      "new_lines": [
+        159,
+        163
+      ],
+      "old_sha256": "e8ac66df93c77248e14def1b722e069a9a32208c2b01701eea5064276816d099",
+      "new_sha256": "e8ac66df93c77248e14def1b722e069a9a32208c2b01701eea5064276816d099",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "functionIds",
+      "old_lines": [
+        164,
+        168
+      ],
+      "new_lines": [
+        164,
+        168
+      ],
+      "old_sha256": "72f4eb64a29721fb432dfab60ca0c18c665aa07b950608005704c0fbafc27b53",
+      "new_sha256": "72f4eb64a29721fb432dfab60ca0c18c665aa07b950608005704c0fbafc27b53",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "equalIds",
+      "old_lines": [
+        169,
+        172
+      ],
+      "new_lines": [
+        169,
+        172
+      ],
+      "old_sha256": "ffbb060c74aba870eb589c3a972ad257c6c1038da4377b77d41b4a311c4108b0",
+      "new_sha256": "ffbb060c74aba870eb589c3a972ad257c6c1038da4377b77d41b4a311c4108b0",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "metricCoherence",
+      "old_lines": [
+        173,
+        175
+      ],
+      "new_lines": [
+        173,
+        175
+      ],
+      "old_sha256": "1e1a6a90a5813ca824ccd5ddef4d62d4c2fcbc83bdcd193fa11a1af62bf03e6c",
+      "new_sha256": "1e1a6a90a5813ca824ccd5ddef4d62d4c2fcbc83bdcd193fa11a1af62bf03e6c",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "partitionRelations",
+      "old_lines": [
+        176,
+        202
+      ],
+      "new_lines": [
+        176,
+        202
+      ],
+      "old_sha256": "998b149d9be0b67f9bf1a3a86a8e61ec4b90a6ed41c03d5914a0324820a581b4",
+      "new_sha256": "998b149d9be0b67f9bf1a3a86a8e61ec4b90a6ed41c03d5914a0324820a581b4",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "groupRelations",
+      "old_lines": [
+        203,
+        225
+      ],
+      "new_lines": [
+        203,
+        225
+      ],
+      "old_sha256": "888776fac808aaa728d911f7bc2300a27fa3c3efddaee83a349707d565bbea8a",
+      "new_sha256": "888776fac808aaa728d911f7bc2300a27fa3c3efddaee83a349707d565bbea8a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "noEvidence",
+      "old_lines": [
+        226,
+        228
+      ],
+      "new_lines": [
+        226,
+        228
+      ],
+      "old_sha256": "b5ea63844ae4c08699159cd19e8f5d6a7648d9da75ccac9247f6fb0f87a5723a",
+      "new_sha256": "b5ea63844ae4c08699159cd19e8f5d6a7648d9da75ccac9247f6fb0f87a5723a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "preparedStats",
+      "old_lines": [
+        229,
+        242
+      ],
+      "new_lines": [
+        229,
+        242
+      ],
+      "old_sha256": "5fed73194ad4199ddaa03097ef9aa15e278334cfd9f0dd6952c70bdd8155bd20",
+      "new_sha256": "5fed73194ad4199ddaa03097ef9aa15e278334cfd9f0dd6952c70bdd8155bd20",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "inspectPreparedGraphV3",
+      "old_lines": [
+        248,
+        280
+      ],
+      "new_lines": [
+        248,
+        280
+      ],
+      "old_sha256": "efc57cd6d75b2f1e1cb2c05303313c6de2b68c79130d6192493f226f5698da75",
+      "new_sha256": "efc57cd6d75b2f1e1cb2c05303313c6de2b68c79130d6192493f226f5698da75",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "inventoryRelations",
+      "old_lines": [
+        282,
+        299
+      ],
+      "new_lines": [
+        282,
+        299
+      ],
+      "old_sha256": "3ce4be6596bb0ef42fe4083c7dfc652db08728f2e69579a733171ddd0e1b6d7c",
+      "new_sha256": "3ce4be6596bb0ef42fe4083c7dfc652db08728f2e69579a733171ddd0e1b6d7c",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "adoptionStats",
+      "old_lines": [
+        300,
+        309
+      ],
+      "new_lines": [
+        300,
+        309
+      ],
+      "old_sha256": "21ccced307f6d2f3e85da6d1652a7bb63d7c9baffb62548b4bfc37814297b29b",
+      "new_sha256": "21ccced307f6d2f3e85da6d1652a7bb63d7c9baffb62548b4bfc37814297b29b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/graph-transport.ts",
+      "symbol": "inspectPartitionAdoptionV1",
+      "old_lines": [
+        315,
+        368
+      ],
+      "new_lines": [
+        315,
+        368
+      ],
+      "old_sha256": "64cc9198938ef081418294d4ed44235758913c0108e9634231f96f8e113aac95",
+      "new_sha256": "64cc9198938ef081418294d4ed44235758913c0108e9634231f96f8e113aac95",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "knowledgeDeltaId",
+      "old_lines": [
+        158,
+        160
+      ],
+      "new_lines": [
+        126,
+        128
+      ],
+      "old_sha256": "9bcdb090a282ded7c1ce0811cd2a111a93d11b4681d8123ddbfa082960b1b7ff",
+      "new_sha256": "9bcdb090a282ded7c1ce0811cd2a111a93d11b4681d8123ddbfa082960b1b7ff",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "isEmptyKnowledgeDelta",
+      "old_lines": [
+        162,
+        169
+      ],
+      "new_lines": [
+        130,
+        137
+      ],
+      "old_sha256": "ea65691b7d25520a825eb112ca4104a8e81f88a5fbf1ebcb89cb10450a7a038e",
+      "new_sha256": "ea65691b7d25520a825eb112ca4104a8e81f88a5fbf1ebcb89cb10450a7a038e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "assessKnowledgeDelta",
+      "old_lines": [
+        197,
+        254
+      ],
+      "new_lines": [
+        165,
+        222
+      ],
+      "old_sha256": "59e67b0c29590ea68b68c96fe9ea158a75de3a2b3ac5c5fc1a20f577032e425b",
+      "new_sha256": "59e67b0c29590ea68b68c96fe9ea158a75de3a2b3ac5c5fc1a20f577032e425b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "affectedRegion",
+      "old_lines": [
+        271,
+        293
+      ],
+      "new_lines": [
+        239,
+        261
+      ],
+      "old_sha256": "13cb43708182d46b079beaa2cf71bf7dbebb0411e2e899beda78a73773936e88",
+      "new_sha256": "13cb43708182d46b079beaa2cf71bf7dbebb0411e2e899beda78a73773936e88",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "comparePartitions",
+      "old_lines": [
+        330,
+        399
+      ],
+      "new_lines": [
+        298,
+        367
+      ],
+      "old_sha256": "8012928a5a9280cee9dfc69518828ce96d99631e2dba813ee37a49a0f22f82b5",
+      "new_sha256": "8012928a5a9280cee9dfc69518828ce96d99631e2dba813ee37a49a0f22f82b5",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "snapshotProposalWitness",
+      "old_lines": [
+        484,
+        489
+      ],
+      "new_lines": [
+        452,
+        457
+      ],
+      "old_sha256": "40b8ae02e2022c0875d5166ed248f0ffa750a762ef351a21ca813e1666a5b1c2",
+      "new_sha256": "40b8ae02e2022c0875d5166ed248f0ffa750a762ef351a21ca813e1666a5b1c2",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "verifyProposalWitness",
+      "old_lines": [
+        505,
+        529
+      ],
+      "new_lines": [
+        461,
+        485
+      ],
+      "old_sha256": "ba0d51e2745de44eb97d5d247a2158d4993e9ae565c91cd163edf04e8dc4187d",
+      "new_sha256": "ba0d51e2745de44eb97d5d247a2158d4993e9ae565c91cd163edf04e8dc4187d",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "assignCommunityLineage",
+      "old_lines": [
+        531,
+        626
+      ],
+      "new_lines": [
+        487,
+        582
+      ],
+      "old_sha256": "19e6523bbd0da54c427c962bf20498415d002e38a3af69f6ed6f0ca69ead8d75",
+      "new_sha256": "19e6523bbd0da54c427c962bf20498415d002e38a3af69f6ed6f0ca69ead8d75",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "planAdoption",
+      "old_lines": [
+        653,
+        731
+      ],
+      "new_lines": [
+        609,
+        687
+      ],
+      "old_sha256": "23a8cc8ec1f1a92f487ffc8bd4067bd3da3d1edca3c0cb4ee59930e1090a3a48",
+      "new_sha256": "23a8cc8ec1f1a92f487ffc8bd4067bd3da3d1edca3c0cb4ee59930e1090a3a48",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "sameMembership",
+      "old_lines": [
+        733,
+        735
+      ],
+      "new_lines": [
+        689,
+        691
+      ],
+      "old_sha256": "4fc0ec275cf5894c1ff6351255ec917c0e1ee984e588830bc3fb438217db0ed7",
+      "new_sha256": "4fc0ec275cf5894c1ff6351255ec917c0e1ee984e588830bc3fb438217db0ed7",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "detectMerges",
+      "old_lines": [
+        783,
+        797
+      ],
+      "new_lines": [
+        695,
+        709
+      ],
+      "old_sha256": "f109408ffd0b05e9330a8790cc321fa7f708bf6d0bfb1c300a64955f87b2288f",
+      "new_sha256": "f109408ffd0b05e9330a8790cc321fa7f708bf6d0bfb1c300a64955f87b2288f",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "signatures",
+      "old_lines": [
+        805,
+        807
+      ],
+      "new_lines": [
+        712,
+        714
+      ],
+      "old_sha256": "5e4e9dfb06c92916b2a3a1fb90fc415c0267a0b06dbf5d5d9a1b88ff759e6260",
+      "new_sha256": "5e4e9dfb06c92916b2a3a1fb90fc415c0267a0b06dbf5d5d9a1b88ff759e6260",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "seedCommunity",
+      "old_lines": [
+        826,
+        828
+      ],
+      "new_lines": [
+        719,
+        721
+      ],
+      "old_sha256": "550299a1598f7271105dc2342b3d6c9f7c8144e554cdfa0d244b90515862f81f",
+      "new_sha256": "550299a1598f7271105dc2342b3d6c9f7c8144e554cdfa0d244b90515862f81f",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "stubPartition",
+      "old_lines": [
+        830,
+        842
+      ],
+      "new_lines": [
+        723,
+        735
+      ],
+      "old_sha256": "35f7407984fa212692c4ad63c51cf2d29eeae793d8027a989d3db2972104e504",
+      "new_sha256": "35f7407984fa212692c4ad63c51cf2d29eeae793d8027a989d3db2972104e504",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "stripDeltaId",
+      "old_lines": [
+        844,
+        857
+      ],
+      "new_lines": [
+        737,
+        750
+      ],
+      "old_sha256": "61c401d1d61c2a0f63caa110ed67e34ac63a0eecb93b220494c4d48c122ffe88",
+      "new_sha256": "61c401d1d61c2a0f63caa110ed67e34ac63a0eecb93b220494c4d48c122ffe88",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "cloneUnit",
+      "old_lines": [
+        859,
+        861
+      ],
+      "new_lines": [
+        752,
+        754
+      ],
+      "old_sha256": "0d189d740baa9d776d97482bc62cf11a3052fbd8f8a62b1dc8b1b1ee24b05963",
+      "new_sha256": "0d189d740baa9d776d97482bc62cf11a3052fbd8f8a62b1dc8b1b1ee24b05963",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "clonePartition",
+      "old_lines": [
+        863,
+        865
+      ],
+      "new_lines": [
+        756,
+        758
+      ],
+      "old_sha256": "6c4edf85fd2ddf05d3212ff771338210dbdb8f0cc4cfdbaaa666eafc54ff2820",
+      "new_sha256": "6c4edf85fd2ddf05d3212ff771338210dbdb8f0cc4cfdbaaa666eafc54ff2820",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "fail",
+      "old_lines": [
+        1153,
+        1155
+      ],
+      "new_lines": [
+        776,
+        778
+      ],
+      "old_sha256": "15185f3fc0f63247595e281c44d0a4ca0d3de1685a9f60d1a179c96f3eda11ba",
+      "new_sha256": "15185f3fc0f63247595e281c44d0a4ca0d3de1685a9f60d1a179c96f3eda11ba",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "readLocalProposalReceipt",
+      "old_lines": [
+        49,
+        51
+      ],
+      "new_lines": [
+        48,
+        50
+      ],
+      "old_sha256": "e6e7656ea923cf738a2f0a182c8ff89aa70d8c4880add34e850ff6f1a8879b8c",
+      "new_sha256": "e6e7656ea923cf738a2f0a182c8ff89aa70d8c4880add34e850ff6f1a8879b8c",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "defaultMultiviewConfig",
+      "old_lines": [
+        281,
+        295
+      ],
+      "new_lines": [
+        280,
+        294
+      ],
+      "old_sha256": "7dcb22492a5d60d29b981b7817c71e9af1099d3190a30feedd6df9af7f9518a9",
+      "new_sha256": "7dcb22492a5d60d29b981b7817c71e9af1099d3190a30feedd6df9af7f9518a9",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "createMemoryEmbeddingCache",
+      "old_lines": [
+        324,
+        330
+      ],
+      "new_lines": [
+        297,
+        303
+      ],
+      "old_sha256": "afb93d816456942f5bb65d59e3224e39bbb92c979e6959aa25f25650562cf402",
+      "new_sha256": "afb93d816456942f5bb65d59e3224e39bbb92c979e6959aa25f25650562cf402",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "normalizeTokens",
+      "old_lines": [
+        332,
+        336
+      ],
+      "new_lines": [
+        305,
+        309
+      ],
+      "old_sha256": "8e426f1b894ccaa41e616671979f4fd917d09593214f2b28fd31e42a88374f5b",
+      "new_sha256": "8e426f1b894ccaa41e616671979f4fd917d09593214f2b28fd31e42a88374f5b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "buildLexicalIndex",
+      "old_lines": [
+        338,
+        387
+      ],
+      "new_lines": [
+        311,
+        360
+      ],
+      "old_sha256": "688152262a1c57f1d2f063ffddd98a26139e352e98263d6821b1ceea625b191e",
+      "new_sha256": "688152262a1c57f1d2f063ffddd98a26139e352e98263d6821b1ceea625b191e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "clusterMultiview",
+      "old_lines": [
+        389,
+        662
+      ],
+      "new_lines": [
+        362,
+        635
+      ],
+      "old_sha256": "04bad0595c0417408d63903cc30a84680b643170aab862b448bdccd5e8b6e209",
+      "new_sha256": "04bad0595c0417408d63903cc30a84680b643170aab862b448bdccd5e8b6e209",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "benchmarkSparseIndex",
+      "old_lines": [
+        665,
+        667
+      ],
+      "new_lines": [
+        638,
+        640
+      ],
+      "old_sha256": "beb00ebc92cae0ed3201d3c3f0bd728291c6e6dcf1150fc79f1ae7c9c5232c01",
+      "new_sha256": "beb00ebc92cae0ed3201d3c3f0bd728291c6e6dcf1150fc79f1ae7c9c5232c01",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "benchmarkMultiviewPipeline",
+      "old_lines": [
+        669,
+        759
+      ],
+      "new_lines": [
+        642,
+        732
+      ],
+      "old_sha256": "c39e8fd0b0bdd3d44a61ac13cd753027f867a8c95a01564443fb2d12a7a275a7",
+      "new_sha256": "c39e8fd0b0bdd3d44a61ac13cd753027f867a8c95a01564443fb2d12a7a275a7",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "scoreEmbeddings",
+      "old_lines": [
+        761,
+        832
+      ],
+      "new_lines": [
+        734,
+        805
+      ],
+      "old_sha256": "f850fb1d6c7c81bd9a166cea90c5feb668272602b17aaade57b9e4031ab045be",
+      "new_sha256": "f850fb1d6c7c81bd9a166cea90c5feb668272602b17aaade57b9e4031ab045be",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "cachedEncode",
+      "old_lines": [
+        834,
+        855
+      ],
+      "new_lines": [
+        807,
+        828
+      ],
+      "old_sha256": "34977166188d53a8ce08f87be9048ab4f29643c2a061d51721b0bb09a8b08a1b",
+      "new_sha256": "34977166188d53a8ce08f87be9048ab4f29643c2a061d51721b0bb09a8b08a1b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "encoderIdentity",
+      "old_lines": [
+        857,
+        859
+      ],
+      "new_lines": [
+        830,
+        832
+      ],
+      "old_sha256": "a01d2167ea12fe8e973c21ef1cec48326df80d2f9a42e82484b1f74d1460766b",
+      "new_sha256": "a01d2167ea12fe8e973c21ef1cec48326df80d2f9a42e82484b1f74d1460766b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "defensiveVector",
+      "old_lines": [
+        861,
+        866
+      ],
+      "new_lines": [
+        834,
+        839
+      ],
+      "old_sha256": "d31b25ad366cdaa401c03ba9ef76999740314e655b914b989663668f11462f13",
+      "new_sha256": "d31b25ad366cdaa401c03ba9ef76999740314e655b914b989663668f11462f13",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "buildArchitecture",
+      "old_lines": [
+        868,
+        935
+      ],
+      "new_lines": [
+        841,
+        908
+      ],
+      "old_sha256": "d31be67ce263bd7f5c18f65b70828de39be68aa1401f90f9bf5a4603f67bdc82",
+      "new_sha256": "d31be67ce263bd7f5c18f65b70828de39be68aa1401f90f9bf5a4603f67bdc82",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "applyConstraints",
+      "old_lines": [
+        937,
+        963
+      ],
+      "new_lines": [
+        910,
+        936
+      ],
+      "old_sha256": "7f2411c13babb7a5a12580c2008f19a29e959cd4ed610b79b4eba4c711dbea13",
+      "new_sha256": "7f2411c13babb7a5a12580c2008f19a29e959cd4ed610b79b4eba4c711dbea13",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "indexDocuments",
+      "old_lines": [
+        965,
+        972
+      ],
+      "new_lines": [
+        938,
+        945
+      ],
+      "old_sha256": "25af7a5937e9742fdcd3a99053476fa944dad9cad19f84893fc513507660ece5",
+      "new_sha256": "25af7a5937e9742fdcd3a99053476fa944dad9cad19f84893fc513507660ece5",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "candidateIndexes",
+      "old_lines": [
+        974,
+        998
+      ],
+      "new_lines": [
+        947,
+        971
+      ],
+      "old_sha256": "a9a73dc2ad53f69f00dfbbd95fd754a527dddc62e22df7e26846f1d1d54d2714",
+      "new_sha256": "a9a73dc2ad53f69f00dfbbd95fd754a527dddc62e22df7e26846f1d1d54d2714",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "bm25",
+      "old_lines": [
+        1000,
+        1011
+      ],
+      "new_lines": [
+        973,
+        984
+      ],
+      "old_sha256": "e05d9447d7a9a7f8f7896a5c3b0fd81ceba388243643e787b942667508a7a9d4",
+      "new_sha256": "e05d9447d7a9a7f8f7896a5c3b0fd81ceba388243643e787b942667508a7a9d4",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "tfidfCosine",
+      "old_lines": [
+        1013,
+        1030
+      ],
+      "new_lines": [
+        986,
+        1003
+      ],
+      "old_sha256": "2421fe666f9a19971e743ffe3cc31fa8f9326a98760d1b6edc1d337dcad5d40e",
+      "new_sha256": "2421fe666f9a19971e743ffe3cc31fa8f9326a98760d1b6edc1d337dcad5d40e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "pushEdge",
+      "old_lines": [
+        1032,
+        1039
+      ],
+      "new_lines": [
+        1005,
+        1012
+      ],
+      "old_sha256": "140a45ec477e51d42d0574b64b3c998caa2fd6b37f4d90b3c9139bc2d1bf541f",
+      "new_sha256": "140a45ec477e51d42d0574b64b3c998caa2fd6b37f4d90b3c9139bc2d1bf541f",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "bumpDegree",
+      "old_lines": [
+        1041,
+        1044
+      ],
+      "new_lines": [
+        1014,
+        1017
+      ],
+      "old_sha256": "e8c9a17c2ca85b06ca63c5ffdc20c46afe87af7d6e7d81d2ebc3e8577fab877c",
+      "new_sha256": "e8c9a17c2ca85b06ca63c5ffdc20c46afe87af7d6e7d81d2ebc3e8577fab877c",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "pairKey",
+      "old_lines": [
+        1046,
+        1048
+      ],
+      "new_lines": [
+        1019,
+        1021
+      ],
+      "old_sha256": "0e7ba047bba4003f0ca6ab774f183eef5df5a64f692cc9f045acf78feed65cde",
+      "new_sha256": "0e7ba047bba4003f0ca6ab774f183eef5df5a64f692cc9f045acf78feed65cde",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "cosineSimilarity",
+      "old_lines": [
+        1050,
+        1065
+      ],
+      "new_lines": [
+        1023,
+        1038
+      ],
+      "old_sha256": "cc19e6cf018ca33ee070452e2d867d712a2f5a0da0c4e92e64f58e3784195b52",
+      "new_sha256": "cc19e6cf018ca33ee070452e2d867d712a2f5a0da0c4e92e64f58e3784195b52",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "roundScore",
+      "old_lines": [
+        1067,
+        1070
+      ],
+      "new_lines": [
+        1040,
+        1043
+      ],
+      "old_sha256": "68f77a42a7cf6564ee9f456675cdd1db7a380394df718d00073cd3feaa767664",
+      "new_sha256": "68f77a42a7cf6564ee9f456675cdd1db7a380394df718d00073cd3feaa767664",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "partitionMaturity",
+      "old_lines": [
+        1072,
+        1076
+      ],
+      "new_lines": [
+        1045,
+        1049
+      ],
+      "old_sha256": "ae419abf33ed9ea037dd0d077b9c326687ab5258121738141c1e1e4067ce71a7",
+      "new_sha256": "ae419abf33ed9ea037dd0d077b9c326687ab5258121738141c1e1e4067ce71a7",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "partitionMetrics",
+      "old_lines": [
+        1078,
+        1096
+      ],
+      "new_lines": [
+        1051,
+        1069
+      ],
+      "old_sha256": "ed259afeafb2bbab2b950cf1958f0523dd53f61d0ae2261e618e90e936b15d19",
+      "new_sha256": "ed259afeafb2bbab2b950cf1958f0523dd53f61d0ae2261e618e90e936b15d19",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "embeddingReport",
+      "old_lines": [
+        1109,
+        1137
+      ],
+      "new_lines": [
+        1072,
+        1100
+      ],
+      "old_sha256": "b4f7ae754f49618d86b1870754a0532fafcfa4cc225c23e64945347344c92613",
+      "new_sha256": "b4f7ae754f49618d86b1870754a0532fafcfa4cc225c23e64945347344c92613",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "emptyResult",
+      "old_lines": [
+        1139,
+        1181
+      ],
+      "new_lines": [
+        1102,
+        1144
+      ],
+      "old_sha256": "a8658dd76837c00f0134bf193b355fd9308e5fc4d717bdc1625fbaa3e8e212dc",
+      "new_sha256": "a8658dd76837c00f0134bf193b355fd9308e5fc4d717bdc1625fbaa3e8e212dc",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "canonicalToken",
+      "old_lines": [
+        1183,
+        1186
+      ],
+      "new_lines": [
+        1146,
+        1149
+      ],
+      "old_sha256": "01926c1a6a5caedf66fcee874f6ae051a9695c8882a1ee2403cb0d342d2d25ed",
+      "new_sha256": "01926c1a6a5caedf66fcee874f6ae051a9695c8882a1ee2403cb0d342d2d25ed",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "canonicalRelations",
+      "old_lines": [
+        1200,
+        1231
+      ],
+      "new_lines": [
+        1152,
+        1183
+      ],
+      "old_sha256": "1983c2fe2a8263bed0581410ff07afb3fee7dec630201442954f00ed1969969f",
+      "new_sha256": "1983c2fe2a8263bed0581410ff07afb3fee7dec630201442954f00ed1969969f",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "validateArchitectureExport",
+      "old_lines": [
+        1234,
+        1236
+      ],
+      "new_lines": [
+        1186,
+        1188
+      ],
+      "old_sha256": "6082242e41118d922aa473cd483b0c8bbfd1c7be7ef593898086b7440e1a71b0",
+      "new_sha256": "6082242e41118d922aa473cd483b0c8bbfd1c7be7ef593898086b7440e1a71b0",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "architectureReferencesValid",
+      "old_lines": [
+        1238,
+        1281
+      ],
+      "new_lines": [
+        1190,
+        1233
+      ],
+      "old_sha256": "6a36b7f14eff0f1ea8ff87325d23a2df29f3f83c21515599d4d9aa6caf9cc06a",
+      "new_sha256": "6a36b7f14eff0f1ea8ff87325d23a2df29f3f83c21515599d4d9aa6caf9cc06a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/eventlog.ts",
+      "symbol": "nonempty",
+      "old_lines": [
+        15,
+        15
+      ],
+      "new_lines": [
+        11,
+        11
+      ],
+      "old_sha256": "7c3a9092e83d2b7fd805c9ce64c5338170dca214dd997d89ee22985463463afa",
+      "new_sha256": "7c3a9092e83d2b7fd805c9ce64c5338170dca214dd997d89ee22985463463afa",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/eventlog.ts",
+      "symbol": "integer",
+      "old_lines": [
+        16,
+        16
+      ],
+      "new_lines": [
+        12,
+        12
+      ],
+      "old_sha256": "b3454ffd829be4950a36f0e335e65b9c2f78d27194f346e23bae2413cc5dbea0",
+      "new_sha256": "b3454ffd829be4950a36f0e335e65b9c2f78d27194f346e23bae2413cc5dbea0",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/eventlog.ts",
+      "symbol": "immutableCopy",
+      "old_lines": [
+        19,
+        25
+      ],
+      "new_lines": [
+        15,
+        21
+      ],
+      "old_sha256": "267c79b01146bc0e571b1664673a219c869ba178770f50802db118d58890c3af",
+      "new_sha256": "267c79b01146bc0e571b1664673a219c869ba178770f50802db118d58890c3af",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/eventlog.ts",
+      "symbol": "EventLog",
+      "old_lines": [
+        28,
+        72
+      ],
+      "new_lines": [
+        24,
+        68
+      ],
+      "old_sha256": "32262b7f8cd8e524812ccc7588f15376906bc90079882d25cfb5c1cfc8d4d791",
+      "new_sha256": "32262b7f8cd8e524812ccc7588f15376906bc90079882d25cfb5c1cfc8d4d791",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "unitContentFingerprint",
+      "old_lines": [
+        184,
+        184
+      ],
+      "new_lines": [
+        181,
+        181
+      ],
+      "old_sha256": "12b1bb068f0092308777b92f22482547c3e92acd1fecc56c91437ca979e8ef04",
+      "new_sha256": "12b1bb068f0092308777b92f22482547c3e92acd1fecc56c91437ca979e8ef04",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "freeze",
+      "old_lines": [
+        185,
+        189
+      ],
+      "new_lines": [
+        182,
+        186
+      ],
+      "old_sha256": "e0f5754a03d3ae1a648a67cafdde7317ff9c8016bee1772f32db62977abd822e",
+      "new_sha256": "e0f5754a03d3ae1a648a67cafdde7317ff9c8016bee1772f32db62977abd822e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "canonicalRelationKey",
+      "old_lines": [
+        318,
+        320
+      ],
+      "new_lines": [
+        190,
+        192
+      ],
+      "old_sha256": "80802f9c3f043087bec1caa0f9f7e7d6a8a21ee94d1631daa4e9005dfe690a8a",
+      "new_sha256": "80802f9c3f043087bec1caa0f9f7e7d6a8a21ee94d1631daa4e9005dfe690a8a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "isPlannerCall",
+      "old_lines": [
+        321,
+        323
+      ],
+      "new_lines": [
+        193,
+        195
+      ],
+      "old_sha256": "30e48437b6d2a03aaddc6166288066209156899ede190610da02fe1e2b1c4091",
+      "new_sha256": "30e48437b6d2a03aaddc6166288066209156899ede190610da02fe1e2b1c4091",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "defaultEdgeKind",
+      "old_lines": [
+        324,
+        329
+      ],
+      "new_lines": [
+        196,
+        201
+      ],
+      "old_sha256": "3787ffe41e50a61e51720478cbfb2ba3453c927a0b56d8be1b8ddd24791d47ca",
+      "new_sha256": "3787ffe41e50a61e51720478cbfb2ba3453c927a0b56d8be1b8ddd24791d47ca",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "ownEntry",
+      "old_lines": [
+        330,
+        332
+      ],
+      "new_lines": [
+        202,
+        204
+      ],
+      "old_sha256": "464a313ecd2dca25b1d66e62655a286d4dbf1eb7a64c6f8c14cb060e40720ca3",
+      "new_sha256": "464a313ecd2dca25b1d66e62655a286d4dbf1eb7a64c6f8c14cb060e40720ca3",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "effectiveEdgeKind",
+      "old_lines": [
+        333,
+        338
+      ],
+      "new_lines": [
+        205,
+        210
+      ],
+      "old_sha256": "b470a2cc3a871c1571552e3e5c40eb310d842e5c77e814231cd000a9c6776270",
+      "new_sha256": "b470a2cc3a871c1571552e3e5c40eb310d842e5c77e814231cd000a9c6776270",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "canonicalRelationView",
+      "old_lines": [
+        348,
+        413
+      ],
+      "new_lines": [
+        214,
+        279
+      ],
+      "old_sha256": "4416fd946d0904197c922ebe8605c605d96bfed5a855fdc52d97909c6c8c231a",
+      "new_sha256": "4416fd946d0904197c922ebe8605c605d96bfed5a855fdc52d97909c6c8c231a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "validRequirement",
+      "old_lines": [
+        414,
+        421
+      ],
+      "new_lines": [
+        280,
+        287
+      ],
+      "old_sha256": "82ee230df4a1e6e0e32b3a69d5bb5e0fea296fbfe6fb9bef3ef4042d8d191ea6",
+      "new_sha256": "82ee230df4a1e6e0e32b3a69d5bb5e0fea296fbfe6fb9bef3ef4042d8d191ea6",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "validDispensation",
+      "old_lines": [
+        422,
+        427
+      ],
+      "new_lines": [
+        288,
+        293
+      ],
+      "old_sha256": "90f7765edd3878a2919873810273e61deeb996c2407a83598faaa36a0402a3d9",
+      "new_sha256": "90f7765edd3878a2919873810273e61deeb996c2407a83598faaa36a0402a3d9",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "receiptSatisfies",
+      "old_lines": [
+        428,
+        438
+      ],
+      "new_lines": [
+        294,
+        304
+      ],
+      "old_sha256": "fbbe82d5f3a7d6f5f511b099a910b5638d820e0610611216b2ae82ec04f13257",
+      "new_sha256": "fbbe82d5f3a7d6f5f511b099a910b5638d820e0610611216b2ae82ec04f13257",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "invalidatesReceipt",
+      "old_lines": [
+        439,
+        447
+      ],
+      "new_lines": [
+        305,
+        313
+      ],
+      "old_sha256": "c565bf5c62cfc3911239636d9f3e4d371bd26c850692038a3d80a3d6e13d0f70",
+      "new_sha256": "c565bf5c62cfc3911239636d9f3e4d371bd26c850692038a3d80a3d6e13d0f70",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "pipelineCost",
+      "old_lines": [
+        450,
+        454
+      ],
+      "new_lines": [
+        316,
+        320
+      ],
+      "old_sha256": "2fdc573393459439335e5ac8c367743e6eb9c5c695a672bc09024012f73e41f0",
+      "new_sha256": "2fdc573393459439335e5ac8c367743e6eb9c5c695a672bc09024012f73e41f0",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "planMission",
+      "old_lines": [
+        456,
+        774
+      ],
+      "new_lines": [
+        322,
+        640
+      ],
+      "old_sha256": "69310dd5b2261d3f0ad7c4a698dbccee0075cd14d11198d5db03fc8e0b6c409e",
+      "new_sha256": "69310dd5b2261d3f0ad7c4a698dbccee0075cd14d11198d5db03fc8e0b6c409e",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "evaluateReadiness",
+      "old_lines": [
+        848,
+        851
+      ],
+      "new_lines": [
+        650,
+        653
+      ],
+      "old_sha256": "756d79db51c07f407a5f67ae0f14dcc4b87311fde57d48900a818342705def2a",
+      "new_sha256": "756d79db51c07f407a5f67ae0f14dcc4b87311fde57d48900a818342705def2a",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "coherentDocuments",
+      "old_lines": [
+        852,
+        869
+      ],
+      "new_lines": [
+        654,
+        671
+      ],
+      "old_sha256": "2e1eabf541781e55a498978cbd5163cbbe2c066e80ef51e791faeb92fc2c54a5",
+      "new_sha256": "2e1eabf541781e55a498978cbd5163cbbe2c066e80ef51e791faeb92fc2c54a5",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "receiptIndexKey",
+      "old_lines": [
+        870,
+        870
+      ],
+      "new_lines": [
+        672,
+        672
+      ],
+      "old_sha256": "eab6a6c1d51d686221c4f9fa9d627542c0caa2d5a4a75272a010737a99b8c646",
+      "new_sha256": "eab6a6c1d51d686221c4f9fa9d627542c0caa2d5a4a75272a010737a99b8c646",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "invalidationIndexKey",
+      "old_lines": [
+        871,
+        871
+      ],
+      "new_lines": [
+        673,
+        673
+      ],
+      "old_sha256": "e777f794110a82bb96cba591f6a34b1f93c24c8670e5a4317bc2a7f85b068055",
+      "new_sha256": "e777f794110a82bb96cba591f6a34b1f93c24c8670e5a4317bc2a7f85b068055",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "indexInvalidations",
+      "old_lines": [
+        872,
+        878
+      ],
+      "new_lines": [
+        674,
+        680
+      ],
+      "old_sha256": "340186deb395e2d6ebfcf4c7e9c8a06b052b4f37208ad0d67bec3ead22d1dafc",
+      "new_sha256": "340186deb395e2d6ebfcf4c7e9c8a06b052b4f37208ad0d67bec3ead22d1dafc",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "evaluateReadinessChecked",
+      "old_lines": [
+        879,
+        908
+      ],
+      "new_lines": [
+        681,
+        710
+      ],
+      "old_sha256": "d3dfad31ac56aec82b60aed1e41c4610d81be14d5702c01af5e9d06aa2090dea",
+      "new_sha256": "d3dfad31ac56aec82b60aed1e41c4610d81be14d5702c01af5e9d06aa2090dea",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "readySubIntents",
+      "old_lines": [
+        911,
+        914
+      ],
+      "new_lines": [
+        713,
+        716
+      ],
+      "old_sha256": "ea853bc7a94e794de3280dc87244e70150737209b4171561ce05523926e1a6c1",
+      "new_sha256": "ea853bc7a94e794de3280dc87244e70150737209b4171561ce05523926e1a6c1",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "unitsConflict",
+      "old_lines": [
+        917,
+        925
+      ],
+      "new_lines": [
+        719,
+        727
+      ],
+      "old_sha256": "bb23ae63bf396fa43a7d93f965a91c2f2113148925b898461ec9e4b2d65cf54d",
+      "new_sha256": "bb23ae63bf396fa43a7d93f965a91c2f2113148925b898461ec9e4b2d65cf54d",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "rankUnits",
+      "old_lines": [
+        934,
+        968
+      ],
+      "new_lines": [
+        736,
+        770
+      ],
+      "old_sha256": "e9af52eeb8154a7bb7a7453d5f84da21ea39638d9cd1c82d147651eeebdf6cc4",
+      "new_sha256": "e9af52eeb8154a7bb7a7453d5f84da21ea39638d9cd1c82d147651eeebdf6cc4",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "selectCompatible",
+      "old_lines": [
+        979,
+        1013
+      ],
+      "new_lines": [
+        781,
+        815
+      ],
+      "old_sha256": "af326930d48e394967a90296080e709bc0758c59d0ede12f6633c661276bc58b",
+      "new_sha256": "af326930d48e394967a90296080e709bc0758c59d0ede12f6633c661276bc58b",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "selectReadyUnits",
+      "old_lines": [
+        1016,
+        1029
+      ],
+      "new_lines": [
+        818,
+        831
+      ],
+      "old_sha256": "2d7a46c00ad0263b44f68ce53013425f94c4cdaca0ece2edcaef1284c14797b8",
+      "new_sha256": "2d7a46c00ad0263b44f68ce53013425f94c4cdaca0ece2edcaef1284c14797b8",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/planner.ts",
+      "symbol": "compareGranularities",
+      "old_lines": [
+        1032,
+        1047
+      ],
+      "new_lines": [
+        834,
+        849
+      ],
+      "old_sha256": "a57b89f0a5d2b3d43c2ac7e0b719db76fc723895bc29977cc8ab45712c9c1fb6",
+      "new_sha256": "a57b89f0a5d2b3d43c2ac7e0b719db76fc723895bc29977cc8ab45712c9c1fb6",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/semantic-index.ts",
+      "symbol": "LOCAL_PROPOSALS",
+      "old_lines": [
+        46,
+        46
+      ],
+      "new_lines": [
+        45,
+        45
+      ],
+      "old_sha256": "58121d0a655eb8adf0afb67faf4fbb2ebc87763e41cb6e110f670cb62f5f66fd",
+      "new_sha256": "58121d0a655eb8adf0afb67faf4fbb2ebc87763e41cb6e110f670cb62f5f66fd",
+      "text_unchanged": true
+    },
+    {
+      "file": "src/lineage.ts",
+      "symbol": "DELTA_SCHEMA",
+      "old_lines": [
+        16,
+        16
+      ],
+      "new_lines": [
+        20,
+        20
+      ],
+      "old_sha256": "99416367b53fd1a2add376eec964eb87531fa10e7674d4e59805e8607473cece",
+      "new_sha256": "99416367b53fd1a2add376eec964eb87531fa10e7674d4e59805e8607473cece",
+      "text_unchanged": true
+    }
+  ],
+  "schema_resolution_deltas": [
+    {
+      "symbol": "validateGraphDocument",
+      "source": "graph-store.ts:204-214",
+      "change": "Same legacy validateSchema; replace filesystem JSON.parse expression with GRAPH_DOCUMENT_SCHEMAS[kind] table of the same five actual schema imports."
+    },
+    {
+      "symbol": "parsePreparedGraph",
+      "source": "graph-pipeline.ts:169-187",
+      "change": "Replace investigation-group schema filesystem JSON.parse expression with its actual static JSON import."
+    },
+    {
+      "symbol": "PARTITION_SCHEMA",
+      "source": "lineage.ts:17",
+      "change": "Replace filesystem-loaded schema const with actual static JSON import; historical call sites import the same binding."
+    },
+    {
+      "change": "Missing/invalid schema resolution timing and loader errors differ; imported schema objects are loader-shared rather than freshly parsed per call. No schema mutation/freezing is added. Not claimed byte-identical. Historical DELTA_SCHEMA and attestation filesystem reads remain outside the pure closure."
+    }
+  ],
+  "static_import_graph": {
+    "graph-pure-codecs": [
+      {
+        "line": 2,
+        "module": "node:util",
+        "value_bindings": [
+          "types as utilTypes"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 3,
+        "module": "./graph",
+        "value_bindings": [
+          "assertSnapshotContract",
+          "validateStaticJsonSchema"
+        ],
+        "type_bindings": [
+          "GraphSnapshotV1",
+          "StaticJsonSchema"
+        ]
+      },
+      {
+        "line": 4,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "fingerprint",
+          "validateKnowledge",
+          "normalizeEA",
+          "validateSHA"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 5,
+        "module": "./re-policy",
+        "value_bindings": [
+          "validateREPolicy"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 6,
+        "module": "./graph-persistence-errors",
+        "value_bindings": [
+          "invariant"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 7,
+        "module": "./domain",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ GraphAdmissionSource, GraphExecutionTemplate, GraphInputSource, PreparedGraph }"
+        ]
+      },
+      {
+        "line": 8,
+        "module": "./cluster",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ ClusterPartition }"
+        ]
+      },
+      {
+        "line": 9,
+        "module": "./investigation-groups",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ InvestigationGroup }"
+        ]
+      },
+      {
+        "line": 10,
+        "module": "./graph-store",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ KnowledgeCommit }"
+        ]
+      },
+      {
+        "line": 11,
+        "module": "./planner",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ PlannerResult, MissionPlan, PlannerSidecar, AdmissionBudgetContextV1, PlannerPolicy, AdmissionBudgetInputV1, PlannerGraphInput, AdmissionUnitBudget, UnknownableInteger, WorkUnit }"
+        ]
+      },
+      {
+        "line": 12,
+        "module": "../schemas/graph-snapshot-v1.schema.json",
+        "value_bindings": [
+          "graphSnapshotSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 13,
+        "module": "../schemas/cluster-partition-v1.schema.json",
+        "value_bindings": [
+          "clusterPartitionSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 14,
+        "module": "../schemas/work-unit-v1.schema.json",
+        "value_bindings": [
+          "workUnitSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 15,
+        "module": "../schemas/knowledge-commit-v1.schema.json",
+        "value_bindings": [
+          "knowledgeCommitSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 16,
+        "module": "../schemas/mission-plan-v1.schema.json",
+        "value_bindings": [
+          "missionPlanSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 17,
+        "module": "../schemas/investigation-group-v1.schema.json",
+        "value_bindings": [
+          "investigationGroupSchema"
+        ],
+        "type_bindings": []
+      }
+    ],
+    "lineage-pure-codecs": [
+      {
+        "line": 2,
+        "module": "node:util",
+        "value_bindings": [
+          "isDeepStrictEqual"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 3,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "hash"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 4,
+        "module": "./semantic-config-codec",
+        "value_bindings": [
+          "configFingerprint",
+          "validConfig",
+          "provenanceReady"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 5,
+        "module": "../schemas/cluster-partition-v1.schema.json",
+        "value_bindings": [
+          "PARTITION_SCHEMA"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 6,
+        "module": "./semantic-index",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ GraphSnapshotView }"
+        ]
+      },
+      {
+        "line": 7,
+        "module": "./lineage",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ ClusterPartitionView, CommunityView, UnknownableInteger, Diagnostic, LineageAssignment, ProposalEvidence, LineageCounters, PartitionComparison }"
+        ]
+      }
+    ],
+    "semantic-config-codec": [
+      {
+        "line": 2,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "hash"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 3,
+        "module": "./semantic-index",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ MultiviewConfig, FrozenEncoder, ProvenanceView, MultiviewViews }"
+        ]
+      }
+    ],
+    "graph-persistence-errors": [
+      {
+        "line": 2,
+        "module": "./eventlog",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ ErrorClass }"
+        ]
+      }
+    ],
+    "graph-transport": [
+      {
+        "line": 3,
+        "module": "../schemas/l8-prepared-graph-v3.schema.json",
+        "value_bindings": [
+          "preparedGraphSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 4,
+        "module": "../schemas/l8-partition-adoption-v1.schema.json",
+        "value_bindings": [
+          "partitionAdoptionSchema"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 5,
+        "module": "./graph",
+        "value_bindings": [
+          "validateStaticJsonSchema"
+        ],
+        "type_bindings": [
+          "StaticJsonSchema"
+        ]
+      },
+      {
+        "line": 6,
+        "module": "./lineage-pure-codecs",
+        "value_bindings": [
+          "communityContentId",
+          "inspectProposalEvidence"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 7,
+        "module": "./lineage",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ ClusterPartitionView, FrozenActiveUnit, ProposalEvidence, UnitQuiescenceProof }"
+        ]
+      },
+      {
+        "line": 8,
+        "module": "./investigation-groups",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ InvestigationGroup }"
+        ]
+      },
+      {
+        "line": 9,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "hash"
+        ],
+        "type_bindings": []
+      }
+    ],
+    "graph": [
+      {
+        "line": 5,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "compareText",
+          "hash"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 6,
+        "module": "../schemas/graph-snapshot-v1.schema.json",
+        "value_bindings": [
+          "graphSnapshotSchema"
+        ],
+        "type_bindings": []
+      }
+    ],
+    "validation": [
+      {
+        "line": 1,
+        "module": "node:path",
+        "value_bindings": [
+          "posix",
+          "win32"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 2,
+        "module": "./re-policy",
+        "value_bindings": [
+          "validateREPolicy"
+        ],
+        "type_bindings": []
+      },
+      {
+        "line": 3,
+        "module": "./domain",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ AdmissionRetryPolicy, ArtifactFile, Assessment, BinaryIdentity, Candidate, Evidence, FailureCause, FixtureSeeds, FrozenKnowledge, FunctionIdentity, Intent, MissionConfig, Inspection, ModelRef, Proposition, PublicationGateFacts, ReconciliationConclusion, ResultHeader, ValidatedFactMetadata, WorkerResult }"
+        ]
+      }
+    ],
+    "re-policy": [
+      {
+        "line": 1,
+        "module": "./domain",
+        "value_bindings": [],
+        "type_bindings": [
+          "{ FunctionIdentity, Intent, Role }"
+        ]
+      },
+      {
+        "line": 2,
+        "module": "./validation",
+        "value_bindings": [
+          "canonical",
+          "hash",
+          "identityKey",
+          "validateIdentity"
+        ],
+        "type_bindings": []
+      }
+    ]
+  },
+  "limits": {
+    "extraction": "Static source text and hashes only; no product imports or execution.",
+    "runtime_error_identity": "Single class/function definition plus eventlog reexport; runtime ===/instanceof gate not executed by author.",
+    "not_run": [
+      "compile",
+      "typecheck",
+      "tests",
+      "validator",
+      "product import",
+      "runtime identity check",
+      "DB",
+      "shell/OS command",
+      "git",
+      "network",
+      "IDA",
+      "live"
+    ],
+    "runtime_layout": "Relative imports are for parent integration into the original source/schema layout; outputs alone is not a runnable package.",
+    "required_parent_gates": [
+      "fresh independent composed R2 delta V source+QA",
+      "independent disjoint QA correction and parent review",
+      "serialized integration and pins",
+      "typecheck",
+      "focused compatibility and import-closure gates",
+      "transport32/compat107 as applicable",
+      "repin before explicit GO S1"
+    ],
+    "not_acceptance": true
+  },
+  "r1_mapping_counts": {
+    "export_modifier_only": 33,
+    "schema_binding_fs_to_static_json_import": 1,
+    "schema_resolution_substitution": 2,
+    "unchanged": 57
+  },
+  "preserved_definition_count": 112,
+  "r1_mapping_sha256": "7fc67dbd1313ebf60aaf828e118814b484f55dfd9d0ce807ef42985d12068022"
+}

@@ -1,0 +1,25 @@
+0045EA50: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045EA56: fstp    [esp+8+var_8]; Store Real and Pop
+0045EA5A: mov     ecx, dword ptr [esp+8+var_8]
+0045EA5E: lea     eax, [ecx+80000000h]; Load Effective Address
+0045EA64: movsx   ecx, word ptr dword_1CA8A3C; Move with Sign-Extend
+0045EA6B: mov     dword ptr [esp+8+var_8], ecx
+0045EA6F: mov     dword_1CA8A78, eax
+0045EA74: fild    dword ptr [esp+8+var_8]; Load Integer
+0045EA78: fmul    st, st(1); Multiply Real
+0045EA7A: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045EA80: fstp    [esp+8+var_8]; Store Real and Pop
+0045EA84: mov     ecx, dword ptr [esp+8+var_8]
+0045EA88: add     ecx, 80000000h; Add
+0045EA8E: cmp     edx, 0FFFF8000h; Compare Two Operands
+0045EA94: fstp    st; Store Real and Pop
+0045EA96: mov     dword_1CA8A7C, ecx
+0045EA9C: jge     short loc_45EAB4; Jump if Greater or Equal (SF=OF)
+0045EA9E: mov     dword_1CA92F8, 81000000h
+0045EAA8: mov     dword_1CA8A34, 0FFFF8000h
+0045EAB2: jmp     short loc_45EAD8; Jump
+0045EAB4: cmp     edx, 7FFFh; Compare Two Operands
+0045EABA: jle     short loc_45EAD2; Jump if Less or Equal (ZF=1 | SF!=OF)
+0045EABC: mov     dword_1CA92F8, 81000000h
+0045EAC6: mov     dword_1CA8A34, 7FFFh
+0045EAD0: jmp     short loc_45EAD8; Jump

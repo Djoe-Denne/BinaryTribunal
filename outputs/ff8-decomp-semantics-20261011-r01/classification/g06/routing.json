@@ -1,0 +1,47 @@
+{
+  "status": "DISPATCH_READY",
+  "group": "g06",
+  "policy": "CONTRACT.md conservative v1; consultative uncalibrated scores",
+  "source": "discover-g06",
+  "inherited_source_session": "ses_ed420c679ffe1XWpDoRBdakgMq",
+  "author_context": {"mode": "fork", "from": "discover-g06", "independent_sessions": true, "never_from_classifier": true},
+  "checkpoint_required": false,
+  "source_report_candidate_preview_flags": [],
+  "factual_hashes": {
+    "inputs/ff8-decomp-semantics-20261011-r01/g06/0x464850.json": "72f5e85aeda3168bd1cd97ff40d4407399a0fbbdd3d5589f58031f5fc9e7b087",
+    "inputs/ff8-decomp-semantics-20261011-r01/g06/common-compaction.md": "ded4edb4b1c6b48f28524bd123684cad1cf7bbc1743739420aa39f22a47309dc",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g06.source.native.json": "bdd7ccfd64f500bba1dcbf48f6a3422b16f069ac334cc3f05b1a44a3beb2d86a",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/catalogue.snapshot.json": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"
+  },
+  "functions": [{
+    "ea": "0x464850",
+    "status": "DISPATCH_READY",
+    "pe_verified": true,
+    "native_instructions": 119,
+    "native_basic_blocks": 20,
+    "payload_assembly_characters": 12343,
+    "classifier_kind": "classify_x86",
+    "classifier_tool": "tools.classify_x86",
+    "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g06/0x464850.request.json",
+    "request_sha256": "41f6a7e12885b928a9ed97e5ea990a4a7798771f384509330769bd24c6b94ee5",
+    "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g06/0x464850.response.json",
+    "response_sha256": "bf898ce0e2cfdd6be425e90552701112f9e128f467332e54e5612b2488b106c2",
+    "scores": {"complexity": 72, "uncertainty": 41, "risk_policy_input": 41, "uncertainty_cause": "external_calls"},
+    "route": "complex",
+    "rationale": ["Complexity 72 exceeds medium ceiling 65; 119 instructions also excludes simple.", "Existing factual compaction preserves coordinate-naming contradiction and unresolved callee-role differences; no independent semantic inference added.", "Apply complex C Astra/Opus high and independent Sol high semantic productions; each volet reconciles only after both A and B are deposited."],
+    "productions": [
+      {"volet": "C", "role": "A", "model": "openai/gpt-6-astra", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/c_a.md", "depends_on": []},
+      {"volet": "C", "role": "B", "model": "opencode/claude-opus-5-5", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/c_b.md", "depends_on": []},
+      {"volet": "C", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/c_r.md", "depends_on": ["C:A", "C:B"], "dispatch_now": false},
+      {"volet": "semantic", "role": "A", "model": "openai/gpt-6.1-sol", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/semantic_a.md", "depends_on": []},
+      {"volet": "semantic", "role": "B", "model": "openai/gpt-6.1-sol", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/semantic_b.md", "depends_on": []},
+      {"volet": "semantic", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "source": "discover-g06", "output": "outputs/ff8-decomp-semantics-20261011-r01/g06/0x464850/semantic_r.md", "depends_on": ["semantic:A", "semantic:B"], "dispatch_now": false}
+    ],
+    "admission_gates": ["Lead creates all independent source forks and verifies effective Model.Ref before production.", "R is fresh and distinct; supplied A+B only after deposit; compare against full native ASM.", "Parent owns final cross-volet ASM validation and canonical ledger/IDB integration."]
+  }],
+  "blocked_eas": [],
+  "quarantined_eas": [],
+  "classifier_calls": 1,
+  "producer_sessions_created": 0
+}

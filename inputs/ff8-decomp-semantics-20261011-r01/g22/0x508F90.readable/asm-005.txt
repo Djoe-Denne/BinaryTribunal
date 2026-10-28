@@ -1,0 +1,25 @@
+005090A3: cdq; EAX -> EDX:EAX (with sign)
+005090A4: sub     eax, edx; Integer Subtraction
+005090A6: add     esp, 0Ch; Add
+005090A9: sar     eax, 1; Shift Arithmetic Right
+005090AB: add     [ebx+2], ax; Add
+005090AF: xor     eax, eax; Logical Exclusive OR
+005090B1: mov     al, [edi]
+005090B3: inc     ebp; Increment by 1
+005090B4: add     ebx, 30h ; '0'; Add
+005090B7: cmp     ebp, eax; Compare Two Operands
+005090B9: jl      short loc_509077; Jump if Less (SF!=OF)
+005090BB: jmp     loc_509205; Jump
+005090C0: mov     al, [edi]
+005090C2: xor     ebp, ebp; Logical Exclusive OR
+005090C4: test    al, al; Logical Compare
+005090C6: jbe     loc_509209; Jump if Below or Equal (CF=1 | ZF=1)
+005090CC: lea     ebx, [edi+16h]; Load Effective Address
+005090CF: push    esi
+005090D0: call    Battle__ReadRotationType; Call Procedure
+005090D5: movsx   eax, ax; Move with Sign-Extend
+005090D8: cdq; EAX -> EDX:EAX (with sign)
+005090D9: sub     eax, edx; Integer Subtraction
+005090DB: push    esi
+005090DC: sar     eax, 1; Shift Arithmetic Right
+005090DE: add     [ebx-2], ax; Add

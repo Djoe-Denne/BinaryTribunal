@@ -1,0 +1,25 @@
+0045E670: sub     esp, 8; Integer Subtraction
+0045E673: movsx   eax, word ptr dword_1CA8A34; Move with Sign-Extend
+0045E67A: movsx   ecx, word ptr dword_1CA8A38; Move with Sign-Extend
+0045E681: movsx   edx, word ptr dword_1CA8A3C; Move with Sign-Extend
+0045E688: shl     eax, 0Ch; Shift Logical Left
+0045E68B: mov     dword ptr [esp+8+var_8], eax
+0045E68F: mov     dword_1CA92F8, 0
+0045E699: fild    dword ptr [esp+8+var_8]; Load Integer
+0045E69D: shl     ecx, 0Ch; Shift Logical Left
+0045E6A0: mov     dword ptr [esp+8+var_8], ecx
+0045E6A4: fild    dword ptr [esp+8+var_8]; Load Integer
+0045E6A8: shl     edx, 0Ch; Shift Logical Left
+0045E6AB: mov     dword ptr [esp+8+var_8], edx
+0045E6AF: fild    dword ptr [esp+8+var_8]; Load Integer
+0045E6B3: fld     Cam_xyz2_y_float; Load Real
+0045E6B9: fmul    st, st(1); Multiply Real
+0045E6BB: fld     Cam_xyz3_z_float; Load Real
+0045E6C1: fmul    st, st(3); Multiply Real
+0045E6C3: fsubp   st(1), st; Subtract Real and Pop
+0045E6C5: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045E6CB: fstp    [esp+8+var_8]; Store Real and Pop
+0045E6CF: fld     Cam_xyz3_z_float; Load Real
+0045E6D5: fmul    st, st(3); Multiply Real
+0045E6D7: fld     Cam_xyz1_x_float; Load Real
+0045E6DD: fmul    st, st(2); Multiply Real

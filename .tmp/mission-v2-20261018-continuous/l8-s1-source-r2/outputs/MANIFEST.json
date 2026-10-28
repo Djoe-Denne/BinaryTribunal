@@ -1,0 +1,126 @@
+{
+  "version": "l8-s1-isolated-source-manifest-v1",
+  "status": "PROPOSED_SOURCE_R2",
+  "sourceRevision": "R2",
+  "owner": "l8-s1-source-author-r1",
+  "taskId": "task_mvdy6khz_000q_0ee18w",
+  "date": "2026-10-19",
+  "nonblind": "ratified contracts, qualified source references and frozen own prior artifacts only; no other-worker QA/output or origins",
+  "inputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "bytes": 19838,
+    "sha256": "ca7bbd2f4fa7b4492078fbeb405c3de42d7c6558313717be710f856e0e3e04f9",
+    "pinCount": 69,
+    "totalPinnedBytes": 1530459,
+    "allPinsByteAndSha256CheckedBeforeWriting": true
+  },
+  "codeGo": {
+    "path": "../../L8_S1_SOURCE_R2_CONTINUATION_GO_20261019.md",
+    "bytes": 3152,
+    "sha256": "256b737eb4a261eebfd2f8ee470ff418e78d551290a8b370ff4d048a54119387",
+    "byteIdenticalInputPin": "SCOPE.md"
+  },
+  "artifacts": [
+    { "path": "src/graph-execution-envelope.ts", "bytes": 76793, "sha256": "cf5db0580592a7ecfa7a6ec07fa8d92e2110147164d2ffa20191e1e13b20dc93" },
+    { "path": "src/graph-b-projection.ts", "bytes": 23529, "sha256": "9eff6beff94b72a6777dcd9655eb64b87b7e5a92fd08e2c0d579f07005ac5d8c" },
+    { "path": "src/graph-execution-prepare.ts", "bytes": 2717, "sha256": "28c9cfceecaf22d19a03a0e76321c67c237e88e52c571e62ae09dd2941c16b12" },
+    { "path": "schemas/l8-execution-envelope-v1.schema.json", "bytes": 29582, "sha256": "3f541a03b84dba35788680c316fc4f2aa539467cfd06506d5b2512738d48e316" },
+    { "path": "schemas/l8-graph-run-v3.schema.json", "bytes": 3115, "sha256": "a566ed5857b4725c600c506141f14cbd82ee83a78e09e1951cbfceacfd1ec16b" },
+    { "path": "DESIGN.md", "bytes": 24463, "sha256": "7a166f3f5d28413b95449fe4ebec9a5b1f24c70319eb1df094f6c4f0dd3d1c5b" }
+  ],
+  "artifactBytesExcludingManifest": 160199,
+  "selfHash": "excluded to avoid a hash cycle; raw manifest digest is returned in the native final receipt",
+  "dependencyPinResolution": "Every inputPin below resolves by exact path to the size/SHA256 entry in the raw-hash-pinned inputManifest, not to a mutable main/origin file.",
+  "runtimePureDependencyPins": [
+    "reference/src/graph.ts",
+    "reference/src/graph-transport.ts",
+    "reference/src/graph-pure-codecs.ts",
+    "reference/src/planner-relation-codecs.ts",
+    "reference/src/lineage-pure-codecs.ts",
+    "reference/src/semantic-config-codec.ts",
+    "reference/src/graph-persistence-errors.ts",
+    "reference/src/validation.ts",
+    "reference/src/re-policy.ts",
+    "reference/schemas/graph-snapshot-v1.schema.json",
+    "reference/schemas/cluster-partition-v1.schema.json",
+    "reference/schemas/investigation-group-v1.schema.json",
+    "reference/schemas/knowledge-commit-v1.schema.json",
+    "reference/schemas/mission-plan-v1.schema.json",
+    "reference/schemas/work-unit-v1.schema.json",
+    "reference/schemas/l8-prepared-graph-v3.schema.json",
+    "reference/schemas/l8-partition-adoption-v1.schema.json"
+  ],
+  "producerPreparationOnlyPins": ["reference/src/planner.ts", "reference/src/scc.ts"],
+  "directTypeOnlyDependencyPins": [
+    "reference/src/domain.ts", "reference/src/planner.ts", "reference/src/investigation-groups.ts",
+    "reference/src/graph-store.ts", "reference/src/lineage.ts", "reference/src/semantic-index.ts"
+  ],
+  "configurationPins": ["reference/package.json", "reference/tsconfig.json"],
+  "externalRuntime": ["node:util", "Bun.CryptoHasher via the pinned validation module", "standard ECMAScript/Web UTF-8 APIs"],
+  "authority": "none; neither JSON nor hashes, record labels, local objects or callbacks grant HOST/LOCAL/quiescence/activation",
+  "blocker": null,
+  "resolvedPriorBlocker": {
+    "code": "PLANNING_SOURCE_RELATION_CODEC_UNAVAILABLE",
+    "qualifiedReference": "reference/src/planner-relation-codecs.ts:31-96 canonicalRelationView",
+    "bytes": 8164,
+    "sha256": "afe9d66d3db8c457385f83fbe306075a935349ef49e993210e8b6aad7794bd50",
+    "parentFreshReviewReceipt": "result_mvf11kgx_0020_5z7jre",
+    "qualificationAppliesTo": "the supplied offline dependency extraction, not this S1 source proposal"
+  },
+  "qualifiedPlannerProducerPin": {
+    "inputPin": "reference/src/planner.ts",
+    "bytes": 60760,
+    "sha256": "fd90abe4bf8583d613beef41988d5a63323afdc5083d33ed04659f86cb203b99",
+    "s1ValueImporter": "src/graph-execution-prepare.ts only"
+  },
+  "boundedDelta": {
+    "sourcePath": "src/graph-execution-envelope.ts",
+    "valueImport": "canonicalRelationView from ./planner-relation-codecs; no producer import",
+    "typeOnlyImportAdded": "PlannerGraphInput; readonly typing detached only, not a regime/source cast",
+    "checkPlacement": "after bindExecutionPreparationV1/full-source projection and validatePlanningBindingV1, before publishing BoundExecutionV1",
+    "comparison": "upstream canonical of the complete canonicalRelationView(prepared.projection.graph, planning.sidecar.policy).relationView versus planning.sidecar.relationView",
+    "coverage": ["metadata", "sourceEdgeIds", "sites", "observations", "sitesBySourceEdgeId"],
+    "mismatch": "reject with planning relation view differs from full snapshot records/sites/observations",
+    "codecConflicts": "propagate through the existing failure result, no permissive catch or fallback",
+    "priorGuardRemoved": true,
+    "plannerSourcePinUpdated": true,
+    "noPlannerOrSccRecomputeAtLoad": true,
+    "coreCopied": false,
+    "publicApiChanged": false,
+    "publicExportDeclarationLinesByteEqualToPrior": true
+  },
+  "priorOwnManifest": {
+    "inputPin": "prior/MANIFEST.json",
+    "bytes": 4966,
+    "sha256": "09d23539d2d9372c60c3d7d0d60f594b8089698cab9c0829a643b95f151eea06",
+    "priorOutputsAndFrozenInputsModified": false
+  },
+  "byteIdenticalToFrozenPrior": [
+    "src/graph-b-projection.ts", "src/graph-execution-prepare.ts",
+    "schemas/l8-execution-envelope-v1.schema.json", "schemas/l8-graph-run-v3.schema.json"
+  ],
+  "inputBookends": {
+    "beforeRawManifestSha256": "ca7bbd2f4fa7b4492078fbeb405c3de42d7c6558313717be710f856e0e3e04f9",
+    "afterSourceDocsRawManifestSha256": "ca7bbd2f4fa7b4492078fbeb405c3de42d7c6558313717be710f856e0e3e04f9",
+    "pinsCheckedEachTime": 69,
+    "totalPinnedBytesEachTime": 1530459,
+    "mismatchesEachTime": []
+  },
+  "operationNotes": {
+    "initialPatchEperm": "copying frozen prior artifacts inherited read-only attributes; only the seven newly owned output copies were made writable, then patch succeeded",
+    "staticHashScriptSyntaxError": "one regular-expression literal was rejected before execution; corrected to literal string matching and rerun successfully",
+    "productCodeOrValidatorExecutedByTheseOperations": false
+  },
+  "workerProductChecks": {
+    "compiled": false, "typechecked": false, "tested": false,
+    "validatorsExecuted": false, "productImportedOrExecuted": false,
+    "sharedSourcesModified": false, "gitOrRegistryOrDbOrIdaOrLiveActions": false,
+    "otherWorkerQaRead": false
+  },
+  "admission": "none; dependency qualification is parent-reported and does not qualify this draft",
+  "nextGates": [
+    "source-disjoint independent QA from exact API design and qualified references",
+    "fresh composed V",
+    "parent-only integration, typecheck/tests and readback"
+  ]
+}

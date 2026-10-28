@@ -1,0 +1,25 @@
+004954B0: push    ebp; BuildMagicJunctionList(slot): 32x stride5 F_CHAR_DATA+slot*464+134; flag=0; +1 si K_MAGIC.attackFlags&0x80; +4 si sub_47EEB0(slot,id); cache defaultTarget/unknown1; ret=dernier unknown1 (leftover)
+004954B1: push    esi
+004954B2: push    edi
+004954B3: mov     edi, [esp+0Ch+p_attacker_slot_id]
+004954B7: mov     ebp, 20h ; ' '
+004954BC: lea     eax, ds:0[edi*8]; Load Effective Address
+004954C3: sub     eax, edi; Integer Subtraction
+004954C5: lea     eax, [edi+eax*4]; Load Effective Address
+004954C8: shl     eax, 4; Shift Logical Left
+004954CB: add     eax, offset F_CHAR_DATA; By address:
+004954D0: lea     esi, [eax+86h]; Load Effective Address
+004954D6: xor     ecx, ecx; Logical Exclusive OR
+004954D8: mov     byte ptr [esi], 0
+004954DB: mov     cl, [esi-4]
+004954DE: imul    ecx, 3Ch ; '<'; Signed Multiply
+004954E1: test    K_MAGIC.attackFlags[ecx], 80h; Logical Compare
+004954E8: jz      short loc_4954ED; Jump if Zero (ZF=1)
+004954EA: mov     byte ptr [esi], 1
+004954ED: xor     edx, edx; Logical Exclusive OR
+004954EF: mov     dl, [esi-4]
+004954F2: push    edx; magic_id
+004954F3: push    edi; p_attacker_slot_id
+004954F4: call    sub_47EEB0; JunctionHP check (slot,id) -> bit2
+004954F9: add     esp, 8; Add
+004954FC: test    eax, eax; Logical Compare

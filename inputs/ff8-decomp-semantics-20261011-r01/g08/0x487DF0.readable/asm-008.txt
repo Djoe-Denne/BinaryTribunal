@@ -1,0 +1,25 @@
+0048806C: call    domain__BattleSlot_AddMonsterToRAM; Call Procedure
+00488071: mov     al, byte ptr [esp+80h+p_ai_current_subcode]
+00488078: mov     cl, byte ptr [esp+80h+encounter_slot_to_enable]
+0048807C: push    offset domain__SceneOut_InitEnemySlot; a3
+00488081: push    80h; a2
+00488086: push    71h ; 'q'; G14: AI 0x3B SPAWN_TO_SLOT enqueue 0x71 + SceneOut_InitEnemySlot.
+00488088: mov     byte ptr ATTACKER_SLOT_ID_0+3, al
+0048808D: mov     byte ptr TARGET_SLOT_ID, cl
+00488093: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00488098: mov     al, byte ptr [esp+8Ch+p_ai_current_subcode]
+0048809F: add     esp, 18h; Add
+004880A2: jmp     loc_48813E; 0x3B shares 0x1F enter-anim tail via jmp (relay 0x71 + SetTargetable + SetPhaseFlag 6)
+004880A7: mov     dl, [esi]; AI VM op 0x1F ENTER_MONSTER: spawn id(1) into first free enemy slot 3..7; relay 0x71 init+enter-anim
+004880A9: inc     esi; Increment by 1
+004880AA: mov     [esp+74h+op_param_2], dl
+004880AE: mov     eax, dword ptr [esp+74h+op_param_2]
+004880B2: and     eax, edi; Logical AND
+004880B4: mov     [esp+74h+encounter_slot_to_enable], eax
+004880B8: mov     AI_BATTLE_ACTIVE_FLAG, 0
+004880BF: mov     byte ptr ATTACKER_SLOT_ID_0+1, 1
+004880C6: mov     byte ptr TARGET_SLOT_ID+1, 1
+004880CD: mov     ecx, 3
+004880D2: mov     eax, (offset BATTLE_SLOT_DATA.flag_data+270h)
+004880D7: test    byte ptr [eax], 1; Logical Compare
+004880DA: jz      loc_48816F; Jump if Zero (ZF=1)

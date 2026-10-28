@@ -1,0 +1,18 @@
+0051581F: div     ecx; Unsigned Divide
+00515821: add     edx, 5Ah ; 'Z'; Add
+00515824: mov     dword_1D9B0E0, edx
+0051582A: add     edx, 0FFFFFFC4h; Add
+0051582D: mov     dword_1D9B0DC, edx
+00515833: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().
+00515838: xor     edx, edx; Logical Exclusive OR
+0051583A: mov     ecx, 300h
+0051583F: div     ecx; Unsigned Divide
+00515841: add     edx, 100h; Add
+00515847: mov     dword_1D9B0FC, edx
+0051584D: call    _rand; Call Procedure
+00515852: cmp     eax, 4000h; Compare Two Operands
+00515857: jge     short locret_515867; Jump if Greater or Equal (SF=OF)
+00515859: mov     edx, dword_1D9B0FC
+0051585F: neg     edx; Two's Complement Negation
+00515861: mov     dword_1D9B0FC, edx
+00515867: retn; Return Near from Procedure

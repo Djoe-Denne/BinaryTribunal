@@ -1,0 +1,162 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION — g05 — factual discovery only. All paths below are absolute (P = C:/Users/djden/source/repos/retro-eng/re-ff8/; D = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/). Expanding P/D gives the exact absolute cited source. No files/IDB/Git/ledger/live changed. Preserve this session/native history for independent producer forks; this is not a production/reconciliation. Contract P+docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md:14–21 requires common frozen compaction, complete native ASM and independent producer forks; supervisor owns validation/writes (:11).\n; \n; 1. FROZEN NATIVE INVENTORY (primary, not names/comments)\n; P+docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:2–9 identifies 32-bit FF8_EN.exe, IDB D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64, export 2026-10-11T16:38:25.140966+00:00, input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570. :41–46 assigns exactly these three EA to g05. Native source paths and immutable raw-file SHA256:\n; • P+.tmp/ff8-decomp-semantics-20261011-r01/native/0x463FC0.json — d50c7dd68e7420c7cf455a100d15735f8e6a6d5fd522533cbbb6283994602291. :11–16 chunk [463FC0,464156), :18 complete assembly string, :19–173 CFG (21 blocks), :174–181 caller 4650B7 in 464F70, :182–185 direct targets 4188E2/467160, :186 count126.\n; • P+.tmp/ff8-decomp-semantics-20261011-r01/native/0x464DB0.json — 9c59075630146d8ae274a6bcb36ffc91b884316984555a9375ec86eba9ab5c9d. :11–16 chunk [464DB0,464F6F), :18 ASM, :19–91 CFG (10 blocks), :92–105 callers 464CCC in464BD0 and465FAF in465CE0, :106–114 direct targets 40702F/40A04A/416D82/417FA6/464160/467160/4677D0, :115 count147.\n; • P+.tmp/ff8-decomp-semantics-20261011-r01/native/0x465720.json — 4f055220bd66ceff5b00a7cd6b762d11f76afbdeda4d268e15cf0a338b66bb84. :11–16 chunk [465720,465925), :18 ASM, :19–173 CFG (21 blocks), :174–181 caller464C7F in464BD0, :182–188 direct targets40A04A/417FA6/4203B2/420476/4677D0, :189 count174. Direct-target lists exclude indirect vtable calls; group membership does not establish business equivalence.\n; \n; 2. IMPORTANT NATIVE UNCERTAINTY — 465720\n; P+.tmp/ff8-decomp-semantics-20261011-r01/native/0x465720.json:18 emits db items at4657D3/4657D5/4657DB/4657DE/4657E1, not ordinary decoded instructions. The inherited comment at4657D3 claims “E2 IDB=PE VRAM RESOLU: 85 C0 0F 85 3F 01 00 00 8B 56 44...” BUT frozen chunk hex (:15), extracted at4657D3, is 5f5e5d5b81c48c000000e92e23835b681485ed896c241c0f. Those bytes do not match the comment. Frozen CFG (:19 onward) splits at4657D5/DB/DE/E1 and includes a46591A successor from4657D5. Thus instruction_count174 / exported ASM / CFG cannot alone certify contiguous native decoding or original PE correspondence. I did NOT repair/redissect bytes, read PE/live IDA, or substitute historical target C. Supervisor must resolve authoritative bytes/decoding before using “complete ASM” as an unqualified classification/production input; retain original export untouched. This is an observed coverage/provenance uncertainty, not a target semantic verdict.\n; \n; 3. VALIDATED CALLEE ABI (neighbour documentation, not newly audited here)\n; D+semantic/0x4677D0__TexStaging_BlitCLUTAlpha.md:8–10 reports parent §5.6 live196 instructions/35 blocks, [4677D0,467A05), zero calls/three returns, IDB append/readback/save. :16 gives cdecl EIGHT words (src_u8,src_pitch_bytes,dst_u16,dst_pitch_bytes,width,height,mode,clut_u16); preserves EBX/EBP/ESI/EDI. Call sites464E9C/4657C5 verified there. Cleanup4657D0 add esp24h includes prior46573F push: NOT nine blit arguments. :14,18–35 documents output WORD alpha-only = min(RGB555 component sum shifted by ((global1CA89E8+3) wrap32)&31,15)<<12; bit15 ignored. Mode0 low/high nibble CLUT, width/2 signed truncation, destination compact4*N and destination pitch ignored; mode1 byte indices, mode2 direct WORD/no CLUT; pitches bytes in1/2. Other modes write nothing, signed height<=0 rejection, no negative-width safety. Alias-sensitive high CLUT read precedes first output store (:35). Return EAX residual, not status (:30). Useful ABI/external effects; not evidence of either target’s overall role.\n; D+decomp/0x40702F__Gfx_InitDrawListDesc.md:9–11,17–25 parent live/byte-based34 instructions, cdecl(filter,desc), RET C3. Null desc no-op; two-arg zero helper clears0x84. DWORD desc+20=filter, NOT list type; +40 raw3F800000, +44 flag1, not pitch/GF occupancy. Default fields +4/+C/+14/+1C=1, +3C=0, +7C/+8 from opaque helpers (:39–51).\n; D+semantic/0x416D82__Gfx_CreateDrawList.md:3,7 reports parent §5.6, [416D82,41733F),429instructions/65blocks; landmark41730A is internal call, NOT entry. :12 ABI five cdecl DWORDs(arg0,list_type,desc,path,owner), EAX32 pointer/NULL on controlled paths; failure cleanliness not guaranteed. :13 ownership/callback/CWD effects; arg0/path names do not establish business types. :17 types17→12 factory normalization but original remains stored; some default branches read uninitialized local. :20 clear list0xEC, pool stride dynamic, matrix+AC; no width/height-zero guard. :26 callback installs+9C/+A0, later walker consumes head+94. Historical docs/IDB annotation discrepancy explicitly retained (:28). D+IDB_SYNC_2026-10-07.md:19 and46–47 support GfxDrawList236 span0xEC and corrected return pointer, not float*.\n; \n; 4. VALIDATED CALLER/RECORD CONTEXT\n; D+semantic/0x464F70__Gfx_AllocTexturePageSlot.md:8–10,43–52 records parent live correction/readback,294instructions/18blocks,[464F70,46539A),byte SHA04ec8ffc088dc8220f4ccc82ed7bb6a3ed716c67059e882687d46b6ab4b56d10. :28 ABI ten cdecl DWORDs(ctx,slot,x,y,w,h,mode,tpage,arg20,arg24). :29 slot span0x64=100, +4/+8 x/y,+C/+10 w/h,+14 mode,+18/+1C real-valued reciprocal fields,+20 opaque arg20,+54 format allocation0xF0,+58 current pixels. :30 ctx+444 lazy shared allocation only signed mode<2. :34 local draw descriptor0x84; ten creations types6/14, five filter pairs4/4/0/1/3; published list fields+24/+28/+2C/+30/+34/+38/+3C/+40/+4C/+50, no direct+44/+48 store; owners buffer+A50 reloaded ten times. :39 warns x87 FILD/FDIVR/FSTP native control state, not guaranteed ordinary C division. :41 warns aliases/mutable argument slots; no automatic purity/nonalias assumption.\n; D+semantic/0x464BD0__World_loadTextureVRAM_updateAnim.md:53–60 SUPERSEDES earlier pending/candidate wording with parent2026-10-10 live gate/readback/save.155instructions/465bytes, seven calls to464F70/4653B0/465720/464DB0, cdecl10DWORD or3DWORD cleanup groups. Numeric surrounding layout:96primary records in3x32 groups,1100-byte primary stride, eight100-byte slot positions;32secondary records stride1136. Business “World/texture/VRAM” remains uncertified there; do not elevate filename to native evidence. :48–50 preserves external mutation/ABI/pointer uncertainties.\n; D+semantic/0x465CE0__Gfx_SelectTexturePageDrawList.md:6–8 parent live288instructions/57blocks,[465CE0,46608C),SHA8342daf26df9b0757ced2ec10850b3a63deef087dcc3d46b44c725dcad88c180; docs/IDB discrepancy stated. :14 six cdecl DWORD slots, CLUT read DWORD then&7FFF, later WORD comparison; source __int16 type not proven. :16 primary P=1CB6040+44C*(32*d+p), slot=P+4+64*k; secondary table1CAD228+470*p. :17 count increment before allocation, not rollback; markP+324/+328, CLUT WORDP+448. :18 count-zero/key-nonzero and saturation branches do not justify initialization/safety assumptions. :19 CLUT widths16/256; :20 output index encoded2*index plus conditional lowbit, nullable-output safety not general. :22 count/initialization/alias uncertainties retained.\n; \n; 5. GLOBAL/GEOMETRY CROSS-CHECK — documentary, not override of native\n; D+driver-abi-spec.md:178–204 says closure based on IDB/live. :199 records100-byte slots/format+54/pixels+58, list pointers; :200 layout w/h/pitch and desc+44. :201–204 VRAM base pointer global1CB602C, source pitch0x800bytes=1024WORD per row; page coordinates(tpage&15)*64 and((tpage>>4)&1)*256; CLUT raw-source offset clut_word<<5; system CLUT base1B47818 via45B920, live pointer1CA89A8, id1CA89B8, shift1CA89E8. IMPORTANT spec:201 contains a contradictory row×0x800 expression alongside row<<10 and 0x800-byte pitch. Prefer exact native arithmetic / validated caller formula D+semantic/0x464F70__Gfx_AllocTexturePageSlot.md:32, not that textual typo. Global1CCFD80/84/88 appear in frozen target ASM but business meaning not independently established in this discovery; target comments/names are label-only.\n; \n; 6. SEARCH/COVERAGE/EXCLUSIONS\n; GrepAI semantic search FIRST, no workspace parameter, returned relevant source tools/af3dn_state/texture.py:1–30 and driver passthrough v17/v18 macros:136–161 (supporting corpus pointers, not native authority). QMD CLI read-only searches in ff8-wiki: TexStaging found #19e4f2 (LUT alpha-only capture limitation),#41d0f3 (TIM/layout uncertainty),#6a1328(catalog); FillBitfieldLayout empty. CLI driver-abi-spec search returned capture references. QMD wiki/capture summaries were not promoted to validated ABI. Exact grep/Glob then located validated neighbour artifacts above. No standalone validated semantic/decomp files found for4188E2/467160/417FA6/464160/4203B2/420476 in those directories; their native labels are not recovered full contracts. Indirect vtable+64/+80 calls are visible in465720 ASM but COM interface identity and callbacks’ mutation/stack/return contract are unresolved here. Historical TARGET semantic/decomp snippets surfaced in exact search; deliberately excluded as target conclusions/evidence. All current target interpretations remain for independent producers and native parent validation.\n; TARGET ASM COMPLETE\n00465720: sub     esp, 8Ch; Integer Subtraction\n00465726: push    ebx\n00465727: push    ebp\n00465728: push    esi\n00465729: push    edi\n0046572A: call    FFGetBufferAddress; Call Procedure\n0046572F: mov     esi, [esp+9Ch+arg_0]\n00465736: mov     ebx, eax\n00465738: mov     [esp+9Ch+var_84], ebx\n0046573C: mov     eax, [esi+44h]\n0046573F: push    eax\n00465740: call    Gfx_GetNested_Plus10_14; E3c: lu: +10→+14 ou 0; 20 de F = décimal ambigu; DrawList = callers texture\n00465745: mov     edi, [eax+98h]\n0046574B: mov     ecx, [esp+0A0h+arg_8]\n00465752: xor     eax, eax; Logical Exclusive OR\n00465754: mov     ebp, dword_1CB602C\n0046575A: mov     ax, [ecx+448h]\n00465761: mov     edx, [esi+14h]\n00465764: mov     ecx, eax\n00465766: and     eax, 3Fh; Logical AND\n00465769: shr     ecx, 6; Shift Logical Right\n0046576C: shl     ecx, 6; Shift Logical Left\n0046576F: add     ecx, eax; Add\n00465771: mov     eax, [esi+10h]\n00465774: shl     ecx, 5; Shift Logical Left\n00465777: add     ecx, ebp; Add\n00465779: push    ecx; unsigned __int16 *\n0046577A: mov     ecx, [esi+0Ch]\n0046577D: push    edx; int\n0046577E: push    eax; int\n0046577F: mov     eax, [edi+44h]\n00465782: push    ecx; int\n00465783: mov     ecx, [edi+0D8h]\n00465789: push    eax; int\n0046578A: mov     eax, [esp+0B4h+arg_4]\n00465791: push    ecx; unsigned __int16 *\n00465792: mov     ecx, eax\n00465794: and     eax, 0Fh; Logical AND\n00465797: sar     ecx, 4; Shift Arithmetic Right\n0046579A: and     ecx, 1; Logical AND\n0046579D: push    800h; int\n004657A2: shl     ecx, 8; Shift Logical Left\n004657A5: add     ecx, [esi+8]; Add\n004657A8: shl     ecx, 4; Shift Logical Left\n004657AB: add     ecx, eax; Add\n004657AD: shl     ecx, 6; Shift Logical Left\n004657B0: mov     eax, ecx\n004657B2: mov     ecx, 2\n004657B7: sub     ecx, edx; Integer Subtraction\n004657B9: mov     edx, [esi+4]\n004657BC: sar     edx, cl; Shift Arithmetic Right\n004657BE: add     eax, edx; Add\n004657C0: lea     ecx, [ebp+eax*2+0]; Load Effective Address\n004657C4: push    ecx; unsigned __int8 *\n004657C5: call    TexStaging_BlitCLUTAlpha; Vague C: frere blit CLUT-alpha de TexStaging_BlitRows (lookup CLUT, alpha <<12).\n004657CA: mov     eax, [ebx+0BA8h]\n004657D0: add     esp, 24h; Add\n004657D3: db  5Fh ; _; E2 IDB=PE VRAM RESOLU: 85 C0 0F 85 3F 01 00 00 8B 56 44...; garder la regle de recoupement PE\n004657D5: db  5Dh ; ]\n004657DB: db    0\n004657DE: db  2Eh ; .; Logical AND\n004657E1: db  5Bh ; [\n004657E4: test    ebp, ebp; Logical Compare\n004657E6: mov     [esp+9Ch+var_80], ebp\n004657EA: jz      loc_46591A; Jump if Zero (ZF=1)\n004657F0: mov     eax, [ebp+98h]\n004657F6: test    eax, eax; Logical Compare\n004657F8: jz      loc_46591A; Jump if Zero (ZF=1)\n004657FE: mov     eax, [ebx+0BECh]\n00465804: test    eax, eax; Logical Compare\n00465806: jz      loc_46588F; Jump if Zero (ZF=1)\n0046580C: mov     ebp, [ebp+8]\n0046580F: push    0\n00465811: lea     edx, [esp+0A0h+var_7C]; Load Effective Address\n00465815: push    21h ; '!'\n00465817: mov     [esp+0A4h+var_7C], 7Ch ; '|'\n0046581F: mov     ecx, [ebp+0]\n00465822: push    edx\n00465823: push    0\n00465825: push    ebp\n00465826: mov     [esp+0B0h+var_88], ebp\n0046582A: call    dword ptr [ecx+64h]; Indirect Call Near Procedure\n0046582D: test    eax, eax; Logical Compare\n0046582F: jnz     loc_46591A; Jump if Not Zero (ZF=0)\n00465835: mov     esi, [esi+10h]\n00465838: mov     edx, [edi+0D8h]\n0046583E: mov     eax, [esp+9Ch+var_58]\n00465842: test    esi, esi; Logical Compare\n00465844: jz      short loc_465878; Jump if Zero (ZF=1)\n00465846: mov     ebx, [edi+44h]\n00465849: mov     [esp+9Ch+var_8C], esi\n0046584D: mov     ecx, ebx\n0046584F: mov     esi, edx\n00465851: mov     ebp, ecx\n00465853: mov     edi, eax\n00465855: shr     ecx, 2; Shift Logical Right\n00465858: rep movsd; Move Byte(s) from String to String\n0046585A: mov     ecx, ebp\n0046585C: add     edx, ebx; Add\n0046585E: and     ecx, 3; Logical AND\n00465861: rep movsb; Move Byte(s) from String to String\n00465863: mov     esi, [esp+9Ch+var_6C]\n00465867: mov     ecx, [esp+9Ch+var_8C]\n0046586B: add     eax, esi; Add\n0046586D: dec     ecx; Decrement by 1\n0046586E: mov     [esp+9Ch+var_8C], ecx\n00465872: jnz     short loc_46584D; Jump if Not Zero (ZF=0)\n00465874: mov     ebp, [esp+9Ch+var_88]\n00465878: mov     eax, [ebp+0]\n0046587B: push    0\n0046587D: push    ebp\n0046587E: call    dword ptr [eax+80h]; Indirect Call Near Procedure\n00465884: pop     edi\n00465885: pop     esi\n00465886: pop     ebp\n00465887: pop     ebx\n00465888: add     esp, 8Ch; Add\n0046588E: retn; Return Near from Procedure\n0046588F: mov     eax, [ebp+0]\n00465892: push    0\n00465894: lea     edx, [esp+0A0h+var_7C]; Load Effective Address\n00465898: push    21h ; '!'\n0046589A: mov     [esp+0A4h+var_7C], 7Ch ; '|'\n004658A2: mov     ecx, [eax]\n004658A4: push    edx\n004658A5: push    0\n004658A7: push    eax\n004658A8: mov     [esp+0B0h+var_88], eax\n004658AC: call    dword ptr [ecx+64h]; Indirect Call Near Procedure\n004658AF: test    eax, eax; Logical Compare\n004658B1: jnz     short loc_46591A; Jump if Not Zero (ZF=0)\n004658B3: mov     esi, [esi+10h]\n004658B6: mov     edx, [edi+0D8h]\n004658BC: mov     eax, [esp+9Ch+var_58]\n004658C0: test    esi, esi; Logical Compare\n004658C2: jz      short loc_4658FA; Jump if Zero (ZF=1)\n004658C4: mov     ebx, [edi+44h]\n004658C7: mov     [esp+9Ch+var_8C], esi\n004658CB: mov     ecx, ebx\n004658CD: mov     esi, edx\n004658CF: mov     ebp, ecx\n004658D1: mov     edi, eax\n004658D3: shr     ecx, 2; Shift Logical Right\n004658D6: rep movsd; Move Byte(s) from String to String\n004658D8: mov     ecx, ebp\n004658DA: add     edx, ebx; Add\n004658DC: and     ecx, 3; Logical AND\n004658DF: rep movsb; Move Byte(s) from String to String\n004658E1: mov     esi, [esp+9Ch+var_6C]\n004658E5: mov     ecx, [esp+9Ch+var_8C]\n004658E9: add     eax, esi; Add\n004658EB: dec     ecx; Decrement by 1\n004658EC: mov     [esp+9Ch+var_8C], ecx\n004658F0: jnz     short loc_4658CB; Jump if Not Zero (ZF=0)\n004658F2: mov     ebx, [esp+9Ch+var_84]\n004658F6: mov     ebp, [esp+9Ch+var_80]\n004658FA: mov     eax, [esp+9Ch+var_88]\n004658FE: push    0\n00465900: push    eax\n00465901: mov     ecx, [eax]\n00465903: call    dword ptr [ecx+80h]; Indirect Call Near Procedure\n00465909: push    ebx\n0046590A: push    ebp\n0046590B: call    sub_4203B2; Call Procedure\n00465910: push    ebx\n00465911: push    ebp\n00465912: call    sub_420476; Call Procedure\n00465917: add     esp, 10h; Add\n0046591A: pop     edi\n0046591B: pop     esi\n0046591C: pop     ebp\n0046591D: pop     ebx\n0046591E: add     esp, 8Ch; Add\n00465924: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x465720",
+        "end": "0x4657d5",
+        "successors": [
+          "0x4657d5"
+        ]
+      },
+      {
+        "start": "0x4657d5",
+        "end": "0x4657db",
+        "successors": [
+          "0x4657db",
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x4657db",
+        "end": "0x4657de",
+        "successors": [
+          "0x4657de"
+        ]
+      },
+      {
+        "start": "0x4657de",
+        "end": "0x4657e1",
+        "successors": [
+          "0x4657e1"
+        ]
+      },
+      {
+        "start": "0x4657e1",
+        "end": "0x4657e4",
+        "successors": [
+          "0x4657e4"
+        ]
+      },
+      {
+        "start": "0x4657e4",
+        "end": "0x4657f0",
+        "successors": [
+          "0x4657f0",
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x4657f0",
+        "end": "0x4657fe",
+        "successors": [
+          "0x4657fe",
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x4657fe",
+        "end": "0x46580c",
+        "successors": [
+          "0x46580c",
+          "0x46588f"
+        ]
+      },
+      {
+        "start": "0x46580c",
+        "end": "0x465835",
+        "successors": [
+          "0x465835",
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x465835",
+        "end": "0x465846",
+        "successors": [
+          "0x465846",
+          "0x465878"
+        ]
+      },
+      {
+        "start": "0x465846",
+        "end": "0x46584d",
+        "successors": [
+          "0x46584d"
+        ]
+      },
+      {
+        "start": "0x46584d",
+        "end": "0x465874",
+        "successors": [
+          "0x465874",
+          "0x46584d"
+        ]
+      },
+      {
+        "start": "0x465874",
+        "end": "0x465878",
+        "successors": [
+          "0x465878"
+        ]
+      },
+      {
+        "start": "0x465878",
+        "end": "0x46588f",
+        "successors": []
+      },
+      {
+        "start": "0x46588f",
+        "end": "0x4658b3",
+        "successors": [
+          "0x4658b3",
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x4658b3",
+        "end": "0x4658c4",
+        "successors": [
+          "0x4658c4",
+          "0x4658fa"
+        ]
+      },
+      {
+        "start": "0x4658c4",
+        "end": "0x4658cb",
+        "successors": [
+          "0x4658cb"
+        ]
+      },
+      {
+        "start": "0x4658cb",
+        "end": "0x4658f2",
+        "successors": [
+          "0x4658f2",
+          "0x4658cb"
+        ]
+      },
+      {
+        "start": "0x4658f2",
+        "end": "0x4658fa",
+        "successors": [
+          "0x4658fa"
+        ]
+      },
+      {
+        "start": "0x4658fa",
+        "end": "0x46591a",
+        "successors": [
+          "0x46591a"
+        ]
+      },
+      {
+        "start": "0x46591a",
+        "end": "0x465925",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 21
+  }
+}

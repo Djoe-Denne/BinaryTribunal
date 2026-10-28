@@ -1,0 +1,25 @@
+0050B353: mov     byte_1D99A47, 0
+0050B35A: xor     edi, edi; Logical Exclusive OR
+0050B35C: mov     esi, offset g_BattlePresentationActors
+0050B361: cmp     esi, dword_1D99A40; Compare Two Operands
+0050B367: jz      short loc_50B38B; Jump if Zero (ZF=1)
+0050B369: test    byte ptr [esi], 2; Logical Compare
+0050B36C: jz      short loc_50B38B; Jump if Zero (ZF=1)
+0050B36E: push    0Bh
+0050B370: push    esi
+0050B371: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript
+0050B376: mov     al, byte_1D99A47
+0050B37B: mov     dl, 1
+0050B37D: mov     ecx, edi
+0050B37F: add     esp, 8; Add
+0050B382: shl     dl, cl; Shift Logical Left
+0050B384: or      al, dl; Logical Inclusive OR
+0050B386: mov     byte_1D99A47, al
+0050B38B: add     esi, 9Ch; Add
+0050B391: inc     edi; Increment by 1
+0050B392: cmp     esi, offset word_1D97494; Compare Two Operands
+0050B398: jl      short loc_50B361; Jump if Less (SF!=OF)
+0050B39A: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050B3A0: xor     eax, eax; Logical Exclusive OR
+0050B3A2: push    offset g_GfActiveCallbackPtr; int (__cdecl **)(int)
+0050B3A7: mov     ax, [ecx+6]

@@ -1,0 +1,1362 @@
+{
+  "version": 1,
+  "lastEvaluatedAt": null,
+  "lastSyncedAt": null,
+  "knownNativeCandidates": [],
+  "confirmedCursorSubscription": {
+    "confirmedOn": "2026-10-12",
+    "appliedAt": "2026-10-12T12:32:43.239Z",
+    "ff8PolicyRevision": 7,
+    "ff8CostMode": "amortized",
+    "monthlyFeeUsd": 200,
+    "sharedCursorModelsCreditsUsd": 3000,
+    "confirmationSource": "User explicitly confirmed the quoted subscription and pool values.",
+    "costBasis": "AA-v4.3.2-amortized",
+    "formula": "benchmarkCostPerTask * 200 / 3000",
+    "scope": "Only standard Cursor Grok 4.6/4.7 evaluated efforts in the shared Cursor Models pool. No subsidy transferred to Cursor Anthropic entries, Go, ZAI or OpenAI.",
+    "assumptions": "Full utilization; entire monthly subscription allocated to this pool; USD throughout. This is an estimate, not measured task billing or remaining quota.",
+    "historicalAndBenchmarkValuesPreserved": true,
+    "preferencesPreserved": "Model entries, intelligence, weights, reserves and allowed reasoning choices are not changed; only an explicit amortized cost basis is selected for FF8.",
+    "validatedTestsPassed": 1177,
+    "commit": "725be7b",
+    "backup": "C:/Users/djden/.config/opencode/ensemble-backups/20261012-confirmed-cursor-amortization-e98b53082ed5"
+  },
+  "cursorCostResearch": {
+    "researchedOn": "2026-10-12",
+    "report": "C:/Users/djden/.config/opencode/ensemble-cursor-cost-research-20261012.json",
+    "ff8PolicyRevisionObserved": 6,
+    "preferencesModified": false,
+    "activeCostFieldsModified": "Only separate amortizedCostPerTask fields were added after user confirmation; no historical, benchmark or measured effective cost was overwritten.",
+    "verified": "Cursor Grok 4.6 and 4.7 use the shared Cursor Models pool. Standard rates are 2 USD/M uncached input, 0.50 USD/M cached input, 6 USD/M output including reasoning. Current authorized native variants request fast=false; Grok 4.7 requests 256k context. Reasoning levels have no separate listed per-token rate multiplier.",
+    "historical0313Explanation": "4.69 USD CursorBench High reference * 200 / 3000 = 0.3126666667 USD, rounding to 0.313. This is a matching conditional amortization, not proof of provenance or a measured effective cost.",
+    "pool3000Status": "The public evidence is secondary reporting, not a publicly guaranteed entitlement. The user subsequently confirmed the USD 200 fee and USD 3000 pool for this account. No EUR/USD equivalence is assumed.",
+    "neededForAccountCalibration": [
+      "Actual subscription charge and currency",
+      "Current shared Cursor Models pool allowance in the account dashboard",
+      "On-demand state and whether the allowance is exhausted",
+      "Representative usage/token/cache measurements by model/effort"
+    ],
+    "nextStep": "The confirmed fee/allowance permit separately labeled amortized estimates, not verified effective billing. Measure representative task usage if actual per-task billing or quota-aware routing is requested later.",
+    "sharedPoolWarning": "Grok and Composer share Cursor Models credits. Do not apply this pool's subsidy ratio to Anthropic/OpenAI models merely because their connection ID is cursor; those belong to Other Models."
+  },
+  "operatingPreferences": {
+    "confirmedOn": "2026-10-12",
+    "source": "User clarification in the FF8 autoscaling restart request",
+    "grokConnection": "cursor",
+    "cursorAccess": "User-confirmed subsidized access through Cursor connections",
+    "routingIntent": "Favor Cursor-hosted Grok for ordinary eligible work alongside GLM Flash; preserve OpenAI GPT capacity for difficult tasks. Do not substitute another Grok connection implicitly.",
+    "benchmarkCostInterpretation": "Artificial Analysis and CursorBench costs describe benchmark runs, not the user's subsidized subscription bill. Express the access preference through weights/reserves, keeping benchmark metrics independent.",
+    "remainingQuota": null
+  },
+  "targetedChanges": [
+    {
+      "appliedOn": "2026-10-12",
+      "kind": "approved-reasoning-catalogue-and-editor-expansion",
+      "decision": "approved",
+      "approval": "User authorized extending reasoning research to all previously authorized models, adding per-model reasoning choices to the web UI, and preserving subsidized connection pricing rather than replacing it with full-price API benchmark prices.",
+      "catalogueEntriesBefore": 16,
+      "catalogueEntriesAfter": 52,
+      "newEvaluatedEfforts": 36,
+      "ff8Policy": {
+        "revision": 4,
+        "costMode": "effective",
+        "previousUiChoicesPreserved": true,
+        "newGrokWeights": {
+          "Grok 4.6 Low": 15,
+          "Grok 4.6 Medium": 25,
+          "Grok 4.6 High": 35,
+          "Grok 4.6 Extra High": 10,
+          "Grok 4.7 Low": 15,
+          "Grok 4.7 Extra High": 20
+        },
+        "otherNewEfforts": "Selectable in the UI, initially excluded from this mission's automatic routing pending checkbox authorization. Existing selected variants and reserves remain as saved by the user.",
+        "nativeVariantsVisible": 78,
+        "catalogueChoicesVisible": 52,
+        "scheduling": "Preserved: autoDispatch false, autoScale false, worker limit 30. No campaign workers were started by this change.",
+        "preview": "With a pinned 30..51 intelligence scale and risk-dependent margin, easy/medium tasks distribute among ordinary allowed candidates; 80/50 uses Sol Medium and Astra High; 100/100 uses Astra High. Credits were simulated only, without consuming live departures."
+      },
+      "sourceEvidence": "C:/Users/djden/.config/opencode/ensemble-reasoning-evidence-20261012.json",
+      "rawResearch": "C:/Users/djden/.config/opencode/ensemble-reasoning-research-20261012.json",
+      "sourceBasis": "Artificial Analysis Intelligence Index v4.3.2; separate benchmark USD/task values. Full source URL/title/retrieval time retained for each matched model/effort.",
+      "costs": {
+        "historicalFieldsPreserved": true,
+        "grok47HighHistoricalValue": 0.313,
+        "grok47HighSeparateBenchmarkValue": 2.73,
+        "selectedCostMode": "effective",
+        "subscriptionEffectiveCost": "Unknown; no Cursor subsidy ratio, currency conversion or subscription quota is inferred.",
+        "freeConnections": "Existing named free connections with a declared historical zero retain an explicit effective zero; this is not a new quota measurement."
+      },
+      "intelligenceRange": {
+        "min": 30,
+        "max": 51,
+        "reason": "Preserve existing FF8 task calibration despite new catalogue extrema."
+      },
+      "unevaluated": [
+        "Grok 4.7 Medium (CursorBench cost known, comparable AA score/cost missing)",
+        "GLM Flash Low/High on both Go and ZAI",
+        "Gemini 3.8 Flash Low (AA intelligence 33 known, task cost missing)",
+        "DeepSeek Flash Low/High",
+        "Haiku No Thinking",
+        "Fast/500k aliases",
+        "Step Preview explicit Low/Medium/High effort mapping"
+      ],
+      "nativeExecutionValidated": false,
+      "validation": {
+        "typecheck": "passed",
+        "testsPassed": 1176,
+        "testsFailed": 0,
+        "build": "passed",
+        "browser": "Grouped models, reasoning toggles, unknown-effort disable, filter, save and stale revision conflict verified on an isolated in-memory fixture."
+      },
+      "commit": "7fca90b",
+      "backup": "C:/Users/djden/.config/opencode/ensemble-backups/20261012-reasoning-costs-ce223e6600f2",
+      "scope": "Targeted expansion only. Existing model scores/prices/settings remain unchanged; no full-refresh timestamps advanced. Native provider credentials and model activations outside the already authorized connection set were not changed."
+    },
+    {
+      "appliedAt": "2026-10-12T11:26:00.390Z",
+      "kind": "approved-connection-addition",
+      "id": "opencode-go/glm-5.3-flash",
+      "reasoningEffort": "max",
+      "decision": "approved",
+      "approval": "User selected Ajouter Go Max (Recommended), explicitly authorizing a separate active OpenCode Go entry alongside ZAI for UI display and routing.",
+      "available": true,
+      "metrics": {
+        "intelligenceScore": 42,
+        "averageCostPerTask": 0.25
+      },
+      "metricsSource": "Existing approved catalogue entry zai-coding-plan/glm-5.3-flash at max; values reused as requested, not independently refreshed during this targeted addition.",
+      "nativeVerification": {
+        "observedAt": "2026-10-12T11:24:01.345Z",
+        "modelID": "glm-5.3-flash",
+        "providerID": "opencode-go",
+        "enabled": true,
+        "variants": [
+          "low",
+          "high",
+          "max"
+        ],
+        "sameModelIDAndEffortsAsZai": true,
+        "nativeExecutionValidated": false
+      },
+      "mission": {
+        "id": "team_mv41qy6o_0000_vbge32",
+        "policyRevision": 2,
+        "preference": 50,
+        "reserve": false,
+        "enabled": true
+      },
+      "validation": {
+        "typecheck": "passed",
+        "tests": {
+          "passed": 1166,
+          "failed": 0
+        },
+        "build": "passed",
+        "nativeReloadHttp": 204,
+        "routingPreview": "At complexity/risk 0/0 and 50/50, 18 departures split Grok Cursor 8, Go GLM Max 5, ZAI GLM Max 5. At 100/100 all 18 use Astra High. Intelligence range is unchanged."
+      },
+      "backup": "C:/Users/djden/.config/opencode/ensemble-backups/20261012-add-go-glm-max-1124",
+      "scope": "One native connection/model/effort addition plus its FF8 preference. No full evaluation or inventory synchronization date advanced."
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "cursor/grok-4.6",
+      "reasoningEffort": "Grok 4.6 High",
+      "firstSeenAt": "2026-10-12T10:58:26.513Z",
+      "eventKind": "model_release",
+      "modelReleaseDate": "2026-08-12",
+      "nativeAdditionDate": null,
+      "decision": "approved",
+      "recommendation": "Propose for ordinary medium work between GLM Flash Max and Grok 4.7 High. Lower capability but 45.8% lower AA cost per task than 4.7 High. Proposed independent weight: 60.",
+      "metrics": {
+        "intelligenceScore": 44,
+        "averageCostPerTask": 1.48
+      },
+      "metricBasis": "Artificial Analysis Intelligence Index v4.3.2; USD per task; public rounded intelligence score",
+      "sourceIds": [
+        "aa-46-high",
+        "xai-46-launch",
+        "xai-47-launch"
+      ],
+      "nativeEnabled": true,
+      "nativeExecutionValidated": false
+    },
+    {
+      "id": "cursor/grok-4.7",
+      "reasoningEffort": "Grok 4.7 Extra High",
+      "firstSeenAt": "2026-10-12T10:58:26.513Z",
+      "eventKind": "model_release",
+      "modelReleaseDate": "2026-09-21",
+      "nativeAdditionDate": null,
+      "decision": "approved",
+      "recommendation": "Propose as a selectable effort for long coding tasks, not as the general automatic default. Same rounded AA intelligence score as High; +2.4 percentage points on developer-published CursorBench 4.0 at +28.1% CursorBench cost and +37.0% AA cost. No unsupported intelligence uplift.",
+      "metrics": {
+        "intelligenceScore": 46,
+        "averageCostPerTask": 3.74,
+        "cursorBenchCostPerTask": 6.01
+      },
+      "metricBasis": "Artificial Analysis Intelligence Index v4.3.2; USD per task; CursorBench 4.0 cost is separate metadata",
+      "sourceIds": [
+        "aa-47-xhigh",
+        "xai-47-launch",
+        "aa-47-analysis"
+      ],
+      "nativeEnabled": true,
+      "nativeExecutionValidated": false
+    },
+    {
+      "id": "cursor/grok-4.6",
+      "reasoningEffort": "Grok 4.6 Extra High",
+      "firstSeenAt": "2026-10-12T10:58:26.513Z",
+      "eventKind": "native_addition",
+      "nativeAdditionDate": null,
+      "decision": "approved",
+      "recommendation": "Considered during the targeted 4.6 evaluation; not recommended for automatic addition. Same rounded AA intelligence score as 4.6 High at a higher cost. This is not a user decline.",
+      "metrics": {
+        "intelligenceScore": 44,
+        "averageCostPerTask": 1.75
+      },
+      "metricBasis": "Artificial Analysis Intelligence Index v4.3.2; USD per task",
+      "sourceIds": [
+        "aa-46-xhigh",
+        "aa-46-high"
+      ],
+      "nativeEnabled": true,
+      "nativeExecutionValidated": false
+    }
+  ],
+  "targetedEvaluations": [
+    {
+      "date": "2026-10-12",
+      "startedAt": "2026-10-12T10:58:26.513Z",
+      "kind": "public-benchmark-review",
+      "scope": "Grok 4.6 and Grok 4.7 Extra High, compared with existing Grok High and GPT reserves",
+      "discoveryCutoff": null,
+      "coverage": "First targeted inventory only. No full provider discovery, full catalogue refresh, or successful synchronization date is claimed.",
+      "referenceMetrics": [
+        {
+          "id": "cursor/grok-4.7",
+          "reasoningEffort": "Grok 4.7 High",
+          "intelligenceScore": 46,
+          "averageCostPerTask": 2.73,
+          "cursorBenchCostPerTask": 4.69,
+          "sourceId": "aa-47-high"
+        },
+        {
+          "id": "openai/gpt-6.1-sol",
+          "reasoningEffort": "medium",
+          "intelligenceScore": 48,
+          "averageCostPerTask": 0.21,
+          "sourceId": "aa-sol-medium"
+        },
+        {
+          "id": "openai/gpt-6-astra",
+          "reasoningEffort": "high",
+          "intelligenceScore": 51,
+          "averageCostPerTask": 1.73,
+          "sourceId": "aa-astra-high"
+        }
+      ],
+      "pendingCorrections": [
+        {
+          "id": "cursor/grok-4.7",
+          "reasoningEffort": "Grok 4.7 High",
+          "field": "benchmarkCostPerTask",
+          "current": 0.313,
+          "proposed": 2.73,
+          "sourceId": "aa-47-high",
+          "decision": "approved",
+          "note": "User rejected overwriting the connection's historical value. Separate benchmarkCostPerTask now records 2.73; averageCostPerTask stays 0.313. Effective subscription cost remains unknown."
+        }
+      ],
+      "codingEvidence": {
+        "benchmark": "CursorBench 4.0",
+        "sourceId": "xai-47-launch",
+        "evidenceType": "developer-published",
+        "grok46HighScorePercent": 40.4,
+        "grok47HighScorePercent": 43.9,
+        "grok47ExtraHighScorePercent": 46.3,
+        "grok47HighCostUsd": 4.69,
+        "grok47ExtraHighCostUsd": 6.01
+      },
+      "routingPreview": {
+        "applied": false,
+        "baseMission": "team_mv41qy6o_0000_vbge32",
+        "baseRevision": 1,
+        "proposal": "Correct Grok 4.7 High AA cost; add 4.6 High at weight 60; evaluate 4.7 Extra High but exclude it from automatic mission selection. Retain GLM 50, 4.7 High 80, Sol reserve 30 and Astra reserve 10. Weights are policy choices, not benchmark measurements.",
+        "admissionsPerScenario": 190,
+        "scenarios": [
+          {
+            "complexity": 0,
+            "risk": 0,
+            "requiredIntelligence": 30,
+            "glm": 50,
+            "grok46High": 60,
+            "grok47High": 80
+          },
+          {
+            "complexity": 50,
+            "risk": 50,
+            "requiredIntelligence": 42.3375,
+            "glm": 50,
+            "grok46High": 60,
+            "grok47High": 80
+          },
+          {
+            "complexity": 75,
+            "risk": 25,
+            "requiredIntelligence": 46.209375,
+            "grok47High": 190
+          },
+          {
+            "complexity": 80,
+            "risk": 50,
+            "requiredIntelligence": 47.535,
+            "solMedium": 143,
+            "astraHigh": 47
+          },
+          {
+            "complexity": 100,
+            "risk": 100,
+            "requiredIntelligence": 51,
+            "astraHigh": 190
+          }
+        ],
+        "monotonicFloorCases": 10201,
+        "monotonicFloorViolations": 0,
+        "note": "Pure router simulation with fresh credits for each scenario, not empirical model-task success or quota usage. Adding scores 44 and 46 does not change catalogue intelligence bounds."
+      },
+      "limitations": [
+        "AA v4.3.2 scores are rounded; equal displayed scores do not imply identical ability on every task.",
+        "The August Grok 4.6 launch score of 61 belongs to an older AA index basis and is not used in this comparison.",
+        "AA marks 4.6 deprecated/superseded in its benchmark catalogue; native OpenCode still lists the verified model/efforts as enabled.",
+        "Benchmark task costs are not the user's Cursor/OpenCode Go subscription bill or remaining quota.",
+        "No provider execution or FF8 decompilation accuracy experiment was performed.",
+        "Fast and 500k aliases were observed in the native inventory but not separately evaluated or proposed."
+      ],
+      "appliedChanges": "Journal/proposal only; active catalogue and mission policy unchanged."
+    }
+  ],
+  "sources": [
+    {
+      "id": "aa-46-high",
+      "url": "https://artificialanalysis.ai/models/grok-4-6",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-46-xhigh",
+      "url": "https://artificialanalysis.ai/models/grok-4-6-xhigh",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-47-high",
+      "url": "https://artificialanalysis.ai/models/grok-4-7-high",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-47-xhigh",
+      "url": "https://artificialanalysis.ai/models/grok-4-7",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-sol-medium",
+      "url": "https://artificialanalysis.ai/models/gpt-6-1-sol-medium",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-astra-high",
+      "url": "https://artificialanalysis.ai/models/gpt-6-astra-high",
+      "retrievedOn": "2026-10-12",
+      "benchmarkVersion": "4.3.2"
+    },
+    {
+      "id": "aa-47-analysis",
+      "url": "https://artificialanalysis.ai/articles/benchmarking-grok-4-7",
+      "publishedOn": "2026-09-21",
+      "retrievedOn": "2026-10-12"
+    },
+    {
+      "id": "xai-46-launch",
+      "url": "https://x.ai/news/grok-4-6",
+      "publishedOn": "2026-08-12",
+      "retrievedOn": "2026-10-12"
+    },
+    {
+      "id": "xai-47-launch",
+      "url": "https://x.ai/news/grok-4-7",
+      "publishedOn": "2026-09-21",
+      "retrievedOn": "2026-10-12",
+      "extractionNote": "CursorBench High/Extra High scores and costs also read from the official chart's accessible aria-label attributes."
+    }
+  ],
+  "structuredOutput": {
+    "required": true,
+    "lastCheckedAt": "2026-10-13T08:19:21.633Z",
+    "source": {
+      "source": "https://models.dev/api.json",
+      "checkedAt": "2026-10-13T08:19:21.633Z",
+      "sha256": "2e9b2ba5d129e1768a1144f35efe7e0b91f36fb5a0ba2f8d8838c84f40d29e8c"
+    },
+    "observations": [
+      {
+        "id": "opencode/mimo-v2.6-flash-free",
+        "reasoningEffort": "default",
+        "supported": null,
+        "reason": "structured_output_flag_unknown",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "medium",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/claude-haiku-5-5",
+        "reasoningEffort": "high",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode/ling-3.1-flash-free",
+        "reasoningEffort": "default",
+        "supported": false,
+        "reason": "declared_unsupported",
+        "status": "unsupported",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "opencode-go/deepseek-v4.1-flash",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-haiku-5-5",
+        "reasoningEffort": "Claude Haiku 5.5 High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "opencode/step-5-preview-free",
+        "reasoningEffort": "default",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "zai-coding-plan/glm-5.3-flash",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/glm-5.3-flash",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/mimo-v2.6-pro",
+        "reasoningEffort": "default",
+        "supported": null,
+        "reason": "structured_output_flag_unknown",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "openai/gpt-6.1-sol",
+        "reasoningEffort": "medium",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode/gemini-3.8-flash",
+        "reasoningEffort": "medium",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-sonnet-5-5",
+        "reasoningEffort": "Claude Sonnet 5.5 High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.7",
+        "reasoningEffort": "Grok 4.7 High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "openai/gpt-6-astra",
+        "reasoningEffort": "high",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-opus-5-5",
+        "reasoningEffort": "Claude Opus 5.5 Medium",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "high",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "low",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "none",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/gpt-6-luna",
+        "reasoningEffort": "xhigh",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/claude-haiku-5-5",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/claude-haiku-5-5",
+        "reasoningEffort": "low",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/claude-haiku-5-5",
+        "reasoningEffort": "medium",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode-go/claude-haiku-5-5",
+        "reasoningEffort": "xhigh",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-haiku-5-5",
+        "reasoningEffort": "Claude Haiku 5.5 Max",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-haiku-5-5",
+        "reasoningEffort": "Claude Haiku 5.5 Low",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-haiku-5-5",
+        "reasoningEffort": "Claude Haiku 5.5 Medium",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-haiku-5-5",
+        "reasoningEffort": "Claude Haiku 5.5 Extra High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "openai/gpt-6.1-sol",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6.1-sol",
+        "reasoningEffort": "high",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6.1-sol",
+        "reasoningEffort": "low",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6.1-sol",
+        "reasoningEffort": "xhigh",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "opencode/gemini-3.8-flash",
+        "reasoningEffort": "high",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-sonnet-5-5",
+        "reasoningEffort": "Claude Sonnet 5.5 Max",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-sonnet-5-5",
+        "reasoningEffort": "Claude Sonnet 5.5 Low",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-sonnet-5-5",
+        "reasoningEffort": "Claude Sonnet 5.5 Medium",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-sonnet-5-5",
+        "reasoningEffort": "Claude Sonnet 5.5 Extra High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.6",
+        "reasoningEffort": "Grok 4.6 High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.6",
+        "reasoningEffort": "Grok 4.6 Low",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.6",
+        "reasoningEffort": "Grok 4.6 Medium",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.6",
+        "reasoningEffort": "Grok 4.6 Extra High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.7",
+        "reasoningEffort": "Grok 4.7 Extra High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/grok-4.7",
+        "reasoningEffort": "Grok 4.7 Low",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "openai/gpt-6-astra",
+        "reasoningEffort": "max",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6-astra",
+        "reasoningEffort": "low",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6-astra",
+        "reasoningEffort": "medium",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "openai/gpt-6-astra",
+        "reasoningEffort": "xhigh",
+        "supported": true,
+        "reason": "declared_supported",
+        "status": "declared",
+        "availableBefore": true,
+        "availableAfter": true
+      },
+      {
+        "id": "cursor/claude-opus-5-5",
+        "reasoningEffort": "Claude Opus 5.5 Max",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-opus-5-5",
+        "reasoningEffort": "Claude Opus 5.5 High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-opus-5-5",
+        "reasoningEffort": "Claude Opus 5.5 Low",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      },
+      {
+        "id": "cursor/claude-opus-5-5",
+        "reasoningEffort": "Claude Opus 5.5 Extra High",
+        "supported": null,
+        "reason": "provider_not_in_source",
+        "status": "unknown",
+        "availableBefore": true,
+        "availableAfter": false
+      }
+    ],
+    "refreshes": [
+      {
+        "source": "https://models.dev/api.json",
+        "checkedAt": "2026-10-13T08:19:21.633Z",
+        "sha256": "2e9b2ba5d129e1768a1144f35efe7e0b91f36fb5a0ba2f8d8838c84f40d29e8c",
+        "counts": {
+          "entries": 52,
+          "supported": 27,
+          "unsupported": 1,
+          "unknown": 24,
+          "eligible": 27,
+          "disabled": 25
+        },
+        "observations": [
+          {
+            "id": "opencode/mimo-v2.6-flash-free",
+            "reasoningEffort": "default",
+            "supported": null,
+            "reason": "structured_output_flag_unknown",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "medium",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/claude-haiku-5-5",
+            "reasoningEffort": "high",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode/ling-3.1-flash-free",
+            "reasoningEffort": "default",
+            "supported": false,
+            "reason": "declared_unsupported",
+            "status": "unsupported",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "opencode-go/deepseek-v4.1-flash",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-haiku-5-5",
+            "reasoningEffort": "Claude Haiku 5.5 High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "opencode/step-5-preview-free",
+            "reasoningEffort": "default",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "zai-coding-plan/glm-5.3-flash",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/glm-5.3-flash",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/mimo-v2.6-pro",
+            "reasoningEffort": "default",
+            "supported": null,
+            "reason": "structured_output_flag_unknown",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "openai/gpt-6.1-sol",
+            "reasoningEffort": "medium",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode/gemini-3.8-flash",
+            "reasoningEffort": "medium",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-sonnet-5-5",
+            "reasoningEffort": "Claude Sonnet 5.5 High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.7",
+            "reasoningEffort": "Grok 4.7 High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "openai/gpt-6-astra",
+            "reasoningEffort": "high",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-opus-5-5",
+            "reasoningEffort": "Claude Opus 5.5 Medium",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "high",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "low",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "none",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/gpt-6-luna",
+            "reasoningEffort": "xhigh",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/claude-haiku-5-5",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/claude-haiku-5-5",
+            "reasoningEffort": "low",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/claude-haiku-5-5",
+            "reasoningEffort": "medium",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode-go/claude-haiku-5-5",
+            "reasoningEffort": "xhigh",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-haiku-5-5",
+            "reasoningEffort": "Claude Haiku 5.5 Max",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-haiku-5-5",
+            "reasoningEffort": "Claude Haiku 5.5 Low",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-haiku-5-5",
+            "reasoningEffort": "Claude Haiku 5.5 Medium",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-haiku-5-5",
+            "reasoningEffort": "Claude Haiku 5.5 Extra High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "openai/gpt-6.1-sol",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6.1-sol",
+            "reasoningEffort": "high",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6.1-sol",
+            "reasoningEffort": "low",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6.1-sol",
+            "reasoningEffort": "xhigh",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "opencode/gemini-3.8-flash",
+            "reasoningEffort": "high",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-sonnet-5-5",
+            "reasoningEffort": "Claude Sonnet 5.5 Max",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-sonnet-5-5",
+            "reasoningEffort": "Claude Sonnet 5.5 Low",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-sonnet-5-5",
+            "reasoningEffort": "Claude Sonnet 5.5 Medium",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-sonnet-5-5",
+            "reasoningEffort": "Claude Sonnet 5.5 Extra High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.6",
+            "reasoningEffort": "Grok 4.6 High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.6",
+            "reasoningEffort": "Grok 4.6 Low",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.6",
+            "reasoningEffort": "Grok 4.6 Medium",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.6",
+            "reasoningEffort": "Grok 4.6 Extra High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.7",
+            "reasoningEffort": "Grok 4.7 Extra High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/grok-4.7",
+            "reasoningEffort": "Grok 4.7 Low",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "openai/gpt-6-astra",
+            "reasoningEffort": "max",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6-astra",
+            "reasoningEffort": "low",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6-astra",
+            "reasoningEffort": "medium",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "openai/gpt-6-astra",
+            "reasoningEffort": "xhigh",
+            "supported": true,
+            "reason": "declared_supported",
+            "status": "declared",
+            "availableBefore": true,
+            "availableAfter": true
+          },
+          {
+            "id": "cursor/claude-opus-5-5",
+            "reasoningEffort": "Claude Opus 5.5 Max",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-opus-5-5",
+            "reasoningEffort": "Claude Opus 5.5 High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-opus-5-5",
+            "reasoningEffort": "Claude Opus 5.5 Low",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          },
+          {
+            "id": "cursor/claude-opus-5-5",
+            "reasoningEffort": "Claude Opus 5.5 Extra High",
+            "supported": null,
+            "reason": "provider_not_in_source",
+            "status": "unknown",
+            "availableBefore": true,
+            "availableAfter": false
+          }
+        ]
+      }
+    ]
+  }
+}

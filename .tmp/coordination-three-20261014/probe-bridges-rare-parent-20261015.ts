@@ -1,0 +1,25 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {validateGraphSnapshot,fingerprintWithout,type GraphSnapshotV1} from '../../tools/ff8-harness/src/graph';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',path=root+'/tools/ff8-harness/test/fixtures/graph/bridges-rare/content.json';
+const sha=(s:string|Buffer)=>createHash('sha256').update(s).digest('hex');
+function independentCanonical(x:unknown):string{if(x===null||typeof x!=='object')return JSON.stringify(x);if(Array.isArray(x))return '['+x.map(independentCanonical).join(',')+']';return '{'+Object.keys(x).sort().map(k=>JSON.stringify(k)+':'+independentCanonical((x as Record<string,unknown>)[k])).join(',')+'}';}
+const bytes=readFileSync(path),original=JSON.parse(bytes.toString('utf8')) as GraphSnapshotV1;
+if(sha(bytes)!=='69278ee8e28390b623f525774e8fe036231873934fb30ed0e98a2c33353105c4')throw Error('Frozen input differs');
+const violations=validateGraphSnapshot(original);if(violations.length!==1||violations[0]!=='edge instruction site is outside source function chunks')throw Error('Unexpected counterexample');
+const derived=structuredClone(original),edge=derived.edges.find(e=>e.id==='edge:b6d08bd48f2db9a252d08e39bac277cbb23849d9d963407889566b4ab4285fb1')!;
+const caller=derived.nodes.find(n=>n.id===edge.sourceId)!;
+if(caller.rva!=='0x2100'||caller.boundaries.length!==1||caller.boundaries[0]!.endRvaExclusive!=='0x2110'||caller.sizeBytes.value!==16||edge.sites.length!==1||edge.sites[0]!.siteRva!=='0x2110')throw Error('Not the prescribed synthetic case');
+const originalContentSha256=sha(independentCanonical(original));
+const derivationId=sha(independentCanonical({domain:'re-graph-scheduler-test-only-bridges-rare-span-v1',originalContentSha256,callerId:caller.id,oldEnd:'0x2110',newEnd:'0x2111'}));
+derived.snapshotId='fixture:bridges-rare:caller-span-v1:'+derivationId;
+caller.boundaries[0]!.endRvaExclusive='0x2111';caller.sizeBytes={known:true,value:17};derived.normalizedFingerprint=fingerprintWithout(derived,'normalizedFingerprint');
+const errors=validateGraphSnapshot(derived);if(errors.length)throw Error('Derived input invalid: '+errors.join('; '));
+if(independentCanonical(original.edges)!==independentCanonical(derived.edges)||independentCanonical(original.coverage)!==independentCanonical(derived.coverage))throw Error('Topology/coverage changed');
+if(derived.nodes.some(n=>n.admissibleAsOracle||n.byteAgreement!=='unknown'))throw Error('Oracle claim');
+for(const n of derived.nodes)if(n.id!==caller.id&&independentCanonical(n)!==independentCanonical(original.nodes.find(o=>o.id===n.id)))throw Error('Other node changed');
+for(const other of derived.nodes)if(other.id!==caller.id&&other.moduleSha256===caller.moduleSha256)for(const span of other.boundaries)if(BigInt(span.rva)<0x2111n&&BigInt(span.endRvaExclusive)>0x2100n)throw Error('Synthetic overlap');
+const audit={date:'2026-10-15',originalRawSha256:sha(bytes),originalContentSha256,originalNormalizedFingerprint:original.normalizedFingerprint,originalViolations:violations,derivedSnapshotId:derived.snapshotId,derivedNormalizedFingerprint:derived.normalizedFingerprint,derivedValidation:errors,callerSpan:['0x2100','0x2111'],callerSize:17,edgeSiteUnchanged:'0x2110',edgeTopologySitesAndProvenanceUnchanged:true,coverageUnchanged:true,allNodesNonOracleAndByteAgreementUnknown:true,originalFixtureUnchanged:sha(readFileSync(path))===sha(bytes),notCanonicalL1Repair:true,notNativeEvidence:true};
+writeFileSync(phase+'/bridges-rare-parent-arbitration.json',JSON.stringify(audit,null,2)+'\n',{flag:'wx'});
+writeFileSync(phase+'/bridges-rare-derived-synthetic.json',JSON.stringify(derived,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify(audit,null,2));

@@ -1,0 +1,13 @@
+import {writeFileSync} from 'node:fs';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',name=process.argv[2],stage=process.argv[3],expectedDirectory=process.argv[4]??root;
+const tasks:Record<string,string>={'l8-budget-boundary':'task_mv9ex0g8_002m_udy5pa','l7-initial-qa-review':'task_mv9f1srm_002v_u1khxa'};
+if(!Object.hasOwn(tasks,name??'')||!['pre','post'].includes(stage??''))throw Error('Owned reader/stage required');
+const e=await Service.discover();if(!e)throw Error('No public native API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign parent');
+const member=team.members.find((m:any)=>m.name===name);if(!member)throw Error('Member absent');const session=await cli.session.get({sessionID:member.sessionId});
+if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6.1-sol'||session.model.variant!=='max')throw Error('Model.Ref mismatch');
+if(session.location.directory.replaceAll('\\','/').toLowerCase()!==expectedDirectory.replaceAll('\\','/').toLowerCase())throw Error('Wrong native directory');
+const record={name,stage,sessionID:session.id,model:session.model,directory:session.location.directory,taskId:tasks[name!]};
+writeFileSync(root+'/.tmp/coordination-three-20261014/'+name+'-admission-'+stage+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(record));

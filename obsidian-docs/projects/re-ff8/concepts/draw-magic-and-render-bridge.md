@@ -14,9 +14,9 @@ sources:
   - obsidian-docs/_staging/investigations/battle_camera.md
   - IDA live callback/BdLink matrices 2026-07-12
   - IDA static 2026-08-18 (Draw_ComputeStealCount 0x48FD20, PendingCmd_QueueOrStore, BattleDrawMenu_Open)
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g13-draw-live-promotion-2026-08-25.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-stock-replacement-retry3-live-2026-08-25.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g13-draw-cast-replacement-retry3-live-2026-08-25.json
 summary: Draw resolves as family 6, writes QueueOrStore aux_5 9/10, and is live-promoted for Cast/Stock. Pending 0x06 stays a runtime byte.
 provenance:
   extracted: 0.88

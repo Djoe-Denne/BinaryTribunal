@@ -1,0 +1,15 @@
+import {writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',name='l7-simulator-fix-astra',stage=process.argv[2];if(!['pre','post'].includes(stage??''))throw Error('Stage required');
+const e=await Service.discover();if(!e)throw Error('No public API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign parent');
+const member=team.members.find((m:any)=>m.name===name);if(!member)throw Error('No owned writer');const session=await cli.session.get({sessionID:member.sessionId});
+if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6-astra'||session.model.variant!=='max')throw Error('Native Model.Ref mismatch');
+const owned='C:/Users/djden/.local/share/opencode/worktree/68ae5f/'+member.worktreeBranch;
+const worktrees=spawnSync('git',['worktree','list','--porcelain'],{cwd:root,encoding:'utf8'});if(worktrees.status!==0||!worktrees.stdout.split(/\r?\n/).includes('worktree '+owned))throw Error('OWN not registered');
+const h=spawnSync('git',['rev-parse','HEAD'],{cwd:owned,encoding:'utf8'});if(h.status!==0||!h.stdout.startsWith('fbca7d9'))throw Error('Unexpected OWN baseline');
+if(stage==='post'&&session.location.directory.replaceAll('\\','/')!==owned)throw Error('Native directory not OWN');
+const record={name,stage,sessionID:session.id,model:session.model,directory:session.location.directory,owned,head:h.stdout.trim(),taskId:'task_mv9m9894_0015_cjacy0',route:'preauthorized Astra max last-resort after Sol max source/review block'};
+writeFileSync(root+'/.tmp/coordination-three-20261014/l7sim-astra-admission-'+stage+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(record));

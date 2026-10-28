@@ -1,0 +1,25 @@
+00460AA4: jge     short loc_460AC2; Jump if Greater or Equal (SF=OF)
+00460AA6: mov     eax, dword_1CA92F8
+00460AAB: mov     dword_1CA8A3C, esi
+00460AB1: or      eax, 400000h; Logical Inclusive OR
+00460AB6: pop     edi
+00460AB7: pop     esi
+00460AB8: mov     dword_1CA92F8, eax
+00460ABD: pop     ebx
+00460ABE: add     esp, 8; Add
+00460AC1: retn; Return Near from Procedure
+00460AC2: cmp     eax, ecx; Compare Two Operands
+00460AC4: jle     short loc_460AE2; Jump if Less or Equal (ZF=1 | SF!=OF)
+00460AC6: mov     eax, dword_1CA92F8
+00460ACB: pop     edi
+00460ACC: or      eax, 400000h; Logical Inclusive OR
+00460AD1: pop     esi
+00460AD2: mov     dword_1CA92F8, eax
+00460AD7: mov     dword_1CA8A3C, ecx
+00460ADD: pop     ebx
+00460ADE: add     esp, 8; Add
+00460AE1: retn; Return Near from Procedure
+00460AE2: pop     edi
+00460AE3: pop     esi
+00460AE4: mov     dword_1CA8A3C, eax
+00460AE9: pop     ebx

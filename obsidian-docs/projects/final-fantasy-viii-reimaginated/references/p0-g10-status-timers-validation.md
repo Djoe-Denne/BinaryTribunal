@@ -4,9 +4,9 @@ category: references
 tags: [ff8, battle-system, testing, runtime-memory, reference]
 aliases: [G10 status timers, G10 Slow apply, P0 G10]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-offline-validation-2026-08-15.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-live-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g10-status-timers-offline-validation-2026-08-15.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g10-live-boundary-post-shutdown-2026-08-15.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/fc8b950c-43c1-4c51-9634-6203a75cf3c3/fc8b950c-43c1-4c51-9634-6203a75cf3c3.jsonl
 summary: G10 is live-promoted for Status-Atk Slow on Attack 0x01. Apply, named timers, mental RNG, and in-battle shutdown retain. HUD icon deferred U14.6. G11 Fire v2 is live-promoted.
 provenance:

@@ -1,0 +1,221 @@
+// Finite adaptation of inputs/packet-R4/native/INSPECTOR_AUDIT.cjs.
+// Root-side, data-only audit. Never imports a scientific branch or starts I/O.
+// The caller must be the owned live collector: JSON self-consistency is NOT
+// an authentication mechanism. No science/native-runtime qualification here.
+import { createHash } from "node:crypto";
+import { isAbsolute, resolve, win32 } from "node:path";
+import { fileURLToPath } from "node:url";
+import { decodeEvidenceBytes } from "../test/numeric-evidence-writer";
+
+export type NumericSide = "baseline" | "candidate" | "test";
+export type NativePointRange = { generatedLine: number; firstColumn: number; lastColumn: number; sourceLine: number; sourceColumn: number };
+export type ProtocolRequest = { id: number; method: string; params?: { scriptId?: string } };
+export type ProtocolEvent = {
+  id?: number; method?: string; error?: unknown;
+  params?: { scriptId?: string; url?: string; sourceURL?: string; sourceMapURL?: string };
+  result?: { scriptSource?: string };
+};
+export type ExpectedNativeSource = { side: NumericSide; path: string; sha256: string; bytes: Uint8Array };
+export type NativeSourceAudit = {
+  side: NumericSide; scriptId: string; scriptURL: string; sourceSha256: string;
+  emittedBytes: Buffer; emittedSha256: string; nativeMapBytes: Buffer; nativeMapSha256: string;
+  nativeMapSource: string; pointRanges: NativePointRange[];
+};
+export type OwnedScriptDecision = { kind: "expected-owned"; path: string }
+  | { kind: "builtin-outside-owned" | "file-outside-owned" | "unlocated" | "other-outside-owned" };
+export function createOwnedScriptGuard(namespace: string, expectedPaths: readonly string[]): (params: unknown) => OwnedScriptDecision {
+  // This is an ownership boundary, not a new source-authority/mapping rule.
+  // Point proofs retain their stricter actual URL/emit/map identity checks.
+  const canonical = (text: string): string => {
+    let path = text;
+    if (/^file:/i.test(path)) path = fileURLToPath(path);
+    if (path.startsWith("\\\\?\\") && /^[A-Za-z]:[\\/]/.test(path.slice(4))) path = path.slice(4);
+    need(!/^[A-Za-z]:[^\\/]/.test(path), "ambiguous drive-relative script location");
+    return win32.normalize(win32.resolve(namespace, path)).toLowerCase();
+  };
+  need(win32.isAbsolute(namespace), "absolute owned namespace required");
+  const root = canonical(namespace), expected = new Map<string, string>();
+  const inside = (path: string): boolean => {
+    const rel = win32.relative(root, path);
+    return rel === "" || !win32.isAbsolute(rel) && rel !== ".." && !rel.startsWith("..\\");
+  };
+  for (const path of expectedPaths) {
+    const key = canonical(path);
+    need(inside(key) && !expected.has(key), "owned inventory namespace/collision"); expected.set(key, path);
+  }
+  const classify = (location: string): OwnedScriptDecision => {
+    if (location === "") return { kind: "unlocated" };
+    if (/^(bun|node):/i.test(location) || location === "native" || location === "[native code]") return { kind: "builtin-outside-owned" };
+    const fileURI = /^file:/i.test(location);
+    if (!fileURI && /^[A-Za-z][A-Za-z0-9+.-]*:/.test(location) && !/^[A-Za-z]:/.test(location)) return { kind: "other-outside-owned" };
+    const isPath = fileURI || win32.isAbsolute(location) || /^[A-Za-z]:/.test(location) || /[\\/]/.test(location) || /\.[cm]?[jt]sx?$/i.test(location);
+    if (!isPath) return { kind: "unlocated" };
+    const key = canonical(location);
+    if (!inside(key)) return { kind: "file-outside-owned" };
+    const path = expected.get(key);
+    need(path !== undefined, "unlisted owned runtime script");
+    return { kind: "expected-owned", path };
+  };
+  return params => {
+    need(params !== null && typeof params === "object" && Object.getPrototypeOf(params) === Object.prototype, "scriptParsed metadata object");
+    const script = params as { url?: unknown; sourceURL?: unknown }, decisions: OwnedScriptDecision[] = [];
+    for (const value of [script.url, script.sourceURL]) {
+      if (value === undefined) continue;
+      need(typeof value === "string", "script location must be string"); decisions.push(classify(value));
+    }
+    const owned = decisions.filter((d): d is { kind: "expected-owned"; path: string } => d.kind === "expected-owned");
+    if (owned.length > 0) {
+      need(decisions.every(d => d.kind === "unlocated" || d.kind === "expected-owned" && d.path === owned[0]!.path), "script location aliases disagree");
+      return owned[0]!;
+    }
+    return decisions.find(d => d.kind !== "unlocated") ?? { kind: "unlocated" };
+  };
+}
+const MODULE_CAP = 1024 * 1024;
+const HEX = /^[0-9a-f]{64}$/;
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const sha = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
+function need(ok: unknown, message: string): asserts ok { if (!ok) throw new Error(`numeric-native-source-audit: ${message}`); }
+function closed(value: unknown, keys: readonly string[]): Record<string, unknown> {
+  need(value !== null && typeof value === "object" && Object.getPrototypeOf(value) === Object.prototype, "closed JSON object");
+  const actual = Reflect.ownKeys(value);
+  need(actual.length === keys.length && actual.every(k => typeof k === "string" && keys.includes(k)), "unexpected/missing map field");
+  return value as Record<string, unknown>;
+}
+function exactInteger(value: number, minimum = 0): void { need(Number.isSafeInteger(value) && value >= minimum, "unsafe/negative coordinate"); }
+
+// Retains unmapped segments as boundaries; they must NEVER be bridged by a GLB
+// range. No composition, indexed maps, multi-source maps or generic map service.
+function rangesFor(map: Record<string, unknown>, generated: string[], source: string[]): NativePointRange[] {
+  need(typeof map.mappings === "string", "mapping string");
+  const lines = map.mappings.split(";");
+  need(lines.length <= generated.length, "map lines exceed actual emitted buffer");
+  let sourceIndex = 0, sourceLine = 0, sourceColumn = 0, nameIndex = 0;
+  const ranges: NativePointRange[] = [];
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    const text = lines[lineIndex]!;
+    if (text === "") continue;
+    let generatedColumn = 0;
+    const points: Array<{ column: number; sourceLine?: number; sourceColumn?: number }> = [];
+    for (const segment of text.split(",")) {
+      need(segment.length > 0, "empty VLQ segment");
+      const fields: number[] = []; let value = 0, shift = 0, continuation = false;
+      for (const char of segment) {
+        const digit = alphabet.indexOf(char);
+        need(digit >= 0 && shift < 50, "invalid/oversized VLQ");
+        value += (digit & 31) * 2 ** shift;
+        need(Number.isSafeInteger(value), "unsafe VLQ");
+        continuation = (digit & 32) !== 0;
+        if (continuation) shift += 5;
+        else { fields.push(value % 2 === 1 ? -Math.floor(value / 2) : Math.floor(value / 2)); value = 0; shift = 0; }
+      }
+      need(!continuation && (fields.length === 1 || fields.length === 4 || fields.length === 5), "VLQ shape");
+      generatedColumn += fields[0]!; exactInteger(generatedColumn);
+      need(generatedColumn <= generated[lineIndex]!.length, "generated UTF16 column outside buffer");
+      need(points.length === 0 || generatedColumn > points[points.length - 1]!.column, "duplicate/unordered generated columns");
+      if (fields.length === 1) { points.push({ column: generatedColumn }); continue; }
+      sourceIndex += fields[1]!; sourceLine += fields[2]!; sourceColumn += fields[3]!;
+      exactInteger(sourceIndex); exactInteger(sourceLine); exactInteger(sourceColumn);
+      need(sourceIndex === 0 && sourceLine < source.length && sourceColumn <= source[sourceLine]!.length, "source UTF16 point outside closed source");
+      if (fields.length === 5) {
+        nameIndex += fields[4]!; exactInteger(nameIndex);
+        need(Array.isArray(map.names) && nameIndex < map.names.length, "name index outside map");
+      }
+      points.push({ column: generatedColumn, sourceLine, sourceColumn });
+    }
+    for (let i = 0; i < points.length; i++) {
+      const point = points[i]!;
+      if (point.sourceLine === undefined || point.sourceColumn === undefined) continue;
+      const next = points[i + 1];
+      const lastColumn = next === undefined ? generated[lineIndex]!.length + 1 : next.column;
+      need(lastColumn >= point.column + 1, "empty mapped range");
+      ranges.push({ generatedLine: lineIndex + 1, firstColumn: point.column + 1, lastColumn,
+        sourceLine: point.sourceLine + 1, sourceColumn: point.sourceColumn + 1 });
+    }
+  }
+  need(ranges.length > 0, "no native source ranges");
+  return ranges;
+}
+
+// Actual finite runtime closure: science, runtime support and qualification.
+// Domain is type-only and remains in the static source closure, not emission.
+// Source inventory never implicitly expands the scientific Error-frame grammar.
+const expectedSlots = [
+  ["baseline", "/baseline/tools/ff8-harness/src/cluster.ts", "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303"],
+  ["baseline", "/baseline/tools/ff8-harness/src/investigation-groups.ts", "cf3201b0e6d6ae5d67afc628a8a59e7ecda2a830a07049a1923001033be38525"],
+  ["candidate", "/candidate/tools/ff8-harness/src/cluster.ts", "09c2035a16c1d4a1bfe03fc00807920d0af5202b290b0a68d7172a33319a3542"],
+  ["candidate", "/candidate/tools/ff8-harness/src/investigation-groups.ts", "162c979a5c65a6c08625f255d33aba7cb16ba3bb85ddfc7937925b95073d3b1a"],
+  ["candidate", "/candidate/tools/ff8-harness/src/sparse-graph-codecs.ts", "4ca2bed30e2609d87ef499a0b1ad5c0f2d687565161059ae7e6049db25b0f718"],
+  ["candidate", "/candidate/tools/ff8-harness/src/group-context-codecs.ts", "37ef5a09f4d4e6b8172b3962e30cf1442566cef4607295ef493fe4cce6774986"],
+  ["baseline", "/baseline/tools/ff8-harness/src/validation.ts", "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50"],
+  ["baseline", "/baseline/tools/ff8-harness/src/re-policy.ts", "c3714c3120d3e8f87a044ef6857ca40c41900a6c74647d1bfdc6205371dfc365"],
+  ["candidate", "/candidate/tools/ff8-harness/src/validation.ts", "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50"],
+  ["candidate", "/candidate/tools/ff8-harness/src/re-policy.ts", "c3714c3120d3e8f87a044ef6857ca40c41900a6c74647d1bfdc6205371dfc365"],
+  ["test", "/qualification/test/numeric-differential.test.ts", null],
+  ["test", "/qualification/test/numeric-evidence-writer.ts", null],
+  ["test", "/qualification/native/numeric-native-proof.ts", null],
+] as const;
+
+export function auditNumericNativeSources(expected: readonly ExpectedNativeSource[], requests: readonly ProtocolRequest[], events: readonly ProtocolEvent[],
+  invocationPins: { testSourceSha256: string; writerSourceSha256: string; nativeProofSourceSha256: string }): NativeSourceAudit[] {
+  need(expected.length === expectedSlots.length, "complete finite runtime-source closure required");
+  need(HEX.test(invocationPins.testSourceSha256) && HEX.test(invocationPins.writerSourceSha256) && HEX.test(invocationPins.nativeProofSourceSha256), "prebound authored-source pins required");
+  const paths = new Set<string>();
+  let namespace: string | undefined;
+  for (const [side, suffix, frozenHash] of expectedSlots) {
+    const matches = expected.filter(e => e.side === side && e.path.replaceAll("\\", "/").endsWith(suffix));
+    need(matches.length === 1, "missing/duplicate finite source slot");
+    const source = matches[0]!, normalized = source.path.replaceAll("\\", "/");
+    need(isAbsolute(source.path) && resolve(source.path) === source.path, "noncanonical source path");
+    const root = normalized.slice(0, -suffix.length);
+    if (namespace === undefined) namespace = root;
+    need(root === namespace, "sources cross owned run namespace");
+    const boundHash = frozenHash ?? (suffix.endsWith("numeric-differential.test.ts") ? invocationPins.testSourceSha256
+      : suffix.endsWith("numeric-evidence-writer.ts") ? invocationPins.writerSourceSha256 : invocationPins.nativeProofSourceSha256);
+    need(source.sha256 === boundHash, "frozen/prebound source pin drift");
+  }
+  for (const source of expected) {
+    need(!paths.has(source.path) && HEX.test(source.sha256) && sha(source.bytes) === source.sha256, "source pin/identity mismatch");
+    paths.add(source.path);
+  }
+  const scriptGuard = createOwnedScriptGuard(namespace!, [...paths]);
+  for (const event of events) if (event.method === "Debugger.scriptParsed") scriptGuard(event.params ?? {});
+  const requestIds = new Set<number>();
+  for (const request of requests) {
+    need(Number.isSafeInteger(request.id) && request.id > 0 && !requestIds.has(request.id), "duplicate/invalid request id");
+    need(["Debugger.enable", "Inspector.initialized", "Debugger.getScriptSource"].includes(request.method), "unapproved inspector method");
+    requestIds.add(request.id);
+  }
+  need(!events.some(e => Object.hasOwn(e, "error")), "protocol error retained as failure");
+  const scripts = new Set<string>(), result: NativeSourceAudit[] = [];
+  for (const source of expected) {
+    const parsed = events.filter(e => e.method === "Debugger.scriptParsed" && (e.params?.url === source.path || e.params?.sourceURL === source.path));
+    need(parsed.length === 1, "missing/duplicate actual scriptParsed identity");
+    const script = parsed[0]!.params!;
+    need(typeof script.scriptId === "string" && script.scriptId.length > 0 && script.scriptId.length <= 128 && !scripts.has(script.scriptId), "script identity collision");
+    need((script.url === undefined || script.url === source.path) && (script.sourceURL === undefined || script.sourceURL === source.path), "script URL aliases disagree");
+    scripts.add(script.scriptId);
+    const gets = requests.filter(r => r.method === "Debugger.getScriptSource" && r.params?.scriptId === script.scriptId);
+    need(gets.length === 1, "one actual getScriptSource request per module");
+    const responses = events.filter(e => e.id === gets[0]!.id);
+    need(responses.length === 1 && typeof responses[0]!.result?.scriptSource === "string", "missing/duplicate actual source response");
+    const emittedText = responses[0]!.result!.scriptSource!, emittedBytes = Buffer.from(emittedText, "utf8");
+    need(decodeEvidenceBytes(emittedBytes) === emittedText, "noncanonical emitted text");
+    const lines = emittedText.split(/\r?\n/), mapLines = lines.filter(l => l.startsWith("//# sourceMappingURL=")), urlLines = lines.filter(l => l.startsWith("//# sourceURL="));
+    need(mapLines.length === 1 && urlLines.length === 1 && urlLines[0] === `//# sourceURL=${source.path}`, "native emitted source/map URL identity");
+    const inline = /^\/\/# sourceMappingURL=data:application\/json;base64,([A-Za-z0-9+/]+={0,2})$/.exec(mapLines[0]!);
+    need(inline !== null && script.sourceMapURL === mapLines[0]!.slice("//# sourceMappingURL=".length), "actual script event/inline map mismatch");
+    const nativeMapBytes = Buffer.from(inline[1]!, "base64");
+    need(nativeMapBytes.toString("base64") === inline[1], "noncanonical map base64");
+    need(source.bytes.byteLength + emittedBytes.length + nativeMapBytes.length <= MODULE_CAP, "existing 1MiB aggregate module cap");
+    const map = closed(JSON.parse(decodeEvidenceBytes(nativeMapBytes)), ["version", "sources", "sourcesContent", "mappings", "names"]);
+    const sourceText = decodeEvidenceBytes(source.bytes);
+    need(map.version === 3 && Array.isArray(map.sources) && map.sources.length === 1 && typeof map.sources[0] === "string" && map.sources[0].length > 0
+      && Array.isArray(map.sourcesContent) && map.sourcesContent.length === 1 && map.sourcesContent[0] === sourceText
+      && Array.isArray(map.names) && map.names.every(n => typeof n === "string"), "closed native V3/source-content identity");
+    result.push({ side: source.side, scriptId: script.scriptId, scriptURL: source.path, sourceSha256: source.sha256,
+      emittedBytes, emittedSha256: sha(emittedBytes), nativeMapBytes, nativeMapSha256: sha(nativeMapBytes), nativeMapSource: map.sources[0],
+      pointRanges: rangesFor(map, lines, sourceText.split(/\r?\n/)) });
+  }
+  return result;
+}

@@ -1,0 +1,25 @@
+0048E019: shl     eax, 5; Shift Logical Left
+0048E01C: mov     cl, K_DUEL.HitCount[eax]
+0048E022: mov     ax, K_DUEL.MagicID[eax]
+0048E029: mov     [esp+28h+hit_count], ecx
+0048E02D: mov     [esp+28h+magic_id], eax
+0048E031: call    sub_47E530; Call Procedure
+0048E036: add     esp, 4; Add
+0048E039: mov     edi, eax
+0048E03B: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E040: mov     eax, ebx; jumptable 0048D37A cases 8,236
+0048E042: and     eax, 0FFFFh; Logical AND
+0048E047: lea     esi, [eax+eax*4]; Load Effective Address
+0048E04A: shl     esi, 2; Shift Logical Left
+0048E04D: test    K_ENEMY_ATTACK.unknown[esi], 80h; Logical Compare
+0048E054: jz      short loc_48E063; Jump if Zero (ZF=1)
+0048E056: push    eax
+0048E057: call    getEnemyAttackName; Call Procedure
+0048E05C: add     esp, 4; Add
+0048E05F: mov     edi, eax
+0048E061: jmp     short loc_48E065; Jump
+0048E063: xor     edi, edi; Logical Exclusive OR
+0048E065: mov     al, K_ENEMY_ATTACK.unknown[esi]
+0048E06B: mov     cx, K_ENEMY_ATTACK.magicID[esi]
+0048E072: and     eax, 7Fh; Logical AND
+0048E075: mov     [esp+24h+magic_id], ecx

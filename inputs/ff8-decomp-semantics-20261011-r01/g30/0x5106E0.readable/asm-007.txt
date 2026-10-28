@@ -1,0 +1,25 @@
+005108E3: mov     eax, dword_1D99C18
+005108E8: add     esp, 18h; Add
+005108EB: add     eax, 20h ; ' '; Add
+005108EE: mov     dword_1D99C18, eax
+005108F3: mov     eax, dword_1D99C1C
+005108F8: mov     ecx, [esp+44h+var_24]
+005108FC: add     eax, 10h; Add
+005108FF: dec     ecx; Decrement by 1
+00510900: mov     dword_1D99C1C, eax
+00510905: mov     [esp+44h+var_24], ecx
+00510909: jnz     loc_510762; Jump if Not Zero (ZF=0)
+0051090F: mov     ecx, [esp+44h+ctx]
+00510913: mov     edx, [ecx+1Ch]
+00510916: and     edx, 2FFFFFFh; Logical AND
+0051091C: or      edx, 2C000000h; Logical Inclusive OR
+00510922: mov     [esp+44h+var_2C], edx
+00510926: xor     edx, edx; Logical Exclusive OR
+00510928: mov     dx, [ecx+0Ah]
+0051092C: test    edx, edx; Logical Compare
+0051092E: jz      loc_510B5B; Jump if Zero (ZF=1)
+00510934: jle     loc_510B5B; Jump if Less or Equal (ZF=1 | SF!=OF)
+0051093A: mov     [esp+44h+var_18], edx
+0051093E: mov     ecx, [eax+0Ch]
+00510941: mov     dx, [eax+2]
+00510945: mov     ebp, [esp+44h+var_34]

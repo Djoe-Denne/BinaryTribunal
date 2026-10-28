@@ -1,0 +1,25 @@
+0050FFD0: xor     edx, edx; Logical Exclusive OR
+0050FFD2: mov     dx, [eax+4]
+0050FFD6: mov     eax, [esp+38h+var_28]
+0050FFDA: cmp     edx, ecx; Compare Two Operands
+0050FFDC: mov     bx, [eax+4]
+0050FFE0: mov     eax, ecx
+0050FFE2: jge     short loc_50FFE6; Jump if Greater or Equal (SF=OF)
+0050FFE4: mov     eax, edx
+0050FFE6: cmp     ebx, eax; Compare Two Operands
+0050FFE8: jge     short loc_50FFEC; Jump if Greater or Equal (SF=OF)
+0050FFEA: mov     eax, ebx
+0050FFEC: add     ebx, edi; Add
+0050FFEE: push    0
+0050FFF0: add     edx, edi; Add
+0050FFF2: push    ebx
+0050FFF3: add     ecx, edi; Add
+0050FFF5: push    edx
+0050FFF6: push    ecx
+0050FFF7: mov     ecx, dword_1D99C18
+0050FFFD: mov     edx, [esp+48h+ot_base]
+00510001: push    ecx
+00510002: mov     ecx, [esp+4Ch+ot_shift]
+00510006: sar     eax, cl; Shift Arithmetic Right
+00510008: lea     eax, [edx+eax*4]; Load Effective Address
+0051000B: push    eax

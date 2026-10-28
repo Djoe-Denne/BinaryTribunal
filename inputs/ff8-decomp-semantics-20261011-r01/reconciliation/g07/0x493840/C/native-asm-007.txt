@@ -1,0 +1,25 @@
+00493A62: push    esi
+00493A63: call    sub_484640; Call Procedure
+00493A68: mov     BATTLE_SLOT_DATA.cur_atb[edi], ebp
+00493A6E: lea     ecx, ds:0[esi*8]; Load Effective Address
+00493A75: sub     ecx, esi; Integer Subtraction
+00493A77: push    esi; slot_id
+00493A78: lea     edx, [esi+ecx*4]; Load Effective Address
+00493A7B: shl     edx, 4; Shift Logical Left
+00493A7E: mov     dword_1CFF184[edx], ebp
+00493A84: call    domain__BattleItem_RefundStashedItems; Static 2026-08-18: refunds up to two nonzero item ids stashed at slot +0xB8/+0xB9 through BattleEqualItemBuffer_AdjustCount(id, add), then clears the stash. Callers include battle end, eject reset, status sync, and Angel Wing rewrite cleanup.
+00493A89: add     esp, 0Ch; Add
+00493A8C: lea     eax, ds:0[esi*8]; Load Effective Address
+00493A93: and     ebx, 30E7FFFh; Logical AND
+00493A99: sub     eax, esi; Integer Subtraction
+00493A9B: lea     ecx, [esi+eax*4]; Load Effective Address
+00493A9E: shl     ecx, 4; Shift Logical Left
+00493AA1: lea     eax, F_CHAR_DATA[ecx]; By address:
+00493AA7: mov     cx, [esp+10h+param_status_1]
+00493AAC: and     ecx, 7Fh; Logical AND
+00493AAF: push    eax
+00493AB0: mov     [eax+1B2h], cx
+00493AB7: mov     [eax+188h], ebx
+00493ABD: test    byte ptr [eax+1B2h], 10h; Logical Compare
+00493AC4: jz      short loc_493AD5; Jump if Zero (ZF=1)
+00493AC6: push    1

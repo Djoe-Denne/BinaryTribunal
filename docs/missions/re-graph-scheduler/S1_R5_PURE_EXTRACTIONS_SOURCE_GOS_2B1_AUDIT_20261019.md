@@ -1,0 +1,47 @@
+# S1R5 : extractions pures autorisées isolément ; audit2b1 GO
+
+## Planning
+
+Plan result_mvf6cmjy_005k_ir9b3c(15pins241199B) reluparentauxancres183–224/
+260–298/314–367/398–410/411–477/scc19–29. GOsourceisolée6artefacts :
+planner-derived-codecs,mini-function-order,planner,scc(import/reexportcomparator
+seulement),DESIGN/MANIFEST. ParentRÉDUITpérimètre : receiptIndexKey/invalidation
+index/unitsConflict/readiness restentproducteur ; pasrefactoringgénéral.
+Prédicats/prereq/conflicts/G1/context dérivésutilisentpartitionunitésFOURNIE,
+pasSCC/famille/closurequeue/selectionreplay. compareFunctionIdsdéplacéBYTEexact,
+pasruntimeimportSCCparcodec. Backwardexports/diagnosticordering inchangés.
+Nouveaupaquet20pins314390B/a0e8dc3055122991324aa1e59d1c81caf04976432eac65ebefc1283e50f6eeb9,
+12pureclosurefilesqualifiés inclus,Solxhighnatifrevérifiésource-r1-go.
+
+## Numeric/contexte
+
+Plan result_mvf6d1q0_005m_4exdhe(14pins321229B) reluparentnumeric260–323/
+groups56–101/138–151/cluster810–818. GOsourceisolée6artefacts : sparse-graph-
+codecs,group-context-codecs,cluster,investigation-groups,DESIGN/MANIFEST.
+Numericcorps/constants/errorconstructoridentity/sourceSummands/bindings/caches/
+budgetsexacts,producteursPPR/Leiden/dyadic/etc restentenplace. Exportsinternal
+seulementavecactualremainingcaller. Corpsreconcile/compareFunctionId inchangés.
+
+Contextcoreexact pourDRAFTSouOWNERSHIPFOURNIS,norecluster/splitattachreplay.
+Parentratifiefixedadapterparrèglepremierkerneltriépouruncoverednonkernel,
+appuyéeproducerfirstchunk/noattachuncovered. Nouveauhelper ≠ extractionBYTEexacte,
+preuvesV/gatesrequises. Paramètrepartition estNARROWPickSHAPEqui admetlesvrais
+champsBvalidéssanscastB→A,pasClusterPartitionAcomplet. Contextpartition etgroupe
+peuventavoir sourcesDIFFÉRENTES : témoinfuturdoitporterdeuxrôlesindépendants.
+Numericconsistency≠provenance/authenticity/heursticchoiceproof.
+Paquet20pins375072B/a3b5abb865fc59f60f4963e42f3f031fdbccf9b176d1470ad0b91b06e51ae35f,
+12pureclosurefilesinclus,Solxhighnatifrevérifiésource-r1-go. Pascommonhashleaf
+nouvelle ni editfunction-order/SCC/planner(autreowner). ExactpayloadwitnessS1
+etnouveauxschémas/publicAPIrestentÀRATIFIERaprèsqualificationdescodecs.
+
+## Qualification future, pas acquis S1
+
+Lesdeuxtâchesécriventuniquementdanssiblings.tmp,pasmain/QA/S1fichiersactuels.
+FreshVsourcepuisparenttypecheck/equivalenceproducteur/numericcontexttests/
+regressions/loadisolation encorerequis ; nouveaugapstructurant→parentavantcode.
+Aucuneruntime/compileworkerautorisée. Lesplansacceptésnefermentpasleurstasks
+de développementniS1 ; 4lacunesR4ne sontpas encorecorrigéesparsourceS1R5.
+
+EnparallèleACKV2b1 result_mvf6cco2_005h_ectdyt37pins524932B/NBLmicroplan conforme,
+GOAUDITfortexplicitedonné. Source2b1/QAgeléesNONacceptées,nocompiler/runencore,
+niThread/dispatch/canceljoin/ACK/Closed/release/full44/125s/Linuxpromus.

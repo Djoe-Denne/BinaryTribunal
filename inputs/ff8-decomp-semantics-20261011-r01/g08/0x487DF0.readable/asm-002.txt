@@ -1,0 +1,25 @@
+00487E42: mov     byte ptr [esp+74h+enter_alt_target_param_2], 0
+00487E47: mov     [esp+74h+section_position], esi
+00487E4B: jnz     short loc_487EB6; Jump if Not Zero (ZF=0)
+00487E4D: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 20h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00487E54: jz      short loc_487EB6; Jump if Zero (ZF=1)
+00487E56: call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure
+00487E5B: cmp     eax, 0FFh; Compare Two Operands
+00487E60: jnz     short loc_487E75; Jump if Not Zero (ZF=0)
+00487E62: mov     [esp+74h+p_monster_slot_id], esi
+00487E66: mov     [esp+74h+opcode_param_1], 0
+00487E6B: mov     esi, offset AI_VM_FALLBACK_BYTECODE
+00487E70: jmp     loc_489804; no-target (count==0xFF): fallback Attack bytecode, jmp ability-row load
+00487E75: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.
+00487E7A: and     eax, 0FFh; Logical AND
+00487E7F: mov     ecx, 3; rand%3 party slot; retry while Dead (status_1 & 1); mask = 1<<slot
+00487E84: cdq; EAX -> EDX:EAX (with sign)
+00487E85: idiv    ecx; Signed Divide
+00487E87: lea     eax, [edx+edx*2]; Load Effective Address
+00487E8A: lea     ecx, [edx+eax*4]; Load Effective Address
+00487E8D: shl     ecx, 4; Shift Logical Left
+00487E90: test    byte ptr BATTLE_SLOT_DATA.status_1[ecx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00487E97: jnz     short loc_487E75; Jump if Not Zero (ZF=0)
+00487E99: mov     eax, 1
+00487E9E: mov     cx, dx
+00487EA1: shl     eax, cl; Shift Logical Left

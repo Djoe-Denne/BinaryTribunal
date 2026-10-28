@@ -1,0 +1,25 @@
+0050B2FC: mov     eax, dword_1D99A40
+0050B301: mov     edx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050B307: xor     ecx, ecx; Logical Exclusive OR
+0050B309: mov     esi, [eax+8]
+0050B30C: mov     cl, [edx+2]
+0050B30F: and     esi, 0FF7FFFFFh; Logical AND
+0050B315: push    ecx; animId
+0050B316: push    eax; actor
+0050B317: mov     [eax+8], esi
+0050B31A: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050B31F: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().
+0050B324: xor     edx, edx; Logical Exclusive OR
+0050B326: mov     ecx, 3
+0050B32B: div     ecx; Unsigned Divide
+0050B32D: mov     ecx, dword_1D99A40
+0050B333: xor     eax, eax; Logical Exclusive OR
+0050B335: or      dl, 10h; Logical Inclusive OR
+0050B338: mov     byte_1D99A4E, dl
+0050B33E: mov     al, dl
+0050B340: mov     edx, [ecx+84h]
+0050B346: push    eax; int
+0050B347: mov     eax, [edx+2Ch]
+0050B34A: push    eax; unsigned __int16 *
+0050B34B: call    BattleCamera_StartTrack; Alloue d'abord l'un des 2 noeuds BdLink caméra, puis scanne 2 records de 0x524. Le scan local n'a pas de garde 'pool plein', mais le 3e démarrage normal échoue au registre BdLink tant que les cycles de vie restent couplés. record[0]=variant; 0xFF=libre.
+0050B350: add     esp, 10h; Add

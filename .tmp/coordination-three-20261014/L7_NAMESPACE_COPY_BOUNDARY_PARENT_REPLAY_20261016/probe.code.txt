@@ -1,0 +1,23 @@
+
+import {planMission} from './src/planner.ts';
+import {simPlanFromExport,validateSimPlan,runScenario} from './src/simulator.ts';
+import {plannerFixture,scenario} from './test/simulator/scenarios.ts';
+import {canonical} from './src/validation.ts';
+const f=plannerFixture(2,[[0,1]]),base=simPlanFromExport(planMission(f.graph,f.groups,f.policy));
+const results=[];
+for(const mode of ['baseline','missing','inherited','nonenum']){
+ const plan=structuredClone(base),u=plan.units.find(u=>u.prerequisites.length),p=u.prerequisites[0],id=p.id;
+ if(mode!=='baseline')delete p.requirement;
+ if(mode==='inherited'){delete p.id;Object.setPrototypeOf(p,{id});}
+ if(mode==='nonenum')Object.defineProperty(p,'id',{enumerable:false});
+ const detached=structuredClone(plan),copied=detached.units.find(v=>v.unitId===u.unitId).prerequisites[0];
+ const diagnostics=validateSimPlan(plan),r=runScenario({plan,config:scenario(['fixture'],[],4).config,durations:{A:2,B:3,R:1}});
+ let detachedRunError=null;if(mode==='inherited'||mode==='nonenum'){
+  try{runScenario({plan:detached,config:scenario(['fixture'],[],4).config,durations:{A:2,B:3,R:1}});}
+  catch(e){detachedRunError={name:e.name,code:e.code};}
+ }
+ results.push({mode,diagnostics,sourceSame:canonical(plan.source)===canonical(base.source),originalId:id,
+  detachedId:copied.id??null,committedUnits:r.metrics.committedUnits,consumer:r.units.find(v=>v.unitId===u.unitId),
+  committedTrace:r.trace.filter(e=>e.ev==='committed'),detachedDiagnostics:validateSimPlan(detached),detachedRunError});
+}
+console.log(JSON.stringify(results));

@@ -1,0 +1,25 @@
+0050ACFE: shl     eax, 2; Shift Logical Left
+0050AD01: mov     cx, word_1D972D4[eax]
+0050AD08: mov     word ptr dword_1D972DC[eax], cx
+0050AD0F: mov     dx, word_1D972D8[eax]
+0050AD16: mov     word ptr dword_1D972E0[eax], dx
+0050AD1D: mov     edx, dword_1D99A84
+0050AD23: and     edx, 0FFh; Logical AND
+0050AD29: lea     ecx, [edx+edx*4]; Load Effective Address
+0050AD2C: shl     ecx, 3; Shift Logical Left
+0050AD2F: sub     ecx, edx; Integer Subtraction
+0050AD31: shl     ecx, 2; Shift Logical Left
+0050AD34: mov     dx, word_1D972D8[ecx]
+0050AD3B: mov     word ptr dword_1D972E0[ecx], dx
+0050AD42: mov     eax, dword_1D97334[eax]
+0050AD48: or      byte ptr [eax+2Dh], 2; Logical Inclusive OR
+0050AD4C: mov     al, [esi+0Dh]
+0050AD4F: inc     al; Increment by 1
+0050AD51: mov     [esi+0Dh], al
+0050AD54: pop     esi
+0050AD55: xor     eax, eax; Logical Exclusive OR
+0050AD57: pop     ebx
+0050AD58: retn; Return Near from Procedure
+0050AD59: cmp     byte_1D99A81, 1; Compare Two Operands
+0050AD60: jmp     loc_50AC7A; Jump
+0050AD65: mov     eax, dword_1D99A40; jumptable 0050A9C9 case 7

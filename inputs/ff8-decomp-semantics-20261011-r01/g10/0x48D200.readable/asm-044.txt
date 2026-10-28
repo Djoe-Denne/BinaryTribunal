@@ -1,0 +1,25 @@
+0048E11D: dec     eax; Decrement by 1
+0048E11E: jz      short loc_48E15A; Jump if Zero (ZF=1)
+0048E120: dec     eax; Decrement by 1
+0048E121: jnz     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E127: mov     dx, K_NONJ_GF_ATTACK_NAME_OFFSET.magicID+78h
+0048E12E: xor     eax, eax; Logical Exclusive OR
+0048E130: mov     al, byte ptr K_NONJ_GF_ATTACK_NAME_OFFSET.unknown2+79h
+0048E135: mov     ebx, 6
+0048E13A: push    ebx
+0048E13B: mov     [esp+28h+hit_count], eax
+0048E13F: mov     word ptr [esp+28h+magic_id], dx
+0048E144: call    getAddressTextNonJGF; Call Procedure
+0048E149: add     esp, 4; Add
+0048E14C: mov     edi, eax
+0048E14E: mov     byte ptr dword_1D28E20+2, 0
+0048E155: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E15A: push    35h ; '5'
+0048E15C: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048E163: mov     byte ptr [esp+28h+p_command_type], 0
+0048E168: mov     ebx, 9
+0048E16D: mov     [esp+28h+p_always_zero], 0Ah
+0048E172: mov     [esp+28h+magic_id], ecx
+0048E176: call    domain__BattleText_GetMiscText; Call Procedure
+0048E17B: add     esp, 4; Add
+0048E17E: mov     battle_message_pointer, eax

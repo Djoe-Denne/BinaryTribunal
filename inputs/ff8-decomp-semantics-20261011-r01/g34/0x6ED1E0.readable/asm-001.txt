@@ -1,0 +1,25 @@
+006ED1E0: push    ebx
+006ED1E1: push    ebp
+006ED1E2: push    esi
+006ED1E3: push    edi
+006ED1E4: mov     edi, [esp+10h+dest]
+006ED1E8: xor     eax, eax; Logical Exclusive OR
+006ED1EA: mov     ecx, edi
+006ED1EC: movsx   ebx, [esp+10h+angle]; Move with Sign-Extend
+006ED1F1: mov     [ecx], eax
+006ED1F3: movsx   ebp, [esp+10h+scale]; Move with Sign-Extend
+006ED1F8: mov     [ecx+4], eax
+006ED1FB: neg     ebx; Two's Complement Negation
+006ED1FD: mov     [ecx+8], eax
+006ED200: push    ebx
+006ED201: mov     [ecx+0Ch], eax
+006ED204: mov     [ecx+10h], eax
+006ED207: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.
+006ED20C: mov     esi, eax
+006ED20E: push    ebx
+006ED20F: imul    esi, ebp; Signed Multiply
+006ED212: sar     esi, 0Ch; Shift Arithmetic Right
+006ED215: call    Fixed_Cos4096_Q12; E3a: fild; *pi/2048 (flt_B6B980); fcos (D9FF); *4096.0 (flt_B69540); magic-double +0x80000000.
+006ED21A: imul    eax, ebp; Signed Multiply
+006ED21D: mov     dx, [esp+18h+scale]
+006ED222: mov     [edi+0Ch], si

@@ -1,0 +1,18 @@
+0047E1BC: mov     BATTLE_SLOT_DATA.attack_sequence_id[esi], bl
+0047E1C2: mov     BATTLE_SLOT_DATA.target_reaction_type[esi], bl
+0047E1C8: mov     ecx, ATTACKER_SLOT_ID_0
+0047E1CE: inc     edi; Increment by 1
+0047E1CF: and     ecx, 0FFh; Logical AND
+0047E1D5: cmp     edi, ecx; Compare Two Operands
+0047E1D7: jl      short loc_47E168; Jump if Less (SF!=OF)
+0047E1D9: pop     esi
+0047E1DA: call    domain__Battle_ResetAttackHitCount; thunk jmp : 1 instr vers 47DC50 (pas de logique locale)
+0047E1DF: call    domain__Battle_CommitPartyHPAndMagicToSave; Battle->field commit for party state: copies current HP back to SG_ARRAY_CHARA_DATA, syncs magic via Battle_CopyMagicStocksToSave, updates SG_KNOWN_MAGIC/draw availability, then rebuilds junction-derived stats and battle slot data.
+0047E1E4: xor     edx, edx; Logical Exclusive OR
+0047E1E6: mov     dl, AI_CURRENT_EXECUTING_SLOT
+0047E1EC: push    edx; param_slot_id
+0047E1ED: call    relatedToCharAtbFlagData; slot*464 + offsets junction col low/high (+0x96/+0x97 pour 1ere col)
+0047E1F2: add     esp, 4; Add
+0047E1F5: pop     edi
+0047E1F6: pop     ebx
+0047E1F7: retn; Return Near from Procedure

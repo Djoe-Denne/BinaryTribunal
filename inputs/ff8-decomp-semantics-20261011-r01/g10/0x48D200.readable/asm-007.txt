@@ -1,0 +1,25 @@
+0048D420: jl      short loc_48D40E; Jump if Less (SF!=OF)
+0048D422: mov     edx, [esp+24h+p_enemy_number]
+0048D426: and     edx, 0FFh; Logical AND
+0048D42C: push    edx; slot
+0048D42D: call    computeCardCommandDrop; G19 U19.4: Card persist pre-resolve. Writes END_BATTLE_CARD_OBTAINED + sub_534840. Called from GetText. CFG not closed; ISO refuses persist.
+0048D432: add     esp, 4; Add
+0048D435: test    eax, eax; Logical Compare
+0048D437: jz      short loc_48D46C; Jump if Zero (ZF=1)
+0048D439: movzx   bx, K_BATTLE_COMMAND.abilityDataID[ebp*8]; Move with Zero-Extend
+0048D442: mov     eax, ebx
+0048D444: and     eax, 0FFFFh; Logical AND
+0048D449: shl     eax, 4; Shift Logical Left
+0048D44C: xor     ecx, ecx; Logical Exclusive OR
+0048D44E: mov     cl, K_BATTLE_COMMAND_ABILITY.HitCount[eax]
+0048D454: mov     ax, word ptr K_BATTLE_COMMAND_ABILITY.MagicID[eax]
+0048D45B: mov     [esp+24h+hit_count], ecx
+0048D45F: mov     [esp+24h+magic_id], eax
+0048D463: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D468: mov     ecx, eax
+0048D46A: jmp     short loc_48D403; Jump
+0048D46C: push    32h ; '2'
+0048D46E: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048D475: mov     byte ptr [esp+28h+p_command_type], 0
+0048D47A: mov     ebx, 9
+0048D47F: mov     [esp+28h+p_always_zero], 0Ah

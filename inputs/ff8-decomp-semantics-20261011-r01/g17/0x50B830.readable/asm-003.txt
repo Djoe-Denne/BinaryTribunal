@@ -1,0 +1,25 @@
+0050B8E7: inc     edi; Increment by 1
+0050B8E8: cmp     esi, offset word_1D97494; Compare Two Operands
+0050B8EE: jl      short loc_50B8BF; Jump if Less (SF!=OF)
+0050B8F0: push    80h
+0050B8F5: push    0
+0050B8F7: push    18h
+0050B8F9: call    BdPlaySy; Call Procedure
+0050B8FE: push    80h
+0050B903: push    0
+0050B905: push    19h
+0050B907: call    BdPlaySy; Call Procedure
+0050B90C: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050B912: xor     eax, eax; Logical Exclusive OR
+0050B914: push    offset g_GfActiveCallbackPtr; int (__cdecl **)(int)
+0050B919: mov     ax, [ecx+6]
+0050B91D: push    eax; magicID
+0050B91E: call    BattleGF_LoadCallbackByMagicID; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.
+0050B923: mov     al, [ebp+0Dh]
+0050B926: add     esp, 20h; Add
+0050B929: inc     al; Increment by 1
+0050B92B: mov     [ebp+0Dh], al
+0050B92E: pop     edi; jumptable 0050B853 default case
+0050B92F: pop     esi
+0050B930: xor     eax, eax; Logical Exclusive OR
+0050B932: pop     ebp

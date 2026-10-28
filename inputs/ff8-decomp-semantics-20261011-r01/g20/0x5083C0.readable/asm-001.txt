@@ -1,0 +1,19 @@
+005083C0: mov     edx, [esp+arg_0]
+005083C4: push    esi
+005083C5: xor     ecx, ecx; Logical Exclusive OR
+005083C7: movsx   esi, word ptr [edx+0Eh]; Move with Sign-Extend
+005083CB: mov     eax, [edx+8]
+005083CE: push    edi
+005083CF: test    esi, esi; Logical Compare
+005083D1: jle     short loc_5083E3; Jump if Less or Equal (ZF=1 | SF!=OF)
+005083D3: test    byte ptr [eax], 1; Logical Compare
+005083D6: jz      short loc_5083E5; Jump if Zero (ZF=1)
+005083D8: movsx   edi, word ptr [edx+0Ch]; Move with Sign-Extend
+005083DC: add     eax, edi; Add
+005083DE: inc     ecx; Increment by 1
+005083DF: cmp     ecx, esi; Compare Two Operands
+005083E1: jl      short loc_5083D3; Jump if Less (SF!=OF)
+005083E3: xor     eax, eax; Logical Exclusive OR
+005083E5: pop     edi
+005083E6: pop     esi
+005083E7: retn; Return Near from Procedure

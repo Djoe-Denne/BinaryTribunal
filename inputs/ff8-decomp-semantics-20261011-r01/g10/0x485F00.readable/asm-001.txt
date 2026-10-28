@@ -1,0 +1,22 @@
+00485F00: mov     eax, [esp+payload_index]
+00485F04: lea     eax, [eax+eax*4]; Load Effective Address
+00485F07: lea     ecx, ds:1D280C4h[eax*4]; Load Effective Address
+00485F0E: push    ecx; a3
+00485F0F: push    80h; a2
+00485F14: push    68h ; 'h'; a1
+00485F16: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00485F1B: mov     eax, battle_message_pointer
+00485F20: add     esp, 0Ch; Add
+00485F23: test    eax, eax; Logical Compare
+00485F25: jz      short locret_485F53; Jump if Zero (ZF=1)
+00485F27: movzx   dx, SG_BATTLE_MESSAGE_SPEED_SETTING; Move with Zero-Extend
+00485F2F: push    56h ; 'V'
+00485F31: push    80h
+00485F36: lea     ecx, ds:8[edx*8]; Load Effective Address
+00485F3D: push    3
+00485F3F: push    ecx
+00485F40: push    eax
+00485F41: call    domain__BattleEvent_DisplayMessageAndWait; Call Procedure
+00485F46: add     esp, 14h; Add
+00485F49: mov     battle_message_pointer, 0
+00485F53: retn; Return Near from Procedure

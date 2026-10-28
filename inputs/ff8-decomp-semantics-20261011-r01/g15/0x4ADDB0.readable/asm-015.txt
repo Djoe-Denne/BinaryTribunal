@@ -1,0 +1,25 @@
+004AE2FE: xor     eax, eax; Logical Exclusive OR
+004AE300: mov     al, [ecx+edx*4]
+004AE303: mov     edx, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE309: and     edx, 0FFh; Logical AND
+004AE30F: push    eax; int
+004AE310: push    edx; int
+004AE311: mov     byte ptr dword_1D768DC, al
+004AE316: call    domain__BattleDraw_BuildCastOrStockMenu; Call Procedure
+004AE31B: add     esp, 8; Add
+004AE31E: mov     eax, 12h
+004AE323: jmp     loc_4AE669; Jump
+004AE328: mov     ax, word ptr dword_1D768F0+2; jumptable 004ADEFA case 21
+004AE32E: add     ax, 2AAh; Add
+004AE332: cmp     ax, 1000h; Compare Two Operands
+004AE336: mov     word ptr dword_1D768F0+2, ax
+004AE33C: jl      short loc_4AE356; Jump if Less (SF!=OF)
+004AE33E: mov     eax, 16h
+004AE343: mov     word ptr dword_1D768F0+2, 1000h
+004AE34C: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE351: jmp     loc_4AE669; Jump
+004AE356: test    bl, 10h; Logical Compare
+004AE359: jz      loc_4AEC54; Jump if Zero (ZF=1)
+004AE35F: push    3
+004AE361: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE366: add     esp, 4; Add

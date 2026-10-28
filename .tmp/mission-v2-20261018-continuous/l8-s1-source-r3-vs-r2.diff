@@ -1,0 +1,40 @@
+diff --git a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-source-r2-frozen/src/graph-execution-envelope.ts b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-source-r3/outputs/src/graph-execution-envelope.ts
+index e703273..91c0bdc 100644
+--- a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-source-r2-frozen/src/graph-execution-envelope.ts
++++ b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/mission-v2-20261018-continuous/l8-s1-source-r3/outputs/src/graph-execution-envelope.ts
+@@ -654,4 +654,29 @@ function bindInputBytes(input: GraphInputSource, complete: CompleteInputSourceV1
+   for (const f of files) { const prior = unique.get(f.file.path); if (prior) refsEqual(prior, f, "same input path has contradictory content/provenance"); else unique.set(f.file.path, f); }
+ }
++function bindActivationPolicySourceV1(body: ExecutionPreparationBodyV1, independentInput: CompleteInputSourceV1,
++  inputSource: GraphInputSource, missionSnapshot: ExecutionMissionSnapshotV1): void {
++  const kind = "l8-activation-policy-source-v1", policyRef = body.activationPolicy.sourcePolicyRef;
++  check(policyRef.kind === kind && policyRef.encoding === "utf8-json-v1", "activation policy source requires its exact JSON kind/encoding");
++  check(missionSnapshot.config.fixture === true, "activation policy common rule requires fixture source config");
++  // These files have already been bound byte-exactly to the envelope's input files.
++  // Resolve an actual independently supplied common rule, not an echo of envelope counts.
++  const candidate = independentInput.files.find(entry => entry.file.kind === "rule"
++    && !Object.hasOwn(entry.file, "identity") && entry.file.approvedForBlind === false
++    && entry.file.sha256 === policyRef.sha256 && entry.bytes.ref.sha256 === policyRef.sha256
++    && entry.bytes.ref.byteLength === policyRef.byteLength && entry.bytes.ref.encoding === "raw-v1"
++    && inputSource.commonInputs.some(file => canonical(file) === canonical(entry.file))
++    && missionSnapshot.config.commonInputs.some(file => canonical(file) === canonical(entry.file))
++    && inputSource.accessibleRules.includes(entry.file.path) && missionSnapshot.config.accessibleRules.includes(entry.file.path));
++  check(candidate, "activation policy ref has no exact independent common rule bytes with explicit non-blind scope");
++  const blob = validateBoundBytes(candidate.bytes), bytes = Buffer.from(blob.base64, "base64");
++  // Typed refs deliberately differ in kind/encoding; their raw length/SHA bind the same bytes.
++  const value = documentBytes({ ref: policyRef, utf8: utf8(bytes) }, kind).value;
++  const policy = fields(value, { version: v => one(v, [kind]), missionId: text, lineageId: text,
++    maxActivationAttempts: v => count(v, 1), maxCandidateReplacements: count });
++  check(policy.missionId === body.missionId && policy.lineageId === body.generation.lineageId
++    && policy.maxActivationAttempts === body.activationPolicy.maxActivationAttempts
++    && policy.maxCandidateReplacements === body.activationPolicy.maxCandidateReplacements,
++    "activation policy common rule mission/lineage/root ceilings mismatch");
++}
+ function verifyParent(body: ExecutionPreparationBodyV1, source: IndependentlyLoadedSourcesV1): void {
+   const { generation: g } = body;
+@@ -728,4 +753,5 @@ export function bindExecutionPreparationV1(raw: unknown, independent: Independen
+     // Account/resource limits, actual SPENT and trusted policy approval are rechecked by S2 on the OWN connection.
+     verifyParent(b, independent); bindInputBytes(inputSource, a.inputManifestSource, k, approvals);
++    bindActivationPolicySourceV1(b, independent.inputManifestSource, inputSource, missionSnapshot);
+     const partitionRef = executionValueRefV1("l8-partition-value-v1", transport.partition), groupsRef = executionValueRefV1("l8-groups-value-v1", transport.groups);
+     refsEqual(b.sourceRefs.partitionRef, partitionRef, "partition value ref mismatch"); refsEqual(b.sourceRefs.groupsRef, groupsRef, "groups value ref mismatch");

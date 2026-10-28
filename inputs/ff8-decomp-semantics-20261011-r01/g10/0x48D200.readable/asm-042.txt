@@ -1,0 +1,25 @@
+0048E079: mov     [esp+24h+hit_count], eax
+0048E07D: xor     eax, eax; Logical Exclusive OR
+0048E07F: mov     al, K_ENEMY_ATTACK.cameraChange[esi]
+0048E085: mov     [esp+24h+camera_change], eax
+0048E089: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E08E: push    ebp; jumptable 0048D37A case 38
+0048E08F: call    getAddressAbilityName; Call Procedure
+0048E094: mov     edi, eax
+0048E096: mov     al, SG_CHOCOBO_WORLD_DATA.Level
+0048E09B: add     esp, 4; Add
+0048E09E: mov     byte ptr dword_1D28E20+3, al
+0048E0A3: test    al, al; Logical Compare
+0048E0A5: jnz     short loc_48E0AE; Jump if Not Zero (ZF=0)
+0048E0A7: mov     byte ptr dword_1D28E20+3, 1
+0048E0AE: mov     al, SG_CHOCOBO_WORLD_DATA.FlagInfo
+0048E0B3: test    al, 4; Logical Compare
+0048E0B5: jz      short loc_48E115; Jump if Zero (ZF=1)
+0048E0B7: test    al, 8; Logical Compare
+0048E0B9: jz      short loc_48E115; Jump if Zero (ZF=1)
+0048E0BB: test    al, 2; Logical Compare
+0048E0BD: jnz     short loc_48E115; Jump if Not Zero (ZF=0)
+0048E0BF: test    al, 1; Logical Compare
+0048E0C1: jz      short loc_48E115; Jump if Zero (ZF=1)
+0048E0C3: call    domain__GetPartyAverageLevelExact; Call Procedure
+0048E0C8: mov     cl, SG_ODIN_ANGEL_GILGA_FLAG

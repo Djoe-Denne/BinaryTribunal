@@ -1,0 +1,25 @@
+0050FC99: fmul    [esp+60h+var_54]; Multiply Real
+0050FC9D: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FCA3: fstp    [esp+60h+var_8]; Store Real and Pop
+0050FCA7: mov     ebx, dword ptr [esp+60h+var_8]
+0050FCAB: fmul    [esp+60h+var_50]; Multiply Real
+0050FCAF: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address
+0050FCB6: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FCBC: fstp    [esp+60h+var_8]; Store Real and Pop
+0050FCC0: mov     ebx, dword ptr [esp+60h+var_8]
+0050FCC4: lea     eax, [ebx+eax+80000000h]; Load Effective Address
+0050FCCB: cmp     ecx, [esp+60h+var_14]; Compare Two Operands
+0050FCCF: jge     short loc_50FCD9; Jump if Greater or Equal (SF=OF)
+0050FCD1: or      edx, offset unk_1100000; Logical Inclusive OR
+0050FCD7: jmp     short loc_50FCE5; Jump
+0050FCD9: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands
+0050FCDD: jle     short loc_50FCE5; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050FCDF: or      edx, offset unk_1200000; Logical Inclusive OR
+0050FCE5: cmp     eax, dword ptr [esp+60h+var_10]; Compare Two Operands
+0050FCE9: jge     short loc_50FCF3; Jump if Greater or Equal (SF=OF)
+0050FCEB: or      edx, offset unk_2400000; Logical Inclusive OR
+0050FCF1: jmp     short loc_50FCFF; Jump
+0050FCF3: cmp     eax, [esp+60h+var_18]; Compare Two Operands
+0050FCF7: jle     short loc_50FCFF; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050FCF9: or      edx, offset dword_2800000; Logical Inclusive OR
+0050FCFF: shl     eax, 10h; Shift Logical Left

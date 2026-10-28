@@ -1,0 +1,25 @@
+0048DDFB: shl     ecx, 4; Shift Logical Left
+0048DDFE: mov     dl, BATTLE_SLOT_DATA.crisis_level[ecx]
+0048DE04: mov     ecx, [esp+28h+var_C]
+0048DE08: add     eax, edx; Add
+0048DE0A: push    ecx
+0048DE0B: mov     ax, [edi+eax*2+150h]
+0048DE13: mov     [esp+2Ch+magic_id], eax
+0048DE17: call    getAddressAbilityName; Call Procedure
+0048DE1C: push    esi; p_attacker_slot_id
+0048DE1D: mov     edi, eax
+0048DE1F: call    relatedToRandomWithCrisisLevel; cle si byte_1D28D8E && sub_48B160 bit0 connu (sinon GLM seul)
+0048DE24: add     esp, 0Ch; Add
+0048DE27: test    eax, eax; Logical Compare
+0048DE29: jnz     short loc_48DE41; Jump if Not Zero (ZF=0)
+0048DE2B: mov     byte_1D28E03, al
+0048DE30: mov     ebx, 0FFFDh
+0048DE35: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DE3A: mov     ebp, eax
+0048DE3C: jmp     loc_48DDAF; Jump
+0048DE41: mov     eax, [esp+24h+p_attacker_slot_id]
+0048DE45: xor     ecx, ecx; Logical Exclusive OR
+0048DE47: push    4; max_value
+0048DE49: mov     byte_1D28E03, 1
+0048DE50: lea     edx, ds:0[eax*8]; Load Effective Address
+0048DE57: mov     byte_1D28E04, 1

@@ -1,0 +1,56 @@
+# Fresh FULL R4 V, pas simple revue du seal etaucunruntime
+
+GOauditdirectACK+FULLVUNfinal, READ/hash/parsingpacketseul. R1/R2V historiques
+ré-dérivés5fixpuis2résiduels ; R3novel F1/Error/catalogueNEVERreviewed acceptable,
+R4sealfixmaintenantajouté. Re-dériverTOUSlesnouveauxpaths etintégrationavecbases
+scientifiquespinnées/beforeR2/priorR3/afterR4, pascroireprovenanceMANIFEST.
+
+F1 acceptedstagefragments : budgettoutfiles2MiBcase128MiBbranch/reserve1024incluse,
+ordinaladmisAPRESwritesuccess, partial/nonaccepted conservé/compteconservateur,
+terminalfatalindépendantdenimportequelpayload/stack/messagequi vientd'échouer,
+pasreobserveoverflowdansoutercatch,fatalwritefailavouépasdurablefalseclaim.
+FULLpairedfragmentbytes/order/labels/refidentity/beforeafter/returned/errorsemantic
+compare, pasdigest-onlyniomission ; RAWpersideconservémaisErrorlocationtague
+seulementaprèspreuves. Borne9stages vérifiableCLOSED450caseexpansionpasdrop.
+
+ErrorEnvelope : premièreinterceptionavantlectureexplicitestack/ownRAWflags+
+valeursavantaprès/WeakMapréutilisationparexactreference, toutespropriétésordre/
+flags/presence restentcomparées, name/message/diagnostic/counts exacts. 5champs
+nativelocalisationTAGSeulementaprèsactualoriginaltuple→sourceURL/line/col/top
+frame + chaîneENTIÈRE sourcemappedR2justifiée(indexallframesconsumés,prefixexport
+7colonnesEXACT,callwrapper20..185pas186/187et3callee/neighbors, authorframehash/
+coords). Unknown/native/eval/SDK/errorprops noncouverts restentSTOP, pasinventer
+nouveaumappingpourvert. Probesnativessynthétiquesnequalifientpas900actions.
+
+Actualnativecatalogue fermé/RAWbindingindépendant/read-onlyownednamespace source
+vsfreshcasechild ; cap64MiBtotalprovenance,1MiBaggregate/module,16MiBcatalog.
+Nativeemittedbuffer+inlineV3map/exactsourceContent/sourcehashes/scriptidURL/ranges
+univoquesUTF16GLBborne/sourcecoords, nativeprotocoljoinROOTexterneavantqualif.
+CatalogueselfconsistentJSON/fileSHAneconfèreJAMAISauth/actualemit. Fauxmodule/map/
+badtuplepointdansmauvaiseemit/missing/dupranges/noncanonicalpath/caps=>STOP.
+PasV3decoder/compiler/WSdansles450tests. ParentgatewayproducerencoreNONqualifié,
+signature/publicDATAseam doitêtreutilisable AVANTcase, pasautoproofbychild.
+
+R4timing : EnvpréconnusCATALOG/SEAL/BINDINGpaths/RUNID/EXPECTED_BINDING_SHA256,
+refuslegacyCAT_SHA/_BINDING_SHAvariables. BindingRAWknownprespawn/hashsanscycle
+(envdigestexclutseulsapropreexpectedhashvariable), pascataloghashpréconnu ou
+mutationenvironmentaprèsstart. RootwritesROemitmaps/catalog+SEALtmpclose/chmodRO
+THENrenameatomiqueversfinalabsent;childwait<=10sSEAL/nativeInputsnotsciencecalls
+avantbarrière,puisvérifieclosedSEALversion/id/bindinghash/catalogRef/path/sha/bytes.
+BINDINGfilevariantratifiéeparR4SCOPE, pasd'inlineblobnécessaire, truthfieldspasfake
+provider/loaderauthority. Scénariospublicationpartielle/timeout/mismatch/cap/end
+markers/newfilesperturbationatgateàanticiper, pas allpassbyPSEUDO.
+
+Ledger9handregressions+450pairs224value226refus(64cluster128group242numeric16synthetic)
+inchangé, staticroot3gen/3mathbody+regressionbytespreservationpas preuvefonction.
+Voirtypes/API/ownobserverFullbits+Map/Set/ownkeysorder/alias/holes/undefined/caches,
+inputnonmutationAVANTchaquePREMIERprepare/make/producteur; guardsfailuresnever
+pairedscientificrefus, import/path/assertionerrorsneverpass expectedrefus. Strict
+SDK/types/profileERROR/non-runtimeautorité limites honnêtes,pasfastforwardTSC.
+
+Final ACCEPTABLE_NUMERIC_CONTEXT_QUALIFICATION_R4_SOURCE_SCOPED | CORRIGE | BLOCK,
+ALLcriticalfindings/PSEUDO/3–8anchors/minimalfix/bookends/risks. NOwrites/compiler/
+transpile/typecheck/test/run/validator/importproduct/candidate/harness/Bun/WS/OS/
+DB/git/IDA/live/network/origins/delegation/teamtools/taskclose. ContextModepour
+agrégationsgrosJSON/lectures, jamaisdumpglobal. Parentrootfuturegateway/selfchecks/
+exactSDKfullTSC/actual450pairsSERIALaprèsGOdistinct. AucunmainS1/native/full44.

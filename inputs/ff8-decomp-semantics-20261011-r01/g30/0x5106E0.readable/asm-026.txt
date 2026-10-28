@@ -1,0 +1,25 @@
+00510F26: and     edx, edi; Logical AND
+00510F28: jz      short loc_510FA8; Jump if Zero (ZF=1)
+00510F2A: mov     ecx, [esp+44h+var_1C]
+00510F2E: xor     edi, edi; Logical Exclusive OR
+00510F30: mov     esi, ecx
+00510F32: shl     ecx, 10h; Shift Logical Left
+00510F35: sar     ecx, 10h; Shift Arithmetic Right
+00510F38: sar     esi, 10h; Shift Arithmetic Right
+00510F3B: cmp     ecx, [esp+44h+var_10]; Compare Two Operands
+00510F3F: jge     short loc_510F48; Jump if Greater or Equal (SF=OF)
+00510F41: mov     edi, 1
+00510F46: jmp     short loc_510F51; Jump
+00510F48: cmp     ecx, ebp; Compare Two Operands
+00510F4A: jle     short loc_510F51; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510F4C: mov     edi, 2
+00510F51: cmp     esi, [esp+44h+var_C]; Compare Two Operands
+00510F55: jge     short loc_510F5C; Jump if Greater or Equal (SF=OF)
+00510F57: or      edi, 4; Logical Inclusive OR
+00510F5A: jmp     short loc_510F63; Jump
+00510F5C: cmp     esi, ebp; Compare Two Operands
+00510F5E: jle     short loc_510F63; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510F60: or      edi, 8; Logical Inclusive OR
+00510F63: and     edx, edi; Logical AND
+00510F65: jz      short loc_510FA8; Jump if Zero (ZF=1)
+00510F67: mov     ecx, [esp+44h+var_20]

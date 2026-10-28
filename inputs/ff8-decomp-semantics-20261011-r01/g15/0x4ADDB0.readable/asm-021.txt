@@ -1,0 +1,25 @@
+004AE52D: and     edx, 0Fh; Logical AND
+004AE530: push    edx
+004AE531: call    sub_4AB4F0; Call Procedure
+004AE536: push    3; flags
+004AE538: push    4; slot_index
+004AE53A: mov     [esp+3Ch+var_C], ebp
+004AE53E: mov     [esp+3Ch+var_8], ebp
+004AE542: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE547: push    3; flags
+004AE549: push    2; slot_index
+004AE54B: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE550: push    2; int
+004AE552: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE557: push    ebp
+004AE558: call    BattleUI_SetOrClearFlag10_3AE; E3c: vérifié or/and 0x10 @3AE selon arg0
+004AE55D: mov     eax, 1Ch
+004AE562: add     esp, 30h; Add
+004AE565: mov     dword_1D768D0, eax; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE56A: jmp     loc_4AE669; Jump
+004AE56F: call    sub_4A9DF0; jumptable 004ADEFA case 28
+004AE574: push    1
+004AE576: push    offset dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE57B: mov     ebx, eax
+004AE57D: call    sub_4AF340; Call Procedure
+004AE582: mov     al, byte_1D768ED

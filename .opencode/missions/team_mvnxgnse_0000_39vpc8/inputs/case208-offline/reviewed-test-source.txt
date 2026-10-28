@@ -1,0 +1,1050 @@
+// PROPOSED, NEVER EXECUTED BY THE AUTHOR. Future location: qualification/test/.
+import { expect, test } from "bun:test";
+import { createHash } from "node:crypto";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpathSync } from "node:fs";
+import { isAbsolute, resolve, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
+import * as B from "../../baseline/tools/ff8-harness/src/cluster";
+import * as C from "../../candidate/tools/ff8-harness/src/cluster";
+import * as D from "../../candidate/tools/ff8-harness/src/sparse-graph-codecs";
+import { buildInvestigationGroups as BG } from "../../baseline/tools/ff8-harness/src/investigation-groups";
+import { buildInvestigationGroups as CG } from "../../candidate/tools/ff8-harness/src/investigation-groups";
+import { fingerprint as BF } from "../../baseline/tools/ff8-harness/src/validation";
+import { fingerprint as CF } from "../../candidate/tools/ff8-harness/src/validation";
+import { LIMIT, BRANCH_LIMIT, RESERVE, MAX_STAGES, TERMINAL, insist, bits, observe, evidenceWriter, decodeEvidenceBytes,
+  type Side, type Phase, type Reason, type RecordKind, type Artifact, type EvidenceIO } from "./numeric-evidence-writer";
+import { proveFiniteNativeMap, assertMapContinuity, PINNED_AST_TOOL_SHA,
+  type NativeMapSite, type FiniteNativeMapProof } from "../native/numeric-native-proof";
+
+type NumericApi = Pick<typeof B, "sparseGraph" | "importSparseGraph" | "exportSparseGraph" | "validateSparseGraph">;
+type Work = { state: unknown; action: () => unknown };
+type Guard = <T>(label: string, inputs: unknown, call: () => T) => T;
+type StageProof = { label: string; before: string; after: string; referenceCount: number; referencesStable: boolean; returned: boolean; errorReference: 0 | null };
+type Expected = { kind: "value" } | { kind: "refusal"; code: string; message?: string };
+type ProposedCase = {
+  id: string; inputHash: string; config: unknown; expected: Expected; oracle: string;
+  make: (side: Side, guard: Guard) => Work;
+};
+const SEED = "numeric-context-qualification-v1", H = "a".repeat(64);
+const id = (i: number): string => `${H}:0x${(16 + i * 16).toString(16).toUpperCase()}`;
+const sha = (bytes: string | Uint8Array): string => createHash("sha256").update(bytes).digest("hex");
+type Writer = ReturnType<typeof evidenceWriter>;
+
+// Root-supplied inspected-run provenance ONLY. No inspector transport, native
+// compiler API or SourceMap-V3 mappings decoder exists in this test consumer.
+type ByteRef = { path: string; bytes: number; sha256: string };
+type PointRange = { generatedLine: number; firstColumn: number; lastColumn: number; sourceLine: number; sourceColumn: number };
+type NativeEmitterBindingV2 = {
+  version: "native-emitter-binding-v2"; runId: string; inspected: true;
+  producerContract: "owned-bun-webkit-native-v2"; catalogPath: string;
+  runnerByteRef: ByteRef; argvDigest: string; configByteRef: ByteRef; envDigest: string; testSourceSha256: string;
+  writerSourceSha256: string; nativeProofSourceSha256: string;
+};
+type NativeEmitterSealV1 = {
+  version: "numeric-native-emitter-seal-v1"; runId: string; invocationBindingSha256: string; catalogue: ByteRef;
+};
+type NativeEmitterInvocation = {
+  catalogPath: string; sealPath: string; bindingPath: string; runId: string; expectedBindingSha256: string;
+};
+type NativeEmitterModuleV1 = {
+  side: Side | "test"; sourceByteRef: ByteRef; scriptId: string; scriptURL: string;
+  emittedByteRef: ByteRef; nativeSourceMapByteRef: ByteRef; nativeMapSource: string; pointRanges: PointRange[];
+};
+type NativeEmitterCatalogV2 = {
+  version: "native-emitter-catalog-v2"; runId: string; inspected: true;
+  producerContract: "owned-bun-webkit-native-v2"; coordinateConvention: "native-glb-utf16-1-based";
+  runnerByteRef: ByteRef; argvDigest: string; configByteRef: ByteRef; envDigest: string; modules: NativeEmitterModuleV1[];
+  nativeMapSites: NativeMapSite[];
+};
+type EmittedModule = NativeEmitterModuleV1 & { sourceLines: string[]; emittedLines: string[] };
+type NativeCatalog = { binding: NativeEmitterBindingV2; catalog: NativeEmitterCatalogV2; bySourceURL: Map<string, EmittedModule>; inputBytes: number; cachedBytes: (ref: ByteRef) => Buffer };
+const HEX = /^[0-9a-f]{64}$/, MODULE_CAP = 1024 * 1024, CATALOG_CAP = 16 * 1024 * 1024, PROVENANCE_CAP = 64 * 1024 * 1024;
+const NATIVE_BUN_SHA256 = "15277c59ccd6c6c20f8dc9716c2b59c1776320d606b6a8658f70be8799519ca4";
+function closed(value: unknown, keys: readonly string[]): Record<string, unknown> {
+  insist(value !== null && typeof value === "object" && !Array.isArray(value) && Object.getPrototypeOf(value) === Object.prototype, "closed JSON object required");
+  const r = value as Record<string, unknown>, actual = Reflect.ownKeys(r);
+  insist(actual.length === keys.length && actual.every(k => typeof k === "string" && keys.includes(k)), "unknown/missing catalogue property"); return r;
+}
+function natural(value: unknown, minimum = 1): value is number {
+  return typeof value === "number" && Number.isSafeInteger(value) && !Object.is(value, -0) && value >= minimum;
+}
+function byteRef(value: unknown): ByteRef {
+  const r = closed(value, ["path", "bytes", "sha256"]);
+  insist(typeof r.path === "string" && isAbsolute(r.path) && r.path === resolve(r.path) && natural(r.bytes, 0) && typeof r.sha256 === "string" && HEX.test(r.sha256), "invalid byte reference");
+  return r as ByteRef;
+}
+function equalRef(a: ByteRef, b: ByteRef): boolean { return a.path === b.path && a.bytes === b.bytes && a.sha256 === b.sha256; }
+function nativeInlineProof(sourceText: string, emittedText: string, mapBytes: Buffer, mapSource: string, scriptURL: string): void {
+  const lines = emittedText.split(/\r?\n/), mapLines = lines.filter(line => line.startsWith("//# sourceMappingURL=")), urlLines = lines.filter(line => line.startsWith("//# sourceURL="));
+  insist(mapLines.length === 1 && urlLines.length === 1 && urlLines[0] === `//# sourceURL=${scriptURL}`, "native inline map/script URL identity");
+  const encoded = /^\/\/# sourceMappingURL=data:application\/json;base64,([A-Za-z0-9+/]+={0,2})$/.exec(mapLines[0]!);
+  insist(encoded !== null, "unsupported native map URL");
+  const inline = Buffer.from(encoded[1]!, "base64");
+  insist(inline.toString("base64") === encoded[1] && inline.equals(mapBytes), "native map bytes differ from actual loaded buffer");
+  const nativeMap = closed(JSON.parse(mapBytes.toString("utf8")) as unknown, ["version", "sources", "sourcesContent", "mappings", "names"]);
+  insist(nativeMap.version === 3 && Array.isArray(nativeMap.sources) && nativeMap.sources.length === 1 && nativeMap.sources[0] === mapSource
+    && Array.isArray(nativeMap.sourcesContent) && nativeMap.sourcesContent.length === 1 && nativeMap.sourcesContent[0] === sourceText
+    && typeof nativeMap.mappings === "string" && Array.isArray(nativeMap.names) && nativeMap.names.every(name => typeof name === "string"), "native map/source content mismatch");
+}
+function nativeRange(module: EmittedModule, line: number, column: number, sourceLine: number, sourceColumn: number): PointRange {
+  insist(natural(line) && natural(column) && natural(sourceLine) && natural(sourceColumn), "invalid native tuple");
+  const row = module.pointRanges.find(r => r.generatedLine === line && r.firstColumn <= column && column <= r.lastColumn);
+  insist(row !== undefined && row.sourceLine === sourceLine && row.sourceColumn === sourceColumn, "native original tuple has no exact top-source GLB range"); return row;
+}
+function catalogueVersion(value: unknown): void { insist(value === "native-emitter-catalog-v2", "unsupported native catalogue version"); }
+function invocationInputs(catalogPath: unknown, bindingPath: unknown, runId: unknown, sealPath: unknown,
+  expectedBindingSha256: unknown, legacyCatalogSha256: unknown, legacyBindingSha256: unknown): NativeEmitterInvocation {
+  insist(legacyCatalogSha256 === undefined && legacyBindingSha256 === undefined, "legacy emitter digest ENV is unsupported");
+  insist(typeof catalogPath === "string" && isAbsolute(catalogPath) && typeof bindingPath === "string" && isAbsolute(bindingPath)
+    && typeof runId === "string" && /^[A-Za-z0-9_-]{16,128}$/.test(runId)
+    && typeof sealPath === "string" && isAbsolute(sealPath) && typeof expectedBindingSha256 === "string" && HEX.test(expectedBindingSha256), "missing closed emitter invocation inputs");
+  return { catalogPath, bindingPath, runId, sealPath, expectedBindingSha256 };
+}
+function emitterSeal(value: unknown, invocation: NativeEmitterInvocation): NativeEmitterSealV1 {
+  const r = closed(value, ["version", "runId", "invocationBindingSha256", "catalogue"]), catalogue = byteRef(r.catalogue);
+  insist(r.version === "numeric-native-emitter-seal-v1" && r.runId === invocation.runId
+    && r.invocationBindingSha256 === invocation.expectedBindingSha256 && catalogue.path === invocation.catalogPath
+    && catalogue.bytes > 0 && catalogue.bytes <= CATALOG_CAP, "emitter seal invocation/path/size mismatch");
+  return { version: "numeric-native-emitter-seal-v1", runId: invocation.runId,
+    invocationBindingSha256: invocation.expectedBindingSha256, catalogue };
+}
+function sealReady(exists: boolean, now: number, deadline: number): boolean {
+  insist(Number.isFinite(now) && Number.isFinite(deadline) && now <= deadline, "10 s emitter SEAL barrier expired"); return exists;
+}
+function sealedBytes(seal: NativeEmitterSealV1, binding: Buffer, catalogue: Buffer): void {
+  insist(sha(binding) === seal.invocationBindingSha256 && catalogue.length === seal.catalogue.bytes
+    && sha(catalogue) === seal.catalogue.sha256, "sealed RAW binding/catalogue bytes mismatch");
+}
+function publicationControls(invocation: NativeEmitterInvocation): void {
+  // Publication-component data only: not native emit or issuer-authentication evidence.
+  const binding = Buffer.from("synthetic prebound binding"), catalogue = Buffer.from("synthetic catalogue"), expected = sha(binding);
+  const inputs = { ...invocation, expectedBindingSha256: expected };
+  const raw: NativeEmitterSealV1 = { version: "numeric-native-emitter-seal-v1", runId: inputs.runId,
+    invocationBindingSha256: expected, catalogue: { path: inputs.catalogPath, bytes: catalogue.length, sha256: sha(catalogue) } };
+  const checked = emitterSeal(raw, inputs); sealedBytes(checked, binding, catalogue);
+  expect(() => emitterSeal({ ...raw, runId: `${raw.runId}_other` }, inputs)).toThrow();
+  expect(() => emitterSeal({ ...raw, invocationBindingSha256: "0".repeat(64) }, inputs)).toThrow();
+  expect(() => emitterSeal({ ...raw, catalogue: { ...raw.catalogue, path: resolve(inputs.catalogPath, "..", "wrong-catalogue.json") } }, inputs)).toThrow();
+  expect(() => emitterSeal({ version: raw.version, runId: raw.runId, catalogue: raw.catalogue }, inputs)).toThrow();
+  expect(() => emitterSeal({ ...raw, unknown: true }, inputs)).toThrow();
+  expect(() => sealedBytes({ ...checked, catalogue: { ...checked.catalogue, sha256: "0".repeat(64) } }, binding, catalogue)).toThrow();
+  expect(() => sealedBytes(checked, Buffer.from("wrong binding"), catalogue)).toThrow();
+  expect(() => sealedBytes(checked, binding, catalogue.subarray(0, catalogue.length - 1))).toThrow();
+  expect(() => emitterSeal(JSON.parse("{") as unknown, inputs)).toThrow();
+  insist(!sealReady(false, 0, 10000) && sealReady(true, 9999, 10000), "SEAL missing/readiness control");
+  expect(() => sealReady(false, 10001, 10000)).toThrow(); expect(() => sealReady(true, 10001, 10000)).toThrow();
+  for (const legacy of ["", "0".repeat(64)]) {
+    expect(() => invocationInputs(inputs.catalogPath, inputs.bindingPath, inputs.runId, inputs.sealPath, expected, legacy, undefined)).toThrow();
+    expect(() => invocationInputs(inputs.catalogPath, inputs.bindingPath, inputs.runId, inputs.sealPath, expected, undefined, legacy)).toThrow();
+  }
+  // The final name stays absent while an incomplete temporary publication exists.
+  // chmod/close precede the root's atomic absent-name rename; child has no rename/write API here.
+  const names = new Map<string, Buffer>(); names.set("temporary-WX", Buffer.from("{"));
+  insist(!sealReady(names.has("final-SEAL"), 1, 10000), "partial temporary SEAL cannot release barrier");
+  names.set("temporary-WX", Buffer.from(JSON.stringify(raw))); const closedReadonly = names.get("temporary-WX")!;
+  names.delete("temporary-WX"); names.set("final-SEAL", closedReadonly);
+  insist(sealReady(names.has("final-SEAL"), 2, 10000), "atomic final-name publication control");
+  emitterSeal(JSON.parse(names.get("final-SEAL")!.toString("utf8")) as unknown, inputs);
+}
+function ownedReader(root: string) {
+  const canonical = realpathSync(root), cache = new Map<string, Buffer>(); let total = 0;
+  const inside = (path: string): void => {
+    const actual = realpathSync(path), rel = relative(canonical, actual);
+    insist(rel.length > 0 && !isAbsolute(rel) && rel !== ".." && !rel.startsWith(`..\\`) && !rel.startsWith("../"), "foreign provenance read");
+    const caseRel = relative(join(canonical, "numeric-context-qualification-v3"), actual);
+    insist(isAbsolute(caseRel) || caseRel === ".." || caseRel.startsWith(`..\\`) || caseRel.startsWith("../"), "parent provenance must not occupy the fresh case child");
+  };
+  const read = (path: string, cap: number): Buffer => {
+    insist(isAbsolute(path) && path === resolve(path), "noncanonical provenance path"); inside(path);
+    const old = cache.get(path); if (old) { insist(old.length <= cap, "cached provenance cap"); return old; }
+    const stat = lstatSync(path);
+    insist(stat.isFile() && !stat.isSymbolicLink() && (stat.mode & 0o222) === 0 && natural(stat.size, 0) && stat.size <= cap, "unsealed/oversize provenance file");
+    insist(total + stat.size <= PROVENANCE_CAP, "64 MiB provenance cap");
+    const bytes = readFileSync(path); insist(bytes.length === stat.size, "provenance read race");
+    total += bytes.length; cache.set(path, bytes); return bytes;
+  };
+  const ref = (r: ByteRef, cap = MODULE_CAP): Buffer => { const bytes = read(r.path, cap); insist(bytes.length === r.bytes && sha(bytes) === r.sha256, "byte reference mismatch"); return bytes; };
+  const cached = (r: ByteRef): Buffer => { const bytes = cache.get(r.path); insist(bytes !== undefined && bytes.length === r.bytes && sha(bytes) === r.sha256, "unapproved cached provenance reference"); return Buffer.from(bytes); };
+  return { read, ref, cached, get total() { return total; } };
+}
+async function nativeCatalog(root: string): Promise<NativeCatalog> {
+  // All ENV values are fixed before spawn. The only preknown digest is the
+  // independent RAW binding digest; a post-start catalogue digest arrives in SEAL.
+  const invocation = invocationInputs(process.env.PARENT_NATIVE_EMITTER_CATALOG, process.env.PARENT_NATIVE_EMITTER_BINDING,
+    process.env.PARENT_NATIVE_EMITTER_RUN_ID, process.env.PARENT_NATIVE_EMITTER_SEAL,
+    process.env.PARENT_NATIVE_EMITTER_EXPECTED_BINDING_SHA256, process.env.PARENT_NATIVE_EMITTER_CATALOG_SHA256,
+    process.env.PARENT_NATIVE_EMITTER_BINDING_SHA256);
+  const { catalogPath, bindingPath, runId, sealPath, expectedBindingSha256 } = invocation;
+  publicationControls(invocation);
+  const deadline = performance.now() + 10000;
+  while (!sealReady(existsSync(sealPath), performance.now(), deadline)) {
+    await new Promise<void>(done => setTimeout(done, 10));
+  }
+  const reader = ownedReader(root), sealBytes = reader.read(sealPath, MODULE_CAP);
+  const seal = emitterSeal(JSON.parse(sealBytes.toString("utf8")) as unknown, invocation);
+  const bindBytes = reader.read(bindingPath, MODULE_CAP), catBytes = reader.ref(seal.catalogue, CATALOG_CAP);
+  insist(sha(bindBytes) === expectedBindingSha256, "independent prebound RAW binding mismatch");
+  sealedBytes(seal, bindBytes, catBytes);
+  const b = closed(JSON.parse(bindBytes.toString("utf8")) as unknown, ["version", "runId", "inspected", "producerContract", "catalogPath", "runnerByteRef", "argvDigest", "configByteRef", "envDigest", "testSourceSha256", "writerSourceSha256", "nativeProofSourceSha256"]);
+  insist(b.version === "native-emitter-binding-v2" && b.runId === runId && b.inspected === true && b.producerContract === "owned-bun-webkit-native-v2"
+    && b.catalogPath === catalogPath && typeof b.argvDigest === "string" && HEX.test(b.argvDigest) && typeof b.envDigest === "string" && HEX.test(b.envDigest)
+    && typeof b.testSourceSha256 === "string" && HEX.test(b.testSourceSha256)
+    && typeof b.writerSourceSha256 === "string" && HEX.test(b.writerSourceSha256)
+    && typeof b.nativeProofSourceSha256 === "string" && HEX.test(b.nativeProofSourceSha256), "invalid independent invocation binding");
+  const runner = byteRef(b.runnerByteRef), config = byteRef(b.configByteRef);
+  insist(runner.sha256 === NATIVE_BUN_SHA256 && runner.bytes === 86096984 && runner.path === resolve(process.execPath), "wrong pinned runner binding");
+  reader.ref(config); // Runner executable stamp is metadata checked by root, not an 86 MiB foreign read.
+  const c = closed(JSON.parse(catBytes.toString("utf8")) as unknown, ["version", "runId", "inspected", "producerContract", "coordinateConvention", "runnerByteRef", "argvDigest", "configByteRef", "envDigest", "modules", "nativeMapSites"]);
+  catalogueVersion(c.version);
+  insist(c.version === "native-emitter-catalog-v2" && c.runId === runId && c.inspected === true && c.producerContract === b.producerContract
+    && c.coordinateConvention === "native-glb-utf16-1-based" && c.argvDigest === b.argvDigest && c.envDigest === b.envDigest
+    && equalRef(byteRef(c.runnerByteRef), runner) && equalRef(byteRef(c.configByteRef), config) && Array.isArray(c.modules), "wrong inspected-run catalogue binding");
+  const expected = new Map<string, { side: Side | "test"; sha256: string }>();
+  for (const side of ["baseline", "candidate"] as const) for (const [file, hash] of Object.entries(productPins[side])) expected.set(sourceFile(side, file), { side, sha256: hash });
+  for (const side of ["baseline", "candidate"] as const) {
+    expected.set(sourceFile(side, "validation.ts"), { side, sha256: "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50" });
+    expected.set(sourceFile(side, "re-policy.ts"), { side, sha256: "c3714c3120d3e8f87a044ef6857ca40c41900a6c74647d1bfdc6205371dfc365" });
+  }
+  expected.set(resolve(import.meta.path), { side: "test", sha256: b.testSourceSha256 });
+  expected.set(resolve(import.meta.dir, "numeric-evidence-writer.ts"), { side: "test", sha256: b.writerSourceSha256 });
+  expected.set(resolve(import.meta.dir, "../native/numeric-native-proof.ts"), { side: "test", sha256: b.nativeProofSourceSha256 });
+  const modules: unknown[] = c.modules;
+  insist(modules.length === expected.size, "catalogue must contain the exact declared runtime closure, including private seams and support");
+  const bySourceURL = new Map<string, EmittedModule>(), scripts = new Set<string>();
+  for (const value of modules) {
+    const m = closed(value, ["side", "sourceByteRef", "scriptId", "scriptURL", "emittedByteRef", "nativeSourceMapByteRef", "nativeMapSource", "pointRanges"]);
+    const source = byteRef(m.sourceByteRef), emitted = byteRef(m.emittedByteRef), map = byteRef(m.nativeSourceMapByteRef), wanted = expected.get(source.path);
+    insist(source.bytes + emitted.bytes + map.bytes <= MODULE_CAP, "1 MiB aggregate native module cap");
+    insist(wanted !== undefined && m.side === wanted.side && source.sha256 === wanted.sha256 && m.scriptURL === source.path
+      && typeof m.scriptId === "string" && m.scriptId.length > 0 && m.scriptId.length <= 128 && !scripts.has(m.scriptId)
+      && typeof m.nativeMapSource === "string" && m.nativeMapSource.length > 0 && Array.isArray(m.pointRanges) && !bySourceURL.has(source.path), "wrong/duplicate native module identity");
+    scripts.add(m.scriptId);
+    const sourceBytes = reader.ref(source), emittedBytes = reader.ref(emitted), mapBytes = reader.ref(map);
+    const sourceText = sourceBytes.toString("utf8"), emittedText = emittedBytes.toString("utf8"), sourceLines = sourceText.split(/\r?\n/), emittedLines = emittedText.split(/\r?\n/);
+    nativeInlineProof(sourceText, emittedText, mapBytes, m.nativeMapSource, source.path);
+    let previous: PointRange | undefined; const ranges: PointRange[] = [];
+    for (const value of m.pointRanges as unknown[]) {
+      const r = closed(value, ["generatedLine", "firstColumn", "lastColumn", "sourceLine", "sourceColumn"]);
+      insist(natural(r.generatedLine) && r.generatedLine <= emittedLines.length && natural(r.firstColumn) && natural(r.lastColumn)
+        && r.firstColumn <= r.lastColumn && r.lastColumn <= emittedLines[r.generatedLine - 1]!.length + 1
+        && natural(r.sourceLine) && r.sourceLine <= sourceLines.length && natural(r.sourceColumn) && r.sourceColumn <= sourceLines[r.sourceLine - 1]!.length + 1, "invalid UTF16 point range");
+      const row = r as PointRange;
+      insist(previous === undefined || row.generatedLine > previous.generatedLine || row.generatedLine === previous.generatedLine && row.firstColumn > previous.lastColumn, "unordered/overlapping native point ranges");
+      ranges.push(row); previous = row;
+    }
+    insist(ranges.length > 0, "missing native point ranges");
+    bySourceURL.set(source.path, { side: wanted.side, sourceByteRef: source, scriptId: m.scriptId, scriptURL: source.path,
+      emittedByteRef: emitted, nativeSourceMapByteRef: map, nativeMapSource: m.nativeMapSource, pointRanges: ranges, sourceLines, emittedLines });
+  }
+  insist(Array.isArray(c.nativeMapSites) && c.nativeMapSites.length === 4, "exact four scientific AST map sites required");
+  const siteKeys = new Set<string>();
+  for (const raw of c.nativeMapSites as unknown[]) {
+    const site = closed(raw, ["side", "site", "file", "sourceSha256", "astToolSha256", "callback", "caller", "functionName", "receiver"]);
+    insist((site.side === "baseline" || site.side === "candidate") && (site.site === "scale" || site.site === "ppr"), "unknown scientific native map site");
+    const file = sourceFile(site.side, "cluster.ts"), key = `${site.side}/${site.site}`;
+    const callback = closed(site.callback, ["line", "column"]), caller = closed(site.caller, ["line", "column"]);
+    const scale = site.site === "scale", baseline = site.side === "baseline";
+    insist(!siteKeys.has(key) && site.file === file && site.sourceSha256 === productPins[site.side]["cluster.ts"] && site.astToolSha256 === PINNED_AST_TOOL_SHA
+      && callback.line === (scale ? baseline ? 181 : 106 : baseline ? 513 : 296) && callback.column === (scale ? 18 : 44)
+      && caller.line === (scale ? baseline ? 179 : 104 : baseline ? 512 : 295) && caller.column === (scale ? 28 : 24)
+      && site.functionName === (scale ? "scaledGraph" : "personalizedPageRankUnchecked") && site.receiver === (scale ? "summands(g)" : "row"), "native AST site/pin/point mismatch");
+    siteKeys.add(key);
+  }
+  return { binding: b as NativeEmitterBindingV2, catalog: c as NativeEmitterCatalogV2, bySourceURL, inputBytes: reader.total, cachedBytes: reader.cached };
+}
+
+// Fixture order is literally cluster.test.ts:357. The 17th packet fixture,
+// ff8-identity-rename, remains in the unchanged original test, not the 16x4 matrix.
+const F = "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb";
+const fixturePins = [
+  ["communities-obvious", "fd452804a2c098d68ce4ed18f6dbf5c678af27b221e3f9276005a20c979073e4", `${F}:0x2000`],
+  ["components-disconnected", "71079dd202b0bbd50a337f0d1466b1bfb87c68396fe8f51e29ff2823ecb20242", `${F}:0x1000`],
+  ["hubs-utilities", "1e38704f35b7325d9277a7fa6dc13aa0c25d0cdc62ce7b407ed4bdbfaf8893aa", `${F}:0x1000`],
+  ["cycles-recursion", "e787e99c859f77ea1be54273f163b6c65320382ba7cd5417cf3ca2e2c38091a9", `${F}:0x5100`],
+  ["indirect-uncertain", "1e3830d78b077e3f7d09f6effcf325cf360ebcf1c2cddd1ba54039319f379f75", `${F}:0x7000`],
+  ["isolates", "658b438153ce8ecac1719457792334a3043efe09c1df1f264e511749e31dd1af", `${F}:0x6000`],
+  ["bridges-rare", "69278ee8e28390b623f525774e8fe036231873934fb30ed0e98a2c33353105c4", `${F}:0x2000`],
+  ["shared-data", "09b2ce91c3d4c2d0499a0e6d376a8ed534ac12c3d44688084f699d9d77dc0eb8", `${F}:0x8000`],
+  ["ff8-chunks-tails", "dcaf79b23970660ec930f56d233b75580a28f5f45f5717488ba0569b31567501", `${F}:0xC000`],
+  ["ff8-imports-thunks", "010857160b1eec0509bf9ed3d182d2018b2ea2597174137a5427e2ff90639d41", `${F}:0xB000`],
+  ["ff8-data-callback-not-call", "3982efd1696451724029483da7193fbf74eb0064e3bc4aafb0e01862fbdf94d4", `${F}:0xA000`],
+  ["ff8-idb-pe-quarantine", "35f019b2caf28aa3346507d3309baaa837df27c987d234f8726ebfcf28db7dd2", "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570:0x60860"],
+  ["ff8-multi-module", "513561269a3ae03630a823365bcc11ef259651f2d4fae5cdf0a7d64ca26ff794", `${F}:0x1000`],
+  ["ff8-self-loop", "0fe3ac5b2d981992df569db199a9c9d95001ea54950c46ca97053f4edff0127f", `${F}:0x9000`],
+  ["ff8-unknown-metrics", "261c31eb7130a916d6525ad5820ba28d2c35d8d8e7c549a65131ee5c0d89079c", `${F}:0xF000`],
+  ["ff8-coverage-partial-tails", "b5f5ace60d6e037bb1021177e08df9e2aedff2ac96fbc80ce0c5b96163dbd3c9", `${F}:0xD000`],
+] as const;
+function loadFixture(name: string, hash: string): B.ClusterInput {
+  const bytes = readFileSync(resolve(import.meta.dir, "../../baseline/tools/ff8-harness/test/fixtures/graph", name, "content.json"));
+  insist(sha(bytes) === hash, `fixture pin ${name}`);
+  // Packet JSON is independently parsed for EVERY branch/case; no cross-branch object.
+  const parsed: unknown = JSON.parse(bytes.toString("utf8")); return parsed as B.ClusterInput;
+}
+function synthetic(n: number, pairs: Array<[number, number]>): B.ClusterInput {
+  return {
+    snapshotId: `synthetic:${n}`, normalizedFingerprint: BF({ n, pairs }),
+    nodes: Array.from({ length: n }, (_, i) => ({ id: id(i), moduleSha256: H, rva: id(i).split(":")[1]!,
+      functionClass: "internal", status: "observed", semanticMaturity: "structural",
+      sizeBytes: { known: true, value: 16 }, instructionCount: { known: true, value: 4 } })),
+    edges: pairs.map(([a, b], i) => ({ sourceId: id(a), destinationId: id(b), kind: "direct_call", status: "observed",
+      confidence: "high", retiredInRevision: null, sites: [{ siteRva: `0x${(i + 1).toString(16).toUpperCase()}`, xrefType: "code" }] })),
+    objects: [], unresolved: [], capabilities: [], coverage: { status: "complete", uncoveredReason: null },
+  };
+}
+function matrixConfig(algorithm: B.ClusterConfig["algorithm"], firstId: string | undefined): B.ClusterConfig {
+  return { algorithm, maxCommunitySize: 128, weights: {}, seedIds: algorithm === "ppr" && firstId !== undefined ? [firstId] : [],
+    seedCapabilityIds: [], ppr: {}, leiden: { seed: SEED } };
+}
+const ok: Expected = { kind: "value" };
+const numericNo: Expected = { kind: "refusal", code: "unsupported-numeric" };
+function matrixCases(): ProposedCase[] {
+  const cases: ProposedCase[] = [];
+  for (const [name, hash, firstId] of fixturePins) for (const algorithm of ["historical-cc", "hub-baseline", "leiden", "ppr"] as const) {
+    const config = matrixConfig(algorithm, firstId);
+    const stem = `fixture/${name}/${algorithm}`;
+    cases.push({ id: `${stem}/cluster`, inputHash: hash, config, expected: ok, oracle: "cluster.test.ts:354-367 + explicit PPR seed",
+      make: (side, guard) => {
+        const api = side === "baseline" ? B : C, input = loadFixture(name, hash), cfg = structuredClone(config);
+        const projected = guard("matrix/projectStructural", { input }, () => api.projectStructural(input));
+        insist(projected.graph.ids[0] === firstId, `first projected admissible seed ${stem}`);
+        return { state: { input, cfg, projected }, action: () => guard("matrix/clusterGraph", { input, cfg }, () => api.clusterGraph(input, cfg)) };
+      } });
+    for (const mode of ["raw", "provided-affinity"] as const) cases.push({ id: `${stem}/groups/${mode}`, inputHash: hash,
+      config: { cluster: config, group: {}, adjacency: mode }, expected: ok, oracle: "cluster.test.ts:354-367; independent branch partition/projection",
+      make: (side, guard) => {
+        const api = side === "baseline" ? B : C, build = side === "baseline" ? BG : CG;
+        const input = loadFixture(name, hash), cfg = structuredClone(config);
+        const result = guard("matrix/groups/clusterGraph", { input, cfg }, () => api.clusterGraph(input, cfg));
+        insist(result.projection.graph.ids[0] === firstId, `first projected admissible seed ${stem}`);
+        const options = mode === "raw" ? {} : { graph: result.projection.graph, hubIds: result.metrics.hubIds };
+        const overrides = {};
+        return { state: { input, cfg, result, options, overrides }, action: () => guard("matrix/buildInvestigationGroups", { input, partition: result.partition, overrides, options }, () => build(input, result.partition, overrides, options)) };
+      } });
+  }
+  return cases;
+}
+
+// Pins and literal moved spans from candidate/MANIFEST.json. These classify
+// technical origin evidence; they NEVER replace the scientific comparison.
+const productPins: Record<Side, Record<string, string>> = {
+  baseline: { "cluster.ts": "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303", "investigation-groups.ts": "cf3201b0e6d6ae5d67afc628a8a59e7ecda2a830a07049a1923001033be38525" },
+  candidate: { "cluster.ts": "09c2035a16c1d4a1bfe03fc00807920d0af5202b290b0a68d7172a33319a3542", "investigation-groups.ts": "162c979a5c65a6c08625f255d33aba7cb16ba3bb85ddfc7937925b95073d3b1a", "sparse-graph-codecs.ts": "4ca2bed30e2609d87ef499a0b1ad5c0f2d687565161059ae7e6049db25b0f718", "group-context-codecs.ts": "37ef5a09f4d4e6b8172b3962e30cf1442566cef4607295ef493fe4cce6774986" },
+};
+type Span = readonly [file: string, first: number, last: number, baselineFile: string, baselineFirst: number];
+const moved: readonly Span[] = [
+  ["sparse-graph-codecs.ts", 12, 12, "cluster.ts", 50], ["sparse-graph-codecs.ts", 16, 21, "cluster.ts", 54],
+  ["sparse-graph-codecs.ts", 23, 44, "cluster.ts", 76], ["sparse-graph-codecs.ts", 51, 56, "cluster.ts", 104],
+  ["sparse-graph-codecs.ts", 58, 88, "cluster.ts", 115], ["sparse-graph-codecs.ts", 95, 168, "cluster.ts", 191],
+  ["sparse-graph-codecs.ts", 174, 231, "cluster.ts", 270],
+  ["cluster.ts", 71, 110, "cluster.ts", 146], ["cluster.ts", 111, 592, "cluster.ts", 328],
+  ["cluster.ts", 599, 616, "cluster.ts", 816],
+  ["group-context-codecs.ts", 46, 54, "investigation-groups.ts", 16],
+  ["group-context-codecs.ts", 56, 58, "investigation-groups.ts", 44],
+  ["group-context-codecs.ts", 65, 90, "investigation-groups.ts", 58],
+  ["group-context-codecs.ts", 93, 108, "investigation-groups.ts", 86],
+  ["group-context-codecs.ts", 116, 122, "investigation-groups.ts", 120],
+  ["group-context-codecs.ts", 124, 129, "investigation-groups.ts", 128],
+  ["group-context-codecs.ts", 131, 132, "investigation-groups.ts", 135],
+  ["group-context-codecs.ts", 148, 155, "investigation-groups.ts", 146],
+  ["investigation-groups.ts", 51, 67, "investigation-groups.ts", 102],
+  ["investigation-groups.ts", 83, 88, "investigation-groups.ts", 154],
+  ["investigation-groups.ts", 90, 98, "investigation-groups.ts", 161],
+  ["investigation-groups.ts", 101, 112, "investigation-groups.ts", 173],
+];
+function sourceFile(side: Side, file: string): string {
+  return resolve(import.meta.dir, `../../${side}/tools/ff8-harness/src`, file);
+}
+type SourceOrigin = {
+  raw: string; rawLocation: string; file: string; line: number; column: number; sourceHash: string; sourceLine: string;
+  kind: "product" | "test" | "prepare-wrapper"; classification: string;
+  mappedFile: string | null; mappedLine: number | null; mappedColumn: number | null; mappedSourceHash: string | null;
+};
+type RuntimeOrigin = {
+  raw: string; rawLocation: "native:1:11"; kind: "native-runtime"; classification: string;
+  file: null; line: null; column: null; sourceHash: null; sourceLine: null;
+  mappedFile: null; mappedLine: null; mappedColumn: null; mappedSourceHash: null;
+  nativeProof?: FiniteNativeMapProof;
+};
+type Origin = SourceOrigin | RuntimeOrigin;
+function origins(stack: string, error: Error, side: Side, sites: readonly NativeMapSite[]): Origin[] {
+  const lines = stack.split(/\r?\n/);
+  insist(lines.shift() === `${error.name}: ${error.message}`, "unclassified stack header");
+  insist(lines.length > 0, "missing error source frames");
+  const frames = lines.map<Origin>(raw => {
+    // The one runtime token has NO source coordinates. All other unknown native,
+    // eval/async/foreign frames remain fatal; nothing is stripped from the chain.
+    if (raw === "    at map (native:1:11)") return { raw, rawLocation: "native:1:11", kind: "native-runtime",
+      classification: "runtime token awaiting exact same-run AST neighbor proof", file: null, line: null, column: null,
+      sourceHash: null, sourceLine: null, mappedFile: null, mappedLine: null, mappedColumn: null, mappedSourceHash: null };
+    const match = /^\s*at (?:[^()]+? \()?(.+):(\d+):(\d+)\)?$/.exec(raw);
+    insist(match !== null, `unavailable origin mapping: ${raw}`);
+    const location = match[1]!, file = resolve(location.startsWith("file:") ? fileURLToPath(location) : location);
+    const line = Number(match[2]), column = Number(match[3]);
+    insist(Number.isSafeInteger(line) && Number.isSafeInteger(column), "noninteger source coordinates");
+    const ownTest = file === resolve(import.meta.path);
+    const leaf = Object.keys(productPins[side]).find(name => sourceFile(side, name) === file);
+    insist(ownTest || leaf !== undefined, "source frame outside closed pinned tree; do not read foreign origin");
+    const bytes = readFileSync(file), text = bytes.toString("utf8").split(/\r?\n/), sourceHash = sha(bytes);
+    insist(line >= 1 && line <= text.length && column >= 1 && column <= text[line - 1]!.length + 1, "source coordinates outside pinned text");
+    const sourceLine = text[line - 1]!;
+    if (ownTest) return { raw, rawLocation: location, file, line, column, sourceHash, sourceLine, kind: "test",
+      mappedFile: file, mappedLine: line, mappedColumn: column, mappedSourceHash: sourceHash,
+      classification: "exact common authored-test file/hash/line/column; no generic frame token" };
+    insist(leaf !== undefined && sourceHash === productPins[side][leaf], "source frame outside pinned product tree");
+    if (side === "baseline") return { raw, rawLocation: location, file, line, column, sourceHash, sourceLine, kind: "product",
+      mappedFile: file, mappedLine: line, mappedColumn: column, mappedSourceHash: sourceHash,
+      classification: `baseline:${leaf}:${line}:${column}` };
+    const span = moved.find(([name, first, last]) => name === leaf && line >= first && line <= last);
+    if (span) {
+      const baselineLine = span[4] + line - span[1], originalBytes = readFileSync(sourceFile("baseline", span[3]));
+      insist(sha(originalBytes) === productPins.baseline[span[3]], "baseline origin pin drift");
+      const original = originalBytes.toString("utf8").split(/\r?\n/);
+      const exportPrefix = leaf === "sparse-graph-codecs.ts" && [51, 52, 65, 68, 71, 74, 78, 88].includes(line)
+        || leaf === "group-context-codecs.ts" && line === 56;
+      insist(text[line - 1] === (exportPrefix ? `export ${original[baselineLine - 1]}` : original[baselineLine - 1]), "moved source line differs beyond declared linkage prefix");
+      const mappedColumn = column - (exportPrefix ? 7 : 0);
+      insist(mappedColumn >= 1 && mappedColumn <= original[baselineLine - 1]!.length + 1, "unjustifiable export-prefix/source column");
+      return { raw, rawLocation: location, file, line, column, sourceHash, sourceLine, kind: "product",
+        mappedFile: sourceFile("baseline", span[3]), mappedLine: baselineLine, mappedColumn,
+        mappedSourceHash: sha(originalBytes), classification: exportPrefix ? "proved exact 7-character export prefix plus moved line" : "literal moved source line and unchanged column" };
+    }
+    // Only this callsite can add a frame in the 226 expected refusals. It has
+    // NO invented baseline coordinate; pair reconciliation must justify it.
+    if (leaf === "investigation-groups.ts" && line === 49)
+      return { raw, rawLocation: location, file, line, column, sourceHash, sourceLine, kind: "prepare-wrapper",
+        mappedFile: null, mappedLine: null, mappedColumn: null, mappedSourceHash: null,
+        classification: "candidate-only producer call to prepareGroupContextSource; requires closed neighbor proof" };
+    throw new Error(`qualification: unavailable origin mapping ${leaf}:${line}; parent investigation required`);
+  });
+  for (let i = 0; i < frames.length; i++) {
+    const frame = frames[i]!;
+    if (frame.kind !== "native-runtime") continue;
+    const callback = frames[i - 1], caller = frames[i + 1];
+    insist(callback?.kind === "product" && caller?.kind === "product", "native map requires two concrete scientific neighbors");
+    frame.nativeProof = proveFiniteNativeMap(frame.raw, i,
+      { file: callback.file, sourceSha256: callback.sourceHash, line: callback.line, column: callback.column },
+      { file: caller.file, sourceSha256: caller.sourceHash, line: caller.line, column: caller.column }, sites, side);
+  }
+  return frames;
+}
+type ErrorOwn = Array<{ key: string; descriptor: { enumerable: boolean; configurable: boolean; writable: boolean; value: unknown } }>;
+function sameOrigin(a: Origin | undefined, b: Origin | undefined): boolean {
+  return a !== undefined && b !== undefined && a.kind !== "native-runtime" && b.kind !== "native-runtime" && a.kind !== "prepare-wrapper" && b.kind !== "prepare-wrapper"
+    && a.kind === b.kind && a.mappedFile === b.mappedFile && a.mappedLine === b.mappedLine
+    && a.mappedColumn === b.mappedColumn && a.mappedSourceHash === b.mappedSourceHash
+    && (a.kind !== "test" || a.file === b.file && a.sourceHash === b.sourceHash && a.line === b.line && a.column === b.column);
+}
+// Finite source-derived insertion table, not a drop-wrapper whitelist. At each
+// row, candidate prepare's exact callee site corresponds to the baseline inlined
+// producer site; the additional producer frame is ONLY candidate inv-groups:49.
+const prepareInsertions = [
+  { rule: "prepare/minimum-size", candidateCalleeLine: 67, baselineCalleeLine: 60, call: "requireThat(" },
+  { rule: "prepare/empty-partition", candidateCalleeLine: 72, baselineCalleeLine: 65, call: "requireThat(" },
+  { rule: "prepare/affinity-validation", candidateCalleeLine: 93, baselineCalleeLine: 86, call: "validateSparseGraph(" },
+] as const;
+function reconcileOrigins(baseline: readonly Origin[], candidate: readonly Origin[]) {
+  const proof: Array<{ kind: string; baselineIndices: number[]; candidateIndices: number[]; evidence: unknown }> = [];
+  const consumedBaseline: number[] = [], consumedCandidate: number[] = [];
+  let bi = 0, ci = 0;
+  while (bi < baseline.length || ci < candidate.length) {
+    const b = baseline[bi], c = candidate[ci];
+    if (b?.kind === "native-runtime" || c?.kind === "native-runtime") {
+      insist(b?.kind === "native-runtime" && c?.kind === "native-runtime" && b.nativeProof !== undefined && c.nativeProof !== undefined
+        && b.raw === c.raw && b.nativeProof.site === c.nativeProof.site && b.nativeProof.side === "baseline" && c.nativeProof.side === "candidate"
+        && b.nativeProof.nativeIndex === bi && c.nativeProof.nativeIndex === ci
+        && sameOrigin(baseline[bi - 1], candidate[ci - 1]) && sameOrigin(baseline[bi + 1], candidate[ci + 1]), "unpaired/unproved native runtime frame");
+      proof.push({ kind: "paired-finite-native-map", baselineIndices: [bi], candidateIndices: [ci], evidence: { baseline: b, candidate: c } });
+      consumedBaseline.push(bi++); consumedCandidate.push(ci++); continue;
+    }
+    if (sameOrigin(b, c)) {
+      proof.push({ kind: "aligned-source-coordinate", baselineIndices: [bi], candidateIndices: [ci], evidence: { baseline: b, candidate: c } });
+      consumedBaseline.push(bi++); consumedCandidate.push(ci++); continue;
+    }
+    const previousB = baseline[bi - 1], previousC = candidate[ci - 1], nextC = candidate[ci + 1];
+    const row = prepareInsertions.find(r => previousC?.file === sourceFile("candidate", "group-context-codecs.ts")
+      && previousC.line === r.candidateCalleeLine && previousB?.file === sourceFile("baseline", "investigation-groups.ts")
+      && previousB.line === r.baselineCalleeLine);
+    const callStart = c?.sourceLine?.indexOf("prepareGroupContextSource(") ?? -1;
+    const callerIsReviewedTestCall = nextC?.kind === "test" && (nextC.sourceLine.includes("build(") || nextC.sourceLine.includes("BG : CG"));
+    if (c?.kind === "prepare-wrapper" && c.file === sourceFile("candidate", "investigation-groups.ts") && c.line === 49
+      && c.sourceHash === productPins.candidate["investigation-groups.ts"] && callStart === 19 && c.column >= 20 && c.column <= 185
+      && c.sourceLine.length === 186 && c.sourceLine[184] === ")" && c.sourceLine[185] === ";"
+      && row !== undefined && sameOrigin(previousB, previousC) && previousC?.sourceLine?.includes(row.call)
+      && proof.at(-1)?.kind === "aligned-source-coordinate" && callerIsReviewedTestCall && sameOrigin(b, nextC)) {
+      proof.push({ kind: "source-justified-candidate-prepare-insertion", baselineIndices: [], candidateIndices: [ci], evidence: {
+        rule: row, wrapper: c, previousAligned: { baselineIndex: bi - 1, candidateIndex: ci - 1, baseline: previousB, candidate: previousC },
+        nextAligned: { baselineIndex: bi, candidateIndex: ci + 1, baseline: b, candidate: nextC },
+        rationale: "Pinned producer:49 calls prepareGroupContextSource; exact callee line maps the former inline site; immediate caller remains the exact shared reviewed test coordinate. This step consumes, retains and justifies the inserted frame." } });
+      consumedCandidate.push(ci++); continue;
+    }
+    throw new Error(`qualification: full origin chain incompatible at baseline[${bi}] candidate[${ci}]; no frame omitted`);
+  }
+  insist(consumedBaseline.length === baseline.length && consumedBaseline.every((index, i) => index === i)
+    && consumedCandidate.length === candidate.length && consumedCandidate.every((index, i) => index === i), "origin proof must consume every frame index on both sides");
+  return { baselineCount: baseline.length, candidateCount: candidate.length, consumedBaseline, consumedCandidate, proof };
+}
+type ErrorEnvelope = {
+  error: Error; reference: 0; firstCapture: "guard" | "action"; name: string; message: string; code: string;
+  after: ErrorOwn; frames: Origin[]; beforeArtifact: Artifact; afterArtifact: Artifact; nativeProofArtifact: Artifact;
+  nativePointVerified: true;
+};
+const TECHNICAL_ERROR_KEYS = ["stack", "originalLine", "originalColumn", "line", "column", "sourceURL"] as const;
+function rawOwn(error: Error): ErrorOwn {
+  return Reflect.ownKeys(error).map(key => {
+    insist(typeof key === "string", "symbol Error property unsupported");
+    const d = Object.getOwnPropertyDescriptor(error, key);
+    insist(d !== undefined && Object.hasOwn(d, "value") && !Object.hasOwn(d, "get") && !Object.hasOwn(d, "set"), "Error accessor unsupported");
+    const value: unknown = d.value;
+    return { key, descriptor: { enumerable: !!d.enumerable, configurable: !!d.configurable, writable: !!d.writable, value } };
+  });
+}
+function captureError(error: unknown, side: Side, firstCapture: "guard" | "action", catalog: NativeCatalog, writer: Writer): ErrorEnvelope {
+  try {
+    insist(error instanceof Error, "not an Error");
+    const before = rawOwn(error), beforeText = writer.encode(before, "ERROR");
+    const beforeArtifact = writer.putEncoded("error-before", beforeText, "ERROR");
+    const stack = error.stack; // FIRST explicit stack read; previous operation captured descriptor DATA.
+    const after = rawOwn(error), afterText = writer.encode(after, "ERROR");
+    const afterArtifact = writer.putEncoded("error-after", afterText, "ERROR");
+    insist(beforeText === afterText && typeof stack === "string", "uncovered Error descriptor transition");
+    const api = side === "baseline" ? B : C, diagnostic = error instanceof api.ClusterDiagnosticError;
+    insist(diagnostic || Object.getPrototypeOf(error) === Error.prototype, "import/SDK/assertion/non-scientific Error prototype");
+    const expectedKeys = diagnostic
+      ? ["message", "diagnostic", "name", "originalLine", "originalColumn", "line", "column", "sourceURL", "stack"]
+      : ["message", "originalLine", "originalColumn", "line", "column", "sourceURL", "stack"];
+    insist(after.length === expectedKeys.length && after.every((entry, i) => entry.key === expectedKeys[i]
+      && entry.descriptor.configurable && entry.descriptor.writable
+      && entry.descriptor.enumerable === (entry.key === "diagnostic" || entry.key === "name")), "unsupported Error keys/order/flags");
+    const field = (key: string): unknown => after.find(entry => entry.key === key)?.descriptor.value;
+    const name = error.name, message = field("message"), sourceURL = field("sourceURL");
+    insist(name === (diagnostic ? "ClusterDiagnosticError" : "Error") && typeof message === "string"
+      && /^(cluster|investigation-groups): /.test(message) && field("stack") === stack && typeof sourceURL === "string", "not a scientific refusal");
+    let code = "Error";
+    if (diagnostic) {
+      const d = field("diagnostic");
+      insist(d !== null && typeof d === "object" && !Array.isArray(d), "diagnostic shape");
+      const r = d as Record<string, unknown>, keys = Reflect.ownKeys(r);
+      insist(["version", "code", "detail"].every(key => Object.hasOwn(r, key)) && keys.every(k => typeof k === "string" && ["version", "code", "detail", "counts"].includes(k))
+        && r.version === "cluster-refusal-v1" && typeof r.code === "string" && typeof r.detail === "string", "diagnostic semantic fields");
+      code = r.code;
+    }
+    assertMapContinuity();
+    const frames = origins(stack, error, side, catalog.catalog.nativeMapSites), top = frames[0]!;
+    insist(top.kind === "product" && top.rawLocation === sourceURL, "sourceURL must equal raw scientific stack top");
+    for (const frame of frames) {
+      if (frame.kind === "native-runtime") { insist(frame.nativeProof !== undefined, "runtime frame has no finite provenance proof"); continue; }
+      insist(catalog.bySourceURL.get(frame.file)?.sourceByteRef.sha256 === frame.sourceHash, "frame outside same-run source catalogue");
+    }
+    const line = field("line"), column = field("column"), originalLine = field("originalLine"), originalColumn = field("originalColumn");
+    insist(natural(line) && natural(column) && natural(originalLine) && natural(originalColumn) && line === top.line && column === top.column, "native source metadata/top mismatch");
+    const module = catalog.bySourceURL.get(sourceURL);
+    insist(module !== undefined && module.side === side && module.scriptURL === sourceURL && module.sourceByteRef.sha256 === top.sourceHash, "wrong native module/run");
+    const range = nativeRange(module, originalLine, originalColumn, line, column);
+    const nativeProofArtifact = writer.put("error-proof", { reference: 0, firstCapture, runId: catalog.binding.runId,
+      scriptId: module.scriptId, sourceByteRef: module.sourceByteRef, emittedByteRef: module.emittedByteRef, nativeSourceMapByteRef: module.nativeSourceMapByteRef,
+      originalLine, originalColumn, sourceURL, line, column, range, rawStack: stack, frames }, "ERROR");
+    return { error, reference: 0, firstCapture, name, message, code, after, frames, beforeArtifact, afterArtifact, nativeProofArtifact, nativePointVerified: true };
+  } catch {
+    if (writer.terminal) throw TERMINAL;
+    return writer.fail("PROFILE", "ERROR");
+  }
+}
+function semanticError(envelope: ErrorEnvelope, pairProof: ReturnType<typeof reconcileOrigins> | null) {
+  requireTechnicalProof(envelope.nativePointVerified, pairProof);
+  const own = envelope.after.map(entry => ({ key: entry.key, descriptor: { ...entry.descriptor,
+    value: (TECHNICAL_ERROR_KEYS as readonly string[]).includes(entry.key)
+      ? { verifiedTechnical: entry.key, errorReference: 0, fullOriginPairProof: 0 } : entry.descriptor.value } }));
+  return { name: envelope.name, message: envelope.message, code: envelope.code, own };
+}
+function requireTechnicalProof(nativePointVerified: boolean, pairProof: ReturnType<typeof reconcileOrigins> | null): void {
+  insist(nativePointVerified && pairProof !== null, "technical tags require native point AND full paired origin proof");
+}
+
+// The source-only corpus builder below returns data/closures. It is invoked only
+// inside the future test body, never while loading this proposed test module.
+function numericCases(): ProposedCase[] {
+  const result: ProposedCase[] = [];
+  const add = (name: string, config: unknown, expected: Expected, oracle: string, make: ProposedCase["make"]): void => {
+    result.push({ id: `numeric/${name}`, inputHash: sha(observe(config)), config, expected, oracle, make });
+  };
+  for (const direct of [false, true]) for (const scale of [2 ** -1000, 1, 2 ** 990]) {
+    add(`roundtrip/${direct ? "direct" : "public"}/${bits(scale)}`, { direct, scale, seed: "roundtrip", tolerance: .5 * scale, pprDirections: ["callee", "caller", "both"] }, ok, "cluster.test.ts:568-586", (side, guard) => {
+      const api = side === "baseline" ? B : C, codec: NumericApi = side === "candidate" && direct ? D : api;
+      const arcs = [{ source: 0, target: 1, weight: scale }, { source: 0, target: 1, weight: scale * 2 ** -54 }, { source: 2, target: 3, weight: scale }];
+      const ids = [id(0), id(1), id(2), id(3)];
+      const graph = guard("roundtrip/sparseGraph", { ids, arcs }, () => codec.sparseGraph(ids, arcs));
+      return { state: { graph, arcs }, action: () => {
+        if (side === "candidate") { expect(C.sparseGraph).toBe(D.sparseGraph); expect(C.exportSparseGraph).toBe(D.exportSparseGraph); expect(C.importSparseGraph).toBe(D.importSparseGraph); }
+        const snapshot = guard("roundtrip/export", graph, () => codec.exportSparseGraph(graph));
+        const imported: unknown = JSON.parse(JSON.stringify(snapshot));
+        const restored = guard("roundtrip/import", imported, () => codec.importSparseGraph(imported));
+        const reexported = guard("roundtrip/reexport", restored, () => codec.exportSparseGraph(restored));
+        insist(observe(reexported) === observe(snapshot), "exact snapshot reexport roundtrip");
+        const leidenConfig = { seed: "roundtrip", temperature: 0, tolerance: .5 * scale };
+        const lr = guard("roundtrip/leiden", { restored, leidenConfig }, () => api.leiden(restored, leidenConfig));
+        const ppr = (["callee", "caller", "both"] as const).map(direction => {
+          const seeds = [id(0)], config = { direction, tolerance: 1e-11 };
+          const p = guard(`roundtrip/ppr/${direction}`, { restored, seeds, config }, () => api.personalizedPageRank(restored, seeds, config));
+          expect(cmp(pprOracle(4, arcs, [0], direction, .85).residual(p.scores), fromNumber(p.residualUpperBound))).toBeLessThanOrEqual(0); return p;
+        });
+        const labels = [0, 0, 1, 1];
+        return { graph, snapshot, restored, reexported, lr, ppr, modularity: guard("roundtrip/modularity", { restored, labels }, () => api.directedModularity(restored, labels)) };
+      } };
+    });
+  }
+  for (const direct of [false, true]) add(`legacy/${direct ? "direct" : "public"}`, { direct, seed: SEED }, ok, "cluster.test.ts:588-592", (side, guard) => {
+    const api = side === "baseline" ? B : C, codec: NumericApi = side === "candidate" && direct ? D : api;
+    const ids = [id(0), id(1)], arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 1, weight: 2 ** -54 }];
+    const graph = guard("legacy/sparseGraph", { ids, arcs }, () => codec.sparseGraph(ids, arcs));
+    delete graph.numericPolicy; delete graph.numericSource;
+    return { state: graph, action: () => {
+      const exported = guard("legacy/export", graph, () => codec.exportSparseGraph(graph));
+      const restored = guard("legacy/import", exported, () => codec.importSparseGraph(exported));
+      insist(exported.numericPolicy.weightConvention === "canonical-arcs-v1", "legacy convention");
+      const config = { seed: SEED, temperature: 0 };
+      return { graph, exported, restored, leiden: guard("legacy/leiden", { graph, config }, () => api.leiden(graph, config)) };
+    } };
+  });
+  const poison: Array<[string, (g: B.SparseGraph, side: Side) => void]> = [
+    ["arc", g => { g.arcs[0]!.weight *= 2; }], ["id", g => { g.ids[0] = id(99); }],
+    ["out", g => { g.out[0]!.set(1, 2); }], ["incoming", g => { g.incoming[1]!.set(0, 2); }],
+    ["outDegree", g => { g.outDegree[0]!++; }], ["inDegree", g => { g.inDegree[1]!++; }],
+    ["totalWeight", g => { g.totalWeight++; }], ["negativeZeroCache", g => { g.outDegree[1] = -0; }],
+    ["summandWeight", g => { g.numericSource!.arcs[0]!.weight *= 2; }], ["summandEndpoint", g => { g.numericSource!.arcs[0]!.source = 99; }],
+    ["summandZero", g => { g.numericSource!.arcs[0]!.weight = 0; }], ["summandNegativeZero", g => { g.numericSource!.arcs[0]!.weight = -0; }],
+    ["summandInfinity", g => { g.numericSource!.arcs[0]!.weight = Infinity; }], ["summandNaN", g => { g.numericSource!.arcs[0]!.weight = NaN; }],
+    ["summandOrder", g => { g.numericSource!.arcs.reverse(); }], ["rawCount", g => { g.numericSource!.rawArcCount++; }],
+    ["sourceBudget", g => { g.numericSource!.maxArcs = 1; }], ["sourceVersion", g => { (g.numericSource as { version: string }).version = "unknown"; }],
+    ["binding", g => { g.numericSource!.bindingFingerprint = "0".repeat(64); }], ["missingSource", g => { delete g.numericSource; }],
+    ["missingPolicy", g => { delete g.numericPolicy; }], ["convention", g => { g.numericPolicy!.weightConvention = "canonical-arcs-v1"; }],
+    ["rehashedStaleCaches", (g, side) => {
+      g.totalWeight = 99; const s = g.numericSource!, fingerprint = side === "baseline" ? BF : CF;
+      const binding = fingerprint({ version: B.NUMERIC_POLICY_VERSION, weightConvention: "source-summands-v1",
+        projection: { ids: g.ids, arcs: g.arcs, out: g.out.map(m => [...m]), incoming: g.incoming.map(m => [...m]), outDegree: g.outDegree, inDegree: g.inDegree, totalWeight: g.totalWeight },
+        source: { version: s.version, arcs: s.arcs, rawArcCount: s.rawArcCount, budgetVersion: s.budgetVersion, maxArcs: s.maxArcs } });
+      s.bindingFingerprint = g.numericPolicy!.bindingFingerprint = binding;
+    }],
+  ];
+  const consumers = ["validate", "components", "conductance", "sweep", "ppr", "modularity", "leiden", "export", "groups"] as const;
+  for (const [name, change] of poison) for (const consumer of consumers) add(`poison/${name}/${consumer}`, { poison: name, consumer, seed: SEED }, numericNo, "cluster.test.ts:594-613", (side, guard) => {
+    const api = side === "baseline" ? B : C, input = synthetic(4, [[0, 1], [2, 3]]);
+    const config: B.ClusterConfig = { algorithm: "hub-baseline", leiden: { seed: SEED } };
+    const partition = guard("poison/clusterGraph", { input, config }, () => api.clusterGraph(input, config)).partition;
+    const ids = input.nodes.map(n => n.id), arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 1, weight: 2 ** -54 }, { source: 2, target: 3, weight: 1 }];
+    const graph = guard("poison/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+    change(graph, side);
+    const members = [0], scores = [.5, .5, 0, 0], seeds = [id(0)], labels = [0, 0, 1, 1];
+    const leidenConfig = { seed: SEED }, groupOverrides = {}, groupOptions = { graph };
+    return { state: { input, partition, graph, members, scores, seeds, labels, leidenConfig, groupOverrides, groupOptions }, action: () => {
+      switch (consumer) {
+        case "validate": return api.validateSparseGraph(graph);
+        case "components": return api.weakComponents(graph);
+        case "conductance": return api.conductance(graph, members);
+        case "sweep": return api.sweepCut(graph, scores, 2);
+        case "ppr": return api.personalizedPageRank(graph, seeds);
+        case "modularity": return api.directedModularity(graph, labels);
+        case "leiden": return api.leiden(graph, leidenConfig);
+        case "export": return api.exportSparseGraph(graph);
+        case "groups": return (side === "baseline" ? BG : CG)(input, partition, groupOverrides, groupOptions);
+      }
+    } };
+  });
+  for (const direct of [false, true]) for (const mode of ["missingSource", "mutatedSnapshot"] as const) add(`import-refusal/${direct ? "direct" : "public"}/${mode}`, { direct, mode }, numericNo, "cluster.test.ts:585-586,614", (side, guard) => {
+    const api = side === "baseline" ? B : C, codec: NumericApi = side === "candidate" && direct ? D : api;
+    const ids = [id(0), id(1)], arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 1, weight: 2 ** -54 }];
+    const graph = guard("import-refusal/sparseGraph", { ids, arcs }, () => codec.sparseGraph(ids, arcs));
+    const snapshot = guard("import-refusal/export", graph, () => codec.exportSparseGraph(graph));
+    if (mode === "missingSource") delete snapshot.numericSource; else snapshot.numericSource!.arcs[0]!.weight *= 2;
+    guard("import-refusal/validate-owned-source", graph, () => codec.validateSparseGraph(graph));
+    return { state: { graph, snapshot }, action: () => codec.importSparseGraph(snapshot) };
+  });
+  add("stale-after-validation", { poison: "outDegree-after-valid-receipt" }, numericNo, "cluster.test.ts:615", (side, guard) => {
+    const api = side === "baseline" ? B : C, ids = [id(0), id(1)], arcs = [{ source: 0, target: 1, weight: 1 }];
+    const g = guard("stale/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+    guard("stale/initial-validation", g, () => api.validateSparseGraph(g)); g.outDegree[0]!++;
+    return { state: g, action: () => api.validateSparseGraph(g) };
+  });
+  add("summand-binding-groups", { source: "raw-summands-versus-rounded" }, ok, "cluster.test.ts:616-619", (side, guard) => {
+    const api = side === "baseline" ? B : C, build = side === "baseline" ? BG : CG, input = synthetic(4, [[0, 1], [2, 3]]);
+    const config: B.ClusterConfig = { algorithm: "hub-baseline", leiden: { seed: SEED } };
+    const partition = guard("binding/clusterGraph", { input, config }, () => api.clusterGraph(input, config)).partition;
+    const ids = input.nodes.map(n => n.id), arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 1, weight: 2 ** -54 }, { source: 2, target: 3, weight: 1 }];
+    const graph = guard("binding/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+    const rounded = guard("binding/roundedSparseGraph", graph, () => api.sparseGraph(graph.ids, graph.arcs));
+    return { state: { input, partition, graph, rounded }, action: () => {
+      const overrides = {}, aOptions = { graph }, bOptions = { graph: rounded };
+      const a = guard("binding/build-original", { input, partition, overrides, aOptions }, () => build(input, partition, overrides, aOptions));
+      const b = guard("binding/build-rounded", { input, partition, overrides, bOptions }, () => build(input, partition, overrides, bOptions));
+      expect(a.groups.map(g => g.groupId)).toEqual(b.groups.map(g => g.groupId));
+      expect(a.metrics.contextBinding.bindingFingerprint).not.toBe(b.metrics.contextBinding.bindingFingerprint);
+      return { a, b };
+    } };
+  });
+  for (const mode of ["source-refusal", "retained-success", "score-refusal", "unique-no-retention"] as const) add(`budgets/${mode}`, { mode, sourceBudget: mode === "source-refusal" ? 3 : 8, scoreBudget: mode === "score-refusal" ? 7 : 8 }, mode === "source-refusal" ? { kind: "refusal", code: "numeric-source-budget-exceeded" } : mode === "score-refusal" ? { kind: "refusal", code: "ppr-score-budget-exceeded" } : ok, "cluster.test.ts:621-631", (side, guard) => {
+    const api = side === "baseline" ? B : C;
+    const arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 1, weight: 2 }, { source: 1, target: 0, weight: 1 }, { source: 1, target: 0, weight: 2 }];
+    return { state: arcs, action: () => {
+      const ids = [id(0), id(1)], options = { maxNumericSourceArcs: mode === "source-refusal" ? 3 : 8 };
+      const graph = guard("budget/sparseGraph", { ids, arcs, options }, () => api.sparseGraph(ids, arcs, options));
+      if (mode === "unique-no-retention") { const unique = { maxNumericSourceArcs: 1 }; return guard("budget/unique-sparseGraph", { graph, unique }, () => api.sparseGraph(graph.ids, graph.arcs, unique)); }
+      const seeds = [id(0)], config: Partial<B.PprConfig> = { direction: "both", maxScoreCells: mode === "score-refusal" ? 7 : 8 };
+      const ppr = guard("budget/ppr", { graph, seeds, config }, () => api.personalizedPageRank(graph, seeds, config));
+      expect(ppr.numericArcStorage).toEqual({ inputRetainedSummands: 4, viewRetainedSummands: 8, transitionEntries: 8, rowEntries: 8 });
+      return { graph, ppr };
+    } };
+  });
+  for (const weight of [Number.MIN_VALUE, 1e-320, 1, 2 ** 1000]) add(`tiny-cycles/${bits(weight)}`, { weight, seedIds: [id(0)], tolerance: 1e-12 }, ok, "cluster.test.ts:532-542 (same rational oracle)", (side, guard) => {
+    const api = side === "baseline" ? B : C, arcs = [[0, 1], [1, 0], [2, 3], [3, 2]].map(([source, target]) => ({ source: source!, target: target!, weight }));
+    const ids = [id(0), id(1), id(2), id(3)];
+    const graph = guard("tiny/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+    return { state: graph, action: () => {
+      const seeds = [id(0)], config = { tolerance: 1e-12 };
+      const ppr = guard("tiny/ppr", { graph, seeds, config }, () => api.personalizedPageRank(graph, seeds, config));
+      expect(ppr.converged).toBe(true); expect(ppr.scores.slice(2)).toEqual([0, 0]);
+      expect(cmp(pprOracle(4, arcs, [0], "callee", .85).residual(ppr.scores), fromNumber(ppr.residualUpperBound))).toBeLessThanOrEqual(0);
+      return { graph, ppr };
+    } };
+  });
+  add("subnormal-gain", { seed: "rv-subnormal", tolerance: Number.MIN_VALUE, temperature: 0 }, ok, "cluster.test.ts:544-553", (side, guard) => {
+    const api = side === "baseline" ? B : C, u = Number.MIN_VALUE;
+    const arcs = [{ source: 0, target: 1, weight: 3 * u }, { source: 2, target: 3, weight: 2 * u }], ids = [id(0), id(1), id(2), id(3)];
+    const graph = guard("gain/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+    return { state: graph, action: () => {
+      const before = movesOracle(4, arcs, [0, 1, 2, 3], u);
+      expect(before.max).toEqual(r(6n, 25n)); expect(before.threshold).toEqual(r(1n, 5n));
+      const config = { seed: "rv-subnormal", resolution: 1, temperature: 0, tolerance: u };
+      const leiden = guard("gain/leiden", { graph, config }, () => api.leiden(graph, config));
+      expect(leiden.modularity).toBe(.48); expect(leiden.originalGainTolerance).toBe(.2);
+      expect(movesOracle(4, arcs, leiden.labels, u).improving).toBe(0);
+      return { graph, leiden };
+    } };
+  });
+  for (const mode of ["huge-success", "duplicate-overflow", "total-overflow", "range-ppr", "range-leiden", "projection-underflow"] as const) add(`range/${mode}`, { mode, seed: SEED }, mode === "huge-success" ? ok : numericNo, "cluster.test.ts:710-720", (side, guard) => {
+    const api = side === "baseline" ? B : C;
+    if (mode === "projection-underflow") {
+      const input = synthetic(2, [[0, 1]]); input.nodes[0]!.functionClass = "import";
+      const config: B.ClusterConfig = { algorithm: "leiden", weights: { direct: Number.MIN_VALUE, importFactor: .5 }, leiden: { seed: SEED } };
+      return { state: { input, config }, action: () => guard("range/projection-underflow", { input, config }, () => api.clusterGraph(input, config)) };
+    }
+    const arcs = mode === "duplicate-overflow" ? [{ source: 0, target: 1, weight: Number.MAX_VALUE }, { source: 0, target: 1, weight: Number.MAX_VALUE }] : mode === "total-overflow" ? [{ source: 0, target: 1, weight: Number.MAX_VALUE }, { source: 1, target: 0, weight: Number.MAX_VALUE }] : mode.startsWith("range-") ? [{ source: 0, target: 1, weight: Number.MIN_VALUE }, { source: 0, target: 0, weight: 1e308 }] : [{ source: 0, target: 1, weight: 1e308 }];
+    return { state: arcs, action: () => {
+      const ids = [id(0), id(1)];
+      const graph = guard("range/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs));
+      const seeds = [id(0)], config = { seed: SEED };
+      if (mode === "range-ppr") return guard("range/ppr", { graph, seeds }, () => api.personalizedPageRank(graph, seeds));
+      if (mode === "range-leiden") return guard("range/leiden", { graph, config }, () => api.leiden(graph, config));
+      if (mode !== "huge-success") return graph;
+      const members = [0], labels = [0, 0];
+      const cut = guard("huge/conductance", { graph, members }, () => api.conductance(graph, members));
+      const modularity = guard("huge/modularity", { graph, labels }, () => api.directedModularity(graph, labels));
+      expect(cut).toBe(1); expect(modularity).toBe(0);
+      const leidenConfig = { seed: SEED, tolerance: 1e295, temperature: 0 };
+      return { graph, cut, modularity, ppr: guard("huge/ppr", { graph, seeds }, () => api.personalizedPageRank(graph, seeds)), leiden: guard("huge/leiden", { graph, leidenConfig }, () => api.leiden(graph, leidenConfig)) };
+    } };
+  });
+  for (const [direct, importFactor, utilityFactor] of [[1e-200, 1e-200, 1e200], [1e200, 1e200, 1e-200]] as const) add(`projection-product/${bits(direct)}`, { direct, importFactor, utilityFactor }, ok, "cluster.test.ts:722-727", side => {
+    const api = side === "baseline" ? B : C, input = synthetic(2, [[0, 1]]); input.nodes[0]!.functionClass = "import"; input.nodes[1]!.functionClass = "wrapper";
+    const overrides = { direct, importFactor, utilityFactor };
+    return { state: { input, overrides }, action: () => api.projectStructural(input, overrides) };
+  });
+  for (const algorithm of ["historical-cc", "hub-baseline", "ppr", "leiden"] as const) add(`empty/${algorithm}`, matrixConfig(algorithm, undefined), { kind: "refusal", code: "empty-snapshot-no-partition" }, "cluster.test.ts:415-422", side => {
+    const api = side === "baseline" ? B : C, input = synthetic(0, []), config = matrixConfig(algorithm, undefined);
+    return { state: { input, config }, action: () => api.clusterGraph(input, config) };
+  });
+  return result;
+}
+
+function groupCases(): ProposedCase[] {
+  const modes = ["balanced-split", "preserve", "attach", "unknown-cost", "known-cost", "hub-cap", "empty-kernel", "capability-overflow", "context-raw", "context-affinity", "context-hub", "context-community-omission", "partial-coverage", "cost-overflow", "invalid-sizes", "empty-partition"] as const;
+  return modes.map<ProposedCase>(mode => ({ id: `synthetic-groups/${mode}`, inputHash: sha(observe({ mode })), config: { mode, seed: SEED },
+    expected: mode === "cost-overflow" ? { kind: "refusal", code: "Error", message: "investigation-groups: cost overflow" } : mode === "invalid-sizes" ? { kind: "refusal", code: "Error", message: "investigation-groups: minimum exceeds maximum" } : mode === "empty-partition" ? { kind: "refusal", code: "Error", message: "investigation-groups: empty snapshot/partition: no v1 partition exists; do not synthesize empty groups" } : ok,
+    oracle: "cluster.test.ts:368-437; closed named variants", make: (side, guard) => {
+      const api = side === "baseline" ? B : C, build = side === "baseline" ? BG : CG;
+      const n = mode === "balanced-split" ? 17 : mode === "hub-cap" ? 5 : mode.startsWith("context-") || ["known-cost", "unknown-cost"].includes(mode) ? 3 : 2;
+      const pairs: Array<[number, number]> = mode === "hub-cap" ? [[0, 4], [1, 4], [2, 4], [3, 4]] : mode.startsWith("context-") ? [] : Array.from({ length: n - 1 }, (_, i) => [i, i + 1]);
+      const input = synthetic(n, pairs);
+      const clusterConfig: B.ClusterConfig = { algorithm: mode === "balanced-split" || mode === "known-cost" || mode === "unknown-cost" ? "historical-cc" : "hub-baseline", maxCommunitySize: ["preserve", "attach"].includes(mode) ? 1 : 128, weights: mode === "hub-cap" ? { hubThreshold: 4 } : {}, leiden: { seed: SEED } };
+      const cluster = guard("synthetic-groups/clusterGraph", { input, clusterConfig }, () => api.clusterGraph(input, clusterConfig));
+      const partition = cluster.partition;
+      const overrides = mode === "balanced-split" ? { minSize: 4, maxSize: 6 } : mode === "attach" ? { smallPolicy: "attach-adjacent" as const } : mode === "invalid-sizes" ? { minSize: 5, maxSize: 2 } : mode === "hub-cap" || mode.startsWith("context-") ? { maxContextFunctions: 1 } : {};
+      if (mode === "known-cost" || mode === "unknown-cost") { partition.communities[0]!.kernelIds = [id(0), id(1)]; input.nodes[1]!.status = "quarantined"; input.nodes[1]!.semanticMaturity = "partial"; if (mode === "unknown-cost") input.nodes[0]!.instructionCount = { known: false, value: null }; }
+      if (mode === "empty-kernel") partition.communities[0]!.kernelIds = [];
+      if (mode === "context-community-omission") partition.communities[0]!.externalContextIds = [id(1), id(2)];
+      if (mode === "capability-overflow") input.capabilities = Array.from({ length: 300 }, (_, i) => ({ id: `cap:${i}`, subjectId: id(0), subjectKind: "function", capability: "entry" }));
+      if (mode === "partial-coverage") input.coverage = { status: "partial", uncoveredReason: "fixture partial scope" };
+      if (mode === "cost-overflow") input.nodes[0]!.instructionCount = { known: true, value: Number.MAX_SAFE_INTEGER };
+      if (mode === "empty-partition") { input.nodes = []; input.edges = []; partition.communities = []; }
+      const ids = input.nodes.map(n => n.id), arcs = [{ source: 0, target: 1, weight: 1 }, { source: 0, target: 2, weight: 2 }];
+      const graph = mode.startsWith("context-") ? guard("synthetic-groups/sparseGraph", { ids, arcs }, () => api.sparseGraph(ids, arcs)) : cluster.projection.graph;
+      const options = mode === "context-raw" ? {} : { graph, hubIds: mode === "context-hub" ? [id(2)] : cluster.metrics.hubIds };
+      return { state: { input, partition, graph, options, overrides }, action: () => {
+        const groups = build(input, partition, overrides, options);
+        if (mode === "balanced-split") expect(groups.groups.map(g => g.ownedFunctionIds.length)).toEqual([6, 6, 5]);
+        if (mode === "preserve") expect(groups.groups).toHaveLength(2);
+        if (mode === "attach") expect(groups.groups).toHaveLength(1);
+        if (mode === "unknown-cost") expect(groups.groups[0]!.estimatedCost).toEqual({ known: false, value: null });
+        if (mode === "known-cost") expect(groups.groups[0]!.estimatedCost).toEqual({ known: true, value: 9 });
+        if (mode === "empty-kernel") { expect(groups.groups).toEqual([]); expect(groups.metrics.nonCoveredIds).toEqual([id(0), id(1)]); }
+        if (mode === "capability-overflow") { expect(groups.groups[0]!.capabilityIds).toHaveLength(256); expect(groups.metrics.allCapabilityIdsByGroupId[groups.groups[0]!.groupId]).toHaveLength(300); }
+        if (mode.startsWith("context-")) expect(groups.groups[0]!.contextFunctionIds).toEqual(mode === "context-raw" ? [] : mode === "context-hub" ? [id(2)] : [id(1)]);
+        if (mode === "context-affinity" || mode === "context-hub" || mode === "context-community-omission") expect(groups.metrics.omittedContextIdsByGroupId[groups.groups[0]!.groupId]).toEqual(mode === "context-hub" ? [id(1)] : [id(2)]);
+        if (mode === "context-community-omission") expect(groups.metrics.omittedCommunityContextIds[partition.communities[0]!.contentId]).toEqual([id(2)]);
+        return groups;
+      } };
+    } }));
+}
+
+// Existing rational oracle bodies copied (not reinvented) from the PINNED
+// cluster.test.ts:460-478,486-525. No expectRounded/tolerance comparator is copied.
+type R = { p: bigint; q: bigint };
+const zero: R = { p: 0n, q: 1n }, one: R = { p: 1n, q: 1n };
+function r(p: bigint, q = 1n): R {
+  if (q < 0n) { p = -p; q = -q; }
+  let a = p < 0n ? -p : p, b = q; while (b) [a, b] = [b, a % b];
+  return { p: p / a, q: q / a };
+}
+const add = (a: R, b: R) => r(a.p * b.q + b.p * a.q, a.q * b.q);
+const sub = (a: R, b: R) => r(a.p * b.q - b.p * a.q, a.q * b.q);
+const mul = (a: R, b: R) => r(a.p * b.p, a.q * b.q);
+const div = (a: R, b: R) => r(a.p * b.q, a.q * b.p);
+const cmp = (a: R, b: R) => a.p * b.q < b.p * a.q ? -1 : a.p * b.q > b.p * a.q ? 1 : 0;
+const abs = (a: R) => ({ p: a.p < 0n ? -a.p : a.p, q: a.q });
+const total = (values: R[]) => values.reduce(add, zero);
+function fromNumber(value: number): R {
+  const [whole, fraction = ""] = Math.abs(value).toString(2).split(".");
+  return r((value < 0 ? -1n : 1n) * BigInt(`0b${whole}${fraction}`), 1n << BigInt(fraction.length));
+}
+function matrix(n: number, arcs: B.Arc[]): R[][] {
+  const a = Array.from({ length: n }, () => Array.from({ length: n }, () => zero));
+  for (const e of arcs) a[e.source]![e.target] = add(a[e.source]![e.target]!, fromNumber(e.weight));
+  return a;
+}
+function qOracle(n: number, arcs: B.Arc[], labels: number[], gamma = 1): R {
+  const a = matrix(n, arcs), m = total(a.flat()); if (!m.p) return zero;
+  const normalized = a.map(row => row.map(x => div(x, m))), rows = normalized.map(total), columns = a.map((_, j) => total(normalized.map(row => row[j]!)));
+  let answer = zero;
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (labels[i] === labels[j]) answer = add(answer, sub(normalized[i]![j]!, mul(fromNumber(gamma), mul(rows[i]!, columns[j]!))));
+  return answer;
+}
+function movesOracle(n: number, arcs: B.Arc[], labels: number[], tolerance: number, gamma = 1) {
+  const q = qOracle(n, arcs, labels, gamma), threshold = div(fromNumber(tolerance), total(matrix(n, arcs).flat()));
+  let max = zero, improving = 0;
+  for (let node = 0; node < n; node++) {
+    let best = zero;
+    for (const target of [...new Set(labels), Math.max(...labels) + 1]) {
+      const changed = labels.slice(); changed[node] = target;
+      const gain = sub(qOracle(n, arcs, changed, gamma), q); if (cmp(gain, best) > 0) best = gain;
+    }
+    if (cmp(best, threshold) > 0) improving++;
+    if (cmp(best, max) > 0) max = best;
+  }
+  return { max, improving, threshold };
+}
+function pprOracle(n: number, arcs: B.Arc[], seeds: number[], direction: "callee" | "caller" | "both", damping: number) {
+  const directed = direction === "callee" ? arcs : direction === "caller" ? arcs.map(e => ({ ...e, source: e.target, target: e.source })) : arcs.flatMap(e => [e, { ...e, source: e.target, target: e.source }]);
+  const a = matrix(n, directed), rows = a.map(total), p = Array.from({ length: n }, (_, i) => seeds.includes(i) ? r(1n, BigInt(seeds.length)) : zero), d = fromNumber(damping);
+  const transition = a.map((row, i) => rows[i]!.p ? row.map(w => div(w, rows[i]!)) : p);
+  const b = p.map(v => mul(sub(one, d), v));
+  const system = Array.from({ length: n }, (_, target) => [...Array.from({ length: n }, (_, source) => sub(source === target ? one : zero, mul(d, transition[source]![target]!))), b[target]!]);
+  for (let k = 0; k < n; k++) {
+    const pivot = system.findIndex((row, i) => i >= k && row[k]!.p !== 0n); expect(pivot).toBeGreaterThanOrEqual(k);
+    [system[k], system[pivot]] = [system[pivot]!, system[k]!];
+    const divisor = system[k]![k]!; system[k] = system[k]!.map(x => div(x, divisor));
+    for (let i = 0; i < n; i++) if (i !== k) { const factor = system[i]![k]!; system[i] = system[i]!.map((x, j) => sub(x, mul(factor, system[k]![j]!))); }
+  }
+  return { solution: system.map(row => row[n]!), residual: (scores: number[]) => total(b.map((v, j) => abs(sub(add(v, total(transition.map((row, i) => mul(d, mul(row[j]!, fromNumber(scores[i]!)))))), fromNumber(scores[j]!))))) };
+}
+
+// Pure infrastructure/shape counterexamples, not new scientific pair cases.
+function sourceControls(catalog: NativeCatalog): void {
+  insist(observe(0) !== observe(-0) && observe({ x: undefined }) !== observe({}), "observer scalar/absence control");
+  insist(observe(new Map([["a", 1], ["b", 2]])) !== observe(new Map([["b", 2], ["a", 1]])), "Map order control");
+  const alias = {}; insist(observe([alias, alias]) !== observe([{}, {}]) && observe(new Array<undefined>(1)) !== observe([undefined]), "alias/hole control");
+  const descriptor = (value: unknown) => ({ enumerable: false, configurable: true, writable: true, value });
+  const shape: ErrorOwn = [{ key: "message", descriptor: descriptor("synthetic") }, { key: "stack", descriptor: descriptor("synthetic stack") }];
+  const shapeOnly = (rows: ErrorOwn) => observe(rows.map(row => ({ key: row.key, enumerable: row.descriptor.enumerable,
+    configurable: row.descriptor.configurable, writable: row.descriptor.writable, valueType: typeof row.descriptor.value })));
+  for (const flag of ["enumerable", "configurable", "writable"] as const) {
+    const bad = structuredClone(shape); bad[1]!.descriptor[flag] = !bad[1]!.descriptor[flag]; insist(shapeOnly(bad) !== shapeOnly(shape), "descriptor flag control");
+  }
+  insist(shapeOnly([shape[1]!, shape[0]!]) !== shapeOnly(shape) && shapeOnly([shape[0]!]) !== shapeOnly(shape), "descriptor order/presence control");
+  expect(() => requireTechnicalProof(false, null)).toThrow(); expect(() => requireTechnicalProof(true, null)).toThrow();
+  for (const markerFails of [false, true]) {
+    const files = new Map<string, string>();
+    const io: EvidenceIO = { read: path => { const text = files.get(path); if (text === undefined) throw TERMINAL; return text; },
+      write: (path, text) => { if (path.includes("-1-stage")) { files.set(path, text.slice(0, 3)); throw TERMINAL; }
+        if (markerFails && path.endsWith("FATAL.json")) { files.set(path, "{"); throw TERMINAL; } files.set(path, text); } };
+    const totals: Record<Side, number> = { baseline: 0, candidate: 0 }, w = evidenceWriter("memory-controls", "baseline", 0, totals, io);
+    const good = w.put("stage", { complete: true }, "STAGE");
+    try { w.put("stage", { rejectedPartial: true }, "STAGE"); } catch { /* terminal signal only */ }
+    insist(w.terminal && w.acceptedCount === 1 && files.get(good.path) === good.text
+      && w.markerDurability === (markerFails ? "unknown" : "written"), "partial write/marker durability control");
+  }
+  {
+    const files = new Map<string, string>(), totals: Record<Side, number> = { baseline: 0, candidate: 0 };
+    const w = evidenceWriter("memory-cap-control", "baseline", 0, totals, { write: (p, t) => { files.set(p, t); }, read: p => files.get(p) ?? "" });
+    const good = w.put("stage", { acceptedPrefix: true }, "STAGE"); let visits = 0;
+    const rejected = new Proxy({ huge: "x".repeat(LIMIT) }, { ownKeys(target) { visits++; return Reflect.ownKeys(target); } });
+    try { w.put("stage", rejected, "STAGE"); } catch { /* no failed-payload formatting */ }
+    try { w.put("index", rejected, "PAIR"); } catch { /* terminal must prevent re-observation */ }
+    insist(visits === 1 && w.terminal && w.acceptedCount === 1 && files.get(good.path) === good.text
+      && w.markerDurability === "written" && [...files].filter(([p]) => p.endsWith("FATAL.json")).every(([, t]) => Buffer.byteLength(t) < RESERVE), "oversize terminal/no-reobserve control");
+  }
+  for (const branchCap of [false, true]) {
+    const files = new Map<string, string>(), totals: Record<Side, number> = { baseline: branchCap ? BRANCH_LIMIT - RESERVE : 0, candidate: 0 };
+    const w = evidenceWriter("memory-accumulation-control", "baseline", 0, totals, { write: (p, t) => { files.set(p, t); }, read: p => files.get(p) ?? "" });
+    let acceptedPrefix: Artifact | undefined;
+    try { if (!branchCap) acceptedPrefix = w.put("stage", "x".repeat(LIMIT / 2), "STAGE"); w.put("stage", "y".repeat(LIMIT / 2), "STAGE"); } catch { /* fixed terminal */ }
+    insist(w.terminal && w.markerDurability === "written" && w.acceptedCount === (branchCap ? 0 : 1)
+      && (acceptedPrefix === undefined || files.get(acceptedPrefix.path) === acceptedPrefix.text), "cumulative case/branch cap keeps admitted prefix");
+  }
+  const own = catalog.bySourceURL.get(resolve(import.meta.path)); insist(own !== undefined, "shared test catalogue control");
+  const syntheticOrigin: Origin = { raw: "synthetic chain control, not a runtime frame", rawLocation: own.scriptURL,
+    file: own.scriptURL, line: 1, column: 1, sourceHash: own.sourceByteRef.sha256, sourceLine: own.sourceLines[0]!, kind: "test",
+    classification: "synthetic control only", mappedFile: own.scriptURL, mappedLine: 1, mappedColumn: 1, mappedSourceHash: own.sourceByteRef.sha256 };
+  expect(() => reconcileOrigins([syntheticOrigin], [syntheticOrigin, { ...syntheticOrigin, line: 2, mappedLine: 2 }])).toThrow();
+  for (const column of [19, 186, 187]) insist(!(column >= 20 && column <= 185), "closed wrapper column control");
+  {
+    const old = catalog.bySourceURL.get(sourceFile("baseline", "investigation-groups.ts"))!;
+    const leaf = catalog.bySourceURL.get(sourceFile("candidate", "group-context-codecs.ts"))!;
+    const producer = catalog.bySourceURL.get(sourceFile("candidate", "investigation-groups.ts"))!;
+    const callerIndex = own.sourceLines.findIndex(line => line.trimStart().startsWith("const groups = build("));
+    insist(callerIndex >= 0, "reviewed test caller control");
+    const caller: Origin = { ...syntheticOrigin, line: callerIndex + 1, mappedLine: callerIndex + 1, sourceLine: own.sourceLines[callerIndex]!,
+      column: own.sourceLines[callerIndex]!.indexOf("build(") + 1, mappedColumn: own.sourceLines[callerIndex]!.indexOf("build(") + 1 };
+    const previousB: Origin = { ...syntheticOrigin, file: old.scriptURL, rawLocation: old.scriptURL, line: 60, column: 3, sourceLine: old.sourceLines[59]!,
+      sourceHash: old.sourceByteRef.sha256, kind: "product", mappedFile: old.scriptURL, mappedLine: 60, mappedColumn: 3, mappedSourceHash: old.sourceByteRef.sha256 };
+    const previousC: Origin = { ...previousB, file: leaf.scriptURL, rawLocation: leaf.scriptURL, line: 67, sourceLine: leaf.sourceLines[66]!, sourceHash: leaf.sourceByteRef.sha256 };
+    const wrapper: Origin = { ...previousC, file: producer.scriptURL, rawLocation: producer.scriptURL, line: 49, sourceLine: producer.sourceLines[48]!,
+      sourceHash: producer.sourceByteRef.sha256, kind: "prepare-wrapper", mappedFile: null, mappedLine: null, mappedColumn: null, mappedSourceHash: null };
+    for (const column of [19, 186, 187]) expect(() => reconcileOrigins([previousB, caller], [previousC, { ...wrapper, column }, caller])).toThrow();
+    for (const column of [20, 185]) insist(reconcileOrigins([previousB, caller], [previousC, { ...wrapper, column }, caller]).consumedCandidate.length === 3, "inclusive wrapper endpoints control");
+  }
+  expect(() => closed({ version: "unknown", extra: true }, ["version"])).toThrow();
+  expect(() => catalogueVersion("unknown")).toThrow();
+  expect(() => invocationInputs(undefined, undefined, undefined, undefined, undefined, undefined, undefined)).toThrow();
+  insist(!equalRef(own.emittedByteRef, { ...own.emittedByteRef, sha256: "0".repeat(64) })
+    && !equalRef(own.nativeSourceMapByteRef, { ...own.nativeSourceMapByteRef, sha256: "0".repeat(64) }), "emit/map pin control");
+  insist(catalog.bySourceURL.get("unapproved-source") === undefined, "foreign/unknown module control");
+  for (const module of catalog.bySourceURL.values()) {
+    const row = module.pointRanges[0]!;
+    expect(() => nativeRange(module, 0, 0, row.sourceLine, row.sourceColumn)).toThrow();
+    expect(() => nativeRange(module, row.generatedLine, row.firstColumn, row.sourceLine, row.sourceColumn + 1)).toThrow();
+  }
+  const modules = [...catalog.bySourceURL.values()], selected = modules[0]!, other = modules[1]!;
+  const sourceText = catalog.cachedBytes(selected.sourceByteRef).toString("utf8"), emitText = catalog.cachedBytes(selected.emittedByteRef).toString("utf8"), mapBytes = catalog.cachedBytes(selected.nativeSourceMapByteRef);
+  expect(() => nativeInlineProof(sourceText, emitText, Buffer.from("{}"), selected.nativeMapSource, selected.scriptURL)).toThrow();
+  expect(() => nativeInlineProof(sourceText, emitText.replace("//# sourceURL=", "//# sourceURL=wrong-"), mapBytes, selected.nativeMapSource, selected.scriptURL)).toThrow();
+  expect(() => nativeInlineProof(catalog.cachedBytes(other.sourceByteRef).toString("utf8"), emitText, mapBytes, selected.nativeMapSource, selected.scriptURL)).toThrow();
+  expect(() => catalog.cachedBytes({ ...selected.sourceByteRef, sha256: "0".repeat(64) })).toThrow();
+  {
+    const files = new Map<string, string>(), totals: Record<Side, number> = { baseline: 0, candidate: 0 };
+    const w = evidenceWriter("memory-unverified-error", "baseline", 0, totals, { write: (p, t) => { files.set(p, t); }, read: p => files.get(p) ?? "" });
+    let rejected = false;
+    try { captureError(new Error("cluster: synthetic unverified interception"), "baseline", "action", catalog, w); } catch { rejected = true; }
+    insist(rejected && w.terminal, "authored dummy/native profile must not become a scientific refusal");
+  }
+}
+
+test("FULL bounded numeric/context differential (source proposal; parent gates required)", async () => {
+  const supplied = process.env.PARENT_NUMERIC_EVIDENCE_DIR;
+  insist(supplied !== undefined && isAbsolute(supplied) && /^[A-Za-z]:[\\/]/.test(supplied), "parent must supply an existing local absolute OWN run-layout root");
+  const root = join(supplied, "numeric-context-qualification-v3");
+  mkdirSync(root); // Fresh exclusive CASE child, distinct from parent's provenance namespace.
+  const totals: Record<Side, number> = { baseline: 0, candidate: 0 };
+  const io: EvidenceIO = { write: (path, text) => writeFileSync(path, text, { flag: "wx" }), read: path => {
+    const stat = lstatSync(path); insist(stat.isFile() && stat.size <= LIMIT, "case artifact read cap"); return decodeEvidenceBytes(readFileSync(path)); } };
+  const setup = evidenceWriter(root, "baseline", -1, totals, io);
+  let catalog: NativeCatalog;
+  try { catalog = await nativeCatalog(supplied); sourceControls(catalog); }
+  catch { return setup.fail("CATALOG", "CATALOG"); }
+  // Nothing above invokes make, projection, clustering or another scientific API.
+  const cases = [...matrixCases(), ...numericCases(), ...groupCases()];
+  insist(new Set(cases.map(c => c.id)).size === cases.length && cases.length === 450
+    && cases.filter(c => c.expected.kind === "value").length === 224 && cases.filter(c => c.expected.kind === "refusal").length === 226, "unchanged case ledger");
+  type Branch = { writer: Writer; state: unknown; value: unknown; envelope: ErrorEnvelope | undefined;
+    stages: Array<{ proof: StageProof; artifact: Artifact }>; indexArtifact: Artifact };
+  for (let index = 0; index < cases.length; index++) {
+    const c = cases[index]!, branches: Partial<Record<Side, Branch>> = {};
+    for (const side of ["baseline", "candidate"] as const) {
+      const w = evidenceWriter(root, side, index, totals, io), stages: Branch["stages"] = [];
+      let envelope: ErrorEnvelope | undefined;
+      const latestEnvelope = (): ErrorEnvelope | undefined => envelope;
+      const capture = (error: unknown, phase: "guard" | "action"): ErrorEnvelope => {
+        if (w.terminal) throw TERMINAL;
+        if (envelope !== undefined) { if (error !== envelope.error) return w.fail("PROFILE", "ERROR"); return envelope; }
+        envelope = captureError(error, side, phase, catalog, w); return envelope;
+      };
+      const guard: Guard = <T>(label: string, inputs: unknown, call: () => T): T => {
+        if (w.terminal) throw TERMINAL;
+        if (stages.length >= MAX_STAGES) return w.fail("STAGE_LIMIT", "STAGE");
+        const refs: object[] = [], before = w.encode(inputs, "STAGE", refs); let returned = false, errorReference: 0 | null = null;
+        try { const value = call(); returned = true; return value; }
+        catch (error) { if (w.terminal) throw TERMINAL; capture(error, "guard"); errorReference = 0; throw error; }
+        finally {
+          if (!w.terminal) {
+            const afterRefs: object[] = [], after = w.encode(inputs, "STAGE", afterRefs);
+            const referencesStable = refs.length === afterRefs.length && refs.every((ref, i) => ref === afterRefs[i]);
+            const proof = { label, before, after, referenceCount: refs.length, referencesStable, returned, errorReference };
+            const artifact = w.put("stage", proof, "STAGE"); stages.push({ proof, artifact });
+            if (before !== after || !referencesStable) w.fail("MUTATION", "STAGE");
+          }
+        }
+      };
+      try {
+        // A make/preparation failure is fatal, never a substituted scientific refusal.
+        const work = c.make(side, guard), refs: object[] = [], before = w.encode(work.state, "ACTION", refs);
+        let value: unknown, failed = false;
+        try { value = work.action(); }
+        catch (error) { if (w.terminal) throw TERMINAL; capture(error, "action"); failed = true; }
+        const afterRefs: object[] = [], after = w.encode(work.state, "ACTION", afterRefs);
+        if (before !== after || refs.length !== afterRefs.length || !refs.every((ref, i) => ref === afterRefs[i])) w.fail("MUTATION", "ACTION");
+        if (failed) {
+          const captured = latestEnvelope();
+          if (c.expected.kind !== "refusal" || captured === undefined || captured.code !== c.expected.code
+            || c.expected.message !== undefined && captured.message !== c.expected.message) w.fail("QUALIFICATION", "ERROR");
+        } else if (c.expected.kind !== "value" || latestEnvelope() !== undefined) w.fail("QUALIFICATION", "ACTION");
+        const indexArtifact = w.put("index", { id: c.id, inputHash: sha(before), sourceFixtureOrCaseSpecHash: c.inputHash,
+          config: c.config, expected: c.expected, oracle: c.oracle, stageCount: stages.length,
+          stages: stages.map(stage => ({ ordinal: stage.artifact.ordinal, label: stage.proof.label, errorReference: stage.proof.errorReference })) }, "ACTION");
+        branches[side] = { writer: w, state: work.state, value, envelope: latestEnvelope(), stages, indexArtifact };
+      } catch { if (w.terminal) throw TERMINAL; w.fail("QUALIFICATION", "MAKE"); }
+    }
+    const b = branches.baseline, candidate = branches.candidate;
+    insist(b !== undefined && candidate !== undefined, "missing branch result");
+    let pairProof: ReturnType<typeof reconcileOrigins> | null = null;
+    try {
+      if (c.expected.kind === "refusal") {
+        insist(b.envelope !== undefined && candidate.envelope !== undefined, "missing native Error envelopes");
+        pairProof = reconcileOrigins(b.envelope.frames, candidate.envelope.frames);
+      }
+    } catch { return b.writer.fail("ORIGIN", "PAIR"); }
+    // Technical tags can be constructed ONLY now: same-run native tuples proved
+    // locally and the entire two-sided source chain has consumed every frame.
+    const bError = b.envelope === undefined ? null : semanticError(b.envelope, pairProof);
+    const cError = candidate.envelope === undefined ? null : semanticError(candidate.envelope, pairProof);
+    if (b.stages.length !== candidate.stages.length || b.writer.read(b.indexArtifact) !== candidate.writer.read(candidate.indexArtifact)) b.writer.fail("MISMATCH", "PAIR");
+    for (let ordinal = 0; ordinal < b.stages.length; ordinal++) {
+      const bs = b.stages[ordinal]!, cs = candidate.stages[ordinal]!;
+      if (b.writer.read(bs.artifact) !== candidate.writer.read(cs.artifact)) b.writer.fail("MISMATCH", "PAIR");
+      // Full error-semantic augmentation, not a raw-path/digest equality claim.
+      const bView = b.writer.encode({ stage: bs.proof, error: bs.proof.errorReference === null ? null : bError }, "PAIR");
+      const cView = candidate.writer.encode({ stage: cs.proof, error: cs.proof.errorReference === null ? null : cError }, "PAIR");
+      if (bView !== cView) b.writer.fail("MISMATCH", "PAIR");
+    }
+    const bObservation = b.writer.put("observation", { id: c.id, kind: c.expected.kind, state: b.state, value: b.value, error: bError }, "PAIR");
+    const cObservation = candidate.writer.put("observation", { id: c.id, kind: c.expected.kind, state: candidate.state, value: candidate.value, error: cError }, "PAIR");
+    if (b.writer.read(bObservation) !== candidate.writer.read(cObservation)) b.writer.fail("MISMATCH", "PAIR");
+    for (const [branch, error] of [[b, bError], [candidate, cError]] as const) {
+      if (error !== null) branch.writer.put("error-semantic", error, "PAIR");
+      branch.writer.put("pair", { id: c.id, expected: c.expected, sourceFixtureOrCaseSpecHash: c.inputHash,
+        nativeRunId: catalog.binding.runId, fullObservationEqual: true, fullStageCount: branch.stages.length,
+        originChainProof: pairProof, chargedCaseBytesBeforePair: branch.writer.charged }, "PAIR");
+    }
+  }
+  for (const side of ["baseline", "candidate"] as const) {
+    evidenceWriter(root, side, 450, totals, io).put("complete", { proposedPairs: 450, observedPairs: 450,
+      valuePairs: 224, refusalPairs: 226, branchBytesBeforeCompletion: { ...totals }, nativeRunId: catalog.binding.runId,
+      qualifiedNativeOrFull44: false }, "COMPLETE");
+  }
+}, 120000);

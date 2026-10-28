@@ -1,0 +1,1499 @@
+{
+  "at": "2026-10-17T08:10:08.553Z",
+  "missionId": "team_mv6tmopg_0000_4urn3c",
+  "policies": [
+    4,
+    2
+  ],
+  "scheduling": {
+    "autoDispatch": false,
+    "autoScale": false
+  },
+  "tasks": [
+    {
+      "id": "task_mv6tmoq6_0001_xbavfg",
+      "content": "L1 — Contrat commun + ADR (ORDRE_MISSION §4, §16). Auteur unique du contrat de données gelé dont dépendent L2–L7. Entités (schémas TS + JSON machine-lisibles, sous-ensemble strict harnais, PAS de regex pattern — le RPC natif le refuse) : BinaryArtifact, FunctionNode, FunctionEdge, ReferencedObject/UnresolvedReference, CapabilityFact, GraphSnapshot, ClusterPartition, InvestigationGroup, KnowledgeDelta, WorkUnit, MissionPlan, WorkAttempt, KnowledgeCommit. Identité canonique = hash module + RVA (EA/nom IDA = attributs) ; A appelle B = A→B ; xref DATA ≠ appel ; callback_candidate = hypothèse ; self-loops conservées (SCC) ; métrique inconnue ≠ zéro ; budgets en octets UTF8 ; provenance (module/site/type xref/source/version/hash) sur chaque preuve ; champs volatils séparés du contenu hashé. Publication : niveaux 1 (fixture) + 2 (connaissance locale validée par le lead) seulement — IDB hors mission. ADR : ownership fichiers L2–L8, migrations par adaptation (Intent.identity par fonction → WorkUnit multifonction = agrégat explicite), réutilisations run01 (native-groups 98 fns/36 groupes, registres, ledger certitude). Fixtures canoniques §17.1 + cas FF8 (chunks/tails, callback DATA non promu, imports/thunks, renommage sans changement d'identité, même nom/hash différent, multi-modules, IDB/PE divergents hash-concordants, sélection budgétaire excluant un callee obligatoire). Écriture exclusive : docs/missions/re-graph-scheduler/contract/**, tools/ff8-harness/schemas/**, tools/ff8-harness/test/fixtures/graph/**. `bun install && bun test` verts avant rendu (tests existants non régressés).",
+      "status": "completed",
+      "assignee": "l1-contract",
+      "dependsOn": [],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towp7_0006_hb6tr0",
+      "content": "L2 — Graphe natif + capacités (§5–6). Adaptateurs/extraction/normalisation vers GraphSnapshot : arêtes typées PAR SITE (direct/tail/callback_candidate/indirect, xref code vs data), self-loops conservées, couverture EXPLICITE (statut de couverture remplace la tolérance silencieuse des tails), registres existants réutilisés (battle-graph-ledger.json, magic-registry.json relocation-aware, battle-indirect-registry.json 493 sites + comptes attendus = gates), promotion du groupement glouton 100/3/1 cap6 en baseline versionnée (hors .tmp), caches par binaire+snapshot+version avec invalidation explicite. Capacités : moteur de règles local borné (catégories §6), capa évalué sans téléchargement implicite. Fixtures d'abord (gels run01 98 fns) ; lectures IDA natives readonly via le lead (périmètre battle-corpus), jamais py_eval worker.",
+      "status": "completed",
+      "assignee": "l2-graph-r3",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towpp_0007_tknxf8",
+      "content": "L3 — Clustering structurel / groupes (§7). Baseline strictement déterministe (composantes connexes existantes conservées comme comparateur + baseline adaptée hubs/découpage), Personalized PageRank (graines capacités/entrées, direction caller/callee configurable, dangling nodes, convergence/tolérance/itérations explicites, sweep cut conductance), Leiden dirigé (vérifier capacités réelles de la bibliothèque : objectifs/weights/seeds ; reproductible à environnement fixé ≠ bit-identique universel), atténuation imports/utilitaires/hubs, constructeur de groupes : owner principal unique, noyau vs contexte (chevauchement autorisé sans duplication d'investigation), min/max configurables, découpage gros groupes, rattachement petits, isolés/hubs/non-couverts explicites, coûts/contexte estimés. Poids configurables versionnés + analyse de sensibilité. Travaille sur fixtures L1 sans IDA.",
+      "status": "completed",
+      "assignee": "l3-cluster-r3",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towq2_0008_m3s5ul",
+      "content": "L4 — Sémantique multivue / lineage (§8, §14). Index lexical déterministe (BM25/TF-IDF + normalisation + synonymes versionnés), adaptateur embeddings local optionnel (gelé, cache, top-k/seuils/tie-breaking stable, ABSENCE prévue + gain mesuré par ablation vs lexical), clustering multivue (appels+données+similarité+relations validées) pondéré par maturité LOCALE, must-link/cannot-link avec provenance (prise en charge vérifiée, contrainte insatisfaisable = diagnostic pas faux PASS), reconstruction hiérarchique fonctions→communautés→sous-systèmes→architecture (module vs capacité transversale, expérimentale admise avec moteur/export/évaluations exécutables sur fixtures), delta de partition + lineage (fusions/scissions, hystérésis/seuils, comparaison à configuration identique). Auteurs aveugles jamais exposés aux index existants (GrepAI/QMD = recherche, pas magasin canonique).",
+      "status": "completed",
+      "assignee": "l4-semantic",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towqd_0009_ngf09c",
+      "content": "L5 — Planning algorithmique (§9–11). WorkUnit (ID stable, agrégat explicite multifonction + sous-intents/résultats attribuables par fonction), SCC Tarjan itératif + DAG de condensation (grandes chaînes sans débordement, self-loops, SCC volumineuse = unité de dépendance exclusive avec budget/diagnostic), re-vérification du graphe quotient après fusion de nœuds (cycle artificiel → séparer/diagnostiquer), G1 dépendances de connaissance (A appelle B ⇒ travail(B)→travail(A) ; prérequis typés obligatoire/optionnel/externe satisfait/inconnu non bloquant/dispensé motivé versionné ; artefact/révision/niveau de validation exigés par le consommateur), G2 conflits (clés de possession canoniques indépendantes du cluster/partition, vérification de TOUTES les unités actives y compris anciens plans, sous-tâches A/B partagent le bail familial), G3 affinité (jamais de blocage), granularités comparées, priorités FIFO/profondeur/chemin critique/chemin+influence/HEFT-like rank(v)=coût_estimé+max(rank consommateur), sélection compatible + ressources hétérogènes (profils/quota par compte réel), tie-breaking canonique + anti-famine, aging = événement rejouable. classify_x86/Jev consultatif lead uniquement, jamais appel LLM dans la boucle de ranking.",
+      "status": "completed",
+      "assignee": "l5-planner-r2",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towqs_000a_vf0m47",
+      "content": "L6 — Persistance / reprise (§12). Extension du Store : tables own via CREATE TABLE IF NOT EXISTS (ff8_graph_*, ff8_events journal rejouable, unit-leases) dans la même DB own (refus schéma étranger conservé, version ff8_harness_metadata), réservation atomique par unité (contrainte d'unicité + fencing monotone), états explicites (PENDING/BLOCKED/READY/RESERVED/RUNNING/VALIDATING/COMMITTED/RETRYABLE/FAILED/STALE/CANCELLED/STOP_PENDING/QUARANTINED), outbox/idempotence/readback du harnais réutilisés par adaptation, heartbeat borné, expiration lease ≠ arrêt worker (fencing bloque commit tardif, jamais vol de bail actif ; quarantaine+diagnostic), résultat tardif conservé comme preuve mais incapable d'écraser/débloquer, erreurs typées (refus-auth/entrée/schéma/quota/panne distinguées), correspondance d'états vérifiable tâche Ensemble ↔ COMMITTED scientifique sans polling occupé. NE PAS modifier la boucle centrale (engine/tick) en parallèle : branchement = L8.",
+      "status": "completed",
+      "assignee": "l6-persist-r2",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towra_000b_756q9i",
+      "content": "L7 — QA / simulateur / benchmarks (§17). Oracle indépendant (ne recopie pas l'algorithme testé), fixtures §17.1 (communautés évidentes, composantes déconnectées, hubs, cycles/self-loop, indirects incertains, isolés, bridges rares, données partagées, synonymes/proches modules distincts, maturité partielle, delta vide, contextes chevauchants, lineage fusions/scissions, export/rechargement + cas FF8) et §17.2 (A→B/C, B démarre après D/E sans attendre F ; SCC A↔B, SCC volumineuse, cycle artificiel de mauvaise fusion ; terminaisons permutées, pénurie workers compatibles, quotas compte partagé, pause, absence READY vs terminé ; 2 contrôleurs concurrents, crash avant/après envoi, réponse perdue, heartbeat perdu, lease expiré worker actif, arrêt non confirmé, résultat tardif, double commit, reprise à chaque frontière ; nouvelle dépendance/conflict/SCC pendant activité ; A/B parallèles même travail + R attendant + publication unique famille ; bulletin R ne débloquant rien ni ne contaminant ; replay même journal = mêmes décisions ; unicode/limites octets/lignes/junctions), tests par propriétés/invariants + permutations + injection d'incidents, benchmarks synthétiques 1k/10k(/100k si budget) avec E/densité/degrés/SCC annoncés (pas de construction quadratique cachée), comparaison politiques (séquentiel/barrières/FIFO global/événementiel bottom-up/chemin critique/hétérogène) à même jeu de durées/événements, métriques §15 (makespan, speedup UTILE, chemin critique restant, attentes, overhead, fraîcheur contexte, rework). Ownership fichiers tests séparé des implémenteurs. Démarre dès L1.",
+      "status": "in_progress",
+      "assignee": "l7-qa-r3",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towrm_000c_24005n",
+      "content": "L8 — Intégration harnais/pont/CLI (§15–16). PROPRIÉTAIRE UNIQUE des fichiers centraux engine.ts, domain.ts, adapter.ts, client.ts, cli.ts + câblage (aucun merge concurrent sur ces interfaces). Branchement des modules L2/L3/L5/L6 : stage group (remplacement deterministicGroups par pipeline graphe→partition→groupes en préservant CycleRecord.groups immuable), freeze (fermeture sur prérequis complétée/différée/dispensée selon politique de connaissance ; tri difficulté+identité, workFingerprint, anti-répétition conservés), file événementielle READY globale (fin de branche → validation/commit → réévaluation immédiate des consommateurs ; barrières inter-unités supprimées ; gates A+B→R et validation→commit PAR unité conservées), CLI (extraction/clustering/groupes/indexation/plan/simulation/shadow/dispatch/reprise/replay + explication/export), le scheduler consomme un export immuable sans rappeler le clustering, cœur 100% opérable avec workers simulés sans LLM/IDA. Puis intégration L4 (régime B) après validation de la tranche. Contrat de l'adaptateur préparé dès L1.",
+      "status": "in_progress",
+      "assignee": "l8-integration-r1",
+      "dependsOn": [
+        "task_mv6towp7_0006_hb6tr0",
+        "task_mv6towpp_0007_tknxf8",
+        "task_mv6towqd_0009_ngf09c",
+        "task_mv6towqs_000a_vf0m47"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Parent source/test integration now accepted/committed9a35cb9; final fresh L3 test-only review acceptable, same818mainPASS+1skip bytes, six central baselinepins intact. PhaseGO999260f authorizes one fresh isolated unique central L8 owner after nativeModelRef/explicitprojection/actualaccess/planapproval. L2/L3/L4/L5/L6 accepted; L4regimeB receipt boundary and all safety gates remain. Parallel with initial L7interop; never wait for wholeL7post-L8 closure. No real dispatch/native/scientific mission/adoption.",
+          "worktree": true
+        },
+        "revision": 4,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv6towry_000d_c1nxby",
+      "content": "L9 — Review indépendante + attaques de sûreté (§16). Reviewer n'ayant RIEN écrit des composants concernés. Attaques : sens des arêtes (A→B ; symétrisation = vue dérivée), hypothèses vs validations (callback_candidate, empreintes partielles tails, divergences PE/IDB 0x465720/0x495960/0x48D200/0x48FE20 quarantaine), fencing/lease expiré avec worker actif, arrêt ambigu, double commit, prérequis G1 orientés et fermeture budgétaire (callee obligatoire jamais omis silencieusement), contextes aveugles non contaminés (C/verdicts/index exclus des projections), budgets/révisions figées aux tentatives actives, replay déterminisme (même journal = mêmes décisions), absence d'appels LLM dans extraction/clustering/planning/simulation, isolation worktree réelle. Chaque défaut cite instruction/objet et effet observable ; verdict par lot.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mv6towrm_000c_24005n"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6towsa_000e_w4cpxc",
+      "content": "L10 — Intégration/validation finale PARENT (§18–19). LEAD UNIQUEMENT. Diffs relus, preuves relues, gates : G2 tranche verticale hors ligne (snapshot→partition/groupes→plan→simulateur→validation/commit fixture→déblocage événementiel sans LLM/IDA), G3 régimes (PARTIAL explicite si manque ; encodeur/hiérarchie peuvent rester désactivés avec preuves de fallback documentées), G4 sûreté/reprise (invariants, incidents, migrations non destructrices, replay, revue indépendante), non-régression harnais/pont (bun test complet + codes de sortie), rapport final distinguant implémenté/vérifié hors ligne/vérifié natif/expérimental/bloqué/hors périmètre + autorisations restantes (G5 shadow, G6 native, G7 adoption = GO séparés). Corriger puis revalider les défauts bloquants ; pas d'auto-acceptation sur « tests verts » worker.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mv6towra_000b_756q9i",
+        "task_mv6towrm_000c_24005n",
+        "task_mv6towry_000d_c1nxby"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6xt1p7_0030_wg3h0k",
+      "content": "L6-RV — revue indépendante en lecture seule du lot persistance/reprise livré. Code + contrat uniquement, pas verdict auteur. Vérifier CAS/fencing, cycle leases/STOP_PENDING/quiescence, outbox/perte réponse/retry, publication/readback unique, binding/prérequis/budgets, migrations et replay. Livrable rapport court avec défauts chemins:lignes et scénarios reproductibles ; aucun fichier modifié. Ne remplace pas L9 intégration finale.",
+      "status": "completed",
+      "assignee": "l6-review",
+      "dependsOn": [
+        "task_mv6towqs_000a_vf0m47"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6yrky3_003c_naffek",
+      "content": "L6-FIX — correction des défauts revue L6-RV + contre-exemple parent L5→L6, mêmes 4 fichiers ownership. Admission/terminal receipt-bound, CAS generation-safe sur callbacks dispatch/reconcile, fail-closed retry publication fenced, dépendances locales R callee multifonctions correctes. Régressions race/deferred-submit et tests croisés planner/store. Aucun central/config/git/IDA. Retour auteur puis re-review indépendante requise avant intégration.",
+      "status": "completed",
+      "assignee": "l6-persist-r2",
+      "dependsOn": [
+        "task_mv6xt1p7_0030_wg3h0k"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv6zzrhy_003n_mek7io",
+      "content": "L2-RV — revue indépendante read-only des adaptateurs/graphe/capacités livrés, identité/provenance/coverage, objets DATA vs callees, sites shards sans perte, invalidations/caches, joins multi-module/gels/PE et quarantaine ; aucun verdict auteur ni modification, gates parent séparés.",
+      "status": "completed",
+      "assignee": "l2-review",
+      "dependsOn": [
+        "task_mv6towp7_0006_hb6tr0"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv70b03c_003x_nxfnuc",
+      "content": "L4-RV — revue indépendante read-only index lexical/embeddings optionnels/multivue/lineage/adoption/deltas. Identités/provenance, contraintes et maturité locale, stabilité et aucune migration de travail encore possédé. Code+contrat, pas verdict auteur ; rapport défauts lignes/scénarios.",
+      "status": "completed",
+      "assignee": "l4-review",
+      "dependsOn": [
+        "task_mv6towq2_0008_m3s5ul"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv717o3c_0049_j4dthw",
+      "content": "L2-FIX — corriger RV2-01..05 dans les mêmes 4 fichiers own : binding provenance module/sujet/site, joins uniques fail-closed PE/run01/magic, vrai schéma runtime strict + invariants, unicité inventaire indirect493, join bornes/chunks gel-ledger-PE. Aucun central/schema/config/registre/IDA/git. Régressions attaques + gates + nouvelles empreintes puis re-review.",
+      "status": "completed",
+      "assignee": "l2-graph-r3",
+      "dependsOn": [
+        "task_mv6zzrhy_003n_mek7io"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv717o3v_004a_goswoa",
+      "content": "L5-SHARD-FIX — correction interop RV2-06 sur planner.ts et planner.test.ts main par owner distinct : relation/prérequis/politiques sémantiques indépendants shard transport, union preuves et conflits policy shard fail-closed. Regressions64/65/129sites + budgets frontière/invalidation/politiques ; pas de graphe natif relancé, de cache/cfg/global/schema/git/IDA. À dispatcher au slot libre ; aucun concurrent sur planner central.",
+      "status": "completed",
+      "assignee": "l5-shard-max",
+      "dependsOn": [
+        "task_mv6zzrhy_003n_mek7io"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv71p2r6_004h_rfvlmr",
+      "content": "L4-FIX — correction revue L4-RV : cannot-link final toutes vues, encoder NaN/caches/gain qualité, vrai schéma+trust delta, dedup relations shards/hubs, modularité partition rendue oracle, comparison noyaux/context/coverage/cost, IDs hiérarchie multimodule, adoption quiescence/claims, métriques rationnelles vs v1 + lineage tie/version/parents. Même own3, pas schema/central/config/git/IDA. Probes/régressions et benchmark pipeline complet puis re-review.",
+      "status": "completed",
+      "assignee": "l4-fix-max",
+      "dependsOn": [
+        "task_mv70b03c_003x_nxfnuc"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv71p2r6_004i_8jqy64",
+      "content": "L6-ATTEST — appliquer GO parent attestation durable niveau2 + enveloppe complète : acteur parent autorisé/bootstrap vérifié distinct auteurs, résultat/fence/binding/evidence/event immuable, boolean seul refusé. Extension own v4 additive/migrations, aucun schemaL1/central/config/git/IDA. Gates+re-review ; L6-FIX36 checkpointé nonaccepté.",
+      "status": "completed",
+      "assignee": "l6-persist-r2",
+      "dependsOn": [
+        "task_mv6yrky3_003c_naffek"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv71y0s6_004q_ksbii0",
+      "content": "L7-INTEROP — complément QA §17.1 et tests réellement croisés L2/L3/L4 (puis L6/L8 aux gates d’intégration) après transferts parent validés. Pas de clôture globale L7 sur seul simulateur scheduler. Oracle indépendant, active/quiescence/deltas/contraintes/shards/révisions ; ownership test/simulator/** et test/benchmarks/**, aucun module des implémenteurs. Gate explicite L10 avant clôture.",
+      "status": "in_progress",
+      "assignee": "l7-interop-r1",
+      "dependsOn": [
+        "task_mv717o3c_0049_j4dthw",
+        "task_mv71p2r6_004h_rfvlmr",
+        "task_mv6towpp_0007_tknxf8"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Parent offline integration accepted and committed9a35cb9 after final fresh L3 test-only review,209+12pins rechecked and818mainPASS+1skip; phaseGO999260f. Gate now satisfied for a NEW fresh QA author distinct from centralL8. First interop tranche acceptedL2-L6, tests/simulator+benchmarks only; post-L8 remains pending until a later approved gel. NativeModelRef, owned projection, actualaccess and planapproval beforewrite; no false globalL7 closure.",
+          "worktree": true
+        },
+        "revision": 4,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv74dfu5_0000_kzgjml",
+      "content": "L2-RV-MAX — re-review indépendante corrections RV2-01..05 et API relation. Read-only gel final L2FIX ; vrai schéma/invariants, provenance, joins order-independent, unique493sites, concordance gel-ledger-PE, caches/relations sans fausse preuve native. Vérifier anciens contre-exemples et nouvelles attaques ; verdict parent requis.",
+      "status": "completed",
+      "assignee": "l2-rv-max",
+      "dependsOn": [
+        "task_mv717o3c_0049_j4dthw"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv74dfu6_0001_7xhni0",
+      "content": "L6-RV-MAX — re-review indépendante gel v4 après corrections admission/CAS/publication/interop/budgets et attestation parent durable. Read-only, nouvelles attaques race+revocation+reopen+authority-bound, sans preuve scientifique native implicite. Review ne vaut ni integration L8 ni G4.",
+      "status": "completed",
+      "assignee": "l6-rv-max",
+      "dependsOn": [
+        "task_mv71p2r6_004i_8jqy64"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv74dfu6_0002_dj4dpu",
+      "content": "L3-RV-XHIGH — review indépendante CC/PPR/Leiden+groups, maths/oracles/versions déterminisme et schema sidecars. Read-only gel livré, vérifier vraie refinement/aggregation, bounded停止/perf/dedup shards/quarantine/coverage propriétaireunique. Pas de benchmark papier inventé ni preuve native.",
+      "status": "completed",
+      "assignee": "l3-rv-xhigh",
+      "dependsOn": [
+        "task_mv6towpp_0007_tknxf8"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7ubzrm_000w_5zdnkl",
+      "content": "L3-FIX-MAX — correction obligatoire Sol Max après re-review Xhigh : faux converged de Leiden reproduit parent sur5nodes (Q27/128→30/128, move originalnode4). Reprise bornée sur graphe ORIGINAL avec refinement/connectivity corrects, converged vrai seulement sans gain original attesté ; bounded/repair=false/diagnostic. Régression seed rv-min:1645, loops/duplicatearcs/oracle indépendant. Traiter aussi défauts normatifs finals review sans inventer contraintes invalid-input. Own cluster.ts/investigation-groups.ts/cluster.test.ts, nouvelle sessionMAX/geltransféré, pas config/schema/Git/IDA. Dispatch après revue finale puis re-review.",
+      "status": "completed",
+      "assignee": "l3-fix-max",
+      "dependsOn": [
+        "task_mv74dfu6_0002_dj4dpu"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7v601t_001d_v9tu9r",
+      "content": "L6-FIX-MAX — corriger revue finale RV6M-01 reprise snapshot/partition idempotente malgré now changé et reopen (time journal intact), RV6M-02 binding fonction/projection/inputFingerprint avant admission à frontière GraphStore, RV6M-03 preuve absence après I/O ambigu ne libère pas claims sans admission-closed/fence permanent authentifié; défautsanshostfailclosed. Même own4, current source auteurSolhigh→correcteurSolMAX. Regressionsv4/CAS/attestrevocation/enveloppe/nativefixtures, pas L1/central/Git/IDA/config. Re-review et parent acceptance restent requis.",
+      "status": "completed",
+      "assignee": "l6-fix-max",
+      "dependsOn": [
+        "task_mv74dfu6_0001_7xhni0"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7w9mzv_001p_hlz46a",
+      "content": "L3-RV-MAX — re-review finale indépendante du correctif Max RV3-01..05 : pointfix original/repair/bounds mathoracle, metadata relation avantlive surtransportL2valide, zero graph/noartifact/seedv1, budget PPRS×N +scratch, groupIdvscontent binding. Read-only gel corrigé own3 +depgelL2, preuves/politiquedomainepasproseauteur/gatesverts. Defautnouveau→BLOQUANT/escalade, pasacceptanceL8L9/native.",
+      "status": "completed",
+      "assignee": "l3-rv-max",
+      "dependsOn": [
+        "task_mv7ubzrm_000w_5zdnkl"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7wm5n3_001w_ccjfuo",
+      "content": "L4-RV-MAX — re-review indépendante gel final50tests SolMAX: cannotfinalallviews+shards/metadata/provenance, encoderfinite/cache/freezehostbound/gainnull, strictdelta/trust/receipt/currentrevision, QΦrenderedoracle, lineage3+parents/replay/version/context-costunknown, fullhashhierarchy, adoptionproofsinventories+callbackmutations+sidecarbindingfailclose. Read-onlycode+contrat+anciensprobes, pasauthorverdict. Nouveau défaut→BLOQUANT ; pas L8/G4/nativeacceptance.",
+      "status": "completed",
+      "assignee": "l4-rv-max",
+      "dependsOn": [
+        "task_mv71p2r6_004h_rfvlmr"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7x2ofv_0026_knbdhc",
+      "content": "L3-NUMERIC-LAST-RESORT — escalade Astra Max explicite en dernierrecours après correcteurSolMAX+reviewSolMAX persistentbugs parentreproduits RV3M06/07. PPR subnormal1e-320 perdmasse/misrésidu malgréconverged ; Leiden4nE2 weights3u/2u,tolu,returnedtrue Q0+cert.2 vs gainexact6/25. Stabiliser transition/gains/attestation normalisés pourtiny/huge/mixed/dangling/loops/dups/roundoff, oufailclosed numériqueversionné nonmensonger pasinputbanarbitraire ; préserver toutes RV3-01..05 etcodeschema/groups/budgets. Own cluster.ts/investigation-groups.ts/cluster.test.ts, inputs frozenauhandoff, pasregistry/L1/central/config/Git/IDA/live ; callerAADBenchpasmodifié. Attendre reviewfinale puisModelRefexactAstraMaxgates+re-review.",
+      "status": "completed",
+      "assignee": "l3-numeric-astra",
+      "dependsOn": [
+        "task_mv7w9mzv_001p_hlz46a"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7xnv10_002k_7zlqly",
+      "content": "L6-RV2-MAX — re-review indépendante gelv5 aprèsidempotentnow/noop +inputPinsauthority/projectedInputHash/functionmanifest +definitiverejected/absencepostIOproofrelease +scienceCommitIdcanonicalpending/final/existingopjoin +legacyinvalidfailclose. Readonlycode/schema/contract/probesavantaprès, donnéesréelsinputs/hashpasproseauteur ; régressionD1D2CAS2+1/attestsrevocations/budget/STOP_PENDING/claimsoldplans/migrations. NouveauBLOQ→pasacceptance, niL8G4native.",
+      "status": "completed",
+      "assignee": "l6-rv2-max",
+      "dependsOn": [
+        "task_mv7v601t_001d_v9tu9r"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv7zlalm_0032_ihogvs",
+      "content": "L6-LAST-RESORT-ASTRA — reprise après sourceSolMAX+reviewSolMAX BLOQUANTS4 : identitésub/inputs dérivée authoritativeSnapshot(module/hashRVA/EAimagebase), inputswrongEAsamefn2admissions ; checkscallbackmutatedFAIL aprèsvalidation; receipt artifactF0relabelF1débloqueG1 ; fulloracleKnowledgeCommitpendingeffect+targetidbembeddedfailclose. Own4ancienv5 frozen, AstraMaxdernierrecoursuserautorisé/nativeRefmustverify, noL1/central/config/Git/IDA/live, validatorsdurableprovenanceatomic/oldgatesnonregress+newrereview. Champsnouveauxfactbindings/version6own si nécessaire→proposalparentpasinvention.",
+      "status": "completed",
+      "assignee": "l6-last-astra",
+      "dependsOn": [
+        "task_mv7xnv10_002k_7zlqly"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8038uj_0038_bd4zh5",
+      "content": "L3-NUMERIC-REVIEW — revue indépendante finale des correctifs Astra: PPR row-normalized/interval residual, Leiden exact dyadic certification/tolerance conversion, serialized numericSource integrity/legacy/budgets/groups/source convention. Gel c34d02cb/cf3201b0/fe51c76b, code+L1+oracles indépendants, pas verdict auteur. Readonly fresh Sol Max. Préalable pour acceptation module, pas preuve native ni L9.",
+      "status": "completed",
+      "assignee": "l3-num-review",
+      "dependsOn": [
+        "task_mv7x2ofv_0026_knbdhc"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8038uj_0039_d6aa5v",
+      "content": "L5-RELATION-REVIEW — revue indépendante livraison shard-fix Max own2 e7351292/5b757efd: metadata conciliation avant filtre, perte provenance/record→site, policies effectives keyed record, defaults unknown, version nouveauxplans, vrais transport normalisés64/65/129/repacking, readiness/budget/partialNative. Readonly fresh Sol Max. Rapport BLOQUANT ou acceptable offline limité; pas intégration L8 ni native.",
+      "status": "completed",
+      "assignee": "l5-rel-review",
+      "dependsOn": [
+        "task_mv717o3v_004a_goswoa"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8038uj_003a_ftf7tj",
+      "content": "L4-LAST-RESORT — correcteur Astra Max après source+reviewSolMax persistent blockers: clones des entrées config/constraints/previous avant callbacks; lineage sidecar full content/admissibility authoritative proof pas booleans/projectionFP; parents fabricated/3parents laundering/reproposal/falsepass flip. Own3 semantic-index/lineage/lineage.test, nouvelle API host receipt à proposer parent avantwrite, aucun L1/central/config/Git/IDA/live. Freeze/durable host defaultfailclosed et aucune réautorisation historique. Nouvelle revue + parent gates obligatoires.",
+      "status": "completed",
+      "assignee": "l4-last-astra",
+      "dependsOn": [
+        "task_mv7wm5n3_001w_ccjfuo"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv80a96u_003t_7t7cbp",
+      "content": "L2-LOCAL-QA-MAX — nouvelle review indépendante fraîche des validateurs JSON locaux et normalisation L2 (ancien l2-rv-max interrompu provider.invalid-request, aucun verdict acquis). Readonly gel4filesL2+strictL1, typed graph invariants, provenance/join/order/fixtures/cache/hash/transport-shards/semanticrelations; données locales uniquement, aucune extraction/APIruntime/modification. Source normalize/capabilities labels não scientifictruth. Rapport complet/gaps pour acceptance offline, pas promotion native.",
+      "status": "completed",
+      "assignee": "l2-local-qa",
+      "dependsOn": [],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv80pik5_004b_c0kha5",
+      "content": "L2-FIX-MAX — correction après localQA SolMAX : [good,bad(schemaVersion99+extra)] blanchi/outputv1 mais ordre inverse refusé (parent reproduit) ; site codeC208→C108+provenance+rehash accepté horsboundaries du callerC000 (parent reproduit). Auteur sourceSolHIGH natif confirmé ses_ec9ab7ef2ffeYbplaGQYWuPDLf => correcteur SolMAX obligatoire, review finale avantdispatch. Own graph/graph-normalize/capabilities/graph-extract.test seulement, gelfixeL2; valide tousrecordsavantfusion sansban rawsites>64 destinés àshardingtransportcap64 ; explicitinstructioncaller-boundary vsDATA/global/import nuance; autresnormatifsfinalreviewàintégrer. AucunL1/central/config/Git/IDA/live/newdep, nouvelle review+parentgates.",
+      "status": "completed",
+      "assignee": "l2-fix-max-final",
+      "dependsOn": [
+        "task_mv80a96u_003t_7t7cbp"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv81apms_0002_0i24tb",
+      "content": "L8-API-INVENTORY — reconnaissance read-only bornée préparation contrat adaptateur dèsL1 (ORDRE16), pas tâcheL8implémentation. Inventorier APIs centrales existantes engine/domain/adapter/client/cli/store en main immuable avec path:line+SHA; mapping identity→inputs/receipt/publication/readback/parentauthority/modelRef/blind-context/protocolnegative, adaptations à prévoir pour WorkUnit multifn et APIs L6v6/L4witness documentées mais PASvalidées. Retourcompact60l sanspatch/nativetest/architectureimposée. Source/module acceptance gates parentL2/3/5/6avantL8writer inchangés.",
+      "status": "completed",
+      "assignee": "l8-api-inventory",
+      "dependsOn": [
+        "task_mv6tmoq6_0001_xbavfg"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Read-only central API inventory is independent of pending module fixes and prepares the adapter contract required from L1; no L8 implementation or gate bypass",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv825k24_000b_v0hrny",
+      "content": "L6-V6-REVIEW — nouvelle revue indépendante finale gelAstraMax OWNv6 98d0/0524/4513/e1e9 : canonical snapshot identity/lease/pin/admission/durableuse ; clones beforeallcallbacks +durableevidence/fullattestsemantic checks; actualartifact/result/fn/type/hash witness +receipt/G1/reopen/revoke/legacy failclosed ; publicationintent/finalcontentID/oracleL1/migrations1-6/unknown7. Regressionsv5/CAS/ambiguousIO/claims/2+1/budgets/authority exact. ReadonlyfreshSolMAX, no prose asproof/native/Git/config/edits, newBLOQ escalateparentno silentaccept.",
+      "status": "completed",
+      "assignee": "l6-v6-review",
+      "dependsOn": [
+        "task_mv7zlalm_0032_ihogvs"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv83dgcl_000o_nhwqpa",
+      "content": "L6-RVA-POSITIVE-FIX — correctif ciblé AstraMax après reviewSolMAX finale (unique RV6V6-01 P2). Sourcev6 gel98d0/0524/4513/e1e9 : projection commune unit-lease37–38 doitrva>0n, ownedfunctionregex graphstore335 doitrefuser:0x0. Genericaddress/imageBase0 pasban ; no schema version bump/history rewrite. Tests own legacyzero/directprimitive/pin/reopen/durableusefailclosed+validpositiveRVA/base0/controlRVAs+completeoracle fixture1nodezero54388a... et I/O0. Own edit3 unit-lease/graph-store/eventlog.test, eventlogreadonlyunchangé. Scope entièrement prescritpasréécriture/APIsnouvelles, gelfrozen/sourceAstra etfreshindependentV aprèsfix, noGit/IDA/config/L1/central.",
+      "status": "completed",
+      "assignee": "l6-rva-astra",
+      "dependsOn": [
+        "task_mv825k24_000b_v0hrny"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8439v6_000u_nel2mn",
+      "content": "L6-RVA-FINAL-REVIEW — revue indépendante fresh ciblée deltaAstra2guards: common rva>0 et ownedIDregexpositif, oldv6bytes restoreexact, oldeventlogunchangé; 7nouveaux tests/malformedsnapshot oracle1err/I/O0/directprimitive/importlegacy/reopen/durableuse +validpositive/base0/bounds. AncienV6final1seulP2, ne réouvrirpasunreviewinfini sansnouvellepreuve. Code+L1/probesindépendants, no source edits/install/DBpersist/native/Git/config/team_results; finalACCEPTABLEscoped/BLOQUANT exactfield/repro/hashes/limites; parentgates toujoursnécessaires.",
+      "status": "completed",
+      "assignee": "l6-rva-review",
+      "dependsOn": [
+        "task_mv83dgcl_000o_nhwqpa"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8a7hhi_00jr_6aet4u",
+      "content": "L4-WITNESS-FINAL-REVIEW — revue indépendante fresh des own3 AstraMax après corrections defensive snapshots/proposal authority API approuvée. Gel L4WITNESS bf04ce7c/ad412776/26eed4ee ; source/config/constraints/previous congelés avant callbacks, no boolean/selfhash authority, local receipt privée vraie evaluation, host full authoritative record exactref/content/shape/outcomes, ancestry lossless nonblanchie troisparents et rejet persisté, adoption/quiescence/activeclaims/typed proofs. Ancient RV4 et oracles maths/numeric/config stable. Code+contrat gelés, pas verdict auteur. Readonly SolMAX, aucune intégrationL8/native ni edits/Git/config/IDA/subagents. Rapport borné avec repro independent/hashes beforeafter/limites, puis gatesparent.",
+      "status": "completed",
+      "assignee": "l4-witness-review",
+      "dependsOn": [
+        "task_mv8038uj_003a_ftf7tj"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent review after Astra correction requires fresh session, not reuse of writer or old reviewer context; preserve all old gels.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8afrn8_00jx_u7p650",
+      "content": "L5-RELATION-FINAL-FIX — correction ciblée après sourceSolMAX + reviewSolMAX finale BLOQUANT, deux défauts parent reproduits : external_satisfied interne A→B65sites émis producerUnitId=unitB mais receipt externe null (READYfalse même localcommit distinct) ; ByEdge {} lit constructor/toString/hasOwnProperty hérités alors IDstrictvalide. Source L5REL own2 e7351292/5b757efd immuable ; coherentexternalproducer sans relabel receipt, own-only lookups allByEdge sansbanIDs, regressionunits/shards/budget/invalidation/oldbinding. Nouvelle session AstraMAX dernier recours autorisé, planapproval, own planner.ts/planner.test.ts, depsreadonly. AucunGit/central/L1/config/IDA/live/newdep/install/subagent ; re-review ciblée + gatesparent avantaccept.",
+      "status": "completed",
+      "assignee": "l5-relation-astra",
+      "dependsOn": [
+        "task_mv8038uj_0039_d6aa5v"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Corrective stage after completed Max author and independent Max review, not replacement/restart of interrupted reviewer. Astra Max authorized last-resort correction; immutable source gel retained.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8b7nqo_00kf_yu3x4u",
+      "content": "L4-ADOPT-RECLUSTER-FIX — correctif ciblé RV4W-01 P2 valid-typed après final review : vraie proposition/receipt puis adoption légale adoptedtrue est refusée comme previous par égalité entière contre evidence.adoptedfalse. Parent reproduit ; préserver identity scientifique complète sauf seul booléen lifecycle adopté, toutes authority/source/sidecar/constraints/ancestry/failures exactes, evidence elle-même jamaisadoptée. Own lineage.ts/lineage.test.ts, semantic-index readonly byteexact ; tests local/host/adopted/nonadopted/mismatch/negative/replay, inverse oldcode restauration exact, typecheck/focused/full puis fresh review ciblée. ROUTAGE BLOQUÉ avant admission : sourceAstraMax déjà, exigence utilisateur correcteur renforcé nécessite choix explicite (exception ciblée mêmeeffort ou autre route autorisée). Aucun Git/L1/central/config/IDA/live/registry/subagent, pas wake du reviewer achevé.",
+      "status": "completed",
+      "assignee": "l4-adopt-astra",
+      "dependsOn": [
+        "task_mv8a7hhi_00jr_6aet4u"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly selected Astra Max targeted (Recommended) for this single RV4W-01 defect, authorizing same-effort exception after source already Astra max. New independent writer, no completed reviewer reuse; source L4WITNESS frozen and fresh targeted review plus parent gates mandatory. No mission-wide policy/model change.",
+          "worktree": true
+        },
+        "revision": 2,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8crqzf_00kn_ebo4xr",
+      "content": "L2-POST-GO-BOUNDARY — continuation du correcteur primaire existant l2-fix-max-final/SolMAX, pas nouvelle analyse/review ni repli de modèle. Le vrai addendum QA est arrivé après sa livraison V4 maintenant gelée341files/51dc6c96. Cache config-before-hit et facts readback déjà implémentés ; seul guard evaluateCapaAvailability metadata backend BOGUS/7/version oulicense nonstring reste inchangé dans V4. Finir cet addendum prescrit : mêmes enums/types TS file|ida/strings/hash runtime avec failclosed, metadata-only/noinstall/no authority ; append tests own (118 existants préservés), garder tout autre code V4 byteexact. Qualifier target/import scopeobserved sans inventer bantransport (gap, pasnormatifcore). Own edit capabilities.ts +graph-extract.test.ts seulement, autres2ownreadonly. Claim par même worker au prochain messagelead ; sourceoriginal primaireSolHIGH→correcteurMAX toujours même rôle/inputs, olddeliveryconservée. Gates delta proportionnés puispins/fullparent/freshreview avantaccept ; aucunGit/L1/central/config/IDA/live/subagent.",
+      "status": "completed",
+      "assignee": "l2-fix-max-final",
+      "dependsOn": [
+        "task_mv80pik5_004b_c0kha5"
+      ],
+      "context": {
+        "decision": null,
+        "revision": 0,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mv8cuybw_00kq_nylss4",
+      "content": "L5-EXTERNAL-FINAL-REVIEW — fresh independent targeted review of Astra correction RV5REL01/02, own2 37723edf/6a70750d. Frozen NEW L5EXTERNALFIX341files vs OLD L5REL e735/5b75, production16add8remove. Validate coherent external producer/null for Aonly/A+B/sameunit, exact receipt/no relabel/invalidation/waivers/localobligations and no selfdeadlock; own-only allByEdge absent/empty/inherited/own constructor/toString/hasOwnProperty without IDban; new private plan semantics marker and old/new fingerprints/bindings/families compatibility. Preserve positives from final priorreview320plans, no repeatfullreview without newproof. Readonly fresh SolMAX, independent short probes/local+schema, source/hash beforeafter/limits. L2dep OLD unacceptedreadonly, interop NEWL2 later parent gate. No edit/install/DBpersist/Git/config/IDA/native/subagent/team_results, no L8/G4 acceptance.",
+      "status": "completed",
+      "assignee": "l5-external-final-review",
+      "dependsOn": [
+        "task_mv8afrn8_00jx_u7p650"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Completed source correction plus old independent final review leave only this finite delta. New reviewer/session independent, targeted adversarial validation, not reopening closed full review without proof.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8dbb2r_00ku_wcvh3y",
+      "content": "L4-ADOPT-FINAL-REVIEW — fresh independent targeted review of the explicitly user-authorized same-effort Astra Max correction RV4W01. NEW L4ADOPTFIX244files/b4941121 vs OLD L4WITNESS231files/487f781c; lineage7e650185/test02171587, readonly semanticbf04+graphAE324. Parent checked 5 exact production delta operations inverse→ad412776 and old64tests prefix exact. Evaluate only previous fullscientificcomparison modulo adopted boolean after strictshape/invariants; current adoption/evidencefalse/authority/fullsource/sidecar/diagnostics/constraints/outcomes/negativeancestry exact. Local+host actualadoption→recluster→newreceipt→adoption→replay and malformedmismatch/3parents stayfailclosed. Old64+10new tests, independent few probes; no infinitefullreview without newdefect. Readonly fresh SolMAX, no installs/edits/Git/DBpersist/IDA/live/subagent/team_results; scoped final/limits/hash beforeafter then gatesparent. NotL8/G4/nativeaccept.",
+      "status": "completed",
+      "assignee": "l4-adopt-final-review",
+      "dependsOn": [
+        "task_mv8b7nqo_00kf_yu3x4u"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Targeted new five-operation delta after final independent review and explicit user authorization; new reviewer/session, no reuse of old author or completed reviewer. Old source and 64 tests preserved, inverse byte-exact checked by parent.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8eb18r_00l6_ax23oo",
+      "content": "L2-FINAL-REVIEW — fresh independent final review of primary SolMAX corrections and late prescribed metadata addendum. NEW L2FINAL343files/f3402be1 own4 graph2f597ede/normalizea4a3677f/caps121352d7/test30513ec2; OLD L2 b881a7f0 + checkpoint V4 51dc6c96. All NQA01–08/RV2MAX01–06, raw shape beforemerge with emptyid internal/unboundedrawsites vs64output, typedinvariants/provenance/chunks/hash/caches/allmetadata-beforefilter, deterministicunionIDs/indirectattrs, registrycounts/classes/versions, temporalchronology, PEpositiveunknown/no falseproof/4quarantines. Capa metadata exact runtimeTSenum, cacheconfigbeforehit/factreadback, observed import reference scope not native call. Local fixtures/raw98 frozen, no extraction/APIruntime/IDA/network; independent probes/code notauthorverdict. Review deliveredcode+tests only, parentmainintergates remain. Readonly fresh SolMAX, no edits/install/DBpersist/Git/config/registry/subagent/team_results. Final scoped verdict/pathline/repro/hash/limits; no native/L8/G4 promotion.",
+      "status": "completed",
+      "assignee": "l2-final-review",
+      "dependsOn": [
+        "task_mv8crqzf_00kn_ebo4xr"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Final primary correction now includes late requested boundary addendum and all immutable inputs. One fresh independent review of FINAL bytes, not duplicate review of preserved V4 or closed original QA.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv8fxhjq_00lh_ap0fn4",
+      "content": "L2-IDS-LAST-RESORT — targeted correction after source SolMAX and fresh review SolMAX, single ordinary-generator P2 RV2FINAL01 parent reproduced. Valid object IDs≤160 generate evidenceID>128 and regional subjectID>128, raw/cachemiss emit/store invalid then samehit rejects. NEWbase L2FINAL343/f340 preserved. Own only capabilities.ts/graph-extract.test.ts; graph/normalize/readdeps immutable. Guarantee emitted raw/miss/hit strict L1+bindings, bounded deterministic collision-safe generated IDs with lossless source citations, long-region subject representation proposal BEFOREWRITE (no L1shrink/inputban/objectrename/truncation/implicitmigration). Keep all proven old146cases; append125/126/128/129/160 Unicode/import/table/functionseed/cache/collision controls. Fresh AstraMAX preauthorized lastresort sourceMAX+reviewMAX stilldefective, planapproval+nativeRef+owned transfer, then targeted fresh review/parentgates. NoGit/central/L1/config/registry/IDA/live/newdeps/install/subagent/team_results.",
+      "status": "completed",
+      "assignee": "l2-ids-astra",
+      "dependsOn": [
+        "task_mv8eb18r_00l6_ax23oo"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "One new ordinary-generator bug independently proved after Max primary corrections and Max final review. Authorized Astra Max last-resort reinforced route; new writer context, all old pins/gels retained and parent approves region representation before edits.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv99m9ka_0000_mo4o4v",
+      "content": "L2-IDS-FINAL-REVIEW — fresh independent targeted Sol MAX review RV2FINAL01/v5. Parent gel L2IDSV5 345files/50088914 vs baseline L2FINAL343/f3402be1; capabilities05cb2155/test82e1d12a, graph2f597ede/normalizea4a3677f readonly. Parent verified exact old146-test prefix87254bytes and inverse production restoration121352d7; preflight52cases/481assertionsPASS fingerprint84554043, affected regression220PASS/typecheckownPASS. Scope helper delta with parent-endorsed prior independent coverage6a8bd3fe, not new fullL2 review. Check bounded collision-safe alias≤128Unicodepoints/alloriginalIDsreserved/nonmatching/ordering/suffix bounds; fullSHAevidence/factIDs/losslessJSONoriginalID+recordSHA/module; originalID→regionalfact→functionseed; raw/miss/hitstrictL1+bindings and six shape-valid cachepoisons; v5 namespace/nohistorymigration, clones/stats/invalidation, cachehitrecomputationcost. Readonly code+contract+independent probes, no authorverdictasproof, no team_results(includingfromlead), edits/Git/install/DBpersist/registry/IDA/live/network/subagents. Await exact parentprepared package+actualaccess approval before analysis. New blockers exactpathline/repro; final scoped verdict not native/L8/G4/parentacceptance.",
+      "status": "completed",
+      "assignee": "l2-ids-final-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New independent bounded review of v5 corrective bytes, not reopening completed reviewer. Same immutable preflight fingerprint and endorsed prior coverage matched; parent acceptance and integration remain required.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9ao561_000g_l8bbm2",
+      "content": "L3-MAIN-FIXTURE-REVIEW — fresh independent Sol MAX targeted review of parent integration TEST-ONLY adaptation after accepted NEW L2 stricter guards exposed two stale assumptions in accepted L3NUM tests. Review current cluster.test vs oldfe51c76b: validate JSONshape then require crossfieldL2conflict; retain ALL L3negative/ordering/immutability assertions. Coherent64/65/129site synthetic clone must declare necessary caller span+size, remain strictL1valid and retain unique logical affinity/repacking. No production/algorithm/math/L1fixture changes, oldgels preserved. Missing main originalrawmanifest repaired only after98existingSHA exact; no native extraction. Actual two focused cases2PASS/74assertions parent evidence only. Readonly new exact prepared package plus oldtest+contract; fresh independent probes/52cluster regressions as useful, no reopened fullL2/numerical review. No source/test writes/Git/install/DBpersist/native/live/network/subagents/team_results. Await package and actualaccess approval. Final scoped acceptable/blocking with pins and limits; main gates parent remain.",
+      "status": "completed",
+      "assignee": "l3-main-fixture-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New integration test-only delta against accepted L2 helper, not source math correction or reopening old numerical/L2 reviews. Independent fresh review; parent retains gates and no central writer admission yet.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9bx661_001a_yo6gdp",
+      "content": "L7-SIMULATOR-DELIVERY-REVIEW — fresh independent Sol MAX review of preserved historical L7 scheduler/simulator delivery dcaa4ace (original author Sol high), never in committed main. Freeze L7SIM_CURRENT_BASELINE overlays unchanged source+tests on accepted e03e063 deps; parent current typecheck0 and35focusedPASS/11195assertions, not acceptance. Review actual simulator, conversion immutable plannerexports, separate independent oracles/tests and syntheticbenchmarks; event readiness/AB→R/validationcommit/familyclaims/knowledge closure, resources/accountquota/conflicts/nontransitive, bounded errors/pause/noREADYvscomplete, fake2controllers/stopambiguity/late/doublecommit/deltas/replay, UTF8 envelope, metrics/perf claims. Reuse deliveredwork notrewrite. Independent tiny hand-derived traces/properties and benchmark accounting; no treating authororacle/logs/old35PASS as independent authority. Explicitly only in-memory simulation, not native/durable L6 proof. Fresh readonly package+contract/currentdeps, no source writes/Git/install/DBpersist/realnetwork/Ensemble runtime/IDA/live/subagents/team_results. HOLD until nativeSolMAX+package+actualaccess approved. Final boundedverdict exactrepro/pathline/pins/limits; parent gates needed before any simulator integration/L8 reuse.",
+      "status": "completed",
+      "assignee": "l7-simulator-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New independent review of a preserved never-integrated historical L7 delivery against current accepted dependencies. Not waking original author or closed reviewer; parent cheap current typecheck/35cases passed. Independent from concurrent L7 crossQA and L8 central author; no source acceptance by green tests alone.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9doihe_0028_o59w3v",
+      "content": "L7-SIMULATOR-FIX-MAX — reinforced correction after historical final source Sol HIGH dcaa4ace and fresh Sol MAX review BLOCK RV7SIM01–05+deferred-interop06. Parent independently reproduced both P1 (resource intersection[]/missing fullcapacities stillCOMMIT, STALE G2 waiter starves READY), worker attribution and criticalpath5vs9. Source/candidate all11 unchanged, neverintegrated. Contract docs/missions/re-graph-scheduler/L7_SIMULATOR_BLOCK_AND_FIX_CONTRACT_20261015.md. Fresh SolMAX author, ownedworktree/nativeModelRef+inputpackage+actualaccess then PLAN beforewrite: complete/versioned resource semantics and capacities, robust G2wake, legaldispensation/defer, per-familyattempt attribution, full subintentDAGcriticalmetrics + honest SCCbenchmarks/perf. Proposed edit simulator.ts,new simulator-corrective.test.ts,benchmarks sparse.ts/benchmarks.test.ts/newcorrective.test.ts; oldhelpers/tests readonly unless exactplanapproved. Preserve35controls/all11history, no acceptedL2-L6/L1/L7QA/L8central/config/package changes. No planner/LLM calls insimloop, no nativeauthority fromMap. Gates currentdeps,typecheck/focused/full thenNEWfreshindependentreview+parent; oldreviewerclosed neverwake. NoGit/install/network/actualdispatch/IDA/live/privateDB/subagents/inbox/results. HOLD for model/directory/projection/accessGO. Not acceptance/mainmigration.",
+      "status": "completed",
+      "assignee": "l7-simulator-fix-max",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "First reinforced corrective stage after final historical Sol high source and newly completed independent Sol max BLOCK; parent reproduced critical counterexamples. Not restart/reuse of old author or completed reviewer. Fresh max author must propose resource/API/metric plan before code; immutable originals and fresh rereview remain gates.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9ex0g8_002m_udy5pa",
+      "content": "L8-BUDGET-BOUNDARY — independent readonly architecture analysis of real pre-freeze byte-budget blocker, not implementation/acceptance. Frozen L8_BUDGET_BOUNDARY_EVIDENCE443files/b682682a includes actual unaccepted13L8sources +32fixtureproofs; parent reproduced unit3073 vs completeA/B3578,R13590/global1M,0submits,Rlikely onlylocalvalidators. Acceptedplanner518-520 structuralcanonical vs GraphStore648-649 fullAdmission guard remain untouched. Read full PARENT/SCOPE.md and contracts/APIs. Recommend ONE minimal versioned pre-freeze boundary/owner/API after comparing L5policy/input and reviewedL8allocation, decide normativegap vs defect honestly (no relabeltoevaderouting), completeA/B/R futureproposalbounds vs explicitallocations, totals/closure/SCC, oldplanreaders/newbindings/stablefn-unit-familyclaims, failures/replay, precisegates. No padding scientificinputs, postfreezewiden/rehash/casts/SQL, no inventnativeproof. No source writes/Git/install/DBrepair/privateEnsembleDB/network/LLM/IDA/live/subagents/inbox/results. HOLD until nativeSolMAX+exactpreparedpackage+actualaccess approved; reply compactpathline findings/options/recommendation/risks, parentalonechoosespermissions.",
+      "status": "completed",
+      "assignee": "l8-budget-boundary",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New independent advisory read of a frozen actual L8 integration blocker and complete proof package. Parent needs bounded architectural evidence before modifying any accepted readonly boundary; not reopening old reviews or authoring code. Source/counterexample fingerprints pinned and parent pure repro passed; decision remains parent.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9f1srm_002v_u1khxa",
+      "content": "L7-INITIAL-QA-REVIEW — fresh independent readonly Sol MAX review of initial crossQA delivery, NOT post-L8/globalL7 closure. Frozen L7QA_INITIAL_E03 422files/4590f09a,7newtests/support aggregateb190378c,10retainedauthorSQLitefixtures hashed; parent typecheck0/60PASS3149assertions, author852full/1skip notverdict. Full scope PARENT/REVIEW_SCOPE.md: actualL2-L6bindings, noncircular math/SCC/cut/oracles, genuine authority/fencing/reopen/readback negativecontrols, explicitbridgeoriginalreject+separatesyntheticpositive, raw98partialunchanged, benchmarksbounded64/256/1024. Inspect lower-layer budget scope honestly (newL8completeAdmission mismatch unresolved, notinthisdelivery); no padding/widenfrozenplan/SQLauthority illusions or fakeproofs. Historicalsimulatorabsent. Parent provides isolated registered readonlycheckout withpreexistingtrackedledger9MB hashverified(nothelpertransfer); nativeOWN+ModelRef andexplicitpackage/accessGO first. Run60focused+smallownprobes; temporaryOWNSQLitefixturegeneration allowed retainpaths/SHA/closehandles/no deletes. No source/test edits/Git/install/privateEnsembleDB/actualnetwork/dispatch/LLM/IDA/live/subagents/inbox/results. Finalscopedverdict/pathline/repro/hashbeforeafter/gaps, parentaloneaccept/integrate. HOLD until parent exactinput/directory/access.",
+      "status": "completed",
+      "assignee": "l7-initial-qa-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "First independent review of newly delivered initial L7 crossQA, distinct from author and old L7 simulator review. Parent cheapgates and hashes passed, rawSQLite artefacts verified. A separate parent-owned checkout supplies unchanged tracked largeledger without bypassing helper limit; no global/postL8 acceptance implied.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9k1ikn_0000_bo44nq",
+      "content": "L5-ADMISSION-BUDGET-FIX — user explicitly chose targeted SAME Astra Max exception 2026-10-15 after last accepted planner source Astra/max. Fresh writer, no old-session/reviewer restart. Defect: L5 structuralS used as fullAdmission allocation, real L8A/B3578/R13590 > frozen3073, locally valid largerR44590, L6 correct. Full contract docs/missions/re-graph-scheduler/L5_ADMISSION_BUDGET_TARGETED_GO_20261015.md + parent architecture decision. HOLD nativeModelRef/OWN/package/actualaccess gates, then analysis/repros/APIplan only; zero writes until approval. Explicit limited versioned allocation L8→L5 BEFORE selection/closure, separateS/C/N/T, safe totals/missing/unknown/overflow, oldplans byteexact/no widening, stablefn-unit-familyclaims, newpolicy/bindings. L6/L1 unchanged; L8code remains original owner. Proposedplanner.ts+appendonlyplanner.test.ts+newplanner-admission-budget.test.ts, extra module mustbe proposed. Reference L8candidates readonly nonaccepted, noROOTcopy. Preserve oldtests/gels; ownreadonlydeps/raw99 explicit. Futurefreshreview+parentgates mandatory. NoGit/install/network/dispatch/LLM/IDA/live/privateDB/subagents/inbox/results/delete. InitialACKprogress, nottaskcomplete.",
+      "status": "completed",
+      "assignee": "l5-budget-astra",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly selected Astra Max ciblé (Recommended) after parent verified accepted L5 was already Astra max. Targeted same-max exception, actual cross-lot budget defect; new independent writer must plan first. Frozen old inputs, accepted L6 and L8 single owner remain readonly; no old session reuse.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9ku3x5_000g_tc4kbh",
+      "content": "L7-SIMULATOR-CORRECTIVE-REVIEW — fresh independent readonly Sol MAX of NEW ac82e53 corrective source (81KB), NOT old dcaa4ace reviewer restart. Final source author SolMAX completed/closed; parent verified7ROOT/FROZEN,417inputs,412beforepins with4onlyapprovedexistingchanges,19evidencepins, exact helper mechanical inverse and unchanged35test/oracle sources. New immutable gel L7SIM_CORRECTIVE_AC82_V2 434files/4793231B/e37bc696, accepted dependencies/mainQA c5fcd00 + unaccepted candidate overlay + OLDcode. Prior incompletegel missing5tracked scripts preserved; correctedpuretypecheck0/54PASS11817assertions parent beforepaidreview, no source defect inferred. Full scope PARENT/SCOPE.md+PLAN_GO; rederive resourcesv2/conservativefamilydifference/unknownempty/slotsbudgetlatecredit, G2stale-cancel-stop/resources/oldclaims, dispensedrelation/defer-null/external, perattemptdecision attribution, localG1DAG CP/residue/lowerbound/horizons, sparseSCCactualexports/countersKxW/fairroles. Fourfocused54+smallownadversarialprobes; no blindtrustauthororacles/reports/counters. Authorfinalreport/logs nottransferred, OLDcode explicit. No full/nativegelclaim9MBledgeromitted; no actualSQLite/nativeauthorityfromMap. HOLD ModelRef+package+actualaccess; no sourcewrites/Git/install/network/dispatch/LLM/IDA/live/privateDB/subagents/inbox/results. Parent-only acceptance/gates/integration after verdict.",
+      "status": "completed",
+      "assignee": "l7-sim-corrective-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New independent review of completed corrective stage, not old completed reviewer replay. Parent verified exact source delta, all original controls and corrected complete module freeze; cheap54+typecheck passed. Fresh Sol max authorized review route, bounded simulator-only judgment with L5/L8 gates distinct.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9m9894_0015_cjacy0",
+      "content": "L7-SIMULATOR-LAST-RESORT — fresh Astra MAX after corrective Sol MAX ac82 + fresh Sol MAX review BLOCK, all five parent-reproduced genuine L2→L5. Last-resort preauthorized route, not same-Astra user exception or old-context replay. Contract docs/missions/re-graph-scheduler/L7_SIMULATOR_AC82_BLOCK_AND_LAST_RESORT_20261015.md. Fix G2 multi-key lost wake incl sorted-hash key/FIFO preconditions, new_conflict multi-active-holder retention until actual stop/release, stronger external receipt validation partial-order, legitimate DATA unknown_unresolved provenance without fabricated call, nonmutating open-wait metrics through observation horizon. Own only proposed simulator.ts/new simulator-g2-review-regressions.test.ts/README metrics; extra paths mustbe proposed. Preserve54oldcases/oldcontrols/source hash legacy histories and v2 conservative resource semantics, no weakening. HOLD Model.Ref/OWN/input pins+actualaccess, then repro/API invariant PLAN beforewrite. New review fresh +parent gates beforeintegration. AcceptedL1–L6/L8/QA/SCC/store/package/config readonly. No planner inside simloop/no nativeauthorityfrommemory. No Git/install/network/actualdispatch/LLM/IDA/live/privateDB/subagents/inbox/results/delete. L5 independent writer continues.",
+      "status": "completed",
+      "assignee": "l7-simulator-fix-astra",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Source and review native Sol max verified; new completed BLOCK with two G2 P1 and three P2 independently reproduced by parent. Ordinary maximum stage failed, Astra max reserve last-resort was preauthorized. New task/session/input pins, no old writer/reviewer restart, plan before code, independent L5 work uninterrupted.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9ntc9a_001m_ahmspg",
+      "content": "L5-ADMISSION-BUDGET-REVIEW — fresh independent readonly Sol MAX of new Astra candidate planner985e5e84KB +new78tests, NOT restarting old reviewer. Parent verified2sources/14proofs/487inputpins/306unchangedROOT/4retainedDBs(1388544B), independently replayed old fullplanning8f5byteexact. Immutablegel L5_BUDGET_985E_REVIEW474files/10470218B/36c6eb0d; parentpropermodule typecheck0/143PASS13583assertions before paidreview; authorfull870/1skip not independentauthority. Fullscope PARENT/SCOPE.md+PLAN_GO+CLARIFICATIONS, OLDaccepted37723edfcode/deps, legacyexample, retainedfixtureDBs. Review completeL5newmode/sharedlegacy boundaries: ownmode vs opaqueprefix/proxies/getters/immutability; independentcontext exactallfields; limitedS/C/N/T-safeunit/totalclosureSCC/sharedcallees/missingunknown; schemaUTF16versionbound vsUTF8body; rehashedcoherence/readiness/FP/IDs/oldclaims; actualpublicL6freeze/reopen/prepareC-1/C/C+1/nooversizeoutbox. No fakeNdurablehostguarantee; L8strictreader/realcodec/context/durableattemptlimit pending. Typecheck143+smallowninteger/differential/counterexampleprobes, no copyauthororacles. No full/QA60/native bydefaultledger9MBomitted. OwnuniqueTempSQLiteallowedclose/hash/retain, authorARTIFACTSreadonlyneveroracle/privateDB. HOLD nativeSolMAX/package/actualaccess first. No sourcewrites/Git/install/network/dispatch/LLM/IDA/live/subagents/inbox/results/delete. Parentaloneaccepts/integrates.",
+      "status": "completed",
+      "assignee": "l5-budget-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New source after explicit targeted same-Astra-max user exception; two source files changed, parent cheapgates and integrity/replay passed. Review whole new allocation and shared legacy boundaries using exact old accepted reference, not reopening unrelated scientific L2/L3/L6 proofs. Fresh independent Sol max, author closed/uncommitted preserved; no old reviewer reuse.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9qdvek_002y_6x3kw6",
+      "content": "L7-ASTRA-FRESH-REVIEW — new independent NONBLIND readonly SolMAX of simulator3ea92f92KB after Astra lastresort, no old reviewer restart. Parent447inputs/328readonly/raw99/3sources/12proofs/10retainedDB2.94MB exact; authorold377full928+1skip notacceptance. Newgel L7_ASTRA_3EA92F_REVIEW455files/5398908B/0bb65af0, CURRENTacceptedL5new985+mainQA/deps, unaccepted simulator14fileoverlay and OLDac82 code-only. Parenttruegel typecheck0/76PASS13149assertions +five parentcounterexamples and detachedobserve/explicitreceiptguard controlled beforepaidreview. Fullscope PARENT/SCOPE+ASTRA_PLAN+BINDING_DECISION+RECEIPT_POLICY. Re-derive multicléworklist/tickets/repark/cancel/pause/resource/scanbounds; multiholders reservation/attempt/token/externalentry-index+overlapinventorydiagnostics/stops/oldcallbacks; receipts coherent force/level>= but requiredSIMrejectlevel2fixture gapL5OPEN; strictbinding external/unresolved vs localobligation blockedconsumer independentproducer; actualindirect_call unresolved noindexedrelation (priorDATAshorthandwrong), versionedexportprovenance no raw laundering; observe detacheddeepfreeze/noSimStore/no mutation closed+openwaits/frontier/replay; preservev2resource/DAG/attribution/CP/SCC/costKxW. Fivefocused76+smallownbounded probes, oneopt-innewL5projectionmemory; nofull100k/native/DBledger9MBabsent. Source/rootinputhashes beforeafter, authororacles/traceexpectations notproof. HOLD nativeSolMAX/package/actualaccess; no sourcewrites/Git/install/network/dispatch/LLM/IDA/live/privateDB/subagents/inbox/results/delete. Newtaskfreshscope, parentonlyintegration/L8stillseparate.",
+      "status": "completed",
+      "assignee": "l7-astra-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Astra corrective writer completed/closed after prior new SolMAX BLOCK. New3ea source and detached observation/multiholder/provenance changes need a fresh independent full-module bounded review. Parent cheap current985 dependency76gates and five actualcounterexamples passed; old54source controls unchanged, frozeninputs and receipts preserved. Not reopening old reviewer or scientific RE campaign.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9si4oj_003p_veyhvi",
+      "content": "L7-SIMULATOR-FINAL-TARGETED-FIX — user explicitly selected SAME Astra Max targeted exception after3ea source alreadyAstraMax and freshSolMax BLOCK. Newfreshwriter, no completedauthor/reviewer continuation. Exactscope docs/missions/re-graph-scheduler/L7_FINAL_TARGETED_ASTRA_USER_GO_20261015.md; parent threefamilies/all5manifestations verified: deleting localknownrequirement leaves source/evidence and falselyCOMMIT6 (hashcontrolBLOCKED); pause1 counted4/3 onRUNNING/VALIDATING; cancel/invalidate0 beforestart reopensdependency5 (controlat1 keepsclosed1). OLDac82 paths preexisting notnewregressions. Preserve76controls and all3ea/OLDgels/evidence; fixcontractnotdelete metrics/workload/substitute need. Proposedonlysimulator.ts+newfinal-review-regressions.test.ts, READMErequiresproposal. HOLD nativeAstraMAX/OWN/input pins+actualaccess then repros+invariant PLAN beforecode; fresh independent review+parentgates afterdelivery. AcceptedL5current985/L1–L6/L8/QA/config/source outsideownership readonly, noDB/fullwithoutapprovedplan/reservation. G2multiholder/tickets, v2resourceconservatism, DTOdetach/replay/DAGattribution/receipts/provenance preserved. NoGit/install/network/actualdispatch/LLM/IDA/live/privateDB/subagents/inbox/results/delete. L8spike independent unaffected.",
+      "status": "completed",
+      "assignee": "l7-final-fix-astra",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly chose Astra Max ciblé (Recommended) for this single new corrective stage after author alreadyAstraMax; catalogue active/max. Parent independently reproduced three blocked-scope families and verified455pins+37evidence. Same-effort exception is targeted, not global policy or fallback; fresh independent context, planbeforecode and newreview mandatory.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9vavch_004k_uyj4yg",
+      "content": "L7-FINAL-494B-FRESH-REVIEW — fresh independent NONBLIND readonly SolMAX after explicit SAMEAstraMAX targeted writer delivered494b; no old author/reviewer sessionreuse. Threefamilies previously parentreproduced: deleting knownlocalrequirement falsecommit, pause1 overstatedRUNNING/VALIDATING, terminal0/start/callbackreopenswaiting/resurrectsstate. New source95290B494b +newtest8d44;76oldtests immutable plus24new100. Parent verified35proof890095B/11DB3321856B/385inputs/366readonly/33publictypes, authorunique1030full+1skip91060assertions. Parent true newgel377files8068114B/manifest757d37c4 currentacceptedL5new985+moduleA, typecheck0/100PASS13606assertions BEFORE paidreview plus independent3families/callback/unioncontrols. Scope PARENT/SCOPE.md complete. Re-derive ownmemory normalizer→L5/SIM evidence/ID/own-only requirement guards vs legitimate manual fallback, phaseclassification and closedhistory vs occupation, effectivepauseunion/tick permutations/wake+capacity/barrier/repark; terminalguards targeted no suppressiondone/stop/quiescence; G2multiholder/tickets/FIFO/oldcallbacks and resourcev2conservatism, receipts coherent force+nlevel guard2fixture OPENupstream, unresolvedactualindirectcall/provenance and observeDTOfrozen/replay/DAG/CP/attribution preserved; newL5opt-inboundedprobe noNhostclaim. Smallindependent boundedprobes and100focused, notauthororacles/oldreports. OLD3ea textonly notrunnable. HOLD nativeSolMAX/package/actualaccess beforeanalysis. No sourcewrites/Git/install/network/dispatch/LLM/IDA/live/SQLite/privateDB/subagents/inbox/team_results/delete/full100k; proofs onlyparenttemp. Parentacceptsintegratesserial; L8continuesindependentfocused/D-E-Btimeoutopen, no runtime/simcliGO. BLOCK implies no implicit nextcorrector or fallback.",
+      "status": "completed",
+      "assignee": "l7-final-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly authorized targeted same-AstraMAX correction with plan-before-code and fresh independent review. Writer completed/closed; new494b source is not3ea, old reviews cannot be replayed. Parent integrity/current-gel100focused and independent controls passed, native/ref ownership and hash-pinned access gates remain. Existingmission only, maxfive, manual classification and selectedSolMAX preserved.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mv9wspa8_0058_bz8uxd",
+      "content": "L7-NAMESPACE-REPLAN-INVARIANT-FIX — explicit user NEWsameAstraMAX exception after source494b+freshSolMAX BLOCK2P1 parentconfirmed. Freshwriter, no old author/reviewercontextrestart. Contract docs/missions/re-graph-scheduler/L7_NAMESPACE_REPLAN_USER_GO_20261015.md. Fix invariantclasses not two literalrepros: archive namespace units/consumer/producer/preIDs closure forbids coherent alias droppingknownneed with archiveunchanged, while absent/hashneed originalnamespace consumerblocked/producerprogress and realmanualfallback legal; stopconfirmed retry cannot erase monotone requirement newplan after new_dependency/knowledgeinvalid/new_scc, preserve legalcancelretry and trueoccupation/releases. No automatic replanner/LLM/native authority/selfhash. All100controls/source494OLDgels/evidence preserved. Proposedonlysimulator.ts+new identity-replan-regressions.test.ts, README/DTOnecessityescalate. HOLD nativeAstraMAX/OWN/hashpackage+actualaccess; then independentmemoryrepros+invariant/pathPLAN beforecode; newfreshreview+parentgates required. L5accepted985/L1–L6/L8/Store/config readonly. L8fullindependentcurrentexclusive, NOheavytestbenchmark/full/DB beforeseparateGO. NoGit/install/network/actualdispatch/LLM/IDA/live/privateDB/subagent/inbox/team_results/reset/delete. Source49495KBnotacceptedmain; stagedpublicreviewreports4/32toolinputs+parentactualrepros preserved, notworkeroracles.",
+      "status": "in_progress",
+      "assignee": "l7-namespace-astra",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly selected Astra Max ciblé (Recommended) again after parent verified bothP1 on494b. This is a new invariant-scoped same-effort exception, not fallback or continuation of closed writer/reviewer. Planbeforecode, actual nativeModelRef, pinned inputs and fresh independent review mandatory; existingmission only, maxfive manualclassification unchanged.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvatt7q4_000c_w991j0",
+      "content": "L8-A2-RUNTIME15-INDEPENDENT-REVIEW — fresh independent NONBLIND readonly SolMAX of complete unaccepted runtime15 after first single full930PASS1SKIP and parent artifact/hash verification. Includes inherited client/adapter and13A2 deltas, acceptedL5-985 dependencies. Frozen445pins8320550B manifestb9bfe4b579d0d9916d5f05bdfcf266f59d9530c00c8a9894e9e3855f6628e57e. ACCESS-only/actualModelReadRoleACK then distinct GO typecheck+60focused+bounded own publicAPI SQLite probes. Full review atomicity durableN1 current context FINALbyte cap gates lostreply lifecycle publication readiness CLIlegacy; no old reviewer reuse/source patch/full/native/integration. Scope L8_A2_INDEPENDENT_REVIEW_SCOPE_20261016.md. Parent alone approves/access/integrates; author L8 held/open.",
+      "status": "completed",
+      "assignee": "l8-a2-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Complete15-path runtime not previously independently accepted; read-only new independent Sol/max reviewer with frozen inputs. No fork of author/lead and no reopening completed reviews.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvayt47j_000e_gx1ukb",
+      "content": "L7-NAMESPACE6D00-FRESH-INDEPENDENT-REVIEW — fresh NONBLIND readonly SolMAX after parent final full conformance (1061PASS1SKIP,783checks,11retainedDB3321856B). Complete3path candidate simulator6d00/new31regressions/README; archivev2 namespace closure and monotone replan/adoption/true releases, manualv2/total-origin-removal limit explicitly ratified. Frozen386pins8295717B manifestaf3de2b72497710d2b055d48309981003aad3f23d0951fd4d535e5c37e70b57d. Initial ACCESS_ONLY/native actual read-role-hashACK then distinct reviewGO typecheck131focused+own bounded PUBLICmemoryprobes. No old reviewer/context reuse, sourcepatch/SQLite/full/100k/native/integration. Current scope L7_NAMESPACE6D00_INDEPENDENT_REVIEW_SCOPE_20261016.md; HISTORICAL controls are not native reviewer identity. Parent alone accepts/integrates; author L7 stillglobaltaskopen/HOLD.",
+      "status": "completed",
+      "assignee": "l7-namespace-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New candidate6d00 received full final delivery conformance. Independent read-only NONBLIND reviewer required, never fork author/lead or reopen any completed review. Inputs and outputs bounded, no Sqlite/native authorization.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvb1jeoy_0011_n4y9u9",
+      "content": "L7-COPY-BOUNDARY-CORRECTIVE — explicit user NEW fresh AstraMAX invariant-scoped exception after6d00BLOCK parent4case reproduction. Own only candidate simulator.ts plus proposed NEW simulator-copy-boundary-regressions.test.ts after PLAN ratified;100old31new/33DTO/README/helpers readonly. New392pin8441428B frozen package f882697d…96374b; actual nativeModel/task/OWN/access fullReadHashACK before separate static PLAN-onlyGO, no tests/probes/sourcewrites yet. Namespace consumed-copy equality vs validation, inherited/nonenum/getters/caller mutability, no need replacement/manualv2/HARD/adoption/release regression. No source/public API expansion, SQL/full/LLM/native/Git/inbox/othercontext, no silent fallback. Old writer remainsHOLD, oldreviewcompleted never reopen. Fresh independent review and parent gates required; no further correction implicit if failure.",
+      "status": "in_progress",
+      "assignee": "l7-copy-astra",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly renewed AstraMAX targeted new phase after confirmed6d00P1 copy/validation; independent fresh writer not reuse author/reviewer history, own isolated baseline inputs and files; static plan before write gates.",
+          "worktree": true
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvb5kbvg_002f_5q34sa",
+      "content": "L8-RUNTIME16-FRESH-INDEPENDENT-REVIEW — new fresh NONBLIND readonly SolMAX of complete frozen unaccepted runtime16 after parent full+540DB evidence validation. Full ed46,16paths365568B;464pin9142371B package167339b1. INITIALHOLD then nativeModel/task/projection/actual readHashRoleACK before STATIC_REVIEW_GO, no dynamic until separate parent clearance after L7TC195. Review all runtime/contracts plus A-E detached body authority/key/digest/durable incoherent rows/pausePREPARED observation/no new admission; no prior reviewer reuse or author oracle. Source/L1-L6/Store/validation readonly, public fixture probes only under explicit later gate/no oldDB/SQLdirect/native/LLM/Git/inbox/subagents. ACCEPTABLE or BLOCK pathline minimal repro/controls/pins/retained DB qualification. FullGREEN not acceptance; parent alone integrates.",
+      "status": "completed",
+      "assignee": "l8-runtime16-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Fresh independent SolMAX reviewer required after L8runtime16 final whole-runtime full and parent raw540DB seal. Prior runtime15 reviewer completed/shutdown never reopened; NONBLIND approved parent contracts/proof only. Native readonly Plan plus explicit pinned package, static and dynamic permissions separated.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvb91iar_003f_0d5wmp",
+      "content": "L7-COPY851-FULL2-FRESH-INDEPENDENT-REVIEW — new fresh NONBLIND readonly SolMAX whole L7 candidate after parent full2 conformity. Source851/testcb/identity74f/README5ed73,4candidates195451B,391pin8997638B frozen packagef25a623d. INITIALHOLD then native model/task/location+actual complete readHashRoleAck before STATIC_REVIEW_GO; dynamic later parent distinct GO. Entire simulator1385lines33DTO/85members/copy-image-authority+namespace/archive/manualv1v2/callbackdurations/shape-convert-compare-capture-replay/HARDretryadoptionFIFOlease/G2pub guards. Approved copy plan conditional boundaries authoritative,no source fixes/no native authority/no previous reviewer restart. Bounded later TSC120→if0 named25514files180→if0 public memory probes≤12cases≤8units≤4invocations60s/0extraDB,only10graph fresh DB ≤12total retained,noSQLdirect/old22L7or636L8DB. ACCEPTABLE_SCOPED_OFFLINE or BLOCK3–8pathline/reprocontraries/pins/closes. Parent alone accepts/integrates; full1 remainsred,newfullgreen no globalQA waiver.",
+      "status": "completed",
+      "assignee": "l7-copy851-review",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Fresh independent NONBLIND SolMAX whole L7 review required after immutable copy851 full2 passed and parent verified old/new DB22+allpins. No reuse/fork of author or completed namespace/runtime reviewer. Native readonly Plan; new staged pinned package access, static and dynamic parent gates separated.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbf4ikr_005s_dg6l8i",
+      "content": "PREINTEGRATION-BOUNDARY-REVIEW — audit frais NONBLIND readonly de la frontière candidate combinée L7 SIM851/L8 runtime16 après livraison cross-QA f35ee27d qualifiée parent (9callbacks/2DB). Evidence partielle distincte pour future L9/L10 ; ne claim/débloque/termine PAS le lot global L9 task_mv6towry_000d_c1nxby encore blocked. Inputs READY: deux reviews composants completed, paquet301harness inchangé et QA parent conforme. Scopereview PREINTEGRATION_BOUNDARY_REVIEW_SCOPE_20261016.md : source gelée ground truth, 3–8ancrages/contraires/interfacesbudget-identité-publication-fencing-pause/reopen/CLI. FIRST HOLD aucun corpus/outils avant paquethermétiquepin/Model.Ref/accessACK et GOstatique. Aucun importproduit/TSC/test/probe/SQLite/DB/port/Git/IDB/live/native/intégration/ancienreviewrestart. Parent seule autorité finale ; garde limitesoffline/L4B/shadow/authentique/Proxy/SIMpacking et pas globalPASS. Priorité risque de composition, pas nouvelle campagneL2 ou répétition aveugle des composantreviews.",
+      "status": "completed",
+      "assignee": "preintegration-boundary-r1",
+      "dependsOn": [
+        "task_mvb91iar_003f_0d5wmp",
+        "task_mvb5kbvg_002f_5q34sa"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Reviewer indépendant frais sans héritage/auteur ; audit borné candidat sur sources immuables, reviews composants completed + QA parent conforme. Lot global L9 reste blocked et ses dépendances inchangées.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbj4159_0003_05agd0",
+      "content": "FULL44-PROSPECTIVE-POLICY-REVIEW — fresh independent NONBLIND source-only review of parent UNAPPROVED B01/B02 offline policy after refinement9ba22e13 qualification. Decide compatibility with conservation/authority and narrower normal-exit source-provenance/mkdtemp claims; no atomic crash inventory/FS sandbox claim. Scope FULL44_POLICY_REVIEW_SCOPE_20261017.md, verdict/3–8anchors; no product/Job/compiler/test/DB/source edit. L9global remains blocked and this task never unblocks/completes it. FIRST HOLD then pinned minimal packet/access ACK/static GO; no board/index/inbox/private contexts. No permission or full run granted by review.",
+      "status": "completed",
+      "assignee": "full44-policy-r1",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent bounded review of prospective B01/B02 permission amendment, not another component review or L9global. Fresh Plan, explicit SolMAX selected for authority/provenance risk; source-only no product execution.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbj4159_0004_vbidtk",
+      "content": "JOB-HELPER-SOURCE — source-only implementation of a minimal owned Windows JobObject runner for prospective full-test B03. Scope JOB_HELPER_SOURCE_SCOPE_20261017.md; FIRST HOLD then packet/ACK/source GO. New disjoint .tmp output only: C#/PS source/design/manifest; no Add-Type/csc/compiler/Job API/fixture or product execution. New helper does NOT solve B02/FS provenance. Independent review and separately authorized harmless qualification mandatory before adoption. No existing harness/central/source/test/config edits, Git, install, nativeFF8 or scientific runtime.",
+      "status": "completed",
+      "assignee": "job-source-r1",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent source-only infrastructure slice ready from fixed B03 specification; disjoint parent-designated .tmp output, no git/source ownership collision. No code execution, no automatic integration, fresh author before independent review.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbjxhu4_000w_jzq6ql",
+      "content": "JOB-HELPER-INDEPENDENT-SOURCE-REVIEW — fresh NONBLIND Plan review of frozen JobRunner.cs70957212/wrapper100e329a/design9ca22a88/manifesteb0f6990,4sourcefiles71085B, source-only authored and parent delivery-conformed. Source ABI, validation/quoting/env, owned handles, suspended-before-assign, quiescence, timeout/refusal/partial result; no compiler/APIJob/fixture/test allowed. Scope JOB_HELPER_REVIEW_SCOPE_20261017.md. FIRST HOLD then pinned packet/accessACK/staticGo. Verdict3–8anchors, no fix. Evenacceptable requires separate harmless compiler/host qualification; Job≠FSsandbox/full44/native/L9global approval.",
+      "status": "completed",
+      "assignee": "job-source-review-r1",
+      "dependsOn": [
+        "task_mvbj4159_0004_vbidtk"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent fresh reviewer distinct from source author; uncompiled Win32/ABI/handle safety warrants SolMAX. Source-only bounded packet, no inheritance or private author history, global L9 unchanged.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbks4gv_001h_5xm7nx",
+      "content": "JOB-NEWLINE-DELTA-REVIEW — fresh independent NONBLIND bounded source review of V1cs70957212→V2cscb3a6dfd, exact single newline-byte expression replacement; wrapper100e unchanged. Parent endorsed prior static coverage fingerprints/UNCERTAIN8anchors, not host correctness. Resolve exact accepted-trace byte accounting, UTF8/BOM/NewLine/WriteLine/partial error/HOLD; do not repeat unchanged full ABI review unless interaction escalated. Scope JOB_NEWLINE_DELTA_REVIEW_SCOPE_20261017.md. FIRST HOLD then pinned packet/accessACK/staticGo; no compiler/.NET/JobAPI/fixture/tests/sourcefix. Evenacceptable requires separately qualified harmless compile/host gates, no full44/L9global/integration.",
+      "status": "completed",
+      "assignee": "job-newline-review-r1",
+      "dependsOn": [
+        "task_mvbjxhu4_000w_jzq6ql"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New independent reviewer after parent deterministic single-line source correction. Prior exact static coverage endorsed for unchanged surfaces; bounded delta avoids repeating completed review. Fresh NONBLIND, no private history or author role reuse.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvblq60r_0022_ets38w",
+      "content": "JOB-HARMLESS-FIXTURE-SOURCE — fresh independent build author of prospective harmless Windows Job host fixtures and oracle, not helper author or reviewer. Source-only new .tmp four files per JOB_HARMLESS_FIXTURE_SOURCE_SCOPE_20261017.md. Helper cb3a6dfd compiled to DLLb36aa7c7 but NEVER loaded or host-qualified. Propose finite tree/root0-beforechild/timeout/kill-owned-launcher/args-env/refusal/breakaway cases with independent markers and explicit gaps; no product/full44. FIRST HOLD then packet/accessACK/sourceGO. No csc/Add-Type/DLLload/APIJob/Win32 probe/fixtures/processes/tests/DB/runtime/source-project edits; later independent review and separate compilation/harmless qualification GO mandatory. Preserve immutable inputs and firstCS1504. Scope never unblocks globalL9/L10/main/native/integration.",
+      "status": "completed",
+      "assignee": "job-fixture-source-r1",
+      "dependsOn": [
+        "task_mvbks4gv_001h_5xm7nx"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent fixture/oracle producer after helper source review and compile-only pass; no private author context. Disjoint parent-named .tmp outputs only, no execution or source ownership collision. SolMAX explicit for process/handle/oracle safety, reviewed catalogue, policy unchanged.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbme3sg_002i_56jgvm",
+      "content": "JOB-FIXTURE-SCAFFOLD-REVIEW — fresh independent NONBLIND Plan source/oracle safety review of 4files57859B Fixture069bf451/InvokeOnee0a8baa5/plan6bcb4ea4/manifest11ec6339. Sourcesonly, Run explicitlyHOLD beforeDLLread/load. Known gaps256KiB aggregate not enforced vs helper64MiB, independentobserver+Job0binding absent,case6controlhandle missing,case8referenceHOLD and forcedAssign/nestedJob coverage not acquired MUST remain held. Review future fixture safety and independent discriminating oracle, PS preparation pins/paths, watchdog/source limits, no compile/APIJob/fixtures/tests/sourcefix. Scope JOB_FIXTURE_SCAFFOLD_REVIEW_SCOPE_20261017.md; FIRSTHOLD then frozenpacket/accessACK/staticGo; verdict3–8anchors not runready/qualification/globalL9/full44/integration.",
+      "status": "completed",
+      "assignee": "job-fixture-review-r1",
+      "dependsOn": [
+        "task_mvblq60r_0022_ets38w"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Fresh source/oracle review independent of fixture/helper/delta authors. Physical delivery conformed but current Run fails closed and operational gaps explicit; review is prospective source safety only, no repeated helper review or hidden gap waiver. SolMAX retained for process/handle/oracle safety.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbmzeaa_002v_08fjhl",
+      "content": "JOB-CONTROL-READINESS-STATIC — fresh independent Plan bounded feasibility/evidence study of unresolved runtime controls after helperDLL and fixtureEXE compile-only, no binaries executed. Scope JOB_CONTROL_READINESS_STATIC_SCOPE_20261017.md. Seek exact source-bound conditional proof of ≤256KiB aggregate for fixed proposed cases (helper64MiB cap is insufficient), account error/output/identity/polling/result/marker branches or mark NOT_PROVEN. Define minimal future independent observer/Job0 and original-launcher-handle contract without implementing, case6lastclose and case8reference/AssignnestedJob gaps explicit. No higherbudget, sourcefix, quota admin/install, requests, controllercode or native probe permitted. FIRSTHOLD then frozenpacket/accessACK/staticGo. 3–8anchors/proof-or-counterexample, next bounded parentdecision dependencies, not duplicate source review or full44/globalL9/integration.",
+      "status": "completed",
+      "assignee": "job-control-readiness-r1",
+      "dependsOn": [
+        "task_mvbme3sg_002i_56jgvm"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent narrow static evidence study of acknowledged operational gaps excluded from prior scaffold review. No re-review of frozen code or execution; current limits immutable. SolMAX explicit for resource-bound and process authority reasoning; normal mission policies unchanged.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvbnnmv0_0037_9ddhut",
+      "content": "JOB-OFFICIAL-REFERENCE-CONTRACT — fresh independent Plan documentary feasibility of kernel-positive JobActiveZero proof compatible with case6 last-close, using parent-pinned8 MicrosoftLearn refs. Attack UNAPPROVED IOCP candidate: port vs Job handle lifetime/association/key/causal order/falsification/delivery absence=>HOLD, original launcher handle authority, current Run string interface cannot expose contract magically. Derive case8 breakaway conditions/oracle proposal only, no implementation. Scope JOB_OFFICIAL_REFERENCE_CONTRACT_SCOPE_20261017.md; FIRSTHOLD then packet/accessACK/staticGo. 3–8officialanchors/questions candidate|notestablished|referenceblocked, preserve≤256KiB budgetNOTPROVEN/allRunHOLD. No API/port/handle calls, controller/source/request/code/compiler/fixture/binary/runtime/Git/LLM/native actions. Distinct from completed readiness study and source reviews, no full44/L9/main integration.",
+      "status": "completed",
+      "assignee": "job-reference-contract-r1",
+      "dependsOn": [
+        "task_mvbmzeaa_002v_08fjhl"
+      ],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "New official references resolve a missing input, not replay of finished source study. Independent fresh documentary architect must attack parent IOCP hypothesis without adoption/code/runtime. Same explicit SolMAX enabled model for handle authority/evidence risk, policies and manual classification unchanged.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvc422gx_0000_rrxckr",
+      "content": "V3-CONTRACT-REVIEW — fresh independent Plan review of parent job-guardian-v3-draft1: NO IOCP, guardian-held exact Job kernel query, driver-loss termination while guardian lives; old last-close NOT_ESTABLISHED retained, guardian loss HOLD not PASS. Verify mission crash obligations/failure boundary/ownership/epochs/preferred G creates T so no Job duplication, partition256KiB/error/capture and finite loop counters. Scope JOB_V3_CONTRACT_REVIEW_SCOPE_20261017.md. FIRSTHOLD then pinnedpacket/accessACK/reviewGo; source/API/runtime prohibited. Verdict ACCEPTABLE_CONTRACT_SCOPED|CORRIGE|BLOCK, no preferred answer; ratification parent required before privileged source. Same mission/manual5/policies4/2/SolMAX.",
+      "status": "in_progress",
+      "assignee": "v3-contract-review-r1",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "User explicitly resumed autonomous implementation; concrete parent V3 contract needs independent safety review before privileged implementation. Fresh reviewer not prior author; no code/runtime or reinterpretation of historical last-close proof.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvc422gy_0001_tt123k",
+      "content": "V3-BUDGET-SOURCE — implement pure BudgetedEvidence V3-Q1 C#5 and independent expected-value memory-test SOURCES only. Scope JOB_V3_BUDGET_SOURCE_SCOPE_20261017.md and fixed slot caps sum262144. Atomic precharge, stickyHold, no rollback after partial failure, one sink/slot, bounded chunks/reentrance, no implicit logs/dispose/files/processes. Four disjoint new .tmp files. Independent from pending privileged guardian contract, parent local source-only subcontract; no compile/test execution/native/Job/DB/Git. FIRSTHOLD then pinnedpacket/accessACK/sourceGo. Preserve prior candidates.",
+      "status": "in_progress",
+      "assignee": "v3-budget-source-r1",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Actually READY orthogonal pure resource-control source module under fixed parent local subcontract; no Job capability or native runtime dependency, disjoint .tmp outputs. SolMAX preserved; review/tests later by different session.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvc422gy_0002_ua4zsu",
+      "content": "REMAINING-OBLIGATIONS — fresh read-only Plan operational map of remaining mission L1/L7/L8/L9/L10 obligations from pinned ORDRE/public gates/reports/native task snapshot. Scope REMAINING_OBLIGATIONS_SCOPE_20261017.md. Cover bridges-rare, QA/simulator/crossinterop/benchmetrics, runtimeCLI/regimeB-adopted, G0–G7 with evidence versions/dependencies/owner and smallest useful READY action. Propose source-phase administrative closure only with exact evidence; no task updates by worker. No old review reruns, code/test/compile/native/execution or global acceptance. FIRSTHOLD then packet/accessACK/staticGo; public report JSON if Plan write unavailable.",
+      "status": "in_progress",
+      "assignee": "mission-frontier-r1",
+      "dependsOn": [],
+      "context": {
+        "decision": {
+          "mode": "fresh",
+          "reason": "Independent useful frontier work must continue while safety contract reviewed; do not serialize all L7/L8 work behind Job helper. Read-only public mission artifacts, no private sessions/native actions or source ownership conflict.",
+          "worktree": false
+        },
+        "revision": 1,
+        "error": null,
+        "state": "ready"
+      }
+    },
+    {
+      "id": "task_mvc42mb3_0003_qbquyx",
+      "content": "V3-CONTRACT-PARENT-RATIFICATION — LEAD ONLY. Resolve fresh V3 contract review against ORDRE safety obligations, retain old last-close NOT_ESTABLISHED without relabeling; explicitly ratify/version failure boundary/direct kernel oracle/ownership/no IOCP and byte budgets or issue bounded correction. Publish frozen ABI/types and per-file ownership before privileged source. Not user GO per ordinary decision; no runtime or old source overwrite. Complete only after actual parent evidence gate, not just review task completion.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc422gx_0000_rrxckr"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Parent-owned gate, never auto-worker dispatch; requires substantive contract review disposition and frozen version/types."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc42mb3_0004_mvn6aw",
+      "content": "V3-BUDGET-INDEPENDENT-REVIEW — fresh independent Plan after physical budget source delivery. Attack precharge/stickyHold/no rebate, slots sum262144 and uniqueness assumptions, exceptions/partial streams/reentrance/concurrency, expected-value test oracle not generated from module. No Job/native/runtime. Parent package and reviewGO before work; compilation/memory tests need separate parent GO. Not global budget/host acceptance.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc422gy_0001_tt123k"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Fresh reviewer required after sealed module delivery; exact hashes and input packet not yet exist, parent will authorize fresh context."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc42mb4_0005_2nda1k",
+      "content": "OBLIGATIONS-PARENT-ROUTING — LEAD ONLY intake of frontier inventory, reconcile old source-phase/native task statuses from qualified evidence, update dependencies without global L7/L8 closure. Admit actually READY independent work for L1/L7/L8 and preserve L9/L10 gates. No completed-review rerun or automatic integration/native admission.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc422gy_0002_ua4zsu"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Parent owns task/dependency changes and scientific qualification; wait actual inventory, not automatic milestone completion."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc42woi_0006_kj3b51",
+      "content": "V3-GUARDIAN-SOURCE — future isolated writer after parent V3 ratification and frozen ABI. Implement concrete guardian Job ownership/create-suspended/assign-before-resume/driver-loss-owned-stop/state machine, all writers through bounded slots, no IOCP. Own only parent-assigned new .tmp guardian files, never observer/budget/types or centralL8. SOURCE ONLY first, independent review/compile/harmless qualification later; no dispatch until actual parent frozen packet/sourceGO.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42mb3_0003_qbquyx",
+        "task_mvc422gy_0001_tt123k"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Not yet READY. Parent must ratify exact contract/types/ownership then prepare fresh author packet; no privileged source before review."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc42woi_0007_28drf0",
+      "content": "V3-KERNEL-OBSERVER-SOURCE — future independent writer after parent frozen ABI. Direct kernel exact-Job/root handle observations and coherent snapshots, errors fail closed, no driver counters/IOCP oracle or PID reopen. Disjoint observer source only, authorship independent guardian; bounded records/no unbounded exception text. No native API execution. Parent sourceGO only after frozen contract; source review and qualification later.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42mb3_0003_qbquyx",
+        "task_mvc422gy_0001_tt123k"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Depends on ratified ownership and capability ABI, exact Job handles not arbitrary ints. Fresh source author independent guardian; no current execution permission."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc42woi_0008_oa19w8",
+      "content": "V3-SOURCE-AND-INTEGRATION-REVIEW — fresh independent source review after guardian and observer sealed, plus accepted budget review. Parent assembly wiring into isolated candidate only after public manifests, typed handles/state/epochs/bounds all traced. No central L8 integration, no host run. Block on missing source inputs rather than infer correctness from task closure.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42mb3_0003_qbquyx",
+        "task_mvc42mb3_0004_mvn6aw"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Dependency will be extended with actual guardian/observer task IDs by parent after creation; not READY/dispatchable before delivered source and fresh frozen review packet."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc43o9u_0009_ctebzb",
+      "content": "V3-COMPOSED-REVIEW — actual future fresh independent review of sealed guardian task_mvc42woi_0006_kj3b51 and independent observer task_mvc42woi_0007_28drf0, after parent contract ratification and budget review. Supersedes unadmitted planning placeholder task_mvc42woi_0008_oa19w8, NOT a repeated review. Parent frozen packet/reviewGO required; trace ABI/ownership/epochs/direct Job queries/bounds/driver-loss and assembly integration in isolated candidate. No central L8 or runtime admission.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42woi_0006_kj3b51",
+        "task_mvc42woi_0007_28drf0",
+        "task_mvc42mb3_0003_qbquyx",
+        "task_mvc42mb3_0004_mvn6aw"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Exact guardian and observer task IDs now exist and are explicit dependencies; fresh reviewer only after sealed outputs and parent input/GO. Supersession of never-dispatched planning placeholder, not acceptance."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc44d90_000c_xic81o",
+      "content": "V3-PARENT-COMPILE-QUALIFY — LEAD ONLY after ratified composed review, budget review and sealed source. Serial source checks/build-id/toolchain/env/pins, separate compileGO then harmless qualificationGO cases under unchanged256KiB/cap8/4GiB. Exact Job kernel oracle while guardian alive, driver loss forced outcome not PASS; historic last-close remains unqualified. Do not rearm old failures or run full44/nativeFF8. Subgates results/limits must be published; blocked if any writer/ownership/observer proof missing.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc43o9u_0009_ctebzb",
+        "task_mvc42mb3_0004_mvn6aw"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Parent serial privileged actions only after actual substantive source acceptance and separate exact runtime GO; no worker auto-dispatch."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc44d91_000d_l4hjfk",
+      "content": "L7-L8-FULL-VALIDATION-ADMISSION — LEAD/L8 exclusive owner planning milestone: after safe guardian qualification and obligation routing, update exact frozen combined full-test route/ownership/B01/B02/source hashes/streams/caches/DB-retention; review changes, access ACK and parent reservation/FINALGO. No source/test patch/silent exclusion, no full test or integration before gate. Follow with measurements/crossQA required by ORDRE, L9 then L10 existing global tasks; do not complete L8 solely on helper qualification.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42mb4_0005_2nda1k"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "No execution authority. Needs actual qualification milestone ID in parent control ledger plus all source/public evidence; preparation can advance statically but FINALGO remains serial parent."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc47rhr_000m_r95rzq",
+      "content": "FULL-VALIDATION-PARENT-EXECUTION-GATE — LEAD ONLY, separate from preparation. Actual full44 command admission only after V3 qualified safe route AND frozen full validation preparation, fresh source/control review/access/ownership/pins/retention/exclusive reservation and exact FINALGO. Any red/missing writer/quiescence evidence=>HOLD not rerun. No FF8/live/G5–G7 or run01. Success still not L7/L8/L9/L10 global closure.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc44d90_000c_xic81o",
+        "task_mvc44d91_000d_l4hjfk"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Exact parent-only dynamic gate. Preparation may advance offline earlier; execution cannot occur before both native dependencies and substantive source/ownership/control gates pass."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    },
+    {
+      "id": "task_mvc47rhs_000n_0tg7n3",
+      "content": "L7-MEASURES-AND-CROSSQA-FRONTIER — planned follow-up after obligation routing: admit remaining offline metrics/benchmarks/fixtures/crossinterop only where READY, source ownership disjoint and tested version/pins explicit. Keep simulated/estimated/native measurements distinct; preserve already accepted9crossQA callbacks/TCbuilds, do not replay from stale hints. Parent creates bounded author/reviewer/run assignments from frontier, no full44 or scientific/native runtime implicit.",
+      "status": "blocked",
+      "assignee": null,
+      "dependsOn": [
+        "task_mvc42mb4_0005_2nda1k"
+      ],
+      "context": {
+        "decision": {
+          "mode": "pending",
+          "reason": "Routing placeholder with real inventory dependency, not a worker/run admission. Allows genuinely independent L7 work while guardian progresses; existing global L7 tasks remain open."
+        },
+        "revision": 1,
+        "error": null,
+        "state": "pending"
+      }
+    }
+  ],
+  "supersededUnadmittedPlaceholder": "task_mvc42woi_0008_oa19w8",
+  "replacementComposedReview": "task_mvc43o9u_0009_ctebzb",
+  "placeholderClosureAttemptRefusedByBlockedGuardNoReviewWasRun": true,
+  "missingOptionalDocs": []
+}

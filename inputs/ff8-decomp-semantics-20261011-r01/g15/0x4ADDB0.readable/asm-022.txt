@@ -1,0 +1,25 @@
+004AE587: add     esp, 8; Add
+004AE58A: test    al, al; Logical Compare
+004AE58C: jz      short loc_4AE5A2; Jump if Zero (ZF=1)
+004AE58E: push    7; int
+004AE590: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE595: add     esp, 4; Add
+004AE598: mov     eax, 9
+004AE59D: jmp     loc_4AE669; Jump
+004AE5A2: test    bl, 7Fh; Logical Compare
+004AE5A5: jnz     short loc_4AE5BB; Jump if Not Zero (ZF=0)
+004AE5A7: push    5
+004AE5A9: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE5AE: add     esp, 4; Add
+004AE5B1: mov     eax, 4
+004AE5B6: jmp     loc_4AE669; Jump
+004AE5BB: test    byte ptr [esp+1Ch+var_C], 40h; Logical Compare
+004AE5C0: jz      short loc_4AE5DD; Jump if Zero (ZF=1)
+004AE5C2: push    2
+004AE5C4: mov     word ptr dword_1D768DC+2, bx
+004AE5CB: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE5D0: add     esp, 4; Add
+004AE5D3: mov     eax, 1Fh
+004AE5D8: jmp     loc_4AE669; Jump
+004AE5DD: test    bl, 80h; Logical Compare
+004AE5E0: jz      short loc_4AE5F6; Jump if Zero (ZF=1)

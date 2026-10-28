@@ -1,0 +1,41 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {reviewBaselineFingerprint,planReviewScope,type PreparationFile} from '../../tools/ff8-harness/src/mechanical-preparation';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8', phase=root+'/.tmp/coordination-three-20261014', base=root+'/.tmp/re-graph-scheduler/review-20261014';
+const sha=(b:string|Buffer)=>createHash('sha256').update(b).digest('hex');
+const json=(p:string)=>JSON.parse(readFileSync(p,'utf8').replace(/^\uFEFF/,''));
+const save=(n:string,v:unknown)=>writeFileSync(phase+'/'+n,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+const old=json(base+'/L2FINAL/manifest.json'),fresh=json(base+'/L2IDSV5/manifest.json');
+for(const [label,m] of [['L2FINAL',old],['L2IDSV5',fresh]] as const)for(const p of m.files)if(sha(readFileSync(base+'/'+label+'/'+p.path))!==p.sha256)throw Error('Pin changed '+label+'/'+p.path);
+const previous:PreparationFile[]=old.files.map((p:any)=>({path:p.path,sha256:p.sha256,kind:p.path.includes('/test/')?'test':p.path.includes('/src/')?'source':'rule'}));
+const current:PreparationFile[]=fresh.files.map((p:any)=>({path:p.path,sha256:p.sha256,kind:p.path.includes('/test/')?'test':p.path.includes('/src/')?'source':'rule'}));
+const oldMap=new Map(previous.map(p=>[p.path,p.sha256]));
+const changed=current.filter(p=>oldMap.has(p.path)&&oldMap.get(p.path)!==p.sha256).map(p=>p.path).sort();
+const expected=['tools/ff8-harness/src/capabilities.ts','tools/ff8-harness/test/graph-extract.test.ts'];
+if(JSON.stringify(changed)!==JSON.stringify(expected))throw Error('Unexpected shared delta');
+const before=readFileSync(base+'/L2FINAL/'+expected[1]!),after=readFileSync(base+'/L2IDSV5/'+expected[1]!);
+if(!after.subarray(0,before.length).equals(before))throw Error('Old test prefix changed');
+const a=base+'/L2FINAL/'+expected[0],b=base+'/L2IDSV5/'+expected[0];
+const diff=spawnSync('git',['-c','core.autocrlf=false','diff','--no-index','--no-color','--',a,b],{encoding:'utf8'});
+if(diff.status!==1)throw Error('Missing finite production diff');
+writeFileSync(phase+'/l2idsv5-production.diff',diff.stdout,{flag:'wx'});
+const lines=diff.stdout.split('\n'),newLines=readFileSync(b,'utf8').split('\n');
+const hunks:{start:number,from:string[],to:string[]}[]=[];let h:typeof hunks[number]|undefined;
+for(const l of lines){const m=/^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/.exec(l);if(m){h={start:Number(m[1])-1,from:[],to:[]};hunks.push(h);continue;}if(!h)continue;if(l.startsWith(' ')){h.from.push(l.slice(1));h.to.push(l.slice(1));}else if(l.startsWith('+'))h.from.push(l.slice(1));else if(l.startsWith('-'))h.to.push(l.slice(1));}
+for(const h of [...hunks].reverse()){if(JSON.stringify(newLines.slice(h.start,h.start+h.from.length))!==JSON.stringify(h.from))throw Error('Inverse hunk mismatch');newLines.splice(h.start,h.from.length,...h.to);}
+const restored=Buffer.from(newLines.join('\n'));if(!restored.equals(readFileSync(a)))throw Error('Inverse not byte exact');
+const native=json(phase+'/l2-final-review-native-messages-20261015.json');
+const texts:any[]=[];function walk(x:any){if(!x||typeof x!=='object')return;if(x.input?.to==='lead'&&typeof x.input?.text==='string')texts.push(x.input.text);for(const v of Object.values(x))if(typeof v==='object')walk(v);}
+for(const m of native.messages)if(m.type==='assistant')walk(m.content);
+const final=texts.findLast(t=>t.includes('<task-result>')&&t.includes('FINDING UNIQUE RV2FINAL-01'));if(!final)throw Error('Final independent coverage report missing');
+const coverage={schemaVersion:1,taskId:'task_mv8eb18r_00l6_ax23oo',sessionId:native.session.id,model:native.session.model,baseline:'L2FINAL',manifestSha256:sha(readFileSync(base+'/L2FINAL/manifest.json')),baselineFingerprint:reviewBaselineFingerprint(previous),reportSha256:sha(final),report:final,parentEndorsement:'Prior independent coverage retained for unchanged bytes and the expressly reported old controls; RV2FINAL-01 remained blocking. This endorses bounded delta scope only, not L2 acceptance or native authority.',freshReviewRequired:true};
+save('l2idsv5-prior-coverage.json',coverage);
+const coverageSha=sha(readFileSync(phase+'/l2idsv5-prior-coverage.json'));
+const allowedChangedPaths=[...expected,'docs/missions/re-graph-scheduler/L2_FINAL_REVIEW_ID_BOUNDS_BLOCK.md','docs/missions/re-graph-scheduler/L2_ID_PROJECTION_GO.md'];
+const request={previous,current,decision:{priorCoverageSha256:coverageSha,baselineFingerprint:coverage.baselineFingerprint,allowedChangedPaths}};
+save('l2idsv5-review-scope-request.json',request);
+const scope=planReviewScope(previous,current,request.decision);if(scope.mode!=='delta')throw Error('Scope requires full review: '+JSON.stringify(scope));
+save('l2idsv5-review-scope.json',scope);
+const audit={sourceFilesVerified:fresh.files.length,oldFilesVerified:old.files.length,changed,added:current.filter(p=>!oldMap.has(p.path)).map(p=>p.path),oldTestPrefixBytes:before.length,oldTestPrefixSha256:sha(before),oldTestPrefixExact:true,inverseProductionExact:true,inverseProductionSha256:sha(restored),productionHunks:hunks.length,priorCoverageSha256:coverageSha,scope,preflight:json(phase+'/l2idsv5-preflight-20261015.json')};
+save('l2idsv5-parent-audit.json',audit);console.log(JSON.stringify({...audit,preflight:{verdict:audit.preflight.verdict,moduleFingerprint:audit.preflight.moduleFingerprint,cases:audit.preflight.cases,assertions:audit.preflight.assertions}},null,2));

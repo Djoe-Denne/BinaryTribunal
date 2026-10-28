@@ -3,7 +3,12 @@ import type { Store } from "./store";
 import { posix, win32 } from "node:path";
 import { checkInputs } from "./inputs";
 import { bridgeFailureCategory, canonical, compareText, failureCause, fingerprint, FIXTURE_RETRY_POLICY, hash, identityKey, validateAssessment, validateCandidate, validateConfig, validateKnowledge, validateResult } from "./validation";
+import { GraphStore, type ParentAuthorityProvider } from "./graph-store";
+import { GraphEngine, appendGraphPreparation, assertGraphSnapshot, assertLegacySnapshot, graphAnchor, graphCycleProjection, graphEvents, inspectGraphState, preparedGraphRun, type FixturePublicationPort, type FixtureReviewPort } from "./graph-engine";
+import { graphInputs, makeGraphRunV2, type FixtureExecutionPort } from "./graph-adapter";
+import { assertCurrentAdmissionSource, graphCheck, graphCopy, graphFreeze, graphJson, graphObject, prepareGraph } from "./graph-pipeline";
 export interface EngineOptions { store: Store; bridge: Bridge; publication: PublicationAdapter; inputAccess: InputAccess; controllerId: string; now?: () => number; leaseMs?: number; knowledgeArtifactSink?: KnowledgeArtifactSink; scheduleLeaseHeartbeat?: (callback: () => void, intervalMs: number) => () => void }
+export interface GraphPorts { executions: FixtureExecutionPort; review: FixtureReviewPort; publication: FixturePublicationPort; parentAuthority?: ParentAuthorityProvider }
 /** A durable scientific state machine, deliberately not a capacity/worker scheduler. */
 export class Engine {
   private leases = new Map<string, ControllerLease>();
@@ -21,13 +26,13 @@ export class Engine {
     this.options.store.create(s); return this.attach(s.missionId);
   }
   attach(missionId: string): Snapshot {
-    const s = this.snapshot(missionId); validateConfig(s.config);
+    const s = this.snapshot(missionId); assertLegacySnapshot(s); validateConfig(s.config);
     if (!s.config.fixture && this.options.store.path === ":memory:") throw new Error("real mission requires a persistent OWN database path");
     this.leases.set(missionId, this.options.store.acquireLease(missionId, this.options.controllerId, this.now(), this.leaseMs)); return s;
   }
   snapshot(missionId: string): Snapshot { return this.options.store.load(missionId); }
   private begin(missionId: string, expectedRevision?: number): Snapshot {
-    const s = this.snapshot(missionId); if (expectedRevision !== undefined && s.revision !== expectedRevision) throw new Error("stale controller revision");
+    const s = this.snapshot(missionId); assertLegacySnapshot(s); if (expectedRevision !== undefined && s.revision !== expectedRevision) throw new Error("stale controller revision");
     const lease = this.leases.get(missionId); if (!lease) throw new Error("controller must attach to acquire lease");
     this.leases.set(missionId, this.options.store.renewLease(lease, this.now(), this.leaseMs)); return s;
   }
@@ -37,6 +42,89 @@ export class Engine {
     return { lease: { ...lease }, revision: s.revision };
   }
   private save(s: Snapshot): Snapshot { return this.options.store.commit(s, s.revision, this.leases.get(s.missionId)!, this.now()); }
+  private freshGraphSource(s: Snapshot): void {
+    assertLegacySnapshot(s); validateConfig(s.config);
+    const cycle = s.cycles.find(c => c.number === s.cycle);
+    graphCheck(s.config.fixture === true && s.status === "running" && cycle && !cycle.frozen && s.cycle >= 1 && s.cycle <= s.config.maxCycles && ["explore", "group", "evaluate", "freeze"].includes(s.stage), "graph entry requires a fresh unfrozen offline fixture cycle; no historical migration");
+    // No caller-supplied quiescence boolean: actual durable legacy state is read.
+    // This tranche deliberately refuses even historical legacy executions rather
+    // than inventing a missing public native/outbox-closure API.
+    graphCheck(s.intents.length === 0 && s.reconciliations.length === 0 && s.controlPending === undefined && s.controlError === undefined && (s.teamAdmissionAttempts ?? 0) === 0 && s.nextTeamAdmissionAt === undefined && (s.failureHistory?.length ?? 0) === 0, "legacy intent/outbox/control activity is not proven quiescent");
+    graphCheck(this.options.store.path !== ":memory:", "graph integration requires one shared persistent OWN file");
+  }
+  private graphLease(s: Snapshot): ControllerLease {
+    const old = this.leases.get(s.missionId);
+    if (old) { this.options.store.assertLease(old, this.now()); const renewed = this.options.store.renewLease(old, this.now(), this.leaseMs); this.leases.set(s.missionId, renewed); return renewed; }
+    const lease = this.options.store.acquireLease(s.missionId, this.options.controllerId, this.now(), this.leaseMs); this.leases.set(s.missionId, lease); return lease;
+  }
+  private anchorGraph(run: import("./domain").GraphRun): void {
+    const s = this.snapshot(run.missionId);
+    if (s.cycles.some(cycle => Object.hasOwn(cycle, "graph"))) { assertGraphSnapshot(s, run); return; }
+    this.freshGraphSource(s);
+    graphCheck(s.revision === run.missionRevision - 1 && fingerprint(s.config) === run.missionConfigFingerprint && s.cycle === run.cycle, "preparatory orphan conflicts with changed legacy revision/config");
+    const byId = new Map(run.prepared.planning.units.flatMap(u => u.subIntents).map(sub => [sub.functionId, sub.harnessIdentity]));
+    const candidates: Candidate[] = [...byId].map(([functionId, identity]) => ({ identity: graphCopy(identity), manifestVersion: "l8-graph-source-v1",
+      evidence: [{ id: `graph:${hash(functionId)}`, source: "offline graph snapshot", sha256: run.prepared.snapshot.normalizedFingerprint, detail: "Synthetic structural input, not native or scientific verification" }],
+      inputs: graphCopy(run.inputsByFunction[functionId] ?? []), dependencies: [...new Set(run.prepared.planning.sidecar.relationView.relations.filter(r => r.sourceId === functionId && r.kind !== "callback_candidate").map(r => r.destinationId))].flatMap(id => byId.has(id) ? [graphCopy(byId.get(id)!)] : []) }));
+    this.mergeCandidates(s, candidates);
+    const cycle = this.cycle(s), projection = graphCycleProjection(run);
+    cycle.groups = projection.groups; cycle.subset = projection.subset; cycle.fingerprint = run.prepared.fingerprint;
+    cycle.functionFingerprints = Object.fromEntries([...byId].filter(([, identity]) => cycle.subset.includes(identityKey(identity))).map(([id, identity]) => [identityKey(identity), fingerprint({ version: "l8-work-fingerprint-v1", preparedFingerprint: run.prepared.fingerprint, identity, knowledge: cycle.knowledge, files: run.inputsByFunction[id] ?? [] })]));
+    cycle.graph = graphAnchor(run); cycle.frozen = true; s.stage = "analyse";
+    // CAS + the existing whole-frozen-cycle equality are the durable boundary.
+    // If this reply is lost, openGraph reloads this exact anchor, never appends a cycle.
+    const saved = this.save(s); assertGraphSnapshot(saved, run);
+  }
+  private graphRuntime(missionId: string, graph: GraphStore, ports: GraphPorts): GraphEngine {
+    const origin = preparedGraphRun(graph, missionId); graphCheck(origin, "missing immutable graph run"); const run = graphFreeze(origin);
+    return new GraphEngine({ store: this.options.store, graph, missionId, ...ports, inputAccess: this.options.inputAccess,
+      authority: () => {
+        // Original run is a detached frozen value. Current Store config/cycle/CAS
+        // and context are still read on EVERY authority request; the complete
+        // hash-verified journal is reread at each step/atomic admission boundary.
+        const s = this.snapshot(missionId); assertGraphSnapshot(s, run);
+        return { lease: this.graphLease(s), now: this.now() };
+      }, inputs: (snapshot, sub, proposals) => { graphCheck(run.version === "l8-graph-run-v2", "v2 operative inputs required"); return graphInputs(run, snapshot, sub, proposals); } });
+  }
+  /** Explicit additive fixture entry; never called by legacy tick/attach. */
+  startGraph(missionId: string, request: unknown, ports: GraphPorts): GraphEngine {
+    graphJson(request); graphCheck(graphObject(request).version === "l8-graph-preparation-v2", "only prospective v2 may execute; v1 is read-only");
+    const s = this.snapshot(missionId); this.freshGraphSource(s);
+    const external = graphObject(graphObject(request).policy).externalReceiptsByEdge;
+    graphCheck(external === undefined || Object.keys(graphObject(external)).length === 0, "external receipt authority import unsupported by public L6 boundary (including producer=null); no fabricated binding");
+    const graph = new GraphStore(this.options.store.path, { parentAuthority: ports.parentAuthority });
+    try {
+      const existing = preparedGraphRun(graph, missionId), events = graphEvents(graph, missionId);
+      graphCheck(!existing && events.length === 0, "graph origin already exists: use openGraph to read ORIGINAL bytes, never replan/start again");
+      const prepared = prepareGraph(request, s); graphCheck(prepared.version === "l8-prepared-graph-v2", "prospective preparation required");
+      const run = makeGraphRunV2(s, prepared);
+      const lease = this.graphLease(s); this.options.store.assertLease(lease, this.now());
+      appendGraphPreparation(graph, { lease, now: Math.max(this.now(), graph.events.cursor(missionId).time) }, run);
+      this.options.store.assertLease(lease, this.now()); this.anchorGraph(run);
+      const runtime = this.graphRuntime(missionId, graph, ports); runtime.install(); return runtime;
+    } catch (error) { graph.close(); throw error; }
+  }
+  /** Recovery consumes the original journal bytes/IDs, never a new preparation. */
+  openGraph(missionId: string, ports: GraphPorts): GraphEngine {
+    const graph = new GraphStore(this.options.store.path, { parentAuthority: ports.parentAuthority });
+    try {
+      const run = preparedGraphRun(graph, missionId); graphCheck(run, "orphan anchor/missing graph run"); const s = this.snapshot(missionId);
+      graphCheck(run.version === "l8-graph-run-v2", "v1 graph is inspectable/read-only; no reauthorization or v2 migration");
+      if (s.cycles.some(cycle => Object.hasOwn(cycle, "graph"))) {
+        assertGraphSnapshot(s, run);
+        const runtime = this.graphRuntime(missionId, graph, ports); runtime.verifyEntry(); // BEFORE acquire/renew
+        this.graphLease(s); runtime.install(); return runtime;
+      }
+      this.freshGraphSource(s);
+      graphCheck(graphEvents(graph, missionId).every(e => e.kind === "l8.graph2.preparing") && s.revision + 1 === run.missionRevision && fingerprint(s.config) === run.missionConfigFingerprint, "non-activating orphan conflicts with legacy state");
+      assertCurrentAdmissionSource(run.prepared, s);
+      this.graphLease(s); this.anchorGraph(run); const runtime = this.graphRuntime(missionId, graph, ports); runtime.install(); return runtime;
+    } catch (error) { graph.close(); throw error; }
+  }
+  inspectGraph(missionId: string): ReturnType<typeof inspectGraphState> {
+    const snapshot = this.snapshot(missionId); graphCheck(snapshot.config.fixture && this.options.store.path !== ":memory:", "explicit persistent fixture inspection only");
+    const graph = new GraphStore(this.options.store.path); try { return inspectGraphState(graph, snapshot); } finally { graph.close(); }
+  }
   /** Keep the OWN controller fence alive during I/O, never reacquire an expired/lost lease. */
   private async leasedOperation<T>(s: Snapshot, run: (context: ControllerContext) => Promise<T>): Promise<T> {
     const renew = () => {

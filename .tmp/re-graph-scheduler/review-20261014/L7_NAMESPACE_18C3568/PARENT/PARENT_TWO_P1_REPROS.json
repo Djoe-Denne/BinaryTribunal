@@ -1,0 +1,4263 @@
+{
+  "sourceSha256": "494b8bf87fa7a5e4b3c66058869d12be765a066c8ca9882d8a6ad12d2006fcde",
+  "acceptedL5Sha256": "985e5ead945ac742a7df5370c0009b2e8f1aab357286ad2cb67b3cf01c858988",
+  "parentTwoP1Confirmed": true,
+  "namespace": {
+    "case": "RV494B-REQ-NS",
+    "snapshot": {
+      "schemaVersion": 1,
+      "snapshotId": "fixture:parent-ac82:2:0-1",
+      "missionId": "mission:parent-ac82",
+      "binaryArtifacts": [
+        {
+          "schemaVersion": 1,
+          "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "moduleName": "fixture-alpha.exe",
+          "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "versionLabel": "fixture-v1",
+          "format": "PE32",
+          "architecture": "x86-32",
+          "imageBase": "0x400000",
+          "idbIdentity": "",
+          "sections": [],
+          "provenance": {
+            "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+            "siteRva": null,
+            "siteKind": "extractor",
+            "xrefType": "none",
+            "source": "fixture-extractor",
+            "sourceVersion": "v1",
+            "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+            "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259"
+          },
+          "analysisVersion": "l1-contract-v1",
+          "extractorVersion": "fixture-not-native"
+        }
+      ],
+      "nodes": [
+        {
+          "schemaVersion": 1,
+          "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "rva": "0x2000",
+          "ea": "0x402000",
+          "imageBase": "0x400000",
+          "name": "",
+          "observedDescription": "",
+          "boundaries": [
+            {
+              "ordinal": 0,
+              "rva": "0x2000",
+              "endRvaExclusive": "0x2010",
+              "role": "entry"
+            }
+          ],
+          "sizeBytes": {
+            "known": true,
+            "value": 16
+          },
+          "instructionCount": {
+            "known": false,
+            "value": null
+          },
+          "basicBlockCount": {
+            "known": false,
+            "value": null
+          },
+          "functionClass": "internal",
+          "status": "observed",
+          "semanticMaturity": "none",
+          "analysisRefs": [],
+          "byteAgreement": "unknown",
+          "admissibleAsOracle": false,
+          "byteDivergence": {
+            "known": false,
+            "peMismatchByteCount": null,
+            "frozenSha256": null,
+            "peSha256": null
+          }
+        },
+        {
+          "schemaVersion": 1,
+          "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "rva": "0x2100",
+          "ea": "0x402100",
+          "imageBase": "0x400000",
+          "name": "",
+          "observedDescription": "",
+          "boundaries": [
+            {
+              "ordinal": 0,
+              "rva": "0x2100",
+              "endRvaExclusive": "0x2110",
+              "role": "entry"
+            }
+          ],
+          "sizeBytes": {
+            "known": true,
+            "value": 16
+          },
+          "instructionCount": {
+            "known": false,
+            "value": null
+          },
+          "basicBlockCount": {
+            "known": false,
+            "value": null
+          },
+          "functionClass": "internal",
+          "status": "observed",
+          "semanticMaturity": "none",
+          "analysisRefs": [],
+          "byteAgreement": "unknown",
+          "admissibleAsOracle": false,
+          "byteDivergence": {
+            "known": false,
+            "peMismatchByteCount": null,
+            "frozenSha256": null,
+            "peSha256": null
+          }
+        }
+      ],
+      "edges": [
+        {
+          "schemaVersion": 1,
+          "id": "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2",
+          "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "kind": "direct_call",
+          "direction": "source_to_destination",
+          "sites": [
+            {
+              "siteRva": "0x2004",
+              "xrefType": "code",
+              "provenance": {
+                "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                "siteRva": "0x2004",
+                "siteKind": "instruction",
+                "xrefType": "code",
+                "source": "parent-offline-fixture",
+                "sourceVersion": "1",
+                "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+              }
+            }
+          ],
+          "status": "observed",
+          "confidence": "high",
+          "appearedInRevision": 1,
+          "retiredInRevision": null,
+          "schedulerRelevance": "may_block"
+        }
+      ],
+      "objects": [],
+      "unresolved": [],
+      "capabilities": [],
+      "normalizedFingerprint": "994c233dc59aa3344ef0c8686b24cd18a5357ac354728aeb869a496b91927663",
+      "knowledgeRevision": 1,
+      "scope": {
+        "description": "Explicit parent in-memory simulator repro; not native evidence",
+        "moduleSha256s": [
+          "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+        ],
+        "functionCount": 2
+      },
+      "coverage": {
+        "status": "complete",
+        "uncoveredReason": null,
+        "tailsIterated": true,
+        "selfLoopsPreserved": true
+      },
+      "toolVersions": {
+        "extractor": "fixture-extractor",
+        "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "normalizer": "graph-contract-v1"
+      },
+      "configFingerprint": "0405ca43568f09cf87249e9c67e045f2bc95c3ae1c0980436c055e8b5935d690"
+    },
+    "groups": [
+      {
+        "groupId": "group:parent:0",
+        "partitionId": "partition:parent-ac82",
+        "ownedFunctionIds": [
+          "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000"
+        ],
+        "contextFunctionIds": []
+      },
+      {
+        "groupId": "group:parent:1",
+        "partitionId": "partition:parent-ac82",
+        "ownedFunctionIds": [
+          "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100"
+        ],
+        "contextFunctionIds": []
+      }
+    ],
+    "policy": {
+      "version": "parent-ac82-v1",
+      "estimationVersion": "parent-ac82-cost-v1",
+      "partitionId": "partition:parent-ac82",
+      "investigationKind": "structural",
+      "artifactKind": "structural_fact",
+      "publicationLevel": 1,
+      "contextEnvelopeMaxUtf8Bytes": 1000000,
+      "totalContextBudgetUtf8Bytes": 100000000,
+      "maxSelectedUnits": 100,
+      "sccMaxFunctions": 32,
+      "sccMaxIterations": 10,
+      "sccCostBudget": 1000000,
+      "requirementsByFunction": {
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000": {
+          "artifactId": "artifact:parent:0",
+          "artifactSha256": "63b02f5165d5b98403bdf70e2e5a5e7efc1a42347412ccbc0139e75619eabbfd",
+          "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "artifactKind": "structural_fact",
+          "minimumRevision": 1,
+          "maximumRevision": 100,
+          "publicationLevel": 1,
+          "validation": "fixture-only"
+        },
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100": {
+          "artifactId": "artifact:parent:1",
+          "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+          "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+          "artifactKind": "structural_fact",
+          "minimumRevision": 1,
+          "maximumRevision": 100,
+          "publicationLevel": 1,
+          "validation": "fixture-only"
+        }
+      },
+      "estimatesByFunction": {
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000": {
+          "version": "parent-ac82-cost-v1",
+          "A": 1,
+          "B": 1,
+          "R": 1,
+          "validation": 1
+        },
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100": {
+          "version": "parent-ac82-cost-v1",
+          "A": 1,
+          "B": 1,
+          "R": 1,
+          "validation": 1
+        }
+      },
+      "resourcesByFunction": {
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000": {
+          "profiles": [
+            "p"
+          ],
+          "models": [
+            "m"
+          ],
+          "accounts": [
+            "acct"
+          ],
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        },
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100": {
+          "profiles": [
+            "p"
+          ],
+          "models": [
+            "m"
+          ],
+          "accounts": [
+            "acct"
+          ],
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        }
+      },
+      "extraConflictsByFunction": {}
+    },
+    "base": {
+      "projectionVersion": 2,
+      "resourceSemantics": "l5-whole-unit-envelope-per-execution-v2",
+      "resourceModelLimit": "Conservative SIM envelope per execution; NOT equivalent to L5 family packing. A simulated refusal proves neither L5 infeasibility nor real saturation.",
+      "source": {
+        "policyVersion": "parent-ac82-v1",
+        "estimationVersion": "parent-ac82-cost-v1",
+        "knowledgeRevision": 1,
+        "planFingerprint": "3076eae8db6d16cec5b6f635d9d69c488fa6ad846e59d6263c6c78ccab73b88c",
+        "sidecarFingerprint": "15f32569b0ae3512b505d403658cdff8b224baf6f00c02fd40df5baa92ab9a8e",
+        "bindingFingerprint": "57215db173eda46c8ddd9f381e30632aa100b7e2a15f952b344134a2c791c1a8",
+        "relations": [
+          {
+            "relationId": "relation:v1:64461755b6e91406deb9995bae88af9d06748ddecf8a3c6581ca107eb1023a8f",
+            "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+            "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+            "kind": "direct_call",
+            "sourceEdgeIds": [
+              "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2"
+            ],
+            "sites": [
+              {
+                "siteRva": "0x2004",
+                "xrefType": "code",
+                "provenance": {
+                  "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                  "siteRva": "0x2004",
+                  "siteKind": "instruction",
+                  "xrefType": "code",
+                  "source": "parent-offline-fixture",
+                  "sourceVersion": "1",
+                  "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                  "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                }
+              }
+            ],
+            "observations": [
+              {
+                "metadata": {
+                  "schemaVersion": 1,
+                  "direction": "source_to_destination",
+                  "status": "observed",
+                  "confidence": "high",
+                  "appearedInRevision": 1,
+                  "retiredInRevision": null,
+                  "schedulerRelevance": "may_block"
+                },
+                "sourceEdgeIds": [
+                  "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2"
+                ],
+                "sites": [
+                  {
+                    "siteRva": "0x2004",
+                    "xrefType": "code",
+                    "provenance": {
+                      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                      "siteRva": "0x2004",
+                      "siteKind": "instruction",
+                      "xrefType": "code",
+                      "source": "parent-offline-fixture",
+                      "sourceVersion": "1",
+                      "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                      "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                    }
+                  }
+                ],
+                "sitesBySourceEdgeId": {
+                  "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2": [
+                    {
+                      "siteRva": "0x2004",
+                      "xrefType": "code",
+                      "provenance": {
+                        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                        "siteRva": "0x2004",
+                        "siteKind": "instruction",
+                        "xrefType": "code",
+                        "source": "parent-offline-fixture",
+                        "sourceVersion": "1",
+                        "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                        "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "prerequisites": [
+          {
+            "id": "pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+            "kind": "obligatory",
+            "producerUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+            "requiredPublicationLevel": 1,
+            "artifactKind": "structural_fact",
+            "dispensed": false,
+            "dispensationReason": null,
+            "consumerUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29"
+          }
+        ],
+        "diagnostics": [],
+        "dispensations": {},
+        "externalReceipts": {},
+        "prerequisiteEvidence": {
+          "version": 1,
+          "snapshotFingerprint": "994c233dc59aa3344ef0c8686b24cd18a5357ac354728aeb869a496b91927663",
+          "planFingerprint": "3076eae8db6d16cec5b6f635d9d69c488fa6ad846e59d6263c6c78ccab73b88c",
+          "sidecarFingerprint": "15f32569b0ae3512b505d403658cdff8b224baf6f00c02fd40df5baa92ab9a8e",
+          "bindingFingerprint": "57215db173eda46c8ddd9f381e30632aa100b7e2a15f952b344134a2c791c1a8",
+          "unitFingerprints": {
+            "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29": "de2f164388ca4e9e033b58b6c70777c4534d60083298e906a9ca35d9b761f175",
+            "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec": "f86f8d2134610c0e7a90595b390dfd262b3c0637fbc19d76aad4a7a440217a4a"
+          },
+          "requirementById": {
+            "pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7": {
+              "artifactId": "artifact:parent:1",
+              "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          },
+          "unresolvedById": {},
+          "fingerprint": "c1ed51d82db84264695691efa32224579cbec77df664cc2dcc58489026e9cc2f"
+        }
+      },
+      "planId": "plan:7b184b1d43c11a15023b99f961092d5ed1f1f054b69a07a327dc8a628493cd59",
+      "missionId": "mission:parent-ac82",
+      "knowledgeRevision": 1,
+      "budgets": {
+        "unit": "utf8-bytes",
+        "contextEnvelopeMaxUtf8Bytes": 1000000,
+        "countsSqliteLength": false,
+        "nativeLineCharLimit": 2000
+      },
+      "g1Edges": [
+        {
+          "fromUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "toUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "kind": "obligatory",
+          "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "storedCallDirection": "source_to_destination"
+        }
+      ],
+      "g2Conflicts": [
+        {
+          "id": "conflict:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875",
+          "kind": "owned_function",
+          "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "withUnitId": null
+        },
+        {
+          "id": "conflict:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+          "kind": "blocking_dependency",
+          "resourceKey": "dependency:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+          "withUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+        },
+        {
+          "id": "conflict:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff",
+          "kind": "owned_function",
+          "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "withUnitId": null
+        }
+      ],
+      "selectedUnitIds": [
+        "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+        "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+      ],
+      "decisions": [
+        {
+          "id": "decision:2b0c019087d530f2eab73e0e503e165db097dfaa9836a577a30b578060678f39",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "action": "include",
+          "reason": "parent-ac82-v1@knowledge:1: complete mandatory closure within budget"
+        },
+        {
+          "id": "decision:1faf172ba5df00bf9663dec50e735667714c8290c6daa3c03b8b6ced89834def",
+          "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "action": "include",
+          "reason": "parent-ac82-v1@knowledge:1: complete mandatory closure within budget"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+          "ownedFunctionIds": [
+            "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "structural",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "requiredProfile": "p",
+          "conflicts": [
+            {
+              "id": "conflict:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875",
+              "kind": "owned_function",
+              "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "withUnitId": null
+            },
+            {
+              "id": "conflict:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+              "kind": "blocking_dependency",
+              "resourceKey": "dependency:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+              "withUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+            }
+          ],
+          "resources": {
+            "kind": "required",
+            "requirement": {
+              "profiles": [
+                "p"
+              ],
+              "models": [
+                "m"
+              ],
+              "accounts": [
+                "acct"
+              ],
+              "tools": [],
+              "slots": 1,
+              "cpu": 1,
+              "gpu": 0,
+              "budget": 1
+            }
+          },
+          "requiredProfiles": [
+            "p"
+          ],
+          "requiredAccounts": [
+            "acct"
+          ],
+          "requiredTools": [],
+          "subIntents": [
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:A",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "A",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:B",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "B",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:R",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "R",
+              "waitsForSubIntentIds": [
+                "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:A",
+                "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:B"
+              ]
+            }
+          ],
+          "allocatedEnvelopeUtf8Bytes": 4008,
+          "sccExclusive": false,
+          "prerequisites": [
+            {
+              "id": "pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+              "kind": "obligatory",
+              "producerUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+              "requiredPublicationLevel": 1,
+              "artifactKind": "structural_fact",
+              "dispensed": false,
+              "dispensationReason": null,
+              "consumerUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29",
+              "relationId": "relation:v1:64461755b6e91406deb9995bae88af9d06748ddecf8a3c6581ca107eb1023a8f",
+              "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "requirement": {
+                "artifactId": "artifact:parent:1",
+                "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+                "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+                "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                "artifactKind": "structural_fact",
+                "minimumRevision": 1,
+                "maximumRevision": 100,
+                "publicationLevel": 1,
+                "validation": "fixture-only"
+              }
+            }
+          ],
+          "outputArtifacts": [
+            {
+              "artifactId": "artifact:parent:0",
+              "artifactSha256": "63b02f5165d5b98403bdf70e2e5a5e7efc1a42347412ccbc0139e75619eabbfd",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          ]
+        },
+        {
+          "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "ownedFunctionIds": [
+            "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "structural",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "requiredProfile": "p",
+          "conflicts": [
+            {
+              "id": "conflict:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff",
+              "kind": "owned_function",
+              "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "withUnitId": null
+            }
+          ],
+          "resources": {
+            "kind": "required",
+            "requirement": {
+              "profiles": [
+                "p"
+              ],
+              "models": [
+                "m"
+              ],
+              "accounts": [
+                "acct"
+              ],
+              "tools": [],
+              "slots": 1,
+              "cpu": 1,
+              "gpu": 0,
+              "budget": 1
+            }
+          },
+          "requiredProfiles": [
+            "p"
+          ],
+          "requiredAccounts": [
+            "acct"
+          ],
+          "requiredTools": [],
+          "subIntents": [
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:A",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "A",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:B",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "B",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:R",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "R",
+              "waitsForSubIntentIds": [
+                "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:A",
+                "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:B"
+              ]
+            }
+          ],
+          "allocatedEnvelopeUtf8Bytes": 3004,
+          "sccExclusive": false,
+          "prerequisites": [],
+          "outputArtifacts": [
+            {
+              "artifactId": "artifact:parent:1",
+              "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          ]
+        }
+      ]
+    },
+    "attackedPlan": {
+      "projectionVersion": 2,
+      "resourceSemantics": "l5-whole-unit-envelope-per-execution-v2",
+      "resourceModelLimit": "Conservative SIM envelope per execution; NOT equivalent to L5 family packing. A simulated refusal proves neither L5 infeasibility nor real saturation.",
+      "source": {
+        "policyVersion": "parent-ac82-v1",
+        "estimationVersion": "parent-ac82-cost-v1",
+        "knowledgeRevision": 1,
+        "planFingerprint": "3076eae8db6d16cec5b6f635d9d69c488fa6ad846e59d6263c6c78ccab73b88c",
+        "sidecarFingerprint": "15f32569b0ae3512b505d403658cdff8b224baf6f00c02fd40df5baa92ab9a8e",
+        "bindingFingerprint": "57215db173eda46c8ddd9f381e30632aa100b7e2a15f952b344134a2c791c1a8",
+        "relations": [
+          {
+            "relationId": "relation:v1:64461755b6e91406deb9995bae88af9d06748ddecf8a3c6581ca107eb1023a8f",
+            "sourceId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+            "destinationId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+            "kind": "direct_call",
+            "sourceEdgeIds": [
+              "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2"
+            ],
+            "sites": [
+              {
+                "siteRva": "0x2004",
+                "xrefType": "code",
+                "provenance": {
+                  "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                  "siteRva": "0x2004",
+                  "siteKind": "instruction",
+                  "xrefType": "code",
+                  "source": "parent-offline-fixture",
+                  "sourceVersion": "1",
+                  "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                  "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                }
+              }
+            ],
+            "observations": [
+              {
+                "metadata": {
+                  "schemaVersion": 1,
+                  "direction": "source_to_destination",
+                  "status": "observed",
+                  "confidence": "high",
+                  "appearedInRevision": 1,
+                  "retiredInRevision": null,
+                  "schedulerRelevance": "may_block"
+                },
+                "sourceEdgeIds": [
+                  "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2"
+                ],
+                "sites": [
+                  {
+                    "siteRva": "0x2004",
+                    "xrefType": "code",
+                    "provenance": {
+                      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                      "siteRva": "0x2004",
+                      "siteKind": "instruction",
+                      "xrefType": "code",
+                      "source": "parent-offline-fixture",
+                      "sourceVersion": "1",
+                      "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                      "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                    }
+                  }
+                ],
+                "sitesBySourceEdgeId": {
+                  "edge:0c6473ef834b83c80f9c6d8a018e6ed39483e2d2": [
+                    {
+                      "siteRva": "0x2004",
+                      "xrefType": "code",
+                      "provenance": {
+                        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+                        "siteRva": "0x2004",
+                        "siteKind": "instruction",
+                        "xrefType": "code",
+                        "source": "parent-offline-fixture",
+                        "sourceVersion": "1",
+                        "sourceHash": "193f747b41ef104195110b9b1b677ed023efe82e6c297c1eba614a094db9a72f",
+                        "evidenceSha256": "0ba1b95890165f593dedc54f956ef7fb30a68fd3b9c513265a2ee7d182fcdb5b"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "prerequisites": [
+          {
+            "id": "pre:b1c415d0546a268d7846579910acf1b8d732e310c89b082284d7a536fa9fb263",
+            "kind": "obligatory",
+            "producerUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+            "requiredPublicationLevel": 1,
+            "artifactKind": "structural_fact",
+            "dispensed": false,
+            "dispensationReason": null,
+            "consumerUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias"
+          }
+        ],
+        "diagnostics": [],
+        "dispensations": {},
+        "externalReceipts": {},
+        "prerequisiteEvidence": {
+          "version": 1,
+          "snapshotFingerprint": "994c233dc59aa3344ef0c8686b24cd18a5357ac354728aeb869a496b91927663",
+          "planFingerprint": "3076eae8db6d16cec5b6f635d9d69c488fa6ad846e59d6263c6c78ccab73b88c",
+          "sidecarFingerprint": "15f32569b0ae3512b505d403658cdff8b224baf6f00c02fd40df5baa92ab9a8e",
+          "bindingFingerprint": "57215db173eda46c8ddd9f381e30632aa100b7e2a15f952b344134a2c791c1a8",
+          "unitFingerprints": {
+            "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29": "de2f164388ca4e9e033b58b6c70777c4534d60083298e906a9ca35d9b761f175",
+            "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec": "f86f8d2134610c0e7a90595b390dfd262b3c0637fbc19d76aad4a7a440217a4a"
+          },
+          "requirementById": {
+            "pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7": {
+              "artifactId": "artifact:parent:1",
+              "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          },
+          "unresolvedById": {},
+          "fingerprint": "c1ed51d82db84264695691efa32224579cbec77df664cc2dcc58489026e9cc2f"
+        }
+      },
+      "planId": "plan:7b184b1d43c11a15023b99f961092d5ed1f1f054b69a07a327dc8a628493cd59",
+      "missionId": "mission:parent-ac82",
+      "knowledgeRevision": 1,
+      "budgets": {
+        "unit": "utf8-bytes",
+        "contextEnvelopeMaxUtf8Bytes": 1000000,
+        "countsSqliteLength": false,
+        "nativeLineCharLimit": 2000
+      },
+      "g1Edges": [
+        {
+          "fromUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "toUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+          "kind": "obligatory",
+          "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "storedCallDirection": "source_to_destination"
+        }
+      ],
+      "g2Conflicts": [
+        {
+          "id": "conflict:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875",
+          "kind": "owned_function",
+          "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+          "withUnitId": null
+        },
+        {
+          "id": "conflict:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+          "kind": "blocking_dependency",
+          "resourceKey": "dependency:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+          "withUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+        },
+        {
+          "id": "conflict:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff",
+          "kind": "owned_function",
+          "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+          "withUnitId": null
+        }
+      ],
+      "selectedUnitIds": [
+        "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+      ],
+      "decisions": [
+        {
+          "id": "decision:2b0c019087d530f2eab73e0e503e165db097dfaa9836a577a30b578060678f39",
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+          "action": "include",
+          "reason": "parent-ac82-v1@knowledge:1: complete mandatory closure within budget"
+        },
+        {
+          "id": "decision:1faf172ba5df00bf9663dec50e735667714c8290c6daa3c03b8b6ced89834def",
+          "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "action": "include",
+          "reason": "parent-ac82-v1@knowledge:1: complete mandatory closure within budget"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+          "ownedFunctionIds": [
+            "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "structural",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "requiredProfile": "p",
+          "conflicts": [
+            {
+              "id": "conflict:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875",
+              "kind": "owned_function",
+              "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "withUnitId": null
+            },
+            {
+              "id": "conflict:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+              "kind": "blocking_dependency",
+              "resourceKey": "dependency:pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+              "withUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec"
+            }
+          ],
+          "resources": {
+            "kind": "required",
+            "requirement": {
+              "profiles": [
+                "p"
+              ],
+              "models": [
+                "m"
+              ],
+              "accounts": [
+                "acct"
+              ],
+              "tools": [],
+              "slots": 1,
+              "cpu": 1,
+              "gpu": 0,
+              "budget": 1
+            }
+          },
+          "requiredProfiles": [
+            "p"
+          ],
+          "requiredAccounts": [
+            "acct"
+          ],
+          "requiredTools": [],
+          "subIntents": [
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:A",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "A",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:B",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "B",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:R",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "role": "R",
+              "waitsForSubIntentIds": [
+                "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:A",
+                "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:B"
+              ]
+            }
+          ],
+          "allocatedEnvelopeUtf8Bytes": 4008,
+          "sccExclusive": false,
+          "prerequisites": [
+            {
+              "id": "pre:b1c415d0546a268d7846579910acf1b8d732e310c89b082284d7a536fa9fb263",
+              "kind": "obligatory",
+              "producerUnitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+              "requiredPublicationLevel": 1,
+              "artifactKind": "structural_fact",
+              "dispensed": false,
+              "dispensationReason": null,
+              "consumerUnitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+              "relationId": "relation:v1:64461755b6e91406deb9995bae88af9d06748ddecf8a3c6581ca107eb1023a8f",
+              "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100"
+            }
+          ],
+          "outputArtifacts": [
+            {
+              "artifactId": "artifact:parent:0",
+              "artifactSha256": "63b02f5165d5b98403bdf70e2e5a5e7efc1a42347412ccbc0139e75619eabbfd",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          ]
+        },
+        {
+          "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+          "ownedFunctionIds": [
+            "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "structural",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "requiredProfile": "p",
+          "conflicts": [
+            {
+              "id": "conflict:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff",
+              "kind": "owned_function",
+              "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "withUnitId": null
+            }
+          ],
+          "resources": {
+            "kind": "required",
+            "requirement": {
+              "profiles": [
+                "p"
+              ],
+              "models": [
+                "m"
+              ],
+              "accounts": [
+                "acct"
+              ],
+              "tools": [],
+              "slots": 1,
+              "cpu": 1,
+              "gpu": 0,
+              "budget": 1
+            }
+          },
+          "requiredProfiles": [
+            "p"
+          ],
+          "requiredAccounts": [
+            "acct"
+          ],
+          "requiredTools": [],
+          "subIntents": [
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:A",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "A",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:B",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "B",
+              "waitsForSubIntentIds": []
+            },
+            {
+              "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:R",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "role": "R",
+              "waitsForSubIntentIds": [
+                "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:A",
+                "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:B"
+              ]
+            }
+          ],
+          "allocatedEnvelopeUtf8Bytes": 3004,
+          "sccExclusive": false,
+          "prerequisites": [],
+          "outputArtifacts": [
+            {
+              "artifactId": "artifact:parent:1",
+              "artifactSha256": "c7b924f5d772afcb47ed73d2959e96d716bde4ea605941f2ebf9836d27dea02a",
+              "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+              "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+              "artifactKind": "structural_fact",
+              "minimumRevision": 1,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          ]
+        }
+      ]
+    },
+    "oldPreId": "pre:bbaab6b71f5dcc60906d6770da9e3f0a4b1137be95454bed164e69782b0aaea7",
+    "newPreId": "pre:b1c415d0546a268d7846579910acf1b8d732e310c89b082284d7a536fa9fb263",
+    "diagnostics": [],
+    "archivedEvidenceByteExact": true,
+    "planFingerprintUnchanged": true,
+    "missingOnlyConsumerState": "BLOCKED",
+    "renamedConsumerState": "COMMITTED",
+    "normalCommitTicks": [
+      3,
+      6
+    ],
+    "attackedCommitTicks": [
+      3,
+      6
+    ],
+    "trace": [
+      {
+        "t": 0,
+        "seq": 1,
+        "ev": "unit_state",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "from": "PENDING",
+        "to": "READY",
+        "reason": "prerequisites_verified"
+      },
+      {
+        "t": 0,
+        "seq": 2,
+        "ev": "unit_state",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "from": "READY",
+        "to": "RESERVED",
+        "reason": "reserved_by:parent-final-block"
+      },
+      {
+        "t": 0,
+        "seq": 3,
+        "ev": "context_frozen",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "revision": 1,
+        "manifest": "cb0a946df652c4060ec2f3d7216a42722ac68526286044e6ea640325ca2a59e9",
+        "attempt": 1
+      },
+      {
+        "t": 0,
+        "seq": 5,
+        "ev": "unit_state",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "from": "RESERVED",
+        "to": "RUNNING",
+        "reason": "job_admitted"
+      },
+      {
+        "t": 0,
+        "seq": 6,
+        "ev": "job_start",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "A",
+        "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:A",
+        "workerId": 0,
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/A/1",
+        "endTick": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "cb0a946df652c4060ec2f3d7216a42722ac68526286044e6ea640325ca2a59e9",
+        "outputPath": "outputs/33386323943ff6178ef4d3a153a243c03443526b00b28f419500841f9eeaf267.json"
+      },
+      {
+        "t": 0,
+        "seq": 8,
+        "ev": "job_start",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "B",
+        "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:B",
+        "workerId": 1,
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/B/1",
+        "endTick": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "cb0a946df652c4060ec2f3d7216a42722ac68526286044e6ea640325ca2a59e9",
+        "outputPath": "outputs/3bb2100ab2facb65a07867ffe385c2fb2e5c28318dbe1512ec7123d481976362.json"
+      },
+      {
+        "t": 1,
+        "seq": 10,
+        "ev": "execution_released",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/A/1",
+        "workerId": 0,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 1,
+        "seq": 11,
+        "ev": "job_done",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "A",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/A/1",
+        "workerId": 0,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1"
+      },
+      {
+        "t": 1,
+        "seq": 12,
+        "ev": "execution_released",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/B/1",
+        "workerId": 1,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 1,
+        "seq": 13,
+        "ev": "job_done",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "B",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/B/1",
+        "workerId": 1,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1"
+      },
+      {
+        "t": 1,
+        "seq": 14,
+        "ev": "job_start",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "R",
+        "subIntentId": "sub:5067bd5d19ba4056d005d3869c85944b8cb5ee4d8ca96b0aad35cf4ed9d209ff:R",
+        "workerId": 0,
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/R/1",
+        "endTick": 2,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "5fd97f65b55b60bbfb0c050dd13d050b81e4f681bcabd73b838779f2e9ed2a27",
+        "outputPath": "outputs/cccd06f18dd0d0ff369eb109760ece81b5cf708815ab48f09c42a9b5294a7055.json"
+      },
+      {
+        "t": 2,
+        "seq": 16,
+        "ev": "execution_released",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/R/1",
+        "workerId": 0,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 2,
+        "seq": 17,
+        "ev": "job_done",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100",
+        "role": "R",
+        "executionId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2100/R/1",
+        "workerId": 0,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec/1/1"
+      },
+      {
+        "t": 2,
+        "seq": 18,
+        "ev": "unit_state",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "from": "RUNNING",
+        "to": "VALIDATING",
+        "reason": "all_function_R_complete"
+      },
+      {
+        "t": 3,
+        "seq": 20,
+        "ev": "unit_state",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "from": "VALIDATING",
+        "to": "COMMITTED",
+        "reason": "fixture_commit_readback"
+      },
+      {
+        "t": 3,
+        "seq": 21,
+        "ev": "committed",
+        "unitId": "unit:7b4fbf830d56e37b5e1d54c5b118e083fb2b2962cbd2d078dbd0b5df3afab6ec",
+        "revision": 2,
+        "level": 1
+      },
+      {
+        "t": 3,
+        "seq": 22,
+        "ev": "unit_state",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "from": "PENDING",
+        "to": "READY",
+        "reason": "prerequisites_verified"
+      },
+      {
+        "t": 3,
+        "seq": 23,
+        "ev": "unit_state",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "from": "READY",
+        "to": "RESERVED",
+        "reason": "reserved_by:parent-final-block"
+      },
+      {
+        "t": 3,
+        "seq": 24,
+        "ev": "context_frozen",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "revision": 1,
+        "manifest": "4334f9a47a21d1f0d41afbf6d8eeed7101ac4cf6362ab0729d0ebc33c16a9001",
+        "attempt": 1
+      },
+      {
+        "t": 3,
+        "seq": 26,
+        "ev": "unit_state",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "from": "RESERVED",
+        "to": "RUNNING",
+        "reason": "job_admitted"
+      },
+      {
+        "t": 3,
+        "seq": 27,
+        "ev": "job_start",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "A",
+        "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:A",
+        "workerId": 0,
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/A/1",
+        "endTick": 4,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "4334f9a47a21d1f0d41afbf6d8eeed7101ac4cf6362ab0729d0ebc33c16a9001",
+        "outputPath": "outputs/b327f62e773349a60509a175dfabd7d740c7363f09aad16440d7804da3bd0cdd.json"
+      },
+      {
+        "t": 3,
+        "seq": 29,
+        "ev": "job_start",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "B",
+        "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:B",
+        "workerId": 1,
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/B/1",
+        "endTick": 4,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "4334f9a47a21d1f0d41afbf6d8eeed7101ac4cf6362ab0729d0ebc33c16a9001",
+        "outputPath": "outputs/700d6413e2ac2ba7e6c8899722323c8743ad7101a936bd6065ae78395a0fdcd9.json"
+      },
+      {
+        "t": 4,
+        "seq": 31,
+        "ev": "execution_released",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/A/1",
+        "workerId": 0,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 4,
+        "seq": 32,
+        "ev": "job_done",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "A",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/A/1",
+        "workerId": 0,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1"
+      },
+      {
+        "t": 4,
+        "seq": 33,
+        "ev": "execution_released",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/B/1",
+        "workerId": 1,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 4,
+        "seq": 34,
+        "ev": "job_done",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "B",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/B/1",
+        "workerId": 1,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1"
+      },
+      {
+        "t": 4,
+        "seq": 35,
+        "ev": "job_start",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "R",
+        "subIntentId": "sub:5bb9a6dbc0ae2657c0c7710004b9eea3ea460e374479e5e49a0644bf46656875:R",
+        "workerId": 0,
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/R/1",
+        "endTick": 5,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1",
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        },
+        "contextManifest": "bde52bf0e89064cdb032ed6433f6d9a1f43df725ac0cec06baaa62462ec812a3",
+        "outputPath": "outputs/5a9ca08b3b59ec9f1b2433e211dff73779885cc65856e688856edaeb92102008.json"
+      },
+      {
+        "t": 5,
+        "seq": 37,
+        "ev": "execution_released",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/R/1",
+        "workerId": 0,
+        "token": 1,
+        "occupiedTicks": 1,
+        "reservation": {
+          "accountId": "acct",
+          "slots": 1,
+          "budget": 1
+        }
+      },
+      {
+        "t": 5,
+        "seq": 38,
+        "ev": "job_done",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000",
+        "role": "R",
+        "executionId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x2000/R/1",
+        "workerId": 0,
+        "ticks": 1,
+        "attempt": 1,
+        "token": 1,
+        "familyId": "family:unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias/1/1"
+      },
+      {
+        "t": 5,
+        "seq": 39,
+        "ev": "unit_state",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "from": "RUNNING",
+        "to": "VALIDATING",
+        "reason": "all_function_R_complete"
+      },
+      {
+        "t": 6,
+        "seq": 41,
+        "ev": "unit_state",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "from": "VALIDATING",
+        "to": "COMMITTED",
+        "reason": "fixture_commit_readback"
+      },
+      {
+        "t": 6,
+        "seq": 42,
+        "ev": "committed",
+        "unitId": "unit:025f895a926d2031b83d306db664cf06e7502507ed6b4b432e6068df03574b29:parent-alias",
+        "revision": 3,
+        "level": 1
+      }
+    ]
+  },
+  "retry": {
+    "manualPlan": {
+      "planId": "parent-stale-plan",
+      "missionId": "parent-stale",
+      "knowledgeRevision": 1,
+      "units": [
+        {
+          "unitId": "A",
+          "ownedFunctionIds": [
+            "fn:A"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "decompilation",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "prerequisites": [],
+          "conflicts": []
+        },
+        {
+          "unitId": "B",
+          "ownedFunctionIds": [
+            "fn:B"
+          ],
+          "contextFunctionIds": [],
+          "investigationKind": "decompilation",
+          "requiredPublicationLevel": 1,
+          "knowledgeRevision": 1,
+          "prerequisites": [],
+          "conflicts": []
+        }
+      ],
+      "g1Edges": [],
+      "g2Conflicts": [],
+      "budgets": {
+        "contextEnvelopeMaxUtf8Bytes": 1000000,
+        "nativeLineCharLimit": 2000
+      }
+    },
+    "durations": [
+      [
+        "A",
+        {
+          "A": 5,
+          "B": 5,
+          "R": 2
+        }
+      ],
+      [
+        "B",
+        {
+          "A": 20,
+          "B": 20,
+          "R": 1
+        }
+      ]
+    ],
+    "config": {
+      "controllerId": "parent-final-block",
+      "workers": [
+        {
+          "profile": "p",
+          "model": "m",
+          "accountId": "acct",
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        },
+        {
+          "profile": "p",
+          "model": "m",
+          "accountId": "acct",
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        },
+        {
+          "profile": "p",
+          "model": "m",
+          "accountId": "acct",
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        },
+        {
+          "profile": "p",
+          "model": "m",
+          "accountId": "acct",
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        }
+      ],
+      "accountQuotas": {
+        "acct": 4
+      },
+      "accountCapacities": {
+        "acct": {
+          "slots": 4,
+          "budget": 4
+        }
+      },
+      "leaseTicks": 100,
+      "heartbeatEvery": 0,
+      "validationTicks": 1,
+      "maxAttempts": 3,
+      "maxTicks": 1000,
+      "policy": "event_driven",
+      "rolesParallel": true
+    },
+    "cases": [
+      {
+        "kind": "new_dependency",
+        "retry": true,
+        "expectedLegitimateRetry": false,
+        "Astate": "COMMITTED",
+        "Acommit": 10,
+        "Bcommit": 22,
+        "planFingerprintBefore": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "planFingerprintAfter": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "incidents": [
+          {
+            "kind": "new_dependency",
+            "atTick": 1,
+            "consumerUnitId": "A",
+            "producerUnitId": "B"
+          },
+          {
+            "kind": "stop_confirmed",
+            "atTick": 2,
+            "unitId": "A",
+            "retry": true
+          }
+        ],
+        "trace": [
+          {
+            "t": 0,
+            "seq": 3,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 4,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 5,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 6,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 8,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 9,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+          },
+          {
+            "t": 0,
+            "seq": 11,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+          },
+          {
+            "t": 0,
+            "seq": 13,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 14,
+            "ev": "context_frozen",
+            "unitId": "B",
+            "revision": 1,
+            "manifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 16,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 17,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "subIntentId": "[\"fn:B\",\"A\"]",
+            "workerId": 2,
+            "executionId": "B/fn:B/A/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+          },
+          {
+            "t": 0,
+            "seq": 19,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "subIntentId": "[\"fn:B\",\"B\"]",
+            "workerId": 3,
+            "executionId": "B/fn:B/B/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+          },
+          {
+            "t": 1,
+            "seq": 21,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0"
+          },
+          {
+            "t": 1,
+            "seq": 22,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "STOP_PENDING",
+            "reason": "new_dependency_requires_new_plan"
+          },
+          {
+            "t": 2,
+            "seq": 23,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0
+          },
+          {
+            "t": 2,
+            "seq": 24,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 25,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1
+          },
+          {
+            "t": 2,
+            "seq": 26,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 27,
+            "ev": "worker_stop_confirmed",
+            "unitId": "A"
+          },
+          {
+            "t": 2,
+            "seq": 28,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "STOP_PENDING",
+            "to": "CANCELLED",
+            "reason": "fixture_stop_confirmation"
+          },
+          {
+            "t": 2,
+            "seq": 29,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "CANCELLED",
+            "to": "RETRYABLE",
+            "reason": "confirmed_stop_allows_retry"
+          },
+          {
+            "t": 2,
+            "seq": 30,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RETRYABLE",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 2,
+            "seq": 31,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 2,
+            "seq": 32,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 2
+          },
+          {
+            "t": 2,
+            "seq": 34,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 2,
+            "seq": 35,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/264fd6425e3ed7e2b18e06cfa6caf6407b93a72ed2339d373673f618f5e22553.json"
+          },
+          {
+            "t": 2,
+            "seq": 37,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/e2285e013ef1b8f4b08b4c723ec753ab14b41de16d47f51976120fdf37393e90.json"
+          },
+          {
+            "t": 5,
+            "seq": 39,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/A/1"
+          },
+          {
+            "t": 5,
+            "seq": 40,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/B/1"
+          },
+          {
+            "t": 7,
+            "seq": 41,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 42,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 43,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 44,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 45,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "subIntentId": "[\"fn:A\",\"R\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/R/2",
+            "endTick": 9,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "ae7f375660a4d7252c116b76e3fea702a6651c7add5f70ca099132cedea4f125",
+            "outputPath": "outputs/87e8af02cda79da509e703c9150c2a797f7cf231e20228127a32945929e160c1.json"
+          },
+          {
+            "t": 9,
+            "seq": 47,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 9,
+            "seq": 48,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "ticks": 2,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 9,
+            "seq": 49,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 10,
+            "seq": 51,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 10,
+            "seq": 52,
+            "ev": "committed",
+            "unitId": "A",
+            "revision": 2,
+            "level": 1
+          },
+          {
+            "t": 20,
+            "seq": 53,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 54,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 55,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 56,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 57,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "subIntentId": "[\"fn:B\",\"R\"]",
+            "workerId": 0,
+            "executionId": "B/fn:B/R/1",
+            "endTick": 21,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "fcea7997cc5d511a94264a735749ff57a1ac4cb616ad48b923e1807306c9d312",
+            "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+          },
+          {
+            "t": 21,
+            "seq": 59,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 1
+          },
+          {
+            "t": 21,
+            "seq": 60,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "ticks": 1,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 21,
+            "seq": 61,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 22,
+            "seq": 63,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 22,
+            "seq": 64,
+            "ev": "committed",
+            "unitId": "B",
+            "revision": 3,
+            "level": 1
+          },
+          {
+            "t": 100,
+            "seq": 65,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": null
+          }
+        ]
+      },
+      {
+        "kind": "new_dependency",
+        "retry": false,
+        "expectedLegitimateRetry": false,
+        "Astate": "CANCELLED",
+        "Acommit": null,
+        "Bcommit": 22,
+        "planFingerprintBefore": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "planFingerprintAfter": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "incidents": [
+          {
+            "kind": "new_dependency",
+            "atTick": 1,
+            "consumerUnitId": "A",
+            "producerUnitId": "B"
+          },
+          {
+            "kind": "stop_confirmed",
+            "atTick": 2,
+            "unitId": "A",
+            "retry": false
+          }
+        ],
+        "trace": [
+          {
+            "t": 0,
+            "seq": 3,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 4,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 5,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 6,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 8,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 9,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+          },
+          {
+            "t": 0,
+            "seq": 11,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+          },
+          {
+            "t": 0,
+            "seq": 13,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 14,
+            "ev": "context_frozen",
+            "unitId": "B",
+            "revision": 1,
+            "manifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 16,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 17,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "subIntentId": "[\"fn:B\",\"A\"]",
+            "workerId": 2,
+            "executionId": "B/fn:B/A/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+          },
+          {
+            "t": 0,
+            "seq": 19,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "subIntentId": "[\"fn:B\",\"B\"]",
+            "workerId": 3,
+            "executionId": "B/fn:B/B/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+          },
+          {
+            "t": 1,
+            "seq": 21,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0"
+          },
+          {
+            "t": 1,
+            "seq": 22,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "STOP_PENDING",
+            "reason": "new_dependency_requires_new_plan"
+          },
+          {
+            "t": 2,
+            "seq": 23,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0
+          },
+          {
+            "t": 2,
+            "seq": 24,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 25,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1
+          },
+          {
+            "t": 2,
+            "seq": 26,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 27,
+            "ev": "worker_stop_confirmed",
+            "unitId": "A"
+          },
+          {
+            "t": 2,
+            "seq": 28,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "STOP_PENDING",
+            "to": "CANCELLED",
+            "reason": "fixture_stop_confirmation"
+          },
+          {
+            "t": 5,
+            "seq": 29,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "jobId": "A/fn:A/A/1"
+          },
+          {
+            "t": 5,
+            "seq": 30,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "jobId": "A/fn:A/B/1"
+          },
+          {
+            "t": 20,
+            "seq": 31,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 32,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 33,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 34,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 35,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "subIntentId": "[\"fn:B\",\"R\"]",
+            "workerId": 0,
+            "executionId": "B/fn:B/R/1",
+            "endTick": 21,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "fcea7997cc5d511a94264a735749ff57a1ac4cb616ad48b923e1807306c9d312",
+            "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+          },
+          {
+            "t": 21,
+            "seq": 37,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 1
+          },
+          {
+            "t": 21,
+            "seq": 38,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "ticks": 1,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 21,
+            "seq": 39,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 22,
+            "seq": 41,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 22,
+            "seq": 42,
+            "ev": "committed",
+            "unitId": "B",
+            "revision": 2,
+            "level": 1
+          }
+        ]
+      },
+      {
+        "kind": "invalidate_knowledge",
+        "retry": true,
+        "expectedLegitimateRetry": false,
+        "Astate": "COMMITTED",
+        "Acommit": 10,
+        "Bcommit": 22,
+        "planFingerprintBefore": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "planFingerprintAfter": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "incidents": [
+          {
+            "kind": "invalidate_knowledge",
+            "atTick": 1,
+            "unitIds": [
+              "A"
+            ]
+          },
+          {
+            "kind": "stop_confirmed",
+            "atTick": 2,
+            "unitId": "A",
+            "retry": true
+          }
+        ],
+        "trace": [
+          {
+            "t": 0,
+            "seq": 3,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 4,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 5,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 6,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 8,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 9,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+          },
+          {
+            "t": 0,
+            "seq": 11,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+          },
+          {
+            "t": 0,
+            "seq": 13,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 14,
+            "ev": "context_frozen",
+            "unitId": "B",
+            "revision": 1,
+            "manifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 16,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 17,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "subIntentId": "[\"fn:B\",\"A\"]",
+            "workerId": 2,
+            "executionId": "B/fn:B/A/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+          },
+          {
+            "t": 0,
+            "seq": 19,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "subIntentId": "[\"fn:B\",\"B\"]",
+            "workerId": 3,
+            "executionId": "B/fn:B/B/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+          },
+          {
+            "t": 1,
+            "seq": 21,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "delta": "invalidate_knowledge"
+          },
+          {
+            "t": 1,
+            "seq": 22,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "STOP_PENDING",
+            "reason": "invalidate_knowledge"
+          },
+          {
+            "t": 2,
+            "seq": 23,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0
+          },
+          {
+            "t": 2,
+            "seq": 24,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 25,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1
+          },
+          {
+            "t": 2,
+            "seq": 26,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 27,
+            "ev": "worker_stop_confirmed",
+            "unitId": "A"
+          },
+          {
+            "t": 2,
+            "seq": 28,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "STOP_PENDING",
+            "to": "CANCELLED",
+            "reason": "fixture_stop_confirmation"
+          },
+          {
+            "t": 2,
+            "seq": 29,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "CANCELLED",
+            "to": "RETRYABLE",
+            "reason": "confirmed_stop_allows_retry"
+          },
+          {
+            "t": 2,
+            "seq": 30,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RETRYABLE",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 2,
+            "seq": 31,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 2,
+            "seq": 32,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 2
+          },
+          {
+            "t": 2,
+            "seq": 34,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 2,
+            "seq": 35,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/264fd6425e3ed7e2b18e06cfa6caf6407b93a72ed2339d373673f618f5e22553.json"
+          },
+          {
+            "t": 2,
+            "seq": 37,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/e2285e013ef1b8f4b08b4c723ec753ab14b41de16d47f51976120fdf37393e90.json"
+          },
+          {
+            "t": 5,
+            "seq": 39,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/A/1"
+          },
+          {
+            "t": 5,
+            "seq": 40,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/B/1"
+          },
+          {
+            "t": 7,
+            "seq": 41,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 42,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 43,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 44,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 45,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "subIntentId": "[\"fn:A\",\"R\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/R/2",
+            "endTick": 9,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "ae7f375660a4d7252c116b76e3fea702a6651c7add5f70ca099132cedea4f125",
+            "outputPath": "outputs/87e8af02cda79da509e703c9150c2a797f7cf231e20228127a32945929e160c1.json"
+          },
+          {
+            "t": 9,
+            "seq": 47,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 9,
+            "seq": 48,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "ticks": 2,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 9,
+            "seq": 49,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 10,
+            "seq": 51,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 10,
+            "seq": 52,
+            "ev": "committed",
+            "unitId": "A",
+            "revision": 2,
+            "level": 1
+          },
+          {
+            "t": 20,
+            "seq": 53,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 54,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 55,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 56,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 57,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "subIntentId": "[\"fn:B\",\"R\"]",
+            "workerId": 0,
+            "executionId": "B/fn:B/R/1",
+            "endTick": 21,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "fcea7997cc5d511a94264a735749ff57a1ac4cb616ad48b923e1807306c9d312",
+            "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+          },
+          {
+            "t": 21,
+            "seq": 59,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 1
+          },
+          {
+            "t": 21,
+            "seq": 60,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "ticks": 1,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 21,
+            "seq": 61,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 22,
+            "seq": 63,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 22,
+            "seq": 64,
+            "ev": "committed",
+            "unitId": "B",
+            "revision": 3,
+            "level": 1
+          },
+          {
+            "t": 100,
+            "seq": 65,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": null
+          }
+        ]
+      },
+      {
+        "kind": "new_scc",
+        "retry": true,
+        "expectedLegitimateRetry": false,
+        "Astate": "COMMITTED",
+        "Acommit": 10,
+        "Bcommit": 22,
+        "planFingerprintBefore": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "planFingerprintAfter": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "incidents": [
+          {
+            "kind": "new_scc",
+            "atTick": 1,
+            "unitIds": [
+              "A"
+            ]
+          },
+          {
+            "kind": "stop_confirmed",
+            "atTick": 2,
+            "unitId": "A",
+            "retry": true
+          }
+        ],
+        "trace": [
+          {
+            "t": 0,
+            "seq": 3,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 4,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 5,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 6,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 8,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 9,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+          },
+          {
+            "t": 0,
+            "seq": 11,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+          },
+          {
+            "t": 0,
+            "seq": 13,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 14,
+            "ev": "context_frozen",
+            "unitId": "B",
+            "revision": 1,
+            "manifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 16,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 17,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "subIntentId": "[\"fn:B\",\"A\"]",
+            "workerId": 2,
+            "executionId": "B/fn:B/A/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+          },
+          {
+            "t": 0,
+            "seq": 19,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "subIntentId": "[\"fn:B\",\"B\"]",
+            "workerId": 3,
+            "executionId": "B/fn:B/B/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+          },
+          {
+            "t": 1,
+            "seq": 21,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "delta": "new_scc"
+          },
+          {
+            "t": 1,
+            "seq": 22,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "STOP_PENDING",
+            "reason": "new_scc"
+          },
+          {
+            "t": 2,
+            "seq": 23,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0
+          },
+          {
+            "t": 2,
+            "seq": 24,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 25,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1
+          },
+          {
+            "t": 2,
+            "seq": 26,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 27,
+            "ev": "worker_stop_confirmed",
+            "unitId": "A"
+          },
+          {
+            "t": 2,
+            "seq": 28,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "STOP_PENDING",
+            "to": "CANCELLED",
+            "reason": "fixture_stop_confirmation"
+          },
+          {
+            "t": 2,
+            "seq": 29,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "CANCELLED",
+            "to": "RETRYABLE",
+            "reason": "confirmed_stop_allows_retry"
+          },
+          {
+            "t": 2,
+            "seq": 30,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RETRYABLE",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 2,
+            "seq": 31,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 2,
+            "seq": 32,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 2
+          },
+          {
+            "t": 2,
+            "seq": 34,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 2,
+            "seq": 35,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/264fd6425e3ed7e2b18e06cfa6caf6407b93a72ed2339d373673f618f5e22553.json"
+          },
+          {
+            "t": 2,
+            "seq": 37,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/e2285e013ef1b8f4b08b4c723ec753ab14b41de16d47f51976120fdf37393e90.json"
+          },
+          {
+            "t": 5,
+            "seq": 39,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/A/1"
+          },
+          {
+            "t": 5,
+            "seq": 40,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/B/1"
+          },
+          {
+            "t": 7,
+            "seq": 41,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 42,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 43,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 44,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 45,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "subIntentId": "[\"fn:A\",\"R\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/R/2",
+            "endTick": 9,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "ae7f375660a4d7252c116b76e3fea702a6651c7add5f70ca099132cedea4f125",
+            "outputPath": "outputs/87e8af02cda79da509e703c9150c2a797f7cf231e20228127a32945929e160c1.json"
+          },
+          {
+            "t": 9,
+            "seq": 47,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 9,
+            "seq": 48,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "ticks": 2,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 9,
+            "seq": 49,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 10,
+            "seq": 51,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 10,
+            "seq": 52,
+            "ev": "committed",
+            "unitId": "A",
+            "revision": 2,
+            "level": 1
+          },
+          {
+            "t": 20,
+            "seq": 53,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 54,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 55,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 56,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 57,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "subIntentId": "[\"fn:B\",\"R\"]",
+            "workerId": 0,
+            "executionId": "B/fn:B/R/1",
+            "endTick": 21,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "fcea7997cc5d511a94264a735749ff57a1ac4cb616ad48b923e1807306c9d312",
+            "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+          },
+          {
+            "t": 21,
+            "seq": 59,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 1
+          },
+          {
+            "t": 21,
+            "seq": 60,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "ticks": 1,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 21,
+            "seq": 61,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 22,
+            "seq": 63,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 22,
+            "seq": 64,
+            "ev": "committed",
+            "unitId": "B",
+            "revision": 3,
+            "level": 1
+          },
+          {
+            "t": 100,
+            "seq": 65,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": null
+          }
+        ]
+      },
+      {
+        "kind": "cancel",
+        "retry": true,
+        "expectedLegitimateRetry": true,
+        "Astate": "COMMITTED",
+        "Acommit": 10,
+        "Bcommit": 22,
+        "planFingerprintBefore": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "planFingerprintAfter": "efa313fa5d1aabb8c25778122022518464d662b0c58ca143bedd12d16da0e8a5",
+        "incidents": [
+          {
+            "kind": "cancel",
+            "atTick": 1,
+            "unitId": "A"
+          },
+          {
+            "kind": "stop_confirmed",
+            "atTick": 2,
+            "unitId": "A",
+            "retry": true
+          }
+        ],
+        "trace": [
+          {
+            "t": 0,
+            "seq": 3,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 4,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "PENDING",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 0,
+            "seq": 5,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 6,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 8,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 9,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/214aa2ecd14fa9d5fc8471b11c9a8984f32cf9d3600648e17f584b88bccacfdc.json"
+          },
+          {
+            "t": 0,
+            "seq": 11,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/1",
+            "endTick": 5,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:A/1/1",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/3871ddbb352180fb0482cf8f1149eaa725c1364ef0efa83e07e33e4fad26e753.json"
+          },
+          {
+            "t": 0,
+            "seq": 13,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 0,
+            "seq": 14,
+            "ev": "context_frozen",
+            "unitId": "B",
+            "revision": 1,
+            "manifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "attempt": 1
+          },
+          {
+            "t": 0,
+            "seq": 16,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 0,
+            "seq": 17,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "subIntentId": "[\"fn:B\",\"A\"]",
+            "workerId": 2,
+            "executionId": "B/fn:B/A/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/2638f5b0df8934b0680c5ba0ea1e41cc0f0a0598369b48e3a5fb72c6b886ca0c.json"
+          },
+          {
+            "t": 0,
+            "seq": 19,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "subIntentId": "[\"fn:B\",\"B\"]",
+            "workerId": 3,
+            "executionId": "B/fn:B/B/1",
+            "endTick": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "1aca71d2802287dc8f8b475e27c46719602669226b5b14080a4daab3f0305f04",
+            "outputPath": "outputs/9a1eec19e160526783de7e9ccbc83ebdb1175de27e47a035846da7658e9f3b39.json"
+          },
+          {
+            "t": 1,
+            "seq": 21,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "STOP_PENDING",
+            "reason": "cancel_requires_stop_proof"
+          },
+          {
+            "t": 2,
+            "seq": 22,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0
+          },
+          {
+            "t": 2,
+            "seq": 23,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 24,
+            "ev": "job_stop_confirmed",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1
+          },
+          {
+            "t": 2,
+            "seq": 25,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/1",
+            "workerId": 1,
+            "token": 1,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 2,
+            "seq": 26,
+            "ev": "worker_stop_confirmed",
+            "unitId": "A"
+          },
+          {
+            "t": 2,
+            "seq": 27,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "STOP_PENDING",
+            "to": "CANCELLED",
+            "reason": "fixture_stop_confirmation"
+          },
+          {
+            "t": 2,
+            "seq": 28,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "CANCELLED",
+            "to": "RETRYABLE",
+            "reason": "confirmed_stop_allows_retry"
+          },
+          {
+            "t": 2,
+            "seq": 29,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RETRYABLE",
+            "to": "READY",
+            "reason": "prerequisites_verified"
+          },
+          {
+            "t": 2,
+            "seq": 30,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "READY",
+            "to": "RESERVED",
+            "reason": "reserved_by:parent-final-block"
+          },
+          {
+            "t": 2,
+            "seq": 31,
+            "ev": "context_frozen",
+            "unitId": "A",
+            "revision": 1,
+            "manifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "attempt": 2
+          },
+          {
+            "t": 2,
+            "seq": 33,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RESERVED",
+            "to": "RUNNING",
+            "reason": "job_admitted"
+          },
+          {
+            "t": 2,
+            "seq": 34,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "subIntentId": "[\"fn:A\",\"A\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/A/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/264fd6425e3ed7e2b18e06cfa6caf6407b93a72ed2339d373673f618f5e22553.json"
+          },
+          {
+            "t": 2,
+            "seq": 36,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "subIntentId": "[\"fn:A\",\"B\"]",
+            "workerId": 1,
+            "executionId": "A/fn:A/B/2",
+            "endTick": 7,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "08613570077856897dbd695c1b939fc34b642a73285771168925b2db4439f9c0",
+            "outputPath": "outputs/e2285e013ef1b8f4b08b4c723ec753ab14b41de16d47f51976120fdf37393e90.json"
+          },
+          {
+            "t": 5,
+            "seq": 38,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/A/1"
+          },
+          {
+            "t": 5,
+            "seq": 39,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": "A/fn:A/B/1"
+          },
+          {
+            "t": 7,
+            "seq": 40,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 41,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "A",
+            "executionId": "A/fn:A/A/2",
+            "workerId": 0,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 42,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "token": 2,
+            "occupiedTicks": 5
+          },
+          {
+            "t": 7,
+            "seq": 43,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "B",
+            "executionId": "A/fn:A/B/2",
+            "workerId": 1,
+            "ticks": 5,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 7,
+            "seq": 44,
+            "ev": "job_start",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "subIntentId": "[\"fn:A\",\"R\"]",
+            "workerId": 0,
+            "executionId": "A/fn:A/R/2",
+            "endTick": 9,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2",
+            "contextManifest": "ae7f375660a4d7252c116b76e3fea702a6651c7add5f70ca099132cedea4f125",
+            "outputPath": "outputs/87e8af02cda79da509e703c9150c2a797f7cf231e20228127a32945929e160c1.json"
+          },
+          {
+            "t": 9,
+            "seq": 46,
+            "ev": "execution_released",
+            "unitId": "A",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "token": 2,
+            "occupiedTicks": 2
+          },
+          {
+            "t": 9,
+            "seq": 47,
+            "ev": "job_done",
+            "unitId": "A",
+            "functionId": "fn:A",
+            "role": "R",
+            "executionId": "A/fn:A/R/2",
+            "workerId": 0,
+            "ticks": 2,
+            "attempt": 2,
+            "token": 2,
+            "familyId": "family:A/2/2"
+          },
+          {
+            "t": 9,
+            "seq": 48,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 10,
+            "seq": 50,
+            "ev": "unit_state",
+            "unitId": "A",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 10,
+            "seq": 51,
+            "ev": "committed",
+            "unitId": "A",
+            "revision": 2,
+            "level": 1
+          },
+          {
+            "t": 20,
+            "seq": 52,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 53,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "A",
+            "executionId": "B/fn:B/A/1",
+            "workerId": 2,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 54,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "token": 1,
+            "occupiedTicks": 20
+          },
+          {
+            "t": 20,
+            "seq": 55,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "B",
+            "executionId": "B/fn:B/B/1",
+            "workerId": 3,
+            "ticks": 20,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 20,
+            "seq": 56,
+            "ev": "job_start",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "subIntentId": "[\"fn:B\",\"R\"]",
+            "workerId": 0,
+            "executionId": "B/fn:B/R/1",
+            "endTick": 21,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1",
+            "contextManifest": "fcea7997cc5d511a94264a735749ff57a1ac4cb616ad48b923e1807306c9d312",
+            "outputPath": "outputs/8eb87807011c2f5baaa623110fd7a419c135a08852c3954b416bfc8b015facd3.json"
+          },
+          {
+            "t": 21,
+            "seq": 58,
+            "ev": "execution_released",
+            "unitId": "B",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "token": 1,
+            "occupiedTicks": 1
+          },
+          {
+            "t": 21,
+            "seq": 59,
+            "ev": "job_done",
+            "unitId": "B",
+            "functionId": "fn:B",
+            "role": "R",
+            "executionId": "B/fn:B/R/1",
+            "workerId": 0,
+            "ticks": 1,
+            "attempt": 1,
+            "token": 1,
+            "familyId": "family:B/1/1"
+          },
+          {
+            "t": 21,
+            "seq": 60,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "RUNNING",
+            "to": "VALIDATING",
+            "reason": "all_function_R_complete"
+          },
+          {
+            "t": 22,
+            "seq": 62,
+            "ev": "unit_state",
+            "unitId": "B",
+            "from": "VALIDATING",
+            "to": "COMMITTED",
+            "reason": "fixture_commit_readback"
+          },
+          {
+            "t": 22,
+            "seq": 63,
+            "ev": "committed",
+            "unitId": "B",
+            "revision": 3,
+            "level": 1
+          },
+          {
+            "t": 100,
+            "seq": 64,
+            "ev": "late_event_ignored",
+            "unitId": "A",
+            "token": 1,
+            "currentToken": 2,
+            "jobId": null
+          }
+        ]
+      }
+    ]
+  },
+  "all377InputPinsExact": true,
+  "noDatabaseSubmitNativeOrWorkerSourceChange": true,
+  "notClaimingBothNewRegressions": true,
+  "sourceAlreadyAstraMaxNoNewCorrectorAdmitted": true,
+  "accepted": false,
+  "integrated": false
+}

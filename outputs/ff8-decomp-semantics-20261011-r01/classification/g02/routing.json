@@ -1,0 +1,154 @@
+{
+  "schema": "ff8-classification-routing-v1",
+  "status": "DISPATCH_READY",
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g02",
+  "owner": "classify-g02",
+  "SOURCE": "discover-g02",
+  "source_session_id": "ses_ed42744d1ffesQe83Wpxuz0q7P",
+  "context": {"mode": "fork", "from": "discover-g02"},
+  "authority": "Proposed dispatch only; lead alone spawns, verifies effective Model.Ref, admits, validates ASM and integrates.",
+  "new_classifier_calls": 0,
+  "classifier_kind": "classify_x86",
+  "risk_field": "Native uncertainty used as operational risk proxy; no fabricated risk score or calibrated probability.",
+  "input_root": "inputs/ff8-decomp-semantics-20261011-r01/g02/",
+  "receipt_root": "outputs/ff8-decomp-semantics-20261011-r01/classification/g02/receipts/",
+  "common_compaction_sha256": "abd0d35bc10361b0176d6b94098e638b312ebb9a90784a14509f56e6a2b40b34",
+  "authority_hashes": {
+    "CONTRACT.md": "7b8ba0b31125baccab6fbeb0a9cf06d93753b506cbfdb690829fa209fd6aa329",
+    "native-groups.json": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+    "native-pe-verification.json": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "catalogue.snapshot.json": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75",
+    "discover-g02.final.readback.json": "0d1308bf591d3bda3e830b1d38e7486d3ab3c4f2c3b2c51e454a215d4d013159"
+  },
+  "verification": {
+    "all_six_input_files_byte_identical_to_native_freeze": true,
+    "all_six_native_manifest_sha256_match": true,
+    "all_six_native_pe_and_freeze_equal": true,
+    "all_six_requests_exactly_equal_common_comment_encoding_plus_full_asm": true,
+    "common_encoding": "; COMMON FACTUAL DISCOVERY (not target code)\n + LF.join('; ' + each common-compaction line) + \n; TARGET ASM COMPLETE\n + complete native assembly",
+    "all_six_architectures": "x86-32",
+    "all_six_request_cfg_and_basic_blocks_equal_native": true,
+    "common_compaction_native_audit": "Native instruction/CFG counts, leaf versus direct-call facts, arithmetic widths, FIFO updates, x87 conversion sequences, 3-iteration matrix loop and five-DWORD copy, and rotation helper sign/store layouts checked against the frozen packets. Historical labels/doc interpretations remain non-authoritative. No target C/verdict generated.",
+    "name_based_surclassement": false
+  },
+  "independence": "Each A and B is a distinct new fork directly from SOURCE=discover-g02, not from classify-g02 or siblings. C and semantic authors disjoint. Each R is a distinct new session after its A+B deposits; inspect their frozen deliverables against native ASM, never inherit a producer's history.",
+  "model_routes": {
+    "medium": {
+      "c": {"mode": "2+1", "A": {"model": "zai-coding-plan/glm-5.3-flash", "variant": "max"}, "B": {"model": "opencode-go/gpt-6-luna", "variant": "medium"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high"}},
+      "semantic": {"mode": "2+1", "A": {"model": "openai/gpt-6.1-sol", "variant": "medium"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "medium"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high"}}
+    },
+    "complex": {
+      "c": {"mode": "2+1", "A": {"model": "openai/gpt-6-astra", "variant": "high"}, "B": {"model": "opencode/claude-opus-5-5", "variant": "high"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high"}},
+      "semantic": {"mode": "2+1", "A": {"model": "openai/gpt-6.1-sol", "variant": "high"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "high"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high"}}
+    }
+  },
+  "model_admission": "Exact IDs/variants from frozen catalogue, not runtime availability guarantees. Lead must verify Model.Ref at creation; no silent default or automatic fallback authorized.",
+  "dispatches": [
+    {
+      "ea": "0x45E610", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "medium",
+      "instructions": 18, "basic_blocks": 1, "complexity": 2, "uncertainty": 21,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "input_sha256": "942cc92944c0c0364bd9efa7a43e04b381f5fc1cdca6710c180140ba7b5af909",
+      "request_sha256": "33e60ad6d1ff7b5f1f5fe3620ad722584ccbfb7ca266ff5adba82ea1093beddd",
+      "response_sha256": "73d7fa6b9e830f672d9423ca4bddd96d9bfb3e2e7628aed58d06cf7dfb08e0ff",
+      "rationale": "Not simple: uncertainty 21 exceeds risk<=20 despite 18 straight-line instructions and complexity 2. Medium thresholds met. Preserve masked unsigned-16 inputs, sign-extended scale, low-32 IMUL wrapping at 0045E655 and logical SHR at 0045E658; do not replace with signed overflow or arithmetic shift.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E610/semantic/R/"
+      }
+    },
+    {
+      "ea": "0x45E9D0", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "complex",
+      "instructions": 109, "basic_blocks": 22, "complexity": 74, "uncertainty": 32,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "input_sha256": "20a01d8e22132e51bd91786c830d7529b9608a3d0cdabc88a1981ffcda06cf5e",
+      "request_sha256": "39afe2b07af99b4b36032f1197ef87f28515f1493ecf995d44e49906fa33f083",
+      "response_sha256": "e9b3026c629c9e0e6e76e1b04e920e7080fadb8db647a4846d786a158b0d3538",
+      "rationale": "Complexity 74 exceeds medium<=65, no discretionary surclassement needed. Native 22-block clamp/flag CFG and x87 magic-double stores 0045EA2C-0045EA84 require exact rounding, register/global widths, FIFO order and path-dependent EAX treatment; no operation name inferred.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45E9D0/semantic/R/"
+      }
+    },
+    {
+      "ea": "0x45EBF0", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "complex",
+      "instructions": 116, "basic_blocks": 22, "complexity": 74, "uncertainty": 32,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "input_sha256": "dd7611f37d54d96d1f3d3fdcb221a43aac2e371f1006d9733df00a1273427c4e",
+      "request_sha256": "38ed1edde122e07bc6c4fb9d69876ea07c0105092c2a4faa35995c6498992ff3",
+      "response_sha256": "bb3394f2e50ca783ff8b9903c39164e229069aba98302e96c954bd727db18cb3",
+      "rationale": "Complexity 74 exceeds medium<=65. Native 22-block clamp/flag CFG with prior MAC accumulation and x87 conversion 0045EC58-0045ECBD; distinguish native operand flows from sibling, preserve narrowing and path-dependent EAX. No name-based escalation.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x45EBF0/semantic/R/"
+      }
+    },
+    {
+      "ea": "0x56C090", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "medium",
+      "instructions": 116, "basic_blocks": 3, "complexity": 62, "uncertainty": 30,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "semantic_model_override": {"A": {"model": "openai/gpt-6.1-sol", "variant": "high"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "high"}},
+      "input_sha256": "e68f56607e807248d56cc62139e98f0783ff8f47fb67210c5983f809fc4ed1ad",
+      "request_sha256": "d93fe3a081d086fe933b656627f7e63c229f57f7f2a0c480bce3388cf8a34e9d",
+      "response_sha256": "b92d7a97a5e1d6f0c783364ef09b300033928bdc92afb366a29aacda04f7a4ac",
+      "rationale": "Medium score/instruction thresholds met; three-block direct loop, no unresolved indirect control. Semantic effort raised to high for native x87-stack/magic-double data flow and 18 initialized result bytes versus 20 copied bytes: 0056C196/1BF/1DE store WORDs over three iterations, 0056C215 copies final DWORD. Preserve unconstrained trailing bytes rather than invent initialization or silently assert portable C behavior. No numeric score alteration; unresolved proof defects go to lead.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x56C090/semantic/R/"
+      }
+    },
+    {
+      "ea": "0x701220", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "medium",
+      "instructions": 29, "basic_blocks": 1, "complexity": 30, "uncertainty": 25,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "input_sha256": "5a2d2dd11b9e5f5d5e3ec79fd236f5bbc03a85ec1d9b7065538ef166905b9141",
+      "request_sha256": "a286aa9affaabb806c1a2cf03dd15ad8e241d938a6c031e92a22cfa0c69afe7e",
+      "response_sha256": "4c2ffff5dff18805e496a96bbf23b38c7ae1046574810f88959ab921636214f3",
+      "rationale": "Not simple: complexity30>25 and uncertainty25>20. Medium thresholds met. Two resolved direct calls 0070123F/1247; preserve sign-extended angle, call order, cdecl cleanup, cosine EAX, exact WORD stores and 20-byte zero footprint at 0070123C, not an 18-byte-only matrix abstraction.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x701220/semantic/R/"
+      }
+    },
+    {
+      "ea": "0x7012C0", "SOURCE": "discover-g02", "status": "DISPATCH_READY", "route": "medium",
+      "instructions": 29, "basic_blocks": 1, "complexity": 31, "uncertainty": 26,
+      "c_mode": "2+1", "semantic_mode": "2+1",
+      "input_sha256": "1266b0df632a32ee19635b92615cab7a74f81d7e9bd28c0c70afcb3fd08f3ba8",
+      "request_sha256": "5d46a784abdc98591efaaf705aaceb63b7a76eaa338c8abe856594c954ab86d7",
+      "response_sha256": "5e546428184b98ae8ec7aebe485802b0f3552475d58ec3c72fcdb93997f36628",
+      "rationale": "Not simple: complexity31>25 and uncertainty26>20. Medium thresholds met. Two resolved direct calls 007012DF/12E7; preserve angle sign extension, sign/order of coefficient WORD stores, call/return ABI and 20-byte zero footprint at 007012DC; no normalization from labels.",
+      "output_paths": {
+        "c_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/c/A/",
+        "c_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/c/B/",
+        "c_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/c/R/",
+        "semantic_A": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/semantic/A/",
+        "semantic_B": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/semantic/B/",
+        "semantic_R": "outputs/ff8-decomp-semantics-20261011-r01/productions/g02/0x7012C0/semantic/R/"
+      }
+    }
+  ],
+  "blocked_eas": [],
+  "launch_order": "Per EA, C_A/C_B and semantic_A/semantic_B may run concurrently as independent direct SOURCE forks. C_R waits for c_A+c_B; semantic_R waits for semantic_A+semantic_B. Lead final cross-check waits for both R. No sessions started by this worker."
+}

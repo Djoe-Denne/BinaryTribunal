@@ -1,0 +1,137 @@
+diff --git a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/re-graph-scheduler/review-20261014/L2FINAL/tools/ff8-harness/src/capabilities.ts b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/re-graph-scheduler/review-20261014/L2IDSV5/tools/ff8-harness/src/capabilities.ts
+index 616fd24..b355d95 100644
+--- a/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/re-graph-scheduler/review-20261014/L2FINAL/tools/ff8-harness/src/capabilities.ts
++++ b/C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/re-graph-scheduler/review-20261014/L2IDSV5/tools/ff8-harness/src/capabilities.ts
+@@ -11,7 +11,7 @@ import {
+ } from "./graph";
+ 
+ export const CAPABILITY_RULESET_ID = "tools/ff8-harness/src/capabilities.ts";
+-export const CAPABILITY_RULESET_VERSION = "l2-local-rules-v4";
++export const CAPABILITY_RULESET_VERSION = "l2-local-rules-v5";
+ 
+ export interface CapabilityConfig {
+   /** 0 disables propagation; 1 copies callee facts to direct callers as inferred/propagated. */
+@@ -55,9 +55,32 @@ const TABLE_DISPATCH_RULES: ReadonlyArray<{ match: RegExp; capability: string; r
+ ];
+ const RULES_DIGEST: Sha256 = hash(canonical({ import: IMPORT_RULES, table: TABLE_DISPATCH_RULES.map(rule => ({ ...rule, match: rule.match.source })) }));
+ 
+-function factId(parts: Record<string, unknown>): string { return `cap:${hash(canonical(parts)).slice(0, 24)}`; }
++function factId(parts: Record<string, unknown>): string { return `cap:${hash(canonical({ domain: "l2-capability-fact-v5", parts }))}`; }
+ function evidenceFrom(record: unknown, id: string, source: string, detail: string): EvidenceRef {
+-  return { id, source, sha256: hash(canonical(record)), detail };
++  const sha256 = hash(canonical(record));
++  // The bounded identifier is not a lossy substitute for the source citation.
++  // JSON quoting in the final line preserves even embedded newlines/Unicode IDs.
++  return { id: `ev:${hash(canonical({ domain: "l2-capability-evidence-v5", source, id, sha256 }))}`, source, sha256, detail: `${detail}\n${canonical({ sourceId: id })}` };
++}
++function regionSubjects(objects: readonly ReferencedObjectV1[]): Map<string, string> {
++  const subjects = new Map(objects.map(object => [object.id, object.id]));
++  // Reserve ALL originals, including nonmatching objects and long IDs, before
++  // allocation. A legal short source ID can equal another object's hash alias.
++  const reserved = new Set(subjects.keys());
++  const longObjects = objects.filter(object => [...object.id].length > 128).sort((a, b) => compareText(a.id, b.id));
++  for (const object of longObjects) {
++    const base = `cap-region:v1:${hash(canonical({ domain: "l2-capability-region-v1", moduleSha256: object.moduleSha256, originalObjectId: object.id }))}`;
++    // Distinct suffixes give N+1 candidates for N reserved strings. Even the
++    // longest possible JS array-size suffix keeps this ASCII ID below 128.
++    for (let suffix = 0; suffix <= reserved.size; suffix += 1) {
++      const candidate = suffix === 0 ? base : `${base}:${suffix}`;
++      if (reserved.has(candidate)) continue;
++      subjects.set(object.id, candidate);
++      reserved.add(candidate);
++      break;
++    }
++  }
++  return subjects;
+ }
+ function rulesProvenance(moduleSha256: Sha256, evidence: EvidenceRef[], site: { rva: string | null; kind: Provenance["siteKind"]; xrefType: Provenance["xrefType"] }): Provenance {
+   return {
+@@ -100,6 +123,8 @@ export function evaluateCapabilities(snapshot: GraphSnapshotV1, config: Capabili
+   assertCapabilityConfig(config);
+   const facts: CapabilityFactV1[] = [];
+   const subjectNodes = new Map(snapshot.nodes.map(node => [node.id, node]));
++  const regionSubjectIds = regionSubjects(snapshot.objects);
++  const importFacts = new Map<string, CapabilityFactV1>();
+   const moduleSha256 = snapshot.binaryArtifacts[0]?.contentSha256;
+   if (!moduleSha256) throw new Error("capabilities: snapshot without a binary artifact");
+ 
+@@ -107,34 +132,36 @@ export function evaluateCapabilities(snapshot: GraphSnapshotV1, config: Capabili
+     if (object.kind === "import") {
+       const rule = IMPORT_RULES.find(candidate => object.name.includes(candidate.suffix));
+       if (!rule) continue;
+-      const evidence = [evidenceFrom(object, `ev:${object.id}`, "snapshot.objects", `IAT import ${object.name} observed in module`)];
+-      facts.push({
++      const evidence = [evidenceFrom(object, object.id, "snapshot.objects", `IAT import ${object.name} observed in module`)];
++      const fact: CapabilityFactV1 = {
+         schemaVersion: 1,
+         id: factId({ rule: "import-capability", subject: object.id, capability: rule.capability }),
+         ruleId: "import-capability",
+         ruleVersion: CAPABILITY_RULESET_VERSION,
+         subjectKind: "region",
+-        subjectId: object.id,
++        subjectId: regionSubjectIds.get(object.id)!,
+         capability: rule.capability,
+         evidence,
+         confidence: "observed",
+         scope: "direct",
+         hypotheticalRole: rule.role,
+         provenance: rulesProvenance(object.moduleSha256, evidence, { rva: null, kind: "import", xrefType: "none" }),
+-      });
++      };
++      facts.push(fact);
++      importFacts.set(object.id, fact); // references still name the original object
+       continue;
+     }
+     if (object.kind === "table") {
+       const rule = TABLE_DISPATCH_RULES.find(candidate => candidate.match.test(object.name));
+       if (!rule) continue;
+-      const evidence = [evidenceFrom(object, `ev:${object.id}`, "snapshot.objects", `dispatch table ${object.name} at ${object.rva ?? "null"} (slot targets tracked, never callees)`)];
++      const evidence = [evidenceFrom(object, object.id, "snapshot.objects", `dispatch table ${object.name} at ${object.rva ?? "null"} (slot targets tracked, never callees)`)];
+       facts.push({
+         schemaVersion: 1,
+         id: factId({ rule: "table-dispatch", subject: object.id, capability: rule.capability }),
+         ruleId: "table-dispatch",
+         ruleVersion: CAPABILITY_RULESET_VERSION,
+         subjectKind: "region",
+-        subjectId: object.id,
++        subjectId: regionSubjectIds.get(object.id)!,
+         capability: rule.capability,
+         evidence,
+         confidence: "inferred", // a table name is lexical evidence, not a validated business role
+@@ -147,7 +174,6 @@ export function evaluateCapabilities(snapshot: GraphSnapshotV1, config: Capabili
+ 
+   // A witnessed import reference supplies a function-local seed. Merely seeing
+   // that import elsewhere in the module does not give every function its capability.
+-  const importFacts = new Map(facts.filter(f => f.ruleId === "import-capability").map(f => [f.subjectId, f]));
+   const importUseByFunction = new Map<string, typeof snapshot.unresolved>();
+   for (const ref of snapshot.unresolved) {
+     if (ref.kind !== "import_unresolved" || ref.provenance.siteKind !== "instruction" || !ref.referencedObjectId || !importFacts.has(ref.referencedObjectId)) continue;
+@@ -225,7 +251,9 @@ export function evaluateCapabilities(snapshot: GraphSnapshotV1, config: Capabili
+     }
+     facts.push(...propagated);
+   }
+-  return facts.sort((a, b) => compareText(a.id, b.id));
++  facts.sort((a, b) => compareText(a.id, b.id));
++  assertReturnedFacts(snapshot, facts); // raw and cache-miss: before exposure/storage
++  return facts;
+ }
+ 
+ // --------------------------------------------------------------- cache ----
+@@ -294,7 +322,16 @@ export class CapabilityCache {
+ export function evaluateCapabilitiesCached(snapshot: GraphSnapshotV1, cache: CapabilityCache, config: CapabilityConfig = DEFAULT_CAPABILITY_CONFIG): CapabilityFactV1[] {
+   const key = capabilityCacheKey(snapshot, config);
+   const cached = cache.get(key);
+-  if (cached) { assertReturnedFacts(snapshot, cached); return cached; }
++  if (cached) {
++    assertReturnedFacts(snapshot, cached);
++    // Public set() is untrusted storage. Re-derive the bounded local rules to
++    // bind every field/citation (including original-object -> region -> seed)
++    // to this input/config, rather than treating shape or a self-hash as proof.
++    // This intentionally spends rule-evaluation work on hits; stats, copies and
++    // invalidation remain cache operations, never scientific/native authority.
++    if (canonical(cached) !== canonical(evaluateCapabilities(snapshot, config))) throw new Error("capabilities: cached facts do not bind the current input and local rules");
++    return cached;
++  }
+   const facts = evaluateCapabilities(snapshot, config);
+   cache.set(key, facts);
+   return facts;

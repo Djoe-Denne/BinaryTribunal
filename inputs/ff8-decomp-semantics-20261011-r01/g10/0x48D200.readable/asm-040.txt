@@ -1,0 +1,25 @@
+0048DFBD: jz      def_48D37A; jumptable 0048D37A default case, cases 9,10,12,35-37,39-235,242,243,248,249,251,253
+0048DFC3: mov     eax, esi
+0048DFC5: xor     ecx, ecx; Logical Exclusive OR
+0048DFC7: shl     eax, 5; Shift Logical Left
+0048DFCA: push    esi
+0048DFCB: mov     cl, K_DUEL.HitCount[eax]
+0048DFD1: mov     [esp+28h+hit_count], ecx
+0048DFD5: mov     cx, K_DUEL.MagicID[eax]
+0048DFDC: mov     [esp+28h+magic_id], ecx
+0048DFE0: call    sub_47E530; Call Procedure
+0048DFE5: mov     edi, eax
+0048DFE7: mov     al, byte_1D28E1C
+0048DFEC: add     esp, 4; Add
+0048DFEF: inc     al; Increment by 1
+0048DFF1: mov     byte_1D28E1C, al
+0048DFF6: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DFFB: movzx   dx, byte ptr [esp+24h+p_param_is_0_for_ai]; Move with Zero-Extend
+0048E001: mov     [esp+24h+magic_id], edx
+0048E005: xor     edi, edi; Logical Exclusive OR
+0048E007: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E00C: mov     esi, ebx; jumptable 0048D37A case 239
+0048E00E: xor     ecx, ecx; Logical Exclusive OR
+0048E010: and     esi, 0FFFFh; Logical AND
+0048E016: mov     eax, esi
+0048E018: push    esi

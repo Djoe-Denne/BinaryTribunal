@@ -1,0 +1,25 @@
+0047D07B: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers
+0047D080: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers
+0047D085: call    GameTime_Tick2191_SG; E3c: lu intégral: +=0x88F, SG_GAME_TIME++, SG_COUNTDOWN−−; Field/Battle = callers
+0047D08A: cmp     mode_Battle_AnimationState, 3; Compare Two Operands
+0047D092: jnz     short loc_47D0BB; Jump if Not Zero (ZF=0)
+0047D094: push    ebx; draw_env
+0047D095: call    BattleUI_SetHudDrawTarget; Call Procedure
+0047D09A: add     esp, 4; Add
+0047D09D: call    isBattle_HUDupdate; First of three pre-director HUD/input ticks. HudDrawTarget was forced to 0, so these ticks do not call BattleUI_RenderHud.
+0047D0A2: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.
+0047D0A7: call    isBattle_HUDupdate; Call Procedure
+0047D0AC: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.
+0047D0B1: call    isBattle_HUDupdate; Call Procedure
+0047D0B6: call    BattleUI_HudInputAndATBTick; Authoritative frame/HUD boundary: polls player/menu state, feeds command queues, and reaches BattleATB_TickAndReady. Full-frame replacement must reimplement these semantics; domain-only replacement can retain this native path.
+0047D0BB: call    IsWindowNOTActive; Call Procedure
+0047D0C0: test    eax, eax; Logical Compare
+0047D0C2: jz      short loc_47D10A; Jump if Zero (ZF=1)
+0047D0C4: push    esi; int
+0047D0C5: call    GfxDriver_LeaveScene; Call Procedure
+0047D0CA: add     esp, 4; Add
+0047D0CD: pop     esi
+0047D0CE: pop     ebx
+0047D0CF: add     esp, 1Ch; Add
+0047D0D2: retn; Return Near from Procedure
+0047D0D3: mov     IS_BATTLE_PAUSED, bl

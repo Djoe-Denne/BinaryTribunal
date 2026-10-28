@@ -1,0 +1,25 @@
+004908CE: lea     eax, [eax+eax*2]; Load Effective Address
+004908D1: shl     eax, 2; Shift Logical Left
+004908D4: mov     cl, K_WEAPON.attackPower[eax]
+004908DA: push    ecx; p_attack_power
+004908DB: xor     ecx, ecx; Logical Exclusive OR
+004908DD: mov     cl, K_WEAPON.attackType[eax]
+004908E3: push    edx; p_target_slot_id
+004908E4: push    ebx; p_attacker_slot_id
+004908E5: push    ecx; p_attack_type
+004908E6: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+004908EB: add     esp, 10h; Add
+004908EE: mov     esi, eax
+004908F0: jmp     short loc_4908F9; Jump
+004908F2: mov     byte_1D28E00, 1
+004908F9: test    byte ptr BATTLE_SLOT_DATA.status_1[edi], 20h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00490900: jz      def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490906: lea     edx, [esi+esi*2]; Load Effective Address
+00490909: mov     esi, edx
+0049090B: jmp     loc_49105A; Jump
+00490910: and     ecx, 0FFFFh; jumptable 0049043B cases 7,23-27,29-34
+00490916: xor     eax, eax; Logical Exclusive OR
+00490918: shl     ecx, 4; Shift Logical Left
+0049091B: mov     esi, ecx
+0049091D: xor     ecx, ecx; Logical Exclusive OR
+0049091F: mov     cl, byte ptr unk_1D28DF3

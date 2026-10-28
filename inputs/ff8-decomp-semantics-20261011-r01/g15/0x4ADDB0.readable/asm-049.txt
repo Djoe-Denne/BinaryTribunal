@@ -1,0 +1,25 @@
+004AEF96: and     eax, 0FFh; Logical AND
+004AEF9B: add     eax, 7; Add
+004AEF9E: lea     edx, [ecx+ecx*2]; Load Effective Address
+004AEFA1: lea     ecx, [ecx+edx*4]; Load Effective Address
+004AEFA4: xor     edx, edx; Logical Exclusive OR
+004AEFA6: mov     dl, byte ptr dword_1D768E0+1
+004AEFAC: jmp     short loc_4AEFD1; Jump
+004AEFAE: mov     eax, dword_1D768E4
+004AEFB3: xor     ecx, ecx; Logical Exclusive OR
+004AEFB5: mov     cl, byte ptr dword_1D768D8+1; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEFBB: and     eax, 0FFh; Logical AND
+004AEFC0: add     eax, 7; Add
+004AEFC3: lea     edx, [ecx+ecx*2]; Load Effective Address
+004AEFC6: lea     ecx, [ecx+edx*4]; Load Effective Address
+004AEFC9: xor     edx, edx; Logical Exclusive OR
+004AEFCB: mov     dl, byte ptr dword_1D768E4+1
+004AEFD1: lea     ecx, [ecx+edx+9]; Load Effective Address
+004AEFD5: push    ebp
+004AEFD6: push    1
+004AEFD8: push    ecx
+004AEFD9: push    eax
+004AEFDA: mov     byte_1D76604, 1
+004AEFE1: mov     dword_B877B8, 593h
+004AEFEB: call    sub_4A8250; Call Procedure
+004AEFF0: add     esp, 10h; Add

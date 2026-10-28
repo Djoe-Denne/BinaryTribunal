@@ -1,0 +1,38 @@
+{
+  "supersedes": "CONTINUATION_STATE_20261020_ALL_PURE_READ.json",
+  "policyRevision": 2,
+  "blocker": "STRUCTURAL: worker spawn pipeline dead since credit incident",
+  "hypothesisEvolution": [
+    "H1 workload overload: FALSIFIED (pure-read deaths)",
+    "H2 execution-tool usage: FALSIFIED (pure-read A/B r3 died too)",
+    "H3 RETAINED: every worker spawned AFTER the credit event dies silently within ~10-40min regardless of mode; every pre-incident worker delivered. Lead model was changed by user but worker routing still targets openai/gpt-6.1-sol/xhigh per frozen grid; that provider path is plausibly dead/exhausted (session registration works, native Model.Ref readback OK, actual inference never completes)"
+  ],
+  "deathLedger": [
+    "numeric-qualification-r4-full-review-r1 (pre-credit? died 13h idle no msg)",
+    "numeric-qualification-r4-full-review-r2",
+    "numeric-r4-review-b-error-native-r1",
+    "numeric-r4-review-a-f1-ledger-r2",
+    "numeric-r4-review-b-error-native-r2",
+    "s1-common-contract-final-r1(credit)",
+    "s1-common-contract-final-r2",
+    "numeric-r4-review-a-f1-ledger-r3(PURE-READ)",
+    "numeric-r4-review-b-error-native-r3(PURE-READ)"
+  ],
+  "survivors": [
+    "all pre-credit workers delivered (planner track fully qualified)",
+    "s1-common-contract-final-r3 currently busy (may die too — same post-credit cohort)"
+  ],
+  "actionTaken": "STOPPED all respawning per escalation rule",
+  "awaitingUserDecision": [
+    "A: restore/credit the openai worker provider, then I respawn same packets",
+    "B: authorize worker routing change (different provider/model/variant) — requires operator grid/policy edit, not my override",
+    "C: pause mission until provider fixed"
+  ],
+  "unclaimedTasksReady": [
+    "task_mvghf90f_0005_cyp02y (R4 A)",
+    "task_mvghf90r_0006_2qt57f (R4 B)",
+    "task_mvghn336_0008_nly1q7 (S1 contract)"
+  ],
+  "packetsFrozenUnchanged": true,
+  "noCodeGoAnywhere": true
+}

@@ -1,0 +1,90 @@
+{
+  "requests": [
+    {
+      "id": 1,
+      "method": "Debugger.enable",
+      "params": {}
+    },
+    {
+      "id": 2,
+      "method": "Inspector.initialized",
+      "params": {}
+    },
+    {
+      "id": 3,
+      "method": "Debugger.getScriptSource",
+      "params": {
+        "scriptId": "2"
+      }
+    },
+    {
+      "id": 4,
+      "method": "Debugger.getScriptSource",
+      "params": {
+        "scriptId": "3"
+      }
+    }
+  ],
+  "events": [
+    {
+      "result": {},
+      "id": 1
+    },
+    {
+      "result": {},
+      "id": 2
+    },
+    {
+      "method": "Debugger.scriptParsed",
+      "params": {
+        "scriptId": "2",
+        "url": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\helper.ts",
+        "startLine": 0,
+        "startColumn": 0,
+        "endLine": 30,
+        "endColumn": 0,
+        "executionContextId": 1,
+        "scriptType": "module",
+        "isContentScript": false,
+        "sourceURL": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\helper.ts",
+        "sourceMapURL": "data:application/json;base64,ewogICJ2ZXJzaW9uIjozLAogICJzb3VyY2VzIjogWyIvaGVscGVyLnRzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvLyBQYXJlbnQgc3ludGhldGljIGhlbHBlciBvbmx5LCBjb3BpZWQgd2l0aCBDUkxGIHRvIGRpc3Rpbmd1aXNoIG5hdGl2ZSB1bml0cy5cclxuZXhwb3J0IGNsYXNzIFBhcmFtZXRlckRpYWdub3N0aWNFcnJvciBleHRlbmRzIEVycm9yIHtcclxuICBjb25zdHJ1Y3RvcihwdWJsaWMgcmVhZG9ubHkgZGlhZ25vc3RpYzp7dmVyc2lvbjpzdHJpbmc7Y29kZTpzdHJpbmc7ZGV0YWlsOnN0cmluZ30pe1xyXG4gICAgc3VwZXIoXCJjbHVzdGVyOiBuYXRpdmUtZW1pdHRlci1zeW50aGV0aWNcIik7dGhpcy5uYW1lPVwiQ2x1c3RlckRpYWdub3N0aWNFcnJvclwiO1xyXG4gIH1cclxufVxyXG5leHBvcnQgZnVuY3Rpb24gcmFpc2VVbmljb2RlKCk6bmV2ZXIgeyBjb25zdCB0ZXh0PVwiXHVEODNEXHVERTAwXHUwMEU5XCI7IHRocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IFwiK3RleHQpOyB9XHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZVBhcmFtZXRlcigpOm5ldmVyIHsgdGhyb3cgbmV3IFBhcmFtZXRlckRpYWdub3N0aWNFcnJvcih7dmVyc2lvbjpcImNsdXN0ZXItcmVmdXNhbC12MVwiLGNvZGU6XCJwcm9iZVwiLGRldGFpbDpcInN5bnRoZXRpY1wifSk7IH1cclxuXHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZU1hcCgpOm5ldmVyIHsgWzFdLm1hcCgoKT0+e3Rocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IHN5bnRoZXRpYyBtYXBcIik7fSk7dGhyb3cgbmV3IEVycm9yKFwidW5yZWFjaGFibGVcIik7IH1cclxuZXhwb3J0IGZ1bmN0aW9uIHJhaXNlRm9yRWFjaCgpOm5ldmVyIHsgWzFdLmZvckVhY2goKCk9Pnt0aHJvdyBuZXcgRXJyb3IoXCJjbHVzdGVyOiBzeW50aGV0aWMgZm9yRWFjaFwiKTt9KTt0aHJvdyBuZXcgRXJyb3IoXCJ1bnJlYWNoYWJsZVwiKTsgfVxyXG4iXSwKICAibWFwcGluZ3MiOiAiQUFDTyxhQUFNLGlDQUFpQyxNQUFNO0FBQUEsRUFDdEI7QUFBQSxFQUE1QixXQUFXLENBQWlCLFlBQXNEO0FBQUEsSUFDaEYsTUFBTSxtQ0FBbUM7QUFBQSxJQURmO0FBQUEsSUFDaUIsS0FBSyxPQUFLO0FBQUE7QUFFekQ7QUFDTyxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLE1BQU0sT0FBSztBQUFBLEVBQU8sTUFBTSxJQUFJLE1BQU0sY0FBdkIsa0JBQXVDO0FBQUE7QUFDbEYsZ0JBQVMsY0FBYyxHQUFTO0FBQUEsRUFBRSxNQUFNLElBQUkseUJBQXlCLEVBQUMsU0FBUSxzQkFBcUIsTUFBSyxTQUFRLFFBQU8sWUFBVyxDQUFDO0FBQUE7QUFFbkksZ0JBQVMsUUFBUSxHQUFTO0FBQUEsRUFBRSxDQUFDLENBQUMsRUFBRSxJQUFJLE1BQUk7QUFBQSxJQUFDLE1BQU0sSUFBSSxNQUFNLHdCQUF3QjtBQUFBLEdBQUc7QUFBQSxFQUFFLE1BQU0sSUFBSSxNQUFNLGFBQWE7QUFBQTtBQUNuSCxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLENBQUMsQ0FBQyxFQUFFLFFBQVEsTUFBSTtBQUFBLElBQUMsTUFBTSxJQUFJLE1BQU0sNEJBQTRCO0FBQUEsR0FBRztBQUFBLEVBQUUsTUFBTSxJQUFJLE1BQU0sYUFBYTtBQUFBIiwgIm5hbWVzIjogW10KfQ=="
+      }
+    },
+    {
+      "method": "Debugger.scriptParsed",
+      "params": {
+        "scriptId": "3",
+        "url": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\probe.test.ts",
+        "startLine": 0,
+        "startColumn": 0,
+        "endLine": 29,
+        "endColumn": 0,
+        "executionContextId": 1,
+        "scriptType": "module",
+        "isContentScript": false,
+        "sourceURL": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\probe.test.ts",
+        "sourceMapURL": "data:application/json;base64,ewogICJ2ZXJzaW9uIjozLAogICJzb3VyY2VzIjogWyIvcHJvYmUudGVzdC50cyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLy8gUGFyZW50IHN5bnRoZXRpYyBlbWl0dGVyIGNhcGFiaWxpdHkgcHJvYmU7IG5vIHNjaWVuY2UvY2FuZGlkYXRlIGltcG9ydHMuXG5pbXBvcnQge3Rlc3R9IGZyb20gXCJidW46dGVzdFwiO1xuaW1wb3J0IHtleGlzdHNTeW5jLHdyaXRlRmlsZVN5bmN9IGZyb20gXCJub2RlOmZzXCI7XG5pbXBvcnQge3JhaXNlVW5pY29kZSxyYWlzZVBhcmFtZXRlcixyYWlzZU1hcCxyYWlzZUZvckVhY2h9IGZyb20gXCIuL2hlbHBlclwiO1xudGVzdChcIm5hdGl2ZSBlbWl0dGVyIHN5bnRoZXRpYyByZWFkb25seSBDUkxGIFVuaWNvZGUgaW1wb3J0ZWQgaGVscGVyXCIsYXN5bmMoKT0+e1xuICBjb25zdCBvYnNlcnZhdGlvbnM9W107XG4gIGZvcihjb25zdCBbbGFiZWwsYWN0aW9uXW9mIFtbXCJ1bmljb2RlXCIscmFpc2VVbmljb2RlXSxbXCJwYXJhbWV0ZXJcIixyYWlzZVBhcmFtZXRlcl0sW1wiYXJyYXktbWFwXCIscmFpc2VNYXBdLFtcImFycmF5LWZvckVhY2hcIixyYWlzZUZvckVhY2hdXWFzIGNvbnN0KXtcbiAgICB0cnl7YWN0aW9uKCk7dGhyb3cgbmV3IEVycm9yKFwidW5yZWFjaGFibGVcIik7fWNhdGNoKGVycm9yKXtcbiAgICAgIGlmKCEoZXJyb3IgaW5zdGFuY2VvZiBFcnJvcikpdGhyb3cgZXJyb3I7XG4gICAgICBjb25zdCBvd249KCk9PlJlZmxlY3Qub3duS2V5cyhlcnJvcikubWFwKGtleT0+KHtrZXk6U3RyaW5nKGtleSksZGVzY3JpcHRvcjpPYmplY3QuZ2V0T3duUHJvcGVydHlEZXNjcmlwdG9yKGVycm9yLGtleSl9KSk7XG4gICAgICBjb25zdCBiZWZvcmU9b3duKCksc3RhY2s9ZXJyb3Iuc3RhY2ssYWZ0ZXI9b3duKCk7b2JzZXJ2YXRpb25zLnB1c2goe2xhYmVsLGJlZm9yZSxzdGFjayxhZnRlcn0pO1xuICAgIH1cbiAgfVxuICB3cml0ZUZpbGVTeW5jKHByb2Nlc3MuZW52LlBBUkVOVF9FTUlUVEVSX09CU0VSVkFUSU9OISxKU09OLnN0cmluZ2lmeSh7b2JzZXJ2YXRpb25zfSxudWxsLDIpK1wiXFxuXCIse2ZsYWc6XCJ3eFwifSk7XG4gIGNvbnN0IHN0YXJ0PURhdGUubm93KCk7d2hpbGUoIWV4aXN0c1N5bmMocHJvY2Vzcy5lbnYuUEFSRU5UX0VNSVRURVJfUkVMRUFTRSEpKXtcbiAgICBpZihEYXRlLm5vdygpLXN0YXJ0PjE1MDAwKXRocm93IG5ldyBFcnJvcihcInBhcmVudCBkaWQgbm90IHJlbGVhc2UgZW1pdHRlciBwcm9iZVwiKTtcbiAgICBhd2FpdCBuZXcgUHJvbWlzZTx2b2lkPihyZXNvbHZlPT5zZXRUaW1lb3V0KHJlc29sdmUsMjApKTtcbiAgfVxufSk7XG4iXSwKICAibWFwcGluZ3MiOiAiQUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLLGtFQUFpRSxZQUFTO0FBQUEsRUFDN0UsTUFBTSxlQUFhLENBQUM7QUFBQSxFQUNwQixZQUFXLE9BQU0sV0FBVSxDQUFDLENBQUMsV0FBVSxZQUFZLEdBQUUsQ0FBQyxhQUFZLGNBQWMsR0FBRSxDQUFDLGFBQVksUUFBUSxHQUFFLENBQUMsaUJBQWdCLFlBQVksQ0FBQyxHQUFVO0FBQUEsSUFDL0ksSUFBRztBQUFBLE1BQUMsT0FBTztBQUFBLE1BQUUsTUFBTSxJQUFJLE1BQU0sYUFBYTtBQUFBLE1BQUcsT0FBTSxPQUFNO0FBQUEsTUFDdkQsSUFBRyxFQUFFLGlCQUFpQjtBQUFBLFFBQU8sTUFBTTtBQUFBLE1BQ25DLE1BQU0sTUFBSSxNQUFJLFFBQVEsUUFBUSxLQUFLLEVBQUUsSUFBSSxVQUFNLEVBQUMsS0FBSSxPQUFPLEdBQUcsR0FBRSxZQUFXLE9BQU8seUJBQXlCLE9BQU0sR0FBRyxFQUFDLEVBQUU7QUFBQSxNQUN2SCxNQUFNLFNBQU8sSUFBSSxHQUFFLFFBQU0sTUFBTSxPQUFNLFFBQU0sSUFBSTtBQUFBLE1BQUUsYUFBYSxLQUFLLEVBQUMsT0FBTSxRQUFPLE9BQU0sTUFBSyxDQUFDO0FBQUE7QUFBQSxFQUVqRztBQUFBLEVBQ0EsY0FBYyxRQUFRLElBQUksNEJBQTRCLEtBQUssVUFBVSxFQUFDLGFBQVksR0FBRSxNQUFLLENBQUMsSUFBRTtBQUFBLEdBQUssRUFBQyxNQUFLLEtBQUksQ0FBQztBQUFBLEVBQzVHLE1BQU0sUUFBTSxLQUFLLElBQUk7QUFBQSxFQUFFLE9BQU0sQ0FBQyxXQUFXLFFBQVEsSUFBSSxzQkFBdUIsR0FBRTtBQUFBLElBQzVFLElBQUcsS0FBSyxJQUFJLElBQUUsUUFBTTtBQUFBLE1BQU0sTUFBTSxJQUFJLE1BQU0sc0NBQXNDO0FBQUEsSUFDaEYsTUFBTSxJQUFJLFFBQWMsYUFBUyxXQUFXLFNBQVEsRUFBRSxDQUFDO0FBQUEsRUFDekQ7QUFBQSxDQUNEIiwgIm5hbWVzIjogW10KfQ=="
+      }
+    },
+    {
+      "result": {
+        "scriptSource": "export class ParameterDiagnosticError extends Error {\n  diagnostic;\n  constructor(diagnostic) {\n    super(\"cluster: native-emitter-synthetic\");\n    this.diagnostic = diagnostic;\n    this.name = \"ClusterDiagnosticError\";\n  }\n}\nexport function raiseUnicode() {\n  const text = \"\\uD83D\\uDE00\\xE9\";\n  throw new Error(\"cluster: \" + \"\\uD83D\\uDE00\\xE9\");\n}\nexport function raiseParameter() {\n  throw new ParameterDiagnosticError({ version: \"cluster-refusal-v1\", code: \"probe\", detail: \"synthetic\" });\n}\nexport function raiseMap() {\n  [1].map(() => {\n    throw new Error(\"cluster: synthetic map\");\n  });\n  throw new Error(\"unreachable\");\n}\nexport function raiseForEach() {\n  [1].forEach(() => {\n    throw new Error(\"cluster: synthetic forEach\");\n  });\n  throw new Error(\"unreachable\");\n}\n\n//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjozLAogICJzb3VyY2VzIjogWyIvaGVscGVyLnRzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvLyBQYXJlbnQgc3ludGhldGljIGhlbHBlciBvbmx5LCBjb3BpZWQgd2l0aCBDUkxGIHRvIGRpc3Rpbmd1aXNoIG5hdGl2ZSB1bml0cy5cclxuZXhwb3J0IGNsYXNzIFBhcmFtZXRlckRpYWdub3N0aWNFcnJvciBleHRlbmRzIEVycm9yIHtcclxuICBjb25zdHJ1Y3RvcihwdWJsaWMgcmVhZG9ubHkgZGlhZ25vc3RpYzp7dmVyc2lvbjpzdHJpbmc7Y29kZTpzdHJpbmc7ZGV0YWlsOnN0cmluZ30pe1xyXG4gICAgc3VwZXIoXCJjbHVzdGVyOiBuYXRpdmUtZW1pdHRlci1zeW50aGV0aWNcIik7dGhpcy5uYW1lPVwiQ2x1c3RlckRpYWdub3N0aWNFcnJvclwiO1xyXG4gIH1cclxufVxyXG5leHBvcnQgZnVuY3Rpb24gcmFpc2VVbmljb2RlKCk6bmV2ZXIgeyBjb25zdCB0ZXh0PVwiXHVEODNEXHVERTAwXHUwMEU5XCI7IHRocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IFwiK3RleHQpOyB9XHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZVBhcmFtZXRlcigpOm5ldmVyIHsgdGhyb3cgbmV3IFBhcmFtZXRlckRpYWdub3N0aWNFcnJvcih7dmVyc2lvbjpcImNsdXN0ZXItcmVmdXNhbC12MVwiLGNvZGU6XCJwcm9iZVwiLGRldGFpbDpcInN5bnRoZXRpY1wifSk7IH1cclxuXHJcbmV4cG9ydCBmdW5jdGlvbiByYWlzZU1hcCgpOm5ldmVyIHsgWzFdLm1hcCgoKT0+e3Rocm93IG5ldyBFcnJvcihcImNsdXN0ZXI6IHN5bnRoZXRpYyBtYXBcIik7fSk7dGhyb3cgbmV3IEVycm9yKFwidW5yZWFjaGFibGVcIik7IH1cclxuZXhwb3J0IGZ1bmN0aW9uIHJhaXNlRm9yRWFjaCgpOm5ldmVyIHsgWzFdLmZvckVhY2goKCk9Pnt0aHJvdyBuZXcgRXJyb3IoXCJjbHVzdGVyOiBzeW50aGV0aWMgZm9yRWFjaFwiKTt9KTt0aHJvdyBuZXcgRXJyb3IoXCJ1bnJlYWNoYWJsZVwiKTsgfVxyXG4iXSwKICAibWFwcGluZ3MiOiAiQUFDTyxhQUFNLGlDQUFpQyxNQUFNO0FBQUEsRUFDdEI7QUFBQSxFQUE1QixXQUFXLENBQWlCLFlBQXNEO0FBQUEsSUFDaEYsTUFBTSxtQ0FBbUM7QUFBQSxJQURmO0FBQUEsSUFDaUIsS0FBSyxPQUFLO0FBQUE7QUFFekQ7QUFDTyxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLE1BQU0sT0FBSztBQUFBLEVBQU8sTUFBTSxJQUFJLE1BQU0sY0FBdkIsa0JBQXVDO0FBQUE7QUFDbEYsZ0JBQVMsY0FBYyxHQUFTO0FBQUEsRUFBRSxNQUFNLElBQUkseUJBQXlCLEVBQUMsU0FBUSxzQkFBcUIsTUFBSyxTQUFRLFFBQU8sWUFBVyxDQUFDO0FBQUE7QUFFbkksZ0JBQVMsUUFBUSxHQUFTO0FBQUEsRUFBRSxDQUFDLENBQUMsRUFBRSxJQUFJLE1BQUk7QUFBQSxJQUFDLE1BQU0sSUFBSSxNQUFNLHdCQUF3QjtBQUFBLEdBQUc7QUFBQSxFQUFFLE1BQU0sSUFBSSxNQUFNLGFBQWE7QUFBQTtBQUNuSCxnQkFBUyxZQUFZLEdBQVM7QUFBQSxFQUFFLENBQUMsQ0FBQyxFQUFFLFFBQVEsTUFBSTtBQUFBLElBQUMsTUFBTSxJQUFJLE1BQU0sNEJBQTRCO0FBQUEsR0FBRztBQUFBLEVBQUUsTUFBTSxJQUFJLE1BQU0sYUFBYTtBQUFBIiwgIm5hbWVzIjogW10KfQ==\n//# sourceURL=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\helper.ts\n"
+      },
+      "id": 3
+    },
+    {
+      "result": {
+        "scriptSource": "import { test } from \"bun:test\";\nimport { existsSync, writeFileSync } from \"node:fs\";\nimport { raiseUnicode, raiseParameter, raiseMap, raiseForEach } from \"./helper\";\ntest(\"native emitter synthetic readonly CRLF Unicode imported helper\", async () => {\n  const observations = [];\n  for (const [label, action] of [[\"unicode\", raiseUnicode], [\"parameter\", raiseParameter], [\"array-map\", raiseMap], [\"array-forEach\", raiseForEach]]) {\n    try {\n      action();\n      throw new Error(\"unreachable\");\n    } catch (error) {\n      if (!(error instanceof Error))\n        throw error;\n      const own = () => Reflect.ownKeys(error).map((key) => ({ key: String(key), descriptor: Object.getOwnPropertyDescriptor(error, key) }));\n      const before = own(), stack = error.stack, after = own();\n      observations.push({ label, before, stack, after });\n    }\n  }\n  writeFileSync(process.env.PARENT_EMITTER_OBSERVATION, JSON.stringify({ observations }, null, 2) + `\n`, { flag: \"wx\" });\n  const start = Date.now();\n  while (!existsSync(process.env.PARENT_EMITTER_RELEASE)) {\n    if (Date.now() - start > 15000)\n      throw new Error(\"parent did not release emitter probe\");\n    await new Promise((resolve) => setTimeout(resolve, 20));\n  }\n});\n\n//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjozLAogICJzb3VyY2VzIjogWyIvcHJvYmUudGVzdC50cyJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiLy8gUGFyZW50IHN5bnRoZXRpYyBlbWl0dGVyIGNhcGFiaWxpdHkgcHJvYmU7IG5vIHNjaWVuY2UvY2FuZGlkYXRlIGltcG9ydHMuXG5pbXBvcnQge3Rlc3R9IGZyb20gXCJidW46dGVzdFwiO1xuaW1wb3J0IHtleGlzdHNTeW5jLHdyaXRlRmlsZVN5bmN9IGZyb20gXCJub2RlOmZzXCI7XG5pbXBvcnQge3JhaXNlVW5pY29kZSxyYWlzZVBhcmFtZXRlcixyYWlzZU1hcCxyYWlzZUZvckVhY2h9IGZyb20gXCIuL2hlbHBlclwiO1xudGVzdChcIm5hdGl2ZSBlbWl0dGVyIHN5bnRoZXRpYyByZWFkb25seSBDUkxGIFVuaWNvZGUgaW1wb3J0ZWQgaGVscGVyXCIsYXN5bmMoKT0+e1xuICBjb25zdCBvYnNlcnZhdGlvbnM9W107XG4gIGZvcihjb25zdCBbbGFiZWwsYWN0aW9uXW9mIFtbXCJ1bmljb2RlXCIscmFpc2VVbmljb2RlXSxbXCJwYXJhbWV0ZXJcIixyYWlzZVBhcmFtZXRlcl0sW1wiYXJyYXktbWFwXCIscmFpc2VNYXBdLFtcImFycmF5LWZvckVhY2hcIixyYWlzZUZvckVhY2hdXWFzIGNvbnN0KXtcbiAgICB0cnl7YWN0aW9uKCk7dGhyb3cgbmV3IEVycm9yKFwidW5yZWFjaGFibGVcIik7fWNhdGNoKGVycm9yKXtcbiAgICAgIGlmKCEoZXJyb3IgaW5zdGFuY2VvZiBFcnJvcikpdGhyb3cgZXJyb3I7XG4gICAgICBjb25zdCBvd249KCk9PlJlZmxlY3Qub3duS2V5cyhlcnJvcikubWFwKGtleT0+KHtrZXk6U3RyaW5nKGtleSksZGVzY3JpcHRvcjpPYmplY3QuZ2V0T3duUHJvcGVydHlEZXNjcmlwdG9yKGVycm9yLGtleSl9KSk7XG4gICAgICBjb25zdCBiZWZvcmU9b3duKCksc3RhY2s9ZXJyb3Iuc3RhY2ssYWZ0ZXI9b3duKCk7b2JzZXJ2YXRpb25zLnB1c2goe2xhYmVsLGJlZm9yZSxzdGFjayxhZnRlcn0pO1xuICAgIH1cbiAgfVxuICB3cml0ZUZpbGVTeW5jKHByb2Nlc3MuZW52LlBBUkVOVF9FTUlUVEVSX09CU0VSVkFUSU9OISxKU09OLnN0cmluZ2lmeSh7b2JzZXJ2YXRpb25zfSxudWxsLDIpK1wiXFxuXCIse2ZsYWc6XCJ3eFwifSk7XG4gIGNvbnN0IHN0YXJ0PURhdGUubm93KCk7d2hpbGUoIWV4aXN0c1N5bmMocHJvY2Vzcy5lbnYuUEFSRU5UX0VNSVRURVJfUkVMRUFTRSEpKXtcbiAgICBpZihEYXRlLm5vdygpLXN0YXJ0PjE1MDAwKXRocm93IG5ldyBFcnJvcihcInBhcmVudCBkaWQgbm90IHJlbGVhc2UgZW1pdHRlciBwcm9iZVwiKTtcbiAgICBhd2FpdCBuZXcgUHJvbWlzZTx2b2lkPihyZXNvbHZlPT5zZXRUaW1lb3V0KHJlc29sdmUsMjApKTtcbiAgfVxufSk7XG4iXSwKICAibWFwcGluZ3MiOiAiQUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLLGtFQUFpRSxZQUFTO0FBQUEsRUFDN0UsTUFBTSxlQUFhLENBQUM7QUFBQSxFQUNwQixZQUFXLE9BQU0sV0FBVSxDQUFDLENBQUMsV0FBVSxZQUFZLEdBQUUsQ0FBQyxhQUFZLGNBQWMsR0FBRSxDQUFDLGFBQVksUUFBUSxHQUFFLENBQUMsaUJBQWdCLFlBQVksQ0FBQyxHQUFVO0FBQUEsSUFDL0ksSUFBRztBQUFBLE1BQUMsT0FBTztBQUFBLE1BQUUsTUFBTSxJQUFJLE1BQU0sYUFBYTtBQUFBLE1BQUcsT0FBTSxPQUFNO0FBQUEsTUFDdkQsSUFBRyxFQUFFLGlCQUFpQjtBQUFBLFFBQU8sTUFBTTtBQUFBLE1BQ25DLE1BQU0sTUFBSSxNQUFJLFFBQVEsUUFBUSxLQUFLLEVBQUUsSUFBSSxVQUFNLEVBQUMsS0FBSSxPQUFPLEdBQUcsR0FBRSxZQUFXLE9BQU8seUJBQXlCLE9BQU0sR0FBRyxFQUFDLEVBQUU7QUFBQSxNQUN2SCxNQUFNLFNBQU8sSUFBSSxHQUFFLFFBQU0sTUFBTSxPQUFNLFFBQU0sSUFBSTtBQUFBLE1BQUUsYUFBYSxLQUFLLEVBQUMsT0FBTSxRQUFPLE9BQU0sTUFBSyxDQUFDO0FBQUE7QUFBQSxFQUVqRztBQUFBLEVBQ0EsY0FBYyxRQUFRLElBQUksNEJBQTRCLEtBQUssVUFBVSxFQUFDLGFBQVksR0FBRSxNQUFLLENBQUMsSUFBRTtBQUFBLEdBQUssRUFBQyxNQUFLLEtBQUksQ0FBQztBQUFBLEVBQzVHLE1BQU0sUUFBTSxLQUFLLElBQUk7QUFBQSxFQUFFLE9BQU0sQ0FBQyxXQUFXLFFBQVEsSUFBSSxzQkFBdUIsR0FBRTtBQUFBLElBQzVFLElBQUcsS0FBSyxJQUFJLElBQUUsUUFBTTtBQUFBLE1BQU0sTUFBTSxJQUFJLE1BQU0sc0NBQXNDO0FBQUEsSUFDaEYsTUFBTSxJQUFJLFFBQWMsYUFBUyxXQUFXLFNBQVEsRUFBRSxDQUFDO0FBQUEsRUFDekQ7QUFBQSxDQUNEIiwgIm5hbWVzIjogW10KfQ==\n//# sourceURL=C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\NATIVE-EMITTER-INSPECTOR-R2-1792435548942\\probe.test.ts\n"
+      },
+      "id": 4
+    },
+    {
+      "method": "PARENT.transport-close-after-source-capture",
+      "params": {
+        "sourceCount": 2,
+        "observationPresent": true,
+        "releasePresent": true
+      }
+    }
+  ]
+}

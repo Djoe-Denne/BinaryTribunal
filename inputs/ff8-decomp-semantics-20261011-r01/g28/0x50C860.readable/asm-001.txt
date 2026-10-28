@@ -1,0 +1,25 @@
+0050C860: mov     eax, [esp+actor]
+0050C864: sub     esp, 8; Integer Subtraction
+0050C867: push    esi
+0050C868: mov     esi, [eax+84h]
+0050C86E: push    edi
+0050C86F: mov     eax, [esi+30h]
+0050C872: test    eax, eax; Logical Compare
+0050C874: jz      loc_50C943; Jump if Zero (ZF=1)
+0050C87A: mov     ecx, [esp+10h+tableIndex]
+0050C87E: mov     di, [eax+ecx*2]
+0050C882: test    di, di; Logical Compare
+0050C885: jz      loc_50C943; Jump if Zero (ZF=1)
+0050C88B: and     edi, 0FFFFh; Logical AND
+0050C891: xor     ecx, ecx; Logical Exclusive OR
+0050C893: add     edi, eax; Add
+0050C895: xor     eax, eax; Logical Exclusive OR
+0050C897: xor     edx, edx; Logical Exclusive OR
+0050C899: mov     al, [edi]
+0050C89B: mov     dx, [esi+2]
+0050C89F: mov     esi, 1
+0050C8A4: shl     esi, cl; Shift Logical Left
+0050C8A6: test    edx, esi; Logical Compare
+0050C8A8: jz      short loc_50C8B1; Jump if Zero (ZF=1)
+0050C8AA: mov     esi, eax
+0050C8AC: dec     eax; Decrement by 1

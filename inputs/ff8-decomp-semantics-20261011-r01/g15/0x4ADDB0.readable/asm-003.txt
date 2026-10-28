@@ -1,0 +1,25 @@
+004ADE69: mov     word ptr dword_1D768F0+2, bp
+004ADE70: mov     dword_1D768D0, 4; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004ADE7A: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004ADE7F: add     esp, 4; Add
+004ADE82: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004ADE87: push    esi
+004ADE88: and     eax, 0FFh; Logical AND
+004ADE8D: push    edi
+004ADE8E: lea     edx, ds:0[eax*8]; Load Effective Address
+004ADE95: lea     ecx, [eax+eax*2]; Load Effective Address
+004ADE98: sub     edx, eax; Integer Subtraction
+004ADE9A: lea     ecx, [ecx+ecx*8]; Load Effective Address
+004ADE9D: lea     eax, [eax+edx*4]; Load Effective Address
+004ADEA0: shl     eax, 4; Shift Logical Left
+004ADEA3: lea     edi, ds:1D76928h[ecx*4]; Load Effective Address
+004ADEAA: mov     cl, byte ptr word_1CFF1B2[eax]
+004ADEB0: mov     eax, dword_1D768D0; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004ADEB5: test    cl, 10h; Logical Compare
+004ADEB8: mov     [esp+1Ch+var_4], edi
+004ADEBC: jz      short loc_4ADEE6; Jump if Zero (ZF=1)
+004ADEBE: cmp     eax, 4; Compare Two Operands
+004ADEC1: jz      short loc_4ADEE6; Jump if Zero (ZF=1)
+004ADEC3: cmp     eax, 5; Compare Two Operands
+004ADEC6: jz      short loc_4ADEE6; Jump if Zero (ZF=1)
+004ADEC8: mov     cl, byte_1D768EE

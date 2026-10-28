@@ -1,0 +1,25 @@
+004883F9: push    eax
+004883FA: push    1
+004883FC: call    domain__BattleText_FormatNumber; Call Procedure
+00488401: add     esp, 8; Add
+00488404: push    eax
+00488405: push    0Bh
+00488407: call    domain__BattleText_GetMiscText; Call Procedure
+0048840C: mov     cl, [eax]
+0048840E: add     esp, 4; Add
+00488411: push    ecx
+00488412: push    13h
+00488414: call    domain__BattleText_GetMiscText; Call Procedure
+00488419: jmp     loc_48831A; 0x29 shares 0x2E message tail via jmp (PrepareBuffer x3 + Print + DisplayMessageAndWait)
+0048841E: mov     dl, [esi]; AI VM op 0x1A SET_ATTACK_TEXT: store after-attack text id(1) into dword_1D28C44[]
+00488420: mov     ecx, [esp+74h+p_text_offset_section]
+00488427: mov     [esp+74h+opcode_param_1], dl
+0048842B: mov     eax, dword ptr [esp+74h+opcode_param_1]
+0048842F: and     eax, edi; Logical AND
+00488431: inc     esi; Increment by 1
+00488432: mov     ax, [ecx+eax*2]
+00488436: cmp     ax, 0FFFFh; Compare Two Operands
+0048843A: jnz     short loc_488443; Jump if Not Zero (ZF=0)
+0048843C: mov     ebp, offset RELATED_TO_AI_TEXT_SECTION_DEFAULT
+00488441: jmp     short loc_488453; Jump
+00488443: mov     ecx, [esp+74h+p_text_subsection]

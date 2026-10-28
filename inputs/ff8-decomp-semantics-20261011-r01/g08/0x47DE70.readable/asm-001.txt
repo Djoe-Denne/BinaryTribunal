@@ -1,0 +1,25 @@
+0047DE70: xor     eax, eax; G17: same group-0 staging as 0x47DDA0 after a live-exec gate. Section 2/3 are staged here, not in ApplyDamage.
+0047DE72: mov     al, AI_CURRENT_EXECUTING_SLOT
+0047DE77: push    eax; param_slot_id
+0047DE78: call    sub_484180; charge NOT-adjusted attack data (pas already-adj)
+0047DE7D: add     esp, 4; Add
+0047DE80: test    eax, eax; Logical Compare
+0047DE82: jnz     locret_47DF5F; Jump if Not Zero (ZF=0)
+0047DE88: mov     al, BATTLE_RESULT_CODE
+0047DE8D: push    ebx
+0047DE8E: xor     ebx, ebx; Logical Exclusive OR
+0047DE90: push    edi
+0047DE91: cmp     al, bl; Compare Two Operands
+0047DE93: mov     dword_1D27B00, ebx
+0047DE99: jnz     loc_47DF42; Jump if Not Zero (ZF=0)
+0047DE9F: cmp     byte ptr ATTACKER_SLOT_ID_0+1, 1; Compare Two Operands
+0047DEA6: jz      short loc_47DEC4; Jump if Zero (ZF=1)
+0047DEA8: call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure
+0047DEAD: cmp     eax, 0FFh; Compare Two Operands
+0047DEB2: jz      loc_47DF42; Jump if Zero (ZF=1)
+0047DEB8: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)
+0047DEBD: cmp     eax, 0FFh; Compare Two Operands
+0047DEC2: jz      short loc_47DF42; Jump if Zero (ZF=1)
+0047DEC4: mov     al, byte ptr ATTACKER_SLOT_ID_0
+0047DEC9: xor     edi, edi; Logical Exclusive OR
+0047DECB: cmp     al, bl; Compare Two Operands

@@ -1,0 +1,25 @@
+004AE7BB: neg     ecx; Two's Complement Negation
+004AE7BD: mov     word ptr dword_1D768F0, cx
+004AE7C4: mov     ax, word ptr dword_1D768F0+2
+004AE7CA: cmp     ax, bp; Compare Two Operands
+004AE7CD: jle     short loc_4AE7D8; Jump if Less or Equal (ZF=1 | SF!=OF)
+004AE7CF: neg     ax; Two's Complement Negation
+004AE7D2: mov     word ptr dword_1D768F0+2, ax
+004AE7D8: push    0FFFFFFFFh; flags
+004AE7DA: push    ebp; id
+004AE7DB: push    ebp; y
+004AE7DC: push    ebp; x
+004AE7DD: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AE7E2: push    2; slot_index
+004AE7E4: call    BattleUI_SetWidget_11hFF_12_1; E3b: [g_BattleUI_WidgetSlots+i*20]+11=FF,+12=1
+004AE7E9: push    ebp
+004AE7EA: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet
+004AE7EF: add     esp, 18h; Add
+004AE7F2: mov     dword_1D768D0, 5; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE7FC: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AE801: push    0FFFFFFFFh; jumptable 004ADEFA case 5
+004AE803: push    ebp; id
+004AE804: push    ebp; y
+004AE805: push    ebp; x
+004AE806: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AE80B: mov     eax, dword_1D6D490

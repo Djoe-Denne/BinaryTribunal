@@ -1,0 +1,484 @@
+{
+  "suite": "independent-real-pipeline-v1",
+  "authority": "synthetic raw inputs through actual normalizer/current L5/SIM; no native or durable-host proof",
+  "cases": 56,
+  "pass": 55,
+  "fail": 1,
+  "rows": [
+    {
+      "name": "real-normalizer-to-L5-to-SIM-local-callee-DAG",
+      "status": "PASS",
+      "data": {
+        "units": 2,
+        "makespan": 6,
+        "criticalPath": 6
+      }
+    },
+    {
+      "name": "real-normalizer-recursive-two-function-family",
+      "status": "PASS",
+      "data": {
+        "familyCount": 1,
+        "executions": 6
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/hash",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/artifactId",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/module",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/function",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/kind",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/validation",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/revision-window",
+      "status": "PASS",
+      "data": {
+        "producer": "COMMITTED",
+        "consumer": "BLOCKED"
+      }
+    },
+    {
+      "name": "local-requirement-mutation-stays-unsatisfied/absent",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Expected \"actual\" to be strictly unequal to:\n\n'COMMITTED'",
+      "stack": [
+        "AssertionError [ERR_ASSERTION]: Expected \"actual\" to be strictly unequal to:",
+        "",
+        "'COMMITTED'",
+        "    at <anonymous> (C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\coordination-three-20261014\\l7-astra-review-evidence\\gates-fYEFSh\\pipeline-v2-m2T5Rd\\pipeline-probes-v2.ts:25:1089)",
+        "    at check (C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\coordination-three-20261014\\l7-astra-review-evidence\\gates-fYEFSh\\pipeline-v2-m2T5Rd\\pipeline-probes-v2.ts:8:77)",
+        "    at C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.tmp\\coordination-three-20261014\\l7-astra-review-evidence\\gates-fYEFSh\\pipeline-v2-m2T5Rd\\pipeline-probes-v2.ts:25:111"
+      ]
+    },
+    {
+      "name": "receipt-coherent-order/require=1fixture-only/receipt=1fixture-only",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=1fixture-only/receipt=1parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=1fixture-only/receipt=2parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=1parent-validated/receipt=1fixture-only",
+      "status": "PASS",
+      "data": {
+        "expected": false,
+        "l5": false,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=1parent-validated/receipt=1parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=1parent-validated/receipt=2parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=2parent-validated/receipt=1fixture-only",
+      "status": "PASS",
+      "data": {
+        "expected": false,
+        "l5": false,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=2parent-validated/receipt=1parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": false,
+        "l5": false,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-coherent-order/require=2parent-validated/receipt=2parent-validated",
+      "status": "PASS",
+      "data": {
+        "expected": true,
+        "l5": true,
+        "simDiagnostics": 0
+      }
+    },
+    {
+      "name": "receipt-upstream-level2-fixture-only-divergence-remains-open",
+      "status": "PASS",
+      "data": {
+        "l5": true,
+        "SIM": "explicit refusal",
+        "upstream": "OPEN",
+        "codes": [
+          "external_receipt_level_validation_conflict"
+        ]
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/artifactSha256",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/artifactId",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/functionId",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/moduleSha256",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/producerUnitId",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/readbackStatus",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/futurePrerequisiteEffect",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "receipt-invalid-does-not-become-satisfaction/knowledgeRevision",
+      "status": "PASS",
+      "data": {
+        "l5": false,
+        "kind": "unknown_unresolved"
+      }
+    },
+    {
+      "name": "external-requirement-export-binding-rejects/artifactSha256",
+      "status": "PASS",
+      "data": [
+        "prerequisite_requirement_mismatch",
+        "external_receipt_mismatch"
+      ]
+    },
+    {
+      "name": "external-requirement-export-binding-rejects/publicationLevel",
+      "status": "PASS",
+      "data": [
+        "prerequisite_requirement_mismatch",
+        "external_receipt_mismatch"
+      ]
+    },
+    {
+      "name": "external-requirement-export-binding-rejects/minimumRevision",
+      "status": "PASS",
+      "data": [
+        "prerequisite_requirement_mismatch",
+        "external_receipt_mismatch"
+      ]
+    },
+    {
+      "name": "external-requirement-export-binding-rejects/absent",
+      "status": "PASS",
+      "data": [
+        "prerequisite_requirement_mismatch",
+        "external_receipt_mismatch"
+      ]
+    },
+    {
+      "name": "real-raw-indirect-call-unresolved-provenance",
+      "status": "PASS",
+      "data": {
+        "rawKind": "indirect_call",
+        "relationCount": 0,
+        "provenance": "exported-unresolved-prerequisite",
+        "nativeAuthenticityClaim": false
+      }
+    },
+    {
+      "name": "unresolved-mutation-rejects/id",
+      "status": "PASS",
+      "data": [
+        "prerequisite_source_mismatch",
+        "prerequisite_citation_mismatch",
+        "missing_source_prerequisite"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/type",
+      "status": "PASS",
+      "data": [
+        "prerequisite_source_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/consumer",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/requirement",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch",
+        "prerequisite_requirement_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/receipt",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/snapshot",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/unit-fingerprint",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/provenance-version",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/provenance-absent",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/evidence-fingerprint",
+      "status": "PASS",
+      "data": [
+        "prerequisite_evidence_mismatch"
+      ]
+    },
+    {
+      "name": "unresolved-mutation-rejects/evidence-version",
+      "status": "PASS",
+      "data": [
+        "unsupported_prerequisite_provenance",
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "real-relation-citation-removal-not-raw-unresolved",
+      "status": "PASS",
+      "data": [
+        "prerequisite_citation_mismatch"
+      ]
+    },
+    {
+      "name": "current-L5-explicit-admission-mode-and-SIM-binding",
+      "status": "PASS",
+      "data": {
+        "mode": "complete-admission-cap-v1",
+        "selected": 2,
+        "charge": 24576,
+        "missingAllocationSelected": 0,
+        "durableHostNProven": false
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/unknown",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": [
+          "resource_metadata_unknown",
+          "resource_metadata_unknown"
+        ]
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/empty-profiles",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": [
+          "resource_intersection_empty",
+          "resource_intersection_empty"
+        ]
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/empty-models",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": [
+          "resource_intersection_empty",
+          "resource_intersection_empty"
+        ]
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/empty-accounts",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": [
+          "resource_intersection_empty",
+          "resource_intersection_empty"
+        ]
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/missing-worker-metadata",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": [
+          "worker_metadata_unknown"
+        ]
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/zero-account-slots",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": []
+      }
+    },
+    {
+      "name": "v2-resources-conservative-no-fallback/zero-account-quota",
+      "status": "PASS",
+      "data": {
+        "admissions": 0,
+        "codes": []
+      }
+    },
+    {
+      "name": "v2-export-no-legacy-downgrade/downgrade-v1",
+      "status": "PASS",
+      "data": [
+        "unsupported_projection_version"
+      ]
+    },
+    {
+      "name": "v2-export-no-legacy-downgrade/missing-resource",
+      "status": "PASS",
+      "data": [
+        "missing_resource_contract"
+      ]
+    },
+    {
+      "name": "v2-export-no-legacy-downgrade/unrestricted",
+      "status": "PASS",
+      "data": [
+        "missing_resource_contract"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+0050FB8D: retn; Return Near from Procedure
+0050FB8E: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend
+0050FB93: test    esi, esi; Logical Compare
+0050FB95: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050FB9B: mov     [esp+60h+var_48], esi
+0050FB9F: jmp     short loc_50FBAD; Jump
+0050FBA1: mov     eax, [esp+60h+var_44]
+0050FBA5: mov     ecx, [esp+60h+var_40]
+0050FBA9: mov     edx, [esp+60h+var_4C]
+0050FBAD: movsx   esi, word ptr [edx]; Move with Sign-Extend
+0050FBB0: shl     esi, 3; Shift Logical Left
+0050FBB3: mov     [esp+60h+var_4C], esi
+0050FBB7: movsx   esi, word ptr [edx+2]; Move with Sign-Extend
+0050FBBB: fild    [esp+60h+var_4C]; Load Integer
+0050FBBF: shl     esi, 3; Shift Logical Left
+0050FBC2: mov     [esp+60h+var_4C], esi
+0050FBC6: movsx   esi, word ptr [edx+4]; Move with Sign-Extend
+0050FBCA: fild    [esp+60h+var_4C]; Load Integer
+0050FBCE: shl     esi, 3; Shift Logical Left
+0050FBD1: mov     [esp+60h+var_4C], esi
+0050FBD5: add     edx, 6; Add
+0050FBD8: fild    [esp+60h+var_4C]; Load Integer
+0050FBDC: fld     Cam_xyz1_z_float; Load Real
+0050FBE2: mov     [esp+60h+var_4C], edx
+0050FBE6: fmul    st, st(1); Multiply Real

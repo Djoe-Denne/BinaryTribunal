@@ -1,0 +1,25 @@
+004AEAA2: jz      def_4ADEFA; jumptable 004ADEFA default case
+004AEAA8: mov     dword_1D768D0, 2; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AEAB2: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEAB7: mov     cl, [edi+59h]; jumptable 004ADEFA case 18
+004AEABA: xor     edx, edx; Logical Exclusive OR
+004AEABC: mov     byte ptr dword_1D768D8+1, cl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEAC2: mov     ecx, dword_1D768F8
+004AEAC8: xor     eax, eax; Logical Exclusive OR
+004AEACA: cmp     byte ptr [ecx], 0; Compare Two Operands
+004AEACD: jz      short loc_4AEAD1; Jump if Zero (ZF=1)
+004AEACF: mov     edx, eax
+004AEAD1: inc     eax; Increment by 1
+004AEAD2: add     ecx, 4; Add
+004AEAD5: cmp     eax, 2; Compare Two Operands
+004AEAD8: jl      short loc_4AEACA; Jump if Less (SF!=OF)
+004AEADA: lea     ecx, [edx+1]; Load Effective Address
+004AEADD: mov     dl, 0Dh
+004AEADF: mov     al, cl
+004AEAE1: mov     byte ptr dword_1D768E4, 72h ; 'r'
+004AEAE8: imul    dl; Signed Multiply
+004AEAEA: mov     dl, 0BEh
+004AEAEC: mov     byte ptr dword_1D768E4+2, 50h ; 'P'
+004AEAF3: sub     dl, al; Integer Subtraction
+004AEAF5: add     al, 0Bh; Add
+004AEAF7: test    cl, 1; Logical Compare

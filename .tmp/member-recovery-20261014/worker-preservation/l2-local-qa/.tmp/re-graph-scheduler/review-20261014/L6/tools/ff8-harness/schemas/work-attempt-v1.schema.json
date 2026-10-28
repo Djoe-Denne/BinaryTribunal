@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/work-attempt-v1",
+  "title": "Work attempt v1",
+  "description": "One role execution. COMMITTED is not an attempt state. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "attemptId",
+    "unitId",
+    "subIntentId",
+    "attemptNumber",
+    "role",
+    "executionId",
+    "sessionId",
+    "modelRef",
+    "contextManifestFingerprint",
+    "state",
+    "lease",
+    "progress",
+    "errorClass",
+    "previousAttemptIds"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "attemptId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Attempt id"
+    },
+    "unitId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Owning WorkUnit"
+    },
+    "subIntentId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Exactly one sub-intent"
+    },
+    "attemptNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "1-based attempt number"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "explore",
+        "evaluate",
+        "A",
+        "B",
+        "R"
+      ],
+      "description": "Scientific role"
+    },
+    "executionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Admission idempotency key. Distinct from scientific COMMITTED."
+    },
+    "sessionId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 0,
+      "maxLength": 128,
+      "description": "Native session id once assigned. Null before admission. Not a wall clock."
+    },
+    "modelRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "providerID",
+        "id",
+        "variant"
+      ],
+      "properties": {
+        "providerID": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Model.Ref providerID"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Model.Ref id, without a #variant suffix"
+        },
+        "variant": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "description": "Model.Ref variant. A #high string is not proof of the variant."
+        }
+      },
+      "description": "Requested Model.Ref. Historical prose is not authority."
+    },
+    "contextManifestFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Immutable context manifest fingerprint 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "BLOCKED",
+        "READY",
+        "RESERVED",
+        "RUNNING",
+        "VALIDATING",
+        "RETRYABLE",
+        "FAILED",
+        "STALE",
+        "CANCELLED",
+        "STOP_PENDING",
+        "QUARANTINED"
+      ],
+      "description": "Attempt state. COMMITTED is absent: an attempt cannot publish alone."
+    },
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "token",
+        "expiresAtEvent"
+      ],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Lease owner"
+        },
+        "token": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000,
+          "description": "Monotone fence token"
+        },
+        "expiresAtEvent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000,
+          "description": "Replayable event sequence, not a hidden wall clock"
+        }
+      },
+      "description": "Lease. Expiration fences a late commit. It does not prove the worker stopped."
+    },
+    "progress": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Progress label"
+    },
+    "errorClass": {
+      "type": "string",
+      "enum": [
+        "none",
+        "auth",
+        "input",
+        "schema",
+        "quota",
+        "outage",
+        "scientific_block"
+      ],
+      "description": "Typed failure. Do not infer the class from prose."
+    },
+    "previousAttemptIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 128,
+        "description": "Previous attempt id"
+      },
+      "minItems": 0,
+      "maxItems": 64,
+      "description": "Every earlier attempt of this sub-intent"
+    }
+  }
+}

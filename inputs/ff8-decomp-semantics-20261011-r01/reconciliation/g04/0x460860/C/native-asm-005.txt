@@ -1,0 +1,25 @@
+004609D6: faddp   st(1), st; Add Real and Pop
+004609D8: fadd    ds:CONST_4_503601774854144e15; Add Real
+004609DE: fstp    [esp+14h+var_8]; Store Real and Pop
+004609E2: mov     eax, dword ptr [esp+14h+var_8]
+004609E6: fstp    st; Store Real and Pop
+004609E8: fstp    st; Store Real and Pop
+004609EA: add     eax, 80000000h; Add
+004609EF: cmp     ecx, 3; Compare Two Operands
+004609F2: fstp    st; Store Real and Pop
+004609F4: mov     dword_1CA8A7C, eax
+004609F9: jz      short loc_460A1A; Jump if Zero (ZF=1)
+004609FB: mov     ecx, [esi]
+004609FD: mov     ebx, [esi+4]
+00460A00: add     edx, ecx; Add
+00460A02: mov     ecx, [esi+8]
+00460A05: add     edi, ebx; Add
+00460A07: add     eax, ecx; Add
+00460A09: mov     dword_1CA8A74, edx
+00460A0F: mov     dword_1CA8A78, edi
+00460A15: mov     dword_1CA8A7C, eax
+00460A1A: mov     esi, 0FFFF8000h
+00460A1F: mov     dword_1CA92F8, 0
+00460A29: cmp     edx, esi; Compare Two Operands
+00460A2B: mov     ecx, 7FFFh
+00460A30: jge     short loc_460A44; Jump if Greater or Equal (SF=OF)

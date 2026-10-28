@@ -1,0 +1,25 @@
+004939FB: mov     BATTLE_SLOT_DATA.cur_atb[edi], ebp
+00493A01: lea     ecx, ds:0[esi*8]; Load Effective Address
+00493A08: sub     ecx, esi; Integer Subtraction
+00493A0A: push    esi
+00493A0B: lea     edi, [esi+ecx*4]; Load Effective Address
+00493A0E: shl     edi, 4; Shift Logical Left
+00493A11: mov     dword_1CFF184[edi], ebp
+00493A17: call    domain__BattleSlot_ManageDeathState; BattleSlot_ManageDeathState: death cleanup - com_file_id=-1, flag_data=0, status_1|=DEATH, zero crisis_level, fill timers with sentinel 0xFBA9
+00493A1C: mov     RELATED_CHARA_ID[edi], 0FFh
+00493A23: call    domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00493A28: call    sub_4A8460; Call Procedure
+00493A2D: push    esi
+00493A2E: call    check_combat_scene_511; Call Procedure
+00493A33: add     esp, 14h; Add
+00493A36: jmp     short loc_493A8C; Jump
+00493A38: test    byte ptr [esp+10h+param_status_1], 1; Logical Compare
+00493A3D: jz      short loc_493A8C; Jump if Zero (ZF=1)
+00493A3F: mov     edx, dword ptr BATTLE_SLOT_DATA.flag_data[edi]
+00493A45: and     edx, 0FFFFFFF7h; Logical AND
+00493A48: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], edx
+00493A4E: mov     eax, dword ptr BATTLE_SLOT_DATA.flag_data[edi]
+00493A54: and     al, 0FBh; Logical AND
+00493A56: mov     dword ptr BATTLE_SLOT_DATA.flag_data[edi], eax
+00493A5C: push    esi
+00493A5D: call    BattleUI_EnqueueCommand_18_128_0; UI reset wrapper: presentation::BattleUI_EnqueueCommand(slot, 18, 128, 0). Used when status transitions invalidate ready/menu state.

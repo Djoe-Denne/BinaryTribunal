@@ -26,7 +26,7 @@ Ne lis pas `.cursor/agents/*.md`. Cursor expose déjà les noms et descriptions 
 
 ## D'abord pas cher, escalade sur preuve
 
-N'utilise jamais un modèle plus cher sans raison. Évite le fan-out. Un worker capable vaut mieux que trois avis. Ordre :
+N'utilise jamais un modèle plus cher sans raison. Un worker capable vaut mieux que trois avis. Parallélise uniquement des tâches réellement indépendantes ; la limite par défaut est de cinq instances worker, sauf limite explicite de l'utilisateur. Ordre :
 
 1. Built-in `Explore` / `Bash` pour exploration pure ou commandes bruitées
 2. `mechanical-worker` (édition mécanique déterministe)
@@ -49,7 +49,7 @@ Tous les workers sont **Cursor Grok 4.6**. L'effort est figé dans le frontmatte
 
 Ne transforme pas un changement de trois lignes en réunion de cinq agents. Cérémonie minimale proportionnelle au risque. Tâche minuscule : fais-la toi-même au lieu de spawn — sauf pour une requête déléguée dont tu restes la racine de décision.
 
-Les workers ne peuvent pas spawn de sous-agents (le nesting Cursor s'arrête au petit-fils). Si exploration ou commandes bruitées nécessaires, lance toi-même `Explore` / `Bash` et passe un brief compact au worker.
+Les workers ne peuvent pas spawn de sous-agents (le nesting Cursor s'arrête au petit-fils). Toi seul peux créer plusieurs instances du même sous-agent : parallèle uniquement si objectifs, entrées et sorties sont disjoints, avec un ID d'instance par tâche et une collecte séparée. Si exploration ou commandes bruitées nécessaires, lance toi-même `Explore` / `Bash` et passe un brief compact au worker.
 
 ## Routage
 
@@ -88,8 +88,8 @@ Campagnes live testables uniquement sur demande explicite de l'utilisateur. Lit 
 - Défaut **1+V** : `semantic-analyste` (A) puis `semantic-reviewer` (V).
 - **1+P** autorisé si ≤ 80 instructions et A sort CERTAIN + nom confirmé, puis vérif §5.6 par toi (pas de V).
 - **2+1** (B aveugle + R) uniquement sur escalade : >200 instr., A trop large/menteur/UNCERTAIN/CONFLICT, désaccord V sur rôle/nom/confiance, §5.6 KO, ou V rend `ESCALADE_2+1`.
-- Ne jamais lancer A et B en parallèle sauf escalade 2+1 déjà décidée.
-- Une fonction à la fois. Jamais N+1 avant commit de N.
+- Une même fonction reste sérielle dans son pipeline. Plusieurs fonctions indépendantes peuvent être traitées par des instances distinctes.
+- En escalade 2+1 déjà décidée seulement, A et B peuvent tourner en parallèle ; R attend leurs deux livrables.
 
 ## Paquets de travail
 
@@ -131,9 +131,13 @@ Ne considère jamais la prose d'un worker comme preuve que la tâche est faite. 
 4. Git : uniquement `docs/tech/investigation/battle-static-discovery/semantic/<EA>__<Name>.md` (+ `decomp/<EA>__<Name>.md` si produit, + `semantic-certainty.md` si la classe change). Jamais `tools/_tmp_*`, `.cursor/mcp.json`, `glm-mcp-function-budget.md`, `nul`, HANDOFF, obsidian-docs, autres `M` de l'utilisateur.
 5. Message : `semantic(battle): <EA> <nom-court>` via PowerShell here-string. Pas de `--no-verify`, pas de push remote, pas d'amend.
 
-## Cadence 5 par 5
+## Parallélisme et cadence
 
-Choisis 5 EA de la file (ledger filtré bataille, ordre d'adresse), traite-les **en série** : pack → A → V (ou 1+P / 2+1) → §5.6 → push → commit. Rapport des 5 sous forme de tableau `EA | mode | confiance | nom | 1 phrase | A==V`. Enchaîne les 5 suivantes sans redemander, jusqu'à fin de session ou file vide. Jamais d'analyses en parallèle au sein d'un lot.
+Par défaut, parallélise jusqu'à **cinq instances worker** ; si l'utilisateur spécifie une autre limite, applique-la exactement. Crée plusieurs instances du même sous-agent pour les tâches indépendantes, mais jamais plus que le nombre de tâches sûrement parallélisables.
+
+Parallélise seulement sans dépendance ni conflit d'écriture : packs/decomp d'EA distincts, analyses A d'EA distincts, éditions mécaniques de fichiers distincts, diffusion wiki/evidence, requêtes utilisateur indépendantes. À l'intérieur d'un pipeline, sérialise : pack → A → V (ou 1+P / 2+1) → §5.6 → push IDB → commit. Aucun §5.6, push IDB ou git concurrent.
+
+Cadence : prends 5 EA de la file (ledger filtré bataille, ordre d'adresse), répartis-les sur au plus cinq instances, collecte leurs livrables, puis effectue §5.6, push et commit en série. Rapport des 5 sous forme de tableau `EA | mode | confiance | nom | 1 phrase | A==V`. Enchaîne les 5 suivantes sans redemander, jusqu'à fin de session ou file vide.
 
 ## Sortie vers la racine / l'utilisateur
 

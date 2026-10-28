@@ -1,0 +1,106 @@
+{
+  "ea": "0x50C860",
+  "name_label_only": "BattleModel_ScrollH4SlotV",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50c860",
+      "end": "0x50c949",
+      "hex": "8b44240483ec08568bb084000000578b463085c00f84c90000008b4c2418668b3c486685ff0f84b800000081e7ffff000033c903f833c033d28a07668b5602be01000000d3e685f274078bf04885f674084183f90c7ce8eb028bc18bf053992bc283e601660fb65701d1f883c00a8b5c2420c1e00603c2668944240c660fb64702c1e60703c6668944240e660fb64f0366894c24108b44240e660fb657048b4c240c2bc36689542412508d5424105152e89b95ffff66295c241a66895c241e660fb64702660fb64f048b5424182bc303f08d44241803ce515250e87195ffff83c4185b5f5e83c408c3"
+    }
+  ],
+  "assembly": "0050C860: mov     eax, [esp+actor]\n0050C864: sub     esp, 8; Integer Subtraction\n0050C867: push    esi\n0050C868: mov     esi, [eax+84h]\n0050C86E: push    edi\n0050C86F: mov     eax, [esi+30h]\n0050C872: test    eax, eax; Logical Compare\n0050C874: jz      loc_50C943; Jump if Zero (ZF=1)\n0050C87A: mov     ecx, [esp+10h+tableIndex]\n0050C87E: mov     di, [eax+ecx*2]\n0050C882: test    di, di; Logical Compare\n0050C885: jz      loc_50C943; Jump if Zero (ZF=1)\n0050C88B: and     edi, 0FFFFh; Logical AND\n0050C891: xor     ecx, ecx; Logical Exclusive OR\n0050C893: add     edi, eax; Add\n0050C895: xor     eax, eax; Logical Exclusive OR\n0050C897: xor     edx, edx; Logical Exclusive OR\n0050C899: mov     al, [edi]\n0050C89B: mov     dx, [esi+2]\n0050C89F: mov     esi, 1\n0050C8A4: shl     esi, cl; Shift Logical Left\n0050C8A6: test    edx, esi; Logical Compare\n0050C8A8: jz      short loc_50C8B1; Jump if Zero (ZF=1)\n0050C8AA: mov     esi, eax\n0050C8AC: dec     eax; Decrement by 1\n0050C8AD: test    esi, esi; Logical Compare\n0050C8AF: jz      short loc_50C8B9; Jump if Zero (ZF=1)\n0050C8B1: inc     ecx; Increment by 1\n0050C8B2: cmp     ecx, 0Ch; Compare Two Operands\n0050C8B5: jl      short loc_50C89F; Jump if Less (SF!=OF)\n0050C8B7: jmp     short loc_50C8BB; Jump\n0050C8B9: mov     eax, ecx\n0050C8BB: mov     esi, eax\n0050C8BD: push    ebx\n0050C8BE: cdq; EAX -> EDX:EAX (with sign)\n0050C8BF: sub     eax, edx; Integer Subtraction\n0050C8C1: and     esi, 1; Logical AND\n0050C8C4: movzx   dx, byte ptr [edi+1]; Move with Zero-Extend\n0050C8C9: sar     eax, 1; Shift Arithmetic Right\n0050C8CB: add     eax, 0Ah; Add\n0050C8CE: mov     ebx, dword ptr [esp+14h+scrollV]\n0050C8D2: shl     eax, 6; Shift Logical Left\n0050C8D5: add     eax, edx; Add\n0050C8D7: mov     word ptr [esp+14h+var_8], ax\n0050C8DC: movzx   ax, byte ptr [edi+2]; Move with Zero-Extend\n0050C8E1: shl     esi, 7; Shift Logical Left\n0050C8E4: add     eax, esi; Add\n0050C8E6: mov     word ptr [esp+14h+var_8+2], ax\n0050C8EB: movzx   cx, byte ptr [edi+3]; Move with Zero-Extend\n0050C8F0: mov     [esp+14h+var_4], cx\n0050C8F5: mov     eax, [esp+14h+var_8+2]\n0050C8F9: movzx   dx, byte ptr [edi+4]; Move with Zero-Extend\n0050C8FE: mov     ecx, [esp+14h+var_8]\n0050C902: sub     eax, ebx; Integer Subtraction\n0050C904: mov     [esp+14h+var_2], dx\n0050C909: push    eax\n0050C90A: lea     edx, [esp+18h+var_8]; Load Effective Address\n0050C90E: push    ecx\n0050C90F: push    edx\n0050C910: call    BattleTimQueue_EnqueueType3; enqueue slot type 3 (packed coords)\n0050C915: sub     word ptr [esp+20h+var_8+2], bx; Integer Subtraction\n0050C91A: mov     [esp+20h+var_2], bx\n0050C91F: movzx   ax, byte ptr [edi+2]; Move with Zero-Extend\n0050C924: movzx   cx, byte ptr [edi+4]; Move with Zero-Extend\n0050C929: mov     edx, [esp+20h+var_8]\n0050C92D: sub     eax, ebx; Integer Subtraction\n0050C92F: add     esi, eax; Add\n0050C931: lea     eax, [esp+20h+var_8]; Load Effective Address\n0050C935: add     ecx, esi; Add\n0050C937: push    ecx\n0050C938: push    edx\n0050C939: push    eax\n0050C93A: call    BattleTimQueue_EnqueueType3; enqueue slot type 3 (packed coords)\n0050C93F: add     esp, 18h; Add\n0050C942: pop     ebx\n0050C943: pop     edi\n0050C944: pop     esi\n0050C945: add     esp, 8; Add\n0050C948: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50c860",
+      "end": "0x50c87a",
+      "successors": [
+        "0x50c87a",
+        "0x50c943"
+      ]
+    },
+    {
+      "start": "0x50c87a",
+      "end": "0x50c88b",
+      "successors": [
+        "0x50c88b",
+        "0x50c943"
+      ]
+    },
+    {
+      "start": "0x50c88b",
+      "end": "0x50c89f",
+      "successors": [
+        "0x50c89f"
+      ]
+    },
+    {
+      "start": "0x50c89f",
+      "end": "0x50c8aa",
+      "successors": [
+        "0x50c8aa",
+        "0x50c8b1"
+      ]
+    },
+    {
+      "start": "0x50c8aa",
+      "end": "0x50c8b1",
+      "successors": [
+        "0x50c8b1",
+        "0x50c8b9"
+      ]
+    },
+    {
+      "start": "0x50c8b1",
+      "end": "0x50c8b7",
+      "successors": [
+        "0x50c89f",
+        "0x50c8b7"
+      ]
+    },
+    {
+      "start": "0x50c8b7",
+      "end": "0x50c8b9",
+      "successors": [
+        "0x50c8bb"
+      ]
+    },
+    {
+      "start": "0x50c8b9",
+      "end": "0x50c8bb",
+      "successors": [
+        "0x50c8bb"
+      ]
+    },
+    {
+      "start": "0x50c8bb",
+      "end": "0x50c943",
+      "successors": [
+        "0x50c943"
+      ]
+    },
+    {
+      "start": "0x50c943",
+      "end": "0x50c949",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50c9f8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50c950"
+    }
+  ],
+  "code_targets": [
+    "0x505eb0"
+  ],
+  "instruction_count": 79
+}

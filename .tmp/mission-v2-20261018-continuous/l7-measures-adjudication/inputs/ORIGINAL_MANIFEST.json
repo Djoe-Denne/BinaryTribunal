@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "l7-measures-driver-manifest/v1",
+  "at": "2026-10-17T18:25:03.019Z",
+  "missionId": "team_mv6tmopg_0000_4urn3c",
+  "task": "task_mvcpivkv_0015_ajdsq7",
+  "member": "l7-measures-driver-r1",
+  "role": "author",
+  "authorModel": "opencode-go/glm-5.3-flash#max",
+  "agentType": "build",
+  "nonblind": true,
+  "stage": "AUTHORED_SOURCE_UNEXECUTED_AWAITING_PARENT_GO",
+  "authorExecutedNothing": true,
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_L7_MEASURES_DRIVER_OUTPUT_20261017",
+  "deliverables": [
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_L7_MEASURES_DRIVER_OUTPUT_20261017/measures-driver.ts",
+      "sha256": "04e3122d4414c8e8d408c6612810c6a2ef86358630467abb1a9de98f239b3d28",
+      "bytes": 45856,
+      "note": "source-only driver; never run, compiled or imported by its author; the parent re-pins and executes under its own separate GO, capturing stdout"
+    },
+    {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_L7_MEASURES_DRIVER_OUTPUT_20261017/MANIFEST.json",
+      "note": "self-describing pins, budget, seeds, sizes, arms and provenance"
+    }
+  ],
+  "pins": {
+    "frozenBench": {
+      "kind": "frozen-dependency",
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/L7_SPARSE_BENCH_R1_OUTPUT_20261017/sparse-bench.ts",
+      "sha256": "91c127a4b903b52a8ba3b6df5e75c75f2cde41c80748bdf8b973c9ec88ca304b",
+      "bytes": 20318,
+      "driverImport": "single module import, absolute pinned specifier with SHA in comment"
+    },
+    "frozenProtocol": {
+      "kind": "frozen-rule",
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/L7_SPARSE_BENCH_R1_OUTPUT_20261017/PROTOCOL.md",
+      "sha256": "c71928c75832883aa166d3f586c4b677b888dd6a5895435b06b3da1fe6810055",
+      "bytes": 20008
+    },
+    "driverScope": {
+      "kind": "rule",
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/V3_L7_MEASURES_DRIVER_INPUTS_20261017/SCOPE.md",
+      "sha256": "f3b87efe55837ef7fb715ff51e20d277861bab532adc7bee1a7a53848faea4f2",
+      "bytes": 2445
+    },
+    "benchReviewScope": {
+      "kind": "rule",
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/re-graph-scheduler/L7_SPARSE_BENCH_REVIEW_SCOPE_20261017.md",
+      "sha256": "e31dd1eefb0a6d01351798b18d894e4d5db99b1207f83b1aa297500c35370b2b",
+      "bytes": 1975,
+      "reviewVerdict": "ACCEPTABLE_SOURCE_SCOPED (as declared by SCOPE.md; parent-verified)"
+    },
+    "parentAdmission": {
+      "inputManifestSha256": "be3d568c8e00d1c75ee4cc09fa49035870df775bdc6fc88d074faeecfdf38c97",
+      "owner": "lead ses_eca40a8e2ffeanEKTBLiGjDNw8 (opencode-go/glm-5.3-flash#max)",
+      "stage": "PARENT_ADMITTED_IN_PLACE_READONLY_PREPARED_NOT_APPROVED",
+      "pinVerification": "4/4 inputs recalculated (SHA256 + bytes) exact, total 44746B == manifest totalBytes"
+    }
+  },
+  "budget": {
+    "targetMs": 90000,
+    "rule": "driver reports measuredTotalWallMs and withinBudget in the DTO; no silent overshoot; whole run (generation, summaries, hashes, order preparation, all replays) is inside the target"
+  },
+  "sizes": {
+    "admitted": [1000, 10000],
+    "excluded": [100000],
+    "anti100k": {
+      "size100000NeverRequested": true,
+      "allowLargePropertyNeverPresentInAnyRequest": true,
+      "noArgvEnvFlagParsing": true,
+      "noFlagCanExtendTo100k": true,
+      "noBypassAttemptOfGeneratorRefusal": true,
+      "staticSizeGuardInDriver": "deriveExpectations throws on any size other than 1000/10000"
+    }
+  },
+  "seeds": {
+    "values": [0, 1, 12648430, 4294967295],
+    "hexNotes": ["0x0", "0x1", "0x00c0ffee", "0xffffffff"],
+    "policy": "PROTOCOL-preregistered constants declared in the driver; no runtime randomness (no Math.random, no crypto, no time-derived values outside declared wall-clock segments)"
+  },
+  "arms": [
+    {
+      "name": "fifo-baseline",
+      "title": "baseline FIFO (case order)",
+      "orderingRule": "ascending dense node id",
+      "tieRule": "ascending dense node id",
+      "plantedLabelInputs": "none",
+      "edgeSemantics": "structure-asserted-only-no-dependency-binding"
+    },
+    {
+      "name": "lpt-duration-desc",
+      "title": "variant longest-processing-time-first",
+      "orderingRule": "descending synthetic durationTicks, then ascending dense node id",
+      "tieRule": "ascending dense node id",
+      "plantedLabelInputs": "none",
+      "edgeSemantics": "structure-asserted-only-no-dependency-binding"
+    },
+    {
+      "name": "outdegree-fanout-desc",
+      "title": "variant static out-degree fanout first",
+      "orderingRule": "descending static directed out-degree, then ascending dense node id",
+      "tieRule": "ascending dense node id",
+      "plantedLabelInputs": "none",
+      "edgeSemantics": "structure-asserted-only-no-dependency-binding (out-degree is a structure-derived priority key, not a dependency/waiting interpretation)"
+    }
+  ],
+  "armFairness": {
+    "canonicalCasePerSizeSeed": "generated once per (size, seed); every arm receives the IDENTICAL canonical case",
+    "sameEventsDurationsResources": "eventTape, durationTicks, demand and initial capacities identical across arms",
+    "armsDifferOnlyIn": "declared static admission ordering",
+    "immutabilityCheck": "fnv1a32-word-stream/v1 canonical hash (non-cryptographic) verified unchanged before and after every replay (warmup and measured)",
+    "replayModel": "non-preemptive, dependency-free, capacities exclusively from the common event tape (absolute values), reductions affect future admissions only, per-tick order tape -> completions -> admissions"
+  },
+  "repetitions": {
+    "warmupReplaysPerArmCase": 1,
+    "measuredReplaysPerArmCase": 5,
+    "note": "author-declared constants; parent may re-pin different counts before execution; no CLI/env flag exists to change them"
+  },
+  "expectedCounters": {
+    "edgeCount": { "1000": 2890, "10000": 28915 },
+    "role": "analytic expectations: independently recomputed in the driver (E=3A-4B-1, I=floor(N/64), B=ceil(A/64), kind splits A / A-3B / A-2B / B-1, SCC=B+I, last block 25/52, prepared=ceil(N/4)) and asserted against the generated structure; frozen anchors 2890/28915 are a cross-check ONLY and are NEVER presented as observations"
+  },
+  "metricDto": {
+    "schemaVersion": "l7-measures-driver-dto/v1",
+    "channel": "single JSON line on stdout (captured by parent)",
+    "sourceNeutral": true,
+    "productFormat": false,
+    "nativeGainClaims": false,
+    "failureMode": "on any failed assertion the driver emits a failure DTO line and rethrows (non-zero exit)"
+  },
+  "labels": {
+    "plantedSynthetic": true,
+    "leakageDeclared": true,
+    "usedAsPolicyInput": false,
+    "note": "planted community/role are synthetic-topology-not-native-not-llm; prepared templates deliberately leak the planted construction; no label enters any policy input in this driver"
+  },
+  "environmentLimits": {
+    "network": "none",
+    "fileWrites": "none (stdout captured by parent)",
+    "productFf8HarnessImport": false,
+    "nodeBuiltinImports": false,
+    "unavailableMeasurementsDeclaredInDto": ["CPU time", "profiler-precision peak/retained memory", "machine/CPU/cores/RAM/OS facts", "stdout/stderr log hashes and argv/cwd binding (external-harness responsibilities)"]
+  },
+  "authorExecution": "NONE — the author ran nothing (no node/bun on the driver, no compile, no bench execution, no product/DB/git/native/board-write); the parent re-pins this source and executes the measures itself under a separate GO",
+  "provenanceScopeReview": "docs/missions/re-graph-scheduler/L7_SPARSE_BENCH_REVIEW_SCOPE_20261017.md (e31dd1ee/1975B) — independent bench review scope; verdict ACCEPTABLE_SOURCE_SCOPED as declared by SCOPE.md"
+}

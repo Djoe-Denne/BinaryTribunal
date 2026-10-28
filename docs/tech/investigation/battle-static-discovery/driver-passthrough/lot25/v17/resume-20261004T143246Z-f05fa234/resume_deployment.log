@@ -1,0 +1,44 @@
+# L25-v17-RESUME-PREP — resume deployment log (redeploy only)
+
+Receipt time (UTC): 2026-10-04T14:38:27.9980640Z
+Instance: L25-v17-RESUME-PREP (subagent)
+Scope boundaries honored: NO FF8 launch, NO capture/arm, NO operator action requested, NO code/IDA/config edits, NO git/wiki actions.
+
+## Pre-mutation acceptance (all PASS)
+
+- Processes: CIM Win32_Process LIKE '%FF8%' = 0; Get-Process '*ff8*' = 0 (checked before backup and again immediately before candidate copy; final recheck also 0).
+- Candidate identity: lot25/v17/gfx_driver_passthrough.dll SHA256 0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc, len 614912. Not rebuilt, not modified.
+- Game pre-state: AF3DN.P SHA256 3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19, len 145920 (== expected v13 archive bytes, == old rollback archive).
+- EXE: FF8_EN.exe SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, len 22124216.
+- dotemu_orig.dll present, SHA256 539558e4f5cf495735ccc8d5e98a185e3660ceb8d5ddf21eb7558b02fbb21fec (touched not).
+- Sidecars/artifacts scan before mutation: no gfx_passthrough.stage0, no *dump*, no nohook, no .cmds trigger, no top-level .log/.csv artifacts. Only recent-mtime file was AF3DN.P itself (byte-exact restore done at pause). No STOP condition.
+- Prior rollback preserved untouched: tools/_tmp_af3dn_drop/captures/lot25-pass2bis-pre-a36876ff48614386a33b64086ff2278a/AF3DN.P.rollback, SHA256 3da7883f..., len 145920, single-file dirtree. No rebuild taken.
+- Gate evidence copies (this run dir), hashes re-taken:
+  - gate_strict.json 2802993022a10f5a1b6ccce8d7e559a78d1a77e2aaa9de8b76ff097e32bda27a — status BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED, deployed:false, harness 648 checks / 0 fails / exit 0, 17 exports observed, 5 build-sites, guard site 0x10009780, build-id 0x5644.
+  - python_tests.log 341af060850fc6c26f088ccdca8ab398b01d298ada80a2a3f63801daa6e95c11 — Ran 292 tests OK, exit 0.
+  - gate_run.log bd8c697628042df5faa1117cd6568d8bb6c86883e8ad5d57f289fe5c4752724e — PASS BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED.
+  - lifecycle_final_receipt.json (prior, v17 root) 834a9eaca725048881e83ecc4503a368eecb4a8b26ccc9d0306fab8b589e7579 — 32 checks / 0 fails / PASS_OFFLINE / synthetic process / same candidate SHA. NOT a live witness.
+
+## Mutation sequence (guarded script, ABORT on process presence or backup mismatch)
+
+- STEP0 identity re-verified in-script (cand/game/exe hashes) — OK.
+- STEP0b process check = 0 — OK.
+- STEP1 fresh raw backup created BEFORE candidate copy:
+  C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44/AF3DN.P.rollback
+  SHA256 3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19, len 145920 (streaming Get-FileHash, compare PASSED) — OK.
+- STEP2 process recheck = 0 — OK.
+- STEP3 Copy-Item candidate -> game AF3DN.P; post-copy SHA256 0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc, len 614912, mtime 2026-10-04T13:19:17.4110859Z (source mtime preserved by Copy-Item).
+  Post-hash identity PASSED. No rollback needed (rollback_attempted=false).
+- STEP4 persistent opt-in marker created: game dir gfx_passthrough.stage0, len 111, SHA256 1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82. Content is neutral; no arm/capture semantics.
+- STEP5 final process check = 0 — OK.
+
+## Post-inventory (independent re-read)
+
+- Sidecars present in game dir: exactly { gfx_passthrough.stage0 }. No dump sprite, no nohook, no trigger commands.
+- Old rollback dir and its file untouched.
+
+## Verdict
+
+- WRITER VERIFIED POST-COPY: deployed bytes == candidate bytes (hash identity). This proves deployment identity ONLY.
+- NOT proven: live stage0 installation, readbacks, requested/result-observed/applied attribution, restore, fidelity. live = NOT AUTHORIZED until parent-led session; promotion [G-infrastructure] satisfied=false.
+- Next step belongs to parent: independent verification of this receipt, doc refresh, then operator request ("open the game then reply open" — agent must NOT ask).

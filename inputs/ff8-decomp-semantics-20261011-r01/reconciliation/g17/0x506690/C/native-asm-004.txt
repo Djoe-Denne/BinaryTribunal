@@ -1,0 +1,25 @@
+0050676F: push    ebx
+00506770: push    10h
+00506772: push    0Eh
+00506774: call    BdPlaySystemSE3D; Call Procedure
+00506779: add     esp, 28h; Add
+0050677C: jmp     short loc_50679F; Jump
+0050677E: test    dword ptr [esi+8], 10000h; Logical Compare
+00506785: jnz     short loc_506796; Jump if Not Zero (ZF=0)
+00506787: xor     edx, edx; Logical Exclusive OR
+00506789: mov     dl, [esi+1]
+0050678C: push    edx
+0050678D: push    edi
+0050678E: call    sub_506620; Call Procedure
+00506793: add     esp, 8; Add
+00506796: push    edi; actor
+00506797: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync
+0050679C: add     esp, 4; Add
+0050679F: test    battle_to_update_flags_dword_1D96A9C, 10000000h; Logical Compare
+005067A9: jnz     short loc_5067C6; Jump if Not Zero (ZF=0)
+005067AB: test    byte ptr [esi+3], 2; Logical Compare
+005067AF: jz      short loc_5067D0; Jump if Zero (ZF=1)
+005067B1: push    0FFh
+005067B6: push    0
+005067B8: push    1
+005067BA: push    0

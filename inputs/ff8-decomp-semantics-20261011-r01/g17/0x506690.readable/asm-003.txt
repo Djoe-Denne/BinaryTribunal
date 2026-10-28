@@ -1,0 +1,25 @@
+00506727: add     ebx, eax; Add
+00506729: call    BdLinkTask_Register; Call Procedure
+0050672E: add     esp, 14h; Add
+00506731: mov     [eax+0Ch], bl
+00506734: jmp     short loc_506749; Jump
+00506736: mov     ecx, [esi+8]
+00506739: and     eax, 0FFFFh; Logical AND
+0050673E: push    ecx
+0050673F: push    eax
+00506740: push    edi
+00506741: call    domain__BattleStatus_MaskWithSlotStatus2; READS status_2 to mask input flags before passing to sub_50A070.
+00506746: add     esp, 0Ch; Add
+00506749: test    byte ptr [esi+2], 40h; Logical Compare
+0050674D: jz      short loc_50677E; Jump if Zero (ZF=1)
+0050674F: push    offset unk_B8B858
+00506754: push    edi
+00506755: call    au_re_BdLinkTask_4; Call Procedure
+0050675A: push    7
+0050675C: push    edi
+0050675D: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript
+00506762: lea     ebx, [edi+1Ch]; Load Effective Address
+00506765: push    ebx
+00506766: push    8
+00506768: push    0Dh
+0050676A: call    BdPlaySystemSE3D; Call Procedure

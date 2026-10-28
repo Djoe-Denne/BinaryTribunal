@@ -1,0 +1,88 @@
+bun test v1.4.2 (744846f84)
+
+test\member-recovery.test.ts:
+18 | test("restart reconciles three phantom running workers and a stopped review without prompting or aborting", async () => {
+19 |   const d = fixture(); for (const n of ["l2", "l4", "l5"]) worker(d, n)
+20 |   worker(d, "l3", "shutdown_requested", "idle")
+21 |   expect(getTeamCapacity(d.db, "t").running).toBe(4)
+22 |   const r = await reconcileInactiveMembers(d, ["t"])
+23 |   expect(r.recovered).toHaveLength(4); expect(r.unavailable).toBe(false)
+                           ^
+error: expect(received).toHaveLength(expected)
+
+Expected length: 4
+Received length: 0
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:23:23)
+(fail) restart reconciles three phantom running workers and a stopped review without prompting or aborting [27.55ms]
+30 | 
+31 | test("active and retrying native sessions are not stopped or freed", async () => {
+32 |   const d = fixture(); worker(d, "active"); worker(d, "retry", "shutdown_requested", "running")
+33 |   d.client.session.status = async () => ({ data: { ses_active: { type: "busy" }, ses_retry: { type: "retry" } } })
+34 |   const r = await reconcileInactiveMembers(d, ["t"])
+35 |   expect(r.checked).toBe(2); expect(r.recovered).toEqual([]); expect(getTeamCapacity(d.db, "t").running).toBe(2)
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 0
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:35:21)
+(fail) active and retrying native sessions are not stopped or freed [10.77ms]
+38 | test("failed, absent, malformed or timed-out native observations never release capacity", async () => {
+39 |   const d = fixture(); worker(d, "worker")
+40 |   for (const get of [async () => { throw new Error("network") }, async () => ({}), async () => ({ data: { broken: { type: "unknown" } } }), () => new Promise<never>(() => {})]) {
+41 |     d.client.session.status = get as typeof d.client.session.status
+42 |     const r = await reconcileInactiveMembers(d, ["t"], 10)
+43 |     expect(r.unavailable).toBe(true); expect(row(d, "worker")).toMatchObject({ status: "busy", execution_status: "running" })
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:43:27)
+(fail) failed, absent, malformed or timed-out native observations never release capacity [10.29ms]
+(pass) fresh and still-owned starting/spawn admissions cannot be reconciled away [9.74ms]
+54 | 
+55 | test("an observed row changed during the native read is fenced against stale recovery", async () => {
+56 |   const d = fixture(); worker(d, "worker")
+57 |   d.client.session.status = async () => { d.db.run("UPDATE team_member SET time_updated=2 WHERE name='worker'"); return { data: {} } }
+58 |   const r = await reconcileInactiveMembers(d, ["t"])
+59 |   expect(r.checked).toBe(1); expect(r.recovered).toEqual([]); expect(getTeamCapacity(d.db, "t").running).toBe(1)
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 0
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:59:21)
+(fail) an observed row changed during the native read is fenced against stale recovery [9.63ms]
+(pass) only owning directory and active teams may recover members [9.61ms]
+(pass) interrupted task ownership and dirty worktrees remain intact; inactivity never completes a task [11.01ms]
+78 | 
+79 | test("completed shutdown releases unfinished claims, never accepted results", async () => {
+80 |   const d = fixture(); worker(d, "worker", "shutdown_requested", "idle")
+81 |   for (const [id, status] of [["unfinished", "in_progress"], ["done", "completed"]]) d.db.run("INSERT INTO team_task(id,team_id,content,status,assignee,time_created,time_updated) VALUES (?, 't','fixture',?,'worker',0,0)", [id, status])
+82 |   await reconcileInactiveMembers(d, ["t"])
+83 |   expect(d.db.query("SELECT status,assignee FROM team_task WHERE id='unfinished'").get()).toEqual({ status: "pending", assignee: null })
+                                                                                               ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "assignee": null,
+-   "status": "pending",
++   "assignee": "worker",
++   "status": "in_progress",
+  }
+
+- Expected  - 2
++ Received  + 2
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\member-recovery.test.ts:83:91)
+(fail) completed shutdown releases unfinished claims, never accepted results [12.43ms]
+
+ 3 pass
+ 5 fail
+ 14 expect() calls
+Ran 8 tests across 1 file. [254.00ms]

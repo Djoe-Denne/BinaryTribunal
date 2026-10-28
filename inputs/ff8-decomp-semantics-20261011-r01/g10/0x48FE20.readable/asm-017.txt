@@ -1,0 +1,25 @@
+00490557: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+0049055D: add     edx, ecx; Add
+0049055F: mov     ecx, BATTLE_SLOT_DATA.max_hp[eax]
+00490565: imul    ecx, edx; Signed Multiply
+00490568: mov     eax, 51EB851Fh
+0049056D: imul    ecx; Signed Multiply
+0049056F: sar     edx, 5; Shift Arithmetic Right
+00490572: mov     ecx, edx
+00490574: shr     ecx, 1Fh; Shift Logical Right
+00490577: add     edx, ecx; Add
+00490579: mov     esi, edx
+0049057B: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490580: mov     eax, [esp+20h+target_slot_offset]; jumptable 0049045B case 5
+00490584: xor     esi, esi; Logical Exclusive OR
+00490586: mov     si, BATTLE_SLOT_DATA.damage_accumulator[eax]
+0049058D: mov     BATTLE_SLOT_DATA.damage_accumulator[eax], 0
+00490596: shr     esi, 2; Shift Logical Right
+00490599: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+0049059E: mov     edx, [esp+20h+target_slot_offset]; jumptable 0049045B case 6
+004905A2: mov     eax, 66666667h
+004905A7: mov     ecx, BATTLE_SLOT_DATA.max_hp[edx]
+004905AD: imul    ecx; Signed Multiply
+004905AF: sar     edx, 2; Shift Arithmetic Right
+004905B2: mov     eax, edx
+004905B4: shr     eax, 1Fh; Shift Logical Right

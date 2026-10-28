@@ -1,0 +1,25 @@
+00508FD6: movsx   edx, word ptr [ebx+4]; Move with Sign-Extend
+00508FDA: add     eax, ecx; Add
+00508FDC: mov     [esi+4], edx
+00508FDF: movsx   ecx, word ptr [ebx+2]; Move with Sign-Extend
+00508FE3: add     ecx, eax; Add
+00508FE5: mov     [esp+14h+var_4], eax
+00508FE9: mov     [esi], ecx
+00508FEB: mov     cl, [ebx+1]
+00508FEE: mov     dl, cl
+00508FF0: shr     edx, 1; Shift Logical Right
+00508FF2: and     edx, 1; Logical AND
+00508FF5: inc     edx; Increment by 1
+00508FF6: test    edx, edx; Logical Compare
+00508FF8: jle     loc_50923B; Jump if Less or Equal (ZF=1 | SF!=OF)
+00508FFE: push    ebp
+00508FFF: test    cl, 1; Logical Compare
+00509002: jz      loc_509136; Jump if Zero (ZF=1)
+00509008: mov     al, [ebx+6]
+0050900B: test    al, al; Logical Compare
+0050900D: jz      loc_509136; Jump if Zero (ZF=1)
+00509013: push    esi
+00509014: call    Battle__ReadPositionType; Call Procedure
+00509019: movsx   eax, ax; Move with Sign-Extend
+0050901C: cdq; EAX -> EDX:EAX (with sign)
+0050901D: sub     eax, edx; Integer Subtraction

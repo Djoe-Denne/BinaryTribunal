@@ -269,7 +269,7 @@ export function validateStaticJsonSchema(value: unknown, schema: StaticJsonSchem
     if (typeof input === "number") {
       if (!Number.isFinite(input)) errors.push(`${at}: non-finite number`);
       if (Object.is(input, -0)) errors.push(`${at}: non-canonical negative zero`);
-      if (actual === "integer" && !Number.isSafeInteger(input)) errors.push(`${at}: unsafe integer`);
+      if (actual === "integer" && !types.includes("number") && !Number.isSafeInteger(input)) errors.push(`${at}: unsafe integer`);
       if (rule.minimum !== undefined && input < rule.minimum) errors.push(`${at}: minimum violation`);
       if (rule.maximum !== undefined && input > rule.maximum) errors.push(`${at}: maximum violation`);
     }

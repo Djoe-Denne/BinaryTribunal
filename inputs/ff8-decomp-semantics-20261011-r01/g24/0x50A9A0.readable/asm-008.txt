@@ -1,0 +1,25 @@
+0050AC0F: jb      short loc_50AC1A; Jump if Below (CF=1)
+0050AC11: or      edx, 20h; Logical Inclusive OR
+0050AC14: mov     battle_to_update_flags_dword_1D96A9C, edx
+0050AC1A: push    offset byte_1D99A78; int
+0050AC1F: call    g_GfActiveCallbackPtr; E2 action_seq C4: call [g_GfActiveCallbackPtr=0x21DFEC4] <- MagicList_Logic @0xC81774 via writer unique Magic_GetIDLoad 0x50AF20 (borne 0..399)
+0050AC25: mov     g_GfSequenceContextCandidateA, eax
+0050AC2A: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AC2F: add     esp, 4; Add
+0050AC32: cmp     byte ptr [eax+1], 0FEh; Compare Two Operands
+0050AC36: jnz     short loc_50AC4F; Jump if Not Zero (ZF=0)
+0050AC38: xor     edx, edx; Logical Exclusive OR
+0050AC3A: mov     dx, [eax+4]
+0050AC3E: xor     eax, eax; Logical Exclusive OR
+0050AC40: mov     al, byte_1D28DF7
+0050AC45: push    edx
+0050AC46: push    eax
+0050AC47: call    pre_computeGFBoost?; Call Procedure
+0050AC4C: add     esp, 8; Add
+0050AC4F: mov     al, [esi+0Dh]
+0050AC52: pop     edi
+0050AC53: inc     al; Increment by 1
+0050AC55: mov     word_1D99A8E, 0
+0050AC5E: mov     [esi+0Dh], al
+0050AC61: pop     esi
+0050AC62: xor     eax, eax; Logical Exclusive OR

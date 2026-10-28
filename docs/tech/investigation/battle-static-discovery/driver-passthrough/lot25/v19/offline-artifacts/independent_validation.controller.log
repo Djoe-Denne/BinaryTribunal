@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\verify_lot25_v19_offline.py", line 151, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\verify_lot25_v19_offline.py", line 60, in main
+    all_starts=sorted({v for v in symbols.values() if pe.section(v-pe.image_base)['characteristics']&0x20000000})
+                                                      ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_lifecycle.py", line 124, in section
+    require(len(found) == 1, f'RVA has no unique section: {rva:#x}')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_lifecycle.py", line 75, in require
+    raise GateFailure(message)
+gate_lot25_v18_lifecycle.GateFailure: RVA has no unique section: 0x2c

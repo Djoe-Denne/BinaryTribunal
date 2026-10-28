@@ -1,0 +1,41 @@
+{
+  "attemptId": "fixture-native-004cacaf340e:c1:B:96cac6156526bded4e7d:a1",
+  "authorId": "fixture-native-004cacaf340e:c1:B:96cac6156526bded4e7d:a1:c0c922b7c95c11ee90f462d2",
+  "cycle": 1,
+  "executionId": "fixture-native-004cacaf340e:c1:B:96cac6156526bded4e7d:a1:c0c922b7c95c11ee90f462d2",
+  "identity": {
+    "ea": "0x1000",
+    "sha256": "251447ee91a9067dcd6ab96703133f617565974cd6c4819021760c4688c91abf",
+    "version": "SYNTHETIC-x86-v1"
+  },
+  "inputFingerprint": "c0c922b7c95c11ee90f462d231183488b8fdfcfe8073d7bebc353aab143bc0a9",
+  "inputVersions": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-bridge-canary-jsfsKb\\fixture.asm",
+      "sha256": "1c8b445befcfe1754363b3e79cae9cb1b46e3809d014bf87e3ac7e7e7af60afc",
+      "version": "synthetic-v1"
+    }
+  ],
+  "kind": "proposal",
+  "missionId": "fixture-native-004cacaf340e",
+  "previousResultIds": [],
+  "propositions": [
+    {
+      "contradictions": [],
+      "evidence": [
+        {
+          "detail": "Native read of the approved ASM projection shows bytes 31 C0 C3 at stated EA 0x1000: xor eax, eax; ret (lines 2–4). The XOR clears all 32 bits of EAX; the near RET pops the return address without immediate argument cleanup. SHA-256 is controller-reported, not worker-computed. SYNTHETIC opcode evidence only; not an IDA/FF8 native gate.",
+          "id": "fixture-opcodes",
+          "sha256": "1c8b445befcfe1754363b3e79cae9cb1b46e3809d014bf87e3ac7e7e7af60afc",
+          "source": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-bridge-canary-jsfsKb\\fixture.asm"
+        }
+      ],
+      "id": "B-xor-ret",
+      "questions": [],
+      "text": "In this synthetic x86-32 fixture, normal execution returns with EAX=0 (also AX=0 and AL=0). XOR sets ZF=PF=1, clears CF=OF=SF, and leaves AF undefined; RET preserves those flags, loads EIP from [ESP], and advances ESP by four bytes. No arguments are accessed, callees invoked, or data memory written. Under an EAX-return ABI the return value is zero; the sequence alone does not establish cdecl, argument count, or a source-language return type."
+    }
+  ],
+  "role": "B",
+  "schemaVersion": 1,
+  "taskId": "fixture-native-004cacaf340e:c1:B:96cac6156526bded4e7d"
+}

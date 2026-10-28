@@ -1,0 +1,25 @@
+0048E183: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E188: push    48h ; 'H'
+0048E18A: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048E191: mov     byte ptr [esp+28h+p_command_type], 0
+0048E196: mov     ebx, 9
+0048E19B: mov     [esp+28h+p_always_zero], 0Ah
+0048E1A0: mov     [esp+28h+magic_id], ecx
+0048E1A4: call    domain__BattleText_GetMiscText; Call Procedure
+0048E1A9: add     esp, 4; Add
+0048E1AC: mov     battle_message_pointer, eax
+0048E1B1: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E1B6: push    ebp; jumptable 0048D37A case 7
+0048E1B7: call    getAddressAbilityName; Call Procedure
+0048E1BC: add     esp, 4; Add
+0048E1BF: mov     edi, eax
+0048E1C1: mov     byte ptr DEVOUR_SUCEED, 0
+0048E1C8: mov     BOOL_TARGET_CHOOSEN, 0
+0048E1CF: call    BattleTarget_BuildAliveTargetableMask; Builds the 7-bit generic alive/targetable mask over native slots 6..0. A bit requires flag_data bit0, status_1 Death clear, and flag_data bit6 clear. This helper does not apply strict Sleep/Stop/Confuse/Angel-Wing filtering.
+0048E1D4: mov     edx, [esp+24h+p_enemy_number]
+0048E1D8: mov     ecx, eax
+0048E1DA: and     ecx, edx; Logical AND
+0048E1DC: test    cx, cx; Logical Compare
+0048E1DF: jnz     short loc_48E243; Jump if Not Zero (ZF=0)
+0048E1E1: mov     bl, AI_PREPARE_SUMMON_FLAG
+0048E1E7: mov     cx, 7

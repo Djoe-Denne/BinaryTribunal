@@ -1,0 +1,25 @@
+00489C9F: mov     eax, 1
+00489CA4: shl     eax, cl; Shift Logical Left
+00489CA6: mov     [esp+74h+p_monster_slot_id], eax
+00489CAA: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489CAF: lea     eax, [ebx+ebx*2]; jumptable 00489B25 cases 220-227
+00489CB2: mov     edx, 1
+00489CB7: lea     eax, [ebx+eax*4]; Load Effective Address
+00489CBA: shl     eax, 4; Shift Logical Left
+00489CBD: add     eax, offset BATTLE_SLOT_DATA; Add
+00489CC2: mov     cx, [eax+ecx*4-34Ch]
+00489CCA: shl     edx, cl; Shift Logical Left
+00489CCC: mov     [esp+74h+p_monster_slot_id], edx
+00489CD0: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489CD5: xor     edi, edi; jumptable 00489B25 default case, cases 210-219
+00489CD7: mov     eax, offset BATTLE_SLOT_DATA.com_file_id
+00489CDC: cmp     [eax], dl; Compare Two Operands
+00489CDE: jz      short loc_489D02; Jump if Zero (ZF=1)
+00489CE0: add     eax, 0D0h; Add
+00489CE5: inc     edi; Increment by 1
+00489CE6: cmp     eax, offset byte_1D2817B; Compare Two Operands
+00489CEB: jl      short loc_489CDC; Jump if Less (SF!=OF)
+00489CED: mov     ecx, 0FFh
+00489CF2: mov     eax, 1
+00489CF7: shl     eax, cl; Shift Logical Left
+00489CF9: mov     [esp+74h+p_monster_slot_id], eax

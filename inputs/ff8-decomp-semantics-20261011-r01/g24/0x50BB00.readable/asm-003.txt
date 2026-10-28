@@ -1,0 +1,25 @@
+0050BBAD: mov     al, byte ptr dword_1D99A84+1
+0050BBB2: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050BBB8: push    eax; char
+0050BBB9: push    ecx; unsigned __int8 *
+0050BBBA: call    BattleActionSequence_SelectGenericCameraAnimation; Generic-action camera selector for presentation. Examines g_GfSequenceContextSharedB command_type/flags plus attacker/target slot state, chooses a stage camera animation ID or explicit camera opcode, and queues it through BS_GetCameraAnimationPointer. Camera-less cases clear the force-camera flag instead.
+0050BBBF: mov     al, [esi+0Dh]
+0050BBC2: add     esp, 8; Add
+0050BBC5: inc     al; Increment by 1
+0050BBC7: mov     [esi+0Dh], al
+0050BBCA: mov     edx, dword_1D99A40; jumptable 0050BB17 case 3
+0050BBD0: mov     ecx, [edx+74h]
+0050BBD3: mov     ax, [ecx+2Ch]
+0050BBD7: test    al, 0C0h; Logical Compare
+0050BBD9: jnz     short loc_50BBE4; Jump if Not Zero (ZF=0)
+0050BBDB: push    ebx
+0050BBDC: mov     bl, [edx]
+0050BBDE: test    bl, 2; Logical Compare
+0050BBE1: pop     ebx
+0050BBE2: jnz     short def_50BB17; jumptable 0050BB17 default case
+0050BBE4: mov     dl, byte ptr g_BattleCameraFlags
+0050BBEA: test    dl, dl; Logical Compare
+0050BBEC: jnz     short def_50BB17; jumptable 0050BB17 default case
+0050BBEE: and     eax, 0FF7Fh; Logical AND
+0050BBF3: mov     [ecx+2Ch], ax
+0050BBF7: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks

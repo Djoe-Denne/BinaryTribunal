@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "request_id": "campaign-full-utilization-2026-10-10",
+  "target_supervisor_session_id": "ses_edaf43c0cffeAOikFDjgKGcu9H",
+  "user_authorized": true,
+  "user_instruction": "Je veux qu'il y en ait douze qui tournent tout le temps. Les deux seules raisons pour lesquelles il n'y en a pas douze sont qu'il n'y ait plus de travail ou que ZAI et OpenAI soient tous les deux en surcharge.",
+  "requested_active_campaign_agents": 12,
+  "supervisors": 1,
+  "requested_active_workers": 11,
+  "dispatch_harness": "native_functions.subagent",
+  "delivery": "steer",
+  "admission_confirmed": true,
+  "inbox_receipt_id": "msg_12569a88b001lFOdqXPry5lV1Z",
+  "admitted_at_utc": "2026-10-10T10:44:03.872010+00:00",
+  "delivery_observed": "steer",
+  "resume_requested": true,
+  "native_prompt_admission_exit_code": 0,
+  "supervisor_native_model_ref_confirmed": {
+    "providerID": "openai",
+    "id": "gpt-6.1-sol",
+    "variant": "high"
+  },
+  "twelve_active_observed": false,
+  "required_changes": [
+    "Replace maximum-only behavior with a persistent active target of one supervisor plus eleven workers.",
+    "Expand the ready frontier into the remaining authorized campaign lots; do not limit schedulable work to the six pilot functions.",
+    "Immediately reassign every free slot to a useful, independent, authorized task while the campaign backlog remains.",
+    "Use the adaptive protocol only on the six pilot functions; retain the existing canonical protocol elsewhere.",
+    "Record native Model.Ref high and actual work status, not merely allocated slots or waiting agents.",
+    "Retain separate blind contexts, task dependencies, serialized parent-only IDB writes and proof gates.",
+    "Use the authorized Flash-to-Sol-high fallback and keep assigning eligible work when only one provider is overloaded.",
+    "Document genuine backlog exhaustion or simultaneous overload of both providers as the permitted under-utilization reasons.",
+    "Do not manufacture work, count failed or blocked sessions as computing, bypass validation, or rearm the consumed sleep authorization."
+  ],
+  "explicit_user_drain_override": {
+    "at_utc": "2026-10-10T15:40:16.643893+00:00",
+    "state": "DRAINED/STOP_DISPATCH",
+    "sustained12_refill_superseded": true,
+    "actual_active_workers": 0,
+    "no_new_frontier": true,
+    "new_session_GO_required": true,
+    "canonical_handoff": "docs/tech/investigation/battle-static-discovery/HANDOFF_semantic-triple-review.md",
+    "prior_file_sha256": "28323a4956192bbfb94263ec69fcb835c8be4431f5ff2b5359b8ae5fc8d1803b"
+  }
+}

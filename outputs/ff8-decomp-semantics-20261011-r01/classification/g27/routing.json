@@ -1,0 +1,45 @@
+{
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g27",
+  "status": "DISPATCH_READY",
+  "SOURCE": "discover-g27",
+  "source_inheritance": "All authors independently inherit the same frozen factual discover-g27 context, never classifier or sibling production history.",
+  "checkpoint_status": "NOT_REQUIRED_BY_SOURCE_REPORT",
+  "source_report": "discover-g27 explicitly reports no historical target C read; no target candidate-preview flag reported.",
+  "native_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "factual_inputs": [
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g27/common-compaction.md", "sha256": "7b885f8d258f5c0e8121e281427974d5c0c9b0ab73ff5a496b6d49a35b603c7f"},
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g27/0x50BF90.json", "sha256": "523b578c584278d960cfc11a0b6a7040ae1ab80b26d0b8d26454e1190e26f678"}
+  ],
+  "blocked_eas": [],
+  "routes": [{
+    "ea": "0x50BF90",
+    "status": "DISPATCH_READY",
+    "native_pe_verified": true,
+    "classifier_kind": "classify_x86",
+    "classifier_tool": "tools.classify_x86",
+    "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g27/0x50BF90.request.json",
+    "request_sha256": "8318555a8e25ccf84fa1399a9413ce14c87a7c4c380552ef4d53067ea4675eab",
+    "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g27/0x50BF90.response.json",
+    "response_sha256": "53c6b17f98ab85a57bd23e8fe35f1ba05a57e1ce5042bf5e2c999c3947ed19cc",
+    "complexity": 72,
+    "risk_from_uncertainty": 56,
+    "uncertainty_cause": "data_flow",
+    "native_instructions": 81,
+    "tier": "complex",
+    "protocol": "2+1 per volet",
+    "rationale": "v1 complexity 72 >65 and uncertainty 56 >50 mandate complex/high-risk. Also 81 instructions exceed simple limit; source flags mixed-width stack reloads, alias-sensitive memory ordering, unproved type/extents and incomplete surrounding graph. No target ASM truncation or indirect control flow.",
+    "structural_flags": ["mixed_width_stack_reload", "partial_register_return", "alias_sensitive_memory_order", "unproved_storage_extents", "surrounding_graph_incomplete"],
+    "c": {
+      "A": {"model": "openai/gpt-6-astra", "variant": "high", "SOURCE": "discover-g27", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/c_a.md"},
+      "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "SOURCE": "discover-g27", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/c_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g27", "requires": ["c.A", "c.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/c_r.md"}
+    },
+    "semantics": {
+      "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g27", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/semantic_a.md"},
+      "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g27", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/semantic_b.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g27", "requires": ["semantics.A", "semantics.B"], "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g27/0x50BF90/semantic_r.md"}
+    }
+  }],
+  "admission_gates": ["Lead alone spawns/admit producers", "Fresh independent A/B sessions from frozen SOURCE", "Native Model.Ref variant verification at session creation; never silent default", "Each R admitted only after its A+B artifacts deposited", "Parent ASM validation and final cross-volet checks remain mandatory"]
+}

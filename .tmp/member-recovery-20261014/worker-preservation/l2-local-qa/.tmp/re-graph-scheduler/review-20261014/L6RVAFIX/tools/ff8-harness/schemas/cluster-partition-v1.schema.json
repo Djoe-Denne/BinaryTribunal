@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/cluster-partition-v1",
+  "title": "Cluster partition v1",
+  "description": "Immutable partition. Content id and lineage id are distinct. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "partitionId",
+    "lineageId",
+    "parentLineageId",
+    "snapshotId",
+    "snapshotFingerprint",
+    "regime",
+    "algorithm",
+    "algorithmVersion",
+    "configFingerprint",
+    "seed",
+    "communities",
+    "modularity",
+    "maturity",
+    "adopted"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "partitionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Assigned partition id. Not a lineage id."
+    },
+    "lineageId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Partition lineage id. Must differ from partitionId."
+    },
+    "parentLineageId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 0,
+      "maxLength": 128,
+      "description": "Parent partition lineage, or null"
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Source snapshot id"
+    },
+    "snapshotFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "regime": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B"
+      ],
+      "description": "A structural discovery. B multiview reconstruction."
+    },
+    "algorithm": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Algorithm name"
+    },
+    "algorithmVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Algorithm version"
+    },
+    "configFingerprint": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+    },
+    "seed": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Explicit seed, or none. Never a silent numeric zero."
+    },
+    "communities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contentId",
+          "lineageId",
+          "parentContentIds",
+          "memberIds",
+          "kernelIds",
+          "externalContextIds",
+          "conductance"
+        ],
+        "properties": {
+          "contentId": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Hash of algorithm, version, config and sorted member ids. A split child gets a new content id. 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "lineageId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Lineage id. Must differ from contentId."
+          },
+          "parentContentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "description": "Parent community content id 64 lowercase hex characters; schema cannot use pattern."
+            },
+            "minItems": 0,
+            "maxItems": 8,
+            "description": "Empty for a root. One parent for a split child. Two for a merge child."
+          },
+          "memberIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 1,
+            "maxItems": 100000,
+            "description": "Owned community members, canonically ordered"
+          },
+          "kernelIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Kernel subset of members"
+          },
+          "externalContextIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Context only. Disjoint from members. A hub here must not fuse communities."
+          },
+          "conductance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Conductance. Unknown stays unknown."
+          }
+        },
+        "description": "Community. Content id and lineage id are distinct."
+      },
+      "minItems": 1,
+      "maxItems": 100000,
+      "description": "Communities"
+    },
+    "modularity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known",
+        "value"
+      ],
+      "properties": {
+        "known": {
+          "type": "boolean",
+          "description": "false means not observed. Never encode unknown as zero."
+        },
+        "value": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "null iff known is false. Zero is legal only when known is true."
+        }
+      },
+      "description": "Modularity. Unknown stays unknown."
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "structural",
+        "partial",
+        "multiview"
+      ],
+      "description": "Partition maturity"
+    },
+    "adopted": {
+      "type": "boolean",
+      "description": "Whether this partition was adopted"
+    }
+  }
+}

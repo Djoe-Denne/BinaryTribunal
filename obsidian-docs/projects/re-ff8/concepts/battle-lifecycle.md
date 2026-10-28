@@ -18,9 +18,9 @@ sources:
   - IDA static decompile 2026-06-14 (HUD/ATB cadence + action-sequence dispatcher)
   - IDA static + live debugger 2026-06-15 (root state machine, frame pump FFBattleModule, BYTE1 serialization latch, commit-at-selection; combat-paused live reads)
   - IDA static + live debugger 2026-07-12 (module callback ownership, corrected four-level active guard, idle callback-table baseline)
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g07-command-spine-closure-live-validation-2026-08-09.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g14-presentation-live-promotion-2026-08-26.md
   - docs/tech/investigation/battle_loop_render_pipeline_entrypoints.md
   - docs/tech/investigation/battle-static-discovery/closure-audit.md
 summary: Battle lifecycle through init, active tick and cleanup, including G07 domain ownership and the G14 sealed presentation owner.

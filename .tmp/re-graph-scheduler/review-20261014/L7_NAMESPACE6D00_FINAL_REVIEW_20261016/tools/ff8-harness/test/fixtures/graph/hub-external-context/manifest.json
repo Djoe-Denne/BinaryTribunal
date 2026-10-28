@@ -1,0 +1,28 @@
+{
+  "fixtureId": "hub-external-context",
+  "schemaId": "https://re-ff8.local/schemas/cluster-partition-v1",
+  "schemaFile": "cluster-partition-v1.schema.json",
+  "schemaCanonicalSha256": "d3269eeb946a1235ed6bbdc821f84dfac5974879c038658b91c71fa173df50d2",
+  "contentFile": "content.json",
+  "reorderedFile": "reordered.json",
+  "volatileFile": "volatile.json",
+  "contentSha256": "1f29c5a4a2c2753ce294c9dd8d863021479efd4ca65f331556fbfc2ce9672261",
+  "canonicalAlgorithm": "tools/ff8-harness/src/validation.ts canonical()+hash(); sha256 of the canonical string, not of pretty-printed bytes",
+  "hashed": "entire content.json via canonical(); arrays are pre-ordered; digest fields are included after they are computed",
+  "volatileKeys": [
+    "observedAtUtc",
+    "writer",
+    "note"
+  ],
+  "expectedSchema": "accept",
+  "expectedContract": "accept",
+  "oracle": false,
+  "quarantine": false,
+  "extraContents": [],
+  "utf8Probe": null,
+  "notes": [
+    "Volatile keys must not appear in content.",
+    "Changing volatile.json must not change contentSha256.",
+    "Level 3 IDB publication is not representable."
+  ]
+}

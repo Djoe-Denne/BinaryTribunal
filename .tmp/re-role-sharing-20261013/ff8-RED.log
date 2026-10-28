@@ -1,0 +1,411 @@
+bun test v1.4.2 (744846f84)
+
+test\re-policy.test.ts:
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix decompilation/explore: exact native grants and R-only bulletin [14.25ms]
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix decompilation/evaluate: exact native grants and R-only bulletin [10.54ms]
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix decompilation/A: exact native grants and R-only bulletin [9.82ms]
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix decompilation/B: exact native grants and R-only bulletin [9.49ms]
+65 | 
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+                                     ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "registered_ida_disasm",
+-   "registered_ida_xrefs_to",
+- ]
++ []
+
+- Expected  - 4
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:70:33)
+(fail) RE role matrix decompilation/R: exact native grants and R-only bulletin [10.03ms]
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix semantification/explore: exact native grants and R-only bulletin [11.17ms]
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+71 |     expect(s.dossier.rePolicy).toMatchObject({ version: 1, workKind, role, access: native ? "ida-readonly" : "frozen-only" });
+                                    ^
+error: expect(received).toMatchObject(expected)
+
+Matcher error: received value must be a non-null object
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:71:32)
+(fail) RE role matrix semantification/evaluate: exact native grants and R-only bulletin [10.39ms]
+65 | 
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+                                     ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "registered_ida_disasm",
+-   "registered_ida_xrefs_to",
+- ]
++ []
+
+- Expected  - 4
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:70:33)
+(fail) RE role matrix semantification/A: exact native grants and R-only bulletin [9.88ms]
+65 | 
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+                                     ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "registered_ida_disasm",
+-   "registered_ida_xrefs_to",
+- ]
++ []
+
+- Expected  - 4
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:70:33)
+(fail) RE role matrix semantification/B: exact native grants and R-only bulletin [10.44ms]
+65 | 
+66 | for (const workKind of ["decompilation", "semantification"]) for (const role of roles) {
+67 |   test(`RE role matrix ${workKind}/${role}: exact native grants and R-only bulletin`, async () => {
+68 |     const f = fixture(workKind), i = f.intent(role); await f.bridge.submit(i, f.control); const s = f.submissions[0]!;
+69 |     const native = role === "R" || (workKind === "semantification" && ["A", "B"].includes(role));
+70 |     expect(s.nativeTools ?? []).toEqual(native ? policy().idaReadBindings.map(b => b.tool) : []);
+                                     ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "registered_ida_disasm",
+-   "registered_ida_xrefs_to",
+- ]
++ []
+
+- Expected  - 4
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:70:33)
+(fail) RE role matrix semantification/R: exact native grants and R-only bulletin [12.82ms]
+79 | 
+80 | test("R schema/channel are shared by frozen group, separated by mission/cycle; no worker chosen scope", async () => {
+81 |   const f = fixture();
+82 |   for (const i of [f.intent("R"), f.intent("R", "0x20"), f.intent("R", "0x10", "other"), f.intent("R", "0x10", "synthetic", 2)]) await f.bridge.submit(i, f.control);
+83 |   const [a, b, other, next] = f.submissions.map(s => s.communication);
+84 |   expect(a).toBeDefined(); expect(a).toEqual(b); expect(other.channel).not.toBe(a.channel); expect(next.channel).not.toBe(a.channel);
+                 ^
+error: expect(received).toBeDefined()
+
+Received: undefined
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:84:13)
+(fail) R schema/channel are shared by frozen group, separated by mission/cycle; no worker chosen scope [41.93ms]
+92 | 
+93 | test("R refuses a missing, forged, cross-binary, duplicate or unrelated frozen neighborhood", async () => {
+94 |   for (const bad of [undefined, { ...neighborhood, id: "chosen" }, { ...neighborhood, members: [members[0], { ...members[1], sha256: hash("other") }] },
+95 |     { ...neighborhood, members: [members[0], members[0]] }, { id: hash(canonical([identityKey(members[1]!)])), members: [members[1]] }]) {
+96 |     const f = fixture(), i = f.intent("R"); (i.inputs as any).neighborhood = bad;
+97 |     await expect(f.bridge.submit(i, f.control)).rejects.toThrow(/neighborhood/); expect(f.submissions).toHaveLength(0);
+                                                             ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:97:57)
+(fail) R refuses a missing, forged, cross-binary, duplicate or unrelated frozen neighborhood [11.75ms]
+104 |     const before = readFileSync(join(f.options.projectionRoot, "A", hash(i.executionId), "dossier.json"), "utf8");
+105 |     const options = { ...f.options, profiles: { ...f.options.profiles }, roleInstructions: { ...f.options.roleInstructions } } as any;
+106 |     if (change === "policy") options.rePolicy = policy("semantification");
+107 |     if (change === "profile") options.profiles.A = "changed";
+108 |     if (change === "instructions") options.roleInstructions.A += " changed";
+109 |     await expect(new EnsembleBridge(options).submit(i, f.control)).rejects.toThrow(/immutable dossier conflict/);
+                                                                                 ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:109:76)
+(fail) opt-in policy is immutable on replay, including profile and instruction changes [10.21ms]
+113 | 
+114 | test("unsafe operations, duplicate/wildcard IDs and grants, missing disasm, edit/chat/file fallbacks fail closed", () => {
+115 |   const f = fixture();
+116 |   for (const operation of ["py_eval", "script", "set_type", "SetType", "rename", "set_comments", "save", "dbg_read", "analyze_funcs"]) {
+117 |     const p = policy(); p.idaReadBindings[0]!.operation = operation;
+118 |     expect(() => new EnsembleBridge({ ...f.options, rePolicy: p } as any)).toThrow(/RE policy/);
+                                                                                 ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /RE policy/
+
+Received function did not throw
+Received value: EnsembleBridge {
+  options: {
+    client: {
+      capabilities: [AsyncFunction: capabilities],
+      ensure: [AsyncFunction: ensure],
+      replay: [AsyncFunction: replay],
+      submit: [AsyncFunction: submit],
+      inspect: [AsyncFunction: inspect],
+    },
+    directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44",
+    profiles: {
+      explore: "re-explore",
+      evaluate: "re-evaluate",
+      A: "re-A",
+      B: "re-B",
+      R: "re-R",
+    },
+    approvedSources: [],
+    projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44\\inputs",
+    outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44\\outputs",
+    roleInstructions: {
+      explore: "Scientific explore instructions",
+      evaluate: "Scientific evaluate instructions",
+      A: "Scientific A instructions",
+      B: "Scientific B instructions",
+      R: "Scientific R instructions",
+    },
+    allowedTools: [ "read", "execute" ],
+    admissionMode: "native-boundary-witness",
+    outputMode: "json-schema-strict",
+    rePolicy: {
+      version: 1,
+      workKind: "decompilation",
+      reconcilerSharing: true,
+      idaReadBindings: [
+        {
+          operation: "py_eval",
+          tool: "registered_ida_disasm",
+          accesses: [
+            {
+              action: "read",
+              resource: "ida://0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d/disassembly",
+            }
+          ],
+        }, {
+          operation: "xrefs_to",
+          tool: "registered_ida_xrefs_to",
+          accesses: [
+            {
+              action: "read",
+              resource: "ida://0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d/xrefs",
+            }
+          ],
+        }
+      ],
+    },
+  },
+  access: ProjectionAccess {
+    options: {
+      client: {
+        capabilities: [AsyncFunction: capabilities],
+        ensure: [AsyncFunction: ensure],
+        replay: [AsyncFunction: replay],
+        submit: [AsyncFunction: submit],
+        inspect: [AsyncFunction: inspect],
+      },
+      directory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44",
+      profiles: {
+        explore: "re-explore",
+        evaluate: "re-evaluate",
+        A: "re-A",
+        B: "re-B",
+        R: "re-R",
+      },
+      approvedSources: [],
+      projectionRoot: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44\\inputs",
+      outputDirectory: "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-re-policy-XI6u44\\outputs",
+      roleInstructions: {
+        explore: "Scientific explore instructions",
+        evaluate: "Scientific evaluate instructions",
+        A: "Scientific A instructions",
+        B: "Scientific B instructions",
+        R: "Scientific R instructions",
+      },
+      allowedTools: [ "read", "execute" ],
+      admissionMode: "native-boundary-witness",
+      outputMode: "json-schema-strict",
+      rePolicy: {
+        version: 1,
+        workKind: "decompilation",
+        reconcilerSharing: true,
+        idaReadBindings: [
+          {
+            operation: "py_eval",
+            tool: "registered_ida_disasm",
+            accesses: [
+              {
+                action: "read",
+                resource: "ida://0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d/disassembly",
+              }
+            ],
+          }, {
+            operation: "xrefs_to",
+            tool: "registered_ida_xrefs_to",
+            accesses: [
+              {
+                action: "read",
+                resource: "ida://0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d/xrefs",
+              }
+            ],
+          }
+        ],
+      },
+    },
+    publicFacts: Map {},
+    approveKnowledge: [Function: approveKnowledge],
+    authorized: [Function: authorized],
+    read: [AsyncFunction: read],
+    list: [AsyncFunction: list],
+    tool: [AsyncFunction: tool],
+    projected: [Function: projected],
+  },
+  ensureTeam: [AsyncFunction: ensureTeam],
+  submit: [AsyncFunction: submit],
+  inspect: [AsyncFunction: inspect],
+  inspectStructured: [Function: inspectStructured],
+  pauseAdmissions: [AsyncFunction: pauseAdmissions],
+  resumeAdmissions: [AsyncFunction: resumeAdmissions],
+  stop: [AsyncFunction: stop],
+}
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:118:76)
+(fail) unsafe operations, duplicate/wildcard IDs and grants, missing disasm, edit/chat/file fallbacks fail closed [1.24ms]
+137 | 
+138 | test("RE capabilities are checked before team admission, and sharing is explicit", async () => {
+139 |   for (const missing of ["scopedBulletin", "nativeToolBindings"]) {
+140 |     const f = fixture(); f.setCapabilities({ resourceBoundary: true, nativeAccessWitness: true, outputSchemaStrict: true, scopedBulletin: true, nativeToolBindings: true, [missing]: false });
+141 |     const config = { missionId: "synthetic", outputDirectory: f.options.outputDirectory, knowledge: { files: [] }, models: { A: model }, rePolicy: policy() } as unknown as MissionConfig;
+142 |     await expect(f.bridge.ensureTeam(config, f.control)).rejects.toThrow(/capabilit/); expect(f.ensured).toBe(0);
+                                                                       ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:142:66)
+(fail) RE capabilities are checked before team admission, and sharing is explicit [1.05ms]
+154 |     if (defect === "wrong-session") e.accessWitnesses[0].sessionId = "other";
+155 |     if (defect === "wrong-profile") e.accessWitnesses[0].profile = "other";
+156 |     if (defect === "error") e.accessWitnesses[0].native.status = "error";
+157 |     if (defect === "bindings") e.selection.nativeToolBindings = [];
+158 |     if (defect === "verifier") e.accessWitnesses[0].verifierSource = "prompt";
+159 |     const result = await f.bridge.inspect(i); expect(result.status).toBe("failed"); expect(result.error).toMatch(/native|disasm|binding/);
+                                                                                                               ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /native|disasm|binding/
+Received: "strict output rejected: structured-result: payload.propositions must contain at least 1 items"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:159:106)
+(fail) R requires a successful exact native disasm witness; file reads and prompt flags cannot fake it [11.54ms]
+177 |   try {
+178 |     engine.create(cfg); let s = engine.snapshot(cfg.missionId);
+179 |     for (let n = 0; n < 20 && s.status === "running"; n++) s = await engine.tick(cfg.missionId);
+180 |     const r = f.submissions.filter(i => i.dossier.role === "R"), ab = f.submissions.filter(i => ["A", "B"].includes(i.dossier.role));
+181 |     expect(r).toHaveLength(2); expect(ab).toHaveLength(4);
+182 |     expect(r[0]!.dossier.inputs.neighborhood).toEqual(neighborhood);
+                                                    ^
+error: expect(received).toEqual(expected)
+
+- {
+-   "id": "fb811ff1555c13a1fd66720536f7e6cb370c179830b90210a20c841cb87ded30",
+-   "members": [
+-     {
+-       "ea": "0x10",
+-       "sha256": "0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d",
+-       "version": "fixture-v1",
+-     },
+-     {
+-       "ea": "0x20",
+-       "sha256": "0184705e7acfe20d60703250ce4f1e52bed97c52150f0345b85b9249966bb38d",
+-       "version": "fixture-v1",
+-     },
+-   ],
+- }
++ undefined
+
+- Expected  - 15
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\re-policy.test.ts:182:47)
+(fail) offline two-function engine/bridge fixture: deterministic frozen membership, two R share channel, A/B stay blind, no auto-publication [200.12ms]
+
+ 0 pass
+ 17 fail
+ 26 expect() calls
+Ran 17 tests across 1 file. [427.00ms]

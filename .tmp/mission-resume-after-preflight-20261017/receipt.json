@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-17T16:30:41.655Z",
+  "ack": {
+    "id": "msg_14ab385800012o74Be16LfXERY",
+    "sessionID": "ses_eca40a8e2ffeanEKTBLiGjDNw8",
+    "time": {
+      "created": 1792254641537
+    },
+    "type": "user",
+    "payload": {
+      "text": "GO utilisateur 2026-10-17 : reprendre re-graph-scheduler dans cette session de superviseur existante. Reprends ton travail autonome à partir du board, des fichiers et des dernières preuves, sans nouvelle équipe ni reset/compaction forcée. Ton modèle natif courant est conservé.\n\nMaintenance terminée : plugin actif 20261017-preflight-gate-c732e23752b3, incluant la correction failure-wake. Les futurs échecs natifs de workers sont rapportés au superviseur avec réveil coalescé, sans faux succès ni retry/fallback automatique. Cela ne répare pas la capacité des providers et ne rejoue pas rétroactivement les anciens échecs.\n\nLe nouveau preflightGate est strictement opt-in et N'EST PAS activé pour cette mission legacy. Aucun préflight supplémentaire, nouvelle grille ou migration ne t'est imposé. Ta politique de mission, les modèles/variantes autorisés, budgets et gates métier restent inchangés. Pour Opus, seul le provider Cursor demeure autorisé par le catalogue actuel.\n\nPoint de reprise vérifié : ton dernier stop du 15:05 attendait la livraison hôte V3. Le worker hôte a ensuite échoué à 15:07 sur Cursor capacity_limit, après trois tentatives ; ce retour n'avait pas réveillé ton ancienne version. Vérifie l'état réel de la livraison et du manifeste avant de décider une récupération autorisée. Ne suppose pas qu'un ancien statut busy prouve une activité native. Évite les retries identiques sans borne ; poursuis aussi les autres travaux READY réellement indépendants et autorisés.\n\nLa maintenance n'est aucune acceptation FF8 : last-close NOT_ESTABLISHED et budget intégré NOT_PROVEN restent tels quels tant que leurs propres preuves manquent. Reprends intake/review/gates parent selon tes contrats courants ; run01, live et G5/G6/G7 ne reçoivent aucun nouveau GO.\n\nNe t'arrête pas à la seule fin d'une étude locale. Continue le développement admis jusqu'à clôture effective ou blocage précis de capacité, budget, sûreté ou autorisation. Accusé bref puis action utile ; nul besoin de relire l'historique de maintenance.\n",
+      "metadata": {
+        "operation": "resume-ff8-after-preflight-20261017",
+        "handoffSha256": "20bb0af86d1489f7b01c6cedd59a4dbbf867229b15bea5edc76010eab21be53a"
+      }
+    },
+    "delivery": "queue"
+  },
+  "nativeModel": {
+    "id": "glm-5.3-flash",
+    "providerID": "opencode-go",
+    "variant": "max"
+  }
+}

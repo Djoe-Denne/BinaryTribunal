@@ -1,0 +1,25 @@
+00510B51: mov     [esp+44h+var_18], ecx
+00510B55: jnz     loc_51093E; Jump if Not Zero (ZF=0)
+00510B5B: mov     edx, [esp+44h+ctx]
+00510B5F: xor     ecx, ecx; Logical Exclusive OR
+00510B61: mov     cx, [edx+0Ch]
+00510B65: test    ecx, ecx; Logical Compare
+00510B67: jz      loc_510DA6; Jump if Zero (ZF=1)
+00510B6D: jle     loc_510DA6; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510B73: mov     edi, [esp+44h+var_34]
+00510B77: mov     [esp+44h+var_24], ecx
+00510B7B: mov     dx, [eax+2]
+00510B7F: mov     si, [eax+4]
+00510B83: mov     cx, [eax]
+00510B86: and     esi, 0FFFFh; Logical AND
+00510B8C: and     edx, 0FFFFh; Logical AND
+00510B92: and     ecx, 0FFFFh; Logical AND
+00510B98: lea     esi, [edi+esi*8]; Load Effective Address
+00510B9B: mov     bl, [edi+edx*8+6]
+00510B9F: lea     edx, [edi+edx*8]; Load Effective Address
+00510BA2: lea     ebp, [edi+ecx*8]; Load Effective Address
+00510BA5: mov     cl, [esi+6]
+00510BA8: or      cl, bl; Logical Inclusive OR
+00510BAA: mov     [esp+44h+dest], esi
+00510BAE: mov     bl, [ebp+6]
+00510BB1: mov     [esp+44h+var_14], edx

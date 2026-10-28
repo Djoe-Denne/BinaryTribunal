@@ -1,0 +1,25 @@
+00488809: and     eax, 0FFFFh; Logical AND
+0048880E: lea     edx, [ebx+ecx*4]; Load Effective Address
+00488811: xor     ecx, ecx; Logical Exclusive OR
+00488813: shl     edx, 4; Shift Logical Left
+00488816: mov     cl, BATTLE_SLOT_DATA.last_attacker_attack_type[edx]
+0048881C: mov     edx, ecx
+0048881E: mov     ecx, dword ptr [esp+74h+op_param_3]
+00488822: and     ecx, 0FFh; Logical AND
+00488828: cmp     ecx, 5; switch 6 cases
+0048882B: ja      def_488831; jumptable 00488831 default case
+00488831: jmp     ds:jpt_488831[ecx*4]; switch jump
+00488838: lea     ecx, [ebx+ebx*2]; IF test case 1: Check last_attacker_is (identity of who attacked)
+0048883B: mov     eax, [esp+74h+if_right_condition_final]
+0048883F: and     eax, 0FFFFh; Logical AND
+00488844: lea     edx, [ebx+ecx*4]; Load Effective Address
+00488847: xor     ecx, ecx; Logical Exclusive OR
+00488849: shl     edx, 4; Shift Logical Left
+0048884C: mov     cl, BATTLE_SLOT_DATA.last_attacker_is[edx]
+00488852: mov     edx, ecx
+00488854: mov     ecx, dword ptr [esp+74h+op_param_3]
+00488858: and     ecx, 0FFh; Logical AND
+0048885E: cmp     ecx, 5; switch 6 cases
+00488861: ja      def_488831; jumptable 00488831 default case
+00488867: jmp     ds:jpt_488867[ecx*4]; switch jump
+0048886E: lea     ecx, [ebx+ebx*2]; IF test case 3: Check last_attacker_command_type (magic/physical/item/etc)

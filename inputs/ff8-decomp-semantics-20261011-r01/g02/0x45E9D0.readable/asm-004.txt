@@ -1,0 +1,25 @@
+0045EB54: jle     short loc_45EB74; Jump if Less or Equal (ZF=1 | SF!=OF)
+0045EB56: mov     ebx, dword_1CA92F8
+0045EB5C: mov     dword_1CA8A3C, 7FFFh
+0045EB66: or      ebx, 400000h; Logical Inclusive OR
+0045EB6C: mov     dword_1CA92F8, ebx
+0045EB72: jmp     short loc_45EB7A; Jump
+0045EB74: mov     dword_1CA8A3C, ecx
+0045EB7A: cmp     edx, 0FFh; Compare Two Operands
+0045EB80: jbe     short loc_45EB99; Jump if Below or Equal (CF=1 | ZF=1)
+0045EB82: mov     ebx, dword_1CA92F8
+0045EB88: sar     edx, 1Fh; Shift Arithmetic Right
+0045EB8B: or      ebx, 200000h; Logical Inclusive OR
+0045EB91: not     edx; One's Complement Negation
+0045EB93: mov     dword_1CA92F8, ebx
+0045EB99: cmp     eax, 0FFh; Compare Two Operands
+0045EB9E: mov     byte ptr dword_1CA8A68, dl
+0045EBA4: pop     ebx
+0045EBA5: jbe     short loc_45EBBE; Jump if Below or Equal (CF=1 | ZF=1)
+0045EBA7: mov     edx, dword_1CA92F8
+0045EBAD: sar     eax, 1Fh; Shift Arithmetic Right
+0045EBB0: or      edx, 100000h; Logical Inclusive OR
+0045EBB6: not     eax; One's Complement Negation
+0045EBB8: mov     dword_1CA92F8, edx
+0045EBBE: cmp     ecx, 0FFh; Compare Two Operands
+0045EBC4: mov     byte ptr dword_1CA8A68+1, al

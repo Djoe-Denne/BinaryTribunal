@@ -1,0 +1,25 @@
+0050C032: shl     eax, cl; Shift Logical Left
+0050C034: or      word ptr dword_1D99A90, ax; Logical Inclusive OR
+0050C03B: mov     cl, [edx+2]
+0050C03E: and     cl, 30h; Logical AND
+0050C041: cmp     cl, 30h ; '0'; Compare Two Operands
+0050C044: jnz     short loc_50C04D; Jump if Not Zero (ZF=0)
+0050C046: or      byte ptr dword_1D99A6C+1, 2; Logical Inclusive OR
+0050C04D: add     edx, 18h; Add
+0050C050: dec     edi; Decrement by 1
+0050C051: jnz     short loc_50C008; Jump if Not Zero (ZF=0)
+0050C053: mov     ecx, [esp+18h+var_4]
+0050C057: mov     eax, [esp+18h+arg_0]
+0050C05B: add     ebx, 14h; Add
+0050C05E: dec     eax; Decrement by 1
+0050C05F: mov     [esp+18h+arg_0], eax
+0050C063: jnz     short loc_50BFFB; Jump if Not Zero (ZF=0)
+0050C065: pop     edi
+0050C066: mov     word ptr dword_1D99A5C, bp
+0050C06D: pop     ebx
+0050C06E: mov     al, [esi+10h]
+0050C071: test    al, al; Logical Compare
+0050C073: mov     byte_1D99A5A, al
+0050C078: jz      short loc_50C084; Jump if Zero (ZF=1)
+0050C07A: mov     edx, [esi+8]
+0050C07D: mov     al, [edx]

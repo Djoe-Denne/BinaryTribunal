@@ -1,0 +1,25 @@
+0045E6DF: mov     eax, dword ptr [esp+8+var_8]
+0045E6E3: add     eax, 80000000h; Add
+0045E6E8: fsubp   st(1), st; Subtract Real and Pop
+0045E6EA: mov     dword_1CA8A74, eax
+0045E6EF: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045E6F5: fstp    [esp+8+var_8]; Store Real and Pop
+0045E6F9: mov     ecx, dword ptr [esp+8+var_8]
+0045E6FD: fstp    st; Store Real and Pop
+0045E6FF: fld     Cam_xyz1_x_float; Load Real
+0045E705: fmul    st, st(1); Multiply Real
+0045E707: fld     Cam_xyz2_y_float; Load Real
+0045E70D: fmul    st, st(3); Multiply Real
+0045E70F: add     ecx, 80000000h; Add
+0045E715: mov     dword_1CA8A78, ecx
+0045E71B: fsubp   st(1), st; Subtract Real and Pop
+0045E71D: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045E723: fstp    [esp+8+var_8]; Store Real and Pop
+0045E727: mov     edx, dword ptr [esp+8+var_8]
+0045E72B: fstp    st; Store Real and Pop
+0045E72D: add     edx, 80000000h; Add
+0045E733: cmp     eax, 0FFFF8000h; Compare Two Operands
+0045E738: fstp    st; Store Real and Pop
+0045E73A: mov     dword_1CA8A7C, edx
+0045E740: jge     short loc_45E758; Jump if Greater or Equal (SF=OF)
+0045E742: mov     dword_1CA92F8, 81000000h

@@ -14,11 +14,11 @@ relationships:
   - target: "[[projects/re-ff8/skills/ff8-live-validation-operations]]"
     type: uses
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-ncomp-v2-live.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-closure-v3-final-live.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G06.suite.toml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-offline-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-ncomp-v2-live.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-9-g06-closure-v3-final-live.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process/G06.suite.toml
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/31099739-e2b1-4e40-985b-92382bede2e7/31099739-e2b1-4e40-985b-92382bede2e7.jsonl
 summary: >-
   P0.9 v3 closes G06 with exclusive BattleUI ownership, stable native NCOMP

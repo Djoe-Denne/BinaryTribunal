@@ -1,0 +1,25 @@
+0051057D: push    8
+0051057F: mov     eax, [edx+24h]
+00510582: or      eax, 8000000h; Logical Inclusive OR
+00510587: push    eax
+00510588: call    GteState_SetIndexed_1CA8A10; E3a: table_1CA8A10[idx] = val (bytes verified).
+0051058D: call    sub_45F270; Call Procedure
+00510592: lea     ecx, [esp+48h+var_C]; Load Effective Address
+00510596: push    16h
+00510598: push    ecx
+00510599: call    GteState_GetIndexed_1CA8A10; E3a: *arg0 = table_1CA8A10[arg1].
+0051059E: mov     eax, dword_1D99C18
+005105A3: mov     ecx, dword_1D99C1C
+005105A9: mov     edx, [esp+50h+var_C]
+005105AD: add     esp, 18h; Add
+005105B0: mov     [eax+4], edx
+005105B3: mov     dword ptr [eax], 9000000h
+005105B9: mov     edx, [ecx+8]
+005105BC: mov     ebp, [esp+38h+var_28]
+005105C0: mov     [eax+0Ch], edx
+005105C3: mov     edx, [ecx+0Ch]
+005105C6: mov     [eax+14h], edx
+005105C9: mov     dx, [ecx+10h]
+005105CD: mov     [eax+1Ch], dx
+005105D1: mov     ecx, [ecx+10h]
+005105D4: shr     ecx, 10h; Shift Logical Right

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "date": "2026-10-13",
+  "checks": [
+    {
+      "command": "bun run typecheck",
+      "exit": 0,
+      "summary": []
+    },
+    {
+      "command": "bun test test/simulator test/benchmarks",
+      "exit": 0,
+      "summary": [
+        " 35 pass",
+        " 0 fail",
+        "Ran 35 tests across 2 files. [3.28s]"
+      ]
+    },
+    {
+      "command": "bun test",
+      "exit": 0,
+      "summary": [
+        " 408 pass",
+        " 1 skip",
+        " 0 fail",
+        "Ran 409 tests across 19 files. [15.79s]"
+      ]
+    }
+  ],
+  "hashes": {
+    "tools/ff8-harness/src/planner.ts": "6ed71229c67f01a08dfd6fffcc23205706f3437a5d2eb490e46ea48694707c89",
+    "tools/ff8-harness/src/scc.ts": "564967d8a694c635f1b876480158dd7c08df0700adf1fbdc4c61e61b7a250879",
+    "tools/ff8-harness/package.json": "800292c960ecda6b7099e79a682e6f609f044f860d42781abbc3833561cb1dbe",
+    "tools/ff8-harness/bun.lock": "a7b2cc6eb727b177c440587613175f30055f18eaff41730311438e9bdf6b857d",
+    "tools/ff8-harness/src/simulator.ts": "dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4",
+    "inputs/TRANSFER_MANIFEST.json": "995e7c21214534cd5310d86ca7b2b2d4f65f1bb6f4c52542fcb35d395aa0ab18"
+  },
+  "scope": "offline-fixture-only",
+  "remaining": "L2/L3/L4 cross-lot §17.1 tests await parent transfer; no native/SQLite safety promotion"
+}

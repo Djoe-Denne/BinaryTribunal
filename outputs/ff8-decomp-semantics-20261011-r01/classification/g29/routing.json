@@ -1,0 +1,54 @@
+{
+  "schema": "ff8-classification-routing-v1",
+  "group": "g29",
+  "status": "DISPATCH_READY",
+  "admission_status": "CHECKPOINT_REQUIRED",
+  "SOURCE": "discover-g29",
+  "source_session_id": "ses_ed41f8c06ffelsWMWJY05yKyAw",
+  "inheritance": "All authors inherit the SAME frozen factual discover-g29 source at a lead-verified exclusive native checkpoint before target candidate search previews; never fork classify-g29 or sibling productions.",
+  "checkpoint_reason": "Common compaction explicitly flags historical target decomp search previews; no target C body was adopted, but source history must be isolated before previews.",
+  "source_receipt_sha256": "d187610969912596afdb541059fae1fd7d8a2cb82afea6b7e67e0f8137920647",
+  "facts": {
+    "native_path": "inputs/ff8-decomp-semantics-20261011-r01/g29/0x50DB40.json",
+    "native_sha256": "6adfec152ef0db44dbe42b9c74c47118ad24ad682eb562691b2d566c6d92e48c",
+    "common_compaction_path": "inputs/ff8-decomp-semantics-20261011-r01/g29/common-compaction.md",
+    "common_compaction_sha256": "f3ab98c0105031d64250bbc8fd04dce19312c0d0236005b86b664a3bc28bf0d5",
+    "pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "idb_equals_pe_and_freeze": true
+  },
+  "eas": [
+    {
+      "ea": "0x50DB40",
+      "status": "DISPATCH_READY",
+      "admission_status": "CHECKPOINT_REQUIRED",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g29/0x50DB40.request.json",
+      "request_sha256": "0814f0118eaa2d01b257477974ff09dde49294026a13457f255471343e0020cc",
+      "response_path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g29/0x50DB40.response.json",
+      "response_sha256": "bbcd57bc565c852fa106f9092b7933af29a62234008a51513a144617f3c22545",
+      "assembly_characters": 23756,
+      "instruction_count": 271,
+      "complexity": 87,
+      "risk": 71,
+      "risk_source": "native uncertainty; operational v1 risk proxy, not calibrated probability",
+      "uncertainty_cause": "external_calls",
+      "tier": "complex",
+      "policy": "2+1 per volet",
+      "rationale": ["Complexity 87 >65 and uncertainty 71 >50", "271 native instructions >200", "Three callback sites with unresolved ABI/body semantics", "Jump/remap table bytes outside frozen chunk", "Partial-byte stack argument overwrite, indexed stack addressing, signed division safety unresolved"],
+      "dispatches": [
+        {"volet":"C","role":"A","model":"openai/gpt-6-astra","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/C_A.md","depends_on":["SOURCE_CHECKPOINT_VERIFIED"]},
+        {"volet":"C","role":"B","model":"opencode/claude-opus-5-5","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/C_B.md","depends_on":["SOURCE_CHECKPOINT_VERIFIED"]},
+        {"volet":"C","role":"R","model":"openai/gpt-6.1-sol","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/C_R.md","depends_on":["C_A_COMPLETE","C_B_COMPLETE"],"reconciliation":"against complete native ASM, not averaging"},
+        {"volet":"semantics","role":"A","model":"openai/gpt-6.1-sol","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/semantic_A.md","depends_on":["SOURCE_CHECKPOINT_VERIFIED"]},
+        {"volet":"semantics","role":"B","model":"openai/gpt-6.1-sol","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/semantic_B.md","depends_on":["SOURCE_CHECKPOINT_VERIFIED"],"independence":"fresh author distinct from A; blind to A and all C productions"},
+        {"volet":"semantics","role":"R","model":"openai/gpt-6.1-sol","variant":"high","SOURCE":"discover-g29","output_path":"outputs/ff8-decomp-semantics-20261011-r01/production/g29/0x50DB40/semantic_R.md","depends_on":["semantic_A_COMPLETE","semantic_B_COMPLETE"],"reconciliation":"against complete native ASM, not averaging"}
+      ],
+      "session_creation_gate": "Lead alone creates sessions, verifies effective Model.Ref including explicit high variant, and admits after checkpoint verification. Catalogue snapshot contains selected models; no availability fallback inferred."
+    }
+  ],
+  "blocked_eas": [],
+  "quarantined_eas": [],
+  "oversize_eas": [],
+  "production_spawned": false
+}

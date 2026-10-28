@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g04",
+  "status": "DISPATCH_READY",
+  "prepared_by": "classify-g04",
+  "SOURCE": "discover-g04",
+  "source_session_id": "ses_ed420c8f3ffeH2npuxzJGwinbY",
+  "source_receipt": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g04.source.native.json",
+  "source_receipt_sha256": "2d645716babf4e8d5e3dc8b3c550fd3cb81775376febd2516c09b4b8375c29dd",
+  "common_compaction": "inputs/ff8-decomp-semantics-20261011-r01/g04/common-compaction.md",
+  "common_compaction_sha256": "1ffd99c0ab16a51b4b5c26f906c3ff61d657fd111e6c8720353e656c88add668",
+  "classifier_fork_source_allowed": false,
+  "entries": [
+    {
+      "ea": "0x460860",
+      "status": "CHECKPOINT_REQUIRED",
+      "dispatch_allowed": false,
+      "SOURCE": "discover-g04",
+      "native_packet": "inputs/ff8-decomp-semantics-20261011-r01/g04/0x460860.json",
+      "native_packet_sha256": "9384e033a8c2529b83d45416bffb9fc86fec628fa40990f5f60610486739861a",
+      "native_instruction_count": 177,
+      "native_asm_chars": 7825,
+      "payload_assembly_chars": 17165,
+      "native_pe_verified": true,
+      "native_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g04/0x460860.request.json",
+      "request_sha256": "e5e7727fa5c4cacd6fc6761f44b9eead53e0c147d101c3b8ad892aa5dee34bce",
+      "native_response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g04/0x460860.response.native.json",
+      "native_response_sha256": "a28dd3db1a201b4b21502bc2e04b70b07b743501d1b2435631459e0d7b7c0e78",
+      "classifier_calls": 1,
+      "complexity": 75,
+      "risk_uncertainty": 46,
+      "uncertainty_cause": "data_flow",
+      "route_v1": "complex",
+      "rationale": [
+        "Complexity 75 exceeds v1 medium ceiling 65; 177 instructions excludes simple.",
+        "Existing factual flags: writable argument scratch, path-dependent return register, unknown incoming x87 rounding/precision, conversion idiom not proven equivalent to ISO-C cast.",
+        "Historical constant prose contradicts native bytes; arithmetic/data-flow ambiguity is retained, not resolved by classifier."
+      ],
+      "checkpoint": {
+        "status": "CHECKPOINT_REQUIRED",
+        "reason": "Common compaction line 57 discloses historical target C preview in discover-g04 tool history.",
+        "lead_action": "Verify clean source checkpoint before preview exposure or authorize a fresh factual projection; never fork classifier and never claim existing explorer history is target-C blind.",
+        "source_identity_preserved": "discover-g04"
+      },
+      "production_plan": {
+        "admission_owner": "lead",
+        "requires_effective_Model_Ref_verification": true,
+        "independent_fresh_A_B_sessions": true,
+        "same_inherited_SOURCE": "discover-g04",
+        "c": {
+          "strategy": "2+1",
+          "A": {"model":"openai/gpt-6-astra","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/c/A.md"},
+          "B": {"model":"opencode/claude-opus-5-5","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/c/B.md"},
+          "R": {"model":"openai/gpt-6.1-sol","variant":"high","requires":["c.A deposited","c.B deposited"],"output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/c/R.md"}
+        },
+        "semantics": {
+          "strategy": "2+1",
+          "A": {"model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/semantics/A.md"},
+          "B": {"model":"openai/gpt-6.1-sol","variant":"high","output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/semantics/B.md"},
+          "R": {"model":"openai/gpt-6.1-sol","variant":"high","requires":["semantics.A deposited","semantics.B deposited"],"output":"outputs/ff8-decomp-semantics-20261011-r01/classification/g04/production/0x460860/semantics/R.md"}
+        }
+      }
+    }
+  ],
+  "pe_quarantined_eas": [],
+  "oversize_eas": [],
+  "checkpoint_blocked_eas": ["0x460860"],
+  "producers_spawned": 0,
+  "canonical_mutations": false
+}

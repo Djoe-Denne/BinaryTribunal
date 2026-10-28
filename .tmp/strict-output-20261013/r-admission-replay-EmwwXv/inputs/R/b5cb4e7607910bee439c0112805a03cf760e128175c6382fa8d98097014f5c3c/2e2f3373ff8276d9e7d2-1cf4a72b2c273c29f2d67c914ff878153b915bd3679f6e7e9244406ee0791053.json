@@ -1,0 +1,41 @@
+{
+  "attemptId": "fixture-native-004cacaf340e:c1:A:96cac6156526bded4e7d:a1",
+  "authorId": "fixture-native-004cacaf340e:c1:A:96cac6156526bded4e7d:a1:199622e0210dbafda1623cb3",
+  "cycle": 1,
+  "executionId": "fixture-native-004cacaf340e:c1:A:96cac6156526bded4e7d:a1:199622e0210dbafda1623cb3",
+  "identity": {
+    "ea": "0x1000",
+    "sha256": "251447ee91a9067dcd6ab96703133f617565974cd6c4819021760c4688c91abf",
+    "version": "SYNTHETIC-x86-v1"
+  },
+  "inputFingerprint": "199622e0210dbafda1623cb3708c42dcea255e3eb5d70f844dd975eed29c17c6",
+  "inputVersions": [
+    {
+      "path": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-bridge-canary-jsfsKb\\fixture.asm",
+      "sha256": "1c8b445befcfe1754363b3e79cae9cb1b46e3809d014bf87e3ac7e7e7af60afc",
+      "version": "synthetic-v1"
+    }
+  ],
+  "kind": "proposal",
+  "missionId": "fixture-native-004cacaf340e",
+  "previousResultIds": [],
+  "propositions": [
+    {
+      "contradictions": [],
+      "evidence": [
+        {
+          "detail": "Approved ASM projection read successfully: lines 2–4 show EA 0x1000, bytes 31 C0 C3, 'xor eax, eax; ret'. SYNTHETIC opcode evidence only; not an IDA/FF8 native gate. Artifact SHA-256 is controller-reported, not independently computed by this worker.",
+          "id": "fixture-opcodes",
+          "sha256": "1c8b445befcfe1754363b3e79cae9cb1b46e3809d014bf87e3ac7e7e7af60afc",
+          "source": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\ff8-bridge-canary-jsfsKb\\fixture.asm"
+        }
+      ],
+      "id": "A-xor-ret",
+      "questions": [],
+      "text": "Synthetic x86-32 function clears all of EAX, hence AX and AL, and returns with EAX=0. XOR sets ZF=PF=1 and CF=OF=SF=0; AF is undefined. On a successful near RET, EIP receives the stack return address and ESP advances by four bytes, with no argument cleanup. No arguments are accessed, callees invoked, or memory written. The sequence is compatible with a cdecl zero return but does not establish a calling convention or source-level return type."
+    }
+  ],
+  "role": "A",
+  "schemaVersion": 1,
+  "taskId": "fixture-native-004cacaf340e:c1:A:96cac6156526bded4e7d"
+}

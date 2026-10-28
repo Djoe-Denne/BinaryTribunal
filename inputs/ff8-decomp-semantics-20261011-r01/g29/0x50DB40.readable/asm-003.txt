@@ -1,0 +1,25 @@
+0050DBCF: inc     ecx; jumptable 0050DBA1 case 3
+0050DBD0: push    ecx
+0050DBD1: call    sub_50DAB0; Call Procedure
+0050DBD6: add     esp, 4; Add
+0050DBD9: cmp     eax, 80h; Compare Two Operands
+0050DBDE: jl      short loc_50DBF4; Jump if Less (SF!=OF)
+0050DBE0: lea     edx, ds:0[eax*4]; Load Effective Address
+0050DBE7: lea     eax, [esp+50h+arg_3B8]; Load Effective Address
+0050DBEE: sub     eax, edx; Integer Subtraction
+0050DBF0: mov     ebx, [eax]
+0050DBF2: jmp     short loc_50DBFE; Jump
+0050DBF4: push    eax
+0050DBF5: call    [esp+54h+arg_8]; E2 script_vm: call [esp+arg] getter si val<0x80; artefact ESP disp 0x60 n est pas un slot
+0050DBF9: add     esp, 4; Add
+0050DBFC: mov     ebx, eax
+0050DBFE: mov     ecx, [esp+50h+arg_0]
+0050DC02: add     ecx, 2; Add
+0050DC05: mov     [esp+50h+arg_0], ecx
+0050DC09: and     edi, 0FFFFFFFCh; jumptable 0050DBA1 default case
+0050DC0C: add     edi, 0FFFFFF40h; switch 33 cases
+0050DC12: cmp     edi, 20h; Compare Two Operands
+0050DC15: ja      def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DC1B: xor     edx, edx; Logical Exclusive OR
+0050DC1D: mov     dl, ds:byte_50DEA8[edi]
+0050DC23: jmp     ds:jpt_50DC23[edx*4]; switch jump

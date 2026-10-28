@@ -1,0 +1,221 @@
+{
+  "taskId": "task_mv9qdvek_002y_6x3kw6",
+  "role": "fresh independent NONBLIND read-only review",
+  "model": "Sol/max native verified by parent before GO",
+  "verdict": "BLOCK",
+  "scope": "SCOPE.md full75 lines; simulator3ea against accepted L5current985; no integration/native/host acceptance",
+  "finished": "2026-10-15T16:34:19.953Z",
+  "inputManifestSHA256": "0bb65af0a559c6012b79bb4e4812e4eb95a144736ac6ecf81ead4412e087edff",
+  "receiptFingerprint": "58487dce6840bd00a41b8b2bab5ddcdf987dc121fe78e888e8d5800dead98496",
+  "inputPinsBefore": {
+    "count": 455,
+    "bytes": 5398908,
+    "bad": []
+  },
+  "inputPinsAfter": {
+    "count": 455,
+    "bytes": 5398908,
+    "mismatches": []
+  },
+  "candidateSHA256": "3ea92f5a7750dd278a8b496caf066153efbe0940b33761d8e9ad0cd97db8a031",
+  "currentL5SHA256": "985e5ead945ac742a7df5370c0009b2e8f1aab357286ad2cb67b3cf01c858988",
+  "gates": [
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "ms": 3609,
+      "summary": []
+    },
+    {
+      "name": "focused",
+      "exitCode": 0,
+      "ms": 5301,
+      "summary": [
+        "(pass) contract and independent graph oracle > immutable L5 export A->B/C with artifacts, local SCC recursion and self-loops [9.37ms]",
+        "(pass) contract and independent graph oracle > large SCC is dependency-exclusive and all functions publish once as one family [49.25ms]",
+        "(pass) contract and independent graph oracle > grouped local caller A/B wait callee R, not fake concurrent SCC semantics [1.53ms]",
+        "(pass) contract and independent graph oracle > tampered export fingerprint is not implicitly validated [0.79ms]",
+        "(pass) contract and independent graph oracle > required level2, wrong artifact hash/revision, envelope deficit never fabricated [1.67ms]",
+        "(pass) contract and independent graph oracle > unicode full envelope bytes, CRLF line boundaries, unsafe paths, native limits explicitly separated [0.72ms]",
+        "(pass) contract and independent graph oracle > full admission wrapper UTF8 exact boundary and distinct per-unit allocations [0.93ms]",
+        "(pass) contract and independent graph oracle > all directed three-node graphs: independent cycle oracle uses reachability, not lowlinks [671.29ms]",
+        " 76 pass",
+        " 0 fail",
+        " 13149 expect() calls",
+        "Ran 76 tests across 5 files. [5.27s]"
+      ]
+    }
+  ],
+  "independentProbes": {
+    "definitiveSuites": [
+      {
+        "path": "engine-probes-v1.json",
+        "cases": 55,
+        "pass": 51,
+        "fail": 4
+      },
+      {
+        "path": "pipeline-v2-m2T5Rd/pipeline-probes-v1.json",
+        "cases": 56,
+        "pass": 55,
+        "fail": 1
+      },
+      {
+        "path": "supplement-probes-v1.json",
+        "cases": 27,
+        "pass": 27,
+        "fail": 0
+      }
+    ],
+    "totalCases": 138,
+    "totalPass": 133,
+    "totalFail": 5,
+    "distinctFindingFamilies": 3,
+    "compactRepro": {
+      "script": "repro-findings.ts",
+      "stdout": "repro-findings.stdout.log",
+      "exitCode": 1,
+      "meaning": "1 intentionally denotes all three findings reproduced, not infrastructure failure"
+    },
+    "firstPipelineVersion": "Preserved for provenance; two reviewer harness mistakes (SCC worker under-capacity and assertAdmissionBudgetBinding wrong arity) corrected in v2, not candidate findings. Do not count both versions."
+  },
+  "findings": [
+    {
+      "id": "L7-R1",
+      "blockingWithinScope": true,
+      "title": "A removed local exported requirement falls back to publication-level-only satisfaction",
+      "locations": [
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:204-206",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:782-786",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:798-802"
+      ],
+      "contract": [
+        "PARENT/SCOPE.md:36-39",
+        "PARENT/BINDING_DECISION.md:28-51"
+      ],
+      "repro": {
+        "projectionVersion": 2,
+        "sourceAndEvidenceUnchanged": true,
+        "originalRequirementPresentInExportEvidence": true,
+        "mismatchDiagnostics": [],
+        "missingRequirementDiagnostics": [],
+        "controlProducerState": "COMMITTED",
+        "controlConsumerState": "BLOCKED",
+        "missingProducerState": "COMMITTED",
+        "missingConsumerState": "COMMITTED",
+        "missingConsumerCommits": [
+          {
+            "t": 6,
+            "seq": 42,
+            "ev": "committed",
+            "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+            "revision": 2,
+            "level": 1
+          }
+        ]
+      },
+      "expected": "No global input exception is required: producer may commit, but missing/tampered declared local need must not satisfy consumer. Legacy no-requirement semantics must not silently replace a requirement present in immutable v2 export.",
+      "originQualification": "The q-absent=true branch already exists in OLD reference-only ac82:659-663. Not claimed newly introduced. Source/evidence binding was left strict only for external/unresolved; local runtime gap remains in requested scope."
+    },
+    {
+      "id": "L7-R2",
+      "blockingWithinScope": true,
+      "title": "Paused wait interval extends after pause ends for active families absent from runnable",
+      "locations": [
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:688-711",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:775-781",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:812-817",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:946-950"
+      ],
+      "contract": [
+        "PARENT/SCOPE.md:46-49",
+        "PARENT/ASTRA_PLAN.md:97-108"
+      ],
+      "repro": [
+        {
+          "stage": "RUNNING",
+          "frontier": 6,
+          "pauseInterval": [
+            2,
+            3
+          ],
+          "maximumLegalPausedUnitTicks": 1,
+          "actualPausedUnitTicks": 4,
+          "waitReason": "paused",
+          "validationUnitTicks": 0
+        },
+        {
+          "stage": "VALIDATING",
+          "frontier": 6,
+          "pauseInterval": [
+            3,
+            4
+          ],
+          "maximumLegalPausedUnitTicks": 1,
+          "actualPausedUnitTicks": 3,
+          "waitReason": "paused",
+          "validationUnitTicks": 1
+        }
+      ],
+      "expected": "One selected unit and one tick of pause cannot contribute more than one paused unit-tick. Closing/reclassifying at pause exit must not depend on a future job admission. VALIDATING must not remain classified paused after exit.",
+      "originQualification": "Paused wait assignment also exists in OLD reference-only ac82:689; this is an unresolved requested observation invariant, not a claimed new regression."
+    },
+    {
+      "id": "L7-R3",
+      "blockingWithinScope": true,
+      "title": "Initial start event reopens dependency wait on a unit already CANCELLED or STALE at tick0",
+      "locations": [
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:569-574",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:584-595",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:909",
+        "inputs/L7_ASTRA_REVIEW_3EA92F/tools/ff8-harness/src/simulator.ts:946-950"
+      ],
+      "contract": [
+        "PARENT/SCOPE.md:46-49",
+        "PARENT/ASTRA_PLAN.md:97-108"
+      ],
+      "repro": [
+        {
+          "incident": "cancel",
+          "frontier": 5,
+          "state": "CANCELLED",
+          "expectedWaitReason": null,
+          "actualWaitReason": "dependency",
+          "expectedWaitTicks": 0,
+          "actualWaitTicks": 5
+        },
+        {
+          "incident": "invalidate_knowledge",
+          "frontier": 5,
+          "state": "STALE",
+          "expectedWaitReason": null,
+          "actualWaitReason": "dependency",
+          "expectedWaitTicks": 0,
+          "actualWaitTicks": 5
+        }
+      ],
+      "expected": "Zero-tick terminal transition closes/no-ops wait; startup must not open a fresh dependency interval for that terminal unit.",
+      "originQualification": "Unconditional startup wait also exists in OLD reference-only ac82:774; OLD was text-only, never executed."
+    }
+  ],
+  "passedCoverage": [
+    "76 selected existing/new controls incl 10k and K16/32/64 benchmarks: 13149 assertions,0 failures",
+    "Independent G2 key/FIFO/arrival/lexical/cancel/STALE/pause/resource/quota/barrier permutations; no observed lost wake/double start/spin/premature release",
+    "Three internal holders plus external, same-family indexed claims, partial stops, immutable retry identity, old callbacks, no transitive conflict closure",
+    "Coherent receipt strength and publicationLevel>= differential; level2 fixture-only L5=true vs explicit SIM rejection retained as upstream OPEN",
+    "Actual raw indirect_call without indexed relation; exported provenance version1; altered ID/type/consumer/requirement/receipt/fingerprints and removed real relation citation refused",
+    "Detached recursively frozen observation, repeat/interleave/old snapshot stability, seven reason positive intervals, real frontier, late occupation without state/counter mutations",
+    "Actual tiny normalizer/current-L5 opt-in complete-admission-cap-v1;6 executions*4096=24576; binding/tamper/context checks and missing allocation selection0 preserved",
+    "v2 unknown/empty/resource/account metadata conservatism with no legacy fallback; actual G1/local DAG and lower bound hand check"
+  ],
+  "costQualification": "README explicitly exposes repeated K*W plus wake scans/holder incidence costs; bounded runs only, no universal near-linear or100k claim.",
+  "limits": [
+    "Offline synthetic memory model only; all published commits remain simulated level1",
+    "No full suite/global/native QA, no ledger9MB, no OLD executable dependency tree or old runtime test",
+    "No DB/SQLite/private DB, actual dispatch/LLM/IDA/live/network/install/Git/subagents/inbox/team_results/deletion",
+    "No source/test/project edits; evidence output only approved directory; source/input pins checked before gates and after all probes",
+    "L5 receipt coherence upstream OPEN; durable host N, L8 ports/native parent proofs, L9/L10 and actual full-suite SKIP remain unclosed",
+    "Parent exclusively owns final acceptance/integration;3ea remains unaccepted/unintegrated by this review"
+  ],
+  "proofDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/coordination-three-20261014/l7-astra-review-evidence/gates-fYEFSh"
+}

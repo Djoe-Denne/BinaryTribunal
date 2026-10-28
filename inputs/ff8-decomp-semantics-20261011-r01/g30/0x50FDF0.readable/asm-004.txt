@@ -1,0 +1,25 @@
+0050FEF6: mov     [ecx+10h], ebp
+0050FEF9: mov     edx, dword_1D99C18
+0050FEFF: mov     ecx, [esp+38h+var_18]
+0050FF03: test    ecx, offset unk_2000000; Logical Compare
+0050FF09: mov     [edx+18h], eax
+0050FF0C: jz      short loc_50FF71; Jump if Zero (ZF=1)
+0050FF0E: test    [esp+38h+var_10], 0FFFFh; Logical Compare
+0050FF16: jz      short loc_50FF71; Jump if Zero (ZF=1)
+0050FF18: mov     eax, [esp+38h+var_20]
+0050FF1C: test    eax, 0FE000000h; Logical Compare
+0050FF21: jnz     short loc_50FF7C; Jump if Not Zero (ZF=0)
+0050FF23: mov     edx, dword_1D99C18
+0050FF29: mov     [edx+4], ecx
+0050FF2C: mov     ecx, dword_1D99C18
+0050FF32: lea     edx, [eax+400000h]; Load Effective Address
+0050FF38: mov     dword ptr [ecx], 7000000h
+0050FF3E: mov     [ecx+14h], edx
+0050FF41: mov     ecx, dword_1D99C1C
+0050FF47: mov     edx, [ecx+8]
+0050FF4A: mov     ecx, dword_1D99C18
+0050FF50: mov     [ecx+0Ch], edx
+0050FF53: mov     edx, dword_1D99C18
+0050FF59: mov     [edx+14h], eax
+0050FF5C: mov     eax, dword_1D99C1C
+0050FF61: mov     edx, dword_1D99C18

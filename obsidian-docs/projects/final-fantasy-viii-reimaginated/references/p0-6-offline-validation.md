@@ -5,12 +5,12 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [P0.6 one-tick probe, P0.6 validation]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/init-exit-abi-capture-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g03-strict-validation-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g05-one-tick-validation-2026-07-22.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/p0-6-offline-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/init-exit-abi-capture-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g03-strict-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g05-one-tick-validation-2026-07-22.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/runtime-x86/src/runtime.cpp
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
 summary: >-
   P0.6 validates live strict G03, Init/Exit ABI and a versioned no-write G05

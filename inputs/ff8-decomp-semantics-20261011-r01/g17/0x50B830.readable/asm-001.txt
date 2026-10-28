@@ -1,0 +1,25 @@
+0050B830: push    ebp; Presentation/state-machine layer only. Does NOT compute damage/status/stock.
+0050B831: mov     ebp, [esp+4+arg_0]
+0050B835: push    esi
+0050B836: push    edi
+0050B837: mov     eax, [ebp+10h]
+0050B83A: mov     byte_1D99A56, 0FFh
+0050B841: mov     [esp+0Ch+arg_0], eax
+0050B845: xor     eax, eax; Logical Exclusive OR
+0050B847: mov     al, [ebp+0Dh]
+0050B84A: cmp     eax, 7; switch 8 cases
+0050B84D: ja      def_50B853; jumptable 0050B853 default case
+0050B853: jmp     ds:jpt_50B853[eax*4]; switch jump
+0050B85A: push    40h ; '@'; jumptable 0050B853 case 0
+0050B85C: push    1Ah
+0050B85E: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit
+0050B863: add     esp, 8; Add
+0050B866: test    eax, eax; Logical Compare
+0050B868: jnz     def_50B853; jumptable 0050B853 default case
+0050B86E: call    sub_501190; Call Procedure
+0050B873: test    eax, eax; Logical Compare
+0050B875: jnz     def_50B853; jumptable 0050B853 default case
+0050B87B: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B87E: mov     ecx, g_GfSequenceContextSharedB; jumptable 0050B853 case 1
+0050B884: mov     ax, [ecx+4]
+0050B888: cmp     ax, 7; Compare Two Operands

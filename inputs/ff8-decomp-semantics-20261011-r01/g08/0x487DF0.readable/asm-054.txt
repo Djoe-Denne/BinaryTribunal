@@ -1,0 +1,25 @@
+004890A2: mov     eax, [esp+74h+jump_value]
+004890A6: and     eax, 0FFFFh; Logical AND
+004890AB: add     esi, eax; Add
+004890AD: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890B2: mov     ecx, [esp+74h+monster_difficulty]; jumptable 00489059 case 3
+004890B6: cmp     ecx, eax; jumptable 00488B4B case 3
+004890B8: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890BE: mov     eax, [esp+74h+jump_value]
+004890C2: and     eax, 0FFFFh; Logical AND
+004890C7: add     esi, eax; Add
+004890C9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890CE: mov     ecx, [esp+74h+monster_difficulty]; jumptable 00489059 case 4
+004890D2: cmp     ecx, eax; jumptable 00488B4B case 4
+004890D4: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890DA: mov     eax, [esp+74h+jump_value]
+004890DE: and     eax, 0FFFFh; Logical AND
+004890E3: add     esi, eax; Add
+004890E5: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890EA: mov     ecx, [esp+74h+monster_difficulty]; jumptable 00489059 case 5
+004890EE: cmp     ecx, eax; jumptable 00488B4B case 5
+004890F0: jnb     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004890F6: mov     eax, [esp+74h+jump_value]; jumptable 00488B4B default case
+004890FA: and     eax, 0FFFFh; Logical AND
+004890FF: add     esi, eax; Add
+00489101: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

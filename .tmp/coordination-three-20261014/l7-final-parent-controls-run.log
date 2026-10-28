@@ -1,0 +1,24 @@
+
+ 5 | import {planMission} from '../../tools/ff8-harness/src/planner';
+ 6 | import {canonical} from '../../tools/ff8-harness/src/validation';
+ 7 | import {validateGraphSnapshot} from '../../tools/ff8-harness/src/graph';
+ 8 | const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',own=JSON.parse(readFileSync(phase+'/l7-final-admission-post.json','utf8')).owned,source=own+'/tools/ff8-harness/src/simulator.ts',sim=await import(pathToFileURL(source).href),cases=JSON.parse(readFileSync(phase+'/l7-astra-block-parent-repros.json','utf8')),sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');assert.equal(sha(readFileSync(source)),'494b8bf87fa7a5e4b3c66058869d12be765a066c8ca9882d8a6ad12d2006fcde');
+ 9 | assert.deepEqual(validateGraphSnapshot(cases.local.graph),[]);const export985=planMission(cases.local.graph,cases.local.groups,cases.local.policy),base=sim.simPlanFromExport(export985);assert.equal(canonical(base),canonical(cases.local.base));const C=base.units.find((u:any)=>u.prerequisites.length).unitId,P=base.units.find((u:any)=>u.unitId!==C).unitId,cfg=cases.pauses[0].scenario.config,results:any[]=[];
+10 | for(const mutation of ['intact','hash','absent']){const plan=structuredClone(base),need=plan.units.find((u:any)=>u.unitId===C).prerequisites[0];if(mutation==='hash')need.requirement.artifactSha256='0'.repeat(64);if(mutation==='absent')delete need.requirement;const r=sim.runScenario({plan,config:{...cfg,workers:Array.from({length:8},()=>({profile:'p',model:'m',accountId:'a',slots:1,cpu:1,gpu:0,budget:1,tools:[]}))},durations:{A:1,B:1,R:1}}),p=r.units.find((u:any)=>u.unitId===P),c=r.units.find((u:any)=>u.unitId===C);assert.equal(p.state,'COMMITTED');assert.equal(c.state,mutation==='intact'?'COMMITTED':'BLOCKED');assert.equal(canonical(plan.source),canonical(base.source));results.push({case:'local-requirement-'+mutation,producer:p.state,consumer:c.state,commitTicks:r.trace.filter((t:any)=>t.ev==='committed').map((t:any)=>t.t)});}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^
+AssertionError: Expected values to be strictly equal:
++ actual - expected
+
++ 'READY'
+- 'COMMITTED'
+
+ generatedMessage: true,
+     actual: "READY",
+   expected: "COMMITTED",
+   operator: "strictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\probe-l7-final-parent-controls-20261015.ts:10:528
+
+Bun v1.4.2 (Windows x64)

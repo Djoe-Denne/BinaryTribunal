@@ -1,0 +1,25 @@
+0050B190: push    esi
+0050B191: mov     esi, [esp+4+arg_0]
+0050B195: push    edi
+0050B196: mov     cl, [esi+0Dh]
+0050B199: mov     edi, [esi+10h]
+0050B19C: mov     eax, ecx
+0050B19E: and     eax, 0FFh; Logical AND
+0050B1A3: cmp     eax, 4; switch 5 cases
+0050B1A6: ja      short def_50B1A8; jumptable 0050B1A8 default case
+0050B1A8: jmp     ds:jpt_50B1A8[eax*4]; switch jump
+0050B1AF: push    40h ; '@'; jumptable 0050B1A8 case 0
+0050B1B1: push    1Ah
+0050B1B3: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit
+0050B1B8: add     esp, 8; Add
+0050B1BB: test    eax, eax; Logical Compare
+0050B1BD: jnz     short def_50B1A8; jumptable 0050B1A8 default case
+0050B1BF: inc     byte ptr [esi+0Dh]; Increment by 1
+0050B1C2: mov     ecx, g_GfSequenceContextSharedB; jumptable 0050B1A8 case 1
+0050B1C8: xor     eax, eax; Logical Exclusive OR
+0050B1CA: push    offset g_GfActiveCallbackPtr; int (__cdecl **)(int)
+0050B1CF: mov     ax, [ecx+6]
+0050B1D3: push    eax; magicID
+0050B1D4: call    BattleGF_LoadCallbackByMagicID; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.
+0050B1D9: mov     al, [esi+0Dh]
+0050B1DC: add     esp, 8; Add

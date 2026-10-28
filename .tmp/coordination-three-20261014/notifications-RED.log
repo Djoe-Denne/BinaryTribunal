@@ -1,0 +1,117 @@
+bun test v1.4.2 (744846f84)
+
+test\lead-notifications.test.ts:
+12 | 
+13 | test("a burst of distinct reports coalesces to one queued wake without discarding report rows", async () => {
+14 |   const d = fixture()
+15 |   for (let i = 0; i < 20; i++) requestLeadWake(d.client, d.db, "t", message(d, `result ${i}`))
+16 |   await Promise.resolve()
+17 |   expect(d.client.calls.filter(c => c.method === "session.promptAsync")).toHaveLength(1)
+                                                                              ^
+error: expect(received).toHaveLength(expected)
+
+Expected length: 1
+Received length: 20
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:17:74)
+(fail) a burst of distinct reports coalesces to one queued wake without discarding report rows [17.45ms]
+18 |   expect(d.db.query("SELECT COUNT(*) n FROM team_message").get()).toEqual({ n: 20 })
+19 | })
+20 | test("consumed native notification allows a genuinely new identical report to wake again", async () => {
+21 |   const d = fixture(); requestLeadWake(d.client, d.db, "t", message(d)); await Promise.resolve()
+22 |   const call = d.client.calls.find(c => c.method === "session.promptAsync")!.args[0] as { parts: Array<{text:string}> }
+23 |   expect(consumeLeadWakes(d.db, "t", [{ type: "synthetic", text: call.parts[0]!.text }])).toBe(1)
+                                                                                               ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 0
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:23:91)
+(fail) consumed native notification allows a genuinely new identical report to wake again [10.58ms]
+25 |   expect(d.client.calls.filter(c => c.method === "session.promptAsync")).toHaveLength(2)
+26 | })
+27 | test("a reload/new client cannot enqueue another pending wake for the same team", async () => {
+28 |   const d = fixture(); requestLeadWake(d.client, d.db, "t", message(d)); await Promise.resolve()
+29 |   const other = setupDeps(d.db); requestLeadWake(other.client, d.db, "t", message(d, "follow-up"))
+30 |   expect(other.client.calls).toEqual([])
+                                  ^
+error: expect(received).toEqual(expected)
+
+- []
++ [
++   {
++     "args": [
++       {
++         "parts": [
++           {
++             "text": "[System: New team message from system]",
++             "type": "text",
++           },
++         ],
++         "sessionID": "lead",
++         "synthetic": true,
++       },
++     ],
++     "method": "session.promptAsync",
++   },
++ ]
+
+- Expected  - 1
++ Received  + 17
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:30:30)
+(fail) a reload/new client cannot enqueue another pending wake for the same team [13.61ms]
+30 |   expect(other.client.calls).toEqual([])
+31 | })
+32 | test("full results retrieved by the lead are not reinjected as old system-prompt messages", async () => {
+33 |   const d = fixture(); const id = message(d, "old result")
+34 |   expect(await executeTeamResults(d, { from: "worker" }, "lead")).toContain("old result")
+35 |   expect(buildLeadSystemPrompt(d.db, "t", d.config)).not.toContain("old result")
+                                                              ^
+error: expect(received).not.toContain(expected)
+
+Expected to not contain: "old result"
+Received: "You are leading team \"team\" with 1 active teammates.\nWorker capacity: 0 running + 0 starting / 30; 30 free; 0 queued tasks; 0 queued wakes. Idle sessions and the lead do not consume worker slots. Only the lead can change max_running_members.\nMission provider order (revision 0): no preference (existing cost/default routing). Legacy mode uses quality, provider order, then cost; balanced model policy uses this order only for inherited weights. Stored in mission SQLite; applies to subsequent admissions. Leave model unset for normal routing; an explicit model is an override.\nMission model policy (revision 0, inherited): legacy; max gap 2 intelligence points, shrinking with demand/risk. Legacy provider-order/cost selection. Explicit model+variant overrides remain pinned only within the enabled operator selection; overrides never bypass disabled models or variants.\nPersist model/effort preferences with a separate team_message({to:\"lead\", model_policy:{mode:\"balanced\",maxIntelligenceGap:2,models:[{id:\"provider/model\",reasoningEffort:\"native-variant\",preference:75,reserve:false}]}, model_policy_revision:N}). Use evaluated catalogue identities; never inflate intelligence or rewrite cost to express preference. Weight 0 disables automatic selection; reserves serve tasks ordinary candidates cannot handle. The skill ensemble-model-catalogue can maintain these independent settings.\nPersist user provider preferences with team_message({to:\"lead\", provider_order:[\"provider-id\",...], provider_order_revision:N}). Read the current revision in team_status. Do not keep routing preferences only in conversation memory.\nScheduling: {\"autoDispatch\":false,\"autoScale\":false}. Change the shared budget with team_message({to:\"lead\", max_running_members:N}); enable automatic dispatch/scaling with auto_dispatch/auto_scale on that same lead-only call. Lowering the limit lets current executions finish.\nTeammates: worker [idle]\nTasks: 0 completed, 0 in progress, 0 pending\n\n--- Team Messages ---\n[From worker]: old result\n--- End Messages ---\n\nSpawn teammates ONE AT A TIME. Wait for each tool result before spawning the next.\nThis avoids git worktree contention. Once all are spawned, wait for their messages.\nRead-only agents (explore, plan) automatically skip worktree creation.\nFor other agents that only need to read, pass worktree: false to avoid unnecessary isolation.\n\nTeammates work asynchronously and message you when done.\nDo NOT poll team_status or team_tasks_list repeatedly — wait for messages.\nAfter spawning all teammates, tell the user what you've set up and wait.\nWhen all teammates finish, summarize results and suggest next steps.\n\nMERGE WORKFLOW:\nAfter a teammate finishes and you shut them down, use team_merge to merge their branch.\nDo NOT tell teammates to commit — they handle that themselves.\nDo NOT run git merge manually — use team_merge which squash-merges and unstages for you.\nteam_cleanup will safety-net merge any branches you forgot, but prefer explicit team_merge.\n\nBefore calling team_cleanup, verify teammates have committed their work.\nteam_shutdown will warn you if a teammate has uncommitted changes.\nteam_cleanup will block if any worktree has uncommitted changes — merge or commit first.\nTo permanently delete archived teams, call team_cleanup with purge: [\"team-name\"] or purge: [\"*\"] for all archived teams.\nThe first purge call is preview-only and deletes nothing.\nUse the question tool to ask the user for visible human approval before deleting archived team records or preserved Ensemble branches.\nThe question must include the exact approval and denial option labels shown in the preview.\nOnly if the user selects that exact approval option, call team_cleanup again with the same purge value, confirm_purge: true, and the confirm_token from the preview."
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:35:58)
+(fail) full results retrieved by the lead are not reinjected as old system-prompt messages [13.59ms]
+39 |   const d = fixture(); const id = message(d)
+40 |   await executeTeamResults(d, {}, "worker")
+41 |   expect(buildLeadSystemPrompt(d.db, "t", d.config)).toContain("result")
+42 |   requestLeadWake(d.client, d.db, "t", id)
+43 |   const foreign = sendMessage(d.db, { teamId: "t", from: "lead", to: "worker", content: "private" })
+44 |   expect(requestLeadWake(d.client, d.db, "t", foreign)).toBe(false)
+                                                             ^
+error: expect(received).toBe(expected)
+
+Expected: false
+Received: true
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:44:57)
+(fail) worker reads and foreign recipient data cannot acknowledge a lead notification [11.35ms]
+49 |     { id: "old", sessionID: "lead", type: "synthetic", time: { created: 20 }, payload: { text: "[System: New team message from worker]" } },
+50 |     { id: "user", sessionID: "lead", type: "user", time: { created: 20 }, payload: { text: "[System: New team message from worker]" } },
+51 |     { id: "unknown", sessionID: "lead", type: "synthetic", time: { created: 20 }, payload: { text: "[System: New team message from stranger]" } },
+52 |     { id: "move", sessionID: "lead", type: "move", time: { created: 20 } },
+53 |   ]
+54 |   expect(obsoleteWakeIds(d.db, "t", "lead", inbox)).toEqual(["old"])
+                                                         ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "old",
+- ]
++ []
+
+- Expected  - 3
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-coordination-three-20261014\test\lead-notifications.test.ts:54:53)
+(fail) legacy cleanup cancels only queued synthetic hints for already read AND delivered reports [9.97ms]
+(pass) future/foreign or malformed native notifications never become obsolete candidates [8.99ms]
+
+ 1 pass
+ 6 fail
+ 9 expect() calls
+Ran 7 tests across 1 file. [229.00ms]

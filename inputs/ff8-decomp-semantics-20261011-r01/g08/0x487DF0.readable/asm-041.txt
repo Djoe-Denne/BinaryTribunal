@@ -1,0 +1,25 @@
+00488C24: mov     eax, edi
+00488C26: jmp     short loc_488BE1; Jump
+00488C28: mov     edx, [ecx+1Ch]
+00488C2B: mov     eax, 66666667h
+00488C30: imul    edx; Signed Multiply
+00488C32: sar     edx, 2; Shift Arithmetic Right
+00488C35: mov     eax, edx
+00488C37: mov     ecx, [ecx+18h]
+00488C3A: shr     eax, 1Fh; Shift Logical Right
+00488C3D: add     edx, eax; Add
+00488C3F: imul    edx, edi; Signed Multiply
+00488C42: cmp     ebp, 5; switch 6 cases
+00488C45: ja      short def_488C47; jumptable 00488C47 default case
+00488C47: jmp     ds:jpt_488C47[ebp*4]; switch jump
+00488C4E: cmp     ecx, edx; jumptable 00488C47 case 0
+00488C50: jnz     short def_488C47; jumptable 00488C47 default case
+00488C52: mov     eax, 1
+00488C57: jmp     short loc_488CA2; Jump
+00488C59: cmp     ecx, edx; jumptable 00488C47 case 1
+00488C5B: jnb     short def_488C47; jumptable 00488C47 default case
+00488C5D: mov     eax, 1
+00488C62: jmp     short loc_488CA2; Jump
+00488C64: cmp     ecx, edx; jumptable 00488C47 case 2
+00488C66: jbe     short def_488C47; jumptable 00488C47 default case
+00488C68: mov     eax, 1

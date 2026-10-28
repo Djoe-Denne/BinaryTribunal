@@ -1,0 +1,27 @@
+# Extraction planning R1 proposée gelée, freshV avantqualification
+
+Livraison result_mvf6wafw_0062_f1gcgk6artefacts122064B gelésreadonly après
+rehashparent20pins314390B/manifest a0e8dc30. Nouveaucodec15047B/794f8c9c,
+function-order571B/8c87b709,planner52392B/4e812e5c,scc4763B/94597e9d,
+DESIGN6583B/7ad3c208,MANIFEST42708B/bf62d4e4. Sourcesmain inchangées.
+
+ASTparent(compilertoolparsingseul,pasproduit/transpile/typecheck) a comparé
+indépendamment6corps déplacés auxvraissources : unitContentFingerprint,
+validRequirement/validDispensation/receiptSatisfies/invalidatesReceipt et
+compareFunctionIds. Bytes/hashsconcordent. Cela NEPROUVE PASles10helpers
+paramétrés/12producerblocks/choixcontextes/G1/diagnosticorders.
+
+FreshVsource task_mvf6zyr2_0065_dsvmip/s1-r5-planner-extraction-review-r1 admise,
+Sol/xhighnatifvérifié74/87,28pins442743B/
+d19462c91e2dafd9ee47c8c3a78db4b8b7be52d0772ec6a0884206425307bc15.
+ACKmicroplan→GOauditexplicite encoreexigé. V doitrefaire lescall-sites/puresource
+inputs/reqdispenses/externalreceipts/conflicts/G1callee→caller/comparatorbackward
+exports,etpréservationdesheuristiques/readiness/SCC/selectionproducteurs.
+
+AuteurextractionidleHOLD/taskinprogresspourfixes,sourcePROPOSÉENONACCEPTÉE.
+Parentexigera encoretypecheck/equivalencebaselines→candidatsFULLartifacts/
+fingerprints/diagnostics/failures/regressions/loadpurityavantintégrationqualifiée
+etrepinS1. Pas qualification depuis sixbodyhashs niancien415tests.
+
+Numericcontextextractionisoléeetcorrectifpremièrecause2b1R2continuent. Aucune
+S1/native/full44/125s/Linux/G5G7promotion,aucuncommit/push/cleanup.

@@ -1,0 +1,379 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/work-unit-v1",
+  "title": "Work unit v1",
+  "description": "Planning aggregate above one-function Intent.identity. Strict subset.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "unitId",
+    "snapshotId",
+    "partitionId",
+    "knowledgeRevision",
+    "ownedFunctionIds",
+    "contextFunctionIds",
+    "investigationKind",
+    "pipeline",
+    "subIntents",
+    "prerequisites",
+    "conflicts",
+    "estimatedCost",
+    "requiredPublicationLevel",
+    "state"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ],
+      "description": "Document schema version"
+    },
+    "unitId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Stable unit id. Not an EA and not a group id."
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Snapshot id"
+    },
+    "partitionId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "description": "Partition id"
+    },
+    "knowledgeRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Knowledge revision"
+    },
+    "ownedFunctionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Owned function id"
+      },
+      "minItems": 1,
+      "maxItems": 100000,
+      "description": "Possessed functions"
+    },
+    "contextFunctionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 66,
+        "maxLength": 96,
+        "description": "Context function id"
+      },
+      "minItems": 0,
+      "maxItems": 100000,
+      "description": "Context does not create sub-intents"
+    },
+    "investigationKind": {
+      "type": "string",
+      "enum": [
+        "structural",
+        "decompilation",
+        "semantification"
+      ],
+      "description": "Investigation kind"
+    },
+    "pipeline": {
+      "type": "string",
+      "enum": [
+        "2+1"
+      ],
+      "description": "Default blind 2+1. A derogation is not representable in v1."
+    },
+    "subIntents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subIntentId",
+          "functionId",
+          "role",
+          "harnessIdentity",
+          "waitsForSubIntentIds",
+          "sharesFamilyLease",
+          "outputDisjoint"
+        ],
+        "properties": {
+          "subIntentId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Sub-intent id"
+          },
+          "functionId": {
+            "type": "string",
+            "minLength": 66,
+            "maxLength": 96,
+            "description": "Exactly one owned function"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "explore",
+              "evaluate",
+              "A",
+              "B",
+              "R"
+            ],
+            "description": "Scientific role"
+          },
+          "harnessIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sha256",
+              "version",
+              "ea"
+            ],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Projected harness FunctionIdentity.sha256, equal to the module hash 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Projected harness version label. Not part of the graph key."
+              },
+              "ea": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 18,
+                "description": "Projected harness EA of exactly one function 0x + uppercase hex, no leading zeros."
+              }
+            },
+            "description": "One-function projection into Intent.identity. Never a group id."
+          },
+          "waitsForSubIntentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 4,
+              "maxLength": 128,
+              "description": "Sub-intent id"
+            },
+            "minItems": 0,
+            "maxItems": 8,
+            "description": "R waits for A and B of the same function. A and B wait for nobody."
+          },
+          "sharesFamilyLease": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "description": "A and B share the family lease. Not two independent reservations."
+          },
+          "outputDisjoint": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "description": "A and B outputs are disjoint"
+          }
+        },
+        "description": "Attributable sub-intent. ADR-011."
+      },
+      "minItems": 1,
+      "maxItems": 1024,
+      "description": "One harness intent per owned function and role"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "producerUnitId",
+          "requiredPublicationLevel",
+          "artifactKind",
+          "dispensed",
+          "dispensationReason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Prerequisite id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "obligatory",
+              "optional",
+              "external_satisfied",
+              "unknown_unresolved",
+              "non_blocking"
+            ],
+            "description": "Prerequisite class"
+          },
+          "producerUnitId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 128,
+            "description": "Producer unit or null"
+          },
+          "requiredPublicationLevel": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ],
+            "description": "Admissible publication level. 1 fixture store. 2 local approved knowledge. Level 3 IDB is absent and not admissible."
+          },
+          "artifactKind": {
+            "type": "string",
+            "enum": [
+              "structural_fact",
+              "reconciled_c",
+              "semantic_description",
+              "validated_knowledge"
+            ],
+            "description": "Required artifact"
+          },
+          "dispensed": {
+            "type": "boolean",
+            "description": "Explicit dispensation"
+          },
+          "dispensationReason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 1800,
+            "description": "Required when dispensed"
+          }
+        },
+        "description": "Typed prerequisite"
+      },
+      "minItems": 0,
+      "maxItems": 256,
+      "description": "Prerequisites"
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "resourceKey",
+          "withUnitId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Conflict id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "owned_function",
+              "blocking_dependency",
+              "non_isolated_file",
+              "exclusive_write",
+              "native_lease",
+              "adapter_constraint"
+            ],
+            "description": "Conflict class"
+          },
+          "resourceKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 192,
+            "description": "Canonical resource key"
+          },
+          "withUnitId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 0,
+            "maxLength": 128,
+            "description": "Other unit or null"
+          }
+        },
+        "description": "Conflict reference"
+      },
+      "minItems": 0,
+      "maxItems": 256,
+      "description": "Conflicts"
+    },
+    "estimatedCost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known",
+        "value"
+      ],
+      "properties": {
+        "known": {
+          "type": "boolean",
+          "description": "false means not observed. Never encode unknown as zero."
+        },
+        "value": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "null iff known is false. Zero is legal only when known is true."
+        }
+      },
+      "description": "Unknown cost stays unknown"
+    },
+    "requiredPublicationLevel": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ],
+      "description": "Admissible publication level. 1 fixture store. 2 local approved knowledge. Level 3 IDB is absent and not admissible."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "BLOCKED",
+        "READY",
+        "RESERVED",
+        "RUNNING",
+        "VALIDATING",
+        "COMMITTED",
+        "RETRYABLE",
+        "FAILED",
+        "STALE",
+        "CANCELLED",
+        "STOP_PENDING",
+        "QUARANTINED"
+      ],
+      "description": "WorkUnit state. COMMITTED is unit-level, not an attempt-level publication."
+    }
+  }
+}

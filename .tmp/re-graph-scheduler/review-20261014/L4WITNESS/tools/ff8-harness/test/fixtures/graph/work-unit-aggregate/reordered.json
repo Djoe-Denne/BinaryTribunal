@@ -1,0 +1,117 @@
+{
+  "state": "PENDING",
+  "requiredPublicationLevel": 2,
+  "estimatedCost": {
+    "value": null,
+    "known": false
+  },
+  "conflicts": [
+    {
+      "withUnitId": null,
+      "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "kind": "owned_function",
+      "id": "conflict:owned-a"
+    }
+  ],
+  "prerequisites": [],
+  "subIntents": [
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [],
+      "harnessIdentity": {
+        "ea": "0x421000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "A",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "subIntentId": "sub:a:A"
+    },
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [],
+      "harnessIdentity": {
+        "ea": "0x421000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "B",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "subIntentId": "sub:a:B"
+    },
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [
+        "sub:a:A",
+        "sub:a:B"
+      ],
+      "harnessIdentity": {
+        "ea": "0x421000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "R",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+      "subIntentId": "sub:a:R"
+    },
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [],
+      "harnessIdentity": {
+        "ea": "0x422000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "A",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "subIntentId": "sub:b:A"
+    },
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [],
+      "harnessIdentity": {
+        "ea": "0x422000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "B",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "subIntentId": "sub:b:B"
+    },
+    {
+      "outputDisjoint": true,
+      "sharesFamilyLease": true,
+      "waitsForSubIntentIds": [
+        "sub:b:A",
+        "sub:b:B"
+      ],
+      "harnessIdentity": {
+        "ea": "0x422000",
+        "version": "fixture-v1",
+        "sha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+      },
+      "role": "R",
+      "functionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000",
+      "subIntentId": "sub:b:R"
+    }
+  ],
+  "pipeline": "2+1",
+  "investigationKind": "decompilation",
+  "contextFunctionIds": [
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x23000"
+  ],
+  "ownedFunctionIds": [
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x21000",
+    "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x22000"
+  ],
+  "knowledgeRevision": 2,
+  "partitionId": "part:work-unit-aggregate",
+  "snapshotId": "snap:work-unit-aggregate",
+  "unitId": "unit:aggregate-1",
+  "schemaVersion": 1
+}

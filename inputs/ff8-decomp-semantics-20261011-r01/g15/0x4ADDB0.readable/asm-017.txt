@@ -1,0 +1,25 @@
+004AE3C7: jz      short loc_4AE3D3; Jump if Zero (ZF=1)
+004AE3C9: mov     eax, 18h
+004AE3CE: jmp     loc_4AE669; Jump
+004AE3D3: mov     eax, [esp+1Ch+var_C]
+004AE3D7: test    ah, 40h; Logical Compare
+004AE3DA: jz      short loc_4AE402; Jump if Zero (ZF=1)
+004AE3DC: mov     eax, dword_1D768F8
+004AE3E1: inc     ebx; Increment by 1
+004AE3E2: cmp     ebx, 2; Compare Two Operands
+004AE3E5: jl      short loc_4AE3E9; Jump if Less (SF!=OF)
+004AE3E7: xor     ebx, ebx; Logical Exclusive OR
+004AE3E9: cmp     byte ptr [eax+ebx*4], 0; Compare Two Operands
+004AE3ED: jz      short loc_4AE3E1; Jump if Zero (ZF=1)
+004AE3EF: push    1
+004AE3F1: mov     byte ptr dword_1D768D8+1, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE3F7: mov     [edi+59h], bl
+004AE3FA: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE3FF: add     esp, 4; Add
+004AE402: mov     eax, [esp+1Ch+var_C]
+004AE406: test    ah, 10h; Logical Compare
+004AE409: jz      short loc_4AE431; Jump if Zero (ZF=1)
+004AE40B: mov     eax, dword_1D768F8
+004AE410: dec     ebx; Decrement by 1
+004AE411: jns     short loc_4AE418; Jump if Not Sign (SF=0)
+004AE413: mov     ebx, 1

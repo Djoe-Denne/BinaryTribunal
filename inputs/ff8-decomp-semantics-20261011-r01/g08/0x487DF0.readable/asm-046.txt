@@ -1,0 +1,25 @@
+00488DB0: jmp     short loc_488D6C; Jump
+00488DB2: cmp     edx, 3; Compare Two Operands
+00488DB5: jnz     short loc_488E0F; Jump if Not Zero (ZF=0)
+00488DB7: xor     edx, edx; Logical Exclusive OR
+00488DB9: mov     dx, [eax+80h]
+00488DC0: mov     eax, 1
+00488DC5: shl     eax, cl; Shift Logical Left
+00488DC7: test    eax, edx; Logical Compare
+00488DC9: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488DCF: mov     eax, [esp+74h+jump_value]
+00488DD3: and     eax, 0FFFFh; Logical AND
+00488DD8: add     esi, eax; Add
+00488DDA: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488DDF: test    edx, edx; Logical Compare
+00488DE1: jnz     short loc_488DF7; Jump if Not Zero (ZF=0)
+00488DE3: add     ecx, 0FFFFFFF0h; Add
+00488DE6: mov     edx, 1
+00488DEB: shl     edx, cl; Shift Logical Left
+00488DED: test    [eax+8], edx; Logical Compare
+00488DF0: jz      short loc_488E0F; Jump if Zero (ZF=1)
+00488DF2: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488DF7: cmp     edx, 3; Compare Two Operands
+00488DFA: jnz     short loc_488E0F; Jump if Not Zero (ZF=0)
+00488DFC: add     ecx, 0FFFFFFF0h; Add
+00488DFF: mov     edx, 1

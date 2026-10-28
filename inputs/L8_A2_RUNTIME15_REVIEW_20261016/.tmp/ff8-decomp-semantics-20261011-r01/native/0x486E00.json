@@ -1,0 +1,153 @@
+{
+  "ea": "0x486E00",
+  "name_label_only": "domain::BattleTarget_GetRandomMonsterMask",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x486e00",
+      "end": "0x486e47",
+      "hex": "e8cbf2ffff3dff000000750566b80800c3e80a82000025ff0000008bc881e10300008079054983c9fc4183c1038d04498d1481c1e204f682907bd2010175d2b801000000d3e0c3"
+    }
+  ],
+  "assembly": "00486E00: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)\n00486E05: cmp     eax, 0FFh; Compare Two Operands\n00486E0A: jnz     short loc_486E11; Jump if Not Zero (ZF=0)\n00486E0C: mov     ax, 8; empty -> 8 (= 1<<3), not 0\n00486E10: retn; Return Near from Procedure\n00486E11: call    domain__Battle_GetRandomInt; Verified battle-local RNG primitive: reads RANDOM_NUMBER_LIST at the current one-byte cursor BATTLE_RNG_LANE_INDEXES[BATTLE_RNG_ACTIVE_LANE], then increments that cursor. No CRT RNG involvement.\n00486E16: and     eax, 0FFh; Logical AND\n00486E1B: mov     ecx, eax\n00486E1D: and     ecx, 80000003h; MSVC signed %4 pattern on 0..255 value == &3 ; slot = (rng&3)+3 -> slots 3-6\n00486E23: jns     short loc_486E2A; Jump if Not Sign (SF=0)\n00486E25: dec     ecx; Decrement by 1\n00486E26: or      ecx, 0FFFFFFFCh; Logical Inclusive OR\n00486E29: inc     ecx; Increment by 1\n00486E2A: add     ecx, 3; Add\n00486E2D: lea     eax, [ecx+ecx*2]; Load Effective Address\n00486E30: lea     edx, [ecx+eax*4]; Load Effective Address\n00486E33: shl     edx, 4; Shift Logical Left\n00486E36: test    byte ptr BATTLE_SLOT_DATA.status_1[edx], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00486E3D: jnz     short loc_486E11; Live capture 2026-08-09 (g08-native-meteor-rng-delta-pre-g09): Meteor entered 0x48E830 with mask 0xA018, hit_count=10, active RNG lane 1 cursor 186. Before first G09 cursor was 200: 14 draws. Each loop uses (Battle_GetRandomInt() & 3)+3; dead slots 5/6 rejected 4 times, accepted slots [3,3,3,4,3,4,3,4,3,4] exactly match the 10 resolved masks. One RNG byte is consumed per candidate attempt, including retries.\n00486E3F: mov     eax, 1\n00486E44: shl     eax, cl; Shift Logical Left\n00486E46: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x486e00",
+      "end": "0x486e0c",
+      "successors": [
+        "0x486e0c",
+        "0x486e11"
+      ]
+    },
+    {
+      "start": "0x486e0c",
+      "end": "0x486e11",
+      "successors": []
+    },
+    {
+      "start": "0x486e11",
+      "end": "0x486e25",
+      "successors": [
+        "0x486e25",
+        "0x486e2a"
+      ]
+    },
+    {
+      "start": "0x486e25",
+      "end": "0x486e2a",
+      "successors": [
+        "0x486e2a"
+      ]
+    },
+    {
+      "start": "0x486e2a",
+      "end": "0x486e3f",
+      "successors": [
+        "0x486e11",
+        "0x486e3f"
+      ]
+    },
+    {
+      "start": "0x486e3f",
+      "end": "0x486e47",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x48389f",
+      "type": 19,
+      "iscode": true,
+      "function": "0x483880"
+    },
+    {
+      "from": "0x4838fb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4838c0"
+    },
+    {
+      "from": "0x4839d8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483940"
+    },
+    {
+      "from": "0x483a90",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483940"
+    },
+    {
+      "from": "0x483b5b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483940"
+    },
+    {
+      "from": "0x483bcf",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483940"
+    },
+    {
+      "from": "0x483d44",
+      "type": 19,
+      "iscode": true,
+      "function": "0x483d20"
+    },
+    {
+      "from": "0x483e38",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483d60"
+    },
+    {
+      "from": "0x483e96",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483d60"
+    },
+    {
+      "from": "0x483ed8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x483eb0"
+    },
+    {
+      "from": "0x4855f7",
+      "type": 19,
+      "iscode": true,
+      "function": "0x4855f0"
+    },
+    {
+      "from": "0x4858c2",
+      "type": 17,
+      "iscode": true,
+      "function": "0x485610"
+    },
+    {
+      "from": "0x485c68",
+      "type": 17,
+      "iscode": true,
+      "function": "0x485610"
+    },
+    {
+      "from": "0x48e896",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48e830"
+    }
+  ],
+  "code_targets": [
+    "0x4860d0",
+    "0x48f020"
+  ],
+  "instruction_count": 22
+}

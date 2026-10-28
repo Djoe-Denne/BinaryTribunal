@@ -1,0 +1,25 @@
+0048960D: and     edx, 0FFFFh; Logical AND
+00489613: add     esi, edx; Add
+00489615: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048961A: cmp     eax, ecx; jumptable 004895C4 case 3
+0048961C: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489622: mov     edx, [esp+74h+jump_value]
+00489626: and     edx, 0FFFFh; Logical AND
+0048962C: add     esi, edx; Add
+0048962E: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489633: cmp     eax, ecx; jumptable 004895C4 case 4
+00489635: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048963B: mov     edx, [esp+74h+jump_value]
+0048963F: and     edx, 0FFFFh; Logical AND
+00489645: add     esi, edx; Add
+00489647: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048964C: cmp     eax, ecx; jumptable 004895C4 case 5
+0048964E: jmp     loc_4889A4; Jump
+00489653: mov     ecx, dword ptr [esp+74h+op_param_3]; jumptable 004887D6 case 19
+00489657: mov     eax, [esp+74h+if_right_condition_final]
+0048965B: mov     ebp, BATTLE_BATTLE_VAR[ebp*4]; Probably a table of var
+00489662: and     ecx, edi; Logical AND
+00489664: and     eax, 0FFFFh; Logical AND
+00489669: cmp     ecx, 5; switch 6 cases
+0048966C: ja      def_489672; jumptable 00489672 default case
+00489672: jmp     ds:jpt_489672[ecx*4]; switch jump

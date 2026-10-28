@@ -1,0 +1,25 @@
+00484720: mov     eax, [esp+group]; G17: sole native group-0 writer. (slot, special_id, group). group==0 -> stru_1D28864; group!=0 -> group 2. command_id=0xFF. IDs 2/3/5/6/7/8 are G17; id 1 from EnqueueEnemyCounterActions is group 2.
+00484724: push    ebx
+00484725: mov     ebx, [esp+4+slot]
+00484729: test    eax, eax; Logical Compare
+0048472B: jz      short loc_48474D; polarite : jz -> groupe 0 (avec clear target_reaction_type slot*208)
+0048472D: push    0Bh; capacity
+0048472F: push    offset byte_1D28C02; head_index
+00484734: push    offset stru_1D288BC; links
+00484739: call    domain__BattleExecQueue_AllocNode; G07: first node with prev==0 && next==0; on saturation reuses index 0, appends as newest, clears reserved_2, and preserves opaque reserved_3.
+0048473E: lea     eax, [eax+eax*2]; Load Effective Address
+00484741: add     esp, 0Ch; Add
+00484744: lea     eax, ds:1D28AF8h[eax*8]; Load Effective Address
+0048474B: jmp     short loc_48477B; Jump
+0048474D: lea     ecx, [ebx+ebx*2]; Load Effective Address
+00484750: push    0Bh; capacity
+00484752: push    offset byte_1D28C00; head_index
+00484757: push    offset stru_1D28864; links
+0048475C: lea     edx, [ebx+ecx*4]; Load Effective Address
+0048475F: shl     edx, 4; Shift Logical Left
+00484762: mov     BATTLE_SLOT_DATA.target_reaction_type[edx], 0; clear BATTLE_SLOT_DATA.target_reaction_type (slot*208) uniquement groupe 0
+00484769: call    domain__BattleExecQueue_AllocNode; G07: first node with prev==0 && next==0; on saturation reuses index 0, appends as newest, clears reserved_2, and preserves opaque reserved_3.
+0048476E: lea     eax, [eax+eax*2]; Load Effective Address
+00484771: add     esp, 0Ch; Add
+00484774: lea     eax, ds:1D288E8h[eax*8]; Load Effective Address
+0048477B: mov     cx, [esp+4+special_id]

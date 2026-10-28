@@ -1,0 +1,25 @@
+004906F5: push    edx; p_object_quantity
+004906F6: push    eax; p_object_id
+004906F7: push    ecx; p_target_slot_id
+004906F8: call    getMugObjectIdAndQuantity; G19 U19.4: persist helper. CFG not closed (RNG + DAT mug table + caller inventory). ISO refuses persist; do not call from G19 seam.
+004906FD: add     esp, 10h; Add
+00490700: sub     eax, 0; Integer Subtraction
+00490703: jz      loc_490865; Jump if Zero (ZF=1)
+00490709: dec     eax; Decrement by 1
+0049070A: jz      short loc_49071A; Jump if Zero (ZF=1)
+0049070C: dec     eax; Decrement by 1
+0049070D: jnz     loc_49086F; Jump if Not Zero (ZF=0)
+00490713: push    12h
+00490715: jmp     loc_490867; Jump
+0049071A: mov     dl, byte ptr [esp+20h+mug_object_id]
+0049071E: mov     al, byte ptr [esp+20h+CommandTypeId2]
+00490722: mov     byte_1D28E11, 1
+00490729: mov     byte_1D28E12, dl
+0049072F: mov     byte_1D28E13, al
+00490734: mov     ecx, dword ptr BATTLE_SLOT_DATA.flag_data[esi]
+0049073A: or      ch, 8; Logical Inclusive OR
+0049073D: mov     dword ptr BATTLE_SLOT_DATA.flag_data[esi], ecx
+00490743: cmp     al, 1; Compare Two Operands
+00490745: push    73h ; 's'
+00490747: jnz     short loc_4907B4; Jump if Not Zero (ZF=0)
+00490749: call    domain__BattleText_GetMiscText; Call Procedure

@@ -1,0 +1,25 @@
+0050074D: mov     eax, pause_game_battle
+00500752: test    eax, eax; Logical Compare
+00500754: jnz     short loc_5007A9; Jump if Not Zero (ZF=0)
+00500756: mov     eax, g_BattleFramePingPongIndex
+0050075B: push    0FFFFFFFFh
+0050075D: and     eax, 0FFh; Logical AND
+00500762: push    111Eh
+00500767: mov     ecx, eax
+00500769: push    101Eh
+0050076E: shl     ecx, 4; Shift Logical Left
+00500771: add     ecx, eax; Add
+00500773: push    101Ah
+00500778: push    1019h
+0050077D: push    1011h
+00500782: lea     edx, [eax+ecx*8]; Load Effective Address
+00500785: push    11h
+00500787: shl     edx, 4; Shift Logical Left
+0050078A: push    9
+0050078C: add     edx, eax; Add
+0050078E: push    5
+00500790: push    1
+00500792: push    0
+00500794: lea     eax, ds:1D8E058h[edx*8]; Load Effective Address
+0050079B: push    1122h
+005007A0: push    eax

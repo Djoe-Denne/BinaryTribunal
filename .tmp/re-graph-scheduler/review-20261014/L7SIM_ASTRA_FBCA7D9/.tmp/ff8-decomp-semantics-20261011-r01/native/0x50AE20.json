@@ -1,0 +1,80 @@
+{
+  "ea": "0x50AE20",
+  "name_label_only": "sub_50AE20",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50ae20",
+      "end": "0x50ae7e",
+      "hex": "565733ffbec072d901a1909ad9018b0d5c9ad90125ffff000081e1ffff00000bc1ba010000008bcfd3e285c2741468400100006a1a56e8e5d6ffff83c40c85c0751481c69c0000004781fe0477d9017cb85f33c05ec35fb8010000005ec3"
+    }
+  ],
+  "assembly": "0050AE20: push    esi\n0050AE21: push    edi\n0050AE22: xor     edi, edi; Logical Exclusive OR\n0050AE24: mov     esi, offset g_BattlePresentationActors\n0050AE29: mov     eax, dword_1D99A90\n0050AE2E: mov     ecx, dword_1D99A5C\n0050AE34: and     eax, 0FFFFh; Logical AND\n0050AE39: and     ecx, 0FFFFh; Logical AND\n0050AE3F: or      eax, ecx; Logical Inclusive OR\n0050AE41: mov     edx, 1\n0050AE46: mov     ecx, edi\n0050AE48: shl     edx, cl; Shift Logical Left\n0050AE4A: test    edx, eax; Logical Compare\n0050AE4C: jz      short loc_50AE62; Jump if Zero (ZF=1)\n0050AE4E: push    140h\n0050AE53: push    1Ah\n0050AE55: push    esi\n0050AE56: call    sub_508540; Call Procedure\n0050AE5B: add     esp, 0Ch; Add\n0050AE5E: test    eax, eax; Logical Compare\n0050AE60: jnz     short loc_50AE76; Jump if Not Zero (ZF=0)\n0050AE62: add     esi, 9Ch; Add\n0050AE68: inc     edi; Increment by 1\n0050AE69: cmp     esi, offset dword_1D97704; Compare Two Operands\n0050AE6F: jl      short loc_50AE29; Jump if Less (SF!=OF)\n0050AE71: pop     edi\n0050AE72: xor     eax, eax; Logical Exclusive OR\n0050AE74: pop     esi\n0050AE75: retn; Return Near from Procedure\n0050AE76: pop     edi\n0050AE77: mov     eax, 1\n0050AE7C: pop     esi\n0050AE7D: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50ae20",
+      "end": "0x50ae29",
+      "successors": [
+        "0x50ae29"
+      ]
+    },
+    {
+      "start": "0x50ae29",
+      "end": "0x50ae4e",
+      "successors": [
+        "0x50ae4e",
+        "0x50ae62"
+      ]
+    },
+    {
+      "start": "0x50ae4e",
+      "end": "0x50ae62",
+      "successors": [
+        "0x50ae62",
+        "0x50ae76"
+      ]
+    },
+    {
+      "start": "0x50ae62",
+      "end": "0x50ae71",
+      "successors": [
+        "0x50ae29",
+        "0x50ae71"
+      ]
+    },
+    {
+      "start": "0x50ae71",
+      "end": "0x50ae76",
+      "successors": []
+    },
+    {
+      "start": "0x50ae76",
+      "end": "0x50ae7e",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50adef",
+      "type": 19,
+      "iscode": true,
+      "function": "0x50ade0"
+    },
+    {
+      "from": "0x50bd99",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bd80"
+    }
+  ],
+  "code_targets": [
+    "0x508540"
+  ],
+  "instruction_count": 33
+}

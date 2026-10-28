@@ -1,0 +1,61 @@
+{
+  "schema": "ff8-classification-routing-v1",
+  "group": "g19",
+  "task_id": "task_mv435ed7_002z_ovzo59",
+  "status": "DISPATCH_READY",
+  "admission_owner": "lead",
+  "SOURCE": "discover-g19",
+  "source_session_id": "ses_ed41fc0b2ffecP3EYaS1m3mgu7",
+  "inheritance": {
+    "mode": "fork",
+    "from": "discover-g19",
+    "same_source_for_all_authors": true,
+    "never_fork_classifier": true,
+    "checkpoint_status": "NO_TARGET_PREVIEW_FLAG_IN_SOURCE_REPORT",
+    "source_receipt": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g19.source.native.json",
+    "source_receipt_sha256": "4ab609732d55f8a18d363884770f26ea1a1f1c619bc22cb47e9d1df6ccb5061c"
+  },
+  "factual_hashes": {
+    "inputs/ff8-decomp-semantics-20261011-r01/g19/0x505BC0.json": "d41fd7e1ce633cfa43a0062dff38b5a3ed45d7a18a7f9d80b71f2e9a7692b22e",
+    "inputs/ff8-decomp-semantics-20261011-r01/g19/common-compaction.md": "ab02d76b1f80b862aa3369da292b583fbcd817528c2f853222538ed22f04aeda",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "docs/missions/ff8-decomp-semantics-2026-10-11-run01/catalogue.snapshot.json": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"
+  },
+  "blocked_eas": [],
+  "routes": [
+    {
+      "ea": "0x505BC0",
+      "status": "DISPATCH_READY",
+      "pe_verified": true,
+      "native_instruction_count": 26,
+      "native_asm_chars": 938,
+      "payload_assembly_chars": 7579,
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "classifier_calls": 1,
+      "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g19/0x505BC0.request.json",
+      "request_sha256": "d0f43325909086f382eca9e6b3ffa190fca8c6366a5e080cccc106a79edea3e8",
+      "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g19/0x505BC0.response.native.json",
+      "response_sha256": "270e9b04358e13513406cb376980b091506f01723f920f10fd0a8d6ef745d47f",
+      "scores": { "complexity": 66, "risk_from_uncertainty": 63, "uncertainty_cause": "external_calls" },
+      "tier": "complex_high_risk",
+      "protocol": "2+1_per_volet",
+      "rationale": [
+        "Mandatory native Classify complexity 66 exceeds medium limit 65; uncertainty 63 exceeds risk limit 50. Scores are operational signals, not calibrated probabilities.",
+        "Only 26 native instructions and 5 blocks; size does not override v1 score thresholds.",
+        "Common factual report flags unknown callee 0x505850 contract/body, mixed byte/word state writes and pointer-valued early EAX return versus zero elsewhere. These prohibit simple-route admission.",
+        "Use catalogue complex C pair Astra high and Opus high; independent Sol high semantic authors and high reconciliators. No availability fallback inferred from historical discovery-only 429s."
+      ],
+      "dispatches": [
+        { "volet": "C", "role": "A", "model": "openai/gpt-6-astra", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/C_A.md", "depends_on": [] },
+        { "volet": "C", "role": "B", "model": "opencode/claude-opus-5-5", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/C_B.md", "depends_on": [] },
+        { "volet": "C", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/C_R.md", "depends_on": ["C_A", "C_B"], "admit_only_after_both_delivered": true },
+        { "volet": "semantic", "role": "A", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/semantic_A.md", "depends_on": [] },
+        { "volet": "semantic", "role": "B", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/semantic_B.md", "depends_on": [] },
+        { "volet": "semantic", "role": "R", "model": "openai/gpt-6.1-sol", "variant": "high", "SOURCE": "discover-g19", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g19/0x505BC0/semantic_R.md", "depends_on": ["semantic_A", "semantic_B"], "admit_only_after_both_delivered": true }
+      ],
+      "lead_creation_gates": ["Verify effective native Model.Ref at every creation, explicit high variant; never silent default.", "All A/B/R sessions distinct; A/B independent blind forks from discover-g19, never classifier or siblings.", "R receives both delivered sibling artifacts only after A+B; supervisor owns final ASM cross-validation and admission."]
+    }
+  ]
+}

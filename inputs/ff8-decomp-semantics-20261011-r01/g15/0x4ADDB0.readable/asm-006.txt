@@ -1,0 +1,25 @@
+004ADF9C: and     eax, 0FFh; Logical AND
+004ADFA1: and     edx, 0FFh; Logical AND
+004ADFA7: mov     byte ptr dword_1D768D8+3, bl; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004ADFAD: push    edx; monster_slot
+004ADFAE: push    eax; party_slot
+004ADFAF: call    domain__BattleDraw_RefreshKnownMagicFlags; Call Procedure
+004ADFB4: lea     ecx, [ebx-3]; Load Effective Address
+004ADFB7: add     esp, 0Ch; Add
+004ADFBA: lea     eax, [ecx+ecx*8]; Load Effective Address
+004ADFBD: shl     eax, 3; Shift Logical Left
+004ADFC0: sub     eax, ecx; Integer Subtraction
+004ADFC2: add     eax, offset BMI_MONSTER1_DRAW_SPELL_ID1; Add
+004ADFC7: mov     ecx, [eax]
+004ADFC9: mov     edx, [eax+4]
+004ADFCC: mov     dword_1D7543C, ecx
+004ADFD2: mov     ecx, [eax+8]
+004ADFD5: mov     dword_1D75440, edx
+004ADFDB: mov     edx, [eax+0Ch]
+004ADFDE: mov     eax, g_BattleSubmenu_CharaSlotPtr; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004ADFE3: mov     dword_1D75448, edx
+004ADFE9: and     eax, 0FFh; Logical AND
+004ADFEE: mov     dword_1D75444, ecx
+004ADFF4: mov     ecx, offset dword_1D7543C
+004ADFF9: lea     edx, ds:0[eax*8]; Load Effective Address
+004AE000: mov     dword_1D768F4, ecx

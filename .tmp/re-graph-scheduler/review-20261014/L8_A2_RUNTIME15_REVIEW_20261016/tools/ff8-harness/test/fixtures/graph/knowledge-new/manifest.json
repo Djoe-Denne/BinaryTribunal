@@ -1,0 +1,28 @@
+{
+  "fixtureId": "knowledge-new",
+  "schemaId": "https://re-ff8.local/schemas/knowledge-delta-v1",
+  "schemaFile": "knowledge-delta-v1.schema.json",
+  "schemaCanonicalSha256": "c54710c7beed5e4825bb71bdd5db7d46123b4045e400935255b5c6da1488ba25",
+  "contentFile": "content.json",
+  "reorderedFile": "reordered.json",
+  "volatileFile": "volatile.json",
+  "contentSha256": "ec65aecfd94870aba17d3705763030a6d3f961ade3c9eb3e5598782d475459ec",
+  "canonicalAlgorithm": "tools/ff8-harness/src/validation.ts canonical()+hash(); sha256 of the canonical string, not of pretty-printed bytes",
+  "hashed": "entire content.json via canonical(); arrays are pre-ordered; digest fields are included after they are computed",
+  "volatileKeys": [
+    "observedAtUtc",
+    "writer",
+    "note"
+  ],
+  "expectedSchema": "accept",
+  "expectedContract": "accept",
+  "oracle": false,
+  "quarantine": false,
+  "extraContents": [],
+  "utf8Probe": null,
+  "notes": [
+    "Volatile keys must not appear in content.",
+    "Changing volatile.json must not change contentSha256.",
+    "Level 3 IDB publication is not representable."
+  ]
+}

@@ -1,0 +1,25 @@
+00495E24: shr     edx, 1; Shift Logical Right
+00495E26: add     eax, 8; Add
+00495E29: dec     edi; Decrement by 1
+00495E2A: jnz     short loc_495DF0; Jump if Not Zero (ZF=0)
+00495E2C: mov     edi, [esp+1Ch+var_C]
+00495E30: mov     eax, [esp+1Ch+var_8]
+00495E34: add     edi, 4; Add
+00495E37: dec     eax; Decrement by 1
+00495E38: mov     [esp+1Ch+var_C], edi
+00495E3C: mov     [esp+1Ch+var_8], eax
+00495E40: jnz     short loc_495DE1; Jump if Not Zero (ZF=0)
+00495E42: xor     edx, edx; Logical Exclusive OR
+00495E44: push    ebx
+00495E45: mov     dl, [esi+8]
+00495E48: push    edx
+00495E49: call    sub_496120; Call Procedure
+00495E4E: movsx   ecx, ax; Move with Sign-Extend
+00495E51: xor     eax, eax; Logical Exclusive OR
+00495E53: add     esp, 8; Add
+00495E56: mov     al, [esi+0Ah]
+00495E59: imul    ecx, eax; Signed Multiply
+00495E5C: mov     eax, 51EB851Fh
+00495E61: imul    ecx; Signed Multiply
+00495E63: sar     edx, 5; Shift Arithmetic Right
+00495E66: mov     ecx, edx

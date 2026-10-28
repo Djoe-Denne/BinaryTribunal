@@ -1,0 +1,139 @@
+{
+  "ea": "0x515730",
+  "name_label_only": "sub_515730",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x515730",
+      "end": "0x515868",
+      "hex": "8b44240466c7058889d901000085c00f85b8000000a1e0b0d90185c00f84ab0000008b0d00b1d90185c974098bc148a300b1d901c383f83c7e3083c0c4c1e00c99f73ddcb0d9019983e20303c2c1f80250e8aa7905009983e20303c2c1f80250e89b79050083c408eb3d83f81e7e07b900100000eb3d8bc8b889888888c1e10cf7e903d1c1fa048bc2c1e81f03d08bc29983e20303c2c1f802050004000050e85c79050083c404b9001000002bc8a1e0b0d9018b15fcb0d9010fafd1c1fa0c486689158889d901a3e0b0d901c3e89ef2010033d2b91e000000f7f103d1891500b1d901e888f2010033d2b91e000000f7f183c25a8915e0b0d90183c2c48915dcb0d901e868f2010033d2b900030000f7f181c2000100008915fcb0d901e8807304003d004000007d0e8b15fcb0d901f7da8915fcb0d901c3"
+    }
+  ],
+  "assembly": "00515730: mov     eax, [esp+arg_0]\n00515734: mov     BattleEffect_RotateSky, 0\n0051573D: test    eax, eax; Logical Compare\n0051573F: jnz     loc_5157FD; Jump if Not Zero (ZF=0)\n00515745: mov     eax, dword_1D9B0E0\n0051574A: test    eax, eax; Logical Compare\n0051574C: jz      loc_5157FD; Jump if Zero (ZF=1)\n00515752: mov     ecx, dword_1D9B100\n00515758: test    ecx, ecx; Logical Compare\n0051575A: jz      short loc_515765; Jump if Zero (ZF=1)\n0051575C: mov     eax, ecx\n0051575E: dec     eax; Decrement by 1\n0051575F: mov     dword_1D9B100, eax\n00515764: retn; Return Near from Procedure\n00515765: cmp     eax, 3Ch ; '<'; Compare Two Operands\n00515768: jle     short loc_51579A; Jump if Less or Equal (ZF=1 | SF!=OF)\n0051576A: add     eax, 0FFFFFFC4h; Add\n0051576D: shl     eax, 0Ch; Shift Logical Left\n00515770: cdq; EAX -> EDX:EAX (with sign)\n00515771: idiv    dword_1D9B0DC; Signed Divide\n00515777: cdq; EAX -> EDX:EAX (with sign)\n00515778: and     edx, 3; Logical AND\n0051577B: add     eax, edx; Add\n0051577D: sar     eax, 2; Shift Arithmetic Right\n00515780: push    eax\n00515781: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.\n00515786: cdq; EAX -> EDX:EAX (with sign)\n00515787: and     edx, 3; Logical AND\n0051578A: add     eax, edx; Add\n0051578C: sar     eax, 2; Shift Arithmetic Right\n0051578F: push    eax\n00515790: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.\n00515795: add     esp, 8; Add\n00515798: jmp     short loc_5157D7; Jump\n0051579A: cmp     eax, 1Eh; Compare Two Operands\n0051579D: jle     short loc_5157A6; Jump if Less or Equal (ZF=1 | SF!=OF)\n0051579F: mov     ecx, 1000h\n005157A4: jmp     short loc_5157E3; Jump\n005157A6: mov     ecx, eax\n005157A8: mov     eax, 88888889h\n005157AD: shl     ecx, 0Ch; Shift Logical Left\n005157B0: imul    ecx; Signed Multiply\n005157B2: add     edx, ecx; Add\n005157B4: sar     edx, 4; Shift Arithmetic Right\n005157B7: mov     eax, edx\n005157B9: shr     eax, 1Fh; Shift Logical Right\n005157BC: add     edx, eax; Add\n005157BE: mov     eax, edx\n005157C0: cdq; EAX -> EDX:EAX (with sign)\n005157C1: and     edx, 3; Logical AND\n005157C4: add     eax, edx; Add\n005157C6: sar     eax, 2; Shift Arithmetic Right\n005157C9: add     eax, 400h; Add\n005157CE: push    eax\n005157CF: call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000.\n005157D4: add     esp, 4; Add\n005157D7: mov     ecx, 1000h\n005157DC: sub     ecx, eax; Integer Subtraction\n005157DE: mov     eax, dword_1D9B0E0\n005157E3: mov     edx, dword_1D9B0FC\n005157E9: imul    edx, ecx; Signed Multiply\n005157EC: sar     edx, 0Ch; Shift Arithmetic Right\n005157EF: dec     eax; Decrement by 1\n005157F0: mov     BattleEffect_RotateSky, dx\n005157F7: mov     dword_1D9B0E0, eax\n005157FC: retn; Return Near from Procedure\n005157FD: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().\n00515802: xor     edx, edx; Logical Exclusive OR\n00515804: mov     ecx, 1Eh\n00515809: div     ecx; Unsigned Divide\n0051580B: add     edx, ecx; Add\n0051580D: mov     dword_1D9B100, edx\n00515813: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().\n00515818: xor     edx, edx; Logical Exclusive OR\n0051581A: mov     ecx, 1Eh\n0051581F: div     ecx; Unsigned Divide\n00515821: add     edx, 5Ah ; 'Z'; Add\n00515824: mov     dword_1D9B0E0, edx\n0051582A: add     edx, 0FFFFFFC4h; Add\n0051582D: mov     dword_1D9B0DC, edx\n00515833: call    BS_GetRandomCamera_Probably; Presentation/camera RNG helper. Uses a separate 32-bit LCG state (69069*x+1) and does NOT consume the battle RNG stream from Battle_GetRandomInt().\n00515838: xor     edx, edx; Logical Exclusive OR\n0051583A: mov     ecx, 300h\n0051583F: div     ecx; Unsigned Divide\n00515841: add     edx, 100h; Add\n00515847: mov     dword_1D9B0FC, edx\n0051584D: call    _rand; Call Procedure\n00515852: cmp     eax, 4000h; Compare Two Operands\n00515857: jge     short locret_515867; Jump if Greater or Equal (SF=OF)\n00515859: mov     edx, dword_1D9B0FC\n0051585F: neg     edx; Two's Complement Negation\n00515861: mov     dword_1D9B0FC, edx\n00515867: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x515730",
+      "end": "0x515745",
+      "successors": [
+        "0x515745",
+        "0x5157fd"
+      ]
+    },
+    {
+      "start": "0x515745",
+      "end": "0x515752",
+      "successors": [
+        "0x515752",
+        "0x5157fd"
+      ]
+    },
+    {
+      "start": "0x515752",
+      "end": "0x51575c",
+      "successors": [
+        "0x51575c",
+        "0x515765"
+      ]
+    },
+    {
+      "start": "0x51575c",
+      "end": "0x515765",
+      "successors": []
+    },
+    {
+      "start": "0x515765",
+      "end": "0x51576a",
+      "successors": [
+        "0x51576a",
+        "0x51579a"
+      ]
+    },
+    {
+      "start": "0x51576a",
+      "end": "0x51579a",
+      "successors": [
+        "0x5157d7"
+      ]
+    },
+    {
+      "start": "0x51579a",
+      "end": "0x51579f",
+      "successors": [
+        "0x51579f",
+        "0x5157a6"
+      ]
+    },
+    {
+      "start": "0x51579f",
+      "end": "0x5157a6",
+      "successors": [
+        "0x5157e3"
+      ]
+    },
+    {
+      "start": "0x5157a6",
+      "end": "0x5157d7",
+      "successors": [
+        "0x5157d7"
+      ]
+    },
+    {
+      "start": "0x5157d7",
+      "end": "0x5157e3",
+      "successors": [
+        "0x5157e3"
+      ]
+    },
+    {
+      "start": "0x5157e3",
+      "end": "0x5157fd",
+      "successors": []
+    },
+    {
+      "start": "0x5157fd",
+      "end": "0x515859",
+      "successors": [
+        "0x515859",
+        "0x515867"
+      ]
+    },
+    {
+      "start": "0x515859",
+      "end": "0x515867",
+      "successors": [
+        "0x515867"
+      ]
+    },
+    {
+      "start": "0x515867",
+      "end": "0x515868",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x515705",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5156d0"
+    },
+    {
+      "from": "0x515718",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5156d0"
+    }
+  ],
+  "code_targets": [
+    "0x534aa0",
+    "0x55cbd2",
+    "0x56d130"
+  ],
+  "instruction_count": 93
+}

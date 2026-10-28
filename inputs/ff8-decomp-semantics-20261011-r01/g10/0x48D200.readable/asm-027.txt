@@ -1,0 +1,25 @@
+0048DB44: add     esp, 4; Add
+0048DB47: mov     edi, eax
+0048DB49: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DB4E: mov     eax, ebx; jumptable 0048D37A cases 4,13
+0048DB50: xor     ecx, ecx; Logical Exclusive OR
+0048DB52: and     eax, 0FFFFh; Logical AND
+0048DB57: push    eax
+0048DB58: lea     esi, [eax+eax*2]; Load Effective Address
+0048DB5B: shl     esi, 3; Shift Logical Left
+0048DB5E: mov     cl, K_ITEM.hitCount[esi]
+0048DB64: mov     [esp+28h+hit_count], ecx
+0048DB68: mov     cx, K_ITEM.magicID[esi]
+0048DB6F: mov     [esp+28h+magic_id], ecx
+0048DB73: call    getTextBattleItem; Call Procedure
+0048DB78: add     esp, 4; Add
+0048DB7B: mov     edi, eax
+0048DB7D: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DB82: mov     eax, [esp+24h+p_param_is_0_for_ai]; jumptable 0048D37A case 250
+0048DB86: xor     ecx, ecx; Logical Exclusive OR
+0048DB88: and     eax, 0FFh; Logical AND
+0048DB8D: push    eax; idx
+0048DB8E: lea     esi, [eax+eax*2]; Load Effective Address
+0048DB91: shl     esi, 3; Shift Logical Left
+0048DB94: mov     cl, K_RENZOKUKEN_FINISHER.hitCount[esi]
+0048DB9A: mov     dx, K_RENZOKUKEN_FINISHER.magicID[esi]

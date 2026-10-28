@@ -1,0 +1,25 @@
+005025B8: pop     edi
+005025B9: pop     esi
+005025BA: pop     ebx
+005025BB: retn; Return Near from Procedure
+005025BC: movsx   eax, word ptr [esi+8]; jumptable 0050239A cases 118,119
+005025C0: lea     edx, [eax+eax*4]; Load Effective Address
+005025C3: shl     edx, 3; Shift Logical Left
+005025C6: sub     edx, eax; Integer Subtraction
+005025C8: cmp     cx, 76h ; 'v'; Compare Two Operands
+005025CC: mov     edi, dword_1D972C8[edx*4]
+005025D3: lea     ebx, ds:1D972C0h[edx*4]; Load Effective Address
+005025DA: jnz     short loc_5025EB; Jump if Not Zero (ZF=0)
+005025DC: mov     cl, [esi+0Ah]
+005025DF: mov     eax, 1
+005025E4: shl     eax, cl; Shift Logical Left
+005025E6: push    0
+005025E8: push    eax
+005025E9: jmp     short loc_5025F8; Jump
+005025EB: mov     cl, [esi+0Ah]
+005025EE: mov     edx, 1
+005025F3: shl     edx, cl; Shift Logical Left
+005025F5: push    edx
+005025F6: push    0
+005025F8: call    sub_509BA0; Call Procedure
+005025FD: mov     ecx, eax

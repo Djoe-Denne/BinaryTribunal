@@ -1,0 +1,25 @@
+005108A4: mov     [eax+1Ch], cx
+005108A8: mov     si, [edi+4]
+005108AC: xor     ecx, ecx; Logical Exclusive OR
+005108AE: mov     edx, esi
+005108B0: mov     cx, [ebx+4]
+005108B4: cmp     ecx, edx; Compare Two Operands
+005108B6: jge     short loc_5108BA; Jump if Greater or Equal (SF=OF)
+005108B8: mov     edx, ecx
+005108BA: mov     ebx, [esp+44h+dest]
+005108BE: xor     edi, edi; Logical Exclusive OR
+005108C0: mov     di, [ebx+4]
+005108C4: cmp     edi, edx; Compare Two Operands
+005108C6: jge     short loc_5108CA; Jump if Greater or Equal (SF=OF)
+005108C8: mov     edx, edi
+005108CA: push    0
+005108CC: push    edi
+005108CD: push    ecx
+005108CE: mov     ecx, [esp+50h+ot_shift]
+005108D2: sar     edx, cl; Shift Arithmetic Right
+005108D4: push    esi
+005108D5: push    eax
+005108D6: mov     eax, [esp+58h+ot_base]
+005108DA: lea     ecx, [eax+edx*4]; Load Effective Address
+005108DD: push    ecx
+005108DE: call    OT_InsertPrimitive; Call Procedure

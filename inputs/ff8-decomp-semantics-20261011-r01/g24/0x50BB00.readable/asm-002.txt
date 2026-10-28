@@ -1,0 +1,25 @@
+0050BB52: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit
+0050BB57: add     esp, 8; Add
+0050BB5A: test    eax, eax; Logical Compare
+0050BB5C: jnz     def_50BB17; jumptable 0050BB17 default case
+0050BB62: jmp     short loc_50BB71; Jump
+0050BB64: call    sub_50ADE0; Call Procedure
+0050BB69: test    eax, eax; Logical Compare
+0050BB6B: jnz     def_50BB17; jumptable 0050BB17 default case
+0050BB71: inc     byte ptr [esi+0Dh]; Increment by 1
+0050BB74: call    BattleActionSequence_SetupContext; jumptable 0050BB17 case 2
+0050BB79: mov     ecx, dword_1D99A40
+0050BB7F: mov     edx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050BB85: mov     eax, [ecx+8]
+0050BB88: and     eax, 0FF7FFFFFh; Logical AND
+0050BB8D: mov     [ecx+8], eax
+0050BB90: mov     al, [edx+2]
+0050BB93: test    al, al; Logical Compare
+0050BB95: jz      short loc_50BBA8; Jump if Zero (ZF=1)
+0050BB97: and     eax, 0FFh; Logical AND
+0050BB9C: push    eax; animId
+0050BB9D: push    ecx; actor
+0050BB9E: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050BBA3: add     esp, 8; Add
+0050BBA6: jmp     short loc_50BBAD; Jump
+0050BBA8: call    BattleAction_ApplyEventGroup0; wave3 attaques: apply groupe0 (ptr payload+8,count +0x10); GF/BZero/Physical + opcode AA case170

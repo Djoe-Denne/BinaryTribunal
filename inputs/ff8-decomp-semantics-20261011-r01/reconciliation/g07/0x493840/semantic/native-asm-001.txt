@@ -1,0 +1,25 @@
+00493840: push    ebx; G10: apply bits then sync copies, ready/ATB/Eject side effects; Doom+Zombie clears Doom and disables timer[10]
+00493841: mov     ebx, [esp+4+param_status_2]
+00493845: push    ebp
+00493846: xor     ebp, ebp; Logical Exclusive OR
+00493848: push    esi
+00493849: mov     esi, [esp+0Ch+param_target_slot_id]
+0049384D: test    ebx, 80000000h; Logical Compare
+00493853: push    edi
+00493854: jz      loc_4938DA; Jump if Zero (ZF=1)
+0049385A: lea     eax, ds:0[esi*8]; Load Effective Address
+00493861: sub     eax, esi; Integer Subtraction
+00493863: lea     ecx, [esi+eax*4]; Load Effective Address
+00493866: shl     ecx, 4; Shift Logical Left
+00493869: cmp     F_CHAR_ACTIVE_SUMMON_HP[ecx], bp; Compare Two Operands
+00493870: jz      short loc_4938B0; Jump if Zero (ZF=1)
+00493872: test    byte ptr [esp+10h+param_status_1], 35h; Logical Compare
+00493877: jnz     short loc_4938B0; Jump if Not Zero (ZF=0)
+00493879: test    ebx, 14000h; Logical Compare
+0049387F: jnz     short loc_4938B0; Jump if Not Zero (ZF=0)
+00493881: lea     edx, [esi+esi*2]; Load Effective Address
+00493884: test    bl, 9; Logical Compare
+00493887: lea     eax, [esi+edx*4]; Load Effective Address
+0049388A: jz      short loc_49389E; Jump if Zero (ZF=1)
+0049388C: shl     eax, 4; Shift Logical Left
+0049388F: lea     eax, BATTLE_SLOT_DATA.flag_data[eax]; Load Effective Address

@@ -1,0 +1,126 @@
+// Root-only finite adaptation of historical-source/audit-native-emitter-inspector-r3.cjs.
+// Parses source DATA through the existing pinned TS API, never evaluates science.
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
+import type { NativeMapSite, Point } from "./numeric-native-proof";
+import { PINNED_AST_TOOL_SHA } from "./numeric-native-proof";
+import { checkDispatchSource, DISPATCH_FACTORY_SHA, DISPATCH_POISONS, type DispatchSource } from "./numeric-native-proof";
+const TS_PATH = "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/lib/typescript.js";
+export const TS_SHA = PINNED_AST_TOOL_SHA;
+type Node = {
+  name?: Node; text?: string; expression?: Node; arguments?: readonly Node[];
+  getStart(source: Source): number; getText(source: Source): string;
+};
+type Source = Node & { statements: readonly Node[]; parseDiagnostics: readonly unknown[]; getLineAndCharacterOfPosition(offset: number): { line: number; character: number } };
+type TsApi = {
+  version: string; ScriptTarget: { ESNext: number };
+  createSourceFile(path: string, text: string, target: number, parentNodes: boolean): Source;
+  isFunctionDeclaration(node: Node): boolean; isCallExpression(node: Node): boolean;
+  isPropertyAccessExpression(node: Node): boolean; isArrowFunction(node: Node): boolean;
+  isIdentifier(node: Node): boolean; isStringLiteral(node: Node): boolean;
+  forEachChild(node: Node, visit: (child: Node) => void): void;
+};
+let cached: TsApi | undefined;
+const sha = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
+function need(ok: unknown, why: string): asserts ok { if (!ok) throw new Error(`numeric-native-ast: ${why}`); }
+function tool(): TsApi {
+  if (cached) return cached;
+  const bytes = readFileSync(TS_PATH);
+  need(bytes.length === 9112572 && sha(bytes) === TS_SHA, "pinned TypeScript API drift");
+  const ts = createRequire(import.meta.url)(TS_PATH) as TsApi;
+  need(ts.version === "5.9.3", "TypeScript API version");
+  cached = ts; return ts;
+}
+export function deriveScientificNativeMapSites(bytes: Uint8Array, file: string, side: "baseline" | "candidate"): NativeMapSite[] {
+  const sourceSha256 = sha(bytes);
+  need(sourceSha256 === (side === "baseline" ? "c34d02cb1d32f9ccf336c59f1ce4dc421504bb638d9a3c3e94fc2bfe0ffe9303" : "09c2035a16c1d4a1bfe03fc00807920d0af5202b290b0a68d7172a33319a3542"), "fixed scientific cluster source pin");
+  const text = Buffer.from(bytes).toString("utf8");
+  need(Buffer.from(text, "utf8").equals(bytes), "scientific source invalid UTF8");
+  const ts = tool(), sf = ts.createSourceFile(file, text, ts.ScriptTarget.ESNext, true);
+  need(sf.parseDiagnostics.length === 0, "scientific source parse diagnostic");
+  const point = (node: Node): Point => { const p = sf.getLineAndCharacterOfPosition(node.getStart(sf)); return { line: p.line + 1, column: p.character + 1 }; };
+  const result: NativeMapSite[] = [];
+  for (const [site, functionName, detail, receiver] of [
+    ["scale", "scaledGraph", "weight dynamic range loses a positive arc during scaling", "summands(g)"],
+    ["ppr", "personalizedPageRankUnchecked", "PPR transition dynamic range loses a positive arc", "row"],
+  ] as const) {
+    const fns = sf.statements.filter(n => ts.isFunctionDeclaration(n) && n.name?.text === functionName);
+    need(fns.length === 1, "unique fixed enclosing function");
+    const matches: Array<{ call: Node; failure: Node }> = [];
+    const walk = (node: Node): void => {
+      if (ts.isCallExpression(node) && node.expression && ts.isPropertyAccessExpression(node.expression)
+        && node.expression.name?.text === "map" && node.arguments?.length === 1 && ts.isArrowFunction(node.arguments[0]!)) {
+        const failures: Node[] = [];
+        const inner = (child: Node): void => {
+          if (ts.isCallExpression(child) && child.expression && ts.isIdentifier(child.expression) && child.expression.text === "numericFailure"
+            && child.arguments?.length === 1 && ts.isStringLiteral(child.arguments[0]!) && child.arguments[0]!.text === detail) failures.push(child);
+          ts.forEachChild(child, inner);
+        };
+        inner(node.arguments[0]!);
+        if (failures.length > 0) { need(failures.length === 1, "unique exact callback failure call"); matches.push({ call: node, failure: failures[0]! }); }
+      }
+      ts.forEachChild(node, walk);
+    };
+    walk(fns[0]!);
+    need(matches.length === 1, "unique fixed map callback association");
+    const { call, failure } = matches[0]!;
+    need(call.expression?.expression?.getText(sf) === receiver && call.expression.name, "fixed receiver expression");
+    result.push({ side, site, file, sourceSha256, astToolSha256: TS_SHA, callback: point(failure), caller: point(call.expression.name), functionName, receiver });
+  }
+  return result;
+}
+
+// Reviewed whole-source commitments close lexical mutation/alternate factories;
+// AST traversal derives actual positions rather than reusing historical lines.
+export const OWNED_DISPATCH_SOURCE_SHA = "dba3557f04b81efca6c0042159391250cbdac3b79fe4894071a695e6c94aeb15";
+const HISTORICAL_DISPATCH_SOURCE_SHA = "33f586feb98ab33cd98dae1c28405976820d707664e84cd497607bd0f626ed63";
+type DispatchTs = typeof import("C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/lib/typescript");
+type DispatchNode = import("C:/Users/djden/source/repos/retro-eng/re-ff8/tools/ff8-harness/node_modules/typescript/lib/typescript").Node;
+export function deriveReviewedDispatchSource(bytes: Uint8Array, file: string): DispatchSource {
+  const sourceSha256 = sha(bytes), historical = sourceSha256 === HISTORICAL_DISPATCH_SOURCE_SHA;
+  need(historical || sourceSha256 === OWNED_DISPATCH_SOURCE_SHA, "unreviewed shared test source revision");
+  const text = Buffer.from(bytes).toString("utf8"); need(Buffer.from(text).equals(bytes), "dispatch source invalid UTF8");
+  const ts = tool() as unknown as DispatchTs, sf = ts.createSourceFile(file, text, ts.ScriptTarget.ESNext, true);
+  need((sf as unknown as Source).parseDiagnostics.length === 0, "dispatch AST diagnostics");
+  const all: DispatchNode[] = [];
+  const visit = (n: DispatchNode): void => { all.push(n); ts.forEachChild(n, visit); }; visit(sf);
+  const unique = <T extends DispatchNode>(nodes: T[], label: string): T => { need(nodes.length === 1, `unique ${label}`); return nodes[0]!; };
+  const variables = all.filter(ts.isVariableDeclaration);
+  const poison = unique(variables.filter(n => n.name.getText(sf) === "poison"), "poison ledger");
+  need(poison.initializer && ts.isArrayLiteralExpression(poison.initializer), "literal poison ledger");
+  const names = poison.initializer.elements.map(e => {
+    need(ts.isArrayLiteralExpression(e) && e.elements[0] && ts.isStringLiteral(e.elements[0]), "literal poison name"); return e.elements[0].text;
+  });
+  need(names.length === 23 && names.every((name, i) => name === DISPATCH_POISONS[i]), "exact23 poison ledger");
+  const consumers = unique(variables.filter(n => n.name.getText(sf) === "consumers"), "consumer ledger");
+  need(consumers.initializer?.getText(sf) === '["validate", "components", "conductance", "sweep", "ppr", "modularity", "leiden", "export", "groups"] as const', "exact9 consumer ledger");
+  const calls = all.filter(ts.isCallExpression);
+  const factory = unique(calls.filter(n => n.expression.getText(sf) === "add" && n.arguments[0]?.getText(sf) === '`poison/${name}/${consumer}`'), "poison factory call");
+  need(sha(Buffer.from(factory.getText(sf))) === DISPATCH_FACTORY_SHA, "exact reviewed factory/action target");
+  const dispatch = unique(calls.filter(n => n.expression.getText(sf) === "work.action"), "owned action dispatch");
+  need(ts.isPropertyAccessExpression(dispatch.expression), "property dispatch");
+  const make = unique(calls.filter(n => n.expression.getText(sf) === "c.make"), "owned make");
+  need(make.getText(sf) === "c.make(side, guard)" && ts.isVariableDeclaration(make.parent)
+    && make.parent.name.getText(sf) === "work" && make.getStart(sf) < dispatch.getStart(sf), "const work from actual c.make");
+  const ownerLoop = unique(all.filter(ts.isForStatement).filter(n => n.initializer?.getText(sf) === "let index = 0"), "owned iteration");
+  need(ownerLoop.getText(sf).includes('const c = cases[index]!') && ownerLoop.getStart(sf) < make.getStart(sf)
+    && ownerLoop.end > dispatch.end && ownerLoop.getText(sf).includes('for (const side of ["baseline", "candidate"] as const)'), "same effective case/side iteration");
+  // Whole-source pin above also excludes writes/replacements or an alternate
+  // callback installed anywhere else; no substring is used as source authority.
+  const imports = { baseline: "", candidate: "" };
+  for (const [alias, side] of [["BG", "baseline"], ["CG", "candidate"]] as const) {
+    const entry = unique(all.filter(ts.isImportSpecifier).filter(n => n.name.text === alias), `import ${alias}`);
+    need(entry.propertyName?.text === "buildInvestigationGroups", "named group import target");
+    const declaration = entry.parent.parent.parent;
+    need(ts.isImportDeclaration(declaration) && ts.isStringLiteral(declaration.moduleSpecifier), "group import module"); imports[side] = declaration.moduleSpecifier.text;
+  }
+  const target = unique(all.filter(ts.isCaseClause).filter(n => n.expression.getText(sf) === '"groups"'), "groups target clause");
+  const point = (n: DispatchNode): Point => { const p = sf.getLineAndCharacterOfPosition(n.getStart(sf)); return { line: p.line + 1, column: p.character + 1 }; };
+  const caller = point(dispatch.expression.name);
+  const result: DispatchSource = { version: "source-derived-reviewed-dispatch-v1", file, sourceSha256, astToolSha256: TS_SHA,
+    sourceRevision: historical ? "historical-208" : "owned-dispatch-v1", factorySha256: DISPATCH_FACTORY_SHA,
+    iterationSha256: sha(Buffer.from(ownerLoop.getText(sf))), dispatch: { ...caller, sourceLine: text.split(/\r?\n/)[caller.line - 1]! },
+    factory: point(factory), target: point(target), imports, ids: names.map(name => `numeric/poison/${name}/groups`) };
+  return checkDispatchSource(result, text, file);
+}

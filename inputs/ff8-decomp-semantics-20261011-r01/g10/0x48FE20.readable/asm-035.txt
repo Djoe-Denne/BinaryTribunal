@@ -1,0 +1,25 @@
+00490B99: add     esp, 10h; Add
+00490B9C: mov     esi, eax
+00490B9E: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490BA3: mov     edi, ecx; Blue Magic second switch: AttackType/Flags/anim from K_BLUE_MAGIC; power from PARAM+6 at same crisis index.
+00490BA5: xor     ecx, ecx; Logical Exclusive OR
+00490BA7: mov     cl, byte ptr unk_1D28DF3
+00490BAD: and     edi, 0FFFFh; Logical AND
+00490BB3: mov     esi, edi
+00490BB5: xor     eax, eax; Logical Exclusive OR
+00490BB7: shl     esi, 4; Shift Logical Left
+00490BBA: lea     edx, [ecx+ecx*2]; Load Effective Address
+00490BBD: mov     al, K_BLUE_MAGIC.AttackFlags[esi]
+00490BC3: lea     ecx, [ecx+edx*4]; Load Effective Address
+00490BC6: mov     ATTACK_FLAG, al; | ID   | Meaning          |
+00490BCB: shl     ecx, 4; Shift Logical Left
+00490BCE: and     al, 3; Logical AND
+00490BD0: lea     edx, [ebx+ebx*2]; Load Effective Address
+00490BD3: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[ecx], al
+00490BD9: xor     ecx, ecx; Logical Exclusive OR
+00490BDB: lea     eax, [ebx+edx*4]; Load Effective Address
+00490BDE: shl     eax, 4; Shift Logical Left
+00490BE1: mov     cl, BATTLE_SLOT_DATA.crisis_level[eax]
+00490BE7: xor     eax, eax; Logical Exclusive OR
+00490BE9: lea     edx, [ecx+edi*4]; Load Effective Address
+00490BEC: mov     cl, K_BLUE_MAGIC.Unknown1[esi]

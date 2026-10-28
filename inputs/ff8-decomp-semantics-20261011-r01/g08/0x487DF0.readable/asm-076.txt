@@ -1,0 +1,25 @@
+004898BF: mov     edx, dword ptr [esp+74h+target_status]
+004898C3: and     edx, edi; Logical AND
+004898C5: movzx   ax, [esp+edx+74h+opcode_param_1]; Move with Zero-Extend
+004898CB: cmp     ax, 0FDh; Compare Two Operands
+004898CF: mov     word ptr [esp+74h+jump_value], ax
+004898D4: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004898DA: mov     eax, [esp+74h+monster_difficulty]
+004898DE: mov     ecx, [esp+74h+jump_value]
+004898E2: mov     edi, [esp+74h+first_ability]
+004898E6: and     ecx, 0FFFFh; Logical AND
+004898EC: shl     eax, 4; Shift Logical Left
+004898EF: add     eax, ecx; Add
+004898F1: mov     dl, [edi+eax*4+34h]
+004898F5: mov     bp, [edi+eax*4+36h]
+004898FA: mov     al, [edi+eax*4+35h]
+004898FE: mov     byte ptr [esp+74h+command_type], dl
+00489902: mov     [esp+74h+section_position], ebp
+00489906: mov     byte ptr [esp+74h+ai_scratch_var], al
+0048990A: jmp     loc_489834; Jump
+0048990F: lea     ecx, [ebx+ebx*2]; AI VM op 0x16 FULL_HEAL_SELF: current_hp = max_hp
+00489912: lea     eax, [ebx+ecx*4]; Load Effective Address
+00489915: shl     eax, 4; Shift Logical Left
+00489918: add     eax, offset BATTLE_SLOT_DATA; Add
+0048991D: mov     edx, [eax+1Ch]
+00489920: mov     [eax+18h], edx

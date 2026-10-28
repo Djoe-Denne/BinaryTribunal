@@ -1,0 +1,25 @@
+004910B7: setnz   cl; Set Byte if Not Zero (ZF=0)
+004910BA: dec     ecx; Decrement by 1
+004910BB: and     ecx, 9; Logical AND
+004910BE: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+004910C4: jmp     short loc_4910CC; Jump
+004910C6: mov     cl, HIT_TYPE_TARGET_ANIMATION_TO_PLAY; 9: miss
+004910CC: test    dl, 2; Logical Compare
+004910CF: jz      short loc_4910DE; Jump if Zero (ZF=1)
+004910D1: cmp     cl, 0FFh; Compare Two Operands
+004910D4: jz      short loc_4910DE; Jump if Zero (ZF=1)
+004910D6: mov     cl, 6
+004910D8: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, cl; 9: miss
+004910DE: test    byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+004910E5: jnz     short loc_4910FD; Jump if Not Zero (ZF=0)
+004910E7: test    al, al; Logical Compare
+004910E9: jnz     short loc_4910FD; Jump if Not Zero (ZF=0)
+004910EB: test    dl, 1; Logical Compare
+004910EE: jnz     short loc_491102; Jump if Not Zero (ZF=0)
+004910F0: test    cl, cl; Logical Compare
+004910F2: jnz     short loc_4910FD; Jump if Not Zero (ZF=0)
+004910F4: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 5; 9: miss
+004910FB: jmp     short loc_491109; Jump
+004910FD: cmp     cl, 0FFh; Compare Two Operands
+00491100: jnz     short loc_491109; Jump if Not Zero (ZF=0)
+00491102: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, 0; 9: miss

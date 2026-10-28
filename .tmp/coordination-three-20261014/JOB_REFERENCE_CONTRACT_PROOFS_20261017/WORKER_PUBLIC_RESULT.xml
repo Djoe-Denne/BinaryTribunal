@@ -1,0 +1,48 @@
+<task-result>
+<status>completed</status>
+<summary>Étude documentaire terminée : oracle Job0/last-close exact NOT_ESTABLISHED ; proposition conditionnelle seulement, duplication du port explicitement non utilisable ; case8 toujours non implémentée/non qualifiée.</summary>
+<details>
+Task task_mvbnnmv0_0037_9ddhut, Plan/Sol max, bootstrap NONBLIND déclaré. Chemins relatifs à inputs/JOB_REFERENCE_CONTRACT_20261017. Aucune architecture ou relaxation d'oracle ratifiée.
+
+HUIT ANCRAGES OFFICIELS, redérivés des rawdocs :
+[1] REFERENCES/JOB_OBJECTS.md:117–121 : signal end-of-job time limit ; destruction après dernier handle Job et terminaison ; KILL_ON_JOB_CLOSE déclenché par la dernière fermeture.
+[2] REFERENCES/JOB_ASSOCIATE_COMPLETION_PORT.md:111–134 : relais nested, livraison non garantie, champs key/message/overlapped ; ACTIVE_PROCESS_ZERO signifie décrément du compte actif à zéro, overlapped=NULL ; risque de PID recyclés.
+[3] REFERENCES/CREATE_IO_COMPLETION_PORT.md:147–156 : port/handle liés au processus créateur, non partageables entre processus selon ce contrat ; création sans file handle possible.
+[4] REFERENCES/DUPLICATE_HANDLE.md:163–200 : duplicate = même objet ; Job duplicable ; IOCP : aucun échec nécessairement retourné MAIS le handle dupliqué ne peut pas être utilisé.
+[5] REFERENCES/GET_QUEUED_COMPLETION_STATUS.md:127–154 : timeout/port fermé = FALSE/NULL ; FALSE+NULL signifie aucun paquet et bytes/key indéterminés.
+[6] REFERENCES/PROCESS_CREATION_FLAGS.md:80–90 : BREAKAWAY_FROM_JOB sans effet hors Job, sinon BREAKAWAY_OK requis ; suspension primaire jusqu'à ResumeThread.
+[7] REFERENCES/JOB_OBJECTS.md:73–104 : héritage normal, BREAKAWAY_OK/SILENT_BREAKAWAY_OK, influence des ancêtres ; association du port à privilégier Job inactif.
+[8] REFERENCES/CREATE_PROCESS_W.md:220–236 : PROCESS_INFORMATION et handles de création ; succès avant initialisation achevée ; PID valide seulement jusqu'à terminaison.
+
+Q1 — NOT_ESTABLISHED pour l'oracle composite « kernel-positive, Job exact, véritable last-close ».
+Un véritable ACTIVE_PROCESS_ZERO a une sémantique positive de décrément à zéro du Job émetteur [2]. La non-garantie de livraison affecte la disponibilité de la preuve, PAS la vérité d'un événement authentique reçu. Elle interdit de promettre un paquet pour chaque cas6. Les pages ne garantissent pas explicitement une livraison après destruction : manque de garantie de progression, pas contre-preuve d'un événement réellement reçu. Absence, timeout, erreur, port fermé => HOLD, jamais zéro ; l'exception notification limits ne couvre pas automatiquement ACTIVE_PROCESS_ZERO.
+Contre-exemples :
+• Un job descendant devient vide pendant qu'un processus du Job cible vit encore : relais possible au port ancêtre [2]. Le ZERO n'a pas de champ Job source ; clé d'association seule ≠ périmètre exact du compte.
+• Cohorte A vide puis nouvelle admission B : un ZERO retardé peut être déqueué après ready/kill de B. Date de réception/nonce ne datent pas l'événement kernel.
+• bytes/key/NULL ne sont pas une attestation kernel. Un producteur applicatif détenteur du canal est une falsification possible à exclure ; PostQueuedCompletionStatus n'est pas contractuellement détaillé dans ces huit pages. La clé route, elle n'authentifie pas.
+Root exit, EOF, jobZero du helper, port vide ou Job initialement vide ne remplacent pas la preuve. Job0 ne couvre pas un enfant breakaway ; il ne démontre pas que last-close plutôt qu'autofin a causé la fin. Aucune Query présumée après destruction ; pas de substitution générale Wait(Job)=Job0, [1] décrit un autre signal.
+
+Q2 — DOCUMENTED_CONDITIONAL_CANDIDATE pour une proposition future ; interface actuelle NOT_ESTABLISHED.
+Éliminatoire : ne PAS proposer « parent crée le port puis DuplicateHandle du port vers le launcher ». [3–4] ne donnent pas ce droit ; un retour nominalement réussi ne répare pas le handle IOCP inutilisable. Int/JSON n'établit ni processus propriétaire ni type/autorité.
+Contrat prospectif, NON adopté :
+A. Parent H hors Job cible crée un port neuf dédié au cas et un Job neuf ; associe ce Job inactif au port DANS H avant assign/resume. Pas d'autre I/O/Job/producteur, ni réemploi clé/port. Succès natif réel de l'association à établir, pas ACK texte seul.
+B. Un broker typé pourrait transférer une vraie capacité Job au seul launcher neuf L, PAS le port. Documenter source/target process, objet, droits/non-héritage, retour et propriété de chaque copie. Toutes copies Job de bootstrap de H doivent être fermées avant ready last-close ; L devient seul détenteur Job. Une variante L→H temporaire exige les mêmes preuves. C'est une nouvelle interface, pas un wrapper déjà possible.
+C. H conserve le handle ORIGINAL de L issu de SA création et le port. Seuls CE handle possédé et un futur GO autoriseraient l'arrêt de L ; jamais PID rouvert, nom ou int JSON. Handle processus/port ≠ handle Job : distinguer comptage des handles Job, références kernel et objet processus.
+D. Barrière indépendante root/descendants prêts, cohorte vivante caractérisée, admissions scellées, aucune ancienne phase zéro réutilisable. Exclure les jobs descendants ambigus ou établir leur provenance par contrat supplémentaire. NEW_PROCESS/EXIT ne sont pas un inventaire complet : pertes/races/PID reuse. Ne pas présumer FIFO ni causalité messages→ready externe.
+E. Après perte de L, H garde port/handles processus d'identité et exit, AUCUN handle Job observateur. Candidat recevable : dequeue réussi + ACTIVE_PROCESS_ZERO + bonne clé + NULL, avec origine/périmètre/epoch établis. FALSE/NULL ne peut réutiliser une ancienne clé. Fermeture de toutes copies Job, fraîcheur ou causalité non prouvée => HOLD. Le port seul ne promet pas le lifecycle post-destruction.
+Code minimal : HELPER_SOURCE/JobRunner.cs:27–41 = Run(string) retourne une string ; :201–208 = Runner et champ Job privés ; :318–326 = Job anonyme créé/configuré en interne. Aucun export du broker/Job ci-dessus. Source inchangée ; pas de « contrat déjà exposé ».
+
+Q3 — DOCUMENTED_CONDITIONAL_CANDIDATE pour les conditions simples et l'oracle proposé ; branche nested BLOCKED_REFERENCE_AUTHORITY.
+Sans options breakaway, CreateProcess associe normalement le child au Job [7]. Le flag est inopérant hors Job ; dans un Job, BREAKAWAY_OK est requis [6]. SILENT_BREAKAWAY_OK peut faire échapper le child sans flag : ce contrôle sans flag serait alors impropre. Les ancêtres affectent le résultat ; les huit pages renvoient à Nested Jobs sans fournir toutes ses règles. Ne pas inventer « tous les Jobs quittés » ni un code d'erreur de refus. La formulation générale [7] sur le parent « was created » ne permet pas d'inventer une règle de génération différente du contrat du flag [6].
+Proposition SEULEMENT : caller réellement membre du Job cible, limites/hiérarchie connues ; contrôle positif sans flag puis tentative avec flag, même exécutable fini/conditions pinées. Capturer résultat API, erreur seulement en cas d'échec, handles originaux/identités, marker indépendant ET preuve du membership du child dans le Job EXACT. Marker ≠ membership ; succès CreateProcess ≠ initialisation/marker [8].
+Contrôle invalide => HOLD. Refus => observation conditionnelle, pas refus OS universel. Succès + child hors cible => contre-exemple de confinement même s'il reste dans un ancêtre ; succès + membership cible conservé ≠ évasion. Membership/marker incertains => HOLD. Le contre-exemple doit s'autofinir dans la borne proposée ≤2s, avec observation du handle possédé : contrat source futur à revoir/qualifier, pas garantie host acquise. Aucun PInvoke/constante/fixture implémenté ; case8 reste non couverte.
+
+PROCHAINES GATES PARENT :
+1. Rejeter le candidat ou ne conserver que l'hypothèse conditionnelle. Compléments minimaux à matérialiser PAR LE PARENT : Nested Jobs, I/O Completion Ports/PostQueuedCompletionStatus pour relais, origine/queue et lifecycle. Si l'oracle membership est choisi, piner son API propre avant code. Aucun follow-URL/probe ici.
+2. Ratifier séparément ownership/broker, menace de falsification, epoch/admissions et Job exact ; décider comment cas6 distingue last-close d'autofin. Ambiguïté => HOLD, pas relaxation tacite.
+3. Nouvel observateur = writer : preuve AGRÉGÉE ≤262144 B/cas incluant contrôleur/messages/erreurs/résultats. Aucun coût inventé nul, hausse de budget ou correction autonome. NOT_PROVEN antérieur intact.
+4. Ensuite seulement : GO code/interface distinct, review indépendante, GO compilation distinct, pins puis GO qualification hôte/cas distinct. Aucun accord ici. Tous Run/full44/L9 global/L10/main/native intégration restent HOLD.
+
+Attestation : 19 payloads/251378 B + reçu/4175 B repinés à l'accès approuvé ; huit rawdocs/115426 B. Rapport public uniquement, aucun fichier créé/modifié, navigation/autre contexte, sourcefix/controller/requête, compilation/DLL/EXE/Reflection, API Job/IOCP/handle, fixture/test/runtime/DB/Git ou intégration. Aucune architecture adoptée. HOLD parent.
+</details>
+</task-result>

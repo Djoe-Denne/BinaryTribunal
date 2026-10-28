@@ -1,0 +1,25 @@
+00460A32: mov     dword_1CA92F8, 81000000h
+00460A3C: mov     dword_1CA8A34, esi
+00460A42: jmp     short loc_460A60; Jump
+00460A44: cmp     edx, ecx; Compare Two Operands
+00460A46: jle     short loc_460A5A; Jump if Less or Equal (ZF=1 | SF!=OF)
+00460A48: mov     dword_1CA92F8, 81000000h
+00460A52: mov     dword_1CA8A34, ecx
+00460A58: jmp     short loc_460A60; Jump
+00460A5A: mov     dword_1CA8A34, edx
+00460A60: cmp     edi, esi; Compare Two Operands
+00460A62: jge     short loc_460A7E; Jump if Greater or Equal (SF=OF)
+00460A64: mov     edx, dword_1CA92F8
+00460A6A: mov     dword_1CA8A38, esi
+00460A70: or      edx, 80800000h; Logical Inclusive OR
+00460A76: mov     dword_1CA92F8, edx
+00460A7C: jmp     short loc_460AA2; Jump
+00460A7E: cmp     edi, ecx; Compare Two Operands
+00460A80: jle     short loc_460A9C; Jump if Less or Equal (ZF=1 | SF!=OF)
+00460A82: mov     edx, dword_1CA92F8
+00460A88: mov     dword_1CA8A38, ecx
+00460A8E: or      edx, 80800000h; Logical Inclusive OR
+00460A94: mov     dword_1CA92F8, edx
+00460A9A: jmp     short loc_460AA2; Jump
+00460A9C: mov     dword_1CA8A38, edi
+00460AA2: cmp     eax, esi; Compare Two Operands

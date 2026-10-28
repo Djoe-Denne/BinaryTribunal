@@ -1,0 +1,25 @@
+00490076: mov     al, K_BATTLE_COMMAND_ABILITY.Element[edi]
+0049007C: mov     HIT_ELEMENT, al
+00490081: mov     al, K_BATTLE_COMMAND_ABILITY.StatusAttackEnabler[edi]
+00490087: mov     HIT_ATTACK_ENABLER, al
+0049008C: mov     ax, K_BATTLE_COMMAND_ABILITY.status1[edi]
+00490093: mov     HIT_STATUS_1, ax; | ID     | Description |
+00490099: mov     eax, K_BATTLE_COMMAND_ABILITY.status2[edi]
+0049009F: mov     HIT_STATUS_2, eax; | ID         | Description |
+004900A4: jmp     loc_490423; Jump
+004900A9: mov     eax, ecx; jumptable 0048FF2F cases 2,6,16,247
+004900AB: and     eax, 0FFFFh; Logical AND
+004900B0: lea     eax, [eax+eax*2]; Load Effective Address
+004900B3: lea     edi, [eax+eax*4]; Load Effective Address
+004900B6: shl     edi, 2; Shift Logical Left
+004900B9: mov     al, K_MAGIC.element[edi]
+004900BF: mov     HIT_ELEMENT, al
+004900C4: mov     al, K_MAGIC.statusAttackEnabler[edi]
+004900CA: mov     HIT_ATTACK_ENABLER, al
+004900CF: mov     ax, K_MAGIC.statuses0[edi]
+004900D6: mov     HIT_STATUS_1, ax; | ID     | Description |
+004900DC: mov     eax, K_MAGIC.statuses1[edi]
+004900E2: mov     HIT_STATUS_2, eax; | ID         | Description |
+004900E7: jmp     loc_490423; Jump
+004900EC: xor     eax, eax; jumptable 0048FF2F case 19
+004900EE: mov     al, dl

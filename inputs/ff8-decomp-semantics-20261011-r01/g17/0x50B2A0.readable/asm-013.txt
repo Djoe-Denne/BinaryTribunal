@@ -1,0 +1,25 @@
+0050B6AF: jz      short loc_50B6E5; Jump if Zero (ZF=1)
+0050B6B1: mov     ax, [esi]
+0050B6B4: test    al, 2; Logical Compare
+0050B6B6: jz      short loc_50B6E5; Jump if Zero (ZF=1)
+0050B6B8: and     eax, 0FFFBh; Logical AND
+0050B6BD: mov     [esi], ax
+0050B6C0: mov     al, byte_1D99A81
+0050B6C5: cmp     al, 2; Compare Two Operands
+0050B6C7: jz      short loc_50B6DC; Jump if Zero (ZF=1)
+0050B6C9: push    0Ch
+0050B6CB: push    esi
+0050B6CC: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript
+0050B6D1: mov     ecx, dword_1D99A40
+0050B6D7: add     esp, 8; Add
+0050B6DA: jmp     short loc_50B6E5; Jump
+0050B6DC: mov     edx, dword_B8B9A8
+0050B6E2: mov     [esi+2Ch], edx
+0050B6E5: add     esi, 9Ch; Add
+0050B6EB: cmp     esi, offset word_1D97494; Compare Two Operands
+0050B6F1: jl      short loc_50B6AD; Jump if Less (SF!=OF)
+0050B6F3: mov     ax, [ecx]
+0050B6F6: and     eax, 0FFF3h; Logical AND
+0050B6FB: or      al, 2; Logical Inclusive OR
+0050B6FD: mov     [ecx], ax
+0050B700: mov     al, byte_1D99A81

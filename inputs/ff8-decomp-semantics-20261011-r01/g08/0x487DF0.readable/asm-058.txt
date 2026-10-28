@@ -1,0 +1,25 @@
+0048921F: push    ebp; com_file_id
+00489220: call    domain__EnemyAI_GetSubjectValue_A; G15: first non-dead slot with com_file_id==arg, else 255. Dead = status_1 bit0.
+00489225: add     esp, 4; Add
+00489228: cmp     eax, edi; Compare Two Operands
+0048922A: jz      short loc_48920D; Jump if Zero (ZF=1)
+0048922C: mov     edx, [esp+74h+jump_value]
+00489230: mov     [esp+74h+condition_rhs], 0
+00489238: and     edx, 0FFFFh; Logical AND
+0048923E: add     esi, edx; Add
+00489240: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489245: mov     eax, [esp+74h+condition_rhs]
+00489249: test    eax, eax; Logical Compare
+0048924B: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489251: mov     edx, [esp+74h+jump_value]
+00489255: and     edx, 0FFFFh; Logical AND
+0048925B: add     esi, edx; Add
+0048925D: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489262: mov     eax, [esp+74h+if_right_condition_final]; jumptable 004887D6 case 13
+00489266: mov     ecx, dword ptr [esp+74h+op_param_3]
+0048926A: and     eax, 0FFFFh; Logical AND
+0048926F: and     ecx, edi; Logical AND
+00489271: jnz     short loc_48928E; Jump if Not Zero (ZF=0)
+00489273: push    eax; kind
+00489274: push    eax; a1
+00489275: call    EnemyAI_GetSubjectValue_B; a1 ignore (jamais relu) ; kind=a2 : 202 = premier slot SANS 0x100, autre = premier AVEC

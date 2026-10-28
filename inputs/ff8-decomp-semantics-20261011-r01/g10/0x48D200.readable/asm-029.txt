@@ -1,0 +1,25 @@
+0048DBFF: shl     dl, cl; Shift Logical Left
+0048DC01: or      al, dl; Logical Inclusive OR
+0048DC03: mov     SG_LIMIT_BREAK_SELPHIE, al
+0048DC08: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DC0D: mov     eax, ebx; jumptable 0048D37A case 14
+0048DC0F: mov     byte ptr unk_1D28E25, 1
+0048DC16: and     eax, 0FFFFh; Logical AND
+0048DC1B: push    eax
+0048DC1C: call    RelatedToItemAmount; Call Procedure
+0048DC21: mov     RELATED_TO_ITEM, al
+0048DC26: mov     al, bl
+0048DC28: sub     al, 65h ; 'e'; Integer Subtraction
+0048DC2A: xor     ecx, ecx; Logical Exclusive OR
+0048DC2C: mov     cl, al
+0048DC2E: mov     SHOT_INDEX, al
+0048DC33: push    ecx
+0048DC34: call    getAddressTextShot; Call Procedure
+0048DC39: add     esp, 8; Add
+0048DC3C: mov     edi, eax
+0048DC3E: jmp     short loc_48DC71; Jump
+0048DC40: xor     ecx, ecx; jumptable 0048D37A case 237
+0048DC42: mov     al, byte ptr unk_1D28E25
+0048DC47: mov     cl, SHOT_INDEX
+0048DC4D: mov     dl, 1
+0048DC4F: shl     dl, cl; Shift Logical Left

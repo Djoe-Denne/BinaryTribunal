@@ -1,0 +1,38 @@
+bun test v1.4.2 (744846f84)
+
+test\config.test.ts:
+61 |       { id: "p/supported", intelligenceScore: 40, averageCostPerTask: 1, available: true, structuredOutput: { supported: true, source: "https://models.dev/api.json", checkedAt: "2026-10-13T08:00:00.000Z", strictVerification: "unverified" } },
+62 |     ]
+63 |     writeFileSync(path.join(globalDir, "ensemble.json"), JSON.stringify({ modelRouting: { requireStructuredOutput: true, models } }))
+64 |     writeFileSync(path.join(projectDir, "ensemble.json"), JSON.stringify({ modelRouting: { beta: 0.2 } }))
+65 |     const inherited = loadConfig(tmpDir).modelRouting
+66 |     expect(inherited.requireStructuredOutput).toBe(true)
+                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: undefined
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\config.test.ts:66:47)
+(fail) config > structured-output gate survives configuration loading and reaches actual selection [9.22ms]
+[ensemble] Invalid modelRouting at C:\Users\djden\AppData\Local\Temp\ensemble-config-4lsbu0\.opencode\ensemble.json: requireStructuredOutput must be boolean; keeping inherited routing configuration
+77 |     const projectDir = path.join(tmpDir, ".opencode")
+78 |     mkdirSync(globalDir, { recursive: true })
+79 |     mkdirSync(projectDir, { recursive: true })
+80 |     writeFileSync(path.join(globalDir, "ensemble.json"), JSON.stringify({ modelRouting: { requireStructuredOutput: true } }))
+81 |     writeFileSync(path.join(projectDir, "ensemble.json"), JSON.stringify({ modelRouting: { requireStructuredOutput: "true" } }))
+82 |     expect(loadConfig(tmpDir).modelRouting.requireStructuredOutput).toBe(true)
+                                                                         ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: undefined
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\config.test.ts:82:69)
+(fail) config > invalid project capability setting cannot erase an inherited restriction [7.19ms]
+
+ 0 pass
+ 16 filtered out
+ 2 fail
+ 2 expect() calls
+Ran 2 tests across 1 file. [44.00ms]

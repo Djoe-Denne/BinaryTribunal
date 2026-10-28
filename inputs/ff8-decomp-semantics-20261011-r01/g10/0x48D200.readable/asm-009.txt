@@ -1,0 +1,25 @@
+0048D4DE: mov     ebx, 9
+0048D4E3: mov     [esp+2Ch+p_always_zero], 0Ah
+0048D4E8: mov     [esp+2Ch+magic_id], 0
+0048D4F0: call    domain__BattleText_GetMiscText; Call Procedure
+0048D4F5: add     esp, 8; Add
+0048D4F8: mov     battle_message_pointer, eax
+0048D4FD: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D502: lea     eax, [edx+edx*2]; Load Effective Address
+0048D505: lea     eax, [edx+eax*4]; Load Effective Address
+0048D508: shl     eax, 4; Shift Logical Left
+0048D50B: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048D512: jnz     short loc_48D4C8; Jump if Not Zero (ZF=0)
+0048D514: lea     eax, [ecx+ecx*2]; Load Effective Address
+0048D517: lea     ecx, [ecx+eax*4]; Load Effective Address
+0048D51A: shl     ecx, 4; Shift Logical Left
+0048D51D: test    byte ptr BATTLE_SLOT_DATA.status_1[ecx], 10h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048D524: jnz     short loc_48D4C8; Jump if Not Zero (ZF=0)
+0048D526: mov     eax, [esp+24h+p_param_is_0_for_ai]
+0048D52A: and     eax, 0FFh; Logical AND
+0048D52F: sub     eax, 9; Integer Subtraction
+0048D532: jz      loc_48D6F7; Jump if Zero (ZF=1)
+0048D538: dec     eax; Decrement by 1
+0048D539: jnz     short loc_48D4C8; Jump if Not Zero (ZF=0)
+0048D53B: cmp     bx, 40h ; '@'; Compare Two Operands
+0048D53F: jnb     loc_48D656; Jump if Not Below (CF=0)

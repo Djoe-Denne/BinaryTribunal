@@ -1,0 +1,25 @@
+0050FF67: mov     cx, [eax+6]
+0050FF6B: mov     [edx+1Ch], cx
+0050FF6F: jmp     short loc_50FFC0; Jump
+0050FF71: mov     eax, [esp+38h+var_20]
+0050FF75: test    eax, 0FE000000h; Logical Compare
+0050FF7A: jz      short loc_50FF82; Jump if Zero (ZF=1)
+0050FF7C: or      ecx, offset unk_2000000; Logical Inclusive OR
+0050FF82: mov     edx, dword_1D99C18
+0050FF88: mov     [edx+4], ecx
+0050FF8B: mov     ecx, dword_1D99C18
+0050FF91: mov     edx, dword_1D99C1C
+0050FF97: mov     dword ptr [ecx], 7000000h
+0050FF9D: mov     edx, [edx+8]
+0050FFA0: mov     [ecx+0Ch], edx
+0050FFA3: mov     ecx, dword_1D99C18
+0050FFA9: mov     [ecx+14h], eax
+0050FFAC: mov     edx, dword_1D99C1C
+0050FFB2: mov     ecx, dword_1D99C18
+0050FFB8: mov     ax, [edx+6]
+0050FFBC: mov     [ecx+1Ch], ax
+0050FFC0: mov     edx, [esp+38h+var_24]
+0050FFC4: mov     eax, [esp+38h+packet]
+0050FFC8: xor     ecx, ecx; Logical Exclusive OR
+0050FFCA: xor     ebx, ebx; Logical Exclusive OR
+0050FFCC: mov     cx, [edx+4]

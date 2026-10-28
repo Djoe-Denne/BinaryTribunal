@@ -1,0 +1,25 @@
+0050BFEE: cmp     eax, ebp; Compare Two Operands
+0050BFF0: jle     short loc_50C06E; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050BFF2: push    ebx
+0050BFF3: push    edi
+0050BFF4: lea     ebx, [esi+10h]; Load Effective Address
+0050BFF7: mov     [esp+18h+arg_0], eax
+0050BFFB: xor     eax, eax; Logical Exclusive OR
+0050BFFD: mov     al, [ebx]
+0050BFFF: test    eax, eax; Logical Compare
+0050C001: jle     short loc_50C057; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050C003: mov     edx, [ebx-8]
+0050C006: mov     edi, eax
+0050C008: mov     cl, [edx]
+0050C00A: mov     eax, 1
+0050C00F: shl     eax, cl; Shift Logical Left
+0050C011: or      bp, ax; Logical Inclusive OR
+0050C014: mov     al, [edx+3]
+0050C017: test    al, 8; Logical Compare
+0050C019: jz      short loc_50C03B; Jump if Zero (ZF=1)
+0050C01B: mov     ecx, 1
+0050C020: shr     al, 6; Shift Logical Right
+0050C023: mov     [esp+18h+var_8], ecx
+0050C027: mov     byte ptr dword_1D99A84, al
+0050C02C: mov     cl, al
+0050C02E: mov     eax, [esp+18h+var_8]

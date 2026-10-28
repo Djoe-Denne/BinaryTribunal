@@ -5,9 +5,9 @@ category: skills
 tags: [ff8, battle-system, testing, skill]
 aliases: [P0.7 G05 live playbook, G05 scenario validation]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/make_suite_payload.py
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process/G05.suite.toml
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/make_suite_payload.py
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tools/capture_runtime_evidence.py
   - projects/re-ff8/skills/ff8-live-validation-operations.md
 summary: >-
   Hash-bound procedure for validating every no-write P0.7 G05 Director

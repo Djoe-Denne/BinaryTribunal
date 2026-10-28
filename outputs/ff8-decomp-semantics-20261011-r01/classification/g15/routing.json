@@ -1,0 +1,34 @@
+{
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g15",
+  "status": "BLOCKED_CLASSIFIER_ERROR",
+  "SOURCE": "discover-g15",
+  "source_session": "ses_ed41fcc7affemdGBdQ0VShrDuh",
+  "source_receipt_sha256": "9acb1494c73c496f62d5c90bf0591990c09d5034230a7ede283fd4173c2ad00b",
+  "source_checkpoint_status": "NO_TARGET_PREVIEW_FLAG_IN_FACTUAL_COMPACTION; parent source-boundary verification required before admission",
+  "entries": [
+    {
+      "ea": "0x4ADDB0",
+      "status": "BLOCKED_CLASSIFIER_ERROR",
+      "pe_verified": true,
+      "instructions": 1408,
+      "assembly_payload_characters": 89439,
+      "classifier_kind": "classify_x86",
+      "classifier_tool": "tools.classify_x86",
+      "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g15/0x4ADDB0.request.json",
+      "request_sha256": "874a50c4f461dc621860189c1d67568c97575f8f398a6e2150b5d41be16be2e6",
+      "error_receipt": "outputs/ff8-decomp-semantics-20261011-r01/classification/g15/0x4ADDB0.response.native-error.json",
+      "error_receipt_sha256": "d0a91bf7cea85a9fb89e42878b8616ba09baf8b9fb83406a161b79535b338437",
+      "native_sha256": "7a147e6c831c259e3d67c6cc522a4497158f9d3198723a3200ee36d8f25171d5",
+      "common_compaction_sha256": "3df089a9b1eade99cca7e5f6499c0b4c81908846bd50fcb967ef8287f111cc59",
+      "complexity": null,
+      "risk": null,
+      "rationale": "One unchanged complete request sent to mandatory native classifier; call failed with exact error 400: Jev HTTP request failed. CONTRACT section 4 blocks this EA on classifier error; no inferred scores, fallback or retry. Not oversize. Structural >200-instruction trigger would require complex 2+1, but production admission is forbidden without classification receipt.",
+      "dispatches": [],
+      "reconciliation_gate": "R only after independent A+B artifacts; currently no producer admission"
+    }
+  ],
+  "blocked_eas": ["0x4ADDB0"],
+  "quarantined_eas": [],
+  "producer_spawning_performed": false
+}

@@ -1,0 +1,25 @@
+0048D8F7: xor     ecx, ecx; Logical Exclusive OR
+0048D8F9: lea     eax, [ebx+edx*4]; Load Effective Address
+0048D8FC: mov     edx, dword ptr SG_BATTLE_SPEED_SETTING
+0048D902: and     edx, 0FFh; Logical AND
+0048D908: mov     cx, word ptr SG_ARRAY_GF_DATA.APs+40Ch[eax*2]
+0048D910: inc     edx; Increment by 1
+0048D911: imul    ecx, edx; Signed Multiply
+0048D914: mov     eax, 0EA0EA0EBh
+0048D919: imul    ecx; Signed Multiply
+0048D91B: add     edx, ecx; Add
+0048D91D: lea     ecx, ds:0[esi*8]; Load Effective Address
+0048D924: sar     edx, 5; Shift Arithmetic Right
+0048D927: sub     ecx, esi; Integer Subtraction
+0048D929: mov     eax, edx
+0048D92B: shr     eax, 1Fh; Shift Logical Right
+0048D92E: lea     esi, [esi+ecx*4]; Load Effective Address
+0048D931: add     edx, eax; Add
+0048D933: shl     esi, 4; Shift Logical Left
+0048D936: mov     ebp, edx
+0048D938: add     esi, offset F_CHAR_DATA; By address:
+0048D93E: call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+0048D943: mov     dl, byte ptr [esp+28h+p_attacker_slot_id]
+0048D947: mov     cx, word ptr [esp+28h+p_enemy_number]
+0048D94C: movsx   eax, ax; Move with Sign-Extend
+0048D94F: shl     eax, 4; Shift Logical Left

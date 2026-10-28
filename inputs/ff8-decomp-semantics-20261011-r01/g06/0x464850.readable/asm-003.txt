@@ -1,0 +1,25 @@
+004648D1: mov     ebx, [esp+10h+arg_C]
+004648D5: cmp     ebx, esi; Compare Two Operands
+004648D7: jg      short loc_464942; Jump if Greater (ZF=0 & SF=OF)
+004648D9: lea     eax, [ebx+ebp]; Load Effective Address
+004648DC: lea     ecx, [eax+eax*4]; Load Effective Address
+004648DF: lea     ecx, [eax+ecx*2]; Load Effective Address
+004648E2: lea     ecx, [ecx+ecx*4]; Load Effective Address
+004648E5: lea     edx, [ecx+ecx*4]; Load Effective Address
+004648E8: lea     ecx, ds:1CB636Ch[edx*4]; Load Effective Address
+004648EF: mov     edx, 3
+004648F4: mov     dword ptr [ecx], 0FFFFFFFFh
+004648FA: add     ecx, 8980h; Add
+00464900: dec     edx; Decrement by 1
+00464901: jnz     short loc_4648F4; Jump if Not Zero (ZF=0)
+00464903: mov     ecx, dword_1CCFD90
+00464909: test    ecx, ecx; Logical Compare
+0046490B: jz      short loc_464935; Jump if Zero (ZF=1)
+0046490D: lea     edx, [eax+eax*8]; Load Effective Address
+00464910: shl     edx, 3; Shift Logical Left
+00464913: sub     edx, eax; Integer Subtraction
+00464915: shl     edx, 4; Shift Logical Left
+00464918: mov     eax, dword_1CAD694[edx]
+0046491E: test    eax, eax; Logical Compare
+00464920: jz      short loc_464935; Jump if Zero (ZF=1)
+00464922: mov     ecx, 100h

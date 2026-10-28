@@ -1,0 +1,85 @@
+{
+  "verdict": "BLOCK",
+  "authority": "offline only; no native/durable host proof",
+  "findings": [
+    {
+      "id": "local-requirement-deletion",
+      "reproduced": true,
+      "data": {
+        "projectionVersion": 2,
+        "sourceAndEvidenceUnchanged": true,
+        "originalRequirementPresentInExportEvidence": true,
+        "mismatchDiagnostics": [],
+        "missingRequirementDiagnostics": [],
+        "controlProducerState": "COMMITTED",
+        "controlConsumerState": "BLOCKED",
+        "missingProducerState": "COMMITTED",
+        "missingConsumerState": "COMMITTED",
+        "missingConsumerCommits": [
+          {
+            "t": 6,
+            "seq": 42,
+            "ev": "committed",
+            "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+            "revision": 2,
+            "level": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "pause-interval-overrun",
+      "reproduced": true,
+      "data": [
+        {
+          "stage": "RUNNING",
+          "frontier": 6,
+          "pauseInterval": [
+            2,
+            3
+          ],
+          "maximumLegalPausedUnitTicks": 1,
+          "actualPausedUnitTicks": 4,
+          "waitReason": "paused",
+          "validationUnitTicks": 0
+        },
+        {
+          "stage": "VALIDATING",
+          "frontier": 6,
+          "pauseInterval": [
+            3,
+            4
+          ],
+          "maximumLegalPausedUnitTicks": 1,
+          "actualPausedUnitTicks": 3,
+          "waitReason": "paused",
+          "validationUnitTicks": 1
+        }
+      ]
+    },
+    {
+      "id": "terminal-zero-reopens-wait",
+      "reproduced": true,
+      "data": [
+        {
+          "incident": "cancel",
+          "frontier": 5,
+          "state": "CANCELLED",
+          "expectedWaitReason": null,
+          "actualWaitReason": "dependency",
+          "expectedWaitTicks": 0,
+          "actualWaitTicks": 5
+        },
+        {
+          "incident": "invalidate_knowledge",
+          "frontier": 5,
+          "state": "STALE",
+          "expectedWaitReason": null,
+          "actualWaitReason": "dependency",
+          "expectedWaitTicks": 0,
+          "actualWaitTicks": 5
+        }
+      ]
+    }
+  ]
+}

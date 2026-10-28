@@ -1,0 +1,48 @@
+bun test v1.4.2 (744846f84)
+
+test\live-model-routing.test.ts:
+32 |   return { model: model!, ...((suffix ?? variant) !== undefined ? { variant: suffix ?? variant } : {}) }
+33 | }
+34 | 
+35 | /** Authorization, not routing: never selects, substitutes or upgrades a model. */
+36 | export function assertMissionModelAllowed(deps: Pick<ToolDeps, "db" | "config">, teamId: string | undefined, value?: string, variant?: string): void {
+37 |   if (teamId && deps.config.modelRouting.pausedTeams?.includes(teamId)) throw new ModelSelectionDeniedError(`mission ${teamId} is paused by the operator; no request or retry until explicit resume`)
+                                                                                   ^
+ModelSelectionDeniedError: Model selection denied: mission team is paused by the operator; no request or retry until explicit resume
+      at assertMissionModelAllowed (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\model-authorization.ts:37:79)
+      at routeMissionTaskModel (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\mission-routing.ts:10:24)
+      at executeTeamSpawn (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\tools\team-spawn.ts:602:17)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\live-model-routing.test.ts:20:9)
+(fail) resident spawn observes pause removal immediately, no plugin reload or routing bypass [28.65ms]
+32 |   return { model: model!, ...((suffix ?? variant) !== undefined ? { variant: suffix ?? variant } : {}) }
+33 | }
+34 | 
+35 | /** Authorization, not routing: never selects, substitutes or upgrades a model. */
+36 | export function assertMissionModelAllowed(deps: Pick<ToolDeps, "db" | "config">, teamId: string | undefined, value?: string, variant?: string): void {
+37 |   if (teamId && deps.config.modelRouting.pausedTeams?.includes(teamId)) throw new ModelSelectionDeniedError(`mission ${teamId} is paused by the operator; no request or retry until explicit resume`)
+                                                                                   ^
+ModelSelectionDeniedError: Model selection denied: mission team is paused by the operator; no request or retry until explicit resume
+      at assertMissionModelAllowed (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\model-authorization.ts:37:79)
+      at routeMissionTaskModel (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\mission-routing.ts:10:24)
+      at executeTeamSpawn (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\src\tools\team-spawn.ts:602:17)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\live-model-routing.test.ts:28:9)
+(fail) resident admission sees new pause and model revocation in both directions [12.06ms]
+35 | })
+36 | 
+37 | test("loss of an established selection stays closed and unrelated configuration remains stable", () => {
+38 |   const f = fixture(); const limit = f.deps.config.maxActiveMembers
+39 |   f.setRouting({ ...f.routing, pausedTeams: [], selectionConfigured: false, models: [] })
+40 |   expect(() => assertMissionModelAllowed(f.deps, "team", "unknown/model", "max")).toThrow("absent or unavailable")
+                                                                                       ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "absent or unavailable"
+Received message: "Model selection denied: mission team is paused by the operator; no request or retry until explicit resume"
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-model-admission-20261013\test\live-model-routing.test.ts:40:83)
+(fail) loss of an established selection stays closed and unrelated configuration remains stable [11.73ms]
+
+ 0 pass
+ 3 fail
+ 3 expect() calls
+Ran 3 tests across 1 file. [109.00ms]

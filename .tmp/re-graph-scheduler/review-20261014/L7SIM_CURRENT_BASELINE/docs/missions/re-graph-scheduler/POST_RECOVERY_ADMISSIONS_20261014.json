@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-14",
+  "mission": "re-graph-scheduler",
+  "scope": "Continuation after explicit recovery GO; independent fixes/review following recovered final reports",
+  "unchangedPolicy": {"workerLimit":5,"providerOrderRevision":4,"modelPolicyRevision":2,"classification":"manual","autoDispatch":false,"autoScale":false},
+  "reportsRecovered": {
+    "L2": {"task":"task_mv80a96u_003t_7t7cbp","member":"l2-local-qa","method":"sender-specific team_results","verdict":"BLOQUANT","defects":7,"manifest":"b881a7f00d311709cbbdf94b8ed75fc4630d034086f1420344831dbad0b465f0"},
+    "L4": {"task":"task_mv8038uj_003a_ftf7tj","member":"l4-last-astra","method":"sender-specific team_results","status":"Writer complete only, not accepted"},
+    "L5": {"task":"task_mv8038uj_0039_d6aa5v","member":"l5-rel-review","method":"Authenticated public message.list content tool report, not ensemble.db","message":"msg_13b0f3358001ru7ZgzVGWBMrKz","verdict":"BLOQUANT","defects":2,"manifest":"b589ad7227e25c2411650266f22b098f9ee49a306051acb4f3be453caf1cfcb8"}
+  },
+  "admissions": [
+    {"member":"l2-fix-max-final","task":"task_mv80pik5_004b_c0kha5","session":"ses_ec4eaed9cffeurdJXLqPctTcc3","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"context":"fresh","worktree":true,"planApproval":"pending","initialNativeLocationWasMain":true,"parentSessionMoveToOwnedWorktree":true,"finalNativeLocationVerified":true,"transfer":{"ownFiles":4,"readonlyDependenciesIdentical":28,"gelPinsVerified":32,"noExistingSourceOverwritten":true},"decision":"L2_LOCAL_QA_FINAL_FIX_CONTRACT.md","reason":"Source author native Sol high; reinforced corrective Sol max after final independent QA"},
+    {"member":"l4-witness-review","task":"task_mv8a7hhi_00jr_6aet4u","session":"ses_ec4e86f54ffe6533wsQh6XS2GH","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeRefVerified":true,"context":"fresh","worktree":false,"gel":"L4WITNESS","manifest":"487f781c206121286a2f6764f0b001d5c5159435b859c9895277d58d9404016f","gelFiles":231,"reviewDoesNotAcceptModule":true},
+    {"member":"l5-relation-astra","task":"task_mv8afrn8_00jx_u7p650","session":"ses_ec4e28a22ffeWH6ZPlY4yPHm2i","model":{"providerID":"openai","id":"gpt-6-astra","variant":"max"},"nativeRefVerified":true,"context":"fresh","worktree":true,"planApproval":"pending","initialNativeLocationWasMain":true,"parentSessionMoveToOwnedWorktree":true,"finalNativeLocationVerified":true,"transfer":{"ownFiles":2,"missingReadonlyL2DependenciesCopied":4,"existingReadonlyDependenciesIdentical":27,"gelPinsVerified":33,"oldMainSourcePreserved":true,"baselinePlannerSha256":"6ed71229c67f01a08dfd6fffcc23205706f3437a5d2eb490e46ea48694707c89","baselinePlannerTestSha256":"68dbb98706c4e1d8fb3c29cb6542fd1e88ffc53c906bc270a3664557b9db02b7"},"decision":"L5_RELATION_REVIEW_FINAL_FIX.md","sourceModelVerified":{"session":"ses_ec68f34b6ffehhjHKhC8isdSMm","providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"reason":"Max source corrective run and Max independent review retain two parent-reproduced defects; authorized Astra max last resort, not retry of interrupted reviewer"}
+  ],
+  "parentGatesL4": {"typecheckExit":0,"focused":{"pass":64,"fail":0,"assertions":964,"exit":0},"fullWriterWorktree":{"pass":437,"skip":1,"fail":0,"tests":438,"files":18,"assertions":20297,"exit":0},"ownPackageLockPinsUnchanged":true,"notMainSuite":true},
+  "parentProbes": {
+    "L5": {"script":".tmp/re-graph-scheduler/l5-relation-parent-probe-20261014.ts","exit":0,"actualStrictTransportShards":[64,1],"bothDefectsReproduced":true,"earlierProbeConstructionErrorsNotEvidence":true},
+    "L4": {"script":".tmp/re-graph-scheduler/l4-adopt-recluster-parent-probe-20261014.ts","exit":0,"firstPass":true,"actualAdoption":true,"originalPreviousPass":true,"actualAdoptedPreviousPass":false,"failure":"lineage-previous-unverified","preliminaryIndependentReviewStillRunning":true,"notAccepted":true}
+  },
+  "gracefulShutdownRequestedAfterFinalReport": ["l2-local-qa","l5-rel-review"],
+  "noCompletedReviewerWoken": ["l3-num-review","l6-rva-review"],
+  "postPlanContinuations": {
+    "L2": {"planApproved":true,"ordinaryWriterContinuationAfterPlanOnly":true,"sameSessionForceWake":true,"notCompletedReviewerRecovery":true,"internalExistingEmptyIdSentinelApproved":true},
+    "L5": {"planApproved":true,"ordinaryWriterContinuationAfterPlanOnly":true,"sameSessionForceWake":true,"sameUnitVerifiedExternalPrerequisiteNullApproved":true,"privateNewPlanIdSemanticsMarkerApproved":true,"noNewL1SidecarFieldOrOldPlanMigration":true},
+    "localPrerequisites": {"originalNativeManifestSource":"l2-graph-r3","originalManifestSha256":"79790bef2ea8c38d64ab8e18c4578e1b8593958aa689da88c2466063c5b177d5","originalRawFilesVerifiedAgainstManifestAndMainStoredBytes":98,"bothWriterCopiesByteExact":true,"dependencyJunction":"Owned tools/ff8-harness/node_modules -> main preinstalled node_modules, READONLY by mission contract","packageAndLockMatch":true,"noInstallNewAuthorityOrNativeExtraction":true}
+  },
+  "postApprovalPublicNativeReadback": {"bothCorrectiveWritersRunning":true,"sameModelVariantAndOwnedDirectoryVerified":true,"completedL2QaNativeInactive":true,"completedL5ReviewerNativeInactive":true,"notPersistentCounterEvidence":true},
+  "L8NotActivated": true,
+  "noNativeIdbLiveConfigChanges": true,
+  "noResetDeletionCleanupRemotePush": true
+}

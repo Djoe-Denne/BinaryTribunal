@@ -1,0 +1,25 @@
+0048D545: mov     esi, ebx
+0048D547: and     esi, 0FFFFh; Logical AND
+0048D54D: push    esi; p_magic_id
+0048D54E: push    edx; p_target_slot_id
+0048D54F: mov     edx, [esp+2Ch+p_attacker_slot_id]
+0048D553: push    edx; p_attacker_slot_id
+0048D554: call    domain__Draw_ComputeStealCount; Static switch proof for command-family IDs after pending->exec transfer: case 4/13 uses K_ITEM/getTextBattleItem (normal Item path is 0x04), case 6 is the Draw cast/stock path, GF later rewrites command type from pending 0x03 to resolver 0xFE at LABEL_182.
+0048D559: add     esp, 0Ch; Add
+0048D55C: mov     byte ptr [esp+24h+p_enemy_number], al
+0048D560: test    al, al; Logical Compare
+0048D562: jz      loc_48D4C8; Jump if Zero (ZF=1)
+0048D568: mov     edi, [esp+24h+p_enemy_number]
+0048D56C: xor     ebp, ebp; Logical Exclusive OR
+0048D56E: db 0E8h; Call Procedure
+0048D574: jle     short loc_48D58F; Jump if Less or Equal (ZF=1 | SF!=OF)
+0048D576: mov     eax, [esp+24h+p_attacker_slot_id]
+0048D57A: push    0; remove_flag
+0048D57C: push    esi; magic_id
+0048D57D: push    eax; slot
+0048D57E: call    domain__BattleMagic_MutateStock; Draw Stock only: MutateStock(slot, magic_id, add=0) looped Draw_ComputeStealCount times; not the Magic-command consume path.
+0048D583: add     esp, 0Ch; Add
+0048D586: test    eax, eax; Logical Compare
+0048D588: jnz     short loc_48D58F; Jump if Not Zero (ZF=0)
+0048D58A: inc     ebp; Increment by 1
+0048D58B: cmp     ebp, edi; Compare Two Operands

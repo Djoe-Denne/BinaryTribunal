@@ -1,0 +1,25 @@
+00500678: push    offset unk_1D8E040
+0050067D: call    sub_45C9F0; Call Procedure
+00500682: push    offset unk_1D8E040
+00500687: call    nullsub_5_used; Call Procedure
+0050068C: add     esp, 0Ch; Add
+0050068F: test    byte ptr battle_to_update_flags_dword_1D96A9C, 4; Logical Compare
+00500696: jz      loc_50074D; Jump if Zero (ZF=1)
+0050069C: mov     eax, g_BattleFramePingPongIndex
+005006A1: and     eax, 0FFh; Logical AND
+005006A6: xor     eax, 1; Logical Exclusive OR
+005006A9: lea     edx, [eax+eax*2]; Load Effective Address
+005006AC: shl     edx, 3; Shift Logical Left
+005006AF: sub     edx, eax; Integer Subtraction
+005006B1: lea     eax, ds:1D969C8h[edx*4]; Load Effective Address
+005006B8: push    eax
+005006B9: call    sub_45B660; Call Procedure
+005006BE: mov     eax, g_BattleFramePingPongIndex
+005006C3: and     eax, 0FFh; Logical AND
+005006C8: mov     ecx, eax
+005006CA: shl     ecx, 4; Shift Logical Left
+005006CD: add     ecx, eax; Add
+005006CF: lea     edx, [eax+ecx*8]; Load Effective Address
+005006D2: shl     edx, 4; Shift Logical Left
+005006D5: add     edx, eax; Add
+005006D7: lea     eax, ds:1D924DCh[edx*8]; Load Effective Address

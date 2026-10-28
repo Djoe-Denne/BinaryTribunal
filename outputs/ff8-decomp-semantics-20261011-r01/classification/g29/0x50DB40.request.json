@@ -1,0 +1,378 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION — reusable factual discovery v1, run01 g29. Read-only; no edits, IDB, Git, ledger, live, or delegation. Task task_mv424nwx_000u_6pd08l claimed/completed. Ownership confirmed by C:/Users/djden/source/repos/retro-eng/re-ff8/docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json:226–229 (only 0x50DB40). Contract :16–21 governs fact-only common context and independent forks.\n; \n; PRIMARY SOURCE / FREEZE\n; P = C:/Users/djden/source/repos/retro-eng/re-ff8/.tmp/ff8-decomp-semantics-20261011-r01/native/0x50DB40.json. File SHA256 6adfec152ef0db44dbe42b9c74c47118ad24ad682eb562691b2d566c6d92e48c. P:2–9: 32-bit FF8_EN.exe, input SHA256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, exported 2026-10-11T16:38:25.140966+00:00 from D:/Modding/ff8/retro-exe/FF8_EN.exe - 9.3.i64. P:11–16 single byte chunk [0x50DB40,0x50DE6E); P:18 contains complete 271-instruction ASM (physical JSON line 18; cite instruction EA for precise provenance), P:19–389 CFG, P:423 instruction count. Name_label_only and all ASM comments are annotations, NOT instruction evidence. Entire ASM consumed with comments stripped; no target reconstruction/verdict.\n; \n; NATIVE ABI / CALL SITES (P:18 + instruction EAs)\n; • 0x50DB40 loads ECX from stack arg0; 0x50DB44 allocates 0x40 bytes. EBX/EBP/ESI/EDI are saved and restored. EBX and ESI initially receive original arg0 (0x50DB48 / 0x50DB52), NOT an observed zero initialization. EBP receives arg_C at 0x50DB4D before the byte overwrite described below. 0x50DE62 loads EAX from current stack arg0; four pops, add esp,40h, plain retn at 0x50DE6D. Thus stack arguments, caller cleanup, return in EAX are instruction-supported; no fastcall assumption.\n; • Three indirect sites, different argument counts: 0x50DB70 calls stack arg4 after push &stack_arg0 then push a DWORD from stack arg_C; add esp,8. 0x50DBF5 calls stack arg8 after push EAX; add esp,4. 0x50DCD1 calls EBP (saved original arg_C) after push ESI then push EBX; add esp,8. These facts establish invocation shapes, not formal signedness/result types or identities.\n; • IMPORTANT width fact: 0x50DB57 reads AL=[ECX]; 0x50DB5B writes only BYTE of stack arg_C. 0x50DB6A then loads the WHOLE DWORD at that slot and 0x50DB6F pushes it. Upper 24 bits are not cleared at this path. A zero-extended opcode argument is NOT what those target instructions directly implement. The saved EBP retains the original fourth argument. Paths 0x50DB91 and 0x50DC78 explicitly mask to 0xFF for internal dispatch, unlike the callback push.\n; • For byte <0xC0, 0x50DB61 advances ECX by one and 0x50DB66 saves it in stack arg0; first callback receives address of that mutable slot. After callback, test EAX at 0x50DB77 and jnz 0x50DE62 at 0x50DB79. Zero branch reloads stack arg0 at 0x50DB7F. This validates nonzero-exit discrimination, not a particular callback's return contract.\n; \n; NATIVE DISPATCH / ADDRESSING FACTS (no purpose verdict)\n; • 0x50DB59 unsigned threshold 0xC0; 0x50DB85 unsigned threshold 0xE4. First dispatch masks EAX with 3 at 0x50DB99 then jmp table at 0x50DBA1. Observed destinations have direct calls: 0x50DBAA→0x50DAC0, 0x50DBBF→0x50DAA0, 0x50DBC8/0x50DBD1→0x50DAB0. After the first path cursor advances by 3 (0x50DBB8); other paths advance by 2 (0x50DC02). Reader bodies/endianness/sign extension are not included in P.\n; • 0x50DBD9 compares reader result against 0x80 using signed jl. Lower branch calls arg8; higher branch computes an indexed stack address then reads DWORD (0x50DBE0–0x50DBF0). Matching write form at 0x50DCA5–0x50DCC4. Raw byte encodings of both LEAs use [ESP+0x40C], then subtract id*4; IDA labels this arg_3B8, which is not a proved named object. Current ESP is after allocation and saves. This address family must not be silently replaced with an ordinary bounded local array. For example id=0x80 addresses current ESP+0x20C; id=0xFF addresses current ESP+0x10. No bounds check beyond threshold is observed in these sequences.\n; • 0x50DC09 masks EDI with 0xFFFFFFFC; subtracts 0xC0, compares 0x20 unsigned, reads byte remap at 0x50DEA8 and jumps DWORD table at 0x50DC23. Distinct destinations contain mov/add/sub/imul, and/or/xor, and cdq/idiv paths. Signed division at 0x50DC4A stores EAX; at 0x50DC6B stores EDX. No local zero-divisor check is present adjacent to these operations; actual input safety is unproved.\n; • Second dispatch: zero-extended low byte minus 0xE4 at 0x50DC7D, unsigned bound 0x0F at 0x50DC82, jmp table at 0x50DC8B. 0x50DC92 clears ESI. Other branches call helpers with two pushed DWORDs and add esp,8. Calls to 0x50DAE0 at 0x50DCE9/0x50DD05/0x50DD21/0x50DD3D/0x50DD59/0x50DD75/0x50DD91; calls to 0x50DB10 at 0x50DDA7/0x50DDC3/0x50DDDF/0x50DDFB/0x50DE17/0x50DE33/0x50DE4F. Predicate construction visibly uses constant 1 or TEST ESI + SETNLE/SETNL/SETZ/SETNZ/SETLE/SETL, zeroing destination register first. Returned EAX is stored as cursor. Names Script_SkipS8_OrPlus2 and Script_SkipU16BE_OrPlus3 alone do NOT establish reader width, endian or branch displacement arithmetic.\n; • Direct callees exactly P:416–422: 0x50DAA0,0x50DAB0,0x50DAC0,0x50DAE0,0x50DB10. No direct presentation/global structure fields occur in target ASM; the absolute data references are dispatch tables. Indirect callbacks can access arbitrary surrounding state.\n; \n; NATIVE XREF INVENTORY\n; P:390–415: calls at 0x5042E8,0x504340,0x5043F9 all belong to 0x504290; call at 0x509629 belongs to 0x509610. These are actual call EAs, not the earlier immediate-function push EAs quoted by documentation. No caller ASM is frozen in P, so callback identities/other pushed arguments need separate evidence.\n; \n; SURROUNDING DOCUMENTED CONTEXT — SECONDARY, provenance separated\n; D1 = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_camera.md. :3–5 identifies September 12 R1.2 parent arbitration and spot-check of target prologue, not a full target proof. :130–137 documents 0x509970 resource binding: word offsets [res+2]/[res+4] added to res, storing 0x1D99A34 / 0x1D99A30; stage-only formula with two callers 0x500FA4 / 0x5099A5. :148–150 documents 0x509810 opcode low-byte mask and bound 9. Target case semantics explicitly left open PC-17 at :147. Do not promote that doc's target-purpose label.\n; D2 = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/systems/render_action_sequences.md. :121–131 documents C0M H5 through monster record+0x18; pushes 0x504BB0 at 0x5042E2 as callback into target and explicitly refutes a direct 0x504BB0→target call. Current native xrefs are consistent with callback inversion but do not themselves prove the pushed value. :132–135 distinguishes C0M H6 record+0x2C/base from stage res+u16[res+4]. H5 format/count/never-empty remain PC-18, not validated bounds.\n; D3 = C:/Users/djden/source/repos/retro-eng/re-ff8/docs/tech/investigation/battle-static-discovery/decomp/0x509610__BS_CameraSettingInit2.md. Neighbor parent notes :10–11 and instruction commentary :17–23 report zero caller args, DWORD load/store of 0x1D99A34, guarded call and four cdecl arguments; right-to-left pushes 0x5097C0,0x509640,0x509810,cursor, cleanup 0x10. This agrees with target's stack call shape. Its :30–37 narrow char/short callback declarations are historical declarations, NOT established by target ASM. Reader callback bodies absent; do not treat prototypes as normative.\n; QMD CLI used (BM25 search BattleScript, get). Knowledge duplicates retrieved:\n; C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/concepts/battle-camera-architecture.md:116–117 summarizes resource-bound globals and inline 0x509610 invocation; not an independent native source.\n; C:/Users/djden/source/repos/retro-eng/re-ff8/obsidian-docs/projects/re-ff8/references/battle-static-call-graph.md:46 lists callback push EAs 0x5042E2/0x504336/0x5043F3; graph blind spot, not direct target-call edges.\n; GrepAI first used common root retro-eng without workspace; relevant camera/action docs subsequently found by exact address search. No sibling reimplementation result validated. Historical target decomp file exists but no target C body was read/adopted as evidence (search previews only); production forks must not inherit historical reconstructed target C.\n; \n; UNCERTAINTIES / REQUIRED INDEPENDENT VALIDATION\n; 1. Jump/remap tables at 0x50DE70,0x50DE80,0x50DEA8,0x50DECC lie AFTER frozen byte chunk end 0x50DE6E. CFG supplies successors, but raw entry→opcode mapping bytes are absent. ASM switch comments are annotations, not substitute bytes.\n; 2. Five helper bodies absent: signedness/endian/displacement math remains unvalidated. Native labels cannot settle them.\n; 3. Three callback bodies and full callers absent: callback identities, upper-byte acceptance, return types/meaning and object/global effects are secondary documentation only.\n; 4. Indexed stack addresses above local allocation, initialization and admissible IDs need explicit caller/helper dataflow; no bounded safe array assumption.\n; 5. Initial EBX/ESI equal arg0; formal types, valid stream length, termination, default-case progress and division safety cannot be inferred from labels.\n; 6. No target semantic verdict, rewritten C, domain rename recommendation or historical certainty promotion supplied. Common facts above should accompany full unchanged native ASM in independent forks.\n; TARGET ASM COMPLETE\n0050DB40: mov     ecx, [esp+arg_0]; Generic battle expression/control VM (opcodes 0xC0..0xF3), executed inline from camera/stage control. Not a spline helper.\n0050DB44: sub     esp, 40h; Integer Subtraction\n0050DB47: push    ebx\n0050DB48: mov     ebx, [esp+44h+arg_0]\n0050DB4C: push    ebp\n0050DB4D: mov     ebp, [esp+48h+arg_C]\n0050DB51: push    esi\n0050DB52: mov     esi, [esp+4Ch+arg_0]\n0050DB56: push    edi\n0050DB57: mov     al, [ecx]; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DB59: cmp     al, 0C0h; Compare Two Operands\n0050DB5B: mov     byte ptr [esp+50h+arg_C], al\n0050DB5F: jnb     short loc_50DB85; Jump if Not Below (CF=0)\n0050DB61: inc     ecx; Increment by 1\n0050DB62: lea     eax, [esp+50h+arg_0]; Load Effective Address\n0050DB66: mov     [esp+50h+arg_0], ecx\n0050DB6A: mov     ecx, [esp+50h+arg_C]\n0050DB6E: push    eax\n0050DB6F: push    ecx\n0050DB70: call    [esp+58h+arg_4]; E2 script_vm: call [esp+arg] opcodes <0xC0 (PAS vtable +0x60); callbacks args; 2 triplets callers\n0050DB74: add     esp, 8; Add\n0050DB77: test    eax, eax; Logical Compare\n0050DB79: jnz     loc_50DE62; yield-on-nonzero: proves -1 yield semantics of 0x504BB0 (VA)\n0050DB7F: mov     ecx, [esp+50h+arg_0]\n0050DB83: jmp     short def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DB85: cmp     al, 0E4h; Compare Two Operands\n0050DB87: jnb     loc_50DC74; Jump if Not Below (CF=0)\n0050DB8D: mov     edi, [esp+50h+arg_C]\n0050DB91: and     edi, 0FFh; Logical AND\n0050DB97: mov     eax, edi\n0050DB99: and     eax, 3; Logical AND\n0050DB9C: cmp     eax, 3; switch 4 cases\n0050DB9F: ja      short def_50DBA1; jumptable 0050DBA1 default case\n0050DBA1: jmp     ds:jpt_50DBA1[eax*4]; switch jump\n0050DBA8: inc     ecx; jumptable 0050DBA1 case 0\n0050DBA9: push    ecx\n0050DBAA: call    sub_50DAC0; Call Procedure\n0050DBAF: mov     ecx, [esp+54h+arg_0]\n0050DBB3: add     esp, 4; Add\n0050DBB6: mov     ebx, eax\n0050DBB8: add     ecx, 3; Add\n0050DBBB: jmp     short loc_50DC05; Jump\n0050DBBD: inc     ecx; jumptable 0050DBA1 case 1\n0050DBBE: push    ecx\n0050DBBF: call    sub_50DAA0; Call Procedure\n0050DBC4: jmp     short loc_50DBF9; Jump\n0050DBC6: inc     ecx; jumptable 0050DBA1 case 2\n0050DBC7: push    ecx\n0050DBC8: call    sub_50DAB0; Call Procedure\n0050DBCD: jmp     short loc_50DBF9; Jump\n0050DBCF: inc     ecx; jumptable 0050DBA1 case 3\n0050DBD0: push    ecx\n0050DBD1: call    sub_50DAB0; Call Procedure\n0050DBD6: add     esp, 4; Add\n0050DBD9: cmp     eax, 80h; Compare Two Operands\n0050DBDE: jl      short loc_50DBF4; Jump if Less (SF!=OF)\n0050DBE0: lea     edx, ds:0[eax*4]; Load Effective Address\n0050DBE7: lea     eax, [esp+50h+arg_3B8]; Load Effective Address\n0050DBEE: sub     eax, edx; Integer Subtraction\n0050DBF0: mov     ebx, [eax]\n0050DBF2: jmp     short loc_50DBFE; Jump\n0050DBF4: push    eax\n0050DBF5: call    [esp+54h+arg_8]; E2 script_vm: call [esp+arg] getter si val<0x80; artefact ESP disp 0x60 n est pas un slot\n0050DBF9: add     esp, 4; Add\n0050DBFC: mov     ebx, eax\n0050DBFE: mov     ecx, [esp+50h+arg_0]\n0050DC02: add     ecx, 2; Add\n0050DC05: mov     [esp+50h+arg_0], ecx\n0050DC09: and     edi, 0FFFFFFFCh; jumptable 0050DBA1 default case\n0050DC0C: add     edi, 0FFFFFF40h; switch 33 cases\n0050DC12: cmp     edi, 20h; Compare Two Operands\n0050DC15: ja      def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC1B: xor     edx, edx; Logical Exclusive OR\n0050DC1D: mov     dl, ds:byte_50DEA8[edi]\n0050DC23: jmp     ds:jpt_50DC23[edx*4]; switch jump\n0050DC2A: mov     esi, ebx; jumptable 0050DC23 case 192\n0050DC2C: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC31: add     esi, ebx; jumptable 0050DC23 case 196\n0050DC33: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC38: sub     esi, ebx; jumptable 0050DC23 case 200\n0050DC3A: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC3F: imul    esi, ebx; jumptable 0050DC23 case 204\n0050DC42: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC47: mov     eax, esi; jumptable 0050DC23 case 208\n0050DC49: cdq; EAX -> EDX:EAX (with sign)\n0050DC4A: idiv    ebx; Signed Divide\n0050DC4C: mov     esi, eax\n0050DC4E: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC53: and     esi, ebx; jumptable 0050DC23 case 212\n0050DC55: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC5A: or      esi, ebx; jumptable 0050DC23 case 216\n0050DC5C: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC61: xor     esi, ebx; jumptable 0050DC23 case 220\n0050DC63: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC68: mov     eax, esi; jumptable 0050DC23 case 224\n0050DC6A: cdq; EAX -> EDX:EAX (with sign)\n0050DC6B: idiv    ebx; Signed Divide\n0050DC6D: mov     esi, edx\n0050DC6F: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC74: mov     eax, [esp+50h+arg_C]\n0050DC78: and     eax, 0FFh; Logical AND\n0050DC7D: add     eax, 0FFFFFF1Ch; switch 16 cases\n0050DC82: cmp     eax, 0Fh; Compare Two Operands\n0050DC85: ja      def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC8B: jmp     ds:jpt_50DC8B[eax*4]; switch jump\n0050DC92: xor     esi, esi; jumptable 0050DC8B case 228\n0050DC94: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DC99: inc     ecx; jumptable 0050DC8B case 229\n0050DC9A: push    ecx\n0050DC9B: call    sub_50DAB0; Call Procedure\n0050DCA0: mov     ebx, eax\n0050DCA2: add     esp, 4; Add\n0050DCA5: cmp     ebx, 80h; Compare Two Operands\n0050DCAB: jl      short loc_50DCCF; Jump if Less (SF!=OF)\n0050DCAD: lea     ecx, ds:0[ebx*4]; Load Effective Address\n0050DCB4: lea     edx, [esp+50h+arg_3B8]; Load Effective Address\n0050DCBB: sub     edx, ecx; Integer Subtraction\n0050DCBD: mov     ecx, [esp+50h+arg_0]\n0050DCC1: add     ecx, 2; Add\n0050DCC4: mov     [edx], esi\n0050DCC6: mov     [esp+50h+arg_0], ecx\n0050DCCA: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DCCF: push    esi\n0050DCD0: push    ebx\n0050DCD1: call    ebp; E2 script_vm: call ebp = arg_C store opcode 0xE5 val<0x80\n0050DCD3: mov     ecx, [esp+58h+arg_0]\n0050DCD7: add     esp, 8; Add\n0050DCDA: add     ecx, 2; Add\n0050DCDD: mov     [esp+50h+arg_0], ecx\n0050DCE1: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DCE6: push    ecx; jumptable 0050DC8B case 230\n0050DCE7: push    1\n0050DCE9: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DCEE: mov     ecx, eax\n0050DCF0: add     esp, 8; Add\n0050DCF3: mov     [esp+50h+arg_0], ecx\n0050DCF7: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DCFC: xor     eax, eax; jumptable 0050DC8B case 231\n0050DCFE: push    ecx\n0050DCFF: test    esi, esi; Logical Compare\n0050DD01: setnle  al; Set Byte if Not Less or Equal (ZF=0 & SF=OF)\n0050DD04: push    eax\n0050DD05: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD0A: mov     ecx, eax\n0050DD0C: add     esp, 8; Add\n0050DD0F: mov     [esp+50h+arg_0], ecx\n0050DD13: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DD18: push    ecx; jumptable 0050DC8B case 232\n0050DD19: xor     ecx, ecx; Logical Exclusive OR\n0050DD1B: test    esi, esi; Logical Compare\n0050DD1D: setnl   cl; Set Byte if Not Less (SF=OF)\n0050DD20: push    ecx\n0050DD21: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD26: mov     ecx, eax\n0050DD28: add     esp, 8; Add\n0050DD2B: mov     [esp+50h+arg_0], ecx\n0050DD2F: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DD34: xor     edx, edx; jumptable 0050DC8B case 233\n0050DD36: push    ecx\n0050DD37: test    esi, esi; Logical Compare\n0050DD39: setz    dl; Set Byte if Zero (ZF=1)\n0050DD3C: push    edx\n0050DD3D: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD42: mov     ecx, eax\n0050DD44: add     esp, 8; Add\n0050DD47: mov     [esp+50h+arg_0], ecx\n0050DD4B: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DD50: xor     eax, eax; jumptable 0050DC8B case 234\n0050DD52: push    ecx\n0050DD53: test    esi, esi; Logical Compare\n0050DD55: setnz   al; Set Byte if Not Zero (ZF=0)\n0050DD58: push    eax\n0050DD59: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD5E: mov     ecx, eax\n0050DD60: add     esp, 8; Add\n0050DD63: mov     [esp+50h+arg_0], ecx\n0050DD67: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DD6C: push    ecx; jumptable 0050DC8B case 235\n0050DD6D: xor     ecx, ecx; Logical Exclusive OR\n0050DD6F: test    esi, esi; Logical Compare\n0050DD71: setle   cl; Set Byte if Less or Equal (ZF=1 | SF!=OF)\n0050DD74: push    ecx\n0050DD75: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD7A: mov     ecx, eax\n0050DD7C: add     esp, 8; Add\n0050DD7F: mov     [esp+50h+arg_0], ecx\n0050DD83: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DD88: xor     edx, edx; jumptable 0050DC8B case 236\n0050DD8A: push    ecx\n0050DD8B: test    esi, esi; Logical Compare\n0050DD8D: setl    dl; Set Byte if Less (SF!=OF)\n0050DD90: push    edx\n0050DD91: call    Script_SkipS8_OrPlus2; E3c: convergence skip s8/+2; Eval = cible opaque\n0050DD96: mov     ecx, eax\n0050DD98: add     esp, 8; Add\n0050DD9B: mov     [esp+50h+arg_0], ecx\n0050DD9F: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DDA4: push    ecx; jumptable 0050DC8B case 237\n0050DDA5: push    1\n0050DDA7: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DDAC: mov     ecx, eax\n0050DDAE: add     esp, 8; Add\n0050DDB1: mov     [esp+50h+arg_0], ecx\n0050DDB5: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DDBA: xor     eax, eax; jumptable 0050DC8B case 238\n0050DDBC: push    ecx\n0050DDBD: test    esi, esi; Logical Compare\n0050DDBF: setnle  al; Set Byte if Not Less or Equal (ZF=0 & SF=OF)\n0050DDC2: push    eax\n0050DDC3: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DDC8: mov     ecx, eax\n0050DDCA: add     esp, 8; Add\n0050DDCD: mov     [esp+50h+arg_0], ecx\n0050DDD1: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DDD6: push    ecx; jumptable 0050DC8B case 239\n0050DDD7: xor     ecx, ecx; Logical Exclusive OR\n0050DDD9: test    esi, esi; Logical Compare\n0050DDDB: setnl   cl; Set Byte if Not Less (SF=OF)\n0050DDDE: push    ecx\n0050DDDF: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DDE4: mov     ecx, eax\n0050DDE6: add     esp, 8; Add\n0050DDE9: mov     [esp+50h+arg_0], ecx\n0050DDED: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DDF2: xor     edx, edx; jumptable 0050DC8B case 240\n0050DDF4: push    ecx\n0050DDF5: test    esi, esi; Logical Compare\n0050DDF7: setz    dl; Set Byte if Zero (ZF=1)\n0050DDFA: push    edx\n0050DDFB: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DE00: mov     ecx, eax\n0050DE02: add     esp, 8; Add\n0050DE05: mov     [esp+50h+arg_0], ecx\n0050DE09: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DE0E: xor     eax, eax; jumptable 0050DC8B case 241\n0050DE10: push    ecx\n0050DE11: test    esi, esi; Logical Compare\n0050DE13: setnz   al; Set Byte if Not Zero (ZF=0)\n0050DE16: push    eax\n0050DE17: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DE1C: mov     ecx, eax\n0050DE1E: add     esp, 8; Add\n0050DE21: mov     [esp+50h+arg_0], ecx\n0050DE25: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DE2A: push    ecx; jumptable 0050DC8B case 242\n0050DE2B: xor     ecx, ecx; Logical Exclusive OR\n0050DE2D: test    esi, esi; Logical Compare\n0050DE2F: setle   cl; Set Byte if Less or Equal (ZF=1 | SF!=OF)\n0050DE32: push    ecx\n0050DE33: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DE38: mov     ecx, eax\n0050DE3A: add     esp, 8; Add\n0050DE3D: mov     [esp+50h+arg_0], ecx\n0050DE41: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DE46: xor     edx, edx; jumptable 0050DC8B case 243\n0050DE48: push    ecx\n0050DE49: test    esi, esi; Logical Compare\n0050DE4B: setl    dl; Set Byte if Less (SF!=OF)\n0050DE4E: push    edx\n0050DE4F: call    Script_SkipU16BE_OrPlus3; E3c: idem u16BE/+3\n0050DE54: mov     ecx, eax\n0050DE56: add     esp, 8; Add\n0050DE59: mov     [esp+50h+arg_0], ecx\n0050DE5D: jmp     def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223\n0050DE62: mov     eax, [esp+50h+arg_0]\n0050DE66: pop     edi\n0050DE67: pop     esi\n0050DE68: pop     ebp\n0050DE69: pop     ebx\n0050DE6A: add     esp, 40h; Add\n0050DE6D: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x50db40",
+        "end": "0x50db57",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50db57",
+        "end": "0x50db61",
+        "successors": [
+          "0x50db61",
+          "0x50db85"
+        ]
+      },
+      {
+        "start": "0x50db61",
+        "end": "0x50db7f",
+        "successors": [
+          "0x50db7f",
+          "0x50de62"
+        ]
+      },
+      {
+        "start": "0x50db7f",
+        "end": "0x50db85",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50db85",
+        "end": "0x50db8d",
+        "successors": [
+          "0x50db8d",
+          "0x50dc74"
+        ]
+      },
+      {
+        "start": "0x50db8d",
+        "end": "0x50dba1",
+        "successors": [
+          "0x50dba1",
+          "0x50dc09"
+        ]
+      },
+      {
+        "start": "0x50dba1",
+        "end": "0x50dba8",
+        "successors": [
+          "0x50dba8",
+          "0x50dbbd",
+          "0x50dbc6",
+          "0x50dbcf"
+        ]
+      },
+      {
+        "start": "0x50dba8",
+        "end": "0x50dbbd",
+        "successors": [
+          "0x50dc05"
+        ]
+      },
+      {
+        "start": "0x50dbbd",
+        "end": "0x50dbc6",
+        "successors": [
+          "0x50dbf9"
+        ]
+      },
+      {
+        "start": "0x50dbc6",
+        "end": "0x50dbcf",
+        "successors": [
+          "0x50dbf9"
+        ]
+      },
+      {
+        "start": "0x50dbcf",
+        "end": "0x50dbe0",
+        "successors": [
+          "0x50dbe0",
+          "0x50dbf4"
+        ]
+      },
+      {
+        "start": "0x50dbe0",
+        "end": "0x50dbf4",
+        "successors": [
+          "0x50dbfe"
+        ]
+      },
+      {
+        "start": "0x50dbf4",
+        "end": "0x50dbf9",
+        "successors": [
+          "0x50dbf9"
+        ]
+      },
+      {
+        "start": "0x50dbf9",
+        "end": "0x50dbfe",
+        "successors": [
+          "0x50dbfe"
+        ]
+      },
+      {
+        "start": "0x50dbfe",
+        "end": "0x50dc05",
+        "successors": [
+          "0x50dc05"
+        ]
+      },
+      {
+        "start": "0x50dc05",
+        "end": "0x50dc09",
+        "successors": [
+          "0x50dc09"
+        ]
+      },
+      {
+        "start": "0x50dc09",
+        "end": "0x50dc1b",
+        "successors": [
+          "0x50db57",
+          "0x50dc1b"
+        ]
+      },
+      {
+        "start": "0x50dc1b",
+        "end": "0x50dc2a",
+        "successors": [
+          "0x50db57",
+          "0x50dc2a",
+          "0x50dc31",
+          "0x50dc38",
+          "0x50dc3f",
+          "0x50dc47",
+          "0x50dc53",
+          "0x50dc5a",
+          "0x50dc61",
+          "0x50dc68"
+        ]
+      },
+      {
+        "start": "0x50dc2a",
+        "end": "0x50dc31",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc31",
+        "end": "0x50dc38",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc38",
+        "end": "0x50dc3f",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc3f",
+        "end": "0x50dc47",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc47",
+        "end": "0x50dc53",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc53",
+        "end": "0x50dc5a",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc5a",
+        "end": "0x50dc61",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc61",
+        "end": "0x50dc68",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc68",
+        "end": "0x50dc74",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc74",
+        "end": "0x50dc8b",
+        "successors": [
+          "0x50db57",
+          "0x50dc8b"
+        ]
+      },
+      {
+        "start": "0x50dc8b",
+        "end": "0x50dc92",
+        "successors": [
+          "0x50dc92",
+          "0x50dc99",
+          "0x50dce6",
+          "0x50dcfc",
+          "0x50dd18",
+          "0x50dd34",
+          "0x50dd50",
+          "0x50dd6c",
+          "0x50dd88",
+          "0x50dda4",
+          "0x50ddba",
+          "0x50ddd6",
+          "0x50ddf2",
+          "0x50de0e",
+          "0x50de2a",
+          "0x50de46"
+        ]
+      },
+      {
+        "start": "0x50dc92",
+        "end": "0x50dc99",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dc99",
+        "end": "0x50dcad",
+        "successors": [
+          "0x50dcad",
+          "0x50dccf"
+        ]
+      },
+      {
+        "start": "0x50dcad",
+        "end": "0x50dccf",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dccf",
+        "end": "0x50dce6",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dce6",
+        "end": "0x50dcfc",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dcfc",
+        "end": "0x50dd18",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dd18",
+        "end": "0x50dd34",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dd34",
+        "end": "0x50dd50",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dd50",
+        "end": "0x50dd6c",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dd6c",
+        "end": "0x50dd88",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dd88",
+        "end": "0x50dda4",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50dda4",
+        "end": "0x50ddba",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50ddba",
+        "end": "0x50ddd6",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50ddd6",
+        "end": "0x50ddf2",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50ddf2",
+        "end": "0x50de0e",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50de0e",
+        "end": "0x50de2a",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50de2a",
+        "end": "0x50de46",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50de46",
+        "end": "0x50de62",
+        "successors": [
+          "0x50db57"
+        ]
+      },
+      {
+        "start": "0x50de62",
+        "end": "0x50de6e",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 48
+  }
+}

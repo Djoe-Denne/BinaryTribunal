@@ -1,0 +1,199 @@
+{
+  "ea": "0x50AFC0",
+  "name_label_only": "BattleActionSequence_SetupContext",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50afc0",
+      "end": "0x50b077",
+      "hex": "51a1509ad901807801f075278b54240033c9b8c472d901f640fc0274078038048bd17413059c000000413d9874d9017ce6eb0433d28a10a1909ad9016685c07505a15c9ad9015052e8f32200008b155c9ad90183c40866833d909ad9010074228bc233c95625ffff0000be01000000d3e685f07406880daa9ad9014183f9037ce95ea1509ad9016689157a9ad901a37c9ad901c605819ad901008a08c605839ad90100880d789ad9018a0d6d9ad901880d799ad90159c3"
+    }
+  ],
+  "assembly": "0050AFC0: push    ecx\n0050AFC1: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050AFC6: cmp     byte ptr [eax+1], 0F0h; Compare Two Operands\n0050AFCA: jnz     short loc_50AFF3; Jump if Not Zero (ZF=0)\n0050AFCC: mov     edx, [esp+4+var_4]\n0050AFD0: xor     ecx, ecx; Logical Exclusive OR\n0050AFD2: mov     eax, offset byte_1D972C4\n0050AFD7: test    byte ptr [eax-4], 2; Logical Compare\n0050AFDB: jz      short loc_50AFE4; Jump if Zero (ZF=1)\n0050AFDD: cmp     byte ptr [eax], 4; Compare Two Operands\n0050AFE0: mov     edx, ecx\n0050AFE2: jz      short loc_50AFF7; Jump if Zero (ZF=1)\n0050AFE4: add     eax, 9Ch; Add\n0050AFE9: inc     ecx; Increment by 1\n0050AFEA: cmp     eax, offset byte_1D97498; Compare Two Operands\n0050AFEF: jl      short loc_50AFD7; Jump if Less (SF!=OF)\n0050AFF1: jmp     short loc_50AFF7; Jump\n0050AFF3: xor     edx, edx; Logical Exclusive OR\n0050AFF5: mov     dl, [eax]\n0050AFF7: mov     eax, dword_1D99A90\n0050AFFC: test    ax, ax; Logical Compare\n0050AFFF: jnz     short loc_50B006; Jump if Not Zero (ZF=0)\n0050B001: mov     eax, dword_1D99A5C\n0050B006: push    eax\n0050B007: push    edx\n0050B008: call    sub_50D300; Call Procedure\n0050B00D: mov     edx, dword_1D99A5C\n0050B013: add     esp, 8; Add\n0050B016: cmp     word ptr dword_1D99A90, 0; Compare Two Operands\n0050B01E: jz      short loc_50B042; Jump if Zero (ZF=1)\n0050B020: mov     eax, edx\n0050B022: xor     ecx, ecx; Logical Exclusive OR\n0050B024: push    esi\n0050B025: and     eax, 0FFFFh; Logical AND\n0050B02A: mov     esi, 1\n0050B02F: shl     esi, cl; Shift Logical Left\n0050B031: test    eax, esi; Logical Compare\n0050B033: jz      short loc_50B03B; Jump if Zero (ZF=1)\n0050B035: mov     byte_1D99AAA, cl\n0050B03B: inc     ecx; Increment by 1\n0050B03C: cmp     ecx, 3; Compare Two Operands\n0050B03F: jl      short loc_50B02A; Jump if Less (SF!=OF)\n0050B041: pop     esi\n0050B042: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050B047: mov     word_1D99A7A, dx\n0050B04E: mov     dword_1D99A7C, eax\n0050B053: mov     byte_1D99A81, 0\n0050B05A: mov     cl, [eax]\n0050B05C: mov     byte_1D99A83, 0\n0050B063: mov     byte_1D99A78, cl\n0050B069: mov     cl, byte ptr dword_1D99A6C+1\n0050B06F: mov     byte_1D99A79, cl\n0050B075: pop     ecx\n0050B076: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50afc0",
+      "end": "0x50afcc",
+      "successors": [
+        "0x50afcc",
+        "0x50aff3"
+      ]
+    },
+    {
+      "start": "0x50afcc",
+      "end": "0x50afd7",
+      "successors": [
+        "0x50afd7"
+      ]
+    },
+    {
+      "start": "0x50afd7",
+      "end": "0x50afdd",
+      "successors": [
+        "0x50afdd",
+        "0x50afe4"
+      ]
+    },
+    {
+      "start": "0x50afdd",
+      "end": "0x50afe4",
+      "successors": [
+        "0x50afe4",
+        "0x50aff7"
+      ]
+    },
+    {
+      "start": "0x50afe4",
+      "end": "0x50aff1",
+      "successors": [
+        "0x50afd7",
+        "0x50aff1"
+      ]
+    },
+    {
+      "start": "0x50aff1",
+      "end": "0x50aff3",
+      "successors": [
+        "0x50aff7"
+      ]
+    },
+    {
+      "start": "0x50aff3",
+      "end": "0x50aff7",
+      "successors": [
+        "0x50aff7"
+      ]
+    },
+    {
+      "start": "0x50aff7",
+      "end": "0x50b001",
+      "successors": [
+        "0x50b001",
+        "0x50b006"
+      ]
+    },
+    {
+      "start": "0x50b001",
+      "end": "0x50b006",
+      "successors": [
+        "0x50b006"
+      ]
+    },
+    {
+      "start": "0x50b006",
+      "end": "0x50b020",
+      "successors": [
+        "0x50b020",
+        "0x50b042"
+      ]
+    },
+    {
+      "start": "0x50b020",
+      "end": "0x50b02a",
+      "successors": [
+        "0x50b02a"
+      ]
+    },
+    {
+      "start": "0x50b02a",
+      "end": "0x50b035",
+      "successors": [
+        "0x50b035",
+        "0x50b03b"
+      ]
+    },
+    {
+      "start": "0x50b035",
+      "end": "0x50b03b",
+      "successors": [
+        "0x50b03b"
+      ]
+    },
+    {
+      "start": "0x50b03b",
+      "end": "0x50b041",
+      "successors": [
+        "0x50b02a",
+        "0x50b041"
+      ]
+    },
+    {
+      "start": "0x50b041",
+      "end": "0x50b042",
+      "successors": [
+        "0x50b042"
+      ]
+    },
+    {
+      "start": "0x50b042",
+      "end": "0x50b077",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50aa2d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50a9a0"
+    },
+    {
+      "from": "0x50b141",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b0c0"
+    },
+    {
+      "from": "0x50b20a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b190"
+    },
+    {
+      "from": "0x50b2f7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b2a0"
+    },
+    {
+      "from": "0x50b8ac",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50b830"
+    },
+    {
+      "from": "0x50bb74",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bb00"
+    },
+    {
+      "from": "0x50bc90",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bc20"
+    },
+    {
+      "from": "0x50be4c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bdc0"
+    },
+    {
+      "from": "0x50bf42",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50bee0"
+    }
+  ],
+  "code_targets": [
+    "0x50d300"
+  ],
+  "instruction_count": 54
+}

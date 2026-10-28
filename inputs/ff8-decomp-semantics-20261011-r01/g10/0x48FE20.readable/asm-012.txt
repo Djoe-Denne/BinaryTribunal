@@ -1,0 +1,25 @@
+0049036B: mov     al, dl
+0049036D: mov     edi, eax
+0049036F: lea     edi, [edi+edi*2]; Load Effective Address
+00490372: shl     edi, 3; Shift Logical Left
+00490375: mov     al, K_RENZOKUKEN_FINISHER.elementAttackPercent[edi]
+0049037B: mov     HIT_ELEMENT_PERCENT, al
+00490380: mov     al, K_RENZOKUKEN_FINISHER.elementAttack[edi]
+00490386: mov     HIT_ELEMENT, al
+0049038B: mov     al, K_RENZOKUKEN_FINISHER.statusAttackEnabler[edi]
+00490391: mov     HIT_ATTACK_ENABLER, al
+00490396: mov     ax, K_RENZOKUKEN_FINISHER.status0[edi]
+0049039D: mov     HIT_STATUS_1, ax; | ID     | Description |
+004903A3: mov     eax, K_RENZOKUKEN_FINISHER.status1[edi]
+004903A9: mov     HIT_STATUS_2, eax; | ID         | Description |
+004903AE: jmp     short loc_490423; Jump
+004903B0: lea     eax, [ebx+ebx*2]; jumptable 0048FF2F default case, cases 1,3,5,9-12,28,35-37,39-235,242,243,246,248,250,252,253
+004903B3: lea     edi, [ebx+eax*4]; Load Effective Address
+004903B6: shl     edi, 4; Shift Logical Left
+004903B9: mov     al, BATTLE_SLOT_DATA.hit_element_percent[edi]
+004903BF: mov     HIT_ELEMENT_PERCENT, al
+004903C4: mov     al, BATTLE_SLOT_DATA.hit_element[edi]
+004903CA: mov     HIT_ELEMENT, al
+004903CF: mov     al, BATTLE_SLOT_DATA.attack_enabler[edi]
+004903D5: mov     HIT_ATTACK_ENABLER, al
+004903DA: mov     ax, BATTLE_SLOT_DATA.hit_status_1[edi]

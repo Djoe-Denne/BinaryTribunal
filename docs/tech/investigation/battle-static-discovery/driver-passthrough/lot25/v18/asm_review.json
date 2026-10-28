@@ -1,0 +1,37 @@
+{
+  "schema": "lot25-v18-parent-static-review-v1",
+  "candidate_sha256": "d36f7366d16961adcf5ec670f840907d715fa28d687e3f67812cbc8cc7633265",
+  "map_sha256": "5956898cec5548be9d89859ccb3cbefd71d3004e3a391de546bb2a5d2dc42687",
+  "evidence": "lifecycle_disasm_excerpt.txt (full listing: candidate.disasm.txt)",
+  "activation": {
+    "rva": "0x2140",
+    "pin_flags_push_rva": "0x21DE",
+    "pin_flags": "0x5 = FROM_ADDRESS | PIN",
+    "pin_call_rva": "0x21E0",
+    "success_test_rva": "0x21E6",
+    "self_handle_compare_rva": "0x21EE",
+    "refusal_branch_rva": "0x2250",
+    "pinned_exchange_rva": "0x21FB",
+    "installer_call_rva": "0x2210",
+    "installer_rva": "0x61D0"
+  },
+  "present": {
+    "detour_rva": "0x5B70",
+    "wrap_call_rva": "0x5B77",
+    "wrap_rva": "0x5AB0",
+    "common_activation_call_rva": "0x5AD1",
+    "frame_pulse_call_rva": "0x5AD9"
+  },
+  "lifecycle_record": {
+    "rva": "0x67F0",
+    "calls": ["GetLastError", "GetCurrentThreadId", "WriteFile", "SetLastError", "__security_check_cookie"],
+    "dllmain_detach_record_call_rva": "0x6AD9",
+    "dllmain_detach_close_handle_rva": "0x6AEC"
+  },
+  "verdict": "STATIC_ORDER_VERIFIED_NOT_A_RUNTIME_GATE",
+  "limits": [
+    "Function ranges in excerpt include padding; final DllMain range also includes start of following CRT helper",
+    "PIN residence, injection failures, actual Present activation and process exit require separate native gates",
+    "Legacy attach CSV and pre-PIN generic hooks remain outside stage0 lifecycle correction"
+  ]
+}

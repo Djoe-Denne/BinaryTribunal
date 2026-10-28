@@ -1,0 +1,25 @@
+00510180: mov     eax, dword_1D99C18
+00510185: lea     edx, [ecx+400000h]; Load Effective Address
+0051018B: mov     dword ptr [eax], 9000000h
+00510191: mov     [eax+14h], edx
+00510194: mov     eax, dword_1D99C1C
+00510199: mov     edx, [eax+8]
+0051019C: mov     eax, dword_1D99C18
+005101A1: mov     [eax+0Ch], edx
+005101A4: mov     edx, dword_1D99C18
+005101AA: mov     [edx+14h], ecx
+005101AD: mov     eax, dword_1D99C1C
+005101B2: mov     edx, dword_1D99C18
+005101B8: mov     cx, [eax+10h]
+005101BC: mov     [edx+1Ch], cx
+005101C0: mov     eax, dword_1D99C1C
+005101C5: mov     edx, dword_1D99C18
+005101CB: mov     ecx, [eax+10h]
+005101CE: shr     ecx, 10h; Shift Logical Right
+005101D1: mov     [edx+24h], cx
+005101D5: jmp     short loc_510238; Jump
+005101D7: mov     ecx, [esp+38h+var_14]
+005101DB: test    ecx, 0FE000000h; Logical Compare
+005101E1: jz      short loc_5101E8; Jump if Zero (ZF=1)
+005101E3: or      eax, offset unk_2000000; Logical Inclusive OR
+005101E8: mov     edx, dword_1D99C18

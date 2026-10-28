@@ -1,0 +1,25 @@
+00510D7E: add     eax, 20h ; ' '; Add
+00510D81: mov     dword_1D99C18, eax
+00510D86: mov     eax, dword_1D99C1C
+00510D8B: mov     edi, [esp+44h+var_34]
+00510D8F: mov     ecx, [esp+44h+var_24]
+00510D93: add     eax, 14h; Add
+00510D96: dec     ecx; Decrement by 1
+00510D97: mov     dword_1D99C1C, eax
+00510D9C: mov     [esp+44h+var_24], ecx
+00510DA0: jnz     loc_510B7B; Jump if Not Zero (ZF=0)
+00510DA6: mov     edx, [esp+44h+ctx]
+00510DAA: xor     ecx, ecx; Logical Exclusive OR
+00510DAC: mov     cx, [edx+0Eh]
+00510DB0: test    ecx, ecx; Logical Compare
+00510DB2: jz      loc_511075; Jump if Zero (ZF=1)
+00510DB8: jle     loc_511075; Jump if Less or Equal (ZF=1 | SF!=OF)
+00510DBE: mov     ebp, [esp+44h+var_34]
+00510DC2: mov     [esp+44h+var_14], ecx
+00510DC6: mov     di, [eax+6]
+00510DCA: mov     dx, [eax+2]
+00510DCE: mov     si, [eax+4]
+00510DD2: mov     cx, [eax]
+00510DD5: and     edi, 0FFFFh; Logical AND
+00510DDB: and     esi, 0FFFFh; Logical AND
+00510DE1: and     edx, 0FFFFh; Logical AND

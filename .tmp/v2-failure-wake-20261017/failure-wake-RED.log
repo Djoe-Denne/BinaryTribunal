@@ -1,0 +1,150 @@
+bun test v1.4.2 (744846f84)
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] nudge:idle-without-report name=alice
+[ensemble] nudge:idle-without-report:failed name=alice err=Model selection denied: native effective model cannot be verified
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] tool-arg-hint:fired tool=shell session=ses_alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] system-prompt:injected role=lead len=3731
+[ensemble] system-prompt:injected role=member len=968
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] nudge:idle-without-report name=alice
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+[ensemble] init:registry:rehydrated members=2
+[ensemble] init:rpc:failed err=undefined is not an object (evaluating 'ctx.rpc.register')
+
+test\v2-events.test.ts:
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.status idle transitions a busy member to ready [20.04ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.idle is equivalent to status idle [13.91ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.execution.started marks busy, succeeded marks ready [10.19ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.created tracks parent for sub-agent isolation [11.68ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > session.retry.scheduled persists retry columns without changing status [10.14ms]
+(pass) v2-events (issue #36, DRY: reuses hooks.ts) > unknown sessions and unrelated event types are ignored [10.36ms]
+91 |   test("native failed execution is an error, not a successful ready member", () => {
+92 |     const { db, registry, tracker } = seedTeam()
+93 |     try {
+94 |       const event = { id: "evt_failure_one", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { type: "provider.internal", message: "Cursor capacity_limit" } } }
+95 |       const result = dispatchV2Event(db, registry, tracker, event)
+96 |       expect(result).toMatchObject({ memberName: "alice", from: "busy", to: "error" })
+                          ^
+error: expect(received).toMatchObject(expected)
+
+  {
+    "from": "busy",
+    "memberName": "alice",
+-   "to": "error",
++   "teamId": "team1",
++   "to": "ready",
+  }
+
+- Expected  - 1
++ Received  + 2
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-events.test.ts:96:22)
+(fail) v2-events (issue #36, DRY: reuses hooks.ts) > native failed execution is an error, not a successful ready member [17.91ms]
+107 |     const { db, registry, tracker } = seedTeam()
+108 |     try {
+109 |       dispatchV2Event(db, registry, tracker, { id: "evt_failure_sticky", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "provider failed" } } })
+110 |       expect(dispatchV2Event(db, registry, tracker, statusEvent("ses_alice", "idle"))).toBeUndefined()
+111 |       expect(dispatchV2Event(db, registry, tracker, { type: "session.execution.succeeded", data: { sessionID: "ses_alice" } })).toBeUndefined()
+112 |       expect(db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({ status: "error" })
+                                                                                        ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "status": "error",
++   "status": "ready",
+  }
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-events.test.ts:112:83)
+(fail) v2-events (issue #36, DRY: reuses hooks.ts) > idle/succeeded after failure cannot erase the error or revive the worker [10.39ms]
+118 |     try {
+119 |       const failure = { id: "evt_failure_replay", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "failed" } } }
+120 |       dispatchV2Event(db, registry, tracker, failure)
+121 |       dispatchV2Event(db, registry, tracker, { type: "session.execution.started", data: { sessionID: "ses_alice" } })
+122 |       dispatchV2Event(db, registry, tracker, failure)
+123 |       expect(db.query("SELECT status FROM team_member WHERE name='alice'").get()).toEqual({ status: "busy" })
+                                                                                        ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "status": "busy",
++   "status": "ready",
+  }
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-events.test.ts:123:83)
+(fail) v2-events (issue #36, DRY: reuses hooks.ts) > durable failure replay cannot corrupt a later execution or duplicate its report [11.64ms]
+130 |     try {
+131 |       for (const id of ["evt_failure_first", "evt_failure_second"]) {
+132 |         dispatchV2Event(db, registry, tracker, { type: "session.execution.started", data: { sessionID: "ses_alice" } })
+133 |         dispatchV2Event(db, registry, tracker, { id, type: "session.execution.failed", data: { sessionID: "ses_alice", error: { message: "capacity_limit" } } })
+134 |       }
+135 |       expect(db.query("SELECT COUNT(*) n FROM team_message WHERE to_name='lead'").get()).toEqual({ n: 2 })
+                                                                                               ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "n": 2,
++   "n": 0,
+  }
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-events.test.ts:135:90)
+(fail) v2-events (issue #36, DRY: reuses hooks.ts) > a distinct failed execution after explicit restart produces a new report [10.19ms]
+
+test\v2-setup.test.ts:
+(pass) v2-setup (issue #36) > registers the native mission command and disposes it with its location [18.44ms]
+(pass) v2-setup (issue #36) > all native request transports enforce selection and dynamic revocation before provider calls [16.19ms]
+(pass) v2-setup (issue #36) > dispatched status events flow to member state [13.02ms]
+(pass) v2-setup (issue #36) > the setup event stream leaves foreign mission transitions for their owner [12.08ms]
+144 |       const failure = { id: "evt_failure_wake", type: "session.execution.failed", data: { sessionID: "ses_alice", error: { type: "provider.internal", message: "Cursor capacity_limit" } } }
+145 |       await handle.dispatch(failure)
+146 |       await handle.dispatch(failure)
+147 |       await handle.dispatch({ type: "session.idle", data: { sessionID: "ses_alice" } })
+148 |       await new Promise(resolve => setImmediate(resolve))
+149 |       expect(synthetics.map(x => x.sessionID)).toEqual(["ses_lead"])
+                                                     ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "ses_lead",
+- ]
++ []
+
+- Expected  - 3
++ Received  + 1
+
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-v2-failure-wake-20261017\test\v2-setup.test.ts:149:48)
+(fail) v2-setup (issue #36) > failed V2 worker wakes only the lead once, never retries the worker or emits success [17.11ms]
+(pass) v2-setup (issue #36) > foreign and archived worker failures cannot wake this supervisor [12.81ms]
+(pass) v2-setup (issue #36) > tool execute.before blocks team tools for sub-agents [11.24ms]
+(pass) v2-setup (issue #36) > tool execute.after enriches shell arg-fumble errors (issue #39) [11.70ms]
+(pass) v2-setup (issue #36) > tool execute.after leaves non-fumble errors untouched (issue #39) [11.16ms]
+(pass) v2-setup (issue #36) > shell hook is registered (per-session env unavailable on V2 — see OQ-V2-shell) [10.66ms]
+(pass) v2-setup (issue #36) > session context hook appends team system prompt for team sessions [15.06ms]
+(pass) v2-setup (issue #36) > dashboard serves team state on the configured port [28.99ms]
+(pass) v2-setup (issue #36) > extractQuestionOutput reads string and part-array results [0.07ms]
+(pass) v2-setup (issue #36) > context hook blocks native auto-wakes while an inherited spawn is being prepared [10.79ms]
+(pass) v2-setup (issue #36) > setup rehydrates registry and nudges already-idle silent members [43.04ms]
+
+ 20 pass
+ 5 fail
+ 94 expect() calls
+Ran 25 tests across 2 files. [763.00ms]

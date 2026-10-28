@@ -1,0 +1,25 @@
+0048943D: jnz     short loc_48945A; Jump if Not Zero (ZF=0)
+0048943F: mov     [esp+74h+text_buffer_ptr], 1
+00489447: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048944C: cmp     eax, 3; Compare Two Operands
+0048944F: jnz     short loc_489473; Jump if Not Zero (ZF=0)
+00489451: mov     eax, SG_COUNTDOWN
+00489456: test    eax, eax; Logical Compare
+00489458: jnz     short loc_48943F; Jump if Not Zero (ZF=0)
+0048945A: mov     edx, [esp+74h+jump_value]
+0048945E: mov     [esp+74h+text_buffer_ptr], 0
+00489466: and     edx, 0FFFFh; Logical AND
+0048946C: add     esi, edx; Add
+0048946E: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489473: mov     eax, [esp+74h+text_buffer_ptr]
+00489477: test    eax, eax; Logical Compare
+00489479: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+0048947F: mov     edx, [esp+74h+jump_value]
+00489483: and     edx, 0FFFFh; Logical AND
+00489489: add     esi, edx; Add
+0048948B: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489490: xor     ebp, ebp; jumptable 004887D6 case 17
+00489492: xor     ecx, ecx; Logical Exclusive OR
+00489494: mov     [esp+74h+p_ai_current_subcode], ecx
+00489498: mov     eax, offset BATTLE_SLOT_DATA.status_1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048949D: test    byte ptr [eax-4], 1; Logical Compare

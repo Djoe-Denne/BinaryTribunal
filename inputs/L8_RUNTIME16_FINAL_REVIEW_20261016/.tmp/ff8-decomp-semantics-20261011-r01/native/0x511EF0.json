@@ -1,0 +1,236 @@
+{
+  "ea": "0x511EF0",
+  "name_label_only": "sub_511EF0",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x511ef0",
+      "end": "0x51215f",
+      "hex": "53568b74240c33db668b460c0fbfc82bcb0f844a0200005549570f853a02000053e8ba9100006a01e8b391000083c408e8abf0feff668b460e0fbfc883f9060f8715020000ff248d60215100b90400000066090dc072d90166090df873d901f605c072d901020f84ee010000405f6689460e5d5e33c05bc36a4053c605886ad90101e80966ffff83c40885c00f85c801000066ff460e5f5d5e5bc333c9bf02000000bd000800008d04896a1ac1e0032bc1c1e002668180e072d90170176689a8ce72d9018d80c072d90150e8403cffff83c4084fb90200000075cc66ff460e5f66895e105d5e33c05bc3b9fbff00005f66210dc072d90166210df873d9014066895e106689460e5d5e33c05bc333c966ff4610668b6e10b8676666660fbfd5c1e20cf7eac1fa038bc2bf02000000c1e81f03d08bc2c1e0042bc2f7d88d04808d1480c1e204c1fa0c8d0489c1e0032bc1c1e002668b88d872d9016603ca81c1701700004f668988e072d901b90200000075d683e5076683fd03750968800000005351eb0e6683fd0775106880000000536a03e8b9f6feff83c40c66837e10140f8cb50000006a0153e893f7f9ff6a016a02e88af7f9ff68c072d901e8607bffff5068c072d901e8453bffff68f873d901e84b7bffff5068f873d901e8303bffff83c42866ff460e66895e1066891dce72d9015f5d66891d0674d9015e33c05bc3668b4610663d05007d13405f668946105d5ec605886ad9010133c05bc38b15f49ed90152e88778ffff6a10689474d901e8db3affff83c40c66ff460e33c05f5d5e5bc3381d1877d901750f66c7051e77d901001066c7460effff5f5d5e33c05bc34066895e0e6689460c5e33c05bc3"
+    }
+  ],
+  "assembly": "00511EF0: push    ebx\n00511EF1: push    esi\n00511EF2: mov     esi, [esp+8+arg_0]\n00511EF6: xor     ebx, ebx; Logical Exclusive OR\n00511EF8: mov     ax, [esi+0Ch]\n00511EFC: movsx   ecx, ax; Move with Sign-Extend\n00511EFF: sub     ecx, ebx; Integer Subtraction\n00511F01: jz      loc_512151; Jump if Zero (ZF=1)\n00511F07: push    ebp\n00511F08: dec     ecx; Decrement by 1\n00511F09: push    edi\n00511F0A: jnz     def_511F35; jumptable 00511F35 default case\n00511F10: push    ebx\n00511F11: call    au_re_BS_Effect_DeformCompression; Call Procedure\n00511F16: push    1\n00511F18: call    au_re_BS_Effect_DeformCompression; Call Procedure\n00511F1D: add     esp, 8; Add\n00511F20: call    BS_RenderRelated; Call Procedure\n00511F25: mov     ax, [esi+0Eh]\n00511F29: movsx   ecx, ax; Move with Sign-Extend\n00511F2C: cmp     ecx, 6; switch 7 cases\n00511F2F: ja      def_511F35; jumptable 00511F35 default case\n00511F35: jmp     ds:jpt_511F35[ecx*4]; switch jump\n00511F3C: mov     ecx, 4; jumptable 00511F35 case 0\n00511F41: or      word ptr g_BattlePresentationActors, cx; Logical Inclusive OR\n00511F48: or      word ptr dword_1D973F8, cx; Logical Inclusive OR\n00511F4F: test    byte ptr g_BattlePresentationActors, 2; Logical Compare\n00511F56: jz      def_511F35; jumptable 00511F35 default case\n00511F5C: inc     eax; Increment by 1\n00511F5D: pop     edi\n00511F5E: mov     [esi+0Eh], ax\n00511F62: pop     ebp\n00511F63: pop     esi\n00511F64: xor     eax, eax; Logical Exclusive OR\n00511F66: pop     ebx\n00511F67: retn; Return Near from Procedure\n00511F68: push    40h ; '@'; jumptable 00511F35 case 1\n00511F6A: push    ebx\n00511F6B: mov     byte_1D96A88, 1\n00511F72: call    BattleActor_FindFlag2_Match; E3c: lu: walk stride 9C + 508540 opaque + retour 1er hit\n00511F77: add     esp, 8; Add\n00511F7A: test    eax, eax; Logical Compare\n00511F7C: jnz     def_511F35; jumptable 00511F35 default case\n00511F82: inc     word ptr [esi+0Eh]; Increment by 1\n00511F86: pop     edi\n00511F87: pop     ebp\n00511F88: pop     esi\n00511F89: pop     ebx\n00511F8A: retn; Return Near from Procedure\n00511F8B: xor     ecx, ecx; jumptable 00511F35 case 2\n00511F8D: mov     edi, 2\n00511F92: mov     ebp, 800h\n00511F97: lea     eax, [ecx+ecx*4]; Load Effective Address\n00511F9A: push    1Ah; animId\n00511F9C: shl     eax, 3; Shift Logical Left\n00511F9F: sub     eax, ecx; Integer Subtraction\n00511FA1: shl     eax, 2; Shift Logical Left\n00511FA4: add     word ptr dword_1D972E0[eax], 1770h; Add\n00511FAD: mov     word ptr (dword_1D972CC+2)[eax], bp\n00511FB4: lea     eax, g_BattlePresentationActors[eax]; Load Effective Address\n00511FBA: push    eax; actor\n00511FBB: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n00511FC0: add     esp, 8; Add\n00511FC3: dec     edi; Decrement by 1\n00511FC4: mov     ecx, 2\n00511FC9: jnz     short loc_511F97; Jump if Not Zero (ZF=0)\n00511FCB: inc     word ptr [esi+0Eh]; Increment by 1\n00511FCF: pop     edi\n00511FD0: mov     [esi+10h], bx\n00511FD4: pop     ebp\n00511FD5: pop     esi\n00511FD6: xor     eax, eax; Logical Exclusive OR\n00511FD8: pop     ebx\n00511FD9: retn; Return Near from Procedure\n00511FDA: mov     ecx, 0FFFBh; jumptable 00511F35 case 3\n00511FDF: pop     edi\n00511FE0: and     word ptr g_BattlePresentationActors, cx; Logical AND\n00511FE7: and     word ptr dword_1D973F8, cx; Logical AND\n00511FEE: inc     eax; Increment by 1\n00511FEF: mov     [esi+10h], bx\n00511FF3: mov     [esi+0Eh], ax\n00511FF7: pop     ebp\n00511FF8: pop     esi\n00511FF9: xor     eax, eax; Logical Exclusive OR\n00511FFB: pop     ebx\n00511FFC: retn; Return Near from Procedure\n00511FFD: xor     ecx, ecx; jumptable 00511F35 case 4\n00511FFF: inc     word ptr [esi+10h]; Increment by 1\n00512003: mov     bp, [esi+10h]\n00512007: mov     eax, 66666667h\n0051200C: movsx   edx, bp; Move with Sign-Extend\n0051200F: shl     edx, 0Ch; Shift Logical Left\n00512012: imul    edx; Signed Multiply\n00512014: sar     edx, 3; Shift Arithmetic Right\n00512017: mov     eax, edx\n00512019: mov     edi, 2\n0051201E: shr     eax, 1Fh; Shift Logical Right\n00512021: add     edx, eax; Add\n00512023: mov     eax, edx\n00512025: shl     eax, 4; Shift Logical Left\n00512028: sub     eax, edx; Integer Subtraction\n0051202A: neg     eax; Two's Complement Negation\n0051202C: lea     eax, [eax+eax*4]; Load Effective Address\n0051202F: lea     edx, [eax+eax*4]; Load Effective Address\n00512032: shl     edx, 4; Shift Logical Left\n00512035: sar     edx, 0Ch; Shift Arithmetic Right\n00512038: lea     eax, [ecx+ecx*4]; Load Effective Address\n0051203B: shl     eax, 3; Shift Logical Left\n0051203E: sub     eax, ecx; Integer Subtraction\n00512040: shl     eax, 2; Shift Logical Left\n00512043: mov     cx, word_1D972D8[eax]\n0051204A: add     cx, dx; Add\n0051204D: add     ecx, 1770h; Add\n00512053: dec     edi; Decrement by 1\n00512054: mov     word ptr dword_1D972E0[eax], cx\n0051205B: mov     ecx, 2\n00512060: jnz     short loc_512038; Jump if Not Zero (ZF=0)\n00512062: and     ebp, 7; Logical AND\n00512065: cmp     bp, 3; Compare Two Operands\n00512069: jnz     short loc_512074; Jump if Not Zero (ZF=0)\n0051206B: push    80h\n00512070: push    ebx\n00512071: push    ecx\n00512072: jmp     short loc_512082; Jump\n00512074: cmp     bp, 7; Compare Two Operands\n00512078: jnz     short loc_51208A; Jump if Not Zero (ZF=0)\n0051207A: push    80h\n0051207F: push    ebx\n00512080: push    3\n00512082: call    BdPlaySy; Call Procedure\n00512087: add     esp, 0Ch; Add\n0051208A: cmp     word ptr [esi+10h], 14h; Compare Two Operands\n0051208F: jl      def_511F35; jumptable 00511F35 default case\n00512095: push    1\n00512097: push    ebx\n00512098: call    BattleUI_SetCharaByte51_stride108; E3c: +stride explicite\n0051209D: push    1\n0051209F: push    2\n005120A1: call    BattleUI_SetCharaByte51_stride108; E3c: +stride explicite\n005120A6: push    offset g_BattlePresentationActors; actor\n005120AB: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés\n005120B0: push    eax; animId\n005120B1: push    offset g_BattlePresentationActors; actor\n005120B6: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n005120BB: push    offset dword_1D973F8; actor\n005120C0: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés\n005120C5: push    eax; animId\n005120C6: push    offset dword_1D973F8; actor\n005120CB: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n005120D0: add     esp, 28h; Add\n005120D3: inc     word ptr [esi+0Eh]; Increment by 1\n005120D7: mov     [esi+10h], bx\n005120DB: mov     word ptr dword_1D972CC+2, bx\n005120E2: pop     edi\n005120E3: pop     ebp\n005120E4: mov     word_1D97406, bx\n005120EB: pop     esi\n005120EC: xor     eax, eax; Logical Exclusive OR\n005120EE: pop     ebx\n005120EF: retn; Return Near from Procedure\n005120F0: mov     ax, [esi+10h]; jumptable 00511F35 case 5\n005120F4: cmp     ax, 5; Compare Two Operands\n005120F8: jge     short loc_51210D; Jump if Greater or Equal (SF=OF)\n005120FA: inc     eax; Increment by 1\n005120FB: pop     edi\n005120FC: mov     [esi+10h], ax\n00512100: pop     ebp\n00512101: pop     esi\n00512102: mov     byte_1D96A88, 1\n00512109: xor     eax, eax; Logical Exclusive OR\n0051210B: pop     ebx\n0051210C: retn; Return Near from Procedure\n0051210D: mov     edx, resource\n00512113: push    edx; resource\n00512114: call    BattleCamera_BindResource; Resource-binding wrapper only; resolves VM and animation-collection sections through 0x509970. It does not start or play a camera clip.\n00512119: push    10h; animId\n0051211B: push    offset word_1D97494; actor\n00512120: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs\n00512125: add     esp, 0Ch; Add\n00512128: inc     word ptr [esi+0Eh]; Increment by 1\n0051212C: xor     eax, eax; Logical Exclusive OR\n0051212E: pop     edi\n0051212F: pop     ebp\n00512130: pop     esi\n00512131: pop     ebx\n00512132: retn; Return Near from Procedure\n00512133: cmp     byte ptr g_BattleCameraFlags, bl; jumptable 00511F35 case 6\n00512139: jnz     short def_511F35; jumptable 00511F35 default case\n0051213B: mov     word_1D9771E, 1000h\n00512144: mov     word ptr [esi+0Eh], 0FFFFh\n0051214A: pop     edi; jumptable 00511F35 default case\n0051214B: pop     ebp\n0051214C: pop     esi\n0051214D: xor     eax, eax; Logical Exclusive OR\n0051214F: pop     ebx\n00512150: retn; Return Near from Procedure\n00512151: inc     eax; Increment by 1\n00512152: mov     [esi+0Eh], bx\n00512156: mov     [esi+0Ch], ax\n0051215A: pop     esi\n0051215B: xor     eax, eax; Logical Exclusive OR\n0051215D: pop     ebx\n0051215E: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x511ef0",
+      "end": "0x511f07",
+      "successors": [
+        "0x511f07",
+        "0x512151"
+      ]
+    },
+    {
+      "start": "0x511f07",
+      "end": "0x511f10",
+      "successors": [
+        "0x511f10",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x511f10",
+      "end": "0x511f35",
+      "successors": [
+        "0x511f35",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x511f35",
+      "end": "0x511f3c",
+      "successors": [
+        "0x511f3c",
+        "0x511f68",
+        "0x511f8b",
+        "0x511fda",
+        "0x511ffd",
+        "0x5120f0",
+        "0x512133"
+      ]
+    },
+    {
+      "start": "0x511f3c",
+      "end": "0x511f5c",
+      "successors": [
+        "0x511f5c",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x511f5c",
+      "end": "0x511f68",
+      "successors": []
+    },
+    {
+      "start": "0x511f68",
+      "end": "0x511f82",
+      "successors": [
+        "0x511f82",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x511f82",
+      "end": "0x511f8b",
+      "successors": []
+    },
+    {
+      "start": "0x511f8b",
+      "end": "0x511f97",
+      "successors": [
+        "0x511f97"
+      ]
+    },
+    {
+      "start": "0x511f97",
+      "end": "0x511fcb",
+      "successors": [
+        "0x511fcb",
+        "0x511f97"
+      ]
+    },
+    {
+      "start": "0x511fcb",
+      "end": "0x511fda",
+      "successors": []
+    },
+    {
+      "start": "0x511fda",
+      "end": "0x511ffd",
+      "successors": []
+    },
+    {
+      "start": "0x511ffd",
+      "end": "0x512038",
+      "successors": [
+        "0x512038"
+      ]
+    },
+    {
+      "start": "0x512038",
+      "end": "0x512062",
+      "successors": [
+        "0x512062",
+        "0x512038"
+      ]
+    },
+    {
+      "start": "0x512062",
+      "end": "0x51206b",
+      "successors": [
+        "0x51206b",
+        "0x512074"
+      ]
+    },
+    {
+      "start": "0x51206b",
+      "end": "0x512074",
+      "successors": [
+        "0x512082"
+      ]
+    },
+    {
+      "start": "0x512074",
+      "end": "0x51207a",
+      "successors": [
+        "0x51207a",
+        "0x51208a"
+      ]
+    },
+    {
+      "start": "0x51207a",
+      "end": "0x512082",
+      "successors": [
+        "0x512082"
+      ]
+    },
+    {
+      "start": "0x512082",
+      "end": "0x51208a",
+      "successors": [
+        "0x51208a"
+      ]
+    },
+    {
+      "start": "0x51208a",
+      "end": "0x512095",
+      "successors": [
+        "0x512095",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x512095",
+      "end": "0x5120f0",
+      "successors": []
+    },
+    {
+      "start": "0x5120f0",
+      "end": "0x5120fa",
+      "successors": [
+        "0x5120fa",
+        "0x51210d"
+      ]
+    },
+    {
+      "start": "0x5120fa",
+      "end": "0x51210d",
+      "successors": []
+    },
+    {
+      "start": "0x51210d",
+      "end": "0x512133",
+      "successors": []
+    },
+    {
+      "start": "0x512133",
+      "end": "0x51213b",
+      "successors": [
+        "0x51213b",
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x51213b",
+      "end": "0x51214a",
+      "successors": [
+        "0x51214a"
+      ]
+    },
+    {
+      "start": "0x51214a",
+      "end": "0x512151",
+      "successors": []
+    },
+    {
+      "start": "0x512151",
+      "end": "0x51215f",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x511e19",
+      "type": 1,
+      "iscode": false,
+      "function": "0x511db0"
+    }
+  ],
+  "code_targets": [
+    "0x4b1830",
+    "0x500fd0",
+    "0x501740",
+    "0x505c00",
+    "0x508580",
+    "0x5099a0",
+    "0x509c10",
+    "0x51b0d0"
+  ],
+  "instruction_count": 203
+}

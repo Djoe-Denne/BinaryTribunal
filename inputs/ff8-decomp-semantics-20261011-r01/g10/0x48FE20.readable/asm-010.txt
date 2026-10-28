@@ -1,0 +1,25 @@
+00490265: mov     HIT_ATTACK_HITPERCENT, al
+0049026A: mov     al, K_ITEM.element[edi]
+00490270: mov     HIT_ELEMENT, al
+00490275: mov     al, K_ITEM.statusAttackEnabler[edi]
+0049027B: mov     HIT_ATTACK_ENABLER, al
+00490280: mov     ax, K_ITEM.status0[edi]
+00490287: mov     HIT_STATUS_1, ax; | ID     | Description |
+0049028D: mov     eax, K_ITEM.status1[edi]
+00490293: mov     HIT_STATUS_2, eax; | ID         | Description |
+00490298: jmp     loc_490423; Jump
+0049029D: mov     edi, ecx; jumptable 0048FF2F cases 8,236
+0049029F: and     edi, 0FFFFh; Logical AND
+004902A5: lea     edi, [edi+edi*4]; Load Effective Address
+004902A8: shl     edi, 2; Shift Logical Left
+004902AB: mov     al, K_ENEMY_ATTACK.attackElement[edi]
+004902B1: mov     HIT_ELEMENT, al
+004902B6: mov     al, K_ENEMY_ATTACK.statusAttackEnabler[edi]
+004902BC: mov     HIT_ATTACK_ENABLER, al
+004902C1: mov     ax, K_ENEMY_ATTACK.status0[edi]
+004902C8: mov     HIT_STATUS_1, ax; | ID     | Description |
+004902CE: mov     eax, K_ENEMY_ATTACK.status1[edi]
+004902D4: mov     HIT_STATUS_2, eax; | ID         | Description |
+004902D9: mov     al, K_ENEMY_ATTACK.attackParameter[edi]
+004902DF: mov     HIT_ATTACK_HITPERCENT, al
+004902E4: mov     al, K_ENEMY_ATTACK.attackCritBonus[edi]

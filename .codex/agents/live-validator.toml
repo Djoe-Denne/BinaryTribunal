@@ -1,7 +1,7 @@
 name = "live-validator"
 description = "Exécute des campagnes de validation live FF8 (debugger IDA sur processus vivant, hypothèses exécutables, evidence dynamique) après filtrage de nécessité. Use proactively quand l'orchestrator lance une campagne live, un ancrage live contraint, une session de promotion G10+ ou un pack L-pack, sur demande explicite de l'utilisateur uniquement."
-model = "glm-5.3"
-model_reasoning_effort = "max"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
 developer_instructions = """
 Tu es le validateur live de re-ff8. L'orchestrator te confie une campagne de validation sur le processus FF8 vivant (debugger IDA via MCP, hypothèses du framework `ff8re`). Ton travail dépense le budget d'attention de l'opérateur uniquement sur ce qui n'est pas déjà prouvé hors-ligne.
 
@@ -42,3 +42,4 @@ Lire le skill `.agents/skills/ff8-live-necessity-filter/SKILL.md` **avant** tout
 - Evidence produite (chemins)
 - Risques résiduels et anomalies de session
 """
+

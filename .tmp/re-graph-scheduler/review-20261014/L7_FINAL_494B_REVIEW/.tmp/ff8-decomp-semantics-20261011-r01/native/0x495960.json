@@ -1,0 +1,431 @@
+{
+  "ea": "0x495960",
+  "name_label_only": "domain::Battle_CalculateJunctionStats",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x495960",
+      "end": "0x495d73",
+      "hex": "538b54240c5556578b7c24148d04ff8d0c478d04d5000000002bc28d2ccde8e0cf018d3482c1e60481c600f0cf0181ffff0000000f84d40300008d8e830000008d4511c7442414200000008a58ff83c0028859ff8a58fe88198b5c241483c1054b895c241475e452e8e3faffff8b4d045751e8690800008b5504575289867c010000e8e90700008886b801000025ff0000005750e8170900008bc833c08a86c701000083c41c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181fa0f2700007e05ba0f27000033c0e872a3815b9090668b45000fbfca3bc87d0b668955006689967201000033d26a018a96b80100005752e8e90900008bc833c08a86c801000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff0000008896bb01000033d28a96b80100006a025752e8a40900008bc833c08a86c901000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff0000008896bc01000033d28a96b80100006a035752e85f0900008bc833c08a86ca01000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff0000008896bd01000033d28a96b80100006a045752e81a0900008bc833c08a86cb01000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff0000008896be01000033d28a96b80100006a055752e8d50800008bc833c08a86cc01000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff0000008896bf01000033d28a96b80100006a085752e8900800008bc833c08a86cf01000083c40c0fafc8b81f85eb51f7e9c1fa058bcac1e91f03d181faff0000007e05baff000000578896c0010000e8d60b000033d28bc88a96ce010000b81f85eb510fafcaf7e9c1fa058bc283c404c1e81f03d081faff0000007e05baff00000033c98896c20100008a8ebf0100005157e8730c000033d28bc88a96cd010000b81f85eb510fafcaf7e9c1fa058bc283c408c1e81f03d081faff0000007e05baff000000578896c1010000e8c90c0000578886c4010000e8ed0c000083c4088886c501000033db8dae940100005357e8550d000083c408668945004383c50283fb087ce957e84f0e00005789868c010000e8130e000057668986b4010000e8960e000083c40c668986b601000033db5357e8030f000083c40888841ea40100004383fb0d7ce9f786880100000000060074488d561e33c08bca803902740e4083c10483f8047cf25f5e5d5bc33dff000000746433c08bca803902740e4083c10483f8047cf2b8ff0000008a4c86215f80c910884c86215e5d5bc38d561e33c08bca803902740e4083c10483f8047cf25f5e5d5bc33dff000000741c33c08bca803902740e4083c10483f8047cf2b8ff00000080648621ef5f5e5d5bc3"
+    }
+  ],
+  "assembly": "00495960: push    ebx; Battle_CalculateJunctionStats(char,slot): level from XP; HP=GetCharacterHP; each battle stat = slotPct * GetCharacterStat(level,char,statIdx)/100 (HP cap 9999, others cap 255); loads elem atk/def, mental_res[13], hit status/flags; sets Auto-Reflect if abilities&0x60000.\n00495961: mov     edx, [esp+4+p_slot_id]\n00495965: push    ebp\n00495966: push    esi\n00495967: push    edi\n00495968: mov     edi, [esp+10h+p_char_id]\n0049596C: lea     eax, [edi+edi*8]; Load Effective Address\n0049596F: lea     ecx, [edi+eax*2]; Load Effective Address\n00495972: lea     eax, ds:0[edx*8]; Load Effective Address\n00495979: sub     eax, edx; Integer Subtraction\n0049597B: lea     ebp, ds:1CFE0E8h[ecx*8]; Load Effective Address\n00495982: lea     esi, [edx+eax*4]; Load Effective Address\n00495985: shl     esi, 4; Shift Logical Left\n00495988: add     esi, offset F_CHAR_DATA; By address:\n0049598E: cmp     edi, 0FFh; Compare Two Operands\n00495994: jz      loc_495D6E; Jump if Zero (ZF=1)\n0049599A: lea     ecx, [esi+83h]; Load Effective Address\n004959A0: lea     eax, [ebp+11h]; Load Effective Address\n004959A3: mov     [esp+10h+p_char_id], 20h ; ' '\n004959AB: mov     bl, [eax-1]\n004959AE: add     eax, 2; Add\n004959B1: mov     [ecx-1], bl\n004959B4: mov     bl, [eax-2]\n004959B7: mov     [ecx], bl\n004959B9: mov     ebx, [esp+10h+p_char_id]\n004959BD: add     ecx, 5; Add\n004959C0: dec     ebx; Decrement by 1\n004959C1: mov     [esp+10h+p_char_id], ebx\n004959C5: jnz     short loc_4959AB; Jump if Not Zero (ZF=0)\n004959C7: push    edx; p_attacker_slot_id\n004959C8: call    domain__Battle_BuildMagicJunctionList; BuildMagicJunctionList(slot): 32x stride5 F_CHAR_DATA+slot*464+134; flag=0; +1 si K_MAGIC.attackFlags&0x80; +4 si sub_47EEB0(slot,id); cache defaultTarget/unknown1; ret=dernier unknown1 (leftover)\n004959CD: mov     ecx, [ebp+4]\n004959D0: push    edi\n004959D1: push    ecx\n004959D2: call    getCharaXP_sub_496240; Call Procedure\n004959D7: mov     edx, [ebp+4]\n004959DA: push    edi\n004959DB: push    edx\n004959DC: mov     [esi+17Ch], eax\n004959E2: call    getCharaXP_sub_4961D0; Call Procedure\n004959E7: mov     [esi+1B8h], al\n004959ED: and     eax, 0FFh; Logical AND\n004959F2: push    edi; char_id\n004959F3: push    eax; lvl\n004959F4: call    domain__GetCharacterHP; Character HP formula: MaxHP_save + growthC + lvl*growthA + spellCount*K_MAGIC[spell].hpJ - 10*lvl²/growthD. spellCount from junction.\n004959F9: mov     ecx, eax\n004959FB: xor     eax, eax; Logical Exclusive OR\n004959FD: mov     al, [esi+1C7h]\n00495A03: add     esp, 1Ch; Add\n00495A06: imul    ecx, eax; Signed Multiply\n00495A09: mov     eax, 51EB851Fh\n00495A0E: imul    ecx; Signed Multiply\n00495A10: sar     edx, 5; Shift Arithmetic Right\n00495A13: mov     ecx, edx\n00495A15: shr     ecx, 1Fh; Shift Logical Right\n00495A18: add     edx, ecx; Add\n00495A1A: cmp     edx, 270Fh; Compare Two Operands\n00495A20: jle     short loc_495A27; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495A22: mov     edx, 270Fh\n00495A27: xor     eax, eax; Logical Exclusive OR\n00495A29: db 0E8h; Call Procedure\n00495A30: mov     ax, [ebp+0]\n00495A34: movsx   ecx, dx; Move with Sign-Extend\n00495A37: cmp     ecx, eax; Compare Two Operands\n00495A39: jge     short loc_495A46; Jump if Greater or Equal (SF=OF)\n00495A3B: mov     [ebp+0], dx\n00495A3F: mov     [esi+172h], dx\n00495A46: xor     edx, edx; Logical Exclusive OR\n00495A48: push    1; p_stat\n00495A4A: mov     dl, [esi+1B8h]\n00495A50: push    edi; p_char_id\n00495A51: push    edx; p_lvl\n00495A52: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495A57: mov     ecx, eax\n00495A59: xor     eax, eax; Logical Exclusive OR\n00495A5B: mov     al, [esi+1C8h]\n00495A61: add     esp, 0Ch; Add\n00495A64: imul    ecx, eax; Signed Multiply\n00495A67: mov     eax, 51EB851Fh\n00495A6C: imul    ecx; Signed Multiply\n00495A6E: sar     edx, 5; Shift Arithmetic Right\n00495A71: mov     ecx, edx\n00495A73: shr     ecx, 1Fh; Shift Logical Right\n00495A76: add     edx, ecx; Add\n00495A78: cmp     edx, 0FFh; Compare Two Operands\n00495A7E: jle     short loc_495A85; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495A80: mov     edx, 0FFh\n00495A85: mov     [esi+1BBh], dl\n00495A8B: xor     edx, edx; Logical Exclusive OR\n00495A8D: mov     dl, [esi+1B8h]\n00495A93: push    2; p_stat\n00495A95: push    edi; p_char_id\n00495A96: push    edx; p_lvl\n00495A97: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495A9C: mov     ecx, eax\n00495A9E: xor     eax, eax; Logical Exclusive OR\n00495AA0: mov     al, [esi+1C9h]\n00495AA6: add     esp, 0Ch; Add\n00495AA9: imul    ecx, eax; Signed Multiply\n00495AAC: mov     eax, 51EB851Fh\n00495AB1: imul    ecx; Signed Multiply\n00495AB3: sar     edx, 5; Shift Arithmetic Right\n00495AB6: mov     ecx, edx\n00495AB8: shr     ecx, 1Fh; Shift Logical Right\n00495ABB: add     edx, ecx; Add\n00495ABD: cmp     edx, 0FFh; Compare Two Operands\n00495AC3: jle     short loc_495ACA; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495AC5: mov     edx, 0FFh\n00495ACA: mov     [esi+1BCh], dl\n00495AD0: xor     edx, edx; Logical Exclusive OR\n00495AD2: mov     dl, [esi+1B8h]\n00495AD8: push    3; p_stat\n00495ADA: push    edi; p_char_id\n00495ADB: push    edx; p_lvl\n00495ADC: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495AE1: mov     ecx, eax\n00495AE3: xor     eax, eax; Logical Exclusive OR\n00495AE5: mov     al, [esi+1CAh]\n00495AEB: add     esp, 0Ch; Add\n00495AEE: imul    ecx, eax; Signed Multiply\n00495AF1: mov     eax, 51EB851Fh\n00495AF6: imul    ecx; Signed Multiply\n00495AF8: sar     edx, 5; Shift Arithmetic Right\n00495AFB: mov     ecx, edx\n00495AFD: shr     ecx, 1Fh; Shift Logical Right\n00495B00: add     edx, ecx; Add\n00495B02: cmp     edx, 0FFh; Compare Two Operands\n00495B08: jle     short loc_495B0F; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495B0A: mov     edx, 0FFh\n00495B0F: mov     [esi+1BDh], dl\n00495B15: xor     edx, edx; Logical Exclusive OR\n00495B17: mov     dl, [esi+1B8h]\n00495B1D: push    4; p_stat\n00495B1F: push    edi; p_char_id\n00495B20: push    edx; p_lvl\n00495B21: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495B26: mov     ecx, eax\n00495B28: xor     eax, eax; Logical Exclusive OR\n00495B2A: mov     al, [esi+1CBh]\n00495B30: add     esp, 0Ch; Add\n00495B33: imul    ecx, eax; Signed Multiply\n00495B36: mov     eax, 51EB851Fh\n00495B3B: imul    ecx; Signed Multiply\n00495B3D: sar     edx, 5; Shift Arithmetic Right\n00495B40: mov     ecx, edx\n00495B42: shr     ecx, 1Fh; Shift Logical Right\n00495B45: add     edx, ecx; Add\n00495B47: cmp     edx, 0FFh; Compare Two Operands\n00495B4D: jle     short loc_495B54; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495B4F: mov     edx, 0FFh\n00495B54: mov     [esi+1BEh], dl\n00495B5A: xor     edx, edx; Logical Exclusive OR\n00495B5C: mov     dl, [esi+1B8h]\n00495B62: push    5; p_stat\n00495B64: push    edi; p_char_id\n00495B65: push    edx; p_lvl\n00495B66: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495B6B: mov     ecx, eax\n00495B6D: xor     eax, eax; Logical Exclusive OR\n00495B6F: mov     al, [esi+1CCh]\n00495B75: add     esp, 0Ch; Add\n00495B78: imul    ecx, eax; Signed Multiply\n00495B7B: mov     eax, 51EB851Fh\n00495B80: imul    ecx; Signed Multiply\n00495B82: sar     edx, 5; Shift Arithmetic Right\n00495B85: mov     ecx, edx\n00495B87: shr     ecx, 1Fh; Shift Logical Right\n00495B8A: add     edx, ecx; Add\n00495B8C: cmp     edx, 0FFh; Compare Two Operands\n00495B92: jle     short loc_495B99; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495B94: mov     edx, 0FFh\n00495B99: mov     [esi+1BFh], dl\n00495B9F: xor     edx, edx; Logical Exclusive OR\n00495BA1: mov     dl, [esi+1B8h]\n00495BA7: push    8; p_stat\n00495BA9: push    edi; p_char_id\n00495BAA: push    edx; p_lvl\n00495BAB: call    domain__GetCharacterStat; Character stat formula (STR/VIT/MAG/SPR/SPD/LUCK). Reads growth curves from K_CHARACTER, junction bonus from K_MAGIC. Different formulas for SPD/LUCK vs others.\n00495BB0: mov     ecx, eax\n00495BB2: xor     eax, eax; Logical Exclusive OR\n00495BB4: mov     al, [esi+1CFh]\n00495BBA: add     esp, 0Ch; Add\n00495BBD: imul    ecx, eax; Signed Multiply\n00495BC0: mov     eax, 51EB851Fh\n00495BC5: imul    ecx; Signed Multiply\n00495BC7: sar     edx, 5; Shift Arithmetic Right\n00495BCA: mov     ecx, edx\n00495BCC: shr     ecx, 1Fh; Shift Logical Right\n00495BCF: add     edx, ecx; Add\n00495BD1: cmp     edx, 0FFh; Compare Two Operands\n00495BD7: jle     short loc_495BDE; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495BD9: mov     edx, 0FFh\n00495BDE: push    edi; char_id\n00495BDF: mov     [esi+1C0h], dl\n00495BE5: call    domain__GetCharacterHit; Call Procedure\n00495BEA: xor     edx, edx; Logical Exclusive OR\n00495BEC: mov     ecx, eax\n00495BEE: mov     dl, [esi+1CEh]\n00495BF4: mov     eax, 51EB851Fh\n00495BF9: imul    ecx, edx; Signed Multiply\n00495BFC: imul    ecx; Signed Multiply\n00495BFE: sar     edx, 5; Shift Arithmetic Right\n00495C01: mov     eax, edx\n00495C03: add     esp, 4; Add\n00495C06: shr     eax, 1Fh; Shift Logical Right\n00495C09: add     edx, eax; Add\n00495C0B: cmp     edx, 0FFh; Compare Two Operands\n00495C11: jle     short loc_495C18; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495C13: mov     edx, 0FFh\n00495C18: xor     ecx, ecx; Logical Exclusive OR\n00495C1A: mov     [esi+1C2h], dl\n00495C20: mov     cl, [esi+1BFh]\n00495C26: push    ecx; p_spd\n00495C27: push    edi; p_char_id\n00495C28: call    domain__GetCharacterEva; Call Procedure\n00495C2D: xor     edx, edx; Logical Exclusive OR\n00495C2F: mov     ecx, eax\n00495C31: mov     dl, [esi+1CDh]\n00495C37: mov     eax, 51EB851Fh\n00495C3C: imul    ecx, edx; Signed Multiply\n00495C3F: imul    ecx; Signed Multiply\n00495C41: sar     edx, 5; Shift Arithmetic Right\n00495C44: mov     eax, edx\n00495C46: add     esp, 8; Add\n00495C49: shr     eax, 1Fh; Shift Logical Right\n00495C4C: add     edx, eax; Add\n00495C4E: cmp     edx, 0FFh; Compare Two Operands\n00495C54: jle     short loc_495C5B; Jump if Less or Equal (ZF=1 | SF!=OF)\n00495C56: mov     edx, 0FFh\n00495C5B: push    edi\n00495C5C: mov     [esi+1C1h], dl\n00495C62: call    domain__GetCharacter_HitElement; Call Procedure\n00495C67: push    edi\n00495C68: mov     [esi+1C4h], al\n00495C6E: call    domain__GetCharacter_HitElementPercent; Call Procedure\n00495C73: add     esp, 8; Add\n00495C76: mov     [esi+1C5h], al\n00495C7C: xor     ebx, ebx; Logical Exclusive OR\n00495C7E: lea     ebp, [esi+194h]; Load Effective Address\n00495C84: push    ebx\n00495C85: push    edi\n00495C86: call    domain__GetCharacter_ElemDef; Call Procedure\n00495C8B: add     esp, 8; Add\n00495C8E: mov     [ebp+0], ax\n00495C92: inc     ebx; Increment by 1\n00495C93: add     ebp, 2; Add\n00495C96: cmp     ebx, 8; Compare Two Operands\n00495C99: jl      short loc_495C84; Jump if Less (SF!=OF)\n00495C9B: push    edi\n00495C9C: call    domain__GetCharacter_HitStatus2; Call Procedure\n00495CA1: push    edi\n00495CA2: mov     [esi+18Ch], eax\n00495CA8: call    domain__GetCharacter_HitStatus1; Call Procedure\n00495CAD: push    edi\n00495CAE: mov     [esi+1B4h], ax\n00495CB5: call    domain__GetCharacter_AttackFlags; Call Procedure\n00495CBA: add     esp, 0Ch; Add\n00495CBD: mov     [esi+1B6h], ax\n00495CC4: xor     ebx, ebx; Logical Exclusive OR\n00495CC6: push    ebx\n00495CC7: push    edi\n00495CC8: call    domain__GetCharacter_MentalRes; Call Procedure\n00495CCD: add     esp, 8; Add\n00495CD0: mov     [esi+ebx+1A4h], al\n00495CD7: inc     ebx; Increment by 1\n00495CD8: cmp     ebx, 0Dh; Compare Two Operands\n00495CDB: jl      short loc_495CC6; Jump if Less (SF!=OF)\n00495CDD: test    dword ptr [esi+188h], 60000h; Logical Compare\n00495CE7: jz      short loc_495D31; Jump if Zero (ZF=1)\n00495CE9: lea     edx, [esi+1Eh]; Load Effective Address\n00495CEC: xor     eax, eax; Logical Exclusive OR\n00495CEE: mov     ecx, edx\n00495CF0: cmp     byte ptr [ecx], 2; Compare Two Operands\n00495CF3: jz      short loc_495D03; Jump if Zero (ZF=1)\n00495CF5: inc     eax; Increment by 1\n00495CF6: add     ecx, 4; Add\n00495CF9: cmp     eax, 4; Compare Two Operands\n00495CFC: jl      short loc_495CF0; Jump if Less (SF!=OF)\n00495CFE: pop     edi\n00495CFF: pop     esi\n00495D00: pop     ebp\n00495D01: pop     ebx\n00495D02: retn; Return Near from Procedure\n00495D03: cmp     eax, 0FFh; Compare Two Operands\n00495D08: jz      short loc_495D6E; Jump if Zero (ZF=1)\n00495D0A: xor     eax, eax; Logical Exclusive OR\n00495D0C: mov     ecx, edx\n00495D0E: cmp     byte ptr [ecx], 2; Compare Two Operands\n00495D11: jz      short loc_495D21; Jump if Zero (ZF=1)\n00495D13: inc     eax; Increment by 1\n00495D14: add     ecx, 4; Add\n00495D17: cmp     eax, 4; Compare Two Operands\n00495D1A: jl      short loc_495D0E; Jump if Less (SF!=OF)\n00495D1C: mov     eax, 0FFh\n00495D21: mov     cl, [esi+eax*4+21h]\n00495D25: pop     edi\n00495D26: or      cl, 10h; Logical Inclusive OR\n00495D29: mov     [esi+eax*4+21h], cl\n00495D2D: pop     esi\n00495D2E: pop     ebp\n00495D2F: pop     ebx\n00495D30: retn; Return Near from Procedure\n00495D31: lea     edx, [esi+1Eh]; Load Effective Address\n00495D34: xor     eax, eax; Logical Exclusive OR\n00495D36: mov     ecx, edx\n00495D38: cmp     byte ptr [ecx], 2; Compare Two Operands\n00495D3B: jz      short loc_495D4B; Jump if Zero (ZF=1)\n00495D3D: inc     eax; Increment by 1\n00495D3E: add     ecx, 4; Add\n00495D41: cmp     eax, 4; Compare Two Operands\n00495D44: jl      short loc_495D38; Jump if Less (SF!=OF)\n00495D46: pop     edi\n00495D47: pop     esi\n00495D48: pop     ebp\n00495D49: pop     ebx\n00495D4A: retn; Return Near from Procedure\n00495D4B: cmp     eax, 0FFh; Compare Two Operands\n00495D50: jz      short loc_495D6E; Jump if Zero (ZF=1)\n00495D52: xor     eax, eax; Logical Exclusive OR\n00495D54: mov     ecx, edx\n00495D56: cmp     byte ptr [ecx], 2; Compare Two Operands\n00495D59: jz      short loc_495D69; Jump if Zero (ZF=1)\n00495D5B: inc     eax; Increment by 1\n00495D5C: add     ecx, 4; Add\n00495D5F: cmp     eax, 4; Compare Two Operands\n00495D62: jl      short loc_495D56; Jump if Less (SF!=OF)\n00495D64: mov     eax, 0FFh\n00495D69: and     byte ptr [esi+eax*4+21h], 0EFh; Logical AND\n00495D6E: pop     edi\n00495D6F: pop     esi\n00495D70: pop     ebp\n00495D71: pop     ebx\n00495D72: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x495960",
+      "end": "0x49599a",
+      "successors": [
+        "0x49599a",
+        "0x495d6e"
+      ]
+    },
+    {
+      "start": "0x49599a",
+      "end": "0x4959ab",
+      "successors": [
+        "0x4959ab"
+      ]
+    },
+    {
+      "start": "0x4959ab",
+      "end": "0x4959c7",
+      "successors": [
+        "0x4959c7",
+        "0x4959ab"
+      ]
+    },
+    {
+      "start": "0x4959c7",
+      "end": "0x495a22",
+      "successors": [
+        "0x495a22",
+        "0x495a27"
+      ]
+    },
+    {
+      "start": "0x495a22",
+      "end": "0x495a27",
+      "successors": [
+        "0x495a27"
+      ]
+    },
+    {
+      "start": "0x495a27",
+      "end": "0x495a30",
+      "successors": [
+        "0x495a30"
+      ]
+    },
+    {
+      "start": "0x495a30",
+      "end": "0x495a3b",
+      "successors": [
+        "0x495a3b",
+        "0x495a46"
+      ]
+    },
+    {
+      "start": "0x495a3b",
+      "end": "0x495a46",
+      "successors": [
+        "0x495a46"
+      ]
+    },
+    {
+      "start": "0x495a46",
+      "end": "0x495a80",
+      "successors": [
+        "0x495a80",
+        "0x495a85"
+      ]
+    },
+    {
+      "start": "0x495a80",
+      "end": "0x495a85",
+      "successors": [
+        "0x495a85"
+      ]
+    },
+    {
+      "start": "0x495a85",
+      "end": "0x495ac5",
+      "successors": [
+        "0x495ac5",
+        "0x495aca"
+      ]
+    },
+    {
+      "start": "0x495ac5",
+      "end": "0x495aca",
+      "successors": [
+        "0x495aca"
+      ]
+    },
+    {
+      "start": "0x495aca",
+      "end": "0x495b0a",
+      "successors": [
+        "0x495b0a",
+        "0x495b0f"
+      ]
+    },
+    {
+      "start": "0x495b0a",
+      "end": "0x495b0f",
+      "successors": [
+        "0x495b0f"
+      ]
+    },
+    {
+      "start": "0x495b0f",
+      "end": "0x495b4f",
+      "successors": [
+        "0x495b4f",
+        "0x495b54"
+      ]
+    },
+    {
+      "start": "0x495b4f",
+      "end": "0x495b54",
+      "successors": [
+        "0x495b54"
+      ]
+    },
+    {
+      "start": "0x495b54",
+      "end": "0x495b94",
+      "successors": [
+        "0x495b94",
+        "0x495b99"
+      ]
+    },
+    {
+      "start": "0x495b94",
+      "end": "0x495b99",
+      "successors": [
+        "0x495b99"
+      ]
+    },
+    {
+      "start": "0x495b99",
+      "end": "0x495bd9",
+      "successors": [
+        "0x495bd9",
+        "0x495bde"
+      ]
+    },
+    {
+      "start": "0x495bd9",
+      "end": "0x495bde",
+      "successors": [
+        "0x495bde"
+      ]
+    },
+    {
+      "start": "0x495bde",
+      "end": "0x495c13",
+      "successors": [
+        "0x495c13",
+        "0x495c18"
+      ]
+    },
+    {
+      "start": "0x495c13",
+      "end": "0x495c18",
+      "successors": [
+        "0x495c18"
+      ]
+    },
+    {
+      "start": "0x495c18",
+      "end": "0x495c56",
+      "successors": [
+        "0x495c56",
+        "0x495c5b"
+      ]
+    },
+    {
+      "start": "0x495c56",
+      "end": "0x495c5b",
+      "successors": [
+        "0x495c5b"
+      ]
+    },
+    {
+      "start": "0x495c5b",
+      "end": "0x495c84",
+      "successors": [
+        "0x495c84"
+      ]
+    },
+    {
+      "start": "0x495c84",
+      "end": "0x495c9b",
+      "successors": [
+        "0x495c9b",
+        "0x495c84"
+      ]
+    },
+    {
+      "start": "0x495c9b",
+      "end": "0x495cc6",
+      "successors": [
+        "0x495cc6"
+      ]
+    },
+    {
+      "start": "0x495cc6",
+      "end": "0x495cdd",
+      "successors": [
+        "0x495cdd",
+        "0x495cc6"
+      ]
+    },
+    {
+      "start": "0x495cdd",
+      "end": "0x495ce9",
+      "successors": [
+        "0x495ce9",
+        "0x495d31"
+      ]
+    },
+    {
+      "start": "0x495ce9",
+      "end": "0x495cf0",
+      "successors": [
+        "0x495cf0"
+      ]
+    },
+    {
+      "start": "0x495cf0",
+      "end": "0x495cf5",
+      "successors": [
+        "0x495cf5",
+        "0x495d03"
+      ]
+    },
+    {
+      "start": "0x495cf5",
+      "end": "0x495cfe",
+      "successors": [
+        "0x495cf0",
+        "0x495cfe"
+      ]
+    },
+    {
+      "start": "0x495cfe",
+      "end": "0x495d03",
+      "successors": []
+    },
+    {
+      "start": "0x495d03",
+      "end": "0x495d0a",
+      "successors": [
+        "0x495d0a",
+        "0x495d6e"
+      ]
+    },
+    {
+      "start": "0x495d0a",
+      "end": "0x495d0e",
+      "successors": [
+        "0x495d0e"
+      ]
+    },
+    {
+      "start": "0x495d0e",
+      "end": "0x495d13",
+      "successors": [
+        "0x495d13",
+        "0x495d21"
+      ]
+    },
+    {
+      "start": "0x495d13",
+      "end": "0x495d1c",
+      "successors": [
+        "0x495d0e",
+        "0x495d1c"
+      ]
+    },
+    {
+      "start": "0x495d1c",
+      "end": "0x495d21",
+      "successors": [
+        "0x495d21"
+      ]
+    },
+    {
+      "start": "0x495d21",
+      "end": "0x495d31",
+      "successors": []
+    },
+    {
+      "start": "0x495d31",
+      "end": "0x495d38",
+      "successors": [
+        "0x495d38"
+      ]
+    },
+    {
+      "start": "0x495d38",
+      "end": "0x495d3d",
+      "successors": [
+        "0x495d3d",
+        "0x495d4b"
+      ]
+    },
+    {
+      "start": "0x495d3d",
+      "end": "0x495d46",
+      "successors": [
+        "0x495d38",
+        "0x495d46"
+      ]
+    },
+    {
+      "start": "0x495d46",
+      "end": "0x495d4b",
+      "successors": []
+    },
+    {
+      "start": "0x495d4b",
+      "end": "0x495d52",
+      "successors": [
+        "0x495d52",
+        "0x495d6e"
+      ]
+    },
+    {
+      "start": "0x495d52",
+      "end": "0x495d56",
+      "successors": [
+        "0x495d56"
+      ]
+    },
+    {
+      "start": "0x495d56",
+      "end": "0x495d5b",
+      "successors": [
+        "0x495d5b",
+        "0x495d69"
+      ]
+    },
+    {
+      "start": "0x495d5b",
+      "end": "0x495d64",
+      "successors": [
+        "0x495d56",
+        "0x495d64"
+      ]
+    },
+    {
+      "start": "0x495d64",
+      "end": "0x495d69",
+      "successors": [
+        "0x495d69"
+      ]
+    },
+    {
+      "start": "0x495d69",
+      "end": "0x495d6e",
+      "successors": [
+        "0x495d6e"
+      ]
+    },
+    {
+      "start": "0x495d6e",
+      "end": "0x495d73",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x48b883",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48b7e0"
+    },
+    {
+      "from": "0x48b97b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48b8b0"
+    },
+    {
+      "from": "0x495f14",
+      "type": 17,
+      "iscode": true,
+      "function": "0x495ef0"
+    },
+    {
+      "from": "0x49721b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4971f0"
+    }
+  ],
+  "code_targets": [
+    "0x4954b0",
+    "0x4961d0",
+    "0x496240",
+    "0x496310",
+    "0x496440",
+    "0x4967c0",
+    "0x4968a0",
+    "0x496930",
+    "0x496960",
+    "0x4969e0",
+    "0x496ac0",
+    "0x496af0",
+    "0x496b50",
+    "0x496bd0"
+  ],
+  "instruction_count": 333
+}

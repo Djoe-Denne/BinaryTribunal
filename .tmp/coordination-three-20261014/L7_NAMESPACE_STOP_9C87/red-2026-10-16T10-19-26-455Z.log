@@ -1,0 +1,288 @@
+bun test v1.4.2 (744846f84)
+
+test\simulator\simulator-identity-replan-regressions.test.ts:
+68 | const commitTick = (r: SimRunResult, id: string) => r.trace.find(e => e.ev === "committed" && e.unitId === id)?.t;
+69 | 
+70 | describe("L7 archived namespace closure", () => {
+71 |   test("evidence v2 keeps the real complete MissionPlan detached and frozen", () => {
+72 |     const f = exported(), evidence = f.plan.source!.prerequisiteEvidence!;
+73 |     expect(evidence.version).toBe(2);
+                                  ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 1
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:73:30)
+(fail) L7 archived namespace closure > evidence v2 keeps the real complete MissionPlan detached and frozen [8.92ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:85:114)
+(fail) L7 archived namespace closure > coherent consumer aliases and legal-shaped foreign IDs cannot erase a known need [4.23ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:89:27)
+(fail) L7 archived namespace closure > producer and requirement-free prerequisite namespaces are also archived [2.82ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:100:5)
+(fail) L7 archived namespace closure > coherent requirement-free prerequisite deletion is not a manual plan [2.60ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:104:124)
+(fail) L7 archived namespace closure > archive covers deferred units and owned/context membership, not only selected IDs [2.50ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:120:100)
+(fail) L7 archived namespace closure > structural copies cannot jointly rewrite the archived plan [1.98ms]
+(pass) L7 archived namespace closure > normalized projected views accept permutations and omit non-exposed G1/G2 fields [8.49ms]
+58 |   return copy;
+59 | }
+60 | function rejects(plan: SimPlanInput) {
+61 |   let diagnostics: ReturnType<typeof validateSimPlan> = [];
+62 |   expect(() => { diagnostics = validateSimPlan(plan); }).not.toThrow();
+63 |   expect(diagnostics.length).toBeGreaterThan(0);
+                                  ^
+error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0
+Received: 0
+
+      at rejects (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:63:30)
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:133:130)
+(fail) L7 archived namespace closure > missing, legacy and malformed evidence are qualified refusals, never TypeErrors [9.50ms]
+146 |       e => { (e.unresolvedById as Record<string, unknown>)[`pre:${hash("foreign")}`] = {}; },
+147 |     ];
+148 |     for (const edit of edits) {
+149 |       const plan = structuredClone(exported().plan), e = plan.source!.prerequisiteEvidence! as unknown as Record<string, unknown>;
+150 |       // The old reader lacks planDocument; absence is a behavioral failure, not a TypeError oracle.
+151 |       expect(e.planDocument).toBeDefined(); edit(e); const { fingerprint: _ignored, ...content } = e; e.fingerprint = fingerprint(content); rejects(plan);
+                                   ^
+error: expect(received).toBeDefined()
+
+Received: undefined
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:151:30)
+(fail) L7 archived namespace closure > archive body and own-only index domains remain bound even after self-rehash [1.79ms]
+(pass) L7 archived namespace closure > local absent/hash/field needs block only C and are not substituted from archive [8.02ms]
+(pass) L7 archived namespace closure > true manual and true export without original needs remain legal [3.40ms]
+(pass) L7 archived namespace closure > cited unknown and genuinely uncited provenance v1 stay distinct [2.34ms]
+193 | describe("L7 monotone new-plan obligation", () => {
+194 |   for (const kind of ["new_dependency", "new_scc", "invalidate_knowledge"] as const) {
+195 |     test(`${kind}: stop proves release, never authorizes a fresh generation`, () => {
+196 |       for (const retry of [false, true]) {
+197 |         const { scenario: s, a, b } = independent(); s.incidents = [hard(kind, a, b, 2), stop(a, 3, retry), stop(a, 4, true)];
+198 |         const r = runScenario(s); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25);
+                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:198:64)
+(fail) L7 monotone new-plan obligation > new_dependency: stop proves release, never authorizes a fresh generation [3.35ms]
+201 |         expect(r.decisions.filter(d => d.unitId === a).map(d => d.token)).toEqual([1]);
+202 |       }
+203 |     });
+204 |     test(`${kind}: invalidation survives a prior legal retry and later operational cause`, () => {
+205 |       const { scenario: s, a, b } = independent(); s.incidents = [cancel(a, 1), stop(a, 2), hard(kind, a, b, 4), cancel(a, 4), stop(a, 5), adopt(a, 6), stop(a, 7)];
+206 |       const r = runScenario(s); expect(state(r, a).attempts).toBe(2); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25); expect(r.metrics.reworkAttempts).toBe(1);
+                                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 3
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:206:62)
+(fail) L7 monotone new-plan obligation > new_dependency: invalidation survives a prior legal retry and later operational cause [4.50ms]
+(pass) L7 monotone new-plan obligation > new_dependency: pre-admission, READY and blocked consumers cannot be revived [5.72ms]
+193 | describe("L7 monotone new-plan obligation", () => {
+194 |   for (const kind of ["new_dependency", "new_scc", "invalidate_knowledge"] as const) {
+195 |     test(`${kind}: stop proves release, never authorizes a fresh generation`, () => {
+196 |       for (const retry of [false, true]) {
+197 |         const { scenario: s, a, b } = independent(); s.incidents = [hard(kind, a, b, 2), stop(a, 3, retry), stop(a, 4, true)];
+198 |         const r = runScenario(s); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25);
+                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:198:64)
+(fail) L7 monotone new-plan obligation > new_scc: stop proves release, never authorizes a fresh generation [2.27ms]
+201 |         expect(r.decisions.filter(d => d.unitId === a).map(d => d.token)).toEqual([1]);
+202 |       }
+203 |     });
+204 |     test(`${kind}: invalidation survives a prior legal retry and later operational cause`, () => {
+205 |       const { scenario: s, a, b } = independent(); s.incidents = [cancel(a, 1), stop(a, 2), hard(kind, a, b, 4), cancel(a, 4), stop(a, 5), adopt(a, 6), stop(a, 7)];
+206 |       const r = runScenario(s); expect(state(r, a).attempts).toBe(2); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25); expect(r.metrics.reworkAttempts).toBe(1);
+                                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 3
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:206:62)
+(fail) L7 monotone new-plan obligation > new_scc: invalidation survives a prior legal retry and later operational cause [4.64ms]
+(pass) L7 monotone new-plan obligation > new_scc: pre-admission, READY and blocked consumers cannot be revived [9.42ms]
+193 | describe("L7 monotone new-plan obligation", () => {
+194 |   for (const kind of ["new_dependency", "new_scc", "invalidate_knowledge"] as const) {
+195 |     test(`${kind}: stop proves release, never authorizes a fresh generation`, () => {
+196 |       for (const retry of [false, true]) {
+197 |         const { scenario: s, a, b } = independent(); s.incidents = [hard(kind, a, b, 2), stop(a, 3, retry), stop(a, 4, true)];
+198 |         const r = runScenario(s); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25);
+                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:198:64)
+(fail) L7 monotone new-plan obligation > invalidate_knowledge: stop proves release, never authorizes a fresh generation [3.51ms]
+201 |         expect(r.decisions.filter(d => d.unitId === a).map(d => d.token)).toEqual([1]);
+202 |       }
+203 |     });
+204 |     test(`${kind}: invalidation survives a prior legal retry and later operational cause`, () => {
+205 |       const { scenario: s, a, b } = independent(); s.incidents = [cancel(a, 1), stop(a, 2), hard(kind, a, b, 4), cancel(a, 4), stop(a, 5), adopt(a, 6), stop(a, 7)];
+206 |       const r = runScenario(s); expect(state(r, a).attempts).toBe(2); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25); expect(r.metrics.reworkAttempts).toBe(1);
+                                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 3
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:206:62)
+(fail) L7 monotone new-plan obligation > invalidate_knowledge: invalidation survives a prior legal retry and later operational cause [4.18ms]
+(pass) L7 monotone new-plan obligation > invalidate_knowledge: pre-admission, READY and blocked consumers cannot be revived [5.72ms]
+216 |   }
+217 |   test("partition adoption lets the eligible current attempt finish, forbids the next", () => {
+218 |     const first = independent(); first.scenario.incidents = [adopt(first.a, 2)];
+219 |     expect(commitTick(runScenario(first.scenario), first.a)).toBe(10);
+220 |     const second = independent(); second.scenario.incidents = [adopt(second.a, 2), cancel(second.a, 4), stop(second.a, 5)];
+221 |     const r = runScenario(second.scenario); expect(state(r, second.a).attempts).toBe(1); expect(commitTick(r, second.a)).toBeUndefined(); expect(commitTick(r, second.b)).toBe(25);
+                                                                                      ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:221:81)
+(fail) L7 monotone new-plan obligation > partition adoption lets the eligible current attempt finish, forbids the next [4.45ms]
+223 |   test("HARD dominates adoption in both orders and at equal ticks", () => {
+224 |     for (const kind of ["new_dependency", "new_scc", "invalidate_knowledge"] as const) for (const reverse of [false, true]) for (const same of [false, true]) {
+225 |       const { scenario: s, a, b } = independent(), pair = [adopt(a, 2), hard(kind, a, b, same ? 2 : 3)];
+226 |       if (reverse) { pair.reverse(); if (!same) { (pair[0] as { atTick: number }).atTick = 2; (pair[1] as { atTick: number }).atTick = 3; } }
+227 |       s.incidents = [...pair, stop(a, 4), adopt(a, 5), stop(a, 6)];
+228 |       const r = runScenario(s); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25);
+                                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:228:62)
+(fail) L7 monotone new-plan obligation > HARD dominates adoption in both orders and at equal ticks [2.32ms]
+229 |     }
+230 |   });
+231 |   test("adoption never reauthorizes an already fenced or cancelled attempt", () => {
+232 |     for (const when of [0, 2]) {
+233 |       const { scenario: s, a, b } = independent(); s.incidents = [cancel(a, when), adopt(a, when + 1), stop(a, when + 2)];
+234 |       const r = runScenario(s); expect(state(r, a).attempts).toBe(when === 0 ? 0 : 1); expect(commitTick(r, a)).toBeUndefined(); expect(commitTick(r, b)).toBe(25);
+                                                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:234:62)
+(fail) L7 monotone new-plan obligation > adoption never reauthorizes an already fenced or cancelled attempt [5.32ms]
+(pass) L7 monotone new-plan obligation > ordinary cancel/ambiguous stop/lease still allow retry after confirmed release [5.00ms]
+(pass) L7 monotone new-plan obligation > operational G2 overlap retry waits for the other actual holder [2.05ms]
+248 |     for (const confirmed of [false, true]) {
+249 |       const { scenario: s, a, b } = independent(true); s.incidents = [hard("invalidate_knowledge", a, b, 2), ...(confirmed ? [stop(a, 4)] : [])];
+250 |       const engine = new SimEngine(s); engine.runUntil(2); const before = engine.observe(), frozen = canonical(before);
+251 |       expect(state(before, a).state).toBe("STOP_PENDING"); expect(state(before, b).attempts).toBe(0); expect(before.metrics.occupiedWorkerTicks).toBe(4);
+252 |       expect(before.trace.some(e => e.ev === "execution_released")).toBe(false);
+253 |       const r = engine.run(); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(state(r, b).dispatchTick).toBe(confirmed ? 4 : 7);
+                                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 2
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:253:60)
+(fail) L7 monotone new-plan obligation > fencing retains live jobs/claims, then stop or real done releases the waiting peer [5.58ms]
+258 |   test("validation and response-loss callbacks cannot revive a hard-invalidated generation", () => {
+259 |     for (const responseLost of [false, true]) {
+260 |       const { scenario: s, a, b } = independent(true); s.durations = { A: 1, B: 1, R: 1 }; s.config.validationTicks = 5;
+261 |       s.incidents = [...(responseLost ? [{ kind: "response_lost" as const, unitId: a, reconcileAfter: 10 }] : []), hard("new_scc", a, b, 3), stop(a, 6), adopt(a, 7)];
+262 |       const engine = new SimEngine(s); engine.runUntil(3); expect(state(engine.observe(), a).state).toBe("QUARANTINED"); expect(state(engine.observe(), b).attempts).toBe(0);
+263 |       const r = engine.run(); expect(state(r, a).attempts).toBe(1); expect(commitTick(r, a)).toBeUndefined(); expect(state(r, b).dispatchTick).toBe(6);
+                                                                                                   ^
+error: expect(received).toBeUndefined()
+
+Received: 17
+
+      at <anonymous> (C:\Users\djden\.local\share\opencode\worktree\68ae5f\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-namespace-astra\tools\ff8-harness\test\simulator\simulator-identity-replan-regressions.test.ts:263:94)
+(fail) L7 monotone new-plan obligation > validation and response-loss callbacks cannot revive a hard-invalidated generation [7.49ms]
+(pass) L7 monotone new-plan obligation > adoption with no new admission preserves active phase and delayed R occupation [1.94ms]
+
+ 10 pass
+ 19 fail
+ 144 expect() calls
+Ran 29 tests across 1 file. [184.00ms]

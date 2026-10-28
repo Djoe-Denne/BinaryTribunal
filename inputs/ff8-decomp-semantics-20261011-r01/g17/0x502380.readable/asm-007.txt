@@ -1,0 +1,25 @@
+0050251D: call    sub_503190; Call Procedure
+00502522: add     esp, 0Ch; Add
+00502525: jmp     short loc_50252D; Jump
+00502527: and     dword ptr [esi], 0FEFFFFFFh; Logical AND
+0050252D: add     esi, 9Ch; Add
+00502533: inc     edi; Increment by 1
+00502534: cmp     esi, offset dword_1D9749C; Compare Two Operands
+0050253A: jl      short loc_502513; Jump if Less (SF!=OF)
+0050253C: pop     edi
+0050253D: pop     esi
+0050253E: mov     eax, 0Fh
+00502543: pop     ebx
+00502544: retn; Return Near from Procedure
+00502545: push    offset domain__BattleTask_EscapeRelay74_Worker; jumptable 0050239A case 116
+0050254A: call    au_re_BdLinkTask; Call Procedure
+0050254F: add     esp, 4; Add
+00502552: mov     [eax+10h], esi
+00502555: mov     byte ptr [eax+0Dh], 0
+00502559: mov     eax, 8
+0050255E: pop     edi
+0050255F: pop     esi
+00502560: pop     ebx
+00502561: retn; Return Near from Procedure
+00502562: push    offset domain__BattleTask_ActorReadyRelay71_Worker; jumptable 0050239A case 113
+00502567: jmp     short loc_50256E; Jump

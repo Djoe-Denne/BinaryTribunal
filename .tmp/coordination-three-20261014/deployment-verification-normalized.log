@@ -1,0 +1,15 @@
+1445 |   } catch (cause) {
+1446 |     throw new ClientError2("MalformedResponse", { cause });
+1447 |   }
+1448 | }
+1449 | function declared(body) {
+1450 |   const error = Object.assign(new Error(body.message ?? body.data?.message), body);
+                                         ^
+RpcInternalError: RPC call failed
+ _tag: "RpcInternalError",
+ type: "rpc.internal",
+
+      at declared (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\node_modules\@opencode\client\dist\chunks\service-timing-tbh3h57v.js:1450:35)
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\node_modules\@opencode\client\dist\chunks\service-timing-tbh3h57v.js:52:13)
+
+Bun v1.4.2 (Windows x64)

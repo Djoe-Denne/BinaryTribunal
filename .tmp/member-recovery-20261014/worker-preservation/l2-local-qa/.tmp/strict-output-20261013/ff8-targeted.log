@@ -1,0 +1,39 @@
+bun test v1.4.2 (744846f84)
+
+test\native-canary-budget.test.ts:
+(pass) explicit 20-minute canary budget survives the former global cutoff [0.81ms]
+(pass) canary keeps a ten-minute default and refuses invalid/unbounded durations [0.15ms]
+
+test\native-canary-strict.test.ts:
+(pass) canary defaults to strict capture, never worker-edited JSON [0.16ms]
+(pass) legacy file output must be explicitly selected, never an automatic fallback [0.06ms]
+(pass) owned stop marker can cancel without killing the token-owning controller [1.51ms]
+
+test\strict-adapter.test.ts:
+(pass) strict submission transports its schema and requires reads, never a worker edit [4.94ms]
+(pass) strict native payload is validated and materialized once with controller-owned header [15.69ms]
+(pass) strict success cannot be inferred from native outcome, an old file or unwitnessed output [17.78ms]
+(pass) strict capture rejects aliases and reserved fields without post-hoc repair [5.80ms]
+(pass) strict mode refuses missing bridge capability before team allocation [2.70ms]
+(pass) strict mode cannot grant worker file edits or silently fall back to another provider [2.20ms]
+
+test\structured-result.test.ts:
+(pass) buildStructuredResultSchema > exposes exactly the strict business payload per role, without envelope fields [0.13ms]
+(pass) buildStructuredResultSchema > every object node is strict and no forbidden combinator appears [0.62ms]
+(pass) buildStructuredResultSchema > field contracts match the scientific validation source [0.16ms]
+(pass) decodeStructuredPayload > accepts the valid payload of every role and preserves its content [0.51ms]
+(pass) decodeStructuredPayload > never mutates its input [0.28ms]
+(pass) decodeStructuredPayload > refuses the proposals alias: propositions is the only accepted key [0.21ms]
+(pass) decodeStructuredPayload > refuses controller-owned envelope fields injected into the payload [0.29ms]
+(pass) decodeStructuredPayload > refuses missing required fields at any depth [0.18ms]
+(pass) decodeStructuredPayload > refuses extra fields at any depth [0.09ms]
+(pass) decodeStructuredPayload > refuses malformed evidence [0.17ms]
+(pass) decodeStructuredPayload > refuses out-of-contract values [0.49ms]
+(pass) decodeStructuredPayload > converts only the planned optional nulls to absence and keeps defined values [0.23ms]
+(pass) decodeStructuredPayload > the schema never fabricates a gate: certain gating stays with the scientific validator [0.06ms]
+(pass) decodeStructuredPayload > refuses non-JSON, non-finite, non-object input and unsupported roles [0.32ms]
+
+ 25 pass
+ 0 fail
+ 3916 expect() calls
+Ran 25 tests across 4 files. [87.00ms]

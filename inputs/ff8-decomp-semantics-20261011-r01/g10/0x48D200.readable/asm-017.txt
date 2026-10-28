@@ -1,0 +1,25 @@
+0048D766: push    eax
+0048D767: call    domain__BattleText_PrepareBuffer; Call Procedure
+0048D76C: push    eax
+0048D76D: call    domain__BattleText_Print; Call Procedure
+0048D772: mov     edi, eax
+0048D774: lea     eax, K_MAGIC.quezacoltCompatibility[esi]; Load Effective Address
+0048D77A: add     esp, 10h; Add
+0048D77D: mov     ACTION_GF_COMPAT_DELTA_TABLE_PTR, eax
+0048D782: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D787: mov     [esp+24h+p_always_zero], 0; jumptable 0048D37A case 246
+0048D78C: mov     [esp+24h+magic_id], 9
+0048D794: xor     edi, edi; Logical Exclusive OR
+0048D796: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D79B: mov     esi, ebx; jumptable 0048D37A case 247
+0048D79D: and     esi, 0FFFFh; Logical AND
+0048D7A3: push    esi; magic_id
+0048D7A4: call    sub_48B7A0; KNOWN_MAGIC: connu test 0x80 ; KNOWN_ITEM_LINED_FLAG =0xC0 (pas 0x80)
+0048D7A9: lea     eax, [esi+esi*2]; Load Effective Address
+0048D7AC: xor     ecx, ecx; Logical Exclusive OR
+0048D7AE: add     esp, 4; Add
+0048D7B1: lea     eax, [eax+eax*4]; Load Effective Address
+0048D7B4: shl     eax, 2; Shift Logical Left
+0048D7B7: xor     edi, edi; Logical Exclusive OR
+0048D7B9: mov     cl, K_MAGIC.hitCount[eax]
+0048D7BF: mov     [esp+24h+hit_count], ecx

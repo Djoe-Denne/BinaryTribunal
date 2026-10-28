@@ -1,0 +1,28 @@
+bun test v1.4.2 (744846f84)
+
+test\execution-rpc-runtime-schema.test.ts:
+ 6 | // generic Effect importer alone accepts it and does not reproduce the service policy.
+ 7 | test("public RPC envelopes contain no regex keywords rejected by native safe validation", () => {
+ 8 |   const inspect = (value: unknown): void => {
+ 9 |     if (!value || typeof value !== "object") return
+10 |     if (Array.isArray(value)) { for (const child of value) inspect(child); return }
+11 |     expect(Object.hasOwn(value, "pattern")).toBe(false)
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: false
+Received: true
+
+      at inspect (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:11:45)
+      at inspect (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:13:47)
+      at inspect (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:13:47)
+      at inspect (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:13:47)
+      at inspect (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:13:47)
+      at <anonymous> (C:\Users\djden\AppData\Local\Temp\opencode\ensemble-mission-graph-20261011\test\execution-rpc-runtime-schema.test.ts:15:61)
+(fail) public RPC envelopes contain no regex keywords rejected by native safe validation [0.42ms]
+(pass) strict admission still enforces names and exact schema hashes without RPC regex keywords [0.91ms]
+
+ 1 pass
+ 1 fail
+ 125 expect() calls
+Ran 2 tests across 1 file. [21.00ms]

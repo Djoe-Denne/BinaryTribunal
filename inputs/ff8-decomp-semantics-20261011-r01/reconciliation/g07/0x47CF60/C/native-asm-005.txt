@@ -1,0 +1,25 @@
+0047D0D9: mov     eax, pause_game_battle
+0047D0DE: cmp     eax, ebx; Compare Two Operands
+0047D0E0: jz      short loc_47D0E7; Jump if Zero (ZF=1)
+0047D0E2: call    battle_sub_5003A0; Call Procedure
+0047D0E7: mov     eax, is_sleeping
+0047D0EC: mov     pause_game_battle, ebx
+0047D0F2: cmp     eax, ebx; Compare Two Operands
+0047D0F4: jz      loc_47D067; Jump if Zero (ZF=1)
+0047D0FA: mov     [esi+0B88h], ebx
+0047D100: call    sub_45B590; CLEAR B7CC24=0 (focus-loss branch only; no draws after) (PH10)
+0047D105: jmp     loc_47D076; Jump
+0047D10A: mov     al, IS_BATTLE_PAUSED
+0047D10F: cmp     al, bl; Compare Two Operands
+0047D111: jnz     short loc_47D118; Jump if Not Zero (ZF=0)
+0047D113: call    main__FFBattleDirector_battleLoop; Unpaused-only call to FFBattleDirector_battleLoop. Skipping/replacing this call replaces domain progression but not the surrounding frame/HUD/render owner. Gate reads IS_BATTLE_PAUSED; pause_game_battle is copied into that latch near end-of-frame, so the transition frame can still run the director.
+0047D118: cmp     mode_Battle_AnimationState, 3; Compare Two Operands
+0047D120: jnz     short loc_47D150; Jump if Not Zero (ZF=0)
+0047D122: xor     eax, eax; Logical Exclusive OR
+0047D124: mov     al, byte ptr g_BattleFramePingPongIndex
+0047D129: lea     ecx, [eax+eax*2]; Load Effective Address
+0047D12C: shl     ecx, 3; Shift Logical Left
+0047D12F: sub     ecx, eax; Integer Subtraction
+0047D131: lea     edx, ds:1D969C8h[ecx*4]; Load Effective Address
+0047D138: push    edx; draw_env
+0047D139: call    BattleUI_SetHudDrawTarget; Post-director HUD pulse selects DRAWENV = 0x1D969C8 + 92*pingpong. This is not g_BattleOTBase and not a boolean enable flag.

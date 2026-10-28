@@ -1,0 +1,26 @@
+# 2b1 R1 CORRIGE : premièrecausebackendcanonique, correctifR2 ciblé
+
+V result_mvf6kzg4_005u_vuoq39 conclut CORRIGE. Parentrehash37pins524932B et
+relitcoordinator134–166/208–210,broker313–318/549–555/854–879,QA354–361.
+LeReaddéjàengagé peutpublierReadFailed9aubrokerentreobservationetvalidation
+d'unelapsednégatif ; R1figeensuitelocalInvalidRange5avant publication etson
+if(!held)masqueensuiteladivergence. Échecfermémaisdiagnosticcontractuellementfaux.
+
+Parentratifie : premièrecausebroker(réelpointdepublicationlinéarisé) canonique.
+Normalize/publierversvraibroker,puisGetSnapshotmémoireetreflectretenuedReason,
+fencelocaleautoriséesousgatecourte maispasfirstcodeindépendantfigé. SiReadgagne,
+copier9 ; siHOLDlocalgagne,brokerretient5ettousrestent5. AucungateautourIO,
+aucunbroker/V3 qualifié modifié. Signals2bits séparésinchangés,firstcausejamais
+effacée ; NoneHeld/quietfallback/inter-threadtesthookinterdits.
+
+SourceR2mêmeowner3artefactsnewsiblingdirectGO34pins447538B/
+88c364486ae262ea358ae4cb3fc484227f81179e07b5dd559af4fddcc8d64855,
+Sol/xhighnatifrevérifiér2-hold-fix. SeulesHoldLocked/ObserveIncidentsLockedpeuvent
+changer,tousautresbodiesBYTEidentiquesR1. QA_R1resteinchangée/égalitéstricte
+coordinator.failure==broker.failureconservée. Racenonseamée=preuveSTATIQUE,
+pas testRuntimeinventé/cross-threadprogress. Aucuncompiler/runR1n'alieu.
+
+Reviewtaskclôturéecommefindingsacceptés/sessionarrêtée ; authorsource/QAtasks
+restentnonclôturées. R1gels/CORRIGEconservés,deltaVfreshpuisgatesparentencore
+requisavantqualif. ExtractionsS1planner/numeric-contextisoléescontinuentsans
+changementpérimètre,pasS1/2b1/native/full44/Closed/releasepromotion.

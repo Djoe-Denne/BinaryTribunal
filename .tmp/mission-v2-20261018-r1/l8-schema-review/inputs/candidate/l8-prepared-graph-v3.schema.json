@@ -1,0 +1,2370 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://re-ff8.local/schemas/l8-prepared-graph-v3",
+  "title": "L8 prepared graph v3",
+  "description": "Candidate L8 prepared-graph transport, branch A/B discriminated relationally, not by schema combinators. Closed envelope: an inline v1 cluster-partition with adopted tightened to literal false, v1 investigation groups unchanged, and an optional proposalEvidence mirror of the real ProposalEvidence type. This wrapper is NOT a ClusterPartition and is never passed as-is to loaders or putPartition. All cross-field obligations (branch A/B requirements, fingerprint equalities, hex lowercase, cross-document joins, authority) are relational and documented in DESIGN.md; no JSON shape proves them. Strict harness subset: no pattern, no $ref, no combinators.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "partition",
+    "groups"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        3
+      ],
+      "description": "Envelope schema version. The inline partition keeps its own schemaVersion 1."
+    },
+    "partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Inline v1 cluster-partition reference (schemas/cluster-partition-v1.schema.json, pinned). Only delta in this candidate: adopted tightened to literal false; the stored v1 schema is NOT modified. Branch A L3 conformance (regime A, parentLineageId null, maturity structural) is relational, not schema-expressible.",
+      "required": [
+        "schemaVersion",
+        "partitionId",
+        "lineageId",
+        "parentLineageId",
+        "snapshotId",
+        "snapshotFingerprint",
+        "regime",
+        "algorithm",
+        "algorithmVersion",
+        "configFingerprint",
+        "seed",
+        "communities",
+        "modularity",
+        "maturity",
+        "adopted"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "enum": [
+            1
+          ],
+          "description": "Document schema version"
+        },
+        "partitionId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 128,
+          "description": "Assigned partition id. Not a lineage id."
+        },
+        "lineageId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 128,
+          "description": "Partition lineage id. Must differ from partitionId."
+        },
+        "parentLineageId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128,
+          "description": "Parent partition lineage, or null"
+        },
+        "snapshotId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 128,
+          "description": "Source snapshot id"
+        },
+        "snapshotFingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+        },
+        "regime": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B"
+          ],
+          "description": "A structural discovery. B multiview reconstruction."
+        },
+        "algorithm": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Algorithm name"
+        },
+        "algorithmVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "description": "Algorithm version"
+        },
+        "configFingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+        },
+        "seed": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Explicit seed, or none. Never a silent numeric zero."
+        },
+        "communities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "contentId",
+              "lineageId",
+              "parentContentIds",
+              "memberIds",
+              "kernelIds",
+              "externalContextIds",
+              "conductance"
+            ],
+            "properties": {
+              "contentId": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "description": "Hash of algorithm, version, config and sorted member ids. A split child gets a new content id. 64 lowercase hex characters; schema cannot use pattern."
+              },
+              "lineageId": {
+                "type": "string",
+                "minLength": 4,
+                "maxLength": 128,
+                "description": "Lineage id. Must differ from contentId."
+              },
+              "parentContentIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Parent community content id 64 lowercase hex characters; schema cannot use pattern."
+                },
+                "minItems": 0,
+                "maxItems": 8,
+                "description": "Empty for a root. One parent for a split child. Two for a merge child."
+              },
+              "memberIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 66,
+                  "maxLength": 96,
+                  "description": "Function id"
+                },
+                "minItems": 1,
+                "maxItems": 100000,
+                "description": "Owned community members, canonically ordered"
+              },
+              "kernelIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 66,
+                  "maxLength": 96,
+                  "description": "Function id"
+                },
+                "minItems": 0,
+                "maxItems": 100000,
+                "description": "Kernel subset of members"
+              },
+              "externalContextIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 66,
+                  "maxLength": 96,
+                  "description": "Function id"
+                },
+                "minItems": 0,
+                "maxItems": 100000,
+                "description": "Context only. Disjoint from members. A hub here must not fuse communities."
+              },
+              "conductance": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "known",
+                  "value"
+                ],
+                "properties": {
+                  "known": {
+                    "type": "boolean",
+                    "description": "false means not observed. Never encode unknown as zero."
+                  },
+                  "value": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "description": "null iff known is false. Zero is legal only when known is true."
+                  }
+                },
+                "description": "Conductance. Unknown stays unknown."
+              }
+            },
+            "description": "Community. Content id and lineage id are distinct."
+          },
+          "minItems": 1,
+          "maxItems": 100000,
+          "description": "Communities"
+        },
+        "modularity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "known",
+            "value"
+          ],
+          "properties": {
+            "known": {
+              "type": "boolean",
+              "description": "false means not observed. Never encode unknown as zero."
+            },
+            "value": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "null iff known is false. Zero is legal only when known is true."
+            }
+          },
+          "description": "Modularity. Unknown stays unknown."
+        },
+        "maturity": {
+          "type": "string",
+          "enum": [
+            "structural",
+            "partial",
+            "multiview"
+          ],
+          "description": "Partition maturity"
+        },
+        "adopted": {
+          "type": "boolean",
+          "enum": [
+            false
+          ],
+          "description": "Tightened in this prepared-graph candidate: partition transport carries literal false (L3 type cluster.ts:38-42; branch B evidence lineage.ts:1037). The stored v1 schema keeps a plain boolean; the adoption view is l8-partition-adoption-v1."
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Investigation group v1 document, exactly the stored investigation-group-v1 schema; no fields added in this candidate (dispositions D3). kernelIds/externalContextIds stay in partition.communities[]; the join group.communityContentId to community contentId is relational.",
+        "required": [
+          "schemaVersion",
+          "groupId",
+          "partitionId",
+          "communityContentId",
+          "ownedFunctionIds",
+          "contextFunctionIds",
+          "capabilityIds",
+          "granularity",
+          "estimatedCost",
+          "uncoveredIds",
+          "memberMaturity"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "description": "Document schema version"
+          },
+          "groupId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Group id"
+          },
+          "partitionId": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 128,
+            "description": "Source partition id"
+          },
+          "communityContentId": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "description": "Source community content id 64 lowercase hex characters; schema cannot use pattern."
+          },
+          "ownedFunctionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Owned function id"
+            },
+            "minItems": 1,
+            "maxItems": 100000,
+            "description": "Possessed functions. Context membership is not ownership."
+          },
+          "contextFunctionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Context function id"
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Read-only context. Must be disjoint from owned. Does not create work."
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "description": "Capability id"
+            },
+            "minItems": 0,
+            "maxItems": 256,
+            "description": "Originating capabilities"
+          },
+          "granularity": {
+            "type": "string",
+            "enum": [
+              "function",
+              "family",
+              "scc",
+              "group",
+              "subgroup"
+            ],
+            "description": "Group granularity"
+          },
+          "estimatedCost": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "value"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean",
+                "description": "false means not observed. Never encode unknown as zero."
+              },
+              "value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "null iff known is false. Zero is legal only when known is true."
+              }
+            },
+            "description": "Estimated cost in abstract units. Unknown stays unknown. Byte budgets are UTF-8."
+          },
+          "uncoveredIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 66,
+              "maxLength": 96,
+              "description": "Function id"
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Functions explicitly not covered"
+          },
+          "memberMaturity": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "functionId",
+                "semanticMaturity"
+              ],
+              "properties": {
+                "functionId": {
+                  "type": "string",
+                  "minLength": 66,
+                  "maxLength": 96,
+                  "description": "Function id"
+                },
+                "semanticMaturity": {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "structural",
+                    "partial",
+                    "reconciled",
+                    "published-local"
+                  ],
+                  "description": "Local maturity"
+                }
+              },
+              "description": "Per-member maturity. Partial maturity is local, not global."
+            },
+            "minItems": 0,
+            "maxItems": 100000,
+            "description": "Maturity projection"
+          }
+        }
+      },
+      "description": "Investigation group v1 documents. Required for regime A and B (dispositions D3). No item-count bound asserted here; coverage rules are relational."
+    },
+    "proposalEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Mirror of the real ProposalEvidence type (lineage.ts:423-452), already coded outside the three v1 schemas. Optional at schema level; relationally required for regime B (dispositions D1). Evidence is a content address, never authority by itself (lineage.ts:491). Equality root.partition == result.partition is a relational obligation, never schema-proven.",
+      "required": [
+        "version",
+        "evidenceFingerprint",
+        "source",
+        "result"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": [
+            "l4-proposal-evidence-1"
+          ],
+          "description": "ProposalEvidence version (lineage.ts:424, code gate lineage.ts:1010)."
+        },
+        "evidenceFingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "description": "hash(canonical({version, source, result})) computed without this field (lineage.ts:491-493); 64 lowercase hex characters; schema cannot use pattern and cannot verify the digest."
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ProposalEvidence.source (lineage.ts:426-433): full evaluated inputs, referenced not re-derived.",
+          "required": [
+            "snapshot",
+            "config",
+            "constraints",
+            "encoderIdentity",
+            "encoderIdentityStatus",
+            "previous"
+          ],
+          "properties": {
+            "snapshot": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "GraphSnapshotView mirror (semantic-index.ts:117-126); NOT the full graph-snapshot-v1 document (dispositions D7).",
+              "required": [
+                "schemaVersion",
+                "snapshotId",
+                "normalizedFingerprint",
+                "nodes",
+                "edges",
+                "objects",
+                "unresolved",
+                "capabilities"
+              ],
+              "properties": {
+                "schemaVersion": {
+                  "type": "integer",
+                  "enum": [
+                    1
+                  ],
+                  "description": "View schema version"
+                },
+                "snapshotId": {
+                  "type": "string",
+                  "minLength": 4,
+                  "maxLength": 128,
+                  "description": "Snapshot id"
+                },
+                "normalizedFingerprint": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Normalized graph fingerprint; 64 lowercase hex characters is a code-level gate (lineage.ts:1016); schema cannot use pattern."
+                },
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "FunctionNodeView (semantic-index.ts:73-81).",
+                    "required": [
+                      "id",
+                      "moduleSha256",
+                      "rva",
+                      "name",
+                      "observedDescription",
+                      "semanticMaturity",
+                      "functionClass"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 66,
+                        "maxLength": 96,
+                        "description": "Function id moduleSha256:rva; the exact FUNCTION_ID format is code-level (lineage.ts:19,1030); schema cannot use pattern."
+                      },
+                      "moduleSha256": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Module hash; 64 lowercase hex characters is a code-level gate (provenanceReady semantic-index.ts:1104); schema cannot use pattern."
+                      },
+                      "rva": {
+                        "type": "string",
+                        "description": "0x uppercase-hex RVA without leading zeros; exact format is code-level (lineage.ts:19,1030); schema cannot use pattern."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Observed name; no bound asserted here."
+                      },
+                      "observedDescription": {
+                        "type": "string",
+                        "description": "Observed description; no bound asserted here."
+                      },
+                      "semanticMaturity": {
+                        "type": "string",
+                        "enum": [
+                          "none",
+                          "structural",
+                          "partial",
+                          "reconciled",
+                          "published-local"
+                        ],
+                        "description": "Local maturity (lineage.ts:1032)."
+                      },
+                      "functionClass": {
+                        "type": "string",
+                        "description": "Function class label; no bound asserted here."
+                      }
+                    }
+                  },
+                  "description": "Graph function nodes; no item-count bound asserted here."
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "FunctionEdgeView (semantic-index.ts:83-94).",
+                    "required": [
+                      "id",
+                      "sourceId",
+                      "destinationId",
+                      "kind",
+                      "status",
+                      "schedulerRelevance"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Edge id; no bound asserted here."
+                      },
+                      "sourceId": {
+                        "type": "string",
+                        "minLength": 66,
+                        "maxLength": 96,
+                        "description": "Function id of the source node; membership in nodes is relational (lineage.ts:1055)."
+                      },
+                      "destinationId": {
+                        "type": "string",
+                        "minLength": 66,
+                        "maxLength": 96,
+                        "description": "Function id of the destination node; membership in nodes is relational (lineage.ts:1055)."
+                      },
+                      "kind": {
+                        "type": "string",
+                        "description": "Relation kind; no bound asserted here."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Relation status; no bound asserted here."
+                      },
+                      "schedulerRelevance": {
+                        "type": "string",
+                        "description": "Scheduler relevance label; no bound asserted here."
+                      },
+                      "sites": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "siteRva",
+                            "xrefType",
+                            "provenance"
+                          ],
+                          "properties": {
+                            "siteRva": {
+                              "type": "string",
+                              "description": "Call-site RVA; format gates are code-level (lineage.ts:1216-1217); schema cannot use pattern."
+                            },
+                            "xrefType": {
+                              "type": "string",
+                              "description": "Site xref type; consistency gates are code-level."
+                            },
+                            "provenance": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "description": "ProvenanceView (semantic-index.ts:62-71). String shapes only here; siteKind/xrefType enumerations, hex lowercase and 0x RVA format are code-level gates (provenanceShape lineage.ts:952-956; provenanceReady semantic-index.ts:1098-1107).",
+                              "required": [
+                                "moduleSha256",
+                                "siteRva",
+                                "siteKind",
+                                "xrefType",
+                                "source",
+                                "sourceVersion",
+                                "sourceHash",
+                                "evidenceSha256"
+                              ],
+                              "properties": {
+                                "moduleSha256": {
+                                  "type": "string",
+                                  "minLength": 64,
+                                  "maxLength": 64,
+                                  "description": "Module hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                                },
+                                "siteRva": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "description": "Provenance site RVA or null"
+                                },
+                                "siteKind": {
+                                  "type": "string",
+                                  "description": "Provenance site kind; enumerated only by code (provenanceReady semantic-index.ts:1101)."
+                                },
+                                "xrefType": {
+                                  "type": "string",
+                                  "description": "Provenance xref type; enumerated only by code (provenanceReady semantic-index.ts:1102)."
+                                },
+                                "source": {
+                                  "type": "string",
+                                  "description": "Provenance source; no bound asserted here."
+                                },
+                                "sourceVersion": {
+                                  "type": "string",
+                                  "description": "Provenance source version; no bound asserted here."
+                                },
+                                "sourceHash": {
+                                  "type": "string",
+                                  "minLength": 64,
+                                  "maxLength": 64,
+                                  "description": "Source hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                                },
+                                "evidenceSha256": {
+                                  "type": "string",
+                                  "minLength": 64,
+                                  "maxLength": 64,
+                                  "description": "Evidence hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "description": "Optional transport sites"
+                      },
+                      "confidence": {
+                        "type": "string",
+                        "description": "Optional confidence label"
+                      },
+                      "appearedInRevision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional revision of appearance (code lineage.ts:1043)."
+                      },
+                      "retiredInRevision": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 0,
+                        "description": "Optional revision of retirement or null (code lineage.ts:1044)."
+                      }
+                    }
+                  },
+                  "description": "Graph edges; no item-count bound asserted here."
+                },
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "ReferencedObjectView (semantic-index.ts:96-100).",
+                    "required": [
+                      "id",
+                      "kind",
+                      "name"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Object id; no bound asserted here."
+                      },
+                      "kind": {
+                        "type": "string",
+                        "description": "Object kind; no bound asserted here."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Object name; no bound asserted here."
+                      }
+                    }
+                  },
+                  "description": "Referenced objects; no item-count bound asserted here."
+                },
+                "unresolved": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "UnresolvedReferenceView (semantic-index.ts:102-106).",
+                    "required": [
+                      "fromFunctionId",
+                      "kind",
+                      "referencedObjectId"
+                    ],
+                    "properties": {
+                      "fromFunctionId": {
+                        "type": "string",
+                        "minLength": 66,
+                        "maxLength": 96,
+                        "description": "Function id"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "description": "Unresolved reference kind; no bound asserted here."
+                      },
+                      "referencedObjectId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Referenced object id or null"
+                      }
+                    }
+                  },
+                  "description": "Unresolved references; no item-count bound asserted here."
+                },
+                "capabilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "CapabilityFactView (semantic-index.ts:108-115).",
+                    "required": [
+                      "id",
+                      "subjectKind",
+                      "subjectId",
+                      "capability",
+                      "confidence",
+                      "hypotheticalRole"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Capability fact id; no bound asserted here."
+                      },
+                      "subjectKind": {
+                        "type": "string",
+                        "description": "Subject kind; no bound asserted here."
+                      },
+                      "subjectId": {
+                        "type": "string",
+                        "description": "Subject id (function or object); membership is relational."
+                      },
+                      "capability": {
+                        "type": "string",
+                        "description": "Capability label; no bound asserted here."
+                      },
+                      "confidence": {
+                        "type": "string",
+                        "description": "Confidence label; no bound asserted here."
+                      },
+                      "hypotheticalRole": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Hypothetical role or null"
+                      }
+                    }
+                  },
+                  "description": "Capability facts; no item-count bound asserted here."
+                }
+              }
+            },
+            "config": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "MultiviewConfig mirror (semantic-index.ts:145-157) with the bounds actually enforced by validConfig (semantic-index.ts:1188-1198). Expressed limits only; every stricter code rule stays relational.",
+              "required": [
+                "rulesetVersion",
+                "synonyms",
+                "bm25",
+                "topK",
+                "scoreTieDecimals",
+                "similarityThreshold",
+                "maxPostingDf",
+                "maxCandidates",
+                "hubMinDegree",
+                "hysteresis",
+                "views"
+              ],
+              "properties": {
+                "rulesetVersion": {
+                  "type": "string",
+                  "enum": [
+                    "ff8-tech-syn-1"
+                  ],
+                  "description": "LEXICAL_RULESET_VERSION (semantic-index.ts:38); exact equality is enforced by validConfig (semantic-index.ts:1189)."
+                },
+                "synonyms": {
+                  "type": "boolean",
+                  "description": "Synonym expansion flag (semantic-index.ts:1189)."
+                },
+                "bm25": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "k1",
+                    "b"
+                  ],
+                  "properties": {
+                    "k1": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100,
+                      "description": "BM25 k1. Expressed range [0,100] only: the strict subset cannot require k1 greater than 0. validConfig (semantic-index.ts:1191) requires finite and strictly positive; the schema does NOT reject zero and no epsilon is invented."
+                    },
+                    "b": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1,
+                      "description": "BM25 b, finite in [0,1] (semantic-index.ts:1192)."
+                    }
+                  },
+                  "description": "BM25 parameters"
+                },
+                "topK": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "description": "Retrieval topK, integer in [1,100] (semantic-index.ts:1193)."
+                },
+                "scoreTieDecimals": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 12,
+                  "description": "Score tie decimals, integer in [0,12] (semantic-index.ts:1194)."
+                },
+                "similarityThreshold": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Similarity threshold, finite in [0,1] (semantic-index.ts:1195)."
+                },
+                "maxPostingDf": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000,
+                  "description": "Max posting DF, integer in [1,1000000] (semantic-index.ts:1193)."
+                },
+                "maxCandidates": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000,
+                  "description": "Max candidates, integer in [1,10000] (semantic-index.ts:1193)."
+                },
+                "hubMinDegree": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000,
+                  "description": "Hub minimum degree, integer in [1,1000000] (semantic-index.ts:1194)."
+                },
+                "hysteresis": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Hysteresis factor, finite in [0,1] (semantic-index.ts:1196)."
+                },
+                "views": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "structure",
+                    "data",
+                    "lexical",
+                    "embeddings",
+                    "validatedRelations",
+                    "capabilities"
+                  ],
+                  "properties": {
+                    "structure": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "boolean"
+                    },
+                    "lexical": {
+                      "type": "boolean"
+                    },
+                    "embeddings": {
+                      "type": "boolean"
+                    },
+                    "validatedRelations": {
+                      "type": "boolean"
+                    },
+                    "capabilities": {
+                      "type": "boolean"
+                    }
+                  },
+                  "description": "Active multiview views, all booleans (semantic-index.ts:136-143,1197)."
+                }
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "LinkConstraint (semantic-index.ts:128-134).",
+                "required": [
+                  "kind",
+                  "leftId",
+                  "rightId",
+                  "provenance",
+                  "validation"
+                ],
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "must-link",
+                      "cannot-link"
+                    ],
+                    "description": "Constraint kind (lineage.ts:1053)."
+                  },
+                  "leftId": {
+                    "type": "string",
+                    "minLength": 66,
+                    "maxLength": 96,
+                    "description": "Function id of the left endpoint; node membership is relational (lineage.ts:1055)."
+                  },
+                  "rightId": {
+                    "type": "string",
+                    "minLength": 66,
+                    "maxLength": 96,
+                    "description": "Function id of the right endpoint; node membership is relational (lineage.ts:1055)."
+                  },
+                  "provenance": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "ProvenanceView (semantic-index.ts:62-71). String shapes only here; siteKind/xrefType enumerations, hex lowercase and 0x RVA format are code-level gates (provenanceShape lineage.ts:952-956; provenanceReady semantic-index.ts:1098-1107).",
+                    "required": [
+                      "moduleSha256",
+                      "siteRva",
+                      "siteKind",
+                      "xrefType",
+                      "source",
+                      "sourceVersion",
+                      "sourceHash",
+                      "evidenceSha256"
+                    ],
+                    "properties": {
+                      "moduleSha256": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Module hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                      },
+                      "siteRva": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Provenance site RVA or null"
+                      },
+                      "siteKind": {
+                        "type": "string",
+                        "description": "Provenance site kind; enumerated only by code (provenanceReady semantic-index.ts:1101)."
+                      },
+                      "xrefType": {
+                        "type": "string",
+                        "description": "Provenance xref type; enumerated only by code (provenanceReady semantic-index.ts:1102)."
+                      },
+                      "source": {
+                        "type": "string",
+                        "description": "Provenance source; no bound asserted here."
+                      },
+                      "sourceVersion": {
+                        "type": "string",
+                        "description": "Provenance source version; no bound asserted here."
+                      },
+                      "sourceHash": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Source hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                      },
+                      "evidenceSha256": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Evidence hash 64 characters; lowercase is code-level; schema cannot use pattern."
+                      }
+                    }
+                  },
+                  "validation": {
+                    "type": "string",
+                    "enum": [
+                      "validated",
+                      "unvalidated",
+                      "fixture-only"
+                    ],
+                    "description": "Constraint validation class (lineage.ts:1054)."
+                  }
+                }
+              },
+              "description": "Source link constraints; item-level acceptance/rejection decisions are code-level (lineage.ts:1052-1062); no item-count bound asserted here."
+            },
+            "encoderIdentity": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": false,
+              "description": "Omit of the FrozenEncoder encode method (semantic-index.ts:159-167); the encode method is never serialized (dispositions D7).",
+              "required": [
+                "modelId",
+                "tokenizerRevision",
+                "parameterFingerprint",
+                "dimension"
+              ],
+              "properties": {
+                "modelId": {
+                  "type": "string",
+                  "description": "Encoder model id"
+                },
+                "tokenizerRevision": {
+                  "type": "string",
+                  "description": "Tokenizer revision label"
+                },
+                "parameterFingerprint": {
+                  "type": "string",
+                  "description": "Parameter fingerprint label; no digest verification is possible in schema."
+                },
+                "dimension": {
+                  "type": "number",
+                  "description": "Embedding dimension"
+                },
+                "implementationSha256": {
+                  "type": "string",
+                  "description": "Optional implementation hash label; lowercase/64 enforcement is code-level; schema cannot use pattern."
+                },
+                "tokenizerSha256": {
+                  "type": "string",
+                  "description": "Optional tokenizer hash label; lowercase/64 enforcement is code-level; schema cannot use pattern."
+                }
+              }
+            },
+            "encoderIdentityStatus": {
+              "type": "string",
+              "enum": [
+                "absent",
+                "captured",
+                "unreadable"
+              ],
+              "description": "Encoder capture status (lineage.ts:431,1021); captured iff encoderIdentity non-null is relational (lineage.ts:1022)."
+            },
+            "previous": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": false,
+              "description": "PreviousProposalSource mirror (lineage.ts:442-452, code gate lineage.ts:1067-1080). Immediate previous only, referenced not recursively embedded; not a second durable history.",
+              "required": [
+                "partition",
+                "sidecar",
+                "authoritative",
+                "binding"
+              ],
+              "properties": {
+                "partition": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Inline v1 cluster-partition reference (schemas/cluster-partition-v1.schema.json, pinned). Only delta in this candidate: adopted tightened to literal false; the stored v1 schema is NOT modified. Branch A L3 conformance (regime A, parentLineageId null, maturity structural) is relational, not schema-expressible.",
+                  "required": [
+                    "schemaVersion",
+                    "partitionId",
+                    "lineageId",
+                    "parentLineageId",
+                    "snapshotId",
+                    "snapshotFingerprint",
+                    "regime",
+                    "algorithm",
+                    "algorithmVersion",
+                    "configFingerprint",
+                    "seed",
+                    "communities",
+                    "modularity",
+                    "maturity",
+                    "adopted"
+                  ],
+                  "properties": {
+                    "schemaVersion": {
+                      "type": "integer",
+                      "enum": [
+                        1
+                      ],
+                      "description": "Document schema version"
+                    },
+                    "partitionId": {
+                      "type": "string",
+                      "minLength": 4,
+                      "maxLength": 128,
+                      "description": "Assigned partition id. Not a lineage id."
+                    },
+                    "lineageId": {
+                      "type": "string",
+                      "minLength": 4,
+                      "maxLength": 128,
+                      "description": "Partition lineage id. Must differ from partitionId."
+                    },
+                    "parentLineageId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 0,
+                      "maxLength": 128,
+                      "description": "Parent partition lineage, or null"
+                    },
+                    "snapshotId": {
+                      "type": "string",
+                      "minLength": 4,
+                      "maxLength": 128,
+                      "description": "Source snapshot id"
+                    },
+                    "snapshotFingerprint": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                    },
+                    "regime": {
+                      "type": "string",
+                      "enum": [
+                        "A",
+                        "B"
+                      ],
+                      "description": "A structural discovery. B multiview reconstruction."
+                    },
+                    "algorithm": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "description": "Algorithm name"
+                    },
+                    "algorithmVersion": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 32,
+                      "description": "Algorithm version"
+                    },
+                    "configFingerprint": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                    },
+                    "seed": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "description": "Explicit seed, or none. Never a silent numeric zero."
+                    },
+                    "communities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "contentId",
+                          "lineageId",
+                          "parentContentIds",
+                          "memberIds",
+                          "kernelIds",
+                          "externalContextIds",
+                          "conductance"
+                        ],
+                        "properties": {
+                          "contentId": {
+                            "type": "string",
+                            "minLength": 64,
+                            "maxLength": 64,
+                            "description": "Hash of algorithm, version, config and sorted member ids. A split child gets a new content id. 64 lowercase hex characters; schema cannot use pattern."
+                          },
+                          "lineageId": {
+                            "type": "string",
+                            "minLength": 4,
+                            "maxLength": 128,
+                            "description": "Lineage id. Must differ from contentId."
+                          },
+                          "parentContentIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 64,
+                              "maxLength": 64,
+                              "description": "Parent community content id 64 lowercase hex characters; schema cannot use pattern."
+                            },
+                            "minItems": 0,
+                            "maxItems": 8,
+                            "description": "Empty for a root. One parent for a split child. Two for a merge child."
+                          },
+                          "memberIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 66,
+                              "maxLength": 96,
+                              "description": "Function id"
+                            },
+                            "minItems": 1,
+                            "maxItems": 100000,
+                            "description": "Owned community members, canonically ordered"
+                          },
+                          "kernelIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 66,
+                              "maxLength": 96,
+                              "description": "Function id"
+                            },
+                            "minItems": 0,
+                            "maxItems": 100000,
+                            "description": "Kernel subset of members"
+                          },
+                          "externalContextIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 66,
+                              "maxLength": 96,
+                              "description": "Function id"
+                            },
+                            "minItems": 0,
+                            "maxItems": 100000,
+                            "description": "Context only. Disjoint from members. A hub here must not fuse communities."
+                          },
+                          "conductance": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "known",
+                              "value"
+                            ],
+                            "properties": {
+                              "known": {
+                                "type": "boolean",
+                                "description": "false means not observed. Never encode unknown as zero."
+                              },
+                              "value": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "description": "null iff known is false. Zero is legal only when known is true."
+                              }
+                            },
+                            "description": "Conductance. Unknown stays unknown."
+                          }
+                        },
+                        "description": "Community. Content id and lineage id are distinct."
+                      },
+                      "minItems": 1,
+                      "maxItems": 100000,
+                      "description": "Communities"
+                    },
+                    "modularity": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "known",
+                        "value"
+                      ],
+                      "properties": {
+                        "known": {
+                          "type": "boolean",
+                          "description": "false means not observed. Never encode unknown as zero."
+                        },
+                        "value": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "description": "null iff known is false. Zero is legal only when known is true."
+                        }
+                      },
+                      "description": "Modularity. Unknown stays unknown."
+                    },
+                    "maturity": {
+                      "type": "string",
+                      "enum": [
+                        "structural",
+                        "partial",
+                        "multiview"
+                      ],
+                      "description": "Partition maturity"
+                    },
+                    "adopted": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ],
+                      "description": "Tightened in this prepared-graph candidate: partition transport carries literal false (L3 type cluster.ts:38-42; branch B evidence lineage.ts:1037). The stored v1 schema keeps a plain boolean; the adoption view is l8-partition-adoption-v1."
+                    }
+                  }
+                },
+                "sidecar": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": false,
+                  "description": "l4-lineage-2 lossless lineage sidecar (lineage.ts:409-416, produced lineage.ts:625), or null.",
+                  "required": [
+                    "version",
+                    "partitionId",
+                    "v1Compatible",
+                    "proposalPass",
+                    "communities"
+                  ],
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "enum": [
+                        "l4-lineage-2"
+                      ],
+                      "description": "Sidecar version (lineage.ts:410,966)."
+                    },
+                    "partitionId": {
+                      "type": "string",
+                      "minLength": 4,
+                      "maxLength": 128,
+                      "description": "Sidecar partition id; equality with the partition is relational (lineage.ts:966)."
+                    },
+                    "v1Compatible": {
+                      "type": "boolean",
+                      "description": "v1 projection compatibility flag"
+                    },
+                    "proposalPass": {
+                      "type": "boolean",
+                      "description": "Proposal pass flag; payload flags are not authority (lineage.ts:680)."
+                    },
+                    "projectionFingerprint": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Optional in the type (lineage.ts:414); the durable code gate sidecarValid requires it present and equal to the partition proposal fingerprint (lineage.ts:965-967) — relational, never schema-proven."
+                    },
+                    "communities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "contentId",
+                          "parentContentIds",
+                          "conductance"
+                        ],
+                        "properties": {
+                          "contentId": {
+                            "type": "string",
+                            "minLength": 64,
+                            "maxLength": 64,
+                            "description": "Community content id"
+                          },
+                          "parentContentIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 64,
+                              "maxLength": 64,
+                              "description": "Full-ancestry parent content id; lowercase hex is code-level; schema cannot use pattern."
+                            },
+                            "description": "Complete lossless parent list; projected v1 parents are capped at two and this full list may exceed two (lineage.ts:976,603) — relational."
+                          },
+                          "conductance": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "description": "Lossless metric sidecar, explicitly NOT the v1 KnownInteger transport type (lineage.ts:26-32).",
+                            "required": [
+                              "known",
+                              "value"
+                            ],
+                            "properties": {
+                              "known": {
+                                "type": "boolean",
+                                "description": "false means not observed. Never encode unknown as zero."
+                              },
+                              "value": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ],
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Lossless value; when known, finite in [0,1] (lineage.ts:979); null when unknown. Numeric bounds apply to numbers only; null bypasses them in the strict validator."
+                              },
+                              "numerator": {
+                                "type": "number",
+                                "minimum": 0,
+                                "description": "Optional lossless numerator (lineage.ts:30)."
+                              },
+                              "denominator": {
+                                "type": "number",
+                                "minimum": 0,
+                                "description": "Optional lossless denominator (lineage.ts:31)."
+                              }
+                            },
+                            "description": "Conductance with lossless numerator/denominator; pairing and quotient consistency are relational (lineage.ts:980-983)."
+                          }
+                        }
+                      },
+                      "description": "Sidecar communities; equality of length and content ids with the partition is relational (lineage.ts:969,973)."
+                    }
+                  }
+                },
+                "authoritative": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Full authority-owned previous result when available (lineage.ts:446); null otherwise. Same shape as proposalEvidence.result.",
+                  "required": [
+                    "partition",
+                    "lineageSidecar",
+                    "diagnostics",
+                    "constraints"
+                  ],
+                  "properties": {
+                    "partition": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "description": "Inline v1 cluster-partition reference (schemas/cluster-partition-v1.schema.json, pinned). Only delta in this candidate: adopted tightened to literal false; the stored v1 schema is NOT modified. Branch A L3 conformance (regime A, parentLineageId null, maturity structural) is relational, not schema-expressible.",
+                      "required": [
+                        "schemaVersion",
+                        "partitionId",
+                        "lineageId",
+                        "parentLineageId",
+                        "snapshotId",
+                        "snapshotFingerprint",
+                        "regime",
+                        "algorithm",
+                        "algorithmVersion",
+                        "configFingerprint",
+                        "seed",
+                        "communities",
+                        "modularity",
+                        "maturity",
+                        "adopted"
+                      ],
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "integer",
+                          "enum": [
+                            1
+                          ],
+                          "description": "Document schema version"
+                        },
+                        "partitionId": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 128,
+                          "description": "Assigned partition id. Not a lineage id."
+                        },
+                        "lineageId": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 128,
+                          "description": "Partition lineage id. Must differ from partitionId."
+                        },
+                        "parentLineageId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "minLength": 0,
+                          "maxLength": 128,
+                          "description": "Parent partition lineage, or null"
+                        },
+                        "snapshotId": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 128,
+                          "description": "Source snapshot id"
+                        },
+                        "snapshotFingerprint": {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                        },
+                        "regime": {
+                          "type": "string",
+                          "enum": [
+                            "A",
+                            "B"
+                          ],
+                          "description": "A structural discovery. B multiview reconstruction."
+                        },
+                        "algorithm": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "description": "Algorithm name"
+                        },
+                        "algorithmVersion": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 32,
+                          "description": "Algorithm version"
+                        },
+                        "configFingerprint": {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                        },
+                        "seed": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "description": "Explicit seed, or none. Never a silent numeric zero."
+                        },
+                        "communities": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "contentId",
+                              "lineageId",
+                              "parentContentIds",
+                              "memberIds",
+                              "kernelIds",
+                              "externalContextIds",
+                              "conductance"
+                            ],
+                            "properties": {
+                              "contentId": {
+                                "type": "string",
+                                "minLength": 64,
+                                "maxLength": 64,
+                                "description": "Hash of algorithm, version, config and sorted member ids. A split child gets a new content id. 64 lowercase hex characters; schema cannot use pattern."
+                              },
+                              "lineageId": {
+                                "type": "string",
+                                "minLength": 4,
+                                "maxLength": 128,
+                                "description": "Lineage id. Must differ from contentId."
+                              },
+                              "parentContentIds": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 64,
+                                  "maxLength": 64,
+                                  "description": "Parent community content id 64 lowercase hex characters; schema cannot use pattern."
+                                },
+                                "minItems": 0,
+                                "maxItems": 8,
+                                "description": "Empty for a root. One parent for a split child. Two for a merge child."
+                              },
+                              "memberIds": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 66,
+                                  "maxLength": 96,
+                                  "description": "Function id"
+                                },
+                                "minItems": 1,
+                                "maxItems": 100000,
+                                "description": "Owned community members, canonically ordered"
+                              },
+                              "kernelIds": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 66,
+                                  "maxLength": 96,
+                                  "description": "Function id"
+                                },
+                                "minItems": 0,
+                                "maxItems": 100000,
+                                "description": "Kernel subset of members"
+                              },
+                              "externalContextIds": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 66,
+                                  "maxLength": 96,
+                                  "description": "Function id"
+                                },
+                                "minItems": 0,
+                                "maxItems": 100000,
+                                "description": "Context only. Disjoint from members. A hub here must not fuse communities."
+                              },
+                              "conductance": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "known",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "known": {
+                                    "type": "boolean",
+                                    "description": "false means not observed. Never encode unknown as zero."
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "null"
+                                    ],
+                                    "description": "null iff known is false. Zero is legal only when known is true."
+                                  }
+                                },
+                                "description": "Conductance. Unknown stays unknown."
+                              }
+                            },
+                            "description": "Community. Content id and lineage id are distinct."
+                          },
+                          "minItems": 1,
+                          "maxItems": 100000,
+                          "description": "Communities"
+                        },
+                        "modularity": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "known",
+                            "value"
+                          ],
+                          "properties": {
+                            "known": {
+                              "type": "boolean",
+                              "description": "false means not observed. Never encode unknown as zero."
+                            },
+                            "value": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "description": "null iff known is false. Zero is legal only when known is true."
+                            }
+                          },
+                          "description": "Modularity. Unknown stays unknown."
+                        },
+                        "maturity": {
+                          "type": "string",
+                          "enum": [
+                            "structural",
+                            "partial",
+                            "multiview"
+                          ],
+                          "description": "Partition maturity"
+                        },
+                        "adopted": {
+                          "type": "boolean",
+                          "enum": [
+                            false
+                          ],
+                          "description": "Tightened in this prepared-graph candidate: partition transport carries literal false (L3 type cluster.ts:38-42; branch B evidence lineage.ts:1037). The stored v1 schema keeps a plain boolean; the adoption view is l8-partition-adoption-v1."
+                        }
+                      }
+                    },
+                    "lineageSidecar": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "description": "l4-lineage-2 lossless lineage sidecar (lineage.ts:409-416, produced lineage.ts:625).",
+                      "required": [
+                        "version",
+                        "partitionId",
+                        "v1Compatible",
+                        "proposalPass",
+                        "communities"
+                      ],
+                      "properties": {
+                        "version": {
+                          "type": "string",
+                          "enum": [
+                            "l4-lineage-2"
+                          ],
+                          "description": "Sidecar version (lineage.ts:410,966)."
+                        },
+                        "partitionId": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 128,
+                          "description": "Sidecar partition id; equality with the partition is relational (lineage.ts:966)."
+                        },
+                        "v1Compatible": {
+                          "type": "boolean",
+                          "description": "v1 projection compatibility flag"
+                        },
+                        "proposalPass": {
+                          "type": "boolean",
+                          "description": "Proposal pass flag; payload flags are not authority (lineage.ts:680)."
+                        },
+                        "projectionFingerprint": {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "description": "Optional in the type (lineage.ts:414); the durable code gate sidecarValid requires it present and equal to the partition proposal fingerprint (lineage.ts:965-967) — relational, never schema-proven."
+                        },
+                        "communities": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "contentId",
+                              "parentContentIds",
+                              "conductance"
+                            ],
+                            "properties": {
+                              "contentId": {
+                                "type": "string",
+                                "minLength": 64,
+                                "maxLength": 64,
+                                "description": "Community content id"
+                              },
+                              "parentContentIds": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 64,
+                                  "maxLength": 64,
+                                  "description": "Full-ancestry parent content id; lowercase hex is code-level; schema cannot use pattern."
+                                },
+                                "description": "Complete lossless parent list; projected v1 parents are capped at two and this full list may exceed two (lineage.ts:976,603) — relational."
+                              },
+                              "conductance": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "description": "Lossless metric sidecar, explicitly NOT the v1 KnownInteger transport type (lineage.ts:26-32).",
+                                "required": [
+                                  "known",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "known": {
+                                    "type": "boolean",
+                                    "description": "false means not observed. Never encode unknown as zero."
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ],
+                                    "minimum": 0,
+                                    "maximum": 1,
+                                    "description": "Lossless value; when known, finite in [0,1] (lineage.ts:979); null when unknown. Numeric bounds apply to numbers only; null bypasses them in the strict validator."
+                                  },
+                                  "numerator": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "description": "Optional lossless numerator (lineage.ts:30)."
+                                  },
+                                  "denominator": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "description": "Optional lossless denominator (lineage.ts:31)."
+                                  }
+                                },
+                                "description": "Conductance with lossless numerator/denominator; pairing and quotient consistency are relational (lineage.ts:980-983)."
+                              }
+                            }
+                          },
+                          "description": "Sidecar communities; equality of length and content ids with the partition is relational (lineage.ts:969,973)."
+                        }
+                      }
+                    },
+                    "diagnostics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "description": "Diagnostic (lineage.ts:110-115, gate lineage.ts:958-961).",
+                        "required": [
+                          "code",
+                          "severity",
+                          "detail",
+                          "functionIds"
+                        ],
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Diagnostic code"
+                          },
+                          "severity": {
+                            "type": "string",
+                            "enum": [
+                              "info",
+                              "warning",
+                              "fail"
+                            ],
+                            "description": "Diagnostic severity"
+                          },
+                          "detail": {
+                            "type": "string",
+                            "description": "Diagnostic detail; no bound asserted here."
+                          },
+                          "functionIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Related function ids; no item-count bound asserted here."
+                          }
+                        }
+                      },
+                      "description": "Diagnostics of the previous result; replay carry-over is relational (lineage.ts:551-554,1078)."
+                    },
+                    "constraints": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "status",
+                        "applied",
+                        "rejected"
+                      ],
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "satisfied",
+                            "unsatisfiable",
+                            "none"
+                          ],
+                          "description": "Constraint outcome status (lineage.ts:438,995)."
+                        },
+                        "applied": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "description": "Applied constraint count (lineage.ts:996)."
+                        },
+                        "rejected": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "description": "Rejected constraint count (lineage.ts:997)."
+                        }
+                      },
+                      "description": "Constraint application result; equality with the recomputed outcome is relational (lineage.ts:1063)."
+                    }
+                  }
+                },
+                "binding": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Previous binding record (lineage.ts:447-452, code gate lineage.ts:1069-1073).",
+                  "required": [
+                    "version",
+                    "evidenceFingerprint",
+                    "receiptRef",
+                    "status"
+                  ],
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "enum": [
+                        "l4-previous-binding-1"
+                      ],
+                      "description": "Binding version (lineage.ts:448,1069)."
+                    },
+                    "evidenceFingerprint": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "description": "Previous evidence fingerprint or null; lowercase hex is a code-level gate (lineage.ts:1071); schema cannot use pattern."
+                    },
+                    "receiptRef": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 1,
+                      "description": "Receipt reference or null; non-empty string required by code (lineage.ts:1072); the reference itself proves nothing about authentication."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "verified-pass",
+                        "verified-fail",
+                        "unverified"
+                      ],
+                      "description": "Binding status (lineage.ts:451,1070); the status of a previous generation cannot authorize a new one (lineage.ts:549)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ProposalEvidence.result (lineage.ts:434-440, gate resultShape lineage.ts:991-998). Equality root.partition == result.partition is relational.",
+          "required": [
+            "partition",
+            "lineageSidecar",
+            "diagnostics",
+            "constraints"
+          ],
+          "properties": {
+            "partition": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Inline v1 cluster-partition reference (schemas/cluster-partition-v1.schema.json, pinned). Only delta in this candidate: adopted tightened to literal false; the stored v1 schema is NOT modified. Branch A L3 conformance (regime A, parentLineageId null, maturity structural) is relational, not schema-expressible.",
+              "required": [
+                "schemaVersion",
+                "partitionId",
+                "lineageId",
+                "parentLineageId",
+                "snapshotId",
+                "snapshotFingerprint",
+                "regime",
+                "algorithm",
+                "algorithmVersion",
+                "configFingerprint",
+                "seed",
+                "communities",
+                "modularity",
+                "maturity",
+                "adopted"
+              ],
+              "properties": {
+                "schemaVersion": {
+                  "type": "integer",
+                  "enum": [
+                    1
+                  ],
+                  "description": "Document schema version"
+                },
+                "partitionId": {
+                  "type": "string",
+                  "minLength": 4,
+                  "maxLength": 128,
+                  "description": "Assigned partition id. Not a lineage id."
+                },
+                "lineageId": {
+                  "type": "string",
+                  "minLength": 4,
+                  "maxLength": 128,
+                  "description": "Partition lineage id. Must differ from partitionId."
+                },
+                "parentLineageId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 0,
+                  "maxLength": 128,
+                  "description": "Parent partition lineage, or null"
+                },
+                "snapshotId": {
+                  "type": "string",
+                  "minLength": 4,
+                  "maxLength": 128,
+                  "description": "Source snapshot id"
+                },
+                "snapshotFingerprint": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Graph snapshot normalized fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                },
+                "regime": {
+                  "type": "string",
+                  "enum": [
+                    "A",
+                    "B"
+                  ],
+                  "description": "A structural discovery. B multiview reconstruction."
+                },
+                "algorithm": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "description": "Algorithm name"
+                },
+                "algorithmVersion": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "description": "Algorithm version"
+                },
+                "configFingerprint": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Algorithm configuration fingerprint 64 lowercase hex characters; schema cannot use pattern."
+                },
+                "seed": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "description": "Explicit seed, or none. Never a silent numeric zero."
+                },
+                "communities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contentId",
+                      "lineageId",
+                      "parentContentIds",
+                      "memberIds",
+                      "kernelIds",
+                      "externalContextIds",
+                      "conductance"
+                    ],
+                    "properties": {
+                      "contentId": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Hash of algorithm, version, config and sorted member ids. A split child gets a new content id. 64 lowercase hex characters; schema cannot use pattern."
+                      },
+                      "lineageId": {
+                        "type": "string",
+                        "minLength": 4,
+                        "maxLength": 128,
+                        "description": "Lineage id. Must differ from contentId."
+                      },
+                      "parentContentIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "description": "Parent community content id 64 lowercase hex characters; schema cannot use pattern."
+                        },
+                        "minItems": 0,
+                        "maxItems": 8,
+                        "description": "Empty for a root. One parent for a split child. Two for a merge child."
+                      },
+                      "memberIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 66,
+                          "maxLength": 96,
+                          "description": "Function id"
+                        },
+                        "minItems": 1,
+                        "maxItems": 100000,
+                        "description": "Owned community members, canonically ordered"
+                      },
+                      "kernelIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 66,
+                          "maxLength": 96,
+                          "description": "Function id"
+                        },
+                        "minItems": 0,
+                        "maxItems": 100000,
+                        "description": "Kernel subset of members"
+                      },
+                      "externalContextIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 66,
+                          "maxLength": 96,
+                          "description": "Function id"
+                        },
+                        "minItems": 0,
+                        "maxItems": 100000,
+                        "description": "Context only. Disjoint from members. A hub here must not fuse communities."
+                      },
+                      "conductance": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "known",
+                          "value"
+                        ],
+                        "properties": {
+                          "known": {
+                            "type": "boolean",
+                            "description": "false means not observed. Never encode unknown as zero."
+                          },
+                          "value": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "description": "null iff known is false. Zero is legal only when known is true."
+                          }
+                        },
+                        "description": "Conductance. Unknown stays unknown."
+                      }
+                    },
+                    "description": "Community. Content id and lineage id are distinct."
+                  },
+                  "minItems": 1,
+                  "maxItems": 100000,
+                  "description": "Communities"
+                },
+                "modularity": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "known",
+                    "value"
+                  ],
+                  "properties": {
+                    "known": {
+                      "type": "boolean",
+                      "description": "false means not observed. Never encode unknown as zero."
+                    },
+                    "value": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "null iff known is false. Zero is legal only when known is true."
+                    }
+                  },
+                  "description": "Modularity. Unknown stays unknown."
+                },
+                "maturity": {
+                  "type": "string",
+                  "enum": [
+                    "structural",
+                    "partial",
+                    "multiview"
+                  ],
+                  "description": "Partition maturity"
+                },
+                "adopted": {
+                  "type": "boolean",
+                  "enum": [
+                    false
+                  ],
+                  "description": "Tightened in this prepared-graph candidate: partition transport carries literal false (L3 type cluster.ts:38-42; branch B evidence lineage.ts:1037). The stored v1 schema keeps a plain boolean; the adoption view is l8-partition-adoption-v1."
+                }
+              }
+            },
+            "lineageSidecar": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "l4-lineage-2 lossless lineage sidecar (lineage.ts:409-416, produced lineage.ts:625).",
+              "required": [
+                "version",
+                "partitionId",
+                "v1Compatible",
+                "proposalPass",
+                "communities"
+              ],
+              "properties": {
+                "version": {
+                  "type": "string",
+                  "enum": [
+                    "l4-lineage-2"
+                  ],
+                  "description": "Sidecar version (lineage.ts:410,966)."
+                },
+                "partitionId": {
+                  "type": "string",
+                  "minLength": 4,
+                  "maxLength": 128,
+                  "description": "Sidecar partition id; equality with the partition is relational (lineage.ts:966)."
+                },
+                "v1Compatible": {
+                  "type": "boolean",
+                  "description": "v1 projection compatibility flag"
+                },
+                "proposalPass": {
+                  "type": "boolean",
+                  "description": "Proposal pass flag; payload flags are not authority (lineage.ts:680)."
+                },
+                "projectionFingerprint": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "description": "Optional in the type (lineage.ts:414); the durable code gate sidecarValid requires it present and equal to the partition proposal fingerprint (lineage.ts:965-967) — relational, never schema-proven."
+                },
+                "communities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contentId",
+                      "parentContentIds",
+                      "conductance"
+                    ],
+                    "properties": {
+                      "contentId": {
+                        "type": "string",
+                        "minLength": 64,
+                        "maxLength": 64,
+                        "description": "Community content id"
+                      },
+                      "parentContentIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "description": "Full-ancestry parent content id; lowercase hex is code-level; schema cannot use pattern."
+                        },
+                        "description": "Complete lossless parent list; projected v1 parents are capped at two and this full list may exceed two (lineage.ts:976,603) — relational."
+                      },
+                      "conductance": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "description": "Lossless metric sidecar, explicitly NOT the v1 KnownInteger transport type (lineage.ts:26-32).",
+                        "required": [
+                          "known",
+                          "value"
+                        ],
+                        "properties": {
+                          "known": {
+                            "type": "boolean",
+                            "description": "false means not observed. Never encode unknown as zero."
+                          },
+                          "value": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Lossless value; when known, finite in [0,1] (lineage.ts:979); null when unknown. Numeric bounds apply to numbers only; null bypasses them in the strict validator."
+                          },
+                          "numerator": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Optional lossless numerator (lineage.ts:30)."
+                          },
+                          "denominator": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Optional lossless denominator (lineage.ts:31)."
+                          }
+                        },
+                        "description": "Conductance with lossless numerator/denominator; pairing and quotient consistency are relational (lineage.ts:980-983)."
+                      }
+                    }
+                  },
+                  "description": "Sidecar communities; equality of length and content ids with the partition is relational (lineage.ts:969,973)."
+                }
+              }
+            },
+            "diagnostics": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "Diagnostic (lineage.ts:110-115, gate lineage.ts:958-961).",
+                "required": [
+                  "code",
+                  "severity",
+                  "detail",
+                  "functionIds"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Diagnostic code"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "info",
+                      "warning",
+                      "fail"
+                    ],
+                    "description": "Diagnostic severity"
+                  },
+                  "detail": {
+                    "type": "string",
+                    "description": "Diagnostic detail; no bound asserted here."
+                  },
+                  "functionIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Related function ids; no item-count bound asserted here."
+                  }
+                }
+              },
+              "description": "Proposal diagnostics, including negative diagnostics; outcome gating is relational (lineage.ts:1000-1003)."
+            },
+            "constraints": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "applied",
+                "rejected"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "satisfied",
+                    "unsatisfiable",
+                    "none"
+                  ],
+                  "description": "Constraint outcome status (lineage.ts:438,995)."
+                },
+                "applied": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Applied constraint count (lineage.ts:996)."
+                },
+                "rejected": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Rejected constraint count (lineage.ts:997)."
+                }
+              },
+              "description": "Constraint application result; equality with the recomputed outcome is relational (lineage.ts:1063)."
+            }
+          }
+        }
+      }
+    }
+  }
+}

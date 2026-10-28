@@ -1,0 +1,70 @@
+{
+  "source": {
+    "id": "ses_ec0f4f005ffeiESudi5ADo2QXH",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "providerID": "openai",
+      "variant": "max"
+    },
+    "directory": "C:\\Users\\djden\\.local\\share\\opencode\\worktree\\68ae5f\\ensemble-re-ff8-re-graph-scheduler#4urn3c-l7-simulator-fix-max"
+  },
+  "reviewer": {
+    "id": "ses_ec03d9d0effep5x4mBY16ogUt3",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "providerID": "openai",
+      "variant": "max"
+    },
+    "directory": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+  },
+  "task": "task_mv9ku3x5_000g_tc4kbh",
+  "reports": [
+    "ACK HOLD accès/analyse. Aucun artefact, inbox, worktree, diff ou code consulté ; aucune analyse ni modification. En attente du GO explicite avec le trio de hashes commun. Le skill opérationnel Ensemble seul a été chargé. ACK de progression, pas une clôture de tâche.",
+    "ACK rôle/accès seulement — revue fresh indépendante readonly task_mv9ku3x5_000g_tc4kbh. PARENT/SCOPE.md + PLAN_GO.md lus intégralement ; NOTES et manifest vérifiés. 434/434 pins exacts, 4 793 231 B, zéro écart ; receipt fingerprint 77200ea7760865b5460ba1dd3afd8cf08d43d9ca9358336e284bc415969d2453. srcsim ac82e53ab62943dab81d9aa0ad634443f0af28ef06d60ad8d559c00a1b43fb3a, OLD distinct dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4. Accès réel deps confirmé uniquement à inputs/L7SIM_CORRECTIVE_REVIEW_V2/tools/ff8-harness/node_modules (jonction ; tsc/bun types présents). Contrat retenu : typecheck + quatre fichiers/54 tests, puis petites probes mémoire ; aucun full/native avec ledger absent, aucun vieux rapport/inbox/sourcewrite. Aucun source analysé, aucune gate exécutée. HOLD analyse maintenu jusqu’au GO explicite parent.",
+    "ACK accès seul du trio communiqué : source ac82e53ab62943dab81d9aa0ad634443f0af28ef06d60ad8d559c00a1b43fb3a ; REVIEW_INPUT_MANIFEST e37bc696b17e6ade55c8b0bb01282022d3ba6acb36a99d1b110531b6548c65e5 ; receipt fingerprint 77200ea7760865b5460ba1dd3afd8cf08d43d9ca9358336e284bc415969d2453. Scope/plan complets lus et 434 pins/4 793 231 B déjà vérifiés sans écart. Aucune analyse TypeScript ni exécution depuis cet ACK ; HOLD analyse maintenu.",
+    "Progression revue : typecheck ciblé exit0 ; bun test sur les quatre fichiers exacts exit0, 54 PASS/0 FAIL, 11 817 expect(), 4.96s (pas full/native). Analyse/probes indépendantes en cours ; aucun verdict à ce stade. Serena ne couvre ici que cpp : lecture TypeScript ciblée via AST TypeScript des deps autorisées, sans changement de configuration ni autre source.",
+    "Signal matériel intermédiaire (pas encore le rendu final) : deux écarts G2 reproduits en mémoire puis contre de vrais exports L5 issus de petits snapshots L2 validés. (1) Multiclé X/Y : X libéré t5 réveille B, B repart attendre Y ; cancel B t6, Y libéré t8 laisse C READY indéfiniment alors que tryReserve(C,t8) réussit. (2) new_conflict entre deux familles actives ne matérialise aucun holder de la nouvelle clé : C est admis t3 sur X alors que A/B fencés occupent encore jusqu’à t5. Pins inchangés à ce stade ; je termine les contrôles métriques/attribution/dispensations avant verdict scoped.",
+    "<task-result>\n<status>completed</status>\n<summary>BLOCK scoped sur ac82e53 : deux défauts G2 P1 et trois écarts P2 reproduits indépendamment ; typecheck et 54 tests PASS ; 434 pins inchangés avant/après.</summary>\n<details>\nPérimètre : revue fresh readonly task_mv9ku3x5_000g_tc4kbh. R = inputs/L7SIM_CORRECTIVE_REVIEW_V2 ; tous les chemins src/test ci-dessous sont relatifs à R/tools/ff8-harness. Aucun verdict d’intégration/native. Les findings désignent le contrat courant, sans prétendre qu’ils sont tous de nouveaux deltas par rapport à OLD.\n\nGATES ET INTÉGRITÉ\n- bun node_modules/typescript/bin/tsc --noEmit -p tsconfig.json : exit 0, 7.639 s.\n- bun test test/simulator/simulator.test.ts test/simulator/simulator-corrective.test.ts test/benchmarks/benchmarks.test.ts test/benchmarks/simulator-corrective.test.ts : exit 0, 54 PASS / 0 FAIL, 11 817 expect(), 4.96 s, Bun 1.4.2. Les 35 anciens + 19 nouveaux sont exécutés, non inférés du rapport auteur.\n- 434/434 pins, 4 793 231 B, zéro écart AVANT et APRÈS toute la revue. Source SHA256 ac82e53ab62943dab81d9aa0ad634443f0af28ef06d60ad8d559c00a1b43fb3a ; REVIEW_INPUT_MANIFEST SHA256 e37bc696b17e6ade55c8b0bb01282022d3ba6acb36a99d1b110531b6548c65e5 ; receipt fingerprint 77200ea7760865b5460ba1dd3afd8cf08d43d9ca9358336e284bc415969d2453.\n- OLD simulateur distinct dcaa4ace0ead545469d0390921265b615b0eb6da743f0b7695e7c58219177df4. simulator.test.ts, oracle.ts et benchmarks.test.ts byte-exacts OLD. Inversion mécanique des seuls ajouts model/slots/cpu/gpu/budget et accountCapacities dans scenarios.ts = OLD exact.\n\nFINDINGS\n1. P1 — Réveil G2 perdu après migration entre deux clés.\n   src/simulator.ts:621-631, 705-708, 509-512. wakeConflict(X) s’arrête après un waiter ayant un worker, sans vérifier les AUTRES clés ; si ce waiter est re-parké sur Y, les autres waiters de X n’ont plus de réveil.\n   Repro propre : B exige X,Y ; C exige X. Deux anciens claims X et Y arrêtés explicitement t5 et t8 ; B annulé t6. À t5 B quitte X puis attend Y. À t6 son retrait réveille seulement Y, encore occupée. À t8 Y est libre mais C reste READY/conflict, dispatchTick=null, fin stuck. Sur une seconde instance identique runUntil(8), tryReserve(C,\"review\") retourne {ok:true}. Aucune ressource ni obligation G1 ne justifie le blocage.\n   Reproduit d’abord en v2 synthétique explicite, puis via vrai planMission/simPlanFromExport sur deux fonctions isolées d’un snapshot L2 validé (nœuds 0x2000/0x2100 de communities-obvious, arêtes retirées, normalisation/validation refaites). Ressources p/m/acct, slots1/cpu1/gpu0/budget1 ; workers/capacités explicites. Plan FP 9b43bb9aa979f6ddaaccf37a7980210efecfe305bc537391894c30c9a8013f04, binding 341e98ae4e7d9f538ca6cae060650ce175223e5e4f85417161ce07b6cfa6b560. Contrôles : cancel B avant t5 => C démarre t5 ; retirer Y de B => C démarre après les vraies releases t8.\n\n2. P1 — Nouvelle clé G2 non détenue quand deux holders sont déjà actifs.\n   src/simulator.ts:730-735 et 568. new_conflict ajoute X aux deux familles actives puis les fence, mais la branche « deux actifs » n’inscrit AUCUN holder X. Les ressources/exécutions restent actives, tandis qu’un tiers peut acquérir X.\n   Repro propre, confirmé sur vrai export L5 d’un snapshot L2 validé à quatre fonctions : A et B indépendantes, durées A4/B5/R2 ; D puis C, durées A1/B1/R1, validation1, C a déjà le conflit X. D commit t3. new_conflict(A,B,X) t1 fence A/B ; C est admis sur X à t3, alors que les jobs A/B ne sont effectivement libérés qu’à t4/t5. X n’est donc pas protégé jusqu’à l’arrêt réel des familles fencées.\n   Construction : indices de nœuds 0,1,2,3 = A,B,C,D ; seul appel C->D ; extra conflict X sur C ; toutes capacités connues, 8 workers. Plan FP 114c7809246f6dca5ded234d71cce243b9251c58f5e4d1a7c41b2236cdc97fc4, binding a9a87462a21171d430c3de82dc8a30ba28a04325f2a3b59a6b3e140de90d7bcd. Ce n’est ni un dépassement de compte ni une libération worker anticipée : c’est l’absence du holder de la nouvelle clé.\n\n3. P2 — Receipt externe plus fort, légal L5, rejeté par égalité trop stricte.\n   src/simulator.ts:155-156 vs src/planner.ts:269-278. Le simulateur impose receipt.validation === requirement.validation ; L5 accepte explicitement parent-validated pour satisfaire fixture-only.\n   Repro : vrai export L5, appel 0x2000->0x2100 external_satisfied, requirement fixture-only niveau1/revisions1..100 ; receipt parent-validated, producer=null, readback verified, effect satisfies, commitId SHA256 valide, champs artifact/function/module conformes. receiptSatisfies(...,null)=true et L5 conserve external_satisfied ; validateSimPlan produit external_receipt_mismatch puis SimEngine lance plan_non_conformant. Contrôle identique avec receipt fixture-only : deux commits ; readback pending falsifié est bien refusé. Aucun besoin de relâcher les preuves de readback.\n\n4. P2 — Vrai unknown_unresolved sans relation de call rejeté comme citation manquante.\n   src/simulator.ts:194-195, 221-224, 144-149 ; producteur réel src/planner.ts:498-499.\n   Repro : fixture DATA test/fixtures/graph/indirect-uncertain/content.json, validateGraphSnapshot=[] ; planMission avec groupes singleton et exigences/capacités explicites. Son indirect_call non résolu crée légitimement pre:eb480737bc0ab06f416cd904c0027310fbf679517311e3956e580e56d479bffd, unknown_unresolved/producer=null. L5 sélectionne l’unité, sans diagnostic. La projection ne peut lui inventer de relation de call ; validateSimPlan exige pourtant citedRelation pour TOUT prerequisite et renvoie prerequisite_citation_mismatch, puis plan_non_conformant. Écart d’interop FAIL-CLOSED, pas preuve d’une satisfaction indue. Ne pas confondre ce cas avec un obligatory/null différé ni inventer un receipt.\n\n5. P2 — Les attentes ouvertes disparaissent des métriques à l’horizon observé.\n   src/simulator.ts:528-529 et 799-820. Seul endWait crédite les compteurs ; finalize copie waits/r.waitTicks sans l’intervalle encore ouvert.\n   Repro indépendant minimal : C READY exige X, claim externe X sans stop ; seul événement supplémentaire = bulletin non autorisé t8 (aucun effet canonique). Résultat observationEndTick=8, C READY/conflict depuis t0, mais metrics.waits.conflict=0 et C.waitTicks=0 ; intervalle écoulé réel=8. Même sous-comptage observé dans le repro multiclé. Les métriques d’un état stuck cachent donc précisément l’attente persistante.\n\nCONTRÔLES POSITIFS INDÉPENDANTS\n- Ressources : vrai L2->L5, positifs/négatifs profils, modèles, tools, comptes et quatre capacités ; listes vides, métadonnées manquantes, outils/cpu/gpu/budget zéro ; modèle conservateur affiché et vraie comparaison selectCompatible. Compte slots1/budget5 sérialise A/B dans SIM sans prétendre une équivalence au packing L5.\n- Bornes/permutations : 87 contrôles propres sans échec ; -0/négatifs/NaN/Infinity/fraction/unsafe integer refusés pour requirements/workers/comptes, invalid v2 sans fallback, permutations des listes, budget MAX_SAFE partagé sans double réservation. Instrumentation de méthodes sur les seules instances mémoire, pas confiance aux seuls compteurs : K1/K=N pour N16/32/64, scans observés 113/1808, 225/7200, 449/28736 ; compteurs publiés exactement concordants. Aucune conclusion universelle CPU/linéarité.\n- G2 mono-clé : waiter STALE/cancel et external stop passent ; les deux P1 ci-dessus sont de la couverture multiclé/multi-holder supplémentaire.\n- Dispensation réelle complète conserve relation/G1 et ne désactive qu’une des deux obligations ; falsifications reason/hash/citation/absence rejetées. obligatory/null réellement diagnostiqué non sélectionné reste BLOCKED sans admission ; selected/null forgé refusé.\n- DAG/métriques/attribution : 144 contrôles propres sans échec. Trois fonctions, deux familles, chaîne locale puis G1 : CP manuel 3*(max(2,4)+2)+2*validation2 =22, travail24 ; neuf snapshots de résidu =22-t. Sept politiques avec rôles parallèles identiques, puis vitesses hétérogènes : minorant <= makespan dans les 14 cas. Audit événementiel propre des réservations, worker unique, releases uniques et attribution unit/family/attempt/token/A-B-R ; vieux callbacks token1 ignorés pendant token2. Retry : useful11/rework4/occupied20 ; tardif fencé après dernière publication : publication3, release14, occupied18/capacité56, cohérents.\n- SCC sparse : anneau3 + self-loop séparé, comparaison structurelle avec vrai export L5, 12 sous-intents/12 arêtes locales, CP13/travail24. Comparaisons bornées séparées : sequential18, autres13, mêmes durées/rôles ; pas équivalence de packing entre les modèles. Les limites du README et K×W sont explicites.\n\nLIMITES ET OWNERSHIP\nAucune source/test/config modifiée, aucune preuve fichier créée ; probes uniquement mémoire, sorties Context Mode. Dépendances readonly uniquement sous le paquet. Aucun inbox/team_results, ancien rapport, Git, install, réseau/dispatch/LLM/IDA/live, DB privée, sous-agent ou suppression. Pas de full/QA60, 100k, SQLite/native ni résultat auteur adopté comme preuve ; ledger 9 MB absent. Les erreurs initiales de mes propres entrées de receipt (commitId non SHA) ont été corrigées avant les contrôles externes ci-dessus et ne sont pas comptées comme défaut du candidat. Parent seul décide remédiation, nouveaux gates et intégration ; BLOCK malgré les 54 contrôles ciblés verts.\n</details>\n</task-result>"
+  ],
+  "verdict": "BLOCK scoped ac82",
+  "reviewerClosed": true,
+  "parentReproduced": {
+    "candidateSha256": "ac82e53ab62943dab81d9aa0ad634443f0af28ef06d60ad8d559c00a1b43fb3a",
+    "parentReproduced": [
+      "P1-multikey-lost-wake",
+      "P1-new-key-unheld",
+      "P2-stronger-external-receipt",
+      "P2-uncited-real-unresolved",
+      "P2-open-wait-missing"
+    ],
+    "multikey": {
+      "CDispatch": null,
+      "manualReserveAt8": true,
+      "controlCancelBeforeReleaseDispatch": 5
+    },
+    "newKey": {
+      "thirdDispatch": 3,
+      "holderJobsStillActive": 4,
+      "lastHolderRelease": 5
+    },
+    "strongerReceipt": {
+      "legalInL5": true,
+      "simRejected": true
+    },
+    "unresolved": {
+      "L2Validated": true,
+      "L5DiagnosticCount": 0,
+      "simRejected": true
+    },
+    "openWait": {
+      "observationEnd": 8,
+      "reportedWait": 0,
+      "elapsed": 8
+    },
+    "allReviewPinsExact": 434,
+    "noDatabaseNoNetworkNoSubmit": true,
+    "noNativeOrScientificAuthority": true,
+    "mainNotModified": true
+  },
+  "pinsExact": 434
+}

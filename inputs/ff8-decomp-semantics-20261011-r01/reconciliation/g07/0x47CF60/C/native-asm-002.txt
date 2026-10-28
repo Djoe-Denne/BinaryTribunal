@@ -1,0 +1,25 @@
+0047CFB9: call    isGetDrawBuf2; Call Procedure
+0047CFBE: mov     eax, [esi+0BA8h]
+0047CFC4: add     esp, 18h; Add
+0047CFC7: cmp     eax, ebx; Compare Two Operands
+0047CFC9: jnz     short loc_47CFEE; Jump if Not Zero (ZF=0)
+0047CFCB: mov     ecx, Render_Height
+0047CFD1: mov     edx, Render_width
+0047CFD7: mov     eax, Render_Y_Axis
+0047CFDC: push    ecx
+0047CFDD: mov     ecx, Render_X_Axis
+0047CFE3: push    edx
+0047CFE4: push    eax
+0047CFE5: push    ecx
+0047CFE6: call    SetResolution; Call Procedure
+0047CFEB: add     esp, 10h; Add
+0047CFEE: push    esi; int
+0047CFEF: push    ebx; int
+0047CFF0: call    GfxDriver_BeginScene; Call Procedure
+0047CFF5: add     esp, 8; Add
+0047CFF8: test    eax, eax; Logical Compare
+0047CFFA: jz      loc_47D243; Jump if Zero (ZF=1)
+0047D000: mov     edx, dummy4_39
+0047D006: push    edx
+0047D007: call    sub_416B9A; Call Procedure
+0047D00C: mov     eax, dword_1D2A288

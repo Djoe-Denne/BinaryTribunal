@@ -1,0 +1,25 @@
+0050B5F6: jmp     short loc_50B5FA; Jump
+0050B5F8: dec     dl; Decrement by 1
+0050B5FA: mov     byte ptr dword_1D99A70, dl
+0050B600: mov     ecx, dword_1D99A70
+0050B606: and     ecx, 0FFh; Logical AND
+0050B60C: lea     eax, [ecx+ecx*4]; Load Effective Address
+0050B60F: shl     eax, 3; Shift Logical Left
+0050B612: sub     eax, ecx; Integer Subtraction
+0050B614: shl     eax, 2; Shift Logical Left
+0050B617: test    byte ptr g_BattlePresentationActors[eax], 2; Logical Compare
+0050B61E: jz      short loc_50B637; Jump if Zero (ZF=1)
+0050B620: push    0; p_task_dword_10
+0050B622: push    ecx; p_task_byte_0F
+0050B623: xor     ecx, ecx; Logical Exclusive OR
+0050B625: mov     cl, byte_1D972C4[eax]
+0050B62B: or      ch, 10h; Logical Inclusive OR
+0050B62E: push    ecx; actor_id
+0050B62F: call    BattleModel_DispatchLoaderByActorId; Call Procedure
+0050B634: add     esp, 0Ch; Add
+0050B637: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B63A: call    au_re_BdlinkTask_0; jumptable 0050B2BD case 7
+0050B63F: test    eax, eax; Logical Compare
+0050B641: jnz     def_50B2BD; jumptable 0050B2BD default case
+0050B647: mov     ecx, dword_1D99A70
+0050B64D: and     ecx, 0FFh; Logical AND

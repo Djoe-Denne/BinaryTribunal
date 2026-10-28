@@ -1,0 +1,9 @@
+test/execution-sharing.test.ts(54,91): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(expected: ExecutionBulletinMessage): void', gave the following error.
+    Argument of type 'ExecutionBulletinMessage | undefined' is not assignable to parameter of type 'ExecutionBulletinMessage'.
+      Type 'undefined' is not assignable to type 'ExecutionBulletinMessage'.
+  Overload 2 of 2, '(expected: NoInfer<ExecutionBulletinMessage>): void', gave the following error.
+    Argument of type 'ExecutionBulletinMessage | undefined' is not assignable to parameter of type 'ExecutionBulletinMessage'.
+      Type 'undefined' is not assignable to type 'ExecutionBulletinMessage'.
+
+$ tsc --noEmit

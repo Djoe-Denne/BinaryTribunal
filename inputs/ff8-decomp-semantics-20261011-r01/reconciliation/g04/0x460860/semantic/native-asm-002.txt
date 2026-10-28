@@ -1,0 +1,25 @@
+004608B0: mov     [esp+14h+arg_0], edx
+004608B4: movsx   edx, word ptr dword_1CA8A3C; Move with Sign-Extend
+004608BB: fild    [esp+14h+arg_0]; Load Integer
+004608BF: mov     [esp+14h+arg_0], edx
+004608C3: fild    [esp+14h+arg_0]; Load Integer
+004608C7: jmp     short loc_4608F9; Jump
+004608C9: movsx   ebx, word ptr dword_1CA8A10[edx*8]; Move with Sign-Extend
+004608D1: mov     [esp+14h+arg_0], ebx
+004608D5: movsx   ebx, word ptr dword_1CA8A10+2[edx*8]; Move with Sign-Extend
+004608DD: fild    [esp+14h+arg_0]; Load Integer
+004608E1: movsx   edx, word ptr dword_1CA8A14[edx*8]; Move with Sign-Extend
+004608E9: mov     [esp+14h+arg_0], ebx
+004608ED: fild    [esp+14h+arg_0]; Load Integer
+004608F1: mov     [esp+14h+arg_0], edx
+004608F5: fild    [esp+14h+arg_0]; Load Integer
+004608F9: test    edi, 80000h; Logical Compare
+004608FF: jz      short loc_46091B; Jump if Zero (ZF=1)
+00460901: fxch    st(2); Exchange Registers
+00460903: fmul    ds:dbl_B69600; Multiply Real
+00460909: fxch    st(2); Exchange Registers
+0046090B: fxch    st(1); Exchange Registers
+0046090D: fmul    ds:dbl_B69600; Multiply Real
+00460913: fxch    st(1); Exchange Registers
+00460915: fmul    ds:dbl_B69600; Multiply Real
+0046091B: movsx   edx, word ptr [eax+4]; Move with Sign-Extend

@@ -1,0 +1,25 @@
+0048E1EB: cmp     cx, dx; Compare Two Operands
+0048E1EE: sbb     ecx, ecx; Integer Subtraction with Borrow
+0048E1F0: and     ecx, 0F1h; Logical AND
+0048E1F6: add     ecx, 7; Add
+0048E1F9: test    bl, bl; Logical Compare
+0048E1FB: jnz     short loc_48E241; Jump if Not Zero (ZF=0)
+0048E1FD: and     ecx, eax; Logical AND
+0048E1FF: mov     eax, edx
+0048E201: mov     [esp+24h+p_enemy_number], edx
+0048E205: xor     esi, esi; Logical Exclusive OR
+0048E207: shl     eax, 1; Shift Logical Left
+0048E209: mov     ebx, eax
+0048E20B: and     ebx, ecx; Logical AND
+0048E20D: test    bx, bx; Logical Compare
+0048E210: jnz     loc_48E2B9; Jump if Not Zero (ZF=0)
+0048E216: inc     esi; Increment by 1
+0048E217: cmp     esi, 8; Compare Two Operands
+0048E21A: jl      short loc_48E207; Jump if Less (SF!=OF)
+0048E21C: xor     esi, esi; Logical Exclusive OR
+0048E21E: shr     word ptr [esp+24h+p_enemy_number], 1; Shift Logical Right
+0048E223: mov     eax, [esp+24h+p_enemy_number]
+0048E227: mov     ebx, eax
+0048E229: and     ebx, ecx; Logical AND
+0048E22B: test    bx, bx; Logical Compare
+0048E22E: jnz     loc_48E2B9; Jump if Not Zero (ZF=0)

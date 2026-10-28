@@ -1,0 +1,25 @@
+0045E9D0: sub     esp, 8; Integer Subtraction
+0045E9D3: mov     eax, dword_1CA8A64
+0045E9D8: mov     ecx, dword_1CA8A68
+0045E9DE: mov     dword_1CA8A60, eax
+0045E9E3: mov     dword_1CA8A64, ecx
+0045E9E9: movsx   eax, word ptr dword_1CA8A30; Move with Sign-Extend
+0045E9F0: movsx   ecx, word ptr dword_1CA8A34; Move with Sign-Extend
+0045E9F7: mov     dword ptr [esp+8+var_8], eax
+0045E9FB: mov     dl, byte_1CA8A2B
+0045EA01: fild    dword ptr [esp+8+var_8]; Load Integer
+0045EA05: mov     dword ptr [esp+8+var_8], ecx
+0045EA09: mov     byte ptr dword_1CA8A68+3, dl
+0045EA0F: movsx   eax, word ptr dword_1CA8A38; Move with Sign-Extend
+0045EA16: fmul    ds:flt_B695F8; Multiply Real
+0045EA1C: fild    dword ptr [esp+8+var_8]; Load Integer
+0045EA20: mov     dword_1CA92F8, 0
+0045EA2A: fmul    st, st(1); Multiply Real
+0045EA2C: fadd    ds:CONST_4_503601774854144e15; Add Real
+0045EA32: fstp    [esp+8+var_8]; Store Real and Pop
+0045EA36: mov     edx, dword ptr [esp+8+var_8]
+0045EA3A: mov     dword ptr [esp+8+var_8], eax
+0045EA3E: fild    dword ptr [esp+8+var_8]; Load Integer
+0045EA42: add     edx, 80000000h; Add
+0045EA48: mov     dword_1CA8A74, edx
+0045EA4E: fmul    st, st(1); Multiply Real

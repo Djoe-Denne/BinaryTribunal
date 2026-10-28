@@ -1,0 +1,25 @@
+004896DB: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004896E1: mov     eax, [esp+74h+jump_value]
+004896E5: and     eax, 0FFFFh; Logical AND
+004896EA: add     esi, eax; Add
+004896EC: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004896F1: cmp     ebp, eax; jumptable 00489672 case 5
+004896F3: jnb     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004896F9: mov     eax, [esp+74h+jump_value]
+004896FD: and     eax, 0FFFFh; Logical AND
+00489702: add     esi, eax; Add
+00489704: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489709: mov     ecx, dword ptr [esp+74h+op_param_3]; jumptable 004887D6 case 18
+0048970D: mov     eax, [esp+74h+if_right_condition_final]
+00489711: mov     ebp, dword ptr SG_ITEM_ID_AND_QUANTITY.id+60h[ebp*4]; Item ID followed by Item quantiy for each slot, for 198 slot
+00489718: and     ecx, edi; Logical AND
+0048971A: and     eax, 0FFFFh; Logical AND
+0048971F: cmp     ecx, 5; switch 6 cases
+00489722: ja      def_489728; jumptable 00489728 default case
+00489728: jmp     ds:jpt_489728[ecx*4]; switch jump
+0048972F: cmp     ebp, eax; jumptable 00489728 case 0
+00489731: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489737: mov     ecx, [esp+74h+jump_value]
+0048973B: and     ecx, 0FFFFh; Logical AND
+00489741: add     esi, ecx; Add
+00489743: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

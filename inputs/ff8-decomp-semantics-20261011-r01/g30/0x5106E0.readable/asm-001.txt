@@ -1,0 +1,25 @@
+005106E0: sub     esp, 34h; Integer Subtraction
+005106E3: mov     ecx, [esp+34h+ctx]
+005106E7: push    ebx
+005106E8: push    ebp
+005106E9: push    esi
+005106EA: movsx   esi, word ptr [ecx+16h]; Move with Sign-Extend
+005106EE: movsx   edx, word ptr [ecx+14h]; Move with Sign-Extend
+005106F2: shl     esi, 3; Shift Logical Left
+005106F5: mov     [esp+40h+var_C], esi
+005106F9: mov     eax, [esp+40h+dest]
+005106FD: movsx   esi, word ptr [ecx+18h]; Move with Sign-Extend
+00510701: shl     edx, 3; Shift Logical Left
+00510704: mov     [esp+40h+var_10], edx
+00510708: mov     dword_1D99C18, eax
+0051070D: lea     edx, [edx+esi*8-1]; Load Effective Address
+00510711: mov     eax, [ecx]
+00510713: mov     [esp+40h+var_8], edx
+00510717: mov     edx, [ecx+4]
+0051071A: mov     [esp+40h+var_34], edx
+0051071E: mov     edx, [ecx+1Ch]
+00510721: and     edx, 2FFFFFFh; Logical AND
+00510727: push    edi
+00510728: or      edx, 24000000h; Logical Inclusive OR
+0051072E: mov     dword_1D99C1C, eax
+00510733: mov     [esp+44h+var_2C], edx

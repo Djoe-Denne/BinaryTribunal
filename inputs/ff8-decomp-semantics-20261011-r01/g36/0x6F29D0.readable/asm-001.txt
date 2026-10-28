@@ -1,0 +1,25 @@
+006F29D0: mov     edx, [esp+arg_C]
+006F29D4: xor     eax, eax; Logical Exclusive OR
+006F29D6: mov     ecx, edx
+006F29D8: push    esi
+006F29D9: movsx   esi, [esp+4+arg_4]; Move with Sign-Extend
+006F29DE: mov     [ecx], eax
+006F29E0: mov     [ecx+4], eax
+006F29E3: mov     [ecx+8], eax
+006F29E6: mov     [ecx+0Ch], eax
+006F29E9: mov     [ecx+10h], eax
+006F29EC: mov     eax, dword ptr [esp+4+arg_0]
+006F29F0: and     eax, 0FFFh; Logical AND
+006F29F5: lea     ecx, ds:13B7BB8h[eax*4]; Load Effective Address
+006F29FC: movsx   eax, word_13B7BB8[eax*4]; Move with Sign-Extend
+006F2A04: movsx   ecx, word ptr [ecx+2]; Move with Sign-Extend
+006F2A08: imul    eax, esi; Signed Multiply
+006F2A0B: imul    ecx, esi; Signed Multiply
+006F2A0E: mov     si, [esp+4+arg_8]
+006F2A13: sar     eax, 0Ch; Shift Arithmetic Right
+006F2A16: mov     [edx+0Ch], ax
+006F2A1A: mov     [edx+8], si
+006F2A1E: sar     ecx, 0Ch; Shift Arithmetic Right
+006F2A21: neg     eax; Two's Complement Negation
+006F2A23: mov     [edx], cx
+006F2A26: mov     [edx+4], ax

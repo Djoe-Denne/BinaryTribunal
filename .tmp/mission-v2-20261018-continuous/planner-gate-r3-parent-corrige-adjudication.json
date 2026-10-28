@@ -1,0 +1,12 @@
+{
+  "verdict":"CORRIGE_R3_SOURCE_NOT_AUTHORIZED_TO_EXECUTE",
+  "reviewCandidate":"result_mvf9phny_0086_bfwi3g",
+  "reviewTask":"task_mvf9c8yr_0083_3kgevm",
+  "parentActualAnchorsRead":["gate193-198/242/293 closedcachecontradiction","pinnedtypescript/lib/tsc.js1-8 enableCompileCache","capture61-110 prototypeonlyclassifier/ordinaryfallback"],
+  "acceptedFindings":["P1 Node/TSC enabled compile cache deterministically creates forbidden scratch entries","P1 native internal brands may survive replaced prototype and be silently serialized as ordinaryobjects"],
+  "R3SourceAndFreshVRetained":true,
+  "R3GateAttempted":false,
+  "parentCapabilityProbesOnly":{"productOrTscOrHarnessImported":false,"firstReceipt":"runtime-cache-control-probe-receipt.json","firstPositiveNodeFixtureWasRedBecauseZeroIsTruthyDisableValue":true,"correctedPositiveReceipt":"node-cache-positive-corrected-probe-receipt.json","nodeDisableVerified":"NODE_DISABLE_COMPILE_CACHE=1, positivecontrolABSENTflag createscache; disabledcontrolDISABLED/no files","bunDisableVerified":"BUN_RUNTIME_TRANSPILER_CACHE_PATH=0, positivecreates1file disabledcreates0","nativeBrandPredicatesAvailableUnderBothPinnedRuntimes":["isProxy","isPromise","isMap","isSet","isNativeError"],"spoofedPromiseAndMapBrandPositive":true},
+  "parentDecision":"Minimal isolated R4 source correction, fresh deltaV then parent selfchecks, never run R3. Keep strict inventories and failclosed capture. Do not claim universal literal/provenance proof for arbitrary JS objects.",
+  "noMainS1OrGlobalConfigurationChange":true
+}

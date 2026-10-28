@@ -1,0 +1,25 @@
+004894EF: add     edi, 0D0h; Add
+004894F5: mov     ebp, eax
+004894F7: cmp     edi, (offset BATTLE_SLOT_DATA.status_1+270h); 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+004894FD: jl      short loc_4894BE; Jump if Less (SF!=OF)
+004894FF: cmp     eax, ecx; Compare Two Operands
+00489501: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489507: mov     edx, [esp+74h+jump_value]
+0048950B: and     edx, 0FFFFh; Logical AND
+00489511: add     esi, edx; Add
+00489513: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489518: mov     edi, dword ptr [esp+74h+op_param_2]; jumptable 004887D6 case 20
+0048951C: and     edi, 0FFh; Logical AND
+00489522: lea     eax, [edi-0C8h]; switch 28 cases
+00489528: cmp     eax, 1Bh; Compare Two Operands
+0048952B: ja      short def_489535; jumptable 00489535 default case, cases 201,202,204-219
+0048952D: xor     ecx, ecx; Logical Exclusive OR
+0048952F: mov     cl, ds:byte_48A588[eax]
+00489535: jmp     ds:jpt_489535[ecx*4]; switch jump
+0048953C: lea     edx, [ebx+ebx*2]; jumptable 00489535 case 203
+0048953F: lea     eax, [ebx+edx*4]; Load Effective Address
+00489542: shl     eax, 4; Shift Logical Left
+00489545: xor     ecx, ecx; Logical Exclusive OR
+00489547: mov     cl, BATTLE_SLOT_DATA.last_attacker_slot_id[eax]
+0048954D: mov     eax, ecx
+0048954F: lea     edx, [eax+eax*2]; Load Effective Address

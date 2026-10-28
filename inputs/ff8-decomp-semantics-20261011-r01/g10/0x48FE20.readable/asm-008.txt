@@ -1,0 +1,25 @@
+0049016C: mov     HIT_STATUS_1, ax; | ID     | Description |
+00490172: mov     eax, K_TEMP_CHAR.Status1[edi]
+00490178: mov     HIT_STATUS_2, eax; | ID         | Description |
+0049017D: jmp     loc_490423; Jump
+00490182: mov     ebp, ecx; COMMAND 15 Blue Magic: K_BLUE_MAGIC stride 16; PARAM index = crisis + spell*4 - 1, stride 8. Crisis 0 is not a row.
+00490184: and     ebp, 0FFFFh; Logical AND
+0049018A: mov     edi, ebp
+0049018C: shl     edi, 4; Shift Logical Left
+0049018F: mov     dl, K_BLUE_MAGIC.Element[edi]
+00490195: mov     al, K_BLUE_MAGIC.StatusAttack[edi]
+0049019B: mov     HIT_ELEMENT, dl
+004901A1: lea     edx, [ebx+ebx*2]; Load Effective Address
+004901A4: mov     HIT_ATTACK_ENABLER, al
+004901A9: lea     eax, [ebx+edx*4]; Load Effective Address
+004901AC: shl     eax, 4; Shift Logical Left
+004901AF: xor     edx, edx; Logical Exclusive OR
+004901B1: mov     dl, BATTLE_SLOT_DATA.crisis_level[eax]
+004901B7: lea     ebp, [edx+ebp*4-1]; Load Effective Address
+004901BB: mov     edx, K_BLUE_MAGIC_PARAM.Status1[ebp*8]
+004901C2: mov     ax, K_BLUE_MAGIC_PARAM.Status0[ebp*8]
+004901CA: mov     HIT_STATUS_2, edx; | ID         | Description |
+004901D0: mov     dl, K_BLUE_MAGIC.CritBonus[edi]
+004901D6: mov     HIT_STATUS_1, ax; | ID     | Description |
+004901DC: mov     al, K_BLUE_MAGIC_PARAM.AttackParam[ebp*8]
+004901E3: mov     ebp, dword ptr SHOT_INDEX

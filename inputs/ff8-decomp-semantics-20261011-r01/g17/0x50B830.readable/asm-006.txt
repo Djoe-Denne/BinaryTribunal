@@ -1,0 +1,25 @@
+0050B9E8: add     esp, 0Ch; Add
+0050B9EB: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050B9EE: call    au_re_BdlinkTask_0; jumptable 0050B853 case 5
+0050B9F3: test    eax, eax; Logical Compare
+0050B9F5: jnz     def_50B853; jumptable 0050B853 default case
+0050B9FB: test    byte ptr dword_1D99A6C, 4; Logical Compare
+0050BA02: jz      short loc_50BA28; Jump if Zero (ZF=1)
+0050BA04: push    offset dword_1D973F8
+0050BA09: call    sub_50B810; Call Procedure
+0050BA0E: mov     eax, dword_1D973FC
+0050BA13: push    0; p_task_dword_10
+0050BA15: and     eax, 0FFh; Logical AND
+0050BA1A: push    2; p_task_byte_0F
+0050BA1C: or      ah, 10h; Logical Inclusive OR
+0050BA1F: push    eax; actor_id
+0050BA20: call    BattleModel_DispatchLoaderByActorId; Call Procedure
+0050BA25: add     esp, 10h; Add
+0050BA28: inc     byte ptr [ebp+0Dh]; Increment by 1
+0050BA2B: call    au_re_BdlinkTask_0; jumptable 0050B853 case 6
+0050BA30: test    eax, eax; Logical Compare
+0050BA32: jnz     def_50B853; jumptable 0050B853 default case
+0050BA38: test    byte ptr dword_1D99A6C, 2; Logical Compare
+0050BA3F: jz      short loc_50BA5D; Jump if Zero (ZF=1)
+0050BA41: mov     ecx, dword_1D97360
+0050BA47: push    0; p_task_dword_10

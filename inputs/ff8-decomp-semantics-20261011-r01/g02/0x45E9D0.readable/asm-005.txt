@@ -1,0 +1,9 @@
+0045EBC9: jbe     short loc_45EBDF; Jump if Below or Equal (CF=1 | ZF=1)
+0045EBCB: mov     eax, dword_1CA92F8
+0045EBD0: sar     ecx, 1Fh; Shift Arithmetic Right
+0045EBD3: or      eax, 80000h; Logical Inclusive OR
+0045EBD8: not     ecx; One's Complement Negation
+0045EBDA: mov     dword_1CA92F8, eax
+0045EBDF: mov     byte ptr dword_1CA8A68+2, cl
+0045EBE5: add     esp, 8; Add
+0045EBE8: retn; Return Near from Procedure

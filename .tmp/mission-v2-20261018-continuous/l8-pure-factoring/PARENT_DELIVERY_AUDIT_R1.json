@@ -1,0 +1,231 @@
+{
+  "at": "2026-10-18T15:29:52.464Z",
+  "candidate": "result_mvdz9i4e_001o_fza545",
+  "status": "SOURCE_DELIVERY_PINNED_PENDING_FRESH_V_AND_QA",
+  "manifestSha256": "3d12815b003188c1804877bd2e6d5de22d01622e82bbff9313118c713cc770d6",
+  "inputPins": 37,
+  "artifacts": [
+    {
+      "path": "src/eventlog.ts",
+      "bytes": 4811,
+      "sha256": "cae6dbfe62394440949f488168346809764353d1d4f02c248eae2725e6cd776d",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-persistence-errors.ts",
+      "bytes": 469,
+      "sha256": "5c61d9416b2b52debb2422134c19e857a3f5cf32b25d8c5189f7a5da6adeef70",
+      "kind": "new"
+    },
+    {
+      "path": "src/graph-pipeline.ts",
+      "bytes": 10771,
+      "sha256": "b76eda099bf428e3ae78cf28114fe42ecc9a41d9e5a3387f3e80f1534a8378d1",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-pure-codecs.ts",
+      "bytes": 46169,
+      "sha256": "4f9adfe9620809be5743c90d97d332a3d363cf42d88affb49ea55fb0e508d449",
+      "kind": "new"
+    },
+    {
+      "path": "src/graph-store.ts",
+      "bytes": 129770,
+      "sha256": "7dd20a9051b99a9324c550c4bb682653bfcdf2d8caa23823394acc454312201f",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/graph-transport.ts",
+      "bytes": 22680,
+      "sha256": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/lineage-pure-codecs.ts",
+      "bytes": 29225,
+      "sha256": "48880953cbd4a3cdb0becf9d360dd964fcbedf30f72b379cdff72665cf3f5bbf",
+      "kind": "new"
+    },
+    {
+      "path": "src/lineage.ts",
+      "bytes": 41277,
+      "sha256": "4ebe631cf81211429ccaa08fb41d283f26384339430295ad9d8d6f0612506cb2",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/planner.ts",
+      "bytes": 68395,
+      "sha256": "af9950061a3f22b13e742b0fa8df119dd6decf77b24657abcb9f42b6e6a7f1ee",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "src/semantic-config-codec.ts",
+      "bytes": 3810,
+      "sha256": "3d6880adb58fbb93532ac3c62e35a63e948f76e853f45254b10ccdc8c201b3c4",
+      "kind": "new"
+    },
+    {
+      "path": "src/semantic-index.ts",
+      "bytes": 64436,
+      "sha256": "266e9a92b05263f25d3a941bff1990ccd9575ea6c259653e48588be1b1b14624",
+      "kind": "modified_historical_candidate"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 6005,
+      "sha256": "bdfd46fc7cf5a3a8bf3a6c38e166574b8861d4bf6a436e8a7aca31b3602ee2a4",
+      "kind": "design"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 149575,
+      "sha256": "3d12815b003188c1804877bd2e6d5de22d01622e82bbff9313118c713cc770d6"
+    }
+  ],
+  "movedDeclarationsIndependentlyChecked": 93,
+  "historicalDefinitionsIndependentlyChecked": 112,
+  "declaredDeltas": [
+    {
+      "symbol": "parsePreparedGraph",
+      "kind": "schema_resolution_substitution"
+    },
+    {
+      "symbol": "validateGraphDocument",
+      "kind": "schema_resolution_substitution"
+    },
+    {
+      "symbol": "PARTITION_SCHEMA",
+      "kind": "schema_binding_fs_to_static_json_import"
+    }
+  ],
+  "pureValueClosure": {
+    "roots": [
+      "src/graph-transport.ts",
+      "src/graph-pure-codecs.ts",
+      "src/lineage-pure-codecs.ts",
+      "src/semantic-config-codec.ts",
+      "src/graph-persistence-errors.ts"
+    ],
+    "nodes": [
+      "schemas/cluster-partition-v1.schema.json",
+      "schemas/graph-snapshot-v1.schema.json",
+      "schemas/investigation-group-v1.schema.json",
+      "schemas/knowledge-commit-v1.schema.json",
+      "schemas/l8-partition-adoption-v1.schema.json",
+      "schemas/l8-prepared-graph-v3.schema.json",
+      "schemas/mission-plan-v1.schema.json",
+      "schemas/work-unit-v1.schema.json",
+      "src/graph-persistence-errors.ts",
+      "src/graph-pure-codecs.ts",
+      "src/graph-transport.ts",
+      "src/graph.ts",
+      "src/lineage-pure-codecs.ts",
+      "src/re-policy.ts",
+      "src/semantic-config-codec.ts",
+      "src/validation.ts"
+    ],
+    "edges": [
+      {
+        "from": "src/graph-transport.ts",
+        "to": "schemas/l8-prepared-graph-v3.schema.json"
+      },
+      {
+        "from": "src/graph-transport.ts",
+        "to": "schemas/l8-partition-adoption-v1.schema.json"
+      },
+      {
+        "from": "src/graph-transport.ts",
+        "to": "src/graph.ts"
+      },
+      {
+        "from": "src/graph-transport.ts",
+        "to": "src/lineage-pure-codecs.ts"
+      },
+      {
+        "from": "src/graph-transport.ts",
+        "to": "src/validation.ts"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "src/graph.ts"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "src/validation.ts"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "src/re-policy.ts"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "src/graph-persistence-errors.ts"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/graph-snapshot-v1.schema.json"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/cluster-partition-v1.schema.json"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/work-unit-v1.schema.json"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/knowledge-commit-v1.schema.json"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/mission-plan-v1.schema.json"
+      },
+      {
+        "from": "src/graph-pure-codecs.ts",
+        "to": "schemas/investigation-group-v1.schema.json"
+      },
+      {
+        "from": "src/lineage-pure-codecs.ts",
+        "to": "src/validation.ts"
+      },
+      {
+        "from": "src/lineage-pure-codecs.ts",
+        "to": "src/semantic-config-codec.ts"
+      },
+      {
+        "from": "src/lineage-pure-codecs.ts",
+        "to": "schemas/cluster-partition-v1.schema.json"
+      },
+      {
+        "from": "src/semantic-config-codec.ts",
+        "to": "src/validation.ts"
+      },
+      {
+        "from": "src/graph.ts",
+        "to": "src/validation.ts"
+      },
+      {
+        "from": "src/graph.ts",
+        "to": "schemas/graph-snapshot-v1.schema.json"
+      },
+      {
+        "from": "src/validation.ts",
+        "to": "src/re-policy.ts"
+      },
+      {
+        "from": "src/re-policy.ts",
+        "to": "src/validation.ts"
+      }
+    ],
+    "external": [
+      "node:path",
+      "node:util"
+    ],
+    "noForbiddenValueModule": true
+  },
+  "mainTargetsStillOriginalOrAbsent": true,
+  "syntaxParseOnly": true,
+  "noTypecheckCompilerProductOrTests": true
+}

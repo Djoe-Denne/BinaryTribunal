@@ -1,0 +1,25 @@
+004884A0: mov     ebp, offset RELATED_TO_AI_TEXT_SECTION_DEFAULT
+004884A5: jmp     short loc_4884B7; Jump
+004884A7: mov     ecx, [esp+74h+p_text_subsection]
+004884AE: and     eax, 0FFFFh; Logical AND
+004884B3: add     eax, ecx; Add
+004884B5: mov     ebp, eax
+004884B7: push    offset domain__EnemyAI_TextWithParamCallback
+004884BC: call    domain__EnemyAI_LookupAbilityByIndex; Call Procedure
+004884C1: movsx   edi, ax; Move with Sign-Extend
+004884C4: shl     edi, 4; Shift Logical Left
+004884C7: push    ebp
+004884C8: add     edi, offset dword_1D28C44; Add
+004884CE: call    domain__BattleScript_DisplayText; Call Procedure
+004884D3: mov     [edi+4], eax
+004884D6: add     esp, 8; Add
+004884D9: movzx   ax, [esp+74h+op_param_2]; Move with Zero-Extend
+004884DF: mov     [edi+8], ax
+004884E3: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004884E8: mov     cl, [esi]; AI VM op 0x18 SHOW_TEXT_WAIT2: display text id(1) + wait (uses SG_BATTLE_MESSAGE_SPEED_SETTING)
+004884EA: mov     eax, [esp+74h+p_text_offset_section]
+004884F1: mov     [esp+74h+opcode_param_1], cl
+004884F5: mov     edx, dword ptr [esp+74h+opcode_param_1]
+004884F9: and     edx, edi; Logical AND
+004884FB: inc     esi; Increment by 1
+004884FC: mov     ax, [eax+edx*2]

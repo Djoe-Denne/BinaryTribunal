@@ -1,0 +1,24 @@
+START  lot25b pid=4036 mode=unload
+DIAG   PREP argv: mode=unload rva=BE10 dll=C:\Users\djden\AppData\Local\Temp\opencode\lot25-unload-audit-djwpwcad\unload\test_candidate.dll
+DIAG   PREP pad: host=00C80000 pad=[00C81000..00CB1000) s1=00C9EF5D s2=00C9EF72 probe=00
+[OK]   PREP prep fenetres 14B = originales posees+reverifiees
+[OK]   PREP prep env FF8_PASSTHROUGH_BOOTHOOK=0 (avant LoadLibrary)
+[OK]   PREP prep seams stage0+nohook ABSENTS
+[OK]   PREP prep seam stage0 cree CREATE_NEW (ecrit+ferme, verifie)
+[OK]   LOAD attach LoadLibraryA(test_candidate.dll)
+DIAG   LOAD module: pid=4036 base=6A570000 stub=6A57294B rva=BE10
+[OK]   LOAD install E8 aux 2 sites (cible=stub, voisins exacts)
+DIAG   LOAD win[pre]: 8B 4D 0C 51 E8 E9 39 8D 69 90 EB 13 6A 00 tgt=6A57294B
+DIAG   LOAD win[pre]: 8B 4D 0C 51 E8 D4 39 8D 69 90 5D C3 55 8B tgt=6A57294B
+DIAG   ACT unload: wrapper_called=false (bypass wrapper impose)
+[OK]   ACT detach FreeLibrary
+[OK]   ACT detach module absent (GetModuleHandleA chemin absolu)
+[OK]   ACT detach processus vivant (PID inchange)
+[OK]   ACT detach host module alive
+DIAG   POST win[post]: 8B 4D 0C 51 E8 E9 39 8D 69 90 EB 13 6A 00 tgt=6A57294B
+DIAG   POST win[post]: 8B 4D 0C 51 E8 D4 39 8D 69 90 5D C3 55 8B tgt=6A57294B
+DIAG   POST verdict: module absent + fenetres E8 identiques
+RESULT SAFETY=FAIL_DANGLING_E8_REPRODUCED exit3 (intentional red)
+[OK]   FIN fin fenetres host restaurees = originales
+[OK]   FIN fin seam stage0 retire (SEUL cote cree supprime)
+checks=12 fails=0

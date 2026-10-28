@@ -1,0 +1,194 @@
+// Finite adaptation of historical-source/probe-native-emitter-inspector-r3.cjs.
+// NOT EXECUTED during candidate preparation. Parent reviews exact command and
+// prebound input digest before the single future inspected scientific run.
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
+const cp = require('node:child_process'), net = require('node:net');
+const { createLifecycle, assertReleasableSocketClass } = require('./numeric-native-lifecycle.cjs');
+const sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const root = path.resolve(__dirname, '../..');
+const BUN = 'C:/Users/djden/.bun/bin/bun.exe';
+const BUN_SHA = '15277c59ccd6c6c20f8dc9716c2b59c1776320d606b6a8658f70be8799519ca4';
+const TOTAL_MS = 180000, PROTOCOL_CAP = 16 * 1024 * 1024, PROVENANCE_CAP = 64 * 1024 * 1024;
+function need(ok, message) { if (!ok) throw Error('numeric-native-collector: ' + message); }
+const runtime = [
+  ['baseline', 'baseline/tools/ff8-harness/src/cluster.ts'],
+  ['baseline', 'baseline/tools/ff8-harness/src/investigation-groups.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/cluster.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/investigation-groups.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/sparse-graph-codecs.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/group-context-codecs.ts'],
+  ['baseline', 'baseline/tools/ff8-harness/src/validation.ts'],
+  ['baseline', 'baseline/tools/ff8-harness/src/re-policy.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/validation.ts'],
+  ['candidate', 'candidate/tools/ff8-harness/src/re-policy.ts'],
+  ['test', 'qualification/test/numeric-differential.test.ts'],
+  ['test', 'qualification/test/numeric-evidence-writer.ts'],
+  ['test', 'qualification/native/numeric-native-proof.ts'],
+];
+const extra = [
+  'baseline/tools/ff8-harness/src/domain.ts', 'candidate/tools/ff8-harness/src/domain.ts',
+  'qualification/native/numeric-native-source-audit.ts', 'qualification/native/numeric-native-ast.ts',
+  'qualification/native/numeric-native-collector.cjs', 'bunfig.toml',
+  'qualification/native/numeric-native-lifecycle.cjs',
+];
+const fixtureNames = ['communities-obvious','components-disconnected','hubs-utilities','cycles-recursion','indirect-uncertain','isolates','bridges-rare','shared-data',
+  'ff8-chunks-tails','ff8-imports-thunks','ff8-data-callback-not-call','ff8-idb-pe-quarantine','ff8-multi-module','ff8-self-loop','ff8-unknown-metrics','ff8-coverage-partial-tails','ff8-identity-rename'];
+function verifyInputs(expectedDigest) {
+  need(/^[0-9a-f]{64}$/.test(expectedDigest), 'parent-prebound input digest required');
+  const raw = fs.readFileSync(path.join(root, 'outputs/DISPATCH_RUN_INPUTS.json'));
+  need(sha(raw) === expectedDigest, 'approved input manifest mismatch');
+  const input = JSON.parse(raw), names = [...runtime.map(x => x[1]), ...extra,
+    ...fixtureNames.map(n => `baseline/tools/ff8-harness/test/fixtures/graph/${n}/content.json`)];
+  need(Object.keys(input).sort().join(',') === 'pins,version' && input.version === 'numeric-native-approved-inputs-v1'
+    && Array.isArray(input.pins) && input.pins.length === names.length, 'closed finite input inventory');
+  const seen = new Set();
+  for (const pin of input.pins) {
+    need(Object.keys(pin).sort().join(',') === 'bytes,path,sha256' && names.includes(pin.path) && !seen.has(pin.path), 'unknown/duplicate approved path');
+    seen.add(pin.path);
+    const file = path.join(root, pin.path), actual = fs.realpathSync(file), relative = path.relative(root, actual), stat = fs.lstatSync(file);
+    need(relative && !relative.startsWith('..') && !path.isAbsolute(relative) && stat.isFile() && !stat.isSymbolicLink(), 'foreign/nonfile source');
+    const bytes = fs.readFileSync(file);
+    need(bytes.length === pin.bytes && sha(bytes) === pin.sha256, 'approved input pin drift');
+  }
+  need(seen.size === names.length && fs.readFileSync(path.join(root, 'bunfig.toml')).length === 0, 'input/config closure');
+  const bun = fs.readFileSync(BUN);
+  need(bun.length === 86096984 && sha(bun) === BUN_SHA, 'pinned Bun drift');
+  need(!fs.existsSync(path.join(root, 'numeric-context-qualification-v3')), 'case namespace already used; no automatic retry');
+  return { input, manifestSha256: expectedDigest };
+}
+async function collectOnce(runId, expectedDigest) {
+  const started = Date.now();
+  need(/^[A-Za-z0-9_-]{16,128}$/.test(runId), 'owned run id');
+  assertReleasableSocketClass(WebSocket); // fail before child/socket creation if bounded release is unavailable
+  const approved = verifyInputs(expectedDigest);
+  const audit = await import('./numeric-native-source-audit.ts');
+  const ast = await import('./numeric-native-ast.ts');
+  const expected = runtime.map(([side, relative]) => {
+    const file = path.resolve(root, relative), bytes = fs.readFileSync(file);
+    return { side, path: file, sha256: sha(bytes), bytes };
+  });
+  const scriptGuard = audit.createOwnedScriptGuard(root,expected.map(source=>source.path));
+  const nativeMapSites = ['baseline', 'candidate'].flatMap(side => {
+    const source = expected.find(e => e.side === side && e.path === path.resolve(root, `${side}/tools/ff8-harness/src/cluster.ts`));
+    need(source, 'missing AST source'); return ast.deriveScientificNativeMapSites(source.bytes, source.path, side);
+  });
+  const invocationPins = {
+    testSourceSha256: expected[10].sha256, writerSourceSha256: expected[11].sha256, nativeProofSourceSha256: expected[12].sha256,
+  };
+  const dispatchSource = ast.deriveReviewedDispatchSource(expected[10].bytes,expected[10].path);
+  need(dispatchSource.sourceRevision==='owned-dispatch-v1','new source dispatch revision required');
+  const nativeParent = path.join(root, 'native');
+  if (!fs.existsSync(nativeParent)) fs.mkdirSync(nativeParent);
+  const dir = path.join(nativeParent, runId); fs.mkdirSync(dir); // exclusive, never reuse
+  for (const name of ['home','config','appdata','localappdata','temp']) fs.mkdirSync(path.join(dir, name));
+  const config = path.resolve(root, 'bunfig.toml');
+  for (const pin of approved.input.pins) fs.chmodSync(path.join(root, pin.path), 0o444);
+  const server = net.createServer();
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
+  const port = server.address().port; await new Promise(resolve => server.close(resolve));
+  const token = crypto.randomBytes(18).toString('hex'), endpoint = `ws://127.0.0.1:${port}/${token}`;
+  const bindingPath = path.join(dir, 'binding.json'), catalogPath = path.join(dir, 'catalog.json'), sealPath = path.join(dir, 'SEAL.json');
+  const argv = [`--inspect-wait=127.0.0.1:${port}/${token}`, 'test', '--no-env-file', '--config=' + config,
+    '--max-concurrency=1', '--timeout=180000', './qualification/test/numeric-differential.test.ts'];
+  const env = {
+    SystemRoot: process.env.SystemRoot || process.env.SYSTEMROOT, WINDIR: process.env.WINDIR || process.env.windir,
+    HOME: path.join(dir,'home'), USERPROFILE: path.join(dir,'home'), XDG_CONFIG_HOME: path.join(dir,'config'),
+    APPDATA: path.join(dir,'appdata'), LOCALAPPDATA: path.join(dir,'localappdata'), TEMP: path.join(dir,'temp'), TMP: path.join(dir,'temp'),
+    NODE_DISABLE_COMPILE_CACHE:'1', BUN_RUNTIME_TRANSPILER_CACHE_PATH:'0', NO_COLOR:'1', FORCE_COLOR:'0',
+    PARENT_NUMERIC_EVIDENCE_DIR: root, PARENT_NATIVE_EMITTER_CATALOG: catalogPath, PARENT_NATIVE_EMITTER_SEAL: sealPath,
+    PARENT_NATIVE_EMITTER_BINDING: bindingPath, PARENT_NATIVE_EMITTER_RUN_ID: runId,
+  };
+  for (const key of Object.keys(env)) if (env[key] === undefined) delete env[key];
+  const envDigest = sha(JSON.stringify(Object.fromEntries(Object.keys(env).sort().map(k => [k, env[k]]))));
+  const runnerByteRef = { path: path.resolve(BUN), bytes: 86096984, sha256: BUN_SHA };
+  const configBytes = fs.readFileSync(config), configByteRef = { path: config, bytes: configBytes.length, sha256: sha(configBytes) };
+  const common = { runId, inspected:true, producerContract:'owned-bun-webkit-native-v2', runnerByteRef,
+    argvDigest:sha(JSON.stringify(argv)), configByteRef, envDigest };
+  let provenanceBytes = 0;
+  const writeRO = (file, bytes) => {
+    const data = typeof bytes === 'string' ? Buffer.from(bytes,'utf8') : Buffer.from(bytes);
+    need(provenanceBytes + data.length <= PROVENANCE_CAP, '64MiB provenance cap');
+    provenanceBytes += data.length; fs.writeFileSync(file, data, {flag:'wx'}); fs.chmodSync(file,0o444);
+    return {path:file,bytes:data.length,sha256:sha(data)};
+  };
+  const binding = { version:'native-emitter-binding-v3', ...common, catalogPath, ...invocationPins };
+  const bindingRaw = JSON.stringify(binding), bindingRef = writeRO(bindingPath,bindingRaw);
+  env.PARENT_NATIVE_EMITTER_EXPECTED_BINDING_SHA256 = bindingRef.sha256; // excluded from its own env digest only
+  writeRO(path.join(dir,'lease.json'), JSON.stringify({runId,ownerPid:process.pid,endpoint,manifestSha256:expectedDigest,argv,envDigest,
+    started:new Date(started).toISOString(),deadlineMs:started+TOTAL_MS,trustBoundary:'root-controlled clean invocation; intrinsic continuity is not authenticity against malicious child'}));
+  let child, ws, exit = null, signal = null, failure = null, published = false, nextId = 0, resolveRun, rejectRun, connect;
+  const lifecycle = createLifecycle({ onFailure: error => rejectRun?.(error), onComplete: () => resolveRun?.(),
+    onStderr: prefix => { const text=prefix.toString('utf8');if(text.includes('ws://')||text.includes('Listening')||text.includes('debugger'))connect?.(); } });
+  const events = [], rawProtocol = [], requests = [], expectedByPath = new Map(expected.map(e => [e.path,e]));
+  const parsed = new Map(), pending = new Map(), received = new Set();
+  const publish = () => {
+    if (!lifecycle.collecting() || published || received.size !== expected.length || pending.size !== 0) return;
+    const modules = audit.auditNumericNativeSources(expected,requests,events,invocationPins).map((m,index) => {
+      const source = expectedByPath.get(m.scriptURL);
+      return {side:m.side,sourceByteRef:{path:source.path,bytes:source.bytes.length,sha256:source.sha256},scriptId:m.scriptId,scriptURL:m.scriptURL,
+        emittedByteRef:writeRO(path.join(dir,`emitted-${index}.js`),m.emittedBytes),
+        nativeSourceMapByteRef:writeRO(path.join(dir,`map-${index}.json`),m.nativeMapBytes),nativeMapSource:m.nativeMapSource,pointRanges:m.pointRanges};
+    });
+    const catalogue = {version:'native-emitter-catalog-v3',...common,coordinateConvention:'native-glb-utf16-1-based',modules,nativeMapSites,dispatchSource};
+    const catalogText=JSON.stringify(catalogue);need(Buffer.byteLength(catalogText,'utf8')<=16*1024*1024,'16MiB catalogue cap');
+    const ref = writeRO(catalogPath,catalogText);
+    const temporary = path.join(dir,'SEAL.tmp');
+    writeRO(temporary,JSON.stringify({version:'numeric-native-emitter-seal-v1',runId,invocationBindingSha256:bindingRef.sha256,catalogue:ref}));
+    need(!fs.existsSync(sealPath),'final SEAL already exists'); fs.renameSync(temporary,sealPath); published=true;
+  };
+  try {
+    await new Promise((resolve, reject) => {
+      resolveRun=resolve;rejectRun=reject;
+      const fail = error => lifecycle.fail(error);
+      lifecycle.armDeadline(Math.max(1,TOTAL_MS-1000-(Date.now()-started)));
+      let connected = false;
+      connect = () => {
+        if (connected||!lifecycle.collecting()) return; connected=true; ws=new WebSocket(endpoint);
+        const send=(method,params={})=>{need(lifecycle.collecting(),'request admission closed');const id=++nextId;requests.push({id,method,params});ws.send(JSON.stringify({id,method,params}));return id;};
+        lifecycle.attachSocket(ws,{open:()=>{send('Debugger.enable');send('Inspector.initialized');},message:event=>{
+          try {
+            const text=String(event.data);if(!lifecycle.acceptProtocol(text))return;
+            rawProtocol.push(text);
+            const object=JSON.parse(text);events.push(object);need(!Object.hasOwn(object,'error'),'inspector rejected request');
+            if(object.method==='Debugger.scriptParsed') {
+              const script=object.params??{},decision=scriptGuard(script);
+              if(decision.kind==='expected-owned') {const url=decision.path;need(!parsed.has(url),'duplicate scientific script identity');parsed.set(url,script);
+                const id=send('Debugger.getScriptSource',{scriptId:script.scriptId});pending.set(id,url);}
+            } else if(pending.has(object.id)) {
+              const url=pending.get(object.id);pending.delete(object.id);need(typeof object.result?.scriptSource==='string','native source response missing');
+              need(!received.has(url),'duplicate native response');received.add(url);publish();
+            }
+          } catch(error){fail(error);}
+        }});
+      };
+      child=cp.spawn(BUN,argv,{cwd:root,env,stdio:['ignore','pipe','pipe'],windowsHide:true});
+      lifecycle.attachChild(child);
+    });
+    ({code:exit,signal}=lifecycle.snapshot().childExit);
+    need(published&&exit===0&&signal===null,'unsealed or failed scientific child');
+  } catch(error) {failure=error.message;}
+  finally {
+    const capture=await lifecycle.cleanup(Math.max(1,Math.min(1000,TOTAL_MS-(Date.now()-started))));
+    if(capture.childExit)({code:exit,signal}=capture.childExit);
+    failure=failure??capture.failure;
+    if(capture.activeOwnedRunner==='unknown')failure=failure??'owned child termination unproven; preserve lease, no retry';
+    if(capture.rootReleaseUnknown)failure=failure??'owned root handle release unproven';
+    if(!capture.allRawRetained)failure=failure??'capture incomplete; retained prefixes only';
+    child=null;ws=null;connect=null;resolveRun=null;rejectRun=null;
+    writeRO(path.join(dir,'stdout.log'),lifecycle.readStream('stdout'));writeRO(path.join(dir,'stderr.log'),lifecycle.readStream('stderr'));
+    writeRO(path.join(dir,'protocol.json'),JSON.stringify({requests,events}));
+    writeRO(path.join(dir,'protocol-raw.ndjson'),rawProtocol.join('\n'));
+    writeRO(path.join(dir,'result.json'),JSON.stringify({runId,exit,signal,failure,published,activeOwnedRunner:capture.activeOwnedRunner,provenanceBytes,
+      childIdentity:capture.childIdentity,leasePath:path.join(dir,'lease.json'),capture,
+      scienceVerdict:failure===null&&exit===0?'CHILD_EXIT_ZERO_NOT_INDEPENDENT_ACCEPTANCE':'BLOCKED',allRawRetained:capture.allRawRetained}));
+  }
+  if(failure!==null)throw Error(failure);
+  return {runId,exit,signal,published,dir};
+}
+module.exports={collectOnce};
+if(require.main===module) {
+  const args=process.argv.slice(2);
+  if(args.length!==3||args[0]!=='--execute-owned-numeric')throw Error('Parent-approved exact command/digest required; no default run');
+  collectOnce(args[1],args[2]).then(result=>console.log(JSON.stringify(result))).catch(error=>{console.error(error.message);process.exitCode=2;});
+}

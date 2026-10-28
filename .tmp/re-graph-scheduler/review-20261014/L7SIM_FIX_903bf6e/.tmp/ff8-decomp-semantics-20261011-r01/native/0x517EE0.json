@@ -1,0 +1,67 @@
+{
+  "ea": "0x517EE0",
+  "name_label_only": "sub_517EE0",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x517ee0",
+      "end": "0x517f0d",
+      "hex": "8b542404668b4a0c0fbfc183e80074154875176a00e8d631000083c404e8ce90feff33c0c34166894a0c33c0c3"
+    }
+  ],
+  "assembly": "00517EE0: mov     edx, [esp+arg_0]\n00517EE4: mov     cx, [edx+0Ch]\n00517EE8: movsx   eax, cx; Move with Sign-Extend\n00517EEB: sub     eax, 0; Integer Subtraction\n00517EEE: jz      short loc_517F05; Jump if Zero (ZF=1)\n00517EF0: dec     eax; Decrement by 1\n00517EF1: jnz     short loc_517F0A; Jump if Not Zero (ZF=0)\n00517EF3: push    0\n00517EF5: call    au_re_BS_Effect_DeformCompression; Call Procedure\n00517EFA: add     esp, 4; Add\n00517EFD: call    BS_RenderRelated; Call Procedure\n00517F02: xor     eax, eax; Logical Exclusive OR\n00517F04: retn; Return Near from Procedure\n00517F05: inc     ecx; Increment by 1\n00517F06: mov     [edx+0Ch], cx\n00517F0A: xor     eax, eax; Logical Exclusive OR\n00517F0C: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x517ee0",
+      "end": "0x517ef0",
+      "successors": [
+        "0x517ef0",
+        "0x517f05"
+      ]
+    },
+    {
+      "start": "0x517ef0",
+      "end": "0x517ef3",
+      "successors": [
+        "0x517ef3",
+        "0x517f0a"
+      ]
+    },
+    {
+      "start": "0x517ef3",
+      "end": "0x517f05",
+      "successors": []
+    },
+    {
+      "start": "0x517f05",
+      "end": "0x517f0a",
+      "successors": [
+        "0x517f0a"
+      ]
+    },
+    {
+      "start": "0x517f0a",
+      "end": "0x517f0d",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x517e56",
+      "type": 1,
+      "iscode": false,
+      "function": "0x517e30"
+    }
+  ],
+  "code_targets": [
+    "0x500fd0",
+    "0x51b0d0"
+  ],
+  "instruction_count": 17
+}

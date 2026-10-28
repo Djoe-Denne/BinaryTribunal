@@ -1,0 +1,25 @@
+00509C80: push    esi
+00509C81: mov     esi, [esp+4+actor]
+00509C85: cmp     byte ptr [esi+4], 10h; Compare Two Operands
+00509C89: jnb     short loc_509CC1; Jump if Not Below (CF=0)
+00509C8B: push    esi; actor
+00509C8C: call    BattleAction_ClassFromScriptBits; E3c: lu complet, 0 callee: bits→1/2/3/10/13/1D; masques IDA ignorés
+00509C91: mov     ecx, [esi+74h]
+00509C94: add     esp, 4; Add
+00509C97: mov     dl, [ecx+3]
+00509C9A: test    dl, dl; Logical Compare
+00509C9C: jz      short loc_509CAF; Jump if Zero (ZF=1)
+00509C9E: xor     edx, edx; Logical Exclusive OR
+00509CA0: pop     esi
+00509CA1: mov     dl, [ecx]
+00509CA3: sub     edx, eax; Integer Subtraction
+00509CA5: neg     edx; Two's Complement Negation
+00509CA7: sbb     dl, dl; Integer Subtraction with Borrow
+00509CA9: and     edx, eax; Logical AND
+00509CAB: mov     [ecx+3], dl
+00509CAE: retn; Return Near from Procedure
+00509CAF: xor     edx, edx; Logical Exclusive OR
+00509CB1: mov     dl, [ecx]
+00509CB3: cmp     edx, eax; Compare Two Operands
+00509CB5: jz      short loc_509CC1; Jump if Zero (ZF=1)
+00509CB7: push    eax

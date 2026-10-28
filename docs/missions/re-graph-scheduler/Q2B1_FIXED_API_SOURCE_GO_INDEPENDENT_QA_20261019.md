@@ -1,0 +1,37 @@
+# Coordinateur2b1 : API ratifiée, source autorisée, QA indépendante admise
+
+ACKplan result_mvf57x0a_004i_rhfyod28pins398548B conforme/NONBLIND. Deuxdécisions
+parent : TryCommitOne prend désormais long elapsedMilliseconds commePrepare ;
+uncoordinateurparbroker/exclusivitécapture-read/commit estpréconditioncomposition
+confiance,pas registrationcapabilité ni preuveHOST. Signature/threadproofabsents
+ne sont pas inventés pour masquerlesgaps. API fixe054eae63b730a5099419a122122254be7c013c9ff7c6f48470bd253a76414e7c.
+
+550tentativesTOTALprepare+commit(vides/négativesinclusessiroom) avantaction,
+551erefusée sansremiseàzéro. Elapsedexternenondécroissant>=0,refus55000ms,seulement
+refusfixture pas preuveclockrootHOST. Workexactone-shot/retaineduntilactualRead
+returnedETcommitexactpermit ; commitobservépendantEngaged nefreepascell.
+SnapshotEngaged/realPendingReadsagrégéchevauchants,pasjoin. Signalsincident/
+brokerHOLDobservépréservepremièrecause,pasNoneHeld. CallsIOhorsgates,onewriter.
+
+SourceGO3artefactsisolés donné,Sol/xhighnatifsrevérifiésource-go,pasbrokermodifié
+ni Thread/dispatch/cancel/join/ACK/Closed/release. Source2b1resteUNBOUND etproposée.
+API-onlyQA task_mvf5cb8k_004q_5xaoqs/full44-q2b1-independent-qa-r1 admise,
+29pins407063B/07a7fbd63132bfee331fa7016e6425a47c07277c00b5f7b92b61bc003c3c7016,
+Sol/xhighnatifvérifié73/85. ACKmicroplanavantGOQAcode,noimplcoordinator/DESIGN/
+QAautreworkerexposés ; qualifiedbroker/V3sontdépendancesconnuesseulement.
+Testsheapnestedcallbacksneprouventpasconcurrencephysique ni exclusioncross-thread,
+interleavingsnonobservablessanshookàciterSTATICpasfabriqueravecbooljoin.
+
+VforteS1entièrepoursuit,both2b1futureV+gatesparentobligatoires. AucunS1/2b1
+typecheck/run/native/full44/125s/LinuxautoriséparcesGOs. Historiqueetgelsretenus,
+aucuncommit/push/cleanup/configglobal,aucunbloqueuruser.
+
+## Livraison proposée et GOQA
+
+SourceR1 result_mvf5lrob_004y_37dpgt3artefacts39399Bgelésreadonly,
+CS19270B/18f5acdc,MANIFEST8783B/0d276580. Parentrehash28inputs398548B+
+2supplémentsAPI/GO exacts. Source resteNONACCEPTÉE/nocompiler/runtime ; auteuridle
+HOLDpourfixes,taskinprogress. QAnevoitpascecode/DESIGN.
+QAACK result_mvf5fdgw_004s_zqg6f029pins407063B/NBLindépendance/microplan5axes
+conforme ; GO QA CODE explicitedonné3artefactsheaponly. NouvelleVfortecomposée
+APRÈSQA proposée,avanttoutecompilation/run. S1fixplanR5poursuitindépendamment.

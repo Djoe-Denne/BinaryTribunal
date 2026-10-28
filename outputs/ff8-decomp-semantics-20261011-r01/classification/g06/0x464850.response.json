@@ -1,0 +1,28 @@
+{
+  "complexity": 72,
+  "uncertainty": 41,
+  "uncertainty_cause": "external_calls",
+  "provider": "opencode_zen",
+  "model": "jev-1.13-free",
+  "response_model": "jev-1.13-free",
+  "evidence": {
+    "model": "jev-1.13-free",
+    "answers": {
+      "complexity": {
+        "type": "score", "score": 2.86, "confidence": 0.87,
+        "legend": {"0": "Trivial straight-line arithmetic or accessor", "1": "Simple branches and conventional calls", "2": "Moderate loops, data flow and pointer operations", "3": "Complex CFG, aliasing, indirect calls or optimized idioms", "4": "Extreme obfuscation, irreducible CFG or missing semantics"},
+        "probabilities": {"0": 0, "1": 0, "2": 0.15, "3": 0.84, "4": 0.01}
+      },
+      "uncertainty": {
+        "type": "score", "score": 1.65, "confidence": 0.64,
+        "legend": {"0": "Minimal uncertainty; complete clear evidence", "1": "Small gaps; likely stable estimate", "2": "Moderate gaps or ambiguity", "3": "Major ambiguity or missing structure", "4": "Cannot estimate reliably"},
+        "probabilities": {"0": 0.01, "1": 0.38, "2": 0.58, "3": 0.03, "4": 0}
+      },
+      "uncertainty_cause": {
+        "type": "choice", "choice": "external_calls", "confidence": 0.82,
+        "probabilities": {"none": 0.01, "control_flow": 0.02, "data_flow": 0.12, "external_calls": 0.85, "missing_metadata": 0, "obfuscation": 0}
+      }
+    },
+    "usage": {"input_tokens": 7756, "output_tokens": 100}
+  }
+}

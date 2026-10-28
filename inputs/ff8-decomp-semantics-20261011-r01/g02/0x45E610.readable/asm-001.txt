@@ -1,0 +1,18 @@
+0045E610: mov     eax, dword_1CA8A5C
+0045E615: mov     ecx, dword_1CA8A58
+0045E61B: mov     edx, dword_1CA8A54
+0045E621: and     eax, 0FFFFh; Logical AND
+0045E626: and     ecx, 0FFFFh; Logical AND
+0045E62C: and     edx, 0FFFFh; Logical AND
+0045E632: add     eax, ecx; Add
+0045E634: mov     ecx, dword_1CA8A50
+0045E63A: add     eax, edx; Add
+0045E63C: and     ecx, 0FFFFh; Logical AND
+0045E642: movsx   edx, word_1CA92F4; Move with Sign-Extend
+0045E649: add     eax, ecx; Add
+0045E64B: mov     dword_1CA92F8, 0
+0045E655: imul    eax, edx; Signed Multiply
+0045E658: shr     eax, 0Ch; Shift Logical Right
+0045E65B: mov     dword_1CA8A2C, eax
+0045E660: mov     dword_1CA8A70, eax
+0045E665: retn; Return Near from Procedure

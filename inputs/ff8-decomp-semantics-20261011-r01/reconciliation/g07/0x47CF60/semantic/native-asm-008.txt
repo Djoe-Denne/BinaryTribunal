@@ -1,0 +1,25 @@
+0047D20A: jz      short loc_47D213; End-of-frame pause latch: copy pause_game_battle into IS_BATTLE_PAUSED for the next frame's director gate.
+0047D20C: mov     IS_BATTLE_PAUSED, 1
+0047D213: cmp     is_sleeping, ebx; Compare Two Operands
+0047D219: jnz     short loc_47D235; Jump if Not Zero (ZF=0)
+0047D21B: call    Gfx_SubmitDisplayLists; Vague C: persistance. Pas d unlink. RS(2,0/1) autour des walks extra. TPage drainee ailleurs vs listes conservees. Shared field/battle/menu/world.
+0047D220: call    Gfx_SubmitTexturePageLists; Submits texture-page draw lists while changing driver pass/state slots, then clears the consumed lists. Shared rendering support, not a texture upload alone.
+0047D225: push    esi; int
+0047D226: push    1; int
+0047D228: call    GfxDriver_SelectRenderTarget; Optional battle end-scene callsite, executed only when !is_sleeping. Frame-skip/catch-up may omit this call while the global present path still runs.
+0047D22D: add     esp, 8; Add
+0047D230: call    Gfx_SubmitViewportLists; Submits queued viewport-specific draw lists, restores the main viewport, then drains trailing lists.
+0047D235: call    common_set_dword_1B477F4_to_zero_sub_45B450; Call Procedure
+0047D23A: push    esi; int
+0047D23B: call    GfxDriver_LeaveScene; Driver slot +164 leaves/unlocks the scene. It is not GPU present; SwapBuffers/Flip/Blt is driver slot +16 via Render_FramePresent_Dispatch outside FFBattleModule.
+0047D240: add     esp, 4; Add
+0047D243: call    reset_dword_209CEEC_input_related_sub_56D9C0; Call Procedure
+0047D248: mov     eax, movie_dword_B6D970
+0047D24D: cmp     eax, ebx; Compare Two Operands
+0047D24F: jz      short loc_47D265; Jump if Zero (ZF=1)
+0047D251: cmp     pause_game_battle, ebx; Compare Two Operands
+0047D257: jnz     short loc_47D265; Jump if Not Zero (ZF=0)
+0047D259: call    UpdateRateRelated; Frame-rate limiter: timeGetTime/QPC delta vs target interval dbl_1A78BE8 (~64.5 ms => ~15 fps battle logic). Sleeps the remainder, or returns 1 to frame-skip/catch-up (-> is_sleeping, which throttles the logic block in FFBattleModule).
+0047D25E: mov     is_sleeping, eax
+0047D263: jmp     short loc_47D26B; Jump
+0047D265: mov     is_sleeping, ebx

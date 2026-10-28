@@ -1,0 +1,25 @@
+0051061F: add     ebp, edi; Add
+00510621: add     edx, edi; Add
+00510623: push    ebp
+00510624: mov     ebp, [esp+3Ch+packet]
+00510628: add     ebp, edi; Add
+0051062A: add     ecx, edi; Add
+0051062C: push    ebp
+0051062D: push    edx
+0051062E: mov     edx, [esp+44h+ot_base]
+00510632: push    ecx
+00510633: mov     ecx, [esp+48h+ot_shift]
+00510637: push    eax
+00510638: sar     ebx, cl; Shift Arithmetic Right
+0051063A: lea     eax, [edx+ebx*4]; Load Effective Address
+0051063D: push    eax
+0051063E: call    OT_InsertPrimitive; Call Procedure
+00510643: mov     eax, dword_1D99C18
+00510648: add     esp, 18h; Add
+0051064B: add     eax, 28h ; '('; Add
+0051064E: mov     dword_1D99C18, eax
+00510653: mov     eax, dword_1D99C1C
+00510658: mov     ecx, [esp+38h+var_10]
+0051065C: add     eax, 18h; Add
+0051065F: dec     ecx; Decrement by 1
+00510660: mov     dword_1D99C1C, eax

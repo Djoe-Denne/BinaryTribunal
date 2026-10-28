@@ -1,0 +1,187 @@
+{
+  "ea": "0x463FC0",
+  "name_label_only": "Gfx_TPageDescribePixelFormat",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x463fc0",
+      "end": "0x464156",
+      "hex": "8b4424085355568b70548b1580fdcc0157b93c00000033c08bfef3aba184fdcc0133ed3bc58d7e3c741b8b4c241c83f9027d043bd57405896e08eb14c7460801000000eb0b8b4c241cc7460801000000bb080000003bc5896e0cc7461404000000895e18741283f90274043bd57409c7461c01000000eb03896e1c8b5424208b44242483f902895e20895e24c746282000000089aee800000089aeec0000008917894704753157556a1fb81000000068e003000068007c000050896e04894638896e1ce85a48fbff8b0f83c418d1e1894f08e9870000005768008000006a1f68e003000068007c000053c746040100000089aebc000000895e38e82348fbff8b4c24348b17b80100000083c4183bc8895708894710895f14894718751bb800010000c7463010000000894634894720c7471c00200000eb19b810000000c7463080000000894634894720c7471c001000008b4424148b8844040000894f248b5c2418396b58751f8b57080faf570452e82c30000083c4043bc589435875085f5e5d83c8ff5bc38b43585f8986d80000005e5d33c05bc3"
+    }
+  ],
+  "assembly": "00463FC0: mov     eax, [esp+arg_4]; Vague C: desc pixel TPage. a3==2 -> 16 bpp, sinon 8 bpp.\n00463FC4: push    ebx\n00463FC5: push    ebp\n00463FC6: push    esi\n00463FC7: mov     esi, [eax+54h]\n00463FCA: mov     edx, dword_1CCFD80\n00463FD0: push    edi\n00463FD1: mov     ecx, 3Ch ; '<'\n00463FD6: xor     eax, eax; Logical Exclusive OR\n00463FD8: mov     edi, esi\n00463FDA: rep stosd; Store String\n00463FDC: mov     eax, dword_1CCFD84\n00463FE1: xor     ebp, ebp; Logical Exclusive OR\n00463FE3: cmp     eax, ebp; Compare Two Operands\n00463FE5: lea     edi, [esi+3Ch]; Load Effective Address\n00463FE8: jz      short loc_464005; Jump if Zero (ZF=1)\n00463FEA: mov     ecx, [esp+10h+arg_8]\n00463FEE: cmp     ecx, 2; Compare Two Operands\n00463FF1: jge     short loc_463FF7; Jump if Greater or Equal (SF=OF)\n00463FF3: cmp     edx, ebp; Compare Two Operands\n00463FF5: jz      short loc_463FFC; Jump if Zero (ZF=1)\n00463FF7: mov     [esi+8], ebp\n00463FFA: jmp     short loc_464010; Jump\n00463FFC: mov     dword ptr [esi+8], 1\n00464003: jmp     short loc_464010; Jump\n00464005: mov     ecx, [esp+10h+arg_8]\n00464009: mov     dword ptr [esi+8], 1\n00464010: mov     ebx, 8\n00464015: cmp     eax, ebp; Compare Two Operands\n00464017: mov     [esi+0Ch], ebp\n0046401A: mov     dword ptr [esi+14h], 4\n00464021: mov     [esi+18h], ebx\n00464024: jz      short loc_464038; Jump if Zero (ZF=1)\n00464026: cmp     ecx, 2; Compare Two Operands\n00464029: jz      short loc_46402F; Jump if Zero (ZF=1)\n0046402B: cmp     edx, ebp; Compare Two Operands\n0046402D: jz      short loc_464038; Jump if Zero (ZF=1)\n0046402F: mov     dword ptr [esi+1Ch], 1\n00464036: jmp     short loc_46403B; Jump\n00464038: mov     [esi+1Ch], ebp\n0046403B: mov     edx, [esp+10h+arg_C]\n0046403F: mov     eax, [esp+10h+arg_10]\n00464043: cmp     ecx, 2; Compare Two Operands\n00464046: mov     [esi+20h], ebx\n00464049: mov     [esi+24h], ebx\n0046404C: mov     dword ptr [esi+28h], 20h ; ' '\n00464053: mov     [esi+0E8h], ebp\n00464059: mov     [esi+0ECh], ebp\n0046405F: mov     [edi], edx\n00464061: mov     [edi+4], eax\n00464064: jnz     short loc_464097; Jump if Not Zero (ZF=0)\n00464066: push    edi\n00464067: push    ebp\n00464068: push    1Fh\n0046406A: mov     eax, 10h\n0046406F: push    3E0h\n00464074: push    7C00h\n00464079: push    eax\n0046407A: mov     [esi+4], ebp\n0046407D: mov     [esi+38h], eax\n00464080: mov     [esi+1Ch], ebp\n00464083: call    Graphics_FillBitfieldLayout; E3c: lu: 1 seul BB, popcount+shifts+masks+(1<<n)−1; helpers 79/35o notés\n00464088: mov     ecx, [edi]\n0046408A: add     esp, 18h; Add\n0046408D: shl     ecx, 1; Shift Logical Left\n0046408F: mov     [edi+8], ecx\n00464092: jmp     loc_46411E; Jump\n00464097: push    edi\n00464098: push    8000h\n0046409D: push    1Fh\n0046409F: push    3E0h\n004640A4: push    7C00h\n004640A9: push    ebx\n004640AA: mov     dword ptr [esi+4], 1\n004640B1: mov     [esi+0BCh], ebp\n004640B7: mov     [esi+38h], ebx\n004640BA: call    Graphics_FillBitfieldLayout; E3c: lu: 1 seul BB, popcount+shifts+masks+(1<<n)−1; helpers 79/35o notés\n004640BF: mov     ecx, [esp+28h+arg_8]\n004640C3: mov     edx, [edi]\n004640C5: mov     eax, 1\n004640CA: add     esp, 18h; Add\n004640CD: cmp     ecx, eax; Compare Two Operands\n004640CF: mov     [edi+8], edx\n004640D2: mov     [edi+10h], eax\n004640D5: mov     [edi+14h], ebx\n004640D8: mov     [edi+18h], eax\n004640DB: jnz     short loc_4640F8; Jump if Not Zero (ZF=0)\n004640DD: mov     eax, 100h\n004640E2: mov     dword ptr [esi+30h], 10h\n004640E9: mov     [esi+34h], eax\n004640EC: mov     [edi+20h], eax\n004640EF: mov     dword ptr [edi+1Ch], 2000h\n004640F6: jmp     short loc_464111; Jump\n004640F8: mov     eax, 10h\n004640FD: mov     dword ptr [esi+30h], 80h\n00464104: mov     [esi+34h], eax\n00464107: mov     [edi+20h], eax\n0046410A: mov     dword ptr [edi+1Ch], 1000h\n00464111: mov     eax, [esp+10h+arg_0]\n00464115: mov     ecx, [eax+444h]\n0046411B: mov     [edi+24h], ecx\n0046411E: mov     ebx, [esp+10h+arg_4]\n00464122: cmp     [ebx+58h], ebp; Compare Two Operands\n00464125: jnz     short loc_464146; Jump if Not Zero (ZF=0)\n00464127: mov     edx, [edi+8]\n0046412A: imul    edx, [edi+4]; Signed Multiply\n0046412E: push    edx\n0046412F: call    Gfx_Psx2Lookup_OrPoolAlloc_B7E018; E3c: lu: scan B7E018 + pool 2 slots; TPage = callers + strings Psx2 seulement\n00464134: add     esp, 4; Add\n00464137: cmp     eax, ebp; Compare Two Operands\n00464139: mov     [ebx+58h], eax\n0046413C: jnz     short loc_464146; Jump if Not Zero (ZF=0)\n0046413E: pop     edi\n0046413F: pop     esi\n00464140: pop     ebp\n00464141: or      eax, 0FFFFFFFFh; Logical Inclusive OR\n00464144: pop     ebx\n00464145: retn; Return Near from Procedure\n00464146: mov     eax, [ebx+58h]\n00464149: pop     edi\n0046414A: mov     [esi+0D8h], eax\n00464150: pop     esi\n00464151: pop     ebp\n00464152: xor     eax, eax; Logical Exclusive OR\n00464154: pop     ebx\n00464155: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x463fc0",
+      "end": "0x463fea",
+      "successors": [
+        "0x463fea",
+        "0x464005"
+      ]
+    },
+    {
+      "start": "0x463fea",
+      "end": "0x463ff3",
+      "successors": [
+        "0x463ff3",
+        "0x463ff7"
+      ]
+    },
+    {
+      "start": "0x463ff3",
+      "end": "0x463ff7",
+      "successors": [
+        "0x463ff7",
+        "0x463ffc"
+      ]
+    },
+    {
+      "start": "0x463ff7",
+      "end": "0x463ffc",
+      "successors": [
+        "0x464010"
+      ]
+    },
+    {
+      "start": "0x463ffc",
+      "end": "0x464005",
+      "successors": [
+        "0x464010"
+      ]
+    },
+    {
+      "start": "0x464005",
+      "end": "0x464010",
+      "successors": [
+        "0x464010"
+      ]
+    },
+    {
+      "start": "0x464010",
+      "end": "0x464026",
+      "successors": [
+        "0x464026",
+        "0x464038"
+      ]
+    },
+    {
+      "start": "0x464026",
+      "end": "0x46402b",
+      "successors": [
+        "0x46402b",
+        "0x46402f"
+      ]
+    },
+    {
+      "start": "0x46402b",
+      "end": "0x46402f",
+      "successors": [
+        "0x46402f",
+        "0x464038"
+      ]
+    },
+    {
+      "start": "0x46402f",
+      "end": "0x464038",
+      "successors": [
+        "0x46403b"
+      ]
+    },
+    {
+      "start": "0x464038",
+      "end": "0x46403b",
+      "successors": [
+        "0x46403b"
+      ]
+    },
+    {
+      "start": "0x46403b",
+      "end": "0x464066",
+      "successors": [
+        "0x464066",
+        "0x464097"
+      ]
+    },
+    {
+      "start": "0x464066",
+      "end": "0x464097",
+      "successors": [
+        "0x46411e"
+      ]
+    },
+    {
+      "start": "0x464097",
+      "end": "0x4640dd",
+      "successors": [
+        "0x4640dd",
+        "0x4640f8"
+      ]
+    },
+    {
+      "start": "0x4640dd",
+      "end": "0x4640f8",
+      "successors": [
+        "0x464111"
+      ]
+    },
+    {
+      "start": "0x4640f8",
+      "end": "0x464111",
+      "successors": [
+        "0x464111"
+      ]
+    },
+    {
+      "start": "0x464111",
+      "end": "0x46411e",
+      "successors": [
+        "0x46411e"
+      ]
+    },
+    {
+      "start": "0x46411e",
+      "end": "0x464127",
+      "successors": [
+        "0x464127",
+        "0x464146"
+      ]
+    },
+    {
+      "start": "0x464127",
+      "end": "0x46413e",
+      "successors": [
+        "0x46413e",
+        "0x464146"
+      ]
+    },
+    {
+      "start": "0x46413e",
+      "end": "0x464146",
+      "successors": []
+    },
+    {
+      "start": "0x464146",
+      "end": "0x464156",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x4650b7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x464f70"
+    }
+  ],
+  "code_targets": [
+    "0x4188e2",
+    "0x467160"
+  ],
+  "instruction_count": 126
+}

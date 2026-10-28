@@ -1,0 +1,17 @@
+00518440: mov     edx, [esp+arg_0]
+00518444: mov     cx, [edx+0Ch]
+00518448: movsx   eax, cx; Move with Sign-Extend
+0051844B: sub     eax, 0; Integer Subtraction
+0051844E: jz      short loc_518469; Jump if Zero (ZF=1)
+00518450: dec     eax; Decrement by 1
+00518451: jnz     short loc_51846E; Jump if Not Zero (ZF=0)
+00518453: test    byte ptr dword_1D9898C, 8; Logical Compare
+0051845A: jnz     short loc_518461; Jump if Not Zero (ZF=0)
+0051845C: call    sub_518480; Call Procedure
+00518461: call    BS_RenderRelated; Call Procedure
+00518466: xor     eax, eax; Logical Exclusive OR
+00518468: retn; Return Near from Procedure
+00518469: inc     ecx; Increment by 1
+0051846A: mov     [edx+0Ch], cx
+0051846E: xor     eax, eax; Logical Exclusive OR
+00518470: retn; Return Near from Procedure

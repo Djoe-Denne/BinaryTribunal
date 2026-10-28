@@ -1,0 +1,25 @@
+0050AA54: mov     eax, dword_1D99A40
+0050AA59: xor     edx, edx; Logical Exclusive OR
+0050AA5B: mov     dl, [ecx+2]
+0050AA5E: mov     ebx, [eax+8]
+0050AA61: push    edx; animId
+0050AA62: and     ebx, 0FF7FFFFFh; Logical AND
+0050AA68: push    eax; actor
+0050AA69: mov     [eax+8], ebx
+0050AA6C: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050AA71: mov     al, byte ptr dword_1D99A84+1
+0050AA76: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AA7C: push    eax; char
+0050AA7D: push    ecx; unsigned __int8 *
+0050AA7E: call    BattleActionSequence_SelectGenericCameraAnimation; Generic-action camera selector for presentation. Examines g_GfSequenceContextSharedB command_type/flags plus attacker/target slot state, chooses a stage camera animation ID or explicit camera opcode, and queues it through BS_GetCameraAnimationPointer. Camera-less cases clear the force-camera flag instead.
+0050AA83: mov     eax, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AA88: xor     edx, edx; Logical Exclusive OR
+0050AA8A: push    offset g_GfActiveCallbackPtr; int (__cdecl **)(int)
+0050AA8F: mov     dx, [eax+6]
+0050AA93: push    edx; magicID
+0050AA94: call    BattleGF_LoadCallbackByMagicID; Validates a 1-based effect_id, clears magic texture state, invokes MagicList_TextureLoad[idx], and returns MagicList_Logic[idx] through the out-callback pointer. Shared by generic, GF cinematic, and special presentation ticks.
+0050AA99: mov     al, [esi+0Dh]
+0050AA9C: add     esp, 18h; Add
+0050AA9F: inc     al; Increment by 1
+0050AAA1: mov     [esi+0Dh], al
+0050AAA4: pop     edi

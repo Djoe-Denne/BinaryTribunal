@@ -1,0 +1,139 @@
+{
+  "functions": [
+    {
+      "ea": "0x45bc60",
+      "name": "Gpu_SetTextureWindow_PageRectScales",
+      "before": {
+        "ea": "0x45bc60",
+        "name": "sub_45BC60",
+        "type": "int __cdecl(int)",
+        "end": "0x45bd28",
+        "chunks": [
+          [
+            4570208,
+            4570408
+          ]
+        ],
+        "code_sha256": "c06f4790a855f7e6137f7a03252866fb27c1e076176fd79e5cf9b803c0af0615",
+        "comment": "Gpu_SetTextureWindow_PageRectScales : W=256-(w&0x1F)*8, H=256-((w>>5)&0x1F)*8 ; scales du slot +0x18/+0x1C -> dword_1CB603C/38 ; W_window battle13 UNPROVEN (attendu 128, a mesurer)\n[semantic-triple 2026-09-27 lot17]\n\n[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate.",
+        "repeatable": ""
+      },
+      "source": "docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md",
+      "comment": "Gpu_SetTextureWindow_PageRectScales : W=256-(w&0x1F)*8, H=256-((w>>5)&0x1F)*8 ; scales du slot +0x18/+0x1C -> dword_1CB603C/38 ; W_window battle13 UNPROVEN (attendu 128, a mesurer)\n[semantic-triple 2026-09-27 lot17]\n\n[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate.\n\n[idb-sync 2026-10-07] Materialized the identity already recorded by lot17/lot21. Native 55-instruction body reads packet+4, latches low 24 bits at 0x1CA8848, decodes x/y and width/height into 0x1CA8870/74/76, substitutes 256 for zero extents, then clamps to the 256-page boundary. No call instruction. EAX is residual: the old source return 0 is not an ABI guarantee. No capture-specific W_window claim is promoted; existing lot21 zero-window observation remains scoped.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x509e00",
+      "name": "BattleActor_StageUploadCLUTBand",
+      "before": {
+        "ea": "0x509e00",
+        "name": "sub_509E00",
+        "type": "char *__cdecl(int, __int16)",
+        "end": "0x509ff8",
+        "chunks": [
+          [
+            5283328,
+            5283832
+          ]
+        ],
+        "code_sha256": "91697aa1b32e71f28aa4e50b2d4c64a1b46a925f8b2b61cb1f105f4962a4aa84",
+        "comment": "BattleActor_StageUploadCLUTBand : file type-0, staging 1024 B/acteur, rangees y=0xE0+2g ; ids du footer PC = SLOTS cache locaux, PAS 2g directs (binding mesure lot17 : DE70 id0->row225 etc., voir CAMPAIGN_lot17_offline_2026-09-27.md)\n[semantic-triple 2026-09-27 lot17]",
+        "repeatable": ""
+      },
+      "source": "docs/tech/investigation/battle-static-discovery/decomp/0x509E00__BattleActor_StageUploadCLUTBand.md",
+      "comment": "BattleActor_StageUploadCLUTBand : file type-0, staging 1024 B/acteur, rangees y=0xE0+2g ; ids du footer PC = SLOTS cache locaux, PAS 2g directs (binding mesure lot17 : DE70 id0->row225 etc., voir CAMPAIGN_lot17_offline_2026-09-27.md)\n[semantic-triple 2026-09-27 lot17]\n\n[idb-sync 2026-10-07] Materialized the already-annotated actor CLUT-band role. Native 160-instruction function through RET at 0x509FF7 (not the abbreviated historical header extent) uses actor index from stride 156, source band byte_1D98B60 + index*1024, and y=0xE0+2*index. Enqueues type-0 uploads through 0x505DF0 at 0x509EBA/0x509FA2/0x509FEB; the 0x400 path calls sine at 0x509F44. The source document footer-id=2g conclusion is superseded by the existing lot17 annotation: capture footer IDs are local cache slots, not a universal actor-to-row mapping.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x509E00__BattleActor_StageUploadCLUTBand.md"
+    }
+  ],
+  "data": [
+    {
+      "ea": "0x1ca8848",
+      "name": "g_gpuTextureWindowWord",
+      "before": {
+        "ea": "0x1ca8848",
+        "name": "dword_1CA8848",
+        "type": "int",
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "unsigned int g_gpuTextureWindowWord;",
+      "comment": "[idb-sync 2026-10-07] Low 24-bit texture-window latch written at 0x45BC74. Zero/nonzero selects LUT/window-scale UV paths; no general width inferred from captures.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x1ca8870",
+      "name": "g_gpuTextureWindowOriginXY",
+      "before": {
+        "ea": "0x1ca8870",
+        "name": "dword_1CA8870",
+        "type": null,
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "unsigned int g_gpuTextureWindowOriginXY;",
+      "comment": "[idb-sync 2026-10-07] Packed texture-page window origin: low u16 x, high u16 y, written at 0x45BCB1/0x45BC9B. Origin is a staging/selection input, not an added normalized UV offset.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x1ca8874",
+      "name": "g_gpuTextureWindowWidth",
+      "before": {
+        "ea": "0x1ca8874",
+        "name": "word_1CA8874",
+        "type": null,
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "unsigned short g_gpuTextureWindowWidth;",
+      "comment": "[idb-sync 2026-10-07] Texture-window width in texels, decoded at 0x45BCC2; zero becomes 256, then clamped against x. Used to derive slot reciprocal U scale.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x1ca8876",
+      "name": "g_gpuTextureWindowHeight",
+      "before": {
+        "ea": "0x1ca8876",
+        "name": "word_1CA8876",
+        "type": null,
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "unsigned short g_gpuTextureWindowHeight;",
+      "comment": "[idb-sync 2026-10-07] Texture-window height in texels, decoded at 0x45BCBB; zero becomes 256, then clamped against y. Used to derive slot reciprocal V scale.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x1cb603c",
+      "name": "g_gpuTextureUScale",
+      "before": {
+        "ea": "0x1cb603c",
+        "name": "dword_1CB603C",
+        "type": null,
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "float g_gpuTextureUScale;",
+      "comment": "[idb-sync 2026-10-07] Float U scale copied from selected slot+0x18 at 0x465FC5; reciprocal width used by x87 multiply in the texture-window path.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    },
+    {
+      "ea": "0x1cb6038",
+      "name": "g_gpuTextureVScale",
+      "before": {
+        "ea": "0x1cb6038",
+        "name": "dword_1CB6038",
+        "type": null,
+        "comment": "",
+        "repeatable": "",
+        "bytes14": "ffffffffffffffffffffffffffff"
+      },
+      "declaration": "float g_gpuTextureVScale;",
+      "comment": "[idb-sync 2026-10-07] Float V scale copied from selected slot+0x1C at 0x465FCB; reciprocal height used by x87 multiply, e.g. 0x4618A0.\nSource: docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md"
+    }
+  ],
+  "previous_receipt_sha256": "b33e90701f6e915a6153dd995412952e4607a18a3cbb4ef20361423779601823",
+  "source_hashes": {
+    "docs/tech/investigation/battle-static-discovery/decomp/0x45BC60__Gpu_SetTextureWindow_PageRectScales.md": "9569b01eebc4dd276a5ce73a54469bac1cc046379c70166d1ffc4c3410b02542",
+    "docs/tech/investigation/battle-static-discovery/decomp/0x509E00__BattleActor_StageUploadCLUTBand.md": "331f31ef5d57ea32616e666fa29cd375c35d6db60a1f27a9bd54b39ceaec7946"
+  },
+  "identity": "1f3eec1c9faabeb05a25f52217750ddfb4f93aa5b3e01ecf3d663e801a9e14cc",
+  "tag": "[idb-sync 2026-10-07]"
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "role": "DOC_tables_question_recovery_1",
+  "scope": "READ_ONLY_ARCHIVAL; no live authority",
+  "original_question_recovered": false,
+  "original_answer_recovered": false,
+  "original_question": null,
+  "original_answer": null,
+  "confirmed_lost_by_compaction": false,
+  "historical_table_identity": null,
+  "current_report_not_historical_exchange": {
+    "session_id": "ses_ee49e939bffe5la5F9YJe5ff2b",
+    "report_message_id": "msg_1262905a7001MFl05DeOTAIr3v",
+    "report": "l'orchestrator m'a posé une question sur des tables, des données manquantes, je lui ai proposé de lancer le jeu et de l'attacher à Ida. Mais il a compacté la conversation juste après et je crois qu'il a perdu la question et la réponse.",
+    "readiness_message_id": "msg_12631d3d5001A2rseesRG67QI2",
+    "readiness": "c'est fait, en combat (pause) et attaché (run)",
+    "native_target_state_verified_by_this_worker": false,
+    "supervisor_admission_ids": ["msg_12630f4c3001DGXslJlke7QAZP", "msg_12632f086001mCWfM7Xb4olTKO"]
+  },
+  "coverage": {
+    "native_cli": "C:/Users/djden/AppData/Local/Programs/@opencodedesktop/resources/opencode-cli.exe api get",
+    "schema_source": "/openapi.json; session.message.list/get and session.form.list/get inspected",
+    "root": {
+      "session_id": "ses_ee49e939bffe5la5F9YJe5ff2b",
+      "projected_user_messages": 29,
+      "assistant_messages": 193,
+      "assistant_pages": "193 oldest-first, followed by empty cursor page",
+      "assistant_id_range": ["msg_11b616d0f001QeqAZBv4e81N7m", "msg_126371436001fcUmkQrLwP5cza"],
+      "compactions": ["msg_121cfcc9b001nCRGGsAW51EPsG", "msg_126339f32001GUiJEi1sSIgCmV"],
+      "pending_forms": 0
+    },
+    "supervisor": {
+      "session_id": "ses_edaf43c0cffeAOikFDjgKGcu9H",
+      "projected_user_messages": 6,
+      "assistant_messages": 1009,
+      "assistant_pages": "7 bounded oldest-first cursor pages: 200,200,200,200,200,2,7",
+      "assistant_id_range": ["msg_1250bc487001GLMOF3aE8jyFeq", "msg_12638f71b001DpEFaKnEPKxHsJ"],
+      "question_tool_pattern_scan_messages": 1002,
+      "compactions": ["msg_125401c2d001u07LFstzqeDuzt", "msg_1256780ae0019vKlmlvp3hT7Xl", "msg_1259110b1001ut2qvWndD5nqx5", "msg_125ae6d8a001SSX5rgcZTeRicF", "msg_125cc7309001gUp26LjijMdrae", "msg_12609782b001cPASrTUavEcqAc", "msg_1262e90de001MDM19sRur0YMhY"],
+      "pending_forms": 0
+    },
+    "filters": "User texts; assistant top-level text for tables/missing/attach/launch; question/form tool names and form-create input patterns; compaction summary lines; terminal reviews/findings and frozen numeric packet only.",
+    "coverage_gaps": [
+      "No predecessor supervisor sessions or worker-session contexts were queried.",
+      "form.list returns pending forms only: zero is not proof that no historical settled form existed.",
+      "Reasoning and arbitrary tool-result bodies were not exhaustively searched for an exchange; detected tool patterns are bounded, not all possible form-call encodings.",
+      "Live sessions can append after the last cursor page; no claim of exhaustive campaign-wide history.",
+      "Initializer/mutation xrefs and full allocated extents of the callback arrays are not present in the consulted bounded packet. No lost bytes reconstructed."
+    ]
+  },
+  "candidates_not_recovered_question": [
+    {
+      "ea": "0x50AED0",
+      "terminal_decision": "ESCALADE",
+      "blocker": "Four neutral extern declarations lack authenticated address/backing-storage/extent and C32 little-endian view contract. Numeric-looking identifiers are not bindings.",
+      "numeric_schema": {
+        "0x01D97718": "WORD at +0; BYTE at +2 (0x01D9771A)",
+        "0x01D97704": "DWORD read; WORD RMW; returned pointer endpoint",
+        "0x01D9771E": "WORD store",
+        "0x01D972C0": "7 WORD views, stride 0x9C; traversal reaches endpoint offset 0x444 = 0x01D97704; source backing extent unproved"
+      },
+      "static_resolution": "Minimal neutral storage/view contract; no runtime campaign requested by reviewer.",
+      "citations": ["tools/_tmp_semantic_triple/0x50aed0/native-2026-10-10/N50AED0_reuse_review/c_review.md:18-22", "tools/_tmp_semantic_triple/0x50aed0/native-2026-10-10/N50AED0_reuse_review/findings.json:7-19"],
+      "receipt_final_message_id": "msg_125dbec4a001JCTr918qZRLyEe"
+    },
+    {
+      "ea": "0x50AF20",
+      "terminal_decision": "ESCALADE",
+      "blocker": "Literal pointer identities 0x00B8BA44/0x00B8BA68, stored function-address 0x00534150, globals/tables/helpers need neutral binding proof; literal bytes not frozen. Opaque helper/library ABI, pointer conversions, INT_MIN domain and documentary provenance also unresolved.",
+      "callback_arrays": [
+        {"base": "0x00C81774", "entry_stride": 4, "index_domain": "0..399 after fallback", "allocated_count": null, "reads": ["0x50AF49", "0x50AFA1"], "static_sample_only": "entry0 bytes 006a8d00 -> 0x008D6A00"},
+        {"base": "0x00C81DB8", "entry_stride": 4, "index_domain": "0..399 after fallback", "allocated_count": null, "read": "0x50AF88", "indirect_call": "0x50AF93", "static_sample_only": "entry0 bytes e0698d00 -> 0x008D69E0"}
+      ],
+      "array_initializer_refs": null,
+      "initializer_ref_limit": "No array initializer/mutator inventory in this packet. Static samples are not runtime targets or allocated-extent proof.",
+      "output_slot_population": "0x50AFAE writes DWORD [EDX] from the first array's post-call reread. Callers 0x50AA94/0x50B1D4/0x50B3AC/0x50B91E supply 0x021DFEC4; caller 0x50BC56 supplies 0x021DFEC0.",
+      "static_resolution": "Binding/domain/ABI documentary blockers can be addressed statically; runtime array contents remain unknown, but their necessity has not been established.",
+      "citations": ["tools/_tmp_semantic_triple/0x50af20/native-2026-10-10/N50AF20_reuse_review/c_review.md:17-28", "tools/_tmp_semantic_triple/0x50af20/native-2026-10-10/N50AF20_pack/neutral/frame_abi.txt:11-24", "tools/_tmp_semantic_triple/0x50af20/native-2026-10-10/N50AF20_pack/neutral/frame_abi.txt:28-47", "tools/_tmp_semantic_triple/0x50af20/native-2026-10-10/N50AF20_pack/neutral/graph.json:2030", "tools/_tmp_semantic_triple/0x50af20/native-2026-10-10/N50AF20_pack/neutral/graph.json:2429"],
+      "receipt_final_message_id": "msg_125e5053e001oookIQlm0o0Wh7"
+    },
+    {
+      "ea": "0x50AFC0",
+      "terminal_decision": "CORRIGE",
+      "blocker": "Saved entry ECX misrepresented as uninitialized C auto; full EDX/EAX stack words narrowed at 0x50B006/07 -> 0x50D300; reversed alias-sensitive byte capture and widened WORD read; defined machine-memory/address model absent.",
+      "numeric_schema": "Scan 0x01D972C4,0x01D97360,0x01D973FC; exclusive endpoint 0x01D97498; stride 0x9C; three positions. Relevant output bytes 0x01D99A81/83/78/79, WORD 0x01D99A7A, DWORD 0x01D99A7C.",
+      "static_resolution": "Preserve explicit saved machine state, raw two-DWORD call boundary, reloads and ordered views; no table initialization observation needed for these defects.",
+      "citations": ["tools/_tmp_semantic_triple/0x50afc0/native-2026-10-10/N50AFC0_reuse_review/c_review.md:11-22", "tools/_tmp_semantic_triple/0x50afc0/native-2026-10-10/N50AFC0_reuse_review/patch_spec.md:20-33"],
+      "receipt_final_message_id": "msg_125dede24001338Vjz3y1HoeYk"
+    },
+    {
+      "ea": "0x50B190",
+      "terminal_decision": "ESCALADE",
+      "blocker": "At 0x50B20A, the void C call to 0x50AFC0 erases a possible incoming-ECX dependence that reaches PUSH EDX at 0x50B007 and call 0x50D300. Need numerical machine contract or justified inobservability precondition, not guessed source API.",
+      "runtime_unknown": "CALL at 0x50B229 reads target DWORD slot 0x021DFEC4; one DWORD address argument, full EAX result stored. Target, hidden register ABI and effects not authenticated.",
+      "already_known_static_table": "Jump table 0x50B284, 5 entries, stride 4, 20 bytes; checked separately from root body. Not established as the missing historical table.",
+      "static_resolution": "ECX/0x50D300 machine contract can be investigated statically. A live slot value would identify only a current target, not prove ABI or remove the ECX dependency.",
+      "citations": ["tools/_tmp_semantic_triple/0x50b190/native-2026-10-10/N50B190_reuse_review/c_review.md:7", "tools/_tmp_semantic_triple/0x50b190/native-2026-10-10/N50B190_reuse_review/c_review.md:29-49", "docs/tech/investigation/battle-static-discovery/CAMPAIGN_LOG_gfx-battleloop-2026-10-08.md:432-435"],
+      "receipt_final_message_id": "msg_12609605c001OCKrMKlbaWfU7p"
+    },
+    {
+      "ea": "0x47CF60",
+      "terminal_decision": "CORRIGE",
+      "blocker": "Neutral link proof missing for 16 globals, 38 called targets, 6 stored callback constants and root. WORD at 0x01CDBFE0 incorrectly read as int32. Final FLD QWORD 0x01A78BE0 -> 0x55AD90 is x87 ST(0) transport, not cdecl(double); FISTP64 yields EAX/EDX, only EAX is pushed to 0x46BD10.",
+      "callback_constants": ["0x4A2280", "0x4A22A0", "0x4A2690", "0x470690", "0x4706A0", "0x4706B0"],
+      "static_resolution": "Neutral link/view proof plus explicit conditional x87 model/adaptor contract. No runtime initialized-table evidence required by the stated finding.",
+      "citations": ["tools/_tmp_semantic_triple/0x47cf60/native-2026-10-10/N47CF60_reuse_review/c_review.md:11-15", "tools/_tmp_semantic_triple/0x47cf60/native-2026-10-10/N47CF60_reuse_review/patch_spec.md:8-22"],
+      "receipt_final_message_id": "msg_125ca8674001NPLwk7KiLn1zrW"
+    },
+    {
+      "ea": "0x50A9A0",
+      "terminal_decision": "CORRIGE",
+      "blocker": "Six ordered reload/capture defects and unproved storage/backend/ABI bindings. At 0x50AA71 AL is changed while high24 EAX comes from 0x505C00; 0x50AA7C pushes full EAX. At 0x50AC3E..47 BYTE 0x01D28DF7 is zero-extended to DWORD, not authenticated by a char prototype. Context pointer DWORD 0x01D99A50 must reload after helpers.",
+      "already_known_static_table": "Jump table 0x50ADC0, 8 DWORD targets, stride 4; checked complete. Presentation stride 0x9C, not old ABI-summary 0xA0. Neither is a recovered original question.",
+      "runtime_unknown": "Indirect 0x50AC1F reads target from 0x021DFEC4; no runtime target proof.",
+      "static_resolution": "Fix exact reload/transport and supply neutral storage/machine contracts; a live sample cannot establish all-path alias or ABI guarantees.",
+      "citations": ["tools/_tmp_semantic_triple/0x50a9a0/native-2026-10-10/N50A9A0_reuse_review/c_review.md:20-35", "tools/_tmp_semantic_triple/0x50a9a0/native-2026-10-10/N50A9A0_reuse_review/c_review.md:40-48"],
+      "receipt_final_message_id": "msg_125ce711f001ajA7QrkVPvoMDJ"
+    }
+  ],
+  "independent_corroboration": {
+    "supervisor_compaction": "msg_1262e90de001MDM19sRur0YMhY summary lines 51,55-60,70,72 records ECX escalation, malformed parent binding v1, and neutral binding/domain/ABI/provenance gaps. It does not recover a user question/answer.",
+    "queue_snapshot": "N47CF60_C_fix_1 and N50A9A0_C_fix_1 contain dispatch_block_reason requiring parent v2 full binding/transport/ABI adjudication; prepared manifests explicitly not real dispatchable READY. Read-only metadata, not queue mutation."
+  },
+  "conclusion": {
+    "static_can_suffice": "For the identified neutral SOURCE-name -> numeric binding, C32 views, exact transport and conditional documentary contract blockers, yes in principle; admission remains parent-only, and compiled/native equivalence is not proved by archival review.",
+    "live_necessity": "UNCONFIRMED. Initialized current callback values are a distinct unknown. No evidence identifies them as the original question or proves a live observation is required to fix the current C review blockers.",
+    "followup_required_before_any_live_table_read": "Parent must select the concrete unresolved runtime claim; do not bulk-dump guessed arrays.",
+    "one_conditional_followup_not_recovered_quote": "Si la cible runtime est réellement le blocage : l'observation recherchée concerne-t-elle le DWORD du slot 0x021DFEC4, appelé à 0x50B229 ? Une lecture de 4 octets identifierait seulement la cible actuelle, pas son ABI/effets, sa stabilité ni le chemin ECX.",
+    "live_action_performed": false
+  },
+  "latest_root_steering_seen_readonly": {
+    "message_id": "msg_1263903e4001ZeX8LnAaehgPJP",
+    "text": "changement, fini les fonctions en cour puis push  les dans IDB et save IDA. met à jour le handoff pour reprise dans une nouvelle session",
+    "disposition": "Parent-only steering. This worker finishes this archival report only; no IDB/save/handoff/queue action."
+  },
+  "safety": {
+    "active_worker_contexts_read": false,
+    "IDA_debugger_runtime_process_memory_access": false,
+    "launch_attach_pause_step_breakpoint_hook_inject_detach": false,
+    "git_queue_config_power_subagent_actions": false,
+    "outputs_only": ["recovery_report.json", "recovery_report.md", "actual_read_manifest.json"],
+    "parent_handoff_written": false
+  }
+}

@@ -1,0 +1,11 @@
+39 |   console.log(JSON.stringify({release,artifactSha256:hash,helperFiles:deployed.length,pauseRetained:true}));
+40 | }else if(process.argv[2]==='verify'){
+41 |   // OpenCode observes the configuration change itself. Do not force a global
+42 |   // reload or bypass a refused reload; require authoritative active readback.
+43 |   const t=await quiescent(),plugins=await client.plugin.list({location}),release=JSON.parse(readFileSync(phase+'/release.json','utf8'));
+44 |   if(!JSON.stringify(plugins).includes(release.release)||sha(readFileSync(release.release+'/index.js'))!==release.artifactSha256)throw new Error('Active release readback mismatch');
+                                                                                                                                                ^
+error: Active release readback mismatch
+      at C:\Users\djden\source\repos\retro-eng\re-ff8\.tmp\coordination-three-20261014\deploy.ts:44:140
+
+Bun v1.4.2 (Windows x64)

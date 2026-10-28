@@ -1,0 +1,25 @@
+004892D3: lea     ecx, [eax+eax*2]; Load Effective Address
+004892D6: lea     eax, [eax+ecx*4]; Load Effective Address
+004892D9: shl     eax, 4; Shift Logical Left
+004892DC: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], 1; Logical Compare
+004892E3: jz      short loc_48931B; Jump if Zero (ZF=1)
+004892E5: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+004892EC: jnz     short loc_48931B; Jump if Not Zero (ZF=0)
+004892EE: mov     [esp+74h+target_slot_calc], 1
+004892F6: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004892FB: cmp     ecx, 3; Compare Two Operands
+004892FE: jnz     short loc_489333; Jump if Not Zero (ZF=0)
+00489300: lea     edx, [eax+eax*2]; Load Effective Address
+00489303: lea     eax, [eax+edx*4]; Load Effective Address
+00489306: shl     eax, 4; Shift Logical Left
+00489309: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], 1; Logical Compare
+00489310: jz      short loc_4892EE; Jump if Zero (ZF=1)
+00489312: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00489319: jnz     short loc_4892EE; Jump if Not Zero (ZF=0)
+0048931B: mov     eax, [esp+74h+jump_value]
+0048931F: mov     [esp+74h+target_slot_calc], 0
+00489327: and     eax, 0FFFFh; Logical AND
+0048932C: add     esi, eax; Add
+0048932E: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489333: mov     eax, [esp+74h+target_slot_calc]
+00489337: jmp     loc_488CDD; Jump

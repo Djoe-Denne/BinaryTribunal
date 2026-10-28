@@ -1,0 +1,16 @@
+0050AED0: cmp     byte ptr g_BattleCameraFlags+2, 3; Vague D: cmp BYTE2==3. Pas de writer .text. Mortes-ou-live.
+0050AED7: jz      short loc_50AEFF; Jump if Zero (ZF=1)
+0050AED9: cmp     word ptr g_BattleCameraFlags, 0; Compare Two Operands
+0050AEE1: jnz     short loc_50AEED; Jump if Not Zero (ZF=0)
+0050AEE3: mov     eax, dword_1D97704
+0050AEE8: test    ah, 80h; Logical Compare
+0050AEEB: jz      short loc_50AEFF; Jump if Zero (ZF=1)
+0050AEED: mov     word ptr g_BattleCameraFlags, 0
+0050AEF6: mov     word_1D9771E, 1000h
+0050AEFF: and     word ptr dword_1D97704, 7FFFh; Logical AND
+0050AF08: mov     eax, offset g_BattlePresentationActors
+0050AF0D: and     word ptr [eax], 87FFh; Logical AND
+0050AF12: add     eax, 9Ch; Add
+0050AF17: cmp     eax, offset dword_1D97704; Compare Two Operands
+0050AF1C: jl      short loc_50AF0D; Jump if Less (SF!=OF)
+0050AF1E: retn; Return Near from Procedure

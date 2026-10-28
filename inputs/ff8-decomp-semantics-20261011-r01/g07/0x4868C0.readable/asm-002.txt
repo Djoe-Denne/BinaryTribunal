@@ -1,0 +1,25 @@
+00486912: add     esi, 0D0h; Add
+00486918: inc     edi; Increment by 1
+00486919: add     ebp, 1D0h; Add
+0048691F: cmp     esi, (offset BATTLE_SLOT_DATA.status_1+270h); 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+00486925: jl      short loc_4868D2; Jump if Less (SF!=OF)
+00486927: mov     edi, offset EQUAL_ITEM_ID
+0048692C: movsx   ebx, byte ptr [edi+1]; Move with Sign-Extend
+00486930: xor     edx, edx; Logical Exclusive OR
+00486932: mov     dl, [edi]
+00486934: test    edx, edx; Logical Compare
+00486936: jz      short loc_486972; Jump if Zero (ZF=1)
+00486938: mov     eax, offset SG_ITEM_ID_AND_QUANTITY; Item ID followed by Item quantiy for each slot, for 198 slot
+0048693D: xor     esi, esi; Logical Exclusive OR
+0048693F: xor     ecx, ecx; Logical Exclusive OR
+00486941: mov     cl, [eax]
+00486943: cmp     ecx, edx; Compare Two Operands
+00486945: jz      short loc_48696F; Jump if Zero (ZF=1)
+00486947: add     eax, 2; Add
+0048694A: inc     esi; Increment by 1
+0048694B: cmp     esi, 0C6h; Compare Two Operands
+00486951: jl      short loc_48693F; Jump if Less (SF!=OF)
+00486953: mov     eax, offset SG_ITEM_ID_AND_QUANTITY; Item ID followed by Item quantiy for each slot, for 198 slot
+00486958: xor     ecx, ecx; Logical Exclusive OR
+0048695A: cmp     byte ptr [eax], 0; Compare Two Operands
+0048695D: jz      short loc_48696D; Jump if Zero (ZF=1)

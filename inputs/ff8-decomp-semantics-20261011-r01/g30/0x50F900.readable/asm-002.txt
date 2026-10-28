@@ -1,0 +1,25 @@
+0050F948: add     edx, 2; Add
+0050F94B: test    ax, ax; Logical Compare
+0050F94E: mov     [esp+60h+var_48], eax
+0050F952: jz      loc_50FD37; Jump if Zero (ZF=1)
+0050F958: fild    world_CameraWorldSpaceX; Load Integer
+0050F95E: mov     eax, World_CameraZoom
+0050F963: and     eax, 0FFFFh; Logical AND
+0050F968: fmul    ds:CONST_8_0; Multiply Real
+0050F96E: mov     [esp+60h+var_20], eax
+0050F972: movsx   ecx, word_1CA92DE; Move with Sign-Extend
+0050F979: fstp    [esp+60h+var_3C]; Store Real and Pop
+0050F97D: fild    World_CameraWorldSpaceY; Load Integer
+0050F983: shr     eax, 1; Shift Logical Right
+0050F985: mov     [esp+60h+var_24], eax
+0050F989: fmul    ds:CONST_8_0; Multiply Real
+0050F98F: movsx   eax, World_CameraWorldLookAtZ; Move with Sign-Extend
+0050F996: fstp    [esp+60h+var_38]; Store Real and Pop
+0050F99A: fild    World_CameraWorldSpaceZ; Load Integer
+0050F9A0: shl     ecx, 3; Shift Logical Left
+0050F9A3: shl     eax, 3; Shift Logical Left
+0050F9A6: fstp    [esp+60h+var_28]; Store Real and Pop
+0050F9AA: fild    [esp+60h+var_20]; Load Integer
+0050F9AE: test    esi, esi; Logical Compare
+0050F9B0: mov     [esp+60h+var_40], ecx
+0050F9B4: mov     [esp+60h+var_44], eax

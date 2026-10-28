@@ -1,0 +1,25 @@
+0050B74A: push    1; animId
+0050B74C: push    ecx; actor
+0050B74D: mov     word ptr [edx+28h], 0
+0050B753: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050B758: mov     eax, dword_1D99A40
+0050B75D: push    eax; actor
+0050B75E: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync
+0050B763: mov     al, [ebp+0Dh]
+0050B766: add     esp, 0Ch; Add
+0050B769: inc     al; Increment by 1
+0050B76B: mov     [ebp+0Dh], al
+0050B76E: pop     esi
+0050B76F: pop     ebp
+0050B770: xor     eax, eax; Logical Exclusive OR
+0050B772: pop     ebx
+0050B773: retn; Return Near from Procedure
+0050B774: mov     al, byte ptr g_BattleCameraFlags; jumptable 0050B2BD case 8
+0050B779: test    al, al; Logical Compare
+0050B77B: jnz     short def_50B2BD; jumptable 0050B2BD default case
+0050B77D: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks
+0050B782: mov     al, [ebp+0Dh]
+0050B785: pop     esi
+0050B786: inc     al; Increment by 1
+0050B788: mov     [ebp+0Dh], al
+0050B78B: pop     ebp

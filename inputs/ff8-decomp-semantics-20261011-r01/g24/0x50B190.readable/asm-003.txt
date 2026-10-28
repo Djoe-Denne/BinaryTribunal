@@ -1,0 +1,25 @@
+0050B229: call    g_GfActiveCallbackPtr; E2 action_seq C4: load @0x50B1C2; MagicList_Logic via 0x50AF20
+0050B22F: mov     ecx, battle_to_update_flags_dword_1D96A9C
+0050B235: mov     g_GfSequenceContextCandidateA, eax
+0050B23A: mov     al, [esi+0Dh]
+0050B23D: add     esp, 8; Add
+0050B240: or      ecx, 10h; Logical Inclusive OR
+0050B243: inc     al; Increment by 1
+0050B245: mov     [esi+0Dh], al
+0050B248: pop     edi
+0050B249: mov     battle_to_update_flags_dword_1D96A9C, ecx
+0050B24F: xor     eax, eax; Logical Exclusive OR
+0050B251: pop     esi
+0050B252: retn; Return Near from Procedure
+0050B253: call    BattleActionSequence_WaitBusy; jumptable 0050B1A8 case 4
+0050B258: test    eax, eax; Logical Compare
+0050B25A: jnz     short def_50B1A8; jumptable 0050B1A8 default case
+0050B25C: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks
+0050B261: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050B266: mov     byte ptr [edi+1], 0FFh
+0050B26A: and     al, 0EFh; Logical AND
+0050B26C: pop     edi
+0050B26D: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050B272: mov     dword_1D99A64, 0
+0050B27C: mov     eax, 2
+0050B281: pop     esi

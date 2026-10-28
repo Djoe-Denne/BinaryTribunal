@@ -5,10 +5,10 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G00-G04 evidence, constrained P0 checkpoint]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/live-shutdown-2026-07-18.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/debugger-resume-crash-2026-07-18.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/tests/in-process
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g00-g04-2026-07-18.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/blocked/live-shutdown-2026-07-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/blocked/debugger-resume-crash-2026-07-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/tests/in-process
   - C:/Users/djden/source/repos/FFScriptLoader/injector/tests
 summary: >-
   Evidence and interpretation of the successful no-debugger G00–G04 run, including exact hook rollback, process survival, and remaining strict gate debt.
@@ -87,4 +87,3 @@ The strict [[projects/re-ff8/references/battle-iso-migration-milestones|roadmap]
 - [[projects/ffscriptloader/ffscriptloader]]
 - [[projects/ffscriptloader/skills/hardening-x86-dll-injection]]
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]]
-

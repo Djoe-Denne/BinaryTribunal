@@ -1,0 +1,25 @@
+00489F73: mov     cl, K_ITEM.targetInfo[eax*8]
+00489F7A: push    ecx; target_info
+00489F7B: call    domain__BattleTarget_ComputeMaskFromDefaultTarget; Static ABI verified 2026-08-10: ComputeMaskFromDefaultTarget(u8 target_info) maps targetInfo bit0 to 0x4000 (alternate/revive direction) and bit1 to 0x2000 (random reroll control).
+00489F80: add     esp, 4; Add
+00489F83: or      edi, eax; Logical Inclusive OR
+00489F85: jmp     short loc_489F9A; Jump
+00489F87: lea     edx, [eax+eax*4]; G16 SQ-G16-003: K_ENEMY_ATTACK fold. stride 20, attackFlags+8 bit7 0x80 -> target_mask |= 0x4000. command 2=K_MAGIC.defaultTarget, 4=K_ITEM.targetInfo, else enemy-attack.
+00489F8A: test    K_ENEMY_ATTACK.attackFlags[edx*4], 80h; Logical Compare
+00489F92: jz      short loc_489F9E; Jump if Zero (ZF=1)
+00489F94: or      edi, 4000h; Logical Inclusive OR
+00489F9A: mov     [esp+74h+p_monster_slot_id], edi
+00489F9E: mov     eax, [esp+74h+ai_scratch_var]
+00489FA2: mov     ecx, [esp+74h+enter_alt_target_param_2]
+00489FA6: mov     edx, [esp+74h+has_text_pending]
+00489FAA: push    eax
+00489FAB: mov     eax, [esp+78h+command_type]
+00489FAF: push    edi
+00489FB0: push    ecx
+00489FB1: push    edx
+00489FB2: push    ebp
+00489FB3: push    eax
+00489FB4: push    ebx
+00489FB5: call    domain__BattleAction_BuildPayload; GetText: builds action payload. 7 args (slot,cmd,arg,param,target,mask,anim_id); LABEL_182 @ 0x48E34B freezes payload[+1]==CTI; cmd 3 returns 1 with NO snapshot; 7th arg is anim_id (NOT p_always_zero) (VA)
+00489FBA: push    edi; p_target_mask
+00489FBB: call    domain__BattleAction_ResolveTargetAndHitCount; Verified against FF8_EN.exe SHA-256 064d466b…: function entry is 0x48E830; 0x48EA93 is only the inner per-target call to 0x48FE20 (G09 damage resolver). Prefix decodes target_mask (low 13 bits/high 3 controls), resolves per-hit masks, Cover and count mirrors; tail resolves damage/events. G08 must reconstruct the prefix and never hook or execute this native function during ownership.

@@ -1,0 +1,24 @@
+{
+  "scope": "Reusable v19 diagnostic operations; tooling correction only, NO live PASS or promotion",
+  "origin": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\v19-live-20261008T152249Z-42cd71a8-7df6-4a4a-8b1e-5addd2f6b420\\ops",
+  "origin_immutable": true,
+  "origin_revision_receipt_sha256": "4cd7a7df686dd65191fa30bbd4b59067ee59219f492a706bb742a2fc8662f602",
+  "original_files": {
+    "observe.py": {"bytes": 6095, "sha256": "2e2a4cce4aad424ff2a8e9613651e23f8e99fdfb9d4934c475447af9a04a76a8"},
+    "winread.py": {"bytes": 5219, "sha256": "38dc0cb27ddac05f1ff1b32f76ea928f37917e1a4431f3cf649d7a58684b4409"},
+    "snapshot_native.py": {"bytes": 9901, "sha256": "b9bb6299292897da7d5f5fe43721138424d5b3ab51d0c0e2864daf3c7f7e28db"},
+    "pe_contract.py": {"bytes": 4927, "sha256": "5825588d33fd3e6cfb23ad7f93330805a1d95001b36583cabd98c6fa0554ecda"},
+    "collect_live.py": {"bytes": 19237, "sha256": "a1de1dccdff04fd39172c3ba5b2220cf7b932ed1ef593b53f9fec9456febe5c6"},
+    "hang_dump.py": {"bytes": 6167, "sha256": "9a6dcec32209abbe54b8226b0a12b692db1bda9b51fbed8ebab3c8a092ef4f59"},
+    "crash_collect.py": {"bytes": 4706, "sha256": "1d06a0b3d155a454d8f4df6bd0c3272dce84f06ef5f4de68ea669a8cb5a1a7d5"}
+  },
+  "new_support": ["quiet_process.py", "mapped_file.py", "tests/test_offline.py", "README.md"],
+  "corrections": [
+    "Owned subprocesses: CREATE_NO_WINDOW, SW_HIDE, stdin DEVNULL, no shell; PowerShell NoLogo/NoProfile/NonInteractive",
+    "Module-base NT mapped path via K32GetMappedFileNameW or psapi; exact GLOBALROOT open; final NT opened-file path and SHA256 of same handle",
+    "Complete inventory persists before typed missing/contradicting file proof refuses the snapshot; no skipped hash",
+    "Disk SHA is NOT memory SHA; existing EXE/candidate/native .text/restore/no-refuse-reuse requirements retained"
+  ],
+  "not_copied": ["archive_prep.py", "finalize_prep.py", "revision_receipt.py", "binaries", "old evidence"],
+  "validation": "tests/test_offline.py with exclusive external --out; final test receipt binds current source hashes"
+}

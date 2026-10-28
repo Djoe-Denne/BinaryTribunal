@@ -1,0 +1,25 @@
+00509241: jz      short loc_509248; Jump if Zero (ZF=1)
+00509243: test    cl, 0Ch; Logical Compare
+00509246: jnz     short loc_50925A; Jump if Not Zero (ZF=0)
+00509248: mov     dx, [esi]
+0050924B: sub     dx, ax; Integer Subtraction
+0050924E: mov     ax, [esi+4]
+00509252: mov     [ebx+2], dx
+00509256: mov     [ebx+4], ax
+0050925A: mov     dl, cl
+0050925C: shr     edx, 2; Shift Logical Right
+0050925F: and     edx, 3; Logical AND
+00509262: inc     edx; Increment by 1
+00509263: and     edx, 80000001h; Logical AND
+00509269: jns     short loc_509270; Jump if Not Sign (SF=0)
+0050926B: dec     edx; Decrement by 1
+0050926C: or      edx, 0FFFFFFFEh; Logical Inclusive OR
+0050926F: inc     edx; Increment by 1
+00509270: mov     eax, [esp+14h+arg_0]
+00509274: and     dl, 3; Logical AND
+00509277: shl     dl, 2; Shift Logical Left
+0050927A: and     cl, 0F3h; Logical AND
+0050927D: push    eax; int
+0050927E: or      dl, cl; Logical Inclusive OR
+00509280: mov     [ebx+1], dl
+00509283: call    BattleSkeleton_BuildHierarchicalFK; Call Procedure

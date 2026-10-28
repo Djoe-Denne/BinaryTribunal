@@ -6,7 +6,7 @@ tags: [ff8, battle-system, runtime-memory, concept]
 aliases: [ff8iso_runtime clusters, runtime TU map]
 sources:
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/.agents/skills/placing-runtime-laboratories/SKILL.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/.agents/skills/placing-runtime-laboratories/SKILL.md
   - projects/re-ff8/skills/implementing-iso-battle-migration.md
   - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g09-automation-mvp-live-validation-2026-09-09.md
 summary: >-

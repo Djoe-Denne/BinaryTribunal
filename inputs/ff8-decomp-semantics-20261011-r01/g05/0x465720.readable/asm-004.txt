@@ -1,0 +1,25 @@
+00465817: mov     [esp+0A4h+var_7C], 7Ch ; '|'
+0046581F: mov     ecx, [ebp+0]
+00465822: push    edx
+00465823: push    0
+00465825: push    ebp
+00465826: mov     [esp+0B0h+var_88], ebp
+0046582A: call    dword ptr [ecx+64h]; Indirect Call Near Procedure
+0046582D: test    eax, eax; Logical Compare
+0046582F: jnz     loc_46591A; Jump if Not Zero (ZF=0)
+00465835: mov     esi, [esi+10h]
+00465838: mov     edx, [edi+0D8h]
+0046583E: mov     eax, [esp+9Ch+var_58]
+00465842: test    esi, esi; Logical Compare
+00465844: jz      short loc_465878; Jump if Zero (ZF=1)
+00465846: mov     ebx, [edi+44h]
+00465849: mov     [esp+9Ch+var_8C], esi
+0046584D: mov     ecx, ebx
+0046584F: mov     esi, edx
+00465851: mov     ebp, ecx
+00465853: mov     edi, eax
+00465855: shr     ecx, 2; Shift Logical Right
+00465858: rep movsd; Move Byte(s) from String to String
+0046585A: mov     ecx, ebp
+0046585C: add     edx, ebx; Add
+0046585E: and     ecx, 3; Logical AND

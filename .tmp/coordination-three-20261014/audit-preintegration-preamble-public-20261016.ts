@@ -1,0 +1,18 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { strict as assert } from 'node:assert';
+import { Service } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import { OpenCode } from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014';
+const a=JSON.parse(readFileSync(phase+'/preintegration-boundary-native-ownership-20261016.json','utf8'));
+const endpoint=await Service.discover();assert(endpoint);const cli=OpenCode.make({baseUrl:endpoint.url,headers:Service.headers(endpoint)}),session=await cli.session.get({sessionID:a.session});assert.deepEqual(session.model,a.nativeModel);
+const tools:any[]=[],userInstructionMarkers:any[]=[];let order=0;
+const scan=(value:any,role:string,messageId:string,messageOrder:number)=>{if(!value||typeof value!=='object'||value.type==='reasoning')return;
+ if(value.name&&value.state?.input)tools.push({role,messageId,messageOrder,name:value.name,time:value.time,input:value.state.input,output:value.state.output??value.state.content,error:value.state.error,status:value.state.status});
+ if(role==='user'&&value.type==='text'&&typeof value.text==='string'&&/FIRST HOLD|FIRST_HOLD|PREINTEGRATION|task_mvbf4ikr/.test(value.text))userInstructionMarkers.push({messageId,messageOrder,prefix:value.text.slice(0,1000),hasFirstHold:/FIRST HOLD|FIRST_HOLD/.test(value.text)});
+ for(const child of Object.values(value))if(child&&typeof child==='object')scan(child,role,messageId,messageOrder);
+};
+let cursor:string|undefined,pages=0;do{assert(++pages<=5);const p=await cli.message.list({sessionID:a.session,...(cursor?{cursor}:{limit:100,order:'asc'})});for(const m of p.data){if((m.type==='user'||m.type==='synthetic')&&typeof m.text==='string'&&/FIRST HOLD|FIRST_HOLD|PREINTEGRATION|task_mvbf4ikr/.test(m.text))userInstructionMarkers.push({messageId:m.id,messageOrder:order,time:m.time,prefix:m.text.slice(0,1400),hasFirstHold:/FIRST HOLD|FIRST_HOLD/.test(m.text)});scan(m.content,m.type,m.id,order++);}cursor=p.cursor.next??undefined;}while(cursor);
+const out={at:new Date().toISOString(),task:a.task,session:a.session,model:session.model,publicToolsOnlyPrivateReasoningSkippedAssistantTextNotCopied:true,tools,userInstructionMarkers,schemaQualification:'V1 omitted top-level user.text and tool state.content; V1 preserved, V2 correct public fields only, no new worker actions',stage:'HOLD_BEFORE_PACKET_ACCESS_PARENT_QUALIFIES_PUBLIC_PREAMBLE_EXPOSURE'};
+writeFileSync(phase+'/preintegration-boundary-public-preamble-audit-v2-20261016.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});
+const index=tools.filter(t=>/ctx_search|team_results|team_tasks_list|team_status/.test(JSON.stringify(t.input)));
+console.log(JSON.stringify({toolCount:tools.length,userMarkers:userInstructionMarkers.map(x=>({order:x.messageOrder,hasFirstHold:x.hasFirstHold,prefix:x.prefix.slice(0,220)})),indexed:index.map(t=>({order:t.messageOrder,name:t.name,input:t.input,outputBytes:JSON.stringify(t.output??'').length,error:t.error}))}));

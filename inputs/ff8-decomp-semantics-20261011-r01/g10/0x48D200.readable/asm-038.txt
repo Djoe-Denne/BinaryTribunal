@@ -1,0 +1,25 @@
+0048DEF9: shl     eax, 4; Shift Logical Left
+0048DEFC: mov     dl, BATTLE_SLOT_DATA.crisis_level[eax]
+0048DF02: mov     al, K_MISC.back_attack_limit_effect[edx*2]
+0048DF09: xor     edx, edx; Logical Exclusive OR
+0048DF0B: mov     dl, al
+0048DF0D: mov     byte_1D28E1A, al
+0048DF12: mov     al, K_DUEL_PARAM.duelMoves.StartMove0[edx*4]
+0048DF19: xor     edx, edx; Logical Exclusive OR
+0048DF1B: mov     dl, al
+0048DF1D: mov     byte_1D28E1B, al
+0048DF22: mov     esi, edx
+0048DF24: mov     eax, esi
+0048DF26: shl     eax, 5; Shift Logical Left
+0048DF29: mov     dx, K_DUEL.MagicID[eax]
+0048DF30: xor     eax, eax; Logical Exclusive OR
+0048DF32: mov     al, byte_1D28E02
+0048DF37: mov     [esp+24h+magic_id], edx
+0048DF3B: lea     eax, [eax+eax*2]; Load Effective Address
+0048DF3E: lea     eax, ds:1D289FCh[eax*8]; Load Effective Address
+0048DF45: mov     [eax], cl
+0048DF47: mov     ecx, [esp+24h+p_enemy_number]
+0048DF4B: mov     byte ptr [eax+1], 0F1h
+0048DF4F: mov     [eax+4], si
+0048DF53: mov     byte ptr [eax+2], 0
+0048DF57: mov     byte ptr [eax+3], 0

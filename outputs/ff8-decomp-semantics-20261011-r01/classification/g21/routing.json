@@ -1,0 +1,72 @@
+{
+  "schema": "ff8-classify-routing-v1",
+  "group": "g21",
+  "status": "DISPATCH_READY",
+  "admission_owner": "lead",
+  "SOURCE": "discover-g21",
+  "source_session_id": "ses_ed41fba20ffexCPkkuwhhXozTE",
+  "inheritance": "Independent author forks from the SAME frozen discover-g21 session; never from classifier, siblings or lead. Fresh independent R only after both A+B outputs exist for that volet.",
+  "source_checkpoint": "No target candidate preview flag found in source report; ordinary lead fork-boundary verification still required.",
+  "source_archive": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g21.source.native.json",
+  "source_archive_sha256": "db114937906b3a09e847cad8f50a2bd4411b54e72e3d72d19b217decbf5367f1",
+  "common_compaction": "inputs/ff8-decomp-semantics-20261011-r01/g21/common-compaction.md",
+  "common_compaction_sha256": "a634833fced6523e37c5512a9e2e48c0ed780a2772bd740033d7b1a527cd5ce9",
+  "native_pe_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "classifier_kind": "classify_x86",
+  "classifier_tool": "tools.classify_x86",
+  "risk_mapping": "v1 risk uses native Classify uncertainty; scores are advisory, not calibrated probabilities.",
+  "source_caveats": ["Discovery reports no documentation-side cross-check, label meanings withheld and xref interpretation unconfirmed; no rediscovery attempted. Native/PE facts verified for all three EAs. Authors must resolve these limits against frozen ASM, not promote prose."],
+  "dispatch_templates": {
+    "C": {
+      "protocol": "2+1",
+      "A": {"model":"zai-coding-plan/glm-5.3-flash","variant":"max"},
+      "B": {"model":"opencode-go/gpt-6-luna","variant":"medium"},
+      "R": {"model":"openai/gpt-6.1-sol","variant":"high","depends_on":["C.A","C.B"]}
+    },
+    "semantics": {
+      "protocol": "2+1",
+      "A": {"model":"openai/gpt-6.1-sol","variant":"medium"},
+      "B": {"model":"zai-coding-plan/glm-5.3-flash","variant":"max"},
+      "R": {"model":"openai/gpt-6.1-sol","variant":"high","depends_on":["semantics.A","semantics.B"]}
+    }
+  },
+  "model_rationale": "Contract v1 medium C pair GLM max/Luna medium; semantic Sol medium plus independently forked GLM max as catalogue medium alternative, independent Sol high reconciliation. All models appear available in frozen catalogue; lead must verify effective Model.Ref and admission, never silently substitute default variants.",
+  "routes": [
+    {
+      "ea":"0x508540","status":"DISPATCH_READY","tier":"medium","complexity":37,"risk":32,"instructions":20,"assembly_payload_chars":6660,
+      "rationale":"Not simple: complexity 37>25 and uncertainty 32>20. Within medium 65/50; 20 instructions and no recorded unresolved indirect transfer, conflict or major structural trigger. Both volets 2+1.",
+      "native_pe_match":true,
+      "factual_input":"inputs/ff8-decomp-semantics-20261011-r01/g21/0x508540.json",
+      "factual_sha256":"a6f4b030c04283a9013f249b947d0f57a2340a543f132445026e53522ea44e92",
+      "request":"0x508540.request.json","request_sha256":"5584a3c29248906787a0bb0e6a79f684b0dbe4bece92533c4c629b2762e7bf79",
+      "response":"0x508540.response.json","response_sha256":"0cecec9de8a1ad03368878a76373e2edf1a8b3aa04b83f91848f14f55919a251",
+      "dispatch_templates":["C","semantics"],
+      "outputs":{"C.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/C/A.md","C.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/C/B.md","C.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/C/R.md","semantics.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/semantics/A.md","semantics.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/semantics/B.md","semantics.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x508540/semantics/R.md"}
+    },
+    {
+      "ea":"0x50AE00","status":"DISPATCH_READY","tier":"medium","complexity":23,"risk":34,"instructions":7,"assembly_payload_chars":6026,
+      "rationale":"Not simple despite 7 instructions and complexity 23: uncertainty 34>20 (external_calls). Within medium 65/50; no recorded major structural trigger. Both volets 2+1.",
+      "native_pe_match":true,
+      "factual_input":"inputs/ff8-decomp-semantics-20261011-r01/g21/0x50AE00.json",
+      "factual_sha256":"ffbcac76816c5331dfa4e1b2aa5a51ab1bb515b206a256dcd5982e53debc716a",
+      "request":"0x50AE00.request.json","request_sha256":"c0c87be98907e296d39e4b94ff4ca144e3b7410854d2e7645971f693b81c1c6d",
+      "response":"0x50AE00.response.json","response_sha256":"b1e146c25b46085adf9abccccfef14265a3ef9eede198999aaf5d7b3230d479a",
+      "dispatch_templates":["C","semantics"],
+      "outputs":{"C.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/C/A.md","C.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/C/B.md","C.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/C/R.md","semantics.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/semantics/A.md","semantics.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/semantics/B.md","semantics.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE00/semantics/R.md"}
+    },
+    {
+      "ea":"0x50AE20","status":"DISPATCH_READY","tier":"medium","complexity":52,"risk":35,"instructions":33,"assembly_payload_chars":7044,
+      "rationale":"Not simple: complexity 52>25 and uncertainty 35>20; bounded native loop is not an unresolved indirect transfer. Within medium 65/50, 33 instructions, no recorded major structural trigger. Both volets 2+1.",
+      "native_pe_match":true,
+      "factual_input":"inputs/ff8-decomp-semantics-20261011-r01/g21/0x50AE20.json",
+      "factual_sha256":"251e3386bbc7dc72a0b341461e56505f2d570bd63fbe1074fcc93b74178c68c9",
+      "request":"0x50AE20.request.json","request_sha256":"a2af94d3a239fa9a6cf2dc7fbcc7dcdc7e78ab807b9596aeb5196d410e372210",
+      "response":"0x50AE20.response.json","response_sha256":"318b3b98ff0aa255c9263e3a7aae68bb9aab4bf1ffdc634e322e43c78a7c4ac0",
+      "dispatch_templates":["C","semantics"],
+      "outputs":{"C.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/C/A.md","C.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/C/B.md","C.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/C/R.md","semantics.A":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/semantics/A.md","semantics.B":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/semantics/B.md","semantics.R":"outputs/ff8-decomp-semantics-20261011-r01/production/g21/0x50AE20/semantics/R.md"}
+    }
+  ],
+  "blocked_eas":[],
+  "no_producers_spawned":true,
+  "validation":"Lead owns final admissions, effective model/variant readback and native ASM validation; DISPATCH_READY is not RE promotion."
+}

@@ -1,0 +1,170 @@
+{
+  "assembly": "; COMMON FACTUAL DISCOVERY (not target code)\n; COMMON_COMPACTION (g02; factual use only)\n; \n; Mission/source authority: CONTRACT restricts this run to its 98-EA scope, requires native ASM as authority and factual common group compaction before Classify, and forbids workers from IDB/Git/registry/live/delegation. Native export is PE32 from FF8_EN.exe, SHA-256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570, timestamp 2026-10-11 16:38:25Z. native-groups.json puts exactly these six targets in g02; algorithm says direct=100/shared-code-callers=3/shared-code-targets=1, greedy max6/no zero-score joins.\n; \n; Facts by native target (primary native JSON assembly/xrefs; existing notes used only as secondary corroboration):\n; • 0x45E610 (18 instructions, one basic block, exported label Gte_AVSZ4): reads low 16 bits of four globals 1CA8A5C, 1CA8A58, 1CA8A54, 1CA8A50, sums them, clears dword 1CA92F8, signed-multiplies by sign-extended word 1CA92F4, logical SHR 12, stores EAX/result to 1CA8A2C then 1CA8A70; leaf/no calls. Existing note distinguishes scale word 92F4 and fourth input from AVSZ3 (92F0/three inputs). Many distinct callers in frozen graph (e.g. 0x5A9C10).\n; • 0x45E9D0 (109 instructions, 22 CFG blocks; native label only sub_45E9D0): leaf/no calls. Shifts DWORD FIFO values 1CA8A64→1CA8A60 and 1CA8A68→1CA8A64, copies byte 1CA8A2B to byte 1CA8A68+3, sign-extends words 1CA8A30/34/38/3C, scales using flt_B695F8 (=1/4096 per existing note), uses x87 magic-double conversion, writes MAC globals 1CA8A74/78/7C. Signed IR-range clamping writes 1CA8A34/38/3C and sets status bits in 1CA92F8; RGB byte-range checks write RGB bytes 0..2. Existing note distinguishes it from sibling: these MAC values are calculated without adding previous MAC globals; EAX is path-dependent leftover, not established as a stable result.\n; • 0x45EBF0 (116 instructions, 22 CFG blocks; label only sub_45EBF0): sibling leaf/no calls, same FIFO/signed word inputs/1/4096 x87 conversion and signed IR/RGB clamp family. Crucial distinction supported by native operands and existing notes: adds previous MAC globals 1CA8A74/78/7C into corresponding new MACs, then stores results. Updates 1CA92F8 flags and RGB bytes like sibling. No higher-level operation name is established by native labels; existing note warns EAX is path-dependent, not a documented result.\n; • 0x56C090 (116 instructions, 3 CFG blocks; label Mat3S16_MulQ12_Copy5): cdecl 3-arg function; accesses 9 sign-extended WORDs from matrix offsets +0..+10h and uses flt_B695F8 (=1/4096). Source pointer advances +6 for three loop iterations: three consecutive 3×s16 vectors (6-byte stride). Forms three three-term matrix/vector dot products per iteration with x87, magic-double conversion, writes nine WORD results. Then copies five DWORDs from a 20-byte local area to arg8 and returns arg8 in EAX; existing note says final two bytes of local are not written by the 18-byte result loop, so do not assume contents. No callee calls. Existing note indexing: output components use matrix terms M[+0/+6/+0C], then [+2/+8/+0E], [+4/+0A/+10].\n; • 0x701220 (29 instructions, one block; label Mat3S16_MakeRotX_Q12): sign-extends 16-bit angle; calls 0x56D130/0x56D100 (native code_targets; documented as Fixed_Sin4096_Q12/Fixed_Cos4096_Q12), then stores signed-16-bit Q12 coefficients in 3×3 layout: m00=0x1000, m11=m22=cos, m12=sin, m21=−sin. Initializes five DWORDs (including output+0x10h, 2 bytes beyond a 9-WORD/18-byte matrix), writes five WORD coefficients, EAX left as cosine. No branch.\n; • 0x7012C0 (29 instructions, one block; label Mat3S16_MakeRotZ_Q12): same signed angle and sine/cosine callees/code_targets. Coefficients: m00=m11=cos, m01=sin, m10=−sin, m22=0x1000; five DWORD zeroes include +0x10h, 2 bytes beyond 18-byte matrix, then five WORD stores; EAX cosine. Existing note distinguishes this transposed/sign arrangement from 0x6CF070; do not normalize sign/order.\n; \n; Call-neighbour/group facts: frozen graph gives 0x45E9D0 callers beginning 0x56CB50, 0x56CBC0, 0x5D9510, 0x657DF0…; 0x45EBF0 has overlapping callers including 0x56CB50, 0x56CBC0, 0x5D9510, 0x657DF0, 0x658010…; both no outgoing calls. 0x56C090 has large xref caller set including 0x5033E0, 0x508C90, 0x56C220/270/2F0/360, 0x5A9C10; no outgoing calls/targets. Both rotation helpers call shared 0x56D100/0x56D130; callers overlap (0x659DD0, 0x669AF0, 0x683760, 0x6E07D0, 0x6FD580 and 0x6FDC20 among them). 0x45E610 also has no outgoing calls and broad callers; graph lists 0x5A9C10 among them. “out: []” means no recorded direct call targets in this export, not a claim about all dynamic behavior.\n; \n; Uncertainties/guardrails: 0x45E9D0/0x45EBF0 have generic native labels; do not promote historical naming or map globals onto hardware register semantics beyond operands. Existing investigation docs are prior reconciled notes; I used factual annotations, did not reproduce target C, and native ASM/xrefs remain authority. Matrix terminology is the notes’ indexing convention. QMD CLI works (MCP qmd calls errored); index reports 795 docs, ff8-wiki 188. QMD wiki supports broader context only: CPU GTE-emulated T&L includes Gte_MVMVA/AVSZ3/AVSZ4/NCLIP and emits already transformed XYZRHW screen-space vertices; it does not establish target-local semantics.\n; \n; Source inventory / line provenance (absolute):\n; 1) C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\CONTRACT.md: 5-21 (authority/worker rules), 27-40 (route/validation).\n; 2) C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\missions\\\\ff8-decomp-semantics-2026-10-11-run01\\\\native-groups.json: 2-9 (native identity/group algorithm), 18-26 (g02), 301-307 (45E9D0 manifest), 310-316 (56C090), 634-640 (45E610), 652-658 (45EBF0), 706-721 (rotation manifests); callgraph 1189-1202 (45E9D0 callers), 1343-1356 (56C090 callers), 2876-2912 (45E610 callers), 3437-3460 (45EBF0 callers), 3633-3708 (rotation callers/targets).\n; 3) Primary natives in C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\.tmp\\\\ff8-decomp-semantics-20261011-r01\\\\native\\\\: 0x45E610.json: 2-24 assembly/CFG, 26-80 xrefs; 0x45E9D0.json: 2-24, 182-229; 0x45EBF0.json: 2-24, 182-229; 0x56C090.json: 2-39, 41-80; 0x701220.json: 2-25, 26-44, 262-265; 0x7012C0.json: 2-25, 26-51, 208-212. Same native hash/timestamp above.\n; 4) Prior notes, secondary only: C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\docs\\\\tech\\\\investigation\\\\battle-static-discovery\\\\decomp\\\\0x45E610__Gte_AVSZ4.md: 1-24; 0x45E9D0__sub_45E9D0.md: 1-28; 0x45EBF0__sub_45EBF0.md: 1-28; 0x56C090__Mat3S16_MulQ12_Copy5.md: 1-33, 38-81; 0x701220__Mat3S16_MakeRotX_Q12.md: 1-23, 38-57; 0x7012C0__Mat3S16_MakeRotZ_Q12.md: 1-23, 34-50.\n; 5) QMD background: C:\\\\Users\\\\djden\\\\source\\\\repos\\\\retro-eng\\\\re-ff8\\\\obsidian-docs\\\\projects\\\\re-ff8\\\\references\\\\battle-model-tools-and-format.md: 90-99 (pipeline context only).\n; \n; No files, IDB, Git, ledger, registry, or live state changed.\n; TARGET ASM COMPLETE\n0045E9D0: sub     esp, 8; Integer Subtraction\n0045E9D3: mov     eax, dword_1CA8A64\n0045E9D8: mov     ecx, dword_1CA8A68\n0045E9DE: mov     dword_1CA8A60, eax\n0045E9E3: mov     dword_1CA8A64, ecx\n0045E9E9: movsx   eax, word ptr dword_1CA8A30; Move with Sign-Extend\n0045E9F0: movsx   ecx, word ptr dword_1CA8A34; Move with Sign-Extend\n0045E9F7: mov     dword ptr [esp+8+var_8], eax\n0045E9FB: mov     dl, byte_1CA8A2B\n0045EA01: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EA05: mov     dword ptr [esp+8+var_8], ecx\n0045EA09: mov     byte ptr dword_1CA8A68+3, dl\n0045EA0F: movsx   eax, word ptr dword_1CA8A38; Move with Sign-Extend\n0045EA16: fmul    ds:flt_B695F8; Multiply Real\n0045EA1C: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EA20: mov     dword_1CA92F8, 0\n0045EA2A: fmul    st, st(1); Multiply Real\n0045EA2C: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045EA32: fstp    [esp+8+var_8]; Store Real and Pop\n0045EA36: mov     edx, dword ptr [esp+8+var_8]\n0045EA3A: mov     dword ptr [esp+8+var_8], eax\n0045EA3E: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EA42: add     edx, 80000000h; Add\n0045EA48: mov     dword_1CA8A74, edx\n0045EA4E: fmul    st, st(1); Multiply Real\n0045EA50: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045EA56: fstp    [esp+8+var_8]; Store Real and Pop\n0045EA5A: mov     ecx, dword ptr [esp+8+var_8]\n0045EA5E: lea     eax, [ecx+80000000h]; Load Effective Address\n0045EA64: movsx   ecx, word ptr dword_1CA8A3C; Move with Sign-Extend\n0045EA6B: mov     dword ptr [esp+8+var_8], ecx\n0045EA6F: mov     dword_1CA8A78, eax\n0045EA74: fild    dword ptr [esp+8+var_8]; Load Integer\n0045EA78: fmul    st, st(1); Multiply Real\n0045EA7A: fadd    ds:CONST_4_503601774854144e15; Add Real\n0045EA80: fstp    [esp+8+var_8]; Store Real and Pop\n0045EA84: mov     ecx, dword ptr [esp+8+var_8]\n0045EA88: add     ecx, 80000000h; Add\n0045EA8E: cmp     edx, 0FFFF8000h; Compare Two Operands\n0045EA94: fstp    st; Store Real and Pop\n0045EA96: mov     dword_1CA8A7C, ecx\n0045EA9C: jge     short loc_45EAB4; Jump if Greater or Equal (SF=OF)\n0045EA9E: mov     dword_1CA92F8, 81000000h\n0045EAA8: mov     dword_1CA8A34, 0FFFF8000h\n0045EAB2: jmp     short loc_45EAD8; Jump\n0045EAB4: cmp     edx, 7FFFh; Compare Two Operands\n0045EABA: jle     short loc_45EAD2; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045EABC: mov     dword_1CA92F8, 81000000h\n0045EAC6: mov     dword_1CA8A34, 7FFFh\n0045EAD0: jmp     short loc_45EAD8; Jump\n0045EAD2: mov     dword_1CA8A34, edx\n0045EAD8: cmp     eax, 0FFFF8000h; Compare Two Operands\n0045EADD: push    ebx\n0045EADE: jge     short loc_45EAFE; Jump if Greater or Equal (SF=OF)\n0045EAE0: mov     ebx, dword_1CA92F8\n0045EAE6: mov     dword_1CA8A38, 0FFFF8000h\n0045EAF0: or      ebx, 80800000h; Logical Inclusive OR\n0045EAF6: mov     dword_1CA92F8, ebx\n0045EAFC: jmp     short loc_45EB28; Jump\n0045EAFE: cmp     eax, 7FFFh; Compare Two Operands\n0045EB03: jle     short loc_45EB23; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045EB05: mov     ebx, dword_1CA92F8\n0045EB0B: mov     dword_1CA8A38, 7FFFh\n0045EB15: or      ebx, 80800000h; Logical Inclusive OR\n0045EB1B: mov     dword_1CA92F8, ebx\n0045EB21: jmp     short loc_45EB28; Jump\n0045EB23: mov     dword_1CA8A38, eax\n0045EB28: cmp     ecx, 0FFFF8000h; Compare Two Operands\n0045EB2E: jge     short loc_45EB4E; Jump if Greater or Equal (SF=OF)\n0045EB30: mov     ebx, dword_1CA92F8\n0045EB36: mov     dword_1CA8A3C, 0FFFF8000h\n0045EB40: or      ebx, 400000h; Logical Inclusive OR\n0045EB46: mov     dword_1CA92F8, ebx\n0045EB4C: jmp     short loc_45EB7A; Jump\n0045EB4E: cmp     ecx, 7FFFh; Compare Two Operands\n0045EB54: jle     short loc_45EB74; Jump if Less or Equal (ZF=1 | SF!=OF)\n0045EB56: mov     ebx, dword_1CA92F8\n0045EB5C: mov     dword_1CA8A3C, 7FFFh\n0045EB66: or      ebx, 400000h; Logical Inclusive OR\n0045EB6C: mov     dword_1CA92F8, ebx\n0045EB72: jmp     short loc_45EB7A; Jump\n0045EB74: mov     dword_1CA8A3C, ecx\n0045EB7A: cmp     edx, 0FFh; Compare Two Operands\n0045EB80: jbe     short loc_45EB99; Jump if Below or Equal (CF=1 | ZF=1)\n0045EB82: mov     ebx, dword_1CA92F8\n0045EB88: sar     edx, 1Fh; Shift Arithmetic Right\n0045EB8B: or      ebx, 200000h; Logical Inclusive OR\n0045EB91: not     edx; One's Complement Negation\n0045EB93: mov     dword_1CA92F8, ebx\n0045EB99: cmp     eax, 0FFh; Compare Two Operands\n0045EB9E: mov     byte ptr dword_1CA8A68, dl\n0045EBA4: pop     ebx\n0045EBA5: jbe     short loc_45EBBE; Jump if Below or Equal (CF=1 | ZF=1)\n0045EBA7: mov     edx, dword_1CA92F8\n0045EBAD: sar     eax, 1Fh; Shift Arithmetic Right\n0045EBB0: or      edx, 100000h; Logical Inclusive OR\n0045EBB6: not     eax; One's Complement Negation\n0045EBB8: mov     dword_1CA92F8, edx\n0045EBBE: cmp     ecx, 0FFh; Compare Two Operands\n0045EBC4: mov     byte ptr dword_1CA8A68+1, al\n0045EBC9: jbe     short loc_45EBDF; Jump if Below or Equal (CF=1 | ZF=1)\n0045EBCB: mov     eax, dword_1CA92F8\n0045EBD0: sar     ecx, 1Fh; Shift Arithmetic Right\n0045EBD3: or      eax, 80000h; Logical Inclusive OR\n0045EBD8: not     ecx; One's Complement Negation\n0045EBDA: mov     dword_1CA92F8, eax\n0045EBDF: mov     byte ptr dword_1CA8A68+2, cl\n0045EBE5: add     esp, 8; Add\n0045EBE8: retn; Return Near from Procedure",
+  "architecture": "x86-32",
+  "metadata": {
+    "cfg": [
+      {
+        "start": "0x45e9d0",
+        "end": "0x45ea9e",
+        "successors": [
+          "0x45ea9e",
+          "0x45eab4"
+        ]
+      },
+      {
+        "start": "0x45ea9e",
+        "end": "0x45eab4",
+        "successors": [
+          "0x45ead8"
+        ]
+      },
+      {
+        "start": "0x45eab4",
+        "end": "0x45eabc",
+        "successors": [
+          "0x45eabc",
+          "0x45ead2"
+        ]
+      },
+      {
+        "start": "0x45eabc",
+        "end": "0x45ead2",
+        "successors": [
+          "0x45ead8"
+        ]
+      },
+      {
+        "start": "0x45ead2",
+        "end": "0x45ead8",
+        "successors": [
+          "0x45ead8"
+        ]
+      },
+      {
+        "start": "0x45ead8",
+        "end": "0x45eae0",
+        "successors": [
+          "0x45eae0",
+          "0x45eafe"
+        ]
+      },
+      {
+        "start": "0x45eae0",
+        "end": "0x45eafe",
+        "successors": [
+          "0x45eb28"
+        ]
+      },
+      {
+        "start": "0x45eafe",
+        "end": "0x45eb05",
+        "successors": [
+          "0x45eb05",
+          "0x45eb23"
+        ]
+      },
+      {
+        "start": "0x45eb05",
+        "end": "0x45eb23",
+        "successors": [
+          "0x45eb28"
+        ]
+      },
+      {
+        "start": "0x45eb23",
+        "end": "0x45eb28",
+        "successors": [
+          "0x45eb28"
+        ]
+      },
+      {
+        "start": "0x45eb28",
+        "end": "0x45eb30",
+        "successors": [
+          "0x45eb30",
+          "0x45eb4e"
+        ]
+      },
+      {
+        "start": "0x45eb30",
+        "end": "0x45eb4e",
+        "successors": [
+          "0x45eb7a"
+        ]
+      },
+      {
+        "start": "0x45eb4e",
+        "end": "0x45eb56",
+        "successors": [
+          "0x45eb56",
+          "0x45eb74"
+        ]
+      },
+      {
+        "start": "0x45eb56",
+        "end": "0x45eb74",
+        "successors": [
+          "0x45eb7a"
+        ]
+      },
+      {
+        "start": "0x45eb74",
+        "end": "0x45eb7a",
+        "successors": [
+          "0x45eb7a"
+        ]
+      },
+      {
+        "start": "0x45eb7a",
+        "end": "0x45eb82",
+        "successors": [
+          "0x45eb82",
+          "0x45eb99"
+        ]
+      },
+      {
+        "start": "0x45eb82",
+        "end": "0x45eb99",
+        "successors": [
+          "0x45eb99"
+        ]
+      },
+      {
+        "start": "0x45eb99",
+        "end": "0x45eba7",
+        "successors": [
+          "0x45eba7",
+          "0x45ebbe"
+        ]
+      },
+      {
+        "start": "0x45eba7",
+        "end": "0x45ebbe",
+        "successors": [
+          "0x45ebbe"
+        ]
+      },
+      {
+        "start": "0x45ebbe",
+        "end": "0x45ebcb",
+        "successors": [
+          "0x45ebcb",
+          "0x45ebdf"
+        ]
+      },
+      {
+        "start": "0x45ebcb",
+        "end": "0x45ebdf",
+        "successors": [
+          "0x45ebdf"
+        ]
+      },
+      {
+        "start": "0x45ebdf",
+        "end": "0x45ebe9",
+        "successors": []
+      }
+    ],
+    "basic_blocks": 22
+  }
+}

@@ -1,0 +1,25 @@
+0050FBE8: fld     Cam_xyz1_y_float; Load Real
+0050FBEE: fmul    st, st(3); Multiply Real
+0050FBF0: faddp   st(1), st; Add Real and Pop
+0050FBF2: fld     Cam_xyz1_x_float; Load Real
+0050FBF8: fmul    st, st(4); Multiply Real
+0050FBFA: faddp   st(1), st; Add Real and Pop
+0050FBFC: fadd    [esp+60h+var_3C]; Add Real
+0050FC00: fstp    [esp+60h+var_54]; Store Real and Pop
+0050FC04: fld     Cam_xyz2_z_float; Load Real
+0050FC0A: fmul    st, st(1); Multiply Real
+0050FC0C: fld     Cam_xyz2_y_float; Load Real
+0050FC12: fmul    st, st(3); Multiply Real
+0050FC14: faddp   st(1), st; Add Real and Pop
+0050FC16: fld     Cam_xyz2_x_float; Load Real
+0050FC1C: fmul    st, st(4); Multiply Real
+0050FC1E: faddp   st(1), st; Add Real and Pop
+0050FC20: fadd    [esp+60h+var_38]; Add Real
+0050FC24: fstp    [esp+60h+var_50]; Store Real and Pop
+0050FC28: fmul    [esp+60h+var_34]; Multiply Real
+0050FC2C: fxch    st(1); Exchange Registers
+0050FC2E: fmul    [esp+60h+var_30]; Multiply Real
+0050FC32: faddp   st(1), st; Add Real and Pop
+0050FC34: fxch    st(1); Exchange Registers
+0050FC36: fmul    [esp+60h+var_2C]; Multiply Real
+0050FC3A: faddp   st(1), st; Add Real and Pop

@@ -1,0 +1,25 @@
+00490F4C: mov     dl, byte ptr unk_1D28DF3
+00490F52: mov     byte_1D28E00, 0
+00490F59: lea     eax, [eax+eax*2]; Load Effective Address
+00490F5C: shl     eax, 3; Shift Logical Left
+00490F5F: lea     esi, [edx+edx*2]; Load Effective Address
+00490F62: mov     cl, K_RENZOKUKEN_FINISHER.attackFlags[eax]
+00490F68: lea     edx, [edx+esi*4]; Load Effective Address
+00490F6B: mov     ATTACK_FLAG, cl; | ID   | Meaning          |
+00490F71: shl     edx, 4; Shift Logical Left
+00490F74: and     cl, 3; Logical AND
+00490F77: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[edx], cl
+00490F7D: mov     dl, K_RENZOKUKEN_FINISHER.unknown2[eax]
+00490F83: xor     ecx, ecx; Logical Exclusive OR
+00490F85: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, dl; 9: miss
+00490F8B: mov     cl, K_RENZOKUKEN_FINISHER.attackPower[eax]
+00490F91: xor     edx, edx; Logical Exclusive OR
+00490F93: mov     dl, K_RENZOKUKEN_FINISHER.attackType[eax]
+00490F99: mov     esi, ecx
+00490F9B: mov     ecx, [esp+20h+p_target_slot_id]
+00490F9F: push    esi; p_attack_power
+00490FA0: push    ecx; p_target_slot_id
+00490FA1: push    ebx; p_attacker_slot_id
+00490FA2: push    edx; p_attack_type
+00490FA3: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+00490FA8: add     esp, 10h; Add

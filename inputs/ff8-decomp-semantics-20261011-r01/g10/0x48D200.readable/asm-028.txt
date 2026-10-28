@@ -1,0 +1,25 @@
+0048DBA1: mov     [esp+28h+hit_count], ecx
+0048DBA5: mov     [esp+28h+magic_id], edx
+0048DBA9: call    getRenzokukenFinisherText; Call Procedure
+0048DBAE: add     esp, 4; Add
+0048DBB1: mov     edi, eax
+0048DBB3: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DBB8: mov     esi, ebx; jumptable 0048D37A case 16
+0048DBBA: and     esi, 0FFFFh; Logical AND
+0048DBC0: push    esi
+0048DBC1: call    domain__BattleText_GetMagicName; Call Procedure
+0048DBC6: mov     edi, eax
+0048DBC8: lea     eax, [esi+esi*2]; Load Effective Address
+0048DBCB: xor     ecx, ecx; Logical Exclusive OR
+0048DBCD: add     esp, 4; Add
+0048DBD0: lea     eax, [eax+eax*4]; Load Effective Address
+0048DBD3: shl     eax, 2; Shift Logical Left
+0048DBD6: cmp     bx, 33h ; '3'; Compare Two Operands
+0048DBDA: mov     cl, K_MAGIC.hitCount[eax]
+0048DBE0: mov     ax, K_MAGIC.magicID[eax]
+0048DBE7: mov     [esp+24h+hit_count], ecx
+0048DBEB: mov     [esp+24h+magic_id], eax
+0048DBEF: jb      loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DBF5: mov     al, SG_LIMIT_BREAK_SELPHIE
+0048DBFA: lea     ecx, [esi-33h]; Load Effective Address
+0048DBFD: mov     dl, 1

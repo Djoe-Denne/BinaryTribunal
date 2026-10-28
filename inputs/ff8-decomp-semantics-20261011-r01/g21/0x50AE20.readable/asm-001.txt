@@ -1,0 +1,25 @@
+0050AE20: push    esi
+0050AE21: push    edi
+0050AE22: xor     edi, edi; Logical Exclusive OR
+0050AE24: mov     esi, offset g_BattlePresentationActors
+0050AE29: mov     eax, dword_1D99A90
+0050AE2E: mov     ecx, dword_1D99A5C
+0050AE34: and     eax, 0FFFFh; Logical AND
+0050AE39: and     ecx, 0FFFFh; Logical AND
+0050AE3F: or      eax, ecx; Logical Inclusive OR
+0050AE41: mov     edx, 1
+0050AE46: mov     ecx, edi
+0050AE48: shl     edx, cl; Shift Logical Left
+0050AE4A: test    edx, eax; Logical Compare
+0050AE4C: jz      short loc_50AE62; Jump if Zero (ZF=1)
+0050AE4E: push    140h
+0050AE53: push    1Ah
+0050AE55: push    esi
+0050AE56: call    sub_508540; Call Procedure
+0050AE5B: add     esp, 0Ch; Add
+0050AE5E: test    eax, eax; Logical Compare
+0050AE60: jnz     short loc_50AE76; Jump if Not Zero (ZF=0)
+0050AE62: add     esi, 9Ch; Add
+0050AE68: inc     edi; Increment by 1
+0050AE69: cmp     esi, offset dword_1D97704; Compare Two Operands
+0050AE6F: jl      short loc_50AE29; Jump if Less (SF!=OF)

@@ -1,0 +1,25 @@
+00465861: rep movsb; Move Byte(s) from String to String
+00465863: mov     esi, [esp+9Ch+var_6C]
+00465867: mov     ecx, [esp+9Ch+var_8C]
+0046586B: add     eax, esi; Add
+0046586D: dec     ecx; Decrement by 1
+0046586E: mov     [esp+9Ch+var_8C], ecx
+00465872: jnz     short loc_46584D; Jump if Not Zero (ZF=0)
+00465874: mov     ebp, [esp+9Ch+var_88]
+00465878: mov     eax, [ebp+0]
+0046587B: push    0
+0046587D: push    ebp
+0046587E: call    dword ptr [eax+80h]; Indirect Call Near Procedure
+00465884: pop     edi
+00465885: pop     esi
+00465886: pop     ebp
+00465887: pop     ebx
+00465888: add     esp, 8Ch; Add
+0046588E: retn; Return Near from Procedure
+0046588F: mov     eax, [ebp+0]
+00465892: push    0
+00465894: lea     edx, [esp+0A0h+var_7C]; Load Effective Address
+00465898: push    21h ; '!'
+0046589A: mov     [esp+0A4h+var_7C], 7Ch ; '|'
+004658A2: mov     ecx, [eax]
+004658A4: push    edx

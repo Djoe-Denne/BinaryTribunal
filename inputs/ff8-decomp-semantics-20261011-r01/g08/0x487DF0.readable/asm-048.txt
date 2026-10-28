@@ -1,0 +1,25 @@
+00488E5B: mov     edx, dword ptr [esp+74h+op_param_2]; jumptable 004887D6 case 6
+00488E5F: mov     ebp, [esp+74h+if_right_condition_final]
+00488E63: and     edx, edi; Logical AND
+00488E65: and     ebp, 0FFFFh; Logical AND
+00488E6B: push    edx; p_target_generic
+00488E6C: call    domain__EnemyAI_GetTargetMemberCount; G15 U15.5 subj 0x06: alive count. Alive = status_1 Death bit clear. 200=party0-2 201=monsters3-6.
+00488E71: mov     ecx, dword ptr [esp+78h+op_param_3]
+00488E75: add     esp, 4; Add
+00488E78: and     ecx, edi; Logical AND
+00488E7A: cmp     ecx, 5; switch 6 cases
+00488E7D: ja      def_488B4B; jumptable 00488B4B default case
+00488E83: jmp     ds:jpt_488E83[ecx*4]; switch jump
+00488E8A: cmp     eax, ebp; jumptable 00488E83 case 0
+00488E8C: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488E92: mov     eax, [esp+74h+jump_value]
+00488E96: and     eax, 0FFFFh; Logical AND
+00488E9B: add     esi, eax; Add
+00488E9D: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EA2: cmp     eax, ebp; jumptable 00488E83 case 1
+00488EA4: jb      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EAA: mov     eax, [esp+74h+jump_value]
+00488EAE: and     eax, 0FFFFh; Logical AND
+00488EB3: add     esi, eax; Add
+00488EB5: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488EBA: cmp     eax, ebp; jumptable 00488E83 case 2

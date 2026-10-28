@@ -1,0 +1,292 @@
+{
+  "activation_fixture": {
+    "FF8_PASSTHROUGH_BOOTHOOK": "0",
+    "nohook": false,
+    "optin": "explicit Install export",
+    "stage0_marker": false
+  },
+  "candidate_path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\gfx_driver_passthrough.dll",
+  "candidate_pin": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\docs\\tech\\investigation\\battle-static-discovery\\driver-passthrough\\lot25\\v18\\candidate_pin.json",
+  "candidate_unchanged": true,
+  "captures": {
+    "cap_saturation.bin": {
+      "bytes": 41680,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 1025,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "incomplete_st_loss_footers": 1,
+      "max_st_lost": 1,
+      "sha256": "3c3e0f877614dd680af404a7f43e4300776763a074a2d0495c0ef331b6b09f13"
+    },
+    "hook_negative.bin": {
+      "armed_footers": 2,
+      "bytes": 1600,
+      "counts": {
+        "nd_records": 4,
+        "st_records": 6,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "disarmed_tail_footers": 2,
+      "residual_patch": "none \u2014 harness checks= fails=0 covers the byte-exact restoration",
+      "scenario": "restored terminal; retry refused with intact preimages",
+      "sha256": "072051da59859c0c5d29ce0522b67a6042038248388ac4f188b70e1e9c84b92c",
+      "stage0_hresult": "0x1234"
+    },
+    "preimage_refusal.bin": {
+      "bytes": 1051584,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 3,
+        "tr_records": 1,
+        "tx_records": 1
+      },
+      "kind2_draws": 2,
+      "scenario": "fresh process; corrupt first install then repaired retry refused",
+      "sha256": "031dbbd83cb2d2b18067268b7aaf971b7c22b524587fd046782fbeaaabb90d49",
+      "stage0_events": 0,
+      "stage0_valid_footers": 0
+    },
+    "ring_drop.bin": {
+      "bytes": 380,
+      "counts": {
+        "nd_records": 1,
+        "st_records": 1,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "incomplete_draw_ordinal": 0,
+      "persistent_reasons": [
+        "epoch_gap",
+        "writer_incomplete"
+      ],
+      "sha256": "d0314ec7a9a71c606ab27f74cc7661b72018af8b0e295cc3ff65bf8385514972"
+    },
+    "roundtrip.bin": {
+      "bytes": 1051584,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 3,
+        "tr_records": 1,
+        "tx_records": 1
+      },
+      "kind2_draws": 2,
+      "sha256": "caaf12b9dd2ed3a17dd4588701aea1d2a92cf8d8b7c24bc782338079dad05737",
+      "stage0_events": 0,
+      "stage0_valid_footers": 0
+    },
+    "stage0.bin": {
+      "bytes": 920,
+      "counts": {
+        "nd_records": 2,
+        "st_records": 6,
+        "tr_records": 0,
+        "tx_records": 0
+      },
+      "sha256": "0d94f1e93a22f0671235cb9ecbe9455dd0bed2a64b3e4e1b01cffc244d6f0677",
+      "site_ids": [
+        0,
+        1,
+        2
+      ],
+      "stage0_hresult": "0x1234",
+      "stage0_request_events": 3,
+      "stage0_result_events": 3,
+      "stage0_valid_footers": 2
+    }
+  },
+  "contract": "BLOCKED_BY_KNOWN_GAPS",
+  "deployed": false,
+  "exit_code": 0,
+  "fidelity": "PARTIAL/BLOCKED",
+  "harness": {
+    "compile_exit": 0,
+    "exe_sha256": "90d85f479af7c8226c4f05b6b901b92fc2ea97fbf671b226dcf18c835dd20b77",
+    "isolation": "one fresh OS process per scenario",
+    "lifecycle_bss_reset": false,
+    "lifecycle_qualification": "NOT_COVERED_BY_WRITER_GATE",
+    "logs_sha256": {
+      "compile_log.txt": "7ea1a69e0e1cb5c419cee60df7dc000204c0719ce1129428ccff2c19e53c24ce",
+      "refusal_log.txt": "1e8f1eb56129eb73baa5728c05657d27c2f3ac21d9a5aab483d97bbd53c3dddb",
+      "writer_log.txt": "f8fe847ef76f70c0984a35527ead2d1ae8f29626cfcebe4062d4ebf6af421e8c"
+    },
+    "processes": {
+      "refusal": {
+        "checks": 106,
+        "exit": 0,
+        "fails": 0,
+        "log": "refusal_log.txt",
+        "log_sha256": "1e8f1eb56129eb73baa5728c05657d27c2f3ac21d9a5aab483d97bbd53c3dddb",
+        "pid": 25560
+      },
+      "writer": {
+        "checks": 684,
+        "exit": 0,
+        "fails": 0,
+        "log": "writer_log.txt",
+        "log_sha256": "f8fe847ef76f70c0984a35527ead2d1ae8f29626cfcebe4062d4ebf6af421e8c",
+        "pid": 10604
+      }
+    }
+  },
+  "known_gaps": [
+    "event_context_identity",
+    "applied_state",
+    "device_reset_or_loss"
+  ],
+  "live": "NOT AUTHORIZED",
+  "mode": "pin",
+  "no_hot_unload_lifecycle_verified": false,
+  "receipt_version": "lot25-v18-writer-gate-1",
+  "source_audit": {
+    "dump_path_literal": "gfx_passthrough_dump.bin",
+    "fopen_ab_var": "binPath",
+    "fopen_text_a_vars": [
+      "g_logPath",
+      "cand",
+      "g_logPath",
+      "logPath",
+      "path"
+    ]
+  },
+  "status": "PINNED",
+  "workdir": "C:\\Users\\djden\\AppData\\Local\\Temp\\opencode\\lot25-v18-writer-b8o6za3l",
+  "writer_evidence": {
+    "binary_proofs": {
+      "ab_literal_rva": "0x63200",
+      "ab_push_sites": [
+        "0x10003602",
+        "0x10003853"
+      ],
+      "build_id": "0x5646",
+      "build_sites": [
+        "0x10001c1e",
+        "0x1000255e",
+        "0x1000294b",
+        "0x10002b43",
+        "0x100032f9"
+      ],
+      "guard_sites": [
+        "0x100030f0"
+      ],
+      "guards": "0x100C80 immediate; count guards exercised by writer harness",
+      "stub": {
+        "bytes16": "608bf08b44242033ff3b057c6c091475",
+        "rva": "0x15d0"
+      }
+    },
+    "build_id": "0x5646",
+    "candidate_sha256": "d36f7366d16961adcf5ec670f840907d715fa28d687e3f67812cbc8cc7633265",
+    "exports": {
+      "Passthrough_CaptureCount": {
+        "bytes16": "a1bc4a0610c3cccccccccccccccccccc",
+        "rva": "0x1340"
+      },
+      "Passthrough_InstallBootHook": {
+        "bytes16": "565768b049061068705b00106aff6a08",
+        "rva": "0x1350"
+      },
+      "Passthrough_InstallStage0Hooks": {
+        "bytes16": "6a02e8490d000083c404c3cccccccccc",
+        "rva": "0x13f0"
+      },
+      "Passthrough_ReplayCaptured": {
+        "bytes16": "81ecb4000000a1803f061033c4898424",
+        "rva": "0x11b0"
+      },
+      "Passthrough_RestoreStage0Hooks": {
+        "bytes16": "83ec08833dcc6c091400530f85af0100",
+        "rva": "0x1400"
+      },
+      "Passthrough_SetReplayLive": {
+        "bytes16": "33c0394424040f95c0a3a0490610c3cc",
+        "rva": "0x1330"
+      },
+      "Passthrough_Stage0Stub": {
+        "bytes16": "608bf08b44242033ff3b057c6c091475",
+        "rva": "0x15d0"
+      },
+      "dotemuCreateFileA": {
+        "forwarder": "dotemu_orig.dotemuCreateFileA",
+        "rva": "0x6168e"
+      },
+      "dotemuDeleteFileA": {
+        "forwarder": "dotemu_orig.dotemuDeleteFileA",
+        "rva": "0x616be"
+      },
+      "dotemuGetDriveTypeA": {
+        "forwarder": "dotemu_orig.dotemuGetDriveTypeA",
+        "rva": "0x616f0"
+      },
+      "dotemuRegCloseKey": {
+        "forwarder": "dotemu_orig.dotemuRegCloseKey",
+        "rva": "0x61722"
+      },
+      "dotemuRegDeleteValueA": {
+        "forwarder": "dotemu_orig.dotemuRegDeleteValueA",
+        "rva": "0x61756"
+      },
+      "dotemuRegFlushKey": {
+        "forwarder": "dotemu_orig.dotemuRegFlushKey",
+        "rva": "0x6178a"
+      },
+      "dotemuRegOpenKeyExA": {
+        "forwarder": "dotemu_orig.dotemuRegOpenKeyExA",
+        "rva": "0x617bc"
+      },
+      "dotemuRegQueryValueExA": {
+        "forwarder": "dotemu_orig.dotemuRegQueryValueExA",
+        "rva": "0x617f3"
+      },
+      "dotemuRegSetValueExA": {
+        "forwarder": "dotemu_orig.dotemuRegSetValueExA",
+        "rva": "0x6182b"
+      },
+      "new_dll_graphics_driver": {
+        "bytes16": "81ec8c000000a1803f061033c4898424",
+        "rva": "0x1010"
+      }
+    },
+    "harness_sha256": "1cc83eb466ad1a94bf41969e1f2c96542cd752e732417b7d565eec983609a458",
+    "map_sha256": "5956898cec5548be9d89859ccb3cbefd71d3004e3a391de546bb2a5d2dc42687",
+    "reader_source_hashes": {
+      "analyze_lot22_state.py": "547347a2f1300e399a4e4ddff8be4cfb023c44ea9bee0863f70795944da92ce5",
+      "ff8dump.py": "e8d1e357805d6d7045b46f9807f1e5af0d10dd9c4ae81dc808a027efd6d3e98c",
+      "gate_writer_lot25.py": "4d80bd2180471bb6900c5f285731c8874668db188278e0ae67b4ab80fde4da7c",
+      "gate_writer_lot25_v18.py": "f6c63b742e3e68e900f004f07fd0847a977da2621faadb75fec0ab8c2f8aa9c7",
+      "lot17_texture_window.py": "4d784bd43b760e394d75491a153b64250112ae4148ddd1bf1883e3095937a902",
+      "lot24_contract.py": "f86c0a68f7a5d9f1c2c99952c22505bde434b0115370ba9a1d6fc542522623a1",
+      "raster.py": "327c2663296db359f883e88eea4a43ce22f74fbf6a0f48a7ca43eb2e26b1a954",
+      "render_lot17.py": "0eb63c416637ecda3ba93c4357be149f74c002af6d931c2f3cf6ffe3eb3a94bc",
+      "render_lot21.py": "ec4e91c895cdcc04d73b5a7f2f6805f1ea5ef68efc4389049c5772681c6f8421",
+      "texture.py": "8e6bbf5778defaf994180250637987516bc82fa63344ddfbd0bc8b190d747d0e"
+    },
+    "rva_header_sha256": "83727756ae4505c2e21d143ada5538c9242c60a748a56f98a87050803254af52",
+    "rvas": {
+      "RVA_BROKEN": "0x4096c3c",
+      "RVA_CAP_END_SEQ": "0x4096aec",
+      "RVA_COMMIT": "0x4096ad0",
+      "RVA_DROPS": "0x4096c38",
+      "RVA_DUMP_NODE": "0x2be0",
+      "RVA_EPOCH": "0x4096c34",
+      "RVA_FRAME_SEQ": "0x4096ae8",
+      "RVA_HOST_MODULE": "0x64990",
+      "RVA_OVERFLOW": "0x4096b00",
+      "RVA_RING": "0x96ad0",
+      "RVA_S0_RET1": "0x4096c7c",
+      "RVA_S0_RET2": "0x4096c80",
+      "RVA_STRECS": "0x4096c40",
+      "RVA_ST_EMIT": "0x2bc0",
+      "RVA_ST_LOST": "0x4096c48",
+      "RVA_WRITE": "0x96acc"
+    },
+    "source_sha256": {
+      "gfx_driver_passthrough.c": "133a54701f6b5938b59806e4d86226ea0608dc9cdfcc2c3e127b14df25e2a5fa",
+      "gfx_driver_passthrough.h": "313b6a0248ea1e7261816bea5269e65f71b3114f18d2e0c813c3fd0ec30bfef5"
+    }
+  },
+  "writer_rebuilt": false
+}

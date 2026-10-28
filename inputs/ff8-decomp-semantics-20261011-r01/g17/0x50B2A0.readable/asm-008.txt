@@ -1,0 +1,25 @@
+0050B508: xor     ecx, ecx; Logical Exclusive OR
+0050B50A: push    10000h; size
+0050B50F: mov     cl, al
+0050B511: mov     eax, off_B6D084
+0050B516: shl     ecx, 10h; Shift Logical Left
+0050B519: add     ecx, eax; Add
+0050B51B: add     eax, 20000h; Add
+0050B520: push    ecx; src
+0050B521: push    eax; dst
+0050B522: call    MemMove_OverlapSafe; Call Procedure
+0050B527: add     esp, 0Ch; Add
+0050B52A: or      byte ptr dword_1D973F8, 2; Logical Inclusive OR
+0050B531: mov     esi, dword_1D99A40
+0050B537: mov     eax, 0D20D20D3h
+0050B53C: mov     ecx, esi
+0050B53E: push    0; p_task_dword_10
+0050B540: sub     ecx, offset g_BattlePresentationActors; Integer Subtraction
+0050B546: imul    ecx; Signed Multiply
+0050B548: add     edx, ecx; Add
+0050B54A: xor     ecx, ecx; Logical Exclusive OR
+0050B54C: mov     cl, [esi+4]
+0050B54F: sar     edx, 7; Shift Arithmetic Right
+0050B552: mov     eax, edx
+0050B554: shr     eax, 1Fh; Shift Logical Right
+0050B557: add     edx, eax; Add

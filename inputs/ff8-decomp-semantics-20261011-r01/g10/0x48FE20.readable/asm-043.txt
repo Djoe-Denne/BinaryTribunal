@@ -1,0 +1,25 @@
+00490E93: add     esp, 10h; Add
+00490E96: mov     esi, eax
+00490E98: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490E9D: mov     al, byte_1D28E1E; jumptable 0049043B case 254
+00490EA2: test    al, al; Logical Compare
+00490EA4: jz      def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490EAA: mov     esi, ecx
+00490EAC: and     esi, 0FFFFh; Logical AND
+00490EB2: lea     ecx, [esi-40h]; Load Effective Address
+00490EB5: mov     eax, ecx
+00490EB7: shl     eax, 5; Shift Logical Left
+00490EBA: add     eax, ecx; Add
+00490EBC: shl     eax, 2; Shift Logical Left
+00490EBF: mov     cl, K_GF_JUNCTIONABLE.powerMod[eax]
+00490EC5: mov     dl, K_GF_JUNCTIONABLE.levelMod[eax]
+00490ECB: mov     GF_POWER_MOD, cl
+00490ED1: lea     ecx, [esi+esi*2]; Load Effective Address
+00490ED4: mov     GF_LEVEL_MOD, dl
+00490EDA: mov     dl, AVERAGE_PARTY_LEVEL[ecx*4]
+00490EE1: xor     ecx, ecx; Logical Exclusive OR
+00490EE3: mov     GF_LEVEL, dl
+00490EE9: mov     cl, K_GF_JUNCTIONABLE.attackFlags[eax]
+00490EEF: xor     edx, edx; Logical Exclusive OR
+00490EF1: mov     ATTACK_FLAG, cl; | ID   | Meaning          |
+00490EF7: mov     dl, byte ptr unk_1D28DF3

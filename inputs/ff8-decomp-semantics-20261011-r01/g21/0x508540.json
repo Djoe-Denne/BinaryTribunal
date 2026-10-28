@@ -1,0 +1,97 @@
+{
+  "ea": "0x508540",
+  "name_label_only": "sub_508540",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x508540",
+      "end": "0x508575",
+      "hex": "8b442404f6000875298b4c24088b500885d1751e8a480584c975118b50748b4c240c33c0668b422c85c87506b801000000c333c0c3"
+    }
+  ],
+  "assembly": "00508540: mov     eax, [esp+arg_0]\n00508544: test    byte ptr [eax], 8; Logical Compare\n00508547: jnz     short loc_508572; Jump if Not Zero (ZF=0)\n00508549: mov     ecx, [esp+arg_4]\n0050854D: mov     edx, [eax+8]\n00508550: test    ecx, edx; Logical Compare\n00508552: jnz     short loc_508572; Jump if Not Zero (ZF=0)\n00508554: mov     cl, [eax+5]\n00508557: test    cl, cl; Logical Compare\n00508559: jnz     short loc_50856C; Jump if Not Zero (ZF=0)\n0050855B: mov     edx, [eax+74h]\n0050855E: mov     ecx, [esp+arg_8]\n00508562: xor     eax, eax; Logical Exclusive OR\n00508564: mov     ax, [edx+2Ch]\n00508568: test    eax, ecx; Logical Compare\n0050856A: jnz     short loc_508572; Jump if Not Zero (ZF=0)\n0050856C: mov     eax, 1\n00508571: retn; Return Near from Procedure\n00508572: xor     eax, eax; Logical Exclusive OR\n00508574: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x508540",
+      "end": "0x508549",
+      "successors": [
+        "0x508549",
+        "0x508572"
+      ]
+    },
+    {
+      "start": "0x508549",
+      "end": "0x508554",
+      "successors": [
+        "0x508554",
+        "0x508572"
+      ]
+    },
+    {
+      "start": "0x508554",
+      "end": "0x50855b",
+      "successors": [
+        "0x50855b",
+        "0x50856c"
+      ]
+    },
+    {
+      "start": "0x50855b",
+      "end": "0x50856c",
+      "successors": [
+        "0x50856c",
+        "0x508572"
+      ]
+    },
+    {
+      "start": "0x50856c",
+      "end": "0x508572",
+      "successors": []
+    },
+    {
+      "start": "0x508572",
+      "end": "0x508575",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x502f5c",
+      "type": 17,
+      "iscode": true,
+      "function": "0x502f30"
+    },
+    {
+      "from": "0x504753",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5044b0"
+    },
+    {
+      "from": "0x508598",
+      "type": 17,
+      "iscode": true,
+      "function": "0x508580"
+    },
+    {
+      "from": "0x50ae0a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50ae00"
+    },
+    {
+      "from": "0x50ae56",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50ae20"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 20
+}

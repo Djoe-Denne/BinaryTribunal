@@ -1,0 +1,29 @@
+START  lot25b pid=42852 mode=control
+DIAG   PREP argv: mode=control rva=BE10 dll=C:\Users\djden\AppData\Local\Temp\opencode\lot25-unload-audit-djwpwcad\control\test_candidate.dll
+DIAG   PREP pad: host=00C80000 pad=[00C81000..00CB1000) s1=00C9EF5D s2=00C9EF72 probe=00
+[OK]   PREP prep fenetres 14B = originales posees+reverifiees
+[OK]   PREP prep env FF8_PASSTHROUGH_BOOTHOOK=0 (avant LoadLibrary)
+[OK]   PREP prep seams stage0+nohook ABSENTS
+[OK]   PREP prep seam stage0 cree CREATE_NEW (ecrit+ferme, verifie)
+[OK]   LOAD attach LoadLibraryA(test_candidate.dll)
+DIAG   LOAD module: pid=42852 base=6A570000 stub=6A57294B rva=BE10
+[OK]   LOAD install E8 aux 2 sites (cible=stub, voisins exacts)
+DIAG   LOAD win[pre]: 8B 4D 0C 51 E8 E9 39 8D 69 90 EB 13 6A 00 tgt=6A57294B
+DIAG   LOAD win[pre]: 8B 4D 0C 51 E8 D4 39 8D 69 90 5D C3 55 8B tgt=6A57294B
+[OK]   ACT control VirtualQuery wrapper allocBase==dll MEM_COMMIT
+DIAG   ACT control: wrapper_called=true engine=NULL
+[OK]   ACT control wrapper ret=0
+[OK]   ACT control fenetres = ORIGINALES exactes
+DIAG   ACT win[after-wrapper]: 8B 4D 0C 51 FF 90 98 00 00 00 EB 13 6A 00 tgt=00CA87F2
+DIAG   ACT win[after-wrapper]: 8B 4D 0C 51 FF 90 98 00 00 00 5D C3 55 8B tgt=00CA8807
+[OK]   ACT detach FreeLibrary
+[OK]   ACT detach module absent (GetModuleHandleA chemin absolu)
+[OK]   ACT detach processus vivant (PID inchange)
+[OK]   ACT detach host module alive
+DIAG   POST win[post]: 8B 4D 0C 51 FF 90 98 00 00 00 EB 13 6A 00 tgt=00CA87F2
+DIAG   POST win[post]: 8B 4D 0C 51 FF 90 98 00 00 00 5D C3 55 8B tgt=00CA8807
+[OK]   POST control post-FreeLibrary fenetres originales exactes
+RESULT SAFETY=CONTROL_EXACT_ORIGINAL exit0
+[OK]   FIN fin fenetres host restaurees = originales
+[OK]   FIN fin seam stage0 retire (SEUL cote cree supprime)
+checks=16 fails=0

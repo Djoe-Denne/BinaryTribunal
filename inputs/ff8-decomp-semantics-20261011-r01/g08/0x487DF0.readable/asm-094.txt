@@ -1,0 +1,25 @@
+00489F1C: mov     [eax], ecx
+00489F1E: push    offset domain__Battle_BuildTargetVisibilityMasks; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.
+00489F23: call    domain__BattleEvent_SetTargetableCallback; Call Procedure
+00489F28: add     esp, 4; Add
+00489F2B: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489F30: movzx   cx, byte ptr [esi+1]; AI VM op 0x3C MOD_HP_SELF: current_hp += int16 delta(2)
+00489F35: movzx   dx, byte ptr [esi]; Move with Zero-Extend
+00489F39: lea     eax, [ebx+ebx*2]; Load Effective Address
+00489F3C: add     esi, 2; Add
+00489F3F: shl     ecx, 8; Shift Logical Left
+00489F42: lea     eax, [ebx+eax*4]; Load Effective Address
+00489F45: add     ecx, edx; Add
+00489F47: shl     eax, 4; Shift Logical Left
+00489F4A: add     eax, offset BATTLE_SLOT_DATA; Add
+00489F4F: movsx   ecx, cx; Move with Sign-Extend
+00489F52: add     [eax+18h], ecx; Add
+00489F55: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489F5A: push    7Fh; AI VM op 0x3D GIVE_PROOF_OMEGA: Savegame_GiveProofOfOmega(127)
+00489F5C: call    domain__Savegame_GiveProofOfOmega; Call Procedure
+00489F61: add     esp, 4; Add
+00489F64: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489F69: cmp     ecx, 4; Compare Two Operands
+00489F6C: jnz     short loc_489F87; Jump if Not Zero (ZF=0)
+00489F6E: lea     eax, [eax+eax*2]; Load Effective Address
+00489F71: xor     ecx, ecx; Logical Exclusive OR

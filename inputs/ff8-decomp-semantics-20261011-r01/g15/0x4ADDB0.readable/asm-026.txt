@@ -1,0 +1,25 @@
+004AE6F6: push    edi
+004AE6F7: call    sub_4AB920; Call Procedure
+004AE6FC: push    2; flags
+004AE6FE: push    2; slot_index
+004AE700: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE705: add     esp, 40h; Add
+004AE708: push    2; flags
+004AE70A: push    4; slot_index
+004AE70C: call    BattleUI_SetWidgetSlotFlags; E3b erratum: set flags on named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE711: add     esp, 8; Add
+004AE714: mov     dword_1D768D0, 3; Battle submenu SM callback slot (BSS fnptr, not IAT). 8 calls in BattleSubmenu_StateMachine: 0x4FDE79,0x4FE28E,0x4FE3DF,0x4FE5C1,0x4FE6E3,0x4FE878,0x4FEBE1,0x4FED3C.
+004AE71E: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AE723: mov     cl, byte ptr dword_1D768D8+3; jumptable 004ADEFA case 2
+004AE729: mov     dx, word_1D75438
+004AE730: mov     eax, 1
+004AE735: push    edx
+004AE736: shl     eax, cl; Shift Logical Left
+004AE738: mov     word ptr dword_1D768F0, bp
+004AE73F: push    eax
+004AE740: xor     eax, eax; Logical Exclusive OR
+004AE742: mov     al, byte_1D76843
+004AE747: lea     ecx, [eax+eax*2]; Load Effective Address
+004AE74A: lea     edx, [eax+ecx*4+0A1h]; Load Effective Address
+004AE751: mov     cl, byte ptr g_BattleSubmenu_CharaSlotPtr+2; g_BattleSubmenu_CharaSlotPtr. Writer 0x4C7D3F stores sub_47E6B0. 3 calls in BattleSubmenu_OpenByCommandClass: 0x4C7D6A,0x4C7DDF,0x4C7E54. Was CHARA_ID?.
+004AE757: xor     eax, eax; Logical Exclusive OR

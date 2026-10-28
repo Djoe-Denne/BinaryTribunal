@@ -2,7 +2,7 @@
 name: live-campaign-runner
 description: Orchestrateur de campagnes live AF3DN.P re-ff8 (boot natif DDrawAlt, observateurs paramétrés, triggers sidecar, collecte/purge/hash des artefacts, run décodeur, rapport PASS/FAIL, handoff evidence). Use proactively pour toute campagne live AF3DN.P, session de capture draw-list, ou re-vérification après un build writer — après la gate ff8-dump-writer-verify.
 mode: subagent
-model: opencode-go/glm-5.3-flash
+model: zai-coding-plan/glm-5.3-flash
 tools:
   subagent: false
 ---

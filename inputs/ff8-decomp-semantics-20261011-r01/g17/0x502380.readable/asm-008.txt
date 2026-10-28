@@ -1,0 +1,25 @@
+00502569: push    offset BS_StageMusicAndActorInit; jumptable 0050239A case 115
+0050256E: call    au_re_BdLinkTask; Call Procedure
+00502573: add     esp, 4; Add
+00502576: mov     [eax+10h], esi
+00502579: mov     eax, 8
+0050257E: pop     edi
+0050257F: pop     esi
+00502580: pop     ebx
+00502581: retn; Return Near from Procedure
+00502582: movsx   eax, word ptr [esi+8]; jumptable 0050239A case 117
+00502586: mov     esi, [esi+4]
+00502589: lea     ecx, [eax+eax*4]; Load Effective Address
+0050258C: mov     edx, [esi+0Ch]
+0050258F: shl     ecx, 3; Shift Logical Left
+00502592: sub     ecx, eax; Integer Subtraction
+00502594: mov     ax, [esi+82h]
+0050259B: push    edx
+0050259C: push    eax
+0050259D: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address
+005025A4: push    edi
+005025A5: call    sub_50A070; Call Procedure
+005025AA: push    edi; actor
+005025AB: call    BattleAction_TickScript_IfByte4lt10; E3c: lu complet; 509C10 ACCEPTÉE; 505CB0 opaque notée sur path sync
+005025B0: add     esp, 10h; Add
+005025B3: mov     eax, 0Fh

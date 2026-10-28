@@ -1,0 +1,25 @@
+00488FD4: jmp     short loc_488F80; Jump
+00488FD6: cmp     ecx, ebp; jumptable 00488FB2 case 1
+00488FD8: jb      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488FDE: mov     edx, [esp+74h+jump_value]
+00488FE2: and     edx, 0FFFFh; Logical AND
+00488FE8: add     esi, edx; Add
+00488FEA: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488FEF: cmp     ecx, ebp; jumptable 00488FB2 case 2
+00488FF1: ja      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488FF7: mov     edx, [esp+74h+jump_value]
+00488FFB: and     edx, 0FFFFh; Logical AND
+00489001: add     esi, edx; Add
+00489003: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489008: cmp     ecx, ebp; jumptable 00488FB2 case 3
+0048900A: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489010: mov     edx, [esp+74h+jump_value]
+00489014: and     edx, 0FFFFh; Logical AND
+0048901A: add     esi, edx; Add
+0048901C: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489021: cmp     ecx, ebp; jumptable 00488FB2 case 4
+00489023: jbe     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489029: mov     edx, [esp+74h+jump_value]
+0048902D: and     edx, 0FFFFh; Logical AND
+00489033: add     esi, edx; Add
+00489035: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Agent par défaut des nouvelles sessions de ce projet : l'orchestrator
+  // superviseur (mode "all") prend la main au lieu de "build".
+  "default_agent": "orchestrator",
+  // Miroir OpenCode V2 de .cursor/mcp.json et .codex/config.toml.
+  // - Serena passe par le runtime 1MCP partagé (serena-proxy.ps1).
+  // - GrepAI utilise l'index du dossier parent retro-eng, commun aux deux
+  //   projets voisins (re-ff8 et FinalFantasy_VIII_Reimaginated).
+  // - context-mode tourne en serveur MCP stdio (l'entrée plugin TS officielle
+  //   du package est encore à l'API plugin V1 d'OpenCode, incompatible V2).
+  "mcp": {
+    "timeout": {
+      "startup": 90000
+    },
+    "servers": {
+      "context-mode": {
+        "type": "local",
+        "command": [
+          "C:\\Program Files\\nodejs\\node.exe",
+          "C:\\Users\\djden\\AppData\\Roaming\\npm\\node_modules\\context-mode\\start.mjs"
+        ],
+        "environment": {
+          "CONTEXT_MODE_PLATFORM": "opencode",
+          "CONTEXT_MODE_PROJECT_DIR": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+        }
+      },
+      "serena": {
+        "type": "local",
+        "command": [
+          "powershell.exe",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\Users\\djden\\.config\\1mcp\\serena-proxy.ps1",
+          "-ProjectPath",
+          "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"
+        ]
+      },
+      "grepai": {
+        "type": "local",
+        "command": [
+          "C:\\Users\\djden\\AppData\\Local\\Programs\\grepai\\grepai.exe",
+          "mcp-serve",
+          "C:\\Users\\djden\\source\\repos\\retro-eng"
+        ]
+      },
+      // Ne se connecte que lorsque IDA Pro est ouvert avec le plugin MCP
+      // (Edit -> Plugins -> MCP, Ctrl+Alt+M). Passe disabled à false dans ce cas.
+      "ida-pro-mcp": {
+        "type": "local",
+        "command": [
+          "C:\\Python313\\python.exe",
+          "C:\\Users\\djden\\AppData\\Roaming\\Python\\Python313\\site-packages\\ida_pro_mcp\\server.py"
+        ],
+        "disabled": true
+      }
+    }
+  }
+}

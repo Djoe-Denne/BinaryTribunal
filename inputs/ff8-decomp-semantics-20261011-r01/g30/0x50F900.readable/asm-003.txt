@@ -1,0 +1,25 @@
+0050F9B8: fstp    [esp+60h+var_20]; Store Real and Pop
+0050F9BC: fld     Cam_xyz3_x_float; Load Real
+0050F9C2: fmul    ds:CONST_0_125; Multiply Real
+0050F9C8: fstp    [esp+60h+var_2C]; Store Real and Pop
+0050F9CC: fld     Cam_xyz3_y_float; Load Real
+0050F9D2: fmul    ds:CONST_0_125; Multiply Real
+0050F9D8: fstp    [esp+60h+var_30]; Store Real and Pop
+0050F9DC: fld     Cam_xyz3_z_float; Load Real
+0050F9E2: fmul    ds:CONST_0_125; Multiply Real
+0050F9E8: fstp    [esp+60h+var_34]; Store Real and Pop
+0050F9EC: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)
+0050F9F2: test    ebx, ebx; Logical Compare
+0050F9F4: jnz     loc_50FB8E; Jump if Not Zero (ZF=0)
+0050F9FA: movsx   esi, word ptr [esp+60h+var_48]; Move with Sign-Extend
+0050F9FF: test    esi, esi; Logical Compare
+0050FA01: jle     loc_50FD2D; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050FA07: mov     [esp+60h+var_48], esi
+0050FA0B: jmp     short loc_50FA19; Jump
+0050FA0D: mov     eax, [esp+60h+var_44]
+0050FA11: mov     ecx, [esp+60h+var_40]
+0050FA15: mov     edx, [esp+60h+var_4C]
+0050FA19: movsx   esi, word ptr [edx]; Move with Sign-Extend
+0050FA1C: shl     esi, 3; Shift Logical Left
+0050FA1F: mov     [esp+60h+var_4C], esi
+0050FA23: movsx   esi, word ptr [edx+2]; Move with Sign-Extend

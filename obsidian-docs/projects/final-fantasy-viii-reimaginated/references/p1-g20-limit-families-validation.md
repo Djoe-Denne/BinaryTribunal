@@ -4,11 +4,11 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G20 Limit families, P1 G20, Limit Break ISO]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-live-promotion-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-validation-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-draft-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-crisis-post-suite-2026-08-28.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-post-shutdown-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-live-promotion-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-validation-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g20-limit-families-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-crisis-post-suite-2026-08-28.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g20-post-shutdown-2026-08-28.json
   - projects/re-ff8/references/g11-g20-static-readiness-ledger.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g19-command-abilities-validation.md
 summary: >-

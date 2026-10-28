@@ -1,0 +1,9 @@
+import {writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {strict as assert} from 'node:assert';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',stage=process.argv[2];assert(['pre','post'].includes(stage));const e=await Service.discover();assert(e);const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)}),response=await fetch('http://127.0.0.1:4747/api/state');assert(response.ok);
+const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');assert.equal(team?.leadSessionId,'ses_eca40a8e2ffeanEKTBLiGjDNw8');const member=team.members.find((m:any)=>m.name==='l7-final-fix-astra');assert(member);const session=await cli.session.get({sessionID:member.sessionId});assert.deepEqual(session.model,{id:'gpt-6-astra',providerID:'openai',variant:'max'});assert(!['ses_ec0192753ffeWKOqq53yPbjVoL','ses_ebfaf67fcffeic9eeKh6PQkRwI'].includes(session.id));
+const owned='C:/Users/djden/.local/share/opencode/worktree/68ae5f/'+member.worktreeBranch,tree=spawnSync('git',['worktree','list','--porcelain'],{cwd:root,encoding:'utf8'});assert.equal(tree.status,0);assert(tree.stdout.split(/\r?\n/).includes('worktree '+owned));const head=spawnSync('git',['rev-parse','HEAD'],{cwd:owned,encoding:'utf8'}).stdout.trim();assert(head.startsWith('c94d1e3'));if(stage==='post')assert.equal(session.location.directory.replaceAll('\\','/'),owned);
+const out={name:member.name,stage,sessionID:session.id,model:session.model,directory:session.location.directory,owned,head,taskId:'task_mv9si4oj_003p_veyhvi',userSameMaxTargetedException:true};writeFileSync(root+'/.tmp/coordination-three-20261014/l7-final-admission-'+stage+'.json',JSON.stringify(out,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(out));

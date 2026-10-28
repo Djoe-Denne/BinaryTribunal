@@ -93,6 +93,73 @@ export interface Intent {
   fresh: true; requestedModel: ModelRef; inputs: InputBundle; inputFingerprint: string;
   outputPath: string; previousResultIds: string[];
 }
+/** Additive offline graph envelope; never an extension of MissionConfig/L1. */
+export interface PreparedGraphV1 {
+  version: "l8-prepared-graph-v1";
+  snapshot: import("./graph").GraphSnapshotV1;
+  partition: import("./cluster").ClusterPartition;
+  groups: import("./investigation-groups").InvestigationGroup[];
+  planning: import("./planner").PlannerResult;
+  fingerprint: string;
+}
+export interface GraphRunV1 {
+  version: "l8-graph-run-v1"; fixture: true; missionId: string; cycle: number; missionRevision: number;
+  missionConfigFingerprint: string; prepared: PreparedGraphV1;
+  settings: {
+    profiles: Record<"A" | "B" | "R", string>; maxConcurrent: number; familyTtlEvents: number;
+    maxAdmissionAttempts: number; retryDelayMs: number;
+  };
+  workers: import("./planner").WorkerCapacity[];
+  accounts: import("./planner").AccountCapacity[];
+  inputsByFunction: Record<string, ArtifactFile[]>;
+  publicationsByFunction: Record<string, { artifactId: string; artifactKind: import("./planner").ArtifactKind; content: string }>;
+  fingerprint: string;
+}
+export interface GraphExecutionTemplate {
+  version: "l8-execution-template-v1"; settings: GraphRunV1["settings"];
+  workers: GraphRunV1["workers"]; accounts: GraphRunV1["accounts"];
+}
+export interface GraphExecutionSource {
+  version: "l8-execution-source-v1"; templateFingerprint: string;
+  models: MissionConfig["models"]; binary: BinaryIdentity; outputDirectory: string;
+  rePolicy: import("./re-policy").REPolicy | null;
+}
+export interface GraphInputSource {
+  version: "l8-input-source-v1"; commonInputs: ArtifactFile[]; cycleKnowledge: FrozenKnowledge;
+  inputsByFunction: GraphRunV1["inputsByFunction"]; accessibleRules: string[]; requiredTools: string[];
+  publicationsByFunction: GraphRunV1["publicationsByFunction"];
+  proposalPolicy: "exact-validated-same-function-A+B-v1";
+}
+export interface GraphAdmissionSource {
+  version: "l8-admission-source-v1"; executionTemplate: GraphExecutionTemplate; executionTemplateFingerprint: string;
+  executionSourceSpec: GraphExecutionSource; executionSourceSpecFingerprint: string;
+  inputManifestSource: GraphInputSource; inputManifestFingerprint: string;
+  admissionCodecVersion: "l8-fixture-admission-codec-v2"; cycle: number; budgetEpoch: number;
+  context: import("./planner").AdmissionBudgetContextV1;
+  allocation: import("./planner").AdmissionBudgetInputV1 | null;
+}
+export interface PreparedGraphV2 extends Omit<PreparedGraphV1, "version"> {
+  version: "l8-prepared-graph-v2"; admissionSource: GraphAdmissionSource;
+}
+export type PreparedGraph = PreparedGraphV1 | PreparedGraphV2;
+export interface GraphDerivedSpec {
+  version: "l8-execution-derived-v1"; sourceSpecFingerprint: string; templateFingerprint: string; inputManifestFingerprint: string;
+  preparedFingerprint: string; planId: string; planFingerprint: string; sidecarFingerprint: string; bindingFingerprint: string;
+  snapshotId: string; partitionId: string; knowledgeRevision: number;
+}
+export interface GraphRunV2 extends Omit<GraphRunV1, "version" | "prepared"> {
+  version: "l8-graph-run-v2"; prepared: PreparedGraphV2;
+  executionBinding: { version: "l8-execution-binding-v1"; derivedSpec: GraphDerivedSpec; derivedSpecFingerprint: string; budgetScopeKey: string };
+}
+export type GraphRun = GraphRunV1 | GraphRunV2;
+export interface GraphCycleAnchorV1 {
+  version: "l8-frozen-cycle-v1"; runFingerprint: string; preparedFingerprint: string; planFingerprint: string;
+  snapshotId: string; partitionId: string; knowledgeRevision: number;
+}
+export interface GraphCycleAnchorV2 extends Omit<GraphCycleAnchorV1, "version"> {
+  version: "l8-frozen-cycle-v2"; admissionContextFingerprint: string; allocationFingerprint: string | null;
+  budgetScopeKey: string; derivedSpecFingerprint: string;
+}
 export interface ControllerLease { missionId: string; owner: string; token: number; expiresAt: number }
 export interface ControllerContext { lease: ControllerLease; revision: number }
 export interface Inspection {
@@ -170,6 +237,8 @@ export interface CandidateState {
 export interface CycleRecord {
   number: number; knowledge: FrozenKnowledge; subset: string[]; frozen: boolean;
   fingerprint?: string; groups: Array<{ id: string; members: string[] }>;
+  /** Routing/binding only, never scientific or parent authority. Frozen with the cycle. */
+  graph?: GraphCycleAnchorV1 | GraphCycleAnchorV2;
   functionFingerprints?: Record<string, string>;
 }
 export interface PublicationState {

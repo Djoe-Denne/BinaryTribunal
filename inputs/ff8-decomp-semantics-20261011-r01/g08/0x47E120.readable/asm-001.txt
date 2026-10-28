@@ -1,0 +1,25 @@
+0047E120: mov     al, BATTLE_RESULT_CODE; G17: same group-0 reaction staging as 0x47DDA0. Clears reaction fields after enqueue.
+0047E125: push    ebx
+0047E126: xor     ebx, ebx; Logical Exclusive OR
+0047E128: push    edi
+0047E129: cmp     al, bl; Compare Two Operands
+0047E12B: mov     dword_1D27B00, ebx
+0047E131: jnz     loc_47E1DA; Jump if Not Zero (ZF=0)
+0047E137: cmp     byte ptr ATTACKER_SLOT_ID_0+1, 1; Compare Two Operands
+0047E13E: jz      short loc_47E15C; Jump if Zero (ZF=1)
+0047E140: call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure
+0047E145: cmp     eax, 0FFh; Compare Two Operands
+0047E14A: jz      loc_47E1DA; Jump if Zero (ZF=1)
+0047E150: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)
+0047E155: cmp     eax, 0FFh; Compare Two Operands
+0047E15A: jz      short loc_47E1DA; Jump if Zero (ZF=1)
+0047E15C: mov     al, byte ptr ATTACKER_SLOT_ID_0
+0047E161: xor     edi, edi; Logical Exclusive OR
+0047E163: cmp     al, bl; Compare Two Operands
+0047E165: jbe     short loc_47E1DA; Jump if Below or Equal (CF=1 | ZF=1)
+0047E167: push    esi
+0047E168: xor     ecx, ecx; Logical Exclusive OR
+0047E16A: mov     eax, offset BATTLE_SLOT_DATA.target_reaction_type
+0047E16F: xor     edx, edx; Logical Exclusive OR
+0047E171: mov     dl, [eax+1]
+0047E174: cmp     edx, edi; Compare Two Operands

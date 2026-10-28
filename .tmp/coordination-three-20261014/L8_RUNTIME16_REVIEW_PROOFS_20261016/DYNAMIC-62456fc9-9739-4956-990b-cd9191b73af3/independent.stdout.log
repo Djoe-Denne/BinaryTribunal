@@ -1,0 +1,58 @@
+{
+  "version": "runtime16-independent-pure-projection-v1",
+  "cases": 6,
+  "invocations": 1,
+  "extraDatabases": 0,
+  "unitsPerFixture": 2,
+  "productApisOnly": true,
+  "sourceWrites": 0,
+  "authorityOrPublicationCreated": false,
+  "results": [
+    {
+      "id": "P1-approved-file-plus-declared-public-metadata",
+      "pass": true,
+      "fileVisible": true,
+      "declaredMetadataVisible": true,
+      "authorityEstablished": false
+    },
+    {
+      "id": "P2-file-not-approved-does-not-revoke-declared-public-metadata",
+      "pass": true,
+      "fileVisible": false,
+      "declaredMetadataVisible": true,
+      "noPrivateWorkerResultInjected": true,
+      "authorityEstablished": false
+    },
+    {
+      "id": "P3-no-metadata-no-unapproved-file-bytes-or-text",
+      "pass": true,
+      "fileVisible": false,
+      "declaredMetadataVisible": false
+    },
+    {
+      "id": "P4-file-approval-is-blind-file-visibility-not-R-visibility",
+      "pass": true,
+      "RSourceProjectionOnly": true,
+      "noReconcilerAdmissionOrProposalProofClaimed": true
+    },
+    {
+      "id": "P5-directed-G1-not-ready-without-any-committed-receipt",
+      "pass": true,
+      "readiness": {
+        "ready": false,
+        "reasons": [
+          "unsatisfied committed artifact:pre:1c55c33f45f061f6586dff969942cd545494769c0ad5e64907ca832151329595"
+        ]
+      },
+      "sourceKnowledgeVersion": "review-cycle-knowledge-v1",
+      "unitCount": 2,
+      "noCommitOrReceiptFabricated": true
+    },
+    {
+      "id": "P6-frozen-source-change-rejected-not-automatic-future-artifact-acquisition",
+      "pass": true,
+      "refusal": "Error: graph: actual current config/spec/input/cycle differs from allocation sources",
+      "originalBundleStable": true
+    }
+  ]
+}

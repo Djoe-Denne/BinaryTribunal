@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_extra.py", line 135, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_extra.py", line 83, in main
+    cfg=config_for(a.candidate,a.map,a.source,a.build);base.write_json(out/'candidate_config.json',cfg)
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_extra.py", line 45, in config_for
+    base.require(set(symbols)==set(required),f'missing symbols {set(required)-set(symbols)}')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\djden\source\repos\retro-eng\re-ff8\tools\af3dn_state\gate_lot25_v18_lifecycle.py", line 75, in require
+    raise GateFailure(message)
+gate_lot25_v18_lifecycle.GateFailure: missing symbols {'g_proxy', 'g_nativeAlive'}

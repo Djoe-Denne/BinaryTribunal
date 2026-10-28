@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const root='docs/missions/ff8-decomp-semantics-2026-10-11-run01';
+const events=fs.readFileSync(root+'/ledger.jsonl','utf8').replace(/^\uFEFF/,'').trim().split('\n').map(x=>JSON.parse(x));
+const assigned=new Set(events.filter(x=>x.event==='SESSION_ADMISSION_VERIFIED').map(x=>x.task));
+const selected=JSON.parse(fs.readFileSync('.tmp/ff8-r01-selected-35.json','utf8')).slice(24).map(x=>({...x,kind:'author'}));
+const readyR=JSON.parse(fs.readFileSync('.tmp/ff8-r01-ready-R.json','utf8')).map(x=>({...x,kind:'R',role:'R',context:{mode:'fresh'}}));
+const pair=events.find(x=>x.event==='PRODUCTION_TASKS_QUEUED'&&x.ea==='0x4868C0').authors.find(x=>x.volet==='semantic'&&x.role==='B');
+const plan=[...selected,...readyR,{...pair,kind:'author'}];
+if(plan.length!==24||new Set(plan.map(x=>x.task)).size!==24)throw Error('Manual bank must contain24 disjoint tasks');
+if(plan.some(x=>assigned.has(x.task)))throw Error('Already admitted task in manual bank');
+const file='.tmp/ff8-r01-next24-manual.json';if(fs.existsSync(file))throw Error('Immutable manual bank exists');
+fs.writeFileSync(file,JSON.stringify(plan,null,2)+'\n','utf8');
+console.log(JSON.stringify({manual_bank:24,remaining_of_35:selected.length,reconcilers:readyR.length,additional_pair_member:pair.name,automatic_loop:false}));

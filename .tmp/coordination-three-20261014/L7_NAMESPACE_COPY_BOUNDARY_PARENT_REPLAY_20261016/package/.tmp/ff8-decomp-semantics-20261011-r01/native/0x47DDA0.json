@@ -1,0 +1,186 @@
+{
+  "ea": "0x47DDA0",
+  "name_label_only": "domain::BattleCallback_StageGroup0Reactions_A",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x47dda0",
+      "end": "0x47de67",
+      "hex": "a0e7f6cf015333db573ac3891d007bd2010f85a3000000803df98dd20101741ce8db8200003dff0000000f848a000000e8fb8200003dff000000747ea0f88dd20133ff3ac376735633c9b8d77bd20133d28a50013bd775043818750f05d0000000413d8781d2017ce6eb3d8d04498d3481c1e6048a86d77bd2013c02750ef686907bd201017515536a02eb0725ff000000535051e8e768000083c40c889ed87bd201889ed77bd2018b0df88dd2014781e1ff0000003bf97c8f5ee891f30000e84cda00005f5bc3"
+    }
+  ],
+  "assembly": "0047DDA0: mov     al, BATTLE_RESULT_CODE; G17: post-action callback. Walks slots by attack_sequence_id, enqueues Battle_EnqueueSpecialAction(slot, target_reaction_type, group 0). If type==2 and Death(status_1&1), skip enqueue. Then clear attack_sequence_id and target_reaction_type.\n0047DDA5: push    ebx\n0047DDA6: xor     ebx, ebx; Logical Exclusive OR\n0047DDA8: push    edi\n0047DDA9: cmp     al, bl; Compare Two Operands\n0047DDAB: mov     dword_1D27B00, ebx\n0047DDB1: jnz     loc_47DE5A; Jump if Not Zero (ZF=0)\n0047DDB7: cmp     byte ptr ATTACKER_SLOT_ID_0+1, 1; Compare Two Operands\n0047DDBE: jz      short loc_47DDDC; Jump if Zero (ZF=1)\n0047DDC0: call    domain__EnemyAI_CountAlivePartyMembers; Call Procedure\n0047DDC5: cmp     eax, 0FFh; Compare Two Operands\n0047DDCA: jz      loc_47DE5A; Jump if Zero (ZF=1)\n0047DDD0: call    domain__EnemyAI_CountAliveMonsters; find-first monster slot 3-6 (END 0x1D28140), status_1&5==0, else 0xFF ; no occupancy gate ; EAX = leftover index (pas un compteur ; catalogue 3-7 faux)\n0047DDD5: cmp     eax, 0FFh; Compare Two Operands\n0047DDDA: jz      short loc_47DE5A; Jump if Zero (ZF=1)\n0047DDDC: mov     al, byte ptr ATTACKER_SLOT_ID_0\n0047DDE1: xor     edi, edi; Logical Exclusive OR\n0047DDE3: cmp     al, bl; Compare Two Operands\n0047DDE5: jbe     short loc_47DE5A; Jump if Below or Equal (CF=1 | ZF=1)\n0047DDE7: push    esi\n0047DDE8: xor     ecx, ecx; Logical Exclusive OR\n0047DDEA: mov     eax, offset BATTLE_SLOT_DATA.target_reaction_type\n0047DDEF: xor     edx, edx; Logical Exclusive OR\n0047DDF1: mov     dl, [eax+1]\n0047DDF4: cmp     edx, edi; Compare Two Operands\n0047DDF6: jnz     short loc_47DDFC; Jump if Not Zero (ZF=0)\n0047DDF8: cmp     [eax], bl; Compare Two Operands\n0047DDFA: jnz     short loc_47DE0B; Jump if Not Zero (ZF=0)\n0047DDFC: add     eax, 0D0h; Add\n0047DE01: inc     ecx; Increment by 1\n0047DE02: cmp     eax, offset byte_1D28187; Compare Two Operands\n0047DE07: jl      short loc_47DDEF; Jump if Less (SF!=OF)\n0047DE09: jmp     short loc_47DE48; Jump\n0047DE0B: lea     eax, [ecx+ecx*2]; Load Effective Address\n0047DE0E: lea     esi, [ecx+eax*4]; Load Effective Address\n0047DE11: shl     esi, 4; Shift Logical Left\n0047DE14: mov     al, BATTLE_SLOT_DATA.target_reaction_type[esi]\n0047DE1A: cmp     al, 2; Compare Two Operands\n0047DE1C: jnz     short loc_47DE2C; Jump if Not Zero (ZF=0)\n0047DE1E: test    byte ptr BATTLE_SLOT_DATA.status_1[esi], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n0047DE25: jnz     short loc_47DE3C; Jump if Not Zero (ZF=0)\n0047DE27: push    ebx\n0047DE28: push    2\n0047DE2A: jmp     short loc_47DE33; Jump\n0047DE2C: and     eax, 0FFh; Logical AND\n0047DE31: push    ebx; group\n0047DE32: push    eax; special_id\n0047DE33: push    ecx; slot\n0047DE34: call    domain__Battle_EnqueueSpecialAction; G17: sole native group-0 writer. (slot, special_id, group). group==0 -> stru_1D28864; group!=0 -> group 2. command_id=0xFF. IDs 2/3/5/6/7/8 are G17; id 1 from EnqueueEnemyCounterActions is group 2.\n0047DE39: add     esp, 0Ch; Add\n0047DE3C: mov     BATTLE_SLOT_DATA.attack_sequence_id[esi], bl\n0047DE42: mov     BATTLE_SLOT_DATA.target_reaction_type[esi], bl\n0047DE48: mov     ecx, ATTACKER_SLOT_ID_0\n0047DE4E: inc     edi; Increment by 1\n0047DE4F: and     ecx, 0FFh; Logical AND\n0047DE55: cmp     edi, ecx; Compare Two Operands\n0047DE57: jl      short loc_47DDE8; Jump if Less (SF!=OF)\n0047DE59: pop     esi\n0047DE5A: call    domain__Battle_ResetAttackHitCount; thunk jmp : 1 instr vers 47DC50 (pas de logique locale)\n0047DE5F: call    domain__Battle_CommitPartyHPAndMagicToSave; Battle->field commit for party state: copies current HP back to SG_ARRAY_CHARA_DATA, syncs magic via Battle_CopyMagicStocksToSave, updates SG_KNOWN_MAGIC/draw availability, then rebuilds junction-derived stats and battle slot data.\n0047DE64: pop     edi\n0047DE65: pop     ebx\n0047DE66: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x47dda0",
+      "end": "0x47ddb7",
+      "successors": [
+        "0x47ddb7",
+        "0x47de5a"
+      ]
+    },
+    {
+      "start": "0x47ddb7",
+      "end": "0x47ddc0",
+      "successors": [
+        "0x47ddc0",
+        "0x47dddc"
+      ]
+    },
+    {
+      "start": "0x47ddc0",
+      "end": "0x47ddd0",
+      "successors": [
+        "0x47ddd0",
+        "0x47de5a"
+      ]
+    },
+    {
+      "start": "0x47ddd0",
+      "end": "0x47dddc",
+      "successors": [
+        "0x47dddc",
+        "0x47de5a"
+      ]
+    },
+    {
+      "start": "0x47dddc",
+      "end": "0x47dde7",
+      "successors": [
+        "0x47dde7",
+        "0x47de5a"
+      ]
+    },
+    {
+      "start": "0x47dde7",
+      "end": "0x47dde8",
+      "successors": [
+        "0x47dde8"
+      ]
+    },
+    {
+      "start": "0x47dde8",
+      "end": "0x47ddef",
+      "successors": [
+        "0x47ddef"
+      ]
+    },
+    {
+      "start": "0x47ddef",
+      "end": "0x47ddf8",
+      "successors": [
+        "0x47ddf8",
+        "0x47ddfc"
+      ]
+    },
+    {
+      "start": "0x47ddf8",
+      "end": "0x47ddfc",
+      "successors": [
+        "0x47ddfc",
+        "0x47de0b"
+      ]
+    },
+    {
+      "start": "0x47ddfc",
+      "end": "0x47de09",
+      "successors": [
+        "0x47ddef",
+        "0x47de09"
+      ]
+    },
+    {
+      "start": "0x47de09",
+      "end": "0x47de0b",
+      "successors": [
+        "0x47de48"
+      ]
+    },
+    {
+      "start": "0x47de0b",
+      "end": "0x47de1e",
+      "successors": [
+        "0x47de1e",
+        "0x47de2c"
+      ]
+    },
+    {
+      "start": "0x47de1e",
+      "end": "0x47de27",
+      "successors": [
+        "0x47de27",
+        "0x47de3c"
+      ]
+    },
+    {
+      "start": "0x47de27",
+      "end": "0x47de2c",
+      "successors": [
+        "0x47de33"
+      ]
+    },
+    {
+      "start": "0x47de2c",
+      "end": "0x47de33",
+      "successors": [
+        "0x47de33"
+      ]
+    },
+    {
+      "start": "0x47de33",
+      "end": "0x47de3c",
+      "successors": [
+        "0x47de3c"
+      ]
+    },
+    {
+      "start": "0x47de3c",
+      "end": "0x47de48",
+      "successors": [
+        "0x47de48"
+      ]
+    },
+    {
+      "start": "0x47de48",
+      "end": "0x47de59",
+      "successors": [
+        "0x47dde8",
+        "0x47de59"
+      ]
+    },
+    {
+      "start": "0x47de59",
+      "end": "0x47de5a",
+      "successors": [
+        "0x47de5a"
+      ]
+    },
+    {
+      "start": "0x47de5a",
+      "end": "0x47de67",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47e0b3",
+      "type": 1,
+      "iscode": false,
+      "function": "0x47e080"
+    }
+  ],
+  "code_targets": [
+    "0x484720",
+    "0x4860a0",
+    "0x4860d0",
+    "0x48b8b0",
+    "0x48d1f0"
+  ],
+  "instruction_count": 63
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "planId": "plan:scc-cycle",
+  "missionId": "re-graph-scheduler-20261013",
+  "snapshotId": "snap:cycles-recursion",
+  "partitionId": "part:scc",
+  "knowledgeRevision": 1,
+  "units": [
+    {
+      "unitId": "unit:cycle",
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200"
+      ],
+      "contextFunctionIds": [],
+      "requiredPublicationLevel": 1,
+      "state": "BLOCKED",
+      "contextEnvelopeUtf8Bytes": {
+        "known": false,
+        "value": null
+      }
+    },
+    {
+      "unitId": "unit:self",
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x9000"
+      ],
+      "contextFunctionIds": [],
+      "requiredPublicationLevel": 1,
+      "state": "PENDING",
+      "contextEnvelopeUtf8Bytes": {
+        "known": false,
+        "value": null
+      }
+    }
+  ],
+  "prerequisites": [],
+  "g1Edges": [],
+  "g2Conflicts": [
+    {
+      "id": "conflict:cycle-family",
+      "kind": "owned_function",
+      "resourceKey": "fn:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+      "withUnitId": null
+    }
+  ],
+  "g3Affinities": [],
+  "sccs": [
+    {
+      "id": "scc:pair",
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5100",
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x5200"
+      ],
+      "exclusive": true,
+      "hasSelfLoop": false,
+      "selfLoopPreserved": true
+    },
+    {
+      "id": "scc:self",
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x9000"
+      ],
+      "exclusive": true,
+      "hasSelfLoop": true,
+      "selfLoopPreserved": true
+    }
+  ],
+  "selectedUnitIds": [],
+  "decisions": [
+    {
+      "id": "dec:cycle",
+      "unitId": "unit:cycle",
+      "action": "defer",
+      "reason": "recursive SCC has no total bottom-up order; exclusive local iteration"
+    },
+    {
+      "id": "dec:self",
+      "unitId": "unit:self",
+      "action": "defer",
+      "reason": "singleton self-loop retained; not deleted before SCC"
+    }
+  ],
+  "budgets": {
+    "unit": "utf8-bytes",
+    "contextEnvelopeMaxUtf8Bytes": 8000,
+    "countsSqliteLength": false,
+    "nativeLineCharLimit": 2000
+  },
+  "policyVersion": "v1",
+  "estimationVersion": "v1",
+  "fingerprint": "542ab808e95937011a96e28f800a53afbf0c76d53f2b7c95a9fb9c12d8371854"
+}

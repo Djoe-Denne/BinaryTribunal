@@ -1,0 +1,25 @@
+0050B88C: jb      short loc_50B894; Jump if Below (CF=1)
+0050B88E: cmp     ax, 0Ah; Compare Two Operands
+0050B892: jbe     short loc_50B899; Jump if Below or Equal (CF=1 | ZF=1)
+0050B894: call    sub_50A750; Call Procedure
+0050B899: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050B89E: or      byte ptr dword_1D97704+1, 80h; Logical Inclusive OR
+0050B8A5: or      al, 10h; Logical Inclusive OR
+0050B8A7: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050B8AC: call    BattleActionSequence_SetupContext; wave3 attaques: ctx 1D99A78 + facing 50D300; 9 xrefs ticks
+0050B8B1: mov     byte ptr dword_1D99A6C, 0
+0050B8B8: xor     edi, edi; Logical Exclusive OR
+0050B8BA: mov     esi, offset g_BattlePresentationActors
+0050B8BF: test    byte ptr [esi], 2; Logical Compare
+0050B8C2: jz      short loc_50B8E1; Jump if Zero (ZF=1)
+0050B8C4: push    0Bh
+0050B8C6: push    esi
+0050B8C7: call    BattleScript_SetModeByte_Jpt0B; E3c: lu complet: [+5]=mode + jpt 1..12; callers EffectScript
+0050B8CC: mov     al, byte ptr dword_1D99A6C
+0050B8D1: mov     dl, 1
+0050B8D3: mov     ecx, edi
+0050B8D5: add     esp, 8; Add
+0050B8D8: shl     dl, cl; Shift Logical Left
+0050B8DA: or      al, dl; Logical Inclusive OR
+0050B8DC: mov     byte ptr dword_1D99A6C, al
+0050B8E1: add     esi, 9Ch; Add

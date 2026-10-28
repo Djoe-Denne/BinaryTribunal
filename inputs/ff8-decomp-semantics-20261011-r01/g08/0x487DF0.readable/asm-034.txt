@@ -1,0 +1,25 @@
+00488986: mov     dl, BATTLE_SLOT_DATA.last_attacker_slot_id[ecx]
+0048898C: mov     ecx, dword ptr [esp+74h+op_param_3]
+00488990: and     ecx, 0FFh; Logical AND
+00488996: cmp     ecx, 5; switch 6 cases
+00488999: ja      short def_488831; jumptable 00488831 default case
+0048899B: jmp     ds:jpt_48899B[ecx*4]; switch jump
+004889A2: cmp     edx, eax; jumptable 00488831 case 5
+004889A4: jnb     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004889AA: mov     edx, [esp+74h+jump_value]; jumptable 00488831 default case
+004889AE: and     edx, 0FFFFh; Logical AND
+004889B4: add     esi, edx; Add
+004889B6: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004889BB: lea     ecx, [ebx+ebx*2]; IF test case 2: Check number_turn (how many turns this monster has taken)
+004889BE: mov     eax, [esp+74h+if_right_condition_final]
+004889C2: and     eax, 0FFFFh; Logical AND
+004889C7: lea     edx, [ebx+ecx*4]; Load Effective Address
+004889CA: xor     ecx, ecx; Logical Exclusive OR
+004889CC: shl     edx, 4; Shift Logical Left
+004889CF: mov     cl, BATTLE_SLOT_DATA.number_turn[edx]
+004889D5: mov     edx, ecx
+004889D7: mov     ecx, dword ptr [esp+74h+op_param_3]
+004889DB: and     ecx, 0FFh; Logical AND
+004889E1: cmp     ecx, 5; switch 6 cases
+004889E4: ja      short def_488831; jumptable 00488831 default case
+004889E6: jmp     ds:jpt_4889E6[ecx*4]; switch jump

@@ -1,0 +1,25 @@
+005007A1: call    sub_45D550; Call Procedure
+005007A6: add     esp, 34h; Add
+005007A9: test    byte ptr battle_to_update_flags_dword_1D96A9C, 80h; Logical Compare
+005007B0: mov     eax, g_BattleFramePingPongIndex
+005007B5: jz      short loc_5007D8; Jump if Zero (ZF=1)
+005007B7: mov     edx, off_B6D094
+005007BD: and     eax, 0FFh; Logical AND
+005007C2: lea     ecx, [eax+eax*8]; Load Effective Address
+005007C5: shl     ecx, 0Eh; Shift Logical Left
+005007C8: add     ecx, edx; Add
+005007CA: mov     g_BattlePacketCursor, ecx
+005007D0: add     ecx, 24000h; Add
+005007D6: jmp     short loc_5007FD; Jump
+005007D8: mov     edx, off_B6D070
+005007DE: and     eax, 0FFh; Logical AND
+005007E3: lea     ecx, ds:0[eax*8]; Load Effective Address
+005007EA: sub     ecx, eax; Integer Subtraction
+005007EC: shl     ecx, 0Eh; Shift Logical Left
+005007EF: add     ecx, edx; Add
+005007F1: mov     g_BattlePacketCursor, ecx
+005007F7: add     ecx, 1C000h; Add
+005007FD: mov     g_BattlePacketEnd, ecx
+00500803: mov     ecx, eax
+00500805: shl     ecx, 4; Shift Logical Left
+00500808: add     ecx, eax; Add

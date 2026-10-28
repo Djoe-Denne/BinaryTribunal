@@ -1,0 +1,25 @@
+0048D620: mov     battle_message_pointer, eax
+0048D625: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D62A: push    8
+0048D62C: call    domain__BattleText_GetMiscText; Call Procedure
+0048D631: add     esp, 4; Add
+0048D634: push    eax
+0048D635: push    7
+0048D637: push    esi
+0048D638: call    domain__BattleText_GetMagicName; Call Procedure
+0048D63D: add     esp, 4; Add
+0048D640: push    eax
+0048D641: push    0Bh
+0048D643: call    domain__BattleText_GetMiscText; Call Procedure
+0048D648: mov     al, [eax]
+0048D64A: add     esp, 4; Add
+0048D64D: lea     ecx, [esp+30h+p_offset_to_execute_]; Load Effective Address
+0048D651: push    eax
+0048D652: push    ecx
+0048D653: push    ebp
+0048D654: jmp     short loc_48D5DF; Jump
+0048D656: mov     al, bl
+0048D658: sub     al, 40h ; '@'; Integer Subtraction
+0048D65A: mov     byte ptr [esp+24h+p_enemy_number], al
+0048D65E: mov     eax, [esp+24h+p_enemy_number]
+0048D662: and     eax, 0FFh; Logical AND

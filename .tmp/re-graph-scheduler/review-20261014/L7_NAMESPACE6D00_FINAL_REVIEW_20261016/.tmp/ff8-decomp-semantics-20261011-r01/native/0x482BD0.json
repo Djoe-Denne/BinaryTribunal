@@ -1,0 +1,152 @@
+{
+  "ea": "0x482BD0",
+  "name_label_only": "domain::BattleExecQueue_AllocNode",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x482bd0",
+      "end": "0x482c2e",
+      "hex": "8b542404568b74241033c985f67e158bc2803800750680780100743c4183c0043bce7cedc6442410008b4424108b74240c25ff0000008a0e880c82c6448201ff80f9ffc644820200740a81e1ff00000088448a0188065ec3884c2410ebcb"
+    }
+  ],
+  "assembly": "00482BD0: mov     edx, [esp+links]; G07: first node with prev==0 && next==0; on saturation reuses index 0, appends as newest, clears reserved_2, and preserves opaque reserved_3.\n00482BD4: push    esi\n00482BD5: mov     esi, [esp+4+capacity]\n00482BD9: xor     ecx, ecx; Logical Exclusive OR\n00482BDB: test    esi, esi; Logical Compare\n00482BDD: jle     short loc_482BF4; Jump if Less or Equal (ZF=1 | SF!=OF)\n00482BDF: mov     eax, edx\n00482BE1: cmp     byte ptr [eax], 0; Compare Two Operands\n00482BE4: jnz     short loc_482BEC; Jump if Not Zero (ZF=0)\n00482BE6: cmp     byte ptr [eax+1], 0; Compare Two Operands\n00482BEA: jz      short loc_482C28; Jump if Zero (ZF=1)\n00482BEC: inc     ecx; Increment by 1\n00482BED: add     eax, 4; Add\n00482BF0: cmp     ecx, esi; Compare Two Operands\n00482BF2: jl      short loc_482BE1; Jump if Less (SF!=OF)\n00482BF4: mov     byte ptr [esp+4+capacity], 0\n00482BF9: mov     eax, [esp+4+capacity]\n00482BFD: mov     esi, [esp+4+head_index]\n00482C01: and     eax, 0FFh; Logical AND\n00482C06: mov     cl, [esi]\n00482C08: mov     [edx+eax*4], cl\n00482C0B: mov     byte ptr [edx+eax*4+1], 0FFh\n00482C10: cmp     cl, 0FFh; Compare Two Operands\n00482C13: mov     byte ptr [edx+eax*4+2], 0\n00482C18: jz      short loc_482C24; Jump if Zero (ZF=1)\n00482C1A: and     ecx, 0FFh; Logical AND\n00482C20: mov     [edx+ecx*4+1], al\n00482C24: mov     [esi], al\n00482C26: pop     esi\n00482C27: retn; Return Near from Procedure\n00482C28: mov     byte ptr [esp+4+capacity], cl\n00482C2C: jmp     short loc_482BF9; Jump",
+  "cfg": [
+    {
+      "start": "0x482bd0",
+      "end": "0x482bdf",
+      "successors": [
+        "0x482bdf",
+        "0x482bf4"
+      ]
+    },
+    {
+      "start": "0x482bdf",
+      "end": "0x482be1",
+      "successors": [
+        "0x482be1"
+      ]
+    },
+    {
+      "start": "0x482be1",
+      "end": "0x482be6",
+      "successors": [
+        "0x482be6",
+        "0x482bec"
+      ]
+    },
+    {
+      "start": "0x482be6",
+      "end": "0x482bec",
+      "successors": [
+        "0x482bec",
+        "0x482c28"
+      ]
+    },
+    {
+      "start": "0x482bec",
+      "end": "0x482bf4",
+      "successors": [
+        "0x482be1",
+        "0x482bf4"
+      ]
+    },
+    {
+      "start": "0x482bf4",
+      "end": "0x482bf9",
+      "successors": [
+        "0x482bf9"
+      ]
+    },
+    {
+      "start": "0x482bf9",
+      "end": "0x482c1a",
+      "successors": [
+        "0x482c1a",
+        "0x482c24"
+      ]
+    },
+    {
+      "start": "0x482c1a",
+      "end": "0x482c24",
+      "successors": [
+        "0x482c24"
+      ]
+    },
+    {
+      "start": "0x482c24",
+      "end": "0x482c28",
+      "successors": []
+    },
+    {
+      "start": "0x482c28",
+      "end": "0x482c2e",
+      "successors": [
+        "0x482bf9"
+      ]
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x484739",
+      "type": 17,
+      "iscode": true,
+      "function": "0x484720"
+    },
+    {
+      "from": "0x484769",
+      "type": 17,
+      "iscode": true,
+      "function": "0x484720"
+    },
+    {
+      "from": "0x484853",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x4848ea",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x48499b",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x484a32",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x484ac5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x484aeb",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    },
+    {
+      "from": "0x484b09",
+      "type": 17,
+      "iscode": true,
+      "function": "0x4847f0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 32
+}

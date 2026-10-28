@@ -1,0 +1,44 @@
+{
+  "ea": "0x50A690",
+  "name_label_only": "BattleAction_ApplyNextEventRecord",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50a690",
+      "end": "0x50a6b6",
+      "hex": "a1609ad9018bc883c01851a3609ad901e8ebbfffffa1609ad90183c4048a08880d489ad901c3"
+    }
+  ],
+  "assembly": "0050A690: mov     eax, result_event\n0050A695: mov     ecx, eax\n0050A697: add     eax, 18h; Add\n0050A69A: push    ecx; result_event\n0050A69B: mov     result_event, eax\n0050A6A0: call    BattleAction_ApplyResultAndSpawnPresentation; Presentation/domain seam: applies result/status first via 0x493D80, then restores animations/spawns reactions and finally creates damage popups via 0x5068B0. Popup creation itself does not mutate HP.\n0050A6A5: mov     eax, result_event\n0050A6AA: add     esp, 4; Add\n0050A6AD: mov     cl, [eax]\n0050A6AF: mov     byte_1D99A48, cl\n0050A6B5: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50a690",
+      "end": "0x50a6b6",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x504e29",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x56fca0",
+      "type": 17,
+      "iscode": true,
+      "function": "0x56f9c0"
+    }
+  ],
+  "code_targets": [
+    "0x506690"
+  ],
+  "instruction_count": 11
+}

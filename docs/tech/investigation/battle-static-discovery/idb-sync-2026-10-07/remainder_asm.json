@@ -1,0 +1,878 @@
+{
+  "0x45bc60": {
+    "name": "sub_45BC60",
+    "type": "int __cdecl(int)",
+    "comment": "Gpu_SetTextureWindow_PageRectScales : W=256-(w&0x1F)*8, H=256-((w>>5)&0x1F)*8 ; scales du slot +0x18/+0x1C -> dword_1CB603C/38 ; W_window battle13 UNPROVEN (attendu 128, a mesurer)\n[semantic-triple 2026-09-27 lot17]\n\n[driver-passthrough lot21 2026-10-02] Capture v13/build 0x5640 contains 16 TEXWIN records and all are (0,0,0,0), so strict replay applies no texture-window transform for this capture. This does not prove a general W_window and does not promote the existing lot17 UNPROVEN width candidate.",
+    "repeatable": "",
+    "asm": [
+      {
+        "ea": "0x45bc60",
+        "text": "mov     eax, [esp+arg_0]"
+      },
+      {
+        "ea": "0x45bc64",
+        "text": "push    esi"
+      },
+      {
+        "ea": "0x45bc65",
+        "text": "mov     eax, [eax+4]"
+      },
+      {
+        "ea": "0x45bc68",
+        "text": "mov     ecx, eax"
+      },
+      {
+        "ea": "0x45bc6a",
+        "text": "mov     edx, eax"
+      },
+      {
+        "ea": "0x45bc6c",
+        "text": "and     ecx, offset unk_FFFFFF; Logical AND"
+      },
+      {
+        "ea": "0x45bc72",
+        "text": "mov     esi, eax"
+      },
+      {
+        "ea": "0x45bc74",
+        "text": "mov     dword_1CA8848, ecx"
+      },
+      {
+        "ea": "0x45bc7a",
+        "text": "mov     ecx, eax"
+      },
+      {
+        "ea": "0x45bc7c",
+        "text": "shr     edx, 2; Shift Logical Right"
+      },
+      {
+        "ea": "0x45bc7f",
+        "text": "and     edx, 0FFFFFFF8h; Logical AND"
+      },
+      {
+        "ea": "0x45bc82",
+        "text": "shr     ecx, 0Ch; Shift Logical Right"
+      },
+      {
+        "ea": "0x45bc85",
+        "text": "shr     esi, 7; Shift Logical Right"
+      },
+      {
+        "ea": "0x45bc88",
+        "text": "not     edx; One's Complement Negation"
+      },
+      {
+        "ea": "0x45bc8a",
+        "text": "and     ecx, 0F8h; Logical AND"
+      },
+      {
+        "ea": "0x45bc90",
+        "text": "and     esi, 0F8h; Logical AND"
+      },
+      {
+        "ea": "0x45bc96",
+        "text": "shl     eax, 3; Shift Logical Left"
+      },
+      {
+        "ea": "0x45bc99",
+        "text": "inc     dl; Increment by 1"
+      },
+      {
+        "ea": "0x45bc9b",
+        "text": "mov     word ptr dword_1CA8870+2, cx"
+      },
+      {
+        "ea": "0x45bca2",
+        "text": "not     eax; One's Complement Negation"
+      },
+      {
+        "ea": "0x45bca4",
+        "text": "and     edx, 0FFh; Logical AND"
+      },
+      {
+        "ea": "0x45bcaa",
+        "text": "inc     al; Increment by 1"
+      },
+      {
+        "ea": "0x45bcac",
+        "text": "and     eax, 0FFh; Logical AND"
+      },
+      {
+        "ea": "0x45bcb1",
+        "text": "mov     word ptr dword_1CA8870, si"
+      },
+      {
+        "ea": "0x45bcb8",
+        "text": "test    dx, dx; Logical Compare"
+      },
+      {
+        "ea": "0x45bcbb",
+        "text": "mov     word_1CA8876, dx"
+      },
+      {
+        "ea": "0x45bcc2",
+        "text": "mov     word_1CA8874, ax"
+      },
+      {
+        "ea": "0x45bcc8",
+        "text": "jnz     short loc_45BCD5; Jump if Not Zero (ZF=0)"
+      },
+      {
+        "ea": "0x45bcca",
+        "text": "mov     dx, 100h"
+      },
+      {
+        "ea": "0x45bcce",
+        "text": "mov     word_1CA8876, dx"
+      },
+      {
+        "ea": "0x45bcd5",
+        "text": "test    ax, ax; Logical Compare"
+      },
+      {
+        "ea": "0x45bcd8",
+        "text": "jnz     short loc_45BCE4; Jump if Not Zero (ZF=0)"
+      },
+      {
+        "ea": "0x45bcda",
+        "text": "mov     ax, 100h"
+      },
+      {
+        "ea": "0x45bcde",
+        "text": "mov     word_1CA8874, ax"
+      },
+      {
+        "ea": "0x45bce4",
+        "text": "push    edi"
+      },
+      {
+        "ea": "0x45bce5",
+        "text": "movsx   edx, dx; Move with Sign-Extend"
+      },
+      {
+        "ea": "0x45bce8",
+        "text": "movsx   edi, cx; Move with Sign-Extend"
+      },
+      {
+        "ea": "0x45bceb",
+        "text": "add     edx, edi; Add"
+      },
+      {
+        "ea": "0x45bced",
+        "text": "pop     edi"
+      },
+      {
+        "ea": "0x45bcee",
+        "text": "cmp     edx, 100h; Compare Two Operands"
+      },
+      {
+        "ea": "0x45bcf4",
+        "text": "jle     short loc_45BD04; Jump if Less or Equal (ZF=1 | SF!=OF)"
+      },
+      {
+        "ea": "0x45bcf6",
+        "text": "mov     dx, 100h"
+      },
+      {
+        "ea": "0x45bcfa",
+        "text": "sub     dx, cx; Integer Subtraction"
+      },
+      {
+        "ea": "0x45bcfd",
+        "text": "mov     word_1CA8876, dx"
+      },
+      {
+        "ea": "0x45bd04",
+        "text": "movsx   eax, ax; Move with Sign-Extend"
+      },
+      {
+        "ea": "0x45bd07",
+        "text": "movsx   ecx, si; Move with Sign-Extend"
+      },
+      {
+        "ea": "0x45bd0a",
+        "text": "add     eax, ecx; Add"
+      },
+      {
+        "ea": "0x45bd0c",
+        "text": "pop     esi"
+      },
+      {
+        "ea": "0x45bd0d",
+        "text": "cmp     eax, 100h; Compare Two Operands"
+      },
+      {
+        "ea": "0x45bd12",
+        "text": "jle     short locret_45BD27; Jump if Less or Equal (ZF=1 | SF!=OF)"
+      },
+      {
+        "ea": "0x45bd14",
+        "text": "mov     eax, dword_1CA8870"
+      },
+      {
+        "ea": "0x45bd19",
+        "text": "mov     edx, 100h"
+      },
+      {
+        "ea": "0x45bd1e",
+        "text": "sub     edx, eax; Integer Subtraction"
+      },
+      {
+        "ea": "0x45bd20",
+        "text": "mov     word_1CA8874, dx"
+      },
+      {
+        "ea": "0x45bd27",
+        "text": "retn; Return Near from Procedure"
+      }
+    ]
+  },
+  "0x509e00": {
+    "name": "sub_509E00",
+    "type": "char *__cdecl(int, __int16)",
+    "comment": "BattleActor_StageUploadCLUTBand : file type-0, staging 1024 B/acteur, rangees y=0xE0+2g ; ids du footer PC = SLOTS cache locaux, PAS 2g directs (binding mesure lot17 : DE70 id0->row225 etc., voir CAMPAIGN_lot17_offline_2026-09-27.md)\n[semantic-triple 2026-09-27 lot17]",
+    "repeatable": "",
+    "asm": [
+      {
+        "ea": "0x509e00",
+        "text": "mov     eax, [esp+arg_4]"
+      },
+      {
+        "ea": "0x509e04",
+        "text": "push    ebx"
+      },
+      {
+        "ea": "0x509e05",
+        "text": "push    ebp"
+      },
+      {
+        "ea": "0x509e06",
+        "text": "push    esi"
+      },
+      {
+        "ea": "0x509e07",
+        "text": "push    edi"
+      },
+      {
+        "ea": "0x509e08",
+        "text": "mov     edi, g_BattlePacketCursor"
+      },
+      {
+        "ea": "0x509e0e",
+        "text": "test    al, 10h; Logical Compare"
+      },
+      {
+        "ea": "0x509e10",
+        "text": "jz      loc_509ECD; Jump if Zero (ZF=1)"
+      },
+      {
+        "ea": "0x509e16",
+        "text": "mov     ecx, [esp+10h+arg_0]"
+      },
+      {
+        "ea": "0x509e1a",
+        "text": "mov     eax, 0D20D20D3h"
+      },
+      {
+        "ea": "0x509e1f",
+        "text": "sub     ecx, offset g_BattlePresentationActors; Integer Subtraction"
+      },
+      {
+        "ea": "0x509e25",
+        "text": "mov     ebx, 200h"
+      },
+      {
+        "ea": "0x509e2a",
+        "text": "imul    ecx; Signed Multiply"
+      },
+      {
+        "ea": "0x509e2c",
+        "text": "add     edx, ecx; Add"
+      },
+      {
+        "ea": "0x509e2e",
+        "text": "sar     edx, 7; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509e31",
+        "text": "mov     eax, edx"
+      },
+      {
+        "ea": "0x509e33",
+        "text": "shr     eax, 1Fh; Shift Logical Right"
+      },
+      {
+        "ea": "0x509e36",
+        "text": "add     edx, eax; Add"
+      },
+      {
+        "ea": "0x509e38",
+        "text": "mov     ebp, edx"
+      },
+      {
+        "ea": "0x509e3a",
+        "text": "mov     esi, ebp"
+      },
+      {
+        "ea": "0x509e3c",
+        "text": "shl     esi, 0Ah; Shift Logical Left"
+      },
+      {
+        "ea": "0x509e3f",
+        "text": "add     esi, offset byte_1D98B60; Add"
+      },
+      {
+        "ea": "0x509e45",
+        "text": "xor     eax, eax; Logical Exclusive OR"
+      },
+      {
+        "ea": "0x509e47",
+        "text": "add     edi, 2; Add"
+      },
+      {
+        "ea": "0x509e4a",
+        "text": "mov     ax, [esi]"
+      },
+      {
+        "ea": "0x509e4d",
+        "text": "add     esi, 2; Add"
+      },
+      {
+        "ea": "0x509e50",
+        "text": "mov     ecx, eax"
+      },
+      {
+        "ea": "0x509e52",
+        "text": "mov     edx, eax"
+      },
+      {
+        "ea": "0x509e54",
+        "text": "shr     ecx, 5; Shift Logical Right"
+      },
+      {
+        "ea": "0x509e57",
+        "text": "shr     edx, 0Ah; Shift Logical Right"
+      },
+      {
+        "ea": "0x509e5a",
+        "text": "and     ecx, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509e5d",
+        "text": "and     edx, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509e60",
+        "text": "and     eax, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509e63",
+        "text": "lea     ecx, [edx+ecx*2]; Load Effective Address"
+      },
+      {
+        "ea": "0x509e66",
+        "text": "add     ecx, eax; Add"
+      },
+      {
+        "ea": "0x509e68",
+        "text": "mov     eax, 66666667h"
+      },
+      {
+        "ea": "0x509e6d",
+        "text": "imul    ecx; Signed Multiply"
+      },
+      {
+        "ea": "0x509e6f",
+        "text": "sar     edx, 1; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509e71",
+        "text": "mov     eax, edx"
+      },
+      {
+        "ea": "0x509e73",
+        "text": "shr     eax, 1Fh; Shift Logical Right"
+      },
+      {
+        "ea": "0x509e76",
+        "text": "lea     eax, [edx+eax+5]; Load Effective Address"
+      },
+      {
+        "ea": "0x509e7a",
+        "text": "mov     ecx, eax"
+      },
+      {
+        "ea": "0x509e7c",
+        "text": "or      ecx, 0FFE0h; Logical Inclusive OR"
+      },
+      {
+        "ea": "0x509e82",
+        "text": "shl     ecx, 5; Shift Logical Left"
+      },
+      {
+        "ea": "0x509e85",
+        "text": "or      ecx, eax; Logical Inclusive OR"
+      },
+      {
+        "ea": "0x509e87",
+        "text": "shl     ecx, 5; Shift Logical Left"
+      },
+      {
+        "ea": "0x509e8a",
+        "text": "or      ecx, eax; Logical Inclusive OR"
+      },
+      {
+        "ea": "0x509e8c",
+        "text": "dec     ebx; Decrement by 1"
+      },
+      {
+        "ea": "0x509e8d",
+        "text": "mov     [edi-2], cx"
+      },
+      {
+        "ea": "0x509e91",
+        "text": "jnz     short loc_509E45; Jump if Not Zero (ZF=0)"
+      },
+      {
+        "ea": "0x509e93",
+        "text": "mov     eax, g_BattlePacketCursor"
+      },
+      {
+        "ea": "0x509e98",
+        "text": "lea     edx, [ebp+ebp+0E0h]; Load Effective Address"
+      },
+      {
+        "ea": "0x509e9f",
+        "text": "push    eax"
+      },
+      {
+        "ea": "0x509ea0",
+        "text": "push    offset off_B8BA38"
+      },
+      {
+        "ea": "0x509ea5",
+        "text": "mov     word ptr [eax], 0"
+      },
+      {
+        "ea": "0x509eaa",
+        "text": "mov     word ptr off_B8BA38+2, dx"
+      },
+      {
+        "ea": "0x509eb1",
+        "text": "mov     word ptr [eax+200h], 0"
+      },
+      {
+        "ea": "0x509eba",
+        "text": "call    GF_AlternativeTexture_pointTo0C; slot type-0 enqueue (RECT+ptr); family BattleTimQueue_EnqueueType{1,2,3} (PH10)"
+      },
+      {
+        "ea": "0x509ebf",
+        "text": "add     esp, 8; Add"
+      },
+      {
+        "ea": "0x509ec2",
+        "text": "mov     g_BattlePacketCursor, edi"
+      },
+      {
+        "ea": "0x509ec8",
+        "text": "pop     edi"
+      },
+      {
+        "ea": "0x509ec9",
+        "text": "pop     esi"
+      },
+      {
+        "ea": "0x509eca",
+        "text": "pop     ebp"
+      },
+      {
+        "ea": "0x509ecb",
+        "text": "pop     ebx"
+      },
+      {
+        "ea": "0x509ecc",
+        "text": "retn; Return Near from Procedure"
+      },
+      {
+        "ea": "0x509ecd",
+        "text": "mov     ecx, [esp+10h+arg_0]"
+      },
+      {
+        "ea": "0x509ed1",
+        "text": "test    ah, 4; Logical Compare"
+      },
+      {
+        "ea": "0x509ed4",
+        "text": "jz      loc_509FB5; Jump if Zero (ZF=1)"
+      },
+      {
+        "ea": "0x509eda",
+        "text": "sub     ecx, offset g_BattlePresentationActors; Integer Subtraction"
+      },
+      {
+        "ea": "0x509ee0",
+        "text": "mov     eax, 0D20D20D3h"
+      },
+      {
+        "ea": "0x509ee5",
+        "text": "imul    ecx; Signed Multiply"
+      },
+      {
+        "ea": "0x509ee7",
+        "text": "add     edx, ecx; Add"
+      },
+      {
+        "ea": "0x509ee9",
+        "text": "mov     ebp, 200h"
+      },
+      {
+        "ea": "0x509eee",
+        "text": "sar     edx, 7; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509ef1",
+        "text": "mov     eax, edx"
+      },
+      {
+        "ea": "0x509ef3",
+        "text": "shr     eax, 1Fh; Shift Logical Right"
+      },
+      {
+        "ea": "0x509ef6",
+        "text": "add     edx, eax; Add"
+      },
+      {
+        "ea": "0x509ef8",
+        "text": "mov     ebx, edx"
+      },
+      {
+        "ea": "0x509efa",
+        "text": "mov     [esp+10h+arg_0], edx"
+      },
+      {
+        "ea": "0x509efe",
+        "text": "shl     ebx, 0Ah; Shift Logical Left"
+      },
+      {
+        "ea": "0x509f01",
+        "text": "add     ebx, offset byte_1D98B60; Add"
+      },
+      {
+        "ea": "0x509f07",
+        "text": "xor     eax, eax; Logical Exclusive OR"
+      },
+      {
+        "ea": "0x509f09",
+        "text": "mov     ax, [ebx]"
+      },
+      {
+        "ea": "0x509f0c",
+        "text": "mov     ecx, eax"
+      },
+      {
+        "ea": "0x509f0e",
+        "text": "mov     edx, eax"
+      },
+      {
+        "ea": "0x509f10",
+        "text": "shr     ecx, 5; Shift Logical Right"
+      },
+      {
+        "ea": "0x509f13",
+        "text": "shr     edx, 0Ah; Shift Logical Right"
+      },
+      {
+        "ea": "0x509f16",
+        "text": "and     ecx, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509f19",
+        "text": "and     edx, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509f1c",
+        "text": "and     eax, 1Fh; Logical AND"
+      },
+      {
+        "ea": "0x509f1f",
+        "text": "lea     ecx, [edx+ecx*2]; Load Effective Address"
+      },
+      {
+        "ea": "0x509f22",
+        "text": "add     ecx, eax; Add"
+      },
+      {
+        "ea": "0x509f24",
+        "text": "mov     eax, 84210843h"
+      },
+      {
+        "ea": "0x509f29",
+        "text": "shl     ecx, 0Ch; Shift Logical Left"
+      },
+      {
+        "ea": "0x509f2c",
+        "text": "imul    ecx; Signed Multiply"
+      },
+      {
+        "ea": "0x509f2e",
+        "text": "add     edx, ecx; Add"
+      },
+      {
+        "ea": "0x509f30",
+        "text": "sar     edx, 6; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509f33",
+        "text": "mov     eax, edx"
+      },
+      {
+        "ea": "0x509f35",
+        "text": "shr     eax, 1Fh; Shift Logical Right"
+      },
+      {
+        "ea": "0x509f38",
+        "text": "add     edx, eax; Add"
+      },
+      {
+        "ea": "0x509f3a",
+        "text": "mov     esi, edx"
+      },
+      {
+        "ea": "0x509f3c",
+        "text": "mov     eax, esi"
+      },
+      {
+        "ea": "0x509f3e",
+        "text": "cdq; EAX -> EDX:EAX (with sign)"
+      },
+      {
+        "ea": "0x509f3f",
+        "text": "sub     eax, edx; Integer Subtraction"
+      },
+      {
+        "ea": "0x509f41",
+        "text": "sar     eax, 1; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509f43",
+        "text": "push    eax"
+      },
+      {
+        "ea": "0x509f44",
+        "text": "call    Fixed_Sin4096_Q12; E3a: fild; *pi/2048 (flt_B6B980=0x3AC90FDB); fsin (D9FE); *4096.0 (flt_B69540); magic-double +0x80000000."
+      },
+      {
+        "ea": "0x509f49",
+        "text": "lea     ecx, [eax+eax*4]; Load Effective Address"
+      },
+      {
+        "ea": "0x509f4c",
+        "text": "lea     eax, [esi+esi*4]; Load Effective Address"
+      },
+      {
+        "ea": "0x509f4f",
+        "text": "shl     ecx, 1; Shift Logical Left"
+      },
+      {
+        "ea": "0x509f51",
+        "text": "sar     ecx, 0Ch; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509f54",
+        "text": "or      ecx, 0FFE0h; Logical Inclusive OR"
+      },
+      {
+        "ea": "0x509f5a",
+        "text": "lea     edx, [eax+eax*4]; Load Effective Address"
+      },
+      {
+        "ea": "0x509f5d",
+        "text": "shl     ecx, 5; Shift Logical Left"
+      },
+      {
+        "ea": "0x509f60",
+        "text": "sar     edx, 0Ch; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509f63",
+        "text": "or      ecx, edx; Logical Inclusive OR"
+      },
+      {
+        "ea": "0x509f65",
+        "text": "add     esp, 4; Add"
+      },
+      {
+        "ea": "0x509f68",
+        "text": "shl     ecx, 5; Shift Logical Left"
+      },
+      {
+        "ea": "0x509f6b",
+        "text": "mov     [edi], cx"
+      },
+      {
+        "ea": "0x509f6e",
+        "text": "add     edi, 2; Add"
+      },
+      {
+        "ea": "0x509f71",
+        "text": "add     ebx, 2; Add"
+      },
+      {
+        "ea": "0x509f74",
+        "text": "dec     ebp; Decrement by 1"
+      },
+      {
+        "ea": "0x509f75",
+        "text": "jnz     short loc_509F07; Jump if Not Zero (ZF=0)"
+      },
+      {
+        "ea": "0x509f77",
+        "text": "mov     eax, [esp+10h+arg_0]"
+      },
+      {
+        "ea": "0x509f7b",
+        "text": "lea     ecx, [eax+eax+0E0h]; Load Effective Address"
+      },
+      {
+        "ea": "0x509f82",
+        "text": "mov     eax, g_BattlePacketCursor"
+      },
+      {
+        "ea": "0x509f87",
+        "text": "push    eax"
+      },
+      {
+        "ea": "0x509f88",
+        "text": "push    offset off_B8BA38"
+      },
+      {
+        "ea": "0x509f8d",
+        "text": "mov     word ptr [eax], 0"
+      },
+      {
+        "ea": "0x509f92",
+        "text": "mov     word ptr off_B8BA38+2, cx"
+      },
+      {
+        "ea": "0x509f99",
+        "text": "mov     word ptr [eax+200h], 0"
+      },
+      {
+        "ea": "0x509fa2",
+        "text": "call    GF_AlternativeTexture_pointTo0C; slot type-0 enqueue (RECT+ptr); family BattleTimQueue_EnqueueType{1,2,3} (PH10)"
+      },
+      {
+        "ea": "0x509fa7",
+        "text": "add     esp, 8; Add"
+      },
+      {
+        "ea": "0x509faa",
+        "text": "mov     g_BattlePacketCursor, edi"
+      },
+      {
+        "ea": "0x509fb0",
+        "text": "pop     edi"
+      },
+      {
+        "ea": "0x509fb1",
+        "text": "pop     esi"
+      },
+      {
+        "ea": "0x509fb2",
+        "text": "pop     ebp"
+      },
+      {
+        "ea": "0x509fb3",
+        "text": "pop     ebx"
+      },
+      {
+        "ea": "0x509fb4",
+        "text": "retn; Return Near from Procedure"
+      },
+      {
+        "ea": "0x509fb5",
+        "text": "sub     ecx, offset g_BattlePresentationActors; Integer Subtraction"
+      },
+      {
+        "ea": "0x509fbb",
+        "text": "mov     eax, 0D20D20D3h"
+      },
+      {
+        "ea": "0x509fc0",
+        "text": "imul    ecx; Signed Multiply"
+      },
+      {
+        "ea": "0x509fc2",
+        "text": "add     edx, ecx; Add"
+      },
+      {
+        "ea": "0x509fc4",
+        "text": "sar     edx, 7; Shift Arithmetic Right"
+      },
+      {
+        "ea": "0x509fc7",
+        "text": "mov     eax, edx"
+      },
+      {
+        "ea": "0x509fc9",
+        "text": "shr     eax, 1Fh; Shift Logical Right"
+      },
+      {
+        "ea": "0x509fcc",
+        "text": "add     edx, eax; Add"
+      },
+      {
+        "ea": "0x509fce",
+        "text": "lea     ecx, [edx+edx+0E0h]; Load Effective Address"
+      },
+      {
+        "ea": "0x509fd5",
+        "text": "shl     edx, 0Ah; Shift Logical Left"
+      },
+      {
+        "ea": "0x509fd8",
+        "text": "add     edx, offset byte_1D98B60; Add"
+      },
+      {
+        "ea": "0x509fde",
+        "text": "mov     word ptr off_B8BA38+2, cx"
+      },
+      {
+        "ea": "0x509fe5",
+        "text": "push    edx"
+      },
+      {
+        "ea": "0x509fe6",
+        "text": "push    offset off_B8BA38"
+      },
+      {
+        "ea": "0x509feb",
+        "text": "call    GF_AlternativeTexture_pointTo0C; slot type-0 enqueue (RECT+ptr); family BattleTimQueue_EnqueueType{1,2,3} (PH10)"
+      },
+      {
+        "ea": "0x509ff0",
+        "text": "add     esp, 8; Add"
+      },
+      {
+        "ea": "0x509ff3",
+        "text": "pop     edi"
+      },
+      {
+        "ea": "0x509ff4",
+        "text": "pop     esi"
+      },
+      {
+        "ea": "0x509ff5",
+        "text": "pop     ebp"
+      },
+      {
+        "ea": "0x509ff6",
+        "text": "pop     ebx"
+      },
+      {
+        "ea": "0x509ff7",
+        "text": "retn; Return Near from Procedure"
+      }
+    ]
+  }
+}

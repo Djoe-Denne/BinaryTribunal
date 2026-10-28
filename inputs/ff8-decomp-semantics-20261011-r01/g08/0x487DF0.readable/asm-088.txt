@@ -1,0 +1,25 @@
+00489CFD: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489D02: mov     ecx, edi
+00489D04: mov     eax, 1
+00489D09: shl     eax, cl; Shift Logical Left
+00489D0B: mov     [esp+74h+p_monster_slot_id], eax
+00489D0F: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489D14: mov     al, [esi]; AI VM op 0x1D ENEMY_LEAVE: relay 0x69 with slot (0xC8=self else code+3); BattleState_ResetForEject
+00489D16: inc     esi; Increment by 1
+00489D17: cmp     al, 0C8h; Compare Two Operands
+00489D19: mov     [esp+74h+op_param_2], al
+00489D1D: jnz     short loc_489D23; Jump if Not Zero (ZF=0)
+00489D1F: mov     al, bl
+00489D21: jmp     short loc_489D25; Jump
+00489D23: add     al, 3; Add
+00489D25: push    0; a3
+00489D27: push    80h; a2
+00489D2C: push    69h ; 'i'; a1
+00489D2E: movzx   di, al; Move with Zero-Extend
+00489D32: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00489D37: push    ebx
+00489D38: mov     [eax], di
+00489D3B: call    domain__BattleState_ResetForEject; Call Procedure
+00489D40: add     esp, 10h; Add
+00489D43: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489D48: push    0; AI VM op 0x08 DIE_SELF: relay 0x6A; self status_1|=Death; BattleState_ResetForEject

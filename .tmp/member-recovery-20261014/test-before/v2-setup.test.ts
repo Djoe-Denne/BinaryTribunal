@@ -1,0 +1,308 @@
+import { describe, expect, test } from "bun:test"
+import { setupEnsemble, extractQuestionOutput, type V2SetupContext } from "../src/v2-setup"
+import { DEFAULT_CONFIG } from "../src/config"
+/** Mock V2 setup context: hook registry + programmable event intake. */
+function mockSetupCtx() {
+  const hooks: Record<string, Array<(event: never) => unknown>> = {}
+  const hook = (domain: string) => async (name: string, cb: (event: never) => unknown) => {
+    ;(hooks[domain] ??= []).push(cb)
+    ;(hooks[`${domain}.${name}`] ??= []).push(cb)
+    return { dispose: async () => undefined }
+  }
+  const ctx = {
+    location: { directory: "/tmp/v2-setup-test" },
+    options: {},
+    session: {
+      create: async () => ({ id: "ses_new" }),
+      prompt: async () => ({ id: "msg_1" }),
+      synthetic: async () => ({ id: "syn_1" }),
+      switchAgent: async () => undefined,
+      switchModel: async () => undefined,
+      interrupt: async () => undefined,
+      get: async () => ({ id: "ses_x" }),
+      context: async () => [],
+      active: async () => ({}),
+      hook: hook("session"),
+    },
+    permission: {
+      rules: async () => undefined,
+    },
+    worktree: {
+      create: async () => ({ directory: "/wt/x" }),
+      remove: async () => undefined,
+      list: async () => [],
+      refresh: async () => undefined,
+    },
+    event: {
+      subscribe: (_opts?: unknown) => {
+        void _opts
+        async function* stream(): AsyncGenerator<never> {
+          // Tests drive events via handle.dispatch; the live loop drains this.
+        }
+        return stream()
+      },
+    },
+    tool: {
+      hook: hook("tool"),
+      transform: async (_cb: (editor: never) => void) => ({ dispose: async () => undefined }),
+    },
+    shell: { hook: hook("shell") },
+  }
+  return { ctx: ctx as unknown as V2SetupContext, hooks }
+}
+
+function seedLeadAndMember(handle: Awaited<ReturnType<typeof setupEnsemble>>, directory = "/tmp/v2-setup-test") {  const now = Date.now()
+  handle.db.run("INSERT OR IGNORE INTO project (id,name,path,status,time_created,time_updated) VALUES (?,'test',?,'active',?,?)", [directory, directory, now, now])
+  handle.db.run(
+    "INSERT INTO team (id, name, project_id, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, ?, ?, 'active', 0, ?, ?)",
+    ["team1", "alpha", directory, "ses_lead", now, now],
+  )
+  handle.db.run(
+    "INSERT INTO team_member (team_id, name, session_id, agent, status, execution_status, time_created, time_updated) VALUES (?, ?, ?, 'build', 'busy', 'running', ?, ?)",
+    ["team1", "alice", "ses_alice", now, now],
+  )
+  handle.registry.register("team1", "alice", "ses_alice")
+}
+
+describe("v2-setup (issue #36)", () => {
+  test("all native request transports enforce selection and dynamic revocation before provider calls", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const config = structuredClone(DEFAULT_CONFIG)
+    config.modelRouting = { beta: 0.35, selectionConfigured: true, models: [
+      { id: "fixture/cheap", reasoningEffort: "max", intelligenceScore: 40, averageCostPerTask: 0.1, available: true },
+      { id: "opencode-go/grok-4.7", reasoningEffort: "high", intelligenceScore: 50, averageCostPerTask: 3, available: false },
+    ] }
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0, config })
+    seedLeadAndMember(handle)
+    handle.db.run("INSERT INTO classification_helper(session_id,team_id,task_id,lease_until) VALUES ('ses_helper','team1','fixture',1000)")
+    for (const name of ["model.request", "http.request", "experimental.ws.handshake", "experimental.ws.send"]) {
+      const guard = hooks[`session.${name}`]![0]!
+      for (const sessionID of ["ses_lead", "ses_alice", "ses_helper"]) {
+        expect(() => guard({ sessionID, model: { providerID: "opencode-go", id: "grok-4.7", variant: "high" } } as never)).toThrow("Model selection denied")
+        expect(() => guard({ sessionID, model: { providerID: "fixture", id: "cheap", variant: "max" } } as never)).not.toThrow()
+      }
+      expect(() => guard({ sessionID: "unrelated", model: {} } as never)).not.toThrow()
+    }
+    config.modelRouting.models[0]!.available = false
+    expect(() => hooks["session.model.request"]![0]!({ sessionID: "ses_alice", model: { providerID: "fixture", id: "cheap", variant: "max" } } as never)).toThrow()
+    config.modelRouting.models[0]!.available = true
+    config.modelRouting.pausedTeams = ["team1"]
+    for (const name of ["model.request", "http.request", "experimental.ws.handshake", "experimental.ws.send"]) {
+      for (const sessionID of ["ses_lead", "ses_alice", "ses_helper"]) expect(() => hooks[`session.${name}`]![0]!({ sessionID, model: { providerID: "fixture", id: "cheap", variant: "max" } } as never)).toThrow("paused by the operator")
+    }
+    await handle.dispose(); handle.db.close()
+  })
+
+  test("dispatched status events flow to member state", async () => {
+    const { ctx } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    handle.db.run("UPDATE team_member SET reported_to_lead = 1 WHERE name = 'alice'")
+    await handle.dispatch({ type: "session.status", data: { sessionID: "ses_alice", status: "idle" } })
+    const row = handle.db.query("SELECT status FROM team_member WHERE name = 'alice'").get() as {
+      status: string
+    }
+    expect(row.status).toBe("ready")
+    await handle.dispose()
+  })
+
+  test("the setup event stream leaves foreign mission transitions for their owner", async () => {
+    const { ctx } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    try {
+      seedLeadAndMember(handle, "/tmp/other-mission")
+      await handle.dispatch({ type: "session.execution.succeeded", data: { sessionID: "ses_alice" } })
+      expect(handle.db.query("SELECT status,last_nudged_at FROM team_member WHERE name='alice'").get()).toEqual({ status: "busy", last_nudged_at: null })
+    } finally {
+      await handle.dispose()
+      handle.db.close()
+    }
+  })
+
+  test("tool execute.before blocks team tools for sub-agents", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    handle.tracker.track("ses_child", "ses_alice")
+    const before = hooks["tool"]?.[0]
+    expect(before).toBeDefined()
+    let blocked: unknown = null
+    try {
+      await before?.({
+        tool: "team_message",
+        sessionID: "ses_child",
+        input: { to: "lead", text: "hi" },
+      } as never)
+    } catch (err) {
+      blocked = err
+    }
+    expect(String(blocked)).toContain("sub-agents")
+    await handle.dispose()
+  })
+
+  test("tool execute.after enriches shell arg-fumble errors (issue #39)", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    const after = hooks["tool"]?.[1]
+    expect(after).toBeDefined()
+    const original = 'Invalid arguments for tool "shell":\n- command: Missing key'
+    const event = {
+      tool: "shell",
+      sessionID: "ses_alice",
+      input: { cmd: "git remote -v 2>&1", description: "Check happy remotes again" },
+      status: "error",
+      error: { message: original },
+    }
+    await after?.(event as never)
+    const message = (event.error as { message: string }).message
+    expect(message).toContain(original)
+    expect(message).toContain('"cmd"')
+    expect(message).toContain('"command"')
+    await handle.dispose()
+  })
+
+  test("tool execute.after leaves non-fumble errors untouched (issue #39)", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    const after = hooks["tool"]?.[1]
+    const original = "Command timed out after 120000ms"
+    const event = {
+      tool: "shell",
+      sessionID: "ses_alice",
+      input: { command: "sleep 999" },
+      status: "error",
+      error: { message: original },
+    }
+    await after?.(event as never)
+    expect((event.error as { message: string }).message).toBe(original)
+    await handle.dispose()
+  })
+
+  test("shell hook is registered (per-session env unavailable on V2 — see OQ-V2-shell)", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    const shellHook = hooks["shell"]?.[0]
+    expect(shellHook).toBeDefined()
+    const event = { sessionID: "ses_lead", env: {} as Record<string, string | undefined> }
+    await shellHook?.(event as never)
+    expect(event.env["ENSEMBLE_TEAM"]).toBeUndefined()
+    await handle.dispose()
+  })
+
+  test("session context hook appends team system prompt for team sessions", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    seedLeadAndMember(handle)
+    const sessionHooks = hooks["session"] ?? []
+    expect(sessionHooks.length).toBeGreaterThan(0)
+    const contextHook = hooks["session.context"]?.[0]
+    const event = { sessionID: "ses_lead", system: [] as Array<{ type: string; text: string }> }
+    await contextHook?.(event as never)
+    expect(event.system.length).toBe(1)
+    expect(event.system[0]?.text).toContain("alpha")
+    // Member sessions get the Code Mode invocation hint; leads do not.
+    const memberEvent = { sessionID: "ses_alice", system: [] as Array<{ type: string; text: string }> }
+    await contextHook?.(memberEvent as never)
+    expect(memberEvent.system.length).toBe(2)
+    expect(memberEvent.system[1]?.text).toContain("execute")
+    await handle.dispose()
+  })
+
+  test("dashboard serves team state on the configured port", async () => {    const { ctx } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 47999 })
+    seedLeadAndMember(handle)
+    const res = await fetch("http://localhost:47999/api/health")
+    expect(res.status).toBe(200)
+    const body = (await res.json()) as { ensemble?: boolean }
+    expect(body.ensemble).toBe(true)
+    const teams = (await (await fetch("http://localhost:47999/api/state")).json()) as {
+      teams?: unknown[]
+    }
+    expect(teams.teams?.length).toBe(1)
+    await handle.dispose()
+  })
+
+  test("extractQuestionOutput reads string and part-array results", () => {
+    expect(extractQuestionOutput({ content: "Approve purge abc123" })).toBe("Approve purge abc123")
+    expect(
+      extractQuestionOutput({ content: [{ type: "text", text: "yes" }, { type: "other" }] }),
+    ).toBe("yes")
+    expect(extractQuestionOutput(undefined)).toBe("")
+  })
+
+  test("context hook blocks native auto-wakes while an inherited spawn is being prepared", async () => {
+    const { ctx, hooks } = mockSetupCtx()
+    const handle = await setupEnsemble(ctx, { dbPath: ":memory:", dashboardPort: 0 })
+    handle.db.run("INSERT INTO team (id, name, lead_session_id, status, delegate, time_created, time_updated) VALUES ('pending-team', 'pending-team', 'ses_lead', 'active', 0, 0, 0)")
+    handle.db.run("INSERT INTO team_member (team_id, name, session_id, agent, status, execution_status, spawn_pending, time_created, time_updated) VALUES ('pending-team', 'pending', 'ses_pending', 'build', 'busy', 'starting', 1, 0, 0)")
+    const context = hooks["session.context"]![0]!
+    expect(() => context({ sessionID: "ses_pending", system: [] } as never)).toThrow("initialization")
+    handle.db.run("UPDATE team_member SET spawn_pending = 2 WHERE session_id = 'ses_pending'")
+    expect(() => context({ sessionID: "ses_pending", system: [], messages: [] } as never)).toThrow("initialization")
+    expect(() => context({ sessionID: "ses_pending", system: [], messages: [{ content: "[Ensemble task ses_pending]" }] } as never)).not.toThrow()
+    await handle.dispose()
+    handle.db.close()
+  })
+
+  test("setup rehydrates registry and nudges already-idle silent members", async () => {
+    const { tmpdir } = await import("node:os")
+    const { join } = await import("node:path")
+    const dbPath = join(tmpdir(), `ensemble-rehydrate-${Date.now()}.db`)
+    // Seed a file DB directly (simulates state from before a restart).
+    const { createDb } = await import("../src/db")
+    const seed = createDb(dbPath)
+    const now = Date.now()
+    seed.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES ('/tmp/v2-setup-test','test','/tmp/v2-setup-test','active',?,?)", [now, now])
+    seed.run(
+      "INSERT INTO team (id, name, project_id, lead_session_id, status, delegate, time_created, time_updated) VALUES (?, ?, '/tmp/v2-setup-test', ?, 'active', 0, ?, ?)",
+      ["team1", "alpha", "ses_lead", now, now],
+    )
+    seed.run(
+      "INSERT INTO team_member (team_id, name, session_id, agent, status, execution_status, time_created, time_updated) VALUES (?, ?, ?, 'build', 'ready', 'idle', ?, ?)",
+      ["team1", "alice", "ses_alice", now, now],
+    )
+    seed.run("INSERT INTO project (id,name,path,status,time_created,time_updated) VALUES ('/tmp/foreign','foreign','/tmp/foreign','active',?,?)", [now, now])
+    seed.run("INSERT INTO team (id,name,project_id,lead_session_id,status,time_created,time_updated) VALUES ('foreign','foreign','/tmp/foreign','ses_foreign_lead','active',?,?)", [now, now])
+    seed.run("INSERT INTO team_member (team_id,name,session_id,agent,status,execution_status,time_created,time_updated) VALUES ('foreign','bob','ses_bob','build','ready','idle',?,?)", [now, now])
+    seed.close()
+
+    const prompts: unknown[] = []
+    const { ctx } = mockSetupCtx()
+    const session = ctx.session as unknown as {
+      prompt: (input: unknown) => Promise<unknown>
+    }
+    session.prompt = async (input: unknown) => {
+      prompts.push(input)
+      return { id: "msg_1" }
+    }
+    const handle = await setupEnsemble(ctx, { dbPath, dashboardPort: 0, config: structuredClone(DEFAULT_CONFIG) })
+    // Registry rehydrated from SQLite despite the fresh process.
+    expect(handle.registry.getBySession("ses_alice")?.memberName).toBe("alice")
+    // Already-idle silent member got its one nudge on startup.
+    const nudges = prompts.filter((p) => JSON.stringify(p).includes("did not report"))
+    expect(nudges.length).toBe(1)
+    expect(JSON.stringify(nudges[0])).toContain("ses_alice")
+    expect(handle.db.query("SELECT last_nudged_at FROM team_member WHERE name='bob'").get()).toEqual({ last_nudged_at: null })
+    await handle.dispose()
+    handle.db.close()
+    // A second setup (hot-reload) must NOT nudge again within the hour.
+    const prompts2: unknown[] = []
+    const { ctx: ctxReload } = mockSetupCtx()
+    const sessionReload = ctxReload.session as unknown as {
+      prompt: (input: unknown) => Promise<unknown>
+    }
+    sessionReload.prompt = async (input: unknown) => {
+      prompts2.push(input)
+      return { id: "msg_1" }
+    }
+    const handle2 = await setupEnsemble(ctxReload, { dbPath, dashboardPort: 0, config: structuredClone(DEFAULT_CONFIG) })
+    expect(prompts2.filter((p) => JSON.stringify(p).includes("did not report")).length).toBe(0)
+    await handle2.dispose()
+    handle2.db.close()
+    const { rm } = await import("node:fs/promises")
+    await rm(dbPath, { force: true })
+  })
+})

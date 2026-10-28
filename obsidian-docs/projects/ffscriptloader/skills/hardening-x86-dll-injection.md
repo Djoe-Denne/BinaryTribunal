@@ -8,8 +8,8 @@ sources:
   - C:/Users/djden/source/repos/FFScriptLoader/injector/src/injector_core.cpp
   - C:/Users/djden/source/repos/FFScriptLoader/injector/tests/injector_smoke.cpp
   - C:/Users/djden/source/repos/FFScriptLoader/core_hook/src/hook/transactional_detour.cpp
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/live-shutdown-2026-07-18.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/blocked/debugger-resume-crash-2026-07-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/blocked/live-shutdown-2026-07-18.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/blocked/debugger-resume-crash-2026-07-18.md
 summary: >-
   Repeatable procedure for safe x86 DLL loading, typed remote bootstrap, idempotent module reuse, and quiescent MinHook rollback.
 provenance:
@@ -87,4 +87,3 @@ Record target/DLL hashes, selected export, request version, remote module reuse,
 - [[projects/final-fantasy-viii-reimaginated/final-fantasy-viii-reimaginated]]
 - [[projects/final-fantasy-viii-reimaginated/references/p0-harness-validation]]
 - [[projects/re-ff8/skills/implementing-iso-battle-migration]]
-

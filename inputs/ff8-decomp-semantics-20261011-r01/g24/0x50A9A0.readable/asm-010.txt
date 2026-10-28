@@ -1,0 +1,25 @@
+0050ACAA: mov     ax, word_1D99A8E
+0050ACB0: inc     ax; Increment by 1
+0050ACB2: cmp     ax, 384h; Compare Two Operands
+0050ACB6: mov     word_1D99A8E, ax
+0050ACBC: jl      short def_50A9C9; jumptable 0050A9C9 default case
+0050ACBE: call    InitializeSound_CAL_sfx_stop_all2; Call Procedure
+0050ACC3: pop     edi
+0050ACC4: pop     esi
+0050ACC5: xor     eax, eax; Logical Exclusive OR
+0050ACC7: pop     ebx
+0050ACC8: retn; Return Near from Procedure
+0050ACC9: call    BattleActionSequence_ReleaseCamera; wave3 attaques: clear 8000h + blend 4096; 9 xrefs ticks
+0050ACCE: test    byte_1D99A79, 2; Logical Compare
+0050ACD5: jnz     short loc_50ACE3; Jump if Not Zero (ZF=0)
+0050ACD7: mov     eax, battle_to_update_flags_dword_1D96A9C
+0050ACDC: and     al, 0EFh; Logical AND
+0050ACDE: mov     battle_to_update_flags_dword_1D96A9C, eax
+0050ACE3: cmp     word ptr dword_1D99A90, 0; Compare Two Operands
+0050ACEB: jz      short loc_50AC7C; Jump if Zero (ZF=1)
+0050ACED: xor     ecx, ecx; Logical Exclusive OR
+0050ACEF: pop     edi
+0050ACF0: mov     cl, byte_1D99AAA
+0050ACF6: lea     eax, [ecx+ecx*4]; Load Effective Address
+0050ACF9: shl     eax, 3; Shift Logical Left
+0050ACFC: sub     eax, ecx; Integer Subtraction

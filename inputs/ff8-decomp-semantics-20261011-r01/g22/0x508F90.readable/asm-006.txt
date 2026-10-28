@@ -1,0 +1,25 @@
+005090E2: call    Battle__ReadRotationType; Call Procedure
+005090E7: movsx   eax, ax; Move with Sign-Extend
+005090EA: cdq; EAX -> EDX:EAX (with sign)
+005090EB: sub     eax, edx; Integer Subtraction
+005090ED: push    esi
+005090EE: sar     eax, 1; Shift Arithmetic Right
+005090F0: add     [ebx], ax; Add
+005090F3: call    Battle__ReadRotationType; Call Procedure
+005090F8: movsx   eax, ax; Move with Sign-Extend
+005090FB: cdq; EAX -> EDX:EAX (with sign)
+005090FC: sub     eax, edx; Integer Subtraction
+005090FE: push    esi
+005090FF: sar     eax, 1; Shift Arithmetic Right
+00509101: add     [ebx+2], ax; Add
+00509105: call    au_re_bitReader; Call Procedure
+0050910A: push    esi
+0050910B: mov     [ebx+4], ax
+0050910F: call    au_re_bitReader; Call Procedure
+00509114: push    esi
+00509115: mov     [ebx+6], ax
+00509119: call    au_re_bitReader; Call Procedure
+0050911E: xor     ecx, ecx; Logical Exclusive OR
+00509120: add     esp, 18h; Add
+00509123: mov     [ebx+8], ax
+00509127: mov     cl, [edi]

@@ -1,0 +1,17 @@
+0045E7CE: mov     eax, dword_1CA92F8
+0045E7D3: mov     dword_1CA8A3C, 0FFFF8000h
+0045E7DD: or      eax, 400000h; Logical Inclusive OR
+0045E7E2: mov     dword_1CA92F8, eax
+0045E7E7: add     esp, 8; Add
+0045E7EA: retn; Return Near from Procedure
+0045E7EB: cmp     edx, 7FFFh; Compare Two Operands
+0045E7F1: jle     short loc_45E810; Jump if Less or Equal (ZF=1 | SF!=OF)
+0045E7F3: mov     eax, dword_1CA92F8
+0045E7F8: mov     dword_1CA8A3C, 7FFFh
+0045E802: or      eax, 400000h; Logical Inclusive OR
+0045E807: mov     dword_1CA92F8, eax
+0045E80C: add     esp, 8; Add
+0045E80F: retn; Return Near from Procedure
+0045E810: mov     dword_1CA8A3C, edx
+0045E816: add     esp, 8; Add
+0045E819: retn; Return Near from Procedure

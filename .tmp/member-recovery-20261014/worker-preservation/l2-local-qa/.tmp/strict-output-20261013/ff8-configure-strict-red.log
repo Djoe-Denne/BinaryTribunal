@@ -1,0 +1,26 @@
+bun test v1.4.2 (744846f84)
+
+test\native-canary-strict.test.ts:
+(pass) canary defaults to strict capture, never worker-edited JSON [0.24ms]
+(pass) legacy file output must be explicitly selected, never an automatic fallback [0.07ms]
+16 | test("legacy file output must be explicitly selected, never an automatic fallback", () => {
+17 |   expect(canaryOutputPolicy({ providerID: "fixture", id: "model", variant: "high" }, "file").allowedTools).toContain("edit");
+18 |   expect(() => canaryOutputPolicy({ providerID: "openai", id: "gpt-6-astra", variant: "high" }, "guess" as "file")).toThrow(/output mode/);
+19 | });
+20 | test("new runnable fixture configuration also defaults to strict mode before filesystem work", () => {
+21 |   expect(() => configureFixture("Z:/nonexistent/strict-fixture-plugin", "zai-coding-plan/glm-5.3-flash#high", "fixture-token")).toThrow(/strict.*route/);
+                                                                                                                                     ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /strict.*route/
+Received message: "ENOENT: no such file or directory, lstat 'Z:\\'"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\native-canary-strict.test.ts:21:129)
+(fail) new runnable fixture configuration also defaults to strict mode before filesystem work [0.98ms]
+(pass) owned stop marker can cancel without killing the token-owning controller [1.35ms]
+(pass) closure requires public stop followed by a complete stopped/paused readback [0.51ms]
+
+ 4 pass
+ 1 fail
+ 15 expect() calls
+Ran 5 tests across 1 file. [37.00ms]

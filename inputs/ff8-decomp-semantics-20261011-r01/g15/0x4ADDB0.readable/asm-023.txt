@@ -1,0 +1,25 @@
+004AE5E2: and     ebx, 0FF7Fh; Logical AND
+004AE5E8: mov     eax, 1Fh
+004AE5ED: mov     word ptr dword_1D768DC+2, bx
+004AE5F4: jmp     short loc_4AE669; Jump
+004AE5F6: mov     al, byte ptr [esp+1Ch+var_8]
+004AE5FA: test    al, 10h; Logical Compare
+004AE5FC: jz      short loc_4AE60F; Jump if Zero (ZF=1)
+004AE5FE: push    3
+004AE600: call    BattleUI_PlaySystemSoundUnlessFlag2; E3a: skip if AddBase_1A78C88(0)+0x3AE bit 2 set; else au_re_PlaySystemSound @0x4B92A0. Muted not proven.
+004AE605: add     esp, 4; Add
+004AE608: mov     eax, 1Dh
+004AE60D: jmp     short loc_4AE669; Jump
+004AE60F: test    al, 20h; Logical Compare
+004AE611: jz      loc_4AEDC9; Jump if Zero (ZF=1)
+004AE617: mov     eax, 2Ah ; '*'
+004AE61C: jmp     short loc_4AE669; Jump
+004AE61E: test    ebx, 0F050h; jumptable 004ADEFA case 37
+004AE624: jz      short loc_4AE62D; Jump if Zero (ZF=1)
+004AE626: mov     eax, 26h ; '&'
+004AE62B: jmp     short loc_4AE669; Jump
+004AE62D: mov     al, byte ptr dword_1D768E8+3
+004AE632: inc     al; Increment by 1
+004AE634: cmp     al, 0B4h; Compare Two Operands
+004AE636: mov     byte ptr dword_1D768E8+3, al
+004AE63B: jbe     def_4ADEFA; jumptable 004ADEFA default case

@@ -1,0 +1,206 @@
+{
+  "ea": "0x4868C0",
+  "name_label_only": "domain::Battle_EndCleanupAndTransition",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x4868c0",
+      "end": "0x4869f4",
+      "hex": "5355565733ffbdb2f1cf01be907bd201b3ff385e3b743b33c0578a874ce7cf018d0cc08d1448668b4e98668126dfff8d04d5e8e0cf01668908668b0e66898896000000e8b8f5ffff668b1683c4046689550081c6d00000004781c5d001000081fe007ed2017cabbf788ed2010fbe5f0133d28a1785d2743ab89ce7cf0133f633c98a083bca742883c0024681fec60000007cecb89ce7cf0133c9803800740e83c0024181f9c60000007cefeb05881088580183c70581ff188fd2017caf33c0a0e7f6cf014883f8047752ff2485f469480066ff053ae9cf0166c705c68fcd010500eb398a15dd87d2018b1d34e9cf0180e21043f6da1bd2891d34e9cf0183e25f83c205668915c68fcd01eb1066ff0538e9cf0166c705c68fcd016400e85f4afeff66c705e0bfcd010000e8012902005f5e5d5bc3"
+    }
+  ],
+  "assembly": "004868C0: push    ebx; LIVE 2026-07-12 victory handback: entered with result=4 and mode3_subsub_step=2, then set mode_StateGlobal=5 and reset subsub to 0. Pending/exec/latch buffers were not globally zeroed; they are abandoned with the battle module and reinitialized by the next battle init.\n004868C1: push    ebp\n004868C2: push    esi\n004868C3: push    edi\n004868C4: xor     edi, edi; Logical Exclusive OR\n004868C6: mov     ebp, offset word_1CFF1B2\n004868CB: mov     esi, offset BATTLE_SLOT_DATA.status_1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n004868D0: mov     bl, 0FFh\n004868D2: cmp     [esi+3Bh], bl; Compare Two Operands\n004868D5: jz      short loc_486912; Jump if Zero (ZF=1)\n004868D7: xor     eax, eax; Logical Exclusive OR\n004868D9: push    edi; slot_id\n004868DA: mov     al, byte ptr SG_PARTY_BATTLE[edi]\n004868E0: lea     ecx, [eax+eax*8]; Load Effective Address\n004868E3: lea     edx, [eax+ecx*2]; Load Effective Address\n004868E6: mov     cx, [esi-68h]\n004868EA: and     word ptr [esi], 0FFDFh; Logical AND\n004868EF: lea     eax, ds:1CFE0E8h[edx*8]; Load Effective Address\n004868F6: mov     [eax], cx\n004868F9: mov     cx, [esi]\n004868FC: mov     [eax+96h], cx\n00486903: call    domain__BattleItem_RefundStashedItems; Static 2026-08-18: refunds up to two nonzero item ids stashed at slot +0xB8/+0xB9 through BattleEqualItemBuffer_AdjustCount(id, add), then clears the stash. Callers include battle end, eject reset, status sync, and Angel Wing rewrite cleanup.\n00486908: mov     dx, [esi]\n0048690B: add     esp, 4; Add\n0048690E: mov     [ebp+0], dx\n00486912: add     esi, 0D0h; Add\n00486918: inc     edi; Increment by 1\n00486919: add     ebp, 1D0h; Add\n0048691F: cmp     esi, (offset BATTLE_SLOT_DATA.status_1+270h); 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n00486925: jl      short loc_4868D2; Jump if Less (SF!=OF)\n00486927: mov     edi, offset EQUAL_ITEM_ID\n0048692C: movsx   ebx, byte ptr [edi+1]; Move with Sign-Extend\n00486930: xor     edx, edx; Logical Exclusive OR\n00486932: mov     dl, [edi]\n00486934: test    edx, edx; Logical Compare\n00486936: jz      short loc_486972; Jump if Zero (ZF=1)\n00486938: mov     eax, offset SG_ITEM_ID_AND_QUANTITY; Item ID followed by Item quantiy for each slot, for 198 slot\n0048693D: xor     esi, esi; Logical Exclusive OR\n0048693F: xor     ecx, ecx; Logical Exclusive OR\n00486941: mov     cl, [eax]\n00486943: cmp     ecx, edx; Compare Two Operands\n00486945: jz      short loc_48696F; Jump if Zero (ZF=1)\n00486947: add     eax, 2; Add\n0048694A: inc     esi; Increment by 1\n0048694B: cmp     esi, 0C6h; Compare Two Operands\n00486951: jl      short loc_48693F; Jump if Less (SF!=OF)\n00486953: mov     eax, offset SG_ITEM_ID_AND_QUANTITY; Item ID followed by Item quantiy for each slot, for 198 slot\n00486958: xor     ecx, ecx; Logical Exclusive OR\n0048695A: cmp     byte ptr [eax], 0; Compare Two Operands\n0048695D: jz      short loc_48696D; Jump if Zero (ZF=1)\n0048695F: add     eax, 2; Add\n00486962: inc     ecx; Increment by 1\n00486963: cmp     ecx, 0C6h; Compare Two Operands\n00486969: jl      short loc_48695A; Jump if Less (SF!=OF)\n0048696B: jmp     short loc_486972; Jump\n0048696D: mov     [eax], dl\n0048696F: mov     [eax+1], bl\n00486972: add     edi, 5; Add\n00486975: cmp     edi, offset BMI_MONSTER1_DRAW_SPELL_ID1; Compare Two Operands\n0048697B: jl      short loc_48692C; Jump if Less (SF!=OF)\n0048697D: xor     eax, eax; Logical Exclusive OR\n0048697F: mov     al, BATTLE_RESULT_CODE\n00486984: dec     eax; switch 5 cases\n00486985: cmp     eax, 4; Compare Two Operands\n00486988: ja      short def_48698A; jumptable 0048698A default case\n0048698A: jmp     ds:jpt_48698A[eax*4]; switch jump\n00486991: inc     SG_BATTLE_ESCAPED; jumptable 0048698A case 2\n00486998: mov     mode_StateGlobal, 5; 100: In some cases of victory\n004869A1: jmp     short def_48698A; jumptable 0048698A default case\n004869A3: mov     dl, CURRENT_ENCOUNTER_DATA_SCENE_OUT.battle_flags; jumptable 0048698A case 4\n004869A9: mov     ebx, SG_BATTLE_VICTORY_COUNT\n004869AF: and     dl, 10h; Logical AND\n004869B2: inc     ebx; Increment by 1\n004869B3: neg     dl; Two's Complement Negation\n004869B5: sbb     edx, edx; Integer Subtraction with Borrow\n004869B7: mov     SG_BATTLE_VICTORY_COUNT, ebx\n004869BD: and     edx, 5Fh; Logical AND\n004869C0: add     edx, 5; Add\n004869C3: mov     mode_StateGlobal, dx; 100: In some cases of victory\n004869CA: jmp     short def_48698A; jumptable 0048698A default case\n004869CC: inc     SG_UNUSED_IN_FIELD_1; jumptable 0048698A cases 1,3\n004869D3: mov     mode_StateGlobal, 64h ; 'd'; jumptable 0048698A case 5\n004869DC: call    InitializeSound_CAL_sfx_stop_all2; jumptable 0048698A default case\n004869E1: mov     mode_Battle_AnimationState, 0\n004869EA: call    battle_vibrate_init_sub_4A92F0; Call Procedure\n004869EF: pop     edi\n004869F0: pop     esi\n004869F1: pop     ebp\n004869F2: pop     ebx\n004869F3: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x4868c0",
+      "end": "0x4868d2",
+      "successors": [
+        "0x4868d2"
+      ]
+    },
+    {
+      "start": "0x4868d2",
+      "end": "0x4868d7",
+      "successors": [
+        "0x4868d7",
+        "0x486912"
+      ]
+    },
+    {
+      "start": "0x4868d7",
+      "end": "0x486912",
+      "successors": [
+        "0x486912"
+      ]
+    },
+    {
+      "start": "0x486912",
+      "end": "0x486927",
+      "successors": [
+        "0x4868d2",
+        "0x486927"
+      ]
+    },
+    {
+      "start": "0x486927",
+      "end": "0x48692c",
+      "successors": [
+        "0x48692c"
+      ]
+    },
+    {
+      "start": "0x48692c",
+      "end": "0x486938",
+      "successors": [
+        "0x486938",
+        "0x486972"
+      ]
+    },
+    {
+      "start": "0x486938",
+      "end": "0x48693f",
+      "successors": [
+        "0x48693f"
+      ]
+    },
+    {
+      "start": "0x48693f",
+      "end": "0x486947",
+      "successors": [
+        "0x486947",
+        "0x48696f"
+      ]
+    },
+    {
+      "start": "0x486947",
+      "end": "0x486953",
+      "successors": [
+        "0x48693f",
+        "0x486953"
+      ]
+    },
+    {
+      "start": "0x486953",
+      "end": "0x48695a",
+      "successors": [
+        "0x48695a"
+      ]
+    },
+    {
+      "start": "0x48695a",
+      "end": "0x48695f",
+      "successors": [
+        "0x48695f",
+        "0x48696d"
+      ]
+    },
+    {
+      "start": "0x48695f",
+      "end": "0x48696b",
+      "successors": [
+        "0x48695a",
+        "0x48696b"
+      ]
+    },
+    {
+      "start": "0x48696b",
+      "end": "0x48696d",
+      "successors": [
+        "0x486972"
+      ]
+    },
+    {
+      "start": "0x48696d",
+      "end": "0x48696f",
+      "successors": [
+        "0x48696f"
+      ]
+    },
+    {
+      "start": "0x48696f",
+      "end": "0x486972",
+      "successors": [
+        "0x486972"
+      ]
+    },
+    {
+      "start": "0x486972",
+      "end": "0x48697d",
+      "successors": [
+        "0x48692c",
+        "0x48697d"
+      ]
+    },
+    {
+      "start": "0x48697d",
+      "end": "0x48698a",
+      "successors": [
+        "0x48698a",
+        "0x4869dc"
+      ]
+    },
+    {
+      "start": "0x48698a",
+      "end": "0x486991",
+      "successors": [
+        "0x486991",
+        "0x4869a3",
+        "0x4869cc",
+        "0x4869d3"
+      ]
+    },
+    {
+      "start": "0x486991",
+      "end": "0x4869a3",
+      "successors": [
+        "0x4869dc"
+      ]
+    },
+    {
+      "start": "0x4869a3",
+      "end": "0x4869cc",
+      "successors": [
+        "0x4869dc"
+      ]
+    },
+    {
+      "start": "0x4869cc",
+      "end": "0x4869d3",
+      "successors": [
+        "0x4869d3"
+      ]
+    },
+    {
+      "start": "0x4869d3",
+      "end": "0x4869dc",
+      "successors": [
+        "0x4869dc"
+      ]
+    },
+    {
+      "start": "0x4869dc",
+      "end": "0x4869f4",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d4af",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    }
+  ],
+  "code_targets": [
+    "0x46b440",
+    "0x485ec0",
+    "0x4a92f0"
+  ],
+  "instruction_count": 90
+}

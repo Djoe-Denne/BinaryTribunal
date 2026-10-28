@@ -1,0 +1,25 @@
+0049097B: jz      short loc_490992; Jump if Zero (ZF=1)
+0049097D: dec     eax; Decrement by 1
+0049097E: jnz     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490984: mov     byte_1D27ADD, 1; 01 with magic pain and lvl down, 08 on death
+0049098B: xor     esi, esi; Logical Exclusive OR
+0049098D: jmp     def_49043B; jumptable 0049043B default case, cases 3,9,10,35-37,39-235,242
+00490992: and     ecx, 0FFFFh; Logical AND
+00490998: xor     edx, edx; Logical Exclusive OR
+0049099A: mov     dl, byte ptr unk_1D28DF3
+004909A0: lea     eax, [ecx+ecx*2]; Load Effective Address
+004909A3: xor     ecx, ecx; Logical Exclusive OR
+004909A5: lea     esi, [edx+edx*2]; Load Effective Address
+004909A8: lea     eax, [eax+eax*4]; Load Effective Address
+004909AB: shl     eax, 2; Shift Logical Left
+004909AE: lea     edx, [edx+esi*4]; Load Effective Address
+004909B1: mov     cl, K_MAGIC.attackFlags[eax]
+004909B7: mov     ATTACK_FLAG, cl; | ID   | Meaning          |
+004909BD: and     cl, 3; Logical AND
+004909C0: shl     edx, 4; Shift Logical Left
+004909C3: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[edx], cl
+004909C9: mov     dl, K_MAGIC.animationTriggered[eax]
+004909CF: xor     ecx, ecx; Logical Exclusive OR
+004909D1: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, dl; 9: miss
+004909D7: mov     cl, K_MAGIC.spellPower[eax]
+004909DD: xor     edx, edx; Logical Exclusive OR

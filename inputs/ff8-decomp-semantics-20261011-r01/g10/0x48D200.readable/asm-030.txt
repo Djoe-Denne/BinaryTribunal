@@ -1,0 +1,25 @@
+0048DC51: mov     cl, SG_LIMIT_BREAK_IRVINE
+0048DC57: or      cl, dl; Logical Inclusive OR
+0048DC59: inc     al; Increment by 1
+0048DC5B: mov     SG_LIMIT_BREAK_IRVINE, cl
+0048DC61: mov     byte ptr unk_1D28E25, al
+0048DC66: jmp     short loc_48DC6F; Jump
+0048DC68: mov     byte ptr unk_1D28E25, 0; jumptable 0048D37A case 238
+0048DC6F: xor     edi, edi; Logical Exclusive OR
+0048DC71: xor     eax, eax; Logical Exclusive OR
+0048DC73: mov     al, SHOT_INDEX
+0048DC78: lea     eax, [eax+eax*2]; Load Effective Address
+0048DC7B: shl     eax, 3; Shift Logical Left
+0048DC7E: xor     ecx, ecx; Logical Exclusive OR
+0048DC80: mov     cl, K_SHOT.HitCount[eax]
+0048DC86: mov     ax, K_SHOT.MagicID[eax]
+0048DC8D: mov     [esp+24h+hit_count], ecx
+0048DC91: mov     [esp+24h+magic_id], eax
+0048DC95: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DC9A: mov     eax, [esp+24h+p_param_is_0_for_ai]; jumptable 0048D37A case 19
+0048DC9E: xor     ecx, ecx; Logical Exclusive OR
+0048DCA0: and     eax, 0FFh; Logical AND
+0048DCA5: push    eax
+0048DCA6: lea     esi, [eax+eax*4]; Load Effective Address
+0048DCA9: shl     esi, 2; Shift Logical Left
+0048DCAC: mov     cl, K_RINOA_LIMIT_PART_2.HitCount[esi]

@@ -1,0 +1,115 @@
+{
+  "fingerprint": "5024da02eb98439315f4787667fce445f932f69cb2646863a73453182908fe5c",
+  "estimationVersion": "v1",
+  "policyVersion": "v1",
+  "budgets": {
+    "nativeLineCharLimit": 2000,
+    "countsSqliteLength": false,
+    "contextEnvelopeMaxUtf8Bytes": 5000,
+    "unit": "utf8-bytes"
+  },
+  "decisions": [
+    {
+      "reason": "caller fits the numeric budget alone",
+      "action": "include",
+      "unitId": "unit:caller",
+      "id": "dec:caller"
+    },
+    {
+      "reason": "callee omitted without dispensation",
+      "action": "exclude_budget",
+      "unitId": "unit:callee",
+      "id": "dec:callee"
+    }
+  ],
+  "selectedUnitIds": [
+    "unit:caller"
+  ],
+  "sccs": [
+    {
+      "selfLoopPreserved": true,
+      "hasSelfLoop": false,
+      "exclusive": false,
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100"
+      ],
+      "id": "scc:caller"
+    },
+    {
+      "selfLoopPreserved": true,
+      "hasSelfLoop": false,
+      "exclusive": false,
+      "functionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000"
+      ],
+      "id": "scc:callee"
+    }
+  ],
+  "g3Affinities": [
+    {
+      "blocking": false,
+      "reason": "same fixture neighborhood; preference only",
+      "unitIds": [
+        "unit:caller",
+        "unit:callee"
+      ]
+    }
+  ],
+  "g2Conflicts": [],
+  "g1Edges": [
+    {
+      "storedCallDirection": "source_to_destination",
+      "callDestinationFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000",
+      "callSourceFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100",
+      "kind": "obligatory",
+      "toUnitId": "unit:caller",
+      "fromUnitId": "unit:callee"
+    }
+  ],
+  "prerequisites": [
+    {
+      "dispensationReason": null,
+      "dispensed": false,
+      "artifactKind": "structural_fact",
+      "requiredPublicationLevel": 1,
+      "kind": "obligatory",
+      "producerUnitId": "unit:callee",
+      "consumerUnitId": "unit:caller",
+      "id": "pre:caller-needs-callee"
+    }
+  ],
+  "units": [
+    {
+      "contextEnvelopeUtf8Bytes": {
+        "value": 4000,
+        "known": true
+      },
+      "state": "READY",
+      "requiredPublicationLevel": 1,
+      "contextFunctionIds": [],
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1100"
+      ],
+      "unitId": "unit:caller"
+    },
+    {
+      "contextEnvelopeUtf8Bytes": {
+        "value": 3000,
+        "known": true
+      },
+      "state": "READY",
+      "requiredPublicationLevel": 1,
+      "contextFunctionIds": [],
+      "ownedFunctionIds": [
+        "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000"
+      ],
+      "unitId": "unit:callee"
+    }
+  ],
+  "knowledgeRevision": 1,
+  "partitionId": "part:budget",
+  "snapshotId": "snap:budget",
+  "missionId": "re-graph-scheduler-20261013",
+  "planId": "plan:budget-omits-callee",
+  "schemaVersion": 1
+}

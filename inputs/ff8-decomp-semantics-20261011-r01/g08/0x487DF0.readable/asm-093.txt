@@ -1,0 +1,25 @@
+00489EC1: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489EC6: mov     cl, byte ptr ATTACKER_SLOT_ID_0+2; AI VM op 0x38 GIVE_ITEM: append item_id(1) to battle item-drop list (ITEM_RELATED)
+00489ECC: mov     dl, [esi]
+00489ECE: xor     eax, eax; Logical Exclusive OR
+00489ED0: mov     al, cl
+00489ED2: shl     eax, 1; Shift Logical Left
+00489ED4: inc     esi; Increment by 1
+00489ED5: inc     cl; Increment by 1
+00489ED7: mov     ITEM_RELATED[eax], dl
+00489EDD: mov     ITEM_RELATED_0[eax], 1
+00489EE4: mov     byte ptr ATTACKER_SLOT_ID_0+2, cl
+00489EEA: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489EEF: mov     BATTLE_SCRIPTED_END_PENDING, 1; AI VM op 0x39 SET_SCRIPTED_END: BATTLE_SCRIPTED_END_PENDING=1 (active tick -> scripted wipe end)
+00489EF6: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489EFB: mov     al, [esi]; AI VM op 0x3A SHOW_SLOT: flag_data&=~0x40 on slot(1); rebuild target visibility
+00489EFD: inc     esi; Increment by 1
+00489EFE: mov     [esp+74h+opcode_param_1], al
+00489F02: mov     eax, dword ptr [esp+74h+opcode_param_1]
+00489F06: and     eax, edi; Logical AND
+00489F08: lea     ecx, [eax+eax*2]; Load Effective Address
+00489F0B: lea     edx, [eax+ecx*4]; Load Effective Address
+00489F0E: shl     edx, 4; Shift Logical Left
+00489F11: lea     eax, BATTLE_SLOT_DATA.flag_data[edx]; Load Effective Address
+00489F17: mov     ecx, [eax]
+00489F19: and     ecx, 0FFFFFFBFh; Logical AND

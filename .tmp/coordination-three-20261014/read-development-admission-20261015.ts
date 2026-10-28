@@ -1,0 +1,18 @@
+import {writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',name=process.argv[2],stage=process.argv[3];
+if(!['l8-integration-r1','l7-interop-r1'].includes(name??'')||!['pre','post'].includes(stage??''))throw Error('Owned name and stage required');
+const e=await Service.discover();if(!e)throw Error('No public native API');const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});
+const response=await fetch('http://127.0.0.1:4747/api/state');if(!response.ok)throw Error('No public mission state');const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');
+if(team?.leadSessionId!=='ses_eca40a8e2ffeanEKTBLiGjDNw8')throw Error('Foreign lead');const member=team.members.find((m:any)=>m.name===name);if(!member)throw Error('Member absent');
+const session=await cli.session.get({sessionID:member.sessionId});if(session.model?.providerID!=='openai'||session.model.id!=='gpt-6.1-sol'||session.model.variant!=='max')throw Error('Native model/effort mismatch');
+const list=spawnSync('git',['worktree','list','--porcelain'],{cwd:root,encoding:'utf8'});if(list.status!==0)throw Error('No worktree readback');
+const expectedOwned='C:/Users/djden/.local/share/opencode/worktree/68ae5f/'+member.worktreeBranch;
+const block=list.stdout.split(/\r?\n\r?\n/).find(b=>b.split(/\r?\n/).includes('worktree '+expectedOwned));
+const owned=block?.split(/\r?\n/).find(l=>l.startsWith('worktree '))?.slice(9);if(!owned||owned.replaceAll('\\','/').toLowerCase()===root.toLowerCase())throw Error('No isolated owned worktree');
+const head=spawnSync('git',['rev-parse','HEAD'],{cwd:owned,encoding:'utf8'});if(head.status!==0||!head.stdout.startsWith('e03e063'))throw Error('Unexpected owned baseline HEAD');
+if(stage==='post'&&session.location.directory.replaceAll('\\','/').toLowerCase()!==owned.replaceAll('\\','/').toLowerCase())throw Error('Native session not in owned worktree');
+const record={name,stage,sessionID:session.id,model:session.model,nativeDirectory:session.location.directory,owned,head:head.stdout.trim(),taskName:member.taskId??null};
+writeFileSync(root+'/.tmp/coordination-three-20261014/'+name+'-admission-'+stage+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(record));

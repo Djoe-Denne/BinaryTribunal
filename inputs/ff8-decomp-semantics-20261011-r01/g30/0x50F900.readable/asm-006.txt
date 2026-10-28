@@ -1,0 +1,25 @@
+0050FADB: fstp    [esp+60h+var_10]; Store Real and Pop
+0050FADF: fld     [esp+60h+var_50]; Load Real
+0050FAE3: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FAE9: mov     ebx, dword ptr [esp+60h+var_10]
+0050FAED: lea     ecx, [ecx+ebx*2]; Load Effective Address
+0050FAF0: fstp    [esp+60h+var_10]; Store Real and Pop
+0050FAF4: mov     ebx, dword ptr [esp+60h+var_10]
+0050FAF8: lea     eax, [eax+ebx*2]; Load Effective Address
+0050FAFB: jmp     short loc_50FB37; Jump
+0050FAFD: fdivr   [esp+60h+var_20]; Divide Real Reversed
+0050FB01: xor     esi, esi; Logical Exclusive OR
+0050FB03: fld     st; Load Real
+0050FB05: fmul    [esp+60h+var_54]; Multiply Real
+0050FB09: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FB0F: fstp    [esp+60h+var_10]; Store Real and Pop
+0050FB13: mov     ebx, dword ptr [esp+60h+var_10]
+0050FB17: fmul    [esp+60h+var_50]; Multiply Real
+0050FB1B: lea     ecx, [ebx+ecx+80000000h]; Load Effective Address
+0050FB22: fadd    ds:CONST_4_503601774854144e15; Add Real
+0050FB28: fstp    [esp+60h+var_10]; Store Real and Pop
+0050FB2C: mov     ebx, dword ptr [esp+60h+var_10]
+0050FB30: lea     eax, [ebx+eax+80000000h]; Load Effective Address
+0050FB37: cmp     ecx, [esp+60h+var_1C]; Compare Two Operands
+0050FB3B: jbe     short loc_50FB43; Jump if Below or Equal (CF=1 | ZF=1)
+0050FB3D: or      esi, offset VIT_0_STATUS_MASK?; Logical Inclusive OR

@@ -1,0 +1,13 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strict as assert} from 'node:assert';
+import {Service} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/service.js';
+import {OpenCode} from '../../tools/ff8-harness/node_modules/@opencode/client/dist/promise/index.js';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',phase=root+'/.tmp/coordination-three-20261014',sourceRoot=root+'/.tmp/re-graph-scheduler/review-20261014/L7_ASTRA_3EA92F_REVIEW',sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const e=await Service.discover();assert(e);const cli=OpenCode.make({baseUrl:e.url,headers:Service.headers(e)});const response=await fetch('http://127.0.0.1:4747/api/state');assert(response.ok);const team=(await response.json()).teams.find((t:any)=>t.name==='re-graph-scheduler');assert.equal(team?.leadSessionId,'ses_eca40a8e2ffeanEKTBLiGjDNw8');const member=team.members.find((m:any)=>m.name==='l7-astra-review');assert(member);
+const session=await cli.session.get({sessionID:member.sessionId});assert.deepEqual(session.model,{id:'gpt-6.1-sol',providerID:'openai',variant:'max'});assert.equal(session.location.directory.replaceAll('\\','/'),root);assert(!['ses_ec0192753ffeWKOqq53yPbjVoL','ses_ec03d9d0effep5x4mBY16ogUt3','ses_ec0f4f005ffeiESudi5ADo2QXH'].includes(session.id));
+const b=readFileSync(sourceRoot+'/REVIEW_INPUT_MANIFEST.json');assert.equal(sha(b),'0bb65af0a559c6012b79bb4e4812e4eb95a144736ac6ecf81ead4412e087edff');const m=JSON.parse(b.toString('utf8')),files=m.files.map((f:any)=>({path:f.path,sha256:f.sha256,kind:f.kind}));for(const f of files)assert.equal(sha(readFileSync(sourceRoot+'/'+f.path)),f.sha256);files.push({path:'REVIEW_INPUT_MANIFEST.json',sha256:sha(b),kind:'manifest'});
+mkdirSync(phase+'/l7-astra-review-evidence',{recursive:true});
+const request={schemaVersion:1,missionId:team.id,taskId:'task_mv9qdvek_002y_6x3kw6',cycle:1,role:'reviewer',blind:false,sourceRoot,targetSessionId:session.id,destinationRoot:root+'/inputs/L7_ASTRA_REVIEW_3EA92F',files};
+writeFileSync(phase+'/l7-astra-fresh-review-preparation-request.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});const native={member,session:{id:session.id,model:session.model,directory:session.location.directory},task:request.taskId,files:files.length,bytes:JSON.parse(readFileSync(phase+'/l7-astra-fresh-review-freeze.json','utf8')).bytes,destination:request.destinationRoot,proofDirectory:phase+'/l7-astra-review-evidence'};
+writeFileSync(phase+'/l7-astra-fresh-review-native-admission.json',JSON.stringify(native,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({...native,member:member.name}));

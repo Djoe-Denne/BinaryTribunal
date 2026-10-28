@@ -4,20 +4,20 @@ category: references
 tags: [ff8, battle-system, testing, runtime-memory, reference]
 aliases: [G08 targeting closure, G08 target-plan live validation, P0 G08]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-seam-fault-2026-08-11.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-direct-target-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-enemy-direct-target-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-golcota-group-fanout-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-rng-delta-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-pre-g09-2026-08-10.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-window-pre-g09-2026-08-10.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-attribution-pre-g09-2026-08-10.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-revive-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-cover-redirect-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-post-shutdown-2026-08-11.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p0-g08-live-pending-seam-fault-2026-08-11.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-direct-target-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-enemy-direct-target-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-golcota-group-fanout-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-rng-delta-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-window-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-meteor-random-party-rng-attribution-pre-g09-2026-08-10.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-revive-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-cover-redirect-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-double-ui-first-fanout-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-triple-sequence-pre-g09-2026-08-09.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g08-native-angel-wing-target-exclusion-staged-pre-g09-2026-08-10.json
 summary: G08 v2 closes target-plan ownership for an authentic Meteor pending: ten ordered hits, exact RNG delta, no G09/native targeting call, and rollback `0x1ff`.
 provenance:
   extracted: 0.95

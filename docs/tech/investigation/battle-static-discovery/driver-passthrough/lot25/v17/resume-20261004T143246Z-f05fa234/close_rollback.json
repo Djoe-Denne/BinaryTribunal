@@ -1,0 +1,107 @@
+{
+  "schema": "lot25-v17-resume-close-rollback-v1",
+  "receipt_time_utc": "2026-10-04T14:50:17.5818836Z",
+  "instance": "L25-v17-RESUME-CLOSE",
+  "run_dir": "docs/tech/investigation/battle-static-discovery/driver-passthrough/lot25/v17/resume-20261004T143246Z-f05fa234",
+  "sequence_context": {
+    "user_opened": true,
+    "parent_stopped_on_safety_witness": true,
+    "collecte": "none; no arming was ever done",
+    "dump_sidecars_created": 0
+  },
+  "processes": {
+    "witnessed_during_open": {
+      "FF8_EN.exe": "PID 18328 created 2026-10-04T14:43:15.1439110Z",
+      "FF8_Launcher.exe": "PID 38860"
+    },
+    "user_declared_normal_quit": true,
+    "process_absence_observed_cim": 0,
+    "process_absence_observed_getprocess": 0,
+    "rechecked_at": [ "capture step", "restore step", "after restore" ],
+    "no_kill_attempted": true,
+    "no_debugger": true,
+    "no_memory_write": true
+  },
+  "phase_counts_final_diag": {
+    "log": "close_gfx_passthrough_stage0.log (live 6065 B; snapshot+append, prefix_5606 sha verified)",
+    "attach": 2,
+    "install_enter": 2,
+    "install_site_before": 4,
+    "install_site_after": 4,
+    "install_exit": 2,
+    "detach": 2,
+    "restore_or_uninstall_lines": 0,
+    "final_seq": 10909,
+    "final_armed": 1,
+    "detach_causes": "snapshot_only (x2), ret=-1 both",
+    "e8_state_at_final_detach": "site1+site2 still E8 to stub 54E3294B; e8_target/stub_match=1; saved6=FF9098000000; saved_match=0 flag noted for parent",
+    "pid_field_in_log": "none",
+    "same_process_inference_allowed": false
+  },
+  "verdicts_distinct": {
+    "normal_quit": "USER_DECLARATION (not agent observé)",
+    "process_absence": "OBSERVED (CIM + Get-Process = 0)",
+    "disk_restore": "HASH_PROVEN byte-exact",
+    "memory_restore_detach": "NOT OBSERVED — red witness: diagnostic contains no restore lines; both detach entries leave sites patched; PID-independent analysis stays open for parent"
+  },
+  "stop_status": {
+    "parent_stop_respected": true,
+    "satisfied": false,
+    "promotion": "no",
+    "retroactive_validation_of_intermediate_detach": "none (no PID linkage)"
+  },
+  "capture_bundle": {
+    "raw_dir": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-closed-de08918ae55b450bbeb3c02226f01e13",
+    "manifest": "manifest.json",
+    "manifest_sha256": "c2ecf4122b79923dbf6f796d499fda72621d0b3d7aab6a44421391ac07a30b62",
+    "uuid": "de08918ae55b450bbeb3c02226f01e13",
+    "files": [
+      { "name": "gfx_passthrough.csv", "sha256": "503f286b05cf3728bf3b985b54ae38148086585c88a214d44c04377bf63b9fce", "len": 24590094, "grew_from": 16461668, "streamed": true, "note": "csv never read wholesale; streaming hash+copy" },
+      { "name": "gfx_passthrough_stage0.log", "sha256": "b14d14aec9cdb9154cac546a078e3dbe3a35145658a309da6822167b037fe79b", "len": 6065 },
+      { "name": "gfx_passthrough.stage0", "sha256": "1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82", "len": 111 }
+    ],
+    "append_only_proof": {
+      "snapshot_log_sha": "f77fab64891170de32ec1f206dffa37aab2cf35217b2ea6b3f5b45d68879a5f6",
+      "snapshot_len": 5606,
+      "live_prefix_5606_sha": "f77fab64891170de32ec1f206dffa37aab2cf35217b2ea6b3f5b45d68879a5f6",
+      "match": true
+    },
+    "snapshot_hashes": {
+      "observation.json": "c8b793652337bdb5d808ec52fd251577fa140dd662b766a5eb5707f4b90bdb1e",
+      "processes.json": "a1fd716fe5fc878bd0e1c8b13628ce38bafd7d9a0dd78c6d39d979796ee3459b"
+    },
+    "source_stability": "all 3 files sha-before == sha-after == sha-dest, mtimes unchanged",
+    "dump_bin_present": false,
+    "nohook_present": false
+  },
+  "disk_rollback": {
+    "game_path": "C:/Program Files (x86)/Steam/steamapps/common/FINAL FANTASY VIII/AF3DN.P",
+    "fresh_archive": "C:/Users/djden/source/repos/retro-eng/re-ff8/tools/_tmp_af3dn_drop/captures/lot25-pass2bis-resume-pre-54da1edaae9d4a829c48636684ba9b44/AF3DN.P.rollback",
+    "archive_sha256_verified_at_restore": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "pre_restore_sha256": "0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc",
+    "pre_restore_len": 614912,
+    "post_restore_sha256": "3da7883fb9815615f309e17e7a3b8fb6f496d091739839240a7d457ba7ba9d19",
+    "post_restore_len": 145920,
+    "byte_exact": true,
+    "restore_failure_lines": []
+  },
+  "sidecars_after_close": {
+    "removed": [ { "name": "gfx_passthrough.stage0", "sha256": "1a13a33518b050d8debb6cf6c03390b0ac6afbc67201fc20364b90aecbe14d82", "archived_sha_match": true } ],
+    "kept_no_purge": [
+      { "name": "gfx_passthrough_stage0.log", "sha256": "b14d14aec9cdb9154cac546a078e3dbe3a35145658a309da6822167b037fe79b", "len": 6065 },
+      { "name": "gfx_passthrough.csv", "sha256": "503f286b05cf3728bf3b985b54ae38148086585c88a214d44c04377bf63b9fce", "len": 24590094 }
+    ],
+    "final_game_sidecar_scan": "gfx_passthrough.csv, gfx_passthrough_stage0.log only"
+  },
+  "run_dir_additions": [
+    { "name": "close_rollback.json", "this_receipt": true, "no_overwrite_of_prior_receipts": true },
+    { "name": "close_rollback.log", "transcript": true },
+    { "name": "close_gfx_passthrough_stage0.log", "sha256": "b14d14aec9cdb9154cac546a078e3dbe3a35145658a309da6822167b037fe79b" }
+  ],
+  "parent_pending_analysis": [
+    "interpret two attach/install cycles and intermediate detach without PID",
+    "saved6=FF9098000000 with saved_match=0 flag on all site_after lines",
+    "req/res zeros at detach(s); bit1 semantics; missing memory restore witness"
+  ],
+  "boundaries_respected": [ "no launch", "no retest", "no kill", "no debugger", "no memory writes", "no git/commit", "no source/oracle edits", "no build", "no wiki ingest", "no LIVE_CARD/CAMPAIGN edits (parent's)" ]
+}

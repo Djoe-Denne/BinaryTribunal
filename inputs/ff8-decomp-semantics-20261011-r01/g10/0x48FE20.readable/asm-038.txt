@@ -1,0 +1,25 @@
+00490CA0: inc     edi; Increment by 1
+00490CA1: add     edx, 44h ; 'D'; Add
+00490CA4: add     esi, 0Ch; Add
+00490CA7: cmp     edx, offset SG_ARRAY_CHARA_DATA.Magic.amount; Compare Two Operands
+00490CAD: jl      short loc_490C95; Jump if Less (SF!=OF)
+00490CAF: and     eax, 0FFFFh; Logical AND
+00490CB4: cdq; EAX -> EDX:EAX (with sign)
+00490CB5: idiv    edi; Signed Divide
+00490CB7: and     ecx, 0FFFFh; Logical AND
+00490CBD: mov     GF_LEVEL, al
+00490CC2: lea     eax, [ecx+ecx*4]; Load Effective Address
+00490CC5: mov     GF_BOOST, 64h ; 'd'
+00490CCC: shl     eax, 2; Shift Logical Left
+00490CCF: mov     dl, K_NONJ_GF_ATTACK_NAME_OFFSET.levelMod[eax]
+00490CD5: mov     cl, K_NONJ_GF_ATTACK_NAME_OFFSET.powerMod[eax]
+00490CDB: mov     GF_LEVEL_MOD, dl
+00490CE1: xor     edx, edx; Logical Exclusive OR
+00490CE3: mov     dl, byte ptr unk_1D28DF3
+00490CE9: mov     GF_POWER_MOD, cl
+00490CEF: xor     ecx, ecx; Logical Exclusive OR
+00490CF1: mov     cl, K_NONJ_GF_ATTACK_NAME_OFFSET.statusFlags[eax]
+00490CF7: lea     esi, [edx+edx*2]; Load Effective Address
+00490CFA: mov     ATTACK_FLAG, cl; | ID   | Meaning          |
+00490D00: and     cl, 3; Logical AND
+00490D03: lea     edx, [edx+esi*4]; Load Effective Address

@@ -1,0 +1,12 @@
+0050B830  55                       push    ebp
+0050B831  8b 6c 24 08              mov     ebp, [esp+4+arg_0]
+0050B835  56                       push    esi
+0050B836  57                       push    edi
+0050B837  8b 45 10                 mov     eax, [ebp+10h]
+0050B83A  c6 05 56 9a d9 01 ff     mov     byte_1D99A56, 0FFh
+0050B841  89 44 24 10              mov     [esp+0Ch+arg_0], eax
+0050B845  33 c0                    xor     eax, eax
+0050B847  8a 45 0d                 mov     al, [ebp+0Dh]
+0050B84A  83 f8 07                 cmp     eax, 7
+0050B84D  0f 87 db 00 00 00        ja      def_50B853
+0050B853  ff 24 85 e0 ba 50 00     jmp     ds:jpt_50B853[eax*4]

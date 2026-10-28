@@ -1,0 +1,27 @@
+bun test v1.4.2 (744846f84)
+
+test\strict-adapter.test.ts:
+(pass) strict submission transports its schema and requires reads, never a worker edit [4.38ms]
+(pass) strict native payload is validated and materialized once with controller-owned header [7.04ms]
+78 |     if (defect === "model") f.execution.structuredResult.native.model = { ...f.intent.requestedModel, variant: "low" };
+79 |     if (defect === "hash") f.execution.structuredResult.sha256 = hash("wrong");
+80 |     if (defect === "endpoint") f.execution.outputWitnesses[0].endpoint = "https://other.invalid/responses";
+81 |     if (defect === "mixed-witness") f.execution.outputWitnesses.push({ ...f.execution.outputWitnesses[0], schemaSha256: hash("unguarded-request") });
+82 |     const result = await f.bridge.inspect(f.intent);
+83 |     expect(result.status).toBe("failed"); expect(result.artifact).toBeUndefined(); expect(existsSync(f.intent.outputPath)).toBe(false);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "completed"
+
+      at <anonymous> (C:\Users\djden\source\repos\retro-eng\re-ff8\tools\ff8-harness\test\strict-adapter.test.ts:83:27)
+(fail) strict success cannot be inferred from native outcome, an old file or unwitnessed output [19.61ms]
+(pass) strict capture rejects aliases and reserved fields without post-hoc repair [4.64ms]
+(pass) strict mode refuses missing bridge capability before team allocation [2.45ms]
+(pass) strict mode cannot grant worker file edits or silently fall back to another provider [2.13ms]
+
+ 5 pass
+ 1 fail
+ 46 expect() calls
+Ran 6 tests across 1 file. [60.00ms]

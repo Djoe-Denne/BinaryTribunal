@@ -1,0 +1,25 @@
+00460978: mov     [esp+14h+arg_0], edi
+0046097C: add     edx, 80000000h; Add
+00460982: mov     dword_1CA8A74, edx
+00460988: fmul    st, st(3); Multiply Real
+0046098A: faddp   st(1), st; Add Real and Pop
+0046098C: fild    [esp+14h+arg_0]; Load Integer
+00460990: mov     [esp+14h+arg_0], ebx
+00460994: movsx   ebx, word ptr [eax+0Eh]; Move with Sign-Extend
+00460998: fmul    st, st(4); Multiply Real
+0046099A: movsx   eax, word ptr [eax+0Ch]; Move with Sign-Extend
+0046099E: faddp   st(1), st; Add Real and Pop
+004609A0: fadd    ds:CONST_4_503601774854144e15; Add Real
+004609A6: fstp    [esp+14h+var_8]; Store Real and Pop
+004609AA: fild    [esp+14h+arg_0]; Load Integer
+004609AE: mov     [esp+14h+arg_0], ebx
+004609B2: mov     edi, dword ptr [esp+14h+var_8]
+004609B6: add     edi, 80000000h; Add
+004609BC: fmul    st, st(1); Multiply Real
+004609BE: fild    [esp+14h+arg_0]; Load Integer
+004609C2: mov     [esp+14h+arg_0], eax
+004609C6: mov     dword_1CA8A78, edi
+004609CC: fmul    st, st(3); Multiply Real
+004609CE: faddp   st(1), st; Add Real and Pop
+004609D0: fild    [esp+14h+arg_0]; Load Integer
+004609D4: fmul    st, st(4); Multiply Real

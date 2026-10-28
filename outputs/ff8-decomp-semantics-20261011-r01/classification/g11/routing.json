@@ -1,0 +1,144 @@
+{
+  "mission": "ff8-decomp-semantics-2026-10-11-run01",
+  "group": "g11",
+  "task_id": "task_mv42pebc_001s_v19dl9",
+  "classifier_agent": "pool-70",
+  "produced_utc": "2026-10-12T13:40:53Z",
+  "contract": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md (Routage initial conservateur v1)",
+  "status": "DISPATCH_READY",
+  "prior_attempt": {
+    "classifier_agent": "classify-g11",
+    "produced_utc": "2026-10-11T17:09:33Z",
+    "archived_manifest": "outputs/ff8-decomp-semantics-20261011-r01/classification/g11/routing.classify-g11-20261011T170933Z.json",
+    "outcome": "Prior untracked manifest for this same task_id preserved as archive. Every conclusion it recorded was independently re-derived and confirmed by pool-70 against the frozen artifacts; its receipt copies were verified byte-exact and reused (no rewrite)."
+  },
+  "classification_source": {
+    "mode": "reused_archived_native_responses",
+    "new_classify_calls": 0,
+    "note": "Exact archived Classify requests/responses verified complete and reused; no duplicate calls, per contract 'Reutiliser les appels deja archives, sans double appel inutile'.",
+    "archived_at": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/classifier-payloads/",
+    "immutable_copies": "outputs/ff8-decomp-semantics-20261011-r01/classification/g11/receipts/ (byte-exact, untouched by pool-70)"
+  },
+  "verification_evidence": {
+    "verified_utc": "2026-10-12T13:40:53Z",
+    "receipts_byte_exact_vs_archive": {
+      "0x484490.request.json": { "sha256": "8e80b0cab2f8e44b9f58ab20f598e8f3ae5f462cfe63cf19f3d1dc67f45aa2c7", "matches_archive": true },
+      "0x484490.response.native.json": { "sha256": "b546b4d4eda94b9c033ab8caeb9acbd43fb7dcfc58729932d4778913e9f0a770", "matches_archive": true },
+      "0x4844D0.request.json": { "sha256": "5bb74f9ffc23ae2b447119e72b443dd01c0ea879d36a3595d75d1f01860374c8", "matches_archive": true },
+      "0x4844D0.response.native.json": { "sha256": "39cf9c08b4a560267cf47ab7ee9dcfe8969b78f8928ff2d5c060461981185fbc", "matches_archive": true }
+    },
+    "factual_inputs_hash_verified": {
+      "common_compaction": { "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/common-compaction.md", "sha256": "336f6164d77dddc2cf8c93937f9ee6a6374f22f70b50ee44530aec71e07e85fb" },
+      "0x484490": { "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/0x484490.json", "sha256": "848341204b1ee6f30f404dea7e0648550cc81acec711182ffdd304f0b81ebf0d" },
+      "0x4844D0": { "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/0x4844D0.json", "sha256": "d4e390e27d66fd2a6d03b2ab8b991697661b06c37962631950b8d673a88ebb42" }
+    },
+    "request_payload_fidelity": {
+      "architecture": "x86-32 in both requests",
+      "common_compaction_embedding": "All 43/43 non-blank compaction lines present in original order in both request.assembly (0 missing, 0 out-of-order)",
+      "target_asm_embedding": "0x484490: packet assembly 15/15 lines verbatim at request tail; 0x4844D0: 35/35 lines verbatim at request tail",
+      "metadata_cfg": "0x484490: 1 block, no successors (leaf); 0x4844D0: 5 blocks, all successors resolved static addresses (no indirect)"
+    },
+    "classify_response_content": {
+      "0x484490": { "complexity": 10, "risk": 27, "uncertainty_cause": "none", "provider": "opencode_zen/jev-1.13-free" },
+      "0x4844D0": { "complexity": 47, "risk": 27, "uncertainty_cause": "data_flow", "provider": "opencode_zen/jev-1.13-free" }
+    },
+    "pe_verification": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json (at_utc 2026-10-11T16:55:55Z, disk PE sha256 064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570 == idb recorded). Results rows: 0x484490 idb_equals_pe_and_freeze=true; 0x4844D0 idb_equals_pe_and_freeze=true.",
+    "downstream_consistency": "outputs/ff8-decomp-semantics-20261011-r01/admission/s2.json g11 rows READY reference exactly these receipt paths and request/response sha256 values; no divergence."
+  },
+  "factual_inputs": {
+    "common_compaction": {
+      "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/common-compaction.md",
+      "sha256": "336f6164d77dddc2cf8c93937f9ee6a6374f22f70b50ee44530aec71e07e85fb"
+    },
+    "native_packets": {
+      "0x484490": { "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/0x484490.json", "sha256": "848341204b1ee6f30f404dea7e0648550cc81acec711182ffdd304f0b81ebf0d" },
+      "0x4844D0": { "path": "inputs/ff8-decomp-semantics-20261011-r01/g11/0x4844D0.json", "sha256": "d4e390e27d66fd2a6d03b2ab8b991697661b06c37962631950b8d673a88ebb42" }
+    },
+    "pe_verification": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json (at_utc 2026-10-11T16:55:55Z, disk PE sha256 064d466b... == idb recorded)"
+  },
+  "quarantine": {
+    "native_pe_mismatch_eas_run": ["0x465720 (g05)", "0x495960 (g14)", "0x48D200 (g10)", "0x48FE20 (g10)"],
+    "in_g11": [],
+    "g11_all_idb_equals_pe_and_freeze": true,
+    "action": "No g11 EA quarantined; the 4 mismatch EAs belong to other groups and are out of this worker's scope (re-verified against native-pe-verification.json results)."
+  },
+  "routing": {
+    "thresholds_v1": "Simple: c<=25, risk<=20, <=80 instructions natives, no ABI/arith ambiguity, no unresolved indirect, no incomplete context, no contradiction; 1 author/volet. Moyen: hors simple, c<=65, risk<=50, no major structural trigger; 2+1/volet. Complexe: other cases, >200 instructions, unresolved indirect or conflict; 2+1/volet.",
+    "0x484490": {
+      "label_label_only": "domain::Battle_InitATB_MaxAndReset",
+      "native_metrics": { "instructions": 15, "blocks": 1, "asm_chars": 939, "leaf": true, "code_targets": 0 },
+      "classify": { "complexity": 10, "risk": 27, "uncertainty_cause": "none", "classifier": "opencode_zen/jev-1.13-free (archived native response reused, content re-verified)" },
+      "decision": "MEDIUM",
+      "rationale": "Complexity 10<=25 but risk 27>20 -> Simple excluded per v1 thresholds. Moyen holds: complexity 10<=65, risk 27<=50, 15<=80 instructions, single leaf block, no unresolved indirect, no contradiction. No conservative surclassement: no native evidence triggers Complexe. 2+1 per volet.",
+      "production_caution": "Compaction U1/U2: erroneous 'stride 0x1B0' packet annotation and foreign odd/even annotations are annotation-corpus contamination, factually resolved in the frozen compaction (native math + docs agree stride 0xD0); authors must not import those annotations."
+    },
+    "0x4844D0": {
+      "label_label_only": "domain::Battle_InitATB_RandomFromSpeed",
+      "native_metrics": { "instructions": 35, "blocks": 5, "asm_chars": 2028, "leaf": false, "code_targets": ["0x48F020"] },
+      "classify": { "complexity": 47, "risk": 27, "uncertainty_cause": "data_flow", "classifier": "opencode_zen/jev-1.13-free (archived native response reused, content re-verified)" },
+      "decision": "MEDIUM",
+      "rationale": "Complexity 47>25 -> Simple excluded. Moyen holds: complexity 47<=65, risk 27<=50, 35 instructions, 5-block CFG with all successors statically resolved, single direct call 0x48F020 (documented Battle_GetRandomInt) — no unresolved indirect control, no >200 instructions, no conflict. No conservative surclassement. 2+1 per volet.",
+      "production_caution": "Return contract divergence candidate: native EAX returns pre-zero-clamp cur (may be negative) vs sibling C void — divergence candidate only, no verdict (compaction G11.5). Compaction U2 foreign annotations and U3/U4 caller-context uncertainties (branch selection and spd-byte writer rest on validated docs; callers 0x48B5F0/0x48BBD0 lack native packets this run) must remain declared, not resolved by prose."
+    }
+  },
+  "source_inheritance": {
+    "exact_source_session": "discover-g11-zai",
+    "rule": "C and semantic authors fork from the frozen factual explorer/reader session discover-g11-zai. pool-70 (classifier) is NOT the fork source and never authors productions. Lead alone spawns sessions and verifies effective Model.Ref (id without #suffix, variant as routed) at creation.",
+    "compaction_freeze": "Common compaction g11 frozen and hash-stamped above; passed verbatim to classify and to be passed unchanged to authors."
+  },
+  "dispatch_ready": [
+    {
+      "ea": "0x484490",
+      "route": "MEDIUM",
+      "mode": "2+1 per volet (C + semantic, independent A/B then reconciler R)",
+      "c": {
+        "A": { "model": "zai-coding-plan/glm-5.3-flash", "variant": "max", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x484490/A-glm-max/" },
+        "B": { "model": "opencode-go/gpt-6-luna", "variant": "medium", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x484490/B-luna-medium/" },
+        "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x484490/R-sol-high/" }
+      },
+      "semantic": {
+        "A": { "model": "openai/gpt-6.1-sol", "variant": "medium", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x484490/A-sol-medium/" },
+        "B": { "model": "openai/gpt-6-astra", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x484490/B-astra-high/" },
+        "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x484490/R-sol-high/" }
+      },
+      "justification": "CONTRACT v1 reading: 'C moyen : GLM max et Luna medium independants'; semantic 'Sol medium/high selon risque' -> risk 27/50 low => Sol medium for A, Astra high as independent second production (catalogue alternative); R high. Model proposals are contract-conformant suggestions; final model+variant selection and Model.Ref verification belong to the lead at spawn time.",
+      "factual_input_hashes": {
+        "native_packet": "848341204b1ee6f30f404dea7e0648550cc81acec711182ffdd304f0b81ebf0d",
+        "common_compaction": "336f6164d77dddc2cf8c93937f9ee6a6374f22f70b50ee44530aec71e07e85fb",
+        "classify_request": "8e80b0cab2f8e44b9f58ab20f598e8f3ae5f462cfe63cf19f3d1dc67f45aa2c7",
+        "classify_response": "b546b4d4eda94b9c033ab8caeb9acbd43fb7dcfc58729932d4778913e9f0a770"
+      },
+      "blocked": false
+    },
+    {
+      "ea": "0x4844D0",
+      "route": "MEDIUM",
+      "mode": "2+1 per volet (C + semantic, independent A/B then reconciler R)",
+      "c": {
+        "A": { "model": "zai-coding-plan/glm-5.3-flash", "variant": "max", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x4844D0/A-glm-max/" },
+        "B": { "model": "opencode-go/gpt-6-luna", "variant": "medium", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x4844D0/B-luna-medium/" },
+        "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/c/0x4844D0/R-sol-high/" }
+      },
+      "semantic": {
+        "A": { "model": "openai/gpt-6.1-sol", "variant": "medium", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x4844D0/A-sol-medium/" },
+        "B": { "model": "openai/gpt-6-astra", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x4844D0/B-astra-high/" },
+        "R": { "model": "openai/gpt-6.1-sol", "variant": "high", "output_dir": "outputs/ff8-decomp-semantics-20261011-r01/semantic/0x4844D0/R-sol-high/" }
+      },
+      "justification": "Same MEDIUM routing as 0x484490 (c=47, risk=27, 35 instr, 5 statically-resolved blocks, single resolved direct call). One-call dependency 0x48F020 documented as callee context, not part of g11; authors must not attempt its production (out of group). Return-contract divergence candidate and U3/U4 caller-context uncertainties declared for reconciliation attention.",
+      "factual_input_hashes": {
+        "native_packet": "d4e390e27d66fd2a6d03b2ab8b991697661b06c37962631950b8d673a88ebb42",
+        "common_compaction": "336f6164d77dddc2cf8c93937f9ee6a6374f22f70b50ee44530aec71e07e85fb",
+        "classify_request": "5bb74f9ffc23ae2b447119e72b443dd01c0ea879d36a3595d75d1f01860374c8",
+        "classify_response": "39cf9c08b4a560267cf47ab7ee9dcfe8969b78f8928ff2d5c060461981185fbc"
+      },
+      "blocked": false
+    }
+  ],
+  "model_availability_note": "At manifest time the mission model policy (rev 7) marks opencode-go/gpt-6-luna (medium) disabled and openai/gpt-6-astra (high) + openai/gpt-6.1-sol (high) as reserve. Route decisions (MEDIUM, 2+1/volet) are model-independent; the lead substitutes equivalent enabled models per contract 'Alternatives du catalogue admissibles selon disponibilite et risque, justification obligatoire' and verifies effective Model.Ref at spawn.",
+  "blocked_eas": [],
+  "notes": [
+    "Classification is mandatory and consultative: it never dispenses native §5.6 controls by the supervisor.",
+    "No oversize Luna Fast evaluation requested: both target ASMs well within Classify limits (939 and 2028 asm chars), archived native responses complete.",
+    "Worker pool-70 wrote only outputs/ff8-decomp-semantics-20261011-r01/classification/g11/ (this manifest + archive of the prior attempt manifest); receipt files left byte-identical (verified against archives, already consumed by admission/s2.json). No ledger/IDB/Git/config/other-output mutations; no live; no delegation; producers NOT started (lead alone spawns and verifies Model.Ref)."
+  ]
+}

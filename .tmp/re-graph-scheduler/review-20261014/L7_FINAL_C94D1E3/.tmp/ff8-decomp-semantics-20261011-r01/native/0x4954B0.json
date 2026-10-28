@@ -1,0 +1,95 @@
+{
+  "ea": "0x4954B0",
+  "name_label_only": "domain::Battle_BuildMagicJunctionList",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x4954b0",
+      "end": "0x49552f",
+      "hex": "5556578b7c2410bd200000008d04fd000000002bc78d0487c1e0040500f0cf018db08600000033c9c606008a4efc6bc93cf6816f40cf01807403c6060133d28a56fc5257e8b799feff83c40885c07403800e0433c033d28a46fc83c6056bc03c8a886e40cf01884efa8a56f76bd23c4d8a826d40cf018846f975ab5f5e5dc3"
+    }
+  ],
+  "assembly": "004954B0: push    ebp; BuildMagicJunctionList(slot): 32x stride5 F_CHAR_DATA+slot*464+134; flag=0; +1 si K_MAGIC.attackFlags&0x80; +4 si sub_47EEB0(slot,id); cache defaultTarget/unknown1; ret=dernier unknown1 (leftover)\n004954B1: push    esi\n004954B2: push    edi\n004954B3: mov     edi, [esp+0Ch+p_attacker_slot_id]\n004954B7: mov     ebp, 20h ; ' '\n004954BC: lea     eax, ds:0[edi*8]; Load Effective Address\n004954C3: sub     eax, edi; Integer Subtraction\n004954C5: lea     eax, [edi+eax*4]; Load Effective Address\n004954C8: shl     eax, 4; Shift Logical Left\n004954CB: add     eax, offset F_CHAR_DATA; By address:\n004954D0: lea     esi, [eax+86h]; Load Effective Address\n004954D6: xor     ecx, ecx; Logical Exclusive OR\n004954D8: mov     byte ptr [esi], 0\n004954DB: mov     cl, [esi-4]\n004954DE: imul    ecx, 3Ch ; '<'; Signed Multiply\n004954E1: test    K_MAGIC.attackFlags[ecx], 80h; Logical Compare\n004954E8: jz      short loc_4954ED; Jump if Zero (ZF=1)\n004954EA: mov     byte ptr [esi], 1\n004954ED: xor     edx, edx; Logical Exclusive OR\n004954EF: mov     dl, [esi-4]\n004954F2: push    edx; magic_id\n004954F3: push    edi; p_attacker_slot_id\n004954F4: call    sub_47EEB0; JunctionHP check (slot,id) -> bit2\n004954F9: add     esp, 8; Add\n004954FC: test    eax, eax; Logical Compare\n004954FE: jz      short loc_495503; Jump if Zero (ZF=1)\n00495500: or      byte ptr [esi], 4; Logical Inclusive OR\n00495503: xor     eax, eax; Logical Exclusive OR\n00495505: xor     edx, edx; Logical Exclusive OR\n00495507: mov     al, [esi-4]\n0049550A: add     esi, 5; Add\n0049550D: imul    eax, 3Ch ; '<'; Signed Multiply\n00495510: mov     cl, K_MAGIC.defaultTarget[eax]\n00495516: mov     [esi-6], cl\n00495519: mov     dl, [esi-9]\n0049551C: imul    edx, 3Ch ; '<'; Signed Multiply\n0049551F: dec     ebp; Decrement by 1\n00495520: mov     al, K_MAGIC.unknown1[edx]\n00495526: mov     [esi-7], al\n00495529: jnz     short loc_4954D6; Jump if Not Zero (ZF=0)\n0049552B: pop     edi\n0049552C: pop     esi\n0049552D: pop     ebp\n0049552E: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x4954b0",
+      "end": "0x4954d6",
+      "successors": [
+        "0x4954d6"
+      ]
+    },
+    {
+      "start": "0x4954d6",
+      "end": "0x4954ea",
+      "successors": [
+        "0x4954ea",
+        "0x4954ed"
+      ]
+    },
+    {
+      "start": "0x4954ea",
+      "end": "0x4954ed",
+      "successors": [
+        "0x4954ed"
+      ]
+    },
+    {
+      "start": "0x4954ed",
+      "end": "0x495500",
+      "successors": [
+        "0x495500",
+        "0x495503"
+      ]
+    },
+    {
+      "start": "0x495500",
+      "end": "0x495503",
+      "successors": [
+        "0x495503"
+      ]
+    },
+    {
+      "start": "0x495503",
+      "end": "0x49552b",
+      "successors": [
+        "0x4954d6",
+        "0x49552b"
+      ]
+    },
+    {
+      "start": "0x49552b",
+      "end": "0x49552f",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x486ab8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x486a10"
+    },
+    {
+      "from": "0x486b22",
+      "type": 17,
+      "iscode": true,
+      "function": "0x486a10"
+    },
+    {
+      "from": "0x4959c8",
+      "type": 17,
+      "iscode": true,
+      "function": "0x495960"
+    }
+  ],
+  "code_targets": [
+    "0x47eeb0"
+  ],
+  "instruction_count": 44
+}

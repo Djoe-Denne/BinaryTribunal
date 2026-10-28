@@ -4,11 +4,11 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G23 battle end, P1 G23, g23-battle-end-v1]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g23-live-necessity-waiver-2026-09-03.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g23-battle-end-offline-draft-2026-09-03.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-scripted-end-2026-09-03.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-refuse-result5-2026-09-03.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-shutdown-2026-09-03.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g23-live-necessity-waiver-2026-09-03.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g23-battle-end-offline-draft-2026-09-03.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-scripted-end-2026-09-03.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-refuse-result5-2026-09-03.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g23-v1/p1-g23-v1-shutdown-2026-09-03.json
   - C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/dfd28ceb-a275-4a61-b59e-c7f3e3de9f57/dfd28ceb-a275-4a61-b59e-c7f3e3de9f57.jsonl
   - C:/Users/djden/.codex/sessions/2026/09/01/rollout-2026-09-01T18-13-57-01a05dbf-ace3-7700-b234-67537c8f5edc.jsonl
   - C:/Users/djden/.codex/sessions/2026/09/03/rollout-2026-09-03T18-16-25-01a0680e-a35d-72a3-8001-4663c33b635e.jsonl

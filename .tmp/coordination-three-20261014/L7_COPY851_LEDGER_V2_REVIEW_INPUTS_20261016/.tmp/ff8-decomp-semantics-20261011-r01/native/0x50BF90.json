@@ -1,0 +1,141 @@
+{
+  "ea": "0x50BF90",
+  "name_label_only": "BattleActionSequence_PreparePayloadContext",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50bf90",
+      "end": "0x50c090",
+      "hex": "83ec0855568b74241433ed8935509ad90166892d5c9ad9018b46088a0ea3609ad9018bc125ff000000884c240c66892d909ad901c6056d9ad901008d1480c1e2032bd08d0495c072d9018b560ca3409ad90133c08a46118915749ad901403bc57e7c53578d5e108944241c33c08a0385c07e548b53f88bf88a0ab801000000d3e0660be88a4203a8087420b901000000c0e806894c2410a2849ad9018ac88b442410d3e0660905909ad9018a4a0280e13080f9307507800d6d9ad9010283c2184f75b58b4c24148b44241c83c314488944241c75965f66892d5c9ad9015b8a461084c0a25a9ad901740a8b56088a02a2489ad9015e880d569ad9015d83c408c3"
+    }
+  ],
+  "assembly": "0050BF90: sub     esp, 8; Préambule du dispatch de séquence: latch le payload, l'acteur base+0x9C*slot, les groupes d'événements et les masques de cibles. Les records d'événement ont un stride de 0x18.\n0050BF93: push    ebp\n0050BF94: push    esi\n0050BF95: mov     esi, [esp+10h+arg_0]\n0050BF99: xor     ebp, ebp; Logical Exclusive OR\n0050BF9B: mov     g_GfSequenceContextSharedB, esi; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.\n0050BFA1: mov     word ptr dword_1D99A5C, bp\n0050BFA8: mov     eax, [esi+8]\n0050BFAB: mov     cl, [esi]\n0050BFAD: mov     result_event, eax\n0050BFB2: mov     eax, ecx\n0050BFB4: and     eax, 0FFh; Logical AND\n0050BFB9: mov     byte ptr [esp+10h+var_4], cl\n0050BFBD: mov     word ptr dword_1D99A90, bp\n0050BFC4: mov     byte ptr dword_1D99A6C+1, 0\n0050BFCB: lea     edx, [eax+eax*4]; Load Effective Address\n0050BFCE: shl     edx, 3; Shift Logical Left\n0050BFD1: sub     edx, eax; Integer Subtraction\n0050BFD3: lea     eax, ds:1D972C0h[edx*4]; Load Effective Address\n0050BFDA: mov     edx, [esi+0Ch]\n0050BFDD: mov     dword_1D99A40, eax\n0050BFE2: xor     eax, eax; Logical Exclusive OR\n0050BFE4: mov     al, [esi+11h]\n0050BFE7: mov     dword_1D99A74, edx\n0050BFED: inc     eax; Increment by 1\n0050BFEE: cmp     eax, ebp; Compare Two Operands\n0050BFF0: jle     short loc_50C06E; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050BFF2: push    ebx\n0050BFF3: push    edi\n0050BFF4: lea     ebx, [esi+10h]; Load Effective Address\n0050BFF7: mov     [esp+18h+arg_0], eax\n0050BFFB: xor     eax, eax; Logical Exclusive OR\n0050BFFD: mov     al, [ebx]\n0050BFFF: test    eax, eax; Logical Compare\n0050C001: jle     short loc_50C057; Jump if Less or Equal (ZF=1 | SF!=OF)\n0050C003: mov     edx, [ebx-8]\n0050C006: mov     edi, eax\n0050C008: mov     cl, [edx]\n0050C00A: mov     eax, 1\n0050C00F: shl     eax, cl; Shift Logical Left\n0050C011: or      bp, ax; Logical Inclusive OR\n0050C014: mov     al, [edx+3]\n0050C017: test    al, 8; Logical Compare\n0050C019: jz      short loc_50C03B; Jump if Zero (ZF=1)\n0050C01B: mov     ecx, 1\n0050C020: shr     al, 6; Shift Logical Right\n0050C023: mov     [esp+18h+var_8], ecx\n0050C027: mov     byte ptr dword_1D99A84, al\n0050C02C: mov     cl, al\n0050C02E: mov     eax, [esp+18h+var_8]\n0050C032: shl     eax, cl; Shift Logical Left\n0050C034: or      word ptr dword_1D99A90, ax; Logical Inclusive OR\n0050C03B: mov     cl, [edx+2]\n0050C03E: and     cl, 30h; Logical AND\n0050C041: cmp     cl, 30h ; '0'; Compare Two Operands\n0050C044: jnz     short loc_50C04D; Jump if Not Zero (ZF=0)\n0050C046: or      byte ptr dword_1D99A6C+1, 2; Logical Inclusive OR\n0050C04D: add     edx, 18h; Add\n0050C050: dec     edi; Decrement by 1\n0050C051: jnz     short loc_50C008; Jump if Not Zero (ZF=0)\n0050C053: mov     ecx, [esp+18h+var_4]\n0050C057: mov     eax, [esp+18h+arg_0]\n0050C05B: add     ebx, 14h; Add\n0050C05E: dec     eax; Decrement by 1\n0050C05F: mov     [esp+18h+arg_0], eax\n0050C063: jnz     short loc_50BFFB; Jump if Not Zero (ZF=0)\n0050C065: pop     edi\n0050C066: mov     word ptr dword_1D99A5C, bp\n0050C06D: pop     ebx\n0050C06E: mov     al, [esi+10h]\n0050C071: test    al, al; Logical Compare\n0050C073: mov     byte_1D99A5A, al\n0050C078: jz      short loc_50C084; Jump if Zero (ZF=1)\n0050C07A: mov     edx, [esi+8]\n0050C07D: mov     al, [edx]\n0050C07F: mov     byte_1D99A48, al\n0050C084: pop     esi\n0050C085: mov     byte_1D99A56, cl\n0050C08B: pop     ebp\n0050C08C: add     esp, 8; Add\n0050C08F: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50bf90",
+      "end": "0x50bff2",
+      "successors": [
+        "0x50bff2",
+        "0x50c06e"
+      ]
+    },
+    {
+      "start": "0x50bff2",
+      "end": "0x50bffb",
+      "successors": [
+        "0x50bffb"
+      ]
+    },
+    {
+      "start": "0x50bffb",
+      "end": "0x50c003",
+      "successors": [
+        "0x50c003",
+        "0x50c057"
+      ]
+    },
+    {
+      "start": "0x50c003",
+      "end": "0x50c008",
+      "successors": [
+        "0x50c008"
+      ]
+    },
+    {
+      "start": "0x50c008",
+      "end": "0x50c01b",
+      "successors": [
+        "0x50c01b",
+        "0x50c03b"
+      ]
+    },
+    {
+      "start": "0x50c01b",
+      "end": "0x50c03b",
+      "successors": [
+        "0x50c03b"
+      ]
+    },
+    {
+      "start": "0x50c03b",
+      "end": "0x50c046",
+      "successors": [
+        "0x50c046",
+        "0x50c04d"
+      ]
+    },
+    {
+      "start": "0x50c046",
+      "end": "0x50c04d",
+      "successors": [
+        "0x50c04d"
+      ]
+    },
+    {
+      "start": "0x50c04d",
+      "end": "0x50c053",
+      "successors": [
+        "0x50c008",
+        "0x50c053"
+      ]
+    },
+    {
+      "start": "0x50c053",
+      "end": "0x50c057",
+      "successors": [
+        "0x50c057"
+      ]
+    },
+    {
+      "start": "0x50c057",
+      "end": "0x50c065",
+      "successors": [
+        "0x50bffb",
+        "0x50c065"
+      ]
+    },
+    {
+      "start": "0x50c065",
+      "end": "0x50c06e",
+      "successors": [
+        "0x50c06e"
+      ]
+    },
+    {
+      "start": "0x50c06e",
+      "end": "0x50c07a",
+      "successors": [
+        "0x50c07a",
+        "0x50c084"
+      ]
+    },
+    {
+      "start": "0x50c07a",
+      "end": "0x50c084",
+      "successors": [
+        "0x50c084"
+      ]
+    },
+    {
+      "start": "0x50c084",
+      "end": "0x50c090",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x50a799",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50a790"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 81
+}

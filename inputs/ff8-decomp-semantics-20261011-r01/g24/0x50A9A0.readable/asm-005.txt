@@ -1,0 +1,25 @@
+0050AAFC: pop     esi
+0050AAFD: xor     eax, eax; Logical Exclusive OR
+0050AAFF: pop     ebx
+0050AB00: retn; Return Near from Procedure
+0050AB01: push    offset sub_50B080; callback
+0050AB06: call    au_re_BdLinkTask_0; Call Procedure
+0050AB0B: mov     ecx, dword_1D99A40
+0050AB11: mov     word ptr [eax+10h], 10h
+0050AB17: mov     [eax+0Ch], ecx
+0050AB1A: mov     al, [esi+0Dh]
+0050AB1D: add     esp, 4; Add
+0050AB20: inc     al; Increment by 1
+0050AB22: mov     [esi+0Dh], al
+0050AB25: xor     eax, eax; Logical Exclusive OR
+0050AB27: pop     edi
+0050AB28: pop     esi
+0050AB29: pop     ebx
+0050AB2A: retn; Return Near from Procedure
+0050AB2B: mov     al, byte_1D96A90; jumptable 0050A9C9 case 4
+0050AB30: test    al, al; Logical Compare
+0050AB32: jbe     short loc_50AB40; Jump if Below or Equal (CF=1 | ZF=1)
+0050AB34: test    edx, 20000000h; Logical Compare
+0050AB3A: jz      def_50A9C9; jumptable 0050A9C9 default case
+0050AB40: mov     eax, [ebx+74h]
+0050AB43: test    byte ptr [eax+2Ch], 20h; Logical Compare

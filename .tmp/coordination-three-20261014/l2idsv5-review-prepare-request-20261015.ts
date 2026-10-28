@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',sourceRoot=root+'/.tmp/re-graph-scheduler/review-20261014';
+const sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const m=JSON.parse(readFileSync(sourceRoot+'/L2IDSV5/manifest.json','utf8').replace(/^\uFEFF/,''));
+const paths=[...m.files.map((p:any)=>'L2IDSV5/'+p.path),'L2IDSV5/manifest.json','L2FINAL/manifest.json','L2FINAL/tools/ff8-harness/src/capabilities.ts','L2FINAL/tools/ff8-harness/test/graph-extract.test.ts',...readdirSync(sourceRoot+'/PARENT_L2IDSV5_REVIEW').map(p=>'PARENT_L2IDSV5_REVIEW/'+p)];
+const excluded='L2IDSV5/docs/tech/investigation/battle-static-discovery/battle-graph-ledger.json';
+const files=paths.filter(path=>path!==excluded).map(path=>({path,sha256:sha(readFileSync(sourceRoot+'/'+path)),kind:path.endsWith('manifest.json')?'manifest':path.includes('/src/')?'source':path.includes('/test/')?'test':'rule'}));
+const request={schemaVersion:1,missionId:'team_mv6tmopg_0000_4urn3c',taskId:'task_mv99m9ka_0000_mo4o4v',cycle:1,role:'reviewer',blind:false,sourceRoot,targetSessionId:'ses_ec15d2241ffe4VO0s2Zmv08j31',destinationRoot:root+'/inputs/l2idsv5-review-20261015',files};
+writeFileSync(root+'/.tmp/coordination-three-20261014/l2idsv5-review-preparation-request-v3.json',JSON.stringify(request,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({files:files.length,bytes:paths.reduce((n,p)=>n+readFileSync(sourceRoot+'/'+p).length,0),session:request.targetSessionId,destination:request.destinationRoot}));

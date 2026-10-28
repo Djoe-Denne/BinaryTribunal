@@ -1,0 +1,26 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strict as assert} from 'node:assert';
+import {parseGraphRun,parseGraphIntent,parseGraphInputs,makeGraphIntent,graphResult} from '../../inputs/L8_BUDGET_BOUNDARY_EVIDENCE/tools/ff8-harness/src/graph-adapter';
+import {canonical,hash} from '../../inputs/L8_BUDGET_BOUNDARY_EVIDENCE/tools/ff8-harness/src/validation';
+import type {Snapshot,Inspection} from '../../inputs/L8_BUDGET_BOUNDARY_EVIDENCE/tools/ff8-harness/src/domain';
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',input=root+'/inputs/L8_BUDGET_BOUNDARY_EVIDENCE',dir=input+'/.tmp/L8_BUDGET_EVIDENCE/';
+const load=(p:string)=>JSON.parse(readFileSync(dir+p,'utf8')),bytes=(o:unknown)=>Buffer.byteLength(canonical(o),'utf8');
+const run=parseGraphRun(load('graph-run.json')),snapshot=load('legacy-anchored-snapshot.json') as Snapshot;
+const A=parseGraphIntent(load('intent-A-constructed.json'),run,snapshot),R=parseGraphIntent(load('intent-R-constructed.json'),run,snapshot);
+const inspection=load('inspection-A-constructed.json') as Inspection;
+const document=JSON.parse(inspection.artifact!.content!);document.propositions[0].text+='💠漢"\\\n'.repeat(1000);
+inspection.artifact!.content=canonical(document);inspection.artifact!.sha256=hash(inspection.artifact!.content);
+const largeA=graphResult(A,inspection,[]);
+const {effectiveModel,...proposalA}=largeA;
+const proposals=R.intent.inputs.proposals!.map(p=>p.document.role==='A'?proposalA:p);
+const inputs=parseGraphInputs({...R.intent.inputs,proposals});
+const unit=run.prepared.planning.units.find(u=>u.unitId===R.unitId)!,sub=unit.subIntents.find(s=>s.subIntentId===R.subIntentId)!,worker=run.workers.find(w=>w.workerId===R.workerId)!;
+// A named, purely in-memory constructor fixture, NOT a reservation/authority receipt.
+const fixtureLease={missionId:run.missionId,unitId:unit.unitId,owner:'parent-fixture-only',token:R.familyToken,expiresAtEvent:0,state:'active' as const,resourceKeys:[]};
+const largerR=makeGraphIntent(run,snapshot,unit,sub,fixtureLease,inputs,worker);parseGraphIntent(largerR,run,snapshot);
+const before=bytes(R.admission),after=bytes(largerR.admission),C=run.prepared.planning.sidecar.envelopeBytesByUnit[R.unitId]!;
+assert(after>before&&before>C);assert.equal(largerR.intent.inputs.proposals!.length,2);assert.equal(largerR.intent.inputs.proposals![0]!.document.propositions[0]!.text,document.propositions[0].text);
+const receipt=JSON.parse(readFileSync(input+'/.preparation-receipt.json','utf8'));for(const f of receipt.files)assert.equal(createHash('sha256').update(readFileSync(input+'/'+f.path)).digest('hex'),f.sha256,'Frozen pin changed '+f.path);
+const result={fixtureOnly:true,completeABytes:bytes(A.admission),originalCompleteRBytes:before,largerLocallyValidProposalABytes:Buffer.byteLength(largeA.content,'utf8'),largerCompleteRBytes:after,frozenUnitBytes:C,globalCap:run.prepared.planning.plan.budgets.contextEnvelopeMaxUtf8Bytes,realL8CodecAndResultValidatorsUsed:true,multibyteEscapesAndDoubleProposalRepresentation:true,frozenPinsExact:receipt.files.length,submits:0,noDatabaseOpened:true,syntheticLeaseNeverAuthority:true,notUniversalBound:true,noNativeOrScientificPublicationClaim:true};
+writeFileSync(root+'/.tmp/coordination-three-20261014/l8-budget-growth-parent.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result,null,2));

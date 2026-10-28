@@ -1,0 +1,25 @@
+00489A75: shl     eax, 4; Shift Logical Left
+00489A78: movzx   bp, BATTLE_SLOT_DATA.magic_to_blow_away[eax]; Move with Zero-Extend
+00489A80: mov     ecx, ebp
+00489A82: mov     [esp+74h+section_position], ebp
+00489A86: and     ecx, 0FFFFh; Logical AND
+00489A8C: push    ecx; magic_index
+00489A8D: call    domain__EnemyAI_GetTargetMaskFromMask; K_MAGIC record 60 o ; shape=dt&0x30 ; 0x40 SET=cote party (INVERSE du sibling 0x483880)
+00489A92: add     esp, 4; Add
+00489A95: mov     [esp+74h+p_monster_slot_id], eax
+00489A99: mov     byte ptr [esp+74h+ai_scratch_var], 0Bh
+00489A9E: jmp     loc_489834; Jump
+00489AA3: mov     dl, [esi]; AI VM op 0x26 TARGET_BY_STATUS_STAT: target_mask = BattleTarget_SelectByStatusOrStat(p1,target,cmp,status) [4B]
+00489AA5: mov     al, [esi+1]
+00489AA8: inc     esi; Increment by 1
+00489AA9: mov     [esp+74h+opcode_param_1], dl
+00489AAD: inc     esi; Increment by 1
+00489AAE: mov     [esp+74h+op_param_2], al
+00489AB2: mov     cl, [esi]
+00489AB4: mov     dl, [esi+1]
+00489AB7: inc     esi; Increment by 1
+00489AB8: mov     [esp+74h+target_status], dl
+00489ABC: mov     eax, dword ptr [esp+74h+target_status]
+00489AC0: mov     [esp+74h+op_param_3], cl
+00489AC4: mov     ecx, dword ptr [esp+74h+op_param_3]
+00489AC8: mov     edx, dword ptr [esp+74h+op_param_2]

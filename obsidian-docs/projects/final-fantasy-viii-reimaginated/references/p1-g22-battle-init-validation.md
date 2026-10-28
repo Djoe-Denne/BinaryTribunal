@@ -4,39 +4,39 @@ category: references
 tags: [ff8, battle-system, testing, reference]
 aliases: [G22 battle init, P1 G22, run_init_encounter]
 sources:
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-v5-2026-09-02.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-ordinary-visible-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-shutdown-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-ordinary-visible-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-refuse-active-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-shutdown-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-2026-08-29.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-constrained-anchor-test-pack-2026-08-29.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-01.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v4-live-waiver-2026-09-01.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-02.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v5-live-waiver-2026-09-02.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-ordinary-visible-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-shutdown-2026-09-02.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-08-29.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-draft-2026-08-28.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-ordinary-visible-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-refuse-active-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-post-shutdown-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-ordinary-visible-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-refuse-active-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-post-shutdown-2026-08-31.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-ordinary-visible-2026-08-30.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-refuse-active-2026-08-30.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-post-shutdown-2026-08-30.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-ordinary-visible-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-refuse-active-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-post-shutdown-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v13-ordinary-playable-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v12-ordinary-post-instant-win-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v11-ordinary-post-suite-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-ordinary-post-suite-2026-08-29.json
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-post-shutdown-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-v5-2026-09-02.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p1-g22-v19-shutdown-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-refuse-active-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v19/p2-g22-v19-shutdown-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-live-promotion-2026-08-29.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-constrained-anchor-test-pack-2026-08-29.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-01.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v4-live-waiver-2026-09-01.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-09-02.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-protocol-v5-live-waiver-2026-09-02.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-ordinary-visible-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/g22-v18/p1-g22-v18-shutdown-2026-09-02.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-validation-2026-08-29.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g22-battle-init-offline-draft-2026-08-28.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-ordinary-visible-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-refuse-active-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v17-post-shutdown-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-ordinary-visible-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-refuse-active-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v16-post-shutdown-2026-08-31.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-ordinary-visible-2026-08-30.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-refuse-active-2026-08-30.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v15-post-shutdown-2026-08-30.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-ordinary-visible-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-refuse-active-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v14-post-shutdown-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v13-ordinary-playable-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v12-ordinary-post-instant-win-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v11-ordinary-post-suite-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-ordinary-post-suite-2026-08-29.json
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/battle-iso/p1-g22-v7-post-shutdown-2026-08-29.json
   - projects/re-ff8/references/g22-init-static-layouts-2026-08-30.md
   - projects/re-ff8/references/battle-iso-migration-milestones.md
   - projects/final-fantasy-viii-reimaginated/references/p1-g21-battle-data-validation.md

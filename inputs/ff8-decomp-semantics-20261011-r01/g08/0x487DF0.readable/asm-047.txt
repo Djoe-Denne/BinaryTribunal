@@ -1,0 +1,25 @@
+00488E04: shl     edx, cl; Shift Logical Left
+00488E06: test    [eax+8], edx; Logical Compare
+00488E09: jz      def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488E0F: mov     eax, [esp+74h+jump_value]
+00488E13: and     eax, 0FFFFh; Logical AND
+00488E18: add     esi, eax; Add
+00488E1A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488E1F: mov     ecx, [esp+74h+if_right_condition_final]; jumptable 004887D6 case 5
+00488E23: mov     edx, dword ptr [esp+74h+op_param_3]
+00488E27: mov     eax, dword ptr [esp+74h+op_param_2]
+00488E2B: and     ecx, 0FFFFh; Logical AND
+00488E31: push    1; p_bool_ignore_comparator
+00488E33: and     edx, edi; Logical AND
+00488E35: push    ecx; p_status_ai
+00488E36: and     eax, edi; Logical AND
+00488E38: push    edx; p_comparator
+00488E39: push    eax; p_target_generic
+00488E3A: call    domain__EnemyAI_TargetHasStatus; G15 U15.5: count targets with status. 200=party 201=monsters else com_file_id. ignore_cmp=1 is team form (subj 0x05).
+00488E3F: add     esp, 10h; Add
+00488E42: test    eax, eax; Logical Compare
+00488E44: jnz     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488E4A: mov     ecx, [esp+74h+jump_value]
+00488E4E: and     ecx, 0FFFFh; Logical AND
+00488E54: add     esi, ecx; Add
+00488E56: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33

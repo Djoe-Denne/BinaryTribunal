@@ -1,0 +1,25 @@
+0048E27D: push    eax; p_enemy_number
+0048E27E: call    computeDevour; Devour precheck. Selects the low/med/high devour result from monster info by enemy level tier; 0xFF means the command fails and DEVOUR_SUCEED stays clear.
+0048E283: add     esp, 4; Add
+0048E286: test    eax, eax; Logical Compare
+0048E288: jz      short loc_48E2BD; Jump if Zero (ZF=1)
+0048E28A: movzx   bx, K_BATTLE_COMMAND.abilityDataID[ebp*8]; Move with Zero-Extend
+0048E293: mov     eax, ebx
+0048E295: and     eax, 0FFFFh; Logical AND
+0048E29A: shl     eax, 4; Shift Logical Left
+0048E29D: xor     ecx, ecx; Logical Exclusive OR
+0048E29F: mov     cl, K_BATTLE_COMMAND_ABILITY.HitCount[eax]
+0048E2A5: mov     dx, word ptr K_BATTLE_COMMAND_ABILITY.MagicID[eax]
+0048E2AC: mov     [esp+24h+hit_count], ecx
+0048E2B0: mov     [esp+24h+magic_id], edx
+0048E2B4: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048E2B9: mov     ecx, eax
+0048E2BB: jmp     short loc_48E243; Jump
+0048E2BD: push    70h ; 'p'
+0048E2BF: mov     BOOL_LAST_COMMAND_FAILED, 1
+0048E2C6: mov     byte ptr [esp+28h+p_command_type], 0
+0048E2CB: mov     ebx, 9
+0048E2D0: mov     [esp+28h+p_always_zero], 0Ah
+0048E2D5: mov     [esp+28h+magic_id], 0
+0048E2DD: call    domain__BattleText_GetMiscText; Call Procedure
+0048E2E2: add     esp, 4; Add

@@ -1,0 +1,25 @@
+004AE9E3: lea     eax, [ecx+edx+9]; Load Effective Address
+004AE9E7: mov     ecx, dword_1D768E0
+004AE9ED: and     ecx, 0FFh; Logical AND
+004AE9F3: push    eax; y
+004AE9F4: add     ecx, 7; Add
+004AE9F7: push    ecx; x
+004AE9F8: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AE9FD: push    2; flags
+004AE9FF: push    ebp; id
+004AEA00: push    ebp; y
+004AEA01: push    ebp; x
+004AEA02: call    BattleUI_PlaceWidget_3D8; E3a: widget at AddBase_1A78C88(0)+0x3D8. argC<0 clears; else XY from bits 2/4/5 + 3x sub_4A8130 (untyped). HUD root.
+004AEA07: mov     edx, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AEA0D: mov     eax, dword_1D768F4
+004AEA12: and     edx, 0FFh; Logical AND
+004AEA18: add     esp, 20h; Add
+004AEA1B: mov     cl, [eax+edx*4+1]
+004AEA1F: lea     eax, [eax+edx*4]; Load Effective Address
+004AEA22: test    cl, 8; Logical Compare
+004AEA25: jz      short loc_4AEA36; Jump if Zero (ZF=1)
+004AEA27: call    sub_4950C0; Call Procedure
+004AEA2C: mov     dword_1D76860, eax
+004AEA31: jmp     def_4ADEFA; jumptable 004ADEFA default case
+004AEA36: xor     ecx, ecx; Logical Exclusive OR
+004AEA38: mov     cl, [eax]

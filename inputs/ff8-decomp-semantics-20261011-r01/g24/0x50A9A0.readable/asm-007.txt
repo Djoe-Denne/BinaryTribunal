@@ -1,0 +1,25 @@
+0050ABB7: lea     eax, g_BattlePresentationActors[ecx]; Load Effective Address
+0050ABBD: push    eax; actor
+0050ABBE: call    BattlePresentation_StartActorAnimation; wave3 attaques: start anim actor payload+2; 201 xrefs
+0050ABC3: add     esp, 8; Add
+0050ABC6: xor     eax, eax; Logical Exclusive OR
+0050ABC8: pop     edi
+0050ABC9: pop     esi
+0050ABCA: pop     ebx
+0050ABCB: retn; Return Near from Procedure
+0050ABCC: mov     eax, [ebx+74h]; jumptable 0050A9C9 case 5
+0050ABCF: and     word ptr [eax+2Ch], 0FFDFh; Logical AND
+0050ABD5: test    edx, 20000000h; Logical Compare
+0050ABDB: jz      short loc_50ABFA; Jump if Zero (ZF=1)
+0050ABDD: and     edx, 0DFFFFFFFh; Logical AND
+0050ABE3: cmp     word ptr CameraID_Maybe, 0; Compare Two Operands
+0050ABEB: mov     battle_to_update_flags_dword_1D96A9C, edx
+0050ABF1: jl      short loc_50ABFA; Jump if Less (SF!=OF)
+0050ABF3: or      byte ptr g_BattleCameraFlags+1, 80h; Logical Inclusive OR
+0050ABFA: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050AC00: mov     al, [ecx+1]
+0050AC03: cmp     al, 2; Compare Two Operands
+0050AC05: jz      short loc_50AC0B; Jump if Zero (ZF=1)
+0050AC07: cmp     al, 6; Compare Two Operands
+0050AC09: jnz     short loc_50AC1A; Jump if Not Zero (ZF=0)
+0050AC0B: cmp     byte ptr [ebx+4], 10h; Compare Two Operands

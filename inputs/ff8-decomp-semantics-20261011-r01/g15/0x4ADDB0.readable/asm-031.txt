@@ -1,0 +1,25 @@
+004AE8D1: jb      short loc_4AE8DA; Jump if Below (CF=1)
+004AE8D3: dec     al; Decrement by 1
+004AE8D5: mov     byte ptr dword_1D768D8, al; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE8DA: push    1
+004AE8DC: push    0FFFFFFFFh
+004AE8DE: call    BattleUI_XorNibble_3E8_or_3FC; E3c: convergence xor nibble; offsets hex
+004AE8E3: push    7; int
+004AE8E5: call    BattleUI_ClampWidgetSlotsDown; E3b erratum: clamp-down walk of named g_BattleUI_WidgetSlots (E3a 'base unnamed' was false)
+004AE8EA: add     esp, 0Ch; Add
+004AE8ED: push    ebp; jumptable 004ADEFA case 8
+004AE8EE: call    BattleUI_SetByte_1D7689D_stride44; E3c: vérifié: idx*11*4 = stride 44; P incomplet
+004AE8F3: mov     eax, dword_1D768D8; Battle submenu aux callback slot (BSS fnptr, not IAT). Single call at 0x4FE891.
+004AE8F8: push    ebp; flags
+004AE8F9: and     eax, 0FFh; Logical AND
+004AE8FE: push    1; id
+004AE900: mov     dword_B877B8, 290h
+004AE90A: lea     ecx, [eax+eax*2]; Load Effective Address
+004AE90D: lea     edx, [eax+ecx*4]; Load Effective Address
+004AE910: xor     eax, eax; Logical Exclusive OR
+004AE912: mov     al, byte ptr dword_1D768E0+1
+004AE917: lea     ecx, [edx+eax+9]; Load Effective Address
+004AE91B: mov     edx, dword_1D768E0
+004AE921: and     edx, 0FFh; Logical AND
+004AE927: push    ecx; y
+004AE928: add     edx, 7; Add

@@ -1,0 +1,25 @@
+0048DA15: mov     dl, byte_1CFF323[ecx*4]
+0048DA1C: lea     ecx, [eax-40h]; Load Effective Address
+0048DA1F: mov     esi, ecx
+0048DA21: and     dl, 1; Logical AND
+0048DA24: shl     esi, 5; Shift Logical Left
+0048DA27: add     esi, ecx; Add
+0048DA29: xor     ecx, ecx; Logical Exclusive OR
+0048DA2B: shl     esi, 2; Shift Logical Left
+0048DA2E: mov     byte_1D28DF7, dl
+0048DA34: mov     cl, K_GF_JUNCTIONABLE.hitCount[esi]
+0048DA3A: mov     [esp+28h+hit_count], ecx
+0048DA3E: mov     cx, K_GF_JUNCTIONABLE.magicID[esi]
+0048DA45: mov     [esp+28h+magic_id], ecx
+0048DA49: call    getAddressJunctionableGfAttackNameByCommandArg; Resolves a junctionable GF display-name pointer from GF command_arg 0x40..0x4F via KERNEL_HEADER.offsetJunctionableGFText and K_GF_JUNCTIONABLE[cmd_arg - 0x40].offsetGFAttackName.
+0048DA4E: lea     edx, K_GF_JUNCTIONABLE.quezacoltCompatibility[esi]; Load Effective Address
+0048DA54: add     esp, 4; Add
+0048DA57: mov     edi, eax
+0048DA59: mov     ACTION_GF_COMPAT_DELTA_TABLE_PTR, edx
+0048DA5F: mov     byte_1D28E1E, 0
+0048DA66: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DA6B: mov     eax, [esp+24h+p_param_is_0_for_ai]; jumptable 0048D37A case 244
+0048DA6F: and     eax, 0FFh; Logical AND
+0048DA74: push    eax
+0048DA75: call    getTextBattleItem; Call Procedure
+0048DA7A: mov     edi, eax

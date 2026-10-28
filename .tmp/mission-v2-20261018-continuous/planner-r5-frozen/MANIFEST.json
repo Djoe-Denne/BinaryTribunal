@@ -1,0 +1,183 @@
+{
+  "status": "SOURCE_PROPOSED",
+  "qualified": false,
+  "task": "task_mvfcczfg_008r_upx992",
+  "worker": "planner-r5-streaming-source-author-r1",
+  "revision": "R5 source only; three parent-ratified fixes after retained unqualified R4",
+  "scope": "Planner harness only; no product/main/S1/numeric/native/full44 integration or execution",
+  "ownedOutputs": ["gate.cjs", "capture.ts", "trace-stream.cjs", "DESIGN.md", "MANIFEST.json"],
+  "artifactPins": [
+    { "path": "gate.cjs", "bytes": 47304, "sha256": "c2dc8fd67b3dd06022be52de2ac6de08f7d8a70f0bba742ce16c0210d1220d86" },
+    { "path": "capture.ts", "bytes": 13183, "sha256": "7b0dbda7ec206e322f696c5547bcc917db5768a3d53b5ae15bf5fe2d2278b2f3" },
+    { "path": "trace-stream.cjs", "bytes": 16446, "sha256": "fc5e40d6a1aa2512ad9b2114ac86099c232e2b4c9ea2e6ac0bf91a5e1296dfb7" },
+    { "path": "DESIGN.md", "bytes": 24075, "sha256": "e632f3691c5577432c3670fcbc9960e55f4c9e20534728b6dfcce73fa694e74b" }
+  ],
+  "selfPinPolicy": "The exact fifth pin (MANIFEST.json size/SHA-256) is supplied by the native final handoff and later exact external parent adjudication. It is not recursively embedded in these bytes. All FIVE output pins are mandatory at fresh V/adjudication.",
+  "rawInputManifest": {
+    "path": "../inputs/INPUT_MANIFEST.json",
+    "bytes": 4628,
+    "sha256": "65d776ed4b3a85984fac5563e66fec154bb4a1ff22a0db66270748dce88d3e32"
+  },
+  "inputBookend": {
+    "payloadFiles": 15,
+    "payloadBytes": 357441,
+    "rawManifestCountedAsPayload": false,
+    "beforeAuthoring": "ALL_15_SIZES_AND_SHA256_MATCH",
+    "afterSourceAuthoring": "ALL_15_SIZES_AND_SHA256_MATCH",
+    "rawManifestUnchanged": true,
+    "method": "Fresh byte reads/SHA-256 and JSON/static text parsing only; final native handoff repeats bookends"
+  },
+  "inputPins": [
+    { "path": "reference/gate.cjs", "bytes": 38586, "sha256": "ce5f79c1b3bc5fefc3e1c69275cd6664431ef597d708627cea9d8f9a4fc1f6ca" },
+    { "path": "reference/capture.ts", "bytes": 11412, "sha256": "d38aa856ef77bf34c3715119921cdef06ae2304b7e825125a57ac7868ad7fdbe" },
+    { "path": "reference/DESIGN.md", "bytes": 26473, "sha256": "b24096a269b57af42efea47cbd5edba69c9db313e6e4764f5fd9556f7c3d5e1f" },
+    { "path": "reference/MANIFEST.json", "bytes": 12017, "sha256": "e5f82eba51623b6bfd280af23103cc9e9a32da1943ac063852d3798e9ccfcfab" },
+    { "path": "PARENT_PLAN_SCOPE.md", "bytes": 3305, "sha256": "7267448441b547403d29ad2bb2c60d5c999e252f57689ba123b54a030a819949" },
+    { "path": "R4_RED_SUMMARY.json", "bytes": 2473, "sha256": "32933c5ff8a72f3a2842863010578385d0d1a1dd07df249f9a4a9e1ff8385dab" },
+    { "path": "R4_TRACE_ANALYSIS.json", "bytes": 2217, "sha256": "91b15983707f4005067505ac0220b1eedcfa0af74658fed1e77ca5604f98fe8e" },
+    { "path": "R4_SOURCEURL_DIAGNOSTIC.json", "bytes": 3144, "sha256": "af2c25efb3d686cd28bf10602a9bc23616c6b989ab5f18a5b477091304b8970c" },
+    { "path": "R4_SELFCHECK_RECEIPT.json", "bytes": 61484, "sha256": "b20a1cbb2a84da01f14f900ccc71de84a55dc87a31e0651130f3a8e16b61d1ce" },
+    { "path": "R4_CAPTURE_FIXTURE.ts", "bytes": 4179, "sha256": "d3f71e385b73b4c7d4320d55c279b405a7929355c34900d8291b8cb518c3ad86" },
+    { "path": "parent/HOOK_CORPUS_STATIC.json", "bytes": 939, "sha256": "ea69bad69e4b79ef4adbf5d4502657d3fedc6c574e9b1f5b5911d2b51c47baaa" },
+    { "path": "parent/HOOK_RUNTIME_PROBE.json", "bytes": 3663, "sha256": "8d2d724371aa16b6904b9c103be6de2a15be840ee7782020a81a3e04d26cf662" },
+    { "path": "SCOPE.md", "bytes": 6540, "sha256": "93a0e9cd1c974c151d16a68bcaac682fb75e615b5c2569ef443e5adb5df04f7a" },
+    { "path": "reference/test/planner.test.ts", "bytes": 80223, "sha256": "6a70750d15b37458baf74b3dd2d9e0742908f2e91067039ae0398e6e520e9181" },
+    { "path": "reference/test/lineage.test.ts", "bytes": 100786, "sha256": "02171587562cd55072037883711f72901c8e9f465294470d2747da7b0c4cb2de" }
+  ],
+  "sourceDelta": {
+    "gate": { "beforeBytes": 38586, "afterBytes": 47304, "beforeLines": 638, "afterLines": 776, "removedLines": 72, "addedLines": 210 },
+    "capture": { "beforeBytes": 11412, "afterBytes": 13183, "beforeLines": 231, "afterLines": 281, "removedLines": 22, "addedLines": 72 },
+    "traceStream": { "newBytes": 16446, "newLines": 312 },
+    "diffMethod": "Python difflib SequenceMatcher over raw-byte splitlines; static comparison, not executed candidate validation",
+    "fixes": [
+      "Streaming raw hash/JSONL grammar+shape/count reader/footer/exact comparator, bounded controls and shared limits; no payload normalization or digest shortcut",
+      "Private afterAll finalizer, idempotent exit fallback, preappend record/trace caps with fatal reserve, reversible alias hook without new assertions",
+      "Two guarded immutable instrumented snapshots, separate candidate TSC, fresh same-active-path runtime phases with verified whole-baseline rename"
+    ],
+    "necessaryBindings": "New R5 stem/schema/adjudication/source GO, all five outputs, exact packet and retained actual R4 evidence; original approvals/tools/guards preserved",
+    "dataEncoder": {
+      "byteExactAgainstR4": true,
+      "bytes": 8420,
+      "sha256": "ed36d832e31941b5b285df370384bb1c2d5898f84c41800e00d8f965cb2751a5",
+      "range": "From // Native brands through the complete encodeRoots block, ending immediately before function note"
+    }
+  },
+  "exportsAndImports": {
+    "traceStreamExports": ["hashFile", "scanTrace", "readFooter", "compareFilesExact", "validateCapture"],
+    "traceStreamImports": ["node:fs", "node:path", "node:crypto"],
+    "traceStreamImportSideEffects": "No I/O, clock read, child, gate or product work; fixed constants and private budget WeakMap only",
+    "captureExports": ["traceCall", "finalizeCapture"],
+    "captureImports": ["node:fs", "node:util"],
+    "gateImports": ["node:fs", "node:path", "node:crypto", "node:child_process", "./trace-stream.cjs"],
+    "generatedWrapperImports": ["../src/planner", "./capture"],
+    "generatedHookImports": ["bun:test afterAll as __ff8R5AfterAll", "../trace/capture finalizeCapture as __ff8R5FinalizeCapture"],
+    "hookAndWrapperSameCanonicalCapsuleChecked": true,
+    "captureImportsCjs": false,
+    "newDtsOrPackage": false,
+    "strictWeakened": false
+  },
+  "limits": {
+    "chunkBytes": 1048576,
+    "traceBytes": 1073741824,
+    "pairBytes": 2147483648,
+    "recordBytesIncludingLF": 268435456,
+    "rows": 200000,
+    "calls": 100000,
+    "jsonDepth": 64,
+    "footerBytes": 65536,
+    "controlJsonBytes": 16777216,
+    "explicitStreamingReaderWorkingBytes": 8388608,
+    "sharedMonotonicAnalysisMs": 600000,
+    "structuralCaptureMaxCodeUnits": 128,
+    "captureFatalReserveBytes": 4096,
+    "captureTypedLiteralCopies": { "MAX_RECORD_BYTES": 268435456, "MAX_TRACE_BYTES": 1073741824, "MAX_FOOTER_BYTES": 65536 },
+    "callStateRepresentation": "Uint8Array(calls+1), one byte per id for method/terminal flags; no object Map per call",
+    "readerAllocationGuard": "2*chunkBytes + calls + 1 + 262144 <= workingBytes; sequential reader operations; no materialized DATA graph/line",
+    "budgetBinding": "One frozen LIMITS object across all gate leaf calls; private WeakMap deadline starts once and never resets per file",
+    "newDiskBudget": "2*(exactInstrumentedSnapshotS0+exactInstrumentedSnapshotS1)+2147483648+67108864; all R4 evidence retained additionally",
+    "policy": "Fatal refusal only; no truncation, partial success, spill/cleanup/reuse or memory/RSS/encoder guarantee"
+  },
+  "finalization": {
+    "exportSignature": "finalizeCapture(): boolean",
+    "externalCountsAccepted": false,
+    "states": ["open", "finalizing", "finalized", "failed"],
+    "footerSchema": "planner-full-trace-r5",
+    "footerFields": ["schema", "finalized", "issued", "completed", "fatal", "finalizedBy"],
+    "finalizedBy": ["afterAll", "exit"],
+    "realGateRequires": "afterAll",
+    "wxAttempts": "At most one; repeated success is true, failure false, no repair/rewrite",
+    "postSeal": "Product action still exactly once with identical return/throw; failed state plus reserved invalid marker; no stale footer rewrite",
+    "hook": "Conditional THROW only on false; no new expect/test/assertion counter",
+    "originalTestBytesRecoveryRequired": true,
+    "fatalMetadata": "Only first fatal diagnostic retained, bounded; no product DATA truncation"
+  },
+  "runtimePhases": {
+    "immutableSnapshotPaths": ["snapshots/baseline", "snapshots/candidate"],
+    "candidateTypecheckLocation": "snapshots/candidate/tools/ff8-harness",
+    "runtimePathBothBranches": "active",
+    "baselineRetainedPathAfterEndedChildAndClosedParentFds": "archive-baseline",
+    "transition": "Exact guarded baseline active -> whole fs.renameSync -> verify active absent/archive bytes -> fresh candidate active from its immutable snapshot",
+    "phaseProofs": ["snapshot inventories/bytes/SHA-256", "fresh active equals snapshot", "ended owned runner and synchronous parent descriptor-close postconditions", "archive before/after inventory SHA-256", "runtime argv/cwd/env equality", "input/scratch bookends"],
+    "symlinkJunctionOrDelete": false,
+    "cacheTraceFooterProcessOrIoReuse": false,
+    "payloadPathNormalizationOrFieldDrop": false,
+    "osHandleProbeClaim": false
+  },
+  "experimentPreserved": {
+    "baselineGuards": 269,
+    "candidatePlannerTs": ["src/planner-derived-codecs.ts", "src/function-order.ts", "src/planner.ts", "src/scc.ts"],
+    "tests": ["test/planner.test.ts", "test/lineage.test.ts"],
+    "methods": ["planMission", "compareGranularities"],
+    "fullRawTraceAndFooterComparisonThroughBothEofs": true,
+    "hashOnlyEquality": false,
+    "footerReconstruction": false,
+    "sourceUrlOrMetadataFiltering": false,
+    "minimumCalls": 10,
+    "bothMethodsAndOriginalRefusal": true,
+    "equalPositivePassAndAssertionCountersZeroFailuresSkips": true,
+    "fullStrictTypecheckAndActualListFilesClosure": true,
+    "closedMainDependenciesFrozenAndScratchInventories": true,
+    "exactExternalApprovalAndFreshReviewPinBinding": true,
+    "earlyAtomicLeaseAndStructuredRedRelease": true,
+    "cacheControls": { "NODE_DISABLE_COMPILE_CACHE": "1", "NODE_COMPILE_CACHE": "ABSENT", "BUN_RUNTIME_TRANSPILER_CACHE_PATH": "0", "allowedCacheEntries": 0 },
+    "allNativeBrandsPrototypesDescriptorsCloneDomainAndOriginalErrorStackExclusion": "Byte-exact R4 encoder retained"
+  },
+  "retainedR4": {
+    "qualified": false,
+    "actualReceipt": { "bytes": 5721440, "sha256": "88b85430d591236c7d75249e2ece1215c0c2eb93487927e97c907562dcb979c5" },
+    "actualRelease": { "bytes": 851, "sha256": "838a42ee617645c8958e7e9fc5ea67e6c35bef81fb2e20926b99e5c3b088f407" },
+    "baselineTrace": { "bytes": 591905245, "sha256": "c6906b576e9b9f54e095506d62a7e7fbe0d73b37a1a6ca4d68789801c3336b55", "privateFooterExists": false },
+    "candidateTrace": { "bytes": 591905352, "sha256": "7def3a8ba1b11de728042dcd78b18e62fc0fcec4b27a53e9260ad7eb72e3bfeb", "privateFooterExists": false },
+    "typecheckExit": 0,
+    "eachSuite": { "pass": 139, "fail": 0, "assertions": 14726, "files": 2, "skips": 0 },
+    "rawEquality": false,
+    "diagnosticOnlySourceUrlMatchesEach": 107,
+    "notRerunOrRequalifiedByWorker": true
+  },
+  "executionPerformed": {
+    "compiler": false, "typecheck": false, "transpile": false, "test": false,
+    "runGateOrValidator": false, "productImport": false, "bunExecution": false,
+    "osProbe": false, "dbGitIdaLiveNetwork": false, "delegationOrTeamTools": false,
+    "taskClosure": false, "globalConfigChange": false,
+    "mainS1NumericNativeFull44Integration": false,
+    "syntaxRuntimeCompatibilityOrQualificationClaim": false
+  },
+  "parentOnlyRemainingGates": [
+    "Fresh independent source V on all FIVE exact hashes plus reviewed inputs/tools/approval/inventories; no candidate execution before V",
+    "Exact leaf selfchecks: 13 old cases plus fragments/UTF8/escapes/surrogates/grammar/shape/huge headers/short reads/all caps and cap+1/shared deadline/last byte/both EOF and all bytes hashed",
+    "Offline retained R4 trace pins/false raw equality/missing private footers without product rerun or reconstruction",
+    "Actual pinned Bun test fixtures: both file orders, shared capsule, private afterAll vs exit, duplicate/partial/tampered/missing footer, write/encoding/cap faults, postseal action once and exact throw/return, swallowed errors and exit-code reset",
+    "Recheck native-brand/proxy/clone/alias/cycle/stack-accessor controls and exact original scientific-test byte recovery with no added expect count",
+    "Same-active-path runtime/argv/env/config/cwd identity, immutable snapshots, actual TSC closure/cache0, fresh namespaces, closed-parent-FD/ended-child rename and rename rejection/retention",
+    "New exact post-V adjudication with ALL pins and three closed inventories, followed by separate parent decision on one R5 gate attempt",
+    "Accept only exit0 plus qualified receipt/readback and matching inactive successful release; integrate separately"
+  ],
+  "limitsAndNonClaims": [
+    "Static control-flow/source comparison only; no candidate syntax/compiler/runtime/selfcheck or qualification result",
+    "8MiB means explicit streaming reader state, not Node/Bun RSS/VM/GC/stdlib, existing metadata inventories, bounded control JSON or per-record R4 encoder allocation",
+    "No additional global graph-reference proof; pinned unchanged encoder and full raw comparison preserve original aliases/cycles/metadata",
+    "Trusted fixed producer DATA contract, not universal object/class/private/external-state provenance or an OS sandbox against malicious concurrent/transient reads",
+    "Parent AB/BA hook probes and static corpus checks are bounded preflight evidence only, not candidate Bun-test finalization proof",
+    "No normalization/waiver/footer reconstruction, automatic retry, cleanup, power action or broadened integration scope"
+  ]
+}

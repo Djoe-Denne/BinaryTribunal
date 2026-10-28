@@ -1,0 +1,25 @@
+0048E234: inc     esi; Increment by 1
+0048E235: cmp     esi, 8; Compare Two Operands
+0048E238: jl      short loc_48E21E; Jump if Less (SF!=OF)
+0048E23A: mov     BOOL_TARGET_CHOOSEN, 1
+0048E241: mov     ecx, edx
+0048E243: lea     esi, [esp+24h+p_enemy_number]; Load Effective Address
+0048E247: mov     edx, 1
+0048E24C: xor     eax, eax; Logical Exclusive OR
+0048E24E: mov     ebx, edx
+0048E250: and     ebx, ecx; Logical AND
+0048E252: test    bx, bx; Logical Compare
+0048E255: jz      short loc_48E25A; Jump if Zero (ZF=1)
+0048E257: mov     [esi], al
+0048E259: inc     esi; Increment by 1
+0048E25A: shl     edx, 1; Shift Logical Left
+0048E25C: inc     eax; Increment by 1
+0048E25D: cmp     eax, 10h; Compare Two Operands
+0048E260: jl      short loc_48E24E; Jump if Less (SF!=OF)
+0048E262: mov     eax, [esp+24h+p_enemy_number]
+0048E266: and     eax, 0FFh; Logical AND
+0048E26B: lea     edx, [eax+eax*2]; Load Effective Address
+0048E26E: lea     ecx, [eax+edx*4]; Load Effective Address
+0048E271: shl     ecx, 4; Shift Logical Left
+0048E274: test    byte ptr BATTLE_SLOT_DATA.status_1[ecx], 4; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048E27B: jnz     short loc_48E2BD; Jump if Not Zero (ZF=0)

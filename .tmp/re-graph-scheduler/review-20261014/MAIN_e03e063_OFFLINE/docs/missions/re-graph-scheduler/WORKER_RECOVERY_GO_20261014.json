@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-14",
+  "mission": "re-graph-scheduler",
+  "authorization": "Explicit user continuation GO from diagnostic chat; maintenance pause lifted; only three interrupted sessions may be resumed in existing role/task/model/variant",
+  "infrastructure": {
+    "activePluginReportedByUser": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261014-member-recovery-71d3bcbee00f",
+    "correctedCauses": [
+      "session.active absent from V2 plugin context; authenticated public same-server API bridge",
+      "No reconciliation of running/shutdown_requested after restart",
+      "Graceful-stop race"
+    ],
+    "diagnosticGatesReportedByUser": {"testsPass":1251,"typecheck":"PASS","lint":"PASS","build":"PASS","checked":4,"recovered":4,"ghostSlots":0},
+    "evidence": ".tmp/member-recovery-20261014/",
+    "parentDidNotReinstallOrChangePluginConfig": true,
+    "diagnosticReadbackAt151654WasBeforeMaintenanceUnpause": true
+  },
+  "resume": [
+    {"member":"l2-local-qa","task":"task_mv80a96u_003t_7t7cbp","session":"ses_ec5e6c9f0ffexTRNcZ4CoD8MH0","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeModelRefVerifiedBeforeAndAfter":true,"preNativeActive":null,"teamMessageForce":true,"postNativeActive":{"type":"running"},"role":"read-only local JSON/TypeScript QA","gel":"L2 b881a7f00d311709cbbdf94b8ed75fc4630d034086f1420344831dbad0b465f0"},
+    {"member":"l4-last-astra","task":"task_mv8038uj_003a_ftf7tj","session":"ses_ec5e931aeffeWP917zdzU2crRw","model":{"providerID":"openai","id":"gpt-6-astra","variant":"max"},"nativeModelRefVerifiedBeforeAndAfter":true,"preNativeActive":{"type":"running"},"teamMessageForce":false,"postNativeActive":{"type":"running"},"role":"same writer own3, preserve implemented clones and continue approved witness API","ownWorktreePreserved":true},
+    {"member":"l5-rel-review","task":"task_mv8038uj_0039_d6aa5v","session":"ses_ec5ea2703ffehbkO0FhECwNWTl","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"max"},"nativeModelRefVerifiedBeforeAndAfter":true,"preNativeActive":null,"teamMessageForce":true,"postNativeActive":{"type":"running"},"role":"same independent read-only relation/planner review","gel":"L5REL b589ad7227e25c2411650266f22b098f9ee49a306051acb4f3be453caf1cfcb8"}
+  ],
+  "activityVerification": "Authenticated public SDK session.get and session.active using the same Service.discover endpoint/client. Native running checked for all three, not inferred from persistent team counter",
+  "completedNotWoken": [
+    {"member":"l3-num-review","session":"ses_ec5eaef1bffe8nksdM5SkbWDDp","postNativeActive":null,"reportAlreadyAcceptedScoped":true},
+    {"member":"l6-rva-review","session":"ses_ec584d46cffeA1qW41CL7s0LOt","postNativeActive":null,"reportAlreadyUsedForL6OfflineAcceptance":true}
+  ],
+  "workerLimit": 5,
+  "nativeRunningAuthorizedContinuations": 3,
+  "noReplacementSpawn": true,
+  "noProviderModelVariantChange": true,
+  "noGitResetWorktreeOrEvidenceDeletion": true,
+  "noImplicitPromotion": true,
+  "next": "Finish existing reports/fixes, parent gates and only then L7 and downstream lots when READY"
+}

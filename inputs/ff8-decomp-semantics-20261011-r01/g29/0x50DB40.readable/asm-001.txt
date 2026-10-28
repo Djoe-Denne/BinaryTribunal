@@ -1,0 +1,25 @@
+0050DB40: mov     ecx, [esp+arg_0]; Generic battle expression/control VM (opcodes 0xC0..0xF3), executed inline from camera/stage control. Not a spline helper.
+0050DB44: sub     esp, 40h; Integer Subtraction
+0050DB47: push    ebx
+0050DB48: mov     ebx, [esp+44h+arg_0]
+0050DB4C: push    ebp
+0050DB4D: mov     ebp, [esp+48h+arg_C]
+0050DB51: push    esi
+0050DB52: mov     esi, [esp+4Ch+arg_0]
+0050DB56: push    edi
+0050DB57: mov     al, [ecx]; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223
+0050DB59: cmp     al, 0C0h; Compare Two Operands
+0050DB5B: mov     byte ptr [esp+50h+arg_C], al
+0050DB5F: jnb     short loc_50DB85; Jump if Not Below (CF=0)
+0050DB61: inc     ecx; Increment by 1
+0050DB62: lea     eax, [esp+50h+arg_0]; Load Effective Address
+0050DB66: mov     [esp+50h+arg_0], ecx
+0050DB6A: mov     ecx, [esp+50h+arg_C]
+0050DB6E: push    eax
+0050DB6F: push    ecx
+0050DB70: call    [esp+58h+arg_4]; E2 script_vm: call [esp+arg] opcodes <0xC0 (PAS vtable +0x60); callbacks args; 2 triplets callers
+0050DB74: add     esp, 8; Add
+0050DB77: test    eax, eax; Logical Compare
+0050DB79: jnz     loc_50DE62; yield-on-nonzero: proves -1 yield semantics of 0x504BB0 (VA)
+0050DB7F: mov     ecx, [esp+50h+arg_0]
+0050DB83: jmp     short def_50DC23; jumptable 0050DC23 default case, cases 193-195,197-199,201-203,205-207,209-211,213-215,217-219,221-223

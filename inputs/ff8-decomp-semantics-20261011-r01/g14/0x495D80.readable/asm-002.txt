@@ -1,0 +1,25 @@
+00495DD0: mov     ebp, (offset K_CHARA_ABILITY.Flags+31h)
+00495DD5: mov     [esp+1Ch+var_C], edi
+00495DD9: mov     [esp+1Ch+var_8], 2
+00495DE1: mov     edx, [edi]
+00495DE3: mov     eax, ebp
+00495DE5: mov     edi, 20h ; ' '
+00495DEA: add     ebp, 100h; Add
+00495DF0: test    dl, 1; Logical Compare
+00495DF3: jz      short loc_495E24; Jump if Zero (ZF=1)
+00495DF5: cmp     eax, offset K_GF_ABILITY.stat_to_increase; Compare Two Operands
+00495DFA: jl      short loc_495E24; Jump if Less (SF!=OF)
+00495DFC: cmp     eax, offset K_MENU_ABILITY.start_offset; Compare Two Operands
+00495E01: jge     short loc_495E24; Jump if Greater or Equal (SF=OF)
+00495E03: mov     cl, [eax-1]
+00495E06: or      [esi+0Bh], cl; Logical Inclusive OR
+00495E09: mov     cl, [eax]
+00495E0B: test    cl, cl; Logical Compare
+00495E0D: jnz     short loc_495E19; Jump if Not Zero (ZF=0)
+00495E0F: mov     bl, [eax+1]
+00495E12: add     [esi+9], bl; Add
+00495E15: mov     ebx, [esp+1Ch+gf_id]
+00495E19: cmp     cl, 1; Compare Two Operands
+00495E1C: jnz     short loc_495E24; Jump if Not Zero (ZF=0)
+00495E1E: mov     cl, [eax+1]
+00495E21: add     [esi+0Ah], cl; Add

@@ -1,0 +1,230 @@
+{
+  "ea": "0x500900",
+  "name_label_only": "BdLink_GF_battle_input_and_texture_upload",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x500900",
+      "end": "0x5009a1",
+      "hex": "e8cbc7f8ffa1a46ad90150e8107b00008b0d8c6ad90151e8047b00008b15a06ad90152e8f87a0000a2906ad901a1ac6ad90183c40c85c0741250e8e17a000083c40485c07505a3ac6ad901a1a86ad90150e8ca7a0000a2886ad901e8c0160000e82ba7fbffe866c7f8ff8b0d946ad90151e8aa7a000083c408e852c7f8ffe8ad620000e848c7f8ffe8d3360000e89e640000e8492a0000e884160000e9fffbffff"
+    },
+    {
+      "start": "0x5005a0",
+      "end": "0x50081f",
+      "hex": "f6059c6ad901040f84b1000000a1e4a3b80050a1806ad90125ff00000083f0018d0c40c1e1032bc8a14ce0d80183c0088d148dc869d9015250e8828bfaffa09c6ad90183c40ca80474748b0d806ad90181e1ff0000008bc18d144983f001c1e2032bd18d0c95c869d9018d1440c1e2032bd0518d0c95c869d9018d1480518b0de4a3b8008d04958069d9015051e8ee8bfaffa03ae0d80183c41084c074203c10760904f0a23ae0d801eb1383e00150e8bcbcf5ff83c404c6053ae0d80100e8fd140000e8c80b0000f6059c6ad90108741ee8aa5600006a016840e0d801e86ec3f5ff6840e0d801e894bcf5ff83c40cf6059c6ad901040f84b1000000a1806ad90125ff00000083f0018d1440c1e2032bd08d0495c869d90150e8a2aff5ffa1806ad90125ff0000008bc8c1e10403c88d14c8c1e20403d08d04d5dc24d90150e82ccff5ff0fbf0d38e0d80151e80fc606000fbf153ee0d8010fbf053ce0d80183c26c05a00000005250e8d2c506000fbf0d38e0d80151e8e5c506000fbf153ee0d8010fbf053ce0d80183c26c05a00000005250e8a8c5060083c42066c7053ee0d801000066c7053ce0d8010000a134f8cf0185c07553a1806ad9016aff25ff000000681e1100008bc8681e100000c1e10403c8681a100000681910000068111000008d14c86a11c1e2046a0903d06a056a016a008d04d558e0d801682211000050e8aacdf5ff83c434f6059c6ad90180a1806ad90174218b1594d0b60025ff0000008d0cc0c1e10e03ca890d54e0d80181c100400200eb258b1570d0b60025ff0000008d0cc5000000002bc8c1e10e03ca890d54e0d80181c100c00100890da869d9018bc8c1e10403c88d14c8c1e20403d08d04d558e0d801a34ce0d801c3"
+    }
+  ],
+  "assembly": "00500900: call    nullsub_6; LIVE 2026-07-12: two entry/return pairs left pending buffer, action latches, party ATB, menu count, action globals, and pause byte identical. Direct graph and writer xrefs classify BdLink as presentation scheduler/camera/upload for takeover purposes.\n00500905: mov     eax, list_head\n0050090A: push    eax; list_head\n0050090B: call    BdLinkTask_Pump; Call Procedure\n00500910: mov     ecx, battle_tasks_init_dword_1D96A8C\n00500916: push    ecx; list_head\n00500917: call    BdLinkTask_Pump; Call Procedure\n0050091C: mov     edx, battle_tasks_init_dword_1D96AA0\n00500922: push    edx; list_head\n00500923: call    BdLinkTask_Pump; Call Procedure\n00500928: mov     byte_1D96A90, al\n0050092D: mov     eax, g_GfSequenceContextCandidateA\n00500932: add     esp, 0Ch; Add\n00500935: test    eax, eax; Logical Compare\n00500937: jz      short loc_50094B; Jump if Zero (ZF=1)\n00500939: push    eax; list_head\n0050093A: call    BdLinkTask_Pump; Call Procedure\n0050093F: add     esp, 4; Add\n00500942: test    eax, eax; Logical Compare\n00500944: jnz     short loc_50094B; Jump if Not Zero (ZF=0)\n00500946: mov     g_GfSequenceContextCandidateA, eax\n0050094B: mov     eax, battle_tasks_init_dword_1D96AA8\n00500950: push    eax; list_head\n00500951: call    BdLinkTask_Pump; Call Procedure\n00500956: mov     byte_1D96A88, al\n0050095B: call    sub_502020; Call Procedure\n00500960: call    sub_4BB090; Call Procedure\n00500965: call    nullsub_6; Call Procedure\n0050096A: mov     ecx, battle_tasks_init_dword_1D96A94\n00500970: push    ecx; list_head\n00500971: call    BdLinkTask_Pump; Call Procedure\n00500976: add     esp, 8; Add\n00500979: call    nullsub_6; Call Procedure\n0050097E: call    BdLinkTask_PumpStageList; Call Procedure\n00500983: call    nullsub_6; Call Procedure\n00500988: call    updateBattleCamera; Per-frame battle camera updater. Advances active camera animation tasks, applies blend/snap-back using word_1D9771E and the cached dword_B8B800..dword_B8B80C camera, then writes Battle_Camera_world_* and Battle_Camera_LookAt_* from cameraStructPointer.\n0050098D: call    sub_506E30; Call Procedure\n00500992: call    BattleCamera_BuildViewAndConsumeDeltas; Call Procedure\n00500997: call    sub_502020; Call Procedure\n0050099C: jmp     loc_5005A0; Far jump to BdLink tail 0x5005A0-0x50081F (upload, camera parse, audio, ping-pong). The tail is already attached; list_funcs primary size 0xA1 and callees omit it.\n005005A0: test    byte ptr battle_to_update_flags_dword_1D96A9C, 4; Logical Compare\n005005A7: jz      loc_50065E; Jump if Zero (ZF=1)\n005005AD: mov     eax, dword_B8A3E4\n005005B2: push    eax\n005005B3: mov     eax, g_BattleFramePingPongIndex\n005005B8: and     eax, 0FFh; Logical AND\n005005BD: xor     eax, 1; Logical Exclusive OR\n005005C0: lea     ecx, [eax+eax*2]; Load Effective Address\n005005C3: shl     ecx, 3; Shift Logical Left\n005005C6: sub     ecx, eax; Integer Subtraction\n005005C8: mov     eax, g_BattleOTBase\n005005CD: add     eax, 8; Add\n005005D0: lea     edx, ds:1D969C8h[ecx*4]; Load Effective Address\n005005D7: push    edx\n005005D8: push    eax\n005005D9: call    sub_4A9160; Call Procedure\n005005DE: mov     al, byte ptr battle_to_update_flags_dword_1D96A9C\n005005E3: add     esp, 0Ch; Add\n005005E6: test    al, 4; Logical Compare\n005005E8: jz      short loc_50065E; Jump if Zero (ZF=1)\n005005EA: mov     ecx, g_BattleFramePingPongIndex\n005005F0: and     ecx, 0FFh; Logical AND\n005005F6: mov     eax, ecx\n005005F8: lea     edx, [ecx+ecx*2]; Load Effective Address\n005005FB: xor     eax, 1; Logical Exclusive OR\n005005FE: shl     edx, 3; Shift Logical Left\n00500601: sub     edx, ecx; Integer Subtraction\n00500603: lea     ecx, ds:1D969C8h[edx*4]; Load Effective Address\n0050060A: lea     edx, [eax+eax*2]; Load Effective Address\n0050060D: shl     edx, 3; Shift Logical Left\n00500610: sub     edx, eax; Integer Subtraction\n00500612: push    ecx\n00500613: lea     ecx, ds:1D969C8h[edx*4]; Load Effective Address\n0050061A: lea     edx, [eax+eax*4]; Load Effective Address\n0050061D: push    ecx\n0050061E: mov     ecx, dword_B8A3E4\n00500624: lea     eax, ds:1D96980h[edx*4]; Load Effective Address\n0050062B: push    eax\n0050062C: push    ecx\n0050062D: call    sub_4A9220; Call Procedure\n00500632: mov     al, byte_1D8E03A\n00500637: add     esp, 10h; Add\n0050063A: test    al, al; Logical Compare\n0050063C: jz      short loc_50065E; Jump if Zero (ZF=1)\n0050063E: cmp     al, 10h; Compare Two Operands\n00500640: jbe     short loc_50064B; Jump if Below or Equal (CF=1 | ZF=1)\n00500642: add     al, 0F0h; Add\n00500644: mov     byte_1D8E03A, al\n00500649: jmp     short loc_50065E; Jump\n0050064B: and     eax, 1; Logical AND\n0050064E: push    eax\n0050064F: call    nullsub_4_used; Call Procedure\n00500654: add     esp, 4; Add\n00500657: mov     byte_1D8E03A, 0\n0050065E: call    sub_501B60; Call Procedure\n00500663: call    sub_501230; Call Procedure\n00500668: test    byte ptr battle_to_update_flags_dword_1D96A9C, 8; Logical Compare\n0050066F: jz      short loc_50068F; Jump if Zero (ZF=1)\n00500671: call    BattleTimQueue_FlushToVram; VRAM flush iff battle_to_update_flags&8 (PH10)\n00500676: push    1\n00500678: push    offset unk_1D8E040\n0050067D: call    sub_45C9F0; Call Procedure\n00500682: push    offset unk_1D8E040\n00500687: call    nullsub_5_used; Call Procedure\n0050068C: add     esp, 0Ch; Add\n0050068F: test    byte ptr battle_to_update_flags_dword_1D96A9C, 4; Logical Compare\n00500696: jz      loc_50074D; Jump if Zero (ZF=1)\n0050069C: mov     eax, g_BattleFramePingPongIndex\n005006A1: and     eax, 0FFh; Logical AND\n005006A6: xor     eax, 1; Logical Exclusive OR\n005006A9: lea     edx, [eax+eax*2]; Load Effective Address\n005006AC: shl     edx, 3; Shift Logical Left\n005006AF: sub     edx, eax; Integer Subtraction\n005006B1: lea     eax, ds:1D969C8h[edx*4]; Load Effective Address\n005006B8: push    eax\n005006B9: call    sub_45B660; Call Procedure\n005006BE: mov     eax, g_BattleFramePingPongIndex\n005006C3: and     eax, 0FFh; Logical AND\n005006C8: mov     ecx, eax\n005006CA: shl     ecx, 4; Shift Logical Left\n005006CD: add     ecx, eax; Add\n005006CF: lea     edx, [eax+ecx*8]; Load Effective Address\n005006D2: shl     edx, 4; Shift Logical Left\n005006D5: add     edx, eax; Add\n005006D7: lea     eax, ds:1D924DCh[edx*8]; Load Effective Address\n005006DE: push    eax; ot_head\n005006DF: call    Gpu_DrawOTagCurrent; Thunk DrawOTag courant vers 0x45D080; pas un upload de texture.\n005006E4: movsx   ecx, word_1D8E038; Move with Sign-Extend\n005006EB: push    ecx\n005006EC: call    Call_Bs_parseCamera2; Call Procedure\n005006F1: movsx   edx, word_1D8E03E; Move with Sign-Extend\n005006F8: movsx   eax, word_1D8E03C; Move with Sign-Extend\n005006FF: add     edx, 6Ch ; 'l'; Add\n00500702: add     eax, 0A0h; Add\n00500707: push    edx\n00500708: push    eax\n00500709: call    Call_Bs_ParseCamera; Call Procedure\n0050070E: movsx   ecx, word_1D8E038; Move with Sign-Extend\n00500715: push    ecx\n00500716: call    Call_Bs_parseCamera2; Call Procedure\n0050071B: movsx   edx, word_1D8E03E; Move with Sign-Extend\n00500722: movsx   eax, word_1D8E03C; Move with Sign-Extend\n00500729: add     edx, 6Ch ; 'l'; Add\n0050072C: add     eax, 0A0h; Add\n00500731: push    edx\n00500732: push    eax\n00500733: call    Call_Bs_ParseCamera; Call Procedure\n00500738: add     esp, 20h; Add\n0050073B: mov     word_1D8E03E, 0\n00500744: mov     word_1D8E03C, 0\n0050074D: mov     eax, pause_game_battle\n00500752: test    eax, eax; Logical Compare\n00500754: jnz     short loc_5007A9; Jump if Not Zero (ZF=0)\n00500756: mov     eax, g_BattleFramePingPongIndex\n0050075B: push    0FFFFFFFFh\n0050075D: and     eax, 0FFh; Logical AND\n00500762: push    111Eh\n00500767: mov     ecx, eax\n00500769: push    101Eh\n0050076E: shl     ecx, 4; Shift Logical Left\n00500771: add     ecx, eax; Add\n00500773: push    101Ah\n00500778: push    1019h\n0050077D: push    1011h\n00500782: lea     edx, [eax+ecx*8]; Load Effective Address\n00500785: push    11h\n00500787: shl     edx, 4; Shift Logical Left\n0050078A: push    9\n0050078C: add     edx, eax; Add\n0050078E: push    5\n00500790: push    1\n00500792: push    0\n00500794: lea     eax, ds:1D8E058h[edx*8]; Load Effective Address\n0050079B: push    1122h\n005007A0: push    eax\n005007A1: call    sub_45D550; Call Procedure\n005007A6: add     esp, 34h; Add\n005007A9: test    byte ptr battle_to_update_flags_dword_1D96A9C, 80h; Logical Compare\n005007B0: mov     eax, g_BattleFramePingPongIndex\n005007B5: jz      short loc_5007D8; Jump if Zero (ZF=1)\n005007B7: mov     edx, off_B6D094\n005007BD: and     eax, 0FFh; Logical AND\n005007C2: lea     ecx, [eax+eax*8]; Load Effective Address\n005007C5: shl     ecx, 0Eh; Shift Logical Left\n005007C8: add     ecx, edx; Add\n005007CA: mov     g_BattlePacketCursor, ecx\n005007D0: add     ecx, 24000h; Add\n005007D6: jmp     short loc_5007FD; Jump\n005007D8: mov     edx, off_B6D070\n005007DE: and     eax, 0FFh; Logical AND\n005007E3: lea     ecx, ds:0[eax*8]; Load Effective Address\n005007EA: sub     ecx, eax; Integer Subtraction\n005007EC: shl     ecx, 0Eh; Shift Logical Left\n005007EF: add     ecx, edx; Add\n005007F1: mov     g_BattlePacketCursor, ecx\n005007F7: add     ecx, 1C000h; Add\n005007FD: mov     g_BattlePacketEnd, ecx\n00500803: mov     ecx, eax\n00500805: shl     ecx, 4; Shift Logical Left\n00500808: add     ecx, eax; Add\n0050080A: lea     edx, [eax+ecx*8]; Load Effective Address\n0050080D: shl     edx, 4; Shift Logical Left\n00500810: add     edx, eax; Add\n00500812: lea     eax, ds:1D8E058h[edx*8]; Load Effective Address\n00500819: mov     g_BattleOTBase, eax\n0050081E: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x500900",
+      "end": "0x500939",
+      "successors": [
+        "0x500939",
+        "0x50094b"
+      ]
+    },
+    {
+      "start": "0x500939",
+      "end": "0x500946",
+      "successors": [
+        "0x500946",
+        "0x50094b"
+      ]
+    },
+    {
+      "start": "0x500946",
+      "end": "0x50094b",
+      "successors": [
+        "0x50094b"
+      ]
+    },
+    {
+      "start": "0x50094b",
+      "end": "0x5009a1",
+      "successors": [
+        "0x5005a0"
+      ]
+    },
+    {
+      "start": "0x5005a0",
+      "end": "0x5005ad",
+      "successors": [
+        "0x5005ad",
+        "0x50065e"
+      ]
+    },
+    {
+      "start": "0x5005ad",
+      "end": "0x5005ea",
+      "successors": [
+        "0x5005ea",
+        "0x50065e"
+      ]
+    },
+    {
+      "start": "0x5005ea",
+      "end": "0x50063e",
+      "successors": [
+        "0x50063e",
+        "0x50065e"
+      ]
+    },
+    {
+      "start": "0x50063e",
+      "end": "0x500642",
+      "successors": [
+        "0x500642",
+        "0x50064b"
+      ]
+    },
+    {
+      "start": "0x500642",
+      "end": "0x50064b",
+      "successors": [
+        "0x50065e"
+      ]
+    },
+    {
+      "start": "0x50064b",
+      "end": "0x50065e",
+      "successors": [
+        "0x50065e"
+      ]
+    },
+    {
+      "start": "0x50065e",
+      "end": "0x500671",
+      "successors": [
+        "0x500671",
+        "0x50068f"
+      ]
+    },
+    {
+      "start": "0x500671",
+      "end": "0x50068f",
+      "successors": [
+        "0x50068f"
+      ]
+    },
+    {
+      "start": "0x50068f",
+      "end": "0x50069c",
+      "successors": [
+        "0x50069c",
+        "0x50074d"
+      ]
+    },
+    {
+      "start": "0x50069c",
+      "end": "0x50074d",
+      "successors": [
+        "0x50074d"
+      ]
+    },
+    {
+      "start": "0x50074d",
+      "end": "0x500756",
+      "successors": [
+        "0x500756",
+        "0x5007a9"
+      ]
+    },
+    {
+      "start": "0x500756",
+      "end": "0x5007a9",
+      "successors": [
+        "0x5007a9"
+      ]
+    },
+    {
+      "start": "0x5007a9",
+      "end": "0x5007b7",
+      "successors": [
+        "0x5007b7",
+        "0x5007d8"
+      ]
+    },
+    {
+      "start": "0x5007b7",
+      "end": "0x5007d8",
+      "successors": [
+        "0x5007fd"
+      ]
+    },
+    {
+      "start": "0x5007d8",
+      "end": "0x5007fd",
+      "successors": [
+        "0x5007fd"
+      ]
+    },
+    {
+      "start": "0x5007fd",
+      "end": "0x50081f",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d63d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d6c5",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d707",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d811",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x47d905",
+      "type": 19,
+      "iscode": true,
+      "function": "0x47d900"
+    }
+  ],
+  "code_targets": [
+    "0x45b660",
+    "0x45c310",
+    "0x45c320",
+    "0x45c9f0",
+    "0x45d550",
+    "0x45d610",
+    "0x48d0d0",
+    "0x4a9160",
+    "0x4a9220",
+    "0x4bb090",
+    "0x501230",
+    "0x501b60",
+    "0x502020",
+    "0x5033e0",
+    "0x504060",
+    "0x505d20",
+    "0x506c30",
+    "0x506e30",
+    "0x508420",
+    "0x56cce0",
+    "0x56cd00"
+  ],
+  "instruction_count": 206
+}

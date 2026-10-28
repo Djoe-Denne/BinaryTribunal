@@ -1,0 +1,25 @@
+00488D58: jz      short loc_488DAE; Jump if Zero (ZF=1)
+00488D5A: add     eax, 0D0h; Add
+00488D5F: inc     edi; Increment by 1
+00488D60: cmp     eax, offset byte_1D2817B; Compare Two Operands
+00488D65: jl      short loc_488D52; Jump if Less (SF!=OF)
+00488D67: mov     eax, 0FFh
+00488D6C: lea     ecx, [eax+eax*2]; Load Effective Address
+00488D6F: lea     eax, [eax+ecx*4]; Load Effective Address
+00488D72: mov     ecx, [esp+74h+if_right_condition_final]
+00488D76: mov     edx, dword ptr [esp+74h+op_param_3]
+00488D7A: shl     eax, 4; Shift Logical Left
+00488D7D: and     ecx, 0FFFFh; Logical AND
+00488D83: add     eax, offset BATTLE_SLOT_DATA; Add
+00488D88: and     edx, 0FFh; Logical AND
+00488D8E: cmp     ecx, 10h; Compare Two Operands
+00488D91: jnb     short loc_488DDF; Jump if Not Below (CF=0)
+00488D93: test    edx, edx; Logical Compare
+00488D95: jnz     short loc_488DB2; Jump if Not Zero (ZF=0)
+00488D97: mov     dx, [eax+80h]
+00488D9E: mov     eax, 1
+00488DA3: shl     eax, cl; Shift Logical Left
+00488DA5: test    eax, edx; Logical Compare
+00488DA7: jz      short loc_488E0F; Jump if Zero (ZF=1)
+00488DA9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00488DAE: mov     eax, edi

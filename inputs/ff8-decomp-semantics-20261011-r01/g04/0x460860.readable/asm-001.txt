@@ -1,0 +1,25 @@
+00460860: sub     esp, 8; Integer Subtraction
+00460863: push    ebx
+00460864: push    esi
+00460865: push    edi
+00460866: mov     edi, [esp+14h+arg_0]
+0046086A: mov     ecx, edi
+0046086C: mov     eax, edi
+0046086E: sar     ecx, 0Dh; Shift Arithmetic Right
+00460871: and     ecx, 3; Logical AND
+00460874: mov     edx, edi
+00460876: sar     eax, 11h; Shift Arithmetic Right
+00460879: and     eax, 3; Logical AND
+0046087C: mov     esi, ecx
+0046087E: sar     edx, 0Fh; Shift Arithmetic Right
+00460881: shl     eax, 5; Shift Logical Left
+00460884: shl     esi, 5; Shift Logical Left
+00460887: and     edx, 3; Logical AND
+0046088A: add     eax, offset xyz1; Add
+0046088F: add     esi, offset world_CameraWorldSpaceX; Add
+00460895: cmp     edx, 3; Compare Two Operands
+00460898: jnz     short loc_4608C9; Jump if Not Zero (ZF=0)
+0046089A: movsx   edx, word ptr dword_1CA8A34; Move with Sign-Extend
+004608A1: mov     [esp+14h+arg_0], edx
+004608A5: movsx   edx, word ptr dword_1CA8A38; Move with Sign-Extend
+004608AC: fild    [esp+14h+arg_0]; Load Integer

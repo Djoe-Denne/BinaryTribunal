@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "snapshotId": "snap:negative-fabricated-callee",
+  "missionId": "re-graph-scheduler-20261013",
+  "binaryArtifacts": [
+    {
+      "schemaVersion": 1,
+      "artifactId": "mod:1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "moduleName": "fixture-alpha.exe",
+      "contentSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "versionLabel": "fixture-v1",
+      "format": "PE32",
+      "architecture": "x86-32",
+      "imageBase": "0x400000",
+      "idbIdentity": "",
+      "sections": [],
+      "provenance": {
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "siteRva": null,
+        "siteKind": "extractor",
+        "xrefType": "none",
+        "source": "fixture-extractor",
+        "sourceVersion": "v1",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "evidenceSha256": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259"
+      },
+      "analysisVersion": "l1-contract-v1",
+      "extractorVersion": "fixture-not-native"
+    }
+  ],
+  "nodes": [
+    {
+      "schemaVersion": 1,
+      "id": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000",
+      "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+      "rva": "0x1000",
+      "ea": "0x401000",
+      "imageBase": "0x400000",
+      "name": "",
+      "observedDescription": "",
+      "boundaries": [
+        {
+          "ordinal": 0,
+          "rva": "0x1000",
+          "endRvaExclusive": "0x1010",
+          "role": "entry"
+        }
+      ],
+      "sizeBytes": {
+        "known": true,
+        "value": 16
+      },
+      "instructionCount": {
+        "known": false,
+        "value": null
+      },
+      "basicBlockCount": {
+        "known": false,
+        "value": null
+      },
+      "functionClass": "internal",
+      "status": "observed",
+      "semanticMaturity": "none",
+      "analysisRefs": [],
+      "byteAgreement": "unknown",
+      "admissibleAsOracle": false,
+      "byteDivergence": {
+        "known": false,
+        "peMismatchByteCount": null,
+        "frozenSha256": null,
+        "peSha256": null
+      }
+    }
+  ],
+  "edges": [],
+  "objects": [],
+  "unresolved": [
+    {
+      "schemaVersion": 1,
+      "id": "unres:fabricated",
+      "fromFunctionId": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb:0x1000",
+      "siteRva": "0x1004",
+      "kind": "indirect_call",
+      "target": "unknown",
+      "referencedObjectId": null,
+      "fabricatedFunction": true,
+      "provenance": {
+        "moduleSha256": "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb",
+        "siteRva": "0x1004",
+        "siteKind": "instruction",
+        "xrefType": "code",
+        "source": "fixture-extractor",
+        "sourceVersion": "v1",
+        "sourceHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+        "evidenceSha256": "44d625a835a7892f2938997b9adc3428b3f1dd9411a399ebcb3ddfee212b430a"
+      }
+    }
+  ],
+  "capabilities": [],
+  "normalizedFingerprint": "0000000000000000000000000000000000000000000000000000000000000000",
+  "knowledgeRevision": 1,
+  "scope": {
+    "description": "negative-fabricated-callee",
+    "moduleSha256s": [
+      "1c8c2893ed9b6bb1f299e0f3878518fbe1df27db1df21c5043699d1728d385bb"
+    ],
+    "functionCount": 0
+  },
+  "coverage": {
+    "status": "complete",
+    "uncoveredReason": null,
+    "tailsIterated": true,
+    "selfLoopsPreserved": true
+  },
+  "toolVersions": {
+    "extractor": "fixture-extractor",
+    "extractorHash": "af957a39b84ac87a7d2a8a917a7cb38e4b64acd785cdd9f9414d5d124c950259",
+    "normalizer": "graph-contract-v1"
+  },
+  "configFingerprint": "17cac101ded462ea9dc3c9237d7013b2a68830f0ded91f4ffab3a573d810fc41"
+}

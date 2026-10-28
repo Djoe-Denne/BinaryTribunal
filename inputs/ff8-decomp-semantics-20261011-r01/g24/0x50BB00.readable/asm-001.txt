@@ -1,0 +1,25 @@
+0050BB00: push    esi
+0050BB01: mov     esi, [esp+4+arg_0]
+0050BB05: xor     eax, eax; Logical Exclusive OR
+0050BB07: push    edi
+0050BB08: mov     al, [esi+0Dh]
+0050BB0B: mov     edi, [esi+10h]
+0050BB0E: cmp     eax, 3; switch 4 cases
+0050BB11: ja      def_50BB17; jumptable 0050BB17 default case
+0050BB17: jmp     ds:jpt_50BB17[eax*4]; switch jump
+0050BB1E: mov     eax, dword_1D99A5C; jumptable 0050BB17 case 0
+0050BB23: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050BB29: and     eax, 0FFFFh; Logical AND
+0050BB2E: push    eax; int
+0050BB2F: push    ecx; unsigned __int8 *
+0050BB30: call    sub_505F00; Call Procedure
+0050BB35: mov     byte ptr dword_1D99A84+1, al
+0050BB3A: mov     al, [esi+0Dh]
+0050BB3D: add     esp, 8; Add
+0050BB40: inc     al; Increment by 1
+0050BB42: mov     [esi+0Dh], al
+0050BB45: mov     al, byte ptr dword_1D99A84+1; jumptable 0050BB17 case 1
+0050BB4A: test    al, al; Logical Compare
+0050BB4C: jz      short loc_50BB64; Jump if Zero (ZF=1)
+0050BB4E: push    40h ; '@'
+0050BB50: push    1Ah

@@ -1,0 +1,1322 @@
+{
+  "raw": {
+    "missionId": "independent-review",
+    "snapshotId": "independent-raw-v1",
+    "artifacts": [
+      {
+        "schemaVersion": 1,
+        "artifactId": "independent-module",
+        "moduleName": "independent-fixture.exe",
+        "contentSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "versionLabel": "offline-fixture-v1",
+        "format": "PE32",
+        "architecture": "x86-32",
+        "imageBase": "0x400000",
+        "idbIdentity": "offline-no-idb",
+        "sections": [
+          {
+            "name": ".text",
+            "rva": "0x1000",
+            "virtualSize": {
+              "known": true,
+              "value": 4096
+            },
+            "characteristics": "code"
+          }
+        ],
+        "provenance": {
+          "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+          "siteRva": null,
+          "siteKind": "extractor",
+          "xrefType": "none",
+          "source": "independent-review-synthetic",
+          "sourceVersion": "independent-v1",
+          "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+          "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+        },
+        "analysisVersion": "independent-v1",
+        "extractorVersion": "independent-v1"
+      }
+    ],
+    "nodes": [
+      {
+        "schemaVersion": 1,
+        "id": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "rva": "0x1000",
+        "ea": "0x401000",
+        "imageBase": "0x400000",
+        "name": "independent0",
+        "observedDescription": "Hand-built offline review fixture",
+        "boundaries": [
+          {
+            "ordinal": 0,
+            "rva": "0x1000",
+            "endRvaExclusive": "0x1010",
+            "role": "entry"
+          }
+        ],
+        "sizeBytes": {
+          "known": true,
+          "value": 16
+        },
+        "instructionCount": {
+          "known": true,
+          "value": 4
+        },
+        "basicBlockCount": {
+          "known": true,
+          "value": 1
+        },
+        "functionClass": "internal",
+        "status": "observed",
+        "semanticMaturity": "none",
+        "analysisRefs": [],
+        "byteAgreement": "unknown",
+        "admissibleAsOracle": false,
+        "byteDivergence": {
+          "known": false,
+          "peMismatchByteCount": null,
+          "frozenSha256": null,
+          "peSha256": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "id": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "rva": "0x1100",
+        "ea": "0x401100",
+        "imageBase": "0x400000",
+        "name": "independent1",
+        "observedDescription": "Hand-built offline review fixture",
+        "boundaries": [
+          {
+            "ordinal": 0,
+            "rva": "0x1100",
+            "endRvaExclusive": "0x1110",
+            "role": "entry"
+          }
+        ],
+        "sizeBytes": {
+          "known": true,
+          "value": 16
+        },
+        "instructionCount": {
+          "known": true,
+          "value": 4
+        },
+        "basicBlockCount": {
+          "known": true,
+          "value": 1
+        },
+        "functionClass": "internal",
+        "status": "observed",
+        "semanticMaturity": "none",
+        "analysisRefs": [],
+        "byteAgreement": "unknown",
+        "admissibleAsOracle": false,
+        "byteDivergence": {
+          "known": false,
+          "peMismatchByteCount": null,
+          "frozenSha256": null,
+          "peSha256": null
+        }
+      }
+    ],
+    "edges": [
+      {
+        "schemaVersion": 1,
+        "id": "",
+        "sourceId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "destinationId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "kind": "direct_call",
+        "direction": "source_to_destination",
+        "sites": [
+          {
+            "siteRva": "0x1004",
+            "xrefType": "code",
+            "provenance": {
+              "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "siteRva": "0x1004",
+              "siteKind": "instruction",
+              "xrefType": "code",
+              "source": "independent-review-synthetic",
+              "sourceVersion": "independent-v1",
+              "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+              "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+            }
+          }
+        ],
+        "status": "observed",
+        "confidence": "high",
+        "appearedInRevision": 0,
+        "retiredInRevision": null,
+        "schedulerRelevance": "may_block"
+      }
+    ],
+    "objects": [],
+    "unresolved": [],
+    "capabilities": [],
+    "knowledgeRevision": 0,
+    "scopeDescription": "Hand-authored small offline review input",
+    "coverage": {
+      "status": "complete",
+      "uncoveredReason": null,
+      "tailsIterated": true,
+      "selfLoopsPreserved": true
+    },
+    "toolVersions": {
+      "extractor": "independent-v1",
+      "extractorHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+      "normalizer": "independent-v1"
+    },
+    "configFingerprint": "0adf35492b5fbfd37ed1ab518d859a785894c57644f54d039fafec970c438b6f"
+  },
+  "graph": {
+    "schemaVersion": 1,
+    "snapshotId": "independent-raw-v1",
+    "missionId": "independent-review",
+    "binaryArtifacts": [
+      {
+        "schemaVersion": 1,
+        "artifactId": "independent-module",
+        "moduleName": "independent-fixture.exe",
+        "contentSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "versionLabel": "offline-fixture-v1",
+        "format": "PE32",
+        "architecture": "x86-32",
+        "imageBase": "0x400000",
+        "idbIdentity": "offline-no-idb",
+        "sections": [
+          {
+            "name": ".text",
+            "rva": "0x1000",
+            "virtualSize": {
+              "known": true,
+              "value": 4096
+            },
+            "characteristics": "code"
+          }
+        ],
+        "provenance": {
+          "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+          "siteRva": null,
+          "siteKind": "extractor",
+          "xrefType": "none",
+          "source": "independent-review-synthetic",
+          "sourceVersion": "independent-v1",
+          "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+          "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+        },
+        "analysisVersion": "independent-v1",
+        "extractorVersion": "independent-v1"
+      }
+    ],
+    "nodes": [
+      {
+        "schemaVersion": 1,
+        "id": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "rva": "0x1000",
+        "ea": "0x401000",
+        "imageBase": "0x400000",
+        "name": "independent0",
+        "observedDescription": "Hand-built offline review fixture",
+        "boundaries": [
+          {
+            "ordinal": 0,
+            "rva": "0x1000",
+            "endRvaExclusive": "0x1010",
+            "role": "entry"
+          }
+        ],
+        "sizeBytes": {
+          "known": true,
+          "value": 16
+        },
+        "instructionCount": {
+          "known": true,
+          "value": 4
+        },
+        "basicBlockCount": {
+          "known": true,
+          "value": 1
+        },
+        "functionClass": "internal",
+        "status": "observed",
+        "semanticMaturity": "none",
+        "analysisRefs": [],
+        "byteAgreement": "unknown",
+        "admissibleAsOracle": false,
+        "byteDivergence": {
+          "known": false,
+          "peMismatchByteCount": null,
+          "frozenSha256": null,
+          "peSha256": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "id": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+        "rva": "0x1100",
+        "ea": "0x401100",
+        "imageBase": "0x400000",
+        "name": "independent1",
+        "observedDescription": "Hand-built offline review fixture",
+        "boundaries": [
+          {
+            "ordinal": 0,
+            "rva": "0x1100",
+            "endRvaExclusive": "0x1110",
+            "role": "entry"
+          }
+        ],
+        "sizeBytes": {
+          "known": true,
+          "value": 16
+        },
+        "instructionCount": {
+          "known": true,
+          "value": 4
+        },
+        "basicBlockCount": {
+          "known": true,
+          "value": 1
+        },
+        "functionClass": "internal",
+        "status": "observed",
+        "semanticMaturity": "none",
+        "analysisRefs": [],
+        "byteAgreement": "unknown",
+        "admissibleAsOracle": false,
+        "byteDivergence": {
+          "known": false,
+          "peMismatchByteCount": null,
+          "frozenSha256": null,
+          "peSha256": null
+        }
+      }
+    ],
+    "edges": [
+      {
+        "schemaVersion": 1,
+        "id": "edge:38353dab79d0deec5d9e977e139f106cf1fd1388",
+        "sourceId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "destinationId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "kind": "direct_call",
+        "direction": "source_to_destination",
+        "sites": [
+          {
+            "siteRva": "0x1004",
+            "xrefType": "code",
+            "provenance": {
+              "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "siteRva": "0x1004",
+              "siteKind": "instruction",
+              "xrefType": "code",
+              "source": "independent-review-synthetic",
+              "sourceVersion": "independent-v1",
+              "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+              "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+            }
+          }
+        ],
+        "status": "observed",
+        "confidence": "high",
+        "appearedInRevision": 0,
+        "retiredInRevision": null,
+        "schedulerRelevance": "may_block"
+      }
+    ],
+    "objects": [],
+    "unresolved": [],
+    "capabilities": [],
+    "normalizedFingerprint": "f0d949c17d00cfa6e2bf94db947fc2aaf0338dc89edc5bd66cd35af3927e32df",
+    "knowledgeRevision": 0,
+    "scope": {
+      "description": "Hand-authored small offline review input",
+      "moduleSha256s": [
+        "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d"
+      ],
+      "functionCount": 2
+    },
+    "coverage": {
+      "status": "complete",
+      "uncoveredReason": null,
+      "tailsIterated": true,
+      "selfLoopsPreserved": true
+    },
+    "toolVersions": {
+      "extractor": "independent-v1",
+      "extractorHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+      "normalizer": "independent-v1"
+    },
+    "configFingerprint": "0adf35492b5fbfd37ed1ab518d859a785894c57644f54d039fafec970c438b6f"
+  },
+  "result": {
+    "plan": {
+      "schemaVersion": 1,
+      "planId": "plan:03dcf80c6bb480f02c89b884a3ae28de2cdbf27742acaafc58b18c2d92c24540",
+      "missionId": "independent-review",
+      "snapshotId": "independent-raw-v1",
+      "partitionId": "independent-partition",
+      "knowledgeRevision": 0,
+      "units": [
+        {
+          "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+          "ownedFunctionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000"
+          ],
+          "contextFunctionIds": [],
+          "requiredPublicationLevel": 1,
+          "state": "PENDING",
+          "contextEnvelopeUtf8Bytes": {
+            "known": true,
+            "value": 4064
+          }
+        },
+        {
+          "unitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+          "ownedFunctionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100"
+          ],
+          "contextFunctionIds": [],
+          "requiredPublicationLevel": 1,
+          "state": "PENDING",
+          "contextEnvelopeUtf8Bytes": {
+            "known": true,
+            "value": 3061
+          }
+        }
+      ],
+      "prerequisites": [
+        {
+          "id": "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+          "kind": "obligatory",
+          "producerUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+          "requiredPublicationLevel": 1,
+          "artifactKind": "reconciled_c",
+          "dispensed": false,
+          "dispensationReason": null,
+          "consumerUnitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec"
+        }
+      ],
+      "g1Edges": [
+        {
+          "fromUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+          "toUnitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+          "kind": "obligatory",
+          "callSourceFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+          "callDestinationFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+          "storedCallDirection": "source_to_destination"
+        }
+      ],
+      "g2Conflicts": [
+        {
+          "id": "conflict:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc",
+          "kind": "owned_function",
+          "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+          "withUnitId": null
+        },
+        {
+          "id": "conflict:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+          "kind": "blocking_dependency",
+          "resourceKey": "dependency:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+          "withUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f"
+        },
+        {
+          "id": "conflict:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9",
+          "kind": "owned_function",
+          "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+          "withUnitId": null
+        }
+      ],
+      "g3Affinities": [],
+      "sccs": [
+        {
+          "id": "scc:ebe37d6c8eac6ce71be75ebe43dd52177783739dcb78868fd5cb1c9857a6f445",
+          "functionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000"
+          ],
+          "exclusive": false,
+          "hasSelfLoop": false,
+          "selfLoopPreserved": true
+        },
+        {
+          "id": "scc:e96f1a312f5dd09dc61ea5baa078f35d6f1ef8841e7a443769f385e38343673a",
+          "functionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100"
+          ],
+          "exclusive": false,
+          "hasSelfLoop": false,
+          "selfLoopPreserved": true
+        }
+      ],
+      "selectedUnitIds": [
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec"
+      ],
+      "decisions": [
+        {
+          "id": "decision:3a704206e717bca01b0b51d2e130e18d3704ff3bef84c34e6d22030baa9d90ee",
+          "unitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+          "action": "include",
+          "reason": "independent-policy-v1@knowledge:0: complete mandatory closure within budget"
+        },
+        {
+          "id": "decision:6396ef271e38d8f3851e937e8775ec21c02162614e36aca86ba4acd6c2d4963c",
+          "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+          "action": "include",
+          "reason": "independent-policy-v1@knowledge:0: complete mandatory closure within budget"
+        }
+      ],
+      "budgets": {
+        "unit": "utf8-bytes",
+        "contextEnvelopeMaxUtf8Bytes": 1000000,
+        "countsSqliteLength": false,
+        "nativeLineCharLimit": 2000
+      },
+      "policyVersion": "independent-policy-v1",
+      "estimationVersion": "independent-cost-v1",
+      "fingerprint": "b19910ee733559d1ca76773040df960f89193806f148106dc86d6a1aba584203"
+    },
+    "units": [
+      {
+        "schemaVersion": 1,
+        "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+        "snapshotId": "independent-raw-v1",
+        "partitionId": "independent-partition",
+        "knowledgeRevision": 0,
+        "ownedFunctionIds": [
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000"
+        ],
+        "contextFunctionIds": [],
+        "investigationKind": "decompilation",
+        "pipeline": "2+1",
+        "subIntents": [
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:A",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "A",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401000"
+            },
+            "waitsForSubIntentIds": [],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          },
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:B",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "B",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401000"
+            },
+            "waitsForSubIntentIds": [],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          },
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:R",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "R",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401000"
+            },
+            "waitsForSubIntentIds": [
+              "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:A",
+              "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:B"
+            ],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          }
+        ],
+        "prerequisites": [
+          {
+            "id": "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "kind": "obligatory",
+            "producerUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+            "requiredPublicationLevel": 1,
+            "artifactKind": "reconciled_c",
+            "dispensed": false,
+            "dispensationReason": null
+          }
+        ],
+        "conflicts": [
+          {
+            "id": "conflict:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc",
+            "kind": "owned_function",
+            "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "withUnitId": null
+          },
+          {
+            "id": "conflict:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "kind": "blocking_dependency",
+            "resourceKey": "dependency:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "withUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f"
+          }
+        ],
+        "estimatedCost": {
+          "known": true,
+          "value": 3
+        },
+        "requiredPublicationLevel": 1,
+        "state": "PENDING"
+      },
+      {
+        "schemaVersion": 1,
+        "unitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+        "snapshotId": "independent-raw-v1",
+        "partitionId": "independent-partition",
+        "knowledgeRevision": 0,
+        "ownedFunctionIds": [
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100"
+        ],
+        "contextFunctionIds": [],
+        "investigationKind": "decompilation",
+        "pipeline": "2+1",
+        "subIntents": [
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:A",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "A",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401100"
+            },
+            "waitsForSubIntentIds": [],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          },
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:B",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "B",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401100"
+            },
+            "waitsForSubIntentIds": [],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          },
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:R",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "R",
+            "harnessIdentity": {
+              "sha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "version": "offline-fixture-v1",
+              "ea": "0x401100"
+            },
+            "waitsForSubIntentIds": [
+              "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:A",
+              "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:B"
+            ],
+            "sharesFamilyLease": true,
+            "outputDisjoint": true
+          }
+        ],
+        "prerequisites": [],
+        "conflicts": [
+          {
+            "id": "conflict:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9",
+            "kind": "owned_function",
+            "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "withUnitId": null
+          }
+        ],
+        "estimatedCost": {
+          "known": true,
+          "value": 3
+        },
+        "requiredPublicationLevel": 1,
+        "state": "PENDING"
+      }
+    ],
+    "sidecar": {
+      "schemaVersion": 1,
+      "policyVersion": "independent-policy-v1",
+      "estimationVersion": "independent-cost-v1",
+      "planId": "plan:03dcf80c6bb480f02c89b884a3ae28de2cdbf27742acaafc58b18c2d92c24540",
+      "planFingerprint": "b19910ee733559d1ca76773040df960f89193806f148106dc86d6a1aba584203",
+      "snapshotFingerprint": "f0d949c17d00cfa6e2bf94db947fc2aaf0338dc89edc5bd66cd35af3927e32df",
+      "knowledgeRevision": 0,
+      "policy": {
+        "version": "independent-policy-v1",
+        "estimationVersion": "independent-cost-v1",
+        "partitionId": "independent-partition",
+        "investigationKind": "decompilation",
+        "artifactKind": "reconciled_c",
+        "publicationLevel": 1,
+        "contextEnvelopeMaxUtf8Bytes": 1000000,
+        "totalContextBudgetUtf8Bytes": 10000000,
+        "maxSelectedUnits": 10,
+        "sccMaxFunctions": 10,
+        "sccMaxIterations": 2,
+        "sccCostBudget": 1000000,
+        "requirementsByFunction": {
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000": {
+            "artifactId": "independent-artifact-0",
+            "artifactSha256": "c937f3a09d8ae39f815f871022c270300a3ff2086abd8a244c52de1d3cf6153a",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 0,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          },
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100": {
+            "artifactId": "independent-artifact-1",
+            "artifactSha256": "b2679ce6baabbb2f475ef22383bbf39bb43cb030a4cee1977f7eeea078b6c08e",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 0,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          }
+        },
+        "estimatesByFunction": {
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000": {
+            "version": "independent-cost-v1",
+            "A": 1,
+            "B": 1,
+            "R": 1,
+            "validation": 1
+          },
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100": {
+            "version": "independent-cost-v1",
+            "A": 1,
+            "B": 1,
+            "R": 1,
+            "validation": 1
+          }
+        },
+        "resourcesByFunction": {
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000": {
+            "profiles": [
+              "p"
+            ],
+            "models": [
+              "m"
+            ],
+            "tools": [],
+            "accounts": [
+              "a"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          },
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100": {
+            "profiles": [
+              "p"
+            ],
+            "models": [
+              "m"
+            ],
+            "tools": [],
+            "accounts": [
+              "a"
+            ],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          }
+        }
+      },
+      "relationView": {
+        "version": "planner-relations-v1",
+        "relations": [
+          {
+            "relationId": "relation:v1:6b7274f9a865a920124e204be398ffaf6cc2de5d42c7d2a084bb2f94c07de676",
+            "sourceId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "destinationId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "kind": "direct_call",
+            "sourceEdgeIds": [
+              "edge:38353dab79d0deec5d9e977e139f106cf1fd1388"
+            ],
+            "sites": [
+              {
+                "siteRva": "0x1004",
+                "xrefType": "code",
+                "provenance": {
+                  "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                  "siteRva": "0x1004",
+                  "siteKind": "instruction",
+                  "xrefType": "code",
+                  "source": "independent-review-synthetic",
+                  "sourceVersion": "independent-v1",
+                  "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                  "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+                }
+              }
+            ],
+            "observations": [
+              {
+                "metadata": {
+                  "schemaVersion": 1,
+                  "direction": "source_to_destination",
+                  "status": "observed",
+                  "confidence": "high",
+                  "appearedInRevision": 0,
+                  "retiredInRevision": null,
+                  "schedulerRelevance": "may_block"
+                },
+                "sourceEdgeIds": [
+                  "edge:38353dab79d0deec5d9e977e139f106cf1fd1388"
+                ],
+                "sites": [
+                  {
+                    "siteRva": "0x1004",
+                    "xrefType": "code",
+                    "provenance": {
+                      "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                      "siteRva": "0x1004",
+                      "siteKind": "instruction",
+                      "xrefType": "code",
+                      "source": "independent-review-synthetic",
+                      "sourceVersion": "independent-v1",
+                      "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                      "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+                    }
+                  }
+                ],
+                "sitesBySourceEdgeId": {
+                  "edge:38353dab79d0deec5d9e977e139f106cf1fd1388": [
+                    {
+                      "siteRva": "0x1004",
+                      "xrefType": "code",
+                      "provenance": {
+                        "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                        "siteRva": "0x1004",
+                        "siteKind": "instruction",
+                        "xrefType": "code",
+                        "source": "independent-review-synthetic",
+                        "sourceVersion": "independent-v1",
+                        "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                        "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "requirementById": {
+        "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296": {
+          "artifactId": "independent-artifact-1",
+          "artifactSha256": "b2679ce6baabbb2f475ef22383bbf39bb43cb030a4cee1977f7eeea078b6c08e",
+          "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+          "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+          "artifactKind": "reconciled_c",
+          "minimumRevision": 0,
+          "maximumRevision": 100,
+          "publicationLevel": 1,
+          "validation": "fixture-only"
+        }
+      },
+      "dispensationById": {},
+      "externalReceiptById": {},
+      "localOrders": {
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": {
+          "sccIds": [
+            "scc:ebe37d6c8eac6ce71be75ebe43dd52177783739dcb78868fd5cb1c9857a6f445"
+          ],
+          "functionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000"
+          ],
+          "recursive": false,
+          "maxIterations": 1,
+          "publication": "whole-unit-only"
+        },
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": {
+          "sccIds": [
+            "scc:e96f1a312f5dd09dc61ea5baa078f35d6f1ef8841e7a443769f385e38343673a"
+          ],
+          "functionIds": [
+            "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100"
+          ],
+          "recursive": false,
+          "maxIterations": 1,
+          "publication": "whole-unit-only"
+        }
+      },
+      "estimatesByUnit": {
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": {
+          "version": "independent-cost-v1",
+          "cost": {
+            "known": true,
+            "value": 3
+          },
+          "modelCosts": {}
+        },
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": {
+          "version": "independent-cost-v1",
+          "cost": {
+            "known": true,
+            "value": 3
+          },
+          "modelCosts": {}
+        }
+      },
+      "resourcesByUnit": {
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": {
+          "profiles": [
+            "p"
+          ],
+          "models": [
+            "m"
+          ],
+          "accounts": [
+            "a"
+          ],
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        },
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": {
+          "profiles": [
+            "p"
+          ],
+          "models": [
+            "m"
+          ],
+          "accounts": [
+            "a"
+          ],
+          "tools": [],
+          "slots": 1,
+          "cpu": 1,
+          "gpu": 0,
+          "budget": 1
+        }
+      },
+      "envelopeBytesByUnit": {
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": 4064,
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": 3061
+      },
+      "unitFingerprints": {
+        "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": "a7f33bcfc9ee9084a0f2469161bdc2bb69be22a9dc7a8b7ef4ef4ac99035adb3",
+        "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": "db7b83a3bc79da10a75560ab553abe01d20b4d993f4fe38f4bfcf7fe6b1bf442"
+      },
+      "diagnostics": [],
+      "fingerprint": "e99a8306a83fd4d5ae204ac2c8b44549457ccdef0bae8cbb74c3d537d2946ea5"
+    },
+    "diagnostics": [],
+    "binding": {
+      "schemaVersion": 1,
+      "planFingerprint": "b19910ee733559d1ca76773040df960f89193806f148106dc86d6a1aba584203",
+      "sidecarFingerprint": "e99a8306a83fd4d5ae204ac2c8b44549457ccdef0bae8cbb74c3d537d2946ea5",
+      "fingerprint": "f7c24c83e22e60755361db4aaf81d7b0dad3e75046429ce474e2cd669c2ac1d3"
+    }
+  },
+  "projection": {
+    "projectionVersion": 2,
+    "resourceSemantics": "l5-whole-unit-envelope-per-execution-v2",
+    "resourceModelLimit": "Conservative SIM envelope per execution; NOT equivalent to L5 family packing. A simulated refusal proves neither L5 infeasibility nor real saturation.",
+    "source": {
+      "policyVersion": "independent-policy-v1",
+      "estimationVersion": "independent-cost-v1",
+      "knowledgeRevision": 0,
+      "planFingerprint": "b19910ee733559d1ca76773040df960f89193806f148106dc86d6a1aba584203",
+      "sidecarFingerprint": "e99a8306a83fd4d5ae204ac2c8b44549457ccdef0bae8cbb74c3d537d2946ea5",
+      "bindingFingerprint": "f7c24c83e22e60755361db4aaf81d7b0dad3e75046429ce474e2cd669c2ac1d3",
+      "relations": [
+        {
+          "relationId": "relation:v1:6b7274f9a865a920124e204be398ffaf6cc2de5d42c7d2a084bb2f94c07de676",
+          "sourceId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+          "destinationId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+          "kind": "direct_call",
+          "sourceEdgeIds": [
+            "edge:38353dab79d0deec5d9e977e139f106cf1fd1388"
+          ],
+          "sites": [
+            {
+              "siteRva": "0x1004",
+              "xrefType": "code",
+              "provenance": {
+                "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                "siteRva": "0x1004",
+                "siteKind": "instruction",
+                "xrefType": "code",
+                "source": "independent-review-synthetic",
+                "sourceVersion": "independent-v1",
+                "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+              }
+            }
+          ],
+          "observations": [
+            {
+              "metadata": {
+                "schemaVersion": 1,
+                "direction": "source_to_destination",
+                "status": "observed",
+                "confidence": "high",
+                "appearedInRevision": 0,
+                "retiredInRevision": null,
+                "schedulerRelevance": "may_block"
+              },
+              "sourceEdgeIds": [
+                "edge:38353dab79d0deec5d9e977e139f106cf1fd1388"
+              ],
+              "sites": [
+                {
+                  "siteRva": "0x1004",
+                  "xrefType": "code",
+                  "provenance": {
+                    "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                    "siteRva": "0x1004",
+                    "siteKind": "instruction",
+                    "xrefType": "code",
+                    "source": "independent-review-synthetic",
+                    "sourceVersion": "independent-v1",
+                    "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                    "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+                  }
+                }
+              ],
+              "sitesBySourceEdgeId": {
+                "edge:38353dab79d0deec5d9e977e139f106cf1fd1388": [
+                  {
+                    "siteRva": "0x1004",
+                    "xrefType": "code",
+                    "provenance": {
+                      "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+                      "siteRva": "0x1004",
+                      "siteKind": "instruction",
+                      "xrefType": "code",
+                      "source": "independent-review-synthetic",
+                      "sourceVersion": "independent-v1",
+                      "sourceHash": "ecaadc3384f2583f28d436cb96574190361f70d16f64e427d1fe6f2cb521e588",
+                      "evidenceSha256": "7f7f7f6e9e53626f176333d4dcf628697f5a72e87ea2c21fc8ce8131e2238119"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "prerequisites": [
+        {
+          "id": "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+          "kind": "obligatory",
+          "producerUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+          "requiredPublicationLevel": 1,
+          "artifactKind": "reconciled_c",
+          "dispensed": false,
+          "dispensationReason": null,
+          "consumerUnitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec"
+        }
+      ],
+      "diagnostics": [],
+      "dispensations": {},
+      "externalReceipts": {},
+      "prerequisiteEvidence": {
+        "version": 1,
+        "snapshotFingerprint": "f0d949c17d00cfa6e2bf94db947fc2aaf0338dc89edc5bd66cd35af3927e32df",
+        "planFingerprint": "b19910ee733559d1ca76773040df960f89193806f148106dc86d6a1aba584203",
+        "sidecarFingerprint": "e99a8306a83fd4d5ae204ac2c8b44549457ccdef0bae8cbb74c3d537d2946ea5",
+        "bindingFingerprint": "f7c24c83e22e60755361db4aaf81d7b0dad3e75046429ce474e2cd669c2ac1d3",
+        "unitFingerprints": {
+          "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec": "a7f33bcfc9ee9084a0f2469161bdc2bb69be22a9dc7a8b7ef4ef4ac99035adb3",
+          "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f": "db7b83a3bc79da10a75560ab553abe01d20b4d993f4fe38f4bfcf7fe6b1bf442"
+        },
+        "requirementById": {
+          "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296": {
+            "artifactId": "independent-artifact-1",
+            "artifactSha256": "b2679ce6baabbb2f475ef22383bbf39bb43cb030a4cee1977f7eeea078b6c08e",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 0,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          }
+        },
+        "unresolvedById": {},
+        "fingerprint": "5d62333dea8a9f96114bb035145ff467f2e79177faf1ea26252fe58806f38218"
+      }
+    },
+    "planId": "plan:03dcf80c6bb480f02c89b884a3ae28de2cdbf27742acaafc58b18c2d92c24540",
+    "missionId": "independent-review",
+    "knowledgeRevision": 0,
+    "budgets": {
+      "unit": "utf8-bytes",
+      "contextEnvelopeMaxUtf8Bytes": 1000000,
+      "countsSqliteLength": false,
+      "nativeLineCharLimit": 2000
+    },
+    "g1Edges": [
+      {
+        "fromUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+        "toUnitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+        "kind": "obligatory",
+        "callSourceFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "callDestinationFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "storedCallDirection": "source_to_destination"
+      }
+    ],
+    "g2Conflicts": [
+      {
+        "id": "conflict:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc",
+        "kind": "owned_function",
+        "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+        "withUnitId": null
+      },
+      {
+        "id": "conflict:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+        "kind": "blocking_dependency",
+        "resourceKey": "dependency:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+        "withUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f"
+      },
+      {
+        "id": "conflict:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9",
+        "kind": "owned_function",
+        "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+        "withUnitId": null
+      }
+    ],
+    "selectedUnitIds": [
+      "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+      "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec"
+    ],
+    "decisions": [
+      {
+        "id": "decision:3a704206e717bca01b0b51d2e130e18d3704ff3bef84c34e6d22030baa9d90ee",
+        "unitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+        "action": "include",
+        "reason": "independent-policy-v1@knowledge:0: complete mandatory closure within budget"
+      },
+      {
+        "id": "decision:6396ef271e38d8f3851e937e8775ec21c02162614e36aca86ba4acd6c2d4963c",
+        "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+        "action": "include",
+        "reason": "independent-policy-v1@knowledge:0: complete mandatory closure within budget"
+      }
+    ],
+    "units": [
+      {
+        "unitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+        "ownedFunctionIds": [
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000"
+        ],
+        "contextFunctionIds": [],
+        "investigationKind": "decompilation",
+        "requiredPublicationLevel": 1,
+        "knowledgeRevision": 0,
+        "requiredProfile": "p",
+        "conflicts": [
+          {
+            "id": "conflict:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc",
+            "kind": "owned_function",
+            "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "withUnitId": null
+          },
+          {
+            "id": "conflict:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "kind": "blocking_dependency",
+            "resourceKey": "dependency:pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "withUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f"
+          }
+        ],
+        "resources": {
+          "kind": "required",
+          "requirement": {
+            "profiles": [
+              "p"
+            ],
+            "models": [
+              "m"
+            ],
+            "accounts": [
+              "a"
+            ],
+            "tools": [],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          }
+        },
+        "requiredProfiles": [
+          "p"
+        ],
+        "requiredAccounts": [
+          "a"
+        ],
+        "requiredTools": [],
+        "subIntents": [
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:A",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "A",
+            "waitsForSubIntentIds": []
+          },
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:B",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "B",
+            "waitsForSubIntentIds": []
+          },
+          {
+            "subIntentId": "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:R",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "role": "R",
+            "waitsForSubIntentIds": [
+              "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:A",
+              "sub:75e913bc23ef430c7c94950ea095a3b68f13b2745d6b90ff6e48d3a4285404bc:B"
+            ]
+          }
+        ],
+        "allocatedEnvelopeUtf8Bytes": 4064,
+        "sccExclusive": false,
+        "prerequisites": [
+          {
+            "id": "pre:836cebaf8cce7c8208490e0c06510e0efe907e2609c450ffbac4a77140eef296",
+            "kind": "obligatory",
+            "producerUnitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+            "requiredPublicationLevel": 1,
+            "artifactKind": "reconciled_c",
+            "dispensed": false,
+            "dispensationReason": null,
+            "consumerUnitId": "unit:f53abc6a704cc2ff3a35ddcb2f3e1dea36d23360ce3157bb35a7a52bba2ff8ec",
+            "relationId": "relation:v1:6b7274f9a865a920124e204be398ffaf6cc2de5d42c7d2a084bb2f94c07de676",
+            "callSourceFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "callDestinationFunctionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "requirement": {
+              "artifactId": "independent-artifact-1",
+              "artifactSha256": "b2679ce6baabbb2f475ef22383bbf39bb43cb030a4cee1977f7eeea078b6c08e",
+              "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+              "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+              "artifactKind": "reconciled_c",
+              "minimumRevision": 0,
+              "maximumRevision": 100,
+              "publicationLevel": 1,
+              "validation": "fixture-only"
+            }
+          }
+        ],
+        "outputArtifacts": [
+          {
+            "artifactId": "independent-artifact-0",
+            "artifactSha256": "c937f3a09d8ae39f815f871022c270300a3ff2086abd8a244c52de1d3cf6153a",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1000",
+            "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 0,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          }
+        ]
+      },
+      {
+        "unitId": "unit:54e768dc57f72494ba36dcf14796baedcd172d388b871cf0d7e7da3c4e8cf93f",
+        "ownedFunctionIds": [
+          "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100"
+        ],
+        "contextFunctionIds": [],
+        "investigationKind": "decompilation",
+        "requiredPublicationLevel": 1,
+        "knowledgeRevision": 0,
+        "requiredProfile": "p",
+        "conflicts": [
+          {
+            "id": "conflict:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9",
+            "kind": "owned_function",
+            "resourceKey": "fn:12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "withUnitId": null
+          }
+        ],
+        "resources": {
+          "kind": "required",
+          "requirement": {
+            "profiles": [
+              "p"
+            ],
+            "models": [
+              "m"
+            ],
+            "accounts": [
+              "a"
+            ],
+            "tools": [],
+            "slots": 1,
+            "cpu": 1,
+            "gpu": 0,
+            "budget": 1
+          }
+        },
+        "requiredProfiles": [
+          "p"
+        ],
+        "requiredAccounts": [
+          "a"
+        ],
+        "requiredTools": [],
+        "subIntents": [
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:A",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "A",
+            "waitsForSubIntentIds": []
+          },
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:B",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "B",
+            "waitsForSubIntentIds": []
+          },
+          {
+            "subIntentId": "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:R",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "role": "R",
+            "waitsForSubIntentIds": [
+              "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:A",
+              "sub:0554f0e9a9b23de3dadcdf9ab9e580d8a0414ab490dd412c7c9204c4a50f89d9:B"
+            ]
+          }
+        ],
+        "allocatedEnvelopeUtf8Bytes": 3061,
+        "sccExclusive": false,
+        "prerequisites": [],
+        "outputArtifacts": [
+          {
+            "artifactId": "independent-artifact-1",
+            "artifactSha256": "b2679ce6baabbb2f475ef22383bbf39bb43cb030a4cee1977f7eeea078b6c08e",
+            "functionId": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d:0x1100",
+            "moduleSha256": "12950bf8f559d625df891e72e96abde1b3fdd9b260a793523969ec86b4bcfa0d",
+            "artifactKind": "reconciled_c",
+            "minimumRevision": 0,
+            "maximumRevision": 100,
+            "publicationLevel": 1,
+            "validation": "fixture-only"
+          }
+        ]
+      }
+    ]
+  }
+}

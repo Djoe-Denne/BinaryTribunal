@@ -1,0 +1,216 @@
+{
+  "ea": "0x485FF0",
+  "name_label_only": "domain::Battle_BuildTargetVisibilityMasks",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x485ff0",
+      "end": "0x486074",
+      "hex": "5333c9b8e0040000ba01000000b340d1e184908c7bd201741984988c7bd20175113d700200007d088490907bd20175020bca2dd00000003d30ffffff7fd166890d70f5cf0133c9b8e0040000d1e184908c7bd201741984988c7bd20175113d700200007c088490907bd20175020bca2dd00000003d30ffffff7fd166890d72f5cf015bc3"
+    }
+  ],
+  "assembly": "00485FF0: push    ebx; G22 static 2026-08-30: two 7-bit masks slots 6..0 LSB=slot0. word_1CFF570: alive && !(flag 0x40) && (slot>=3 || !status1 Death). word_1CFF572: alive && !(flag 0x40) && (slot<3 || !status1 Death). 0x40 is OR'd from scene targetable_enemies; this fn EXCLUDES 0x40. Do not treat enum TARGETABLE as visibility-include. Escape/flee not set here.\n00485FF1: xor     ecx, ecx; Logical Exclusive OR\n00485FF3: mov     eax, 4E0h\n00485FF8: mov     edx, 1\n00485FFD: mov     bl, 40h ; '@'\n00485FFF: shl     ecx, 1; Shift Logical Left\n00486001: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl; Logical Compare\n00486007: jz      short loc_486022; Jump if Zero (ZF=1)\n00486009: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl; Logical Compare\n0048600F: jnz     short loc_486022; Jump if Not Zero (ZF=0)\n00486011: cmp     eax, 270h; Compare Two Operands\n00486016: jge     short loc_486020; Jump if Greater or Equal (SF=OF)\n00486018: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n0048601E: jnz     short loc_486022; Jump if Not Zero (ZF=0)\n00486020: or      ecx, edx; Logical Inclusive OR\n00486022: sub     eax, 0D0h; Integer Subtraction\n00486027: cmp     eax, 0FFFFFF30h; Compare Two Operands\n0048602C: jg      short loc_485FFF; Jump if Greater (ZF=0 & SF=OF)\n0048602E: mov     BATTLE_VISIBILITY_MASK_A, cx\n00486035: xor     ecx, ecx; Logical Exclusive OR\n00486037: mov     eax, 4E0h\n0048603C: shl     ecx, 1; Shift Logical Left\n0048603E: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], dl; Logical Compare\n00486044: jz      short loc_48605F; Jump if Zero (ZF=1)\n00486046: test    byte ptr BATTLE_SLOT_DATA.flag_data[eax], bl; Logical Compare\n0048604C: jnz     short loc_48605F; Jump if Not Zero (ZF=0)\n0048604E: cmp     eax, 270h; Compare Two Operands\n00486053: jl      short loc_48605D; Jump if Less (SF!=OF)\n00486055: test    byte ptr BATTLE_SLOT_DATA.status_1[eax], dl; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct\n0048605B: jnz     short loc_48605F; Jump if Not Zero (ZF=0)\n0048605D: or      ecx, edx; Logical Inclusive OR\n0048605F: sub     eax, 0D0h; Integer Subtraction\n00486064: cmp     eax, 0FFFFFF30h; Compare Two Operands\n00486069: jg      short loc_48603C; Jump if Greater (ZF=0 & SF=OF)\n0048606B: mov     BATTLE_VISIBILITY_MASK_B, cx\n00486072: pop     ebx\n00486073: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x485ff0",
+      "end": "0x485fff",
+      "successors": [
+        "0x485fff"
+      ]
+    },
+    {
+      "start": "0x485fff",
+      "end": "0x486009",
+      "successors": [
+        "0x486009",
+        "0x486022"
+      ]
+    },
+    {
+      "start": "0x486009",
+      "end": "0x486011",
+      "successors": [
+        "0x486011",
+        "0x486022"
+      ]
+    },
+    {
+      "start": "0x486011",
+      "end": "0x486018",
+      "successors": [
+        "0x486018",
+        "0x486020"
+      ]
+    },
+    {
+      "start": "0x486018",
+      "end": "0x486020",
+      "successors": [
+        "0x486020",
+        "0x486022"
+      ]
+    },
+    {
+      "start": "0x486020",
+      "end": "0x486022",
+      "successors": [
+        "0x486022"
+      ]
+    },
+    {
+      "start": "0x486022",
+      "end": "0x48602e",
+      "successors": [
+        "0x485fff",
+        "0x48602e"
+      ]
+    },
+    {
+      "start": "0x48602e",
+      "end": "0x48603c",
+      "successors": [
+        "0x48603c"
+      ]
+    },
+    {
+      "start": "0x48603c",
+      "end": "0x486046",
+      "successors": [
+        "0x486046",
+        "0x48605f"
+      ]
+    },
+    {
+      "start": "0x486046",
+      "end": "0x48604e",
+      "successors": [
+        "0x48604e",
+        "0x48605f"
+      ]
+    },
+    {
+      "start": "0x48604e",
+      "end": "0x486055",
+      "successors": [
+        "0x486055",
+        "0x48605d"
+      ]
+    },
+    {
+      "start": "0x486055",
+      "end": "0x48605d",
+      "successors": [
+        "0x48605d",
+        "0x48605f"
+      ]
+    },
+    {
+      "start": "0x48605d",
+      "end": "0x48605f",
+      "successors": [
+        "0x48605f"
+      ]
+    },
+    {
+      "start": "0x48605f",
+      "end": "0x48606b",
+      "successors": [
+        "0x48603c",
+        "0x48606b"
+      ]
+    },
+    {
+      "start": "0x48606b",
+      "end": "0x486074",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x47d6d4",
+      "type": 17,
+      "iscode": true,
+      "function": "0x47ccb0"
+    },
+    {
+      "from": "0x48769a",
+      "type": 17,
+      "iscode": true,
+      "function": "0x487670"
+    },
+    {
+      "from": "0x489d9e",
+      "type": 17,
+      "iscode": true,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x48ae0d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48adf0"
+    },
+    {
+      "from": "0x48ae3d",
+      "type": 17,
+      "iscode": true,
+      "function": "0x48ae20"
+    },
+    {
+      "from": "0x493a23",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493840"
+    },
+    {
+      "from": "0x493c07",
+      "type": 17,
+      "iscode": true,
+      "function": null
+    },
+    {
+      "from": "0x493f64",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x494042",
+      "type": 17,
+      "iscode": true,
+      "function": "0x493d80"
+    },
+    {
+      "from": "0x497270",
+      "type": 17,
+      "iscode": true,
+      "function": "0x497270"
+    },
+    {
+      "from": "0x489dd4",
+      "type": 1,
+      "iscode": false,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x489dfc",
+      "type": 1,
+      "iscode": false,
+      "function": "0x487df0"
+    },
+    {
+      "from": "0x489f1e",
+      "type": 1,
+      "iscode": false,
+      "function": "0x487df0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 37
+}

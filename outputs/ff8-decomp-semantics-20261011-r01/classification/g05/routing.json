@@ -1,0 +1,65 @@
+{
+  "schema": "ff8-run01-dispatch-ready-v1",
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g05",
+  "status": "DISPATCH_READY",
+  "prepared_by": "classify-g05",
+  "SOURCE": "discover-g05",
+  "source_session_id": "ses_ed42349cbffePGv87XNqMPybUW",
+  "source_receipt": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/discover-g05.final.native.json",
+  "source_receipt_sha256": "47e53cec2f1275d75e846a38bf772db1c7d81fc0c5a0eb7eab342441e4d0df6c",
+  "inheritance": "All C/semantic A and B fork the frozen discover-g05 reader, NOT classify-g05, lead, or sibling producers. R is a distinct new session admitted only after its volet A+B are deposited; it receives both outputs and the identical native facts.",
+  "authority": "Proposed dispatch only. Lead alone creates sessions, verifies exact native Model.Ref including variant, integrates and performs final native validation. No producers started.",
+  "contract": {"path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/CONTRACT.md", "sha256": "7b8ba0b31125baccab6fbeb0a9cf06d93753b506cbfdb690829fa209fd6aa329", "routing_version": "v1", "threshold_lines": "29-34"},
+  "common_compaction": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g05/common-compaction.md", "sha256": "31f54f91acd75f7900cac43fa360f6aaa697af6f6e8cb7d4486a439b614ec451"},
+  "native_groups": {"path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-groups.json", "sha256": "1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9", "eas": ["0x463FC0", "0x464DB0", "0x465720"]},
+  "native_pe_verification": {"path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json", "sha256": "636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e", "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570"},
+  "catalogue": {"path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/catalogue.snapshot.json", "sha256": "6766d07c50855cc7bb0d7359525c3271698838c61069854e501396e1e1cdcb75"},
+  "model_discovery": {"tool": "opencode.models", "verified_available_variants": {"openai/gpt-6-astra": ["low", "medium", "high", "xhigh", "max"], "openai/gpt-6.1-sol": ["low", "medium", "high", "xhigh", "max"], "opencode/claude-opus-5-5": ["low", "medium", "high", "xhigh", "max"]}, "effective_session_Model_Ref": "Not yet created; mandatory lead readback before admission; no silent default or implicit fallback."},
+  "classifier_verification": {"kind": "classify_x86", "new_calls": 0, "reused_native_responses": 2, "architecture": "x86-32", "complete_common_compaction": true, "common_encoding": "Exact complete common-compaction text with '; ' prefixed to EVERY line; LF line joins. Only comment encoding, no content omission.", "full_target_assembly": true, "cfg_equals_factual_input": true, "risk_score_field": "uncertainty", "scores_are_calibrated_probabilities": false},
+  "dispatches": [
+    {
+      "ea": "0x463FC0",
+      "status": "DISPATCH_READY",
+      "SOURCE": "discover-g05",
+      "source_session_id": "ses_ed42349cbffePGv87XNqMPybUW",
+      "factual_input": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g05/0x463FC0.json", "sha256": "d50c7dd68e7420c7cf455a100d15735f8e6a6d5fd522533cbbb6283994602291", "instruction_count": 126, "basic_blocks": 21, "idb_equals_pe_and_freeze": true},
+      "classifier": {"request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g05/0x463FC0.request.json", "request_sha256": "99eee24f2ec3ad56dbc6b1f240494bd93792e1b68f573c581d6021d79b2ab419", "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g05/0x463FC0.response.native.json", "response_sha256": "96c0a6b2ba1f055bee4642e34e0fa0072e5d059895905d0f59992f9088222d03", "complexity": 72, "uncertainty": 52, "uncertainty_cause": "missing_metadata"},
+      "tier": "complex_high_risk",
+      "surclassement": false,
+      "rationale": ["Native Classify complexity72>65 and uncertainty52>50 force complex/high-risk v1; 126 instructions also exclude simple.", "Native 00463FDA REP STOSD writes through reloaded +54 pointer; 00464083/004640BA and 0046412F call external helpers whose full recovered contracts are unavailable in the factual discovery. Descriptor aliasing and shift/mask arithmetic require exact ordering and machine-width handling.", "Frozen native/PE equality is verified. The separate 0x465720 mismatch does not invalidate these matching bytes; do not inherit target names/comments as semantic evidence."],
+      "C": {"mode": "2+1", "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/C/A.md", "inherit_SOURCE": "discover-g05"}, "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/C/B.md", "inherit_SOURCE": "discover-g05"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/C/R.md", "requires": ["C/A.md", "C/B.md"], "distinct_session": true}},
+      "semantic": {"mode": "2+1", "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/semantic/A.md", "inherit_SOURCE": "discover-g05"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/semantic/B.md", "inherit_SOURCE": "discover-g05", "fresh_independent_blind_session": true}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x463FC0/semantic/R.md", "requires": ["semantic/A.md", "semantic/B.md"], "distinct_session": true}}
+    },
+    {
+      "ea": "0x464DB0",
+      "status": "DISPATCH_READY",
+      "SOURCE": "discover-g05",
+      "source_session_id": "ses_ed42349cbffePGv87XNqMPybUW",
+      "factual_input": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g05/0x464DB0.json", "sha256": "9c59075630146d8ae274a6bcb36ffc91b884316984555a9375ec86eba9ab5c9d", "instruction_count": 147, "basic_blocks": 10, "idb_equals_pe_and_freeze": true},
+      "classifier": {"request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g05/0x464DB0.request.json", "request_sha256": "25244c0ce57b3232a2f787e215cb51721f2837534ab4d13edca3fb12d22a788c", "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g05/0x464DB0.response.native.json", "response_sha256": "a20cdd74aafab7a891bfec31f833194f701d089c0dfd40ce4513ed6c86c282b4", "complexity": 73, "uncertainty": 54, "uncertainty_cause": "external_calls"},
+      "tier": "complex_high_risk",
+      "surclassement": false,
+      "rationale": ["Native Classify complexity73>65 and uncertainty54>50 force complex/high-risk v1; 147 instructions exclude simple.", "Native twelve direct call sites involve seven distinct targets; 00464E9C stack cleanup must follow the validated eight-word helper ABI, not label-based guesses. Calls at 00464EB3/00464EE2/00464F40/00464F5A publish mutable pointer results; buffer reloads, signed SAR at 00464DEF and subsequent shifts preserve alias/order/width concerns.", "Frozen native/PE equality is verified; neighbouring helper contracts are factual inputs only, not target verdicts."],
+      "C": {"mode": "2+1", "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/C/A.md", "inherit_SOURCE": "discover-g05"}, "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/C/B.md", "inherit_SOURCE": "discover-g05"}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/C/R.md", "requires": ["C/A.md", "C/B.md"], "distinct_session": true}},
+      "semantic": {"mode": "2+1", "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/semantic/A.md", "inherit_SOURCE": "discover-g05"}, "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/semantic/B.md", "inherit_SOURCE": "discover-g05", "fresh_independent_blind_session": true}, "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g05/0x464DB0/semantic/R.md", "requires": ["semantic/A.md", "semantic/B.md"], "distinct_session": true}}
+    }
+  ],
+  "blocked_eas": [
+    {
+      "ea": "0x465720",
+      "status": "QUARANTINED_NATIVE_PE_MISMATCH",
+      "SOURCE": "discover-g05",
+      "factual_input": {"path": "inputs/ff8-decomp-semantics-20261011-r01/g05/0x465720.json", "sha256": "4f055220bd66ceff5b00a7cd6b762d11f76afbdeda4d268e15cf0a338b66bb84", "instruction_count": 174},
+      "archived_request_only": {"path": "outputs/ff8-decomp-semantics-20261011-r01/classification/g05/0x465720.request.json", "sha256": "923723da5a6a20ac0d95503cdcf870a78c3f8afc1df3c7afe21e8de4bba1556f", "response_exists": false, "classification_admitted": false},
+      "pe_mismatch_byte_count": 14,
+      "mismatch_addresses": ["0x4657d3", "0x4657d4", "0x4657d5", "0x4657d6", "0x4657d7", "0x4657d8", "0x4657d9", "0x4657db", "0x4657dc", "0x4657dd", "0x4657de", "0x4657df", "0x4657e0", "0x4657e1"],
+      "frozen_chunk_sha256": "c9d399ba6fe257a2e4ac861d437d4b68a202925d555f5d5b460a75367ac00f14",
+      "pe_chunk_sha256": "71188d23203852366627ad289e0978af621148828896706cba1a79f5422d2ed6",
+      "live_idb_changed_since_freeze": false,
+      "rationale": "Native-vs-PE disagreement is confirmed, not merely a documentary concern. Frozen ASM includes db items around the mismatching region and cannot certify complete authoritative decoding. No Classify call or producer dispatch is admissible until lead resolves native provenance and freezes a verified replacement. No fabricated score and no duplicate/repair call.",
+      "C_mode": "blocked",
+      "semantic_mode": "blocked"
+    }
+  ]
+}

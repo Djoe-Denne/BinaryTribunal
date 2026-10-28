@@ -1,0 +1,25 @@
+0048D88A: lea     esi, [esi+esi*2]; Load Effective Address
+0048D88D: add     esp, 4; Add
+0048D890: mov     byte ptr unk_1D28E2A, bl
+0048D896: lea     eax, [esi+esi*4]; Load Effective Address
+0048D899: shl     eax, 2; Shift Logical Left
+0048D89C: xor     ecx, ecx; Logical Exclusive OR
+0048D89E: mov     cl, K_MAGIC.hitCount[eax]
+0048D8A4: lea     edx, K_MAGIC.quezacoltCompatibility[eax]; Load Effective Address
+0048D8AA: mov     [esp+24h+hit_count], ecx
+0048D8AE: mov     cx, K_MAGIC.magicID[eax]
+0048D8B5: mov     [esp+24h+magic_id], ecx
+0048D8B9: mov     ACTION_GF_COMPAT_DELTA_TABLE_PTR, edx
+0048D8BF: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048D8C4: lea     eax, [ecx+ecx*2]; jumptable 0048D37A case 3
+0048D8C7: lea     edi, [ecx+eax*4]; Load Effective Address
+0048D8CA: shl     edi, 4; Shift Logical Left
+0048D8CD: test    byte ptr BATTLE_SLOT_DATA.status_1[edi], 10h; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0048D8D4: jnz     loc_48D9DF; Jump if Not Zero (ZF=0)
+0048D8DA: mov     esi, [esp+24h+p_attacker_slot_id]
+0048D8DE: xor     eax, eax; Logical Exclusive OR
+0048D8E0: and     ebx, 0FFFFh; Logical AND
+0048D8E6: push    offset domain__BattleGF_FinalizeSummonExit; Finalize GF summon exit: persist F_CHAR_ACTIVE_SUMMON_HP back to SG_ARRAY_GF_DATA[activeGF].HP, optionally enqueue the stored summon action when charge completes, mark KO in the per-character GF list when HP is 0, then clear summon state.
+0048D8EB: mov     al, byte ptr SG_PARTY_BATTLE[esi]
+0048D8F1: lea     ecx, [eax+eax*8]; Load Effective Address
+0048D8F4: lea     edx, [eax+ecx*2]; Load Effective Address

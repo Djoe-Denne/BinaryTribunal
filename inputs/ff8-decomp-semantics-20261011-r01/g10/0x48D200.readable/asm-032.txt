@@ -1,0 +1,25 @@
+0048DD10: push    esi
+0048DD11: shl     eax, 4; Shift Logical Left
+0048DD14: mov     cl, K_BLUE_MAGIC.Unknown3[eax]
+0048DD1A: mov     ax, K_BLUE_MAGIC.MagicID[eax]
+0048DD21: mov     [esp+28h+hit_count], ecx
+0048DD25: mov     [esp+28h+magic_id], eax
+0048DD29: call    sub_47E650; Call Procedure
+0048DD2E: add     esp, 4; Add
+0048DD31: mov     edi, eax
+0048DD33: jmp     loc_48E34B; LABEL_182: payload freeze - payload[+1] == CTI <- mutated cmd (same AL); +0..+0xC only (VA)
+0048DD38: mov     BOOL_TARGET_CHOOSEN, 0; jumptable 0048D37A case 5
+0048DD3F: call    BattleTarget_BuildAliveTargetableMask; Builds the 7-bit generic alive/targetable mask over native slots 6..0. A bit requires flag_data bit0, status_1 Death clear, and flag_data bit6 clear. This helper does not apply strict Sleep/Stop/Confuse/Angel-Wing filtering.
+0048DD44: mov     edx, [esp+24h+p_enemy_number]
+0048DD48: mov     ebp, eax
+0048DD4A: and     ebp, edx; Logical AND
+0048DD4C: test    bp, bp; Logical Compare
+0048DD4F: jnz     short loc_48DDAF; Jump if Not Zero (ZF=0)
+0048DD51: mov     bl, AI_PREPARE_SUMMON_FLAG
+0048DD57: mov     cx, 7
+0048DD5B: cmp     cx, dx; Compare Two Operands
+0048DD5E: sbb     ecx, ecx; Integer Subtraction with Borrow
+0048DD60: and     ecx, 0F1h; Logical AND
+0048DD66: add     ecx, 7; Add
+0048DD69: test    bl, bl; Logical Compare
+0048DD6B: jnz     short loc_48DDAD; Jump if Not Zero (ZF=0)

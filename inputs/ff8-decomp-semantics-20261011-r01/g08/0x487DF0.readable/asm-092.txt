@@ -1,0 +1,25 @@
+00489E67: inc     esi; Increment by 1
+00489E68: cmp     al, 0D1h; Compare Two Operands
+00489E6A: jnz     short loc_489E71; Jump if Not Zero (ZF=0)
+00489E6C: mov     al, byte ptr ATTACKER_SLOT_ID_0+3
+00489E71: push    offset domain__EnemyAI_MonsterEnterAnimation; a3
+00489E76: push    80h; a2
+00489E7B: push    71h ; 'q'; G14: AI 0x35 ENTER_ANIM_TARGET enqueue 0x71 + MonsterEnterAnimation (0xD1=global attacker).
+00489E7D: movzx   di, al; Move with Zero-Extend
+00489E81: call    domain__BattleEvent_ActivateTargetRelay; GARDER les largeurs du prototype : status0/1 via char*, atk_count int, mask int, targets char*, spell16 int
+00489E86: add     esp, 0Ch; Add
+00489E89: mov     [eax], di
+00489E8C: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489E91: mov     dl, SG_ODIN_ANGEL_GILGA_FLAG; AI VM op 0x36 SET_ODIN_FLAG: SG_ODIN_ANGEL_GILGA_FLAG = (&0xF5)|8
+00489E97: and     dl, 0FDh; Logical AND
+00489E9A: or      dl, 8; Logical Inclusive OR
+00489E9D: mov     SG_ODIN_ANGEL_GILGA_FLAG, dl
+00489EA3: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489EA8: mov     al, byte ptr NB_CARD_OBTAINED; AI VM op 0x37 GIVE_CARD: BATTLE_CARD_DROP[NB_CARD_OBTAINED++] = card_id(1)
+00489EAD: mov     dl, [esi]
+00489EAF: xor     ecx, ecx; Logical Exclusive OR
+00489EB1: mov     cl, al
+00489EB3: inc     al; Increment by 1
+00489EB5: mov     byte ptr NB_CARD_OBTAINED, al
+00489EBA: inc     esi; Increment by 1
+00489EBB: mov     BATTLE_CARD_DROP[ecx], dl

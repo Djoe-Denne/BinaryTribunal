@@ -1,0 +1,73 @@
+{
+  "ea": "0x5083C0",
+  "name_label_only": "sub_5083C0",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x5083c0",
+      "end": "0x5083e8",
+      "hex": "8b5424045633c90fbf720e8b42085785f67e10f60001740d0fbf7a0c03c7413bce7cf033c05f5ec3"
+    }
+  ],
+  "assembly": "005083C0: mov     edx, [esp+arg_0]\n005083C4: push    esi\n005083C5: xor     ecx, ecx; Logical Exclusive OR\n005083C7: movsx   esi, word ptr [edx+0Eh]; Move with Sign-Extend\n005083CB: mov     eax, [edx+8]\n005083CE: push    edi\n005083CF: test    esi, esi; Logical Compare\n005083D1: jle     short loc_5083E3; Jump if Less or Equal (ZF=1 | SF!=OF)\n005083D3: test    byte ptr [eax], 1; Logical Compare\n005083D6: jz      short loc_5083E5; Jump if Zero (ZF=1)\n005083D8: movsx   edi, word ptr [edx+0Ch]; Move with Sign-Extend\n005083DC: add     eax, edi; Add\n005083DE: inc     ecx; Increment by 1\n005083DF: cmp     ecx, esi; Compare Two Operands\n005083E1: jl      short loc_5083D3; Jump if Less (SF!=OF)\n005083E3: xor     eax, eax; Logical Exclusive OR\n005083E5: pop     edi\n005083E6: pop     esi\n005083E7: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x5083c0",
+      "end": "0x5083d3",
+      "successors": [
+        "0x5083d3",
+        "0x5083e3"
+      ]
+    },
+    {
+      "start": "0x5083d3",
+      "end": "0x5083d8",
+      "successors": [
+        "0x5083d8",
+        "0x5083e5"
+      ]
+    },
+    {
+      "start": "0x5083d8",
+      "end": "0x5083e3",
+      "successors": [
+        "0x5083d3",
+        "0x5083e3"
+      ]
+    },
+    {
+      "start": "0x5083e3",
+      "end": "0x5083e5",
+      "successors": [
+        "0x5083e5"
+      ]
+    },
+    {
+      "start": "0x5083e5",
+      "end": "0x5083e8",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x508367",
+      "type": 17,
+      "iscode": true,
+      "function": "0x508360"
+    },
+    {
+      "from": "0x5083f6",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5083f0"
+    }
+  ],
+  "code_targets": [],
+  "instruction_count": 19
+}

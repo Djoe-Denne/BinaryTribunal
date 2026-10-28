@@ -1,0 +1,25 @@
+00510B0B: xor     esi, esi; Logical Exclusive OR
+00510B0D: mov     si, [ebp+4]
+00510B11: cmp     esi, edx; Compare Two Operands
+00510B13: jge     short loc_510B17; Jump if Greater or Equal (SF=OF)
+00510B15: mov     edx, esi
+00510B17: push    esi
+00510B18: push    ebx
+00510B19: push    ecx
+00510B1A: mov     ecx, [esp+50h+ot_shift]
+00510B1E: sar     edx, cl; Shift Arithmetic Right
+00510B20: push    edi
+00510B21: push    eax
+00510B22: mov     eax, [esp+58h+ot_base]
+00510B26: lea     ecx, [eax+edx*4]; Load Effective Address
+00510B29: push    ecx
+00510B2A: call    OT_InsertPrimitive; Call Procedure
+00510B2F: mov     eax, dword_1D99C18
+00510B34: add     esp, 18h; Add
+00510B37: add     eax, 28h ; '('; Add
+00510B3A: mov     dword_1D99C18, eax
+00510B3F: mov     eax, dword_1D99C1C
+00510B44: mov     ecx, [esp+44h+var_18]
+00510B48: add     eax, 14h; Add
+00510B4B: dec     ecx; Decrement by 1
+00510B4C: mov     dword_1D99C1C, eax

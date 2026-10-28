@@ -1,0 +1,25 @@
+00505BC0: mov     eax, [esp+arg_0]
+00505BC4: push    ebx
+00505BC5: push    esi
+00505BC6: cmp     byte ptr [eax+4], 8Fh; Compare Two Operands
+00505BCA: jz      short loc_505BFC; Jump if Zero (ZF=1)
+00505BCC: mov     ebx, [esp+8+arg_4]
+00505BD0: mov     esi, [eax+74h]
+00505BD3: push    ebx
+00505BD4: push    eax
+00505BD5: call    sub_505850; Call Procedure
+00505BDA: add     esp, 8; Add
+00505BDD: test    eax, eax; Logical Compare
+00505BDF: jnz     short loc_505BE8; Jump if Not Zero (ZF=0)
+00505BE1: or      byte ptr [esi+2Ch], 40h; Logical Inclusive OR
+00505BE5: pop     esi
+00505BE6: pop     ebx
+00505BE7: retn; Return Near from Procedure
+00505BE8: xor     eax, eax; Logical Exclusive OR
+00505BEA: mov     [esi], bl
+00505BEC: mov     [esi+3], al
+00505BEF: mov     [esi+2Eh], ax
+00505BF3: mov     word ptr [esi+2Ch], 1
+00505BF9: mov     [esi+2Ah], al
+00505BFC: pop     esi
+00505BFD: pop     ebx

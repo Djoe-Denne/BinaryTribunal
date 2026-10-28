@@ -1,0 +1,25 @@
+0048DDB3: mov     ecx, 1
+0048DDB8: xor     eax, eax; Logical Exclusive OR
+0048DDBA: mov     esi, ecx
+0048DDBC: and     esi, ebp; Logical AND
+0048DDBE: test    si, si; Logical Compare
+0048DDC1: jz      short loc_48DDC6; Jump if Zero (ZF=1)
+0048DDC3: mov     [edx], al
+0048DDC5: inc     edx; Increment by 1
+0048DDC6: shl     ecx, 1; Shift Logical Left
+0048DDC8: inc     eax; Increment by 1
+0048DDC9: cmp     eax, 10h; Compare Two Operands
+0048DDCC: jl      short loc_48DDBA; Jump if Less (SF!=OF)
+0048DDCE: mov     eax, [esp+24h+p_enemy_number]
+0048DDD2: push    2; max_value
+0048DDD4: and     eax, 0FFh; Logical AND
+0048DDD9: lea     edx, [eax+eax*2]; Load Effective Address
+0048DDDC: lea     eax, [eax+edx*4]; Load Effective Address
+0048DDDF: shl     eax, 4; Shift Logical Left
+0048DDE2: mov     ecx, dword ptr BATTLE_SLOT_DATA.monster_info_section[eax]
+0048DDE8: mov     edi, [ecx]
+0048DDEA: call    domain__Battle_GetRandom1ToMax; Returns 1..max_value from the battle-local RNG via (Battle_GetRandomInt() % max_value) + 1.
+0048DDEF: mov     esi, [esp+28h+p_attacker_slot_id]
+0048DDF3: lea     edx, [esi+esi*2]; Load Effective Address
+0048DDF6: lea     ecx, [esi+edx*4]; Load Effective Address
+0048DDF9: xor     edx, edx; Logical Exclusive OR

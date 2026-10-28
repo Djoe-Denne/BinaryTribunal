@@ -1,0 +1,25 @@
+0049062B: shl     ecx, 5; Shift Logical Left
+0049062E: mov     esi, ecx
+00490630: xor     ecx, ecx; Logical Exclusive OR
+00490632: mov     cl, byte ptr unk_1D28DF3
+00490638: mov     al, K_DUEL.Unknown2[esi]
+0049063E: lea     edx, [ecx+ecx*2]; Load Effective Address
+00490641: mov     ATTACK_FLAG, al; | ID   | Meaning          |
+00490646: and     al, 3; Logical AND
+00490648: lea     ecx, [ecx+edx*4]; Load Effective Address
+0049064B: mov     dl, K_DUEL.AttackFlags[esi]
+00490651: shl     ecx, 4; Shift Logical Left
+00490654: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, dl; 9: miss
+0049065A: mov     BATTLE_SLOT_DATA.last_attacker_attack_type[ecx], al
+00490660: xor     eax, eax; Logical Exclusive OR
+00490662: mov     al, K_DUEL.AttackPower[esi]
+00490668: xor     ecx, ecx; Logical Exclusive OR
+0049066A: mov     cl, K_DUEL.AttackType[esi]
+00490670: push    eax; p_attack_power
+00490671: mov     eax, [esp+24h+p_target_slot_id]
+00490675: push    eax; p_target_slot_id
+00490676: push    ebx; p_attacker_slot_id
+00490677: push    ecx; p_attack_type
+00490678: call    domain__Damage_ComputeRawDeltaFromAttackType; Magic families: MAGIC_ATTACK->ComputeMagicAndGFDamage UNMISSABLE; PERCENT_MAGIC_DAMAGE->%current HP; CURATIVE_MAGIC->computeCurativeMagic type7; REVIVE->GetReviveHP; REVIVE_AT_FULL_HP->computeResurrection; IGNORE_SPR->UNMISSABLE ignore SPR; LV_ATTACK->MAGIC_DAMAGE (accuracy gate).
+0049067D: add     esp, 10h; Add
+00490680: mov     esi, eax

@@ -1,0 +1,25 @@
+0048D710: jz      loc_48D4C8; Jump if Zero (ZF=1)
+0048D716: push    edi; magic_id
+0048D717: call    sub_48B7A0; KNOWN_MAGIC: connu test 0x80 ; KNOWN_ITEM_LINED_FLAG =0xC0 (pas 0x80)
+0048D71C: mov     al, byte_B81515
+0048D721: push    edi
+0048D722: mov     [esp+2Ch+p_always_zero], al
+0048D726: lea     eax, [edi+edi*2]; Load Effective Address
+0048D729: lea     esi, [eax+eax*4]; Load Effective Address
+0048D72C: xor     eax, eax; Logical Exclusive OR
+0048D72E: shl     esi, 2; Shift Logical Left
+0048D731: mov     al, K_MAGIC.hitCount[esi]
+0048D737: mov     cx, K_MAGIC.magicID[esi]
+0048D73E: mov     [esp+2Ch+hit_count], eax
+0048D742: mov     [esp+2Ch+magic_id], ecx
+0048D746: call    domain__BattleText_GetMagicName; Call Procedure
+0048D74B: add     esp, 8; Add
+0048D74E: push    eax
+0048D74F: push    0Bh
+0048D751: call    domain__BattleText_GetMiscText; Call Procedure
+0048D756: mov     dl, [eax]
+0048D758: add     esp, 4; Add
+0048D75B: push    edx
+0048D75C: push    9
+0048D75E: call    getAddressAbilityName; Call Procedure
+0048D763: add     esp, 4; Add

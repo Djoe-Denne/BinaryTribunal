@@ -1,0 +1,292 @@
+{
+  "ea": "0x50D300",
+  "name_label_only": "sub_50D300",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x50d300",
+      "end": "0x50d6a3",
+      "hex": "83ec188a44241c568b742424a2959bd9018bc632d233c925ffff0000578815949bd90189442408bf01000000d3e785f87408880daa9ad901fec24183f9077ce753556a788815949bd9016689359c9ad901e85aafffff8bf033c0a0959bd9018d0c80c1e1032bc88d461889442418668b148ddc72d9018d3c8dc072d901668910668b4724668b4f206689461a8d462850680008000068f00000005766894e1c89442434e8c84dffff8d463850680008000068f10000005789442448e8b04dffffa0949bd90183c4243c010f85c200000033c0a0aa9ad9018d1480c1e2032bd08d46305068000800008d1c95c072d90168f000000053895c242c89442428e86e4dffff8d464050680008000068f10000005389442450e8564dffff8a430483c4203c6074153c617411668b431c668b4b208d6e2066894500eb128b542430668b4e448d6e20668b0266894500a0959bd901668b532466894e248a0daa9ad9013ac16689562274218b5c24145553e84ff9ffff53556689470ee844f9ffff83c41066a39e9ad901eb5957e8e34bffff83c404eb4e668b0d9c9ad9018d6e205551e8fd4bffff668b45008d4e40894c2438668b562a6689018d4e3057894c2424668901668b463a66894642668b4624668956326689464466894634e8934bffff83c40ca09c9ad9018d5e10a80766c74614000066c7030000740866c746120000eb0666c74612000868709bd90153e820f905000fbf4d000fbf56220fbf4624890d849bd901668b4f0c8915889bd901668b570e66890b8b4c241c53a38c9bd901668b471068d09ad9016681c2000855516689561266894614e8560100008a4c2444ba01000000d3e28b4c242883c41866a3a09ad9013bca74460fbfc08a0d949bd9018d04808d04808d04808d0480c1e003c1f80c80f901a3909bd90175308b4c241c0fbf57260fbf492603ca8d0c898d0c898d0c89c1e104c1f90c2bc1eb0ab8e8030000a3909bd901a3989ad9018b7c24188b6c24205368f09ad9015755e8d00000008b7424405368109bd901565566a3a29ad901e8b90000005368309bd901578b7c24505766a3a49ad901e8a20000005368509bd901565766a3a69ad901e88f00000083c44066a3a89ad901a0949bd9015d3c025b733833c9b8c272d9018b742408ba01000000d3e285d67405668120efff059c000000413d0677d9017cdf6a78e86cacffff83c4045f5e83c418c333c9b8c272d9018b742408ba01000000d3e285d67403800810059c000000413d0677d9017ce16a78e836acffff83c4045f5e83c418c3"
+    }
+  ],
+  "assembly": "0050D300: sub     esp, 18h; Integer Subtraction\n0050D303: mov     al, [esp+18h+arg_0]\n0050D307: push    esi\n0050D308: mov     esi, [esp+1Ch+arg_4]\n0050D30C: mov     byte_1D99B95, al\n0050D311: mov     eax, esi\n0050D313: xor     dl, dl; Logical Exclusive OR\n0050D315: xor     ecx, ecx; Logical Exclusive OR\n0050D317: and     eax, 0FFFFh; Logical AND\n0050D31C: push    edi\n0050D31D: mov     byte_1D99B94, dl\n0050D323: mov     [esp+20h+var_18], eax\n0050D327: mov     edi, 1\n0050D32C: shl     edi, cl; Shift Logical Left\n0050D32E: test    eax, edi; Logical Compare\n0050D330: jz      short loc_50D33A; Jump if Zero (ZF=1)\n0050D332: mov     byte_1D99AAA, cl\n0050D338: inc     dl; Increment by 1\n0050D33A: inc     ecx; Increment by 1\n0050D33B: cmp     ecx, 7; Compare Two Operands\n0050D33E: jl      short loc_50D327; Jump if Less (SF!=OF)\n0050D340: push    ebx\n0050D341: push    ebp\n0050D342: push    78h ; 'x'; nbytes\n0050D344: mov     byte_1D99B94, dl\n0050D34A: mov     mask, si\n0050D351: call    bs_modulo; Call Procedure\n0050D356: mov     esi, eax\n0050D358: xor     eax, eax; Logical Exclusive OR\n0050D35A: mov     al, byte_1D99B95\n0050D35F: lea     ecx, [eax+eax*4]; Load Effective Address\n0050D362: shl     ecx, 3; Shift Logical Left\n0050D365: sub     ecx, eax; Integer Subtraction\n0050D367: lea     eax, [esi+18h]; Load Effective Address\n0050D36A: mov     [esp+2Ch+var_14], eax\n0050D36E: mov     dx, word ptr dword_1D972DC[ecx*4]\n0050D376: lea     edi, ds:1D972C0h[ecx*4]; Load Effective Address\n0050D37D: mov     [eax], dx\n0050D380: mov     ax, [edi+24h]\n0050D384: mov     cx, [edi+20h]\n0050D388: mov     [esi+1Ah], ax\n0050D38C: lea     eax, [esi+28h]; Load Effective Address\n0050D38F: push    eax; p_out\n0050D390: push    800h; p_scale\n0050D395: push    0F0h; p_bone_index\n0050D39A: push    edi; p_actor\n0050D39B: mov     [esi+1Ch], cx\n0050D39F: mov     [esp+3Ch+var_8], eax\n0050D3A3: call    BattleGeom_ResolveBoneIndexAndPose; bone-index resolve (+Griever remap path); 845 callers; pose-matrix role per PH9 reports\n0050D3A8: lea     eax, [esi+38h]; Load Effective Address\n0050D3AB: push    eax; p_out\n0050D3AC: push    800h; p_scale\n0050D3B1: push    0F1h; p_bone_index\n0050D3B6: push    edi; p_actor\n0050D3B7: mov     [esp+4Ch+var_4], eax\n0050D3BB: call    BattleGeom_ResolveBoneIndexAndPose; bone-index resolve (+Griever remap path); 845 callers; pose-matrix role per PH9 reports\n0050D3C0: mov     al, byte_1D99B94\n0050D3C5: add     esp, 24h; Add\n0050D3C8: cmp     al, 1; Compare Two Operands\n0050D3CA: jnz     loc_50D492; Jump if Not Zero (ZF=0)\n0050D3D0: xor     eax, eax; Logical Exclusive OR\n0050D3D2: mov     al, byte_1D99AAA\n0050D3D7: lea     edx, [eax+eax*4]; Load Effective Address\n0050D3DA: shl     edx, 3; Shift Logical Left\n0050D3DD: sub     edx, eax; Integer Subtraction\n0050D3DF: lea     eax, [esi+30h]; Load Effective Address\n0050D3E2: push    eax; p_out\n0050D3E3: push    800h; p_scale\n0050D3E8: lea     ebx, ds:1D972C0h[edx*4]; Load Effective Address\n0050D3EF: push    0F0h; p_bone_index\n0050D3F4: push    ebx; p_actor\n0050D3F5: mov     [esp+38h+var_C], ebx\n0050D3F9: mov     [esp+38h+var_10], eax\n0050D3FD: call    BattleGeom_ResolveBoneIndexAndPose; bone-index resolve (+Griever remap path); 845 callers; pose-matrix role per PH9 reports\n0050D402: lea     eax, [esi+40h]; Load Effective Address\n0050D405: push    eax; p_out\n0050D406: push    800h; p_scale\n0050D40B: push    0F1h; p_bone_index\n0050D410: push    ebx; p_actor\n0050D411: mov     [esp+48h+arg_4], eax\n0050D415: call    BattleGeom_ResolveBoneIndexAndPose; bone-index resolve (+Griever remap path); 845 callers; pose-matrix role per PH9 reports\n0050D41A: mov     al, [ebx+4]\n0050D41D: add     esp, 20h; Add\n0050D420: cmp     al, 60h ; '`'; Compare Two Operands\n0050D422: jz      short loc_50D439; Jump if Zero (ZF=1)\n0050D424: cmp     al, 61h ; 'a'; Compare Two Operands\n0050D426: jz      short loc_50D439; Jump if Zero (ZF=1)\n0050D428: mov     ax, [ebx+1Ch]\n0050D42C: mov     cx, [ebx+20h]\n0050D430: lea     ebp, [esi+20h]; Load Effective Address\n0050D433: mov     [ebp+0], ax\n0050D437: jmp     short loc_50D44B; Jump\n0050D439: mov     edx, [esp+28h+arg_4]\n0050D43D: mov     cx, [esi+44h]\n0050D441: lea     ebp, [esi+20h]; Load Effective Address\n0050D444: mov     ax, [edx]\n0050D447: mov     [ebp+0], ax\n0050D44B: mov     al, byte_1D99B95\n0050D450: mov     dx, [ebx+24h]\n0050D454: mov     [esi+24h], cx\n0050D458: mov     cl, byte_1D99AAA\n0050D45E: cmp     al, cl; Compare Two Operands\n0050D460: mov     [esi+22h], dx\n0050D464: jz      short loc_50D487; Jump if Zero (ZF=1)\n0050D466: mov     ebx, [esp+28h+var_14]\n0050D46A: push    ebp\n0050D46B: push    ebx\n0050D46C: call    sub_50CDC0; Call Procedure\n0050D471: push    ebx\n0050D472: push    ebp\n0050D473: mov     [edi+0Eh], ax\n0050D477: call    sub_50CDC0; Call Procedure\n0050D47C: add     esp, 10h; Add\n0050D47F: mov     word_1D99A9E, ax\n0050D485: jmp     short loc_50D4E0; Jump\n0050D487: push    edi\n0050D488: call    Camera_ZeroS16_Or800_IfPast_1D97494; E3c: convergence; P explicite\n0050D48D: add     esp, 4; Add\n0050D490: jmp     short loc_50D4E0; Jump\n0050D492: mov     cx, mask\n0050D499: lea     ebp, [esi+20h]; Load Effective Address\n0050D49C: push    ebp; out_xyz\n0050D49D: push    ecx; mask\n0050D49E: call    Camera_WorldXZMidpoint_Masked; E3b: u16 mask AABB XZ stride 0x9C on 1D972E0 until battle_camera_world_y_edx; midpoint -> arg1 Y=0\n0050D4A3: mov     ax, [ebp+0]\n0050D4A7: lea     ecx, [esi+40h]; Load Effective Address\n0050D4AA: mov     [esp+30h+arg_4], ecx\n0050D4AE: mov     dx, [esi+2Ah]\n0050D4B2: mov     [ecx], ax\n0050D4B5: lea     ecx, [esi+30h]; Load Effective Address\n0050D4B8: push    edi\n0050D4B9: mov     [esp+34h+var_10], ecx\n0050D4BD: mov     [ecx], ax\n0050D4C0: mov     ax, [esi+3Ah]\n0050D4C4: mov     [esi+42h], ax\n0050D4C8: mov     ax, [esi+24h]\n0050D4CC: mov     [esi+32h], dx\n0050D4D0: mov     [esi+44h], ax\n0050D4D4: mov     [esi+34h], ax\n0050D4D8: call    Camera_ZeroS16_Or800_IfPast_1D97494; E3c: convergence; P explicite\n0050D4DD: add     esp, 0Ch; Add\n0050D4E0: mov     al, byte ptr mask\n0050D4E5: lea     ebx, [esi+10h]; Load Effective Address\n0050D4E8: test    al, 7; Logical Compare\n0050D4EA: mov     word ptr [esi+14h], 0\n0050D4F0: mov     word ptr [ebx], 0\n0050D4F5: jz      short loc_50D4FF; Jump if Zero (ZF=1)\n0050D4F7: mov     word ptr [esi+12h], 0\n0050D4FD: jmp     short loc_50D505; Jump\n0050D4FF: mov     word ptr [esi+12h], 800h\n0050D505: push    offset dword_1D99B70\n0050D50A: push    ebx\n0050D50B: call    sub_56CE30; Call Procedure\n0050D510: movsx   ecx, word ptr [ebp+0]; Move with Sign-Extend\n0050D514: movsx   edx, word ptr [esi+22h]; Move with Sign-Extend\n0050D518: movsx   eax, word ptr [esi+24h]; Move with Sign-Extend\n0050D51C: mov     dword_1D99B84, ecx\n0050D522: mov     cx, [edi+0Ch]\n0050D526: mov     dword_1D99B88, edx\n0050D52C: mov     dx, [edi+0Eh]\n0050D530: mov     [ebx], cx\n0050D533: mov     ecx, [esp+30h+var_14]\n0050D537: push    ebx\n0050D538: mov     dword_1D99B8C, eax\n0050D53D: mov     ax, [edi+10h]\n0050D541: push    offset unk_1D99AD0\n0050D546: add     dx, 800h; Add\n0050D54B: push    ebp\n0050D54C: push    ecx\n0050D54D: mov     [esi+12h], dx\n0050D551: mov     [esi+14h], ax\n0050D555: call    sub_50D6B0; Call Procedure\n0050D55A: mov     cl, [esp+40h+arg_0]\n0050D55E: mov     edx, 1\n0050D563: shl     edx, cl; Shift Logical Left\n0050D565: mov     ecx, [esp+40h+var_18]\n0050D569: add     esp, 18h; Add\n0050D56C: mov     word_1D99AA0, ax\n0050D572: cmp     ecx, edx; Compare Two Operands\n0050D574: jz      short loc_50D5BC; Jump if Zero (ZF=1)\n0050D576: movsx   eax, ax; Move with Sign-Extend\n0050D579: mov     cl, byte_1D99B94\n0050D57F: lea     eax, [eax+eax*4]; Load Effective Address\n0050D582: lea     eax, [eax+eax*4]; Load Effective Address\n0050D585: lea     eax, [eax+eax*4]; Load Effective Address\n0050D588: lea     eax, [eax+eax*4]; Load Effective Address\n0050D58B: shl     eax, 3; Shift Logical Left\n0050D58E: sar     eax, 0Ch; Shift Arithmetic Right\n0050D591: cmp     cl, 1; Compare Two Operands\n0050D594: mov     dword_1D99B90, eax\n0050D599: jnz     short loc_50D5CB; Jump if Not Zero (ZF=0)\n0050D59B: mov     ecx, [esp+28h+var_C]\n0050D59F: movsx   edx, word ptr [edi+26h]; Move with Sign-Extend\n0050D5A3: movsx   ecx, word ptr [ecx+26h]; Move with Sign-Extend\n0050D5A7: add     ecx, edx; Add\n0050D5A9: lea     ecx, [ecx+ecx*4]; Load Effective Address\n0050D5AC: lea     ecx, [ecx+ecx*4]; Load Effective Address\n0050D5AF: lea     ecx, [ecx+ecx*4]; Load Effective Address\n0050D5B2: shl     ecx, 4; Shift Logical Left\n0050D5B5: sar     ecx, 0Ch; Shift Arithmetic Right\n0050D5B8: sub     eax, ecx; Integer Subtraction\n0050D5BA: jmp     short loc_50D5C6; Jump\n0050D5BC: mov     eax, 3E8h\n0050D5C1: mov     dword_1D99B90, eax\n0050D5C6: mov     dword_1D99A98, eax\n0050D5CB: mov     edi, [esp+28h+var_10]\n0050D5CF: mov     ebp, [esp+28h+var_8]\n0050D5D3: push    ebx\n0050D5D4: push    offset unk_1D99AF0\n0050D5D9: push    edi\n0050D5DA: push    ebp\n0050D5DB: call    sub_50D6B0; Call Procedure\n0050D5E0: mov     esi, [esp+38h+arg_4]\n0050D5E4: push    ebx\n0050D5E5: push    offset unk_1D99B10\n0050D5EA: push    esi\n0050D5EB: push    ebp\n0050D5EC: mov     word_1D99AA2, ax\n0050D5F2: call    sub_50D6B0; Call Procedure\n0050D5F7: push    ebx\n0050D5F8: push    offset unk_1D99B30\n0050D5FD: push    edi\n0050D5FE: mov     edi, [esp+54h+var_4]\n0050D602: push    edi\n0050D603: mov     word_1D99AA4, ax\n0050D609: call    sub_50D6B0; Call Procedure\n0050D60E: push    ebx\n0050D60F: push    offset unk_1D99B50\n0050D614: push    esi\n0050D615: push    edi\n0050D616: mov     word_1D99AA6, ax\n0050D61C: call    sub_50D6B0; Call Procedure\n0050D621: add     esp, 40h; Add\n0050D624: mov     word_1D99AA8, ax\n0050D62A: mov     al, byte_1D99B94\n0050D62F: pop     ebp\n0050D630: cmp     al, 2; Compare Two Operands\n0050D632: pop     ebx\n0050D633: jnb     short loc_50D66D; Jump if Not Below (CF=0)\n0050D635: xor     ecx, ecx; Logical Exclusive OR\n0050D637: mov     eax, (offset g_BattlePresentationActors+2)\n0050D63C: mov     esi, [esp+20h+var_18]\n0050D640: mov     edx, 1\n0050D645: shl     edx, cl; Shift Logical Left\n0050D647: test    esi, edx; Logical Compare\n0050D649: jz      short loc_50D650; Jump if Zero (ZF=1)\n0050D64B: and     word ptr [eax], 0FFEFh; Logical AND\n0050D650: add     eax, 9Ch; Add\n0050D655: inc     ecx; Increment by 1\n0050D656: cmp     eax, 1D97706h; Compare Two Operands\n0050D65B: jl      short loc_50D63C; Jump if Less (SF!=OF)\n0050D65D: push    78h ; 'x'; nbytes\n0050D65F: call    BattleScratch_Unwind; E3a: unwind bump dword_1D999C4 (inverse of bs_modulo 0x5082B0). Cerberus Frame-memory-allocation claim is false.\n0050D664: add     esp, 4; Add\n0050D667: pop     edi\n0050D668: pop     esi\n0050D669: add     esp, 18h; Add\n0050D66C: retn; Return Near from Procedure\n0050D66D: xor     ecx, ecx; Logical Exclusive OR\n0050D66F: mov     eax, (offset g_BattlePresentationActors+2)\n0050D674: mov     esi, [esp+20h+var_18]\n0050D678: mov     edx, 1\n0050D67D: shl     edx, cl; Shift Logical Left\n0050D67F: test    esi, edx; Logical Compare\n0050D681: jz      short loc_50D686; Jump if Zero (ZF=1)\n0050D683: or      byte ptr [eax], 10h; Logical Inclusive OR\n0050D686: add     eax, 9Ch; Add\n0050D68B: inc     ecx; Increment by 1\n0050D68C: cmp     eax, 1D97706h; Compare Two Operands\n0050D691: jl      short loc_50D674; Jump if Less (SF!=OF)\n0050D693: push    78h ; 'x'; nbytes\n0050D695: call    BattleScratch_Unwind; E3a: unwind bump dword_1D999C4 (inverse of bs_modulo 0x5082B0). Cerberus Frame-memory-allocation claim is false.\n0050D69A: add     esp, 4; Add\n0050D69D: pop     edi\n0050D69E: pop     esi\n0050D69F: add     esp, 18h; Add\n0050D6A2: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x50d300",
+      "end": "0x50d327",
+      "successors": [
+        "0x50d327"
+      ]
+    },
+    {
+      "start": "0x50d327",
+      "end": "0x50d332",
+      "successors": [
+        "0x50d332",
+        "0x50d33a"
+      ]
+    },
+    {
+      "start": "0x50d332",
+      "end": "0x50d33a",
+      "successors": [
+        "0x50d33a"
+      ]
+    },
+    {
+      "start": "0x50d33a",
+      "end": "0x50d340",
+      "successors": [
+        "0x50d327",
+        "0x50d340"
+      ]
+    },
+    {
+      "start": "0x50d340",
+      "end": "0x50d3d0",
+      "successors": [
+        "0x50d3d0",
+        "0x50d492"
+      ]
+    },
+    {
+      "start": "0x50d3d0",
+      "end": "0x50d424",
+      "successors": [
+        "0x50d424",
+        "0x50d439"
+      ]
+    },
+    {
+      "start": "0x50d424",
+      "end": "0x50d428",
+      "successors": [
+        "0x50d428",
+        "0x50d439"
+      ]
+    },
+    {
+      "start": "0x50d428",
+      "end": "0x50d439",
+      "successors": [
+        "0x50d44b"
+      ]
+    },
+    {
+      "start": "0x50d439",
+      "end": "0x50d44b",
+      "successors": [
+        "0x50d44b"
+      ]
+    },
+    {
+      "start": "0x50d44b",
+      "end": "0x50d466",
+      "successors": [
+        "0x50d466",
+        "0x50d487"
+      ]
+    },
+    {
+      "start": "0x50d466",
+      "end": "0x50d487",
+      "successors": [
+        "0x50d4e0"
+      ]
+    },
+    {
+      "start": "0x50d487",
+      "end": "0x50d492",
+      "successors": [
+        "0x50d4e0"
+      ]
+    },
+    {
+      "start": "0x50d492",
+      "end": "0x50d4e0",
+      "successors": [
+        "0x50d4e0"
+      ]
+    },
+    {
+      "start": "0x50d4e0",
+      "end": "0x50d4f7",
+      "successors": [
+        "0x50d4f7",
+        "0x50d4ff"
+      ]
+    },
+    {
+      "start": "0x50d4f7",
+      "end": "0x50d4ff",
+      "successors": [
+        "0x50d505"
+      ]
+    },
+    {
+      "start": "0x50d4ff",
+      "end": "0x50d505",
+      "successors": [
+        "0x50d505"
+      ]
+    },
+    {
+      "start": "0x50d505",
+      "end": "0x50d576",
+      "successors": [
+        "0x50d576",
+        "0x50d5bc"
+      ]
+    },
+    {
+      "start": "0x50d576",
+      "end": "0x50d59b",
+      "successors": [
+        "0x50d59b",
+        "0x50d5cb"
+      ]
+    },
+    {
+      "start": "0x50d59b",
+      "end": "0x50d5bc",
+      "successors": [
+        "0x50d5c6"
+      ]
+    },
+    {
+      "start": "0x50d5bc",
+      "end": "0x50d5c6",
+      "successors": [
+        "0x50d5c6"
+      ]
+    },
+    {
+      "start": "0x50d5c6",
+      "end": "0x50d5cb",
+      "successors": [
+        "0x50d5cb"
+      ]
+    },
+    {
+      "start": "0x50d5cb",
+      "end": "0x50d635",
+      "successors": [
+        "0x50d635",
+        "0x50d66d"
+      ]
+    },
+    {
+      "start": "0x50d635",
+      "end": "0x50d63c",
+      "successors": [
+        "0x50d63c"
+      ]
+    },
+    {
+      "start": "0x50d63c",
+      "end": "0x50d64b",
+      "successors": [
+        "0x50d64b",
+        "0x50d650"
+      ]
+    },
+    {
+      "start": "0x50d64b",
+      "end": "0x50d650",
+      "successors": [
+        "0x50d650"
+      ]
+    },
+    {
+      "start": "0x50d650",
+      "end": "0x50d65d",
+      "successors": [
+        "0x50d63c",
+        "0x50d65d"
+      ]
+    },
+    {
+      "start": "0x50d65d",
+      "end": "0x50d66d",
+      "successors": []
+    },
+    {
+      "start": "0x50d66d",
+      "end": "0x50d674",
+      "successors": [
+        "0x50d674"
+      ]
+    },
+    {
+      "start": "0x50d674",
+      "end": "0x50d683",
+      "successors": [
+        "0x50d683",
+        "0x50d686"
+      ]
+    },
+    {
+      "start": "0x50d683",
+      "end": "0x50d686",
+      "successors": [
+        "0x50d686"
+      ]
+    },
+    {
+      "start": "0x50d686",
+      "end": "0x50d693",
+      "successors": [
+        "0x50d674",
+        "0x50d693"
+      ]
+    },
+    {
+      "start": "0x50d693",
+      "end": "0x50d6a3",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x5053d7",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x50540f",
+      "type": 17,
+      "iscode": true,
+      "function": "0x504bb0"
+    },
+    {
+      "from": "0x506563",
+      "type": 17,
+      "iscode": true,
+      "function": "0x5064f0"
+    },
+    {
+      "from": "0x50b008",
+      "type": 17,
+      "iscode": true,
+      "function": "0x50afc0"
+    }
+  ],
+  "code_targets": [
+    "0x502070",
+    "0x5020a0",
+    "0x502170",
+    "0x5082b0",
+    "0x5082d0",
+    "0x50cdc0",
+    "0x50d6b0",
+    "0x56ce30"
+  ],
+  "instruction_count": 277
+}

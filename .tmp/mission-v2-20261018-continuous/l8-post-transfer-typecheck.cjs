@@ -1,0 +1,11 @@
+// Parent-only static typecheck of the pin-exact runtime16 deployment. No test/product run.
+const fs=require('fs'),crypto=require('crypto'),cp=require('child_process');
+const root='C:/Users/djden/source/repos/retro-eng/re-ff8',base=root+'/.tmp/mission-v2-20261018-continuous',sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const before=JSON.parse(fs.readFileSync(base+'/main-baseline-typecheck-receipt.json','utf8')),promotion=JSON.parse(fs.readFileSync(base+'/l8-baseline-promotion-receipt.json','utf8')),guard=JSON.parse(fs.readFileSync(base+'/l8-central-preflight/supplement/inputs/CURRENT_MAIN_HARNESS_GUARD.json','utf8'));
+const pins=new Map(guard.files.map(f=>[f.path,f]));for(const f of promotion.acceptedRuntime16Pins)pins.set(f.path,f);
+function check(){for(const f of pins.values()){const b=fs.readFileSync(root+'/'+f.path);if(b.length!==f.bytes||sha(b)!==f.sha256)throw Error('Source drift '+f.path);}for(const f of before.toolFiles)if(sha(fs.readFileSync(f.path))!==f.sha256)throw Error('Tool drift');}
+check();if(process.env.NODE_OPTIONS?.trim())throw Error('NODE_OPTIONS preloads not silently cleared');
+const scratch='C:/Users/djden/AppData/Local/Temp/opencode/L8-TSC-RUNTIME16-'+Date.now();fs.mkdirSync(scratch);fs.mkdirSync(scratch+'/temp');fs.mkdirSync(scratch+'/node-cache');const at=Date.now();
+const run=cp.spawnSync(before.node,before.argv,{cwd:root+'/tools/ff8-harness',env:{...process.env,TEMP:scratch+'/temp',TMP:scratch+'/temp',NODE_COMPILE_CACHE:scratch+'/node-cache'},encoding:'utf8',timeout:120000,maxBuffer:1048576,killSignal:'SIGKILL',windowsHide:true});
+check();const r={at:new Date().toISOString(),gate:'L8_PHASE1_OWNERSHIP_20261018.md static typecheck only',toolFiles:before.toolFiles,argv:before.argv,scratch,exitCode:run.status,signal:run.signal,error:run.error?String(run.error.message):null,elapsedMs:Date.now()-at,stdout:run.stdout||'',stderr:run.stderr||'',guardsExactBeforeAfter:pins.size,testsRun:false,productImported:false};
+fs.writeFileSync(base+'/l8-post-transfer-typecheck-receipt.json',JSON.stringify(r,null,2)+'\n',{flag:'wx'});fs.chmodSync(base+'/l8-post-transfer-typecheck-receipt.json',0o444);console.log(JSON.stringify({...r,toolFiles:undefined,argv:undefined}));if(run.status!==0)process.exitCode=2;

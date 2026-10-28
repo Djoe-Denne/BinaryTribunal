@@ -1,0 +1,25 @@
+004899CF: shl     edx, cl; Shift Logical Left
+004899D1: mov     ecx, [eax]
+004899D3: not     edx; One's Complement Negation
+004899D5: and     ecx, edx; Logical AND
+004899D7: mov     [eax], ecx
+004899D9: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+004899DE: mov     al, [esi]; AI VM op 0x28 SET_MONSTER_STAT_PCT: BMI_MONSTER_STAT_PERCENT[stat(1)]=pct(1); BattleSlot_ApplyMonsterStatScaling
+004899E0: inc     esi; Increment by 1
+004899E1: mov     [esp+74h+opcode_param_1], al
+004899E5: lea     ecx, [ebx+ebx*8]; Load Effective Address
+004899E8: mov     al, [esi]
+004899EA: push    ebx; p_slot_id
+004899EB: mov     [esp+78h+op_param_2], al
+004899EF: mov     edx, dword ptr [esp+78h+opcode_param_1]
+004899F3: shl     ecx, 3; Shift Logical Left
+004899F6: sub     ecx, ebx; Integer Subtraction
+004899F8: and     edx, edi; Logical AND
+004899FA: inc     esi; Increment by 1
+004899FB: mov     byte ptr BMI_MONSTER_STAT_PERCENT.strength[ecx+edx], al
+00489A02: call    domain__BattleSlot_ApplyMonsterStatScaling; BattleSlot_ApplyMonsterStatScaling: writes scaled str/vit/mag/spr/spd/eva from monster stat curves * modifier%/10, cap 255
+00489A07: add     esp, 4; Add
+00489A0A: jmp     def_487EDC; jumptable 00487EDC default case, cases 10,16,20,33
+00489A0F: mov     al, [esi]; AI VM op 0x09 SET_HIT_ANIM: HIT_TYPE_TARGET_ANIMATION_TO_PLAY = anim(1)
+00489A11: inc     esi; Increment by 1
+00489A12: mov     HIT_TYPE_TARGET_ANIMATION_TO_PLAY, al; 9: miss

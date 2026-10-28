@@ -1,0 +1,785 @@
+import type { Plugin } from "@opencode-ai/plugin"
+import { Plugin as PluginV2 } from "@opencode/plugin"
+import { setupEnsemble, type V2SetupContext } from "./v2-setup"
+import { tool } from "@opencode-ai/plugin"
+import { OpencodeClient } from "@opencode-ai/sdk/v2"
+import path from "node:path"
+import { mkdirSync } from "node:fs"
+import { createDb, getDbPath } from "./db"
+import { wrapThrowingClient } from "./client"
+import { recoverStaleMembers, recoverUndeliveredMessages, recoverOrphanedWorktrees, recoverOrphanedBranches, recoverOrphanedTeams, rehydrateRegistry } from "./recovery"
+import { MemberRegistry, DescendantTracker, PendingPurgeApprovals } from "./state"
+import { isWorktreeInstance } from "./util"
+import { handleSessionStatusEvent, handleSessionCreatedEvent, checkToolIsolation, shouldNudgeIdleMember, handleSessionErrorEvent } from "./hooks"
+import { notifyTeamEvent, notifyWorkingProgress, notifyLead } from "./notify"
+import { hasReportedCompletion } from "./messaging"
+import { getMemberPromptModel } from "./member-model"
+import { buildLeadSystemPrompt, buildTeammateSystemPrompt, buildTeamCompactionContext } from "./system-prompt"
+import { log, initLog } from "./log"
+import { findTeamBySession } from "./types"
+import { loadConfig } from "./config"
+import { ProgressTracker } from "./progress"
+import { ActivityBuffer, recordFromV2Event, recordFromToolBefore, recordFromToolAfter } from "./activity"
+import { startDashboard } from "./dashboard"
+import { executeTeamCreate } from "./tools/team-create"
+import { executeTeamSpawn } from "./tools/team-spawn"
+import { executeTeamHandoff } from "./tools/team-handoff"
+import { executeTeamMessage } from "./tools/team-message"
+import { executeTeamBroadcast } from "./tools/team-broadcast"
+import { executeTeamShutdown } from "./tools/team-shutdown"
+import { executeTeamCleanup } from "./tools/team-cleanup"
+import { executeTeamMerge } from "./tools/team-merge"
+import { executeTeamTasksList } from "./tools/team-tasks-list"
+import { executeTeamTasksAdd } from "./tools/team-tasks-add"
+import { executeTeamTasksComplete } from "./tools/team-tasks-complete"
+import { executeTeamClaim } from "./tools/team-claim"
+import { executeTeamResults } from "./tools/team-results"
+import { executeTeamStatus } from "./tools/team-status"
+import { executeTeamView } from "./tools/team-view"
+import { pumpTeam } from "./dispatch"
+import { withCapacityClient } from "./capacity-delivery"
+import { startCapacityRuntime } from "./capacity-runtime"
+import type { ToolDeps, } from "./types"
+import { TokenBucket } from "./rate-limit"
+import { Watchdog } from "./watchdog"
+
+const DEFAULT_RATE_LIMIT_REFILL = 2
+const DEFAULT_RATE_LIMIT_INTERVAL_MS = 1000
+const DEFAULT_WATCHDOG_CHECK_MS = 60 * 1000 // 60 seconds
+
+function taskContextSchema() {
+  return tool.schema.object({
+    mode: tool.schema.enum(["fresh", "fork", "checkpoint", "compact_fork", "pending"]),
+    from: tool.schema.string().optional().describe("Source member/session resolved at decision time"),
+    messageID: tool.schema.string().optional().describe("Exclusive native checkpoint boundary"),
+    reason: tool.schema.string().min(1).max(4000).describe("Pipeline decision/evidence; pending holds admission"),
+    worktree: tool.schema.boolean().optional().describe("Explicit directory policy; false shares the mission directory"),
+  })
+}
+
+function modelPolicySchema() {
+  return tool.schema.object({
+    mode: tool.schema.enum(["legacy", "balanced"]),
+    costMode: tool.schema.enum(["legacy", "benchmark", "effective", "amortized"]).optional(),
+    maxIntelligenceGap: tool.schema.number().min(0).max(10),
+    models: tool.schema.array(tool.schema.object({
+      id: tool.schema.string(), reasoningEffort: tool.schema.string().optional(),
+      preference: tool.schema.number().int().min(0).max(100).optional(),
+      enabled: tool.schema.boolean().optional(), reserve: tool.schema.boolean().optional(),
+    }).strict()).max(128),
+  }).strict()
+}
+
+function missionClassificationSchema() {
+  const positive = () => tool.schema.number().int().positive().optional()
+  const nonnegative = () => tool.schema.number().int().nonnegative().optional()
+  return tool.schema.object({
+    mode: tool.schema.enum(["off", "auto", "jev", "general", "x86"]).optional(),
+    helperModel: tool.schema.string().optional(), helperVariant: tool.schema.string().optional(),
+    toolId: tool.schema.string().optional(), timeoutMs: positive(),
+    missionMode: tool.schema.enum(["supervised", "long_run"]).optional(),
+    generalModel: tool.schema.string().optional(), generalVariant: tool.schema.string().optional(),
+    specialized: tool.schema.boolean().optional(), x86ToolId: tool.schema.string().optional(),
+    fallbacks: tool.schema.array(tool.schema.object({ method: tool.schema.enum(["jev", "general"]), model: tool.schema.string(), variant: tool.schema.string().optional(), toolId: tool.schema.string().optional() })).max(8).optional(),
+    limits: tool.schema.object({ retries: nonnegative(), retryDelayMs: nonnegative(), maxAttempts: positive(), maxCalls: positive(), maxDurationMs: positive(), maxInputBytes: positive(), concurrency: positive(), circuitThreshold: positive(), circuitCooldownMs: positive(), maxCircuitRechecks: nonnegative() }).optional(),
+  })
+}
+
+/**
+ * opencode-ensemble plugin entry point.
+ * Enables agent teams: multiple agents running in parallel with
+ * peer-to-peer communication, shared task management, and coordinated execution.
+ */
+const plugin: Plugin = async (input) => {
+  // Initialize SQLite database in the global OpenCode config directory.
+  const dbPath = getDbPath()
+  mkdirSync(path.dirname(dbPath), { recursive: true })
+  const db = createDb(dbPath)
+
+  // Load plugin configuration (global → project → env vars)
+  const config = loadConfig(input.directory)
+
+  // Initialize in-memory state
+  const registry = new MemberRegistry()
+  const tracker = new DescendantTracker()
+  const purgeApprovals = new PendingPurgeApprovals()
+  const nudgedMembers = new Set<string>()
+  const progressTracker = new ProgressTracker()
+  const activityBuffer = new ActivityBuffer()
+  const wakeLeadTimestamps = new Map<string, number>()
+  const WAKE_LEAD_COOLDOWN_MS = 5000
+
+  // Extract the working HeyAPI transport from the plugin-provided v1 client and pass it
+  // to the v2 OpencodeClient. The plugin framework provides a v1 client which stores its
+  // HeyAPI transport as `_client` (underscore). The v2 constructor accepts it as `client`.
+  type V2Transport = ConstructorParameters<typeof OpencodeClient>[0] extends { client?: infer C } ? C : never
+  const pluginTransport = (input.client as unknown as { _client: V2Transport })._client
+  const rawClient = new OpencodeClient({ client: pluginTransport })
+  initLog(rawClient)
+  const client = withCapacityClient(db, wrapThrowingClient(rawClient), config.maxActiveMembers, (teamId, delay) => deps.scheduleCapacity?.(teamId, delay))
+  const deps: ToolDeps = { db, registry, tracker, purgeApprovals, client, directory: input.directory, config, progressTracker }
+
+  // Recovery only runs for the main project instance — NOT for teammate worktree instances.
+  // Worktree instances are created during session.create. Running recovery there makes HTTP
+  // calls back to the server, which deadlocks because the server is still handling session.create.
+  if (!isWorktreeInstance(input.directory)) {
+    log("init:recovery:start (main instance)")
+
+    // Reconciles teams whose lead session was deleted externally (not via
+    // team_cleanup) -- otherwise they stay 'active' forever, blocking
+    // team_create/team_cleanup for that name across restarts. See
+    // recoverOrphanedTeams' own doc comment for the full mechanism.
+    //
+    // Fire-and-forget, NOT awaited: isSessionAlive() calls client.session.get(),
+    // an HTTP call back to this same server. Awaiting it synchronously here --
+    // before the server has finished bootstrapping -- reproduced a real,
+    // confirmed deadlock (server never responds to ANY request, including
+    // unrelated ones like /config) when a stale team from a prior run exists
+    // for this project. Matches the existing pattern for the other three
+    // non-critical recovery passes below, and the documented reason
+    // recoverStaleMembers is skipped entirely for worktree instances two lines
+    // up ("makes HTTP calls back to the server, which deadlocks"). isSessionAlive
+    // itself also carries a bounded timeout as defense in depth.
+    recoverOrphanedTeams(db, client, input.directory, registry).then((result) => {
+      if (result.archived > 0) log(`init:recovery:orphaned-teams-archived=${result.archived}`)
+    }).catch((err) => {
+      log(`init:recover-orphaned-teams:failed err=${err instanceof Error ? err.message : String(err)}`)
+    })
+
+    const recovery = await recoverStaleMembers(db, client, input.directory)
+    if (recovery.interrupted > 0) {
+      log(`init:recovery:interrupted=${recovery.interrupted}`)
+    }
+
+    // Always rehydrate the in-memory registry from SQLite. The registry is
+    // in-memory only and is wiped on every plugin restart. Without this,
+    // teammates from a previous lifetime become invisible — every team_*
+    // tool call from them throws "This session is not in a team." This is
+    // the bug that surfaced on Desktop, where the Electron sidecar restarts
+    // far more often than the CLI.
+    const rehydrated = rehydrateRegistry(db, registry)
+    if (rehydrated > 0) log(`init:registry:rehydrated members=${rehydrated}`)
+
+    recoverUndeliveredMessages(db, client, registry).catch((err) => {
+      log(`init:recover-messages:failed err=${err instanceof Error ? err.message : String(err)}`)
+    })
+    recoverOrphanedWorktrees(db, client).catch((err) => {
+      log(`init:recover-worktrees:failed err=${err instanceof Error ? err.message : String(err)}`)
+    })
+    recoverOrphanedBranches(db, input.directory).catch((err) => {
+      log(`init:recover-branches:failed err=${err instanceof Error ? err.message : String(err)}`)
+    })
+    log("init:recovery:done")
+
+    // Start dashboard server (main instance only, not worktree instances)
+    if (config.dashboardPort !== 0) {
+      startDashboard(db, config.dashboardPort, { activityBuffer, client }).catch((err) => {
+        log(`init:dashboard:failed err=${err instanceof Error ? err.message : String(err)}`)
+      })
+    }
+  } else {
+    log(`init:skip-recovery (worktree instance: ${input.directory})`)
+  }
+
+  // Initialize rate limiter — config value already accounts for env var override
+  const rateLimiter = new TokenBucket({
+    capacity: config.rateLimitCapacity,
+    refillRate: DEFAULT_RATE_LIMIT_REFILL,
+    refillIntervalMs: DEFAULT_RATE_LIMIT_INTERVAL_MS,
+  })
+
+  // Initialize watchdog — config value already accounts for env var override
+  const watchdog = new Watchdog({
+    db, client, registry,
+    ttlMs: config.timeoutMs,
+    checkIntervalMs: DEFAULT_WATCHDOG_CHECK_MS,
+    progressTracker,
+    stallThresholdMs: config.stallThresholdMs,
+    stallMinSteps: config.stallMinSteps,
+    stallTokenThreshold: config.stallTokenThreshold,
+    cwd: input.directory,
+    peerMessageLimit: config.peerMessageLimit,
+    peerMessageWindowMs: config.peerMessageWindowMs,
+  })
+  watchdog.start()
+  await startCapacityRuntime(deps)
+
+  return {
+    // Event hook — drives state machine transitions + descendant tracking + toasts
+    async event({ event }) {
+      if (event.type === "session.status") {
+        const { sessionID, status } = event.properties
+        const statusType = status.type as "idle" | "busy" | "retry"
+        const retryPayload = statusType === "retry"
+          ? (status as { attempt: number; message: string; action?: { reason: string; provider: string; title: string; message: string; label: string; link?: string }; next: number })
+          : undefined
+        const transition = handleSessionStatusEvent(db, registry, sessionID, statusType, retryPayload)
+
+        // Fire toast notifications for meaningful transitions
+        if (transition) {
+          if (transition.to === "shutdown") {
+            notifyTeamEvent(client, "shutdown", { memberName: transition.memberName })
+            deps.scheduleCapacity?.(transition.teamId)
+          } else if (transition.to === "ready" && transition.from === "busy") {
+            notifyTeamEvent(client, "completed", { memberName: transition.memberName })
+
+            // Fast-idle detection: if agent went idle within 15s of spawn with zero messages,
+            // the model likely failed silently (auth error, invalid model, etc.)
+            const fastIdleKey = `fastidle:${transition.teamId}:${transition.memberName}`
+            if (!nudgedMembers.has(fastIdleKey)) {
+              const memberInfo = db.query(
+                "SELECT time_created, model FROM team_member WHERE team_id = ? AND name = ?"
+              ).get(transition.teamId, transition.memberName) as { time_created: number; model: string | null } | null
+              if (memberInfo) {
+                const spawnAge = Date.now() - memberInfo.time_created
+                const msgCount = (db.query(
+                  "SELECT COUNT(*) as c FROM team_message WHERE team_id = ? AND from_name = ?"
+                ).get(transition.teamId, transition.memberName) as { c: number }).c
+                if (spawnAge < 15_000 && msgCount === 0) {
+                  nudgedMembers.add(fastIdleKey)
+                  const modelInfo = memberInfo.model ? ` (model: ${memberInfo.model})` : ""
+                  log(`fast-idle: ${transition.memberName} went idle ${Math.round(spawnAge / 1000)}s after spawn with 0 messages${modelInfo}`)
+                  notifyLead(
+                    client,
+                    db,
+                    transition.teamId,
+                    `Warning: Teammate "${transition.memberName}" went idle immediately after spawning with no output${modelInfo}. This usually means the model failed to start (authentication error, invalid model, or provider issue). Check your API key and model configuration, then retry the spawn.`,
+                  )
+                  client.tui.showToast({
+                    title: "Team",
+                    message: `${transition.memberName} failed to produce output${modelInfo}`,
+                    variant: "warning",
+                    duration: 8000,
+                  }).catch(() => { /* TUI may not be available */ })
+                }
+              }
+            }
+
+            // Nudge teammate if they went idle without reporting to the lead (once only)
+            // Skip if they already reported completion (issue #3 — prevents re-waking completed teammates)
+            const nudgeKey = `${transition.teamId}:${transition.memberName}`
+            if (!nudgedMembers.has(nudgeKey) && shouldNudgeIdleMember(db, transition.teamId, transition.memberName) && !hasReportedCompletion(db, transition.teamId, transition.memberName)) {
+              nudgedMembers.add(nudgeKey)
+              log(`nudge:idle-without-report name=${transition.memberName}`)
+              const nudgeModel = getMemberPromptModel(db, transition.teamId, transition.memberName)
+              client.session.promptAsync({
+                sessionID,
+                parts: [{ type: "text", text: "[System]: You completed your work but did not report results. Send your findings to the lead via team_message now." }],
+                ...nudgeModel,
+              }).catch((err) => {
+                log(`nudge:idle-without-report:failed name=${transition.memberName} team=${transition.teamId} err=${err instanceof Error ? err.message : String(err)}`)
+              })
+            }
+
+            // Pull-based pool: feed the newly idle member, then scale up if
+            // work remains and the cap allows (opt-in — docs/task-pool.md).
+            void pumpTeam(deps, transition.teamId).catch(error => log(`capacity:pump-failed ${String(error)}`))
+          } else if (transition.to === "error") {
+            notifyTeamEvent(client, "error", { memberName: transition.memberName })
+            deps.scheduleCapacity?.(transition.teamId)
+          } else if (transition.to === "busy") {
+            // Fresh busy period (ready/error -> busy) — give checkStalled a baseline
+            // that doesn't depend on a step-finish event having landed yet. Without
+            // this, a member whose first action is one long-running tool call is
+            // never detected as stalled until that call itself returns.
+            progressTracker.recordBusyStart(sessionID)
+          } else if (transition.to === "retry") {
+            // Teammate is being rate-limited — notify user
+            try {
+              await client.tui.showToast({
+                title: "Team",
+                message: `${transition.memberName} is being rate-limited`,
+                variant: "warning",
+                duration: 3000,
+              })
+            } catch { /* TUI may not be available */ }
+          } else if (transition.to === "busy_while_shutdown") {
+            // Session went busy after shutdown was requested — re-issue abort
+            // Branch should already be preserved by the graceful shutdown path,
+            // but verify and re-preserve if needed
+            const member = deps.db.query(
+              "SELECT worktree_branch, name, team_id FROM team_member WHERE session_id = ?"
+            ).get(sessionID) as { worktree_branch: string | null; name: string; team_id: string } | null
+            if (member?.worktree_branch && !member.worktree_branch.startsWith("ensemble/preserved/")) {
+              const { getTeamResourceParts, preserveBranch: preserve, preservedBranchName: branchName } = await import("./tools/merge-helper")
+              const resource = getTeamResourceParts(deps.db, member.team_id)
+              const safeBranch = branchName(resource.projectName, resource.teamName, resource.teamId, member.name)
+              const ok = await preserve(member.worktree_branch, safeBranch, deps.directory)
+              if (ok) {
+                deps.db.run("UPDATE team_member SET worktree_branch = ? WHERE team_id = ? AND name = ?",
+                  [safeBranch, member.team_id, member.name])
+                log(`busy_while_shutdown:branch:preserved src=${member.worktree_branch} target=${safeBranch}`)
+              }
+            }
+            try {
+              await client.session.abort({ sessionID })
+            } catch { /* best effort */ }
+          }
+
+          // Show working progress after every transition so the user sees who's still active
+          await notifyWorkingProgress(client, db, transition.teamId)
+        }
+
+        // Wake the lead when it goes idle and has pending messages.
+        // The system prompt transform delivers the actual message content.
+        if (statusType === "idle") {
+          const team = db.query("SELECT id FROM team WHERE lead_session_id = ? AND status = 'active'").get(sessionID) as { id: string } | null
+          if (team) {
+            const pending = db.query("SELECT COUNT(*) as c FROM team_message WHERE team_id = ? AND to_name = 'lead' AND delivered = 0").get(team.id) as { c: number }
+            // Skip wake if all teammates are done or if we woke recently (issue #3 — breaks completion loop)
+            const allDone = (db.query(
+              "SELECT COUNT(*) as c FROM team_member WHERE team_id = ? AND status NOT IN ('ready', 'shutdown', 'error')"
+            ).get(team.id) as { c: number }).c === 0
+            const lastWake = wakeLeadTimestamps.get(team.id) ?? 0
+            if (pending.c > 0 && !allDone && Date.now() - lastWake > WAKE_LEAD_COOLDOWN_MS) {
+              wakeLeadTimestamps.set(team.id, Date.now())
+              log(`wake-lead: ${pending.c} pending messages, sending promptAsync`)
+              client.session.promptAsync({
+                sessionID,
+                parts: [{ type: "text", text: `[System: ${pending.c} new team message(s) available]` }],
+              }).catch((err) => {
+                log(`wake-lead:failed err=${err instanceof Error ? err.message : String(err)}`)
+              })
+            }
+          }
+
+          // Also flush peer messages for teammates that just went idle
+          // Only flush messages older than 5s to avoid double-delivery with the direct promptAsync path
+          const member = db.query(
+            `SELECT tm.team_id, tm.name FROM team_member tm
+             JOIN team t ON tm.team_id = t.id
+             WHERE tm.session_id = ? AND t.status = 'active'`
+          ).get(sessionID) as { team_id: string; name: string } | null
+          if (member && !hasReportedCompletion(db, member.team_id, member.name)) {
+            const staleThreshold = Date.now() - 5000
+            const peerMsgs = db.query(
+              "SELECT COUNT(*) as c FROM team_message WHERE team_id = ? AND to_name = ? AND delivered = 0 AND time_created < ?"
+            ).get(member.team_id, member.name, staleThreshold) as { c: number }
+            if (peerMsgs.c > 0) {
+              log(`wake-peer: ${member.name} has ${peerMsgs.c} pending peer messages`)
+              const peerModel = getMemberPromptModel(db, member.team_id, member.name)
+              client.session.promptAsync({
+                sessionID,
+                parts: [{ type: "text", text: `[System: ${peerMsgs.c} new message(s) from teammates]` }],
+                ...peerModel,
+              }).catch((err) => {
+                log(`wake-peer:failed err=${err instanceof Error ? err.message : String(err)}`)
+              })
+            }
+          }
+        }
+      }
+
+      if (event.type === "session.created") {
+        const info = event.properties.info
+        if (info.parentID) {
+          handleSessionCreatedEvent(tracker, info.id, info.parentID)
+        }
+      }
+
+      // Surface teammate session errors as system messages to the lead.
+      // Without this, errors during a teammate's prompt loop (auth failure,
+      // tool failure, model error, etc.) are invisible to the lead — the
+      // teammate just appears stuck.
+      if (event.type === "session.error") {
+        const props = event.properties as { sessionID?: string; error?: { name?: string; data?: { message?: string } } }
+        handleSessionErrorEvent(db, registry, client, props.sessionID, props.error)
+      }
+
+      // Track per-step output tokens for stall detection
+      if (event.type === "message.part.updated") {
+        const part = (event.properties as { part?: { type?: string; sessionID?: string; tokens?: { output?: number } } }).part
+        if (part?.type === "step-finish" && part.sessionID && part.tokens?.output !== undefined) {
+          if (registry.getBySession(part.sessionID)) {
+            progressTracker.recordStep(part.sessionID, part.tokens.output)
+          }
+        }
+      }
+
+      // Capture activity for dashboard verbose view (best-effort, v2 event types)
+      // Only shell and step events are recorded here — tool calls/results are
+      // recorded via tool.execute.before/after to avoid duplicate entries.
+      recordFromV2Event(
+        event as unknown as { type: string; properties: { sessionID?: string; tool?: string; input?: string; content?: string; title?: string; error?: string; command?: string; exitCode?: number; cost?: number; tokens?: { input?: number; output?: number } } },
+        registry,
+        activityBuffer,
+      )
+    },
+
+    // Sub-agent isolation + rate limiting hook
+    "tool.execute.before": async (input, _output) => {
+      checkToolIsolation(registry, tracker, input.tool, input.sessionID, db)
+      // Rate limit team tools that trigger LLM inference
+      if (input.tool.startsWith("team_")) {
+        if (!rateLimiter.tryConsume()) {
+          await rateLimiter.waitForToken()
+        }
+      }
+      // Record tool call activity for team member sessions
+      recordFromToolBefore(input, registry, activityBuffer)
+    },
+
+    "tool.execute.after": async (input, output) => {
+      if (input.tool === "question") {
+        purgeApprovals.recordQuestionAnswer(input.sessionID, output.output, input.args)
+      }
+      // Record tool result activity for team member sessions
+      recordFromToolAfter(input, output, registry, activityBuffer)
+    },
+
+    // System prompt injection — keeps lead aware of team state, reminds teammates of role
+    "experimental.chat.system.transform": async (input, output) => {
+      if (!input.sessionID) return
+      const teamInfo = findTeamBySession(db, registry, input.sessionID)
+      if (!teamInfo) return
+      log(`system-prompt:transform role=${teamInfo.role} session=${input.sessionID}`)
+      const prompt = teamInfo.role === "lead"
+        ? buildLeadSystemPrompt(db, teamInfo.teamId, config)
+        : buildTeammateSystemPrompt(db, teamInfo.teamId, teamInfo.memberName ?? "unknown", config)
+      log(`system-prompt:injected role=${teamInfo.role} len=${prompt.length}`)
+      output.system.push(prompt)
+    },
+
+    // Compaction safety — preserves team context when sessions get long
+    "experimental.session.compacting": async (input, output) => {
+      const teamInfo = findTeamBySession(db, registry, input.sessionID)
+      if (!teamInfo) return
+      const context = buildTeamCompactionContext(db, teamInfo.teamId, teamInfo.role, teamInfo.memberName)
+      output.context.push(context)
+    },
+
+    // Team-aware shell environment for scripts and hooks
+    "shell.env": async (input, output) => {
+      if (!input.sessionID) return
+      const teamInfo = findTeamBySession(db, registry, input.sessionID)
+      if (!teamInfo) return
+      output.env.ENSEMBLE_TEAM = teamInfo.teamName
+      output.env.ENSEMBLE_ROLE = teamInfo.role
+      if (teamInfo.memberName) {
+        output.env.ENSEMBLE_MEMBER = teamInfo.memberName
+        const member = db.query("SELECT worktree_branch, worktree_dir FROM team_member WHERE team_id = ? AND name = ?")
+          .get(teamInfo.teamId, teamInfo.memberName) as { worktree_branch: string | null; worktree_dir: string | null } | null
+        if (member?.worktree_branch) {
+          output.env.ENSEMBLE_BRANCH = member.worktree_branch
+        }
+        if (member?.worktree_dir) {
+          output.env.ENSEMBLE_WORKTREE_DIR = member.worktree_dir
+        }
+      }
+    },
+
+    // Register all team tools
+    tool: {
+      team_create: tool({
+        description: "Create a new agent team. You become the team lead. Use this before spawning teammates.",
+        args: {
+          name: tool.schema.string().describe("Team name (lowercase alphanumeric with hyphens, 1-64 chars)"),
+          project_name: tool.schema.string().optional().describe("Project display name for first use of this working directory. If omitted, a short random name is generated."),
+          classification: missionClassificationSchema().optional().describe("Explicit mission classification overrides; automatic classification requires a capable V2 host"),
+          max_running_members: tool.schema.number().int().min(0).optional().describe("Concurrent worker budget for this mission; default 30, 0 unlimited. Idle sessions do not consume slots."),
+          provider_order: tool.schema.array(tool.schema.string()).max(64).optional().describe("Persisted mission preference: native provider/connection IDs, highest priority first. Quality eligibility comes before this order; unlisted providers remain fallbacks."),
+          model_policy: modelPolicySchema().optional().describe("Persisted model/effort preferences: balanced bounded-quality weighted routing, or legacy ordering. Catalogue identities only."),
+          auto_dispatch: tool.schema.boolean().optional().describe("Assign ready board tasks to compatible idle workers deterministically."),
+          auto_scale: tool.schema.boolean().optional().describe("Create workers for ready tasks while execution slots are available."),
+          mission_mode: tool.schema.enum(["supervised", "long_run"]).optional().describe("Mission resilience mode (default supervised)"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamCreate(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Created team: ${args.name}` })
+          return result
+        },
+      }),
+
+      team_spawn: tool({
+        description: "Spawn a new teammate that works in parallel. The teammate starts immediately with the given prompt. " +
+          "Each teammate gets their own git worktree for file isolation. " +
+          "Teammates work asynchronously and will message you when done. Do not poll for their status.",
+        args: {
+          name: tool.schema.string().describe("Teammate name (lowercase alphanumeric with hyphens)"),
+          agent: tool.schema.string().default("build").describe("Agent type (e.g. 'build', 'plan', 'explore')"),
+          prompt: tool.schema.string().describe("Task instructions for the teammate"),
+          model: tool.schema.string().optional().describe("Model in provider/model format (optional, uses default)"),
+          variant: tool.schema.string().optional().describe("Native reasoning variant for an explicit/configured model; routed models use the catalogue effort"),
+          complexity: tool.schema.number().int().min(0).max(100).optional().describe("Task complexity for deterministic model routing; overrides claim_task"),
+          risk: tool.schema.number().int().min(0).max(100).optional().describe("Task risk for deterministic model routing only; overrides claim_task"),
+          claim_task: tool.schema.string().optional().describe("Task ID to auto-claim for this teammate (optional)"),
+          worktree: tool.schema.boolean().default(true).describe("Create a git worktree for file isolation (default: true, set false for read-only agents)"),
+          plan_approval: tool.schema.boolean().default(false).describe("Require teammate to send a plan for approval before writing files (default: false)"),
+          context: tool.schema.object({
+            mode: tool.schema.enum(["fresh", "fork", "checkpoint", "compact_fork"]),
+            from: tool.schema.string().optional(),
+            messageID: tool.schema.string().optional().describe("Exclusive native checkpoint boundary"),
+          }).optional().describe("Session inheritance requires a V2 host. Defaults to fresh; never silently falls back."),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamSpawn(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Spawned ${args.name} (${args.agent})` })
+          return result
+        },
+      }),
+
+      team_handoff: tool({
+        description: "Switch your own team session's native agent while retaining history. Requires OpenCode V2; V1 returns an explicit capability error.",
+        args: { agent: tool.schema.string().describe("Target agent name") },
+        async execute(args, ctx) {
+          return executeTeamHandoff(deps, args, ctx.sessionID)
+        },
+      }),
+
+      team_message: tool({
+        description: "Send a message to a specific teammate or to the lead. Use 'lead' to message the team lead. " +
+          "Lead only: pass 'model' (provider/model) to update a teammate's model in-place — it applies on their next turn. " +
+          "When updating a model, 'text' is optional; omit it to change the model without sending a message.",
+        args: {
+          to: tool.schema.string().describe("Recipient name ('lead' or teammate name)"),
+          text: tool.schema.string().optional().describe("Message content (max 10KB). Optional only when 'model' is provided."),
+          approve: tool.schema.boolean().optional().describe("Approve a teammate's plan (only when recipient has plan_approval='pending')"),
+          reject: tool.schema.string().optional().describe("Reject a teammate's plan with reason (only when recipient has plan_approval='pending')"),
+          force: tool.schema.boolean().optional().describe("Lead only. Re-activate a teammate who already reported task completion (normally their session won't be woken again). Use for legitimate follow-on work — e.g. the next round of a multi-round debate — not for courtesy replies."),
+          model: tool.schema.string().optional().describe("Lead only: update the recipient teammate's model in-place, in 'provider/model' format (e.g. 'anthropic/claude-sonnet')."),
+          classification: missionClassificationSchema().optional().describe("Lead only, to=lead: explicitly update the frozen mission classifier"),
+          max_running_members: tool.schema.number().int().min(0).optional().describe("Lead only, to=lead: update this mission's concurrent worker budget without interrupting running work."),
+          provider_order: tool.schema.array(tool.schema.string()).max(64).optional().describe("Lead only, to=lead: save mission provider preference in SQLite. Empty array restores cost/default ordering. Separate call from other controls; text optional."),
+          provider_order_revision: tool.schema.number().int().min(0).optional().describe("Revision from team_status; rejects stale provider-order edits."),
+          model_policy: modelPolicySchema().nullable().optional().describe("Lead only, to=lead, separate call: bounded model/effort preferences. null restores project inheritance. Never changes benchmark scores or costs."),
+          model_policy_revision: tool.schema.number().int().min(0).optional().describe("Model policy revision from team_status; rejects stale edits."),
+          auto_dispatch: tool.schema.boolean().optional().describe("Lead only, to=lead: enable or disable deterministic assignment."),
+          auto_scale: tool.schema.boolean().optional().describe("Lead only, to=lead: enable or disable automatic worker creation."),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamMessage(deps, args, ctx.sessionID)
+          // Track message activity for stall detection
+          progressTracker.recordMessage(ctx.sessionID)
+          // Track peer messages for chatty detection
+          if (args.to !== "lead") progressTracker.recordPeerMessage(ctx.sessionID)
+          ctx.metadata({ title: args.model ? `Set ${args.to} model → ${args.model}` : `Message → ${args.to}` })
+          return result
+        },
+      }),
+
+      team_broadcast: tool({
+        description: "Send a message to all teammates and the lead (excluding yourself).",
+        args: {
+          text: tool.schema.string().describe("Message content (max 10KB)"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamBroadcast(deps, args, ctx.sessionID)
+          // Track broadcast activity for stall detection AND chatty detection --
+          // a broadcast reaches every teammate at once, arguably the most
+          // "chatty" action possible, and was previously invisible to
+          // checkChatty()'s peer-message rate limit (recordPeerMessage was never
+          // called here, only recordMessage).
+          progressTracker.recordMessage(ctx.sessionID)
+          progressTracker.recordPeerMessage(ctx.sessionID)
+          ctx.metadata({ title: "Broadcast to team" })
+          return result
+        },
+      }),
+
+      team_tasks_list: tool({
+        description: "View the shared team task board. Use this to check task status, not to wait for teammates. Teammates will message you when done.",
+        args: {},
+        async execute(_args, ctx) {
+          const result = await executeTeamTasksList(deps, ctx.sessionID)
+          const count = result === "No tasks on the board." ? 0 : result.split("\n").length
+          ctx.metadata({ title: count > 0 ? `Task board (${count} tasks)` : "Task board (empty)" })
+          return result
+        },
+      }),
+
+      team_tasks_add: tool({
+        description: "Add tasks with durable context decisions; lead may patch queued task contexts using tasks:[] and revision-checked context_updates.",
+        args: {
+          tasks: tool.schema.array(tool.schema.object({
+            content: tool.schema.string().describe("Task description"),
+            priority: tool.schema.enum(["high", "medium", "low"]).default("medium").describe("Task priority"),
+            depends_on: tool.schema.array(tool.schema.string()).optional().describe("Task IDs this depends on"),
+            agent: tool.schema.string().optional().describe("Agent type affinity for auto-dispatch (e.g. build). Omit for any member."),
+            complexity: tool.schema.number().int().min(0).max(100).optional().describe("Task complexity for deterministic model routing"),
+          risk: tool.schema.number().int().min(0).max(100).optional().describe("Task risk for model routing only (not review policy)"),
+            task_type: tool.schema.string().optional().describe("Task kind for classification"),
+            classification_input: tool.schema.record(tool.schema.string(), tool.schema.unknown()).optional().describe("Task-specific classification data"),
+            context: taskContextSchema().optional(),
+          })).describe("Tasks to add"),
+          context_updates: tool.schema.array(tool.schema.object({ task_id: tool.schema.string(), revision: tool.schema.number().int().min(0), context: taskContextSchema() })).optional().describe("Lead-only atomic context updates; separate call with tasks: []"),
+          require_context: tool.schema.boolean().optional().describe("Lead only with tasks: []; require context decisions for this mission"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamTasksAdd(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Added ${args.tasks.length} task${args.tasks.length !== 1 ? "s" : ""}` })
+          return result
+        },
+      }),
+
+      team_tasks_complete: tool({
+        description: "Mark a task as completed on the shared board. This unblocks any tasks that depend on it.",
+        args: {
+          task_id: tool.schema.string().describe("ID of the task to mark complete"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamTasksComplete(deps, args, ctx.sessionID)
+          // Track task completion for stall detection
+          progressTracker.recordTaskComplete(ctx.sessionID)
+          ctx.metadata({ title: `Completed task` })
+          return result
+        },
+      }),
+
+      team_claim: tool({
+        description: "Claim a pending task from the shared task list. Only unclaimed, unblocked tasks can be claimed.",
+        args: {
+          task_id: tool.schema.string().describe("ID of the task to claim"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamClaim(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Claimed task` })
+          return result
+        },
+      }),
+
+      team_results: tool({
+        description: "Retrieve full message content from teammates. Returns unread messages and marks them as read. Use this after receiving a truncated message notification.",
+        args: {
+          from: tool.schema.string().optional().describe("Filter messages by sender name (optional, returns all if omitted)"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamResults(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Results${args.from ? ` from ${args.from}` : ""}` })
+          return result
+        },
+      }),
+
+      team_shutdown: tool({
+        description: "Request a teammate to shut down. The teammate finishes current work then stops. " +
+          "Pass force: true to abort immediately without waiting.",
+        args: {
+          member: tool.schema.string().describe("Teammate name to shut down"),
+          force: tool.schema.boolean().default(false).describe("Force immediate abort without waiting for current work to finish"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamShutdown(deps, args, ctx.sessionID)
+          // Clean up progress tracking for the shut-down member
+          const member = deps.db.query("SELECT session_id FROM team_member WHERE name = ? AND status IN ('shutdown', 'shutdown_requested')").get(args.member) as { session_id: string } | null
+          if (member) {
+            progressTracker.remove(member.session_id)
+            activityBuffer.remove(member.session_id)
+          }
+          const hasWarning = result.includes("uncommitted")
+          ctx.metadata({ title: hasWarning ? `${args.member} shut down — uncommitted changes` : `${args.member} shut down` })
+          return result
+        },
+      }),
+
+      team_cleanup: tool({
+        description: "Clean up the current team, or purge archived teams after human approval. " +
+          "Omit purge for normal cleanup. Pass purge with archived team names, or ['*'] for all archived teams. " +
+          "First purge call returns a preview, exact approval and denial options, and confirmation token only. " +
+          "Archived worktree/workspace references and stale Ensemble-owned branches are shown in the preview and cleaned during confirmed purge. " +
+          "Use the question tool with those exact options, then call again with confirm_purge: true and confirm_token only if the user selected the exact approval option.",
+        args: {
+          force: tool.schema.boolean().default(false).describe("Force cleanup even if members are active (will abort them)"),
+          acknowledge_uncommitted: tool.schema.boolean().default(false),
+          purge: tool.schema.array(tool.schema.string()).optional().describe("Archived team names to permanently delete, or ['*'] for all archived teams. Requires human approval."),
+          confirm_purge: tool.schema.boolean().default(false).describe("Set true only after the user explicitly selects the exact approval option from the purge preview via the question tool."),
+          confirm_token: tool.schema.string().optional().describe("Confirmation token from the purge preview. Valid only after the matching exact approval answer is selected in this session."),
+        },
+        async execute(args, ctx) {
+          const approvePurge = args.purge && args.purge.length > 0 && args.confirm_purge
+            ? async (preview: string) => {
+              await ctx.ask({
+                permission: "team_cleanup.purge",
+                patterns: args.purge ?? [],
+                always: [],
+                metadata: {
+                  title: "Purge archived teams",
+                  preview,
+                },
+              })
+            }
+            : undefined
+          // Collect member session IDs before cleanup so we can clean up activity buffers after
+          const teamInfoForCleanup = findTeamBySession(db, registry, ctx.sessionID)
+          const memberSessions = teamInfoForCleanup
+            ? (db.query("SELECT session_id FROM team_member WHERE team_id = ?").all(teamInfoForCleanup.teamId) as Array<{ session_id: string }>).map(m => m.session_id)
+            : []
+          const result = await executeTeamCleanup(deps, args, ctx.sessionID, undefined, undefined, undefined, config.mergeOnCleanup, undefined, approvePurge)
+          // Clean up activity buffers for team members after successful cleanup
+          if (!result.includes("uncommitted") && !args.purge) {
+            for (const sid of memberSessions) activityBuffer.remove(sid)
+          }
+          const blocked = result.includes("uncommitted")
+          const title = args.purge
+            ? result.startsWith("No archived teams") ? "No archived teams to purge" : result.startsWith("Purge preview") ? "Purge confirmation required" : "Archived teams purged"
+            : blocked ? "Cleanup blocked — uncommitted changes" : "Team cleaned up"
+          ctx.metadata({ title })
+          return result
+        },
+      }),
+
+      team_merge: tool({
+        description: "Merge a shutdown teammate's branch into the working directory as unstaged changes. " +
+          "Use this after team_shutdown to review and integrate a teammate's work. " +
+          "The teammate must be shut down first.",
+        args: {
+          member: tool.schema.string().describe("Teammate name whose branch to merge"),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamMerge(deps, args, ctx.sessionID)
+          const conflict = result.includes("conflict")
+          ctx.metadata({ title: conflict ? `Merge conflict: ${args.member}` : `Merged ${args.member}` })
+          return result
+        },
+      }),
+
+      team_status: tool({
+        description: "View team members with their current status, agent type, and session IDs. " +
+          "Use this to check who is working, idle, or shut down. Includes a task summary.",
+        args: {},
+        async execute(_args, ctx) {
+          const result = await executeTeamStatus(deps, ctx.sessionID)
+          const statusMap: Record<string, string> = { busy: "working", ready: "idle", shutdown_requested: "stopping", shutdown: "done", error: "error" }
+          const members = deps.db.query("SELECT name, status FROM team_member WHERE team_id IN (SELECT id FROM team WHERE lead_session_id = ? OR id IN (SELECT team_id FROM team_member WHERE session_id = ?))").all(ctx.sessionID, ctx.sessionID) as Array<{ name: string; status: string }>
+          const summary = members.map(m => `${m.name}: ${statusMap[m.status] ?? m.status}`).join(", ")
+          ctx.metadata({ title: summary || "No teammates" })
+          return result
+        },
+      }),
+
+      team_view: tool({
+        description: "Resolve a teammate's session so the user can inspect it. Default reports the session ID + status without switching. " +
+          "Pass navigate: true ONLY when the user explicitly asked to view the teammate's session — it switches their client to it. Return via the session picker (ctrl+p).",
+        args: {
+          member: tool.schema.string().describe("Teammate name to view"),
+          navigate: tool.schema.boolean().default(false).describe("Switch the user's client to this session. Only when the user explicitly asked."),
+        },
+        async execute(args, ctx) {
+          const result = await executeTeamView(deps, args, ctx.sessionID)
+          ctx.metadata({ title: `Viewing ${args.member}` })
+          return result
+        },
+      }),
+    },
+  }
+}
+
+/**
+ * Dual V1/V2 export (issue #36).
+ * - V2 reads `id` + `setup()` and ignores `server()`.
+ * - V1 (>=1.18.29) calls `server()` and ignores the V2 fields.
+ * The V2 setup body lands in later phases; the V1 implementation below is
+ * unchanged so current users keep working during the port.
+ */
+export default {
+  ...PluginV2.define({
+    id: "ensemble",
+    async setup(ctx) {
+      // Dual support (issue #36): V2 initializes here; the V1 server()
+      // below keeps serving V1 hosts. Tool registration lands next slice.
+      const handle = await setupEnsemble(ctx as unknown as V2SetupContext)
+      return () => {
+        void handle.dispose()
+      }
+    },
+  }),
+  server: plugin,
+}

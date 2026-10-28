@@ -1,0 +1,83 @@
+{
+  "mission": "ff8-decomp-semantics-20261011-r01",
+  "group": "g01",
+  "ea": "0x419D8F",
+  "author": "classify-g01",
+  "contract": "CONTRACT v1",
+  "status": "SOURCE_CHECKPOINT_REQUIRED",
+  "dispatch_ready": false,
+  "source": {
+    "inherited_from": "discover-g01",
+    "classification_session_is_author_source": false,
+    "full_source_fork_safe": false,
+    "exclusive_native_checkpoint_message_id": null,
+    "blocker": "Observer reports historical target C previews in explorer search history. Common compaction excludes those previews, but lead must select and verify exclusive native checkpoint BEFORE contaminated search. Neither producer admission nor full source fork safety is established."
+  },
+  "verification": {
+    "full_common_compaction": true,
+    "compaction_transform": "Entire common-compaction.md content excluding terminal CRLF is present verbatim inside assembly comment prefix; literal backslash-n sequences preserved unchanged.",
+    "complete_native_asm": true,
+    "asm_transform": "Payload assembly ends with exact frozen native assembly string.",
+    "architecture": "x86-32",
+    "instruction_count": 34,
+    "basic_blocks": 4,
+    "payload_assembly_characters": 10793,
+    "same_native_pe_hash": true,
+    "native_input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "pe_pass": true,
+    "pe_verification_path": "docs/missions/ff8-decomp-semantics-2026-10-11-run01/native-pe-verification.json",
+    "pe_verification_at_utc": "2026-10-11T16:55:55.231719+00:00"
+  },
+  "inputs": [
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g01/0x419D8F.json", "sha256": "bf1ee669cd27c5fdeba32939d67727ddcef4bbb63153d0703d2e8de20d6d326a"},
+    {"path": "inputs/ff8-decomp-semantics-20261011-r01/g01/common-compaction.md", "sha256": "b1085a3007d76c5a2d8ca488b7247262aa52f66061b8d1aa1ead0ba16c9e41e3"}
+  ],
+  "classifier": {
+    "kind": "native_classify_x86",
+    "tool": "tools.classify_x86",
+    "request": "outputs/ff8-decomp-semantics-20261011-r01/classification/g01/0x419D8F.request.json",
+    "request_sha256": "635da7d8d2677e6feb3dc6c9dfc0a425a177a3a6cad0fe33b20481e216e07d19",
+    "request_archived_before_call": true,
+    "response": "outputs/ff8-decomp-semantics-20261011-r01/classification/g01/0x419D8F.response.native.json",
+    "response_sha256": "dd2b5f2338567feabba3689a73da20effde202c2768b7426d2a837fd49a08568",
+    "native_response_complete": true,
+    "complexity": 35,
+    "risk_from_uncertainty": 58,
+    "uncertainty_cause": "external_calls",
+    "score_is_calibrated_probability": false,
+    "attempts": [{"attempt": 1, "status": "success", "errors": []}],
+    "verification_error_retained": "One pre-call Context Mode script failed with Unterminated string literal due to newline escaping; corrected and retried successfully. No classifier call occurred during that failed verification."
+  },
+  "routing": {
+    "tier": "complex_high_risk",
+    "justification": "Risk 58 exceeds v1 medium limit 50; simple thresholds also fail (complexity 35 >25, risk 58 >20). Native instruction count 34 does not override uncertainty. External-call uncertainty is retained, not solved through target semantic rediscovery.",
+    "C": {
+      "protocol": "2+1 blind independent",
+      "A": {"model": "openai/gpt-6-astra", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/c-a/astra-high.md"},
+      "B": {"model": "opencode/claude-opus-5-5", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/c-b/opus-high.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/c-r/sol-high.md", "dependency": "C A+B complete"},
+      "model_justification": "Contract complex C pair Astra high/Opus high; independent Sol high reconciliation against complete ASM."
+    },
+    "semantics": {
+      "protocol": "2+1 blind independent",
+      "A": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/semantic-a/sol-high.md"},
+      "B": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/semantic-b/sol-high.md"},
+      "R": {"model": "openai/gpt-6.1-sol", "variant": "high", "output": "outputs/ff8-decomp-semantics-20261011-r01/production/g01/0x419D8F/semantic-r/sol-high.md", "dependency": "semantic A+B complete"},
+      "model_justification": "Contract semantic Sol high at high risk, independent fresh/checkpoint siblings and distinct reconciler; same model does not imply shared child history."
+    }
+  },
+  "catalogue": {
+    "snapshot": "outputs/ff8-decomp-semantics-20261011-r01/classification/g01/ensemble.snapshot.json",
+    "sha256": "b848f233a380a0828d25b78b022340c79d73633afe94b7e909b39673a937f109",
+    "selected_models_available": true,
+    "high_variant_supported": true,
+    "discovery": "tools.opencode.models returned active Astra, Sol and OpenCode Opus, each with high variant; catalogue marks selected models available. Sol high overrides catalogue medium default explicitly per contract high-risk semantic/R rule.",
+    "effective_Model_Ref": "NOT_CREATED; lead must verify exact providerID/id/variant=high on each author session, never accept silent default."
+  },
+  "admission_gates": [
+    "Lead verifies source exclusive native checkpoint preceding contaminated search and freezes eligible inherited history.",
+    "Independent author sessions inherit only verified factual source; no classifier/lead/sibling production history.",
+    "Lead verifies effective Model.Ref for every session, owns creation, ledger and final native cross-validation."
+  ],
+  "producer_sessions_created": 0
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "ff8-classify-route-v1",
+  "group": "g10",
+  "status": "DISPATCH_READY",
+  "classifier_kind": "classify_x86",
+  "classifier_tool": "tools.classify_x86",
+  "risk_mapping": "native uncertainty used conservatively as operational risk, not calibrated probability",
+  "SOURCE": "discover-g10",
+  "source_session": "ses_ed41fd8a0ffe00nLDACrV4l12a",
+  "inheritance": {"mode":"fork","same_source_for_all_authors":true,"independent_sibling_histories":true,"classifier_is_never_source":true,"checkpoint_status":"NO_TARGET_C_PREVIEW_FLAG_IN_SOURCE_REPORT"},
+  "admission": "Lead creates sessions and verifies effective Model.Ref; no producers spawned by classifier. Reconciliation is fresh/distinct and blocked until both matching A+B deliverables exist.",
+  "input_root": "inputs/ff8-decomp-semantics-20261011-r01/g10/",
+  "receipt_root": "outputs/ff8-decomp-semantics-20261011-r01/classification/g10/",
+  "provenance": {
+    "common_compaction_sha256":"2ccc15a8b4611fa627c6b30b697010479c2c9b96cc69923fba089cfc278d7a01",
+    "source_report_path":"docs/missions/ff8-decomp-semantics-2026-10-11-run01/discovery-harvest/g10.source.native.json",
+    "source_report_sha256":"31658a3fdf1a0ee9958494c90a5734cbdf6493fbe53c96a39585c47eafe84268",
+    "native_groups_sha256":"1d90efa1afc04d0be7a2758dcdcc5da06a67cdd2b2c9d632cf67555d49696dc9",
+    "pe_verification_sha256":"636f11eef7350396d9d650b7267d3bacdd0ebf2469350700356877e6a804828e",
+    "exe_sha256":"064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570"
+  },
+  "profiles": {
+    "complex": {
+      "C":{"protocol":"2+1","A":{"model":"openai/gpt-6-astra","variant":"high"},"B":{"model":"opencode/claude-opus-5-5","variant":"high"},"R":{"model":"openai/gpt-6.1-sol","variant":"high","requires":["C_A","C_B"]}},
+      "semantics":{"protocol":"2+1","A":{"model":"openai/gpt-6.1-sol","variant":"high"},"B":{"model":"openai/gpt-6.1-sol","variant":"high"},"R":{"model":"openai/gpt-6.1-sol","variant":"high","requires":["semantics_A","semantics_B"]}}
+    },
+    "medium": {
+      "C":{"protocol":"2+1","A":{"model":"zai-coding-plan/glm-5.3-flash","variant":"max"},"B":{"model":"opencode-go/gpt-6-luna","variant":"medium"},"R":{"model":"openai/gpt-6.1-sol","variant":"high","requires":["C_A","C_B"]}},
+      "semantics":{"protocol":"2+1","A":{"model":"openai/gpt-6.1-sol","variant":"medium"},"B":{"model":"openai/gpt-6.1-sol","variant":"medium"},"R":{"model":"openai/gpt-6.1-sol","variant":"high","requires":["semantics_A","semantics_B"]}}
+    }
+  },
+  "routes": [
+    {
+      "ea":"0x47E3F0","status":"DISPATCH_READY","SOURCE":"discover-g10","profile":"complex","instruction_count":9,"complexity":33,"risk":67,
+      "rationale":"Risk 67 exceeds v1 medium ceiling 50; external helper contract and parameter widths remain unproven despite short straight-line wrapper. No simple admission.",
+      "structural_flags":["external_helper_contract_unproven","prototype_widths_unproven"],
+      "factual_sha256":"79e9a6e4379f45417ab7ae5c7e7f643e5f9e390f2b81e80527f0726966a31e64",
+      "request_sha256":"37f7bc5d084157bedc1c636ea19bb7feca11a4961c94d7f64dab0a269cf9965b",
+      "response_sha256":"1b091ebf0e018f16d1081d2d1c6200aacaf4bb461e44926017583154c2334e85",
+      "outputs":{"C_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/C_A.md","C_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/C_B.md","C_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/C_R.md","semantics_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/semantics_A.md","semantics_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/semantics_B.md","semantics_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x47E3F0/semantics_R.md"}
+    },
+    {
+      "ea":"0x485F00","status":"DISPATCH_READY","SOURCE":"discover-g10","profile":"complex","instruction_count":22,"complexity":39,"risk":61,
+      "rationale":"Risk 61 exceeds v1 medium ceiling 50; MOVZX DX preserves unknown upper EDX from a preceding call and full EDX contributes to later arithmetic. Existing partial-register/callee-contract ambiguity prohibits simple routing.",
+      "structural_flags":["partial_register_EDX_callee_dependency","external_helper_contract_unproven"],
+      "factual_sha256":"747d202f109234c40a3cfa42723ef64c709fc02120dc937e0f00a381432c893b",
+      "request_sha256":"016e639ce442cdd20df15cfd20dd36405523d6260efcbcd863cf2eb2314be5a6",
+      "response_sha256":"68822d66693fca15059b590c09100665901ea607a84edda231d9a03bded8f2aa",
+      "outputs":{"C_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/C_A.md","C_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/C_B.md","C_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/C_R.md","semantics_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/semantics_A.md","semantics_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/semantics_B.md","semantics_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x485F00/semantics_R.md"}
+    },
+    {
+      "ea":"0x486E00","status":"DISPATCH_READY","SOURCE":"discover-g10","profile":"medium","instruction_count":22,"complexity":65,"risk":46,
+      "rationale":"At v1 complexity ceiling 65, risk 46 within ceiling 50, 22 instructions, resolved native CFG; 2+1 retains signed-remainder idiom, partial AX return, RNG dependency and unproven termination/preconditions. No existing unresolved-indirect/conflict major trigger on this safe EA.",
+      "structural_flags":["signed_remainder_idiom","partial_AX_return","external_helper_preconditions_and_termination_unproven"],
+      "factual_sha256":"ef099cfe9af8151c897475e4e0d9d6c6942ad7ed00fc591e43fbbf071fcebd2d",
+      "request_sha256":"b1482b65c1b8570a2e4c3cdd41f61ae59157d818ad32b3856bd1df3667610625",
+      "response_sha256":"c47ceb41539c3d37a5fe545d0b0e21f8429f02db1ee40b31cca423c71b702887",
+      "outputs":{"C_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/C_A.md","C_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/C_B.md","C_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/C_R.md","semantics_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/semantics_A.md","semantics_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/semantics_B.md","semantics_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x486E00/semantics_R.md"}
+    },
+    {
+      "ea":"0x495EC0","status":"DISPATCH_READY","SOURCE":"discover-g10","profile":"medium","instruction_count":16,"complexity":47,"risk":43,
+      "rationale":"v1 medium thresholds satisfied, 16 instructions and resolved loop CFG; conditional helper call and surrounding-layout confidence remain consultative, 2+1 each volet. Complexity/risk prohibit simple admission.",
+      "structural_flags":["conditional_external_helper_call","historical_layout_confidence_not_fresh_validation"],
+      "factual_sha256":"2e154d64b4bdabf44d397e10d7e9b517a8931e65c48ece1ed8c9cd17fbc08220",
+      "request_sha256":"90365ed2f7327c0c8bb5ff6e5304ae37b831dfd124df5393f30f51fea670315a",
+      "response_sha256":"d85be2d3decc74af57a874a9a34ae7b60f1265b5aefaecbc353562b837de837d",
+      "outputs":{"C_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/C_A.md","C_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/C_B.md","C_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/C_R.md","semantics_A":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/semantics_A.md","semantics_B":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/semantics_B.md","semantics_R":"outputs/ff8-decomp-semantics-20261011-r01/production/g10/0x495EC0/semantics_R.md"}
+    }
+  ],
+  "quarantined":[
+    {"ea":"0x48D200","status":"QUARANTINED_PE_MISMATCH","classifier_called":false,"production_allowed":false,"mismatch_bytes":6,"range":"0x48D56E..0x48D573","idb_unchanged_since_freeze":true},
+    {"ea":"0x48FE20","status":"QUARANTINED_PE_MISMATCH","classifier_called":false,"production_allowed":false,"mismatch_bytes":4,"range":"0x4911BD..0x4911C0","idb_unchanged_since_freeze":true}
+  ],
+  "oversize_required":[],
+  "reuse":{"existing_complete_receipts_found":false,"new_native_calls":4,"duplicate_calls":0},
+  "excluded_override":"0x487DF0 is not in g10; its dedicated GLM max 2+1 production override is unchanged."
+}

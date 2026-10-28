@@ -1,0 +1,25 @@
+0050FE9C: sub     edi, 8; Integer Subtraction
+0050FE9F: test    ebp, 60000h; Logical Compare
+0050FEA5: jnz     loc_510026; Jump if Not Zero (ZF=0)
+0050FEAB: and     ecx, ebx; Logical AND
+0050FEAD: and     ecx, edx; Logical AND
+0050FEAF: test    ecx, 3F00000h; Logical Compare
+0050FEB5: jnz     loc_510026; Jump if Not Zero (ZF=0)
+0050FEBB: mov     eax, [esp+38h+var_24]
+0050FEBF: mov     edx, [esp+38h+var_28]
+0050FEC3: mov     ecx, [esp+38h+packet]
+0050FEC7: mov     ebx, [eax]
+0050FEC9: mov     eax, [edx]
+0050FECB: mov     ebp, [ecx]
+0050FECD: push    eax
+0050FECE: push    ebp
+0050FECF: push    ebx
+0050FED0: mov     [esp+44h+var_C], eax
+0050FED4: call    Poly_BackfaceTest2D; Call Procedure
+0050FED9: add     esp, 0Ch; Add
+0050FEDC: test    eax, eax; Logical Compare
+0050FEDE: jle     loc_510021; Jump if Less or Equal (ZF=1 | SF!=OF)
+0050FEE4: mov     eax, dword_1D99C18
+0050FEE9: mov     [eax+8], ebx
+0050FEEC: mov     ecx, dword_1D99C18
+0050FEF2: mov     eax, [esp+38h+var_C]

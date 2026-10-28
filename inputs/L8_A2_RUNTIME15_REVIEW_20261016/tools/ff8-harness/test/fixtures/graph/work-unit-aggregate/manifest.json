@@ -1,0 +1,28 @@
+{
+  "fixtureId": "work-unit-aggregate",
+  "schemaId": "https://re-ff8.local/schemas/work-unit-v1",
+  "schemaFile": "work-unit-v1.schema.json",
+  "schemaCanonicalSha256": "c08a5b41c8c176c5bd348979669d01f830fdca935df8e10b6e379b5285bc79f1",
+  "contentFile": "content.json",
+  "reorderedFile": "reordered.json",
+  "volatileFile": "volatile.json",
+  "contentSha256": "e474f2510b48a7fb0083fc9eb0f112938d59ebae24cdad8cced46a6c565ca86d",
+  "canonicalAlgorithm": "tools/ff8-harness/src/validation.ts canonical()+hash(); sha256 of the canonical string, not of pretty-printed bytes",
+  "hashed": "entire content.json via canonical(); arrays are pre-ordered; digest fields are included after they are computed",
+  "volatileKeys": [
+    "observedAtUtc",
+    "writer",
+    "note"
+  ],
+  "expectedSchema": "accept",
+  "expectedContract": "accept",
+  "oracle": false,
+  "quarantine": false,
+  "extraContents": [],
+  "utf8Probe": null,
+  "notes": [
+    "Volatile keys must not appear in content.",
+    "Changing volatile.json must not change contentSha256.",
+    "Level 3 IDB publication is not representable."
+  ]
+}

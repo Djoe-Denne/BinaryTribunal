@@ -1,0 +1,25 @@
+00464DB0: sub     esp, 88h; Integer Subtraction
+00464DB6: push    ebx
+00464DB7: push    esi
+00464DB8: mov     esi, [esp+90h+arg_0]
+00464DBF: push    edi
+00464DC0: mov     eax, [esi+44h]
+00464DC3: test    eax, eax; Logical Compare
+00464DC5: jnz     loc_464F65; Jump if Not Zero (ZF=0)
+00464DCB: call    FFGetBufferAddress; Call Procedure
+00464DD0: mov     ebx, eax
+00464DD2: mov     eax, dword_1CCFD88
+00464DD7: test    eax, eax; Logical Compare
+00464DD9: jz      loc_464EF8; Jump if Zero (ZF=1)
+00464DDF: mov     eax, [esp+94h+arg_4]
+00464DE6: mov     dword ptr [esi+60h], 0
+00464DED: mov     edi, eax
+00464DEF: sar     eax, 4; Shift Arithmetic Right
+00464DF2: and     eax, 1; Logical AND
+00464DF5: and     edi, 0Fh; Logical AND
+00464DF8: shl     eax, 8; Shift Logical Left
+00464DFB: mov     [esp+94h+var_88], eax
+00464DFF: mov     eax, [esi+5Ch]
+00464E02: shl     edi, 6; Shift Logical Left
+00464E05: test    eax, eax; Logical Compare
+00464E07: jnz     short loc_464E21; Jump if Not Zero (ZF=0)

@@ -1,0 +1,25 @@
+00508F90: sub     esp, 8; Integer Subtraction
+00508F93: push    ebx
+00508F94: mov     ebx, [esp+0Ch+arg_4]
+00508F98: mov     al, [ebx+6]
+00508F9B: mov     cl, [ebx+7]
+00508F9E: cmp     al, cl; Compare Two Operands
+00508FA0: jb      short loc_508FAC; Jump if Below (CF=1)
+00508FA2: mov     eax, 1
+00508FA7: pop     ebx
+00508FA8: add     esp, 8; Add
+00508FAB: retn; Return Near from Procedure
+00508FAC: push    esi
+00508FAD: push    edi
+00508FAE: push    8; nbytes
+00508FB0: call    bs_modulo; Call Procedure
+00508FB5: mov     ecx, [esp+18h+arg_0]
+00508FB9: mov     esi, eax
+00508FBB: xor     edx, edx; Logical Exclusive OR
+00508FBD: add     esp, 4; Add
+00508FC0: mov     eax, [ecx+4]
+00508FC3: mov     dl, [ebx]
+00508FC5: mov     [esp+14h+var_8], 0
+00508FCD: mov     ecx, [eax+8]
+00508FD0: mov     edi, [eax]
+00508FD2: mov     eax, [ecx+edx*4+4]

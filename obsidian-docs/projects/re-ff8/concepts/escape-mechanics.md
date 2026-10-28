@@ -7,8 +7,8 @@ sources:
   - obsidian-docs/_staging/investigations/escape_mechanics.md
   - docs/tech/systems/battle_init.md
   - docs/product/battle.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
-  - C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-atb-matrix-validation-2026-07-24.md
+  - C:/Users/djden/source/repos/retro-eng/FinalFantasy_VIII_Reimaginated/evidence/g06-p0-9-ownership-live-validation-2026-07-31.md
 summary: Escape shares ATB/RNG cadence; P0.9 types held, blocked, roll and deferred requests, refusing unknown normal-encounter probabilities.
 provenance:
   extracted: 0.82

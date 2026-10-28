@@ -1,0 +1,82 @@
+{
+  "ea": "0x518290",
+  "name_label_only": "sub_518290",
+  "native": {
+    "idb": "D:\\Modding\\ff8\\retro-exe\\FF8_EN.exe - 9.3.i64",
+    "input": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY VIII\\FF8_EN.exe",
+    "bits": 32,
+    "input_sha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+    "exported_utc": "2026-10-11T16:38:25.140966+00:00"
+  },
+  "chunks": [
+    {
+      "start": "0x518290",
+      "end": "0x5182c1",
+      "hex": "8b542404668b4a0c0fbfc183e800741948751bf6058c89d901087505e81f000000e81a8dfeff33c0c34166894a0c33c0c3"
+    }
+  ],
+  "assembly": "00518290: mov     edx, [esp+arg_0]\n00518294: mov     cx, [edx+0Ch]\n00518298: movsx   eax, cx; Move with Sign-Extend\n0051829B: sub     eax, 0; Integer Subtraction\n0051829E: jz      short loc_5182B9; Jump if Zero (ZF=1)\n005182A0: dec     eax; Decrement by 1\n005182A1: jnz     short loc_5182BE; Jump if Not Zero (ZF=0)\n005182A3: test    byte ptr dword_1D9898C, 8; Logical Compare\n005182AA: jnz     short loc_5182B1; Jump if Not Zero (ZF=0)\n005182AC: call    sub_5182D0; Call Procedure\n005182B1: call    BS_RenderRelated; Call Procedure\n005182B6: xor     eax, eax; Logical Exclusive OR\n005182B8: retn; Return Near from Procedure\n005182B9: inc     ecx; Increment by 1\n005182BA: mov     [edx+0Ch], cx\n005182BE: xor     eax, eax; Logical Exclusive OR\n005182C0: retn; Return Near from Procedure",
+  "cfg": [
+    {
+      "start": "0x518290",
+      "end": "0x5182a0",
+      "successors": [
+        "0x5182a0",
+        "0x5182b9"
+      ]
+    },
+    {
+      "start": "0x5182a0",
+      "end": "0x5182a3",
+      "successors": [
+        "0x5182a3",
+        "0x5182be"
+      ]
+    },
+    {
+      "start": "0x5182a3",
+      "end": "0x5182ac",
+      "successors": [
+        "0x5182ac",
+        "0x5182b1"
+      ]
+    },
+    {
+      "start": "0x5182ac",
+      "end": "0x5182b1",
+      "successors": [
+        "0x5182b1"
+      ]
+    },
+    {
+      "start": "0x5182b1",
+      "end": "0x5182b9",
+      "successors": []
+    },
+    {
+      "start": "0x5182b9",
+      "end": "0x5182be",
+      "successors": [
+        "0x5182be"
+      ]
+    },
+    {
+      "start": "0x5182be",
+      "end": "0x5182c1",
+      "successors": []
+    }
+  ],
+  "xrefs_to": [
+    {
+      "from": "0x5181e6",
+      "type": 1,
+      "iscode": false,
+      "function": "0x5181c0"
+    }
+  ],
+  "code_targets": [
+    "0x500fd0",
+    "0x5182d0"
+  ],
+  "instruction_count": 17
+}

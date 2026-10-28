@@ -1,0 +1,25 @@
+005104CE: mov     edx, [esp+38h+packet]
+005104D2: or      ebp, [edx+4]; Logical Inclusive OR
+005104D5: mov     edx, [esp+38h+var_28]
+005104D9: mov     edx, [edx+4]
+005104DC: or      ebp, edx; Logical Inclusive OR
+005104DE: test    ebp, 60000h; Logical Compare
+005104E4: jnz     loc_510658; Jump if Not Zero (ZF=0)
+005104EA: mov     ebp, [ebx+4]
+005104ED: and     ecx, ebp; Logical AND
+005104EF: mov     ebp, [esp+38h+packet]
+005104F3: and     ecx, [ebp+4]; Logical AND
+005104F6: and     ecx, edx; Logical AND
+005104F8: test    ecx, 3F00000h; Logical Compare
+005104FE: jnz     loc_510658; Jump if Not Zero (ZF=0)
+00510504: mov     ecx, [esp+38h+var_28]
+00510508: mov     eax, [esp+38h+packet]
+0051050C: mov     edx, [esp+38h+var_20]
+00510510: mov     ebp, [ebx]
+00510512: mov     ecx, [ecx]
+00510514: mov     eax, [eax]
+00510516: mov     edx, [edx]
+00510518: push    ecx
+00510519: push    eax
+0051051A: push    ebp
+0051051B: mov     [esp+44h+var_4], eax

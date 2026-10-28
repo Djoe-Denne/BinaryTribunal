@@ -1,0 +1,25 @@
+0047DECD: jbe     short loc_47DF42; Jump if Below or Equal (CF=1 | ZF=1)
+0047DECF: push    esi
+0047DED0: xor     ecx, ecx; Logical Exclusive OR
+0047DED2: mov     eax, offset BATTLE_SLOT_DATA.target_reaction_type
+0047DED7: xor     edx, edx; Logical Exclusive OR
+0047DED9: mov     dl, [eax+1]
+0047DEDC: cmp     edx, edi; Compare Two Operands
+0047DEDE: jnz     short loc_47DEE4; Jump if Not Zero (ZF=0)
+0047DEE0: cmp     [eax], bl; Compare Two Operands
+0047DEE2: jnz     short loc_47DEF3; Jump if Not Zero (ZF=0)
+0047DEE4: add     eax, 0D0h; Add
+0047DEE9: inc     ecx; Increment by 1
+0047DEEA: cmp     eax, offset byte_1D28187; Compare Two Operands
+0047DEEF: jl      short loc_47DED7; Jump if Less (SF!=OF)
+0047DEF1: jmp     short loc_47DF30; Jump
+0047DEF3: lea     eax, [ecx+ecx*2]; Load Effective Address
+0047DEF6: lea     esi, [ecx+eax*4]; Load Effective Address
+0047DEF9: shl     esi, 4; Shift Logical Left
+0047DEFC: mov     al, BATTLE_SLOT_DATA.target_reaction_type[esi]
+0047DF02: cmp     al, 2; Compare Two Operands
+0047DF04: jnz     short loc_47DF14; Jump if Not Zero (ZF=0)
+0047DF06: test    byte ptr BATTLE_SLOT_DATA.status_1[esi], 1; 0x01=Death, 0x02=Poison, 0x04=Petrify, 0x08=Darkness, 0x10=Silence, 0x20=Berserk, 0x40=Zombie, 0x100=HP_LT_25pct, 0x200=HP_LT_50pct
+0047DF0D: jnz     short loc_47DF24; Jump if Not Zero (ZF=0)
+0047DF0F: push    ebx
+0047DF10: push    2

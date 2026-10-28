@@ -1,0 +1,58 @@
+{
+  "schema": "lot25-v17-offline-validation-v1",
+  "candidate_sha256": "0c446a5a5accb00f90684f3379b5a2297e24d56cba33d8b1ab0192ad097c6bcc",
+  "build": "0x5644",
+  "deployment": "ROLLED_BACK_BYTE_EXACT_VISUAL_REQUEST_PAUSE",
+  "writer_gate": "BUILD_ONLY_BYTES_VERIFIED_NOT_DEPLOYED",
+  "native_checks": 648,
+  "native_fails": 0,
+  "python_tests": 275,
+  "python_exit": 0,
+  "lifecycle": "PASS_OFFLINE",
+  "runtime_stage0": "UNPROVEN",
+  "ui_fidelity": "PARTIAL/BLOCKED",
+  "satisfied": false,
+  "stub_abi": {
+    "export_rva": "0x294b",
+    "entry_is_incremental_link_jmp_thunk": true,
+    "resolved_core_rva": "0x7d40",
+    "com_call_va": "0x10007d8c",
+    "com_operand": "[eax+0x98]",
+    "return_va": "0x10007dd5",
+    "return_cleanup_bytes": 12
+  },
+  "uninit_before_unload": {
+    "wrapper_rva": "0xbe10",
+    "first_instruction": "call 0x10008770 (stage0 before unload helper)",
+    "native_alive_check_va": "0x1000be15",
+    "runtime_proven": false
+  },
+  "receipts": {
+    "build_receipt.json": "340cf29f747edf02fd8afe723fc9c6dceda873b7a587d076c2d8a0a82b345d49",
+    "candidate_pin.json": "fa49e9ca9128b271362150e3ff0c08fdb96958649215079e341ba717c4c589ab",
+    "gate_pin_run.json": "834a1b486a57e63a428f953b6531af382140204540c58e407bb59684b266c3ea",
+    "gate_strict.json": "d95a7e3fe23abc3d08cd67f182b5d4d96469a477c7cd31fe3134db3a1aaa11e1",
+    "rva_derivation.json": "8499e30d67248248fa4033506bd16a5644fb4812eb795acec4856fc73946494f",
+    "python_tests.log": "27953c5b541ed42d1799b27947f2ad0c85cfdbfb261aa9b3ce46a89ec5cba94f",
+    "candidate.disasm.txt": "0c1ec294dcf83f0f74eea63fa5be997b47b3ed5d50df78c68c3a26ee35fd9d0d",
+    "lifecycle_final_receipt.json": "834a9eaca725048881e83ecc4503a368eecb4a8b26ccc9d0306fab8b589e7579",
+    "lifecycle_final_stage0.log": "9c842b4593992bbdd5733c43f5ad350ffe5c3d545690b51b4f987259b328d986",
+    "deployment.json": "6f0ff86970a9e7922b561e6380336c9b7247d7e33a720bb1e54bff3ae506637a"
+  },
+  "oracle_hashes": {
+    "ff8dump.py": "e8d1e357805d6d7045b46f9807f1e5af0d10dd9c4ae81dc808a027efd6d3e98c",
+    "render_lot17.py": "0eb63c416637ecda3ba93c4357be149f74c002af6d931c2f3cf6ffe3eb3a94bc"
+  },
+  "limits": [
+    "offline fake backend returns raw HRESULT 0x1234, not real device application",
+    "runtime restored bytes and detach remain live-required",
+    "historical image comparison is not same-frame or a v17 result",
+    "failed-restore module pin path not fault-injected; any live trigger is RED",
+    "Disk rollback byte-exact does not prove live site restore",
+    "Operator launch confirmation and in-combat go still required"
+  ],
+  "lifecycle_checks": 32,
+  "lifecycle_fails": 0,
+  "capture_armed": false,
+  "pause_receipt_sha256": "4ecde742f996e3638fc24db903a9aba9bb4df2fce315bf3fa53c3866be52dbbe"
+}

@@ -1,0 +1,25 @@
+0050A9A0: push    ebx; Presentation/state-machine layer only. Does NOT compute damage/status/stock.
+0050A9A1: push    esi
+0050A9A2: mov     esi, [esp+8+arg_0]
+0050A9A6: push    edi
+0050A9A7: mov     cl, [esi+0Dh]
+0050A9AA: mov     edi, [esi+10h]
+0050A9AD: mov     eax, ecx
+0050A9AF: and     eax, 0FFh; Logical AND
+0050A9B4: cmp     eax, 7; switch 8 cases
+0050A9B7: ja      def_50A9C9; jumptable 0050A9C9 default case
+0050A9BD: mov     edx, battle_to_update_flags_dword_1D96A9C
+0050A9C3: mov     ebx, dword_1D99A40
+0050A9C9: jmp     ds:jpt_50A9C9[eax*4]; switch jump
+0050A9D0: mov     eax, dword_1D99A5C; jumptable 0050A9C9 case 0
+0050A9D5: mov     ecx, g_GfSequenceContextSharedB; g_GfSequenceContextSharedB: GF dispatch descriptor read by Tick_GF_Cinematic. +1 = COMMAND_TYPE_ID (0xFE for GF), +2 = u8 slot, +4 = u16 (GF boost/attacker param), +6 = u16 effect_id passed to Magic_GetIDLoad.
+0050A9DB: and     eax, 0FFFFh; Logical AND
+0050A9E0: push    eax; int
+0050A9E1: push    ecx; unsigned __int8 *
+0050A9E2: call    sub_505F00; Call Procedure
+0050A9E7: mov     byte ptr dword_1D99A84+1, al
+0050A9EC: mov     al, [esi+0Dh]
+0050A9EF: add     esp, 8; Add
+0050A9F2: inc     al; Increment by 1
+0050A9F4: mov     [esi+0Dh], al
+0050A9F7: mov     al, byte ptr dword_1D99A84+1; jumptable 0050A9C9 case 1
