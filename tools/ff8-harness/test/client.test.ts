@@ -1,8 +1,12 @@
-import { test, expect } from "bun:test";
+import { test, expect, spyOn } from "bun:test";
+import { Database } from "bun:sqlite";
 import { mkdtempSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { ExecutionClient, type RpcTransport } from "../src/client";
+import { prepareRuntimeExecutionV1 } from "../src/graph-execution-prepare";
+import { readRuntimeDocumentV1, type DispatchScopeV1 } from "../src/graph-runtime-binding";
+import { fixture, preparation, decoded, document, digest } from "./s2-author/s1-source-fixtures";
 function setup(loseReply = false) {
   const root = mkdtempSync(join(tmpdir(), "ff8-client-")); const requests: Record<string, unknown>[] = [];
   let revision = 1; let lost = false; const receipts = new Map<string, Record<string, unknown>>();
@@ -104,3 +108,120 @@ test("invalid acceptance receipt is not cached and retry keeps the original iden
   try { await client.ensure("m"); await expect(client.submit("m", body)).rejects.toThrow(/receipt/); invalid = false; expect((await client.submit("m", body)).executionId).toBe(body.executionId); expect(s.receipts.size).toBe(1); }
   finally { client.close(); s.client.close(); s.cleanup(); }
 });
+
+test("prospective DATA join/body survive reopen; exact retry has no transport and divergent retry refuses", async () => {
+  const s = setup(); let calls = 0;
+  s.options.transport = { async call() { calls++; throw new Error("unexpected transport"); } };
+  s.options.token = () => { calls++; throw new Error("unexpected token"); };
+  const client = new ExecutionClient(s.options);
+  let next: ExecutionClient | undefined;
+  try {
+    const f = fixture(), prepared = prepareRuntimeExecutionV1({ body: preparation(f), independentSources: f.independent, policy: f.policy });
+    if (!prepared.ok) throw new Error(prepared.reasons.join(";"));
+    const runtime = prepared.value, run = readRuntimeDocumentV1(runtime.run) as any, envelope = decoded<any>(run.envelope);
+    const planning = decoded<any>(envelope.planning), unit = planning.units[0], sub = unit.subIntents.find((x: any) => x.role === "A");
+    const input = { schemaVersion: 1, role: "A", cycle: 1, identity: sub.harnessIdentity, files: [], accessibleRules: [], requiredTools: [], knowledge: decoded<any>(envelope.admissionSource.knowledgeSource).frozen };
+    const command = { executionId: "prospective-exec", attemptId: "prospective-attempt", taskId: "prospective-task", idempotencyKey: "prospective-key", profile: decoded<any>(envelope.admissionSource.executionTemplate).settings.profiles.A,
+      model: decoded<any>(envelope.admissionSource.executionSourceSpec).models.A, prompt: "synthetic DATA only", dossier: { inputs: input }, metadata: { inputFingerprint: digest(input), rmsBinding: { version: "rms-agent-binding-data-v1", runtimeBindingRef: runtime.binding.ref, unitId: unit.unitId, subIntentId: sub.subIntentId, functionId: sub.functionId, role: "A", familyFence: 1, controllerFence: 1 } } };
+    const admission = { executionId: command.executionId, attemptId: command.attemptId, idempotencyKey: command.idempotencyKey, subIntentId: sub.subIntentId, role: "A", command };
+    const scope: DispatchScopeV1 = { missionId: run.missionId, cycle: 1, unitId: unit.unitId, functionId: sub.functionId, subIntentId: sub.subIntentId, role: "A", familyFence: 1, controllerFence: 1, expectedRevision: 0,
+      planRef: envelope.planning.ref, snapshotRef: envelope.fullGraphSnapshot.ref, inputBundle: document("rms-inputs-data-v1", input), outboxRef: document("rms-admission-data-v1", admission).ref };
+    const first = client.prepareRuntimeDispatch(runtime, scope, admission), joinData = decoded(first);
+    expect(joinData.payloadDigest).toBe(digest(command)); expect(joinData.upstreamBodyDigest).toBe(digest(admission));
+    expect(joinData.clientBodyDigest).toBe(digest({ ...command, missionId: scope.missionId, directory: s.options.directory, controllerId: "ctl", expectedRevision: 0 }));
+    expect(new Set([joinData.payloadDigest, joinData.upstreamBodyDigest, joinData.clientBodyDigest]).size).toBe(3);
+    expect(joinData.rpcBodySha256).toBeNull();
+    client.close(); next = new ExecutionClient(s.options);
+    expect(next.prepareRuntimeDispatch(runtime, scope, admission)).toEqual(first);
+    expect(() => next!.prepareRuntimeDispatch(runtime, { ...scope, expectedRevision: 1 }, admission)).toThrow("conflict");
+    await expect(next.submitRuntime(scope.missionId, command.idempotencyKey)).rejects.toThrow("native-unavailable");
+    await expect(next.observeRuntime(scope.missionId, command.idempotencyKey)).rejects.toThrow("native-unavailable");
+    await expect(next.submit(scope.missionId, command)).rejects.toThrow("legacy submit forbidden");
+    expect(calls).toBe(0);
+  } finally { next?.close(); client.close(); s.client.close(); s.cleanup(); }
+}, 15000);
+
+test("prospective reservation wins while legacy submit awaits snapshot: no legacy emission and retained images unchanged", async () => {
+  const s = setup(), real = s.options.transport;
+  let entered!: () => void, release!: () => void;
+  const snapshotEntered = new Promise<void>(done => { entered = done; });
+  const snapshotRelease = new Promise<void>(done => { release = done; });
+  let holdSnapshot = false, submitEmissions = 0;
+  s.options.transport = { async call(method, input) {
+    if (method === "snapshot" && holdSnapshot) { entered(); await snapshotRelease; }
+    // Independent effect oracle counts entry, even if the mock later rejects CAS.
+    if (method === "submit") submitEmissions++;
+    return real.call(method, input);
+  } };
+  const client = new ExecutionClient(s.options);
+  let pending: Promise<{ error: unknown }> | undefined;
+  try {
+    const f = fixture(), prepared = prepareRuntimeExecutionV1({ body: preparation(f), independentSources: f.independent, policy: f.policy });
+    if (!prepared.ok) throw new Error(prepared.reasons.join(";"));
+    const runtime = prepared.value, run = readRuntimeDocumentV1(runtime.run) as any, envelope = decoded<any>(run.envelope);
+    const planning = decoded<any>(envelope.planning), unit = planning.units[0], sub = unit.subIntents.find((x: any) => x.role === "A");
+    const input = { schemaVersion: 1, role: "A", cycle: 1, identity: sub.harnessIdentity, files: [], accessibleRules: [], requiredTools: [], knowledge: decoded<any>(envelope.admissionSource.knowledgeSource).frozen };
+    const command = { executionId: "prospective-race-exec", attemptId: "prospective-race-attempt", taskId: "prospective-race-task", idempotencyKey: "prospective-race-key", profile: decoded<any>(envelope.admissionSource.executionTemplate).settings.profiles.A,
+      model: decoded<any>(envelope.admissionSource.executionSourceSpec).models.A, prompt: "synthetic DATA race only", dossier: { inputs: input }, metadata: { inputFingerprint: digest(input), rmsBinding: { version: "rms-agent-binding-data-v1", runtimeBindingRef: runtime.binding.ref, unitId: unit.unitId, subIntentId: sub.subIntentId, functionId: sub.functionId, role: "A", familyFence: 1, controllerFence: 1 } } };
+    const admission = { executionId: command.executionId, attemptId: command.attemptId, idempotencyKey: command.idempotencyKey, subIntentId: sub.subIntentId, role: "A", command };
+    const scope: DispatchScopeV1 = { missionId: run.missionId, cycle: 1, unitId: unit.unitId, functionId: sub.functionId, subIntentId: sub.subIntentId, role: "A", familyFence: 1, controllerFence: 1, expectedRevision: 0,
+      planRef: envelope.planning.ref, snapshotRef: envelope.fullGraphSnapshot.ref, inputBundle: document("rms-inputs-data-v1", input), outboxRef: document("rms-admission-data-v1", admission).ref };
+    await client.ensure(scope.missionId); holdSnapshot = true;
+    pending = client.submit(scope.missionId, command).then(() => ({ error: undefined }), error => ({ error }));
+    await snapshotEntered;
+    const retained = client.prepareRuntimeDispatch(runtime, scope, admission);
+    release(); const outcome = await pending;
+    expect(submitEmissions).toBe(0);
+    expect(outcome.error).toBeInstanceOf(Error);
+    expect((outcome.error as Error).message).toContain("legacy submit forbidden");
+    expect(client.prepareRuntimeDispatch(runtime, scope, admission)).toEqual(retained);
+    expect(decoded(retained).clientBodyDigest).toBe(digest({ ...command, missionId: scope.missionId, directory: s.options.directory, controllerId: "ctl", expectedRevision: 0 }));
+    expect(decoded(retained).upstreamBodyDigest).toBe(digest(admission));
+  } finally { release(); await pending; client.close(); s.client.close(); s.cleanup(); }
+}, 15000);
+
+test("prospective retention wins between legacy classification lookup and request read: raw body unchanged", async () => {
+  const s = setup(), real = s.options.transport;
+  let submitEmissions = 0;
+  s.options.transport = { async call(method, input) { if (method === "submit") submitEmissions++; return real.call(method, input); } };
+  const a = new ExecutionClient(s.options), b = new ExecutionClient(s.options);
+  const observer = new Database(s.options.statePath, { readonly: true });
+  let restore: (() => void) | undefined;
+  try {
+    const f = fixture(), prepared = prepareRuntimeExecutionV1({ body: preparation(f), independentSources: f.independent, policy: f.policy });
+    if (!prepared.ok) throw new Error(prepared.reasons.join(";"));
+    const runtime = prepared.value, run = readRuntimeDocumentV1(runtime.run) as any, envelope = decoded<any>(run.envelope);
+    const unit = decoded<any>(envelope.planning).units[0], sub = unit.subIntents.find((x: any) => x.role === "A");
+    const input = { schemaVersion: 1, role: "A", cycle: 1, identity: sub.harnessIdentity, files: [], accessibleRules: [], requiredTools: [], knowledge: decoded<any>(envelope.admissionSource.knowledgeSource).frozen };
+    const command = { executionId: "retention-exec", attemptId: "retention-attempt", taskId: "retention-task", idempotencyKey: "retention-key", profile: decoded<any>(envelope.admissionSource.executionTemplate).settings.profiles.A,
+      model: decoded<any>(envelope.admissionSource.executionSourceSpec).models.A, prompt: "synthetic retention DATA only", dossier: { inputs: input }, metadata: { inputFingerprint: digest(input), rmsBinding: { version: "rms-agent-binding-data-v1", runtimeBindingRef: runtime.binding.ref, unitId: unit.unitId, subIntentId: sub.subIntentId, functionId: sub.functionId, role: "A", familyFence: 1, controllerFence: 1 } } };
+    const admission = { executionId: command.executionId, attemptId: command.attemptId, idempotencyKey: command.idempotencyKey, subIntentId: sub.subIntentId, role: "A", command };
+    const scope: DispatchScopeV1 = { missionId: run.missionId, cycle: 1, unitId: unit.unitId, functionId: sub.functionId, subIntentId: sub.subIntentId, role: "A", familyFence: 1, controllerFence: 1, expectedRevision: 0,
+      planRef: envelope.planning.ref, snapshotRef: envelope.fullGraphSnapshot.ref, inputBundle: document("rms-inputs-data-v1", input), outboxRef: document("rms-admission-data-v1", admission).ref };
+    await a.ensure(scope.missionId);
+    const rawBody = () => (observer.query("SELECT body FROM ff8_bridge_requests WHERE mission=? AND key=?").get(scope.missionId, command.idempotencyKey) as { body: string }).body;
+    let armed = true, interpositions = 0, retained: ReturnType<ExecutionClient["prepareRuntimeDispatch"]> | undefined, before: string | undefined;
+    const originalQuery = Database.prototype.query;
+    const interception = spyOn(Database.prototype, "query").mockImplementation(function(this: Database, sql: string) {
+      const statement = originalQuery.call(this, sql);
+      if (sql !== "SELECT key FROM ff8_bridge_dispatch_joins WHERE mission=? AND key=?") return statement;
+      return new Proxy(statement, { get(target, property) {
+        if (property === "get") return (...params: any[]) => {
+          const row = target.get(...params);
+          // Simulate B's legal interposition AFTER A's empty lookup completes.
+          if (armed && row == null) { armed = false; interpositions++; retained = b.prepareRuntimeDispatch(runtime, scope, admission); before = rawBody(); }
+          return row;
+        };
+        const value = Reflect.get(target, property, target); return typeof value === "function" ? value.bind(target) : value;
+      } });
+    } as typeof Database.prototype.query);
+    restore = () => interception.mockRestore();
+    const outcome = await a.submit(scope.missionId, command).then(() => ({ error: undefined }), error => ({ error }));
+    restore(); restore = undefined;
+    expect(interpositions).toBe(1); expect(submitEmissions).toBe(0);
+    expect(rawBody()).toBe(before!);
+    expect(b.prepareRuntimeDispatch(runtime, scope, admission)).toEqual(retained!);
+    expect(outcome.error).toBeInstanceOf(Error);
+    expect((outcome.error as Error).message).toContain("legacy submit forbidden");
+  } finally { restore?.(); observer.close(); a.close(); b.close(); s.client.close(); s.cleanup(); }
+}, 15000);

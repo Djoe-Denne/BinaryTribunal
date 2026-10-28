@@ -1,0 +1,47 @@
+{
+  "version": "rms-runtime-derivation-v1",
+  "baseSeedManifest": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/writer-base-seed.json",
+  "baseSeedManifestSha256": "3a63072831d888d8fe788c3262d1ff3926310999c0f5e5e59096bb4138dcb96f",
+  "baseRows": 356,
+  "unchangedRowsAtFirstDelta": 343,
+  "sourceIdentityReset": false,
+  "authorityTransferred": false,
+  "newOriginsAcquired": 0,
+  "scope": "Prospective DATA preparation and local client journal only; native activation and observation unavailable",
+  "derivedInputs": [
+    {"path":"test/fixtures/rms-static-inputs/s2-resource-complement-r2/resource-fixtures.ts","before":"bc9524497d17d94c5c083a9aadc25a8f8e50de398b63014039cb1579ae8b805f","after":"16f8a1d91198bb91b3891faa268c4992539f3cb871163713d5a4f578a6716cb1"},
+    {"path":"test/fixtures/rms-static-inputs/s2-t1-fixture-r2/transition-fixtures.ts","before":"51cb3329b46a6072668ab5627cd43dce505e6076b25e0112dc1cc29348aae315","after":"a6674bd1fce06f3e130a812f688e80c3f502cb4f30a74acb217c2630284f442a"},
+    {"path":"test/fixtures/rms-static-inputs/s2-t2-fixture-r2/activation-fixtures.ts","before":"481d7fb680ee5654c12bbe2efdde5760c32869e51d3b1fd4039d93c70b98cbf1","after":"e438eea7b2286d6bc45a8313fbf57bc88531807f21abdce1bb87a7417336b0b6"}
+  ],
+  "importWrappers": ["test/s2-author/resource-fixtures.ts","test/s2-author/t1-fixtures.ts","test/s2-author/final-host-fixture.ts","test/s2-author/cross-epoch-fixtures.ts"],
+  "importRevision": "Only four wrappers and fourteen displaced imports changed. Sibling export and literal expectations preserved. Original hashes above remain provenance, not identity of the derived files.",
+  "configurationRevision": "tsconfig.json adds resolveJsonModule; integration uses owned local node_modules paths. No include/strict/noEmit removed.",
+  "productRevision": ["src/client.ts","src/engine.ts","src/graph-execution-prepare.ts","src/graph-runtime-binding.ts"],
+  "testRevision": ["test/client.test.ts","test/runtime-binding.test.ts"],
+  "raceCorrectionR4": {
+    "reason": "Independent review blocker: prospective reservation can win while historical submit awaits snapshot or renewal.",
+    "parentRedPinR3Sha256": "be5d5e6aed7c7b4ebdff0352f3d0342df6dd3f7f725116e80d05bbeb2e066b21",
+    "parentRedResult": "0 PASS / 1 FAIL; effect oracle expected zero submit emissions, received one; not timeout or CAS rejection",
+    "source": {"path":"src/client.ts","before":"9b8fb02231e67d419348f91300bb1cedd9fbe73a2a9137846c23eabdcb3742ec","after":"a8b3dee4a539823d0c4acb8a23caf1deaac6efef592d2b15620cca102f820b56"},
+    "test": {"path":"test/client.test.ts","before":"7a50e3960459a3e83306d5bf1f895f8cc6f9a51c8dd56acdac6726a64caab1e7","after":"54128d6ea9a05ff6e56e8c5102d9acee153149ee4f6ad484b09ee92037d27e4c"},
+    "arbitration": "Historical key classification, request reservation and readback share one IMMEDIATE transaction after awaits. Prospective preparation uses the existing transaction and refuses any historical request. Final attempt journal transaction rechecks classification. No lock spans await; no schema change.",
+    "verification": "Writer ran no product checks. Previous client checks do not qualify these changed bytes; parent GREEN, affected checks and independent blocker review required. RED test unchanged in PHASE2."
+  },
+  "retentionCorrectionR6": {
+    "reason": "Same review blocker residue: a prospective request read after an empty legacy classification lookup could be rebased before the final emission guard.",
+    "parentRedPinR5Sha256": "d2ebf076b9902c73998cedc8720ddf3d8ebb67a5cf3e3feebd201f38efc31ccf",
+    "parentRedResult": "0 PASS / 1 FAIL, 3 assertions; interpositions=1 and emissions=0 pass, raw durable body equality fails; retry assertions not reached",
+    "source": {"path":"src/client.ts","before":"a8b3dee4a539823d0c4acb8a23caf1deaac6efef592d2b15620cca102f820b56","after":"f67850d8e8c16f6d329aa6520a1400e7a7b3668f1b19d9833fc314a752f8b20a"},
+    "test": {"path":"test/client.test.ts","before":"54128d6ea9a05ff6e56e8c5102d9acee153149ee4f6ad484b09ee92037d27e4c","after":"77143b27827827fba2719feb049ce9ebaf52b94dc86cd83b9efb5e3b950983f9"},
+    "arbitration": "Every pending-body rebase now checks legacy classification and performs UPDATE under one IMMEDIATE transaction. Snapshot remains outside the lock; no schema/store added.",
+    "verification": "Both deterministic RED negatives unchanged during source correction. Writer ran no product tests. Parent GREEN/typecheck/client/protocol and same-reviewer residue/impact review required on these pins; earlier client checks do not qualify changed bytes."
+  },
+  "categorizedDerivatives": [
+    {"path":"test/s2-author/cross-epoch-fixtures.ts","category":"protected113","before":"213bc6fe135128460f5b83df2a9c88ec5b4ce299ea9bf93ed50d98dd4adee69f","after":"e5ae1e733432781255f57a19494f3992f95a9de318ee31a634a0624a7549301a","change":"authorized local import mapping only"},
+    {"path":"test/s2-author/final-host-fixture.ts","category":"source176","before":"c8aee4c9f62a48e0ac855f1bea87a7c3b112c9572556d98592427ec1f4667fec","after":"58cb37b929390fac8ae01f0105a514079cd6e521a7666414fa0e36f12a1c80bb","change":"authorized local import mapping only"}
+  ],
+  "protectedBase": "Frozen ORIGINALS remain intact. The two categorized worktree derivatives above changed imports after seed; their original pins preserve provenance, not byte identity. Historical evidence scope does not automatically extend to these derivatives. Frozen codec and generation-store were not modified after seed.",
+  "verificationOwner": "parent; writer runs no product test/CLI",
+  "nativeLimit": "No qualified handler/version/worker permissions or transport witness; rpcBodySha256 stays null. No native admission, terminal proof or D5 end-to-end acceptance.",
+  "fullSuite": "NOT RUN / PROHIBITED: HOLD125, frozen diagnostics and excluded scientific campaigns remain stopped"
+}

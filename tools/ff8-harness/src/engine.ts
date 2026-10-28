@@ -7,10 +7,13 @@ import { GraphStore, type ParentAuthorityProvider } from "./graph-store";
 import { GraphEngine, appendGraphPreparation, assertGraphSnapshot, assertLegacySnapshot, graphAnchor, graphCycleProjection, graphEvents, inspectGraphState, preparedGraphRun, type FixturePublicationPort, type FixtureReviewPort } from "./graph-engine";
 import { graphInputs, makeGraphRunV2, type FixtureExecutionPort } from "./graph-adapter";
 import { assertCurrentAdmissionSource, graphCheck, graphCopy, graphFreeze, graphJson, graphObject, prepareGraph } from "./graph-pipeline";
+import { prepareRuntimeExecutionV1, type ExecutionPreparationRequestV1 } from "./graph-execution-prepare";
 export interface EngineOptions { store: Store; bridge: Bridge; publication: PublicationAdapter; inputAccess: InputAccess; controllerId: string; now?: () => number; leaseMs?: number; knowledgeArtifactSink?: KnowledgeArtifactSink; scheduleLeaseHeartbeat?: (callback: () => void, intervalMs: number) => () => void }
 export interface GraphPorts { executions: FixtureExecutionPort; review: FixtureReviewPort; publication: FixturePublicationPort; parentAuthority?: ParentAuthorityProvider }
 /** A durable scientific state machine, deliberately not a capacity/worker scheduler. */
 export class Engine {
+  /** DATA entry: does not touch historical snapshots, leases, or graph runtime. */
+  prepareRuntime(request: ExecutionPreparationRequestV1) { return prepareRuntimeExecutionV1(request); }
   private leases = new Map<string, ControllerLease>();
   private now: () => number;
   private leaseMs: number;

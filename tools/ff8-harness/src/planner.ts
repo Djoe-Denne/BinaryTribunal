@@ -1,5 +1,7 @@
-import { isPlannerCall, canonicalRelationView } from "./planner-relation-codecs";
+import { canonicalRelationView } from "./planner-relation-codecs";
 export { canonicalRelationKey } from "./planner-relation-codecs";
+import { unitContentFingerprint, validRequirement, validDispensation, receiptSatisfies, invalidatesReceipt, isEligiblePlannerFunction, plannerGroupOwnership, indexPlannerOwnership, indexPlannerOutgoing, derivePlannerPartitionContext, derivePlannerUnitDependencies, derivePlannerUnitConflicts, derivePlannerG1, derivePlannerUnitEstimate, derivePlannerUnitResources, derivePlannerUnitSubIntents, derivePlannerG3 } from "./planner-derived-codecs";
+export { receiptSatisfies } from "./planner-derived-codecs";
 import { assertAdmissionBudgetBinding, assert, nonempty, integer, digestDocument, admissionMode, validateAdmissionAllocation, assertAdmissionScope, admissionUnitBudget, canonicalOwnershipKey, unitIdentity, planningIdentity, ADMISSION_ACCOUNTING_VERSION } from "./graph-pure-codecs";
 export { assertAdmissionBudgetBinding, canonicalOwnershipKey } from "./graph-pure-codecs";
 import { canonical, compareText, fingerprint, normalizeEA, validateSHA } from "./validation";
@@ -180,7 +182,6 @@ export interface PlannerResult {
   binding: { schemaVersion: 1; planFingerprint: string; sidecarFingerprint: string; fingerprint: string };
 }
 
-function unitContentFingerprint(unit: WorkUnit): string { const { state: _state, ...content } = unit; return fingerprint(content); }
 function freeze<T>(value: T): T {
   const pending: unknown[] = [value];
   while (pending.length) { const x = pending.pop(); if (x && typeof x === "object" && !Object.isFrozen(x)) { for (const child of Object.values(x)) pending.push(child); Object.freeze(x); } }
@@ -188,47 +189,9 @@ function freeze<T>(value: T): T {
 }
 
 
-function validRequirement(r: ArtifactRequirement | undefined): r is ArtifactRequirement {
-  if (!r) return false;
-  try { validateSHA(r.artifactSha256); validateSHA(r.moduleSha256); canonicalOwnershipKey(r.functionId); } catch { return false; }
-  return nonempty(r.artifactId) && r.functionId.startsWith(`${r.moduleSha256}:`) && integer(r.minimumRevision)
-    && integer(r.maximumRevision) && r.maximumRevision >= r.minimumRevision && [1, 2].includes(r.publicationLevel)
-    && ["structural_fact", "reconciled_c", "semantic_description", "validated_knowledge"].includes(r.artifactKind)
-    && ["fixture-only", "parent-validated"].includes(r.validation) && (r.publicationLevel !== 2 || r.validation === "parent-validated");
-}
-function validDispensation(d: Dispensation | undefined, policy: PlannerPolicy, revision: number): d is Dispensation {
-  if (!d) return false;
-  try { validateSHA(d.sourceHash); } catch { return false; }
-  return nonempty(d.reason) && nonempty(d.source) && d.policyVersion === policy.version && d.knowledgeRevision === revision
-    && (d.validation === "parent-validated" || (policy.publicationLevel === 1 && d.validation === "fixture-only"));
-}
-export function receiptSatisfies(requirement: ArtifactRequirement, receipt: ArtifactReceipt, producerUnitId: string | null): boolean {
-  if (!validRequirement(requirement)) return false;
-  try { validateSHA(receipt.commitId); validateSHA(receipt.artifactSha256); } catch { return false; }
-  return receipt.producerUnitId === producerUnitId && receipt.readbackStatus === "verified" && receipt.futurePrerequisiteEffect === "satisfies"
-    && receipt.artifactId === requirement.artifactId && receipt.artifactSha256 === requirement.artifactSha256
-    && receipt.functionId === requirement.functionId && receipt.moduleSha256 === requirement.moduleSha256
-    && receipt.artifactKind === requirement.artifactKind && receipt.publicationLevel >= requirement.publicationLevel
-    && [1, 2].includes(receipt.publicationLevel) && integer(receipt.knowledgeRevision)
-    && receipt.knowledgeRevision >= requirement.minimumRevision && receipt.knowledgeRevision <= requirement.maximumRevision
-    && (receipt.validation === "parent-validated" || (requirement.validation === "fixture-only" && receipt.validation === "fixture-only"));
-}
-function invalidatesReceipt(requirement: ArtifactRequirement, receipt: ArtifactReceipt, invalidation: ArtifactReceipt): boolean {
-  try { validateSHA(invalidation.commitId); } catch { return false; }
-  return invalidation.futurePrerequisiteEffect === "invalidates_future" && invalidation.readbackStatus === "verified"
-    && invalidation.functionId === requirement.functionId && invalidation.moduleSha256 === requirement.moduleSha256
-    && invalidation.artifactId === requirement.artifactId && invalidation.artifactKind === requirement.artifactKind
-    && invalidation.publicationLevel >= requirement.publicationLevel && integer(invalidation.knowledgeRevision)
-    && invalidation.knowledgeRevision >= receipt.knowledgeRevision
-    && (invalidation.validation === "parent-validated" || requirement.validation === "fixture-only");
-}
 
 /** Costs are supplied/versioned offline. Missing metrics remain unknown, never zero. */
-export function pipelineCost(estimate: Pick<PipelineEstimate, "A" | "B" | "R" | "validation">): number {
-  for (const cost of [estimate.A, estimate.B, estimate.R, estimate.validation]) assert(integer(cost), "invalid pipeline estimate");
-  const cost = Math.max(estimate.A, estimate.B) + estimate.R + estimate.validation;
-  assert(integer(cost), "pipeline estimate overflow"); return cost;
-}
+export { pipelineCost } from "./planner-derived-codecs";
 
 export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGroupInput[], inputPolicy: PlannerPolicy,
   expectedAdmissionBudgetContext?: AdmissionBudgetContextV1): PlannerResult {
@@ -264,30 +227,19 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     assert(n.id === `${n.moduleSha256}:${normalizeEA(n.rva)}`, "node hash/RVA mismatch");
     assert(BigInt(n.ea) === BigInt(n.imageBase) + BigInt(n.rva), "invalid EA projection");
   }
-  const eligible = (id: string): boolean => {
-    const n = nodes.get(id); return !!n && n.status === "observed" && !["import", "external", "incomplete"].includes(n.functionClass);
-  };
+  const eligible = (id: string): boolean => isEligiblePlannerFunction(nodes, id);
   if (allocation) for (const id of Object.keys(allocation.capsByFunction)) assert(eligible(id), "admission cap for unknown/inadmissible function");
   for (const e of graph.edges) assert(nodes.has(e.sourceId) && nodes.has(e.destinationId), "edge missing function endpoint");
   const relations = canonicalRelationView(graph, policy), { liveEdges } = relations;
-  const isCall = isPlannerCall;
   const edgeKind = (e: PlannerEdge): Prerequisite["kind"] => relations.kinds.get(e.id)!;
-  const outgoing = new Map<string, PlannerEdge[]>();
-  for (const e of liveEdges) { const list = outgoing.get(e.sourceId) ?? []; list.push(e); outgoing.set(e.sourceId, list); }
+  const outgoing = indexPlannerOutgoing(liveEdges);
   const diagnostics: Diagnostic[] = [];
   if (!graph.coverage.tailsIterated) diagnostics.push({ code: "partial-tail-coverage", unitId: null, functionIds: [], detail: "Tail coverage unknown; not a native-completeness proof" });
   const selectedFunctions = new Set<string>();
   const queue: string[] = [];
-  const groupOwned = new Set<string>();
-  for (const g of groups) {
-    assert(g.partitionId === policy.partitionId, "group from different partition");
-    for (const id of g.ownedFunctionIds) {
-      assert(nodes.has(id) && !groupOwned.has(id), "unknown/duplicate group ownership"); groupOwned.add(id);
-      if (eligible(id)) { selectedFunctions.add(id); queue.push(id); }
-      else diagnostics.push({ code: "inadmissible-owned-function", unitId: null, functionIds: [id], detail: "Quarantined/incomplete/external function cannot be investigated" });
-    }
-    for (const id of g.contextFunctionIds) assert(nodes.has(id) && !g.ownedFunctionIds.includes(id), "invalid shared context");
-  }
+  const groupOwnership = plannerGroupOwnership(groups, nodes, policy.partitionId);
+  for (const id of groupOwnership.eligibleOwnedFunctionIds) { selectedFunctions.add(id); queue.push(id); }
+  for (const diagnostic of groupOwnership.diagnostics) diagnostics.push(diagnostic);
   // Mandatory callee closure precedes grouping/budget selection. No silently omitted callee.
   for (let i = 0; i < queue.length; i++) for (const e of outgoing.get(queue[i]!) ?? []) {
     if (edgeKind(e) === "obligatory" && eligible(e.destinationId) && !validDispensation(relations.dispensations.get(e.id), policy, graph.knowledgeRevision)
@@ -312,8 +264,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   for (const s of condensation.sccs) if (!assigned.has(s.id)) proposed.push(s.functionIds);
   let families = proposed;
   const quotient = (members: string[][]): { owner: Map<string, string>; edges: DirectedEdge[]; order: string[] } => {
-    const owner = new Map<string, string>();
-    for (const fs of members) for (const id of fs) owner.set(id, unitIdentity(fs, policy.investigationKind));
+    const owner = indexPlannerOwnership(members, policy.investigationKind);
     const ids = members.map(fs => unitIdentity(fs, policy.investigationKind));
     const edges = structuralCalls.map(e => ({ from: owner.get(e.destinationId)!, to: owner.get(e.sourceId)! })).filter(e => e.from !== e.to);
     return { owner, edges, order: topologicalOrder(ids, edges) };
@@ -339,20 +290,11 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
       detail: "Confirmed native SCC crosses the selected ownership scope; explicit whole-SCC replan required",
     });
   }
-  const contextsByUnit = new Map<string, Set<string>>(), callsByUnit = new Map<string, PlannerEdge[]>();
-  const unresolvedByUnit = new Map<string, PlannerGraphInput["unresolved"]>();
-  for (const g of groups) for (const uid of new Set(g.ownedFunctionIds.map(id => q.owner.get(id)).filter((id): id is string => !!id))) {
-    const set = contextsByUnit.get(uid) ?? new Set<string>();
-    for (const id of g.contextFunctionIds) set.add(id);
-    contextsByUnit.set(uid, set);
-  }
+  const { contextFunctionIdsByUnit, unresolvedByUnit } = derivePlannerPartitionContext(groups, q.owner, graph.unresolved);
+  const callsByUnit = new Map<string, PlannerEdge[]>();
   for (const e of mandatoryCalls) {
     const uid = q.owner.get(e.sourceId)!;
     if (uid === q.owner.get(e.destinationId)) { const list = callsByUnit.get(uid) ?? []; list.push(e); callsByUnit.set(uid, list); }
-  }
-  for (const ref of graph.unresolved) {
-    const uid = q.owner.get(ref.fromFunctionId); if (!uid) continue;
-    const list = unresolvedByUnit.get(uid) ?? []; list.push(ref); unresolvedByUnit.set(uid, list);
   }
   const requirementById: PlannerSidecar["requirementById"] = {}, dispensationById: PlannerSidecar["dispensationById"] = {}, externalReceiptById: PlannerSidecar["externalReceiptById"] = {};
   const localOrders: PlannerSidecar["localOrders"] = {}, estimatesByUnit: PlannerSidecar["estimatesByUnit"] = {}, resourcesByUnit: PlannerSidecar["resourcesByUnit"] = {};
@@ -363,8 +305,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
   for (const a of graph.binaryArtifacts) { validateSHA(a.contentSha256); assert(nonempty(a.versionLabel), "missing binary version label"); }
   const units: WorkUnit[] = families.map(ownedFunctionIds => {
     const unitId = q.owner.get(ownedFunctionIds[0]!)!;
-    const context = contextsByUnit.get(unitId) ?? new Set<string>();
-    for (const id of ownedFunctionIds) context.delete(id);
+    const context = contextFunctionIdsByUnit.get(unitId) ?? [];
     const sccIds = [...new Set(ownedFunctionIds.map(id => condensation.componentByNode.get(id)!))];
     const recursive = sccIds.some(id => componentById.get(id)!.exclusive);
     const localEdges = (callsByUnit.get(unitId) ?? [])
@@ -372,89 +313,22 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     const order = topologicalOrder(sccIds, localEdges);
     const localFunctions = order.flatMap(id => componentById.get(id)!.functionIds);
     localOrders[unitId] = { sccIds: order, functionIds: localFunctions, recursive, maxIterations: recursive ? policy.sccMaxIterations : 1, publication: "whole-unit-only" };
-    let known = true, cost = 0;
-    const modelCosts: Record<string, number> = {};
-    const modelSets: Set<string>[] = [];
-    for (const id of ownedFunctionIds) {
-      const estimate = policy.estimatesByFunction[id];
-      if (!estimate || estimate.version !== policy.estimationVersion) { known = false; continue; }
-      cost += pipelineCost(estimate);
-      modelSets.push(new Set(Object.keys(estimate.byModel ?? {})));
-      for (const [model, e] of Object.entries(estimate.byModel ?? {})) modelCosts[model] = (modelCosts[model] ?? 0) + pipelineCost(e);
-    }
-    for (const model of Object.keys(modelCosts)) if (modelSets.length !== ownedFunctionIds.length || modelSets.some(set => !set.has(model))) delete modelCosts[model];
-    if (recursive) { cost *= policy.sccMaxIterations; for (const model of Object.keys(modelCosts)) modelCosts[model]! *= policy.sccMaxIterations; }
-    assert(integer(cost), "unit estimate overflow");
-    estimatesByUnit[unitId] = { version: policy.estimationVersion, cost: known ? { known: true, value: cost } : { known: false, value: null }, modelCosts };
-    const rs = ownedFunctionIds.map(id => policy.resourcesByFunction[id]);
-    if (rs.every(r => !!r)) {
-      for (const r of rs) assert([r!.slots, r!.cpu, r!.gpu, r!.budget].every(n => integer(n)) && r!.slots > 0, "invalid resource estimate");
-      const intersect = (key: "profiles" | "models" | "accounts"): string[] => rs[0]![key].filter(x => rs.every(r => r![key].includes(x))).sort(compareText);
-      const max = (key: "slots" | "cpu" | "gpu" | "budget"): number => rs.reduce((largest, r) => Math.max(largest, r![key]), 0);
-      resourcesByUnit[unitId] = { profiles: intersect("profiles"), models: intersect("models"), accounts: intersect("accounts"),
-        tools: [...new Set(rs.flatMap(r => r!.tools))].sort(compareText), slots: max("slots"), cpu: max("cpu"), gpu: max("gpu"), budget: rs.reduce((sum, r) => sum + r!.budget, 0) };
-    }
+    const { estimate, known, cost } = derivePlannerUnitEstimate(ownedFunctionIds, policy, recursive);
+    estimatesByUnit[unitId] = estimate;
+    const resources = derivePlannerUnitResources(ownedFunctionIds, policy);
+    if (resources) resourcesByUnit[unitId] = resources;
     if (recursive && (ownedFunctionIds.length > policy.sccMaxFunctions || !known || cost > policy.sccCostBudget)) diagnostics.push({ code: "scc-budget-bound", unitId, functionIds: ownedFunctionIds, detail: `SCC exclusive: size=${ownedFunctionIds.length}, iterations=${policy.sccMaxIterations}, cost=${known ? cost : "unknown"}; budget requires explicit replan` });
-    const prefixByFunction = new Map(localFunctions.map(functionId => [functionId, `sub:${fingerprint({ unitId, functionId })}`]));
-    const localPrerequisites = new Map(localFunctions.map(functionId => [functionId, new Set<string>()]));
-    if (recursive) {
-      for (let i = 1; i < localFunctions.length; i++) localPrerequisites.get(localFunctions[i]!)!.add(`${prefixByFunction.get(localFunctions[i - 1]!)}:R`);
-    } else for (const e of callsByUnit.get(unitId) ?? []) localPrerequisites.get(e.sourceId)!.add(`${prefixByFunction.get(e.destinationId)}:R`);
-    const subIntents: SubIntent[] = localFunctions.flatMap(functionId => {
-      const n = nodes.get(functionId)!, artifact = artifacts.get(n.moduleSha256);
-      assert(artifact && BigInt(artifact.imageBase) === BigInt(n.imageBase), "missing/mismatched binary artifact projection");
-      const identity = { sha256: n.moduleSha256, version: artifact.versionLabel, ea: normalizeEA(n.ea) };
-      const prefix = prefixByFunction.get(functionId)!;
-      return (["A", "B", "R"] as const).map(role => ({ subIntentId: `${prefix}:${role}`, functionId, role, harnessIdentity: identity,
-        waitsForSubIntentIds: role === "R" ? [`${prefix}:A`, `${prefix}:B`] : [...localPrerequisites.get(functionId)!].sort(compareText), sharesFamilyLease: true, outputDisjoint: true }));
-    });
-    const prerequisites: Prerequisite[] = [];
-    for (const from of ownedFunctionIds) for (const e of outgoing.get(from) ?? []) {
-      if (!isCall(e)) continue;
-      let kind = edgeKind(e);
-      // External evidence is not produced by a selected local family. Retain its
-      // receipt requirement even inside that family, including invalidation checks.
-      const producerUnitId = kind === "external_satisfied" ? null : q.owner.get(e.destinationId) ?? null;
-      if (producerUnitId === unitId) continue;
-      const id = `pre:${fingerprint({ relationVersion: 1, relationId: e.id, consumerUnitId: unitId })}`;
-      const requested = policy.requirementsByFunction[e.destinationId];
-      const requirement = validRequirement(requested) && requested.functionId === e.destinationId && requested.moduleSha256 === nodes.get(e.destinationId)!.moduleSha256 ? requested : undefined;
-      if (requirement) requirementById[id] = requirement;
-      const d = relations.dispensations.get(e.id), dispensed = validDispensation(d, policy, graph.knowledgeRevision);
-      if (dispensed) dispensationById[id] = d;
-      const external = relations.receipts.get(e.id);
-      if (producerUnitId === null && eligible(e.destinationId) && kind === "obligatory" && !dispensed) {
-        diagnostics.push({ code: "missing-obligatory-callee", unitId, functionIds: [e.destinationId], detail: "Mandatory callee is not in the closure" });
-      } else if (producerUnitId === null && !eligible(e.destinationId)) {
-        const n = nodes.get(e.destinationId)!;
-        if (["import", "external"].includes(n.functionClass)) {
-          kind = external && requirement && receiptSatisfies(requirement, external, null) ? "external_satisfied" : "unknown_unresolved";
-        } else if (kind === "obligatory" && !dispensed) diagnostics.push({ code: "inadmissible-obligatory-callee", unitId, functionIds: [e.destinationId], detail: "Mandatory callee is quarantined/incomplete; consumer deferred" });
-      }
-      if (kind === "external_satisfied") {
-        if (external && requirement && receiptSatisfies(requirement, external, null)) externalReceiptById[id] = external;
-        else { kind = "unknown_unresolved"; diagnostics.push({ code: "unverified-external", unitId, functionIds: [e.destinationId], detail: "External satisfaction without verified receipt is unknown, non-blocking" }); }
-      }
-      prerequisites.push({ id, kind, producerUnitId, requiredPublicationLevel: requirement?.publicationLevel ?? policy.publicationLevel,
-        artifactKind: requirement?.artifactKind ?? policy.artifactKind, dispensed, dispensationReason: dispensed ? d!.reason : null });
-    }
-    for (const ref of unresolvedByUnit.get(unitId) ?? []) if (ref.kind !== "data_xref") prerequisites.push({ id: `pre:${fingerprint({ ref: ref.id, unitId })}`, kind: "unknown_unresolved", producerUnitId: null,
-      requiredPublicationLevel: policy.publicationLevel, artifactKind: policy.artifactKind, dispensed: false, dispensationReason: null });
-    prerequisites.sort((a, b) => compareText(a.id, b.id));
-    const conflicts: ConflictRef[] = ownedFunctionIds.map(functionId => ({ id: `conflict:${fingerprint({ unitId, functionId })}`, kind: "owned_function", resourceKey: canonicalOwnershipKey(functionId), withUnitId: null }));
-    for (const p of prerequisites) if (p.kind === "obligatory" && !p.dispensed && p.producerUnitId) conflicts.push({
-      id: `conflict:${p.id}`, kind: "blocking_dependency", resourceKey: `dependency:${p.id}`, withUnitId: p.producerUnitId });
-    const extra = new Map<string, ConflictRef>();
-    for (const functionId of ownedFunctionIds) for (const c of policy.extraConflictsByFunction?.[functionId] ?? []) {
-      assert(nonempty(c.id) && nonempty(c.resourceKey), "unidentified exclusive resource");
-      assert(["owned_function", "blocking_dependency", "non_isolated_file", "exclusive_write", "native_lease", "adapter_constraint"].includes(c.kind), "invalid conflict kind");
-      const id = `conflict:${fingerprint({ unitId, sourceId: c.id, kind: c.kind, resourceKey: c.resourceKey, withUnitId: c.withUnitId })}`;
-      extra.set(id, { ...c, id });
-    }
-    conflicts.push(...extra.values());
-    conflicts.sort((a, b) => compareText(a.id, b.id));
+    const subIntents = derivePlannerUnitSubIntents(unitId, localFunctions, recursive, callsByUnit, nodes, artifacts);
+    const dependencies = derivePlannerUnitDependencies({ unit: { unitId, ownedFunctionIds }, nodes, owner: q.owner, outgoing,
+      unresolved: unresolvedByUnit.get(unitId) ?? [], relations, policy, knowledgeRevision: graph.knowledgeRevision });
+    const { prerequisites } = dependencies;
+    Object.assign(requirementById, dependencies.requirementById);
+    Object.assign(dispensationById, dependencies.dispensationById);
+    Object.assign(externalReceiptById, dependencies.externalReceiptById);
+    for (const diagnostic of dependencies.diagnostics) diagnostics.push(diagnostic);
+    const conflicts = derivePlannerUnitConflicts({ unitId, ownedFunctionIds }, prerequisites, policy.extraConflictsByFunction);
     const unit: WorkUnit = { schemaVersion: 1, unitId, snapshotId: graph.snapshotId, partitionId: policy.partitionId,
-      knowledgeRevision: graph.knowledgeRevision, ownedFunctionIds, contextFunctionIds: [...context].sort(compareFunctionIds),
+      knowledgeRevision: graph.knowledgeRevision, ownedFunctionIds, contextFunctionIds: [...context],
       investigationKind: policy.investigationKind, pipeline: "2+1", subIntents, prerequisites, conflicts,
       estimatedCost: estimatesByUnit[unitId]!.cost, requiredPublicationLevel: policy.publicationLevel, state: "PENDING" };
     // Actual canonical envelope, including metadata, not String.length or SQLite length.
@@ -471,10 +345,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     return unit;
   });
   const byUnit = new Map(units.map(u => [u.unitId, u]));
-  const g1Edges: G1Edge[] = liveEdges.filter(e => isCall(e) && q.owner.has(e.sourceId) && q.owner.has(e.destinationId) && q.owner.get(e.sourceId) !== q.owner.get(e.destinationId))
-    .map(e => ({ fromUnitId: q.owner.get(e.destinationId)!, toUnitId: q.owner.get(e.sourceId)!,
-      kind: edgeKind(e) === "obligatory" ? "obligatory" as const : edgeKind(e) === "optional" ? "optional" as const : "non_blocking" as const,
-      callSourceFunctionId: e.sourceId, callDestinationFunctionId: e.destinationId, storedCallDirection: "source_to_destination" }));
+  const g1Edges = derivePlannerG1(liveEdges, relations.kinds, q.owner);
   const selected = new Set<string>(), decisions: MissionPlan["decisions"] = [], decided = new Set<string>();
   let spent = 0;
   const budgetExcluded = new Set<string>();
@@ -522,10 +393,7 @@ export function planMission(graph: PlannerGraphInput, groups: readonly PlannerGr
     spent += bytes;
   }
   for (const u of units) if (!selected.has(u.unitId) && !decided.has(u.unitId)) record(u.unitId, "defer", "not selected by any admitted root closure");
-  const contextOwners = new Map<string, string[]>();
-  for (const u of units) for (const id of u.contextFunctionIds) { const list = contextOwners.get(id) ?? []; list.push(u.unitId); contextOwners.set(id, list); }
-  const g3Affinities = [...contextOwners].filter(([, ids]) => ids.length > 1).sort(([a], [b]) => compareFunctionIds(a, b))
-    .map(([id, ids]) => ({ unitIds: ids.sort(compareText), reason: `shared context:${id}`, blocking: false as const }));
+  const g3Affinities = derivePlannerG3(units);
   const planContent: Omit<MissionPlan, "fingerprint"> = { schemaVersion: 1,
     // New plans are fenced from earlier relation-policy semantics; existing
     // plan/unit identities are never migrated. Neither marker is a field in L1.

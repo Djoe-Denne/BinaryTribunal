@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "l8-graph-run-v3.schema.json",
+  "title": "Immutable, non-authorizing L8 graph run v3",
+  "description": "Shape only. The pure codec verifies the complete bound envelope, derived source binding and both D fingerprints. No handle, final adoption or activation state is encoded here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "mode", "missionId", "generationId", "envelopeFingerprint", "envelope", "derivedSpec", "derivedSpecFingerprint", "fingerprint"],
+  "properties": {
+    "version": { "type": "string", "enum": ["l8-graph-run-v3"] },
+    "mode": { "type": "string", "enum": ["offline-fixture-v1"] },
+    "missionId": { "type": "string", "minLength": 1 },
+    "generationId": { "type": "string", "minLength": 70, "maxLength": 70 },
+    "envelopeFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+    "envelope": {
+      "type": "object", "additionalProperties": false, "required": ["ref", "utf8"],
+      "properties": {
+        "ref": {
+          "type": "object", "additionalProperties": false, "required": ["kind", "encoding", "byteLength", "sha256"],
+          "properties": {
+            "kind": { "type": "string", "enum": ["l8-execution-envelope-v1"] },
+            "encoding": { "type": "string", "enum": ["utf8-json-v1"] },
+            "byteLength": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+            "sha256": { "type": "string", "minLength": 64, "maxLength": 64 }
+          }
+        },
+        "utf8": { "type": "string", "minLength": 1 }
+      }
+    },
+    "derivedSpec": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "sourceSpecFingerprint", "templateFingerprint", "inputManifestFingerprint", "envelopeFingerprint", "planId", "planFingerprint", "sidecarFingerprint", "bindingFingerprint", "snapshotId", "partitionId", "knowledgeRevision"],
+      "properties": {
+        "version": { "type": "string", "enum": ["l8-execution-derived-v3"] },
+        "sourceSpecFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "templateFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "inputManifestFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "envelopeFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "planId": { "type": "string", "minLength": 1 },
+        "planFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "sidecarFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "bindingFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "snapshotId": { "type": "string", "minLength": 1 },
+        "partitionId": { "type": "string", "minLength": 1 },
+        "knowledgeRevision": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+      }
+    },
+    "derivedSpecFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+    "fingerprint": { "type": "string", "minLength": 64, "maxLength": 64 }
+  }
+}

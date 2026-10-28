@@ -1,4 +1,6 @@
 import { compareText, fingerprint } from "./validation";
+import { compareFunctionIds } from "./function-order";
+export { compareFunctionIds } from "./function-order";
 
 export interface DirectedEdge { from: string; to: string }
 export interface StrongComponent {
@@ -13,19 +15,6 @@ export interface Condensation {
   componentByNode: Map<string, string>;
   edges: DirectedEdge[];
   topologicalOrder: string[];
-}
-
-/** Function keys order by module hash, then numeric RVA, never locale or hex text. */
-export function compareFunctionIds(a: string, b: string): number {
-  const i = a.lastIndexOf(":"), j = b.lastIndexOf(":");
-  const x = a.slice(i + 1), y = b.slice(j + 1);
-  if (/^0x[0-9A-F]+$/i.test(x) && /^0x[0-9A-F]+$/i.test(y)) {
-    const module = compareText(a.slice(0, i), b.slice(0, j));
-    if (module) return module;
-    const n = BigInt(x), m = BigInt(y);
-    return n < m ? -1 : n > m ? 1 : 0;
-  }
-  return compareText(a, b);
 }
 
 /** Explicit DFS frames implement Tarjan; no native recursion, including 10k+ chains. */

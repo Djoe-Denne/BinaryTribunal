@@ -1,5 +1,8 @@
 import { fingerprint, compareText } from "./validation";
-import { compareFunctionId, reconcileClusterRelations, sparseGraph, validateSparseGraph, type ClusterInput, type ClusterPartition, type KnownInteger, type SparseGraph, type StructuralMaturity } from "./cluster";
+import { compareFunctionId, type SparseGraph } from "./sparse-graph-codecs";
+import type { ClusterInput, ClusterPartition, KnownInteger, StructuralMaturity } from "./cluster";
+import { prepareGroupContextSource, bindGroupContext, deriveDraftGroupContexts, groupContextContentFingerprint, requireThat } from "./group-context-codecs";
+export { DEFAULT_GROUP_CONFIG } from "./group-context-codecs";
 
 export interface InvestigationGroup {
   schemaVersion: 1; groupId: string; partitionId: string; communityContentId: string;
@@ -13,15 +16,6 @@ export interface GroupConfig {
   smallPolicy: "preserve-community" | "attach-adjacent";
   costSource: "instructions" | "bytes"; costPerUnit: number; fixedCost: number;
 }
-/** Costs are explicit ordinal work estimates, NOT measured tokens/time/bytes of
- * an execution envelope. Unknown source metrics keep unknown estimatedCost.
- * Community-preserving default refuses cross-community provenance loss.
- */
-export const DEFAULT_GROUP_CONFIG: Readonly<GroupConfig> = Object.freeze({
-  version: "heuristic-group-cost-v1", minSize: 2, maxSize: 8,
-  maxContextFunctions: 64, smallPolicy: "preserve-community",
-  costSource: "instructions", costPerUnit: 1, fixedCost: 1,
-});
 export interface GroupMetrics {
   version: "group-metrics-v1"; configFingerprint: string;
   partitionId: string; snapshotFingerprint: string;
@@ -41,9 +35,6 @@ export interface GroupMetrics {
   diagnostics: string[];
 }
 export interface GroupResult { groups: InvestigationGroup[]; metrics: GroupMetrics }
-function requireThat(value: unknown, detail: string): asserts value {
-  if (!value) throw new Error(`investigation-groups: ${detail}`);
-}
 /** Split into balanced deterministic blocks: avoids [max,max,1] when a legal
  * distribution exists. Minimum is a target, not an excuse to exceed maximum.
  */
@@ -55,50 +46,8 @@ function split(ids: string[], max: number): string[][] {
 }
 export function buildInvestigationGroups(input: ClusterInput, partition: ClusterPartition,
   overrides: Partial<GroupConfig> = {}, options: { graph?: SparseGraph; hubIds?: string[] } = {}): GroupResult {
-  const config = { ...DEFAULT_GROUP_CONFIG, ...overrides };
-  for (const key of ["minSize", "maxSize", "maxContextFunctions", "fixedCost"] as const) requireThat(Number.isSafeInteger(config[key]) && config[key] >= (key === "minSize" || key === "maxSize" ? 1 : 0), key);
-  requireThat(config.minSize <= config.maxSize, "minimum exceeds maximum");
-  requireThat(config.maxSize <= 100000 && config.maxContextFunctions <= 100000, "v1 group transport bounds");
-  requireThat(config.version.length > 0 && Number.isFinite(config.costPerUnit) && config.costPerUnit >= 0 && !Object.is(config.costPerUnit, -0) && !Object.is(config.fixedCost, -0), "version/cost");
-  requireThat(["instructions", "bytes"].includes(config.costSource), "cost source");
-  requireThat(["preserve-community", "attach-adjacent"].includes(config.smallPolicy), "small policy");
-  requireThat(input.nodes.length > 0 && partition.communities.length > 0, "empty snapshot/partition: no v1 partition exists; do not synthesize empty groups");
-  requireThat(partition.schemaVersion === 1 && partition.snapshotId === input.snapshotId && partition.snapshotFingerprint === input.normalizedFingerprint, "partition snapshot binding");
-  const nodes = new Map(input.nodes.map(n => [n.id, n])); requireThat(nodes.size === input.nodes.length, "duplicate node");
-  const membership = new Map<string, string>(), communities = new Map(partition.communities.map(c => [c.contentId, c]));
-  requireThat(communities.size === partition.communities.length, "duplicate community");
-  for (const c of partition.communities) {
-    requireThat(c.memberIds.length > 0 && new Set(c.memberIds).size === c.memberIds.length, "empty/duplicate members");
-    const members = new Set(c.memberIds); requireThat(new Set(c.kernelIds).size === c.kernelIds.length && c.kernelIds.every(id => members.has(id)), "kernel outside membership");
-    requireThat(new Set(c.externalContextIds).size === c.externalContextIds.length && c.externalContextIds.every(id => nodes.has(id) && !members.has(id)), "invalid context");
-    for (const id of c.memberIds) { requireThat(nodes.has(id) && !membership.has(id), "partition unknown/duplicate owner"); membership.set(id, c.contentId); }
-  }
-  requireThat(membership.size === nodes.size, "partition missing function");
-  const neighbors = new Map<string, Map<string, number>>(); for (const id of nodes.keys()) neighbors.set(id, new Map());
-  const addNeighbor = (a: string, b: string, weight: number) => { if (a === b) return; const map = neighbors.get(a)!; map.set(b, (map.get(b) ?? 0) + weight); };
-  // Reconcile before any live/callback filter, including when a supplied graph
-  // bypasses fallback adjacency. L2 transport validation alone does not establish
-  // relation-wide coherence, and these projections never validate native evidence.
-  const relations = reconcileClusterRelations(input);
-  let numericBinding: string | null = null;
-  if (options.graph) {
-    const supplied = options.graph;
-    validateSparseGraph(supplied);
-    requireThat(supplied.ids.length === nodes.size && new Set(supplied.ids).size === nodes.size && supplied.ids.every(id => nodes.has(id)), "projection node binding");
-    // Normalize order/duplicates before adjacency summation and content binding.
-    // Numeric source and all caches were checked together; this is consistency,
-    // not native proof. The heuristic adjacency uses canonical rounded weights,
-    // while its content binding also covers the retained original summands.
-    const sortedIds = [...supplied.ids].sort(compareFunctionId), index = new Map(sortedIds.map((id, i) => [id, i]));
-    const g = sparseGraph(sortedIds, (supplied.numericSource?.arcs ?? supplied.arcs).map(a => ({ source: index.get(supplied.ids[a.source]!)!, target: index.get(supplied.ids[a.target]!)!, weight: a.weight })), { maxNumericSourceArcs: supplied.numericSource?.maxArcs });
-    numericBinding = g.numericPolicy!.bindingFingerprint;
-    for (const a of g.arcs) { addNeighbor(g.ids[a.source]!, g.ids[a.target]!, a.weight); addNeighbor(g.ids[a.target]!, g.ids[a.source]!, a.weight); }
-  } else {
-    for (const e of relations) {
-      if (e.kind === "callback_candidate" || e.status === "invalidated" || e.retiredInRevision !== null) continue;
-      addNeighbor(e.sourceId, e.destinationId, 1); addNeighbor(e.destinationId, e.sourceId, 1);
-    }
-  }
+  const prepared = prepareGroupContextSource(input, partition, overrides, options.graph ? { kind: "provided-affinity", graph: options.graph } : { kind: "raw-active-control-relations" });
+  const { config, nodes, neighbors } = prepared;
   type Draft = { ids: string[]; origins: string[]; uncovered: string[] };
   const drafts: Draft[] = [];
   for (const c of [...partition.communities].sort((a, b) => compareFunctionId(a.memberIds.slice().sort(compareFunctionId)[0]!, b.memberIds.slice().sort(compareFunctionId)[0]!))) {
@@ -116,26 +65,12 @@ export function buildInvestigationGroups(input: ClusterInput, partition: Cluster
       if (target) { const transferred = [...draft.ids]; target.ids = [...target.ids, ...transferred].sort(compareFunctionId); target.origins = [...new Set([...target.origins, ...draft.origins])].sort(compareText); transferred.forEach(id => draftById.set(id, target)); draft.ids = []; diagnostics.push("cross-community small attachment: full origin list retained in sidecar"); }
     }
   }
-  const configFingerprint = fingerprint(config), groups: InvestigationGroup[] = [];
-  const hubSet = new Set(options.hubIds ?? []); requireThat([...hubSet].every(id => nodes.has(id)), "unknown hub");
-  /** groupId is a stable logical investigation family, NOT an artifact digest.
-   * L8 freezes/reuses bytes only with contextBinding + contentFingerprint. Bind
-   * the actual symmetrized adjacency consumed (not transport site multiplicity),
-   * source selection, hub ranking set, snapshot, partition and group config.
-   * No arbitrary renaming of owned work when derived context changes.
-   */
-  const projectionSource = options.graph ? "provided-affinity" as const : "raw-active-control-relations" as const;
-  const projectionFingerprint = fingerprint({ version: "group-adjacency-v2", numericBinding, nodes: [...nodes.keys()].sort(compareFunctionId),
-    adjacency: [...neighbors].sort((a, b) => compareFunctionId(a[0], b[0])).map(([id, links]) => [id, [...links].sort((a, b) => compareFunctionId(a[0], b[0]))]) });
-  const hubSetFingerprint = fingerprint([...hubSet].sort(compareFunctionId));
-  const contextBinding: GroupMetrics["contextBinding"] = { version: "group-context-binding-v1", projectionSource, projectionFingerprint, hubSetFingerprint,
-    bindingFingerprint: fingerprint({ version: "group-context-binding-v1", projectionSource, projectionFingerprint, hubSetFingerprint, snapshotFingerprint: input.normalizedFingerprint, partitionId: partition.partitionId, configFingerprint }) };
-  const contextRank = (a: string, b: string) => Number(hubSet.has(b)) - Number(hubSet.has(a)) || compareFunctionId(a, b);
-  const contextByCommunity = new Map<string, string[]>(), splitCount = new Map<string, number>();
-  const omittedCommunityContextIds: Record<string, string[]> = {};
-  for (const c of communities.values()) { const ranked = [...c.externalContextIds].sort(contextRank); contextByCommunity.set(c.contentId, ranked.slice(0, config.maxContextFunctions)); omittedCommunityContextIds[c.contentId] = ranked.slice(config.maxContextFunctions).sort(compareFunctionId); }
+  const bound = bindGroupContext(prepared, options.hubIds ?? []);
+  const { configFingerprint, contextBinding, omittedCommunityContextIds } = bound;
+  const splitCount = new Map<string, number>();
   for (const d of drafts) if (d.ids.length) for (const origin of d.origins) splitCount.set(origin, (splitCount.get(origin) ?? 0) + 1);
-  const metrics: GroupMetrics = { version: "group-metrics-v1", configFingerprint, partitionId: partition.partitionId, snapshotFingerprint: input.normalizedFingerprint, ownerByFunctionId: {}, uncoveredOwnerByFunctionId: {}, uncoveredCommunityByFunctionId: {}, sourceCommunitiesByGroupId: {}, kernelIdsByGroupId: {}, contextIdListUtf8BytesByGroupId: {}, omittedContextIdsByGroupId: {}, omittedCommunityContextIds, allCapabilityIdsByGroupId: {}, smallGroupIds: [], isolatedIds: [...nodes.keys()].filter(id => neighbors.get(id)!.size === 0).sort(compareFunctionId), hubIds: [...hubSet].sort(compareFunctionId), nonCoveredIds: [], coverageStatus: input.coverage.status, contextBinding, contentFingerprintByGroupId: {}, diagnostics };
+  const groups: InvestigationGroup[] = [];
+  const metrics: GroupMetrics = { version: "group-metrics-v1", configFingerprint, partitionId: partition.partitionId, snapshotFingerprint: input.normalizedFingerprint, ownerByFunctionId: {}, uncoveredOwnerByFunctionId: {}, uncoveredCommunityByFunctionId: {}, sourceCommunitiesByGroupId: {}, kernelIdsByGroupId: {}, contextIdListUtf8BytesByGroupId: {}, omittedContextIdsByGroupId: {}, omittedCommunityContextIds, allCapabilityIdsByGroupId: {}, smallGroupIds: [], isolatedIds: bound.isolatedIds, hubIds: bound.hubIds, nonCoveredIds: [], coverageStatus: input.coverage.status, contextBinding, contentFingerprintByGroupId: {}, diagnostics };
   const capabilityBySubject = new Map<string, string[]>(); for (const c of input.capabilities) if (c.subjectKind === "function" && nodes.has(c.subjectId)) { if (!capabilityBySubject.has(c.subjectId)) capabilityBySubject.set(c.subjectId, []); capabilityBySubject.get(c.subjectId)!.push(c.id); }
   for (const draft of drafts) {
     if (!draft.ids.length) {
@@ -143,21 +78,15 @@ export function buildInvestigationGroups(input: ClusterInput, partition: Cluster
       if (draft.uncovered.length) diagnostics.push("kernel-empty community: uncovered attribution only, no schema-invalid empty investigation group");
       continue;
     }
-    const own = new Set(draft.ids), context = new Set<string>();
-    // Shared community context is truncated once, not scanned in full for every
-    // subgroup; omissions are lossless once-per-community in the sidecar.
-    for (const origin of draft.origins) for (const id of contextByCommunity.get(origin)!) if (!own.has(id)) context.add(id);
-    for (const id of draft.ids) for (const neighbor of neighbors.get(id)!.keys()) if (!own.has(neighbor)) context.add(neighbor);
-    const ranked = [...context].sort(contextRank);
-    const contextFunctionIds = ranked.slice(0, config.maxContextFunctions).sort(compareFunctionId);
-    const uncoveredIds = [...new Set([...draft.uncovered, ...draft.ids.filter(id => nodes.get(id)!.status !== "observed" || nodes.get(id)!.functionClass === "incomplete")])].sort(compareFunctionId);
+    const context = deriveDraftGroupContexts(bound, [draft]).byDraft[0]!;
+    const { contextFunctionIds, uncoveredIds, sourceCommunities } = context;
     let cost = config.fixedCost, known = draft.ids.length > 0;
     for (const id of draft.ids) { const n = nodes.get(id)!, value = config.costSource === "instructions" ? n.instructionCount : n.sizeBytes;
       requireThat(value.known === (value.value !== null), "cost metric inconsistent");
       if (!value.known) known = false; else { requireThat(Number.isSafeInteger(value.value) && value.value! >= 0, "cost metric invalid"); cost += Math.ceil(value.value! * config.costPerUnit); }
     }
     requireThat(Number.isSafeInteger(cost) && cost >= 0, "cost overflow");
-    const sourceCommunities = [...draft.origins].sort(compareText), primary = sourceCommunities[0]!;
+    const primary = sourceCommunities[0]!;
     const groupId = fingerprint({ version: config.version, configFingerprint, partitionId: partition.partitionId, sourceCommunities, ownedFunctionIds: draft.ids, uncoveredIds });
     const allCapabilityIds = [...new Set(draft.ids.flatMap(id => capabilityBySubject.get(id) ?? []))].sort(compareText);
     if (allCapabilityIds.length > 256) diagnostics.push("v1 capabilityIds cap 256: full list preserved in group sidecar");
@@ -167,9 +96,8 @@ export function buildInvestigationGroups(input: ClusterInput, partition: Cluster
       memberMaturity: draft.ids.map(id => ({ functionId: id, semanticMaturity: nodes.get(id)!.semanticMaturity })) };
     groups.push(group); metrics.sourceCommunitiesByGroupId[groupId] = sourceCommunities; metrics.kernelIdsByGroupId[groupId] = [...draft.ids];
     metrics.allCapabilityIdsByGroupId[groupId] = allCapabilityIds;
-    metrics.contextIdListUtf8BytesByGroupId[groupId] = Buffer.byteLength(JSON.stringify(contextFunctionIds), "utf8"); metrics.omittedContextIdsByGroupId[groupId] = ranked.slice(config.maxContextFunctions).sort(compareFunctionId);
-    metrics.contentFingerprintByGroupId[groupId] = fingerprint({ version: "group-artifact-content-v1", contextBinding, group, sourceCommunities, allCapabilityIds,
-      omittedContextIds: metrics.omittedContextIdsByGroupId[groupId], omittedCommunityContextIds: sourceCommunities.map(id => [id, omittedCommunityContextIds[id]]) });
+    metrics.contextIdListUtf8BytesByGroupId[groupId] = context.contextIdListUtf8Bytes; metrics.omittedContextIdsByGroupId[groupId] = context.omittedContextIds;
+    metrics.contentFingerprintByGroupId[groupId] = groupContextContentFingerprint(group, contextBinding, sourceCommunities, allCapabilityIds, metrics.omittedContextIdsByGroupId[groupId]!, omittedCommunityContextIds);
     for (const id of draft.ids) { requireThat(!metrics.ownerByFunctionId[id], "duplicate investigation owner"); metrics.ownerByFunctionId[id] = groupId; }
     for (const id of uncoveredIds) { requireThat(!metrics.uncoveredOwnerByFunctionId[id], "duplicate uncovered attribution"); metrics.uncoveredOwnerByFunctionId[id] = groupId; }
     if (draft.ids.length < config.minSize) metrics.smallGroupIds.push(groupId);

@@ -1,6 +1,8 @@
 import { openOwnDatabase } from "./store";
 import { canonical, hash } from "./validation";
 import { assertAuditContinuation, decodeBulletinSnapshot, type BulletinSnapshot, type CommunicationAudit } from "./bulletin-audit";
+import { prepareDispatchJoinV1, refuseNativeRuntimeV1, type PreparedRuntimeV1, type DispatchScopeV1, type DispatchJoinV1 } from "./graph-runtime-binding";
+import { assertExecutionJsonV1, type BoundDocument } from "./graph-execution-envelope";
 export interface RpcTransport { call(method: string, input: Record<string, unknown>): Promise<Record<string, unknown>>; serverVersion?: string }
 export interface ClientOptions {
   transport: RpcTransport; statePath: string; directory: string; principalId: string;
@@ -49,7 +51,33 @@ export class ExecutionClient {
       CREATE TABLE IF NOT EXISTS ff8_bridge_requests(mission TEXT NOT NULL, key TEXT NOT NULL, digest TEXT NOT NULL, body TEXT NOT NULL, receipt TEXT, PRIMARY KEY(mission,key));
       CREATE TABLE IF NOT EXISTS ff8_bridge_command_attempts(seq INTEGER PRIMARY KEY AUTOINCREMENT, mission TEXT NOT NULL, key TEXT NOT NULL, time INTEGER NOT NULL, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS ff8_bridge_events(mission TEXT NOT NULL, id INTEGER NOT NULL, event TEXT NOT NULL, PRIMARY KEY(mission,id));
-      CREATE TABLE IF NOT EXISTS ff8_bridge_communication_audits(mission TEXT NOT NULL, execution TEXT NOT NULL, audit TEXT NOT NULL, PRIMARY KEY(mission,execution));`);
+      CREATE TABLE IF NOT EXISTS ff8_bridge_communication_audits(mission TEXT NOT NULL, execution TEXT NOT NULL, audit TEXT NOT NULL, PRIMARY KEY(mission,execution));
+      CREATE TABLE IF NOT EXISTS ff8_bridge_dispatch_joins(mission TEXT NOT NULL, key TEXT NOT NULL, document TEXT NOT NULL, PRIMARY KEY(mission,key));`);
+  }
+  /** Local DATA retention, not admission. No snapshot/token/network/controller renewal. */
+  prepareRuntimeDispatch(runtime: PreparedRuntimeV1, scope: DispatchScopeV1, admission: unknown): BoundDocument<DispatchJoinV1> {
+    assertExecutionJsonV1({ runtime, scope, admission });
+    const a = admission as { command: Record<string, unknown> };
+    const captured = captureSubmission(a.command);
+    const body = { ...captured.payload, ...this.scope(scope.missionId), controllerId: this.options.controllerId, expectedRevision: scope.expectedRevision };
+    const document = prepareDispatchJoinV1(runtime, scope, admission, body), image = canonical(document), bodyImage = canonical(body);
+    this.db.transaction(() => {
+      const old = this.db.query("SELECT document FROM ff8_bridge_dispatch_joins WHERE mission=? AND key=?").get(scope.missionId, captured.key) as { document: string } | null;
+      const request = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(scope.missionId, captured.key) as RequestRow | null;
+      if (old || request) {
+        if (!old || !request || old.document !== image || request.body !== bodyImage || request.digest !== captured.digest || request.receipt !== null) throw new Error("prospective idempotency/body/join conflict");
+        return;
+      }
+      this.db.query("INSERT INTO ff8_bridge_requests(mission,key,digest,body) VALUES(?,?,?,?)").run(scope.missionId, captured.key, captured.digest, bodyImage);
+      this.db.query("INSERT INTO ff8_bridge_dispatch_joins VALUES(?,?,?)").run(scope.missionId, captured.key, image);
+    }).immediate();
+    return document;
+  }
+  /** Not implemented as a fixture fallback: native source/version/rights are missing. */
+  async submitRuntime(_missionId: string, _key: string): Promise<never> { return refuseNativeRuntimeV1(); }
+  async observeRuntime(_missionId: string, _key: string): Promise<never> { return refuseNativeRuntimeV1(); }
+  private assertLegacyDispatchKey(missionId: string, key: string): void {
+    if (this.db.query("SELECT key FROM ff8_bridge_dispatch_joins WHERE mission=? AND key=?").get(missionId, key)) throw new Error("prospective runtime requires qualified native dispatch; legacy submit forbidden");
   }
   private scope(missionId: string) { return { missionId, directory: this.options.directory }; }
   private async call(method: string, body: Record<string, unknown>) {
@@ -61,7 +89,9 @@ export class ExecutionClient {
       const data = native.data && typeof native.data === "object" ? native.data as Record<string, unknown> : native;
       const message = (error instanceof Error && error.message ? error.message : String(native.type ?? native._tag ?? "bridge transport error")).split(token).join("[redacted]");
       const declared = native.type === "execution_rejected" || typeof data.category === "string";
-      throw new BridgeAdmissionError(message, declared ? String(data.category ?? "unknown") : "transport", declared ? data.recoverable === true : true,
+      const mapped: Record<string, string> = { UnauthorizedError: "auth", ForbiddenError: "permission", InvalidRequestError: "input", RpcInternalError: "schema", ServiceUnavailableError: "transport" };
+      const category = declared ? String(data.category ?? "unknown") : mapped[String(native._tag)] ?? "transport";
+      throw new BridgeAdmissionError(message, category, declared ? data.recoverable === true : category === "transport",
         native.type === "execution_rejected" ? "execution_rejected" : undefined);
     }
     if (r.version !== 1) throw new Error("unsupported execution bridge version"); return r;
@@ -86,21 +116,28 @@ export class ExecutionClient {
   }
   async submit(missionId: string, input: Record<string, unknown>): Promise<Record<string, unknown>> {
     const captured = captureSubmission(input), { key, digest } = captured;
+    this.assertLegacyDispatchKey(missionId, key);
     let row = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
     if (row) boundRequestBody(row, captured);
     if (row?.receipt) return JSON.parse(row.receipt) as Record<string, unknown>;
     if (!row) {
-      const state = await this.snapshot(missionId); const admission = state.admissions as { controllerId: string; leaseUntil: number } | undefined;
+      const state = await this.snapshot(missionId); this.assertSubmissionSnapshot(state); const admission = state.admissions as { controllerId: string; leaseUntil: number } | undefined;
       if (admission && (admission.controllerId !== this.options.controllerId || admission.leaseUntil <= Date.now())) throw new Error("controller lease unavailable; explicit recover required");
       if (admission && admission.leaseUntil - Date.now() < this.options.leaseMs / 2) await this.control(missionId, "renew");
       const body = { ...captured.payload, ...this.scope(missionId), controllerId: this.options.controllerId, expectedRevision: this.revision(missionId) };
-      this.db.transaction(() => { this.db.query("INSERT INTO ff8_bridge_requests(mission,key,digest,body) VALUES(?,?,?,?) ON CONFLICT(mission,key) DO NOTHING").run(missionId, key, digest, canonical(body)); }).immediate();
-      row = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
-      if (!row || row.digest !== digest) throw new Error("concurrent idempotency conflict");
-      boundRequestBody(row, captured);
+      // Arbitrate AFTER all awaits, under the same write transaction as reservation.
+      // If prospective preparation won, do not consume its request via ON CONFLICT.
+      // If legacy wins, its retained request makes prospective preparation refuse.
+      row = this.db.transaction(() => {
+        this.assertLegacyDispatchKey(missionId, key);
+        this.db.query("INSERT INTO ff8_bridge_requests(mission,key,digest,body) VALUES(?,?,?,?) ON CONFLICT(mission,key) DO NOTHING").run(missionId, key, digest, canonical(body));
+        const retained = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
+        if (!retained || retained.digest !== digest) throw new Error("concurrent idempotency conflict");
+        boundRequestBody(retained, captured); return retained;
+      }).immediate();
       if (row.receipt) return JSON.parse(row.receipt) as Record<string, unknown>;
     } else {
-      const state = await this.snapshot(missionId); const pending = boundRequestBody(row, captured);
+      const state = await this.snapshot(missionId); this.assertSubmissionSnapshot(state); const pending = boundRequestBody(row, captured);
       const executions = state.executions;
       if (!Array.isArray(executions)) throw new Error("cannot reconcile pending command without native execution snapshot");
       const accepted = executions.some((e: Record<string, unknown>) => e.executionId === pending.executionId);
@@ -111,16 +148,29 @@ export class ExecutionClient {
         // The server rechecks the active lease/CAS inside acceptance, so a delayed
         // old-controller command cannot create an unrecorded worker after fencing.
         pending.controllerId = this.options.controllerId; pending.expectedRevision = this.revision(missionId);
-        row.body = canonical(pending);
-        this.db.query("UPDATE ff8_bridge_requests SET body=? WHERE mission=? AND key=? AND receipt IS NULL").run(row.body, missionId, key);
+        const rebasedBody = canonical(pending); row.body = rebasedBody;
+        this.db.transaction(() => {
+          // Classification and pending-body mutation must share the write lock:
+          // an earlier empty lookup can precede a prospective reservation.
+          this.assertLegacyDispatchKey(missionId, key);
+          this.db.query("UPDATE ff8_bridge_requests SET body=? WHERE mission=? AND key=? AND receipt IS NULL").run(rebasedBody, missionId, key);
+        }).immediate();
       }
     }
     // The exact command was durably committed before network I/O. Tokens remain in memory only.
-    const command = boundRequestBody(row, captured);
-    this.db.query("INSERT INTO ff8_bridge_command_attempts(mission,key,time,body) VALUES(?,?,?,?)").run(missionId, key, Date.now(), row.body);
+    const command = boundRequestBody(row, captured), attemptBody = row.body;
+    this.db.transaction(() => {
+      this.assertLegacyDispatchKey(missionId, key);
+      this.db.query("INSERT INTO ff8_bridge_command_attempts(mission,key,time,body) VALUES(?,?,?,?)").run(missionId, key, Date.now(), attemptBody);
+    }).immediate();
     const response = await this.call("submit", command);
+    if (response.executionId !== command.executionId || response.state !== "accepted" || !Number.isSafeInteger(response.revision) || (response.revision as number) < 1) throw new Error("invalid acceptance receipt identity/state/revision");
     this.db.transaction(() => { this.db.query("UPDATE ff8_bridge_requests SET receipt=? WHERE mission=? AND key=?").run(canonical(response), missionId, key); this.recordRevision(missionId, response); }).immediate();
     return response;
+  }
+  private assertSubmissionSnapshot(state: Record<string, unknown>): void {
+    const a = state.admissions as Record<string, unknown> | undefined;
+    if (!a || a.controllerId !== this.options.controllerId || a.paused !== false || !Number.isSafeInteger(a.leaseUntil) || (a.leaseUntil as number) <= Date.now() || !Array.isArray(state.executions) || !state.executions.every(e => e !== null && typeof e === "object" && typeof e.executionId === "string" && e.executionId.length > 0)) throw new Error("ambiguous/paused admission snapshot or controller lease unavailable; explicit recover required");
   }
   async snapshot(missionId: string): Promise<Record<string, unknown>> {
     const r = await this.call("snapshot", this.scope(missionId)); this.recordRevision(missionId, r); return r;
