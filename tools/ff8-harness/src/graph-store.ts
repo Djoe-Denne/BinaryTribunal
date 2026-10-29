@@ -13,6 +13,11 @@ import { staticPublicationReadbackSourceV1 } from "./graph-static-publication";
 import type { ExecutionClient } from "./client";
 import { EventLog, GraphPersistenceError, immutableCopy, integer, invariant, nonempty, type ErrorClass, type GraphEvent } from "./eventlog";
 import { UnitLeaseStore, assertController, assertExecutionQuiescence, assertCanonicalUnitProjection, contradictoryAcceptedObservation, type ControllerAuthority, type UnitLease } from "./unit-lease";
+import { bindOwnedAtRestTransportV1 } from "./native-at-rest-transport";
+
+const nativeAtRestGuards = new WeakSet<() => void>();
+/** Membership only: no public DTO/guard registration or authority factory. */
+export function isOwnedNativeAtRestGuardV1(check: () => void): boolean { return nativeAtRestGuards.has(check); }
 
 /** v7 adds only private next-context approvals; v1-v6 scientific rows/codecs stay exact. */
 export const GRAPH_SCHEMA_VERSION = 7;
@@ -217,6 +222,8 @@ function openGraphDatabase(path: string): Database {
  * repair engine for malformed/foreign historical layouts. Legacy scientific
  * records without receipt-bound provenance stay evidence, not prerequisites.
  */
+import { atRestCheck, captureAtRestRequestV1, makeAtRestImageV1, runAtRestV1, type AtRestImageV1, type AtRestRequestV1, type AtRestResultV1, type AtRestTransportV1 } from "./graph-native-at-rest";
+
 export class GraphStore {
   readonly db: Database;
   readonly events: EventLog;
@@ -281,6 +288,75 @@ export class GraphStore {
     } catch (error) { this.db.close(); throw error; }
   }
   close(): void { this.db.close(); }
+  /** Prospective data admission only. Host supplies fresh authority, never a DTO capability.
+   * No generic late-event API escapes this call's retained operation closure. */
+  async admitNativeAtRestV1(currentAuthority: () => ControllerAuthority, suppliedLease: UnitLease, executionId: string,
+    suppliedRequest: AtRestRequestV1, transport: AtRestTransportV1): Promise<AtRestResultV1> {
+    const lease = immutableCopy(suppliedLease), request = captureAtRestRequestV1(suppliedRequest);
+    const key = `rms.native-at-rest.image:${executionId}`;
+    const check = () => {
+      const authority = immutableCopy(currentAuthority());
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      const row = this.outbox(executionId);
+      invariant(row && row.mission === lease.missionId && row.unit_id === lease.unitId && row.token === lease.token
+        && row.state === "PREPARED" && row.attempts === 0 && !row.receipt && !row.terminal_proof, "at-rest requires exact unsent owned admission");
+      invariant(this.unit(lease.missionId, lease.unitId).state === "RESERVED", "at-rest family unavailable");
+      this.assertDurableAdmission(row); this.assertAdmissionInputs(authority, lease, JSON.parse(row.body) as Admission);
+      return { authority, row };
+    };
+    const retained = () => this.events.read(lease.missionId).find(e => e.key === key);
+    const image = this.db.transaction(() => {
+      const { authority, row } = check();
+      const revision = (this.db.query("SELECT revision FROM ff8_missions WHERE id=?").get(lease.missionId) as { revision: number }).revision;
+      const scope = { missionId: lease.missionId, unitId: lease.unitId, executionId, owner: lease.owner,
+        controllerFence: authority.lease.token, familyFence: lease.token, revision, admissionDigest: row.digest };
+      const old = retained();
+      if (old) {
+        const stored = old.payload as AtRestImageV1;
+        atRestCheck(old.kind === "rms.native-at-rest.image" && old.unitId === lease.unitId
+          && old.digest === fingerprint({ kind: old.kind, time: old.time, payload: stored, unitId: old.unitId })
+          && canonical(stored.scope) === canonical(scope) && canonical(stored.request) === canonical(request));
+        atRestCheck(canonical(stored) === canonical(makeAtRestImageV1(scope, request, JSON.parse(row.body).command, stored)));
+        check(); return immutableCopy(stored);
+      }
+      const made = makeAtRestImageV1(scope, request, JSON.parse(row.body).command);
+      this.events.append(lease.missionId, key, "rms.native-at-rest.image", Math.max(authority.now, this.events.cursor(lease.missionId).time), made,
+        lease.unitId, this.events.cursor(lease.missionId).sequence);
+      check(); return immutableCopy(made);
+    }).immediate();
+    const imageDigest = fingerprint(image);
+    const bound = () => {
+      const e = retained(); invariant(e && e.kind === "rms.native-at-rest.image" && e.unitId === lease.unitId && fingerprint(e.payload) === imageDigest
+        && e.digest === fingerprint({ kind: e.kind, time: e.time, payload: e.payload, unitId: e.unitId }), "at-rest retained operation changed");
+    };
+    const assertCurrent = () => { invariant(nativeAtRestGuards.has(assertCurrent), "at-rest operation scope ended"); bound(); check(); };
+    nativeAtRestGuards.add(assertCurrent);
+    try {
+    const port = bindOwnedAtRestTransportV1(transport, assertCurrent, image);
+    return await runAtRestV1(image, port, {
+      check: assertCurrent,
+      claim: phase => this.db.transaction(() => {
+        assertCurrent(); const eventKey = `rms.native-at-rest.claim:${executionId}:${phase}`;
+        if (this.events.read(lease.missionId).some(e => e.key === eventKey)) return false;
+        const { authority } = check();
+        this.events.append(lease.missionId, eventKey, "rms.native-at-rest.claim", Math.max(authority.now, this.events.cursor(lease.missionId).time),
+          { imageDigest, phase }, lease.unitId, this.events.cursor(lease.missionId).sequence);
+        assertCurrent(); return true;
+      }).immediate(),
+      observed: (phase, outcome, responseSha256) => this.db.transaction(() => {
+        bound(); let authorized = true, observedAt = Date.now();
+        try { observedAt = check().authority.now; } catch { authorized = false; }
+        const cursor = this.events.cursor(lease.missionId);
+        // Bounded, non-authorizing physical observation, even after fencing.
+        // Never persist transport exceptions, credentials or untrusted remote bodies.
+        this.events.append(lease.missionId, `rms.native-at-rest.observation:${executionId}:${cursor.sequence + 1}`,
+          "rms.native-at-rest.observation", Math.max(observedAt, cursor.time),
+          { version: "rms-native-at-rest-observation-v1", imageDigest, phase, outcome, responseSha256, authorityCurrentBeforeAppend: authorized }, lease.unitId, cursor.sequence);
+        if (authorized) { try { check(); } catch { /* append itself can consume the last TTL: fact stays DATA */ } }
+      }).immediate(),
+    });
+    } finally { nativeAtRestGuards.delete(assertCurrent); }
+  }
   private row(missionId: string, unitId: string): UnitRow {
     const r = this.db.query("SELECT document,digest,state,revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(missionId, unitId) as UnitRow | null;
     invariant(r, "unknown work unit"); return r;
@@ -962,6 +1038,7 @@ export class GraphStore {
     const row = this.db.transaction(() => {
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
       const r = this.outbox(executionId); invariant(r && r.mission === lease.missionId && r.unit_id === lease.unitId && r.token === lease.token, "outbox scope/fence mismatch");
+      invariant(!this.events.read(lease.missionId).some(e => e.key === `rms.native-at-rest.image:${executionId}`), "at-rest DATA cannot use execution dispatch");
       if (r.receipt) { this.assertDurableAdmission(r); return r; }
       invariant(["RESERVED", "RUNNING"].includes(this.unit(lease.missionId, lease.unitId).state), "family stop/validation prevents dispatch");
       invariant(fingerprint(JSON.parse(r.body)) === r.digest, "corrupt outbox admission digest", "schema");
