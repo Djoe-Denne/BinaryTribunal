@@ -1,18 +1,22 @@
-import { scientificCommitId, validateSchema, validateGraphDocument } from "./graph-pure-codecs";
+import { graphKeys, scientificCommitId, validateSchema, validateGraphDocument } from "./graph-pure-codecs";
 export { validateGraphDocument } from "./graph-pure-codecs";
 import type { Database } from "bun:sqlite";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { openOwnDatabase } from "./store";
 import { canonical, fingerprint, failureCause, bridgeFailureCategory, hash, validateFile, validateIdentity, validateKnowledge } from "./validation";
-import type { InputBundle, StoredResult } from "./domain";
+import type { GraphRun, GraphRunV2, InputBundle, Snapshot, StoredResult } from "./domain";
+import { graphInputs, parseGraphRun } from "./graph-adapter";
+import { assertNextContextRunScopesV1, nextContextFileV1, nextContextRootIdentityV1, parseNextContextApprovalRequestV1, parseNextContextApprovalV1, parseNextContextPolicyV1, parseNextContextProjectionV1, verifyNextContextRoleFilesV1, type NextContextApprovalRequestV1, type NextContextApprovalV1, type NextContextPolicyV1, type NextContextProjectionV1 } from "./graph-next-context";
 import { assertPublicationManifestEvidenceV1, parsePublicationMaterializationV1, parseStaticPublicationPolicyV1, publicationTargetIdV1, type PublicationMaterializationV1, type StaticPublicationPolicyV1 } from "./graph-publication-materialization";
 import { staticPublicationReadbackSourceV1 } from "./graph-static-publication";
 import type { ExecutionClient } from "./client";
 import { EventLog, GraphPersistenceError, immutableCopy, integer, invariant, nonempty, type ErrorClass, type GraphEvent } from "./eventlog";
 import { UnitLeaseStore, assertController, assertExecutionQuiescence, assertCanonicalUnitProjection, contradictoryAcceptedObservation, type ControllerAuthority, type UnitLease } from "./unit-lease";
 
-export const GRAPH_SCHEMA_VERSION = 6;
+/** v7 adds only private next-context approvals; v1-v6 scientific rows/codecs stay exact. */
+export const GRAPH_SCHEMA_VERSION = 7;
+const NEXT_CONTEXT_APPROVAL_DDL = "CREATE TABLE IF NOT EXISTS ff8_graph_next_context_approvals(mission TEXT NOT NULL,approval_key TEXT NOT NULL,grant_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,revocation_event TEXT,PRIMARY KEY(mission,approval_key),UNIQUE(mission,grant_id))";
 function contentDigest(value: object): string { const { fingerprint: _ignored, ...content } = value as Record<string, unknown>; return fingerprint(content); }
 
 export type WorkUnitState = "PENDING" | "BLOCKED" | "READY" | "RESERVED" | "RUNNING" | "VALIDATING" | "COMMITTED" | "RETRYABLE" | "FAILED" | "STALE" | "CANCELLED" | "STOP_PENDING" | "QUARANTINED";
@@ -218,6 +222,9 @@ export class GraphStore {
   readonly events: EventLog;
   readonly leases: UnitLeaseStore;
   private readonly parentAuthority?: Readonly<ParentAuthorityProvider>;
+  /** One derived, immutable parse entry only. Never a cache of current rights,
+   * private approvals, publications, config, leases, epochs, access or FS state. */
+  private nextContextOriginCache?: Readonly<{ missionId: string; identity: string; payloadBytes: string; run: GraphRun; policy?: NextContextPolicyV1 }>;
   constructor(readonly path = ":memory:", options: GraphStoreOptions = {}) {
     if (options.parentAuthority) {
       const provider = options.parentAuthority;
@@ -228,7 +235,7 @@ export class GraphStore {
       const names = this.db.query("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all() as Array<{ name: string }>;
       const ownTables = new Set(["ff8_harness_metadata", "ff8_missions", "ff8_intents", "ff8_history", "ff8_fixture_targets", "ff8_fixture_publications",
         "ff8_bridge_missions", "ff8_bridge_requests", "ff8_bridge_command_attempts", "ff8_bridge_events", "ff8_bridge_communication_audits",
-        "ff8_graph_metadata", "ff8_graph_snapshots", "ff8_graph_partitions", "ff8_graph_units", "ff8_graph_results", "ff8_graph_commits", "ff8_graph_outbox", "ff8_graph_publications", "ff8_graph_streams", "ff8_graph_fence", "ff8_graph_plans", "ff8_graph_active_plan", "ff8_graph_receipts", "ff8_graph_parent_authorities", "ff8_graph_native_authors", "ff8_graph_parent_attestations", "ff8_graph_input_pins", "ff8_graph_artifact_bindings", "ff8_graph_publication_effects", "ff8_events", "ff8_unit_leases", "ff8_unit_claims"]);
+        "ff8_graph_metadata", "ff8_graph_snapshots", "ff8_graph_partitions", "ff8_graph_units", "ff8_graph_results", "ff8_graph_commits", "ff8_graph_outbox", "ff8_graph_publications", "ff8_graph_streams", "ff8_graph_fence", "ff8_graph_plans", "ff8_graph_active_plan", "ff8_graph_receipts", "ff8_graph_parent_authorities", "ff8_graph_native_authors", "ff8_graph_parent_attestations", "ff8_graph_input_pins", "ff8_graph_artifact_bindings", "ff8_graph_publication_effects", "ff8_graph_next_context_approvals", "ff8_events", "ff8_unit_leases", "ff8_unit_claims"]);
       invariant(names.every(r => ownTables.has(r.name)), "foreign tables in OWN database", "schema");
       this.db.exec("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;");
       this.db.transaction(() => {
@@ -250,7 +257,24 @@ export class GraphStore {
           CREATE TABLE IF NOT EXISTS ff8_graph_parent_attestations(mission TEXT NOT NULL,attestation_id TEXT NOT NULL,unit_id TEXT NOT NULL,token INTEGER NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,revocation_event TEXT,PRIMARY KEY(mission,attestation_id));
           CREATE TABLE IF NOT EXISTS ff8_graph_input_pins(mission TEXT NOT NULL,unit_id TEXT NOT NULL,token INTEGER NOT NULL,sub_intent TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,unit_id,token,sub_intent));
           CREATE TABLE IF NOT EXISTS ff8_graph_artifact_bindings(mission TEXT NOT NULL,commit_id TEXT NOT NULL,artifact_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,commit_id,artifact_id));
-          CREATE TABLE IF NOT EXISTS ff8_graph_publication_effects(mission TEXT NOT NULL,unit_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,unit_id));`);
+          CREATE TABLE IF NOT EXISTS ff8_graph_publication_effects(mission TEXT NOT NULL,unit_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,unit_id));
+          ${NEXT_CONTEXT_APPROVAL_DDL};`);
+        // IF NOT EXISTS is not a schema check: a homonymous view/table must not
+        // become an authorization store merely because its name is allowlisted.
+        const approvalTable = "ff8_graph_next_context_approvals", definition = this.db.query("SELECT type,sql FROM sqlite_master WHERE name=?").get(approvalTable) as { type: string; sql: string } | null;
+        invariant(definition?.type === "table" && !/^CREATE\s+VIRTUAL\s+TABLE/i.test(definition.sql), "incompatible private next context approval table", "schema");
+        const normalizedDdl = (sql: string) => sql.replace(/\bIF\s+NOT\s+EXISTS\b/gi, "").replace(/\s+/g, "").replace(/;+$/, "").toLowerCase();
+        invariant(normalizedDdl(definition.sql) === normalizedDdl(NEXT_CONTEXT_APPROVAL_DDL), "incompatible private next context approval declaration", "schema");
+        const columns = this.db.query("PRAGMA table_xinfo(ff8_graph_next_context_approvals)").all() as Array<{ cid: number; name: string; type: string; notnull: number; dflt_value: unknown; pk: number; hidden: number }>;
+        const expectedColumns = ["mission", "approval_key", "grant_id", "document", "digest", "event_key", "revocation_event"];
+        invariant(columns.length === expectedColumns.length && columns.every((c, i) => c.cid === i && c.name === expectedColumns[i] && c.type === "TEXT"
+          && c.notnull === (i === 6 ? 0 : 1) && c.dflt_value === null && c.pk === (i === 0 ? 1 : i === 1 ? 2 : 0) && c.hidden === 0), "incompatible private approval columns/primary key", "schema");
+        const indexes = this.db.query("PRAGMA index_list(ff8_graph_next_context_approvals)").all() as Array<{ name: string; unique: number; origin: string; partial: number }>;
+        invariant(indexes.length === 2 && indexes.every(i => i.unique === 1 && ["pk", "u"].includes(i.origin) && i.partial === 0 && /^sqlite_autoindex_ff8_graph_next_context_approvals_[12]$/.test(i.name)), "incompatible private approval indexes", "schema");
+        const indexColumns = indexes.map(i => (this.db.query(`PRAGMA index_info("${i.name}")`).all() as Array<{ name: string }>).map(c => c.name));
+        invariant(canonical(indexColumns.map(canonical).sort()) === canonical([["mission", "approval_key"], ["mission", "grant_id"]].map(canonical).sort())
+          && this.db.query("PRAGMA foreign_key_list(ff8_graph_next_context_approvals)").all().length === 0
+          && !this.db.query("SELECT 1 FROM sqlite_master WHERE type='trigger' AND tbl_name=?").get(approvalTable), "incompatible private approval constraints/triggers", "schema");
         this.db.query("UPDATE ff8_graph_metadata SET version=? WHERE id=1").run(GRAPH_SCHEMA_VERSION);
       }).immediate();
       this.events = new EventLog(this.db); this.leases = new UnitLeaseStore(this.db, this.events);
@@ -527,8 +551,10 @@ export class GraphStore {
       assertController(this.db, authority, authority.lease.missionId);
       this.assertNoRetainedPublication(authority.lease.missionId, unitId);
       const u = this.unit(authority.lease.missionId, unitId); invariant(u.state === "READY", "only READY units can be reserved"); this.assertBinding(authority.lease.missionId, u, expected); this.assertPrerequisites(authority.lease.missionId, u);
+      const projected = this.assertNextContextReservation(authority, unitId);
       const lease = this.leases.reserve(authority, unitId, [...u.ownedFunctionIds.map(id => `fn:${id}`), ...u.conflicts.map(c => c.resourceKey)], ttlEvents, expected!);
-      this.change(authority, unitId, "RESERVED", "canonical family ownership acquired"); return lease;
+      this.change(authority, unitId, "RESERVED", "canonical family ownership acquired");
+      if (projected) { this.assertNextContextReservation(authority, unitId); this.leases.assert(lease, authority); } return lease;
     }).immediate();
   }
   tick(authority: ControllerAuthority, key: string, count = 1): void {
@@ -548,6 +574,267 @@ export class GraphStore {
       else if (state !== "QUARANTINED" && state !== "BLOCKED") this.change(authority, unitId, "QUARANTINED", "expiry does not prove worker termination"); return next;
     }).immediate();
   }
+  private nextContextOrigin(missionId: string): Readonly<{ missionId: string; identity: string; payloadBytes: string; run: GraphRun; policy?: NextContextPolicyV1 }> | undefined {
+    // Always reread current origin rows before considering a parse hit. Including
+    // the closed key namespace also rejects an origin whose kind was altered.
+    const origins = this.db.query("SELECT mission,sequence,time,key,kind,unit_id,payload,hex(CAST(payload AS BLOB)) AS payload_hex,digest FROM ff8_events WHERE mission=? AND (kind IN ('l8.graph2.preparing','l8.graph.preparing') OR key GLOB 'l8.graph2.prepare:*' OR key GLOB 'l8.graph.prepare:*') ORDER BY sequence LIMIT 2").all(missionId) as Array<{ mission: string; sequence: number; time: number; key: string; kind: string; unit_id: string | null; payload: string; payload_hex: string; digest: string }>;
+    invariant(origins.length <= 1, "multiple next context origins", "schema");
+    if (!origins.length) {
+      // A genuinely legacy OWN mission may have no graph preparation. A missing
+      // known/anchored origin must never turn an existing graph into legacy.
+      const owned = this.db.query("SELECT 1 FROM ff8_events WHERE mission=? AND (kind GLOB 'l8.graph.*' OR kind GLOB 'l8.graph2.*' OR kind GLOB 'next_context_*') LIMIT 1").get(missionId);
+      const approved = this.db.query("SELECT 1 FROM ff8_graph_next_context_approvals WHERE mission=? LIMIT 1").get(missionId);
+      const hasMissions = this.db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_missions'").get();
+      const snapshot = hasMissions ? this.db.query("SELECT snapshot FROM ff8_missions WHERE id=?").get(missionId) as { snapshot: string } | null : null;
+      const cycles = snapshot ? (JSON.parse(snapshot.snapshot) as Snapshot).cycles : [];
+      const anchored = Array.isArray(cycles) && cycles.some(c => c && Object.hasOwn(c, "graph"));
+      invariant(this.nextContextOriginCache?.missionId !== missionId && !owned && !approved && !anchored, "missing next context origin; no legacy fallback", "schema"); return;
+    }
+    const origin = origins[0]!, cursor = this.events.cursor(missionId);
+    invariant(origin.mission === missionId && Number.isSafeInteger(origin.sequence) && origin.sequence >= 1 && Number.isSafeInteger(cursor.sequence) && origin.sequence <= cursor.sequence
+      && Number.isSafeInteger(origin.time) && origin.time >= 0 && Number.isSafeInteger(cursor.time) && origin.time <= cursor.time && origin.unit_id === null && typeof origin.payload === "string"
+      && typeof origin.payload_hex === "string" && /^(?:[0-9A-F]{2})+$/.test(origin.payload_hex)
+      && ["l8.graph2.preparing", "l8.graph.preparing"].includes(origin.kind), "invalid next context origin identity/sequence/time/attribution", "schema");
+    const payload = graphKeys(JSON.parse(origin.payload), ["version", "run"], ["publicationPolicy", "nextContextPolicy"]);
+    invariant(origin.digest === fingerprint({ kind: origin.kind, time: origin.time, payload, unitId: origin.unit_id }), "next context origin digest mismatch", "schema");
+    const identity = canonical({ missionId: origin.mission, sequence: origin.sequence, time: origin.time, key: origin.key, kind: origin.kind, unitId: origin.unit_id, digest: origin.digest });
+    const old = this.nextContextOriginCache;
+    if (old?.missionId === missionId && old.identity === identity && old.payloadBytes === origin.payload_hex) return old;
+    const run = parseGraphRun(payload.run), v2 = run.version === "l8-graph-run-v2";
+    invariant(run.missionId === missionId && payload.version === (v2 ? "l8-graph-preparing-v2" : "l8-graph-preparing-v1")
+      && origin.kind === (v2 ? "l8.graph2.preparing" : "l8.graph.preparing") && origin.key === `${v2 ? "l8.graph2" : "l8.graph"}.prepare:${run.cycle}`, "next context origin attribution/version/key mismatch", "schema");
+    invariant(v2 || !Object.hasOwn(payload, "publicationPolicy"), "historical run refuses prospective publication policy", "schema");
+    const policy = Object.hasOwn(payload, "nextContextPolicy") ? parseNextContextPolicyV1(payload.nextContextPolicy) : undefined;
+    invariant(!policy || (v2 && Object.hasOwn(payload, "publicationPolicy")), "historical run refuses next context policy", "schema");
+    if (policy) assertNextContextRunScopesV1(policy, run);
+    for (const grant of policy?.grants ?? []) {
+      const producer = run.prepared.planning.units.find(u => u.unitId === grant.producerUnitId), consumer = run.prepared.planning.units.find(u => u.unitId === grant.consumerUnitId);
+      invariant(producer && consumer && run.prepared.planning.plan.selectedUnitIds.includes(producer.unitId) && run.prepared.planning.plan.selectedUnitIds.includes(consumer.unitId)
+        && producer.ownedFunctionIds.includes(grant.producerFunctionId) && consumer.ownedFunctionIds.includes(grant.consumerFunctionId)
+        && grant.roles.every(role => consumer.subIntents.some(s => s.functionId === grant.consumerFunctionId && s.role === role))
+        && grant.knowledgeRevision === producer.knowledgeRevision + 1 && grant.publicationLevel >= producer.requiredPublicationLevel, "grant differs from exact selected producer/consumer/revision/roles", "auth");
+    }
+    // All values in this entry are pure derivations of the exact source bytes.
+    // immutableCopy prevents a returned object from mutating a future parse hit.
+    const parsed = immutableCopy({ missionId, identity, payloadBytes: origin.payload_hex, run, ...(policy ? { policy } : {}) });
+    this.nextContextOriginCache = parsed; return parsed;
+  }
+  private nextContextRun(missionId: string): GraphRunV2 {
+    const run = this.nextContextOrigin(missionId)?.run;
+    invariant(run && run.version === "l8-graph-run-v2", "next context requires original prospective preparation", "schema"); return run;
+  }
+  nextContextPolicy(missionId: string): NextContextPolicyV1 | undefined {
+    const origin = this.nextContextOrigin(missionId), policy = origin?.policy; if (!policy) return;
+    // These are CURRENT authorization reads, never part of the parse cache.
+    const publication = this.publicationPolicy(missionId);
+    invariant(publication && publication.ownerActorId === policy.ownerActorId, "next context requires matching prospective publication parent", "auth");
+    const parent = this.db.query("SELECT document,digest,event_key FROM ff8_graph_parent_authorities WHERE mission=?").get(missionId) as { document: string; digest: string; event_key: string } | null;
+    invariant(parent && fingerprint(JSON.parse(parent.document)) === parent.digest && (JSON.parse(parent.document) as ParentAuthorityIdentity).actorId === policy.ownerActorId,
+      "next context policy lacks original verified parent record", "auth");
+    this.assertAuthorizationEvent(missionId, parent.event_key, "parent_authority_bootstrapped", JSON.parse(parent.document), null);
+    return structuredClone(policy);
+  }
+  assertNextContextPolicyOwner(authority: ControllerAuthority, policy: NextContextPolicyV1): void {
+    assertController(this.db, authority, authority.lease.missionId);
+    invariant(this.bootstrapParentAuthority(authority).identity.actorId === parseNextContextPolicyV1(policy).ownerActorId, "next context policy owner is not the verified parent", "auth");
+    assertController(this.db, authority, authority.lease.missionId);
+  }
+  /** A preflight hint only. It grants nothing; freeze/pin/dispatch repeat the
+   * authoritative checks. Invalid sources cannot monopolize a scheduling slot. */
+  nextContextSourcesAvailable(missionId: string, unitId: string): boolean {
+    const policy = this.nextContextPolicy(missionId); if (!policy?.grants.some(g => g.consumerUnitId === unitId)) return true;
+    let pending = false;
+    for (const grant of policy.grants.filter(g => g.consumerUnitId === unitId)) {
+      const approval = this.db.query("SELECT approval_key,revocation_event FROM ff8_graph_next_context_approvals WHERE mission=? AND grant_id=?").get(missionId, grant.id) as { approval_key: string; revocation_event: string | null } | null;
+      const source = this.db.query("SELECT 1 FROM ff8_graph_commits WHERE mission=? AND unit_id=?").get(missionId, grant.producerUnitId);
+      if (!source) {
+        const producer = this.unit(missionId, grant.producerUnitId), lease = this.leases.get(missionId, grant.producerUnitId);
+        invariant(!approval && ["PENDING", "BLOCKED", "READY", "RESERVED", "RUNNING", "VALIDATING", "RETRYABLE"].includes(producer.state), "next context source failed/fenced or lost its private commit", "scientific_block");
+        invariant(lease?.state !== "quarantined", "next context producer fence quarantined before publication", "auth");
+        if (lease?.state === "active") this.leases.assert(lease);
+        pending = true; continue;
+      }
+      invariant(this.satisfies(missionId, grant.producerUnitId, grant.publicationLevel), "next context committed source is currently unauthorized/revoked/corrupt", "scientific_block");
+      if (!approval) {
+        const events = this.events.read(missionId);
+        invariant(!events.some(e => e.kind === "next_context_approved" && (e.payload as { grantId?: unknown } | null)?.grantId === grant.id), "public approval event without private authorization row", "auth");
+        invariant(!events.some(e => e.kind === "next_context_projection_frozen" && e.unitId === unitId), "frozen context lost its private approval", "auth");
+        const manifest = this.publicationMaterialization(missionId, grant.producerUnitId); invariant(manifest, "committed next context source lost its publication manifest", "schema");
+        const artifacts = manifest.artifacts.filter(a => a.functionId === grant.producerFunctionId && a.artifactKind === grant.artifactKind);
+        invariant(artifacts.length === 1, "published next context source absent/ambiguous for exact grant", "scientific_block"); pending = true; continue;
+      }
+      invariant(!approval.revocation_event, "next context consumer approval revoked", "auth");
+    }
+    if (pending) return false; // only an ordinary, still-unpublished/unapproved source waits
+    this.currentNextContextEntries(missionId, unitId, { missionId, runFingerprint: this.nextContextRun(missionId).fingerprint, unitId, familyToken: 1, policy, policySha256: fingerprint(policy) }); return true;
+  }
+  private assertNextContextReservation(authority: ControllerAuthority, unitId: string): boolean {
+    const policy = this.nextContextPolicy(authority.lease.missionId); if (!policy?.grants.some(g => g.consumerUnitId === unitId)) return false;
+    assertController(this.db, authority, authority.lease.missionId); this.assertNextContextPolicyOwner(authority, policy);
+    invariant(this.nextContextSourcesAvailable(authority.lease.missionId, unitId), "next context still awaits publication/private approval; reservation forbidden", "auth");
+    assertController(this.db, authority, authority.lease.missionId); return true;
+  }
+  /** Historical image ONLY. No current source authorization or FS availability
+   * is inferred from its presence, event digest, paths or approvedForBlind. */
+  nextContextProjection(missionId: string, unitId: string, familyToken: number): NextContextProjectionV1 | undefined {
+    const event = this.events.read(missionId).find(e => e.key === `next_context_projection:${unitId}:${familyToken}`);
+    if (!event) return;
+    const image = parseNextContextProjectionV1(event.payload), policy = this.nextContextPolicy(missionId), run = this.nextContextRun(missionId);
+    invariant(policy && canonical(policy) === canonical(image.policy) && image.missionId === missionId && image.unitId === unitId && image.familyToken === familyToken
+      && image.runFingerprint === run.fingerprint && image.planFingerprint === run.prepared.planning.plan.fingerprint && image.bindingFingerprint === run.prepared.planning.binding.fingerprint
+      && image.baseKnowledgeRevision === run.prepared.planning.units.find(u => u.unitId === unitId)?.knowledgeRevision, "historical projection scope/policy changed", "schema");
+    this.assertAuthorizationEvent(missionId, event.key, "next_context_projection_frozen", image, unitId); return image;
+  }
+  private resolveNextContextApproval(missionId: string, request: NextContextApprovalRequestV1, parent: { identity: ParentAuthorityIdentity; digest: string }): NextContextApprovalV1 {
+    const policy = this.nextContextPolicy(missionId), run = this.nextContextRun(missionId), grant = policy?.grants.find(g => g.id === request.grantId);
+    invariant(policy && grant && parent.identity.actorId === policy.ownerActorId && parent.identity.missionId === missionId, "next context approval requires actual scoped parent", "auth");
+    invariant(request.producerUnitId === grant.producerUnitId && request.producerFunctionId === grant.producerFunctionId && request.consumerUnitId === grant.consumerUnitId
+      && request.consumerFunctionId === grant.consumerFunctionId && request.knowledgeRevision === grant.knowledgeRevision && request.publicationLevel === grant.publicationLevel
+      && canonical(request.roles) === canonical(grant.roles), "approval tuple/roles differ from exact prospective scope", "auth");
+    const expectation = this.reservationExpectation(missionId);
+    invariant(expectation.bindingFingerprint === run.prepared.planning.binding.fingerprint && expectation.planFingerprint === run.prepared.planning.plan.fingerprint
+      && expectation.missionRevision === run.missionRevision && expectation.knowledgeRevision === run.prepared.snapshot.knowledgeRevision, "approval targets stale run/plan/binding/revision", "auth");
+    const row = this.db.query("SELECT unit_id,document FROM ff8_graph_commits WHERE mission=? AND commit_id=?").get(missionId, request.commitId) as { unit_id: string; document: string } | null;
+    invariant(row && row.unit_id === grant.producerUnitId, "approval source requires exact final COMMITTED identity", "scientific_block");
+    const commit = JSON.parse(row.document) as KnowledgeCommit, manifest = this.publicationMaterialization(missionId, grant.producerUnitId);
+    invariant(manifest && this.satisfies(missionId, grant.producerUnitId, grant.publicationLevel) && commit.outputRevision === grant.knowledgeRevision && commit.publicationLevel === grant.publicationLevel,
+      "approval source lacks exact verified publication/readback", "scientific_block");
+    const artifact = manifest.artifacts.find(a => a.artifactId === request.artifactId), binding = this.artifactBinding(missionId, request.commitId, request.artifactId);
+    invariant(artifact && artifact.functionId === grant.producerFunctionId && artifact.artifactKind === grant.artifactKind && binding.producerUnitId === grant.producerUnitId
+      && binding.functionId === grant.producerFunctionId && binding.artifactKind === grant.artifactKind && binding.knowledgeRevision === request.knowledgeRevision && binding.publicationLevel === request.publicationLevel
+      && binding.content === artifact.content && binding.artifactSha256 === request.artifactSha256 && hash(binding.content) === request.artifactSha256
+      && binding.parentActorId === parent.identity.actorId && binding.parentAuthorityDigest === parent.digest && binding.parentAttestationId,
+      "approval differs from exact raw parent-attested binding", "scientific_block");
+    const attestation = this.parentAttestation(missionId, binding.parentAttestationId);
+    invariant(attestation.parentActorId === parent.identity.actorId && attestation.parentAuthorityDigest === parent.digest, "approval source attestation parent mismatch", "auth");
+    const body = { ...request, version: "rms-next-context-approval-v1" as const, missionId, runFingerprint: run.fingerprint, planFingerprint: run.prepared.planning.plan.fingerprint,
+      bindingFingerprint: run.prepared.planning.binding.fingerprint, policySha256: fingerprint(policy), artifactKind: binding.artifactKind, sourceBindingSha256: fingerprint(binding), publicationManifestSha256: fingerprint(manifest),
+      parentAttestationId: attestation.attestationId, parentAttestationSha256: fingerprint(attestation), parentActorId: parent.identity.actorId, parentAuthorityDigest: parent.digest };
+    return parseNextContextApprovalV1({ ...body, approvalId: fingerprint(body) });
+  }
+  /** Private row + exact event, not an imported event or a self-hashed document.
+   * Historical reads deliberately do not reauthorize or require today's files. */
+  nextContextApproval(missionId: string, approvalKey: string): NextContextApprovalV1 {
+    const row = this.db.query("SELECT grant_id,document,digest,event_key FROM ff8_graph_next_context_approvals WHERE mission=? AND approval_key=?").get(missionId, approvalKey) as { grant_id: string; document: string; digest: string; event_key: string } | null;
+    invariant(row, "missing private next context approval; public events are evidence only", "auth");
+    const doc = parseNextContextApprovalV1(JSON.parse(row.document));
+    invariant(doc.missionId === missionId && doc.approvalKey === approvalKey && doc.grantId === row.grant_id && row.document === canonical(doc) && row.digest === fingerprint(doc)
+      && row.event_key === `next_context_approval:${doc.approvalId}`, "private approval digest/scope changed", "schema");
+    this.assertAuthorizationEvent(missionId, row.event_key, "next_context_approved", doc, doc.consumerUnitId);
+    const parent = this.db.query("SELECT document,digest,event_key FROM ff8_graph_parent_authorities WHERE mission=?").get(missionId) as { document: string; digest: string; event_key: string } | null;
+    invariant(parent && parent.digest === doc.parentAuthorityDigest && fingerprint(JSON.parse(parent.document)) === parent.digest
+      && (JSON.parse(parent.document) as ParentAuthorityIdentity).actorId === doc.parentActorId, "approval original private parent record changed", "auth");
+    this.assertAuthorizationEvent(missionId, parent.event_key, "parent_authority_bootstrapped", JSON.parse(parent.document), null); return doc;
+  }
+  approveNextContextArtifact(authority: ControllerAuthority, rawRequest: NextContextApprovalRequestV1): NextContextApprovalV1 {
+    authority = immutableCopy(authority); const request = parseNextContextApprovalRequestV1(immutableCopy(rawRequest));
+    return this.db.transaction(() => {
+      assertController(this.db, authority, authority.lease.missionId);
+      const parent = this.bootstrapParentAuthority(authority), doc = this.resolveNextContextApproval(authority.lease.missionId, request, parent);
+      const old = this.db.query("SELECT approval_key,document,digest,revocation_event FROM ff8_graph_next_context_approvals WHERE mission=? AND (approval_key=? OR grant_id=?)").get(doc.missionId, doc.approvalKey, doc.grantId) as { approval_key: string; document: string; digest: string; revocation_event: string | null } | null;
+      if (old) {
+        invariant(!old.revocation_event && old.approval_key === doc.approvalKey && old.document === canonical(doc) && old.digest === fingerprint(doc), "immutable/revoked exact approval cannot be changed or re-keyed", "auth");
+        const retained = this.nextContextApproval(doc.missionId, doc.approvalKey);
+        invariant(canonical(this.resolveNextContextApproval(doc.missionId, request, this.bootstrapParentAuthority(authority))) === canonical(retained), "approval retry source/parent changed", "auth");
+        assertController(this.db, authority, doc.missionId); return retained;
+      }
+      const eventKey = `next_context_approval:${doc.approvalId}`;
+      invariant(!this.events.read(doc.missionId).some(e => e.key === eventKey), "orphan public approval event cannot be promoted into authority", "auth");
+      this.db.query("INSERT INTO ff8_graph_next_context_approvals VALUES(?,?,?,?,?,?,NULL)").run(doc.missionId, doc.approvalKey, doc.grantId, canonical(doc), fingerprint(doc), eventKey);
+      this.events.append(doc.missionId, eventKey, "next_context_approved", authority.now, doc, doc.consumerUnitId);
+      invariant(canonical(this.resolveNextContextApproval(doc.missionId, request, this.bootstrapParentAuthority(authority))) === canonical(doc), "approval source/parent changed during append", "auth");
+      const current = this.db.query("SELECT revocation_event FROM ff8_graph_next_context_approvals WHERE mission=? AND approval_key=?").get(doc.missionId, doc.approvalKey) as { revocation_event: string | null } | null;
+      invariant(current && !current.revocation_event, "approval absent/revoked during append", "auth");
+      assertController(this.db, authority, doc.missionId); return this.nextContextApproval(doc.missionId, doc.approvalKey);
+    }).immediate();
+  }
+  revokeNextContextApproval(authority: ControllerAuthority, approvalKey: string, reason: string): void {
+    authority = immutableCopy(authority); nonempty(approvalKey); nonempty(reason);
+    this.db.transaction(() => {
+      assertController(this.db, authority, authority.lease.missionId);
+      const parent = this.bootstrapParentAuthority(authority), doc = this.nextContextApproval(authority.lease.missionId, approvalKey), policy = this.nextContextPolicy(doc.missionId);
+      invariant(policy?.ownerActorId === parent.identity.actorId && doc.parentActorId === parent.identity.actorId && doc.parentAuthorityDigest === parent.digest, "only original verified parent may revoke approval", "auth");
+      const row = this.db.query("SELECT revocation_event FROM ff8_graph_next_context_approvals WHERE mission=? AND approval_key=?").get(doc.missionId, approvalKey) as { revocation_event: string | null };
+      const key = `next_context_approval_revoked:${doc.approvalId}`, payload = { approvalKey, approvalId: doc.approvalId, parentActorId: parent.identity.actorId, parentAuthorityDigest: parent.digest, reason };
+      if (row.revocation_event) { invariant(row.revocation_event === key, "approval revocation reference changed", "schema"); this.assertAuthorizationEvent(doc.missionId, key, "next_context_approval_revoked", payload, doc.consumerUnitId); return; }
+      this.events.append(doc.missionId, key, "next_context_approval_revoked", authority.now, payload, doc.consumerUnitId);
+      invariant(this.db.query("UPDATE ff8_graph_next_context_approvals SET revocation_event=? WHERE mission=? AND approval_key=? AND revocation_event IS NULL").run(key, doc.missionId, approvalKey).changes === 1, "approval revocation CAS changed", "auth");
+      invariant(this.bootstrapParentAuthority(authority).digest === doc.parentAuthorityDigest, "parent changed during approval revocation", "auth"); assertController(this.db, authority, doc.missionId);
+    }).immediate();
+  }
+  private currentNextContextEntries(missionId: string, unitId: string, scope: Pick<NextContextProjectionV1, "missionId" | "runFingerprint" | "unitId" | "familyToken" | "policy" | "policySha256">): NextContextProjectionV1["entries"] {
+    return scope.policy.grants.filter(g => g.consumerUnitId === unitId).map(grant => {
+      const row = this.db.query("SELECT approval_key,revocation_event FROM ff8_graph_next_context_approvals WHERE mission=? AND grant_id=?").get(missionId, grant.id) as { approval_key: string; revocation_event: string | null } | null;
+      invariant(row && !row.revocation_event, "required private next context approval absent/revoked", "auth");
+      const approval = this.nextContextApproval(missionId, row.approval_key), parent = this.db.query("SELECT document,digest FROM ff8_graph_parent_authorities WHERE mission=?").get(missionId) as { document: string; digest: string };
+      const request = parseNextContextApprovalRequestV1({ approvalKey: approval.approvalKey, grantId: approval.grantId, producerUnitId: approval.producerUnitId, producerFunctionId: approval.producerFunctionId,
+        commitId: approval.commitId, artifactId: approval.artifactId, artifactSha256: approval.artifactSha256, knowledgeRevision: approval.knowledgeRevision, publicationLevel: approval.publicationLevel,
+        consumerUnitId: approval.consumerUnitId, consumerFunctionId: approval.consumerFunctionId, roles: approval.roles });
+      invariant(canonical(this.resolveNextContextApproval(missionId, request, { identity: JSON.parse(parent.document) as ParentAuthorityIdentity, digest: parent.digest })) === canonical(approval), "approved source images/digests/parent/grant changed", "auth");
+      const binding = this.artifactBinding(missionId, approval.commitId, approval.artifactId);
+      return { grantId: grant.id, roles: structuredClone(grant.roles), binding, approval, file: nextContextFileV1(scope, grant, binding, approval) };
+    });
+  }
+  /** CURRENT effect gate, not historical parsing. A private exact approval,
+   * publication attestation AND prospective consumer scope are all required. */
+  assertNextContextCurrent(authority: ControllerAuthority, lease: UnitLease, raw?: NextContextProjectionV1): void {
+    assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+    const policy = this.nextContextPolicy(lease.missionId); if (!policy?.grants.some(g => g.consumerUnitId === lease.unitId)) { invariant(!raw, "unapproved context image", "auth"); return; }
+    const image = raw === undefined ? this.nextContextProjection(lease.missionId, lease.unitId, lease.token) : parseNextContextProjectionV1(raw);
+    invariant(image, "required next context image absent", "auth");
+    const retained = this.nextContextProjection(lease.missionId, lease.unitId, lease.token);
+    invariant(!retained || canonical(retained) === canonical(image), "frozen next context image cannot be replaced", "auth");
+    const run = this.nextContextRun(lease.missionId), parent = this.bootstrapParentAuthority(authority), current = this.familyPublicationContext(lease);
+    invariant(parent.identity.actorId === policy.ownerActorId && image.missionId === lease.missionId && image.unitId === lease.unitId && image.familyToken === lease.token && image.controllerToken === authority.lease.token
+      && image.runFingerprint === run.fingerprint && image.policySha256 === fingerprint(policy) && canonical(image.policy) === canonical(policy)
+      && image.bindingFingerprint === current.bindingFingerprint && image.planFingerprint === current.plan.fingerprint && image.baseKnowledgeRevision === current.plan.knowledgeRevision,
+      "next context parent/current consumer fence/policy/binding changed", "auth");
+    invariant(canonical(nextContextRootIdentityV1(policy)) === canonical(image.rootIdentity), "next context frozen parent root changed", "auth");
+    invariant(canonical(image.entries) === canonical(this.currentNextContextEntries(lease.missionId, lease.unitId, image)), "next context frozen source tuple/authorization changed", "scientific_block");
+    assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+  }
+  freezeNextContextProjection(authority: ControllerAuthority, lease: UnitLease): NextContextProjectionV1 | undefined {
+    authority = immutableCopy(authority); lease = immutableCopy(lease);
+    return this.db.transaction(() => {
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      const policy = this.nextContextPolicy(lease.missionId); if (!policy?.grants.some(g => g.consumerUnitId === lease.unitId)) return;
+      const old = this.nextContextProjection(lease.missionId, lease.unitId, lease.token);
+      if (old) { this.assertNextContextCurrent(authority, lease, old); return old; }
+      invariant(!this.db.query("SELECT 1 FROM ff8_graph_input_pins WHERE mission=? AND unit_id=? AND token=?").get(lease.missionId, lease.unitId, lease.token)
+        && !this.db.query("SELECT 1 FROM ff8_graph_outbox WHERE mission=? AND unit_id=? AND token=?").get(lease.missionId, lease.unitId, lease.token), "old inputs/outbox cannot be retroactively projected", "auth");
+      const run = this.nextContextRun(lease.missionId), unit = this.unit(lease.missionId, lease.unitId);
+      const scope = { version: "rms-next-context-projection-v1" as const, missionId: lease.missionId, runFingerprint: run.fingerprint, planFingerprint: run.prepared.planning.plan.fingerprint,
+        bindingFingerprint: run.prepared.planning.binding.fingerprint, unitId: lease.unitId, familyToken: lease.token, controllerToken: authority.lease.token, baseKnowledgeRevision: unit.knowledgeRevision,
+        rootIdentity: nextContextRootIdentityV1(policy), policy, policySha256: fingerprint(policy) };
+      const body = { ...scope, entries: this.currentNextContextEntries(lease.missionId, lease.unitId, scope) }, image = parseNextContextProjectionV1({ ...body, fingerprint: fingerprint(body) });
+      this.assertNextContextCurrent(authority, lease, image);
+      this.events.append(lease.missionId, `next_context_projection:${lease.unitId}:${lease.token}`, "next_context_projection_frozen", authority.now, image, lease.unitId);
+      this.assertNextContextCurrent(authority, lease, image); return image;
+    }).immediate();
+  }
+  nextContextMaterialized(image: NextContextProjectionV1): boolean {
+    const key = `next_context_materialized:${image.unitId}:${image.familyToken}`, event = this.events.read(image.missionId).find(e => e.key === key);
+    if (!event) return false;
+    this.assertAuthorizationEvent(image.missionId, key, "next_context_materialized", { version: "rms-next-context-materialized-v1", projectionFingerprint: image.fingerprint }, image.unitId); return true;
+  }
+  recordNextContextMaterialized(authority: ControllerAuthority, lease: UnitLease, image: NextContextProjectionV1): void {
+    this.db.transaction(() => {
+      this.assertNextContextCurrent(authority, lease, image);
+      for (const grant of image.policy.grants.filter(g => g.consumerUnitId === image.unitId)) for (const role of grant.roles) verifyNextContextRoleFilesV1(image, grant.consumerFunctionId, role);
+      if (!this.nextContextMaterialized(image)) this.events.append(image.missionId, `next_context_materialized:${image.unitId}:${image.familyToken}`, "next_context_materialized", authority.now,
+        { version: "rms-next-context-materialized-v1", projectionFingerprint: image.fingerprint }, image.unitId);
+      this.assertNextContextCurrent(authority, lease, image);
+    }).immediate();
+  }
+  private assertNextContextInputs(authority: ControllerAuthority, lease: UnitLease, sub: WorkUnit["subIntents"][number], inputs: InputBundle, current: boolean): void {
+    const policy = this.nextContextPolicy(lease.missionId); if (!policy?.grants.some(g => g.consumerUnitId === lease.unitId)) return;
+    const image = this.nextContextProjection(lease.missionId, lease.unitId, lease.token); invariant(image, "next context input image missing", "auth");
+    if (current) { this.assertNextContextCurrent(authority, lease, image); verifyNextContextRoleFilesV1(image, sub.functionId, sub.role); }
+    const row = this.db.query("SELECT snapshot FROM ff8_missions WHERE id=?").get(lease.missionId) as { snapshot: string }, snapshot = JSON.parse(row.snapshot) as Snapshot;
+    const expected = graphInputs(this.nextContextRun(lease.missionId), snapshot, sub, inputs.proposals as StoredResult[] | undefined, image);
+    invariant(canonical(inputs) === canonical(expected), "actual next context input set differs from exact authorized role view", "auth");
+    if (current) this.assertNextContextCurrent(authority, lease, image);
+  }
   /** Controller freezes already-known inputs independently of the worker command.
    * Every family/sub-intent requires this durable pin, including fixtures. An
    * old outbox cannot be retroactively authorized by pinning its own declaration.
@@ -559,6 +846,7 @@ export class GraphStore {
       const unit = this.unit(lease.missionId, lease.unitId), sub = unit.subIntents.find(s => s.subIntentId === subIntentId);
       invariant(sub && ["RESERVED", "RUNNING"].includes(unit.state), "input pin requires an active attributable sub-intent");
       validateAdmissionInputs(inputs, sub);
+      this.assertNextContextInputs(authority, lease, sub, inputs, true);
       const frozen = this.familyPublicationContext(lease), { state: _state, ...content } = unit;
       invariant(frozen.sidecar.unitFingerprints[unit.unitId] === fingerprint(content) && frozen.plan.snapshotId === unit.snapshotId && frozen.plan.partitionId === unit.partitionId && frozen.plan.knowledgeRevision === unit.knowledgeRevision, "stale input pin unit/plan/revision binding");
       const mission = this.db.query("SELECT revision FROM ff8_missions WHERE id=?").get(lease.missionId) as { revision: number };
@@ -573,7 +861,7 @@ export class GraphStore {
       invariant(!this.db.query("SELECT 1 FROM ff8_graph_outbox WHERE mission=? AND unit_id=? AND token=? AND sub_intent=?").get(lease.missionId, lease.unitId, lease.token, subIntentId), "legacy unpinned admission cannot be retroactively authorized");
       this.db.query("INSERT INTO ff8_graph_input_pins VALUES(?,?,?,?,?,?,?)").run(lease.missionId, lease.unitId, lease.token, subIntentId, canonical(pin), digest, eventKey);
       this.events.append(lease.missionId, eventKey, "admission_inputs_frozen", authority.now, pin, lease.unitId);
-      this.leases.assert(lease, authority); return pin.inputFingerprint;
+      this.assertNextContextInputs(authority, lease, sub, inputs, true); this.leases.assert(lease, authority); return pin.inputFingerprint;
     }).immediate();
   }
   private assertAdmissionInputs(authority: ControllerAuthority, lease: UnitLease, body: Admission, currentRevision = true): void {
@@ -591,6 +879,7 @@ export class GraphStore {
       && pin.subIntentId === sub.subIntentId && pin.functionId === sub.functionId && pin.role === sub.role && pin.bindingFingerprint === frozen.bindingFingerprint && pin.planFingerprint === frozen.plan.fingerprint
       && pin.snapshotId === unit.snapshotId && pin.partitionId === unit.partitionId && pin.knowledgeRevision === unit.knowledgeRevision && frozen.sidecar.unitFingerprints[unit.unitId] === fingerprint(content), "stale admission input pin function/fence/revision/binding");
     validateAdmissionInputs(pin.inputs, sub);
+    this.assertNextContextInputs(authority, lease, sub, pin.inputs, currentRevision);
     invariant(canonical(pin.inputVersions) === canonical(pin.inputs.files.map(({ path, version, sha256 }) => ({ path, version, sha256 }))), "corrupt pinned input manifest", "schema");
     invariant([1, 3].includes(dossier.version as number) && dossier.role === sub.role && dossier.cycle === pin.inputs.cycle && canonical(dossier.function) === canonical(sub.harnessIdentity) && canonical(dossier.effectiveModel) === canonical(body.command.model), "admission dossier role/function/model/header mismatch");
     const projected = admissionProjection(dossier.inputs, dossier.version);
@@ -679,7 +968,12 @@ export class GraphStore {
       this.assertAdmissionInputs(authority, lease, JSON.parse(r.body) as Admission);
       invariant(r.state === "PREPARED" && r.attempts < r.max_attempts && authority.now >= r.next_time, "admission ambiguous, blocked, delayed, or retry exhausted");
       this.db.query("UPDATE ff8_graph_outbox SET state='SENDING',attempts=attempts+1 WHERE execution_id=?").run(executionId);
-      this.events.append(lease.missionId, `send:${executionId}:${r.attempts + 1}`, "admission_sending", authority.now, { executionId, attempt: r.attempts + 1, digest: r.digest }, lease.unitId); return r;
+      this.events.append(lease.missionId, `send:${executionId}:${r.attempts + 1}`, "admission_sending", authority.now, { executionId, attempt: r.attempts + 1, digest: r.digest }, lease.unitId);
+      // Appending advances the family event clock. Refusal here rolls back the
+      // send generation/event atomically, before transport or ambiguous handling.
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      this.assertAdmissionInputs(authority, lease, JSON.parse(r.body) as Admission);
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); return r;
     }).immediate();
     if (row.receipt) return JSON.parse(row.receipt);
     try {

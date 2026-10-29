@@ -11,6 +11,7 @@ import { graphExecutionSlotKey, graphResult, makeExecutionClaim, makeGraphIntent
 import type { GraphEvent } from "./eventlog";
 import { assertPublicationManifestEvidenceV1, parsePublicationMaterializationV1, parseRetainedPublicationSourceV1, parseStaticPublicationPolicyV1, publicationContextV1, publicationTargetIdV1, type PublicationContextV1, type PublicationMaterializationV1, type RetainedPublicationSourceV1, type StaticPublicationPolicyV1 } from "./graph-publication-materialization";
 import type { StaticPublicationPort } from "./graph-static-publication";
+import { assertNextContextRunScopesV1, materializeNextContextV1, nextContextRootIdentityV1, parseNextContextPolicyV1, verifyNextContextRoleFilesV1, type NextContextPolicyV1, type NextContextProjectionV1 } from "./graph-next-context";
 
 export interface GraphReview { evidence: Evidence[]; validatedFactIds: string[]; checks: ParentScientificCheck[]; materialization?: PublicationMaterializationV1 }
 export interface FixtureReviewPort {
@@ -25,7 +26,8 @@ export interface FixturePublicationPort {
 export interface GraphEngineOptions {
   store: Store; graph: GraphStore; missionId: string; authority: () => ControllerAuthority;
   executions: FixtureExecutionPort; review: FixtureReviewPort; publication: FixturePublicationPort | StaticPublicationPort; publicationSource?: RetainedPublicationSourceV1; inputAccess: InputAccess;
-  inputs: (snapshot: Snapshot, sub: WorkUnit["subIntents"][number], proposals?: StoredResult[]) => InputBundle;
+  nextContextPolicy?: NextContextPolicyV1;
+  inputs: (snapshot: Snapshot, sub: WorkUnit["subIntents"][number], proposals?: StoredResult[], projection?: NextContextProjectionV1) => InputBundle;
 }
 type ResultRecord = { version: "l8-graph-result-v1" | "l8-graph-result-v2"; runFingerprint: string; unitId: string; familyToken: number; subIntentId: string; result: StoredResult; inspection: import("./domain").Inspection };
 type ReviewRecord = { version: "l8-graph-review-v1" | "l8-graph-review-v2"; runFingerprint: string; unitId: string; familyToken: number; resultIds: string[]; review: GraphReview };
@@ -36,6 +38,11 @@ export function configuredPublicationPolicyV1(options: Pick<GraphEngineOptions, 
   const source = parseRetainedPublicationSourceV1(options.publicationSource);
   graphCheck(options.publication.kind === "offline-static-publication-v1" && canonical(options.publication.policy) === canonical(source.policy), "publication source/port/policy mismatch");
   return source.policy;
+}
+export function configuredNextContextPolicyV1(options: Pick<GraphEngineOptions, "publication" | "publicationSource" | "nextContextPolicy">): NextContextPolicyV1 | undefined {
+  if (options.nextContextPolicy === undefined) return;
+  const policy = parseNextContextPolicyV1(options.nextContextPolicy), publication = configuredPublicationPolicyV1(options);
+  graphCheck(publication && publication.ownerActorId === policy.ownerActorId, "next context requires matching prospective publication parent"); nextContextRootIdentityV1(policy); return policy;
 }
 /** Local pre-admission deferral only, never a protocol rejection/no-worker proof. */
 class GraphAdmissionPaused extends Error {}
@@ -77,22 +84,31 @@ function runFromEvents(events: GraphEvent[], missionId: string): GraphRun | unde
   const preparations = events.filter(e => e.kind === "l8.graph.preparing" || e.kind === "l8.graph2.preparing");
   graphCheck(preparations.length <= 1, "multiple graph preparation origins");
   const first = preparations[0]; if (!first) { graphCheck(!events.some(e => e.kind.startsWith("l8.")), "orphan own graph namespace"); return; }
-  const payload = graphKeys(first.payload, ["version", "run"], ["publicationPolicy"]), run = parseGraphRun(payload.run), v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph";
+  const payload = graphKeys(first.payload, ["version", "run"], ["publicationPolicy", "nextContextPolicy"]), run = parseGraphRun(payload.run), v2 = run.version === "l8-graph-run-v2", ns = v2 ? "l8.graph2" : "l8.graph";
   if (Object.hasOwn(payload, "publicationPolicy")) { graphCheck(v2, "historical v1 refuses prospective publication policy"); parseStaticPublicationPolicyV1(payload.publicationPolicy); }
+  if (Object.hasOwn(payload, "nextContextPolicy")) { graphCheck(v2 && Object.hasOwn(payload, "publicationPolicy"), "historical cycle refuses next context policy"); assertNextContextRunScopesV1(parseNextContextPolicyV1(payload.nextContextPolicy), run); }
   graphCheck(payload.version === (v2 ? "l8-graph-preparing-v2" : "l8-graph-preparing-v1") && first.kind === `${ns}.preparing`, "preparation journal version");
   graphCheck(run.missionId === missionId && first.key === `${ns}.prepare:${run.cycle}` && first.unitId === null, "preparation journal scope"); return run;
 }
 /** Public journal only. A generic event digest never grants scientific authority. */
-export function appendGraphPreparation(graph: GraphStore, authority: ControllerAuthority, run: GraphRun, rawPolicy?: StaticPublicationPolicyV1): void {
+export function appendGraphPreparation(graph: GraphStore, authority: ControllerAuthority, run: GraphRun, rawPolicy?: StaticPublicationPolicyV1, rawNextPolicy?: NextContextPolicyV1): void {
   run = parseGraphRun(run); graphCheck(authority.lease.missionId === run.missionId, "preparation authority scope");
   runtimeRun(run);
   authority = graphCopy(authority);
   const publicationPolicy = rawPolicy === undefined ? undefined : parseStaticPublicationPolicyV1(rawPolicy);
+  const nextContextPolicy = rawNextPolicy === undefined ? undefined : parseNextContextPolicyV1(rawNextPolicy);
+  graphCheck(!nextContextPolicy || publicationPolicy?.ownerActorId === nextContextPolicy.ownerActorId, "next context/publication parent mismatch");
+  if (nextContextPolicy) assertNextContextRunScopesV1(nextContextPolicy, run); // before preparing event, parent bootstrap or cycle anchor
   graph.db.transaction(() => {
     assertController(graph.db, authority, run.missionId);
     const old = preparedGraphRun(graph, run.missionId);
-    if (old) graphCheck(canonical(old) === canonical(run) && canonical(graph.publicationPolicy(run.missionId) ?? null) === canonical(publicationPolicy ?? null), "immutable preparation/policy changed");
-    else graph.events.append(run.missionId, `l8.graph2.prepare:${run.cycle}`, "l8.graph2.preparing", authority.now, { version: "l8-graph-preparing-v2", run, ...(publicationPolicy ? { publicationPolicy } : {}) }, null, graph.events.cursor(run.missionId).sequence);
+    if (old) graphCheck(canonical(old) === canonical(run) && canonical(graph.publicationPolicy(run.missionId) ?? null) === canonical(publicationPolicy ?? null)
+      && canonical(graph.nextContextPolicy(run.missionId) ?? null) === canonical(nextContextPolicy ?? null), "immutable preparation/policy changed");
+    else {
+      if (nextContextPolicy) graph.assertNextContextPolicyOwner(authority, nextContextPolicy);
+      graph.events.append(run.missionId, `l8.graph2.prepare:${run.cycle}`, "l8.graph2.preparing", authority.now, { version: "l8-graph-preparing-v2", run, ...(publicationPolicy ? { publicationPolicy } : {}), ...(nextContextPolicy ? { nextContextPolicy } : {}) }, null, graph.events.cursor(run.missionId).sequence);
+      if (nextContextPolicy) { graphCheck(canonical(graph.nextContextPolicy(run.missionId)) === canonical(nextContextPolicy), "next context policy did not survive durable preparation"); graph.assertNextContextPolicyOwner(authority, nextContextPolicy); }
+    }
     assertController(graph.db, authority, run.missionId);
   }).immediate();
 }
@@ -100,7 +116,8 @@ export function appendGraphPreparation(graph: GraphStore, authority: ControllerA
  * No port/callback, await, connection constructor, Store write or direct SQL here. */
 export function prepareGraphExecution(graph: GraphStore, store: Store, rawRun: GraphRunV2, rawAuthority: ControllerAuthority, rawLease: UnitLease, rawRecord: GraphIntentRecordV2): GraphExecutionClaim {
   const run = runtimeRun(parseGraphRun(rawRun)), authority = graphCopy(rawAuthority), lease = graphCopy(rawLease);
-  const snapshot = store.load(run.missionId), parsed = parseGraphIntent(rawRecord, run, snapshot); graphCheck(parsed.version === "l8-graph-intent-v2", "v2 execution required");
+  const projection = graph.nextContextProjection(run.missionId, rawRecord.unitId, rawRecord.familyToken);
+  const snapshot = store.load(run.missionId), parsed = parseGraphIntent(rawRecord, run, snapshot, projection); graphCheck(parsed.version === "l8-graph-intent-v2", "v2 execution required");
   const record = graphFreeze(parsed), claim = makeExecutionClaim(run, record); // FINAL canonical UTF8 <= C, BEFORE tx
   graphCheck(graph.db === graph.events.db && graph.db === graph.leases.db && graph.events === graph.leases.events && graph.path === store.path, "transaction components must use the same OWN connection");
   return graph.db.transaction(() => {
@@ -116,7 +133,7 @@ export function prepareGraphExecution(graph: GraphStore, store: Store, rawRun: G
     const key = graphExecutionSlotKey(run, record.unitId, record.subIntentId), old = graphEvents(graph, run.missionId).find(e => e.key === key);
     if (old) {
       graphCheck(old.kind === "l8.graph2.execution-claimed" && old.unitId === record.unitId, "invalid original budget claim carrier");
-      graphCheck(canonical(parseExecutionClaim(old.payload, run, current)) === canonical(claim), "spent execution slot cannot change body/ID/generation/pass/retry policy");
+      graphCheck(canonical(parseExecutionClaim(old.payload, run, current, projection)) === canonical(claim), "spent execution slot cannot change body/ID/generation/pass/retry policy");
       // Deliberately do not append at now: EventLog.digest includes ORIGINAL time.
     } else graph.events.append(run.missionId, key, "l8.graph2.execution-claimed", authority.now, claim, record.unitId, graph.events.cursor(run.missionId).sequence);
     graph.prepareAdmission(authority, lease, record.admission, claim.maxAttempts, claim.retryDelayMs);
@@ -170,7 +187,8 @@ export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal
       graphCheck(p.version === `l8-graph-ready-${suffix}` && p.runFingerprint === run.fingerprint && p.missionRevision === run.missionRevision && p.bindingFingerprint === run.prepared.planning.binding.fingerprint && event.key === `${ns}.ready:${run.fingerprint}` && event.unitId === null, "runtime initialization binding"); installed = true;
     } else if ((!v2 && event.kind === "l8.graph.intent") || (v2 && event.kind === "l8.graph2.execution-claimed")) {
       graphCheck(installed, "admission before anchored projection");
-      const record = v2 ? parseExecutionClaim(event.payload, run, snapshot).record : parseGraphIntent(event.payload, run, snapshot);
+      const raw = graphObject(v2 ? graphObject(event.payload).record : event.payload), projection = v2 ? graph.nextContextProjection(run.missionId, String(raw.unitId), Number(raw.familyToken)) : undefined;
+      const record = v2 ? parseExecutionClaim(event.payload, run, snapshot, projection).record : parseGraphIntent(event.payload, run, snapshot);
       graphCheck(event.key === (v2 ? graphExecutionSlotKey(run, record.unitId, record.subIntentId) : `l8.graph.intent:${record.intent.executionId}`) && event.unitId === record.unitId && !intents.some(r => r.unitId === record.unitId && r.subIntentId === record.subIntentId), "duplicate/orphan/changed execution slot");
       assertProposals(record, run, results);
       if (v2) {
@@ -179,7 +197,8 @@ export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal
       }
       intents.push(record);
     } else if (v2 && event.kind === `${ns}.admission-refused`) {
-      const p = graphKeys(event.payload, ["version", "runFingerprint", "reason", "record", "admissionSha256", "admissionUtf8Bytes", "C"]), record = parseGraphIntent(p.record, run, snapshot);
+      const p = graphKeys(event.payload, ["version", "runFingerprint", "reason", "record", "admissionSha256", "admissionUtf8Bytes", "C"]), raw = graphObject(p.record);
+      const record = parseGraphIntent(p.record, run, snapshot, graph.nextContextProjection(run.missionId, String(raw.unitId), Number(raw.familyToken)));
       graphCheck(p.version === "l8-graph-refused-v2" && p.reason === "body-over-C" && p.runFingerprint === run.fingerprint && record.version === "l8-graph-intent-v2", "budget refusal schema");
       const budget = run.prepared.planning.sidecar.admissionBudget!.byUnit[record.unitId];
       graphCheck(budget?.admissionCapUtf8Bytes.known && p.C === budget.admissionCapUtf8Bytes.value && p.admissionSha256 === fingerprint(record.admission) && p.admissionUtf8Bytes === Buffer.byteLength(canonical(record.admission), "utf8") && Number(p.admissionUtf8Bytes) > Number(p.C)
@@ -244,6 +263,7 @@ export class GraphEngine {
     graphCheck(options.store.path !== ":memory:" && options.store.path === options.graph.path, "graph and legacy Store require the same persistent OWN file");
     graphCheck([options.executions.kind, options.review.kind].every(kind => kind === "offline-fixture-v1"), "only explicitly configured offline fixture execution/review ports are enabled");
     configuredPublicationPolicyV1(options);
+    configuredNextContextPolicyV1(options);
   }
   close(): void { this.options.graph.close(); }
   private snapshot(): Snapshot { return this.options.store.load(this.options.missionId); }
@@ -282,6 +302,7 @@ export class GraphEngine {
   verifyEntry(): void {
     const journal = this.journal(), configured = configuredPublicationPolicyV1(this.options);
     graphCheck(canonical(journal.publicationPolicy ?? null) === canonical(configured ?? null), "old cycle refuses publication opt-in, missing source or changed root/policy");
+    graphCheck(canonical(this.options.graph.nextContextPolicy(this.options.missionId) ?? null) === canonical(configuredNextContextPolicyV1(this.options) ?? null), "old cycle refuses next context opt-in or changed policy");
   }
   private journal(): Journal {
     return readGraphJournal(this.options.graph, this.snapshot());
@@ -324,10 +345,18 @@ export class GraphEngine {
     if (this.journal().paused) return;
     const graph = this.options.graph, admission = graph.admission(record.intent.executionId);
     if (admission && admission.state !== "PREPARED") return;
+    if (graph.nextContextProjection(run.missionId, record.unitId, record.familyToken)) {
+      const access = await checkInputs(record.intent.inputs, this.options.inputAccess, { missionId: run.missionId, executionId: record.intent.executionId, role: record.intent.role });
+      graphCheck(access.ok, "current projected input access/hash refused before pin/retry");
+    }
     const capturedAuthority = this.authority(); // any Store lease renewal is OUTSIDE the outer transaction
     if (this.journal().paused) return;
     try { prepareGraphExecution(graph, this.options.store, activeRun, capturedAuthority, lease, record); }
     catch (error) { if (error instanceof GraphAdmissionPaused) return; throw error; }
+    if (graph.nextContextProjection(run.missionId, record.unitId, record.familyToken)) {
+      const access = await checkInputs(record.intent.inputs, this.options.inputAccess, { missionId: run.missionId, executionId: record.intent.executionId, role: record.intent.role });
+      graphCheck(access.ok, "current projected input access/hash refused before dispatch");
+    }
     const dispatchAuthority = this.authority(), currentJournal = this.journal();
     if (currentJournal.paused || graph.admission(record.intent.executionId)?.state !== "PREPARED") return;
     const sending = currentJournal.events.filter(e => e.kind === "admission_sending" && graphObject(e.payload).executionId === record.intent.executionId).at(-1);
@@ -509,6 +538,7 @@ export class GraphEngine {
       for (const planned of run.prepared.planning.units) {
         const unit = this.unit(run, planned); if (!["PENDING", "BLOCKED", "READY"].includes(unit.state)) continue;
         const ready = evaluateReadiness({ plan: run.prepared.planning.plan, sidecar: run.prepared.planning.sidecar, expectedSidecarFingerprint: run.prepared.planning.binding.sidecarFingerprint, unit, receipts, snapshotFingerprint: run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false });
+        if (!this.options.graph.nextContextSourcesAvailable(run.missionId, unit.unitId)) { ready.ready = false; ready.reasons.push("next-context-source-not-authorized"); }
         if (ready.ready && unit.state !== "READY") {
           const authority = this.authority(); if (this.journal().paused) return;
           this.options.graph.transition(authority, unit.unitId, "READY", "typed prerequisites and current admission context satisfied"); readyChanged = true;
@@ -535,11 +565,22 @@ export class GraphEngine {
           const compatible = selectCompatible([{ unit, readiness: { ready: true, reasons: [] }, requirements }], capacity.workers, capacity.accounts, active.filter(a => a.unit.unitId !== unit.unitId));
           const assignment = compatible.assignments[0]; if (!assignment) continue;
           const worker = j.run.workers.find(w => w.workerId === assignment.workerId)!, proposals = sub.role === "R" ? j.results.filter(r => r.unitId === unit.unitId && r.familyToken === lease.token && unit.subIntents.some(s => s.functionId === sub.functionId && ["A", "B"].includes(s.role) && s.subIntentId === r.subIntentId)).map(r => r.result) : undefined;
-          const snapshot = this.snapshot(), inputs = this.options.inputs(graphFreeze(snapshot) as Snapshot, graphFreeze(sub) as WorkUnit["subIntents"][number], proposals ? graphCopy(proposals) : undefined);
+          const projection = this.options.graph.freezeNextContextProjection(familyAuthority, lease);
+          if (projection) {
+            if (this.options.graph.nextContextMaterialized(projection)) {
+              this.options.graph.assertNextContextCurrent(this.authority(), lease, projection);
+              verifyNextContextRoleFilesV1(projection, sub.functionId, sub.role); // no repair after durable readback
+              this.options.graph.assertNextContextCurrent(this.authority(), lease, projection);
+            } else {
+              materializeNextContextV1(projection, () => this.options.graph.assertNextContextCurrent(this.authority(), lease, projection));
+              this.options.graph.recordNextContextMaterialized(this.authority(), lease, projection);
+            }
+          }
+          const snapshot = this.snapshot(), inputs = this.options.inputs(graphFreeze(snapshot) as Snapshot, graphFreeze(sub) as WorkUnit["subIntents"][number], proposals ? graphCopy(proposals) : undefined, projection);
           if (this.journal().paused) return;
           const capturedAuthority = this.authority();
           if (this.journal().paused) return;
-          const record = makeGraphIntent(j.run, snapshot, unit, sub, lease, inputs, worker, capturedAuthority.lease.token);
+          const record = makeGraphIntent(j.run, snapshot, unit, sub, lease, inputs, worker, capturedAuthority.lease.token, projection);
           graphCheck(record.version === "l8-graph-intent-v2", "prospective record version");
           const checked = await checkInputs(record.intent.inputs, this.options.inputAccess, { missionId: j.run.missionId, executionId: record.intent.executionId, role: sub.role });
           if (this.journal().paused) return;
@@ -566,7 +607,15 @@ export class GraphEngine {
       const candidates = { ...j.run.prepared.planning, units: j.run.prepared.planning.units.map(u => this.unit(j.run, u)) };
       const selected = selectReadyUnits(candidates, { readyAtEvent, aging: { eventNumber: this.options.graph.events.cursor(j.run.missionId).sequence, quantum: 100, version: "l8-aging-v1" }, policy: "fifo" },
         { expectedSidecarFingerprint: j.run.prepared.planning.binding.sidecarFingerprint, snapshotFingerprint: j.run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: j.run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false, receipts }, capacity.workers, capacity.accounts, active);
-      const assignment = selected.assignments[0]; if (!assignment) return;
+      // Preserve the existing FIFO ranks and compatibility primitive; a context
+      // source is an additional admission precondition, not a new scheduler.
+      const assignment = this.options.graph.nextContextPolicy(run.missionId) ? selectCompatible(selected.ranks.map(rank => {
+        const unit = candidates.units.find(u => u.unitId === rank.unitId)!;
+        const readiness = evaluateReadiness({ plan: run.prepared.planning.plan, sidecar: run.prepared.planning.sidecar, expectedSidecarFingerprint: run.prepared.planning.binding.sidecarFingerprint,
+          unit, receipts, snapshotFingerprint: run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false });
+        if (!this.options.graph.nextContextSourcesAvailable(run.missionId, unit.unitId)) { readiness.ready = false; readiness.reasons.push("next-context-source-not-authorized"); }
+        return { unit, readiness, requirements: run.prepared.planning.sidecar.resourcesByUnit[unit.unitId]! };
+      }), capacity.workers, capacity.accounts, active).assignments[0] : selected.assignments[0]; if (!assignment) return;
       const unit = candidates.units.find(u => u.unitId === assignment.unitId)!;
       const reservationAuthority = this.authority(); if (this.journal().paused) return;
       if (unit.state !== "READY") this.options.graph.transition(reservationAuthority, unit.unitId, "READY", "frozen-plan typed prerequisites now satisfied");

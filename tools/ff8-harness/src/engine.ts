@@ -4,12 +4,12 @@ import { posix, win32 } from "node:path";
 import { checkInputs } from "./inputs";
 import { bridgeFailureCategory, canonical, compareText, failureCause, fingerprint, FIXTURE_RETRY_POLICY, hash, identityKey, validateAssessment, validateCandidate, validateConfig, validateKnowledge, validateResult } from "./validation";
 import { GraphStore, type ParentAuthorityProvider } from "./graph-store";
-import { GraphEngine, appendGraphPreparation, assertGraphSnapshot, assertLegacySnapshot, configuredPublicationPolicyV1, graphAnchor, graphCycleProjection, graphEvents, inspectGraphState, preparedGraphRun, type FixtureReviewPort, type GraphEngineOptions } from "./graph-engine";
+import { GraphEngine, appendGraphPreparation, assertGraphSnapshot, assertLegacySnapshot, configuredNextContextPolicyV1, configuredPublicationPolicyV1, graphAnchor, graphCycleProjection, graphEvents, inspectGraphState, preparedGraphRun, type FixtureReviewPort, type GraphEngineOptions } from "./graph-engine";
 import { graphInputs, makeGraphRunV2, type FixtureExecutionPort } from "./graph-adapter";
 import { assertCurrentAdmissionSource, graphCheck, graphCopy, graphFreeze, graphJson, graphObject, prepareGraph } from "./graph-pipeline";
 import { prepareRuntimeExecutionV1, type ExecutionPreparationRequestV1 } from "./graph-execution-prepare";
 export interface EngineOptions { store: Store; bridge: Bridge; publication: PublicationAdapter; inputAccess: InputAccess; controllerId: string; now?: () => number; leaseMs?: number; knowledgeArtifactSink?: KnowledgeArtifactSink; scheduleLeaseHeartbeat?: (callback: () => void, intervalMs: number) => () => void }
-export interface GraphPorts { executions: FixtureExecutionPort; review: FixtureReviewPort; publication: GraphEngineOptions["publication"]; publicationSource?: GraphEngineOptions["publicationSource"]; parentAuthority?: ParentAuthorityProvider }
+export interface GraphPorts { executions: FixtureExecutionPort; review: FixtureReviewPort; publication: GraphEngineOptions["publication"]; publicationSource?: GraphEngineOptions["publicationSource"]; nextContextPolicy?: GraphEngineOptions["nextContextPolicy"]; parentAuthority?: ParentAuthorityProvider }
 /** A durable scientific state machine, deliberately not a capacity/worker scheduler. */
 export class Engine {
   /** DATA entry: does not touch historical snapshots, leases, or graph runtime. */
@@ -87,11 +87,12 @@ export class Engine {
         // hash-verified journal is reread at each step/atomic admission boundary.
         const s = this.snapshot(missionId); assertGraphSnapshot(s, run);
         return { lease: this.graphLease(s), now: this.now() };
-      }, inputs: (snapshot, sub, proposals) => { graphCheck(run.version === "l8-graph-run-v2", "v2 operative inputs required"); return graphInputs(run, snapshot, sub, proposals); } });
+      }, inputs: (snapshot, sub, proposals, projection) => { graphCheck(run.version === "l8-graph-run-v2", "v2 operative inputs required"); return graphInputs(run, snapshot, sub, proposals, projection); } });
   }
   /** Explicit additive fixture entry; never called by legacy tick/attach. */
   startGraph(missionId: string, request: unknown, ports: GraphPorts): GraphEngine {
     const publicationPolicy = configuredPublicationPolicyV1(ports);
+    const nextContextPolicy = configuredNextContextPolicyV1(ports);
     graphJson(request); graphCheck(graphObject(request).version === "l8-graph-preparation-v2", "only prospective v2 may execute; v1 is read-only");
     const s = this.snapshot(missionId); this.freshGraphSource(s);
     const external = graphObject(graphObject(request).policy).externalReceiptsByEdge;
@@ -103,7 +104,7 @@ export class Engine {
       const prepared = prepareGraph(request, s); graphCheck(prepared.version === "l8-prepared-graph-v2", "prospective preparation required");
       const run = makeGraphRunV2(s, prepared);
       const lease = this.graphLease(s); this.options.store.assertLease(lease, this.now());
-      appendGraphPreparation(graph, { lease, now: Math.max(this.now(), graph.events.cursor(missionId).time) }, run, publicationPolicy);
+      appendGraphPreparation(graph, { lease, now: Math.max(this.now(), graph.events.cursor(missionId).time) }, run, publicationPolicy, nextContextPolicy);
       this.options.store.assertLease(lease, this.now()); this.anchorGraph(run);
       const runtime = this.graphRuntime(missionId, graph, ports); runtime.install(); return runtime;
     } catch (error) { graph.close(); throw error; }
@@ -114,7 +115,9 @@ export class Engine {
     try {
       const run = preparedGraphRun(graph, missionId); graphCheck(run, "orphan anchor/missing graph run"); const s = this.snapshot(missionId);
       const publicationPolicy = configuredPublicationPolicyV1(ports);
+      const nextContextPolicy = configuredNextContextPolicyV1(ports);
       graphCheck(canonical(graph.publicationPolicy(missionId) ?? null) === canonical(publicationPolicy ?? null), "old cycle refuses publication opt-in, missing source or changed root/policy"); // BEFORE orphan recovery CAS/lease
+      graphCheck(canonical(graph.nextContextPolicy(missionId) ?? null) === canonical(nextContextPolicy ?? null), "old cycle refuses next context opt-in or changed policy");
       graphCheck(run.version === "l8-graph-run-v2", "v1 graph is inspectable/read-only; no reauthorization or v2 migration");
       if (s.cycles.some(cycle => Object.hasOwn(cycle, "graph"))) {
         assertGraphSnapshot(s, run);
@@ -122,7 +125,7 @@ export class Engine {
         this.graphLease(s); runtime.install(); return runtime;
       }
       this.freshGraphSource(s);
-      graphCheck(graphEvents(graph, missionId).every(e => e.kind === "l8.graph2.preparing") && s.revision + 1 === run.missionRevision && fingerprint(s.config) === run.missionConfigFingerprint, "non-activating orphan conflicts with legacy state");
+      graphCheck(graphEvents(graph, missionId).every(e => e.kind === "l8.graph2.preparing" || (nextContextPolicy !== undefined && e.kind === "parent_authority_bootstrapped")) && s.revision + 1 === run.missionRevision && fingerprint(s.config) === run.missionConfigFingerprint, "non-activating orphan conflicts with legacy state");
       assertCurrentAdmissionSource(run.prepared, s);
       this.graphLease(s); this.anchorGraph(run); const runtime = this.graphRuntime(missionId, graph, ports); runtime.install(); return runtime;
     } catch (error) { graph.close(); throw error; }

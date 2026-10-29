@@ -286,7 +286,7 @@ describe("RV6V6-01 positive owned-function RVA boundary", () => {
       if (pass === 0) { s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph); }
     }
     expect(s.graph.db.query("SELECT document,digest FROM ff8_graph_units WHERE unit_id=?").get(u.unitId)).toEqual({ document: canonical(u), digest: fingerprint(u) });
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 6 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 });
   });
   test("legacy zero active family cannot pin, prepare or reuse durable admission after reopen; history and claims survive", async () => {
     const s = projectionSetup(), u = unit(s), request = body(u, "A"), sub = u.subIntents[0]!, inputs = inputsFor(sub);
@@ -443,7 +443,7 @@ describe("OWN graph persistence, additive migration and journal", () => {
     const p = path(), store = new Store(p); opened.push(store); store.create(empty());
     const prior = new Database(p); prior.exec("CREATE TABLE ff8_graph_metadata(id INTEGER PRIMARY KEY,version INTEGER); INSERT INTO ff8_graph_metadata VALUES(1,1); CREATE TABLE ff8_graph_snapshots(id TEXT PRIMARY KEY,digest TEXT NOT NULL,document TEXT NOT NULL); INSERT INTO ff8_graph_snapshots VALUES('historical','digest','{}')"); prior.close();
     const graph = new GraphStore(p); opened.push(graph); expect(graph.db.query("SELECT document FROM ff8_graph_snapshots WHERE id='historical'").get()).toEqual({ document: "{}" });
-    graph.close(); const reopened = new GraphStore(p); opened.push(reopened); expect(reopened.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 6 });
+    graph.close(); const reopened = new GraphStore(p); opened.push(reopened); expect(reopened.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 });
     expect(store.load("m").revision).toBe(0);
   });
   test("immutable documents, canonical identity, exact schema and partition binding", () => {
@@ -547,6 +547,32 @@ describe("canonical family exclusivity and fenced execution", () => {
 });
 
 describe("durable admissions at crash and ambiguous response boundaries", () => {
+  test("dispatch expiry at admission_sending rolls back before transport", async () => {
+    // OFFLINE OWN fixture, no overlay/publication/threads. Move only the real
+    // event clock; never edit a lease TTL or renew it to make dispatch succeed.
+    const s = setup(), u = unit(s); s.graph.addUnit(s.authority, u);
+    const lease = reserve(s.graph, s.authority, u.unitId, 32), request = body(u, "A");
+    s.graph.prepareAdmission(s.authority, lease, request);
+    const advance = lease.expiresAtEvent - 1 - s.graph.events.cursor("m").sequence;
+    expect(advance).toBeGreaterThan(0); s.graph.tick(s.authority, "offline-dispatch-expiry-boundary", advance);
+    const beforeCursor = s.graph.events.cursor("m"), beforeAdmission = s.graph.admission(request.executionId);
+    const beforeOutbox = s.graph.db.query("SELECT * FROM ff8_graph_outbox WHERE execution_id=?").get(request.executionId);
+    const beforeLease = s.graph.leases.get("m", u.unitId), beforeUnit = s.graph.unit("m", u.unitId);
+    expect(beforeCursor.sequence).toBe(lease.expiresAtEvent - 1);
+    expect(beforeAdmission).toMatchObject({ state: "PREPARED", attempts: 0 }); s.graph.leases.assert(lease, s.authority);
+    let submits = 0, refused: unknown;
+    try {
+      await s.graph.dispatch(s.authority, lease, request.executionId, { async submit() {
+        submits++; return { executionId: request.executionId, state: "accepted" };
+      } });
+    } catch (error) { refused = error; }
+    expect(submits).toBe(0);
+    if (!(refused instanceof Error)) throw new Error("dispatch must reject the expired post-append family fence");
+    expect(refused.message).toContain("family fence");
+    expect(s.graph.db.query("SELECT * FROM ff8_graph_outbox WHERE execution_id=?").get(request.executionId)).toEqual(beforeOutbox);
+    expect(s.graph.admission(request.executionId)).toEqual(beforeAdmission); expect(s.graph.events.cursor("m")).toEqual(beforeCursor);
+    expect(s.graph.leases.get("m", u.unitId)).toEqual(beforeLease); expect(s.graph.unit("m", u.unitId)).toEqual(beforeUnit);
+  }, 600000);
   test("complete request before effects, immutable digest, crash before send/reopen", async () => {
     const s = setup(), u = unit(s); s.graph.addUnit(s.authority, u); const lease = reserve(s.graph, s.authority, u.unitId), b = body(u, "A");
     expect(() => s.graph.prepareAdmission(s.authority, lease, { ...b, command: {} })).toThrow(/complete/);
@@ -959,16 +985,16 @@ describe("v5 pinned inputs, irreversible-release safety and scientific content I
     const before = s.graph.db.query("SELECT document,digest FROM ff8_graph_input_pins").get(); s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph);
     expect(s.graph.db.query("SELECT document,digest FROM ff8_graph_input_pins").get()).toEqual(before);
   });
-  for (const version of [1, 2, 3, 4, 5]) test(`v${version} to v6 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it`, async () => {
+  for (const version of [1, 2, 3, 4, 5]) test(`v${version} to v7 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it`, async () => {
     const s = setup(), u = unit(s); s.graph.addUnit(s.authority, u); const lease = reserve(s.graph, s.authority, u.unitId, 1000), request = body(u, "A"); s.graph.prepareAdmission(s.authority, lease, request);
     const before = s.graph.events.read("m"), bodyBefore = s.graph.db.query("SELECT body,digest FROM ff8_graph_outbox").get();
     s.graph.db.exec(`DROP TABLE ff8_graph_input_pins; UPDATE ff8_graph_metadata SET version=${version};`); s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph);
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 6 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
     expect(s.graph.events.read("m")).toEqual(before); expect(s.graph.db.query("SELECT body,digest FROM ff8_graph_outbox").get()).toEqual(bodyBefore);
     let calls = 0; await expect(s.graph.dispatch(s.authority, lease, request.executionId, { async submit() { calls++; return {}; } })).rejects.toThrow(/durable frozen input pin/);
     expect(calls).toBe(0); expect(() => s.graph.freezeAdmissionInputs(s.authority, lease, request.subIntentId, inputsFor(u.subIntents[0]!))).toThrow(/retroactively authorized/);
     expect(() => s.graph.prepareAdmission(s.authority, lease, request)).toThrow(/durable frozen input pin/);
-    s.graph.db.exec("UPDATE ff8_graph_metadata SET version=7"); expect(() => new GraphStore(s.p)).toThrow(/unsupported graph schema/);
+    s.graph.db.exec("UPDATE ff8_graph_metadata SET version=8"); expect(() => new GraphStore(s.p)).toThrow(/unsupported graph schema/);
   });
   test("RV6M-03 SENDING instantaneous absence cannot retire/release/retry before delayed acceptance", async () => {
     const s = setup(), u = unit(s, "old"), next = unit(s, "next"); s.graph.addUnit(s.authority, u); s.graph.addUnit(s.authority, next);
@@ -1230,7 +1256,7 @@ describe("v4 immutable parent authority and durable level-2 attestation", () => 
     s.graph.db.exec("DROP TABLE ff8_graph_parent_attestations; DROP TABLE ff8_graph_native_authors; DROP TABLE ff8_graph_parent_authorities; UPDATE ff8_graph_metadata SET version=3;");
     s.graph.db.query("UPDATE ff8_graph_commits SET document=? WHERE mission=? AND unit_id=?").run(JSON.stringify({ ...done, publicationLevel: 2 }), "m", u.unitId); // fixture of pre-v4 self-asserted level 2
     s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph);
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 6 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
     expect(s.graph.replay("m")).toEqual(before); expect(s.graph.db.query("SELECT count(*) n FROM ff8_graph_commits").get()).toEqual({ n: 1 });
     expect(s.graph.satisfies("m", u.unitId, 2)).toBe(false); expect(s.graph.satisfies("m", u.unitId, 1)).toBe(false);
     expect(s.graph.db.query("SELECT count(*) n FROM ff8_graph_parent_authorities").get()).toEqual({ n: 0 });

@@ -5,6 +5,7 @@ import type { WorkUnit, WorkerCapacity } from "./planner";
 import type { UnitLease } from "./unit-lease";
 import { canonical, compareText, fingerprint, hash, identityKey, validateKnowledge, validateResult } from "./validation";
 import { admissionScopeKey, assertCurrentAdmissionSource, graphArray, graphCheck, graphCopy, graphDigest, graphInteger, graphJson, graphKeys, graphObject, graphString, parsePreparedGraph } from "./graph-pipeline";
+import { acquireNextContextInputsV1, parseNextContextProjectionV1, type NextContextProjectionV1 } from "./graph-next-context";
 
 export type GraphRunSpec = Pick<GraphRunV1, "settings" | "workers" | "accounts" | "inputsByFunction" | "publicationsByFunction"> & { prepared: PreparedGraph };
 export interface GraphIntentRecordV1 {
@@ -139,7 +140,7 @@ export function parseGraphRun(value: unknown): GraphRun {
 /** The legacy Engine supplies its existing blind-projection bundle builder. */
 /** Pure operative source projection; proposals alone are late-bound and checked
  * against actual eligible results by the transaction, never by a caller flag. */
-export function graphInputs(run: GraphRunV2, snapshot: Snapshot, sub: WorkUnit["subIntents"][number], proposals?: StoredResult[]): InputBundle {
+export function graphInputs(run: GraphRunV2, snapshot: Snapshot, sub: WorkUnit["subIntents"][number], proposals?: StoredResult[], projection?: NextContextProjectionV1): InputBundle {
   assertCurrentAdmissionSource(run.prepared, snapshot);
   const source = run.prepared.admissionSource.inputManifestSource, knowledge = source.cycleKnowledge;
   const relevant = new Set([identityKey(sub.harnessIdentity)]);
@@ -167,9 +168,15 @@ export function graphInputs(run: GraphRunV2, snapshot: Snapshot, sub: WorkUnit["
     const group = run.prepared.groups.find(g => g.ownedFunctionIds.includes(sub.functionId)); graphCheck(group, "missing frozen R neighborhood");
     bundle.neighborhood = { id: group.groupId, members: group.ownedFunctionIds.map(id => run.prepared.planning.units.flatMap(u => u.subIntents).find(s => s.functionId === id)!.harnessIdentity) };
   }
+  if (projection) {
+    const image = parseNextContextProjectionV1(projection), unit = run.prepared.planning.units.find(u => u.subIntents.some(s => s.subIntentId === sub.subIntentId));
+    graphCheck(unit && image.missionId === run.missionId && image.runFingerprint === run.fingerprint && image.unitId === unit.unitId && image.baseKnowledgeRevision === unit.knowledgeRevision
+      && image.planFingerprint === run.prepared.planning.plan.fingerprint && image.bindingFingerprint === run.prepared.planning.binding.fingerprint, "projected inputs differ from frozen run/consumer");
+    return parseGraphInputs(acquireNextContextInputsV1(bundle, image, sub.functionId));
+  }
   return parseGraphInputs(bundle);
 }
-export function makeGraphIntent(run: GraphRun, snapshot: Snapshot, unit: WorkUnit, sub: WorkUnit["subIntents"][number], lease: UnitLease, inputs: InputBundle, worker: WorkerCapacity, controllerToken?: number): GraphIntentRecord {
+export function makeGraphIntent(run: GraphRun, snapshot: Snapshot, unit: WorkUnit, sub: WorkUnit["subIntents"][number], lease: UnitLease, inputs: InputBundle, worker: WorkerCapacity, controllerToken?: number, projection?: NextContextProjectionV1): GraphIntentRecord {
   run = parseGraphRun(run); inputs = parseGraphInputs(inputs);
   graphCheck(snapshot.missionId === run.missionId && snapshot.cycle === run.cycle && snapshot.revision === run.missionRevision && fingerprint(snapshot.config) === run.missionConfigFingerprint, "frozen mission revision changed");
   graphCheck(unit.subIntents.some(s => canonical(s) === canonical(sub)) && unit.ownedFunctionIds.includes(sub.functionId), "sub-intent attribution");
@@ -177,6 +184,8 @@ export function makeGraphIntent(run: GraphRun, snapshot: Snapshot, unit: WorkUni
   graphCheck(actualUnit && canonical({ ...unit, state: actualUnit.state }) === canonical(actualUnit) && lease.unitId === unit.unitId && lease.missionId === run.missionId, "immutable scientific unit/family changed");
   graphCheck(["A", "B", "R"].includes(sub.role), "graph role");
   graphCheck(inputs.role === sub.role && inputs.cycle === run.cycle && canonical(inputs.identity) === canonical(sub.harnessIdentity), "functional input identity");
+  if (projection) graphCheck(run.version === "l8-graph-run-v2" && projection.familyToken === lease.token && projection.controllerToken === controllerToken
+    && canonical(inputs) === canonical(graphInputs(run, snapshot, sub, inputs.proposals as StoredResult[] | undefined, projection)), "intent must consume its exact authorized projected view");
   if (sub.role === "A" || sub.role === "B") graphCheck(!inputs.proposals && !inputs.candidates && !inputs.unresolvedResults && [...inputs.files, ...inputs.knowledge.files].every(f => f.kind === "native" || f.kind === "rule" || (f.kind === "knowledge" && f.approvedForBlind === true)), "blind input contamination");
   if (sub.role === "R") {
     graphCheck(inputs.proposals?.length === 2 && inputs.proposals.every(p => canonical(p.document.identity) === canonical(sub.harnessIdentity)), "R requires its own exact A+B");
@@ -206,7 +215,7 @@ export function makeGraphIntent(run: GraphRun, snapshot: Snapshot, unit: WorkUni
   const record = { runFingerprint: run.fingerprint, unitId: unit.unitId, familyToken: lease.token, subIntentId: sub.subIntentId, workerId: worker.workerId, accountId: worker.accountId, intent, admission };
   return run.version === "l8-graph-run-v2" ? graphCopy({ ...record, version: "l8-graph-intent-v2", controllerToken: controllerToken! }) : graphCopy({ ...record, version: "l8-graph-intent-v1" });
 }
-export function parseGraphIntent(value: unknown, run: GraphRun, snapshot: Snapshot): GraphIntentRecord {
+export function parseGraphIntent(value: unknown, run: GraphRun, snapshot: Snapshot, projection?: NextContextProjectionV1): GraphIntentRecord {
   const v2 = run.version === "l8-graph-run-v2";
   const r = graphKeys(graphCopy(value), ["version", "runFingerprint", "unitId", "familyToken", "subIntentId", "workerId", "accountId", "intent", "admission", ...(v2 ? ["controllerToken"] : [])]);
   graphCheck(r.version === (v2 ? "l8-graph-intent-v2" : "l8-graph-intent-v1") && r.runFingerprint === run.fingerprint, "intent journal version/run"); graphInteger(r.familyToken, 1); if (v2) graphInteger(r.controllerToken, 1);
@@ -242,7 +251,8 @@ export function parseGraphIntent(value: unknown, run: GraphRun, snapshot: Snapsh
     graphKeys(binding, ["version", "missionId", "cycle", "missionRevision", "unitId", "planId", "planFingerprint", "snapshotId", "snapshotFingerprint", "partitionId", "knowledgeRevision", "familyToken", "subIntentId", "functionId", "role", "attemptId", "executionId", "inputFingerprint", "inputVersions", "originalControllerToken", "budgetScopeKey", "admissionContextFingerprint", "allocationFingerprint", "executionSourceSpecFingerprint", "derivedSpecFingerprint"]);
     graphCheck(binding.version === "l8-functional-binding-v2" && binding.originalControllerToken === r.controllerToken && binding.budgetScopeKey === run.executionBinding.budgetScopeKey && binding.admissionContextFingerprint === fingerprint(run.prepared.admissionSource.context) && binding.allocationFingerprint === run.prepared.admissionSource.allocation?.fingerprint && binding.executionSourceSpecFingerprint === run.prepared.admissionSource.executionSourceSpecFingerprint && binding.derivedSpecFingerprint === run.executionBinding.derivedSpecFingerprint
       && canonical(dossier.effectiveModel) === canonical(rawIntent.requestedModel) && canonical(rawIntent.previousResultIds) === canonical(inputs.proposals?.map(p => p.resultId) ?? []), "v2 source/derived/header binding mismatch");
-    graphCheck(canonical(inputs) === canonical(graphInputs(run, snapshot, sub, inputs.proposals as StoredResult[] | undefined)) && canonical(command.requiredAccess) === canonical(inputs.files.map(f => ({ action: "read", resource: f.path }))), "actual functional inputs/access differ from immutable operative source");
+    if (projection) graphCheck(projection.familyToken === r.familyToken && projection.controllerToken === r.controllerToken, "projected input original fences differ");
+    graphCheck(canonical(inputs) === canonical(graphInputs(run, snapshot, sub, inputs.proposals as StoredResult[] | undefined, projection)) && canonical(command.requiredAccess) === canonical(inputs.files.map(f => ({ action: "read", resource: f.path }))), "actual functional inputs/access differ from immutable operative source");
   }
   return r as unknown as GraphIntentRecord;
 }
@@ -260,9 +270,9 @@ export function makeExecutionClaim(run: GraphRunV2, record: GraphIntentRecordV2)
     admissionSha256: fingerprint(record.admission), admissionUtf8Bytes: size, C: accounting.admissionCapUtf8Bytes.value!, N: accounting.maxNewExecutions.value!, originalFamilyToken: record.familyToken, originalControllerToken: record.controllerToken,
     maxAttempts: run.settings.maxAdmissionAttempts, retryDelayMs: run.settings.retryDelayMs, record: graphCopy(record) };
 }
-export function parseExecutionClaim(value: unknown, run: GraphRunV2, snapshot: Snapshot): GraphExecutionClaim {
+export function parseExecutionClaim(value: unknown, run: GraphRunV2, snapshot: Snapshot, projection?: NextContextProjectionV1): GraphExecutionClaim {
   const r = graphKeys(graphCopy(value), ["version", "budgetScopeKey", "runFingerprint", "contextFingerprint", "allocationFingerprint", "bindingFingerprint", "unitId", "functionId", "subIntentId", "role", "executionId", "attemptId", "admissionSha256", "admissionUtf8Bytes", "C", "N", "originalFamilyToken", "originalControllerToken", "maxAttempts", "retryDelayMs", "record"]);
-  const record = parseGraphIntent(r.record, run, snapshot); graphCheck(record.version === "l8-graph-intent-v2", "claim wrapped old intent");
+  const record = parseGraphIntent(r.record, run, snapshot, projection); graphCheck(record.version === "l8-graph-intent-v2", "claim wrapped old intent");
   graphCheck(canonical(r) === canonical(makeExecutionClaim(run, record)), "execution claim/body/source/counts corrupt"); return r as unknown as GraphExecutionClaim;
 }
 export function graphResult(record: GraphIntentRecord, inspection: Inspection, prior: StoredResult[]): StoredResult {
