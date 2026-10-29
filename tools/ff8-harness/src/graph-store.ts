@@ -14,10 +14,14 @@ import type { ExecutionClient } from "./client";
 import { EventLog, GraphPersistenceError, immutableCopy, integer, invariant, nonempty, type ErrorClass, type GraphEvent } from "./eventlog";
 import { UnitLeaseStore, assertController, assertExecutionQuiescence, assertCanonicalUnitProjection, contradictoryAcceptedObservation, type ControllerAuthority, type UnitLease } from "./unit-lease";
 import { bindOwnedAtRestTransportV1 } from "./native-at-rest-transport";
+import { observationDataHashV1, runNativeObservationDataV1, NATIVE_OBSERVATION_LIMITS_V1, type NativeObservationDataV1, type NativeObservationTransportV1 } from "./graph-native-observations";
+import { bindOwnedNativeObservationTransportV1 } from "./native-observation-transport";
 
 const nativeAtRestGuards = new WeakSet<() => void>();
 /** Membership only: no public DTO/guard registration or authority factory. */
 export function isOwnedNativeAtRestGuardV1(check: () => void): boolean { return nativeAtRestGuards.has(check); }
+const nativeObservationGuards = new WeakSet<() => void>();
+export function isOwnedNativeObservationGuardV1(check: () => void): boolean { return nativeObservationGuards.has(check); }
 
 /** v7 adds only private next-context approvals; v1-v6 scientific rows/codecs stay exact. */
 export const GRAPH_SCHEMA_VERSION = 7;
@@ -288,6 +292,99 @@ export class GraphStore {
     } catch (error) { this.db.close(); throw error; }
   }
   close(): void { this.db.close(); }
+  /** Finite DATA read only. Cursor progress is not execution authority. */
+  async observeNativeAtRestDataV1(currentAuthority: () => ControllerAuthority, suppliedLease: UnitLease,
+    executionId: string, transport: NativeObservationTransportV1): Promise<NativeObservationDataV1> {
+    const deadline = performance.now() + NATIVE_OBSERVATION_LIMITS_V1.timeoutMs, lease = immutableCopy(suppliedLease);
+    const eventValid = (e: GraphEvent) => e.digest === fingerprint({ kind: e.kind, time: e.time, payload: e.payload, unitId: e.unitId });
+    const retained = this.events.read(lease.missionId).find(e => e.key === `rms.native-at-rest.image:${executionId}`);
+    invariant(retained && retained.kind === "rms.native-at-rest.image" && retained.unitId === lease.unitId && eventValid(retained), "missing retained at-rest image");
+    const image = immutableCopy(retained.payload as AtRestImageV1), imageDigest = fingerprint(image);
+    const bound = () => {
+      const e = this.events.read(lease.missionId).find(e => e.key === retained.key);
+      invariant(e && eventValid(e) && fingerprint(e.payload) === imageDigest && e.kind === retained.kind && e.unitId === lease.unitId, "observation image changed");
+    };
+    const check = () => {
+      invariant(nativeObservationGuards.has(check), "observation scope ended"); bound();
+      const authority = immutableCopy(currentAuthority()); assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      const row = this.outbox(executionId);
+      invariant(row && row.mission === lease.missionId && row.unit_id === lease.unitId && row.token === lease.token && row.state === "PREPARED"
+        && row.attempts === 0 && !row.receipt && !row.terminal_proof && this.unit(lease.missionId, lease.unitId).state === "RESERVED", "observation requires owned unsent admission");
+      this.assertDurableAdmission(row); this.assertAdmissionInputs(authority, lease, JSON.parse(row.body));
+      const revision = (this.db.query("SELECT revision FROM ff8_missions WHERE id=?").get(lease.missionId) as { revision: number }).revision;
+      invariant(canonical(image.scope) === canonical({ missionId: lease.missionId, unitId: lease.unitId, executionId, owner: lease.owner,
+        controllerFence: authority.lease.token, familyFence: lease.token, revision, admissionDigest: row.digest })
+        && canonical(image) === canonical(makeAtRestImageV1(image.scope, image.request, JSON.parse(row.body).command, image)), "observation admission/image mismatch");
+      return authority;
+    };
+    const history = () => {
+      let after: number | null = null, cursorKey: string | null = null;
+      const items: NativeObservationDataV1["logItems"] = [];
+      for (const e of this.events.read(lease.missionId)) {
+        if (e.kind !== "rms.native-observation.result" || (e.payload as NativeObservationDataV1).imageDigest !== imageDigest) continue;
+        const d = e.payload as NativeObservationDataV1;
+        invariant(eventValid(e) && e.unitId === lease.unitId && d.version === "rms-native-observation-data-v1" && d.dataSha256 === observationDataHashV1(d)
+          && d.sessionId === image.sessionId && d.messageId === image.messageId && d.logItems.length <= NATIVE_OBSERVATION_LIMITS_V1.frames, "corrupt observation DATA");
+        const begin = this.events.read(lease.missionId).find(b => b.key === d.attemptKey);
+        invariant(begin && begin.kind === "rms.native-observation.begin" && eventValid(begin) && begin.unitId === lease.unitId
+          && (begin.payload as any).imageDigest === imageDigest && (begin.payload as any).after === d.afterBefore, "observation lacks BEGIN");
+        if (d.progressCommitted) {
+          invariant(d.logComplete && d.reason === "OK" && d.authorityCurrentBeforeAppend && d.afterBefore === after
+            && (d.afterCommitted === null ? after === null : Number.isSafeInteger(d.afterCommitted) && d.afterCommitted >= (after ?? -1)), "invalid observation cursor chain");
+          after = d.afterCommitted; cursorKey = e.key;
+        } else invariant(d.afterCommitted === d.afterBefore, "incomplete observation advanced cursor");
+        items.push(...d.logItems);
+      }
+      return { after, cursorKey, items };
+    };
+    nativeObservationGuards.add(check);
+    try {
+      const begin = this.db.transaction(() => {
+        const authority = check(), base = history(), c = this.events.cursor(lease.missionId), key = `rms.native-observation.begin:${executionId}:${c.sequence + 1}`;
+        invariant(performance.now() < deadline, "observation deadline");
+        this.events.append(lease.missionId, key, "rms.native-observation.begin", Math.max(c.time, authority.now),
+          { version: "rms-native-observation-begin-v1", imageDigest, after: base.after, cursorKey: base.cursorKey, limits: NATIVE_OBSERVATION_LIMITS_V1 }, lease.unitId, c.sequence);
+        check(); invariant(performance.now() < deadline, "observation deadline"); return { ...base, key };
+      }).immediate();
+      const port = bindOwnedNativeObservationTransportV1(transport, check, image);
+      const data = await runNativeObservationDataV1(image, imageDigest, begin.key, begin.after, begin.items, port, check, deadline);
+      const append = () => {
+        const c = this.events.cursor(lease.missionId);
+        let time = c.time; try { time = Math.max(time, check().now); } catch { /* late DATA retains the original journal clock */ }
+        data.dataSha256 = observationDataHashV1(data);
+        this.events.append(lease.missionId, `rms.native-observation.result:${executionId}:${c.sequence + 1}`, "rms.native-observation.result",
+          time, data, lease.unitId, c.sequence);
+      };
+      const divergent = () => {
+        const old = history().items.filter(i => i.kind === "EVENT");
+        return data.logItems.some(i => i.kind === "EVENT" && old.some(o => o.kind === "EVENT"
+          && (o.seq === i.seq || o.eventIdSha256 === i.eventIdSha256) && canonical(o) !== canonical(i)));
+      };
+      if (data.logComplete && data.reason === "OK") {
+        try {
+          this.db.transaction(() => {
+            check(); invariant(performance.now() < deadline, "observation deadline");
+            const current = history(); invariant(current.cursorKey === begin.cursorKey && current.after === begin.after, "observation cursor CAS");
+            invariant(!divergent(), "observation event divergence");
+            data.authorityCurrentBeforeAppend = true; data.progressCommitted = true;
+            data.afterCommitted = data.logItems.findLast(i => i.kind === "SYNCED")?.seq ?? null;
+            append(); check(); invariant(performance.now() < deadline, "observation deadline");
+          }).immediate(); return structuredClone(data);
+        } catch {
+          data.progressCommitted = false; data.afterCommitted = begin.after; data.logComplete = false;
+          data.reason = performance.now() >= deadline ? "DEADLINE" : "CURSOR_CAS";
+        }
+      }
+      this.db.transaction(() => {
+        bound(); data.authorityCurrentBeforeAppend = false;
+        try { check(); data.authorityCurrentBeforeAppend = true; } catch { data.reason = "REVOKED"; }
+        if (divergent()) { data.logItems = []; data.reason = "DIVERGENT_EVENT"; data.logComplete = false; }
+        append(); // Physical late DATA only, never progress or a resource release.
+        try { check(); } catch { /* no cursor or rights were granted by this append */ }
+      }).immediate();
+      return structuredClone(data);
+    } finally { nativeObservationGuards.delete(check); }
+  }
   /** Prospective data admission only. Host supplies fresh authority, never a DTO capability.
    * No generic late-event API escapes this call's retained operation closure. */
   async admitNativeAtRestV1(currentAuthority: () => ControllerAuthority, suppliedLease: UnitLease, executionId: string,
