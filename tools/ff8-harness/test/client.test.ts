@@ -7,6 +7,7 @@ import { ExecutionClient, type RpcTransport } from "../src/client";
 import { prepareRuntimeExecutionV1 } from "../src/graph-execution-prepare";
 import { readRuntimeDocumentV1, type DispatchScopeV1 } from "../src/graph-runtime-binding";
 import { fixture, preparation, decoded, document, digest } from "./s2-author/s1-source-fixtures";
+import { graphHarness } from "./graph-integration/fixture-driver";
 function setup(loseReply = false) {
   const root = mkdtempSync(join(tmpdir(), "ff8-client-")); const requests: Record<string, unknown>[] = [];
   let revision = 1; let lost = false; const receipts = new Map<string, Record<string, unknown>>();
@@ -24,6 +25,50 @@ function setup(loseReply = false) {
   return { client: new ExecutionClient(options), options, requests, cleanup, receipts };
 }
 const body = { executionId: "exec-1", taskId: "task-1", attemptId: "attempt-1", idempotencyKey: "key-1", prompt: "exact dossier", profile: "worker", model: { providerID: "fixture", id: "model", variant: "high" } };
+test("RMSO- client derives durable execution target and refuses supplied unit/task aliases without transport", async () => {
+  const h = graphHarness(), s = setup(); let client: ExecutionClient | undefined;
+  try {
+    h.start(); await h.step(); const command = h.host.submissions[0]!.command;
+    client = new ExecutionClient({ ...s.options, statePath: h.path }); await client.ensure(h.missionId);
+    const metadata = command.metadata as Record<string, unknown>, binding = metadata.graphBinding as Record<string, unknown>;
+    await expect(client.submit(h.missionId, { ...command, metadata: { ...metadata, graphBinding: { ...binding, unitId: "unrelated-alias" } } })).rejects.toThrow(/contradicts durable target/);
+    await expect(client.submit(h.missionId, { ...command, taskId: "unrelated-task" })).rejects.toThrow(/contradicts durable target/);
+    expect(s.requests).toHaveLength(0); expect(h.host.submissions[0]!.command).toEqual(command);
+  } finally { client?.close(); h.close(); s.client.close(); s.cleanup(); }
+}, 600000);
+function obsoleteClientFixture(h: ReturnType<typeof graphHarness>) {
+  const command = h.host.submissions[0]!.command, graph = h.runtime.options.graph, authority = h.runtime.options.authority(); graph.bootstrapParentAuthority(authority);
+  const unitId = (command.metadata as { graphBinding: { unitId: string } }).graphBinding.unitId;
+  const revision = (graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(h.missionId, unitId) as { revision: number }).revision;
+  graph.retainOrderedCommandV1(authority, { commandId: "client-fixture-obsolete", unitId, executionId: null, sessionId: null, action: "obsolete", reason: "voluntary fixture decision", sequence: 1,
+    expectedMissionRevision: h.store.load(h.missionId).revision, expectedUnitRevision: revision, expectedEventSequence: graph.events.cursor(h.missionId).sequence,
+    expectedFamilyToken: graph.leases.get(h.missionId, unitId)?.token ?? null, notify: false });
+  return command;
+}
+test("RMSO- global execution cannot hide obsolete durable mission behind a supplied mission alias", async () => {
+  const h = graphHarness(), s = setup(); let client: ExecutionClient | undefined, transportCalls = 0;
+  try {
+    h.start(); await h.step(); const command = obsoleteClientFixture(h), original = JSON.stringify(command), transport = s.options.transport;
+    client = new ExecutionClient({ ...s.options, statePath: h.path, transport: { async call(method, image) { transportCalls++; return transport.call(method, image); } } });
+    // The rejection precedes snapshot/ensure/revision lookup for the alias.
+    await expect(client.submit(`${h.missionId}:alias`, command)).rejects.toThrow(/mission.*contradicts durable target/);
+    expect(transportCalls).toBe(0); expect(s.requests).toHaveLength(0); expect(JSON.stringify(command)).toBe(original);
+  } finally { client?.close(); h.close(); s.client.close(); s.cleanup(); }
+}, 600000);
+test("RMSO- corrupt decision digest from a normal durable decision is refused before any transport", async () => {
+  const h = graphHarness(), s = setup(); let client: ExecutionClient | undefined, transportCalls = 0;
+  try {
+    h.start(); await h.step(); const command = obsoleteClientFixture(h), graph = h.runtime.options.graph, transport = s.options.transport;
+    // Fixture-only corruption after a real private-row + event API decision.
+    graph.db.query("UPDATE ff8_graph_ordered_commands SET digest=? WHERE mission=? AND command_id=?").run("wrong-digest", h.missionId, "client-fixture-obsolete");
+    client = new ExecutionClient({ ...s.options, statePath: h.path, transport: { async call(method, image) { transportCalls++; return transport.call(method, image); } } });
+    await expect(client.submit(h.missionId, command)).rejects.toThrow(/corrupt RMS decision/); expect(transportCalls).toBe(0); expect(s.requests).toHaveLength(0);
+  } finally { client?.close(); h.close(); s.client.close(); s.cleanup(); }
+}, 600000);
+test("RMSO- legitimate legacy command without a graph outbox retains its existing admission path", async () => {
+  const s = setup(); try { await s.client.ensure("m"); expect((await s.client.submit("m", body)).executionId).toBe(body.executionId); expect(s.requests).toHaveLength(1); }
+  finally { s.client.close(); s.cleanup(); }
+}, 600000);
 test("client commits submission before send and reuses it after a lost response/reopen", async () => {
   const s = setup(true); try { await s.client.ensure("m"); await expect(s.client.submit("m", body)).rejects.toThrow("lost"); s.client.close(); const next = new ExecutionClient(s.options); const r = await next.submit("m", body); expect(r.state).toBe("accepted"); expect(s.receipts.size).toBe(1); expect(s.requests[0]).toEqual(s.requests[1]); next.close(); expect(readFileSync(s.options.statePath).includes(Buffer.from("TOP-SECRET"))).toBe(false); } finally { s.cleanup(); }
 });

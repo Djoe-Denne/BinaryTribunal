@@ -87,6 +87,49 @@ function setup(splitRoles = false, autoApprove = true) {
   return { h, producer, consumer, policy, reads, denyParent: () => { parentAllowed = false; } };
 }
 type Fixture = ReturnType<typeof setup>;
+function obsoleteProducer(x: Fixture, commandId: string) {
+  const { h, producer } = x, graph = h.runtime.options.graph, authority = h.runtime.options.authority(); graph.bootstrapParentAuthority(authority);
+  const revision = (graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(h.missionId, producer.unitId) as { revision: number }).revision;
+  graph.retainOrderedCommandV1(authority, { commandId, unitId: producer.unitId, executionId: null, sessionId: null, action: "obsolete", reason: "source no longer admissible", sequence: 1,
+    expectedMissionRevision: h.store.load(h.missionId).revision, expectedUnitRevision: revision, expectedEventSequence: graph.events.cursor(h.missionId).sequence,
+    expectedFamilyToken: graph.leases.get(h.missionId, producer.unitId)?.token ?? null, notify: false });
+}
+test("RMSO- source obsolete during actual context byte read refuses consumer emission and keeps view/reopen usable", async () => {
+  const x = setup(), { h } = x; let readCut = false, contentAtCut: string | Uint8Array | undefined;
+  try {
+    const read = h.host.access.read.bind(h.host.access);
+    h.host.access.read = async (path, context) => {
+      const result = await read(path, context);
+      if (!readCut && path.includes("next-context-bytes-") && result.status === "ok") { readCut = true; contentAtCut = result.content; obsoleteProducer(x, "context-read-cut"); }
+      return result;
+    };
+    h.start();
+    for (let n = 0; n < 12 && !readCut; n++) {
+      try { await h.step(); } catch (error) { if (!readCut) throw error; expect(String(error)).toMatch(/obsolete|source|context/); }
+    }
+    expect(readCut).toBe(true); expect(contentAtCut).toBeDefined(); expect(consumerSubmissions(x)).toHaveLength(0);
+    expect(() => h.runtime.view()).not.toThrow(); const commits = h.runtime.options.graph.replay(h.missionId).committed;
+    h.reopen(); await h.step(); expect(h.runtime.options.graph.replay(h.missionId).committed).toEqual(commits); expect(consumerSubmissions(x)).toHaveLength(0);
+  } finally { h.close(); }
+}, 600000);
+test("RMSO- obsolete published producer preserves commit history but blocks already approved context", async () => {
+  const x = setup(), { h, producer, consumer } = x;
+  try {
+    h.start();
+    for (let n = 0; n < 10 && !h.runtime.options.graph.satisfies(h.missionId, producer.unitId, 1); n++) await h.step();
+    const graph = h.runtime.options.graph, authority = h.runtime.options.authority(), before = graph.replay(h.missionId).committed;
+    expect(before).toContain(producer.unitId); graph.bootstrapParentAuthority(authority);
+    const revision = (graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(h.missionId, producer.unitId) as { revision: number }).revision;
+    graph.retainOrderedCommandV1(authority, { commandId: "producer-obsolete", unitId: producer.unitId, executionId: null, sessionId: null, action: "obsolete", reason: "future uses forbidden", sequence: 1,
+      expectedMissionRevision: h.store.load(h.missionId).revision, expectedUnitRevision: revision, expectedEventSequence: graph.events.cursor(h.missionId).sequence,
+      expectedFamilyToken: graph.leases.get(h.missionId, producer.unitId)?.token ?? null, notify: false });
+    expect(graph.replay(h.missionId).committed).toEqual(before); expect(graph.satisfies(h.missionId, producer.unitId, 1)).toBe(false);
+    expect(graph.isWorkCurrent(h.missionId, consumer.unitId)).toBe(false);
+    expect(() => h.runtime.view()).not.toThrow(); const emitted = consumerSubmissions(x).length;
+    h.reopen(); await h.step(); expect(h.runtime.options.graph.isWorkCurrent(h.missionId, consumer.unitId)).toBe(false);
+    expect(consumerSubmissions(x)).toHaveLength(emitted); expect(() => h.runtime.view()).not.toThrow();
+  } finally { h.close(); }
+}, 600000);
 function image(x: Fixture): NextContextProjectionV1 {
   const lease = x.h.runtime.options.graph.leases.get(x.h.missionId, x.consumer.unitId)!;
   const p = x.h.runtime.options.graph.nextContextProjection(x.h.missionId, x.consumer.unitId, lease.token);
@@ -402,7 +445,7 @@ describe("prospective next-context acquisition — OFFLINE only", () => {
       } finally { seed.close(); }
       const migration = new GraphStore(h.path);
       try {
-        expect(migration.db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get()).toEqual({ version: 7 });
+        expect(migration.db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get()).toEqual({ version: 8 });
         expect(migration.db.query("SELECT name FROM sqlite_master WHERE type='table' AND name='ff8_graph_next_context_approvals'").get()).toEqual({ name: "ff8_graph_next_context_approvals" });
         expect(oracleCanonical(h.store.load(h.missionId))).toBe(initial);
       } finally { migration.close(); }
@@ -415,7 +458,7 @@ describe("prospective next-context acquisition — OFFLINE only", () => {
       // Metadata-only compatibility fixture: no table/row is dropped or rewritten.
       graph.db.query("UPDATE ff8_graph_metadata SET version=6 WHERE id=1").run(); h.reopen();
       const current = h.runtime.options.graph;
-      expect(current.db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get()).toEqual({ version: 7 });
+      expect(current.db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get()).toEqual({ version: 8 });
       expect(oracleCanonical(documents(current))).toBe(before);
       expect(current.db.query("SELECT 1 FROM ff8_graph_next_context_approvals WHERE mission=?").get(h.missionId)).toBeNull();
       expect(current.nextContextSourcesAvailable(h.missionId, x.consumer.unitId)).toBe(false); expect(consumerSubmissions(x)).toHaveLength(0);
@@ -427,7 +470,7 @@ describe("prospective next-context acquisition — OFFLINE only", () => {
     try {
       const before = oracleCanonical(h.store.load(h.missionId)), graph = new GraphStore(h.path);
       try {
-        if (adverse === "future-version") graph.db.query("UPDATE ff8_graph_metadata SET version=8 WHERE id=1").run();
+        if (adverse === "future-version") graph.db.query("UPDATE ff8_graph_metadata SET version=9 WHERE id=1").run();
         else graph.db.exec("ALTER TABLE ff8_graph_next_context_approvals ADD COLUMN offline_unexpected TEXT"); // negative OWN fixture only, not product migration
       } finally { graph.close(); }
       expect(() => new GraphStore(h.path)).toThrow(adverse === "future-version" ? "unsupported graph schema" : "incompatible private next context approval declaration");

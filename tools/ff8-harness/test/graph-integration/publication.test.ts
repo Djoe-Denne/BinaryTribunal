@@ -9,7 +9,7 @@ import { canonical, fingerprint } from "../../src/validation";
 import { makePublicationMaterializationV1, publicationManifestEvidenceV1, type PublicationMaterializationV1, type PublicationArtifactSelectionV1 } from "../../src/graph-publication-materialization";
 import { createStaticPublicationPort } from "../../src/graph-static-publication";
 import { oracleCanonical, oracleDigest, sha256 } from "../simulator/graph-interop-support";
-import { graphHarness } from "./fixture-driver";
+import { graphHarness, preparationV2, snapshotFixture } from "./fixture-driver";
 
 type Harness = ReturnType<typeof graphHarness>;
 function prospective(h: Harness, derived = false, alter?: (m: PublicationMaterializationV1) => void, storedBytes: "canonical" | "raw" = "canonical") {
@@ -37,6 +37,100 @@ function prospective(h: Harness, derived = false, alter?: (m: PublicationMateria
   return { policy, port, targetFile, get writeCalls() { return writeCalls; }, get physicalEffects() { return physicalEffects; } };
 }
 async function ready(h: Harness) { h.start(); await h.step(); await h.step(); }
+function obsoleteUnit(h: Harness, unitId: string, commandId: string) {
+  const graph = h.runtime.options.graph, authority = h.runtime.options.authority(); graph.bootstrapParentAuthority(authority);
+  const revision = (graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(h.missionId, unitId) as { revision: number }).revision;
+  return graph.retainOrderedCommandV1(authority, { commandId, unitId, executionId: null, sessionId: null, action: "obsolete", reason: "voluntary offline test decision", sequence: 1,
+    expectedMissionRevision: h.store.load(h.missionId).revision, expectedUnitRevision: revision, expectedEventSequence: graph.events.cursor(h.missionId).sequence,
+    expectedFamilyToken: graph.leases.get(h.missionId, unitId)?.token ?? null, notify: false });
+}
+test("RMSO- obsolete READY candidate does not prevent independent eligible work from progressing", async () => {
+  const h = graphHarness(preparationV2(snapshotFixture(2), 1, 160000));
+  try {
+    h.start(); const run = preparedGraphRun(h.runtime.options.graph, h.missionId)!;
+    const units = run.prepared.planning.units; expect(units.length).toBeGreaterThan(1); const target = units[0]!, other = units[1]!;
+    obsoleteUnit(h, target.unitId, "obsolete-before-reserve"); await h.step();
+    expect(h.host.submissions.length).toBeGreaterThan(0);
+    for (const sent of h.host.submissions) expect((sent.command.metadata as { graphBinding: { unitId: string } }).graphBinding.unitId).toBe(other.unitId);
+    expect(() => h.runtime.view()).not.toThrow(); h.reopen(); await h.step(); expect(() => h.runtime.view()).not.toThrow();
+    expect(h.host.submissions.every(s => (s.command.metadata as { graphBinding: { unitId: string } }).graphBinding.unitId !== target.unitId)).toBe(true);
+  } finally { h.close(); }
+}, 600000);
+test("RMSO- obsolete dependency producer preserves frozen edge endpoints while independent work commits", async () => {
+  const h = graphHarness(preparationV2(snapshotFixture(3, [[0, 1]]), 1, 160000));
+  try {
+    h.start(); const graph = h.runtime.options.graph, run = preparedGraphRun(graph, h.missionId)!;
+    const units = run.prepared.planning.units, nodes = h.request.snapshot.nodes;
+    const producer = units.find(u => u.ownedFunctionIds.includes(nodes[1]!.id))!, consumer = units.find(u => u.ownedFunctionIds.includes(nodes[0]!.id))!, independent = units.find(u => u.ownedFunctionIds.includes(nodes[2]!.id))!;
+    expect(new Set([producer.unitId, consumer.unitId, independent.unitId]).size).toBe(3);
+    const edge = run.prepared.planning.plan.prerequisites.find(p => p.producerUnitId === producer.unitId && p.consumerUnitId === consumer.unitId && p.kind === "obligatory" && !p.dispensed);
+    expect(edge).toBeDefined(); expect(consumer.prerequisites.some(p => p.producerUnitId === producer.unitId && p.kind === "obligatory" && !p.dispensed)).toBe(true);
+    const frozen = oracleCanonical(run), oldLease = graph.leases.get(h.missionId, producer.unitId);
+    obsoleteUnit(h, producer.unitId, "obsolete-dependency-producer"); await h.step();
+    expect(h.host.submissions.length).toBeGreaterThan(0);
+    expect(h.host.submissions.every(s => (s.command.metadata as { graphBinding: { unitId: string } }).graphBinding.unitId === independent.unitId)).toBe(true);
+    h.reopen();
+    for (let n = 0; n < 6 && !h.runtime.options.graph.satisfies(h.missionId, independent.unitId, 1); n++) await h.step();
+    expect(h.runtime.options.graph.satisfies(h.missionId, independent.unitId, 1)).toBe(true);
+    expect(h.runtime.options.graph.isWorkCurrent(h.missionId, consumer.unitId)).toBe(false);
+    expect(h.host.submissions.every(s => (s.command.metadata as { graphBinding: { unitId: string } }).graphBinding.unitId === independent.unitId)).toBe(true);
+    expect(h.runtime.options.graph.leases.get(h.missionId, producer.unitId)).toEqual(oldLease);
+    expect(oracleCanonical(preparedGraphRun(h.runtime.options.graph, h.missionId))).toBe(frozen);
+    expect(graphEvents(h.runtime.options.graph, h.missionId).some(e => e.kind === "family_retired" && e.unitId === producer.unitId)).toBe(false);
+    expect(() => h.runtime.view()).not.toThrow();
+  } finally { h.close(); }
+}, 600000);
+test("RMSO- retained eligible result then cut before runtime append reopens as attributed nonconsumable late result", async () => {
+  const h = graphHarness(); let restore = () => {};
+  try {
+    h.start(); await h.step(); const graph = h.runtime.options.graph, real = graph.retainResult.bind(graph); let cutId: string | undefined;
+    const spy = spyOn(graph, "retainResult").mockImplementation((...args: Parameters<typeof real>) => {
+      const eligible = real(...args); if (cutId === undefined) { expect(eligible).toBe(true); cutId = args[3]; obsoleteUnit(h, args[1].unitId, "retention-cut"); throw new Error("cut-before-runtime-append"); } return eligible;
+    }); restore = () => spy.mockRestore();
+    await expect(h.step()).rejects.toThrow("cut-before-runtime-append"); restore();
+    const sends = h.host.submissions.length, retained = graphEvents(graph, h.missionId).find(e => e.key === `result:${cutId}`)!;
+    expect((retained.payload as { eligible: boolean }).eligible).toBe(true);
+    h.reopen(); await h.step(); const view = h.runtime.view(); expect(view.lateResultIds).toContain(cutId!); expect(h.host.submissions).toHaveLength(sends);
+    expect(graphEvents(h.runtime.options.graph, h.missionId).find(e => e.key === retained.key)).toEqual(retained);
+    h.reopen(); expect(h.runtime.view().lateResultIds).toContain(cutId!);
+  } finally { restore(); h.close(); }
+}, 600000);
+
+test("RMSO- physical write with lost reply then obsolete preserves bytes and prevents second write on restart", async () => {
+  const h = graphHarness(), p = prospective(h); let originalRequest: unknown;
+  try {
+    const write = h.host.ports.publication.write.bind(h.host.ports.publication);
+    h.host.ports.publication.write = async request => {
+      originalRequest = JSON.parse(oracleCanonical(request)); await write(request);
+      obsoleteUnit(h, manifest(h).unitId, "after-physical-write"); throw new Error("lost-physical-reply");
+    };
+    await ready(h); await expect(h.step()).rejects.toThrow("lost-physical-reply"); const m = manifest(h), bytes = readFileSync(p.targetFile(m.targetId));
+    expect(originalRequest).toEqual({ targetId: m.targetId, requestDigest: publicationRows(h)[0]!.digest, content: oracleCanonical(m) }); expect(p.physicalEffects).toBe(1);
+    const writes = p.writeCalls; h.reopen(); await h.step(); expect(p.writeCalls).toBe(writes); expect(readFileSync(p.targetFile(m.targetId)).equals(bytes)).toBe(true);
+    expect(graphEvents(h.runtime.options.graph, h.missionId).filter(e => e.kind === "knowledge_committed")).toHaveLength(0);
+    const row = publicationRows(h)[0]!, physical = await p.port.read({ targetId: m.targetId, requestDigest: row.digest });
+    h.runtime.options.graph.observePublication(h.runtime.options.authority(), m.unitId, {
+      targetId: m.targetId, requestDigest: row.digest, hash: sha256(bytes), source: physical.source });
+    expect(h.runtime.options.graph.satisfies(h.missionId, m.unitId, 1)).toBe(false); expect(p.writeCalls).toBe(writes);
+  } finally { h.close(); }
+}, 600000);
+test("RMSO- obsolete after review await refuses publication and retains physical allocation", async () => {
+  const h = graphHarness(), p = prospective(h);
+  try {
+    const original = h.host.ports.review.review.bind(h.host.ports.review);
+    h.host.ports.review.review = async input => {
+      const review = await original(input), graph = h.runtime.options.graph, authority = h.runtime.options.authority(); graph.bootstrapParentAuthority(authority);
+      const revision = (graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(h.missionId, input.unit.unitId) as { revision: number }).revision;
+      const lease = graph.leases.get(h.missionId, input.unit.unitId)!;
+      graph.retainOrderedCommandV1(authority, { commandId: "review-obsolete", unitId: input.unit.unitId, executionId: null, sessionId: null, action: "obsolete", reason: "cancel during review", sequence: 1,
+        expectedMissionRevision: h.store.load(h.missionId).revision, expectedUnitRevision: revision, expectedEventSequence: graph.events.cursor(h.missionId).sequence, expectedFamilyToken: lease.token, notify: false });
+      expect(graph.leases.get(h.missionId, input.unit.unitId)).toEqual(lease); return review;
+    };
+    await ready(h); await expect(h.step()).rejects.toThrow(/obsolete/); expect(p.writeCalls).toBe(0);
+    expect(graphEvents(h.runtime.options.graph, h.missionId).filter(e => e.kind === "knowledge_committed")).toHaveLength(0);
+    expect(h.runtime.view().resultIds.length).toBeGreaterThan(0);
+  } finally { h.close(); }
+}, 600000);
 function publicationRows(h: Harness) {
   return h.runtime.options.graph.db.query("SELECT request,digest,readback FROM ff8_graph_publications WHERE mission=?").all(h.missionId) as Array<{ request: string; digest: string; readback: string | null }>;
 }

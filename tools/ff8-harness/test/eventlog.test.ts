@@ -8,6 +8,115 @@ import { Store } from "../src/store";
 import type { InputBundle, Snapshot } from "../src/domain";
 import { GraphStore, graphErrorClass, validateGraphDocument, type Admission, type KnowledgeCommit, type WorkUnit, type PersistenceSidecar, type ReservationExpectation, type GraphStoreOptions, type ParentAuthorityProvider, type NativeAuthorIdentity, type ParentAttestationRequest, type ArtifactBinding, type ArtifactReceipt } from "../src/graph-store";
 import { EventLog } from "../src/eventlog";
+import type { OrderedCommandRequestV1 } from "../src/graph-store";
+
+function rmsoRequest(s: Setup, u: WorkUnit, commandId = "obsolete-1", sequence = 1): OrderedCommandRequestV1 {
+  s.graph.bootstrapParentAuthority(s.authority);
+  const revision = (s.graph.db.query("SELECT revision FROM ff8_graph_units WHERE mission='m' AND unit_id=?").get(u.unitId) as { revision: number }).revision;
+  return { commandId, unitId: u.unitId, executionId: null, sessionId: null, action: "obsolete", reason: "voluntary supervisor decision", sequence,
+    expectedMissionRevision: s.store.load("m").revision, expectedUnitRevision: revision, expectedEventSequence: s.graph.events.cursor("m").sequence,
+    expectedFamilyToken: s.graph.leases.get("m", u.unitId)?.token ?? null, notify: false };
+}
+test("RMSO- decision commits once, rejects divergence and sequence gaps; physical rows unchanged on reopen", () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const request = rmsoRequest(s, u), before = s.graph.replay("m"), lease = s.graph.leases.get("m", u.unitId);
+  const receipt = s.graph.retainOrderedCommandV1(s.authority, request);
+  expect(receipt.imageDigest).toMatch(/^[a-f0-9]{64}$/); expect(s.graph.retainOrderedCommandV1(s.authority, request)).toEqual(receipt);
+  expect(() => s.graph.retainOrderedCommandV1(s.authority, { ...request, reason: "changed" })).toThrow();
+  expect(() => s.graph.retainOrderedCommandV1(s.authority, { ...rmsoRequest(s, u, "gap", 3) })).toThrow();
+  expect(s.graph.leases.get("m", u.unitId)).toEqual(lease); expect(s.graph.replay("m").states).toEqual(before.states);
+  s.graph.close(); s.graph = new GraphStore(s.p, { parentAuthority: host.provider }); opened.push(s.graph);
+  expect(s.graph.isWorkCurrent("m", u.unitId)).toBe(false); expect(() => s.graph.reserve(s.authority, u.unitId)).toThrow(/obsolete/);
+}, 600000);
+
+test("RMSO- lost command reply reconciles exact image without a second send and blocks the next stream delivery", async () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const request = { ...rmsoRequest(s, u), notify: true }, receipt = s.graph.retainOrderedCommandV1(s.authority, request);
+  let sends = 0, reads = 0;
+  const port = { kind: "offline-fixture-v1" as const, async send() { sends++; throw new Error("reply lost"); }, async reconcile() { reads++; return { commandId: request.commandId, imageDigest: receipt.imageDigest, state: "admitted" }; } };
+  await expect(s.graph.deliverOrderedCommandV1(s.authority, request.commandId, port)).rejects.toThrow(/ambiguous/);
+  const next = { ...rmsoRequest(s, u, "second", 2), notify: true }; s.graph.retainOrderedCommandV1(s.authority, next);
+  await expect(s.graph.deliverOrderedCommandV1(s.authority, next.commandId, port)).rejects.toThrow(/previous/);
+  expect(await s.graph.deliverOrderedCommandV1(s.authority, request.commandId, port)).toEqual({ commandId: request.commandId, imageDigest: receipt.imageDigest, state: "admitted" });
+  expect(sends).toBe(1); expect(reads).toBe(1); expect(s.graph.isWorkCurrent("m", u.unitId)).toBe(false);
+}, 600000);
+
+test("RMSO- stale CAS rolls back and obsolete PREPARED never dispatches after reopen", async () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const expected = freeze(s.graph, s.authority, [u.unitId]), lease = s.graph.reserve(s.authority, u.unitId, 10000, expected); pinUnit(s.graph, s.authority, lease);
+  const b = body(u, "A"); s.graph.prepareAdmission(s.authority, lease, b);
+  const request = rmsoRequest(s, u), cursor = s.graph.events.cursor("m");
+  expect(() => s.graph.retainOrderedCommandV1(s.authority, { ...request, expectedUnitRevision: request.expectedUnitRevision + 1 })).toThrow(/CAS/);
+  expect(s.graph.events.cursor("m")).toEqual(cursor); expect(s.graph.db.query("SELECT 1 FROM ff8_graph_ordered_commands").get()).toBeNull();
+  const claims = s.graph.db.query("SELECT * FROM ff8_unit_claims").all(), admission = s.graph.admission(b.executionId);
+  s.graph.retainOrderedCommandV1(s.authority, request);
+  s.graph.close(); s.graph = new GraphStore(s.p, { parentAuthority: host.provider }); opened.push(s.graph);
+  let sends = 0;
+  await expect(s.graph.dispatch(s.authority, lease, b.executionId, { async submit() { sends++; return {}; } })).rejects.toThrow(/obsolete/);
+  expect(sends).toBe(0); expect(s.graph.admission(b.executionId)).toEqual(admission); expect(s.graph.db.query("SELECT * FROM ff8_unit_claims").all()).toEqual(claims);
+}, 600000);
+
+test("RMSO- already retained and late results preserve historical eligibility but cannot be consumed", async () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const expected = freeze(s.graph, s.authority, [u.unitId]), lease = s.graph.reserve(s.authority, u.unitId, 10000, expected); pinUnit(s.graph, s.authority, lease);
+  const ids = await complete(s, u, lease), before = s.graph.db.query("SELECT * FROM ff8_graph_results").all(), terminal = s.graph.db.query("SELECT terminal_proof FROM ff8_graph_outbox").all();
+  s.graph.retainOrderedCommandV1(s.authority, rmsoRequest(s, u));
+  expect(() => s.graph.assertResultCurrent("m", u.unitId, ids[0]!)).toThrow(/obsolete/);
+  const first = before[0] as { execution_id: string; result_id: string; document: string };
+  expect(s.graph.retainResult(s.authority, lease, first.execution_id, first.result_id, JSON.parse(first.document))).toBe(false);
+  expect(s.graph.db.query("SELECT * FROM ff8_graph_results").all()).toEqual(before);
+  expect(s.graph.db.query("SELECT terminal_proof FROM ff8_graph_outbox").all()).toEqual(terminal);
+}, 600000);
+
+for (const loss of ["table", "row"] as const) test(`RMSO- private authority ${loss} loss refuses reopen without rebuilding from history`, () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  s.graph.retainOrderedCommandV1(s.authority, rmsoRequest(s, u)); const history = s.graph.events.read("m");
+  s.graph.db.exec(loss === "table" ? "DROP TABLE ff8_graph_ordered_commands" : "DELETE FROM ff8_graph_ordered_commands");
+  expect(s.graph.isWorkCurrent("m", u.unitId)).toBe(false); s.graph.close();
+  expect(() => new GraphStore(s.p, { parentAuthority: host.provider })).toThrow(/RMS command/);
+  const db = new Database(s.p); try {
+    expect((db.query("SELECT COUNT(*) AS n FROM ff8_events WHERE mission='m'").get() as { n: number }).n).toBe(history.length);
+    expect(db.query("SELECT 1 FROM sqlite_master WHERE name='ff8_graph_ordered_commands'").get() !== null).toBe(loss !== "table");
+  } finally { db.close(); }
+}, 600000);
+
+test("RMSO- parent revoked by append rolls back decision and event jointly", () => {
+  const host = parentHost(); let allowed = true;
+  const s = setup({ parentAuthority: { ...host.provider, verifyParent: a => allowed ? host.provider.verifyParent(a) : undefined } }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const request = rmsoRequest(s, u), before = s.graph.events.read("m"), append = s.graph.events.append.bind(s.graph.events);
+  s.graph.events.append = (...args: Parameters<typeof append>) => { const result = append(...args); if (args[2] === "rms_command_committed") allowed = false; return result; };
+  expect(() => s.graph.retainOrderedCommandV1(s.authority, request)).toThrow(/parent/);
+  expect(s.graph.db.query("SELECT 1 FROM ff8_graph_ordered_commands").get()).toBeNull(); expect(s.graph.events.read("m")).toEqual(before);
+}, 600000);
+
+test("RMSO- quota rejection after voluntary obsolete cannot retry after restart; port image exact", async () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const lease = reserve(s.graph, s.authority, u.unitId, 10000), b = body(u, "A"); s.graph.prepareAdmission(s.authority, lease, b);
+  const claims = s.graph.db.query("SELECT * FROM ff8_unit_claims").all(); let calls = 0;
+  const port = { async submit(_mission: string, command: Record<string, unknown>) {
+    calls++; expect(command).toEqual(b.command); s.graph.retainOrderedCommandV1(s.authority, rmsoRequest(s, u));
+    throw Object.assign(new Error("quota"), { type: "execution_rejected", category: "quota", recoverable: true });
+  } };
+  await expect(s.graph.dispatch(s.authority, lease, b.executionId, port)).rejects.toThrow("quota"); expect(s.graph.admission(b.executionId)?.state).toBe("REJECTED");
+  s.graph.close(); s.graph = new GraphStore(s.p, { parentAuthority: host.provider }); opened.push(s.graph);
+  await expect(s.graph.dispatch(s.authority, lease, b.executionId, port)).rejects.toThrow(/obsolete/); expect(calls).toBe(1);
+  expect(s.graph.db.query("SELECT * FROM ff8_unit_claims").all()).toEqual(claims);
+}, 600000);
+
+test("RMSO- one notification send in flight, reopen reconciles identical image and stable remote receipt", async () => {
+  const host = parentHost(), s = setup({ parentAuthority: host.provider }), u = unit(s); s.graph.addUnit(s.authority, u);
+  const request = { ...rmsoRequest(s, u), notify: true }, receipt = s.graph.retainOrderedCommandV1(s.authority, request), io = deferred<Record<string, unknown>>();
+  const image = JSON.parse((s.graph.db.query("SELECT document FROM ff8_graph_ordered_commands").get() as { document: string }).document);
+  let sends = 0, reads = 0;
+  const port = { kind: "offline-fixture-v1" as const, async send(actual: unknown) { sends++; expect(actual).toEqual(image); return io.promise; }, async reconcile(actual: unknown) { reads++; expect(actual).toEqual(image); return null; } };
+  const pending = s.graph.deliverOrderedCommandV1(s.authority, request.commandId, port);
+  expect(await s.graph.deliverOrderedCommandV1(s.authority, request.commandId, port)).toBeNull(); expect(sends).toBe(1); expect(reads).toBe(1);
+  io.reject(new Error("lost")); await expect(pending).rejects.toThrow(/ambiguous/);
+  s.graph.close(); s.graph = new GraphStore(s.p, { parentAuthority: host.provider }); opened.push(s.graph);
+  const remote = { commandId: request.commandId, imageDigest: receipt.imageDigest, state: "admitted" };
+  expect(await s.graph.deliverOrderedCommandV1(s.authority, request.commandId, { ...port, async reconcile(actual) { expect(actual).toEqual(image); return remote; } })).toEqual(remote);
+  expect(await s.graph.deliverOrderedCommandV1(s.authority, request.commandId, port)).toEqual(remote); expect(sends).toBe(1);
+}, 600000);
 import { assertCanonicalUnitProjection, type ControllerAuthority, type UnitLease } from "../src/unit-lease";
 import { canonical, fingerprint, hash } from "../src/validation";
 import { planMission, type PlannerPolicy } from "../src/planner";
@@ -286,7 +395,7 @@ describe("RV6V6-01 positive owned-function RVA boundary", () => {
       if (pass === 0) { s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph); }
     }
     expect(s.graph.db.query("SELECT document,digest FROM ff8_graph_units WHERE unit_id=?").get(u.unitId)).toEqual({ document: canonical(u), digest: fingerprint(u) });
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 8 });
   });
   test("legacy zero active family cannot pin, prepare or reuse durable admission after reopen; history and claims survive", async () => {
     const s = projectionSetup(), u = unit(s), request = body(u, "A"), sub = u.subIntents[0]!, inputs = inputsFor(sub);
@@ -443,7 +552,7 @@ describe("OWN graph persistence, additive migration and journal", () => {
     const p = path(), store = new Store(p); opened.push(store); store.create(empty());
     const prior = new Database(p); prior.exec("CREATE TABLE ff8_graph_metadata(id INTEGER PRIMARY KEY,version INTEGER); INSERT INTO ff8_graph_metadata VALUES(1,1); CREATE TABLE ff8_graph_snapshots(id TEXT PRIMARY KEY,digest TEXT NOT NULL,document TEXT NOT NULL); INSERT INTO ff8_graph_snapshots VALUES('historical','digest','{}')"); prior.close();
     const graph = new GraphStore(p); opened.push(graph); expect(graph.db.query("SELECT document FROM ff8_graph_snapshots WHERE id='historical'").get()).toEqual({ document: "{}" });
-    graph.close(); const reopened = new GraphStore(p); opened.push(reopened); expect(reopened.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 });
+    graph.close(); const reopened = new GraphStore(p); opened.push(reopened); expect(reopened.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 8 });
     expect(store.load("m").revision).toBe(0);
   });
   test("immutable documents, canonical identity, exact schema and partition binding", () => {
@@ -989,12 +1098,12 @@ describe("v5 pinned inputs, irreversible-release safety and scientific content I
     const s = setup(), u = unit(s); s.graph.addUnit(s.authority, u); const lease = reserve(s.graph, s.authority, u.unitId, 1000), request = body(u, "A"); s.graph.prepareAdmission(s.authority, lease, request);
     const before = s.graph.events.read("m"), bodyBefore = s.graph.db.query("SELECT body,digest FROM ff8_graph_outbox").get();
     s.graph.db.exec(`DROP TABLE ff8_graph_input_pins; UPDATE ff8_graph_metadata SET version=${version};`); s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph);
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 8 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
     expect(s.graph.events.read("m")).toEqual(before); expect(s.graph.db.query("SELECT body,digest FROM ff8_graph_outbox").get()).toEqual(bodyBefore);
     let calls = 0; await expect(s.graph.dispatch(s.authority, lease, request.executionId, { async submit() { calls++; return {}; } })).rejects.toThrow(/durable frozen input pin/);
     expect(calls).toBe(0); expect(() => s.graph.freezeAdmissionInputs(s.authority, lease, request.subIntentId, inputsFor(u.subIntents[0]!))).toThrow(/retroactively authorized/);
     expect(() => s.graph.prepareAdmission(s.authority, lease, request)).toThrow(/durable frozen input pin/);
-    s.graph.db.exec("UPDATE ff8_graph_metadata SET version=8"); expect(() => new GraphStore(s.p)).toThrow(/unsupported graph schema/);
+    s.graph.db.exec("UPDATE ff8_graph_metadata SET version=9"); expect(() => new GraphStore(s.p)).toThrow(/unsupported graph schema/);
   });
   test("RV6M-03 SENDING instantaneous absence cannot retire/release/retry before delayed acceptance", async () => {
     const s = setup(), u = unit(s, "old"), next = unit(s, "next"); s.graph.addUnit(s.authority, u); s.graph.addUnit(s.authority, next);
@@ -1256,7 +1365,7 @@ describe("v4 immutable parent authority and durable level-2 attestation", () => 
     s.graph.db.exec("DROP TABLE ff8_graph_parent_attestations; DROP TABLE ff8_graph_native_authors; DROP TABLE ff8_graph_parent_authorities; UPDATE ff8_graph_metadata SET version=3;");
     s.graph.db.query("UPDATE ff8_graph_commits SET document=? WHERE mission=? AND unit_id=?").run(JSON.stringify({ ...done, publicationLevel: 2 }), "m", u.unitId); // fixture of pre-v4 self-asserted level 2
     s.graph.close(); s.graph = new GraphStore(s.p); opened.push(s.graph);
-    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 7 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
+    expect(s.graph.db.query("SELECT version FROM ff8_graph_metadata").get()).toEqual({ version: 8 }); expect(s.graph.db.query("SELECT version FROM ff8_harness_metadata WHERE component='engine'").get()).toEqual({ version: 1 });
     expect(s.graph.replay("m")).toEqual(before); expect(s.graph.db.query("SELECT count(*) n FROM ff8_graph_commits").get()).toEqual({ n: 1 });
     expect(s.graph.satisfies("m", u.unitId, 2)).toBe(false); expect(s.graph.satisfies("m", u.unitId, 1)).toBe(false);
     expect(s.graph.db.query("SELECT count(*) n FROM ff8_graph_parent_authorities").get()).toEqual({ n: 0 });

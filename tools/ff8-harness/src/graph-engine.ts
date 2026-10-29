@@ -214,7 +214,7 @@ export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal
       const retained = events.find(e => e.key === `result:${result.resultId}` && e.kind === "result_retained" && e.unitId === record.unitId), payload = graphObject(retained?.payload);
       graphCheck(payload.executionId === result.executionId && payload.token === record.familyToken && canonical(payload.document) === canonical(result.document), "result lacks exact v6 retention record");
       if (event.kind === `${ns}.result`) { graphCheck(payload.eligible === true && graph.admission(result.executionId)?.state === "TERMINAL", "unproven result cannot unblock"); results.push(p as unknown as ResultRecord); }
-      else { graphCheck(payload.eligible === false, "late result incorrectly eligible"); lateResults.push(p as unknown as ResultRecord); }
+      else { graphCheck(payload.eligible === false || payload.eligible === true && !graph.isWorkCurrent(run.missionId, record.unitId, result.executionId), "late result incorrectly eligible"); lateResults.push(p as unknown as ResultRecord); }
     } else if (event.kind === `${ns}.review`) {
       const p = graphKeys(event.payload, ["version", "runFingerprint", "unitId", "familyToken", "resultIds", "review"]), unit = run.prepared.planning.units.find(u => u.unitId === p.unitId);
       graphCheck(p.version === `l8-graph-review-${suffix}` && p.runFingerprint === run.fingerprint && unit && event.unitId === unit.unitId && event.key === `${ns}.review:${unit.unitId}:${p.familyToken}`, "review journal binding"); graphInteger(p.familyToken, 1); graphArray(p.resultIds); p.resultIds.forEach(graphString);
@@ -230,7 +230,7 @@ export function readGraphJournal(graph: GraphStore, snapshot: Snapshot): Journal
   return { events, run, intents, results, lateResults, reviews, refused, paused, installed, ...(publicationPolicy ? { publicationPolicy } : {}) };
 }
 function verifiedReceiptHints(graph: GraphStore, j: Journal): import("./planner").ArtifactReceipt[] {
-  return j.events.filter(e => e.kind === "artifact_receipt").map(e => {
+  return j.events.filter(e => e.kind === "artifact_receipt" && graph.isWorkCurrent(j.run.missionId, (e.payload as { producerUnitId: string }).producerUnitId)).map(e => {
     assertReceiptCoherence(e.payload); const receipt = graphCopy(e.payload) as import("./planner").ArtifactReceipt;
     graphCheck(receipt.producerUnitId, "external producer=null lacks a supported public authority import; STOP");
     const binding = graph.artifactBinding(j.run.missionId, receipt.commitId, receipt.artifactId);
@@ -341,6 +341,7 @@ export class GraphEngine {
     }
   }
   private async submit(record: GraphIntentRecord, lease: UnitLease, run: GraphRun): Promise<void> {
+    if (!this.options.graph.isWorkCurrent(run.missionId, record.unitId, record.intent.executionId)) return;
     const activeRun = runtimeRun(run); graphCheck(record.version === "l8-graph-intent-v2", "v1 execution is read-only");
     if (this.journal().paused) return;
     const graph = this.options.graph, admission = graph.admission(record.intent.executionId);
@@ -358,6 +359,7 @@ export class GraphEngine {
       graphCheck(access.ok, "current projected input access/hash refused before dispatch");
     }
     const dispatchAuthority = this.authority(), currentJournal = this.journal();
+    if (!graph.isWorkCurrent(run.missionId, record.unitId, record.intent.executionId)) return;
     if (currentJournal.paused || graph.admission(record.intent.executionId)?.state !== "PREPARED") return;
     const sending = currentJournal.events.filter(e => e.kind === "admission_sending" && graphObject(e.payload).executionId === record.intent.executionId).at(-1);
     if (sending && dispatchAuthority.now < sending.time + run.settings.retryDelayMs) return;
@@ -382,6 +384,7 @@ export class GraphEngine {
       const lease = currentLease?.token === record.familyToken ? currentLease : originalFamilyLease(j, record);
       const admission = graph.admission(record.intent.executionId); graphCheck(admission, "claimed v2 intent lacks its atomic outbox");
       const state = admission.state;
+      if (state === "PREPARED" && !graph.isWorkCurrent(j.run.missionId, record.unitId, record.intent.executionId)) continue;
       if (state === "PREPARED" && !this.journal().paused) {
         if (currentLease?.token === record.familyToken && currentLease.state === "active") await this.submit(record, currentLease, j.run);
         continue; // an engaged send is observed on a later step, even if pause arrived in its port
@@ -412,6 +415,7 @@ export class GraphEngine {
     const graph = this.options.graph;
     for (const planned of j.run.prepared.planning.units) {
       const unit = this.unit(j.run, planned), lease = graph.leases.get(j.run.missionId, unit.unitId);
+      if (!graph.isWorkCurrent(j.run.missionId, unit.unitId)) continue;
       if (lease && unit.state === "COMMITTED") {
         const commitEvent = graphEvents(graph, j.run.missionId).find(e => e.key === `commit:${unit.unitId}` && e.kind === "knowledge_committed");
         graphCheck(commitEvent, "COMMITTED without durable commit"); validateGraphDocument("knowledge-commit", commitEvent.payload);
@@ -430,6 +434,7 @@ export class GraphEngine {
       const resultIds = family.map(r => r.resultId).sort(); let review = j.reviews.find(r => r.unitId === unit.unitId && r.familyToken === lease.token)?.review;
       if (!review) {
         review = parseReview(await this.options.review.review(graphFreeze({ run: j.run, unit, results: family })), j.run, unit);
+        graph.assertWorkCurrent(j.run.missionId, unit.unitId);
         this.append(`l8.graph2.review:${unit.unitId}:${lease.token}`, "l8.graph2.review", { version: "l8-graph-review-v2", runFingerprint: j.run.fingerprint, unitId: unit.unitId, familyToken: lease.token, resultIds, review }, unit.unitId);
       }
       const events = graphEvents(graph, j.run.missionId), priorValidation = events.find(e => e.key === `validation:${unit.unitId}:${lease.token}`);
@@ -448,10 +453,12 @@ export class GraphEngine {
       const pending: KnowledgeCommit = { ...pendingContent, commitId: fingerprint(pendingContent) };
       graph.preparePublication(this.authority(), lease, pending, { verifiedEffect: "satisfies" });
       const request = { targetId, requestDigest: fingerprint(pending), content };
+      graph.assertWorkCurrent(j.run.missionId, unit.unitId);
       await this.options.publication.write(graphFreeze(request));
       const readback = graphCopy(await this.options.publication.read(graphFreeze({ targetId, requestDigest: request.requestDigest })));
       graphKeys(readback, ["targetId", "requestDigest", "content", "source"]); graphString(readback.source);
       graphCheck(readback.targetId === targetId && readback.requestDigest === request.requestDigest && readback.content === content, "actual fixture publication byte readback mismatch");
+      graph.observePublication(this.authority(), unit.unitId, { targetId, requestDigest: request.requestDigest, hash: hash(readback.content), source: readback.source });
       const commit = graph.commitReadback(this.authority(), lease, { targetId, requestDigest: request.requestDigest, hash: hash(readback.content), source: readback.source });
       this.materializeArtifacts(j, unit, commit, family);
       await this.fill(); // immediately after THIS commit/receipts, not after unrelated validation branches
@@ -463,6 +470,7 @@ export class GraphEngine {
     let review = j.reviews.find(r => r.unitId === unit.unitId && r.familyToken === lease.token)?.review;
     if (!review) {
       review = parseReview(await this.options.review.review(graphFreeze({ run: j.run, unit, results: family, publicationContext: context })), j.run, unit, context);
+      graph.assertWorkCurrent(j.run.missionId, unit.unitId);
       this.append(`l8.graph2.review:${unit.unitId}:${lease.token}`, "l8.graph2.review", { version: "l8-graph-review-v2", runFingerprint: j.run.fingerprint, unitId: unit.unitId, familyToken: lease.token, resultIds, review }, unit.unitId);
     }
     const manifest = parseReview(review, j.run, unit, context).materialization!;
@@ -482,7 +490,7 @@ export class GraphEngine {
     const pending: KnowledgeCommit = { ...pendingContent, commitId: fingerprint(pendingContent) };
     graph.preparePublication(this.authority(), lease, pending, { verifiedEffect: "satisfies" });
     const request = graphFreeze({ targetId: manifest.targetId, requestDigest: fingerprint(pending), content });
-    this.verifyEntry(); graph.assertPublicationMaterializationCurrent(this.authority(), lease, durable);
+    this.verifyEntry(); graph.assertWorkCurrent(j.run.missionId, unit.unitId); graph.assertPublicationMaterializationCurrent(this.authority(), lease, durable);
     await this.options.publication.write(request);
     const readback = graphCopy(await this.options.publication.read(graphFreeze({ targetId: request.targetId, requestDigest: request.requestDigest })));
     graphKeys(readback, ["targetId", "requestDigest", "content", "source"]);
@@ -522,6 +530,7 @@ export class GraphEngine {
     const graph = this.options.graph;
     for (const planned of j.run.prepared.planning.units) {
       const unit = this.unit(j.run, planned), lease = graph.leases.get(j.run.missionId, unit.unitId);
+      if (!graph.isWorkCurrent(j.run.missionId, unit.unitId)) continue;
       if (!lease || lease.state !== "active" || !["RESERVED", "RUNNING", "STOP_PENDING"].includes(unit.state)) continue;
       if (!j.intents.some(r => r.unitId === unit.unitId && r.familyToken === lease.token && graph.admission(r.intent.executionId)?.state === "REJECTED")) continue;
       try { graph.retireFamily(this.authority(), lease, unit.state === "RESERVED" ? "CANCELLED" : "FAILED", "definitive v6 rejection; allocation remains spent", "input"); }
@@ -537,6 +546,7 @@ export class GraphEngine {
       let readyChanged = false;
       for (const planned of run.prepared.planning.units) {
         const unit = this.unit(run, planned); if (!["PENDING", "BLOCKED", "READY"].includes(unit.state)) continue;
+        if (!this.options.graph.isWorkCurrent(run.missionId, unit.unitId)) continue;
         const ready = evaluateReadiness({ plan: run.prepared.planning.plan, sidecar: run.prepared.planning.sidecar, expectedSidecarFingerprint: run.prepared.planning.binding.sidecarFingerprint, unit, receipts, snapshotFingerprint: run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false });
         if (!this.options.graph.nextContextSourcesAvailable(run.missionId, unit.unitId)) { ready.ready = false; ready.reasons.push("next-context-source-not-authorized"); }
         if (ready.ready && unit.state !== "READY") {
@@ -552,6 +562,7 @@ export class GraphEngine {
       let scheduled = false;
       for (const planned of j.run.prepared.planning.units) {
         const unit = this.unit(j.run, planned), lease = this.options.graph.leases.get(j.run.missionId, unit.unitId);
+        if (!this.options.graph.isWorkCurrent(j.run.missionId, unit.unitId)) continue;
         if (!lease || lease.state !== "active" || !["RESERVED", "RUNNING"].includes(unit.state)) continue;
         const familyAuthority = this.authority(); if (this.journal().paused) return;
         this.options.graph.leases.assert(lease, familyAuthority);
@@ -586,6 +597,7 @@ export class GraphEngine {
           if (this.journal().paused) return;
           graphCheck(checked.ok, "effective fixture input access/hash check failed");
           const checkedAuthority = this.authority(); if (this.journal().paused) return;
+          if (!this.options.graph.isWorkCurrent(j.run.missionId, unit.unitId)) return;
           this.options.graph.leases.assert(lease, checkedAuthority);
           const size = Buffer.byteLength(canonical(record.admission), "utf8"), C = run.prepared.planning.sidecar.admissionBudget!.byUnit[unit.unitId]!.admissionCapUtf8Bytes;
           graphCheck(C.known, "unknown admission C must never be selected");
@@ -607,16 +619,18 @@ export class GraphEngine {
       const candidates = { ...j.run.prepared.planning, units: j.run.prepared.planning.units.map(u => this.unit(j.run, u)) };
       const selected = selectReadyUnits(candidates, { readyAtEvent, aging: { eventNumber: this.options.graph.events.cursor(j.run.missionId).sequence, quantum: 100, version: "l8-aging-v1" }, policy: "fifo" },
         { expectedSidecarFingerprint: j.run.prepared.planning.binding.sidecarFingerprint, snapshotFingerprint: j.run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: j.run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false, receipts }, capacity.workers, capacity.accounts, active);
-      // Preserve the existing FIFO ranks and compatibility primitive; a context
-      // source is an additional admission precondition, not a new scheduler.
-      const assignment = this.options.graph.nextContextPolicy(run.missionId) ? selectCompatible(selected.ranks.map(rank => {
+      // Rank the entire frozen graph, preserving every edge endpoint. Current
+      // authorization is an admission condition, not a graph rewrite/scheduler.
+      const assignment = selectCompatible(selected.ranks.map(rank => {
         const unit = candidates.units.find(u => u.unitId === rank.unitId)!;
         const readiness = evaluateReadiness({ plan: run.prepared.planning.plan, sidecar: run.prepared.planning.sidecar, expectedSidecarFingerprint: run.prepared.planning.binding.sidecarFingerprint,
           unit, receipts, snapshotFingerprint: run.prepared.snapshot.normalizedFingerprint, knowledgeRevision: run.prepared.snapshot.knowledgeRevision, admissionBudgetContext: run.prepared.admissionSource.context, validContext: true, cancelled: false });
-        if (!this.options.graph.nextContextSourcesAvailable(run.missionId, unit.unitId)) { readiness.ready = false; readiness.reasons.push("next-context-source-not-authorized"); }
+        if (!this.options.graph.isWorkCurrent(run.missionId, unit.unitId)) { readiness.ready = false; readiness.reasons.push("work-not-authorized"); }
+        else if (!this.options.graph.nextContextSourcesAvailable(run.missionId, unit.unitId)) { readiness.ready = false; readiness.reasons.push("next-context-source-not-authorized"); }
         return { unit, readiness, requirements: run.prepared.planning.sidecar.resourcesByUnit[unit.unitId]! };
-      }), capacity.workers, capacity.accounts, active).assignments[0] : selected.assignments[0]; if (!assignment) return;
+      }), capacity.workers, capacity.accounts, active).assignments[0]; if (!assignment) return;
       const unit = candidates.units.find(u => u.unitId === assignment.unitId)!;
+      if (!this.options.graph.isWorkCurrent(j.run.missionId, unit.unitId)) return;
       const reservationAuthority = this.authority(); if (this.journal().paused) return;
       if (unit.state !== "READY") this.options.graph.transition(reservationAuthority, unit.unitId, "READY", "frozen-plan typed prerequisites now satisfied");
       this.options.graph.reserve(reservationAuthority, unit.unitId, j.run.settings.familyTtlEvents, this.options.graph.reservationExpectation(j.run.missionId));

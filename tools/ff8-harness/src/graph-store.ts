@@ -24,7 +24,73 @@ const nativeObservationGuards = new WeakSet<() => void>();
 export function isOwnedNativeObservationGuardV1(check: () => void): boolean { return nativeObservationGuards.has(check); }
 
 /** v7 adds only private next-context approvals; v1-v6 scientific rows/codecs stay exact. */
-export const GRAPH_SCHEMA_VERSION = 7;
+export const GRAPH_SCHEMA_VERSION = 8;
+const ORDERED_COMMAND_DDL = "CREATE TABLE IF NOT EXISTS ff8_graph_ordered_commands(mission TEXT NOT NULL,command_id TEXT NOT NULL,stream TEXT NOT NULL,sequence INTEGER NOT NULL,unit_id TEXT NOT NULL,action TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,receipt TEXT NOT NULL,delivery TEXT NOT NULL,remote_receipt TEXT,PRIMARY KEY(mission,command_id),UNIQUE(mission,stream,sequence))";
+export interface OrderedCommandRequestV1 {
+  commandId: string; unitId: string; executionId: string | null; sessionId: string | null;
+  action: "obsolete" | "notify"; reason: string; sequence: number;
+  expectedMissionRevision: number; expectedUnitRevision: number; expectedEventSequence: number;
+  expectedFamilyToken: number | null; notify: boolean;
+}
+export interface OrderedCommandReceiptV1 { commandId: string; imageDigest: string; stream: string; sequence: number; eventSequence: number; obsolete: boolean }
+
+/** Detect lost private authority, never rebuild it from public history. */
+function rmsCommandImages(db: Database, missionId?: string): any[] {
+  const rows = db.query(`SELECT * FROM ff8_graph_ordered_commands${missionId === undefined ? "" : " WHERE mission=?"}`).all(...(missionId === undefined ? [] : [missionId])) as Array<{ mission: string; command_id: string; stream: string; sequence: number; unit_id: string; document: string; digest: string; action: string; receipt: string }>;
+  const images = rows.map(r => {
+    const d = JSON.parse(r.document), receipt = JSON.parse(r.receipt);
+    invariant(fingerprint(d) === r.digest && d.request.action === r.action && d.missionId === r.mission && d.request.commandId === r.command_id
+      && d.request.unitId === r.unit_id && d.stream === r.stream && d.request.sequence === r.sequence && receipt.imageDigest === r.digest
+      && receipt.commandId === r.command_id && receipt.stream === r.stream && receipt.sequence === r.sequence && receipt.obsolete === (r.action === "obsolete"), "corrupt RMS decision", "schema"); return d;
+  });
+  const hasEvents = db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_events'").get();
+  invariant(hasEvents || !rows.length, "missing RMS command history", "schema");
+  if (!hasEvents) return images;
+  const events = db.query(`SELECT mission,key,kind,time,unit_id,payload,digest,sequence FROM ff8_events WHERE kind='rms_command_committed'${missionId === undefined ? "" : " AND mission=?"}`).all(...(missionId === undefined ? [] : [missionId])) as Array<{ mission: string; key: string; kind: string; time: number; unit_id: string; payload: string; digest: string; sequence: number }>;
+  invariant(events.length === rows.length && rows.every(r => events.some(e => e.mission === r.mission && e.key === `rms.command:${r.command_id}` && e.unit_id === r.unit_id
+    && e.payload === r.document && e.sequence === JSON.parse(r.receipt).eventSequence
+    && e.digest === fingerprint({ kind: e.kind, time: e.time, payload: JSON.parse(e.payload), unitId: e.unit_id }))), "lost/mismatched private RMS command authority", "schema");
+  return images;
+}
+
+/** Current authorization only. Historical rows, receipts and terminal witnesses
+ * are deliberately not rewritten. Safe for the client sharing this OWN file. */
+export function assertRmsWorkCurrentV1(db: Database, missionId: string, unitId?: string, executionId?: string, taskId?: string): void {
+  // execution_id is globally unique in OWN, not merely unique within a mission.
+  // Resolve first, so a caller cannot hide its durable target behind an alias.
+  const hasOutbox = db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_graph_outbox'").get();
+  const execution = executionId && hasOutbox ? db.query("SELECT mission,execution_id,unit_id,body FROM ff8_graph_outbox WHERE execution_id=?").get(executionId) as { mission: string; execution_id: string; unit_id: string; body: string } | null : null;
+  if (execution) {
+    const body = JSON.parse(execution.body), command = body.command;
+    invariant(execution.mission === missionId && execution.execution_id === executionId && body.executionId === executionId && command.executionId === executionId
+      && (unitId === undefined || unitId === execution.unit_id) && (taskId === undefined || taskId === command.taskId), "RMS supplied mission/unit/execution/task contradicts durable target", "auth");
+    unitId = execution.unit_id;
+  }
+  const table = db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_graph_ordered_commands'").get();
+  if (!table) {
+    const metadata = db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_graph_metadata'").get();
+    const hasEvents = db.query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='ff8_events'").get();
+    invariant(!hasEvents || !db.query("SELECT 1 FROM ff8_events WHERE kind='rms_command_committed' LIMIT 1").get(), "lost private RMS command authority", "schema");
+    invariant(!metadata || (db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get() as { version: number }).version < 8, "missing RMS command authority", "schema"); return;
+  }
+  const images = rmsCommandImages(db, missionId).filter(d => d.request.action === "obsolete");
+  if (!images.length) return;
+  invariant(!images.some(d => d.request.executionId === executionId && executionId !== undefined), "RMS work obsolete; no retry", "auth");
+  invariant(!images.some(d => taskId !== undefined && d.taskId === taskId), "RMS task obsolete; no retry", "auth");
+  if (!unitId) return;
+  const visiting = new Set<string>();
+  const check = (id: string) => {
+    invariant(!visiting.has(id), "RMS dependency cycle", "auth"); visiting.add(id);
+    invariant(!images.some(d => d.request.unitId === id), "RMS work/source obsolete; no retry", "auth");
+    const row = db.query("SELECT document FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(missionId, id) as { document: string } | null;
+    invariant(row, "RMS dependency missing", "auth"); const unit = JSON.parse(row.document) as WorkUnit;
+    for (const p of unit.prerequisites.filter(p => !p.dispensed && p.producerUnitId)) check(p.producerUnitId!);
+    const approvals = db.query("SELECT document FROM ff8_graph_next_context_approvals WHERE mission=?").all(missionId) as Array<{ document: string }>;
+    for (const a of approvals) { const d = JSON.parse(a.document); if (d.consumerUnitId === id) check(d.producerUnitId); }
+    visiting.delete(id);
+  };
+  check(unitId);
+}
 const NEXT_CONTEXT_APPROVAL_DDL = "CREATE TABLE IF NOT EXISTS ff8_graph_next_context_approvals(mission TEXT NOT NULL,approval_key TEXT NOT NULL,grant_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,revocation_event TEXT,PRIMARY KEY(mission,approval_key),UNIQUE(mission,grant_id))";
 function contentDigest(value: object): string { const { fingerprint: _ignored, ...content } = value as Record<string, unknown>; return fingerprint(content); }
 
@@ -246,13 +312,14 @@ export class GraphStore {
       const names = this.db.query("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all() as Array<{ name: string }>;
       const ownTables = new Set(["ff8_harness_metadata", "ff8_missions", "ff8_intents", "ff8_history", "ff8_fixture_targets", "ff8_fixture_publications",
         "ff8_bridge_missions", "ff8_bridge_requests", "ff8_bridge_command_attempts", "ff8_bridge_events", "ff8_bridge_communication_audits",
-        "ff8_graph_metadata", "ff8_graph_snapshots", "ff8_graph_partitions", "ff8_graph_units", "ff8_graph_results", "ff8_graph_commits", "ff8_graph_outbox", "ff8_graph_publications", "ff8_graph_streams", "ff8_graph_fence", "ff8_graph_plans", "ff8_graph_active_plan", "ff8_graph_receipts", "ff8_graph_parent_authorities", "ff8_graph_native_authors", "ff8_graph_parent_attestations", "ff8_graph_input_pins", "ff8_graph_artifact_bindings", "ff8_graph_publication_effects", "ff8_graph_next_context_approvals", "ff8_events", "ff8_unit_leases", "ff8_unit_claims"]);
+        "ff8_graph_metadata", "ff8_graph_snapshots", "ff8_graph_partitions", "ff8_graph_units", "ff8_graph_results", "ff8_graph_commits", "ff8_graph_outbox", "ff8_graph_publications", "ff8_graph_streams", "ff8_graph_fence", "ff8_graph_plans", "ff8_graph_active_plan", "ff8_graph_receipts", "ff8_graph_parent_authorities", "ff8_graph_native_authors", "ff8_graph_parent_attestations", "ff8_graph_input_pins", "ff8_graph_artifact_bindings", "ff8_graph_publication_effects", "ff8_graph_next_context_approvals", "ff8_graph_ordered_commands", "ff8_events", "ff8_unit_leases", "ff8_unit_claims"]);
       invariant(names.every(r => ownTables.has(r.name)), "foreign tables in OWN database", "schema");
       this.db.exec("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;");
       this.db.transaction(() => {
         this.db.exec("CREATE TABLE IF NOT EXISTS ff8_graph_metadata(id INTEGER PRIMARY KEY CHECK(id=1),version INTEGER NOT NULL); INSERT OR IGNORE INTO ff8_graph_metadata VALUES(1,0);");
         const version = (this.db.query("SELECT version FROM ff8_graph_metadata WHERE id=1").get() as { version: number }).version;
         invariant(version >= 0 && version <= GRAPH_SCHEMA_VERSION, "unsupported graph schema version", "schema");
+        invariant(version < 8 || names.some(n => n.name === "ff8_graph_ordered_commands"), "missing private RMS command table", "schema");
         this.db.exec(`CREATE TABLE IF NOT EXISTS ff8_graph_snapshots(id TEXT PRIMARY KEY,digest TEXT NOT NULL,document TEXT NOT NULL);
           CREATE TABLE IF NOT EXISTS ff8_graph_partitions(id TEXT PRIMARY KEY,snapshot_id TEXT NOT NULL REFERENCES ff8_graph_snapshots(id),digest TEXT NOT NULL,document TEXT NOT NULL);
           CREATE TABLE IF NOT EXISTS ff8_graph_units(mission TEXT NOT NULL,unit_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,state TEXT NOT NULL,revision INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(mission,unit_id));
@@ -269,7 +336,7 @@ export class GraphStore {
           CREATE TABLE IF NOT EXISTS ff8_graph_input_pins(mission TEXT NOT NULL,unit_id TEXT NOT NULL,token INTEGER NOT NULL,sub_intent TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,unit_id,token,sub_intent));
           CREATE TABLE IF NOT EXISTS ff8_graph_artifact_bindings(mission TEXT NOT NULL,commit_id TEXT NOT NULL,artifact_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,commit_id,artifact_id));
           CREATE TABLE IF NOT EXISTS ff8_graph_publication_effects(mission TEXT NOT NULL,unit_id TEXT NOT NULL,document TEXT NOT NULL,digest TEXT NOT NULL,event_key TEXT NOT NULL,PRIMARY KEY(mission,unit_id));
-          ${NEXT_CONTEXT_APPROVAL_DDL};`);
+          ${NEXT_CONTEXT_APPROVAL_DDL};${ORDERED_COMMAND_DDL};`);
         // IF NOT EXISTS is not a schema check: a homonymous view/table must not
         // become an authorization store merely because its name is allowlisted.
         const approvalTable = "ff8_graph_next_context_approvals", definition = this.db.query("SELECT type,sql FROM sqlite_master WHERE name=?").get(approvalTable) as { type: string; sql: string } | null;
@@ -286,6 +353,13 @@ export class GraphStore {
         invariant(canonical(indexColumns.map(canonical).sort()) === canonical([["mission", "approval_key"], ["mission", "grant_id"]].map(canonical).sort())
           && this.db.query("PRAGMA foreign_key_list(ff8_graph_next_context_approvals)").all().length === 0
           && !this.db.query("SELECT 1 FROM sqlite_master WHERE type='trigger' AND tbl_name=?").get(approvalTable), "incompatible private approval constraints/triggers", "schema");
+        const commands = this.db.query("SELECT type,sql FROM sqlite_master WHERE name='ff8_graph_ordered_commands'").get() as { type: string; sql: string };
+        invariant(commands?.type === "table" && normalizedDdl(commands.sql) === normalizedDdl(ORDERED_COMMAND_DDL)
+          && !this.db.query("SELECT 1 FROM sqlite_master WHERE type='trigger' AND tbl_name='ff8_graph_ordered_commands'").get(), "incompatible private RMS command table", "schema");
+        const commandIndexes = this.db.query("PRAGMA index_list(ff8_graph_ordered_commands)").all() as Array<{ name: string; unique: number; origin: string; partial: number }>;
+        invariant(commandIndexes.length === 2 && commandIndexes.every(i => i.unique === 1 && ["pk", "u"].includes(i.origin) && i.partial === 0
+          && /^sqlite_autoindex_ff8_graph_ordered_commands_[12]$/.test(i.name)), "incompatible RMS command indexes", "schema");
+        rmsCommandImages(this.db);
         this.db.query("UPDATE ff8_graph_metadata SET version=? WHERE id=1").run(GRAPH_SCHEMA_VERSION);
       }).immediate();
       this.events = new EventLog(this.db); this.leases = new UnitLeaseStore(this.db, this.events);
@@ -307,6 +381,7 @@ export class GraphStore {
     const check = () => {
       invariant(nativeObservationGuards.has(check), "observation scope ended"); bound();
       const authority = immutableCopy(currentAuthority()); assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
+      this.assertWorkCurrent(lease.missionId, lease.unitId, executionId);
       const row = this.outbox(executionId);
       invariant(row && row.mission === lease.missionId && row.unit_id === lease.unitId && row.token === lease.token && row.state === "PREPARED"
         && row.attempts === 0 && !row.receipt && !row.terminal_proof && this.unit(lease.missionId, lease.unitId).state === "RESERVED", "observation requires owned unsent admission");
@@ -393,6 +468,7 @@ export class GraphStore {
     const key = `rms.native-at-rest.image:${executionId}`;
     const check = () => {
       const authority = immutableCopy(currentAuthority());
+      this.assertWorkCurrent(lease.missionId, lease.unitId, executionId);
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
       const row = this.outbox(executionId);
       invariant(row && row.mission === lease.missionId && row.unit_id === lease.unitId && row.token === lease.token
@@ -453,6 +529,84 @@ export class GraphStore {
       }).immediate(),
     });
     } finally { nativeAtRestGuards.delete(assertCurrent); }
+  }
+  isWorkCurrent(missionId: string, unitId: string, executionId?: string): boolean {
+    try { assertRmsWorkCurrentV1(this.db, missionId, unitId, executionId); return true; } catch { return false; }
+  }
+  assertWorkCurrent(missionId: string, unitId: string, executionId?: string): void { assertRmsWorkCurrentV1(this.db, missionId, unitId, executionId); }
+  assertResultCurrent(missionId: string, unitId: string, resultId: string): void { this.scientificResult(missionId, unitId, resultId); }
+  /** Receipt of the RMS decision is not a native admission or agent read receipt. */
+  retainOrderedCommandV1(authority: ControllerAuthority, raw: OrderedCommandRequestV1): OrderedCommandReceiptV1 {
+    authority = immutableCopy(authority); const request = immutableCopy(raw), missionId = authority.lease.missionId;
+    nonempty(request.commandId); nonempty(request.unitId); nonempty(request.reason); integer(request.sequence, 1);
+    invariant(["obsolete", "notify"].includes(request.action) && typeof request.notify === "boolean", "invalid RMS command");
+    return this.db.transaction(() => {
+      const parent = this.bootstrapParentAuthority(authority), unit = this.row(missionId, request.unitId);
+      const old = this.db.query("SELECT document,receipt FROM ff8_graph_ordered_commands WHERE mission=? AND command_id=?").get(missionId, request.commandId) as { document: string; receipt: string } | null;
+      if (old) {
+        const image = JSON.parse(old.document); invariant(canonical(image.request) === canonical(request) && image.parentDigest === parent.digest, "RMS command identity diverged", "auth");
+        this.assertAuthorizationEvent(missionId, `rms.command:${request.commandId}`, "rms_command_committed", image, request.unitId); return JSON.parse(old.receipt);
+      }
+      const lease = this.leases.get(missionId, request.unitId), execution = request.executionId ? this.outbox(request.executionId) : null;
+      invariant(!lease || lease.owner === authority.lease.owner, "RMS family owner mismatch", "auth");
+      invariant(!request.executionId || execution?.mission === missionId && execution.unit_id === request.unitId && execution.token === request.expectedFamilyToken, "RMS execution scope mismatch", "auth");
+      let sessionId: string | null = null;
+      if (execution) {
+        const author = this.db.query("SELECT document FROM ff8_graph_native_authors WHERE mission=? AND execution_id=?").get(missionId, execution.execution_id) as { document: string } | null;
+        const atRest = this.events.read(missionId).find(e => e.key === `rms.native-at-rest.image:${execution.execution_id}`)?.payload as AtRestImageV1 | undefined;
+        sessionId = author ? JSON.parse(author.document).sessionId : atRest?.sessionId ?? null;
+      }
+      invariant(request.sessionId === sessionId, "RMS session binding absent/ambiguous", "auth");
+      const stream = sessionId ? `session:${sessionId}` : request.executionId ? `execution:${request.executionId}` : `unit:${request.unitId}`;
+      const priorImages = this.db.query("SELECT document,stream FROM ff8_graph_ordered_commands WHERE mission=?").all(missionId) as Array<{ document: string; stream: string }>;
+      invariant(!request.executionId || priorImages.every(p => JSON.parse(p.document).request.executionId !== request.executionId || p.stream === stream), "RMS stream/session binding changed", "auth");
+      const currentSequence = () => (this.db.query("SELECT COALESCE(MAX(sequence),0) AS n FROM ff8_graph_ordered_commands WHERE mission=? AND stream=?").get(missionId, stream) as { n: number }).n;
+      const before = this.events.cursor(missionId), check = (after: boolean) => {
+        assertController(this.db, authority, missionId); invariant(this.bootstrapParentAuthority(authority).digest === parent.digest, "RMS issuer revoked", "auth");
+        const revision = (this.db.query("SELECT revision FROM ff8_missions WHERE id=?").get(missionId) as { revision: number }).revision;
+        invariant(revision === request.expectedMissionRevision && this.row(missionId, request.unitId).revision === request.expectedUnitRevision
+          && this.events.cursor(missionId).sequence === request.expectedEventSequence + (after ? 1 : 0)
+          && currentSequence() === request.sequence - (after ? 0 : 1), "RMS command CAS mismatch", "auth");
+        invariant((lease?.token ?? null) === request.expectedFamilyToken && canonical(this.leases.get(missionId, request.unitId) ?? null) === canonical(lease ?? null), "RMS ownership changed", "auth");
+      };
+      check(false);
+      const image = { version: "rms-ordered-command-v1", missionId, request, stream, parentDigest: parent.digest, parentActorId: parent.identity.actorId,
+        unitDigest: unit.digest, executionDigest: execution?.digest ?? null, taskId: execution ? JSON.parse(execution.body).command.taskId : null };
+      const receipt = { commandId: request.commandId, imageDigest: fingerprint(image), stream, sequence: request.sequence, eventSequence: before.sequence + 1, obsolete: request.action === "obsolete" };
+      invariant(!this.events.read(missionId).some(e => e.key === `rms.command:${request.commandId}`), "orphan RMS event is not authority", "auth");
+      this.db.query("INSERT INTO ff8_graph_ordered_commands VALUES(?,?,?,?,?,?,?,?,?,?,NULL)").run(missionId, request.commandId, stream, request.sequence, request.unitId, request.action, canonical(image), fingerprint(image), canonical(receipt), request.notify ? "PENDING" : "NOT_REQUESTED");
+      this.events.append(missionId, `rms.command:${request.commandId}`, "rms_command_committed", authority.now, image, request.unitId, before.sequence);
+      check(true); return receipt;
+    }).immediate();
+  }
+  /** OFFLINE port only: native notifications require a separately qualified join.
+   * Recovery calls reconcile, never send again, even if the first reply was lost. */
+  async deliverOrderedCommandV1(authority: ControllerAuthority, commandId: string, port: {
+    kind: "offline-fixture-v1"; send(image: unknown): Promise<Record<string, unknown>>; reconcile(image: unknown): Promise<Record<string, unknown> | null>;
+  }): Promise<Record<string, unknown> | null> {
+    authority = immutableCopy(authority); invariant(port.kind === "offline-fixture-v1", "native ordered delivery not qualified");
+    const missionId = authority.lease.missionId;
+    const retained = this.db.transaction(() => {
+      assertController(this.db, authority, missionId); const parent = this.bootstrapParentAuthority(authority);
+      const row = this.db.query("SELECT * FROM ff8_graph_ordered_commands WHERE mission=? AND command_id=?").get(missionId, commandId) as { document: string; digest: string; stream: string; sequence: number; delivery: string; remote_receipt: string | null } | null;
+      invariant(row && fingerprint(JSON.parse(row.document)) === row.digest && JSON.parse(row.document).parentDigest === parent.digest, "RMS delivery binding", "auth");
+      invariant(row.delivery !== "NOT_REQUESTED", "RMS notification not requested");
+      invariant(!this.db.query("SELECT 1 FROM ff8_graph_ordered_commands WHERE mission=? AND stream=? AND sequence<? AND delivery NOT IN ('NOT_REQUESTED','ADMITTED','REJECTED')").get(missionId, row.stream, row.sequence), "previous command admission unknown");
+      if (row.delivery === "PENDING") this.db.query("UPDATE ff8_graph_ordered_commands SET delivery='SENDING' WHERE mission=? AND command_id=? AND delivery='PENDING'").run(missionId, commandId);
+      return row;
+    }).immediate();
+    if (retained.remote_receipt) return JSON.parse(retained.remote_receipt);
+    let response: Record<string, unknown> | null;
+    try { response = immutableCopy(await (retained.delivery === "PENDING" ? port.send(JSON.parse(retained.document)) : port.reconcile(JSON.parse(retained.document)))); }
+    catch { this.db.query("UPDATE ff8_graph_ordered_commands SET delivery='AMBIGUOUS' WHERE mission=? AND command_id=? AND remote_receipt IS NULL").run(missionId, commandId); throw new Error("ordered command admission ambiguous; reconcile only"); }
+    if (response === null) return null;
+    invariant(response.commandId === commandId && response.imageDigest === retained.digest && ["admitted", "rejected"].includes(String(response.state)), "ordered receipt identity diverged");
+    return this.db.transaction(() => {
+      const row = this.db.query("SELECT document,remote_receipt FROM ff8_graph_ordered_commands WHERE mission=? AND command_id=?").get(missionId, commandId) as { document: string; remote_receipt: string | null };
+      invariant(row.document === retained.document && (!row.remote_receipt || row.remote_receipt === canonical(response)), "ordered receipt changed");
+      this.db.query("UPDATE ff8_graph_ordered_commands SET delivery=?,remote_receipt=? WHERE mission=? AND command_id=?").run(response!.state === "admitted" ? "ADMITTED" : "REJECTED", canonical(response), missionId, commandId);
+      return response;
+    }).immediate();
   }
   private row(missionId: string, unitId: string): UnitRow {
     const r = this.db.query("SELECT document,digest,state,revision FROM ff8_graph_units WHERE mission=? AND unit_id=?").get(missionId, unitId) as UnitRow | null;
@@ -720,6 +874,7 @@ export class GraphStore {
     }).immediate();
   }
   reserve(authority: ControllerAuthority, unitId: string, ttlEvents = 100, expected?: ReservationExpectation): UnitLease {
+    this.assertWorkCurrent(authority.lease.missionId, unitId);
     return this.db.transaction(() => {
       assertController(this.db, authority, authority.lease.missionId);
       this.assertNoRetainedPublication(authority.lease.missionId, unitId);
@@ -727,7 +882,7 @@ export class GraphStore {
       const projected = this.assertNextContextReservation(authority, unitId);
       const lease = this.leases.reserve(authority, unitId, [...u.ownedFunctionIds.map(id => `fn:${id}`), ...u.conflicts.map(c => c.resourceKey)], ttlEvents, expected!);
       this.change(authority, unitId, "RESERVED", "canonical family ownership acquired");
-      if (projected) { this.assertNextContextReservation(authority, unitId); this.leases.assert(lease, authority); } return lease;
+      if (projected) { this.assertNextContextReservation(authority, unitId); this.leases.assert(lease, authority); } this.assertWorkCurrent(authority.lease.missionId, unitId); return lease;
     }).immediate();
   }
   tick(authority: ControllerAuthority, key: string, count = 1): void {
@@ -951,6 +1106,7 @@ export class GraphStore {
   /** CURRENT effect gate, not historical parsing. A private exact approval,
    * publication attestation AND prospective consumer scope are all required. */
   assertNextContextCurrent(authority: ControllerAuthority, lease: UnitLease, raw?: NextContextProjectionV1): void {
+    this.assertWorkCurrent(lease.missionId, lease.unitId);
     assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
     const policy = this.nextContextPolicy(lease.missionId); if (!policy?.grants.some(g => g.consumerUnitId === lease.unitId)) { invariant(!raw, "unapproved context image", "auth"); return; }
     const image = raw === undefined ? this.nextContextProjection(lease.missionId, lease.unitId, lease.token) : parseNextContextProjectionV1(raw);
@@ -1069,6 +1225,7 @@ export class GraphStore {
     }
   }
   prepareAdmission(authority: ControllerAuthority, lease: UnitLease, body: Admission, maxAttempts = 3, retryDelayMs = 1000): string {
+    this.assertWorkCurrent(lease.missionId, lease.unitId, body.executionId);
     authority = immutableCopy(authority); lease = immutableCopy(lease); body = immutableCopy(body);
     integer(maxAttempts, 1); invariant(maxAttempts <= 10, "admission retry bound exceeded"); integer(retryDelayMs);
     invariant(body.idempotencyKey === body.executionId, "executionId is the admission idempotency key");
@@ -1102,7 +1259,7 @@ export class GraphStore {
         invariant(result && this.hasScientificCompletion(this.outbox(result.execution_id)!), sub.role === "R" ? "R awaits attributable A+B results" : "author awaits attributable other-function R result");
       }
       this.db.query("INSERT INTO ff8_graph_outbox(mission,unit_id,execution_id,sub_intent,token,body,digest,state,max_attempts,retry_delay) VALUES(?,?,?,?,?,?,?,'PREPARED',?,?)").run(lease.missionId, lease.unitId, body.executionId, body.subIntentId, lease.token, canonical(body), digest, maxAttempts, retryDelayMs);
-      this.events.append(lease.missionId, `admission:${body.executionId}`, "admission_prepared", authority.now, { body, digest, token: lease.token, maxAttempts, retryDelayMs }, lease.unitId); return digest;
+      this.events.append(lease.missionId, `admission:${body.executionId}`, "admission_prepared", authority.now, { body, digest, token: lease.token, maxAttempts, retryDelayMs }, lease.unitId); this.assertWorkCurrent(lease.missionId, lease.unitId, body.executionId); return digest;
     }).immediate();
   }
   private outbox(executionId: string): OutboxRow | null { return this.db.query("SELECT * FROM ff8_graph_outbox WHERE execution_id=?").get(executionId) as OutboxRow | null; }
@@ -1116,6 +1273,7 @@ export class GraphStore {
     this.assertAdmissionInputs({ lease: { missionId: row.mission, owner: reserved.lease.owner, token: reserved.controllerToken, expiresAt: 0 }, now: 0 }, reserved.lease, body, false);
   }
   private scientificResult(missionId: string, unitId: string, resultId: string, token?: number) {
+    this.assertWorkCurrent(missionId, unitId);
     const row = this.db.query("SELECT execution_id,document,digest,token,eligible FROM ff8_graph_results WHERE mission=? AND unit_id=? AND result_id=?").get(missionId, unitId, resultId) as { execution_id: string; document: string; digest: string; token: number; eligible: number } | null;
     invariant(row && row.eligible === 1 && (token === undefined || token === row.token), "ineligible/missing scientific result", "scientific_block");
     const document = JSON.parse(row.document), admission = this.outbox(row.execution_id), unit = this.unit(missionId, unitId);
@@ -1131,6 +1289,7 @@ export class GraphStore {
   }
   /** The client adds its own exact bridge CAS envelope before its network I/O. */
   async dispatch(authority: ControllerAuthority, lease: UnitLease, executionId: string, client: Pick<ExecutionClient, "submit">): Promise<Record<string, unknown>> {
+    this.assertWorkCurrent(lease.missionId, lease.unitId, executionId);
     authority = immutableCopy(authority); lease = immutableCopy(lease);
     const row = this.db.transaction(() => {
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
@@ -1147,7 +1306,7 @@ export class GraphStore {
       // send generation/event atomically, before transport or ambiguous handling.
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
       this.assertAdmissionInputs(authority, lease, JSON.parse(r.body) as Admission);
-      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); return r;
+      assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); this.assertWorkCurrent(lease.missionId, lease.unitId, executionId); return r;
     }).immediate();
     if (row.receipt) return JSON.parse(row.receipt);
     try {
@@ -1160,7 +1319,7 @@ export class GraphStore {
         // negative protocol response must survive the client/transport boundary.
         const rejected = (error as { type?: string } | null)?.type === "execution_rejected" && declared && ["auth", "input", "schema", "quota"].includes(category);
         const r = this.outbox(executionId)!;
-        const state = rejected ? (category === "quota" && declared.recoverable && r.attempts < r.max_attempts ? "PREPARED" : "REJECTED") : "AMBIGUOUS";
+        const state = rejected ? (category === "quota" && declared.recoverable && r.attempts < r.max_attempts && this.isWorkCurrent(r.mission, r.unit_id, executionId) ? "PREPARED" : "REJECTED") : "AMBIGUOUS";
         const rejection = rejected ? this.rejectionProof(row, row.attempts + 1, category, declared.recoverable, "dispatch_rejection", failureCause(error)) : null;
         const updated = this.db.query("UPDATE ff8_graph_outbox SET state=?,next_time=?,terminal_proof=? WHERE execution_id=? AND mission=? AND unit_id=? AND state='SENDING' AND attempts=? AND token=? AND digest=? AND receipt IS NULL").run(state, authority.now + r.retry_delay, rejection ? canonical(rejection) : null, executionId, row.mission, row.unit_id, row.attempts + 1, row.token, row.digest);
         if (updated.changes === 1 && rejection) this.events.append(lease.missionId, `rejection:${executionId}:${row.attempts + 1}`, "admission_rejected", Math.max(authority.now, this.events.cursor(lease.missionId).time), rejection, lease.unitId);
@@ -1188,7 +1347,7 @@ export class GraphStore {
       this.events.append(lease.missionId, `receipt:${executionId}`, "admission_accepted", observedAuthority.now, { executionId, receipt: boundReceipt, requestDigest: r.digest, token: r.token, attempt: r.attempts, source: generation ? "dispatch" : "positive_readback" }, lease.unitId);
       const u = this.unit(lease.missionId, lease.unitId);
       // A delayed native response is retained even after controller/family fencing, never resurrected.
-      try { this.leases.assert(lease, observedAuthority); if (u.state === "RESERVED") this.change(observedAuthority, lease.unitId, "RUNNING", "native admission acknowledged"); } catch (error) { if (!(error instanceof GraphPersistenceError)) throw error; }
+      try { this.leases.assert(lease, observedAuthority); if (u.state === "RESERVED" && this.isWorkCurrent(lease.missionId, lease.unitId, executionId)) this.change(observedAuthority, lease.unitId, "RUNNING", "native admission acknowledged"); } catch (error) { if (!(error instanceof GraphPersistenceError)) throw error; }
     }).immediate();
   }
   private rejectionProof(row: OutboxRow, attempt: number, category: string, recoverable: boolean, source: string, cause: unknown): Record<string, unknown> {
@@ -1207,7 +1366,7 @@ export class GraphStore {
         invariant(receipt && receipt.type === "execution_rejected" && receipt.executionId === r.execution_id && receipt.requestDigest === r.digest && receipt.attempt === r.attempts && receipt.token === r.token && ["auth", "input", "schema", "quota"].includes(receipt.category as string) && typeof receipt.recoverable === "boolean", "definitive rejection readback requires exact protocol/generation binding");
         invariant(!r.receipt && ["SENDING", "AMBIGUOUS"].includes(r.state), "only unacknowledged admissions accept a definitive rejection readback");
         this.leases.assert(lease, authority);
-        const state = receipt.category === "quota" && receipt.recoverable && r.attempts < r.max_attempts ? "PREPARED" : "REJECTED";
+        const state = receipt.category === "quota" && receipt.recoverable && r.attempts < r.max_attempts && this.isWorkCurrent(r.mission, r.unit_id, r.execution_id) ? "PREPARED" : "REJECTED";
         const proof = this.rejectionProof(r, r.attempts, receipt.category as string, receipt.recoverable as boolean, "protocol_readback", observation);
         this.db.query("UPDATE ff8_graph_outbox SET state=?,next_time=?,terminal_proof=? WHERE execution_id=? AND state=? AND attempts=? AND token=? AND digest=? AND receipt IS NULL").run(state, authority.now + r.retry_delay, canonical(proof), r.execution_id, r.state, r.attempts, r.token, r.digest);
         this.events.append(lease.missionId, `rejection:${r.execution_id}:${r.attempts}`, "admission_rejected", authority.now, proof, lease.unitId);
@@ -1374,6 +1533,7 @@ export class GraphStore {
     }).immediate();
   }
   recordParentAttestation(authority: ControllerAuthority, lease: UnitLease, request: ParentAttestationRequest): ParentAttestation {
+    this.assertWorkCurrent(lease.missionId, lease.unitId);
     authority = immutableCopy(authority); lease = immutableCopy(lease); request = immutableCopy(request);
     return this.db.transaction(() => {
       this.leases.assert(lease, authority);
@@ -1420,7 +1580,7 @@ export class GraphStore {
         this.events.append(lease.missionId, `attestation_evidence:${attestation.attestationId}`, "parent_attestation_evidence", authority.now, { attestationId: attestation.attestationId, evidence: request.evidence }, lease.unitId);
         this.events.append(lease.missionId, eventKey, "parent_attested", authority.now, attestation, lease.unitId);
       }
-      this.leases.assert(lease, authority); return this.parentAttestation(lease.missionId, attestation.attestationId);
+      this.leases.assert(lease, authority); this.assertWorkCurrent(lease.missionId, lease.unitId); return this.parentAttestation(lease.missionId, attestation.attestationId);
     }).immediate();
   }
   parentAttestation(missionId: string, attestationId: string): ParentAttestation {
@@ -1520,13 +1680,14 @@ export class GraphStore {
       invariant(r && r.mission === lease.missionId && r.unit_id === lease.unitId && r.token === lease.token, "result attribution mismatch");
       const digest = fingerprint(document), old = this.db.query("SELECT unit_id,execution_id,token,digest,eligible FROM ff8_graph_results WHERE mission=? AND result_id=?").get(lease.missionId, resultId) as { unit_id: string; execution_id: string; token: number; digest: string; eligible: number } | null;
       let current = true; try { this.leases.assert(lease, authority); } catch { current = false; }
-      const eligible = current && source === "artifact" && this.hasScientificCompletion(r);
+      const eligible = current && source === "artifact" && this.hasScientificCompletion(r) && this.isWorkCurrent(lease.missionId, lease.unitId, executionId);
       if (old) { invariant(old.digest === digest && old.unit_id === lease.unitId && old.execution_id === executionId && old.token === lease.token, "result identity/attribution changed"); return old.eligible === 1 && eligible; }
       this.db.query("INSERT INTO ff8_graph_results VALUES(?,?,?,?,?,?,?,?)").run(lease.missionId, lease.unitId, resultId, executionId, lease.token, digest, canonical(document), eligible ? 1 : 0);
       this.events.append(lease.missionId, `result:${resultId}`, "result_retained", authority.now, { resultId, executionId, token: lease.token, document, eligible, source }, lease.unitId); return eligible;
     }).immediate();
   }
   validateUnit(authority: ControllerAuthority, lease: UnitLease, resultIds: string[], validation: UnitValidation): void {
+    this.assertWorkCurrent(lease.missionId, lease.unitId);
     authority = immutableCopy(authority); lease = immutableCopy(lease); resultIds = immutableCopy(resultIds); validation = immutableCopy(validation);
     this.db.transaction(() => {
       assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority);
@@ -1539,9 +1700,11 @@ export class GraphStore {
       for (const id of resultIds) this.scientificResult(lease.missionId, lease.unitId, id, lease.token);
       this.change(authority, lease.unitId, "VALIDATING", "family validation executed");
       this.events.append(lease.missionId, `validation:${lease.unitId}:${lease.token}`, "unit_validated", authority.now, { token: lease.token, resultIds, validation }, lease.unitId);
+      this.assertWorkCurrent(lease.missionId, lease.unitId);
     }).immediate();
   }
   preparePublication(authority: ControllerAuthority, lease: UnitLease, commit: KnowledgeCommit, effect: PublicationEffect = { verifiedEffect: "does_not_satisfy" }): void {
+    this.assertWorkCurrent(lease.missionId, lease.unitId);
     authority = immutableCopy(authority); lease = immutableCopy(lease); commit = immutableCopy(commit); effect = immutableCopy(effect);
     validateGraphDocument("knowledge-commit", commit);
     invariant(effect && Object.keys(effect).length === 1 && ["satisfies", "does_not_satisfy", "invalidates_future"].includes(effect.verifiedEffect), "explicit valid verified publication effect required", "schema");
@@ -1574,6 +1737,7 @@ export class GraphStore {
       this.events.append(lease.missionId, `publication:${lease.unitId}`, "publication_prepared", authority.now, commit, lease.unitId);
       this.db.query("INSERT INTO ff8_graph_publication_effects VALUES(?,?,?,?,?)").run(lease.missionId, lease.unitId, canonical(intent), fingerprint(intent), effectKey);
       this.events.append(lease.missionId, effectKey, "publication_effect_frozen", authority.now, intent, lease.unitId);
+      this.assertWorkCurrent(lease.missionId, lease.unitId);
       if (this.publicationPolicy(lease.missionId)) { assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); }
     }).immediate();
   }
@@ -1600,6 +1764,7 @@ export class GraphStore {
     return validation;
   }
   commitReadback(authority: ControllerAuthority, lease: UnitLease, readback: { targetId: string; hash: string; requestDigest: string; source: string }): KnowledgeCommit {
+    this.assertWorkCurrent(lease.missionId, lease.unitId);
     authority = immutableCopy(authority); lease = immutableCopy(lease); readback = immutableCopy(readback);
     return this.db.transaction(() => {
       assertController(this.db, authority, lease.missionId);
@@ -1642,6 +1807,7 @@ export class GraphStore {
       this.db.query("INSERT INTO ff8_graph_commits VALUES(?,?,?,?)").run(lease.missionId, lease.unitId, commit.commitId, canonical(commit));
       this.change(authority, lease.unitId, "COMMITTED", "scientific publication readback verified");
       this.events.append(lease.missionId, `commit:${lease.unitId}`, "knowledge_committed", authority.now, commit, lease.unitId);
+      this.assertWorkCurrent(lease.missionId, lease.unitId);
       if (policy) { assertController(this.db, authority, lease.missionId); this.leases.assert(lease, authority); }
       this.leases.releaseProven(authority, lease); return commit;
     }).immediate();
@@ -1666,6 +1832,7 @@ export class GraphStore {
   }
   satisfies(missionId: string, unitId: string, level: number): boolean {
     try {
+      this.assertWorkCurrent(missionId, unitId);
       const r = this.db.query("SELECT document FROM ff8_graph_commits WHERE mission=? AND unit_id=?").get(missionId, unitId) as { document: string } | null;
       if (!r) return false; const c = JSON.parse(r.document) as KnowledgeCommit;
       this.assertScientificCommitMapping(missionId, unitId, c);

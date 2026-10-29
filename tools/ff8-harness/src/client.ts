@@ -1,4 +1,5 @@
 import { openOwnDatabase } from "./store";
+import { assertRmsWorkCurrentV1 } from "./graph-store";
 import { canonical, hash } from "./validation";
 import { assertAuditContinuation, decodeBulletinSnapshot, type BulletinSnapshot, type CommunicationAudit } from "./bulletin-audit";
 import { prepareDispatchJoinV1, refuseNativeRuntimeV1, type PreparedRuntimeV1, type DispatchScopeV1, type DispatchJoinV1 } from "./graph-runtime-binding";
@@ -116,6 +117,11 @@ export class ExecutionClient {
   }
   async submit(missionId: string, input: Record<string, unknown>): Promise<Record<string, unknown>> {
     const captured = captureSubmission(input), { key, digest } = captured;
+    // Caller binding is an assertion only: the shared guard derives the target
+    // from the durable execution and refuses unit/task aliases before any I/O.
+    const binding = (captured.payload.metadata as { graphBinding?: { unitId?: string } } | undefined)?.graphBinding;
+    const current = () => assertRmsWorkCurrentV1(this.db, missionId, binding?.unitId, String(captured.payload.executionId), String(captured.payload.taskId));
+    current();
     this.assertLegacyDispatchKey(missionId, key);
     let row = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
     if (row) boundRequestBody(row, captured);
@@ -129,6 +135,7 @@ export class ExecutionClient {
       // If prospective preparation won, do not consume its request via ON CONFLICT.
       // If legacy wins, its retained request makes prospective preparation refuse.
       row = this.db.transaction(() => {
+        current();
         this.assertLegacyDispatchKey(missionId, key);
         this.db.query("INSERT INTO ff8_bridge_requests(mission,key,digest,body) VALUES(?,?,?,?) ON CONFLICT(mission,key) DO NOTHING").run(missionId, key, digest, canonical(body));
         const retained = this.db.query("SELECT digest,body,receipt FROM ff8_bridge_requests WHERE mission=? AND key=?").get(missionId, key) as RequestRow | null;
@@ -138,6 +145,7 @@ export class ExecutionClient {
       if (row.receipt) return JSON.parse(row.receipt) as Record<string, unknown>;
     } else {
       const state = await this.snapshot(missionId); this.assertSubmissionSnapshot(state); const pending = boundRequestBody(row, captured);
+      current();
       const executions = state.executions;
       if (!Array.isArray(executions)) throw new Error("cannot reconcile pending command without native execution snapshot");
       const accepted = executions.some((e: Record<string, unknown>) => e.executionId === pending.executionId);
@@ -150,6 +158,7 @@ export class ExecutionClient {
         pending.controllerId = this.options.controllerId; pending.expectedRevision = this.revision(missionId);
         const rebasedBody = canonical(pending); row.body = rebasedBody;
         this.db.transaction(() => {
+          current();
           // Classification and pending-body mutation must share the write lock:
           // an earlier empty lookup can precede a prospective reservation.
           this.assertLegacyDispatchKey(missionId, key);
@@ -160,9 +169,11 @@ export class ExecutionClient {
     // The exact command was durably committed before network I/O. Tokens remain in memory only.
     const command = boundRequestBody(row, captured), attemptBody = row.body;
     this.db.transaction(() => {
+      current();
       this.assertLegacyDispatchKey(missionId, key);
       this.db.query("INSERT INTO ff8_bridge_command_attempts(mission,key,time,body) VALUES(?,?,?,?)").run(missionId, key, Date.now(), attemptBody);
     }).immediate();
+    current();
     const response = await this.call("submit", command);
     if (response.executionId !== command.executionId || response.state !== "accepted" || !Number.isSafeInteger(response.revision) || (response.revision as number) < 1) throw new Error("invalid acceptance receipt identity/state/revision");
     this.db.transaction(() => { this.db.query("UPDATE ff8_bridge_requests SET receipt=? WHERE mission=? AND key=?").run(canonical(response), missionId, key); this.recordRevision(missionId, response); }).immediate();
