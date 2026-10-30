@@ -1,0 +1,21 @@
+{
+  "schema":"rms-native-observation-preflight-v1",
+  "source":"Parent GET of existing service /openapi.json; no startup or mutation",
+  "operations":[
+    {"operationId":"session.log","method":"GET","path":"/api/experimental/session/{sessionID}/log","parameters":{"sessionID":"Session.ID required","after":"Event.SeqEncoded optional, schema string","follow":"optional string true|false"},"response":"text/event-stream; SSE data SessionLogItemEncoded is a string with application/json content; explicit effect/http-api/stream/failure event exists"},
+    {"operationId":"session.message.get","method":"GET","path":"/api/session/{sessionID}/message/{messageID}","response":"JSON object {data:Session.Message.Info}; message info is a tagged union, not always assistant"},
+    {"operationId":"session.active","method":"GET","path":"/api/session/active","response":"JSON {data:Record<Session.ID,SessionActive>}; SessionActive is {type:running}; no public claim row or external-resource quiescence proof in this schema","called":false}
+  ],
+  "ownedLogReadback":{
+    "sessionID":"ses_rmsq_2783e61535564b3376f5e75d42f954cb",
+    "scope":"Retained admission-only proof session, read-only; never woken or reused as work",
+    "requests":[{"query":"follow=false","status":200,"bytes":95},{"query":"after=0&follow=false","status":200,"bytes":95}],
+    "contentType":"text/event-stream",
+    "decodedFrames":[{"type":"log.synced","aggregateID":"ses_rmsq_2783e61535564b3376f5e75d42f954cb","seq":1}],
+    "limits":"Only synchronization marker observed, not a terminal or executed-model proof. No inference that missing log frames prove absence of admission or externally running resources.",
+    "requestBounds":{"timeoutMs":10000,"maxBytes":262144,"redirect":"error"}
+  },
+  "noNativeMutation":true,
+  "noCredentialsOrRawOtherSessionDataPersisted":true,
+  "sourceEvidence":"public-core-v2.1.4-observation-r1/manifest.json, same immutable source commit as prior capture; source-to-binary correspondence remains unproved"
+}

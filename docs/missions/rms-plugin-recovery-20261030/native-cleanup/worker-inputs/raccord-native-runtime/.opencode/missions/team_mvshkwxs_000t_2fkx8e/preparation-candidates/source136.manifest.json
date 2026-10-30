@@ -1,0 +1,94 @@
+{
+  "version": "rms-constructed-raw-source136-candidates-manifest-v1",
+  "status": "INSPECTION_CANDIDATES_NOT_IMPORTED_NOT_EXECUTED_NOT_VALIDATED",
+  "owner": "raccord-native-runtime",
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "writeScope": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/preparation-candidates/",
+  "authorizedNewFiles": ["constructed-x86-enumerator-v1.mjs", "source136.mjs", "source136.manifest.json"],
+  "files": [
+    {"path": "constructed-x86-enumerator-v1.mjs", "byteLength": 16452, "sha256": "2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e"},
+    {"path": "source136.mjs", "byteLength": 23695, "sha256": "26c0c4f987be393645ca7dacf30adf4f161d2b0491cfe48f7a1a1b99e24d7c74"}
+  ],
+  "selfDigest": "Reported separately to parent, no circular self-hash",
+  "inputRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "inputPins": [
+    {"role": "D3text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/source-decision-v3.json", "byteLength": 3872, "sha256": "1796363315de98e1866a4648441ccb99da1acfee2dbae66db75d8248a0234950"},
+    {"role": "Q3text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/constructed-function-model-v3.json", "byteLength": 2284, "sha256": "4be761cb6bdd2ee316c8f9446c0a9e702b7c4a6648f5f7bedfbed60d97cb0168"},
+    {"role": "cfgText", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/source-config-v3.json", "byteLength": 1572, "sha256": "6978a30cabc245ab2360ad7bbd2dbb259e8b63fd844da9b9bb68c5ca76545a87"},
+    {"role": "rawArtifact", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/constructed-x86-32.bin", "byteLength": 262, "sha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020"},
+    {"role": "D1text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/source-decision.json", "byteLength": 2974, "sha256": "158ab93e2724a982cfb8204069dadcb1317a07e8ab2ad6bbdf01d0cda43ef989"}
+  ],
+  "argumentContracts": {
+    "extractor": {
+      "export": "enumerateConstructedX86V1(decisionUtf8, modelUtf8, rawArtifact, enumeratorCode)",
+      "decisionUtf8": "Exact pinned D3 raw UTF-8 text; no alternate decision is implicitly admitted",
+      "modelUtf8": "Strict raw JSON text using the exact Q3 grammar; the leaf checks semantics without pinning this one model SHA so parent negative mutations can reach their own guards. source136 additionally pins canonical Q3 bytes.",
+      "rawArtifact": "Exact JSON-safe object {path,base64,byteLength,sha256} independently loaded from the actual parent raw file. path must be exact absolute; byteLength=262 and sha256=6356b01f... . base64 has exactly352 characters, canonical alphabet/padding and exact decode/reencode equality. Hash is computed on decoded bytes, never the base64 text.",
+      "enumeratorCode": "Exact {path,utf8} of the actual extractor file loaded by parent. No filesystem or Function.toString() in the leaf. Parent must independently verify that the actual invoked module matches the file pin; a supplied code argument cannot authenticate its own implementation.",
+      "returns": "Deep-frozen {decision,model,functions,evidence}; versioned BoundDocument evidence binds D3/Q3/raw/code hashes and lengths, visits and end markers, target provenance and verification facts. Failure throws HOLD and returns no completed proof.",
+      "fixedRecipe": "Two segments partition all262 bytes: [0,256) all00 reserved non-function data; [256,262)=b800000000c3 function code. Exact one entry chunk [256,262), two fixed instruction records [256,261) B8 imm32 zero and [261,262) C3, no tails/successors/relations. Unsupported nonempty relation forms, extra parts/functions or links are rejected, not silently omitted or interpreted by an invented grammar.",
+      "modeMeaning": "The pinned parent construction explicitly targets x86-32. Verification checks actual recipe bytes, offsets, widths and little-endian immediate under that target. These bytes are not claimed to decode uniquely in32-bit mode and are not evidence about any server/process/FF8 ISA.",
+      "strictness": "Bounded duplicate-key prepass from the existing V2 candidate pattern, followed by assertExecutionJsonV1. Unknown/missing fields, duplicate keys, open closure, bad spans or unsupported forms are refused. No product codec or validator is changed."
+    },
+    "source": {
+      "export": "source136(D3text, Q3text, D1text, contractText, cfgText, codecs, rawArtifact, enumeratorCode)",
+      "textPins": "Exact D3/Q3/D1/cfg3 raw text pins above; cfgText is parsed only after its v3 pin matches. No default config, v1/v2 paths or implicit enlargement.",
+      "contractText": "Exact two raw contract texts in D1.corpus order, hashes from121; content is returned as qualificationCorpus for later dossier embedding, never replaced with file names",
+      "codecs": "Same existing {contractPins,codecBytes}, all distinct refs from29 ContractPinsV1 fields with exact independent bytes; preserve historical qualified15444-byte domain asset rather than substituting current domain.ts",
+      "rawAndCode": "rawArtifact as above with its absolute path matching cfg.repoRoot+Q3.module.rawPath; enumeratorCode raw source must match byteLength16452/SHA2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e before extractor call",
+      "returns": "Prospective snapshot/transport/grouping, unsealed preparation triplet, controlRule DATA, qualificationCorpus, raw-derived function identity, enumerationEvidence, raw/model/decision/code refs and parent provenance. No files, DB, controller lease, reservation, acquisition, permit or native origin are created."
+    }
+  },
+  "conceptualDiffFromSource132": [
+    "New extractor verifies actual supplied binary bytes against D3 construction, segment mapping and Q3 closed instruction/chunk tables. It generates no binary and never executes/interprets the stub as a callable function; fixed encoding checks are not a generic disassembler.",
+    "The module identity is now the SHA of the262 decoded RAW bytes. Descriptor Q3, decision D3, proof and extractor code retain distinct hashes. rawH propagates to artifact.contentSha256, provenance.moduleSha256, node.moduleSha256/id, sourceSpec.binary and subIntent identities; no hash of JSON is substituted for rawH.",
+    "architecture:x86-32 is derived only after the completed proof agrees with D3's pinned construction target and the actual raw fixed recipe. format remains unknown/raw, sections=[], idbIdentity empty, byteAgreement/divergence unknown and oraclefalse.",
+    "Boundary is exactly [0x100,0x106) from the verified raw mapping. Complete/tailsIterated coverage is constructed only after exhaustive successful enumeration; scope is the generated fixture module and its explicitly defined function, not any native program or existing binary.",
+    "Fixture function is fixtureReturnZero. It is not the separate qualification worker's textual acknowledgement or an algorithm that reads the supplied contracts.",
+    "Existing source producers/codecs/grouping/numeric context/allocation/planner/bootstrap remain the same. policy.version stays complete-admission-cap-v1:q122; Cunit262144,N3,total786432,maxSelected1 remain hard source ceilings. No diagnostic is filtered or guard bypassed.",
+    "D1 inheritance remains an explicit whitelist of model/modelRoles/profiles, prompt/corpus, proposed deny-all rules and planning bounds. V1/V2 ledger, account, inventory, acquired grant, fence, cycle binding or origin is not copied.",
+    "Graph size/instruction/basic-block metrics remain conservatively UNKNOWN as in V2; verified recipe facts and counts are retained separately in the construction proof and are not promoted into measurements of a native process or a scientific result.",
+    "New rawH/version/D3/model/proof generate new SOURCE snapshot/lineage/root references; no native history/account is reset, aliased, discarded or qualified by those DATA references."
+  ],
+  "proposedTargetedChecksNotExecuted": [
+    {"case": "positive exact D3/Q3/raw/code", "expected": "All262 bytes verified, two segments, one chunk, two fixed instruction records, explicit ends for empty tails/links, completed proof with distinct raw/model hashes and no code execution"},
+    {"case": "positive source136", "expected": "Existing pure producers/binder if all invariants hold; identities use6356b01f... not Q3 SHA4be761...; target x86-32 plus complete fixture coverage and zero diagnostics must be independently checked, not presumed"},
+    {"case": "contrary target mode", "target": "extractor", "mutation": "Q3.module.targetArchitecture=x86-64", "expected": "Refusal despite the same six bytes being decodable in64-bit mode"},
+    {"case": "raw code corruption", "target": "extractor", "mutation": "Canonical base64 of262 bytes with one changed code byte, metadata still claiming the retained raw pin", "expected": "Actual code bytes/refusal, never metadata-only acceptance"},
+    {"case": "padding corruption", "target": "extractor", "mutation": "One nonzero byte within [0,256)", "expected": "Padding-byte refusal, no completed proof"},
+    {"case": "bad span", "target": "extractor", "mutation": "Entry endRvaExclusive=263 or rva differs from the identity mapping", "expected": "Span/layout refusal"},
+    {"case": "instruction width or offset mismatch", "target": "extractor", "mutation": "First instruction width4, second offset260 or unsupported decoded label", "expected": "Fixed target-recipe instruction refusal"},
+    {"case": "open definition or unknown field", "target": "extractor", "mutation": "closure.externalPartsAllowed=true, unknown closure tag or extra module/part field", "expected": "Strict refusal before complete/tailsIterated evidence"},
+    {"case": "unknown tail or successor", "target": "extractor", "mutation": "Unknown part ID in tails or successors, or a nonempty unsupported relation record", "expected": "Absent/foreign/unsupported link refusal"},
+    {"case": "invalid base64", "target": "extractor", "mutation": "Whitespace, invalid alphabet, noncanonical pad bits or incorrect encoded/decoded length", "expected": "Strict bounded base64/decode/refusal"},
+    {"case": "duplicate key/ambiguous part", "target": "extractor", "mutation": "Duplicate JSON tails/closure key or additional part with duplicate ordinal", "expected": "Duplicate/shape/fixed-recipe refusal, no silently discarded declaration"},
+    {"case": "wrong text/code/raw pins", "target": "source136", "mutation": "Alter D3/Q3/D1/cfg3/code source or raw file descriptor/path", "expected": "Explicit raw-pin/path/proof refusal before source construction"}
+  ],
+  "limitsAndGates": [
+    "All checks above are proposed, not executed by the author. No syntax, import, typecheck, test or producer/binder success is claimed for these new files.",
+    "Parent must pin/read the actual raw and extractor file independently, inspect/syntaxcheck and obtain independent impact review before evaluation. Supplied paths/code text are not JSON role authentication or native receipts.",
+    "Proof/raw/layout sources must be retained and independently reloaded by parent. Existing graph binder does not become a verifier of arbitrary construction traces, and ContractPinsV1 is not expanded.",
+    "Stage130 remains SUSPENDED until affected V3 proofs and actual reservation prerequisites are established. This constructor neither reserves nor proves reservability; it cannot satisfy dynamic ownership/CAS/resource checks merely by emitting DATA.",
+    "Native inventory, canary attribution, origins including bootstrap, acquisition, physical resources, effective rights and operative fences remain UNKNOWN/HOLD; source fixtures are not native accounts or grant authority.",
+    "No scientific publication/consumption or terminality is established. Generated code is not executed, compiled, installed, sent over a network or treated as an oracle."
+  ],
+  "preservedCandidatePins": [
+    {"path": "closed-model-enumerator-v1.mjs", "byteLength": 13363, "sha256": "3854cce1be60b19efe9cc0bf596266dd77846ae2ea89b4f9949bb487d20dd64e"},
+    {"path": "source132.mjs", "byteLength": 23151, "sha256": "8e407d68ef9ab9db718b076377c63990543200b940d3d3d14489a9fc625129d5"},
+    {"path": "source132.manifest.json", "byteLength": 12890, "sha256": "07f6629cc697053be56e706e67a2d8dddce343b9e6de70049761b79943bee967"},
+    {"path": "source122.mjs", "byteLength": 20659, "sha256": "9e97ed7ae3627817d4a79fc5c2292a40695560bc2bf8fd0ed2a58cab7c518b06"},
+    {"path": "assemble-inputs.mjs", "byteLength": 8071, "sha256": "76128498edef813093b90431a7b6f69693f36a4a60689ecc66ef5ccabcfbb501"},
+    {"path": "manifest.json", "byteLength": 21633, "sha256": "9163b04d50ccd5a7879e608221272a2e57eeae3f50c9bec1fdfed96958c87d1a"}
+  ],
+  "verification": {
+    "authorActions": "Only authorized candidate writes, necessary bounded source/input reads and filesystem metadata/SHA256 readbacks",
+    "protected18AfterTwoNewModules": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "rawFileMetadataReadback": "262_BYTES_MATCHES_PARENT_RAW_SHA; no binary created or executed by author",
+    "syntaxcheckImportTypecheckTestsScripts": "NOT_EXECUTED_BY_AUTHOR",
+    "extractorSourceCalls": "NOT_EXECUTED",
+    "networkDatabaseGitNativeGrantOrigin": "NONE",
+    "stageOrOperationalOutputs": "NOT_CREATED",
+    "independentImpactReviewAndQA": "PENDING_PARENT_BEFORE_EVALUATION",
+    "passClaim": "NONE"
+  }
+}

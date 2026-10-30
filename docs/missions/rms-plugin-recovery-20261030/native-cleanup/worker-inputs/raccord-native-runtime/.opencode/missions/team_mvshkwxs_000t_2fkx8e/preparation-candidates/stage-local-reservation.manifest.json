@@ -1,0 +1,98 @@
+{
+  "version": "rms-local-reservation-candidate-manifest-v1",
+  "status": "CANDIDATE_NOT_IMPORTED_NOT_SYNTAXCHECKED_NOT_EXECUTED",
+  "owner": "raccord-native-runtime",
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "authorizedNewFiles": ["stage-local-reservation.mjs", "stage-local-reservation.manifest.json"],
+  "files": [
+    {"path": "stage-local-reservation.mjs", "byteLength": 25729, "sha256": "5bbea4d5bd9e88f36bbdbabebcbc8973577fe3d7d8a3c0c1a68f0022d4a09a72"}
+  ],
+  "selfDigest": "Reported separately to parent; no circular self-hash",
+  "executionContract": {
+    "export": "stageLocalReservationV1(rawRequest)",
+    "entry": "One synchronous exported function, no CLI, no import.meta.main branch, no top-level I/O, constructor, callback or automatic invocation",
+    "futureEffects": "ONLY AN EXPLICIT PARENT CALL creates a new local namespace, an exclusive empty OWN .sqlite file, existing Store/GraphStore schema and one locally reserved family. Existing SQLite APIs may create/checkpoint their WAL/SHM. This is an effectful LOCAL function, not a claim that calling it is pure or already authorized.",
+    "runtime": "Same Bun/Windows runtime as the pinned harness, including bun:sqlite and Bun hash primitives",
+    "trust": "Tool-enforced native parent invocation and external receipt remain the trust root109. Program/source/scope digests, PID, UUID witness and caller controllerId are attribution DATA, never role authentication, a native account, resource acquisition or a grant. The parent must inspect/review and authorize any invocation separately."
+  },
+  "closedRequest": {
+    "exactFields": ["version", "sourceManifestPin", "expected", "ownNamespace", "ownFileName", "controllerId", "leaseMs"],
+    "version": "rms-stage-local-reservation-request-v1",
+    "sourceManifestPin": {
+      "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/source-bundle-v3/manifest.json",
+      "byteLength": 2806,
+      "sha256": "34ffa53959bf44e6023071d4f27fb939732c719bf2bad681a1bea1e877410d68"
+    },
+    "expected": "Exact object {missionId,unitId,sourceRequestRef,runRef,planningRef}; all five must agree with the independently reloaded/purely bound V3 source and its single selected unit. Parent computes these source-only values before local initialization; no lease/fence is an argument or a prerequisite to computing them.",
+    "ownNamespace": "PARENT STILL MUST CHOOSE an exact absolute nonexistent directory, with an already existing unaliased directory parent. No directory or filename is defaulted. Directory creation is exclusive and nonrecursive; existing paths, symlinks/reparse aliases and realpath ambiguity are refused.",
+    "ownFileName": "PARENT STILL MUST CHOOSE a basename matching ^[A-Za-z0-9][A-Za-z0-9_-]{0,63}\\.sqlite$; no separators/traversal/ensemble.db alias. File is created wx exclusively inside the new directory before existing Store APIs open it.",
+    "controllerId": "PARENT STILL MUST CHOOSE an explicit nonempty owner label; token/expiration come only from the actual Store.acquireLease operation and durable row readback, never from this string",
+    "leaseMs": "PARENT STILL MUST CHOOSE integer1..300000. No implicit refresh, retry, renewal or reacquisition; expiry anywhere after acquisition means HOLD with state preserved.",
+    "familyTtl": "Fixed to the verified V3 template100 MISSION EVENTS; not elapsed milliseconds. Every mission event consumes TTL. No heartbeat, lease renewal or conversion to wall time."
+  },
+  "closedSourcePins": [
+    {"name": "body.json", "byteLength": 90295, "sha256": "a0c0fc15c978805ecd1ea1fd2ef6b31213870c99e16af21ccbde771f57d98954"},
+    {"name": "independentSources.json", "byteLength": 1111629, "sha256": "ecc2dc41590c91aa1a2fe78f92dce155b5f9b8afcb49c49719f115fd31eedc32"},
+    {"name": "policy.json", "byteLength": 2049, "sha256": "512ffe0f4e0dc760a334f67354f1878235c7f5a91d3a7b262743de47325fb1fd"},
+    {"name": "enumeration-proof.json", "byteLength": 4062, "sha256": "ef9fa7e6ffd248b82836ef7878d26f166340f868b6df1e385c1a68cdf894df46"},
+    {"name": "activation-policy.json", "byteLength": 241, "sha256": "383dea01785ba607507b276eebf796c6b95c540b81d472eeb053e3e99c896fa6"},
+    {"name": "constructed-x86-32.bin", "byteLength": 262, "sha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020"},
+    {"name": "source-decision-v3.json", "byteLength": 3872, "sha256": "1796363315de98e1866a4648441ccb99da1acfee2dbae66db75d8248a0234950"},
+    {"name": "constructed-function-model-v3.json", "byteLength": 2284, "sha256": "4be761cb6bdd2ee316c8f9446c0a9e702b7c4a6648f5f7bedfbed60d97cb0168"},
+    {"name": "constructed-x86-enumerator-v1.mjs", "byteLength": 16452, "sha256": "2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e"},
+    {"name": "source136.mjs", "byteLength": 23695, "sha256": "26c0c4f987be393645ca7dacf30adf4f161d2b0491cfe48f7a1a1b99e24d7c74"}
+  ],
+  "actualFunctionSequenceWhenSeparatelyCalled": [
+    "Validate exact JSON request, V3 manifest path/pin and explicit scope; refuse existing OWN namespace before source loading",
+    "Stable independent filesystem reads reject symlink/reparse/hardlink aliases and changed dev/ino/size/mtime/ctime across reads. Load actual pinned manifest, three documents, CONTROL file, proof, RAW, D3/Q3 and extractor/source code bytes. Independently read all three actual input files and compare bytes with the independently supplied images.",
+    "Recompute ONLY the pure fixed-recipe enumeration proof against actual RAW/code and compare original proof bytes/ref exactly; do not regenerate source136 or write any source/control/manifest file",
+    "bindExecutionPreparationV1 -> planMission -> exact comparison with retained rootBootstrapSources.planning bytes/value -> sealExecutionEnvelopeV1 -> bindExecutionSourcesV1 -> makeGraphRunV3. Require requested refs/mission/unit to match, exact singleton PENDING unit, zero diagnostics, raw module provenance/x86-32 and templateTTL100. Never suppress diagnostics or replan operative data.",
+    "validateConfig on the bound source configuration before creation. Exclusively mkdir the chosen new namespace and wx its OWN file; record filesystem identities and recheck before each local step. This is not an ACL or sandbox proof: parent must actually own/control the unaliased parent namespace.",
+    "Use Store constructor/create with the exact initial Engine.create/newCycle semantics: validated config, revision0, running MISSION at cycle1/stageexplore, empty candidates/intents/reconciliations, unfrozen fresh cycle. Do not copy the SOURCE mission's frozen/analyse cycle as an operative anchor.",
+    "GraphStore constructor with NO parentAuthority/nativeParentInvocation/provider; then Store.acquireLease exactly once using actual time and explicit owner/duration. Read owner/token/expiry from durable mission row; no expected token argument or inferred token1.",
+    "Call GraphStore.putSnapshot, putPartition, addUnit for the exact retained documents. Read active plan row and require actual absence, then freezePlan with initial CAS version derived from that absence. This initial CAS0 is not a fence. Recheck current controller/file identity before and after every operation.",
+    "GraphStore.transition to READY; read reservationExpectation from actual durable mission/plan/knowledge/binding state; call GraphStore.reserve, never UnitLeaseStore.reserve directly. Read actual family lease and assert both leases and RESERVED state. Do not transition to RUNNING, dispatch or pick worker/account capacity.",
+    "Close writable handles without releasing/renewing claims. Open a separate readonly SQLite connection for a consistent durable readback: exact plan/sidecar/binding, immutable units/digests, selected RESERVED state/revision, actual controller/family fences and both expiry domains, exact canonical claims and existing event digests. Assert zero local outbox/results/commits/publications/native decisions/operations/ordered commands/next-context approvals; these observed local empties do not assert any global native history is absent.",
+    "Return LOCAL_RESERVED_NATIVE_HOLD only on successful final readback while controller is still current at that observation. Otherwise return HOLD with stage/trace, any actually observed leases, created paths and failure; preserve partial state. No deletion, reset, automatic replay, adoption, release, heartbeat or renewal."
+  ],
+  "apiAndImportBoundaries": {
+    "directProjectImports": ["src/store.ts:Store", "src/graph-store.ts:GraphStore", "src/planner.ts:planMission", "src/graph-execution-envelope.ts:pure bind/seal/run/document functions", "src/validation.ts:canonical/hash/fingerprint/exactPath/validateConfig"],
+    "candidateImport": "./constructed-x86-enumerator-v1.mjs only; no source136 builder invocation",
+    "platformImports": ["node:fs for bounded reads and exclusive OWN namespace/file creation inside the function", "node:path", "node:crypto randomUUID for a control witness label, not an origin", "bun:sqlite Database used by this candidate only with readonly:true"],
+    "localWrites": "Only existing Store/GraphStore methods and necessary exclusive namespace/file creation; all application SQL written in this candidate is SELECT only. The readonly transaction is a snapshot read, not an application SQL mutation.",
+    "notImportedOrCalledAsRoutes": ["Engine.fill", "execution/native bridge or transport", "prepareRuntime/startNativeGraph", "submit", "authorizeNativeRoot", "grant", "scientific review/result/publication operations", "permissive host/authority provider"],
+    "noSecondPersistedContract": "No stage-specific database table, scheduler, authority registry or new application event kind. Existing Store/GraphStore journals remain the durable effects; request/control trace/readback are returned DATA only.",
+    "inheritedConstructorBehavior": "Existing GraphStore.openGraphDatabase has bounded SQLITE_BUSY retries (graph-store.ts665-673) and existing5000ms busy timeout. This candidate adds no operation/work retry. SQLite close/checkpoint may naturally finalize or remove its own transient WAL/SHM; no explicit unlink/prune/deletion occurs."
+  },
+  "readbackAndRecoveryLimits": [
+    "Controller/family tokens returned are actual API/row observations. They are historical witnesses, not a promise of continuing validity after return. Future image/permit/prepare must recheck current same owner, tokens, expiry, scope and source refs before any effect.",
+    "Do not call init/create/Engine.attach again on the staged OWN. Store.acquireLease advances the controller fence even for the same owner, invalidating an existing family unless handled by the existing explicit recovery protocol. This function is fresh-create only and cannot resume an existing namespace.",
+    "A failure after any local commit preserves the partial OWN and remaining files as HOLD. Even if reserve returned before a postcheck failed, no ACTIVE/RESERVED success is reported without final durable verification; partial fences may be returned only if actually read.",
+    "Recoverability means parent read-only inspection and explicit reconciliation of the existing state, not re-running this function or silently switching to a new namespace. No state cleanup, lease release, renewal or adoption is implemented.",
+    "Native inventory/canary/costs remain UNKNOWN; grants/origins remain UNKNOWN_HOLD on both success and failure. Canonical OWN claims and modeled worker/account capacity are not physical resource or quota acquisitions.",
+    "Stage program/scope/source hashes and its random witness label do not supply the external native parent receipt109 or authenticate a caller's role; host/native operations remain outside this function and lack a qualifying provider.",
+    "The candidate cannot prove absence of malicious concurrent filesystem changes from metadata alone. Exclusive new namespace, alias/identity checks and parent-owned directory access are required assumptions, not an invented OS permission observation.",
+    "Actual Store/GraphStore prerequisites, resource conflicts, CAS, obsolescence and lease checks remain authoritative. No concrete reservation has been made by the author, and source PASS proofs are not counted as stage PASS."
+  ],
+  "proposedTargetedChecksNotExecuted": [
+    {"case": "positive exact V3 stage in a parent-authorized new namespace", "expected": "Actual GraphStore.reserve/guards produce one RESERVED unit, exact immutable source plan, independently reread controller/family claims/fences and no RUNNING/outbox/native/scientific rows"},
+    {"case": "existing namespace including empty directory/partial OWN", "expected": "HOLD before opening/creating a DB; no adoption/reset/overwrite"},
+    {"case": "symlink/reparse/hardlink alias", "expected": "HOLD on a parent-owned disposable fixture; no source or canonical path is altered for this check"},
+    {"case": "bad manifest pin, wrong expected source/run/plan/mission/unit", "expected": "HOLD before exclusive namespace creation; changing request data is sufficient, do not corrupt frozen canonical bundles"},
+    {"case": "invalid closed fields, filename/traversal or leaseMs0/300001", "expected": "Argument refusal with no namespace/DB creation"},
+    {"case": "actual expiry or owner/CAS/resource change during local steps", "expected": "HOLD with committed partial state preserved and no implicit retry/renewal. Parent must first authorize a controlled fixture/scenario; a short lease alone is not assumed to force deterministic timing, and no fault-injection hook is added."},
+    {"case": "read-only independent readback contradiction/close failure", "expected": "Never LOCAL_RESERVED success; preserve existing state for parent inspection, no retry/reset"},
+    {"case": "repeated call after success or partial failure", "expected": "Existing namespace refusal and no second local initialization or controller reacquisition"}
+  ],
+  "verification": {
+    "candidateAuthor": "Only authorized candidate writes and bounded reads/filesystem metadata SHA256 readbacks",
+    "priorNineCandidateFiles": "Hashes/lengths reread unchanged from delivered V1/V2/V3 candidate pins",
+    "protected18AfterStageModuleWrite": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "ownNamespaceRequestOrDb": "NOT_CREATED_BY_AUTHOR; parent has not chosen the invocation arguments here",
+    "syntaxcheckImportTypecheckTests": "NOT_EXECUTED_BY_AUTHOR",
+    "functionCallOrLocalReservation": "NOT_EXECUTED",
+    "networkGitNativeServiceGrantOrigin": "NONE",
+    "independentReviewAndImpactQA": "PENDING_PARENT_BEFORE_ANY_DB_CREATION",
+    "passClaim": "NONE"
+  }
+}

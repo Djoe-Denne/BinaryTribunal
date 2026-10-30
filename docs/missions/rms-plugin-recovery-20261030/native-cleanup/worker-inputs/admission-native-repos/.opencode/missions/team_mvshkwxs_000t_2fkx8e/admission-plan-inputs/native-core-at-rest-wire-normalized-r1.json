@@ -1,0 +1,37 @@
+{
+  "schema": "rms-owned-at-rest-wire-observation-v1",
+  "provenance": "Parent read-only GET of the retained owned canary after implementation planning; no new session, prompt, wake or mutation",
+  "requestEncoding": "JSON request bodies; Service.headers(existingEndpoint) only in memory. No ensure/start.",
+  "responses": {
+    "sessionGet": {
+      "route": "GET /api/session/{sessionID}",
+      "envelope": "Direct session object, not data wrapper in the observed response",
+      "requiredComparisonFields": ["id", "agent", "model", "title", "metadata", "permissions", "location.directory"],
+      "absentOptionalField": "parentID was omitted; require absent or null, reject any non-null parent",
+      "location": {"directory":"C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8"},
+      "model": {"id":"gpt-6.1-sol","providerID":"openai","variant":"high"},
+      "permissions": [{"action":"*","resource":"*","effect":"deny"}],
+      "otherObservedFields": ["projectID", "cost", "tokens", "time"],
+      "otherFieldsLimit": "Server-managed fields are not an authorization or an executed-model proof. Compare expected request fields exactly with an explicit versioned projection; do not silently ignore unexpected authority-bearing fields."
+    },
+    "inboxGet": {
+      "route": "GET /api/session/{sessionID}/inbox",
+      "envelope": "Direct array",
+      "item": {
+        "id":"msg_rmsq_2783e61535564b3376f5e75d42f954cb",
+        "sessionID":"ses_rmsq_2783e61535564b3376f5e75d42f954cb",
+        "time":{"created":1793278893022},
+        "type":"user",
+        "payload":{
+          "text":"RMS admission-only qualification 2783e61535564b3376f5e75d42f954cb. Retain this queued message without execution.",
+          "metadata":{"rmsQualification":{"executionRequested":false,"nonce":"2783e61535564b3376f5e75d42f954cb"}}
+        },
+        "delivery":"queue"
+      },
+      "comparison": "Exact owned id/sessionID/type/delivery and full expected payload; one retained item observed. resume:false is a request-only control, not a returned proof of quiescence. No files/agents/skills attachments qualified in this first increment."
+    }
+  },
+  "createAndPromptBodiesSource": "native-core-at-rest-r1/plan.json already retained before the original effects; original HTTP200 collision observations remain in result.json",
+  "serverPin": {"version":"2.1.4","pid":38776,"scope":"Observed process instance only; not server-side fencing or source/binary correspondence"},
+  "limits": "Readback shape evidence, not execution qualification. A missing or consumed inbox item is not proof of no admission and never licenses a new identity or wake. No endpoint address, headers or credentials persisted."
+}
