@@ -1,0 +1,368 @@
+{
+  "version": "rms-local-stage-parent-qa-v1",
+  "status": "QA_LOCAL_ONLY_NOT_NATIVE_OWNERSHIP",
+  "request": {
+    "version": "rms-stage-local-reservation-request-v1",
+    "sourceManifestPin": {
+      "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\manifest.json",
+      "byteLength": 2806,
+      "sha256": "34ffa53959bf44e6023071d4f27fb939732c719bf2bad681a1bea1e877410d68"
+    },
+    "expected": {
+      "missionId": "rms-qualification-6356b01f78a79192",
+      "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+      "sourceRequestRef": {
+        "kind": "rms-native-source-request-v1",
+        "encoding": "utf8-json-v1",
+        "byteLength": 1193877,
+        "sha256": "f770df98f94d182172c20b0df96e300d30018cf73b0e541ffc276b385486d749"
+      },
+      "runRef": {
+        "kind": "l8-graph-run-v3",
+        "encoding": "utf8-json-v1",
+        "byteLength": 108302,
+        "sha256": "dec72a8336b30b53a5a2c07af7f7c2b59836bf27814731c772170d8528a1e566"
+      },
+      "planningRef": {
+        "kind": "l8-planning-source-v1",
+        "encoding": "utf8-json-v1",
+        "byteLength": 8848,
+        "sha256": "3cd2e26f66c1ad22ab6c9c778823245073bd574f707c515328af31c5425ad3fc"
+      }
+    },
+    "ownNamespace": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\local-stage-qa-139\\positive",
+    "ownFileName": "qa-own.sqlite",
+    "controllerId": "rms-parent-local-qa-139-not-native-authority",
+    "leaseMs": 300000
+  },
+  "cases": [
+    {
+      "name": "Contradictory source manifest SHA refused before mkdir",
+      "pass": true,
+      "durationMs": 1.7517999999999745
+    },
+    {
+      "name": "Contradictory run reference refused before mkdir",
+      "pass": true,
+      "durationMs": 92.21530000000001
+    },
+    {
+      "name": "Contradictory planning reference refused before mkdir",
+      "pass": true,
+      "durationMs": 85.7217
+    },
+    {
+      "name": "Existing partial namespace refused without adoption or DB creation",
+      "pass": true,
+      "durationMs": 0.9368000000000052
+    },
+    {
+      "name": "Fresh QA DB RESERVED with closed-writer readback and no native effect",
+      "pass": true,
+      "durationMs": 143.5267
+    },
+    {
+      "name": "Second invocation refused without another durable effect",
+      "pass": true,
+      "durationMs": 0.9967000000000326
+    }
+  ],
+  "durationMs": 483,
+  "stageResult": {
+    "status": "LOCAL_RESERVED_NATIVE_HOLD",
+    "ownPath": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\local-stage-qa-139\\positive\\qa-own.sqlite",
+    "namespaceCreated": true,
+    "attribution": {
+      "witnessId": "6f2e1e7b-5687-4348-9360-c90493579766",
+      "pid": 74604,
+      "startedAt": 1793332779844,
+      "meaning": "local control/readback DATA only; native parent invocation and external receipt remain required"
+    },
+    "programRef": {
+      "path": "C:\\Users\\djden\\.local\\share\\opencode\\worktree\\68ae5f\\ensemble-793e3f62-2fkx8e-raccord-native-runtime\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\preparation-candidates\\stage-local-reservation.mjs",
+      "byteLength": 25729,
+      "sha256": "5bbea4d5bd9e88f36bbdbabebcbc8973577fe3d7d8a3c0c1a68f0022d4a09a72"
+    },
+    "scopeRef": {
+      "kind": "rms-stage-local-reservation-scope-DATA-v1",
+      "encoding": "utf8-json-v1",
+      "byteLength": 1262,
+      "sha256": "9b2d49df14dc8b1c4ebf1daacad2c3b98c8a20dd543d08d26617f7055aca4f7c"
+    },
+    "sourceManifestPin": {
+      "byteLength": 2806,
+      "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\manifest.json",
+      "sha256": "34ffa53959bf44e6023071d4f27fb939732c719bf2bad681a1bea1e877410d68"
+    },
+    "runRef": {
+      "kind": "l8-graph-run-v3",
+      "encoding": "utf8-json-v1",
+      "byteLength": 108302,
+      "sha256": "dec72a8336b30b53a5a2c07af7f7c2b59836bf27814731c772170d8528a1e566"
+    },
+    "planningRef": {
+      "kind": "l8-planning-source-v1",
+      "encoding": "utf8-json-v1",
+      "byteLength": 8848,
+      "sha256": "3cd2e26f66c1ad22ab6c9c778823245073bd574f707c515328af31c5425ad3fc"
+    },
+    "durable": {
+      "observedAt": 1793332779987,
+      "missionRevision": 0,
+      "activePlan": {
+        "planId": "plan:2dde05853dfc5dc476112fa839947b1db80b11c223a3ba95360e3e356e5bf924",
+        "revision": 1,
+        "bindingFingerprint": "f83294e261dc55b3af9933dc63969f901746d4903d7543da5962b06a2e1385b0"
+      },
+      "selectedUnit": {
+        "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+        "revision": 2,
+        "state": "RESERVED",
+        "immutableDigest": "46514bbedc224cdb97db739b04fc9f785da9b64f6e423720672b92ac239cb2db"
+      },
+      "controller": {
+        "missionId": "rms-qualification-6356b01f78a79192",
+        "owner": "rms-parent-local-qa-139-not-native-authority",
+        "token": 1,
+        "expiresAt": 1793333079959
+      },
+      "family": {
+        "missionId": "rms-qualification-6356b01f78a79192",
+        "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+        "owner": "rms-parent-local-qa-139-not-native-authority",
+        "token": 1,
+        "expiresAtEvent": 106,
+        "state": "active",
+        "resourceKeys": [
+          "fn:6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020:0x100"
+        ]
+      },
+      "eventCursor": {
+        "sequence": 7,
+        "time": 1793332779977
+      },
+      "events": [
+        {
+          "sequence": 1,
+          "time": 1793332779961,
+          "key": "snapshot:qualification-snapshot:6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020",
+          "kind": "snapshot_stored",
+          "unitId": null,
+          "digest": "8349c98462783fc4ef210e7017f7d7c66bd9daead0952b09c5a1477d09c398a2"
+        },
+        {
+          "sequence": 2,
+          "time": 1793332779964,
+          "key": "partition:05d2a3a40b9d52ca9c86ad1b0d0bbb28a9e895e98f64ea382223537e1ccb64d8",
+          "kind": "partition_stored",
+          "unitId": null,
+          "digest": "b05d5f6151b96778f1a843a1058a28a7c1645c58eb94cbecffacb34ec06ec358"
+        },
+        {
+          "sequence": 3,
+          "time": 1793332779967,
+          "key": "unit:unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+          "kind": "unit_added",
+          "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+          "digest": "1175075c869cce501db98605008936e2a87f7c824dfdb5c37fe3e3ebcc722837"
+        },
+        {
+          "sequence": 4,
+          "time": 1793332779970,
+          "key": "plan:1",
+          "kind": "plan_frozen",
+          "unitId": null,
+          "digest": "f4f156db57a3f777c6463a48f0c36637d1546cd02edecea0a8b879b51cd7a5d7"
+        },
+        {
+          "sequence": 5,
+          "time": 1793332779973,
+          "key": "state:unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6:1",
+          "kind": "unit_state",
+          "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+          "digest": "046c7d755b249f543044fee208ff8990fe596b4b168565f4a8b19737849736b6"
+        },
+        {
+          "sequence": 6,
+          "time": 1793332779977,
+          "key": "reserve:unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6:1",
+          "kind": "unit_reserved",
+          "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+          "digest": "6c5d749dd66b808bc1b6c3844ad1d19a9883996215403a9ea0faab6741afc480"
+        },
+        {
+          "sequence": 7,
+          "time": 1793332779977,
+          "key": "state:unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6:2",
+          "kind": "unit_state",
+          "unitId": "unit:876984f7c0e390b2a036443bb2382b61630b8d089cf4597bc5b16e20e851c4e6",
+          "digest": "680edfa119851951a98ad1f14a6ba758702af83cea30f7d19d81da64b22017a1"
+        }
+      ]
+    },
+    "sourceReadbacks": [
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\manifest.json",
+        "byteLength": 2806,
+        "sha256": "34ffa53959bf44e6023071d4f27fb939732c719bf2bad681a1bea1e877410d68"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\body.json",
+        "byteLength": 90295,
+        "sha256": "a0c0fc15c978805ecd1ea1fd2ef6b31213870c99e16af21ccbde771f57d98954"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\independentSources.json",
+        "byteLength": 1111629,
+        "sha256": "ecc2dc41590c91aa1a2fe78f92dce155b5f9b8afcb49c49719f115fd31eedc32"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\policy.json",
+        "byteLength": 2049,
+        "sha256": "512ffe0f4e0dc760a334f67354f1878235c7f5a91d3a7b262743de47325fb1fd"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-bundle-v3\\enumeration-proof.json",
+        "byteLength": 4062,
+        "sha256": "ef9fa7e6ffd248b82836ef7878d26f166340f868b6df1e385c1a68cdf894df46"
+      },
+      {
+        "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/activation-policy.json",
+        "byteLength": 241,
+        "sha256": "383dea01785ba607507b276eebf796c6b95c540b81d472eeb053e3e99c896fa6"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\source-decision-v3.json",
+        "byteLength": 3872,
+        "sha256": "1796363315de98e1866a4648441ccb99da1acfee2dbae66db75d8248a0234950"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\constructed-function-model-v3.json",
+        "byteLength": 2284,
+        "sha256": "4be761cb6bdd2ee316c8f9446c0a9e702b7c4a6648f5f7bedfbed60d97cb0168"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\native-preparation-136\\constructed-x86-32.bin",
+        "byteLength": 262,
+        "sha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020"
+      },
+      {
+        "path": "C:\\Users\\djden\\.local\\share\\opencode\\worktree\\68ae5f\\ensemble-793e3f62-2fkx8e-raccord-native-runtime\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\preparation-candidates\\constructed-x86-enumerator-v1.mjs",
+        "byteLength": 16452,
+        "sha256": "2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e"
+      },
+      {
+        "path": "C:\\Users\\djden\\.local\\share\\opencode\\worktree\\68ae5f\\ensemble-793e3f62-2fkx8e-raccord-native-runtime\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\preparation-candidates\\constructed-x86-enumerator-v1.mjs",
+        "byteLength": 16452,
+        "sha256": "2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e"
+      },
+      {
+        "path": "C:\\Users\\djden\\.local\\share\\opencode\\worktree\\68ae5f\\ensemble-793e3f62-2fkx8e-raccord-native-runtime\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\preparation-candidates\\source136.mjs",
+        "byteLength": 23695,
+        "sha256": "26c0c4f987be393645ca7dacf30adf4f161d2b0491cfe48f7a1a1b99e24d7c74"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\reports\\94-contrat-natif-ratifie-autorite-et-qualification-bornees.md",
+        "byteLength": 10777,
+        "sha256": "e9a20652bb5f0075595bdeb3e5edd9a0de69a97246c928ceb8520b513960f00d"
+      },
+      {
+        "path": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\reports\\107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive.md",
+        "byteLength": 3224,
+        "sha256": "d34f372d31e2c21174aef4c96f3e22eab67f2981edd39d6bb554eec522e9da46"
+      },
+      {
+        "path": "C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/activation-policy.json",
+        "byteLength": 241,
+        "sha256": "383dea01785ba607507b276eebf796c6b95c540b81d472eeb053e3e99c896fa6"
+      }
+    ],
+    "trace": [
+      {
+        "at": 1793332779932,
+        "step": "reload-v3-sources",
+        "event": "all pinned sources/proof/real inputs validated before namespace creation"
+      },
+      {
+        "at": 1793332779934,
+        "step": "exclusive-local-create",
+        "event": "exclusive namespace and empty OWN file created; failure must preserve both"
+      },
+      {
+        "at": 1793332779962,
+        "step": "put-snapshot",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779963,
+        "step": "put-snapshot",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779965,
+        "step": "put-partition",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779966,
+        "step": "put-partition",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779968,
+        "step": "add-unit",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779969,
+        "step": "add-unit",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779971,
+        "step": "freeze-exact-plan",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779972,
+        "step": "freeze-exact-plan",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779974,
+        "step": "transition-ready",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779974,
+        "step": "transition-ready",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779979,
+        "step": "reserve-existing-api",
+        "event": "local API returned; current controller recheck pending"
+      },
+      {
+        "at": 1793332779980,
+        "step": "reserve-existing-api",
+        "event": "current controller rechecked without renewal"
+      },
+      {
+        "at": 1793332779987,
+        "step": "close-writers-and-independent-durable-readback",
+        "event": "independent readonly durable readback completed"
+      }
+    ],
+    "nativeInventory": "UNKNOWN",
+    "nativeCanary": "UNKNOWN",
+    "nativeCosts": "UNKNOWN",
+    "nativeGrants": "UNKNOWN_HOLD",
+    "nativeOrigins": "UNKNOWN_HOLD",
+    "resourcesMeaning": "Only canonical OWN family claims; no physical worker/account/resource allocation or scientific/native effect",
+    "externalParentReceipt": "REQUIRED_NOT_SUPPLIED_BY_THIS_DATA"
+  },
+  "nativeActions": 0,
+  "adoptAsOperationalOwner": false,
+  "automaticRetry": false
+}

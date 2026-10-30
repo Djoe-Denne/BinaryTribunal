@@ -1,0 +1,23 @@
+﻿{
+    "name":  "projection-eventlog-r3",
+    "candidateManifest":  "projection-r3-manifest.json",
+    "arguments":  [
+                      "--no-env-file",
+                      "--config=./bunfig.integration.toml",
+                      "test",
+                      "./test/eventlog.test.ts",
+                      "--test-name-pattern",
+                      "(?:imported OWN6 zero unit fails common projection, reserve and primitive without acquiring claims, also after reopen|v1 additive upgrade and reopen do not erase own rows|v[1-5] to v7 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it|v3 to v6 additive reopen preserves own facts/harness v1; legacy level2 boolean cannot satisfy)$",
+                      "--timeout",
+                      "15000",
+                      "--max-concurrency=1"
+                  ],
+    "exitCode":  0,
+    "elapsedMs":  535,
+    "externalToolTimeoutMs":  15000,
+    "temporaryRoot":  "C:/Users/djden/AppData/Local/Temp/opencode/rms-projection-eventlog-r3",
+    "cleanupScope":  "Existing afterEach removes only own newly-created fixture files/directories",
+    "stdoutSha256":  "ba1fe21de0f3cd99530c446be9b6e1fc8205c0dbf7ea4771c6b53bdd6a3eee48",
+    "stderrSha256":  "dc957f1bafd4e44a2b1545148f6f46cbe4ca214c768178d6b50bff51b3e8fc5d",
+    "scope":  "Only eight filtered historical schema expectations; not next-context core, full eventlog suite, subprocess tests or scientific campaign"
+}

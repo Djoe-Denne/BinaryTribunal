@@ -1,0 +1,23 @@
+{
+  "candidate": "b3712d6bf2e5b5628833a9c90a50581a76a4a67e",
+  "previousCandidate": "941524f645c437fabf87a993c5b9230f3cfff75a",
+  "manifestSha256": "18fdb37abbde9ac674865d1f957d2f1e5f4e253ba91aafd427c2bbe7e0e2f533",
+  "manifest": { "headMatched": true, "matched": 18, "total": 18 },
+  "deltaInspection": "Only assertExecutionJsonV1 added to existing graph-execution-envelope import; validation preserved",
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3627 },
+  "selection": { "pattern": "^RMSN-", "timeoutMsPerTest": 600000, "globalSuite": false, "serial": true },
+  "tests": [
+    { "file": "test/runtime-binding.test.ts", "exit": 0, "pass": 4, "fail": 0, "assertions": 26, "durationMs": 65, "maxCaseMs": 1.87 },
+    { "file": "test/client.test.ts", "exit": 0, "pass": 47, "fail": 0, "assertions": 695, "durationMs": 47685, "maxCaseMs": 4418.15 },
+    { "file": "test/eventlog.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 109, "maxCaseMs": 36.69 },
+    { "file": "test/graph-integration/native-observations.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 41, "maxCaseMs": 0.58 },
+    { "file": "test/graph-integration/engine.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 77, "maxCaseMs": 27.64 },
+    { "file": "test/graph-integration/recovery.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 87, "maxCaseMs": 31.5 }
+  ],
+  "totals": { "pass": 57, "fail": 0, "assertions": 741 },
+  "inspection": "Client test diff examined; new tests use explicit OFFLINE capability and fake HTTP. Top-level AST checked: no I/O on module import; client direct-run guarded by import.meta.main. No direct-run command executed.",
+  "independentReview": { "task": "task_mvu6mms5_0002_se5o0n", "session": "ses_e75fa2316ffejmh7CR3TqMAkht", "modelRef": { "providerID": "openai", "id": "gpt-6.1-sol", "variant": "xhigh" }, "status": "in-progress", "scope": "new host composition boundary only" },
+  "filteredCountAsPass": false,
+  "nativeExecution": false,
+  "acceptance": false
+}

@@ -1,0 +1,59 @@
+{
+  "version": "rms-constructed-x86-function-model-v3",
+  "fixture": true,
+  "admissibleAsOracle": false,
+  "generatedCodeExecuted": false,
+  "nativeAuthority": "NONE",
+  "decision": {
+    "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/source-decision-v3.json",
+    "sha256": "1796363315de98e1866a4648441ccb99da1acfee2dbae66db75d8248a0234950"
+  },
+  "module": {
+    "targetArchitecture": "x86-32",
+    "modeProvenance": "Explicit target of parent construction recipe; bytes are not claimed to decode exclusively in this mode",
+    "format": "unknown",
+    "rawPath": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/constructed-x86-32.bin",
+    "rawByteLength": 262,
+    "rawSha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020",
+    "versionLabel": "rms-qualification-x86-fixture-v3",
+    "moduleName": "rms-constructed-x86-32-fixture",
+    "imageBase": 268435456,
+    "offsetToRva": "identity",
+    "segments": [
+      { "kind": "reserved-non-function-data", "fileOffset": 0, "byteLength": 256, "fillHex": "00" },
+      { "kind": "function-code", "fileOffset": 256, "byteLength": 6, "hex": "b800000000c3" }
+    ]
+  },
+  "functions": [
+    {
+      "id": "fixtureReturnZero",
+      "name": "fixtureReturnZero",
+      "rva": 256,
+      "parts": [
+        {
+          "id": "entry",
+          "ordinal": 0,
+          "role": "entry",
+          "rva": 256,
+          "endRvaExclusive": 262,
+          "instructions": [
+            { "fileOffset": 256, "byteLength": 5, "hex": "b800000000", "decodedInTargetMode": "mov eax, 0" },
+            { "fileOffset": 261, "byteLength": 1, "hex": "c3", "decodedInTargetMode": "ret" }
+          ],
+          "successors": []
+        }
+      ],
+      "tails": [],
+      "relations": []
+    }
+  ],
+  "closure": {
+    "functions": "exact-listed-universe",
+    "parts": "exact-listed-universe",
+    "tails": "exact-listed-universe",
+    "relations": "exact-listed-universe",
+    "instructions": "exact-listed-universe-within-function-spans",
+    "externalPartsAllowed": false
+  },
+  "qualificationMeaning": "The fixture function is a return-zero stub. The separate worker prompt is an acknowledgement of supplied contracts, not a semantic analysis or an execution of this stub."
+}

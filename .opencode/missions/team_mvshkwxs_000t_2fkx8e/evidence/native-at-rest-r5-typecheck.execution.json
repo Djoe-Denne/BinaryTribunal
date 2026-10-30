@@ -1,0 +1,23 @@
+{
+  "schema": "rms-at-rest-offline-qa-v1",
+  "pin": "6272a6de60c6b7d673aa352a8a6f3bc8f22d600c",
+  "label": "typecheck",
+  "args": [
+    "--no-env-file",
+    "--config=./bunfig.integration.toml",
+    "run",
+    "typecheck"
+  ],
+  "exitCode": 2,
+  "signal": null,
+  "error": null,
+  "elapsedMs": 3400,
+  "perTestTimeoutMs": null,
+  "stdoutSha256": "45ac1bcc16d8fd11e5a42c006fb3384822f2d3adb383426329db8b5136acedeb",
+  "stderrSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+  "sourceDrift": [],
+  "summary": [
+    "test/graph-integration/native-at-rest.test.ts(192,62): error TS2345: Argument of type '(input: any, init?: RequestInit) => Promise<Response>' is not assignable to parameter of type 'typeof fetch'."
+  ],
+  "nativeCallRequested": false
+}

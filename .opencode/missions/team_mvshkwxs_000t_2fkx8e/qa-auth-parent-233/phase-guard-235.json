@@ -1,0 +1,60 @@
+{
+    "version":  "rms-auth-parent-235-parameter-only-check-v1",
+    "sourceSha256":  "74a3bf8bf096943544a39e2ecd55b3614ea0e742acdff6a9ed2518e6996c0d1b",
+    "sourcePinRecheckedAfter":  true,
+    "parseErrors":  0,
+    "parseDurationMs":  6,
+    "probeDurationMs":  23,
+    "cases":  [
+                  {
+                      "phase":  "Prepare",
+                      "accepted":  true,
+                      "errorType":  null,
+                      "matched":  true,
+                      "expectedAccepted":  true
+                  },
+                  {
+                      "phase":  "Connect",
+                      "accepted":  true,
+                      "errorType":  null,
+                      "matched":  true,
+                      "expectedAccepted":  true
+                  },
+                  {
+                      "phase":  "prepare",
+                      "accepted":  false,
+                      "errorType":  "System.Management.Automation.ParameterBindingValidationException",
+                      "matched":  true,
+                      "expectedAccepted":  false
+                  },
+                  {
+                      "phase":  "connect",
+                      "accepted":  false,
+                      "errorType":  "System.Management.Automation.ParameterBindingValidationException",
+                      "matched":  true,
+                      "expectedAccepted":  false
+                  },
+                  {
+                      "phase":  "PREPARE",
+                      "accepted":  false,
+                      "errorType":  "System.Management.Automation.ParameterBindingValidationException",
+                      "matched":  true,
+                      "expectedAccepted":  false
+                  },
+                  {
+                      "phase":  "Unknown",
+                      "accepted":  false,
+                      "errorType":  "System.Management.Automation.ParameterBindingValidationException",
+                      "matched":  true,
+                      "expectedAccepted":  false
+                  }
+              ],
+    "waitCallCount":  5,
+    "waitsHaveOneExplicitArgument":  true,
+    "parameterValidationEvaluated":  true,
+    "candidateBodyEvaluated":  false,
+    "databaseOpened":  false,
+    "aclChanged":  false,
+    "processStarted":  false,
+    "oauthRequested":  false
+}

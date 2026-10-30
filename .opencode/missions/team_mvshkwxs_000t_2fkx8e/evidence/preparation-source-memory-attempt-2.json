@@ -1,0 +1,15 @@
+{
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "sourceCandidate": { "bytes": 20658, "sha256": "38fe5ba66b2aba76bd62271e2dd26161728f34b2656a7b2ed63b40152c3a9ca2", "matched": true },
+  "manifest": { "bytes": 19061, "sha256": "fb3f4efa00a5dbbb6493f55c97c5938f22174a164dfbf3d280ca780ad9166ce1", "matched": true },
+  "deltaProof": "Restoring exactly the original coverage line in memory reproduces the original source83aace SHA; assemble script unchanged",
+  "syntax": { "sourceAndRunner": "node --check exit0, without evaluation" },
+  "execution": { "command": "bun check-source-memory.mjs", "exit": 1, "durationMs": 149, "internalDurationMs": 108, "status": "PREPARATION_REFUSED", "message": "planner: new admission policy version required (maximum 32 UTF-16 code units)" },
+  "parentCorroboration": "graph-pure-codecs.ts:371,414-432 requires complete-admission-cap-v1: prefix and nonempty suffix, at most32 UTF16 code units",
+  "correctionAuthorized": "policy.version only: complete-admission-cap-v1:q122; no budget/guard/product changes",
+  "operationalFilesWritten": 0,
+  "databaseOpened": false,
+  "nativeSessionCreated": false,
+  "nativeGrantIssued": false,
+  "acceptance": false
+}

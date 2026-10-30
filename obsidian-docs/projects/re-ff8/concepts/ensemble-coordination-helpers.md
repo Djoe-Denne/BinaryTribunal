@@ -6,6 +6,8 @@ category: concept
 tags: [reverse-engineering, testing, concept]
 aliases: [coordination helpers, wake coalescing, preparation binding, coordination guide]
 sources:
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/evidence/execution-provenance.json
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/REPRISE_MISSION.md
   - obsidian-docs/_raw/coordination-maintenance-20261014/session-record.md
   - tools/ff8-harness/docs/COORDINATION_FIX_20261014.md
   - tools/ff8-harness/docs/COORDINATION_HELPERS.md
@@ -14,8 +16,8 @@ sources:
   - .opencode/missions/team_mvnxgnse_0000_39vpc8/reports/181-historique-ensemble-messages-recuperation.md
 summary: Maintenance historique Ensemble du 14 octobre et leçons M1 ; la récupération native et le réveil du superviseur vérifiés le 28 octobre complètent ces garanties.
 provenance:
-  extracted: 0.78
-  inferred: 0.19
+  extracted: 0.80
+  inferred: 0.17
   ambiguous: 0.03
 created: 2026-10-15
 updated: 2026-10-28
@@ -25,6 +27,8 @@ updated: 2026-10-28
 
 > [!important] Portée historique
 > Les mécanismes ci-dessous décrivent la maintenance du 14 octobre. Pour le paquet actif vérifié le 28 octobre et l'incident M2, voir [[projects/re-ff8/skills/recuperer-un-resultat-opencode-manquant|récupération avant remplacement]] et [[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028|archive M2]]. Un rapport structuré n'est plus la seule voie possible de récupération : une réponse finale native peut être conservée comme candidat, sans acceptation automatique.
+
+Le [[projects/re-ff8/references/rms-documentation-cloture-20261028|dossier documentaire du 28 octobre]] ajoute six récupérations natives réussies après notification sans finale récupérable, sans diagnostic de leur cause. La [[projects/re-ff8/skills/reconcilier-file-mission-ensemble|réconciliation des files]] distingue préparation, publication de tâche et publication scientifique. La délégation long run consignée dans les notes de mission permet les décisions opérationnelles nécessaires dans le mandat, mais ne change ni permissions, modèle/QA ni phase documentaire.
 
 Décisions d'architecture nées de la [[projects/re-ff8/references/ensemble-coordination-maintenance-2026-10-14|maintenance du 2026-10-14]],
 implémentées dans le plugin `20261014-coordination-three-0b4e7444042b` et les

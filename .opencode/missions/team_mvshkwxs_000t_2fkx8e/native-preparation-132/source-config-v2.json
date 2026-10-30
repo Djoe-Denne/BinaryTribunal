@@ -1,0 +1,39 @@
+{
+  "repoRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "outputDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/source-output",
+  "activationRulePath": "C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/activation-policy.json",
+  "roleLabel": "qualification-openai-sol-high",
+  "template": {
+    "version": "l8-execution-template-v1",
+    "settings": {
+      "profiles": { "A": "general", "B": "general", "R": "general" },
+      "maxConcurrent": 1,
+      "familyTtlEvents": 100,
+      "maxAdmissionAttempts": 1,
+      "retryDelayMs": 0
+    },
+    "workers": [
+      {
+        "workerId": "source-fixture-worker-model",
+        "profile": "general",
+        "model": "qualification-openai-sol-high",
+        "tools": [],
+        "accountId": "source-fixture-account-model",
+        "slots": 1,
+        "cpu": 1,
+        "gpu": 0,
+        "budget": 786432,
+        "available": true
+      }
+    ],
+    "accounts": [{ "accountId": "source-fixture-account-model", "slots": 1, "budget": 786432 }]
+  },
+  "lifecycle": {
+    "evaluation": { "method": "declared-fixture-model-only", "version": "qualification-source-v1", "maxDifficulty": 100 },
+    "maxCycles": 1,
+    "stagnationLimit": 1,
+    "retryPolicy": { "maxAttempts": 1, "retryDelayMs": 0, "fixtureSynthetic": true }
+  },
+  "scc": { "maxFunctions": 1, "maxIterations": 1, "costBudget": 1 },
+  "activation": { "maxActivationAttempts": 1, "maxCandidateReplacements": 0 }
+}

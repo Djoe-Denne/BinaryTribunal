@@ -1,0 +1,23 @@
+{
+  "candidate": "d7306fb430cd1740c543d0b4c9cb2886369bbc97",
+  "manifestSha256": "0d19e175c841c84286a1d2a428410997e2c2235b2046988494a4152adc0280b0",
+  "headMatched": true,
+  "manifestMatched": 18,
+  "manifestTotal": 18,
+  "deltaInspected": "Two native callers now pass actual authority; private assertDurableAdmission wrapper checks current authority around preserved pure historical leaves. Not a type-only delta and not covered by r11 review.",
+  "command": "bun run typecheck",
+  "exit": 2,
+  "durationMs": 3723,
+  "diagnostics": [
+    { "file": "src/graph-store.ts", "line": 2204, "column": 26, "code": "TS18046", "message": "planning is unknown" },
+    { "file": "src/graph-store.ts", "line": 2204, "column": 49, "code": "TS7006", "message": "u implicitly any" },
+    { "file": "src/graph-store.ts", "line": 2204, "column": 73, "code": "TS7006", "message": "s implicitly any" },
+    { "file": "src/graph-store.ts", "line": 2216, "column": 100, "code": "TS18046", "message": "spec is unknown" },
+    { "file": "src/graph-store.ts", "line": 2217, "column": 39, "code": "TS18046", "message": "template is unknown" },
+    { "file": "src/graph-store.ts", "line": 2355, "column": 48, "code": "TS2345", "message": "expected may be undefined" }
+  ],
+  "testsExecuted": false,
+  "nativeExecution": false,
+  "acceptance": false,
+  "next": "Keep this functional candidate fixed; exact contract types and explicit expected-presence guard only, then independent delta review and QA on final pin"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "rms-native-source-qualification-v1",
+  "observation": "GET existing service /api/plugin with location[directory] set to the current canonical project; no startup or reload",
+  "location": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "plugin": {
+    "id": "ensemble",
+    "status": "active",
+    "server": true,
+    "sourceType": "local",
+    "entry": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261028-longrun-no-pm-timeout-ae4ed85a4709/index.js",
+    "packageName": "@hueyexe/opencode-ensemble-local",
+    "packageVersion": "0.19.0-local.20261028.longrun.shaae4ed85a4709"
+  },
+  "observedFiles": [
+    {"file":"package.json","bytes":182,"sha256":"17811673592f47f7a22b8e289bf7d4ad99a80372855c0a6cc428adf39f941859","mtimeMs":1793215342450.9636},
+    {"file":"index.js","bytes":1553581,"sha256":"ae4ed85a4709b8dbf371c950b589cdb1c8e5eae2e9c859eec71cf46cad74e57e","mtimeMs":1793215196468.285}
+  ],
+  "access": "Ordinary read tool successfully read package.json and the actual entry file; no new denial encountered by parent, no fallback after a denial. Prior worker refusal remains historical.",
+  "sourceFindings": {
+    "rpcDefinition": {"file":"index.js","lines":"19679-19731","id":"ensemble","methods":["summary","teamContext"]},
+    "rpcRegistration": {"file":"index.js","lines":"22707-22729","definition":"EnsembleRpc","handlers":["summary","teamContext"]},
+    "expectedByRms": {"file":"tools/ff8-harness/src/client.ts","lines":"109-110,242","rpcID":"ensemble.execution.v1","methods":["capabilities","ensureTeam","submit","snapshot","control","stop","inspect","bulletinSnapshot","replay"]},
+    "exactSearchOfEntryForExpectedNamespace": "No match for ensemble.execution.v1"
+  },
+  "scope": "Active plugin source path and present source-file hashes, with static RPC definition/registration. This is not proof of execution, effective worker rights or terminality.",
+  "limits": "Not a universal claim that no other provider registers the namespace. Current file hash is not a byte-exact dump of the running module. No execution RPC or negative admission probe called; no credentials/config persisted; no global changes."
+}

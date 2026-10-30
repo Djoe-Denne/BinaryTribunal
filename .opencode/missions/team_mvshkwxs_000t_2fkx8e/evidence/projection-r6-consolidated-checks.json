@@ -1,0 +1,40 @@
+{
+  "schema": "rms-projection-consolidated-checks-v1",
+  "candidateHead": "5a9845e2f7b7cf4778a0f8399a0ea3c2adc3296f",
+  "candidateManifest": "projection-r6-manifest.json",
+  "manifestSha256": "2c2fd2893e6b8482eb17cd774c5108ba1a52a17f001078d86840336ca9689545",
+  "sourceFilesCompared": 365,
+  "dependenciesCompared": 3493,
+  "changesSinceReviewedR5": "Only 27 explicit test timeout annotations, independently reversed textually to reproduce the two exact prior files",
+  "perTestTimeoutMs": 600000,
+  "projectionChecks": [
+    {"receipt":"projection-core-ten-minutes-r6.execution.json","pass":1,"fail":0,"assertions":66,"processMs":183105},
+    {"receipt":"projection-union-ten-minutes-r6.execution.json","pass":1,"fail":0,"assertions":44,"processMs":232456},
+    {"receipt":"projection-remaining-ten-minutes-r6.execution.json","pass":45,"fail":0,"assertions":295,"processMs":1354758,"filteredOut":2,"filterReason":"The core and union scenarios already executed independently on the exact same candidate"}
+  ],
+  "distinctProjectionTests": 47,
+  "projectionAssertions": 405,
+  "projectionFail": 0,
+  "projectionProcessMsTotal": 1770319,
+  "sourceDriftAfterChecks": [],
+  "otherChecks": [
+    {"receipt":"projection-typecheck-r6.execution.json","exitCode":0,"processMs":3977},
+    {"receipt":"projection-q1-r6.execution.json","pass":55,"fail":0,"assertions":125,"processMs":58}
+  ],
+  "reusedUnaffectedEvidence": [
+    {"receipt":"projection-fence-green-r5.execution.json","scope":"Same production and exact test assertions; r6 changes only that test's timeout annotation"},
+    {"receipt":"projection-dispatch-regression-r5.execution.json","scope":"Two fake-client dispatch cases unchanged, same production"},
+    {"receipt":"projection-eventlog-r3.execution.json","scope":"Eight schema compatibility cases unchanged since r3; no intervening schema changes"},
+    {"file":"ses_e7b0a03a5ffe7KDo96BY6HC38n-native-finals-bundle-r5.json","scope":"Independent fresh source review and targeted correction review; code unchanged in r6"}
+  ],
+  "durationLimits": "Exact individual process durations are available for core and union; the remaining 45-case capture reports only aggregate duration, not individual cases. No hidden per-case measurements or extra reruns are claimed.",
+  "fixtureRegistrySnapshot": "projection-fixtures-r6.snapshot.jsonl",
+  "fixtureRegistrySnapshotSha256": "14e385c31638ae62363ef82eab2916a0dc992b580cededed2dee4d95aad7651d",
+  "registryTotalsIncludingPriorPartialAttempts": {"reserved":109,"closedAndPinned":49,"pinsReportingOpenWalShm":0},
+  "premergeReceipt": "premerge-projection-r6.json",
+  "preexistingParentChangesPinned": 11,
+  "independentEvidenceConsolidation": {"verdict":"Favorable within offline projection scope; no remaining blocker identified","file":"ses_e7b0a03a5ffe7KDo96BY6HC38n-native-finals-bundle-r6.json","messageID":"msg_186da3fa00016bU0HvejcUPp5P","textSha256":"37ebb5ddf62509a6d026e6efa9b3aae3e7649e647a3a24bbbaeaaeec1c0a0022","model":{"providerID":"openai","id":"gpt-6.1-sol","variant":"high"}},
+  "fullRepositorySuiteExecuted": false,
+  "nativeProof": false,
+  "limits": "Offline GraphRunV2 projection only. V3 projection binding, native rights/handler/terminality, explicit historical stops and full M2/D5/L9/L10 acceptance remain distinct."
+}

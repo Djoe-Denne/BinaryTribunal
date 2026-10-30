@@ -1,0 +1,20 @@
+﻿{
+    "name":  "publication-vertical-v2-r1",
+    "candidateManifest":  "publication-r1-manifest.json",
+    "arguments":  [
+                      "--no-env-file",
+                      "--config=./bunfig.integration.toml",
+                      "test",
+                      "./test/graph-integration/engine.test.ts",
+                      "--test-name-pattern",
+                      "complete A[+]B -\u003e exact R -\u003e attestation/validation/publication/readback$",
+                      "--timeout",
+                      "15000",
+                      "--max-concurrency=1"
+                  ],
+    "exitCode":  0,
+    "elapsedMs":  1214,
+    "stdoutSha256":  "bbe2f106e1fc04f581c50a41eeb3d6e58b716883f37cdf3877fedd268e3fffa4",
+    "stderrSha256":  "ba7d25a11a185de8d481b484f26050723a9374201d50273d3bc86bc91bdc1790",
+    "scope":  "Filtered historical offline publication boundary regression only; no full file/campaign, native RPC or threads"
+}

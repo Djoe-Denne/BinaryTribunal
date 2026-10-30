@@ -1,0 +1,37 @@
+{
+  "schema": "rms-final-normal-replacement-validation-v1",
+  "candidateCommit": "05c3c5321a3f9f4ced1f7e8d9106027d1dea59d9",
+  "sourceManifest": "projection-r6-manifest.json",
+  "selection": "invariants",
+  "selectionScope": "9 existing normal test(s), no diagnostic test or fourth origin/thread cases",
+  "args": [
+    "--no-env-file",
+    "--config=./bunfig.integration.toml",
+    "test",
+    "./test/s2-author/replacement.test.ts",
+    "--test-name-pattern",
+    "^replacement (?:stage charges origin3 without pointing/authorizing it and preserves the full active root|staged reopen retains OLD and cannot reserve/admit NEW or select latest on load|exact preparation lost reply retries for free at ceiling3|exact CAS lost reply and reopen replay one immutable result without recharge|(?:prepare|swap) postappend LIVE revocation rolls back the whole transaction|(?:prepare|swap) TTL equality after its real append is forbidden and rolls back|preserves actual engaged family and root encumbrance and refuses final while Q is incomplete)$",
+    "--timeout",
+    "600000",
+    "--max-concurrency=1",
+    "--bail",
+    "1"
+  ],
+  "perTestTimeoutMs": 600000,
+  "processTimeoutMs": 5450000,
+  "exitCode": 0,
+  "signal": null,
+  "error": null,
+  "elapsedMs": 73242,
+  "summary": [
+    "9 pass",
+    "0 fail",
+    "54 expect() calls",
+    "Ran 9 tests across 1 file. [73.12s]"
+  ],
+  "stdoutSha256": "6043908c8d26d62698476b88f737f39d5d3e91008d4155a81730902f5a37479c",
+  "stderrSha256": "77dc1b3b426b143e9d01848d2268a2dc55d35b1caf324777a3d5bed804103959",
+  "sourceDrift": [],
+  "ownedResourcesRetained": true,
+  "nativeProof": false
+}

@@ -1,0 +1,28 @@
+{
+  "candidate": "1306705da2e98deccdb75db0aaba8461a29a1b4c",
+  "manifestSha256": "e46703c65c24c2fc2e788a2da0a7d90d98d8076f41ec518dd91b1910a53dc582",
+  "manifest": { "headMatched": true, "matched": 18, "total": 18 },
+  "delta": "Only explicit model/profile and expected-observation type guards in client test; production unchanged from f0a74bd",
+  "typecheck": { "exit": 0, "durationMs": 3956, "command": "bun run typecheck" },
+  "selection": { "pattern": "^RMSN-", "timeoutMsPerTest": 600000, "serial": true, "globalSuite": false },
+  "tests": [
+    { "file": "test/runtime-binding.test.ts", "exit": 0, "pass": 4, "fail": 0, "assertions": 26, "durationMs": 58, "maxCaseMs": 1.5 },
+    { "file": "test/client.test.ts", "exit": 1, "pass": 55, "fail": 2, "assertions": 805, "durationMs": 52255, "maxCaseMs": 4296.7 },
+    { "file": "test/eventlog.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 104, "maxCaseMs": 35.72 },
+    { "file": "test/graph-integration/native-observations.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 44, "maxCaseMs": 0.59 },
+    { "file": "test/graph-integration/engine.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 78, "maxCaseMs": 28.3 },
+    { "file": "test/graph-integration/recovery.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 81, "maxCaseMs": 29.39 }
+  ],
+  "totals": { "pass": 65, "fail": 2, "assertions": 851 },
+  "failures": {
+    "cases": ["acquisition expiry during authenticated await refuses effect before IO", "acquisition expiry during authenticated await refuses physical-observation before IO"],
+    "actualBoundary": "s.start fails before expected await scenario",
+    "error": "native local acquisition/permit expired or revoked",
+    "parentCorroboratedPath": "prepareNativeRuntimeV1:1205 -> assertDurableAdmission:2310 constructs now0 historical authority -> assertNextContextInputs:2181 nativePreparing -> nativeRuntimeHost:1145 -> issuedAt<=now:1135"
+  },
+  "independentStaticReview": { "candidate": "result_mvu7bwns_0000_zf2do8", "message": "msg_18a176506001ywyz56S6D6Zran", "outcome": "scoped-favorable-before-new-QA-result", "newFailureSentForTargetedImpactReview": true },
+  "inspection": "New test diff and remaining witness test body read; local SQL interposition in one process, explicit fake remote transcript and fake HTTP, no native network or threads",
+  "nativeExecution": false,
+  "filteredCountAsPass": false,
+  "acceptance": false
+}

@@ -1,0 +1,30 @@
+{
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "candidates": [
+    { "path": "constructed-x86-enumerator-v1.mjs", "bytes": 16452, "sha256": "2d5f8335fc4a9190bf0075648c146875d6154879a674a42c58943971d85b8d8e", "matched": true, "syntax": { "command": "node --check", "exit": 0, "durationMs": 37 } },
+    { "path": "source136.mjs", "bytes": 23695, "sha256": "26c0c4f987be393645ca7dacf30adf4f161d2b0491cfe48f7a1a1b99e24d7c74", "matched": true, "syntax": { "command": "node --check", "exit": 0, "durationMs": 37 } },
+    { "path": "source136.manifest.json", "bytes": 13525, "sha256": "634f1b1c750ed876aa19d346c8d7ec388092d73d2aca1db02e037e716489afd1", "matched": true }
+  ],
+  "inputs": [
+    { "path": "source-decision-v3.json", "bytes": 3872, "sha256": "1796363315de98e1866a4648441ccb99da1acfee2dbae66db75d8248a0234950" },
+    { "path": "constructed-function-model-v3.json", "bytes": 2284, "sha256": "4be761cb6bdd2ee316c8f9446c0a9e702b7c4a6648f5f7bedfbed60d97cb0168" },
+    { "path": "source-config-v3.json", "bytes": 1572, "sha256": "6978a30cabc245ab2360ad7bbd2dbb259e8b63fd844da9b9bb68c5ca76545a87" },
+    { "path": "constructed-x86-32.bin", "bytes": 262, "sha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020" }
+  ],
+  "protectedProductMatched": 18,
+  "protectedProductTotal": 18,
+  "parentRunner": { "path": "native-preparation-136/check-constructed-source-memory.mjs", "syntaxExit": 0, "executed": false },
+  "plannedChecks": {
+    "count": 14,
+    "positive": ["exact declared-target/raw-byte proof", "exact source raw identity/canonical x86 projection and no diagnostics"],
+    "negative": ["contrary target mode", "padding corruption", "code corruption", "incorrect entry span", "incorrect instruction width", "open closure", "unknown successor", "noncanonical base64", "descriptor hash substituted for raw hash", "duplicate JSON key", "entry masquerading as tail", "incorrect raw file path"],
+    "budget": "One parent process at most600000ms; each case duration recorded. No global tests, stub execution or native effect."
+  },
+  "independentReview": "requested-new-raw-layout-target-and-identity-boundaries-only",
+  "candidateImported": false,
+  "generatedX86Executed": false,
+  "sourceV3Computed": false,
+  "reservationAttempted": false,
+  "nativeActions": 0,
+  "acceptance": "syntax-only"
+}

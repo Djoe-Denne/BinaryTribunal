@@ -1,0 +1,107 @@
+{
+  "schema": "owned-native-finals-bundle-v1",
+  "sessionID": "ses_e782236a4ffeQSg60nGCm9uyn6",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "providerID": "openai",
+    "variant": "xhigh"
+  },
+  "finals": [
+    {
+      "messageID": "msg_187e7583d001w7RYxLORv0M3iP",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "## Verdict sur `e880a258…` : intégration bloquée\n\nLes **16 PASS parent** valident les scénarios injectés existants, mais ne ferment pas ces trois défauts de la frontière native :\n\n| Bloquant | Correction minimale proposée |\n|---|---|\n| **Garde transmissible** — le [`bindCurrent` injectable](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/graph-store.ts#L331) reçoit une garde permettant des effets hors image/claims. | Ne plus remettre cette garde à un binder arbitraire. Réserver la liaison native à une identité privée d’adaptateur et aux IDs, corps et phases retenus. |\n| **Réponse tardive dégradée** — les contrôles après `await` du [transport](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/native-at-rest-transport.ts#L21) transforment une réponse reçue en `unknown-response`, sans digest. | Conserver l’observation reçue par la closure privée avant de propager le refus d’autorité ; aucune étape suivante autorisée. |\n| **Identité HTTP non fermée** — [`info()`](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/native-at-rest-transport.ts#L33) n’impose ni timeout explicite ni refus des redirections. | Utiliser le helper HTTP fermé pour `GET /api/info`, avec signal vingt secondes et `redirect:\"error\"`. |\n\n**Vérification proportionnée après correction :** régressions hors ligne dans les tests existants, exerçant réellement la frontière d’adaptation : binder hostile, réponse reçue après révocation, paramètres HTTP d’identité et abandon sans POST suivant. Aucun nouveau harness, pipeline ou replay scientifique nécessaire.\n\n**Preuves parent conservées :** typecheck PASS/3434 ms ; ciblés 16 PASS/115 assertions/1342 ms, sourceDrift vide ; primitives 55 PASS/125 assertions/84 ms réutilisées. Aucun test exécuté par moi.\n\nAucune preuve native supplémentaire de rôle, droits, exécution ou terminaison. Acceptation finale parent uniquement."
+    },
+    {
+      "messageID": "msg_187e7361e001uQi2phs15TTnvu",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Delta `d6e4085… → e880a258…` relu : [fixture seule](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/test/graph-integration/native-at-rest.test.ts). Enveloppe et sidecar alignés à 4096, plafond hérité inchangé, assertions ajoutées : aucun affaiblissement identifié.\n\nProduit inchangé ; mes trois bloquants restent ouverts. Aucun redémarrage de revue ni test exécuté par moi."
+    },
+    {
+      "messageID": "msg_187e6fcbb001p6480lB45yqEwG",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "QA parent r3 retenue : compilation PASS ; ciblés **1 PASS / 15 FAIL avant orchestration**, donc toujours aucune preuve comportementale pour ces quinze cas.\n\nLes trois bloquants statiques déjà transmis restent ouverts, indépendamment du setup : garde transmissible, observation tardive dégradée, `info()` sans timeout explicite ni refus des redirections. Aucun nouveau test exécuté par moi."
+    },
+    {
+      "messageID": "msg_187e6d8d3001Jp6dSeoIqMAj1a",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Delta `16f4838… → d6e4085…` vérifié : seule correction des dépendances R dans la [fixture](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/test/graph-integration/native-at-rest.test.ts#L53). Aucun affaiblissement d’oracle identifié ; les trois bloquants produit restent inchangés.\n\nAttention : HEAD est déjà `e880a258…`. Ce complément porte uniquement sur le delta épinglé `d6e4085…`. Aucun test exécuté par moi."
+    },
+    {
+      "messageID": "msg_187e5bb3d0013Xx5FRZglfxGaG",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "**Constat confirmé : troisième bloquant**, présent sur les pins `a246f6f…` et `16f4838…`.\n\n### Preuve et impact\nLe [transport, lignes 18–19 et 33](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/native-at-rest-transport.ts#L18) appelle `client.server.info()` sans options.\n\nLe [SDK local, lignes 14–45](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/node_modules/@opencode/client/dist/chunks/service-timing-tbh3h57v.js#L14) utilise alors `globalThis.fetch`, sans signal fourni ni politique de redirection. La route est `GET /api/info`, ligne147.\n\nConséquences :\n- aucune borne explicite de vingt secondes ;\n- redirections suivies par défaut : l’identité contrôlée peut provenir d’une destination différente de l’endpoint retenu.\n\nL’inactivité actuelle du transport ne supprime pas ce défaut contractuel.\n\n### Correction minimale\nFaire passer `GET /api/info` par le helper HTTP privé déjà borné et configuré `redirect:\"error\"`, en conservant les contrôles d’autorité. Autre correction locale possible : un `fetch` privé équivalent pour ce client SDK. **Ajouter seulement un signal à `server.info()` ne corrige pas les redirections.**\n\n### Régressions hors ligne nécessaires\nDans les tests existants, exercer le **véritable adaptateur**, avec discovery/fetch simulés :\n1. vérifier `redirect:\"error\"` et le signal de timeout de vingt secondes ;\n2. simuler abandon et redirection refusée : échec, aucun POST suivant ;\n3. conserver le positif identité exacte et le négatif PID/version divergents.\n\nPas de nouveau port public injectable ni de nouveau harness nécessaire.\n\n**Synthèse : trois bloquants** — garde transmissible, dégradation des réponses tardives, identité HTTP non bornée/non fermée aux redirections. Aucun test ni réseau exécuté par moi ; les quinze échecs de fixture signalés par le parent restent sans valeur probante comportementale."
+    },
+    {
+      "messageID": "msg_187e4c28a001V4z6BwxX6AYAKx",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Analyse statique terminée ; les deux bloquants restent indépendants du défaut de fixture :\n- garde active récupérable par le transport injectable, sans liaison aux effets exacts ;\n- réponse tardive reçue dégradée en `unknown-response` par le transport réel.\n\nRésultats **parent** retenus : typecheck PASS, primitives 55 PASS ; ciblés 1 PASS / 15 FAIL avant orchestration. Les quinze cas échoués ne prouvent aucun comportement. Une correction de fixture seule ne résout pas les deux bloquants. Aucun test exécuté par moi."
+    },
+    {
+      "messageID": "msg_187e49e7d001ykgSnhiOxDCYq7",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Complément au pin `16f48383b6ff1e93609fef159bc353684d48c301` : normalisation `headers ?? {}` relue dans le [transport](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/native-at-rest-transport.ts#L18). Correction cohérente avec TS2322, sans nouveau bloquant identifié sur ce delta.\n\nLes deux bloquants de sécurité/conservation tardive restent inchangés. Aucun test exécuté ; compilation du nouveau pin non attestée par cette revue."
+    },
+    {
+      "messageID": "msg_187e44e160015IN0dKfmanB2DP",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Revue initiale conservée. Compilation `a246f6f` : **FAIL TS2322 selon QA parent** ; aucun test comportemental exécuté.\n\nLe delta `headers ?? {}` déjà observé ne touche pas les deux autres bloquants signalés : garde transmissible et dégradation des réponses tardives. Aucun PASS compilation ou natif déduit ; prochaine revue limitée au delta du pin confirmé."
+    },
+    {
+      "messageID": "msg_187e43f2a00155s9HR3paL9tyf",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "Accès relatif confirmé : `.git` désigne bien le worktree `ensemble-793e3f62-2fkx8e-admission-native-repos`, et le transport est lisible relativement. Aucun refus, test ni écriture. Les deux bloquants du retour précédent restent inchangés."
+    },
+    {
+      "messageID": "msg_187e29ca4001tC35vgoJMMaE18",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "## Verdict : deux bloquants au repos\n\nRevue indépendante du pin `a246f6f24fb00ba76d2ee43340e72f84f9377001`, contre rapport60 et wire normalisé.\n\n1. **Garde privée transmissible, sans liaison aux effets exacts.**  \n   [`graph-store.ts:331–335`](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/graph-store.ts#L331) transmet la garde active au `bindCurrent` injectable. Celui-ci peut la réutiliser pour déverrouiller le transport natif. Or [`native-at-rest-transport.ts:31–42`](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/native-at-rest-transport.ts#L31) vérifie essentiellement le préfixe d’identité et quelques restrictions, pas l’image retenue ni les claims. Un transport injecté peut donc effectuer des créations/admissions étrangères à l’opération, sans arbitrage ni comparaison préalable du serveur. `resume:false` reste imposé : le défaut concerne les **effets de données**, pas un réveil démontré.\n\n2. **Observation tardive dégradée en réponse perdue par le transport réel.**  \n   Les contrôles après `await fetch()` et `await response.json()` peuvent jeter une réponse effectivement reçue lors d’une révocation ; le `catch` la remplace alors par une erreur générique. [`graph-native-at-rest.ts:83–88`](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/src/graph-native-at-rest.ts#L83) ne conserve plus que `unknown-response`, sans digest. L’oracle tardif du [`test:114–120`](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-admission-native-repos/tools/ff8-harness/test/graph-integration/native-at-rest.test.ts#L114) utilise `Wire`, dépourvu de cette dégradation : il ne couvre donc pas la frontière réelle.\n\n## Éléments favorables et limites\n\n- Images et claims atomiques ; identités conservées ; comparaisons détaillées session/message ; refus de dispatch d’une admission DATA.\n- Pas de migration historique observée ni de receipt d’exécution produit.\n- Suggestions ciblées : couvrir les deux frontières ci-dessus dans les tests existants, sans nouveau harness.\n- Fencing serveur, exécution, terminaison et droits exercés restent **non prouvés**, conformément au périmètre.\n\n**Pin :** le worktree a avancé pendant la revue vers `16f4838…`, avec pour seul delta observé `Service.headers(endpoint) ?? {}`. Cette revue reste attachée au pin demandé ; ce delta ne corrige pas les deux constats.\n\n**QA exécutée par moi : aucune** — ni typecheck, primitives, tests ciblés, suite complète ou réseau natif. Durées : sans objet. Aucune écriture ou mutation Git. Acceptation finale réservée au parent."
+    }
+  ],
+  "boundedPage": 20,
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xODdlNzU4M2QwMDF3N1JZeExPUnYwTTNpUCIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6InByZXZpb3VzIn0",
+    "next": "eyJpZCI6Im1zZ18xODdlMjljYTQwMDF0QzM1dmdvSk1NYUUxOCIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6Im5leHQifQ"
+  },
+  "scope": "Final text only; no reasoning or supervisor acceptance"
+}

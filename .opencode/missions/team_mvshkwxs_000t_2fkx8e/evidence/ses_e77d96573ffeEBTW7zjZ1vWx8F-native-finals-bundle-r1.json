@@ -1,0 +1,35 @@
+{
+  "schema": "owned-native-finals-bundle-v1",
+  "sessionID": "ses_e77d96573ffeEBTW7zjZ1vWx8F",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "providerID": "openai",
+    "variant": "xhigh"
+  },
+  "finals": [
+    {
+      "messageID": "msg_1882ce2880015m7MQ4Wbq64LoM",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "**Avis inchangé après réception de la QA parent.**\n\n- **Bloquants :** aucun concret démontré sur le périmètre fermé 68/69.\n- **Impacts vérifiés indépendamment :** inventaire source concordant — 47 événements durables, cinq versions v2, onze tags message. Admission existante inchangée hors ajouts DATA. Gardes, deadline coopérative, reprise et CAS examinés dans le code ; ces conclusions ne reposent pas uniquement sur les tests.\n- **Suggestion non bloquante :** refuser explicitement `seq:null`, actuellement assimilé à l’omission dans le [lecteur L64–65](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-observations-native-data/tools/ff8-harness/src/graph-native-observations.ts#L64).\n\n**QA rapportée par le parent, non exécutée ici :**\n- typecheck : exit0, **3509 ms** ;\n- lecteur : **33 PASS / 184 assertions**, **1884 ms** ;\n- admission-impact : **26 PASS / 295 assertions**, **2046 ms** ;\n- primitives : preuves antérieures réutilisées, sans réexécution.\n\nAucun test global ou réseau natif. Qualification native v3/D5 et clôture M2 non acquises. Acceptation et intégration restent au parent."
+    },
+    {
+      "messageID": "msg_1882b6463001LoVPsIomc0aLXT",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "xhigh"
+      },
+      "text": "**Avis indépendant : aucun bloquant démontré pour le contrat fermé 68/69.**\n\n- Pin `834bc6b…` vérifié : parent exact `81be09dc…`, quatre fichiers identiques aux blobs épinglés. Les ajouts seuls retirés, GraphStore reste identique à la base.\n- Quatre bundles : **19 empreintes conformes** au commit `68bc26b7…`. Inventaire confronté à la source : **47 événements durables**, cinq versions v2 et onze tags message concordants.\n- Lecture statique : curseur exclusif, seq0/gaps, EOF/failure tardif, reprise des lots incomplets, CAS transactionnel et garde pré/post-append présents. Garde privée non transmise au port injectable ; discovery tardive empêchée de lancer un GET. Projection fermée, message traité séparément et évolutif ; aucune promotion exécution/terminal/claim.\n\n**Suggestion non bloquante :** le [lecteur, L64–65](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-observations-native-data/tools/ff8-harness/src/graph-native-observations.ts#L64) assimile `seq:null` à l’absence, alors que la source prévoit omission ou entier. Refuser explicitement `null` serait plus strict ; ce cas ne fait toutefois avancer aucun curseur.\n\n**Périmètre relu :** [GraphStore L295–386](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-observations-native-data/tools/ff8-harness/src/graph-store.ts#L295), [transport](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-observations-native-data/tools/ff8-harness/src/native-observation-transport.ts), [tests](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-observations-native-data/tools/ff8-harness/test/graph-integration/native-observations.test.ts).\n\n**QA / limites :** typecheck, primitives et tests ciblés **non exécutés ici**, conformément au mandat ; aucun PASS parent présumé. Suite complète `bun test` non autorisée. Qualification native v3/D5 et clôture M2 restent absentes. Aucune correction obligatoire proposée."
+    }
+  ],
+  "boundedPage": 20,
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xODgyY2UyODgwMDE1bTdNUTRXYnE2NExvTSIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6InByZXZpb3VzIn0",
+    "next": "eyJpZCI6Im1zZ18xODgyNjliNjYwMDF2Q2FHZWVDV0lpVlFSMSIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6Im5leHQifQ"
+  },
+  "scope": "Final text only; no reasoning or supervisor acceptance"
+}

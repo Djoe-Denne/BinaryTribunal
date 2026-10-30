@@ -1,0 +1,1763 @@
+diff --git a/tools/ff8-harness/src/client.ts b/tools/ff8-harness/src/client.ts
+index e8f62ae..7778755 100644
+--- a/tools/ff8-harness/src/client.ts
++++ b/tools/ff8-harness/src/client.ts
+@@ -4,20 +4,30 @@ import { canonical, hash } from "./validation";
+ import { sourceNativeFunctionIdentityMatchesV1 } from "./_native-function-identity";
+ import { assertAuditContinuation, decodeBulletinSnapshot, type BulletinSnapshot, type CommunicationAudit } from "./bulletin-audit";
+ import { prepareDispatchJoinV1, refuseNativeRuntimeV1, type PreparedRuntimeV1, type DispatchScopeV1, type DispatchJoinV1 } from "./graph-runtime-binding";
++import { assertOwnedNpmHostProvenanceV1, ownedHostLiveFactsMatchV1, ownedWindowsExecutablePathsMatchV1, ownedFileIdentityMatchesV1, ownedFileIdentityDataV1,
++  ownedFinalizationBudgetV1, ownedClosureProgressV1, verifyOwnedClosureRowsBoundedV1, ownedClosureFileFactsMatchV1, assertOwnedClosureFileProofV1,
++  type OwnedClosureRowV1, type OwnedClosureFileFactsV1, type OwnedClosureCheckV1,
++  type OwnedFileIdentityV1, type OwnedNpmHostProvenanceV1, type OwnedHostFilePinV1 } from "./graph-runtime-binding";
++import { ownedAuthBudgetV1, ownedAuthChallengeV1, ownedAuthStatusProjectionV1, ownedAuthPublicStatusesV1, ownedAuthPrivateRootFactsMatchV1,
++  ownedAuthConnectBodyV1, ownedAuthConnectRouteV1, type OwnedAuthProvenanceV1, type OwnedAuthIntentV1 } from "./graph-runtime-binding";
+ import { assertExecutionJsonV1, type BoundDocument } from "./graph-execution-envelope";
+ import { GraphStore, type NativeInvocationSourceV1, type NativeLocalDecisionV1, type NativeLocalPermitV1,
+   type NativeRootAcquisitionV1, type NativeRuntimeExpectedV1, type NativeRuntimeHostVerificationV1, type ParentAuthorityProvider } from "./graph-store";
+ import type { ControllerAuthority } from "./unit-lease";
+-import type { NativeRuntimeHttpPortV1, NativeRuntimeAdmissionDataV1 } from "./native-runtime-transport";
++import type { NativeRuntimeHttpPortV1, NativeRuntimeAdmissionDataV1, OwnedHostCapabilityV1, OwnedHostConnectionViewV1 } from "./native-runtime-transport";
+ import type { NativeRuntimeObservationV2 } from "./graph-native-observations";
+ import { connectNativeRuntimeHttpV1, isConnectedNativeRuntimeHttpPortV1, encodeNativeAdmissionWireV1, assertNativeServiceIdentityV1 } from "./native-runtime-transport";
++import { connectOwnedNativeRuntimeHttpV1 } from "./native-runtime-transport";
++import { connectOwnedAuthHttpV1, OwnedAuthHttpErrorV1, type OwnedAuthConnectionViewV1 } from "./native-runtime-transport";
+ import { prepareRuntimeExecutionV1, type ExecutionPreparationRequestV1 } from "./graph-execution-prepare";
+ import { makeBoundDocumentV1, type ByteRef, type GraphRunV3, type RootSlotGrantsV1 } from "./graph-execution-envelope";
+ import { readRuntimeDocumentV1 } from "./graph-runtime-binding";
+ import { Store } from "./store";
+-import { readFileSync, existsSync } from "node:fs";
+-import { resolve } from "node:path";
+-import { randomUUID } from "node:crypto";
++import { readFileSync, existsSync, lstatSync, realpathSync, readdirSync, mkdirSync, openSync, writeSync, fsyncSync, closeSync, type BigIntStats } from "node:fs";
++import { lstat as lstatAsync, realpath as realpathAsync, readFile as readFileAsync } from "node:fs/promises";
++import { resolve, join, dirname } from "node:path";
++import { randomUUID, randomBytes } from "node:crypto";
++import { spawn, type ChildProcess } from "node:child_process";
+ import { Database } from "bun:sqlite";
+ export interface RpcTransport { call(method: string, input: Record<string, unknown>): Promise<Record<string, unknown>>; serverVersion?: string }
+ export interface ClientOptions {
+@@ -349,7 +359,8 @@ function parseNativeParentRequestV1(value: unknown): Readonly<NativeParentReques
+ }
+ interface OwnedParentInvocationV1 { capability: object; source: NativeInvocationSourceV1 }
+ const ownedParentInvocations = new WeakSet<object>();
+-function localInvocationProviderV1(invocation: OwnedParentInvocationV1, config: NativeParentRequestV1): ParentAuthorityProvider {
++type NativeInvocationConfigV1 = Pick<NativeParentRequestV1, "missionId" | "ownPath" | "controllerId" | "principalId" | "actorId" | "mandateRef" | "expiresAt">;
++function localInvocationProviderV1(invocation: OwnedParentInvocationV1, config: NativeInvocationConfigV1): ParentAuthorityProvider {
+   const identity = { version: 1 as const, role: "parent" as const, missionId: config.missionId, controllerOwner: config.controllerId,
+     principalId: config.principalId, actorId: config.actorId, source: "supervisor-owned native local invocation; external tool receipt required",
+     sourceHash: hash(canonical({ domain: "local-parent-delegation-v1", missionId: config.missionId, controllerId: config.controllerId,
+@@ -391,7 +402,7 @@ function localNativeControlV1(invocation: OwnedParentInvocationV1, config: Nativ
+ /** This issuer is deliberately private and invoked ONLY by import.meta.main.
+  * The native supervisor's actual tool invocation is the trust root; the child
+  * neither authenticates a lead via JSON nor manufactures its external receipt. */
+-function issueOwnedParentInvocationV1(config: NativeParentRequestV1, action: string): OwnedParentInvocationV1 {
++function issueOwnedParentInvocationV1(config: NativeInvocationConfigV1, action: string): OwnedParentInvocationV1 {
+   if (!import.meta.main) throw new Error("native parent issuer requires owned direct invocation");
+   if (config.expiresAt <= Date.now()) throw new Error("native parent invocation scope expired");
+   let controllerFence: number | null = null;
+@@ -411,6 +422,426 @@ function issueOwnedParentInvocationV1(config: NativeParentRequestV1, action: str
+     programSha256: hash(readFileSync(import.meta.path)), scopeSha256: hash(canonical({ config, action, argv: process.argv.slice(2) })), externalReceiptRef: null };
+   ownedParentInvocations.add(capability); return Object.freeze({ capability, source: Object.freeze(source) });
+ }
++/** Tranche A request DATA. No caller URL, password, service registration or
++ * capability can be supplied. Only main's private composition can create a cap. */
++interface OwnedReadonlyParentRequestV2 extends NativeInvocationConfigV1 {
++  version: "rms-parent-owned-readonly-request-v2";
++  purpose: "inspect-owned-http-readonly-v1";
++  expectedControllerFence: number;
++  connection: { kind: "owned-bun-http-readonly-v1"; namespace: string; provenance: OwnedNpmHostProvenanceV1 };
++}
++const ownedHostRootV1 = "C:/Users/djden/AppData/Local/Temp/opencode/rms-owned-http-host-180";
++const ownedPathKeyV1 = (p: string) => resolve(p).toLowerCase();
++function ownedNeedV1(ok: unknown, label: string): asserts ok { if (!ok) throw new Error(`owned readonly HOLD: ${label}`); }
++function parseOwnedReadonlyParentRequestV2(value: unknown): OwnedReadonlyParentRequestV2 {
++  assertExecutionJsonV1(value); const v = value as OwnedReadonlyParentRequestV2;
++  const closed = (o: object, keys: string[]) => ownedNeedV1(o && typeof o === "object" && !Array.isArray(o)
++    && canonical(Object.keys(o).sort()) === canonical([...keys].sort()), "closed request shape");
++  closed(v, ["version", "purpose", "missionId", "ownPath", "controllerId", "principalId", "actorId", "mandateRef", "expiresAt", "expectedControllerFence", "connection"]);
++  closed(v.connection, ["kind", "namespace", "provenance"]);
++  closed(v.mandateRef, ["kind", "encoding", "byteLength", "sha256"]);
++  ownedNeedV1(v.version === "rms-parent-owned-readonly-request-v2" && v.purpose === "inspect-owned-http-readonly-v1"
++    && v.connection.kind === "owned-bun-http-readonly-v1" && ownedPathKeyV1(v.connection.namespace) === ownedPathKeyV1(ownedHostRootV1), "request purpose/connection");
++  ownedNeedV1([v.missionId, v.ownPath, v.controllerId, v.principalId, v.actorId].every(s => typeof s === "string" && s.trim())
++    && /^[A-Za-z]:[\\/]/.test(v.ownPath) && Number.isSafeInteger(v.expectedControllerFence) && v.expectedControllerFence > 0
++    && Number.isSafeInteger(v.expiresAt) && typeof v.mandateRef.kind === "string" && v.mandateRef.kind.length > 0
++    && ["raw-v1", "utf8-json-v1"].includes(v.mandateRef.encoding) && Number.isSafeInteger(v.mandateRef.byteLength) && v.mandateRef.byteLength > 0
++    && /^[a-f0-9]{64}$/.test(v.mandateRef.sha256), "request scope");
++  assertOwnedNpmHostProvenanceV1(v.connection.provenance);
++  return Object.freeze(JSON.parse(canonical(v)));
++}
++interface OwnedPinStampV1 extends OwnedFileIdentityV1 { pin: OwnedHostFilePinV1; size: bigint; mtimeNs: bigint; ctimeNs: bigint }
++function readOwnedPinV1(pin: OwnedHostFilePinV1): { bytes: Buffer; stamp: OwnedPinStampV1 } {
++  const a = lstatSync(pin.path, { bigint: true });
++  ownedNeedV1(a.isFile() && !a.isSymbolicLink() && ownedPathKeyV1(realpathSync(pin.path)) === ownedPathKeyV1(pin.path)
++    && a.size === BigInt(pin.byteLength) && a.size <= 100n * 1024n * 1024n, "pin type/path/length");
++  const bytes = readFileSync(pin.path), z = lstatSync(pin.path, { bigint: true });
++  ownedNeedV1(ownedFileIdentityMatchesV1(a, z) && a.size === z.size && typeof a.mtimeNs === "bigint" && typeof a.ctimeNs === "bigint"
++    && a.mtimeNs === z.mtimeNs && a.ctimeNs === z.ctimeNs
++    && hash(bytes) === pin.sha256, "pin bytes changed");
++  return { bytes, stamp: { pin, dev: z.dev, ino: z.ino, size: z.size, mtimeNs: z.mtimeNs, ctimeNs: z.ctimeNs } };
++}
++/** RO helper custody only: current private invocation, existing immutable parent
++ * proof and controller lease/fence. No root-physical170/model permit is exercised;
++ * no bootstrapParentAuthority/lease acquisition/GraphStore write occurs here. */
++function assertOwnedCustodyV1(invocation: OwnedParentInvocationV1, config: NativeInvocationConfigV1 & { expectedControllerFence: number }): void {
++  ownedNeedV1(import.meta.main && ownedParentInvocations.has(invocation.capability) && invocation.source.pid === process.pid
++    && invocation.source.ownPath === resolve(config.ownPath) && invocation.source.controllerFence === config.expectedControllerFence
++    && Date.now() < Math.min(config.expiresAt, invocation.source.expiresAt)
++    && hash(readFileSync(import.meta.path)) === invocation.source.programSha256, "private current invocation");
++  const db = new Database(resolve(config.ownPath), { readonly: true });
++  try { db.transaction(() => {
++    const lease = db.query("SELECT lease_owner,lease_token,lease_until FROM ff8_missions WHERE id=?").get(config.missionId) as { lease_owner: string; lease_token: number; lease_until: number } | null;
++    ownedNeedV1(lease && lease.lease_owner === config.controllerId && lease.lease_token === config.expectedControllerFence
++      && Number.isSafeInteger(lease.lease_until) && lease.lease_until > Date.now(), "current controller custody fence");
++    const identity = localInvocationProviderV1(invocation, config).verifyParent({ now: Date.now(), lease: { missionId: config.missionId,
++      owner: lease.lease_owner, token: lease.lease_token, expiresAt: lease.lease_until } });
++    const parent = db.query("SELECT document,digest,event_key FROM ff8_graph_parent_authorities WHERE mission=?").get(config.missionId) as { document: string; digest: string; event_key: string } | null;
++    ownedNeedV1(identity && parent && parent.document === canonical(identity) && parent.digest === hash(canonical(identity)), "retained parent custody identity");
++    const event = db.query("SELECT kind,time,payload,unit_id,digest FROM ff8_events WHERE mission=? AND key=?").get(config.missionId, parent.event_key) as { kind: string; time: number; payload: string; unit_id: string | null; digest: string } | null;
++    ownedNeedV1(event && event.kind === "parent_authority_bootstrapped" && event.payload === canonical(identity)
++      && event.digest === hash(canonical({ kind: event.kind, time: event.time, payload: identity, unitId: event.unit_id })), "retained parent custody event");
++  })(); } finally { db.close(); }
++}
++interface LiveOwnedHostV1 {
++  invocation: OwnedParentInvocationV1; config: OwnedReadonlyParentRequestV2; child: ChildProcess; pid: number; parentPid: number;
++  origin: string; nonce: string; password: string; authorization: string; epoch: string;
++  expiresAt: number; monotonicExpiry: number; abort: AbortController; closed: boolean;
++  provenance: OwnedNpmHostProvenanceV1; stamps: OwnedPinStampV1[];
++  nativeDb: OwnedFileIdentityV1 & { path: string }; ownDb: OwnedFileIdentityV1 & { path: string };
++}
++const ownedLiveHostsV1 = new WeakMap<object, LiveOwnedHostV1>();
++interface OwnedAuthParentRequestV1 extends NativeInvocationConfigV1 {
++  version: "rms-parent-owned-auth-request-v1"; purpose: "connect-owned-openai-auth-v1"; expectedControllerFence: number;
++  intentId: string; ui: "private-parent-ipc-v1";
++  connection: { kind: "owned-bun-openai-auth-v1"; namespace: string; provenance: OwnedAuthProvenanceV1 };
++}
++// Fixed deployment destinations. Candidate files are delivered under mission222;
++// only the parent deploys them. These candidate byte pins confer no launch GO.
++const ownedAuthBootstrapPinV1: OwnedHostFilePinV1 = { path: `${ownedHostRootV1}/bootstrap-auth-v1.mjs`, byteLength: 10124, sha256: "398a184afe71dc0b7abe41cb0fe1c47a7db0ef0b4b4667c618d009e188c76f76" };
++const ownedAuthPlanPinV1: OwnedHostFilePinV1 = { path: `${ownedHostRootV1}/host-plan-auth-v1.json`, byteLength: 1329, sha256: "2fdeb0e560621963b9bc53334a7e5b05788ce16b345febbbd28c3c17eac1d880" };
++function parseOwnedAuthParentRequestV1(value: unknown): OwnedAuthParentRequestV1 {
++  assertExecutionJsonV1(value); const v = value as OwnedAuthParentRequestV1;
++  ownedNeedV1(v && canonical(Object.keys(v).sort()) === canonical(["version", "purpose", "missionId", "ownPath", "controllerId", "principalId", "actorId", "mandateRef", "expiresAt", "expectedControllerFence", "intentId", "ui", "connection"].sort())
++    && v.version === "rms-parent-owned-auth-request-v1" && v.purpose === "connect-owned-openai-auth-v1" && v.ui === "private-parent-ipc-v1"
++    && /^[A-Za-z0-9_-]{1,80}$/.test(v.intentId), "auth request refused");
++  ownedNeedV1(v.connection && canonical(Object.keys(v.connection).sort()) === canonical(["kind", "namespace", "provenance"])
++    && v.connection.kind === "owned-bun-openai-auth-v1" && ownedPathKeyV1(v.connection.namespace) === ownedPathKeyV1(ownedHostRootV1), "auth connection refused");
++  const p = v.connection.provenance;
++  ownedNeedV1(p && canonical(Object.keys(p).sort()) === canonical(["base", "bootstrap", "plan", "version"])
++    && p.version === "rms-owned-auth-provenance-v1" && canonical(p.bootstrap) === canonical(ownedAuthBootstrapPinV1)
++    && canonical(p.plan) === canonical(ownedAuthPlanPinV1), "auth reviewed bootstrap/plan required");
++  parseOwnedReadonlyParentRequestV2({ version: "rms-parent-owned-readonly-request-v2", purpose: "inspect-owned-http-readonly-v1",
++    missionId: v.missionId, ownPath: v.ownPath, controllerId: v.controllerId, principalId: v.principalId, actorId: v.actorId,
++    mandateRef: v.mandateRef, expiresAt: v.expiresAt, expectedControllerFence: v.expectedControllerFence,
++    connection: { kind: "owned-bun-http-readonly-v1", namespace: v.connection.namespace, provenance: p.base } });
++  return Object.freeze(JSON.parse(canonical(v)));
++}
++interface LiveOwnedAuthV1 {
++  invocation: OwnedParentInvocationV1; config: OwnedAuthParentRequestV1; graph: GraphStore; child: ChildProcess; pid: number; parentPid: number;
++  origin: string; authorization: string; epoch: string; expiresAt: number; monotonicExpiry: number; abort: AbortController; closed: boolean;
++  stamps: OwnedPinStampV1[]; nativeDb: OwnedFileIdentityV1 & { path: string }; ownDb: OwnedFileIdentityV1 & { path: string };
++}
++const ownedAuthHostsV1 = new WeakMap<object, LiveOwnedAuthV1>();
++function ownedAuthAuthorityV1(s: Pick<LiveOwnedAuthV1, "config" | "graph">): ControllerAuthority {
++  const row = s.graph.db.query("SELECT lease_until FROM ff8_missions WHERE id=?").get(s.config.missionId) as { lease_until: number } | null;
++  ownedNeedV1(row, "auth controller unavailable");
++  return { now: Math.max(Date.now(), s.graph.events.cursor(s.config.missionId).time), lease: { missionId: s.config.missionId,
++    owner: s.config.controllerId, token: s.config.expectedControllerFence, expiresAt: row.lease_until } };
++}
++/** NON-MINTING verifier, separate WeakMap and port domain from readonly/work. */
++export function verifyOwnedAuthHostCapabilityV1(capability: unknown): OwnedAuthConnectionViewV1 | undefined {
++  if (!capability || typeof capability !== "object") return undefined;
++  const s = ownedAuthHostsV1.get(capability); if (!s) return undefined;
++  try {
++    ownedNeedV1(ownedHostLiveFactsMatchV1({ closed: s.closed, aborted: s.abort.signal.aborted, connected: s.child.connected,
++      exitCode: s.child.exitCode, signalCode: s.child.signalCode, pid: s.child.pid ?? 0, expectedPid: s.pid, parentPid: s.parentPid,
++      expectedParentPid: process.pid, expiresAt: s.expiresAt, monotonicExpiry: s.monotonicExpiry }, Date.now(), performance.now())
++      && process.connected && ownedWindowsExecutablePathsMatchV1(s.child.spawnfile, s.config.connection.provenance.base.runtime.executable.path), "auth live handle refused");
++    assertOwnedCustodyV1(s.invocation, s.config);
++    const state = s.graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1(s), s.invocation.capability, s.config.intentId, hash(canonical(s.config.connection.provenance)));
++    for (const held of s.stamps) {
++      const now = lstatSync(held.pin.path, { bigint: true });
++      ownedNeedV1(now.isFile() && !now.isSymbolicLink() && ownedFileIdentityMatchesV1(now, held) && now.size === held.size
++        && now.mtimeNs === held.mtimeNs && now.ctimeNs === held.ctimeNs && ownedPathKeyV1(realpathSync(held.pin.path)) === ownedPathKeyV1(held.pin.path), "auth pin changed");
++    }
++    for (const file of [s.nativeDb, s.ownDb]) { const st = lstatSync(file.path, { bigint: true });
++      ownedNeedV1(st.isFile() && !st.isSymbolicLink() && ownedFileIdentityMatchesV1(st, file)
++        && ownedPathKeyV1(realpathSync(file.path)) === ownedPathKeyV1(file.path), "auth DB identity changed"); }
++    return { kind: "owned-openai-auth-only-v1", origin: s.origin, pid: s.pid, epoch: s.epoch, authorization: s.authorization,
++      signal: s.abort.signal, intentId: s.config.intentId, pinsSha256: state.intent.pinsSha256, attemptId: state.attemptId,
++      expectedDirectory: join(dirname(s.nativeDb.path), "work") }; // private owner context, never response/caller DATA
++  } catch { s.closed = true; s.abort.abort(); ownedAuthHostsV1.delete(capability); return undefined; }
++}
++/** Transport calls this statically; callers cannot supply a claim/verifier. */
++export function claimOwnedAuthConnectV1(capability: unknown): boolean {
++  if (!verifyOwnedAuthHostCapabilityV1(capability)) return false;
++  const s = ownedAuthHostsV1.get(capability as object)!;
++  const state = s.graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1(s), s.invocation.capability, s.config.intentId, hash(canonical(s.config.connection.provenance)));
++  if (state.claimed || state.stopped) return false;
++  s.graph.transitionOwnedAuthIntentV1(ownedAuthAuthorityV1(s), s.invocation.capability, state.intent.id, state.intent.pinsSha256, state.revision, state.digest, "CONNECT_CLAIMED", null);
++  return !!verifyOwnedAuthHostCapabilityV1(capability);
++}
++function invalidateOwnedHostV1(state: LiveOwnedHostV1): void { state.closed = true; state.abort.abort(); }
++/** NON-MINTING. Imported statically by the transport; no caller verifier/register
++ * hook exists. JSON, stale receipts and successful pure fact checks cannot pass. */
++export function verifyOwnedNativeHostCapabilityV1(capability: unknown): OwnedHostConnectionViewV1 | undefined {
++  if (!capability || typeof capability !== "object") return undefined;
++  const state = ownedLiveHostsV1.get(capability); if (!state) return undefined;
++  try {
++    ownedNeedV1(ownedHostLiveFactsMatchV1({ closed: state.closed, aborted: state.abort.signal.aborted, connected: state.child.connected, exitCode: state.child.exitCode,
++      signalCode: state.child.signalCode, pid: state.child.pid ?? 0, expectedPid: state.pid, parentPid: state.parentPid,
++      expectedParentPid: process.pid, expiresAt: state.expiresAt, monotonicExpiry: state.monotonicExpiry }, Date.now(), performance.now())
++      && ownedPathKeyV1(state.child.spawnfile) === ownedPathKeyV1(state.provenance.runtime.executable.path), "live owned child");
++    assertOwnedCustodyV1(state.invocation, state.config);
++    for (const held of state.stamps) {
++      const now = lstatSync(held.pin.path, { bigint: true });
++      ownedNeedV1(now.isFile() && !now.isSymbolicLink() && ownedFileIdentityMatchesV1(now, held) && now.size === held.size
++        && now.mtimeNs === held.mtimeNs && now.ctimeNs === held.ctimeNs
++        && ownedPathKeyV1(realpathSync(held.pin.path)) === ownedPathKeyV1(held.pin.path), "live pinned file changed");
++    }
++    for (const file of [state.nativeDb, state.ownDb]) { const s = lstatSync(file.path, { bigint: true });
++      ownedNeedV1(s.isFile() && !s.isSymbolicLink() && ownedFileIdentityMatchesV1(s, file)
++        && ownedPathKeyV1(realpathSync(file.path)) === ownedPathKeyV1(file.path), "owned DB identity changed"); }
++    return { origin: state.origin, pid: state.pid, epoch: state.epoch, authorization: state.authorization,
++      signal: state.abort.signal, provenance: JSON.parse(canonical(state.provenance)) };
++  } catch { invalidateOwnedHostV1(state); ownedLiveHostsV1.delete(capability); return undefined; }
++}
++function writeOwnedNewV1(file: string, bytes: Buffer | string): void {
++  const fd = openSync(file, "wx", 0o600), b = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes); let failed = false;
++  try { let offset = 0, calls = 0;
++    while (offset < b.length) { if (calls++ >= Math.min(b.length, 4096)) throw new Error("write bound");
++      const n = writeSync(fd, b, offset, b.length - offset, null);
++      if (!Number.isInteger(n) || n < 1 || n > b.length - offset) throw new Error("write progress");
++      if (n < b.length - offset) failed = true; offset += n; }
++  } catch { failed = true; }
++  try { fsyncSync(fd); } catch { failed = true; } try { closeSync(fd); } catch { failed = true; }
++  ownedNeedV1(!failed, "owned output I/O; partial preserved");
++}
++async function ownedBoundedWaitV1<T>(pending: Promise<T>, ms: number): Promise<T> {
++  let timer: ReturnType<typeof setTimeout> | undefined;
++  try { return await Promise.race([pending, new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error("owned wait deadline")), Math.max(1, ms)); })]); }
++  finally { if (timer !== undefined) clearTimeout(timer); }
++}
++/** Lexical installed-file verification with the existing readFile(signal) API.
++ * Admission bytes are DECLARED/NOMINAL only: a file growing after pre-stat may
++ * allocate more. Hash/length/post-stat reject it, not retroactively bound RSS. */
++async function verifyOwnedInstalledFileV1(root: string, row: OwnedClosureRowV1, context: OwnedClosureCheckV1, signal: AbortSignal): Promise<void> {
++  const file = join(root, row.path);
++  const wait = async <T>(stage: string, op: () => Promise<T>): Promise<T> => {
++    context.check(stage); try { return await op(); } finally { context.check(stage); }
++  };
++  const facts = (s: BigIntStats, canonicalPath: boolean): OwnedClosureFileFactsV1 => ({
++    dev: s.dev, ino: s.ino, size: s.size, mtimeNs: s.mtimeNs, ctimeNs: s.ctimeNs,
++    regular: s.isFile(), nonLink: !s.isSymbolicLink(), canonical: canonicalPath });
++  const preStat = await wait("lstat-before", () => lstatAsync(file, { bigint: true }));
++  const preReal = await wait("realpath-before", () => realpathAsync(file));
++  const before = facts(preStat, ownedPathKeyV1(preReal) === ownedPathKeyV1(file));
++  ownedNeedV1(ownedClosureFileFactsMatchV1(row, before, before), "installed pre-read path/identity");
++  const bytes = await wait("read", () => readFileAsync(file, { signal }));
++  context.check("hash"); const sha256 = hash(bytes); context.check("hash");
++  const postStat = await wait("lstat-after", () => lstatAsync(file, { bigint: true }));
++  const postReal = await wait("realpath-after", () => realpathAsync(file));
++  assertOwnedClosureFileProofV1(row, before, facts(postStat, ownedPathKeyV1(postReal) === ownedPathKeyV1(file)), bytes.length, sha256);
++}
++/** Private, fixed lexical read body, not a caller callback/worker API. Bun owns
++ * Bun directly here. Node->Bun193 does NOT qualify this new launch boundary. */
++async function withOwnedNativeHostV1(invocation: OwnedParentInvocationV1, config: OwnedReadonlyParentRequestV2): Promise<Record<string, unknown>> {
++  const started = performance.now(), expiresAt = Math.min(config.expiresAt, Date.now() + 120000);
++  const monotonicDeadline = started + Math.min(120000, Math.max(0, expiresAt - Date.now()));
++  const budget = ownedFinalizationBudgetV1(started, monotonicDeadline);
++  const abort = new AbortController(), nonce = randomBytes(32).toString("hex"), password = randomBytes(32).toString("hex");
++  const authorization = `Basic ${Buffer.from(`opencode:${password}`).toString("base64")}`;
++  const privateValues = [nonce, password, authorization, authorization.slice(6)];
++  let root: string | undefined, child: ChildProcess | undefined, pid: number | undefined, live: LiveOwnedHostV1 | undefined;
++  let cap: OwnedHostCapabilityV1 | undefined, fault: string | undefined, forced = false, closed = false, scopeClosed = false, stopping = false;
++  let readyReceived = false;
++  let childExit: { code: number | null; signal: string | null } | undefined, resolveClose!: () => void, resolveReady!: (m: any) => void, rejectReady!: (e: Error) => void;
++  const close = new Promise<void>(r => { resolveClose = r; }), ready = new Promise<any>((r, j) => { resolveReady = r; rejectReady = j; }); void ready.catch(() => {});
++  const phases: string[] = [], stamps: OwnedPinStampV1[] = [], checks: Array<Record<string, unknown>> = [];
++  const preflight = ownedClosureProgressV1(32227); let preflightHoldEmitted = false;
++  const logs = ["stdout", "stderr"].map(channel => ({ channel, chunks: [] as Buffer[], received: 0, kept: 0, truncated: false }));
++  const hold = (reason: string) => {
++    fault ??= reason; abort.abort(); rejectReady(new Error("owned readonly boundary refused"));
++    if (preflight.phase !== "complete") {
++      preflight.hold = true; preflight.phase = preflight.inFlight ? "draining" : "HOLD"; preflight.elapsedMs = Math.max(preflight.elapsedMs, performance.now() - started);
++      if (!preflightHoldEmitted) { preflightHoldEmitted = true;
++        try { console.log(JSON.stringify({ event: "native-owned-preflight-progress-v1", status: "HOLD", invocationId: invocation.source.invocationId, progress: { ...preflight } })); } catch {}
++      }
++    }
++  };
++  const deadlineCheck = () => { const ok = budget.checkpoint(); if (!ok) hold("owned total monotonic deadline exceeded during finalization"); return ok; };
++  const left = () => Math.max(0, monotonicDeadline - performance.now());
++  const kill = () => { if (!child || closed || forced) return; forced = true;
++    if (child.pid !== pid || !pid || pid === process.pid || ownedPathKeyV1(child.spawnfile) !== ownedPathKeyV1(config.connection.provenance.runtime.executable.path)) { hold("owned kill identity refused"); return; }
++    try { if (!child.kill("SIGKILL")) hold("owned child kill unconfirmed"); } catch { hold("owned child kill refused"); } };
++  const workTimer = setTimeout(() => hold("owned work deadline; reserve shutdown"), Math.min(105000, Math.max(1, expiresAt - Date.now() - 15000)));
++  const forceTimer = setTimeout(kill, Math.min(115000, Math.max(1, expiresAt - Date.now() - 5000)));
++  const totalTimer = setTimeout(() => { hold("owned total deadline"); kill(); }, Math.max(1, expiresAt - Date.now()));
++  const result: Record<string, unknown> = { version: "rms-owned-readonly-observation-v2", status: "HOLD", purpose: config.purpose,
++    nativeLoadEvidence: "UNPROVEN", bunParentBoundary: "UNQUALIFIED_BEFORE_PARENT_TEST", scientificAuthority: false, requestedSessionOrModelEffects: 0, checks, preflightProgress: preflight };
++  try {
++    assertOwnedCustodyV1(invocation, config);
++    ownedNeedV1(deadlineCheck(), "owned initial deadline");
++    ownedNeedV1(process.platform === "win32" && process.arch === "x64" && process.versions.bun === "1.4.2"
++      && process.execArgv.length === 0 && import.meta.url.startsWith("file:") && !import.meta.url.includes("$bunfs")
++      && (!Bun.embeddedFiles || Bun.embeddedFiles.length === 0), "direct Bun parent runtime");
++    const p = config.connection.provenance;
++    // Closed reviewed bootstrap/policy, not caller-selected executable code.
++    ownedNeedV1(ownedPathKeyV1(p.plan.path) === ownedPathKeyV1(join(ownedHostRootV1, "host-plan.json"))
++      && p.plan.byteLength === 16302 && p.plan.sha256 === "5d147c490a05f61323fb05436f835b058275c6933c3c6c9cd12494d83029ed67"
++      && ownedPathKeyV1(p.bootstrap.path) === ownedPathKeyV1(join(ownedHostRootV1, "bootstrap-host.mjs"))
++      && p.bootstrap.byteLength === 10061 && p.bootstrap.sha256 === "e25c43c7b4b2fd9a9f1dba7ece1dcc42d27a7650ee3444f9b2c2eec340cf9a99"
++      && p.runtime.executable.sha256 === "15277c59ccd6c6c20f8dc9716c2b59c1776320d606b6a8658f70be8799519ca4"
++      && p.runtime.executable.byteLength === 86096984 && ownedPathKeyV1(process.execPath) === ownedPathKeyV1(p.runtime.executable.path), "approved bootstrap/runtime policy pins");
++    const retainPin = (pin: OwnedHostFilePinV1) => { const read = readOwnedPinV1(pin); stamps.push(read.stamp); return read.bytes; };
++    const plan = JSON.parse(retainPin(p.plan).toString("utf8"));
++    ownedNeedV1(plan.namespace === ownedHostRootV1 && plan.totalMs === 120000 && canonical(plan.allowedRawTargets) === canonical(["/api/info", "/openapi.json"])
++      && canonical(plan.scripts.bootstrap) === canonical(p.bootstrap) && canonical(plan.runtime.bun) === canonical({ ...p.runtime.executable, version: "1.4.2" }), "pinned public host options");
++    retainPin(p.bootstrap); retainPin(p.runtime.executable);
++    for (const pin of plan.inputs) retainPin({ path: pin.path, byteLength: pin.byteLength, sha256: pin.sha256 });
++    const rolePin = (role: string) => { const q = plan.inputs.find((v: any) => v.role === role); ownedNeedV1(q, "pinned closure role"); return { path: q.path, byteLength: q.byteLength, sha256: q.sha256 }; };
++    ownedNeedV1(canonical(rolePin("host-source-referent-raw-npm-server-distribution")) === canonical(p.rawSource.archive)
++      && canonical(rolePin("installed-closure")) === canonical(p.closure.installed)
++      && canonical(rolePin("archive-closure-367-parent-sri-evidence")) === canonical(p.closure.archives), "typed raw source/closure pins");
++    const proposedRoot = join(ownedHostRootV1, `qualification-${randomUUID()}`); mkdirSync(proposedRoot); root = proposedRoot;
++    result.outputRoot = root; result.provenance = p;
++    const closure = JSON.parse(readOwnedPinV1(p.closure.installed).bytes.toString("utf8"));
++    ownedNeedV1(canonical(Object.keys(closure).sort()) === canonical(["fileCount", "files", "lockSha256", "meaning", "root", "totalBytes", "version"])
++      && closure.version === "rms-owned-installed-file-closure-v1" && closure.fileCount === 32227 && Array.isArray(closure.files) && closure.files.length === 32227 && closure.totalBytes === 332635368
++      && closure.lockSha256 === plan.lockSha256 && ownedPathKeyV1(closure.root) === ownedPathKeyV1(join(ownedHostRootV1, "node_modules")), "retained installed closure");
++    const complete = await verifyOwnedClosureRowsBoundedV1(closure.files, preflight, {
++      signal: abort.signal,
++      check() { abort.signal.throwIfAborted(); ownedNeedV1(deadlineCheck(), "installed preflight deadline"); },
++      boundary() { assertOwnedCustodyV1(invocation, config); abort.signal.throwIfAborted(); ownedNeedV1(deadlineCheck(), "installed batch custody/deadline"); },
++      onHold() { hold("owned installed preflight HOLD; drain only admitted reads"); },
++      elapsedMs: () => performance.now() - started,
++      verify: (row, context) => verifyOwnedInstalledFileV1(closure.root, row, context, abort.signal),
++    });
++    ownedNeedV1(complete && preflight.phase === "complete" && !preflight.hold && preflight.verified === 32227 && preflight.settled === 32227
++      && preflight.failed === 0 && preflight.inFlight === 0 && preflight.reservedDeclaredBytes === 0 && preflight.bytesVerified === 332635368, "full installed closure required before spawn");
++    result.preflightInstalledFiles = preflight.verified;
++    const env: Record<string, string> = { SystemRoot: "C:\\Windows", WINDIR: "C:\\Windows", ComSpec: "C:\\Windows\\System32\\cmd.exe", OS: "Windows_NT", PATH: `${dirname(p.runtime.executable.path)};C:\\Windows\\System32` };
++    const locations = { HOME: "home", USERPROFILE: "home", APPDATA: "appdata", LOCALAPPDATA: "localappdata", XDG_DATA_HOME: "data", XDG_CACHE_HOME: "cache", XDG_CONFIG_HOME: "xdg-config", XDG_STATE_HOME: "state", TEMP: "tmp", TMP: "tmp", ProgramData: "program-data" };
++    for (const [name, rel] of Object.entries(locations)) { env[name] = join(root, rel); if (!existsSync(env[name])) mkdirSync(env[name]); }
++    for (const rel of ["work", "config", "responses"]) mkdirSync(join(root, rel));
++    writeOwnedNewV1(join(root, "OWN.json"), JSON.stringify({ version: 1, runnerPid: process.pid, runId: invocation.source.invocationId,
++      planSha256: p.plan.sha256, purpose: config.purpose, custodyScopeSha256: invocation.source.scopeSha256 }));
++    assertOwnedCustodyV1(invocation, config); abort.signal.throwIfAborted(); ownedNeedV1(deadlineCheck(), "owned spawn deadline");
++    child = spawn(p.runtime.executable.path, ["run", p.bootstrap.path, p.plan.sha256, root], { cwd: join(root, "work"), env, windowsHide: true, stdio: ["ignore", "pipe", "pipe", "ipc"], serialization: "json" });
++    pid = child.pid;
++    child.on("error", () => hold("owned child/IPC error"));
++    child.on("exit", () => { if (live) invalidateOwnedHostV1(live); });
++    child.on("close", (code, signal) => { closed = true; childExit = { code, signal }; if (live) invalidateOwnedHostV1(live); resolveClose(); rejectReady(new Error("owned child closed")); });
++    for (const [i, stream] of [child.stdout, child.stderr].entries()) { ownedNeedV1(stream, "owned log pipe"); stream.on("data", (chunk: Buffer) => {
++      try { const log = logs[i]!; ownedNeedV1(Buffer.isBuffer(chunk), "owned log bytes"); log.received += chunk.length;
++        if (log.received > 1048576) { log.truncated = true; hold("owned log cap"); return; } log.chunks.push(chunk); log.kept += chunk.length;
++      } catch { hold("owned log capture error"); }
++    }); }
++    ownedNeedV1(pid && pid > 0 && pid !== process.pid && child.spawnfile === p.runtime.executable.path, "OS child handle identity");
++    child.on("message", (message: unknown) => { try {
++      const m = message as any; ownedNeedV1(m && typeof m === "object" && !Array.isArray(m) && m.nonce === nonce && Number.isSafeInteger(m.at), "private IPC envelope");
++      const keys: Record<string, string[]> = { PHASE: ["type", "name", "at", "nonce"], READY: ["type", "at", "pid", "parentPid", "execPath", "runtime", "platform", "arch", "port", "tmp", "nativeLoadEvidence", "nonce"], SCOPE_CLOSED: ["type", "at", "pid", "nonce"], HOLD: ["type", "at", "reason", "nonce"] };
++      ownedNeedV1(keys[m.type] && canonical(Object.keys(m).sort()) === canonical(keys[m.type]!.slice().sort()), "closed IPC message");
++      if (m.type === "SCOPE_CLOSED") { ownedNeedV1(stopping && m.pid === pid, "owned scope shutdown identity"); scopeClosed = true; return; }
++      if (m.type === "HOLD") { hold("bootstrap guard/import/scope refused"); return; }
++      assertOwnedCustodyV1(invocation, config); abort.signal.throwIfAborted();
++      if (m.type === "PHASE") { ownedNeedV1(m.name === ["APPLICATION_IMPORT_BEGIN", "SCOPED_START_BEGIN"][phases.length], "owned phase order"); phases.push(m.name); return; }
++       ownedNeedV1(phases.length === 2 && !readyReceived && !live && m.pid === pid && m.parentPid === process.pid && ownedWindowsExecutablePathsMatchV1(m.execPath, p.runtime.executable.path)
++        && m.runtime === "1.4.2" && m.platform === "win32" && m.arch === "x64" && Number.isInteger(m.port) && m.port > 0 && m.port <= 65535
++        && ownedPathKeyV1(m.tmp) === ownedPathKeyV1(join(root!, "tmp/opencode")) && m.nativeLoadEvidence === "UNPROVEN", "owned READY identity"); readyReceived = true; resolveReady(m);
++    } catch { hold("owned IPC/custody divergence"); } });
++    child.send({ type: "INIT", nonce, password, runRoot: root, planSha256: p.plan.sha256 }, error => { if (error) hold("owned INIT send failed"); });
++    const cancelled = new Promise<never>((_, reject) => { const stop = () => reject(new Error("owned scope cancelled")); if (abort.signal.aborted) stop(); else abort.signal.addEventListener("abort", stop, { once: true }); }); void cancelled.catch(() => {});
++    const readyMessage = await Promise.race([ready, cancelled]);
++    assertOwnedCustodyV1(invocation, config); abort.signal.throwIfAborted(); ownedNeedV1(deadlineCheck(), "owned READY deadline");
++    const nativePath = join(root, "native.sqlite"), nativeStat = lstatSync(nativePath, { bigint: true }), ownStat = lstatSync(resolve(config.ownPath), { bigint: true });
++    ownedNeedV1(nativeStat.isFile() && !nativeStat.isSymbolicLink() && ownedPathKeyV1(realpathSync(nativePath)) === ownedPathKeyV1(nativePath), "owned native DB created by child");
++    live = { invocation, config, child, pid, parentPid: readyMessage.parentPid, origin: `http://127.0.0.1:${readyMessage.port}`, nonce, password, authorization,
++      epoch: randomUUID(), expiresAt, monotonicExpiry: monotonicDeadline, abort, closed: false,
++      provenance: JSON.parse(canonical(p)), stamps, nativeDb: { path: nativePath, dev: nativeStat.dev, ino: nativeStat.ino }, ownDb: { path: resolve(config.ownPath), dev: ownStat.dev, ino: ownStat.ino } };
++    result.custodyData = { version: "rms-owned-readonly-custody-DATA-v2", parentPid: process.pid, childPid: pid,
++      origin: live.origin, epoch: live.epoch, expiresAt: live.expiresAt, controllerFence: invocation.source.controllerFence,
++      parentProgramSha256: invocation.source.programSha256, scopeSha256: invocation.source.scopeSha256,
++      ownDb: { path: live.ownDb.path, ...ownedFileIdentityDataV1(live.ownDb) },
++      nativeDb: { path: live.nativeDb.path, ...ownedFileIdentityDataV1(live.nativeDb) }, memoryEquivalence: false, authorityFromReceipt: false };
++    // The only mint: inside main's owned invocation, after the real handle/READY.
++    cap = Object.freeze({}) as OwnedHostCapabilityV1; ownedLiveHostsV1.set(cap, live);
++    ownedNeedV1(verifyOwnedNativeHostCapabilityV1(cap), "new cap still live");
++    const port = await connectOwnedNativeRuntimeHttpV1(cap);
++    // Fixed lexical read body; no callback, generic HTTP, session or model API.
++    for (const target of ["/api/info", "/openapi.json"] as const) {
++      const response = await port.request("GET", target, undefined, abort.signal), bytes = Buffer.from(await response.arrayBuffer());
++      ownedNeedV1(verifyOwnedNativeHostCapabilityV1(cap), "custody after read body");
++      ownedNeedV1(response.status === 200 && (response.headers.get("content-type") ?? "").split(";")[0]?.trim() === "application/json"
++        && !privateValues.some(secret => bytes.includes(Buffer.from(secret))), "readonly response/refuse secret");
++      const data = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
++      if (target === "/api/info") ownedNeedV1(data.pid === pid && data.version === "2.2.1" && Array.isArray(data.urls) && data.urls.includes(live.origin)
++        && ownedPathKeyV1(data.paths?.tmp ?? "") === ownedPathKeyV1(join(root, "tmp/opencode")), "owned info readback");
++      else ownedNeedV1(typeof data.openapi === "string" && data.openapi.startsWith("3.") && data.paths?.["/api/info"]?.get, "owned OpenAPI shape");
++      const file = join(root, "responses", target === "/api/info" ? "info.bin" : "openapi.bin");
++      ownedNeedV1(deadlineCheck(), "owned response write deadline"); writeOwnedNewV1(file, bytes);
++      ownedNeedV1(deadlineCheck(), "owned response sync deadline");
++      checks.push({ method: "GET", rawTarget: target, status: response.status, response: { path: file, byteLength: bytes.length, sha256: hash(bytes) } });
++    }
++  } catch { hold("owned readonly preparation/custody/read refused"); }
++  finally {
++    clearTimeout(workTimer); stopping = true;
++    if (live) invalidateOwnedHostV1(live); else abort.abort(); if (cap) ownedLiveHostsV1.delete(cap);
++    if (child && !closed) {
++      try { if (child.connected) child.send({ type: "STOP", nonce }, error => { if (error) hold("owned STOP send failed"); }); } catch { hold("owned STOP threw"); }
++      try { await ownedBoundedWaitV1(close, Math.min(8000, Math.max(1, left() - 6000))); } catch { kill(); }
++      if (!closed) try { await ownedBoundedWaitV1(close, Math.max(1, left() - 1000)); } catch { hold("owned child close unproven"); }
++    }
++    // Total/force timers and the sticky monotonic guard remain armed through
++    // logs, fsync/close, provisional receipt readback AND candidate publication.
++    try {
++      if (child && !closed) { try { child.stdout?.destroy(); child.stderr?.destroy(); if (child.connected) child.disconnect(); child.unref(); } catch { hold("owned detached cleanup uncertain"); } }
++      const logFacts: Array<Record<string, unknown>> = [];
++      deadlineCheck();
++      for (const log of logs) {
++        deadlineCheck();
++        const raw = Buffer.concat(log.chunks), secret = privateValues.some(s => raw.includes(Buffer.from(s)));
++        const safe = secret ? Buffer.from(privateValues.reduce((text, s) => text.replaceAll(s, "[PRIVATE_REDACTED]"), raw.toString("utf8"))) : raw;
++        if (secret || log.truncated) hold("owned log redaction/truncation");
++        if (/Failed to load lib|Failed to initialize OpenTUI|Failed to enable PTY|shared library not found/.test(safe.toString("utf8"))) hold("owned native initialization error observed");
++        let written = false; if (root) try { deadlineCheck(); writeOwnedNewV1(join(root, `${log.channel}.bin`), safe); written = true; }
++        catch { hold("owned log output I/O; partial retained"); } finally { deadlineCheck(); }
++        logFacts.push({ channel: log.channel, receivedBytes: log.received, keptBytes: log.kept, redacted: secret, truncated: log.truncated,
++          byteExact: written && closed && !secret && !log.truncated && log.received === raw.length });
++      }
++      if (!closed || !scopeClosed || childExit?.code !== 0 || forced) hold("owned graceful scope/child closure not proved");
++      Object.assign(result, { failure: fault ?? null, pid: pid ?? null, scopeClosed, childClosed: closed,
++        childExit: childExit ?? null, forced, logs: logFacts, invocationId: invocation.source.invocationId, noRetryOrCleanup: true,
++        completionProtocol: { version: "rms-owned-readonly-parent-final-outcome-v1", provisionalAloneAdoptable: false,
++          candidateAloneAdoptable: false, requiresExactProvisionalReceiptSha256: true, requiresExactCandidateSha256: true,
++          requiresCandidateStatus: "READONLY_BOUNDARIES_MATCHED_NATIVE_LOAD_UNPROVEN", requiresParentObservedInvocationExitZero: true,
++          requiresParentConfigurationNotExpired: true, requiresParentMeasuredWholeInvocationAtMostMs: Math.min(120000, monotonicDeadline - started),
++          hardMaximumTotalMs: 120000 } });
++      let receiptReady = false;
++      if (root) try {
++        deadlineCheck();
++        // NEVER prewrite a successful receipt. Even a complete late fsync leaves
++        // only a provisional artifact, not an adoptable SUCCESS on disk.
++        const provisional = { ...result, version: "rms-owned-readonly-provisional-receipt-v2", status: "PROVISIONAL_NOT_ADOPTABLE",
++          deadline: budget.snapshot(), durationMs: Math.round(performance.now() - started) };
++        const bytes = Buffer.from(JSON.stringify(provisional, null, 2)), file = join(root, "receipt.json");
++        deadlineCheck(); writeOwnedNewV1(file, bytes); deadlineCheck();
++        const receiptRef = { path: file, byteLength: bytes.length, sha256: hash(bytes) };
++        deadlineCheck(); readOwnedPinV1(receiptRef); deadlineCheck();
++        result.provisionalReceipt = receiptRef; receiptReady = true;
++      } catch { hold("owned provisional receipt I/O failed; partial preserved"); }
++      finally { deadlineCheck(); }
++      if (!receiptReady) hold("owned provisional receipt unavailable");
++      deadlineCheck();
++      const finalBudgetOutcome = budget.outcome(!fault && checks.length === 2 && receiptReady);
++      if (finalBudgetOutcome === "HOLD_TOTAL_DEADLINE") deadlineCheck();
++      Object.assign(result, { status: finalBudgetOutcome === "CANDIDATE_WITHIN_DEADLINE" ? "READONLY_BOUNDARIES_MATCHED_NATIVE_LOAD_UNPROVEN" : finalBudgetOutcome,
++        failure: fault ?? null, deadline: budget.snapshot(), durationMs: Math.round(performance.now() - started) });
++      // This is a CANDIDATE, not the parent's final attestation. Adoption also
++      // requires the parent's actual end/exit/duration and both exact hashes.
++      let envelope = JSON.stringify({ event: "native-owned-readonly-candidate-v2", invocationId: invocation.source.invocationId,
++        resultSha256: hash(canonical(result)), data: result, nativeQualification: "NOT_ATTESTED" });
++      if (!deadlineCheck()) envelope = JSON.stringify({ event: "native-owned-readonly-candidate-refused-v2", status: "HOLD_TOTAL_DEADLINE",
++        invocationId: invocation.source.invocationId, provisionalReceipt: result.provisionalReceipt ?? null });
++      try { console.log(envelope); } catch { hold("owned candidate output failed"); }
++      if (!deadlineCheck()) {
++        result.status = "HOLD_TOTAL_DEADLINE";
++        try { console.error(JSON.stringify({ event: "native-owned-readonly-candidate-invalidated-v2", status: "HOLD_TOTAL_DEADLINE",
++          invocationId: invocation.source.invocationId, provisionalReceipt: result.provisionalReceipt ?? null })); } catch {}
++      }
++    } finally {
++      if (!deadlineCheck()) result.status = "HOLD_TOTAL_DEADLINE";
++      else if (fault) result.status = "HOLD";
++      result.failure = fault ?? null; result.deadline = budget.snapshot(); result.durationMs = Math.round(performance.now() - started);
++      clearTimeout(forceTimer); clearTimeout(totalTimer); ownedParentInvocations.delete(invocation.capability);
++    }
++  }
++  if (!deadlineCheck()) result.status = "HOLD_TOTAL_DEADLINE";
++  else if (fault) result.status = "HOLD";
++  result.failure = fault ?? null; result.deadline = budget.snapshot(); result.durationMs = Math.round(performance.now() - started);
++  return result;
++}
+ async function nativeHostJsonV1(port: NativeRuntimeHttpPortV1, route: string, signal: AbortSignal): Promise<any | null> {
+   signal.throwIfAborted(); const r = await port.request("GET", route, undefined, signal);
+   if (r.status === 404) { await r.body?.cancel().catch(() => {}); return null; }
+@@ -423,6 +854,237 @@ async function nativeHostJsonV1(port: NativeRuntimeHttpPortV1, route: string, si
+   } } finally { void reader.cancel().catch(() => {}); reader.releaseLock(); }
+   const value = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(Buffer.concat(chunks))); assertExecutionJsonV1(value); return value;
+ }
++/** Auth-only composition. No callback-supplied verifier, model grant or work body.
++ * The native parent must provide a PRIVATE IPC UI relay, never a captured stdout
++ * or file. No HTTP effect is admitted until that relay acknowledges readiness. */
++async function withOwnedAuthHostV1(invocation: OwnedParentInvocationV1, config: OwnedAuthParentRequestV1): Promise<Record<string, unknown>> {
++  const started = performance.now(), expiresAt = Math.min(config.expiresAt, Date.now() + 240000);
++  const deadline = started + Math.max(0, expiresAt - Date.now()), budget = ownedAuthBudgetV1(started, deadline);
++  const abort = new AbortController(), nonce = randomBytes(32).toString("hex"), password = randomBytes(32).toString("hex");
++  const authorization = `Basic ${Buffer.from(`opencode:${password}`).toString("base64")}`;
++  let graph: GraphStore | undefined, child: ChildProcess | undefined, live: LiveOwnedAuthV1 | undefined, cap: object | undefined;
++  let fault: string | undefined, closed = false, scopeClosed = false, stopping = false, forced = false, pid: number | undefined;
++  let childExit: { code: number | null; signal: string | null } | undefined, resolveClose!: () => void, resolveReady!: (m: any) => void;
++  let resolveAttempt: (() => void) | undefined, attemptId: string | null = null, complete = false, retainedIntent = false, readyReceived = false;
++  const close = new Promise<void>(resolve => { resolveClose = resolve; }), ready = new Promise<any>(resolve => { resolveReady = resolve; });
++  const preflight = ownedClosureProgressV1(32227), stamps: OwnedPinStampV1[] = [], phases: string[] = [];
++  const logs = ["stdout", "stderr"].map(channel => ({ channel, receivedBytes: 0, retainedBytes: 0, discarded: true, byteExact: false }));
++  const hold = (code: string) => { fault ??= code; abort.abort(); };
++  const parentDisconnected = () => hold("AUTH_PRIVATE_PARENT_DISCONNECTED"); process.once("disconnect", parentDisconnected);
++  const checkpoint = () => { if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE"); abort.signal.throwIfAborted(); };
++  const left = () => Math.max(0, deadline - performance.now());
++  const kill = () => { if (!child || closed || forced) return; forced = true;
++    if (pid && child.pid === pid && pid !== process.pid && ownedWindowsExecutablePathsMatchV1(child.spawnfile, config.connection.provenance.base.runtime.executable.path)) {
++      try { child.kill("SIGKILL"); } catch { hold("AUTH_CHILD_KILL_REFUSED"); }
++    } else hold("AUTH_CHILD_KILL_IDENTITY_REFUSED"); };
++  const workTimer = setTimeout(() => hold("AUTH_WORK_DEADLINE_RESERVE_CLOSE"), Math.max(1, left() - 15000));
++  const forceTimer = setTimeout(kill, Math.max(1, left() - 5000));
++  const totalTimer = setTimeout(() => { hold("AUTH_TOTAL_DEADLINE"); kill(); }, Math.max(1, left()));
++  const result: Record<string, unknown> = { version: "rms-owned-auth-outcome-v1", status: "HOLD", authOnly: true, provider: "openai", method: "chatgpt-headless",
++    intentId: config.intentId, invocationId: invocation.source.invocationId, nativeLoadEvidence: "UNPROVEN", workAuthority: false,
++    modelOrSessionEffects: 0, rootOrOriginAuthority: false, preflightProgress: preflight, logs, noRetryOrCleanup: true };
++  const current = () => { checkpoint(); ownedNeedV1(process.connected, "auth private parent disconnected"); assertOwnedCustodyV1(invocation, config);
++    ownedNeedV1(graph, "auth OWN unavailable"); return graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1({ graph, config }), invocation.capability, config.intentId, hash(canonical(config.connection.provenance))); };
++  const transition = (status: import("./graph-runtime-binding").OwnedAuthTransitionV1["status"], id: string | null) => {
++    const s = current(); return graph!.transitionOwnedAuthIntentV1(ownedAuthAuthorityV1({ graph: graph!, config }), invocation.capability,
++      config.intentId, s.intent.pinsSha256, s.revision, s.digest, status, id);
++  };
++  const wait = async <T>(op: () => Promise<T>): Promise<T> => { current(); try { return await op(); } finally { current(); } };
++  const privateUi = async (challenge?: ReturnType<typeof ownedAuthChallengeV1>) => {
++    current(); ownedNeedV1(process.connected && typeof process.send === "function", "auth private parent UI IPC required");
++    const uiNonce = randomBytes(32).toString("hex"), type = challenge ? "RMS_AUTH_PRIVATE_UI_CHALLENGE" : "RMS_AUTH_PRIVATE_UI_READY";
++    let listener!: (m: unknown) => void, stop!: () => void, timer: ReturnType<typeof setTimeout> | undefined;
++    try { await new Promise<void>((resolveUi, rejectUi) => {
++      const refuse = () => { hold("AUTH_PRIVATE_UI_UNAVAILABLE"); rejectUi(new Error("AUTH_PRIVATE_UI_UNAVAILABLE")); }; stop = refuse;
++      listener = (message: unknown) => { const m = message as any;
++        if (m?.type !== `${type}_ACK`) return;
++        if (canonical(Object.keys(m).sort()) !== canonical(["type", "intentId", "uiNonce"].sort()) || m.intentId !== config.intentId || m.uiNonce !== uiNonce) return refuse();
++        resolveUi(); };
++      process.on("message", listener); abort.signal.addEventListener("abort", stop, { once: true });
++      timer = setTimeout(refuse, Math.min(5000, Math.max(1, left() - 15000)));
++      if (abort.signal.aborted) return refuse();
++      process.send!({ type, intentId: config.intentId, uiNonce, ...(challenge ? { challenge } : {}) }, (error: Error | null) => { if (error) refuse(); });
++    }); } finally { if (timer !== undefined) clearTimeout(timer); if (listener) process.off("message", listener); if (stop) abort.signal.removeEventListener("abort", stop); current(); }
++  };
++  try {
++    assertOwnedCustodyV1(invocation, config); checkpoint();
++    ownedNeedV1(process.connected && typeof process.send === "function" && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(config.intentId), "auth native private UI and UUID required");
++    ownedNeedV1(process.platform === "win32" && process.arch === "x64" && process.versions.bun === "1.4.2" && process.execArgv.length === 0
++      && import.meta.url.startsWith("file:") && !import.meta.url.includes("$bunfs") && (!Bun.embeddedFiles || Bun.embeddedFiles.length === 0), "auth direct Bun parent required");
++    graph = new GraphStore(resolve(config.ownPath), { parentAuthority: localInvocationProviderV1(invocation, config), nativeParentInvocation: invocation });
++    const a = ownedAuthAuthorityV1({ graph, config }), intent: OwnedAuthIntentV1 = { version: "rms-owned-auth-intent-v1", id: config.intentId,
++      authOnly: true, provider: "openai", method: "chatgpt-headless", missionId: config.missionId, controllerOwner: config.controllerId,
++      controllerFence: config.expectedControllerFence, principalId: config.principalId, actorId: config.actorId, invocationId: invocation.source.invocationId,
++      pid: process.pid, ownPath: resolve(config.ownPath), programSha256: invocation.source.programSha256, scopeSha256: invocation.source.scopeSha256,
++      pinsSha256: hash(canonical(config.connection.provenance)), issuedAt: a.now, expiresAt };
++    graph.retainOwnedAuthIntentV1(a, invocation.capability, intent); retainedIntent = true; current(); await privateUi();
++    const provenance = config.connection.provenance, p = provenance.base;
++    ownedNeedV1(p.plan.byteLength === 16302 && p.plan.sha256 === "5d147c490a05f61323fb05436f835b058275c6933c3c6c9cd12494d83029ed67"
++      && ownedPathKeyV1(p.plan.path) === ownedPathKeyV1(join(ownedHostRootV1, "host-plan.json"))
++      && p.bootstrap.byteLength === 10061 && p.bootstrap.sha256 === "e25c43c7b4b2fd9a9f1dba7ece1dcc42d27a7650ee3444f9b2c2eec340cf9a99"
++      && p.runtime.executable.byteLength === 86096984 && p.runtime.executable.sha256 === "15277c59ccd6c6c20f8dc9716c2b59c1776320d606b6a8658f70be8799519ca4"
++      && ownedWindowsExecutablePathsMatchV1(process.execPath, p.runtime.executable.path), "auth base/runtime pins refused");
++    const pin = (v: OwnedHostFilePinV1) => { current(); const r = readOwnedPinV1(v); stamps.push(r.stamp); current(); return r.bytes; };
++    const authPlan = JSON.parse(pin(provenance.plan).toString("utf8")), plan = JSON.parse(pin(p.plan).toString("utf8"));
++    ownedNeedV1(authPlan.version === "rms-owned-auth-host-plan-v1" && authPlan.namespace === ownedHostRootV1 && authPlan.totalMs === 240000
++      && authPlan.closeReserveMs === 15000 && authPlan.provider === "openai" && authPlan.method === "chatgpt-headless" && authPlan.authOnly === true
++      && authPlan.simulation === false && canonical(authPlan.bootstrap) === canonical(provenance.bootstrap) && canonical(authPlan.basePlan) === canonical(p.plan)
++      && plan.namespace === ownedHostRootV1 && plan.totalMs === 120000 && canonical(plan.scripts.bootstrap) === canonical(p.bootstrap)
++      && canonical(plan.allowedRawTargets) === canonical(["/api/info", "/openapi.json"])
++      && canonical(plan.runtime.bun) === canonical({ ...p.runtime.executable, version: "1.4.2" }), "auth public options refused");
++    pin(provenance.bootstrap); pin(p.bootstrap); pin(p.runtime.executable);
++    for (const v of plan.inputs) pin({ path: v.path, byteLength: v.byteLength, sha256: v.sha256 });
++    for (const [role, retained] of [["installed-closure", p.closure.installed], ["archive-closure-367-parent-sri-evidence", p.closure.archives], ["host-source-referent-raw-npm-server-distribution", p.rawSource.archive]] as const) {
++      const q = plan.inputs.find((v: any) => v.role === role); ownedNeedV1(q && canonical({ path: q.path, byteLength: q.byteLength, sha256: q.sha256 }) === canonical(retained), "auth source family pin refused"); }
++    const closure = JSON.parse(pin(p.closure.installed).toString("utf8"));
++    ownedNeedV1(canonical(Object.keys(closure).sort()) === canonical(["fileCount", "files", "lockSha256", "meaning", "root", "totalBytes", "version"])
++      && closure.version === "rms-owned-installed-file-closure-v1" && closure.fileCount === 32227 && closure.totalBytes === 332635368
++      && closure.lockSha256 === plan.lockSha256 && ownedPathKeyV1(closure.root) === ownedPathKeyV1(join(ownedHostRootV1, "node_modules")), "auth full manifest required");
++    const verified = await verifyOwnedClosureRowsBoundedV1(closure.files, preflight, { signal: abort.signal, check: checkpoint, boundary: () => { current(); },
++      onHold: () => hold("AUTH_PREFLIGHT_HOLD"), elapsedMs: () => performance.now() - started, verify: (row, context) => verifyOwnedInstalledFileV1(closure.root, row, context, abort.signal) });
++    current(); ownedNeedV1(verified && preflight.verified === 32227 && preflight.bytesVerified === 332635368 && preflight.inFlight === 0 && !preflight.hold, "auth full closure not completed");
++    const root = join(ownedHostRootV1, `auth-private-${config.intentId}`), rootStat = lstatSync(root, { bigint: true });
++    // Root allocation/protected Windows ACLs are native PARENT prerequisites.
++    // Never create/adopt/repair the root or infer ACL protection from mode0700
++    // or JSON. A missing, linked, redirected or nonempty allocation fails closed.
++    ownedNeedV1(rootStat.isDirectory() && !rootStat.isSymbolicLink(), "auth parent root directory/nonlink required");
++    const realRoot = realpathSync(root);
++    ownedNeedV1(ownedWindowsExecutablePathsMatchV1(root, realRoot), "auth parent root real full path differs");
++    ownedNeedV1(ownedAuthPrivateRootFactsMatchV1(root, { path: root, realPath: realRoot, directory: rootStat.isDirectory(),
++      nonLink: !rootStat.isSymbolicLink(), entries: readdirSync(root).length }), "auth empty real parent allocation required");
++    const env: Record<string, string> = { SystemRoot: "C:\\Windows", WINDIR: "C:\\Windows", ComSpec: "C:\\Windows\\System32\\cmd.exe", OS: "Windows_NT", PATH: `${dirname(p.runtime.executable.path)};C:\\Windows\\System32` };
++    for (const [name, rel] of Object.entries({ HOME: "home", USERPROFILE: "home", APPDATA: "appdata", LOCALAPPDATA: "localappdata", XDG_DATA_HOME: "data", XDG_CACHE_HOME: "cache", XDG_CONFIG_HOME: "xdg-config", XDG_STATE_HOME: "state", TEMP: "tmp", TMP: "tmp", ProgramData: "program-data" })) {
++      env[name] = join(root, rel); if (!existsSync(env[name])) mkdirSync(env[name], { mode: 0o700 }); }
++    for (const rel of ["work", "config"]) mkdirSync(join(root, rel), { mode: 0o700 });
++    writeOwnedNewV1(join(root, "OWN.json"), JSON.stringify({ runnerPid: process.pid, planSha256: provenance.plan.sha256, intentDigest: current().digest }));
++    current(); child = spawn(p.runtime.executable.path, ["run", provenance.bootstrap.path, provenance.plan.sha256, root], { cwd: join(root, "work"), env, windowsHide: true,
++      stdio: ["ignore", "pipe", "pipe", "ipc"], serialization: "json" }); pid = child.pid;
++    child.on("error", () => hold("AUTH_CHILD_ERROR")); child.on("exit", () => { if (live) { live.closed = true; live.abort.abort(); } });
++    child.on("close", (code, signal) => { closed = true; childExit = { code, signal }; if (live) live.closed = true; resolveClose(); });
++    for (const [i, stream] of [child.stdout, child.stderr].entries()) { ownedNeedV1(stream, "auth log pipe required");
++      stream.on("data", (chunk: Buffer) => { if (!Buffer.isBuffer(chunk)) return hold("AUTH_LOG_SHAPE"); logs[i]!.receivedBytes += chunk.length;
++        // NEVER retain, decode, hash, print or write imported native logs.
++        if (logs[i]!.receivedBytes > 1048576) hold("AUTH_LOG_BOUND"); }); }
++    ownedNeedV1(pid && pid !== process.pid && child.spawnfile === p.runtime.executable.path, "auth child OS handle refused");
++    child.on("message", (message: unknown) => { try {
++      const m = message as any; ownedNeedV1(m && m.nonce === nonce && Number.isSafeInteger(m.at), "auth IPC envelope refused");
++      const keys: Record<string, string[]> = { PHASE: ["type", "name", "at", "nonce"], READY: ["type", "at", "pid", "parentPid", "execPath", "runtime", "platform", "arch", "port", "tmp", "nativeLoadEvidence", "policy", "nonce"],
++        SCOPE_CLOSED: ["type", "at", "pid", "nonce"], HOLD: ["type", "at", "reason", "nonce"], AUTH_ATTEMPT_RETAINED: ["type", "attemptId", "at", "nonce"] };
++      ownedNeedV1(keys[m.type] && canonical(Object.keys(m).sort()) === canonical(keys[m.type]!.slice().sort()), "auth closed IPC refused");
++      if (m.type === "SCOPE_CLOSED") { ownedNeedV1(stopping && m.pid === pid, "auth closed scope identity"); scopeClosed = true; return; }
++      if (m.type === "HOLD") return hold("AUTH_BOOTSTRAP_HOLD");
++      current();
++      if (m.type === "AUTH_ATTEMPT_RETAINED") { ownedNeedV1(attemptId !== null && m.attemptId === attemptId && resolveAttempt, "auth attempt IPC refused"); resolveAttempt!(); resolveAttempt = undefined; return; }
++      if (m.type === "PHASE") { ownedNeedV1(m.name === ["APPLICATION_IMPORT_BEGIN", "SCOPED_START_BEGIN"][phases.length], "auth phases refused"); phases.push(m.name); return; }
++      ownedNeedV1(!readyReceived && !live && phases.length === 2 && m.pid === pid && m.parentPid === process.pid && ownedWindowsExecutablePathsMatchV1(m.execPath, p.runtime.executable.path)
++        && m.runtime === "1.4.2" && m.platform === "win32" && m.arch === "x64" && Number.isInteger(m.port) && m.port > 0 && m.port <= 65535
++        && m.policy === "rms-owned-openai-auth-policy-v1" && m.nativeLoadEvidence === "UNPROVEN" && ownedPathKeyV1(m.tmp) === ownedPathKeyV1(join(root, "tmp/opencode")), "auth READY refused"); readyReceived = true; resolveReady(m);
++    } catch { hold("AUTH_IPC_OR_CUSTODY_REFUSED"); } });
++    child.send({ type: "INIT", nonce, password, planSha256: provenance.plan.sha256, runRoot: root, intentDigest: current().digest }, error => { if (error) hold("AUTH_INIT_FAILED"); });
++    const cancelled = new Promise<never>((_, reject) => { const stop = () => reject(new Error("AUTH_CANCELLED")); if (abort.signal.aborted) stop(); else abort.signal.addEventListener("abort", stop, { once: true }); }); void cancelled.catch(() => {});
++    const m = await wait(() => Promise.race([ready, close.then(() => { throw new Error("AUTH_CHILD_CLOSED_BEFORE_READY"); }), cancelled]));
++    const nativePath = join(root, "native.sqlite"), ns = lstatSync(nativePath, { bigint: true }), os = lstatSync(resolve(config.ownPath), { bigint: true });
++    ownedNeedV1(ns.isFile() && !ns.isSymbolicLink() && ownedPathKeyV1(realpathSync(nativePath)) === ownedPathKeyV1(nativePath), "auth native DB identity required");
++    live = { invocation, config, graph, child, pid: pid!, parentPid: m.parentPid, origin: `http://127.0.0.1:${m.port}`, authorization, epoch: randomUUID(), expiresAt,
++      monotonicExpiry: deadline, abort, closed: false, stamps, nativeDb: { path: nativePath, dev: ns.dev, ino: ns.ino }, ownDb: { path: resolve(config.ownPath), dev: os.dev, ino: os.ino } };
++    cap = Object.freeze({}); ownedAuthHostsV1.set(cap, live); ownedNeedV1(verifyOwnedAuthHostCapabilityV1(cap), "auth cap refused after READY");
++    const port = await wait(() => connectOwnedAuthHttpV1(cap));
++    const json = async (method: "GET" | "POST", route: string, body?: string) => await wait(async () => { const r = await port.request(method, route, body, abort.signal); return await r.json(); });
++    const info = await json("GET", "/api/info") as any;
++    ownedNeedV1(info.pid === pid && info.version === "2.2.1" && Array.isArray(info.urls) && info.urls.includes(live.origin)
++      && ownedPathKeyV1(info.paths?.tmp ?? "") === ownedPathKeyV1(join(root, "tmp/opencode")), "auth info identity refused");
++    await json("GET", "/api/integration"); // factory returns only OpenAI metadata projection
++    await privateUi(); // readiness rechecked immediately before CONNECT claim
++    const rawAttempt = await json("POST", ownedAuthConnectRouteV1, ownedAuthConnectBodyV1);
++    const challenge = ownedAuthChallengeV1(rawAttempt, Date.now(), join(root, "work")); attemptId = challenge.attemptId;
++    transition("ATTEMPT_KNOWN", attemptId);
++    const acknowledged = new Promise<void>(resolve => { resolveAttempt = resolve; });
++    current(); child.send({ type: "AUTH_ATTEMPT", nonce, attemptId }, error => { if (error) hold("AUTH_ATTEMPT_SEND_FAILED"); });
++    await wait(() => ownedBoundedWaitV1(Promise.race([acknowledged, cancelled]), Math.min(5000, Math.max(1, left() - 15000))));
++    await privateUi(challenge); // code/url only here, never in result/journal/logs
++    for (let polls = 0; polls < 150; polls++) {
++      const status = ownedAuthStatusProjectionV1(await json("GET", `${ownedAuthConnectRouteV1}/${attemptId}`), join(root, "work"));
++      if (Date.now() >= Math.min(expiresAt, challenge.expires)) { hold("AUTH_EXPIRED"); throw new Error("AUTH_EXPIRED"); }
++      ownedNeedV1(status.created === challenge.created && status.expires === challenge.expires && Date.now() < Math.min(expiresAt, challenge.expires), "auth status instance/time refused");
++      transition(status.status, attemptId);
++      if (status.status === "COMPLETE") { complete = true; break; }
++      if (status.status !== "PENDING") { hold(status.status === "FAILED" ? "AUTH_REFUSED" : "AUTH_EXPIRED"); throw new Error("AUTH_TERMINAL_NOT_COMPLETE"); }
++      await wait(() => new Promise<void>((resolvePoll, rejectPoll) => { const stop = () => { clearTimeout(timer); rejectPoll(new Error("AUTH_POLL_ABORT")); };
++        const timer = setTimeout(() => { abort.signal.removeEventListener("abort", stop); resolvePoll(); }, 1500);
++        abort.signal.addEventListener("abort", stop, { once: true }); if (abort.signal.aborted) stop(); }));
++    }
++    ownedNeedV1(complete, "auth incomplete");
++    result.nativeDbIdentity = ownedFileIdentityDataV1(live.nativeDb); result.runtimeAuthPersisted = true;
++  } catch (error) { hold(error instanceof OwnedAuthHttpErrorV1 ? `AUTH_${error.code}` : "AUTH_REFUSED_OR_AMBIGUOUS_NO_RETRY"); }
++  finally {
++    clearTimeout(workTimer); stopping = true;
++    if (retainedIntent && graph && (fault || !complete)) try {
++      const s = graph.ownedAuthIntentStateV1(config.missionId, config.intentId);
++      if (s && !["HOLD", "REVOKED"].includes(s.status)) graph.transitionOwnedAuthIntentV1(ownedAuthAuthorityV1({ graph, config }), invocation.capability, config.intentId,
++        s.intent.pinsSha256, s.revision, s.digest, "HOLD", s.attemptId);
++    } catch { /* Expiry/revocation never creates fresh append rights. Outcome stays HOLD. */ }
++    if (live) live.closed = true; abort.abort(); if (cap) ownedAuthHostsV1.delete(cap);
++    if (child && !closed) {
++      try { if (child.connected) child.send({ type: "STOP", nonce }, error => { if (error) hold("AUTH_STOP_SEND_FAILED"); }); } catch { hold("AUTH_STOP_FAILED"); }
++      try { await ownedBoundedWaitV1(close, Math.min(8000, Math.max(1, left() - 6000))); } catch { kill(); }
++      if (!closed) try { await ownedBoundedWaitV1(close, Math.max(1, left() - 1000)); } catch { hold("AUTH_CHILD_CLOSE_UNPROVEN"); }
++    }
++    try {
++      if (child && !closed) try { child.stdout?.destroy(); child.stderr?.destroy(); if (child.connected) child.disconnect(); child.unref(); }
++      catch { hold("AUTH_DETACHED_CLEANUP_UNCERTAIN"); }
++      if (!closed || !scopeClosed || childExit?.code !== 0 || forced) hold("AUTH_GRACEFUL_CLOSURE_UNPROVEN");
++      if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE");
++      const state = graph?.ownedAuthIntentStateV1(config.missionId, config.intentId);
++      if (complete && graph) try {
++        assertOwnedCustodyV1(invocation, config);
++        graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1({ graph, config }), invocation.capability, config.intentId, hash(canonical(config.connection.provenance)));
++        ownedNeedV1(state?.status === "COMPLETE", "auth completion revoked before finalization");
++      } catch { hold("AUTH_AUTHORITY_CHANGED_BEFORE_FINALIZATION"); }
++      Object.assign(result, { connectClaimed: state?.claimed ?? false, attemptId: state?.attemptId ?? null, authStatus: state?.status ?? "NOT_RETAINED",
++        credentialMayHavePersisted: state?.claimed ?? false, runtimeAuthPersisted: complete ? true : null, failure: fault ?? null,
++        pid: pid ?? null, scopeClosed, childClosed: closed, childExit: childExit ?? null, forced, durationMs: Math.round(performance.now() - started),
++        privateNativeDirectoryMustBePreservedNotIngested: true, nativeDbNeverReadOrCopiedOrHashed: true,
++        completionProtocol: { provisionalAloneAdoptable: false, candidateAloneAdoptable: false, parentObservedExitZeroRequired: true,
++          parentMeasuredWholeInvocationAtMostMs: 240000, parentExactCandidateAndReceiptHashesRequired: true } });
++      result.publicStatuses = ownedAuthPublicStatusesV1({ claimed: state?.claimed ?? false, persisted: complete, authStatus: state?.status ?? "NOT_RETAINED",
++        failure: fault ?? null, childStarted: !!child, childClosed: closed, scopeClosed, exitCode: childExit?.code ?? null, forced });
++      const bytes = Buffer.from(JSON.stringify({ ...result, status: "PROVISIONAL_NOT_ADOPTABLE" }, null, 2));
++      if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE");
++      const file = join(ownedHostRootV1, `auth-receipt-${config.intentId}.json`); writeOwnedNewV1(file, bytes);
++      if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE");
++      const pin = { path: file, byteLength: bytes.length, sha256: hash(bytes) }; readOwnedPinV1(pin);
++      if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE"); result.provisionalReceipt = pin;
++      if (complete && graph) {
++        assertOwnedCustodyV1(invocation, config);
++        graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1({ graph, config }), invocation.capability, config.intentId, hash(canonical(config.connection.provenance)));
++      }
++      result.status = complete && !fault && closed && scopeClosed && childExit?.code === 0 && !forced ? "AUTH_CONNECTED_ONLY_NO_WORK_AUTHORITY" : "HOLD";
++      result.failure = fault ?? null; result.durationMs = Math.round(performance.now() - started); result.deadline = budget.snapshot();
++      result.publicStatuses = ownedAuthPublicStatusesV1({ claimed: state?.claimed ?? false, persisted: complete, authStatus: state?.status ?? "NOT_RETAINED",
++        failure: fault ?? null, childStarted: !!child, childClosed: closed, scopeClosed, exitCode: childExit?.code ?? null, forced });
++      let envelope = JSON.stringify({ event: "native-owned-auth-candidate-v1", resultSha256: hash(canonical(result)), data: result });
++      if (!budget.checkpoint()) { hold("AUTH_TOTAL_DEADLINE"); envelope = JSON.stringify({ event: "native-owned-auth-refused-v1", intentId: config.intentId, status: "HOLD" }); }
++      console.log(envelope);
++      if (!budget.checkpoint()) { hold("AUTH_TOTAL_DEADLINE"); console.error("native-owned-auth candidate invalidated: HOLD_TOTAL_DEADLINE"); }
++    } catch { hold("AUTH_FINALIZATION_FAILED"); result.status = "HOLD"; }
++    finally {
++      try {
++        if (complete && graph) { assertOwnedCustodyV1(invocation, config);
++          graph.assertOwnedAuthIntentCurrentV1(ownedAuthAuthorityV1({ graph, config }), invocation.capability, config.intentId, hash(canonical(config.connection.provenance))); }
++      } catch { hold("AUTH_FINAL_AUTHORITY_CHANGED"); }
++      try { graph?.close(); } catch { hold("AUTH_OWN_CLOSE_FAILED"); }
++      finally { if (!budget.checkpoint()) hold("AUTH_TOTAL_DEADLINE");
++        clearTimeout(forceTimer); clearTimeout(totalTimer); ownedParentInvocations.delete(invocation.capability);
++        process.off("disconnect", parentDisconnected);
++        if (fault) result.status = "HOLD"; }
++    }
++  }
++  if (!budget.checkpoint()) { fault ??= "AUTH_TOTAL_DEADLINE"; result.status = "HOLD"; }
++  result.failure = fault ?? null;
++  result.publicStatuses = ownedAuthPublicStatusesV1({ claimed: result.connectClaimed === true, persisted: complete, authStatus: typeof result.authStatus === "string" ? result.authStatus : "NOT_RETAINED",
++    failure: fault ?? null, childStarted: !!child, childClosed: closed, scopeClosed, exitCode: childExit?.code ?? null, forced });
++  return result;
++}
+ /** Whitelisted catalog DATA, never auth/quota or effective permissions. */
+ export function nativeModelCatalogProjectionV1(m: any): { id: string; modelID: string; providerID: string; enabled: boolean; status: string; variants: string[]; capabilities: unknown } {
+   if (!m || typeof m.id !== "string" || typeof m.modelID !== "string" || typeof m.providerID !== "string" || typeof m.enabled !== "boolean"
+@@ -660,6 +1322,24 @@ if (import.meta.main) {
+   // issuer. The external native receipt must attest PID/program/scope afterward.
+   void (async () => {
+     const [mode, action, configPath, ...extra] = process.argv.slice(2);
++    if (mode === "native-owned-auth") {
++      ownedNeedV1(action === "connect" && configPath && extra.length === 0, "closed auth invocation arguments");
++      const config = parseOwnedAuthParentRequestV1(JSON.parse(readFileSync(resolve(configPath), "utf8")));
++      const invocation = issueOwnedParentInvocationV1(config, "connect-owned-openai-auth-v1");
++      try { const result = await withOwnedAuthHostV1(invocation, config); if (result.status !== "AUTH_CONNECTED_ONLY_NO_WORK_AUTHORITY") process.exitCode = 1; }
++      finally { ownedParentInvocations.delete(invocation.capability); }
++      return;
++    }
++    if (mode === "native-owned-readonly") {
++      ownedNeedV1(action === "inspect" && configPath && extra.length === 0, "closed readonly invocation arguments");
++      const config = parseOwnedReadonlyParentRequestV2(JSON.parse(readFileSync(resolve(configPath), "utf8")));
++      const invocation = issueOwnedParentInvocationV1(config, "inspect-owned-http-readonly-v1");
++      try {
++        const result = await withOwnedNativeHostV1(invocation, config);
++        if (result.status !== "READONLY_BOUNDARIES_MATCHED_NATIVE_LOAD_UNPROVEN") process.exitCode = 1;
++      } finally { ownedParentInvocations.delete(invocation.capability); }
++      return;
++    }
+     if (mode !== "native-qualify" || !action || !["inspect-inputs", "preflight", "init", "authorize-root", "grant", "revoke", "command", "inspect", "prepare", "submit", "observe", "notify"].includes(action) || !configPath)
+       throw new Error("usage: client.ts native-qualify <action> <pinned-request.json> [explicit revoke/notification arguments]");
+     if (extra.length !== (action === "revoke" ? 3 : action === "notify" ? 1 : 0)) throw new Error("native parent action arguments incomplete/unsupported");
+diff --git a/tools/ff8-harness/src/graph-runtime-binding.ts b/tools/ff8-harness/src/graph-runtime-binding.ts
+index 2d0d101..29821c8 100644
+--- a/tools/ff8-harness/src/graph-runtime-binding.ts
++++ b/tools/ff8-harness/src/graph-runtime-binding.ts
+@@ -33,6 +33,311 @@ export interface NativeRuntimeAuthorityV1 {
+   sourceRefs: ByteRef[]; proofRefs: ByteRef[]; historyRef: ByteRef;
+   server: { version: "2.2.1"; pid: number; binarySha256: string; sourceSha256: string; openapiSha256: string };
+ }
++/** Additive DATA domain. Neither these pins nor a parsed JSON object mint custody.
++ * Legacy NativeRuntimeAuthorityV1.server.sourceSha256 is deliberately unchanged. */
++export interface OwnedHostFilePinV1 { path: string; byteLength: number; sha256: string }
++export interface OwnedNpmHostProvenanceV1 {
++  version: "rms-owned-npm-host-provenance-v1";
++  runtime: { name: "bun"; version: "1.4.2"; executable: OwnedHostFilePinV1 };
++  rawSource: { meaning: "PUBLISHED_NPM_SERVER_DISTRIBUTION_TARBALL"; archive: OwnedHostFilePinV1 };
++  closure: { archives: OwnedHostFilePinV1; installed: OwnedHostFilePinV1; archiveCount: 367; fileCount: 32227 };
++  bootstrap: OwnedHostFilePinV1;
++  plan: OwnedHostFilePinV1;
++  custodyPolicy: { version: "rms-owned-http-readonly-policy-v1"; rawTargets: ["/api/info", "/openapi.json"]; nativeOptions204: true; post: "DENY_ALL" };
++}
++/** Auth-only DATA is deliberately not a runtime/model/root permit. */
++export const ownedAuthConnectBodyV1 = '{"methodID":"chatgpt-headless"}';
++export const ownedAuthConnectRouteV1 = "/api/integration/openai/connect/oauth";
++export interface OwnedAuthProvenanceV1 {
++  version: "rms-owned-auth-provenance-v1"; base: OwnedNpmHostProvenanceV1;
++  bootstrap: OwnedHostFilePinV1; plan: OwnedHostFilePinV1;
++}
++export interface OwnedAuthIntentV1 {
++  version: "rms-owned-auth-intent-v1"; id: string; authOnly: true; provider: "openai"; method: "chatgpt-headless";
++  missionId: string; controllerOwner: string; controllerFence: number; principalId: string; actorId: string;
++  invocationId: string; pid: number; ownPath: string; programSha256: string; scopeSha256: string; pinsSha256: string;
++  issuedAt: number; expiresAt: number;
++}
++export type OwnedAuthStatusV1 = "INTENDED" | "CONNECT_CLAIMED" | "ATTEMPT_KNOWN" | "PENDING" | "COMPLETE" | "FAILED" | "EXPIRED" | "HOLD" | "REVOKED";
++export interface OwnedAuthTransitionV1 {
++  version: "rms-owned-auth-transition-v1"; id: string; revision: number; previousDigest: string;
++  status: Exclude<OwnedAuthStatusV1, "INTENDED">; attemptId: string | null; at: number;
++}
++export interface OwnedAuthStateV1 {
++  intent: OwnedAuthIntentV1; revision: number; digest: string; claimed: boolean; attemptId: string | null;
++  status: OwnedAuthStatusV1; stopped: boolean;
++}
++export function assertOwnedAuthIntentV1(value: unknown): asserts value is OwnedAuthIntentV1 {
++  assertExecutionJsonV1(value); const v = value as OwnedAuthIntentV1;
++  check(v && canonical(Object.keys(v).sort()) === canonical(["version", "id", "authOnly", "provider", "method", "missionId", "controllerOwner", "controllerFence", "principalId", "actorId", "invocationId", "pid", "ownPath", "programSha256", "scopeSha256", "pinsSha256", "issuedAt", "expiresAt"].sort()), "auth intent closed shape");
++  check(v.version === "rms-owned-auth-intent-v1" && v.authOnly === true && v.provider === "openai" && v.method === "chatgpt-headless"
++    && typeof v.id === "string" && /^[A-Za-z0-9_-]{1,80}$/.test(v.id) && [v.missionId, v.controllerOwner, v.principalId, v.actorId, v.invocationId].every(s => typeof s === "string" && s.length > 0 && s.length <= 200 && !/[\u0000-\u001f]/.test(s))
++    && ownedWindowsExecutablePathsMatchV1(v.ownPath, v.ownPath) && Number.isSafeInteger(v.pid) && v.pid > 0
++    && Number.isSafeInteger(v.controllerFence) && v.controllerFence > 0 && [v.programSha256, v.scopeSha256, v.pinsSha256].every(s => typeof s === "string" && /^[a-f0-9]{64}$/.test(s))
++    && Number.isSafeInteger(v.issuedAt) && Number.isSafeInteger(v.expiresAt) && v.expiresAt > v.issuedAt && v.expiresAt - v.issuedAt <= 240000, "auth intent scope refused");
++}
++export function ownedAuthStateV1(intent: OwnedAuthIntentV1, transitions: readonly OwnedAuthTransitionV1[]): OwnedAuthStateV1 {
++  assertOwnedAuthIntentV1(intent);
++  const s: OwnedAuthStateV1 = { intent: structuredClone(intent), revision: 0, digest: hash(canonical(intent)), claimed: false, attemptId: null, status: "INTENDED", stopped: false };
++  for (const t of transitions) {
++    check(t && canonical(Object.keys(t).sort()) === canonical(["version", "id", "revision", "previousDigest", "status", "attemptId", "at"].sort())
++      && t.version === "rms-owned-auth-transition-v1" && t.id === intent.id && t.revision === s.revision + 1 && t.previousDigest === s.digest
++      && Number.isSafeInteger(t.at) && t.at >= intent.issuedAt && ["CONNECT_CLAIMED", "ATTEMPT_KNOWN", "PENDING", "COMPLETE", "FAILED", "EXPIRED", "HOLD", "REVOKED"].includes(t.status)
++      && (t.attemptId === null || /^con_[A-Za-z0-9_]{1,160}$/.test(t.attemptId)), "auth transition CAS/shape refused");
++    if (t.status === "CONNECT_CLAIMED") check(!s.claimed && !s.stopped && s.status === "INTENDED" && t.attemptId === null, "auth connect already claimed/stopped");
++    else if (t.status === "ATTEMPT_KNOWN") check(s.claimed && !s.stopped && s.attemptId === null && t.attemptId !== null, "auth attempt attribution refused");
++    else check(t.attemptId === s.attemptId && (!["PENDING", "COMPLETE", "FAILED", "EXPIRED"].includes(t.status) || s.claimed && s.attemptId !== null && !s.stopped), "auth status/late result refused");
++    if (["CONNECT_CLAIMED", "ATTEMPT_KNOWN", "PENDING", "COMPLETE"].includes(t.status)) check(t.at < intent.expiresAt, "auth late effect/status refused");
++    s.claimed ||= t.status === "CONNECT_CLAIMED"; s.attemptId = t.attemptId; s.status = t.status;
++    s.stopped ||= ["COMPLETE", "FAILED", "EXPIRED", "HOLD", "REVOKED"].includes(t.status);
++    s.revision = t.revision; s.digest = hash(canonical({ previous: s.digest, transition: t }));
++  }
++  return s;
++}
++export function assertOwnedAuthRequestV1(method: string, route: string, utf8: unknown, knownAttempt: string | null): void {
++  const get = method === "GET" && utf8 === undefined && (["/api/info", "/openapi.json", "/api/integration", "/api/integration/openai"].includes(route)
++    || knownAttempt !== null && /^con_[A-Za-z0-9_]{1,160}$/.test(knownAttempt) && route === `${ownedAuthConnectRouteV1}/${knownAttempt}`);
++  check(get || method === "POST" && route === ownedAuthConnectRouteV1 && utf8 === ownedAuthConnectBodyV1 && knownAttempt === null, "auth route/method/body refused");
++}
++/** Native localized responses bind to the owner's PRIVATE expected cwd. This
++ * pure DATA check does not authenticate a caller or derive context from JSON. */
++export function assertOwnedAuthLocalizedEnvelopeV1(value: unknown, expectedDirectory: string): asserts value is { location: { directory: string }; data: unknown } {
++  assertExecutionJsonV1(value); const v = value as any;
++  check(v && typeof v === "object" && !Array.isArray(v) && canonical(Object.keys(v).sort()) === canonical(["data", "location"])
++    && v.location && typeof v.location === "object" && !Array.isArray(v.location)
++    && canonical(Object.keys(v.location)) === canonical(["directory"])
++    && typeof v.location.directory === "string" && ownedWindowsExecutablePathsMatchV1(expectedDirectory, v.location.directory), "auth localized response context refused");
++}
++/** Only this ephemeral value may cross the PRIVATE UI channel. Never journal it. */
++export function ownedAuthChallengeV1(value: unknown, now: number, expectedDirectory: string): { attemptId: string; url: "https://auth.openai.com/codex/device"; code: string; created: number; expires: number } {
++  assertOwnedAuthLocalizedEnvelopeV1(value, expectedDirectory);
++  const v = value as any, d = v?.data;
++  check(d && canonical(Object.keys(d).sort()) === canonical(["attemptID", "url", "instructions", "mode", "time"].sort())
++    && /^con_[A-Za-z0-9_]{1,160}$/.test(d.attemptID) && d.mode === "auto" && d.url === "https://auth.openai.com/codex/device"
++    && typeof d.instructions === "string" && /^Enter code: [A-Z0-9]{3,8}(?:-[A-Z0-9]{3,8}){0,2}$/.test(d.instructions)
++    && d.time && canonical(Object.keys(d.time).sort()) === canonical(["created", "expires"])
++    && Number.isSafeInteger(d.time.created) && Number.isSafeInteger(d.time.expires) && d.time.created <= now && now < d.time.expires, "auth challenge refused");
++  return { attemptId: d.attemptID, url: "https://auth.openai.com/codex/device", code: d.instructions.slice("Enter code: ".length), created: d.time.created, expires: d.time.expires };
++}
++export function ownedAuthStatusProjectionV1(value: unknown, expectedDirectory: string): { status: "PENDING" | "COMPLETE" | "FAILED" | "EXPIRED"; created: number; expires: number } {
++  assertOwnedAuthLocalizedEnvelopeV1(value, expectedDirectory);
++  const d = (value as any)?.data;
++  check(d && ["pending", "complete", "failed", "expired"].includes(d.status) && d.time
++    && Number.isSafeInteger(d.time.created) && Number.isSafeInteger(d.time.expires) && d.time.expires > d.time.created, "auth status refused");
++  // Deliberately do NOT retain message/headers/value or raw response digests.
++  return { status: d.status.toUpperCase(), created: d.time.created, expires: d.time.expires };
++}
++export function ownedAuthIntegrationProjectionV1(value: unknown, expectedDirectory: string): { id: "openai"; methods: Array<{ id: "chatgpt-headless"; type: "oauth" }>; connections: Array<{ type: "credential"; id: string; method: "oauth" }> } {
++  assertOwnedAuthLocalizedEnvelopeV1(value, expectedDirectory);
++  const data = (value as any)?.data, entries = Array.isArray(data) ? data : [data], openai = entries.filter((v: any) => v?.id === "openai");
++  check(openai.length === 1 && Array.isArray(openai[0].methods) && Array.isArray(openai[0].connections), "auth integration unavailable");
++  const methods = openai[0].methods.filter((m: any) => m?.id === "chatgpt-headless" && m.type === "oauth").map(() => ({ id: "chatgpt-headless" as const, type: "oauth" as const }));
++  check(methods.length === 1, "auth headless method unavailable");
++  return { id: "openai", methods, connections: openai[0].connections.filter((c: any) => c?.type === "credential" && c.method === "oauth" && typeof c.id === "string" && /^cred_[A-Za-z0-9_]{1,160}$/.test(c.id)).map((c: any) => ({ type: "credential" as const, id: c.id as string, method: "oauth" as const })) };
++}
++/** Auth has its own 240s total. Tranche A's 120s oracle is unchanged. */
++export function ownedAuthBudgetV1(started: number, deadline: number, clock: () => number = () => performance.now()) {
++  let last = started, hold = !Number.isFinite(started) || started < 0 || !Number.isFinite(deadline) || deadline <= started || deadline - started > 240000;
++  return { checkpoint() { try { const n = clock(); hold ||= !Number.isFinite(n) || n < last || n >= deadline; if (Number.isFinite(n) && n >= last) last = n; } catch { hold = true; } return !hold; },
++    snapshot() { return { startedMonotonicMs: started, deadlineMonotonicMs: deadline, lastMonotonicMs: last, hold }; } };
++}
++/** DATA check over filesystem facts read by the owner, NOT an ACL proof.
++ * The parent must independently allocate/protect the Windows directory and
++ * attest native ACLs; neither JSON facts nor mode0700 create that authority. */
++export function ownedAuthPrivateRootFactsMatchV1(expected: string, facts: {
++  path: string; realPath: string; directory: boolean; nonLink: boolean; entries: number;
++}): boolean {
++  return ownedWindowsExecutablePathsMatchV1(expected, facts.path) && ownedWindowsExecutablePathsMatchV1(expected, facts.realPath)
++    && facts.directory === true && facts.nonLink === true && facts.entries === 0;
++}
++/** Orthogonal public facts; closure never upgrades authentication or rights. */
++export function ownedAuthPublicStatusesV1(v: { claimed: boolean; persisted: boolean; authStatus: string; failure: string | null;
++  childStarted: boolean; childClosed: boolean; scopeClosed: boolean; exitCode: number | null; forced: boolean }) {
++  const timedOut = ["AUTH_IO_TIMEOUT", "AUTH_WORK_DEADLINE_RESERVE_CLOSE", "AUTH_TOTAL_DEADLINE", "AUTH_EXPIRED"].includes(v.failure ?? "");
++  const providerRefused = v.authStatus === "FAILED" || v.failure === "AUTH_REFUSED", refused = providerRefused || v.failure === "AUTH_HTTP_REFUSED";
++  return {
++    authentication: v.persisted ? "PERSISTED" : providerRefused ? "REFUSED" : v.authStatus === "EXPIRED" || v.failure === "AUTH_EXPIRED" ? "EXPIRED" : v.claimed ? "UNKNOWN_OR_PENDING" : "NOT_STARTED",
++    invocation: timedOut ? "TIMED_OUT" : refused ? "REFUSED" : v.failure === null && v.persisted ? "COMPLETED_AUTH_ONLY" : "HOLD",
++    closure: !v.childStarted ? "NOT_STARTED" : v.forced ? "FORCED" : v.childClosed && v.scopeClosed && v.exitCode === 0 ? "NORMAL" : "UNPROVEN",
++  };
++}
++/** Pure shape check only; real pinned bytes, live handles and rights are verified
++ * by the private parent composition, not by this public validator. */
++export function assertOwnedNpmHostProvenanceV1(value: unknown): asserts value is OwnedNpmHostProvenanceV1 {
++  assertExecutionJsonV1(value);
++  const closed = (v: any, keys: string[]) => check(v && typeof v === "object" && !Array.isArray(v)
++    && canonical(Object.keys(v).sort()) === canonical([...keys].sort()), "owned provenance closed shape");
++  const pin = (v: any) => { closed(v, ["path", "byteLength", "sha256"]);
++    check(typeof v.path === "string" && /^[A-Za-z]:[\\/]/.test(v.path) && !v.path.includes("\0")
++      && Number.isSafeInteger(v.byteLength) && v.byteLength > 0 && v.byteLength <= 100 * 1024 * 1024
++      && typeof v.sha256 === "string" && /^[a-f0-9]{64}$/.test(v.sha256), "owned provenance pin"); };
++  const v = value as OwnedNpmHostProvenanceV1;
++  closed(v, ["version", "runtime", "rawSource", "closure", "bootstrap", "plan", "custodyPolicy"]);
++  check(v.version === "rms-owned-npm-host-provenance-v1", "owned provenance version");
++  closed(v.runtime, ["name", "version", "executable"]); pin(v.runtime.executable);
++  check(v.runtime.name === "bun" && v.runtime.version === "1.4.2", "owned runtime version");
++  closed(v.rawSource, ["meaning", "archive"]); pin(v.rawSource.archive);
++  check(v.rawSource.meaning === "PUBLISHED_NPM_SERVER_DISTRIBUTION_TARBALL", "owned raw source meaning");
++  closed(v.closure, ["archives", "installed", "archiveCount", "fileCount"]); pin(v.closure.archives); pin(v.closure.installed);
++  check(v.closure.archiveCount === 367 && v.closure.fileCount === 32227, "owned closure counts");
++  pin(v.bootstrap); pin(v.plan);
++  closed(v.custodyPolicy, ["version", "rawTargets", "nativeOptions204", "post"]);
++  check(v.custodyPolicy.version === "rms-owned-http-readonly-policy-v1" && v.custodyPolicy.post === "DENY_ALL"
++    && v.custodyPolicy.nativeOptions204 === true && canonical(v.custodyPolicy.rawTargets) === canonical(["/api/info", "/openapi.json"]), "owned readonly policy");
++}
++/** Lexical full-path equality only, not filesystem identity or a custody mint.
++ * Accept drive-absolute Windows paths; normalize only case and separators.
++ * Refuse ambiguous/device/relative forms rather than resolve them via cwd. */
++export function ownedWindowsExecutablePathsMatchV1(actual: unknown, expected: unknown): boolean {
++  const key = (value: unknown): string | undefined => {
++    if (typeof value !== "string" || !/^[A-Za-z]:[\\/]/.test(value)) return undefined;
++    const parts = value.slice(3).split(/[\\/]/);
++    if (parts.some(part => !part || part === "." || part === ".." || /[<>:"|?*\u0000-\u001f\u007f]/.test(part) || /[. ]$/.test(part))) return undefined;
++    return `${value.slice(0, 2)}/${parts.join("/")}`.toLowerCase();
++  };
++  const a = key(actual), b = key(expected);
++  return a !== undefined && b !== undefined && a === b;
++}
++/** Pure negative oracle for offline tests. Passing DATA never registers a cap. */
++export function ownedHostLiveFactsMatchV1(v: { closed: boolean; aborted: boolean; connected: boolean; exitCode: number | null; signalCode: string | null;
++  pid: number; expectedPid: number; parentPid: number; expectedParentPid: number; expiresAt: number; monotonicExpiry: number }, now: number, monotonicNow: number): boolean {
++  return v.closed === false && v.aborted === false && v.connected === true && v.exitCode === null && v.signalCode === null
++    && Number.isSafeInteger(v.pid) && v.pid > 0 && v.pid === v.expectedPid
++    && Number.isSafeInteger(v.parentPid) && v.parentPid > 0 && v.parentPid === v.expectedParentPid
++    && Number.isFinite(now) && Number.isFinite(monotonicNow) && Number.isFinite(v.expiresAt) && Number.isFinite(v.monotonicExpiry)
++    && now < v.expiresAt && monotonicNow < v.monotonicExpiry;
++}
++/** Native fs IDs stay BigInt. This pure equality is not an authority/mint. */
++export interface OwnedFileIdentityV1 { dev: bigint; ino: bigint }
++export function ownedFileIdentityMatchesV1(a: OwnedFileIdentityV1, b: OwnedFileIdentityV1): boolean {
++  return typeof a.dev === "bigint" && typeof a.ino === "bigint" && typeof b.dev === "bigint" && typeof b.ino === "bigint"
++    && a.dev >= 0n && a.ino > 0n && b.dev >= 0n && b.ino > 0n && a.dev === b.dev && a.ino === b.ino;
++}
++export function ownedFileIdentityDataV1(v: OwnedFileIdentityV1): { encoding: "decimal-bigint-v1"; devDecimal: string; inoDecimal: string } {
++  check(ownedFileIdentityMatchesV1(v, v), "owned exact fs identity required");
++  return { encoding: "decimal-bigint-v1", devDecimal: v.dev.toString(10), inoDecimal: v.ino.toString(10) };
++}
++/** Sticky monotonic deadline oracle. Clock injection is for OFFLINE finalization
++ * cost tests only; the private owner constructs its own default-clock instance. */
++export function ownedFinalizationBudgetV1(started: number, deadline: number, clock: () => number = () => performance.now()) {
++  let last = Number.isFinite(started) ? started : 0;
++  let exceeded = !Number.isFinite(started) || started < 0 || !Number.isFinite(deadline) || deadline <= started || deadline - started > 120000;
++  const checkpoint = (): boolean => {
++    try { const now = clock();
++      if (!Number.isFinite(now) || now < last || now < started || now >= deadline) exceeded = true;
++      if (Number.isFinite(now) && now >= last) last = now;
++    } catch { exceeded = true; }
++    return !exceeded;
++  };
++  return {
++    checkpoint,
++    outcome(candidate: boolean): "CANDIDATE_WITHIN_DEADLINE" | "HOLD_TOTAL_DEADLINE" | "HOLD" {
++      if (!checkpoint()) return "HOLD_TOTAL_DEADLINE";
++      return candidate ? "CANDIDATE_WITHIN_DEADLINE" : "HOLD";
++    },
++    snapshot() { return { startedMonotonicMs: started, deadlineMonotonicMs: deadline, lastMonotonicMs: last,
++      elapsedMs: Math.max(0, last - started), exceeded }; },
++  };
++}
++/** Only installed-file preflight DATA. No issuer, capability, transport or RMS
++ * scheduling state is created by these bounded, injectable verification steps. */
++export interface OwnedClosureRowV1 { readonly path: string; readonly byteLength: number; readonly sha256: string }
++/** In-flight/settled describe admitted verification promises, not OS-wide I/O
++ * quiescence after an abort. Only complete, non-HOLD verification can gate mint. */
++export interface OwnedClosureProgressV1 {
++  phase: "manifest" | "verifying" | "draining" | "complete" | "HOLD"; stage: string; hold: boolean;
++  total: number; admitted: number; started: number; verified: number; settled: number; failed: number;
++  inFlight: number; maxInFlight: number; bytesVerified: number; reservedDeclaredBytes: number; maxReservedDeclaredBytes: number; elapsedMs: number;
++}
++export function ownedClosureProgressV1(total: number): OwnedClosureProgressV1 {
++  return { phase: "manifest", stage: "not-started", hold: false, total, admitted: 0, started: 0, verified: 0, settled: 0, failed: 0,
++    inFlight: 0, maxInFlight: 0, bytesVerified: 0, reservedDeclaredBytes: 0, maxReservedDeclaredBytes: 0, elapsedMs: 0 };
++}
++export interface OwnedClosureFileFactsV1 extends OwnedFileIdentityV1 {
++  regular: boolean; nonLink: boolean; canonical: boolean; size: bigint; mtimeNs: bigint; ctimeNs: bigint;
++}
++export function ownedClosureFileFactsMatchV1(row: OwnedClosureRowV1, a: OwnedClosureFileFactsV1, z: OwnedClosureFileFactsV1): boolean {
++  return Number.isSafeInteger(row.byteLength) && row.byteLength >= 0 && row.byteLength <= 100 * 1024 * 1024
++    && a.regular && z.regular && a.nonLink && z.nonLink && a.canonical && z.canonical && ownedFileIdentityMatchesV1(a, z)
++    && a.size === BigInt(row.byteLength) && z.size === a.size && typeof a.mtimeNs === "bigint" && typeof a.ctimeNs === "bigint"
++    && a.mtimeNs === z.mtimeNs && a.ctimeNs === z.ctimeNs;
++}
++export function assertOwnedClosureFileProofV1(row: OwnedClosureRowV1, a: OwnedClosureFileFactsV1, z: OwnedClosureFileFactsV1,
++  bytesRead: number, actualSha256: string): void {
++  check(ownedClosureFileFactsMatchV1(row, a, z) && bytesRead === row.byteLength && actualSha256 === row.sha256, "owned installed-file bytes/identity refused");
++}
++const ownedClosureStagesV1 = new Set(["row-start", "lstat-before", "realpath-before", "read", "hash", "lstat-after", "realpath-after", "verified"]);
++/** All path/schema/uniqueness checks happen once, before any row I/O. */
++function ownedClosureRowsV1(value: unknown): ReadonlyArray<OwnedClosureRowV1> {
++  assertExecutionJsonV1(value); check(Array.isArray(value) && value.length <= 32227, "owned closure rows bound");
++  const seen = new Set<string>();
++  return Object.freeze(value.map((r: any) => {
++    check(r && typeof r === "object" && !Array.isArray(r) && canonical(Object.keys(r).sort()) === canonical(["byteLength", "path", "sha256"])
++      && typeof r.path === "string" && !/[\\:\0]/.test(r.path) && r.path.split("/").every((s: string) => s && s !== "." && s !== "..")
++      && !seen.has(r.path.toLowerCase()) && Number.isSafeInteger(r.byteLength) && r.byteLength >= 0 && r.byteLength <= 100 * 1024 * 1024
++      && typeof r.sha256 === "string" && /^[a-f0-9]{64}$/.test(r.sha256), "owned closure row/path refused");
++    seen.add(r.path.toLowerCase()); return Object.freeze({ path: r.path, byteLength: r.byteLength, sha256: r.sha256 });
++  }));
++}
++export interface OwnedClosureCheckV1 { stage(stage: string): void; check(stage: string): void }
++export interface OwnedClosureChecksV1 {
++  signal: AbortSignal; check(): void; boundary(): void; onHold(): void; elapsedMs(): number;
++  verify(row: OwnedClosureRowV1, context: OwnedClosureCheckV1): Promise<void>;
++}
++/** Fixed 4-file/32MiB DECLARED-size installed-file batches, not a job engine.
++ * The reservation is nominal admission accounting, NOT a buffer/RSS hard cap:
++ * readFile may allocate more if a file grows after pre-stat; post guards refuse.
++ * Public callbacks only produce DATA; the private owner supplies its lexical I/O
++ * and independently requires full completion before any child/capability mint. */
++export async function verifyOwnedClosureRowsBoundedV1(value: unknown, p: OwnedClosureProgressV1, io: OwnedClosureChecksV1): Promise<boolean> {
++  const stop = () => { const first = !p.hold; p.hold = true; p.phase = p.inFlight ? "draining" : "HOLD";
++    if (first) try { io.onHold(); } catch { /* HOLD is already sticky; drain still required. */ } };
++  const tick = () => { try { const n = io.elapsedMs(); if (!Number.isFinite(n) || n < p.elapsedMs) stop(); else p.elapsedMs = n; } catch { stop(); } };
++  const live = () => { tick(); if (p.hold || io.signal.aborted) { stop(); throw new Error("owned closure HOLD"); }
++    try { io.check(); if (io.signal.aborted) throw new Error("owned closure abort"); } catch { stop(); throw new Error("owned closure guard refused"); } };
++  const onAbort = () => stop(); io.signal.addEventListener("abort", onAbort, { once: true });
++  try {
++    let rows: ReadonlyArray<OwnedClosureRowV1>;
++    try {
++      check(!p.hold && p.admitted === 0 && p.started === 0 && p.settled === 0 && p.inFlight === 0, "owned fresh preflight required");
++      live(); p.stage = "manifest"; rows = ownedClosureRowsV1(value); check(rows.length === p.total, "owned closure total changed"); live();
++      p.phase = "verifying";
++    } catch { stop(); tick(); return false; }
++    let next = 0;
++    while (next < rows.length && !p.hold) {
++      try { live(); io.boundary(); live(); } catch { stop(); break; }
++      let declaredBytes = 0; const batch: OwnedClosureRowV1[] = [];
++      while (next < rows.length && batch.length < 4) {
++        const row = rows[next]!;
++        if (batch.length && (declaredBytes + row.byteLength > 32 * 1024 * 1024 || declaredBytes > 32 * 1024 * 1024)) break;
++        batch.push(row); next++; declaredBytes += row.byteLength;
++        if (row.byteLength > 32 * 1024 * 1024) break; // >32MiB, <=100MiB, exclusively alone
++      }
++      const pending: Promise<void>[] = [];
++      for (const row of batch) {
++        try { live(); } catch { stop(); break; }
++        p.admitted++; p.started++; p.inFlight++; p.reservedDeclaredBytes += row.byteLength;
++        p.maxInFlight = Math.max(p.maxInFlight, p.inFlight); p.maxReservedDeclaredBytes = Math.max(p.maxReservedDeclaredBytes, p.reservedDeclaredBytes);
++        const stage = (name: string) => { if (!ownedClosureStagesV1.has(name)) { stop(); throw new Error("owned preflight stage refused"); } p.stage = name; tick(); };
++        const context: OwnedClosureCheckV1 = { stage, check(name) { stage(name); live(); } };
++        pending.push((async () => {
++          try { context.check("row-start"); await io.verify(row, context); context.check("verified"); p.verified++; p.bytesVerified += row.byteLength; }
++          catch { p.failed++; stop(); }
++          finally { p.settled++; p.inFlight--; p.reservedDeclaredBytes -= row.byteLength; tick(); }
++        })());
++      }
++      // Includes every admitted promise, even after abort/expiry/error. No new
++      // admission until this sole in-flight batch has a known drained outcome.
++      await Promise.allSettled(pending);
++      try { live(); io.boundary(); live(); } catch { stop(); }
++    }
++    tick();
++    const expectedBytes = rows.reduce((n, r) => n + r.byteLength, 0);
++    if (p.hold || io.signal.aborted || p.verified !== rows.length || p.settled !== rows.length || p.admitted !== rows.length
++      || p.failed || p.inFlight || p.reservedDeclaredBytes || p.bytesVerified !== expectedBytes) { stop(); p.phase = "HOLD"; return false; }
++    p.phase = "complete"; p.stage = "verified"; return true;
++  } finally { io.signal.removeEventListener("abort", onAbort); }
++}
+ export interface NativeRootLedgerV1 {
+   version: "rms-native-root-ledger-v1";
+   missionId: string; lineageId: string; rootAccountId: string;
+diff --git a/tools/ff8-harness/src/graph-store.ts b/tools/ff8-harness/src/graph-store.ts
+index 94b628c..ee7b07b 100644
+--- a/tools/ff8-harness/src/graph-store.ts
++++ b/tools/ff8-harness/src/graph-store.ts
+@@ -20,6 +20,7 @@ import { bindOwnedNativeObservationTransportV1 } from "./native-observation-tran
+ import { runNativeRuntimeObservationV2, nativeCompletionIntervalV1, type NativeRuntimeObservationV2 } from "./graph-native-observations";
+ import type { NativeRuntimeAuthorityV1, NativeRootLedgerV1, NativeRuntimeBindingV2, NativeRestWireImageV1 } from "./graph-runtime-binding";
+ import { assertNativeRootContinuityV1, readRuntimeDocumentV1 } from "./graph-runtime-binding";
++import { assertOwnedAuthIntentV1, ownedAuthStateV1, type OwnedAuthIntentV1, type OwnedAuthStateV1, type OwnedAuthTransitionV1 } from "./graph-runtime-binding";
+ import { assertExecutionJsonV1, parseGraphRunV3, parseExecutionEnvelopeV1, bindExecutionSourcesV1, makeBoundDocumentV1, type GraphRunV3, type BoundDocument, type ByteRef, type IndependentlyLoadedSourcesV1, type BoundExecutionV1, type ReadonlyData } from "./graph-execution-envelope";
+ import { encodeNativeAdmissionWireV1, encodeNativeNotificationWireV1, submitNativeNotificationWireV1, submitNativeRestWireImageV1,
+   type NativeRuntimeHttpPortV1, type NativeRuntimeAdmissionDataV1, type NativeNotificationWireV1 } from "./native-runtime-transport";
+@@ -780,6 +781,72 @@ export class GraphStore {
+     } catch (error) { this.db.close(); throw error; }
+   }
+   close(): void { this.db.close(); }
++  /** Auth records live solely in the existing event journal, not root/slot tables.
++   * Reading DATA never authenticates the caller or creates a host capability. */
++  ownedAuthIntentStateV1(missionId: string, id: string): OwnedAuthStateV1 | undefined {
++    invariant(/^[A-Za-z0-9_-]{1,80}$/.test(id), "auth intent id refused", "auth");
++    const events = this.events.read(missionId), first = events.find(e => e.key === `rms.auth.intent:${id}`);
++    if (!first) return undefined;
++    invariant(first.kind === "rms_owned_auth_intent_v1" && first.unitId === null
++      && first.digest === fingerprint({ kind: first.kind, time: first.time, payload: first.payload, unitId: first.unitId }), "auth intent event refused", "auth");
++    const intent = first.payload as OwnedAuthIntentV1; assertOwnedAuthIntentV1(intent);
++    invariant(intent.id === id && intent.missionId === missionId && first.time === intent.issuedAt, "auth intent scope refused", "auth");
++    const transitions = events.filter(e => e.key.startsWith(`rms.auth.transition:${id}:`)).map(e => {
++      const t = e.payload as OwnedAuthTransitionV1;
++      invariant(e.kind === "rms_owned_auth_transition_v1" && e.unitId === null && e.key === `rms.auth.transition:${id}:${t.revision}`
++        && e.time === t.at && e.digest === fingerprint({ kind: e.kind, time: e.time, payload: e.payload, unitId: e.unitId }), "auth transition event refused", "auth"); return t;
++    });
++    return immutableCopy(ownedAuthStateV1(intent, transitions));
++  }
++  private assertOwnedAuthParentV1(authority: ControllerAuthority, capability: object): ParentAuthorityIdentity {
++    const i = this.nativeParentInvocation;
++    invariant(i && capability === i.capability && i.source.ownPath === this.path && i.source.pid > 0
++      && i.source.missionId === authority.lease.missionId && i.source.controllerOwner === authority.lease.owner
++      && i.source.controllerFence === authority.lease.token && authority.now < i.source.expiresAt,
++      "auth private current parent invocation required", "auth");
++    assertController(this.db, authority, authority.lease.missionId);
++    invariant(this.db.query("SELECT 1 FROM ff8_graph_parent_authorities WHERE mission=?").get(authority.lease.missionId), "auth requires retained parent identity", "auth");
++    return this.bootstrapParentAuthority(authority).identity;
++  }
++  retainOwnedAuthIntentV1(authority: ControllerAuthority, capability: object, value: OwnedAuthIntentV1): OwnedAuthStateV1 {
++    assertOwnedAuthIntentV1(value);
++    return this.db.transaction(() => {
++      const parent = this.assertOwnedAuthParentV1(authority, capability), i = this.nativeParentInvocation!.source;
++      invariant(value.missionId === authority.lease.missionId && value.controllerOwner === authority.lease.owner && value.controllerFence === authority.lease.token
++        && value.principalId === parent.principalId && value.actorId === parent.actorId && value.invocationId === i.invocationId && value.pid === i.pid
++        && value.ownPath === i.ownPath && value.programSha256 === i.programSha256 && value.scopeSha256 === i.scopeSha256
++        && value.issuedAt === authority.now && value.expiresAt <= Math.min(i.expiresAt, authority.lease.expiresAt)
++        && !this.ownedAuthIntentStateV1(value.missionId, value.id), "auth intent source/expiry/duplicate refused", "auth");
++      const cursor = this.events.cursor(value.missionId);
++      this.events.append(value.missionId, `rms.auth.intent:${value.id}`, "rms_owned_auth_intent_v1", authority.now, value, null, cursor.sequence);
++      this.assertOwnedAuthParentV1(authority, capability);
++      return this.ownedAuthIntentStateV1(value.missionId, value.id)!;
++    }).immediate();
++  }
++  assertOwnedAuthIntentCurrentV1(authority: ControllerAuthority, capability: object, id: string, pinsSha256: string): OwnedAuthStateV1 {
++    const parent = this.assertOwnedAuthParentV1(authority, capability), s = this.ownedAuthIntentStateV1(authority.lease.missionId, id), i = this.nativeParentInvocation!.source;
++    invariant(s && s.intent.invocationId === i.invocationId && s.intent.pid === i.pid && s.intent.ownPath === i.ownPath && s.intent.programSha256 === i.programSha256
++      && s.intent.scopeSha256 === i.scopeSha256 && s.intent.pinsSha256 === pinsSha256 && s.intent.controllerFence === authority.lease.token
++      && s.intent.principalId === parent.principalId && s.intent.actorId === parent.actorId && authority.now >= s.intent.issuedAt
++      && authority.now < s.intent.expiresAt && !["HOLD", "REVOKED", "FAILED", "EXPIRED"].includes(s.status), "auth intent expired/revoked/divergent", "auth");
++    return s;
++  }
++  transitionOwnedAuthIntentV1(authority: ControllerAuthority, capability: object, id: string, pinsSha256: string,
++    revision: number, digest: string, status: OwnedAuthTransitionV1["status"], attemptId: string | null): OwnedAuthStateV1 {
++    return this.db.transaction(() => {
++      const s = status === "REVOKED" || status === "HOLD"
++        ? (this.assertOwnedAuthParentV1(authority, capability), this.ownedAuthIntentStateV1(authority.lease.missionId, id))
++        : this.assertOwnedAuthIntentCurrentV1(authority, capability, id, pinsSha256);
++      invariant(s && s.revision === revision && s.digest === digest, "auth transition CAS refused", "auth");
++      const t: OwnedAuthTransitionV1 = { version: "rms-owned-auth-transition-v1", id, revision: revision + 1, previousDigest: digest, status, attemptId, at: authority.now };
++      // Validate the full next state BEFORE appending. Claim is never reset.
++      const history = this.events.read(authority.lease.missionId).filter(e => e.key.startsWith(`rms.auth.transition:${id}:`)).map(e => e.payload as OwnedAuthTransitionV1);
++      ownedAuthStateV1(s.intent, [...history, t]); const cursor = this.events.cursor(authority.lease.missionId);
++      this.events.append(authority.lease.missionId, `rms.auth.transition:${id}:${t.revision}`, "rms_owned_auth_transition_v1", authority.now, t, null, cursor.sequence);
++      this.assertOwnedAuthParentV1(authority, capability);
++      return this.ownedAuthIntentStateV1(authority.lease.missionId, id)!;
++    }).immediate();
++  }
+   nativeLocalDecisionV1(id: string, missionId?: string): NativeLocalDecisionV1 | undefined {
+     return this.db.transaction(() => {
+       assertNativeRuntimeIntegrityV1(this.db);
+diff --git a/tools/ff8-harness/src/native-runtime-transport.ts b/tools/ff8-harness/src/native-runtime-transport.ts
+index 7d07d0d..772dae8 100644
+--- a/tools/ff8-harness/src/native-runtime-transport.ts
++++ b/tools/ff8-harness/src/native-runtime-transport.ts
+@@ -1,6 +1,9 @@
+ /** Native REST v2.2.1, lazy and image-bound. No authority or retry is minted here. */
+ import { assertExecutionJsonV1 } from "./graph-execution-envelope";
+-import type { NativeRestWireImageV1, NativeRuntimeAuthorityV1 } from "./graph-runtime-binding";
++import type { NativeRestWireImageV1, NativeRuntimeAuthorityV1, OwnedNpmHostProvenanceV1 } from "./graph-runtime-binding";
++import { verifyOwnedNativeHostCapabilityV1 } from "./client";
++import { verifyOwnedAuthHostCapabilityV1, claimOwnedAuthConnectV1 } from "./client";
++import { assertOwnedAuthRequestV1, assertOwnedAuthLocalizedEnvelopeV1, ownedAuthConnectRouteV1, ownedAuthIntegrationProjectionV1, ownedAuthStatusProjectionV1 } from "./graph-runtime-binding";
+ import { canonical, hash } from "./validation";
+ import { isOwnedNativeRuntimeGuardV1 } from "./graph-store";
+ import type { Admission } from "./graph-store";
+@@ -72,6 +75,111 @@ export interface NativeRuntimeHttpPortV1 {
+ const connectedRuntimePorts = new WeakSet<NativeRuntimeHttpPortV1>();
+ /** Membership is not qualification; only this factory can register a connection. */
+ export function isConnectedNativeRuntimeHttpPortV1(port: NativeRuntimeHttpPortV1): boolean { return connectedRuntimePorts.has(port); }
++declare const ownedHostCapabilityBrandV1: unique symbol;
++export interface OwnedHostCapabilityV1 { readonly [ownedHostCapabilityBrandV1]: true }
++/** Private verifier output; never an issuer input or a serializable authority. */
++export interface OwnedHostConnectionViewV1 {
++  origin: string; pid: number; epoch: string; authorization: string; signal: AbortSignal;
++  provenance: OwnedNpmHostProvenanceV1;
++}
++export interface OwnedAuthConnectionViewV1 {
++  kind: "owned-openai-auth-only-v1"; origin: string; pid: number; epoch: string; authorization: string; signal: AbortSignal;
++  intentId: string; pinsSha256: string; attemptId: string | null; expectedDirectory: string;
++}
++/** Local bounded codes ONLY, never an imported error/cause/message. */
++export class OwnedAuthHttpErrorV1 extends Error {
++  constructor(readonly code: "HTTP_REFUSED" | "IO_TIMEOUT" | "IO_AMBIGUOUS" | "RESPONSE_REFUSED") { super(code); }
++}
++/** Same transport module, but NOT registered as a model/runtime work port.
++ * Private registry and durable claim are statically bound, never caller hooks. */
++export async function connectOwnedAuthHttpV1(capability: unknown): Promise<NativeRuntimeHttpPortV1> {
++  const initial = verifyOwnedAuthHostCapabilityV1(capability);
++  if (!initial) throw new Error("AUTH_CAPABILITY_REFUSED");
++  const checked = () => {
++    const live = verifyOwnedAuthHostCapabilityV1(capability);
++    if (!live || live.kind !== initial.kind || live.origin !== initial.origin || live.pid !== initial.pid || live.epoch !== initial.epoch
++      || live.authorization !== initial.authorization || live.intentId !== initial.intentId || live.pinsSha256 !== initial.pinsSha256
++      || live.expectedDirectory !== initial.expectedDirectory) throw new Error("AUTH_CUSTODY_REFUSED");
++    return live;
++  };
++  const port: NativeRuntimeHttpPortV1 = Object.freeze({ async request(method: "GET" | "POST", route: string, utf8: string | undefined, signal: AbortSignal) {
++    let live = checked(); assertOwnedAuthRequestV1(method, route, utf8, live.attemptId);
++    const url = new URL(live.origin);
++    if (url.protocol !== "http:" || url.hostname !== "127.0.0.1" || url.username || url.password || url.pathname !== "/" || url.search || url.hash || url.origin !== live.origin) throw new Error("AUTH_ORIGIN_REFUSED");
++    const timeout = AbortSignal.timeout(10000), combined = AbortSignal.any([signal, live.signal, timeout]); combined.throwIfAborted();
++    if (method === "POST" && !claimOwnedAuthConnectV1(capability)) throw new Error("AUTH_CONNECT_ALREADY_CLAIMED_OR_REFUSED");
++    live = checked(); combined.throwIfAborted();
++    let response: Response;
++    try { response = await fetch(`${live.origin}${route}`, { method, ...(utf8 === undefined ? {} : { body: utf8 }),
++      headers: { authorization: live.authorization, accept: "application/json", ...(method === "POST" ? { "content-type": "application/json" } : {}) }, redirect: "error", signal: combined }); }
++    catch { throw new OwnedAuthHttpErrorV1(timeout.aborted ? "IO_TIMEOUT" : "IO_AMBIGUOUS"); }
++    const reader = response.body?.getReader(); const chunks: Uint8Array[] = []; let size = 0;
++    try {
++      checked(); combined.throwIfAborted();
++      if (!response.ok) throw new OwnedAuthHttpErrorV1("HTTP_REFUSED");
++      if (response.redirected || (response.headers.get("content-type") ?? "").split(";")[0]?.trim() !== "application/json") throw new OwnedAuthHttpErrorV1("RESPONSE_REFUSED");
++      if (reader) for (;;) { const next = await reader.read(); checked(); combined.throwIfAborted(); if (next.done) break;
++        size += next.value.length; if (size > (route === "/openapi.json" ? 8388608 : 262144)) throw new Error("AUTH_RESPONSE_BOUND"); chunks.push(next.value); }
++      const raw = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(Buffer.concat(chunks))); checked();
++      let projection: unknown = raw;
++      if (route !== "/api/info" && route !== "/openapi.json") assertOwnedAuthLocalizedEnvelopeV1(raw, live.expectedDirectory);
++      if (route === "/api/integration" || route === "/api/integration/openai")
++        projection = { location: { directory: raw.location.directory }, data: ownedAuthIntegrationProjectionV1(raw, live.expectedDirectory) };
++      else if (method === "GET" && route.startsWith(`${ownedAuthConnectRouteV1}/`)) {
++        const s = ownedAuthStatusProjectionV1(raw, live.expectedDirectory);
++        projection = { location: { directory: raw.location.directory }, data: { status: s.status.toLowerCase(), time: { created: s.created, expires: s.expires } } };
++      }
++      // No response headers, hashes, captures or imported error messages escape.
++      // CONNECT contains ephemeral UI-only data and remains in lexical memory.
++      return Response.json(projection);
++    } catch (error) { if (error instanceof OwnedAuthHttpErrorV1) throw error;
++      throw new OwnedAuthHttpErrorV1(timeout.aborted ? "IO_TIMEOUT" : "RESPONSE_REFUSED"); }
++    finally { if (reader) { void reader.cancel().catch(() => {}); reader.releaseLock(); } }
++  } });
++  checked(); return port;
++}
++/** Unconditional even for a genuine live cap: tranche A cannot send any POST. */
++export function assertOwnedReadonlyRequestV1(method: string, route: string, utf8: unknown): void {
++  if (method !== "GET" || utf8 !== undefined || !["/api/info", "/openapi.json"].includes(route))
++    throw new Error("owned readonly method/body/raw target refused; POST requires future tranche B");
++}
++/** Same port domain/WeakSet as service discovery. No callback can register/mint
++ * custody: this verifier is statically bound to the private parent registry. */
++export async function connectOwnedNativeRuntimeHttpV1(capability: unknown): Promise<NativeRuntimeHttpPortV1> {
++  const initial = verifyOwnedNativeHostCapabilityV1(capability);
++  if (!initial) throw new Error("owned live host capability unavailable");
++  const checked = () => {
++    const live = verifyOwnedNativeHostCapabilityV1(capability);
++    if (!live || live.epoch !== initial.epoch || live.pid !== initial.pid || live.origin !== initial.origin
++      || live.authorization !== initial.authorization || canonical(live.provenance) !== canonical(initial.provenance))
++      throw new Error("owned live host custody changed");
++    return live;
++  };
++  const port: NativeRuntimeHttpPortV1 = Object.freeze({ async request(method: "GET" | "POST", route: string, utf8: string | undefined, signal: AbortSignal) {
++    assertOwnedReadonlyRequestV1(method, route, utf8);
++    const live = checked();
++    const url = new URL(live.origin);
++    if (url.protocol !== "http:" || url.hostname !== "127.0.0.1" || url.username || url.password
++      || url.pathname !== "/" || url.search || url.hash || url.origin !== live.origin) throw new Error("owned loopback origin refused");
++    const combined = AbortSignal.any([signal, live.signal, AbortSignal.timeout(2500)]);
++    combined.throwIfAborted();
++    const response = await fetch(`${live.origin}${route}`, { method: "GET", headers: { authorization: live.authorization, accept: "application/json" }, redirect: "error", signal: combined });
++    const reader = response.body?.getReader(); const chunks: Uint8Array[] = []; let size = 0;
++    try {
++      checked();
++      if (response.redirected) throw new Error("owned response redirected");
++      if (reader) for (;;) {
++        const next = await reader.read(); checked(); combined.throwIfAborted(); if (next.done) break;
++        size += next.value.length;
++        if (size > (route === "/openapi.json" ? 8388608 : 65536)) throw new Error("owned readonly response byte cap");
++        chunks.push(next.value);
++      }
++      checked();
++      return new Response(Buffer.concat(chunks), { status: response.status, statusText: response.statusText, headers: response.headers });
++    } finally { if (reader) { void reader.cancel().catch(() => {}); reader.releaseLock(); } }
++  } });
++  checked(); connectedRuntimePorts.add(port); return port;
++}
+ /** Parent-owned direct composition only. No service start, retry, redirect,
+  * caller headers or re-serialization of retained request bytes. */
+ export async function connectNativeRuntimeHttpV1(directory: string, registrationFile?: string, signal: AbortSignal = AbortSignal.timeout(10000)): Promise<NativeRuntimeHttpPortV1> {
+diff --git a/tools/ff8-harness/test/client.test.ts b/tools/ff8-harness/test/client.test.ts
+index 3fff9d3..080c178 100644
+--- a/tools/ff8-harness/test/client.test.ts
++++ b/tools/ff8-harness/test/client.test.ts
+@@ -21,6 +21,9 @@ import { canonical, fingerprint } from "../src/validation";
+ import { createHash } from "node:crypto";
+ import * as clientModule from "../src/client";
+ import type { NativeRuntimeObservationV2 } from "../src/graph-native-observations";
++import { connectOwnedNativeRuntimeHttpV1, assertOwnedReadonlyRequestV1 } from "../src/native-runtime-transport";
++import { connectOwnedAuthHttpV1 } from "../src/native-runtime-transport";
++import type { OwnedAuthIntentV1 } from "../src/graph-runtime-binding";
+ 
+ /** OFFLINE host/HTTP simulation, not native qualification or a production host.
+  * The original frozen source is DATA; target Engine.create makes a fresh OWN
+@@ -320,6 +323,8 @@ test("RMSN- parent library import exposes no issuer/composer and model metadata
+   expect(Object.hasOwn(clientModule, "issueOwnedParentInvocationV1")).toBe(false);
+   expect(Object.hasOwn(clientModule, "composeNativeQualificationV1")).toBe(false);
+   expect(Object.hasOwn(clientModule, "parseNativeParentRequestV1")).toBe(false);
++  for (const privateName of ["withOwnedNativeHostV1", "issueOwnedParentInvocationV1", "parseOwnedReadonlyParentRequestV2", "ownedLiveHostsV1", "assertOwnedCustodyV1"])
++    expect(Object.hasOwn(clientModule, privateName)).toBe(false);
+   expect(isConnectedNativeRuntimeHttpPortV1({ request: async () => { throw new Error("must not run"); } })).toBe(false);
+   const m = { id: "OFFLINE", modelID: "OFFLINE", providerID: "openai", enabled: true, status: "active", capabilities: { text: true },
+     variants: [{ id: "high", headers: { secret: "NOT-FOR-PROJECTION" }, settings: {}, body: { secret: "NOT-FOR-PROJECTION" } }], headers: { secret: "NOT-FOR-PROJECTION" } };
+@@ -329,6 +334,34 @@ test("RMSN- parent library import exposes no issuer/composer and model metadata
+   expect(() => nativeModelCatalogProjectionV1({ ...m, variants: ["high"] })).toThrow("schema unverified");
+ });
+ 
++test("RMSN-OWNED-RO JSON and frozen objects cannot mint custody or reach fetch", async () => {
++  // OFFLINE negative DATA, not a fabricated positive native capability.
++  let calls = 0;
++  const offlineFetch: typeof globalThis.fetch = Object.assign(async () => { calls++; throw new Error("OFFLINE no network"); },
++    { preconnect: () => { calls++; throw new Error("OFFLINE no network"); } });
++  const fetch = spyOn(globalThis, "fetch").mockImplementation(offlineFetch);
++  try {
++    for (const candidate of [null, {}, Object.freeze({}), { pid: 193, origin: "http://127.0.0.1:1", authorization: "OFFLINE", epoch: "OFFLINE", closed: false }]) {
++      expect(clientModule.verifyOwnedNativeHostCapabilityV1(candidate)).toBeUndefined();
++      await expect(connectOwnedNativeRuntimeHttpV1(candidate)).rejects.toThrow("owned live host capability unavailable");
++    }
++    expect(calls).toBe(0);
++    expect(isConnectedNativeRuntimeHttpPortV1({ request: async () => { throw new Error("OFFLINE must not run"); } })).toBe(false);
++  } finally { fetch.mockRestore(); }
++}, 15000);
++
++test("RMSN-OWNED-RO POST is unconditionally refused before any capability branch", () => {
++  // This pure guard is the first statement of the real owned port.request.
++  // A positive fake cap is deliberately NOT manufactured to test it.
++  expect(() => assertOwnedReadonlyRequestV1("GET", "/api/info", undefined)).not.toThrow();
++  expect(() => assertOwnedReadonlyRequestV1("GET", "/openapi.json", undefined)).not.toThrow();
++  for (const method of ["POST", "HEAD", "PUT", "DELETE", "OPTIONS"])
++    expect(() => assertOwnedReadonlyRequestV1(method, "/api/info", undefined)).toThrow("owned readonly");
++  for (const rawTarget of ["/api/session", "/api/%69nfo", "/api/info?", "http://127.0.0.1/api/info", "/api/./info", "/api/info#x"])
++    expect(() => assertOwnedReadonlyRequestV1("GET", rawTarget, undefined)).toThrow("owned readonly");
++  expect(() => assertOwnedReadonlyRequestV1("GET", "/api/info", "x")).toThrow("owned readonly");
++}, 15000);
++
+ for (const defect of ["wrong-capability", "unknown-inventory", "zero-acquisition", "duplicate-slot"] as const)
+   test(`RMSN- OFFLINE local first acquisition refuses ${defect} without any native grant/effect proof`, () => {
+     const s = nativeOfflineCase(undefined, { localParent: true });
+@@ -346,6 +379,93 @@ for (const defect of ["wrong-capability", "unknown-inventory", "zero-acquisition
+     } finally { s.close(); }
+   }, 600000);
+ 
++function offlineAuthIntentFor(s: ReturnType<typeof nativeOfflineCase>): OwnedAuthIntentV1 {
++  return { version: "rms-owned-auth-intent-v1", id: "OFFLINE_auth", authOnly: true, provider: "openai", method: "chatgpt-headless",
++    missionId: s.missionId, controllerOwner: s.authority().lease.owner, controllerFence: s.authority().lease.token,
++    principalId: "OFFLINE", actorId: "OFFLINE-parent", invocationId: "OFFLINE-ONLY-not-a-native-invocation", pid: 1,
++    ownPath: s.graph().path, programSha256: s.sha("OFFLINE program"), scopeSha256: s.sha("OFFLINE scope"), pinsSha256: s.sha("OFFLINE auth pins"),
++    issuedAt: s.authority().now, expiresAt: 10000 };
++}
++test("RMSN-AUTH OFFLINE forged caps and readonly caps cannot reach authentication fetch", async () => {
++  let calls = 0;
++  const offlineFetch: typeof globalThis.fetch = Object.assign(async () => { calls++; throw new Error("OFFLINE no network"); },
++    { preconnect: () => { calls++; throw new Error("OFFLINE no network"); } });
++  const spy = spyOn(globalThis, "fetch").mockImplementation(offlineFetch);
++  try {
++    for (const candidate of [null, {}, Object.freeze({}), { kind: "owned-openai-auth-only-v1", authOnly: true, status: "COMPLETE" }]) {
++      expect(clientModule.verifyOwnedAuthHostCapabilityV1(candidate)).toBeUndefined(); expect(clientModule.claimOwnedAuthConnectV1(candidate)).toBe(false);
++      await expect(connectOwnedAuthHttpV1(candidate)).rejects.toThrow("AUTH_CAPABILITY_REFUSED");
++      await expect(connectOwnedNativeRuntimeHttpV1(candidate)).rejects.toThrow("owned live host capability unavailable");
++    }
++    expect(calls).toBe(0); expect(() => assertOwnedReadonlyRequestV1("POST", "/api/integration/openai/connect/oauth", '{"methodID":"chatgpt-headless"}')).toThrow();
++  } finally { spy.mockRestore(); }
++}, 15000);
++test("RMSN-AUTH OFFLINE current intent claims CONNECT once and lost response stays HOLD after reopen", () => {
++  const s = nativeOfflineCase(undefined, { localParent: true });
++  try {
++    const g = s.graph(); g.bootstrapParentAuthority(s.authority()); const intent = offlineAuthIntentFor(s);
++    const before = canonical({ roots: g.db.query("SELECT * FROM ff8_graph_native_roots").all(), bindings: g.db.query("SELECT * FROM ff8_graph_native_bindings").all(), operations: g.db.query("SELECT * FROM ff8_graph_native_operations").all(), root: s.root() });
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), {}, intent)).toThrow();
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, { ...intent, controllerFence: intent.controllerFence + 1 })).toThrow();
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, { ...intent, principalId: "OTHER" })).toThrow();
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, { ...intent, programSha256: s.sha("OTHER") })).toThrow();
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, { ...intent, expiresAt: intent.issuedAt })).toThrow();
++    const initial = g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, intent);
++    expect(() => g.assertOwnedAuthIntentCurrentV1(s.authority(), s.localCapability, intent.id, s.sha("OTHER pins"))).toThrow();
++    expect(() => g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, intent)).toThrow();
++    expect(() => g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, 99, initial.digest, "CONNECT_CLAIMED", null)).toThrow("CAS");
++    const claimed = g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, initial.revision, initial.digest, "CONNECT_CLAIMED", null);
++    expect(claimed.claimed).toBe(true);
++    expect(() => g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, claimed.revision, claimed.digest, "CONNECT_CLAIMED", null)).toThrow();
++    const held = g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, claimed.revision, claimed.digest, "HOLD", null);
++    const peer = s.openLocalPeer(); try { expect(peer.ownedAuthIntentStateV1(s.missionId, intent.id)).toEqual(held); } finally { peer.close(); }
++    expect(() => g.assertOwnedAuthIntentCurrentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256)).toThrow();
++    expect(canonical({ roots: g.db.query("SELECT * FROM ff8_graph_native_roots").all(), bindings: g.db.query("SELECT * FROM ff8_graph_native_bindings").all(), operations: g.db.query("SELECT * FROM ff8_graph_native_operations").all(), root: s.root() })).toBe(before);
++    expect(s.calls).toHaveLength(0);
++  } finally { s.close(); }
++}, 600000);
++test("RMSN-AUTH OFFLINE expiry revocation and changed controller reject further effects", () => {
++  for (const fault of ["expiry", "revoke", "fence"] as const) {
++    const s = nativeOfflineCase(undefined, { localParent: true });
++    try {
++      const g = s.graph(); g.bootstrapParentAuthority(s.authority()); const intent = offlineAuthIntentFor(s), initial = g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, intent);
++      if (fault === "expiry") s.setNow(intent.expiresAt);
++      else if (fault === "revoke") g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, initial.revision, initial.digest, "REVOKED", null);
++      else g.db.query("UPDATE ff8_missions SET lease_token=lease_token+1 WHERE id=?").run(s.missionId);
++      expect(() => g.assertOwnedAuthIntentCurrentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256)).toThrow();
++      expect(() => g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, initial.revision, initial.digest, "CONNECT_CLAIMED", null)).toThrow();
++      expect(g.ownedAuthIntentStateV1(s.missionId, intent.id)?.claimed).toBe(false); expect(s.calls).toHaveLength(0);
++    } finally { s.close(); }
++  }
++}, 600000);
++test("RMSN-AUTH OFFLINE claim append rolls back on controller CAS change", () => {
++  const s = nativeOfflineCase(undefined, { localParent: true }); let restore = () => {};
++  try {
++    const g = s.graph(); g.bootstrapParentAuthority(s.authority()); const intent = offlineAuthIntentFor(s), initial = g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, intent);
++    const original = g.events.append.bind(g.events), token = s.authority().lease.token;
++    const spy = spyOn(g.events, "append").mockImplementation((...args) => { const e = original(...args);
++      if (args[2] === "rms_owned_auth_transition_v1") g.db.query("UPDATE ff8_missions SET lease_token=lease_token+1 WHERE id=?").run(s.missionId); return e; });
++    restore = () => spy.mockRestore();
++    expect(() => g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, initial.revision, initial.digest, "CONNECT_CLAIMED", null)).toThrow();
++    expect(g.ownedAuthIntentStateV1(s.missionId, intent.id)).toEqual(initial); expect(s.authority().lease.token).toBe(token); expect(s.calls).toHaveLength(0);
++  } finally { restore(); s.close(); }
++}, 600000);
++test("RMSN-AUTH OFFLINE OAuth complete never grants model root publication or author authority", () => {
++  const s = nativeOfflineCase(undefined, { localParent: true });
++  try {
++    const g = s.graph(); g.bootstrapParentAuthority(s.authority()); const intent = offlineAuthIntentFor(s); let state = g.retainOwnedAuthIntentV1(s.authority(), s.localCapability, intent);
++    const before = canonical(s.root());
++    for (const status of ["CONNECT_CLAIMED", "ATTEMPT_KNOWN", "COMPLETE"] as const)
++      state = g.transitionOwnedAuthIntentV1(s.authority(), s.localCapability, intent.id, intent.pinsSha256, state.revision, state.digest, status, status === "CONNECT_CLAIMED" ? null : "con_OFFLINE");
++    expect(state.status).toBe("COMPLETE"); expect(state.stopped).toBe(true); expect(canonical(s.root())).toBe(before);
++    expect(() => g.grantNativeRuntimePermitV1(s.authority(), s.localCapability, "OFFLINE-auth-not-grant", s.root().rootAccountId, s.localPermit(), 9000)).toThrow();
++    expect(g.db.query("SELECT COUNT(*) AS n FROM ff8_graph_native_authors").get()).toEqual({ n: 0 });
++    expect(g.db.query("SELECT COUNT(*) AS n FROM ff8_graph_native_bindings").get()).toEqual({ n: 0 });
++    expect(g.db.query("SELECT COUNT(*) AS n FROM ff8_graph_publications").get()).toEqual({ n: 0 });
++    expect(s.calls).toHaveLength(0);
++  } finally { s.close(); }
++}, 600000);
++
+ test("RMSN- OFFLINE local acquisition is immutable, independently held and cannot enable a legacy route", async () => {
+   const s = nativeOfflineCase(undefined, { localParent: true }); let legacy: ExecutionClient | undefined;
+   try {
+diff --git a/tools/ff8-harness/test/runtime-binding.test.ts b/tools/ff8-harness/test/runtime-binding.test.ts
+index 29f88a9..d35fe41 100644
+--- a/tools/ff8-harness/test/runtime-binding.test.ts
++++ b/tools/ff8-harness/test/runtime-binding.test.ts
+@@ -8,6 +8,330 @@ import { fixture, preparation } from "./s2-author/s1-source-fixtures";
+ import { assertNativeRootContinuityV1, type NativeRootLedgerV1 } from "../src/graph-runtime-binding";
+ import { encodeNativeRestWireImageV1, encodeNativeNotificationWireV1, submitNativeNotificationWireV1, submitNativeRestWireImageV1 } from "../src/native-runtime-transport";
+ import type { NativeRuntimeAuthorityV1 } from "../src/graph-runtime-binding";
++import { assertOwnedNpmHostProvenanceV1, ownedHostLiveFactsMatchV1, ownedWindowsExecutablePathsMatchV1, ownedFileIdentityMatchesV1, ownedFileIdentityDataV1,
++  ownedFinalizationBudgetV1, ownedClosureProgressV1, verifyOwnedClosureRowsBoundedV1, assertOwnedClosureFileProofV1,
++  type OwnedClosureRowV1, type OwnedClosureFileFactsV1, type OwnedNpmHostProvenanceV1 } from "../src/graph-runtime-binding";
++import { assertOwnedAuthIntentV1, ownedAuthStateV1, ownedAuthBudgetV1, assertOwnedAuthRequestV1, ownedAuthConnectBodyV1,
++  ownedAuthConnectRouteV1, ownedAuthChallengeV1, ownedAuthStatusProjectionV1, ownedAuthIntegrationProjectionV1, ownedAuthPublicStatusesV1, ownedAuthPrivateRootFactsMatchV1, assertOwnedAuthLocalizedEnvelopeV1,
++  type OwnedAuthIntentV1, type OwnedAuthTransitionV1 } from "../src/graph-runtime-binding";
++
++function offlineOwnedProvenance(): OwnedNpmHostProvenanceV1 {
++  const pin = (name: string) => ({ path: `C:/OFFLINE/${name}`, byteLength: 1, sha256: "a".repeat(64) });
++  return { version: "rms-owned-npm-host-provenance-v1", runtime: { name: "bun", version: "1.4.2", executable: pin("bun.exe") },
++    rawSource: { meaning: "PUBLISHED_NPM_SERVER_DISTRIBUTION_TARBALL", archive: pin("server.tgz") },
++    closure: { archives: pin("archives.json"), installed: pin("installed.json"), archiveCount: 367, fileCount: 32227 },
++    bootstrap: pin("bootstrap.mjs"), plan: pin("plan.json"),
++    custodyPolicy: { version: "rms-owned-http-readonly-policy-v1", rawTargets: ["/api/info", "/openapi.json"], nativeOptions204: true, post: "DENY_ALL" } };
++}
++function offlineAuthIntent(): OwnedAuthIntentV1 {
++  return { version: "rms-owned-auth-intent-v1", id: "OFFLINE_auth", authOnly: true, provider: "openai", method: "chatgpt-headless",
++    missionId: "OFFLINE", controllerOwner: "OFFLINE", controllerFence: 1, principalId: "OFFLINE", actorId: "OFFLINE-parent",
++    invocationId: "OFFLINE-no-native-invocation", pid: 1, ownPath: "C:/OFFLINE/own.db", programSha256: "a".repeat(64),
++    scopeSha256: "b".repeat(64), pinsSha256: "c".repeat(64), issuedAt: 1000, expiresAt: 241000 };
++}
++test("RMSN-AUTH private root requires empty real parent allocation", () => {
++  // Facts are OFFLINE DATA, not a real allocation, ACL/SID proof or native cap.
++  const root = "C:/OFFLINE/host180/auth-private-00000000-0000-0000-0000-000000000001";
++  const facts = { path: root, realPath: root, directory: true, nonLink: true, entries: 0 };
++  expect(ownedAuthPrivateRootFactsMatchV1(root, facts)).toBe(true);
++  expect(ownedAuthPrivateRootFactsMatchV1(root, { ...facts, realPath: root.replaceAll("/", "\\").toUpperCase() })).toBe(true);
++  for (const corrupt of [{ ...facts, directory: false }, { ...facts, nonLink: false }, { ...facts, entries: 1 },
++    { ...facts, entries: -1 }, { ...facts, entries: NaN }, { ...facts, path: `${root}-other` },
++    { ...facts, realPath: root.replace("C:", "D:") }, { ...facts, realPath: `${root}/child` },
++    { ...facts, realPath: "C:/OFFLINE/other/auth-private-00000000-0000-0000-0000-000000000001" },
++    { ...facts, realPath: "auth-private-00000000-0000-0000-0000-000000000001" }, { ...facts, realPath: `file:///${root}` }])
++    expect(ownedAuthPrivateRootFactsMatchV1(root, corrupt)).toBe(false);
++  expect(ownedAuthPrivateRootFactsMatchV1("relative", { ...facts, path: "relative", realPath: "relative" })).toBe(false);
++  expect(ownedAuthPrivateRootFactsMatchV1(`${root}\0`, facts)).toBe(false);
++}, 15000);
++
++test("RMSN-AUTH routes bind exact OpenAI headless bytes and known attempt only", () => {
++  for (const route of ["/api/info", "/openapi.json", "/api/integration", "/api/integration/openai"])
++    expect(() => assertOwnedAuthRequestV1("GET", route, undefined, null)).not.toThrow();
++  expect(() => assertOwnedAuthRequestV1("POST", ownedAuthConnectRouteV1, ownedAuthConnectBodyV1, null)).not.toThrow();
++  expect(() => assertOwnedAuthRequestV1("GET", `${ownedAuthConnectRouteV1}/con_OFFLINE`, undefined, "con_OFFLINE")).not.toThrow();
++  for (const [method, route, body, attempt] of [
++    ["POST", ownedAuthConnectRouteV1, '{ "methodID":"chatgpt-headless"}', null],
++    ["POST", ownedAuthConnectRouteV1, '{"methodID":"chatgpt-browser"}', null],
++    ["POST", ownedAuthConnectRouteV1, ownedAuthConnectBodyV1, "con_OFFLINE"],
++    ["POST", "/api/integration/other/connect/oauth", ownedAuthConnectBodyV1, null],
++    ["GET", `${ownedAuthConnectRouteV1}/con_UNKNOWN`, undefined, "con_OFFLINE"],
++    ["GET", `${ownedAuthConnectRouteV1}/con_OFFLINE?x=1`, undefined, "con_OFFLINE"],
++    ["GET", "/api/credential", undefined, null], ["POST", "/api/credential", "{}", null],
++    ["GET", "http://127.0.0.1/api/info", undefined, null], ["GET", "/api/%69ntegration", undefined, null],
++    ["POST", `${ownedAuthConnectRouteV1}/con_OFFLINE/complete`, "{}", null],
++    ["DELETE", `${ownedAuthConnectRouteV1}/con_OFFLINE`, undefined, "con_OFFLINE"],
++    ["POST", "/api/session", "{}", null], ["POST", "/api/session/ses_OFFLINE/prompt", "{}", null],
++  ] as const) expect(() => assertOwnedAuthRequestV1(method, route, body, attempt)).toThrow();
++}, 15000);
++test("RMSN-AUTH projections keep challenge private and discard credential and error secrets", () => {
++  const expectedDirectory = "C:/OFFLINE/host180/auth-private-00000000-0000-0000-0000-000000000001/work";
++  const location = { directory: expectedDirectory };
++  const raw = { location, data: { attemptID: "con_OFFLINE", url: "https://auth.openai.com/codex/device", instructions: "Enter code: ABCD-EFGH", mode: "auto", time: { created: 1000, expires: 2000 } } };
++  const challenge = ownedAuthChallengeV1(raw, 1500, expectedDirectory); expect(challenge.code).toBe("ABCD-EFGH");
++  expect(ownedAuthChallengeV1({ ...raw, location: { directory: expectedDirectory.replaceAll("/", "\\").toUpperCase() } }, 1500, expectedDirectory)).toEqual(challenge);
++  for (const data of [{ ...raw.data, url: "https://example.invalid/codex/device" }, { ...raw.data, mode: "code" },
++    { ...raw.data, instructions: "Enter code: ABCD-EFGH\nSECRET" }, { ...raw.data, access: "SECRET" }])
++    expect(() => ownedAuthChallengeV1({ location, data }, 1500, expectedDirectory)).toThrow();
++  expect(() => ownedAuthChallengeV1(raw, 2000, expectedDirectory)).toThrow();
++  expect(() => ownedAuthChallengeV1(raw, 1500, "C:/OTHER/work")).toThrow();
++  const statusRaw = { location, data: { status: "failed", message: "SECRET access refresh ABCD-EFGH", value: "SECRET", time: raw.data.time } };
++  const status = ownedAuthStatusProjectionV1(statusRaw, expectedDirectory);
++  const integrationRaw = { location, data: [{ id: "other", value: "SECRET" }, { id: "openai", label: "SECRET",
++    methods: [{ id: "chatgpt-headless", type: "oauth", label: "SECRET", form: { token: "SECRET" } }, { type: "env", names: ["SECRET"] }],
++    connections: [{ type: "credential", id: "cred_OFFLINE", method: "oauth", label: "SECRET", value: { access: "SECRET" } }, { type: "env", name: "SECRET" }] }] };
++  const integration = ownedAuthIntegrationProjectionV1(integrationRaw, expectedDirectory);
++  for (const response of [raw, statusRaw, integrationRaw]) {
++    expect(() => assertOwnedAuthLocalizedEnvelopeV1(response, expectedDirectory)).not.toThrow();
++    for (const bad of [{ data: response.data }, { ...response, extra: true }, { ...response, location: {} },
++      { ...response, location: { directory: expectedDirectory, extra: true } }, { ...response, location: { directory: "C:/OTHER/work" } },
++      { ...response, location: { directory: "relative/work" } }, { ...response, location: { directory: `file:///${expectedDirectory}` } },
++      { ...response, location: { directory: `${expectedDirectory}/child` } }, { ...response, location: { directory: `${expectedDirectory}\0` } }])
++      expect(() => assertOwnedAuthLocalizedEnvelopeV1(bad, expectedDirectory)).toThrow();
++  }
++  expect(() => ownedAuthStatusProjectionV1({ data: statusRaw.data }, expectedDirectory)).toThrow();
++  expect(() => ownedAuthStatusProjectionV1({ ...statusRaw, location: { directory: "C:/OTHER/work" } }, expectedDirectory)).toThrow();
++  expect(() => ownedAuthIntegrationProjectionV1({ data: integrationRaw.data }, expectedDirectory)).toThrow();
++  expect(() => ownedAuthIntegrationProjectionV1({ ...integrationRaw, location: { directory: "relative/work" } }, expectedDirectory)).toThrow();
++  expect(() => ownedAuthChallengeV1({ data: raw.data }, 1500, expectedDirectory)).toThrow();
++  expect(status).toEqual({ status: "FAILED", created: 1000, expires: 2000 });
++  const durable = JSON.stringify({ status, integration });
++  for (const forbidden of ["SECRET", "ABCD-EFGH", "auth.openai.com", "access", "refresh", "label", "value", "env"])
++    expect(durable).not.toContain(forbidden);
++  expect(integration.id).toBe("openai"); expect(integration.methods).toEqual([{ id: "chatgpt-headless", type: "oauth" }]);
++  const closed = { claimed: true, persisted: false, authStatus: "FAILED", failure: "AUTH_REFUSED", childStarted: true, childClosed: true, scopeClosed: true, exitCode: 0, forced: false };
++  expect(ownedAuthPublicStatusesV1(closed)).toEqual({ authentication: "REFUSED", invocation: "REFUSED", closure: "NORMAL" });
++  expect(ownedAuthPublicStatusesV1({ ...closed, authStatus: "HOLD", failure: "AUTH_IO_TIMEOUT" })).toEqual({ authentication: "UNKNOWN_OR_PENDING", invocation: "TIMED_OUT", closure: "NORMAL" });
++  expect(ownedAuthPublicStatusesV1({ ...closed, persisted: true, authStatus: "COMPLETE", failure: null })).toEqual({ authentication: "PERSISTED", invocation: "COMPLETED_AUTH_ONLY", closure: "NORMAL" });
++  expect(ownedAuthPublicStatusesV1({ ...closed, claimed: false, authStatus: "INTENDED", failure: "AUTH_HTTP_REFUSED" })).toEqual({ authentication: "NOT_STARTED", invocation: "REFUSED", closure: "NORMAL" });
++  expect(ownedAuthPublicStatusesV1({ ...closed, authStatus: "HOLD", failure: "SECRET imported message" }).invocation).toBe("HOLD");
++  expect(JSON.stringify(ownedAuthPublicStatusesV1({ ...closed, failure: "SECRET imported message" }))).not.toContain("SECRET");
++}, 15000);
++test("RMSN-AUTH claim is sticky across response loss expiry and late completion", () => {
++  const intent = offlineAuthIntent(), history: OwnedAuthTransitionV1[] = [];
++  const append = (status: OwnedAuthTransitionV1["status"], attemptId: string | null, at = 1100) => {
++    const s = ownedAuthStateV1(intent, history), t: OwnedAuthTransitionV1 = { version: "rms-owned-auth-transition-v1", id: intent.id, revision: s.revision + 1, previousDigest: s.digest, status, attemptId, at };
++    const next = ownedAuthStateV1(intent, [...history, t]); history.push(t); return next;
++  };
++  expect(() => assertOwnedAuthIntentV1({ ...intent, provider: "other" })).toThrow();
++  expect(() => assertOwnedAuthIntentV1({ ...intent, authOnly: false })).toThrow();
++  expect(() => assertOwnedAuthIntentV1({ ...intent, token: "SECRET" })).toThrow();
++  expect(append("CONNECT_CLAIMED", null).claimed).toBe(true);
++  expect(() => append("CONNECT_CLAIMED", null)).toThrow();
++  // Lost CONNECT response: no attempt may be guessed, no reconnect on restart.
++  const hold = append("HOLD", null); expect(hold.claimed).toBe(true); expect(hold.stopped).toBe(true);
++  expect(ownedAuthStateV1(intent, structuredClone(history))).toEqual(hold);
++  expect(() => append("ATTEMPT_KNOWN", "con_GUESSED")).toThrow(); expect(() => append("CONNECT_CLAIMED", null)).toThrow();
++  const fresh = offlineAuthIntent(), initial = ownedAuthStateV1(fresh, []);
++  expect(() => ownedAuthStateV1(fresh, [{ version: "rms-owned-auth-transition-v1", id: fresh.id, revision: 1, previousDigest: initial.digest,
++    status: "CONNECT_CLAIMED", attemptId: null, at: fresh.expiresAt }])).toThrow();
++  const known: OwnedAuthTransitionV1[] = []; let state = initial;
++  for (const status of ["CONNECT_CLAIMED", "ATTEMPT_KNOWN", "REVOKED"] as const) {
++    const t: OwnedAuthTransitionV1 = { version: "rms-owned-auth-transition-v1", id: fresh.id, revision: state.revision + 1,
++      previousDigest: state.digest, status, attemptId: status === "CONNECT_CLAIMED" ? null : "con_OFFLINE", at: 1200 };
++    known.push(t); state = ownedAuthStateV1(fresh, known);
++  }
++  expect(() => ownedAuthStateV1(fresh, [...known, { version: "rms-owned-auth-transition-v1", id: fresh.id, revision: state.revision + 1,
++    previousDigest: state.digest, status: "COMPLETE", attemptId: "con_OFFLINE", at: 1300 }])).toThrow();
++}, 15000);
++test("RMSN-AUTH 240s total cutoff stays HOLD through mocked closure and finalization", () => {
++  for (const stage of ["status", "close", "receipt", "ui"] as const) {
++    let clock = 239999, physicalClosed = false;
++    const budget = ownedAuthBudgetV1(0, 240000, () => clock); expect(budget.checkpoint()).toBe(true);
++    const mockedBoundary = () => { if (stage === "close") physicalClosed = true; clock = 240001; };
++    mockedBoundary(); expect(budget.checkpoint()).toBe(false); physicalClosed = true;
++    expect(physicalClosed).toBe(true); expect(budget.checkpoint()).toBe(false); clock = 1; expect(budget.checkpoint()).toBe(false);
++  }
++  let clock = 1; expect(ownedAuthBudgetV1(0, 240001, () => clock).checkpoint()).toBe(false);
++  clock = 120001; expect(ownedFinalizationBudgetV1(0, 120000, () => clock).checkpoint()).toBe(false); // A unchanged
++}, 15000);
++test("RMSN-OWNED-RO provenance is typed DATA and preserves legacy source meaning", () => {
++  const p = offlineOwnedProvenance(), before = structuredClone(p);
++  const legacy: NativeRuntimeAuthorityV1["server"] = { version: "2.2.1", pid: 1, binarySha256: "b".repeat(64), sourceSha256: "c".repeat(64), openapiSha256: "d".repeat(64) };
++  const legacyBefore = structuredClone(legacy);
++  expect(() => assertOwnedNpmHostProvenanceV1(p)).not.toThrow();
++  expect(p).toEqual(before); expect(legacy).toEqual(legacyBefore);
++  expect(p.rawSource.meaning).toBe("PUBLISHED_NPM_SERVER_DISTRIBUTION_TARBALL");
++  expect(legacy.sourceSha256).toBe("c".repeat(64));
++}, 15000);
++test("RMSN-OWNED-RO malformed provenance and mutable policy are refused", () => {
++  for (const corrupt of [
++    (p: any) => { p.rawSource.meaning = "DESKTOP_SOURCE"; },
++    (p: any) => { p.runtime.version = "1.4.4"; },
++    (p: any) => { p.closure.fileCount = 0; },
++    (p: any) => { p.bootstrap.path = "relative.mjs"; },
++    (p: any) => { p.plan.sha256 = "not-a-pin"; },
++    (p: any) => { p.custodyPolicy.post = "ALLOW"; },
++    (p: any) => { p.custodyPolicy.rawTargets.push("/api/session"); },
++    (p: any) => { p.callerAuthority = true; },
++  ]) { const p = offlineOwnedProvenance(); corrupt(p); expect(() => assertOwnedNpmHostProvenanceV1(p)).toThrow(); }
++}, 15000);
++test("RMSN-OWNED-RO READY executable matches only equivalent full absolute Windows paths", () => {
++  // Pure DATA: no process, path I/O, realpath, runtime import or capability mint.
++  const plan = "C:/Users/OFFLINE/.bun/bin/bun.exe", native = String.raw`C:\Users\OFFLINE\.bun\bin\bun.exe`;
++  for (const path of [plan, native, String.raw`c:\USERS\offline\.BUN\BIN\BUN.EXE`, "c:/Users/OFFLINE/.bun/bin/BUN.exe"]) {
++    expect(ownedWindowsExecutablePathsMatchV1(path, plan)).toBe(true);
++    expect(ownedWindowsExecutablePathsMatchV1(plan, path)).toBe(true);
++  }
++  for (const wrong of [null, {}, 1, "", "bun.exe", "Users/OFFLINE/.bun/bin/bun.exe", "C:Users/OFFLINE/.bun/bin/bun.exe",
++    "/Users/OFFLINE/.bun/bin/bun.exe", String.raw`\Users\OFFLINE\.bun\bin\bun.exe`,
++    "D:/Users/OFFLINE/.bun/bin/bun.exe", "C:/Users/OTHER/.bun/bin/bun.exe", "C:/Users/OFFLINE/.bun/bin/node.exe",
++    "C:/prefix/Users/OFFLINE/.bun/bin/bun.exe", `${plan}/suffix`, `file:///${plan}`, `https://example.invalid/${plan}`,
++    String.raw`\\server\Users\OFFLINE\.bun\bin\bun.exe`, String.raw`\\?\C:\Users\OFFLINE\.bun\bin\bun.exe`,
++    "C://Users/OFFLINE/.bun/bin/bun.exe", "C:/Users/OFFLINE/.bun/./bin/bun.exe", "C:/Users/OFFLINE/.bun/other/../bin/bun.exe",
++    `${plan}\0`, `${plan}\n`, `${plan}:stream`, `${plan}.`, `${plan} `, "C:/Users/OFFLINE/.bun/bin/bu?n.exe"]) {
++    expect(ownedWindowsExecutablePathsMatchV1(wrong, plan)).toBe(false);
++    expect(ownedWindowsExecutablePathsMatchV1(plan, wrong)).toBe(false);
++  }
++  for (const malformed of [null, "", "bun.exe", "C:relative.exe", "C:/", `${plan}\0`, "file:///C:/bun.exe"])
++    expect(ownedWindowsExecutablePathsMatchV1(malformed, malformed)).toBe(false);
++}, 15000);
++
++test("RMSN-OWNED-RO expired dead or divergent handle facts are not live", () => {
++  // Pure negative oracle only: even the matching DATA case is NOT a cap mint.
++  const base = { closed: false, aborted: false, connected: true, exitCode: null as number | null, signalCode: null as string | null,
++    pid: 2, expectedPid: 2, parentPid: 1, expectedParentPid: 1, expiresAt: 1000, monotonicExpiry: 500 };
++  expect(ownedHostLiveFactsMatchV1(base, 100, 100)).toBe(true);
++  for (const change of [{ closed: true }, { aborted: true }, { connected: false }, { exitCode: 0 }, { signalCode: "SIGKILL" },
++    { pid: 3 }, { pid: 0 }, { parentPid: 3 }, { expiresAt: 100 }, { monotonicExpiry: 100 }])
++    expect(ownedHostLiveFactsMatchV1({ ...base, ...change }, 100, 100)).toBe(false);
++  expect(ownedHostLiveFactsMatchV1(base, Number.NaN, 100)).toBe(false);
++}, 15000);
++
++test("RMSN-OWNED-RO fs identities beyond 2pow53 remain distinct and serialize as decimal strings", () => {
++  const held = { dev: 9007199254740993n, ino: 9007199254740992n };
++  expect(ownedFileIdentityMatchesV1(held, { ...held })).toBe(true);
++  expect(ownedFileIdentityMatchesV1(held, { ...held, ino: 9007199254740993n })).toBe(false);
++  expect(ownedFileIdentityMatchesV1(held, { ...held, dev: 9007199254740992n })).toBe(false);
++  const data = ownedFileIdentityDataV1(held);
++  expect(data).toEqual({ encoding: "decimal-bigint-v1", devDecimal: "9007199254740993", inoDecimal: "9007199254740992" });
++  expect(JSON.parse(JSON.stringify(data))).toEqual(data);
++  expect(ownedFileIdentityDataV1({ ...held, ino: 9007199254740993n }).inoDecimal).not.toBe(data.inoDecimal);
++}, 15000);
++
++test("RMSN-OWNED-RO finalization cost crossing 120s latches HOLD despite HTTP and scope success", () => {
++  // Injected monotonic clock/cost only: no sleeps, fsync, host, DB or native cap.
++  for (const overrunStage of ["logs", "receipt-sync", "receipt-readback"]) {
++    let clock = 119980;
++    const budget = ownedFinalizationBudgetV1(0, 120000, () => clock);
++    const facts = { httpMatched: true, scopeClosed: true, receiptStatus: "PROVISIONAL_NOT_ADOPTABLE" };
++    expect(budget.checkpoint()).toBe(true);
++    for (const stage of ["logs", "receipt-sync", "receipt-readback"]) {
++      budget.checkpoint(); // same before/after boundary used around owner I/O
++      const simulatedFinalize = () => { clock += stage === overrunStage ? 30 : 1; };
++      simulatedFinalize(); budget.checkpoint();
++    }
++    expect(budget.checkpoint()).toBe(false);
++    expect(budget.snapshot().exceeded).toBe(true);
++    expect(budget.snapshot().elapsedMs).toBeGreaterThanOrEqual(120000);
++    expect(facts.httpMatched && facts.scopeClosed && budget.checkpoint()).toBe(false);
++    expect(budget.outcome(facts.httpMatched && facts.scopeClosed)).toBe("HOLD_TOTAL_DEADLINE");
++    expect(facts.receiptStatus).toBe("PROVISIONAL_NOT_ADOPTABLE");
++    clock = 1; expect(budget.checkpoint()).toBe(false); // restart/backward clock cannot clear HOLD
++  }
++  let clock = 119999;
++  const exactBoundary = ownedFinalizationBudgetV1(0, 120000, () => clock);
++  expect(exactBoundary.checkpoint()).toBe(true);
++  clock = 120000; expect(exactBoundary.checkpoint()).toBe(false);
++}, 15000);
++
++function offlineClosureFacts(row: OwnedClosureRowV1): OwnedClosureFileFactsV1 {
++  return { dev: 9007199254740993n, ino: 9007199254740995n, size: BigInt(row.byteLength), mtimeNs: 10n, ctimeNs: 11n,
++    regular: true, nonLink: true, canonical: true };
++}
++test("RMSN-OWNED-RO bounded closure batches verify every row with exact identities", async () => {
++  // DECLARED-size admission stubs, including 40MiB alone. No allocation of
++  // those payload sizes: limits are nominal, not a buffer/RSS or latency oracle.
++  const mib = 1024 * 1024, controller = new AbortController();
++  const rows = [20, 12, 1, 1, 40, 1, 1, 1, 1].map((n, i) => ({ path: `OFFLINE/f${i}`, byteLength: n * mib, sha256: "a".repeat(64) }));
++  const progress = ownedClosureProgressV1(rows.length), started: string[] = [], hashed: string[] = [], finished: string[] = [];
++  const waiting: Array<() => void> = [], observations: Array<{ count: number; declaredBytes: number; rowBytes: number }> = [];
++  let done = false, bootstrapCalls = 0;
++  const pending = verifyOwnedClosureRowsBoundedV1(rows, progress, {
++    signal: controller.signal, elapsedMs: () => 1, check() { controller.signal.throwIfAborted(); }, boundary() {}, onHold() { controller.abort(); },
++    async verify(row, context) {
++      started.push(row.path); observations.push({ count: progress.inFlight, declaredBytes: progress.reservedDeclaredBytes, rowBytes: row.byteLength });
++      context.check("read"); await new Promise<void>(resolve => { waiting.push(resolve); }); context.check("hash");
++      hashed.push(row.path); const facts = offlineClosureFacts(row);
++      assertOwnedClosureFileProofV1(row, facts, facts, row.byteLength, row.sha256); finished.push(row.path);
++    },
++  }).then(value => { done = true; return value; });
++  for (let turns = 0; turns < 100 && !done; turns++) { await Promise.resolve(); for (const release of waiting.splice(0).reverse()) release(); }
++  if (!done) { controller.abort(); for (const release of waiting.splice(0)) release(); }
++  const complete = await pending;
++  if (complete && progress.phase === "complete" && progress.inFlight === 0) bootstrapCalls++;
++  expect(complete).toBe(true); expect(bootstrapCalls).toBe(1);
++  expect(progress.verified).toBe(rows.length); expect(progress.settled).toBe(rows.length); expect(progress.failed).toBe(0);
++  expect(progress.bytesVerified).toBe(rows.reduce((n, r) => n + r.byteLength, 0)); expect(progress.reservedDeclaredBytes).toBe(0);
++  expect(progress.maxInFlight).toBe(4); expect(progress.maxReservedDeclaredBytes).toBe(40 * mib);
++  expect(observations.every(v => v.count <= 4 && (v.declaredBytes <= 32 * mib || v.count === 1 && v.rowBytes > 32 * mib))).toBe(true);
++  expect(started).toEqual(rows.map(r => r.path)); expect(new Set(hashed).size).toBe(rows.length); expect(hashed.length).toBe(rows.length);
++  expect(finished).not.toEqual(started); expect(JSON.stringify(progress)).not.toContain("OFFLINE/");
++  const payloads = new Map<string, Buffer>(["alpha", "beta", "gamma"].map((s, i) => [`OFFLINE/bytes${i}`, Buffer.from(s)] as const));
++  const actualRows = [...payloads].map(([path, bytes]) => ({ path, byteLength: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") }));
++  const actualProgress = ownedClosureProgressV1(actualRows.length), actualAbort = new AbortController(); let actualHashes = 0;
++  expect(await verifyOwnedClosureRowsBoundedV1(actualRows, actualProgress, { signal: actualAbort.signal, check() {}, boundary() {}, elapsedMs: () => 1,
++    onHold() { actualAbort.abort(); }, async verify(row, context) {
++      const bytes = payloads.get(row.path)!; context.check("hash"); const digest = createHash("sha256").update(bytes).digest("hex"); actualHashes++;
++      assertOwnedClosureFileProofV1(row, offlineClosureFacts(row), offlineClosureFacts(row), bytes.length, digest);
++    } })).toBe(true);
++  expect(actualHashes).toBe(actualRows.length); expect(actualProgress.verified).toBe(actualRows.length);
++  const tiny = Buffer.from("OFFLINE exact bytes"), sha = createHash("sha256").update(tiny).digest("hex");
++  const row = { path: "OFFLINE/tiny", byteLength: tiny.length, sha256: sha }, facts = offlineClosureFacts(row);
++  expect(() => assertOwnedClosureFileProofV1(row, facts, facts, tiny.length, sha)).not.toThrow();
++  expect(() => assertOwnedClosureFileProofV1(row, facts, facts, tiny.length - 1, sha)).toThrow();
++  const wrongSha = `${sha[0] === "0" ? "1" : "0"}${sha.slice(1)}`;
++  expect(() => assertOwnedClosureFileProofV1(row, facts, facts, tiny.length, wrongSha)).toThrow();
++  for (const after of [{ ...facts, ino: facts.ino + 1n }, { ...facts, size: facts.size + 1n }, { ...facts, mtimeNs: 12n },
++    { ...facts, ctimeNs: 12n }, { ...facts, regular: false }, { ...facts, nonLink: false }, { ...facts, canonical: false }])
++    expect(() => assertOwnedClosureFileProofV1(row, facts, after, tiny.length, sha)).toThrow();
++  for (const bad of [[{ ...row, path: "../outside" }], [row, { ...row, path: "offline/TINY" }], [{ ...row, extra: true }]]) {
++    let calls = 0; const abort = new AbortController(), p = ownedClosureProgressV1(bad.length);
++    expect(await verifyOwnedClosureRowsBoundedV1(bad, p, { signal: abort.signal, check() {}, boundary() {}, elapsedMs: () => 1,
++      onHold() { abort.abort(); }, async verify() { calls++; } })).toBe(false);
++    expect(p.hold).toBe(true); expect(p.started).toBe(0); expect(calls).toBe(0);
++  }
++}, 15000);
++
++test("RMSN-OWNED-RO closure abort drains inflight and retains HOLD progress", async () => {
++  for (const fault of ["abort", "fence", "deadline", "file"] as const) {
++    const controller = new AbortController(), rows = [0, 1, 2, 3, 4].map(i => ({ path: `OFFLINE/p${i}`, byteLength: 1, sha256: "a".repeat(64) }));
++    const p = ownedClosureProgressV1(rows.length), waiting: Array<{ resolve(): void; reject(e: Error): void }> = [], returned: string[] = [];
++    let fence = 1, clock = 1, done = false, bootstrapCalls = 0;
++    const budget = ownedFinalizationBudgetV1(0, 120000, () => clock);
++    const pending = verifyOwnedClosureRowsBoundedV1(rows, p, {
++      signal: controller.signal, elapsedMs: () => clock,
++      check() { controller.signal.throwIfAborted(); if (fence !== 1 || !budget.checkpoint()) throw new Error("OFFLINE custody/deadline changed"); },
++      boundary() { if (fence !== 1) throw new Error("OFFLINE fence changed"); }, onHold() { controller.abort(); },
++      async verify(row, context) {
++        try { context.check("read"); await new Promise<void>((resolve, reject) => { waiting.push({ resolve, reject }); }); context.check("hash"); }
++        finally { returned.push(row.path); }
++      },
++    }).then(value => { done = true; return value; });
++    expect(p.admitted).toBe(4); expect(p.inFlight).toBe(4); expect(waiting.length).toBe(4);
++    if (fault === "abort") controller.abort();
++    else if (fault === "fence") fence = 2;
++    else if (fault === "deadline") clock = 120001;
++    if (fault === "file") waiting[0]!.reject(new Error("OFFLINE file read failed")); else waiting[0]!.resolve();
++    for (let turns = 0; turns < 10 && !p.hold; turns++) await Promise.resolve();
++    expect(p.hold).toBe(true); expect(done).toBe(false); expect(p.admitted).toBe(4); expect(p.inFlight).toBeGreaterThan(0);
++    // All remaining admitted reads finish late; none can launch row 5 or clear
++    // HOLD. This is the deterministic drain oracle, not a real OS abort claim.
++    for (const held of waiting.slice(1).reverse()) held.resolve();
++    const complete = await pending;
++    if (complete && p.phase === "complete" && p.inFlight === 0) bootstrapCalls++;
++    expect(complete).toBe(false); expect(bootstrapCalls).toBe(0); expect(p.phase).toBe("HOLD");
++    expect(p.admitted).toBe(4); expect(p.started).toBe(4); expect(p.settled).toBe(4); expect(p.failed).toBe(4);
++    expect(p.verified).toBe(0); expect(p.bytesVerified).toBe(0); expect(p.inFlight).toBe(0); expect(p.reservedDeclaredBytes).toBe(0);
++    expect(returned.length).toBe(4); expect(JSON.stringify(p)).not.toContain("OFFLINE/");
++    expect(controller.signal.aborted).toBe(true); expect(p.hold).toBe(true);
++    if (fault === "deadline") expect(budget.outcome(true)).toBe("HOLD_TOTAL_DEADLINE");
++    let replayIo = 0;
++    expect(await verifyOwnedClosureRowsBoundedV1(rows, p, { signal: controller.signal, check() {}, boundary() {}, elapsedMs: () => clock,
++      onHold() {}, async verify() { replayIo++; } })).toBe(false);
++    expect(replayIo).toBe(0); expect(p.admitted).toBe(4); expect(p.phase).toBe("HOLD");
++  }
++}, 15000);
+ 
+ test("RMSN- ordered wire is exact, stable, non-waking and cannot authorize its own transport", async () => {
+   const request = { commandId: "notification-1", sessionId: "ses_offline", executionId: "exec-offline", unitId: "unit-offline", sequence: 1, action: "notify", reason: "offline control" };

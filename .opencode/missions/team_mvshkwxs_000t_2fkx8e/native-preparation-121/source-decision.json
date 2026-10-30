@@ -1,0 +1,44 @@
+{
+  "version": "rms-qualification-fixture-source-decision-v1",
+  "status": "PARENT_PROSPECTIVE_DATA_ONLY",
+  "purpose": "Non-scientific qualification of the existing RMS native runtime coupling",
+  "fixture": true,
+  "admissibleAsOracle": false,
+  "scientificPublicationAuthorized": false,
+  "coordinates": {
+    "space": "Virtual coordinates of one declared function model; never FF8 or service executable addresses",
+    "imageBase": 268435456,
+    "rva": 256,
+    "ea": 268435712,
+    "versionLabel": "rms-qualification-function-model-v1",
+    "moduleName": "rms-qualification-declarative-model",
+    "format": "unknown",
+    "architecture": "unknown"
+  },
+  "observationMeaning": "Only the explicit function definition in the fixture is represented. No machine instruction, extracted function, service binary, terminality or effective permission is observed by this definition.",
+  "model": { "providerID": "openai", "id": "gpt-6.1-sol", "variant": "high" },
+  "modelRoles": ["explore", "evaluate", "A", "B", "R"],
+  "profiles": { "A": "general", "B": "general", "R": "general" },
+  "proposedSessionRules": [{ "action": "*", "resource": "*", "effect": "deny" }],
+  "prompt": "À partir des deux contrats fournis, réponds uniquement : QUALIFICATION_RMS_REÇUE. N'utilise aucun outil, ne modifie aucun fichier et ne produis aucune conclusion scientifique.",
+  "corpus": [
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/94-contrat-natif-ratifie-autorite-et-qualification-bornees.md", "sha256": "e9a20652bb5f0075595bdeb3e5edd9a0de69a97246c928ceb8520b513960f00d", "status": "parent-contract-non-scientific" },
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive.md", "sha256": "d34f372d31e2c21174aef4c96f3e22eab67f2981edd39d6bb554eec522e9da46", "status": "parent-contract-non-scientific" }
+  ],
+  "delivery": "Exact verified contract UTF-8 texts must be embedded in qualificationCorpus DATA within the dossier before sealing and wire sizing; a path-only file manifest is insufficient under deny-all.",
+  "proposedSourceBounds": {
+    "status": "FIXTURE_PLANNING_CEILINGS_NOT_NATIVE_ACQUISITIONS",
+    "maxSelectedUnits": 1,
+    "perRoleBodyCapUtf8Bytes": { "A": 262144, "B": 262144, "R": 262144 },
+    "aggregateRoleBodyCapUtf8Bytes": 786432,
+    "rule": "Measure complete exact wire bodies, metadata and dossier included. Exceeding a bound is HOLD, never automatic enlargement or allocation. Exact schema binding and all numerical cross-invariants remain required."
+  },
+  "nativeAuthority": {
+    "status": "HOLD",
+    "acquisitionIssued": false,
+    "permitIssued": false,
+    "originsAuthorized": false,
+    "canaryAttribution": "UNKNOWN",
+    "rule": "No source fixture root, modeled grant, planner maximum or copy authorizes or resets a native account. Historical inventory, authentic acquisition, rights, fences and exclusive ownership remain prerequisites."
+  }
+}

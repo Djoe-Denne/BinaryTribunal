@@ -1,0 +1,28 @@
+{
+  "schema": "rms-scoped-parent-checks-v1",
+  "candidateManifest": "writer-r6-manifest.json",
+  "candidateManifestSha256": "d982b55d4c813e8e94066af41cc95bfb0c639ef9b4191bf0371ef8dac71d5d42",
+  "head": "b0d10f6d19ad54c21a9635e90d6b4946fde4ffd0",
+  "filesPinned": 360,
+  "changesSinceRetentionRedR5": ["src/client.ts","RMS_RUNTIME_DERIVATION.json","RMS_RUNTIME_HANDOFF.md"],
+  "bothNegativeTestsUnchangedDuringSourceFix": true,
+  "testFileSha256": "77143b27827827fba2719feb049ce9ebaf52b94dc86cd83b9efb5e3b950983f9",
+  "executedBy": "supervisor",
+  "checks": [
+    {"name":"retention-green-r6","receipt":"retention-green-r6.execution.json","exitCode":0,"pass":1,"fail":0,"expectCalls":6,"bunMs":189,"processMs":263,"scope":"Exact retention RED test passes: one interposition, zero emissions, unchanged raw body and exact retry"},
+    {"name":"typecheck-r6","receipt":"typecheck-r6.execution.json","exitCode":0,"processMs":3288},
+    {"name":"client-r6","receipt":"client-r6.execution.json","exitCode":0,"pass":22,"fail":0,"expectCalls":82,"bunMs":1051,"processMs":1076,"includesBothRaceNegatives":true},
+    {"name":"protocol-r6","receipt":"protocol-r6.execution.json","exitCode":0,"pass":6,"fail":0,"expectCalls":26,"bunMs":106,"processMs":120}
+  ],
+  "perTestTimeoutMs": 15000,
+  "postChecksFilesRehashed": 360,
+  "postChecksDrift": [],
+  "reusedUnaffectedEvidence": ["runtime-binding-r1","vertical-v2-r1","q1-primitives-parent-result.json"],
+  "reuseReason": "Correction only guards legacy pending mutation; unchanged pure preparation, fixture execution port and primitive paths do not call this method",
+  "retentionGreenIncludedInClientCount": true,
+  "noSkipCountedPass": true,
+  "fullSuiteExecuted": false,
+  "nativeRmsScenarioExecuted": false,
+  "review": "Same independent reviewer must assess residual blocker and impacts before integration",
+  "limits": "Scoped verification only. RED2 failure on r5 remains preserved. No native handler, worker-rights, terminality or final mission acceptance."
+}

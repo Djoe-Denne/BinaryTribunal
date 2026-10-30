@@ -1,0 +1,21 @@
+{
+  "schema": "rms-targeted-red-evidence-v1",
+  "candidateManifest": "projection-r4-manifest.json",
+  "candidateManifestSha256": "00fc10299afc2a2deca2224d3a253724f5f7b7e3b385d2dd8d7a82a0c546bede",
+  "head": "d4fe431d2204ff3cd32cde114b374b09ea5a40dd",
+  "productionUnchangedFromR3": true,
+  "testOnlyChanges": ["test/eventlog.test.ts","test/graph-integration/next-context.test.ts"],
+  "executedBy": "supervisor",
+  "checks": [
+    {"receipt":"projection-role-red-r4.execution.json","exitCode":1,"pass":0,"fail":1,"expectCalls":2,"bunMs":247,"processMs":296,"failure":"Unsafe A-only/B-only policy did not throw explicit R authorization; GraphEngine was returned"},
+    {"receipt":"projection-fence-red-r4.execution.json","exitCode":1,"pass":0,"fail":1,"expectCalls":4,"bunMs":92,"processMs":164,"failure":"Transport call count expected0, observed1 after admission_sending expires the family lease"}
+  ],
+  "perTestTimeoutMs": 15000,
+  "externalLimitPerInvocationMs": 15000,
+  "postExecutionFilesRehashed": 365,
+  "sourceDrift": [],
+  "coreTraversalReexecuted": false,
+  "nativeScenarioExecuted": false,
+  "scope": "Two actual RED reproductions, not fixture/timeouts and not behavioral acquisition proof. Production corrections explicitly authorized after these results.",
+  "limits": "Later assertions were not all reached after first failure. Central fifteen-second obligation and full projection qualification remain blocked."
+}

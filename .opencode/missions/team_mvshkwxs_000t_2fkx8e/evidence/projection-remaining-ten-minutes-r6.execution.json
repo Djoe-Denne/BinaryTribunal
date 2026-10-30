@@ -1,0 +1,41 @@
+{
+  "schema": "rms-normal-validation-ten-minutes-v1",
+  "selection": "remaining",
+  "candidateManifest": "projection-r6-manifest.json",
+  "manifestSha256": "2c2fd2893e6b8482eb17cd774c5108ba1a52a17f001078d86840336ca9689545",
+  "command": {
+    "executable": "bun.exe",
+    "args": [
+      "--no-env-file",
+      "--config=./bunfig.integration.toml",
+      "test",
+      "./test/graph-integration/next-context.test.ts",
+      "--test-name-pattern",
+      "^(?!.*(?:exact NEW raw published bytes enter|blind bodies exclude the other grant/path)).*$",
+      "--timeout",
+      "600000",
+      "--max-concurrency=1",
+      "--bail",
+      "1"
+    ],
+    "cwd": "C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness"
+  },
+  "perTestTimeoutMs": 600000,
+  "externalProcessTimeoutMs": 30000000,
+  "exitCode": 0,
+  "signal": null,
+  "error": null,
+  "elapsedMs": 1354758,
+  "summary": [
+    "45 pass",
+    "0 fail",
+    "295 expect() calls",
+    "Ran 45 tests across 1 file. [1354.69s]"
+  ],
+  "testResults": [],
+  "stdoutSha256": "84aae53e33ea4149706214601380abe942d9443297080f9677140e22555879ef",
+  "stderrSha256": "6ede23d1b57581af4f34e0fe4936fc1d178958b9f234a359f21d00c86c8d8fc0",
+  "sourceDrift": [],
+  "preloader": false,
+  "scope": "Normal OFFLINE fixture validation, no actual worker/model, native proof, prohibited global suite or frozen diagnostic"
+}

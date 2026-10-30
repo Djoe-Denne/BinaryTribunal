@@ -1,0 +1,53 @@
+{
+  "schema": "owned-native-finals-bundle-v1",
+  "sessionID": "ses_e7bd3ecb9ffevCYWkaFJF5KMn3",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "providerID": "openai",
+    "variant": "high"
+  },
+  "finals": [
+    {
+      "messageID": "msg_18439f27b001QtmMv4CUzsGZtF",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "## BLOQUANTS — émission corrigée, rétention encore exposée\n\nr4 vérifié : SHA256 annoncé conforme, **360 pins sans dérive**, négatif strictement identique à r3.\n\n**Course résiduelle concrète entre deux connexions au même journal :**\n1. A vérifie l’absence de jointure.\n2. B retient atomiquement la requête prospective et sa jointure.\n3. A lit alors cette requête, entre dans la branche « pending existant », attend le snapshot puis **réécrit son body**.\n4. Le garde final refuse l’émission, mais trop tard : le body prospectif peut différer de sa jointure ; son retry exact devient conflictuel.\n\nPreuves :\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:119–120** — classification et première lecture restent hors transaction commune.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:140–160** — modification durable ligne152 avant le garde transactionnel ligne158.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/test/client.test.ts:168–178** — bon négatif pour l’ordonnancement initial « lecture vide, puis snapshot suspendu », mais pas pour cette première lecture concurrente.\n\n**Correction ciblée attendue :** rendre atomiques classification et première lecture, ou protéger transactionnellement toute réécriture pending contre une jointure prospective. Aucun verrou sur `await` nécessaire.\n\nPreuves parent confirmées : RED **0/1**, GREEN **1 PASS/6 assertions**, typecheck **0**, client **21 PASS/76 assertions**, protocole **6 PASS/26 assertions**. Le GREEN est inclus dans client, pas additionné.\n\nAucun test exécuté par moi ; course résiduelle déduite statiquement, non reproduite. Pas de réaudit global ni de nouvelle exigence native."
+    },
+    {
+      "messageID": "msg_18430814e001s3btPZvotT12Qd",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "**r2 vérifié, verdict BLOQUANTS inchangé.**\n\n- Manifeste SHA256 `05ce8d5fe794bafbba253cd8291ccc04afea1fbbeecdfbb6e7a88efe1c92dd64` confirmé ; **360 pins conformes, aucune dérive**.\n- Seuls les documents changent. La provenance corrigée est explicite dans **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/RMS_RUNTIME_HANDOFF.md:8–19** et son manifeste de dérivation.\n- Code/tests/config étant identiques à r1, les preuves ciblées conservent leur portée ; aucun retest exécuté ni demandé pour cette correction documentaire.\n\n**Le P1 anti-fallback reste présent** : `submit()` peut dépasser son contrôle initial, attendre `snapshot()`, puis consommer une requête prospective retenue entre-temps et l’émettre via le transport historique. La correction d’audit ne résout pas cette course.\n\nAucun autre bloquant ajouté ; aucune preuve native ou acceptation déduite de r2."
+    },
+    {
+      "messageID": "msg_1842f64af001ILO3HCmeWTeD3C",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "**Addendum provenance confirmé.**\n\n- `C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/test/s2-author/cross-epoch-fixtures.ts:9` : dérivé **protected113** modifié uniquement par remplacement d’import.\n- `C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/test/s2-author/final-host-fixture.ts:19` : même constat pour ce dérivé **source176**.\n\nLes deux sources du seed restent conformes à leurs empreintes ; les dérivés ont de nouveaux pins correctement déclarés. Les quatre modules de composition ne figurent pas dans le delta writer.\n\nLa correction des deux documents est donc une **rectification d’audit, sans défaut fonctionnel supplémentaire ni retest demandé**. Mon bloquant distinct sur la course anti-fallback reste inchangé. Aucun test exécuté."
+    },
+    {
+      "messageID": "msg_1842e618e001MJ0ZOOV5Etyuug",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "## Verdict : BLOQUANTS — un défaut code P1\n\nCandidat r1 examiné dans **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness**. Manifeste SHA256 `7f6c516a4278606f94c0ab6c33d990edc4cb52f7730881a4d47fc585e8666dcd` vérifié : **360 fichiers conformes**, 17 ajouts/modifications par rapport au seed, aucune suppression. Les changements de composition antérieurs ne sont pas attribués au writer.\n\n### Bloquant : course permettant le fallback historique\n\nLe garde anti-fallback de `submit()` n’est vérifié **qu’avant les attentes asynchrones**.\n\nOrdonnancement possible, déduit statiquement :\n1. `submit(mission, command)` ne trouve ni jointure ni requête, puis attend `snapshot()`.\n2. Pendant cette attente, `prepareRuntimeDispatch()` retient atomiquement la jointure et son body pour la même clé.\n3. `submit()` reprend ; son insertion ignore le conflit, puis il relit la requête prospective existante.\n4. Le digest correspond : **il appelle le transport `submit` sans revérifier la jointure**, malgré l’absence de qualification native.\n\n**Impact :** une jointure déjà retenue peut atteindre le transport historique. Une admission native réussie n’est pas démontrée, mais le refus avant émission peut être contourné.\n\nPreuves :\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:114–128** — contrôle initial, `await`, puis récupération de la ligne concurrente.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:146–151** — émission sans nouveau contrôle anti-fallback.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/test/client.test.ts:128–139** — le négatif existant couvre seulement l’ordre séquentiel « préparation terminée, puis submit ».\n\n**Correction attendue :** arbitrer atomiquement réservation historique et jointure prospective. Ajouter au test existant le négatif avec snapshot différé ; aucun nouveau harnais nécessaire. **Scénario non exécuté par cette revue.**\n\n### Constats favorables, bornés\n\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/graph-runtime-binding.ts:43–72** — JSON strict, vérification des octets, liaison source/binding et refus des qualifications inventées.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/graph-runtime-binding.ts:74–108** — scopes, références, modèle demandé et body liés ; domaines de digest distincts, empreinte RPC explicitement inconnue.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:64–78** — rétention transactionnelle, conflit sur retry divergent, refus explicite de `submitRuntime`/`observeRuntime`.\n- **C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-runtime-public/tools/ff8-harness/src/client.ts:88–92,150–156** — corrections des catégories publiques, du receipt et des snapshots ambigus ; attentes historiques conservées.\n\n### Vérifications et limites\n\nPreuves parent relues, empreintes des captures vérifiées :\n- typecheck : **exit 0** ;\n- client : **20 PASS / 70 assertions** ;\n- runtime binding : **2 PASS / 10 assertions** ;\n- protocol : **6 PASS / 26 assertions** ;\n- vertical v2 : **un seul cas filtré, 1 PASS / 18 assertions**.\n\n`test:q1-primitives` : preuve antérieure **55 PASS / 125 assertions**, cinq entrées épinglées identiques dans r1 ; **pas de nouvelle exécution sur ce worktree**.\n\nAucun test, service, harness ou git exécuté par moi. Suite globale interdite et non exécutée. MCP canonique hors couverture des octets du worktree : revue par fichiers absolus et comparaison au seed. Rapport11 non disponible lors de la lecture.\n\nLes limites natives déjà admises restent distinctes du défaut ci-dessus : aucun refus DATA n’est promu en preuve native. **Retour au lead pour correction ciblée ; aucune acceptation ni clôture complète.**"
+    }
+  ],
+  "boundedPage": 20,
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xODQzOWYyN2IwMDFRdG1NdjRDVXpzR1p0RiIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6InByZXZpb3VzIn0",
+    "next": "eyJpZCI6Im1zZ18xODQyYzE0NzEwMDFjaVh3SENSTDlEVk1HVCIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6Im5leHQifQ"
+  },
+  "scope": "Final text only; no reasoning or supervisor acceptance"
+}

@@ -226,10 +226,26 @@ ou divergent, mêmes hashes RAW. La migration ne justifie donc pas à elle seule
 de les reconstruire. Leur qualification scientifique et leur adéquation au
 périmètre M2 restent à établir ; toute modification future exige un nouveau gel.
 
-Les tentatives de review R4 n'ont livré aucun verdict récupérable : il n'existe
-pas d'acceptation A/B à hériter. La séparation historique F1/observateur/ledger
-et ErrorEnvelope/native/SEAL est une option de découpage, pas une obligation de
-relancer deux sessions identiques sans examiner leur nécessité actuelle.
+Au point de pause, aucun verdict R4 n'était récupérable. **Réception tardive du
+2026-10-29** : la revue FULL `result_mvtsdubj_0000_u47rsh` est désormais disponible,
+verdict `CORRIGE`, qualification opérationnelle `BLOCK`. Deux défauts de contrôles
+négatifs sont corroborés statiquement sur l'ancien paquet : le « mauvais chemin »
+peut être le bon (`after-R4/numeric-differential.test.ts:233`) ; le contrôle de
+footer peut modifier un littéral interne plutôt que le footer (lignes 183–193,
+986–990). Aucun test numérique n'est qualifié par ce retour. Voir le
+[point de contrôle de réception](../../../.opencode/missions/team_mvdlecqs_000i_wny3o5/reports/20261029_01_retours_tardifs_numeric_s1.md).
+
+Au GO M2, confronter ces défauts au candidat effectivement retenu avant correction
+et review ciblée. Il n'existe pas d'acceptation A/B à hériter. La séparation
+historique F1/observateur/ledger et ErrorEnvelope/native/SEAL est une option de
+découpage, pas une obligation de relancer deux revues complètes à l'identique.
+
+Le lot tardif suivant contient six avis favorables scoped A/B et un bref retour
+FULL maintenant le blocage `native:1:11`. Ces avis ne réfutent pas les deux
+défauts de contrôles identifiés ci-dessus : aucune acceptation par majorité ou
+par simple composition des verdicts. Les avis brefs renvoyant à des détails non
+joints ne remplacent pas une revue complète. Voir le
+[complément de réception](../../../.opencode/missions/team_mvdlecqs_000i_wny3o5/reports/20261029_02_complement_retours_historiques.md).
 
 Les probes synthétiques d'émission Bun ne valent pas validation générale du
 runtime ; `native:1:11` est un token runtime, pas une coordonnée source. L'extension
@@ -244,6 +260,21 @@ public commun final n'est pas ratifié. Le paquet historique
 `a81b74f4e1e36c9eaf81fbd1e71c1aa3c5a2be62fec2f383e3a7b9be916ebf5b`.
 Vérifier sa couverture réelle, ses chemins et sa cohérence avant réutilisation ;
 une ancienne somme ou un `Model.Ref` ne prouve pas qu'un PLAN a été livré.
+
+**Réception tardive du 2026-10-29** : le candidat PLAN
+`result_mvtsduud_0002_y54vja` est désormais disponible pour ce paquet. Il reste
+PROPOSÉ/non ratifié : qualification numérique, closure schémas/codecs et records
+bootstrap/S2 manquent encore. Sa lecture de cadrage ne vaut pas revue exhaustive
+des types. Réutiliser ce travail en entrée de la future revue plutôt que refaire
+le PLAN à zéro ; compléter et pinner les références réellement manquantes. La
+réception et ses limites sont documentées dans le point de contrôle ci-dessus.
+
+Un second candidat S1, `result_mvtse0gs_0002_z90gzu`, est également reçu le même
+jour, PROPOSÉ et non ratifié. Il maintient les blocages de closure documentaire,
+qualification numérique et acquisition/ledger S2. Les deux propositions sont des
+entrées de revue : le nom de tentative « r2 » ne remplace pas automatiquement
+« r1 ». Comparer les divergences pertinentes contre les contrats, sans fusion
+silencieuse et sans nouvel auteur lancé par défaut.
 
 Ne pas ressusciter du C# via les contrats historiques Q1/broker/coordinateur.
 Seules les primitives TS et leur couverture décrites au §2 sont livrées comme

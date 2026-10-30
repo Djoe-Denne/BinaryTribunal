@@ -1,0 +1,18 @@
+{
+  "candidate": "3ec2f5f49b505915b8c126b2357e150e382cca0b",
+  "previousCandidate": "0366c6f7324866a0544024692dd2646fbf226b9c",
+  "manifest": { "headMatched": true, "filesMatched": 7, "filesTotal": 7, "changedProductionAndTestFiles": 4 },
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3640 },
+  "tests": [
+    { "file": "test/eventlog.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 416, "passed": 9, "failed": 0, "assertions": 55, "filteredOut": 94, "caseDurationsMs": [40.99,31.31,50.94,61.96,34.75,31.18,26.27,49.43,32.58] },
+    { "file": "test/client.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 839, "passed": 4, "failed": 0, "assertions": 13, "filteredOut": 22, "caseDurationsMs": [272.70,240.42,247.36,14.30] },
+    { "file": "test/graph-integration/publication.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 3739, "passed": 5, "failed": 0, "assertions": 38, "filteredOut": 25, "caseDurationsMs": [403.85,1300.85,369.62,1055.75,541.42] },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 37900, "passed": 2, "failed": 0, "assertions": 14, "filteredOut": 47, "caseDurationsMs": [28946.35,8894.65] },
+    { "file": "test/eventlog.test.ts", "pattern": "v[1-5] to v7 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it", "exit": 0, "durationMs": 295, "passed": 5, "failed": 0, "assertions": 45, "filteredOut": 98, "caseDurationsMs": [61.17,51.11,46.20,44.62,47.00] },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "future-version is refused, without schema repair or snapshot rewrite", "exit": 0, "durationMs": 105, "passed": 1, "failed": 0, "assertions": 3, "filteredOut": 48, "caseDurationsMs": [55.64] }
+  ],
+  "primitives": { "status": "reused-valid-evidence", "source": "obsolescence-r1-targeted-parent.json", "passed": 55, "assertions": 125, "basis": "Unchanged primitive source, tests, fixture and package script; same Bun/dependency environment" },
+  "execution": { "serial": true, "timeoutMsPerTest": 600000, "native": false, "workerContender": false, "globalSuite": false, "filteredCountAsPass": false },
+  "preIntegration": { "canonicalHead": "e1a58997b6d0fe4e145aa844382f9ce1c637d0e2", "trackedDirtyPaths": 12, "candidateFileConflicts": [], "indexEmpty": true },
+  "acceptance": "pending-independent-impact-review-and-parent-integration"
+}

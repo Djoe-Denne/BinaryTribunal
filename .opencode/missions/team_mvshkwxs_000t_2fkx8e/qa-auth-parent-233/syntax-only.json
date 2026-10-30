@@ -1,0 +1,37 @@
+{
+    "version":  "rms-auth-parent-233-syntax-only-v1",
+    "sourcePins":  {
+                       "prepare-auth-controller-v1.mjs":  "01fa116885f974bc5592c6e47edcd05578a35c30fa0cb84fbfad1d5cb53c4e95",
+                       "receive-auth-parent-v1.mjs":  "dcc9da265ef5174f90352153255b4424b24a7344e5497ceaafabe00bb963452c",
+                       "auth-parent-native-v1.ps1":  "9a3b1901e26f86db5b49305dad518efc29e130bcf7fb2c6f83434405fc8f9828"
+                   },
+    "sourcePinsRecheckedAfter":  true,
+    "results":  [
+                    {
+                        "command":  "node --check",
+                        "file":  "prepare-auth-controller-v1.mjs",
+                        "durationMs":  33,
+                        "exit":  0
+                    },
+                    {
+                        "command":  "node --check",
+                        "file":  "receive-auth-parent-v1.mjs",
+                        "durationMs":  29,
+                        "exit":  0
+                    },
+                    {
+                        "waitCallCount":  5,
+                        "waitsHaveOneExplicitArgument":  true,
+                        "command":  "Parser.ParseFile",
+                        "errors":  24,
+                        "durationMs":  8,
+                        "file":  "auth-parent-native-v1.ps1"
+                    }
+                ],
+    "fixedWindowsPowerShellPath":  "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "fixedWindowsPowerShellSha256":  "60c9b29843624dd8af6b6a7b26147753be6aeef65098b9a503cc50850afe410f",
+    "candidateEvaluated":  false,
+    "databaseOpened":  false,
+    "aclChanged":  false,
+    "oauthRequested":  false
+}

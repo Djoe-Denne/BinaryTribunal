@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-28",
+  "scope": "Read-only reconciliation before preparation import; no execution approval",
+  "pmSessionID": "ses_e7c960e08ffedHMLFaxorVahbm",
+  "pmFinalMessageID": "msg_1836e8b04001qvDbpR5YgmDGTl",
+  "pmFinish": "stop",
+  "pmModelRef": {
+    "providerID": "openai",
+    "id": "gpt-6.1-sol",
+    "variant": "high"
+  },
+  "pmVisibleFinalSha256": "7702db4d3b9cffc417020868bf946bf56b614b489091550f9c33ebeee47c1445",
+  "pmReadinessObserved": "incomplete",
+  "pmOpenQuestionsObserved": ["reconcile-existing-queue"],
+  "pmToolingDeclaration": {"catalogue": "verified", "unavailable": []},
+  "nativeQueueTool": "team_tasks_list",
+  "taskCount": 11,
+  "pending": 1,
+  "blocked": 10,
+  "published": 4,
+  "deferred": 7,
+  "allContextsFresh": true,
+  "allCompletionPoliciesLead": true,
+  "candidateIdsExactlyMatchNativeQueue": true,
+  "candidateDependenciesMatchCreationReceipts": true,
+  "dependencyObservationLimit": "Current task-list rendering does not expose the dependency arrays; comparison uses the original native creation requests/receipts, not a new database export",
+  "rows": [
+    {"id":"task_mvsc891s_0001_z8achz","stage":"A evidence reuse","status":"pending","publication":"published","decision":"reuse"},
+    {"id":"task_mvsc8lkl_0002_bb6mc6","stage":"B replacement study","status":"blocked","publication":"published","decision":"reuse"},
+    {"id":"task_mvsc8lkm_0003_vxsrb0","stage":"D public contract study","status":"blocked","publication":"published","decision":"reuse"},
+    {"id":"task_mvsc8lkm_0004_svqxn6","stage":"F independent oracle plan","status":"blocked","publication":"published","decision":"reuse"},
+    {"id":"task_mvsc8t32_0005_p5xj1q","stage":"parent ratification gate","status":"blocked","publication":"deferred","decision":"reuse; parent only"},
+    {"id":"task_mvsc8zm9_0006_dfzsgo","stage":"C persistence/replacement implementation","status":"blocked","publication":"deferred","decision":"reuse; conditional"},
+    {"id":"task_mvsc95cn_0007_izs9ec","stage":"D public implementation","status":"blocked","publication":"deferred","decision":"reuse; conditional"},
+    {"id":"task_mvsc9bmu_0008_7eyqc5","stage":"E durable publication/replay","status":"blocked","publication":"deferred","decision":"reuse; conditional"},
+    {"id":"task_mvsc9h48_0009_i1jzwd","stage":"F independent execution","status":"blocked","publication":"deferred","decision":"reuse; conditional"},
+    {"id":"task_mvsc9mlz_000a_vy2hzm","stage":"L9 independent review","status":"blocked","publication":"deferred","decision":"reuse; conditional"},
+    {"id":"task_mvsc9tpm_000b_juhoxs","stage":"L10 parent integration/validation","status":"blocked","publication":"deferred","decision":"reuse; parent only"}
+  ],
+  "candidateDifferencesNotApplied": [
+    "PM proposes pm-rms for research/architecture/review; native worker affinity remains general",
+    "PM proposes direct research for A and F; native tasks retain standard planned execution",
+    "PM explicitly marks writer worktrees true; current writer tasks retain the native isolation default, to be checked before admission",
+    "L10 candidate uses worktree true; existing parent-only task has worktree false and must not be dispatched; temporary tests still require a dedicated worktree under the current policy"
+  ],
+  "supportingFilesExist": [
+    ".opencode/missions/team_mvnxgnse_0000_39vpc8/inputs/l7-scenarios-r2/PLAN_PHASE1.md",
+    ".tmp/m2-s1-integration-r2/evidence/s2-measure-176-runtime/resources.result.json"
+  ],
+  "importInspection": {
+    "installedBundle": "C:/Users/djden/.config/opencode/local-plugins/ensemble/20261028-task-publication-a9868de8ce5c/index.js",
+    "newTaskIdsGeneratedAtLine": 21048,
+    "taskInsertionAtLine": 21072,
+    "zeroTaskListPermittedAtLine": 20645,
+    "sourceReferences": [
+      "C:/Users/djden/source/repos/opencode-ensemble-session/src/preparation-import.ts:202-229",
+      "C:/Users/djden/source/repos/opencode-ensemble-session/src/preparation-document.ts:282-304"
+    ],
+    "importExecuted": false
+  },
+  "supervisorDecision": "Reuse all eleven native tasks, keep publication/completion/isolation controls, import no duplicate rows. Request a revised PM document referencing the existing queue and full sourced candidate, with tasks=[] and parallelGroups=[] for zero new tasks if the PM confirms all preparation requirements are satisfied. Otherwise retain an exact incomplete blocker.",
+  "boardMutations": 0,
+  "policyMutations": 0,
+  "newWorkers": 0,
+  "testsExecuted": 0,
+  "automaticPrepareResume": false,
+  "startInvoked": false
+}

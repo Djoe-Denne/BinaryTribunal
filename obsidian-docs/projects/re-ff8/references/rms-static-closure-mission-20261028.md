@@ -2,8 +2,10 @@
 title: Nouvelle mission RMS — terminer la chaîne statique après M2
 category: reference
 tags: [reverse-engineering, testing, reference]
-summary: Préplan du 28 octobre : reprendre les acquis M2, fermer remplacement et parcours public, puis publication, replay, revue indépendante et intégration.
+summary: Préplan logiciel du 28 octobre, préparation annulée puis dossier documentaire accepté ; aucune réalisation RMS démarrée par cette clôture.
 sources:
+  - .opencode/missions/team_mvsc5dqf_0000_cctpvf/reports/006-livraison-ordre-documentaire-et-cloture-demandee.md
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/reports/009-cloture-documentaire-acceptee.md
   - docs/missions/rms-static-closure-20261028/MISSION.md
   - docs/missions/re-graph-scheduler/ORDRE_MISSION_02_REPRISE_RMS_APRES_M1_20261020.md
   - .opencode/missions/team_mvnxgnse_0000_39vpc8/reports/181-historique-ensemble-messages-recuperation.md
@@ -13,6 +15,9 @@ updated: 2026-10-28
 ---
 
 # Mission préparée, pas encore lancée
+
+> [!important] Chronologie mise à jour
+> Cette page conserve le préplan logiciel initial, pas l'état de la mission documentaire suivante. La préparation a été clôturée à la demande utilisateur : onze tâches annulées administrativement, non réalisées. Le [[projects/re-ff8/references/rms-documentation-cloture-20261028|dossier documentaire distinct]] a ensuite été approuvé, livré et accepté, avec sept tâches réalisées. Cela ne lance pas la réalisation logicielle décrite ici et ne réactive aucune ancienne tâche. Voir [[projects/re-ff8/skills/reconcilier-file-mission-ensemble|réconciliation des files]].
 
 Le document canonique est `docs/missions/rms-static-closure-20261028/MISSION.md`, conservé aussi dans [[_raw/rms-m2-opencode-20261028/mission-prepared|la copie source du vault]]. Cette page décrit un **préplan documentaire** : aucun nouvel identifiant de tâche native n'est revendiqué, aucune politique n'est approuvée par cette page et aucun `start` n'a été exécuté.
 

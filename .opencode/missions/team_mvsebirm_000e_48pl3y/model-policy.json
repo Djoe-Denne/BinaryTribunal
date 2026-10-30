@@ -1,0 +1,129 @@
+{
+  "version": 2,
+  "providers": ["openai"],
+  "models": [
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "low",
+      "intelligenceScore": 40,
+      "averageCostPerTask": 0.08,
+      "benchmarkCostPerTask": 0.08,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "simple",
+      "usage": "documentation_simple",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 43,
+      "averageCostPerTask": 0.12,
+      "benchmarkCostPerTask": 0.12,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "simple",
+      "usage": "documentation_simple",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 48,
+      "averageCostPerTask": 0.21,
+      "benchmarkCostPerTask": 0.21,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "recherche_et_documentation",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "high",
+      "intelligenceScore": 50,
+      "averageCostPerTask": 0.32,
+      "benchmarkCostPerTask": 0.32,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "contrats_et_revue_documentaire",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "xhigh",
+      "intelligenceScore": 51,
+      "averageCostPerTask": 0.39,
+      "benchmarkCostPerTask": 0.39,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "contrats_documentaires_difficiles",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    }
+  ],
+  "startingIntelligence": 50,
+  "classificationBeta": 0.35,
+  "autonomy": {
+    "mode": "long_run",
+    "instructions": [
+      "Conduire la decouverte et la documentation necessaires a un futur achevement de l'orchestrator RMS, en respectant au maximum l'existant du plugin Ensemble ; ne pas basculer vers l'implementation.",
+      "Reutiliser les livraisons et preuves existantes, produire un plan concret et comprehensible, et privilegier une future solution propre, lisible et maintenable a l'echelle humaine.",
+      "Garder une QA documentaire solide sans suringenierie : references et versions controlees selon leur impact, revue independante bornee des affirmations critiques, pas de pipeline fixe de specialistes ni de harnais logiciel nouveau.",
+      "Decider et poursuivre les choix courants dans le perimetre documentaire approuve sans demandes repetitives. Une incertitude exigeant une mesure ou une autorisation hors mandat reste un blocage circonscrit ou une proposition precise, jamais une permission d'executer.",
+      "Ne pas polluer les sources existantes. Les essais temporaires resteraient soumis a leur autorisation et a un worktree dedie ; cette mission documentaire n'autorise ni experimentation produit, ni test, ni nettoyage d'archive."
+    ]
+  },
+  "verification": {
+    "level": "reinforced",
+    "commands": [],
+    "acceptance": [
+      "Perimetre exclusif : ordre docs/missions/re-graph-scheduler/ORDRE_MISSION_DOCUMENTATION_RMS_STATIC_20261028.md. Livrer six documents de decouverte et leur index dans docs/missions/re-graph-scheduler/rms-static-documentation-20261028/, sans implementation ni qualification du produit.",
+      "Rapprocher acquis, sources canoniques, candidat isole et overlays : chaque obligation relie source/version/entrees, preuve/oracle, conditions de validite, statut acquis reutilisable/change/absent/bloque, manque et decision. Rechercher les livraisons conservees avant toute reaffectation ; aucune qualification transferee sans analyse d'impact.",
+      "Cartographier la chaine faits d'executable, graphe, groupes, plan, sessions, revue/reconciliation, publication durable et prochain travail : proprietaire, entree/sortie, identite/version, consommateurs, preuve et lacune. RMS calcule, OpenCode possede sessions/outils/permissions, Ensemble coordonne ; aucun second ordonnanceur ou recuperateur concurrent par defaut.",
+      "Etude du remplacement fondee sur les mesures conservees et les sources lues, avec correction minimale proposee ou frontiere a arbitrer, au moins une alternative rejetee, invariants et controles affectes. Aucun gain promis ni attribution de cout non mesure ; aucune nouvelle mesure, instrumentation, optimisation ou seconde execution.",
+      "Contrat public distinguant acquis et propose, transport et preuve native, corps/identite/idempotence/versions/permissions, reponse perdue, admission ambigue et refus types. Une commande administrative ne devient pas une route agent et les mecanismes Ensemble ne qualifient pas a eux seuls RMS.",
+      "Reprendre le plan L7 et ses oracles independants sans recreation systematique ; matrice risque/obligation, oracle, preuve/version, controle affecte, autorisation et statut. Decrire le scenario final avec echec/reprise, publication unique et deblocage du prochain travail, sans l'executer ni recopier les attentes du produit.",
+      "Plan de realisation detaille pour les seuls manques prouves : historique minimal, entrees/version/preuves, fichiers et ownership, actions/sorties, exclusions/arret, dependances utiles, decision architecturale ou choix local, criteres observables, controles affectes et permissions manquantes. Prevoir le transfert exact du candidat/overlays aux futurs worktrees ; aucun identifiant natif invente.",
+      "QA uniquement documentaire : references essentielles presentes et pertinentes, coherence entre les six livrables, faits/inferences/propositions/inconnues distingues, revue independante bornee des affirmations et decisions critiques sur tache context fresh et session distincte, puis acceptation parent. Reutiliser les revues encore valides ; reprises sur bloquants et impacts seulement, sans chaine fixe d'agents.",
+      "Aucune commande de test produit : bun run typecheck, bun run test:q1-primitives et bun test restent NON EXECUTES et hors perimetre. Aucun import ou execution de module produit, ouverture/modification de base historique, nouveau code produit, oracle executable, driver, fixture, harnais, diagnostic, profilage, benchmark ou demonstration native.",
+      "Aucun jeu, processus cible, live, IDA, run01, G5-G7, execution de code reconstruit, C# ou dependance obligatoire au helper Windows. Aucun changement global, achat ou repli payant implicite. Recuperation eventuelle de metadonnees/finales natives utiles par le superviseur seulement, sans reveiller ou reprendre les sessions historiques.",
+      "Conserver M1 accepte/A09 clos, les 450 paires et neuf regressions avec RAW/oracles sans nouvelle invocation, la qualification planner 415 tests/17077 assertions sans addition de compteurs et S1 hors ligne/fonctions pures avec codecBytes opaques epingles/type/UTF-8/empreinte. Aucun ancien echec transforme en PASS ni SKIP compte PASS.",
+      "Les trois chemins threads restent interdits sans garantie native de fin sans orphelin ; timeout ou Worker.terminate ne suffit pas. Au plus trois origines durables bootstrap compris, commit +1/retry identique +0/rollback +0 sans remboursement/reset, plafonds distincts et provenance absente jamais zero. Deux candidats distincts exigeant quatre origines restent un arbitrage non resolu ; quinze secondes par test inchangees pour le futur contrat.",
+      "Preparation non autorisante et remplacement atomique compare par version, OLD ABORTED/NEW PENDING_DRAIN sans RUNNING intermediaire, barrieres non rafraichies, seule disponibilite worker-a vrai vers faux sans changement worker-b/compte partage/modele ou droits racine. Notification, recuperation, lecture, acceptation et publication distinctes ; validation/publication reservees au superviseur.",
+      "Mission distincte : ne modifier aucun journal, acceptation, compteur, source, snapshot, base, actif ou archive historique M2 ou preparation cloturee. Aucun nettoyage/ecrasement. Ecrire seulement les nouveaux livrables et suivis possedes ; conserver echecs/corrections/provenance sans secrets ni raisonnements prives. QMD aide a rechercher, sans remplacer l'autorite des contrats et recus.",
+      "Cloture documentaire seulement : six livrables utiles et index sources/coherents, revue requise et acceptation parent ; chaque question indispensable a une reponse etayee ou un blocage circonscrit avec decision/preuve manquante. Une source ou revue indispensable absente laisse le dossier partiel. Les blocages logiciels peuvent rester documentes sans etre leves ; aucun basculement automatique vers une mission logicielle. Arreter apres acceptation du dossier."
+    ]
+  }
+}

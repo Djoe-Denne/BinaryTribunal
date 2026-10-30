@@ -4,9 +4,21 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-10-28*
+*This index is automatically maintained. Last updated: 2026-10-30*
+
+## RMS — clôture partielle du 30 octobre 2026
+
+- [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030]] — Acquis et échecs conservés ; aucune acceptation M2 ou exécution complète IDA.
+- [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2]] — Reprise préparée comme plugin de l'hôte existant, pas comme contrôleur d'une instance séparée ; non démarrée.
+- [[_raw/rms-implementation-opencode-20261030/catalogue]] — 260 Markdown sources et sept reçus publics sélectionnés, suivis par hashes ; bases privées et dépendances exclues. Index QMD non recompilé.
 
 ## RMS — reprise et archives du 28 octobre 2026
+
+- [[projects/re-ff8/references/rms-documentation-cloture-20261028]] — Six documents et index acceptés ; aucune clôture logicielle ou nouvelle exécution.
+- [[projects/re-ff8/references/rms-documentation-archive-20261028]] — Huit sessions et douze fragments publics assainis, préparateur hors arbre inclus.
+- [[projects/re-ff8/concepts/rms-frontieres-runtime-v2-v3]] — Préparation DATA, moteur fixture et observations publiques : raccordements restant à prouver.
+- [[projects/re-ff8/concepts/rms-publication-et-contexte-suivant]] — Commit et receipt ne prouvent pas les nouveaux octets du contexte suivant.
+- [[projects/re-ff8/skills/reconcilier-file-mission-ensemble]] — Préserver annulations, dépendances et livraisons sans double import.
 
 - [[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028]] — Archive assainie de 18 sessions, qualifications acquises et blocages conservés.
 - [[projects/re-ff8/references/rms-static-closure-mission-20261028]] — Nouvelle mission préparée, dépendances et vérification renforcée ; aucun lancement.

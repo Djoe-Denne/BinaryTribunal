@@ -1,0 +1,24 @@
+{
+  "version": "ida-clustering-test-manifest-v1",
+  "status": "THREE_STRUCTURAL_CLUSTERING_TESTS_PASSED",
+  "scope": "Existing clusterGraph algorithms on a partial direct-reference topology from the open IDB; no native RMS operation or semantic promotion",
+  "moduleSha256": "064d466b5fe2ba901fd44abf19f37c0fd6a2db40aabd95c9e5959195b6589570",
+  "extractor": { "file": "export_ida_calls.py", "sha256": "9100a98e597e31c466eab4b699365d07e7befa4625c10a3a6219c1aa8566f53e", "durationSeconds": 3.2158698000130244 },
+  "runner": { "file": "run-clustering.mjs", "sha256": "0e58a3c00fbfdb3592aee2b851b71cdf602db9234d4d879d45fd67af62db5094" },
+  "review": { "candidate": "result_mvuqw8as_0003_cx9haj", "message": "msg_18c0c9f650017fff6HmJtObShN", "outcome": "favorable-V2-delta-no-blocker; performance-not-presumed" },
+  "nativeExport": { "file": "ida-calls.json", "bytes": 12637373, "sha256": "13d0bcf282925dfff037aff79a739f845875835e8db25576767467f9b84cd20f", "nodes": 33935, "relations": 80047, "incomingCodeRefsVisited": 139939, "outsideOwnedFunction": 12578, "otherCodeRefsIgnored": 10937, "quarantinedFunctions": 4 },
+  "algorithms": [
+    { "algorithm": "historical-cc", "file": "clusters-historical-cc.json", "bytes": 10668228, "sha256": "85918723632be27babbdf035d3fbf64c1eba7f620b9074417ea75647167b7d20", "exit": 0, "processDurationMs": 1408, "computeMs": 1118, "communities": 12630, "singletons": 12480, "nonSingletons": 150, "largestCommunity": 20937, "modularity": 0.028142225717043827 },
+    { "algorithm": "hub-baseline", "file": "clusters-hub-baseline.json", "bytes": 22959952, "sha256": "afcbde0eb37cf010b881a24d8f1a8daf016c63d9c1f4910da1fa84d0954f0189", "exit": 0, "processDurationMs": 1161, "computeMs": 897, "communities": 21752, "singletons": 20099, "nonSingletons": 1653, "largestCommunity": 128, "sizeBoundMeaning": "128 is the configured baseline cut, not a natural community-size proof", "modularity": 0.585165357739489 },
+    { "algorithm": "leiden", "file": "clusters-leiden.json", "bytes": 12024381, "sha256": "33c867ee48557cdfe73e02540c7bb19fde78f1bd0d56872b673dcf8baf909394", "exit": 0, "processDurationMs": 14729, "computeMs": 7489, "deterministicRepeatMs": 6859, "deterministicRepeatExact": true, "communities": 12883, "singletons": 12480, "nonSingletons": 403, "largestCommunity": 2738, "modularity": 0.8787379457485529 }
+  ],
+  "postExecutionChecks": { "allFileHashesMatched": true, "moduleAndInputIdentityMatched": true, "exactPartitionCoverage": true, "uniqueFunctionOwnership": true, "externalContextsValid": true, "independentMembershipCheckAgainstRawEas": true, "protectedProductMatched": 18, "protectedProductTotal": 18 },
+  "documentaryJoin": { "ledger": "docs/tech/investigation/battle-static-discovery/semantic-certainty.md", "bytes": 87329, "sha256": "0ed1e0fa6bc260c5570123f0b50892e20748ce434cfa5892fcbf39963e998135", "distinctEntries": 594, "matchedNativeNodes": 591, "unmatchedKnownQuarantines": ["0x48D200", "0x48FE20", "0x495960"], "notNewSemanticValidation": true },
+  "failuresPreserved": ["Initial launcher escaping SyntaxError before extraction", "Original instruction-scan method interrupted by native MCP15s timeout without output file"],
+  "limits": ["Depends on current IDA xrefs, not an atomic IDB snapshot or verified PE byte comparison", "Indirect and mid-function targets and data/callback affinities remain unresolved", "12480 singleton functions in this projection are not proved dead or irrelevant", "Heuristic weights and modularity are not calibrated semantic confidence"],
+  "idbMutated": false,
+  "debuggeeStarted": false,
+  "rmsOriginCommitted": false,
+  "nativeModelExecuted": false,
+  "scientificPromotion": false
+}

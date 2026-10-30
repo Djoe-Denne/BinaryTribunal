@@ -1,0 +1,33 @@
+# 31. Nouveaux inputs : contrat de projection ratifié
+
+## Objectif et décision
+
+Le travail suivant doit acquérir les octets publiés approuvés, sans modifier les connaissances gelées ni divulguer les sorties croisées des auteurs. Le parent ratifie le plan du développeur et autorise sa réalisation isolée avec les bornes ci-dessous.
+
+**Choix retenu : autorisations de portée prospectives, pas de nouvelle table/API d'approbation.** La policy parent, figée avant le cycle, autorise des producteurs, fonctions, genres et révisions précis vers des consommateurs et rôles précis. Les octets futurs ne sont pas préannoncés : ils doivent ensuite correspondre à un binding et un manifeste de publication effectivement attestés, relus et committés. La combinaison des deux contrôles accorde la sélection ; un receipt ou un booléen worker ne le peut pas.
+
+Ce choix réutilise l'identité parent vérifiée et le journal existants et évite une seconde autorité. Il ne transforme pas une approbation de publication en autorisation universelle de lecture.
+
+## Contrat fermé à réaliser
+
+1. **Policy prospective versionnée.** NextContextPolicyV1 optionnelle dans le preparing atomique avant anchor ; root réel parent-owned, namespace, ownerActorId et grants exacts. Aucune wildcard ou élargissement implicite de rôle/révision. Owner rapproché de l'identité parent vérifiée existante. Ancien preparing sans policy refuse l'opt-in, reopen exige égalité avant toute acquisition/reprise à effet. Pas de modification de GraphRun, cycleKnowledge ou codec scientifique historique.
+2. **Sources actuellement autorisées.** Sélection uniquement depuis une publication réellement COMMITTED, readback vérifié, manifeste attesté, ArtifactBinding exact et non révoqué. Vérifier provenance, fonction, genre, producteur et révision contre le grant et le plan du consommateur. Ambiguïté, source absente, contenu divergent ou retrait refusés ; aucun choix arbitraire du « plus récent ». Préserver les distinctions des hashes brut/document/record/manifeste/commit.
+3. **Projection durable sans autorité autonome.** NextContextProjectionV1 lie policy/run/plan/binding/mission, famille/fences du consommateur, révisions et tuples source exacts. Image gelée dans le journal GraphStore existant, retry/reopen identiques ; aucune extension tardive, remplacement d'image ou nouvelle table d'autorité. Relecture historique reconstructible distincte des contrôles de droit actuel : lire une ancienne image ne réautorise jamais un effet.
+4. **Vrais fichiers bruts.** Matérialiser ArtifactBinding.content sans recanonicalisation dans une cible déterministe fermée. Root et chemin viennent de la policy parent, jamais d'un worker. Création exclusive ou existant strictement identique ; refuser liens/types hostiles/contenu partiel, sans overwrite, réparation ou suppression. Readback réel en taille/hash/octets ; le manifeste JSON publié n'est pas substitué à un artéfact brut. Contrôles de droit/fencing avant et après matérialisation et aux effets suivants. Un fichier survivant à une révocation n'accorde rien.
+5. **Entrées réellement consommées.** graphInputs, makeGraphIntent et parseGraphIntent doivent reconstruire strictement la même projection autorisée ; référence liée au record et au replay, pin dans files ET knowledge.files, inputFingerprint, inputVersions, requiredAccess et body durable. Ne pas muter le snapshot ou le cycleKnowledge de base. Version/digest de la vue d'inputs projetée distincts, liés à la base et à la projection ; un hash de la seule connaissance gelée ne représente pas les nouveaux octets.
+6. **Séparation des rôles jusque dans les octets livrés.** Interdire producteur égal au consommateur pour l'overlay de connaissances. A/B ne reçoivent aucune sortie courante croisée ; approvedForBlind seul n'autorise pas l'entrée. R conserve ses exacts A+B en proposals. Un manifeste interne familial peut décrire la sélection, mais le prompt/body/bundle livré à un rôle ne doit pas embarquer l'image commune ou des contenus interdits d'un autre rôle. Le filtrage s'applique aussi aux métadonnées et références exposées, pas uniquement à la liste finale des fichiers.
+7. **Barrières avant effet.** Revalider projection, grants actuels, binding/attestation, révocation et fences dans freezeAdmissionInputs, prepareAdmission et dispatch. Les retries ne reconstruisent pas un autre body et ne restaurent pas des droits retirés. Les budgets C/N restent calculés sur les images réellement retenues ; aucune admission supplémentaire pour compenser un refus. Les images de commandes et leurs domaines de hash ne changent pas silencieusement de définition.
+
+## Périmètre et validation
+
+Fichiers prévus : graph-next-context.ts, raccords graph-store/graph-engine/graph-adapter/engine et test next-context.test.ts ; modification du driver seulement si indispensable et manifestée. Aucun second store, ordonnanceur, watcher ou service. Le parent tranche les détails locaux nécessaires dans ce contrat ; tout conflit ou extension importante est remonté avant action.
+
+Le développeur écrit sources et tests, sans commande/test produit. Après pin stable, le parent qualifie effets/imports et exécute typecheck, tests ciblés et contrôles affectés avec quinze secondes/test. Les oracles compareront l'ensemble exact des inputs et les fichiers lus, pas READY, receipt ou seulement l'état interne : nouveau contenu après publication, source brute indentée, absence/divergence/non-approbation/retrait/révocation, fuite A/B, proposals R, anciencycle, cible hostile, reprise identique et fenêtre de retrait avant pin/dispatch.
+
+Aucun nouveau framework ou suite globale, recovery entier avec threads, diagnostic gelé, campagne scientifique, quatrième origine ou action live. Revue indépendante et réception parent avant intégration ; preuves valides réutilisées selon impact. La preuve native reste bloquée et distincte de cette réalisation hors ligne.
+
+## Localisation, impact et limites
+
+Le parent a consulté graphInputs et ses références via Serena, racine commune retro-eng confirmée sans activation. Sur le socle intégré et identique au worktree, graphInputs lit cycleKnowledge et parseGraphIntent reconstruit exactement les inputs ; références également dans Engine, recovery et body-pause-regressions. La réponse de références bornée fournit les sites mais n'est pas une preuve d'exhaustivité ; les fichiers du worktree feront foi après changement.
+
+Décision appliquée au plan reçu en lecture seule ; aucune écriture produit par cette ratification. Pas de second architecte ni nouveau GO utilisateur. Prochain contexte non encore implémenté ou prouvé ; L9 finale, L10 et clôture restent non acquis.

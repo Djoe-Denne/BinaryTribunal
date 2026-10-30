@@ -1,0 +1,25 @@
+{
+  "version": "rms-owned-host-io-fix-isolated-checks-v1",
+  "runnerSha256": "5e612e34df6cee059e31cde665c6f050e60a75298a649f13c21d242b987fcb3c",
+  "syntax": {"exit": 0, "durationMs": 31, "applicationImported": false},
+  "scope": "Only writeAll, makeCaptureIO and writeNew declarations extracted from the pinned runner and evaluated with in-memory filesystem stubs. No main, child process, real output file, HTTP, database or application import.",
+  "durationMs": 2,
+  "checks": [
+    {"name":"exact-write-and-full-capture","pass":true},
+    {"name":"short-write-progress-counted-and-HOLD","pass":true},
+    {"name":"zero-fraction-overflow-progress-refused","pass":true},
+    {"name":"write-call-bound","pass":true},
+    {"name":"prefix-error-contained-fsync-close-independent","pass":true},
+    {"name":"final-tail-write-error-contained","pass":true},
+    {"name":"failure-notification-throw-contained","pass":true},
+    {"name":"split-secret-redaction-refuses-raw-exactness","pass":true},
+    {"name":"byte-cap-marked","pass":true},
+    {"name":"owned-output-all-cleanups-attempted","pass":true}
+  ],
+  "allPassed": true,
+  "nativeLoadProven": false,
+  "httpQualificationExecuted": false,
+  "shutdownOfRealChildTested": false,
+  "independentCorrectionReview": "PENDING",
+  "notes": "Baseline failures were reproduced separately in report187. This filtered record is not a real filesystem fault or a native runtime receipt. No test was skipped and counted as PASS."
+}

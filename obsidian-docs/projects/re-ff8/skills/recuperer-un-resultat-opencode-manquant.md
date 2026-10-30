@@ -4,6 +4,8 @@ category: skill
 tags: [reverse-engineering, testing, skill]
 summary: Distinguer auteur interrompu et livrable mal transmis ; inspecter résultats, session native et fichiers, sans rejouer ni accepter automatiquement.
 sources:
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/evidence/execution-provenance.json
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/reports/008-revue-independante-documentaire-acceptable.md
   - .opencode/missions/team_mvnxgnse_0000_39vpc8/reports/177-copie-livree-revue-independante.md
   - .opencode/missions/team_mvnxgnse_0000_39vpc8/reports/181-historique-ensemble-messages-recuperation.md
 provenance: {extracted: 0.9, inferred: 0.1, ambiguous: 0.0}
@@ -14,6 +16,8 @@ updated: 2026-10-28
 # Récupérer, vérifier, puis seulement décider d'un remplacement
 
 Incident de référence : [[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028|M2]]. Deux réponses finales complètes et leurs fichiers ont été retrouvés dans une session native alors qu'Ensemble annonçait l'absence de réponse récupérable. La cause exacte de cette tentative manquée reste inconnue.
+
+Dans la [[projects/re-ff8/references/rms-documentation-cloture-20261028|mission documentaire suivante]], le même signal est survenu six fois, pour cinq auteurs puis le reviewer. Le parent a retrouvé chaque finale visible `finish:stop` et le dernier événement `idle/succeeded`, vérifié la provenance et les livrables puis accepté dans leur portée documentaire. Aucun remplacement, fallback fournisseur ou nouveau récupérateur ; ces observations n'établissent toujours pas la cause de la remontée manquée. Les finales sont conservées dans [[projects/re-ff8/references/rms-documentation-archive-20261028|l'archive des huit sessions]].
 
 ## Procédure
 

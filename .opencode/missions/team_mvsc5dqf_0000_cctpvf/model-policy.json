@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "providers": ["openai"],
+  "models": [
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "low",
+      "intelligenceScore": 40,
+      "averageCostPerTask": 0.08,
+      "benchmarkCostPerTask": 0.08,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "simple",
+      "usage": "taches_simples",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6-luna",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 43,
+      "averageCostPerTask": 0.12,
+      "benchmarkCostPerTask": 0.12,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "simple",
+      "usage": "taches_simples",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "medium",
+      "intelligenceScore": 48,
+      "averageCostPerTask": 0.21,
+      "benchmarkCostPerTask": 0.21,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "taches_standard",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "high",
+      "intelligenceScore": 50,
+      "averageCostPerTask": 0.32,
+      "benchmarkCostPerTask": 0.32,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "taches_standard",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "provider": "openai",
+      "reasoningEffort": "xhigh",
+      "intelligenceScore": 51,
+      "averageCostPerTask": 0.39,
+      "benchmarkCostPerTask": 0.39,
+      "accessMode": "unknown",
+      "available": true,
+      "level": "medium",
+      "usage": "taches_difficiles",
+      "structuredOutput": {
+        "supported": true,
+        "source": "opencode models API 2026-10-25",
+        "checkedAt": "2026-10-25T00:00:00.000Z",
+        "strictVerification": "unverified"
+      }
+    }
+  ],
+  "startingIntelligence": 50,
+  "classificationBeta": 0.35,
+  "autonomy": {
+    "mode": "long_run",
+    "instructions": [
+      "Finir l'orchestrator RMS en respectant au maximum l'existant du plugin Ensemble ; reutiliser ses mecanismes plutot que construire un systeme concurrent.",
+      "Garder un code propre, lisible et maintenable a l'echelle humaine ; preferer des corrections minimales et comprehensibles a une complexite inutile.",
+      "Assurer une QA solide sans suringenierie : reutiliser les preuves valides, verifier les risques et frontieres affectes, distinguer bloquants et suggestions, sans infrastructure ou pipeline de specialistes superflus.",
+      "Isoler les tests temporaires et les experimentations de reflexion dans un worktree dedie ; ne pas polluer les sources existantes. Cette isolation n'autorise aucun test interdit, nettoyage ou ecrasement d'archive.",
+      "Prendre les decisions techniques et organisationnelles courantes et poursuivre les travaux independants autorises sans demandes repetitives ; conserver les permissions, le contrat QA et les frontieres explicites de ratification avant modification ou execution."
+    ]
+  },
+  "verification": {
+    "level": "reinforced",
+    "commands": [
+      "cd tools/ff8-harness && bun run typecheck",
+      "cd tools/ff8-harness && bun run test:q1-primitives",
+      "cd tools/ff8-harness && bun test"
+    ],
+    "acceptance": [
+      "Portee du premier start : reprise documentaire des preuves A, etudes B et D et matrice d'oracles F seulement. Aucun code produit modifie, nouvel essai, diagnostic, instrumentation ou optimisation ; les autres taches restent differees jusqu'au contrat precis explicitement ratifie.",
+      "Carte acquis reutilisable/change/absent/bloque avec versions, sources, entrees, oracles et provenance primaire ; rechercher les livraisons conservees puis si necessaire les finales natives visibles et fichiers avant tout remplacement d'auteur. Aucun travail termine relance ; aucune qualification transferee entre versions sans analyse d'impact.",
+      "Etude du remplacement fondee sur les mesures conservees, au moins une alternative rejetee, invariants et risques explicites, controles affectes et proposition precise de modifications/executions ; aucune nouvelle mesure ni attribution de cout non mesure a GC/SQL ou autre composant.",
+      "Contrat public propose distinguant commande administrative, route agent, permissions et observations natives ; matrice obligation/source-oracle/preuve-version/statut des transitions autorisees/interdites, preconditions, versions perimees, concurrence permise, publication unique, echec/reprise et replay.",
+      "Les trois commandes consolidees restent NON EXECUTEES au depart et ne sont pas autorisees par ce premier start. Avant toute execution : contrat ratifie nommant sources, chemins possedes, commandes, bornes et exclusions ; quinze secondes par test, zero retry par defaut et arret a la borne applicable. Aucun plafond de processus ne transforme un test hors delai en PASS.",
+      "Les trois chemins lancant des threads restent interdits : aucune commande globale ne doit les atteindre sans preuve native de fin sans orphelin et permission explicite. Attente bornee ou Worker.terminate ne leve pas l'interdiction. Suite filtree jamais presentee comme suite complete ; une commande consolidee indispensable encore impossible laisse l'acceptation concernee bloquee.",
+      "Au plus trois origines durables par racine/lignee bootstrap compris : commit +1, retry strictement identique +0, rollback +0, aucun remboursement/reset ; provenance absente jamais zero. Plafonds preparation/remplacement/activation distincts. Deux NEW distincts exigeant quatre origines restent un arbitrage ouvert, pas une preuve remplacee par concurrence sur un seul candidat.",
+      "Preparation durable non autorisante ; remplacement atomique compare par version, OLD ABORTED et NEW PENDING_DRAIN sans RUNNING intermediaire ; coupes temporelles/barrieres non rafraichies. Changement de ressource ratifie : seul worker-a passe de disponible a indisponible, worker-b/compte partage/modele et droits racine inchanges.",
+      "Conserver les 450 paires et neuf regressions qualifiees avec identites, oracles et RAW, sans nouvelle invocation scientifique par defaut. Qualification historique planner 415 tests/17077 assertions rapprochee des versions, jamais additionnee aux autres suites. S1 hors ligne/fonctions pures seulement ; codecBytes opaques epingles, controles type/UTF-8/empreinte preserves.",
+      "Reutiliser les preuves et reviews valides ; revalider seulement les risques affectes par code/entrees/oracle/conditions pertinentes. Revue de contrat avant implementation dependante ; reviews independantes sur taches context fresh et sessions distinctes, projections bornees sans archive integrale ni raisonnements prives. L9 independante puis L10 parent ; aucune chaine fixe de specialistes.",
+      "Cloture finale exige candidat identifie integre et relu, parcours statique observable de bout en bout avec echec/reprise et connaissance durable, replay deterministe, aucun resultat retire/ancien/non accepte publiant un effet, aucune double publication ni succes apres delai. Notification, recuperation, lecture, acceptation et publication restent distinctes ; refus infrastructure separes des verdicts scientifiques.",
+      "Aucun C#, dependance obligatoire au helper Windows, jeu, processus cible, live, IDA, run01, G5-G7 ou execution du code reconstruit. Aucun second ordonnanceur d'agents ou recuperateur concurrent ; RMS calcule, OpenCode possede sessions/outils/permissions, Ensemble coordonne. Nouveau contrat public, architecture ou harnais important : arbitrage avant realisation.",
+      "Nouvelle mission distincte : journaux, acceptations, compteurs et tentatives rouges M2 preserves, sources/snapshots/bases/actifs/archives conserves en place, aucun nettoyage/ecrasement. Archives publiables avec couverture, echecs/corrections/provenance, sans secrets ni raisonnements prives ; QMD outil de recherche et non autorite superieure aux recus.",
+      "Aucun seuil abaisse, cas supprime, oracle recopie depuis l'implementation ou SKIP compte PASS. Commandes executees/non executees et echecs rapportes exactement. Preuve obligatoire absente ou bloquant ouvert = bilan partiel/bloque, pas cloture acceptee ; reports modifiant les garanties explicitement acceptes. Une fois les criteres approuves satisfaits, bilan parent pour acceptation finale puis arret sans perfectionnement hors mandat.",
+      "Respecter au maximum les mecanismes existants du plugin Ensemble pour finir l'orchestrator RMS. Code propre, lisible et maintenable a l'echelle humaine ; QA reinforced solide mais bornee aux obligations et risques affectes, sans suringenierie ni nouveau pipeline fixe de specialistes.",
+      "Tests temporaires et experimentations de reflexion uniquement dans un worktree dedie, avec entrees et sorties possedees ; aucune pollution des sources existantes. Avant un test autorise, verifier que le worktree contient la version du candidat et ses overlays necessaires, pas seulement HEAD ; conserver les traces utiles sans nettoyer ou ecraser les archives."
+    ]
+  }
+}

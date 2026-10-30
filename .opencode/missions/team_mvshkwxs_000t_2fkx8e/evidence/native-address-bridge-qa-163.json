@@ -1,0 +1,27 @@
+{
+  "version":"rms-native-address-bridge-parent-qa-v1",
+  "candidateDirectory":"C:/Users/djden/.local/share/opencode/worktree/68ae5f/rms-native-address-bridge-160",
+  "baseCommit":"782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "review":{"candidate":"result_mvuuuj8n_000j_atodq6","message":"msg_18c6f8da4001g0Q7rwRvSYbCzq","outcome":"No blocker; approved closed QA"},
+  "retainedFiles":[
+    {"path":"tools/ff8-harness/src/_native-function-identity.ts","byteLength":1052,"sha256":"c4c8693c4441173f6101902bc2b1cdae4fdfcaab8ffbc4ac7439d56871812678"},
+    {"path":"tools/ff8-harness/src/client.ts","byteLength":62318,"sha256":"7c4ccbea23a41f3c99d7bafc4e6486268553f66e189c6501314d04cdc7cb329f"},
+    {"path":"tools/ff8-harness/test/client.test.ts","byteLength":109669,"sha256":"87ed14412b51ad9432a483d83d032c4e12519d5afb7055a7c4de55401bea4931"}
+  ],
+  "checks":[
+    {"command":"bun run typecheck","exit":0,"processDurationMs":4695,"status":"PASS"},
+    {"command":"bun test ./test/client.test.ts --test-name-pattern 'RMSN-ADDRESSBRIDGE|RMSN- parent library import exposes no issuer/composer'","exit":0,"processDurationMs":129,"runnerDurationMs":108,"passed":28,"failed":0,"assertions":89,"filteredOutNotExecuted":87,"status":"PASS_SELECTED_ONLY"}
+  ],
+  "postQaChecks":{"reviewedNewCandidatePinsUnchanged":true,"immutableBaseFilesMatchHistoricalManifest":18,"unchangedBaseFilesInNewCandidate":16,"changedBaseFiles":2,"newInternalHelperFiles":1,"gitDiffCheck":"PASS"},
+  "separatePreservationCheck":{
+    "status":"FAILED_OLD_WORKTREE_CONCURRENT_PRODUCT_EDITS_RECONCILIATION_PENDING",
+    "error":"Frozen base changed: src/client.ts",
+    "oldWorktreeHeadStillBaseCommit":true,
+    "observedOldClient":{"byteLength":64373,"sha256":"497038644f642cee8dbd19056e85ee7dcf8c4fb8df47b2f8b657cbc743889c5d"},
+    "observedOldTest":{"byteLength":110824,"sha256":"6b0705fb799b64e7413803458b5e7dee73df8ed0f5f832b5c2fb9c4057c70cac"},
+    "newCandidateAffected":false,
+    "action":"Worker asked to freeze product edits and report ownership; parent will archive before any restoration"
+  },
+  "fullSuiteExecuted":false,"nativeModelExecuted":false,"rmsOriginsCommitted":0,
+  "acceptance":"Corrective candidate QA passed; not full mission acceptance or operational activation"
+}

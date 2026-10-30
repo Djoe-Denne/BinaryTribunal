@@ -1,0 +1,23 @@
+{
+  "schema": "rms-at-rest-offline-qa-v1",
+  "pin": "a246f6f24fb00ba76d2ee43340e72f84f9377001",
+  "label": "typecheck",
+  "args": [
+    "--no-env-file",
+    "--config=./bunfig.integration.toml",
+    "run",
+    "typecheck"
+  ],
+  "exitCode": 2,
+  "signal": null,
+  "error": null,
+  "elapsedMs": 3936,
+  "perTestTimeoutMs": null,
+  "stdoutSha256": "496a28cf0f6bb726af2a4aa74ae8a31c84153e00374f9bb71dabbccb5bc6639f",
+  "stderrSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+  "sourceDrift": [],
+  "summary": [
+    "src/native-at-rest-transport.ts(14,25): error TS2322: Type 'Promise<{ url: string; headers: { authorization: string; } | undefined; info: () => Promise<ServerInfo>; }>' is not assignable to type 'Promise<{ url: string; headers: Record<string, string>; info(): Promise<unknown>; }>'."
+  ],
+  "nativeCallRequested": false
+}

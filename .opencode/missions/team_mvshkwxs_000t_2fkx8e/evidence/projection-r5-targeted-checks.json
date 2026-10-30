@@ -1,0 +1,25 @@
+{
+  "schema": "rms-projection-targeted-correction-checks-v1",
+  "candidateManifest": "projection-r5-manifest.json",
+  "candidateManifestSha256": "affbc7b2291057dc8d577ababe4962229891fc3296da74df00792793ffd43957",
+  "head": "f4e309aeed4ed25b8fd60e6dc0b46c50115a5810",
+  "filesPinned": 365,
+  "dependenciesVerified": 3493,
+  "negativeTestsUnchangedFromRedR4": true,
+  "checks": [
+    {"receipt":"projection-typecheck-r5.execution.json","exitCode":0,"processMs":3670},
+    {"receipt":"projection-role-green-r5.execution.json","exitCode":0,"pass":1,"fail":0,"expectCalls":6,"bunMs":110,"processMs":188,"scope":"Unsafe role policy refuses before anchor/admission; exact RED test unchanged"},
+    {"receipt":"projection-fence-green-r5.execution.json","exitCode":0,"pass":1,"fail":0,"expectCalls":10,"bunMs":75,"processMs":153,"scope":"Postappend expiry refuses transport and preserves preimages via rollback; exact RED test unchanged"},
+    {"receipt":"projection-dispatch-regression-r5.execution.json","exitCode":0,"pass":2,"fail":0,"expectCalls":12,"bunMs":162,"processMs":247,"scope":"Existing fake-client send/reopen and lost-reply recovery cases only"}
+  ],
+  "perTestAndOuterLimitMs": 15000,
+  "postChecksFilesRehashed": 365,
+  "sourceDrift": [],
+  "coreTraversalReexecuted": false,
+  "positiveRoleUnionExecuted": false,
+  "fullProjectionTestFileExecuted": false,
+  "nativeScenarioExecuted": false,
+  "noSkipCountedPass": true,
+  "review": "Same independent reader to recheck two blockers and impacts; final behavior/delay acceptance remains blocked",
+  "limits": "These targeted passes do not prove the positive A+B/R acquisition path, private approval behavior end-to-end, the fifteen-second central obligation, v3/native or final acceptance."
+}

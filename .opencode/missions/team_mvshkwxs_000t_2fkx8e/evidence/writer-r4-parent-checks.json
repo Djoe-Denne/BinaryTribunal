@@ -1,0 +1,30 @@
+{
+  "schema": "rms-scoped-parent-checks-v1",
+  "candidateManifest": "writer-r4-manifest.json",
+  "candidateManifestSha256": "b05e8ad5a016b46b067340bf466d01d40e993ce2c53e0e21bf5331ec5776df48",
+  "head": "c10ca20762c39084954550492cbed5769445156b",
+  "filesPinned": 360,
+  "changesSinceRedR3": ["src/client.ts","RMS_RUNTIME_DERIVATION.json","RMS_RUNTIME_HANDOFF.md"],
+  "redTestUnchanged": true,
+  "executedBy": "supervisor",
+  "checks": [
+    {"name":"race-green-r4","receipt":"race-green-r4.execution.json","exitCode":0,"pass":1,"fail":0,"expectCalls":6,"bunMs":188,"processMs":264,"scope":"Exact unchanged RED test now passes, including zero transport emission and retained images"},
+    {"name":"typecheck-r4","receipt":"typecheck-r4.execution.json","exitCode":0,"processMs":3308},
+    {"name":"client-r4","receipt":"client-r4.execution.json","exitCode":0,"pass":21,"fail":0,"expectCalls":76,"bunMs":1025,"processMs":1041},
+    {"name":"protocol-r4","receipt":"protocol-r4.execution.json","exitCode":0,"pass":6,"fail":0,"expectCalls":26,"bunMs":114,"processMs":128}
+  ],
+  "perTestTimeoutMs": 15000,
+  "postChecksFilesRehashed": 360,
+  "postChecksDrift": [],
+  "reusedUnaffectedEvidence": [
+    {"name":"runtime-binding-r1","reason":"Unchanged module/test/config and pure preparation path; correction affects legacy reservation methods not exercised by this test"},
+    {"name":"vertical-v2-r1","reason":"Unchanged v2 guard/Engine/GraphStore and synthetic FixtureExecutionPort path; client reservation method correction is not exercised"},
+    {"name":"q1-primitives-parent-result.json","reason":"Five pinned primitive/test/reference/package/config inputs and oracle unchanged; no primitive dependency on modified client"}
+  ],
+  "raceGreenAndClientCountsOverlap": true,
+  "noSkipCountedPass": true,
+  "fullSuiteExecuted": false,
+  "nativeRmsScenarioExecuted": false,
+  "review": "Scoped reviewer reprise on blocker and correction impact still required before integration",
+  "limits": "No native or final mission acceptance. Original RED evidence remains a real failure on r3, not converted to PASS."
+}

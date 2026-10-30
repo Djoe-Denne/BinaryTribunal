@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "providers": ["openai"],
+  "models": [
+    {
+      "id": "openai/gpt-6.1-sol", "provider": "openai", "reasoningEffort": "medium",
+      "intelligenceScore": 48, "averageCostPerTask": 0.21, "benchmarkCostPerTask": 0.21,
+      "available": true, "level": "medium", "usage": "coding_et_raisonnement", "accessMode": "unknown",
+      "structuredOutput": { "supported": true, "source": "https://models.dev/api.json", "checkedAt": "2026-10-13T08:19:21.633Z", "strictVerification": "unverified" }
+    },
+    {
+      "id": "openai/gpt-6.1-sol", "provider": "openai", "reasoningEffort": "high",
+      "intelligenceScore": 50, "averageCostPerTask": 0.32, "benchmarkCostPerTask": 0.32,
+      "available": true, "accessMode": "unknown",
+      "structuredOutput": { "supported": true, "source": "https://models.dev/api.json", "checkedAt": "2026-10-13T08:19:21.633Z", "strictVerification": "unverified" }
+    },
+    {
+      "id": "openai/gpt-6.1-sol", "provider": "openai", "reasoningEffort": "low",
+      "intelligenceScore": 42, "averageCostPerTask": 0.13, "benchmarkCostPerTask": 0.13,
+      "available": true, "reserve": true, "accessMode": "unknown",
+      "structuredOutput": { "supported": true, "source": "https://models.dev/api.json", "checkedAt": "2026-10-13T08:19:21.633Z", "strictVerification": "unverified" }
+    },
+    {
+      "id": "openai/gpt-6.1-sol", "provider": "openai", "reasoningEffort": "xhigh",
+      "intelligenceScore": 51, "averageCostPerTask": 0.39, "benchmarkCostPerTask": 0.39,
+      "available": true, "reserve": true, "accessMode": "unknown",
+      "structuredOutput": { "supported": true, "source": "https://models.dev/api.json", "checkedAt": "2026-10-13T08:19:21.633Z", "strictVerification": "unverified" }
+    }
+  ],
+  "startingIntelligence": 50,
+  "classificationBeta": 0.35,
+  "autonomy": {
+    "mode": "long_run",
+    "instructions": [
+      "Réaliser et vérifier le parcours statique RMS de bout en bout selon le plan documentaire accepté D6, sans refaire les études ni réactiver les anciennes files. Préserver les preuves valides et revalider selon l'impact.",
+      "Après start, le superviseur dispose d'une délégation opérationnelle générale pour réaliser la mission sans demander de permissions ou de décisions supplémentaires à l'utilisateur. Il décide et trace recherches, choix techniques et architecturaux nécessaires, corrections, contrats, validations et intégration dans l'objectif RMS approuvé ; il conserve l'acceptation finale. Ne pas créer de GO intermédiaire.",
+      "Respecter permissions, budgets, refus d'accès, dix minutes par test (amendement utilisateur explicite, rapport43), plafond de trois origines bootstrap compris et arrêts explicites. Faire le bilan des tests réellement trop longs à la fin, sans arrêter la mission au seuil historique de quinze secondes. Ne pas relancer le diagnostic gelé, les trois chemins threads HOLD125, les cas nécessitant quatre origines ou les campagnes scientifiques acquises. Un start générique ne lève aucun de ces arrêts.",
+      "Si une question architecturale se présente, consulter un seul agent architecte utile, explicitement autorisé à rechercher sur Internet, dans le catalogue OpenAI approuvé. Le superviseur tranche sur les preuves ; cet avis n'est ni une délégation de l'acceptation finale ni une chaîne de spécialistes. Aucun agent ne démarre avant l'approbation initiale de la politique.",
+      "Pour les autres questions, effectuer les recherches nécessaires sur Internet et dans les sources applicables, puis décider sans solliciter l'utilisateur. Les recherches complètent les contrats et preuves locales ; elles ne prouvent pas les propriétés natives du produit et ne contournent pas un refus d'accès. Ne transmettre aucun secret ou artefact privé à des services externes.",
+      "Se débrouiller et poursuivre les travaux indépendants utiles en cas de blocage. L'autorisation générale ne remplace pas les permissions natives manquantes, ne lève pas silencieusement les arrêts explicites ou obligations de sûreté et de QA, et ne change ni l'objectif ni le catalogue approuvé. Si une contradiction obligatoire ou une limite technique incontournable subsiste, consigner précisément le blocage sans inventer une preuve ni multiplier les demandes de permission. OpenAI exclusivement ; aucun changement global, achat ou fallback payant implicite."
+    ]
+  },
+  "verification": {
+    "level": "reinforced",
+    "commands": [
+      "Depuis tools/ff8-harness du candidat possédé et épinglé : bun run typecheck",
+      "Depuis le même candidat : bun run test:q1-primitives, après contrôle des chemins exécutés et des permissions",
+      "Depuis le même candidat : bun test, NON AUTORISÉ tant que sa sélection peut atteindre HOLD125 ou un autre arrêt explicite ; une sélection ciblée autorisée ne vaut pas suite complète",
+      "Contrôles ciblés existants selon l'impact et les oracles D5/L7, sous permissions explicites et dix minutes par test ; bilan final des durées ; aucun rejeu scientifique, nouveau diagnostic gelé ou cas quatre origines"
+    ],
+    "acceptance": [
+      "Base transférée sans manque : composition exacte et exception codec déclarée, sources176, quatre fichiers protégés source113, extras, contrôles, dix entrées, correspondance des chemins et nouveau manifeste ; aucune autorité ou origine remise à zéro par copie.",
+      "Remplacement et activation : lectures et refus avant/après append, révocation, comparaisons de versions atomiques (CAS), ownership, OLD ABORTED/NEW PENDING_DRAIN sans RUNNING intermédiaire ni double effet ; délai, threads et plafond d'origines restent trois obligations distinctes bloquées tant que non résolues dans les droits accordés.",
+      "Jonction runtime v2/v3 et public : contrat ratifié par le superviseur avant réalisation, admission reliée au body réellement émis, digests distincts, identités/Model.Ref/droits/provenance prouvés, réponse perdue et terminaison native distinguées ; aucune fixture promue en preuve native.",
+      "Publication et prochain contexte : résultat retenu et attestation parent, publication unique, readback exact, KnowledgeCommit et receipt, reprise et retry sans second effet ; nouveaux octets autorisés dans une projection versionnée sans modifier le cycle gelé ni exposer les sorties croisées aux auteurs aveugles.",
+      "Scénario final D5 : admission ambiguë/réponse perdue, retry exact, preuve terminale et résultats tardifs, revue/réconciliation, publication/readback, replay et travail suivant avec nouveaux contenus prouvés ; chaque preuve rattachée à sa version, ses entrées et son oracle indépendant.",
+      "Revue indépendante fresh L9 sur les risques requis du candidat final, puis validation consolidée et acceptation parent L10 ; reprises limitées aux bloquants et impacts. Aucun SKIP compté PASS, oracle affaibli ou test supprimé pour clôturer.",
+      "Clôture M2 §8 : livrables retenus intégrés, obligations requises prouvées, zéro bloquant et bilan accepté par le parent ; sinon bilan partiel/bloqué explicite, jamais clôture complète par omission d'une preuve interdite ou inaccessible."
+    ]
+  }
+}

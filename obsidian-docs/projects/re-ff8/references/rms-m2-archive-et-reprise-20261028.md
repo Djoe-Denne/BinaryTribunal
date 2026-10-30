@@ -3,8 +3,9 @@ title: RMS M2 — archive complète des sessions publiques et état de reprise
 category: reference
 tags: [reverse-engineering, testing, reference]
 aliases: [RMS M2 sessions, M2 sous-agents, RMS reprise 2026-10-28]
-summary: Archive assainie de 18 sessions M2 ; acquis numeric et S1, remplacement non accepté, nouvelle mission préparée sans lancement.
+summary: Archive assainie de 18 sessions M2 ; acquis bornés et remplacement non accepté, complétés depuis par un dossier documentaire sans réalisation logicielle.
 sources:
+  - .opencode/missions/team_mvsebirm_000e_48pl3y/reports/009-cloture-documentaire-acceptee.md
   - obsidian-docs/_raw/rms-m2-opencode-20261028/inventory.json
   - obsidian-docs/_raw/rms-m2-opencode-20261028/preparation-pm/inventory.json
   - .opencode/missions/team_mvnxgnse_0000_39vpc8/REPRISE_JOURNAL.md
@@ -52,4 +53,4 @@ Une réponse complète et ses fichiers ont été retrouvés dans la session nati
 
 Une notification absente ne justifie donc pas, seule, de refaire le travail. Procédure : [[projects/re-ff8/skills/recuperer-un-resultat-opencode-manquant|récupérer puis vérifier avant de remplacer]].
 
-La suite est préparée dans [[projects/re-ff8/references/rms-static-closure-mission-20261028|la nouvelle mission de clôture statique]]. Elle n'est ni importée dans l'ancienne équipe ni lancée. La persistance complète, le parcours public réel, la publication de connaissance, le replay, les scénarios globaux et les revues finales restent à fermer selon leurs dépendances.
+Le [[projects/re-ff8/references/rms-static-closure-mission-20261028|préplan de clôture statique]] reste une préparation logicielle, non importée dans M2. Depuis, une préparation intermédiaire a été annulée administrativement et un [[projects/re-ff8/references/rms-documentation-cloture-20261028|dossier documentaire distinct a été accepté]], sans réalisation logicielle. Ses [[projects/re-ff8/references/rms-documentation-archive-20261028|huit sessions]] complètent cette archive sans la remplacer. La persistance complète, le parcours public réel, la publication de connaissance, le replay, les scénarios globaux et les revues logicielles restent à fermer selon leurs dépendances.

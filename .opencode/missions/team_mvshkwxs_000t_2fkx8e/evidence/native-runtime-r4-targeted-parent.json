@@ -1,0 +1,19 @@
+{
+  "candidate": "7a41a16930031103b85e07efe09db803100c0d1d",
+  "headMatched": true,
+  "manifestFilesMatched": 16,
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3887 },
+  "selection": { "testNamePattern": "^RMSN-", "timeoutMsPerTest": 600000, "serial": true, "globalSuite": false, "filteredCountAsPass": false },
+  "tests": [
+    { "file": "test/runtime-binding.test.ts", "exit": 0, "durationMs": 130, "passed": 4, "failed": 0, "assertions": 26, "filteredOut": 2 },
+    { "file": "test/client.test.ts", "exit": 1, "durationMs": 135, "passed": 1, "failed": 13, "assertions": 7, "filteredOut": 26, "commonFailure": "l8-source: unsupported qualified upstream pin domainModule", "failurePoint": "nativeOfflineCase prepareRuntimeExecutionV1, before target mission/admission" },
+    { "file": "test/eventlog.test.ts", "exit": 0, "durationMs": 127, "passed": 2, "failed": 0, "assertions": 8, "filteredOut": 103 },
+    { "file": "test/graph-integration/native-observations.test.ts", "exit": 0, "durationMs": 59, "passed": 2, "failed": 0, "assertions": 8, "filteredOut": 33 },
+    { "file": "test/graph-integration/engine.test.ts", "exit": 0, "durationMs": 95, "passed": 1, "failed": 0, "assertions": 2, "filteredOut": 6 },
+    { "file": "test/graph-integration/recovery.test.ts", "exit": 0, "durationMs": 85, "passed": 1, "failed": 0, "assertions": 2, "filteredOut": 24 }
+  ],
+  "totals": { "passed": 11, "failed": 13, "assertionsExecuted": 53 },
+  "inspection": "Targeted cases/imports/registration inspected; fake HTTP and owned SQLite only; no Worker/contender, live network, native origin or scientific replay selected",
+  "qualification": "not-accepted",
+  "nativeExecution": false
+}

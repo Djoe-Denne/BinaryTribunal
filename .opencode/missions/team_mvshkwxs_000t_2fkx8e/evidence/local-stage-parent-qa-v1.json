@@ -1,0 +1,28 @@
+{
+  "candidateSha256": "5bbea4d5bd9e88f36bbdbabebcbc8973577fe3d7d8a3c0c1a68f0022d4a09a72",
+  "review": { "candidate": "result_mvug0y30_0026_0n81l8", "message": "msg_18af5c0d5001LMjsz9jFG5bBWp", "outcome": "favorable-stage-and-six-case-scope-no-static-blocker", "executedByReviewer": false },
+  "command": "bun check-local-stage.mjs --execute-qa",
+  "syntaxExit": 0,
+  "exit": 0,
+  "durationMs": 516,
+  "internalDurationMs": 483,
+  "passed": 6,
+  "failed": 0,
+  "cases": [
+    { "name": "Contradictory source manifest pin refused before mkdir", "pass": true, "durationMs": 1.7518 },
+    { "name": "Contradictory run reference refused before mkdir", "pass": true, "durationMs": 92.2153 },
+    { "name": "Contradictory planning reference refused before mkdir", "pass": true, "durationMs": 85.7217 },
+    { "name": "Existing partial namespace refused without adoption or DB creation", "pass": true, "durationMs": 0.9368 },
+    { "name": "Fresh QA DB RESERVED and independently read after writers closed", "pass": true, "durationMs": 143.5267 },
+    { "name": "Second invocation refused without DB modification", "pass": true, "durationMs": 0.9967 }
+  ],
+  "receipt": { "path": "native-preparation-136/local-stage-qa-139/receipt.json", "bytes": 15807, "sha256": "c642bddcbdadffcaaaf61dc976db72f6b428fdb3a45d5248234d834fef8e7d1a", "readbackMatched": true },
+  "durableObservation": { "state": "RESERVED", "unitRevision": 2, "activePlanRevision": 1, "controllerToken": 1, "familyToken": 1, "eventSequence": 7, "tokensMeaning": "Actually returned by local APIs and independently read; QA only, not native execution authority" },
+  "stageReadbackGuardsPassed": ["immutable plan and unit documents", "current controller and family", "canonical claims and event digests", "no outbox/results/commits/publications/native root/binding/operation/parent authority/ordered command/next-context approval rows"],
+  "postCheck": { "negativeNamespacesAbsent": true, "sourceManifestUnchanged": true, "protectedProductMatched": 18, "protectedProductTotal": 18 },
+  "adoptAsOperationalOwner": false,
+  "nativeAuthority": "UNKNOWN_HOLD",
+  "nativeActions": 0,
+  "automaticRetryOrRenewal": false,
+  "acceptance": "local-stage-QA-only; no native qualification, acquisition or D5/M2 acceptance"
+}

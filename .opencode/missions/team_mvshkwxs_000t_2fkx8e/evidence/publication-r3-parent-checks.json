@@ -1,0 +1,29 @@
+{
+  "schema": "rms-publication-scoped-checks-v1",
+  "candidateManifest": "publication-r3-manifest.json",
+  "candidateManifestSha256": "6982f54bd4bfee58be7fdde9228b8a3ea6c21dd1856ae5bddce65ae0c8a83d1c",
+  "head": "7d3fae678032a86964a98ab09c12c330dadf9d50",
+  "sourceFilesPinned": 363,
+  "changesSinceTestOnlyR2": ["src/graph-store.ts"],
+  "testFileUnchangedDuringFix": true,
+  "testFileSha256": "03b7b9d15299f8d894c6b482b6293f32b6f5bcff2c8da6d1940136fed16a9caf",
+  "dependencyFilesVerified": 3493,
+  "executedBy": "supervisor",
+  "checks": [
+    {"receipt":"publication-raw-green-r3.execution.json","pass":2,"fail":0,"expectCalls":43,"processMs":7087,"scope":"Exact unchanged RED tests now pass including raw artifact binding and reopen/retry"},
+    {"receipt":"publication-typecheck-r3.execution.json","exitCode":0,"processMs":3384},
+    {"receipt":"publication-tests-r3.execution.json","pass":25,"fail":0,"expectCalls":249,"processMs":65435,"scope":"Single publication test file, not global suite"},
+    {"receipt":"publication-historical-r3.execution.json","pass":2,"fail":0,"expectCalls":39,"processMs":293,"scope":"Only filtered historical publication binding and level2 attestation cases"}
+  ],
+  "perTestTimeoutMs": 15000,
+  "postExecutionFilesRehashed": 363,
+  "sourceDrift": [],
+  "targetedGreenIncludedInPublicationFileCount": true,
+  "reusedEvidence": [{"receipt":"publication-vertical-v2-r1.execution.json","scope":"Same legacy mode without prospective policy; its canonical binding branch is unchanged and separately covered by historical-r3"}],
+  "redEvidencePreserved": "publication-raw-red-r2.execution.json",
+  "review": "Same independent reader to recheck blocker and correction impact; verdict not yet received",
+  "fullSuiteExecuted": false,
+  "nativeScenarioExecuted": false,
+  "noSkipCountedPass": true,
+  "limits": "Offline static publication only, not next-context acquisition, final D5, L9/L10 or complete mission acceptance."
+}

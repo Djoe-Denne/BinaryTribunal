@@ -1,0 +1,149 @@
+{
+  "version": "rms-first-acquisition-data-candidate-manifest-v1",
+  "status": "INSPECTION_CANDIDATE_NOT_IMPORTED_NOT_EXECUTED_NATIVE_HOLD",
+  "owner": "raccord-native-runtime",
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "authorizedNewFiles": ["first-acquisition-data.mjs", "first-acquisition-data.manifest.json"],
+  "files": [
+    {"path": "first-acquisition-data.mjs", "byteLength": 20860, "sha256": "1dd57d660c93a6c86b4ddcacbf399831a68e0334539e45847fa8227eefa58294"}
+  ],
+  "selfDigest": "Reported separately to parent, no circular self-hash",
+  "scope": "ONE pure static DATA producer plus the CLOSED existing API argument contract. Finalizer removed under parent anti-loop steering; no extra receipt/attestation schema, signature or authentication layer. No change to source/codec/product/storage/issuer; no combat149/cluster147 substitution.",
+  "revision": "STATIC_ONLY_SUPERSEDES_PREVIOUS_TWO_EXPORT_CANDIDATE; retired finalizer and its input schemas must not be used",
+  "effects": {
+    "moduleTopLevel": "Imports existing pure helpers and defines constants/functions only",
+    "functionCalls": "Decode/validate supplied bytes and compose DATA; no FS, clock, process, CLI, HTTP, Store/GraphStore, issuer, transport, session, permission, acquisition or origin effect",
+    "authorExecution": "NONE; no import, syntaxcheck, test, typecheck, function call, DB, network or Git operation",
+    "trust": "Caller JSON and digest agreement do not authenticate a role, tool receipt, file read, DB observation, effective rights or native ownership. Actual parent independently loads and pins evidence; owning native invocation109 and actual API rechecks retain authority."
+  },
+  "sharedInputFormats": {
+    "fileImage": "Exact {path,base64,byteLength,sha256}; path exact absolute, byteLength1..16777216, lowercase hex SHA256 of actual decoded bytes, standard canonical base64 with exact decode/reencode/length/hash agreement. Parent reads the actual file independently and supplies those bytes, not a declaration of desired future contents. No filesystem read occurs inside this candidate.",
+    "rawFileRef": "Exact {kind:'rms-parent-file-bytes-v1',encoding:'raw-v1',byteLength,sha256}, computed from an actual supplied fileImage. Used for parent input/proof files, distinct from canonical generated-document refs.",
+    "newParentDataSerialization": "New firstUse/budget/sourceQuotations files MUST contain exactly canonical(value) from the existing validation helper, no BOM, no whitespace/pretty-print or duplicate keys. This is an input restriction using the existing codec, NOT a new product JSON codec. Retained source bytes keep their raw file hashes.",
+    "scopeS": "Exact derived {missionId,lineageId,rootAccountId,rootAllocationRef,planningRef,generationId} from retained V3. rootAccountId must equal executionValueRefV1('l8-budget-root-v1',{missionId,lineageId,rootAllocationRef}).sha256. Parent may obtain scopeS by the static function with all three pending parent inputs null; no lease needed."
+  },
+  "staticFunction": {
+    "export": "prepareFirstAcquisitionDataV1(input)",
+    "exactInputFields": ["version", "files", "firstUse", "budget", "sourceQuotations", "resourceFiles"],
+    "version": "rms-first-acquisition-data-input-v1",
+    "files": {
+      "exactFields": ["manifest", "body", "independentSources", "policy", "intention", "catalog", "quotationSources"],
+      "manifest": "fileImage of the canonical retained136/source-bundle-v3/manifest.json,2806/SHA34ffa53959bf44e6023071d4f27fb939732c719bf2bad681a1bea1e877410d68",
+      "bodyIndependentPolicy": "fileImage values from the THREE actual retained source files, checked against manifest paths/lengths/SHA. Existing bindExecutionPreparationV1, sealExecutionEnvelopeV1, bindExecutionSourcesV1 and makeGraphRunV3 produce/check the real source/run/planning refs; no manual duplicate planner or new extraction is introduced.",
+      "intention": "fileImage of canonical136/admission-a-static-intention.json,24112/SHA2f3425aceead82f6bfd5edb0df3c3c209d4dec121c3ff112f66ed2e65c8a8f24, exact retained143 intention with no rmsBinding/finalImage/permit",
+      "catalog": "fileImage of canonical evidence/native-catalog-preparation-readback-20261030.json,2215/SHA5f527fa8dd051ff723a18349dd0fd9744687a8c43c3c252b1c08825e1b98576a",
+      "quotationSources": "Array of THREE actual fileImages, in order107,109,143, with exact paths/pins listed below. These are actual quotations of retained source documents, not new authority or an invented user transcript."
+    },
+    "firstUse": {
+      "absent": "null until parent actually materializes and independently reloads this new file",
+      "present": "fileImage of canonical object with EXACT keys {version,factId,userStatement,interpretation,scope,sourceQuotationsRef}",
+      "values": {
+        "version": "rms-parent-first-operational-use-v1",
+        "factId": "user145",
+        "userStatement": "on ne s'est jamais servi de RMS",
+        "interpretation": "first-operational-rms-genesis-not-opencode-or-qa-continuity",
+        "scope": "scopeS",
+        "sourceQuotationsRef": "rawFileRef of the REAL sourceQuotations file"
+      },
+      "meaning": "Parent records the already received user fact145; this file is not itself a native authentication credential. No old RMS registry/canary-root/account is demanded for first use."
+    },
+    "budget": {
+      "absent": "null until parent materializes/reloads the prospective decision",
+      "present": "fileImage of canonical object with EXACT keys {version,scope,firstUseRef,sourceQuotationsRef,grant}",
+      "values": {
+        "version": "rms-parent-prospective-slot-A-decision-v1",
+        "scope": "scopeS",
+        "firstUseRef": "rawFileRef of REAL firstUse file",
+        "sourceQuotationsRef": "rawFileRef of REAL sourceQuotations file",
+        "grant": "Exact {slotKey,functionIdentity,role,pass,capUtf8Bytes,acquiredUtf8Bytes}; slotKey is a parent-chosen stable nonempty string, identity is Hraw6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020/versionrms-qualification-x86-fixture-v3/numericEA268435712,roleA,pass1,cap262144,acquired262144"
+      },
+      "meaning": "Records the ratified prospective LOCAL RMS right, not emitted native authority, source-fixture acquisition, vendor quota/pricing or physical allocation. No B/R slot or origin is granted."
+    },
+    "sourceQuotations": {
+      "absent": "null until parent materializes/reloads its scoped attribution and quotations",
+      "present": "fileImage of canonical object with EXACT keys {version,scope,quotations,scopeUnresolved,resourceRefs,preservedUnknowns}",
+      "version": "rms-parent-first-acquisition-source-quotations-v1",
+      "scope": "scopeS including AR, so inventory attribution is genuinely bound to allocation/planning without expanding the CLOSED product inventory schema",
+      "quotations": "Nonempty array of exact {sourceRef,startLine,endLine,text}; sourceRef is rawFileRef of one supplied quotationSource, lines1-based inclusive, text equals actual pinned lines joined by LF. At least one verified quotation from EACH of107/109/143 is required; CRLF source line separators may be represented as LF in the quotation, but raw source-file hashes are unchanged.",
+      "scopeUnresolved": "Explicit array of unique nonempty strings; NOT forced empty by static preparation. It covers questions applicable to THIS first-acquisition scope, not an impossible requirement for an old RMS exercise.",
+      "resourceRefs": "Exact ordered array of rawFileRef values computed from input.resourceFiles; no reference to an unprovided file is admitted",
+      "preservedUnknowns": "Explicit array of unique nonempty strings describing remaining resource/cost/physical/server unknowns. Producer additionally preserves the limits that OpenCode/QA resource quiescence/cost-zero/adoption and remote enforcement/quota/terminality are NOT inferred."
+    },
+    "resourceFiles": "Explicit array of actual fileImages, possibly empty. Empty means no resource file evidence supplied, NOT that legacy resources, cost or occupation are absent. A JSON role or true flag cannot establish their status.",
+    "safeMaterializationOrder": "Use null pending inputs to obtain scopeS; materialize sourceQuotations first, then firstUse citing its real raw ref, then budget citing both real refs. Reload ALL actual files before the fully populated static call. There is no cyclic pre-hash or invented provenance.",
+    "returns": "Always pre-ownership INTENTION only. Missing file => HOLD_MISSING_MATERIALIZED_PARENT_FILES, missing names and NO draftDocuments/no synthetic provenance refs. Present contradiction => throws HOLD. Complete inputs => five prospective canonical BoundDocuments named scope/genesis/inventory/slotA/provenance, each explicitly materialization:NOT_OBSERVED. Even closed acquisition scope is still FIRST_ACQUISITION_INTENTION_NATIVE_HOLD, acquisitionArgument:null, no final image/permit/grantRef/fence.",
+    "fiveDrafts": "scope binds real source/intention and firstUse/budget/quotation refs to M/L/R/AR/PR/G; genesis defines new RMS revision/head0/origins[] without copying ledgers; inventory uses EXACT product shape and REAL input evidence refs; slotA carries prospective cap/debit and new counters0 but NO grantRef; provenance binds literal parent decisions/quoted sources, not native issuance.",
+    "materializationRule": "Canonical BoundDocument refs of drafts are prospective digest descriptions, NOT claimed filesystem provenance. Parent writes each exact document.utf8 to a real file and independently reloads it before completing the API figure. No output path is chosen or file written by this candidate."
+  },
+  "postOwnershipArgumentContract": {
+    "implementation": "DATA contract included in static output, NOT a second function, readback framework, runtime validator or authentication schema. Parent completes the existing API figure after actual OWN reads.",
+    "api": "GraphStore.authorizeNativeRootV1(authority,privateCapability,raw,expiresAt), graph-store.ts837-851; client authorize-root626-641",
+    "closedAcquisitionKeys": ["version", "mode", "priorAuthority", "allocationRef", "planningRef", "attributionRef", "root", "inventory", "grants"],
+    "closedRootKeys": ["version", "missionId", "lineageId", "rootAccountId", "revision", "generationId", "headRevision", "controllerFence", "historyRef", "origins", "slots"],
+    "closedInventoryKeys": ["version", "rootAccountId", "missionId", "lineageId", "origins", "resourceRefs", "evidenceRefs", "unresolved"],
+    "closedGrantKeys": ["slotKey", "functionIdentity", "role", "pass", "capUtf8Bytes", "acquiredUtf8Bytes", "provenanceRef"],
+    "closedSlotKeys": ["slotKey", "grantRef", "capUtf8Bytes", "acquiredUtf8Bytes", "encumberedUtf8Bytes", "spentUtf8Bytes", "burnedUtf8Bytes"],
+    "composition": "Fixed first-acquisition/no-linked-prior-authority-established, actual M/L/R/AR/PR/G and A identity/cap/debit from static output; rootGenesis gives rms-native-root-ledger-v1/revision0/head0/origins[]. After real materialization/reload: attributionRef=scope.ref, historyRef=genesis.ref, inventory=inventory.document, grant.provenanceRef=provenance.ref; zero new-slot counters are genesis definitions, never copied fixture/QA counters.",
+    "parentCompletes": "Current operative OWN/controller/family, actual fences, plan/scope, current root absence for mission OR R and no prior mission root-acquisition decision, valid wall/event deadlines/expiry, and exact admission image. Acquired scope must be closed; applicable rights requirements remain distinct. Unknown actual observations stay unfinalized, not a new cryptographic proof obligation.",
+    "authority": "Actual observation origin is established by the parent owning invocation/receipt109. Existing private API rechecks controller/scope/absence and issues under its actual capability. No pure function proves the world/OWN and no JSON role, extra signature, custom attestation schema or Bun authentication is requested.",
+    "grantRefBoundary": "NativeRootLedgerV1.slots requires grantRef while first-mode API computes it at848-849 from real invocation source. No fabricated ref/cast/executable argument is emitted; acquisitionArgument remains null. Parent completes the actual existing API figure, no workaround/refactor/issuer added.",
+    "nativeReceiptPlacement": "Current issuer decision.source.externalReceiptRef stays null as required by product. Actual parent receipt remains separately retained/correlated, not forced into a new format by this candidate."
+  },
+  "closedClientPermissionRequirements": {
+    "exactBoundary": "client.ts447-456, existing common prefix including authorize-root; cannot bypass it by calling this DATA producer",
+    "known": "rms-native-permission-scope-evidence-v1 / bounded-coupling-qualification-only; general/subagent catalog; exact OpenAI gpt-6.1-sol high; actual9 declared general rules from retained catalog; proposed sessionRules[*/* deny] from retained intention. No guessed profile permissions.",
+    "closedChecks": [
+      "version/scope exactly expected",
+      "profile/model/agentRules/sessionRules exactly equal proposed permit",
+      "compositionRefs array nonempty, pointing to actual pinned applicable composition evidence",
+      "unknowns array empty only after evidence-based resolution of applicable preflight questions",
+      "nativeExerciseRefs is an array; code does NOT require nonempty or an impossible earlier RMS exercise",
+      "canonical final evidence document ref exactly equals proposed.permissionsEvidenceRef"
+    ],
+    "openInThisCandidate": ["applicable composition evidence", "parent current preflight-scope resolution", "final canonical evidence/proposed-permit ref equality"],
+    "laterNotInferred": ["future effective session/model enforcement", "server auth/quota and physical ownership", "native terminality"],
+    "refusalMeaning": "Nonempty applicable unknowns => expected fail-closed client rejection, not a software defect. No unknown list is emptied by this producer and no nativeExerciseRefs or server-effective rights are fabricated. Empty nativeExerciseRefs, if later honestly used by parent, means no exercise attested, not proof of enforcement. Public composition sources/catalog/service identity alone do not prove loaded binary equivalence."
+  },
+  "reusedIdentityAndOriginFacts": {
+    "service146": "Reuse parent fresh identity UTC2026-10-30T08:41:35.433Z,2.2.1/PID31584, installed binary253347720bytes/SHA9ecb888ec3b28a393782269f531d1528ea21ff940f694752717e48a77b90527e. No reinspection by author, no source-binary/enforcement/quota inference. This candidate need not consume it as an acquisition authority.",
+    "firstUse145": "No old RMS account/registry or prior exercise is required. Historical OpenCode sessions/QA resources are not RMS accounts by presumption; they remain conserved resources/evidence with unresolved physical costs/occupation, not silently reset/adopted.",
+    "originEvent": "Root/lineage durable origin commit: new+1, exact retry+0, rollback before persistence+0. Bootstrap included, ceiling3 unchanged. Existing prepare adds permit.originId before POST in its transaction; root-acquisition local decision alone does not append an origin. No origin is armed or counted here.",
+    "minimalOrder": "Finish/materialize/reload static decisions/source quotations/inventory scope and applicable permission prerequisites BEFORE operational lease. Then ONE fresh explicitly retained operational stage (not QA), current readback, exact A image with real fences, authentic root issuer, exact permit, prepare and eventual POST separately. No implicit lease renewal/retry/adoption, no fixture image/grant used as native authority."
+  },
+  "retainedQuotationPins": [
+    {"path": "reports/107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive.md", "byteLength": 3224, "sha256": "d34f372d31e2c21174aef4c96f3e22eab67f2981edd39d6bb554eec522e9da46"},
+    {"path": "reports/109-entree-locale-parent-concrete-autorisee.md", "byteLength": 2888, "sha256": "3e928d4895505a2eff1e53d999422f167f3bdd9ba028997077c9b301dfda5636"},
+    {"path": "reports/143-intention-statique-retenue-verification-bornee-des-pieces-historiques.md", "byteLength": 2916, "sha256": "60ae8a2849e42c9b5f1d96e9925a60a51782dd7c496c7bb1b02b4c419280ca6f"}
+  ],
+  "conceptualChanges": [
+    "Composes retained V3/run/intention without replacing its corpus, fixture function or scientific status",
+    "Materialized parent statements, prospective funding, generated drafts, future operative observations, private issuance and server/execution proof stay distinct",
+    "New root/slot counters0 come only from explicit first-use genesis and future current absence, never from copied fixture/QA ledgers",
+    "Missing parent files remain explicit missing/HOLD; generated refs are only unmaterialized draft descriptions until independent reload",
+    "Post-ownership is a closed existing API contract only; actual reads, origin evidence and completion stay with parent and commit API, not a new pure finalizer",
+    "Pre-issuer grantRef typing boundary is exposed, not hidden behind a valid-looking acquisition, placeholder hash or new product API"
+  ],
+  "targetedParentChecksProposedNotExecuted": [
+    "Windows case regression: retained independentSources.json uses uppercase S; source pin suffix lookup must normalize both path and name, without changing manifest paths or pinned source bytes",
+    "All three pending parent files null => scoped HOLD, real scope available, no synthetic provenance/draft acquisition",
+    "Only some parent files supplied => validate present shapes/scopes/refs, preserve missing names and known unknowns",
+    "Wrong retained path/hash/decoded byteLength/base64/BOM or alternate intention/cluster combat source => refusal",
+    "First-use wording/scope, budget cap/debit/role/function/pass, missing file reference or quote text/line discrepancy => refusal",
+    "New parent JSON duplicate keys/pretty-print/extra fields => refusal; canonical known bytes succeed if other invariants match",
+    "Nonempty scopeUnresolved => static intention preserves it; parent must close applicable acquisition questions before issuance, unrelated physical/server unknowns remain visible",
+    "Complete real parent files => five explicitly unmaterialized canonical drafts, A-only262144, no fence/grantRef/acquisition authority",
+    "Static output contains the closed product argument keys and concrete values/remaining parent observations; no finalize export or new observation/receipt/attestation schema exists",
+    "acquisitionArgument stays null with no synthesized grantRef/fence/native right/origin; pure checks are not counted as native QA or proof of actual OWN absence",
+    "Permission requirements retain six exact checks; no prior exercise requirement invented, no applicable unknown or final canonical-ref check silently waived"
+  ],
+  "verification": {
+    "actualAuthorChecks": "Bounded source reads and filesystem SHA/length metadata only. Serena canonical root retro-eng confirmed, targeted existing seal symbol read; worktree product sources treated as authoritative frozen files. No cross-file product contract modified.",
+    "protected18": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "existingStageAndV3Candidates": "Stage pair and three V3 candidate files reread with original delivered byteLength/SHA; unchanged",
+    "syntaxImportTestsTypecheck": "NOT_EXECUTED_BY_AUTHOR; no PASS claimed",
+    "independentReviewAndBoundedImpactQA": "PENDING_PARENT before import/evaluation; parent owns QA and any native acts",
+    "globalTestsScientificReplayFrozenDiagnosticsHOLD125": "NOT_RUN",
+    "newWrites": "Only the two authorized first-acquisition-data candidates",
+    "nativeDbNetworkGitOrResourceEffects": "NONE"
+  }
+}

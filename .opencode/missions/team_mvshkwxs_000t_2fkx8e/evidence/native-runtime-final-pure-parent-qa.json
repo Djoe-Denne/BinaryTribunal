@@ -1,0 +1,38 @@
+{
+  "candidate": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "sourceImage": "6fe50ce4cf97f8e21b6407f0c2ce5529cd5bef8c",
+  "functionalReviewedBase": "ca85f41c7f2aa9ef2a58e508c768fe3ec18042a8",
+  "manifestFile": "native-runtime-r11-manifest.json",
+  "manifestSha256": "fbc0b42e3b55557b5ab98132a6462b7022cebd43ac5549fdf6440241d1f16211",
+  "headMatched": true,
+  "manifestMatched": 18,
+  "manifestTotal": 18,
+  "codeDeltaVsSourceImage": "none",
+  "deltaVsReviewedBase": "Only exact contract type imports and three generic reads; client test byte-identical",
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3861 },
+  "selection": { "pattern": "^RMSN-", "timeoutMsPerTest": 600000, "serial": true, "globalSuite": false },
+  "rmsn": [
+    { "file": "test/runtime-binding.test.ts", "exit": 0, "pass": 4, "fail": 0, "assertions": 26, "durationMs": 53, "maxCaseMs": 1.64 },
+    { "file": "test/client.test.ts", "exit": 0, "pass": 62, "fail": 0, "assertions": 876, "durationMs": 46557, "maxCaseMs": 3633.75 },
+    { "file": "test/eventlog.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 119, "maxCaseMs": 39.61 },
+    { "file": "test/graph-integration/native-observations.test.ts", "exit": 0, "pass": 2, "fail": 0, "assertions": 8, "durationMs": 44, "maxCaseMs": 0.6 },
+    { "file": "test/graph-integration/engine.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 85, "maxCaseMs": 33.34 },
+    { "file": "test/graph-integration/recovery.test.ts", "exit": 0, "pass": 1, "fail": 0, "assertions": 2, "durationMs": 83, "maxCaseMs": 29.73 }
+  ],
+  "rmsnTotals": { "pass": 72, "fail": 0, "assertions": 922 },
+  "regressions": [
+    { "file": "test/eventlog.test.ts", "pattern": "^RMSO-", "exit": 0, "pass": 9, "fail": 0, "assertions": 55, "durationMs": 396 },
+    { "file": "test/client.test.ts", "pattern": "^RMSO-", "exit": 0, "pass": 4, "fail": 0, "assertions": 13, "durationMs": 820 },
+    { "file": "test/graph-integration/publication.test.ts", "pattern": "^RMSO-", "exit": 0, "pass": 5, "fail": 0, "assertions": 38, "durationMs": 3999 },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "^RMSO-", "exit": 0, "pass": 2, "fail": 0, "assertions": 14, "durationMs": 36953 },
+    { "file": "test/eventlog.test.ts", "pattern": "v[1-5] to v7 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it", "exit": 0, "pass": 5, "fail": 0, "assertions": 45, "durationMs": 294 },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "v6 metadata reopens additively as v7 without rewriting existing scientific documents or granting approval|future-version is refused, without schema repair or snapshot rewrite|malformed-table is refused, without schema repair or snapshot rewrite", "exit": 0, "pass": 3, "fail": 0, "assertions": 15, "durationMs": 20271 }
+  ],
+  "executedTotals": { "pass": 100, "fail": 0, "assertions": 1102, "fullSuite": false },
+  "primitives": { "status": "valid-evidence-reused", "source": "obsolescence-r1-targeted-parent.json", "pass": 55, "assertions": 125, "basis": "Unchanged primitive source/test/reference/package script and canonical dependency environment" },
+  "review": { "candidate": "result_mvu88423_0004_ygvw0v", "message": "msg_18a2e2efe001TfuFd3JkFXSZf0", "pin": "782ec396a2a7866d30645c32ca8ab864dcca5960", "outcome": "favorable-scoped-static" },
+  "inspection": "Five history/corruption additions and strengthened await counters read; literal fake transcript, local SQLite only; no added I/O outside controlled fake port, thread, process or native direct-run",
+  "nativeExecution": false,
+  "filteredCountAsPass": false,
+  "missionAcceptance": false
+}

@@ -1,0 +1,19 @@
+{
+  "candidate": "0366c6f7324866a0544024692dd2646fbf226b9c",
+  "previousCandidate": "635df39656a8eb34df549f63686f5566830a5fe2",
+  "headAndSevenHashesMatched": true,
+  "deltaFromPrevious": "One type annotation in next-context.test.ts; production, values and assertions unchanged",
+  "inventoryScriptCorrection": "Initial reader assumed full files manifest; r3 uses changedFiles and unchangedFilesManifest. Corrected reader composed r2 with r3 override before QA. No product execution in failed inventory call.",
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3348 },
+  "primitives": { "status": "reused-valid-evidence", "source": "obsolescence-r1-targeted-parent.json", "passed": 55, "assertions": 125, "basis": "Source, test, reference fixture and package script unchanged from r1; same local environment" },
+  "tests": [
+    { "file": "test/eventlog.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 416, "passed": 9, "failed": 0, "assertions": 55, "filteredOut": 94, "caseDurationsMs": [40.10,31.24,53.03,61.10,31.96,32.84,25.27,41.65,35.41] },
+    { "file": "test/client.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 339, "passed": 1, "failed": 0, "assertions": 4, "filteredOut": 22, "caseDurationsMs": [274.39] },
+    { "file": "test/graph-integration/publication.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 2319, "passed": 4, "failed": 0, "assertions": 26, "filteredOut": 25, "caseDurationsMs": [392.41,359.55,1033.56,465.09] },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "^RMSO-", "exit": 0, "durationMs": 34495, "passed": 2, "failed": 0, "assertions": 14, "filteredOut": 47, "caseDurationsMs": [26368.71,8063.44] },
+    { "file": "test/eventlog.test.ts", "pattern": "v[1-5] to v7 preserves unpinned legacy outbox/history but never dispatches or retroactively blesses it", "exit": 0, "durationMs": 306, "passed": 5, "failed": 0, "assertions": 45, "filteredOut": 98, "caseDurationsMs": [61.59,51.90,49.51,50.09,45.42] },
+    { "file": "test/graph-integration/next-context.test.ts", "pattern": "future-version is refused, without schema repair or snapshot rewrite", "exit": 0, "durationMs": 101, "passed": 1, "failed": 0, "assertions": 3, "filteredOut": 48, "caseDurationsMs": [52.25] }
+  ],
+  "execution": { "serial": true, "testTimeoutMs": 600000, "globalSuite": false, "filteredCountAsPass": false, "nativeExecution": false, "workerContender": false },
+  "qualification": "targeted-checks-only-not-acceptance"
+}

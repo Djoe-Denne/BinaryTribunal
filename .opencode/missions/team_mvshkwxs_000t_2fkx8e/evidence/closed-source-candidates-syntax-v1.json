@@ -1,0 +1,27 @@
+{
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "candidates": [
+    { "path": "closed-model-enumerator-v1.mjs", "bytes": 13363, "sha256": "3854cce1be60b19efe9cc0bf596266dd77846ae2ea89b4f9949bb487d20dd64e", "matched": true, "syntax": { "command": "node --check", "exit": 0, "durationMs": 41 } },
+    { "path": "source132.mjs", "bytes": 23151, "sha256": "8e407d68ef9ab9db718b076377c63990543200b940d3d3d14489a9fc625129d5", "matched": true, "syntax": { "command": "node --check", "exit": 0, "durationMs": 40 } },
+    { "path": "source132.manifest.json", "bytes": 12890, "sha256": "07f6629cc697053be56e706e67a2d8dddce343b9e6de70049761b79943bee967", "matched": true }
+  ],
+  "data": [
+    { "path": "source-decision-v2.json", "bytes": 3395, "sha256": "6d17c83633939ead1971e314e70fb5e4847dd70c15d6f8617a1128b4ab638d3f" },
+    { "path": "closed-function-model-v2.json", "bytes": 1281, "sha256": "b5f38f84268fd2d75d43eb39b5bcbee01ab9a3174920dce37c79fb0d8d8f6230" },
+    { "path": "source-config-v2.json", "bytes": 1572, "sha256": "2dcde6f0b978b8eb0959751c07bba26fedbc4a141cf2bacd1c1f0c9ecf32fb77" }
+  ],
+  "protectedProductMatched": 18,
+  "protectedProductTotal": 18,
+  "parentRunner": { "path": "native-preparation-132/check-closed-source-memory.mjs", "syntax": { "command": "node --check", "exit": 0 }, "executed": false },
+  "verificationPlan": {
+    "scope": "11 explicitly listed pure in-memory cases; not global tests or scientific replay",
+    "positiveCases": ["exact Q2 exhaustive traversal with five table-end markers and byte-bound proof", "explicit noncanonical OFFLINE tail variant traversed", "exact V2 source binding and no planner diagnostic"],
+    "negativeCases": ["open universe", "unresolved successor", "duplicate ordinal", "unknown declared tail", "derived tail omitted from declaration", "duplicate JSON key", "unknown part extension", "raw model-byte mismatch"],
+    "limits": "Parent execution only after independent candidate review; subprocess bounded by600000ms, per-case actual durations recorded; no DB/network/writer"
+  },
+  "independentReview": "requested; enum/coverage/provenance changes only, prior unaffected producer closure reused",
+  "moduleImported": false,
+  "sourceV2Computed": false,
+  "nativeActions": 0,
+  "acceptance": "syntax-only"
+}

@@ -1,0 +1,22 @@
+{
+  "candidate": "77200f40c1892480b7deb97110abbfaf451ad2bb",
+  "runtime": "bun 1.4.2 (744846f84)",
+  "cwd": "C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-commandes-obsolescence/tools/ff8-harness",
+  "primitives": { "command": "bun run test:q1-primitives", "exit": 0, "durationMs": 67, "passed": 55, "failed": 0, "assertions": 125 },
+  "targetSelection": { "testNamePattern": "^RMSO-", "timeoutMsPerTest": 600000, "globalSuite": false },
+  "targeted": [
+    { "file": "test/eventlog.test.ts", "exit": 0, "durationMs": 348, "passed": 4, "failed": 0, "assertions": 28, "filteredOut": 94, "caseDurationsMs": [47.84,31.94,48.38,56.82] },
+    { "file": "test/client.test.ts", "exit": 0, "durationMs": 96, "passed": 1, "failed": 0, "assertions": 2, "filteredOut": 22, "caseDurationsMs": [23.78] },
+    { "file": "test/graph-integration/publication.test.ts", "exit": 0, "durationMs": 652, "passed": 1, "failed": 0, "assertions": 5, "filteredOut": 25, "caseDurationsMs": [574.80], "retainedFixtureManifest": "C:/Users/djden/AppData/Local/Temp/opencode/l8-central-v2-tHWGH0/retained-databases.json", "retainedFixtureSha256": "2e073c2f7f8bb2c8aa17ce52cd7d3e914422d1046d1513b9a0489d838fca90e2" },
+    { "file": "test/graph-integration/next-context.test.ts", "exit": 0, "durationMs": 9575, "passed": 1, "failed": 0, "assertions": 5, "filteredOut": 47, "caseDurationsMs": [9510.82], "retainedFixtureManifest": "C:/Users/djden/AppData/Local/Temp/opencode/l8-central-v2-1iQNgh/retained-databases.json", "retainedFixtureSha256": "747af1996d47065b4e6ab8b236b1efd613cab5a48b0490dcf5c2ac32218cc487" }
+  ],
+  "inspection": {
+    "registrationAST": "No eager worker/contender calls in four selected test modules; eventlog afterEach inspected, client top-level Date.now only",
+    "fixtureDriver": "Main-thread afterAll retains owned SQLite evidence; Worker creation confined to sqliteContender function and workerData branch not selected by these cases",
+    "offlineOnly": true,
+    "newNativeOrigins": 0,
+    "registryPreparation": "Created existing fixture driver's required .tmp/L8_PHASE_A_V2 directory in owned worktree; no source or oracle modification"
+  },
+  "notProven": ["full regression suite", "all mandatory negative windows", "native command delivery order", "native execution qualification", "mission acceptance"],
+  "filteredCasesCountAsPass": false
+}

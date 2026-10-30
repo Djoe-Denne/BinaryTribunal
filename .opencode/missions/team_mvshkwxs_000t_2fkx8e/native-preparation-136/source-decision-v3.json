@@ -1,0 +1,54 @@
+{
+  "version": "rms-constructed-x86-fixture-decision-v3",
+  "status": "PARENT_SOURCE_FIXTURE_RECIPE_FIXED_NATIVE_HOLD",
+  "fixture": true,
+  "admissibleAsOracle": false,
+  "parentDecisions": [
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/source-decision.json", "sha256": "158ab93e2724a982cfb8204069dadcb1317a07e8ab2ad6bbdf01d0cda43ef989" },
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/source-decision-v2.json", "sha256": "6d17c83633939ead1971e314e70fb5e4847dd70c15d6f8617a1128b4ab638d3f" }
+  ],
+  "parentModels": [
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/function-model.json", "sha256": "d447d28b89e3dec58db1e35f1f550d1921be9bbea66e4eaa4d3b24b841e1274c" },
+    { "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/closed-function-model-v2.json", "sha256": "b5f38f84268fd2d75d43eb39b5bcbee01ab9a3174920dce37c79fb0d8d8f6230" }
+  ],
+  "inheritedDecisionsOnly": ["exact prompt and two-contract corpus", "OpenAI Sol high and general profiles", "proposed deny-all session rules", "source planning ceilings and one-attempt policies"],
+  "construction": {
+    "targetArchitecture": "x86-32",
+    "targetModeMeaning": "Explicit mode of synthetic construction; not inferred as uniquely decodable from the bytes and not the architecture of FF8, the service or a running process",
+    "rawByteLength": 262,
+    "rawSha256": "6356b01f78a791926d2fbce72456364c6c7ed17b7839736dc4249e5e3dbd3020",
+    "rawPath": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-136/constructed-x86-32.bin",
+    "segments": [
+      { "kind": "reserved-non-function-data", "fileOffset": 0, "byteLength": 256, "fillHex": "00" },
+      { "kind": "function-code", "fileOffset": 256, "byteLength": 6, "hex": "b800000000c3" }
+    ],
+    "format": "unknown",
+    "fileOffsetToRva": "identity for this raw fixture only",
+    "imageBase": 268435456,
+    "sections": [],
+    "idbIdentity": "",
+    "versionLabel": "rms-qualification-x86-fixture-v3",
+    "moduleName": "rms-constructed-x86-32-fixture"
+  },
+  "functionDefinition": {
+    "name": "fixtureReturnZero",
+    "rva": 256,
+    "ea": 268435712,
+    "entrySpan": { "rva": 256, "endRvaExclusive": 262 },
+    "staticDecodeInDeclaredMode": [
+      { "fileOffset": 256, "byteLength": 5, "hex": "b800000000", "meaning": "mov eax, 0; imm32 little-endian" },
+      { "fileOffset": 261, "byteLength": 1, "hex": "c3", "meaning": "ret" }
+    ],
+    "meaning": "Constructed fixture stub returning zero if interpreted in the specified mode; never executed here. Not the algorithm or text response of the qualification worker."
+  },
+  "proofRequired": [
+    "Verify every raw byte, exact padding, code, total length and raw SHA independently of descriptor SHA",
+    "Verify declared mode and static instruction widths/offsets for this fixed recipe; no generic disassembler required",
+    "Enumerate all defined functions, parts, tails and links in a closed definition, including end markers",
+    "Tie function boundaries and canonical H:RVA identity to raw bytes, layout and the versioned fixture producer",
+    "No complete coverage or known architecture assertion for an existing binary or machine from this fixture proof"
+  ],
+  "nativeClaimsForbidden": ["execution of the stub", "PE or IDB identity", "server binary equivalence", "actual worker result or terminality", "effective permissions", "physical resource or quota", "native acquisition or origin allocation"],
+  "preservation": "V1/V2, all prior bundles, source decisions, proofs and product782 remain unchanged. New source references are not an account reset or a replacement of unknown native history.",
+  "nativeAuthority": { "status": "HOLD", "inventoryAndCanaryAttribution": "UNKNOWN", "acquisitionIssued": false, "originAuthorized": false }
+}

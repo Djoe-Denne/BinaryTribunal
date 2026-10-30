@@ -1,0 +1,229 @@
+{
+  "version": "rms-preparation-candidates-inspection-manifest-v1",
+  "status": "CANDIDATES_FOR_PARENT_INSPECTION_NOT_EXECUTED_NOT_VALIDATED",
+  "mission": "team_mvshkwxs_000t_2fkx8e",
+  "owner": "raccord-native-runtime",
+  "candidateSourcePin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "workingDirectory": "C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-raccord-native-runtime",
+  "authorizedWriteScope": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/preparation-candidates/",
+  "authorizedFiles": ["source122.mjs", "assemble-inputs.mjs", "manifest.json"],
+  "files": [
+    {
+      "path": "source122.mjs",
+      "byteLength": 20659,
+      "sha256": "9e97ed7ae3627817d4a79fc5c2292a40695560bc2bf8fd0ed2a58cab7c518b06",
+      "export": "source122(Dtext, Qtext, contractText, cfg, codecs)",
+      "status": "NOT_IMPORTED_NOT_EXECUTED_NOT_VALIDATED"
+    },
+    {
+      "path": "assemble-inputs.mjs",
+      "byteLength": 8071,
+      "sha256": "76128498edef813093b90431a7b6f69693f36a4a60689ecc66ef5ccabcfbb501",
+      "export": "assemble(raw)",
+      "status": "NOT_IMPORTED_NOT_EXECUTED_NOT_VALIDATED"
+    }
+  ],
+  "manifestDigest": "Reported separately in the parent receipt; no circular self-hash",
+  "materializationDiffFromProposals": [
+    {
+      "file": "source122.mjs",
+      "change": "Concatenates the delivered Part1 + continuations 2A/2B/2C; inserts the already proposed explicit nested cfg-presence and fixture-retry guards before cfg use"
+    },
+    {
+      "file": "source122.mjs",
+      "change": "Parent-authorized one-line coverage correction: complete/null becomes partial with explicit uncoveredReason; tailsIterated=false and selfLoopsPreserved=true are unchanged. No other functional delta."
+    },
+    {
+      "file": "source122.mjs",
+      "change": "Subsequent parent-authorized one-line policy.version correction: rms-qualification-ceilings-v1 becomes complete-admission-cap-v1:q122. estimationVersion, allocation version, admissionBudgetMode, all bounds, cfg, D/Q and guards are unchanged."
+    },
+    {
+      "file": "assemble-inputs.mjs",
+      "change": "Materializes the previous assemble proposal with both already proposed guards: root input must be an object; preparation must contain exactly body/independentSources/policy"
+    },
+    {
+      "files": ["source122.mjs", "assemble-inputs.mjs"],
+      "change": "Relocates every project import from ./src/... to ../../../../tools/ff8-harness/src/... .ts using explicit static relative specifiers from this directory"
+    },
+    {
+      "files": ["source122.mjs", "assemble-inputs.mjs"],
+      "change": "Adds inspection-only header comments; no runner, writer, CLI, dynamic import, cfg, top-level producer call or behavior workaround"
+    }
+  ],
+  "apiReview": {
+    "status": "STATIC_SOURCE_READBACK_ONLY_NO_COMPILATION_OR_EVALUATION",
+    "canonicalSymbolRoot": "C:/Users/djden/source/repos/retro-eng",
+    "canonicalAndWorktreeDirectSourceBytesMatch": true,
+    "importsRelativeBase": "../../../../tools/ff8-harness/src/",
+    "functions": [
+      {"module": "graph-normalize.ts", "names": ["buildGraphSnapshot"], "source": "76,149-151", "returns": "{snapshot,stats}; candidate destructures snapshot"},
+      {"module": "cluster.ts", "names": ["clusterGraph"], "source": "559-561,600-601", "returns": "{partition,metrics,projection}; metrics.numericGraph and projection.graph/weights are used"},
+      {"module": "cluster.ts", "names": ["exportSparseGraph", "NUMERIC_POLICY_VERSION"], "source": "4; sparse-graph-codecs.ts:205-214", "returns": "Static reexports; exportSparseGraph returns SparseGraphSnapshot; NUMERIC_POLICY_VERSION is a string constant"},
+      {"module": "investigation-groups.ts", "names": ["buildInvestigationGroups", "DEFAULT_GROUP_CONFIG"], "source": "5,37,47-49; group-context-codecs.ts:50-54", "returns": "{groups,metrics}; fourth argument is {hubIds}; DEFAULT_GROUP_CONFIG is a static reexport"},
+      {"module": "graph-transport.ts", "names": ["inspectPreparedGraphV3"], "source": "80-88,248-278", "returns": "PreparedGraphTransportInspection with wellFormed/coherent booleans"},
+      {"module": "graph-b-projection.ts", "names": ["projectExecutionSourcesForL5V1"], "source": "126-137", "returns": "CodecResult<ExecutionProjectionV1>; five supplied arguments; candidate unwraps .value only after .ok"},
+      {"module": "planner.ts", "names": ["planMission"], "source": "196-202", "returns": "PlannerResult directly, not CodecResult; fourth argument is explicit expected admission context"},
+      {"module": "graph-execution-envelope.ts", "names": ["assertExecutionJsonV1"], "source": "283", "returns": "void or throws"},
+      {"module": "graph-execution-envelope.ts", "names": ["executionValueRefV1"], "source": "322-325", "returns": "ValueRef directly: {kind,codec,sha256}"},
+      {"module": "graph-execution-envelope.ts", "names": ["makeBoundDocumentV1"], "source": "377-381", "returns": "BoundDocument directly: {ref,utf8}; aliases doc/valueRef are local import aliases"},
+      {"module": "graph-execution-envelope.ts", "names": ["bindExecutionPreparationV1", "bindExecutionSourcesV1", "sealExecutionEnvelopeV1"], "source": "1274,1383,1391", "returns": "CodecResult; source/preparation/parsed-envelope values are unwrapped using take"},
+      {"module": "graph-execution-envelope.ts", "names": ["makeGraphRunV3"], "source": "1484-1494", "returns": "CodecResult<{document,run}>; candidate takes .value.document then uses its .ref"},
+      {"module": "graph-execution-envelope.ts", "names": ["EXECUTION_DOCUMENT_KINDS_V1"], "source": "1075-1084", "returns": "Static object; .planning is l8-planning-source-v1"},
+      {"module": "validation.ts", "names": ["canonical", "hash", "fingerprint", "exactPath"], "source": "4-9,33,42-44", "returns": "canonical/hash/fingerprint return strings; exactPath asserts or throws; hash requires Bun only when called"}
+    ],
+    "boundaryNotes": [
+      "No imports of graph-execution-prepare, graph-runtime-binding, graph-adapter, graph-pipeline, graph-store, HTTP clients or fixture drivers in either candidate",
+      "graph-execution-envelope.ts refers to graph-store only through import type; this is not a value import",
+      "No product import was evaluated and no language-server diagnostics/codecheck was requested",
+      "No API-name, signature or return-shape correction beyond the declared import relocation was found by the bounded static readback; this is not an execution or compatibility PASS"
+    ]
+  },
+  "directSourcePins": [
+    {"path": "tools/ff8-harness/src/graph-normalize.ts", "byteLength": 61066, "sha256": "a4a3677fd5c0d7771522eae137746c4733fc4fc1d20c649c8ecd800528519fe7"},
+    {"path": "tools/ff8-harness/src/cluster.ts", "byteLength": 51921, "sha256": "09c2035a16c1d4a1bfe03fc00807920d0af5202b290b0a68d7172a33319a3542"},
+    {"path": "tools/ff8-harness/src/investigation-groups.ts", "byteLength": 10684, "sha256": "162c979a5c65a6c08625f255d33aba7cb16ba3bb85ddfc7937925b95073d3b1a"},
+    {"path": "tools/ff8-harness/src/graph-transport.ts", "byteLength": 22680, "sha256": "0b81fc928053f8fd602196bbf25500a53373d85a32dd450fa4bcce5643f6e40a"},
+    {"path": "tools/ff8-harness/src/graph-b-projection.ts", "byteLength": 23529, "sha256": "9eff6beff94b72a6777dcd9655eb64b87b7e5a92fd08e2c0d579f07005ac5d8c"},
+    {"path": "tools/ff8-harness/src/planner.ts", "byteLength": 48999, "sha256": "68c486ed6c5461ba6008d2b942555eb2c18f54b2cdbb51da65221ecfe27848a3"},
+    {"path": "tools/ff8-harness/src/graph-execution-envelope.ts", "byteLength": 137844, "sha256": "edd6facbe1d44cf988f6da6739818fe0366cf0ceeec16136f0418b7d7791b714"},
+    {"path": "tools/ff8-harness/src/validation.ts", "byteLength": 22511, "sha256": "9f15f63c8c5b7ca39a3729be59b866f68f7ff6dc1f15655b0cb569d1498acb50"}
+  ],
+  "canonicalInputs": {
+    "repoRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+    "sourceConfig": {
+      "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/source-config.json",
+      "byteLength": 1572,
+      "sha256": "768da8d5f107144555dc94b4332cc4d24c7d6b271db0401d43fa1994b731ff6a",
+      "status": "PARENT_FIXED_REPORT124_READ_ONLY_NOT_VALIDATED_NOT_PASSED_TO_CANDIDATES",
+      "rule": "Closes cfg decisions previously missing; cfg remains an explicit constructor argument. No copy, default, operational rule or output was materialized here. Worker/account/capacities are SOURCE FIXTURE declarations only, never physical resource observations or native grants."
+    },
+    "decision": {
+      "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/source-decision.json",
+      "byteLength": 2974,
+      "sha256": "158ab93e2724a982cfb8204069dadcb1317a07e8ab2ad6bbdf01d0cda43ef989",
+      "status": "PARENT_PROSPECTIVE_DATA_ONLY_UNCHANGED"
+    },
+    "functionModel": {
+      "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/function-model.json",
+      "byteLength": 1206,
+      "sha256": "d447d28b89e3dec58db1e35f1f550d1921be9bbea66e4eaa4d3b24b841e1274c",
+      "status": "PARENT_DECLARED_FUNCTION_MODEL_SOURCE_FIXTURE_NOT_NATIVE_UNCHANGED"
+    },
+    "contractTextOrder": [
+      {"path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/94-contrat-natif-ratifie-autorite-et-qualification-bornees.md", "expectedSha256": "e9a20652bb5f0075595bdeb3e5edd9a0de69a97246c928ceb8520b513960f00d"},
+      {"path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive.md", "expectedSha256": "d34f372d31e2c21174aef4c96f3e22eab67f2981edd39d6bb554eec522e9da46"}
+    ],
+    "codecBundle": {
+      "status": "PARENT_MUST_LOAD_EXACT_PINNED_BYTES",
+      "referencePathMap": "tools/ff8-harness/test/s2-author/s1-source-fixtures.ts:163-168",
+      "contractPinFields": 29,
+      "rule": "All distinct ContractPinsV1 ByteRefs must have exact independently loaded codecBytes, without extras or duplicate refs; do not import the fixture helper",
+      "historicalQualifiedDomain": {
+        "path": "tools/ff8-harness/test/fixtures/qualified-upstream/domain-3f49fa05a228549ed626b4f269818385fd23f32d7cc600eda84a1cd9cb42dbe7.ts.txt",
+        "byteLength": 15444,
+        "sha256": "3f49fa05a228549ed626b4f269818385fd23f32d7cc600eda84a1cd9cb42dbe7",
+        "rule": "Preserve this qualified historical asset; do not substitute current src/domain.ts"
+      }
+    }
+  },
+  "cfgRequiredByConstructorParentFixedReport124NotValidated": [
+    {"parameter": "repoRoot", "status": "KNOWN_CANONICAL_ROOT_BUT_MUST_BE_PASSED_EXPLICITLY", "value": "C:/Users/djden/source/repos/retro-eng/re-ff8"},
+    {"parameter": "outputDirectory", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "constraint": "Exact absolute new source-fixture output namespace; no directory created by these candidates"},
+    {"parameter": "activationRulePath", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "constraint": "Exact absolute new CONTROL rule path distinct from both corpus files; parent must materialize and independently reload its bytes"},
+    {"parameter": "template.settings", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["profiles", "maxConcurrent", "familyTtlEvents", "maxAdmissionAttempts", "retryDelayMs"], "constraint": "profiles equal D.profiles; integers maxConcurrent>=1, familyTtlEvents 4..10000, maxAdmissionAttempts 1..10, retryDelayMs>=0"},
+    {"parameter": "template.workers", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["workerId", "profile", "model", "tools", "accountId", "slots", "cpu", "gpu", "budget", "available"], "constraint": "At least one worker; general profile, tools=[], explicit model label, unique IDs, matching account; source-fixture capacities only, never a native allocation"},
+    {"parameter": "template.accounts", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["accountId", "slots", "budget"], "constraint": "Explicit unique source-fixture accounts; integer capacities>=0, not native inventory or acquisitions"},
+    {"parameter": "roleLabel", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "constraint": "Explicit label used by a template worker; root model binding maps it to D.model for every D.modelRoles entry"},
+    {"parameter": "lifecycle.evaluation", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["method", "version", "maxDifficulty"], "constraint": "Nonempty non-scientific method/version, maxDifficulty ordinal 0..100, no machine evaluation claimed"},
+    {"parameter": "lifecycle.maxCycles", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "constraint": "Explicit integer>=1; source-fixture control only"},
+    {"parameter": "lifecycle.stagnationLimit", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "constraint": "Explicit integer>=1; source-fixture control only"},
+    {"parameter": "lifecycle.retryPolicy", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["maxAttempts", "retryDelayMs", "fixtureSynthetic"], "constraint": "maxAttempts integer>=1, retryDelayMs integer>=0, fixtureSynthetic=true; no implicit fixture default and no native retry implied; template maxAdmissionAttempts bound is distinct"},
+    {"parameter": "scc", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["maxFunctions", "maxIterations", "costBudget"], "constraint": "Explicit integers; maxFunctions/maxIterations>=1, costBudget>=0; model declares no relations"},
+    {"parameter": "activation", "status": "PARENT_FIXED_REPORT124_NOT_VALIDATED", "fields": ["maxActivationAttempts", "maxCandidateReplacements"], "constraint": "Explicit integers, maxActivationAttempts>=1, maxCandidateReplacements>=0; mandatory third CONTROL file is not part of the two-contract corpus"}
+  ],
+  "assembleInputsStillRequired": {
+    "status": "NO_FINAL_INPUT_PACKET_OR_OPERATIONAL_FILES_CREATED",
+    "parameters": ["preparation", "scope", "paths", "admission", "rights", "acquisitionIntent", "permitHolds", "provenance", "now"],
+    "rules": [
+      "preparation is exactly the unsealed body/independentSources/policy triplet; reload sources independently after parent materialization",
+      "scope/paths/IDs/mandate/time are explicit parent data, not invented by the constructor",
+      "Admission prompt must remain exactly D.prompt; verified contract texts must be embedded as qualificationCorpus in the parent-approved dossier before exact wire sizing; references alone cannot deliver the texts under deny-all",
+      "Rights unknowns cannot be erased to satisfy assemble; the rights guard refuses unresolved unknowns and does not itself prove effective permissions",
+      "acquisitionIntent and generated permit are explicitly HOLD intents, not admissible native acquisitions or permits",
+      "The candidate does not issue the eight prospective outputs; their paths and bytes are only returned in memory if later invocation is separately authorized",
+      "No filesystem exclusivity, native fence, historical inventory, allocation or authority is inferred from prospective DATA"
+    ]
+  },
+  "invariants": {
+    "sourceFixtureOnly": true,
+    "nativeAuthority": "HOLD_UNKNOWN_NOT_ACQUIRED",
+    "coordinates": {"imageBase": 268435456, "rva": 256, "ea": 268435712, "meaning": "Virtual coordinates of the single parent-declared function model only"},
+    "sourceCapsOnly": {"perRoleBodyCapUtf8Bytes": {"A": 262144, "B": 262144, "R": 262144}, "maxNewExecutionsPerRole": {"A": 1, "B": 1, "R": 1}, "aggregateRoleBodyCapUtf8Bytes": 786432, "maxSelectedUnits": 1, "excess": "HOLD_NEVER_AUTO_ENLARGE"},
+    "t0": "Zeros and empty records initialize only a new declared SOURCE FIXTURE; they are not native ledger, fence, inventory, baseline or reset observations",
+    "nativeInventory": "UNKNOWN_HOLD",
+    "nativeOriginsAcquisitionCanaryFences": "UNKNOWN_HOLD",
+    "scientificPublicationConsumption": "NOT_AUTHORIZED",
+    "scientificOracle": false,
+    "coverage": {
+      "status": "partial",
+      "uncoveredReason": "modèle déclaratif fixture ; aucune extraction native de tails ni couverture de programme",
+      "tailsIterated": false,
+      "selfLoopsPreserved": true,
+      "provenanceImpact": "Honest incomplete extraction coverage for a declared SOURCE FIXTURE model; no native tails observation, program coverage, scientific oracle, publication or consumption is introduced. Snapshot and derived references must be recomputed by existing producers on the parent's authorized replay; no derived output was emitted by this author."
+    },
+    "parentIndependentReload": "REQUIRED_BEFORE_USE; returned independentSources is a prospective bundle, not evidence of independent acquisition"
+  },
+  "parentReportedEvidenceBeforeCoverageCorrection": {
+    "attribution": "LEAD_MESSAGE_NOT_EXECUTED_OR_INDEPENDENTLY_REPLAYED_BY_THIS_AUTHOR",
+    "independentReview": "Parent reports no deterministic failure by reading; closure of 31 modules/assets without DB/SDK/network/writer",
+    "sourceComputation": {
+      "script": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/check-source-memory.mjs",
+      "inputSource122Sha256": "83aace8eadff383a487a370c61729d405a8d1157b21326dc42afe27a1b5c6d98",
+      "exitCode": 1,
+      "durationMs": 139,
+      "result": "graph snapshot violates v1 contract - complete coverage cannot hide unknown tails",
+      "scope": "Parent's RAM-only source computation with 29 pins/historical domain and verified D/Q/cfg/corpus; no output, DB or native effect reported",
+      "interpretation": "Actual failing computation of the previous candidate, not a PASS and not execution of the corrected candidate"
+    },
+    "correctionBasis": "graph.ts:508-511 requires explicit reason for partial coverage and refuses complete coverage when tailsIterated=false",
+    "staticPartialImpact": "planner.ts:212-213 requires preserved self-loops and refuses diagnostic coverage; partial is not refused there. No additional directly deduced blocker identified in these bounded reads; no successful downstream bind is claimed.",
+    "remainingAdmissionProofs": ["Exact concrete corpus/prompt/wire bytes", "Independent reload of actual materialized sources"],
+    "correctedCandidateReplay": "PARENT_REPLAY_REPORTED_SEPARATELY_IN_parentReportedEvidenceBeforePolicyVersionCorrection; NOT_EXECUTED_BY_AUTHOR"
+  },
+  "parentReportedEvidenceBeforePolicyVersionCorrection": {
+    "attribution": "LEAD_MESSAGE_NOT_EXECUTED_OR_INDEPENDENTLY_REPLAYED_BY_THIS_AUTHOR",
+    "priorCoverageDelta": "Parent reports restoring the old coverage line in RAM reproduced original source SHA256 83aace8eadff383a487a370c61729d405a8d1157b21326dc42afe27a1b5c6d98",
+    "syntaxOnly": "Parent reports source and runner syntax PASS without evaluation for the coverage-corrected candidate; not a syntaxcheck of the new policy-corrected source",
+    "sourceComputation": {
+      "inputSource122Sha256": "38fe5ba66b2aba76bd62271e2dd26161728f34b2656a7b2ed63b40152c3a9ca2",
+      "exitCode": 1,
+      "durationMs": 149,
+      "result": "planner: new admission policy version required (maximum 32 UTF-16 code units)",
+      "scope": "Parent's affected RAM-only source computation; graph validation passed before the policy version refusal; no operational output, DB or native effect reported",
+      "interpretation": "Actual failing computation of the coverage-corrected candidate, not a complete source PASS and not execution of the new policy-corrected candidate"
+    },
+    "correctionBasis": "graph-pure-codecs.ts:371,414-432 requires policy.version prefix complete-admission-cap-v1:, nonempty suffix and at most 32 UTF-16 code units when admissionBudgetMode is present",
+    "newPolicyVersion": "complete-admission-cap-v1:q122",
+    "newPolicyVersionUtf16CodeUnits": 30,
+    "sameConstraintInspection": "The constructor contains one PlannerPolicy version literal. allocationBody.version and admissionBudgetMode remain the distinct exact complete-admission-cap-v1 tag; they are not PlannerPolicy.version fields and must not receive its suffix. No additional occurrence requiring this policy prefix was identified by the bounded read.",
+    "provenanceImpact": "Versioned SOURCE FIXTURE planning only; existing producers must recompute the planning/policy-derived references on the authorized parent replay. No derived record or operational file was emitted by this author; source fixture remains non-oracle and scientific publication/consumption stays unauthorized.",
+    "newCandidateReplay": "NOT_EXECUTED_BY_AUTHOR_PENDING_PARENT_TARGETED_REPLAY_AND_READBACK"
+  },
+  "verification": {
+    "scope": "AUTHOR_CHECKS_ONLY; parent-reported execution of the previous candidate is recorded separately above",
+    "headReadback": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+    "directSourceMetadataAndHashes": "READ_ONLY_MATCH_CANONICAL_AND_WORKTREE",
+    "canonicalDecisionAndFunctionModelMetadataAndHashes": "READ_ONLY_MATCH_EXPECTED",
+    "protected18BeforeMaterialization": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "protected18AfterMaterialization": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "importsEvaluated": "NOT_EXECUTED",
+    "syntaxcheck": "NOT_EXECUTED_PARENT_OWNS_NEXT_GATE",
+    "codecheckTypecheckTests": "NOT_EXECUTED_NOT_AUTHORIZED_FOR_THIS_AUTHOR_DELIVERABLE",
+    "producerAndBinderCalls": "NOT_EXECUTED",
+    "networkDatabaseDirectrunNativeSessionGrantOrigin": "NOT_EXECUTED",
+    "newWorktreeOrGitMutation": "NONE",
+    "cfgFinalAndEightOperationalOutputs": "NOT_CREATED",
+    "independentReview": "PARENT_REPORTS_PRE_CORRECTION_INDEPENDENT_REVIEW; TARGETED_CORRECTION_READBACK_PENDING_PARENT",
+    "passClaim": "NONE"
+  }
+}

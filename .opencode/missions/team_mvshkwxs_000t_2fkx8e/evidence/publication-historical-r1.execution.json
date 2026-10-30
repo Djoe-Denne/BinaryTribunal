@@ -1,0 +1,20 @@
+﻿{
+    "name":  "publication-historical-r1",
+    "candidateManifest":  "publication-r1-manifest.json",
+    "arguments":  [
+                      "--no-env-file",
+                      "--config=./bunfig.integration.toml",
+                      "test",
+                      "./test/simulator/graph-interop-durability.test.ts",
+                      "--test-name-pattern",
+                      "^(?:L7 interop: actual L2/L3/L5 plans in OWN L6 persistence )?(?:actual family/fixture commit/readback/artifact binding reopens with exact hashes, provenance and levels|level2 fixture requires complete host-author evidence; boolean/self-label/revoked record cannot authorize)$",
+                      "--timeout",
+                      "15000",
+                      "--max-concurrency=1"
+                  ],
+    "exitCode":  0,
+    "elapsedMs":  392,
+    "stdoutSha256":  "948ee90bed0e1d1291cbf5f510967ec655aab4e54e8c9ddbee446ac82e0242a6",
+    "stderrSha256":  "7429d6909d0deec9de7c2c99344216ce366d4cd01c5912a5e9ac740cbc62f7f2",
+    "scope":  "Filtered historical offline publication boundary regression only; no full file/campaign, native RPC or threads"
+}

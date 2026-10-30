@@ -1,0 +1,89 @@
+{
+  "version": "rms-closed-source132-candidates-manifest-v1",
+  "status": "INSPECTION_CANDIDATES_NOT_IMPORTED_NOT_EXECUTED_NOT_VALIDATED",
+  "owner": "raccord-native-runtime",
+  "productPin": "782ec396a2a7866d30645c32ca8ab864dcca5960",
+  "writeScope": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/preparation-candidates/",
+  "authorizedNewFiles": ["closed-model-enumerator-v1.mjs", "source132.mjs", "source132.manifest.json"],
+  "files": [
+    {"path": "closed-model-enumerator-v1.mjs", "byteLength": 13363, "sha256": "3854cce1be60b19efe9cc0bf596266dd77846ae2ea89b4f9949bb487d20dd64e"},
+    {"path": "source132.mjs", "byteLength": 23151, "sha256": "8e407d68ef9ab9db718b076377c63990543200b940d3d3d14489a9fc625129d5"}
+  ],
+  "selfDigest": "Returned separately to parent; no circular self-hash",
+  "inputRoot": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "inputs": [
+    {"role": "D2text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/source-decision-v2.json", "byteLength": 3395, "sha256": "6d17c83633939ead1971e314e70fb5e4847dd70c15d6f8617a1128b4ab638d3f"},
+    {"role": "Q2text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/closed-function-model-v2.json", "byteLength": 1281, "sha256": "b5f38f84268fd2d75d43eb39b5bcbee01ab9a3174920dce37c79fb0d8d8f6230"},
+    {"role": "cfgText", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-132/source-config-v2.json", "byteLength": 1572, "sha256": "2dcde6f0b978b8eb0959751c07bba26fedbc4a141cf2bacd1c1f0c9ecf32fb77"},
+    {"role": "D1text", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/source-decision.json", "byteLength": 2974, "sha256": "158ab93e2724a982cfb8204069dadcb1317a07e8ab2ad6bbdf01d0cda43ef989"},
+    {"role": "Q1 reference only, never an operative-state input", "path": ".opencode/missions/team_mvshkwxs_000t_2fkx8e/native-preparation-121/function-model.json", "byteLength": 1206, "sha256": "d447d28b89e3dec58db1e35f1f550d1921be9bbea66e4eaa4d3b24b841e1274c"}
+  ],
+  "argumentContracts": {
+    "enumerator": {
+      "export": "enumerateClosedModelV1(decisionUtf8, modelUtf8, enumeratorCode)",
+      "decisionUtf8": "Exact ratified D2 raw UTF-8 text, pinned by bytes and SHA in the function",
+      "modelUtf8": "Raw strict JSON text of the closed model. This leaf checks structure and semantics rather than pinning Q2's single current SHA, so parent-owned negative mutations can exercise actual refusal conditions. source132 separately pins the exact canonical Q2 bytes.",
+      "enumeratorCode": "Exact object {path,utf8}, both nonempty strings; utf8 is the parent-loaded raw text of the actual enumerator file, never Function.toString(). The parent must verify the actual invoked module matches the supplied file pin; this argument cannot self-authenticate a running implementation.",
+      "returns": "Deep-frozen {decision,model,functions,evidence}; evidence is a BoundDocument with raw D2/Q2/code ByteRefs, versioned traversal visits and completed=true only after successful traversal and all checks. Failure throws HOLD and returns no evidence.",
+      "supportedModelGrammar": "Exactly one function as ratified by D2; explicit local part-ID strings for successors/tails; declarative return operations only. The current ratified relations table is empty. No nonempty relation-record grammar was supplied, so any such record is explicitly rejected, not interpreted using an invented schema or silently omitted.",
+      "strictParsing": "Local bounded duplicate-key prepass follows the private strictJson algorithm in graph-execution-envelope.ts:335-362 because that helper is not exported. Existing assertExecutionJsonV1 validates text and parsed data. Unknown object fields, duplicate JSON keys, invalid UTF-8-text representation/BOM/surrogates and unsupported forms are refused; no product codec is modified.",
+      "bounds": "D2/model JSON text <=1048576 UTF-8 bytes each, nesting<=64, each enumerated model table<=10000 entries. These are leaf refusal bounds, not native budgets or observed sizes."
+    },
+    "source": {
+      "export": "source132(D2text, Q2text, D1text, contractText, cfgText, codecs, enumeratorCode)",
+      "rawInputs": "D2/Q2/D1/cfg2 are exact raw texts pinned above. cfgText deliberately replaces source122's object cfg argument to bind the actual ratified v2 paths/values and reject accidental use of the v1 config. No defaults are generated.",
+      "contractText": "Two exact raw UTF-8 texts in D1.corpus order, each checked against the retained SHA. Their content, not just file names, is returned as qualificationCorpus for later embedding before admission/wire sizing.",
+      "codecs": "Existing {contractPins,codecBytes}; all distinct refs from the 29 ContractPinsV1 fields with exact bytes, including the historical qualified 15444-byte domain asset, never replaced by current domain.ts. Parent loads; candidate performs no I/O.",
+      "enumeratorCode": "Same {path,utf8} object passed to the enumerator. source132 checks the exact enumerator candidate byteLength=13363 and SHA=3854cce1be60b19efe9cc0bf596266dd77846ae2ea89b4f9949bb487d20dd64e before calling it. Parent must still verify its actual imported file against that pin.",
+      "returns": "Prospective snapshot/transport/grouping, unsealed preparation triplet, controlRule DATA, exact qualificationCorpus, new model identity, enumerationEvidence BoundDocument, code ref and parent D1/Q1 references. No file, operational input pin, ledger, acquisition, permit or native origin is created."
+    }
+  },
+  "conceptualDiffFromSource122": [
+    "Base retained constructor is source122 SHA9e97ed7ae3627817d4a79fc5c2292a40695560bc2bf8fd0ed2a58cab7c518b06, not the earlier coverage/version-refused candidates.",
+    "A new pure, pinned-file-source enumerator validates D2/Q2, traverses all functions/parts/successors/tails/relations and records table starts and ends including every empty table. It rejects missing/foreign successor targets, duplicate function/part IDs/RVAs or ordinals, invalid/overlapping spans, entry ambiguity and declared/derived tail-set mismatch.",
+    "No return operation is interpreted or executed. No tailsIterated=true or complete graph coverage is constructed until enumeration and all checks finish and its completed byte-bound proof is read back.",
+    "node.boundaries are copied exactly from the enumerator's explicit virtual model spans; coverage is complete only for that closed Q2 universe. Artifact provenance binds the enumerator source SHA and enumeration-evidence SHA; snapshot extractorHash binds the same raw code pin.",
+    "Model hash H2 and versionLabel/moduleName come from Q2/D2, so snapshot/partition/plan/lineage/root references are newly derived SOURCE DATA. No previous operative ledger/account/inventory/origin/fence is accepted, copied, reset or declared irrelevant.",
+    "D1 inheritance is explicitly whitelisted to model/modelRoles/profiles, prompt, corpus, proposed session rules and source planning bounds. D1 coordinates, observations, snapshots, counters and authorities are not inherited.",
+    "Same existing codecs/producers, grouping defaults, numeric context, complete-admission allocation, Cunit=262144/N=3/aggregate786432/maxSelected1 and corrected policy.version complete-admission-cap-v1:q122 are retained. No diagnostic is filtered or suppressed, and no product guard or validator is changed.",
+    "cfg2 is supplied as pinned raw text, then parsed into the existing explicit cfg shape; this is a new candidate argument contract only, not a product API change. No writer/runner/CLI is added."
+  ],
+  "proofAndProvenanceLimits": [
+    "The evidence will be a successful computation result only after parent evaluation; none exists as an observed result of this author session.",
+    "The supplied code bytes are not proof that those bytes were the implementation invoked. The parent must pin/read the actual enumerator file, inspect/syntaxcheck/review before evaluation, and retain attributable invocation evidence.",
+    "The model has complete finite virtual definition only; no machine size, instructions, blocks, byte agreement, divergence, format or architecture is inferred. Those machine metrics remain UNKNOWN and oracle remains false.",
+    "The proof is returned separately and cited by hash in graph provenance. It does not expand ContractPinsV1 or make a graph binder validate an execution trace; parent retention and independent verification remain required.",
+    "New SOURCE fixture T0 zeros and modeled slot grants are declarations for new SOURCE records only, never native fences, actual acquisition, history reset, physical resource observations or effective rights.",
+    "Native inventory/canary attribution, continuity, origin ceiling including bootstrap, acquired budgets, ownership, permissions and safety gates remain UNKNOWN/HOLD or subject to their existing evidence; no scientific publication or consumption is authorized.",
+    "The current empty relation table is explicitly traversed. A future nonempty relation grammar or additional model kinds would require a new bounded contract rather than silently extending this leaf.",
+    "Stage130 remains SUSPENDED until the new source is independently validated and demonstrably reservable; a source/binder success alone is not a reservation, admission or native qualification."
+  ],
+  "proposedTargetedChecksNotExecuted": [
+    {"case": "positive exact D2/Q2/code", "expected": "One function, one entry span [0x100,0x101), zero tails/successors/relations, explicit end events for the empty lists, completed byte-bound evidence; no model operation executes"},
+    {"case": "positive source132 exact pinned inputs", "expected": "Existing producers/binder accept if all source invariants hold; no partial-tail-coverage diagnostic should be caused by an actually completed enumeration. This has not been observed; no reservation is attempted."},
+    {"case": "open closure", "target": "enumerateClosedModelV1", "mutation": "Q2.closure.externalPartsAllowed=true or exact-listed-universe tag changed", "expected": "Refusal before completed evidence"},
+    {"case": "unknown successor/part", "target": "enumerateClosedModelV1", "mutation": "entry.successors contains a local-looking ID absent from every part", "expected": "Refusal at reference resolution, not guessed or fabricated target"},
+    {"case": "ambiguous ordinal", "target": "enumerateClosedModelV1", "mutation": "Add a second otherwise well-formed part with ordinal0 and distinct ID/span", "expected": "Refusal for duplicate ordinal, not normalization or silently dropped part"},
+    {"case": "declared/derived tail mismatch", "target": "enumerateClosedModelV1", "mutation": "Add an explicit role=tail part but leave tails=[]", "expected": "Refusal; no absent-tail inference"},
+    {"case": "unknown explicit tail", "target": "enumerateClosedModelV1", "mutation": "tails contains an ID not in parts", "expected": "Refusal for absent/foreign tail"},
+    {"case": "unknown relation form/field", "target": "enumerateClosedModelV1", "mutation": "Add a nonempty relation record or an extra function/part property", "expected": "Strict unsupported-form refusal, no hidden extension or external references"},
+    {"case": "duplicate JSON key", "target": "enumerateClosedModelV1", "mutation": "Raw Q2 text contains two decoded tails or closure keys", "expected": "Duplicate-key refusal before JSON.parse can discard one value"},
+    {"case": "overlapping virtual spans", "target": "enumerateClosedModelV1", "mutation": "Add a unique tail part overlapping the entry, with matching explicit tail ID", "expected": "Refusal before completed evidence"},
+    {"case": "wrong raw pins or supplied code bytes", "target": "source132", "mutation": "Modify D2/Q2/D1/cfg2 text or enumeratorCode.utf8", "expected": "Raw-pin refusal before constructing snapshot or planning"}
+  ],
+  "preservedV1Readback": [
+    {"path": "source122.mjs", "byteLength": 20659, "sha256": "9e97ed7ae3627817d4a79fc5c2292a40695560bc2bf8fd0ed2a58cab7c518b06"},
+    {"path": "assemble-inputs.mjs", "byteLength": 8071, "sha256": "76128498edef813093b90431a7b6f69693f36a4a60689ecc66ef5ccabcfbb501"},
+    {"path": "manifest.json", "byteLength": 21633, "sha256": "9163b04d50ccd5a7879e608221272a2e57eeae3f50c9bec1fdfed96958c87d1a"}
+  ],
+  "verification": {
+    "metadataHashes": "READ_ONLY_ONLY; NOT AN IMPORT OR CODECHECK",
+    "protected18AfterTwoModuleWrites": "18_FILES_0_HASH_OR_LENGTH_MISMATCHES_AGAINST_EXISTING_R11_MANIFEST",
+    "syntaxcheckImportTypecheckTestsScripts": "NOT_EXECUTED_BY_AUTHOR",
+    "enumeratorSource132ProducerCalls": "NOT_EXECUTED",
+    "networkDatabaseGitNativeGrantOrigin": "NONE",
+    "operationalFilesOrStageArtifacts": "NOT_CREATED",
+    "independentReviewAndImpactQA": "PENDING_PARENT_BEFORE_EVALUATION",
+    "passClaim": "NONE"
+  }
+}

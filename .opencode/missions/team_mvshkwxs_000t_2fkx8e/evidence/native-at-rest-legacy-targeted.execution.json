@@ -1,0 +1,31 @@
+{
+  "schema": "rms-at-rest-offline-qa-v1",
+  "pin": "0c6d228ae1d67ac54bf9e5d0b89cd74983febbfe",
+  "label": "targeted",
+  "args": [
+    "--no-env-file",
+    "--config=./bunfig.integration.toml",
+    "test",
+    "./test/eventlog.test.ts",
+    "--test-name-pattern",
+    "dispatch expiry at admission_sending rolls back before transport|complete request before effects, immutable digest, crash before send/reopen|response lost after native acceptance: no retry until authoritative reconciliation|crash during SENDING conservatively blocks; unknown readback is not absence",
+    "--timeout",
+    "600000",
+    "--max-concurrency=1"
+  ],
+  "exitCode": 0,
+  "signal": null,
+  "error": null,
+  "elapsedMs": 282,
+  "perTestTimeoutMs": 600000,
+  "stdoutSha256": "6043908c8d26d62698476b88f737f39d5d3e91008d4155a81730902f5a37479c",
+  "stderrSha256": "f38017ca8828133eb94b3f7a660df082e5c4f59bb96e15cbdf4da3f457d27875",
+  "sourceDrift": [],
+  "summary": [
+    " 4 pass",
+    " 0 fail",
+    " 24 expect() calls",
+    "Ran 4 tests across 1 file. [257.00ms]"
+  ],
+  "nativeCallRequested": false
+}

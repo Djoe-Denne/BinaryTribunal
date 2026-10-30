@@ -1,0 +1,21 @@
+﻿{
+    "name":  "projection-dispatch-regression-r5",
+    "candidateManifest":  "projection-r5-manifest.json",
+    "arguments":  [
+                      "--no-env-file",
+                      "--config=./bunfig.integration.toml",
+                      "test",
+                      "./test/eventlog.test.ts",
+                      "--test-name-pattern",
+                      "(?:complete request before effects, immutable digest, crash before send/reopen|response lost after native acceptance: no retry until authoritative reconciliation)$",
+                      "--timeout",
+                      "15000",
+                      "--max-concurrency=1"
+                  ],
+    "exitCode":  0,
+    "elapsedMs":  247,
+    "temporaryRoot":  "C:/Users/djden/AppData/Local/Temp/opencode/rms-projection-dispatch-regression-r5",
+    "stdoutSha256":  "ba1fe21de0f3cd99530c446be9b6e1fc8205c0dbf7ea4771c6b53bdd6a3eee48",
+    "stderrSha256":  "6c99f67380c5e5fe43c3deac968d08494885742a3f1105c19cec72b8ec57d6ad",
+    "scope":  "Two existing successful send/reopen/lost-reply regressions with fake client only; not native proof; outer15s"
+}

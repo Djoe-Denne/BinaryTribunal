@@ -3,7 +3,7 @@ title: RE FF8
 category: project
 tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
-sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl]
+sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl, docs/missions/re-graph-scheduler/rms-static-documentation-20261028/index.md]
 summary: >-
   FF8 battle RE and rewrite knowledge. AF3DN.P Lot25 v18 proves stage0 NO_HOT_UNLOAD offline; global live remains blocked pending other hook lifetimes.
 provenance:
@@ -11,14 +11,20 @@ provenance:
   inferred: 0.20
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 # RE FF8
 
+## RMS — état au 30 octobre 2026
+
+La réalisation suivante est [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030|clôturée partiellement, non réussie]]. Acquis statiques conservés, aucun parcours IDA complet ou M2 accepté. La [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2|reprise plugin dans l'instance OpenCode hôte]] est préparée seulement ; l'instance isolée n'était pas la bonne frontière. Voir [[_raw/rms-implementation-opencode-20261030/catalogue|sources et reçus publics]]. La borne courante est dix minutes par test, pas les quinze secondes historiques ci-dessous ; HOLD125/threads et les autres arrêts demeurent.
+
 ## RMS statique — reprise au 28 octobre 2026
 
 [[projects/re-ff8/references/rms-m2-archive-et-reprise-20261028|Archive M2 : superviseur, seize auteurs et préparateur]] : numeric/context et S1 ont des qualifications bornées ; le remplacement reste non accepté (délai de quinze secondes dépassé, preuves de threads interdites). La [[projects/re-ff8/references/rms-static-closure-mission-20261028|nouvelle mission de clôture statique]] est préparée, pas lancée. Voir aussi [[projects/re-ff8/skills/recuperer-un-resultat-opencode-manquant|récupération des résultats avant remplacement]].
+
+Le [[projects/re-ff8/references/rms-documentation-cloture-20261028|dossier documentaire suivant est accepté]] : six documents et index, revue indépendante sans bloquant ; aucun test produit ni réalisation logicielle. [[projects/re-ff8/references/rms-documentation-archive-20261028|Huit sessions supplémentaires]] sont archivées. Les [[projects/re-ff8/concepts/rms-frontieres-runtime-v2-v3|frontières runtime v2/v3 et natives]] et la [[projects/re-ff8/concepts/rms-publication-et-contexte-suivant|publication vers le contexte suivant]] sont explicites, toujours non qualifiées logiciellement.
 
 This project documents the Final Fantasy VIII PC 2000 battle system from product-level mechanics down to reverse-engineered functions, globals, structs, prompts, executable hypotheses, and tooling.
 

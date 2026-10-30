@@ -1,0 +1,60 @@
+{
+  "status": "LOCAL_QA_FAILED_PRESERVE_ALL_STATE",
+  "cases": [
+    {
+      "name": "Wrong product pin refused before stage",
+      "pass": true,
+      "durationMs": 46.134600000000006,
+      "observed": {
+        "status": "HOLD_BEFORE_STAGE",
+        "stageAttempted": false,
+        "outputCreated": false,
+        "failure": "HOLD: retained pin differs"
+      }
+    },
+    {
+      "name": "Unratified source meaning refused before stage",
+      "pass": true,
+      "durationMs": 0.9141999999999939,
+      "observed": {
+        "status": "HOLD_BEFORE_STAGE",
+        "stageAttempted": false,
+        "outputCreated": false,
+        "failure": "HOLD: source field must retain exact parent158 meaning label"
+      }
+    },
+    {
+      "name": "Different directory scope refused before stage",
+      "pass": true,
+      "durationMs": 155.52230000000003,
+      "observed": {
+        "status": "HOLD_BEFORE_STAGE",
+        "stageAttempted": false,
+        "outputCreated": false,
+        "failure": "HOLD: parent directory differs from retained scoped catalog"
+      }
+    },
+    {
+      "name": "Existing empty output namespace refused without adoption",
+      "pass": true,
+      "durationMs": 0.9305999999999699,
+      "observed": {
+        "status": "HOLD_BEFORE_STAGE",
+        "stageAttempted": false,
+        "outputCreated": false,
+        "failure": "HOLD: fresh namespace/output only; no retry or adoption"
+      }
+    },
+    {
+      "name": "One real QA-only stage and independent exact readback",
+      "pass": false,
+      "durationMs": 398.5828000000001,
+      "error": "Session restrictions changed"
+    }
+  ],
+  "error": "Session restrictions changed",
+  "durationMs": 642,
+  "ownPath": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8\\.opencode\\missions\\team_mvshkwxs_000t_2fkx8e\\qa-local-materializer-166-own\\qa-own.sqlite",
+  "stageAttempted": true,
+  "noAutomaticRetry": true
+}

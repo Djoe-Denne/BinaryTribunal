@@ -1,0 +1,25 @@
+{
+  "candidate": "8753f8c64d051e2003fd60d206f341aaf1b4563b",
+  "manifest": { "headMatched": true, "matched": 18, "total": 18 },
+  "typecheck": { "command": "bun run typecheck", "exit": 0, "durationMs": 3874 },
+  "testSelection": { "pattern": "^RMSN-", "timeoutMs": 600000, "serial": true, "globalSuite": false },
+  "tests": [
+    { "file": "test/runtime-binding.test.ts", "exit": 0, "durationMs": 53, "pass": 4, "fail": 0, "assertions": 26 },
+    { "file": "test/client.test.ts", "exit": 1, "durationMs": 44440, "pass": 29, "fail": 4, "assertions": 420 },
+    { "file": "test/eventlog.test.ts", "exit": 0, "durationMs": 108, "pass": 2, "fail": 0, "assertions": 8 },
+    { "file": "test/graph-integration/native-observations.test.ts", "exit": 0, "durationMs": 44, "pass": 2, "fail": 0, "assertions": 8 },
+    { "file": "test/graph-integration/engine.test.ts", "exit": 0, "durationMs": 76, "pass": 1, "fail": 0, "assertions": 2 },
+    { "file": "test/graph-integration/recovery.test.ts", "exit": 0, "durationMs": 78, "pass": 1, "fail": 0, "assertions": 2 }
+  ],
+  "total": { "pass": 39, "fail": 4, "assertions": 466 },
+  "failures": {
+    "commonError": "RMS command CAS mismatch",
+    "productionLocation": "src/graph-store.ts:1131-1136",
+    "fixtureLocation": "test/client.test.ts:160-165",
+    "cases": ["ordered notifications reconcile lost reply", "obsolete work and late DATA", "renewed proof refs", "retained notification grant"]
+  },
+  "inspection": "New client test bodies and imports examined; controlled SQL and fake HTTP only. No added worker/thread/network call; six previously closed selections preserved.",
+  "scriptIncident": "First QA script had an escaped-newline syntax error before execution; corrected within Context Mode. No check executed in that failed script.",
+  "limits": { "nativeExecution": false, "acceptance": false, "filteredCountedPass": false, "timeoutReached": false },
+  "next": "Read-only diagnosis of command CAS and independent impact review before changing the pinned image"
+}

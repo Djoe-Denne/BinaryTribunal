@@ -1,0 +1,36 @@
+{
+  "version": "rms-native-declarations-refresh-v1",
+  "observedAtUtc": "2026-10-30T09:57:46.118Z",
+  "method": "Owned native CLI, GET info and location-scoped agent/general and model; filtered observations, not raw wire bytes",
+  "durationMs": 272,
+  "server": {"version":"2.2.1","pid":31584},
+  "requestedDirectory": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "returnedDirectoryBothScopedRoutes": "C:\\Users\\djden\\source\\repos\\retro-eng\\re-ff8",
+  "initialUnresolvedSpellingComparison": false,
+  "directoryDiagnostic": "Follow-up GETs showed only Windows slash normalization. Product compares to resolve(config.directory), which uses this Windows spelling; no product comparator change proposed.",
+  "agentRulesEqualRetainedCatalog": true,
+  "profile": {
+    "id":"general","mode":"subagent","model":null,
+    "permissions":[
+      {"action":"*","resource":"*","effect":"allow"},
+      {"action":"read","resource":"*.env","effect":"ask"},
+      {"action":"read","resource":"*.env.*","effect":"ask"},
+      {"action":"read","resource":"*.env.example","effect":"allow"},
+      {"action":"question","resource":"*","effect":"deny"},
+      {"action":"subagent","resource":"*","effect":"deny"},
+      {"action":"edit","resource":"*","effect":"allow"},
+      {"action":"browser","resource":"*","effect":"deny"},
+      {"action":"skill","resource":"browser","effect":"deny"}
+    ]
+  },
+  "modelProjection": {
+    "id":"gpt-6.1-sol","modelID":"gpt-6.1-sol","providerID":"openai","enabled":true,"status":"active",
+    "variantIds":["low","medium","high","xhigh","max"],
+    "capabilities":{"tools":true,"input":["text","image","pdf"],"output":["text"],"temperature":false},
+    "limit":{"context":628000,"input":500000,"output":128000}
+  },
+  "permissionsEvaluation":"NOT_PROVEN_BY_GET",
+  "nativeQualification":"NOT_ATTESTED",
+  "notProven":["source-to-loaded-binary equivalence","future native tool-denial enforcement","actual model used or provider quota","native terminality"],
+  "effects":{"sessionsCreated":0,"workSubmitted":0,"grantsIssued":0}
+}

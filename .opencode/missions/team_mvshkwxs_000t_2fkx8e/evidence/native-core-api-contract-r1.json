@@ -1,0 +1,19 @@
+{
+  "schema": "rms-current-public-api-observation-v1",
+  "serverVersionFromCurrentInfo": "2.1.4",
+  "localPinnedClientPackageVersion": "2.0.26",
+  "versionLimit": "SDK and server versions differ. Current route schemas were read on the running 2.1.4 service; no compatibility claim is inferred merely from both being V2.",
+  "source": "GET /openapi.json from the already running service via Service.discover and in-memory authenticated headers",
+  "operations": [
+    {"operationId":"session.create","method":"POST","path":"/api/session","required":[],"properties":{"id":"Session.ID|null","parentID":"Session.ID|null","title":"string|null","agent":"Agent.ID|null","model":"Model.Ref|null","location":"Location.PublicRef|null","metadata":"Session.Metadata|null","permissions":"Permission.Ruleset|null"}},
+    {"operationId":"session.get","method":"GET","path":"/api/session/{sessionID}","pathRequired":["sessionID"],"body":null},
+    {"operationId":"session.update","method":"PATCH","path":"/api/session/{sessionID}","required":[],"properties":{"title":"string|null","metadata":"Session.Metadata|null","permissions":"Permission.Ruleset|null","archived":"boolean|null"},"modelOrAgentFieldsInThisOperation":false},
+    {"operationId":"session.prompt","method":"POST","path":"/api/session/{sessionID}/prompt","required":["text"],"properties":{"id":"Session.Message.ID|null","text":"string","files":"PromptInput.FileAttachment[]","agents":"Prompt.AgentAttachment[]","skills":"PromptInput.SkillAttachment[]","metadata":"object","delivery":"Session.Inbox.Delivery|null","resume":"boolean|null"}},
+    {"operationId":"session.interrupt","method":"POST","path":"/api/session/{sessionID}/interrupt","query":{"resume":"string true|false|null"},"body":null}
+  ],
+  "performed": "Schema and plugin metadata reads only; none of the POST/PATCH operations listed here was called",
+  "finding": "The current schema allows caller-supplied session and prompt message IDs; a direct public API adapter may be possible without installing the absent ensemble.execution.v1 bridge",
+  "notEstablished": ["Uniqueness and duplicate handling of caller-supplied IDs at runtime","CAS/ownership semantics of native admission","Effective Model.Ref/rights at the requested worker location","Native prompt completion and observed termination/quiescence"],
+  "privacy": "No endpoint address, credentials, headers, prompts, unrelated plugin inventory or private service body persisted",
+  "limits": "This normalized schema summary is a metadata observation, not an execution result, full OpenAPI snapshot, byte-exact source pin or authorization to create native workers."
+}

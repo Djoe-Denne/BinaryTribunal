@@ -1,0 +1,556 @@
+---
+title: RMS — sources de la clôture partielle du 30 octobre
+category: reference
+tags: [reverse-engineering, testing, reference]
+summary: Archive des rapports et sélection limitée de reçus publics ; chronologie historique, pas acceptation M2 ou preuve plugin.
+sources:
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/advice-inputs/context-mode-script-policy.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-225/inputs/CLIENT_PRIVATE_UI_225.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/CURRENT_NATIVE_RUNTIME_SCOPE.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/native-host-preflight-openapi-2.2.1-extract.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/native-permission-composition-2.2.1-extract.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/native-wire-openapi-2.2.1-extract.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/final-review-inputs.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/native-bridge-prerequisites.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/OBLIGATIONS.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/obsolescence-r1-handoff.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/obsolescence-r2-handoff.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/obsolescence-r3-handoff.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/obsolescence-r4-handoff.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/01-plan-realisation-et-contrat-propose.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/02-delegation-operationnelle-elargie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/03-demarrage-et-plan-de-transfert.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/04-base-transferee-et-recue.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/05-resultat-retrouve-remplacement-bloque.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/06-qualification-recue-et-frontieres-a-trancher.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/07-primitives-verifiees-et-avis-architecte-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/08-contrats-ratifies-et-premier-increment.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/09-isolation-du-developpeur-corrigee-avant-ecriture.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/10-plan-approuve-et-defauts-client-reproduits.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/100-raccord-corrige-positifs-atteints-quatre-echecs-commandes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/101-cause-cas-confirmee-correction-minimale-de-fixture.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/102-observation-tardive-distincte-du-plafond-envoi.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/103-raccord-r8-controles-cibles-et-revue-favorables.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/104-regressions-fermees-preparation-qualification-reelle.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/105-point-entree-natif-manquant-composition-et-origines.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/106-continuite-native-non-etablie-verification-du-premier-octroi.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/108-composition-parent-et-transport-reels-plan-ratifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/109-entree-locale-parent-concrete-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/11-premier-raccord-verifie-revue-independante-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/110-composition-reelle-livree-import-manquant.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/111-composition-corrigee-compilation-et-tests-cibles-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/112-trois-defauts-host-corrections-ciblees.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/113-corrections-host-r10-recue-typage-tests-a-corriger.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/114-deux-echecs-frontiere-validation-historique-et-droits-courants.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/115-split-historique-r11-recu-typage-a-fermer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/116-r12-delta-distinct-verification-et-typage-borne.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/117-image-reelle-figee-plus-aucune-reecriture-de-variante.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/118-candidat-stable-compilation-cent-tests-et-revue-favorables.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/119-procedure-entrees-reelles-recue-sans-octroi-implicite.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/12-course-anti-fallback-bloquante-correction-ciblee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/120-assembleur-propose-frontiere-imports-a-verifier.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/121-sources-qualification-choisies-catalogue-lu-sans-execution.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/122-fonction-modele-fixture-ratifiee-sans-autorite-native.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/123-construction-source-complete-candidats-a-inspecter.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/124-parametres-source-fixture-fermes-sans-allocation-native.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/125-candidats-preparatoires-recus-syntaxe-sans-evaluation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/126-revue-scripts-recue-calcul-memoire-refuse-couverture.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/127-couverture-corrigee-refus-version-politique.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/128-construction-source-en-memoire-reussie-natif-toujours-ferme.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/129-source-materialisee-et-rechargee-aucune-admission-native.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/13-course-reproduite-correctif-autorise.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/130-admission-proposee-verrou-ordre-reservation-locale.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/131-source-partielle-non-reservable-alternative-structure-fermee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/132-modele-ferme-v2-ratifie-enumeration-a-prouver.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/133-candidats-v2-recus-plan-controles-ferme.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/134-parcours-ferme-verifie-source-v2-materialisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/135-architecture-connue-requise-audit-staging-avant-nouvelle-source.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/136-fixture-x86-construite-cible-explicite-sans-execution.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/137-candidats-v3-verifies-syntaxe-et-plan-quatorze-controles.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/138-source-x86-verifiee-et-rechargee-staging-candidat-repris.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/139-reservation-locale-candidat-et-six-controles-prepares.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/14-correction-verifiee-reprise-de-revue-ciblee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/140-six-controles-reservation-locale-reussis-sans-autorite-native.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/141-preuves-origines-reutilisees-admission-statique-poursuivie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/142-admission-statique-construite-corpus-exact-sans-fences.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/143-intention-statique-retenue-verification-bornee-des-pieces-historiques.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/144-piece-comptable-indispensable-avant-effet-natif.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/145-premier-usage-rms-confirme-par-utilisateur.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/146-origines-comptees-au-commit-dans-leur-racine.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/147-premier-test-clusterisation-sur-ida-ouvert.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/148-export-ida-interrompu-lecture-ciblee-et-corpus-retrouve.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/149-trois-clusterisations-reussies-candidat-commandes-combat.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/15-retention-pending-encore-a-proteger.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/150-cluster-commandes-retenu-entree-menu-draw.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/151-preparer-la-genese-sans-fabriquer-autorisation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/152-premier-controle-statique-refus-sur-nom-de-fichier.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/153-pieces-de-premiere-acquisition-creees-huit-controles-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/154-permissions-declarees-et-controle-avant-premier-travail.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/155-declarations-de-permissions-materialisees-et-binaire-verifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/156-plan-du-raccord-local-ratifie-sans-prise-de-possession.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/157-provenance-desktop-rapprochee-sans-installer-ni-executer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/158-referent-source-ratifie-pour-la-qualification-bornee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/159-defaut-confirme-de-comparaison-des-adresses-avant-autorisation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/16-retention-alteree-reproduite-sans-thread.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/160-correction-compatible-du-pont-adresse-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/161-revue-du-raccord-delai-a-reverifier-apres-fermeture.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/162-candidat-adresse-isole-et-pret-pour-revue.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/163-correctif-teste-et-chevauchement-de-worktree-a-reconcilier.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/164-candidat-corrige-retenu-et-ancien-worktree-restaure.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/165-raccord-local-lie-au-produit-corrige-sans-execution.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/166-stage-qa-cree-verification-des-permissions-a-corriger.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/167-relecture-qa-validee-sans-recreer-le-stage.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/168-arguments-operationnels-neufs-prepares-sans-bail.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/169-reservation-operationnelle-et-autorites-reelles-enregistrees.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/17-retention-corrigee-et-reverification-ciblee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/170-premiere-reponse-native-rms-observee-et-limites-de-retention.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/171-observateur-synchronise-sans-faits-historiques.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/172-limite-confirmee-de-la-route-de-qualification.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/173-contrat-du-journal-confirme-cause-active-encore-inconnue.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/174-diagnostic-local-restreint-aux-metadonnees-de-la-session.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/175-retention-du-journal-optionnelle-dans-les-sources.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/176-temoin-de-tour-positif-mais-liaison-causale-non-fermee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/177-pas-de-lanceur-cli-etabli-pour-la-retention-du-journal.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/178-fermeture-requise-et-piste-hote-local-a-planifier.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/179-resolution-isolee-des-dependances-autorisee-sans-installation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/18-raccord-accepte-dans-sa-portee-integration-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/180-selection-ciblee-d-une-version-peer-compatible.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/181-acquisition-locale-verrouillee-sans-scripts-ni-lancement.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/182-archives-et-fichiers-acquis-epingles-sans-chargement.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/183-assets-presents-et-rapproches-avant-tout-bootstrap.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/184-plan-de-qualification-isolee-sans-session-en-revue.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/185-plan-ratifie-realisation-locale-sans-execution.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/186-candidat-recu-syntaxe-valide-revue-fraiche-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/187-erreurs-de-capture-a-corriger-avant-lancement.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/188-correctif-de-capture-controle-en-isolation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/189-qualification-locale-bornee-autorisee-sans-modele.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/19-raccord-statique-integre-suite-publication.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/190-refus-avant-import-diagnostic-des-noms-environnement.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/191-retrait-cible-des-ajouts-environnement-avant-import.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/192-hygiene-environnement-controlee-sans-import.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/193-qualification-du-candidat-environnement-corrige.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/194-frontieres-http-verifiees-et-hote-arrete.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/195-contrats-restants-et-budget-du-parcours-final.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/196-budget-non-declare-impossible-droits-restants-a-etablir.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/197-capability-live-et-barriere-post-creation-a-fermer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/198-raccord-possession-directe-tranche-lecture-seule.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/199-reprise-et-autorite-de-possession-lecture-seule.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/20-publication-preparation-isolee-et-contexte-livre.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/200-candidat-gele-et-verification-statique.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/201-typecheck-corrige-et-selection-offline-fermee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/202-tests-offline-reussis-deux-blocages-code-restants.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/203-correctif-identites-et-deadline-verification-affectee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/204-correctif-bigint-et-finalisation-tests-affectes-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/205-code-recu-preparation-autorite-avant-bun-direct.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/206-acte-controleur-distinct-et-continuite-des-comptes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/207-revue-recue-et-qualification-lecture-seule-engagee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/208-arret-avant-enfant-et-lancement-sans-prechargement.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/209-nouvel-essai-natif-distinct-apres-diagnostic.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/21-publication-contrat-prospectif-ratifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/210-arret-borne-pendant-la-verification-des-fichiers.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/211-verification-des-fichiers-par-lots-bornes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/212-correction-de-lecart-au-contrat-de-lecture.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/213-point-simple-sur-lessai-avec-ida.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/214-controles-cibles-du-correctif-pour-lessai-ida.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/215-correctif-teste-avant-le-petit-essai-ida.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/216-nouvel-essai-du-lanceur-apres-correctif-teste.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/217-fichiers-verifies-arret-sur-le-chemin-de-lexecutable.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/218-controle-du-seul-correctif-de-chemin-windows.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/219-essai-distinct-apres-correction-du-chemin-ready.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/22-publication-implementation-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/220-lecture-seule-reussie-envoi-de-mission-encore-ferme.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/221-fermer-les-droits-et-le-compte-avant-lenvoi.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/222-preparer-la-connexion-openai-sans-envoyer-de-mission.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/223-verifier-le-candidat-de-connexion-sans-se-connecter.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/224-gel-final-de-connexion-et-reprise-des-controles-affectes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/225-raccorder-la-fenetre-privee-et-isoler-le-dossier-auth.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/226-corriger-la-reponse-native-avant-toute-connexion.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/227-recevoir-le-relais-prive-sans-afficher-de-code-reel.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/228-preparer-le-petit-test-de-la-fenetre-sans-openai.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/229-verification-des-empreintes-fail-closed-avant-test-ui.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/23-publication-paquet-en-finalisation-avant-tests.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/230-deux-essais-bornes-de-fenetre-avec-code-factice.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/231-preparer-la-vraie-invocation-auth-sans-la-lancer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/232-connecteur-ida-reactive-et-identite-confirmee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/233-verifier-les-trois-actes-auth-avant-tout-effet.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/234-correction-syntaxique-limitee-du-lanceur-auth.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/235-refuser-toute-phase-ambigue-avant-connexion.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/236-reception-native-exterieure-des-phases-auth.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/237-premiere-preparation-native-sans-connexion-openai.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/238-premiere-connexion-openai-privee-sans-travail-modele.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/239-connexion-arretee-fenetre-de-validation-trop-courte.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/24-publication-premiers-tests-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/240-cloture-partielle-et-conservation-dans-main.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/241-conservation-verifiee-et-reprise-plugin-preparee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/25-publication-fidelite-octets-bloquante.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/26-publication-defaut-octets-reproduit.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/27-publication-fidelite-corrigee-tests-verts.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/28-publication-recue-dans-sa-portee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/29-publication-integree-suite-contexte.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/30-contexte-suivant-preparation-isolee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/31-projection-contrat-ratifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/32-projection-approbation-privee-et-portee-v2.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/33-projection-amendement-en-file-de-livraison.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/34-projection-premier-typecheck-en-echec.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/35-projection-compilation-verte-cas-central-interrompu.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/36-projection-reparsing-redondant-correction-bornee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/37-projection-borne-toujours-bloquante-revue-statique.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/38-projection-deux-defauts-statiques-a-corriger.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/39-projection-deux-defauts-reproduits.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/40-projection-correctifs-cibles-verifies.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/41-projection-observation-bornee-des-phases.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/42-projection-bilan-partiel-bloque.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/43-reprise-tests-dix-minutes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/44-acquisition-centrale-reussie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/45-separation-roles-reussie-autres-cas-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/46-projection-47-cas-valides-preparation-integration.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/47-projection-recue-integration-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/48-projection-integree-et-verifiee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/49-consolidation-finale-et-regle-native-admission.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/50-consolidation-remplacement-sans-diagnostic.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/51-activation-normale-verifiee-invariants-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/52-consolidation-finale-preuves-et-manques.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/53-revue-finale-independante-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/54-bilan-parent-livraison-statique-acceptee-cloture-m2-non-acquise.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/55-reprise-source-plugin-identifiee-jonction-a-concevoir.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/56-adaptateur-core-v2-qualification-prioritaire.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/57-primitives-native-collisions-et-qualification-au-repos.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/58-admission-native-au-repos-observee-contrat-du-premier-adaptateur.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/59-preparation-adaptateur-admission-au-repos.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/60-plan-adaptateur-au-repos-ratifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/61-candidat-admission-au-repos-en-verification.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/62-revue-admission-trois-defauts-bloquants-a-corriger.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/63-correctifs-adaptateur-verifies-revue-de-fermeture-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/64-impact-residuel-empreinte-erreur-a-fermer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/65-adaptateur-au-repos-recu-integration-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/66-adaptateur-au-repos-integre-et-verifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/67-contrat-observation-native-limites-et-prochaine-decision.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/68-contrat-lecteur-observations-data.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/69-plan-lecteur-data-ratifie.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/70-lecteur-data-verifie-revue-en-cours.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/71-lecteur-data-recu-integration-autorisee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/72-lecteur-data-integre-bilan-de-continuation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/73-qualification-du-point-admission-natif.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/74-porte-native-non-exposee-bilan-partiel-bloque.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/75-deux-recommandations-build-sur-les-blocages-natifs.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/76-directive-obsolescence-ordonnee-sans-retry.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/77-premier-avis-build-cloture-logique.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/78-synthese-deux-build-obsolescence-et-ordre.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/79-plan-completion-propose.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/80-brouillon-ensemble-et-taches-prepares.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/81-reprise-et-verification-du-verrou-approbation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/82-revision-approuvee-reprise-de-la-completion.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/83-contrat-obsolescence-ratifie-et-plan-de-realisation.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/84-plan-commandes-obsolescence-approuve.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/85-candidat-retrouve-et-compilation-verifiee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/86-controles-cibles-obsolescence-r1.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/87-revue-obsolescence-corrections-bloquantes.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/88-correction-r2-recue-defaut-de-typage-isole.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/89-r3-compilation-et-negatifs-cibles-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/90-deux-defauts-residuels-correction-bornee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/91-r4-controles-des-residuels-reussis.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/92-commandes-obsolescence-integrees-et-recues.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/93-contrat-natif-invariants-retenus-jonction-a-fermer.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/94-contrat-natif-ratifie-autorite-et-qualification-bornees.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/95-plan-raccord-natif-approuve-sources-courantes-livrees.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/96-modifications-tierces-isolees-dans-espace-auteur.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/97-raccord-partiel-conserve-continuation-ciblee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/98-compilation-du-checkpoint-natif-correction-ciblee.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/99-qa-native-echouee-et-corrections-de-revue.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/94-contract.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/context-mode-script-policy.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/current-parent-scope.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/host-preflight-extract.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/permission-composition-extract.md
+  - docs/missions/rms-plugin-recovery-20261030/archive/worker-uncommitted/.opencode/missions/team_mvshkwxs_000t_2fkx8e/native-plan-inputs/wire-contract-extract.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-236/prepare-5312262b-f5f9-481f-ad40-29a12dcc9e6f-FINALOUTCOME.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-236/connect-5312262b-f5f9-481f-ad40-29a12dcc9e6f-FINALOUTCOME.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-231/attempt-5312262b-f5f9-481f-ad40-29a12dcc9e6f/rms-auth-audit.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/owned-direct-219/FINALOUTCOME.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/typecheck.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-envelope-selected.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-forged-cap-selected.json
+provenance: {extracted: 1.0, inferred: 0.0, ambiguous: 0.0}
+created: 2026-10-30
+updated: 2026-10-30
+---
+
+# Sources conservées sans promotion de leur verdict
+
+Les rapports sont historiques et peuvent contenir des plans ensuite corrigés. Le bilan courant est [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030|la clôture partielle]], la frontière correcte est [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2|le plugin hôte]]. Retour [[projects/re-ff8/re-ff8|projet]].
+
+Les Markdown sont copiés exactement ; les JSON sélectionnés restent à leur emplacement source avec hash dans le manifeste. Les autres JSON publics sont conservés dans Git sans tous les indexer. Aucune DB, dépendance, credential ou donnée Auth privée n'est copiée. L'index QMD n'est pas recompilé.
+
+## Markdown
+
+- [[_raw/rms-implementation-opencode-20261030/advice-inputs/context-mode-script-policy|Scripts d'analyse et fonctions réutilisables — politique commune]]
+- [[_raw/rms-implementation-opencode-20261030/auth-parent-225/inputs/CLIENT_PRIVATE_UI_225|Projection non secrète du protocole client Auth225]]
+- [[_raw/rms-implementation-opencode-20261030/CURRENT_NATIVE_RUNTIME_SCOPE|Instruction courante du superviseur — révision 117-FREEZE-6FE-2]]
+- [[_raw/rms-implementation-opencode-20261030/evidence/native-host-preflight-openapi-2.2.1-extract|Préflight host — extrait statique OpenAPI 2.2.1]]
+- [[_raw/rms-implementation-opencode-20261030/evidence/native-permission-composition-2.2.1-extract|Composition des permissions — sources publiques épinglées 2.2.1]]
+- [[_raw/rms-implementation-opencode-20261030/evidence/native-wire-openapi-2.2.1-extract|Extrait borné du contrat OpenAPI courant 2.2.1]]
+- [[_raw/rms-implementation-opencode-20261030/final-review-inputs|Paquet de consolidation finale — candidat intégré, sans clôture présumée]]
+- [[_raw/rms-implementation-opencode-20261030/native-bridge-prerequisites|Prérequis du pont natif — consultation architecte existant uniquement]]
+- [[_raw/rms-implementation-opencode-20261030/OBLIGATIONS|Journal unique des obligations RMS — révision de politique 1]]
+- [[_raw/rms-implementation-opencode-20261030/obsolescence-r1-handoff|Candidat auteur RMSO r1 — non qualifié]]
+- [[_raw/rms-implementation-opencode-20261030/obsolescence-r2-handoff|RMSO r2 — correction rapport87, auteur sans exécution]]
+- [[_raw/rms-implementation-opencode-20261030/obsolescence-r3-handoff|RMSO r3 — annotation seule]]
+- [[_raw/rms-implementation-opencode-20261030/obsolescence-r4-handoff|RMSO r4 — deux résidus et régression perdue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/01-plan-realisation-et-contrat-propose|1. Réaliser RMS sans refaire la documentation — contrat proposé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/02-delegation-operationnelle-elargie|2. Réalisation RMS : délégation opérationnelle élargie]]
+- [[_raw/rms-implementation-opencode-20261030/reports/03-demarrage-et-plan-de-transfert|3. Démarrage approuvé : préserver la base avant de modifier RMS]]
+- [[_raw/rms-implementation-opencode-20261030/reports/04-base-transferee-et-recue|4. Base candidate transférée et reçue, sans test produit]]
+- [[_raw/rms-implementation-opencode-20261030/reports/05-resultat-retrouve-remplacement-bloque|5. Analyse du remplacement retrouvée : ne pas lancer un correctif sans preuve]]
+- [[_raw/rms-implementation-opencode-20261030/reports/06-qualification-recue-et-frontieres-a-trancher|6. Qualification reçue : isoler les dépendances avant le raccordement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/07-primitives-verifiees-et-avis-architecte-en-cours|7. Premier contrôle logiciel ciblé réussi, avis architectural en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/08-contrats-ratifies-et-premier-increment|8. Contrats ratifiés pour un raccord versionné, sans activation native implicite]]
+- [[_raw/rms-implementation-opencode-20261030/reports/09-isolation-du-developpeur-corrigee-avant-ecriture|9. Isolation du développeur corrigée avant toute écriture]]
+- [[_raw/rms-implementation-opencode-20261030/reports/10-plan-approuve-et-defauts-client-reproduits|10. Plan approuvé ; neuf défauts client reproduits avant correction]]
+- [[_raw/rms-implementation-opencode-20261030/reports/11-premier-raccord-verifie-revue-independante-en-cours|11. Premier raccord vérifié ; revue indépendante en cours avant intégration]]
+- [[_raw/rms-implementation-opencode-20261030/reports/12-course-anti-fallback-bloquante-correction-ciblee|12. La revue révèle une course anti-fallback : intégration suspendue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/13-course-reproduite-correctif-autorise|13. Course reproduite : une émission au lieu de zéro]]
+- [[_raw/rms-implementation-opencode-20261030/reports/14-correction-verifiee-reprise-de-revue-ciblee|14. Correction vérifiée : la course n'émet plus vers l'ancien transport]]
+- [[_raw/rms-implementation-opencode-20261030/reports/15-retention-pending-encore-a-proteger|15. Émission corrigée, rétention encore à protéger]]
+- [[_raw/rms-implementation-opencode-20261030/reports/16-retention-alteree-reproduite-sans-thread|16. Altération de rétention reproduite sans thread]]
+- [[_raw/rms-implementation-opencode-20261030/reports/17-retention-corrigee-et-reverification-ciblee|17. Rétention corrigée et contrôles affectés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/18-raccord-accepte-dans-sa-portee-integration-autorisee|18. Raccord accepté dans sa portée ; intégration préparée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/19-raccord-statique-integre-suite-publication|19. Raccord statique intégré ; poursuite vers la publication]]
+- [[_raw/rms-implementation-opencode-20261030/reports/20-publication-preparation-isolee-et-contexte-livre|20. Publication : préparation isolée et contexte livré]]
+- [[_raw/rms-implementation-opencode-20261030/reports/21-publication-contrat-prospectif-ratifie|21. Publication : contrat prospectif ratifié avant réalisation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/22-publication-implementation-en-cours|22. Publication durable : implémentation en cours, tests en préparation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/23-publication-paquet-en-finalisation-avant-tests|23. Publication : paquet en finalisation avant vérification]]
+- [[_raw/rms-implementation-opencode-20261030/reports/24-publication-premiers-tests-reussis|24. Publication : premiers tests ciblés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/25-publication-fidelite-octets-bloquante|25. Publication : la fidélité des octets bloque l'intégration]]
+- [[_raw/rms-implementation-opencode-20261030/reports/26-publication-defaut-octets-reproduit|26. Publication : défaut d'octets reproduit, correction autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/27-publication-fidelite-corrigee-tests-verts|27. Publication : octets exacts conservés, tests affectés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/28-publication-recue-dans-sa-portee|28. Publication reçue dans sa portée ; intégration autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/29-publication-integree-suite-contexte|29. Publication statique intégrée ; suite vers les nouveaux contenus du travail suivant]]
+- [[_raw/rms-implementation-opencode-20261030/reports/30-contexte-suivant-preparation-isolee|30. Nouveaux contenus du travail suivant : préparation isolée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/31-projection-contrat-ratifie|31. Nouveaux inputs : contrat de projection ratifié]]
+- [[_raw/rms-implementation-opencode-20261030/reports/32-projection-approbation-privee-et-portee-v2|32. Projection : approbation privée exacte et portée v2 explicite]]
+- [[_raw/rms-implementation-opencode-20261030/reports/33-projection-amendement-en-file-de-livraison|33. Projection : amendement en file de livraison, candidat non recevable en l'état]]
+- [[_raw/rms-implementation-opencode-20261030/reports/34-projection-premier-typecheck-en-echec|34. Projection corrigée reçue pour contrôle ; typecheck en échec]]
+- [[_raw/rms-implementation-opencode-20261030/reports/35-projection-compilation-verte-cas-central-interrompu|35. Projection : compilation réussie, cas central interrompu sans résultat]]
+- [[_raw/rms-implementation-opencode-20261030/reports/36-projection-reparsing-redondant-correction-bornee|36. Projection : correction bornée du parsing redondant]]
+- [[_raw/rms-implementation-opencode-20261030/reports/37-projection-borne-toujours-bloquante-revue-statique|37. Projection : délai toujours bloquant, revue indépendante statique engagée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/38-projection-deux-defauts-statiques-a-corriger|38. Projection : deux défauts statiques confirmés avant intégration]]
+- [[_raw/rms-implementation-opencode-20261030/reports/39-projection-deux-defauts-reproduits|39. Projection : les deux défauts sont reproduits sans parcours coûteux]]
+- [[_raw/rms-implementation-opencode-20261030/reports/40-projection-correctifs-cibles-verifies|40. Projection : correctifs ciblés vérifiés, reprise indépendante demandée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/41-projection-observation-bornee-des-phases|41. Projection : une observation de phases bornée pour localiser le blocage]]
+- [[_raw/rms-implementation-opencode-20261030/reports/42-projection-bilan-partiel-bloque|42. Nouveaux contenus : correctifs reçus, qualification toujours bloquée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/43-reprise-tests-dix-minutes|43. Reprise des validations avec dix minutes par test]]
+- [[_raw/rms-implementation-opencode-20261030/reports/44-acquisition-centrale-reussie|44. Acquisition centrale réussie ; vérifications de sûreté en continuation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/45-separation-roles-reussie-autres-cas-en-cours|45. Séparation des rôles réussie ; autres scénarios en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/46-projection-47-cas-valides-preparation-integration|46. Projection : 47 cas validés, préparation d'intégration]]
+- [[_raw/rms-implementation-opencode-20261030/reports/47-projection-recue-integration-autorisee|47. Projection hors ligne reçue ; intégration autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/48-projection-integree-et-verifiee|48. Projection intégrée et vérifiée ; poursuite de la consolidation finale]]
+- [[_raw/rms-implementation-opencode-20261030/reports/49-consolidation-finale-et-regle-native-admission|49. Livrables intégrés ; actualisation native requise pour les nouvelles sessions]]
+- [[_raw/rms-implementation-opencode-20261030/reports/50-consolidation-remplacement-sans-diagnostic|50. Consolidation finale : validation normale du remplacement, sans diagnostic gelé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/51-activation-normale-verifiee-invariants-en-cours|51. Activation normale vérifiée ; reprises et barrières en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/52-consolidation-finale-preuves-et-manques|52. Consolidation finale : vérifications terminées dans leur portée, preuves manquantes conservées]]
+- [[_raw/rms-implementation-opencode-20261030/reports/53-revue-finale-independante-en-cours|53. Revue finale indépendante en cours sur le candidat intégré]]
+- [[_raw/rms-implementation-opencode-20261030/reports/54-bilan-parent-livraison-statique-acceptee-cloture-m2-non-acquise|54. Bilan parent : livraison statique acceptée, clôture complète M2 non acquise]]
+- [[_raw/rms-implementation-opencode-20261030/reports/55-reprise-source-plugin-identifiee-jonction-a-concevoir|55. Reprise : source du plugin actif identifiée, jonction native à concevoir]]
+- [[_raw/rms-implementation-opencode-20261030/reports/56-adaptateur-core-v2-qualification-prioritaire|56. Adaptateur direct V2 retenu comme piste prioritaire, qualification avant activation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/57-primitives-native-collisions-et-qualification-au-repos|57. Primitives natives : collisions explicites et qualification sans exécution de modèle]]
+- [[_raw/rms-implementation-opencode-20261030/reports/58-admission-native-au-repos-observee-contrat-du-premier-adaptateur|58. Admission native au repos observée ; premier adaptateur à réaliser]]
+- [[_raw/rms-implementation-opencode-20261030/reports/59-preparation-adaptateur-admission-au-repos|59. Préparation de l’adaptateur d’admission au repos]]
+- [[_raw/rms-implementation-opencode-20261030/reports/60-plan-adaptateur-au-repos-ratifie|60. Plan de l’adaptateur au repos ratifié avec limites fermées]]
+- [[_raw/rms-implementation-opencode-20261030/reports/61-candidat-admission-au-repos-en-verification|61. Candidat d’admission au repos en vérification]]
+- [[_raw/rms-implementation-opencode-20261030/reports/62-revue-admission-trois-defauts-bloquants-a-corriger|62. Trois défauts du transport à corriger avant intégration]]
+- [[_raw/rms-implementation-opencode-20261030/reports/63-correctifs-adaptateur-verifies-revue-de-fermeture-en-cours|63. Correctifs vérifiés hors ligne, revue de fermeture en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/64-impact-residuel-empreinte-erreur-a-fermer|64. Dernier impact de correction identifié : valider l’empreinte d’erreur]]
+- [[_raw/rms-implementation-opencode-20261030/reports/65-adaptateur-au-repos-recu-integration-autorisee|65. Adaptateur au repos reçu, intégration autorisée par le parent]]
+- [[_raw/rms-implementation-opencode-20261030/reports/66-adaptateur-au-repos-integre-et-verifie|66. Adaptateur au repos intégré et vérifié]]
+- [[_raw/rms-implementation-opencode-20261030/reports/67-contrat-observation-native-limites-et-prochaine-decision|67. Observation native : contrats disponibles et garanties encore manquantes]]
+- [[_raw/rms-implementation-opencode-20261030/reports/68-contrat-lecteur-observations-data|68. Prochain incrément : lecteur d’observations DATA sans activation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/69-plan-lecteur-data-ratifie|69. Plan du lecteur DATA ratifié pour réalisation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/70-lecteur-data-verifie-revue-en-cours|70. Lecteur DATA vérifié hors ligne, revue indépendante en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/71-lecteur-data-recu-integration-autorisee|71. Lecteur DATA reçu, intégration autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/72-lecteur-data-integre-bilan-de-continuation|72. Lecteur DATA intégré — bilan de continuation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/73-qualification-du-point-admission-natif|73. Qualification ciblée du point d’admission natif avant activation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/74-porte-native-non-exposee-bilan-partiel-bloque|74. Porte native non exposée — bilan partiel bloqué avant activation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/75-deux-recommandations-build-sur-les-blocages-natifs|75. Deux analyses build demandées sur les blocages natifs]]
+- [[_raw/rms-implementation-opencode-20261030/reports/76-directive-obsolescence-ordonnee-sans-retry|76. Directive utilisateur : obsolescence ordonnée, sans relance automatique]]
+- [[_raw/rms-implementation-opencode-20261030/reports/77-premier-avis-build-cloture-logique|77. Premier avis build : obsolescence logique et résultat tardif]]
+- [[_raw/rms-implementation-opencode-20261030/reports/78-synthese-deux-build-obsolescence-et-ordre|78. Synthèse des deux build : obsolescence RMS, ordre et absence de retry]]
+- [[_raw/rms-implementation-opencode-20261030/reports/79-plan-completion-propose|79. Plan proposé pour compléter la mission RMS]]
+- [[_raw/rms-implementation-opencode-20261030/reports/80-brouillon-ensemble-et-taches-prepares|80. Brouillon Ensemble et tâches préparés — affichage et approbation restants]]
+- [[_raw/rms-implementation-opencode-20261030/reports/81-reprise-et-verification-du-verrou-approbation|81. Reprise : approbation de la révision toujours nécessaire]]
+- [[_raw/rms-implementation-opencode-20261030/reports/82-revision-approuvee-reprise-de-la-completion|82. Révision approuvée : reprise de la complétion]]
+- [[_raw/rms-implementation-opencode-20261030/reports/83-contrat-obsolescence-ratifie-et-plan-de-realisation|83. Obsolescence ratifiée : contrat et réalisation bornée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/84-plan-commandes-obsolescence-approuve|84. Plan de réalisation approuvé : commandes et obsolescence]]
+- [[_raw/rms-implementation-opencode-20261030/reports/85-candidat-retrouve-et-compilation-verifiee|85. Candidat retrouvé : compilation vérifiée, revue engagée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/86-controles-cibles-obsolescence-r1|86. Contrôles ciblés réussis, réception encore ouverte]]
+- [[_raw/rms-implementation-opencode-20261030/reports/87-revue-obsolescence-corrections-bloquantes|87. Revue indépendante : corrections requises avant réception]]
+- [[_raw/rms-implementation-opencode-20261030/reports/88-correction-r2-recue-defaut-de-typage-isole|88. Correction r2 reçue : défaut de typage isolé avant les tests]]
+- [[_raw/rms-implementation-opencode-20261030/reports/89-r3-compilation-et-negatifs-cibles-reussis|89. Correction r3 : compilation et négatifs ciblés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/90-deux-defauts-residuels-correction-bornee|90. Deux défauts résiduels confirmés : correction bornée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/91-r4-controles-des-residuels-reussis|91. Correction r4 : contrôles des défauts résiduels réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/92-commandes-obsolescence-integrees-et-recues|92. Commandes et obsolescence intégrées, parcours natif restant]]
+- [[_raw/rms-implementation-opencode-20261030/reports/93-contrat-natif-invariants-retenus-jonction-a-fermer|93. Contrat natif : invariants retenus, jonction encore à préciser]]
+- [[_raw/rms-implementation-opencode-20261030/reports/94-contrat-natif-ratifie-autorite-et-qualification-bornees|94. Contrat natif ratifié : autorité distincte, qualification bornée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/95-plan-raccord-natif-approuve-sources-courantes-livrees|95. Plan du raccord natif approuvé, sources courantes livrées]]
+- [[_raw/rms-implementation-opencode-20261030/reports/96-modifications-tierces-isolees-dans-espace-auteur|96. Modifications tierces isolées pendant la réalisation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/97-raccord-partiel-conserve-continuation-ciblee|97. Raccord partiel conservé, continuation ciblée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/98-compilation-du-checkpoint-natif-correction-ciblee|98. Compilation du checkpoint natif : correction ciblée nécessaire]]
+- [[_raw/rms-implementation-opencode-20261030/reports/99-qa-native-echouee-et-corrections-de-revue|99. QA native hors ligne : échecs de préparation et corrections de revue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/100-raccord-corrige-positifs-atteints-quatre-echecs-commandes|100. Raccord corrigé : premiers positifs vérifiés, quatre échecs de commandes]]
+- [[_raw/rms-implementation-opencode-20261030/reports/101-cause-cas-confirmee-correction-minimale-de-fixture|101. Cause des échecs de commande confirmée, correction minimale autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/102-observation-tardive-distincte-du-plafond-envoi|102. Observation tardive : séparer les droits de lecture du plafond d'envoi]]
+- [[_raw/rms-implementation-opencode-20261030/reports/103-raccord-r8-controles-cibles-et-revue-favorables|103. Raccord r8 : contrôles ciblés et revue favorables]]
+- [[_raw/rms-implementation-opencode-20261030/reports/104-regressions-fermees-preparation-qualification-reelle|104. Régressions ciblées réussies, préparation de la qualification réelle]]
+- [[_raw/rms-implementation-opencode-20261030/reports/105-point-entree-natif-manquant-composition-et-origines|105. Point d'entrée natif manquant : composition réelle et continuité à fermer]]
+- [[_raw/rms-implementation-opencode-20261030/reports/106-continuite-native-non-etablie-verification-du-premier-octroi|106. Continuité native non établie : vérifier les conditions d'un premier octroi]]
+- [[_raw/rms-implementation-opencode-20261030/reports/107-premiere-acquisition-possible-sans-reset-ni-autorite-fictive|107. Première acquisition possible, sans remise à zéro ni autorité fictive]]
+- [[_raw/rms-implementation-opencode-20261030/reports/108-composition-parent-et-transport-reels-plan-ratifie|108. Composition parent et transport réels : plan ratifié]]
+- [[_raw/rms-implementation-opencode-20261030/reports/109-entree-locale-parent-concrete-autorisee|109. Entrée locale parent concrète autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/110-composition-reelle-livree-import-manquant|110. Composition réelle livrée : import manquant à corriger]]
+- [[_raw/rms-implementation-opencode-20261030/reports/111-composition-corrigee-compilation-et-tests-cibles-reussis|111. Composition corrigée : compilation et tests ciblés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/112-trois-defauts-host-corrections-ciblees|112. Trois défauts host confirmés : corrections ciblées]]
+- [[_raw/rms-implementation-opencode-20261030/reports/113-corrections-host-r10-recue-typage-tests-a-corriger|113. Corrections host r10 reçues : typage des tests à corriger]]
+- [[_raw/rms-implementation-opencode-20261030/reports/114-deux-echecs-frontiere-validation-historique-et-droits-courants|114. Deux échecs : validation historique et droits courants confondus]]
+- [[_raw/rms-implementation-opencode-20261030/reports/115-split-historique-r11-recu-typage-a-fermer|115. Split historique r11 reçu : typage à fermer]]
+- [[_raw/rms-implementation-opencode-20261030/reports/116-r12-delta-distinct-verification-et-typage-borne|116. R12 : delta distinct, vérification et typage borné]]
+- [[_raw/rms-implementation-opencode-20261030/reports/117-image-reelle-figee-plus-aucune-reecriture-de-variante|117. Image réelle figée : plus aucune réécriture de variante]]
+- [[_raw/rms-implementation-opencode-20261030/reports/118-candidat-stable-compilation-cent-tests-et-revue-favorables|118. Candidat stable : compilation, cent tests ciblés et revue favorables]]
+- [[_raw/rms-implementation-opencode-20261030/reports/119-procedure-entrees-reelles-recue-sans-octroi-implicite|119. Préparation des entrées : procédure reçue, aucun octroi implicite]]
+- [[_raw/rms-implementation-opencode-20261030/reports/120-assembleur-propose-frontiere-imports-a-verifier|120. Assembleur proposé : imports resserrés, exécution non autorisée à ce stade]]
+- [[_raw/rms-implementation-opencode-20261030/reports/121-sources-qualification-choisies-catalogue-lu-sans-execution|121. Sources de qualification choisies, catalogue lu sans exécution]]
+- [[_raw/rms-implementation-opencode-20261030/reports/122-fonction-modele-fixture-ratifiee-sans-autorite-native|122. Fonction-modèle fixture ratifiée, sans autorité native]]
+- [[_raw/rms-implementation-opencode-20261030/reports/123-construction-source-complete-candidats-a-inspecter|123. Construction de source complète : candidats à inspecter]]
+- [[_raw/rms-implementation-opencode-20261030/reports/124-parametres-source-fixture-fermes-sans-allocation-native|124. Paramètres de source fixture fermés, aucune allocation native]]
+- [[_raw/rms-implementation-opencode-20261030/reports/125-candidats-preparatoires-recus-syntaxe-sans-evaluation|125. Scripts préparatoires reçus : syntaxe vérifiée sans évaluation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/126-revue-scripts-recue-calcul-memoire-refuse-couverture|126. Revue reçue, calcul en mémoire refusé sur la couverture]]
+- [[_raw/rms-implementation-opencode-20261030/reports/127-couverture-corrigee-refus-version-politique|127. Couverture corrigée, refus du nom de version de politique]]
+- [[_raw/rms-implementation-opencode-20261030/reports/128-construction-source-en-memoire-reussie-natif-toujours-ferme|128. Construction de source réussie en mémoire, natif toujours fermé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/129-source-materialisee-et-rechargee-aucune-admission-native|129. Source matérialisée et rechargée, aucune admission native]]
+- [[_raw/rms-implementation-opencode-20261030/reports/130-admission-proposee-verrou-ordre-reservation-locale|130. Admission proposée : fermer l'ordre de réservation locale]]
+- [[_raw/rms-implementation-opencode-20261030/reports/131-source-partielle-non-reservable-alternative-structure-fermee|131. Source partielle non réservable : vérifier une alternative à structure fermée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/132-modele-ferme-v2-ratifie-enumeration-a-prouver|132. Modèle fermé V2 ratifié : énumération à prouver]]
+- [[_raw/rms-implementation-opencode-20261030/reports/133-candidats-v2-recus-plan-controles-ferme|133. Candidats V2 reçus : syntaxe et plan de contrôles fermé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/134-parcours-ferme-verifie-source-v2-materialisee|134. Parcours fermé vérifié, source V2 matérialisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/135-architecture-connue-requise-audit-staging-avant-nouvelle-source|135. Architecture connue requise : auditer le staging avant une nouvelle source]]
+- [[_raw/rms-implementation-opencode-20261030/reports/136-fixture-x86-construite-cible-explicite-sans-execution|136. Fixture x86 construite : cible explicite, aucune exécution]]
+- [[_raw/rms-implementation-opencode-20261030/reports/137-candidats-v3-verifies-syntaxe-et-plan-quatorze-controles|137. Candidats V3 vérifiés : syntaxe et quatorze contrôles prévus]]
+- [[_raw/rms-implementation-opencode-20261030/reports/138-source-x86-verifiee-et-rechargee-staging-candidat-repris|138. Source x86 vérifiée et rechargée, candidat de staging repris]]
+- [[_raw/rms-implementation-opencode-20261030/reports/139-reservation-locale-candidat-et-six-controles-prepares|139. Réservation locale : candidat reçu et six contrôles préparés]]
+- [[_raw/rms-implementation-opencode-20261030/reports/140-six-controles-reservation-locale-reussis-sans-autorite-native|140. Six contrôles de réservation locale réussis, sans autorité native]]
+- [[_raw/rms-implementation-opencode-20261030/reports/141-preuves-origines-reutilisees-admission-statique-poursuivie|141. Preuves d'origines réutilisées, préparation statique poursuivie]]
+- [[_raw/rms-implementation-opencode-20261030/reports/142-admission-statique-construite-corpus-exact-sans-fences|142. Admission statique construite : corpus exact, aucune fence présumée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/143-intention-statique-retenue-verification-bornee-des-pieces-historiques|143. Intention statique retenue, vérification bornée des pièces historiques]]
+- [[_raw/rms-implementation-opencode-20261030/reports/144-piece-comptable-indispensable-avant-effet-natif|144. Pièce comptable indispensable avant un effet natif]]
+- [[_raw/rms-implementation-opencode-20261030/reports/145-premier-usage-rms-confirme-par-utilisateur|145. Premier usage RMS confirmé par l'utilisateur]]
+- [[_raw/rms-implementation-opencode-20261030/reports/146-origines-comptees-au-commit-dans-leur-racine|146. Origines comptées au commit, dans leur racine]]
+- [[_raw/rms-implementation-opencode-20261030/reports/147-premier-test-clusterisation-sur-ida-ouvert|147. Premier test : clusterisation sur l'IDA ouvert]]
+- [[_raw/rms-implementation-opencode-20261030/reports/148-export-ida-interrompu-lecture-ciblee-et-corpus-retrouve|148. Export IDA interrompu : lecture ciblée et corpus retrouvé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/149-trois-clusterisations-reussies-candidat-commandes-combat|149. Trois clusterisations réussies, candidat « commandes de combat »]]
+- [[_raw/rms-implementation-opencode-20261030/reports/150-cluster-commandes-retenu-entree-menu-draw|150. Cluster retenu : commandes de combat, entrée par le menu Draw]]
+- [[_raw/rms-implementation-opencode-20261030/reports/151-preparer-la-genese-sans-fabriquer-autorisation|151. Préparer la genèse sans fabriquer une autorisation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/152-premier-controle-statique-refus-sur-nom-de-fichier|152. Premier contrôle statique : défaut local de nom de fichier]]
+- [[_raw/rms-implementation-opencode-20261030/reports/153-pieces-de-premiere-acquisition-creees-huit-controles-reussis|153. Pièces de première acquisition créées : huit contrôles réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/154-permissions-declarees-et-controle-avant-premier-travail|154. Permissions déclarées et contrôle avant le premier travail]]
+- [[_raw/rms-implementation-opencode-20261030/reports/155-declarations-de-permissions-materialisees-et-binaire-verifie|155. Déclarations de permissions matérialisées et binaire vérifié]]
+- [[_raw/rms-implementation-opencode-20261030/reports/156-plan-du-raccord-local-ratifie-sans-prise-de-possession|156. Plan du raccord local ratifié, sans prise de possession]]
+- [[_raw/rms-implementation-opencode-20261030/reports/157-provenance-desktop-rapprochee-sans-installer-ni-executer|157. Provenance desktop rapprochée sans installer ni exécuter]]
+- [[_raw/rms-implementation-opencode-20261030/reports/158-referent-source-ratifie-pour-la-qualification-bornee|158. Référent source ratifié pour la qualification bornée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/159-defaut-confirme-de-comparaison-des-adresses-avant-autorisation|159. Défaut confirmé de comparaison des adresses avant autorisation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/160-correction-compatible-du-pont-adresse-autorisee|160. Correction compatible du pont d'adresse autorisée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/161-revue-du-raccord-delai-a-reverifier-apres-fermeture|161. Revue du raccord : délai à revérifier après fermeture]]
+- [[_raw/rms-implementation-opencode-20261030/reports/162-candidat-adresse-isole-et-pret-pour-revue|162. Candidat d'adresse isolé, prêt pour revue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/163-correctif-teste-et-chevauchement-de-worktree-a-reconcilier|163. Correctif testé, chevauchement de worktree à réconcilier]]
+- [[_raw/rms-implementation-opencode-20261030/reports/164-candidat-corrige-retenu-et-ancien-worktree-restaure|164. Candidat corrigé retenu, ancien worktree restauré]]
+- [[_raw/rms-implementation-opencode-20261030/reports/165-raccord-local-lie-au-produit-corrige-sans-execution|165. Raccord local lié au produit corrigé, sans exécution]]
+- [[_raw/rms-implementation-opencode-20261030/reports/166-stage-qa-cree-verification-des-permissions-a-corriger|166. Stage QA créé ; vérification des permissions à corriger]]
+- [[_raw/rms-implementation-opencode-20261030/reports/167-relecture-qa-validee-sans-recreer-le-stage|167. Relecture QA validée, sans recréer le stage]]
+- [[_raw/rms-implementation-opencode-20261030/reports/168-arguments-operationnels-neufs-prepares-sans-bail|168. Arguments opérationnels neufs préparés, sans bail]]
+- [[_raw/rms-implementation-opencode-20261030/reports/169-reservation-operationnelle-et-autorites-reelles-enregistrees|169. Réservation opérationnelle et autorités réelles enregistrées]]
+- [[_raw/rms-implementation-opencode-20261030/reports/170-premiere-reponse-native-rms-observee-et-limites-de-retention|170. Première réponse native RMS observée ; rétention encore à raccorder]]
+- [[_raw/rms-implementation-opencode-20261030/reports/171-observateur-synchronise-sans-faits-historiques|171. Observateur synchronisé, sans faits historiques]]
+- [[_raw/rms-implementation-opencode-20261030/reports/172-limite-confirmee-de-la-route-de-qualification|172. Limite confirmée de la route de qualification]]
+- [[_raw/rms-implementation-opencode-20261030/reports/173-contrat-du-journal-confirme-cause-active-encore-inconnue|173. Contrat du journal confirmé ; cause active encore inconnue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/174-diagnostic-local-restreint-aux-metadonnees-de-la-session|174. Diagnostic local restreint aux métadonnées de la session]]
+- [[_raw/rms-implementation-opencode-20261030/reports/175-retention-du-journal-optionnelle-dans-les-sources|175. La rétention du journal est optionnelle dans les sources]]
+- [[_raw/rms-implementation-opencode-20261030/reports/176-temoin-de-tour-positif-mais-liaison-causale-non-fermee|176. Témoin de tour positif, mais liaison causale non fermée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/177-pas-de-lanceur-cli-etabli-pour-la-retention-du-journal|177. Pas de lanceur CLI établi pour la rétention du journal]]
+- [[_raw/rms-implementation-opencode-20261030/reports/178-fermeture-requise-et-piste-hote-local-a-planifier|178. Fermeture requise ; piste d'hôte local à planifier]]
+- [[_raw/rms-implementation-opencode-20261030/reports/179-resolution-isolee-des-dependances-autorisee-sans-installation|179. Résolution isolée des dépendances autorisée, sans installation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/180-selection-ciblee-d-une-version-peer-compatible|180. Sélection ciblée d'une version peer compatible]]
+- [[_raw/rms-implementation-opencode-20261030/reports/181-acquisition-locale-verrouillee-sans-scripts-ni-lancement|181. Acquisition locale verrouillée, sans scripts ni lancement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/182-archives-et-fichiers-acquis-epingles-sans-chargement|182. Archives et fichiers acquis épinglés, sans chargement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/183-assets-presents-et-rapproches-avant-tout-bootstrap|183. Assets présents et rapprochés avant tout bootstrap]]
+- [[_raw/rms-implementation-opencode-20261030/reports/184-plan-de-qualification-isolee-sans-session-en-revue|184. Plan de qualification isolée sans session, en revue]]
+- [[_raw/rms-implementation-opencode-20261030/reports/185-plan-ratifie-realisation-locale-sans-execution|185. Plan ratifié : réalisation locale sans exécution]]
+- [[_raw/rms-implementation-opencode-20261030/reports/186-candidat-recu-syntaxe-valide-revue-fraiche-en-cours|186. Candidat reçu, syntaxe valide, revue fraîche en cours]]
+- [[_raw/rms-implementation-opencode-20261030/reports/187-erreurs-de-capture-a-corriger-avant-lancement|187. Erreurs de capture à corriger avant lancement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/188-correctif-de-capture-controle-en-isolation|188. Correctif de capture contrôlé en isolation]]
+- [[_raw/rms-implementation-opencode-20261030/reports/189-qualification-locale-bornee-autorisee-sans-modele|189. Qualification locale bornée autorisée, sans modèle]]
+- [[_raw/rms-implementation-opencode-20261030/reports/190-refus-avant-import-diagnostic-des-noms-environnement|190. Refus avant import : diagnostic des noms d'environnement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/191-retrait-cible-des-ajouts-environnement-avant-import|191. Retrait ciblé des ajouts d'environnement avant import]]
+- [[_raw/rms-implementation-opencode-20261030/reports/192-hygiene-environnement-controlee-sans-import|192. Hygiène d'environnement contrôlée sans import]]
+- [[_raw/rms-implementation-opencode-20261030/reports/193-qualification-du-candidat-environnement-corrige|193. Qualification du candidat à environnement corrigé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/194-frontieres-http-verifiees-et-hote-arrete|194. Frontières HTTP vérifiées et hôte arrêté]]
+- [[_raw/rms-implementation-opencode-20261030/reports/195-contrats-restants-et-budget-du-parcours-final|195. Contrats restants et budget du parcours final]]
+- [[_raw/rms-implementation-opencode-20261030/reports/196-budget-non-declare-impossible-droits-restants-a-etablir|196. Budget non déclaré impossible ; droits restants à établir]]
+- [[_raw/rms-implementation-opencode-20261030/reports/197-capability-live-et-barriere-post-creation-a-fermer|197. Capability vivante et barrière après création à fermer]]
+- [[_raw/rms-implementation-opencode-20261030/reports/198-raccord-possession-directe-tranche-lecture-seule|198. Raccord de possession directe : tranche lecture seule]]
+- [[_raw/rms-implementation-opencode-20261030/reports/199-reprise-et-autorite-de-possession-lecture-seule|199. Reprise et autorité de possession en lecture seule]]
+- [[_raw/rms-implementation-opencode-20261030/reports/200-candidat-gele-et-verification-statique|200. Candidat gelé et vérification statique]]
+- [[_raw/rms-implementation-opencode-20261030/reports/201-typecheck-corrige-et-selection-offline-fermee|201. Typecheck corrigé et sélection offline fermée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/202-tests-offline-reussis-deux-blocages-code-restants|202. Tests offline réussis ; deux blocages de code restants]]
+- [[_raw/rms-implementation-opencode-20261030/reports/203-correctif-identites-et-deadline-verification-affectee|203. Correctif identités et deadline : vérification affectée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/204-correctif-bigint-et-finalisation-tests-affectes-reussis|204. Correctif BigInt et finalisation : tests affectés réussis]]
+- [[_raw/rms-implementation-opencode-20261030/reports/205-code-recu-preparation-autorite-avant-bun-direct|205. Code reçu ; préparation de l'autorité avant Bun direct]]
+- [[_raw/rms-implementation-opencode-20261030/reports/206-acte-controleur-distinct-et-continuite-des-comptes|206. Nouvel acte de contrôleur, sans réactivation des droits de travail]]
+- [[_raw/rms-implementation-opencode-20261030/reports/207-revue-recue-et-qualification-lecture-seule-engagee|207. Revue reçue ; qualification en lecture seule engagée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/208-arret-avant-enfant-et-lancement-sans-prechargement|208. Arrêt avant enfant ; lancement sans préchargement]]
+- [[_raw/rms-implementation-opencode-20261030/reports/209-nouvel-essai-natif-distinct-apres-diagnostic|209. Nouvel essai natif distinct après diagnostic]]
+- [[_raw/rms-implementation-opencode-20261030/reports/210-arret-borne-pendant-la-verification-des-fichiers|210. Arrêt borné pendant la vérification des fichiers]]
+- [[_raw/rms-implementation-opencode-20261030/reports/211-verification-des-fichiers-par-lots-bornes|211. Vérification des fichiers par lots bornés]]
+- [[_raw/rms-implementation-opencode-20261030/reports/212-correction-de-lecart-au-contrat-de-lecture|212. Correction de l'écart au contrat de lecture]]
+- [[_raw/rms-implementation-opencode-20261030/reports/213-point-simple-sur-lessai-avec-ida|213. Point simple sur l'essai avec IDA]]
+- [[_raw/rms-implementation-opencode-20261030/reports/214-controles-cibles-du-correctif-pour-lessai-ida|214. Contrôles ciblés du correctif pour l'essai IDA]]
+- [[_raw/rms-implementation-opencode-20261030/reports/215-correctif-teste-avant-le-petit-essai-ida|215. Correctif testé avant le petit essai IDA]]
+- [[_raw/rms-implementation-opencode-20261030/reports/216-nouvel-essai-du-lanceur-apres-correctif-teste|216. Nouvel essai du lanceur après correctif testé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/217-fichiers-verifies-arret-sur-le-chemin-de-lexecutable|217. Fichiers vérifiés ; arrêt sur le chemin de l'exécutable]]
+- [[_raw/rms-implementation-opencode-20261030/reports/218-controle-du-seul-correctif-de-chemin-windows|218. Contrôle du seul correctif de chemin Windows]]
+- [[_raw/rms-implementation-opencode-20261030/reports/219-essai-distinct-apres-correction-du-chemin-ready|219. Essai distinct après correction du chemin READY]]
+- [[_raw/rms-implementation-opencode-20261030/reports/220-lecture-seule-reussie-envoi-de-mission-encore-ferme|220. Lecture seule réussie ; envoi de mission encore fermé]]
+- [[_raw/rms-implementation-opencode-20261030/reports/221-fermer-les-droits-et-le-compte-avant-lenvoi|221. Fermer les droits et le compte avant l'envoi]]
+- [[_raw/rms-implementation-opencode-20261030/reports/222-preparer-la-connexion-openai-sans-envoyer-de-mission|222. Préparer la connexion OpenAI sans envoyer de mission]]
+- [[_raw/rms-implementation-opencode-20261030/reports/223-verifier-le-candidat-de-connexion-sans-se-connecter|223. Vérifier le candidat de connexion sans se connecter]]
+- [[_raw/rms-implementation-opencode-20261030/reports/224-gel-final-de-connexion-et-reprise-des-controles-affectes|224. Gel final de connexion et reprise des contrôles affectés]]
+- [[_raw/rms-implementation-opencode-20261030/reports/225-raccorder-la-fenetre-privee-et-isoler-le-dossier-auth|225. Raccorder la fenêtre privée et isoler le dossier Auth]]
+- [[_raw/rms-implementation-opencode-20261030/reports/226-corriger-la-reponse-native-avant-toute-connexion|226. Corriger la réponse native avant toute connexion]]
+- [[_raw/rms-implementation-opencode-20261030/reports/227-recevoir-le-relais-prive-sans-afficher-de-code-reel|227. Recevoir le relais privé sans afficher de code réel]]
+- [[_raw/rms-implementation-opencode-20261030/reports/228-preparer-le-petit-test-de-la-fenetre-sans-openai|228. Préparer le petit test de la fenêtre sans OpenAI]]
+- [[_raw/rms-implementation-opencode-20261030/reports/229-verification-des-empreintes-fail-closed-avant-test-ui|229. Bloquer le test si une empreinte ne peut pas être vérifiée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/230-deux-essais-bornes-de-fenetre-avec-code-factice|230. Deux essais bornés de fenêtre avec code factice]]
+- [[_raw/rms-implementation-opencode-20261030/reports/231-preparer-la-vraie-invocation-auth-sans-la-lancer|231. Préparer la vraie invocation Auth sans la lancer]]
+- [[_raw/rms-implementation-opencode-20261030/reports/232-connecteur-ida-reactive-et-identite-confirmee|232. Connecteur IDA réactivé et identité confirmée]]
+- [[_raw/rms-implementation-opencode-20261030/reports/233-verifier-les-trois-actes-auth-avant-tout-effet|233. Vérifier les trois actes Auth avant tout effet]]
+- [[_raw/rms-implementation-opencode-20261030/reports/234-correction-syntaxique-limitee-du-lanceur-auth|234. Correction syntaxique limitée du lanceur Auth]]
+- [[_raw/rms-implementation-opencode-20261030/reports/235-refuser-toute-phase-ambigue-avant-connexion|235. Refuser toute phase ambiguë avant connexion]]
+- [[_raw/rms-implementation-opencode-20261030/reports/236-reception-native-exterieure-des-phases-auth|236. Réception native extérieure des phases Auth]]
+- [[_raw/rms-implementation-opencode-20261030/reports/237-premiere-preparation-native-sans-connexion-openai|237. Première préparation native sans connexion OpenAI]]
+- [[_raw/rms-implementation-opencode-20261030/reports/238-premiere-connexion-openai-privee-sans-travail-modele|238. Première connexion OpenAI privée, sans travail de modèle]]
+- [[_raw/rms-implementation-opencode-20261030/reports/239-connexion-arretee-fenetre-de-validation-trop-courte|239. Connexion arrêtée ; fenêtre de validation trop courte]]
+- [[_raw/rms-implementation-opencode-20261030/reports/240-cloture-partielle-et-conservation-dans-main|240. Clôturer honnêtement et conserver la reprise dans main]]
+- [[_raw/rms-implementation-opencode-20261030/reports/241-conservation-verifiee-et-reprise-plugin-preparee|241. Conservation vérifiée, mission corrective plugin préparée]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/94-contract|94. Contrat natif ratifié : autorité distincte, qualification bornée]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/context-mode-script-policy|Scripts d'analyse et fonctions réutilisables — politique commune]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/current-parent-scope|Instruction courante du superviseur — révision 117-FREEZE-6FE-2]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/host-preflight-extract|Préflight host — extrait statique OpenAPI 2.2.1]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/permission-composition-extract|Composition des permissions — sources publiques épinglées 2.2.1]]
+- [[_raw/rms-implementation-opencode-20261030/worker-inputs/wire-contract-extract|Extrait borné du contrat OpenAPI courant 2.2.1]]
+
+## JSON retenus
+
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-236/prepare-5312262b-f5f9-481f-ad40-29a12dcc9e6f-FINALOUTCOME.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-236/connect-5312262b-f5f9-481f-ad40-29a12dcc9e6f-FINALOUTCOME.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/auth-parent-231/attempt-5312262b-f5f9-481f-ad40-29a12dcc9e6f/rms-auth-audit.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/owned-direct-219/FINALOUTCOME.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/typecheck.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-envelope-selected.json`
+- `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-forged-cap-selected.json`

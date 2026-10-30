@@ -1,0 +1,22 @@
+{
+  "version": "rms-host-env-hygiene-isolated-checks-v1",
+  "bootstrapSha256": "e25c43c7b4b2fd9a9f1dba7ece1dcc42d27a7650ee3444f9b2c2eec340cf9a99",
+  "planSha256": "5d147c490a05f61323fb05436f835b058275c6933c3c6c9cd12494d83029ed67",
+  "syntax": {"exit":0,"durationMs":30,"applicationImported":false},
+  "scope": "Extracted hygiene block and actual allowlist declarations in strict VM with simulated process.env; no real environment mutation or bootstrap main, process, HTTP or application import.",
+  "durationMs":3,
+  "checks":[
+    {"name":"exact-six-removed-roots-unchanged","pass":true},
+    {"name":"mixed-case-six-removed","pass":true},
+    {"name":"target-values-never-read","pass":true},
+    {"name":"unknown-retained-and-refused","pass":true},
+    {"name":"nondeletable-target-refused","pass":true},
+    {"name":"clean-env-unchanged","pass":true},
+    {"name":"similar-name-not-silently-deleted","pass":true}
+  ],
+  "allPassed":true,
+  "runnerUnchangedSha256":"5e612e34df6cee059e31cde665c6f050e60a75298a649f13c21d242b987fcb3c",
+  "nativeLoadsProven":false,
+  "httpQualificationExecuted":false,
+  "independentDeltaReview":"PENDING"
+}

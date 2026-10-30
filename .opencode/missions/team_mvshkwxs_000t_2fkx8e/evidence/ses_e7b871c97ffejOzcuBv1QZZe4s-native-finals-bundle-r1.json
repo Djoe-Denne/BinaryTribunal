@@ -1,0 +1,35 @@
+{
+  "schema": "owned-native-finals-bundle-v1",
+  "sessionID": "ses_e7b871c97ffejOzcuBv1QZZe4s",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "providerID": "openai",
+    "variant": "high"
+  },
+  "finals": [
+    {
+      "messageID": "msg_1847c1e15001QRzDK1yOmFUloa",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "Complément pris en compte : historique **2 PASS/39 assertions**, vertical v2 **1 PASS/18 assertions**, sélections hors ligne uniquement ; 363 pins inchangés.\n\nCes résultats étaient déjà inclus dans mon retour. **Verdict inchangé : BLOQUANTS**, pour B1 — substitution des octets canoniques aux octets source sous `stored-result`. Ces sélections ne couvrent pas l’oracle manquant à source JSON non canonique."
+    },
+    {
+      "messageID": "msg_1847b8e1a001DzrjCYGdpjPww9",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "## BLOQUANTS — un défaut de fidélité des octets\n\n**B1 — `stored-result` peut publier une reconstruction canonique plutôt que les octets source.**\n\n- Le [contrat ratifié, ligne 12](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/21-publication-contrat-prospectif-ratifie.md:12) exige les octets exacts.\n- [graph-adapter.ts:273–274](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-publication-durable/tools/ff8-harness/src/graph-adapter.ts:273) conserve bien le contenu brut.\n- Mais [graph-store.ts:845–860](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-publication-durable/tools/ff8-harness/src/graph-store.ts:845) compare sémantiquement ce contenu au document, puis exige pour l’artéfact les **octets canoniques** de `scientificResult().bytes`, pas `StoredResult.content`.\n- Le [test, lignes 29–31](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-publication-durable/tools/ff8-harness/test/graph-integration/publication.test.ts:29) sélectionne également `canonical(r.document)`.\n\nAinsi, un résultat JSON valide indenté peut être publié et lié comme `stored-result` après transformation, sans déclaration `parent-derived`. Constat statique, sans reproduction exécutée.\n\n**Correction/oracle indispensable :** conserver les octets source pour le mode prospectif ; ajouter un cas à source volontairement non canonique vérifiant publication, hash et binding exacts, puis reprise sans substitution. Une normalisation doit relever explicitement de `parent-derived`.\n\n### Vérifications et limites\n\n- Manifeste SHA-256 conforme ; **363 pins vérifiés deux fois**, six différences exactes au socle épinglé, aucun fichier retiré.\n- Preuves parent : [typecheck 0 ; publication 23 PASS/0 FAIL, 206 assertions](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/publication-r1-parent-checks.json:9). Captures et empreintes vérifiées.\n- Deux receipts supplémentaires désormais présents : [historique, 2 PASS](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/publication-historical-r1.execution.json:1), [vertical v2, 1 PASS](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/publication-vertical-v2-r1.execution.json:1).\n- Aucun test exécuté par moi. Q1 non requalifié ici ; suite complète non exécutée/interdite.\n- Les quatre coupures sont couvertes hors ligne. Le port injecté/readback reste une frontière **trusted parent**, pas une preuve native.\n- Serena couvre le canonique, pas ces octets : revue fondée sur les fichiers du worktree. Native et prochain contexte restent hors périmètre ; aucune clôture L9/L10 déduite."
+    }
+  ],
+  "boundedPage": 20,
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xODQ3YzFlMTUwMDFRUnpESzF5T21GVWxvYSIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6InByZXZpb3VzIn0",
+    "next": "eyJpZCI6Im1zZ18xODQ3OTMzOTAwMDE2RVZDYTFJMlZLZ0E2MSIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6Im5leHQifQ"
+  },
+  "scope": "Final text only; no reasoning or supervisor acceptance"
+}

@@ -1,0 +1,40 @@
+{
+  "recordedAtUtc": "2026-10-30T00:48:31.5290327Z",
+  "location": "C:/Users/djden/source/repos/retro-eng/re-ff8",
+  "method": "Owned native CLI api get; /api/agent and /api/model, explicit location[directory]; filtered in Context Mode",
+  "agentCount": 27,
+  "modelCount": 118,
+  "selectedDeclaredProfile": {
+    "id": "general",
+    "name": "General",
+    "mode": "subagent",
+    "hidden": false,
+    "model": null,
+    "modelMeaning": "No model override declared in observed DTO; future request must carry explicit model",
+    "permissions": [
+      { "action": "*", "resource": "*", "effect": "allow" },
+      { "action": "read", "resource": "*.env", "effect": "ask" },
+      { "action": "read", "resource": "*.env.*", "effect": "ask" },
+      { "action": "read", "resource": "*.env.example", "effect": "allow" },
+      { "action": "question", "resource": "*", "effect": "deny" },
+      { "action": "subagent", "resource": "*", "effect": "deny" },
+      { "action": "edit", "resource": "*", "effect": "allow" },
+      { "action": "browser", "resource": "*", "effect": "deny" },
+      { "action": "skill", "resource": "browser", "effect": "deny" }
+    ]
+  },
+  "selectedDeclaredModel": {
+    "id": "gpt-6.1-sol",
+    "modelID": "gpt-6.1-sol",
+    "providerID": "openai",
+    "enabled": true,
+    "status": "active",
+    "variants": ["low", "medium", "high", "xhigh", "max"],
+    "capabilities": { "tools": true, "input": ["text", "image", "pdf"], "output": ["text"], "temperature": false },
+    "limit": { "context": 628000, "input": 500000, "output": 128000 }
+  },
+  "selectedForProspectivePreparation": { "providerID": "openai", "id": "gpt-6.1-sol", "variant": "high" },
+  "selectionLimits": "Only general profile and exact non-fast Sol model retained here; unneeded DTO fields and secrets excluded. Full agent preview was truncated, therefore no absence conclusion about other profiles.",
+  "effects": { "sessionsCreated": 0, "workSubmitted": 0, "grantIssued": false, "nativeQualificationExecuted": false },
+  "notProven": ["authentication/quota for model execution", "effective future session permissions", "actual model used", "server PID/hash/source coupling", "budget or origins", "native terminality"]
+}

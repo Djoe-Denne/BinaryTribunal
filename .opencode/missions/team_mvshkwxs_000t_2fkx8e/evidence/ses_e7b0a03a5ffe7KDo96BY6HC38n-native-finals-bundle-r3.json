@@ -1,0 +1,35 @@
+{
+  "schema": "owned-native-finals-bundle-v1",
+  "sessionID": "ses_e7b0a03a5ffe7KDo96BY6HC38n",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "providerID": "openai",
+    "variant": "high"
+  },
+  "finals": [
+    {
+      "messageID": "msg_184fa380c001ktc9X2uxWWqd5N",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "**Addendum QA — verdict inchangé : acceptation bloquée.**\n\n- Reçu [eventlog r3](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/projection-eventlog-r3.execution.json:15) lu : sortie **0**, processus **535 ms**. Bilan parent : **8 PASS / 0 FAIL, 72 assertions, 456 ms Bun**, exclusivement sur les cas historiques sélectionnés.\n- [Observation du noyau r3](C:/Users/djden/source/repos/retro-eng/re-ff8/.opencode/missions/team_mvshkwxs_000t_2fkx8e/evidence/projection-core-r3.interrupted.json:7) lue : bornes interne/externe **15 s**, résultat **INCOMPLETE_TIMEOUT_NOT_ACCEPTED**, code enfant inconnu, aucune synthèse d’assertions ; 365 fichiers rehashés sans dérive.\n\nCes succès historiques ne prouvent ni l’approbation privée dynamique ni l’acquisition. Le noyau central et les 46 cas restent **NON QUALIFIÉS**, sans PASS déduit.\n\nLes deux constats statiques précédents restent soumis au lead : métadonnées A/B transmises dans les propositions exactes à R malgré l’oracle d’absence ; expiration possible de fence par l’append précédant le transport.\n\nAucune exécution supplémentaire ni extension QA effectuée."
+    },
+    {
+      "messageID": "msg_184f986b7001X66G92a5TM5chI",
+      "model": {
+        "id": "gpt-6.1-sol",
+        "providerID": "openai",
+        "variant": "high"
+      },
+      "text": "## Verdict : acceptation bloquée\n\nRevue FRESH des fichiers du worktree désigné, candidat annoncé `1fb5fd2b9b9979b1883fc43749578bfc6368163c`, pin r3 fourni par le parent. Aucun test, CLI, git, service ou écriture exécuté ; hashes non recalculés.\n\n### Deux défauts statiquement démontrables\n\n**1. Séparation des rôles incohérente pour R.**  \nDans `setup(true)`, R n’a aucun grant projeté, mais reçoit les propositions A+B intégrales : `content` et `document` sont conservés ([graph-adapter.ts:162–166](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/graph-adapter.ts#L162)). Leurs en-têtes contiennent obligatoirement les `inputVersions`, donc les chemins projetés A/B ([validation.ts:141–146](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/validation.ts#L141)).\n\nL’oracle exige pourtant leur absence du body R ([next-context.test.ts:178–189](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/test/graph-integration/next-context.test.ts#L178)). **Contradiction code/contrat/oracle**, sans exécution : fermer cette combinaison de grants ou son autorisation, sans altérer silencieusement les propositions exactes ni affaiblir l’oracle.\n\n**2. Dispatch possible après expiration locale de la fence.**  \nContre-exemple : curseur `N`, lease valide expirant à `N+1`. Les contrôles passent ; `admission_sending` avance le curseur à `N+1`, puis `client.submit` est appelé sans revalidation post-append ([graph-store.ts:959–975](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/graph-store.ts#L959)). Or la validité exige strictement `expiresAtEvent > cursor.sequence` ([unit-lease.ts:155–157](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/unit-lease.ts#L155)). Défaut présent à la frontière affectée ; son introduction par ce delta n’est pas établie.\n\n### Contrôles statiques favorables\n\n- Cache unique : origine courante et digest relus avant hit, résultats purs immuables, policy retournée clonée ([graph-store.ts:577–634](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/graph-store.ts#L577)).\n- Approbation privée : parent vérifié, source COMMITTED, append atomique, refus de promotion d’un événement orphelin ([graph-store.ts:687–748](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/graph-store.ts#L687)).\n- Matérialisation brute exclusive/identique avec readback, sans overwrite ([graph-next-context.ts:153–190](C:/Users/djden/.local/share/opencode/worktree/68ae5f/ensemble-793e3f62-2fkx8e-projection-contexte/tools/ff8-harness/src/graph-next-context.ts#L153)).\n\n### Manque comportemental distinct, déjà bloquant\n\nSelon les éléments parent fournis : typecheck r1 **FAIL**, r2/r3 **PASS** ; cas central r3 interrompu sous borne stricte **15 s**, sans résumé ni code enfant connu. **Aucune acquisition « 46 PASS ».** Aucun résultat `test:q1-primitives` acquis par cette revue ; `bun test` complet non lancé, interdit dans la sélection décrite.\n\nAucune récursion infinie ni causalité exclusive du timeout démontrée. Suggestion différable : renforcer l’oracle migration avec des données v6 peuplées et leurs digests.\n\nAprès correction : requalification parent ciblée sous permissions et borne existantes. Pas de nouveau harnais ni diagnostic gelé. v3/natif, L9 finale et L10 restent hors portée."
+    }
+  ],
+  "boundedPage": 20,
+  "cursor": {
+    "previous": "eyJpZCI6Im1zZ18xODRmYTM4MGMwMDFrdGM5WDJ1eFdXcWQ1TiIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6InByZXZpb3VzIn0",
+    "next": "eyJpZCI6Im1zZ18xODRmNWZkMmIwMDFNZVlXQlFnbEdRZ012UiIsIm9yZGVyIjoiZGVzYyIsImRpcmVjdGlvbiI6Im5leHQifQ"
+  },
+  "scope": "Final text only; no reasoning or supervisor acceptance"
+}

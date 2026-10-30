@@ -1,0 +1,27 @@
+{
+  "schema": "rms-scoped-parent-checks-v1",
+  "candidateManifest": "writer-r1-manifest.json",
+  "candidateManifestSha256": "7f6c516a4278606f94c0ab6c33d990edc4cb52f7730881a4d47fc585e8666dcd",
+  "filesPinned": 360,
+  "candidateRowsSha256": "da398ab20c07680bb59ece23d162865f134c07b082bd0f14b4c138868bb36038",
+  "executedBy": "supervisor",
+  "checks": [
+    {"name":"typecheck-r1","receipt":"typecheck-r1.execution.json","exitCode":0,"elapsedMs":3521},
+    {"name":"client-r1","receipt":"client-r1.execution.json","exitCode":0,"pass":20,"fail":0,"expectCalls":70,"testFiles":1,"bunMs":901,"processMs":916},
+    {"name":"runtime-binding-r1","receipt":"runtime-binding-r1.execution.json","exitCode":0,"pass":2,"fail":0,"expectCalls":10,"testFiles":1,"bunMs":189,"processMs":216},
+    {"name":"protocol-r1","receipt":"protocol-r1.execution.json","exitCode":0,"pass":6,"fail":0,"expectCalls":26,"testFiles":1,"bunMs":137,"processMs":188},
+    {"name":"vertical-v2-r1","receipt":"vertical-v2-r1.execution.json","exitCode":0,"pass":1,"fail":0,"expectCalls":18,"testFiles":1,"bunMs":1230,"processMs":1250,"selection":"complete A[+]B -> exact R -> attestation/validation/publication/readback$","notFullEngineSuite":true}
+  ],
+  "perTestTimeoutMs": 15000,
+  "postChecksFilesRehashed": 360,
+  "postChecksDrift": [],
+  "historicalClientTestBodiesPreservedVerbatim": true,
+  "baselineClient": {"receipt":"client-baseline.execution.json","pass":10,"fail":9,"expectCalls":41},
+  "fixtureOwnership": {"receipt":"fixture-registry-owner-r1.json","snapshot":"focused-fixtures-r1.snapshot.jsonl","snapshotSha256":"b3d5e4bcdfcb23c59ecc30009665f26a90f8851fa0f64448746e0c9f911ee0ad","reservedPaths":9,"closedPinnedDatabases":6,"reservedPathsWithNoDatabase":3,"unclosedPinnedDatabases":0,"nativeAuthority":false,"originsReset":false,"deleted":false},
+  "noSkipCountedPass": true,
+  "fullSuiteExecuted": false,
+  "nativeRmsScenarioExecuted": false,
+  "review": "Independent fresh scoped review in progress; not final mission L9",
+  "provenanceCorrectionPending": "Copied cross-epoch-fixtures.ts (protected113) and final-host-fixture.ts (source176) are path-adapted derivatives, not identical pins; originals remain preserved. Audit-doc correction does not invalidate these checks if source/config/test hashes remain identical.",
+  "limits": "Static prospective DATA and preserved offline v2 only. No native SDK/RPC/admission/worker-rights/terminality proof, no replacement acceptance, no publication-next-context implementation proof or final mission acceptance. PowerShell captures are not byte-exact child stderr streams."
+}

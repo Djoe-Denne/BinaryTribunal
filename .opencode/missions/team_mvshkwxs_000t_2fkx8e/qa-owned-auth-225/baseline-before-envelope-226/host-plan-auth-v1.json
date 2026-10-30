@@ -1,0 +1,32 @@
+{
+  "version": "rms-owned-auth-host-plan-v1",
+  "namespace": "C:/Users/djden/AppData/Local/Temp/opencode/rms-owned-http-host-180",
+  "purpose": "connect-owned-openai-auth-v1",
+  "provider": "openai",
+  "method": "chatgpt-headless",
+  "authOnly": true,
+  "totalMs": 240000,
+  "closeReserveMs": 15000,
+  "simulation": false,
+  "basePlan": {
+    "path": "C:/Users/djden/AppData/Local/Temp/opencode/rms-owned-http-host-180/host-plan.json",
+    "byteLength": 16302,
+    "sha256": "5d147c490a05f61323fb05436f835b058275c6933c3c6c9cd12494d83029ed67"
+  },
+  "bootstrap": {
+    "path": "C:/Users/djden/AppData/Local/Temp/opencode/rms-owned-http-host-180/bootstrap-auth-v1.mjs",
+    "byteLength": 10124,
+    "sha256": "398a184afe71dc0b7abe41cb0fe1c47a7db0ef0b4b4667c618d009e188c76f76"
+  },
+  "policy": {
+    "version": "rms-owned-openai-auth-policy-v1",
+    "get": ["/api/info", "/openapi.json", "/api/integration", "/api/integration/openai"],
+    "connect": "/api/integration/openai/connect/oauth",
+    "connectUtf8": "{\"methodID\":\"chatgpt-headless\"}",
+    "status": "EXACT_PRIVATE_IPC_RETAINED_ATTEMPT_ONLY",
+    "ui": "PRIVATE_PARENT_IPC_ONLY_NO_PUBLIC_CAPTURE",
+    "nativeCredentials": "PRIVATE_NATIVE_DB_NEVER_READ_COPIED_OR_HASHED",
+    "workAuthority": "NONE",
+    "scopeShutdown": "OWNED_STOP_ONLY_NO_OTHER_HTTP_MUTATOR"
+  }
+}

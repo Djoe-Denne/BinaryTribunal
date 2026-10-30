@@ -1,0 +1,18 @@
+{
+  "version":"rms-native-empty-observer-diagnostic-v1",
+  "scope":"Finite read-only diagnosis of already completed native operation; no replay or provider work",
+  "sessionId":"ses_rms168_53a8e323ef544e7c8a6db75e5bda50c8",
+  "durableObservationRows":[
+    {"sequence":34,"kind":"rms_native_runtime_observation","complete":true,"assistant":null,"factsCount":0,"terminalProof":null},
+    {"sequence":36,"kind":"rms_native_runtime_observation","complete":true,"assistant":null,"factsCount":0,"terminalProof":null}
+  ],
+  "finiteNativeCliReads":[
+    {"route":"/api/experimental/session/ses_rms168_53a8e323ef544e7c8a6db75e5bda50c8/log?follow=false","exit":0,"stdoutUtf8ByteLength":100,"eventTypes":["log.synced"],"watermark":12},
+    {"route":"/api/experimental/session/ses_rms168_53a8e323ef544e7c8a6db75e5bda50c8/log?follow=false&after=0","exit":0,"stdoutUtf8ByteLength":100,"eventTypes":["log.synced"],"watermark":12}
+  ],
+  "recordKind":"Filtered observations, not raw HTTP/stream capture or a hash of unknown original wire bytes",
+  "conclusion":"Observe exited successfully but retained no historical facts or assistant identity. A synchronized empty stream is not proof of native completion, terminality or resources released.",
+  "separatePositiveEvidence":"native-session-utf8-170.json and native-messages-utf8-170.json independently contain actual assistant Sol high response/finish and session outcome, preserved under milestone170",
+  "next":"Inspect retained source contract for event-log cursor/history semantics and result-retention junction; do not guess cursors or submit another prompt",
+  "privateInvocationExpired":true,"nativeOriginsStillCommitted":1,"newPromptCount":0,"authorityRenewed":false
+}

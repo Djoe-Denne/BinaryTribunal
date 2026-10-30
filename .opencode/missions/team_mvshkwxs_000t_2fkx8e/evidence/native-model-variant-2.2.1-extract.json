@@ -1,0 +1,19 @@
+{
+  "source": "native-openapi-2.2.1-after-r4.json",
+  "sourceSha256": "b2b8c4cfd4ba7e4f4566481628aa22527935351d461fca29646a1df37ed5a37f",
+  "component": "Model.Variant",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "string" },
+      "settings": { "$ref": "#/components/schemas/Model.VariantSettings" },
+      "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+      "body": { "type": "object" }
+    },
+    "required": ["id"],
+    "additionalProperties": false
+  },
+  "selectionRule": "Model.Info.variants is an array of objects, select exact variant.id. Collect no optional headers/settings/body for this check.",
+  "nativeRequestExecuted": false,
+  "proofOfActualModelOrRights": false
+}
