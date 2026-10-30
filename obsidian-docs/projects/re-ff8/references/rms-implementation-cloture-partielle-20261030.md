@@ -6,6 +6,8 @@ summary: Acquis statiques conservés, voie isolée écartée, Auth inconnue apr�
 sources:
   - docs/missions/rms-plugin-recovery-20261030/CLOSURE.md
   - docs/missions/rms-plugin-recovery-20261030/preservation-manifest.json
+  - docs/missions/rms-plugin-recovery-20261030/native-cleanup/FINALOUTCOME.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/243-equipe-archivee-et-prototype-non-active.md
   - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/239-connexion-arretee-fenetre-de-validation-trop-courte.md
   - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/240-cloture-partielle-et-conservation-dans-main.md
 provenance: {extracted: 1.0, inferred: 0.0, ambiguous: 0.0}
@@ -42,3 +44,7 @@ Le candidat340 et ses six fichiers finaux198 sont archivés de manière reconstr
 Voir [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2|contrat de reprise plugin]], [[_raw/rms-implementation-opencode-20261030/catalogue|catalogue des sources]], [[projects/re-ff8/references/rms-documentation-cloture-20261028|plan documentaire accepté]] et [[projects/re-ff8/re-ff8|projet]]. Les récits du 28 octobre restent historiques ; ils ne prouvent pas les réalisations du 30 octobre.
 
 L'ingestion met les fichiers du vault à jour. L'index QMD n'est pas recompilé : update/embed sont interdits dans cette supervision. Une recherche sur l'ancien index n'est pas un contrôle de découvrabilité des nouvelles pages.
+
+## Archivage natif terminé après la clôture documentaire
+
+Sur demande explicite utilisateur, l'équipe a finalement été archivée par l'outil natif, puis le readback a confirmé l'absence d'équipe active pour la session. Les 95 inputs publics restants sont conservés exactement dans main, ainsi que sept références de commits et sept de stashes ; sept worktrees ont été retirés normalement. Les profils canoniques utilisateur sont inchangés. La proposition automatique de fusion du prototype a été rejetée sur ses 42 fichiers avant toute exécution. Aucun purge ou retrait forcé. Cet état remplace seulement l'ancien pending administratif, **pas le bilan technique partiel**.

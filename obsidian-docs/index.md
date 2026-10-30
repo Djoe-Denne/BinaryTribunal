@@ -8,9 +8,9 @@ title: Wiki Index
 
 ## RMS — clôture partielle du 30 octobre 2026
 
-- [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030]] — Acquis et échecs conservés ; aucune acceptation M2 ou exécution complète IDA.
+- [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030]] — Équipe archivée nativement, acquis et échecs conservés ; aucune acceptation M2 ou exécution complète IDA.
 - [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2]] — Reprise préparée comme plugin de l'hôte existant, pas comme contrôleur d'une instance séparée ; non démarrée.
-- [[_raw/rms-implementation-opencode-20261030/catalogue]] — 260 Markdown sources et sept reçus publics sélectionnés, suivis par hashes ; bases privées et dépendances exclues. Index QMD non recompilé.
+- [[_raw/rms-implementation-opencode-20261030/catalogue]] — 262 Markdown sources et huit reçus publics sélectionnés, suivis par hashes ; bases privées et dépendances exclues. Index QMD non recompilé.
 
 ## RMS — reprise et archives du 28 octobre 2026
 

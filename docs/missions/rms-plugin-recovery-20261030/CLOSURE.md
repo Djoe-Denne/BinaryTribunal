@@ -37,4 +37,8 @@ Le wiki conserve les Markdown non sensibles et une synthèse des acquis/limites.
 
 ## État administratif natif
 
-Les workers sont arrêtés ; les anciennes tâches non réalisées ne deviennent pas completed par omission. Le nettoyage/archivage natif de l'équipe reste non effectué : l'outil disponible fusionne automatiquement les branches non intégrées et pourrait réintroduire la voie écartée. Ne pas l'appeler pour embellir le statut, ni modifier la base native ou la configuration globale. Branches/worktrees conservés, aucune suppression forcée. La clôture utilisateur est consignée, sans prétendre que l'état natif est déjà archivé.
+L'équipe est maintenant archivée nativement après la demande explicite de terminer l'archivage. L'outil confirme « cleaned up » et le readback confirme que cette session n'appartient plus à une équipe. Les tâches restées non réalisées ne deviennent pas une réussite technique ; le bilan M2 reste partiel.
+
+Les 95 inputs publics restants sont conservés exactement dans main, commit14380444. Sept références de commits et sept références de stashes gardent aussi les états des auteurs. Les sept worktrees ont été retirés normalement après mise à l'abri des fichiers non committés. Les 20 copies de profils ont été vérifiées identiques au canonique utilisateur, lequel est resté inchangé.
+
+Le nettoyage avait proposé la fusion automatique de 42 fichiers du prototype. Le parent a rejeté cette proposition, rétabli et relu les 42 préimages exactes avant tout commit/import/test/exécution. Aucun prototype activé. Aucun purge, suppression forcée, accès direct à la base d'équipe ou changement global. Voir native-cleanup/FINALOUTCOME.json et source-readback.json. Cela remplace uniquement l'ancien état administratif pending, pas les limites techniques du bilan.

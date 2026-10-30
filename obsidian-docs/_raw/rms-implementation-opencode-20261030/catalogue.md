@@ -271,6 +271,9 @@ sources:
   - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/typecheck.json
   - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-envelope-selected.json
   - .opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-forged-cap-selected.json
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/242-archivage-natif-sans-accepter-le-prototype.md
+  - .opencode/missions/team_mvshkwxs_000t_2fkx8e/reports/243-equipe-archivee-et-prototype-non-active.md
+  - docs/missions/rms-plugin-recovery-20261030/native-cleanup/FINALOUTCOME.json
 provenance: {extracted: 1.0, inferred: 0.0, ambiguous: 0.0}
 created: 2026-10-30
 updated: 2026-10-30
@@ -554,3 +557,10 @@ Les Markdown sont copiés exactement ; les JSON sélectionnés restent à leur e
 - `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/typecheck.json`
 - `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-envelope-selected.json`
 - `.opencode/missions/team_mvshkwxs_000t_2fkx8e/qa-owned-auth-226/auth-forged-cap-selected.json`
+
+## Archivage natif final
+
+- [[_raw/rms-implementation-opencode-20261030/reports/242-archivage-natif-sans-accepter-le-prototype|242-archivage-natif-sans-accepter-le-prototype.md]]
+- [[_raw/rms-implementation-opencode-20261030/reports/243-equipe-archivee-et-prototype-non-active|243-equipe-archivee-et-prototype-non-active.md]]
+
+Équipe archivée nativement ; ancien pending administratif résolu, bilan technique toujours partiel. Reçu public final : `docs/missions/rms-plugin-recovery-20261030/native-cleanup/FINALOUTCOME.json`. Deux copies Markdown supplémentaires, JSON final sélectionné en plus des sept historiques. QMD non recompilé.
