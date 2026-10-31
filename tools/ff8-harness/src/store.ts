@@ -112,5 +112,19 @@ export class Store {
       this.db.query("INSERT INTO ff8_history VALUES(?,?,?)").run(next.missionId, next.revision, canonical(next)); return next;
     }).immediate();
   }
+  /** Compose synchronous OWN operations on this exact connection. No IO/await. */
+  transaction<T>(work: () => T): T {
+    return this.db.transaction(() => {
+      const result = work();
+      // The synchronous API cannot return this Promise to its caller. Observe a
+      // genuine Promise rejection without ever invoking an arbitrary thenable.
+      if (result instanceof Promise) {
+        Promise.prototype.then.call(result, undefined, () => {});
+        throw new Error("repository transaction must be synchronous");
+      }
+      if (result !== null && (typeof result === "object" || typeof result === "function") && typeof (result as { then?: unknown }).then === "function") throw new Error("repository transaction must be synchronous");
+      return result;
+    }).immediate();
+  }
   close(): void { this.db.close(); }
 }
