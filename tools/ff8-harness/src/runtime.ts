@@ -7,6 +7,12 @@ import type { AdapterOptions } from "./adapter";
 import type { ClientOptions } from "./client";
 import { identityKey } from "./validation";
 import { validateREMode } from "./re-policy";
+import { ExecutionClient, connectPublic } from "./client";
+import { EnsembleBridge } from "./adapter";
+import { Engine } from "./engine";
+import { FileKnowledgeArtifactSink } from "./inputs";
+import type { Store } from "./store";
+import type { ControlExecutionSessionV1, ControlSessionV1 } from "./ports/control";
 
 export interface RuntimeConfig {
   schemaVersion: 1; mission: MissionConfig;
@@ -40,12 +46,50 @@ export function loadRuntime(path: string): RuntimeConfig {
 export async function createPublisher(c: RuntimeConfig, configPath: string): Promise<PublicationAdapter> {
   if (c.publication.kind === "fixture") {
     const p = new FixturePublicationAdapter(c.publication.database);
-    for (const id of c.publication.targets) p.seedTarget(id);
-    for (const candidate of c.mission.fixtureSeeds?.candidates ?? []) p.seedTarget(`fixture:${identityKey(candidate.identity)}`);
-    return p;
+    try {
+      for (const id of c.publication.targets) p.seedTarget(id);
+      for (const candidate of c.mission.fixtureSeeds?.candidates ?? []) p.seedTarget(`fixture:${identityKey(candidate.identity)}`);
+      return p;
+    } catch (error) { p.close(); throw error; }
   }
   const module = await import(resolve(dirname(configPath), c.publication.module));
   if (typeof module.createPublication !== "function") throw new Error("native module must export createPublication(options); unavailable native binding is not simulated");
   const publisher = await module.createPublication(c.publication.options) as PublicationAdapter;
   if (!publisher || typeof publisher.publish !== "function" || typeof publisher.readback !== "function") throw new Error("invalid native publication module"); return publisher;
+}
+
+/** Explicit adapter construction only. The returned client is private to this wiring. */
+async function openControlExecution(c: RuntimeConfig, statePath: string): Promise<{ client: ExecutionClient; execution: ControlExecutionSessionV1 }> {
+  const client = new ExecutionClient({ ...c.bridge, transport: await connectPublic(c.bridge.directory, c.bridge.registrationFile), statePath, token: () => process.env[c.bridge.tokenEnv] ?? "" });
+  let closed = false;
+  const check = () => { if (closed) throw new Error("control execution session is closed"); };
+  const execution: ControlExecutionSessionV1 = {
+    snapshot(id) { check(); return client.snapshot(id); },
+    replay(id) { check(); return client.replay(id); },
+    ensure(id) { check(); return client.ensure(id); },
+    recover(id) { check(); return client.control(id, "recover"); },
+    close() { if (!closed) { closed = true; client.close(); } },
+  };
+  return { client, execution };
+}
+/** Diagnose requires execution observation, not a publisher, engine or controller lease. */
+export async function createControlExecutionSession(c: RuntimeConfig, statePath: string): Promise<ControlExecutionSessionV1> {
+  return (await openControlExecution(c, statePath)).execution;
+}
+/** Borrow Store; acquire exactly one execution client. Local disposal is not quiescence. */
+export async function createControlSession(c: RuntimeConfig, configPath: string, store: Store, statePath: string): Promise<ControlSessionV1> {
+  const { client, execution } = await openControlExecution(c, statePath);
+  let publication: PublicationAdapter | undefined, closed = false, ownsFixturePublication = false;
+  const close = () => {
+    if (closed) return; closed = true;
+    try { if (ownsFixturePublication && publication instanceof FixturePublicationAdapter) publication.close(); }
+    finally { execution.close(); }
+  };
+  try {
+    const bridge = new EnsembleBridge({ ...c.execution, ...(c.mission.rePolicy ? { rePolicy: c.mission.rePolicy } : {}), client, directory: c.bridge.directory, outputDirectory: c.mission.outputDirectory });
+    ownsFixturePublication = c.publication.kind === "fixture";
+    publication = await createPublisher(c, configPath);
+    const engine = new Engine({ store, bridge, publication, inputAccess: bridge.access, controllerId: c.bridge.controllerId, leaseMs: c.bridge.leaseMs, knowledgeArtifactSink: new FileKnowledgeArtifactSink(resolve(c.mission.outputDirectory, "knowledge")) });
+    return { engine, execution, close };
+  } catch (error) { close(); throw error; }
 }
