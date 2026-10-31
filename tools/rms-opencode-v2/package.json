@@ -1,0 +1,17 @@
+{
+  "name": "@re-ff8/rms-opencode-v2",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/plugin.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test test/plugin-lifecycle.test.ts test/adapter-parity.test.ts --timeout 15000"
+  },
+  "dependencies": {
+    "@opencode/plugin": "2.0.26",
+    "@opencode/client": "2.0.26",
+    "@hueyexe/opencode-ensemble": "file:./vendor/opencode-ensemble-0.19.0-249f0619.tgz"
+  },
+  "devDependencies": { "typescript": "5.9.3", "@types/bun": "1.4.0" }
+}

@@ -112,7 +112,26 @@ historique conservés. Deux vérifications de types et 102 tests ciblés sont
 satisfaits, sans échec ou test ignoré. La revue indépendante fresh conclut
 ACCEPTABLE sans correction demandée ; le parent accepte ce delta.
 
-La prochaine tranche est le service Ensemble et le plugin via le SDK officiel.
-Sa préparation est en lecture seule ; le parent ferme son périmètre et ses
-contrôles avant l'implémentation, sans nouveau GO de routine ni étude générale de
-sécurité. Le plugin et son chargement natif ne sont pas encore livrés ou qualifiés.
+Le premier raccord statique service Ensemble/plugin RMS via le SDK officiel est
+intégré et relu : deux vérifications de types et 27 tests ciblés satisfaits,
+revue indépendante ACCEPTABLE POUR LOT STATIQUE. La dépendance locale Ensemble
+utilise une archive standard du commit accepté, avec les mêmes modules publics,
+sans copier les modifications utilisateur du dossier de travail.
+
+Ce lot prépare une fabrique sans mission inventée et vérifie l'enregistrement et
+le retrait du service. Les capacités restent vides ; les quatre opérations
+d'exécution sont explicitement indisponibles. Le consommateur métier, le
+chargement natif, la soumission/reprise et l'observation/audit durables restent
+ouverts : ce n'est pas une acceptation du plugin ou du service complets.
+
+Avant toute activation future de ces opérations, fermer aussi le comportement
+du client partiel qui transmet actuellement son RPC avant de rejeter une réponse
+non projetée. Ce rejet ne doit jamais être interprété comme preuve d'absence
+d'effet d'un futur exécuteur actif. Il s'agit de compatibilité et de reprise
+métier, pas d'une nouvelle autorisation applicative RMS.
+
+La suite autorisée est la préparation bornée des preuves natives et de la tranche
+d'exécution durable, sans nouveau GO de routine ni étude générale de sécurité.
+Les contrats, le stockage et les effets exacts doivent être fermés avant code ou
+activation ; aucun store/migration 34 ni effet natif n'est autorisé par le seul
+bilan du raccord statique.
