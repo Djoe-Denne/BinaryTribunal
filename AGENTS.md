@@ -95,3 +95,29 @@ la source de vérité ; aucune promotion sur la seule prose d'un worker.
   par EA ou live. Les campagnes historiques ne sont pas modifiées rétroactivement.
 - Toute extension importante d'exigences/harness demande arbitrage ; arrêter
   lorsque les critères convenus sont satisfaits et l'acceptation finale rendue.
+
+## RMS — plugin SDK et retrait de la sécurité applicative (utilisateur, 2026-10-31)
+
+- Plan actif : [RMS plugin via SDK](docs/missions/re-graph-scheduler/PLAN_RMS_PLUGIN_SDK_20261031.md).
+  Ce cadrage remplace les exigences incompatibles de la mission RMS concernant
+  l'authentification opérateur, les grants et la qualification de tout l'ingress.
+- Le plugin s'exécute dans OpenCode et utilise son SDK officiel. OpenCode possède
+  la sécurité et les permissions. RMS ne crée aucun système supplémentaire
+  d'authentification, d'autorisation ou d'administration de délégations.
+- Retirer du chemin actif les grants opérateur, leur journal, les factories
+  d'ActorContext authentifié, les contrôles d'audience d'autorisation et les gates
+  « all-ingress ». Ne pas les réintroduire sous un autre vocabulaire.
+- Une absence de principal dans RpcCallContext n'est plus un blocage du plugin.
+  Les API/RPC officiels d'OpenCode sont des moyens d'intégration normaux ; ne pas
+  inventer un raccord privé pour contourner une exigence de sécurité supprimée.
+- HTTP est différé : les méthodes de son adaptateur lèvent explicitement
+  `not yet implemented`, sans réseau, démarrage ni fallback natif.
+- Conserver les contrôles métier : cohérence, CAS, ordre/reprise, absence de
+  doublons, capacité, provenance des résultats et publication. Ne pas les traiter
+  comme un système d'autorisations applicatif.
+- Respecter les API et les refus natifs d'OpenCode, sans contourner ses mécanismes.
+  Cette clarification ne désactive aucun contrôle de l'hôte ou du harness et ne
+  modifie ni les campagnes RE historiques, ni les interdits live/IDB, ni la QA.
+- Nettoyer le code, les contrats actifs, les tests et les directives introduits
+  pour la surcouche supprimée. Conserver l'historique, les données et les versions
+  persistées ; aucune purge ou réécriture de base vivante n'est implicite.

@@ -306,23 +306,20 @@ test("observation/control capture detaches callers before command codec callback
   expect(summary.declarations).toHaveLength(1); expect(summary.declarations[0].disposition).toBe("current");
 }, 15000);
 
-test("port actor is external and separate for capabilities, submit, observe, admission reconciliation and control", async () => {
-  type Actor = { label: string };
-  const c = captured(), ctl = captureExecutionControlV1(c, control(c), codec), calls: { operation: string; actor: Actor }[] = [];
-  const port: ExecutionPortV1<Actor> = {
-    async capabilities(actor) { calls.push({ operation: "capabilities", actor }); return { version, operations: ["submit", "observe", "reconcile", "control"], evidenceKinds: [], hostEvidenceRef: null }; },
-    async submit(actor, incoming) { calls.push({ operation: "submit", actor }); expect(incoming).toEqual(c); return admission(c); },
-    async observe(actor, request) { calls.push({ operation: "observe", actor }); expect(request.kind).toBe("observe-execution"); return []; },
-    async reconcile(actor, request) { calls.push({ operation: "reconcile", actor }); expect(request.kind).toBe("reconcile-admission"); return admission(c); },
-    async control(actor, incoming) { calls.push({ operation: "control", actor }); return { version, controlRef: incoming.image.ref, declaration: "recorded", evidenceRefs: [] }; },
+test("port exposes business operations without application authorization context", async () => {
+  const c = captured(), ctl = captureExecutionControlV1(c, control(c), codec), calls: { operation: string }[] = [];
+  const port: ExecutionPortV1 = {
+    async capabilities() { calls.push({ operation: "capabilities" }); return { version, operations: ["submit", "observe", "reconcile", "control"], evidenceKinds: [], hostEvidenceRef: null }; },
+    async submit(incoming) { calls.push({ operation: "submit" }); expect(incoming).toEqual(c); return admission(c); },
+    async observe(request) { calls.push({ operation: "observe" }); expect(request.kind).toBe("observe-execution"); return []; },
+    async reconcile(request) { calls.push({ operation: "reconcile" }); expect(request.kind).toBe("reconcile-admission"); return admission(c); },
+    async control(incoming) { calls.push({ operation: "control" }); return { version, controlRef: incoming.image.ref, declaration: "recorded", evidenceRefs: [] }; },
   };
-  const actors = ["capabilities", "submit", "observe", "reconcile", "control"].map(label => ({ label }));
-  expect((await port.capabilities(actors[0])).hostEvidenceRef).toBeNull();
-  await port.submit(actors[1], c);
-  expect(await port.observe(actors[2], { version, kind: "observe-execution", ...target(c), cursors: [] })).toEqual([]);
-  expect((await port.reconcile(actors[3], { version, kind: "reconcile-admission", ...target(c), priorObservationRefs: [] })).value.kind).toBe("accepted");
-  await port.control(actors[4], ctl);
-  expect(calls.map(x => x.operation)).toEqual(actors.map(x => x.label));
-  for (let i = 0; i < actors.length; i++) expect(calls[i].actor).toBe(actors[i]);
+  expect((await port.capabilities()).hostEvidenceRef).toBeNull();
+  await port.submit(c);
+  expect(await port.observe({ version, kind: "observe-execution", ...target(c), cursors: [] })).toEqual([]);
+  expect((await port.reconcile({ version, kind: "reconcile-admission", ...target(c), priorObservationRefs: [] })).value.kind).toBe("accepted");
+  await port.control(ctl);
+  expect(calls.map(x => x.operation)).toEqual(["capabilities", "submit", "observe", "reconcile", "control"]);
   expect(c.image.utf8).not.toContain('"actor"'); expect(c.image.utf8).not.toContain('"sessionId"');
 }, 15000);

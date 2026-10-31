@@ -1,7 +1,4 @@
-/** Native protocol DATA, not native authority. No scheduler, host, transport or store.
- * A trusted adapter must validate its external actor on every operation and qualify
- * host evidence separately. Parsing, hashes and an ActorContext type do not do so.
- */
+/** Execution protocol DATA. OpenCode owns security and permissions; adapters preserve native evidence and refusals. */
 export const EXECUTION_PORT_VERSION_V1 = "rms-native-execution-port-v1" as const;
 type Version = typeof EXECUTION_PORT_VERSION_V1;
 export type ExecutionReadonlyV1<T> = T extends object ? { readonly [K in keyof T]: ExecutionReadonlyV1<T[K]> } : T;
@@ -73,16 +70,13 @@ export type ExecutionControlReceiptV1 = {
   version: Version; controlRef: ExecutionByteRefV1<"rms-control-v1">; evidenceRefs: ExecutionEvidenceRefV1[];
 } & ({ declaration: "recorded" } | { declaration: "ambiguous"; reason: string } |
   { declaration: "unavailable-before-effect"; reason: string; beforeEffect: ExecutionBeforeEffectV1 });
-/** Actor is never a payload field or manufactured by this module. The real adapter
- * revalidates it separately on EACH call, including capabilities/reconciliation.
- * These signatures are not an implementation or proof of native availability.
- */
-export interface ExecutionPortV1<ActorContext> {
-  capabilities(actor: ActorContext): Promise<ExecutionReadonlyV1<ExecutionCapabilitiesV1>>;
-  submit(actor: ActorContext, command: CapturedExecutionCommandV1): Promise<CapturedExecutionDataV1<ExecutionAdmissionDeclarationV1, "rms-observation-v1">>;
-  observe(actor: ActorContext, request: ExecutionReadonlyV1<ExecutionObservationRequestV1>): Promise<readonly CapturedExecutionObservationV1[]>;
-  reconcile(actor: ActorContext, request: ExecutionReadonlyV1<ExecutionAdmissionReconciliationRequestV1>): Promise<CapturedExecutionDataV1<ExecutionAdmissionDeclarationV1, "rms-observation-v1">>;
-  control(actor: ActorContext, command: CapturedExecutionControlV1): Promise<ExecutionReadonlyV1<ExecutionControlReceiptV1>>;
+/** Business execution operations. SDK adapters use the normal host APIs and permissions. */
+export interface ExecutionPortV1 {
+  capabilities(): Promise<ExecutionReadonlyV1<ExecutionCapabilitiesV1>>;
+  submit(command: CapturedExecutionCommandV1): Promise<CapturedExecutionDataV1<ExecutionAdmissionDeclarationV1, "rms-observation-v1">>;
+  observe(request: ExecutionReadonlyV1<ExecutionObservationRequestV1>): Promise<readonly CapturedExecutionObservationV1[]>;
+  reconcile(request: ExecutionReadonlyV1<ExecutionAdmissionReconciliationRequestV1>): Promise<CapturedExecutionDataV1<ExecutionAdmissionDeclarationV1, "rms-observation-v1">>;
+  control(command: CapturedExecutionControlV1): Promise<ExecutionReadonlyV1<ExecutionControlReceiptV1>>;
 }
 
 type Data = Record<string, unknown>;

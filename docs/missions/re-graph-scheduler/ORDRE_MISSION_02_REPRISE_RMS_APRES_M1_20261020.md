@@ -1,5 +1,11 @@
 # Ordre de mission 02 — Handoff et reprise RMS après retrait du C#
 
+> **Cadrage RMS actuel — clarification utilisateur du 2026-10-31 :** suivre le
+> [plan plugin via SDK](PLAN_RMS_PLUGIN_SDK_20261031.md). OpenCode porte la sécurité
+> et les permissions ; retirer la surcouche d'authentification/grants ajoutée à
+> RMS et laisser HTTP en attente avec exceptions `not yet implemented`.
+> Les contrôles métier, la QA et les historiques ci-dessous sont conservés.
+
 Date : 2026-10-20. Révision : réception post-M1 du même jour.
 Amendement utilisateur du 2026-10-22 : vérification renforcée, autonome et bornée
 (§7.1), avec condition d'arrêt explicite (§8). Cet amendement ne lance pas M2.
