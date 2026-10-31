@@ -6,9 +6,12 @@ d'autorisation ni grants.
 
 Le plugin prépare une fabrique sans inventer de mission active et sans appel RPC
 spontané. Un futur consommateur métier doit fournir explicitement son scope.
-Seules les capacités vides sont projetées ; les quatre opérations d'exécution
-restent indisponibles. Toute réponse d'exécution inattendue, y compris audit-only,
-est conservée dans `ExecutionResponseNotProjected`, sans projection silencieuse.
+Seules les capacités vides sont projetées. `submit`, `observe`, `reconcile` et
+`control` refusent localement avec `not yet implemented: <opération>` avant tout
+appel RPC, même si le serveur accepterait la demande. Aucun reçu métier de refus
+avant effet n'est fabriqué. Les réponses de capacités inattendues restent conservées
+intégralement dans `ExecutionResponseNotProjected` ; aucun audit durable ni
+projection d'exécution n'est livré.
 Ce package n'est pas une livraison d'exécution durable ou une preuve de chargement
 natif. HTTP reste différé dans le harness.
 

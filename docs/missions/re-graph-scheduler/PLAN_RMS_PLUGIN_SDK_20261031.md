@@ -124,11 +124,23 @@ d'exécution sont explicitement indisponibles. Le consommateur métier, le
 chargement natif, la soumission/reprise et l'observation/audit durables restent
 ouverts : ce n'est pas une acceptation du plugin ou du service complets.
 
-Avant toute activation future de ces opérations, fermer aussi le comportement
-du client partiel qui transmet actuellement son RPC avant de rejeter une réponse
-non projetée. Ce rejet ne doit jamais être interprété comme preuve d'absence
-d'effet d'un futur exécuteur actif. Il s'agit de compatibilité et de reprise
-métier, pas d'une nouvelle autorisation applicative RMS.
+Le client partiel refuse désormais les quatre opérations indisponibles
+**localement avant tout RPC** ; seul l'appel de capacités est implémenté. Cette
+correction passe le typecheck et 13 tests ciblés, avec revue indépendante sans
+bloquant. Elle ne crée aucun reçu métier de non-effet ni consommateur durable.
+
+Clarification utilisateur : rien n'est en production. La proposition de V3 et
+de coexistence de protocoles est retirée ; client et service en développement
+évolueront ensemble dans l'interface actuelle. Conserver les formats des données
+historiques ne signifie pas maintenir plusieurs versions de logiciel actives.
+Deux nouvelles tables ne sont pas une exigence préalable.
+
+La file RMS existante conserve déjà les commandes avant envoi, les états ambigus
+sans renvoi automatique et les observations tardives. Privilégier son adaptation
+explicite au port natif, sans copier ces mécanismes ni rendre les anciens runs ou
+fixtures exécutables. N'ajouter une donnée durable que si son absence dans les
+structures existantes est démontrée. Le premier parcours doit rester explicite ;
+une admission incertaine bloque le renvoi plutôt que lancer un moteur de retries.
 
 La suite autorisée est la préparation bornée des preuves natives et de la tranche
 d'exécution durable, sans nouveau GO de routine ni étude générale de sécurité.
