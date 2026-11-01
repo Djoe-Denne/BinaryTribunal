@@ -1,21 +1,34 @@
 ---
-title: RMS — plugin dans l'instance hôte OpenCode V2
+title: >-
+  RMS — plugin dans l'instance hôte OpenCode V2
 category: concept
 tags: [reverse-engineering, testing, concept]
-summary: La reprise doit intégrer RMS dans l'hôte existant ; aucun contrôleur séparé ni OAuth supplémentaire ne remplace la preuve de chargement du plugin.
+summary: >-
+  Service et client vérifiés séparément ; l'entrée de conversation et le consommateur RMS restent à raccorder dans l'hôte existant, sans second contrôleur.
 sources:
   - docs/missions/rms-plugin-recovery-20261030/MISSION.md
   - docs/missions/rms-plugin-recovery-20261030/CLOSURE.md
+  - docs/missions/re-graph-scheduler/DISCUSSION_USAGE_RMS_20261101.md
 provenance: {extracted: 1.0, inferred: 0.0, ambiguous: 0.0}
 created: 2026-10-30
-updated: 2026-10-30
+updated: 2026-11-01
 ---
 
 # Frontière correcte : le plugin et son hôte
 
 RMS doit être chargé dans l'instance OpenCode V2 utilisée par l'utilisateur. Le raccord doit utiliser le client, les sessions, la connexion et les permissions de cet hôte. Le démarrage d'une seconde instance n'est pas une solution équivalente. Sa nécessité n'avait pas été établie dans la mission clôturée.
 
-La correction est une préparation, **pas une implémentation plugin déjà prouvée**. Identifier d'abord le point d'entrée et les contrats effectifs de l'hôte, puis ratifier le raccord interne avant modification. Réutiliser les primitives statiques acquises selon l'impact, sans présumer la compatibilité du transport distant.
+Au 30 octobre, la correction était une préparation, **pas une implémentation plugin déjà prouvée**. Depuis, le service SDK et le client RMS ont des tranches logicielles acceptées et relues. Cela ne prouve toujours pas le chargement ni le parcours complet dans l'hôte.
+
+## Usage et raccord restant au 1er novembre 2026
+
+L'usage proposé est de demander une mission dans la conversation habituelle ; l'assistant la transmettrait au moteur par une action du plugin et RMS organiserait les sessions de travail. Ce chemin n'est pas encore exposé : ni outil utilisateur RMS ni commande `/rms` n'est enregistré. La fabrique de port reste non activée et l'enregistrement par défaut du service ne reçoit pas son raccord scientifique optionnel.
+
+Le noyau peut préparer des missions bornées à des groupes de fonctions, avec leurs dépendances ; l'utilisateur demande de conserver cette capacité. Ce n'est pas encore une commande native de ciblage disponible depuis la conversation. Le superviseur peut demander pause, arrêt, reprise et récupération sous conditions, pas imposer n'importe quel état.
+
+Le service peut, une fois explicitement configuré, créer et relire une session puis envoyer le prompt en enregistrant les étapes avant effet. Le client sait soumettre, suivre et rapprocher les captures complètes ; son contrôle distant reste refusé localement. Le raccord du consommateur métier et la récupération des réponses réelles pour continuer restent à terminer. Voir le [[projects/re-ff8/references/rms-usage-etat-20261101|compte rendu fonctionnel et ses corrections]].
+
+Les essais logiciels et les anciens graphes ne valent pas une admission native. Un appel manuel au SDK ne doit pas être crédité comme orchestration de RMS. Les conditions de source, de provenance et de compteur restent à fermer avant leurs effets ; aucun dossier préexistant n'est exigé de l'utilisateur par cette discussion.
 
 ## Preuves requises pour la reprise
 

@@ -4,12 +4,17 @@ title: Wiki Index
 
 # Wiki Index
 
-*This index is automatically maintained. Last updated: 2026-10-30*
+*This index is automatically maintained. Last updated: 2026-11-01*
+
+## RMS — usage et raccords au 1er novembre 2026
+
+- [[projects/re-ff8/references/rms-usage-etat-20261101]] — Discussion ingérée : missions bornées à conserver, transitions contrôlées, cas Draw documentaire et parcours natif encore non raccordé.
+- [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2]] — Service et client vérifiés séparément ; entrée utilisateur et consommateur métier à raccorder dans l'hôte existant.
 
 ## RMS — clôture partielle du 30 octobre 2026
 
 - [[projects/re-ff8/references/rms-implementation-cloture-partielle-20261030]] — Équipe archivée nativement, acquis et échecs conservés ; aucune acceptation M2 ou exécution complète IDA.
-- [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2]] — Reprise préparée comme plugin de l'hôte existant, pas comme contrôleur d'une instance séparée ; non démarrée.
+- [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2]] — Cadrage historique du 30 octobre : plugin de l'hôte existant, pas contrôleur d'une instance séparée ; actualisation au 1er novembre ci-dessus.
 - [[_raw/rms-implementation-opencode-20261030/catalogue]] — 262 Markdown sources et huit reçus publics sélectionnés, suivis par hashes ; bases privées et dépendances exclues. Index QMD non recompilé.
 
 ## RMS — reprise et archives du 28 octobre 2026

@@ -3,18 +3,22 @@ title: RE FF8
 category: project
 tags: [ff8, reverse-engineering, battle-system, project]
 aliases: [FF8 reverse engineering, re-ff8]
-sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl, docs/missions/re-graph-scheduler/rms-static-documentation-20261028/index.md]
+sources: [docs/README.md, docs/tech/README.md, docs/product/battle.md, ff8re/README.md, ai-prompt/ai_investigation.md, tools/gf_batch_discovery.py, obsidian-docs/_staging/investigations/, C:/Users/djden/source/repos/FinalFantasy_VIII_Reimaginated, C:/Users/djden/source/repos/FFScriptLoader, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-retro-eng-re-ff8/agent-transcripts/59caf6fc-31bb-4f69-a06f-a111b96a1d8e/59caf6fc-31bb-4f69-a06f-a111b96a1d8e.jsonl, C:/Users/djden/.cursor/projects/c-Users-djden-source-repos-FinalFantasy-VIII-Reimaginated/agent-transcripts/d089cb0d-2243-4fc0-933b-acaa19ff54bd/d089cb0d-2243-4fc0-933b-acaa19ff54bd.jsonl, docs/missions/re-graph-scheduler/rms-static-documentation-20261028/index.md, docs/missions/re-graph-scheduler/DISCUSSION_USAGE_RMS_20261101.md]
 summary: >-
-  FF8 battle RE and rewrite knowledge. AF3DN.P Lot25 v18 proves stage0 NO_HOT_UNLOAD offline; global live remains blocked pending other hook lifetimes.
+  FF8 battle RE et réécriture. RMS : missions bornées possibles dans le noyau, raccord natif complet encore manquant ; AF3DN.P v18 reste validé seulement hors ligne.
 provenance:
-  extracted: 0.76
-  inferred: 0.20
+  extracted: 0.77
+  inferred: 0.19
   ambiguous: 0.04
 created: 2026-06-02T16:37:00+02:00
-updated: 2026-10-30
+updated: 2026-11-01
 ---
 
 # RE FF8
+
+## RMS — usage et état au 1er novembre 2026
+
+Le [[projects/re-ff8/references/rms-usage-etat-20261101|compte rendu de discussion]] distingue objectif autonome, missions bornées du noyau et raccords manquants. Les petites missions sont à conserver ; aucun forçage universel des transitions n'est ajouté. Le [[projects/re-ff8/concepts/rms-plugin-hote-opencode-v2|service et le client OpenCode]] sont codés et vérifiés séparément, mais l'entrée utilisateur, le consommateur et le parcours réel complet restent à raccorder et observer. Le cluster Draw est un cas documentaire, pas une exécution native réussie ; aucun lancement ni crédit d'origine n'est présumé.
 
 ## RMS — état au 30 octobre 2026
 
