@@ -118,16 +118,29 @@ revue indépendante ACCEPTABLE POUR LOT STATIQUE. La dépendance locale Ensemble
 utilise une archive standard du commit accepté, avec les mêmes modules publics,
 sans copier les modifications utilisateur du dossier de travail.
 
-Ce lot prépare une fabrique sans mission inventée et vérifie l'enregistrement et
-le retrait du service. Les capacités restent vides ; les quatre opérations
-d'exécution sont explicitement indisponibles. Le consommateur métier, le
-chargement natif, la soumission/reprise et l'observation/audit durables restent
-ouverts : ce n'est pas une acceptation du plugin ou du service complets.
+Ce premier lot préparait une fabrique sans mission inventée et vérifiait
+l'enregistrement et le retrait du service. Ses capacités restaient vides et les
+quatre opérations d'exécution indisponibles. Son acceptation était statique,
+pas celle du plugin ou du service complets.
 
-Le client partiel refuse désormais les quatre opérations indisponibles
-**localement avant tout RPC** ; seul l'appel de capacités est implémenté. Cette
-correction passe le typecheck et 13 tests ciblés, avec revue indépendante sans
-bloquant. Elle ne crée aucun reçu métier de non-effet ni consommateur durable.
+Un correctif intermédiaire a ensuite refusé les quatre opérations indisponibles
+**localement avant tout RPC**, avec typecheck, 13 tests et revue indépendante sans
+bloquant. Cette garantie reste applicable aux opérations non implémentées ; elle
+n'est pas un reçu métier de non-effet.
+
+Depuis, les tranches suivantes sont acceptées après leurs contrôles ciblés et
+revues indépendantes : état passif sur réservation existante (31 tests et témoin
+du véritable adaptateur Node en mémoire), coordinateur SDK (29 tests), raccord
+optionnel au service existant (26 tests), puis client RMS (35 tests). Ces preuves
+ont leurs portées propres ; ce n'est pas un résultat de suite globale.
+
+Le client implémente désormais submit, observe et reconcile sur le même V2,
+avec captures complètes et un seul envoi par appel. Control reste indisponible
+localement. La fermeture transmet le signal d'annulation sans prétendre prouver
+la fin du travail. Le service sans raccord métier explicite reste désactivé ;
+aucun appel ni campagne ne démarre au chargement du plugin. Le consommateur
+durable RMS, la source native explicite et la qualification dans l'hôte restent
+ouverts ; l'inventaire réel des origines est non acquis, sans crédit présumé.
 
 Clarification utilisateur : rien n'est en production. La proposition de V3 et
 de coexistence de protocoles est retirée ; client et service en développement
@@ -145,5 +158,7 @@ une admission incertaine bloque le renvoi plutôt que lancer un moteur de retrie
 La suite autorisée est la préparation bornée des preuves natives et de la tranche
 d'exécution durable, sans nouveau GO de routine ni étude générale de sécurité.
 Les contrats, le stockage et les effets exacts doivent être fermés avant code ou
-activation ; aucun store/migration 34 ni effet natif n'est autorisé par le seul
-bilan du raccord statique.
+activation. L'état interne a été ratifié séparément : une colonne optionnelle et
+la migration source 34 ajoutée sans modifier les précédentes, pas de nouvelle
+table. Aucune migration de base vivante ni effet natif n'est déduit de ces
+acceptations logicielles.

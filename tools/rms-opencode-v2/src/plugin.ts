@@ -8,13 +8,14 @@ export interface RmsPluginContext { readonly rpc: (definition: typeof ExecutionR
 /** An unactivated factory, for a future explicit business consumer. No mission is invented. */
 export function setupRmsPlugin(ctx: RmsPluginContext) {
   const client = ctx.rpc(ExecutionRpcV2)
+  const lifetime = new AbortController()
   let closed = false
   return {
     createPort(scope: BaseScopeV1, codec: ExecutionCodecV1, caps: CaptureCapsV2) {
       if (closed) throw new Error("RMS plugin disposed")
-      return createNativeExecutionPort(client, scope, codec, caps, () => closed)
+      return createNativeExecutionPort(client, scope, codec, caps, () => closed, lifetime.signal)
     },
-    dispose() { closed = true },
+    dispose() { if (!closed) { closed = true; lifetime.abort(new Error("RMS plugin disposed")) } },
   }
 }
 export default Plugin.define({
